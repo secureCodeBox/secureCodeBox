@@ -36,7 +36,7 @@ The scan itself may be triggered via the control center or via web hooks. The we
 
 ## Roadmap
 
-TODO
+At the moment the _secureCodeBox_ is in a beta stable state. You can register as a beta tester [here][beta-testers]. We are hard working on polishing and documentation so that we can push all sources here on GitHub until the end of 2017. Also we want to become an official [OWASP][owasp] project.
 
 ## Architecture
 
@@ -50,3 +50,5 @@ TODO
 [bpmn]:             https://en.wikipedia.org/wiki/Business_Process_Model_and_Notation
 [docker]:           https://www.docker.com/
 [microservices]:    https://martinfowler.com/articles/microservices.html
+[beta-testers]:     https://www.securecodebox.io/
+[owasp]:            https://www.owasp.org/index.php/Main_Page
