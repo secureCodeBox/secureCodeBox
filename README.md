@@ -7,9 +7,9 @@
 ## Table of contents
 
 <!-- toc -->
-- [Purpose of this Project](#purpose-of-this-Project)
-- [How does it Works](#how-does-it-Works)
-- [Roadmap](#Roadmap)
+- [Purpose of this Project](#purpose-of-this-project)
+- [How does it Works](#how-does-it-works)
+- [Roadmap](#roadmap)
 - [Architecture](#architecture)
 <!-- tocstop -->
 
