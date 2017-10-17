@@ -40,7 +40,13 @@ TODO
 
 ## Architecture
 
+The base architecture is a [Docker][docker] based [Microservices architecture][microservices].
+
+![Overview of the architecture.](img/architecture_overview.png "Overview of the architecture.")
+
 TODO
 
-[camunda]:  https://camunda.com/de/
-[bpmn]:     https://en.wikipedia.org/wiki/Business_Process_Model_and_Notation
+[camunda]:          https://camunda.com/de/
+[bpmn]:             https://en.wikipedia.org/wiki/Business_Process_Model_and_Notation
+[docker]:           https://www.docker.com/
+[microservices]:    https://martinfowler.com/articles/microservices.html
