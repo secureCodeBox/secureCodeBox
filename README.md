@@ -26,7 +26,13 @@ It **is not** the purpose of *secureCodeBox* to make penetration testers obsolet
 
 ## How does it Works
 
-TODO
+The core of the _secureCodeBox_ is the controll center (a web UI). With this the whole scan process is defined. An example process is shown in the image below.
+
+![An example scan process.](img/scan_process.png "An example scan process.")
+
+The scan itself may be triggered via the control center or via web hooks. The web hooks gives the posibility to trigger a scann by a CI such as Jenkins, Travis CI, Bamboo or such. The scan itself will be handover to the scanners and the results will be aggregated for review in the control center or CI. For a detailed description of the components and how they work together see the [architecture](#architecture) section.
+
+**Important note**: The _secureCodeBox_ is no simple one button click solution! You must have a deep understanding of security and how to configure the scanners. Also it is necessary that you understand the results of of the scans and how to interpret them. 
 
 ## Roadmap
 
@@ -35,3 +41,6 @@ TODO
 ## Architecture
 
 TODO
+
+[camunda]:  https://camunda.com/de/
+[bpmn]:     https://en.wikipedia.org/wiki/Business_Process_Model_and_Notation
