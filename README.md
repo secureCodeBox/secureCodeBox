@@ -1,6 +1,6 @@
 # secureCodeBox – Continuous Secure Delivery Out of the Box
 
-![secureCodeBox](img/logo.svg "secureCodeBox")
+![secureCodeBox](img/logo.png "secureCodeBox")
 
 > _secureCodeBox_ is a docker based, modularized toolchain for continuous security scans of your software project.
 
@@ -40,7 +40,7 @@ At the moment the _secureCodeBox_ is in a stable beta state. You can register as
 
 ## Architecture
 
-The base architecture is a [Docker][docker] based [Microservices architecture][microservices].
+The base architecture is a [Docker][docker] based [Microservices architecture][microservices] as shown in the picture below.
 
 ![Overview of the architecture.](img/architecture_overview.png "Overview of the architecture.")
 
