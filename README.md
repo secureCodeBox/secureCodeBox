@@ -1,6 +1,6 @@
 # secureCodeBox – Continuous Secure Delivery Out of the Box
 
-![secureCodeBox](img/logo.svg "secureCodeBox")
+![secureCodeBox](img/logo.svg "secureCodeBox"){:width="888px"}
 
 > _secureCodeBox_ is a docker based, modularized toolchain for continuous security scans of your software project.
 
