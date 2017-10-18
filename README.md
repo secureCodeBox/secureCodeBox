@@ -1,6 +1,6 @@
-# secureCodeBox – Continuous Secure Delivery Out of the Box 
+# secureCodeBox – Continuous Secure Delivery Out of the Box
 
-![secureCodeBox](img/logo.png "secureCodeBox")
+![secureCodeBox](img/logo.svg "secureCodeBox")
 
 > _secureCodeBox_ is a docker based, modularized toolchain for continuous security scans of your software project.
 
@@ -32,11 +32,11 @@ The core of the _secureCodeBox_ is the control center (a web UI). With this the 
 
 The scan itself may be triggered via the control center or via web hooks. The web hooks gives the possibility for a scan to be triggered by a CI such as Jenkins, Travis CI, Bamboo or such. The scan itself will be handed over to the scanners and the results will be aggregated for review in the control center or the CI environment. For a detailed description of the components and how they work together see the [architecture](#architecture) section.
 
-**Important note**: The _secureCodeBox_ is no simple one button click solution! You must have a deep understanding of security and how to configure the scanners. Also it is necessary that you understand the results of of the scans and how to interpret them. 
+**Important note**: The _secureCodeBox_ is no simple one button click solution! You must have a deep understanding of security and how to configure the scanners. Also it is necessary that you understand the results of of the scans and how to interpret them.
 
 ## Roadmap
 
-At the moment the _secureCodeBox_ is in a beta stable state. You can register as a beta tester [here][beta-testers]. We are hard working on polishing and documentation so that we can push all sources here on GitHub until the end of 2017. Also we want to become an official [OWASP][owasp] project.
+At the moment the _secureCodeBox_ is in a stable beta state. You can register as a beta tester [here][beta-testers]. We are hard working on polishing and  documenting so that we can push all sources here on GitHub until the end of 2017. Also we want to become an official [OWASP][owasp] project.
 
 ## Architecture
 
