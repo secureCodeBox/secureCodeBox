@@ -24,6 +24,8 @@ With the _secureCodeBox_ we provide a toolchain to/for continuously scan/ning ap
 
 It **is not** the purpose of *secureCodeBox* to make penetration testers obsolete. We strongly recommend letting your application be check by one!
 
+There is a german article about [Security DevOps – Angreifern (immer) einen Schritt voraus][secdevops-objspec] in the software engineering journal [OBJEKTSpektrum][objspec].
+
 ## How does it Works
 
 The core of the _secureCodeBox_ is the control center (a web UI). With this the whole scan process is defined. An example process is shown in the image below.
@@ -44,9 +46,11 @@ The base architecture is a [Docker][docker] based [Microservices architecture][m
 
 ![Overview of the architecture.](img/architecture_overview.png "Overview of the architecture.")
 
-[camunda]:          https://camunda.com/de/
-[bpmn]:             https://en.wikipedia.org/wiki/Business_Process_Model_and_Notation
-[docker]:           https://www.docker.com/
-[microservices]:    https://martinfowler.com/articles/microservices.html
-[beta-testers]:     https://www.securecodebox.io/
-[owasp]:            https://www.owasp.org/index.php/Main_Page
+[camunda]:              https://camunda.com/de/
+[bpmn]:                 https://en.wikipedia.org/wiki/Business_Process_Model_and_Notation
+[docker]:               https://www.docker.com/
+[microservices]:        https://martinfowler.com/articles/microservices.html
+[beta-testers]:         https://www.securecodebox.io/
+[owasp]:                https://www.owasp.org/index.php/Main_Page
+[objspec]:              https://www.sigs-datacom.de/fachzeitschriften/objektspektrum.html
+[secdevops-objspec]:    http://www.sigs.de/public/ots/2017/OTS_DevOps_2017/Seedorff_Pfaender_OTS_%20DevOps_2017.pdf
