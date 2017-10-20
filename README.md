@@ -46,6 +46,32 @@ The base architecture is a [Docker][docker] based [Microservices architecture][m
 
 ![Overview of the architecture.](img/architecture_overview.png "Overview of the architecture.")
 
+### Design Goal
+
+The most important goal ofthe architecture is to build the whole toolchain highly modularized and extenensible. So wedecided to orchestrate thevarious parts (described later on) with [Docker][docker]. As frontend to the user we use [NginX][nginx] which serves as a proxy in front of all services which provide a web UI. This design gives us the posibility to add new components very easily by adding a new container andintegrating it.
+
+### Components
+
+#### Process Engine
+
+The main component of the _secureCodeBox_ is the [Camunda][camunda] [BPMN][bpmn] engine. It is used to build the whole scan process as a [BPMN][bpmn] model. This component also provides themain web UI: The _secureCodeBox_ controll center. In this UI uou can see the available scann process definitions as [BPMN][bpmn] diagrams, start them, and see the results for manual review. This component also provides the posibility to listen on web hooks. Thisallows us to trigger the scan processes by a continious integration component ([Jenkins][jenkins] in our example or any other which can deal with web hooks).
+
+#### Single Sign On
+
+TODO
+
+#### Scanners
+
+TODO
+
+#### Data Collection
+
+TODO
+
+#### Example Targets
+
+TODO
+
 [camunda]:              https://camunda.com/de/
 [bpmn]:                 https://en.wikipedia.org/wiki/Business_Process_Model_and_Notation
 [docker]:               https://www.docker.com/
@@ -54,3 +80,4 @@ The base architecture is a [Docker][docker] based [Microservices architecture][m
 [owasp]:                https://www.owasp.org/index.php/Main_Page
 [objspec]:              https://www.sigs-datacom.de/fachzeitschriften/objektspektrum.html
 [secdevops-objspec]:    http://www.sigs.de/public/ots/2017/OTS_DevOps_2017/Seedorff_Pfaender_OTS_%20DevOps_2017.pdf
+[jenkins]:              https://jenkins.io/
