@@ -92,7 +92,8 @@ But our architecture let you also add your own non-free or commercial tools.
 
 #### Data Collection
 
-TODO
+The collection of the scanner results is done by an ELK stack ([Elasticsearch][elasticsearch], 
+[Kibana][kibana], and [Logstash][logstash]).
 
 #### Example Targets
 
@@ -116,3 +117,6 @@ TODO
 [wpscan]:               https://wpscan.org/
 [wordpress]:            https://wordpress.com/
 [consul]:               https://www.consul.io/
+[elasticsearch]:        https://www.elastic.co/products/elasticsearch
+[kibana]:               https://www.elastic.co/de/products/kibana
+[logstash]:             https://www.elastic.co/products/logstash
