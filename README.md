@@ -48,13 +48,13 @@ The base architecture is a [Docker][docker] based [Microservices architecture][m
 
 ### Design Goal
 
-The most important goal ofthe architecture is to build the whole toolchain highly modularized and extenensible. So wedecided to orchestrate thevarious parts (described later on) with [Docker][docker]. As frontend to the user we use [NginX][nginx] which serves as a proxy in front of all services which provide a web UI. This design gives us the posibility to add new components very easily by adding a new container andintegrating it.
+The most important goal of the architecture is to build the whole toolchain highly modularized, extensible, and scalable. So we decided to orchestrate the various parts (described later on) with [Docker][docker]. As frontend to the user we use [NginX][nginx] which serves as a proxy in front of all services which provide a web UI. This design gives us the possibility to add new components very easily by adding a new containers and integrating it.
 
 ### Components
 
-#### Process Engine
+#### Process Engine – the Core
 
-The main component of the _secureCodeBox_ is the [Camunda][camunda] [BPMN][bpmn] engine. It is used to build the whole scan process as a [BPMN][bpmn] model. This component also provides themain web UI: The _secureCodeBox_ controll center. In this UI uou can see the available scann process definitions as [BPMN][bpmn] diagrams, start them, and see the results for manual review. This component also provides the posibility to listen on web hooks. Thisallows us to trigger the scan processes by a continious integration component ([Jenkins][jenkins] in our example or any other which can deal with web hooks).
+The main component of the _secureCodeBox_ is the [Camunda][camunda] [BPMN][bpmn] engine. It is used to build the whole scan process as a [BPMN][bpmn] model. This component also provides the main web UI: The _secureCodeBox_ control center. In this UI you can see the available scan process definitions as [BPMN][bpmn] diagrams, start them, and see the results for manual review. This component also provides the possibility to listen on web hooks. This allows us to trigger the scan processes by a continuous integration component ([Jenkins][jenkins] in our example or any other which can deal with web hooks).
 
 #### Single Sign On
 
@@ -62,7 +62,33 @@ TODO
 
 #### Scanners
 
-TODO
+The scanners are individual tools such as [nmap][nmap], [Nikto][nikto], [Arcachni][arcachni] and such.
+Every scanner tool lives in it's own [Docker][docker] container. This has two main reasons:
+
+1. you can easily add a new tool as scanner, if it can run inside [Docker][docker]
+1. you can scale up the numbers of running scanners for massive parallel scanning
+
+Each scanner needs a small adapter (usually a Ruby script) which translates the data from the engine
+with the information what to do into a format usable by the particular tool, and transform the results
+of the tool into a format usable by the data collection component.
+
+Also the scanners are responsible to poll the engine to check if something needs to be done. The reason
+for polling instead of pushing the scan orders from the engine to scanners is easier and more fail
+tolerant implementation: If we do push notifications to the scanners, then the engine must maintain
+which scanner instance is running or idle. Also it must recognize if a scanner dies. With polling
+a scanner may die and after restarting it just starts polling for work.
+
+Currently we have severals scanners available out of the box:
+
+- [Nmap][nmap] for IP and port scans
+- [Nikto][nikto] for web server scans
+- [SSLyze][sslyze] for SSL/TLS scans
+- [SQLMap][sqlmap] for SQL injection scans
+- [Burp Suite][burp] web vulnerability scans
+- [Arachni][arachni] web vulnerability scans
+- [WPScan][wpscan] black box [WordPress][wordpress] vulnerability scans
+
+But our architecture let you also add your own non-free or commercial tools.
 
 #### Data Collection
 
@@ -81,3 +107,12 @@ TODO
 [objspec]:              https://www.sigs-datacom.de/fachzeitschriften/objektspektrum.html
 [secdevops-objspec]:    http://www.sigs.de/public/ots/2017/OTS_DevOps_2017/Seedorff_Pfaender_OTS_%20DevOps_2017.pdf
 [jenkins]:              https://jenkins.io/
+[nmap]:                 https://nmap.org/
+[nikto]:                https://cirt.net/Nikto2
+[arcachni]:             http://www.arachni-scanner.com/
+[sslyze]:               https://github.com/nabla-c0d3/sslyze
+[sqlmap]:               http://sqlmap.org/
+[burp]:                 https://portswigger.net/burp
+[wpscan]:               https://wpscan.org/
+[wordpress]:            https://wordpress.com/
+[consul]:               https://www.consul.io/
