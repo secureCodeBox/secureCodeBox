@@ -38,7 +38,7 @@ The scan itself may be triggered via the control center or via web hooks. The we
 
 ## Roadmap
 
-At the moment the _secureCodeBox_ is in a stable beta state. You can register as a beta tester [here][beta-testers]. We are hard working on polishing and  documenting so that we can push all sources here on GitHub until the end of 2017. Also we want to become an official [OWASP][owasp] project.
+At the moment the _secureCodeBox_ is in a stable beta state. You can register as a beta tester [here][beta-testers]. We are hard working on polishing and documenting so that we can push all sources here on GitHub until the end of 2017. Also we want to become an official [OWASP][owasp] project.
 
 ## Architecture
 
@@ -97,7 +97,11 @@ The collection of the scanner results is done by an ELK stack ([Elasticsearch][e
 
 #### Example Targets
 
-TODO
+For demonstration purpose we added some example targets to scan:
+
+- [Damn Vulnerable Web Application][dvwa]
+- [BodgeIT Store][bodgeit]
+- [Juice Shop][juiceshop]
 
 [camunda]:              https://camunda.com/de/
 [bpmn]:                 https://en.wikipedia.org/wiki/Business_Process_Model_and_Notation
@@ -120,3 +124,6 @@ TODO
 [elasticsearch]:        https://www.elastic.co/products/elasticsearch
 [kibana]:               https://www.elastic.co/de/products/kibana
 [logstash]:             https://www.elastic.co/products/logstash
+[dvwa]:                 http://www.dvwa.co.uk/
+[bodgeit]:              https://github.com/psiinon/bodgeit
+[juiceshop]:            https://www.owasp.org/index.php/OWASP_Juice_Shop_Project
