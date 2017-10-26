@@ -62,21 +62,14 @@ TODO
 
 #### Scanners
 
-The scanners are individual tools such as [nmap][nmap], [Nikto][nikto], [Arcachni][arcachni] and such.
-Every scanner tool lives in it's own [Docker][docker] container. This has two main reasons:
+The scanners are individual tools such as [nmap][nmap], [Nikto][nikto], [Arcachni][arcachni] and such. Every scanner tool lives in it's own [Docker][docker] container. This has two main reasons:
 
 1. you can easily add a new tool as scanner, if it can run inside [Docker][docker]
 1. you can scale up the numbers of running scanners for massive parallel scanning
 
-Each scanner needs a small adapter (usually a Ruby script) which translates the data from the engine
-with the information what to do into a format usable by the particular tool, and transform the results
-of the tool into a format usable by the data collection component.
+Each scanner needs a small adapter (usually a Ruby script) which translates the data from the engine with the information what to do into a format usable by the particular tool, and transform the results of the tool into a format usable by the data collection component.
 
-Also the scanners are responsible to poll the engine to check if something needs to be done. The reason
-for polling instead of pushing the scan orders from the engine to scanners is easier and more fail
-tolerant implementation: If we do push notifications to the scanners, then the engine must maintain
-which scanner instance is running or idle. Also it must recognize if a scanner dies. With polling
-a scanner may die and after restarting it just starts polling for work.
+Also the scanners are responsible to poll the engine to check if something needs to be done. The reason for polling instead of pushing the scan orders from the engine to scanners is easier and more fail tolerant implementation: If we do push notifications to the scanners, then the engine must maintain which scanner instance is running or idle. Also it must recognize if a scanner dies. With polling a scanner may die and after restarting it just starts polling for work.
 
 Currently we have severals scanners available out of the box:
 
