@@ -58,7 +58,9 @@ The main component of the _secureCodeBox_ is the [Camunda][camunda] [BPMN][bpmn]
 
 #### Single Sign On
 
-TODO
+Every container registers itself automatically at the [Consul][consul] service discovery. The [Nginx][nginx] respectively [OpenResty][resty] is dynamically configured by Consul templates. Via this mechanism all containers are configured with environment variables and will be made public via the [Nginx][nginx].
+
+Additionally we use [Keycloak][keycloak] as an [OpenID][openid] connect provider. This provider is integrated into the [Nginx][nginx] by a Lua plugin, which take over the task of the central gateway. This combination allows to configure dynamically for each container if it should be load balanced and/or SSO should be activated.
 
 #### Scanners
 
@@ -114,6 +116,9 @@ For demonstration purpose we added some example targets to scan:
 [wpscan]:               https://wpscan.org/
 [wordpress]:            https://wordpress.com/
 [consul]:               https://www.consul.io/
+[resty]:                https://openresty.org/en/
+[keycloak]:             http://www.keycloak.org/
+[openid]:               https://de.wikipedia.org/wiki/OpenID
 [elasticsearch]:        https://www.elastic.co/products/elasticsearch
 [kibana]:               https://www.elastic.co/de/products/kibana
 [logstash]:             https://www.elastic.co/products/logstash
