@@ -48,7 +48,7 @@ The base architecture is a [Docker][docker] based [Microservices architecture][m
 
 ### Design Goal
 
-The most important goal of the architecture is to build the whole toolchain highly modularized, extensible, and scalable. So we decided to orchestrate the various parts (described later on) with [Docker][docker]. As frontend to the user we use [NginX][nginx] which serves as a proxy in front of all services which provide a web UI. This design gives us the possibility to add new components very easily by adding a new containers and integrating it.
+The most important goal of the architecture is to build the whole toolchain highly modularized, extensible, and scalable. So we decided to orchestrate the various parts (described later on) with [Docker][docker]. As frontend to the user we use [Nginx][nginx] which serves as a proxy in front of all services which provide a web UI. This design gives us the possibility to add new components very easily by adding a new containers and integrating it.
 
 ### Components
 
@@ -98,6 +98,7 @@ For demonstration purpose we added some example targets to scan:
 - [BodgeIT Store][bodgeit]
 - [Juice Shop][juiceshop]
 
+[nginx]:                https://nginx.org/en/
 [camunda]:              https://camunda.com/de/
 [bpmn]:                 https://en.wikipedia.org/wiki/Business_Process_Model_and_Notation
 [docker]:               https://www.docker.com/
