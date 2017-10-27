@@ -113,6 +113,7 @@ For demonstration purpose we added some example targets to scan:
 [sslyze]:               https://github.com/nabla-c0d3/sslyze
 [sqlmap]:               http://sqlmap.org/
 [burp]:                 https://portswigger.net/burp
+[arachni]:              http://www.arachni-scanner.com/
 [wpscan]:               https://wpscan.org/
 [wordpress]:            https://wordpress.com/
 [consul]:               https://www.consul.io/
