@@ -54,24 +54,18 @@ The most important goal of the architecture is to build the whole toolchain high
 
 #### Process Engine – the Core
 
-The main component of the _secureCodeBox_ is the [Camunda][camunda] [BPMN][bpmn] engine. It is used to build the whole scan process as a [BPMN][bpmn] model. This component also provides the main web UI: The _secureCodeBox_ control center. In this UI you can see the available scan process definitions as [BPMN][bpmn] diagrams, start them, and see the results for manual review. This component also provides the possibility to listen on web hooks. This allows us to trigger the scan processes by a continuous integration component ([Jenkins][jenkins] in our example or any other which can deal with web hooks).
-
-#### Single Sign On
-
-Every container registers itself automatically at the [Consul][consul] service discovery. The [Nginx][nginx] respectively [OpenResty][resty] is dynamically configured by Consul templates. Via this mechanism all containers are configured with environment variables and will be made public via the [Nginx][nginx].
-
-Additionally we use [Keycloak][keycloak] as an [OpenID][openid] connect provider. This provider is integrated into the [Nginx][nginx] by a Lua plugin, which take over the task of the central gateway. This combination allows to configure dynamically for each container if it should be load balanced and/or SSO should be activated.
+The main component of the _secureCodeBox_ is the [Camunda][camunda] [BPMN][bpmn] engine. It is used to build the whole scan process as a [BPMN][bpmn] model. This component also provides the main web UI: The _secureCodeBox_ control center. In this UI you can see the available scan process definitions as [BPMN][bpmn] diagrams, start them (Tasklist), and see the results for manual review. This component also provides the possibility to listen on web hooks or integrate the exposed process API. This allows us to trigger the scan processes by a continuous integration component ([Jenkins][jenkins] in our example or any other which can deal with web hooks).
 
 #### Scanners
 
 The scanners are individual tools such as [nmap][nmap], [Nikto][nikto], [Arcachni][arcachni] and such. Every scanner tool lives in it's own [Docker][docker] container. This has two main reasons:
 
-1. you can easily add a new tool as scanner, if it can run inside [Docker][docker]
+1. you can easily add and integrate a new tool as scanner, based on a language or technology of your choice, if it can run inside [Docker][docker]
 1. you can scale up the numbers of running scanners for massive parallel scanning
 
-Each scanner needs a small adapter (usually a Ruby script) which translates the data from the engine with the information what to do into a format usable by the particular tool, and transform the results of the tool into a format usable by the data collection component.
+Each scanner needs a small adapter (usually a Ruby, Python, Java script) which translates the configuration data from the engine with the information what to do into a format usable by the particular tool, and transform the results of the tool into a format usable by the data collection component.
 
-Also the scanners are responsible to poll the engine to check if something needs to be done. The reason for polling instead of pushing the scan orders from the engine to scanners is easier and more fail tolerant implementation: If we do push notifications to the scanners, then the engine must maintain which scanner instance is running or idle. Also it must recognize if a scanner dies. With polling a scanner may die and after restarting it just starts polling for work.
+Also the scanners are responsible to poll the engine to check if something needs to be done by using the [external service task pattern][exteralServiceTask]. The reason for polling instead of pushing the scan orders from the engine to scanners is easier and more fail tolerant implementation: If we do push notifications to the scanners, then the engine must maintain which scanner instance is running or idle. Also it must recognize if a scanner dies. With polling a scanner may die and after restarting it just starts polling for work.
 
 Currently we have severals scanners available out of the box:
 
@@ -79,15 +73,15 @@ Currently we have severals scanners available out of the box:
 - [Nikto][nikto] for web server scans
 - [SSLyze][sslyze] for SSL/TLS scans
 - [SQLMap][sqlmap] for SQL injection scans
-- [Burp Suite][burp] web vulnerability scans
 - [Arachni][arachni] web vulnerability scans
 - [WPScan][wpscan] black box [WordPress][wordpress] vulnerability scans
 
-But our architecture let you also add your own non-free or commercial tools.
+But our architecture let you also add your own non-free or commercial tools, like
+- [Burp Suite][burp] web vulnerability scans
 
 #### Data Collection
 
-The collection of the scanner results is done by an ELK stack ([Elasticsearch][elasticsearch], 
+The collection of the scanner results is done by an ELK stack ([Elasticsearch][elasticsearch],
 [Kibana][kibana], and [Logstash][logstash]).
 
 #### Example Targets
@@ -100,6 +94,7 @@ For demonstration purpose we added some example targets to scan:
 
 [nginx]:                https://nginx.org/en/
 [camunda]:              https://camunda.com/de/
+[exteralServiceTask]:   https://docs.camunda.org/manual/latest/user-guide/process-engine/external-tasks/
 [bpmn]:                 https://en.wikipedia.org/wiki/Business_Process_Model_and_Notation
 [docker]:               https://www.docker.com/
 [microservices]:        https://martinfowler.com/articles/microservices.html
