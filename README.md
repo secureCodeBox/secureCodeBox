@@ -38,7 +38,7 @@ The scan itself may be triggered via the control center or via web hooks. The we
 
 ## Roadmap
 
-At the moment the _secureCodeBox_ is in a stable beta state. You can register as a beta tester [here][beta-testers]. We are hard working on polishing and  documenting so that we can push all sources here on GitHub until the end of 2017. Also we want to become an official [OWASP][owasp] project.
+At the moment the _secureCodeBox_ is in a stable beta state. You can register as a beta tester [here][beta-testers]. We are hard working on polishing and documenting so that we can push all sources here on GitHub until the end of 2017. Also we want to become an official [OWASP][owasp] project.
 
 ## Architecture
 
@@ -46,7 +46,55 @@ The base architecture is a [Docker][docker] based [Microservices architecture][m
 
 ![Overview of the architecture.](img/architecture_overview.png "Overview of the architecture.")
 
+### Design Goal
+
+The most important goal of the architecture is to build the whole toolchain highly modularized, extensible, and scalable. So we decided to orchestrate the various parts (described later on) with [Docker][docker]. As frontend to the user we use [Nginx][nginx] which serves as a proxy in front of all services which provide a web UI. This design gives us the possibility to add new components very easily by adding a new containers and integrating it.
+
+### Components
+
+#### Process Engine – the Core
+
+The main component of the _secureCodeBox_ is the [Camunda][camunda] [BPMN][bpmn] engine. It is used to build the whole scan process as a [BPMN][bpmn] model. This component also provides the main web UI: The _secureCodeBox_ control center. In this UI you can see the available scan process definitions as [BPMN][bpmn] diagrams, start them (Tasklist), and see the results for manual review. This component also provides the possibility to listen on web hooks or integrate the exposed process API. This allows us to trigger the scan processes by a continuous integration component ([Jenkins][jenkins] in our example or any other which can deal with web hooks).
+
+#### Scanners
+
+The scanners are individual tools such as [nmap][nmap], [Nikto][nikto], [Arcachni][arcachni] and such. Every scanner tool lives in it's own [Docker][docker] container. This has two main reasons:
+
+1. you can easily add and integrate a new tool as scanner, based on a language or technology of your choice, if it can run inside [Docker][docker]
+1. you can scale up the numbers of running scanners for massive parallel scanning
+
+Each scanner needs a small adapter (usually a Ruby, Python, Java script) which translates the configuration data from the engine with the information what to do into a format usable by the particular tool, and transform the results of the tool into a format usable by the data collection component.
+
+Also the scanners are responsible to poll the engine to check if something needs to be done by using the [external service task pattern][exteralServiceTask]. The reason for polling instead of pushing the scan orders from the engine to scanners is easier and more fail tolerant implementation: If we do push notifications to the scanners, then the engine must maintain which scanner instance is running or idle. Also it must recognize if a scanner dies. With polling a scanner may die and after restarting it just starts polling for work.
+
+Currently we have severals scanners available out of the box:
+
+- [Nmap][nmap] for IP and port scans
+- [Nikto][nikto] for web server scans
+- [SSLyze][sslyze] for SSL/TLS scans
+- [SQLMap][sqlmap] for SQL injection scans
+- [Arachni][arachni] web vulnerability scans
+- [WPScan][wpscan] black box [WordPress][wordpress] vulnerability scans
+
+But our architecture let you also add your own non-free or commercial tools, like
+- [Burp Suite][burp] web vulnerability scans
+
+#### Data Collection
+
+The collection of the scanner results is done by an ELK stack ([Elasticsearch][elasticsearch],
+[Kibana][kibana], and [Logstash][logstash]).
+
+#### Example Targets
+
+For demonstration purpose we added some example targets to scan:
+
+- [Damn Vulnerable Web Application][dvwa]
+- [BodgeIT Store][bodgeit]
+- [Juice Shop][juiceshop]
+
+[nginx]:                https://nginx.org/en/
 [camunda]:              https://camunda.com/de/
+[exteralServiceTask]:   https://docs.camunda.org/manual/latest/user-guide/process-engine/external-tasks/
 [bpmn]:                 https://en.wikipedia.org/wiki/Business_Process_Model_and_Notation
 [docker]:               https://www.docker.com/
 [microservices]:        https://martinfowler.com/articles/microservices.html
@@ -54,3 +102,23 @@ The base architecture is a [Docker][docker] based [Microservices architecture][m
 [owasp]:                https://www.owasp.org/index.php/Main_Page
 [objspec]:              https://www.sigs-datacom.de/fachzeitschriften/objektspektrum.html
 [secdevops-objspec]:    http://www.sigs.de/public/ots/2017/OTS_DevOps_2017/Seedorff_Pfaender_OTS_%20DevOps_2017.pdf
+[jenkins]:              https://jenkins.io/
+[nmap]:                 https://nmap.org/
+[nikto]:                https://cirt.net/Nikto2
+[arcachni]:             http://www.arachni-scanner.com/
+[sslyze]:               https://github.com/nabla-c0d3/sslyze
+[sqlmap]:               http://sqlmap.org/
+[burp]:                 https://portswigger.net/burp
+[arachni]:              http://www.arachni-scanner.com/
+[wpscan]:               https://wpscan.org/
+[wordpress]:            https://wordpress.com/
+[consul]:               https://www.consul.io/
+[resty]:                https://openresty.org/en/
+[keycloak]:             http://www.keycloak.org/
+[openid]:               https://de.wikipedia.org/wiki/OpenID
+[elasticsearch]:        https://www.elastic.co/products/elasticsearch
+[kibana]:               https://www.elastic.co/de/products/kibana
+[logstash]:             https://www.elastic.co/products/logstash
+[dvwa]:                 http://www.dvwa.co.uk/
+[bodgeit]:              https://github.com/psiinon/bodgeit
+[juiceshop]:            https://www.owasp.org/index.php/OWASP_Juice_Shop_Project
