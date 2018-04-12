@@ -1,7 +1,7 @@
 version: '3'
 services:
   engine:
-    build: .
+    image: securecodebox/engine:oss
     depends_on:
       - camundadb
     ports:
@@ -11,7 +11,7 @@ services:
     labels:
       container_group: core
     volumes:
-      - ./plugins/:/scb-engine/plugins/
+      - ./processes/:/scb-engine/processes/
     environment:
       - CAMUNDA_BPM_DATABASE_TYPE=mysql
       - SPRING_DATASOURCE_URL=jdbc:mysql://camundadb:3306/${CAMUNDADB_DATABASE}
@@ -38,7 +38,7 @@ services:
         - MYSQL_PASSWORD=${CAMUNDADB_PW}
 
   scanner-infrastructure-nmap:
-    build: ../scanner-infrastructure-nmap/.
+    image: securecodebox/nmap:oss
     depends_on:
       - engine
     networks:
