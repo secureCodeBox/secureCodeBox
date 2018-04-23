@@ -27,13 +27,13 @@ The docker-compose file can be used to launch a secureCodeBox instance. It start
   * Kibana
   * MySQL
 
-It also mounts the `./processes` folder as a volume for your custom processes. Just pass your custom-processes.jar to that directory. 
+It also mounts the `./plugins` folder as a volume for your custom processes or storage providers. Just pass your custom-processes.jar to that directory. 
 ```
 docker-compose up
 ```
 
 # Providing own processes
-Just put your `custom-process.jar` to the  `./processes` folder.
+Just put your `custom-process.jar` to the  `./plugins` folder.
 
 # Developing own processes
 

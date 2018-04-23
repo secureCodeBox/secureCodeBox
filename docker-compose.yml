@@ -11,7 +11,7 @@ services:
     labels:
       container_group: core
     volumes:
-      - ./processes/:/scb-engine/processes/
+      - ./plugins/:/scb-engine/plugins/
     environment:
       - CAMUNDA_BPM_DATABASE_TYPE=mysql
       - SPRING_DATASOURCE_URL=jdbc:mysql://camundadb:3306/${CAMUNDADB_DATABASE}
@@ -24,7 +24,7 @@ services:
     restart: on-failure:3
 
   camundadb:
-      image: mysql
+      image: mysql:5.7
       networks:
         - frontend
       volumes:
@@ -47,6 +47,17 @@ services:
       container_group: scanner
     environment:
       - ENGINE_ADDRESS=http://engine:8080/rest
+
+  scanner-webserver-nikto:
+    image: securecodebox/nikto:oss
+    depends_on:
+      - engine
+    networks:
+      - frontend
+    labels:
+      container_group: scanner
+    environment:
+      - ENGINE_ADDRESS=http://engine:8080
 
   persistence-elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.2.3
