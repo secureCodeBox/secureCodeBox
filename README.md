@@ -33,3 +33,7 @@ docker-compose up
 ```
 
 # Providing own processes
+Just put your `custom-process.jar` to the  `./processes` folder.
+
+# Developing own processes
+
