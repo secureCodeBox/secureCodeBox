@@ -14,8 +14,8 @@
 - [Roadmap](#roadmap)
 
 For additional documentation aspects please have a look at our:
+- [User Guide](docs/user-guide/README.md)
 - [Developer Guide](docs/developer-guide/README.md)
-- [User Guide](docs/developer-guide/README.md)
 
 <!-- tocstop -->
 
