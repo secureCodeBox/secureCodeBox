@@ -40,7 +40,7 @@ There is a german article about [Security DevOps – Angreifern (immer) einen Sc
  * Minimal Docker version 18.03.0 is required
  * Docker-Compose is required.
 
-For a quick start checkout this repository and start the complete secureCodeBox stack with docker-compse:
+For a quick start checkout this repository and start the complete secureCodeBox stack with docker-compose:
 
 ```bash
 git clone https://github.com/secureCodeBox/secureCodeBox
@@ -95,7 +95,7 @@ The main component of the _secureCodeBox_ is the [Camunda][camunda] [BPMN][bpmn]
 
 #### Scanners
 
-The scanners are individual tools such as [nmap][nmap], [Nikto][nikto], [Arcachni][arcachni] and such. Every scanner tool runs in its own [Docker][docker] container. This has two main reasons:
+The scanners are individual tools such as [nmap][nmap], [Nikto][nikto], [Arachni][arachni] and such. Every scanner tool runs in its own [Docker][docker] container. This has two main reasons:
 
 1. You can easily add and integrate a new tool as a scanner, based on a language or technology of your choice, given that it can run inside [Docker][docker].
 1. You can scale up the numbers of running scanners for massive parallel scanning
