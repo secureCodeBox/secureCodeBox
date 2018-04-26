@@ -52,6 +52,10 @@ The docker-compose.yml file can be used to launch a secureCodeBox instance.
 ```bash
 docker-compose up
 ```
+Running `docker-compose up` uses the default credentials specified in the [`.env`](https://github.com/secureCodeBox/starter/blob/master/.env) file. You can override these by changing the file or setting the environment variables on your system. Before running the SecureCodeBox in a more serious environment you should at least change the following variables:
+ * `CAMUNDADB_ROOT_PW` MySQL root password
+ * `CAMUNDADB_USER` MySQL username used by the Camunda Engine
+ * `CAMUNDADB_PW` MySQL password also used by the Camunda Engine
 
 ### Run your first security scan
 There are several ways to start a security scan with the secureCodeBox. As a first shot try the WebUI of the engine and start one manually.
