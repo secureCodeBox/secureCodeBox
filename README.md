@@ -40,7 +40,7 @@ There is a german article about [Security DevOps – Angreifern (immer) einen Sc
  * Minimal Docker version 18.03.0 is required
  * Docker-Compose is required.
 
-For a quick start checkout this repository and start the complete secureCodeBox stack with docker-compse:
+For a quick start checkout this repository and start the complete secureCodeBox stack with docker-compose:
 
 ```bash
 git clone https://github.com/secureCodeBox/secureCodeBox
