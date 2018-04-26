@@ -12,7 +12,7 @@ cd secureCodeBox
 ### Docker-Compose
 The docker-compose file can be used to launch a secureCodeBox instance. It starts the following components:
 
-#### Engine  
+#### Engine
   * The engine itself
   * NMAP example process
   * ZAP example process
@@ -31,6 +31,10 @@ It also mounts the `./plugins` folder as a volume for your custom processes or s
 ```
 docker-compose up
 ```
+Running `docker-compose up` uses the default credentials specified in the [`.env`](https://github.com/secureCodeBox/starter/blob/master/.env) file. You can override these by changing the file or setting the environment variables on your system. Before running the SecureCodeBox in a more serious environment you should at least change the following variables:
+ * `CAMUNDADB_ROOT_PW` MySQL root password
+ * `CAMUNDADB_USER` MySQL username used by the Camunda Engine
+ * `CAMUNDADB_PW` MySQL password also used by the Camunda Engine
 
 # Providing own processes
 Just put your `custom-process.jar` to the  `./plugins` folder.
