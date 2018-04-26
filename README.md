@@ -165,7 +165,7 @@ For demonstration purposes, we added some example targets to scan:
 At the moment, the _secureCodeBox_ is in a stable *beta state*. We are working hard on polishing and documenting and integrating new security scanner. Also we wish to become an official [OWASP][owasp] project.
 
 ## License
-Code of OpenSpeedMonitor is licensed under Apache License 2.0.
+Code of secureCodeBox is licensed under Apache License 2.0.
 
 ## Community
 You are welcome, please join us on... 👋
