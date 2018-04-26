@@ -1,47 +1,61 @@
-# Running secureCodeBox
+# Extending secureCodeBox
 
-### Cloning
-```bash
-git clone https://github.com/secureCodeBox/secureCodeBox
-cd secureCodeBox
-```
-### Prerequisites
- * Minimal Docker version 18.03.0 is required.
- * Docker-Compose is required.
+## Developing own processes
 
-### Docker-Compose
-The docker-compose file can be used to launch a secureCodeBox instance. It starts the following components:
+### Implementing your first scanner as microservice
 
-#### Engine  
-  * The engine itself
-  * NMAP example process
-  * ZAP example process
-  * Nikto example process
-  * ElasticSearch persistence connector
-#### Scanner / Spider
-  * [NMAP scanner](https://github.com/secureCodeBox/scanner-infrastructure-nmap)
-  * [Zap scanner & spider](https://github.com/secureCodeBox/scanner-webapplication-zap)
-  * [Nikto scanner](https://github.com/secureCodeBox/scanner-webserver-nikto)
-#### Infrastructure
-  * ElasticSearch
-  * Kibana
-  * MySQL
+The scanner services are the parts of the secureCodeBox which are actually running the scans. These services have three responsibilities:
 
-It also mounts the `./plugins` folder as a volume for your custom processes or storage providers. Just pass your custom-processes.jar to that directory.
-```
-docker-compose up
-```
+1. Fetch scan tasks and their configuration from the secureCodeBox Engine. This is done via the Rest API of the engine.
+2. Run the scan. This can be done in multiple different variants like running shell scripts, calling a programmatic api, RPC, Rest APIs etc.
+3. Submit scan results back to the secureCodeBox Engine.
 
-# Providing own processes
-Just put your `custom-process.jar` to the  `./plugins` folder.
+The entire functionality of a scanner is summed up in the following flow diagram:
 
-# Developing own processes
+![Scanner functionality](../resources/scanner-functionality.svg "Scanner functionality flow diagram")
 
-## Implementing your first scanner as microservice
+You can implement your scanner microservice in which ever language you want. We have implemented our scanner using Java, JavaScript (NodeJS) and Ruby. If you choose to use NodeJS we have published a [npm package](https://www.npmjs.com/package/@securecodebox/scanner-scaffolding) which handles the communication with the engine for you.
 
-### Use the scanner API
+### Using the scan job API
 
+The secureCodeBox Scan Job API is used to fetch new tasks from the engine.
+The API is documented using Swagger. You can check this out by running the Engine and navigate to `/swagger-ui.html#/scan-job-resource`.
 
-## Develop a process model
+### Developing a process model
 
-## SDK to the rescue
+To get your scanner into the secureCodeBox Engine you need to write a plugin. This plugins contains a BPMN Model of your Scan Process. This Model defines the following things:
+
+* Name and Id of the process
+* A topic name for the task queue (e.g. `nikto_webserverscan`). Every scanner has one queue on which all scans jobs are inserted by the engine and then completed by the scan services. In Camunda these are called External Service Tasks.
+* Transformation of results. If the scanner returns results in a format incompatible with the secureCodeBox finding format you can transform the data inside the engine before persisting it.(Note that the transformation can also be done in the Scan Service)
+
+To get quickly up and running creating a new process model you can simply copy an existing one. You can find the [prepackaged processes here](https://github.com/secureCodeBox/engine/tree/master/scb-scanprocesses). If you want to get started with a simple one take a look at the nikto process which contains the bare minimum of logic in the process model. Camunda provides a free modelling tool for the BPMN models which you can [download here](https://camunda.com/download/modeler/).
+
+If you copied a process model you need to change a few things according to your new scan process:
+
+* Update the **name** and **id** of the process. You can edit this in the right side-panel of the Camunda Editor once you have opened the model.
+* Update the **topic-name** of the External Service Task.
+* Update the references to configuration **forms** to your own configuration forms. See [create process forms](#create-process-forms)
+
+When you finished the Process Modell compile it to a jar. 
+> **Note**: Take a look at the other scan processes to see how.
+
+Just put your `custom-process.jar` to the `./plugins` folder. This folder is also registered as docker volume. So you can add the plugin without rebuilding the docker container.
+
+### Creating configuration forms
+
+> **Note**: If you just want to run the scans automatically via the api you don't need forms.
+
+When some parts of the process should be directly controlled by the user you will need a `User Task`. These are tasks which can not be completed automatically but by a human. In the secureCodeBox these are normally configuration tasks. Most secureCodeBox processes contain tree different forms:
+
+1. Target Configuration: Lets user define the minimum configuration needed to perform a scan.
+2. Advanced Configuration: Lets users configure advanced configuration options
+3. Scan Results: Displays the results of the scan back to the user.
+
+The Forms are HTML Documents with embedded AngularJS code for custom logic.
+
+### SDK to the rescue
+
+There are some parts, both logic and definitions, which are shared across processes. These pieces are extracted into its own module. You can include this module in your own code and reuse it.
+
+> **Note**: If you write your scanner in a JVM langauage you can use the report and finding definitions inside the scanner not just inside the engine plugin.
