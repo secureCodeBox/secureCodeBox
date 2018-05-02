@@ -2,7 +2,7 @@
 
 ## Developing own processes
 
-### Implementing your first scanner as microservice
+### Implementing your first scanner as a microservice
 
 The scanner services are the part of the secureCodeBox which are executing the scans. These services have three responsibilities:
 
@@ -26,7 +26,7 @@ The API is documented using Swagger. You can check this out by running the Engin
 To integrate a new scanner into the secureCodeBox Engine you need to write a plugin. This plugins contains a BPMN Model of your Scan Process. This Model defines the following things:
 
 * Name and Id of the process.
-* A topic name for the task queue (e.g. `nikto_webserverscan`). Every scanner has one queue on which all scans jobs are inserted by the engine and then completed by the scan services. In Camunda these are called External Service Tasks.
+* A topic name for the task queue (e.g. `nikto_webserverscan`). Every scanner has one (ore more) queue on which all scans jobs are inserted by the engine and then completed by the scan services. In Camunda these are called External Service Tasks.
 * Transformation of results. If the scanner returns results in a format incompatible with the secureCodeBox finding format you can transform the data inside the engine before persisting it. (Note that the transformation can also be done in the Scan Service)
 
 To get quickly up and running on creating a new process model you can simply copy an existing one. You can find the [prepackaged processes here](https://github.com/secureCodeBox/engine/tree/master/scb-scanprocesses). If you want to get started with a simple one, take a look at the nikto process. This process only contains the bare minimum of logic in the process model. 
