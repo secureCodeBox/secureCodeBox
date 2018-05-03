@@ -21,10 +21,10 @@ For additional documentation aspects please have a look at our:
 
 ## Purpose of this Project
 
-The typical way to ensure application security is to hire a security specialist (aka penetration tester) at some point in your project to check the application for security bugs and vulnerabilities. Usually, this happens very late in the project and has various drawbacks:
+The typical way to ensure application security is to hire a security specialist (aka penetration tester) at some point in your project to check the application for security bugs and vulnerabilities. Usually, this check is done at a later stage of the project and has two major drawbacks:
 
-1. Nowadays, a lot of projects do continuous delivery, which means the developers deploy new versions multiple times each day. The penetration tester is only able to check a single snapshot, but some further commits could introduce new security issues. To ensure ongoing application security, the penetration tester should also repeatedly test the application. Unfortunately, such approach is rarely financially feasible.
-2. In the typically time boxed analysis, the penetration tester may be engaged in finding trivial security issues (low-hanging fruits) and therefore will never reach the serious, non-obvious ones.
+1. Nowadays, a lot of projects do continuous delivery, which means the developers deploy new versions multiple times each day. The penetration tester is only able to check a single snapshot, but some further commits could introduce new security issues. To ensure ongoing application security, the penetration tester should also continuously test the application. Unfortunately, such an approach is rarely financially feasible.
+2. Due to a typically time boxed analysis, the penetration tester has to focus on trivial security issues (low-hangig fruits) and therefore will not address the serious, non-obvious ones.
 
 With the _secureCodeBox_ we provide a toolchain for continuous scanning of applications to find the low-hanging fruit issues early in the development process and free the resources of the penetration tester to concentrate on the major security issues.
 
@@ -52,14 +52,15 @@ The docker-compose.yml file can be used to launch a secureCodeBox instance.
 ```bash
 docker-compose up
 ```
-Running `docker-compose up` uses the default credentials specified in the [`.env`](https://github.com/secureCodeBox/starter/blob/master/.env) file. You can override these by changing the file or setting the environment variables on your system. Before running the SecureCodeBox in a more serious environment you should at least change the following variables:
+Running `docker-compose up` uses the default credentials specified in the [`.env`](https://github.com/secureCodeBox/starter/blob/master/.env) file. You can override these by changing the file or setting the environment variables on your system. Before running the SecureCodeBox outside a testing environment you should at least change the following variables:
  * `CAMUNDADB_ROOT_PW` MySQL root password
  * `CAMUNDADB_USER` MySQL username used by the Camunda Engine
  * `CAMUNDADB_PW` MySQL password also used by the Camunda Engine
 
 ### Run your first security scan
-There are several ways to start a security scan with the secureCodeBox. As a first shot try the WebUI of the engine and start one manually.
+There are several ways to start a security scan with the secureCodeBox. One way is to use the WebUI of the engine and start the scan manually.
 
+Access the WebUI via:
 [http://your-docker-host:8080/](http://localhost:8080)
 
 1. Create a local user account
@@ -75,7 +76,7 @@ The core of the _secureCodeBox_ is a process engine (based on the camunda platfo
 
 ![An example scan process.](docs/resources/scan_process.png "An example scan process.")
 
-The scan itself may be triggered via the WebUI, a REST-API call or via webhooks. The system allows continous integration software such as Jenkins, Travis CI, Bamboo etc. to trigger a scan automatically. The scan itself will be handed over to the scanners and the results will be aggregated for review in the control center or the CI environment. For a detailed description of the components and how they work together see the [architecture](#architecture) section.
+The scan itself may be triggered via the WebUI, a REST-API call or via webhooks. The system allows continuous integration software such as Jenkins, Travis CI, Bamboo etc. to trigger a scan automatically. The scans will be executed by the specified scanners and the results will be aggregated for review in the control center or the CI environment. For a more detailed description of the components and how they interact see the [architecture](#architecture) section.
 
 ## Architecture
 
@@ -85,40 +86,40 @@ The base architecture is a [Docker][docker] based [Microservices Architecture][m
 
 ### Design Goal
 
-The most important goal of the architecture is to build the whole toolchain highly modularized, extensible, and scalable. Therefore, we decided to provision the various parts in a microservice architecture style combined with [Docker][docker] as infrastructure. This design gives us the possibility to add new components very easily by adding a new container as independent microservice and integrating it with the core engine via a well defined REST interface.
+The most important goal of the architecture is to build the whole toolchain highly modularized, extensible, and scalable. Therefore, we decided to provision the various parts in a microservice architecture style combined with [Docker][docker] as infrastructure. This design enables the extension of new components by adding a new container as an independent microservice and integrating it with the core engine via a well defined REST interface.
 
 ### Components
 
 #### Process Engine – the Core
 
-The main component of the _secureCodeBox_ is the [Camunda][camunda] [BPMN][bpmn] engine, which allows the engineer to build the whole scan process as a [BPMN][bpmn] model. This component also provides the main web UI: The _secureCodeBox_ control center. In this UI you can see the available scan process definitions as [BPMN][bpmn] diagrams, start them (Tasklist), and manually review the results. Furthermore, the core provides a possibility to listen on webhooks and integrate the exposed process API, allowing us to trigger the scan processes by a continuous integration component, such as [Jenkins][jenkins], in our example, or any other which can deal with webhooks.
+The main component of the _secureCodeBox_ is the [Camunda][camunda] [BPMN][bpmn] engine, which allows the engineer to build the whole scan process as a [BPMN][bpmn] model. This component also provides the main web UI: The _secureCodeBox_ control center. In this UI you can see the available scan process definitions as [BPMN][bpmn] diagrams, start them (Tasklist), and manually review the results. Furthermore, the core is able to listen on webhooks and integrate the exposed process API. This provides the capability to trigger the scan processes by a continuous integration component, such as [Jenkins][jenkins] in our example, or any other continuous integration component capable of dealing with webhooks.
 
 #### Scanners
 
-The scanners are individual tools such as [Nmap][nmap], [Nikto][nikto], [Arachni][arachni] and such. Every scanner tool runs in its own [Docker][docker] container. This has two main reasons:
+The scanners are individual tools like [Nmap][nmap], [Nikto][nikto], [Arachni][arachni] and such. Every scanner tool runs in its own [Docker][docker] container. This has two main reasons:
 
 1. You can easily add and integrate a new tool as a scanner, based on a language or technology of your choice, given that it can run inside [Docker][docker].
-1. You can scale up the numbers of running scanners for massive parallel scanning
+2. You can scale up the numbers of running scanners for massive parallel scanning
 
-Each scanner needs a small adapter, usually written in Java, Ruby, Python, or JavaScript. The goal of the adapter is twofold. Firstly it needs to translate the configuration data, defining what to do, from the engine format into a format usable by the particular scanning tool. Secondly, it will transform the results of the scan into a format usable by the data collection component.
+Each scanner requires a small adapter, usually written in Java, Ruby, Python, or JavaScript. The adapter fulfills two needs. Firstly it translates the configuration data, defining what to do, from the engine format into a usable format for the particular scanning tool. Secondly, it transforms the results of the scan into a usable format by the data collection component.
 
-Also the scanners are responsible for polling the engine to check wether something needs to be done by using the [external service task pattern][exteralServiceTask]. The reason for polling instead of pushing the scan orders from the engine to the scanners is an easier and more fail tolerant implementation, otherwise the engine has to determine wether each scanner instance is still running. Also, it must recognize if a scanner dies. Thanks to the current polling implementation a scanner might die and just start polling for work after a restart.
+The scanners also have to check whether the engine has a job to fulfill using the  [external service task pattern][exteralServiceTask]. Requests from scanners were chosen over pushes from the engine due to an easier and more fail tolerant implementation. Otherwise the engine had to monitor the current progress of each scanner instance and whether it is still alive. Thanks to the current implementation a scanner might die and just sends a request after a restart.
 
-Currently, we have severals scanners available out of the box:
+The following scanners are currently available out of the box:
 
 - [Nmap][nmap] for IP and port scans
 - [Nikto][nikto] for web server scans
 - [SSLyze][sslyze] for SSL/TLS scans
-- [SQLMap][sqlmap] for SQL injection scans
+- [SQLMap][sqlmap] for SQL Injection scans
 - [Arachni][arachni] web vulnerability scans
 - [WPScan][wpscan] black box [WordPress][wordpress] vulnerability scans
 
-But our architecture lets you also add your own non-free or commercial tools, like
+Enabled by the architecture you can also add your own non-free or commercial tools, like
 - [Burp Suite][burp] web vulnerability scanner.
 
 #### Data Collection
 
-The collection of the scanner results is done by an ELK stack ([Elasticsearch][elasticsearch], [Kibana][kibana], and [Logstash][logstash]).
+The scanner results are collected by an ELK stack ([Elasticsearch][elasticsearch], [Kibana][kibana], and [Logstash][logstash]).
 
 #### Example Targets
 
@@ -127,6 +128,22 @@ For demonstration purposes, we added some example targets to scan:
 - [Damn Vulnerable Web Application][dvwa]
 - [BodgeIT Store][bodgeit]
 - [Juice Shop][juiceshop]
+
+## Roadmap
+
+At the moment, the _secureCodeBox_ is in a stable *beta state*. We are working hard on polishing, documenting and integrating new security scanners. Also we wish to become an official [OWASP][owasp] project.
+
+## License
+Code of secureCodeBox is licensed under the Apache License 2.0.
+
+## Community
+You are welcome, please join us on... 👋
+- GitHub
+- Slack
+- Twitter
+
+## Contributing
+Contributions are welcome and extremely helpful 🙌
 
 [nginx]:                https://nginx.org/en/
 [camunda]:              https://camunda.com/de/
@@ -159,19 +176,3 @@ For demonstration purposes, we added some example targets to scan:
 [dvwa]:                 http://www.dvwa.co.uk/
 [bodgeit]:              https://github.com/psiinon/bodgeit
 [juiceshop]:            https://www.owasp.org/index.php/OWASP_Juice_Shop_Project
-
-## Roadmap
-
-At the moment, the _secureCodeBox_ is in a stable *beta state*. We are working hard on polishing and documenting and integrating new security scanner. Also we wish to become an official [OWASP][owasp] project.
-
-## License
-Code of secureCodeBox is licensed under Apache License 2.0.
-
-## Community
-You are welcome, please join us on... 👋
-- GitHub
-- Slack
-- Twitter
-
-## Contributing
-Contributions are welcome and extremely helpful 🙌
