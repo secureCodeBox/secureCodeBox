@@ -4,13 +4,13 @@
 
 1. After logging in, the welcome screen will be displayed. From here you can start the different Camunda Web Apps.
 
-* `Cockpit` is used for monitoring and operations on running and ended process instances.
+* `Cockpit` is used for monitoring running and ended process instances.
 * `Admin` is used for managing users, groups and authorizations.
-* `Tasklist` is used for working on user tasks and starting processes.
+* `Tasklist` is used for user tasks and starting processes.
 
 ![Camunda Welcome Screen](../resources/welcome.png)
 
-2. Click on `Tasklist` to see a list of open tasks.
+2. Click on `Tasklist` to see the list of open tasks.
 
 ![Camunda Tasklist Screen](../resources/tasklist.png)
 
@@ -18,7 +18,7 @@
 
 ![List of process definitions](../resources/processDefinitions.png)
 
-4. Choose the desired scan process to display the form for configuring the scan.
+4. Choose the desired scan process to display the form for configuring the scan. In this example `Port Scan` has been used.
 
 ![Configure a scan](../resources/configureScan.png)
 
@@ -32,9 +32,9 @@
 ## Starting Scan-Processes using the REST-API
 
 In order to start a scan via the REST-API, send a PUT-Request to the following URL:
-`/box/processes/$PROCESS_KEY` with `$PROCESS_KEY` being the id defined in the respective BPMN file. As an example, the URL for starting an nmap scan with SecureCodeBox running on localhost would be `http://localhost:8080/box/processes/nmap-process`.
+`/box/processes/$PROCESS_KEY` with `$PROCESS_KEY` being the id defined in the respective BPMN file. As an example, the URL for starting an Nmap scan with SecureCodeBox running on localhost would be `http://localhost:8080/box/processes/nmap-process`.
 
-Targets get passed in the payload.
+The scanning target is set within the payload:
 
 ```json
 [
