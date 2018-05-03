@@ -65,7 +65,7 @@ There are several ways to start a security scan with the secureCodeBox. As a fir
 1. Create a local user account
 2. Open the "Tasklist"
 3. Click on "start security scan" in the menu
-4. Select one of the implemented scan process (e.g. NMAP)
+4. Select one of the implemented scan processes (e.g. NMAP)
 5. Configure the Scanner and hit "complete"
 6. Wait for the result and have fun
 
@@ -75,7 +75,7 @@ The core of the _secureCodeBox_ is a process engine (based on the camunda platfo
 
 ![An example scan process.](docs/resources/scan_process.png "An example scan process.")
 
-The scan itself may be triggered via the WebUI, an REST-API call or via webhooks. The system allows continous integration software such as Jenkins, Travis CI, Bamboo etc. to trigger a scan automatically. The scan itself will be handed over to the scanners and the results will be aggregated for review in the control center or the CI environment. For a detailed description of the components and how they work together see the [architecture](#architecture) section.
+The scan itself may be triggered via the WebUI, a REST-API call or via webhooks. The system allows continous integration software such as Jenkins, Travis CI, Bamboo etc. to trigger a scan automatically. The scan itself will be handed over to the scanners and the results will be aggregated for review in the control center or the CI environment. For a detailed description of the components and how they work together see the [architecture](#architecture) section.
 
 ## Architecture
 
@@ -95,12 +95,12 @@ The main component of the _secureCodeBox_ is the [Camunda][camunda] [BPMN][bpmn]
 
 #### Scanners
 
-The scanners are individual tools such as [nmap][nmap], [Nikto][nikto], [Arachni][arachni] and such. Every scanner tool runs in its own [Docker][docker] container. This has two main reasons:
+The scanners are individual tools such as [Nmap][nmap], [Nikto][nikto], [Arachni][arachni] and such. Every scanner tool runs in its own [Docker][docker] container. This has two main reasons:
 
 1. You can easily add and integrate a new tool as a scanner, based on a language or technology of your choice, given that it can run inside [Docker][docker].
 1. You can scale up the numbers of running scanners for massive parallel scanning
 
-Each scanner needs a small adapter, usually written in Java, Ruby, Python, or JavaScript. The goal of the adapter is twofold. Firstly, it needs to translate the configuration data, defining what to do, from the engine format into a format usable by the particular scanning tool. Secondly, it will transform the results of the scan into a format usable by the data collection component.
+Each scanner needs a small adapter, usually written in Java, Ruby, Python, or JavaScript. The goal of the adapter is twofold. Firstly it needs to translate the configuration data, defining what to do, from the engine format into a format usable by the particular scanning tool. Secondly, it will transform the results of the scan into a format usable by the data collection component.
 
 Also the scanners are responsible for polling the engine to check wether something needs to be done by using the [external service task pattern][exteralServiceTask]. The reason for polling instead of pushing the scan orders from the engine to the scanners is an easier and more fail tolerant implementation, otherwise the engine has to determine wether each scanner instance is still running. Also, it must recognize if a scanner dies. Thanks to the current polling implementation a scanner might die and just start polling for work after a restart.
 

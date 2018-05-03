@@ -32,9 +32,9 @@
 ## Starting Scan-Processes using the REST-API
 
 In order to start a scan via the REST-API, send a PUT-Request to the following URL:
-`/box/processes/$PROCESS_KEY` with `$PROCESS_KEY` being the id defined in the respective BPMN file. As an example the URL for starting a nmap scan with SecureCodeBox running on localhost would be `http://localhost:8080/box/processes/nmap-process`.
+`/box/processes/$PROCESS_KEY` with `$PROCESS_KEY` being the id defined in the respective BPMN file. As an example, the URL for starting an nmap scan with SecureCodeBox running on localhost would be `http://localhost:8080/box/processes/nmap-process`.
 
-Targets gets passed in a the payload.
+Targets get passed in the payload.
 
 ```json
 [
