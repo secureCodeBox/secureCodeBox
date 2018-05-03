@@ -37,14 +37,14 @@ If you copied a process model you need to change a few things according to your 
 
 * Update the **name** and **id** of the process. You can edit this in side-panel on the right hand side of the Camunda Editor once you have opened the model.
 * Update the **topic-name** of the External Service Task.
-* Update the references to configuration **forms** to your own configuration forms. See [Creating configuration forms](#Creating configuration forms)
+* Update the references to configuration **forms** to your own configuration forms. See [Creating configuration forms](#configforms)
 
 When you finished the Process Modell compile it to a jar. 
 > **Note**: Take a look at the prepackaged scan processes to see how.
 
 Just put your `custom-process.jar` to the `./plugins` folder. This folder is also registered as docker volume. So you can add the plugin without rebuilding the docker container.
 
-### Creating configuration forms
+### <a name="configforms"></a>Creating configuration forms
 
 > **Note**: If you just want to run the scans automatically via the api you don't need forms.
 
