@@ -59,6 +59,17 @@ services:
     environment:
       - ENGINE_ADDRESS=http://engine:8080
 
+  scanner-webapplication-zap:
+      image: securecodebox/zap:oss
+      depends_on:
+        - engine
+      networks:
+        - frontend
+      labels:
+        container_group: scanner
+      environment:
+      - ENGINE_ADDRESS=http://engine:8080
+
   persistence-elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.2.3
     ports:
