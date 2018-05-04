@@ -1,8 +1,29 @@
 # Using the secureCodeBox
 
+## First time login
+
+1. Access the engine [http://your-docker-host:8080/](http://localhost:8080)
+2. Access the admin login from the dropdown menu behind the 🏠 in the top right corner
+
+![Admin Section](../resources/adminSection.png)
+
+3. Use the following credentials for your first login:
+```
+Username: TODO
+Password: TODO
+```
+4. Navigate to the user management via the top bar
+
+![User management](../resources/userManagement.png)
+
+5. Select the TODO account
+6. Select `Account`from the left panel
+7. Change the default logins for the TODO account
+8. Create new users via user management as shown in step `4`
+
 ## Starting Scan-Processes using the Camunda UI
 
-1. After logging in, the welcome screen will be displayed. From here you can start the different Camunda Web Apps.
+1. After logging in via [http://your-docker-host:8080/](http://localhost:8080), the welcome screen will be displayed. From here you can start the different Camunda Web Apps.
 
 * `Cockpit` is used for monitoring running and ended process instances.
 * `Admin` is used for managing users, groups and authorizations.
