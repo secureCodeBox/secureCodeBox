@@ -61,3 +61,74 @@ The Forms are HTML Documents with embedded AngularJS code for custom logic.
 There are some parts, both logic and definitions, which are shared across processes. These pieces are extracted into their own module. You can include this module in your own code and reuse it.
 
 > **Note**: If you write your scanner in a JVM language you can use the report and finding definitions inside the scanner not just inside the engine plugin.
+ 
+ # Guidelines
+ ## Coding Guidelines
+
+### Attributes
+Attributes / variables for processes are always wrapped in an enum type.
+Attributes that are only used in BPMN files and forms are also named with a prefix and in UPPERCASE.
+Common attributes use the prefix `PROCESS`, specific attributes use the technology as a prefix, e.g. `NMAP_TARGET_NAME`.
+
+### JSON
+We're using snake_case (lower case) for json attributes. If an enum type is used as attribute its converted to lower case. If it's an value it's always used UPPERCASE. This is to hold the attribute api consistent, but make shure Enums are recognized as enums.
+
+```json
+{
+    "id": "e18cdc5e-6b49-4346-b623-28a4e878e154",
+    "name": "Open mysql Port",
+    "description": "Port 3306 is open using tcp protocol.",
+    "category": "Open Port",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "protocol": "tcp",
+      "port": 3306,
+      "service": "mysql",
+      "mac_address": null,
+      "start": "1520606104",
+      "end": "1520606118",
+      "ip_address": "127.0.0.1",
+      "state": "open"
+    },
+    "location": "tcp://127.0.0.1:3306"
+  }
+``` 
+### Topic Names for External Tasks
+Topics for external tasks for specific technologies are named as follows:
+```
+$TECHNOLOGY_$TASK
+Example: nmap_portscan
+```
+Topics for tasks that are independent of the used technology are named as follows:
+```
+task_$TASK
+Example: task_mark_false_positive
+```
+
+### Naming conventions for git repositories and processes
+
+The scanner repositories are named as follows:
+```
+scanner-$FUNCTION-$TECHNOLOGY
+Example: scanner-infrastructure-nmap
+```
+The process repositories are named as follows:
+```
+$TECHNOLOGY-process
+Example: nmap-process 
+```
+
+### Naming conventions for Process IDs and Names in BPMN Files
+Process ids use the following format:
+```
+$TECHNOLOGY-process[-$DESCRIPTION]
+Examples: nmap-process, nmap-process-raw
+```
+
+Process names use the following format:
+```
+$TECHNOLOGY $FUNCTION [- $DESCRIPTION]
+Examples: NMAP Port Scan, NMAP Port Scan - Raw
+```
+
