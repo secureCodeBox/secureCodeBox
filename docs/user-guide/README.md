@@ -1,5 +1,12 @@
 # Using the secureCodeBox
 
+## First startup
+
+1. Access the engine [http://your-docker-host:8080/](http://localhost:8080)
+2. Choose your admin credentials.
+
+![Admin setup ](..//resources/first_startup_screen.png)
+
 ## First time login
 
 1. Access the engine [http://your-docker-host:8080/](http://localhost:8080)
@@ -9,8 +16,8 @@
 
 3. Use the following credentials for your first login:
 ```
-Username: TODO
-Password: TODO
+Username: choosen Username
+Password: choosen Password
 ```
 4. Navigate to the user management via the top bar
 
