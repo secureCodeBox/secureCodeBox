@@ -46,7 +46,7 @@ services:
     labels:
       container_group: scanner
     environment:
-      - ENGINE_ADDRESS=http://engine:8080/rest
+      - ENGINE_ADDRESS=http://engine:8080
 
   scanner-webserver-nikto:
     image: securecodebox/nikto:oss
