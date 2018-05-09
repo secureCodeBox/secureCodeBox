@@ -28,16 +28,30 @@ To integrate a new scanner into the secureCodeBox Engine you need to write a plu
 * Name and ID of the process.
 * A topic name for the task queue (e.g. `nikto_webserverscan`). Every scanner has at minimum one queue in which the pending scan jobs are inserted by the secureCodeBox engine to be completed by the scan services. These queues are defined as External Service Tasks in Camunda.
 * The transformation of scanner results. If the scanner results are returned in an incompatible format of the secureCodeBox Finding Format, the data can be transformed inside the engine before persisting it. This transformation can also be done within the scan service.
+* You can implement the four eye principle by the process.
 
-To get quickly create a new process model you can simply copy an existing one. You can find the [prepackaged processes here](https://github.com/secureCodeBox/engine/tree/master/scb-scanprocesses). If you want to get started with a simple one, take a look at the Nikto process. This process only contains the bare minimum of logic in the process model.
+To quickly create a new process model you can simply run our maven archetype:
 
-To edit these models, Camunda provides a free modelling tool for the BPMN models which you can [download here](https://camunda.com/download/modeler/).
+```
+mvn archetype:generate                                  \
+  -DarchetypeGroupId=io.securecodebox.scanprocesses     \
+  -DarchetypeArtifactId=archetype-process               \
+  -DarchetypeVersion=0.0.1-SNAPSHOT
+``` 
 
+This process only contains the bare minimum of logic in the process model and can interact with the nikto scanner.
+
+To edit these models, Camunda provides a free modelling tool for the BPMN models which you can [download here](camunda_modeler).
+Feel free to get inspiration from the [prepackaged processes here](prepackaged_processes). 
+
+<details>
+<summary>Just copy a process model from the prepackaged?</summary>
 If you copied a process model you need to change a few things according to your new scan process:
 
 * Update the **name** and **id** of the process. You can edit this in side-panel on the right hand side of the Camunda Editor once you opened the model.
 * Update the **topic-name** of the External Service Task.
 * Update the references to configuration **forms** to your own configuration forms. See [Creating configuration forms](#configforms)
+<details>
 
 When you finished the Process Modell compile it to a jar.
 > **Note**: Take a look at the prepackaged scan processes to see how.
@@ -132,3 +146,5 @@ $TECHNOLOGY $FUNCTION [- $DESCRIPTION]
 Examples: NMAP Port Scan, NMAP Port Scan - Raw
 ```
 
+[prepackaged_processes]: https://github.com/secureCodeBox/engine/tree/master/scb-scanprocesses
+[camunda_modeler]: https://camunda.com/download/modeler/
