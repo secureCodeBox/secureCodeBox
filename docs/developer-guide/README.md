@@ -20,8 +20,7 @@ You can implement your scanner microservice in any language you choose. We imple
 
 The secureCodeBox Scan Job API is used to fetch new tasks from the engine.
 
-You can find a static api documentation [here](./api/overview.md).
-But the API is also documented using Swagger. You can check this out by running the engine and navigate to `/swagger-ui.html#/scan-job-resource`.
+We either have a [static API documentation](./api-doc.md) or a living API documented using Swagger. You can check this out by running the engine and navigate to `/swagger-ui.html#/scan-job-resource`.
 
 ### Developing a process model
 
