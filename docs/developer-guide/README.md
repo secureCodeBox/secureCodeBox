@@ -53,10 +53,12 @@ If you copied a process model you need to change a few things according to your 
 * Update the references to configuration **forms** to your own configuration forms. See [Creating configuration forms](#configforms)
 </details>
 
-When you finished the Process Modell compile it to a jar.
-> **Note**: Take a look at the prepackaged scan processes to see how.
+### Integrate your process model with the engine
 
-Just store your `custom-process.jar` in the `./plugins` folder. This folder is also registered as docker volume. This enables adding and editing plugins without rebuilding the docker container.
+When you finished the process model compile it to a jar.
+
+Just store your `custom-process.jar` in the `./plugins` folder in this project. This folder is also registered as docker volume. This enables adding and editing plugins without rebuilding the docker container.
+> **Hint**: Take a look into the _target_ folder of your project.
 
 ### Creating configuration forms
 
@@ -74,7 +76,7 @@ The Forms are HTML Documents with embedded AngularJS code for custom logic.
 
 There are some parts, both logic and definitions, which are shared across processes. These pieces are extracted into their own module. You can include this module in your own code and reuse it.
 
-> **Note**: If you write your scanner in a JVM language you can use the report and finding definitions inside the scanner not just inside the engine plugin.
+> **Hint**: If you write your scanner in a JVM language you can use the report and finding definitions inside the scanner not just inside the engine plugin.
  
  # Guidelines
  ## Coding Guidelines
