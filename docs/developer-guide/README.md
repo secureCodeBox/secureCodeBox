@@ -40,7 +40,41 @@ mvn archetype:generate                                  \
   -DarchetypeVersion=0.0.1-SNAPSHOT
 ``` 
 
-This process only contains the bare minimum of logic in the process model and can interact with the nikto scanner.
+This process only contains the bare minimum of logic in the process model. Now go into your process folder and run:
+```
+mvn install
+```
+
+Copy the process jar file from the traget folder of your process to the engines plugins folder. Restart the engine and you can interact with the following curl commands with your process:
+
+To get and lock an job you execute the following curl. Please replace `<your-docker-host>` with the host of your secureCodeBox and `<your-process-topic>` with the previously configured `processTopic`.
+```
+curl  -X POST 'http://<your-docker-host>:8080/box/jobs/lock/<your-process-topic>/29bf7fd3-8512-4d73-a22f-608e493cd726' -H 'accept: application/json' 
+```
+
+<details>
+<summary>Example: </summary>
+
+```
+> curl  -X POST 'http://192.168.99.101:8080/box/jobs/lock/process-test/29bf7fd3-8512-4d73-a22f-608e493cd726' -H 'accept: application/json' 
+< {"jobId":"29141858-5854-11e8-9a62-0242ac120002","targets":[{"attributes":{},"location":"bodgeit","name":"BodgeIT Public Host"}]}
+```
+
+</details>
+
+To send results of your scan use the following curl. Please replace `<your-docker-host>` with the host of your secureCodeBox and `<job-id>` with the previously received `jobId`.
+```
+curl -X POST 'http://<your-docker-host>:8080/box/jobs/<job-id>/result' -H 'Content-Type: application/json' -H 'accept: application/json' --data-binary $'{"findings": [{"attributes": {"TEST_PORT": 34,"TEST_IP": "162.222.1.3"}, "category": "Infrastructure", "description": "The DNS Port is open.", "hint": "SQL-Injection: Please think about using prepared statements.", "id": "3dd4840c-81ae-4fed-90b5-b3eea3d4c701", "location": "tcp://162.222.1.3:53", "name": "Open Port", "osi_layer": "NETWORK", "reference": { "id": "CVE-2017-15707", "source": "https://www.cvedetails.com/cve/CVE-2017-15707/"}, "severity": "HIGH"}], "rawFindings": "string", "scannerId": "29bf7fd3-8512-4d73-a28f-608e493cd726", "scannerType": "test"}'
+```
+
+<details>
+<summary>Example: </summary>
+
+```
+> curl -X POST 'http://192.168.99.101:8080/box/jobs/29141858-5854-11e8-9a62-0242ac120002/result' -H 'Content-Type: application/json' -H 'accept: application/json' --data-binary $'{"findings": [{"attributes": {"TEST_PORT": 34,"TEST_IP": "162.222.1.3"}, "category": "Infrastructure", "description": "The DNS Port is open.", "hint": "SQL-Injection: Please think about using prepared statements.", "id": "3dd4840c-81ae-4fed-90b5-b3eea3d4c701", "location": "tcp://162.222.1.3:53", "name": "Open Port", "osi_layer": "NETWORK", "reference": { "id": "CVE-2017-15707", "source": "https://www.cvedetails.com/cve/CVE-2017-15707/"}, "severity": "HIGH"}], "rawFindings": "string", "scannerId": "29bf7fd3-8512-4d73-a28f-608e493cd726", "scannerType": "test"}'
+```
+
+</details>
 
 To edit these models, Camunda provides a free modelling tool for the BPMN models which you can [download here](camunda_modeler).
 Feel free to get inspiration from the [prepackaged processes here](prepackaged_processes). 
