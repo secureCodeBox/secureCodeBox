@@ -62,6 +62,7 @@ curl  -X POST 'http://<your-docker-host>:8080/box/jobs/lock/<your-process-topic>
 
 </details>
 
+
 To send results of your scan use the following curl. Please replace `<your-docker-host>` with the host of your secureCodeBox and `<job-id>` with the previously received `jobId`.
 ```
 curl -X POST 'http://<your-docker-host>:8080/box/jobs/<job-id>/result' -H 'Content-Type: application/json' -H 'accept: application/json' --data-binary $'{"findings": [{"attributes": {"TEST_PORT": 34,"TEST_IP": "162.222.1.3"}, "category": "Infrastructure", "description": "The DNS Port is open.", "hint": "SQL-Injection: Please think about using prepared statements.", "id": "3dd4840c-81ae-4fed-90b5-b3eea3d4c701", "location": "tcp://162.222.1.3:53", "name": "Open Port", "osi_layer": "NETWORK", "reference": { "id": "CVE-2017-15707", "source": "https://www.cvedetails.com/cve/CVE-2017-15707/"}, "severity": "HIGH"}], "rawFindings": "string", "scannerId": "29bf7fd3-8512-4d73-a28f-608e493cd726", "scannerType": "test"}'
@@ -75,6 +76,7 @@ curl -X POST 'http://<your-docker-host>:8080/box/jobs/<job-id>/result' -H 'Conte
 ```
 
 </details>
+
 
 To edit these models, Camunda provides a free modelling tool for the BPMN models which you can [download here](camunda_modeler).
 Feel free to get inspiration from the [prepackaged processes here](prepackaged_processes). 
