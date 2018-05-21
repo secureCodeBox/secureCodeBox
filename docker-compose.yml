@@ -1,0 +1,105 @@
+version: '3'
+services:
+  engine:
+    image: securecodebox/engine:oss
+    depends_on:
+      - camundadb
+    ports:
+      - "8080:8080"
+    networks:
+      - frontend
+    labels:
+      container_group: core
+    volumes:
+      - ./plugins/:/scb-engine/plugins/
+    environment:
+      - CAMUNDA_BPM_DATABASE_TYPE=mysql
+      - SPRING_DATASOURCE_URL=jdbc:mysql://camundadb:3306/${CAMUNDADB_DATABASE}
+      - SPRING_DATASOURCE_USERNAME=${CAMUNDADB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${CAMUNDADB_PW}
+      - SECURECODEBOX_PERSISTENCE_PROVIDER=elasticsearch
+      - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_HOST=persistence-elasticsearch
+      - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_PORT=9200
+      - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_INDEX_PREFIX=securecodebox
+    restart: on-failure:3
+
+  camundadb:
+      image: mysql:5.7
+      networks:
+        - frontend
+      volumes:
+        - camundadb-datastore:/var/lib/mysql
+      labels:
+        container_group: infrastructure
+      environment:
+        - MYSQL_ROOT_PASSWORD=${CAMUNDADB_ROOT_PW}
+        - MYSQL_DATABASE=${CAMUNDADB_DATABASE}
+        - MYSQL_USER=${CAMUNDADB_USER}
+        - MYSQL_PASSWORD=${CAMUNDADB_PW}
+
+  scanner-infrastructure-nmap:
+    image: securecodebox/nmap:oss
+    depends_on:
+      - engine
+    networks:
+      - frontend
+    labels:
+      container_group: scanner
+    environment:
+      - ENGINE_ADDRESS=http://engine:8080
+
+  scanner-webserver-nikto:
+    image: securecodebox/nikto:oss
+    depends_on:
+      - engine
+    networks:
+      - frontend
+    labels:
+      container_group: scanner
+    environment:
+      - ENGINE_ADDRESS=http://engine:8080
+
+  scanner-webapplication-zap:
+      image: securecodebox/zap:oss
+      depends_on:
+        - engine
+      networks:
+        - frontend
+      labels:
+        container_group: scanner
+      environment:
+      - ENGINE_ADDRESS=http://engine:8080
+
+  persistence-elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.3
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - frontend
+    volumes:
+      - persistence-elasticsearch-datastore:/usr/share/elasticsearch/data
+    labels:
+      container_group: logging
+    environment:
+      - cluster.name=secureCodeBox
+
+  persistence-kibana:
+    image: docker.elastic.co/kibana/kibana:6.2.3
+    depends_on:
+      - persistence-elasticsearch
+    ports:
+      - "5601:5601"
+    networks:
+      - frontend
+    labels:
+      container_group: logging
+    environment:
+      - ELASTICSEARCH_URL=http://persistence-elasticsearch:9200
+
+networks:
+  frontend:
+
+volumes:
+  camundadb-datastore:
+  persistence-elasticsearch-datastore:
