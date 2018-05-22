@@ -136,7 +136,7 @@ For demonstration purposes, we added some example targets to scan:
 At the moment, the _secureCodeBox_ is in a stable *beta state*. We are working hard on polishing, documenting and integrating new security scanners. Also we wish to become an official [OWASP][owasp] project.
 
 ## License
-Code of secureCodeBox is licensed under the Apache License 2.0.
+Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 
 ## Community
 You are welcome, please join us on... 👋
@@ -181,4 +181,5 @@ Contributions are welcome and extremely helpful 🙌
 
 [scb-github]:           https://github.com/secureCodeBox/
 [scb-twitter]:          https://twitter.com/secureCodeBox
-[scb-slack]:            https://securecodebox.slack.com/         
+[scb-slack]:            https://securecodebox.slack.com/     
+[scb-license]:          https://github.com/secureCodeBox/starter/blob/master/LICENSE    
