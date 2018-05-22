@@ -140,9 +140,9 @@ Code of secureCodeBox is licensed under the Apache License 2.0.
 
 ## Community
 You are welcome, please join us on... 👋
-- GitHub
-- Slack
-- Twitter
+- [GitHub][scb-github]
+- [Slack][scb-slack]
+- [Twitter][scb-twitter]
 
 ## Contributing
 Contributions are welcome and extremely helpful 🙌
@@ -178,3 +178,7 @@ Contributions are welcome and extremely helpful 🙌
 [dvwa]:                 http://www.dvwa.co.uk/
 [bodgeit]:              https://github.com/psiinon/bodgeit
 [juiceshop]:            https://www.owasp.org/index.php/OWASP_Juice_Shop_Project
+
+[scb-github]:           https://github.com/secureCodeBox/
+[scb-twitter]:          https://twitter.com/secureCodeBox
+[scb-slack]:            https://securecodebox.slack.com/         
