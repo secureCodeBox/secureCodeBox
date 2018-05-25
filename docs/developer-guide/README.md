@@ -40,7 +40,7 @@ mvn archetype:generate                                  \
   -DarchetypeVersion=0.0.1-SNAPSHOT
 ``` 
 
-This process only contains the bare minimum of logic in the process model. Now go into your process folder and run:
+This process only contains the bare minimum of logic in the process model. Now go into your process folder (engine/scb-scanprocesses) and run:
 ```
 mvn install
 ```
