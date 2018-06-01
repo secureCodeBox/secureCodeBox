@@ -1,9 +1,7 @@
 # Creating and Importing own Kibana Elements in the SecureCodeBox
 
 This article shows how you can save your own kibana searches, visualizations and dashboards and load them at startup of the SecureCodeBox. 
-
 In order to save your own visualizations, after creating them in Kibana, you need the `elasticdump` tool, available [here](https://github.com/taskrabbit/elasticsearch-dump/blob/master/bin/elasticdump). This is a very simple and easy to use tool to export your elasticsearch data into a json file. 
-
 For our own visualizations and dashboards we exported the whole `.kibana` index with `elasticdump`. The command looks as follows: 
 
 ```
@@ -35,5 +33,4 @@ The final result looks like this:
 ```
 
 The resulting file needs to be put into the resources folder of the `elasticsearch-persistenceprovider` directory (*scb-persistenceproviders/elasticsearch-persistenceprovider/src/main/resources*) and must have the name `kibana-imports.json`, otherwise it will be ignored. 
-
 After a new start of the SecureCodeBox the visualizations and dashboards will be loaded with the first initialization of the `ElasticSearchPersistenceProvider` (that means at least one scan must be run and there must be data inside elasticsearch).
