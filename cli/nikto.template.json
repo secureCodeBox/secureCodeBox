@@ -1,0 +1,10 @@
+[
+	{
+		"name" : "Target",
+    	"location" : "%HOST%",
+        "attributes" : {
+            "NIKTO_PORTS" : "%PORT%"
+        }
+	}
+]
+

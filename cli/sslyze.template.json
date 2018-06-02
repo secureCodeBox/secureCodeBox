@@ -1,0 +1,10 @@
+[
+    {
+        "name" : "Target",
+        "location" : "%HOST_PORT%",
+        "attributes": {
+        	"SSLYZE_PARAMETER": ""
+		}
+    }
+]
+
