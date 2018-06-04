@@ -224,8 +224,8 @@ if [ -z "${PROCESS_KEY}" ]; then
 fi
 
 # Verify target format
-if [ ${TARGET_FORMAT} = "uri" ]; then
-	if [[ ! ${TARGET} == http?(s)://* ]]; then
+if [ "${TARGET_FORMAT}" = "uri" ]; then
+	if [[ ! "${TARGET}" == http?(s)://* ]]; then
 		error "Invalid URI to scan: '${TARGET}'! Expected: http(s)://..."
 		NUM_ERRORS=$((NUM_ERRORS + 1))
 	else
@@ -244,13 +244,13 @@ if [ -n "${TENANT}" ] && [ ${#TENANT} -lt 3 ]; then
 fi
 
 # Verify waiting time
-if [ $(is_number $WAIT_TIME) != true ]; then
+if [ $(is_number "$WAIT_TIME") != true ]; then
 	error "Waiting time (-w) must be an integer (was '$WAIT_TIME')."
 	NUM_ERRORS=$((NUM_ERRORS + 1))
 fi
 
 # Verify max. number of iterations
-if [ $(is_number $MAX_ITER) != true ]; then
+if [ $(is_number "$MAX_ITER") != true ]; then
 	error "Number of queries (-i) must be an integer (was '$MAX_ITER')."
 	NUM_ERRORS=$((NUM_ERRORS + 1))
 fi
@@ -295,14 +295,14 @@ fi
 
 # extract port from protocol
 PORT=80
-if [[ ${TARGET} == "https"* ]]; then
+if [[ "${TARGET}" == "https"* ]]; then
 	PORT=443
 fi
 
 # extract explicit port
 HOST_PORT=`echo ${TARGET} | sed 's!^https\?://!!g' | sed 's!/.*$!!g'` # hostname including user-provided port
 USER_PORT=`echo ${HOST_PORT} | sed 's!^.*:!!g'`
-if [ -n "${USER_PORT}" ] && [ $(is_number ${USER_PORT}) == true ]; then
+if [ -n "${USER_PORT}" ] && [ $(is_number "${USER_PORT}") == true ]; then
 	PORT=${USER_PORT}
 fi
 info "Determined target port number '${PORT}'."
@@ -361,7 +361,7 @@ while true;
 do
   response=`eval ${command}`
   NUM_RESULTS=`echo "${response}" | sed "s/,/\n/g;s/\"//g" | grep "report_id" | wc -l`
-  if [ $NUM_RESULTS -gt 0 ]; then
+  if [ "$NUM_RESULTS" -gt 0 ]; then
  	found=true
  	info "Iteration ${NUM_TRIES}: ${NUM_RESULTS} findings identified."
  	if [ "${NUM_RESULTS}" == "${OLD_NUM_RESULTS}" ]; then
