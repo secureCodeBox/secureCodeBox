@@ -119,7 +119,7 @@ if [ $# -ne 2 ] || [ "${SHOW_HELP}" == true ]; then
 	echo "Usage: ./run_scanner.sh [options] scanner target"
 	echo ""
 	echo "  Mandatory arguments:"
-	echo "    scanner               - scanner type, one of nmap-nikto|nikto|nmap|nmap-raw|sslyze|zap"
+	echo "    scanner               - scanner type, one of arachni|nmap-nikto|nikto|nmap|nmap-raw|sslyze|zap"
 	echo "    target                - target URL that shall be scanned, e.g. http://some.target:8080/shop"
 	echo ""
 	echo "  Options:"
@@ -188,6 +188,10 @@ info "Using values target[${TARGET}], tenant[${TENANT}], scanner[${SCANNER}], sc
 PROCESS_KEY=""
 TARGET_FORMAT=""
 case "${SCANNER}" in
+	"arachni")
+		PROCESS_KEY="arachni_webapplicationscan"
+		TARGET_FORMAT="uri"
+	;;
 	"nmap-nikto")
 		PROCESS_KEY="combined-nmap-nikto-process"
 		TARGET_FORMAT="uri"

@@ -5,6 +5,7 @@ This directory contains tools for executing SCB functions inside a Bash shell.
 ## run_scanner.sh
 Syntax: `./run_scanner.sh [options] scanner target`
 Runs a scanner and stores findings on disk. Helpful for use in combination with Continuous integration software like Jenkins, Bamboo, etc. The following scanners (`scanner` parameter) and variants are currently supported:
+* Arachni (`arachni`)
 * Nikto (`nikto`)
 * NMAP (`nmap`)
 * NMAP, raw results (`nmap-raw`)
