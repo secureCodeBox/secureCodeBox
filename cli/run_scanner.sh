@@ -341,15 +341,25 @@ DATE=`date +%Y-%m-%d`
 command="curl -H 'Content-Type: application/json' -X POST -s '${ES_URL}/securecodebox_$DATE/_doc/_search?pretty=true' -d '{ \
 	\"size\" : 10000, \
     \"query\" : { \
-		\"nested\": { \
-			\"path\": \"execution\", \
-			\"query\": { \
-			   	\"term\": { \
-					\"execution.id\": \"${ID_PROCESS}\" \
-				} \
-			} \
-		} \
-	} \
+    	\"bool\": { \
+    		\"must\": [ \
+		    	{ \
+		    		\"match_phrase\": { \
+		            	\"execution.id.keyword\": { \
+		            		\"query\": \"${ID_PROCESS}\" \
+		        		} \
+		        	} \
+		    	}, \
+		    	{ \
+		    		\"match_phrase\": { \
+		            	\"type.keyword\": { \
+		            		\"query\": \"finding_entry\" \
+		        		} \
+		        	} \
+		    	} \
+		    ] \
+    	} \
+    } \
 } \
 '"
 info "Using command \"${command}\". Waiting for initial results..."
