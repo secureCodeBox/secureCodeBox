@@ -187,5 +187,5 @@ Contributions are welcome and extremely helpful 🙌
 
 [scb-github]:           https://github.com/secureCodeBox/
 [scb-twitter]:          https://twitter.com/secureCodeBox
-[scb-slack]:            https://securecodebox.slack.com/     
+[scb-slack]:            https://join.slack.com/t/securecodebox/shared_invite/enQtMzc2MTIxNDg2NzIwLTI1MWUzNzVmZTY5MWNkMmQwNTA1YjZmYjQyM2FhY2ZiYjBlNmVkYWVjZWUxZTY1OTk1MTlmNmI0ZGJjZGIxYzU     
 [scb-license]:          https://github.com/secureCodeBox/starter/blob/master/LICENSE    
