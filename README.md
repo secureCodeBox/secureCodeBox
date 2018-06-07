@@ -72,6 +72,8 @@ Access the WebUI via:
 5. Configure the Scanner and hit "complete"
 6. Wait for the result and have fun
 
+> **Hint**: If you wan't to use ZAP you might should increase the spider depth from 1 to minimum 3 (advanced configuration). If you use Arachni increase DOM depth, path depth and page limit (scan scope).
+
 ## How Does it Work?
 
 The core of the _secureCodeBox_ is a process engine (based on the camunda platform), which allows the user to define the whole scan process. The following image shows an example of a scan process:
