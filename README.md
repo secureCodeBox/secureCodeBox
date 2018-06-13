@@ -66,11 +66,12 @@ Access the WebUI via:
 [http://your-docker-host:8080/](http://localhost:8080)
 
 1. Create a local user account
-2. Open the "Tasklist"
-3. Click on "start security scan" in the menu
-4. Select one of the implemented scan processes (e.g. NMAP)
-5. Configure the Scanner and hit "complete"
-6. Wait for the result and have fun
+2. Click on the user name -> my profile
+3. Open the "Tasklist"
+4. Click on "start process" in the upper menu
+5. Select one of the implemented scan processes (e.g. NMAP)
+6. Configure the scanner and hit "complete" / "start" (depending on the process)
+7. Wait for the result and have fun
 
 > **Hint**: If you wan't to use ZAP you might should increase the spider depth from 1 to minimum 3 (advanced configuration). If you use Arachni increase DOM depth, path depth and page limit (scan scope).
 
