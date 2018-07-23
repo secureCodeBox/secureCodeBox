@@ -98,7 +98,7 @@ services:
       - ENGINE_ADDRESS=http://engine:8080
 
   persistence-elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.3
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.3.1
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -112,7 +112,7 @@ services:
       - cluster.name=secureCodeBox
 
   persistence-kibana:
-    image: docker.elastic.co/kibana/kibana-oss:6.3
+    image: docker.elastic.co/kibana/kibana-oss:6.3.1
     depends_on:
       - persistence-elasticsearch
     ports:
