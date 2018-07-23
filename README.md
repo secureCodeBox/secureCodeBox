@@ -118,6 +118,7 @@ The following scanners are currently available out of the box:
 - [SQLMap][sqlmap] for SQL Injection scans
 - [Arachni][arachni] web vulnerability scans
 - [WPScan][wpscan] black box [WordPress][wordpress] vulnerability scans
+- [Amass][amass] for subdomain scans
 
 Enabled by the architecture you can also add your own non-free or commercial tools, like
 - [Burp Suite][burp] web vulnerability scanner.
@@ -176,6 +177,7 @@ Contributions are welcome and extremely helpful 🙌
 [burp]:                 https://portswigger.net/burp
 [arachni]:              http://www.arachni-scanner.com/
 [wpscan]:               https://wpscan.org/
+[amass]:                https://github.com/owasp/amass
 [wordpress]:            https://wordpress.com/
 [consul]:               https://www.consul.io/
 [resty]:                https://openresty.org/en/
