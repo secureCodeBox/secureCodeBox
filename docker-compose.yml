@@ -97,7 +97,7 @@ services:
       environment:
       - ENGINE_ADDRESS=http://engine:8080
 
-  scanner-infinfrastructurera-amass:
+  scanner-infrastructure-amass:
       image: securecodebox/amass:oss
       depends_on:
         - engine
