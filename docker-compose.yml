@@ -96,6 +96,8 @@ services:
         container_group: scanner
       environment:
       - ENGINE_ADDRESS=http://engine:8080
+      volumes:
+      - "./plugins/arachni-example-login-scripts:/securecodebox/scripts/"
 
   persistence-elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.3.1
