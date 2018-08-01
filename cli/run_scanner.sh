@@ -91,6 +91,11 @@ do
 		shift # past argument
 		shift # past value
 		;;
+		-p|--payload)
+		PAYLOAD_OVERRIDE="$2"
+		shift # past argument
+		shift # past value
+		;;
 		-b|--backend)
 		SCB_URL="$2${SCB_PATH}"
 		ES_URL="$3"
@@ -114,7 +119,7 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 SCANNER="$1"
 TARGET="$2"
 
-if [ $# -ne 2 ] || [ "${SHOW_HELP}" == true ]; then
+if [ ! -n "${PAYLOAD_OVERRIDE}" ] && [ $# -ne 2 ] || [ "${SHOW_HELP}" == true ]; then
 	echo 'SCB scan process runner'
 	echo "Usage: ./run_scanner.sh [options] scanner target"
 	echo ""
@@ -134,6 +139,8 @@ if [ $# -ne 2 ] || [ "${SHOW_HELP}" == true ]; then
 	echo "        tenant            - Tenant id to use"
 	echo "    -w|--wait time"
 	echo "        time              - Time to wait between queries (in seconds) (default: ${DEFAULT_WAIT_TIME})"
+	echo "    -p|--payload path"
+	echo "        path              - Path to a json file containing the payload used to create the scan job. This overrides the target configuration."
 	echo ""
 	echo "  Default 'scb_engine_url' (if none given): 'http://localhost:8080'"
 	echo "  Default 'elasticsearch_url' (if none given): 'http://localhost:9200'"
@@ -182,7 +189,11 @@ if [ -f "${PAYLOAD_FILE}" ]; then
 	mv "${PAYLOAD_FILE}" "${PAYLOAD_FILE}.last"
 fi
 
-info "Using values target[${TARGET}], tenant[${TENANT}], scanner[${SCANNER}], scb_engine_url[${SCB_URL}] and elasticsearch_url[${ES_URL}]..."
+if [ -n "${PAYLOAD_OVERRIDE}" ]; then 
+	info "Using payload from file[${PAYLOAD_OVERRIDE}], tenant[${TENANT}], scanner[${SCANNER}], scb_engine_url[${SCB_URL}] and elasticsearch_url[${ES_URL}]..."
+else
+	info "Using values target[${TARGET}], tenant[${TENANT}], scanner[${SCANNER}], scb_engine_url[${SCB_URL}] and elasticsearch_url[${ES_URL}]..."
+fi
 
 # Identify scanner process key, define target format
 PROCESS_KEY=""
@@ -227,17 +238,26 @@ if [ -z "${PROCESS_KEY}" ]; then
 	NUM_ERRORS=$((NUM_ERRORS + 1))
 fi
 
-# Verify target format
-if [ "${TARGET_FORMAT}" = "uri" ]; then
-	if [[ ! "${TARGET}" == http?(s)://* ]]; then
-		error "Invalid URI to scan: '${TARGET}'! Expected: http(s)://..."
-		NUM_ERRORS=$((NUM_ERRORS + 1))
-	else
-		response=`curl -v --connect-timeout 5 --silent --stderr - ${TARGET} | grep Connected`
-		if [ -z "${response}" ]; then
-			error "Invalid URI to scan! Cannot connect to site '${TARGET}' with 'curl -v --silent --stderr - ${TARGET}'."
+if [ ! -n "${PAYLOAD_OVERRIDE}" ]; then 
+	# Verify target format
+	if [ "${TARGET_FORMAT}" = "uri" ]; then
+		if [[ ! "${TARGET}" =~ http?(s)://* ]]; then
+			error "Invalid URI to scan: '${TARGET}'! Expected: http(s)://..."
 			NUM_ERRORS=$((NUM_ERRORS + 1))
+		else
+			response=`curl -v --connect-timeout 5 --silent --stderr - ${TARGET} | grep Connected`
+			if [ -z "${response}" ]; then
+				error "Invalid URI to scan! Cannot connect to site '${TARGET}' with 'curl -v --silent --stderr - ${TARGET}'."
+				NUM_ERRORS=$((NUM_ERRORS + 1))
+			fi
 		fi
+	fi
+
+	# Verify that the scanner template is present
+	TEMPLATE_FILE="${SCANNER}.template.json"
+	if [ ! -f "${TEMPLATE_FILE}" ]; then
+		error "File '${TEMPLATE_FILE}' for scan type '${SCANNER}' could not be found!'"
+		NUM_ERRORS=$((NUM_ERRORS + 1))
 	fi
 fi
 
@@ -260,23 +280,16 @@ if [ $(is_number "$MAX_ITER") != true ]; then
 fi
 
 # Verify that SCB is reachable
-response=`curl --connect-timeout 5 --silent --stderr - ${SCB_URL}/processes/`
+response=`curl --connect-timeout 5 --silent --stderr --insecure ${SCB_URL}/processes/`
 if [[ ! ${response} == *"key"* ]]; then
 	error "Failed to contact engine service! Used URI: '${SCB_URL}/processes/" "${response}"
 	NUM_ERRORS=$((NUM_ERRORS + 1))
 fi
 
 # Verify that ES is reachable
-response=`curl --connect-timeout 5 --silent --stderr - ${ES_URL}/`
+response=`curl --connect-timeout 5 --silent --stderr --insecure ${ES_URL}/`
 if [[ ! ${response} == *cluster_uuid* ]]; then
 	error "Failed to contact elastic search! Used URI: '${ES_URL}/'" ${response}
-	NUM_ERRORS=$((NUM_ERRORS + 1))
-fi
-
-# Verify that the scanner template is present
-TEMPLATE_FILE="${SCANNER}.template.json"
-if [ ! -f "${TEMPLATE_FILE}" ]; then
-	error "File '${TEMPLATE_FILE}' for scan type '${SCANNER}' could not be found!'"
 	NUM_ERRORS=$((NUM_ERRORS + 1))
 fi
 
@@ -311,16 +324,21 @@ if [ -n "${USER_PORT}" ] && [ $(is_number "${USER_PORT}") == true ]; then
 fi
 info "Determined target port number '${PORT}'."
 
-# Create JSON payload from template. Replace variables %TENANT%, %TARGET%, %HOST_PORT%, and %HOST%
-HOST=`echo ${HOST_PORT} | sed 's!:.*$!!g'` # hostname only
-info "Using values process_key[${PROCESS_KEY}], target[${TARGET}], host_port[${HOST_PORT}], port[${PORT}], host[${HOST}], template_file[${TEMPLATE_FILE}], and payload_file[${PAYLOAD_FILE}]."
-sed -E "s/%TENANT%/${TENANT}/g;s!%TARGET%!${TARGET}!g;s!%HOST_PORT%!${HOST_PORT}!g;s!%HOST%!${HOST}!g;s!%PORT%!${PORT}!g" "${TEMPLATE_FILE}" >"${PAYLOAD_FILE}"
-response=`sed "s/%(.+?)%/<unresolved>\n/g" "${PAYLOAD_FILE}" | grep -c "<unresolved>"`
-if [ ! -f "${PAYLOAD_FILE}" ] || [ ${response} -gt 0 ]; then
-	fatal "Failed to replace all variables in template '${TEMPLATE_FILE}'! Please check file '${PAYLOAD_FILE}'." "${response}"
-	exit 3
+if [ ! -n "${PAYLOAD_OVERRIDE}" ]; then 
+	# Create JSON payload from template. Replace variables %TENANT%, %TARGET%, %HOST_PORT%, and %HOST%
+	HOST=`echo ${HOST_PORT} | sed 's!:.*$!!g'` # hostname only
+	info "Using values process_key[${PROCESS_KEY}], target[${TARGET}], host_port[${HOST_PORT}], port[${PORT}], host[${HOST}], template_file[${TEMPLATE_FILE}], and payload_file[${PAYLOAD_FILE}]."
+	sed -E "s/%TENANT%/${TENANT}/g;s!%TARGET%!${TARGET}!g;s!%HOST_PORT%!${HOST_PORT}!g;s!%HOST%!${HOST}!g;s!%PORT%!${PORT}!g" "${TEMPLATE_FILE}" >"${PAYLOAD_FILE}"
+	response=`sed "s/%(.+?)%/<unresolved>\n/g" "${PAYLOAD_FILE}" | grep -c "<unresolved>"`
+	if [ ! -f "${PAYLOAD_FILE}" ] || [ ${response} -gt 0 ]; then
+		fatal "Failed to replace all variables in template '${TEMPLATE_FILE}'! Please check file '${PAYLOAD_FILE}'." "${response}"
+		exit 3
+	fi
+	info "All variables replaced successfully"
+else
+	info "Overriding payload file with user specified payload."
+	cp "${PAYLOAD_OVERRIDE}" "${PAYLOAD_FILE}"
 fi
-info "All variables replaced successfully"
 
 # Create job
 info "Successfully created JSON payload '${PAYLOAD_FILE}'."
