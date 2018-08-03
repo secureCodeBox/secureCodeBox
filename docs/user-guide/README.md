@@ -77,3 +77,7 @@ The scanning target is set within the payload:
 ```
 
 You can check out a more detailed API documentation in the Swagger Docs of the secureCodeBox Engine. The Swagger Docs come together with the secureCodeBox Engine. You can access it at `http://localhost:8080/swagger-ui.html#/scan-process-resource` (you need to have the engine running on localhost).
+
+### In Depth Scan Examples
+
+1. [Scanning modern Single Page Application like OWASP JuiceShop using arachni](./usage-examples/arachni-juice-shop-example.md)
