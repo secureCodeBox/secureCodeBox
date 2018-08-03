@@ -99,6 +99,18 @@ services:
       volumes:
       - "./plugins/arachni-login-scripts:/securecodebox/scripts/"
 
+  scanner-infrastructure-amass:
+      image: securecodebox/amass:oss
+      depends_on:
+        - engine
+      networks:
+        - frontend
+      labels:
+        container_group: scanner
+      environment:
+      - ENGINE_ADDRESS=http://engine:8080
+      - DEBUG=true
+
   persistence-elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.3.1
     ports:
