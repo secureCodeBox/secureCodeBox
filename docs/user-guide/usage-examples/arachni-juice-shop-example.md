@@ -12,7 +12,15 @@ Luckily arachni is intended for exactly this case!
 
 To start of we should test weather the secureCodeBox and JuiceShop is properly set up. To do this we can start a minimal scan which will finish relatively quickly. This is done by setting the Page Limit to `1` so that arachni will only test the first page of the application.
 
+### Start test scan via HTTP API
+
 `PUT http://localhost:8080/box/processes/arachni_webapplicationscan`
+
+### Start test scan via CLI
+
+`run_scanner.sh --payload payloadFile.json`
+
+### Test payload
 
 ```json
 [
@@ -43,7 +51,15 @@ This is done by configuring the following parameters:
 3.  Extending the spider by routes we know about but arachni wont be able to find via its spider because the are not linked anywhere in the application.
 4.  Provide arachni with the ability to log into the application. This is often the hardest part of the scan config. Without it the scanner will not be able access restricted pages, so that the scanner will only scan a subset of the application. In this case the login is performed using the `login-script` plugin of arachni which lets us script how to to the login. This script is included in the default `docker-compose` setup of the secureCodeBox. This script is located in `plugins/arachni-login-scripts/login_juice_shop.rb`. You can add custom login scripts for your application into the same directory, the will get mounted into the arachni container.
 
+### Start full scan via HTTP API
+
 `PUT http://localhost:8080/box/processes/arachni_webapplicationscan`
+
+### Start full scan via CLI
+
+`run_scanner.sh --payload payloadFile.json`
+
+### Full payload
 
 ```json
 [

@@ -14,7 +14,15 @@ In this example we'll be using arachni controlled by the secureCodeBox to scan f
 This is a straight forward configuration.
 This configuration could be improved by configuring a login method for the scanner.
 
+### Start scan via HTTP API
+
 `PUT http://localhost:8080/box/processes/arachni_webapplicationscan`
+
+### Start scan via CLI
+
+`run_scanner.sh --payload payloadFile.json`
+
+### Payload
 
 ```json
 [
