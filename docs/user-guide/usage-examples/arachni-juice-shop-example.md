@@ -18,7 +18,7 @@ To start of we should test weather the secureCodeBox and JuiceShop is properly s
 
 ### Start the test scan via CLI
 
-`run_scanner.sh --payload payloadFile.json`
+`run_scanner.sh --payload payloadFile.json arachni`
 
 ### Test payload
 
@@ -57,7 +57,7 @@ This is done by configuring the following parameters:
 
 ### Start the full scan via CLI
 
-`run_scanner.sh --payload payloadFile.json`
+`run_scanner.sh --payload payloadFile.json arachni`
 
 ### Full payload
 

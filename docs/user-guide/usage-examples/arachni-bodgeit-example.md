@@ -20,7 +20,7 @@ This configuration could be improved by configuring a login method for the scann
 
 ### Start the scan via CLI
 
-`run_scanner.sh --payload payloadFile.json`
+`run_scanner.sh --payload payloadFile.json arachni`
 
 ### Payload
 
