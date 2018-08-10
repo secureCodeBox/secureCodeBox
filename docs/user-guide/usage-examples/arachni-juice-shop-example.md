@@ -1,16 +1,16 @@
-# Scanning modern Single Page Application like OWASP JuiceShop using Arachni
+# Scanning modern Single Page Application like OWASP Juice Shop using Arachni
 
-Scanning for Vulnerabilities in OWASP JuiceShop using Arachni and the secureCodeBox.
+Scanning for Vulnerabilities in OWASP Juice Shop using Arachni and the secureCodeBox.
 
 ## Introduction
 
-JuiceShop poses some problems for many scanners, as it is written as a single page application. This means that the scanner needs to be able to execute JavaScript to spider the application.
+Juice Shop poses some problems for many scanners, as it is written as a single page application. This means that the scanner needs to be able to execute JavaScript to spider the application.
 
 Luckily Arachni is intended for exactly this case!
 
 ## Testing the setup
 
-To start of we should test weather the secureCodeBox and JuiceShop is properly set up. To do this we can start a minimal scan which will finish relatively quickly. This is done by setting the Page Limit to `1` so that Arachni will only test the first page of the application.
+To start of we should test weather the secureCodeBox and Juice Shop is properly set up. To do this we can start a minimal scan which will finish relatively quickly. This is done by setting the Page Limit to `1` so that Arachni will only test the first page of the application.
 
 ### Start the test scan via HTTP API
 
@@ -40,9 +40,9 @@ To start of we should test weather the secureCodeBox and JuiceShop is properly s
 
 This scan should finish in about a minute and should return a couple of findings.
 
-## Full JuiceShop Arachni Config
+## Full Juice Shop Arachni Config
 
-A full Arachni scan config for JuiceShop includes optimisations to maximise the amount of vulnerabilities discovered and optimise the scan time.
+A full Arachni scan config for Juice Shop includes optimisations to maximise the amount of vulnerabilities discovered and optimise the scan time.
 
 This is done by configuring the following parameters:
 
