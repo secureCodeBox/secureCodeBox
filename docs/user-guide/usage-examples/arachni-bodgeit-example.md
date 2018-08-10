@@ -1,24 +1,24 @@
-# Scanning modern Server Side Rendered Apps using arachni
+# Scanning Server Side Rendered Apps using arachni
 
-Scanning for Vulnerabilities in BodgeIt using arachni and the secureCodeBox API.
+Scanning for Vulnerabilities in BodgeIt using Arachni and the secureCodeBox.
 
 ## Introduction
 
 BodgeIt is a intentionally vulnarable web application written in JSPs with only very few usages of JavaScript.
 This makes the app relativly straight forward to scan using pretty much any tool.
 
-In this example we'll be using arachni controlled by the secureCodeBox to scan for vulnarabilties in the BodgeIt Store.
+In this example we'll be using Arachni controlled by the secureCodeBox to scan for vulnarabilties in the BodgeIt Store.
 
 ## Testing the setup
 
 This is a straight forward configuration.
 This configuration could be improved by configuring a login method for the scanner.
 
-### Start scan via HTTP API
+### Start the scan via HTTP API
 
 `PUT http://localhost:8080/box/processes/arachni_webapplicationscan`
 
-### Start scan via CLI
+### Start the scan via CLI
 
 `run_scanner.sh --payload payloadFile.json`
 
@@ -28,7 +28,7 @@ This configuration could be improved by configuring a login method for the scann
 [
     {
         "name": "Arachni BodgeIt Scan",
-        "location": "http://bodgeit:8080/",
+        "location": "http://bodgeit:8080/bodgeit/",
         "attributes": {
             "ARACHNI_DOM_DEPTH_LIMIT": 15,
             "ARACHNI_DIR_DEPTH_LIMIT": 5,

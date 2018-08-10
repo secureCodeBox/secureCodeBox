@@ -1,22 +1,22 @@
-# Scanning modern Single Page Application like OWASP JuiceShop using arachni
+# Scanning modern Single Page Application like OWASP JuiceShop using Arachni
 
-Scanning for Vulnerabilities in OWASP JuiceShop using arachni and the secureCodeBox API.
+Scanning for Vulnerabilities in OWASP JuiceShop using Arachni and the secureCodeBox.
 
 ## Introduction
 
 JuiceShop poses some problems for many scanners, as it is written as a single page application. This means that the scanner needs to be able to execute JavaScript to spider the application.
 
-Luckily arachni is intended for exactly this case!
+Luckily Arachni is intended for exactly this case!
 
 ## Testing the setup
 
-To start of we should test weather the secureCodeBox and JuiceShop is properly set up. To do this we can start a minimal scan which will finish relatively quickly. This is done by setting the Page Limit to `1` so that arachni will only test the first page of the application.
+To start of we should test weather the secureCodeBox and JuiceShop is properly set up. To do this we can start a minimal scan which will finish relatively quickly. This is done by setting the Page Limit to `1` so that Arachni will only test the first page of the application.
 
-### Start test scan via HTTP API
+### Start the test scan via HTTP API
 
 `PUT http://localhost:8080/box/processes/arachni_webapplicationscan`
 
-### Start test scan via CLI
+### Start the test scan via CLI
 
 `run_scanner.sh --payload payloadFile.json`
 
@@ -42,20 +42,20 @@ This scan should finish in about a minute and should return a couple of findings
 
 ## Full JuiceShop Arachni Config
 
-A full arachni scan config for JuiceShop includes optimisations to maximise the amount of vulnerabilities discovered and optimise the scan time.
+A full Arachni scan config for JuiceShop includes optimisations to maximise the amount of vulnerabilities discovered and optimise the scan time.
 
 This is done by configuring the following parameters:
 
 1.  Increase Scan Depth (DOM_DEPTH, DIR_DEPTH and PAGE_LIMIT) to more sensible values for the application.
-2.  Exclude non relevant endpoints. This greatly decreases the scan time as arachni doesn't have to waste time scanning non relevant resources like static css/js files or socket.io endpoints.
-3.  Extending the spider by routes we know about but arachni wont be able to find via its spider because the are not linked anywhere in the application.
-4.  Provide arachni with the ability to log into the application. This is often the hardest part of the scan config. Without it the scanner will not be able access restricted pages, so that the scanner will only scan a subset of the application. In this case the login is performed using the `login-script` plugin of arachni which lets us script how to to the login. This script is included in the default `docker-compose` setup of the secureCodeBox. This script is located in `plugins/arachni-login-scripts/login_juice_shop.rb`. You can add custom login scripts for your application into the same directory, the will get mounted into the arachni container.
+2.  Exclude non relevant endpoints. This greatly decreases the scan time as Arachni doesn't have to waste time scanning non relevant resources like static css/js files or socket.io endpoints.
+3.  Extending the spider by routes we know about but Arachni wont be able to find via its spider because the are not linked anywhere in the application.
+4.  Provide Arachni with the ability to log into the application. This is often the hardest part of the scan config. Without it the scanner will not be able access restricted pages, so that the scanner will only scan a subset of the application. In this case the login is performed using the `login-script` plugin of Arachni which lets us script how to to the login. This script is included in the default `docker-compose` setup of the secureCodeBox. This script is located in `plugins/Arachni-login-scripts/login_juice_shop.rb`. You can add custom login scripts for your application into the same directory, the will get mounted into the Arachni container.
 
-### Start full scan via HTTP API
+### Start the full scan via HTTP API
 
 `PUT http://localhost:8080/box/processes/arachni_webapplicationscan`
 
-### Start full scan via CLI
+### Start the full scan via CLI
 
 `run_scanner.sh --payload payloadFile.json`
 
