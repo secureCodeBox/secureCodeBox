@@ -21,7 +21,7 @@ This is a straight forward configuration. Which should finish relativly quickly 
 
 `run_scanner.sh --payload payloadFile.json zap`
 
-### Payload
+### Test Payload
 
 ```json
 [
@@ -42,15 +42,15 @@ This scan should finish in about a minute and should return a couple of findings
 
 The following example contains a fully configured ZAP Scan for the BodgeIt Store. The scans uses Form based Authentication to archive a logged in state.
 
-### Start the scan via HTTP API
+### Start the full scan via HTTP API
 
 `PUT http://localhost:8080/box/processes/zap-process`
 
-### Start the scan via CLI
+### Start the full scan via CLI
 
 `run_scanner.sh --payload payloadFile.json`
 
-### Payload
+### Full Payload
 
 ```json
 [

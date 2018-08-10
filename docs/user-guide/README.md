@@ -81,5 +81,8 @@ You can check out a more detailed API documentation in the Swagger Docs of the s
 
 ### In Depth Scan Examples
 
-1.  [Scanning modern Single Page Applications like OWASP JuiceShop using arachni](./usage-examples/arachni-juice-shop-example.md)
-2.  [Scanning Server Rendered Applications like BodgeIt Store using arachni](./usage-examples/arachni-bodgeit-example.md)
+The following links contain completes examples and explanations how to set up and start scans against demo application.
+
+1.  [Scanning modern Single Page Applications like OWASP JuiceShop using Arachni](./usage-examples/arachni-juice-shop-example.md)
+2.  [Scanning Server Rendered Applications like BodgeIt Store using Arachni](./usage-examples/arachni-bodgeit-example.md)
+3.  [Scanning Server Rendered Applications like BodgeIt Store using OWASP ZAP](./usage-examples/zap-bodgeit-example.md)
