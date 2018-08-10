@@ -156,6 +156,8 @@ if [ ! -n "${PAYLOAD_OVERRIDE}" ] && [ $# -ne 2 ] || [ "${SHOW_HELP}" == true ];
 	echo "    ./run_scanner.sh --auth a2VybWl0OmE= some.system mytenant sslyze"
 	echo "  Perform a Nikto scan using a different backend:"
 	echo "    ./run_scanner.sh --backend http://some_scb_engine:8080 http://some_scb_elasticsearch:9200 some.system mytenant nikto"
+	echo "  Perform a Arachni scan using a custom target config file"
+	echo "    ./run_scanner.sh --payload payloadFile.json arachni"
 	
 	exit 1
 fi
