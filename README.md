@@ -143,6 +143,9 @@ For demonstration purposes, we added some example targets to scan:
 ### Elasticsearch container fails to start: "max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]"
 
 On the host machine run `sysctl -w vm.max_map_count=262144` as root. To make the change persistent add the line `vm.max_map_count=262144` to `/etc/sysctl.conf`.
+### Scan-Container can't access outside of secure-code-box containers on CentOS
+While it is possible to access for example the camunda engine from outside, it is not possible to perform scans outside of SecureCodeBox containers. _firewalld_ blocks traffic from containers to outside, please configure _firewalld_.
+
 
 ## Roadmap
 
