@@ -125,6 +125,7 @@ services:
       container_group: logging
     environment:
       - cluster.name=secureCodeBox
+      - discovery.type=single-node
 
   persistence-kibana:
     image: docker.elastic.co/kibana/kibana-oss:6.3.1
