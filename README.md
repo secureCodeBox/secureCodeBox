@@ -51,9 +51,12 @@ cd secureCodeBox
 
 ### Start with Docker-Compose
 The docker-compose.yml file can be used to launch a secureCodeBox instance.
+To start the secureCodeBox and some demo targets run the following:
+
 ```bash
-docker-compose up
+docker-compose -f docker-compose.yml -f docker-compose.demo.yml up
 ```
+
 Running `docker-compose up` uses the default credentials specified in the [`.env`](https://github.com/secureCodeBox/starter/blob/master/.env) file. You can override these by changing the file or setting the environment variables on your system. Before running the SecureCodeBox outside a testing environment you should at least change the following variables:
  * `CAMUNDADB_ROOT_PW` MySQL root password
  * `CAMUNDADB_USER` MySQL username used by the Camunda Engine
@@ -118,6 +121,7 @@ The following scanners are currently available out of the box:
 - [SQLMap][sqlmap] for SQL Injection scans
 - [Arachni][arachni] web vulnerability scans
 - [WPScan][wpscan] black box [WordPress][wordpress] vulnerability scans
+- [Amass][amass] for subdomain scans
 
 Enabled by the architecture you can also add your own non-free or commercial tools, like
 - [Burp Suite][burp] web vulnerability scanner.
@@ -139,6 +143,9 @@ For demonstration purposes, we added some example targets to scan:
 ### Elasticsearch container fails to start: "max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]"
 
 On the host machine run `sysctl -w vm.max_map_count=262144` as root. To make the change persistent add the line `vm.max_map_count=262144` to `/etc/sysctl.conf`.
+### Scan-Container can't access outside of secure-code-box containers on CentOS
+While it is possible to access for example the camunda engine from outside, it is not possible to perform scans outside of SecureCodeBox containers. _firewalld_ blocks traffic from containers to outside, please configure _firewalld_.
+
 
 ## Roadmap
 
@@ -176,6 +183,7 @@ Contributions are welcome and extremely helpful 🙌
 [burp]:                 https://portswigger.net/burp
 [arachni]:              http://www.arachni-scanner.com/
 [wpscan]:               https://wpscan.org/
+[amass]:                https://github.com/owasp/amass
 [wordpress]:            https://wordpress.com/
 [consul]:               https://www.consul.io/
 [resty]:                https://openresty.org/en/

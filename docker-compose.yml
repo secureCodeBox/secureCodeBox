@@ -22,10 +22,10 @@ services:
       - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_PORT=9200
       - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_INDEX_PREFIX=securecodebox
       - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_INDEX_DELETE_ON_INIT=false
-      - SECURECODEBOX_DEFAULT_TARGET_NAME=VictorIT Public Host
-      - SECURECODEBOX_DEFAULT_TARGET_LOCATION=victorit
-      - SECURECODEBOX_DEFAULT_TARGET_URI=http://victorit/shop
-      - SECURECODEBOX_DEFAULT_CONTEXT=VictorIT
+      - SECURECODEBOX_DEFAULT_TARGET_NAME=JuiceShop Test Host
+      - SECURECODEBOX_DEFAULT_TARGET_LOCATION=juice-shop
+      - SECURECODEBOX_DEFAULT_TARGET_URI=http://juice-shop:3000
+      - SECURECODEBOX_DEFAULT_CONTEXT=JuiceShop Test Scan
     restart: on-failure:3
 
   camundadb:
@@ -36,6 +36,7 @@ services:
         - camundadb-datastore:/var/lib/mysql
       labels:
         container_group: infrastructure
+      command: --max_allowed_packet=65011712      # 512M
       environment:
         - MYSQL_ROOT_PASSWORD=${CAMUNDADB_ROOT_PW}
         - MYSQL_DATABASE=${CAMUNDADB_DATABASE}
@@ -96,9 +97,23 @@ services:
         container_group: scanner
       environment:
       - ENGINE_ADDRESS=http://engine:8080
+      volumes:
+      - "./plugins/arachni-login-scripts:/securecodebox/scripts/"
+
+  scanner-infrastructure-amass:
+      image: securecodebox/amass:oss
+      depends_on:
+        - engine
+      networks:
+        - frontend
+      labels:
+        container_group: scanner
+      environment:
+      - ENGINE_ADDRESS=http://engine:8080
+      - DEBUG=true
 
   persistence-elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.3
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.3.1
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -112,7 +127,7 @@ services:
       - cluster.name=secureCodeBox
 
   persistence-kibana:
-    image: docker.elastic.co/kibana/kibana:6.2.3
+    image: docker.elastic.co/kibana/kibana-oss:6.3.1
     depends_on:
       - persistence-elasticsearch
     ports:
