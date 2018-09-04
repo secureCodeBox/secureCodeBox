@@ -1,7 +1,7 @@
 version: '3'
 services:
   engine:
-    image: securecodebox/engine:oss
+    image: securecodebox/engine:v0.1.0
     depends_on:
       - camundadb
     ports:
@@ -44,7 +44,7 @@ services:
         - MYSQL_PASSWORD=${CAMUNDADB_PW}
 
   scanner-infrastructure-nmap:
-    image: securecodebox/nmap:oss
+    image: securecodebox/nmap:v0.1.0
     depends_on:
       - engine
     networks:
@@ -55,7 +55,7 @@ services:
       - ENGINE_ADDRESS=http://engine:8080
 
   scanner-webserver-nikto:
-    image: securecodebox/nikto:oss
+    image: securecodebox/nikto:v0.1.0
     depends_on:
       - engine
     networks:
@@ -66,7 +66,7 @@ services:
       - ENGINE_ADDRESS=http://engine:8080
 
   scanner-webapplication-zap:
-      image: securecodebox/zap:oss
+    image: securecodebox/zap:v0.1.0
       depends_on:
         - engine
       networks:
@@ -77,7 +77,7 @@ services:
       - ENGINE_ADDRESS=http://engine:8080
 
   scanner-webapplication-sslyze:
-      image: securecodebox/sslyze:oss
+    image: securecodebox/sslyze:v0.1.0
       depends_on:
         - engine
       networks:
@@ -88,7 +88,7 @@ services:
       - ENGINE_ADDRESS=http://engine:8080
 
   scanner-webapplication-arachni:
-      image: securecodebox/arachni:oss
+    image: securecodebox/arachni:v0.1.0
       depends_on:
         - engine
       networks:
@@ -101,7 +101,7 @@ services:
       - "./plugins/arachni-login-scripts:/securecodebox/scripts/"
 
   scanner-infrastructure-amass:
-      image: securecodebox/amass:oss
+    image: securecodebox/amass:v0.1.0
       depends_on:
         - engine
       networks:
