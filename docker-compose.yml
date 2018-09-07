@@ -101,7 +101,7 @@ services:
       - "./plugins/arachni-login-scripts:/securecodebox/scripts/"
 
   scanner-infrastructure-amass:
-      image: securecodebox/amass:v0.1.0
+      image: securecodebox/amass:oss
       depends_on:
         - engine
       networks:
