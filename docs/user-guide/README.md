@@ -86,3 +86,7 @@ The following links contain completes examples and explanations how to set up an
 1.  [Scanning modern Single Page Applications like OWASP Juice Shop using Arachni](./usage-examples/arachni-juice-shop-example.md)
 2.  [Scanning Server Rendered Applications like BodgeIt Store using Arachni](./usage-examples/arachni-bodgeit-example.md)
 3.  [Scanning Server Rendered Applications like BodgeIt Store using OWASP ZAP](./usage-examples/zap-bodgeit-example.md)
+
+## Starting Scan-Processes using the CLI
+
+We have introduced a [simple secureCodeBox CLI](../../cli/README.md) which is based on the REST-API. This CLI can be used to configure and start Scan-Process or to integrate with you CI/CD Pipeline (e.g. Jenkins). 
