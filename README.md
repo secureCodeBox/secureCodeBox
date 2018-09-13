@@ -5,7 +5,7 @@
 
 ![secureCodeBox](docs/resources/logo.png "secureCodeBox")
 
-> _secureCodeBox_ is a docker based, modularized toolchain for continuous security scans of your software project.
+> _secureCodeBox_ is a docker based, modularized toolchain for continuous security scans of your software project. It's goal is to orchestrate and easily automate a bunch of security-testing tools out of the box.
 
 ## Overview
 
@@ -32,6 +32,9 @@ The typical way to ensure application security is to hire a security specialist 
 With the _secureCodeBox_ we provide a toolchain for continuous scanning of applications to find the low-hanging fruit issues early in the development process and free the resources of the penetration tester to concentrate on the major security issues.
 
 The purpose of *secureCodeBox* **is not** to replace the penetration testers or make them obsolete. We strongly recommend to run extensive tests by experienced penetration testers on all your applications.
+
+![Overview of the architecture.](docs/resources/macbook_kibana.jpg "Overview of the architecture.")
+
 
 **Important note**: The _secureCodeBox_ is no simple one-button-click-solution! You must have a deep understanding of security and how to configure the scanners. Furthermore, an understanding of the scan results and how to interpret them is also necessary.
 
@@ -63,6 +66,9 @@ Running `docker-compose up` uses the default credentials specified in the [`.env
  * `CAMUNDADB_USER` MySQL username used by the Camunda Engine
  * `CAMUNDADB_PW` MySQL password also used by the Camunda Engine
 
+
+ > **Hint**: You will need at least 4GB virtual memory to run the complete stack. If you want to scale out the scanner you will need more...
+
 ### Run your first security scan
 There are several ways to start a security scan with the secureCodeBox. One way is to use the WebUI of the engine and start the scan manually.
 
@@ -81,7 +87,7 @@ Access the WebUI via:
 
 ## How Does it Work?
 
-The core of the _secureCodeBox_ is a process engine (based on the camunda platform), which allows the user to define the whole scan process. The following image shows an example of a scan process:
+The core of the _secureCodeBox_ is a [process engine][scb-engine] (based on the [Camunda][camunda] [BPMN][bpmn] plattform), which allows the user to define the whole scan process. The following image shows an example of a scan process:
 
 ![An example scan process.](docs/resources/scan_process.png "An example scan process.")
 
@@ -101,7 +107,7 @@ The most important goal of the architecture is to build the whole toolchain high
 
 #### Process Engine – the Core
 
-The main component of the _secureCodeBox_ is the [Camunda][camunda] [BPMN][bpmn] engine, which allows the engineer to build the whole scan process as a [BPMN][bpmn] model. This component also provides the main web UI: The _secureCodeBox_ control center. In this UI you can see the available scan process definitions as [BPMN][bpmn] diagrams, start them (Tasklist), and manually review the results. Furthermore, the core is able to listen on webhooks and integrate the exposed process API. This provides the capability to trigger the scan processes by a continuous integration component, such as [Jenkins][jenkins] in our example, or any other continuous integration component capable of dealing with webhooks.
+The main component of the _secureCodeBox_ is the [Camunda][camunda] [BPMN][bpmn] [engine][scb-engine], which allows the engineer to build the whole scan process as a [BPMN][bpmn] model. This component also provides the main web UI: The _secureCodeBox_ control center. In this UI you can see the available scan process definitions as [BPMN][bpmn] diagrams, start them (Tasklist), and manually review the results. Furthermore, the core is able to listen on webhooks and integrate the exposed process API. This provides the capability to trigger the scan processes by a continuous integration component, such as [Jenkins][jenkins] in our example, or any other continuous integration component capable of dealing with webhooks.
 
 #### Scanners
 
@@ -144,7 +150,9 @@ For demonstration purposes, we added some example targets to scan:
 ### Elasticsearch container fails to start: "max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]"
 
 On the host machine run `sysctl -w vm.max_map_count=262144` as root. To make the change persistent add the line `vm.max_map_count=262144` to `/etc/sysctl.conf`.
+
 ### Scan-Container can't access outside of secure-code-box containers on CentOS
+
 While it is possible to access for example the camunda engine from outside, it is not possible to perform scans outside of SecureCodeBox containers. _firewalld_ blocks traffic from containers to outside, please configure _firewalld_.
 
 
@@ -163,6 +171,12 @@ You are welcome, please join us on... 👋
 
 ## Contributing
 Contributions are welcome and extremely helpful 🙌
+
+Author Information
+------------------
+
+Sponsored by [iteratec GmbH](https://www.iteratec.de/) - 
+[secureCodeBox.io](https://www.securecodebox.io/)
 
 [nginx]:                https://nginx.org/en/
 [camunda]:              https://camunda.com/de/
@@ -198,6 +212,7 @@ Contributions are welcome and extremely helpful 🙌
 [juiceshop]:            https://www.owasp.org/index.php/OWASP_Juice_Shop_Project
 
 [scb-github]:           https://github.com/secureCodeBox/
+[scb-engine]:           https://github.com/secureCodeBox/engine
 [scb-twitter]:          https://twitter.com/secureCodeBox
 [scb-slack]:            https://join.slack.com/t/securecodebox/shared_invite/enQtMzc2MTIxNDg2NzIwLTI1MWUzNzVmZTY5MWNkMmQwNTA1YjZmYjQyM2FhY2ZiYjBlNmVkYWVjZWUxZTY1OTk1MTlmNmI0ZGJjZGIxYzU     
 [scb-license]:          https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE    
