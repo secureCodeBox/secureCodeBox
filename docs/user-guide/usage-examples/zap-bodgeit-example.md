@@ -55,7 +55,7 @@ The following example contains a fully configured ZAP Scan for the BodgeIt Store
 ```json
 [
     {
-        "name": "Arachni BodgeIt Scan",
+        "name": "ZAP BodgeIt Scan",
         "location": "http://bodgeit:8080/bodgeit/",
         "attributes": {
             "ZAP_BASE_URL": "http://bodgeit:8080/bodgeit/",
@@ -73,3 +73,50 @@ The following example contains a fully configured ZAP Scan for the BodgeIt Store
 ```
 
 This scan should finish in about a minute and should return a couple of findings.
+
+## Scan with a given sitemap (skip spider task)
+
+It is also possible to run the zap scan process with a predefined sitemap. In this case the spider task will be skiped and the zap scanner microservice can start directly with the scan task.
+
+### Start the scan via HTTP API
+
+`PUT http://localhost:8080/box/processes/zap-process`
+
+### Start the full scan via CLI
+
+`run_scanner.sh --payload payloadFile.json`
+
+### Payload to start scan (without spider)
+
+```json
+[{
+    "name": "ZAP BodgeIt Scan with given sitemap ",
+    "location": "http://bodgeit:8080/bodgeit",
+    "attributes": {
+    "ZAP_BASE_URL": "http://bodgeit:8080/bodgeit",
+        "ZAP_SITEMAP": [{
+            "request": {
+                "method": "GET",
+                "url": "http://bodgeit:8080/bodgeit/search.jsp?q=ZAP",
+                "httpVersion": "HTTP/1.1",
+                "headers": [],
+                "queryString": [{
+                    "name": "q",
+                    "value": "ZAP"
+                }],
+                "postData": {
+                    "mimeType": "",
+                    "params": [],
+                    "text": ""
+                }
+            },
+            "ZAP_BASE_URL": "http://bodgeit:8080/bodgeit"
+        }]
+    }
+}]
+```
+
+### The Sitemap Parameter
+The sitemap contains request objects in a HAR format. To generate the requests for your sitemap, you can:
+* take the result of previous microservice zap spider tasks via camunda ui OR
+* use a local running ZAP application as a proxy, browse manully through your target and import the recorded requests via  "http://[your-local-zap]:[your-zap-port]/UI/core/other/messagesHar/"
