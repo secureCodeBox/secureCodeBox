@@ -185,5 +185,60 @@ $TECHNOLOGY $FUNCTION [- $DESCRIPTION]
 Examples: NMAP Port Scan, NMAP Port Scan - Raw
 ```
 
+## Healthchecks for Scanner Microservices 
+Each Scanner microservice must provide a statuspage / healthcheck containing some relevant informations about the current health, status, important connections  and the build of the service. This informations can be used to define external healthchecks and monitoring and provide some help for the operations team.
+
+### Example: Nikto status/healthcheck page
+Location: "/status"
+
+#### HTTP-200 Example Informations and JSON-Format:
+```
+{  "started_at":"2018-0504T19:18:35.129Z",
+   "worker_id":"1c47e236-7f90-4c0a-8b8e-fd4d8cb1c5df",
+   "healthcheck": "UP",
+   "status":{"started":0,"completed":0,"failed":0},
+   "engine": {
+          "connected_engine: "http://my-engine-host:8080",
+          "last_successful_connection":1525679428910
+    },
+   "scanner": {
+           "version": "xyz",
+           "test_run":"successful"
+    },
+   "build": {
+           "repository_url": "https://github.com/secureCodeBox/nmap",
+           "branch":"develop",
+           "commit_id": "9723kjh23z98h9234hh"
+    },
+}
+```
+
+Note:
+- the **build** informations should be injected during the build process, to be referenced in this statuspage...
+- the **scanner** information should test if the scanner is reachable within the microservice, e.g. test with `$ scannerShell -h` or `$ scannerShell -v`
+- the **engine** information should verify if the REST Interface is reachable and working (make a test call, e.g. count open tasks).
+
+#### HTTP-503 Example Informations and JSON-Format:
+```
+{  "started_at":"2018-0504T19:18:35.129Z",
+   "worker_id":"1c47e236-7f90-4c0a-8b8e-fd4d8cb1c5df",
+   "healthcheck": "DOWN",
+   "status":{"started":0,"completed":0,"failed":0},
+   "engine": {
+          "connected_engine: "http://my-engine-host:8080",
+          "last_successful_connection":""
+    },
+   "scanner": {
+           "version": "xyz",
+           "test_run":"successful"
+    },
+   "build": {
+           "repository_url": "https://github.com/secureCodeBox/...nikto...",
+           "branch":"develop",
+           "commit_id": "9723kjh23z98h9234hh"
+    },
+}
+```
+
 [prepackaged_processes]: https://github.com/secureCodeBox/engine/tree/master/scb-scanprocesses
 [camunda_modeler]: https://camunda.com/download/modeler/
