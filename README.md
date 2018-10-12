@@ -45,6 +45,7 @@ There is a german article about [Security DevOps – Angreifern (immer) einen Sc
 ### Prerequisites
  * Minimal Docker version 18.03.0 is required
  * Docker-Compose is required.
+ * Your docker host will need at least 4GB virtual memory to run the complete stack. If you want to scale out the scanner you will need more...
 
 For a quick start checkout this repository and start the complete secureCodeBox stack with docker-compose:
 
@@ -53,7 +54,7 @@ git clone https://github.com/secureCodeBox/secureCodeBox
 cd secureCodeBox
 ```
 
-### Start with Docker-Compose
+### Start with docker-compose
 The docker-compose.yml file can be used to launch a secureCodeBox instance.
 To start the secureCodeBox and some demo targets run the following:
 
@@ -65,9 +66,6 @@ Running `docker-compose up` uses the default credentials specified in the [`.env
  * `CAMUNDADB_ROOT_PW` MySQL root password
  * `CAMUNDADB_USER` MySQL username used by the Camunda Engine
  * `CAMUNDADB_PW` MySQL password also used by the Camunda Engine
-
-
- > **Hint**: You will need at least 4GB virtual memory to run the complete stack. If you want to scale out the scanner you will need more...
 
 ### Run your first security scan
 There are several ways to start a security scan with the secureCodeBox. One way is to use the WebUI of the engine and start the scan manually.
