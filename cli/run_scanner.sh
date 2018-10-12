@@ -149,15 +149,15 @@ if [ ! -n "${PAYLOAD_OVERRIDE}" ] && [ $# -ne 2 ] || [ "${SHOW_HELP}" == true ];
 	echo ""
 	echo "Examples:"
 	echo "  Perform a ZAP scan:"
-	echo "    ./run_scanner.sh http://some.system/somepath mytenant zap"
+	echo "    ./run_scanner.sh --tenant mytenant zap http://some.system/somepath"
 	echo "  Perform an NMAP scan:"
-	echo "    ./run_scanner.sh some.system mytenant nmap"
+	echo "    ./run_scanner.sh --tenant mytenant nmap some.system"
 	echo "  Perform an SSLyze scan using authentication:"
-	echo "    ./run_scanner.sh --auth a2VybWl0OmE= some.system mytenant sslyze"
+	echo "    ./run_scanner.sh --auth a2VybWl0OmE= --tenant mytenant sslyze some.system"
 	echo "  Perform a Nikto scan using a different backend:"
-	echo "    ./run_scanner.sh --backend http://some_scb_engine:8080 http://some_scb_elasticsearch:9200 some.system mytenant nikto"
+	echo "    ./run_scanner.sh --backend http://some_scb_engine:8080 http://some_scb_elasticsearch:9200 --tenant mytenant nikto some.system"
 	echo "  Perform a Arachni scan using a custom target config file"
-	echo "    ./run_scanner.sh --payload payloadFile.json arachni"
+	echo "    ./run_scanner.sh --payload payloadFile.json arachni http://some.system/somepath"
 	
 	exit 1
 fi
@@ -243,7 +243,7 @@ fi
 if [ ! -n "${PAYLOAD_OVERRIDE}" ]; then 
 	# Verify target format
 	if [ "${TARGET_FORMAT}" = "uri" ]; then
-		if [[ ! "${TARGET}" =~ http?(s)://* ]]; then
+		if [[ ! "${TARGET}" =~ http(s)?://* ]]; then
 			error "Invalid URI to scan: '${TARGET}'! Expected: http(s)://..."
 			NUM_ERRORS=$((NUM_ERRORS + 1))
 		else
