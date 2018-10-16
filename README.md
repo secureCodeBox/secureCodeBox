@@ -45,6 +45,7 @@ There is a german article about [Security DevOps – Angreifern (immer) einen Sc
 ### Prerequisites
  * Minimal Docker version 18.03.0 is required
  * Docker-Compose is required.
+ * Your docker host will need at least 4GB virtual memory to run the complete stack. If you want to scale out the scanner you will need more...
 
 For a quick start checkout this repository and start the complete secureCodeBox stack with docker-compose:
 
@@ -53,7 +54,7 @@ git clone https://github.com/secureCodeBox/secureCodeBox
 cd secureCodeBox
 ```
 
-### Start with Docker-Compose
+### Start with docker-compose
 The docker-compose.yml file can be used to launch a secureCodeBox instance.
 To start the secureCodeBox and some demo targets run the following:
 
@@ -65,9 +66,6 @@ Running `docker-compose up` uses the default credentials specified in the [`.env
  * `CAMUNDADB_ROOT_PW` MySQL root password
  * `CAMUNDADB_USER` MySQL username used by the Camunda Engine
  * `CAMUNDADB_PW` MySQL password also used by the Camunda Engine
-
-
- > **Hint**: You will need at least 4GB virtual memory to run the complete stack. If you want to scale out the scanner you will need more...
 
 ### Run your first security scan
 There are several ways to start a security scan with the secureCodeBox. One way is to use the WebUI of the engine and start the scan manually.
@@ -214,5 +212,5 @@ Sponsored by [iteratec GmbH](https://www.iteratec.de/) -
 [scb-github]:           https://github.com/secureCodeBox/
 [scb-engine]:           https://github.com/secureCodeBox/engine
 [scb-twitter]:          https://twitter.com/secureCodeBox
-[scb-slack]:            https://join.slack.com/t/securecodebox/shared_invite/enQtMzc2MTIxNDg2NzIwLTI1MWUzNzVmZTY5MWNkMmQwNTA1YjZmYjQyM2FhY2ZiYjBlNmVkYWVjZWUxZTY1OTk1MTlmNmI0ZGJjZGIxYzU     
+[scb-slack]:            https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTJiNzg3MmU2ZDY2NDFiMGI0Y2FkM2I5Mzc2ZmEzYTcyN2FlN2Y2NDFiZDE5NjAxMjg1M2IxNDViNzE3OTIxMGU
 [scb-license]:          https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE    
