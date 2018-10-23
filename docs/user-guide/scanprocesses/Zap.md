@@ -49,6 +49,8 @@ For each target where advanced scanner configuration was specified the following
 
 * `Include RegExe's` defines a Regex Pattern which defines which URLs are in scope of your webapplication. Note that this is based on the specified base url
 * `Exclude RegExe's` defines what is out of the webapp scope based on the base url
+* `Scanner delay in ms` defines the delay between two http requests. This can be used to make the active scan less aggressive
+* `Threads per host` defines how many threads the scanner will use per host.
 
 
 ## Automated Execution of Zap
@@ -73,6 +75,8 @@ A full example target looks like this:
     ZAP_LOGIN_PW: "i_like_unicorns_and_beer",
     ZAP_SCANNER_INCLUDE_REGEX: "*http://127.0.0.1:8080*",
     ZAP_SCANNER_EXCLUDE_REGEX: "",
+    ZAP_SCANNER_DELAY_IN_MS: 10,
+    ZAP_THREADS_PER_HOST: 2,
     ZAP_PW_FIELD_ID: "pw",
     ZAP_LOGGED_IN_INDICATOR: "*logout*",
     LOGGED_OUT_INDICATOR: "",

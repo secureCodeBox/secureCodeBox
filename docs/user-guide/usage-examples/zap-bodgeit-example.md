@@ -66,7 +66,9 @@ The following example contains a fully configured ZAP Scan for the BodgeIt Store
             "ZAP_PW_FIELD_ID": "password",
             "ZAP_USERNAME_FIELD_ID": "username",
             "ZAP_LOGGED_IN_INDICATOR": "You have logged in successfully",
-            "ZAP_SPIDER_MAX_DEPTH": 5
+            "ZAP_SPIDER_MAX_DEPTH": 5,
+            "ZAP_SCANNER_DELAY_IN_MS": 10,
+            "ZAP_THREADS_PER_HOST": 2
         }
     }
 ]
