@@ -281,6 +281,17 @@ if [ $(is_number "$MAX_ITER") != true ]; then
 	NUM_ERRORS=$((NUM_ERRORS + 1))
 fi
 
+# Post-process paramaters
+CURL_AUTH_ARG=""
+if [ -n "${AUTH}" ]; then
+	CURL_AUTH_ARG="-H 'Authorization: Basic ${AUTH}'"
+fi
+
+CAMUNDA_TENANT_PATH=""
+if [ -n "${TENANT}" ]; then
+	CAMUNDA_TENANT_PATH="/tenant-id/${TENANT}"
+fi
+
 # Verify that SCB is reachable
 response=`curl --connect-timeout 5 --silent --stderr --insecure ${CURL_AUTH_ARG} ${SCB_URL}/processes/`
 if [[ ! ${response} == *"key"* ]]; then
@@ -299,17 +310,6 @@ fi
 if [ ${NUM_ERRORS} -gt 0 ]; then
 	fatal "Aborting due to $NUM_ERRORS previous errors!"
 	exit 2
-fi
-
-# Post-process paramaters
-CURL_AUTH_ARG=""
-if [ -n "${AUTH}" ]; then
-	CURL_AUTH_ARG="-H 'Authorization: Basic ${AUTH}'"
-fi
-
-CAMUNDA_TENANT_PATH=""
-if [ -n "${TENANT}" ]; then
-	CAMUNDA_TENANT_PATH="/tenant-id/${TENANT}"
 fi
 
 # extract port from protocol
