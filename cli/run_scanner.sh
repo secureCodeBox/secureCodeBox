@@ -282,7 +282,7 @@ if [ $(is_number "$MAX_ITER") != true ]; then
 fi
 
 # Verify that SCB is reachable
-response=`curl --connect-timeout 5 --silent --stderr --insecure ${SCB_URL}/processes/`
+response=`curl --connect-timeout 5 --silent --stderr --insecure ${CURL_AUTH_ARG} ${SCB_URL}/processes/`
 if [[ ! ${response} == *"key"* ]]; then
 	error "Failed to contact engine service! Used URI: '${SCB_URL}/processes/" "${response}"
 	NUM_ERRORS=$((NUM_ERRORS + 1))
