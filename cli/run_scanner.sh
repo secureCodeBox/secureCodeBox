@@ -61,7 +61,6 @@ TENANT="" # tenant
 AUTH="" # HTTP Basic auth key
 SCB_PATH="/box" # SCB API access path
 SCB_URL="http://localhost:8080${SCB_PATH}" # SCB API access URL
-ES_URL="http://localhost:9200" # Elasticsearch API access URL
 DEFAULT_MAX_ITER=180 # 180 * 5 sec = 15 min
 MAX_ITER="${DEFAULT_MAX_ITER}" # maximum number of iterations
 DEFAULT_WAIT_TIME=5 # 5 sec between requests
@@ -98,7 +97,6 @@ do
 		;;
 		-b|--backend)
 		SCB_URL="$2${SCB_PATH}"
-		ES_URL="$3"
 		shift # past argument
 		shift # past value
 		shift # past value
@@ -177,13 +175,6 @@ if [ -f "${RESULT_FILE}" ]; then
 	mv "${RESULT_FILE}" "${RESULT_FILE}.last"
 fi
 
-# backup last readable result file
-READABLE_RESULT_FILE="job_${TENANT}_${SCANNER}_result.readable"
-if [ -f "${READABLE_RESULT_FILE}" ]; then
-	info "Writing backup of last job's readable result to '${READABLE_RESULT_FILE}.last'"
-	mv "${READABLE_RESULT_FILE}" "${READABLE_RESULT_FILE}.last"
-fi
-
 # backup last payload
 PAYLOAD_FILE="job_${TENANT}_${SCANNER}_payload.json"
 if [ -f "${PAYLOAD_FILE}" ]; then
@@ -192,41 +183,30 @@ if [ -f "${PAYLOAD_FILE}" ]; then
 fi
 
 if [ -n "${PAYLOAD_OVERRIDE}" ]; then 
-	info "Using payload from file[${PAYLOAD_OVERRIDE}], tenant[${TENANT}], scanner[${SCANNER}], scb_engine_url[${SCB_URL}] and elasticsearch_url[${ES_URL}]..."
+	info "Using payload from file[${PAYLOAD_OVERRIDE}], tenant[${TENANT}], scanner[${SCANNER}] and scb_engine_url[${SCB_URL}]..."
 else
-	info "Using values target[${TARGET}], tenant[${TENANT}], scanner[${SCANNER}], scb_engine_url[${SCB_URL}] and elasticsearch_url[${ES_URL}]..."
+	info "Using values target[${TARGET}], tenant[${TENANT}], scanner[${SCANNER}] and scb_engine_url[${SCB_URL}]..."
 fi
 
 # Identify scanner process key, define target format
-PROCESS_KEY=""
 TARGET_FORMAT=""
 case "${SCANNER}" in
 	"arachni")
-		PROCESS_KEY="arachni_webapplicationscan"
 		TARGET_FORMAT="uri"
 	;;
 	"nmap-nikto")
-		PROCESS_KEY="combined-nmap-nikto-process"
 		TARGET_FORMAT="uri"
 	;;
 	"nikto")
-		PROCESS_KEY="nikto-process"
 		TARGET_FORMAT="uri"
 	;;
  	"nmap")
-		PROCESS_KEY="nmap-process"
-		TARGET_FORMAT="host"
-	;;
-	"nmap-raw")
-		PROCESS_KEY="nmap-process-raw"
 		TARGET_FORMAT="host"
 	;;
 	"sslyze")
-		PROCESS_KEY="sslyze-process"
 		TARGET_FORMAT="host"
 	;;
 	"zap")
-		PROCESS_KEY="zap-process"
 		TARGET_FORMAT="uri"
 	;;
 esac
@@ -244,12 +224,6 @@ fi
 
 # Keep track of any errors
 NUM_ERRORS=0
-
-# Check if we could identify a scanner process key
-if [ -z "${PROCESS_KEY}" ]; then
-	error "Invalid scan type '${SCANNER}'."
-	NUM_ERRORS=$((NUM_ERRORS + 1))
-fi
 
 if [ ! -n "${PAYLOAD_OVERRIDE}" ]; then 
 	# Verify target format
@@ -299,13 +273,6 @@ if [[ ! ${response} == *"key"* ]]; then
 	NUM_ERRORS=$((NUM_ERRORS + 1))
 fi
 
-# Verify that ES is reachable
-response=`curl --connect-timeout 5 --silent --stderr --insecure ${ES_URL}/`
-if [[ ! ${response} == *cluster_uuid* ]]; then
-	error "Failed to contact elastic search! Used URI: '${ES_URL}/'" ${response}
-	NUM_ERRORS=$((NUM_ERRORS + 1))
-fi
-
 # Abort if any error occurred
 if [ ${NUM_ERRORS} -gt 0 ]; then
 	fatal "Aborting due to $NUM_ERRORS previous errors!"
@@ -329,7 +296,7 @@ info "Determined target port number '${PORT}'."
 if [ ! -n "${PAYLOAD_OVERRIDE}" ]; then 
 	# Create JSON payload from template. Replace variables %TENANT%, %TARGET%, %HOST_PORT%, and %HOST%
 	HOST=`echo ${HOST_PORT} | sed 's!:.*$!!g'` # hostname only
-	info "Using values process_key[${PROCESS_KEY}], target[${TARGET}], host_port[${HOST_PORT}], port[${PORT}], host[${HOST}], template_file[${TEMPLATE_FILE}], and payload_file[${PAYLOAD_FILE}]."
+	info "Using values target[${TARGET}], host_port[${HOST_PORT}], port[${PORT}], host[${HOST}], template_file[${TEMPLATE_FILE}], and payload_file[${PAYLOAD_FILE}]."
 	sed -E "s/%TENANT%/${TENANT}/g;s!%TARGET%!${TARGET}!g;s!%HOST_PORT%!${HOST_PORT}!g;s!%HOST%!${HOST}!g;s!%PORT%!${PORT}!g" "${TEMPLATE_FILE}" >"${PAYLOAD_FILE}"
 	response=`sed "s/%(.+?)%/<unresolved>\n/g" "${PAYLOAD_FILE}" | grep -c "<unresolved>"`
 	if [ ! -f "${PAYLOAD_FILE}" ] || [ ${response} -gt 0 ]; then
@@ -344,24 +311,20 @@ fi
 
 # Create job
 info "Successfully created JSON payload '${PAYLOAD_FILE}'."
-command="curl -H 'Content-Type: application/json' ${CURL_AUTH_ARG} -X PUT -d @${PAYLOAD_FILE} -s ${SCB_URL}/processes/${PROCESS_KEY}"
-if [ -f "${TENANT}_createid.override" ]; then
-	info "File '${TENANT}_createid.override' was found. Using its content instead of result of command '${command}'."
-	response=`cat "${TENANT}_createid.override"`
-else
-	info "Using command: \"${command}\""
-	response=`eval ${command}`
-fi
+command="curl -H 'Content-Type: application/json' ${CURL_AUTH_ARG} -X PUT -d @${PAYLOAD_FILE} -s ${SCB_URL}/securityTests"
+info "Using command: \"${command}\""
+response=`eval ${command}`
 
-ID_PROCESS=`echo ${response} | sed -r "s/\"//g"`
+ID_PROCESS=`echo ${response} | xargs | sed 's/\[//' | sed 's/\]//'`
 if [ ${#ID_PROCESS} -lt 10 ]; then
 	fatal "Failed to identify process ID! Please check '${LOG_FILE}' (got '${response}')"
 	exit 4
 fi
 
+info "Started securityTest '${ID_PROCESS}'. Polling for completed securityTest in ${WAIT_TIME} second intervals."
+
 # Fetch findings
-info "Started scan process '${ID_PROCESS}'. Polling for completed securityTest in ${WAIT_TIME} second intervals."
-command="curl -s -o /dev/null -w "%{http_code}" ${CURL_AUTH_ARG} ${SCB_URL}/box/securityTests/${ID_PROCESS}"
+command="curl -s -o /dev/null -w "%{http_code}" ${CURL_AUTH_ARG} ${SCB_URL}/securityTests/${ID_PROCESS}"
 
 info "Using command \"${command}\". Waiting for initial results..."
 sleep "${WAIT_TIME}"
@@ -394,9 +357,13 @@ if [ "${found}" != true ]; then
 	exit 5
 fi
 
-# Query findings
-NUM_TRIES=$((NUM_TRIES - 1))
-info "Findings identified in iteration ${NUM_TRIES}."
+response=`curl -s ${CURL_AUTH_ARG} ${SCB_URL}/securityTests/${ID_PROCESS}`
+
+NUM_RESULTS=`echo "${response}" | grep 'false_positive":false' | wc -l | xargs`
+
+info "SecurityTest identified ${NUM_RESULTS} findings."
+
+# Persist securityTest
 echo "${response}" >"${RESULT_FILE}"
 info "secureCodeBox run completed successfully. Findings written to files '${RESULT_FILE}'."
 exit 0
