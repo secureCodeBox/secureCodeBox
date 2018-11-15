@@ -1,10 +1,10 @@
 [
   {
     "context": "%CONTEXT%",
-    "name": "nmap",
+    "name": "nikto",
     "target": {
       "location": "%HOST%",
-      "name": "%PORT%"
+      "name": "%TARGET_NAME%"
     }
   }
 ]

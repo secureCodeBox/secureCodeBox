@@ -10,7 +10,7 @@ echo '    \ `\____\ \____\ \____\\ \____/\ \_\\ \____\\ \____/\ \____//\_/\_\ '
 echo '     \/_____/\/____/\/____/ \/___/  \/_/ \/____/ \/___/  \/___/ \//\/_/ '
 echo '                                                                        '
 
-echo -e ' SCB scan process runner v0.1\n'
+echo -e 'SCB scan process runner v0.1\n' 
 
 log(){
 	if [ "${TO_STDERR}" ]; then
@@ -57,7 +57,7 @@ set +x
 # Read parameters
 POSITIONAL=()
 
-TENANT="" # tenant
+CONTEXT=""
 AUTH="" # HTTP Basic auth key
 SCB_PATH="/box" # SCB API access path
 SCB_URL="http://localhost:8080${SCB_PATH}" # SCB API access URL
@@ -66,6 +66,7 @@ MAX_ITER="${DEFAULT_MAX_ITER}" # maximum number of iterations
 DEFAULT_WAIT_TIME=5 # 5 sec between requests
 WAIT_TIME="${DEFAULT_WAIT_TIME}" # waiting time between iterations
 SHOW_HELP=false # display help screen?
+TARGET_NAME=""
 while [[ $# -gt 0 ]]
 do
 	key="$1"
@@ -85,8 +86,13 @@ do
 		shift # past argument
 		shift # past value
 		;;
-		-t|--tenant)
-		TENANT="$2"
+		-c|--context)
+		CONTEXT="$2"
+		shift # past argument
+		shift # past value
+		;;
+		-n|--name)
+		TARGET_NAME="$2"
 		shift # past argument
 		shift # past value
 		;;
@@ -122,38 +128,36 @@ if [ ! -n "${PAYLOAD_OVERRIDE}" ] && [ $# -ne 2 ] || [ "${SHOW_HELP}" == true ];
 	echo "Usage: ./run_scanner.sh [options] scanner target"
 	echo ""
 	echo "  Mandatory arguments:"
-	echo "    scanner               - scanner type, one of arachni|nmap-nikto|nikto|nmap|nmap-raw|sslyze|zap"
+	echo "    scanner               - scanner type, one of arachni|nmap-nikto|nikto|nmap|sslyze|zap"
 	echo "    target                - target URL that shall be scanned, e.g. http://some.target:8080/shop"
 	echo ""
 	echo "  Options:"
-	echo "    -a|--auth key"
-	echo "        key               - HTTP Basic authentication key for SCB engine"
-	echo "    -b|--backend scb_engine_url elasticsearch_url"
+	echo "    -a|--auth username:password"
+	echo "        username:password - HTTP Basic authentication credentials for the secureCodeBox Engine. Seperated by a colon."
+	echo "    -b|--backend scb_engine_url"
 	echo "        scb_engine_url    - secureCodeBox Engine URL, e.g. http://some_scb_engine:8080"
-	echo "        elasticsearch_url - Elasticsearch URL, e.g. http://some_scb_elasticsearch:9200"
 	echo "    -i|--max-iter num_iter"
 	echo "        num_iter          - Maximum number of queries to perform (default: ${DEFAULT_MAX_ITER})"
-	echo "    -t|--tenant tenant"
-	echo "        tenant            - Tenant id to use"
+	echo "    -c|--context context"
+	echo "        context           - Context to use."
+	echo "    -n|--name targetName"
+	echo "        targetName        - Name of the target. e.g. 'search-service'"
 	echo "    -w|--wait time"
 	echo "        time              - Time to wait between queries (in seconds) (default: ${DEFAULT_WAIT_TIME})"
 	echo "    -p|--payload path"
 	echo "        path              - Path to a json file containing the payload used to create the scan job. This overrides the target configuration."
 	echo ""
 	echo "  Default 'scb_engine_url' (if none given): 'http://localhost:8080'"
-	echo "  Default 'elasticsearch_url' (if none given): 'http://localhost:9200'"
-	echo "  Note: If you do not use the default SCB instance it is necessary to provide both"
-	echo "  'scb_engine_url' and 'elasticsearch_url' parameters WITH ports!"
 	echo ""
 	echo "Examples:"
 	echo "  Perform a ZAP scan:"
-	echo "    ./run_scanner.sh http://some.system/somepath mytenant zap"
+	echo "    ./run_scanner.sh zap http://some.system/somepath"
 	echo "  Perform an NMAP scan:"
-	echo "    ./run_scanner.sh some.system mytenant nmap"
+	echo "    ./run_scanner.sh nmap some.system"
 	echo "  Perform an SSLyze scan using authentication:"
-	echo "    ./run_scanner.sh --auth a2VybWl0OmE= some.system mytenant sslyze"
+	echo "    ./run_scanner.sh --auth kermit:myPassw0rd sslyze some.system"
 	echo "  Perform a Nikto scan using a different backend:"
-	echo "    ./run_scanner.sh --backend http://some_scb_engine:8080 http://some_scb_elasticsearch:9200 some.system mytenant nikto"
+	echo "    ./run_scanner.sh --backend http://some_scb_engine:8080 nikto some.system"
 	echo "  Perform a Arachni scan using a custom target config file"
 	echo "    ./run_scanner.sh --payload payloadFile.json arachni"
 	
@@ -161,7 +165,7 @@ if [ ! -n "${PAYLOAD_OVERRIDE}" ] && [ $# -ne 2 ] || [ "${SHOW_HELP}" == true ];
 fi
 
 # backup last logfile
-LOG_FILE="job_${TENANT}_${SCANNER}.log"
+LOG_FILE="job_${SCANNER}.log"
 if [ -f "${LOG_FILE}" ]; then
 	info "Writing backup of last job's log to '${LOG_FILE}.last'"
 	mv "${LOG_FILE}" "${LOG_FILE}.last"
@@ -169,23 +173,23 @@ fi
 echo >"${LOG_FILE}"
 
 # backup last result file
-RESULT_FILE="job_${TENANT}_${SCANNER}_result.json"
+RESULT_FILE="job_${SCANNER}_result.json"
 if [ -f "${RESULT_FILE}" ]; then
 	info "Writing backup of last job's result to '${RESULT_FILE}.last'"
 	mv "${RESULT_FILE}" "${RESULT_FILE}.last"
 fi
 
 # backup last payload
-PAYLOAD_FILE="job_${TENANT}_${SCANNER}_payload.json"
+PAYLOAD_FILE="job_${SCANNER}_payload.json"
 if [ -f "${PAYLOAD_FILE}" ]; then
 	info "Writing backup of last job's payload to '${PAYLOAD_FILE}.last'"
 	mv "${PAYLOAD_FILE}" "${PAYLOAD_FILE}.last"
 fi
 
 if [ -n "${PAYLOAD_OVERRIDE}" ]; then 
-	info "Using payload from file[${PAYLOAD_OVERRIDE}], tenant[${TENANT}], scanner[${SCANNER}] and scb_engine_url[${SCB_URL}]..."
+	info "Using payload from file[${PAYLOAD_OVERRIDE}], context[${CONTEXT}], scanner[${SCANNER}] and scb_engine_url[${SCB_URL}]..."
 else
-	info "Using values target[${TARGET}], tenant[${TENANT}], scanner[${SCANNER}] and scb_engine_url[${SCB_URL}]..."
+	info "Using values target[${TARGET}], context[${CONTEXT}], scanner[${SCANNER}] and scb_engine_url[${SCB_URL}]..."
 fi
 
 # Identify scanner process key, define target format
@@ -217,11 +221,6 @@ if [ -n "${AUTH}" ]; then
 	CURL_AUTH_ARG="-u ${AUTH}"
 fi
 
-CAMUNDA_TENANT_PATH=""
-if [ -n "${TENANT}" ]; then
-	CAMUNDA_TENANT_PATH="/tenant-id/${TENANT}"
-fi
-
 # Keep track of any errors
 NUM_ERRORS=0
 
@@ -248,9 +247,9 @@ if [ ! -n "${PAYLOAD_OVERRIDE}" ]; then
 	fi
 fi
 
-# Verify tenant id
-if [ -n "${TENANT}" ] && [ ${#TENANT} -lt 3 ]; then 
-	error "Invalid tenant name: '${TENANT}'. Expected minimum of three characters."
+# Verify context variable
+if [ -n "${CONTEXT}" ] && [ ${CONTEXT} -lt 3 ]; then 
+	error "Invalid context name: '${CONTEXT}'. Expected minimum of three characters."
 	NUM_ERRORS=$((NUM_ERRORS + 1))
 fi
 
@@ -294,10 +293,10 @@ fi
 info "Determined target port number '${PORT}'."
 
 if [ ! -n "${PAYLOAD_OVERRIDE}" ]; then 
-	# Create JSON payload from template. Replace variables %TENANT%, %TARGET%, %HOST_PORT%, and %HOST%
+	# Create JSON payload from template. Replace variables %CONTEXT%, %TARGET%, %HOST_PORT%, and %HOST%
 	HOST=`echo ${HOST_PORT} | sed 's!:.*$!!g'` # hostname only
 	info "Using values target[${TARGET}], host_port[${HOST_PORT}], port[${PORT}], host[${HOST}], template_file[${TEMPLATE_FILE}], and payload_file[${PAYLOAD_FILE}]."
-	sed -E "s/%TENANT%/${TENANT}/g;s!%TARGET%!${TARGET}!g;s!%HOST_PORT%!${HOST_PORT}!g;s!%HOST%!${HOST}!g;s!%PORT%!${PORT}!g" "${TEMPLATE_FILE}" >"${PAYLOAD_FILE}"
+	sed -E "s/%CONTEXT%/${CONTEXT}/g;s/%TARGET_NAME%/${TARGET_NAME}/g;s!%TARGET%!${TARGET}!g;s!%HOST_PORT%!${HOST_PORT}!g;s!%HOST%!${HOST}!g;s!%PORT%!${PORT}!g" "${TEMPLATE_FILE}" >"${PAYLOAD_FILE}"
 	response=`sed "s/%(.+?)%/<unresolved>\n/g" "${PAYLOAD_FILE}" | grep -c "<unresolved>"`
 	if [ ! -f "${PAYLOAD_FILE}" ] || [ ${response} -gt 0 ]; then
 		fatal "Failed to replace all variables in template '${TEMPLATE_FILE}'! Please check file '${PAYLOAD_FILE}'." "${response}"

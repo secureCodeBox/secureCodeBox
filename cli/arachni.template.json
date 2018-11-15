@@ -1,7 +1,10 @@
 [
-	{
-		"name" : "Target",
-		"location" : "%TARGET%"
-	}
+  {
+    "context": "%CONTEXT%",
+    "name": "arachni",
+    "target": {
+      "location": "%HOST%",
+      "name": "%TARGET_NAME%"
+    }
+  }
 ]
-

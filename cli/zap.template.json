@@ -1,12 +1,15 @@
 [
-	{
-		"name" : "Target",
-    	"location" : "%TARGET%",
-        "attributes": {
-            "ZAP_BASE_URL": "%TARGET%",
-			"ZAP_SPIDER_CONFIGURATION_TYPE": "default",
-			"ZAP_SCANNER_CONFIGURATION_TYPE": "default"
-        }
-	}
+  {
+    "context": "%CONTEXT%",
+    "name": "zap",
+    "target": {
+      "location": "%HOST%",
+      "name": "%TARGET_NAME%",
+      "attributes": {
+        "ZAP_BASE_URL": "%TARGET%",
+        "ZAP_SPIDER_CONFIGURATION_TYPE": "default",
+        "ZAP_SCANNER_CONFIGURATION_TYPE": "default"
+      }
+    }
+  }
 ]
-
