@@ -16,31 +16,35 @@ This configuration could be improved by configuring a login method for the scann
 
 ### Start the scan via HTTP API
 
-`PUT http://localhost:8080/box/processes/arachni_webapplicationscan`
+`PUT http://localhost:8080/box/securityTests`
 
 ### Start the scan via CLI
 
-`run_scanner.sh --payload payloadFile.json arachni`
+`run_scanner.sh --payload payloadFile.json`
 
 ### Payload
 
 ```json
 [
-    {
-        "name": "Arachni BodgeIt Scan",
-        "location": "http://bodgeit:8080/bodgeit/",
-        "attributes": {
-            "ARACHNI_DOM_DEPTH_LIMIT": 15,
-            "ARACHNI_DIR_DEPTH_LIMIT": 5,
-            "ARACHNI_PAGE_LIMIT": 50,
-            "ARACHNI_EXCLUDE_PATTERNS": [
-                ".*\\.png",
-                ".*util\\.js",
-                ".*style\\.css"
-            ],
-            "ARACHNI_SCAN_METHODS": "*"
-        }
+  {
+    "context": "BodgeIt",
+    "name": "arachni",
+    "target": {
+      "name": "BodgeIt-local",
+      "location": "http://bodgeit:8080/bodgeit/",
+      "attributes": {
+        "ARACHNI_DOM_DEPTH_LIMIT": 15,
+        "ARACHNI_DIR_DEPTH_LIMIT": 5,
+        "ARACHNI_PAGE_LIMIT": 50,
+        "ARACHNI_EXCLUDE_PATTERNS": [
+          ".*\\.png",
+          ".*util\\.js",
+          ".*style\\.css"
+        ],
+        "ARACHNI_SCAN_METHODS": "*"
+      }
     }
+  }
 ]
 ```
 

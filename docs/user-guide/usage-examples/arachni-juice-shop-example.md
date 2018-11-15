@@ -14,27 +14,31 @@ To start of we should test weather the secureCodeBox and Juice Shop is properly 
 
 ### Start the test scan via HTTP API
 
-`PUT http://localhost:8080/box/processes/arachni_webapplicationscan`
+`PUT http://localhost:8080/box/securityTests`
 
 ### Start the test scan via CLI
 
-`run_scanner.sh --payload payloadFile.json arachni`
+`run_scanner.sh --payload payloadFile.json`
 
 ### Test payload
 
 ```json
 [
-    {
-        "name": "Arachni Quick Test Scan",
-        "location": "http://juice-shop:3000/",
-        "attributes": {
-            "ARACHNI_DOM_DEPTH_LIMIT": 5,
-            "ARACHNI_DIR_DEPTH_LIMIT": 5,
-            "ARACHNI_PAGE_LIMIT": 1,
-            "ARACHNI_EXCLUDE_PATTERNS": [],
-            "ARACHNI_SCAN_METHODS": "*"
-        }
+  {
+    "name": "arachni",
+    "context": "Arachni Quick JuiceShop Scan",
+    "target": {
+      "name": "JuiceShop-local",
+      "location": "http://juice-shop:3000/",
+      "attributes": {
+        "ARACHNI_DOM_DEPTH_LIMIT": 5,
+        "ARACHNI_DIR_DEPTH_LIMIT": 5,
+        "ARACHNI_PAGE_LIMIT": 1,
+        "ARACHNI_EXCLUDE_PATTERNS": [],
+        "ARACHNI_SCAN_METHODS": "*"
+      }
     }
+  }
 ]
 ```
 
@@ -53,33 +57,37 @@ This is done by configuring the following parameters:
 
 ### Start the full scan via HTTP API
 
-`PUT http://localhost:8080/box/processes/arachni_webapplicationscan`
+`PUT http://localhost:8080/box/securityTests`
 
 ### Start the full scan via CLI
 
-`run_scanner.sh --payload payloadFile.json arachni`
+`run_scanner.sh --payload payloadFile.json`
 
 ### Full payload
 
 ```json
 [
-    {
-        "name": "In Depth Arachni Scan",
-        "location": "http://juice-shop:3000/",
-        "attributes": {
-            "ARACHNI_DOM_DEPTH_LIMIT": 50,
-            "ARACHNI_DIR_DEPTH_LIMIT": 10,
-            "ARACHNI_PAGE_LIMIT": 100,
-            "ARACHNI_EXCLUDE_PATTERNS": [
-                ".*socket\\.io.*",
-                ".*node_modules.*",
-                ".*public/images.*",
-                ".*/css.*"
-            ],
-            "ARACHNI_SCAN_METHODS": "*",
-            "ARACHNI_EXTEND_PATH": ["/#/administration"],
-            "ARACHNI_LOGIN_SCRIPT_FILENAME": "login_juice_shop.rb"
-        }
+  {
+    "name": "arachni",
+    "context": "In Depth Arachni JuiceShop Scan",
+    "target": {
+      "name": "JuiceShop-local",
+      "location": "http://juice-shop:3000/",
+      "attributes": {
+        "ARACHNI_DOM_DEPTH_LIMIT": 50,
+        "ARACHNI_DIR_DEPTH_LIMIT": 10,
+        "ARACHNI_PAGE_LIMIT": 100,
+        "ARACHNI_EXCLUDE_PATTERNS": [
+          ".*socket\\.io.*",
+          ".*node_modules.*",
+          ".*public/images.*",
+          ".*/css.*"
+        ],
+        "ARACHNI_SCAN_METHODS": "*",
+        "ARACHNI_EXTEND_PATH": ["/#/administration"],
+        "ARACHNI_LOGIN_SCRIPT_FILENAME": "login_juice_shop.rb"
+      }
     }
+  }
 ]
 ```
