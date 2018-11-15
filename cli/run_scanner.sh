@@ -62,9 +62,9 @@ AUTH="" # HTTP Basic auth key
 SCB_PATH="/box" # SCB API access path
 SCB_URL="http://localhost:8080${SCB_PATH}" # SCB API access URL
 ES_URL="http://localhost:9200" # Elasticsearch API access URL
-DEFAULT_MAX_ITER=30
+DEFAULT_MAX_ITER=180 # 180 * 5 sec = 15 min
 MAX_ITER="${DEFAULT_MAX_ITER}" # maximum number of iterations
-DEFAULT_WAIT_TIME=60
+DEFAULT_WAIT_TIME=5 # 5 sec between requests
 WAIT_TIME="${DEFAULT_WAIT_TIME}" # waiting time between iterations
 SHOW_HELP=false # display help screen?
 while [[ $# -gt 0 ]]
@@ -131,7 +131,7 @@ if [ ! -n "${PAYLOAD_OVERRIDE}" ] && [ $# -ne 2 ] || [ "${SHOW_HELP}" == true ];
 	echo "    -a|--auth key"
 	echo "        key               - HTTP Basic authentication key for SCB engine"
 	echo "    -b|--backend scb_engine_url elasticsearch_url"
-	echo "        scb_engine_url    - SecureCodeBox Engine URL, e.g. http://some_scb_engine:8080"
+	echo "        scb_engine_url    - secureCodeBox Engine URL, e.g. http://some_scb_engine:8080"
 	echo "        elasticsearch_url - Elasticsearch URL, e.g. http://some_scb_elasticsearch:9200"
 	echo "    -i|--max-iter num_iter"
 	echo "        num_iter          - Maximum number of queries to perform (default: ${DEFAULT_MAX_ITER})"
@@ -149,15 +149,15 @@ if [ ! -n "${PAYLOAD_OVERRIDE}" ] && [ $# -ne 2 ] || [ "${SHOW_HELP}" == true ];
 	echo ""
 	echo "Examples:"
 	echo "  Perform a ZAP scan:"
-	echo "    ./run_scanner.sh --tenant mytenant zap http://some.system/somepath"
+	echo "    ./run_scanner.sh http://some.system/somepath mytenant zap"
 	echo "  Perform an NMAP scan:"
-	echo "    ./run_scanner.sh --tenant mytenant nmap some.system"
+	echo "    ./run_scanner.sh some.system mytenant nmap"
 	echo "  Perform an SSLyze scan using authentication:"
-	echo "    ./run_scanner.sh --auth a2VybWl0OmE= --tenant mytenant sslyze some.system"
+	echo "    ./run_scanner.sh --auth a2VybWl0OmE= some.system mytenant sslyze"
 	echo "  Perform a Nikto scan using a different backend:"
-	echo "    ./run_scanner.sh --backend http://some_scb_engine:8080 http://some_scb_elasticsearch:9200 --tenant mytenant nikto some.system"
+	echo "    ./run_scanner.sh --backend http://some_scb_engine:8080 http://some_scb_elasticsearch:9200 some.system mytenant nikto"
 	echo "  Perform a Arachni scan using a custom target config file"
-	echo "    ./run_scanner.sh --payload payloadFile.json arachni http://some.system/somepath"
+	echo "    ./run_scanner.sh --payload payloadFile.json arachni"
 	
 	exit 1
 fi
@@ -231,6 +231,17 @@ case "${SCANNER}" in
 	;;
 esac
 
+# Post-process paramaters
+CURL_AUTH_ARG=""
+if [ -n "${AUTH}" ]; then
+	CURL_AUTH_ARG="-u ${AUTH}"
+fi
+
+CAMUNDA_TENANT_PATH=""
+if [ -n "${TENANT}" ]; then
+	CAMUNDA_TENANT_PATH="/tenant-id/${TENANT}"
+fi
+
 # Keep track of any errors
 NUM_ERRORS=0
 
@@ -243,7 +254,7 @@ fi
 if [ ! -n "${PAYLOAD_OVERRIDE}" ]; then 
 	# Verify target format
 	if [ "${TARGET_FORMAT}" = "uri" ]; then
-		if [[ ! "${TARGET}" =~ http(s)?://* ]]; then
+		if [[ ! "${TARGET}" =~ http?(s)://* ]]; then
 			error "Invalid URI to scan: '${TARGET}'! Expected: http(s)://..."
 			NUM_ERRORS=$((NUM_ERRORS + 1))
 		else
@@ -279,17 +290,6 @@ fi
 if [ $(is_number "$MAX_ITER") != true ]; then
 	error "Number of queries (-i) must be an integer (was '$MAX_ITER')."
 	NUM_ERRORS=$((NUM_ERRORS + 1))
-fi
-
-# Post-process paramaters
-CURL_AUTH_ARG=""
-if [ -n "${AUTH}" ]; then
-	CURL_AUTH_ARG="-H 'Authorization: Basic ${AUTH}'"
-fi
-
-CAMUNDA_TENANT_PATH=""
-if [ -n "${TENANT}" ]; then
-	CAMUNDA_TENANT_PATH="/tenant-id/${TENANT}"
 fi
 
 # Verify that SCB is reachable
@@ -360,32 +360,9 @@ if [ ${#ID_PROCESS} -lt 10 ]; then
 fi
 
 # Fetch findings
-info "Started scan process '${ID_PROCESS}'. Querying for scan summary in ${WAIT_TIME} second intervals."
-DATE=`date +%Y-%m-%d`
-command="curl -H 'Content-Type: application/json' -X POST -s '${ES_URL}/securecodebox_$DATE/_doc/_search?pretty=true' -d '{ \
-	\"size\" : 10000, \
-    \"query\" : { \
-    	\"bool\": { \
-    		\"must\": [ \
-		    	{ \
-		    		\"match_phrase\": { \
-		            	\"execution.id.keyword\": { \
-		            		\"query\": \"${ID_PROCESS}\" \
-		        		} \
-		        	} \
-		    	}, \
-		    	{ \
-		    		\"match_phrase\": { \
-		            	\"type.keyword\": { \
-		            		\"query\": \"finding_entry\" \
-		        		} \
-		        	} \
-		    	} \
-		    ] \
-    	} \
-    } \
-} \
-'"
+info "Started scan process '${ID_PROCESS}'. Polling for completed securityTest in ${WAIT_TIME} second intervals."
+command="curl -s -o /dev/null -w "%{http_code}" ${CURL_AUTH_ARG} ${SCB_URL}/box/securityTests/${ID_PROCESS}"
+
 info "Using command \"${command}\". Waiting for initial results..."
 sleep "${WAIT_TIME}"
 found=false
@@ -393,21 +370,20 @@ OLD_NUM_RESULTS=0
 NUM_TRIES=1
 while true;
 do
-  response=`eval ${command}`
-  NUM_RESULTS=`echo "${response}" | sed "s/,/\n/g;s/\"//g" | grep "report_id" | wc -l`
-  if [ "$NUM_RESULTS" -gt 0 ]; then
- 	found=true
- 	info "Iteration ${NUM_TRIES}: ${NUM_RESULTS} findings identified."
- 	if [ "${NUM_RESULTS}" == "${OLD_NUM_RESULTS}" ]; then
-		break
-	fi
-	OLD_NUM_RESULTS=$NUM_RESULTS
-	info "Going to perform one more iteration to confirm total number of findings."
-   else
-	info "Iteration ${NUM_TRIES}: No findings yet."
-	if [ "${NUM_TRIES}" == "${MAX_ITER}" ]; then
-		break
-	fi
+  responseCode=`${command}`
+  if [ "${responseCode}" = "200" ]; then
+    info "Found results. Scan completed.";
+	found=true
+	break
+  elif [ "${responseCode}" = "206" ]; then
+    info "Nothing yet."
+  else
+    error "Got an unexpected response code: ${responseCode}";
+	break
+  fi
+
+  if [ "${NUM_TRIES}" == "${MAX_ITER}" ]; then
+    break
   fi
   NUM_TRIES=$((NUM_TRIES + 1))
   sleep "${WAIT_TIME}"
@@ -422,7 +398,5 @@ fi
 NUM_TRIES=$((NUM_TRIES - 1))
 info "Findings identified in iteration ${NUM_TRIES}."
 echo "${response}" >"${RESULT_FILE}"
-response_cleaned=`echo "${response}" | sed 's/,\$//g' | sed 's/\[//g' | sed 's/\]//g' | sed 's/{//g' | sed 's/}//g' | sed 's/\"//g' | sed '/^[[:space:]]*$/d'`
-echo "${response_cleaned}" >"${READABLE_RESULT_FILE}"
-info "SecureCodeBox run completed successfully. Findings written to files '${RESULT_FILE}' and '${READABLE_RESULT_FILE}'."
+info "secureCodeBox run completed successfully. Findings written to files '${RESULT_FILE}'."
 exit 0

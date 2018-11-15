@@ -1,10 +1,10 @@
 [
-	{
-		"name" : "Target",
-    	"location" : "%HOST%",
-        "attributes" : {
-            "NIKTO_PORTS" : "%PORT%"
-        }
-	}
+  {
+    "context": "%CONTEXT%",
+    "name": "nmap",
+    "target": {
+      "location": "%HOST%",
+      "name": "%PORT%"
+    }
+  }
 ]
-
