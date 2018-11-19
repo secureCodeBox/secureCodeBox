@@ -11,8 +11,7 @@ In this example we'll be using Arachni controlled by the secureCodeBox to scan f
 
 ## Testing the setup
 
-This is a straight forward configuration including defined rate limits. This configuration could be improved by 
-defining the login credentials and/or providing a login script.
+This is a straight forward configuration by simply configuring the target.
 
 ### Start the scan via HTTP API
 
@@ -22,17 +21,41 @@ defining the login credentials and/or providing a login script.
 
 `run_scanner.sh --payload payloadFile.json arachni`
 
-### Payload
+### Test Payload
 
+```json
+[
+    {
+            "location": "http://bodgeit:8080/bodgeit/",
+            "name": "Arachni BodgeIt Scan"
+    }
+]
+```
+This scan should finish in about a minute and should return a couple of findings.
+
+## Full Scan
+
+The following example contains a fully configured Arachni Scan for the BodgeIt Store. This can be improved by 
+configuring login credentials and/or providing a login script.
+
+### Start the scan via HTTP API
+
+`PUT http://localhost:8080/box/processes/arachni_webapplicationscan`
+
+### Start the scan via CLI
+
+`run_scanner.sh --payload payloadFile.json arachni`
+
+### Full Payload
 ```json
 [
     {
             "location": "http://bodgeit:8080/bodgeit/",
             "name": "Arachni BodgeIt Scan",
             "attributes": {
-                "ARACHNI_DOM_DEPTH_LIMIT": 10,
-                "ARACHNI_DIR_DEPTH_LIMIT": 62,
-                "ARACHNI_PAGE_LIMIT": 22,
+                "ARACHNI_DOM_DEPTH_LIMIT": 15,
+                "ARACHNI_DIR_DEPTH_LIMIT": 5,
+                "ARACHNI_PAGE_LIMIT": 50,
                 "ARACHNI_EXCLUDE_PATTERNS": [ 
                     ".*\\.png",
                     ".*util\\.js",
@@ -43,10 +66,10 @@ defining the login credentials and/or providing a login script.
                 "ARACHNI_POOL_SIZE": 6,
                 "ARACHNI_REQUEST_CONCURRENCY": 20
             }
-        }
+    }
 ]
 ```
-
 This scan should finish in about a minute and should return a couple of findings.
+
 
 
