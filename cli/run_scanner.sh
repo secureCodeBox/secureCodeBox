@@ -106,7 +106,6 @@ do
 		SCB_URL="$2${SCB_PATH}"
 		shift # past argument
 		shift # past value
-		shift # past value
 		;;
 		-a|--auth)
 		AUTH="$2"
