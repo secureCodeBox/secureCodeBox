@@ -338,7 +338,13 @@ do
 	found=true
 	break
   elif [ "${responseCode}" = "206" ]; then
-    info "Nothing yet."
+    echo "."
+  elif [ "${responseCode}" = "404" ]; then
+    warn "Got a 404 status code while polling for results. This usually indicates that the securityTest has been cancelled."
+	break
+  elif [ "${responseCode}" = "500" ]; then
+    error "Got a 500 status code while polling for results. This usually indicates that securityTest encountered some non recoverable problem and a incident has been created."
+	break
   else
     error "Got an unexpected response code: ${responseCode}";
 	break
