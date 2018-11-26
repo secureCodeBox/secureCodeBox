@@ -101,32 +101,36 @@ It is also possible to run the zap scan process with a predefined sitemap. In th
 ```json
 [
   {
-    "name": "ZAP BodgeIt Scan with given sitemap ",
-    "location": "http://bodgeit:8080/bodgeit",
-    "attributes": {
-      "ZAP_BASE_URL": "http://bodgeit:8080/bodgeit",
-      "ZAP_SITEMAP": [
-        {
-          "request": {
-            "method": "GET",
-            "url": "http://bodgeit:8080/bodgeit/search.jsp?q=ZAP",
-            "httpVersion": "HTTP/1.1",
-            "headers": [],
-            "queryString": [
-              {
-                "name": "q",
-                "value": "ZAP"
+    "name": "zap",
+    "context": "ZAP BodgeIt Scan",
+    "target": {
+      "name": "BodgeIt-local",
+      "location": "http://bodgeit:8080/bodgeit",
+      "attributes": {
+        "ZAP_BASE_URL": "http://bodgeit:8080/bodgeit",
+        "ZAP_SITEMAP": [
+          {
+            "request": {
+              "method": "GET",
+              "url": "http://bodgeit:8080/bodgeit/search.jsp?q=ZAP",
+              "httpVersion": "HTTP/1.1",
+              "headers": [],
+              "queryString": [
+                {
+                  "name": "q",
+                  "value": "ZAP"
+                }
+              ],
+              "postData": {
+                "mimeType": "",
+                "params": [],
+                "text": ""
               }
-            ],
-            "postData": {
-              "mimeType": "",
-              "params": [],
-              "text": ""
-            }
-          },
-          "ZAP_BASE_URL": "http://bodgeit:8080/bodgeit"
-        }
-      ]
+            },
+            "ZAP_BASE_URL": "http://bodgeit:8080/bodgeit"
+          }
+        ]
+      }
     }
   }
 ]
