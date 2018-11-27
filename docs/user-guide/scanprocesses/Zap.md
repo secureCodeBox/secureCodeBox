@@ -107,6 +107,8 @@ A full example target looks like this:
 }
 ```
 
->**Note**: The attributes in the example are all fields currently supported by the secureCodeBox Zap Scanner. Mandatory is only `ZAP_BASE_URL`. If this field is not present, the target is ignored.
- ## Zap Addon Replacer
-The [Replacer](https://github.com/zaproxy/zap-extensions/wiki/HelpAddonsReplacerReplacer) is used to replace strings in requests and responses and is enabled in the SecureCodeBox. It might be usefull to to add an authentication header for security testing of APIs (e.g. with an OpenAPI specification).
+> **Note**: The attributes in the example are all fields currently supported by the secureCodeBox Zap Scanner. Mandatory is only `ZAP_BASE_URL`. If this field is not present, the target is ignored.
+
+## Zap Addon Replacer
+
+The [Replacer](https://github.com/zaproxy/zap-extensions/wiki/HelpAddonsReplacerReplacer) is used to replace strings in requests and responses and is enabled in the secureCodeBox. It might be useful to to add an authentication header for security testing of APIs (e.g. with an OpenAPI specification).
