@@ -82,12 +82,33 @@ A full example target looks like this:
     LOGGED_OUT_INDICATOR: "",
     ZAP_SPIDER_API_SPEC_URL: "",
     ZAP_CSRF_TOKEN_ID: "csrftoken",
+    ZAP_REPLACER_RULES:  
+     [
+         { 
+           matchType:"RESP_HEADER",
+           description:"Remove CSP",
+           matchString:"Content-Security Policy",
+           initiators:"",
+           matchRegex:"false",
+           replacement:"",
+           enabled:"true"
+         },
+         {
+            matchType:"REQ_HEADER",
+            description:"Add a special Authentication Header",
+            matchString:"Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l",
+            initiators:"",
+            matchRegex:"false",
+            replacement:"Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l",
+            enabled:"true"
+         }
+    ]
   ]
 }
 ```
 
->**Note**: The attributes in the example are all fields currently supported by the secureCodeBox Zap Scanner. Mandatory is only `ZAP_BASE_URL`. If this field is not present, the target is ignored.
+> **Note**: The attributes in the example are all fields currently supported by the secureCodeBox Zap Scanner. Mandatory is only `ZAP_BASE_URL`. If this field is not present, the target is ignored.
 
+## Zap Addon Replacer
 
-
-
+The [Replacer](https://github.com/zaproxy/zap-extensions/wiki/HelpAddonsReplacerReplacer) is used to replace strings in requests and responses and is enabled in the secureCodeBox. It might be useful to to add an authentication header for security testing of APIs (e.g. with an OpenAPI specification).
