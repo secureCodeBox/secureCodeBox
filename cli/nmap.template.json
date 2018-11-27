@@ -1,7 +1,10 @@
 [
-	{
-		"name" : "Target",
-    	"location" : "%HOST%"
-	}
+  {
+    "context": "%CONTEXT%",
+    "name": "nmap",
+    "target": {
+      "location": "%HOST%",
+      "name": "%TARGET_NAME%"
+    }
+  }
 ]
-

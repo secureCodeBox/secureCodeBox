@@ -15,24 +15,28 @@ This is a straight forward configuration. Which should finish relativly quickly 
 
 ### Start the scan via HTTP API
 
-`PUT http://localhost:8080/box/processes/zap-process`
+`PUT http://localhost:8080/box/securityTests`
 
 ### Start the scan via CLI
 
-`run_scanner.sh --payload payloadFile.json zap`
+`run_scanner.sh --payload payloadFile.json`
 
 ### Test Payload
 
 ```json
 [
-    {
-        "name": "ZAP BodgeIt Scan",
-        "location": "http://bodgeit:8080/bodgeit/",
-        "attributes": {
-            "ZAP_BASE_URL": "http://bodgeit:8080/bodgeit/",
-            "ZAP_SPIDER_MAX_DEPTH": 1
-        }
+  {
+    "name": "zap",
+    "context": "ZAP BodgeIt Scan",
+    "target": {
+      "name": "BodgeIt-local",
+      "location": "http://bodgeit:8080/bodgeit/",
+      "attributes": {
+        "ZAP_BASE_URL": "http://bodgeit:8080/bodgeit/",
+        "ZAP_SPIDER_MAX_DEPTH": 1
+      }
     }
+  }
 ]
 ```
 
@@ -44,7 +48,7 @@ The following example contains a fully configured ZAP Scan for the BodgeIt Store
 
 ### Start the full scan via HTTP API
 
-`PUT http://localhost:8080/box/processes/zap-process`
+`PUT http://localhost:8080/box/securityTests`
 
 ### Start the full scan via CLI
 
@@ -54,23 +58,27 @@ The following example contains a fully configured ZAP Scan for the BodgeIt Store
 
 ```json
 [
-    {
-        "name": "ZAP BodgeIt Scan",
-        "location": "http://bodgeit:8080/bodgeit/",
-        "attributes": {
-            "ZAP_BASE_URL": "http://bodgeit:8080/bodgeit/",
-            "ZAP_AUTHENTICATION": true,
-            "ZAP_LOGIN_SITE": "http://bodgeit:8080/bodgeit/login.jsp",
-            "ZAP_LOGIN_USER": "test@thebodgeitstore.com",
-            "ZAP_LOGIN_PW": "password",
-            "ZAP_PW_FIELD_ID": "password",
-            "ZAP_USERNAME_FIELD_ID": "username",
-            "ZAP_LOGGED_IN_INDICATOR": "You have logged in successfully",
-            "ZAP_SPIDER_MAX_DEPTH": 5,
-            "ZAP_SCANNER_DELAY_IN_MS": 10,
-            "ZAP_THREADS_PER_HOST": 2
-        }
+  {
+    "name": "zap",
+    "context": "ZAP BodgeIt Scan",
+    "target": {
+      "name": "BodgeIt-local",
+      "location": "http://bodgeit:8080/bodgeit/",
+      "attributes": {
+        "ZAP_BASE_URL": "http://bodgeit:8080/bodgeit/",
+        "ZAP_AUTHENTICATION": true,
+        "ZAP_LOGIN_SITE": "http://bodgeit:8080/bodgeit/login.jsp",
+        "ZAP_LOGIN_USER": "test@thebodgeitstore.com",
+        "ZAP_LOGIN_PW": "password",
+        "ZAP_PW_FIELD_ID": "password",
+        "ZAP_USERNAME_FIELD_ID": "username",
+        "ZAP_LOGGED_IN_INDICATOR": "You have logged in successfully",
+        "ZAP_SPIDER_MAX_DEPTH": 5,
+        "ZAP_SCANNER_DELAY_IN_MS": 10,
+        "ZAP_THREADS_PER_HOST": 2
+      }
     }
+  }
 ]
 ```
 
@@ -82,7 +90,7 @@ It is also possible to run the zap scan process with a predefined sitemap. In th
 
 ### Start the scan via HTTP API
 
-`PUT http://localhost:8080/box/processes/zap-process`
+`PUT http://localhost:8080/box/securityTests`
 
 ### Start the full scan via CLI
 
@@ -91,34 +99,46 @@ It is also possible to run the zap scan process with a predefined sitemap. In th
 ### Payload to start scan (without spider)
 
 ```json
-[{
-    "name": "ZAP BodgeIt Scan with given sitemap ",
-    "location": "http://bodgeit:8080/bodgeit",
-    "attributes": {
-    "ZAP_BASE_URL": "http://bodgeit:8080/bodgeit",
-        "ZAP_SITEMAP": [{
+[
+  {
+    "name": "zap",
+    "context": "ZAP BodgeIt Scan",
+    "target": {
+      "name": "BodgeIt-local",
+      "location": "http://bodgeit:8080/bodgeit",
+      "attributes": {
+        "ZAP_BASE_URL": "http://bodgeit:8080/bodgeit",
+        "ZAP_SITEMAP": [
+          {
             "request": {
-                "method": "GET",
-                "url": "http://bodgeit:8080/bodgeit/search.jsp?q=ZAP",
-                "httpVersion": "HTTP/1.1",
-                "headers": [],
-                "queryString": [{
-                    "name": "q",
-                    "value": "ZAP"
-                }],
-                "postData": {
-                    "mimeType": "",
-                    "params": [],
-                    "text": ""
+              "method": "GET",
+              "url": "http://bodgeit:8080/bodgeit/search.jsp?q=ZAP",
+              "httpVersion": "HTTP/1.1",
+              "headers": [],
+              "queryString": [
+                {
+                  "name": "q",
+                  "value": "ZAP"
                 }
+              ],
+              "postData": {
+                "mimeType": "",
+                "params": [],
+                "text": ""
+              }
             },
             "ZAP_BASE_URL": "http://bodgeit:8080/bodgeit"
-        }]
+          }
+        ]
+      }
     }
-}]
+  }
+]
 ```
 
 ### The Sitemap Parameter
+
 The sitemap contains request objects in a HAR format. To generate the requests for your sitemap, you can:
-* take the result of previous microservice zap spider tasks via camunda ui OR
-* use a local running ZAP application as a proxy, browse manully through your target and import the recorded requests via  "http://[your-local-zap]:[your-zap-port]/UI/core/other/messagesHar/"
+
+- take the result of previous microservice zap spider tasks via camunda ui OR
+- use a local running ZAP application as a proxy, browse manully through your target and import the recorded requests via "http://[your-local-zap]:[your-zap-port]/UI/core/other/messagesHar/"

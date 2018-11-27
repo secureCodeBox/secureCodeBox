@@ -1,0 +1,5 @@
+*
+!*.template.json
+!README.html
+!run_scanner.sh
+!.gitignore
