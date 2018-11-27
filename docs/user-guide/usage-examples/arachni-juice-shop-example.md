@@ -91,3 +91,7 @@ This is done by configuring the following parameters:
   }
 ]
 ```
+
+## Automating the SecurityTest Execution
+
+Scans performed via the secureCodeBox are designed to be automatable via a Continuous Integration Environment. We have some examples for how to setup automated secureCodeBox scans in our [integration-pipeline-jenkins-examples repository](https://github.com/secureCodeBox/integration-pipeline-jenkins-examples). For concrete JuiceShops example, take a look at the [security-test/juiceshop branch](https://github.com/secureCodeBox/integration-pipeline-jenkins-examples/tree/security-test/juiceshop), which has a pipeline setup to perform multiple different scans against OWASP JuiceShop.
