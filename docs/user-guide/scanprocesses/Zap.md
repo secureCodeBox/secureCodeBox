@@ -96,10 +96,10 @@ A full example target looks like this:
          {
             matchType:"REQ_HEADER",
             description:"Add a special Authentication Header",
-            matchString:"Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l",
+            matchString:"Authorization",
             initiators:"",
             matchRegex:"false",
-            replacement:"Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l",
+            replacement:"Basic QWxhZGRpbjpPcGVuU2VzYW1l",
             enabled:"true"
          }
     ]
