@@ -26,6 +26,8 @@ services:
       - SECURECODEBOX_DEFAULT_TARGET_LOCATION=juice-shop
       - SECURECODEBOX_DEFAULT_TARGET_URI=http://juice-shop:3000
       - SECURECODEBOX_DEFAULT_CONTEXT=JuiceShop Test Scan
+      - SECURECODEBOX_USER_SCANNER=${ENGINE_SCANNERSERVICES_USER}
+      - SECURECODEBOX_USER_SCANNER_PW=${ENGINE_SCANNERSERVICES_PASSWORD}
     restart: on-failure:3
 
   camundadb:
@@ -53,6 +55,8 @@ services:
       container_group: scanner
     environment:
       - ENGINE_ADDRESS=http://engine:8080
+      - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
+      - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   scanner-webserver-nikto:
     image: securecodebox/nikto:v0.9.0
@@ -64,6 +68,8 @@ services:
       container_group: scanner
     environment:
       - ENGINE_ADDRESS=http://engine:8080
+      - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
+      - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   scanner-webapplication-zap:
       image: securecodebox/zap:v0.9.0
@@ -75,6 +81,8 @@ services:
         container_group: scanner
       environment:
       - ENGINE_ADDRESS=http://engine:8080
+      - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
+      - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   scanner-webapplication-sslyze:
       image: securecodebox/sslyze:v0.9.0
@@ -86,6 +94,8 @@ services:
         container_group: scanner
       environment:
       - ENGINE_ADDRESS=http://engine:8080
+      - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
+      - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   scanner-webapplication-arachni:
       image: securecodebox/arachni:v0.9.0
@@ -97,6 +107,8 @@ services:
         container_group: scanner
       environment:
       - ENGINE_ADDRESS=http://engine:8080
+      - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
+      - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
       volumes:
       - "./plugins/arachni-login-scripts:/securecodebox/scripts/"
 
@@ -110,6 +122,8 @@ services:
         container_group: scanner
       environment:
       - ENGINE_ADDRESS=http://engine:8080
+      - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
+      - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
       - DEBUG=true
 
   persistence-elasticsearch:
