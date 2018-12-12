@@ -1,7 +1,7 @@
 version: '3'
 services:
   engine:
-    image: securecodebox/engine:v0.9.0
+    image: securecodebox/engine:feature-defect-dojo-integration
     depends_on:
       - camundadb
     ports:
@@ -17,11 +17,9 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://camundadb:3306/${CAMUNDADB_DATABASE}
       - SPRING_DATASOURCE_USERNAME=${CAMUNDADB_USER}
       - SPRING_DATASOURCE_PASSWORD=${CAMUNDADB_PW}
-      - SECURECODEBOX_PERSISTENCE_PROVIDER=elasticsearch
-      - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_HOST=persistence-elasticsearch
-      - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_PORT=9200
-      - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_INDEX_PREFIX=securecodebox
-      - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_INDEX_DELETE_ON_INIT=false
+      - SECURECODEBOX_PERSISTENCE_PROVIDER=defectdojo
+      - SECURECODEBOX_PERSISTENCE_DEFECTDOJO_BASEURL=http://persistence-defect-dojo:8000
+      - SECURECODEBOX_PERSISTENCE_DEFECTDOJO_APIKEY=${DEFECT_DOJO_API_KEY}
       - SECURECODEBOX_DEFAULT_TARGET_NAME=JuiceShop Test Host
       - SECURECODEBOX_DEFAULT_TARGET_LOCATION=juice-shop
       - SECURECODEBOX_DEFAULT_TARGET_URI=http://juice-shop:3000
@@ -46,7 +44,7 @@ services:
         - MYSQL_PASSWORD=${CAMUNDADB_PW}
 
   scanner-infrastructure-nmap:
-    image: securecodebox/nmap:v0.9.0
+    image: securecodebox/nmap:develop
     depends_on:
       - engine
     networks:
@@ -59,7 +57,7 @@ services:
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   scanner-webserver-nikto:
-    image: securecodebox/nikto:v0.9.0
+    image: securecodebox/nikto:develop
     depends_on:
       - engine
     networks:
@@ -72,7 +70,7 @@ services:
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   scanner-webapplication-zap:
-      image: securecodebox/zap:v0.9.0
+      image: securecodebox/zap:develop
       depends_on:
         - engine
       networks:
@@ -85,7 +83,7 @@ services:
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   scanner-webapplication-sslyze:
-      image: securecodebox/sslyze:v0.9.0
+      image: securecodebox/sslyze:develop
       depends_on:
         - engine
       networks:
@@ -98,7 +96,7 @@ services:
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   scanner-webapplication-arachni:
-      image: securecodebox/arachni:v0.9.0
+      image: securecodebox/arachni:develop
       depends_on:
         - engine
       networks:
@@ -113,7 +111,7 @@ services:
       - "./plugins/arachni-login-scripts:/securecodebox/scripts/"
 
   scanner-infrastructure-amass:
-      image: securecodebox/amass:oss
+      image: securecodebox/amass:develop
       depends_on:
         - engine
       networks:
@@ -153,6 +151,14 @@ services:
       container_group: logging
     environment:
       - ELASTICSEARCH_URL=http://persistence-elasticsearch:9200
+
+  persistence-defect-dojo:
+    image: j12934/scb-defect-dojo
+    command: bash -c "export LOAD_SAMPLE_DATA=True && bash /opt/django-DefectDojo/docker/docker-startup.bash"
+    ports:
+      - 8000:8000
+    networks:
+      - frontend
 
 networks:
   frontend:
