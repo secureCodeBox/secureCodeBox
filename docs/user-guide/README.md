@@ -34,9 +34,9 @@ Password: choosen Password
 
 1.  After logging in via [http://your-docker-host:8080/](http://localhost:8080), the welcome screen will be displayed. From here you can start the different Camunda Web Apps.
 
--   `Cockpit` is used for monitoring running and ended process instances.
--   `Admin` is used for managing users, groups and authorizations.
--   `Tasklist` is used for user tasks and starting processes.
+- `Cockpit` is used for monitoring running and ended process instances.
+- `Admin` is used for managing users, groups and authorizations.
+- `Tasklist` is used for user tasks and starting processes.
 
 ![Camunda Welcome Screen](../resources/welcome.png)
 
@@ -58,6 +58,10 @@ Password: choosen Password
 
 [camundawebapps]: https://docs.camunda.org/manual/7.8/webapps/
 
+## Configuring Persistence Providers
+
+The secureCodeBox can save the security tests results into different data stores. A list with all availible stores and how to configure and use them can be found [here](./persistence/README.md).
+
 ## Starting Scan-Processes using the REST-API
 
 In order to start a scan via the REST-API, send a PUT-Request to the following URL:
@@ -67,13 +71,13 @@ The scanning target is set within the payload:
 
 ```json
 [
-    {
-        "name": "Local Test",
-        "location": "localhost",
-        "attributes": {
-            "NMAP_PARAMETER": "-O"
-        }
+  {
+    "name": "Local Test",
+    "location": "localhost",
+    "attributes": {
+      "NMAP_PARAMETER": "-O"
     }
+  }
 ]
 ```
 
@@ -89,4 +93,4 @@ The following links contain completes examples and explanations how to set up an
 
 ## Starting Scan-Processes using the CLI
 
-We have introduced a [simple secureCodeBox CLI](../../cli/README.md) which is based on the REST-API. This CLI can be used to configure and start Scan-Process or to integrate with you CI/CD Pipeline (e.g. Jenkins). 
+We have introduced a [simple secureCodeBox CLI](../../cli/README.md) which is based on the REST-API. This CLI can be used to configure and start Scan-Process or to integrate with you CI/CD Pipeline (e.g. Jenkins).
