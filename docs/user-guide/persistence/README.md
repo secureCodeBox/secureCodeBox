@@ -69,6 +69,28 @@ This configuration is to set additional information e.g. for which product shoul
 | `DEFECT_DOJO_PRODUCT` | ProductId of the DefectDojo product the results should be attached on                                | 42            | yes       |
 | `DEFECT_DOJO_USER`    | Username of the DefectDojo user responsible for the scan. Defaults to username of the technical user | john_doe      | no        |
 
+An example security test with these values set would look like this.
+
+```json
+[
+  {
+    "name": "nmap",
+    "context": "feature-team-1",
+    "target": {
+      "name": "Test Server",
+      "location": "10.11.11.11",
+      "attributes": {
+        "NMAP_PARAMETER": "-Pn"
+      }
+    },
+    "metaData": {
+      "DEFECT_DOJO_PRODUCT": "23",
+      "DEFECT_DOJO_USER": "john_doe"
+    }
+  }
+]
+```
+
 ### None Persistence Provider
 
 The none persistence provider is mostly used for testing puposes. It doesn't save the results anywhere, it just logs that has been called.
