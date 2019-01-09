@@ -62,6 +62,10 @@ Password: choosen Password
 
 The secureCodeBox can save the security tests results into different data stores. A list with all availible stores and how to configure and use them can be found [here](./persistence/README.md).
 
+## Meta Fields and How to use them
+
+MetaFields can be used to tag security tests with custom data relevant for you. We have encountered some data values which we found paticulary usefull and standardized their format to be used in multiple places. The list and formats can be found [here](./metafields/README.md).
+
 ## Starting Scan-Processes using the REST-API
 
 In order to start a scan via the REST-API, send a PUT-Request to the following URL:
