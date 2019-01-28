@@ -1,7 +1,7 @@
 version: '3'
 services:
   engine:
-    image: securecodebox/engine:feature-defect-dojo-integration
+    image: securecodebox/engine:develop
     depends_on:
       - camundadb
     ports:
@@ -18,13 +18,13 @@ services:
       - SPRING_DATASOURCE_USERNAME=${CAMUNDADB_USER}
       - SPRING_DATASOURCE_PASSWORD=${CAMUNDADB_PW}
       #ElasticSearch Configuration
-      - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_ENABLED="true"
+      - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_ENABLED=true
       - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_HOST=persistence-elasticsearch
       - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_PORT=9200
       - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_INDEX_PREFIX=securecodebox
       - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_INDEX_DELETE_ON_INIT=false
       #DefectDojo Configuration
-      - SECURECODEBOX_PERSISTENCE_DEFECTDOJO_ENABLED="true"
+      - SECURECODEBOX_PERSISTENCE_DEFECTDOJO_ENABLED=true
       - SECURECODEBOX_PERSISTENCE_DEFECTDOJO_BASEURL=http://persistence-defect-dojo:8000
       - SECURECODEBOX_PERSISTENCE_DEFECTDOJO_APIKEY=${DEFECT_DOJO_API_KEY}
       - SECURECODEBOX_DEFAULT_TARGET_NAME=JuiceShop Test Host
