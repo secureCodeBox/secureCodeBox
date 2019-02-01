@@ -6,10 +6,6 @@ services:
 script:
   - cp test/.env.test .env
   - docker-compose -f docker-compose.yml -f docker-compose.demo.yml up -d engine camundadb bodgeit juice-shop nginx scanner-infrastructure-nmap scanner-webapplication-arachni scanner-webapplication-zap scanner-infrastructure-amass scanner-webapplication-sslyze scanner-webserver-nikto
-  - wget https://raw.githubusercontent.com/vishnubob/wait-for-it/9995b721327eac7a88f0dce314ea074d5169634f/wait-for-it.sh
-  - chmod +x ./wait-for-it.sh
-  - ./wait-for-it.sh -t 180 localhost:8080
-  - sleep 60
   - cd test
   - npm ci
   - npm test -- --verbose
