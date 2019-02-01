@@ -14,7 +14,6 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "globalSetup": "./setup.js",
     "globals": {
       "engineUrl": "http://localhost:8080",
       "username": "kermit",
