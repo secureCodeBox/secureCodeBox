@@ -12,3 +12,9 @@ services:
       - 8081:8080
     networks:
       - frontend
+  nginx:
+    image: nginx
+    ports:
+      - 8111:80
+    networks:
+      - frontend
