@@ -1,7 +1,7 @@
 version: '3'
 services:
   engine:
-    image: securecodebox/engine:develop
+    image: securecodebox/engine:${DEFAULT_TAG}
     depends_on:
       - camundadb
     ports:
@@ -18,13 +18,13 @@ services:
       - SPRING_DATASOURCE_USERNAME=${CAMUNDADB_USER}
       - SPRING_DATASOURCE_PASSWORD=${CAMUNDADB_PW}
       #ElasticSearch Configuration
-      - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_ENABLED=true
+      - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_ENABLED=${ENABLE_ELASTICSEARCH}
       - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_HOST=persistence-elasticsearch
       - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_PORT=9200
       - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_INDEX_PREFIX=securecodebox
       - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_INDEX_DELETE_ON_INIT=false
       #DefectDojo Configuration
-      - SECURECODEBOX_PERSISTENCE_DEFECTDOJO_ENABLED=true
+      - SECURECODEBOX_PERSISTENCE_DEFECTDOJO_ENABLED=${ENABLE_DEFECT_DOJO}
       - SECURECODEBOX_PERSISTENCE_DEFECTDOJO_URL=http://persistence-defect-dojo:8000
       - SECURECODEBOX_PERSISTENCE_DEFECTDOJO_AUTH_KEY=${DEFECT_DOJO_API_KEY}
       - SECURECODEBOX_PERSISTENCE_DEFECTDOJO_AUTH_NAME=admin
@@ -52,7 +52,7 @@ services:
         - MYSQL_PASSWORD=${CAMUNDADB_PW}
 
   scanner-infrastructure-nmap:
-    image: securecodebox/nmap:develop
+    image: securecodebox/nmap:${DEFAULT_TAG}
     depends_on:
       - engine
     networks:
@@ -65,7 +65,7 @@ services:
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   scanner-webserver-nikto:
-    image: securecodebox/nikto:develop
+    image: securecodebox/nikto:${DEFAULT_TAG}
     depends_on:
       - engine
     networks:
@@ -78,7 +78,7 @@ services:
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   scanner-webapplication-zap:
-      image: securecodebox/zap:develop
+      image: securecodebox/zap:${DEFAULT_TAG}
       depends_on:
         - engine
       networks:
@@ -89,9 +89,10 @@ services:
       - ENGINE_ADDRESS=http://engine:8080
       - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
+      - SECURECODEBOX_ZAP_JOBSSCHEDULERCRON=* * * * * *
 
   scanner-webapplication-sslyze:
-      image: securecodebox/sslyze:develop
+      image: securecodebox/sslyze:${DEFAULT_TAG}
       depends_on:
         - engine
       networks:
@@ -104,7 +105,7 @@ services:
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   scanner-webapplication-arachni:
-      image: securecodebox/arachni:develop
+      image: securecodebox/arachni:${DEFAULT_TAG}
       depends_on:
         - engine
       networks:
@@ -119,7 +120,7 @@ services:
       - "./plugins/arachni-login-scripts:/securecodebox/scripts/"
 
   scanner-infrastructure-amass:
-      image: securecodebox/amass:develop
+      image: securecodebox/amass:${DEFAULT_TAG}
       depends_on:
         - engine
       networks:
