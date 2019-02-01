@@ -9,6 +9,7 @@ script:
   - wget https://raw.githubusercontent.com/vishnubob/wait-for-it/9995b721327eac7a88f0dce314ea074d5169634f/wait-for-it.sh
   - chmod +x ./wait-for-it.sh
   - ./wait-for-it.sh -t 180 localhost:8080
+  - sleep 60
   - cd test
   - npm ci
   - npm test -- --verbose
