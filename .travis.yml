@@ -10,4 +10,5 @@ script:
   - chmod +x ./wait-for-it.sh
   - ./wait-for-it.sh -t 180 localhost:8080
   - cd test
+  - npm ci
   - npm test -- --verbose
