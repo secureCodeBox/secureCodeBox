@@ -12,3 +12,6 @@ script:
   - cd test
   - npm ci
   - npm test -- --verbose --forceExit
+after_failure:
+  - docker ps -a
+  - docker logs securecodebox_engine_1
