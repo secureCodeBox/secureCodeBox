@@ -4,7 +4,7 @@ node_js:
 services:
   - docker
 env:
-  - DEFAULT_TAG=latest
+  #  - DEFAULT_TAG=latest
   - DEFAULT_TAG=develop
 script:
   - cp test/.env.test .env
