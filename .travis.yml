@@ -6,7 +6,7 @@ services:
 script:
   - cp test/.env.test .env
   - export DEFAULT_TAG=latest
-  - if [ "$TRAVIS_BRANCH" = "develop" ] || [ "$TRAVIS_EVENT_TYPE" = "chron" ]; then DEFAULT_TAG=develop; fi
+  - if [ "$TRAVIS_BRANCH" != "master" ] || [ "$TRAVIS_EVENT_TYPE" = "chron" ]; then DEFAULT_TAG=develop; fi
   - docker-compose -f docker-compose.yml -f docker-compose.demo.yml up -d engine camundadb bodgeit juice-shop nginx scanner-infrastructure-nmap scanner-webapplication-arachni scanner-webapplication-zap scanner-infrastructure-amass scanner-webapplication-sslyze scanner-webserver-nikto
   - cd test
   - npm ci
