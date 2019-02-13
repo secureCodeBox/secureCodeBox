@@ -169,14 +169,6 @@ services:
     environment:
       - ELASTICSEARCH_URL=http://persistence-elasticsearch:9200
 
-  persistence-defect-dojo:
-    image: securecodebox/defect-dojo:standalone
-    command: bash -c "export LOAD_SAMPLE_DATA=True && bash /opt/django-DefectDojo/docker/docker-startup.bash"
-    ports:
-      - 8000:8000
-    networks:
-      - frontend
-
 networks:
   frontend:
 
