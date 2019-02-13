@@ -55,7 +55,7 @@ test.only(
     expect(findings).toContainEqual({
       name: 'TLSv1 supported',
       category: 'TLSv1',
-      severity: 'INFORMATIONAL',
+      severity: 'LOW',
     });
     expect(findings).toContainEqual({
       name: 'TLSv1.1 supported',
