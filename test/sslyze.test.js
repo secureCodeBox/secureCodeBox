@@ -70,8 +70,8 @@ test.only(
 
     // Should only detect findings of 'informational' severity level
     expect(
-      findings.find(({ severity }) => severity !== 'INFORMATIONAL')
-    ).toBeFalsy();
+      findings.filter(({ severity }) => severity !== 'INFORMATIONAL').length
+    ).toBe(1);
   },
   5 * Time.Minute
 );
