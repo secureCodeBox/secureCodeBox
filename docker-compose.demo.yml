@@ -1,4 +1,4 @@
-version: '3'
+version: '2.1'
 services:
   juice-shop:
     image: bkimminich/juice-shop
@@ -10,5 +10,11 @@ services:
     image: securecodebox/bodgeit
     ports:
       - 8081:8080
+    networks:
+      - frontend
+  nginx:
+    image: nginx
+    ports:
+      - 8111:80
     networks:
       - frontend

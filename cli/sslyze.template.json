@@ -1,10 +1,13 @@
 [
-    {
-        "name" : "Target",
-        "location" : "%HOST_PORT%",
-        "attributes": {
-        	"SSLYZE_PARAMETER": ""
-		}
+  {
+    "context": "%CONTEXT%",
+    "name": "sslyze",
+    "target": {
+      "location": "%HOST%",
+      "name": "%TARGET_NAME%",
+      "attributes": {
+        "SSLYZE_PARAMETER": ""
+      }
     }
+  }
 ]
-

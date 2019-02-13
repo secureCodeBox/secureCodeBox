@@ -49,6 +49,8 @@ For each target where advanced scanner configuration was specified the following
 
 * `Include RegExe's` defines a Regex Pattern which defines which URLs are in scope of your webapplication. Note that this is based on the specified base url
 * `Exclude RegExe's` defines what is out of the webapp scope based on the base url
+* `Scanner delay in ms` defines the delay between two http requests. This can be used to make the active scan less aggressive
+* `Threads per host` defines how many threads the scanner will use per host.
 
 
 ## Automated Execution of Zap
@@ -73,17 +75,40 @@ A full example target looks like this:
     ZAP_LOGIN_PW: "i_like_unicorns_and_beer",
     ZAP_SCANNER_INCLUDE_REGEX: "*http://127.0.0.1:8080*",
     ZAP_SCANNER_EXCLUDE_REGEX: "",
+    ZAP_SCANNER_DELAY_IN_MS: 10,
+    ZAP_THREADS_PER_HOST: 2,
     ZAP_PW_FIELD_ID: "pw",
     ZAP_LOGGED_IN_INDICATOR: "*logout*",
     LOGGED_OUT_INDICATOR: "",
     ZAP_SPIDER_API_SPEC_URL: "",
     ZAP_CSRF_TOKEN_ID: "csrftoken",
+    ZAP_REPLACER_RULES:  
+     [
+         { 
+           matchType:"RESP_HEADER",
+           description:"Remove CSP",
+           matchString:"Content-Security Policy",
+           initiators:"",
+           matchRegex:"false",
+           replacement:"",
+           enabled:"true"
+         },
+         {
+            matchType:"REQ_HEADER",
+            description:"Add a special Authentication Header",
+            matchString:"Authorization",
+            initiators:"",
+            matchRegex:"false",
+            replacement:"Basic QWxhZGRpbjpPcGVuU2VzYW1l",
+            enabled:"true"
+         }
+    ]
   ]
 }
 ```
 
->**Note**: The attributes in the example are all fields currently supported by the secureCodeBox Zap Scanner. Mandatory is only `ZAP_BASE_URL`. If this field is not present, the target is ignored.
+> **Note**: The attributes in the example are all fields currently supported by the secureCodeBox Zap Scanner. Mandatory is only `ZAP_BASE_URL`. If this field is not present, the target is ignored.
 
+## Zap Addon Replacer
 
-
-
+The [Replacer](https://github.com/zaproxy/zap-extensions/wiki/HelpAddonsReplacerReplacer) is used to replace strings in requests and responses and is enabled in the secureCodeBox. It might be useful to to add an authentication header for security testing of APIs (e.g. with an OpenAPI specification).

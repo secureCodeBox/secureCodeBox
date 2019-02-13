@@ -1,7 +1,7 @@
-version: '3'
+version: '2.1'
 services:
   engine:
-    image: securecodebox/engine:v0.9.0
+    image: securecodebox/engine:${DEFAULT_TAG}
     depends_on:
       - camundadb
     ports:
@@ -17,15 +17,26 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://camundadb:3306/${CAMUNDADB_DATABASE}
       - SPRING_DATASOURCE_USERNAME=${CAMUNDADB_USER}
       - SPRING_DATASOURCE_PASSWORD=${CAMUNDADB_PW}
-      - SECURECODEBOX_PERSISTENCE_PROVIDER=elasticsearch
+      #ElasticSearch Configuration
+      - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_ENABLED=${ENABLE_ELASTICSEARCH}
       - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_HOST=persistence-elasticsearch
       - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_PORT=9200
       - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_INDEX_PREFIX=securecodebox
       - SECURECODEBOX_PERSISTENCE_ELASTICSEARCH_INDEX_DELETE_ON_INIT=false
+      #DefectDojo Configuration
+      - SECURECODEBOX_PERSISTENCE_DEFECTDOJO_ENABLED=${ENABLE_DEFECT_DOJO}
+      - SECURECODEBOX_PERSISTENCE_DEFECTDOJO_URL=http://persistence-defect-dojo:8000
+      - SECURECODEBOX_PERSISTENCE_DEFECTDOJO_AUTH_KEY=${DEFECT_DOJO_API_KEY}
+      - SECURECODEBOX_PERSISTENCE_DEFECTDOJO_AUTH_NAME=admin
       - SECURECODEBOX_DEFAULT_TARGET_NAME=JuiceShop Test Host
       - SECURECODEBOX_DEFAULT_TARGET_LOCATION=juice-shop
       - SECURECODEBOX_DEFAULT_TARGET_URI=http://juice-shop:3000
       - SECURECODEBOX_DEFAULT_CONTEXT=JuiceShop Test Scan
+      - SECURECODEBOX_USER_SCANNER=${ENGINE_SCANNERSERVICES_USER}
+      - SECURECODEBOX_USER_SCANNER_PW=${ENGINE_SCANNERSERVICES_PASSWORD}
+      # Admin User setup
+      - CAMUNDA_BPM_ADMIN-USER_ID=${CAMUNDA_BPM_ADMIN_USER_ID}
+      - CAMUNDA_BPM_ADMIN-USER_PASSWORD=${CAMUNDA_BPM_ADMIN_USER_PASSWORD}
     restart: on-failure:3
 
   camundadb:
@@ -44,73 +55,91 @@ services:
         - MYSQL_PASSWORD=${CAMUNDADB_PW}
 
   scanner-infrastructure-nmap:
-    image: securecodebox/nmap:v0.9.0
+    image: securecodebox/nmap:${DEFAULT_TAG}
     depends_on:
-      - engine
+      engine:
+        condition: service_healthy 
     networks:
       - frontend
     labels:
       container_group: scanner
     environment:
       - ENGINE_ADDRESS=http://engine:8080
+      - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
+      - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   scanner-webserver-nikto:
-    image: securecodebox/nikto:v0.9.0
+    image: securecodebox/nikto:${DEFAULT_TAG}
     depends_on:
-      - engine
+      engine:
+        condition: service_healthy 
     networks:
       - frontend
     labels:
       container_group: scanner
     environment:
       - ENGINE_ADDRESS=http://engine:8080
+      - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
+      - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   scanner-webapplication-zap:
-      image: securecodebox/zap:v0.9.0
+      image: securecodebox/zap:${DEFAULT_TAG}
       depends_on:
-        - engine
+        engine:
+          condition: service_healthy 
       networks:
         - frontend
       labels:
         container_group: scanner
       environment:
       - ENGINE_ADDRESS=http://engine:8080
+      - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
+      - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
+      - SECURECODEBOX_ZAP_JOBSSCHEDULERCRON=* * * * * *
 
   scanner-webapplication-sslyze:
-      image: securecodebox/sslyze:v0.9.0
+      image: securecodebox/sslyze:${DEFAULT_TAG}
       depends_on:
-        - engine
+        engine:
+          condition: service_healthy 
       networks:
         - frontend
       labels:
         container_group: scanner
       environment:
       - ENGINE_ADDRESS=http://engine:8080
+      - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
+      - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   scanner-webapplication-arachni:
-      image: securecodebox/arachni:v0.9.0
+      image: securecodebox/arachni:${DEFAULT_TAG}
       depends_on:
-        - engine
+        engine:
+          condition: service_healthy
       networks:
         - frontend
       labels:
         container_group: scanner
       environment:
       - ENGINE_ADDRESS=http://engine:8080
+      - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
+      - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
       volumes:
       - "./plugins/arachni-login-scripts:/securecodebox/scripts/"
 
   scanner-infrastructure-amass:
-      image: securecodebox/amass:oss
+      image: securecodebox/amass:${DEFAULT_TAG}
       depends_on:
-        - engine
+        engine:
+          condition: service_healthy
       networks:
         - frontend
       labels:
         container_group: scanner
       environment:
       - ENGINE_ADDRESS=http://engine:8080
-      - DEBUG=true
+      - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
+      - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   persistence-elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.3.1

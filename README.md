@@ -66,6 +66,8 @@ Running `docker-compose up` uses the default credentials specified in the [`.env
  * `CAMUNDADB_ROOT_PW` MySQL root password
  * `CAMUNDADB_USER` MySQL username used by the Camunda Engine
  * `CAMUNDADB_PW` MySQL password also used by the Camunda Engine
+ * `ENGINE_SCANNERSERVICES_USER` Technical user for the scanner services to access the engines API
+ * `ENGINE_SCANNERSERVICES_PASSWORD` Technical users password for the scanner services to access the engines API
 
 ### Run your first security scan
 There are several ways to start a security scan with the secureCodeBox. One way is to use the WebUI of the engine and start the scan manually.
