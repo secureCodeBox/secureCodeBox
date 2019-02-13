@@ -1,4 +1,4 @@
-version: '3'
+version: '2.1'
 services:
   engine:
     image: securecodebox/engine:${DEFAULT_TAG}
@@ -34,6 +34,9 @@ services:
       - SECURECODEBOX_DEFAULT_CONTEXT=JuiceShop Test Scan
       - SECURECODEBOX_USER_SCANNER=${ENGINE_SCANNERSERVICES_USER}
       - SECURECODEBOX_USER_SCANNER_PW=${ENGINE_SCANNERSERVICES_PASSWORD}
+      # Admin User setup
+      - CAMUNDA_BPM_ADMIN-USER_ID=${CAMUNDA_BPM_ADMIN_USER_ID}
+      - CAMUNDA_BPM_ADMIN-USER_PASSWORD=${CAMUNDA_BPM_ADMIN_USER_PASSWORD}
     restart: on-failure:3
 
   camundadb:
@@ -54,7 +57,8 @@ services:
   scanner-infrastructure-nmap:
     image: securecodebox/nmap:${DEFAULT_TAG}
     depends_on:
-      - engine
+      engine:
+        condition: service_healthy 
     networks:
       - frontend
     labels:
@@ -67,7 +71,8 @@ services:
   scanner-webserver-nikto:
     image: securecodebox/nikto:${DEFAULT_TAG}
     depends_on:
-      - engine
+      engine:
+        condition: service_healthy 
     networks:
       - frontend
     labels:
@@ -80,7 +85,8 @@ services:
   scanner-webapplication-zap:
       image: securecodebox/zap:${DEFAULT_TAG}
       depends_on:
-        - engine
+        engine:
+          condition: service_healthy 
       networks:
         - frontend
       labels:
@@ -94,7 +100,8 @@ services:
   scanner-webapplication-sslyze:
       image: securecodebox/sslyze:${DEFAULT_TAG}
       depends_on:
-        - engine
+        engine:
+          condition: service_healthy 
       networks:
         - frontend
       labels:
@@ -107,7 +114,8 @@ services:
   scanner-webapplication-arachni:
       image: securecodebox/arachni:${DEFAULT_TAG}
       depends_on:
-        - engine
+        engine:
+          condition: service_healthy
       networks:
         - frontend
       labels:
@@ -122,7 +130,8 @@ services:
   scanner-infrastructure-amass:
       image: securecodebox/amass:${DEFAULT_TAG}
       depends_on:
-        - engine
+        engine:
+          condition: service_healthy
       networks:
         - frontend
       labels:

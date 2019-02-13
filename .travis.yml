@@ -1,0 +1,37 @@
+language: node_js
+node_js:
+  - '10'
+services:
+  - docker
+env:
+  #  - DEFAULT_TAG=latest
+  - DEFAULT_TAG=develop
+script:
+  - cp test/.env.test .env
+  - docker-compose -f docker-compose.yml -f docker-compose.demo.yml up -d engine camundadb bodgeit juice-shop nginx scanner-infrastructure-nmap scanner-webapplication-arachni scanner-webapplication-zap scanner-infrastructure-amass scanner-webapplication-sslyze scanner-webserver-nikto
+  - cd test
+  - npm ci
+  - npm test -- --verbose --forceExit
+after_failure:
+  - docker ps -a
+  - echo -en "travis_fold:start:EngineLogs\r"
+  - docker logs securecodebox_engine_1
+  - echo -en "travis_fold:end:EngineLogs\r"
+  - echo -en "travis_fold:start:ZapLogs\r"
+  - docker logs securecodebox_scanner-webapplication-zap_1
+  - echo -en "travis_fold:end:ZapLogs\r"
+  - echo -en "travis_fold:start:ArachniLogs\r"
+  - docker logs securecodebox_scanner-webapplication-arachni_1
+  - echo -en "travis_fold:end:ArachniLogs\r"
+  - echo -en "travis_fold:start:AmassLogs\r"
+  - docker logs securecodebox_scanner-infrastructure-amass_1
+  - echo -en "travis_fold:end:AmassLogs\r"
+  - echo -en "travis_fold:start:NmapLogs\r"
+  - docker logs securecodebox_scanner-infrastructure-nmap_1
+  - echo -en "travis_fold:end:NmapLogs\r"
+  - echo -en "travis_fold:start:SSLyzeLogs\r"
+  - docker logs securecodebox_scanner-webapplication-sslyze_1
+  - echo -en "travis_fold:end:SSLyzeLogs\r"
+  - echo -en "travis_fold:start:NiktoLogs\r"
+  - docker logs securecodebox_scanner-webserver-nikto_1
+  - echo -en "travis_fold:end:NiktoLogs\r"
