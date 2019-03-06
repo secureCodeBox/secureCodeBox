@@ -66,26 +66,30 @@ The secureCodeBox can save the security tests results into different data stores
 
 MetaFields can be used to tag security tests with custom data relevant for you. We have encountered some data values which we found paticulary usefull and standardized their format to be used in multiple places. The list and formats can be found [here](./metafields/README.md).
 
-## Starting Scan-Processes using the REST-API
+## Starting securityTests using the REST-API
 
 In order to start a scan via the REST-API, send a PUT-Request to the following URL:
-`/box/processes/$PROCESS_KEY` with `$PROCESS_KEY` being the id defined in the respective BPMN file. As an example, the URL for starting an Nmap scan with SecureCodeBox running on localhost would be `http://localhost:8080/box/processes/nmap-process`.
+`<<Engine_Address>>/box/securityTests`.
 
-The scanning target is set within the payload:
+The scanning target is set within the payload. A securityTest running a nmap port scan woud look like this:
 
 ```json
 [
   {
-    "name": "Local Test",
-    "location": "localhost",
-    "attributes": {
-      "NMAP_PARAMETER": "-O"
+    "name": "nmap",
+    "context": "Feature Team 1",
+    "target": {
+      "name": "example.com website",
+      "location": "example.com",
+      "attributes": {
+        "NMAP_PARAMETER": "-Pn"
+      }
     }
   }
 ]
 ```
 
-You can check out a more detailed API documentation in the Swagger Docs of the secureCodeBox Engine. The Swagger Docs come together with the secureCodeBox Engine. You can access it at `http://localhost:8080/swagger-ui.html#/scan-process-resource` (you need to have the engine running on localhost).
+You can check out a more detailed API documentation in the Swagger Docs of the secureCodeBox Engine. The Swagger Docs come together with the secureCodeBox Engine. You can access it at `<<Engine_Address>>/swagger-ui.html`. If you dont have one running yet you can look at the staticly exported version of it here: [Static API Docs](../developer-guide/api-doc.md)
 
 ### In Depth Scan Examples
 
