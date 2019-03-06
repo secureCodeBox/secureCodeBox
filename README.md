@@ -125,10 +125,13 @@ The following scanners are currently available out of the box:
 - [Nmap][nmap] for IP and port scans
 - [Nikto][nikto] for web server scans
 - [SSLyze][sslyze] for SSL/TLS scans
-- [SQLMap][sqlmap] for SQL Injection scans
 - [Arachni][arachni] web vulnerability scans
-- [WPScan][wpscan] black box [WordPress][wordpress] vulnerability scans
 - [Amass][amass] for subdomain scans
+
+In the works (coming soon)
+- [SQLMap][sqlmap] for SQL Injection scans
+- [WPScan][wpscan] black box [WordPress][wordpress] vulnerability scans
+- [SSH Scan][sshscan] checking ssh servers for known vulnarabilities
 
 Enabled by the architecture you can also add your own non-free or commercial tools, like
 - [Burp Suite][burp] web vulnerability scanner.
@@ -195,6 +198,7 @@ Sponsored by [iteratec GmbH](https://www.iteratec.de/) -
 [arcachni]:             http://www.arachni-scanner.com/
 [sslyze]:               https://github.com/nabla-c0d3/sslyze
 [sqlmap]:               http://sqlmap.org/
+[sshscan]:              https://github.com/mozilla/ssh_scan_api
 [burp]:                 https://portswigger.net/burp
 [arachni]:              http://www.arachni-scanner.com/
 [wpscan]:               https://wpscan.org/
