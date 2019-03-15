@@ -20,15 +20,9 @@
 Username: choosen Username
 Password: choosen Password
 ```
-
-4.  Navigate to the user management via the top bar
+4. You are now logged in. Additional users can be created in the user managment section. New Users are created without any permissions, they are not even permitted to log in. This can be changed by assining them to the pre-exsisting groups are by assining them permissions individually.
 
 ![User management](../resources/userManagement.png)
-
-5.  Select the TODO account
-6.  Select `Account`from the left panel
-7.  Change the default logins for the TODO account
-8.  Create new users via user management as shown in step `4`
 
 ## Starting Scan-Processes using the Camunda UI
 
@@ -48,7 +42,7 @@ Password: choosen Password
 
 ![List of process definitions](../resources/processDefinitions.png)
 
-4.  Choose the desired scan process to display the form for configuring the scan. In this example `Port Scan` has been used.
+4.  Choose the desired scan process to display the form for configuring the scan. In this example `Nmap Port Scan` has been used.
 
 ![Configure a scan](../resources/configureScan.png)
 
