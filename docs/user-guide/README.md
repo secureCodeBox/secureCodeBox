@@ -20,7 +20,7 @@
 Username: choosen Username
 Password: choosen Password
 ```
-4. You are now logged in. Additional users can be created in the user managment section. New Users are created without any permissions, they are not even permitted to log in. This can be changed by assining them to the pre-exsisting groups are by assining them permissions individually.
+4. You are now logged in. Additional users can be created in the user managment section. New users are created without any permissions by default. They are not even permitted to log in. This can be changed by assigning them to the pre-exsisting groups or by granting them the required permission individually.
 
 ![User management](../resources/userManagement.png)
 
