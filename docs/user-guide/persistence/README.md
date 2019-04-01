@@ -62,7 +62,10 @@ Alternatively the corresponding environment variables, e.g. `SECURECODEBOX_PERSI
 #### Runetime Security Test Config
 
 The DefectDjojo Persistence Provider requries some additional configuration for every securityTest.
-This configuration is to set additional information e.g. for which product should engagment and findings be created?
+This configuration has only one **mandatory** parameter, which is the **context** of the security scan. This has to be the same as the product name inside DefectDojo related to the scan. Once the scan is finished a new engagment for the product and all findings are getting imported.
+
+Other than the context, there are also a number of optional params, which are used to populate other fields of the DefectDojo engagment.
+These can be set by passing them in the `metaData` param of the securityTest.
 
 | Meta Field             |  Description                                                                                         | Example Value                     | Mandatory |
 | ---------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------- | --------- |
@@ -76,13 +79,13 @@ This configuration is to set additional information e.g. for which product shoul
 | `SCB_SCM_SERVER`       | Source code server for CI/CD test                                                                    | http://your-scm-server.com        | no        |
 | `SCB_ENGAGEMENT_TITLE` | Title for the engagement. Defaults to name of the supported scanner or "Generic Findings Import"     | Engagement No.1337                | no        |
 
-An example security test with these values set would look like this.
+An example security test with these values set would look like this:
 
 ```json
 [
   {
     "name": "nmap",
-    "context": "feature-team-1/product-1",
+    "context": "product-1",
     "target": {
       "name": "Test Server",
       "location": "10.11.11.11",
