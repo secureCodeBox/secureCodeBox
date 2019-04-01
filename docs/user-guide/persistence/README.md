@@ -64,17 +64,17 @@ Alternatively the corresponding environment variables, e.g. `SECURECODEBOX_PERSI
 The DefectDjojo Persistence Provider requries some additional configuration for every securityTest.
 This configuration is to set additional information e.g. for which product should engagment and findings be created?
 
-| Meta Field            |  Description                                                                                         | Example Value | Mandatory |
-| --------------------- | ---------------------------------------------------------------------------------------------------- | ------------- | --------- |
-| `DEFECT_DOJO_USER`    | Username of the DefectDojo user responsible for the scan. Defaults to username of the technical user | john_doe      | no        |
-| `SCB_BRANCH`          | Tag or branch of the product the engagement tested                                                   | develop       | no        |
-| `SCB_BUILD_ID`        | Build ID of the product the engagement tested                                                        | 1.0           | no        |
-| `SCB_COMMIT_HASH`     | Commit hash from repo                                                                                | 9a03412       | no        |
-| `SCB_TRACKER`         | Link to epic or ticket system with changes to version                                                | http://your-ticket-system.com  | no        |
-| `SCB_REPO`            | Repository                                                                                           | http://your-remote-repository.com  | no        |
-| `SCB_BUILD_SERVER`    | Build server responsible for CI/CD test                                                              | http://your-build-server.com | no        |
-| `SCB_SCM_SERVER`      | Source code server for CI/CD test                                                                    | http://your-scm-server.com | no     |
-| `SCB_ENGAGEMENT_TITLE`| Title for the engagement. Defaults to name of the supported scanner or "Generic Findings Import"     | Engagement No.1337 | no      |
+| Meta Field             |  Description                                                                                         | Example Value                     | Mandatory |
+| ---------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------- | --------- |
+| `DEFECT_DOJO_USER`     | Username of the DefectDojo user responsible for the scan. Defaults to username of the technical user | john_doe                          | no        |
+| `SCB_BRANCH`           | Tag or branch of the product the engagement tested                                                   | develop                           | no        |
+| `SCB_BUILD_ID`         | Build ID of the product the engagement tested                                                        | 1.0                               | no        |
+| `SCB_COMMIT_HASH`      | Commit hash from repo                                                                                | 9a03412                           | no        |
+| `SCB_TRACKER`          | Link to epic or ticket system with changes to version                                                | http://your-ticket-system.com     | no        |
+| `SCB_REPO`             | Repository                                                                                           | http://your-remote-repository.com | no        |
+| `SCB_BUILD_SERVER`     | Build server responsible for CI/CD test                                                              | http://your-build-server.com      | no        |
+| `SCB_SCM_SERVER`       | Source code server for CI/CD test                                                                    | http://your-scm-server.com        | no        |
+| `SCB_ENGAGEMENT_TITLE` | Title for the engagement. Defaults to name of the supported scanner or "Generic Findings Import"     | Engagement No.1337                | no        |
 
 An example security test with these values set would look like this.
 
@@ -91,15 +91,15 @@ An example security test with these values set would look like this.
       }
     },
     "metaData": {
-        "DEFECT_DOJO_USER": "john_doe",
-        "SCB_BRANCH": "develop",
-        "SCB_BUILD_ID": "1.0",
-        "SCB_COMMIT_HASH": "9a03412",
-        "SCB_TRACKER": "http://your-ticket-system.com",
-        "SCB_REPO": "http://your-remote-repository.com",
-        "SCB_BUILD_SERVER": "http://your-build-server.com",
-        "SCB_SCM_SERVER": "http://your-scm-server.com",
-        "SCB_ENGAGEMENT_TITLE": "Engagement No.1337"
+      "DEFECT_DOJO_USER": "john_doe",
+      "SCB_BRANCH": "develop",
+      "SCB_BUILD_ID": "1.0",
+      "SCB_COMMIT_HASH": "9a03412",
+      "SCB_TRACKER": "http://your-ticket-system.com",
+      "SCB_REPO": "http://your-remote-repository.com",
+      "SCB_BUILD_SERVER": "http://your-build-server.com",
+      "SCB_SCM_SERVER": "http://your-scm-server.com",
+      "SCB_ENGAGEMENT_TITLE": "Engagement No.1337"
     }
   }
 ]
