@@ -78,8 +78,8 @@ curl -X POST 'http://<your-docker-host>:8080/box/jobs/<job-id>/result' -H 'Conte
 </details>
 
 
-To edit these models, Camunda provides a free modelling tool for the BPMN models which you can [download here](camunda_modeler).
-Feel free to get inspiration from the [prepackaged processes here](prepackaged_processes). 
+To edit these models, Camunda provides a free modelling tool for the BPMN models which you can [download here](https://camunda.com/products/modeler/).
+Feel free to get inspiration from the [prepackaged processes here](https://github.com/secureCodeBox/engine/tree/master/scb-scanprocesses). 
 
 <details>
 <summary>Just copy a process model from the prepackaged?</summary>
@@ -239,6 +239,3 @@ Note:
     },
 }
 ```
-
-[prepackaged_processes]: https://github.com/secureCodeBox/engine/tree/master/scb-scanprocesses
-[camunda_modeler]: https://camunda.com/download/modeler/
