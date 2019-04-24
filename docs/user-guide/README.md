@@ -20,6 +20,7 @@
 Username: choosen Username
 Password: choosen Password
 ```
+
 4. You are now logged in. Additional users can be created in the user managment section. New users are created without any permissions by default. They are not even permitted to log in. This can be changed by assigning them to the pre-exsisting groups or by granting them the required permission individually.
 
 ![User management](../resources/userManagement.png)
@@ -56,10 +57,6 @@ Password: choosen Password
 
 The secureCodeBox can save the security tests results into different data stores. A list with all availible stores and how to configure and use them can be found [here](./persistence/README.md).
 
-## Meta Fields and How to use them
-
-MetaFields can be used to tag security tests with custom data relevant for you. We have encountered some data values which we found paticulary usefull and standardized their format to be used in multiple places. The list and formats can be found [here](./metafields/README.md).
-
 ## Starting securityTests using the REST-API
 
 In order to start a scan via the REST-API, send a PUT-Request to the following URL:
@@ -92,6 +89,10 @@ The following links contain completes examples and explanations how to set up an
 1.  [Scanning modern Single Page Applications like OWASP Juice Shop using Arachni](./usage-examples/arachni-juice-shop-example.md)
 2.  [Scanning Server Rendered Applications like BodgeIt Store using Arachni](./usage-examples/arachni-bodgeit-example.md)
 3.  [Scanning Server Rendered Applications like BodgeIt Store using OWASP ZAP](./usage-examples/zap-bodgeit-example.md)
+
+## Meta Fields and How to use them
+
+MetaFields can be used to tag security tests with custom data relevant for you. We have encountered some data values which we found paticulary usefull and standardized their format to be used in multiple places. The list and formats can be found [here](./metafields/README.md).
 
 ## Starting Scan-Processes using the CLI
 
