@@ -57,7 +57,15 @@ Password: choosen Password
 
 The secureCodeBox can save the security tests results into different data stores. A list with all availible stores and how to configure and use them can be found [here](./persistence/README.md).
 
-## Starting securityTests using the REST-API
+## Starting securityTests
+
+### Starting securityTests using the UI
+
+When a scan is started via the Camunda UI, the scan is considered to be a manual scans. This means that its results has to be confirmed before they it gets persisted by the configured persistence provider (e.g. elasticsearch). The results will show up in the tasklist and will get persistet once their the task has been marked as completed.
+
+### Starting securityTests using the REST-API
+
+When a scan is started via the REST-API, the scan is considered to be automated. This means that the results will get automatically persisted into the configured perssitence provider (e.g. elasticsearch). The results of the securityTest will however **not** show up in the tasklist. The securityTest will be completed directly and the results are only availible via the persistence provider or by accessing it via the Rest-API.
 
 In order to start a scan via the REST-API, send a PUT-Request to the following URL:
 `<<Engine_Address>>/box/securityTests`.
@@ -82,6 +90,12 @@ The scanning target is set within the payload. A securityTest running a nmap por
 
 You can check out a more detailed API documentation in the Swagger Docs of the secureCodeBox Engine. The Swagger Docs come together with the secureCodeBox Engine. You can access it at `<<Engine_Address>>/swagger-ui.html`. If you dont have one running yet you can look at the staticly exported version of it here: [Static API Docs](../developer-guide/api-doc.md)
 
+#### Meta Fields and How to use them
+
+MetaFields can be used to tag security tests with custom data relevant for you. We have encountered some data values which we found paticulary usefull and standardized their format to be used in multiple places. The list and formats can be found [here](./metafields/README.md).
+
+MetaFields can currently only be set via the rest api. See the swagger docs for how to set them.
+
 ### In Depth Scan Examples
 
 The following links contain completes examples and explanations how to set up and start scans against demo application.
@@ -89,10 +103,6 @@ The following links contain completes examples and explanations how to set up an
 1.  [Scanning modern Single Page Applications like OWASP Juice Shop using Arachni](./usage-examples/arachni-juice-shop-example.md)
 2.  [Scanning Server Rendered Applications like BodgeIt Store using Arachni](./usage-examples/arachni-bodgeit-example.md)
 3.  [Scanning Server Rendered Applications like BodgeIt Store using OWASP ZAP](./usage-examples/zap-bodgeit-example.md)
-
-## Meta Fields and How to use them
-
-MetaFields can be used to tag security tests with custom data relevant for you. We have encountered some data values which we found paticulary usefull and standardized their format to be used in multiple places. The list and formats can be found [here](./metafields/README.md).
 
 ## Starting Scan-Processes using the CLI
 
