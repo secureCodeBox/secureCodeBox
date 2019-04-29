@@ -5,7 +5,7 @@
 
 ![secureCodeBox](docs/resources/logo.png "secureCodeBox")
 
-> _secureCodeBox_ is a docker based, modularized toolchain for continuous security scans of your software project. It's goal is to orchestrate and easily automate a bunch of security-testing tools out of the box.
+> _secureCodeBox_ is a docker based, modularized toolchain for continuous security scans of your software project. Its goal is to orchestrate and easily automate a bunch of security-testing tools out of the box.
 
 ## Overview
 
