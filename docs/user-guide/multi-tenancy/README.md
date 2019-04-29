@@ -1,13 +1,18 @@
 # Multi Tenancy / Multi Environment Support
 
-The basic principle of multi-tenancy support in the secureCodeBox is to get the scanners running inside protected networks. This way the scanners are able to access the service directly without the interference of any firewall. The network connectivity between the scanner and the engine works, aslong as the scanner is able to send out http requests to the engine. The engine activly sends out requests to the scanner, it only responds to their incomming http requests.
+The basic principle of multi-tenancy support in the secureCodeBox is to get the *scanners running inside protected networks*. 
+This way the scanners are able to access the service directly without the interference of any firewall. The network connectivity between the scanner and the engine works, aslong as the scanner is able to send out http requests to the engine.
+
+> The engine never activly sends out requests to the scanner, the communication is always initiated asynchronize and by pulling from the scannner side. The Engine only responds to incomming http requests from the scanner.
 
 So in a multi-tenant / multi-environment secureCodeBox setup there would be two different types of scanner working on jobs.
 
-1. Specialized scanner, located in isolated networks, handling scans for these networks.
+1. Specialized scanner, located in isolated networks, handling scans especially for these networks.
 2. Default scanner handling Jobs without specific network access.
 
-To seperate which scanner should be able to work on which scan the secureCodeBox relies on the camunda user managment. Every scanner has to authenticate itself agaisnt the engine to communicate with it. The authentification and authorization system of camunda is structured into three main concepts:
+![Diagram](scb_multi_tenancy.png)
+
+To seperate which scanner should be able to work on which scan the secureCodeBox relies on the camunda user managment. Every scanner has to authenticate itself against the engine to communicate with it. The authentification and authorization system of camunda is structured into three main concepts:
 
 1. `Users`: The basic building block
 2. `Authorizations`: A authorization represent a specific right. The are structure of a type of object, e.g. a "user", and a list of action allowed to be performed on the object, e.g. "create", "update".
@@ -65,6 +70,6 @@ PUT https://engine.scb.my-organisation.com/box/securityTests
 ]
 ```
 
-The important piece of this definition is the tenant attribute of the securityTest. This indicates the engine the engine which tenant to start the securityTest with. If the tenant doesnt get specified the process will get started without a tenant and will be worked on by one of the default scanner.
+The important piece of this definition is the *tenant* attribute of the securityTest. This definition indicates the engine which tenant to start the securityTest with. If the tenant doesn't get specified the process will get started without a tenant and will be worked on by one of the default scanner.
 
 > Note: To start a securityTest as a tenant the starting user has to be a member of the tenant.
