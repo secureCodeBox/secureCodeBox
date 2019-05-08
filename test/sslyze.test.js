@@ -1,6 +1,6 @@
 const { startSecurityTest, Time } = require('./sdk');
 
-test.only(
+test(
   'finds tls information for securecodebox.io',
   async () => {
     const securityTest = await startSecurityTest({
