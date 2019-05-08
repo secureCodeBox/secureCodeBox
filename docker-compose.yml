@@ -140,6 +140,20 @@ services:
       - ENGINE_ADDRESS=http://engine:8080
       - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
+  
+  scanner-infrastructure-ssh:
+      image: securecodebox/ssh:${DEFAULT_TAG}
+      depends_on:
+        engine:
+          condition: service_healthy
+      networks:
+        - frontend
+      labels:
+        container_group: scanner
+      environment:
+      - ENGINE_ADDRESS=http://engine:8080
+      - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
+      - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   persistence-elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.3.1
