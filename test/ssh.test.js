@@ -41,7 +41,7 @@ test(
       description: ' diffie-hellman-group14-sha1',
       name: 'Remove these key exchange algorithms',
       osi_layer: 'NETWORK',
-      severity: 'LOW',
+      severity: 'MEDIUM',
     });
 
     expect(findings).toContainEqual({
@@ -50,7 +50,7 @@ test(
         ' umac-64-etm@openssh.com, hmac-sha1-etm@openssh.com, umac-64@openssh.com, hmac-sha1',
       name: 'Remove these MAC algorithms',
       osi_layer: 'NETWORK',
-      severity: 'LOW',
+      severity: 'MEDIUM',
     });
   },
   2 * Time.Minute
