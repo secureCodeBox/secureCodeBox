@@ -18,3 +18,9 @@ services:
       - 8111:80
     networks:
       - frontend
+  old-wordpress:
+    image: wordpress/4.7.5-php7.1-fpm
+    ports:
+      - 8000:80
+    networks:
+      - frontend
