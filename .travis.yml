@@ -8,7 +8,7 @@ env:
   - DEFAULT_TAG=develop
 script:
   - cp test/.env.test .env
-  - docker-compose -f docker-compose.yml -f docker-compose.demo.yml up -d engine camundadb bodgeit juice-shop nginx scanner-infrastructure-nmap scanner-webapplication-arachni scanner-webapplication-zap scanner-infrastructure-amass scanner-webapplication-sslyze scanner-webserver-nikto
+  - docker-compose -f docker-compose.yml -f docker-compose.demo.yml up -d engine camundadb bodgeit juice-shop nginx scanner-infrastructure-nmap scanner-webapplication-arachni scanner-webapplication-zap scanner-infrastructure-amass scanner-webapplication-sslyze scanner-webserver-nikto scanner-infrastructure-ssh
   - cd test
   - npm ci
   - npm test -- --verbose --forceExit
