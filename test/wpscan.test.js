@@ -6,7 +6,7 @@ test(
         const securityTest = await startSecurityTest({
             context: 'iteraplan wp',
             metaData: {},
-            name: 'wpscan',
+            name: 'wordpress',
             target: {
                 name: 'iteraplan',
                 location: 'www.iteraplan.de',
@@ -16,66 +16,69 @@ test(
 
         const { report } = securityTest;
 
-        const findings = report.findings.map((
-            { name, description, category, severity }) => ({
-            name,
-            category,
-            severity,
-        }));
+        const findings = report.findings.map(
+            ({ description, category, name, osi_layer, severity }) => ({
+                description,
+                category,
+                name,
+                osi_layer,
+                severity,
+            })
+        );
 
         expect(findings).toContainEqual({
             description: 'CMS Wordpress Information',
             category: 'CMS Wordpress',
             name: 'CMS Wordpress',
-            osi_layer: 'NETWORK',
+            osi_layer: 'APPLICATION',
             severity: 'INFORMATIONAL',
         });
 
         expect(findings).toContainEqual({
-            description: 'Username & Hash Extract',
-            category: '',
-            name: 'W3 Total Cache 0.9.2.4',
-            osi_layer: 'NETWORK',
+            description: ' Username & Hash Extract',
+            category: 'Plugin',
+            name: 'W3 Total Cache 0.9.2.4 ',
+            osi_layer: 'APPLICATION',
             severity: 'INFORMATIONAL',
         });
 
         expect(findings).toContainEqual({
-            description: 'Remote Code Execution',
-            category: '',
-            name: 'W3 Total Cache',
-            osi_layer: 'NETWORK',
+            description: ' Remote Code Execution',
+            category: 'Plugin',
+            name: 'W3 Total Cache ',
+            osi_layer: 'APPLICATION',
             severity: 'INFORMATIONAL',
         });
 
         expect(findings).toContainEqual({
-            description: 'Edge Mode Enabling CSRF',
-            category: '',
-            name: 'W3 Total Cache 0.9.4',
-            osi_layer: 'NETWORK',
+            description: ' Edge Mode Enabling CSRF',
+            category: 'Plugin',
+            name: 'W3 Total Cache 0.9.4 ',
+            osi_layer: 'APPLICATION',
             severity: 'INFORMATIONAL',
         });
 
         expect(findings).toContainEqual({
-            description: 'Cross',
-            category: '',
-            name: 'W3 Total Cache <= 0.9.4',
-            osi_layer: 'NETWORK',
+            description: ' Cross',
+            category: 'Plugin',
+            name: 'W3 Total Cache <= 0.9.4 ',
+            osi_layer: 'APPLICATION',
             severity: 'INFORMATIONAL',
         });
 
         expect(findings).toContainEqual({
-            description: 'Debug Mode XSS',
-            category: '',
-            name: 'W3 Total Cache <= 0.9.4',
-            osi_layer: 'NETWORK',
+            description: ' Debug Mode XSS',
+            category: 'Plugin',
+            name: 'W3 Total Cache <= 0.9.4 ',
+            osi_layer: 'APPLICATION',
             severity: 'INFORMATIONAL',
         });
 
         expect(findings).toContainEqual({
-            description: 'Authenticated Reflected Cross',
-            category: '',
-            name: 'W3 Total Cache <= 0.9.4.1',
-            osi_layer: 'NETWORK',
+            description: ' Authenticated Reflected Cross',
+            category: 'Plugin',
+            name: 'W3 Total Cache <= 0.9.4.1 ',
+            osi_layer: 'APPLICATION',
             severity: 'INFORMATIONAL',
         });
     },
