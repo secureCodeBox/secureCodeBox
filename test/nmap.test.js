@@ -28,7 +28,7 @@ test(
       })
     );
 
-    expect(finding1).toContainEqual({
+    expect(finding1).toMatchObject({
       description: 'Port 3000 is open using tcp protocol.',
       category: 'Open Port',
       name: 'ppp',
@@ -36,10 +36,9 @@ test(
       severity: 'INFORMATIONAL',
     });
 
-    expect(finding2).toContainEqual({
+    expect(finding2).toMatchObject({
       category: 'Host',
       description: 'Found a host',
-      location: 'juice-shop',
       name: 'Host: juice-shop',
       osi_layer: 'NETWORK',
       severity: 'INFORMATIONAL',
