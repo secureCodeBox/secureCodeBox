@@ -18,7 +18,7 @@ test(
 
     const { report } = securityTest;
 
-    const findings = report.findings.map(
+    const [finding1, finding2, ...otherFindings] = report.findings.map(
       ({ description, category, name, osi_layer, severity }) => ({
         description,
         category,
@@ -28,7 +28,7 @@ test(
       })
     );
 
-    expect(findings).toContainEqual({
+    expect(finding1).toContainEqual({
       description: 'Port 3000 is open using tcp protocol.',
       category: 'Open Port',
       name: 'ppp',
@@ -36,7 +36,16 @@ test(
       severity: 'INFORMATIONAL',
     });
 
-    expect(findings.length).toBe(1);
+    expect(finding2).toContainEqual({
+      category: 'Host',
+      description: 'Found a host',
+      location: 'juice-shop',
+      name: 'Host: juice-shop',
+      osi_layer: 'NETWORK',
+      severity: 'INFORMATIONAL',
+    });
+
+    expect(otherFindings).toEqual([]);
   },
   1 * Time.Minute
 );
@@ -58,7 +67,13 @@ test(
     });
 
     const { report } = securityTest;
-    const [finding1, finding2, finding3, ...otherFindings] = report.findings;
+    const [
+      finding1,
+      finding2,
+      finding3,
+      finding4,
+      ...otherFindings
+    ] = report.findings;
 
     expect(finding1).toMatchObject({
       description: 'Port 8009 is open using tcp protocol.',
@@ -75,6 +90,15 @@ test(
     expect(finding3).toMatchObject({
       description: 'Port 8443 is open using tcp protocol.',
       category: 'Open Port',
+      severity: 'INFORMATIONAL',
+    });
+
+    expect(finding4).toMatchObject({
+      category: 'Host',
+      description: 'Found a host',
+      location: 'bodgeit',
+      name: 'Host: bodgeit',
+      osi_layer: 'NETWORK',
       severity: 'INFORMATIONAL',
     });
 
