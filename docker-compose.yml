@@ -97,7 +97,7 @@ services:
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
       - SECURECODEBOX_ZAP_JOBSSCHEDULERCRON=* * * * * *
 
-  scanner-webapplication-sslyze:
+  scanner-infrastructure-sslyze:
       image: securecodebox/sslyze:${DEFAULT_TAG}
       depends_on:
         engine:

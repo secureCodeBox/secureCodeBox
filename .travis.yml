@@ -8,7 +8,7 @@ env:
   - DEFAULT_TAG=unstable
 script:
   - cp test/.env.test .env
-  - docker-compose -f docker-compose.yml -f docker-compose.demo.yml up -d engine camundadb bodgeit juice-shop nginx scanner-infrastructure-nmap scanner-webapplication-arachni scanner-webapplication-zap scanner-infrastructure-amass scanner-webapplication-sslyze scanner-webserver-nikto scanner-infrastructure-ssh
+  - docker-compose -f docker-compose.yml -f docker-compose.demo.yml up -d engine camundadb bodgeit juice-shop nginx scanner-infrastructure-nmap scanner-webapplication-arachni scanner-webapplication-zap scanner-infrastructure-amass scanner-infrastructure-sslyze scanner-webserver-nikto scanner-infrastructure-ssh
   - cd test
   - npm ci
   - npm test -- --verbose --forceExit
@@ -19,5 +19,5 @@ after_failure:
   - docker logs securecodebox_scanner-webapplication-arachni_1
   - docker logs securecodebox_scanner-infrastructure-amass_1
   - docker logs securecodebox_scanner-infrastructure-nmap_1
-  - docker logs securecodebox_scanner-webapplication-sslyze_1
+  - docker logs securecodebox_scanner-infrastructure-sslyze_1
   - docker logs securecodebox_scanner-webserver-nikto_1
