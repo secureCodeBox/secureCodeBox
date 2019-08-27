@@ -5,7 +5,7 @@ services:
   - docker
 env:
   - DEFAULT_TAG=latest
-  - DEFAULT_TAG=develop
+  - DEFAULT_TAG=unstable
 script:
   - cp test/.env.test .env
   - docker-compose -f docker-compose.yml -f docker-compose.demo.yml up -d engine camundadb bodgeit juice-shop nginx scanner-infrastructure-nmap scanner-webapplication-arachni scanner-webapplication-zap scanner-infrastructure-amass scanner-webapplication-sslyze scanner-webserver-nikto scanner-infrastructure-ssh
