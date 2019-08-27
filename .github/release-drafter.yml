@@ -1,0 +1,20 @@
+name-template: 'v$NEXT_PATCH_VERSION'
+tag-template: 'v$NEXT_PATCH_VERSION'
+categories:
+  - title: '🚀 Features'
+    label: 'enhancement'
+  - title: '🐛 Bug Fixes'
+    label: 'bug'
+  - title: '🔧 Maintenance'
+    label: 'maintenance'
+  - title: '🧪 Test'
+    label: 'test'
+  - title: '🧪 Documentation'
+    label: 'docs'
+  - title: '📌 Dependencies'
+    label: 'dependencies'
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+exclude-labels:
+  - 'skip-changelog'
+template: |
+  $CHANGES
