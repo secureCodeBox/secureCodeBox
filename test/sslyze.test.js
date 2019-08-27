@@ -72,7 +72,7 @@ test(
     expect(
       findings
         .filter(({ severity }) => severity !== 'INFORMATIONAL')
-        .filter(({ name }) => name !== 'TLSv1')
+        .filter(({ name }) => name !== 'TLSv1 supported')
     ).toEqual([]);
   },
   5 * Time.Minute
