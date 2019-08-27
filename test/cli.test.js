@@ -14,12 +14,33 @@ test(
 
     const { report } = require('../cli/job_nmap_result.json');
 
-    expect(report.findings.length).toBe(1);
-
-    expect(report.findings[0].description).toBe(
-      'Port 3000 is open using tcp protocol.'
+    const [finding1, finding2, ...otherFindings] = report.findings.map(
+      ({ description, category, name, osi_layer, severity }) => ({
+        description,
+        category,
+        name,
+        osi_layer,
+        severity,
+      })
     );
-    expect(report.findings[0].category).toBe('Open Port');
+
+    expect(finding1).toMatchObject({
+      description: 'Port 3000 is open using tcp protocol.',
+      category: 'Open Port',
+      name: 'ppp',
+      osi_layer: 'NETWORK',
+      severity: 'INFORMATIONAL',
+    });
+
+    expect(finding2).toMatchObject({
+      category: 'Host',
+      description: 'Found a host',
+      name: 'Host: juice-shop',
+      osi_layer: 'NETWORK',
+      severity: 'INFORMATIONAL',
+    });
+
+    expect(otherFindings).toEqual([]);
   },
   1 * Time.Minute
 );
