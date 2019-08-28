@@ -172,7 +172,7 @@ You are welcome, please join us on... 👋
 - [Slack][scb-slack]
 - [Twitter][scb-twitter]
 
-SecureCodeBox is an official [OWASP][owasp] project.
+secureCodeBox is an official [OWASP][owasp] project.
 
 ## Contributing
 Contributions are welcome and extremely helpful 🙌
