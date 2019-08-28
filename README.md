@@ -161,7 +161,7 @@ While it is possible to access for example the camunda engine from outside, it i
 
 ## Roadmap
 
-At the moment, the _secureCodeBox_ is in a stable *beta state*. We are working hard on polishing, documenting and integrating new security scanners. Also we wish to become an official [OWASP][owasp] project.
+At the moment, the _secureCodeBox_ is in a stable *beta state*. We are working hard on polishing, documenting and integrating new security scanners.
 
 ## License
 Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
@@ -171,6 +171,8 @@ You are welcome, please join us on... 👋
 - [GitHub][scb-github]
 - [Slack][scb-slack]
 - [Twitter][scb-twitter]
+
+secureCodeBox is an official [OWASP][owasp] project.
 
 ## Contributing
 Contributions are welcome and extremely helpful 🙌
@@ -189,7 +191,7 @@ Sponsored by [iteratec GmbH](https://www.iteratec.de/) -
 [consul]:               https://www.consul.io/
 [microservices]:        https://martinfowler.com/articles/microservices.html
 [beta-testers]:         https://www.securecodebox.io/
-[owasp]:                https://www.owasp.org/index.php/Main_Page
+[owasp]:                https://www.owasp.org/index.php/OWASP_secureCodeBox
 [objspec]:              https://www.sigs-datacom.de/fachzeitschriften/objektspektrum.html
 [secdevops-objspec]:    http://www.sigs.de/public/ots/2017/OTS_DevOps_2017/Seedorff_Pfaender_OTS_%20DevOps_2017.pdf
 [jenkins]:              https://jenkins.io/
