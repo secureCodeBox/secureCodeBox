@@ -26,8 +26,6 @@ test(
       })
     );
 
-    expect(findings.length).toBe(3);
-
     expect(findings).toContainEqual({
       category: 'SSH Service',
       description: 'SSH Compliance Information',
@@ -52,6 +50,13 @@ test(
       osi_layer: 'NETWORK',
       severity: 'MEDIUM',
     });
+
+    expect(
+      findings
+        .filter(({ name }) => name !== 'SSH Compliance')
+        .filter(({ name }) => name !== 'Remove these key exchange algorithms')
+        .filter(({ name }) => name !== 'Remove these MAC algorithms')
+    ).toEqual([]);
   },
   2 * Time.Minute
 );
