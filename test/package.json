@@ -10,7 +10,7 @@
   "license": "Apache2",
   "devDependencies": {
     "axios": "^0.18.1",
-    "jest": "^24.0.0"
+    "jest": "^24.9.0"
   },
   "jest": {
     "testEnvironment": "node",
