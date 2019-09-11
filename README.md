@@ -127,11 +127,11 @@ The following scanners are currently available out of the box:
 - [SSLyze][sslyze] for SSL/TLS scans
 - [Arachni][arachni] web vulnerability scans
 - [Amass][amass] for subdomain scans
+- [WPScan][wpscan] black box [WordPress][wordpress] vulnerability scans
+- [SSH Scan][sshscan] checking ssh servers for known vulnarabilities
 
 In the works (coming soon)
 - [SQLMap][sqlmap] for SQL Injection scans
-- [WPScan][wpscan] black box [WordPress][wordpress] vulnerability scans
-- [SSH Scan][sshscan] checking ssh servers for known vulnarabilities
 
 Enabled by the architecture you can also add your own non-free or commercial tools, like
 - [Burp Suite][burp] web vulnerability scanner.
