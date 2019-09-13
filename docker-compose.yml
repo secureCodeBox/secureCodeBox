@@ -125,7 +125,7 @@ services:
       - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
       volumes:
-      - "./plugins/arachni-login-scripts:/securecodebox/scripts/"
+      - "./plugins/arachni-login-scripts:/securecodebox/static/"
 
   scanner-infrastructure-amass:
       image: securecodebox/amass:${DEFAULT_TAG}
