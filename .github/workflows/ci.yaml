@@ -1,0 +1,17 @@
+on: push
+name: 'CI'
+jobs:
+  engine:
+    name: engine
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Build'n Push ProgressWatchDog
+        uses: pangzineng/Github-Action-One-Click-Docker@bfb4a810c8cb823f4a87c24da145caa707e297e9
+        env:
+          DOCKER_IMAGE_NAME: engine
+          DOCKER_NAMESPACE: docker.pkg.github.com/j12934/securecodebox
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        with:
+          args: ./engine/
