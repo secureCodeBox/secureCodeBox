@@ -16,3 +16,33 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         with:
           args: ./engine/
+  dispatcher:
+    name: dispatcher
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Build'n Push Dispatcher
+        uses: pangzineng/Github-Action-One-Click-Docker@bfb4a810c8cb823f4a87c24da145caa707e297e9
+        env:
+          DOCKER_IMAGE_NAME: dispatcher
+          DOCKER_REGISTRY_URL: docker.pkg.github.com
+          DOCKER_NAMESPACE: j12934/securecodebox
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        with:
+          args: ./dispatcher/
+  lurcher:
+    name: lurcher
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Build'n Push Lurcher
+        uses: pangzineng/Github-Action-One-Click-Docker@bfb4a810c8cb823f4a87c24da145caa707e297e9
+        env:
+          DOCKER_IMAGE_NAME: lurcher
+          DOCKER_REGISTRY_URL: docker.pkg.github.com
+          DOCKER_NAMESPACE: j12934/securecodebox
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        with:
+          args: ./lurcher/
