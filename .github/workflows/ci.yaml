@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: Build'n Push ProgressWatchDog
+      - name: Build'n Push Engine
         uses: pangzineng/Github-Action-One-Click-Docker@bfb4a810c8cb823f4a87c24da145caa707e297e9
         env:
           DOCKER_IMAGE_NAME: engine
