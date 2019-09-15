@@ -50,11 +50,18 @@ There is a german article about [Security DevOps – Angreifern (immer) einen Sc
 ```bash
 # Deploy redis for the engine
 helm install redis stable/redis --set cluster.slaveCount=0 --set cluster.enabled=false
-# Deploy the engine
+
+# Deplyo Minio (min.io) for file storage.
+# You can configure to use a hosted solution (aws s3 / digitalocean spaces ...) if you don't want to run it your self. Change the config in engine/engine-deployment for that.
+helm install minio stable/minio --set defaultBucket.enabled=true --set defaultBucket.name=securecodebox
+
+# NOTE: Before deploying the engine you'll need to either
 kubectl apply -f engine/engine-deployment.yaml
+
 # Deploy the ScanJobDefinition CRD and Build in Scan Jobs
 kubectl apply -f dispatcher/crd.yaml
 kubectl apply -f dispatcher/nmap/nmap-scanjob-definition.yaml -f dispatcher/amass/amass-scanjob-definition.yaml
+
 # Deploy Dispatcher
 kubectl apply -f dispatcher/dispatcher-deployment.yaml
 ```
