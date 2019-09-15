@@ -1,0 +1,22 @@
+apiVersion: 'experimental.securecodebox.io/v1'
+kind: ScanJobDefinition
+metadata:
+  name: 'ssh-scan'
+spec:
+  name: 'ssh-scan'
+  extractResults:
+    - type: ssh-scan-json
+      location: '/home/securecodebox/ssh-scan-results.json'
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 10
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: nmap
+              image: mozilla/ssh_scan
+              command:
+                - '/app/bin/ssh_scan'
+                - '--output'
+                - '/home/securecodebox/ssh-scan-results.json'

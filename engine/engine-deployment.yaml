@@ -1,0 +1,62 @@
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: 'engine'
+  labels:
+    app: 'engine'
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: 'engine'
+  template:
+    metadata:
+      labels:
+        app: engine
+        app.kubernetes.io/name: 'engine'
+    spec:
+      containers:
+        - name: engine
+          image: scbexperimental/engine
+          imagePullPolicy: Always
+          env:
+            - name: REDIS_HOST
+              value: redis-master.default.svc.cluster.local
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis
+                  key: redis-password
+            - name: S3_ENDPOINT
+              value: minio.default.svc.cluster.local
+            - name: S3_TLS_ENABLED
+              value: 'false'
+            - name: S3_PORT
+              value: '9000'
+            - name: S3_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: minio
+                  key: accesskey
+            - name: S3_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: minio
+                  key: secretkey
+            - name: S3_BUCKET
+              value: 'securecodebox'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: engine
+  name: engine
+spec:
+  ports:
+    - name: http
+      port: 3000
+      protocol: TCP
+      targetPort: 3000
+  selector:
+    app: engine
