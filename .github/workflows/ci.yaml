@@ -10,7 +10,8 @@ jobs:
         uses: pangzineng/Github-Action-One-Click-Docker@bfb4a810c8cb823f4a87c24da145caa707e297e9
         env:
           DOCKER_IMAGE_NAME: engine
-          DOCKER_NAMESPACE: docker.pkg.github.com/j12934/securecodebox
+          DOCKER_REGISTRY_URL: docker.pkg.github.com
+          DOCKER_NAMESPACE: j12934/securecodebox
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         with:
