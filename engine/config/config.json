@@ -1,0 +1,15 @@
+{
+  "port": 3000,
+  "redis": {
+    "host": "localhost",
+    "password": null,
+    "port": 6379
+  },
+  "s3": {
+    "endpoint": "fra1.digitaloceanspaces.com",
+    "tls_enabled": true,
+    "port": 443,
+    "access_key": null,
+    "secret_key": null
+  }
+}
