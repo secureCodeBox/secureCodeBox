@@ -38,9 +38,13 @@ class RunCommand extends Command {
             'json',
           ];
 
-          let podId = null;
+          let scannerContainerState = null;
+
+          this.log('Waiting for job container to start');
 
           do {
+            await sleep(100);
+
             const { stdout } = await execa('kubectl', getArgs);
 
             this.debug(`$ kubectl ${getArgs.join(' ')}`);
@@ -48,21 +52,27 @@ class RunCommand extends Command {
             const output = JSON.parse(stdout);
 
             if (output.items.length !== 0) {
-              podId = output.items[0].metadata.name;
-            } else {
-              await sleep(100);
+              const scannerContainers = output.items[0].status.containerStatuses.filter(
+                ({ name }) => name === scannerName
+              );
+
+              if (scannerContainers.length !== 1) {
+                this.warn(
+                  `Unexpected scanner container count of ${scannerContainers.length}`
+                );
+              } else {
+                const scannerContainer = scannerContainers[0];
+
+                if (!scannerContainer.state.waiting) {
+                  scannerContainerState = 'ready';
+                }
+              }
             }
-          } while (podId === null);
+          } while (scannerContainerState !== 'ready');
 
-          this.log(`Job is running in Pod ${podId}`);
+          this.log('Job container started');
 
-          const waitArgs = ['wait', '--for=condition=Ready', `pod/${podId}`];
-          this.log();
-          this.log(`$ kubectl ${waitArgs.join(' ')}`);
-          this.log();
-          const waitProcess = execa('kubectl', waitArgs);
-          waitProcess.stdout.pipe(process.stdout);
-          await waitProcess;
+          // this.log(`Job is running in Pod ${podId}`);
 
           const logArgs = [
             'logs',
@@ -77,6 +87,7 @@ class RunCommand extends Command {
           logsProcess.stdout.pipe(process.stdout);
           await logsProcess;
 
+          this.log();
           this.log(`Job completed`);
         }
       })
