@@ -1,6 +1,6 @@
 const { startSecurityTest, Time } = require('./sdk');
 
-test.skip(
+test(
   'finds a few findings for a bare nginx container',
   async () => {
     const securityTest = await startSecurityTest({
