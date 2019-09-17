@@ -60,7 +60,7 @@ kubectl apply -f engine/engine-deployment.yaml
 
 # Deploy the ScanJobDefinition CRD and Build in Scan Jobs
 kubectl apply -f dispatcher/crd.yaml
-kubectl apply -f dispatcher/nmap/nmap-scanjob-definition.yaml -f dispatcher/amass/amass-scanjob-definition.yaml
+kubectl apply -f integrations/nmap/nmap-scanjob-definition.yaml -f integrations/amass/amass-scanjob-definition.yaml
 
 # Deploy Dispatcher
 kubectl apply -f dispatcher/dispatcher-deployment.yaml
