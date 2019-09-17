@@ -22,6 +22,8 @@ spec:
           env:
             - name: ENGINE_ADDRESS
               value: http://engine.default.svc.cluster.local:3000
+            - name: DISPATCHER_ENVIRONMENT_NAME
+              value: default
 ---
 apiVersion: v1
 kind: ServiceAccount

@@ -8,10 +8,10 @@ const { logger } = require('../logger');
 const router = express.Router();
 
 router.post('/api/v1alpha/scan-job/lock', async (req, res) => {
-  const { jobTypes } = req.body;
+  const { jobTypes, dispatcherEnvironmentName } = req.body;
 
   for (const jobType of jobTypes) {
-    const job = await lookForJob(jobType, 'default');
+    const job = await lookForJob(jobType, 'default', dispatcherEnvironmentName);
 
     if (job) {
       return res.json({ jobType: jobType, ...job });

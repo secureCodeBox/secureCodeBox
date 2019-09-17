@@ -9,8 +9,9 @@ const axios = require('axios');
 const get = require('lodash.get');
 const isArray = require('lodash.isarray');
 const flatmap = require('lodash.flatmap');
-
 const path = require('path');
+
+const dispatcherEnvironmentName = process.env['DISPATCHER_ENVIRONMENT_NAME'];
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -58,6 +59,7 @@ async function main() {
     const res = await axios
       .post(`${engineUrl}/api/v1alpha/scan-job/lock`, {
         jobTypes,
+        dispatcherEnvironmentName,
       })
       .catch(err => {
         console.error('Request Failed');

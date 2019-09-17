@@ -1,11 +1,24 @@
 const redis = require('./redis');
 const uuid = require('uuid/v4');
 
-async function lookForJob(jobType, tenant) {
+async function lookForJob(jobType, tenant, dispatcherEnvironmentName) {
   const scanId = await redis.lpop(`${tenant}:${jobType}`);
 
   if (scanId) {
     const scanJob = await redis.get(`job:${scanId}`);
+
+    await redis.set(`job:${scanId}`, {
+      ...scanJob,
+      events: [
+        {
+          type: 'Locked',
+          attributes: {
+            dispatcherEnvironmentName,
+          },
+        },
+      ],
+    });
+
     return JSON.parse(scanJob);
   }
 
