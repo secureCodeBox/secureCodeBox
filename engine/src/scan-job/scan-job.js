@@ -3,6 +3,7 @@ const express = require('express');
 const { get } = require('../config');
 const { lookForJob, createScanJob } = require('../queue');
 const minio = require('../minio');
+const { logger } = require('../logger');
 
 const router = express.Router();
 
