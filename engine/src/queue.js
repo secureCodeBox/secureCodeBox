@@ -5,9 +5,9 @@ async function lookForJob(jobType, tenant, dispatcherEnvironmentName) {
   const scanId = await redis.lpop(`${tenant}:${jobType}`);
 
   if (scanId) {
-    const scanJob = await redis.get(`job:${scanId}`);
+    const scanJob = JSON.parse(await redis.get(`job:${scanId}`));
 
-    await redis.set(`job:${scanId}`, {
+    const updatedScanJob = {
       ...scanJob,
       events: [
         {
@@ -17,9 +17,11 @@ async function lookForJob(jobType, tenant, dispatcherEnvironmentName) {
           },
         },
       ],
-    });
+    };
 
-    return JSON.parse(scanJob);
+    await redis.set(`job:${scanId}`, JSON.stringify(updatedScanJob));
+
+    return updatedScanJob;
   }
 
   return null;
@@ -37,3 +39,12 @@ async function createScanJob(jobType, tenant, parameters) {
   return id;
 }
 module.exports.createScanJob = createScanJob;
+
+async function getScanJob(scanId) {
+  const scanJob = await redis.get(`job:${scanId}`);
+  if (!scanJob) {
+    return null;
+  }
+  return JSON.parse(scanJob);
+}
+module.exports.getScanJob = getScanJob;

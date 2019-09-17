@@ -1,7 +1,7 @@
 const express = require('express');
 
 const { get } = require('../config');
-const { lookForJob, createScanJob } = require('../queue');
+const { lookForJob, createScanJob, getScanJob } = require('../queue');
 const minio = require('../minio');
 const { logger } = require('../logger');
 
@@ -19,6 +19,18 @@ router.post('/api/v1alpha/scan-job/lock', async (req, res) => {
   }
 
   return res.status(204).send();
+});
+
+router.get('/api/v1alpha/scan-job/:scanId', async (req, res) => {
+  const { scanId } = req.params;
+
+  const scanJob = await getScanJob(scanId);
+
+  if (scanJob) {
+    return res.json(scanJob);
+  } else {
+    return res.status(404).send();
+  }
 });
 
 router.put('/api/v1alpha/scan-job/', async (req, res) => {
