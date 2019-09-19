@@ -233,12 +233,18 @@ async function getLurcherArgs(
     }
   );
 
-  const args = ['--main-container-name', scannerName, ...fileArgs];
+  const args = [
+    '--scan-id',
+    scanId,
+    '--main-container-name',
+    scannerName,
+    ...fileArgs,
+  ];
 
   console.log('lurcher args');
   console.log(args);
 
-  return ['--main-container-name', scannerName, ...fileArgs];
+  return args;
 }
 
 try {

@@ -8,9 +8,11 @@ async function main() {
   const {
     '--file': filesToExtractRaw = [],
     '--skip-k8s': skipK8s = false,
+    '--scan-id': scanId,
     '--main-container-name': mainContainerName,
   } = arg({
     '--file': [String],
+    '--scan-id': String,
     '--main-container-name': String,
     '--skip-k8s': Boolean,
   });
@@ -62,6 +64,9 @@ async function main() {
   console.log(`Container Terminated`);
 
   console.log(`Uploading result files`);
+
+  let files = [];
+
   for ({ fileName, uploadUrl, contentType } of filesToExtract) {
     try {
       const { statusCode, uploadSize, uploadDuration } = await uploadFile(
@@ -73,12 +78,25 @@ async function main() {
       console.log(
         ` - ${fileName} (${uploadSize}bytes) uploaded in ${uploadDuration}ms`
       );
+
+      files.push({ fileName, uploadSize });
     } catch (error) {
       console.error(`Failed to upload File: ${fileName}`);
 
       console.error(error.request.headers);
       // console.error(error);
     }
+  }
+
+  try {
+    const res = await request.post({
+      url: `http://engine.default.svc.cluster.local:3000/api/v1alpha/scan-job/${scanId}/scan-completion`,
+      json: {
+        files,
+      },
+    });
+  } catch (error) {
+    console.error(`Failed mark scan as completed with the engine`);
   }
 }
 

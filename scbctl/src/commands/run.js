@@ -88,7 +88,27 @@ class RunCommand extends Command {
           await logsProcess;
 
           this.log();
-          this.log(`Job completed`);
+          this.log(`ScanJob completed`);
+
+          let scanCompletedEvent;
+          while (true) {
+            const { data } = await axios.get(
+              `http://localhost:3000/api/v1alpha/scan-job/${id}`
+            );
+            const scanCompletedEvents = data.events.filter(
+              ({ type }) => type === 'ScanCompleted'
+            );
+            if (scanCompletedEvents.length !== 0) {
+              scanCompletedEvent = scanCompletedEvents[0];
+              break;
+            }
+            sleep(150);
+          }
+          this.log(`Result Files:`);
+          for (const { fileName, uploadSize } of scanCompletedEvent.attributes
+            .files) {
+            this.log(` - ${fileName} (${uploadSize}kb)`);
+          }
         }
       })
       .catch(error => {
