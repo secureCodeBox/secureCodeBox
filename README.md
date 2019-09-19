@@ -3,7 +3,7 @@
 
 # Continuous Secure Delivery - Out of the Box
 
-![secureCodeBox](docs/resources/logo.png 'secureCodeBox')
+![secureCodeBox](securecodebox-logo.svg 'secureCodeBox')
 
 > _secureCodeBox_ is a docker based, modularized toolchain for continuous security scans of your software project. Its goal is to orchestrate and easily automate a bunch of security-testing tools out of the box.
 
@@ -65,6 +65,12 @@ kubectl apply -f integrations/nmap/nmap-scanjob-definition.yaml -f integrations/
 # Deploy Dispatcher
 kubectl apply -f dispatcher/dispatcher-deployment.yaml
 ```
+
+## How does it work?
+
+## Architecture
+
+![secureCodeBox Architecture](scb-architecture.svg)
 
 ## License
 
