@@ -1,8 +1,27 @@
 const { Command, flags } = require('@oclif/command');
 const axios = require('axios');
 const execa = require('execa');
+const chalk = require('chalk');
+const path = require('path');
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+// From: https://stackoverflow.com/a/14919494
+function humanFileSize(bytes, si) {
+  var thresh = si ? 1000 : 1024;
+  if (Math.abs(bytes) < thresh) {
+    return bytes + ' B';
+  }
+  var units = si
+    ? ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+    : ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+  var u = -1;
+  do {
+    bytes /= thresh;
+    ++u;
+  } while (Math.abs(bytes) >= thresh && u < units.length - 1);
+  return bytes.toFixed(1) + ' ' + units[u];
+}
 class RunCommand extends Command {
   async run() {
     const { args, argv, flags } = this.parse(RunCommand);
@@ -14,9 +33,9 @@ class RunCommand extends Command {
     const scannerParameters = [scannerParamsOne, ...otherScannerParams];
 
     this.debug(
-      `Starting securityTest "${scannerName}" with params "${scannerParameters.join(
-        ' '
-      )}"`
+      `Starting securityTest "${chalk.default.blue(
+        scannerName
+      )}" with params "${scannerParameters.join(' ')}"`
     );
 
     axios
@@ -27,10 +46,36 @@ class RunCommand extends Command {
       .then(async ({ data }) => {
         const { id } = data;
 
-        this.log(`Started securityTest with id: "${id}"`);
+        this.log(
+          `🚀 Started securityTest with id: "${chalk.default.grey(id)}"`
+        );
+
+        let scanJobEnvironment;
+        while (true) {
+          const { data } = await axios.get(
+            `http://localhost:3000/api/v1alpha/scan-job/${id}`
+          );
+          const scanLockedEvents = data.events.filter(
+            ({ type }) => type === 'Locked'
+          );
+          if (scanLockedEvents.length !== 0) {
+            scanJobEnvironment =
+              scanLockedEvents[0].attributes.dispatcherEnvironmentName;
+            break;
+          }
+          sleep(150);
+        }
+
+        this.log(
+          `🔒 ScanJob locked by dispatcher in environment: "${chalk.default.grey(
+            scanJobEnvironment
+          )}"`
+        );
 
         if (flags.logs) {
           const getArgs = [
+            '--cluster',
+            scanJobEnvironment,
             'get',
             'pods',
             `--selector=id=${id}`,
@@ -40,18 +85,21 @@ class RunCommand extends Command {
 
           let scannerContainerState = null;
 
-          this.log('Waiting for job container to start');
+          this.log('⏰ Waiting for ScanJob container to start');
 
           do {
             await sleep(100);
 
-            const { stdout } = await execa('kubectl', getArgs);
-
             this.debug(`$ kubectl ${getArgs.join(' ')}`);
+            const { stdout } = await execa('kubectl', getArgs);
 
             const output = JSON.parse(stdout);
 
-            if (output.items.length !== 0) {
+            if (
+              output.items.length !== 0 &&
+              output.items[0].status &&
+              output.items[0].status.containerStatuses.length !== 0
+            ) {
               const scannerContainers = output.items[0].status.containerStatuses.filter(
                 ({ name }) => name === scannerName
               );
@@ -70,11 +118,13 @@ class RunCommand extends Command {
             }
           } while (scannerContainerState !== 'ready');
 
-          this.log('Job container started');
+          this.log('🎢 ScanJob container started');
 
           // this.log(`Job is running in Pod ${podId}`);
 
           const logArgs = [
+            '--cluster',
+            scanJobEnvironment,
             'logs',
             '--follow',
             `job/${scannerName}-${id}`,
@@ -88,7 +138,7 @@ class RunCommand extends Command {
           await logsProcess;
 
           this.log();
-          this.log(`ScanJob completed`);
+          this.log(`🏁 ScanJob completed`);
 
           let scanCompletedEvent;
           while (true) {
@@ -104,16 +154,18 @@ class RunCommand extends Command {
             }
             sleep(150);
           }
-          this.log(`Result Files:`);
+          this.log(`📁 Result files:`);
           for (const { fileName, uploadSize } of scanCompletedEvent.attributes
             .files) {
-            this.log(` - ${fileName} (${uploadSize}kb)`);
+            this.log(
+              `   ↳ ${path.basename(fileName)} (${humanFileSize(uploadSize)})`
+            );
           }
         }
       })
       .catch(error => {
         if (error.isAxiosError) {
-          this.warn('Failed to contact the engine. Is it up?', { exit: 2 });
+          this.warn('Failed to contact the engine. Is it up?');
           process.exit(1);
         } else {
           this.warn('Unknown error');

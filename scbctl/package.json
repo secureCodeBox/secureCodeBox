@@ -12,6 +12,7 @@
     "@oclif/config": "^1.13.3",
     "@oclif/plugin-help": "^2.2.1",
     "axios": "^0.19.0",
+    "chalk": "^2.4.2",
     "execa": "^2.0.4"
   },
   "devDependencies": {
