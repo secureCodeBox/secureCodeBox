@@ -129,7 +129,7 @@ class RunCommand extends Command {
     }
 
     this.warn(
-      `Waited for more than ${MAX_MINUTES_TO_WAIT} for the securityTest to get locked by a dispatcher. This means that either all dispatcher are busy or that no dispatcher can work this job type.`
+      `Waited for more than ${MAX_MINUTES_TO_WAIT} minutes for the securityTest to get locked by a dispatcher. This means that either all dispatcher are busy or that no dispatcher can work this job type.`
     );
     this.warn(
       `The Job will stay queued until a dispatcher is ready to pick it up.`
@@ -185,7 +185,7 @@ class RunCommand extends Command {
     }
 
     this.warn(
-      `Waited for more than ${MAX_MINUTES_TO_WAIT} for the Scan Container to start up. This might indicate that the cluster isn't able to start up the container.`
+      `Waited for more than ${MAX_MINUTES_TO_WAIT} minutes for the Scan Container to start up. This might indicate that the cluster isn't able to start up the container.`
     );
     this.exit(1);
   }
@@ -230,7 +230,7 @@ class RunCommand extends Command {
     }
 
     this.warn(
-      `Waited for more than ${MAX_MINUTES_TO_WAIT} ScanJob to be marked completed. Either the scanner is taking a really really long time or something crashed in a unexpected way.`
+      `Waited for more than ${MAX_MINUTES_TO_WAIT} minutes for the ScanJob to be marked completed. Either the scanner is taking a really really long time or something crashed in a unexpected way.`
     );
     this.exit(1);
   }
