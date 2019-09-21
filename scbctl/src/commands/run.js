@@ -22,6 +22,7 @@ function humanFileSize(bytes, si) {
   } while (Math.abs(bytes) >= thresh && u < units.length - 1);
   return bytes.toFixed(1) + ' ' + units[u];
 }
+
 class RunCommand extends Command {
   async run() {
     const { args, argv, flags } = this.parse(RunCommand);
@@ -38,142 +39,202 @@ class RunCommand extends Command {
       )}" with params "${scannerParameters.join(' ')}"`
     );
 
-    axios
-      .put('http://localhost:3000/api/v1alpha/scan-job/', {
-        jobType: scannerName,
-        parameters: scannerParameters,
-      })
-      .then(async ({ data }) => {
-        const { id } = data;
+    const id = await this.startSecurityTest({
+      scannerName,
+      scannerParameters,
+    });
 
-        this.log(
-          `🚀 Started securityTest with id: "${chalk.default.grey(id)}"`
-        );
+    this.log(`🚀 Started securityTest with id: "${chalk.default.grey(id)}"`);
 
-        let scanJobEnvironment;
-        while (true) {
-          const { data } = await axios.get(
-            `http://localhost:3000/api/v1alpha/scan-job/${id}`
-          );
-          const scanLockedEvents = data.events.filter(
-            ({ type }) => type === 'Locked'
-          );
-          if (scanLockedEvents.length !== 0) {
-            scanJobEnvironment =
-              scanLockedEvents[0].attributes.dispatcherEnvironmentName;
-            break;
-          }
-          sleep(150);
-        }
+    const scanJobEnvironment = await this.waitForJobToGetLocked({
+      securityTestId: id,
+    });
 
-        this.log(
-          `🔒 ScanJob locked by dispatcher in environment: "${chalk.default.grey(
-            scanJobEnvironment
-          )}"`
-        );
+    this.log(
+      `🔒 ScanJob locked by dispatcher in environment: "${chalk.default.grey(
+        scanJobEnvironment
+      )}"`
+    );
 
-        if (flags.logs) {
-          const getArgs = [
-            '--cluster',
-            scanJobEnvironment,
-            'get',
-            'pods',
-            `--selector=id=${id}`,
-            '--output',
-            'json',
-          ];
+    if (flags.logs) {
+      this.log('⏰ Waiting for ScanJob container to start');
 
-          let scannerContainerState = null;
-
-          this.log('⏰ Waiting for ScanJob container to start');
-
-          do {
-            await sleep(100);
-
-            this.debug(`$ kubectl ${getArgs.join(' ')}`);
-            const { stdout } = await execa('kubectl', getArgs);
-
-            const output = JSON.parse(stdout);
-
-            if (
-              output.items.length !== 0 &&
-              output.items[0].status &&
-              output.items[0].status.containerStatuses.length !== 0
-            ) {
-              const scannerContainers = output.items[0].status.containerStatuses.filter(
-                ({ name }) => name === scannerName
-              );
-
-              if (scannerContainers.length !== 1) {
-                this.warn(
-                  `Unexpected scanner container count of ${scannerContainers.length}`
-                );
-              } else {
-                const scannerContainer = scannerContainers[0];
-
-                if (!scannerContainer.state.waiting) {
-                  scannerContainerState = 'ready';
-                }
-              }
-            }
-          } while (scannerContainerState !== 'ready');
-
-          this.log('🎢 ScanJob container started');
-
-          // this.log(`Job is running in Pod ${podId}`);
-
-          const logArgs = [
-            '--cluster',
-            scanJobEnvironment,
-            'logs',
-            '--follow',
-            `job/${scannerName}-${id}`,
-            scannerName,
-          ];
-          this.log();
-          this.log(`$ kubectl ${logArgs.join(' ')}`);
-          this.log();
-          const logsProcess = execa('kubectl', logArgs);
-          logsProcess.stdout.pipe(process.stdout);
-          await logsProcess;
-
-          this.log();
-          this.log(`🏁 ScanJob completed`);
-
-          let scanCompletedEvent;
-          while (true) {
-            const { data } = await axios.get(
-              `http://localhost:3000/api/v1alpha/scan-job/${id}`
-            );
-            const scanCompletedEvents = data.events.filter(
-              ({ type }) => type === 'ScanCompleted'
-            );
-            if (scanCompletedEvents.length !== 0) {
-              scanCompletedEvent = scanCompletedEvents[0];
-              break;
-            }
-            sleep(150);
-          }
-          this.log(`📁 Result files:`);
-          for (const { fileName, uploadSize } of scanCompletedEvent.attributes
-            .files) {
-            this.log(
-              `   ↳ ${path.basename(fileName)} (${humanFileSize(uploadSize)})`
-            );
-          }
-        }
-      })
-      .catch(error => {
-        if (error.isAxiosError) {
-          this.warn('Failed to contact the engine. Is it up?');
-          process.exit(1);
-        } else {
-          this.warn('Unknown error');
-          // eslint-disable-next-line no-console
-          console.error(error);
-          process.exit(1);
-        }
+      await this.waitForScanJobContainerReadiness({
+        scanJobId: id,
+        scanJobEnvironment,
+        scannerName,
       });
+
+      this.log('🎢 ScanJob container started');
+
+      await this.streamScanJobContainerLogs({
+        scanJobId: id,
+        scanJobEnvironment,
+        scannerName,
+      });
+
+      this.log();
+      this.log(`🏁 ScanJob completed`);
+    }
+
+    const scanCompletedEvent = await this.waitForScanJobCompletedEvent({
+      securityTestId: id,
+    });
+
+    this.log(`📁 Result files:`);
+    for (const { fileName, uploadSize } of scanCompletedEvent.attributes
+      .files) {
+      this.log(
+        `   ↳ ${path.basename(fileName)} (${humanFileSize(uploadSize)})`
+      );
+    }
+  }
+
+  async startSecurityTest({ scannerName, scannerParameters }) {
+    try {
+      const { data } = await axios.put(
+        'http://localhost:3000/api/v1alpha/scan-job/',
+        {
+          jobType: scannerName,
+          parameters: scannerParameters,
+        }
+      );
+
+      return data.id;
+    } catch (error) {
+      if (error.isAxiosError) {
+        this.warn('Failed to contact the engine. Is it up?');
+        process.exit(1);
+      } else {
+        this.warn('Unknown error');
+        // eslint-disable-next-line no-console
+        console.error(error);
+        process.exit(1);
+      }
+    }
+  }
+
+  async waitForJobToGetLocked({ securityTestId }) {
+    const MAX_MINUTES_TO_WAIT = 5;
+
+    for (let i = 0; i < (MAX_MINUTES_TO_WAIT * 1000) / 250; i++) {
+      const { data } = await axios.get(
+        `http://localhost:3000/api/v1alpha/scan-job/${securityTestId}`
+      );
+      const scanLockedEvents = data.events.filter(
+        ({ type }) => type === 'Locked'
+      );
+      if (scanLockedEvents.length !== 0) {
+        return scanLockedEvents[0].attributes.dispatcherEnvironmentName;
+      }
+      sleep(250);
+    }
+
+    this.warn(
+      `Waited for more than ${MAX_MINUTES_TO_WAIT} for the securityTest to get locked by a dispatcher. This means that either all dispatcher are busy or that no dispatcher can work this job type.`
+    );
+    this.warn(
+      `The Job will stay queued until a dispatcher is ready to pick it up.`
+    );
+    this.exit(1);
+  }
+
+  async waitForScanJobContainerReadiness({
+    scanJobId,
+    scanJobEnvironment,
+    scannerName,
+  }) {
+    const getArgs = [
+      '--cluster',
+      scanJobEnvironment,
+      'get',
+      'pods',
+      `--selector=id=${scanJobId}`,
+      '--output',
+      'json',
+    ];
+
+    const MAX_MINUTES_TO_WAIT = 5;
+
+    for (let i = 0; i < (MAX_MINUTES_TO_WAIT * 1000) / 250; i++) {
+      this.debug(`$ kubectl ${getArgs.join(' ')}`);
+      const { stdout } = await execa('kubectl', getArgs);
+
+      const output = JSON.parse(stdout);
+
+      if (
+        output.items.length !== 0 &&
+        output.items[0].status &&
+        output.items[0].status.containerStatuses.length !== 0
+      ) {
+        const scannerContainers = output.items[0].status.containerStatuses.filter(
+          ({ name }) => name === scannerName
+        );
+
+        if (scannerContainers.length !== 1) {
+          this.warn(
+            `Unexpected scanner container count of ${scannerContainers.length}`
+          );
+        } else {
+          const scannerContainer = scannerContainers[0];
+
+          if (!scannerContainer.state.waiting) {
+            return;
+          }
+        }
+      }
+      await sleep(250);
+    }
+
+    this.warn(
+      `Waited for more than ${MAX_MINUTES_TO_WAIT} for the Scan Container to start up. This might indicate that the cluster isn't able to start up the container.`
+    );
+    this.exit(1);
+  }
+
+  async streamScanJobContainerLogs({
+    scanJobId,
+    scanJobEnvironment,
+    scannerName,
+  }) {
+    const logArgs = [
+      '--cluster',
+      scanJobEnvironment,
+      'logs',
+      '--follow',
+      `job/${scannerName}-${scanJobId}`,
+      scannerName,
+    ];
+
+    this.log();
+    this.log(`$ kubectl ${logArgs.join(' ')}`);
+    this.log();
+
+    const logsProcess = execa('kubectl', logArgs);
+    logsProcess.stdout.pipe(process.stdout);
+    await logsProcess;
+  }
+
+  async waitForScanJobCompletedEvent({ securityTestId }) {
+    const MAX_MINUTES_TO_WAIT = 8 * 60;
+
+    for (let i = 0; i < (MAX_MINUTES_TO_WAIT * 1000) / 250; i++) {
+      const { data } = await axios.get(
+        `http://localhost:3000/api/v1alpha/scan-job/${securityTestId}`
+      );
+      const scanCompletedEvents = data.events.filter(
+        ({ type }) => type === 'ScanCompleted'
+      );
+      if (scanCompletedEvents.length !== 0) {
+        return scanCompletedEvents[0];
+      }
+      sleep(250);
+    }
+
+    this.warn(
+      `Waited for more than ${MAX_MINUTES_TO_WAIT} ScanJob to be marked completed. Either the scanner is taking a really really long time or something crashed in a unexpected way.`
+    );
+    this.exit(1);
   }
 }
 
