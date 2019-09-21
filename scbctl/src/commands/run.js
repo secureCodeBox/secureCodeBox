@@ -7,14 +7,12 @@ const path = require('path');
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 // From: https://stackoverflow.com/a/14919494
-function humanFileSize(bytes, si) {
-  var thresh = si ? 1000 : 1024;
+function humanFileSize(bytes) {
+  var thresh = 1024;
   if (Math.abs(bytes) < thresh) {
     return bytes + ' B';
   }
-  var units = si
-    ? ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
-    : ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+  var units = ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
   var u = -1;
   do {
     bytes /= thresh;
