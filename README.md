@@ -58,8 +58,8 @@ helm install minio stable/minio --set defaultBucket.enabled=true --set defaultBu
 # NOTE: Before deploying the engine you'll need to either
 kubectl apply -f engine/engine-deployment.yaml
 
-# Deploy the ScanJobDefinition CRD and Build in Scan Jobs
-kubectl apply -f dispatcher/crd.yaml
+# Deploy the ScanJobDefinition & ParseJobDefinition CRD and Build in Scan Jobs
+kubectl apply -f dispatcher/scan-job-crd.yaml -f dispatcher/parse-job-crd.yaml
 kubectl apply -f integrations/nmap/nmap-scanjob-definition.yaml -f integrations/amass/amass-scanjob-definition.yaml
 
 # Deploy Dispatcher

@@ -32,9 +32,6 @@ router.post(
     const { scanId } = req.params;
     const { files } = req.body;
 
-    console.log('req.params');
-    console.log(req.params);
-
     logger.info(`Adding ScanCompleted Event to scanjob "job:${scanId}"`);
     await addEventToScanJob(scanId, {
       type: 'ScanCompleted',
@@ -42,6 +39,20 @@ router.post(
         files,
       },
     });
+
+    for (const { fileName, resultType } of files) {
+      logger.debug(`Creating presigned url to access result file in parser.`);
+      const url = await minio.presignedUrl(
+        'GET',
+        get('s3.bucket'),
+        `scan-${scanId}/${fileName}`,
+        1000 * 60,
+        {}
+      );
+      logger.debug(`Presigned access url: ${url}`);
+
+      await createScanJob(`parse:${resultType}`, 'default', url);
+    }
 
     return res.status(204).send();
   }

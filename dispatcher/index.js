@@ -17,46 +17,74 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const engineUrl = process.env['ENGINE_ADDRESS'];
 
+let scanJobCache;
+let parseJobCache;
+let batchClient;
+
 async function main() {
-  const kc = new KubeConfig();
+  try {
+    const kc = new KubeConfig();
+    kc.loadFromCluster();
+    const client = kc.makeApiClient(CustomObjectsApi);
+    batchClient = kc.makeApiClient(BatchV1Api);
 
-  kc.loadFromCluster();
-  // kc.loadFromDefault();
+    const scanJobPath =
+      '/api/experimental.securecodebox.io/v1/namespaces/default/scanjobdefinitions';
+    const scanJobWatch = new Watch(kc);
+    const scanJobListFn = () =>
+      client.listNamespacedCustomObject(
+        'experimental.securecodebox.io',
+        'v1',
+        'default',
+        'scanjobdefinitions'
+      );
+    scanJobCache = new ListWatch(scanJobPath, scanJobWatch, scanJobListFn);
 
-  const path =
-    '/api/experimental.securecodebox.io/v1/namespaces/default/scanjobdefinitions';
-  const watch = new Watch(kc);
-  const client = kc.makeApiClient(CustomObjectsApi);
-  const batchClient = kc.makeApiClient(BatchV1Api);
-
-  const listFn = () =>
-    client.listNamespacedCustomObject(
-      'experimental.securecodebox.io',
-      'v1',
-      'default',
-      'scanjobdefinitions'
-    );
-
-  const cache = new ListWatch(path, watch, listFn);
+    const parsePath =
+      '/api/experimental.securecodebox.io/v1/namespaces/default/parsejobdefinitions';
+    const parseWatch = new Watch(kc);
+    const parseListFn = () =>
+      client.listNamespacedCustomObject(
+        'experimental.securecodebox.io',
+        'v1',
+        'default',
+        'parsejobdefinitions'
+      );
+    parseJobCache = new ListWatch(parsePath, parseWatch, parseListFn);
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
 
   while (true) {
     await sleep(1 * 1000);
 
-    const list = cache.list('default');
-    if (!list) {
+    const scanJobList = scanJobCache.list('default');
+    if (!scanJobList) {
       console.warn("List isn't set");
       continue;
     }
-    if (list.length === 0) {
-      console.warn('List is empty');
+    const parseJobTypes = parseJobCache.list('default');
+    if (!parseJobTypes) {
+      console.warn("Parser List isn't set");
       continue;
     }
 
-    const jobTypes = list.map(scanJob => scanJob.spec.name);
+    const jobTypes = [
+      ...scanJobList.map(scanJob => scanJob.spec.name),
+      ...parseJobTypes.map(
+        parseDefinition => `parse:${parseDefinition.spec.handlesResultsType}`
+      ),
+    ];
+
+    if (jobTypes.length === 0) {
+      console.warn('No ScanJob or ParseJob configured to run');
+      continue;
+    }
 
     console.log(`Looking for Jobs of Types: [${jobTypes.join(',')}]`);
 
-    const res = await axios
+    const { status, data } = await axios
       .post(`${engineUrl}/api/v1alpha/scan-job/lock`, {
         jobTypes,
         dispatcherEnvironmentName,
@@ -66,134 +94,179 @@ async function main() {
         console.error(err);
       });
 
-    if (res.status === 204) {
+    if (status === 204) {
       console.log('No Job available');
       continue;
-    } else if (res.status !== 200) {
-      console.error(`Unknown error type: "${res.status}"`);
+    } else if (status !== 200) {
+      console.error(`Unknown error type from engine: "${status}"`);
       continue;
     }
 
-    console.info(`Starting Job:`);
+    const jobId = data.id;
+    const jobType = data.jobType;
+    const jobParameters = data.parameters;
 
-    const type = res.data.jobType;
-    const jobId = res.data.id;
-
-    const scanJobDefinition = cache.get(type, 'default');
-
-    const jobDefinitionName = scanJobDefinition.spec.name;
-    const jobDefinition = scanJobDefinition.spec.jobTemplate;
-
-    const image = jobDefinition.spec.template.spec.containers[0].image;
-    const command = jobDefinition.spec.template.spec.containers[0].command;
-
-    const params = isArray(res.data.parameters)
-      ? res.data.parameters
-      : [res.data.parameters];
-
-    console.log(
-      `Starting job image (${image}) with commands: [${jobDefinition.spec.template.spec.containers[0].command.join(
-        ','
-      )}]`
-    );
-
-    const job = {
-      metadata: {
-        // Allow users to specify non standard metadata
-        // Standard fields like name will be overridden
-        ...get(jobDefinition, 'metadata', {}),
-        name: `${type}-${jobId}`,
-        labels: {
-          // Allow users to specify non standard labels
-          // Standard labels like id and type will be overridden
-          ...get(jobDefinition, ['metadata', 'labels'], {}),
-          id: jobId,
-          type: 'scan-job',
-          scannerType: scanJobDefinition.spec.name,
-        },
-      },
-      spec: {
-        ...get(jobDefinition, ['spec']),
-        template: {
-          ...get(jobDefinition, ['spec', 'template']),
-          metadata: {
-            ...get(jobDefinition, ['spec', 'template', 'metadata']),
-            labels: {
-              ...get(jobDefinition, ['spec', 'template', 'metadata', 'labels']),
-              id: jobId,
-              type: 'scan-job',
-            },
-          },
-          spec: {
-            ...jobDefinition.spec.template.spec,
-            serviceAccountName: 'lurcher',
-            containers: [
-              {
-                ...jobDefinition.spec.template.spec.containers[0],
-                command: [...command, ...params],
-                volumeMounts: [
-                  ...get(
-                    jobDefinition,
-                    [
-                      'spec',
-                      'template',
-                      'spec',
-                      'containers[0]',
-                      'volumeMounts',
-                    ],
-                    []
-                  ),
-                  {
-                    name: 'scan-results',
-                    mountPath: '/home/securecodebox/',
-                  },
-                ],
-              },
-              ...jobDefinition.spec.template.spec.containers.slice(1),
-              {
-                name: 'lurcher',
-                image: 'scbexperimental/lurcher',
-                args: await getLurcherArgs(
-                  jobId,
-                  jobDefinitionName,
-                  scanJobDefinition.spec.extractResults
-                ),
-                volumeMounts: [
-                  {
-                    name: 'scan-results',
-                    mountPath: '/home/securecodebox/',
-                    readOnly: true,
-                  },
-                ],
-              },
-            ],
-            volumes: [
-              ...get(
-                jobDefinition,
-                ['spec', 'template', 'spec', 'volumes'],
-                []
-              ),
-              {
-                name: 'scan-results',
-                emptyDir: {},
-              },
-            ],
-          },
-        },
-      },
-    };
-
-    // console.log('Job to create:');
-    // console.log(JSON.stringify(job, undefined, 2));
-
-    await batchClient
-      .createNamespacedJob('default', job)
-      .then(res => {
-        console.log(`Job started successfully`);
-        // console.log(res.body);
-      })
-      .catch(error => console.error(error.response.body));
+    if (jobType.startsWith('parse:')) {
+      console.log(`starting hypothetical parse job: ${jobType}`);
+      await startParseJob({ type: jobType, jobId, jobParameters });
+    } else {
+      console.info(`Starting Job:`);
+      await startScanJob({ type: jobType, jobId, jobParameters });
+    }
   }
+}
+
+async function startParseJob({ type, jobId, jobParameters }) {
+  const parseJobName = type.split(':')[1];
+  console.log(`Getting ParseJob definition ${parseJobName}`);
+  const parseJobDefinition = parseJobCache.get(parseJobName, 'default');
+
+  const jobDefinitionName = parseJobDefinition.spec.name;
+  const jobImage = parseJobDefinition.spec.image;
+
+  const params = isArray(jobParameters) ? jobParameters : [jobParameters];
+
+  console.log(`Starting parse job image (${jobImage}) with params ${params}`);
+
+  const job = {
+    metadata: {
+      name: `${jobDefinitionName}-${jobId}`,
+      labels: {
+        id: jobId,
+        type: 'parse-job',
+      },
+    },
+    spec: {
+      ttlSecondsAfterFinished: 10,
+      template: {
+        metadata: {
+          labels: {
+            id: jobId,
+            type: 'scan-job',
+          },
+        },
+        spec: {
+          restartPolicy: 'OnFailure',
+          containers: [
+            {
+              image: jobImage,
+              name: jobDefinitionName,
+              args: params,
+            },
+          ],
+        },
+      },
+    },
+  };
+
+  await batchClient
+    .createNamespacedJob('default', job)
+    .then(res => {
+      console.log(`Parse Job started successfully`);
+    })
+    .catch(error => console.error(error.response.body));
+}
+
+async function startScanJob({ type, jobId, jobParameters }) {
+  const scanJobDefinition = scanJobCache.get(type, 'default');
+
+  const jobDefinitionName = scanJobDefinition.spec.name;
+  const jobDefinition = scanJobDefinition.spec.jobTemplate;
+
+  const image = jobDefinition.spec.template.spec.containers[0].image;
+  const command = jobDefinition.spec.template.spec.containers[0].command;
+
+  const params = isArray(jobParameters) ? jobParameters : [jobParameters];
+
+  console.log(
+    `Starting job image (${image}) with commands: [${jobDefinition.spec.template.spec.containers[0].command.join(
+      ','
+    )}]`
+  );
+
+  const job = {
+    metadata: {
+      // Allow users to specify non standard metadata
+      // Standard fields like name will be overridden
+      ...get(jobDefinition, 'metadata', {}),
+      name: `${type}-${jobId}`,
+      labels: {
+        // Allow users to specify non standard labels
+        // Standard labels like id and type will be overridden
+        ...get(jobDefinition, ['metadata', 'labels'], {}),
+        id: jobId,
+        type: 'scan-job',
+        scannerType: scanJobDefinition.spec.name,
+      },
+    },
+    spec: {
+      ...get(jobDefinition, ['spec']),
+      template: {
+        ...get(jobDefinition, ['spec', 'template']),
+        metadata: {
+          ...get(jobDefinition, ['spec', 'template', 'metadata']),
+          labels: {
+            ...get(jobDefinition, ['spec', 'template', 'metadata', 'labels']),
+            id: jobId,
+            type: 'scan-job',
+          },
+        },
+        spec: {
+          ...jobDefinition.spec.template.spec,
+          serviceAccountName: 'lurcher',
+          containers: [
+            {
+              ...jobDefinition.spec.template.spec.containers[0],
+              command: [...command, ...params],
+              volumeMounts: [
+                ...get(
+                  jobDefinition,
+                  ['spec', 'template', 'spec', 'containers[0]', 'volumeMounts'],
+                  []
+                ),
+                {
+                  name: 'scan-results',
+                  mountPath: '/home/securecodebox/',
+                },
+              ],
+            },
+            ...jobDefinition.spec.template.spec.containers.slice(1),
+            {
+              name: 'lurcher',
+              image: 'scbexperimental/lurcher',
+              args: await getLurcherArgs(
+                jobId,
+                jobDefinitionName,
+                scanJobDefinition.spec.extractResults
+              ),
+              volumeMounts: [
+                {
+                  name: 'scan-results',
+                  mountPath: '/home/securecodebox/',
+                  readOnly: true,
+                },
+              ],
+            },
+          ],
+          volumes: [
+            ...get(jobDefinition, ['spec', 'template', 'spec', 'volumes'], []),
+            {
+              name: 'scan-results',
+              emptyDir: {},
+            },
+          ],
+        },
+      },
+    },
+  };
+
+  await batchClient
+    .createNamespacedJob('default', job)
+    .then(res => {
+      console.log(`Job started successfully`);
+      // console.log(res.body);
+    })
+    .catch(error => console.error(error.response.body));
 }
 
 async function getLurcherArgs(
@@ -248,7 +321,10 @@ async function getLurcherArgs(
 }
 
 try {
-  main();
+  main().catch(error => {
+    console.error(error);
+    process.exit(1);
+  });
 } catch (error) {
   console.error(error);
   process.exit(1);
