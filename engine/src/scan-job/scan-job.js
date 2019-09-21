@@ -9,6 +9,7 @@ const {
 } = require('../queue');
 const minio = require('../minio');
 const { logger } = require('../logger');
+const path = require('path');
 
 const router = express.Router();
 
@@ -42,10 +43,11 @@ router.post(
 
     for (const { fileName, resultType } of files) {
       logger.debug(`Creating presigned url to access result file in parser.`);
+      const basename = path.basename(fileName);
       const url = await minio.presignedUrl(
         'GET',
         get('s3.bucket'),
-        `scan-${scanId}/${fileName}`,
+        `scan-${scanId}/${basename}`,
         1000 * 60,
         {}
       );
