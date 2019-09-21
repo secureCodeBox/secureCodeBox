@@ -20,16 +20,16 @@ async function main() {
   const filesToExtract = filesToExtractRaw.map(fileDefinition => {
     // files are passed in in the following scheme:
     // --file=file-name.xml,application/xml,https://s3-presigned-upload-url-...
-    const [fileName, contentType, uploadUrl] = fileDefinition.split(',');
-    return { fileName, contentType, uploadUrl };
+    const [fileName, resultType, uploadUrl] = fileDefinition.split(',');
+    return { fileName, resultType, uploadUrl };
   });
 
   console.log('Lurcher is starting up.');
   console.log(
     'Once the scan is done, the following files are to be extracted.'
   );
-  for ({ fileName, contentType } of filesToExtract) {
-    console.log(` - ${fileName} (${contentType})`);
+  for ({ fileName, resultType } of filesToExtract) {
+    console.log(` - ${fileName} (${resultType})`);
   }
 
   const podname = process.env['HOSTNAME'];
@@ -67,24 +67,22 @@ async function main() {
 
   let files = [];
 
-  for ({ fileName, uploadUrl, contentType } of filesToExtract) {
+  for ({ fileName, uploadUrl, resultType } of filesToExtract) {
     try {
       const { statusCode, uploadSize, uploadDuration } = await uploadFile(
         fileName,
-        uploadUrl,
-        contentType
+        uploadUrl
       );
 
       console.log(
         ` - ${fileName} (${uploadSize}bytes) uploaded in ${uploadDuration}ms`
       );
 
-      files.push({ fileName, uploadSize });
+      files.push({ fileName, uploadSize, resultType });
     } catch (error) {
       console.error(`Failed to upload File: ${fileName}`);
 
       console.error(error.request.headers);
-      // console.error(error);
     }
   }
 
@@ -100,7 +98,7 @@ async function main() {
   }
 }
 
-function uploadFile(fileName, uploadUrl, contentType) {
+function uploadFile(fileName, uploadUrl) {
   return new Promise(async (resolve, reject) => {
     const fileSize = await getFileSize(fileName);
 

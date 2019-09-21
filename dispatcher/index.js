@@ -228,8 +228,8 @@ async function getLurcherArgs(
 
   const fileArgs = flatmap(
     extractionPayloads,
-    ({ location, contentType, presignedUrl }) => {
-      return ['--file', [location, contentType, presignedUrl].join(',')];
+    ({ location, type: resultType, presignedUrl }) => {
+      return ['--file', [location, resultType, presignedUrl].join(',')];
     }
   );
 
