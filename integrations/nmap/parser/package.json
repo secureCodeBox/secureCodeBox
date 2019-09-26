@@ -4,12 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "build": "docker build --build-arg NODE_ENV=development -t scbexperimental/nmap-parser ./",
+    "push": "docker push scbexperimental/nmap-parser"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.0"
+    "axios": "^0.19.0",
+    "lodash": "^4.17.15",
+    "uuid": "^3.3.3",
+    "xml2js": "^0.4.22"
+  },
+  "devDependencies": {
+    "jest": "^24.9.0"
   }
 }

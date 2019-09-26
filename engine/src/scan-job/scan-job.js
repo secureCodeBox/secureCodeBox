@@ -53,12 +53,52 @@ router.post(
       );
       logger.debug(`Presigned access url: ${url}`);
 
-      await createScanJob(`parse:${resultType}`, 'default', url);
+      await createScanJob(`parse:${resultType}`, 'default', [url, scanId]);
     }
 
     return res.status(204).send();
   }
 );
+
+router.post('/api/v1alpha/scan-job/:scanId/findings', async (req, res) => {
+  const { scanId } = req.params;
+  const { findings } = req.body;
+
+  logger.debug(
+    `Got ${findings.length} from parser for security test: "${scanId}".`
+  );
+
+  const severityOverview = findings.reduce((overview, { severity }) => {
+    if (overview.hasOwnProperty(severity)) {
+      overview[severity] = overview[severity] + 1;
+    }
+    overview[severity] = 1;
+    return overview;
+  }, {});
+  const categoryOverview = findings.reduce((overview, { category }) => {
+    if (overview.hasOwnProperty(category)) {
+      overview[category] = overview[category] + 1;
+    }
+    overview[category] = 1;
+    return overview;
+  }, {});
+
+  console.log({
+    severityOverview,
+    categoryOverview,
+  });
+
+  await addEventToScanJob(scanId, {
+    type: 'ResultsParsed',
+    attributes: {
+      findingCount: findings.length,
+      severityOverview,
+      categoryOverview,
+    },
+  });
+
+  return res.status(204).send();
+});
 
 router.get('/api/v1alpha/scan-job/:scanId', async (req, res) => {
   const { scanId } = req.params;

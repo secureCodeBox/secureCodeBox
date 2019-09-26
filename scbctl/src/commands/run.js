@@ -86,6 +86,50 @@ class RunCommand extends Command {
         `   ↳ ${path.basename(fileName)} (${humanFileSize(uploadSize)})`
       );
     }
+
+    this.log();
+    this.log(`⏰ Waiting for ParseJob to convert the results into findings`);
+
+    const parseCompletedEvent = await this.waitForParserToFinishEvent({
+      securityTestId: id,
+    });
+
+    const {
+      findingCount,
+      severityOverview,
+      categoryOverview,
+    } = parseCompletedEvent.attributes;
+
+    this.log(`🏁 ParseJob completed`);
+    this.log();
+    this.log(`🕵️‍  Identified ${findingCount} findings.`);
+    this.log();
+
+    this.log(`👩‍⚖️ Severity of the findings:`);
+    for (const [severity, count] of Object.entries(severityOverview)) {
+      switch (severity) {
+        case 'INFORMATIONAL':
+          this.log(`   ℹ Informational: ${count}`);
+          break;
+        case 'LOW':
+          this.log(`   😕  Low: ${count}`);
+          break;
+        case 'MEDIUM':
+          this.log(`   😫  Medium: ${count}`);
+          break;
+        case 'HIGH':
+          this.log(`   🤬  High: ${count}`);
+          break;
+        default:
+          break;
+      }
+    }
+
+    this.log();
+    this.log(`📒 Finding Categories:`);
+    for (const [category, count] of Object.entries(categoryOverview)) {
+      this.log(`   - ${category}: ${count}`);
+    }
   }
 
   async startSecurityTest({ scannerName, scannerParameters }) {
@@ -115,7 +159,7 @@ class RunCommand extends Command {
   async waitForJobToGetLocked({ securityTestId }) {
     const MAX_MINUTES_TO_WAIT = 5;
 
-    for (let i = 0; i < (MAX_MINUTES_TO_WAIT * 1000) / 250; i++) {
+    for (let i = 0; i < (MAX_MINUTES_TO_WAIT * 60 * 1000) / 250; i++) {
       const { data } = await axios.get(
         `http://localhost:3000/api/v1alpha/scan-job/${securityTestId}`
       );
@@ -154,7 +198,7 @@ class RunCommand extends Command {
 
     const MAX_MINUTES_TO_WAIT = 5;
 
-    for (let i = 0; i < (MAX_MINUTES_TO_WAIT * 1000) / 250; i++) {
+    for (let i = 0; i < (MAX_MINUTES_TO_WAIT * 60 * 1000) / 250; i++) {
       this.debug(`$ kubectl ${getArgs.join(' ')}`);
       const { stdout } = await execa('kubectl', getArgs);
 
@@ -163,6 +207,7 @@ class RunCommand extends Command {
       if (
         output.items.length !== 0 &&
         output.items[0].status &&
+        output.items[0].status.containerStatuses &&
         output.items[0].status.containerStatuses.length !== 0
       ) {
         const scannerContainers = output.items[0].status.containerStatuses.filter(
@@ -216,7 +261,7 @@ class RunCommand extends Command {
   async waitForScanJobCompletedEvent({ securityTestId }) {
     const MAX_MINUTES_TO_WAIT = 8 * 60;
 
-    for (let i = 0; i < (MAX_MINUTES_TO_WAIT * 1000) / 250; i++) {
+    for (let i = 0; i < (MAX_MINUTES_TO_WAIT * 60 * 1000) / 250; i++) {
       const { data } = await axios.get(
         `http://localhost:3000/api/v1alpha/scan-job/${securityTestId}`
       );
@@ -231,6 +276,28 @@ class RunCommand extends Command {
 
     this.warn(
       `Waited for more than ${MAX_MINUTES_TO_WAIT} minutes for the ScanJob to be marked completed. Either the scanner is taking a really really long time or something crashed in a unexpected way.`
+    );
+    this.exit(1);
+  }
+
+  async waitForParserToFinishEvent({ securityTestId }) {
+    const MAX_MINUTES_TO_WAIT = 8 * 60;
+
+    for (let i = 0; i < (MAX_MINUTES_TO_WAIT * 60 * 1000) / 250; i++) {
+      const { data } = await axios.get(
+        `http://localhost:3000/api/v1alpha/scan-job/${securityTestId}`
+      );
+      const scanCompletedEvents = data.events.filter(
+        ({ type }) => type === 'ResultsParsed'
+      );
+      if (scanCompletedEvents.length !== 0) {
+        return scanCompletedEvents[0];
+      }
+      sleep(250);
+    }
+
+    this.warn(
+      `Waited for more than ${MAX_MINUTES_TO_WAIT} minutes for the ParseJob to return its result`
     );
     this.exit(1);
   }
