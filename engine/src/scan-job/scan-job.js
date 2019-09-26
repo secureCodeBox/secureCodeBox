@@ -10,6 +10,7 @@ const {
 const minio = require('../minio');
 const { logger } = require('../logger');
 const path = require('path');
+const axios = require('axios');
 
 const router = express.Router();
 
@@ -96,6 +97,17 @@ router.post('/api/v1alpha/scan-job/:scanId/findings', async (req, res) => {
       categoryOverview,
     },
   });
+
+  // persistence provider
+  try {
+    await axios.post(
+      `http://persistence-elastic:3000/api/v1alpha/scan-job/${scanId}/persist`,
+      { findings }
+    );
+  } catch (error) {
+    logger.error(`Persistence provider errored: ${err.message}`);
+    logger.debug(error);
+  }
 
   return res.status(204).send();
 });

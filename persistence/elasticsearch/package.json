@@ -1,5 +1,5 @@
 {
-  "name": "engine",
+  "name": "persistence-elasticsearch",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,13 +11,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.0",
+    "@elastic/elasticsearch": "^7.3.0",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "ioredis": "^4.14.0",
+    "lodash.flatmap": "^4.5.0",
     "lodash.get": "^4.4.2",
     "lodash.memoize": "^4.1.2",
-    "minio": "^7.0.12",
     "uuid": "^3.3.3",
     "winston": "^3.2.1"
   }
