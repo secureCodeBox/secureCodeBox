@@ -72,15 +72,17 @@ router.post('/api/v1alpha/scan-job/:scanId/findings', async (req, res) => {
   const severityOverview = findings.reduce((overview, { severity }) => {
     if (overview.hasOwnProperty(severity)) {
       overview[severity] = overview[severity] + 1;
+    } else {
+      overview[severity] = 1;
     }
-    overview[severity] = 1;
     return overview;
   }, {});
   const categoryOverview = findings.reduce((overview, { category }) => {
     if (overview.hasOwnProperty(category)) {
       overview[category] = overview[category] + 1;
+    } else {
+      overview[category] = 1;  
     }
-    overview[category] = 1;
     return overview;
   }, {});
 
@@ -105,7 +107,7 @@ router.post('/api/v1alpha/scan-job/:scanId/findings', async (req, res) => {
       { findings }
     );
   } catch (error) {
-    logger.error(`Persistence provider errored: ${err.message}`);
+    logger.error(`Persistence provider errored: ${error.message}`);
     logger.debug(error);
   }
 

@@ -10,11 +10,13 @@ async function main() {
     '--skip-k8s': skipK8s = false,
     '--scan-id': scanId,
     '--main-container-name': mainContainerName,
+    '--engine-address': engineAddress,
   } = arg({
     '--file': [String],
     '--scan-id': String,
     '--main-container-name': String,
     '--skip-k8s': Boolean,
+    '--engine-address': String,
   });
 
   const filesToExtract = filesToExtractRaw.map(fileDefinition => {
@@ -88,7 +90,7 @@ async function main() {
 
   try {
     const res = await request.post({
-      url: `http://engine.default.svc.cluster.local:3000/api/v1alpha/scan-job/${scanId}/scan-completion`,
+      url: `${engineAddress}/api/v1alpha/scan-job/${scanId}/scan-completion`,
       json: {
         files,
       },

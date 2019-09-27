@@ -14,6 +14,7 @@
     "@elastic/elasticsearch": "^7.3.0",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
+    "lodash.chunk": "^4.2.0",
     "lodash.flatmap": "^4.5.0",
     "lodash.get": "^4.4.2",
     "lodash.memoize": "^4.1.2",

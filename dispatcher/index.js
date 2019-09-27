@@ -108,15 +108,15 @@ async function main() {
 
     if (jobType.startsWith('parse:')) {
       console.log(`starting hypothetical parse job: ${jobType}`);
-      await startParseJob({ type: jobType, jobId, jobParameters });
+      await startParseJob({ type: jobType, jobId, jobParameters, engineAddress: engineUrl });
     } else {
       console.info(`Starting Job:`);
-      await startScanJob({ type: jobType, jobId, jobParameters });
+      await startScanJob({ type: jobType, jobId, jobParameters, engineAddress: engineUrl });
     }
   }
 }
 
-async function startParseJob({ type, jobId, jobParameters }) {
+async function startParseJob({ type, jobId, jobParameters, engineAddress }) {
   const parseJobName = type.split(':')[1];
   console.log(`Getting ParseJob definition ${parseJobName}`);
   const parseJobDefinition = parseJobCache.get(parseJobName, 'default');
@@ -151,7 +151,7 @@ async function startParseJob({ type, jobId, jobParameters }) {
             {
               image: jobImage,
               name: jobDefinitionName,
-              args: params,
+              args: [...params, engineAddress],
             },
           ],
         },
@@ -167,7 +167,7 @@ async function startParseJob({ type, jobId, jobParameters }) {
     .catch(error => console.error(error.response.body));
 }
 
-async function startScanJob({ type, jobId, jobParameters }) {
+async function startScanJob({ type, jobId, jobParameters, engineAddress }) {
   const scanJobDefinition = scanJobCache.get(type, 'default');
 
   const jobDefinitionName = scanJobDefinition.spec.name;
@@ -237,7 +237,8 @@ async function startScanJob({ type, jobId, jobParameters }) {
               args: await getLurcherArgs(
                 jobId,
                 jobDefinitionName,
-                scanJobDefinition.spec.extractResults
+                scanJobDefinition.spec.extractResults,
+                engineAddress
               ),
               volumeMounts: [
                 {
@@ -272,7 +273,8 @@ async function startScanJob({ type, jobId, jobParameters }) {
 async function getLurcherArgs(
   scanId,
   scannerName,
-  resultExtractionDefinitions
+  resultExtractionDefinitions,
+  engineAddress
 ) {
   const extractionPayloads = await Promise.all(
     resultExtractionDefinitions.map(async resultExtractionDefinition => {
@@ -311,6 +313,8 @@ async function getLurcherArgs(
     scanId,
     '--main-container-name',
     scannerName,
+    '--engine-address',
+    engineAddress,
     ...fileArgs,
   ];
 
