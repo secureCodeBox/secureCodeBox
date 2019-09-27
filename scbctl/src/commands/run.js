@@ -187,7 +187,7 @@ class RunCommand extends Command {
     scannerName,
   }) {
     const getArgs = [
-      '--cluster',
+      '--context',
       scanJobEnvironment,
       'get',
       'pods',
@@ -241,7 +241,7 @@ class RunCommand extends Command {
     scannerName,
   }) {
     const logArgs = [
-      '--cluster',
+      '--context',
       scanJobEnvironment,
       'logs',
       '--follow',
