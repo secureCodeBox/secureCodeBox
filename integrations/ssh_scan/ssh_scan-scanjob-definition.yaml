@@ -14,7 +14,7 @@ spec:
         spec:
           restartPolicy: OnFailure
           containers:
-            - name: nmap
+            - name: ssh-scan
               image: mozilla/ssh_scan
               command:
                 - '/app/bin/ssh_scan'
