@@ -30,14 +30,12 @@ app.post('/api/v1alpha/scan-job/:scanId/persist', async (req, res) => {
     { ignore: [400] }
   );
 
-  const now = new Date();
-
   const findingsChunks = chunk(findings, 50);
 
   for (const findingChunk of findingsChunks) {
     const body = flatMap(findingChunk, doc => [
       { index: { _index: indexName } },
-      { '@timestamp': now, ...doc },
+      { '@timestamp': now, type: 'finding_entry', ...doc },
     ]);
 
     const { body: bulkResponse } = await client.bulk({ refresh: true, body });
