@@ -3,7 +3,6 @@ kind: ScanJobDefinition
 metadata:
   name: 'amass'
 spec:
-  name: 'amass'
   extractResults:
     - type: amass-json
       location: '/home/securecodebox/amass-results.json'

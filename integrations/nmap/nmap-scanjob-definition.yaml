@@ -3,7 +3,6 @@ kind: ScanJobDefinition
 metadata:
   name: 'nmap'
 spec:
-  name: 'nmap'
   extractResults:
     - type: nmap-xml
       location: '/home/securecodebox/nmap-results.xml'

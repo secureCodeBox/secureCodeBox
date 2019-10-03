@@ -71,7 +71,7 @@ async function main() {
     }
 
     const jobTypes = [
-      ...scanJobList.map(scanJob => scanJob.spec.name),
+      ...scanJobList.map(scanJob => scanJob.metadata.name),
       ...parseJobTypes.map(
         parseDefinition => `parse:${parseDefinition.spec.handlesResultsType}`
       ),
@@ -121,7 +121,7 @@ async function startParseJob({ type, jobId, jobParameters, engineAddress }) {
   console.log(`Getting ParseJob definition ${parseJobName}`);
   const parseJobDefinition = parseJobCache.get(parseJobName, 'default');
 
-  const jobDefinitionName = parseJobDefinition.spec.name;
+  const jobDefinitionName = parseJobDefinition.metadata.name;
   const jobImage = parseJobDefinition.spec.image;
 
   const params = isArray(jobParameters) ? jobParameters : [jobParameters];
@@ -170,7 +170,7 @@ async function startParseJob({ type, jobId, jobParameters, engineAddress }) {
 async function startScanJob({ type, jobId, jobParameters, engineAddress }) {
   const scanJobDefinition = scanJobCache.get(type, 'default');
 
-  const jobDefinitionName = scanJobDefinition.spec.name;
+  const jobDefinitionName = scanJobDefinition.metadata.name;
   const jobDefinition = scanJobDefinition.spec.jobTemplate;
 
   const image = jobDefinition.spec.template.spec.containers[0].image;
@@ -196,7 +196,7 @@ async function startScanJob({ type, jobId, jobParameters, engineAddress }) {
         ...get(jobDefinition, ['metadata', 'labels'], {}),
         id: jobId,
         type: 'scan-job',
-        scannerType: scanJobDefinition.spec.name,
+        scannerType: scanJobDefinition.metadata.name,
       },
     },
     spec: {

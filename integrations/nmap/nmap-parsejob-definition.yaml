@@ -3,6 +3,5 @@ kind: ParseJobDefinition
 metadata:
   name: 'nmap-xml'
 spec:
-  name: 'nmap-xml'
   handlesResultsType: nmap-xml
   image: scbexperimental/nmap-parser
