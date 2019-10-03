@@ -40,6 +40,7 @@ class RunCommand extends Command {
     const id = await this.startSecurityTest({
       scannerName,
       scannerParameters,
+      tenant: flags.tenant,
     });
 
     this.log(`🚀 Started securityTest with id: "${chalk.default.grey(id)}"`);
@@ -132,13 +133,14 @@ class RunCommand extends Command {
     }
   }
 
-  async startSecurityTest({ scannerName, scannerParameters }) {
+  async startSecurityTest({ scannerName, scannerParameters, tenant }) {
     try {
       const { data } = await axios.put(
         'http://localhost:3000/api/v1alpha/scan-job/',
         {
           jobType: scannerName,
           parameters: scannerParameters,
+          tenant,
         }
       );
 
@@ -313,6 +315,7 @@ RunCommand.examples = [
   'scbctl run --logs nmap -Pn localhost',
   'scbctl run nmap -Pn localhost',
   'scbctl run amass -d example.com',
+  'scbctl run --tenant team42 nmap example.com',
 ];
 
 RunCommand.strict = false;
@@ -336,6 +339,11 @@ RunCommand.flags = {
   logs: flags.boolean({
     description:
       'Displays the containers log output via kubectl. Requires that your local machine is authenticated in the cluster.',
+  }),
+  tenant: flags.string({
+    description:
+      'Starts the SecurityTest to be related to a particular tenant. The Dispatcher needs to math the same tenant to be able to work on this SecurityTest.',
+    default: 'default',
   }),
 };
 module.exports = RunCommand;
