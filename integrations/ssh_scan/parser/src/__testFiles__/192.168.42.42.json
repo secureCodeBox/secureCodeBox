@@ -1,0 +1,103 @@
+[
+  {
+    "ssh_scan_version": "0.0.42",
+    "ip": "192.168.42.42",
+    "hostname": "",
+    "port": 22,
+    "server_banner": "SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu2.8",
+    "ssh_version": 2.0,
+    "os": "ubuntu",
+    "os_cpe": "o:canonical:ubuntu:16.04",
+    "ssh_lib": "openssh",
+    "ssh_lib_cpe": "a:openssh:openssh:7.2p2",
+    "key_algorithms": [
+      "curve25519-sha256@libssh.org",
+      "ecdh-sha2-nistp256",
+      "ecdh-sha2-nistp384",
+      "ecdh-sha2-nistp521",
+      "diffie-hellman-group-exchange-sha256",
+      "diffie-hellman-group14-sha1"
+    ],
+    "encryption_algorithms_client_to_server": [
+      "chacha20-poly1305@openssh.com",
+      "aes128-ctr",
+      "aes192-ctr",
+      "aes256-ctr",
+      "aes128-gcm@openssh.com",
+      "aes256-gcm@openssh.com"
+    ],
+    "encryption_algorithms_server_to_client": [
+      "chacha20-poly1305@openssh.com",
+      "aes128-ctr",
+      "aes192-ctr",
+      "aes256-ctr",
+      "aes128-gcm@openssh.com",
+      "aes256-gcm@openssh.com"
+    ],
+    "mac_algorithms_client_to_server": [
+      "umac-64-etm@openssh.com",
+      "umac-128-etm@openssh.com",
+      "hmac-sha2-256-etm@openssh.com",
+      "hmac-sha2-512-etm@openssh.com",
+      "hmac-sha1-etm@openssh.com",
+      "umac-64@openssh.com",
+      "umac-128@openssh.com",
+      "hmac-sha2-256",
+      "hmac-sha2-512",
+      "hmac-sha1"
+    ],
+    "mac_algorithms_server_to_client": [
+      "umac-64-etm@openssh.com",
+      "umac-128-etm@openssh.com",
+      "hmac-sha2-256-etm@openssh.com",
+      "hmac-sha2-512-etm@openssh.com",
+      "hmac-sha1-etm@openssh.com",
+      "umac-64@openssh.com",
+      "umac-128@openssh.com",
+      "hmac-sha2-256",
+      "hmac-sha2-512",
+      "hmac-sha1"
+    ],
+    "compression_algorithms_client_to_server": [
+      "none",
+      "zlib@openssh.com"
+    ],
+    "compression_algorithms_server_to_client": [
+      "none",
+      "zlib@openssh.com"
+    ],
+    "languages_client_to_server": [
+
+    ],
+    "languages_server_to_client": [
+
+    ],
+    "auth_methods": [
+      "publickey",
+      "password"
+    ],
+    "keys": {
+      "removed_in_this_mock_file_for_space_reasons": true
+    },
+    "dns_keys": null,
+    "duplicate_host_key_ips": [
+
+    ],
+    "compliance": {
+      "policy": "Mozilla Modern",
+      "compliant": false,
+      "recommendations": [
+        "Remove these key exchange algorithms: diffie-hellman-group14-sha1",
+        "Remove these MAC algorithms: umac-64-etm@openssh.com, hmac-sha1-etm@openssh.com, umac-64@openssh.com, hmac-sha1",
+        "Remove these authentication methods: password"
+      ],
+      "references": [
+        "https://wiki.mozilla.org/Security/Guidelines/OpenSSH"
+      ],
+      "grade": "D"
+    },
+    "start_time": "2019-10-03 18:37:10 +0200",
+    "end_time": "2019-10-03 18:37:12 +0200",
+    "scan_duration_seconds": 1.63797
+  }
+]
