@@ -14,8 +14,8 @@ async function parse(fileContent) {
 
       return {
         id: uuid(),
-        name: 'SSH Compliance',
-        description: 'SSH Compliance Information',
+        name: 'SSH Service',
+        description: 'SSH Service Information',
         category: 'SSH Service',
         osi_layer: 'APPLICATION',
         severity: 'INFORMATIONAL',
