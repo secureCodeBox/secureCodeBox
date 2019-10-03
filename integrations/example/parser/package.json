@@ -1,0 +1,20 @@
+{
+  "name": "example-parser",
+  "version": "1.0.0",
+  "description": "Parses result files for the type: 'example-json'",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "iteratec GmbH",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "lodash": "^4.17.15",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
+}

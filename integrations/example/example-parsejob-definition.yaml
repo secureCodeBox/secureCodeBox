@@ -1,0 +1,7 @@
+apiVersion: 'experimental.securecodebox.io/v1'
+kind: ParseJobDefinition
+metadata:
+  name: 'example-json'
+spec:
+  handlesResultsType: example-json
+  image: scbexperimental/example-parser
