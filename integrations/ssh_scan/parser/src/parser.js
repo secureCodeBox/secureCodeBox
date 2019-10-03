@@ -24,6 +24,7 @@ async function parse(fileContent) {
         location: location,
         attributes: {
           hostname: get(host, ['hostname']),
+          ip_address: get(host, ['ip']),
           server_banner: get(host, ['server_banner']) || null,
           ssh_version: get(host, ['ssh_version']),
           os_cpe: get(host, ['os_cpe']),
