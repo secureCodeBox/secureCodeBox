@@ -17,9 +17,10 @@ app.use(express.json({
 
 app.post('/api/v1alpha/scan-job/:scanId/persist', async (req, res) => {
   const { scanId } = req.params;
-  const { findings } = req.body;
+  const { findings, tenant = 'default' } = req.body;
 
-  const indexName = 'securecodebox_foobar_2019-09-26';
+  const now = new Date();
+  const indexName = `securecodebox_${tenant}_${now.toISOString().substr(0,10)}`;
 
   await client.indices.create(
     {
