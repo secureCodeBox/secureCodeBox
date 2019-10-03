@@ -70,8 +70,8 @@ kubectl apply -f integrations/nmap/nmap-parsejob-definition.yaml
 kubectl apply -f dispatcher/dispatcher-deployment.yaml
 
 # Elasticsearch Persistence Provider Deployment
-helm install elasticsearch elastic/elasticsearch --version 7.3.2 --set replicas=1 --set minimumMasterNodes=1
-helm install kibana elastic/kibana --version 7.3.2
+helm install elasticsearch elastic/elasticsearch --version 7.4.0 --set replicas=1 --set minimumMasterNodes=1 --set image=docker.elastic.co/elasticsearch/elasticsearch-oss
+helm install kibana elastic/kibana --version 7.4.0 --set image=docker.elastic.co/kibana/kibana-oss
 
 kubectl apply -f persistence/elasticsearch/persistence-elk-deployment.yaml
 ```
