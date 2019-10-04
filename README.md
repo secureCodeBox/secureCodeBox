@@ -60,11 +60,11 @@ kubectl apply -f engine/engine-deployment.yaml
 
 # Deploy the ScanJobDefinition and ScanJobs
 kubectl apply -f dispatcher/scan-job-crd.yaml -f dispatcher/parse-job-crd.yaml
-kubectl apply -f integrations/nmap/nmap-scanjob-definition.yaml -f integrations/amass/amass-scanjob-definition.yaml
+kubectl apply -f integrations/nmap/nmap-scanjob-definition.yaml -f integrations/amass/amass-scanjob-definition.yaml -f integrations/ssh_scan/ssh-scan-scanjob-definition.yaml
 
 # Deploy the ParseJobDefinition and ParseJobs
 kubectl apply -f dispatcher/parse-job-crd.yaml
-kubectl apply -f integrations/nmap/nmap-parsejob-definition.yaml
+kubectl apply -f integrations/nmap/nmap-parsejob-definition.yaml -f integrations/amass/amass-parsejob-definition.yaml -f integrations/ssh_scan/ssh-scan-parsejob-definition.yaml
 
 # Deploy Dispatcher
 kubectl apply -f dispatcher/dispatcher-deployment.yaml
