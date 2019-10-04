@@ -68,9 +68,9 @@ router.post('/api/v1alpha/scan-job/:scanId/findings', async (req, res) => {
   logger.debug(
     `Got ${findings.length} from parser for security test: "${scanId}".`
   );
-
+  
   const severityOverview = findings.reduce((overview, { severity }) => {
-    if (overview.hasOwnProperty(severity)) {
+    if (Object.prototype.hasOwnProperty.call(overview, severity)) {
       overview[severity] = overview[severity] + 1;
     } else {
       overview[severity] = 1;
@@ -78,7 +78,7 @@ router.post('/api/v1alpha/scan-job/:scanId/findings', async (req, res) => {
     return overview;
   }, {});
   const categoryOverview = findings.reduce((overview, { category }) => {
-    if (overview.hasOwnProperty(category)) {
+    if (Object.prototype.hasOwnProperty.call(overview, category)) {
       overview[category] = overview[category] + 1;
     } else {
       overview[category] = 1;  

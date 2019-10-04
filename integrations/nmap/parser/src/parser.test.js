@@ -1,11 +1,12 @@
 const fs = require('fs');
 const util = require('util');
 
+// eslint-disable-next-line security/detect-non-literal-fs-filename
 const readFile = util.promisify(fs.readFile);
 
 const { parse } = require('./parser');
 
-test('', async () => {
+test('should properly parse nmap xnml file', async () => {
   const xmlContent = await readFile(
     __dirname + '/__testFiles__/localhost.xml',
     {

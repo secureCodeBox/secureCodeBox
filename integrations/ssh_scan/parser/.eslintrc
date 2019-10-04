@@ -1,0 +1,13 @@
+{
+  "env": {
+    "node": true,
+    "commonjs": true,
+    "jest": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 8
+  },
+  "extends": ["eslint:recommended", "plugin:security/recommended"],
+  "plugins": ["prettier", "security"],
+  "rules": {}
+}

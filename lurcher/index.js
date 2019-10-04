@@ -2,6 +2,7 @@ const { KubeConfig, CoreV1Api } = require('@kubernetes/client-node');
 const fs = require('fs');
 const arg = require('arg');
 const request = require('request');
+const path = require('path');
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 async function main() {
@@ -23,6 +24,11 @@ async function main() {
     // files are passed in in the following scheme:
     // --file=file-name.xml,application/xml,https://s3-presigned-upload-url-...
     const [fileName, resultType, uploadUrl] = fileDefinition.split(',');
+
+    if(path.parse(fileName).dir !== '/home/securecodebox'){
+      throw new Error(`Directories outside "/home/securecodebox" are currently not supported for file extraction. Please change the directory of your ScanJobDefiniton.`)
+    }
+
     return { fileName, resultType, uploadUrl };
   });
 
@@ -30,7 +36,7 @@ async function main() {
   console.log(
     'Once the scan is done, the following files are to be extracted.'
   );
-  for ({ fileName, resultType } of filesToExtract) {
+  for (const { fileName, resultType } of filesToExtract) {
     console.log(` - ${fileName} (${resultType})`);
   }
 
@@ -41,6 +47,7 @@ async function main() {
     kc.loadFromCluster();
     const client = kc.makeApiClient(CoreV1Api);
 
+    // eslint-disable-next-line no-constant-condition
     while (true) {
       console.log(
         `Waiting for main scan container (${mainContainerName}) to exit...`
@@ -53,7 +60,7 @@ async function main() {
         const mainContainerStatus = response.body.status.containerStatuses.filter(
           containerStatus => containerStatus.name === mainContainerName
         )[0];
-        mainContainerState = mainContainerStatus.state.terminated;
+        const mainContainerState = mainContainerStatus.state.terminated;
         if (mainContainerState !== undefined) {
           break;
         }
@@ -69,9 +76,9 @@ async function main() {
 
   let files = [];
 
-  for ({ fileName, uploadUrl, resultType } of filesToExtract) {
+  for (const { fileName, uploadUrl, resultType } of filesToExtract) {
     try {
-      const { statusCode, uploadSize, uploadDuration } = await uploadFile(
+      const { uploadSize, uploadDuration } = await uploadFile(
         fileName,
         uploadUrl
       );
@@ -89,7 +96,7 @@ async function main() {
   }
 
   try {
-    const res = await request.post({
+    await request.post({
       url: `${engineAddress}/api/v1alpha/scan-job/${scanId}/scan-completion`,
       json: {
         files,
@@ -101,42 +108,45 @@ async function main() {
 }
 
 function uploadFile(fileName, uploadUrl) {
-  return new Promise(async (resolve, reject) => {
-    const fileSize = await getFileSize(fileName);
+  return new Promise((resolve, reject) => {
+     getFileSize(fileName).then(
+      (fileSize) => {
+        const startTime = new Date();
 
-    const startTime = new Date();
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
+        fs.createReadStream(path.join('/home/securecodebox/', path.basename(fileName)))
+            .pipe(
+              request.put(uploadUrl, {
+                headers: {
+                  'content-length': fileSize,
+                },
+              })
+            )
+            .on('response', response => {
+              if (response.statusCode < 400) {
+                const endTime = new Date();
 
-    fs.createReadStream(fileName)
-      .pipe(
-        request.put(uploadUrl, {
-          headers: {
-            'content-length': fileSize,
-          },
-        })
-      )
-      .on('response', response => {
-        if (response.statusCode < 400) {
-          const endTime = new Date();
-
-          const uploadDuration = endTime.getTime() - startTime.getTime();
-          resolve({
-            statusCode: response.statusCode,
-            uploadSize: fileSize,
-            uploadDuration,
-          });
-        } else {
-          console.log(`Request failed with status: ${response.statusCode}`);
-          reject(response);
-        }
-      })
-      .on('error', reject);
+                const uploadDuration = endTime.getTime() - startTime.getTime();
+                resolve({
+                  statusCode: response.statusCode,
+                  uploadSize: fileSize,
+                  uploadDuration,
+                });
+              } else {
+                console.log(`Request failed with status: ${response.statusCode}`);
+                reject(response);
+              }
+            })
+            .on('error', reject);
+       })
   });
 }
 
 function getFileSize(fileName) {
   return new Promise((resolve, reject) => {
-    fs.stat(fileName, (err, stat) => {
-      if (err) {
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
+    fs.stat(path.join('/home/securecodebox/', path.basename(fileName)), (error, stat) => {
+      if (error) {
         reject(
           new Error(`Could not read file size of file: "${fileName}"`, error)
         );

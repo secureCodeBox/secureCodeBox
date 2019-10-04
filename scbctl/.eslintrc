@@ -1,12 +1,8 @@
 {
-  "env": {
-    "node": true,
-    "commonjs": true,
-    "es6": true
-  },
-  "extends": ["oclif", "eslint:recommended", "plugin:security/recommended"],
-  "plugins": ["prettier", "security"],
+  "extends": ["oclif"],
   "rules": {
-    "unicorn/no-process-exit": false
+    "no-process-exit": "off",
+    "unicorn/no-process-exit": "off",
+    "no-await-in-loop": "off"
   }
 }

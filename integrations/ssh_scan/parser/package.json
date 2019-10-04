@@ -4,7 +4,8 @@
   "description": "Parses result files for the type: 'ssh-scan-json'",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "iteratec GmbH",
@@ -15,6 +16,9 @@
     "uuid": "^3.3.3"
   },
   "devDependencies": {
+    "eslint": "^6.5.1",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-security": "^1.4.0",
     "jest": "^24.9.0"
   }
 }

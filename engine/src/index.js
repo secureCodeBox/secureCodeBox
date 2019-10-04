@@ -1,5 +1,6 @@
 const { get } = require('./config');
 const { logger } = require('./logger');
+const redis = require('./redis');
 
 const app = require('./app.js');
 

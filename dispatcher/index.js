@@ -56,6 +56,7 @@ async function main() {
     process.exit(1);
   }
 
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     await sleep(1 * 1000);
 
@@ -161,7 +162,7 @@ async function startParseJob({ type, jobId, jobParameters, engineAddress }) {
 
   await batchClient
     .createNamespacedJob('default', job)
-    .then(res => {
+    .then(() => {
       console.log(`Parse Job started successfully`);
     })
     .catch(error => console.error(error.response.body));
@@ -263,7 +264,7 @@ async function startScanJob({ type, jobId, jobParameters, engineAddress }) {
 
   await batchClient
     .createNamespacedJob('default', job)
-    .then(res => {
+    .then(() => {
       console.log(`Job started successfully`);
       // console.log(res.body);
     })
