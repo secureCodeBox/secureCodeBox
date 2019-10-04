@@ -28,11 +28,7 @@
   },
   "jest": {
     "projects": [
-      {
-        "testMatch": [
-          "<rootDir>/integrations/*/parser"
-        ]
-      },
+      "<rootDir>/integrations/*/parser",
       {
         "displayName": "lint",
         "runner": "jest-runner-eslint",

@@ -6,10 +6,7 @@
     "es6": true
   },
   "parserOptions": {
-    "ecmaVersion": 2018,
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true
-    }
+    "ecmaVersion": 2018
   },
   "extends": ["eslint:recommended", "plugin:security/recommended"],
   "plugins": ["prettier", "security"],
