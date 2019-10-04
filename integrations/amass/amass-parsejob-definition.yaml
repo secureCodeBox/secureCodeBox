@@ -1,0 +1,7 @@
+apiVersion: 'experimental.securecodebox.io/v1'
+kind: ParseJobDefinition
+metadata:
+  name: 'amass-jsonl'
+spec:
+  handlesResultsType: amass-jsonl
+  image: scbexperimental/amass-parser
