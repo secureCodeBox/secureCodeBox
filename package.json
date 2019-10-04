@@ -1,10 +1,10 @@
 {
   "name": "secureCodeBox",
   "version": "1.0.0",
-  "description": "[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![GitHub release](https://img.shields.io/github/release/secureCodeBox/secureCodeBox.svg)](https://github.com/secureCodeBox/secureCodeBox/releases/latest)",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint --ignore-path .gitignore ."
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,24 @@
     "eslint-config-oclif": "^3.1.0",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-prettier": "^3.1.1",
-    "eslint-plugin-security": "^1.4.0"
+    "eslint-plugin-security": "^1.4.0",
+    "jest": "^24.9.0",
+    "jest-runner-eslint": "^0.7.4"
+  },
+  "jest": {
+    "projects": [
+      {
+        "testMatch": [
+          "<rootDir>/integrations/*/parser"
+        ]
+      },
+      {
+        "displayName": "lint",
+        "runner": "jest-runner-eslint",
+        "testMatch": [
+          "<rootDir>/**/*.js"
+        ]
+      }
+    ]
   }
 }

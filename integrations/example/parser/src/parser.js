@@ -1,7 +1,7 @@
 const uuid = require('uuid/v4');
 
 async function parse(fileContent) {
-  fileContent.map(() => {
+  return fileContent.map(() => {
     return {
       id: uuid(),
       name: 'Some name',

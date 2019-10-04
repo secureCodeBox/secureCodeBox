@@ -7,14 +7,14 @@ const readFile = util.promisify(fs.readFile);
 const { parse } = require('./parser');
 
 test('example parser parses empty json to zero findings', async () => {
-  const xmlContent = await readFile(
+  const fileContent = await readFile(
     __dirname + '/__testFiles__/localhost.json',
     {
       encoding: 'utf8',
     }
   );
 
-  const res = await parse(xmlContent);
+  const res = await parse(JSON.parse(fileContent));
 
   expect(res).toEqual([]);
 });

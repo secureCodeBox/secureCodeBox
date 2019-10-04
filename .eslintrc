@@ -14,6 +14,7 @@
   "extends": ["eslint:recommended", "plugin:security/recommended"],
   "plugins": ["prettier", "security"],
   "rules": {
-    "security/detect-object-injection": "off"
+    "security/detect-object-injection": "off",
+    "no-console": "off"
   }
 }
