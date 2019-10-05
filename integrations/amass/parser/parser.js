@@ -1,14 +1,10 @@
-const uuid = require('uuid/v4');
-
 async function parse(fileContent) {
   return fileContent
     .split('\n')
     .filter(Boolean)
     .map(domainJson => {
-      console.log(domainJson);
       const domain = JSON.parse(domainJson);
       return {
-        id: uuid(),
         name: domain.name,
         description: `Found subdomain ${domain.name}`,
         category: 'Subdomain',

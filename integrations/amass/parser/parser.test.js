@@ -14,7 +14,5 @@ test('example parser parses empty json to zero findings', async () => {
     }
   );
 
-  const res = await parse(fileContent);
-
-  expect(res).toMatchSnapshot();
+  expect(await parse(fileContent)).toMatchSnapshot();
 });

@@ -24,11 +24,12 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-security": "^1.4.0",
     "jest": "^24.9.0",
-    "jest-runner-eslint": "^0.7.4"
+    "jest-runner-eslint": "^0.7.4",
+    "prettier": "^1.18.2"
   },
   "jest": {
     "projects": [
-      "<rootDir>/integrations/*/parser",
+      "<rootDir>/integrations/",
       {
         "displayName": "lint",
         "runner": "jest-runner-eslint",

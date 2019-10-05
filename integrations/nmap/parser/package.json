@@ -2,20 +2,13 @@
   "name": "nmap-parser",
   "version": "1.0.0",
   "description": "Parses result files for the type: 'nmap-xml'",
-  "main": "src/index.js",
-  "scripts": {
-    "test": "jest"
-  },
+  "main": "",
+  "scripts": {},
   "keywords": [],
   "author": "iteratec GmbH",
   "license": "Apache-2.0",
   "dependencies": {
-    "axios": "^0.19.0",
-    "lodash": "^4.17.15",
-    "uuid": "^3.3.3",
     "xml2js": "^0.4.22"
   },
-  "devDependencies": {
-    "jest": "^24.9.0"
-  }
+  "devDependencies": {}
 }

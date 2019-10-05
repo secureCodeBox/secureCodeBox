@@ -1,6 +1,4 @@
 const xml2js = require('xml2js');
-const _ = require('lodash');
-const uuid = require('uuid/v4');
 
 async function parse(fileContent) {
   const hosts = await parseResultFile(fileContent);
@@ -8,11 +6,13 @@ async function parse(fileContent) {
 }
 
 function transformToFindings(hosts) {
-  const portFindings = _.flatMap(hosts, ({ openPorts = [], ...hostInfo }) => {
-    return _.map(openPorts, openPort => {
-      console.log(`creating finding for port "${openPort.port}"`);
+  const portFindings = hosts.flatMap(({ openPorts = [], ...hostInfo }) => {
+    if(openPorts === null){
+      return [];
+    }
+
+    return openPorts.map(openPort => {
       return {
-        id: uuid(),
         name: openPort.service,
         description: `Port ${openPort.port} is ${openPort.state} using ${openPort.protocol} protocol.`,
         category: 'Open Port',
@@ -37,9 +37,8 @@ function transformToFindings(hosts) {
     });
   });
 
-  const hostFindings = _.map(hosts, ({ hostname, ip, osNmap }) => {
+  const hostFindings = hosts.map(({ hostname, ip, osNmap }) => {
     return {
-      id: uuid(),
       name: `Host: ${hostname}`,
       category: 'Host',
       description: 'Found a host',

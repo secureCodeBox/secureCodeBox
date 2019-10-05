@@ -1,8 +1,8 @@
 {
-  "name": "ssh-scan-parser",
+  "name": "securecodebox-parser-sdk-nodejs",
   "version": "1.0.0",
-  "description": "Parses result files for the type: 'ssh-scan-json'",
-  "main": "src/index.js",
+  "description": "Handles external communication required for all secureCodeBox parsers",
+  "main": "parser-wrapper.js",
   "scripts": {
     "test": "jest"
   },
@@ -11,8 +11,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "axios": "^0.19.0",
-    "lodash.get": "^4.4.2",
-    "uuid": "^3.3.3"
+    "uuid": "^3.3.3",
+    "xml2js": "^0.4.22"
   },
   "devDependencies": {
     "jest": "^24.9.0"
