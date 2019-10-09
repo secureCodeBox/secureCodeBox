@@ -14,10 +14,10 @@ script:
   - npm test -- --verbose --forceExit
 after_failure:
   - docker ps -a
-  - docker-compose logs securecodebox_engine
-  - docker-compose logs securecodebox_scanner-webapplication-zap
-  - docker-compose logs securecodebox_scanner-webapplication-arachni
-  - docker-compose logs securecodebox_scanner-infrastructure-amass
-  - docker-compose logs securecodebox_scanner-infrastructure-nmap
-  - docker-compose logs securecodebox_scanner-infrastructure-sslyze
-  - docker-compose logs securecodebox_scanner-webserver-nikto
+  - docker-compose logs engine
+  - docker-compose logs scanner-webapplication-zap
+  - docker-compose logs scanner-webapplication-arachni
+  - docker-compose logs scanner-infrastructure-amass
+  - docker-compose logs scanner-infrastructure-nmap
+  - docker-compose logs scanner-infrastructure-sslyze
+  - docker-compose logs scanner-webserver-nikto
