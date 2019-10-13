@@ -58,16 +58,13 @@ helm install minio stable/minio --set defaultBucket.enabled=true --set defaultBu
 # NOTE: Before deploying the engine you'll need to either
 kubectl apply -f engine/engine-deployment.yaml
 
-# Deploy the ScanJobDefinition and ScanJobs
-kubectl apply -f dispatcher/scan-job-crd.yaml -f dispatcher/parse-job-crd.yaml
-kubectl apply -f integrations/nmap/nmap-scanjob-definition.yaml -f integrations/amass/amass-scanjob-definition.yaml -f integrations/ssh_scan/ssh-scan-scanjob-definition.yaml
+# Deploy the dispatcher
+helm install dispatcher ./dispatcher --set "dispatcherEnvironmentName=$(kubectl config current-context)"
 
-# Deploy the ParseJobDefinition and ParseJobs
-kubectl apply -f dispatcher/parse-job-crd.yaml
-kubectl apply -f integrations/nmap/nmap-parsejob-definition.yaml -f integrations/amass/amass-parsejob-definition.yaml -f integrations/ssh_scan/ssh-scan-parsejob-definition.yaml
-
-# Deploy Dispatcher
-kubectl apply -f dispatcher/dispatcher-deployment.yaml
+# Deploy nmap, amass and ssh_scan ScanJob and ParseJob Definition
+kubectl apply -f integrations/nmap/nmap-scanjob-definition.yaml -f integrations/nmap/nmap-parsejob-definition.yaml
+kubectl apply -f integrations/amass/amass-scanjob-definition.yaml -f integrations/amass/amass-parsejob-definition.yaml
+kubectl apply -f integrations/ssh_scan/ssh-scan-scanjob-definition.yaml -f integrations/ssh_scan/ssh-scan-parsejob-definition.yaml
 
 # Elasticsearch Persistence Provider Deployment
 helm install elasticsearch elastic/elasticsearch --version 7.4.0 --set replicas=1 --set minimumMasterNodes=1 --set image=docker.elastic.co/elasticsearch/elasticsearch-oss
