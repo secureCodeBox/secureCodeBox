@@ -51,17 +51,16 @@ There is a german article about [Security DevOps – Angreifern (immer) einen Sc
 # This will deploy a redis cluster and a minio deployment alongside the engine deployment.
 # You can disable the creation to use services like a hosted Redis solution or AWS S3, DigitalOcean Spaces or another compatible Solution.
 helm install engine ./engine/
+# Elasticsearch Persistence Provider Deployment
+helm install persistence-elastic ./persistence/persistence-elastic/
 
-# Deploy the dispatcher
+# Dispatcher Deployment
 helm install dispatcher ./dispatcher/ --set "dispatcherEnvironmentName=$(kubectl config current-context)"
 
 # Deploy nmap, amass and ssh_scan ScanJob and ParseJob Definition
 kubectl apply -f integrations/nmap/nmap-scanjob-definition.yaml -f integrations/nmap/nmap-parsejob-definition.yaml
 kubectl apply -f integrations/amass/amass-scanjob-definition.yaml -f integrations/amass/amass-parsejob-definition.yaml
 kubectl apply -f integrations/ssh_scan/ssh-scan-scanjob-definition.yaml -f integrations/ssh_scan/ssh-scan-parsejob-definition.yaml
-
-# Elasticsearch Persistence Provider Deployment
-helm install persistence-elastic ./persistence/persistence-elastic/
 ```
 
 ## How does it work?
