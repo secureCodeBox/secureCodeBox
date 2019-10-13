@@ -48,15 +48,9 @@ There is a german article about [Security DevOps – Angreifern (immer) einen Sc
 ### Deployment
 
 ```bash
-# Deploy redis for the engine
-helm install redis stable/redis --set cluster.slaveCount=0 --set cluster.enabled=false
-
-# Deplyo Minio (min.io) for file storage.
-# You can configure to use a hosted solution (aws s3 / digitalocean spaces ...) if you don't want to run it your self. Change the config in engine/engine-deployment for that.
-helm install minio stable/minio --set defaultBucket.enabled=true --set defaultBucket.name=securecodebox
-
-# NOTE: Before deploying the engine you'll need to either
-kubectl apply -f engine/engine-deployment.yaml
+# Will deploy a redis cluster and a minio deployment.
+# You can disable the creation to use services like a hosted Redis solution or AWS S3, DigitalOcean Spaces or another compatible Solution.
+helm install engine ./engine
 
 # Deploy the dispatcher
 helm install dispatcher ./dispatcher --set "dispatcherEnvironmentName=$(kubectl config current-context)"
