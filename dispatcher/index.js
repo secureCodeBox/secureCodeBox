@@ -29,8 +29,7 @@ async function main() {
     const client = kc.makeApiClient(CustomObjectsApi);
     batchClient = kc.makeApiClient(BatchV1Api);
 
-    const scanJobPath =
-      `/api/experimental.securecodebox.io/v1/namespaces/${namespace}/scanjobdefinitions`;
+    const scanJobPath = `/api/experimental.securecodebox.io/v1/namespaces/${namespace}/scanjobdefinitions`;
     const scanJobWatch = new Watch(kc);
     const scanJobListFn = () =>
       client.listNamespacedCustomObject(
@@ -41,8 +40,7 @@ async function main() {
       );
     scanJobCache = new ListWatch(scanJobPath, scanJobWatch, scanJobListFn);
 
-    const parsePath =
-      `/api/experimental.securecodebox.io/v1/namespaces/${namespace}/parsejobdefinitions`;
+    const parsePath = `/api/experimental.securecodebox.io/v1/namespaces/${namespace}/parsejobdefinitions`;
     const parseWatch = new Watch(kc);
     const parseListFn = () =>
       client.listNamespacedCustomObject(
@@ -110,10 +108,20 @@ async function main() {
 
     if (jobType.startsWith('parse:')) {
       console.log(`starting hypothetical parse job: ${jobType}`);
-      await startParseJob({ type: jobType, jobId, jobParameters, engineAddress: engineUrl });
+      await startParseJob({
+        type: jobType,
+        jobId,
+        jobParameters,
+        engineAddress: engineUrl,
+      });
     } else {
       console.info(`Starting Job:`);
-      await startScanJob({ type: jobType, jobId, jobParameters, engineAddress: engineUrl });
+      await startScanJob({
+        type: jobType,
+        jobId,
+        jobParameters,
+        engineAddress: engineUrl,
+      });
     }
   }
 }
@@ -247,6 +255,16 @@ async function startScanJob({ type, jobId, jobParameters, engineAddress }) {
                   name: 'scan-results',
                   mountPath: '/home/securecodebox/',
                   readOnly: true,
+                },
+              ],
+              env: [
+                {
+                  name: 'NAMESPACE',
+                  valueFrom: {
+                    fieldRef: {
+                      fieldPath: 'metadata.namespace',
+                    },
+                  },
                 },
               ],
             },

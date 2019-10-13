@@ -6,6 +6,8 @@ const path = require('path');
 const bytes = require('bytes');
 const pRetry = require('p-retry');
 
+const namespace = process.env['NAMESPACE'];
+
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 async function main() {
@@ -60,7 +62,7 @@ async function main() {
       try {
         await sleep(500);
 
-        const response = await client.readNamespacedPod(podname, 'default');
+        const response = await client.readNamespacedPod(podname, namespace);
 
         const mainContainerStatus = response.body.status.containerStatuses.filter(
           containerStatus => containerStatus.name === mainContainerName
