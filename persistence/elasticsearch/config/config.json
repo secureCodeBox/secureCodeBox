@@ -1,6 +1,0 @@
-{
-  "port": 3000,
-  "elasticsearch": {
-    "address": "http://elasticsearch-master:9200"
-  }
-}

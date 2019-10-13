@@ -1,0 +1,17 @@
+apiVersion: v2
+name: persistence-elastic
+description: The elastic persistence provider persists secureCodeBox findings into the elastic stack.
+
+type: application
+
+version: 0.1.0
+
+appVersion: latest
+
+dependencies:
+  - name: elasticsearch
+    version: 7.4.0
+    repository: https://helm.elastic.co
+  - name: kibana
+    version: 7.4.0
+    repository: https://helm.elastic.co

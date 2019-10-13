@@ -1,0 +1,41 @@
+# Default values for dispatcher.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: scbexperimental/persistence-elastic
+  pullPolicy: Always
+
+elasticsearch:
+  replicas: 1
+  minimumMasterNodes: 1
+  # image: docker.elastic.co/elasticsearch/elasticsearch-oss
+
+kibana:
+  {}
+  # image: docker.elastic.co/kibana/kibana-oss
+
+imagePullSecrets: []
+nameOverride: ''
+fullnameOverride: ''
+
+podSecurityContext:
+  {}
+  # fsGroup: 2000
+
+securityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
