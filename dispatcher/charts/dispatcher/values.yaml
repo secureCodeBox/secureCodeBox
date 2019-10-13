@@ -5,6 +5,8 @@
 engineURL: 'http://engine.default.svc.cluster.local:3000'
 dispatcherEnvironmentName: 'cluster-name'
 
+createCRDs: true
+
 image:
   repository: scbexperimental/dispatcher
   pullPolicy: Always
