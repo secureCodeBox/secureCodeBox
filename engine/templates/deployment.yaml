@@ -17,6 +17,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+      serviceAccountName: 'engine'
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -33,6 +34,10 @@ spec:
                 secretKeyRef:
                   name: engine-redis
                   key: redis-password
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
             - name: S3_ENDPOINT
               value: "engine-minio.{{ .Release.Namespace }}.svc.cluster.local"
             - name: S3_TLS_ENABLED

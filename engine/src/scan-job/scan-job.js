@@ -10,7 +10,7 @@ const {
 const minio = require('../minio');
 const { logger } = require('../logger');
 const path = require('path');
-const axios = require('axios');
+const persist = require('../persistence/persist');
 
 const router = express.Router();
 
@@ -68,7 +68,7 @@ router.post('/api/v1alpha/scan-job/:scanId/findings', async (req, res) => {
   logger.debug(
     `Got ${findings.length} from parser for security test: "${scanId}".`
   );
-  
+
   const severityOverview = findings.reduce((overview, { severity }) => {
     if (Object.prototype.hasOwnProperty.call(overview, severity)) {
       overview[severity] = overview[severity] + 1;
@@ -81,7 +81,7 @@ router.post('/api/v1alpha/scan-job/:scanId/findings', async (req, res) => {
     if (Object.prototype.hasOwnProperty.call(overview, category)) {
       overview[category] = overview[category] + 1;
     } else {
-      overview[category] = 1;  
+      overview[category] = 1;
     }
     return overview;
   }, {});
@@ -100,16 +100,7 @@ router.post('/api/v1alpha/scan-job/:scanId/findings', async (req, res) => {
     },
   });
 
-  // persistence provider
-  try {
-    await axios.post(
-      `http://persistence-elastic:3000/api/v1alpha/scan-job/${scanId}/persist`,
-      { findings }
-    );
-  } catch (error) {
-    logger.error(`Persistence provider errored: ${error.message}`);
-    logger.debug(error);
-  }
+  await persist(scanId, findings);
 
   return res.status(204).send();
 });

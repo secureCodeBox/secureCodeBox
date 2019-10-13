@@ -2,6 +2,7 @@ apiVersion: 'experimental.securecodebox.io/v1'
 kind: PersistenceProvider
 metadata:
   name: 'persistence-elastic'
+  labels:
+    type: Structured
 spec:
-  type: Structured
   address: http://persistence-elastic:3000

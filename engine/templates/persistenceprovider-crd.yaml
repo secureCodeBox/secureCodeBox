@@ -11,7 +11,7 @@ spec:
     - name: Type
       type: string
       description: The type of the PersistenceProvider
-      JSONPath: .spec.type
+      JSONPath: .metadata.labels.type
     - name: Address
       type: string
       description: The http(s) address the result should be posted to
@@ -30,9 +30,6 @@ spec:
           spec:
             type: object
             properties:
-              type:
-                type: string
-                enum: ['Structured', 'Raw']
               address:
                 type: string
   # either Namespaced or Cluster
