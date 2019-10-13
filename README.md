@@ -48,12 +48,12 @@ There is a german article about [Security DevOps – Angreifern (immer) einen Sc
 ### Deployment
 
 ```bash
-# Will deploy a redis cluster and a minio deployment.
+# This will deploy a redis cluster and a minio deployment alongside the engine deployment.
 # You can disable the creation to use services like a hosted Redis solution or AWS S3, DigitalOcean Spaces or another compatible Solution.
-helm install engine ./engine
+helm install engine ./engine/
 
 # Deploy the dispatcher
-helm install dispatcher ./dispatcher --set "dispatcherEnvironmentName=$(kubectl config current-context)"
+helm install dispatcher ./dispatcher/ --set "dispatcherEnvironmentName=$(kubectl config current-context)"
 
 # Deploy nmap, amass and ssh_scan ScanJob and ParseJob Definition
 kubectl apply -f integrations/nmap/nmap-scanjob-definition.yaml -f integrations/nmap/nmap-parsejob-definition.yaml
@@ -61,10 +61,7 @@ kubectl apply -f integrations/amass/amass-scanjob-definition.yaml -f integration
 kubectl apply -f integrations/ssh_scan/ssh-scan-scanjob-definition.yaml -f integrations/ssh_scan/ssh-scan-parsejob-definition.yaml
 
 # Elasticsearch Persistence Provider Deployment
-helm install elasticsearch elastic/elasticsearch --version 7.4.0 --set replicas=1 --set minimumMasterNodes=1 --set image=docker.elastic.co/elasticsearch/elasticsearch-oss
-helm install kibana elastic/kibana --version 7.4.0 --set image=docker.elastic.co/kibana/kibana-oss
-
-kubectl apply -f persistence/elasticsearch/persistence-elk-deployment.yaml
+helm install persistence-elastic ./persistence/persistence-elastic/
 ```
 
 ## How does it work?
