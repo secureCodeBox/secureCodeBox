@@ -5,4 +5,4 @@ metadata:
   labels:
     type: Structured
 spec:
-  address: http://persistence-elastic:3000
+  address: "http://{{ include "persistence-elastic.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:3000"

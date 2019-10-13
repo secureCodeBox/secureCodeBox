@@ -28,18 +28,18 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: REDIS_HOST
-              value: "engine-redis-master.{{ .Release.Namespace }}.svc.cluster.local"
+              value: "{{ .Release.Name }}-redis-master.{{ .Release.Namespace }}.svc.cluster.local"
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: engine-redis
+                  name: "{{ .Release.Name }}-redis"
                   key: redis-password
             - name: NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: S3_ENDPOINT
-              value: "engine-minio.{{ .Release.Namespace }}.svc.cluster.local"
+              value: "{{ .Release.Name }}-minio.{{ .Release.Namespace }}.svc.cluster.local"
             - name: S3_TLS_ENABLED
               value: 'false'
             - name: S3_PORT
@@ -47,12 +47,12 @@ spec:
             - name: S3_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
-                  name: engine-minio
+                  name: "{{ .Release.Name }}-minio"
                   key: accesskey
             - name: S3_SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: engine-minio
+                  name: "{{ .Release.Name }}-minio"
                   key: secretkey
             - name: S3_BUCKET
               value: 'securecodebox'
