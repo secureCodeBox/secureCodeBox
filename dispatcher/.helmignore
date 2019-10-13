@@ -20,3 +20,10 @@
 .idea/
 *.tmproj
 .vscode/
+# Node.js files
+node_modules/*
+package.json
+package-lock.json
+index.js
+Dockerfile
+.dockerignore
