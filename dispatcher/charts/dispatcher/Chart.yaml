@@ -1,0 +1,9 @@
+apiVersion: v2
+name: dispatcher
+description: The dispatcher executes secureCodeBox security scans inside kubernetes jobs.
+
+type: application
+
+version: 0.1.0
+
+appVersion: latest
