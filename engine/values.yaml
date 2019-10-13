@@ -6,6 +6,9 @@ image:
   repository: scbexperimental/engine
   pullPolicy: Always
 
+# Create PersistenceProvider CRD
+createCRDs: true
+
 redis:
   cluster:
     slaveCount: 0
