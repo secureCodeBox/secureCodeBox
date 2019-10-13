@@ -16,6 +16,7 @@ const dispatcherEnvironmentName = process.env['DISPATCHER_ENVIRONMENT_NAME'];
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const engineUrl = process.env['ENGINE_ADDRESS'];
+const namespace = process.env['NAMESPACE'];
 
 let scanJobCache;
 let parseJobCache;
@@ -29,25 +30,25 @@ async function main() {
     batchClient = kc.makeApiClient(BatchV1Api);
 
     const scanJobPath =
-      '/api/experimental.securecodebox.io/v1/namespaces/default/scanjobdefinitions';
+      `/api/experimental.securecodebox.io/v1/namespaces/${namespace}/scanjobdefinitions`;
     const scanJobWatch = new Watch(kc);
     const scanJobListFn = () =>
       client.listNamespacedCustomObject(
         'experimental.securecodebox.io',
         'v1',
-        'default',
+        namespace,
         'scanjobdefinitions'
       );
     scanJobCache = new ListWatch(scanJobPath, scanJobWatch, scanJobListFn);
 
     const parsePath =
-      '/api/experimental.securecodebox.io/v1/namespaces/default/parsejobdefinitions';
+      `/api/experimental.securecodebox.io/v1/namespaces/${namespace}/parsejobdefinitions`;
     const parseWatch = new Watch(kc);
     const parseListFn = () =>
       client.listNamespacedCustomObject(
         'experimental.securecodebox.io',
         'v1',
-        'default',
+        namespace,
         'parsejobdefinitions'
       );
     parseJobCache = new ListWatch(parsePath, parseWatch, parseListFn);
@@ -60,12 +61,12 @@ async function main() {
   while (true) {
     await sleep(1 * 1000);
 
-    const scanJobList = scanJobCache.list('default');
+    const scanJobList = scanJobCache.list(namespace);
     if (!scanJobList) {
       console.warn("List isn't set");
       continue;
     }
-    const parseJobTypes = parseJobCache.list('default');
+    const parseJobTypes = parseJobCache.list(namespace);
     if (!parseJobTypes) {
       console.warn("Parser List isn't set");
       continue;
@@ -120,7 +121,7 @@ async function main() {
 async function startParseJob({ type, jobId, jobParameters, engineAddress }) {
   const parseJobName = type.split(':')[1];
   console.log(`Getting ParseJob definition ${parseJobName}`);
-  const parseJobDefinition = parseJobCache.get(parseJobName, 'default');
+  const parseJobDefinition = parseJobCache.get(parseJobName, namespace);
 
   const jobDefinitionName = parseJobDefinition.metadata.name;
   const jobImage = parseJobDefinition.spec.image;
@@ -161,7 +162,7 @@ async function startParseJob({ type, jobId, jobParameters, engineAddress }) {
   };
 
   await batchClient
-    .createNamespacedJob('default', job)
+    .createNamespacedJob(namespace, job)
     .then(() => {
       console.log(`Parse Job started successfully`);
     })
@@ -169,7 +170,7 @@ async function startParseJob({ type, jobId, jobParameters, engineAddress }) {
 }
 
 async function startScanJob({ type, jobId, jobParameters, engineAddress }) {
-  const scanJobDefinition = scanJobCache.get(type, 'default');
+  const scanJobDefinition = scanJobCache.get(type, namespace);
 
   const jobDefinitionName = scanJobDefinition.metadata.name;
   const jobDefinition = scanJobDefinition.spec.jobTemplate;
@@ -263,7 +264,7 @@ async function startScanJob({ type, jobId, jobParameters, engineAddress }) {
   };
 
   await batchClient
-    .createNamespacedJob('default', job)
+    .createNamespacedJob(namespace, job)
     .then(() => {
       console.log(`Job started successfully`);
       // console.log(res.body);
