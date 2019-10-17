@@ -13,7 +13,7 @@ services:
     networks:
       - frontend
   nginx:
-    image: nginx
+    image: nginx:1.17-alpine
     ports:
       - 8111:80
     networks:
