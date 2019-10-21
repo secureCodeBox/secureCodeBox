@@ -7,6 +7,35 @@ These values can then be used by standerdized components e.g. by the DefectDojo 
 
 > Note: None of these values are mandatory.
 
+
+## Example
+
+Here's a example of a SecurityTest (see the `PUT 
+/box/securityTests` endpoint) which Metadata Field set:
+
+```json
+[
+  {
+    "name": "nmap",
+    "context": "exampleCompoanyNetworkScan",
+    "tenant": "exampleCompoany",
+    "metaData": {
+      "location": "office-gotham-city",
+      "vlan": "vm-network"
+    },
+    "target": {
+      "name": "gotham-city-offices",
+      "location": "192.168.42.0/24",
+      "attributes": {
+        "NMAP_PARAMETER": ""
+      }
+    }
+  }
+]
+```
+
+In this example the meta data fields are used to identify the context of the scan more directly than using the string context field. When also using the elasticsearch persistence proivder these fields can be extremly helpfull to easily filter for the sub results you want to have. E.g. only show ports in the `office-gotham-city` or in particular `vlans`. How you end up using the metadata fields is up to you.
+
 ## Standard Values
 
 ### Git and Build Values
