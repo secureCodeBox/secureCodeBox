@@ -28,34 +28,33 @@ test(
 
     expect(findings).toContainEqual({
       category: 'SSH Service',
-      description: 'SSH Compliance Information',
-      name: 'SSH Compliance',
+      description: undefined,
+      name: 'SSH Service Information',
       osi_layer: 'NETWORK',
       severity: 'INFORMATIONAL',
     });
 
     expect(findings).toContainEqual({
-      category: 'SSH Service',
-      description: ' diffie-hellman-group14-sha1',
-      name: 'Remove these key exchange algorithms',
+      category: 'SSH Policy Violation',
+      description: 'Deprecated / discouraged SSH key algorithms are used',
+      name: 'Insecure SSH Key Algorithms',
       osi_layer: 'NETWORK',
       severity: 'MEDIUM',
     });
 
     expect(findings).toContainEqual({
-      category: 'SSH Service',
-      description:
-        ' umac-64-etm@openssh.com, hmac-sha1-etm@openssh.com, umac-64@openssh.com, hmac-sha1',
-      name: 'Remove these MAC algorithms',
+      category: 'SSH Policy Violation',
+      description: 'Deprecated / discouraged SSH MAC algorithms are used',
+      name: 'Insecure SSH MAC Algorithms',
       osi_layer: 'NETWORK',
       severity: 'MEDIUM',
     });
 
     expect(
       findings
-        .filter(({ name }) => name !== 'SSH Compliance')
-        .filter(({ name }) => name !== 'Remove these key exchange algorithms')
-        .filter(({ name }) => name !== 'Remove these MAC algorithms')
+        .filter(({ name }) => name !== 'SSH Service Information')
+        .filter(({ name }) => name !== 'Insecure SSH Key Algorithms')
+        .filter(({ name }) => name !== 'Insecure SSH MAC Algorithms')
     ).toEqual([]);
   },
   2 * Time.Minute
