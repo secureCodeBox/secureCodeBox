@@ -28,7 +28,6 @@ test(
 
     expect(findings).toContainEqual({
       category: 'SSH Service',
-      description: undefined,
       name: 'SSH Service Information',
       osi_layer: 'NETWORK',
       severity: 'INFORMATIONAL',
