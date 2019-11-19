@@ -53,16 +53,6 @@ test(
       severity: 'INFORMATIONAL',
     });
     expect(findings).toContainEqual({
-      name: 'TLSv1 supported',
-      category: 'TLSv1',
-      severity: 'LOW',
-    });
-    expect(findings).toContainEqual({
-      name: 'TLSv1.1 supported',
-      category: 'TLSv1.1',
-      severity: 'INFORMATIONAL',
-    });
-    expect(findings).toContainEqual({
       name: 'TLSv1.2 supported',
       category: 'TLSv1.2',
       severity: 'INFORMATIONAL',
