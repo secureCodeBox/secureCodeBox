@@ -1,4 +1,4 @@
-version: '2.1'
+version: "2.1"
 services:
   juice-shop:
     image: bkimminich/juice-shop
@@ -19,8 +19,30 @@ services:
     networks:
       - frontend
   old-wordpress:
-    image: wordpress/4.7.5-php7.1-fpm
+    image: wordpress:4.7.5-php7.1-fpm-alpine
     ports:
       - 8000:80
     networks:
       - frontend
+    environment:
+      WORDPRESS_DB_HOST: wordpress-db
+      WORDPRESS_DB_USER: exampleuser
+      WORDPRESS_DB_PASSWORD: examplepass
+      WORDPRESS_DB_NAME: exampledb
+    volumes:
+      - wordpress:/var/www/html
+
+  wordpress-db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_RANDOM_ROOT_PASSWORD: "1"
+    volumes:
+      - db:/var/lib/mysql
+
+volumes:
+  wordpress:
+  db:
