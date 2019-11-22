@@ -155,7 +155,7 @@ services:
       - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
-  scanner-cms-wordpress:
+  scanner-cms-wpscan:
     image: securecodebox/wpscan:${DEFAULT_TAG}
     depends_on:
       engine:
