@@ -1,15 +1,15 @@
 const { startSecurityTest, Time } = require('./sdk');
 
 test(
-  'finds a few low severity findigns for securecodebox.io',
+  'finds a few low severity findings for securecodebox.io',
   async () => {
     const securityTest = await startSecurityTest({
-      context: 'securecodebox.io tls',
+      context: 'www.iteratec.de ssh',
       metaData: {},
       name: 'ssh',
       target: {
-        name: 'securecodebox.io tls',
-        location: 'securecodebox.io',
+        name: 'www.iteratec.de ssh',
+        location: 'www.iteratec.de',
         attributes: {},
       },
     });
@@ -28,7 +28,6 @@ test(
 
     expect(findings).toContainEqual({
       category: 'SSH Service',
-      description: undefined,
       name: 'SSH Service Information',
       osi_layer: 'NETWORK',
       severity: 'INFORMATIONAL',
@@ -36,16 +35,8 @@ test(
 
     expect(findings).toContainEqual({
       category: 'SSH Policy Violation',
-      description: 'Deprecated / discouraged SSH key algorithms are used',
-      name: 'Insecure SSH Key Algorithms',
-      osi_layer: 'NETWORK',
-      severity: 'MEDIUM',
-    });
-
-    expect(findings).toContainEqual({
-      category: 'SSH Policy Violation',
-      description: 'Deprecated / discouraged SSH MAC algorithms are used',
-      name: 'Insecure SSH MAC Algorithms',
+      description: 'Discouraged SSH authentication methods are used',
+      name: 'Discouraged SSH authentication methods',
       osi_layer: 'NETWORK',
       severity: 'MEDIUM',
     });
@@ -53,8 +44,7 @@ test(
     expect(
       findings
         .filter(({ name }) => name !== 'SSH Service Information')
-        .filter(({ name }) => name !== 'Insecure SSH Key Algorithms')
-        .filter(({ name }) => name !== 'Insecure SSH MAC Algorithms')
+        .filter(({ name }) => name !== 'Discouraged SSH authentication methods')
     ).toEqual([]);
   },
   2 * Time.Minute
