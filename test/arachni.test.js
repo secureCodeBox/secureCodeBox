@@ -28,13 +28,7 @@ test(
       severity: 'LOW',
     });
 
-    expect(findings).toContainEqual({
-      name: 'Interesting response',
-      category: 'Interesting responses',
-      severity: 'INFORMATIONAL',
-    });
-
-    expect(findings.length).toEqual(2);
+    expect(findings.length).toEqual(1);
   },
   5 * Time.Minute
 );

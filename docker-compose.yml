@@ -97,7 +97,7 @@ services:
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
       - SECURECODEBOX_ZAP_JOBSSCHEDULERCRON=* * * * * *
 
-  scanner-webapplication-sslyze:
+  scanner-infrastructure-sslyze:
       image: securecodebox/sslyze:${DEFAULT_TAG}
       depends_on:
         engine:
@@ -125,7 +125,7 @@ services:
       - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
       volumes:
-      - "./plugins/arachni-login-scripts:/securecodebox/scripts/"
+      - "./plugins/arachni-login-scripts:/securecodebox/static/"
 
   scanner-infrastructure-amass:
       image: securecodebox/amass:${DEFAULT_TAG}
@@ -170,7 +170,7 @@ services:
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   persistence-elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.3.1
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.8.1
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -185,7 +185,7 @@ services:
       - discovery.type=single-node
 
   persistence-kibana:
-    image: docker.elastic.co/kibana/kibana-oss:6.3.1
+    image: docker.elastic.co/kibana/kibana-oss:6.8.1
     depends_on:
       - persistence-elasticsearch
     ports:

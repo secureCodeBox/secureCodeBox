@@ -68,10 +68,12 @@ test(
       severity: 'INFORMATIONAL',
     });
 
-    // Should only detect findings of 'informational' severity level
+    // Should only detect findings of 'informational' severity level and 1 TLSv1 finding
     expect(
-      findings.filter(({ severity }) => severity !== 'INFORMATIONAL').length
-    ).toBe(1);
+      findings
+        .filter(({ severity }) => severity !== 'INFORMATIONAL')
+        .filter(({ name }) => name !== 'TLSv1 supported')
+    ).toEqual([]);
   },
   5 * Time.Minute
 );
