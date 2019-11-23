@@ -31,12 +31,17 @@ const nmapWorker = new SecureCodeBoxScannerScaffolding(
   async (targets, { id: legacyId }) => {
     const [target, ...discardedTargets] = targets;
 
-    const nmapCmd = `${target.attributes.NMAP_PARAMETER || ''} ${
-      target.location
-    }`;
+    const nmapCmd = [
+      ...(target.attributes.NMAP_PARAMETER || '').split(' '),
+      target.location,
+    ];
     console.log(`Starting Nmap Scan with args: "${nmapCmd}"`);
 
-    const newId = await startSecurityTest({ scannerName: 'nmap', nmapCmd });
+    const newId = await startSecurityTest({
+      scannerName: 'nmap',
+      scannerParameters: nmapCmd,
+      tenant: 'default',
+    });
 
     console.log(`Mapping "${legacyId}" => "${newId}"`);
 
