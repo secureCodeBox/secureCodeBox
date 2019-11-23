@@ -1,0 +1,8 @@
+apiVersion: 'experimental.securecodebox.io/v1'
+kind: PersistenceProvider
+metadata:
+  name: 'persistence-legacy-scb'
+  labels:
+    type: Structured
+spec:
+  address: "http://{{ include "persistence-legacy-scb.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:3000"
