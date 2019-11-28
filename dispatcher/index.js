@@ -231,7 +231,14 @@ async function startScanJob({ type, jobId, jobParameters, engineAddress }) {
               volumeMounts: [
                 ...get(
                   jobDefinition,
-                  ['spec', 'template', 'spec', 'containers[0]', 'volumeMounts'],
+                  [
+                    'spec',
+                    'template',
+                    'spec',
+                    'containers',
+                    '0',
+                    'volumeMounts',
+                  ],
                   []
                 ),
                 {
