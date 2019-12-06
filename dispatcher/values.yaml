@@ -15,6 +15,16 @@ imagePullSecrets: []
 nameOverride: ''
 fullnameOverride: ''
 
+metrics:
+  # creates a service and container port in the deployment to expose the dispatcher prometheus endpoint.
+  enabled: false
+  serviceMonitor:
+    # if true, creates a Prometheus Operator ServiceMonitor (also requires metrics.enabled to be true)
+    enabled: true
+    namespace: nil
+    interval: nil
+    scrapeTimeout: nil
+
 podSecurityContext:
   {}
   # fsGroup: 2000

@@ -11,6 +11,10 @@ const isArray = require('lodash.isarray');
 const flatmap = require('lodash.flatmap');
 const path = require('path');
 
+const express = require('express');
+const server = express();
+const promClient = require('prom-client');
+
 const dispatcherEnvironmentName = process.env['DISPATCHER_ENVIRONMENT_NAME'];
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -21,6 +25,12 @@ const namespace = process.env['NAMESPACE'];
 let scanJobCache;
 let parseJobCache;
 let batchClient;
+
+const jobCounter = new promClient.Counter({
+  name: 'securecodebox_job_count',
+  help: 'Shows how many jobs have been started',
+  labelNames: ['jobType', 'type'],
+});
 
 async function main() {
   try {
@@ -107,7 +117,10 @@ async function main() {
     const jobParameters = data.parameters;
 
     if (jobType.startsWith('parse:')) {
-      console.log(`starting hypothetical parse job: ${jobType}`);
+      console.log(`starting parse job: ${jobType}`);
+
+      jobCounter.inc({ jobType: 'ParseJob', type: jobType });
+
       await startParseJob({
         type: jobType,
         jobId,
@@ -116,6 +129,9 @@ async function main() {
       });
     } else {
       console.info(`Starting Job:`);
+
+      jobCounter.inc({ jobType: 'ScanJob', type: jobType });
+
       await startScanJob({
         type: jobType,
         jobId,
@@ -365,3 +381,13 @@ process.on('SIGTERM', () => {
   console.warn('Received "SIGTERM" Signal shutting down.');
   process.exit(0);
 });
+
+server.get('/metrics', (req, res) => {
+  res.set('Content-Type', promClient.register.contentType);
+  res.end(promClient.register.metrics());
+});
+
+promClient.collectDefaultMetrics();
+
+console.log('Server listening to 8080, metrics exposed on /metrics endpoint');
+server.listen(8080);
