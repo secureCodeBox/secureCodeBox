@@ -1,0 +1,7 @@
+apiVersion: "experimental.securecodebox.io/v1"
+kind: ParseJobDefinition
+metadata:
+  name: "zap-json"
+spec:
+  handlesResultsType: zap-json
+  image: scbexperimental/zap-parser

@@ -1,0 +1,89 @@
+apiVersion: "experimental.securecodebox.io/v1"
+kind: ScanJobDefinition
+metadata:
+  name: "zap-baseline"
+spec:
+  extractResults:
+    - type: zap-json
+      location: "/home/securecodebox/zap-results.json"
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 10
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: zap-baseline
+              image: owasp/zap2docker-stable:2.8.0
+              command:
+                - "zap-baseline.py"
+                - "-J"
+                # ZAP Baseline Script doesn't allow absolute paths...
+                # Hacky workaround: specify a relative path to the `/zap/wrk` base dir.
+                - "../../home/securecodebox/zap-results.json"
+              volumeMounts:
+                - mountPath: /zap/wrk
+                  name: zap-workdir
+          volumes:
+            - name: zap-workdir
+              emptyDir: {}
+---
+apiVersion: "experimental.securecodebox.io/v1"
+kind: ScanJobDefinition
+metadata:
+  name: "zap-api-scan"
+spec:
+  extractResults:
+    - type: zap-json
+      location: "/home/securecodebox/zap-results.json"
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 10
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: zap-api-scan
+              image: owasp/zap2docker-stable:2.8.0
+              command:
+                - "zap-api-scan.py"
+                - "-J"
+                # ZAP Baseline Script doesn't allow absolute paths...
+                # Hacky workaround: specify a relative path to the `/zap/wrk` base dir.
+                - "../../home/securecodebox/zap-results.json"
+              volumeMounts:
+                - mountPath: /zap/wrk
+                  name: zap-workdir
+          volumes:
+            - name: zap-workdir
+              emptyDir: {}
+---
+apiVersion: "experimental.securecodebox.io/v1"
+kind: ScanJobDefinition
+metadata:
+  name: "zap-full-scan"
+spec:
+  extractResults:
+    - type: zap-json
+      location: "/home/securecodebox/zap-results.json"
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 10
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: zap-full-scan
+              image: owasp/zap2docker-stable:2.8.0
+              command:
+                - "zap-full-scan.py"
+                - "-J"
+                # ZAP Baseline Script doesn't allow absolute paths...
+                # Hacky workaround: specify a relative path to the `/zap/wrk` base dir.
+                - "../../home/securecodebox/zap-results.json"
+              volumeMounts:
+                - mountPath: /zap/wrk
+                  name: zap-workdir
+          volumes:
+            - name: zap-workdir
+              emptyDir: {}

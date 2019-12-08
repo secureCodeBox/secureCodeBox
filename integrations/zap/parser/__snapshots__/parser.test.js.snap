@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`example parser parses empty json to zero findings 1`] = `
+Array [
+  Object {
+    "attributes": Object {
+      "host": "192.168.1.14",
+    },
+    "category": "Server Leaks Information via \\"X-Powered-By\\" HTTP Response Header Field(s)",
+    "description": "<p>The web/application server is leaking information via one or more \\"X-Powered-By\\" HTTP response headers. Access to such information may facilitate attackers identifying other frameworks/components your web application is reliant upon and the vulnerabilities such components may be subject to.</p>",
+    "hint": undefined,
+    "location": "http://192.168.1.14:3000",
+    "name": "Server Leaks Information via \\"X-Powered-By\\" HTTP Response Header Field(s)",
+    "osi_layer": "APPLICATION",
+    "severity": "MEDIUM",
+  },
+  Object {
+    "attributes": Object {
+      "host": "192.168.1.14",
+    },
+    "category": "Timestamp Disclosure - Unix",
+    "description": "<p>A timestamp was disclosed by the application/web server - Unix</p>",
+    "hint": undefined,
+    "location": "http://192.168.1.14:3000",
+    "name": "Timestamp Disclosure - Unix",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+  },
+  Object {
+    "attributes": Object {
+      "host": "192.168.1.14",
+    },
+    "category": "Cross-Domain Misconfiguration",
+    "description": "<p>Web browser data loading may be possible, due to a Cross Origin Resource Sharing (CORS) misconfiguration on the web server</p>",
+    "hint": undefined,
+    "location": "http://192.168.1.14:3000",
+    "name": "Cross-Domain Misconfiguration",
+    "osi_layer": "APPLICATION",
+    "severity": "HIGH",
+  },
+  Object {
+    "attributes": Object {
+      "host": "192.168.1.14",
+    },
+    "category": "Web Browser XSS Protection Not Enabled",
+    "description": "<p>Web Browser XSS Protection is not enabled, or is disabled by the configuration of the 'X-XSS-Protection' HTTP response header on the web server</p>",
+    "hint": undefined,
+    "location": "http://192.168.1.14:3000",
+    "name": "Web Browser XSS Protection Not Enabled",
+    "osi_layer": "APPLICATION",
+    "severity": "MEDIUM",
+  },
+  Object {
+    "attributes": Object {
+      "host": "192.168.1.14",
+    },
+    "category": "Cross-Domain JavaScript Source File Inclusion",
+    "description": "<p>The page includes one or more script files from a third-party domain.</p>",
+    "hint": undefined,
+    "location": "http://192.168.1.14:3000",
+    "name": "Cross-Domain JavaScript Source File Inclusion",
+    "osi_layer": "APPLICATION",
+    "severity": "MEDIUM",
+  },
+  Object {
+    "attributes": Object {
+      "host": "192.168.1.14",
+    },
+    "category": "Private IP Disclosure",
+    "description": "<p>A private IP (such as 10.x.x.x, 172.x.x.x, 192.168.x.x) or an Amazon EC2 private hostname (for example, ip-10-0-56-78) has been found in the HTTP response body. This information might be helpful for further attacks targeting internal systems.</p>",
+    "hint": undefined,
+    "location": "http://192.168.1.14:3000",
+    "name": "Private IP Disclosure",
+    "osi_layer": "APPLICATION",
+    "severity": "MEDIUM",
+  },
+  Object {
+    "attributes": Object {
+      "host": "192.168.1.14",
+    },
+    "category": "Information Disclosure - Suspicious Comments",
+    "description": "<p>The response appears to contain suspicious comments which may help an attacker.</p>",
+    "hint": undefined,
+    "location": "http://192.168.1.14:3000",
+    "name": "Information Disclosure - Suspicious Comments",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+  },
+]
+`;

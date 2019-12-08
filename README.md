@@ -61,6 +61,7 @@ helm install dispatcher ./dispatcher/ --set "dispatcherEnvironmentName=$(kubectl
 kubectl apply -f integrations/nmap/nmap-scanjob-definition.yaml -f integrations/nmap/nmap-parsejob-definition.yaml
 kubectl apply -f integrations/amass/amass-scanjob-definition.yaml -f integrations/amass/amass-parsejob-definition.yaml
 kubectl apply -f integrations/ssh_scan/ssh-scan-scanjob-definition.yaml -f integrations/ssh_scan/ssh-scan-parsejob-definition.yaml
+kubectl apply -f integrations/zap/zap-scanjob-definitions.yaml -f integrations/zap/zap-parsejob-definition.yaml
 ```
 
 ## How does it work?
