@@ -3,9 +3,10 @@ function riskToSeverity(risk) {
     case 0:
       return 'INFORMATIONAL';
     case 1:
-      // ZAP doesn't have a difference between Low and Medium Serverity
-      return 'MEDIUM';
+      return 'LOW';
     case 2:
+      return 'MEDIUM';
+    default:
       return 'HIGH';
   }
 }
