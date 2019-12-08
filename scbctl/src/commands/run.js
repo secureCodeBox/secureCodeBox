@@ -107,23 +107,17 @@ class RunCommand extends Command {
     this.log()
 
     this.log('👩‍⚖️ Severity of the findings:')
-    for (const [severity, count] of Object.entries(severityOverview)) {
-      switch (severity) {
-      case 'INFORMATIONAL':
-        this.log(`   ℹ Informational: ${count}`)
-        break
-      case 'LOW':
-        this.log(`   😕  Low: ${count}`)
-        break
-      case 'MEDIUM':
-        this.log(`   😫  Medium: ${count}`)
-        break
-      case 'HIGH':
-        this.log(`   🤬  High: ${count}`)
-        break
-      default:
-        break
-      }
+    if (severityOverview.INFORMATIONAL) {
+      this.log(`   ℹ  Informational: ${severityOverview.INFORMATIONAL}`)
+    }
+    if (severityOverview.LOW) {
+      this.log(`   😕 Low: ${severityOverview.LOW}`)
+    }
+    if (severityOverview.MEDIUM) {
+      this.log(`   😫 Medium: ${severityOverview.MEDIUM}`)
+    }
+    if (severityOverview.HIGH) {
+      this.log(`   🤬 High: ${severityOverview.HIGH}`)
     }
 
     this.log()
