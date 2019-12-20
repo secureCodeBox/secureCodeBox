@@ -11,12 +11,12 @@ const isArray = require('lodash.isarray');
 const flatmap = require('lodash.flatmap');
 const path = require('path');
 
-const dispatcherEnvironmentName = process.env['DISPATCHER_ENVIRONMENT_NAME'];
-
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const engineUrl = process.env['ENGINE_ADDRESS'];
 const namespace = process.env['NAMESPACE'];
+
+const dispatcherEnvironmentName = `${process.env['DISPATCHER_ENVIRONMENT_NAME']}/${namespace}`;
 
 let scanJobCache;
 let parseJobCache;
