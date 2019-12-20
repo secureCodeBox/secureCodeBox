@@ -335,6 +335,16 @@ async function getLurcherArgs(
     }
   );
 
+  let monitoringPushgatewayAddress = [];
+  if (process.env['LURCHER_PUSHGATEWAY_ADDRESS']) {
+    console.log('Adding monitoring lurcher args');
+
+    monitoringPushgatewayAddress = [
+      '--metrics-pushgateway-address',
+      process.env['LURCHER_PUSHGATEWAY_ADDRESS'],
+    ];
+  }
+
   const args = [
     '--scan-id',
     scanId,
@@ -343,6 +353,7 @@ async function getLurcherArgs(
     '--engine-address',
     engineAddress,
     ...fileArgs,
+    ...monitoringPushgatewayAddress,
   ];
 
   console.log('lurcher args');

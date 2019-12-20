@@ -31,6 +31,10 @@ spec:
               value: {{ .Values.engineURL | quote }}
             - name: DISPATCHER_ENVIRONMENT_NAME
               value: {{ .Values.dispatcherEnvironmentName}}
+            {{- if .Values.lurcherMetrics }}
+            - name: LURCHER_PUSHGATEWAY_ADDRESS
+              value: "http://{{ .Release.Name }}-prometheus-pushgateway.{{ .Release.Namespace }}.svc.cluster.local:9091"
+            {{- end }}
             - name: NAMESPACE
               valueFrom:
                 fieldRef:

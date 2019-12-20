@@ -1,0 +1,6 @@
+dependencies:
+- name: prometheus-pushgateway
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 1.2.8
+digest: sha256:81b03fcd8ce4d449fcdee1d1ed1e05daea130968a5ef29f49d0d20050039a99e
+generated: "2019-12-20T22:54:09.395077+01:00"
