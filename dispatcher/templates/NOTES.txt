@@ -5,7 +5,7 @@ You can deploy the all ScanJobDefinitions included directly by the secureCodeBox
 If you don't want all ScanJobs you can deploy the scanners in isolation. e.g. `securecodebox/nmap`
 
 To list all available ScanJobDefinitions run:
-$ kubectl get get scanjobdefinitions.experimental.securecodebox.io
+$ kubectl get scanjobdefinitions.experimental.securecodebox.io
 or in short:
 $ kubectl get sjd
 
