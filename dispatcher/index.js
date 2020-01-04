@@ -15,8 +15,6 @@ const express = require('express');
 const server = express();
 const promClient = require('prom-client');
 
-const dispatcherEnvironmentName = process.env['DISPATCHER_ENVIRONMENT_NAME'];
-
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const engineUrl = process.env['ENGINE_ADDRESS'];
