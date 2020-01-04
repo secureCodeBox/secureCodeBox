@@ -28,9 +28,9 @@ metrics:
   serviceMonitor:
     # if true, creates a Prometheus Operator ServiceMonitor (also requires metrics.enabled to be true)
     enabled: true
-    namespace: nil
-    interval: nil
-    scrapeTimeout: nil
+    namespace: default
+    interval: 30s
+    scrapeTimeout: 1s
 
 podSecurityContext:
   {}
