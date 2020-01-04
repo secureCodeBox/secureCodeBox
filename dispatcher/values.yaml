@@ -5,10 +5,10 @@
 engineURL: 'http://engine.default.svc.cluster.local:3000'
 dispatcherEnvironmentName: 'cluster-name'
 
-lurcherMetrics: true # also requires `prometheus-pushgateway` to be true
+lurcherMetrics: false # also requires `prometheus-pushgateway` to be true
 
 prometheus-pushgateway:
-  enabled: true
+  enabled: false
   serviceMonitor:
     enabled: true
 
