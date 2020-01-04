@@ -7,3 +7,9 @@ type: application
 version: 0.1.0
 
 appVersion: latest
+
+dependencies:
+  - name: prometheus-pushgateway
+    version: 1.2.8
+    repository: https://kubernetes-charts.storage.googleapis.com/
+    condition: prometheus-pushgateway.enabled

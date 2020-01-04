@@ -5,6 +5,13 @@ const request = require('request');
 const path = require('path');
 const bytes = require('bytes');
 const pRetry = require('p-retry');
+const client = require('prom-client');
+
+const fileSizeSizeGauge = new client.Gauge({
+  name: 'securecodebox_lurcher_file_size_bytes',
+  help: 'Size of the result file in bytes',
+  labelNames: ['file_name'],
+});
 
 const namespace = process.env['NAMESPACE'];
 
@@ -17,12 +24,14 @@ async function main() {
     '--scan-id': scanId,
     '--main-container-name': mainContainerName,
     '--engine-address': engineAddress,
+    '--metrics-pushgateway-address': metricsPushgateway,
   } = arg({
     '--file': [String],
     '--scan-id': String,
     '--main-container-name': String,
     '--skip-k8s': Boolean,
     '--engine-address': String,
+    '--metrics-pushgateway-address': String,
   });
 
   const filesToExtract = filesToExtractRaw.map(fileDefinition => {
@@ -120,6 +129,27 @@ async function main() {
   } catch (error) {
     console.error(`Failed mark scan as completed with the engine`);
   }
+
+  if (metricsPushgateway) {
+    console.log('Pushing metrics to pushgateway.');
+    try {
+      const gateway = new client.Pushgateway(metricsPushgateway, {
+        timeout: 5000,
+      });
+
+      gateway.pushAdd({ jobName: scanId }, (error, response) => {
+        if (error) {
+          console.error(`Failed to push metrics`);
+          console.error(error);
+        }
+        console.log('Metrics pushed.');
+      });
+    } catch (error) {
+      console.error(
+        `Something went wrong while trying to push metrics to prometheus pushgateway.`
+      );
+    }
+  }
 }
 
 function uploadFile(fileName, uploadUrl) {
@@ -143,6 +173,7 @@ function uploadFile(fileName, uploadUrl) {
             const endTime = new Date();
 
             const uploadDuration = endTime.getTime() - startTime.getTime();
+            fileSizeSizeGauge.set({ file_name: fileName }, fileSize);
             resolve({
               statusCode: response.statusCode,
               uploadSize: fileSize,

@@ -12,9 +12,11 @@
   "dependencies": {
     "@kubernetes/client-node": "^0.10.3",
     "axios": "^0.19.0",
+    "express": "^4.17.1",
     "lodash.flatmap": "^4.5.0",
     "lodash.get": "^4.4.2",
     "lodash.isarray": "^4.0.0",
+    "prom-client": "^11.5.3",
     "uuid": "^3.3.3"
   }
 }
