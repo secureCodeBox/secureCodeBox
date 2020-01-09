@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "persistence-legacy-scb.fullname" . }}
+  labels:
+    {{- include "persistence-legacy-scb.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "persistence-legacy-scb.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "persistence-legacy-scb.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: LEGACYENGINE_ADDRESS
+              value: {{ .Values.legacyengine.address }}
+            - name: NEWENGINE_ADDRESS
+              value: {{ .Values.newengine.address }}
+            - name: ENGINE_BASIC_AUTH_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "persistence-legacy-scb.fullname" . }}
+                  key: scannerUsername
+            - name: ENGINE_BASIC_AUTH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "persistence-legacy-scb.fullname" . }}
+                  key: scannerPassword
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

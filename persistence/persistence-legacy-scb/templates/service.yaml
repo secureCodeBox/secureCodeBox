@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "persistence-legacy-scb.fullname" . }}
+  labels:
+    {{- include "persistence-legacy-scb.labels" . | nindent 4 }}
+spec:
+  ports:
+    - name: http
+      port: 3000
+      protocol: TCP
+      targetPort: 3000
+  selector:
+    {{- include "persistence-legacy-scb.selectorLabels" . | nindent 4 }}
