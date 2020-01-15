@@ -161,7 +161,7 @@ services:
       engine:
         condition: service_healthy 
     networks:
-      - scanner
+      - frontend
     labels:
       container_group: scanner
     environment:
