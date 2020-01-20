@@ -14,7 +14,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: zap-baseline
-              image: owasp/zap2docker-stable:2.8.0
+              image: owasp/zap2docker-bare:2.9.0
               command:
                 - "zap-baseline.py"
                 - "-J"
@@ -44,7 +44,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: zap-api-scan
-              image: owasp/zap2docker-stable:2.8.0
+              image: owasp/zap2docker-bare:2.9.0
               command:
                 - "zap-api-scan.py"
                 - "-J"
@@ -74,7 +74,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: zap-full-scan
-              image: owasp/zap2docker-stable:2.8.0
+              image: owasp/zap2docker-bare:2.9.0
               command:
                 - "zap-full-scan.py"
                 - "-J"
