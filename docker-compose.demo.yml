@@ -18,3 +18,7 @@ services:
       - 8111:80
     networks:
       - frontend
+  sshservice:
+    image: securecodebox/dummy-ssh
+    networks:
+      - frontend
