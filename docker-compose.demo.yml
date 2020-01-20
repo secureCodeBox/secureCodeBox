@@ -1,4 +1,4 @@
-version: '2.1'
+version: "2.1"
 services:
   juice-shop:
     image: bkimminich/juice-shop
@@ -23,6 +23,8 @@ services:
     restart: always
     ports:
       - 8000:80
+    networks:
+      - frontend
   ssh-service:
     image: securecodebox/dummy-ssh
     networks:
