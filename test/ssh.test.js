@@ -4,7 +4,7 @@ test(
   'finds a few low severity findings for iteratec.de',
   async () => {
     const securityTest = await startSecurityTest({
-      context: 'www.iteratec.de ssh',
+      context: 'ssh-service ssh',
       metaData: {},
       name: 'ssh',
       target: {
