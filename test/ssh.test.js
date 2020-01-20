@@ -1,7 +1,7 @@
 const { startSecurityTest, Time } = require('./sdk');
 
 test(
-  'finds a few low severity findings for securecodebox.io',
+  'finds a few low severity findings for iteratec.de',
   async () => {
     const securityTest = await startSecurityTest({
       context: 'www.iteratec.de ssh',

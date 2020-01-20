@@ -20,5 +20,7 @@ services:
       - frontend
   sshservice:
     image: securecodebox/dummy-ssh
+  unsafe-https:
+    image: securecodebox/unsafe-https
     networks:
       - frontend
