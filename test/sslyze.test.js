@@ -8,8 +8,8 @@ test(
       metaData: {},
       name: 'sslyze',
       target: {
-        name: 'securecodebox.io',
-        location: 'securecodebox.io',
+        name: 'www.securecodebox.io',
+        location: 'www.securecodebox.io',
         attributes: {},
       },
     });
