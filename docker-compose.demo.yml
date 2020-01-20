@@ -1,4 +1,4 @@
-version: "2.1"
+version: '2.1'
 services:
   juice-shop:
     image: bkimminich/juice-shop
@@ -23,5 +23,7 @@ services:
     restart: always
     ports:
       - 8000:80
+  unsafe-https:
+    image: securecodebox/unsafe-https
     networks:
       - frontend
