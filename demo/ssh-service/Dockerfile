@@ -1,3 +1,5 @@
+# From https://docs.docker.com/engine/examples/running_ssh_service/
+# This file is authored by Docker Inc. and is not covered by the Apache2 Licence by the secureCodeBox project.
 FROM ubuntu:16.04
 
 RUN apt-get update && apt-get install -y openssh-server
