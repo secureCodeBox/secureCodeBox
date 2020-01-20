@@ -8,8 +8,8 @@ test(
       metaData: {},
       name: 'ssh',
       target: {
-        name: 'sshservice ssh',
-        location: 'sshservice',
+        name: 'ssh-service ssh',
+        location: 'ssh-service',
         attributes: {},
       },
     });
