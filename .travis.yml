@@ -26,4 +26,5 @@ after_failure:
   - docker-compose logs scanner-infrastructure-amass
   - docker-compose logs scanner-infrastructure-nmap
   - docker-compose logs scanner-infrastructure-sslyze
+  - docker-compose logs scanner-infrastructure-ssh
   - docker-compose logs scanner-webserver-nikto
