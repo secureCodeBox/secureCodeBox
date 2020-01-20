@@ -23,6 +23,10 @@ services:
     restart: always
     ports:
       - 8000:80
+  ssh-service:
+    image: securecodebox/dummy-ssh
+    networks:
+      - frontend
   unsafe-https:
     image: securecodebox/unsafe-https
     networks:
