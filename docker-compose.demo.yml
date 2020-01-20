@@ -18,3 +18,7 @@ services:
       - 8111:80
     networks:
       - frontend
+  unsafe-https:
+    image: securecodebox/unsafe-https
+    networks:
+      - frontend

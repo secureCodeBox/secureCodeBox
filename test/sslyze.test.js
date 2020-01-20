@@ -1,15 +1,15 @@
 const { startSecurityTest, Time } = require('./sdk');
 
 test(
-  'finds tls information for securecodebox.io',
+  'finds tls information for host with self signed cert',
   async () => {
     const securityTest = await startSecurityTest({
       context: 'securecodebox.io tls',
       metaData: {},
       name: 'sslyze',
       target: {
-        name: 'www.securecodebox.io',
-        location: 'www.securecodebox.io',
+        name: 'unsafe-https server',
+        location: 'unsafe-https',
         attributes: {},
       },
     });
@@ -23,12 +23,12 @@ test(
     }));
 
     expect(findings).toContainEqual({
-      name: 'Must-Staple unsupported',
+      name: 'Certificate is not trusted',
       category: 'Certificate info',
-      severity: 'INFORMATIONAL',
+      severity: 'MEDIUM',
     });
     expect(findings).toContainEqual({
-      name: 'Certificate includes SCTS count',
+      name: 'Must-Staple unsupported',
       category: 'Certificate info',
       severity: 'INFORMATIONAL',
     });
@@ -38,18 +38,28 @@ test(
       severity: 'INFORMATIONAL',
     });
     expect(findings).toContainEqual({
+      name: 'No OCSP response',
+      category: 'Certificate info',
+      severity: 'INFORMATIONAL',
+    });
+    expect(findings).toContainEqual({
       name: 'Ticket resumption supported',
       category: 'Resumption',
       severity: 'INFORMATIONAL',
     });
     expect(findings).toContainEqual({
-      name: 'Session resumption succeeded',
+      name: 'Session resumption failed',
       category: 'Resumption',
-      severity: 'INFORMATIONAL',
+      severity: 'LOW',
     });
     expect(findings).toContainEqual({
-      name: 'Session resumption succeeded',
-      category: 'Resumption',
+      name: 'TLSv1 supported',
+      category: 'TLSv1',
+      severity: 'LOW',
+    });
+    expect(findings).toContainEqual({
+      name: 'TLSv1.1 supported',
+      category: 'TLSv1.1',
       severity: 'INFORMATIONAL',
     });
     expect(findings).toContainEqual({
@@ -57,13 +67,6 @@ test(
       category: 'TLSv1.2',
       severity: 'INFORMATIONAL',
     });
-
-    // Should only detect findings of 'informational' severity level and 1 TLSv1 finding
-    expect(
-      findings
-        .filter(({ severity }) => severity !== 'INFORMATIONAL')
-        .filter(({ name }) => name !== 'TLSv1 supported')
-    ).toEqual([]);
   },
   5 * Time.Minute
 );
