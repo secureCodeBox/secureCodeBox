@@ -13,6 +13,8 @@ categories:
     label: 'docs'
   - title: '📌 Dependencies'
     label: 'dependencies'
+  - title: '🕷 Security Scanner'
+    label: 'security scanner'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 exclude-labels:
   - 'skip-changelog'
