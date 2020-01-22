@@ -1,4 +1,4 @@
-version: '2.1'
+version: "2.1"
 services:
   juice-shop:
     image: bkimminich/juice-shop
@@ -16,6 +16,13 @@ services:
     image: nginx:1.17-alpine
     ports:
       - 8111:80
+    networks:
+      - frontend
+  old-wordpress:
+    image: securecodebox/old-wordpress:4.0
+    restart: always
+    ports:
+      - 8000:80
     networks:
       - frontend
   ssh-service:
