@@ -38,7 +38,7 @@ test(
       category: 'SSH Policy Violation',
       name: 'Insecure SSH Key Algorithms',
       osi_layer: 'NETWORK',
-      severity: 'MEDIUM'
+      severity: 'MEDIUM',
     });
 
     expect(findings).toContainEqual({
@@ -46,7 +46,7 @@ test(
       category: 'SSH Policy Violation',
       name: 'Insecure SSH MAC Algorithms',
       osi_layer: 'NETWORK',
-      severity: 'MEDIUM'
+      severity: 'MEDIUM',
     });
 
     expect(findings).toContainEqual({
@@ -54,10 +54,11 @@ test(
       category: 'SSH Policy Violation',
       name: 'Discouraged SSH authentication methods',
       osi_layer: 'NETWORK',
-      severity: 'MEDIUM'
+      severity: 'MEDIUM',
     });
 
-    console.log(findings
+    console.log(
+      findings
         .filter(({ name }) => name !== 'SSH Service Information')
         .filter(({ name }) => name !== 'Insecure SSH Key Algorithms')
         .filter(({ name }) => name !== 'Insecure SSH MAC Algorithms')
@@ -65,11 +66,10 @@ test(
     );
     expect(
       findings
-       .filter(({ name }) => name !== 'SSH Service Information')
-       .filter(({ name }) => name !== 'Insecure SSH Key Algorithms')
-       .filter(({ name }) => name !== 'Insecure SSH MAC Algorithms')
-       .filter(({ name }) => name !== 'Discouraged SSH authentication methods')
-
+        .filter(({ name }) => name !== 'SSH Service Information')
+        .filter(({ name }) => name !== 'Insecure SSH Key Algorithms')
+        .filter(({ name }) => name !== 'Insecure SSH MAC Algorithms')
+        .filter(({ name }) => name !== 'Discouraged SSH authentication methods')
     ).toEqual([]);
   },
   2 * Time.Minute
