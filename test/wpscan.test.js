@@ -18,8 +18,6 @@ test(
 
     const [finding, ...otherFindings] = report.findings;
 
-    console.log(report.findings);
-
     expect(finding).toMatchObject({
       name: 'CMS Wordpress',
       category: 'CMS Wordpress',

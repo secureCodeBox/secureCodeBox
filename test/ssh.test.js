@@ -25,7 +25,7 @@ test(
         severity,
       })
     );
-    console.log(findings);
+
     expect(findings).toContainEqual({
       category: 'SSH Service',
       name: 'SSH Service Information',
@@ -57,13 +57,6 @@ test(
       severity: 'MEDIUM',
     });
 
-    console.log(
-      findings
-        .filter(({ name }) => name !== 'SSH Service Information')
-        .filter(({ name }) => name !== 'Insecure SSH Key Algorithms')
-        .filter(({ name }) => name !== 'Insecure SSH MAC Algorithms')
-        .filter(({ name }) => name !== 'Discouraged SSH authentication methods')
-    );
     expect(
       findings
         .filter(({ name }) => name !== 'SSH Service Information')
