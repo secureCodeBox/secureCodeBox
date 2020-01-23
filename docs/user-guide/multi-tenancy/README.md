@@ -1,6 +1,6 @@
 # Multi Tenancy / Multi Environment Support
 
-The basic principle of multi-tenancy support in the secureCodeBox is to get the *scanners running inside protected networks*. 
+The basic principle of multi-tenancy support in the secureCodeBox is to get the _scanners running inside protected networks_.
 This way the scanners are able to access the service directly without the interference of any firewall. The network connectivity between the scanner and the engine works, as-long as the scanner is able to send out http requests to the engine.
 
 > The engine never actively sends out requests to the scanner, the communication is always initiated asynchronously and by pulling from the scanner side. The Engine only responds to incoming http requests from the scanner.
@@ -15,7 +15,7 @@ So in a multi-tenant / multi-environment secureCodeBox setup there would be two 
 To separate which scanner should be able to work on which scan the secureCodeBox relies on the camunda user management. Every scanner has to authenticate itself against the engine to communicate with it. The authentication and authorization system of camunda is structured into three main concepts:
 
 1. `Users`: The basic building block
-2. `Authorization `: An authorization represent a specific right. The are structure of a type of object, e.g. a "user", and a list of action allowed to be performed on the object, e.g. "create", "update".
+2. `Authorization`: An authorization represent a specific right. The are structure of a type of object, e.g. a "user", and a list of action allowed to be performed on the object, e.g. "create", "update".
 3. `Groups`: A group is a collection of users assigning them a specific role. The secureCodeBox creates three different roles by default.
    1. `camunda-admin` for administration users, with the ability to do everything.
    2. `scanner` for the technical users of the scanners, with the ability to fetch scan jobs and submit results
@@ -70,6 +70,6 @@ PUT https://engine.scb.my-organisation.com/box/securityTests
 ]
 ```
 
-The most important piece of this definition is the *tenant* attribute of the securityTest. This definition indicates the engine which tenant to start the securityTest with. If the tenant doesn't get specified the process will get started without a tenant and will be worked on by one of the default scanner.
+The most important piece of this definition is the _tenant_ attribute of the securityTest. This definition indicates the engine which tenant to start the securityTest with. If the tenant doesn't get specified the process will get started without a tenant and will be worked on by one of the default scanner.
 
 > Note: To start a securityTest as a tenant the starting user has to be a member of the tenant.
