@@ -107,3 +107,9 @@ The following links contain completes examples and explanations how to set up an
 ## Starting Scan-Processes using the CLI
 
 We have introduced a [simple secureCodeBox CLI](../../cli/README.md) which is based on the REST-API. This CLI can be used to configure and start Scan-Process or to integrate with you CI/CD Pipeline (e.g. Jenkins).
+
+## Multi Tenancy / Multi Environment Support
+
+When using the secureCodeBox in multiple independent teams all managing their own infrastructure you can run into numerous problems, from isolated services only availible in specific networks to aggresive firewalls blocking any automated scans. The secureCodeBox is designed to handle these situations.
+
+See the [Multi Tenancy Docs and Example](./multi-tenancy/README.md)
