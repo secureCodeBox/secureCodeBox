@@ -191,7 +191,7 @@ Sponsored by [iteratec GmbH](https://www.iteratec.de/) -
 [consul]:               https://www.consul.io/
 [microservices]:        https://martinfowler.com/articles/microservices.html
 [beta-testers]:         https://www.securecodebox.io/
-[owasp]:                https://www.owasp.org/index.php/OWASP_secureCodeBox
+[owasp]:                https://owasp.org/www-project-securecodebox/
 [objspec]:              https://www.sigs-datacom.de/fachzeitschriften/objektspektrum.html
 [secdevops-objspec]:    http://www.sigs.de/public/ots/2017/OTS_DevOps_2017/Seedorff_Pfaender_OTS_%20DevOps_2017.pdf
 [jenkins]:              https://jenkins.io/

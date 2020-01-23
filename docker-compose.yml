@@ -1,4 +1,4 @@
-version: '2.1'
+version: "2.1"
 services:
   engine:
     image: securecodebox/engine:${DEFAULT_TAG}
@@ -40,25 +40,25 @@ services:
     restart: on-failure:3
 
   camundadb:
-      image: mysql:5.7
-      networks:
-        - frontend
-      volumes:
-        - camundadb-datastore:/var/lib/mysql
-      labels:
-        container_group: infrastructure
-      command: --max_allowed_packet=65011712      # 512M
-      environment:
-        - MYSQL_ROOT_PASSWORD=${CAMUNDADB_ROOT_PW}
-        - MYSQL_DATABASE=${CAMUNDADB_DATABASE}
-        - MYSQL_USER=${CAMUNDADB_USER}
-        - MYSQL_PASSWORD=${CAMUNDADB_PW}
+    image: mysql:5.7
+    networks:
+      - frontend
+    volumes:
+      - camundadb-datastore:/var/lib/mysql
+    labels:
+      container_group: infrastructure
+    command: --max_allowed_packet=65011712 # 512M
+    environment:
+      - MYSQL_ROOT_PASSWORD=${CAMUNDADB_ROOT_PW}
+      - MYSQL_DATABASE=${CAMUNDADB_DATABASE}
+      - MYSQL_USER=${CAMUNDADB_USER}
+      - MYSQL_PASSWORD=${CAMUNDADB_PW}
 
   scanner-infrastructure-nmap:
     image: securecodebox/nmap:${DEFAULT_TAG}
     depends_on:
       engine:
-        condition: service_healthy 
+        condition: service_healthy
     networks:
       - frontend
     labels:
@@ -72,7 +72,7 @@ services:
     image: securecodebox/nikto:${DEFAULT_TAG}
     depends_on:
       engine:
-        condition: service_healthy 
+        condition: service_healthy
     networks:
       - frontend
     labels:
@@ -83,74 +83,102 @@ services:
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   scanner-webapplication-zap:
-      image: securecodebox/zap:${DEFAULT_TAG}
-      depends_on:
-        engine:
-          condition: service_healthy 
-      networks:
-        - frontend
-      labels:
-        container_group: scanner
-      environment:
+    image: securecodebox/zap:${DEFAULT_TAG}
+    depends_on:
+      engine:
+        condition: service_healthy
+    networks:
+      - frontend
+    labels:
+      container_group: scanner
+    environment:
       - ENGINE_ADDRESS=http://engine:8080
       - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
       - SECURECODEBOX_ZAP_JOBSSCHEDULERCRON=* * * * * *
 
   scanner-infrastructure-sslyze:
-      image: securecodebox/sslyze:${DEFAULT_TAG}
-      depends_on:
-        engine:
-          condition: service_healthy 
-      networks:
-        - frontend
-      labels:
-        container_group: scanner
-      environment:
+    image: securecodebox/sslyze:${DEFAULT_TAG}
+    depends_on:
+      engine:
+        condition: service_healthy
+    networks:
+      - frontend
+    labels:
+      container_group: scanner
+    environment:
       - ENGINE_ADDRESS=http://engine:8080
       - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   scanner-webapplication-arachni:
-      image: securecodebox/arachni:${DEFAULT_TAG}
-      depends_on:
-        engine:
-          condition: service_healthy
-      networks:
-        - frontend
-      labels:
-        container_group: scanner
-      environment:
+    image: securecodebox/arachni:${DEFAULT_TAG}
+    depends_on:
+      engine:
+        condition: service_healthy
+    networks:
+      - frontend
+    labels:
+      container_group: scanner
+    environment:
       - ENGINE_ADDRESS=http://engine:8080
       - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
-      volumes:
+    volumes:
       - "./plugins/arachni-login-scripts:/securecodebox/static/"
 
   scanner-infrastructure-amass:
-      image: securecodebox/amass:${DEFAULT_TAG}
-      depends_on:
-        engine:
-          condition: service_healthy
-      networks:
-        - frontend
-      labels:
-        container_group: scanner
-      environment:
+    image: securecodebox/amass:${DEFAULT_TAG}
+    depends_on:
+      engine:
+        condition: service_healthy
+    networks:
+      - frontend
+    labels:
+      container_group: scanner
+    environment:
       - ENGINE_ADDRESS=http://engine:8080
       - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
-  
+
   scanner-infrastructure-ssh:
-      image: securecodebox/ssh:${DEFAULT_TAG}
-      depends_on:
-        engine:
-          condition: service_healthy
-      networks:
-        - frontend
-      labels:
-        container_group: scanner
-      environment:
+    image: securecodebox/ssh:${DEFAULT_TAG}
+    depends_on:
+      engine:
+        condition: service_healthy
+    networks:
+      - frontend
+    labels:
+      container_group: scanner
+    environment:
+      - ENGINE_ADDRESS=http://engine:8080
+      - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
+      - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
+
+  scanner-cms-wpscan:
+    image: securecodebox/wpscan:${DEFAULT_TAG}
+    depends_on:
+      engine:
+        condition: service_healthy
+    networks:
+      - frontend
+    labels:
+      container_group: scanner
+    environment:
+      - ENGINE_ADDRESS=http://engine:8080
+      - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
+      - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
+
+  scanner-infrastructure-ncrack:
+    image: securecodebox/ncrack:${DEFAULT_TAG}
+    depends_on:
+      engine:
+        condition: service_healthy 
+    networks:
+      - frontend
+    labels:
+      container_group: scanner
+    environment:
       - ENGINE_ADDRESS=http://engine:8080
       - ENGINE_BASIC_AUTH_USER=${ENGINE_SCANNERSERVICES_USER}
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
