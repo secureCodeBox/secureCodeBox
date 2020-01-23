@@ -15,7 +15,7 @@ So in a multi-tenant / multi-environment secureCodeBox setup there would be two 
 To separate which scanner should be able to work on which scan the secureCodeBox relies on the camunda user management. Every scanner has to authenticate itself against the engine to communicate with it. The authentication and authorization system of camunda is structured into three main concepts:
 
 1. `Users`: The basic building block
-2. `Authorization`: An authorization represent a specific right. The are structure of a type of object, e.g. a "user", and a list of action allowed to be performed on the object, e.g. "create", "update".
+2. `Authorization`: An authorization represents a specific right. The are structure of a type of object, e.g. a "user", and a list of action allowed to be performed on the object, e.g. "create", "update".
 3. `Groups`: A group is a collection of users assigning them a specific role. The secureCodeBox creates three different roles by default.
    1. `camunda-admin` for administration users, with the ability to do everything.
    2. `scanner` for the technical users of the scanners, with the ability to fetch scan jobs and submit results
