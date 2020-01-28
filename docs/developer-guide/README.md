@@ -26,28 +26,60 @@ We either have a [static API documentation](./api-doc.md) or a living API docume
 
 To integrate a new scanner into the secureCodeBox Engine you need to write a plugin. This plugins contains a BPMN Model of your Scan Process. This Model defines the following aspects:
 
-* Name and ID of the process.
+* Name and ID of the process: e.g. `ncrack-process` (see [coding guidelines](#coding-guidelines) below).
 * A topic name for the task queue (e.g. `nikto_webserverscan`). Every scanner has at minimum one queue in which the pending scan jobs are inserted by the secureCodeBox engine to be completed by the scan services. These queues are defined as External Service Tasks in Camunda.
 * The transformation of scanner results. If the scanner results are returned in an incompatible format of the secureCodeBox Finding Format, the data can be transformed inside the engine before persisting it. This transformation can also be done within the scan service.
 * You can implement the four eye principle by the process.
 
-To quickly create a new process model you can simply run our maven archetype:
+To run the next steps you first have to make sure you have **Java 8** installed and then run the following command into the main folder (engine) to compile the stack:
+
+```
+mvn install
+```
+
+To quickly create a new process model you can simply run our maven archetype into the scan-procesess folder (engine/scb-scanprocesess):
 
 ```
 mvn archetype:generate                                  \
   -DarchetypeGroupId=io.securecodebox.scanprocesses     \
   -DarchetypeArtifactId=archetype-process               \
   -DarchetypeVersion=0.0.1-SNAPSHOT
-``` 
+```
 
-This process only contains the bare minimum of logic in the process model. Now go into your process folder (engine/scb-scanprocesses) and run:
-```
-mvn install
-```
+During this process you will be asked to provide a attributes to generate the archetype, e.g.
+
+> groupId: io.securecodebox.scanprocesses
+> artifactId: ncrack-process
+> version: 1.0-SNAPSHOT
+> package: io.securecodebox.scanprocesses
+> processName: ncrack-process
+> processTopic: ncrack_brute_force_scan
+
+
+
+After this step you should extend two files with the new scanner:
+
+1. The first one is the Dockerfile (engine/Dockerfile) e.g.
+
+   > COPY --from=builder ./scb-scanprocesses/ncrack-process/target/scrack-process-0.0.1-SNAPSHOT.jar /scb-engine/lib/
+
+2. The second one is the Pom.xml (engine/scb-engine/pom.xml) e.g.
+
+   > <dependency>
+   >
+   > ​            <groupId>io.securecodebox.scanprocesses</groupId>
+   >
+   > ​            <artifactId>ncrack-process</artifactId>
+   >
+   > ​            <version>0.0.1-SNAPSHOT</version>
+   >
+   > ​            <scope>runtime</scope>
+   >
+   > </dependency>
 
 Copy the process jar file from the traget folder of your process to the engines plugins folder. Restart the engine and you can interact with the following curl commands with your process:
 
-To get and lock an job you execute the following curl. Please replace `<your-docker-host>` with the host of your secureCodeBox and `<your-process-topic>` with the previously configured `processTopic`.
+To get and lock a job you execute the following curl. Please replace `<your-docker-host>` with the host of your secureCodeBox and `<your-process-topic>` with the previously configured `processTopic`.
 ```
 curl  -X POST 'http://<your-docker-host>:8080/box/jobs/lock/<your-process-topic>/29bf7fd3-8512-4d73-a22f-608e493cd726' -H 'accept: application/json' 
 ```
@@ -76,7 +108,6 @@ curl -X POST 'http://<your-docker-host>:8080/box/jobs/<job-id>/result' -H 'Conte
 ```
 
 </details>
-
 
 To edit these models, Camunda provides a free modelling tool for the BPMN models which you can [download here](https://camunda.com/products/modeler/).
 Feel free to get inspiration from the [prepackaged processes here](https://github.com/secureCodeBox/engine/tree/master/scb-scanprocesses). 
@@ -114,7 +145,7 @@ The Forms are HTML Documents with embedded AngularJS code for custom logic.
 There are some parts, both logic and definitions, which are shared across processes. These pieces are extracted into their own module. You can include this module in your own code and reuse it.
 
 > **Hint**: If you write your scanner in a JVM language you can use the report and finding definitions inside the scanner not just inside the engine plugin.
- 
+
  # Guidelines
  ## Coding Guidelines
 
@@ -146,7 +177,7 @@ We're using snake_case (lower case) for json attributes. If an enum type is used
     },
     "location": "tcp://127.0.0.1:3306"
   }
-``` 
+```
 ### Topic Names for External Tasks
 Topics for external tasks for specific technologies are named as follows:
 ```
