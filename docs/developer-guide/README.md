@@ -55,8 +55,6 @@ During this process you will be asked to provide a attributes to generate the ar
 > processName: ncrack-process
 > processTopic: ncrack_brute_force_scan
 
-
-
 After this step you should extend two files with the new scanner:
 
 1. The first one is the Dockerfile (engine/Dockerfile) e.g.
@@ -117,9 +115,18 @@ Feel free to get inspiration from the [prepackaged processes here](https://githu
 If you copied a process model you need to change a few things according to your new scan process:
 
 * Update the **name** and **id** of the process. You can edit this in side-panel on the right hand side of the Camunda Editor once you opened the model.
+
+* Update the **Start-Event** of the process to reference on the process-specific form e.g. `ressource/bmpn/forms/ncrack/configure-target.html`
+
 * Update the **topic-name** of the External Service Task.
-* Update the references to configuration **forms** to your own configuration forms. See [Creating configuration forms](#configforms)
-</details>
+
+* Update the references to configuration **forms** to your own configuration forms. See [Creating configuration forms](#creating-configuration-forms)
+
+* Several targets in the configure form is now deprecated. Form should only support a single target.
+
+* `camForm.variableManager.destroyVariable('PROCESS_TARGETS');` does not work in the form because the variable does not normally exist.
+
+  </details>
 
 ### Integrate your process model with the engine
 
