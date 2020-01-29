@@ -21,5 +21,5 @@ Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 
 [scb-github]:           https://github.com/secureCodeBox/secureCodeBox
 [scb-twitter]:          https://twitter.com/secureCodeBox
-[scb-slack]:            https://join.slack.com/t/securecodebox/shared_invite/enQtMzc2MTIxNDg2NzIwLTI1MWUzNzVmZTY5MWNkMmQwNTA1YjZmYjQyM2FhY2ZiYjBlNmVkYWVjZWUxZTY1OTk1MTlmNmI0ZGJjZGIxYzU     
+[scb-slack]:            https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
 [scb-license]:          https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE    
