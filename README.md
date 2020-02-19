@@ -41,20 +41,22 @@ The purpose of *secureCodeBox* **is not** to replace the penetration testers or 
 There is a german article about [Security DevOps – Angreifern (immer) einen Schritt voraus][secdevops-objspec] in the software engineering journal [OBJEKTSpektrum][objspec].
 
 ## Quickstart
-
-### Prerequisites
- * Minimal Docker version 18.03.0 is required
- * Docker-Compose is required.
- * Your docker host will need at least 4GB virtual memory to run the complete stack. If you want to scale out the scanner you will need more...
-
-For a quick start checkout this repository and start the complete secureCodeBox stack with docker-compose:
+For a quick start checkout this repository and start the complete secureCodeBox stack with docker-compose or vagrant:
 
 ```bash
 git clone https://github.com/secureCodeBox/secureCodeBox
 cd secureCodeBox
 ```
 
-### Start with docker-compose
+You can start the secureCodeBox project based on docker-compose or localy with Vagrant.
+
+### Start with docker and docker-compose
+
+#### Prerequisites
+ * Minimal Docker version 18.03.0 is required
+ * Docker-Compose is required.
+ * Your docker host will need at least 4GB virtual memory to run the complete stack. If you want to scale out the scanner you will need more...
+
 The docker-compose.yml file can be used to launch a secureCodeBox instance.
 To start the secureCodeBox and some demo targets run the following:
 
@@ -68,6 +70,22 @@ Running `docker-compose up` uses the default credentials specified in the [`.env
  * `CAMUNDADB_PW` MySQL password also used by the Camunda Engine
  * `ENGINE_SCANNERSERVICES_USER` Technical user for the scanner services to access the engines API
  * `ENGINE_SCANNERSERVICES_PASSWORD` Technical users password for the scanner services to access the engines API
+
+### Start with Vagrant (docker and docker compose already included)
+#### Prerequisites
+ * Vagrant Version 2.x is required
+ * VirtualBox is required
+ * Your vagrant maschine will need at least 8GB virtual memory to run the complete stack. If you want to scale out the scanner you will need more...
+
+```bash
+vagrant plugin install vagrant-docker-compose
+vagrant plugin install vagrant-disksize
+```
+To start the complete setup localy you can easily start the vagrant maschine:
+
+```bash
+vagrant up
+```
 
 ### Run your first security scan
 There are several ways to start a security scan with the secureCodeBox. One way is to use the WebUI of the engine and start the scan manually.
