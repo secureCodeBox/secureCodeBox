@@ -1,7 +1,7 @@
 [
   {
     "context": "%CONTEXT%",
-    "name": "nmap-nikto",
+    "name": "combined-nmap-nikto",
     "target": {
       "location": "%HOST%",
       "name": "%TARGET_NAME%"
