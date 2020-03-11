@@ -1,0 +1,36 @@
+[[ADR-0001]]
+= ADR-0001: How We do the Combined Network Scans
+
+[cols="h,d",grid=rows,frame=none,stripes=none,caption="Status",%autowidth]
+|====
+
+| Status
+| ACCEPTED
+
+| Date
+| 2020-03-11
+
+| Author(s)
+| Daniel Patanin <daniel.patanin@iteratec.com>,
+  Sven Strittmatter <sven.strittmatter@iteratec.com>
+|====
+
+== Context
+
+We want to use _secureCodeBox_ not only for scans of one particular web project. Instead we want to discover our whole company network and scan every host we find. For that purpose we intended to introduce a "combined scan" process model step. The basic idea was:
+
+- Use our _nmap scanner_ to find all hosts in a network.
+- Then feed the list of found hosts into a "fork process step"
+- This "fork process step" starts a complete new sub scan process with
+    - nmap to find all open ports,
+    - Nikto, SSLyze ZAP etz on the ports,
+    - etc
+- Then "join" these "sub scan processes" together and gather the results
+
+== Decision
+
+<What is the change that we're actually proposing or doing.>
+
+== Consequences
+
+<What becomes easier or more difficult to do because of this change.>
