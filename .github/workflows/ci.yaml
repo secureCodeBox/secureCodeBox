@@ -2,7 +2,7 @@ on: push
 name: 'CI'
 jobs:
   operator:
-    name: operator
+    name: 'Operator'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -21,7 +21,7 @@ jobs:
         with:
           args: ./operator/
   lurcher:
-    name: lurcher
+    name: 'Lurcher'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
