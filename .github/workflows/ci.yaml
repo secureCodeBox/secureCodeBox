@@ -7,7 +7,9 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: 'Run tests'
-        run: 'make test'
+        run: |
+          cd operator/
+          make test
       - name: "Build'n Push Operator"
         uses: docker://j12934/one-click-docker@sha256:c0c3c90aa2fe65c0ffad0cf892aec9ea4dcc4731c1b2ccc0f3d4c8eacc4fb917
         env:
