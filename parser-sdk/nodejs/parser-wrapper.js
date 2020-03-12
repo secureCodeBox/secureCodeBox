@@ -4,8 +4,7 @@ const uuid = require('uuid/v4');
 
 async function main() {
   const resultFileUrl = process.argv[2];
-  const securityTestId = process.argv[3];
-  const engineAddress = process.argv[4];
+  const resultUploadUrl = process.argv[3];
 
   const { data } = await axios.get(resultFileUrl);
 
@@ -22,10 +21,7 @@ async function main() {
 
   console.log(`Submitting results to the engine.`);
 
-  await axios.post(
-    `${engineAddress}/api/v1alpha/scan-job/${securityTestId}/findings`,
-    { findings: findingsWithIds }
-  );
+  await axios.put(resultUploadUrl, { findings: findingsWithIds });
 
   console.log(`Completed parser.`);
 }
