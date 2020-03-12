@@ -14,7 +14,8 @@ jobs:
       - name: 'Run Lint'
         run: |
           cd operator/
-          go fmt vet
+          go fmt ./...
+          go vet ./...
       - name: "Build'n Push Operator"
         uses: docker://j12934/one-click-docker@sha256:c0c3c90aa2fe65c0ffad0cf892aec9ea4dcc4731c1b2ccc0f3d4c8eacc4fb917
         env:
