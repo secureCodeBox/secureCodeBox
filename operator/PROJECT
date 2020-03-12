@@ -1,0 +1,10 @@
+domain: experimental.securecodebox.io
+repo: github.com/J12934/secureCodeBox/operator/
+resources:
+- group: scans
+  kind: Scan
+  version: v1
+- group: scans
+  kind: ScanTemplate
+  version: v1
+version: "2"

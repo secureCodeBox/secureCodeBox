@@ -1,0 +1,18 @@
+apiVersion: "scans.experimental.securecodebox.io/v1"
+kind: ScanTemplate
+metadata:
+  name: "nmap"
+spec:
+  extractResults:
+    type: nmap-xml
+    location: "/home/securecodebox/nmap-results.xml"
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 10
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: nmap
+              image: scbexperimental/nmap:7.80-r2
+              command: ["nmap", "-oX", "/home/securecodebox/nmap-results.xml"]

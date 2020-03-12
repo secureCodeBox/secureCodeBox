@@ -1,0 +1,9 @@
+apiVersion: "scans.experimental.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "nmap-network"
+spec:
+  scanType: "nmap"
+  parameters:
+    - "-Pn"
+    - engine.securecodebox.io
