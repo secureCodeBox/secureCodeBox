@@ -10,11 +10,11 @@ jobs:
         run: 'go version'
       - name: 'List go version with go version specified'
         with:
-          go-version: '1.13'
+          go-version: 1.13
         run: 'go version'
       - name: 'Run tests'
         with:
-          go-version: '1.13'
+          go-version: 1.13
         run: |
           cd operator/
           make test
