@@ -42,6 +42,7 @@ type ScanStatus struct {
 
 // Scan is the Schema for the scans API
 // +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="Done",type=boolean,JSONPath=`.status.done`,description="done"
 type Scan struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

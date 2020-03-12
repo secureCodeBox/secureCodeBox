@@ -53,6 +53,7 @@ type ScanTemplateStatus struct {
 // +kubebuilder:object:root=true
 
 // ScanTemplate is the Schema for the scantemplates API
+// +kubebuilder:printcolumn:name="Image",type=string,JSONPath=`.spec.jobTemplate.spec.template.spec.containers[0].image`,description="The container image for the scan job"
 type ScanTemplate struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

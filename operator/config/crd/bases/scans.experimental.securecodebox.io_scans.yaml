@@ -6,6 +6,11 @@ metadata:
   creationTimestamp: null
   name: scans.scans.experimental.securecodebox.io
 spec:
+  additionalPrinterColumns:
+  - JSONPath: .status.done
+    description: done
+    name: Done
+    type: boolean
   group: scans.experimental.securecodebox.io
   names:
     kind: Scan
