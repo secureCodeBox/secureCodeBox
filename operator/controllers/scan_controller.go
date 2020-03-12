@@ -90,6 +90,11 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		if err != nil {
 			return ctrl.Result{}, err
 		}
+	case "Parsing":
+		err := r.checkIfParsingIsCompleted(&scan)
+		if err != nil {
+			return ctrl.Result{}, err
+		}
 	}
 
 	return ctrl.Result{}, nil
@@ -137,6 +142,59 @@ func (r *ScanReconciler) startScan(scan *scansv1.Scan) error {
 	return nil
 }
 
+func (r *ScanReconciler) checkIfScanIsCompleted(scan *scansv1.Scan) error {
+	ctx := context.Background()
+	namespacedName := fmt.Sprintf("%s/%s", scan.Namespace, scan.Name)
+	log := r.Log.WithValues("scan_done_check", namespacedName)
+
+	// check if k8s job for scan was already created
+	var childJobs batch.JobList
+	if err := r.List(
+		ctx,
+		&childJobs,
+		client.InNamespace(scan.Namespace),
+		client.MatchingField(ownerKey, scan.Name),
+		client.MatchingLabels{
+			"experimental.securecodebox.io/job-type": "scanner",
+		},
+	); err != nil {
+		log.Error(err, "unable to list child Pods")
+		return err
+	}
+
+	// TODO: What if the Pod doesn't match our spec? Recreate?
+
+	log.V(9).Info("Got related jobs", "count", len(childJobs.Items))
+
+	if len(childJobs.Items) == 0 {
+		// Unexpected. Job should exisit in Scanning State. Resetting to Init
+		scan.Status.State = "Init"
+		if err := r.Status().Update(ctx, scan); err != nil {
+			log.Error(err, "unable to update Scan status")
+			return err
+		}
+		return nil
+	} else if len(childJobs.Items) > 1 {
+		// yoo that wasn't expected
+		return errors.New("Scan had more than one job. Thats not expected")
+	}
+
+	// Job exists as expected
+	job := childJobs.Items[0]
+
+	// Checking if scan has completed
+	// TODO: Handle scan job failure cases
+	if job.Status.Succeeded != 0 {
+		log.V(7).Info("Scan is completed")
+		scan.Status.State = "ScanCompleted"
+		if err := r.Status().Update(ctx, scan); err != nil {
+			log.Error(err, "unable to update Scan status")
+			return err
+		}
+	}
+	return nil
+}
+
 func (r *ScanReconciler) startParser(scan *scansv1.Scan) error {
 	ctx := context.Background()
 	namespacedName := fmt.Sprintf("%s/%s", scan.Namespace, scan.Name)
@@ -179,10 +237,12 @@ func (r *ScanReconciler) startParser(scan *scansv1.Scan) error {
 	automountServiceAccountToken := false
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
-			Labels:       make(map[string]string),
 			Annotations:  make(map[string]string),
-			GenerateName: fmt.Sprintf("%s-", scan.Name),
+			GenerateName: fmt.Sprintf("parse-%s-", scan.Name),
 			Namespace:    scan.Namespace,
+			Labels: map[string]string{
+				"experimental.securecodebox.io/job-type": "parser",
+			},
 		},
 		Spec: batch.JobSpec{
 			Template: corev1.PodTemplateSpec{
@@ -206,6 +266,10 @@ func (r *ScanReconciler) startParser(scan *scansv1.Scan) error {
 		},
 	}
 
+	if err := ctrl.SetControllerReference(scan, job, r.Scheme); err != nil {
+		return err
+	}
+
 	log.V(7).Info("Constructed Job object", "job args", strings.Join(job.Spec.Template.Spec.Containers[0].Args, ", "))
 
 	if err := r.Create(ctx, job); err != nil {
@@ -223,25 +287,32 @@ func (r *ScanReconciler) startParser(scan *scansv1.Scan) error {
 	return nil
 }
 
-func (r *ScanReconciler) checkIfScanIsCompleted(scan *scansv1.Scan) error {
+func (r *ScanReconciler) checkIfParsingIsCompleted(scan *scansv1.Scan) error {
 	ctx := context.Background()
 	namespacedName := fmt.Sprintf("%s/%s", scan.Namespace, scan.Name)
 	log := r.Log.WithValues("scan_done_check", namespacedName)
 
 	// check if k8s job for scan was already created
 	var childJobs batch.JobList
-	if err := r.List(ctx, &childJobs, client.InNamespace(scan.Namespace), client.MatchingField(ownerKey, scan.Name)); err != nil {
-		log.Error(err, "unable to list child Pods")
+	if err := r.List(
+		ctx,
+		&childJobs,
+		client.InNamespace(scan.Namespace),
+		client.MatchingField(ownerKey, scan.Name),
+		client.MatchingLabels{
+			"experimental.securecodebox.io/job-type": "parser",
+		},
+	); err != nil {
+		log.Error(err, "unable to list child jobs")
 		return err
 	}
-
-	// TODO: What if the Pod doesn't match our spec? Recreate?
 
 	log.V(9).Info("Got related jobs", "count", len(childJobs.Items))
 
 	if len(childJobs.Items) == 0 {
-		// Unexpected. Job should exisit in Scanning State. Resetting to Init
-		scan.Status.State = "Init"
+		// Unexpected. Job should exist in "Parsing" State. Resetting to Init
+		log.Info("Scan is in Parsing State but doesn't have a associated Parse Job running. Resetting status to 'ScanCompleted'")
+		scan.Status.State = "ScanCompleted"
 		if err := r.Status().Update(ctx, scan); err != nil {
 			log.Error(err, "unable to update Scan status")
 			return err
@@ -249,17 +320,17 @@ func (r *ScanReconciler) checkIfScanIsCompleted(scan *scansv1.Scan) error {
 		return nil
 	} else if len(childJobs.Items) > 1 {
 		// yoo that wasn't expected
-		return errors.New("Scan had more than one job. Thats not expected")
+		return errors.New("Scan had more than one parse job. Thats not expected")
 	}
 
 	// Job exists as expected
 	job := childJobs.Items[0]
 
-	// Checking if scan has completed
-	// TODO: Handle scan job failure cases
+	// Checking if parsing has completed
+	// TODO: Handle parse job failure cases
 	if job.Status.Succeeded != 0 {
-		log.V(7).Info("Scan is completed")
-		scan.Status.State = "ScanCompleted"
+		log.V(7).Info("Parsing is completed")
+		scan.Status.State = "ParseCompleted"
 		if err := r.Status().Update(ctx, scan); err != nil {
 			log.Error(err, "unable to update Scan status")
 			return err
@@ -282,9 +353,11 @@ func (r *ScanReconciler) constructJobForCronJob(scan *scansv1.Scan, scanTemplate
 
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
-			Labels:       make(map[string]string),
+			Labels: map[string]string{
+				"experimental.securecodebox.io/job-type": "scanner",
+			},
 			Annotations:  make(map[string]string),
-			GenerateName: fmt.Sprintf("%s-", scan.Name),
+			GenerateName: fmt.Sprintf("scan-%s-", scan.Name),
 			Namespace:    scan.Namespace,
 		},
 		Spec: *scanTemplate.Spec.JobTemplate.Spec.DeepCopy(),
