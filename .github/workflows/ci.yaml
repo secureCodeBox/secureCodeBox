@@ -42,7 +42,7 @@ jobs:
       - uses: actions/checkout@master
       - name: 'Install npm dependencies in all parser subprojects'
         run: |
-          for dir in /integrations/*/parser/
+          for dir in integrations/*/parser/
           do
               echo $dir
           done
