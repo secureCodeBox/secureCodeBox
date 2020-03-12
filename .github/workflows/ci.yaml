@@ -6,7 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: Build'n Push Engine
+      - name: "Run tests"
+        run: "make test"
+      - name: "Build'n Push Operator"
         uses: docker://j12934/one-click-docker@sha256:c0c3c90aa2fe65c0ffad0cf892aec9ea4dcc4731c1b2ccc0f3d4c8eacc4fb917
         env:
           DOCKER_IMAGE_NAME: operator
@@ -21,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: Build'n Push Lurcher
+      - name: "Build'n Push Lurcher"
         uses: docker://j12934/one-click-docker@sha256:c0c3c90aa2fe65c0ffad0cf892aec9ea4dcc4731c1b2ccc0f3d4c8eacc4fb917
         env:
           DOCKER_IMAGE_NAME: lurcher
