@@ -95,6 +95,8 @@ func waitForMainContainerToEnd(container, pod, namespace string) {
 		panic(err.Error())
 	}
 
+	log.Printf("Waiting for maincontainer to exit.")
+
 	for {
 		pod, err := clientset.CoreV1().Pods("default").Get(pod, metav1.GetOptions{})
 		if kerrors.IsNotFound(err) {
@@ -111,7 +113,6 @@ func waitForMainContainerToEnd(container, pod, namespace string) {
 					log.Printf("Main Container Exited. Lurcher will end asswell.")
 					return
 				}
-				log.Printf("Waiting for maincontainer to exit.")
 			}
 		}
 
