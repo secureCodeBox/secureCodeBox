@@ -40,6 +40,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      - name: 'list files and folders'
+        run: ls
       - name: 'Install npm dependencies in all parser subprojects'
         run: |
           for dir in integrations/*/parser/
