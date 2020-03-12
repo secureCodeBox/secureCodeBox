@@ -20,6 +20,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"net/url"
 	"os"
 	"path/filepath"
 	"strings"
@@ -67,67 +68,113 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		log.V(7).Info("Unable to fetch Scan")
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
-	log.Info("Scan Found", "ScanType", scan.Spec.ScanType)
+
+	state := scan.Status.State
+	if state == "" {
+		state = "Init"
+	}
+	log.Info("Scan Found", "Type", scan.Spec.ScanType, "State", state)
+	switch state {
+	case "Init":
+		err := r.startScan(&scan)
+		if err != nil {
+			return ctrl.Result{}, err
+		}
+	case "Scanning":
+		err := r.checkIfScanIsCompleted(&scan)
+		if err != nil {
+			return ctrl.Result{}, err
+		}
+	}
+
+	return ctrl.Result{}, nil
+}
+
+func (r *ScanReconciler) startScan(scan *scansv1.Scan) error {
+	ctx := context.Background()
+	namespacedName := fmt.Sprintf("%s/%s", scan.Namespace, scan.Name)
+	log := r.Log.WithValues("scan_init", namespacedName)
 
 	// get the scan template for the scan
 	var scanTemplate scansv1.ScanTemplate
-	if err := r.Get(ctx, types.NamespacedName{Name: scan.Spec.ScanType, Namespace: req.Namespace}, &scanTemplate); err != nil {
+	if err := r.Get(ctx, types.NamespacedName{Name: scan.Spec.ScanType, Namespace: scan.Namespace}, &scanTemplate); err != nil {
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
 		log.V(7).Info("Unable to fetch ScanTemplate")
-		return ctrl.Result{}, client.IgnoreNotFound(err)
+		return fmt.Errorf("No ScanTemplate of type '%s' found", scan.Spec.ScanType)
 	}
 	log.Info("Matching ScanTemplate Found", "ScanTemplate", scanTemplate.Name)
 
-	// check if k8s job for scan was already created
-	var childJobs batch.JobList
-	if err := r.List(ctx, &childJobs, client.InNamespace(req.Namespace), client.MatchingField(ownerKey, req.Name)); err != nil {
-		log.Error(err, "unable to list child Pods")
-		return ctrl.Result{}, err
-	}
-
-	// TODO: What if the Pod doesn't match our spec? Recreate?
-
-	log.V(9).Info("Got related jobs", "count", len(childJobs.Items))
-
-	if len(childJobs.Items) > 1 {
-		// yoo that wasn't expected
-		return ctrl.Result{}, errors.New("Scan had more than one job. Thats not expected")
-	} else if len(childJobs.Items) == 1 {
-		// Job seems to already exist
-		log.Info("Job seems already have been created")
-		job := childJobs.Items[0]
-
-		scan.Status.Done = job.Status.Succeeded != 0
-
-		if err := r.Status().Update(ctx, &scan); err != nil {
-			log.Error(err, "unable to update Scan status")
-			return ctrl.Result{}, err
-		}
-
-		return ctrl.Result{}, nil
-	}
-
-	job, err := r.constructJobForCronJob(&scan, &scanTemplate)
+	job, err := r.constructJobForCronJob(scan, &scanTemplate)
 	if err != nil {
 		log.Error(err, "unable to create job object ScanTemplate")
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
-		return ctrl.Result{}, err
+		return err
 	}
 
 	log.V(7).Info("Constructed Job object", "job args", strings.Join(job.Spec.Template.Spec.Containers[0].Args, ", "))
 
 	if err := r.Create(ctx, job); err != nil {
 		log.Error(err, "unable to create Job for Scan", "job", job)
-		return ctrl.Result{}, err
+		return err
 	}
 
-	log.V(1).Info("created Job for Scan run", "job", job)
+	scan.Status.State = "Scanning"
+	if err := r.Status().Update(ctx, scan); err != nil {
+		log.Error(err, "unable to update Scan status")
+		return err
+	}
 
-	return ctrl.Result{}, nil
+	log.V(1).Info("created Job for Scan", "job", job)
+	return nil
+}
+
+func (r *ScanReconciler) checkIfScanIsCompleted(scan *scansv1.Scan) error {
+	ctx := context.Background()
+	namespacedName := fmt.Sprintf("%s/%s", scan.Namespace, scan.Name)
+	log := r.Log.WithValues("scan_done_check", namespacedName)
+
+	// check if k8s job for scan was already created
+	var childJobs batch.JobList
+	if err := r.List(ctx, &childJobs, client.InNamespace(scan.Namespace), client.MatchingField(ownerKey, scan.Name)); err != nil {
+		log.Error(err, "unable to list child Pods")
+		return err
+	}
+
+	// TODO: What if the Pod doesn't match our spec? Recreate?
+
+	log.V(9).Info("Got related jobs", "count", len(childJobs.Items))
+
+	if len(childJobs.Items) == 0 {
+		// Unexpected. Job should exisit in Scanning State. Resetting to Init
+		scan.Status.State = "Init"
+		if err := r.Status().Update(ctx, scan); err != nil {
+			log.Error(err, "unable to update Scan status")
+			return err
+		}
+		return nil
+	} else if len(childJobs.Items) > 1 {
+		// yoo that wasn't expected
+		return errors.New("Scan had more than one job. Thats not expected")
+	}
+
+	// Job exists as expected
+	job := childJobs.Items[0]
+
+	// Checking if scan has completed
+	// TODO: Handle scan job failure cases
+	if job.Status.Succeeded != 0 {
+		log.V(7).Info("Scan is completed")
+		scan.Status.State = "ScanCompleted"
+		if err := r.Status().Update(ctx, scan); err != nil {
+			log.Error(err, "unable to update Scan status")
+			return err
+		}
+	}
+	return nil
 }
 
 func (r *ScanReconciler) constructJobForCronJob(scan *scansv1.Scan, scanTemplate *scansv1.ScanTemplate) (*batch.Job, error) {
@@ -136,10 +183,25 @@ func (r *ScanReconciler) constructJobForCronJob(scan *scansv1.Scan, scanTemplate
 	bucketName := os.Getenv("S3_BUCKET")
 
 	filename := filepath.Base(scanTemplate.Spec.ExtractResults.Location)
-	url, err := r.MinioClient.PresignedPutObject(bucketName, fmt.Sprintf("scan-%s/%s", scan.UID, filename), 12*time.Hour)
+	resultUploadUrl, err := r.MinioClient.PresignedPutObject(bucketName, fmt.Sprintf("scan-%s/%s", scan.UID, filename), 12*time.Hour)
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
 		return nil, err
+	}
+
+	{
+		uploadURL, err := r.MinioClient.PresignedPutObject(bucketName, fmt.Sprintf("scan-%s/findings.json", scan.UID), 12*time.Hour)
+		if err != nil {
+			r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
+			return nil, err
+		}
+		reqParams := make(url.Values)
+		resultGetURL, err := r.MinioClient.PresignedGetObject(bucketName, fmt.Sprintf("scan-%s/%s", scan.UID, filename), 12*time.Hour, reqParams)
+		if err != nil {
+			r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
+			return nil, err
+		}
+		r.Log.Info("Presigned URLs for later", "upload", uploadURL, "download", resultGetURL)
 	}
 
 	job := &batch.Job{
@@ -181,7 +243,7 @@ func (r *ScanReconciler) constructJobForCronJob(scan *scansv1.Scan, scanTemplate
 			"--file",
 			scanTemplate.Spec.ExtractResults.Location,
 			"--url",
-			url.String(),
+			resultUploadUrl.String(),
 		},
 		Env: []corev1.EnvVar{
 			corev1.EnvVar{

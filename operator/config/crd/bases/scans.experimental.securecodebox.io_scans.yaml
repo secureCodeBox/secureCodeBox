@@ -7,10 +7,10 @@ metadata:
   name: scans.scans.experimental.securecodebox.io
 spec:
   additionalPrinterColumns:
-  - JSONPath: .status.done
-    description: done
-    name: Done
-    type: boolean
+  - JSONPath: .status.state
+    description: Scan State
+    name: State
+    type: string
   group: scans.experimental.securecodebox.io
   names:
     kind: Scan
@@ -49,6 +49,8 @@ spec:
           properties:
             done:
               type: boolean
+            state:
+              type: string
           type: object
       type: object
   version: v1

@@ -35,14 +35,15 @@ type ScanSpec struct {
 
 // ScanStatus defines the observed state of Scan
 type ScanStatus struct {
-	Done bool `json:"done,omitempty"`
+	Done  bool   `json:"done,omitempty"`
+	State string `json:"state,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
 // Scan is the Schema for the scans API
 // +kubebuilder:subresource:status
-// +kubebuilder:printcolumn:name="Done",type=boolean,JSONPath=`.status.done`,description="done"
+// +kubebuilder:printcolumn:name="State",type=string,JSONPath=`.status.state`,description="Scan State"
 type Scan struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
