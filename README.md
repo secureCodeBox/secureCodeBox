@@ -1,7 +1,9 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![GitHub release](https://img.shields.io/github/release/secureCodeBox/secureCodeBox.svg)](https://github.com/secureCodeBox/secureCodeBox/releases/latest)
 
-# Continuous Secure Delivery - Out of the Box
+# secureCodeBox "Next"
+
+> NOTE: This Repository contains a work in progress preview of the planned next mayor secureCodeBox Release. This release contains a mayor re architecture of the secureCodeBox. More details will follow soon in a series of blog articles.
 
 ![secureCodeBox](securecodebox-logo.svg 'secureCodeBox')
 
