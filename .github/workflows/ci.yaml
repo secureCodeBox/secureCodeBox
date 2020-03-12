@@ -1,18 +1,6 @@
 on: push
 name: "CI"
 jobs:
-  deletePackages:
-    name: "Delete Unused Packages"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/delete-package-versions@v1
-        with:
-          package-name: "lurcher"
-          num-old-versions-to-delete: 100
-      - uses: actions/delete-package-versions@v1
-        with:
-          package-name: "operator"
-          num-old-versions-to-delete: 1
   operator:
     name: operator
     runs-on: ubuntu-latest
