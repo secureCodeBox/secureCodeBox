@@ -7,12 +7,12 @@ jobs:
     steps:
       - uses: actions/delete-package-versions@v1
         with:
-          package-name: "dispatcher"
+          package-name: "lurcher"
           num-old-versions-to-delete: 100
       - uses: actions/delete-package-versions@v1
         with:
-          package-name: "engine"
-          num-old-versions-to-delete: 100
+          package-name: "operator"
+          num-old-versions-to-delete: 1
   operator:
     name: operator
     runs-on: ubuntu-latest
