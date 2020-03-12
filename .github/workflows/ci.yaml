@@ -54,3 +54,11 @@ jobs:
               # cd back
               cd -
           done
+      - name: 'Install npm test dependencies'
+        run: |
+          cd integrations/
+          npm ci
+      - name: 'Run tests'
+        run: |
+          cd integrations/
+          npm test -- --ci --colors --coverage
