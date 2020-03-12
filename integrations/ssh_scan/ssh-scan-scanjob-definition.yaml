@@ -4,7 +4,7 @@ metadata:
   name: "ssh-scan"
 spec:
   name: "ssh-scan"
-  extractResult:
+  extractResults:
     type: ssh-scan-json
     location: "/home/securecodebox/ssh-scan-results.json"
   jobTemplate:
