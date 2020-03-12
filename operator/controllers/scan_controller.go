@@ -193,6 +193,7 @@ func (r *ScanReconciler) constructJobForCronJob(scan *scansv1.Scan, scanTemplate
 				},
 			},
 		},
+		// TODO Assign sane default limits for lurcher
 		// Resources: corev1.ResourceRequirements{
 		// 	Limits: map[corev1.ResourceName]resource.Quantity{
 		// 		"": {
