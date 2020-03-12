@@ -10,9 +10,17 @@ spec:
       containers:
         - name: primary
           image: alpine
-          command: ["sleep", "30"]
+          command: ["sleep", "5"]
         - name: lurcher
           image: scbexperimental/lurcher:go-version
+          imagePullPolicy: IfNotPresent
+          args:
+            - "--container"
+            - "primary"
+            - "--file"
+            - "/home/securecodebox/result.xml"
+            - "--url"
+            - "https://fra1.digitaloceanspaces.com/securecodebox/scan/result.xml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=NWN2DEMTNFQUTQB5SZ6A%2F20200312%2Ffra1%2Fs3%2Faws4_request&X-Amz-Date=20200312T180859Z&X-Amz-Expires=43200&X-Amz-SignedHeaders=host&X-Amz-Signature=852dc4576ff5b6195b9f6a7dd49851cc701a2fb59fb23db6e7c7913f412f0460"
           env:
             - name: NAMESPACE
               valueFrom:

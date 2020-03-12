@@ -1,19 +1,26 @@
-FROM golang:alpine AS builder
+# Build the manager binary
+FROM golang:1.13 as builder
 
-RUN apk add git
+WORKDIR /workspace
+# Copy the Go Modules manifests
+COPY go.mod go.mod
+COPY go.sum go.sum
+# cache deps before building and copying source so that we don't need to re-download as much
+# and so that source changes don't invalidate our downloaded layer
+RUN go mod download
 
-WORKDIR /lurcher/
-COPY go.mod go.sum main.go ./
-RUN go build main.go
+# Copy the go source
+COPY main.go main.go
 
-FROM alpine
+# Build
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o lurcher main.go
 
-RUN addgroup -S lurcher_group && adduser -S -g lurcher_group lurcher_user
-# --chown="lurcher_user:lurcher_group"
+# Use distroless as minimal base image to package the manager binary
+# Refer to https://github.com/GoogleContainerTools/distroless for more details
+FROM gcr.io/distroless/static:nonroot
+WORKDIR /
+COPY --from=builder /workspace/lurcher .
+COPY result.xml /home/securecodebox/result.xml
+USER nonroot:nonroot
 
-COPY --from=builder /lurcher/main /lurcher/main
-RUN chmod +x /lurcher/main
-
-USER lurcher_user
-
-CMD ["/lurcher/main"]
+ENTRYPOINT ["/lurcher"]

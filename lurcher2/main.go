@@ -1,94 +1,120 @@
 package main
 
 import (
+	"bytes"
 	"flag"
 	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"net/url"
 	"os"
 	"time"
 
-	"k8s.io/apimachinery/pkg/api/errors"
+	kerrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 )
 
-type arrayFlags []string
-
-func (i *arrayFlags) String() string {
-	return "my string representation"
-}
-
-func (i *arrayFlags) Set(value string) error {
-	*i = append(*i, value)
-	return nil
-}
-
-var filesToUpload = make(arrayFlags, 0)
-
 func main() {
-	fmt.Printf("Starting dispatcher")
-	namespace := os.Getenv("NAMESPACE")
-	podName := os.Getenv("HOSTNAME")
+	var mainContainer, filePath, uploadURL string
 
-	flag.Var(&filesToUpload, "file", "Some file.")
-	scanID := flag.String("scan-id", "", "ID of the current scan")
-	mainContainerName := flag.String("main-container-name", "primary", "Name of the scan container.")
-	engineAddress := flag.String("engine-address", "http://engine:3000", "Address of the secureCodeBox engine.")
+	flag.StringVar(&mainContainer, "container", "primary", "Name of the scan container")
+	flag.StringVar(&filePath, "file", "", "Absolute path to the result file of the scan")
+	flag.StringVar(&uploadURL, "url", "", "Presigned upload url to upload the scan results")
+
 	flag.Parse()
 
-	fmt.Printf("Running for scan: %s\n", *scanID)
-	fmt.Printf("Running in namespace: %s\n", namespace)
-	fmt.Printf("Scan is performed for engine at: %s\n", *engineAddress)
-	fmt.Printf("Waiting for main container '%s' to complete\n", *mainContainerName)
-
-	fmt.Printf("After scan is completed following files are to be uploaded:")
-	for _, file := range filesToUpload {
-		fmt.Printf("- %s\n", file)
+	if mainContainer == "" {
+		log.Fatal("Flag 'container' must be set to a proper value")
 	}
-	fmt.Printf("\n")
+	if filePath == "" {
+		log.Fatal("Flag 'filePath' must be set to a proper value")
+	}
+	if uploadURL == "" {
+		log.Fatal("Flag 'uploadURL' must be set to a proper value")
+	}
+	url, err := url.Parse(uploadURL)
+	if err != nil {
+		log.Fatal("Flag 'uploadURL' is no proper URL")
+	}
 
+	log.Println("Starting lurcher")
+	log.Printf("Waiting for main container '%s' to complete", mainContainer)
+	log.Printf("After scan is completed file '%s' will be uploaded to '%s'", filePath, url.Hostname())
+
+	pod := os.Getenv("HOSTNAME")
+	namespace := os.Getenv("NAMESPACE")
+	waitForMainContainerToEnd(mainContainer, pod, namespace)
+
+	log.Printf("Uploading result files.")
+	log.Printf("Uploading %s", filePath)
+	err = uploadFile(filePath, uploadURL)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Printf("Uploaded file successfully")
+}
+
+func uploadFile(path, url string) error {
+	fileBytes, err := ioutil.ReadFile(path)
+	size := len(fileBytes)
+	log.Printf("File has a size of %d bytes", size)
+	if err != nil {
+		log.Println("Failed to read file")
+		log.Fatal(err)
+	}
+	req, err := http.NewRequest("PUT", url, bytes.NewReader(fileBytes))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	client := &http.Client{}
+
+	res, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode < 300 {
+		return nil
+	}
+
+	return fmt.Errorf("File upload returned non 2xx status code (%d)", res.StatusCode)
+}
+
+func waitForMainContainerToEnd(container, pod, namespace string) {
 	config, err := rest.InClusterConfig()
 	if err != nil {
 		panic(err.Error())
 	}
-	// creates the clientset
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
 		panic(err.Error())
 	}
 
-WaitForMainContainerToEndLoop:
 	for {
-		// Examples for error handling:
-		// - Use helper functions e.g. errors.IsNotFound()
-		// - And/or cast to StatusError and use its properties like e.g. ErrStatus.Message
-		pod, err := clientset.CoreV1().Pods("default").Get(podName, metav1.GetOptions{})
-		if errors.IsNotFound(err) {
-			fmt.Printf("Pod %s not found in default namespace\n", podName)
-		} else if statusError, isStatus := err.(*errors.StatusError); isStatus {
-			fmt.Printf("Error getting pod %v\n", statusError.ErrStatus.Message)
+		pod, err := clientset.CoreV1().Pods("default").Get(pod, metav1.GetOptions{})
+		if kerrors.IsNotFound(err) {
+			log.Printf("Pod %s not found in default namespace", pod)
+		} else if statusError, isStatus := err.(*kerrors.StatusError); isStatus {
+			log.Printf("Error getting pod %v", statusError.ErrStatus.Message)
 		} else if err != nil {
 			panic(err.Error())
 		} else {
-			// fmt.Printf("Found %s pod in default namespace\n", podName)
 			containerStatuses := pod.Status.ContainerStatuses
 
 			for _, status := range containerStatuses {
-				if status.Name == *mainContainerName && status.State.Terminated != nil {
-					fmt.Printf("Main Container Exited. Lurcher will end asswell.\n")
-					break WaitForMainContainerToEndLoop
+				if status.Name == container && status.State.Terminated != nil {
+					log.Printf("Main Container Exited. Lurcher will end asswell.")
+					return
 				}
-				fmt.Printf("Waiting for maincontainer to exit.\n")
+				log.Printf("Waiting for maincontainer to exit.")
 			}
 		}
 
 		time.Sleep(500 * time.Millisecond)
-	}
-	clientset = nil
-	config = nil
-
-	fmt.Printf("Uploading result files.")
-	for _, file := range filesToUpload {
-		fmt.Printf(" - Uploading %s", file)
 	}
 }
