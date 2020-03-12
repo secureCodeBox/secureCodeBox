@@ -51,4 +51,6 @@ jobs:
                   echo "Installing dependencies for $dir"
                   npm ci
               fi
+              # cd back
+              cd -
           done
