@@ -44,5 +44,9 @@ jobs:
         run: |
           for dir in integrations/*/parser/
           do
-              echo $dir
+              cd $dir
+              if [ -f package.json ]; then
+                  echo "Installing dependencies for $dir"
+                  npm ci
+              fi
           done
