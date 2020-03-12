@@ -47,7 +47,7 @@ jobs:
           for dir in integrations/*/parser/
           do
               cd $dir
-              if [ -f package.json ]; then
+              if [ -f package.json ] && [ -f package-lock.json ]; then
                   echo "Installing dependencies for $dir"
                   npm ci
               fi
