@@ -14,5 +14,5 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: nmap
-              image: scbexperimental/nmap:7.80-r1
+              image: scbexperimental/nmap:7.80-r2
               command: ["nmap", "-oX", "/home/securecodebox/nmap-results.xml"]
