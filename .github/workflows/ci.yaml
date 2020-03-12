@@ -1,13 +1,13 @@
 on: push
-name: "CI"
+name: 'CI'
 jobs:
   operator:
     name: operator
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: "Run tests"
-        run: "make test"
+      - name: 'Run tests'
+        run: 'make test'
       - name: "Build'n Push Operator"
         uses: docker://j12934/one-click-docker@sha256:c0c3c90aa2fe65c0ffad0cf892aec9ea4dcc4731c1b2ccc0f3d4c8eacc4fb917
         env:
@@ -33,3 +33,15 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         with:
           args: ./lurcher/
+  integrations:
+    name: 'Scanner Integrations'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: 'Install npm dependencies in all parser subprojects'
+        run: |
+          for dir in /integrations/*/parser/
+          do
+              dir=${dir%*/}      # remove the trailing "/"
+              echo ${dir##*/}    # print everything after the final "/"
+          done
