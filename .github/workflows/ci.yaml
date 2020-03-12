@@ -15,7 +15,7 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         with:
-          args: ./engine/
+          args: ./operator/
   lurcher:
     name: lurcher
     runs-on: ubuntu-latest
