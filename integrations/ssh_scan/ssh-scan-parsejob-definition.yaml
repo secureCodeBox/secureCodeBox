@@ -1,7 +1,7 @@
-apiVersion: 'experimental.securecodebox.io/v1'
-kind: ParseJobDefinition
+apiVersion: "scans.experimental.securecodebox.io/v1"
+kind: ParseDefinition
 metadata:
-  name: 'ssh-scan-json'
+  name: "ssh-scan-json"
 spec:
   handlesResultsType: ssh-scan-json
   image: scbexperimental/ssh-scan-parser

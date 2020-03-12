@@ -1,5 +1,5 @@
-apiVersion: "experimental.securecodebox.io/v1"
-kind: ParseJobDefinition
+apiVersion: "scans.experimental.securecodebox.io/v1"
+kind: ParseDefinition
 metadata:
   name: "zap-json"
 spec:

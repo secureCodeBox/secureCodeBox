@@ -85,6 +85,11 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		if err != nil {
 			return ctrl.Result{}, err
 		}
+	case "ScanCompleted":
+		err := r.startParser(&scan)
+		if err != nil {
+			return ctrl.Result{}, err
+		}
 	}
 
 	return ctrl.Result{}, nil
@@ -129,6 +134,92 @@ func (r *ScanReconciler) startScan(scan *scansv1.Scan) error {
 	}
 
 	log.V(1).Info("created Job for Scan", "job", job)
+	return nil
+}
+
+func (r *ScanReconciler) startParser(scan *scansv1.Scan) error {
+	ctx := context.Background()
+	namespacedName := fmt.Sprintf("%s/%s", scan.Namespace, scan.Name)
+	log := r.Log.WithValues("scan_parse", namespacedName)
+
+	var scanTemplate scansv1.ScanTemplate
+	if err := r.Get(ctx, types.NamespacedName{Name: scan.Spec.ScanType, Namespace: scan.Namespace}, &scanTemplate); err != nil {
+		// we'll ignore not-found errors, since they can't be fixed by an immediate
+		// requeue (we'll need to wait for a new notification), and we can get them
+		// on deleted requests.
+		log.V(7).Info("Unable to fetch ScanTemplate")
+		return fmt.Errorf("No ScanTemplate of type '%s' found", scan.Spec.ScanType)
+	}
+	log.Info("Matching ScanTemplate Found", "ScanTemplate", scanTemplate.Name)
+
+	parseType := scanTemplate.Spec.ExtractResults.Type
+
+	// get the scan template for the scan
+	var parseDefinition scansv1.ParseDefinition
+	if err := r.Get(ctx, types.NamespacedName{Name: parseType, Namespace: scan.Namespace}, &parseDefinition); err != nil {
+		log.V(7).Info("Unable to fetch ParseDefinition")
+		return fmt.Errorf("No ParseDefinition of type '%s' found", parseType)
+	}
+	log.Info("Matching ParseDefinition Found", "ParseDefinition", parseType)
+
+	bucketName := os.Getenv("S3_BUCKET")
+	findingsUploadURL, err := r.MinioClient.PresignedPutObject(bucketName, fmt.Sprintf("scan-%s/findings.json", scan.UID), 12*time.Hour)
+	if err != nil {
+		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
+		return err
+	}
+	reqParams := make(url.Values)
+	filename := filepath.Base(scanTemplate.Spec.ExtractResults.Location)
+	rawResultDownloadURL, err := r.MinioClient.PresignedGetObject(bucketName, fmt.Sprintf("scan-%s/%s", scan.UID, filename), 12*time.Hour, reqParams)
+	if err != nil {
+		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
+		return err
+	}
+
+	automountServiceAccountToken := false
+	job := &batch.Job{
+		ObjectMeta: metav1.ObjectMeta{
+			Labels:       make(map[string]string),
+			Annotations:  make(map[string]string),
+			GenerateName: fmt.Sprintf("%s-", scan.Name),
+			Namespace:    scan.Namespace,
+		},
+		Spec: batch.JobSpec{
+			Template: corev1.PodTemplateSpec{
+				Spec: corev1.PodSpec{
+					RestartPolicy: corev1.RestartPolicyNever,
+					Containers: []corev1.Container{
+						{
+							Name:  "parser",
+							Image: parseDefinition.Spec.Image,
+							Args: []string{
+								rawResultDownloadURL.String(),
+								findingsUploadURL.String(),
+							},
+							ImagePullPolicy: "IfNotPresent",
+						},
+					},
+					AutomountServiceAccountToken: &automountServiceAccountToken,
+				},
+			},
+			TTLSecondsAfterFinished: nil,
+		},
+	}
+
+	log.V(7).Info("Constructed Job object", "job args", strings.Join(job.Spec.Template.Spec.Containers[0].Args, ", "))
+
+	if err := r.Create(ctx, job); err != nil {
+		log.Error(err, "unable to create Job for Parser", "job", job)
+		return err
+	}
+
+	scan.Status.State = "Parsing"
+	if err := r.Status().Update(ctx, scan); err != nil {
+		log.Error(err, "unable to update Scan status")
+		return err
+	}
+
+	log.V(1).Info("created Parse Job for Scan", "job", job)
 	return nil
 }
 
@@ -187,21 +278,6 @@ func (r *ScanReconciler) constructJobForCronJob(scan *scansv1.Scan, scanTemplate
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
 		return nil, err
-	}
-
-	{
-		uploadURL, err := r.MinioClient.PresignedPutObject(bucketName, fmt.Sprintf("scan-%s/findings.json", scan.UID), 12*time.Hour)
-		if err != nil {
-			r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
-			return nil, err
-		}
-		reqParams := make(url.Values)
-		resultGetURL, err := r.MinioClient.PresignedGetObject(bucketName, fmt.Sprintf("scan-%s/%s", scan.UID, filename), 12*time.Hour, reqParams)
-		if err != nil {
-			r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
-			return nil, err
-		}
-		r.Log.Info("Presigned URLs for later", "upload", uploadURL, "download", resultGetURL)
 	}
 
 	job := &batch.Job{
