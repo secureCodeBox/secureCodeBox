@@ -12,7 +12,7 @@ Array [
     "location": "http://192.168.1.14:3000",
     "name": "Server Leaks Information via \\"X-Powered-By\\" HTTP Response Header Field(s)",
     "osi_layer": "APPLICATION",
-    "severity": "MEDIUM",
+    "severity": "LOW",
   },
   Object {
     "attributes": Object {
@@ -36,7 +36,7 @@ Array [
     "location": "http://192.168.1.14:3000",
     "name": "Cross-Domain Misconfiguration",
     "osi_layer": "APPLICATION",
-    "severity": "HIGH",
+    "severity": "MEDIUM",
   },
   Object {
     "attributes": Object {
@@ -48,7 +48,7 @@ Array [
     "location": "http://192.168.1.14:3000",
     "name": "Web Browser XSS Protection Not Enabled",
     "osi_layer": "APPLICATION",
-    "severity": "MEDIUM",
+    "severity": "LOW",
   },
   Object {
     "attributes": Object {
@@ -60,7 +60,7 @@ Array [
     "location": "http://192.168.1.14:3000",
     "name": "Cross-Domain JavaScript Source File Inclusion",
     "osi_layer": "APPLICATION",
-    "severity": "MEDIUM",
+    "severity": "LOW",
   },
   Object {
     "attributes": Object {
@@ -72,7 +72,7 @@ Array [
     "location": "http://192.168.1.14:3000",
     "name": "Private IP Disclosure",
     "osi_layer": "APPLICATION",
-    "severity": "MEDIUM",
+    "severity": "LOW",
   },
   Object {
     "attributes": Object {
