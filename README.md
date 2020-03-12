@@ -48,20 +48,26 @@ There is a german article about [Security DevOps – Angreifern (immer) einen Sc
 ### Deployment
 
 ```bash
-# This will deploy a redis cluster and a minio deployment alongside the engine deployment.
-# You can disable the creation to use services like a hosted Redis solution or AWS S3, DigitalOcean Spaces or another compatible Solution.
-helm install engine ./engine/
-# Elasticsearch Persistence Provider Deployment
-helm install persistence-elastic ./persistence/persistence-elastic/
+# This is currently under development. Before a proper release the operator will be packaged up as a helm chart.
 
-# Dispatcher Deployment
-helm install dispatcher ./dispatcher/ --set "dispatcherEnvironmentName=$(kubectl config current-context)"
+# You'll need to configure a s3 or compatible file storage (https://min.io recommended when self hosting)
+# E.g. for digitalocean (the credentials are fake 😉)
+export S3_ENDPOINT="fra1.digitaloceanspaces.com"
+export S3_ACCESS_KEY="HASJHVDJAVJDSVAISWNA"
+export S3_SECRET_KEY="ffi+cfkntT9AHTwKFarvywKvG6YstxaNUsfuh!nqTUh"
+export S3_BUCKET="securecodebox"
+# Install Custom Resource Definitions
+make install
+
+# Run Operator locally (against current kubectl context)
+make run
 
 # Deploy nmap, amass and ssh_scan ScanJob and ParseJob Definition
-kubectl apply -f integrations/nmap/nmap-scanjob-definition.yaml -f integrations/nmap/nmap-parsejob-definition.yaml
-kubectl apply -f integrations/amass/amass-scanjob-definition.yaml -f integrations/amass/amass-parsejob-definition.yaml
-kubectl apply -f integrations/ssh_scan/ssh-scan-scanjob-definition.yaml -f integrations/ssh_scan/ssh-scan-parsejob-definition.yaml
-kubectl apply -f integrations/zap/zap-scanjob-definitions.yaml -f integrations/zap/zap-parsejob-definition.yaml
+# TODO: ParseJobs
+kubectl apply -f integrations/nmap/nmap-scanjob-definition.yaml
+kubectl apply -f integrations/amass/amass-scanjob-definition.yaml
+kubectl apply -f integrations/ssh_scan/ssh-scan-scanjob-definition.yaml
+kubectl apply -f integrations/zap/zap-scanjob-definitions.yaml
 ```
 
 ## How does it work?
