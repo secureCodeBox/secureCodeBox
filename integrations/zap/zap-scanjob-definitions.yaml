@@ -1,11 +1,11 @@
-apiVersion: "experimental.securecodebox.io/v1"
-kind: ScanJobDefinition
+apiVersion: "scans.experimental.securecodebox.io/v1"
+kind: ScanTemplate
 metadata:
   name: "zap-baseline"
 spec:
   extractResults:
-    - type: zap-json
-      location: "/home/securecodebox/zap-results.json"
+    type: zap-json
+    location: "/home/securecodebox/zap-results.json"
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 10
@@ -28,14 +28,14 @@ spec:
             - name: zap-workdir
               emptyDir: {}
 ---
-apiVersion: "experimental.securecodebox.io/v1"
-kind: ScanJobDefinition
+apiVersion: "scans.experimental.securecodebox.io/v1"
+kind: ScanTemplate
 metadata:
   name: "zap-api-scan"
 spec:
   extractResults:
-    - type: zap-json
-      location: "/home/securecodebox/zap-results.json"
+    type: zap-json
+    location: "/home/securecodebox/zap-results.json"
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 10
@@ -58,14 +58,14 @@ spec:
             - name: zap-workdir
               emptyDir: {}
 ---
-apiVersion: "experimental.securecodebox.io/v1"
-kind: ScanJobDefinition
+apiVersion: "scans.experimental.securecodebox.io/v1"
+kind: ScanTemplate
 metadata:
   name: "zap-full-scan"
 spec:
   extractResults:
-    - type: zap-json
-      location: "/home/securecodebox/zap-results.json"
+    type: zap-json
+    location: "/home/securecodebox/zap-results.json"
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 10

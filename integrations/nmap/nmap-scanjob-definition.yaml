@@ -1,11 +1,11 @@
-apiVersion: "experimental.securecodebox.io/v1"
-kind: ScanJobDefinition
+apiVersion: "scans.experimental.securecodebox.io/v1"
+kind: ScanTemplate
 metadata:
   name: "nmap"
 spec:
   extractResults:
-    - type: nmap-xml
-      location: "/home/securecodebox/nmap-results.xml"
+    type: nmap-xml
+    location: "/home/securecodebox/nmap-results.xml"
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 10

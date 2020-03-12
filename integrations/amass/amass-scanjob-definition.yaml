@@ -1,13 +1,13 @@
-apiVersion: "experimental.securecodebox.io/v1"
-kind: ScanJobDefinition
+apiVersion: "scans.experimental.securecodebox.io/v1"
+kind: ScanTemplate
 metadata:
   name: "amass"
 spec:
   extractResults:
     # amass saves it's result now in json but in "json lines" format
     # http://jsonlines.org/
-    - type: amass-jsonl
-      location: "/home/securecodebox/amass-results.jsonl"
+    type: amass-jsonl
+    location: "/home/securecodebox/amass-results.jsonl"
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 10
