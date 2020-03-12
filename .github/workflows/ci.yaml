@@ -6,15 +6,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: 'List go version'
-        run: 'go version'
-      - name: 'List go version with go version specified'
+      - uses: actions/setup-go@v2-beta
         with:
-          go-version: 1.13
-        run: 'go version'
+          go-version: '1.13'
       - name: 'Run tests'
-        with:
-          go-version: 1.13
         run: |
           cd operator/
           make test
