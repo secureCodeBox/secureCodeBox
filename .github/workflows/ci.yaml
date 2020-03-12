@@ -26,6 +26,11 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         with:
           args: ./operator/
+      - uses: actions/delete-package-versions@v1
+        name: 'Delete oldest operator image tag'
+        with:
+          package-name: operator
+          num-old-versions-to-delete: 1
   lurcher:
     name: 'Lurcher'
     runs-on: ubuntu-latest
@@ -41,6 +46,11 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         with:
           args: ./lurcher/
+      - uses: actions/delete-package-versions@v1
+        name: 'Delete oldest lurcher image tag'
+        with:
+          package-name: lurcher
+          num-old-versions-to-delete: 1
   integrations:
     name: 'Scanner Integrations'
     runs-on: ubuntu-latest
