@@ -21,6 +21,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -45,8 +46,9 @@ var (
 // ScanReconciler reconciles a Scan object
 type ScanReconciler struct {
 	client.Client
-	Log    logr.Logger
-	Scheme *runtime.Scheme
+	Log         logr.Logger
+	Scheme      *runtime.Scheme
+	MinioClient minio.Client
 }
 
 // +kubebuilder:rbac:groups=scans.experimental.securecodebox.io,resources=scans,verbs=get;list;watch;create;update;patch;delete
@@ -116,33 +118,6 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, err
 	}
 
-	// Todo: Better config management
-	endpoint := os.Getenv("S3_ENDPOINT")
-	accessKeyID := os.Getenv("S3_ACCESS_KEY")
-	secretAccessKey := os.Getenv("S3_SECRET_KEY")
-	bucketName := os.Getenv("S3_BUCKET")
-	useSSL := true
-
-	// Initialize minio client object.
-	minioClient, err := minio.New(endpoint, accessKeyID, secretAccessKey, useSSL)
-	if err != nil {
-		log.Error(err, "Could not create minio client to communicate with s3 or compatible storage provider")
-		return ctrl.Result{}, err
-	}
-
-	bucketExists, err := minioClient.BucketExists(bucketName)
-	if err != nil || bucketExists == false {
-		log.Error(err, "Could not communicate with s3 or compatible storage provider")
-		return ctrl.Result{}, err
-	}
-
-	url, err := minioClient.PresignedPutObject(bucketName, "scan/result.xml", 12*time.Hour)
-	if err != nil || bucketExists == false {
-		log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
-		return ctrl.Result{}, err
-	}
-	log.Info("Got presigned url", "url", url)
-
 	log.V(7).Info("Constructed Job object", "job args", strings.Join(job.Spec.Template.Spec.Containers[0].Args, ", "))
 
 	if err := r.Create(ctx, job); err != nil {
@@ -157,6 +132,15 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 func (r *ScanReconciler) constructJobForCronJob(scan *scansv1.Scan, scanTemplate *scansv1.ScanTemplate) (*batch.Job, error) {
 	// We want job names for a given nominal start time to have a deterministic name to avoid the same job being created twice
+
+	bucketName := os.Getenv("S3_BUCKET")
+
+	filename := filepath.Base(scanTemplate.Spec.ExtractResults.Location)
+	url, err := r.MinioClient.PresignedPutObject(bucketName, fmt.Sprintf("scan-%s/%s", scan.UID, filename), 12*time.Hour)
+	if err != nil {
+		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
+		return nil, err
+	}
 
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
@@ -188,6 +172,50 @@ func (r *ScanReconciler) constructJobForCronJob(scan *scansv1.Scan, scanTemplate
 		MountPath: "/home/securecodebox/",
 	}}...)
 
+	lurcherSidecar := &corev1.Container{
+		Name:  "lurcher",
+		Image: "docker.pkg.github.com/j12934/securecodebox/lurcher:b943cf1",
+		Args: []string{
+			"--container",
+			job.Spec.Template.Spec.Containers[0].Name,
+			"--file",
+			scanTemplate.Spec.ExtractResults.Location,
+			"--url",
+			url.String(),
+		},
+		Env: []corev1.EnvVar{
+			corev1.EnvVar{
+				Name: "NAMESPACE",
+				ValueFrom: &corev1.EnvVarSource{
+					FieldRef: &corev1.ObjectFieldSelector{
+						FieldPath: "metadata.namespace",
+					},
+				},
+			},
+		},
+		// Resources: corev1.ResourceRequirements{
+		// 	Limits: map[corev1.ResourceName]resource.Quantity{
+		// 		"": {
+		// 			Format: "",
+		// 		},
+		// 	},
+		// 	Requests: map[corev1.ResourceName]resource.Quantity{
+		// 		"": {
+		// 			Format: "",
+		// 		},
+		// 	},
+		// },
+		VolumeMounts: []corev1.VolumeMount{
+			corev1.VolumeMount{
+				Name:      "scan-results",
+				MountPath: "/home/securecodebox/",
+			},
+		},
+		ImagePullPolicy: "IfNotPresent",
+	}
+
+	job.Spec.Template.Spec.Containers = append(job.Spec.Template.Spec.Containers, *lurcherSidecar)
+
 	// for k, v := range cronJob.Spec.JobTemplate.Annotations {
 	// 	job.Annotations[k] = v
 	// }
@@ -212,6 +240,27 @@ func (r *ScanReconciler) constructJobForCronJob(scan *scansv1.Scan, scanTemplate
 }
 
 func (r *ScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	endpoint := os.Getenv("S3_ENDPOINT")
+	accessKeyID := os.Getenv("S3_ACCESS_KEY")
+	secretAccessKey := os.Getenv("S3_SECRET_KEY")
+	useSSL := true
+
+	// Initialize minio client object.
+	minioClient, err := minio.New(endpoint, accessKeyID, secretAccessKey, useSSL)
+	if err != nil {
+		r.Log.Error(err, "Could not create minio client to communicate with s3 or compatible storage provider")
+		panic(err)
+	}
+	r.MinioClient = *minioClient
+	bucketName := os.Getenv("S3_BUCKET")
+
+	bucketExists, err := r.MinioClient.BucketExists(bucketName)
+	if err != nil || bucketExists == false {
+		r.Log.Error(err, "Could not communicate with s3 or compatible storage provider")
+		panic(err)
+	}
+
+	// Todo: Better config management
 
 	if err := mgr.GetFieldIndexer().IndexField(&batch.Job{}, ownerKey, func(rawObj runtime.Object) []string {
 		// grab the job object, extract the owner...
