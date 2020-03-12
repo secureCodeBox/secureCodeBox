@@ -47,8 +47,6 @@ spec:
         status:
           description: ScanStatus defines the observed state of Scan
           properties:
-            done:
-              type: boolean
             state:
               type: string
           type: object

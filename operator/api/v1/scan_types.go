@@ -35,7 +35,6 @@ type ScanSpec struct {
 
 // ScanStatus defines the observed state of Scan
 type ScanStatus struct {
-	Done  bool   `json:"done,omitempty"`
 	State string `json:"state,omitempty"`
 }
 
