@@ -366,6 +366,8 @@ func (r *ScanReconciler) constructJobForCronJob(scan *scansv1.Scan, scanTemplate
 		Spec: *scanTemplate.Spec.JobTemplate.Spec.DeepCopy(),
 	}
 
+	job.Spec.Template.Spec.ServiceAccountName = "lurcher"
+
 	job.Spec.Template.Spec.Volumes = []corev1.Volume{
 		corev1.Volume{
 			Name: "scan-results",
