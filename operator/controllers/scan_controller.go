@@ -54,6 +54,9 @@ type ScanReconciler struct {
 
 // +kubebuilder:rbac:groups=scans.experimental.securecodebox.io,resources=scans,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=scans.experimental.securecodebox.io,resources=scans/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=scans.experimental.securecodebox.io,resources=scantemplates,verbs=get;list;watch
+// +kubebuilder:rbac:groups=scans.experimental.securecodebox.io,resources=parsedefinitions,verbs=get;list;watch
+// +kubebuilder:rbac:groups=batch,resources=jobs,verbs=get;list;watch;create;update;patch;delete
 
 func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
@@ -385,7 +388,7 @@ func (r *ScanReconciler) constructJobForCronJob(scan *scansv1.Scan, scanTemplate
 
 	lurcherSidecar := &corev1.Container{
 		Name:  "lurcher",
-		Image: "docker.pkg.github.com/j12934/securecodebox/lurcher:b943cf1",
+		Image: "scbexperimental/lurcher:latest",
 		Args: []string{
 			"--container",
 			job.Spec.Template.Spec.Containers[0].Name,
