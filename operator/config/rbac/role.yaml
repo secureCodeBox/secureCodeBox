@@ -7,6 +7,26 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
+  - batch
+  resources:
+  - jobs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - scans.experimental.securecodebox.io
+  resources:
+  - parsedefinitions
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
   - scans.experimental.securecodebox.io
   resources:
   - scans
@@ -26,3 +46,11 @@ rules:
   - get
   - patch
   - update
+- apiGroups:
+  - scans.experimental.securecodebox.io
+  resources:
+  - scantemplates
+  verbs:
+  - get
+  - list
+  - watch
