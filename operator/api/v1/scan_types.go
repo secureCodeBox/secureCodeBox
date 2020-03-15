@@ -36,6 +36,10 @@ type ScanSpec struct {
 // ScanStatus defines the observed state of Scan
 type ScanStatus struct {
 	State string `json:"state,omitempty"`
+	// RawResultType determines which kind of ParseDefinition will be used to turn the raw results of the scanner into findings
+	RawResultType string `json:"rawResultType,omitempty"`
+	// RawResultFile Filename of the result file of the scanner. e.g. `nmap-result.xml`
+	RawResultFile string `json:"rawResultFile,omitempty"`
 }
 
 // +kubebuilder:object:root=true

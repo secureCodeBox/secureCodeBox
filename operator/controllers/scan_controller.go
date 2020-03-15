@@ -150,6 +150,8 @@ func (r *ScanReconciler) startScan(scan *scansv1.Scan) error {
 	}
 
 	scan.Status.State = "Scanning"
+	scan.Status.RawResultType = scanTemplate.Spec.ExtractResults.Type
+	scan.Status.RawResultFile = filepath.Base(scanTemplate.Spec.ExtractResults.Location)
 	if err := r.Status().Update(ctx, scan); err != nil {
 		log.Error(err, "unable to update Scan status")
 		return err
@@ -217,17 +219,7 @@ func (r *ScanReconciler) startParser(scan *scansv1.Scan) error {
 	namespacedName := fmt.Sprintf("%s/%s", scan.Namespace, scan.Name)
 	log := r.Log.WithValues("scan_parse", namespacedName)
 
-	var scanTemplate scansv1.ScanTemplate
-	if err := r.Get(ctx, types.NamespacedName{Name: scan.Spec.ScanType, Namespace: scan.Namespace}, &scanTemplate); err != nil {
-		// we'll ignore not-found errors, since they can't be fixed by an immediate
-		// requeue (we'll need to wait for a new notification), and we can get them
-		// on deleted requests.
-		log.V(7).Info("Unable to fetch ScanTemplate")
-		return fmt.Errorf("No ScanTemplate of type '%s' found", scan.Spec.ScanType)
-	}
-	log.Info("Matching ScanTemplate Found", "ScanTemplate", scanTemplate.Name)
-
-	parseType := scanTemplate.Spec.ExtractResults.Type
+	parseType := scan.Status.RawResultType
 
 	// get the scan template for the scan
 	var parseDefinition scansv1.ParseDefinition
