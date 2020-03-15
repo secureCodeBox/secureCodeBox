@@ -21,7 +21,7 @@ async function main() {
 
   console.log(`Submitting results to the engine.`);
 
-  await axios.put(resultUploadUrl, { findings: findingsWithIds });
+  await axios.put(resultUploadUrl, findingsWithIds);
 
   console.log(`Completed parser.`);
 }
