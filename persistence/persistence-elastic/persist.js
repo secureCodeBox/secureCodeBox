@@ -1,26 +1,15 @@
-const express = require('express');
-
-const app = express();
-
 const { Client } = require('@elastic/elasticsearch');
-
-const { get } = require('./config');
 
 const flatMap = require('lodash.flatmap');
 const chunk = require('lodash.chunk');
 
-const client = new Client({ node: get('elasticsearch.address') });
+const client = new Client({ node: process.env['ELASTICSEARCH_ADDRESS'] });
 
-app.use(express.json({
-  limit: '10mb'
-}));
+async function persist({ getFindings, scan }) {
+  const findings = await getFindings();
 
-app.post('/api/v1alpha/scan-job/:scanId/persist', async (req, res) => {
-  const { scanId } = req.params;
-  const { findings, tenant = 'default' } = req.body;
-
-  const now = new Date();
-  const indexName = `securecodebox_${tenant}_${now.toISOString().substr(0,10)}`;
+  const timeStamp = new Date().toISOString().substr(0, 10);
+  const indexName = `securecodebox_${tenant}_${timeStamp}`;
 
   await client.indices.create(
     {
@@ -35,11 +24,14 @@ app.post('/api/v1alpha/scan-job/:scanId/persist', async (req, res) => {
   for (const findingChunk of findingsChunks) {
     const body = flatMap(findingChunk, doc => [
       { index: { _index: indexName } },
-      { 
+      {
         ...doc,
         '@timestamp': now,
         type: 'finding_entry',
-        security_test_id: scanId
+        scan_id: scan.metadata.id,
+        scan_name: scan.metadata.name,
+        scan_type: scan.spec.scanType,
+        scan_labels: scan.metadata.labels || {},
       },
     ]);
 
@@ -67,8 +59,5 @@ app.post('/api/v1alpha/scan-job/:scanId/persist', async (req, res) => {
       console.log(erroredDocuments);
     }
   }
-
-  return res.status(204).send();
-});
-
-module.exports = app;
+}
+module.exports.persist = persist;
