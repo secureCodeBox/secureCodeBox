@@ -99,19 +99,90 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			return ctrl.Result{}, err
 		}
 	case "ParseCompleted":
-		var persistenceProvider scansv1.PersistenceProviderList
-		if err := r.List(ctx, &persistenceProvider, client.InNamespace(scan.Namespace)); err != nil {
+		var persistenceProviders scansv1.PersistenceProviderList
+		if err := r.List(ctx, &persistenceProviders, client.InNamespace(scan.Namespace)); err != nil {
 			log.V(7).Info("Unable to fetch PersistenceProvider")
 			return ctrl.Result{}, err
 		}
 
-		log.Info("Pseudo Persistet to PersistenceProviders", "PersistenceProviderCount", len(persistenceProvider.Items))
+		for _, persistenceProvider := range persistenceProviders.Items {
+			rawFileURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile)
+			if err != nil {
+				return ctrl.Result{}, err
+			}
+			findingsFileURL, err := r.PresignedGetURL(scan.UID, "findings.json")
+			if err != nil {
+				return ctrl.Result{}, err
+			}
 
-		scan.Status.State = "Done"
-		if err := r.Status().Update(ctx, &scan); err != nil {
-			log.Error(err, "unable to update Scan status")
-			return ctrl.Result{}, err
+			standardEnvVars := []corev1.EnvVar{
+				corev1.EnvVar{
+					Name: "NAMESPACE",
+					ValueFrom: &corev1.EnvVarSource{
+						FieldRef: &corev1.ObjectFieldSelector{
+							FieldPath: "metadata.namespace",
+						},
+					},
+				},
+				corev1.EnvVar{
+					Name:  "SCAN_NAME",
+					Value: scan.Name,
+				},
+			}
+
+			job := &batch.Job{
+				ObjectMeta: metav1.ObjectMeta{
+					Annotations:  make(map[string]string),
+					GenerateName: fmt.Sprintf("persist-%s-", scan.Name),
+					Namespace:    scan.Namespace,
+					Labels: map[string]string{
+						"experimental.securecodebox.io/job-type": "persistence",
+					},
+				},
+				Spec: batch.JobSpec{
+					Template: corev1.PodTemplateSpec{
+						Spec: corev1.PodSpec{
+							RestartPolicy: corev1.RestartPolicyNever,
+							Containers: []corev1.Container{
+								{
+									Name:  "parser",
+									Image: persistenceProvider.Spec.Image,
+									Args: []string{
+										rawFileURL,
+										findingsFileURL,
+									},
+									Env:             append(persistenceProvider.Spec.Env, standardEnvVars...),
+									ImagePullPolicy: "IfNotPresent",
+								},
+							},
+						},
+					},
+					TTLSecondsAfterFinished: nil,
+				},
+			}
+			if err := ctrl.SetControllerReference(&scan, job, r.Scheme); err != nil {
+				return ctrl.Result{}, err
+			}
+
+			if err := r.Create(ctx, job); err != nil {
+				log.Error(err, "unable to create Job for Parser", "job", job)
+				return ctrl.Result{}, err
+			}
+
+			scan.Status.State = "Persisting"
+			if err := r.Status().Update(ctx, &scan); err != nil {
+				log.Error(err, "unable to update Scan status")
+				return ctrl.Result{}, err
+			}
 		}
+
+		log.Info("Started PersistenceProviders", "PersistenceProviderCount", len(persistenceProviders.Items))
+
+		// scan.Status.State = "Done"
+		// if err := r.Status().Update(ctx, &scan); err != nil {
+		// 	log.Error(err, "unable to update Scan status")
+		// 	return ctrl.Result{}, err
+		// }
 	}
 
 	return ctrl.Result{}, nil
@@ -259,7 +330,7 @@ func (r *ScanReconciler) startParser(scan *scansv1.Scan) error {
 							Name:  "parser",
 							Image: parseDefinition.Spec.Image,
 							Args: []string{
-								rawResultDownloadURL.String(),
+								rawResultDownloadURL,
 								findingsUploadURL.String(),
 							},
 							ImagePullPolicy: "IfNotPresent",
