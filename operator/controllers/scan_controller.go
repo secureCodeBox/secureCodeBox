@@ -235,7 +235,7 @@ func (r *ScanReconciler) startParser(scan *scansv1.Scan) error {
 		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
 		return err
 	}
-	rawResultDownloadURL, err := r.PresignedGetURL(string(scan.UID), scan.Status.RawResultFile)
+	rawResultDownloadURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile)
 	if err != nil {
 		return err
 	}
@@ -460,11 +460,11 @@ func (r *ScanReconciler) constructJobForCronJob(scan *scansv1.Scan, scanTemplate
 }
 
 // PresignedGetURL returns a presigned URL from the s3 (or compatible) serice.
-func (r *ScanReconciler) PresignedGetURL(scanId, filename string) (string, error) {
+func (r *ScanReconciler) PresignedGetURL(scanID types.UID, filename string) (string, error) {
 	bucketName := os.Getenv("S3_BUCKET")
 
 	reqParams := make(url.Values)
-	rawResultDownloadURL, err := r.MinioClient.PresignedGetObject(bucketName, fmt.Sprintf("scan-%s/%s", scanId, filename), 12*time.Hour, reqParams)
+	rawResultDownloadURL, err := r.MinioClient.PresignedGetObject(bucketName, fmt.Sprintf("scan-%s/%s", string(scanID), filename), 12*time.Hour, reqParams)
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
 		return "", err
