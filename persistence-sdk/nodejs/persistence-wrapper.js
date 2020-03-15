@@ -4,10 +4,14 @@ const k8s = require('@kubernetes/client-node');
 
 async function main() {
   const rawResultUrl = process.argv[2];
-  const getRawResult = (url => () => axios.get(url))(rawResultUrl);
+  const getRawResult = (url => () => axios.get(url).then(res => res.data))(
+    rawResultUrl
+  );
 
   const findingsUrl = process.argv[3];
-  const getFindings = (url => () => axios.get(url))(findingsUrl);
+  const getFindings = (url => () => axios.get(url).then(res => res.data))(
+    findingsUrl
+  );
 
   const scanName = process.env['SCAN_NAME'];
   const namespace = process.env['NAMESPACE'];
