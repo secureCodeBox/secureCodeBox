@@ -98,6 +98,20 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		if err != nil {
 			return ctrl.Result{}, err
 		}
+	case "ParseCompleted":
+		var persistenceProvider scansv1.PersistenceProviderList
+		if err := r.List(ctx, &persistenceProvider, client.InNamespace(scan.Namespace)); err != nil {
+			log.V(7).Info("Unable to fetch PersistenceProvider")
+			return ctrl.Result{}, err
+		}
+
+		log.Info("Pseudo Persistet to PersistenceProviders", "PersistenceProviderCount", len(persistenceProvider.Items))
+
+		scan.Status.State = "Done"
+		if err := r.Status().Update(ctx, &scan); err != nil {
+			log.Error(err, "unable to update Scan status")
+			return ctrl.Result{}, err
+		}
 	}
 
 	return ctrl.Result{}, nil

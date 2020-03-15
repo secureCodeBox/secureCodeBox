@@ -10,4 +10,7 @@ resources:
 - group: scans
   kind: ParseDefinition
   version: v1
+- group: scans
+  kind: PersistenceProvider
+  version: v1
 version: "2"
