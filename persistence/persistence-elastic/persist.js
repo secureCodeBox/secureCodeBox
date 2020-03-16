@@ -4,12 +4,14 @@ const flatMap = require('lodash.flatmap');
 const chunk = require('lodash.chunk');
 
 const client = new Client({ node: process.env['ELASTICSEARCH_ADDRESS'] });
-const tenant = process.env['NAMESPACE'];
 
-async function persist({ getFindings, scan, now = new Date() }) {
+async function persist({
+  getFindings,
+  scan,
+  now = new Date(),
+  tenant = process.env['NAMESPACE'],
+}) {
   const findings = await getFindings();
-
-  console.log(`Persisting ${findings.length} findings.`);
 
   const timeStamp = now.toISOString().substr(0, 10);
   const indexName = `securecodebox_${tenant}_${timeStamp}`;
