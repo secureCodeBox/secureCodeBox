@@ -85,7 +85,7 @@ jobs:
           npm ci
           cd integrations/
           npm ci
-          cd scbctl/
+          cd ../scbctl/
           npm ci
       - name: "Run tests"
         run: |
