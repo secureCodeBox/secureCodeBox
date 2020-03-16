@@ -6,7 +6,7 @@ test(
     const securityTest = await startSecurityTest({
       context: 'JuiceShopPortScan',
       metaData: {},
-      name: 'nikto',
+      name: 'combined-nmap-nikto',
       target: {
         name: 'JuiceShop Container',
         location: 'juice-shop',
