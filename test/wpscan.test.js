@@ -26,7 +26,7 @@ test(
       severity: 'INFORMATIONAL',
       osi_layer: 'APPLICATION',
       attributes: {
-        version: '4.0.29',
+        version: expect.stringContaining('4.0'),
       },
     });
 
