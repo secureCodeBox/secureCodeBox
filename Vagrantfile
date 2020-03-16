@@ -11,12 +11,12 @@ Vagrant.configure("2") do |config|
   # https://docs.vagrantup.com.
 
   # Check for plugins needed
-  if !Vagrant.has_plugin?("vagrant-disksize")
+  unless Vagrant.has_plugin?("vagrant-disksize")
     print "  WARN: Missing plugin 'vagrant-disksize'.\n"
     print "  Use 'vagrant plugin install vagrant-disksize' to install.\n"
   end
 
-  if !Vagrant.has_plugin?("vagrant-docker-compose")
+  unless Vagrant.has_plugin?("vagrant-docker-compose")
     print "  WARN: Missing plugin 'vagrant-docker-compose'.\n"
     print "  Use 'vagrant plugin install vagrant-docker-compose' to install.\n"
   end
