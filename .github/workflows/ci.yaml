@@ -1,17 +1,17 @@
 on: push
-name: "CI"
+name: 'CI'
 jobs:
   operator:
-    name: "Operator"
+    name: 'Operator'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - uses: actions/setup-go@v2-beta
         with:
-          go-version: "1.13"
-      - name: "List go version"
-        run: "go version"
-      - name: "Run Lint"
+          go-version: '1.13'
+      - name: 'List go version'
+        run: 'go version'
+      - name: 'Run Lint'
         run: |
           cd operator/
           go fmt ./...
@@ -27,21 +27,21 @@ jobs:
         with:
           args: ./operator/
       - uses: actions/delete-package-versions@v1
-        name: "Delete oldest operator image tag"
+        name: 'Delete oldest operator image tag'
         with:
           package-name: operator
           num-old-versions-to-delete: 1
   lurcher:
-    name: "Lurcher"
+    name: 'Lurcher'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - uses: actions/setup-go@v2-beta
         with:
-          go-version: "1.13"
-      - name: "List go version"
-        run: "go version"
-      - name: "Run Lint"
+          go-version: '1.13'
+      - name: 'List go version'
+        run: 'go version'
+      - name: 'Run Lint'
         run: |
           cd operator/
           go fmt ./...
@@ -57,18 +57,18 @@ jobs:
         with:
           args: ./lurcher/
       - uses: actions/delete-package-versions@v1
-        name: "Delete oldest lurcher image tag"
+        name: 'Delete oldest lurcher image tag'
         with:
           package-name: lurcher
           num-old-versions-to-delete: 1
   integrations:
-    name: "Scanner Integrations"
+    name: 'Node Unit Tests'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: "list files and folders"
+      - name: 'list files and folders'
         run: ls
-      - name: "Install npm dependencies in all parser subprojects"
+      - name: 'Install npm dependencies in all parser sub projects'
         run: |
           for dir in integrations/*/parser/
           do
@@ -80,11 +80,10 @@ jobs:
               # cd back
               cd -
           done
-      - name: "Install npm test dependencies"
+      - name: 'Install npm test dependencies'
         run: |
           cd integrations/
           npm ci
-      - name: "Run tests"
+      - name: 'Run tests'
         run: |
-          cd integrations/
           npm test -- --ci --colors --coverage
