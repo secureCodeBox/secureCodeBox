@@ -82,6 +82,7 @@ jobs:
           done
       - name: 'Install npm test dependencies'
         run: |
+          npm ci
           cd integrations/
           npm ci
       - name: 'Run tests'
