@@ -1,8 +1,8 @@
 {
-  "name": "securecodebox-parser-sdk-nodejs",
+  "name": "securecodebox-persistence-sdk-nodejs",
   "version": "1.0.0",
-  "description": "Handles external communication required for all secureCodeBox parsers",
-  "main": "parser-wrapper.js",
+  "description": "Handles external communication required for all secureCodeBox PersistenceProviders",
+  "main": "persistence-wrapper.js",
   "scripts": {
     "test": "jest"
   },
