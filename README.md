@@ -66,10 +66,10 @@ make run
 
 # Deploy nmap, amass and ssh_scan ScanJob and ParseJob Definition
 # TODO: ParseJobs
-kubectl apply -f integrations/nmap/nmap-scanjob-definition.yaml
-kubectl apply -f integrations/amass/amass-scanjob-definition.yaml
-kubectl apply -f integrations/ssh_scan/ssh-scan-scanjob-definition.yaml
-kubectl apply -f integrations/zap/zap-scanjob-definitions.yaml
+kubectl apply -f integrations/nmap/nmap-scanjob-definition.yaml -f integrations/nmap/nmap-parsejob-definition.yaml
+kubectl apply -f integrations/amass/amass-scanjob-definition.yaml -f integrations/amass/amass-parsejob-definition.yaml
+kubectl apply -f integrations/ssh_scan/ssh-scan-scanjob-definition.yaml -f integrations/ssh_scan/ssh-scan-parsejob-definition.yaml
+kubectl apply -f integrations/wpscan/wpscan-scanjob-definition.yaml -f integrations/wpscan/wpscan-parsejob-definition.yaml
 ```
 
 ## How does it work?
