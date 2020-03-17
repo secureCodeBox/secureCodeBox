@@ -99,90 +99,15 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			return ctrl.Result{}, err
 		}
 	case "ParseCompleted":
-		var persistenceProviders scansv1.PersistenceProviderList
-		if err := r.List(ctx, &persistenceProviders, client.InNamespace(scan.Namespace)); err != nil {
-			log.V(7).Info("Unable to fetch PersistenceProvider")
+		err := r.startPersistenceProvider(&scan)
+		if err != nil {
 			return ctrl.Result{}, err
 		}
-
-		for _, persistenceProvider := range persistenceProviders.Items {
-			rawFileURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile)
-			if err != nil {
-				return ctrl.Result{}, err
-			}
-			findingsFileURL, err := r.PresignedGetURL(scan.UID, "findings.json")
-			if err != nil {
-				return ctrl.Result{}, err
-			}
-
-			standardEnvVars := []corev1.EnvVar{
-				corev1.EnvVar{
-					Name: "NAMESPACE",
-					ValueFrom: &corev1.EnvVarSource{
-						FieldRef: &corev1.ObjectFieldSelector{
-							FieldPath: "metadata.namespace",
-						},
-					},
-				},
-				corev1.EnvVar{
-					Name:  "SCAN_NAME",
-					Value: scan.Name,
-				},
-			}
-
-			job := &batch.Job{
-				ObjectMeta: metav1.ObjectMeta{
-					Annotations:  make(map[string]string),
-					GenerateName: fmt.Sprintf("persist-%s-", scan.Name),
-					Namespace:    scan.Namespace,
-					Labels: map[string]string{
-						"experimental.securecodebox.io/job-type": "persistence",
-					},
-				},
-				Spec: batch.JobSpec{
-					Template: corev1.PodTemplateSpec{
-						Spec: corev1.PodSpec{
-							RestartPolicy: corev1.RestartPolicyNever,
-							Containers: []corev1.Container{
-								{
-									Name:  "parser",
-									Image: persistenceProvider.Spec.Image,
-									Args: []string{
-										rawFileURL,
-										findingsFileURL,
-									},
-									Env:             append(persistenceProvider.Spec.Env, standardEnvVars...),
-									ImagePullPolicy: "IfNotPresent",
-								},
-							},
-						},
-					},
-					TTLSecondsAfterFinished: nil,
-				},
-			}
-			if err := ctrl.SetControllerReference(&scan, job, r.Scheme); err != nil {
-				return ctrl.Result{}, err
-			}
-
-			if err := r.Create(ctx, job); err != nil {
-				log.Error(err, "unable to create Job for Parser", "job", job)
-				return ctrl.Result{}, err
-			}
-
-			scan.Status.State = "Persisting"
-			if err := r.Status().Update(ctx, &scan); err != nil {
-				log.Error(err, "unable to update Scan status")
-				return ctrl.Result{}, err
-			}
+	case "Persisting":
+		err := r.checkIfPersistingIsCompleted(&scan)
+		if err != nil {
+			return ctrl.Result{}, err
 		}
-
-		log.Info("Started PersistenceProviders", "PersistenceProviderCount", len(persistenceProviders.Items))
-
-		// scan.Status.State = "Done"
-		// if err := r.Status().Update(ctx, &scan); err != nil {
-		// 	log.Error(err, "unable to update Scan status")
-		// 	return ctrl.Result{}, err
-		// }
 	}
 
 	return ctrl.Result{}, nil
@@ -541,6 +466,134 @@ func (r *ScanReconciler) PresignedGetURL(scanID types.UID, filename string) (str
 		return "", err
 	}
 	return rawResultDownloadURL.String(), nil
+}
+
+// PresignedGetURL returns a presigned URL from the s3 (or compatible) serice.
+func (r *ScanReconciler) startPersistenceProvider(scan *scansv1.Scan) error {
+	ctx := context.Background()
+
+	var persistenceProviders scansv1.PersistenceProviderList
+	if err := r.List(ctx, &persistenceProviders, client.InNamespace(scan.Namespace)); err != nil {
+		r.Log.V(7).Info("Unable to fetch PersistenceProvider")
+		return err
+	}
+
+	for _, persistenceProvider := range persistenceProviders.Items {
+		rawFileURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile)
+		if err != nil {
+			return err
+		}
+		findingsFileURL, err := r.PresignedGetURL(scan.UID, "findings.json")
+		if err != nil {
+			return err
+		}
+
+		standardEnvVars := []corev1.EnvVar{
+			corev1.EnvVar{
+				Name: "NAMESPACE",
+				ValueFrom: &corev1.EnvVarSource{
+					FieldRef: &corev1.ObjectFieldSelector{
+						FieldPath: "metadata.namespace",
+					},
+				},
+			},
+			corev1.EnvVar{
+				Name:  "SCAN_NAME",
+				Value: scan.Name,
+			},
+		}
+
+		job := &batch.Job{
+			ObjectMeta: metav1.ObjectMeta{
+				Annotations:  make(map[string]string),
+				GenerateName: fmt.Sprintf("persist-%s-", scan.Name),
+				Namespace:    scan.Namespace,
+				Labels: map[string]string{
+					"experimental.securecodebox.io/job-type": "persistence",
+				},
+			},
+			Spec: batch.JobSpec{
+				Template: corev1.PodTemplateSpec{
+					Spec: corev1.PodSpec{
+						RestartPolicy: corev1.RestartPolicyNever,
+						Containers: []corev1.Container{
+							{
+								Name:  "parser",
+								Image: persistenceProvider.Spec.Image,
+								Args: []string{
+									rawFileURL,
+									findingsFileURL,
+								},
+								Env:             append(persistenceProvider.Spec.Env, standardEnvVars...),
+								ImagePullPolicy: "IfNotPresent",
+							},
+						},
+					},
+				},
+				TTLSecondsAfterFinished: nil,
+			},
+		}
+		if err := ctrl.SetControllerReference(scan, job, r.Scheme); err != nil {
+			r.Log.Error(err, "Unable to set controllerReference on job", "job", job)
+			return err
+		}
+
+		if err := r.Create(ctx, job); err != nil {
+			r.Log.Error(err, "unable to create Job for Parser", "job", job)
+			return err
+		}
+
+		scan.Status.State = "Persisting"
+		if err := r.Status().Update(ctx, scan); err != nil {
+			r.Log.Error(err, "unable to update Scan status")
+			return err
+		}
+		r.Log.Info("Started PersistenceProviders", "PersistenceProviderCount", len(persistenceProviders.Items))
+	}
+	return nil
+}
+
+func allJobsCompleted(jobs *batch.JobList) bool {
+	for _, job := range jobs.Items {
+		if job.Status.Succeeded == 0 {
+			return false
+		}
+	}
+	return true
+}
+
+func (r *ScanReconciler) checkIfPersistingIsCompleted(scan *scansv1.Scan) error {
+	ctx := context.Background()
+
+	// check if k8s job for scan was already created
+	var childPersistenceJobs batch.JobList
+	if err := r.List(
+		ctx,
+		&childPersistenceJobs,
+		client.InNamespace(scan.Namespace),
+		client.MatchingField(ownerKey, scan.Name),
+		client.MatchingLabels{
+			"experimental.securecodebox.io/job-type": "persistence",
+		},
+	); err != nil {
+		r.Log.Error(err, "unable to list child jobs")
+		return err
+	}
+
+	r.Log.V(9).Info("Got related jobs", "count", len(childPersistenceJobs.Items))
+
+	if allJobsCompleted(&childPersistenceJobs) {
+		r.Log.V(7).Info("Parsing is completed")
+		scan.Status.State = "Done"
+		if err := r.Status().Update(ctx, scan); err != nil {
+			r.Log.Error(err, "unable to update Scan status")
+			return err
+		}
+	}
+
+	// PersistenceProvider(s) are still running. At least some of them are.
+	// Waiting until all are done.
+	return nil
 }
 
 func (r *ScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
