@@ -59,6 +59,7 @@ type ScanReconciler struct {
 // +kubebuilder:rbac:groups=scans.experimental.securecodebox.io,resources=persistenceproviders,verbs=get;list;watch
 // +kubebuilder:rbac:groups=batch,resources=jobs,verbs=get;list;watch;create;update;patch;delete
 
+// Reconcile compares the scan object against the state of the cluster and updates both if needed
 func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("scan", req.NamespacedName)
@@ -130,7 +131,7 @@ func (r *ScanReconciler) startScan(scan *scansv1.Scan) error {
 	}
 	log.Info("Matching ScanTemplate Found", "ScanTemplate", scanTemplate.Name)
 
-	job, err := r.constructJobForCronJob(scan, &scanTemplate)
+	job, err := r.constructJobForScan(scan, &scanTemplate)
 	if err != nil {
 		log.Error(err, "unable to create job object ScanTemplate")
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
@@ -342,13 +343,13 @@ func (r *ScanReconciler) checkIfParsingIsCompleted(scan *scansv1.Scan) error {
 	return nil
 }
 
-func (r *ScanReconciler) constructJobForCronJob(scan *scansv1.Scan, scanTemplate *scansv1.ScanTemplate) (*batch.Job, error) {
+func (r *ScanReconciler) constructJobForScan(scan *scansv1.Scan, scanTemplate *scansv1.ScanTemplate) (*batch.Job, error) {
 	// We want job names for a given nominal start time to have a deterministic name to avoid the same job being created twice
 
 	bucketName := os.Getenv("S3_BUCKET")
 
 	filename := filepath.Base(scanTemplate.Spec.ExtractResults.Location)
-	resultUploadUrl, err := r.MinioClient.PresignedPutObject(bucketName, fmt.Sprintf("scan-%s/%s", scan.UID, filename), 12*time.Hour)
+	resultUploadURL, err := r.MinioClient.PresignedPutObject(bucketName, fmt.Sprintf("scan-%s/%s", scan.UID, filename), 12*time.Hour)
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
 		return nil, err
@@ -397,7 +398,7 @@ func (r *ScanReconciler) constructJobForCronJob(scan *scansv1.Scan, scanTemplate
 			"--file",
 			scanTemplate.Spec.ExtractResults.Location,
 			"--url",
-			resultUploadUrl.String(),
+			resultUploadURL.String(),
 		},
 		Env: []corev1.EnvVar{
 			corev1.EnvVar{
@@ -608,6 +609,7 @@ func (r *ScanReconciler) checkIfPersistingIsCompleted(scan *scansv1.Scan) error 
 	return nil
 }
 
+// SetupWithManager initializes the controller
 func (r *ScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	endpoint := os.Getenv("S3_ENDPOINT")
 	accessKeyID := os.Getenv("S3_ACCESS_KEY")
