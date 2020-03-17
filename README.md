@@ -64,6 +64,9 @@ make install
 # Run Operator locally (against current kubectl context)
 make run
 
+# Elasticsearch Persistence Provider Deployment
+helm install persistence-elastic ./persistence/persistence-elastic/
+
 # Deploy nmap, amass and ssh_scan ScanJob and ParseJob Definition
 kubectl apply -f integrations/nmap/nmap-scanjob-definition.yaml -f integrations/nmap/nmap-parsejob-definition.yaml
 kubectl apply -f integrations/amass/amass-scanjob-definition.yaml -f integrations/amass/amass-parsejob-definition.yaml
