@@ -4,17 +4,22 @@ const k8s = require('@kubernetes/client-node');
 
 async function main() {
   const rawResultUrl = process.argv[2];
-  const getRawResult = (url => () => axios.get(url).then(res => res.data))(
-    rawResultUrl
-  );
+  const getRawResult = (url => () =>
+    axios.get(url).then(({ data: findings }) => {
+      console.log(`Fetched ${findings.length} findings from the file storage`);
+      return findings;
+    }))(rawResultUrl);
 
   const findingsUrl = process.argv[3];
-  const getFindings = (url => () => axios.get(url).then(res => res.data))(
-    findingsUrl
-  );
+  const getFindings = (url => () =>
+    axios.get(url).then(res => {
+      console.log(`Fetched raw result file contents from the file storage`);
+      return res.data;
+    }))(findingsUrl);
 
   const scanName = process.env['SCAN_NAME'];
   const namespace = process.env['NAMESPACE'];
+  console.log(`Starting PersistenceProvider for Scan "${scanName}"`);
 
   const kc = new k8s.KubeConfig();
   kc.loadFromCluster();
@@ -47,7 +52,7 @@ async function main() {
     process.exit(1);
   }
 
-  console.log(`Completed persistence.`);
+  console.log(`Completed PersistenceProvider`);
 }
 
 main();
