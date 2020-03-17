@@ -12,7 +12,7 @@ test('should only send scan summary document if no findings are passing in', asy
 
   const scan = {
     metadata: {
-      id: '09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc',
+      uid: '09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc',
       name: 'demo-scan',
       labels: {
         company: 'iteratec',
@@ -59,7 +59,7 @@ test('should send findings to elasticsearch', async () => {
 
   const scan = {
     metadata: {
-      id: '09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc',
+      uid: '09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc',
       name: 'demo-scan',
       labels: {
         company: 'iteratec',

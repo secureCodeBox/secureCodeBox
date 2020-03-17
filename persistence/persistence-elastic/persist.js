@@ -13,6 +13,8 @@ async function persist({
 }) {
   const findings = await getFindings();
 
+  console.log(`Persisting ${findings.length} to Elasticsearch`);
+
   const timeStamp = now.toISOString().substr(0, 10);
   const indexName = `securecodebox_${tenant}_${timeStamp}`;
 
@@ -31,7 +33,7 @@ async function persist({
     body: {
       '@timestamp': now,
       type: 'scan',
-      id: scan.metadata.id,
+      id: scan.metadata.uid,
       name: scan.metadata.name,
       scan_type: scan.spec.scanType,
       parameters: scan.spec.parameters,
@@ -39,14 +41,23 @@ async function persist({
     },
   });
 
+  let i = 0;
+  console.log(
+    `Sending findings to Elasticsearch in ${findingsChunks.length} chunks of max 50 findings each`
+  );
   for (const findingChunk of findingsChunks) {
+    console.log(
+      `Sending chunk ${i++} containing ${
+        findingChunk.length
+      } findings to Elasticsearch`
+    );
     const body = flatMap(findingChunk, doc => [
       { index: { _index: indexName } },
       {
         ...doc,
         '@timestamp': now,
         type: 'finding',
-        scan_id: scan.metadata.id,
+        scan_id: scan.metadata.uid,
         scan_name: scan.metadata.name,
         scan_type: scan.spec.scanType,
         scan_labels: scan.metadata.labels || {},
