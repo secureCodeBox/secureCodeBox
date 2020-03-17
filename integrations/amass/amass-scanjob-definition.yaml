@@ -16,7 +16,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: amass
-              image: caffix/amass:v3.4.2
+              image: caffix/amass:v3.5.0
               command:
                 - 'amass'
                 - 'enum'
