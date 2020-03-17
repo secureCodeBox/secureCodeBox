@@ -344,8 +344,6 @@ func (r *ScanReconciler) checkIfParsingIsCompleted(scan *scansv1.Scan) error {
 }
 
 func (r *ScanReconciler) constructJobForScan(scan *scansv1.Scan, scanTemplate *scansv1.ScanTemplate) (*batch.Job, error) {
-	// We want job names for a given nominal start time to have a deterministic name to avoid the same job being created twice
-
 	bucketName := os.Getenv("S3_BUCKET")
 
 	filename := filepath.Base(scanTemplate.Spec.ExtractResults.Location)
