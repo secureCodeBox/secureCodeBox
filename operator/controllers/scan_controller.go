@@ -239,9 +239,9 @@ func (r *ScanReconciler) startParser(scan *scansv1.Scan) error {
 	automountServiceAccountToken := false
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
-			Annotations:  make(map[string]string),
-			GenerateName: fmt.Sprintf("parse-%s-", scan.Name),
-			Namespace:    scan.Namespace,
+			Annotations: make(map[string]string),
+			Name:        fmt.Sprintf("parse-%s", scan.Name),
+			Namespace:   scan.Namespace,
 			Labels: map[string]string{
 				"experimental.securecodebox.io/job-type": "parser",
 			},
@@ -358,9 +358,9 @@ func (r *ScanReconciler) constructJobForCronJob(scan *scansv1.Scan, scanTemplate
 			Labels: map[string]string{
 				"experimental.securecodebox.io/job-type": "scanner",
 			},
-			Annotations:  make(map[string]string),
-			GenerateName: fmt.Sprintf("scan-%s-", scan.Name),
-			Namespace:    scan.Namespace,
+			Annotations: make(map[string]string),
+			Name:        fmt.Sprintf("scan-%s", scan.Name),
+			Namespace:   scan.Namespace,
 		},
 		Spec: *scanTemplate.Spec.JobTemplate.Spec.DeepCopy(),
 	}
@@ -515,9 +515,9 @@ func (r *ScanReconciler) startPersistenceProvider(scan *scansv1.Scan) error {
 
 		job := &batch.Job{
 			ObjectMeta: metav1.ObjectMeta{
-				Annotations:  make(map[string]string),
-				GenerateName: fmt.Sprintf("persist-%s-", scan.Name),
-				Namespace:    scan.Namespace,
+				Annotations: make(map[string]string),
+				Name:        fmt.Sprintf("persist-%s", scan.Name),
+				Namespace:   scan.Namespace,
 				Labels: map[string]string{
 					"experimental.securecodebox.io/job-type": "persistence",
 				},
