@@ -478,6 +478,16 @@ func (r *ScanReconciler) startPersistenceProvider(scan *scansv1.Scan) error {
 		return err
 	}
 
+	if len(persistenceProviders.Items) == 0 {
+		r.Log.V(5).Info("Marked scan as done as without running persistence providers as non were configured", "ScanName", scan.Name)
+		scan.Status.State = "Done"
+		if err := r.Status().Update(ctx, scan); err != nil {
+			r.Log.Error(err, "unable to update Scan status")
+			return err
+		}
+		return nil
+	}
+
 	for _, persistenceProvider := range persistenceProviders.Items {
 		rawFileURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile)
 		if err != nil {
@@ -543,13 +553,13 @@ func (r *ScanReconciler) startPersistenceProvider(scan *scansv1.Scan) error {
 			return err
 		}
 
-		scan.Status.State = "Persisting"
-		if err := r.Status().Update(ctx, scan); err != nil {
-			r.Log.Error(err, "unable to update Scan status")
-			return err
-		}
-		r.Log.Info("Started PersistenceProviders", "PersistenceProviderCount", len(persistenceProviders.Items))
 	}
+	scan.Status.State = "Persisting"
+	if err := r.Status().Update(ctx, scan); err != nil {
+		r.Log.Error(err, "unable to update Scan status")
+		return err
+	}
+	r.Log.Info("Started PersistenceProviders", "PersistenceProviderCount", len(persistenceProviders.Items))
 	return nil
 }
 
