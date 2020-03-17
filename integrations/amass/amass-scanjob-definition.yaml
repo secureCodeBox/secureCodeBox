@@ -1,13 +1,13 @@
-apiVersion: "scans.experimental.securecodebox.io/v1"
+apiVersion: 'scans.experimental.securecodebox.io/v1'
 kind: ScanTemplate
 metadata:
-  name: "amass"
+  name: 'amass'
 spec:
   extractResults:
     # amass saves it's result now in json but in "json lines" format
     # http://jsonlines.org/
     type: amass-jsonl
-    location: "/home/securecodebox/amass-results.jsonl"
+    location: '/home/securecodebox/amass-results.jsonl'
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 10
@@ -18,18 +18,18 @@ spec:
             - name: amass
               image: caffix/amass:v3.4.2
               command:
-                - "amass"
-                - "enum"
-                - "-json"
-                - "/home/securecodebox/amass-results.jsonl"
+                - 'amass'
+                - 'enum'
+                - '-json'
+                - '/home/securecodebox/amass-results.jsonl'
               volumeMounts:
-                - name: "amass-config"
-                  mountPath: "/amass/output/config.ini"
-                  subPath: "config.ini"
+                - name: 'amass-config'
+                  mountPath: '/amass/output/config.ini'
+                  subPath: 'config.ini'
           volumes:
-            - name: "amass-config"
+            - name: 'amass-config'
               configMap:
-                name: "amass-config"
+                name: 'amass-config'
 ---
 apiVersion: v1
 kind: ConfigMap
