@@ -10,8 +10,8 @@ appVersion: latest
 
 dependencies:
   - name: elasticsearch
-    version: 7.4.0
+    version: 7.6.1
     repository: https://helm.elastic.co
   - name: kibana
-    version: 7.4.0
+    version: 7.6.1
     repository: https://helm.elastic.co
