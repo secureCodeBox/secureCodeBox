@@ -353,6 +353,10 @@ func (r *ScanReconciler) constructJobForScan(scan *scansv1.Scan, scanTemplate *s
 		return nil, err
 	}
 
+	if len(scanTemplate.Spec.JobTemplate.Spec.Template.Spec.Containers) < 1 {
+		return nil, errors.New("ScanTemplate must at least contain one container in which the scanner is running")
+	}
+
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
 			Labels: map[string]string{
@@ -367,25 +371,28 @@ func (r *ScanReconciler) constructJobForScan(scan *scansv1.Scan, scanTemplate *s
 
 	job.Spec.Template.Spec.ServiceAccountName = "lurcher"
 
-	job.Spec.Template.Spec.Volumes = []corev1.Volume{
-		corev1.Volume{
-			Name: "scan-results",
-			VolumeSource: corev1.VolumeSource{
-				EmptyDir: &corev1.EmptyDirVolumeSource{},
-			},
-		},
-	}
-
-	var containerVolumeMounts []corev1.VolumeMount
+	// merging volume definition from ScanTemplate (if existing) with standard results volume
 	if job.Spec.Template.Spec.Containers[0].VolumeMounts == nil || len(job.Spec.Template.Spec.Containers[0].VolumeMounts) == 0 {
-		containerVolumeMounts = []corev1.VolumeMount{}
-	} else {
-		containerVolumeMounts = job.Spec.Template.Spec.Containers[0].VolumeMounts
+		job.Spec.Template.Spec.Volumes = []corev1.Volume{}
 	}
-	job.Spec.Template.Spec.Containers[0].VolumeMounts = append(containerVolumeMounts, []corev1.VolumeMount{corev1.VolumeMount{
-		Name:      "scan-results",
-		MountPath: "/home/securecodebox/",
-	}}...)
+	job.Spec.Template.Spec.Volumes = append(job.Spec.Template.Spec.Volumes, corev1.Volume{
+		Name: "scan-results",
+		VolumeSource: corev1.VolumeSource{
+			EmptyDir: &corev1.EmptyDirVolumeSource{},
+		},
+	})
+
+	// merging volume mounts (for the primary scanner container) from ScanTemplate (if existing) with standard results volume mount
+	if job.Spec.Template.Spec.Containers[0].VolumeMounts == nil || len(job.Spec.Template.Spec.Containers[0].VolumeMounts) == 0 {
+		job.Spec.Template.Spec.Containers[0].VolumeMounts = []corev1.VolumeMount{}
+	}
+	job.Spec.Template.Spec.Containers[0].VolumeMounts = append(
+		job.Spec.Template.Spec.Containers[0].VolumeMounts,
+		corev1.VolumeMount{
+			Name:      "scan-results",
+			MountPath: "/home/securecodebox/",
+		},
+	)
 
 	lurcherSidecar := &corev1.Container{
 		Name:  "lurcher",
