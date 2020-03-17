@@ -1,7 +1,7 @@
 apiVersion: "scans.experimental.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: "ssh-iteratec-de"
+  name: "ssh-iteratec.de"
   labels:
     company: iteratec
 spec:
