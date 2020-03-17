@@ -1,9 +1,9 @@
-apiVersion: "scans.experimental.securecodebox.io/v1"
+apiVersion: 'scans.experimental.securecodebox.io/v1'
 kind: Scan
 metadata:
-  name: "nmap"
+  name: 'nmap-localhost'
 spec:
-  scanType: "nmap"
+  scanType: 'nmap'
   parameters:
-    - "-Pn"
-    - localhost 
+    - '-Pn'
+    - localhost
