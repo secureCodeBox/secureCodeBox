@@ -444,14 +444,14 @@ func (r *ScanReconciler) constructJobForCronJob(scan *scansv1.Scan, scanTemplate
 		return nil, err
 	}
 
-	args := append(
+	command := append(
 		scanTemplate.Spec.JobTemplate.Spec.Template.Spec.Containers[0].Command,
 		scan.Spec.Parameters...,
 	)
 
-	// Using args over commands
-	job.Spec.Template.Spec.Containers[0].Args = args
-	job.Spec.Template.Spec.Containers[0].Command = nil
+	// Using command over args
+	job.Spec.Template.Spec.Containers[0].Command = command
+	job.Spec.Template.Spec.Containers[0].Args = nil
 
 	return job, nil
 }
