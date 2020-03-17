@@ -1,0 +1,9 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: persistence
+  namespace: default
+rules:
+  - apiGroups: ['scans.experimental.securecodebox.io']
+    resources: ['scans']
+    verbs: ['get']

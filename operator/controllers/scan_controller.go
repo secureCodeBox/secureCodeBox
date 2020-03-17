@@ -526,7 +526,8 @@ func (r *ScanReconciler) startPersistenceProvider(scan *scansv1.Scan) error {
 			Spec: batch.JobSpec{
 				Template: corev1.PodTemplateSpec{
 					Spec: corev1.PodSpec{
-						RestartPolicy: corev1.RestartPolicyNever,
+						ServiceAccountName: "persistence",
+						RestartPolicy:      corev1.RestartPolicyNever,
 						Containers: []corev1.Container{
 							{
 								Name:  "parser",
