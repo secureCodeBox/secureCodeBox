@@ -56,6 +56,7 @@ type ScanReconciler struct {
 // +kubebuilder:rbac:groups=scans.experimental.securecodebox.io,resources=scans/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=scans.experimental.securecodebox.io,resources=scantemplates,verbs=get;list;watch
 // +kubebuilder:rbac:groups=scans.experimental.securecodebox.io,resources=parsedefinitions,verbs=get;list;watch
+// +kubebuilder:rbac:groups=scans.experimental.securecodebox.io,resources=persistenceproviders,verbs=get;list;watch
 // +kubebuilder:rbac:groups=batch,resources=jobs,verbs=get;list;watch;create;update;patch;delete
 
 func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {

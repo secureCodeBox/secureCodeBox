@@ -29,6 +29,14 @@ rules:
 - apiGroups:
   - scans.experimental.securecodebox.io
   resources:
+  - persistenceproviders
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - scans.experimental.securecodebox.io
+  resources:
   - scans
   verbs:
   - create
