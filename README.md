@@ -68,7 +68,6 @@ make run
 kubectl apply -f integrations/nmap/nmap-scanjob-definition.yaml -f integrations/nmap/nmap-parsejob-definition.yaml
 kubectl apply -f integrations/amass/amass-scanjob-definition.yaml -f integrations/amass/amass-parsejob-definition.yaml
 kubectl apply -f integrations/ssh_scan/ssh-scan-scanjob-definition.yaml -f integrations/ssh_scan/ssh-scan-parsejob-definition.yaml
-kubectl apply -f integrations/wpscan/wpscan-scanjob-definition.yaml -f integrations/wpscan/wpscan-parsejob-definition.yaml
 ```
 
 ## How does it work?
