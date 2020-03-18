@@ -3,7 +3,7 @@
 
 # secureCodeBox "Next"
 
-> NOTE: This Repository contains a work in progress preview of the planned next mayor secureCodeBox Release. This release contains a mayor re architecture of the secureCodeBox. More details will follow soon in a series of blog articles.
+> NOTE: This Repository contains a work in progress preview of the planned next mayor secureCodeBox Release. The release is still at least some month away but you can already get a sneak peak here 😀. This release will contain a mayor re architecture of the secureCodeBox. More details will follow soon in a series of blog articles.
 
 ![secureCodeBox](securecodebox-logo.svg 'secureCodeBox')
 
