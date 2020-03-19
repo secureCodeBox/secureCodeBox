@@ -1,0 +1,24 @@
+# permissions for end users to edit scantemplates.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: scantemplate-editor-role
+rules:
+- apiGroups:
+  - scans.experimental.securecodebox.io
+  resources:
+  - scantemplates
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - scans.experimental.securecodebox.io
+  resources:
+  - scantemplates/status
+  verbs:
+  - get

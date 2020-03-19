@@ -60,9 +60,13 @@ type ScanReconciler struct {
 // +kubebuilder:rbac:groups=scans.experimental.securecodebox.io,resources=parsedefinitions,verbs=get;list;watch
 // +kubebuilder:rbac:groups=scans.experimental.securecodebox.io,resources=persistenceproviders,verbs=get;list;watch
 // +kubebuilder:rbac:groups=batch,resources=jobs,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=core,resources=serviceaccounts,verbs=get;watch;create
-// +kubebuilder:rbac:groups=rbac,resources=roles,verbs=get;watch;create
-// +kubebuilder:rbac:groups=rbac,resources=rolebindings,verbs=get;watch;create
+// Permissions needed to create service accounts for lurcher, parser and persistence providers
+
+// Pod permission are required to grant these permission to service accounts
+// +kubebuilder:rbac:groups=core,resources=pods,verbs=get;list;watch
+// +kubebuilder:rbac:groups=core,resources=serviceaccounts,verbs=get;watch;list;create
+// +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=roles,verbs=get;watch;list;create
+// +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=rolebindings,verbs=get;watch;list;create
 
 // Reconcile compares the scan object against the state of the cluster and updates both if needed
 func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {

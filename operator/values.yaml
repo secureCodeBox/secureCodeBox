@@ -1,0 +1,19 @@
+# Default values for operator.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+s3:
+  # TODO: Needs to be implemented
+  # by default uses a locally installed minio instance.
+  # this field can be used to directly configure s3 or a other api compatible service
+  enabled: false
+  endpoint: ""
+  accessKey: ""
+  secretKey: ""
+  bucket: ""
+
+minio:
+  enabled: true
+  defaultBucket:
+    enabled: true
+    name: "securecodebox"

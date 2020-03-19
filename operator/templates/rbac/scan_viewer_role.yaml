@@ -1,0 +1,20 @@
+# permissions for end users to view scans.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: scan-viewer-role
+rules:
+- apiGroups:
+  - scans.experimental.securecodebox.io
+  resources:
+  - scans
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - scans.experimental.securecodebox.io
+  resources:
+  - scans/status
+  verbs:
+  - get
