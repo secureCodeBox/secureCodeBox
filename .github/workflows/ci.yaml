@@ -138,3 +138,28 @@ jobs:
           registry: docker.pkg.github.com
           path: ./integrations/zap/parser/
           tag_with_ref: true
+  persistenceImages:
+    name: "Build PersistenceProvider Images"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      # SDK
+      - uses: docker/build-push-action@v1
+        name: "Build & Push Persistence SDK"
+        with:
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+          repository: j12934/securecodebox/persistence-sdk-nodejs
+          registry: docker.pkg.github.com
+          path: ./persistence-sdk/nodejs/
+          tag_with_ref: true
+      # Actual PersistenceProviders
+      - uses: docker/build-push-action@v1
+        name: "Build & Push Elastic PersistenceProvider Image"
+        with:
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+          repository: j12934/securecodebox/persistence-elastic
+          registry: docker.pkg.github.com
+          path: ./persistence/persistence-elastic/
+          tag_with_ref: true
