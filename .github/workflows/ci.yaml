@@ -100,5 +100,12 @@ jobs:
           registry: docker.pkg.github.com
           path: ./parser-sdk/nodejs/
           tag_with_ref: true
-      - name: "List all docker images"
-        run: "docker images"
+      - uses: docker/build-push-action@v1
+        name: "Build & Push Amass Parser SDK"
+        with:
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+          repository: j12934/securecodebox/parser-amass
+          registry: docker.pkg.github.com
+          path: ./integrations/amass/parser/
+          tag_with_ref: true
