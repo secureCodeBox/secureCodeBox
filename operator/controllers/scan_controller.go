@@ -754,6 +754,10 @@ func (r *ScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	accessKeyID := os.Getenv("S3_ACCESS_KEY")
 	secretAccessKey := os.Getenv("S3_SECRET_KEY")
 	useSSL := true
+	// Only deactivate useSSL when explicitly set to false
+	if os.Getenv("S3_SECRET_KEY") == "false" {
+		useSSL = false
+	}
 
 	// Initialize minio client object.
 	minioClient, err := minio.New(endpoint, accessKeyID, secretAccessKey, useSSL)
