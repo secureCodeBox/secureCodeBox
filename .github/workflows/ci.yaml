@@ -52,6 +52,7 @@ jobs:
           repository: j12934/securecodebox/lurcher
           tag_with_ref: true
           registry: docker.pkg.github.com
+          path: ./lurcher/
       - uses: actions/delete-package-versions@v1
         name: "Delete oldest lurcher image tag"
         with:
