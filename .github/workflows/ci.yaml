@@ -178,4 +178,4 @@ jobs:
           registry: docker.pkg.github.com
           path: ./integrations/nmap/scanner/
           # Note: not prefixed with a "v" as this seems to match nmap versioning standards
-          tags: "7.80,7.80-1"
+          tags: "7.80,7.80-1,latest"
