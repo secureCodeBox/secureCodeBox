@@ -99,5 +99,6 @@ jobs:
           repository: j12934/securecodebox/parser-sdk-nodejs
           registry: docker.pkg.github.com
           path: ./parser-sdk/nodejs/
+          tag_with_ref: true
       - name: "List all docker images"
         run: "docker images"
