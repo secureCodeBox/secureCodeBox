@@ -52,19 +52,9 @@ There is a german article about [Security DevOps – Angreifern (immer) einen Sc
 ### Deployment
 
 ```bash
-# This is currently under development. Before a proper release the operator will be packaged up as a helm chart.
-
-# You'll need to configure a s3 or compatible file storage (https://min.io recommended when self hosting)
-# E.g. for digitalocean (the credentials are fake 😉)
-export S3_ENDPOINT="fra1.digitaloceanspaces.com"
-export S3_ACCESS_KEY="HASJHVDJAVJDSVAISWNA"
-export S3_SECRET_KEY="ffi+cfkntT9AHTwKFarvywKvG6YstxaNUsfuh!nqTUh"
-export S3_BUCKET="securecodebox"
-# Install Custom Resource Definitions
-make install
-
-# Run Operator locally (against current kubectl context)
-make run
+# Deploy secureCodeBox Operator
+kubectl create namespace securecodebox-system
+helm -n securecodebox-system install securecodebox-operator
 
 # Elasticsearch Persistence Provider Deployment
 helm install persistence-elastic ./persistence/persistence-elastic/
