@@ -757,9 +757,9 @@ func (r *ScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	if os.Getenv("S3_PORT") != "" {
 		port = os.Getenv("S3_PORT")
 	}
-	useSSL := true
 	// Only deactivate useSSL when explicitly set to false
-	if os.Getenv("S3_SECRET_KEY") == "false" {
+	useSSL := true
+	if os.Getenv("S3_USE_SSL") == "false" {
 		useSSL = false
 	}
 
