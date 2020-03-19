@@ -1,13 +1,15 @@
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![GitHub release](https://img.shields.io/github/release/secureCodeBox/secureCodeBox.svg)](https://github.com/secureCodeBox/secureCodeBox/releases/latest)
+<p align="center">
+  <img alt="secureCodeBox Logo" src="securecodebox-logo.svg" width="800px">
+</p>
 
-# secureCodeBox "Next"
+<p align="center">
+  <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Apache-2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>
+  <a href="https://github.com/secureCodeBox/secureCodeBox/releases/latest"><img alt="Latest GitHub Release" src="https://img.shields.io/github/release/secureCodeBox/secureCodeBox.svg"></a>
+</p>
 
-> NOTE: This Repository contains a work in progress preview of the planned next mayor secureCodeBox Release. The release is still at least some month away but you can already get a sneak peak here 😀. This release will contain a mayor re architecture of the secureCodeBox. More details will follow soon in a series of blog articles.
+**NOTE**: This Repository contains a **work in progress** preview of the planned next mayor secureCodeBox Release. You can find the current **stable release** here [https://github.com/secureCodeBox/secureCodeBox](https://github.com/secureCodeBox/secureCodeBox). The release of version 2.0 is still at least some month away but you can already get a sneak peak here 😀. The release will contain a mayor re architecture of the secureCodeBox. More details will follow soon in a series of blog articles.
 
-![secureCodeBox](securecodebox-logo.svg 'secureCodeBox')
-
-> _secureCodeBox_ is a docker based, modularized toolchain for continuous security scans of your software project. Its goal is to orchestrate and easily automate a bunch of security-testing tools out of the box.
+> _secureCodeBox_ is a kubernetes based, modularized toolchain for continuous security scans of your software project. Its goal is to orchestrate and easily automate a bunch of security-testing tools out of the box.
 
 ## Overview
 
