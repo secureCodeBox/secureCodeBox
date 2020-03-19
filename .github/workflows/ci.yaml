@@ -91,6 +91,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      # SDK
       - uses: docker/build-push-action@v1
         name: "Build & Push Parser SDK"
         with:
@@ -100,12 +101,40 @@ jobs:
           registry: docker.pkg.github.com
           path: ./parser-sdk/nodejs/
           tag_with_ref: true
+      # Actual Parsers
       - uses: docker/build-push-action@v1
-        name: "Build & Push Amass Parser SDK"
+        name: "Build & Push Amass Parser Image"
         with:
           username: ${{ github.actor }}
           password: ${{ github.token }}
           repository: j12934/securecodebox/parser-amass
           registry: docker.pkg.github.com
           path: ./integrations/amass/parser/
+          tag_with_ref: true
+      - uses: docker/build-push-action@v1
+        name: "Build & Push Nmap Parser Image"
+        with:
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+          repository: j12934/securecodebox/parser-nmap
+          registry: docker.pkg.github.com
+          path: ./integrations/nmap/parser/
+          tag_with_ref: true
+      - uses: docker/build-push-action@v1
+        name: "Build & Push ssh_scan Parser Image"
+        with:
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+          repository: j12934/securecodebox/parser-ssh-scan
+          registry: docker.pkg.github.com
+          path: ./integrations/ssh_scan/parser/
+          tag_with_ref: true
+      - uses: docker/build-push-action@v1
+        name: "Build & Push OWASP Zap Parser Image"
+        with:
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+          repository: j12934/securecodebox/parser-zap
+          registry: docker.pkg.github.com
+          path: ./integrations/zap/parser/
           tag_with_ref: true
