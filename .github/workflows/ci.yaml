@@ -46,16 +46,13 @@ jobs:
           cd operator/
           go fmt ./...
           go vet ./...
-      - name: "Build'n Push Lurcher"
-        uses: docker://j12934/one-click-docker@sha256:c0c3c90aa2fe65c0ffad0cf892aec9ea4dcc4731c1b2ccc0f3d4c8eacc4fb917
-        env:
-          DOCKER_IMAGE_NAME: lurcher
-          DOCKER_REGISTRY_URL: docker.pkg.github.com
-          DOCKER_NAMESPACE: j12934/securecodebox
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      - uses: docker/build-push-action@v1
         with:
-          args: ./lurcher/
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: j12934/securecodebox/lurcher
+          tag_with_ref: true
+          registry: docker.pkg.github.com
       - uses: actions/delete-package-versions@v1
         name: "Delete oldest lurcher image tag"
         with:
