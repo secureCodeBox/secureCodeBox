@@ -163,3 +163,19 @@ jobs:
           registry: docker.pkg.github.com
           path: ./persistence/persistence-elastic/
           tag_with_ref: true
+  scannerImages:
+    # Note we only build images for scanner that don't provider official public container images
+    name: "Build Scanner Images"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: docker/build-push-action@v1
+        name: "Build & Push Nmap Scanner Image"
+        with:
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+          repository: j12934/securecodebox/nmap
+          registry: docker.pkg.github.com
+          path: ./integrations/nmap/scanner/
+          # Note: not prefixed with a "v" as this seems to match nmap versioning standards
+          tags: "7.80,7.80-1"
