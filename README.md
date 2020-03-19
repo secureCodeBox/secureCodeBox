@@ -7,8 +7,6 @@
   <a href="https://github.com/secureCodeBox/secureCodeBox/releases/latest"><img alt="Latest GitHub Release" src="https://img.shields.io/github/release/secureCodeBox/secureCodeBox.svg"></a>
 </p>
 
-# secureCodeBox "Next"
-
 > NOTE: This Repository contains a work in progress preview of the planned next mayor secureCodeBox Release. The release is still at least some month away but you can already get a sneak peak here 😀. This release will contain a mayor re architecture of the secureCodeBox. More details will follow soon in a series of blog articles.
 
 
