@@ -7,8 +7,7 @@
   <a href="https://github.com/secureCodeBox/secureCodeBox/releases/latest"><img alt="Latest GitHub Release" src="https://img.shields.io/github/release/secureCodeBox/secureCodeBox.svg"></a>
 </p>
 
-> NOTE: This Repository contains a work in progress preview of the planned next mayor secureCodeBox Release. The release is still at least some month away but you can already get a sneak peak here 😀. This release will contain a mayor re architecture of the secureCodeBox. More details will follow soon in a series of blog articles.
-
+**NOTE**: This Repository contains a **work in progress** preview of the planned next mayor secureCodeBox Release. You can find the current **stable release** here [https://github.com/secureCodeBox/secureCodeBox](https://github.com/secureCodeBox/secureCodeBox). The release of version 2.0 is still at least some month away but you can already get a sneak peak here 😀. The release will contain a mayor re architecture of the secureCodeBox. More details will follow soon in a series of blog articles.
 
 > _secureCodeBox_ is a kubernetes based, modularized toolchain for continuous security scans of your software project. Its goal is to orchestrate and easily automate a bunch of security-testing tools out of the box.
 
