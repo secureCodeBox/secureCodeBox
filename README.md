@@ -54,7 +54,7 @@ There is a german article about [Security DevOps – Angreifern (immer) einen Sc
 ```bash
 # Deploy secureCodeBox Operator
 kubectl create namespace securecodebox-system
-helm -n securecodebox-system install securecodebox-operator
+helm -n securecodebox-system install securecodebox-operator ./operator/
 
 # Elasticsearch Persistence Provider Deployment
 helm install persistence-elastic ./persistence/persistence-elastic/
