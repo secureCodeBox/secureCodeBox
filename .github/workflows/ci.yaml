@@ -23,11 +23,6 @@ jobs:
           tag_with_ref: true
           registry: docker.pkg.github.com
           path: ./operator/
-      - uses: actions/delete-package-versions@v1
-        name: "Delete oldest operator image tag"
-        with:
-          package-name: operator
-          num-old-versions-to-delete: 1
   lurcher:
     name: "Lurcher"
     runs-on: ubuntu-latest
