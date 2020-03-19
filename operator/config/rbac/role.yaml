@@ -19,6 +19,30 @@ rules:
   - update
   - watch
 - apiGroups:
+  - ""
+  resources:
+  - serviceaccounts
+  verbs:
+  - create
+  - get
+  - watch
+- apiGroups:
+  - rbac
+  resources:
+  - rolebindings
+  verbs:
+  - create
+  - get
+  - watch
+- apiGroups:
+  - rbac
+  resources:
+  - roles
+  verbs:
+  - create
+  - get
+  - watch
+- apiGroups:
   - scans.experimental.securecodebox.io
   resources:
   - parsedefinitions

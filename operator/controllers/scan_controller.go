@@ -29,6 +29,8 @@ import (
 	"github.com/go-logr/logr"
 	batch "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
+	rbacv1 "k8s.io/api/rbac/v1"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -58,6 +60,9 @@ type ScanReconciler struct {
 // +kubebuilder:rbac:groups=scans.experimental.securecodebox.io,resources=parsedefinitions,verbs=get;list;watch
 // +kubebuilder:rbac:groups=scans.experimental.securecodebox.io,resources=persistenceproviders,verbs=get;list;watch
 // +kubebuilder:rbac:groups=batch,resources=jobs,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=core,resources=serviceaccounts,verbs=get;watch;create
+// +kubebuilder:rbac:groups=rbac,resources=roles,verbs=get;watch;create
+// +kubebuilder:rbac:groups=rbac,resources=rolebindings,verbs=get;watch;create
 
 // Reconcile compares the scan object against the state of the cluster and updates both if needed
 func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
@@ -130,6 +135,20 @@ func (r *ScanReconciler) startScan(scan *scansv1.Scan) error {
 		return fmt.Errorf("No ScanTemplate of type '%s' found", scan.Spec.ScanType)
 	}
 	log.Info("Matching ScanTemplate Found", "ScanTemplate", scanTemplate.Name)
+
+	rules := []rbacv1.PolicyRule{
+		rbacv1.PolicyRule{
+			APIGroups: []string{""},
+			Resources: []string{"pods"},
+			Verbs:     []string{"get"},
+		},
+	}
+	r.EnsureServiceAccountExists(
+		scan.Namespace,
+		"lurcher",
+		"Lurcher is used to extract results from secureCodeBox Scans. It needs rights to get and watch the status of pods to see when the scans have finished.",
+		rules,
+	)
 
 	job, err := r.constructJobForScan(scan, &scanTemplate)
 	if err != nil {
@@ -237,6 +256,20 @@ func (r *ScanReconciler) startParser(scan *scansv1.Scan) error {
 	if err != nil {
 		return err
 	}
+
+	rules := []rbacv1.PolicyRule{
+		rbacv1.PolicyRule{
+			APIGroups: []string{"scans.experimental.securecodebox.io"},
+			Resources: []string{"scans"},
+			Verbs:     []string{"get", "update"},
+		},
+	}
+	r.EnsureServiceAccountExists(
+		scan.Namespace,
+		"parser",
+		"Parser need to access the status of Scans to update how many findings have been identified",
+		rules,
+	)
 
 	automountServiceAccountToken := false
 	job := &batch.Job{
@@ -495,6 +528,20 @@ func (r *ScanReconciler) startPersistenceProvider(scan *scansv1.Scan) error {
 		return nil
 	}
 
+	rules := []rbacv1.PolicyRule{
+		rbacv1.PolicyRule{
+			APIGroups: []string{"scans.experimental.securecodebox.io"},
+			Resources: []string{"scans"},
+			Verbs:     []string{"get"},
+		},
+	}
+	r.EnsureServiceAccountExists(
+		scan.Namespace,
+		"persistence",
+		"PersistenceProvider need to access the current scan to view where its results are stored",
+		rules,
+	)
+
 	for _, persistenceProvider := range persistenceProviders.Items {
 		rawFileURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile)
 		if err != nil {
@@ -611,6 +658,93 @@ func (r *ScanReconciler) checkIfPersistingIsCompleted(scan *scansv1.Scan) error 
 
 	// PersistenceProvider(s) are still running. At least some of them are.
 	// Waiting until all are done.
+	return nil
+}
+
+func (r *ScanReconciler) EnsureServiceAccountExists(namespace, serviceAccountName, description string, policyRules []rbacv1.PolicyRule) error {
+	ctx := context.Background()
+
+	var serviceAccount corev1.ServiceAccount
+	err := r.Get(ctx, types.NamespacedName{Name: serviceAccountName, Namespace: namespace}, &serviceAccount)
+	if apierrors.IsNotFound(err) {
+		r.Log.Info("Service Account doesn't exist creating now")
+		serviceAccount = corev1.ServiceAccount{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      serviceAccountName,
+				Namespace: namespace,
+				Annotations: map[string]string{
+					"description": description,
+				},
+			},
+		}
+		err := r.Create(ctx, &serviceAccount)
+		if err != nil {
+			r.Log.Error(err, "Failed to create ServiceAccount")
+			return err
+		}
+	} else if err != nil {
+		r.Log.Error(err, "Unexpected error while checking if a ServiceAccount exists")
+		return err
+	}
+
+	var role rbacv1.Role
+	err = r.Get(ctx, types.NamespacedName{Name: serviceAccountName, Namespace: namespace}, &role)
+	if apierrors.IsNotFound(err) {
+		r.Log.Info("Role doesn't exist creating now")
+		role = rbacv1.Role{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      serviceAccountName,
+				Namespace: namespace,
+				Annotations: map[string]string{
+					"description": description,
+				},
+			},
+			Rules: policyRules,
+		}
+		err := r.Create(ctx, &role)
+		if err != nil {
+			r.Log.Error(err, "Failed to create Role")
+			return err
+		}
+	} else if err != nil {
+		r.Log.Error(err, "Unexpected error while checking if a Role exists")
+		return err
+	}
+
+	var roleBinding rbacv1.RoleBinding
+	err = r.Get(ctx, types.NamespacedName{Name: serviceAccountName, Namespace: namespace}, &roleBinding)
+	if apierrors.IsNotFound(err) {
+		r.Log.Info("RoleBinding doesn't exist creating now")
+		roleBinding = rbacv1.RoleBinding{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      serviceAccountName,
+				Namespace: namespace,
+				Annotations: map[string]string{
+					"description": description,
+				},
+			},
+			Subjects: []rbacv1.Subject{
+				rbacv1.Subject{
+					Kind: "ServiceAccount",
+					Name: serviceAccountName,
+				},
+			},
+			RoleRef: rbacv1.RoleRef{
+				Kind:     "Role",
+				Name:     serviceAccountName,
+				APIGroup: "rbac.authorization.k8s.io",
+			},
+		}
+		err := r.Create(ctx, &roleBinding)
+		if err != nil {
+			r.Log.Error(err, "Failed to create RoleBinding")
+			return err
+		}
+	} else if err != nil {
+		r.Log.Error(err, "Unexpected error while checking if a RoleBinding exists")
+		return err
+	}
+
 	return nil
 }
 
