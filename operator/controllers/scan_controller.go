@@ -264,8 +264,8 @@ func (r *ScanReconciler) startParser(scan *scansv1.Scan) error {
 	rules := []rbacv1.PolicyRule{
 		rbacv1.PolicyRule{
 			APIGroups: []string{"scans.experimental.securecodebox.io"},
-			Resources: []string{"scans"},
-			Verbs:     []string{"get", "update"},
+			Resources: []string{"scans/status"},
+			Verbs:     []string{"get", "patch"},
 		},
 	}
 	r.EnsureServiceAccountExists(
@@ -275,7 +275,7 @@ func (r *ScanReconciler) startParser(scan *scansv1.Scan) error {
 		rules,
 	)
 
-	automountServiceAccountToken := false
+	automountServiceAccountToken := true
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
 			Annotations: make(map[string]string),
@@ -293,6 +293,20 @@ func (r *ScanReconciler) startParser(scan *scansv1.Scan) error {
 						{
 							Name:  "parser",
 							Image: parseDefinition.Spec.Image,
+							Env: []corev1.EnvVar{
+								corev1.EnvVar{
+									Name: "NAMESPACE",
+									ValueFrom: &corev1.EnvVarSource{
+										FieldRef: &corev1.ObjectFieldSelector{
+											FieldPath: "metadata.namespace",
+										},
+									},
+								},
+								corev1.EnvVar{
+									Name:  "SCAN_NAME",
+									Value: scan.Name,
+								},
+							},
 							Args: []string{
 								rawResultDownloadURL,
 								findingsUploadURL.String(),
