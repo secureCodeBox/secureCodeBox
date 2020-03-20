@@ -124,22 +124,28 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return ctrl.Result{}, nil
 }
 
-func (r *ScanReconciler) getScanJob(scan *scansv1.Scan) (*batch.Job, error) {
+func (r *ScanReconciler) getJob(name, namespace string) (*batch.Job, error) {
 	ctx := context.Background()
-	namespacedName := fmt.Sprintf("%s/%s", scan.Namespace, scan.Name)
-	log := r.Log.WithValues("scan_done_check", namespacedName)
 
 	// check if k8s job for scan was already created
 	var job batch.Job
-	err := r.Get(ctx, types.NamespacedName{Name: fmt.Sprintf("scan-%s", scan.Name), Namespace: scan.Namespace}, &job)
+	err := r.Get(ctx, types.NamespacedName{Name: name, Namespace: namespace}, &job)
 	if apierrors.IsNotFound(err) {
 		return nil, nil
 	} else if err != nil {
-		log.Error(err, "unable to get child Pod")
+		r.Log.Error(err, "unable to get job")
 		return nil, err
 	}
 
 	return &job, nil
+}
+
+func (r *ScanReconciler) checkIfJobIsCompleted(name, namespace string) (bool, error) {
+	job, err := r.getJob(name, namespace)
+	if err != nil {
+		return false, err
+	}
+	return (job.Status.Succeeded != 0), nil
 }
 
 func (r *ScanReconciler) startScan(scan *scansv1.Scan) error {
@@ -147,7 +153,7 @@ func (r *ScanReconciler) startScan(scan *scansv1.Scan) error {
 	namespacedName := fmt.Sprintf("%s/%s", scan.Namespace, scan.Name)
 	log := r.Log.WithValues("scan_init", namespacedName)
 
-	job, err := r.getScanJob(scan)
+	job, err := r.getJob(fmt.Sprintf("scan-%s", scan.Name), scan.Namespace)
 	if err != nil {
 		return err
 	}
@@ -209,16 +215,17 @@ func (r *ScanReconciler) startScan(scan *scansv1.Scan) error {
 	return nil
 }
 
+// Checking if scan has completed
 func (r *ScanReconciler) checkIfScanIsCompleted(scan *scansv1.Scan) error {
-	job, err := r.getScanJob(scan)
+	ctx := context.Background()
+
+	done, err := r.checkIfJobIsCompleted(fmt.Sprintf("scan-%s", scan.Name), scan.Namespace)
 	if err != nil {
 		return err
 	}
-	ctx := context.Background()
 
-	// Checking if scan has completed
-	// TODO: Handle scan job failure cases
-	if job.Status.Succeeded != 0 {
+	// TODO: Handle job failure cases
+	if done {
 		r.Log.V(7).Info("Scan is completed")
 		scan.Status.State = "ScanCompleted"
 		if err := r.Status().Update(ctx, scan); err != nil {
@@ -233,6 +240,15 @@ func (r *ScanReconciler) startParser(scan *scansv1.Scan) error {
 	ctx := context.Background()
 	namespacedName := fmt.Sprintf("%s/%s", scan.Namespace, scan.Name)
 	log := r.Log.WithValues("scan_parse", namespacedName)
+
+	job, err := r.getJob(fmt.Sprintf("parse-%s", scan.Name), scan.Namespace)
+	if err != nil {
+		return err
+	}
+	if job != nil {
+		log.V(8).Info("Job already exists. Doesn't need to be created.")
+		return nil
+	}
 
 	parseType := scan.Status.RawResultType
 
@@ -270,7 +286,7 @@ func (r *ScanReconciler) startParser(scan *scansv1.Scan) error {
 	)
 
 	automountServiceAccountToken := true
-	job := &batch.Job{
+	job = &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
 			Annotations: make(map[string]string),
 			Name:        fmt.Sprintf("parse-%s", scan.Name),
@@ -336,55 +352,25 @@ func (r *ScanReconciler) startParser(scan *scansv1.Scan) error {
 	return nil
 }
 
+// Checking if Parser has completed
 func (r *ScanReconciler) checkIfParsingIsCompleted(scan *scansv1.Scan) error {
 	ctx := context.Background()
-	namespacedName := fmt.Sprintf("%s/%s", scan.Namespace, scan.Name)
-	log := r.Log.WithValues("scan_done_check", namespacedName)
 
-	// check if k8s job for scan was already created
-	var childJobs batch.JobList
-	if err := r.List(
-		ctx,
-		&childJobs,
-		client.InNamespace(scan.Namespace),
-		client.MatchingField(ownerKey, scan.Name),
-		client.MatchingLabels{
-			"experimental.securecodebox.io/job-type": "parser",
-		},
-	); err != nil {
-		log.Error(err, "unable to list child jobs")
+	done, err := r.checkIfJobIsCompleted(fmt.Sprintf("parse-%s", scan.Name), scan.Namespace)
+	if err != nil {
 		return err
 	}
 
-	log.V(9).Info("Got related jobs", "count", len(childJobs.Items))
-
-	if len(childJobs.Items) == 0 {
-		// Unexpected. Job should exist in "Parsing" State. Resetting to Init
-		log.Info("Scan is in Parsing State but doesn't have a associated Parse Job running. Resetting status to 'ScanCompleted'")
-		scan.Status.State = "ScanCompleted"
-		if err := r.Status().Update(ctx, scan); err != nil {
-			log.Error(err, "unable to update Scan status")
-			return err
-		}
-		return nil
-	} else if len(childJobs.Items) > 1 {
-		// yoo that wasn't expected
-		return errors.New("Scan had more than one parse job. Thats not expected")
-	}
-
-	// Job exists as expected
-	job := childJobs.Items[0]
-
-	// Checking if parsing has completed
-	// TODO: Handle parse job failure cases
-	if job.Status.Succeeded != 0 {
-		log.V(7).Info("Parsing is completed")
+	// TODO: Handle job failure cases
+	if done {
+		r.Log.V(7).Info("Scan is completed")
 		scan.Status.State = "ParseCompleted"
 		if err := r.Status().Update(ctx, scan); err != nil {
-			log.Error(err, "unable to update Scan status")
+			r.Log.Error(err, "unable to update Scan status")
 			return err
 		}
 	}
+
 	return nil
 }
 
