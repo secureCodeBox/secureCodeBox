@@ -124,10 +124,37 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return ctrl.Result{}, nil
 }
 
+func (r *ScanReconciler) getScanJob(scan *scansv1.Scan) (*batch.Job, error) {
+	ctx := context.Background()
+	namespacedName := fmt.Sprintf("%s/%s", scan.Namespace, scan.Name)
+	log := r.Log.WithValues("scan_done_check", namespacedName)
+
+	// check if k8s job for scan was already created
+	var job batch.Job
+	err := r.Get(ctx, types.NamespacedName{Name: fmt.Sprintf("scan-%s", scan.Name), Namespace: scan.Namespace}, &job)
+	if apierrors.IsNotFound(err) {
+		return nil, nil
+	} else if err != nil {
+		log.Error(err, "unable to get child Pod")
+		return nil, err
+	}
+
+	return &job, nil
+}
+
 func (r *ScanReconciler) startScan(scan *scansv1.Scan) error {
 	ctx := context.Background()
 	namespacedName := fmt.Sprintf("%s/%s", scan.Namespace, scan.Name)
 	log := r.Log.WithValues("scan_init", namespacedName)
+
+	job, err := r.getScanJob(scan)
+	if err != nil {
+		return err
+	}
+	if job != nil {
+		log.V(8).Info("Job already exists. Doesn't need to be created.")
+		return nil
+	}
 
 	// get the scan template for the scan
 	var scanTemplate scansv1.ScanTemplate
@@ -154,7 +181,7 @@ func (r *ScanReconciler) startScan(scan *scansv1.Scan) error {
 		rules,
 	)
 
-	job, err := r.constructJobForScan(scan, &scanTemplate)
+	job, err = r.constructJobForScan(scan, &scanTemplate)
 	if err != nil {
 		log.Error(err, "unable to create job object ScanTemplate")
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
@@ -183,52 +210,19 @@ func (r *ScanReconciler) startScan(scan *scansv1.Scan) error {
 }
 
 func (r *ScanReconciler) checkIfScanIsCompleted(scan *scansv1.Scan) error {
-	ctx := context.Background()
-	namespacedName := fmt.Sprintf("%s/%s", scan.Namespace, scan.Name)
-	log := r.Log.WithValues("scan_done_check", namespacedName)
-
-	// check if k8s job for scan was already created
-	var childJobs batch.JobList
-	if err := r.List(
-		ctx,
-		&childJobs,
-		client.InNamespace(scan.Namespace),
-		client.MatchingField(ownerKey, scan.Name),
-		client.MatchingLabels{
-			"experimental.securecodebox.io/job-type": "scanner",
-		},
-	); err != nil {
-		log.Error(err, "unable to list child Pods")
+	job, err := r.getScanJob(scan)
+	if err != nil {
 		return err
 	}
-
-	// TODO: What if the Pod doesn't match our spec? Recreate?
-
-	log.V(9).Info("Got related jobs", "count", len(childJobs.Items))
-
-	if len(childJobs.Items) == 0 {
-		// Unexpected. Job should exisit in Scanning State. Resetting to Init
-		scan.Status.State = "Init"
-		if err := r.Status().Update(ctx, scan); err != nil {
-			log.Error(err, "unable to update Scan status")
-			return err
-		}
-		return nil
-	} else if len(childJobs.Items) > 1 {
-		// yoo that wasn't expected
-		return errors.New("Scan had more than one job. Thats not expected")
-	}
-
-	// Job exists as expected
-	job := childJobs.Items[0]
+	ctx := context.Background()
 
 	// Checking if scan has completed
 	// TODO: Handle scan job failure cases
 	if job.Status.Succeeded != 0 {
-		log.V(7).Info("Scan is completed")
+		r.Log.V(7).Info("Scan is completed")
 		scan.Status.State = "ScanCompleted"
 		if err := r.Status().Update(ctx, scan); err != nil {
-			log.Error(err, "unable to update Scan status")
+			r.Log.Error(err, "unable to update Scan status")
 			return err
 		}
 	}
