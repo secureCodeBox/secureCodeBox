@@ -1,8 +1,0 @@
-{
-  "extends": ["oclif"],
-  "rules": {
-    "no-process-exit": "off",
-    "unicorn/no-process-exit": "off",
-    "no-await-in-loop": "off"
-  }
-}

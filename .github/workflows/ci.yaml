@@ -81,8 +81,6 @@ jobs:
           npm ci
           cd integrations/
           npm ci
-          cd ../scbctl/
-          npm ci
       - name: "Run tests"
         run: |
           npm test -- --ci --colors --coverage
