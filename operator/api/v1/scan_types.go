@@ -40,13 +40,30 @@ type ScanStatus struct {
 	RawResultType string `json:"rawResultType,omitempty"`
 	// RawResultFile Filename of the result file of the scanner. e.g. `nmap-result.xml`
 	RawResultFile string `json:"rawResultFile,omitempty"`
+
+	// FindingCount indicates how many findings were identified in total
+	FindingCount uint64 `json:"findingCount,omitempty"`
+	// FindingSeverities indicates the count of finding with the respective severity
+	FindingSeverities FindingSeverities `json:"findingSeverities,omitempty"`
+	// FindingCategories indicates the count of finding broken down by their categories
+	FindingCategories map[string]uint64 `json:"findingCategories,omitempty"`
+}
+
+// FindingSeverities indicates the count of finding with the respective severity
+type FindingSeverities struct {
+	InformationalCount uint64 `json:"informationalCount,omitempty"`
+	LowCount           uint64 `json:"lowCount,omitempty"`
+	MediumCount        uint64 `json:"mediumCount,omitempty"`
+	HighCount          uint64 `json:"highCount,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
 // Scan is the Schema for the scans API
 // +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="Type",type=string,JSONPath=`.spec.scanType`,description="Scan Type"
 // +kubebuilder:printcolumn:name="State",type=string,JSONPath=`.status.state`,description="Scan State"
+// +kubebuilder:printcolumn:name="Findings",type=string,JSONPath=`.status.findingCount`,description="Total Finding Count"
 type Scan struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
