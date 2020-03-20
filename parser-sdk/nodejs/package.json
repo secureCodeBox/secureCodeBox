@@ -10,8 +10,10 @@
   "author": "iteratec GmbH",
   "license": "Apache-2.0",
   "dependencies": {
+    "@kubernetes/client-node": "^0.11.1",
     "axios": "^0.19.0",
-    "uuid": "^3.3.3"
+    "uuid": "^3.3.3",
+    "ws": "^7.2.3"
   },
   "devDependencies": {
     "jest": "^24.9.0"
