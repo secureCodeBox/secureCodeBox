@@ -13,4 +13,7 @@ resources:
 - group: scans
   kind: PersistenceProvider
   version: v1
+- group: scans
+  kind: Target
+  version: v1
 version: "2"
