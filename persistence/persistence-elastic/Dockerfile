@@ -4,7 +4,7 @@ WORKDIR /home/app
 COPY package.json package-lock.json ./
 RUN npm ci --production
 
-FROM scbexperimental/persistence-sdk:nodejs12
+FROM docker.pkg.github.com/secureCodeBox/secureCodeBox-v2-alpha/persistence-sdk:nodejs12
 WORKDIR /home/app/persistence-wrapper/persistence/
 COPY --from=build --chown=app:app /home/app/node_modules/ ./node_modules/
 COPY --chown=app:app ./persist.js ./persist.js

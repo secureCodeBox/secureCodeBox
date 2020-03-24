@@ -20,7 +20,7 @@ spec:
             - /manager
           args:
             - --enable-leader-election
-          image: scbexperimental/operator:latest
+          image: docker.pkg.github.com/secureCodeBox/secureCodeBox-v2-alpha/operator:latest
           name: manager
           env:
             # TODO: integrate with cert manager and auto gen a cert for minio
