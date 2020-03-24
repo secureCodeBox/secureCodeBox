@@ -1,5 +1,5 @@
 domain: experimental.securecodebox.io
-repo: github.com/J12934/secureCodeBox/operator/
+repo: github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/
 resources:
 - group: scans
   kind: Scan

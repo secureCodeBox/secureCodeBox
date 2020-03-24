@@ -19,7 +19,7 @@ jobs:
         with:
           username: ${{ github.actor }}
           password: ${{ github.token }}
-          repository: j12934/securecodebox/operator
+          repository: securecodebox/securecodebox-v2-alpha/operator
           tag_with_ref: true
           registry: docker.pkg.github.com
           path: ./operator/
@@ -41,7 +41,7 @@ jobs:
         with:
           username: ${{ github.actor }}
           password: ${{ github.token }}
-          repository: j12934/securecodebox/lurcher
+          repository: securecodebox/securecodebox-v2-alpha/lurcher
           tag_with_ref: true
           registry: docker.pkg.github.com
           path: ./lurcher/
@@ -95,7 +95,7 @@ jobs:
         with:
           username: ${{ github.actor }}
           password: ${{ github.token }}
-          repository: j12934/securecodebox/parser-sdk-nodejs
+          repository: securecodebox/securecodebox-v2-alpha/parser-sdk-nodejs
           registry: docker.pkg.github.com
           path: ./parser-sdk/nodejs/
           tag_with_ref: true
@@ -105,7 +105,7 @@ jobs:
         with:
           username: ${{ github.actor }}
           password: ${{ github.token }}
-          repository: j12934/securecodebox/parser-amass
+          repository: securecodebox/securecodebox-v2-alpha/parser-amass
           registry: docker.pkg.github.com
           path: ./integrations/amass/parser/
           tag_with_ref: true
@@ -114,7 +114,7 @@ jobs:
         with:
           username: ${{ github.actor }}
           password: ${{ github.token }}
-          repository: j12934/securecodebox/parser-nmap
+          repository: securecodebox/securecodebox-v2-alpha/parser-nmap
           registry: docker.pkg.github.com
           path: ./integrations/nmap/parser/
           tag_with_ref: true
@@ -123,7 +123,7 @@ jobs:
         with:
           username: ${{ github.actor }}
           password: ${{ github.token }}
-          repository: j12934/securecodebox/parser-ssh-scan
+          repository: securecodebox/securecodebox-v2-alpha/parser-ssh-scan
           registry: docker.pkg.github.com
           path: ./integrations/ssh_scan/parser/
           tag_with_ref: true
@@ -132,7 +132,7 @@ jobs:
         with:
           username: ${{ github.actor }}
           password: ${{ github.token }}
-          repository: j12934/securecodebox/parser-zap
+          repository: securecodebox/securecodebox-v2-alpha/parser-zap
           registry: docker.pkg.github.com
           path: ./integrations/zap/parser/
           tag_with_ref: true
@@ -147,7 +147,7 @@ jobs:
         with:
           username: ${{ github.actor }}
           password: ${{ github.token }}
-          repository: j12934/securecodebox/persistence-sdk-nodejs
+          repository: securecodebox/securecodebox-v2-alpha/persistence-sdk-nodejs
           registry: docker.pkg.github.com
           path: ./persistence-sdk/nodejs/
           tag_with_ref: true
@@ -157,7 +157,7 @@ jobs:
         with:
           username: ${{ github.actor }}
           password: ${{ github.token }}
-          repository: j12934/securecodebox/persistence-elastic
+          repository: securecodebox/securecodebox-v2-alpha/persistence-elastic
           registry: docker.pkg.github.com
           path: ./persistence/persistence-elastic/
           tag_with_ref: true
@@ -172,7 +172,7 @@ jobs:
         with:
           username: ${{ github.actor }}
           password: ${{ github.token }}
-          repository: j12934/securecodebox/nmap
+          repository: securecodebox/securecodebox-v2-alpha/nmap
           registry: docker.pkg.github.com
           path: ./integrations/nmap/scanner/
           # Note: not prefixed with a "v" as this seems to match nmap versioning standards
