@@ -4,4 +4,4 @@ metadata:
   name: 'ssh-scan-json'
 spec:
   handlesResultsType: ssh-scan-json
-  image: docker.pkg.github.com/secureCodeBox/secureCodeBox-v2-alpha/ssh-scan-parser
+  image: docker.pkg.github.com/securecodebox/securecodebox-v2-alpha/ssh-scan-parser

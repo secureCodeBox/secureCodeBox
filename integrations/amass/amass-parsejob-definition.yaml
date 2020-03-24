@@ -4,4 +4,4 @@ metadata:
   name: 'amass-jsonl'
 spec:
   handlesResultsType: amass-jsonl
-  image: docker.pkg.github.com/secureCodeBox/secureCodeBox-v2-alpha/amass-parser
+  image: docker.pkg.github.com/securecodebox/securecodebox-v2-alpha/amass-parser

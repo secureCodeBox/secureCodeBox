@@ -4,4 +4,4 @@ metadata:
   name: 'zap-json'
 spec:
   handlesResultsType: zap-json
-  image: docker.pkg.github.com/secureCodeBox/secureCodeBox-v2-alpha/zap-parser
+  image: docker.pkg.github.com/securecodebox/securecodebox-v2-alpha/zap-parser

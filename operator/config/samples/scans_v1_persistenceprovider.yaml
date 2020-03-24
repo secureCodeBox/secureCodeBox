@@ -5,7 +5,7 @@ metadata:
   labels:
     type: Structured
 spec:
-  image: 'docker.pkg.github.com/secureCodeBox/secureCodeBox-v2-alpha/persistence-elastic:latest'
+  image: 'docker.pkg.github.com/securecodebox/securecodebox-v2-alpha/persistence-elastic:latest'
   env:
     - name: ELASTICSEARCH_ADDRESS
       value: 'http://elasticsearch-master:9200'

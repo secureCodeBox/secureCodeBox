@@ -14,5 +14,5 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: nmap
-              image: docker.pkg.github.com/secureCodeBox/secureCodeBox-v2-alpha/nmap:7.80-r2
+              image: docker.pkg.github.com/securecodebox/securecodebox-v2-alpha/nmap:7.80-r2
               command: ['nmap', '-oX', '/home/securecodebox/nmap-results.xml']

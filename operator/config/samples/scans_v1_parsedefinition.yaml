@@ -4,4 +4,4 @@ metadata:
   name: 'nmap-xml'
 spec:
   handlesResultsType: nmap-xml
-  image: docker.pkg.github.com/secureCodeBox/secureCodeBox-v2-alpha/nmap-parser
+  image: docker.pkg.github.com/securecodebox/securecodebox-v2-alpha/nmap-parser
