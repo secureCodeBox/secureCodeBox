@@ -1,7 +1,7 @@
-apiVersion: "scans.experimental.securecodebox.io/v1"
+apiVersion: 'scans.experimental.securecodebox.io/v1'
 kind: ParseDefinition
 metadata:
-  name: "zap-json"
+  name: 'zap-json'
 spec:
   handlesResultsType: zap-json
   image: scbexperimental/zap-parser

@@ -1,12 +1,12 @@
-apiVersion: "scans.experimental.securecodebox.io/v1"
+apiVersion: 'scans.experimental.securecodebox.io/v1'
 kind: ScanTemplate
 metadata:
-  name: "ssh-scan"
+  name: 'ssh-scan'
 spec:
-  name: "ssh-scan"
+  name: 'ssh-scan'
   extractResults:
     type: ssh-scan-json
-    location: "/home/securecodebox/ssh-scan-results.json"
+    location: '/home/securecodebox/ssh-scan-results.json'
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 10
@@ -17,6 +17,6 @@ spec:
             - name: ssh-scan
               image: mozilla/ssh_scan
               command:
-                - "/app/bin/ssh_scan"
-                - "--output"
-                - "/home/securecodebox/ssh-scan-results.json"
+                - '/app/bin/ssh_scan'
+                - '--output'
+                - '/home/securecodebox/ssh-scan-results.json'

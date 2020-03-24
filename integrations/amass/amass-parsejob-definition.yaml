@@ -1,7 +1,7 @@
-apiVersion: "scans.experimental.securecodebox.io/v1"
+apiVersion: 'scans.experimental.securecodebox.io/v1'
 kind: ParseDefinition
 metadata:
-  name: "amass-jsonl"
+  name: 'amass-jsonl'
 spec:
   handlesResultsType: amass-jsonl
   image: scbexperimental/amass-parser
