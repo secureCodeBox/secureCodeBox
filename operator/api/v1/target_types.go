@@ -23,22 +23,29 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
+// TargetType defines the Type of the Target
+// +kubebuilder:validation:Enum=Host;IPRange;Domain
+type TargetType string
+
 // TargetSpec defines the desired state of Target
 type TargetSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Type TargetType `json:"type,omitempty"`
 
 	// Foo is an example field of Target. Edit Target_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	Address string `json:"address,omitempty"`
 }
 
 // TargetStatus defines the observed state of Target
 type TargetStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	State string `json:"state,omitempty"`
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
 
 // Target is the Schema for the targets API
 type Target struct {

@@ -38,10 +38,31 @@ type TargetReconciler struct {
 // +kubebuilder:rbac:groups=scans.experimental.securecodebox.io,resources=targets/status,verbs=get;update;patch
 
 func (r *TargetReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	_ = context.Background()
-	_ = r.Log.WithValues("target", req.NamespacedName)
+	ctx := context.Background()
+	log := r.Log.WithValues("target", req.NamespacedName)
 
 	// your logic here
+
+	log.Info("Starting Target Reconciler")
+
+	var target scansv1.Target
+	err := r.Get(ctx, req.NamespacedName, &target)
+	if err != nil {
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
+	if target.Status.State == "" {
+		target.Status.State = "Scanning"
+	}
+	switch target.Status.State {
+	case "Scanning":
+		switch target.Spec.Type {
+		case "Host":
+
+		}
+	case "Sleeping":
+		// TODO: Reschedule
+	}
 
 	return ctrl.Result{}, nil
 }
