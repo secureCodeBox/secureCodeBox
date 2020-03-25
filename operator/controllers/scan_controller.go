@@ -581,7 +581,7 @@ func (r *ScanReconciler) startPersistenceProvider(scan *scansv1.Scan) error {
 						RestartPolicy:      corev1.RestartPolicyNever,
 						Containers: []corev1.Container{
 							{
-								Name:  "parser",
+								Name:  "persistence",
 								Image: persistenceProvider.Spec.Image,
 								Args: []string{
 									rawFileURL,
