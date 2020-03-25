@@ -298,7 +298,8 @@ func (r *ScanReconciler) startParser(scan *scansv1.Scan) error {
 		Spec: batch.JobSpec{
 			Template: corev1.PodTemplateSpec{
 				Spec: corev1.PodSpec{
-					RestartPolicy: corev1.RestartPolicyNever,
+					RestartPolicy:      corev1.RestartPolicyNever,
+					ServiceAccountName: "parser",
 					Containers: []corev1.Container{
 						{
 							Name:  "parser",
