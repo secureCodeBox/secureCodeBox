@@ -1,7 +1,7 @@
-apiVersion: 'scans.experimental.securecodebox.io/v1'
+apiVersion: "scans.experimental.securecodebox.io/v1"
 kind: ParseDefinition
 metadata:
-  name: 'nmap-xml'
+  name: "nmap-xml"
 spec:
   handlesResultsType: nmap-xml
-  image: docker.pkg.github.com/securecodebox/securecodebox-v2-alpha/nmap-parser
+  image: scbexperimental/nmap-parser

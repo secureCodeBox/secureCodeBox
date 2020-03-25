@@ -1,11 +1,11 @@
-apiVersion: 'scans.experimental.securecodebox.io/v1'
+apiVersion: "scans.experimental.securecodebox.io/v1"
 kind: ScanTemplate
 metadata:
-  name: 'nmap'
+  name: "nmap"
 spec:
   extractResults:
     type: nmap-xml
-    location: '/home/securecodebox/nmap-results.xml'
+    location: "/home/securecodebox/nmap-results.xml"
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 10
@@ -14,5 +14,5 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: nmap
-              image: docker.pkg.github.com/securecodebox/securecodebox-v2-alpha/nmap:7.80-r2
-              command: ['nmap', '-oX', '/home/securecodebox/nmap-results.xml']
+              image: scbexperimental/nmap:7.80-r2
+              command: ["nmap", "-oX", "/home/securecodebox/nmap-results.xml"]

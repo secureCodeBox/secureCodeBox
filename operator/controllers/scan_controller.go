@@ -427,7 +427,7 @@ func (r *ScanReconciler) constructJobForScan(scan *scansv1.Scan, scanTemplate *s
 
 	lurcherSidecar := &corev1.Container{
 		Name:  "lurcher",
-		Image: "docker.pkg.github.com/securecodebox/securecodebox-v2-alpha/lurcher:latest",
+		Image: "scbexperimental/lurcher:latest",
 		Args: []string{
 			"--container",
 			job.Spec.Template.Spec.Containers[0].Name,

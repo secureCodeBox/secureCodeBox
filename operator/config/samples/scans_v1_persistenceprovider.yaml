@@ -1,11 +1,11 @@
-apiVersion: 'scans.experimental.securecodebox.io/v1'
+apiVersion: "scans.experimental.securecodebox.io/v1"
 kind: PersistenceProvider
 metadata:
-  name: 'persistence-elastic'
+  name: "persistence-elastic"
   labels:
     type: Structured
 spec:
-  image: 'docker.pkg.github.com/securecodebox/securecodebox-v2-alpha/persistence-elastic:latest'
+  image: "scbexperimental/persistence-elastic:latest"
   env:
     - name: ELASTICSEARCH_ADDRESS
-      value: 'http://elasticsearch-master:9200'
+      value: "http://elasticsearch-master:9200"
