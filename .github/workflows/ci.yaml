@@ -19,7 +19,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/securecodebox-v2-alpha/operator
+          repository: scbexperimental/operator
           tag_with_ref: true
           path: ./operator/
   lurcher:
@@ -40,7 +40,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/securecodebox-v2-alpha/lurcher
+          repository: scbexperimental/lurcher
           tag_with_ref: true
           path: ./lurcher/
   integrations:
@@ -93,7 +93,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/securecodebox-v2-alpha/parser-sdk-nodejs
+          repository: scbexperimental/parser-sdk-nodejs
           path: ./parser-sdk/nodejs/
           tag_with_ref: true
       # Actual Parsers
@@ -102,7 +102,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/securecodebox-v2-alpha/parser-amass
+          repository: scbexperimental/parser-amass
           path: ./integrations/amass/parser/
           tag_with_ref: true
       - uses: docker/build-push-action@v1
@@ -110,7 +110,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/securecodebox-v2-alpha/parser-nmap
+          repository: scbexperimental/parser-nmap
           path: ./integrations/nmap/parser/
           tag_with_ref: true
       - uses: docker/build-push-action@v1
@@ -118,7 +118,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/securecodebox-v2-alpha/parser-ssh-scan
+          repository: scbexperimental/parser-ssh-scan
           path: ./integrations/ssh_scan/parser/
           tag_with_ref: true
       - uses: docker/build-push-action@v1
@@ -126,7 +126,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/securecodebox-v2-alpha/parser-zap
+          repository: scbexperimental/parser-zap
           path: ./integrations/zap/parser/
           tag_with_ref: true
   persistenceImages:
@@ -140,7 +140,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/securecodebox-v2-alpha/persistence-sdk-nodejs
+          repository: scbexperimental/persistence-sdk-nodejs
           path: ./persistence-sdk/nodejs/
           tag_with_ref: true
       # Actual PersistenceProviders
@@ -149,7 +149,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/securecodebox-v2-alpha/persistence-elastic
+          repository: scbexperimental/persistence-elastic
           path: ./persistence/persistence-elastic/
           tag_with_ref: true
   scannerImages:
@@ -163,7 +163,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/securecodebox-v2-alpha/nmap
+          repository: scbexperimental/nmap
           path: ./integrations/nmap/scanner/
           # Note: not prefixed with a "v" as this seems to match nmap versioning standards
           tags: "7.80,7.80-1,latest"
