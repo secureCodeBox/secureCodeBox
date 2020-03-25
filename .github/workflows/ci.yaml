@@ -17,11 +17,10 @@ jobs:
       - name: "Build'n Push Operator"
         uses: docker/build-push-action@v1
         with:
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
-          repository: securecodebox/securecodebox-v2-alpha/operator
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/securecodebox-v2-alpha/operator
           tag_with_ref: true
-          registry: docker.pkg.github.com
           path: ./operator/
   lurcher:
     name: "Lurcher"
@@ -39,11 +38,10 @@ jobs:
       - uses: docker/build-push-action@v1
         name: "Build & Push Lurcher Image"
         with:
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
-          repository: securecodebox/securecodebox-v2-alpha/lurcher
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/securecodebox-v2-alpha/lurcher
           tag_with_ref: true
-          registry: docker.pkg.github.com
           path: ./lurcher/
   integrations:
     name: "Node Unit Tests"
@@ -93,47 +91,42 @@ jobs:
       - uses: docker/build-push-action@v1
         name: "Build & Push Parser SDK"
         with:
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
-          repository: securecodebox/securecodebox-v2-alpha/parser-sdk-nodejs
-          registry: docker.pkg.github.com
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/securecodebox-v2-alpha/parser-sdk-nodejs
           path: ./parser-sdk/nodejs/
           tag_with_ref: true
       # Actual Parsers
       - uses: docker/build-push-action@v1
         name: "Build & Push Amass Parser Image"
         with:
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
-          repository: securecodebox/securecodebox-v2-alpha/parser-amass
-          registry: docker.pkg.github.com
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/securecodebox-v2-alpha/parser-amass
           path: ./integrations/amass/parser/
           tag_with_ref: true
       - uses: docker/build-push-action@v1
         name: "Build & Push Nmap Parser Image"
         with:
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
-          repository: securecodebox/securecodebox-v2-alpha/parser-nmap
-          registry: docker.pkg.github.com
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/securecodebox-v2-alpha/parser-nmap
           path: ./integrations/nmap/parser/
           tag_with_ref: true
       - uses: docker/build-push-action@v1
         name: "Build & Push ssh_scan Parser Image"
         with:
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
-          repository: securecodebox/securecodebox-v2-alpha/parser-ssh-scan
-          registry: docker.pkg.github.com
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/securecodebox-v2-alpha/parser-ssh-scan
           path: ./integrations/ssh_scan/parser/
           tag_with_ref: true
       - uses: docker/build-push-action@v1
         name: "Build & Push OWASP Zap Parser Image"
         with:
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
-          repository: securecodebox/securecodebox-v2-alpha/parser-zap
-          registry: docker.pkg.github.com
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/securecodebox-v2-alpha/parser-zap
           path: ./integrations/zap/parser/
           tag_with_ref: true
   persistenceImages:
@@ -145,20 +138,18 @@ jobs:
       - uses: docker/build-push-action@v1
         name: "Build & Push Persistence SDK"
         with:
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
-          repository: securecodebox/securecodebox-v2-alpha/persistence-sdk-nodejs
-          registry: docker.pkg.github.com
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/securecodebox-v2-alpha/persistence-sdk-nodejs
           path: ./persistence-sdk/nodejs/
           tag_with_ref: true
       # Actual PersistenceProviders
       - uses: docker/build-push-action@v1
         name: "Build & Push Elastic PersistenceProvider Image"
         with:
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
-          repository: securecodebox/securecodebox-v2-alpha/persistence-elastic
-          registry: docker.pkg.github.com
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/securecodebox-v2-alpha/persistence-elastic
           path: ./persistence/persistence-elastic/
           tag_with_ref: true
   scannerImages:
@@ -170,10 +161,9 @@ jobs:
       - uses: docker/build-push-action@v1
         name: "Build & Push Nmap Scanner Image"
         with:
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
-          repository: securecodebox/securecodebox-v2-alpha/nmap
-          registry: docker.pkg.github.com
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/securecodebox-v2-alpha/nmap
           path: ./integrations/nmap/scanner/
           # Note: not prefixed with a "v" as this seems to match nmap versioning standards
           tags: "7.80,7.80-1,latest"
