@@ -7,9 +7,17 @@ metadata:
   name: scans.scans.experimental.securecodebox.io
 spec:
   additionalPrinterColumns:
+  - JSONPath: .spec.scanType
+    description: Scan Type
+    name: Type
+    type: string
   - JSONPath: .status.state
     description: Scan State
     name: State
+    type: string
+  - JSONPath: .status.findingCount
+    description: Total Finding Count
+    name: Findings
     type: string
   group: scans.experimental.securecodebox.io
   names:
@@ -47,6 +55,35 @@ spec:
         status:
           description: ScanStatus defines the observed state of Scan
           properties:
+            findingCategories:
+              additionalProperties:
+                format: int64
+                type: integer
+              description: FindingCategories indicates the count of finding broken
+                down by their categories
+              type: object
+            findingCount:
+              description: FindingCount indicates how many findings were identified
+                in total
+              format: int64
+              type: integer
+            findingSeverities:
+              description: FindingSeverities indicates the count of finding with the
+                respective severity
+              properties:
+                highCount:
+                  format: int64
+                  type: integer
+                informationalCount:
+                  format: int64
+                  type: integer
+                lowCount:
+                  format: int64
+                  type: integer
+                mediumCount:
+                  format: int64
+                  type: integer
+              type: object
             rawResultFile:
               description: RawResultFile Filename of the result file of the scanner.
                 e.g. `nmap-result.xml`
