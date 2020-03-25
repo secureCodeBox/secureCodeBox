@@ -1,7 +1,7 @@
 # Dashboard Importer
 
 Imports all standard secureCodeBox Dashboards to Kibana.
-This comes pre-bundled as a kubernetes job. If you install the Elastic Persistence Provider via helm you will get this by default ;)
+This comes pre-bundled as a kubernetes job in the Elastic Persistence Provider helm chart.
 
 ## Updating the Kibana Dashboards
 
