@@ -4,4 +4,4 @@ metadata:
   name: "nmap-xml"
 spec:
   handlesResultsType: nmap-xml
-  image: scbexperimental/nmap-parser
+  image: scbexperimental/parser-nmap

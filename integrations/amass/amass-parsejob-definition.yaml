@@ -4,4 +4,4 @@ metadata:
   name: 'amass-jsonl'
 spec:
   handlesResultsType: amass-jsonl
-  image: scbexperimental/amass-parser
+  image: scbexperimental/parser-amass
