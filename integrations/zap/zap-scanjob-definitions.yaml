@@ -11,12 +11,14 @@ spec:
       ttlSecondsAfterFinished: 10
       template:
         spec:
-          restartPolicy: OnFailure
+          restartPolicy: Never
           containers:
             - name: zap-baseline
-              image: owasp/zap2docker-bare:2.9.0
+              image: owasp/zap2docker-stable:2.9.0
               command:
                 - 'zap-baseline.py'
+                # Force Zap to always return a zero exit code. k8s would otherwise try to restart zap.
+                - '-I'
                 - '-J'
                 # ZAP Baseline Script doesn't allow absolute paths...
                 # Hacky workaround: specify a relative path to the `/zap/wrk` base dir.
@@ -41,12 +43,14 @@ spec:
       ttlSecondsAfterFinished: 10
       template:
         spec:
-          restartPolicy: OnFailure
+          restartPolicy: Never
           containers:
             - name: zap-api-scan
-              image: owasp/zap2docker-bare:2.9.0
+              image: owasp/zap2docker-stable:2.9.0
               command:
                 - 'zap-api-scan.py'
+                # Force Zap to always return a zero exit code. k8s would otherwise try to restart zap.
+                - '-I'
                 - '-J'
                 # ZAP Baseline Script doesn't allow absolute paths...
                 # Hacky workaround: specify a relative path to the `/zap/wrk` base dir.
@@ -71,12 +75,14 @@ spec:
       ttlSecondsAfterFinished: 10
       template:
         spec:
-          restartPolicy: OnFailure
+          restartPolicy: Never
           containers:
             - name: zap-full-scan
-              image: owasp/zap2docker-bare:2.9.0
+              image: owasp/zap2docker-stable:2.9.0
               command:
                 - 'zap-full-scan.py'
+                # Force Zap to always return a zero exit code. k8s would otherwise try to restart zap.
+                - '-I'
                 - '-J'
                 # ZAP Baseline Script doesn't allow absolute paths...
                 # Hacky workaround: specify a relative path to the `/zap/wrk` base dir.
