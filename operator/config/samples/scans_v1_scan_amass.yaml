@@ -3,7 +3,7 @@ kind: Scan
 metadata:
   name: "amass-securecodebox.io"
   labels:
-    company: iteratec
+    organization: "iteratec GmbH"
 spec:
   scanType: "amass"
   parameters:
