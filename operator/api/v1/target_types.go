@@ -42,11 +42,14 @@ type TargetStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	State string `json:"state,omitempty"`
+
+	LastScheduleTime *metav1.Time `json:"lastScheduleTime,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-
+// +kubebuilder:printcolumn:name="Type",type=string,JSONPath=`.spec.type`,description="Target Type"
+// +kubebuilder:printcolumn:name="Address",type=string,JSONPath=`.spec.address`,description="Target Address"
 // Target is the Schema for the targets API
 type Target struct {
 	metav1.TypeMeta   `json:",inline"`

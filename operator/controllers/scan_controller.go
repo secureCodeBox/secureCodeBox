@@ -776,8 +776,6 @@ func (r *ScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		panic(err)
 	}
 
-	// Todo: Better config management
-
 	if err := mgr.GetFieldIndexer().IndexField(&batch.Job{}, ownerKey, func(rawObj runtime.Object) []string {
 		// grab the job object, extract the owner...
 		job := rawObj.(*batch.Job)

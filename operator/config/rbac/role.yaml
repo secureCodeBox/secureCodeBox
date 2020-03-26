@@ -97,3 +97,23 @@ rules:
   - get
   - list
   - watch
+- apiGroups:
+  - scans.experimental.securecodebox.io
+  resources:
+  - targets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - scans.experimental.securecodebox.io
+  resources:
+  - targets/status
+  verbs:
+  - get
+  - patch
+  - update

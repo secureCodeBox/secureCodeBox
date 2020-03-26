@@ -1,7 +1,7 @@
 apiVersion: scans.experimental.securecodebox.io/v1
 kind: Target
 metadata:
-  name: target-sample
+  name: juice-shop
 spec:
-  # Add fields here
-  foo: bar
+  type: "Host"
+  address: "juice-shop.demo-targets.svc"
