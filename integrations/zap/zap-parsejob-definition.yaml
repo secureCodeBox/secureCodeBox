@@ -4,4 +4,4 @@ metadata:
   name: "zap-json"
 spec:
   handlesResultsType: zap-json
-  image: scbexperimental/zap-parser
+  image: scbexperimental/parser-zap

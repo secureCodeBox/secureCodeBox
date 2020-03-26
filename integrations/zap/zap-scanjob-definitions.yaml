@@ -1,11 +1,11 @@
-apiVersion: "scans.experimental.securecodebox.io/v1"
+apiVersion: 'scans.experimental.securecodebox.io/v1'
 kind: ScanTemplate
 metadata:
-  name: "zap-baseline"
+  name: 'zap-baseline'
 spec:
   extractResults:
     type: zap-json
-    location: "/home/securecodebox/zap-results.json"
+    location: '/home/securecodebox/zap-results.json'
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 10
@@ -16,11 +16,11 @@ spec:
             - name: zap-baseline
               image: owasp/zap2docker-bare:2.9.0
               command:
-                - "zap-baseline.py"
-                - "-J"
+                - 'zap-baseline.py'
+                - '-J'
                 # ZAP Baseline Script doesn't allow absolute paths...
                 # Hacky workaround: specify a relative path to the `/zap/wrk` base dir.
-                - "../../home/securecodebox/zap-results.json"
+                - '../../home/securecodebox/zap-results.json'
               volumeMounts:
                 - mountPath: /zap/wrk
                   name: zap-workdir
@@ -28,14 +28,14 @@ spec:
             - name: zap-workdir
               emptyDir: {}
 ---
-apiVersion: "scans.experimental.securecodebox.io/v1"
+apiVersion: 'scans.experimental.securecodebox.io/v1'
 kind: ScanTemplate
 metadata:
-  name: "zap-api-scan"
+  name: 'zap-api-scan'
 spec:
   extractResults:
     type: zap-json
-    location: "/home/securecodebox/zap-results.json"
+    location: '/home/securecodebox/zap-results.json'
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 10
@@ -46,11 +46,11 @@ spec:
             - name: zap-api-scan
               image: owasp/zap2docker-bare:2.9.0
               command:
-                - "zap-api-scan.py"
-                - "-J"
+                - 'zap-api-scan.py'
+                - '-J'
                 # ZAP Baseline Script doesn't allow absolute paths...
                 # Hacky workaround: specify a relative path to the `/zap/wrk` base dir.
-                - "../../home/securecodebox/zap-results.json"
+                - '../../home/securecodebox/zap-results.json'
               volumeMounts:
                 - mountPath: /zap/wrk
                   name: zap-workdir
@@ -58,14 +58,14 @@ spec:
             - name: zap-workdir
               emptyDir: {}
 ---
-apiVersion: "scans.experimental.securecodebox.io/v1"
+apiVersion: 'scans.experimental.securecodebox.io/v1'
 kind: ScanTemplate
 metadata:
-  name: "zap-full-scan"
+  name: 'zap-full-scan'
 spec:
   extractResults:
     type: zap-json
-    location: "/home/securecodebox/zap-results.json"
+    location: '/home/securecodebox/zap-results.json'
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 10
@@ -76,11 +76,11 @@ spec:
             - name: zap-full-scan
               image: owasp/zap2docker-bare:2.9.0
               command:
-                - "zap-full-scan.py"
-                - "-J"
+                - 'zap-full-scan.py'
+                - '-J'
                 # ZAP Baseline Script doesn't allow absolute paths...
                 # Hacky workaround: specify a relative path to the `/zap/wrk` base dir.
-                - "../../home/securecodebox/zap-results.json"
+                - '../../home/securecodebox/zap-results.json'
               volumeMounts:
                 - mountPath: /zap/wrk
                   name: zap-workdir

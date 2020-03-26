@@ -4,4 +4,4 @@ metadata:
   name: "ssh-scan-json"
 spec:
   handlesResultsType: ssh-scan-json
-  image: scbexperimental/ssh-scan-parser
+  image: scbexperimental/parser-ssh-scan

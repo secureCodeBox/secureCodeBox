@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/J12934/secureCodeBox.git"
+    "url": "git+https://github.com/secureCodeBox/secureCodeBox-v2-alpha.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/J12934/secureCodeBox/issues"
+    "url": "https://github.com/secureCodeBox/secureCodeBox-v2-alpha/issues"
   },
-  "homepage": "https://github.com/J12934/secureCodeBox#readme",
+  "homepage": "https://github.com/secureCodeBox/secureCodeBox-v2-alpha#readme",
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-oclif": "^3.1.0",

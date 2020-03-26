@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "dashboard-importer-{{ .Chart.Version }}"
+spec:
+  backoffLimit: 3
+  ttlSecondsAfterFinished: 3600 # 1 hour
+  template:
+    spec:
+      restartPolicy: 'OnFailure'
+      containers:
+        - name: dasboard-importer
+          image: scbexperimental/persistence-elastic-dashboard-importer
+          imagePullPolicy: Always
+          env:
+            - name: KIBANA_URL
+              value: "http://persistence-elastic-kibana.{{ .Release.Namespace }}.svc.cluster.local:5601"
