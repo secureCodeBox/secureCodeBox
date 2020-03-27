@@ -40,6 +40,7 @@ type ScheduledScanReconciler struct {
 // +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=scheduledscans,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=scheduledscans/status,verbs=get;update;patch
 
+// Reconcile comapares the ScheduledScan Resource with the State of the Cluster and updates both accordingly
 func (r *ScheduledScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("scheduledscan", req.NamespacedName)
@@ -106,6 +107,7 @@ func (r *ScheduledScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	return ctrl.Result{RequeueAfter: nextSchedule.Sub(time.Now())}, nil
 }
 
+// SetupWithManager sets up the controller and initializes every thing it needs
 func (r *ScheduledScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	if err := mgr.GetFieldIndexer().IndexField(&executionv1.Scan{}, ownerKey, func(rawObj runtime.Object) []string {
 		// grab the job object, extract the owner...

@@ -179,7 +179,7 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 			Verbs:     []string{"get"},
 		},
 	}
-	r.EnsureServiceAccountExists(
+	r.ensureServiceAccountExists(
 		scan.Namespace,
 		"lurcher",
 		"Lurcher is used to extract results from secureCodeBox Scans. It needs rights to get and watch the status of pods to see when the scans have finished.",
@@ -277,7 +277,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 			Verbs:     []string{"get", "patch"},
 		},
 	}
-	r.EnsureServiceAccountExists(
+	r.ensureServiceAccountExists(
 		scan.Namespace,
 		"parser",
 		"Parser need to access the status of Scans to update how many findings have been identified",
@@ -533,7 +533,7 @@ func (r *ScanReconciler) startPersistenceProvider(scan *executionv1.Scan) error 
 			Verbs:     []string{"get"},
 		},
 	}
-	r.EnsureServiceAccountExists(
+	r.ensureServiceAccountExists(
 		scan.Namespace,
 		"persistence",
 		"PersistenceProvider need to access the current scan to view where its results are stored",
@@ -659,7 +659,7 @@ func (r *ScanReconciler) checkIfPersistingIsCompleted(scan *executionv1.Scan) er
 	return nil
 }
 
-func (r *ScanReconciler) EnsureServiceAccountExists(namespace, serviceAccountName, description string, policyRules []rbacv1.PolicyRule) error {
+func (r *ScanReconciler) ensureServiceAccountExists(namespace, serviceAccountName, description string, policyRules []rbacv1.PolicyRule) error {
 	ctx := context.Background()
 
 	var serviceAccount corev1.ServiceAccount
@@ -746,6 +746,7 @@ func (r *ScanReconciler) EnsureServiceAccountExists(namespace, serviceAccountNam
 	return nil
 }
 
+// SetupWithManager sets up the controller and initializes every thing it needs
 func (r *ScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	endpoint := os.Getenv("S3_ENDPOINT")
 	accessKeyID := os.Getenv("S3_ACCESS_KEY")
