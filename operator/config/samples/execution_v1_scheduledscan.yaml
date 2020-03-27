@@ -1,0 +1,12 @@
+apiVersion: execution.experimental.securecodebox.io/v1
+kind: ScheduledScan
+metadata:
+  name: scheduled-nmap-localhost
+spec:
+  interval: 1m
+  # historyLimit: 1
+  scanSpec:
+    scanType: "nmap"
+    parameters:
+      - "-Pn"
+      - localhost

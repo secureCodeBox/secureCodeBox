@@ -14,4 +14,7 @@ resources:
 - group: execution
   kind: ParseDefinition
   version: v1
+- group: execution
+  kind: ScheduledScan
+  version: v1
 version: "2"

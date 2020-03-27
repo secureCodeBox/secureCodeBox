@@ -72,6 +72,26 @@ rules:
   - list
   - watch
 - apiGroups:
+  - execution.experimental.securecodebox.io
+  resources:
+  - scheduledscans
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - execution.experimental.securecodebox.io
+  resources:
+  - scheduledscans/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
   - rbac.authorization.k8s.io
   resources:
   - rolebindings
