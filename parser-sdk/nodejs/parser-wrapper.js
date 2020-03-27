@@ -26,19 +26,6 @@ async function updateScanStatus(findings) {
         findingCategories.set(category, 1);
       }
     }
-    console.log(findingCategories);
-    console.log({
-      status: {
-        findingCount: findings.length,
-        findingSeverities: {
-          informationalCount: severityCount(findings, 'INFORMATIONAL'),
-          lowCount: severityCount(findings, 'LOW'),
-          mediumCount: severityCount(findings, 'MEDIUM'),
-          highCount: severityCount(findings, 'HIGH'),
-        },
-        findingCategories: Object.fromEntries(findingCategories.entries()),
-      },
-    });
 
     await k8sApi.patchNamespacedCustomObjectStatus(
       'execution.experimental.securecodebox.io',
