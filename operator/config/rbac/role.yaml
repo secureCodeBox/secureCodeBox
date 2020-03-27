@@ -21,17 +21,53 @@ rules:
 - apiGroups:
   - ""
   resources:
-  - pods
+  - serviceaccounts
+  verbs:
+  - create
+  - get
+  - list
+  - watch
+- apiGroups:
+  - execution.experimental.securecodebox.io
+  resources:
+  - parsedefinitions
   verbs:
   - get
   - list
   - watch
 - apiGroups:
-  - ""
+  - execution.experimental.securecodebox.io
   resources:
-  - serviceaccounts
+  - persistenceproviders
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - execution.experimental.securecodebox.io
+  resources:
+  - scans
   verbs:
   - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - execution.experimental.securecodebox.io
+  resources:
+  - scans/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - execution.experimental.securecodebox.io
+  resources:
+  - scantypes
+  verbs:
   - get
   - list
   - watch
@@ -53,67 +89,3 @@ rules:
   - get
   - list
   - watch
-- apiGroups:
-  - scans.experimental.securecodebox.io
-  resources:
-  - parsedefinitions
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - scans.experimental.securecodebox.io
-  resources:
-  - persistenceproviders
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - scans.experimental.securecodebox.io
-  resources:
-  - scans
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - scans.experimental.securecodebox.io
-  resources:
-  - scans/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - scans.experimental.securecodebox.io
-  resources:
-  - scantemplates
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - scans.experimental.securecodebox.io
-  resources:
-  - targets
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - scans.experimental.securecodebox.io
-  resources:
-  - targets/status
-  verbs:
-  - get
-  - patch
-  - update

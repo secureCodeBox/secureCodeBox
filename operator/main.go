@@ -1,5 +1,5 @@
 /*
-
+Copyright 2020 iteratec GmbH.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -26,8 +26,8 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	scansv1 "experimental.securecodebox.io/api/v1"
-	"experimental.securecodebox.io/controllers"
+	executionv1 "github.com/secureCodeBox/secureCodeBox-v2-alpha/apis/execution/v1"
+	executioncontroller "github.com/secureCodeBox/secureCodeBox-v2-alpha/controllers/execution"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -39,7 +39,7 @@ var (
 func init() {
 	_ = clientgoscheme.AddToScheme(scheme)
 
-	_ = scansv1.AddToScheme(scheme)
+	_ = executionv1.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
 
@@ -59,28 +59,19 @@ func main() {
 		MetricsBindAddress: metricsAddr,
 		Port:               9443,
 		LeaderElection:     enableLeaderElection,
-		LeaderElectionID:   "a9d21b22.experimental.securecodebox.io",
+		LeaderElectionID:   "e341d981.experimental.securecodebox.io",
 	})
 	if err != nil {
 		setupLog.Error(err, "unable to start manager")
 		os.Exit(1)
 	}
 
-	if err = (&controllers.ScanReconciler{
+	if err = (&executioncontroller.ScanReconciler{
 		Client: mgr.GetClient(),
 		Log:    ctrl.Log.WithName("controllers").WithName("Scan"),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "Scan")
-		os.Exit(1)
-	}
-
-	if err = (&controllers.TargetReconciler{
-		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("Target"),
-		Scheme: mgr.GetScheme(),
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "Target")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder

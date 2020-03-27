@@ -1,11 +1,11 @@
-# permissions to do viewer persistenceproviders.
+# permissions for end users to view persistenceproviders.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: persistenceprovider-viewer-role
 rules:
 - apiGroups:
-  - scans.experimental.securecodebox.io
+  - execution.experimental.securecodebox.io
   resources:
   - persistenceproviders
   verbs:
@@ -13,7 +13,7 @@ rules:
   - list
   - watch
 - apiGroups:
-  - scans.experimental.securecodebox.io
+  - execution.experimental.securecodebox.io
   resources:
   - persistenceproviders/status
   verbs:

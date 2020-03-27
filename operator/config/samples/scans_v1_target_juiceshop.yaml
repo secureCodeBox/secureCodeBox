@@ -1,7 +1,0 @@
-apiVersion: scans.experimental.securecodebox.io/v1
-kind: Target
-metadata:
-  name: juice-shop
-spec:
-  type: "Host"
-  address: "juice-shop.demo-targets.svc"

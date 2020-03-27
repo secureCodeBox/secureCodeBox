@@ -23,26 +23,17 @@ spec:
         control-plane: controller-manager
     spec:
       containers:
-        - command:
-            - /manager
-          args:
-            - --enable-leader-election
-          image: controller:latest
-          name: manager
-          env:
-            - name: S3_ENDPOINT
-              value: "fra1.digitaloceanspaces.com"
-            - name: S3_ACCESS_KEY
-              value: "ACCECC_KEY_HERE"
-            - name: S3_SECRET_KEY
-              value: "SECRET_KEY_HERE"
-            - name: S3_BUCKET
-              value: "securecodebox"
-          resources:
-            limits:
-              cpu: 100m
-              memory: 30Mi
-            requests:
-              cpu: 100m
-              memory: 20Mi
+      - command:
+        - /manager
+        args:
+        - --enable-leader-election
+        image: controller:latest
+        name: manager
+        resources:
+          limits:
+            cpu: 100m
+            memory: 30Mi
+          requests:
+            cpu: 100m
+            memory: 20Mi
       terminationGracePeriodSeconds: 10

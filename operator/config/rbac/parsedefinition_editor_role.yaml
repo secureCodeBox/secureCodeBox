@@ -1,11 +1,11 @@
-# permissions to do edit parsedefinitions.
+# permissions for end users to edit parsedefinitions.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: parsedefinition-editor-role
 rules:
 - apiGroups:
-  - scans.experimental.securecodebox.io
+  - execution.experimental.securecodebox.io
   resources:
   - parsedefinitions
   verbs:
@@ -17,10 +17,8 @@ rules:
   - update
   - watch
 - apiGroups:
-  - scans.experimental.securecodebox.io
+  - execution.experimental.securecodebox.io
   resources:
   - parsedefinitions/status
   verbs:
   - get
-  - patch
-  - update

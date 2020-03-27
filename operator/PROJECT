@@ -1,19 +1,17 @@
 domain: experimental.securecodebox.io
-repo: github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/
+multigroup: true
+repo: github.com/secureCodeBox/secureCodeBox-v2-alpha
 resources:
-- group: scans
+- group: execution
   kind: Scan
   version: v1
-- group: scans
-  kind: ScanTemplate
+- group: execution
+  kind: ScanType
   version: v1
-- group: scans
-  kind: ParseDefinition
-  version: v1
-- group: scans
+- group: execution
   kind: PersistenceProvider
   version: v1
-- group: scans
-  kind: Target
+- group: execution
+  kind: ParseDefinition
   version: v1
 version: "2"

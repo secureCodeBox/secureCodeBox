@@ -5,7 +5,7 @@ metadata:
   name: scan-editor-role
 rules:
 - apiGroups:
-  - scans.experimental.securecodebox.io
+  - execution.experimental.securecodebox.io
   resources:
   - scans
   verbs:
@@ -17,7 +17,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - scans.experimental.securecodebox.io
+  - execution.experimental.securecodebox.io
   resources:
   - scans/status
   verbs:

@@ -5,7 +5,7 @@ metadata:
   name: scan-viewer-role
 rules:
 - apiGroups:
-  - scans.experimental.securecodebox.io
+  - execution.experimental.securecodebox.io
   resources:
   - scans
   verbs:
@@ -13,7 +13,7 @@ rules:
   - list
   - watch
 - apiGroups:
-  - scans.experimental.securecodebox.io
+  - execution.experimental.securecodebox.io
   resources:
   - scans/status
   verbs:
