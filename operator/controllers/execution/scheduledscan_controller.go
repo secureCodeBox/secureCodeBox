@@ -18,6 +18,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/go-logr/logr"
@@ -72,6 +73,24 @@ func (r *ScheduledScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	if !time.Now().Before(nextSchedule) {
 		// It's time!
 		log.Info("Should start scans here")
+
+		var scan = &executionv1.Scan{
+			ObjectMeta: metav1.ObjectMeta{
+				Namespace: scheduledScan.Namespace,
+				Labels:    scheduledScan.ObjectMeta.GetLabels(),
+			},
+			Spec: *scheduledScan.Spec.ScanSpec.DeepCopy(),
+		}
+		scan.Name = fmt.Sprintf("%s-%d", scheduledScan.Name, nextSchedule.Unix())
+		if err := ctrl.SetControllerReference(&scheduledScan, scan, r.Scheme); err != nil {
+			log.Error(err, "unable to set owner reference on scan")
+			return ctrl.Result{}, err
+		}
+
+		if err := r.Create(ctx, scan); err != nil {
+			log.Error(err, "unable to create Scan for ScheduledScan", "scan", scan)
+			return ctrl.Result{}, err
+		}
 
 		var now metav1.Time = metav1.Now()
 		scheduledScan.Status.LastScheduleTime = &now
