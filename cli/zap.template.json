@@ -3,7 +3,7 @@
     "context": "%CONTEXT%",
     "name": "zap",
     "target": {
-      "location": "%HOST%",
+      "location": "%TARGET%",
       "name": "%TARGET_NAME%",
       "attributes": {
         "ZAP_BASE_URL": "%TARGET%",
