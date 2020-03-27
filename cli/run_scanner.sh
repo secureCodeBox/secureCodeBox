@@ -227,7 +227,7 @@ NUM_ERRORS=0
 if [ ! -n "${PAYLOAD_OVERRIDE}" ]; then 
 	# Verify target format
 	if [ "${TARGET_FORMAT}" = "uri" ]; then
-		if [[ ! "${TARGET}" =~ http?(s)://* ]]; then
+		if [[ ! "${TARGET}" =~ http(s)?://* ]]; then
 			error "Invalid URI to scan: '${TARGET}'! Expected: http(s)://..."
 			NUM_ERRORS=$((NUM_ERRORS + 1))
 		else
