@@ -41,7 +41,7 @@ async function updateScanStatus(findings) {
     });
 
     await k8sApi.patchNamespacedCustomObjectStatus(
-      'scans.experimental.securecodebox.io',
+      'execution.experimental.securecodebox.io',
       'v1',
       namespace,
       'scans',

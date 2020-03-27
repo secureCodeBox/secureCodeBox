@@ -29,7 +29,7 @@ async function main() {
   let scan;
   try {
     const { body } = await k8sApi.getNamespacedCustomObject(
-      'scans.experimental.securecodebox.io',
+      'execution.experimental.securecodebox.io',
       'v1',
       namespace,
       'scans',
