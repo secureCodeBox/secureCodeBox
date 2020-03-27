@@ -7,6 +7,11 @@ metadata:
   name: scans.execution.experimental.securecodebox.io
 spec:
   additionalPrinterColumns:
+  - JSONPath: .metadata.uid
+    description: K8s Resource UID
+    name: UID
+    priority: 1
+    type: string
   - JSONPath: .spec.scanType
     description: Scan Type
     name: Type
@@ -18,6 +23,11 @@ spec:
   - JSONPath: .status.findingCount
     description: Total Finding Count
     name: Findings
+    type: string
+  - JSONPath: .spec.parameters
+    description: Arguments passed to the Scanner
+    name: Parameters
+    priority: 1
     type: string
   group: execution.experimental.securecodebox.io
   names:
