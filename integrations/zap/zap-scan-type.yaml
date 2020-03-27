@@ -1,11 +1,11 @@
-apiVersion: 'scans.experimental.securecodebox.io/v1'
-kind: ScanTemplate
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: ScanType
 metadata:
-  name: 'zap-baseline'
+  name: "zap-baseline"
 spec:
   extractResults:
     type: zap-json
-    location: '/home/securecodebox/zap-results.json'
+    location: "/home/securecodebox/zap-results.json"
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 10
@@ -16,13 +16,13 @@ spec:
             - name: zap-baseline
               image: owasp/zap2docker-stable:2.9.0
               command:
-                - 'zap-baseline.py'
+                - "zap-baseline.py"
                 # Force Zap to always return a zero exit code. k8s would otherwise try to restart zap.
-                - '-I'
-                - '-J'
+                - "-I"
+                - "-J"
                 # ZAP Baseline Script doesn't allow absolute paths...
                 # Hacky workaround: specify a relative path to the `/zap/wrk` base dir.
-                - '../../home/securecodebox/zap-results.json'
+                - "../../home/securecodebox/zap-results.json"
               volumeMounts:
                 - mountPath: /zap/wrk
                   name: zap-workdir
@@ -30,14 +30,14 @@ spec:
             - name: zap-workdir
               emptyDir: {}
 ---
-apiVersion: 'scans.experimental.securecodebox.io/v1'
-kind: ScanTemplate
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: ScanType
 metadata:
-  name: 'zap-api-scan'
+  name: "zap-api-scan"
 spec:
   extractResults:
     type: zap-json
-    location: '/home/securecodebox/zap-results.json'
+    location: "/home/securecodebox/zap-results.json"
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 10
@@ -48,13 +48,13 @@ spec:
             - name: zap-api-scan
               image: owasp/zap2docker-stable:2.9.0
               command:
-                - 'zap-api-scan.py'
+                - "zap-api-scan.py"
                 # Force Zap to always return a zero exit code. k8s would otherwise try to restart zap.
-                - '-I'
-                - '-J'
+                - "-I"
+                - "-J"
                 # ZAP Baseline Script doesn't allow absolute paths...
                 # Hacky workaround: specify a relative path to the `/zap/wrk` base dir.
-                - '../../home/securecodebox/zap-results.json'
+                - "../../home/securecodebox/zap-results.json"
               volumeMounts:
                 - mountPath: /zap/wrk
                   name: zap-workdir
@@ -62,14 +62,14 @@ spec:
             - name: zap-workdir
               emptyDir: {}
 ---
-apiVersion: 'scans.experimental.securecodebox.io/v1'
-kind: ScanTemplate
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: ScanType
 metadata:
-  name: 'zap-full-scan'
+  name: "zap-full-scan"
 spec:
   extractResults:
     type: zap-json
-    location: '/home/securecodebox/zap-results.json'
+    location: "/home/securecodebox/zap-results.json"
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 10
@@ -80,13 +80,13 @@ spec:
             - name: zap-full-scan
               image: owasp/zap2docker-stable:2.9.0
               command:
-                - 'zap-full-scan.py'
+                - "zap-full-scan.py"
                 # Force Zap to always return a zero exit code. k8s would otherwise try to restart zap.
-                - '-I'
-                - '-J'
+                - "-I"
+                - "-J"
                 # ZAP Baseline Script doesn't allow absolute paths...
                 # Hacky workaround: specify a relative path to the `/zap/wrk` base dir.
-                - '../../home/securecodebox/zap-results.json'
+                - "../../home/securecodebox/zap-results.json"
               volumeMounts:
                 - mountPath: /zap/wrk
                   name: zap-workdir

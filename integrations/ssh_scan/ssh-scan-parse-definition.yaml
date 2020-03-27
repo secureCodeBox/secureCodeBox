@@ -1,4 +1,4 @@
-apiVersion: "scans.experimental.securecodebox.io/v1"
+apiVersion: "execution.experimental.securecodebox.io/v1"
 kind: ParseDefinition
 metadata:
   name: "ssh-scan-json"

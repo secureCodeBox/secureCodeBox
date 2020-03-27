@@ -1,5 +1,5 @@
-apiVersion: "scans.experimental.securecodebox.io/v1"
-kind: ScanTemplate
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: ScanType
 metadata:
   name: "nmap"
 spec:
