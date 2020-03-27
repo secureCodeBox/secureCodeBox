@@ -1,0 +1,13 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "amass-securecodebox.io"
+  labels:
+    organization: "secureCodeBox"
+spec:
+  scanType: "amass"
+  parameters:
+    - "-noalts"
+    - "-norecursive"
+    - "-d"
+    - "securecodebox.io"

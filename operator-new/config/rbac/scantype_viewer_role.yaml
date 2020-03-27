@@ -1,0 +1,20 @@
+# permissions for end users to view scantypes.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: scantype-viewer-role
+rules:
+- apiGroups:
+  - execution.experimental.securecodebox.io
+  resources:
+  - scantypes
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - execution.experimental.securecodebox.io
+  resources:
+  - scantypes/status
+  verbs:
+  - get

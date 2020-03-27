@@ -1,0 +1,11 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "ssh-iteratec.de"
+  labels:
+    company: iteratec
+spec:
+  scanType: "ssh-scan"
+  parameters:
+    - "-t"
+    - www.iteratec.de

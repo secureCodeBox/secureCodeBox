@@ -1,0 +1,24 @@
+# permissions for end users to edit persistenceproviders.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: persistenceprovider-editor-role
+rules:
+- apiGroups:
+  - execution.experimental.securecodebox.io
+  resources:
+  - persistenceproviders
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - execution.experimental.securecodebox.io
+  resources:
+  - persistenceproviders/status
+  verbs:
+  - get

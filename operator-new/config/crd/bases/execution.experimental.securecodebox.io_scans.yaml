@@ -1,0 +1,109 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  name: scans.execution.experimental.securecodebox.io
+spec:
+  additionalPrinterColumns:
+  - JSONPath: .spec.scanType
+    description: Scan Type
+    name: Type
+    type: string
+  - JSONPath: .status.state
+    description: Scan State
+    name: State
+    type: string
+  - JSONPath: .status.findingCount
+    description: Total Finding Count
+    name: Findings
+    type: string
+  group: execution.experimental.securecodebox.io
+  names:
+    kind: Scan
+    plural: scans
+  scope: ""
+  subresources:
+    status: {}
+  validation:
+    openAPIV3Schema:
+      description: Scan is the Schema for the scans API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: ScanSpec defines the desired state of Scan
+          properties:
+            parameters:
+              items:
+                type: string
+              type: array
+            scanType:
+              type: string
+          type: object
+        status:
+          description: ScanStatus defines the observed state of Scan
+          properties:
+            findingCategories:
+              additionalProperties:
+                format: int64
+                type: integer
+              description: FindingCategories indicates the count of finding broken
+                down by their categories
+              type: object
+            findingCount:
+              description: FindingCount indicates how many findings were identified
+                in total
+              format: int64
+              type: integer
+            findingSeverities:
+              description: FindingSeverities indicates the count of finding with the
+                respective severity
+              properties:
+                highCount:
+                  format: int64
+                  type: integer
+                informationalCount:
+                  format: int64
+                  type: integer
+                lowCount:
+                  format: int64
+                  type: integer
+                mediumCount:
+                  format: int64
+                  type: integer
+              type: object
+            rawResultFile:
+              description: RawResultFile Filename of the result file of the scanner.
+                e.g. `nmap-result.xml`
+              type: string
+            rawResultType:
+              description: RawResultType determines which kind of ParseDefinition
+                will be used to turn the raw results of the scanner into findings
+              type: string
+            state:
+              type: string
+          type: object
+      type: object
+  version: v1
+  versions:
+  - name: v1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

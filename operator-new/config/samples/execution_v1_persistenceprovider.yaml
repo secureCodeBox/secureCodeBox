@@ -1,0 +1,11 @@
+apiVersion: execution.experimental.securecodebox.io/v1
+kind: PersistenceProvider
+metadata:
+  name: "persistence-elastic"
+  labels:
+    type: Structured
+spec:
+  image: "scbexperimental/persistence-elastic:latest"
+  env:
+    - name: ELASTICSEARCH_ADDRESS
+      value: "http://elasticsearch-master:9200"

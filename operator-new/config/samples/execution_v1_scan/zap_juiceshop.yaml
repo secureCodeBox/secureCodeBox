@@ -1,0 +1,11 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "zap-juiceshop"
+  labels:
+    organization: "OWASP"
+spec:
+  scanType: "zap-baseline"
+  parameters:
+    - "-t"
+    - "http://juice-shop.demo-targets.svc:3000"
