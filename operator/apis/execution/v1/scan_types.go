@@ -43,20 +43,25 @@ type ScanStatus struct {
 
 	StartTime *metav1.Time `json:"startTime,omitempty"`
 
-	// FindingCount indicates how many findings were identified in total
-	FindingCount uint64 `json:"findingCount,omitempty"`
+	Findings FindingStats `json:"findings,omitempty"`
+}
+
+// FindingStats contains the general stats about the results of the scan
+type FindingStats struct {
+	// Count indicates how many findings were identified in total
+	Count uint64 `json:"count,omitempty"`
 	// FindingSeverities indicates the count of finding with the respective severity
-	FindingSeverities FindingSeverities `json:"findingSeverities,omitempty"`
+	FindingSeverities FindingSeverities `json:"severities,omitempty"`
 	// FindingCategories indicates the count of finding broken down by their categories
-	FindingCategories map[string]uint64 `json:"findingCategories,omitempty"`
+	FindingCategories map[string]uint64 `json:"categories,omitempty"`
 }
 
 // FindingSeverities indicates the count of finding with the respective severity
 type FindingSeverities struct {
-	InformationalCount uint64 `json:"informationalCount,omitempty"`
-	LowCount           uint64 `json:"lowCount,omitempty"`
-	MediumCount        uint64 `json:"mediumCount,omitempty"`
-	HighCount          uint64 `json:"highCount,omitempty"`
+	Informational uint64 `json:"informational,omitempty"`
+	Low           uint64 `json:"low,omitempty"`
+	Medium        uint64 `json:"medium,omitempty"`
+	High          uint64 `json:"high,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -64,7 +69,7 @@ type FindingSeverities struct {
 // +kubebuilder:printcolumn:name="UID",type=string,JSONPath=`.metadata.uid`,description="K8s Resource UID",priority=1
 // +kubebuilder:printcolumn:name="Type",type=string,JSONPath=`.spec.scanType`,description="Scan Type"
 // +kubebuilder:printcolumn:name="State",type=string,JSONPath=`.status.state`,description="Scan State"
-// +kubebuilder:printcolumn:name="Findings",type=string,JSONPath=`.status.findingCount`,description="Total Finding Count"
+// +kubebuilder:printcolumn:name="Findings",type=string,JSONPath=`.status.findings.count`,description="Total Finding Count"
 // +kubebuilder:printcolumn:name="Parameters",type=string,JSONPath=`.spec.parameters`,description="Arguments passed to the Scanner",priority=1
 
 // Scan is the Schema for the scans API
@@ -78,6 +83,7 @@ type Scan struct {
 
 // +kubebuilder:object:root=true
 
+// ScanList type wrapping multiple Scans
 type ScanList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`

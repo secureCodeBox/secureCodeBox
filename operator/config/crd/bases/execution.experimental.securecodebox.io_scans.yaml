@@ -22,7 +22,7 @@ spec:
     description: Scan State
     name: State
     type: string
-  - JSONPath: .status.findingCount
+  - JSONPath: .status.findings.count
     description: Total Finding Count
     name: Findings
     type: string
@@ -69,34 +69,39 @@ spec:
         status:
           description: ScanStatus defines the observed state of Scan
           properties:
-            findingCategories:
-              additionalProperties:
-                format: int64
-                type: integer
-              description: FindingCategories indicates the count of finding broken
-                down by their categories
-              type: object
-            findingCount:
-              description: FindingCount indicates how many findings were identified
-                in total
-              format: int64
-              type: integer
-            findingSeverities:
-              description: FindingSeverities indicates the count of finding with the
-                respective severity
+            findings:
+              description: FindingStats contains the general stats about the results
+                of the scan
               properties:
-                highCount:
+                categories:
+                  additionalProperties:
+                    format: int64
+                    type: integer
+                  description: FindingCategories indicates the count of finding broken
+                    down by their categories
+                  type: object
+                count:
+                  description: Count indicates how many findings were identified in
+                    total
                   format: int64
                   type: integer
-                informationalCount:
-                  format: int64
-                  type: integer
-                lowCount:
-                  format: int64
-                  type: integer
-                mediumCount:
-                  format: int64
-                  type: integer
+                severities:
+                  description: FindingSeverities indicates the count of finding with
+                    the respective severity
+                  properties:
+                    high:
+                      format: int64
+                      type: integer
+                    informational:
+                      format: int64
+                      type: integer
+                    low:
+                      format: int64
+                      type: integer
+                    medium:
+                      format: int64
+                      type: integer
+                  type: object
               type: object
             rawResultFile:
               description: RawResultFile Filename of the result file of the scanner.
