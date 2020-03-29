@@ -19,6 +19,7 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"reflect"
 	"sort"
 	"time"
 
@@ -77,6 +78,18 @@ func (r *ScheduledScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 		}
 		return completedScans[i].Status.StartTime.Before(completedScans[j].Status.StartTime)
 	})
+
+	if len(completedScans) >= 1 {
+		lastFindings := completedScans[len(completedScans)-1].Status.Findings
+		if !reflect.DeepEqual(lastFindings, scheduledScan.Status.Findings) {
+			log.V(2).Info("Updating ScheduledScans Findings as they appear to have changed")
+			scheduledScan.Status.Findings = *lastFindings.DeepCopy()
+			if err := r.Status().Update(ctx, &scheduledScan); err != nil {
+				log.Error(err, "unable to update ScheduledScan status")
+				return ctrl.Result{}, err
+			}
+		}
+	}
 
 	for i, scan := range completedScans {
 		if int64(i) >= int64(len(completedScans))-scheduledScan.Spec.HistoryLimit {

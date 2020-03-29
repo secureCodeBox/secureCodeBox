@@ -45,10 +45,17 @@ type ScheduledScanStatus struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	LastScheduleTime *metav1.Time `json:"lastScheduleTime,omitempty"`
+
+	// Findings Contains the findings stats of the most recent completed scan
+	Findings FindingStats `json:"findings,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="UID",type=string,JSONPath=`.metadata.uid`,description="K8s Resource UID",priority=1
+// +kubebuilder:printcolumn:name="Type",type=string,JSONPath=`.spec.scanSpec.scanType`,description="Scan Type"
+// +kubebuilder:printcolumn:name="Findings",type=string,JSONPath=`.status.findings.count`,description="Total Finding Count"
+// +kubebuilder:printcolumn:name="Parameters",type=string,JSONPath=`.spec.scanSpec.parameters`,description="Arguments passed to the Scanner",priority=1
 
 // ScheduledScan is the Schema for the scheduledscans API
 type ScheduledScan struct {

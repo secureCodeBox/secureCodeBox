@@ -9,4 +9,4 @@ spec:
     scanType: "nmap"
     parameters:
       - "-Pn"
-      - localhost
+      - "192.168.178.24"

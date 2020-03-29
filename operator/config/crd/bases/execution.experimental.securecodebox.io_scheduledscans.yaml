@@ -8,6 +8,25 @@ metadata:
   creationTimestamp: null
   name: scheduledscans.execution.experimental.securecodebox.io
 spec:
+  additionalPrinterColumns:
+  - JSONPath: .metadata.uid
+    description: K8s Resource UID
+    name: UID
+    priority: 1
+    type: string
+  - JSONPath: .spec.scanSpec.scanType
+    description: Scan Type
+    name: Type
+    type: string
+  - JSONPath: .status.findings.count
+    description: Total Finding Count
+    name: Findings
+    type: string
+  - JSONPath: .spec.scanSpec.parameters
+    description: Arguments passed to the Scanner
+    name: Parameters
+    priority: 1
+    type: string
   group: execution.experimental.securecodebox.io
   names:
     kind: ScheduledScan
@@ -65,6 +84,40 @@ spec:
         status:
           description: ScheduledScanStatus defines the observed state of ScheduledScan
           properties:
+            findings:
+              description: Findings Contains the findings stats of the most recent
+                completed scan
+              properties:
+                categories:
+                  additionalProperties:
+                    format: int64
+                    type: integer
+                  description: FindingCategories indicates the count of finding broken
+                    down by their categories
+                  type: object
+                count:
+                  description: Count indicates how many findings were identified in
+                    total
+                  format: int64
+                  type: integer
+                severities:
+                  description: FindingSeverities indicates the count of finding with
+                    the respective severity
+                  properties:
+                    high:
+                      format: int64
+                      type: integer
+                    informational:
+                      format: int64
+                      type: integer
+                    low:
+                      format: int64
+                      type: integer
+                    medium:
+                      format: int64
+                      type: integer
+                  type: object
+              type: object
             lastScheduleTime:
               format: date-time
               type: string
