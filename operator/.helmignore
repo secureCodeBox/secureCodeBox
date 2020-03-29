@@ -21,3 +21,9 @@
 .idea/
 *.tmproj
 .vscode/
+
+hack/
+config/
+bin/
+controllers/
+apis/
