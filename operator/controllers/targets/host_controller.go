@@ -19,6 +19,7 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"reflect"
 	"time"
 
 	"github.com/go-logr/logr"
@@ -111,6 +112,50 @@ func (r *HostReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		log.Info("Created ScheduledScan for Target", "ScheduledScan", scanName)
 	}
 
+	// Update Targets Findings Status
+	var childScans executionv1.ScheduledScanList
+	if err := r.List(ctx, &childScans, client.InNamespace(req.Namespace), client.MatchingFields{ownerKey: req.Name}); err != nil {
+		log.Error(err, "unable to list child ScheduledScans")
+		return ctrl.Result{}, err
+	}
+
+	totalStats := executionv1.FindingStats{
+		Count: 0,
+		FindingSeverities: executionv1.FindingSeverities{
+			Informational: 0,
+			Low:           0,
+			Medium:        0,
+			High:          0,
+		},
+		FindingCategories: map[string]uint64{},
+	}
+	for _, scan := range childScans.Items {
+		stats := scan.Status.Findings
+
+		totalStats.Count += stats.Count
+		totalStats.FindingSeverities.Informational += stats.FindingSeverities.Informational
+		totalStats.FindingSeverities.Low += stats.FindingSeverities.Low
+		totalStats.FindingSeverities.Medium += stats.FindingSeverities.Medium
+		totalStats.FindingSeverities.High += stats.FindingSeverities.High
+
+		for key, value := range stats.FindingCategories {
+			if _, ok := totalStats.FindingCategories[key]; ok {
+				totalStats.FindingCategories[key] += value
+			} else {
+				totalStats.FindingCategories[key] = value
+			}
+		}
+	}
+
+	if !reflect.DeepEqual(host.Status.Findings, totalStats) {
+		log.V(0).Info("Updating ScheduledScans Findings as they appear to have changed")
+		host.Status.Findings = *totalStats.DeepCopy()
+		if err := r.Status().Update(ctx, &host); err != nil {
+			log.Error(err, "unable to update Host status")
+			return ctrl.Result{}, err
+		}
+	}
+
 	return ctrl.Result{}, nil
 }
 
@@ -129,16 +174,16 @@ func CreateScanTemplatesForHost(host targetsv1.Host) []ScanTemplates {
 				},
 			})
 		}
-		// if port.Type == "http" || port.Type == "https" {
-		// 	scanTemplates = append(scanTemplates, ScanTemplates{
-		// 		Port: port.Port,
-		// 		Type: port.Type,
-		// 		ScanSpec: executionv1.ScanSpec{
-		// 			ScanType:   "zap-baseline",
-		// 			Parameters: []string{"-t", fmt.Sprintf("%s://%s:%d", port.Type, host.Spec.Hostname, port.Port)},
-		// 		},
-		// 	})
-		// }
+		if port.Type == "http" || port.Type == "https" {
+			scanTemplates = append(scanTemplates, ScanTemplates{
+				Port: port.Port,
+				Type: port.Type,
+				ScanSpec: executionv1.ScanSpec{
+					ScanType:   "zap-baseline",
+					Parameters: []string{"-t", fmt.Sprintf("%s://%s:%d", port.Type, host.Spec.Hostname, port.Port)},
+				},
+			})
+		}
 	}
 
 	return scanTemplates
