@@ -64,6 +64,7 @@ helm install persistence-elastic ./persistence/persistence-elastic/
 kubectl apply -f integrations/nmap/nmap-scan-type.yaml -f integrations/nmap/nmap-parse-definition.yaml
 kubectl apply -f integrations/amass/amass-scan-type.yaml -f integrations/amass/amass-parse-definition.yaml
 kubectl apply -f integrations/ssh_scan/ssh-scan-scan-type.yaml -f integrations/ssh_scan/ssh-scan-parse-definition.yaml
+kubectl apply -f integrations/sslyze/sslyze-scan-type.yaml -f integrations/sslyze/sslyze-parse-definition.yaml
 kubectl apply -f integrations/zap/zap-scan-type.yaml -f integrations/zap/zap-parse-definition.yaml
 ```
 
