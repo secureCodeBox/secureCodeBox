@@ -84,7 +84,7 @@ func (r *HostReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			log.Error(err, "Failed to lookup ScheduledScan for Host")
 			return ctrl.Result{}, err
 		} else {
-			log.V(0).Info("Wont create Scan for Host as the Scan already exists", "ScheduledScanName", scanName)
+			log.V(4).Info("Wont create Scan for Host as the Scan already exists", "ScheduledScanName", scanName)
 			continue
 		}
 
