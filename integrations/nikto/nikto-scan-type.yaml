@@ -1,0 +1,23 @@
+apiVersion: 'execution.experimental.securecodebox.io/v1'
+kind: ScanType
+metadata:
+  name: 'nikto'
+spec:
+  extractResults:
+    type: nikto-json
+    location: '/home/securecodebox/nikto-results.json'
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 10
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: nikto
+              image: scbexperimental/nikto:latest
+              command:
+                - 'nikto'
+                - '-F'
+                - 'json'
+                - '-o'
+                - '/home/securecodebox/nikto-results.json'

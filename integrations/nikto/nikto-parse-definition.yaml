@@ -1,0 +1,7 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: ParseDefinition
+metadata:
+  name: "nikto-json"
+spec:
+  handlesResultsType: nikto-json
+  image: scbexperimental/parser-nikto
