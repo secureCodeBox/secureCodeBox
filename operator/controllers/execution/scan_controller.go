@@ -273,7 +273,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 
 	rules := []rbacv1.PolicyRule{
 		rbacv1.PolicyRule{
-			APIGroups: []string{"scans.experimental.securecodebox.io"},
+			APIGroups: []string{"execution.experimental.securecodebox.io"},
 			Resources: []string{"scans/status"},
 			Verbs:     []string{"get", "patch"},
 		},
@@ -529,7 +529,7 @@ func (r *ScanReconciler) startPersistenceProvider(scan *executionv1.Scan) error 
 
 	rules := []rbacv1.PolicyRule{
 		rbacv1.PolicyRule{
-			APIGroups: []string{"scans.experimental.securecodebox.io"},
+			APIGroups: []string{"execution.experimental.securecodebox.io"},
 			Resources: []string{"scans"},
 			Verbs:     []string{"get"},
 		},
