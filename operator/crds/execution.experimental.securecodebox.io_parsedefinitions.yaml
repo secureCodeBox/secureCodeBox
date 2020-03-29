@@ -3,14 +3,18 @@
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.2.5
   creationTimestamp: null
   name: parsedefinitions.execution.experimental.securecodebox.io
 spec:
   group: execution.experimental.securecodebox.io
   names:
     kind: ParseDefinition
+    listKind: ParseDefinitionList
     plural: parsedefinitions
-  scope: ""
+    singular: parsedefinition
+  scope: Namespaced
   validation:
     openAPIV3Schema:
       description: ParseDefinition is the Schema for the parsedefinitions API

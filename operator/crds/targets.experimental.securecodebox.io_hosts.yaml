@@ -6,43 +6,32 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.2.5
   creationTimestamp: null
-  name: scans.execution.experimental.securecodebox.io
+  name: hosts.targets.experimental.securecodebox.io
 spec:
   additionalPrinterColumns:
-  - JSONPath: .metadata.uid
-    description: K8s Resource UID
-    name: UID
-    priority: 1
+  - JSONPath: .spec.hostname
+    name: Hostname
     type: string
-  - JSONPath: .spec.scanType
-    description: Scan Type
-    name: Type
-    type: string
-  - JSONPath: .status.state
-    description: Scan State
-    name: State
+  - JSONPath: .spec.ports
+    description: Ports of the Host
+    name: Ports
     type: string
   - JSONPath: .status.findings.count
     description: Total Finding Count
     name: Findings
     type: string
-  - JSONPath: .spec.parameters
-    description: Arguments passed to the Scanner
-    name: Parameters
-    priority: 1
-    type: string
-  group: execution.experimental.securecodebox.io
+  group: targets.experimental.securecodebox.io
   names:
-    kind: Scan
-    listKind: ScanList
-    plural: scans
-    singular: scan
+    kind: Host
+    listKind: HostList
+    plural: hosts
+    singular: host
   scope: Namespaced
   subresources:
     status: {}
   validation:
     openAPIV3Schema:
-      description: Scan is the Schema for the scans API
+      description: Host is the Schema for the hosts API
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
@@ -57,17 +46,34 @@ spec:
         metadata:
           type: object
         spec:
-          description: ScanSpec defines the desired state of Scan
+          description: HostSpec defines the desired state of Host
           properties:
-            parameters:
-              items:
-                type: string
-              type: array
-            scanType:
+            hostname:
+              description: 'Hostname contains the dns name of the host TODO: Add an
+                IPAddress Field'
               type: string
+            ports:
+              items:
+                description: HostPort describes a Port of a Host
+                properties:
+                  port:
+                    description: The port number
+                    format: int32
+                    minimum: 0
+                    type: integer
+                  type:
+                    type: string
+                required:
+                - port
+                - type
+                type: object
+              type: array
+          required:
+          - hostname
+          - ports
           type: object
         status:
-          description: ScanStatus defines the observed state of Scan
+          description: HostStatus defines the observed state of Host
           properties:
             findings:
               description: FindingStats contains the general stats about the results
@@ -103,19 +109,6 @@ spec:
                       type: integer
                   type: object
               type: object
-            rawResultFile:
-              description: RawResultFile Filename of the result file of the scanner.
-                e.g. `nmap-result.xml`
-              type: string
-            rawResultType:
-              description: RawResultType determines which kind of ParseDefinition
-                will be used to turn the raw results of the scanner into findings
-              type: string
-            startTime:
-              format: date-time
-              type: string
-            state:
-              type: string
           type: object
       type: object
   version: v1

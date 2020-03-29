@@ -1,0 +1,20 @@
+# permissions for end users to view scheduledscans.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: scheduledscan-viewer-role
+rules:
+- apiGroups:
+  - execution.experimental.securecodebox.io
+  resources:
+  - scheduledscans
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - execution.experimental.securecodebox.io
+  resources:
+  - scheduledscans/status
+  verbs:
+  - get

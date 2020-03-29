@@ -9,7 +9,7 @@ metadata:
   name: scantypes.execution.experimental.securecodebox.io
 spec:
   additionalPrinterColumns:
-  - JSONPath: .spec.template.spec.containers[0].image
+  - JSONPath: .spec.jobTemplate.spec.template.spec.containers[0].image
     description: Scanner Container Image
     name: Image
     type: string

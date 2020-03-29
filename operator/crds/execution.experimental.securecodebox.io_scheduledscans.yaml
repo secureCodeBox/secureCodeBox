@@ -6,7 +6,7 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.2.5
   creationTimestamp: null
-  name: scans.execution.experimental.securecodebox.io
+  name: scheduledscans.execution.experimental.securecodebox.io
 spec:
   additionalPrinterColumns:
   - JSONPath: .metadata.uid
@@ -14,35 +14,31 @@ spec:
     name: UID
     priority: 1
     type: string
-  - JSONPath: .spec.scanType
+  - JSONPath: .spec.scanSpec.scanType
     description: Scan Type
     name: Type
-    type: string
-  - JSONPath: .status.state
-    description: Scan State
-    name: State
     type: string
   - JSONPath: .status.findings.count
     description: Total Finding Count
     name: Findings
     type: string
-  - JSONPath: .spec.parameters
+  - JSONPath: .spec.scanSpec.parameters
     description: Arguments passed to the Scanner
     name: Parameters
     priority: 1
     type: string
   group: execution.experimental.securecodebox.io
   names:
-    kind: Scan
-    listKind: ScanList
-    plural: scans
-    singular: scan
+    kind: ScheduledScan
+    listKind: ScheduledScanList
+    plural: scheduledscans
+    singular: scheduledscan
   scope: Namespaced
   subresources:
     status: {}
   validation:
     openAPIV3Schema:
-      description: Scan is the Schema for the scans API
+      description: ScheduledScan is the Schema for the scheduledscans API
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
@@ -57,21 +53,40 @@ spec:
         metadata:
           type: object
         spec:
-          description: ScanSpec defines the desired state of Scan
+          description: ScheduledScanSpec defines the desired state of ScheduledScan
           properties:
-            parameters:
-              items:
-                type: string
-              type: array
-            scanType:
+            historyLimit:
+              description: HistoryLimit determines how many past Scans will be kept
+                until the oldest one will be delted, defaults to 3. When set to 0
+                Scans will be deleted directly after completion
+              format: int64
+              type: integer
+            interval:
+              description: 'Interval describes how often the scan should be repeated
+                Examples: ''12h'', ''7d'', ''30m'' (only days, hours and minutes supported,
+                specified as integers)'
               type: string
+            scanSpec:
+              description: Foo is an example field of ScheduledScan. Edit ScheduledScan_types.go
+                to remove/update
+              properties:
+                parameters:
+                  items:
+                    type: string
+                  type: array
+                scanType:
+                  type: string
+              type: object
+          required:
+          - interval
+          - scanSpec
           type: object
         status:
-          description: ScanStatus defines the observed state of Scan
+          description: ScheduledScanStatus defines the observed state of ScheduledScan
           properties:
             findings:
-              description: FindingStats contains the general stats about the results
-                of the scan
+              description: Findings Contains the findings stats of the most recent
+                completed scan
               properties:
                 categories:
                   additionalProperties:
@@ -103,18 +118,8 @@ spec:
                       type: integer
                   type: object
               type: object
-            rawResultFile:
-              description: RawResultFile Filename of the result file of the scanner.
-                e.g. `nmap-result.xml`
-              type: string
-            rawResultType:
-              description: RawResultType determines which kind of ParseDefinition
-                will be used to turn the raw results of the scanner into findings
-              type: string
-            startTime:
+            lastScheduleTime:
               format: date-time
-              type: string
-            state:
               type: string
           type: object
       type: object
