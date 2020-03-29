@@ -19,6 +19,7 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"sort"
 	"time"
 
 	"github.com/go-logr/logr"
@@ -61,7 +62,34 @@ func (r *ScheduledScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 		return ctrl.Result{}, err
 	}
 
-	log.Info("ScanInverval parsed", "interval", scheduledScan.Spec.Interval)
+	log.Info("Got Scans", "count", len(childScans.Items))
+
+	var completedScans []executionv1.Scan
+	for _, scan := range childScans.Items {
+		if scan.Status.State == "Done" {
+			completedScans = append(completedScans, scan)
+		}
+	}
+
+	sort.Slice(completedScans, func(i, j int) bool {
+		if completedScans[i].Status.StartTime == nil {
+			return completedScans[j].Status.StartTime != nil
+		}
+		return completedScans[i].Status.StartTime.Before(completedScans[j].Status.StartTime)
+	})
+
+	for i, scan := range completedScans {
+		if int64(i) >= int64(len(completedScans))-scheduledScan.Spec.HistoryLimit {
+			break
+		}
+		if err := r.Delete(ctx, &scan, client.PropagationPolicy(metav1.DeletePropagationBackground)); (err) != nil {
+			log.Error(err, "unable to delete old scan", "scan", scan)
+		} else {
+			log.V(0).Info("deleted old successful job", "scan", scan)
+		}
+	}
+
+	log.Info("ScanInterval parsed", "interval", scheduledScan.Spec.Interval)
 
 	var nextSchedule time.Time
 	if scheduledScan.Status.LastScheduleTime != nil {
@@ -83,6 +111,8 @@ func (r *ScheduledScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 			Spec: *scheduledScan.Spec.ScanSpec.DeepCopy(),
 		}
 		scan.Name = fmt.Sprintf("%s-%d", scheduledScan.Name, nextSchedule.Unix())
+		metaNow := metav1.Now()
+		scan.Status.StartTime = &metaNow
 		if err := ctrl.SetControllerReference(&scheduledScan, scan, r.Scheme); err != nil {
 			log.Error(err, "unable to set owner reference on scan")
 			return ctrl.Result{}, err
@@ -117,7 +147,7 @@ func (r *ScheduledScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
 			return nil
 		}
 		// ...make sure it's a Scan belonging to a Target...
-		if owner.APIVersion != apiGVStr || owner.Kind != "Target" {
+		if owner.APIVersion != apiGVStr || owner.Kind != "ScheduledScan" {
 			return nil
 		}
 

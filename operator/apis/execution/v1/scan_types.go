@@ -41,6 +41,8 @@ type ScanStatus struct {
 	// RawResultFile Filename of the result file of the scanner. e.g. `nmap-result.xml`
 	RawResultFile string `json:"rawResultFile,omitempty"`
 
+	StartTime *metav1.Time `json:"startTime,omitempty"`
+
 	// FindingCount indicates how many findings were identified in total
 	FindingCount uint64 `json:"findingCount,omitempty"`
 	// FindingSeverities indicates the count of finding with the respective severity

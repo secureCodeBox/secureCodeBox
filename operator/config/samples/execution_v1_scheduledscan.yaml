@@ -4,7 +4,7 @@ metadata:
   name: scheduled-nmap-localhost
 spec:
   interval: 1m
-  # historyLimit: 1
+  historyLimit: 2
   scanSpec:
     scanType: "nmap"
     parameters:
