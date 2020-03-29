@@ -63,6 +63,7 @@ var (
 // Permissions needed to create service accounts for lurcher, parser and persistence providers
 
 // Pod permission are required to grant these permission to service accounts
+// +kubebuilder:rbac:groups=core,resources=pods,verbs=get
 // +kubebuilder:rbac:groups=core,resources=serviceaccounts,verbs=get;watch;list;create
 // +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=roles,verbs=get;watch;list;create
 // +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=rolebindings,verbs=get;watch;list;create
