@@ -1,0 +1,124 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.2.5
+  creationTimestamp: null
+  name: hosts.targets.experimental.securecodebox.io
+spec:
+  additionalPrinterColumns:
+  - JSONPath: .spec.hostname
+    name: Hostname
+    type: string
+  - JSONPath: .spec.ports
+    description: Ports of the Host
+    name: Ports
+    type: string
+  - JSONPath: .status.findings.count
+    description: Total Finding Count
+    name: Findings
+    type: string
+  group: targets.experimental.securecodebox.io
+  names:
+    kind: Host
+    listKind: HostList
+    plural: hosts
+    singular: host
+  scope: Namespaced
+  subresources:
+    status: {}
+  validation:
+    openAPIV3Schema:
+      description: Host is the Schema for the hosts API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: HostSpec defines the desired state of Host
+          properties:
+            hostname:
+              description: 'Hostname contains the dns name of the host TODO: Add an
+                IPAddress Field'
+              type: string
+            ports:
+              items:
+                description: HostPort describes a Port of a Host
+                properties:
+                  port:
+                    description: The port number
+                    format: int32
+                    minimum: 0
+                    type: integer
+                  type:
+                    type: string
+                required:
+                - port
+                - type
+                type: object
+              type: array
+          required:
+          - hostname
+          - ports
+          type: object
+        status:
+          description: HostStatus defines the observed state of Host
+          properties:
+            findings:
+              description: FindingStats contains the general stats about the results
+                of the scan
+              properties:
+                categories:
+                  additionalProperties:
+                    format: int64
+                    type: integer
+                  description: FindingCategories indicates the count of finding broken
+                    down by their categories
+                  type: object
+                count:
+                  description: Count indicates how many findings were identified in
+                    total
+                  format: int64
+                  type: integer
+                severities:
+                  description: FindingSeverities indicates the count of finding with
+                    the respective severity
+                  properties:
+                    high:
+                      format: int64
+                      type: integer
+                    informational:
+                      format: int64
+                      type: integer
+                    low:
+                      format: int64
+                      type: integer
+                    medium:
+                      format: int64
+                      type: integer
+                  type: object
+              type: object
+          type: object
+      type: object
+  version: v1
+  versions:
+  - name: v1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

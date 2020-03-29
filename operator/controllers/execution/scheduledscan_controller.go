@@ -41,6 +41,8 @@ type ScheduledScanReconciler struct {
 
 // +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=scheduledscans,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=scheduledscans/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=scans,verbs=get;list;create
+// +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=scans/status,verbs=get
 
 // Reconcile comapares the ScheduledScan Resource with the State of the Cluster and updates both accordingly
 func (r *ScheduledScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {

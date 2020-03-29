@@ -17,4 +17,7 @@ resources:
 - group: execution
   kind: ScheduledScan
   version: v1
+- group: targets
+  kind: Host
+  version: v1
 version: "2"

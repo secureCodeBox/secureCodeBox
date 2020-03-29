@@ -109,3 +109,23 @@ rules:
   - get
   - list
   - watch
+- apiGroups:
+  - targets.experimental.securecodebox.io
+  resources:
+  - hosts
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - targets.experimental.securecodebox.io
+  resources:
+  - hosts/status
+  verbs:
+  - get
+  - patch
+  - update

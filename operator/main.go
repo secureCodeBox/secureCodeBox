@@ -27,7 +27,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
 	executionv1 "github.com/secureCodeBox/secureCodeBox-v2-alpha/apis/execution/v1"
+	targetsv1 "github.com/secureCodeBox/secureCodeBox-v2-alpha/apis/targets/v1"
 	executioncontroller "github.com/secureCodeBox/secureCodeBox-v2-alpha/controllers/execution"
+	targetscontroller "github.com/secureCodeBox/secureCodeBox-v2-alpha/controllers/targets"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -40,6 +42,7 @@ func init() {
 	_ = clientgoscheme.AddToScheme(scheme)
 
 	_ = executionv1.AddToScheme(scheme)
+	_ = targetsv1.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
 
@@ -80,6 +83,14 @@ func main() {
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "ScheduledScan")
+		os.Exit(1)
+	}
+	if err = (&targetscontroller.HostReconciler{
+		Client: mgr.GetClient(),
+		Log:    ctrl.Log.WithName("controllers").WithName("Host"),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "Host")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder
