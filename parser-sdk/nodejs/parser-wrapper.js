@@ -35,20 +35,21 @@ async function updateScanStatus(findings) {
       scanName,
       {
         status: {
-          findingCount: findings.length,
-          findingSeverities: {
-            informationalCount: severityCount(findings, 'INFORMATIONAL'),
-            lowCount: severityCount(findings, 'LOW'),
-            mediumCount: severityCount(findings, 'MEDIUM'),
-            highCount: severityCount(findings, 'HIGH'),
+          findings: {
+            count: findings.length,
+            severities: {
+              informational: severityCount(findings, 'INFORMATIONAL'),
+              low: severityCount(findings, 'LOW'),
+              medium: severityCount(findings, 'MEDIUM'),
+              high: severityCount(findings, 'HIGH'),
+            },
+            categories: Object.fromEntries(findingCategories.entries()),
           },
-          findingCategories: Object.fromEntries(findingCategories.entries()),
         },
       },
       { headers: { 'content-type': 'application/merge-patch+json' } }
     );
     console.log('Updated status successfully');
-    // console.log(res);
   } catch (err) {
     console.error('Failed to update Scan Status via the kubernetes api');
     console.error(err);
