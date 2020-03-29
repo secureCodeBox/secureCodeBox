@@ -1,0 +1,14 @@
+{
+  "name": "sslyze-parser",
+  "version": "1.0.0",
+  "description": "Parses result files for the type: 'sslyze-json'",
+  "main": "",
+  "scripts": {},
+  "keywords": [],
+  "author": "iteratec GmbH",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "sprintf-js": "^1.1.2"
+  },
+  "devDependencies": {}
+}

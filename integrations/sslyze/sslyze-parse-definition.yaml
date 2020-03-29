@@ -1,0 +1,7 @@
+apiVersion: 'execution.experimental.securecodebox.io/v1'
+kind: ParseDefinition
+metadata:
+  name: 'sslyze-json'
+spec:
+  handlesResultsType: sslyze-json
+  image: scbexperimental/parser-sslyze

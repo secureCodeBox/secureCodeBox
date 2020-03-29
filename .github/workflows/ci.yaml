@@ -122,6 +122,14 @@ jobs:
           path: ./integrations/ssh_scan/parser/
           tag_with_ref: true
       - uses: docker/build-push-action@v1
+        name: "Build & Push SSLyze Parser Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/parser-sslyze
+          path: ./integrations/sslyze/parser/
+          tag_with_ref: true
+      - uses: docker/build-push-action@v1
         name: "Build & Push OWASP Zap Parser Image"
         with:
           username: ${{ secrets.DOCKER_USERNAME }}

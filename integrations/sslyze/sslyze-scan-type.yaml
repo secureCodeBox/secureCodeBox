@@ -1,0 +1,21 @@
+apiVersion: 'execution.experimental.securecodebox.io/v1'
+kind: ScanType
+metadata:
+  name: 'sslyze'
+spec:
+  extractResults:
+    type: sslyze-json
+    location: '/home/securecodebox/sslyze-results.json'
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 10
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: sslyze
+              image: nablac0d3/sslyze:latest
+              command:
+                - 'sslyze'
+                - '--json_out'
+                - '/home/securecodebox/sslyze-results.json'
