@@ -194,6 +194,16 @@ func CreateScanTemplatesForHost(host targetsv1.Host) []ScanTemplates {
 				},
 			})
 		}
+		if port.Type == "https" {
+			scanTemplates = append(scanTemplates, ScanTemplates{
+				Port: port.Port,
+				Type: port.Type,
+				ScanSpec: executionv1.ScanSpec{
+					ScanType:   "sslyze",
+					Parameters: []string{"--regular", fmt.Sprintf("https://%s:%d", host.Spec.Hostname, port.Port)},
+				},
+			})
+		}
 	}
 
 	return scanTemplates
