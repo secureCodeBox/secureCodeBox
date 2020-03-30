@@ -200,7 +200,7 @@ func CreateScanTemplatesForHost(host targetsv1.Host) []ScanTemplates {
 				Type: port.Type,
 				ScanSpec: executionv1.ScanSpec{
 					ScanType:   "sslyze",
-					Parameters: []string{"--regular", fmt.Sprintf("https://%s:%d", host.Spec.Hostname, port.Port)},
+					Parameters: []string{"--regular", fmt.Sprintf("%s:%d", host.Spec.Hostname, port.Port)},
 				},
 			})
 		}
