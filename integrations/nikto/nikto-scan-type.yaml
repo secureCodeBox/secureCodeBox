@@ -11,13 +11,14 @@ spec:
       ttlSecondsAfterFinished: 10
       template:
         spec:
-          restartPolicy: OnFailure
+          restartPolicy: Never
           containers:
             - name: nikto
               image: scbexperimental/nikto:latest
               command:
-                - 'nikto'
-                - '-F'
-                - 'json'
+                # Nikto Entrypoint Script to avoid problems nikto exiting with a non zero exit code
+                # This would cause the kubernetes job to fail no matter what
+                - 'sh'
+                - '/wrapper.sh'
                 - '-o'
                 - '/home/securecodebox/nikto-results.json'
