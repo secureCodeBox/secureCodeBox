@@ -75,7 +75,7 @@ func (r *HostReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	scanTemplates := CreateScanTemplatesForHost(host)
 
 	for _, scanTemplate := range scanTemplates {
-		scanName := fmt.Sprintf("%s-%s-%d", host.Name, scanTemplate.Type, scanTemplate.Port)
+		scanName := fmt.Sprintf("%s-%s-%d", host.Name, scanTemplate.ScanSpec.ScanType, scanTemplate.Port)
 
 		var scan executionv1.ScheduledScan
 		err := r.Get(ctx, types.NamespacedName{Name: scanName, Namespace: req.Namespace}, &scan)
