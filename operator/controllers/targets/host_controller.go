@@ -184,6 +184,16 @@ func CreateScanTemplatesForHost(host targetsv1.Host) []ScanTemplates {
 				},
 			})
 		}
+		if port.Type == "http" || port.Type == "https" {
+			scanTemplates = append(scanTemplates, ScanTemplates{
+				Port: port.Port,
+				Type: port.Type,
+				ScanSpec: executionv1.ScanSpec{
+					ScanType:   "nikto",
+					Parameters: []string{"-h", fmt.Sprintf("%s://%s", port.Type, host.Spec.Hostname), "-p", fmt.Sprintf("%d", port.Port), "-Tuning", "1,2,3,5,7,b"},
+				},
+			})
+		}
 	}
 
 	return scanTemplates
