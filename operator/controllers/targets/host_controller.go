@@ -190,7 +190,7 @@ func CreateScanTemplatesForHost(host targetsv1.Host) []ScanTemplates {
 				Type: port.Type,
 				ScanSpec: executionv1.ScanSpec{
 					ScanType:   "nikto",
-					Parameters: []string{"-h", fmt.Sprintf("%s://%s", port.Type, host.Spec.Hostname), "-p", fmt.Sprintf("%d", port.Port), "-Tuning", "1,2,3,5,7,b"},
+					Parameters: []string{"-h", fmt.Sprintf("%s://%s:%d", port.Type, host.Spec.Hostname, port.Port), "-Tuning", "1,2,3,5,7,b"},
 				},
 			})
 		}
