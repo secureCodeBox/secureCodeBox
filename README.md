@@ -56,6 +56,8 @@ There is a german article about [Security DevOps – Angreifern (immer) einen Sc
 # Deploy secureCodeBox Operator
 kubectl create namespace securecodebox-system
 helm -n securecodebox-system install securecodebox-operator ./operator/
+# The Operator Deployment might fail if the minio instance takes to long to start up
+# When this happens re-trigger the Operator deployment by running "kubectl -n securecodebox-system rollout restart deployment securecodebox-controller-manager"
 
 # Elasticsearch Persistence Provider Deployment
 helm install persistence-elastic ./persistence/persistence-elastic/
@@ -67,6 +69,13 @@ kubectl apply -f integrations/nmap/nmap-scan-type.yaml -f integrations/nmap/nmap
 kubectl apply -f integrations/ssh_scan/ssh-scan-scan-type.yaml -f integrations/ssh_scan/ssh-scan-parse-definition.yaml
 kubectl apply -f integrations/sslyze/sslyze-scan-type.yaml -f integrations/sslyze/sslyze-parse-definition.yaml
 kubectl apply -f integrations/zap/zap-scan-type.yaml -f integrations/zap/zap-parse-definition.yaml
+
+# Now everything is installed. You can try deploying scans from the `operator/config/samples/` directory
+
+# E.g. www.securecodebox.io sslyze scan
+kubectl apply apply -f operator/config/samples/execution_v1_scan/sslyze_securecodebox_io.yaml
+# Then get the current State of the Scan by running:
+kubectl get scans
 ```
 
 ## How does it work?
