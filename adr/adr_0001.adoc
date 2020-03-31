@@ -27,10 +27,12 @@ We want to use _secureCodeBox_ not only for scans of one particular web project.
     - etc
 - Then "join" these "sub scan processes" together and gather the results
 
+The best solution to this problem would be to have each scan be able to take the results from any other completed scan and work on them, perhaps with a filter in between. But this is not possible with the camunda engine the way we use it for our current processes. Each of our scan processes has it's own bpmn. The results are passed as a variable from step to step inside the process models. In order for another scanner to have access to these variables, they need to be stored outside the processes. Furthermore, our scanner need to pass variables through, which indicate wether another scanner needs the results or they should be persisted.
+
 == Decision
 
-<What is the change that we're actually proposing or doing.>
+ We do not have such a storage and variable logic implemented in our engine and camunda models, therefore we're not able to implement a combined scan such as described without reworking our engine and all process models. It is possible though to create processes for specific combined scanner which follow our current architecture. One problem about this is, that we do not have the expertise in camunda required for such a rework and "upgrade". The question wether it is worth working into it or not is very difficult to answer, since workforce is limited and other tasks appear/are more important. Overall the idea of an architectural change/rework is not turned down, but a giant task for another time.
 
 == Consequences
 
-<What becomes easier or more difficult to do because of this change.>
+To have each combined scan process separately implemented means that we cannot use one scanner for multiple processes. So let's say we want a combined scan including a nmap scan followed by a ssh scan and another combined scan also starting with a nmap but followed by a sslyze. We can not use one and the same nmap scan for both, even if it's identically configured. This obviously is a technical flaw from a logical and performance point of view. But this way we don't need to rework our engine and existing process models, which also would add a lot of complexity. But at a curtain point in the future this should be worked on to improve performance and scaling of the combined scan processes. So on the negative side we have performance flaws and the fact, that if we rework the architecture the combined processes become useless, since we then combine processes by other means. On the positive side we can focus more on other more important topics and don't have to invest time into learning camunda deeply, without knowing wether we want to use camunda for this kind of tasks in the end or not.
