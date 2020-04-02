@@ -41,8 +41,9 @@ async function logJob(name) {
     );
     console.log(`Job: '${name}'`)
     console.dir(job)
-  } catch {
+  } catch (error) {
     console.info(`Job: '${name} not found.'`)
+    console.error(error)
   }
 }
 
