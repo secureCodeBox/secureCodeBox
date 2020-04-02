@@ -1,25 +1,25 @@
-const fs = require('fs');
-const util = require('util');
+const fs = require("fs");
+const util = require("util");
 
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 const readFile = util.promisify(fs.readFile);
 
-const { parse } = require('./parser');
+const { parse } = require("./parser");
 
-test('ssh-scan parser parses errored result (no ssh server) to zero findings', async () => {
+test("ssh-scan parser parses errored result (no ssh server) to zero findings", async () => {
   const hosts = JSON.parse(
-    await readFile(__dirname + '/__testFiles__/localhost.json', {
-      encoding: 'utf8',
+    await readFile(__dirname + "/__testFiles__/localhost.json", {
+      encoding: "utf8"
     })
   );
 
   expect(await parse(hosts)).toEqual([]);
 });
 
-test('ssh-scan parser parses a proper result to proper findings', async () => {
+test("ssh-scan parser parses a proper result to proper findings", async () => {
   const hosts = JSON.parse(
-    await readFile(__dirname + '/__testFiles__/securecodebox.io.json', {
-      encoding: 'utf8',
+    await readFile(__dirname + "/__testFiles__/securecodebox.io.json", {
+      encoding: "utf8"
     })
   );
 
@@ -84,14 +84,51 @@ test('ssh-scan parser parses a proper result to proper findings', async () => {
         "reference": Object {},
         "severity": "INFORMATIONAL",
       },
+      Object {
+        "attributes": Object {
+          "hostname": "securecodebox.io",
+          "ip_address": "138.201.126.99",
+          "payload": Array [
+            "diffie-hellman-group14-sha1",
+          ],
+        },
+        "category": "SSH Policy Violation",
+        "description": "Deprecated / discouraged SSH key algorithms are used",
+        "hint": "Remove these key exchange algorithms: diffie-hellman-group14-sha1",
+        "location": "securecodebox.io",
+        "name": "Insecure SSH Key Algorithms",
+        "osi_layer": "NETWORK",
+        "reference": Object {},
+        "severity": "MEDIUM",
+      },
+      Object {
+        "attributes": Object {
+          "hostname": "securecodebox.io",
+          "ip_address": "138.201.126.99",
+          "payload": Array [
+            "umac-64-etm@openssh.com",
+            "hmac-sha1-etm@openssh.com",
+            "umac-64@openssh.com",
+            "hmac-sha1",
+          ],
+        },
+        "category": "SSH Policy Violation",
+        "description": "Deprecated / discouraged SSH MAC algorithms are used",
+        "hint": "Remove these MAC algorithms: umac-64-etm@openssh.com, hmac-sha1-etm@openssh.com, umac-64@openssh.com, hmac-sha1",
+        "location": "securecodebox.io",
+        "name": "Insecure SSH MAC Algorithms",
+        "osi_layer": "NETWORK",
+        "reference": Object {},
+        "severity": "MEDIUM",
+      },
     ]
   `);
 });
 
-test('ssh-scan parser parses a result without a hostname into proper findings', async () => {
+test("ssh-scan parser parses a result without a hostname into proper findings", async () => {
   const hosts = JSON.parse(
-    await readFile(__dirname + '/__testFiles__/192.168.42.42.json', {
-      encoding: 'utf8',
+    await readFile(__dirname + "/__testFiles__/192.168.42.42.json", {
+      encoding: "utf8"
     })
   );
 
@@ -156,6 +193,60 @@ test('ssh-scan parser parses a result without a hostname into proper findings', 
         "osi_layer": "APPLICATION",
         "reference": Object {},
         "severity": "INFORMATIONAL",
+      },
+      Object {
+        "attributes": Object {
+          "hostname": null,
+          "ip_address": "192.168.42.42",
+          "payload": Array [
+            "diffie-hellman-group14-sha1",
+          ],
+        },
+        "category": "SSH Policy Violation",
+        "description": "Deprecated / discouraged SSH key algorithms are used",
+        "hint": "Remove these key exchange algorithms: diffie-hellman-group14-sha1",
+        "location": "192.168.42.42",
+        "name": "Insecure SSH Key Algorithms",
+        "osi_layer": "NETWORK",
+        "reference": Object {},
+        "severity": "MEDIUM",
+      },
+      Object {
+        "attributes": Object {
+          "hostname": null,
+          "ip_address": "192.168.42.42",
+          "payload": Array [
+            "umac-64-etm@openssh.com",
+            "hmac-sha1-etm@openssh.com",
+            "umac-64@openssh.com",
+            "hmac-sha1",
+          ],
+        },
+        "category": "SSH Policy Violation",
+        "description": "Deprecated / discouraged SSH MAC algorithms are used",
+        "hint": "Remove these MAC algorithms: umac-64-etm@openssh.com, hmac-sha1-etm@openssh.com, umac-64@openssh.com, hmac-sha1",
+        "location": "192.168.42.42",
+        "name": "Insecure SSH MAC Algorithms",
+        "osi_layer": "NETWORK",
+        "reference": Object {},
+        "severity": "MEDIUM",
+      },
+      Object {
+        "attributes": Object {
+          "hostname": null,
+          "ip_address": "192.168.42.42",
+          "payload": Array [
+            "password",
+          ],
+        },
+        "category": "SSH Policy Violation",
+        "description": "Discouraged SSH authentication methods are used",
+        "hint": "Remove these authentication methods: password",
+        "location": "192.168.42.42",
+        "name": "Discouraged SSH authentication methods",
+        "osi_layer": "NETWORK",
+        "reference": Object {},
+        "severity": "MEDIUM",
       },
     ]
   `);
