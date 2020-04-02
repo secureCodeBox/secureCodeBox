@@ -69,6 +69,8 @@ spec:
         status:
           description: ScanStatus defines the observed state of Scan
           properties:
+            errorDescription:
+              type: string
             findings:
               description: FindingStats contains the general stats about the results
                 of the scan

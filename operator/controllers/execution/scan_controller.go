@@ -140,12 +140,31 @@ func (r *ScanReconciler) getJob(name, namespace string) (*batch.Job, error) {
 	return &job, nil
 }
 
-func (r *ScanReconciler) checkIfJobIsCompleted(name, namespace string) (bool, error) {
+type jobCompletionType string
+
+const (
+	completed  jobCompletionType = "Completed"
+	failed     jobCompletionType = "Failed"
+	incomplete jobCompletionType = "Incomplete"
+	unkown     jobCompletionType = "Unkown"
+)
+
+func (r *ScanReconciler) checkIfJobIsCompleted(name, namespace string) (jobCompletionType, error) {
 	job, err := r.getJob(name, namespace)
 	if err != nil {
-		return false, err
+		return unkown, err
 	}
-	return (job != nil && job.Status.Succeeded != 0), nil
+	if job == nil {
+		return unkown, errors.New("Both Job and error were nil. This isn't really expected")
+	}
+
+	if job.Status.Succeeded != 0 {
+		return completed, nil
+	}
+	if job.Status.Failed != 0 {
+		return failed, nil
+	}
+	return unkown, nil
 }
 
 func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
@@ -219,20 +238,28 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 func (r *ScanReconciler) checkIfScanIsCompleted(scan *executionv1.Scan) error {
 	ctx := context.Background()
 
-	done, err := r.checkIfJobIsCompleted(fmt.Sprintf("scan-%s", scan.Name), scan.Namespace)
+	status, err := r.checkIfJobIsCompleted(fmt.Sprintf("scan-%s", scan.Name), scan.Namespace)
 	if err != nil {
 		return err
 	}
 
-	// TODO: Handle job failure cases
-	if done {
+	switch status {
+	case completed:
 		r.Log.V(7).Info("Scan is completed")
 		scan.Status.State = "ScanCompleted"
 		if err := r.Status().Update(ctx, scan); err != nil {
 			r.Log.Error(err, "unable to update Scan status")
 			return err
 		}
+	case failed:
+		scan.Status.State = "Errored"
+		scan.Status.ErrorDescription = "Failed to run the Scan Container, check k8s Job and its logs for more details"
+		if err := r.Status().Update(ctx, scan); err != nil {
+			r.Log.Error(err, "unable to update Scan status")
+			return err
+		}
 	}
+	// Either Incomplete or Unkown, nothing we can do, other then giving it some more time...
 	return nil
 }
 
@@ -357,15 +384,22 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 func (r *ScanReconciler) checkIfParsingIsCompleted(scan *executionv1.Scan) error {
 	ctx := context.Background()
 
-	done, err := r.checkIfJobIsCompleted(fmt.Sprintf("parse-%s", scan.Name), scan.Namespace)
+	status, err := r.checkIfJobIsCompleted(fmt.Sprintf("scan-%s", scan.Name), scan.Namespace)
 	if err != nil {
 		return err
 	}
 
-	// TODO: Handle job failure cases
-	if done {
-		r.Log.V(7).Info("Scan is completed")
+	switch status {
+	case completed:
+		r.Log.V(7).Info("Parsing is completed")
 		scan.Status.State = "ParseCompleted"
+		if err := r.Status().Update(ctx, scan); err != nil {
+			r.Log.Error(err, "unable to update Scan status")
+			return err
+		}
+	case failed:
+		scan.Status.State = "Errored"
+		scan.Status.ErrorDescription = "Failed to run the Parser. This is likely a Bug, we would like to know about. Please open up a Issue on GitHub."
 		if err := r.Status().Update(ctx, scan); err != nil {
 			r.Log.Error(err, "unable to update Scan status")
 			return err
