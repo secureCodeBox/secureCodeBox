@@ -212,6 +212,7 @@ jobs:
       - name: "Inspect Operator"
         run: | 
           kubectl create namespace securecodebox-system
+          kubectl create namespace integration-tests
           helm -n securecodebox-system install securecodebox-operator ./operator/ --wait
       - name: "Install Test Dependencies"
         run: |
@@ -219,7 +220,7 @@ jobs:
           npm ci
       - name: "Nmap Integration Tests"
         run: | 
-          kubectl apply -f integrations/nmap/nmap-scan-type.yaml -f integrations/nmap/nmap-parse-definition.yaml
+          kubectl --namespace integration-tests apply -f integrations/nmap/nmap-scan-type.yaml -f integrations/nmap/nmap-parse-definition.yaml
           cd tests/integration/
           npx jest --ci --color nmap
       - name: "Delete kind cluster"
