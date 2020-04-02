@@ -7,7 +7,7 @@ test(
       "nmap-localhost",
       "nmap",
       ["localhost"],
-      7 * 60
+      90
     );
 
     expect(count).toBe(1);
@@ -22,5 +22,18 @@ test(
       }
     `);
   },
-  10 * 60 * 1000
+  3 * 60 * 1000
+);
+
+test(
+  "invalid port scan should be marked as errored",
+  async () => {
+    await expect(scan(
+      "nmap-localhost",
+      "nmap",
+      ["-invalidFlag", "localhost"],
+      90
+    )).rejects.toThrow('Scan failed with description "Failed to run the Scan Container, check k8s Job and its logs for more details"');
+  },
+  3 * 60 * 1000
 );

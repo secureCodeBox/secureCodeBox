@@ -85,6 +85,9 @@ async function scan(name, scanType, parameters = [], timeout = 180) {
     if (status && status.state === "Done") {
       await deleteScan(actualName);
       return status.findings;
+    } else if (status && status.state === "Errored") {
+      await deleteScan(actualName);
+      throw new Error(`Scan failed with description "${status.errorDescription}"`)
     }
   }
   
