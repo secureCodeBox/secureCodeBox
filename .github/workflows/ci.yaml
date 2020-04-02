@@ -60,6 +60,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: scbexperimental/operator
           tag_with_ref: true
+          tag_with_sha: true
           path: ./operator/
   lurcher:
     name: "Build / Lurcher"
@@ -81,6 +82,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: scbexperimental/lurcher
           tag_with_ref: true
+          tag_with_sha: true
           path: ./lurcher/
   parserImages:
     name: "Build / Parsers"
@@ -211,9 +213,17 @@ jobs:
           kubectl get node
       - name: "Install Operator"
         run: | 
-          kubectl create namespace securecodebox-system
+          # Namespace in which the scans for the tests will be executed
           kubectl create namespace integration-tests
-          helm -n securecodebox-system install securecodebox-operator ./operator/ --wait
+
+          # Operator Namespace
+          kubectl create namespace securecodebox-system
+          helm -n securecodebox-system install securecodebox-operator ./operator/ --wait \\
+            # Use the image of the current commit
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \\
+            --set="image.digest=null" \\
+            --set="image.lurcher.tag=sha-$(git rev-parse --short HEAD)" \\
+            --set="image.lurcher.digest=null"
       - name: "Inspect Operator"
         run: |
           echo "Deployment in namspace 'securecodebox-system'"
