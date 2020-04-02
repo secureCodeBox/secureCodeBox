@@ -194,7 +194,7 @@ jobs:
           # Note: not prefixed with a "v" as this seems to match nmap versioning standards
           tags: "7.80,7.80-1,latest"
   integrationTests:
-    name: "Test / Integration Tests / k8s ${{ matrix.k8sVersion }}"
+    name: "Test / Integration / k8s ${{ matrix.k8sVersion }}"
     needs:
       - scannerImages
       - persistenceImages
