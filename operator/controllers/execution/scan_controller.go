@@ -427,6 +427,9 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 	)
 
 	lurcherImage := os.Getenv("LURCHER_IMAGE")
+	if lurcherImage == "" {
+		lurcherImage = "scbexperimental/lurcher:latest"
+	}
 	lurcherPullPolicyRaw := os.Getenv("LURCHER_PULL_POLICY")
 	var lurcherPullPolicy corev1.PullPolicy
 	switch lurcherPullPolicyRaw {
@@ -436,6 +439,8 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 		lurcherPullPolicy = corev1.PullIfNotPresent
 	case "Never":
 		lurcherPullPolicy = corev1.PullNever
+	case "":
+		lurcherPullPolicy = corev1.PullAlways
 	default:
 		return nil, fmt.Errorf("Unkown imagePull Policy for lurcher: %s", lurcherPullPolicyRaw)
 	}
