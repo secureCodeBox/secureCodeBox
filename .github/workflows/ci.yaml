@@ -222,8 +222,8 @@ jobs:
           helm -n securecodebox-system install securecodebox-operator ./operator/ --wait \
             --set="image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="image.digest=null" \
-            --set="image.lurcher.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="image.lurcher.digest=null"
+            --set="lurcher.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="lurcher.image.digest=null"
       - name: "Inspect Operator"
         run: |
           echo "Deployment in namspace 'securecodebox-system'"

@@ -47,7 +47,7 @@ spec:
                   key: secretkey
             - name: S3_BUCKET
               value: {{ .Values.minio.defaultBucket.name }}
-            {{- if .Values.image.digest }}
+            {{- if .Values.lurcher.image.digest }}
             - name: LURCHER_IMAGE
               value: "{{ .Values.lurcher.image.registry }}/{{ .Values.lurcher.image.repository }}@{{ .Values.lurcher.image.digest }}"
             {{- else }}
