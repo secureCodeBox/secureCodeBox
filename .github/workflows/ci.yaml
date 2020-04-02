@@ -209,11 +209,17 @@ jobs:
         run: | 
           kubectl config current-context
           kubectl get node
-      - name: "Inspect Operator"
+      - name: "Install Operator"
         run: | 
           kubectl create namespace securecodebox-system
           kubectl create namespace integration-tests
           helm -n securecodebox-system install securecodebox-operator ./operator/ --wait
+      - name: "Inspect Operator"
+        run: |
+          echo "Deployment in namspace 'securecodebox-system'"
+          kubectl -n securecodebox-system get deployments
+          echo "Deployment in namspace 'securecodebox-system'"
+          kubectl -n securecodebox-system get pods
       - name: "Install Test Dependencies"
         run: |
           cd tests/integration/ 
