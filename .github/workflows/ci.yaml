@@ -218,8 +218,8 @@ jobs:
 
           # Operator Namespace
           kubectl create namespace securecodebox-system
+          # Install Operator using the images of the current commit 
           helm -n securecodebox-system install securecodebox-operator ./operator/ --wait \\
-            # Use the image of the current commit
             --set="image.tag=sha-$(git rev-parse --short HEAD)" \\
             --set="image.digest=null" \\
             --set="image.lurcher.tag=sha-$(git rev-parse --short HEAD)" \\
