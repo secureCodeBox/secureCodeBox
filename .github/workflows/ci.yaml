@@ -194,7 +194,7 @@ jobs:
           # Note: not prefixed with a "v" as this seems to match nmap versioning standards
           tags: "7.80,7.80-1,latest"
   integrationTests:
-    name: "Test / Integration Tests"
+    name: "Test / Integration Tests / k8s ${{ matrix.k8sVersion }}"
     needs:
       - scannerImages
       - persistenceImages
@@ -202,11 +202,14 @@ jobs:
       - operator
       - lurcher
     runs-on: ubuntu-latest
+    strategy:
+    matrix:
+      k8sVersion: ['1.18.0', '1.17.2', '1.16.4', '1.15.7']
     steps:
       - uses: actions/checkout@master
       - name: "Start kind cluster"
         run: |
-          kind create cluster --image kindest/node:v1.18.0 --wait 3m
+          kind create cluster --image kindest/node:v${{ matrix.k8sVersion }} --wait 3m
       - name: "Inspect kind cluster"
         run: | 
           kubectl config current-context
