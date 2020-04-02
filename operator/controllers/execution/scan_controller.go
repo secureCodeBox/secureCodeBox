@@ -764,16 +764,19 @@ func (r *ScanReconciler) initS3Connection() *minio.Client {
 	// Initialize minio client object.
 	var minioClient *minio.Client
 	const maxRetries = 5
-	for i := 0; i < 5; i++ {
+	for i := 0; i < maxRetries; i++ {
 		client, err := minio.New(fmt.Sprintf("%s:%s", endpoint, port), accessKeyID, secretAccessKey, useSSL)
-		if err != nil && i < maxRetries-1 {
+		if err == nil {
+			minioClient = client
+			break
+		}
+
+		if i < maxRetries-1 {
 			r.Log.Info("Could not create minio client to communicate to s3 endpoint", "retiresLeft", maxRetries-i)
 			time.Sleep(5 * time.Second)
-		} else if err != nil {
+		} else {
 			r.Log.Error(err, "S3 Client init failed repeatedly. Process will exit.")
 			panic(err)
-		} else {
-			minioClient = client
 		}
 	}
 
