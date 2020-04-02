@@ -204,7 +204,7 @@ jobs:
       - uses: actions/checkout@master
       - name: "Start kind cluster"
         run: |
-          kind create cluster --image kindest/node:v1.18.0 --wait 60s
+          kind create cluster --image kindest/node:v1.18.0 --wait 3m
       - name: "Inspect kind cluster"
         run: | 
           kubectl config current-context
