@@ -428,7 +428,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 
 	lurcherSidecar := &corev1.Container{
 		Name:  "lurcher",
-		Image: "scbexperimental/lurcher:latest",
+		Image: "scbexperimental/lurcher@sha256:10294aabb8c4f3d819c83b187d26b850b9168aaf75e8ea112043ebbbbc5d7ed6",
 		Args: []string{
 			"--container",
 			job.Spec.Template.Spec.Containers[0].Name,
