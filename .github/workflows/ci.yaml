@@ -214,7 +214,8 @@ jobs:
           kubectl create namespace securecodebox-system
           helm -n securecodebox-system install securecodebox-operator ./operator/ --wait
       - name: "Install Test Dependencies"
-        run: | 
+        run: |
+          cd tests/integration/ 
           npm ci
       - name: "Nmap Integration Tests"
         run: | 
