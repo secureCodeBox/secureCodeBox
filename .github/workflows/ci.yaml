@@ -230,6 +230,8 @@ jobs:
           kubectl -n securecodebox-system get deployments
           echo "Deployment in namspace 'securecodebox-system'"
           kubectl -n securecodebox-system get pods
+          echo "Operator Startup Logs"
+          kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
       - name: "Install Test Dependencies"
         run: |
           cd tests/integration/ 
@@ -239,6 +241,14 @@ jobs:
           kubectl --namespace integration-tests apply -f integrations/nmap/nmap-scan-type.yaml -f integrations/nmap/nmap-parse-definition.yaml
           cd tests/integration/
           npx jest --ci --color nmap
+      - name: "Inspect Operator"
+        run: |
+          echo "Deployment in namspace 'securecodebox-system'"
+          kubectl -n securecodebox-system get deployments
+          echo "Deployment in namspace 'securecodebox-system'"
+          kubectl -n securecodebox-system get pods
+          echo "Operator Startup Logs"
+          kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
       - name: "Delete kind cluster"
         run: | 
           kind delete cluster
