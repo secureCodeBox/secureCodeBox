@@ -384,7 +384,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 func (r *ScanReconciler) checkIfParsingIsCompleted(scan *executionv1.Scan) error {
 	ctx := context.Background()
 
-	status, err := r.checkIfJobIsCompleted(fmt.Sprintf("scan-%s", scan.Name), scan.Namespace)
+	status, err := r.checkIfJobIsCompleted(fmt.Sprintf("parse-%s", scan.Name), scan.Namespace)
 	if err != nil {
 		return err
 	}
