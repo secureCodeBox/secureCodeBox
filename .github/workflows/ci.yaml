@@ -98,6 +98,7 @@ jobs:
           repository: scbexperimental/parser-sdk-nodejs
           path: ./parser-sdk/nodejs/
           tag_with_ref: true
+          tag_with_sha: true
       # Actual Parsers
       - uses: docker/build-push-action@v1
         name: "Build & Push Amass Parser Image"
@@ -107,6 +108,7 @@ jobs:
           repository: scbexperimental/parser-amass
           path: ./integrations/amass/parser/
           tag_with_ref: true
+          tag_with_sha: true
       - uses: docker/build-push-action@v1
         name: "Build & Push Nikto Parser Image"
         with:
@@ -115,6 +117,7 @@ jobs:
           repository: scbexperimental/parser-nikto
           path: ./integrations/nikto/parser/
           tag_with_ref: true
+          tag_with_sha: true
       - uses: docker/build-push-action@v1
         name: "Build & Push Nmap Parser Image"
         with:
@@ -123,6 +126,7 @@ jobs:
           repository: scbexperimental/parser-nmap
           path: ./integrations/nmap/parser/
           tag_with_ref: true
+          tag_with_sha: true
       - uses: docker/build-push-action@v1
         name: "Build & Push ssh_scan Parser Image"
         with:
@@ -131,6 +135,7 @@ jobs:
           repository: scbexperimental/parser-ssh-scan
           path: ./integrations/ssh_scan/parser/
           tag_with_ref: true
+          tag_with_sha: true
       - uses: docker/build-push-action@v1
         name: "Build & Push SSLyze Parser Image"
         with:
@@ -139,6 +144,7 @@ jobs:
           repository: scbexperimental/parser-sslyze
           path: ./integrations/sslyze/parser/
           tag_with_ref: true
+          tag_with_sha: true
       - uses: docker/build-push-action@v1
         name: "Build & Push OWASP Zap Parser Image"
         with:
@@ -147,6 +153,7 @@ jobs:
           repository: scbexperimental/parser-zap
           path: ./integrations/zap/parser/
           tag_with_ref: true
+          tag_with_sha: true
   persistenceImages:
     name: "Build / PersistenceProviders"
     runs-on: ubuntu-latest
