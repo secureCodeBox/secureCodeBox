@@ -1,0 +1,20 @@
+apiVersion: v2
+name: nmap
+description: A Helm chart for the NMAP security Scanner that integrates with the secureCodeBox.
+
+type: application
+version: 0.1.0
+appVersion: 0.1.0
+
+keywords:
+- security
+- nmap
+- scanner
+- secureCodeBox
+home: https://www.securecodebox.io/scanner/Nmap
+icon: https://www.securecodebox.io/integrationIcons/Nmap.svg
+sources:
+- https://github.com/secureCodeBox/scanner-infrastructure-nmap
+maintainers:
+- name: iteratec GmbH
+  email: security@iteratec.com

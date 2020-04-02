@@ -4,4 +4,4 @@ metadata:
   name: "nmap-xml"
 spec:
   handlesResultsType: nmap-xml
-  image: scbexperimental/parser-nmap
+  image: "{{ .Values.parserImage.registry }}/{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag }}"

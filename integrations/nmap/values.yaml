@@ -1,0 +1,4 @@
+parserImage:
+  registry: docker.io
+  repository: scbexperimental/parser-nmap
+  tag: latest

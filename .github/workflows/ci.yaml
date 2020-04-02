@@ -241,7 +241,7 @@ jobs:
           npm ci
       - name: "Nmap Integration Tests"
         run: | 
-          kubectl --namespace integration-tests apply -f integrations/nmap/nmap-scan-type.yaml -f integrations/nmap/nmap-parse-definition.yaml
+          helm -n integration-tests install nmap ./integrations/nmap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color nmap
       - name: "Inspect Operator"
