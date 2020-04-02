@@ -6,7 +6,8 @@ test(
     const { categories, severities, count } = await scan(
       "nmap-localhost",
       "nmap",
-      ["localhost"]
+      ["localhost"],
+      7 * 60
     );
 
     expect(count).toBe(1);
@@ -21,5 +22,5 @@ test(
       }
     `);
   },
-  5 * 60 * 1000
+  10 * 60 * 1000
 );
