@@ -79,6 +79,9 @@ const policyViolationFindingRules = [
   }
 ];
 
+/**
+ * Creating the actual secureCodeBox Finding from the template from the policyViolationFindingRule and the SSH_Scan recomendation string
+ */
 function createPolicyViolationFinding({
   name,
   description,
@@ -106,6 +109,7 @@ function createPolicyViolationFinding({
 
 /**
  * Transforms a recommendation string from the Mozilla SSH_Scan Tools into a SSH Policy Violation Findings
+ * 
  * @param {string} recommendation
  */
 function transformRecommendationToFinding(
@@ -124,6 +128,9 @@ function transformRecommendationToFinding(
   }
 }
 
+/**
+ * Convert the SSH_Scan file / json into secureCodeBox Findings
+ */
 async function parse(fileContent) {
   const hosts = fileContent;
 
