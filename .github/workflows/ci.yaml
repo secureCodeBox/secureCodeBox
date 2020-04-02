@@ -191,3 +191,24 @@ jobs:
           path: ./integrations/nmap/scanner/
           # Note: not prefixed with a "v" as this seems to match nmap versioning standards
           tags: "7.80,7.80-1,latest"
+  integrationTests:
+    name: "Integration Tests"
+    needs:
+      - scannerImages
+      - persistenceImages
+      - parserImages
+      - operator
+      - lurcher
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: "Start kind cluster"
+        run: |
+          kind create cluster --image kindest/node:v1.18.0 --wait 60s
+      - name: "Inspect kind cluster"
+        run: | 
+          kubectl config current-context
+          kubectl get node
+      - name: "Delete kind cluster"
+        run: | 
+          kind delete cluster
