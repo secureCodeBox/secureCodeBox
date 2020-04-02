@@ -203,8 +203,8 @@ jobs:
       - lurcher
     runs-on: ubuntu-latest
     strategy:
-    matrix:
-      k8sVersion: ['1.18.0', '1.17.2', '1.16.4', '1.15.7']
+      matrix:
+        k8sVersion: ['1.18.0', '1.17.2', '1.16.4', '1.15.7']
     steps:
       - uses: actions/checkout@master
       - name: "Start kind cluster"
