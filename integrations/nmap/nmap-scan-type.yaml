@@ -9,6 +9,7 @@ spec:
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 10
+      backoffLimit: 3
       template:
         spec:
           restartPolicy: OnFailure
