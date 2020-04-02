@@ -87,7 +87,7 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	if state == "" {
 		state = "Init"
 	}
-	log.Info("Scan Found", "Type", scan.Spec.ScanType, "State", state)
+	log.V(5).Info("Scan Found", "Type", scan.Spec.ScanType, "State", state)
 	switch state {
 	case "Init":
 		err := r.startScan(&scan)
