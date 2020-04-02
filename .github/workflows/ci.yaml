@@ -216,6 +216,11 @@ jobs:
       - name: "Install Test Dependencies"
         run: | 
           npm ci
+      - name: "Nmap Integration Tests"
+        run: | 
+          kubectl apply -f integrations/nmap/nmap-scan-type.yaml -f integrations/nmap/nmap-parse-definition.yaml
+          cd tests/integration/
+          npx jest --ci --color nmap
       - name: "Delete kind cluster"
         run: | 
           kind delete cluster
