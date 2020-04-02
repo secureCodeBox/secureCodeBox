@@ -145,7 +145,7 @@ func (r *ScanReconciler) checkIfJobIsCompleted(name, namespace string) (bool, er
 	if err != nil {
 		return false, err
 	}
-	return (job.Status.Succeeded != 0), nil
+	return (job != nil && job.Status.Succeeded != 0), nil
 }
 
 func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
