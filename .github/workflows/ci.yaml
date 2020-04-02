@@ -1,50 +1,8 @@
 on: push
 name: "CI"
 jobs:
-  operator:
-    name: "Operator"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-go@v2-beta
-        with:
-          go-version: "1.13"
-      - name: "Lint Operator Go Code"
-        run: |
-          cd operator/
-          go fmt ./...
-          go vet ./...
-      - name: "Build'n Push Operator"
-        uses: docker/build-push-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/operator
-          tag_with_ref: true
-          path: ./operator/
-  lurcher:
-    name: "Lurcher"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-go@v2-beta
-        with:
-          go-version: "1.13"
-      - name: "Lint Lurcher Go Code"
-        run: |
-          cd operator/
-          go fmt ./...
-          go vet ./...
-      - uses: docker/build-push-action@v1
-        name: "Build & Push Lurcher Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/lurcher
-          tag_with_ref: true
-          path: ./lurcher/
   integrations:
-    name: "Node Unit Tests"
+    name: "Test / Node.js Code"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -82,8 +40,50 @@ jobs:
       - name: "Run tests"
         run: |
           npm test -- --ci --colors --coverage
+  operator:
+    name: "Build / Operator"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-go@v2-beta
+        with:
+          go-version: "1.13"
+      - name: "Lint Operator Go Code"
+        run: |
+          cd operator/
+          go fmt ./...
+          go vet ./...
+      - name: "Build'n Push Operator"
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/operator
+          tag_with_ref: true
+          path: ./operator/
+  lurcher:
+    name: "Build / Lurcher"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-go@v2-beta
+        with:
+          go-version: "1.13"
+      - name: "Lint Lurcher Go Code"
+        run: |
+          cd operator/
+          go fmt ./...
+          go vet ./...
+      - uses: docker/build-push-action@v1
+        name: "Build & Push Lurcher Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/lurcher
+          tag_with_ref: true
+          path: ./lurcher/
   parserImages:
-    name: "Build Parser Images"
+    name: "Build / Parsers"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -146,7 +146,7 @@ jobs:
           path: ./integrations/zap/parser/
           tag_with_ref: true
   persistenceImages:
-    name: "Build PersistenceProvider Images"
+    name: "Build / PersistenceProviders"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -178,7 +178,7 @@ jobs:
           tag_with_ref: true
   scannerImages:
     # Note we only build images for scanner that don't provider official public container images
-    name: "Build Scanner Images"
+    name: "Build / Scanner"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -192,7 +192,7 @@ jobs:
           # Note: not prefixed with a "v" as this seems to match nmap versioning standards
           tags: "7.80,7.80-1,latest"
   integrationTests:
-    name: "Integration Tests"
+    name: "Test / Integration Tests"
     needs:
       - scannerImages
       - persistenceImages
