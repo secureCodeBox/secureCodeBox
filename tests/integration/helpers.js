@@ -4,6 +4,7 @@ const kc = new k8s.KubeConfig();
 kc.loadFromDefault();
 
 const k8sCRDApi = kc.makeApiClient(k8s.CustomObjectsApi);
+const k8sBatchApi = kc.makeApiClient(k8s.BatchV1Api);
 
 const namespace = "integration-tests";
 
@@ -30,6 +31,19 @@ async function getScan(name) {
     name
   );
   return scan
+}
+
+async function logJob(name) {
+  try {
+    const { body: job } = await k8sBatchApi.readNamespacedJob(
+      name,
+      namespace,
+    );
+    console.log(`Job: '${name}'`)
+    console.dir(job)
+  } catch {
+    console.info(`Job: '${name} not found.'`)
+  }
 }
 
 /**
@@ -74,9 +88,12 @@ async function scan(name, scanType, parameters = [], timeout = 180) {
   }
   
   console.error("Scan Timed out!")
+
   const scan = await getScan(actualName);
   console.log("Last Scan State:")
   console.dir(scan)
+  await logJob(`scan-${actualName}`)
+  await logJob(`parse-${actualName}`)
 
   throw new Error("timed out while waiting for scan results");
 }
