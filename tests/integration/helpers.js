@@ -21,6 +21,17 @@ async function deleteScan(name) {
   );
 }
 
+async function getScan(name) {
+  const { body: scan } = await k8sCRDApi.getNamespacedCustomObjectStatus(
+    "execution.experimental.securecodebox.io",
+    "v1",
+    namespace,
+    "scans",
+    name
+  );
+  return scan
+}
+
 /**
  *
  * @param {string} name name of the scan. Actual name will be sufixed with a random number to avoid conflicts
@@ -54,22 +65,18 @@ async function scan(name, scanType, parameters = [], timeout = 180) {
 
   for (let i = 0; i < timeout; i++) {
     await sleep(1);
-
-    const { body } = await k8sCRDApi.getNamespacedCustomObjectStatus(
-      "execution.experimental.securecodebox.io",
-      "v1",
-      namespace,
-      "scans",
-      actualName
-    );
-
-    const scanStatus = body.status;
-
-    if (scanStatus && scanStatus.state === "Done") {
+    const { status } = await getScan(actualName);
+    
+    if (status && status.state === "Done") {
       await deleteScan(actualName);
-      return scanStatus.findings;
+      return status.findings;
     }
   }
+  
+  console.error("Scan Timed out!")
+  const scan = await getScan(actualName);
+  console.log("Last Scan State:")
+  console.dir(scan)
 
   throw new Error("timed out while waiting for scan results");
 }
