@@ -747,8 +747,7 @@ func (r *ScanReconciler) ensureServiceAccountExists(namespace, serviceAccountNam
 	return nil
 }
 
-// SetupWithManager sets up the controller and initializes every thing it needs
-func (r *ScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
+func (r *ScanReconciler) initS3Connection() *minio.Client {
 	endpoint := os.Getenv("S3_ENDPOINT")
 	accessKeyID := os.Getenv("S3_ACCESS_KEY")
 	secretAccessKey := os.Getenv("S3_SECRET_KEY")
@@ -763,19 +762,35 @@ func (r *ScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	}
 
 	// Initialize minio client object.
-	minioClient, err := minio.New(fmt.Sprintf("%s:%s", endpoint, port), accessKeyID, secretAccessKey, useSSL)
-	if err != nil {
-		r.Log.Error(err, "Could not create minio client to communicate with s3 or compatible storage provider")
-		panic(err)
+	var minioClient *minio.Client
+	const maxRetries = 5
+	for i := 0; i < 5; i++ {
+		client, err := minio.New(fmt.Sprintf("%s:%s", endpoint, port), accessKeyID, secretAccessKey, useSSL)
+		if err != nil && i < maxRetries-1 {
+			r.Log.Info("Could not create minio client to communicate to s3 endpoint", "retiresLeft", maxRetries-i)
+			time.Sleep(5 * time.Second)
+		} else if err != nil {
+			r.Log.Error(err, "S3 Client init failed repeatedly. Process will exit.")
+			panic(err)
+		} else {
+			minioClient = client
+		}
 	}
-	r.MinioClient = *minioClient
+
 	bucketName := os.Getenv("S3_BUCKET")
 
-	bucketExists, err := r.MinioClient.BucketExists(bucketName)
+	bucketExists, err := minioClient.BucketExists(bucketName)
 	if err != nil || bucketExists == false {
 		r.Log.Error(err, "Could not communicate with s3 or compatible storage provider")
 		panic(err)
 	}
+
+	return minioClient
+}
+
+// SetupWithManager sets up the controller and initializes every thing it needs
+func (r *ScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	r.MinioClient = *r.initS3Connection()
 
 	// Todo: Better config management
 
