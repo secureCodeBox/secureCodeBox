@@ -209,6 +209,13 @@ jobs:
         run: | 
           kubectl config current-context
           kubectl get node
+      - name: "Inspect Operator"
+        run: | 
+          kubectl create namespace securecodebox-system
+          helm -n securecodebox-system install securecodebox-operator ./operator/ --wait
+      - name: "Install Test Dependencies"
+        run: | 
+          npm ci
       - name: "Delete kind cluster"
         run: | 
           kind delete cluster
