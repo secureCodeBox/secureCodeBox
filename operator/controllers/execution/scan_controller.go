@@ -767,6 +767,7 @@ func (r *ScanReconciler) initS3Connection() *minio.Client {
 	for i := 0; i < maxRetries; i++ {
 		client, err := minio.New(fmt.Sprintf("%s:%s", endpoint, port), accessKeyID, secretAccessKey, useSSL)
 		if err == nil {
+			r.Log.Info("Created minio client")
 			minioClient = client
 			break
 		}
