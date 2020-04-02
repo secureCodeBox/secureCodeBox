@@ -20,7 +20,12 @@ spec:
             - /manager
           args:
             - --enable-leader-election
-          image: scbexperimental/operator:latest
+          {{- if .Values.image.digest }}
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}@{{ .Values.image.digest }}"
+          {{- else }}
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: manager
           env:
             # TODO: integrate with cert manager and auto gen a cert for minio
@@ -42,6 +47,15 @@ spec:
                   key: secretkey
             - name: S3_BUCKET
               value: {{ .Values.minio.defaultBucket.name }}
+            {{- if .Values.image.digest }}
+            - name: LURCHER_IMAGE
+              value: "{{ .Values.lurcher.image.registry }}/{{ .Values.lurcher.image.repository }}@{{ .Values.lurcher.image.digest }}"
+            {{- else }}
+            - name: LURCHER_IMAGE
+              value: "{{ .Values.lurcher.image.registry }}/{{ .Values.lurcher.image.repository }}:{{ .Values.lurcher.image.tag }}"
+            {{- end }}
+            - name: LURCHER_PULL_POLICY
+              value: {{ .Values.lurcher.image.pullPolicy }}
           resources:
             limits:
               cpu: 100m

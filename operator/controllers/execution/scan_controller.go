@@ -426,9 +426,24 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 		},
 	)
 
+	lurcherImage := os.Getenv("LURCHER_IMAGE")
+	lurcherPullPolicyRaw := os.Getenv("LURCHER_PULL_POLICY")
+	var lurcherPullPolicy corev1.PullPolicy
+	switch lurcherPullPolicyRaw {
+	case "Always":
+		lurcherPullPolicy = corev1.PullAlways
+	case "IfNotPresent":
+		lurcherPullPolicy = corev1.PullIfNotPresent
+	case "Never":
+		lurcherPullPolicy = corev1.PullNever
+	default:
+		return nil, fmt.Errorf("Unkown imagePull Policy for lurcher: %s", lurcherPullPolicyRaw)
+	}
+
 	lurcherSidecar := &corev1.Container{
-		Name:  "lurcher",
-		Image: "scbexperimental/lurcher@sha256:10294aabb8c4f3d819c83b187d26b850b9168aaf75e8ea112043ebbbbc5d7ed6",
+		Name:            "lurcher",
+		Image:           lurcherImage,
+		ImagePullPolicy: lurcherPullPolicy,
 		Args: []string{
 			"--container",
 			job.Spec.Template.Spec.Containers[0].Name,
@@ -466,7 +481,6 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 				MountPath: "/home/securecodebox/",
 			},
 		},
-		ImagePullPolicy: "IfNotPresent",
 	}
 
 	job.Spec.Template.Spec.Containers = append(job.Spec.Template.Spec.Containers, *lurcherSidecar)
