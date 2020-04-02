@@ -56,8 +56,6 @@ There is a german article about [Security DevOps – Angreifern (immer) einen Sc
 # Deploy secureCodeBox Operator
 kubectl create namespace securecodebox-system
 helm -n securecodebox-system install securecodebox-operator ./operator/
-# The Operator Deployment might fail if the minio instance takes to long to start up
-# When this happens re-trigger the Operator deployment by running "kubectl -n securecodebox-system rollout restart deployment securecodebox-controller-manager"
 
 # Elasticsearch Persistence Provider Deployment
 helm install persistence-elastic ./persistence/persistence-elastic/
