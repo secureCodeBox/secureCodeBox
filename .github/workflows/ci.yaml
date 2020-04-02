@@ -2,7 +2,7 @@ on: push
 name: "CI"
 jobs:
   integrations:
-    name: "Test / Node.js Code"
+    name: "Test / Unit / Node.js Code"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
