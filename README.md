@@ -48,7 +48,7 @@ There is a german article about [Security DevOps – Angreifern (immer) einen Sc
 
 ### Prerequisites
 
-- kubernetes (last three mayor releases supported: `1.16`, `1.17` & `1.18`)
+- kubernetes (last 4 mayor releases supported: `1.15`, `1.16`, `1.17` & `1.18`)
 
 ### Deployment
 
