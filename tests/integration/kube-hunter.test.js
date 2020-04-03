@@ -6,7 +6,7 @@ test(
     const { categories, severities, count } = await scan(
       "kube-hunter-in-cluster",
       "kube-hunter",
-      ["--pod"],
+      ["--pod", "--quick"],
       4 * 60
     );
 
