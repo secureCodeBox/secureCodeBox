@@ -1,5 +1,0 @@
-creds/*
-.terraform/*
-terraform.tfstate*
-planfile
-.terraform.tfstate.lock.info
