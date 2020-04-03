@@ -39,11 +39,12 @@ async function logJob(name) {
       name,
       namespace,
     );
-    console.log(`Job: '${name}'`)
-    console.dir(job)
+    console.log(`Job: '${name}' Spec:`)
+    console.dir(job.spec)
+    console.log(`Job: '${name}' Status:`)
+    console.dir(job.status)
   } catch (error) {
     console.info(`Job: '${name} not found.'`)
-    console.error(error)
   }
 }
 
