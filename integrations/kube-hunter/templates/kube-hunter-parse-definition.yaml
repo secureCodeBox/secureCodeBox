@@ -1,0 +1,7 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: ParseDefinition
+metadata:
+  name: "kube-hunter"
+spec:
+  handlesResultsType: kube-hunter
+  image: "{{ .Values.parserImage.registry }}/{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag }}"

@@ -1,0 +1,22 @@
+apiVersion: 'execution.experimental.securecodebox.io/v1'
+kind: ScanType
+metadata:
+  name: 'kube-hunter'
+spec:
+  extractResults:
+    type: kube-hunter-json
+    location: '/home/securecodebox/kube-hunter-results.json'
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 10
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: kube-hunter
+              image: scbexperimental/kube-hunter:latest
+              command:
+                - 'sh'
+                - '/wrapper.sh'
+                - '--report'
+                - 'json'
