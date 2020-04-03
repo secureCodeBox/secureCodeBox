@@ -269,6 +269,11 @@ jobs:
           helm -n integration-tests install nmap ./integrations/nmap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color nmap
+      - name: "Kube-hunter Integration Tests"
+        run: | 
+          helm -n integration-tests install kube-hunter ./integrations/kube-hunter/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          cd tests/integration/
+          npx jest --ci --color kube-hunter
       - name: "Inspect Operator"
         run: |
           echo "Deployment in namspace 'securecodebox-system'"
