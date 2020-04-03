@@ -4,4 +4,4 @@ metadata:
   name: 'sslyze-json'
 spec:
   handlesResultsType: sslyze-json
-  image: scbexperimental/parser-sslyze
+  image: "{{ .Values.parserImage.registry }}/{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag }}"

@@ -4,4 +4,4 @@ metadata:
   name: "amass-jsonl"
 spec:
   handlesResultsType: amass-jsonl
-  image: scbexperimental/parser-amass
+  image: "{{ .Values.parserImage.registry }}/{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag }}"

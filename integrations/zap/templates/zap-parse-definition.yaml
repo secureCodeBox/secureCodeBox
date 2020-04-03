@@ -4,4 +4,4 @@ metadata:
   name: "zap-json"
 spec:
   handlesResultsType: zap-json
-  image: scbexperimental/parser-zap
+  image: "{{ .Values.parserImage.registry }}/{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag }}"

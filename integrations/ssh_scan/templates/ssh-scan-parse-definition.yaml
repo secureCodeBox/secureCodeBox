@@ -4,4 +4,4 @@ metadata:
   name: "ssh-scan-json"
 spec:
   handlesResultsType: ssh-scan-json
-  image: scbexperimental/parser-ssh-scan
+  image: "{{ .Values.parserImage.registry }}/{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag }}"

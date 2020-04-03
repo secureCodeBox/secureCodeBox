@@ -4,4 +4,4 @@ metadata:
   name: "nikto-json"
 spec:
   handlesResultsType: nikto-json
-  image: scbexperimental/parser-nikto
+  image: "{{ .Values.parserImage.registry }}/{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag }}"

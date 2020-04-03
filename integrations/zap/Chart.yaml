@@ -1,0 +1,22 @@
+apiVersion: v2
+name: zap
+description: A Helm chart for the OWASP ZAP security Scanner that integrates with the secureCodeBox.
+
+type: application
+version: 0.1.0
+appVersion: latest
+
+keywords:
+- security
+- Zap
+- OWASP
+- scanner
+- secureCodeBox
+home: https://www.securecodebox.io/scanner/Zap
+icon: https://www.securecodebox.io/integrationIcons/ZAP.svg
+sources:
+- https://github.com/secureCodeBox/secureCodeBox
+maintainers:
+- name: iteratec GmbH
+  email: security@iteratec.com
+
