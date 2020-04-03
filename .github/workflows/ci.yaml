@@ -277,9 +277,9 @@ jobs:
       - name: Inspect Post Failure
         if: failure()
         run: |
-          kubectl get scan -o wide
-          kubectl get jobs -o wide
-          kubectl get pods -o wide
+          kubectl -n integration-tests get scan -o wide
+          kubectl -n integration-tests get jobs -o wide
+          kubectl -n integration-tests get pods -o wide
       - name: "Inspect Operator"
         run: |
           echo "Deployment in namspace 'securecodebox-system'"
