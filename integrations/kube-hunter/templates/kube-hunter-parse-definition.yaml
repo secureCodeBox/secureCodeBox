@@ -3,5 +3,5 @@ kind: ParseDefinition
 metadata:
   name: "kube-hunter"
 spec:
-  handlesResultsType: kube-hunter
+  handlesResultsType: kube-hunter-json
   image: "{{ .Values.parserImage.registry }}/{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag }}"
