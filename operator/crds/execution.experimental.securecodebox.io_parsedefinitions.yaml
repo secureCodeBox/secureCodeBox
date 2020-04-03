@@ -8,6 +8,15 @@ metadata:
   creationTimestamp: null
   name: parsedefinitions.execution.experimental.securecodebox.io
 spec:
+  additionalPrinterColumns:
+  - JSONPath: .spec.handlesResultsType
+    description: Which result file type the parser is able to handle
+    name: Handles Type
+    type: string
+  - JSONPath: .spec.image
+    description: Scanner Container Image
+    name: Image
+    type: string
   group: execution.experimental.securecodebox.io
   names:
     kind: ParseDefinition
@@ -15,6 +24,7 @@ spec:
     plural: parsedefinitions
     singular: parsedefinition
   scope: Namespaced
+  subresources: {}
   validation:
     openAPIV3Schema:
       description: ParseDefinition is the Schema for the parsedefinitions API

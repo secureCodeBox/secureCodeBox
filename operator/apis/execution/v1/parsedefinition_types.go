@@ -40,6 +40,8 @@ type ParseDefinitionStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:printcolumn:name="Handles Type",type=string,JSONPath=`.spec.handlesResultsType`,description="Which result file type the parser is able to handle"
+// +kubebuilder:printcolumn:name="Image",type=string,JSONPath=`.spec.image`,description="Scanner Container Image"
 
 // ParseDefinition is the Schema for the parsedefinitions API
 type ParseDefinition struct {
