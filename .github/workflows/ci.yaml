@@ -274,6 +274,12 @@ jobs:
           helm -n integration-tests install kube-hunter ./integrations/kube-hunter/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color kube-hunter
+      - name: Inspect Post Failure
+        if: failure()
+        run: |
+          kubectl get scan -o wide
+          kubectl get jobs -o wide
+          kubectl get pods -o wide
       - name: "Inspect Operator"
         run: |
           echo "Deployment in namspace 'securecodebox-system'"
