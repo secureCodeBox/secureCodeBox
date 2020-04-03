@@ -7,7 +7,7 @@ test(
       "kube-hunter-in-cluster",
       "kube-hunter",
       ["--pod"],
-      4 * 60
+      10 * 60
     );
 
     expect(count).toBe(5);
@@ -24,5 +24,5 @@ test(
       }
     `);
   },
-  5 * 60 * 1000
+  12 * 60 * 1000
 );
