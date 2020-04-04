@@ -58,11 +58,13 @@ async function updateScanStatus(findings) {
 }
 
 async function main() {
+  console.log("Starting Parser")
   const resultFileUrl = process.argv[2];
   const resultUploadUrl = process.argv[3];
 
+  console.log("Fetching result file")
   const { data } = await axios.get(resultFileUrl);
-
+  console.log("Fetched result file")
   const findings = await parse(data);
   console.log(`Transformed raw result file into ${findings.length} findings`);
 
