@@ -87,38 +87,26 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	if state == "" {
 		state = "Init"
 	}
+
 	log.V(5).Info("Scan Found", "Type", scan.Spec.ScanType, "State", state)
+
+	var err error
 	switch state {
 	case "Init":
-		err := r.startScan(&scan)
-		if err != nil {
-			return ctrl.Result{}, err
-		}
+		err = r.startScan(&scan)
 	case "Scanning":
-		err := r.checkIfScanIsCompleted(&scan)
-		if err != nil {
-			return ctrl.Result{}, err
-		}
+		err = r.checkIfScanIsCompleted(&scan)
 	case "ScanCompleted":
-		err := r.startParser(&scan)
-		if err != nil {
-			return ctrl.Result{}, err
-		}
+		err = r.startParser(&scan)
 	case "Parsing":
-		err := r.checkIfParsingIsCompleted(&scan)
-		if err != nil {
-			return ctrl.Result{}, err
-		}
+		err = r.checkIfParsingIsCompleted(&scan)
 	case "ParseCompleted":
-		err := r.startPersistenceProvider(&scan)
-		if err != nil {
-			return ctrl.Result{}, err
-		}
+		err = r.startPersistenceProvider(&scan)
 	case "Persisting":
-		err := r.checkIfPersistingIsCompleted(&scan)
-		if err != nil {
-			return ctrl.Result{}, err
-		}
+		err = r.checkIfPersistingIsCompleted(&scan)
+	}
+	if err != nil {
+		return ctrl.Result{}, err
 	}
 
 	return ctrl.Result{}, nil
