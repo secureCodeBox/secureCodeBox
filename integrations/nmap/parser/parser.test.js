@@ -144,3 +144,11 @@ test("should properly parse a nmap xml without any ports", async () => {
     ]
   `);
 });
+
+test("should properly parse a nmap xml without any host", async () => {
+  const xmlContent = await readFile(__dirname + "/__testFiles__/no-host.xml", {
+    encoding: "utf8"
+  });
+
+  expect(parse(xmlContent)).rejects.toThrow("Nmap result file didn't contain a valid host. This probably means that the target was specified incorrectly.")
+});
