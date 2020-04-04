@@ -65,7 +65,16 @@ async function main() {
   console.log("Fetching result file")
   const { data } = await axios.get(resultFileUrl);
   console.log("Fetched result file")
-  const findings = await parse(data);
+
+  let findings = [];
+  try {
+    findings = await parse(data);
+  } catch (error) {
+    console.error("Parser failed with error:")
+    console.error(error)
+    process.exit(1)
+  }
+
   console.log(`Transformed raw result file into ${findings.length} findings`);
 
   console.log('Adding UUIDs to the findings');
