@@ -264,6 +264,10 @@ jobs:
         run: |
           cd tests/integration/ 
           npm ci
+      - name: "Generic Integration Tests"
+        run: | 
+          cd tests/integration/
+          npx jest --ci --color no-scan-definition-error
       - name: "Nmap Integration Tests"
         run: | 
           helm -n integration-tests install nmap ./integrations/nmap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
