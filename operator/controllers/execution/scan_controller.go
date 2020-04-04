@@ -661,13 +661,15 @@ func (r *ScanReconciler) startPersistenceProvider(scan *executionv1.Scan) error 
 	return nil
 }
 
-func allJobsCompleted(jobs *batch.JobList) bool {
+func allJobsCompleted(jobs *batch.JobList) jobCompletionType {
 	for _, job := range jobs.Items {
-		if job.Status.Succeeded == 0 {
-			return false
+		if job.Status.Failed > 0 {
+			return failed
+		} else if job.Status.Succeeded == 0 {
+			return incomplete
 		}
 	}
-	return true
+	return incomplete
 }
 
 func (r *ScanReconciler) checkIfPersistingIsCompleted(scan *executionv1.Scan) error {
@@ -690,9 +692,18 @@ func (r *ScanReconciler) checkIfPersistingIsCompleted(scan *executionv1.Scan) er
 
 	r.Log.V(9).Info("Got related jobs", "count", len(childPersistenceJobs.Items))
 
-	if allJobsCompleted(&childPersistenceJobs) {
-		r.Log.V(7).Info("Parsing is completed")
+	persistenceCompletion := allJobsCompleted(&childPersistenceJobs)
+	if persistenceCompletion == completed {
+		r.Log.V(7).Info("All PersistenceProviders have completed")
 		scan.Status.State = "Done"
+		if err := r.Status().Update(ctx, scan); err != nil {
+			r.Log.Error(err, "unable to update Scan status")
+			return err
+		}
+	} else if persistenceCompletion == failed {
+		r.Log.Info("At least one PersistenceProvider failed")
+		scan.Status.State = "Errored"
+		scan.Status.ErrorDescription = "At least one PersistenceProvider failed, check the persistence kubernets jobs related to the scan for more details."
 		if err := r.Status().Update(ctx, scan); err != nil {
 			r.Log.Error(err, "unable to update Scan status")
 			return err
