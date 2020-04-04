@@ -522,13 +522,6 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 
 	job.Spec.Template.Spec.Containers = append(job.Spec.Template.Spec.Containers, *lurcherSidecar)
 
-	// for k, v := range cronJob.Spec.JobTemplate.Annotations {
-	// 	job.Annotations[k] = v
-	// }
-	// job.Annotations[scheduledTimeAnnotation] = scheduledTime.Format(time.RFC3339)
-	// for k, v := range cronJob.Spec.JobTemplate.Labels {
-	// 	job.Labels[k] = v
-	// }
 	if err := ctrl.SetControllerReference(scan, job, r.Scheme); err != nil {
 		return nil, err
 	}
