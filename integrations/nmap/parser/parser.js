@@ -63,10 +63,8 @@ function parseResultFile(fileContent) {
         reject(new Error('Error converting XML to JSON in xml2js: ' + err));
       } else {
         let tempHostList = [];
-
         if (!xmlInput.nmaprun.host) {
-          //onFailure("There was a problem with the supplied NMAP XML");
-          return tempHostList;
+          reject(new Error("Nmap result file didn't contain a valid host. This probably means that the target was specified incorrectly."));
         }
 
         xmlInput = xmlInput.nmaprun.host;
