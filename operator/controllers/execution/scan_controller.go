@@ -115,7 +115,6 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 func (r *ScanReconciler) getJob(name, namespace string) (*batch.Job, error) {
 	ctx := context.Background()
 
-	// check if k8s job for scan was already created
 	var job batch.Job
 	err := r.Get(ctx, types.NamespacedName{Name: name, Namespace: namespace}, &job)
 	if apierrors.IsNotFound(err) {
@@ -169,12 +168,9 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 		return nil
 	}
 
-	// get the scan template for the scan
+	// get the ScanType for the scan
 	var scanType executionv1.ScanType
 	if err := r.Get(ctx, types.NamespacedName{Name: scan.Spec.ScanType, Namespace: scan.Namespace}, &scanType); err != nil {
-		// we'll ignore not-found errors, since they can't be fixed by an immediate
-		// requeue (we'll need to wait for a new notification), and we can get them
-		// on deleted requests.
 		log.V(7).Info("Unable to fetch ScanType")
 
 		scan.Status.State = "Errored"
@@ -205,9 +201,6 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 	job, err = r.constructJobForScan(scan, &scanType)
 	if err != nil {
 		log.Error(err, "unable to create job object ScanType")
-		// we'll ignore not-found errors, since they can't be fixed by an immediate
-		// requeue (we'll need to wait for a new notification), and we can get them
-		// on deleted requests.
 		return err
 	}
 
