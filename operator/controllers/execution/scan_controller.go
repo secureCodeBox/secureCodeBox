@@ -457,6 +457,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 		},
 	)
 
+	// Get lurcher image config from env
 	lurcherImage := os.Getenv("LURCHER_IMAGE")
 	if lurcherImage == "" {
 		lurcherImage = "scbexperimental/lurcher:latest"
