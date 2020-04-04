@@ -1,7 +1,7 @@
 const { scan } = require('./helpers')
 
 test(
-    "invalid port scan should be marked as errored",
+    "scan without a matching ScanType should be marked as errored",
     async () => {
       await expect(scan(
         "scan-type-not-found",

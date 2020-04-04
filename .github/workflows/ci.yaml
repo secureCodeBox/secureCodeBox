@@ -264,6 +264,7 @@ jobs:
         run: |
           cd tests/integration/ 
           npm ci
+      # This steps should include Integration tests which arent related to a Specific Scanner
       - name: "Generic Integration Tests"
         run: | 
           cd tests/integration/
