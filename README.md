@@ -63,7 +63,7 @@ helm install persistence-elastic ./persistence/persistence-elastic/
 # Deploy definitions for the integrated scanners
 helm install amass ./integrations/amass/
 helm install kube-hunter ./integrations/kube-hunter/
-helm install niko ./integrations/niko/
+helm install nikto ./integrations/nikto
 helm install nmap ./integrations/nmap/
 helm install ssh-scan ./integrations/ssh_scan/
 helm install sslyze ./integrations/sslyze/
