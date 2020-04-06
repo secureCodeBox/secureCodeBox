@@ -13,7 +13,7 @@ async function persist({
 }) {
   const findings = await getFindings();
 
-  console.log(`Persisting ${findings.length} to Elasticsearch`);
+  console.log(`Persisting ${findings.length} findings to Elasticsearch`);
 
   const timeStamp = now.toISOString().substr(0, 10);
   const indexName = `securecodebox_${tenant}_${timeStamp}`;
