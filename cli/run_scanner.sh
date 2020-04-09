@@ -310,9 +310,27 @@ fi
 
 # Create job
 info "Successfully created JSON payload '${PAYLOAD_FILE}'."
-command="curl -H 'Content-Type: application/json' ${CURL_AUTH_ARG} -X PUT -d @${PAYLOAD_FILE} -s ${SCB_URL}/securityTests"
+# With the -w we append the bare HTTP status code to the end of the response.
+command="curl -sS -w '\n%{http_code}' -H 'Content-Type: application/json' ${CURL_AUTH_ARG} -X PUT -d @${PAYLOAD_FILE} ${SCB_URL}/securityTests"
 info "Using command: \"${command}\""
-response=`eval ${command}`
+response=$(eval "${command}")
+# Here we get the last line from $repsonse with the HTTP status code.
+http_code="${response##*$'\n'}"
+# And last but not least remove the previously added status code from the response body.
+response=$(echo "${response}" |sed '$d')
+
+if [ "${http_code:0:1}" == "4" ]; then 
+	if [ "${http_code}" == "404" ]; then 
+		echo "The securityTest '${SCANNER}' does not exists (HTTP status ${http_code})!"
+	else
+		echo "The user is not authorized to create this securityTest (HTTP status ${http_code})!"
+	fi
+
+	exit 4
+elif [ "${http_code:0:1}" == "5" ]; then 
+	echo "Encountered unexpected error in engine (HTTP status ${http_code})! Check logs of the engine container for additional details."
+	exit 4
+fi
 
 ID_PROCESS=`echo ${response} | xargs | sed 's/\[//' | sed 's/\]//'`
 if [ ${#ID_PROCESS} -lt 10 ]; then
