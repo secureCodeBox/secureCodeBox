@@ -17,22 +17,25 @@
 
 == Context
 
-We want to use _secureCodeBox_ not only for scans of one particular web project. Instead we want to discover our whole company network and scan every host we find. For that purpose we intended to introduce a "combined scan" process model step. The basic idea was:
+We want to use _secureCodeBox_ not only for scans of one particular web project. Instead we want to discover our whole company network and scan every host we find. For that purpose we intended to introduce a "`combined scan`" process model step. The basic idea was:
 
-- Use our _nmap scanner_ to find all hosts in a network.
-- Then feed the list of found hosts into a "fork process step"
-- This "fork process step" starts a complete new sub scan process with
-    - nmap to find all open ports,
-    - Nikto, SSLyze ZAP etz on the ports,
-    - etc
-- Then "join" these "sub scan processes" together and gather the results
+- Use our _Nmap scanner_ to find all hosts in a network.
+- Then feed the list of found hosts into a "`fork process step`"
+- This "`fork process step`" starts a complete new sub scan process with
+    - _Nmap_ to find all open ports,
+    - _Nikto_, _SSLyze_, _ZAP_ etc on the ports,
+    - etc.
+- Then "`join`" these "`sub scan processes`" together and gather the results.
 
-The best solution to this problem would be to have each scan be able to take the results from any other completed scan and work on them, perhaps with a filter in between. But this is not possible with the camunda engine the way we use it for our current processes. Each of our scan processes has it's own bpmn. The results are passed as a variable from step to step inside the process models. In order for another scanner to have access to these variables, they need to be stored outside the processes. Furthermore, our scanner need to pass variables through, which indicate wether another scanner needs the results or they should be persisted.
+The best solution to this problem would be to have each scan be able to take the results from any other completed scan and work on them, perhaps with a filter in between. The first idea was to use the sub process step feature built-in in _Camunda_. But this is not possible with the _Camunda_ engine the way we use it for our current processes. Each of our scan processes has it's own BPMN. The results are passed as a "`process global`" variable from step to step inside the process models. A "`sub process`" also would have only this global variable space. This would conflict with the necessity to have a separate variable space for each "`sub scan process`" to not mangle the results for each scanned IP address.
 
 == Decision
 
- We do not have such a storage and variable logic implemented in our engine and camunda models, therefore we're not able to implement a combined scan such as described without reworking our engine and all process models. It is possible though to create processes for specific combined scanner which follow our current architecture. One problem about this is, that we do not have the expertise in camunda required for such a rework and "upgrade". The question wether it is worth working into it or not is very difficult to answer, since workforce is limited and other tasks appear/are more important. Overall the idea of an architectural change/rework is not turned down, but a giant task for another time.
+We implement these scans as separate process models and combines them in a build pipeline. This means we first scan for IP addresses and store these found hosts in our data backend. Then the build pipeline retrieves the found IP addresses from the data backend and start to scan the hosts each one-by-one with a so called _combined scanner_.
+
+A _combined scanner_ is for example a combination of _Nmap_ and _Nikto_: The _Nmap_ scans for open HTTP ports via service detection and then _Nikto_ scans possibly found HTTP servers.
 
 == Consequences
 
-To have each combined scan process separately implemented means that we cannot use one scanner for multiple processes. So let's say we want a combined scan including a nmap scan followed by a ssh scan and another combined scan also starting with a nmap but followed by a sslyze. We can not use one and the same nmap scan for both, even if it's identically configured. This obviously is a technical flaw from a logical and performance point of view. But this way we don't need to rework our engine and existing process models, which also would add a lot of complexity. But at a curtain point in the future this should be worked on to improve performance and scaling of the combined scan processes. So on the negative side we have performance flaws and the fact, that if we rework the architecture the combined processes become useless, since we then combine processes by other means. On the positive side we can focus more on other more important topics and don't have to invest time into learning camunda deeply, without knowing wether we want to use camunda for this kind of tasks in the end or not.
+* To have each combined scan process separately implemented means that we cannot use one scanner for multiple processes. So let's say we want a combined scan including a _Nmap_ scan followed by a _SSH_ scan and another combined scan also starting with a _Nmap_ but followed by a _SSLyze_. We can not use same _Nmap_ scan for both, even if it's identically configured.
+* We don't need to invest lot of time into _Camunda_ to examine if it is possible in a clean way to introduce something like scoped variables to Camunda sub processes steps.
