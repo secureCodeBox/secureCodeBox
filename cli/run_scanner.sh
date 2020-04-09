@@ -310,7 +310,7 @@ fi
 
 # Create job
 info "Successfully created JSON payload '${PAYLOAD_FILE}'."
-command="curl -H 'Content-Type: application/json' ${CURL_AUTH_ARG} -X PUT -d @${PAYLOAD_FILE} -s ${SCB_URL}/securityTests"
+command="curl -sS -H 'Content-Type: application/json' ${CURL_AUTH_ARG} -X PUT -d @${PAYLOAD_FILE} ${SCB_URL}/securityTests"
 info "Using command: \"${command}\""
 response=`eval ${command}`
 
