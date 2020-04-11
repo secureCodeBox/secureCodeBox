@@ -44,8 +44,6 @@ type ScanStatus struct {
 	// RawResultFile Filename of the result file of the scanner. e.g. `nmap-result.xml`
 	RawResultFile string `json:"rawResultFile,omitempty"`
 
-	StartTime *metav1.Time `json:"startTime,omitempty"`
-
 	Findings FindingStats `json:"findings,omitempty"`
 }
 

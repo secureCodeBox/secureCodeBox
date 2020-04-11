@@ -113,9 +113,6 @@ spec:
               description: RawResultType determines which kind of ParseDefinition
                 will be used to turn the raw results of the scanner into findings
               type: string
-            startTime:
-              format: date-time
-              type: string
             state:
               type: string
           type: object

@@ -75,10 +75,7 @@ func (r *ScheduledScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	}
 
 	sort.Slice(completedScans, func(i, j int) bool {
-		if completedScans[i].Status.StartTime == nil {
-			return completedScans[j].Status.StartTime != nil
-		}
-		return completedScans[i].Status.StartTime.Before(completedScans[j].Status.StartTime)
+		return completedScans[i].ObjectMeta.CreationTimestamp.Before(&completedScans[j].ObjectMeta.CreationTimestamp)
 	})
 
 	if len(completedScans) >= 1 {
@@ -126,8 +123,6 @@ func (r *ScheduledScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 			Spec: *scheduledScan.Spec.ScanSpec.DeepCopy(),
 		}
 		scan.Name = fmt.Sprintf("%s-%d", scheduledScan.Name, nextSchedule.Unix())
-		metaNow := metav1.Now()
-		scan.Status.StartTime = &metaNow
 		if err := ctrl.SetControllerReference(&scheduledScan, scan, r.Scheme); err != nil {
 			log.Error(err, "unable to set owner reference on scan")
 			return ctrl.Result{}, err
