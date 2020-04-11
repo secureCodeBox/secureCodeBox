@@ -64,24 +64,24 @@ func (r *ScheduledScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 		log.Error(err, "unable to list child Scans")
 		return ctrl.Result{}, err
 	}
+	log.V(8).Info("Got Child Scans for ScheduledScan", "count", len(childScans.Items))
 
-	log.Info("Got Scans", "count", len(childScans.Items))
-
+	// Get a sorted list of all successful child scans.
 	var completedScans []executionv1.Scan
 	for _, scan := range childScans.Items {
 		if scan.Status.State == "Done" {
 			completedScans = append(completedScans, scan)
 		}
 	}
-
 	sort.Slice(completedScans, func(i, j int) bool {
 		return completedScans[i].ObjectMeta.CreationTimestamp.Before(&completedScans[j].ObjectMeta.CreationTimestamp)
 	})
 
+	// Update findingsStats of ScheduledScan to match the most recent Scan
 	if len(completedScans) >= 1 {
 		lastFindings := completedScans[len(completedScans)-1].Status.Findings
 		if !reflect.DeepEqual(lastFindings, scheduledScan.Status.Findings) {
-			log.V(2).Info("Updating ScheduledScans Findings as they appear to have changed")
+			log.V(4).Info("Updating ScheduledScans Findings as they appear to have changed")
 			scheduledScan.Status.Findings = *lastFindings.DeepCopy()
 			if err := r.Status().Update(ctx, &scheduledScan); err != nil {
 				log.Error(err, "unable to update ScheduledScan status")
@@ -90,19 +90,19 @@ func (r *ScheduledScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 		}
 	}
 
+	// Delete Old Scans when exceeding the history limit
 	for i, scan := range completedScans {
 		if int64(i) >= int64(len(completedScans))-scheduledScan.Spec.HistoryLimit {
 			break
 		}
 		if err := r.Delete(ctx, &scan, client.PropagationPolicy(metav1.DeletePropagationBackground)); (err) != nil {
-			log.Error(err, "unable to delete old scan", "scan", scan)
+			log.Error(err, "Unable to delete old Scan", "scan", scan.Name)
 		} else {
-			log.V(0).Info("deleted old successful job", "scan", scan)
+			log.V(2).Info("Deleted old successful Scan", "scan", scan.Name)
 		}
 	}
 
-	log.Info("ScanInterval parsed", "interval", scheduledScan.Spec.Interval)
-
+	// Calculate the next schedule
 	var nextSchedule time.Time
 	if scheduledScan.Status.LastScheduleTime != nil {
 		nextSchedule = scheduledScan.Status.LastScheduleTime.Add(scheduledScan.Spec.Interval.Duration)
@@ -110,11 +110,9 @@ func (r *ScheduledScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 		nextSchedule = time.Now().Add(-1 * time.Second)
 	}
 
-	// check if it is time to start the scans
+	// check if it is time to start the next Scan
 	if !time.Now().Before(nextSchedule) {
 		// It's time!
-		log.Info("Should start scans here")
-
 		var scan = &executionv1.Scan{
 			ObjectMeta: metav1.ObjectMeta{
 				Namespace: scheduledScan.Namespace,
@@ -124,19 +122,19 @@ func (r *ScheduledScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 		}
 		scan.Name = fmt.Sprintf("%s-%d", scheduledScan.Name, nextSchedule.Unix())
 		if err := ctrl.SetControllerReference(&scheduledScan, scan, r.Scheme); err != nil {
-			log.Error(err, "unable to set owner reference on scan")
+			log.Error(err, "Unable to set owner reference on Scan")
 			return ctrl.Result{}, err
 		}
 
 		if err := r.Create(ctx, scan); err != nil {
-			log.Error(err, "unable to create Scan for ScheduledScan", "scan", scan)
+			log.Error(err, "Unable to create Scan for ScheduledScan")
 			return ctrl.Result{}, err
 		}
 
 		var now metav1.Time = metav1.Now()
 		scheduledScan.Status.LastScheduleTime = &now
 		if err := r.Status().Update(ctx, &scheduledScan); err != nil {
-			log.Error(err, "unable to update ScheduledScan status")
+			log.Error(err, "Unable to update ScheduledScan status")
 			return ctrl.Result{}, err
 		}
 
