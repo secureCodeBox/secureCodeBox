@@ -309,15 +309,18 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 		rules,
 	)
 
+	labels := scan.ObjectMeta.DeepCopy().Labels
+	if labels == nil {
+		labels = make(map[string]string)
+	}
+	labels["experimental.securecodebox.io/job-type"] = "parser"
 	automountServiceAccountToken := true
 	job = &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
 			Annotations: make(map[string]string),
 			Name:        fmt.Sprintf("parse-%s", scan.Name),
 			Namespace:   scan.Namespace,
-			Labels: map[string]string{
-				"experimental.securecodebox.io/job-type": "parser",
-			},
+			Labels:      labels,
 		},
 		Spec: batch.JobSpec{
 			Template: corev1.PodTemplateSpec{
@@ -420,14 +423,16 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 		return nil, errors.New("ScanType must at least contain one container in which the scanner is running")
 	}
 
+	labels := scan.ObjectMeta.DeepCopy().Labels
+	if labels == nil {
+		labels = make(map[string]string)
+	}
+	labels["experimental.securecodebox.io/job-type"] = "scanner"
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
-			Labels: map[string]string{
-				"experimental.securecodebox.io/job-type": "scanner",
-			},
-			Annotations: make(map[string]string),
-			Name:        fmt.Sprintf("scan-%s", scan.Name),
-			Namespace:   scan.Namespace,
+			Labels:    labels,
+			Name:      fmt.Sprintf("scan-%s", scan.Name),
+			Namespace: scan.Namespace,
 		},
 		Spec: *scanType.Spec.JobTemplate.Spec.DeepCopy(),
 	}
@@ -610,14 +615,17 @@ func (r *ScanReconciler) startPersistenceProvider(scan *executionv1.Scan) error 
 			},
 		}
 
+		labels := scan.ObjectMeta.DeepCopy().Labels
+		if labels == nil {
+			labels = make(map[string]string)
+		}
+		labels["experimental.securecodebox.io/job-type"] = "persistence"
 		job := &batch.Job{
 			ObjectMeta: metav1.ObjectMeta{
 				Annotations: make(map[string]string),
-				Name:        fmt.Sprintf("persist-%s", scan.Name),
+				Name:        fmt.Sprintf("%s-%s", persistenceProvider.Name, scan.Name),
 				Namespace:   scan.Namespace,
-				Labels: map[string]string{
-					"experimental.securecodebox.io/job-type": "persistence",
-				},
+				Labels:      labels,
 			},
 			Spec: batch.JobSpec{
 				Template: corev1.PodTemplateSpec{
