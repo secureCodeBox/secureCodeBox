@@ -185,7 +185,7 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 	log.Info("Matching ScanType Found", "ScanType", scanType.Name)
 
 	rules := []rbacv1.PolicyRule{
-		rbacv1.PolicyRule{
+		{
 			APIGroups: []string{""},
 			Resources: []string{"pods"},
 			Verbs:     []string{"get"},
@@ -248,7 +248,7 @@ func (r *ScanReconciler) checkIfScanIsCompleted(scan *executionv1.Scan) error {
 			return err
 		}
 	}
-	// Either Incomplete or Unkown, nothing we can do, other then giving it some more time...
+	// Either Incomplete or Unknown, nothing we can do, other then giving it some more time...
 	return nil
 }
 
@@ -296,7 +296,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 	}
 
 	rules := []rbacv1.PolicyRule{
-		rbacv1.PolicyRule{
+		{
 			APIGroups: []string{"execution.experimental.securecodebox.io"},
 			Resources: []string{"scans/status"},
 			Verbs:     []string{"get", "patch"},
@@ -474,7 +474,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 	case "":
 		lurcherPullPolicy = corev1.PullAlways
 	default:
-		return nil, fmt.Errorf("Unkown imagePull Policy for lurcher: %s", lurcherPullPolicyRaw)
+		return nil, fmt.Errorf("Unknown imagePull Policy for lurcher: %s", lurcherPullPolicyRaw)
 	}
 
 	lurcherSidecar := &corev1.Container{
@@ -490,7 +490,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 			resultUploadURL.String(),
 		},
 		Env: []corev1.EnvVar{
-			corev1.EnvVar{
+			{
 				Name: "NAMESPACE",
 				ValueFrom: &corev1.EnvVarSource{
 					FieldRef: &corev1.ObjectFieldSelector{
@@ -513,7 +513,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 		// 	},
 		// },
 		VolumeMounts: []corev1.VolumeMount{
-			corev1.VolumeMount{
+			{
 				Name:      "scan-results",
 				MountPath: "/home/securecodebox/",
 			},
@@ -572,7 +572,7 @@ func (r *ScanReconciler) startPersistenceProvider(scan *executionv1.Scan) error 
 	}
 
 	rules := []rbacv1.PolicyRule{
-		rbacv1.PolicyRule{
+		{
 			APIGroups: []string{"execution.experimental.securecodebox.io"},
 			Resources: []string{"scans"},
 			Verbs:     []string{"get"},
@@ -596,7 +596,7 @@ func (r *ScanReconciler) startPersistenceProvider(scan *executionv1.Scan) error 
 		}
 
 		standardEnvVars := []corev1.EnvVar{
-			corev1.EnvVar{
+			{
 				Name: "NAMESPACE",
 				ValueFrom: &corev1.EnvVarSource{
 					FieldRef: &corev1.ObjectFieldSelector{
@@ -604,7 +604,7 @@ func (r *ScanReconciler) startPersistenceProvider(scan *executionv1.Scan) error 
 					},
 				},
 			},
-			corev1.EnvVar{
+			{
 				Name:  "SCAN_NAME",
 				Value: scan.Name,
 			},
@@ -713,7 +713,7 @@ func (r *ScanReconciler) checkIfPersistingIsCompleted(scan *executionv1.Scan) er
 	} else if persistenceCompletion == failed {
 		r.Log.Info("At least one PersistenceProvider failed")
 		scan.Status.State = "Errored"
-		scan.Status.ErrorDescription = "At least one PersistenceProvider failed, check the persistence kubernets jobs related to the scan for more details."
+		scan.Status.ErrorDescription = "At least one PersistenceProvider failed, check the persistence kubernetes jobs related to the scan for more details."
 		if err := r.Status().Update(ctx, scan); err != nil {
 			r.Log.Error(err, "unable to update Scan status")
 			return err
@@ -788,7 +788,7 @@ func (r *ScanReconciler) ensureServiceAccountExists(namespace, serviceAccountNam
 				},
 			},
 			Subjects: []rbacv1.Subject{
-				rbacv1.Subject{
+				{
 					Kind: "ServiceAccount",
 					Name: serviceAccountName,
 				},
