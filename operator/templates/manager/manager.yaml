@@ -29,6 +29,7 @@ spec:
           name: manager
           env:
             # TODO: integrate with cert manager and auto gen a cert for minio
+            {{- if .Values.minio.enabled }}
             - name: S3_USE_SSL
               value: 'false'
             - name: S3_ENDPOINT
@@ -47,6 +48,27 @@ spec:
                   key: secretkey
             - name: S3_BUCKET
               value: {{ .Values.minio.defaultBucket.name }}
+            {{- else }}
+            - name: S3_USE_SSL
+              # Always use tls when connecting to outside the cluster.
+              value: "true"
+            - name: S3_ENDPOINT
+              value: {{ .Values.s3.endpoint | quote }}
+            - name: S3_BUCKET
+              value: {{ .Values.s3.bucket }}
+            - name: S3_PORT
+              value: '443'
+            - name: S3_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.s3.keySecret }}
+                  key: accesskey
+            - name: S3_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.s3.keySecret }}
+                  key: secretkey
+            {{- end }}
             {{- if .Values.lurcher.image.digest }}
             - name: LURCHER_IMAGE
               value: "{{ .Values.lurcher.image.registry }}/{{ .Values.lurcher.image.repository }}@{{ .Values.lurcher.image.digest }}"

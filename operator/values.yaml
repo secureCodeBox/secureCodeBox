@@ -18,14 +18,13 @@ lurcher:
     pullPolicy: IfNotPresent
 
 s3:
-  # TODO: Needs to be implemented
-  # by default uses a locally installed minio instance.
-  # this field can be used to directly configure s3 or a other api compatible service
   enabled: false
-  endpoint: ""
-  accessKey: ""
-  secretKey: ""
-  bucket: ""
+  endpoint: "fra1.digitaloceanspaces.com"
+  bucket: "my-bucket"
+  # Name to a k8s secret with 'accesskey' and 'secretkey' as attributes in the same namespace as this release
+  # Example creation via kubectl:
+  # kubectl create secret generic my-secret --from-literal=accessKey="******" --from-literal=secretKey="******"
+  keySecret: my-secret
 
 minio:
   enabled: true
