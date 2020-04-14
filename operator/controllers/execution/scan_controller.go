@@ -329,7 +329,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 							Name:  "parser",
 							Image: parseDefinition.Spec.Image,
 							Env: []corev1.EnvVar{
-								corev1.EnvVar{
+								{
 									Name: "NAMESPACE",
 									ValueFrom: &corev1.EnvVarSource{
 										FieldRef: &corev1.ObjectFieldSelector{
@@ -337,7 +337,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 										},
 									},
 								},
-								corev1.EnvVar{
+								{
 									Name:  "SCAN_NAME",
 									Value: scan.Name,
 								},
