@@ -7,5 +7,21 @@ metadata:
 spec:
   image: "scbexperimental/persistence-elastic:latest"
   env:
+{{- if .Values.externalElasticStack.enabled }}
+    - name: ELASTICSEARCH_ADDRESS
+      value: {{ .Values.externalElasticStack.elasticsearchAddress | quote }}
+{{- else }}
     - name: ELASTICSEARCH_ADDRESS
       value: "http://elasticsearch-master.{{ .Release.Namespace }}.svc.cluster.local:9200"
+{{- end }}
+{{- if and .Values.authentication.user.username .Values.authentication.user.password }}
+    - name: ELASTICSEARCH_USERNAME
+      value: {{ .Values.authentication.user.username | quote }}
+    - name: ELASTICSEARCH_PASSWORD
+      value: {{ .Values.authentication.user.password | quote }}
+{{- else if .Values.authentication.apikey.key }}
+    - name: ELASTICSEARCH_APIKEY_ID
+      value: {{ .Values.authentication.apikey.id | quote }}
+    - name: ELASTICSEARCH_APIKEY
+      value: {{ .Values.authentication.apikey.key | quote }}
+{{- end }}

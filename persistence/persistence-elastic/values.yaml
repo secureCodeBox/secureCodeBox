@@ -6,6 +6,22 @@ image:
   repository: scbexperimental/persistence-elastic
   pullPolicy: Always
 
+# Enable this when you already have an Elastic Stack running to which you want to send your results
+externalElasticStack:
+  enabled: false
+  elasticsearchAddress: "https://elasticsearch.example.com"
+  kibanaAddress: "https://kibana.example.com"
+
+# Configure authentication schema and credentials the persistence provider should use to connect to elasticsearch
+# user and apikey are mutually exclusive, only set one!
+authentication:
+  user:
+    username: null
+    password: null
+  apikey:
+    # Todo(@J12934) figure out when the "id" field is required for api keys.
+    key: null
+
 elasticsearch:
   enabled: true
   replicas: 1
@@ -17,8 +33,8 @@ kibana:
   # image: docker.elastic.co/kibana/kibana-oss
 
 imagePullSecrets: []
-nameOverride: ''
-fullnameOverride: ''
+nameOverride: ""
+fullnameOverride: ""
 
 podSecurityContext:
   {}
