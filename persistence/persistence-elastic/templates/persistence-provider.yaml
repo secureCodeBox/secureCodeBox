@@ -1,7 +1,7 @@
 apiVersion: "execution.experimental.securecodebox.io/v1"
 kind: PersistenceProvider
 metadata:
-  name: "persistence-elastic"
+  name: {{ include "persistence-elastic.fullname" . }}
   labels:
     type: Structured
 spec:
