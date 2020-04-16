@@ -10,13 +10,13 @@ const password = process.env["ELASTICSEARCH_PASSWORD"];
 const apiKeyId = process.env["ELASTICSEARCH_APIKEY_ID"];
 const apiKey = process.env["ELASTICSEARCH_APIKEY"];
 
-if (apiKeyId !== "" && apiKey !== "") {
+if (apiKeyId && apiKey) {
   console.log("Using API Key for Authentication");
   authParams.auth = {
     id: apiKeyId,
     api_key: apiKey,
   };
-} else if (username !== "" && password !== "") {
+} else if (username && password) {
   console.log("Using Username/Password for Authentication");
   authParams.auth = {
     username,
