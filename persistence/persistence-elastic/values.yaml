@@ -18,8 +18,8 @@ authentication:
   user:
     username: null
     password: null
-  apikey:
-    # Todo(@J12934) figure out when the "id" field is required for api keys.
+  apiKey:
+    id: null
     key: null
 
 elasticsearch:

@@ -16,12 +16,24 @@ spec:
 {{- end }}
 {{- if and .Values.authentication.user.username .Values.authentication.user.password }}
     - name: ELASTICSEARCH_USERNAME
-      value: {{ .Values.authentication.user.username | quote }}
+      valueFrom:
+        secretKeyRef:
+          name: {{ include "persistence-elastic.fullname" . }}
+          key: username
     - name: ELASTICSEARCH_PASSWORD
-      value: {{ .Values.authentication.user.password | quote }}
-{{- else if .Values.authentication.apikey.key }}
+      valueFrom:
+        secretKeyRef:
+          name: {{ include "persistence-elastic.fullname" . }}
+          key: password
+{{- else if and .Values.authentication.apiKey.id .Values.authentication.apiKey.key }}
     - name: ELASTICSEARCH_APIKEY_ID
-      value: {{ .Values.authentication.apikey.id | quote }}
+      valueFrom:
+        secretKeyRef:
+          name: {{ include "persistence-elastic.fullname" . }}
+          key: apiKey
     - name: ELASTICSEARCH_APIKEY
-      value: {{ .Values.authentication.apikey.key | quote }}
+      valueFrom:
+        secretKeyRef:
+          name: {{ include "persistence-elastic.fullname" . }}
+          key: apiKeyId
 {{- end }}
