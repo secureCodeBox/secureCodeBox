@@ -41,7 +41,7 @@ test('should only send scan summary document if no findings are passing in', asy
       scan_type: 'Nmap',
       type: 'scan',
     },
-    index: `securecodebox_default_${now.toISOString().substr(0, 10)}`,
+    index: `scbv2_default_${now.toISOString().substr(0, 10)}`,
   });
   expect(elasticClient.bulk).not.toBeCalled();
 });
@@ -88,7 +88,7 @@ test('should send findings to elasticsearch', async () => {
       scan_type: 'Nmap',
       type: 'scan',
     },
-    index: `securecodebox_default_${now.toISOString().substr(0, 10)}`,
+    index: `scbv2_default_${now.toISOString().substr(0, 10)}`,
   });
 
   expect(elasticClient.bulk).toBeCalledTimes(1);
@@ -97,7 +97,7 @@ test('should send findings to elasticsearch', async () => {
     body: [
       {
         index: {
-          _index: `securecodebox_default_${now.toISOString().substr(0, 10)}`,
+          _index: `scbv2_default_${now.toISOString().substr(0, 10)}`,
         },
       },
       {
