@@ -323,6 +323,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 			Labels:      labels,
 		},
 		Spec: batch.JobSpec{
+			BackoffLimit: 3,
 			Template: corev1.PodTemplateSpec{
 				Spec: corev1.PodSpec{
 					RestartPolicy:      corev1.RestartPolicyNever,
