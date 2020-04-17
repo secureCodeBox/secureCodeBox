@@ -47,7 +47,7 @@ async function persist({
   );
 
   const timeStamp = now.toISOString().substr(0, 10);
-  const indexName = `securecodebox_${tenant}_${timeStamp}`;
+  const indexName = `scbv2_${tenant}_${timeStamp}`;
 
   await client.indices.create(
     {
