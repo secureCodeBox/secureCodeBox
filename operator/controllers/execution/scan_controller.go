@@ -557,7 +557,6 @@ func (r *ScanReconciler) PresignedGetURL(scanID types.UID, filename string) (str
 	return rawResultDownloadURL.String(), nil
 }
 
-// PresignedGetURL returns a presigned URL from the s3 (or compatible) serice.
 func (r *ScanReconciler) startPersistenceProvider(scan *executionv1.Scan) error {
 	ctx := context.Background()
 
