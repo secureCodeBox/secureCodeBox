@@ -521,6 +521,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 			{
 				Name:      "scan-results",
 				MountPath: "/home/securecodebox/",
+				ReadOnly:  true,
 			},
 		},
 	}
