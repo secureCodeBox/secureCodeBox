@@ -670,20 +670,16 @@ func (r *ScanReconciler) startPersistenceProvider(scan *executionv1.Scan) error 
 }
 
 func allJobsCompleted(jobs *batch.JobList) jobCompletionType {
-	hasFailed := false
 	hasCompleted := true
 
 	for _, job := range jobs.Items {
 		if job.Status.Failed > 0 {
-			hasFailed = true
+			return failed
 		} else if job.Status.Succeeded == 0 {
 			hasCompleted = false
 		}
 	}
 
-	if hasFailed {
-		return failed
-	}
 	if hasCompleted {
 		return completed
 	}
