@@ -315,6 +315,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 	}
 	labels["experimental.securecodebox.io/job-type"] = "parser"
 	automountServiceAccountToken := true
+	var backOffLimit int32 = 3
 	job = &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
 			Annotations: make(map[string]string),
@@ -323,7 +324,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 			Labels:      labels,
 		},
 		Spec: batch.JobSpec{
-			BackoffLimit: 3,
+			BackoffLimit: &backOffLimit,
 			Template: corev1.PodTemplateSpec{
 				Spec: corev1.PodSpec{
 					RestartPolicy:      corev1.RestartPolicyNever,
