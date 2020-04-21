@@ -315,6 +315,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 	}
 	labels["experimental.securecodebox.io/job-type"] = "parser"
 	automountServiceAccountToken := true
+	var backOffLimit int32 = 3
 	job = &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
 			Annotations: make(map[string]string),
@@ -323,6 +324,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 			Labels:      labels,
 		},
 		Spec: batch.JobSpec{
+			BackoffLimit: &backOffLimit,
 			Template: corev1.PodTemplateSpec{
 				Spec: corev1.PodSpec{
 					RestartPolicy:      corev1.RestartPolicyNever,
@@ -521,6 +523,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 			{
 				Name:      "scan-results",
 				MountPath: "/home/securecodebox/",
+				ReadOnly:  true,
 			},
 		},
 	}
@@ -556,7 +559,6 @@ func (r *ScanReconciler) PresignedGetURL(scanID types.UID, filename string) (str
 	return rawResultDownloadURL.String(), nil
 }
 
-// PresignedGetURL returns a presigned URL from the s3 (or compatible) serice.
 func (r *ScanReconciler) startPersistenceProvider(scan *executionv1.Scan) error {
 	ctx := context.Background()
 
@@ -670,20 +672,16 @@ func (r *ScanReconciler) startPersistenceProvider(scan *executionv1.Scan) error 
 }
 
 func allJobsCompleted(jobs *batch.JobList) jobCompletionType {
-	hasFailed := false
 	hasCompleted := true
 
 	for _, job := range jobs.Items {
 		if job.Status.Failed > 0 {
-			hasFailed = true
+			return failed
 		} else if job.Status.Succeeded == 0 {
 			hasCompleted = false
 		}
 	}
 
-	if hasFailed {
-		return failed
-	}
 	if hasCompleted {
 		return completed
 	}
