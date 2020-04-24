@@ -90,6 +90,31 @@ func (r *IngressScanReconciler) CreateOrUpdateTlsForHosts(ingress networking.Ing
 				r.Log.Error(err, "unable to get host")
 				return err
 			}
+
+			containsHTTPSPort := false
+			if host.Spec.Ports == nil {
+				host.Spec.Ports = make([]targetsv1.HostPort, 0)
+			}
+			for _, port := range host.Spec.Ports {
+				if port.Port == 443 {
+					containsHTTPSPort = true
+					break
+				}
+			}
+
+			if containsHTTPSPort == false {
+				httpsPort := targetsv1.HostPort{
+					Type: "https",
+					Port: 443,
+				}
+				host.Spec.Ports = append(host.Spec.Ports, httpsPort)
+
+				err := r.Update(context.Background(), &host)
+				if err != nil {
+					r.Log.Error(err, "Failed to add https port to target")
+					return err
+				}
+			}
 		}
 	}
 
