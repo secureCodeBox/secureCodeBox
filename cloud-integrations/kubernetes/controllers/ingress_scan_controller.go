@@ -20,8 +20,12 @@ import (
 	"context"
 
 	"github.com/go-logr/logr"
+	targetsv1 "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/apis/targets/v1"
+
 	networking "k8s.io/api/networking/v1beta1"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/event"
@@ -40,12 +44,56 @@ type IngressScanReconciler struct {
 
 // Reconcile compares the Ingress object against the state of the cluster and updates both if needed
 func (r *IngressScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	_ = context.Background()
+	ctx := context.Background()
 	log := r.Log
 
 	log.Info("Something happened to a ingress", "ingress", req.Name, "namespace", req.Namespace)
 
+	var ingress networking.Ingress
+	if err := r.Get(ctx, req.NamespacedName, &ingress); err != nil {
+		// we'll ignore not-found errors, since they can't be fixed by an immediate
+		// requeue (we'll need to wait for a new notification), and we can get them
+		// on deleted requests.
+		log.V(7).Info("Unable to fetch Ingress")
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
+	err := r.CreateOrUpdateTlsForHosts(ingress)
+	if err != nil {
+		return ctrl.Result{}, err
+	}
+
 	return ctrl.Result{}, nil
+}
+
+func (r *IngressScanReconciler) CreateOrUpdateTlsForHosts(ingress networking.Ingress) error {
+	if ingress.Spec.TLS == nil {
+		return nil
+	}
+
+	for _, tlsConfig := range ingress.Spec.TLS {
+		for _, hostname := range tlsConfig.Hosts {
+			// Check if there is a target already, or create one
+			host := targetsv1.Host{}
+			err := r.Get(context.Background(), types.NamespacedName{Name: hostname, Namespace: ingress.Namespace}, &host)
+			if apierrors.IsNotFound(err) {
+				host.Name = hostname
+				host.Namespace = ingress.Namespace
+				host.Spec.Hostname = hostname
+				host.Spec.Ports = make([]targetsv1.HostPort, 0)
+				err = r.Create(context.Background(), &host)
+				if err != nil {
+					r.Log.Error(err, "unable to create host")
+					return err
+				}
+			} else if err != nil {
+				r.Log.Error(err, "unable to get host")
+				return err
+			}
+		}
+	}
+
+	return nil
 }
 
 // SetupWithManager sets up the controller and initializes every thing it needs
