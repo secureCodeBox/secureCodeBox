@@ -1,4 +1,4 @@
-module github.com/secureCodeBox/secureCodeBox-v2-alpha
+module github.com/secureCodeBox/secureCodeBox-v2-alpha/operator
 
 go 1.13
 
