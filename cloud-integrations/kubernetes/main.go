@@ -27,6 +27,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
 	"github.com/secureCodeBox/secureCodeBox-v2-alpha/cloud-integrations/kubernetes/controllers"
+
+	targetsv1 "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/apis/targets/v1"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -37,6 +39,8 @@ var (
 
 func init() {
 	_ = clientgoscheme.AddToScheme(scheme)
+
+	_ = targetsv1.AddToScheme(scheme)
 
 	// +kubebuilder:scaffold:scheme
 }
