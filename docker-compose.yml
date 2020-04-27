@@ -3,8 +3,8 @@ services:
   engine:
     image: securecodebox/engine:${DEFAULT_TAG}
     depends_on:
-        camundadb:
-          condition: service_healthy
+      camundadb:
+        condition: service_healthy
     ports:
       - "8080:8080"
     networks:
@@ -50,7 +50,7 @@ services:
       container_group: infrastructure
     command: --max_allowed_packet=65011712 # 512M
     healthcheck:
-      test: "/usr/bin/mysql --user=${CAMUNDADB_USER} --password=${CAMUNDADB_PW} --execute \"SHOW DATABASES;\""
+      test: '/usr/bin/mysql --user=${CAMUNDADB_USER} --password=${CAMUNDADB_PW} --execute "SHOW DATABASES;"'
       interval: 5s
       timeout: 1s
       retries: 5
@@ -179,7 +179,7 @@ services:
     image: securecodebox/ncrack:${DEFAULT_TAG}
     depends_on:
       engine:
-        condition: service_healthy 
+        condition: service_healthy
     networks:
       - frontend
     labels:
