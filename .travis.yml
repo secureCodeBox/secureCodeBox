@@ -13,8 +13,8 @@ env:
   - version=latest
   - version=unstable
 script:
-  - if [ $version -e "latest" ]; then cp test/.env.stable.test .env; fi
-  - if [ $version -e "unstable" ]; then cp test/.env.unstable.test .env; fi
+  - if [ "$version" == "latest" ]; then cp test/.env.stable.test .env; fi
+  - if [ "$version" == "unstable" ]; then cp test/.env.stable.test .env; fi
   - docker-compose -f docker-compose.yml -f docker-compose.demo.yml up -d engine camundadb bodgeit juice-shop nginx unsafe-https old-wordpress ssh-service scanner-infrastructure-nmap scanner-webapplication-arachni scanner-webapplication-zap scanner-infrastructure-amass scanner-infrastructure-sslyze scanner-webserver-nikto scanner-infrastructure-ssh scanner-cms-wpscan scanner-infrastructure-ncrack
   - cd test
   - npm ci
