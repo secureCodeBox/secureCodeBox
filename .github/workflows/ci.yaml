@@ -155,6 +155,15 @@ jobs:
           tag_with_ref: true
           tag_with_sha: true
       - uses: docker/build-push-action@v1
+        name: "Build & Push Trivy Parser Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/parser-trivy
+          path: ./integrations/trivy/parser/
+          tag_with_ref: true
+          tag_with_sha: true
+      - uses: docker/build-push-action@v1
         name: "Build & Push OWASP Zap Parser Image"
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -229,18 +238,18 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        k8sVersion: ['1.18.0', '1.17.2', '1.16.4', '1.15.7']
+        k8sVersion: ["1.18.0", "1.17.2", "1.16.4", "1.15.7"]
     steps:
       - uses: actions/checkout@master
       - name: "Start kind cluster"
         run: |
           kind create cluster --image kindest/node:v${{ matrix.k8sVersion }} --wait 3m
       - name: "Inspect kind cluster"
-        run: | 
+        run: |
           kubectl config current-context
           kubectl get node
       - name: "Install Operator"
-        run: | 
+        run: |
           # Namespace in which the scans for the tests will be executed
           kubectl create namespace integration-tests
 
@@ -266,16 +275,16 @@ jobs:
           npm ci
       # This steps should include Integration tests which arent related to a Specific Scanner
       - name: "Generic Integration Tests"
-        run: | 
+        run: |
           cd tests/integration/
           npx jest --ci --color no-scan-definition-error
       - name: "Nmap Integration Tests"
-        run: | 
+        run: |
           helm -n integration-tests install nmap ./integrations/nmap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color nmap
       - name: "Kube-hunter Integration Tests"
-        run: | 
+        run: |
           helm -n integration-tests install kube-hunter ./integrations/kube-hunter/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color kube-hunter
@@ -294,5 +303,5 @@ jobs:
           echo "Operator Startup Logs"
           kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
       - name: "Delete kind cluster"
-        run: | 
+        run: |
           kind delete cluster
