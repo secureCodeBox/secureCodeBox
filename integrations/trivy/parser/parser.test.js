@@ -47,3 +47,23 @@ test("parses securecodebox/ssh:unstable result file into findings", async () => 
 
   expect(await parse(fileContent)).toMatchSnapshot();
 });
+
+test("parses mediawiki:stable result file into findings", async () => {
+  const fileContent = JSON.parse(
+    await readFile(__dirname + "/__testFiles__/mediawiki-stable.json", {
+      encoding: "utf8",
+    })
+  );
+
+  expect(await parse(fileContent)).toMatchSnapshot();
+});
+
+test("parses mediawiki:1.27.3 result file into findings", async () => {
+  const fileContent = JSON.parse(
+    await readFile(__dirname + "/__testFiles__/mediawiki-1.27.3.json", {
+      encoding: "utf8",
+    })
+  );
+
+  expect(await parse(fileContent)).toMatchSnapshot();
+});
