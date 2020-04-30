@@ -7,6 +7,8 @@ metadata:
 spec:
   image: "scbexperimental/persistence-elastic:latest"
   env:
+    - name: ELASTICSEARCH_INDEX_PREFIX
+      value: {{ .Values.indexPrefix | quote }}
 {{- if .Values.externalElasticStack.enabled }}
     - name: ELASTICSEARCH_ADDRESS
       value: {{ .Values.externalElasticStack.elasticsearchAddress | quote }}

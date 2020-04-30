@@ -6,6 +6,8 @@ image:
   repository: scbexperimental/persistence-elastic
   pullPolicy: Always
 
+indexPrefix: "scbv2"
+
 # Enable this when you already have an Elastic Stack running to which you want to send your results
 externalElasticStack:
   enabled: false

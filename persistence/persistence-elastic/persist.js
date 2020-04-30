@@ -38,6 +38,7 @@ async function persist({
   scan,
   now = new Date(),
   tenant = process.env["NAMESPACE"],
+  indexPrefix = process.env["ELASTICSEARCH_INDEX_PREFIX"] || "scbv2",
 }) {
   const findings = await getFindings();
 
@@ -47,7 +48,7 @@ async function persist({
   );
 
   const timeStamp = now.toISOString().substr(0, 10);
-  const indexName = `scbv2_${tenant}_${timeStamp}`;
+  const indexName = `${indexPrefix}_${tenant}_${timeStamp}`;
 
   await client.indices.create(
     {
