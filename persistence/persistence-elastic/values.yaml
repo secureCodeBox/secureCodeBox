@@ -22,12 +22,14 @@ authentication:
     id: null
     key: null
 
+# Configures included Elasticsearch subchart
 elasticsearch:
   enabled: true
   replicas: 1
   minimumMasterNodes: 1
   # image: docker.elastic.co/elasticsearch/elasticsearch-oss
 
+# Configures included Elasticsearch subchart
 kibana:
   enabled: true
   # image: docker.elastic.co/kibana/kibana-oss
