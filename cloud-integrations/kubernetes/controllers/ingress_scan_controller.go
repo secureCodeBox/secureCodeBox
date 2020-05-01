@@ -18,6 +18,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-logr/logr"
 	targetsv1 "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/apis/targets/v1"
@@ -77,7 +78,7 @@ func (r *IngressScanReconciler) CreateOrUpdateTlsForHosts(ingress networking.Ing
 			host := targetsv1.Host{}
 			err := r.Get(context.Background(), types.NamespacedName{Name: hostname, Namespace: ingress.Namespace}, &host)
 			if apierrors.IsNotFound(err) {
-				host.Name = hostname
+				host.GenerateName = fmt.Sprintf("%s-", ingress.Name)
 				host.Namespace = ingress.Namespace
 				host.Spec.Hostname = hostname
 				host.Spec.Ports = make([]targetsv1.HostPort, 0)
@@ -126,16 +127,16 @@ func (r *IngressScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
 
 	isInDemoNamespaceFilter := predicate.Funcs{
 		CreateFunc: func(event event.CreateEvent) bool {
-			return event.Meta.GetNamespace() == "demo"
+			return event.Meta.GetNamespace() == "juice-shop" || event.Meta.GetNamespace() == "bodgeit"
 		},
 		DeleteFunc: func(event event.DeleteEvent) bool {
-			return event.Meta.GetNamespace() == "demo"
+			return event.Meta.GetNamespace() == "juice-shop" || event.Meta.GetNamespace() == "bodgeit"
 		},
 		UpdateFunc: func(event event.UpdateEvent) bool {
-			return event.MetaNew.GetNamespace() == "demo"
+			return event.MetaNew.GetNamespace() == "juice-shop" || event.MetaNew.GetNamespace() == "bodgeit"
 		},
 		GenericFunc: func(event event.GenericEvent) bool {
-			return event.Meta.GetNamespace() == "demo"
+			return event.Meta.GetNamespace() == "juice-shop" || event.Meta.GetNamespace() == "bodgeit"
 		},
 	}
 
