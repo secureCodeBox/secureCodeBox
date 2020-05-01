@@ -238,7 +238,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        k8sVersion: ["1.18.0", "1.17.2", "1.16.4", "1.15.7"]
+        k8sVersion: ["1.18.2", "1.17.5", "1.16.9", "1.15.11"]
     steps:
       - uses: actions/checkout@master
       - name: "Start kind cluster"
