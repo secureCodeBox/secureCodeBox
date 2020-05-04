@@ -135,7 +135,7 @@ spec:
         service: "postgresql"
   scanSpec:
     name: "ncrack"
-    parameters: ["-t", "postgresql://${attributes.hostname}:${attributes.port}"]
+    parameters: ["postgresql://${attributes.hostname}:${attributes.port}"]
 ```
 
 ### Nikto
@@ -160,7 +160,7 @@ spec:
         service: "https"
   scanSpec:
     name: "nikto"
-    parameters: ["-t", "${attributes.service:-http}://${attributes.hostname}"]
+    parameters: ["-h", "${attributes.service:-http}://${attributes.hostname}"]
 ```
 
 #### Alternative 2
@@ -179,7 +179,7 @@ spec:
         service: "http"
   scanSpec:
     name: "nitko"
-    parameters: ["-t", "http://${attributes.hostname}"]
+    parameters: ["-h", "http://${attributes.hostname}"]
 ---
 apiVersion: "cascading.experimental.securecodebox.io/v1"
 kind: CascadingRule
@@ -204,7 +204,7 @@ spec:
           contains: "scan"
   scanSpec:
     name: "nitko"
-    parameters: ["-t", "https://${attributes.hostname}"]
+    parameters: ["-h", "https://${attributes.hostname}"]
 ```
 
 ## a complete IP Range Scan Example
