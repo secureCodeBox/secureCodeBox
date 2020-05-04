@@ -112,9 +112,12 @@ spec:
     - category: "Open Port"
       attributes:
         service: "http"
+    - category: "Open Port"
+      attributes:
+        service: "https"
   scanSpec:
-    name: "zap"
-    parameters: ["--zap-api-baseline", "${attributes.hostname}"]
+    name: "zap-baseline"
+    parameters: ["-t", "${location}"]
 ```
 
 ### SQLMap
