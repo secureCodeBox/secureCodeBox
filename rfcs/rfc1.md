@@ -120,13 +120,13 @@ spec:
     parameters: ["-t", "${location}"]
 ```
 
-### SQLMap
+### Ncrack (for Postgres)
 
 ```yaml
 apiVersion: "cascading.experimental.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
-  name: "host-scan-database-check"
+  name: "postgres-credential-check"
 spec:
   on:
     # define an "port service" finding (any port)
@@ -134,7 +134,7 @@ spec:
       attributes:
         service: "postgresql"
   scanSpec:
-    name: "sqlmap"
+    name: "ncrack"
     parameters: ["-t", "postgresql://${attributes.hostname}:${attributes.port}"]
 ```
 
