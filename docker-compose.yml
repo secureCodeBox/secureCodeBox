@@ -1,10 +1,10 @@
 version: "2.1"
 services:
   engine:
-    image: securecodebox/engine:${DEFAULT_TAG}
+    image: securecodebox/engine:${SECURECODEBOX_ENGINE_IMAGE_VERSION}
     depends_on:
-        camundadb:
-          condition: service_healthy
+      camundadb:
+        condition: service_healthy
     ports:
       - "8080:8080"
     networks:
@@ -50,7 +50,7 @@ services:
       container_group: infrastructure
     command: --max_allowed_packet=65011712 # 512M
     healthcheck:
-      test: "/usr/bin/mysql --user=${CAMUNDADB_USER} --password=${CAMUNDADB_PW} --execute \"SHOW DATABASES;\""
+      test: '/usr/bin/mysql --user=${CAMUNDADB_USER} --password=${CAMUNDADB_PW} --execute "SHOW DATABASES;"'
       interval: 5s
       timeout: 1s
       retries: 5
@@ -61,7 +61,7 @@ services:
       - MYSQL_PASSWORD=${CAMUNDADB_PW}
 
   scanner-infrastructure-nmap:
-    image: securecodebox/nmap:${DEFAULT_TAG}
+    image: securecodebox/nmap:${SECURECODEBOX_NMAP_IMAGE_VERSION}
     depends_on:
       engine:
         condition: service_healthy
@@ -75,7 +75,7 @@ services:
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   scanner-webserver-nikto:
-    image: securecodebox/nikto:${DEFAULT_TAG}
+    image: securecodebox/nikto:${SECURECODEBOX_NIKTO_IMAGE_VERSION}
     depends_on:
       engine:
         condition: service_healthy
@@ -89,7 +89,7 @@ services:
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   scanner-webapplication-zap:
-    image: securecodebox/zap:${DEFAULT_TAG}
+    image: securecodebox/zap:${SECURECODEBOX_ZAP_IMAGE_VERSION}
     depends_on:
       engine:
         condition: service_healthy
@@ -104,7 +104,7 @@ services:
       - SECURECODEBOX_ZAP_JOBSSCHEDULERCRON=* * * * * *
 
   scanner-infrastructure-sslyze:
-    image: securecodebox/sslyze:${DEFAULT_TAG}
+    image: securecodebox/sslyze:${SECURECODEBOX_SSLYZE_IMAGE_VERSION}
     depends_on:
       engine:
         condition: service_healthy
@@ -118,7 +118,7 @@ services:
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   scanner-webapplication-arachni:
-    image: securecodebox/arachni:${DEFAULT_TAG}
+    image: securecodebox/arachni:${SECURECODEBOX_ARACHNI_IMAGE_VERSION}
     depends_on:
       engine:
         condition: service_healthy
@@ -134,7 +134,7 @@ services:
       - "./plugins/arachni-login-scripts:/securecodebox/static/"
 
   scanner-infrastructure-amass:
-    image: securecodebox/amass:${DEFAULT_TAG}
+    image: securecodebox/amass:${SECURECODEBOX_AMASS_IMAGE_VERSION}
     depends_on:
       engine:
         condition: service_healthy
@@ -148,7 +148,7 @@ services:
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   scanner-infrastructure-ssh:
-    image: securecodebox/ssh:${DEFAULT_TAG}
+    image: securecodebox/ssh:${SECURECODEBOX_SSH_IMAGE_VERSION}
     depends_on:
       engine:
         condition: service_healthy
@@ -162,7 +162,7 @@ services:
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   scanner-cms-wpscan:
-    image: securecodebox/wpscan:${DEFAULT_TAG}
+    image: securecodebox/wpscan:${SECURECODEBOX_WPSCAN_IMAGE_VERSION}
     depends_on:
       engine:
         condition: service_healthy
@@ -176,10 +176,10 @@ services:
       - ENGINE_BASIC_AUTH_PASSWORD=${ENGINE_SCANNERSERVICES_PASSWORD}
 
   scanner-infrastructure-ncrack:
-    image: securecodebox/ncrack:${DEFAULT_TAG}
+    image: securecodebox/ncrack:${SECURECODEBOX_NCRACK_IMAGE_VERSION}
     depends_on:
       engine:
-        condition: service_healthy 
+        condition: service_healthy
     networks:
       - frontend
     labels:
