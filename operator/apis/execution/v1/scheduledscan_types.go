@@ -54,6 +54,7 @@ type ScheduledScanStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="UID",type=string,JSONPath=`.metadata.uid`,description="K8s Resource UID",priority=1
 // +kubebuilder:printcolumn:name="Type",type=string,JSONPath=`.spec.scanSpec.scanType`,description="Scan Type"
+// +kubebuilder:printcolumn:name="Interval",type=string,JSONPath=`.spec.interval`,description="Interval"
 // +kubebuilder:printcolumn:name="Findings",type=string,JSONPath=`.status.findings.count`,description="Total Finding Count"
 // +kubebuilder:printcolumn:name="Parameters",type=string,JSONPath=`.spec.scanSpec.parameters`,description="Arguments passed to the Scanner",priority=1
 

@@ -18,6 +18,10 @@ spec:
     description: Scan Type
     name: Type
     type: string
+  - JSONPath: .spec.interval
+    description: Interval
+    name: Interval
+    type: string
   - JSONPath: .status.findings.count
     description: Total Finding Count
     name: Findings
