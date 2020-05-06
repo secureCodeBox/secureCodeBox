@@ -14,6 +14,10 @@ function categorize({ id }) {
     return ["X-XSS-Protection", LOW];
   } else if (id === 999100) {
     return ["Uncommon Header", INFORMATIONAL];
+  } else if (id === 999996) {
+    return ["robots.txt", INFORMATIONAL];
+  } else if (id === 740001) {
+    return ["Potential Backup File", INFORMATIONAL];
   } else if (id === 999103) {
     return ["X-Content-Type-Options Header", INFORMATIONAL];
   } else if (id === 521000) {
@@ -45,7 +49,7 @@ async function parse({ host, ip, port: portString, banner, vulnerabilities }) {
     const protocol = port === 443 || port === 8443 ? "https" : "http";
 
     return {
-      name: msg,
+      name: msg.trimRight(),
       description: null,
       category,
       location: `${protocol}://${host}${url}`,
