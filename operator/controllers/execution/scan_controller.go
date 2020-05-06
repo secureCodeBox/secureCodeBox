@@ -326,6 +326,11 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 		Spec: batch.JobSpec{
 			BackoffLimit: &backOffLimit,
 			Template: corev1.PodTemplateSpec{
+				ObjectMeta: metav1.ObjectMeta{
+					Annotations: map[string]string{
+						"auto-discovery.experimental.securecodebox.io/ignore": "true",
+					},
+				},
 				Spec: corev1.PodSpec{
 					RestartPolicy:      corev1.RestartPolicyNever,
 					ServiceAccountName: "parser",
@@ -438,6 +443,13 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 		},
 		Spec: *scanType.Spec.JobTemplate.Spec.DeepCopy(),
 	}
+
+	podAnnotations := scanType.Spec.JobTemplate.DeepCopy().Annotations
+	if podAnnotations == nil {
+		podAnnotations = make(map[string]string)
+	}
+	podAnnotations["experimental.securecodebox.io/job-type"] = "scanner"
+	job.Spec.Template.Annotations = podAnnotations
 
 	job.Spec.Template.Spec.ServiceAccountName = "lurcher"
 
@@ -631,6 +643,11 @@ func (r *ScanReconciler) startPersistenceProvider(scan *executionv1.Scan) error 
 			},
 			Spec: batch.JobSpec{
 				Template: corev1.PodTemplateSpec{
+					ObjectMeta: metav1.ObjectMeta{
+						Annotations: map[string]string{
+							"auto-discovery.experimental.securecodebox.io/ignore": "true",
+						},
+					},
 					Spec: corev1.PodSpec{
 						ServiceAccountName: "persistence",
 						RestartPolicy:      corev1.RestartPolicyNever,
