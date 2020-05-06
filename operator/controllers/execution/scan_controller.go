@@ -133,16 +133,16 @@ const (
 	completed  jobCompletionType = "Completed"
 	failed     jobCompletionType = "Failed"
 	incomplete jobCompletionType = "Incomplete"
-	unkown     jobCompletionType = "Unkown"
+	unknown    jobCompletionType = "Unknown"
 )
 
 func (r *ScanReconciler) checkIfJobIsCompleted(name, namespace string) (jobCompletionType, error) {
 	job, err := r.getJob(name, namespace)
 	if err != nil {
-		return unkown, err
+		return unknown, err
 	}
 	if job == nil {
-		return unkown, errors.New("Both Job and error were nil. This isn't really expected")
+		return unknown, errors.New("Both Job and error were nil. This isn't really expected")
 	}
 
 	if job.Status.Succeeded != 0 {
@@ -151,7 +151,7 @@ func (r *ScanReconciler) checkIfJobIsCompleted(name, namespace string) (jobCompl
 	if job.Status.Failed != 0 {
 		return failed, nil
 	}
-	return unkown, nil
+	return unknown, nil
 }
 
 func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
@@ -356,7 +356,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 								rawResultDownloadURL,
 								findingsUploadURL.String(),
 							},
-							ImagePullPolicy: "IfNotPresent",
+							ImagePullPolicy: "Always",
 						},
 					},
 					AutomountServiceAccountToken: &automountServiceAccountToken,
