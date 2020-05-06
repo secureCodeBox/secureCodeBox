@@ -75,12 +75,12 @@ Array [
       "niktoId": 999102,
       "port": 443,
     },
-    "category": "Nikto Finding",
+    "category": "X-XSS-Protection",
     "description": null,
     "location": "https://www.securecodebox.io/",
     "name": "The X-XSS-Protection header is not defined. This header can hint to the user agent to protect against some forms of XSS",
     "osi_layer": "NETWORK",
-    "severity": "INFORMATIONAL",
+    "severity": "LOW",
   },
   Object {
     "attributes": Object {
