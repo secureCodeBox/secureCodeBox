@@ -1,8 +1,8 @@
-# secureCodeBox Cloud Integrations
+# secureCodeBox Auto-Discovery
 
 > Disclaimer: This concept is currently undergoing first tests, things might still change drastically.
 
-The Cloud Integration Services monitor security relevant resources inside a cloud environment and automatically create scans to continuously monitor security aspects of the resources. We aim to eventually support most mayor cloud providers, like AWS, GCP and Azure, but also runtime environments on top of these, primarily kubernetes.
+The Auto Discovery Services monitor security relevant resources inside a cloud environment and automatically create scans to continuously monitor security aspects of the resources. We aim to eventually support most mayor cloud providers, like AWS, GCP and Azure, but also runtime environments on top of these, primarily kubernetes.
 
 ## Example
 

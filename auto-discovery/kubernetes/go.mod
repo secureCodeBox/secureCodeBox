@@ -1,4 +1,4 @@
-module github.com/secureCodeBox/secureCodeBox-v2-alpha/cloud-integrations/kubernetes
+module github.com/secureCodeBox/secureCodeBox-v2-alpha/auto-discovery/kubernetes
 
 go 1.13
 
