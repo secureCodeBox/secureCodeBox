@@ -54,6 +54,10 @@ var (
 	apiGVStr = executionv1.GroupVersion.String()
 )
 
+// Finalizer to delete related files in s3 when the scan gets deleted
+// https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definitions/#finalizers
+var s3StorageFinalizer = "storage.s3.experimental.securecodebox.io"
+
 // +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=scans,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=scans/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=scantypes,verbs=get;list;watch
@@ -89,6 +93,14 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	log.V(5).Info("Scan Found", "Type", scan.Spec.ScanType, "State", state)
+
+	// Handle Finalizer if the scan is getting deleted
+	if !scan.ObjectMeta.DeletionTimestamp.IsZero() {
+		if err := r.handleFinalizer(&scan); err != nil {
+			r.Log.Error(err, "Failed to run Scan Finalizer")
+			return ctrl.Result{}, err
+		}
+	}
 
 	var err error
 	switch state {
@@ -154,6 +166,45 @@ func (r *ScanReconciler) checkIfJobIsCompleted(name, namespace string) (jobCompl
 	return unknown, nil
 }
 
+// Helper functions to check and remove string from a slice of strings.
+func containsString(slice []string, s string) bool {
+	for _, item := range slice {
+		if item == s {
+			return true
+		}
+	}
+	return false
+}
+
+func removeString(slice []string, s string) (result []string) {
+	for _, item := range slice {
+		if item == s {
+			continue
+		}
+		result = append(result, item)
+	}
+	return
+}
+
+func (r *ScanReconciler) handleFinalizer(scan *executionv1.Scan) error {
+	if containsString(scan.ObjectMeta.Finalizers, s3StorageFinalizer) {
+		bucketName := os.Getenv("S3_BUCKET")
+		r.Log.V(0).Info("Deleting External Files from FileStorage", "ScanUID", scan.UID)
+		if err := r.MinioClient.RemoveObject(bucketName, fmt.Sprintf("scan-%s/%s", scan.UID, scan.Status.RawResultFile)); err != nil {
+			return err
+		}
+		if err := r.MinioClient.RemoveObject(bucketName, fmt.Sprintf("scan-%s/findings.json", scan.UID)); err != nil {
+			return err
+		}
+
+		scan.ObjectMeta.Finalizers = removeString(scan.ObjectMeta.Finalizers, s3StorageFinalizer)
+		if err := r.Update(context.Background(), scan); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 	ctx := context.Background()
 	namespacedName := fmt.Sprintf("%s/%s", scan.Namespace, scan.Name)
@@ -166,6 +217,14 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 	if job != nil {
 		log.V(8).Info("Job already exists. Doesn't need to be created.")
 		return nil
+	}
+
+	// Add s3 storage finalizer to scan
+	if !containsString(scan.ObjectMeta.Finalizers, s3StorageFinalizer) {
+		scan.ObjectMeta.Finalizers = append(scan.ObjectMeta.Finalizers, s3StorageFinalizer)
+		if err := r.Update(context.Background(), scan); err != nil {
+			return err
+		}
 	}
 
 	// get the ScanType for the scan
