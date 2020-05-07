@@ -898,9 +898,8 @@ func (r *ScanReconciler) initS3Connection() *minio.Client {
 	endpoint := os.Getenv("S3_ENDPOINT")
 	accessKeyID := os.Getenv("S3_ACCESS_KEY")
 	secretAccessKey := os.Getenv("S3_SECRET_KEY")
-	port := "443"
 	if os.Getenv("S3_PORT") != "" {
-		port = os.Getenv("S3_PORT")
+		endpoint = fmt.Sprintf("%s:%s", endpoint, os.Getenv("S3_PORT"))
 	}
 	// Only deactivate useSSL when explicitly set to false
 	useSSL := true
@@ -909,7 +908,7 @@ func (r *ScanReconciler) initS3Connection() *minio.Client {
 	}
 
 	// Initialize minio client object.
-	minioClient, err := minio.New(fmt.Sprintf("%s:%s", endpoint, port), accessKeyID, secretAccessKey, useSSL)
+	minioClient, err := minio.New(endpoint, accessKeyID, secretAccessKey, useSSL)
 	if err != nil {
 		r.Log.Error(err, "Could not create minio client to communicate with s3 or compatible storage provider")
 		panic(err)
