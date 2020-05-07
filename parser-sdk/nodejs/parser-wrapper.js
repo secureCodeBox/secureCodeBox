@@ -1,7 +1,7 @@
-const axios = require('axios');
-const { parse } = require('./parser/parser');
-const uuid = require('uuid/v4');
-const k8s = require('@kubernetes/client-node');
+const axios = require("axios");
+const { parse } = require("./parser/parser");
+const uuid = require("uuid/v4");
+const k8s = require("@kubernetes/client-node");
 
 function severityCount(findings, severity) {
   return findings.filter(
@@ -14,8 +14,8 @@ async function updateScanStatus(findings) {
   const kc = new k8s.KubeConfig();
   kc.loadFromCluster();
   const k8sApi = kc.makeApiClient(k8s.CustomObjectsApi);
-  const scanName = process.env['SCAN_NAME'];
-  const namespace = process.env['NAMESPACE'];
+  const scanName = process.env["SCAN_NAME"];
+  const namespace = process.env["NAMESPACE"];
 
   try {
     const findingCategories = new Map();
@@ -28,57 +28,57 @@ async function updateScanStatus(findings) {
     }
 
     await k8sApi.patchNamespacedCustomObjectStatus(
-      'execution.experimental.securecodebox.io',
-      'v1',
+      "execution.experimental.securecodebox.io",
+      "v1",
       namespace,
-      'scans',
+      "scans",
       scanName,
       {
         status: {
           findings: {
             count: findings.length,
             severities: {
-              informational: severityCount(findings, 'INFORMATIONAL'),
-              low: severityCount(findings, 'LOW'),
-              medium: severityCount(findings, 'MEDIUM'),
-              high: severityCount(findings, 'HIGH'),
+              informational: severityCount(findings, "INFORMATIONAL"),
+              low: severityCount(findings, "LOW"),
+              medium: severityCount(findings, "MEDIUM"),
+              high: severityCount(findings, "HIGH"),
             },
             categories: Object.fromEntries(findingCategories.entries()),
           },
         },
       },
-      { headers: { 'content-type': 'application/merge-patch+json' } }
+      { headers: { "content-type": "application/merge-patch+json" } }
     );
-    console.log('Updated status successfully');
+    console.log("Updated status successfully");
   } catch (err) {
-    console.error('Failed to update Scan Status via the kubernetes api');
+    console.error("Failed to update Scan Status via the kubernetes api");
     console.error(err);
     process.exit(1);
   }
 }
 
 async function main() {
-  console.log("Starting Parser")
+  console.log("Starting Parser");
   const resultFileUrl = process.argv[2];
   const resultUploadUrl = process.argv[3];
 
-  console.log("Fetching result file")
+  console.log("Fetching result file");
   const { data } = await axios.get(resultFileUrl);
-  console.log("Fetched result file")
+  console.log("Fetched result file");
 
   let findings = [];
   try {
     findings = await parse(data);
   } catch (error) {
-    console.error("Parser failed with error:")
-    console.error(error)
-    process.exit(1)
+    console.error("Parser failed with error:");
+    console.error(error);
+    process.exit(1);
   }
 
   console.log(`Transformed raw result file into ${findings.length} findings`);
 
-  console.log('Adding UUIDs to the findings');
-  const findingsWithIds = findings.map(finding => {
+  console.log("Adding UUIDs to the findings");
+  const findingsWithIds = findings.map((finding) => {
     return {
       ...finding,
       id: uuid(),
@@ -89,7 +89,25 @@ async function main() {
 
   console.log(`Uploading results to the file storage service`);
 
-  await axios.put(resultUploadUrl, findingsWithIds);
+  await axios.put(resultUploadUrl, findingsWithIds).catch(function(error) {
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.error(
+        `Finding Upload Failed with Response Code: ${error.response.status}`
+      );
+      console.error(`Error Response Body: ${error.response.data}`);
+    } else if (error.request) {
+      console.error(
+        "No response received from FileStorage when uploading finding"
+      );
+      console.error(error);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.log("Error", error.message);
+    }
+    process.exit(1);
+  });
 
   console.log(`Completed parser`);
 }
