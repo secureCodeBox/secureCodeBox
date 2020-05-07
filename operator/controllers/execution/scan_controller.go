@@ -56,7 +56,7 @@ var (
 
 // Finalizer to delete related files in s3 when the scan gets deleted
 // https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definitions/#finalizers
-var s3StorageFinalizer = "storage.s3.experimental.securecodebox.io"
+var s3StorageFinalizer = "s3.storage.experimental.securecodebox.io"
 
 // +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=scans,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=scans/status,verbs=get;update;patch
