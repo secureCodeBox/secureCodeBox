@@ -27,7 +27,7 @@ For additional documentation aspects please have a look at our:
 The typical way to ensure application security is to hire a security specialist (aka penetration tester) at some point in your project to check the application for security bugs and vulnerabilities. Usually, this check is done at a later stage of the project and has two major drawbacks:
 
 1. Nowadays, a lot of projects do continuous delivery, which means the developers deploy new versions multiple times each day. The penetration tester is only able to check a single snapshot, but some further commits could introduce new security issues. To ensure ongoing application security, the penetration tester should also continuously test the application. Unfortunately, such an approach is rarely financially feasible.
-2. Due to a typically time boxed analysis, the penetration tester has to focus on trivial security issues (low-hangig fruits) and therefore will not address the serious, non-obvious ones.
+2. Due to a typically time boxed analysis, the penetration tester has to focus on trivial security issues (low-hanging fruits) and therefore will not address the serious, non-obvious ones.
 
 With the _secureCodeBox_ we provide a toolchain for continuous scanning of applications to find the low-hanging fruit issues early in the development process and free the resources of the penetration tester to concentrate on the major security issues.
 
