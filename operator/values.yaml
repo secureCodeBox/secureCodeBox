@@ -30,7 +30,7 @@ s3:
   endpoint: "fra1.digitaloceanspaces.com"
   bucket: "my-bucket"
   # Implicit 443. You probably only need to change this when the system uses a non default port
-  port: undefined
+  port: null
   # Name to a k8s secret with 'accesskey' and 'secretkey' as attributes in the same namespace as this release
   # Example creation via kubectl:
   # kubectl create secret generic my-secret --from-literal=accessKey="******" --from-literal=secretKey="******"
