@@ -6,6 +6,11 @@ metadata:
     type: Structured
 spec:
   image: "scbexperimental/persistence-elastic:latest"
+  {{- if .Values.image.digest }}
+  image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}@{{ .Values.image.digest }}"
+  {{- else }}
+  image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+  {{- end }}
   env:
     - name: ELASTICSEARCH_INDEX_PREFIX
       value: {{ .Values.indexPrefix | quote }}

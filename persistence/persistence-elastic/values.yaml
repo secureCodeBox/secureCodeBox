@@ -3,8 +3,10 @@
 # Declare variables to be passed into your templates.
 
 image:
+  registry: docker.io
   repository: scbexperimental/persistence-elastic
-  pullPolicy: Always
+  tag: null
+  digest: sha256:25e860d051de0fb7ecb74508d749909d9ec8b5d49cb10466509777bc98e3ec7a
 
 indexPrefix: "scbv2"
 
