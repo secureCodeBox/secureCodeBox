@@ -17,17 +17,21 @@ lurcher:
     digest: "sha256:0e9f18f85809fb8c042543657d340949db14e81fc727bf9fab4421befd317850"
     pullPolicy: IfNotPresent
 
-s3:
-  enabled: false
-  endpoint: "fra1.digitaloceanspaces.com"
-  bucket: "my-bucket"
-  # Name to a k8s secret with 'accesskey' and 'secretkey' as attributes in the same namespace as this release
-  # Example creation via kubectl:
-  # kubectl create secret generic my-secret --from-literal=accessKey="******" --from-literal=secretKey="******"
-  keySecret: my-secret
-
 minio:
   enabled: true
   defaultBucket:
     enabled: true
     name: "securecodebox"
+
+# Config for external s3 systems
+# enable this and disable minio if you want to directly connect agains AWS S3, Google Cloud Storage, DigitalOcean Spaces etc.
+s3:
+  enabled: false
+  endpoint: "fra1.digitaloceanspaces.com"
+  bucket: "my-bucket"
+  # Implicit 443. You probably only need to change this when the system uses a non default port
+  port: undefined
+  # Name to a k8s secret with 'accesskey' and 'secretkey' as attributes in the same namespace as this release
+  # Example creation via kubectl:
+  # kubectl create secret generic my-secret --from-literal=accessKey="******" --from-literal=secretKey="******"
+  keySecret: my-secret
