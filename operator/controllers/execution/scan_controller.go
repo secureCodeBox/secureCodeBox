@@ -186,14 +186,19 @@ func removeString(slice []string, s string) (result []string) {
 	return
 }
 
+var errNotFound = "The specified key does not exist."
+
 func (r *ScanReconciler) handleFinalizer(scan *executionv1.Scan) error {
 	if containsString(scan.ObjectMeta.Finalizers, s3StorageFinalizer) {
 		bucketName := os.Getenv("S3_BUCKET")
 		r.Log.V(0).Info("Deleting External Files from FileStorage", "ScanUID", scan.UID)
-		if err := r.MinioClient.RemoveObject(bucketName, fmt.Sprintf("scan-%s/%s", scan.UID, scan.Status.RawResultFile)); err != nil {
+		err := r.MinioClient.RemoveObject(bucketName, fmt.Sprintf("scan-%s/%s", scan.UID, scan.Status.RawResultFile))
+		if err != nil && err.Error() != errNotFound {
 			return err
 		}
-		if err := r.MinioClient.RemoveObject(bucketName, fmt.Sprintf("scan-%s/findings.json", scan.UID)); err != nil {
+		err = r.MinioClient.RemoveObject(bucketName, fmt.Sprintf("scan-%s/findings.json", scan.UID))
+
+		if err != nil && err.Error() != errNotFound {
 			return err
 		}
 
