@@ -64,7 +64,8 @@ function parseResultFile(fileContent) {
       } else {
         let tempHostList = [];
         if (!xmlInput.nmaprun.host) {
-          reject(new Error("Nmap result file didn't contain a valid host. This probably means that the target was specified incorrectly."));
+          resolve([]);
+          return;
         }
 
         xmlInput = xmlInput.nmaprun.host;

@@ -150,5 +150,5 @@ test("should properly parse a nmap xml without any host", async () => {
     encoding: "utf8"
   });
 
-  expect(parse(xmlContent)).rejects.toThrow("Nmap result file didn't contain a valid host. This probably means that the target was specified incorrectly.")
+  expect(await parse(xmlContent)).toMatchInlineSnapshot(`Array []`);
 });
