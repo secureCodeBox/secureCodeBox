@@ -21,26 +21,26 @@ spec:
     - name: ELASTICSEARCH_ADDRESS
       value: "http://elasticsearch-master.{{ .Release.Namespace }}.svc.cluster.local:9200"
 {{- end }}
-{{- if and .Values.authentication.user.username .Values.authentication.user.password }}
+{{- if .Values.authentication.userSecret }}
     - name: ELASTICSEARCH_USERNAME
       valueFrom:
         secretKeyRef:
-          name: {{ include "persistence-elastic.fullname" . }}
+          name: {{ .Values.authentication.userSecret }}
           key: username
     - name: ELASTICSEARCH_PASSWORD
       valueFrom:
         secretKeyRef:
-          name: {{ include "persistence-elastic.fullname" . }}
+          name: {{ .Values.authentication.userSecret }}
           key: password
 {{- else if and .Values.authentication.apiKey.id .Values.authentication.apiKey.key }}
     - name: ELASTICSEARCH_APIKEY_ID
       valueFrom:
         secretKeyRef:
-          name: {{ include "persistence-elastic.fullname" . }}
+          name: {{ .Values.authentication.apiKeySecret }}
           key: apiKey
     - name: ELASTICSEARCH_APIKEY
       valueFrom:
         secretKeyRef:
-          name: {{ include "persistence-elastic.fullname" . }}
-          key: apiKeyId
+          name: {{ .Values.authentication.apiKeySecret }}
+          key: id
 {{- end }}

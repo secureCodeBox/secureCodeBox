@@ -19,12 +19,10 @@ externalElasticStack:
 # Configure authentication schema and credentials the persistence provider should use to connect to elasticsearch
 # user and apikey are mutually exclusive, only set one!
 authentication:
-  user:
-    username: null
-    password: null
-  apiKey:
-    id: null
-    key: null
+  # Link a pre-existing generic secret with `username` and `password` key / value pairs
+  userSecret: null
+  # Link a pre-existing generic secret with `id` and `key` key / value pairs
+  apiKeySecret: null
 
 # Configures included Elasticsearch subchart
 elasticsearch:
