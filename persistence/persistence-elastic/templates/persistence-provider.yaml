@@ -32,7 +32,7 @@ spec:
         secretKeyRef:
           name: {{ .Values.authentication.userSecret }}
           key: password
-{{- else if and .Values.authentication.apiKey.id .Values.authentication.apiKey.key }}
+{{- else if .Values.authentication.apiKeySecret }}
     - name: ELASTICSEARCH_APIKEY_ID
       valueFrom:
         secretKeyRef:
