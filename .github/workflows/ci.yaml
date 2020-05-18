@@ -1,7 +1,7 @@
 on: push
 name: "CI"
 jobs:
-  integrations:
+  unit:
     name: "Test / Unit / Node.js Code"
     runs-on: ubuntu-latest
     steps:
