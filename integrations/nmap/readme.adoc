@@ -1,6 +1,0 @@
-= Nmap Scanner Integration
-
-[source,yaml]
-----
-include::examples/localhost/scan.yaml[]
-----

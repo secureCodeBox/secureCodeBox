@@ -5,4 +5,5 @@ metadata:
 spec:
   scanType: "nmap"
   parameters:
-    - 192.168.0.0/24
+    # Actual IP will depend on you network config. 🤷‍
+    - 192.168.178.0/24
