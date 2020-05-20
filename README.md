@@ -16,11 +16,17 @@
 
 <!-- toc -->
 
+- [Overview](#overview)
 - [Purpose of this Project](#purpose-of-this-project)
 - [Quickstart](#quickstart)
-- [How Does it Work?](#how-does-it-work)
+  - [Prerequisites](#prerequisites)
+  - [Deployment](#deployment)
+- [How does it work?](#how-does-it-work)
 - [Architecture](#architecture)
-- [Roadmap](#roadmap)
+- [License](#license)
+- [Community](#community)
+- [Contributing](#contributing)
+- [Author Information](#author-information)
 
 For additional documentation aspects please have a look at our:
 
@@ -72,7 +78,7 @@ helm install zap ./integrations/zap/
 # Now everything is installed. You can try deploying scans from the `operator/config/samples/` directory
 
 # E.g. www.securecodebox.io sslyze scan
-kubectl apply apply -f operator/config/samples/execution_v1_scan/sslyze_securecodebox_io.yaml
+kubectl apply -f operator/config/samples/execution_v1_scan/sslyze_securecodebox_io.yaml
 # Then get the current State of the Scan by running:
 kubectl get scans
 ```
