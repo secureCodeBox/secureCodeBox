@@ -251,3 +251,13 @@ test("ssh-scan parser parses a result without a hostname into proper findings", 
     ]
   `);
 });
+
+test("ssh-scan parser parses a result of a network without ssh hosts correctly", async () => {
+  const hosts = JSON.parse(
+    await readFile(__dirname + "/__testFiles__/local-network.json", {
+      encoding: "utf8"
+    })
+  );
+
+  expect(await parse(hosts)).toMatchInlineSnapshot(`Array []`);
+});
