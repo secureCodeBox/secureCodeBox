@@ -1,9 +1,33 @@
-apiVersion: "execution.experimental.securecodebox.io/v1"
+apiVersion: execution.experimental.securecodebox.io/v1
 kind: Scan
 metadata:
-  name: "nmap-localhost"
+  finalizers:
+    - s3.storage.experimental.securecodebox.io
+  name: nmap-localhost
+  namespace: default
 spec:
-  scanType: "nmap"
   parameters:
-    - "-Pn"
+    - -Pn
     - localhost
+  scanType: nmap
+status:
+  state: Errored
+  errorDescription: At least one ReadOnlyHook failed, check the hooks kubernetes jobs related to the scan for more details.
+  findings:
+    categories:
+      Host: 1
+    count: 1
+    severities:
+      informational: 1
+  rawResultFile: nmap-results.xml
+  rawResultType: nmap-xml
+  readAndWriteHookStatus:
+    - hookName: luy-metadata
+      state: Completed
+      jobName: luy-metadata-123123
+    - hookName: finding-priority
+      state: Error
+      jobName: finding-priority-123123
+      error: "Job failed"
+    - hookName: hook-3
+      state: Pending

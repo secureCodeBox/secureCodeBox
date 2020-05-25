@@ -1,10 +1,11 @@
 apiVersion: "execution.experimental.securecodebox.io/v1"
-kind: PersistenceProvider
+kind: ScanCompletionHook
 metadata:
   name: {{ include "persistence-elastic.fullname" . }}
   labels:
     type: Structured
 spec:
+  type: ReadOnly
   image: "scbexperimental/persistence-elastic:latest"
   {{- if .Values.image.digest }}
   image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}@{{ .Values.image.digest }}"

@@ -45,6 +45,26 @@ type ScanStatus struct {
 	RawResultFile string `json:"rawResultFile,omitempty"`
 
 	Findings FindingStats `json:"findings,omitempty"`
+
+	ReadAndWriteHookStatus []HookStatus `json:"readAndWriteHookStatus,omitempty"`
+}
+
+// HookState Describes the State of a Hook on a Scan
+type HookState string
+
+const (
+	Pending    HookState = "Pending"
+	InProgress HookState = "InProgress"
+	Completed  HookState = "Completed"
+
+	// Cancelled  HookState = "Cancelled"
+	// Failed  HookState = "Failed"
+)
+
+type HookStatus struct {
+	HookName string    `json:"hookName"`
+	State    HookState `json:"state"`
+	JobName  string    `json:"jobName"`
 }
 
 // FindingStats contains the general stats about the results of the scan

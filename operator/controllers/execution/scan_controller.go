@@ -113,6 +113,23 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	case "Parsing":
 		err = r.checkIfParsingIsCompleted(&scan)
 	case "ParseCompleted":
+		// Hook status erstellen
+		// List all ReadAndWrite Hook -> Hook Status an Scan hängen
+		// Scan State auf ReadAndWriteHookProcessing setzen
+	case "ReadAndWriteHookProcessing":
+		// Hook Status Array durchgegen
+
+		// hook := First Array entry which is not Completed.
+
+		// if hook == "Pending" => create Job
+		// if hook == "InProgress" =>
+		//	 if job == "Completed" => hook = "Completed"
+		//	 (if job == "Failed" => hook = "Failed" => scan = "Failed")
+
+		// hook = nil => scan = "ReadAndWriteHookCompleted"
+
+		// Scan Status auf ReadAndWriteHookCompleted setzen
+	case "ReadAndWriteHookCompleted":
 		err = r.startReadOnlyHooks(&scan)
 	case "ReadOnlyHookProcessing":
 		err = r.checkIfReadOnlyHookIsCompleted(&scan)

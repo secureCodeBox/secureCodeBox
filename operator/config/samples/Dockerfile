@@ -1,2 +1,2 @@
 FROM alpine
-CMD [sleep, 5s]
+ENTRYPOINT [sleep, 5s]
