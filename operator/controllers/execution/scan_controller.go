@@ -223,6 +223,7 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 				labels = make(map[string]string)
 			}
 			labels["experimental.securecodebox.io/job-type"] = "read-and-write-hook"
+			var backOffLimit int32 = 3
 			job := &batch.Job{
 				ObjectMeta: metav1.ObjectMeta{
 					Annotations: make(map[string]string),
@@ -231,6 +232,7 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 					Labels:      labels,
 				},
 				Spec: batch.JobSpec{
+					BackoffLimit: &backOffLimit,
 					Template: corev1.PodTemplateSpec{
 						ObjectMeta: metav1.ObjectMeta{
 							Annotations: map[string]string{
@@ -269,6 +271,7 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 			for i, hookStatus := range scan.Status.ReadAndWriteHookStatus {
 				if hookStatus.HookName == nonCompletedHook.HookName {
+					scan.Status.ReadAndWriteHookStatus[i].JobName = job.Name
 					scan.Status.ReadAndWriteHookStatus[i].State = executionv1.InProgress
 				}
 			}
@@ -280,9 +283,46 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			return ctrl.Result{}, err
 		}
 
-		// if nonCompletedHook.State == executionv1.InProgress{
+		if nonCompletedHook.State == executionv1.InProgress {
+			jobStatus, err := r.checkIfJobIsCompleted(nonCompletedHook.JobName, scan.Namespace)
+			if err != nil {
+				r.Log.Error(err, "Failed to check job status for ReadAndWrite Hook")
+				return ctrl.Result{}, err
+			}
+			switch jobStatus {
+			case completed:
+				for i, hookStatus := range scan.Status.ReadAndWriteHookStatus {
+					if hookStatus.HookName == nonCompletedHook.HookName {
+						scan.Status.ReadAndWriteHookStatus[i].State = executionv1.Completed
+					}
+				}
 
-		// }
+				if err := r.Status().Update(ctx, &scan); err != nil {
+					r.Log.Error(err, "unable to update Scan status")
+					return ctrl.Result{}, err
+				}
+				return ctrl.Result{}, err
+			case incomplete:
+				// Still waiting for job to finish
+				return ctrl.Result{}, err
+
+			case failed:
+				for i, hookStatus := range scan.Status.ReadAndWriteHookStatus {
+					if hookStatus.HookName == nonCompletedHook.HookName {
+						scan.Status.ReadAndWriteHookStatus[i].State = executionv1.Failed
+					} else if hookStatus.State == executionv1.Pending {
+						scan.Status.ReadAndWriteHookStatus[i].State = executionv1.Cancelled
+					}
+				}
+				scan.Status.State = "Errored"
+				scan.Status.ErrorDescription = fmt.Sprintf("Failed to execute ReadAndWrite Hook '%s' in job '%s'. Check the logs of the hook for more information.", nonCompletedHook.HookName, nonCompletedHook.JobName)
+				if err := r.Status().Update(ctx, &scan); err != nil {
+					r.Log.Error(err, "unable to update Scan status")
+					return ctrl.Result{}, err
+				}
+			}
+		}
+
 		// hook := First Array entry which is not Completed.
 
 		// if hook == "Pending" => create Job

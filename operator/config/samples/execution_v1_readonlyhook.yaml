@@ -1,8 +1,8 @@
 apiVersion: execution.experimental.securecodebox.io/v1
 kind: ScanCompletionHook
 metadata:
-  name: "sleep"
+  name: "echo-r"
 spec:
-  image: "sleep"
+  image: "echo"
   type: "ReadOnly"
   env: []

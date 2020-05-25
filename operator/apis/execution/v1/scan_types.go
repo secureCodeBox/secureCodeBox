@@ -56,9 +56,8 @@ const (
 	Pending    HookState = "Pending"
 	InProgress HookState = "InProgress"
 	Completed  HookState = "Completed"
-
-	// Cancelled  HookState = "Cancelled"
-	// Failed  HookState = "Failed"
+	Cancelled  HookState = "Cancelled"
+	Failed     HookState = "Failed"
 )
 
 type HookStatus struct {
