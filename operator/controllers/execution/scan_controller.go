@@ -151,7 +151,24 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			return ctrl.Result{}, err
 		}
 	case "ReadAndWriteHookProcessing":
-		// Hook Status Array durchgegen
+		// First Array entry which is not Completed.
+		var nonCompletedHook *executionv1.HookStatus
+
+		for _, hook := range scan.Status.ReadAndWriteHookStatus {
+			if hook.State != executionv1.Completed {
+				nonCompletedHook = &hook
+				break
+			}
+		}
+
+		if nonCompletedHook == nil {
+			scan.Status.State = "ReadAndWriteHookCompleted"
+			if err := r.Status().Update(ctx, &scan); err != nil {
+				r.Log.Error(err, "unable to update Scan status")
+				return ctrl.Result{}, err
+			}
+			return ctrl.Result{}, nil
+		}
 
 		// hook := First Array entry which is not Completed.
 
