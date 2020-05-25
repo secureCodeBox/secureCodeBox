@@ -6,25 +6,28 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.2.4
   creationTimestamp: null
-  name: persistenceproviders.execution.experimental.securecodebox.io
+  name: scancompletionhooks.execution.experimental.securecodebox.io
 spec:
   additionalPrinterColumns:
+  - JSONPath: .spec.type
+    description: ScanCompletionHook Type
+    name: Type
+    type: string
   - JSONPath: .spec.image
-    description: PersistenceProvider Image
+    description: ScanCompletionHook Image
     name: Image
     type: string
   group: execution.experimental.securecodebox.io
   names:
-    kind: PersistenceProvider
-    listKind: PersistenceProviderList
-    plural: persistenceproviders
-    singular: persistenceprovider
+    kind: ScanCompletionHook
+    listKind: ScanCompletionHookList
+    plural: scancompletionhooks
+    singular: scancompletionhook
   scope: Namespaced
   subresources: {}
   validation:
     openAPIV3Schema:
-      description: PersistenceProvider is the Schema for the persistenceproviders
-        API
+      description: ScanCompletionHook is the Schema for the ScanCompletionHooks API
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
@@ -39,7 +42,7 @@ spec:
         metadata:
           type: object
         spec:
-          description: PersistenceProviderSpec defines the desired state of PersistenceProvider
+          description: ScanCompletionHookSpec defines the desired state of ScanCompletionHook
           properties:
             env:
               items:
@@ -140,12 +143,17 @@ spec:
                 type: object
               type: array
             image:
-              description: Foo is an example field of PersistenceProvider. Edit PersistenceProvider_types.go
-                to remove/update
+              description: Image is the container image for the hooks kubernetes job
               type: string
+            type:
+              description: HookType Defines weather the hook should be able to change
+                the findings or is run in a read only mode.
+              type: string
+          required:
+          - type
           type: object
         status:
-          description: PersistenceProviderStatus defines the observed state of PersistenceProvider
+          description: ScanCompletionHookStatus defines the observed state of ScanCompletionHook
           type: object
       type: object
   version: v1
