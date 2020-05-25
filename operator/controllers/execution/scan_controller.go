@@ -62,9 +62,9 @@ var s3StorageFinalizer = "s3.storage.experimental.securecodebox.io"
 // +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=scans/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=scantypes,verbs=get;list;watch
 // +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=parsedefinitions,verbs=get;list;watch
-// +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=persistenceproviders,verbs=get;list;watch
+// +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=scancompletionhooks,verbs=get;list;watch
 // +kubebuilder:rbac:groups=batch,resources=jobs,verbs=get;list;watch;create;update;patch;delete
-// Permissions needed to create service accounts for lurcher, parser and persistence providers
+// Permissions needed to create service accounts for lurcher, parser and scanCompletionHooks
 
 // Pod permission are required to grant these permission to service accounts
 // +kubebuilder:rbac:groups=core,resources=pods,verbs=get
@@ -113,9 +113,9 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	case "Parsing":
 		err = r.checkIfParsingIsCompleted(&scan)
 	case "ParseCompleted":
-		err = r.startPersistenceProvider(&scan)
-	case "Persisting":
-		err = r.checkIfPersistingIsCompleted(&scan)
+		err = r.startReadOnlyHooks(&scan)
+	case "ReadOnlyHookProcessing":
+		err = r.checkIfReadOnlyHookIsCompleted(&scan)
 	}
 	if err != nil {
 		return ctrl.Result{}, err
@@ -635,20 +635,34 @@ func (r *ScanReconciler) PresignedGetURL(scanID types.UID, filename string) (str
 	return rawResultDownloadURL.String(), nil
 }
 
-func (r *ScanReconciler) startPersistenceProvider(scan *executionv1.Scan) error {
+func (r *ScanReconciler) startReadOnlyHooks(scan *executionv1.Scan) error {
 	ctx := context.Background()
 
-	var persistenceProviders executionv1.PersistenceProviderList
-	if err := r.List(ctx, &persistenceProviders, client.InNamespace(scan.Namespace)); err != nil {
-		r.Log.V(7).Info("Unable to fetch PersistenceProvider")
+	var scanCompletionHooks executionv1.ScanCompletionHookList
+
+	if err := r.List(ctx, &scanCompletionHooks, client.InNamespace(scan.Namespace)); err != nil {
+		r.Log.V(7).Info("Unable to fetch ScanCompletionHooks")
 		return err
 	}
 
-	if len(persistenceProviders.Items) == 0 {
-		r.Log.V(5).Info("Marked scan as done as without running persistence providers as non were configured", "ScanName", scan.Name)
+	r.Log.Info("Found ScanCompletionHooks", "ScanCompletionHooks", len(scanCompletionHooks.Items))
+
+	readOnlyHooks := []executionv1.ScanCompletionHook{}
+	// filter all ReadOnlyHooks in the scamCompletionHooks list
+	for _, hook := range scanCompletionHooks.Items {
+		if hook.Spec.Type == executionv1.ReadOnly {
+			readOnlyHooks = append(readOnlyHooks, hook)
+		}
+	}
+
+	r.Log.Info("Found ReadOnlyHooks", "ReadOnlyHooks", len(readOnlyHooks))
+
+	// If the readOnlyHooks list is empty, nothing more to do
+	if len(readOnlyHooks) == 0 {
+		r.Log.Info("Marked scan as done as without running ReadOnly hooks as non were configured", "ScanName", scan.Name)
 		scan.Status.State = "Done"
 		if err := r.Status().Update(ctx, scan); err != nil {
-			r.Log.Error(err, "unable to update Scan status")
+			r.Log.Error(err, "Unable to update Scan status")
 			return err
 		}
 		return nil
@@ -661,14 +675,15 @@ func (r *ScanReconciler) startPersistenceProvider(scan *executionv1.Scan) error 
 			Verbs:     []string{"get"},
 		},
 	}
+	serviceAccountName := "scan-completion-hook"
 	r.ensureServiceAccountExists(
 		scan.Namespace,
-		"persistence",
-		"PersistenceProvider need to access the current scan to view where its results are stored",
+		serviceAccountName,
+		"ScanCompletionHooks need to access the current scan to view where its results are stored",
 		rules,
 	)
 
-	for _, persistenceProvider := range persistenceProviders.Items {
+	for _, hook := range readOnlyHooks {
 		rawFileURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile)
 		if err != nil {
 			return err
@@ -693,15 +708,16 @@ func (r *ScanReconciler) startPersistenceProvider(scan *executionv1.Scan) error 
 			},
 		}
 
+		// Starting a new job based on the current ReadOnlyHook
 		labels := scan.ObjectMeta.DeepCopy().Labels
 		if labels == nil {
 			labels = make(map[string]string)
 		}
-		labels["experimental.securecodebox.io/job-type"] = "persistence"
+		labels["experimental.securecodebox.io/job-type"] = "read-only-hook"
 		job := &batch.Job{
 			ObjectMeta: metav1.ObjectMeta{
 				Annotations: make(map[string]string),
-				Name:        fmt.Sprintf("%s-%s", persistenceProvider.Name, scan.Name),
+				Name:        fmt.Sprintf("%s-%s", hook.Name, scan.Name),
 				Namespace:   scan.Namespace,
 				Labels:      labels,
 			},
@@ -713,17 +729,17 @@ func (r *ScanReconciler) startPersistenceProvider(scan *executionv1.Scan) error 
 						},
 					},
 					Spec: corev1.PodSpec{
-						ServiceAccountName: "persistence",
+						ServiceAccountName: serviceAccountName,
 						RestartPolicy:      corev1.RestartPolicyNever,
 						Containers: []corev1.Container{
 							{
-								Name:  "persistence",
-								Image: persistenceProvider.Spec.Image,
+								Name:  "hook",
+								Image: hook.Spec.Image,
 								Args: []string{
 									rawFileURL,
 									findingsFileURL,
 								},
-								Env:             append(persistenceProvider.Spec.Env, standardEnvVars...),
+								Env:             append(hook.Spec.Env, standardEnvVars...),
 								ImagePullPolicy: "IfNotPresent",
 							},
 						},
@@ -738,17 +754,17 @@ func (r *ScanReconciler) startPersistenceProvider(scan *executionv1.Scan) error 
 		}
 
 		if err := r.Create(ctx, job); err != nil {
-			r.Log.Error(err, "unable to create Job for Parser", "job", job)
+			r.Log.Error(err, "Unable to create Job for ReadOnlyHook", "job", job)
 			return err
 		}
 
 	}
-	scan.Status.State = "Persisting"
+	scan.Status.State = "ReadOnlyHookProcessing"
 	if err := r.Status().Update(ctx, scan); err != nil {
-		r.Log.Error(err, "unable to update Scan status")
+		r.Log.Error(err, "Unable to update Scan status")
 		return err
 	}
-	r.Log.Info("Started PersistenceProviders", "PersistenceProviderCount", len(persistenceProviders.Items))
+	r.Log.Info("Started ReadOnlyHook", "ReadOnlyHookCount", len(readOnlyHooks))
 	return nil
 }
 
@@ -769,45 +785,45 @@ func allJobsCompleted(jobs *batch.JobList) jobCompletionType {
 	return incomplete
 }
 
-func (r *ScanReconciler) checkIfPersistingIsCompleted(scan *executionv1.Scan) error {
+func (r *ScanReconciler) checkIfReadOnlyHookIsCompleted(scan *executionv1.Scan) error {
 	ctx := context.Background()
 
 	// check if k8s job for scan was already created
-	var childPersistenceJobs batch.JobList
+	var readOnlyHookJobs batch.JobList
 	if err := r.List(
 		ctx,
-		&childPersistenceJobs,
+		&readOnlyHookJobs,
 		client.InNamespace(scan.Namespace),
 		client.MatchingField(ownerKey, scan.Name),
 		client.MatchingLabels{
-			"experimental.securecodebox.io/job-type": "persistence",
+			"experimental.securecodebox.io/job-type": "read-only-hook",
 		},
 	); err != nil {
-		r.Log.Error(err, "unable to list child jobs")
+		r.Log.Error(err, "Unable to list child jobs")
 		return err
 	}
 
-	r.Log.V(9).Info("Got related jobs", "count", len(childPersistenceJobs.Items))
+	r.Log.V(9).Info("Got related jobs", "count", len(readOnlyHookJobs.Items))
 
-	persistenceCompletion := allJobsCompleted(&childPersistenceJobs)
-	if persistenceCompletion == completed {
-		r.Log.V(7).Info("All PersistenceProviders have completed")
+	readOnlyHookCompletion := allJobsCompleted(&readOnlyHookJobs)
+	if readOnlyHookCompletion == completed {
+		r.Log.V(7).Info("All ReadOnlyHooks have completed")
 		scan.Status.State = "Done"
 		if err := r.Status().Update(ctx, scan); err != nil {
-			r.Log.Error(err, "unable to update Scan status")
+			r.Log.Error(err, "Unable to update Scan status")
 			return err
 		}
-	} else if persistenceCompletion == failed {
-		r.Log.Info("At least one PersistenceProvider failed")
+	} else if readOnlyHookCompletion == failed {
+		r.Log.Info("At least one ReadOnlyHook failed")
 		scan.Status.State = "Errored"
-		scan.Status.ErrorDescription = "At least one PersistenceProvider failed, check the persistence kubernetes jobs related to the scan for more details."
+		scan.Status.ErrorDescription = "At least one ReadOnlyHook failed, check the hooks kubernetes jobs related to the scan for more details."
 		if err := r.Status().Update(ctx, scan); err != nil {
-			r.Log.Error(err, "unable to update Scan status")
+			r.Log.Error(err, "Unable to update Scan status")
 			return err
 		}
 	}
 
-	// PersistenceProvider(s) are still running. At least some of them are.
+	// ReadOnlyHook(s) are still running. At least some of them are.
 	// Waiting until all are done.
 	return nil
 }

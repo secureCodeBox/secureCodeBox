@@ -1,11 +1,8 @@
 apiVersion: execution.experimental.securecodebox.io/v1
-kind: PersistenceProvider
+kind: ScanCompletionHook
 metadata:
-  name: "persistence-elastic"
-  labels:
-    type: Structured
+  name: "sleep"
 spec:
-  image: "scbexperimental/persistence-elastic:latest"
-  env:
-    - name: ELASTICSEARCH_ADDRESS
-      value: "http://elasticsearch-master:9200"
+  image: "sleep"
+  type: "ReadOnly"
+  env: []

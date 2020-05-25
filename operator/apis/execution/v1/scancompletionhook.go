@@ -24,43 +24,55 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// PersistenceProviderSpec defines the desired state of PersistenceProvider
-type PersistenceProviderSpec struct {
+// HookType Defines weather the hook should be able to change the findings or is run in a read only mode.
+type HookType string
+
+const (
+	// ReadOnly ReadOnly Hooks are executed in parallel
+	ReadOnly HookType = "ReadOnly"
+	// ReadAndWrite ReadAndWrite Hooks are executed serially
+	ReadAndWrite HookType = "ReadAndWrite"
+)
+
+// ScanCompletionHookSpec defines the desired state of ScanCompletionHook
+type ScanCompletionHookSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	// Foo is an example field of PersistenceProvider. Edit PersistenceProvider_types.go to remove/update
+	// Image is the container image for the hooks kubernetes job
 	Image string          `json:"image,omitempty"`
 	Env   []corev1.EnvVar `json:"env,omitempty"`
+	Type  HookType        `json:"type"`
 }
 
-// PersistenceProviderStatus defines the observed state of PersistenceProvider
-type PersistenceProviderStatus struct {
+// ScanCompletionHookStatus defines the observed state of ScanCompletionHook
+type ScanCompletionHookStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 }
 
 // +kubebuilder:object:root=true
-// +kubebuilder:printcolumn:name="Image",type=string,JSONPath=`.spec.image`,description="PersistenceProvider Image"
+// +kubebuilder:printcolumn:name="Type",type=string,JSONPath=`.spec.type`,description="ScanCompletionHook Type"
+// +kubebuilder:printcolumn:name="Image",type=string,JSONPath=`.spec.image`,description="ScanCompletionHook Image"
 
-// PersistenceProvider is the Schema for the persistenceproviders API
-type PersistenceProvider struct {
+// ScanCompletionHook is the Schema for the ScanCompletionHooks API
+type ScanCompletionHook struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   PersistenceProviderSpec   `json:"spec,omitempty"`
-	Status PersistenceProviderStatus `json:"status,omitempty"`
+	Spec   ScanCompletionHookSpec   `json:"spec,omitempty"`
+	Status ScanCompletionHookStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// PersistenceProviderList contains a list of PersistenceProvider
-type PersistenceProviderList struct {
+// ScanCompletionHookList contains a list of ScanCompletionHook
+type ScanCompletionHookList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []PersistenceProvider `json:"items"`
+	Items           []ScanCompletionHook `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&PersistenceProvider{}, &PersistenceProviderList{})
+	SchemeBuilder.Register(&ScanCompletionHook{}, &ScanCompletionHookList{})
 }
