@@ -64,7 +64,7 @@ const (
 type HookStatus struct {
 	HookName string    `json:"hookName"`
 	State    HookState `json:"state"`
-	JobName  string    `json:"jobName"`
+	JobName  string    `json:"jobName,omitempty"`
 }
 
 // FindingStats contains the general stats about the results of the scan

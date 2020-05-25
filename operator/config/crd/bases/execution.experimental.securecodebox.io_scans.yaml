@@ -121,10 +121,10 @@ spec:
                   jobName:
                     type: string
                   state:
+                    description: HookState Describes the State of a Hook on a Scan
                     type: string
                 required:
                 - hookName
-                - jobName
                 - state
                 type: object
               type: array
