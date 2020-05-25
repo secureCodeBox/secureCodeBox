@@ -322,15 +322,6 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 				}
 			}
 		}
-
-		// hook := First Array entry which is not Completed.
-
-		// if hook == "Pending" => create Job
-		// if hook == "InProgress" =>
-		//	 if job == "Completed" => hook = "Completed"
-		//	 (if job == "Failed" => hook = "Failed" => scan = "Failed")
-
-		// Scan Status auf ReadAndWriteHookCompleted setzen
 	case "ReadAndWriteHookCompleted":
 		err = r.startReadOnlyHooks(&scan)
 	case "ReadOnlyHookProcessing":
