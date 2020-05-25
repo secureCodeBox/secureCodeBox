@@ -170,14 +170,125 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			return ctrl.Result{}, nil
 		}
 
+		if nonCompletedHook.State == executionv1.Pending {
+			rules := []rbacv1.PolicyRule{
+				{
+					APIGroups: []string{"execution.experimental.securecodebox.io"},
+					Resources: []string{"scans"},
+					Verbs:     []string{"get"},
+				},
+			}
+			serviceAccountName := "scan-completion-hook"
+			r.ensureServiceAccountExists(
+				scan.Namespace,
+				serviceAccountName,
+				"ScanCompletionHooks need to access the current scan to view where its results are stored",
+				rules,
+			)
+
+			rawFileURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile)
+			if err != nil {
+				return ctrl.Result{}, err
+			}
+			findingsFileURL, err := r.PresignedGetURL(scan.UID, "findings.json")
+			if err != nil {
+				return ctrl.Result{}, err
+			}
+
+			var hook executionv1.ScanCompletionHook
+			err = r.Get(ctx, types.NamespacedName{Name: nonCompletedHook.HookName, Namespace: scan.Namespace}, &hook)
+			if err != nil {
+				r.Log.Error(err, "Failed to get ReadAndWrite Hook for HookStatus")
+				return ctrl.Result{}, err
+			}
+
+			standardEnvVars := []corev1.EnvVar{
+				{
+					Name: "NAMESPACE",
+					ValueFrom: &corev1.EnvVarSource{
+						FieldRef: &corev1.ObjectFieldSelector{
+							FieldPath: "metadata.namespace",
+						},
+					},
+				},
+				{
+					Name:  "SCAN_NAME",
+					Value: scan.Name,
+				},
+			}
+
+			// Starting a new job based on the current ReadAndWrite Hook
+			labels := scan.ObjectMeta.DeepCopy().Labels
+			if labels == nil {
+				labels = make(map[string]string)
+			}
+			labels["experimental.securecodebox.io/job-type"] = "read-and-write-hook"
+			job := &batch.Job{
+				ObjectMeta: metav1.ObjectMeta{
+					Annotations: make(map[string]string),
+					Name:        fmt.Sprintf("%s-%s", hook.Name, scan.Name),
+					Namespace:   scan.Namespace,
+					Labels:      labels,
+				},
+				Spec: batch.JobSpec{
+					Template: corev1.PodTemplateSpec{
+						ObjectMeta: metav1.ObjectMeta{
+							Annotations: map[string]string{
+								"auto-discovery.experimental.securecodebox.io/ignore": "true",
+							},
+						},
+						Spec: corev1.PodSpec{
+							ServiceAccountName: serviceAccountName,
+							RestartPolicy:      corev1.RestartPolicyNever,
+							Containers: []corev1.Container{
+								{
+									Name:  "hook",
+									Image: hook.Spec.Image,
+									Args: []string{
+										rawFileURL,
+										findingsFileURL,
+									},
+									Env:             append(hook.Spec.Env, standardEnvVars...),
+									ImagePullPolicy: "IfNotPresent",
+								},
+							},
+						},
+					},
+					TTLSecondsAfterFinished: nil,
+				},
+			}
+			if err := ctrl.SetControllerReference(&scan, job, r.Scheme); err != nil {
+				r.Log.Error(err, "Unable to set controllerReference on job", "job", job)
+				return ctrl.Result{}, err
+			}
+
+			if err := r.Create(ctx, job); err != nil {
+				r.Log.Error(err, "Unable to create Job for ReadOnlyHook", "job", job)
+				return ctrl.Result{}, err
+			}
+
+			for i, hookStatus := range scan.Status.ReadAndWriteHookStatus {
+				if hookStatus.HookName == nonCompletedHook.HookName {
+					scan.Status.ReadAndWriteHookStatus[i].State = executionv1.InProgress
+				}
+			}
+
+			if err := r.Status().Update(ctx, &scan); err != nil {
+				r.Log.Error(err, "unable to update Scan status")
+				return ctrl.Result{}, err
+			}
+			return ctrl.Result{}, err
+		}
+
+		// if nonCompletedHook.State == executionv1.InProgress{
+
+		// }
 		// hook := First Array entry which is not Completed.
 
 		// if hook == "Pending" => create Job
 		// if hook == "InProgress" =>
 		//	 if job == "Completed" => hook = "Completed"
 		//	 (if job == "Failed" => hook = "Failed" => scan = "Failed")
-
-		// hook = nil => scan = "ReadAndWriteHookCompleted"
 
 		// Scan Status auf ReadAndWriteHookCompleted setzen
 	case "ReadAndWriteHookCompleted":
