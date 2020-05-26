@@ -195,6 +195,18 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 				return ctrl.Result{}, err
 			}
 
+			bucketName := os.Getenv("S3_BUCKET")
+			rawFileUploadURL, err := r.MinioClient.PresignedPutObject(bucketName, fmt.Sprintf("scan-%s/%s", scan.UID, scan.Status.RawResultFile), 12*time.Hour)
+			if err != nil {
+				r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
+				return ctrl.Result{}, err
+			}
+			findingsUploadURL, err := r.MinioClient.PresignedPutObject(bucketName, fmt.Sprintf("scan-%s/findings.json", scan.UID), 12*time.Hour)
+			if err != nil {
+				r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
+				return ctrl.Result{}, err
+			}
+
 			var hook executionv1.ScanCompletionHook
 			err = r.Get(ctx, types.NamespacedName{Name: nonCompletedHook.HookName, Namespace: scan.Namespace}, &hook)
 			if err != nil {
@@ -249,6 +261,8 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 									Args: []string{
 										rawFileURL,
 										findingsFileURL,
+										rawFileUploadURL.String(),
+										findingsUploadURL.String(),
 									},
 									Env:             append(hook.Spec.Env, standardEnvVars...),
 									ImagePullPolicy: "IfNotPresent",
