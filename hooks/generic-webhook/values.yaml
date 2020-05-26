@@ -1,0 +1,11 @@
+# Default values for dispatcher.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+webhookUrl: "http://example.com"
+
+image:
+  registry: docker.io
+  repository: scbexperimental/generic-webhook
+  tag: latest
+  digest: null

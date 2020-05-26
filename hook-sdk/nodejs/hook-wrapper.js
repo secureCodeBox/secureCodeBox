@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { persist } = require("./persistence/persist");
+const { handle } = require("./hook/hook");
 const k8s = require("@kubernetes/client-node");
 
 function downloadFile(url) {
@@ -79,7 +79,7 @@ function uploadFindings() {
 async function main() {
   const scanName = process.env["SCAN_NAME"];
   const namespace = process.env["NAMESPACE"];
-  console.log(`Starting PersistenceProvider for Scan "${scanName}"`);
+  console.log(`Starting hook for Scan "${scanName}"`);
 
   const kc = new k8s.KubeConfig();
   kc.loadFromCluster();
@@ -103,22 +103,20 @@ async function main() {
   }
 
   try {
-    await persist({
-      getRawResult,
+    await handle({
+      getRawResults,
       getFindings,
       uploadRawResults,
       uploadFindings,
       scan,
     });
   } catch (error) {
-    console.error(
-      "Error was thrown while running PersistenceProviders persist function"
-    );
+    console.error("Error was thrown while running hooks handle function");
     console.error(error);
     process.exit(1);
   }
 
-  console.log(`Completed PersistenceProvider`);
+  console.log(`Hook completed`);
 }
 
 main();
