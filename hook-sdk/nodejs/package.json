@@ -1,8 +1,8 @@
 {
-  "name": "securecodebox-persistence-sdk-nodejs",
+  "name": "securecodebox-hook-sdk-nodejs",
   "version": "1.0.0",
-  "description": "Handles external communication required for all secureCodeBox PersistenceProviders",
-  "main": "persistence-wrapper.js",
+  "description": "Handles external communication required for all secureCodeBox Hooks",
+  "main": "hook-wrapper.js",
   "scripts": {
     "test": "jest"
   },
