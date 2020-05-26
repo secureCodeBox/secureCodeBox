@@ -2,21 +2,81 @@ const axios = require("axios");
 const { persist } = require("./persistence/persist");
 const k8s = require("@kubernetes/client-node");
 
-async function main() {
+function downloadFile(url) {
+  return axios.get(url);
+}
+
+function getRawResults() {
   const rawResultUrl = process.argv[2];
-  const getRawResult = ((url) => () =>
-    axios.get(url).then(({ data: findings }) => {
-      console.log(`Fetched ${findings.length} findings from the file storage`);
-      return findings;
-    }))(rawResultUrl);
+  return downloadFile(rawResultUrl).then(({ data }) => {
+    console.log(`Fetched raw result file contents from the file storage`);
+    return data;
+  });
+}
 
+function getFindings() {
   const findingsUrl = process.argv[3];
-  const getFindings = ((url) => () =>
-    axios.get(url).then((res) => {
-      console.log(`Fetched raw result file contents from the file storage`);
-      return res.data;
-    }))(findingsUrl);
+  return downloadFile(findingsUrl).then(({ data: findings }) => {
+    console.log(`Fetched ${findings.length} findings from the file storage`);
+    return findings;
+  });
+}
 
+function uploadFile(url) {
+  return axios
+    .put(url, findingsWithIds, {
+      headers: { "content-type": "" },
+    })
+    .catch(function(error) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error(
+          `File Upload Failed with Response Code: ${error.response.status}`
+        );
+        console.error(`Error Response Body: ${error.response.data}`);
+      } else if (error.request) {
+        console.error(
+          "No response received from FileStorage when uploading finding"
+        );
+        console.error(error);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log("Error", error.message);
+      }
+      process.exit(1);
+    });
+}
+
+function uploadRawResults() {
+  const rawResultUploadUrl = process.argv[4];
+  if (rawResultUploadUrl === undefined) {
+    console.error(
+      "Tried to upload RawResults but didn't find a valid URL to upload the findings to."
+    );
+    console.error("This probably means that this hook is a ReadOnly hook.");
+    console.error(
+      "If you want to change RawResults you'll need to use a ReadAndWrite Hook."
+    );
+  }
+  return uploadFile(rawResultUploadUrl);
+}
+
+function uploadFindings() {
+  const findingsUploadUrl = process.argv[5];
+  if (findingsUploadUrl === undefined) {
+    console.error(
+      "Tried to upload Findings but didn't find a valid URL to upload the findings to."
+    );
+    console.error("This probably means that this hook is a ReadOnly hook.");
+    console.error(
+      "If you want to change Findings you'll need to use a ReadAndWrite Hook."
+    );
+  }
+  return uploadFile(findingsUploadUrl);
+}
+
+async function main() {
   const scanName = process.env["SCAN_NAME"];
   const namespace = process.env["NAMESPACE"];
   console.log(`Starting PersistenceProvider for Scan "${scanName}"`);
@@ -43,7 +103,13 @@ async function main() {
   }
 
   try {
-    await persist({ getRawResult, getFindings, scan });
+    await persist({
+      getRawResult,
+      getFindings,
+      uploadRawResults,
+      uploadFindings,
+      scan,
+    });
   } catch (error) {
     console.error(
       "Error was thrown while running PersistenceProviders persist function"
