@@ -22,9 +22,9 @@ function getFindings() {
   });
 }
 
-function uploadFile(url) {
+function uploadFile(url, fileContents) {
   return axios
-    .put(url, findingsWithIds, {
+    .put(url, fileContents, {
       headers: { "content-type": "" },
     })
     .catch(function(error) {
@@ -48,7 +48,7 @@ function uploadFile(url) {
     });
 }
 
-function uploadRawResults() {
+function uploadRawResults(fileContents) {
   const rawResultUploadUrl = process.argv[4];
   if (rawResultUploadUrl === undefined) {
     console.error(
@@ -59,10 +59,10 @@ function uploadRawResults() {
       "If you want to change RawResults you'll need to use a ReadAndWrite Hook."
     );
   }
-  return uploadFile(rawResultUploadUrl);
+  return uploadFile(rawResultUploadUrl, fileContents);
 }
 
-function uploadFindings() {
+function uploadFindings(findings) {
   const findingsUploadUrl = process.argv[5];
   if (findingsUploadUrl === undefined) {
     console.error(
@@ -73,7 +73,7 @@ function uploadFindings() {
       "If you want to change Findings you'll need to use a ReadAndWrite Hook."
     );
   }
-  return uploadFile(findingsUploadUrl);
+  return uploadFile(findingsUploadUrl, JSON.stringify(findings));
 }
 
 async function main() {
