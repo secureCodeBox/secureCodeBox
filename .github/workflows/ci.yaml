@@ -37,6 +37,7 @@ jobs:
           npm ci
           cd integrations/
           npm ci
+          cd -
           cd hooks/
           npm ci
       - name: "Run tests"
