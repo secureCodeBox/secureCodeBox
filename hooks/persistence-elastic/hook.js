@@ -33,7 +33,7 @@ const client = new Client({
   ...authParams,
 });
 
-async function persist({
+async function handle({
   getFindings,
   scan,
   now = new Date(),
@@ -105,4 +105,4 @@ async function persist({
   }
 }
 module.exports.elasticClient = client;
-module.exports.persist = persist;
+module.exports.handle = handle;

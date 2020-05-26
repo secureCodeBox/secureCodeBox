@@ -4,7 +4,7 @@ WORKDIR /home/app
 COPY package.json package-lock.json ./
 RUN npm ci --production
 
-FROM scbexperimental/persistence-sdk-nodejs:latest
-WORKDIR /home/app/persistence-wrapper/persistence/
+FROM scbexperimental/hook-sdk-nodejs:latest
+WORKDIR /home/app/hook-wrapper/hook/
 COPY --from=build --chown=app:app /home/app/node_modules/ ./node_modules/
-COPY --chown=app:app ./persist.js ./persist.js
+COPY --chown=app:app ./hook.js ./hook.js
