@@ -20,9 +20,9 @@ jobs:
               # cd back
               cd -
           done
-      - name: "Install npm dependencies in all persistence sub projects"
+      - name: "Install npm dependencies in all hook sub projects"
         run: |
-          for dir in persistence/*/
+          for dir in hooks/*/
           do
               cd $dir
               if [ -f package.json ] && [ -f package-lock.json ]; then
@@ -36,6 +36,8 @@ jobs:
         run: |
           npm ci
           cd integrations/
+          npm ci
+          cd hooks/
           npm ci
       - name: "Run tests"
         run: |
@@ -172,28 +174,28 @@ jobs:
           path: ./integrations/zap/parser/
           tag_with_ref: true
           tag_with_sha: true
-  persistenceImages:
-    name: "Build / PersistenceProviders"
+  hookImages:
+    name: "Build / Hooks"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       # SDK
       - uses: docker/build-push-action@v1
-        name: "Build & Push Persistence SDK"
+        name: "Build & Push Hook SDK"
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/persistence-sdk-nodejs
-          path: ./persistence-sdk/nodejs/
+          repository: scbexperimental/hook-sdk-nodejs
+          path: ./hook-sdk/nodejs/
           tag_with_ref: true
       # Actual PersistenceProviders
       - uses: docker/build-push-action@v1
-        name: "Build & Push Elastic PersistenceProvider Image"
+        name: "Build & Push Elastic PersistenceProvider Hook Image"
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: scbexperimental/persistence-elastic
-          path: ./persistence/persistence-elastic/
+          path: ./hooks/persistence-elastic/
           tag_with_ref: true
       - uses: docker/build-push-action@v1
         name: "Build & Push Elastic PersistenceProvider Dashboard Importer Image"
@@ -201,7 +203,15 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: scbexperimental/persistence-elastic-dashboard-importer
-          path: ./persistence/persistence-elastic/dashboardImporter/
+          path: ./hooks/persistence-elastic/dashboardImporter/
+          tag_with_ref: true
+      - uses: docker/build-push-action@v1
+        name: "Build & Push GenericWebhook Hook Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/generic-webhook
+          path: ./hooks/generic-webhook/
           tag_with_ref: true
   scannerImages:
     # Note we only build images for scanner that don't provider official public container images
@@ -231,7 +241,7 @@ jobs:
     name: "Test / Integration / k8s ${{ matrix.k8sVersion }}"
     needs:
       - scannerImages
-      - persistenceImages
+      - hookImages
       - parserImages
       - operator
       - lurcher
