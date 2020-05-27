@@ -1053,8 +1053,22 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 	return job.Name, nil
 }
 
+func (r *ScanReconciler) updateHookStatus(scan *executionv1.Scan, hookStatus executionv1.HookStatus) error {
+	for i, hook := range scan.Status.ReadAndWriteHookStatus {
+		if hook.HookName == hookStatus.HookName {
+			scan.Status.ReadAndWriteHookStatus[i] = hookStatus
+			break
+		}
+	}
+	if err := r.Status().Update(context.Background(), scan); err != nil {
+		r.Log.Error(err, "unable to update Scan status")
+		return err
+	}
+	return nil
+}
+
 func (r *ScanReconciler) executeReadAndWriteHooks(scan *executionv1.Scan) error {
-	// First Array entry which is not Completed.
+	// Get the first Hook Status which is not completed.
 	ctx := context.Background()
 	var nonCompletedHook *executionv1.HookStatus
 
@@ -1065,6 +1079,7 @@ func (r *ScanReconciler) executeReadAndWriteHooks(scan *executionv1.Scan) error 
 		}
 	}
 
+	// If nil then all hooks are done
 	if nonCompletedHook == nil {
 		scan.Status.State = "ReadAndWriteHookCompleted"
 		if err := r.Status().Update(ctx, scan); err != nil {
@@ -1111,18 +1126,13 @@ func (r *ScanReconciler) executeReadAndWriteHooks(scan *executionv1.Scan) error 
 			},
 		)
 
-		for i, hookStatus := range scan.Status.ReadAndWriteHookStatus {
-			if hookStatus.HookName == nonCompletedHook.HookName {
-				scan.Status.ReadAndWriteHookStatus[i].JobName = jobName
-				scan.Status.ReadAndWriteHookStatus[i].State = executionv1.InProgress
-			}
-		}
-
-		if err := r.Status().Update(ctx, scan); err != nil {
-			r.Log.Error(err, "unable to update Scan status")
-			return err
-		}
-		return nil
+		// Update the currently executed hook status to "InProgress"
+		err = r.updateHookStatus(scan, executionv1.HookStatus{
+			HookName: nonCompletedHook.HookName,
+			JobName:  jobName,
+			State:    executionv1.InProgress,
+		})
+		return err
 	case executionv1.InProgress:
 		jobStatus, err := r.checkIfJobIsCompleted(nonCompletedHook.JobName, scan.Namespace)
 		if err != nil {
@@ -1131,17 +1141,13 @@ func (r *ScanReconciler) executeReadAndWriteHooks(scan *executionv1.Scan) error 
 		}
 		switch jobStatus {
 		case completed:
-			for i, hookStatus := range scan.Status.ReadAndWriteHookStatus {
-				if hookStatus.HookName == nonCompletedHook.HookName {
-					scan.Status.ReadAndWriteHookStatus[i].State = executionv1.Completed
-				}
-			}
-
-			if err := r.Status().Update(ctx, scan); err != nil {
-				r.Log.Error(err, "unable to update Scan status")
-				return err
-			}
-			return nil
+			// Job is completed => set current Hook to completed
+			err = r.updateHookStatus(scan, executionv1.HookStatus{
+				HookName: nonCompletedHook.HookName,
+				JobName:  nonCompletedHook.JobName,
+				State:    executionv1.Completed,
+			})
+			return err
 		case incomplete:
 			// Still waiting for job to finish
 			return nil
