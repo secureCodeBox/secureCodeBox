@@ -1,0 +1,2 @@
+AddAttribute Hook deployed.
+This will add a attribute "{{ .Values.attribute.name }}: {{ .Values.attribute.value }}" on every finding in this namespace.

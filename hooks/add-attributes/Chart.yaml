@@ -1,0 +1,11 @@
+apiVersion: v2
+name: add-attributes-hook
+description: Lets you add new attributes to every finding
+
+type: application
+
+version: 0.1.0
+
+appVersion: latest
+
+dependencies: []
