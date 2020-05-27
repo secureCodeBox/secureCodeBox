@@ -115,191 +115,8 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	case "ParseCompleted":
 		err = r.setHookStatus(&scan)
 	case "ReadAndWriteHookProcessing":
-		// First Array entry which is not Completed.
-		var nonCompletedHook *executionv1.HookStatus
+		err = r.executeReadAndWriteHooks(&scan)
 
-		for _, hook := range scan.Status.ReadAndWriteHookStatus {
-			if hook.State != executionv1.Completed {
-				nonCompletedHook = &hook
-				break
-			}
-		}
-
-		if nonCompletedHook == nil {
-			scan.Status.State = "ReadAndWriteHookCompleted"
-			if err := r.Status().Update(ctx, &scan); err != nil {
-				r.Log.Error(err, "unable to update Scan status")
-				return ctrl.Result{}, err
-			}
-			return ctrl.Result{}, nil
-		}
-
-		if nonCompletedHook.State == executionv1.Pending {
-			rules := []rbacv1.PolicyRule{
-				{
-					APIGroups: []string{"execution.experimental.securecodebox.io"},
-					Resources: []string{"scans"},
-					Verbs:     []string{"get"},
-				},
-			}
-			serviceAccountName := "scan-completion-hook"
-			r.ensureServiceAccountExists(
-				scan.Namespace,
-				serviceAccountName,
-				"ScanCompletionHooks need to access the current scan to view where its results are stored",
-				rules,
-			)
-
-			rawFileURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile)
-			if err != nil {
-				return ctrl.Result{}, err
-			}
-			findingsFileURL, err := r.PresignedGetURL(scan.UID, "findings.json")
-			if err != nil {
-				return ctrl.Result{}, err
-			}
-
-			bucketName := os.Getenv("S3_BUCKET")
-			rawFileUploadURL, err := r.MinioClient.PresignedPutObject(bucketName, fmt.Sprintf("scan-%s/%s", scan.UID, scan.Status.RawResultFile), 12*time.Hour)
-			if err != nil {
-				r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
-				return ctrl.Result{}, err
-			}
-			findingsUploadURL, err := r.MinioClient.PresignedPutObject(bucketName, fmt.Sprintf("scan-%s/findings.json", scan.UID), 12*time.Hour)
-			if err != nil {
-				r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
-				return ctrl.Result{}, err
-			}
-
-			var hook executionv1.ScanCompletionHook
-			err = r.Get(ctx, types.NamespacedName{Name: nonCompletedHook.HookName, Namespace: scan.Namespace}, &hook)
-			if err != nil {
-				r.Log.Error(err, "Failed to get ReadAndWrite Hook for HookStatus")
-				return ctrl.Result{}, err
-			}
-
-			standardEnvVars := []corev1.EnvVar{
-				{
-					Name: "NAMESPACE",
-					ValueFrom: &corev1.EnvVarSource{
-						FieldRef: &corev1.ObjectFieldSelector{
-							FieldPath: "metadata.namespace",
-						},
-					},
-				},
-				{
-					Name:  "SCAN_NAME",
-					Value: scan.Name,
-				},
-			}
-
-			// Starting a new job based on the current ReadAndWrite Hook
-			labels := scan.ObjectMeta.DeepCopy().Labels
-			if labels == nil {
-				labels = make(map[string]string)
-			}
-			labels["experimental.securecodebox.io/job-type"] = "read-and-write-hook"
-			var backOffLimit int32 = 3
-			job := &batch.Job{
-				ObjectMeta: metav1.ObjectMeta{
-					Annotations: make(map[string]string),
-					Name:        fmt.Sprintf("%s-%s", hook.Name, scan.Name),
-					Namespace:   scan.Namespace,
-					Labels:      labels,
-				},
-				Spec: batch.JobSpec{
-					BackoffLimit: &backOffLimit,
-					Template: corev1.PodTemplateSpec{
-						ObjectMeta: metav1.ObjectMeta{
-							Annotations: map[string]string{
-								"auto-discovery.experimental.securecodebox.io/ignore": "true",
-							},
-						},
-						Spec: corev1.PodSpec{
-							ServiceAccountName: serviceAccountName,
-							RestartPolicy:      corev1.RestartPolicyNever,
-							Containers: []corev1.Container{
-								{
-									Name:  "hook",
-									Image: hook.Spec.Image,
-									Args: []string{
-										rawFileURL,
-										findingsFileURL,
-										rawFileUploadURL.String(),
-										findingsUploadURL.String(),
-									},
-									Env:             append(hook.Spec.Env, standardEnvVars...),
-									ImagePullPolicy: "IfNotPresent",
-								},
-							},
-						},
-					},
-					TTLSecondsAfterFinished: nil,
-				},
-			}
-			if err := ctrl.SetControllerReference(&scan, job, r.Scheme); err != nil {
-				r.Log.Error(err, "Unable to set controllerReference on job", "job", job)
-				return ctrl.Result{}, err
-			}
-
-			if err := r.Create(ctx, job); err != nil {
-				r.Log.Error(err, "Unable to create Job for ReadOnlyHook", "job", job)
-				return ctrl.Result{}, err
-			}
-
-			for i, hookStatus := range scan.Status.ReadAndWriteHookStatus {
-				if hookStatus.HookName == nonCompletedHook.HookName {
-					scan.Status.ReadAndWriteHookStatus[i].JobName = job.Name
-					scan.Status.ReadAndWriteHookStatus[i].State = executionv1.InProgress
-				}
-			}
-
-			if err := r.Status().Update(ctx, &scan); err != nil {
-				r.Log.Error(err, "unable to update Scan status")
-				return ctrl.Result{}, err
-			}
-			return ctrl.Result{}, err
-		}
-
-		if nonCompletedHook.State == executionv1.InProgress {
-			jobStatus, err := r.checkIfJobIsCompleted(nonCompletedHook.JobName, scan.Namespace)
-			if err != nil {
-				r.Log.Error(err, "Failed to check job status for ReadAndWrite Hook")
-				return ctrl.Result{}, err
-			}
-			switch jobStatus {
-			case completed:
-				for i, hookStatus := range scan.Status.ReadAndWriteHookStatus {
-					if hookStatus.HookName == nonCompletedHook.HookName {
-						scan.Status.ReadAndWriteHookStatus[i].State = executionv1.Completed
-					}
-				}
-
-				if err := r.Status().Update(ctx, &scan); err != nil {
-					r.Log.Error(err, "unable to update Scan status")
-					return ctrl.Result{}, err
-				}
-				return ctrl.Result{}, err
-			case incomplete:
-				// Still waiting for job to finish
-				return ctrl.Result{}, err
-
-			case failed:
-				for i, hookStatus := range scan.Status.ReadAndWriteHookStatus {
-					if hookStatus.HookName == nonCompletedHook.HookName {
-						scan.Status.ReadAndWriteHookStatus[i].State = executionv1.Failed
-					} else if hookStatus.State == executionv1.Pending {
-						scan.Status.ReadAndWriteHookStatus[i].State = executionv1.Cancelled
-					}
-				}
-				scan.Status.State = "Errored"
-				scan.Status.ErrorDescription = fmt.Sprintf("Failed to execute ReadAndWrite Hook '%s' in job '%s'. Check the logs of the hook for more information.", nonCompletedHook.HookName, nonCompletedHook.JobName)
-				if err := r.Status().Update(ctx, &scan); err != nil {
-					r.Log.Error(err, "unable to update Scan status")
-					return ctrl.Result{}, err
-				}
-			}
-		}
 	case "ReadAndWriteHookCompleted":
 		err = r.startReadOnlyHooks(&scan)
 	case "ReadOnlyHookProcessing":
@@ -1195,5 +1012,195 @@ func (r *ScanReconciler) setHookStatus(scan *executionv1.Scan) error {
 		return err
 	}
 
+	return nil
+}
+
+func (r *ScanReconciler) executeReadAndWriteHooks(scan *executionv1.Scan) error {
+	// First Array entry which is not Completed.
+	ctx := context.Background()
+	var nonCompletedHook *executionv1.HookStatus
+
+	for _, hook := range scan.Status.ReadAndWriteHookStatus {
+		if hook.State != executionv1.Completed {
+			nonCompletedHook = &hook
+			break
+		}
+	}
+
+	if nonCompletedHook == nil {
+		scan.Status.State = "ReadAndWriteHookCompleted"
+		if err := r.Status().Update(ctx, scan); err != nil {
+			r.Log.Error(err, "unable to update Scan status")
+			return err
+		}
+		return nil
+	}
+
+	if nonCompletedHook.State == executionv1.Pending {
+		rules := []rbacv1.PolicyRule{
+			{
+				APIGroups: []string{"execution.experimental.securecodebox.io"},
+				Resources: []string{"scans"},
+				Verbs:     []string{"get"},
+			},
+		}
+		serviceAccountName := "scan-completion-hook"
+		r.ensureServiceAccountExists(
+			scan.Namespace,
+			serviceAccountName,
+			"ScanCompletionHooks need to access the current scan to view where its results are stored",
+			rules,
+		)
+
+		rawFileURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile)
+		if err != nil {
+			return err
+		}
+		findingsFileURL, err := r.PresignedGetURL(scan.UID, "findings.json")
+		if err != nil {
+			return err
+		}
+
+		bucketName := os.Getenv("S3_BUCKET")
+		rawFileUploadURL, err := r.MinioClient.PresignedPutObject(bucketName, fmt.Sprintf("scan-%s/%s", scan.UID, scan.Status.RawResultFile), 12*time.Hour)
+		if err != nil {
+			r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
+			return err
+		}
+		findingsUploadURL, err := r.MinioClient.PresignedPutObject(bucketName, fmt.Sprintf("scan-%s/findings.json", scan.UID), 12*time.Hour)
+		if err != nil {
+			r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
+			return err
+		}
+
+		var hook executionv1.ScanCompletionHook
+		err = r.Get(ctx, types.NamespacedName{Name: nonCompletedHook.HookName, Namespace: scan.Namespace}, &hook)
+		if err != nil {
+			r.Log.Error(err, "Failed to get ReadAndWrite Hook for HookStatus")
+			return err
+		}
+
+		standardEnvVars := []corev1.EnvVar{
+			{
+				Name: "NAMESPACE",
+				ValueFrom: &corev1.EnvVarSource{
+					FieldRef: &corev1.ObjectFieldSelector{
+						FieldPath: "metadata.namespace",
+					},
+				},
+			},
+			{
+				Name:  "SCAN_NAME",
+				Value: scan.Name,
+			},
+		}
+
+		// Starting a new job based on the current ReadAndWrite Hook
+		labels := scan.ObjectMeta.DeepCopy().Labels
+		if labels == nil {
+			labels = make(map[string]string)
+		}
+		labels["experimental.securecodebox.io/job-type"] = "read-and-write-hook"
+		var backOffLimit int32 = 3
+		job := &batch.Job{
+			ObjectMeta: metav1.ObjectMeta{
+				Annotations: make(map[string]string),
+				Name:        fmt.Sprintf("%s-%s", hook.Name, scan.Name),
+				Namespace:   scan.Namespace,
+				Labels:      labels,
+			},
+			Spec: batch.JobSpec{
+				BackoffLimit: &backOffLimit,
+				Template: corev1.PodTemplateSpec{
+					ObjectMeta: metav1.ObjectMeta{
+						Annotations: map[string]string{
+							"auto-discovery.experimental.securecodebox.io/ignore": "true",
+						},
+					},
+					Spec: corev1.PodSpec{
+						ServiceAccountName: serviceAccountName,
+						RestartPolicy:      corev1.RestartPolicyNever,
+						Containers: []corev1.Container{
+							{
+								Name:  "hook",
+								Image: hook.Spec.Image,
+								Args: []string{
+									rawFileURL,
+									findingsFileURL,
+									rawFileUploadURL.String(),
+									findingsUploadURL.String(),
+								},
+								Env:             append(hook.Spec.Env, standardEnvVars...),
+								ImagePullPolicy: "IfNotPresent",
+							},
+						},
+					},
+				},
+				TTLSecondsAfterFinished: nil,
+			},
+		}
+		if err := ctrl.SetControllerReference(scan, job, r.Scheme); err != nil {
+			r.Log.Error(err, "Unable to set controllerReference on job", "job", job)
+			return err
+		}
+
+		if err := r.Create(ctx, job); err != nil {
+			r.Log.Error(err, "Unable to create Job for ReadOnlyHook", "job", job)
+			return err
+		}
+
+		for i, hookStatus := range scan.Status.ReadAndWriteHookStatus {
+			if hookStatus.HookName == nonCompletedHook.HookName {
+				scan.Status.ReadAndWriteHookStatus[i].JobName = job.Name
+				scan.Status.ReadAndWriteHookStatus[i].State = executionv1.InProgress
+			}
+		}
+
+		if err := r.Status().Update(ctx, scan); err != nil {
+			r.Log.Error(err, "unable to update Scan status")
+			return err
+		}
+		return err
+	}
+
+	if nonCompletedHook.State == executionv1.InProgress {
+		jobStatus, err := r.checkIfJobIsCompleted(nonCompletedHook.JobName, scan.Namespace)
+		if err != nil {
+			r.Log.Error(err, "Failed to check job status for ReadAndWrite Hook")
+			return err
+		}
+		switch jobStatus {
+		case completed:
+			for i, hookStatus := range scan.Status.ReadAndWriteHookStatus {
+				if hookStatus.HookName == nonCompletedHook.HookName {
+					scan.Status.ReadAndWriteHookStatus[i].State = executionv1.Completed
+				}
+			}
+
+			if err := r.Status().Update(ctx, scan); err != nil {
+				r.Log.Error(err, "unable to update Scan status")
+				return err
+			}
+			return err
+		case incomplete:
+			// Still waiting for job to finish
+			return err
+
+		case failed:
+			for i, hookStatus := range scan.Status.ReadAndWriteHookStatus {
+				if hookStatus.HookName == nonCompletedHook.HookName {
+					scan.Status.ReadAndWriteHookStatus[i].State = executionv1.Failed
+				} else if hookStatus.State == executionv1.Pending {
+					scan.Status.ReadAndWriteHookStatus[i].State = executionv1.Cancelled
+				}
+			}
+			scan.Status.State = "Errored"
+			scan.Status.ErrorDescription = fmt.Sprintf("Failed to execute ReadAndWrite Hook '%s' in job '%s'. Check the logs of the hook for more information.", nonCompletedHook.HookName, nonCompletedHook.JobName)
+			if err := r.Status().Update(ctx, scan); err != nil {
+				r.Log.Error(err, "unable to update Scan status")
+				return err
+			}
+		}
+	}
 	return nil
 }
