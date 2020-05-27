@@ -113,43 +113,7 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	case "Parsing":
 		err = r.checkIfParsingIsCompleted(&scan)
 	case "ParseCompleted":
-		// Hook status erstellen
-
-		var scanCompletionHooks executionv1.ScanCompletionHookList
-
-		if err := r.List(ctx, &scanCompletionHooks, client.InNamespace(scan.Namespace)); err != nil {
-			r.Log.V(7).Info("Unable to fetch ScanCompletionHooks")
-			return ctrl.Result{}, err
-		}
-
-		r.Log.Info("Found ScanCompletionHooks", "ScanCompletionHooks", len(scanCompletionHooks.Items))
-
-		readAndWriteHooks := []executionv1.ScanCompletionHook{}
-		// filter all ReadAndWriteHooks in the scamCompletionHooks list
-		for _, hook := range scanCompletionHooks.Items {
-			if hook.Spec.Type == executionv1.ReadAndWrite {
-				readAndWriteHooks = append(readAndWriteHooks, hook)
-			}
-		}
-
-		r.Log.Info("Found ReadAndWriteHooks", "ReadAndWriteHooks", len(readAndWriteHooks))
-
-		hookStatus := []executionv1.HookStatus{}
-
-		for _, hook := range readAndWriteHooks {
-			hookStatus = append(hookStatus, executionv1.HookStatus{
-				HookName: hook.Name,
-				State:    executionv1.Pending,
-			})
-		}
-
-		scan.Status.State = "ReadAndWriteHookProcessing"
-		scan.Status.ReadAndWriteHookStatus = hookStatus
-
-		if err := r.Status().Update(ctx, &scan); err != nil {
-			r.Log.Error(err, "unable to update Scan status")
-			return ctrl.Result{}, err
-		}
+		err = r.setHookStatus(&scan)
 	case "ReadAndWriteHookProcessing":
 		// First Array entry which is not Completed.
 		var nonCompletedHook *executionv1.HookStatus
@@ -1190,4 +1154,46 @@ func (r *ScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		For(&executionv1.Scan{}).
 		Owns(&batch.Job{}).
 		Complete(r)
+}
+
+func (r *ScanReconciler) setHookStatus(scan *executionv1.Scan) error {
+	// Set (pending) Hook status on the scan
+	ctx := context.Background()
+	var scanCompletionHooks executionv1.ScanCompletionHookList
+
+	if err := r.List(ctx, &scanCompletionHooks, client.InNamespace(scan.Namespace)); err != nil {
+		r.Log.V(7).Info("Unable to fetch ScanCompletionHooks")
+		return err
+	}
+
+	r.Log.Info("Found ScanCompletionHooks", "ScanCompletionHooks", len(scanCompletionHooks.Items))
+
+	readAndWriteHooks := []executionv1.ScanCompletionHook{}
+	// filter all ReadAndWriteHooks in the scamCompletionHooks list
+	for _, hook := range scanCompletionHooks.Items {
+		if hook.Spec.Type == executionv1.ReadAndWrite {
+			readAndWriteHooks = append(readAndWriteHooks, hook)
+		}
+	}
+
+	r.Log.Info("Found ReadAndWriteHooks", "ReadAndWriteHooks", len(readAndWriteHooks))
+
+	hookStatus := []executionv1.HookStatus{}
+
+	for _, hook := range readAndWriteHooks {
+		hookStatus = append(hookStatus, executionv1.HookStatus{
+			HookName: hook.Name,
+			State:    executionv1.Pending,
+		})
+	}
+
+	scan.Status.State = "ReadAndWriteHookProcessing"
+	scan.Status.ReadAndWriteHookStatus = hookStatus
+
+	if err := r.Status().Update(ctx, scan); err != nil {
+		r.Log.Error(err, "unable to update Scan status")
+		return err
+	}
+
+	return nil
 }
