@@ -1145,7 +1145,7 @@ func (r *ScanReconciler) executeReadAndWriteHooks(scan *executionv1.Scan) error 
 		}
 
 		if err := r.Create(ctx, job); err != nil {
-			r.Log.Error(err, "Unable to create Job for ReadOnlyHook", "job", job)
+			r.Log.Error(err, "Unable to create Job for ReadAndWriteHook", "job", job)
 			return err
 		}
 
@@ -1160,7 +1160,7 @@ func (r *ScanReconciler) executeReadAndWriteHooks(scan *executionv1.Scan) error 
 			r.Log.Error(err, "unable to update Scan status")
 			return err
 		}
-		return err
+		return nil
 	}
 
 	if nonCompletedHook.State == executionv1.InProgress {
@@ -1181,11 +1181,10 @@ func (r *ScanReconciler) executeReadAndWriteHooks(scan *executionv1.Scan) error 
 				r.Log.Error(err, "unable to update Scan status")
 				return err
 			}
-			return err
+			return nil
 		case incomplete:
 			// Still waiting for job to finish
-			return err
-
+			return nil
 		case failed:
 			for i, hookStatus := range scan.Status.ReadAndWriteHookStatus {
 				if hookStatus.HookName == nonCompletedHook.HookName {
