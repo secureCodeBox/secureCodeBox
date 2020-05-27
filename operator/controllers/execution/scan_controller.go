@@ -353,8 +353,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 	}
 	log.Info("Matching ParseDefinition Found", "ParseDefinition", parseType)
 
-	bucketName := os.Getenv("S3_BUCKET")
-	findingsUploadURL, err := r.MinioClient.PresignedPutObject(bucketName, fmt.Sprintf("scan-%s/findings.json", scan.UID), 12*time.Hour)
+	findingsUploadURL, err := r.PresignedPutURL(scan.UID, "findings.json")
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
 		return err
@@ -423,7 +422,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 							},
 							Args: []string{
 								rawResultDownloadURL,
-								findingsUploadURL.String(),
+								findingsUploadURL,
 							},
 							ImagePullPolicy: "Always",
 						},
@@ -486,10 +485,8 @@ func (r *ScanReconciler) checkIfParsingIsCompleted(scan *executionv1.Scan) error
 }
 
 func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *executionv1.ScanType) (*batch.Job, error) {
-	bucketName := os.Getenv("S3_BUCKET")
-
 	filename := filepath.Base(scanType.Spec.ExtractResults.Location)
-	resultUploadURL, err := r.MinioClient.PresignedPutObject(bucketName, fmt.Sprintf("scan-%s/%s", scan.UID, filename), 12*time.Hour)
+	resultUploadURL, err := r.PresignedPutURL(scan.UID, filename)
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
 		return nil, err
@@ -575,7 +572,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 			"--file",
 			scanType.Spec.ExtractResults.Location,
 			"--url",
-			resultUploadURL.String(),
+			resultUploadURL,
 		},
 		Env: []corev1.EnvVar{
 			{
@@ -633,6 +630,18 @@ func (r *ScanReconciler) PresignedGetURL(scanID types.UID, filename string) (str
 
 	reqParams := make(url.Values)
 	rawResultDownloadURL, err := r.MinioClient.PresignedGetObject(bucketName, fmt.Sprintf("scan-%s/%s", string(scanID), filename), 12*time.Hour, reqParams)
+	if err != nil {
+		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
+		return "", err
+	}
+	return rawResultDownloadURL.String(), nil
+}
+
+// PresignedPutURL returns a presigned URL from the s3 (or compatible) serice.
+func (r *ScanReconciler) PresignedPutURL(scanID types.UID, filename string) (string, error) {
+	bucketName := os.Getenv("S3_BUCKET")
+
+	rawResultDownloadURL, err := r.MinioClient.PresignedPutObject(bucketName, fmt.Sprintf("scan-%s/%s", string(scanID), filename), 12*time.Hour)
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
 		return "", err
@@ -698,71 +707,18 @@ func (r *ScanReconciler) startReadOnlyHooks(scan *executionv1.Scan) error {
 			return err
 		}
 
-		standardEnvVars := []corev1.EnvVar{
-			{
-				Name: "NAMESPACE",
-				ValueFrom: &corev1.EnvVarSource{
-					FieldRef: &corev1.ObjectFieldSelector{
-						FieldPath: "metadata.namespace",
-					},
-				},
+		jobName, err := r.createJobForHook(
+			&hook,
+			scan,
+			[]string{
+				rawFileURL,
+				findingsFileURL,
 			},
-			{
-				Name:  "SCAN_NAME",
-				Value: scan.Name,
-			},
-		}
-
-		// Starting a new job based on the current ReadOnlyHook
-		labels := scan.ObjectMeta.DeepCopy().Labels
-		if labels == nil {
-			labels = make(map[string]string)
-		}
-		labels["experimental.securecodebox.io/job-type"] = "read-only-hook"
-		job := &batch.Job{
-			ObjectMeta: metav1.ObjectMeta{
-				Annotations: make(map[string]string),
-				Name:        fmt.Sprintf("%s-%s", hook.Name, scan.Name),
-				Namespace:   scan.Namespace,
-				Labels:      labels,
-			},
-			Spec: batch.JobSpec{
-				Template: corev1.PodTemplateSpec{
-					ObjectMeta: metav1.ObjectMeta{
-						Annotations: map[string]string{
-							"auto-discovery.experimental.securecodebox.io/ignore": "true",
-						},
-					},
-					Spec: corev1.PodSpec{
-						ServiceAccountName: serviceAccountName,
-						RestartPolicy:      corev1.RestartPolicyNever,
-						Containers: []corev1.Container{
-							{
-								Name:  "hook",
-								Image: hook.Spec.Image,
-								Args: []string{
-									rawFileURL,
-									findingsFileURL,
-								},
-								Env:             append(hook.Spec.Env, standardEnvVars...),
-								ImagePullPolicy: "IfNotPresent",
-							},
-						},
-					},
-				},
-				TTLSecondsAfterFinished: nil,
-			},
-		}
-		if err := ctrl.SetControllerReference(scan, job, r.Scheme); err != nil {
-			r.Log.Error(err, "Unable to set controllerReference on job", "job", job)
+		)
+		if err != nil {
+			r.Log.Error(err, "Unable to create Job for ReadOnlyHook", "job", jobName)
 			return err
 		}
-
-		if err := r.Create(ctx, job); err != nil {
-			r.Log.Error(err, "Unable to create Job for ReadOnlyHook", "job", job)
-			return err
-		}
-
 	}
 	scan.Status.State = "ReadOnlyHookProcessing"
 	if err := r.Status().Update(ctx, scan); err != nil {
@@ -1015,6 +971,88 @@ func (r *ScanReconciler) setHookStatus(scan *executionv1.Scan) error {
 	return nil
 }
 
+func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, scan *executionv1.Scan, cliArgs []string) (string, error) {
+	ctx := context.Background()
+	rules := []rbacv1.PolicyRule{
+		{
+			APIGroups: []string{"execution.experimental.securecodebox.io"},
+			Resources: []string{"scans"},
+			Verbs:     []string{"get"},
+		},
+	}
+	serviceAccountName := "scan-completion-hook"
+	r.ensureServiceAccountExists(
+		hook.Namespace,
+		serviceAccountName,
+		"ScanCompletionHooks need to access the current scan to view where its results are stored",
+		rules,
+	)
+
+	standardEnvVars := []corev1.EnvVar{
+		{
+			Name: "NAMESPACE",
+			ValueFrom: &corev1.EnvVarSource{
+				FieldRef: &corev1.ObjectFieldSelector{
+					FieldPath: "metadata.namespace",
+				},
+			},
+		},
+		{
+			Name:  "SCAN_NAME",
+			Value: scan.Name,
+		},
+	}
+
+	// Starting a new job based on the current ReadAndWrite Hook
+	labels := scan.ObjectMeta.DeepCopy().Labels
+	if labels == nil {
+		labels = make(map[string]string)
+	}
+	labels["experimental.securecodebox.io/job-type"] = "read-and-write-hook"
+	var backOffLimit int32 = 3
+	job := &batch.Job{
+		ObjectMeta: metav1.ObjectMeta{
+			Annotations: make(map[string]string),
+			Name:        fmt.Sprintf("%s-%s", hook.Name, scan.Name),
+			Namespace:   scan.Namespace,
+			Labels:      labels,
+		},
+		Spec: batch.JobSpec{
+			BackoffLimit: &backOffLimit,
+			Template: corev1.PodTemplateSpec{
+				ObjectMeta: metav1.ObjectMeta{
+					Annotations: map[string]string{
+						"auto-discovery.experimental.securecodebox.io/ignore": "true",
+					},
+				},
+				Spec: corev1.PodSpec{
+					ServiceAccountName: serviceAccountName,
+					RestartPolicy:      corev1.RestartPolicyNever,
+					Containers: []corev1.Container{
+						{
+							Name:            "hook",
+							Image:           hook.Spec.Image,
+							Args:            cliArgs,
+							Env:             append(hook.Spec.Env, standardEnvVars...),
+							ImagePullPolicy: "IfNotPresent",
+						},
+					},
+				},
+			},
+			TTLSecondsAfterFinished: nil,
+		},
+	}
+	if err := ctrl.SetControllerReference(scan, job, r.Scheme); err != nil {
+		r.Log.Error(err, "Unable to set controllerReference on job", "job", job)
+		return "", err
+	}
+
+	if err := r.Create(ctx, job); err != nil {
+		return "", err
+	}
+	return job.Name, nil
+}
+
 func (r *ScanReconciler) executeReadAndWriteHooks(scan *executionv1.Scan) error {
 	// First Array entry which is not Completed.
 	ctx := context.Background()
@@ -1036,22 +1074,8 @@ func (r *ScanReconciler) executeReadAndWriteHooks(scan *executionv1.Scan) error 
 		return nil
 	}
 
-	if nonCompletedHook.State == executionv1.Pending {
-		rules := []rbacv1.PolicyRule{
-			{
-				APIGroups: []string{"execution.experimental.securecodebox.io"},
-				Resources: []string{"scans"},
-				Verbs:     []string{"get"},
-			},
-		}
-		serviceAccountName := "scan-completion-hook"
-		r.ensureServiceAccountExists(
-			scan.Namespace,
-			serviceAccountName,
-			"ScanCompletionHooks need to access the current scan to view where its results are stored",
-			rules,
-		)
-
+	switch nonCompletedHook.State {
+	case executionv1.Pending:
 		rawFileURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile)
 		if err != nil {
 			return err
@@ -1061,97 +1085,35 @@ func (r *ScanReconciler) executeReadAndWriteHooks(scan *executionv1.Scan) error 
 			return err
 		}
 
-		bucketName := os.Getenv("S3_BUCKET")
-		rawFileUploadURL, err := r.MinioClient.PresignedPutObject(bucketName, fmt.Sprintf("scan-%s/%s", scan.UID, scan.Status.RawResultFile), 12*time.Hour)
+		rawFileUploadURL, err := r.PresignedPutURL(scan.UID, scan.Status.RawResultFile)
 		if err != nil {
-			r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
 			return err
 		}
-		findingsUploadURL, err := r.MinioClient.PresignedPutObject(bucketName, fmt.Sprintf("scan-%s/findings.json", scan.UID), 12*time.Hour)
+		findingsUploadURL, err := r.PresignedPutURL(scan.UID, "findings.json")
 		if err != nil {
-			r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
 			return err
 		}
 
 		var hook executionv1.ScanCompletionHook
-		err = r.Get(ctx, types.NamespacedName{Name: nonCompletedHook.HookName, Namespace: scan.Namespace}, &hook)
-		if err != nil {
+		if err := r.Get(ctx, types.NamespacedName{Name: nonCompletedHook.HookName, Namespace: scan.Namespace}, &hook); err != nil {
 			r.Log.Error(err, "Failed to get ReadAndWrite Hook for HookStatus")
 			return err
 		}
 
-		standardEnvVars := []corev1.EnvVar{
-			{
-				Name: "NAMESPACE",
-				ValueFrom: &corev1.EnvVarSource{
-					FieldRef: &corev1.ObjectFieldSelector{
-						FieldPath: "metadata.namespace",
-					},
-				},
+		jobName, err := r.createJobForHook(
+			&hook,
+			scan,
+			[]string{
+				rawFileURL,
+				findingsFileURL,
+				rawFileUploadURL,
+				findingsUploadURL,
 			},
-			{
-				Name:  "SCAN_NAME",
-				Value: scan.Name,
-			},
-		}
-
-		// Starting a new job based on the current ReadAndWrite Hook
-		labels := scan.ObjectMeta.DeepCopy().Labels
-		if labels == nil {
-			labels = make(map[string]string)
-		}
-		labels["experimental.securecodebox.io/job-type"] = "read-and-write-hook"
-		var backOffLimit int32 = 3
-		job := &batch.Job{
-			ObjectMeta: metav1.ObjectMeta{
-				Annotations: make(map[string]string),
-				Name:        fmt.Sprintf("%s-%s", hook.Name, scan.Name),
-				Namespace:   scan.Namespace,
-				Labels:      labels,
-			},
-			Spec: batch.JobSpec{
-				BackoffLimit: &backOffLimit,
-				Template: corev1.PodTemplateSpec{
-					ObjectMeta: metav1.ObjectMeta{
-						Annotations: map[string]string{
-							"auto-discovery.experimental.securecodebox.io/ignore": "true",
-						},
-					},
-					Spec: corev1.PodSpec{
-						ServiceAccountName: serviceAccountName,
-						RestartPolicy:      corev1.RestartPolicyNever,
-						Containers: []corev1.Container{
-							{
-								Name:  "hook",
-								Image: hook.Spec.Image,
-								Args: []string{
-									rawFileURL,
-									findingsFileURL,
-									rawFileUploadURL.String(),
-									findingsUploadURL.String(),
-								},
-								Env:             append(hook.Spec.Env, standardEnvVars...),
-								ImagePullPolicy: "IfNotPresent",
-							},
-						},
-					},
-				},
-				TTLSecondsAfterFinished: nil,
-			},
-		}
-		if err := ctrl.SetControllerReference(scan, job, r.Scheme); err != nil {
-			r.Log.Error(err, "Unable to set controllerReference on job", "job", job)
-			return err
-		}
-
-		if err := r.Create(ctx, job); err != nil {
-			r.Log.Error(err, "Unable to create Job for ReadAndWriteHook", "job", job)
-			return err
-		}
+		)
 
 		for i, hookStatus := range scan.Status.ReadAndWriteHookStatus {
 			if hookStatus.HookName == nonCompletedHook.HookName {
-				scan.Status.ReadAndWriteHookStatus[i].JobName = job.Name
+				scan.Status.ReadAndWriteHookStatus[i].JobName = jobName
 				scan.Status.ReadAndWriteHookStatus[i].State = executionv1.InProgress
 			}
 		}
@@ -1161,9 +1123,7 @@ func (r *ScanReconciler) executeReadAndWriteHooks(scan *executionv1.Scan) error 
 			return err
 		}
 		return nil
-	}
-
-	if nonCompletedHook.State == executionv1.InProgress {
+	case executionv1.InProgress:
 		jobStatus, err := r.checkIfJobIsCompleted(nonCompletedHook.JobName, scan.Namespace)
 		if err != nil {
 			r.Log.Error(err, "Failed to check job status for ReadAndWrite Hook")
@@ -1201,5 +1161,6 @@ func (r *ScanReconciler) executeReadAndWriteHooks(scan *executionv1.Scan) error 
 			}
 		}
 	}
+
 	return nil
 }
