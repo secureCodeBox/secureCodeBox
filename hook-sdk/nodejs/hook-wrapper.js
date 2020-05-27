@@ -48,7 +48,7 @@ function uploadFile(url, fileContents) {
     });
 }
 
-function uploadRawResults(fileContents) {
+function updateRawResults(fileContents) {
   const rawResultUploadUrl = process.argv[4];
   if (rawResultUploadUrl === undefined) {
     console.error(
@@ -62,7 +62,7 @@ function uploadRawResults(fileContents) {
   return uploadFile(rawResultUploadUrl, fileContents);
 }
 
-function uploadFindings(findings) {
+function updateFindings(findings) {
   const findingsUploadUrl = process.argv[5];
   if (findingsUploadUrl === undefined) {
     console.error(
@@ -106,8 +106,8 @@ async function main() {
     await handle({
       getRawResults,
       getFindings,
-      uploadRawResults,
-      uploadFindings,
+      updateRawResults,
+      updateFindings,
       scan,
     });
   } catch (error) {
