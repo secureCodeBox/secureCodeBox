@@ -1,7 +1,7 @@
 apiVersion: "execution.experimental.securecodebox.io/v1"
 kind: ParseDefinition
 metadata:
-  name: "read-write-hook-test-xml"
+  name: "test-txt"
 spec:
-  handlesResultsType: nmap-xml
+  handlesResultsType: test-txt
   image: "{{ .Values.parserImage.registry }}/{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag }}"
