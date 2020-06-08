@@ -1,9 +1,8 @@
 apiVersion: execution.experimental.securecodebox.io/v1
 kind: Scan
 metadata:
-  name: nmap-localhost
+  name: test-scan
+  namespace: default
 spec:
-  parameters:
-    - -Pn
-    - localhost
-  scanType: nmap
+  scanType: test-scan
+  parameters: []

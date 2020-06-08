@@ -1,11 +1,11 @@
 apiVersion: "execution.experimental.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: "rw-hook-test"
+  name: "test-scan"
 spec:
   extractResults:
-    type: nmap-xml
-    location: "/home/securecodebox/rw-hook-test-results.xml"
+    type: test-txt
+    location: "/home/securecodebox/hello-world.txt"
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 10
@@ -14,6 +14,6 @@ spec:
         spec:
           restartPolicy: OnFailure
           containers:
-            - name: rw-hook-test
-              image: scbexperimental/rw-hook-test:latest
-              command: ["cat", "/home/securecodebox/nmap-results.xml"]
+            - name: test-scan
+              image: scbexperimental/test-scan:latest
+              command: ["touch", "/home/securecodebox/hello-world.txt"]

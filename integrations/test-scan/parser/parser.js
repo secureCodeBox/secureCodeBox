@@ -1,4 +1,4 @@
-async function parse(fileContent) {
+async function parse() {
   return transformToFindings();
 }
 

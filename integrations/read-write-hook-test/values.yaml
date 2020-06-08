@@ -1,4 +1,0 @@
-parserImage:
-  registry: docker.io
-  repository: scbexperimental/parser-read-write-hook-test
-  tag: latest

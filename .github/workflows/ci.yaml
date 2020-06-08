@@ -158,6 +158,15 @@ jobs:
           tag_with_ref: true
           tag_with_sha: true
       - uses: docker/build-push-action@v1
+        name: "Build & Push test-scan Parser Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/parser-test-scan
+          path: ./integrations/nmap/parser/
+          tag_with_ref: true
+          tag_with_sha: true
+      - uses: docker/build-push-action@v1
         name: "Build & Push Trivy Parser Image"
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -246,6 +255,15 @@ jobs:
           path: ./integrations/kube-hunter/scanner/
           # Note: not prefixed with a "v" as this matches the aquasec/kube-hunter tags
           tags: "0.3.0,latest"
+      - uses: docker/build-push-action@v1
+        name: "Build & Push test-scan Scanner Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/test-scan
+          path: ./integrations/test-scan/scanner/
+          # Note: not prefixed with a "v" as this seems to match nmap versioning standards
+          tags: "latest"
   integrationTests:
     name: "Test / Integration / k8s ${{ matrix.k8sVersion }}"
     needs:

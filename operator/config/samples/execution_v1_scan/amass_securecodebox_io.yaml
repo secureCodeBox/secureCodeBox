@@ -2,7 +2,6 @@ apiVersion: "execution.experimental.securecodebox.io/v1"
 kind: Scan
 metadata:
   name: "amass-securecodebox.io"
-  namespace: default
   labels:
     organization: "secureCodeBox"
 spec:

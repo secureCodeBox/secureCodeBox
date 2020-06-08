@@ -1,6 +1,6 @@
 apiVersion: v2
-name: read-write-hook-test
-description: A Helm chart to test the integration of read and write hooks.
+name: test-scan
+description: A Helm chart to test the secureCodeBox operator
 
 type: application
 version: 0.1.0
@@ -8,13 +8,10 @@ appVersion: 0.1.0
 
 keywords:
 - security
-- readWriteHook
 - scanner
 - secureCodeBox
 - integrationTest
 - test
-home: https://www.securecodebox.io/scanner/Nmap
-icon: https://www.securecodebox.io/integrationIcons/Nmap.svg
 sources:
 - https://github.com/secureCodeBox/secureCodeBox
 maintainers:

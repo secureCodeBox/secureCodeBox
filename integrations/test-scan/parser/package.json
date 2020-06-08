@@ -1,7 +1,7 @@
 {
-  "name": "read-write-hook-test-parser",
+  "name": "test-scan-parser",
   "version": "1.0.0",
-  "description": "Parses result files for the type: 'nmap-xml'",
+  "description": "Parses result files for the type: 'test-txt'",
   "main": "",
   "scripts": {},
   "keywords": [],
