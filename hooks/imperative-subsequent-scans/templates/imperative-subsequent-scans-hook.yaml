@@ -1,7 +1,7 @@
 apiVersion: "execution.experimental.securecodebox.io/v1"
 kind: ScanCompletionHook
 metadata:
-  name: {{ include "nmap-subsequent-scans.fullname" . }}
+  name: {{ include "imperative-subsequent-scans.fullname" . }}
 spec:
   type: ReadOnly
   {{- if .Values.image.registry }}

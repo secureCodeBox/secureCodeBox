@@ -4,6 +4,6 @@
 
 image:
   registry: docker.io
-  repository: scbexperimental/hook-nmap-subsequent-scans
+  repository: scbexperimental/hook-imperative-subsequent-scans
   tag: latest
   digest: null

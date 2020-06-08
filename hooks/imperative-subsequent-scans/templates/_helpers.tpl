@@ -2,7 +2,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "nmap-subsequent-scans.name" -}}
+{{- define "imperative-subsequent-scans.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
@@ -11,7 +11,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "nmap-subsequent-scans.fullname" -}}
+{{- define "imperative-subsequent-scans.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -27,16 +27,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "nmap-subsequent-scans.chart" -}}
+{{- define "imperative-subsequent-scans.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Common labels
 */}}
-{{- define "nmap-subsequent-scans.labels" -}}
-helm.sh/chart: {{ include "nmap-subsequent-scans.chart" . }}
-{{ include "nmap-subsequent-scans.selectorLabels" . }}
+{{- define "imperative-subsequent-scans.labels" -}}
+helm.sh/chart: {{ include "imperative-subsequent-scans.chart" . }}
+{{ include "imperative-subsequent-scans.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -46,7 +46,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "nmap-subsequent-scans.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "nmap-subsequent-scans.name" . }}
+{{- define "imperative-subsequent-scans.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "imperative-subsequent-scans.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}

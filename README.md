@@ -82,7 +82,7 @@ helm install dummy-ssh ./demo-apps/dummy-ssh/
 # Deploy secureCodeBox Hooks 
 helm install add-attributes ./hooks/add-attributes/
 helm install generic-webhook ./hooks/generic-webhook/
-helm install nmap-subsequent-scans ./hooks/nmap-subsequent-scans/
+helm install imperative-subsequent-scans ./hooks/imperative-subsequent-scans/
 
 ## Persistence Provider: Elasticsearch
 helm install persistence-elastic ./hooks/persistence-elastic/
