@@ -67,7 +67,7 @@ async function handle({ scan, getFindings }) {
  */
 async function startZAPBaselineScan({ parentScan, hostname, port }) {
   console.log(
-    " --> starting subsequent ZAP Scan for host: " + hostname + ":" + port
+    " --> Starting async subsequent ZAP Scan for host: " + hostname + ":" + port
   );
 
   await startSubsequentSecureCodeBoxScan({
@@ -85,7 +85,7 @@ async function startZAPBaselineScan({ parentScan, hostname, port }) {
  */
 async function startSSHScan({ parentScan, hostname, port }) {
   console.log(
-    " --> starting subsequent SSH Scan for host: " + hostname + ":" + port
+    " --> Starting async subsequent SSH Scan for host: " + hostname + ":" + port
   );
 
   await startSubsequentSecureCodeBoxScan({
@@ -103,7 +103,7 @@ async function startSSHScan({ parentScan, hostname, port }) {
  */
 async function startNiktoScan({ parentScan, hostname, port }) {
   console.log(
-    " --> starting subsequent Nikto Scan for host: " + hostname + ":" + port
+    " --> Starting async subsequent Nikto Scan for host: " + hostname + ":" + port
   );
 
   await startSubsequentSecureCodeBoxScan({
@@ -121,7 +121,7 @@ async function startNiktoScan({ parentScan, hostname, port }) {
  */
 async function startSSLyzeScan({ parentScan, hostname, port }) {
   console.log(
-    " --> starting subsequent SSLyze Scan for host: " + hostname + ":" + port
+    " --> Starting async subsequent SSLyze Scan for host: " + hostname + ":" + port
   );
 
   await startSubsequentSecureCodeBoxScan({
