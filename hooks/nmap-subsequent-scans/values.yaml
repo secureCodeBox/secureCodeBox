@@ -1,0 +1,9 @@
+# Default values for dispatcher.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  registry: docker.io
+  repository: scbexperimental/hook-nmap-subsequent-scans
+  tag: latest
+  digest: null

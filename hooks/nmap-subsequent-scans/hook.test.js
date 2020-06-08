@@ -1,0 +1,2 @@
+const { handle } = require("./hook");
+

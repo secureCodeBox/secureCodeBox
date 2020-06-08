@@ -1,0 +1,10 @@
+apiVersion: execution.experimental.securecodebox.io/v1
+kind: Scan
+metadata:
+  name: nmap-securecodebox.io
+  namespace: default
+spec:
+  parameters:
+    - -Pn
+    - secureCodeBox.io
+  scanType: nmap

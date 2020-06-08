@@ -214,6 +214,14 @@ jobs:
           repository: scbexperimental/generic-webhook
           path: ./hooks/generic-webhook/
           tag_with_ref: true
+      - uses: docker/build-push-action@v1
+        name: "Build & Push NmapSubsequentScans Hook Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/hook-nmap-subsequent-scans
+          path: ./hooks/nmap-subsequent-scans/
+          tag_with_ref: true
   scannerImages:
     # Note we only build images for scanner that don't provider official public container images
     name: "Build / Scanner"

@@ -22,6 +22,7 @@
   - [Prerequisites](#prerequisites)
   - [Deployment](#deployment)
   - [Examples](#examples)
+  - [Access Services](#access-services)
 - [How does it work?](#how-does-it-work)
 - [Architecture](#architecture)
 - [License](#license)
@@ -62,7 +63,7 @@ There is a german article about [Security DevOps – Angreifern (immer) einen Sc
 ```bash
 # Deploy secureCodeBox Operator
 kubectl create namespace securecodebox-system
-helm -n securecodebox-system install securecodebox-operator ./operator/
+helm -n securecodebox-system install securecodebox-operator ./operator/ --set image.tag=hooks
 
 # Deploy definitions for the integrated scanners
 helm install amass ./integrations/amass/
@@ -73,6 +74,7 @@ helm install ssh-scan ./integrations/ssh_scan/
 helm install sslyze ./integrations/sslyze/
 helm install trivy ./integrations/trivy/
 helm install zap ./integrations/zap/
+helm install wpscan ./integrations/wpscan/
 
 # Optional Deploy some Demo Apps for scanning
 helm install dummy-ssh ./demo-apps/dummy-ssh/
@@ -80,6 +82,7 @@ helm install dummy-ssh ./demo-apps/dummy-ssh/
 # Deploy secureCodeBox Hooks 
 helm install add-attributes ./hooks/add-attributes/
 helm install generic-webhook ./hooks/generic-webhook/
+helm install nmap-subsequent-scans ./hooks/nmap-subsequent-scans/
 
 ## Persistence Provider: Elasticsearch
 helm install persistence-elastic ./hooks/persistence-elastic/
@@ -98,14 +101,29 @@ kubectl apply -f operator/config/samples/execution_v1_scan/trivy_mediawiki.yaml
 kubectl apply -f operator/config/samples/execution_v1_scan/trivy_juiceshop.yaml
 ## Public Scan Examples
 # E.g. www.securecodebox.io sslyze scan
+kubectl apply -f operator/config/samples/execution_v1_scan/nmap_securecodebox_io.yaml
 kubectl apply -f operator/config/samples/execution_v1_scan/amass_securecodebox_io.yaml
 kubectl apply -f operator/config/samples/execution_v1_scan/sslyze_securecodebox_io.yaml
 kubectl apply -f operator/config/samples/execution_v1_scan/nikto_securecodebox_io.yaml
 
 kubectl apply -f operator/config/samples/execution_v1_scan/ssh_iteratec_de.yaml
+kubectl apply -f operator/config/samples/execution_v1_scan/wpscan_nurdemteam_org.yaml
 # Then get the current State of the Scan by running:
 kubectl get scans
 ```
+
+### Access Services
+
+* Minio UI
+  * AccessKey: `kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.accesskey}' | base64 --decode; echo`
+  * SecretKey: `kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.secretkey}' | base64 --decode; echo`
+  * Port Forward Minio UI: `kubectl port-forward -n securecodebox-system service/securecodebox-operator-minio 9000:9000`
+* Elastic / Kibana UI
+ * User: `elastic`
+ * Password: `kubectl get secret scb-elasticsearch-es-elastic-user -n scb-analytics -o=jsonpath='{.data.elastic}' | base64 --decode; echo`
+ * Port Forward Kibana: `kubectl port-forward -n default service/persistence-elastic-kibana 5601:5601`
+ * Port Forward Elasticsearch: `kubectl port-forward -n default service/elasticsearch-master 9200:9200` 
+
 
 ## How does it work?
 
