@@ -1,0 +1,19 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: ScanType
+metadata:
+  name: "rw-hook-test"
+spec:
+  extractResults:
+    type: nmap-xml
+    location: "/home/securecodebox/rw-hook-test-results.xml"
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 10
+      backoffLimit: 3
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: rw-hook-test
+              image: scbexperimental/rw-hook-test:latest
+              command: ["cat", "/home/securecodebox/nmap-results.xml"]
