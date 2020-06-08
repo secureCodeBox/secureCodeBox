@@ -6,7 +6,7 @@ async function handle({ scan, getFindings }) {
   console.log(findings);
 
   console.log(
-    `Found #${findings.length} findings... trying to find possible subsequent security scans.`
+    `Found #${findings.length} findings... Trying to find identify if these are NMAP specific findings and start possible subsequent security scans.`
   );
 
   for (const finding of findings) {
@@ -18,7 +18,7 @@ async function handle({ scan, getFindings }) {
       const port = finding.attributes.port;
 
       console.log(
-        "Found open port finding for service: " + finding.attributes.port
+        "Found NMAP 'Open Port' finding for service: " + finding.attributes.port
       );
 
       // search for HTTP ports and start subsequent Nikto Scan
@@ -58,6 +58,41 @@ async function handle({ scan, getFindings }) {
       }
     }
   }
+
+  console.log(
+    `Found  #${findings.length} findings... Trying to find identify if these are AMASS specific findings and start possible subsequent security scans.`
+  );
+
+  for (const finding of findings) {
+    if(finding.category === "Subdomain" && finding.osi_layer === "NETWORK" && finding.description.startsWith("Found subdomain")) {
+      console.log("Found AMASS 'Subdomain' finding: " + finding.location);
+
+      const hostname = finding.location;
+      
+      await startNMAPScan({
+        parentScan: scan,
+        hostname
+      });
+    }
+  }
+}
+
+/**
+ * Creates a new subsequent SCB ZAP Scan for the given hostname.
+ * @param {string} hostname The hostname to start a new subsequent ZAP scan for.
+ * @param {string} port The port to start a new subsequent ZAP scan for.
+ */
+async function startNMAPScan({ parentScan, hostname}) {
+  console.log(
+    " --> Starting async subsequent NMAP Scan for host: " + hostname
+  );
+
+  await startSubsequentSecureCodeBoxScan({
+    parentScan,
+    name: `nmap-${hostname.toLowerCase()}`,
+    scanType: "nmap",
+    parameters: ["-Pn", hostname],
+  });
 }
 
 /**
