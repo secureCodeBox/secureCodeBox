@@ -2,7 +2,6 @@ apiVersion: execution.experimental.securecodebox.io/v1
 kind: Scan
 metadata:
   name: test-scan
-  namespace: default
 spec:
   scanType: test-scan
   parameters: []
