@@ -7,9 +7,7 @@ kc.loadFromDefault();
 const k8sApiCRD = kc.makeApiClient(k8s.CustomObjectsApi);
 
 async function handle({
-  getFindings,
-  attributeName = process.env["ATTRIBUTE_NAME"],
-  attributeValue = process.env["ATTRIBUTE_VALUE"],
+  getFindings
 }) {
   
   const findings = await getFindings();
@@ -29,24 +27,18 @@ async function handle({
       
         // search for HTTP ports and start subsequent Nikto Scan
         if(finding.attributes.service == "http" ) {
-          console.log(" --> starting HTTP Service Scan: Nikto")
-
           startNiktoScan(finding.attributes.hostname, finding.attributes.port);
         }
 
         // search for HTTPS ports and start subsequent SSLyze Scan
         if(finding.attributes.service == "ssl" || finding.attributes.service == "https") {
-          console.log(" --> starting HTTP(S) Service Scan: SSLyze")
           startSSLyzeScan(finding.attributes.hostname, finding.attributes.port);
 
-          console.log(" --> starting HTTP(S) Service Scan: ZAP Baseline Scan")
           startZAPBaselineScan(finding.attributes.hostname, finding.attributes.port);
         }
         
         // search for HTTPS ports and start subsequent SSH Scan
         if(finding.attributes.service == "ssh" ) {
-          console.log(" --> starting SSH Service Scan: SSH")
-
           startSSHScan(finding.attributes.hostname, finding.attributes.port);
         }
       }
@@ -81,6 +73,8 @@ async function handle({
  * @param {*} port The port to start a new subsequent ZAP scan for.
  */
 function startZAPBaselineScan(hostname, port) {
+  console.log(" --> starting subsequent ZAP Scan for host: " + hostname + ":" + port);
+
   const zapScanDefinition = {
     apiVersion: "execution.experimental.securecodebox.io/v1",
     kind: "Scan",
@@ -122,6 +116,8 @@ function startZAPBaselineScan(hostname, port) {
  * @param {*} port The port to start a new subsequent SSH scan for.
  */
 function startSSHScan(hostname, port) {
+  console.log(" --> starting subsequent SSH Scan for host: " + hostname + ":" + port);
+
   const sshScanDefintion = {
     "apiVersion": "execution.experimental.securecodebox.io/v1",
     "kind": "Scan",
@@ -163,6 +159,8 @@ function startSSHScan(hostname, port) {
  * @param {*} port The port to start a new subsequent Nikto scan for.
  */
 function startNiktoScan(hostname, port) {
+  console.log(" --> starting subsequent Nikto Scan for host: " + hostname + ":" + port);
+
   const niktoScanDefinition = {
     "apiVersion": "execution.experimental.securecodebox.io/v1",
     "kind": "Scan",
@@ -206,6 +204,8 @@ function startNiktoScan(hostname, port) {
  * @param {*} port The port to start a new subsequent SSLyze scan for.
  */
 function startSSLyzeScan(hostname, port) {
+  console.log(" --> starting subsequent SSLyze Scan for host: " + hostname + ":" + port);
+
   const sslyzeScanDefinition = {
     apiVersion: 'execution.experimental.securecodebox.io/v1',
     kind: 'Scan',
