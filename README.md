@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="secureCodeBox Logo" src="securecodebox-logo.svg" width="800px">
+  <img alt="secureCodeBox Logo" src="./docs/resources/securecodebox-logo.svg" width="800px">
 </p>
 
 <p align="center">
