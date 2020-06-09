@@ -1,0 +1,15 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "wpscan-www.example.com"
+spec:
+  scanType: "wpscan"
+  parameters:
+    - "--url"
+    - https://www.example.com
+    - "-e"
+    - "vp"
+    - "--plugins-detection"
+    - "mixed"
+    - "--api-token"
+    - "AAAAABBBBBCCCCCDDDDEEEEEEE"
