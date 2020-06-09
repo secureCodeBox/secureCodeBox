@@ -3,7 +3,6 @@ title: "Nmap"
 path: "scanner/Nmap"
 category: "scanner"
 usecase: "Network Scanner"
-release: "https://img.shields.io/github/release/secureCodeBox/scanner-infrastructure-nmap.svg"
 ---
 
 ![Nmap logo](https://nmap.org/images/sitelogo.png)
@@ -25,6 +24,9 @@ helm install nmap ./integrations/nmap/
 ## Examples
 
 A set of examples can be found in the [examples](./examples) folder.
+* Example *local-network* [scan](./examples/local-network/scan.yaml) and [findings](./examples/local-network/findings.yaml)
+* Example *localhost* [scan](./examples/local-network/scan.yaml) and [findings](./examples/local-network/findings.yaml)
+* Example *scan.nmap.org* [scan](./examples/local-network/scan.yaml) and [findings](./examples/local-network/findings.yaml)
 
 ## Nmap Configuration
 
@@ -47,14 +49,13 @@ Some useful example parameters listed below:
 ## Development
 
 ### Local setup
+1. Clone the repository `git clone git@github.com:secureCodeBox/secureCodeBox-v2-alpha.git`
+2. Ensure you have node.js installed
+   * On MacOs with brew package manager: `brew install node`
 
-1.  Clone the repository
-2.  Install the dependencies `npm install`
+### Parser Development
 
-### Test
-
-To run the testsuite run:
-
-```bash
-npm test
-```
+1. Install the dependencies `npm install`
+2. Update the parser function here: `./parser/parser.js`
+3. Update the parser tests here: `./parser/parser.test.js`
+4. Run the testsuite: `npm test`
