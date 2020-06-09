@@ -129,7 +129,7 @@ kubectl get scans
 
 ## Architecture
 
-![secureCodeBox Architecture](scb-architecture.svg)
+![secureCodeBox Architecture](./docs/resources/scb-architecture.svg)
 
 ## License
 

@@ -1,0 +1,43 @@
+# Extending secureCodeBox
+
+## Developing the SCB Operator
+
+## How to a new security scanner
+
+### ScanType Definition
+
+### Parsing SDK
+
+## How to integrate a new hook
+
+### HookType Definition
+
+### Hook SDK
+
+# Guidelines
+## Coding Guidelines
+
+### JSON
+We're using snake_case (lower case) for json attributes. If an enum type is used as attribute its converted to lower case. If it's an value it's always used UPPERCASE. This is to hold the attribute api consistent, but make shure Enums are recognized as enums.
+
+```json
+{
+    "id": "e18cdc5e-6b49-4346-b623-28a4e878e154",
+    "name": "Open mysql Port",
+    "description": "Port 3306 is open using tcp protocol.",
+    "category": "Open Port",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "protocol": "tcp",
+      "port": 3306,
+      "service": "mysql",
+      "mac_address": null,
+      "start": "1520606104",
+      "end": "1520606118",
+      "ip_address": "127.0.0.1",
+      "state": "open"
+    },
+    "location": "tcp://127.0.0.1:3306"
+  }
+```
