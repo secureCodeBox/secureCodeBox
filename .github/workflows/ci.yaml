@@ -40,6 +40,10 @@ jobs:
           cd -
           cd hooks/
           npm ci
+      - name: "Compile Typescript"
+        run: |
+          cd hooks/declarative-subsequent-scans
+          npm run build
       - name: "Run tests & publish code coverage"
         uses: paambaati/codeclimate-action@v2.6.0
         env:
