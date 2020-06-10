@@ -8,30 +8,38 @@ const k8sApiCRD = kc.makeApiClient(k8s.CustomObjectsApi);
 
 async function startSubsequentSecureCodeBoxScan({
   parentScan,
-  name,
   scanType,
   parameters,
 }) {
+  const name = `${parentScan.metadata.name}-${scanType}`;
   const scanDefinition = {
     apiVersion: "execution.experimental.securecodebox.io/v1",
     kind: "Scan",
     metadata: {
-      name: name,
+      name,
       labels: {
         ...parentScan.metadata.labels,
       },
       annotations: {
-        'securecodebox.io/hook': 'nmap-subsequent-scans',
-        'securecodebox.io/parent-scan': parentScan.metadata.name,
+        "securecodebox.io/hook": "nmap-subsequent-scans",
+        "securecodebox.io/parent-scan": parentScan.metadata.name,
       },
-      ...(await getOwnerReference(parentScan)),
+      ownerReferences: [
+        {
+          apiVersion: "execution.experimental.securecodebox.io/v1",
+          blockOwnerDeletion: true,
+          controller: true,
+          kind: "Scan",
+          name: parentScan.metadata.name,
+          uid: parentScan.metadata.uid,
+        },
+      ],
     },
     spec: {
       scanType,
       parameters,
     },
   };
-
 
   try {
     // Starting another subsequent sslyze scan based on the nmap results
@@ -50,19 +58,25 @@ async function startSubsequentSecureCodeBoxScan({
   }
 }
 
-async function getOwnerReference(parentScan) {
-  return {
-    ownerReferences: [
-      {
-        apiVersion: 'execution.experimental.securecodebox.io/v1',
-        blockOwnerDeletion: true,
-        controller: true,
-        kind: 'Scan',
-        name: parentScan.metadata.name,
-        uid: parentScan.metadata.uid,
-      },
-    ],
-  };
-}
-
 module.exports.startSubsequentSecureCodeBoxScan = startSubsequentSecureCodeBoxScan;
+
+async function getCascadingRulesFromCluster() {
+  try {
+    const namespace = process.env["NAMESPACE"];
+    const { body } = await k8sApiCRD.listNamespacedCustomObject(
+      "cascading.experimental.securecodebox.io",
+      "v1",
+      namespace,
+      "cascadingrules"
+    );
+    console.log("got CascadingRules");
+    console.log(body);
+    console.log(JSON.stringify(body));
+    return body.items;
+  } catch (err) {
+    console.error("Failed to get CascadingRules from the kubernetes api");
+    console.error(err);
+    process.exit(1);
+  }
+}
+module.exports.getCascadingRulesFromCluster = getCascadingRulesFromCluster;

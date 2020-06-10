@@ -39,7 +39,7 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", () =
         ],
         scanSpec: {
           name: "sslyze",
-          parameters: ["--regular", "{attributes.hostname}"]
+          parameters: ["--regular", "{{attributes.hostname}}"]
         }
       }
     }
@@ -53,7 +53,7 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", () =
         "name": "sslyze",
         "parameters": Array [
           "--regular",
-          "{attributes.hostname}",
+          "foobar.com",
         ],
       },
     ]
