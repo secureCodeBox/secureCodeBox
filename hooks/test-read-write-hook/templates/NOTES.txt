@@ -1,3 +1,0 @@
-TestReadWrite Hook deployed.
-This Hook is for testing only!
-This will add a attribute "{{ .Values.attribute.name }}: {{ .Values.attribute.value }}" on every finding in this namespace.
