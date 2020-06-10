@@ -17,7 +17,7 @@ test("should send a post request to the url when fired", async () => {
   await handle({
     getFindings,
     updateFindings,
-    attributeName: "cluster",
+    attributeName: "attributes.cluster",
     attributeValue: "gke-internal",
   });
 

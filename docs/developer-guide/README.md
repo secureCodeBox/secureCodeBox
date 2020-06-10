@@ -11,8 +11,8 @@ To build the operator you will need to install [Go](https://golang.org/).
 
 #### Minikube or Kind
 
-For local development we recommend to use [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or [kind](https://github.com/kubernetes-sigs/kind).
-Both projects will enable you to run a local kubernetes cluster on your development machine.
+For local development we recommend to use [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or [kind](https://github.com/kubernetes-sigs/kind). If you are using MacOS or Windows you can also use the kubernetes cluster included within Docker for Mac/Windows.
+All of these tools will enable you to run a local kubernetes cluster on your development machine.
 
 #### Operating your local kubernetes cluster
 
