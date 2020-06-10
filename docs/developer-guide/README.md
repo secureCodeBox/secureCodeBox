@@ -43,7 +43,7 @@ $ export S3_ENDPOINT="<your.local.ip1address>:9000/"
 
 ### Build and run the operator
 
-To build an run the operator you can simply execute *make* in the root directory of this repository.
+To build an run the operator you can simply execute *make* in the *operator* directory of this repository.
 
 ```bash
 $ make
