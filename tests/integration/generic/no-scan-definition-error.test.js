@@ -1,4 +1,4 @@
-const { scan } = require('./helpers')
+const { scan } = require('../helpers')
 
 test(
     "scan without a matching ScanType should be marked as errored",
