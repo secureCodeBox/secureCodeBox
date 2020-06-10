@@ -1,0 +1,11 @@
+apiVersion: v2
+name: test-read-write-hook-hook
+description: This hook is for integration testing only!
+
+type: application
+
+version: 0.1.0
+
+appVersion: latest
+
+dependencies: []

@@ -1,0 +1,16 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: ScanCompletionHook
+metadata:
+  name: {{ include "test-read-write-hook.fullname" . }}
+spec:
+  type: ReadAndWrite
+  {{- if .Values.image.digest }}
+  image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}@{{ .Values.image.digest }}"
+  {{- else }}
+  image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+  {{- end }}
+  env:
+    - name: ATTRIBUTE_NAME
+      value: {{ .Values.attribute.name | quote }}
+    - name: ATTRIBUTE_VALUE
+      value: {{ .Values.attribute.value | quote }}
