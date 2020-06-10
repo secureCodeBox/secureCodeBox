@@ -979,6 +979,11 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 			Resources: []string{"scans"},
 			Verbs:     []string{"get"},
 		},
+		{
+			APIGroups: []string{"execution.experimental.securecodebox.io"},
+			Resources: []string{"scans/status"},
+			Verbs:     []string{"get", "patch"},
+		},
 	}
 	serviceAccountName := "scan-completion-hook"
 	r.ensureServiceAccountExists(

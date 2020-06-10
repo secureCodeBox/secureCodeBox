@@ -2,6 +2,15 @@ const axios = require("axios");
 const { handle } = require("./hook/hook");
 const k8s = require("@kubernetes/client-node");
 
+const scanName = process.env["SCAN_NAME"];
+const namespace = process.env["NAMESPACE"];
+console.log(`Starting hook for Scan "${scanName}"`);
+
+const kc = new k8s.KubeConfig();
+kc.loadFromCluster();
+
+const k8sApi = kc.makeApiClient(k8s.CustomObjectsApi);
+
 function downloadFile(url) {
   return axios.get(url);
 }
@@ -62,7 +71,14 @@ function updateRawResults(fileContents) {
   return uploadFile(rawResultUploadUrl, fileContents);
 }
 
-function updateFindings(findings) {
+function severityCount(findings, severity) {
+  return findings.filter(
+    ({ severity: findingSeverity }) =>
+      findingSeverity.toUpperCase() === severity
+  ).length;
+}
+
+async function updateFindings(findings) {
   const findingsUploadUrl = process.argv[5];
   if (findingsUploadUrl === undefined) {
     console.error(
@@ -73,19 +89,55 @@ function updateFindings(findings) {
       "If you want to change Findings you'll need to use a ReadAndWrite Hook."
     );
   }
-  return uploadFile(findingsUploadUrl, JSON.stringify(findings));
+  await uploadFile(findingsUploadUrl, JSON.stringify(findings));
+
+  // Update the scans findingStats (severities, categories, or the count) of the scan results
+  const findingCategories = new Map();
+  for (const { category } of findings) {
+    if (findingCategories.has(category)) {
+      findingCategories.set(category, findingCategories.get(category) + 1);
+    } else {
+      findingCategories.set(category, 1);
+    }
+  }
+
+  const findingStats = {
+    count: findings.length,
+    severities: {
+      informational: severityCount(findings, "INFORMATIONAL"),
+      low: severityCount(findings, "LOW"),
+      medium: severityCount(findings, "MEDIUM"),
+      high: severityCount(findings, "HIGH"),
+    },
+    categories: Object.fromEntries(findingCategories.entries()),
+  };
+
+  await k8sApi.patchNamespacedCustomObjectStatus(
+    "execution.experimental.securecodebox.io",
+    "v1",
+    namespace,
+    "scans",
+    scanName,
+    {
+      status: {
+        findings: {
+          count: findings.length,
+          severities: {
+            informational: severityCount(findings, "INFORMATIONAL"),
+            low: severityCount(findings, "LOW"),
+            medium: severityCount(findings, "MEDIUM"),
+            high: severityCount(findings, "HIGH"),
+          },
+          categories: Object.fromEntries(findingCategories.entries()),
+        },
+      },
+    },
+    { headers: { "content-type": "application/merge-patch+json" } }
+  );
+  console.log("Updated status successfully");
 }
 
 async function main() {
-  const scanName = process.env["SCAN_NAME"];
-  const namespace = process.env["NAMESPACE"];
-  console.log(`Starting hook for Scan "${scanName}"`);
-
-  const kc = new k8s.KubeConfig();
-  kc.loadFromCluster();
-
-  const k8sApi = kc.makeApiClient(k8s.CustomObjectsApi);
-
   let scan;
   try {
     const { body } = await k8sApi.getNamespacedCustomObject(
