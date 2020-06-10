@@ -321,10 +321,18 @@ jobs:
           cd tests/integration/ 
           npm ci
       # This steps should include Integration tests which are not related to a Specific Scanner
-      - name: "Generic Integration Tests"
+      - name: "Throws NoScanDefiniton Error Integration Tests"
         run: |
           cd tests/integration/
           npx jest --ci --color no-scan-definition-error
+      - name: "Hooks Integration Tests"
+        run: |
+          helm -n integration-tests install update-category ./hooks/update-field --set="attribute.name=category" --set="attribute.value=fancy-category"
+          helm -n integration-tests install update-severity ./hooks/update-field --set="attribute.name=severity" --set="attribute.value=high"
+          helm -n integration-tests install test-scan ./integrations/test-scan
+          cd tests/integration/
+          npx jest --ci --color read-write-hook
+          helm -n integration-tests uninstall test-scan update-category update-severity
       - name: "nmap Integration Tests"
         run: |
           helm -n integration-tests install nmap ./integrations/nmap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
