@@ -4,7 +4,7 @@
   "description": "",
   "main": "hook.js",
   "scripts": {
-    "build": "npx typescript hook.ts",
+    "build": "npx typescript hook.ts --sourceMap",
     "test": "jest ."
   },
   "keywords": [],
