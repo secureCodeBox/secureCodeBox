@@ -24,7 +24,10 @@ For your local development you will need a S3 compatible storage.
 We would recommend to use [Minio](https://min.io/download#/) inside a podman or docker container.
 
 ```bash
-podman run --name minio -p 9000:9000 minio/minio server /data
+# if you want to use podman
+$ podman run --name minio -p 9000:9000 minio/minio server /data
+# if you want to use docker
+$ docker run --name minio -p 9000:9000 minio/minio server /data
 ```
 
 In the Minio management GUI you will need to add a new bucket for the operator. 
@@ -32,6 +35,7 @@ The default credentials for your minio instance are *minioadmin:minioadmin*.
 You might change those.
 
 After setting up your bucket you will need to specify some environment variables to enable the operator to use the bucket.
+You could add these to your *.bashrc* or *.zshrc* as well.
 
 ```bash
 $ export S3_ACCESS_KEY="your-minio-access-key"
