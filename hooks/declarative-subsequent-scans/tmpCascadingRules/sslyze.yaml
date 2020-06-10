@@ -13,4 +13,4 @@ spec:
         service: "https"
   scanSpec:
     name: "sslyze"
-    parameters: ["--regular", "{attributes.hostname}"]
+    parameters: ["--regular", "{{attributes.hostname}}"]
