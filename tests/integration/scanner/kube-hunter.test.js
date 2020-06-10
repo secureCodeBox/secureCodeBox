@@ -1,4 +1,4 @@
-const { scan } = require("./helpers");
+const { scan } = require("../helpers");
 
 test(
   "kube-hunter should find a fixed number of findings for the kind cluster",

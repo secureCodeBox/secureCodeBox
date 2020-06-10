@@ -1,5 +1,5 @@
 // todo: Integrate into github ci pipeline
-const { scan } = require("./helpers");
+const { scan } = require("../helpers");
 
 test(
   "ssh-scan should find a couple of findings for a dummy ssh service",

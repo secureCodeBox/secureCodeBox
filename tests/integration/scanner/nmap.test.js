@@ -1,4 +1,4 @@
-const { scan } = require('./helpers')
+const { scan } = require('../helpers')
 
 test(
   "localhost port scan should only find a host finding",
