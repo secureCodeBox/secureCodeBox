@@ -1,7 +1,7 @@
 apiVersion: "execution.experimental.securecodebox.io/v1"
 kind: ScanCompletionHook
 metadata:
-  name: {{ include "add-attribute.fullname" . }}
+  name: {{ .Release.Name }}
 spec:
   type: ReadAndWrite
   {{- if .Values.image.digest }}
