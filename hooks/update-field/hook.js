@@ -1,3 +1,5 @@
+const set = require("lodash.set");
+
 async function handle({
   getFindings,
   updateFindings,
@@ -7,7 +9,7 @@ async function handle({
   const findings = await getFindings();
 
   const newFindings = findings.map((finding) => {
-    finding.attributes[attributeName] = attributeValue;
+    set(finding, attributeName, attributeValue);
     return finding;
   });
 

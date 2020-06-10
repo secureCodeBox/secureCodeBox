@@ -1,6 +1,6 @@
 apiVersion: v2
-name: add-attributes-hook
-description: Lets you add new attributes to every finding
+name: update-field-hook
+description: Lets you add or override a field to every finding
 
 type: application
 

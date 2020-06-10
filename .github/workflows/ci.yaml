@@ -239,6 +239,14 @@ jobs:
           repository: scbexperimental/test-read-write-hook
           path: ./hooks/test-read-write-hook/
           tag_with_ref: true
+      - uses: docker/build-push-action@v1
+        name: "Build & Push UpdateField Hook Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/update-field
+          path: ./hooks/update-field/
+          tag_with_ref: true
   scannerImages:
     # Note we only build images for scanner that don't provider official public container images
     name: "Build / Scanner"

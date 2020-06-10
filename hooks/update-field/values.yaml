@@ -3,11 +3,11 @@
 # Declare variables to be passed into your templates.
 
 attribute:
-  name: foobar
-  value: example
+  name: "category"
+  value: my-own-category
 
 image:
   registry: docker.io
-  repository: scbexperimental/add-attribute
+  repository: scbexperimental/update-field
   tag: latest
   digest: null
