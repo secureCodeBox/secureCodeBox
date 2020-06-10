@@ -20,4 +20,7 @@ resources:
 - group: targets
   kind: Host
   version: v1
+- group: cascading
+  kind: CascadingRule
+  version: v1
 version: "2"
