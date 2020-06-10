@@ -1,0 +1,11 @@
+apiVersion: v2
+name: declarative-subsequent-scans
+description: Starts possible subsequent security scans based on findings (e.g. open ports found by NMAP or subdomains found by AMASS).
+
+type: application
+
+version: 0.1.0
+
+appVersion: latest
+
+dependencies: []
