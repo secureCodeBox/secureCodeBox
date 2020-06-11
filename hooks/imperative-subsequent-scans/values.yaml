@@ -1,6 +1,20 @@
-# Default values for dispatcher.
+# Default values for imperative-subsequent-scans Hook.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
+
+cascade:
+  # Cascade nmap scans for each subdomain found by amass
+  amassNmap: true
+  # Cascade nmap SMB scans for each SMB Port found by nmap
+  nmapSmb: false
+  # Cascade SSH scans for each SSH Port found by nmap
+  nmapSsh: false
+  # Cascade SSL scans for each HTTP Port found by nmap
+  nmapSsl: false
+  # Cascade Nikto scans for each HTTP Port found by nmap
+  nmapNikto: false
+  # Cascade ZAP scans for each HTTP Port found by nmap
+  nmapZapBaseline: false
 
 image:
   registry: docker.io

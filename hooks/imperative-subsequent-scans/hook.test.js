@@ -35,11 +35,24 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", asyn
     },
   };
 
+  const cascadeAmassNmap        = true;
+  const cascadeNmapSsl          = true;
+  const cascadeNmapSsh          = true;
+  const cascadeNmapNikto        = true;
+  const cascadeNmapSmb          = true;
+  const cascadeNmapZapBaseline  = true;
+
   const getFindings = async () => findings;
 
   await handle({
     getFindings,
     scan,
+    cascadeAmassNmap,
+    cascadeNmapSsl,
+    cascadeNmapSsh,
+    cascadeNmapNikto,
+    cascadeNmapSmb,
+    cascadeNmapZapBaseline
   });
 
   expect(startSubsequentSecureCodeBoxScan).toHaveBeenCalledTimes(4);
@@ -103,11 +116,24 @@ test("Should create subsequent scans for open HTTP ports (NMAP findings)", async
     },
   };
 
+  const cascadeAmassNmap        = true;
+  const cascadeNmapSsl          = true;
+  const cascadeNmapSsh          = true;
+  const cascadeNmapNikto        = true;
+  const cascadeNmapSmb          = true;
+  const cascadeNmapZapBaseline  = true;
+  
   const getFindings = async () => findings;
 
   await handle({
     getFindings,
     scan,
+    cascadeAmassNmap,
+    cascadeNmapSsl,
+    cascadeNmapSsh,
+    cascadeNmapNikto,
+    cascadeNmapSmb,
+    cascadeNmapZapBaseline
   });
 
   expect(startSubsequentSecureCodeBoxScan).toHaveBeenCalledTimes(6);
@@ -159,11 +185,24 @@ test("Should create subsequent scans for open SSH ports (NMAP findings)", async 
     },
   };
 
+  const cascadeAmassNmap        = true;
+  const cascadeNmapSsl          = true;
+  const cascadeNmapSsh          = true;
+  const cascadeNmapNikto        = true;
+  const cascadeNmapSmb          = true;
+  const cascadeNmapZapBaseline  = true;
+
   const getFindings = async () => findings;
 
   await handle({
     getFindings,
     scan,
+    cascadeAmassNmap,
+    cascadeNmapSsl,
+    cascadeNmapSsh,
+    cascadeNmapNikto,
+    cascadeNmapSmb,
+    cascadeNmapZapBaseline
   });
 
   expect(startSubsequentSecureCodeBoxScan).toHaveBeenCalledTimes(8);
@@ -180,6 +219,68 @@ test("Should create subsequent scans for open SSH ports (NMAP findings)", async 
     parameters: ["-t", "example.com"],
     parentScan: { metadata: { labels: { foo: "bar" } } },
     scanType: "ssh-scan",
+  });
+});
+
+test("Should create subsequent scans for open SMB ports (NMAP findings)", async () => {
+  const findings = [
+    {
+      name: "Port 445 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 445,
+        service: "microsoft-ds",
+      },
+    },
+    {
+      name: "Port 445 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "example.com",
+        port: 445,
+        service: "filtered",
+      },
+    },
+  ];
+
+  const scan = {
+    metadata: {
+      labels: {
+        foo: "bar",
+      },
+    },
+  };
+
+  const cascadeAmassNmap        = true;
+  const cascadeNmapSsl          = true;
+  const cascadeNmapSsh          = true;
+  const cascadeNmapNikto        = true;
+  const cascadeNmapSmb          = true;
+  const cascadeNmapZapBaseline  = true;
+
+  const getFindings = async () => findings;
+
+  await handle({
+    getFindings,
+    scan,
+    cascadeAmassNmap,
+    cascadeNmapSsl,
+    cascadeNmapSsh,
+    cascadeNmapNikto,
+    cascadeNmapSmb,
+    cascadeNmapZapBaseline
+  });
+
+  expect(startSubsequentSecureCodeBoxScan).toHaveBeenCalledTimes(9);
+
+  expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(9, {
+    name: "nmap-smb-foobar.com",
+    parameters: ["-Pn", "-p445", "--script", "smb-protocols", "foobar.com"],
+    parentScan: { metadata: { labels: { foo: "bar" } } },
+    scanType: "nmap",
   });
 });
 
@@ -213,24 +314,253 @@ test("Should create subsequent scans for subdomains (AMASS findings)", async () 
 
   const getFindings = async () => findings;
 
+  const cascadeAmassNmap        = true;
+  const cascadeNmapSsl          = true;
+  const cascadeNmapSsh          = true;
+  const cascadeNmapNikto        = true;
+  const cascadeNmapSmb          = true;
+  const cascadeNmapZapBaseline  = true;
+
   await handle({
     getFindings,
     scan,
+    cascadeAmassNmap,
+    cascadeNmapSsl,
+    cascadeNmapSsh,
+    cascadeNmapNikto,
+    cascadeNmapSmb,
+    cascadeNmapZapBaseline
   });
 
-  expect(startSubsequentSecureCodeBoxScan).toHaveBeenCalledTimes(10);
+  expect(startSubsequentSecureCodeBoxScan).toHaveBeenCalledTimes(11);
 
-  expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(9, {
+  expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(10, {
     name: "nmap-www.example.com",
     parameters: ["-Pn", "www.example.com"],
     parentScan: { metadata: { labels: { foo: "bar" } } },
     scanType: "nmap",
   });
   // even if the HTTP port is not running at port 80 a corresponding Nikto scan should be created if a HTTP service is found by nmap
-  expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(10, {
+  expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(11, {
     name: "nmap-example.example.com",
     parameters: ["-Pn", "example.example.com"],
     parentScan: { metadata: { labels: { foo: "bar" } } },
     scanType: "nmap",
   });
+});
+
+test("Should not create subsequent scans for subdomains (AMASS subsequent scans disabled)", async () => {
+  const findings = [
+    {
+      name: "www.example.com",
+      description: "Found subdomain www.example.com",
+      category: "Subdomain",
+      location: "www.example.com",
+      osi_layer: "NETWORK",
+      severity: "INFORMATIONAL",
+    },
+    {
+      name: "example.example.com",
+      description: "Found subdomain example.example.com",
+      category: "Subdomain",
+      location: "example.example.com",
+      osi_layer: "NETWORK",
+      severity: "INFORMATIONAL",
+    },
+  ];
+
+  const scan = {
+    metadata: {
+      labels: {
+        foo: "bar",
+      },
+    },
+  };
+
+  const getFindings = async () => findings;
+
+  const cascadeAmassNmap        = false;
+  const cascadeNmapSsl          = true;
+  const cascadeNmapSsh          = true;
+  const cascadeNmapNikto        = true;
+  const cascadeNmapSmb          = true;
+  const cascadeNmapZapBaseline  = true;
+
+  await handle({
+    getFindings,
+    scan,
+    cascadeAmassNmap,
+    cascadeNmapSsl,
+    cascadeNmapSsh,
+    cascadeNmapNikto,
+    cascadeNmapSmb,
+    cascadeNmapZapBaseline
+  });
+
+  expect(startSubsequentSecureCodeBoxScan).toHaveBeenCalledTimes(11);
+});
+
+test("Should not create subsequent scans for subdomains (no AMASS findings)", async () => {
+  const findings = [];
+
+  const scan = {
+    metadata: {
+      labels: {
+        foo: "bar",
+      },
+    },
+  };
+
+  const getFindings = async () => findings;
+
+  const cascadeAmassNmap        = true;
+  const cascadeNmapSsl          = true;
+  const cascadeNmapSsh          = true;
+  const cascadeNmapNikto        = true;
+  const cascadeNmapSmb          = true;
+  const cascadeNmapZapBaseline  = true;
+
+  await handle({
+    getFindings,
+    scan,
+    cascadeAmassNmap,
+    cascadeNmapSsl,
+    cascadeNmapSsh,
+    cascadeNmapNikto,
+    cascadeNmapSmb,
+    cascadeNmapZapBaseline
+  });
+
+  expect(startSubsequentSecureCodeBoxScan).toHaveBeenCalledTimes(11);
+});
+
+test("Should create subsequent scans for open SMB ports (NMAP findings)", async () => {
+  const findings = [
+    {
+      name: "Port 445 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 445,
+        service: "microsoft-ds",
+      },
+    },
+    {
+      name: "Port 445 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "example.com",
+        port: 445,
+        service: "filtered",
+      },
+    },
+    {
+      name: "www.example.com",
+      description: "Found subdomain www.example.com",
+      category: "Subdomain",
+      location: "www.example.com",
+      osi_layer: "NETWORK",
+      severity: "INFORMATIONAL",
+    },
+    {
+      name: "example.example.com",
+      description: "Found subdomain example.example.com",
+      category: "Subdomain",
+      location: "example.example.com",
+      osi_layer: "NETWORK",
+      severity: "INFORMATIONAL",
+    },
+    {
+      name: "Port 22 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 22,
+        service: "ssh",
+      },
+    },
+    {
+      name: "Port 23454 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "example.com",
+        port: 23454,
+        service: "ssh",
+      },
+    },
+    {
+      name: "Port 80 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 80,
+        service: "http",
+      },
+    },
+    {
+      name: "Port 3000 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "example.com",
+        port: 3000,
+        service: "http",
+      },
+    },
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https",
+      },
+    },
+    {
+      name: "Port 8443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "example.com",
+        port: 8443,
+        service: "ssl",
+      },
+    },
+  ];
+
+  const scan = {
+    metadata: {
+      labels: {
+        foo: "bar",
+      },
+    },
+  };
+
+  const cascadeAmassNmap        = false;
+  const cascadeNmapSsl          = false;
+  const cascadeNmapSsh          = false;
+  const cascadeNmapNikto        = false;
+  const cascadeNmapSmb          = false;
+  const cascadeNmapZapBaseline  = false;
+
+  const getFindings = async () => findings;
+
+  await handle({
+    getFindings,
+    scan,
+    cascadeAmassNmap,
+    cascadeNmapSsl,
+    cascadeNmapSsh,
+    cascadeNmapNikto,
+    cascadeNmapSmb,
+    cascadeNmapZapBaseline
+  });
+
+  expect(startSubsequentSecureCodeBoxScan).toHaveBeenCalledTimes(11);
 });

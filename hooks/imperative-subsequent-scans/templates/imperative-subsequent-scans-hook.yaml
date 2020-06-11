@@ -17,3 +17,16 @@ spec:
   image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
   {{- end }}
   {{- end }}
+  env:
+    - name: CASCADE_AMASS_NMAP
+      value: {{ .Values.cascade.amassNmap | quote }}
+    - name: CASCADE_NMAP_SMB
+      value: {{ .Values.cascade.nmapSmb | quote }}
+    - name: CASCADE_NMAP_SSH
+      value: {{ .Values.cascade.nmapSsh | quote }}
+    - name: CASCADE_NMAP_SSL
+      value: {{ .Values.cascade.nmapSsl | quote }}
+    - name: CASCADE_NMAP_NIKTO
+      value: {{ .Values.cascade.nmapNikto | quote }}
+    - name: CASCADE_NMAP_ZAP_BASELINE
+      value: {{ .Values.cascade.nmapZapBaseline | quote }}

@@ -1,9 +1,24 @@
 const { startSubsequentSecureCodeBoxScan } = require("./scan-helpers");
 
-async function handle({ scan, getFindings }) {
+async function handle({ 
+  scan, 
+  getFindings,
+  cascadeAmassNmap        = process.env["CASCADE_AMASS_NMAP"],
+  cascadeNmapSsl          = process.env["CASCADE_NMAP_SSL"],
+  cascadeNmapSsh          = process.env["CASCADE_NMAP_SSH"],
+  cascadeNmapNikto        = process.env["CASCADE_NMAP_NIKTO"],
+  cascadeNmapSmb          = process.env["CASCADE_NMAP_SMB"],
+  cascadeNmapZapBaseline  = process.env["CASCADE_NMAP_ZAP_BASELINE"]
+}) {
   const findings = await getFindings();
 
   console.log(findings);
+  console.log("cascadeAmassNmap: " + cascadeAmassNmap);
+  console.log("cascadeNmapSsl: " + cascadeNmapSsl);
+  console.log("cascadeNmapSsh: " + cascadeNmapSsh);
+  console.log("cascadeNmapNikto: " + cascadeNmapNikto);
+  console.log("cascadeNmapSmb: " + cascadeNmapSmb);
+  console.log("cascadeNmapZapBaseline: " + cascadeNmapZapBaseline);
 
   console.log(
     `Found #${findings.length} findings... Trying to find identify if these are NMAP specific findings and start possible subsequent security scans.`
@@ -18,12 +33,28 @@ async function handle({ scan, getFindings }) {
       const port = finding.attributes.port;
 
       console.log(
-        "Found NMAP 'Open Port' finding for service: " + finding.attributes.port
+        "Found NMAP 'Open Port' finding for port: '" + finding.attributes.port+"' and service: '" + finding.attributes.service + "'"
       );
 
       // search for HTTP ports and start subsequent Nikto Scan
-      if (finding.attributes.service === "http") {
+      if (
+        cascadeNmapNikto && 
+        finding.attributes.service === "http"
+      ) {
         await startNiktoScan({
+          parentScan: scan,
+          hostname,
+          port,
+        });
+      }
+
+      // search for SMB ports and start subsequent NMAP Scan
+      if (
+        cascadeNmapSmb && 
+        finding.attributes.port === 445 && 
+        finding.attributes.service === "microsoft-ds"
+      ) {
+        await startSMBScan({
           parentScan: scan,
           hostname,
           port,
@@ -32,15 +63,23 @@ async function handle({ scan, getFindings }) {
 
       // search for HTTPS ports and start subsequent SSLyze Scan
       if (
-        finding.attributes.service === "ssl" ||
-        finding.attributes.service === "https"
+        cascadeNmapSsl && 
+        (finding.attributes.service === "ssl" ||
+        finding.attributes.service === "https")
       ) {
         await startSSLyzeScan({
           parentScan: scan,
           hostname,
           port,
         });
+      }
 
+      // search for HTTPS ports and start subsequent ZAP Baselne Scan
+      if (
+        cascadeNmapZapBaseline && 
+        (finding.attributes.service === "ssl" ||
+        finding.attributes.service === "https")
+      ) {
         await startZAPBaselineScan({
           parentScan: scan,
           hostname,
@@ -49,7 +88,10 @@ async function handle({ scan, getFindings }) {
       }
 
       // search for HTTPS ports and start subsequent SSH Scan
-      if (finding.attributes.service === "ssh") {
+      if (
+        cascadeNmapSsh &&
+        finding.attributes.service === "ssh"
+      ) {
         await startSSHScan({
           parentScan: scan,
           hostname,
@@ -64,7 +106,12 @@ async function handle({ scan, getFindings }) {
   );
 
   for (const finding of findings) {
-    if(finding.category === "Subdomain" && finding.osi_layer === "NETWORK" && finding.description.startsWith("Found subdomain")) {
+    if(
+      cascadeAmassNmap &&
+      finding.category === "Subdomain" && 
+      finding.osi_layer === "NETWORK" && 
+      finding.description.startsWith("Found subdomain"
+    )) {
       console.log("Found AMASS 'Subdomain' finding: " + finding.location);
 
       const hostname = finding.location;
@@ -75,6 +122,24 @@ async function handle({ scan, getFindings }) {
       });
     }
   }
+}
+
+/**
+ * Creates a new subsequent SCB ZAP Scan for the given hostname.
+ * @param {string} hostname The hostname to start a new subsequent ZAP scan for.
+ * @param {string} port The port to start a new subsequent ZAP scan for.
+ */
+async function startSMBScan({ parentScan, hostname}) {
+  console.log(
+    " --> Starting async subsequent NMAP SMB Scan for host: " + hostname
+  );
+
+  await startSubsequentSecureCodeBoxScan({
+    parentScan,
+    name: `nmap-smb-${hostname.toLowerCase()}`,
+    scanType: "nmap",
+    parameters: ["-Pn", "-p445", "--script", "smb-protocols", hostname],
+  });
 }
 
 /**
