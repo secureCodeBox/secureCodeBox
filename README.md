@@ -66,26 +66,26 @@ kubectl create namespace securecodebox-system
 helm -n securecodebox-system install securecodebox-operator ./operator/ --set image.tag=hooks
 
 # Deploy definitions for the integrated scanners
-helm install amass ./integrations/amass/
-helm install kube-hunter ./integrations/kube-hunter/
-helm install nikto ./integrations/nikto
-helm install nmap ./integrations/nmap/
-helm install ssh-scan ./integrations/ssh_scan/
-helm install sslyze ./integrations/sslyze/
-helm install trivy ./integrations/trivy/
-helm install zap ./integrations/zap/
-helm install wpscan ./integrations/wpscan/
+helm upgrade --install amass ./integrations/amass/
+helm upgrade --install kube-hunter ./integrations/kube-hunter/
+helm upgrade --install nikto ./integrations/nikto
+helm upgrade --install nmap ./integrations/nmap/
+helm upgrade --install ssh-scan ./integrations/ssh_scan/
+helm upgrade --install sslyze ./integrations/sslyze/
+helm upgrade --install trivy ./integrations/trivy/
+helm upgrade --install zap ./integrations/zap/
+helm upgrade --install wpscan ./integrations/wpscan/
 
 # Optional Deploy some Demo Apps for scanning
-helm install dummy-ssh ./demo-apps/dummy-ssh/
+helm upgrade --install dummy-ssh ./demo-apps/dummy-ssh/
 
 # Deploy secureCodeBox Hooks 
-helm install add-attributes ./hooks/add-attributes/
-helm install generic-webhook ./hooks/generic-webhook/
-helm install imperative-subsequent-scans ./hooks/imperative-subsequent-scans/
+helm upgrade --install add-attributes ./hooks/add-attributes/
+helm upgrade --install generic-webhook ./hooks/generic-webhook/
+helm upgrade --install imperative-subsequent-scans ./hooks/imperative-subsequent-scans/
 
 ## Persistence Provider: Elasticsearch
-helm install persistence-elastic ./hooks/persistence-elastic/
+helm upgrade --install persistence-elastic ./hooks/persistence-elastic/
 ```
 
 ### Examples
