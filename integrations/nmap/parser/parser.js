@@ -6,6 +6,9 @@ async function parse(fileContent) {
 }
 
 function transformToFindings(hosts) {
+
+  const scriptFindings = transformNMAPScripts(hosts);
+
   const portFindings = hosts.flatMap(({ openPorts = [], ...hostInfo }) => {
     if(openPorts === null){
       return [];
@@ -53,9 +56,161 @@ function transformToFindings(hosts) {
     };
   });
 
-  return [...portFindings, ...hostFindings];
+  return [...portFindings, ...hostFindings, ...scriptFindings];
 }
 
+function transformNMAPScripts(hosts) {
+  let scriptFindings = [];
+
+  for(const host of hosts) {
+
+    if(host.scripts) {
+      for(const script of host.scripts) {
+
+        // Parse SMB Script Results
+        if(script.$.id === 'smb-protocols') {
+          transformNmapScriptSmb(host, script ,scriptFindings);
+        }
+      }
+    }
+  }
+
+  return scriptFindings;
+}
+
+function transformNmapScriptSmb(host, script, scriptFindings) {
+  // Parse SMB Script Results
+  if(script.$.id === 'smb-protocols') {
+    console.log ("Found SMB Script Result: " + script.$.output);
+    //console.log (script);
+
+    if(script.table && script.table[0] && script.table[0].elem) {
+    
+      for(const elem of script.table[0].elem) {
+        console.log ("Found SMB SMB Protocol: " + elem);
+        //console.log (elem);
+
+        const smbVersion = parseFloat(elem);
+        
+        if(elem.toString().includes("SMBv1")) {
+          scriptFindings.push({
+            name: "SMB Dangerous Protocol Version Finding SMBv1",
+            description: `Port ${host.openPorts[0].port} is ${host.openPorts[0].state} using SMB protocol with an old version: SMBv1`,
+            category: 'SMB',
+            location: `${host.openPorts[0].protocol}://${host.ip}:${host.openPorts[0].port}`,
+            osi_layer: 'NETWORK',
+            severity: 'HIGH',
+            attributes: {
+              hostname: host.hostname,
+              mac_address: host.mac || null,
+              ip_address: host.ip,
+              port: host.openPorts[0].port,
+              state: host.openPorts[0].state,
+              protocol: host.openPorts[0].protocol,
+              method: host.openPorts[0].method,
+              operating_system: host.osNmap || null,
+              service: host.openPorts[0].service,
+              serviceProduct: host.openPorts[0].serviceProduct || null,
+              serviceVersion: host.openPorts[0].serviceVersion || null,
+              scripts: elem || null,
+              smb_protocol_version: 1,
+            }
+          });
+        }
+        else if(!isNaN(smbVersion)) {
+          if(smbVersion > 0 && smbVersion < 2) {
+            scriptFindings.push({
+              name: "SMB Dangerous Protocol Version Finding v"+smbVersion,
+              description: `Port ${host.openPorts[0].port} is ${host.openPorts[0].state} using SMB protocol with an old version: ` + smbVersion,
+              category: 'SMB',
+              location: `${host.openPorts[0].protocol}://${host.ip}:${host.openPorts[0].port}`,
+              osi_layer: 'NETWORK',
+              severity: 'MEDIUM',
+              attributes: {
+                hostname: host.hostname,
+                mac_address: host.mac || null,
+                ip_address: host.ip,
+                port: host.openPorts[0].port,
+                state: host.openPorts[0].state,
+                protocol: host.openPorts[0].protocol,
+                method: host.openPorts[0].method,
+                operating_system: host.osNmap || null,
+                service: host.openPorts[0].service,
+                serviceProduct: host.openPorts[0].serviceProduct || null,
+                serviceVersion: host.openPorts[0].serviceVersion || null,
+                scripts: elem || null,
+                smb_protocol_version: smbVersion,
+              }
+            });
+          }
+          if(smbVersion >= 2 && smbVersion < 3) {
+            scriptFindings.push({
+              name: "SMB Protocol Version Finding v"+smbVersion,
+              description: `Port ${host.openPorts[0].port} is ${host.openPorts[0].state} using SMB protocol with an old version: `+ smbVersion,
+              category: 'SMB',
+              location: `${host.openPorts[0].protocol}://${host.ip}:${host.openPorts[0].port}`,
+              osi_layer: 'NETWORK',
+              severity: 'LOW',
+              attributes: {
+                hostname: host.hostname,
+                mac_address: host.mac || null,
+                ip_address: host.ip,
+                port: host.openPorts[0].port,
+                state: host.openPorts[0].state,
+                protocol: host.openPorts[0].protocol,
+                method: host.openPorts[0].method,
+                operating_system: host.osNmap || null,
+                service: host.openPorts[0].service,
+                serviceProduct: host.openPorts[0].serviceProduct || null,
+                serviceVersion: host.openPorts[0].serviceVersion || null,
+                scripts: elem || null,
+                smb_protocol_version: smbVersion,
+              }
+            });
+          }
+          if(smbVersion >= 3) {
+            scriptFindings.push({
+              name: "SMB Protocol Version Finding v"+smbVersion,
+              description: `Port ${host.openPorts[0].port} is ${host.openPorts[0].state} using SMB protocol with version: ` + smbVersion,
+              category: 'SMB',
+              location: `${host.openPorts[0].protocol}://${host.ip}:${host.openPorts[0].port}`,
+              osi_layer: 'NETWORK',
+              severity: 'INFORMATIONAL',
+              attributes: {
+                hostname: host.hostname,
+                mac_address: host.mac || null,
+                ip_address: host.ip,
+                port: host.openPorts[0].port,
+                state: host.openPorts[0].state,
+                protocol: host.openPorts[0].protocol,
+                method: host.openPorts[0].method,
+                operating_system: host.osNmap || null,
+                service: host.openPorts[0].service,
+                serviceProduct: host.openPorts[0].serviceProduct || null,
+                serviceVersion: host.openPorts[0].serviceVersion || null,
+                scripts: elem || null,
+                smb_protocol_version: smbVersion,
+              }
+            });
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Parses a given NMAP XML file to a smaller JSON represenation with the following object:
+ * {
+ *   hostname: null,
+ *   ip: null,
+ *   mac: null,
+ *   openPorts: null,
+ *   osNmap: null,
+ *   scripts: null
+ * }
+ * @param {*} fileContent 
+ */
 function parseResultFile(fileContent) {
   return new Promise((resolve, reject) => {
     xml2js.parseString(fileContent, (err, xmlInput) => {
@@ -77,9 +232,10 @@ function parseResultFile(fileContent) {
             mac: null,
             openPorts: null,
             osNmap: null,
+            scripts: null
           };
 
-          //Get hostname
+          // Get hostname
           if (
             host.hostnames &&
             host.hostnames[0] !== '\r\n' &&
@@ -88,7 +244,7 @@ function parseResultFile(fileContent) {
             newHost.hostname = host.hostnames[0].hostname[0].$.name;
           }
 
-          //get addresses
+          // Get addresses
           host.address.forEach(address => {
             const addressType = address.$.addrtype;
             const addressAdress = address.$.addr;
@@ -102,7 +258,7 @@ function parseResultFile(fileContent) {
             }
           });
 
-          //get ports
+          // Get ports
           if (host.ports && host.ports[0].port) {
             const portList = host.ports[0].port;
 
@@ -154,6 +310,11 @@ function parseResultFile(fileContent) {
 
               return portObject;
             });
+          }
+
+          // Get Script Content
+          if(host.hostscript && host.hostscript[0].script) {
+            newHost.scripts = host.hostscript[0].script
           }
 
           if (host.os && host.os[0].osmatch && host.os[0].osmatch[0].$.name) {
