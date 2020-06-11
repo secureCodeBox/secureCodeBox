@@ -239,6 +239,7 @@ jobs:
           repository: scbexperimental/update-field
           path: ./hooks/update-field/
           tag_with_ref: true
+          tag_with_sha: true
   scannerImages:
     # Note we only build images for scanner that don't provider official public container images
     name: "Build / Scanner"
