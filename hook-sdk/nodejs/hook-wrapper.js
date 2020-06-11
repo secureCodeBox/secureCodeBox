@@ -101,16 +101,16 @@ async function updateFindings(findings) {
     }
   }
 
-  const findingStats = {
-    count: findings.length,
-    severities: {
-      informational: severityCount(findings, "INFORMATIONAL"),
-      low: severityCount(findings, "LOW"),
-      medium: severityCount(findings, "MEDIUM"),
-      high: severityCount(findings, "HIGH"),
-    },
-    categories: Object.fromEntries(findingCategories.entries()),
-  };
+  // const findingStats = {
+  //   count: findings.length,
+  //   severities: {
+  //     informational: severityCount(findings, "INFORMATIONAL"),
+  //     low: severityCount(findings, "LOW"),
+  //     medium: severityCount(findings, "MEDIUM"),
+  //     high: severityCount(findings, "HIGH"),
+  //   },
+  //   categories: Object.fromEntries(findingCategories.entries()),
+  // };
 
   await k8sApi.patchNamespacedCustomObjectStatus(
     "execution.experimental.securecodebox.io",
