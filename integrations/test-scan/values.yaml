@@ -1,4 +1,4 @@
 parserImage:
   registry: docker.io
   repository: scbexperimental/parser-test-scan
-  tag: hooks
+  tag: latest
