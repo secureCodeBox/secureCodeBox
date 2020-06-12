@@ -17,7 +17,6 @@ async function startSubsequentSecureCodeBoxScan({
     kind: "Scan",
     metadata: {
       name: name,
-      namespace: process.env["NAMESPACE"],
       labels: {
         ...parentScan.metadata.labels,
       },
@@ -48,7 +47,7 @@ async function startSubsequentSecureCodeBoxScan({
     await k8sApiCRD.createNamespacedCustomObject(
       "execution.experimental.securecodebox.io",
       "v1",
-      "default",
+      process.env["NAMESPACE"],
       "scans",
       scanDefinition,
       "false"
