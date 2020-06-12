@@ -1013,7 +1013,11 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 	if labels == nil {
 		labels = make(map[string]string)
 	}
-	labels["experimental.securecodebox.io/job-type"] = "read-and-write-hook"
+	if hook.Spec.Type == executionv1.ReadAndWrite {
+		labels["experimental.securecodebox.io/job-type"] = "read-and-write-hook"
+	} else if hook.Spec.Type == executionv1.ReadOnly {
+		labels["experimental.securecodebox.io/job-type"] = "read-only-hook"
+	}
 	var backOffLimit int32 = 3
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
