@@ -4,17 +4,17 @@ description: A Helm chart for the Amass security Scanner that integrates with th
 
 type: application
 version: 0.1.0
-appVersion: latest
+appVersion: 3.7.1
 
 keywords:
-- security
-- amass
-- scanner
-- secureCodeBox
+  - security
+  - amass
+  - scanner
+  - secureCodeBox
 home: https://www.securecodebox.io/scanner/Amass
 icon: https://www.securecodebox.io/integrationIcons/Amass.svg
 sources:
-- https://github.com/secureCodeBox/secureCodeBox
+  - https://github.com/secureCodeBox/secureCodeBox
 maintainers:
-- name: iteratec GmbH
-  email: security@iteratec.com
+  - name: iteratec GmbH
+    email: security@iteratec.com
