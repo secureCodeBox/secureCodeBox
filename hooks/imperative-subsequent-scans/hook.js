@@ -3,12 +3,12 @@ const { startSubsequentSecureCodeBoxScan } = require("./scan-helpers");
 async function handle({ 
   scan, 
   getFindings,
-  cascadeAmassNmap        = process.env["CASCADE_AMASS_NMAP"],
-  cascadeNmapSsl          = process.env["CASCADE_NMAP_SSL"],
-  cascadeNmapSsh          = process.env["CASCADE_NMAP_SSH"],
-  cascadeNmapNikto        = process.env["CASCADE_NMAP_NIKTO"],
-  cascadeNmapSmb          = process.env["CASCADE_NMAP_SMB"],
-  cascadeNmapZapBaseline  = process.env["CASCADE_NMAP_ZAP_BASELINE"]
+  cascadeAmassNmap        = process.env["CASCADE_AMASS_NMAP"] === "true",
+  cascadeNmapSsl          = process.env["CASCADE_NMAP_SSL"] === "true",
+  cascadeNmapSsh          = process.env["CASCADE_NMAP_SSH"] === "true",
+  cascadeNmapNikto        = process.env["CASCADE_NMAP_NIKTO"] === "true",
+  cascadeNmapSmb          = process.env["CASCADE_NMAP_SMB"] === "true",
+  cascadeNmapZapBaseline  = process.env["CASCADE_NMAP_ZAP_BASELINE"] === "true",
 }) {
   const findings = await getFindings();
 
