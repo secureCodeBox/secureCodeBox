@@ -17,22 +17,30 @@ async function startSubsequentSecureCodeBoxScan({
     kind: "Scan",
     metadata: {
       name: name,
-      namespace: process.env['NAMESPACE'],
+      namespace: process.env["NAMESPACE"],
       labels: {
         ...parentScan.metadata.labels,
       },
       annotations: {
-        'securecodebox.io/hook': 'nmap-subsequent-scans',
-        'securecodebox.io/parent-scan': parentScan.metadata.name,
+        "securecodebox.io/hook": "nmap-subsequent-scans",
+        "securecodebox.io/parent-scan": parentScan.metadata.name,
       },
-      ...(await getOwnerReference(parentScan)),
+      ownerReferences: [
+        {
+          apiVersion: "execution.experimental.securecodebox.io/v1",
+          blockOwnerDeletion: true,
+          controller: true,
+          kind: "Scan",
+          name: parentScan.metadata.name,
+          uid: parentScan.metadata.uid,
+        },
+      ],
     },
     spec: {
       scanType,
       parameters,
     },
   };
-
 
   try {
     // Starting another subsequent sslyze scan based on the nmap results
@@ -49,21 +57,6 @@ async function startSubsequentSecureCodeBoxScan({
     console.error(`Failed to start Scan ${name}`);
     console.error(error);
   }
-}
-
-async function getOwnerReference(parentScan) {
-  return {
-    ownerReferences: [
-      {
-        apiVersion: 'execution.experimental.securecodebox.io/v1',
-        blockOwnerDeletion: true,
-        controller: true,
-        kind: 'Scan',
-        name: parentScan.metadata.name,
-        uid: parentScan.metadata.uid,
-      },
-    ],
-  };
 }
 
 module.exports.startSubsequentSecureCodeBoxScan = startSubsequentSecureCodeBoxScan;
