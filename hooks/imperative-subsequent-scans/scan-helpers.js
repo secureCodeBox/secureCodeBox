@@ -17,6 +17,7 @@ async function startSubsequentSecureCodeBoxScan({
     kind: "Scan",
     metadata: {
       name: name,
+      namespace: process.env['NAMESPACE'],
       labels: {
         ...parentScan.metadata.labels,
       },
