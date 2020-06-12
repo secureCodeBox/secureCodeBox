@@ -27,13 +27,15 @@ async function handle({
   for (const finding of findings) {
     if (
       finding.category === "Open Port" &&
-      finding.attributes.state === "open"
+      finding.attributes.state === "open" &&
+      (finding.attributes.hostname != null || finding.attributes.ip_address)
     ) {
-      const hostname = finding.attributes.hostname;
+      
+      const hostname = finding.attributes.hostname || finding.attributes.ip_address;
       const port = finding.attributes.port;
 
       console.log(
-        "Found NMAP 'Open Port' finding for port: '" + finding.attributes.port+"' and service: '" + finding.attributes.service + "'"
+        "Found NMAP 'Open Port' finding for host '"+hostname+"' port: '" + finding.attributes.port+"' and service: '" + finding.attributes.service + "'"
       );
 
       // search for HTTP ports and start subsequent Nikto Scan

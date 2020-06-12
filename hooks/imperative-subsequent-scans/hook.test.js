@@ -244,6 +244,17 @@ test("Should create subsequent scans for open SMB ports (NMAP findings)", async 
         service: "filtered",
       },
     },
+    {
+      name: "Port 445 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: null,
+        ip_address: "10.10.0.0",
+        port: 445,
+        service: "microsoft-ds",
+      },
+    },
   ];
 
   const scan = {
@@ -274,11 +285,18 @@ test("Should create subsequent scans for open SMB ports (NMAP findings)", async 
     cascadeNmapZapBaseline
   });
 
-  expect(startSubsequentSecureCodeBoxScan).toHaveBeenCalledTimes(9);
+  expect(startSubsequentSecureCodeBoxScan).toHaveBeenCalledTimes(10);
 
   expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(9, {
     name: "nmap-smb-foobar.com",
     parameters: ["-Pn", "-p445", "--script", "smb-protocols", "foobar.com"],
+    parentScan: { metadata: { labels: { foo: "bar" } } },
+    scanType: "nmap",
+  });
+
+  expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(10, {
+    name: "nmap-smb-10.10.0.0",
+    parameters: ["-Pn", "-p445", "--script", "smb-protocols", "10.10.0.0"],
     parentScan: { metadata: { labels: { foo: "bar" } } },
     scanType: "nmap",
   });
@@ -332,16 +350,16 @@ test("Should create subsequent scans for subdomains (AMASS findings)", async () 
     cascadeNmapZapBaseline
   });
 
-  expect(startSubsequentSecureCodeBoxScan).toHaveBeenCalledTimes(11);
+  expect(startSubsequentSecureCodeBoxScan).toHaveBeenCalledTimes(12);
 
-  expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(10, {
+  expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(11, {
     name: "nmap-www.example.com",
     parameters: ["-Pn", "www.example.com"],
     parentScan: { metadata: { labels: { foo: "bar" } } },
     scanType: "nmap",
   });
   // even if the HTTP port is not running at port 80 a corresponding Nikto scan should be created if a HTTP service is found by nmap
-  expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(11, {
+  expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(12, {
     name: "nmap-example.example.com",
     parameters: ["-Pn", "example.example.com"],
     parentScan: { metadata: { labels: { foo: "bar" } } },
@@ -397,10 +415,10 @@ test("Should not create subsequent scans for subdomains (AMASS subsequent scans 
     cascadeNmapZapBaseline
   });
 
-  expect(startSubsequentSecureCodeBoxScan).toHaveBeenCalledTimes(11);
+  expect(startSubsequentSecureCodeBoxScan).toHaveBeenCalledTimes(12);
 });
 
-test("Should not create subsequent scans for subdomains (no AMASS findings)", async () => {
+test("Should not create subsequent scans for empty findings even if activated", async () => {
   const findings = [];
 
   const scan = {
@@ -431,10 +449,10 @@ test("Should not create subsequent scans for subdomains (no AMASS findings)", as
     cascadeNmapZapBaseline
   });
 
-  expect(startSubsequentSecureCodeBoxScan).toHaveBeenCalledTimes(11);
+  expect(startSubsequentSecureCodeBoxScan).toHaveBeenCalledTimes(12);
 });
 
-test("Should create subsequent scans for open SMB ports (NMAP findings)", async () => {
+test("Should not create subsequent scans if no subsequent scan is activated", async () => {
   const findings = [
     {
       name: "Port 445 is open",
@@ -562,5 +580,5 @@ test("Should create subsequent scans for open SMB ports (NMAP findings)", async 
     cascadeNmapZapBaseline
   });
 
-  expect(startSubsequentSecureCodeBoxScan).toHaveBeenCalledTimes(11);
+  expect(startSubsequentSecureCodeBoxScan).toHaveBeenCalledTimes(12);
 });
