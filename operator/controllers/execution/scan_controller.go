@@ -686,7 +686,7 @@ func (r *ScanReconciler) startReadOnlyHooks(scan *executionv1.Scan) error {
 		{
 			APIGroups: []string{"execution.experimental.securecodebox.io"},
 			Resources: []string{"scans"},
-			Verbs:     []string{"get"},
+			Verbs:     []string{"get", "create", "list"},
 		},
 	}
 	serviceAccountName := "scan-completion-hook"
@@ -977,7 +977,7 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 		{
 			APIGroups: []string{"execution.experimental.securecodebox.io"},
 			Resources: []string{"scans"},
-			Verbs:     []string{"get"},
+			Verbs:     []string{"get", "list", "create"},
 		},
 		{
 			APIGroups: []string{"execution.experimental.securecodebox.io"},
