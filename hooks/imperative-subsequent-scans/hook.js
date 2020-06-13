@@ -43,7 +43,7 @@ async function handle({
         cascadeNmapNikto && 
         finding.attributes.service === "http"
       ) {
-        await startNiktoHttpScan({
+        await startNiktoScan({
           parentScan: scan,
           hostname,
           port,
@@ -236,7 +236,7 @@ async function startSSHScan({ parentScan, hostname, port }) {
  * @param {string} hostname The hostname to start a new subsequent Nikto scan for.
  * @param {string} port The port to start a new subsequent Nikto scan for.
  */
-async function startNiktoHttpScan({ parentScan, hostname, port }) {
+async function startNiktoScan({ parentScan, hostname, port }) {
  
 
   if(hostname && port) {
@@ -247,7 +247,7 @@ async function startNiktoHttpScan({ parentScan, hostname, port }) {
       parentScan,
       name: `nikto-${port}-${hostname.toLowerCase()}`,
       scanType: "nikto",
-      parameters: ["-h", "http://" + hostname, "-p", port.toString(), "-Tuning", "1,2,3,5,7,b"],
+      parameters: ["-h", hostname, "-p", port.toString(), "-Tuning", "1,2,3,5,7,b"],
     });
   }
   else

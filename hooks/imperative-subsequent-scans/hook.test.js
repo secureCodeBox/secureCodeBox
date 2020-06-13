@@ -140,14 +140,14 @@ test("Should create subsequent scans for open HTTP ports (NMAP findings)", async
 
   expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(5, {
     name: "nikto-80-foobar.com",
-    parameters: ["-h", "http://foobar.com", "-p", "80", "-Tuning", "1,2,3,5,7,b"],
+    parameters: ["-h", "foobar.com", "-p", "80", "-Tuning", "1,2,3,5,7,b"],
     parentScan: { metadata: { labels: { foo: "bar" } } },
     scanType: "nikto",
   });
   // even if the HTTP port is not running at port 80 a corresponding Nikto scan should be created if a HTTP service is found by nmap
   expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(6, {
     name: "nikto-3000-example.com",
-    parameters: ["-h", "http://example.com", "-p", "3000", "-Tuning", "1,2,3,5,7,b"],
+    parameters: ["-h", "example.com", "-p", "3000", "-Tuning", "1,2,3,5,7,b"],
     parentScan: { metadata: { labels: { foo: "bar" } } },
     scanType: "nikto",
   });
@@ -665,7 +665,7 @@ test("Should create subsequent scans for Service which are running in custom por
   });
   expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(14, {
     name: "nikto-8000-http.example.com",
-    parameters: ["-h", "http://http.example.com", "-p", "8000", "-Tuning", "1,2,3,5,7,b"],
+    parameters: ["-h", "http.example.com", "-p", "8000", "-Tuning", "1,2,3,5,7,b"],
     parentScan: { metadata: { labels: { foo: "bar" } } },
     scanType: "nikto",
   });
