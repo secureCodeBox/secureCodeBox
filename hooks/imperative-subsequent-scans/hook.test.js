@@ -59,25 +59,25 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", asyn
 
   expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(1, {
     name: "sslyze-foobar.com",
-    parameters: ["--regular", "foobar.com"],
+    parameters: ["--regular", "foobar.com:443"],
     parentScan: { metadata: { labels: { foo: "bar" } } },
     scanType: "sslyze",
   });
   expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(2, {
-    name: "zap-foobar.com",
+    name: "zap-https-foobar.com",
     parameters: ["-t", "https://foobar.com:443"],
     parentScan: { metadata: { labels: { foo: "bar" } } },
     scanType: "zap-baseline",
   });
-  // even if the HTTP port is not running at port 80 a corresponding Nikto scan should be created if a HTTP service is found by nmap
+  // even if the HTTPS port is not running at port 443 a corresponding Sslyze scan should be created if a HTTP service is found by nmap
   expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(3, {
     name: "sslyze-example.com",
-    parameters: ["--regular", "example.com"],
+    parameters: ["--regular", "example.com:8443"],
     parentScan: { metadata: { labels: { foo: "bar" } } },
     scanType: "sslyze",
   });
   expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(4, {
-    name: "zap-example.com",
+    name: "zap-https-example.com",
     parameters: ["-t", "https://example.com:8443"],
     parentScan: { metadata: { labels: { foo: "bar" } } },
     scanType: "zap-baseline",
@@ -139,15 +139,15 @@ test("Should create subsequent scans for open HTTP ports (NMAP findings)", async
   expect(startSubsequentSecureCodeBoxScan).toHaveBeenCalledTimes(6);
 
   expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(5, {
-    name: "nikto-foobar.com",
-    parameters: ["-h", "https://foobar.com", "-Tuning", "1,2,3,5,7,b"],
+    name: "nikto-http-foobar.com",
+    parameters: ["-h", "http://foobar.com", "-p", "80", "-Tuning", "1,2,3,5,7,b"],
     parentScan: { metadata: { labels: { foo: "bar" } } },
     scanType: "nikto",
   });
   // even if the HTTP port is not running at port 80 a corresponding Nikto scan should be created if a HTTP service is found by nmap
   expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(6, {
-    name: "nikto-example.com",
-    parameters: ["-h", "https://example.com", "-Tuning", "1,2,3,5,7,b"],
+    name: "nikto-http-example.com",
+    parameters: ["-h", "http://example.com", "-p", "3000", "-Tuning", "1,2,3,5,7,b"],
     parentScan: { metadata: { labels: { foo: "bar" } } },
     scanType: "nikto",
   });
@@ -209,14 +209,14 @@ test("Should create subsequent scans for open SSH ports (NMAP findings)", async 
 
   expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(7, {
     name: "ssh-foobar.com",
-    parameters: ["-t", "foobar.com"],
+    parameters: ["-t", "foobar.com", "-p", "22"],
     parentScan: { metadata: { labels: { foo: "bar" } } },
     scanType: "ssh-scan",
   });
   // even if the HTTP port is not running at port 80 a corresponding Nikto scan should be created if a HTTP service is found by nmap
   expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(8, {
     name: "ssh-example.com",
-    parameters: ["-t", "example.com"],
+    parameters: ["-t", "example.com", "-p", "23454"],
     parentScan: { metadata: { labels: { foo: "bar" } } },
     scanType: "ssh-scan",
   });
@@ -581,4 +581,110 @@ test("Should not create subsequent scans if no subsequent scan is activated", as
   });
 
   expect(startSubsequentSecureCodeBoxScan).toHaveBeenCalledTimes(12);
+});
+
+test("Should create subsequent scans for Service which are running in custom ports", async () => {
+  const findings = [
+    {
+      name: "Port 22000 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "ssh.example.com",
+        port: 22000,
+        service: "ssh",
+      },
+    },
+    {
+      name: "Port 8000 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "http.example.com",
+        port: 8000,
+        service: "http",
+      },
+    },
+    {
+      name: "Port 3000 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "https.example.com",
+        port: 3000,
+        service: "https",
+      },
+    },
+    {
+      name: "Port 8443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "ssl.example.com",
+        port: 8443,
+        service: "ssl",
+      },
+    }
+  ];
+
+  const scan = {
+    metadata: {
+      labels: {
+        foo: "bar",
+      },
+    },
+  };
+
+  const cascadeAmassNmap        = true;
+  const cascadeNmapSsl          = true;
+  const cascadeNmapSsh          = true;
+  const cascadeNmapNikto        = true;
+  const cascadeNmapSmb          = true;
+  const cascadeNmapZapBaseline  = true;
+
+  const getFindings = async () => findings;
+
+  await handle({
+    getFindings,
+    scan,
+    cascadeAmassNmap,
+    cascadeNmapSsl,
+    cascadeNmapSsh,
+    cascadeNmapNikto,
+    cascadeNmapSmb,
+    cascadeNmapZapBaseline
+  });
+
+  expect(startSubsequentSecureCodeBoxScan).toHaveBeenCalledTimes(18);
+
+  expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(13, {
+    name: "ssh-ssh.example.com",
+    parameters: ["-t", "ssh.example.com", "-p", "22000"],
+    parentScan: { metadata: { labels: { foo: "bar" } } },
+    scanType: "ssh-scan",
+  });
+  expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(14, {
+    name: "nikto-http-http.example.com",
+    parameters: ["-h", "http://http.example.com", "-p", "8000", "-Tuning", "1,2,3,5,7,b"],
+    parentScan: { metadata: { labels: { foo: "bar" } } },
+    scanType: "nikto",
+  });
+  expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(15, {
+    name: "sslyze-https.example.com",
+    parameters: ["--regular", "https.example.com:3000"],
+    parentScan: { metadata: { labels: { foo: "bar" } } },
+    scanType: "sslyze",
+  });
+  expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(16, {
+    name: "zap-https-https.example.com",
+    parameters: ["-t", "https://https.example.com:3000"],
+    parentScan: { metadata: { labels: { foo: "bar" } } },
+    scanType: "zap-baseline",
+  });
+  expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(17, {
+    name: "sslyze-ssl.example.com",
+    parameters: ["--regular", "ssl.example.com:8443"],
+    parentScan: { metadata: { labels: { foo: "bar" } } },
+    scanType: "sslyze",
+  });
 });

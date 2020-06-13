@@ -43,7 +43,7 @@ async function handle({
         cascadeNmapNikto && 
         finding.attributes.service === "http"
       ) {
-        await startNiktoScan({
+        await startNiktoHttpScan({
           parentScan: scan,
           hostname,
           port,
@@ -82,7 +82,7 @@ async function handle({
         (finding.attributes.service === "ssl" ||
         finding.attributes.service === "https")
       ) {
-        await startZAPBaselineScan({
+        await startZAPBaselineHttpsScan({
           parentScan: scan,
           hostname,
           port,
@@ -167,14 +167,14 @@ async function startNMAPScan({ parentScan, hostname}) {
  * @param {string} hostname The hostname to start a new subsequent ZAP scan for.
  * @param {string} port The port to start a new subsequent ZAP scan for.
  */
-async function startZAPBaselineScan({ parentScan, hostname, port }) {
+async function startZAPBaselineHttpsScan({ parentScan, hostname, port }) {
   console.log(
     " --> Starting async subsequent ZAP Scan for host: " + hostname + ":" + port
   );
 
   await startSubsequentSecureCodeBoxScan({
     parentScan,
-    name: `zap-${hostname.toLowerCase()}`,
+    name: `zap-https-${hostname.toLowerCase()}`,
     scanType: "zap-baseline",
     parameters: ["-t", "https://" + hostname + ":" + port],
   });
@@ -194,7 +194,7 @@ async function startSSHScan({ parentScan, hostname, port }) {
     parentScan,
     name: `ssh-${hostname.toLowerCase()}`,
     scanType: "ssh-scan",
-    parameters: ["-t", hostname],
+    parameters: ["-t", hostname, "-p", port.toString()],
   });
 }
 
@@ -203,16 +203,16 @@ async function startSSHScan({ parentScan, hostname, port }) {
  * @param {string} hostname The hostname to start a new subsequent Nikto scan for.
  * @param {string} port The port to start a new subsequent Nikto scan for.
  */
-async function startNiktoScan({ parentScan, hostname, port }) {
+async function startNiktoHttpScan({ parentScan, hostname, port }) {
   console.log(
     " --> Starting async subsequent Nikto Scan for host: " + hostname + ":" + port
   );
 
   await startSubsequentSecureCodeBoxScan({
     parentScan,
-    name: `nikto-${hostname.toLowerCase()}`,
+    name: `nikto-http-${hostname.toLowerCase()}`,
     scanType: "nikto",
-    parameters: ["-h", "https://" + hostname, "-Tuning", "1,2,3,5,7,b"],
+    parameters: ["-h", "http://" + hostname, "-p", port.toString(), "-Tuning", "1,2,3,5,7,b"],
   });
 }
 
@@ -230,7 +230,7 @@ async function startSSLyzeScan({ parentScan, hostname, port }) {
     parentScan,
     name: `sslyze-${hostname.toLowerCase()}`,
     scanType: "sslyze",
-    parameters: ["--regular", hostname],
+    parameters: ["--regular", hostname+":"+port],
   });
 }
 
