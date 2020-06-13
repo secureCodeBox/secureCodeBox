@@ -1,7 +1,7 @@
 apiVersion: "execution.experimental.securecodebox.io/v1"
 kind: ScanCompletionHook
 metadata:
-  name: {{ include "imperative-subsequent-scans.fullname" . }}
+  name: {{ .Release.Name }}
 spec:
   type: ReadOnly
   {{- if .Values.image.registry }}
