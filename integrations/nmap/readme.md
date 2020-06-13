@@ -59,3 +59,6 @@ Some useful example parameters listed below:
 2. Update the parser function here: `./parser/parser.js`
 3. Update the parser tests here: `./parser/parser.test.js`
 4. Run the testsuite: `npm test`
+
+#### Basic scanner tests
+If you want to test sslyze localy you can use brew (only on macOS) to install it: `brew install nmap`
