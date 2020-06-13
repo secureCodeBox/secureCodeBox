@@ -132,16 +132,23 @@ async function handle({
  * @param {string} port The port to start a new subsequent ZAP scan for.
  */
 async function startSMBScan({ parentScan, hostname}) {
-  console.log(
-    " --> Starting async subsequent NMAP SMB Scan for host: " + hostname
-  );
-
-  await startSubsequentSecureCodeBoxScan({
-    parentScan,
-    name: `nmap-smb-${hostname.toLowerCase()}`,
-    scanType: "nmap",
-    parameters: ["-Pn", "-p445", "--script", "smb-protocols", hostname],
-  });
+  if(hostname) {
+    console.log(
+      " --> Starting async subsequent NMAP SMB Scan for host: " + hostname
+    );
+    await startSubsequentSecureCodeBoxScan({
+      parentScan,
+      name: `nmap-smb-${hostname.toLowerCase()}`,
+      scanType: "nmap",
+      parameters: ["-Pn", "-p445", "--script", "smb-protocols", hostname],
+    });
+  }
+  else
+  {
+    console.log(
+      " --> Failed to start subsequent NMAP SMB Scan because host: '" + hostname + "' must not be null."
+    );
+  }
 }
 
 /**
@@ -150,16 +157,25 @@ async function startSMBScan({ parentScan, hostname}) {
  * @param {string} port The port to start a new subsequent ZAP scan for.
  */
 async function startNMAPScan({ parentScan, hostname}) {
-  console.log(
-    " --> Starting async subsequent NMAP Scan for host: " + hostname
-  );
+  
 
-  await startSubsequentSecureCodeBoxScan({
-    parentScan,
-    name: `nmap-${hostname.toLowerCase()}`,
-    scanType: "nmap",
-    parameters: ["-Pn", hostname],
-  });
+  if(hostname) {
+    console.log(
+      " --> Starting async subsequent NMAP Scan for host: " + hostname
+    );
+    await startSubsequentSecureCodeBoxScan({
+      parentScan,
+      name: `nmap-${hostname.toLowerCase()}`,
+      scanType: "nmap",
+      parameters: ["-Pn", hostname],
+    });
+  }
+  else
+  {
+    console.log(
+      " --> Failed to start subsequent NMAP Scan because host: '" + hostname + "' must not be null."
+    );
+  }
 }
 
 /**
@@ -168,16 +184,25 @@ async function startNMAPScan({ parentScan, hostname}) {
  * @param {string} port The port to start a new subsequent ZAP scan for.
  */
 async function startZAPBaselineHttpsScan({ parentScan, hostname, port }) {
-  console.log(
-    " --> Starting async subsequent ZAP Scan for host: " + hostname + ":" + port
-  );
+  
 
-  await startSubsequentSecureCodeBoxScan({
-    parentScan,
-    name: `zap-https-${hostname.toLowerCase()}`,
-    scanType: "zap-baseline",
-    parameters: ["-t", "https://" + hostname + ":" + port],
-  });
+  if(hostname) {
+    console.log(
+      " --> Starting async subsequent ZAP Scan for host: '" + hostname + "' and port: '" + port + "'"
+    );
+    await startSubsequentSecureCodeBoxScan({
+      parentScan,
+      name: `zap-https-${hostname.toLowerCase()}`,
+      scanType: "zap-baseline",
+      parameters: ["-t", "https://" + hostname + ":" + port],
+    });
+  }
+  else
+  {
+    console.log(
+      " --> Failed to start subsequent ZAP Scan because host: '" + hostname + "' and port: '" + port + "' must not be null."
+    );
+  }
 }
 
 /**
@@ -186,16 +211,24 @@ async function startZAPBaselineHttpsScan({ parentScan, hostname, port }) {
  * @param {string} port The port to start a new subsequent SSH scan for.
  */
 async function startSSHScan({ parentScan, hostname, port }) {
-  console.log(
-    " --> Starting async subsequent SSH Scan for host: " + hostname + ":" + port
-  );
-
-  await startSubsequentSecureCodeBoxScan({
-    parentScan,
-    name: `ssh-${hostname.toLowerCase()}`,
-    scanType: "ssh-scan",
-    parameters: ["-t", hostname, "-p", port.toString()],
-  });
+  
+  if(hostname && port) {
+    console.log(
+      " --> Starting async subsequent SSH Scan for host: '" + hostname + "' and port: '" + port + "'"
+    );
+    await startSubsequentSecureCodeBoxScan({
+      parentScan,
+      name: `ssh-${hostname.toLowerCase()}`,
+      scanType: "ssh-scan",
+      parameters: ["-t", hostname, "-p", port.toString()],
+    });
+  }
+  else
+  {
+    console.log(
+      " --> Failed to start subsequent SSH Scan because host: '" + hostname + "' and port: '" + port + "' must not be null."
+    );
+  }
 }
 
 /**
@@ -204,16 +237,25 @@ async function startSSHScan({ parentScan, hostname, port }) {
  * @param {string} port The port to start a new subsequent Nikto scan for.
  */
 async function startNiktoHttpScan({ parentScan, hostname, port }) {
-  console.log(
-    " --> Starting async subsequent Nikto Scan for host: " + hostname + ":" + port
-  );
+ 
 
-  await startSubsequentSecureCodeBoxScan({
-    parentScan,
-    name: `nikto-http-${hostname.toLowerCase()}`,
-    scanType: "nikto",
-    parameters: ["-h", "http://" + hostname, "-p", port.toString(), "-Tuning", "1,2,3,5,7,b"],
-  });
+  if(hostname && port) {
+    console.log(
+      " --> Starting async subsequent Nikto Scan for host: '" + hostname + "' and port: '" + port + "'"
+    );
+    await startSubsequentSecureCodeBoxScan({
+      parentScan,
+      name: `nikto-http-${hostname.toLowerCase()}`,
+      scanType: "nikto",
+      parameters: ["-h", "http://" + hostname, "-p", port.toString(), "-Tuning", "1,2,3,5,7,b"],
+    });
+  }
+  else
+  {
+    console.log(
+      " --> Failed to start subsequent Nikto Scan because host: '" + hostname + "' and port: '" + port + "' must not be null."
+    );
+  }
 }
 
 /**
@@ -222,16 +264,25 @@ async function startNiktoHttpScan({ parentScan, hostname, port }) {
  * @param {string} port The port to start a new subsequent SSLyze scan for.
  */
 async function startSSLyzeScan({ parentScan, hostname, port }) {
-  console.log(
-    " --> Starting async subsequent SSLyze Scan for host: " + hostname + ":" + port
-  );
+  
 
-  await startSubsequentSecureCodeBoxScan({
-    parentScan,
-    name: `sslyze-${hostname.toLowerCase()}`,
-    scanType: "sslyze",
-    parameters: ["--regular", hostname+":"+port],
-  });
+  if(hostname && port) {
+    console.log(
+      " --> Starting async subsequent SSLyze Scan for host: '" + hostname + "' and port: '" + port + "'"
+    );
+    await startSubsequentSecureCodeBoxScan({
+      parentScan,
+      name: `sslyze-${hostname.toLowerCase()}`,
+      scanType: "sslyze",
+      parameters: ["--regular", hostname+":"+port],
+    });
+  }
+  else
+  {
+    console.log(
+      " --> Failed to start subsequent SSLyze Scan because host: '" + hostname + "' and port: '" + port + "' must not be null."
+    );
+  }
 }
 
 module.exports.handle = handle;
