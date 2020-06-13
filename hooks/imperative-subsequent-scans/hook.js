@@ -192,7 +192,7 @@ async function startZAPBaselineHttpsScan({ parentScan, hostname, port }) {
     );
     await startSubsequentSecureCodeBoxScan({
       parentScan,
-      name: `zap-https-${hostname.toLowerCase()}`,
+      name: `zap-${port}-${hostname.toLowerCase()}`,
       scanType: "zap-baseline",
       parameters: ["-t", "https://" + hostname + ":" + port],
     });
@@ -218,7 +218,7 @@ async function startSSHScan({ parentScan, hostname, port }) {
     );
     await startSubsequentSecureCodeBoxScan({
       parentScan,
-      name: `ssh-${hostname.toLowerCase()}`,
+      name: `ssh-${port}-${hostname.toLowerCase()}`,
       scanType: "ssh-scan",
       parameters: ["-t", hostname, "-p", port.toString()],
     });
@@ -245,7 +245,7 @@ async function startNiktoHttpScan({ parentScan, hostname, port }) {
     );
     await startSubsequentSecureCodeBoxScan({
       parentScan,
-      name: `nikto-http-${hostname.toLowerCase()}`,
+      name: `nikto-${port}-${hostname.toLowerCase()}`,
       scanType: "nikto",
       parameters: ["-h", "http://" + hostname, "-p", port.toString(), "-Tuning", "1,2,3,5,7,b"],
     });
@@ -272,7 +272,7 @@ async function startSSLyzeScan({ parentScan, hostname, port }) {
     );
     await startSubsequentSecureCodeBoxScan({
       parentScan,
-      name: `sslyze-${hostname.toLowerCase()}`,
+      name: `sslyze-${port}-${hostname.toLowerCase()}`,
       scanType: "sslyze",
       parameters: ["--regular", hostname+":"+port],
     });
