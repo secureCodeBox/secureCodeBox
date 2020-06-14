@@ -41,6 +41,11 @@ async function startSubsequentSecureCodeBoxScan({
     },
   };
 
+  // Changing label 'scan-type' (if defined by parent scan) to to the given scanType for the subsequent scan
+  if( scanDefinition.metadata.labels && scanDefinition.metadata.labels['scan-type'] ) {
+    scanDefinition.metadata.labels['scan-type'] = scanType;
+  }
+
   try {
     // Starting another subsequent sslyze scan based on the nmap results
     // found at: https://github.com/kubernetes-client/javascript/blob/79736b9a608c18d818de61a6b44503a08ea3a78f/src/gen/api/customObjectsApi.ts#L209
