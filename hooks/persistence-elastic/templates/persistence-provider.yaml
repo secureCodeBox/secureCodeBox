@@ -1,7 +1,7 @@
 apiVersion: "execution.experimental.securecodebox.io/v1"
 kind: ScanCompletionHook
 metadata:
-  name: {{ include "persistence-elastic.fullname" . }}
+  name: {{ .Release.Name }}
   labels:
     type: Structured
 spec:
