@@ -80,12 +80,12 @@ helm upgrade --install wpscan ./integrations/wpscan/
 helm upgrade --install dummy-ssh ./demo-apps/dummy-ssh/
 
 # Deploy secureCodeBox Hooks 
-helm upgrade --install add-attributes ./hooks/add-attributes/
-helm upgrade --install generic-webhook ./hooks/generic-webhook/
-helm upgrade --install imperative-subsequent-scans ./hooks/imperative-subsequent-scans/
+helm upgrade --install aah ./hooks/add-attributes/
+helm upgrade --install gwh ./hooks/generic-webhook/
+helm upgrade --install issh ./hooks/imperative-subsequent-scans/
 
 ## Persistence Provider: Elasticsearch
-helm upgrade --install persistence-elastic ./hooks/persistence-elastic/
+helm upgrade --install elkh ./hooks/persistence-elastic/
 ```
 
 ### Examples
