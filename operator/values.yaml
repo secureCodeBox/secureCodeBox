@@ -35,3 +35,14 @@ s3:
   # Example creation via kubectl:
   # kubectl create secret generic my-secret --from-literal=accessKey="******" --from-literal=secretKey="******"
   keySecret: my-secret
+
+#
+# Config for the operator ressource limits
+#
+resources:
+  limits:
+    cpu: 100m
+    memory: 30Mi
+  requests:
+    cpu: 100m
+    memory: 20Mi
