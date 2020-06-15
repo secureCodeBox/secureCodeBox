@@ -259,9 +259,8 @@ metadata:
     office: berlin
     vlan: wifi
 spec:
-  scanSpec:
-    name: "nmap"
-    parameters: ["-sV", "10.42.0.0/16"]
+  name: "nmap"
+  parameters: ["-sV", "10.42.0.0/16"]
 ```
 
 To enable cascading rules you need to specify a label selector to select the cascading rules you'd like
@@ -280,9 +279,8 @@ spec:
       # Uses all CascadingRules in the namespace which are labelled as "non-invasive" and a intensiveness level of "light"
       securecodebox.io/invasive: non-invasive
       securecodebox.io/intensive: light
-  scanSpec:
-    name: "nmap"
-    parameters: ["-sV", "10.42.0.0/16"]
+  name: "nmap"
+  parameters: ["-sV", "10.42.0.0/16"]
 ```
 
 To implicitly enable all cascading rules (not-recommended) a empty label selector can be used
@@ -299,9 +297,8 @@ spec:
   cascades:
     # Uses all `CascadingRules` in the namespace
     matchLabels: {}
-  scanSpec:
-    name: "nmap"
-    parameters: ["-sV", "10.42.0.0/16"]
+  name: "nmap"
+  parameters: ["-sV", "10.42.0.0/16"]
 ```
 
 [bcp-14]: https://tools.ietf.org/html/bcp14
