@@ -10,7 +10,7 @@ jobs:
         run: ls
       - name: "Install npm dependencies in all parser sub projects"
         run: |
-          for dir in integrations/*/parser/
+          for dir in scanner/*/parser/
           do
               cd $dir
               if [ -f package.json ] && [ -f package-lock.json ]; then
@@ -35,7 +35,7 @@ jobs:
       - name: "Install npm test dependencies"
         run: |
           npm ci
-          cd integrations/
+          cd scanner/
           npm ci
           cd -
           cd hooks/
@@ -109,7 +109,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: scbexperimental/parser-amass
-          path: ./integrations/amass/parser/
+          path: ./scanner/amass/parser/
           tag_with_ref: true
           tag_with_sha: true
       - uses: docker/build-push-action@v1
@@ -118,7 +118,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: scbexperimental/parser-kube-hunter
-          path: ./integrations/kube-hunter/parser/
+          path: ./scanner/kube-hunter/parser/
           tag_with_ref: true
           tag_with_sha: true
       - uses: docker/build-push-action@v1
@@ -127,7 +127,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: scbexperimental/parser-nikto
-          path: ./integrations/nikto/parser/
+          path: ./scanner/nikto/parser/
           tag_with_ref: true
           tag_with_sha: true
       - uses: docker/build-push-action@v1
@@ -136,7 +136,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: scbexperimental/parser-nmap
-          path: ./integrations/nmap/parser/
+          path: ./scanner/nmap/parser/
           tag_with_ref: true
           tag_with_sha: true
       - uses: docker/build-push-action@v1
@@ -145,7 +145,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: scbexperimental/parser-ssh-scan
-          path: ./integrations/ssh_scan/parser/
+          path: ./scanner/ssh_scan/parser/
           tag_with_ref: true
           tag_with_sha: true
       - uses: docker/build-push-action@v1
@@ -154,7 +154,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: scbexperimental/parser-sslyze
-          path: ./integrations/sslyze/parser/
+          path: ./scanner/sslyze/parser/
           tag_with_ref: true
           tag_with_sha: true
       - uses: docker/build-push-action@v1
@@ -163,7 +163,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: scbexperimental/parser-test-scan
-          path: ./integrations/test-scan/parser/
+          path: ./scanner/test-scan/parser/
           tag_with_ref: true
           tag_with_sha: true
       - uses: docker/build-push-action@v1
@@ -172,7 +172,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: scbexperimental/parser-trivy
-          path: ./integrations/trivy/parser/
+          path: ./scanner/trivy/parser/
           tag_with_ref: true
           tag_with_sha: true
       - uses: docker/build-push-action@v1
@@ -181,7 +181,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: scbexperimental/parser-zap
-          path: ./integrations/zap/parser/
+          path: ./scanner/zap/parser/
           tag_with_ref: true
           tag_with_sha: true
   hookImages:
@@ -252,7 +252,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: scbexperimental/nmap
-          path: ./integrations/nmap/scanner/
+          path: ./scanner/nmap/scanner/
           # Note: not prefixed with a "v" as this seems to match nmap versioning standards
           tags: "7.80,7.80-1,latest"
       - uses: docker/build-push-action@v1
@@ -261,7 +261,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: scbexperimental/kube-hunter
-          path: ./integrations/kube-hunter/scanner/
+          path: ./scanner/kube-hunter/scanner/
           # Note: not prefixed with a "v" as this matches the aquasec/kube-hunter tags
           tags: "0.3.0,latest"
       - uses: docker/build-push-action@v1
@@ -270,7 +270,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: scbexperimental/test-scan
-          path: ./integrations/test-scan/scanner/
+          path: ./scanner/test-scan/scanner/
           # Note: not prefixed with a "v" as this seems to match nmap versioning standards
           tags: "latest"
   integrationTests:
@@ -336,23 +336,23 @@ jobs:
             --set="image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="attribute.name=severity" \
             --set="attribute.value=high"
-          helm -n integration-tests install test-scan ./integrations/test-scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          helm -n integration-tests install test-scan ./scanner/test-scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color read-write-hook
           helm -n integration-tests uninstall test-scan update-category update-severity
       - name: "nmap Integration Tests"
         run: |
-          helm -n integration-tests install nmap ./integrations/nmap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          helm -n integration-tests install nmap ./scanner/nmap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color nmap
       - name: "kube-hunter Integration Tests"
         run: |
-          helm -n integration-tests install kube-hunter ./integrations/kube-hunter/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          helm -n integration-tests install kube-hunter ./scanner/kube-hunter/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color kube-hunter
       - name: "ssh-scan Integration Tests"
         run: |
-          helm -n integration-tests install ssh-scan ./integrations/ssh_scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          helm -n integration-tests install ssh-scan ./scanner/ssh_scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           # Install dummy-ssh app
           helm -n demo-apps install dummy-ssh ./demo-apps/dummy-ssh/ --wait
           cd tests/integration/

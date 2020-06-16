@@ -16,7 +16,7 @@ To learn more about the kube-hunter scanner itself visit [kube-hunter GitHub] or
 The kube-hunter ScanType can be deployed via helm.
 
 ```bash
-helm upgrade --install kube-hunter ./integrations/kube-hunter/
+helm upgrade --install kube-hunter ./scanner/kube-hunter/
 ```
 
 ## Examples

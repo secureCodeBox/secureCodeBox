@@ -19,7 +19,7 @@ To learn more about the Trivy scanner itself visit or [Trivy GitHub].
 The Trivy scanType can be deployed via helm.
 
 ```bash
-helm upgrade --install trivy ./integrations/trivy/
+helm upgrade --install trivy ./scanner/trivy/
 ```
 
 ## Examples

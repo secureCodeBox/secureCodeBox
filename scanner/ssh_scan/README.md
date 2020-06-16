@@ -17,7 +17,7 @@ To learn more about the ssh_scan scanner itself visit [ssh_scan GitHub].
 The SSH_scan ScanType can be deployed via helm.
 
 ```bash
-helm upgrade --install ssh ./integrations/ssh_scan/
+helm upgrade --install ssh ./scanner/ssh_scan/
 ```
 
 ## Examples

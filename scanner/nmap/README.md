@@ -18,7 +18,7 @@ To learn more about the Nmap scanner itself visit [nmap.org].
 The Nmap ScanType can be deployed via helm.
 
 ```bash
-helm install nmap ./integrations/nmap/
+helm install nmap ./scanner/nmap/
 ```
 
 ## Examples

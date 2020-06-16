@@ -30,7 +30,7 @@
   },
   "jest": {
     "projects": [
-      "<rootDir>/integrations/",
+      "<rootDir>/scanner/",
       "<rootDir>/hooks/",
       {
         "displayName": "lint",
