@@ -63,7 +63,7 @@ There is a german article about [Security DevOps – Angreifern (immer) einen Sc
 ```bash
 # Deploy secureCodeBox Operator
 kubectl create namespace securecodebox-system
-helm -n securecodebox-system install securecodebox-operator ./operator/ --set image.tag=hooks
+helm -n securecodebox-system install securecodebox-operator ./operator/
 
 # Deploy definitions for the integrated scanners
 helm upgrade --install amass ./integrations/amass/

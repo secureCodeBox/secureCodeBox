@@ -6,15 +6,15 @@ cascade:
   # Cascade nmap scans for each subdomain found by amass
   amassNmap: true
   # Cascade nmap SMB scans for each SMB Port found by nmap
-  nmapSmb: false
+  nmapSmb: true
   # Cascade SSH scans for each SSH Port found by nmap
-  nmapSsh: false
+  nmapSsh: true
   # Cascade SSL scans for each HTTP Port found by nmap
-  nmapSsl: false
+  nmapSsl: true
   # Cascade Nikto scans for each HTTP Port found by nmap
-  nmapNikto: false
+  nmapNikto: true
   # Cascade ZAP scans for each HTTP Port found by nmap
-  nmapZapBaseline: false
+  nmapZapBaseline: true
 
 image:
   registry: docker.io
