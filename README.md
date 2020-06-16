@@ -116,11 +116,11 @@ kubectl get scans
 
 ### Access Services
 
-* Minio UI
+* Minio UI:
   * AccessKey: `kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.accesskey}' | base64 --decode; echo`
   * SecretKey: `kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.secretkey}' | base64 --decode; echo`
   * Port Forward Minio UI: `kubectl port-forward -n securecodebox-system service/securecodebox-operator-minio 9000:9000`
-* Elastic / Kibana UI
+* Elastic / Kibana UI:
  * User: `elastic`
  * Password: `kubectl get secret scb-elasticsearch-es-elastic-user -n scb-analytics -o=jsonpath='{.data.elastic}' | base64 --decode; echo`
  * Port Forward Kibana: `kubectl port-forward -n default service/persistence-elastic-kibana 5601:5601`
