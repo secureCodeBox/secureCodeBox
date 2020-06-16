@@ -20,7 +20,7 @@
 - [Purpose of this Project](#purpose-of-this-project)
 - [Quickstart](#quickstart)
   - [Prerequisites](#prerequisites)
-  - [Deployment](#deployment)
+  - [Deployment (based on Helm)](#deployment-based-on-helm)
   - [Examples](#examples)
   - [Access Services](#access-services)
 - [How does it work?](#how-does-it-work)
@@ -58,14 +58,14 @@ There is a german article about [Security DevOps – Angreifern (immer) einen Sc
 
 - kubernetes (last 4 mayor releases supported: `1.15`, `1.16`, `1.17` & `1.18`)
 
-### Deployment
+### Deployment (based on Helm)
 
 ```bash
-# Deploy secureCodeBox Operator
+# Deploy the secureCodeBox Operator first
 kubectl create namespace securecodebox-system
 helm -n securecodebox-system install securecodebox-operator ./operator/
 
-# Deploy definitions for the integrated scanners
+# Deploy SCB scanner Charts for each security scanner you want to use (all optional)
 helm upgrade --install amass ./integrations/amass/
 helm upgrade --install kube-hunter ./integrations/kube-hunter/
 helm upgrade --install nikto ./integrations/nikto
