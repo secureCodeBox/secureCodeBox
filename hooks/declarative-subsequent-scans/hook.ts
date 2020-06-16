@@ -16,11 +16,6 @@ interface Finding {
   attributes: Map<string, string | number>;
 }
 
-interface HandleArgs {
-  scan: any;
-  getFindings: () => Array<Finding>;
-}
-
 interface CascadingRules {
   metadata: k8s.V1ObjectMeta;
   spec: CascadingRuleSpec;
@@ -39,6 +34,11 @@ interface Scan {
 interface ScanSpec {
   name: string;
   parameters: Array<string>;
+}
+
+interface HandleArgs {
+  scan: Scan;
+  getFindings: () => Array<Finding>;
 }
 
 export async function handle({ scan, getFindings }: HandleArgs) {
@@ -73,6 +73,7 @@ export function getCascadingScans(
 
   for (const cascadingRule of cascadingRules) {
     for (const finding of findings) {
+      // Check if one (ore more) of the CascadingRule matchers apply to the finding
       const matches = cascadingRule.spec.matches.some((matchesRule) =>
         isMatch(finding, matchesRule)
       );
