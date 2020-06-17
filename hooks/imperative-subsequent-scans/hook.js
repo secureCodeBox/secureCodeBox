@@ -54,7 +54,8 @@ async function handle({
       if (
         cascadeNmapSmb && 
         finding.attributes.port === 445 && 
-        finding.attributes.service === "microsoft-ds"
+        (finding.attributes.service === "microsoft-ds" ||
+         finding.attributes.service === "netbios-ssn")
       ) {
         await startSMBScan({
           parentScan: scan,

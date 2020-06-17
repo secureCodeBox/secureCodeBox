@@ -18,7 +18,7 @@ To learn more about the ZAP scanner itself visit [OWASP_Zap_Project] or [zaproxy
 The ZAP scanType can be deployed via helm.
 
 ```bash
-helm upgrade --install zap ./integrations/zap/
+helm upgrade --install zap ./scanner/zap/
 ```
 
 ## Examples

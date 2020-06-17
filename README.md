@@ -20,7 +20,7 @@
 - [Purpose of this Project](#purpose-of-this-project)
 - [Quickstart](#quickstart)
   - [Prerequisites](#prerequisites)
-  - [Deployment](#deployment)
+  - [Deployment (based on Helm)](#deployment-based-on-helm)
   - [Examples](#examples)
   - [Access Services](#access-services)
 - [How does it work?](#how-does-it-work)
@@ -58,14 +58,14 @@ There is a german article about [Security DevOps – Angreifern (immer) einen Sc
 
 - kubernetes (last 4 mayor releases supported: `1.15`, `1.16`, `1.17` & `1.18`)
 
-### Deployment
+### Deployment (based on Helm)
 
 ```bash
-# Deploy secureCodeBox Operator
+# Deploy the secureCodeBox Operator first
 kubectl create namespace securecodebox-system
-helm -n securecodebox-system install securecodebox-operator ./operator/ --set image.tag=hooks
+helm -n securecodebox-system install securecodebox-operator ./operator/
 
-# Deploy definitions for the integrated scanners
+# Deploy SCB scanner Charts for each security scanner you want to use (all optional)
 helm upgrade --install amass ./integrations/amass/
 helm upgrade --install kube-hunter ./integrations/kube-hunter/
 helm upgrade --install nikto ./integrations/nikto
@@ -80,12 +80,12 @@ helm upgrade --install wpscan ./integrations/wpscan/
 helm upgrade --install dummy-ssh ./demo-apps/dummy-ssh/
 
 # Deploy secureCodeBox Hooks 
-helm upgrade --install add-attributes ./hooks/add-attributes/
-helm upgrade --install generic-webhook ./hooks/generic-webhook/
-helm upgrade --install imperative-subsequent-scans ./hooks/imperative-subsequent-scans/
+helm upgrade --install aah ./hooks/add-attributes/
+helm upgrade --install gwh ./hooks/generic-webhook/
+helm upgrade --install issh ./hooks/imperative-subsequent-scans/
 
 ## Persistence Provider: Elasticsearch
-helm upgrade --install persistence-elastic ./hooks/persistence-elastic/
+helm upgrade --install elkh ./hooks/persistence-elastic/
 ```
 
 ### Examples
@@ -116,11 +116,11 @@ kubectl get scans
 
 ### Access Services
 
-* Minio UI
+* Minio UI:
   * AccessKey: `kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.accesskey}' | base64 --decode; echo`
   * SecretKey: `kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.secretkey}' | base64 --decode; echo`
   * Port Forward Minio UI: `kubectl port-forward -n securecodebox-system service/securecodebox-operator-minio 9000:9000`
-* Elastic / Kibana UI
+* Elastic / Kibana UI:
  * User: `elastic`
  * Password: `kubectl get secret scb-elasticsearch-es-elastic-user -n scb-analytics -o=jsonpath='{.data.elastic}' | base64 --decode; echo`
  * Port Forward Kibana: `kubectl port-forward -n default service/persistence-elastic-kibana 5601:5601`

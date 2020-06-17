@@ -5,8 +5,8 @@
 image:
   registry: docker.io
   repository: scbexperimental/persistence-elastic
-  tag: null
-  digest: sha256:25e860d051de0fb7ecb74508d749909d9ec8b5d49cb10466509777bc98e3ec7a
+  tag: hooks
+  digest: null
 
 indexPrefix: "scbv2"
 

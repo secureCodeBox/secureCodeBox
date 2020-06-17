@@ -21,7 +21,7 @@ async function startSubsequentSecureCodeBoxScan({
         ...parentScan.metadata.labels,
       },
       annotations: {
-        "securecodebox.io/hook": "nmap-subsequent-scans",
+        "securecodebox.io/hook": "imperative-subsequent-scans",
         "securecodebox.io/parent-scan": parentScan.metadata.name,
       },
       ownerReferences: [
