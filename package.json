@@ -30,8 +30,8 @@
   },
   "jest": {
     "projects": [
-      "<rootDir>/integrations/",
-      "<rootDir>/persistence/persistence-elastic/",
+      "<rootDir>/scanner/",
+      "<rootDir>/hooks/",
       {
         "displayName": "lint",
         "runner": "jest-runner-eslint",

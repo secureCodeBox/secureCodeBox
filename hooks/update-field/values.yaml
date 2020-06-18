@@ -1,0 +1,13 @@
+# Default values for dispatcher.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+attribute:
+  name: "category"
+  value: my-own-category
+
+image:
+  registry: docker.io
+  repository: scbexperimental/update-field
+  tag: latest
+  digest: null

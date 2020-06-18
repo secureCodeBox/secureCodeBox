@@ -1,0 +1,20 @@
+{
+  "name": "securecodebox-hook-sdk-nodejs",
+  "version": "1.0.0",
+  "description": "Handles external communication required for all secureCodeBox Hooks",
+  "main": "hook-wrapper.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "iteratec GmbH",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@kubernetes/client-node": "^0.11.1",
+    "axios": "^0.19.2",
+    "ws": "^7.2.3"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0"
+  }
+}

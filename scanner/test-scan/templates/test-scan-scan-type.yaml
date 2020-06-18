@@ -1,0 +1,19 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: ScanType
+metadata:
+  name: "test-scan"
+spec:
+  extractResults:
+    type: test-txt
+    location: "/home/securecodebox/hello-world.txt"
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 10
+      backoffLimit: 3
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: test-scan
+              image: scbexperimental/test-scan:latest
+              command: ["touch", "/home/securecodebox/hello-world.txt"]

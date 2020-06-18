@@ -1,0 +1,62 @@
+# Default values for dispatcher.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  registry: docker.io
+  repository: scbexperimental/persistence-elastic
+  tag: hooks
+  digest: null
+
+indexPrefix: "scbv2"
+
+# Enable this when you already have an Elastic Stack running to which you want to send your results
+externalElasticStack:
+  enabled: false
+  elasticsearchAddress: "https://elasticsearch.example.com"
+  kibanaAddress: "https://kibana.example.com"
+
+# Configure authentication schema and credentials the persistence provider should use to connect to elasticsearch
+# user and apikey are mutually exclusive, only set one!
+authentication:
+  # Link a pre-existing generic secret with `username` and `password` key / value pairs
+  userSecret: null
+  # Link a pre-existing generic secret with `id` and `key` key / value pairs
+  apiKeySecret: null
+
+# Configures included Elasticsearch subchart
+elasticsearch:
+  enabled: true
+  replicas: 1
+  minimumMasterNodes: 1
+  # image: docker.elastic.co/elasticsearch/elasticsearch-oss
+
+# Configures included Elasticsearch subchart
+kibana:
+  enabled: true
+  # image: docker.elastic.co/kibana/kibana-oss
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+podSecurityContext:
+  {}
+  # fsGroup: 2000
+
+securityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

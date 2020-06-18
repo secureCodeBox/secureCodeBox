@@ -1,0 +1,11 @@
+apiVersion: v2
+name: update-field-hook
+description: Lets you add or override a field to every finding
+
+type: application
+
+version: 0.1.0
+
+appVersion: latest
+
+dependencies: []

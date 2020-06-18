@@ -1,0 +1,22 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: ScanType
+metadata:
+  name: "ssh-scan"
+spec:
+  name: "ssh-scan"
+  extractResults:
+    type: ssh-scan-json
+    location: "/home/securecodebox/ssh-scan-results.json"
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 10
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: ssh-scan
+              image: mozilla/ssh_scan@sha256:ebd76f798159844c0baca6b78cc324ba1966b11eb4f45118397a59d01f764c97
+              command:
+                - "/app/bin/ssh_scan"
+                - "--output"
+                - "/home/securecodebox/ssh-scan-results.json"

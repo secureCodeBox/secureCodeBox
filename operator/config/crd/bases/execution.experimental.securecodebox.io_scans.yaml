@@ -113,6 +113,21 @@ spec:
               description: RawResultType determines which kind of ParseDefinition
                 will be used to turn the raw results of the scanner into findings
               type: string
+            readAndWriteHookStatus:
+              items:
+                properties:
+                  hookName:
+                    type: string
+                  jobName:
+                    type: string
+                  state:
+                    description: HookState Describes the State of a Hook on a Scan
+                    type: string
+                required:
+                - hookName
+                - state
+                type: object
+              type: array
             state:
               type: string
           type: object

@@ -1,0 +1,7 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: ParseDefinition
+metadata:
+  name: "wpscan-json"
+spec:
+  handlesResultsType: wpscan-json
+  image: "{{ .Values.parserImage.registry }}/{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag }}"

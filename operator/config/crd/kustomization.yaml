@@ -4,7 +4,7 @@
 resources:
 - bases/execution.experimental.securecodebox.io_scans.yaml
 - bases/execution.experimental.securecodebox.io_scantypes.yaml
-- bases/execution.experimental.securecodebox.io_persistenceproviders.yaml
+- bases/execution.experimental.securecodebox.io_scancompletionhooks.yaml
 - bases/execution.experimental.securecodebox.io_parsedefinitions.yaml
 - bases/execution.experimental.securecodebox.io_scheduledscans.yaml
 - bases/targets.experimental.securecodebox.io_hosts.yaml

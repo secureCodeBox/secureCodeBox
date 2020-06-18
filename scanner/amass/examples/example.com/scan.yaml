@@ -1,0 +1,12 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "amass-example.com"
+spec:
+  scanType: "amass"
+  parameters:
+    - "-noalts"
+    - "-norecursive"
+    - "-nolocaldb"
+    - "-d"
+    - "example.com"

@@ -1,0 +1,32 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: ScanCompletionHook
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  type: ReadOnly
+  {{- if .Values.image.registry }}
+  {{- if .Values.image.digest }}
+  image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}@{{ .Values.image.digest }}"
+  {{- else }}
+  image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+  {{- end }}
+  {{- else }}
+  {{- if .Values.image.digest }}
+  image: "{{ .Values.image.repository }}@{{ .Values.image.digest }}"
+  {{- else }}
+  image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+  {{- end }}
+  {{- end }}
+  env:
+    - name: CASCADE_AMASS_NMAP
+      value: {{ .Values.cascade.amassNmap | quote }}
+    - name: CASCADE_NMAP_SMB
+      value: {{ .Values.cascade.nmapSmb | quote }}
+    - name: CASCADE_NMAP_SSH
+      value: {{ .Values.cascade.nmapSsh | quote }}
+    - name: CASCADE_NMAP_SSL
+      value: {{ .Values.cascade.nmapSsl | quote }}
+    - name: CASCADE_NMAP_NIKTO
+      value: {{ .Values.cascade.nmapNikto | quote }}
+    - name: CASCADE_NMAP_ZAP_BASELINE
+      value: {{ .Values.cascade.nmapZapBaseline | quote }}

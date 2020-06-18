@@ -1,0 +1,23 @@
+# Default values for imperative-subsequent-scans Hook.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+cascade:
+  # Cascade nmap scans for each subdomain found by amass
+  amassNmap: true
+  # Cascade nmap SMB scans for each SMB Port found by nmap
+  nmapSmb: true
+  # Cascade SSH scans for each SSH Port found by nmap
+  nmapSsh: true
+  # Cascade SSL scans for each HTTP Port found by nmap
+  nmapSsl: true
+  # Cascade Nikto scans for each HTTP Port found by nmap
+  nmapNikto: true
+  # Cascade ZAP scans for each HTTP Port found by nmap
+  nmapZapBaseline: true
+
+image:
+  registry: docker.io
+  repository: scbexperimental/hook-imperative-subsequent-scans
+  tag: latest
+  digest: null

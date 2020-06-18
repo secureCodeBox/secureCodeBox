@@ -1,0 +1,19 @@
+{
+  "name": "imperative-subsequent-scans",
+  "version": "1.0.0",
+  "description": "",
+  "main": "hook.js",
+  "scripts": {
+    "test": "jest ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@kubernetes/client-node": "^0.12.0",
+    "lodash.set": "^4.3.2"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0"
+  }
+}

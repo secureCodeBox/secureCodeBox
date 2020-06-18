@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.80 scan initiated Thu Jun 11 11:45:11 2020 as: nmap -oX /home/securecodebox/nmap-results.xml -Pn -p445 -&#45;script smb-protocols example.com -->
+<nmaprun scanner="nmap" args="nmap -oX /home/securecodebox/nmap-results.xml -Pn -p445 -&#45;script smb-protocols example.com" start="1591875911" startstr="Thu Jun 11 11:45:11 2020" version="7.80" xmloutputversion="1.04">
+    <scaninfo type="connect" protocol="tcp" numservices="1" services="445"/>
+    <verbose level="0"/>
+    <debugging level="0"/>
+    <host starttime="1591875911" endtime="1591875918">
+        <status state="up" reason="user-set" reason_ttl="0"/>
+        <address addr="10.50.0.2" addrtype="ipv4"/>
+        <hostnames>
+            <hostname name="example.com" type="user"/>
+            <hostname name="example.com" type="PTR"/>
+        </hostnames>
+        <ports>
+            <port protocol="tcp" portid="445">
+                <state state="open" reason="syn-ack" reason_ttl="0"/>
+                <service name="microsoft-ds" method="table" conf="3"/>
+            </port>
+        </ports>
+        <hostscript>
+            <script id="smb-protocols" output="&#xa;  dialects: &#xa;    NT LM 0.12 (SMBv1) [dangerous, but default]&#xa;    2.02&#xa;    2.10&#xa;    3.00&#xa;    3.02&#xa;    3.11">
+                <table key="dialects">
+                    <elem>NT LM 0.12 (SMBv1) [dangerous, but default]</elem>
+                    <elem>2.02</elem>
+                    <elem>2.10</elem>
+                    <elem>3.00</elem>
+                    <elem>3.02</elem>
+                    <elem>3.11</elem>
+                </table>
+            </script>
+        </hostscript>
+        <times srtt="61544" rttvar="61544" to="307720"/>
+    </host>
+    <runstats>
+        <finished time="1591875918" timestr="Thu Jun 11 11:45:18 2020" elapsed="7.18" summary="Nmap done at Thu Jun 11 11:45:18 2020; 1 IP address (1 host up) scanned in 7.18 seconds" exit="success"/>
+        <hosts up="1" down="0" total="1"/>
+    </runstats>
+</nmaprun>

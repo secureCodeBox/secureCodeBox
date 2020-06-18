@@ -44,7 +44,7 @@ rules:
 - apiGroups:
   - execution.experimental.securecodebox.io
   resources:
-  - persistenceproviders
+  - scancompletionhooks
   verbs:
   - get
   - list

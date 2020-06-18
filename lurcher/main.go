@@ -110,7 +110,7 @@ func waitForMainContainerToEnd(container, pod, namespace string) {
 
 			for _, status := range containerStatuses {
 				if status.Name == container && status.State.Terminated != nil {
-					log.Printf("Main Container Exited. Lurcher will end asswell.")
+					log.Printf("Main Container Exited. Lurcher will end as well.")
 					return
 				}
 			}

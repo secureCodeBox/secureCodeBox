@@ -1,0 +1,11 @@
+apiVersion: v2
+name: generic-webhook
+description: Lets you send http webhooks after scans are completed
+
+type: application
+
+version: 0.1.0
+
+appVersion: latest
+
+dependencies: []

@@ -1,0 +1,7 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: ParseDefinition
+metadata:
+  name: "test-txt"
+spec:
+  handlesResultsType: test-txt
+  image: "{{ .Values.parserImage.registry }}/{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag }}"

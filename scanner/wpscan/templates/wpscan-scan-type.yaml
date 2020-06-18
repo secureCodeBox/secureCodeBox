@@ -1,0 +1,24 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: ScanType
+metadata:
+  name: "wpscan"
+spec:
+  name: "wpscan"
+  extractResults:
+    type: wpscan-json
+    location: "/home/securecodebox/wpscan-results.json"
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 10
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: wpscan
+              image: wpscanteam/wpscan:latest
+              command:
+                - "wpscan"
+                - "-o"
+                - "/home/securecodebox/wpscan-results.json"
+                - "-f"
+                - json

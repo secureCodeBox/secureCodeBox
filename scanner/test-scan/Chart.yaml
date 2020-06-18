@@ -1,0 +1,19 @@
+apiVersion: v2
+name: test-scan
+description: A Helm chart to test the secureCodeBox operator
+
+type: application
+version: 0.1.0
+appVersion: 0.1.0
+
+keywords:
+- security
+- scanner
+- secureCodeBox
+- integrationTest
+- test
+sources:
+- https://github.com/secureCodeBox/secureCodeBox
+maintainers:
+- name: iteratec GmbH
+  email: security@iteratec.com
