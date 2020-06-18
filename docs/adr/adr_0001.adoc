@@ -1,0 +1,213 @@
+[[ADR-0000]]
+= ADR-0000: How can we introduce a more general extension concept for data proccessing modules?
+
+[cols="h,d",grid=rows,frame=none,stripes=none,caption="Status",%autowidth]
+|====
+// Use one of the ADR status parameter based on status
+// Please add a cross reference link to the new ADR on 'superseded' ADR.
+// e.g.: {adr_suposed_by} <<ADR-0000>>
+
+| Status
+| ACCEPTED
+
+| Date
+| 2020-05-20
+
+| Author(s)
+| Jannik Hollenbach <Jannik.Hollenbach@iteratec.com>,
+  Jorge Estigarribia <Jorge.Estigarribia@iteratec.com>,
+  Robert Seedorff <Robert.Seedorff@iteratec.com>
+|====
+
+== Context
+
+=== Status Quo
+
+One major challange implementing the _secureCodeBox_ is to provide an flexible and modular architecture which enables the open source community to easily understand the concepts and especially to extend the _secureCodeBox_ with individual features. Therefore we decided to seperate the process stages of an single security scan (instance of scanType CRD) in 3 major phases:
+```
+	┌──────────────────┐          ┌──────────────────┐          ┌──────────────────┐
+	│     Scanning     ├─────────▶│     Parsing      ├─────────▶│    Persisting    │
+	│    (Phase 1)     │          │    (Phase 2)     │          │    (Phase 3)     │
+	└──────────────────┘          └──────────────────┘          └──────────────────┘
+```
+By now the "Persisting Phase 3" was implemented by so called _persistenceProviders_ e.g the *persistence-elastic* provider which is responsible for persisting all findings in a given elasticsearch database. The _secureCodeBox_ Operator is aware of this 3 phases and is responsible for the state model and execution of each security scan (instance of scanType CRD).
+
+=== Problem and Question
+
+We identified different additional UseCases with a are more _data proccessing oriented_ pattern than the implemented _persisting phase3_ indicates. For example we implemented a so called "MetaDataProvider" feature which is responsible for enhancing each security finding with additional metadata. But the MetaDataProvider must be executed after the _parsing phase 2_ and before the _persisting phase 3_ because it depends on the parsed finding results (which will be enhanced) and the update findings should be persisted also. 
+
+
+To find a proper solution we splitted the topic into the follwong two questions:
+
+* Question 1: Should we unify the concepts MetaDataProvider and PersistenceProvider?
+* Question 2: How should the execution model look like for each?
+
+==== Question 1: Should we unify the concepts MetaDataProvider and PersistenceProvider?
+==== Solution approach 1: Unify
+
+Both "modules" are "processing" the security findings which are generated in the parsing phase.
+But there is one larger difference between them:
+
+* `PersistenceProvider` is proccesing the findings with a *ReadOnly* pattern
+* `MetaDataProvider` is proccesing the findings with a *ReadAndWrite* pattern
+
+There is a similar thing in kubernetes called [AdmissionController](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/), with the exception that the are executed before a resource gets created.
+
+The are two variants:
+
+* `ValidatingWebhookConfiguration` (ReadOnly) *Executed Last*
+* `MutatingWebhookConfiguration` (ReadAndWrite) *Executed First*
+
+We could do a similar thing and introduce CRD which allows to execute "custom code" (generally speaking, depends on the second question) after a scan has completed (meaning scan and parser phase are done). Some name ideas:
+
+- `ScanHooks`
+- `ScanCompletionHooks`
+- `FindingProcessors`
+
+These could than have a `type` attribute which declares if they are `ReadOnly` or `ReadAndWrite`.
+
+The operator would process all these resources in the namespace and execute the `ReadAndWrite` ones first (in serial: one at a time to avoid write conflicts) and then the `ReadOnly` ones (in parallel).
+
+```yaml
+apiVersion: execution.experimental.securecodebox.io/v1
+kind: ScanCompletionHook
+metadata:
+  name: my-metadata
+spec:
+  type: ReadAndWrite
+  # If implemented like the current persistence provider
+  image: my-metadata:v2.0.0
+```
+
+The Execution Flow would then look something like this:
+
+```
+                                                                                                           ┌ ReadOnly─Hooks─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─
+                                              ┌ ReadAndWriteHooks ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─        ┌────────────────────────────────┐ │
+                                                ┌───────────────────────┐                            │  ┌──┼▶│  Elastic PersistenceProvider   │
+┌──────────────────┐   ┌──────────────────┐   │ │ ReadAndWrite Hook #1  │  ┌───────────────────────┐    │    └────────────────────────────────┘ │
+│       Scan       ├──▶│     Parsing      │────▶│  "MyMetaDataProvider" ├─▶│ ReadAndWrite Hook #2  │─┼──┤  │ ┌────────────────────────────────┐
+└──────────────────┘   └──────────────────┘   │ └───────────────────────┘  └───────────────────────┘    └───▶│ DefectDojo PersistenceProvider │ │
+                                               ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘     │ └────────────────────────────────┘
+                                                                                                            ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
+```
+
+**Pros:**
+
+- Only one Implementation
+- Pretty Generic to expand and test out new ideas without having to modify the secureCodeBox Operator
+
+**Cons:**
+
+- Possible "over abstraction"?
+- Need to refactor the ElasticSearch PersistenceProvider
+- The "General Implementation" will be harder than the individual ones - 
+
+==== Solution approach 1: Keep Split between Persistence Provider and MetaData Provider
+
+Keep PersistenceProvider as they are and introduce new "MetaDataProvider" CRD which gets executed before the PersistenceProviders by the operator.
+
+```
+                                                                                                           ┌ Persistence Provider─ ─ ─ ─ ─ ─ ─ ─
+                                              ┌ MetaData Provider ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─        ┌────────────────────────────────┐ │
+                                                ┌───────────────────────┐                            │  ┌──┼▶│  Elastic PersistenceProvider   │
+┌──────────────────┐   ┌──────────────────┐   │ │ ReadAndWrite Hook #1  │  ┌───────────────────────┐    │    └────────────────────────────────┘ │
+│       Scan       ├──▶│     Parsing      │────▶│ "MyMetaDataProvider"  ├─▶│ ReadAndWrite Hook #2  │─┼──┤  │ ┌────────────────────────────────┐
+└──────────────────┘   └──────────────────┘   │ └───────────────────────┘  └───────────────────────┘    └───▶│ DefectDojo PersistenceProvider │ │
+                                               ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘     │ └────────────────────────────────┘
+                                                                                                            ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
+```
+
+**Pros:**
+
+- Quicker to implement
+- Might be worth it to have a seperate concept for it
+
+**Cons:**
+
+- Really worth introducing a new CRD for everything, especially when the are conceptually pretty close?
+
+=== Question 2: How should the execution model look like for each?
+
+==== Solution approach 1: Like the persistence provider
+
+Basically a docker container which process takes two command line args:
+
+* A pre-signed URL to download the findings from
+* A pre-signed URL to upload the modified findings to
+
+Examples:
+
+* Node.js `node my-metadata.js "https://storage.googleapi.com/..." "https://storage.googleapi.com/..."`
+* java `java my-metadata.jar "https://storage.googleapi.com/..." "https://storage.googleapi.com/..."`
+* golang `./my-metadata "https://storage.googleapi.com/..." "https://storage.googleapi.com/..."`
+
+**Pros:**
+
+* on liner with the current implementations
+* code overhead / wrapper code is pretty minimal
+* zero scale - no resource costs when nothing is running
+
+**Cons:**
+
+* results in too many k8s jobs?
+** resource blocking on finished resources
+** ttlAfterFinished enabled
+* container runtime overhead (especially time)
+
+### Option 2: A WebHooks like concept
+
+Analog to kubernetes webhooks.
+Https server receiving findings and returning results.
+
+**Pros:**
+
+* MilliSeconds instead of seconds for processing
+* No ContainerCreation Overhead
+* No additional k8s jobs needed
+
+**Cons:**
+
+* Introduces new running Services that need to be maintained and have uptime
+* Code Overhead / Boilerplate (Can be mitigated by sdk)
+* Debugging of individual MetaDataProvider is harder as everything is handled by a single service
+* Introduces "New" Concept
+* Certificate Management for webhook services (`cert-manager` required by default?)
+* Scaling for systems with lots of load could be a problem
+* One service per namespace (multiple tenants) needed => results in many running active services which is ressource consuming
+
+== Decision
+
+Regarding the Question 1 it seems that both solution approaches are resulting in the same execution model. We descided to implement solution approach 1 and unify both concepts into a more general concept with the name _"hook concept"_. Therefore we exchange the existing name `persistenceProvider` for phase 3 in the excecution model with a more general term `DataProcessing`:
+
+```
+	┌──────────────────┐          ┌──────────────────┐          ┌──────────────────┐
+	│     Scanning     ├─────────▶│     Parsing      ├─────────▶│ DataProcessing   │
+	│    (Phase 1)     │          │    (Phase 2)     │          │    (Phase 3)     │
+	└──────────────────┘          └──────────────────┘          └──────────────────┘
+```
+
+Regarding the question 2 we descided to implement the solution approach 1 with a job based approach (no active service componend needed).
+The Phase 3 `DataProcessing` will be therefore splitt into to seperate phases named `ReadAndWriteHooks (3.1)` and `ReadOnlyHooks (3.2)`
+
+```
+                                                                                                           ┌ DataProcessing: ReadOnlyHooks ─ ─ ─
+                                              ┌ DataProcessing: ReadAndWriteHooks ─ ─ ─ ─ ─ ─ ─ ─ ─ ─        ┌────────────────────────────────┐ │
+                                                ┌───────────────────────┐                            │  ┌──┼▶│  Elastic PersistenceProvider   │
+┌──────────────────┐   ┌──────────────────┐   │ │ ReadAndWrite Hook #1  │  ┌───────────────────────┐    │    └────────────────────────────────┘ │
+│       Scan       ├──▶│     Parsing      │────▶│  "MyMetaDataProvider" ├─▶│ ReadAndWrite Hook #2  │─┼──┤  │ ┌────────────────────────────────┐
+└──────────────────┘   └──────────────────┘   │ └───────────────────────┘  └───────────────────────┘    └───▶│ DefectDojo PersistenceProvider │ │
+                                               ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘     │ └────────────────────────────────┘
+                                                                                                            ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
+```
+
+== Consequences
+
+With the new `Hook Concept` we open the `DataProcessing` Phase 3 to a more intuitive and flexible architecture. It is easier to understand because _WebHooks_ are already a well known concept. It is possible to keep the existing implementation of the `persistenceProviders` and to integrate them with a lot of other possible data processing components in a more general fashion. In the end this step will result in a lot of additional feature possibilities which go fare beyond the existing ones. Therefore we only need to implement this concept once in the secureCodeBox Operator and new ideas for extending the DataProcessing will not enforce conceptual or architectural changes.
+
+Ideas for additional data processing hooks:
+* Notifier-Hooks (ReadOnlyHook) e.g. for chat systems (slack, teams...) or metric / alerting systems
+* MetaData Enrichment Hooks (ReadAndWriteHook)
+* FilterData Hooks (e.g. false/positive Handling) (ReadAndWriteHook)
+* SystemIntegration Hooks (ReadOnlyHook) e.g. for ticketing systems like JIRA
+* CascadingScans Hooks (ReadOnlyHook) e.g. for starting new security scans based on findings
