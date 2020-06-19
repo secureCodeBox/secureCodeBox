@@ -73,17 +73,17 @@ kubectl create namespace securecodebox-system
 helm -n securecodebox-system install securecodebox-operator ./operator/
 
 # Deploy SCB scanner Charts for each security scanner you want to use (all optional)
-helm upgrade --install amass ./integrations/amass/
-helm upgrade --install kube-hunter ./integrations/kube-hunter/
-helm upgrade --install nikto ./integrations/nikto
-helm upgrade --install nmap ./integrations/nmap/
-helm upgrade --install ssh-scan ./integrations/ssh_scan/
-helm upgrade --install sslyze ./integrations/sslyze/
-helm upgrade --install trivy ./integrations/trivy/
-helm upgrade --install zap ./integrations/zap/
-helm upgrade --install wpscan ./integrations/wpscan/
+helm upgrade --install amass ./scanner/amass/
+helm upgrade --install kube-hunter ./scanner/kube-hunter/
+helm upgrade --install nikto ./scanner/nikto
+helm upgrade --install nmap ./scanner/nmap/
+helm upgrade --install ssh-scan ./scanner/ssh_scan/
+helm upgrade --install sslyze ./scanner/sslyze/
+helm upgrade --install trivy ./scanner/trivy/
+helm upgrade --install zap ./scanner/zap/
+helm upgrade --install wpscan ./scanner/wpscan/
 
-# Optional Deploy some Demo Apps for scanning
+# Optional Deploy some Demo Apps to test some scanning examples
 helm upgrade --install dummy-ssh ./demo-apps/dummy-ssh/
 
 # Deploy secureCodeBox Hooks 
@@ -102,20 +102,8 @@ helm upgrade --install elkh ./hooks/persistence-elastic/
 ## Local Scan Examples
 
 ### E.g. localhost nmap scan
-kubectl apply -f operator/config/samples/execution_v1_scan/nmap_localhost.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/kube-hunter_in_cluster.yaml
-
-## Public Scan Examples
-# E.g. www.securecodebox.io sslyze scan
-kubectl apply -f operator/config/samples/execution_v1_scan/nmap_securecodebox_io.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/amass_securecodebox_io.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/sslyze_securecodebox_io.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/nikto_securecodebox_io.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/ssh_iteratec_de.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/wpscan_nurdemteam_org.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/sslyze_securecodebox_io.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/trivy_mediawiki.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/trivy_juiceshop.yaml
+kubectl apply -f scanner/nmap/examples/localhost/scan.yaml
+kubectl apply -f scanner/ssh_scan/examples/localhost/scan.yaml
 
 # Then get the current State of the Scan by running:
 kubectl get scans
@@ -128,10 +116,10 @@ kubectl get scans
   * SecretKey: `kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.secretkey}' | base64 --decode; echo`
   * Port Forward Minio UI: `kubectl port-forward -n securecodebox-system service/securecodebox-operator-minio 9000:9000`
 * Elastic / Kibana UI:
- * User: `elastic`
- * Password: `kubectl get secret scb-elasticsearch-es-elastic-user -n scb-analytics -o=jsonpath='{.data.elastic}' | base64 --decode; echo`
- * Port Forward Kibana: `kubectl port-forward -n default service/persistence-elastic-kibana 5601:5601`
- * Port Forward Elasticsearch: `kubectl port-forward -n default service/elasticsearch-master 9200:9200` 
+  * User: `elastic`
+  * Password: `kubectl get secret scb-elasticsearch-es-elastic-user -n scb-analytics -o=jsonpath='{.data.elastic}' | base64 --decode; echo`
+  * Port Forward Kibana: `kubectl port-forward -n default service/persistence-elastic-kibana 5601:5601`
+  * Port Forward Elasticsearch: `kubectl port-forward -n default service/elasticsearch-master 9200:9200` 
 
 
 ## How does it work?
