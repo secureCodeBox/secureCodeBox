@@ -63,8 +63,9 @@ There is a german article about [Security DevOps – Angreifern (immer) einen Sc
 
 ### Deployment (based on Helm)
 
+Deploy the secureCodeBox Operator first:
+
 ```bash
-# Deploy the secureCodeBox Operator first
 kubectl create namespace securecodebox-system
 helm -n securecodebox-system install securecodebox-operator ./operator/
 
@@ -78,16 +79,25 @@ helm upgrade --install sslyze ./scanner/sslyze/
 helm upgrade --install trivy ./scanner/trivy/
 helm upgrade --install zap ./scanner/zap/
 helm upgrade --install wpscan ./scanner/wpscan/
+```
 
-# Optional Deploy some Demo Apps for scanning
+Optional Deploy some Demo Apps for scanning:
+
+```bash
 helm upgrade --install dummy-ssh ./demo-apps/dummy-ssh/
+```
 
-# Deploy secureCodeBox Hooks
+Deploy secureCodeBox Hooks
+
+```bash
 helm upgrade --install aah ./hooks/update-field/
 helm upgrade --install gwh ./hooks/generic-webhook/
 helm upgrade --install issh ./hooks/imperative-subsequent-scans/
+```
 
-## Persistence Provider: Elasticsearch
+Persistence Provider: Elasticsearch:
+
+```bash
 helm upgrade --install elkh ./hooks/persistence-elastic/
 ```
 
