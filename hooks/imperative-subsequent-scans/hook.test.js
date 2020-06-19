@@ -65,7 +65,7 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", asyn
   });
   expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(2, {
     name: "zap-443-foobar.com",
-    parameters: ["-t", "https://foobar.com:443"],
+    parameters: ["-a", "-j", "-t", "https://foobar.com:443"],
     parentScan: { metadata: { labels: { foo: "bar" } } },
     scanType: "zap-baseline",
   });
@@ -78,7 +78,7 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", asyn
   });
   expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(4, {
     name: "zap-8443-example.com",
-    parameters: ["-t", "https://example.com:8443"],
+    parameters: ["-a", "-j", "-t", "https://example.com:8443"],
     parentScan: { metadata: { labels: { foo: "bar" } } },
     scanType: "zap-baseline",
   });
@@ -677,7 +677,7 @@ test("Should create subsequent scans for Service which are running in custom por
   });
   expect(startSubsequentSecureCodeBoxScan).toHaveBeenNthCalledWith(16, {
     name: "zap-3000-https.example.com",
-    parameters: ["-t", "https://https.example.com:3000"],
+    parameters: ["-a", "-j", "-t", "https://https.example.com:3000"],
     parentScan: { metadata: { labels: { foo: "bar" } } },
     scanType: "zap-baseline",
   });
