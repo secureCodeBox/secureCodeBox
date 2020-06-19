@@ -1,3 +1,5 @@
+# secureCodeBox – v2 ALPHA
+
 <p align="center">
   <img alt="secureCodeBox Logo" src="./docs/resources/securecodebox-logo.svg" width="800px">
 </p>
@@ -16,19 +18,20 @@
 
 <!-- toc -->
 
-- [Overview](#overview)
-- [Purpose of this Project](#purpose-of-this-project)
-- [Quickstart](#quickstart)
-  - [Prerequisites](#prerequisites)
-  - [Deployment (based on Helm)](#deployment-based-on-helm)
-  - [Examples](#examples)
-  - [Access Services](#access-services)
-- [How does it work?](#how-does-it-work)
-- [Architecture](#architecture)
-- [License](#license)
-- [Community](#community)
-- [Contributing](#contributing)
-- [Author Information](#author-information)
+- [secureCodeBox – v2 ALPHA](#securecodebox--v2-alpha)
+  - [Overview](#overview)
+  - [Purpose of this Project](#purpose-of-this-project)
+  - [Quickstart](#quickstart)
+    - [Prerequisites](#prerequisites)
+    - [Deployment (based on Helm)](#deployment-based-on-helm)
+    - [Examples](#examples)
+    - [Access Services](#access-services)
+  - [How does it work?](#how-does-it-work)
+  - [Architecture](#architecture)
+  - [License](#license)
+  - [Community](#community)
+  - [Contributing](#contributing)
+  - [Author Information](#author-information)
 
 For additional documentation aspects please have a look at our:
 
@@ -79,7 +82,7 @@ helm upgrade --install wpscan ./integrations/wpscan/
 # Optional Deploy some Demo Apps for scanning
 helm upgrade --install dummy-ssh ./demo-apps/dummy-ssh/
 
-# Deploy secureCodeBox Hooks 
+# Deploy secureCodeBox Hooks
 helm upgrade --install aah ./hooks/add-attributes/
 helm upgrade --install gwh ./hooks/generic-webhook/
 helm upgrade --install issh ./hooks/imperative-subsequent-scans/
@@ -124,7 +127,7 @@ kubectl get scans
  * User: `elastic`
  * Password: `kubectl get secret scb-elasticsearch-es-elastic-user -n scb-analytics -o=jsonpath='{.data.elastic}' | base64 --decode; echo`
  * Port Forward Kibana: `kubectl port-forward -n default service/persistence-elastic-kibana 5601:5601`
- * Port Forward Elasticsearch: `kubectl port-forward -n default service/elasticsearch-master 9200:9200` 
+ * Port Forward Elasticsearch: `kubectl port-forward -n default service/elasticsearch-master 9200:9200`
 
 
 ## How does it work?
