@@ -40,16 +40,12 @@ jobs:
           cd -
           cd hooks/
           npm ci
-      - name: "Run tests"
-        run: |
-          npm test -- --ci --colors --coverage
-      - name: Test & publish code coverage
+      - name: "Run tests & publish code coverage"
         uses: paambaati/codeclimate-action@v2.6.0
         env:
           CC_TEST_REPORTER_ID: 80b305e484240da8cecbd1d017dfb365d3ee7f4508b5ed8fd9e9348efd286406
         with:
           coverageCommand: npm test -- --ci --colors --coverage
-          debug: true
   operator:
     name: "Build / Operator"
     runs-on: ubuntu-latest
