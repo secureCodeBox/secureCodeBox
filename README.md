@@ -1,13 +1,17 @@
 <p align="center">
-  <img alt="secureCodeBox Logo" src="./docs/resources/securecodebox-logo.svg" width="800px">
+  <img alt="secureCodeBox Logo" src="./docs/resources/securecodebox-logo.svg" width="500px">
+  <img alt="secureCodeBox Logo" src="https://owasp.org/assets/images/logo.png" width="200px">
 </p>
 
 <p align="center">
-  <a href="https://opensource.org/licenses/Apache-2.0"><img alt="Build" src="https://github.com/secureCodeBox/secureCodeBox-v2-alpha/workflows/CI/badge.svg"></a>
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Apache-2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>
   <a href="https://github.com/secureCodeBox/secureCodeBox/releases/latest"><img alt="Latest GitHub Release" src="https://img.shields.io/github/release/secureCodeBox/secureCodeBox.svg"></a>
   <a href="https://owasp.org/www-project-securecodebox/"><img alt="OWASP Incubator Project" src="https://img.shields.io/badge/OWASP-Incubator%20Project-365EAA"></a>
   <a href="https://twitter.com/securecodebox"><img alt="Twitter Follower" src="https://img.shields.io/twitter/follow/securecodebox?style=social"></a>
+</p>
+<p align="center">
+  <a href="https://opensource.org/licenses/Apache-2.0"><img alt="Build" src="https://github.com/secureCodeBox/secureCodeBox-v2-alpha/workflows/CI/badge.svg"></a>
+  <a href="https://codeclimate.com/github/secureCodeBox/secureCodeBox-v2-alpha/test_coverage"><img alt="Test Coverage" src="https://api.codeclimate.com/v1/badges/b6bf3af707671b5e5251/test_coverage" /></a>
 </p>
 
 **NOTE**: This Repository contains a **work in progress** preview of the planned next mayor secureCodeBox Release. You can find the current **stable release** here [https://github.com/secureCodeBox/secureCodeBox](https://github.com/secureCodeBox/secureCodeBox). The release of version 2.0 is still at least some month away but you can already get a sneak peak here 😀. The release will contain a mayor re architecture of the secureCodeBox. More details will follow soon in a series of blog articles.
