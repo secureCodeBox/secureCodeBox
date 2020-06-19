@@ -198,6 +198,7 @@ jobs:
           repository: scbexperimental/hook-sdk-nodejs
           path: ./hook-sdk/nodejs/
           tag_with_ref: true
+          tags: "ci-local"
       # Actual PersistenceProviders
       - uses: docker/build-push-action@v1
         name: "Build & Push Elastic PersistenceProvider Hook Image"
@@ -207,6 +208,7 @@ jobs:
           repository: scbexperimental/persistence-elastic
           path: ./hooks/persistence-elastic/
           tag_with_ref: true
+          build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
         name: "Build & Push Elastic PersistenceProvider Dashboard Importer Image"
         with:
@@ -223,6 +225,7 @@ jobs:
           repository: scbexperimental/generic-webhook
           path: ./hooks/generic-webhook/
           tag_with_ref: true
+          build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
         name: "Build & Push ImperativeSubsequentScans Hook Image"
         with:
@@ -231,6 +234,7 @@ jobs:
           repository: scbexperimental/hook-imperative-subsequent-scans
           path: ./hooks/imperative-subsequent-scans/
           tag_with_ref: true
+          build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
         name: "Build & Push UpdateField Hook Image"
         with:
@@ -240,6 +244,7 @@ jobs:
           path: ./hooks/update-field/
           tag_with_ref: true
           tag_with_sha: true
+          build_args: baseImageTag=ci-local
   scannerImages:
     # Note we only build images for scanner that don't provider official public container images
     name: "Build / Scanner"
