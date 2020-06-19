@@ -10,7 +10,7 @@
   <a href="https://owasp.org/www-project-securecodebox/"><img alt="OWASP Incubator Project" src="https://img.shields.io/badge/OWASP-Incubator%20Project-365EAA"></a>
 </p>
 
-**NOTE**: This Repository contains a **work in progress** preview of the planned next mayor secureCodeBox Release. You can find the current **stable release** here [https://github.com/secureCodeBox/secureCodeBox](https://github.com/secureCodeBox/secureCodeBox). The release of version 2.0 is still at least some month away but you can already get a sneak peak here 😀. The release will contain a mayor re architecture of the secureCodeBox. More details will follow soon in a series of blog articles.
+**NOTE**: This Repository contains a **work in progress** preview of the planned next major secureCodeBox Release. You can find the current **stable release** here [https://github.com/secureCodeBox/secureCodeBox](https://github.com/secureCodeBox/secureCodeBox). The release of version 2.0 is still at least some month away but you can already get a sneak peak here 😀. The release will contain a major architecture change which will not be backward compatible. More details will follow soon in a series of blog articles.
 
 > _secureCodeBox_ is a kubernetes based, modularized toolchain for continuous security scans of your software project. Its goal is to orchestrate and easily automate a bunch of security-testing tools out of the box.
 
@@ -59,7 +59,7 @@ There is a german article about [Security DevOps – Angreifern (immer) einen Sc
 
 ### Prerequisites
 
-- kubernetes (last 4 mayor releases supported: `1.15`, `1.16`, `1.17` & `1.18`)
+- kubernetes (last 4 major releases supported: `1.15`, `1.16`, `1.17` & `1.18`)
 
 ### Deployment (based on Helm)
 
