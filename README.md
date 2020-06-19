@@ -69,15 +69,15 @@ kubectl create namespace securecodebox-system
 helm -n securecodebox-system install securecodebox-operator ./operator/
 
 # Deploy SCB scanner Charts for each security scanner you want to use (all optional)
-helm upgrade --install amass ./integrations/amass/
-helm upgrade --install kube-hunter ./integrations/kube-hunter/
-helm upgrade --install nikto ./integrations/nikto
-helm upgrade --install nmap ./integrations/nmap/
-helm upgrade --install ssh-scan ./integrations/ssh_scan/
-helm upgrade --install sslyze ./integrations/sslyze/
-helm upgrade --install trivy ./integrations/trivy/
-helm upgrade --install zap ./integrations/zap/
-helm upgrade --install wpscan ./integrations/wpscan/
+helm upgrade --install amass ./scanner/amass/
+helm upgrade --install kube-hunter ./scanner/kube-hunter/
+helm upgrade --install nikto ./scanner/nikto
+helm upgrade --install nmap ./scanner/nmap/
+helm upgrade --install ssh-scan ./scanner/ssh_scan/
+helm upgrade --install sslyze ./scanner/sslyze/
+helm upgrade --install trivy ./scanner/trivy/
+helm upgrade --install zap ./scanner/zap/
+helm upgrade --install wpscan ./scanner/wpscan/
 
 # Optional Deploy some Demo Apps for scanning
 helm upgrade --install dummy-ssh ./demo-apps/dummy-ssh/
