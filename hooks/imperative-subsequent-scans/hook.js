@@ -191,11 +191,12 @@ async function startZAPBaselineHttpsScan({ parentScan, hostname, port }) {
     console.log(
       " --> Starting async subsequent ZAP Scan for host: '" + hostname + "' and port: '" + port + "'"
     );
+    // https://www.zaproxy.org/docs/docker/baseline-scan/
     await startSubsequentSecureCodeBoxScan({
       parentScan,
       name: `zap-${port}-${hostname.toLowerCase()}`,
       scanType: "zap-baseline",
-      parameters: ["-t", "https://" + hostname + ":" + port],
+      parameters: ["-a", "-j", "-t", "https://" + hostname + ":" + port],
     });
   }
   else

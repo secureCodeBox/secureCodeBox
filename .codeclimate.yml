@@ -1,0 +1,26 @@
+version: "2"         # required to adjust maintainability checks
+checks:
+  file-lines:
+    config:
+      threshold: 300
+  method-lines:
+    config:
+      threshold: 50
+exclude_patterns:
+  - "config/"
+  - "db/"
+  - "dist/"
+  - "features/"
+  - "**/node_modules/"
+  - "script/"
+  - "**/spec/"
+  - "**/test/"
+  - "**/tests/"
+  - "**/__testFiles__/"
+  - "**/__snapshots__/"
+  - "Tests/"
+  - "**/vendor/"
+  - "**/*_test.go"
+  - "**/*.deepcopy.go"
+  - "**/*.test.js"
+  - "**/*.d.ts"

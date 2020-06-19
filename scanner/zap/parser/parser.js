@@ -11,20 +11,39 @@ function riskToSeverity(risk) {
   }
 }
 
+function stripHtmlTags(str)
+{
+   if ((!str) || ( str === null ) || ( str === '' ))
+       return false;
+  else
+   str = str.toString();
+  return str.replace(/<[^>]*>/g, '');
+}
+
 async function parse(fileContent) {
   return fileContent.site.flatMap(
     ({ '@name': location, '@host': host, alerts }) => {
       return alerts.map(alert => {
         return {
-          name: alert.name,
-          description: alert.desc,
+          name: stripHtmlTags(alert.name),
+          description: stripHtmlTags(alert.desc),
           hint: alert.hint,
-          category: alert.alert || alert.name,
+          category: alert.alert || stripHtmlTags(alert.name),
           location,
           osi_layer: 'APPLICATION',
           severity: riskToSeverity(alert.riskcode),
           attributes: {
-            host,
+            host: host,
+            zap_confidence: alert.confidence || null,
+            zap_count: alert.count || null,
+            zap_solution: stripHtmlTags(alert.solution) || null,
+            zap_otherinfo: stripHtmlTags(alert.otherinfo) || null,
+            zap_reference: stripHtmlTags(alert.reference) || null,
+            zap_cweid: alert.cweid || null,
+            zap_wascid: alert.wascid || null,
+            zap_riskcode: alert.riskcode || null,
+            zap_pluginid: alert.pluginid || null,
+            zap_finding_urls: alert.instances || null,
           },
         };
       });
