@@ -83,7 +83,7 @@ helm upgrade --install wpscan ./scanner/wpscan/
 helm upgrade --install dummy-ssh ./demo-apps/dummy-ssh/
 
 # Deploy secureCodeBox Hooks
-helm upgrade --install aah ./hooks/add-attributes/
+helm upgrade --install aah ./hooks/update-field/
 helm upgrade --install gwh ./hooks/generic-webhook/
 helm upgrade --install issh ./hooks/imperative-subsequent-scans/
 
