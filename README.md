@@ -25,6 +25,9 @@
     - [Prerequisites](#prerequisites)
     - [Deployment (based on Helm)](#deployment-based-on-helm)
     - [Examples](#examples)
+      - [Local Scan Examples](#local-scan-examples)
+      - [Public Scan Examples](#public-scan-examples)
+      - [Then get the current State of the Scan by running:](#then-get-the-current-state-of-the-scan-by-running)
     - [Access Services](#access-services)
   - [How does it work?](#how-does-it-work)
   - [Architecture](#architecture)
@@ -103,27 +106,25 @@ helm upgrade --install elkh ./hooks/persistence-elastic/
 
 ### Examples
 
+Now everything is installed. You can try deploying scans from the `scanner/*/examples` directories.
+
+#### Local Scan Examples
+
+E.g. localhost nmap scan:
+
 ```bash
-# Now everything is installed. You can try deploying scans from the `operator/config/samples/` directory
-## Local Scan Examples
+kubectl apply -f scanner/nmap/examples/localhost/scan.yaml
+```
 
-### E.g. localhost nmap scan
-kubectl apply -f operator/config/samples/execution_v1_scan/nmap_localhost.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/kube-hunter_in_cluster.yaml
+#### Public Scan Examples
 
-## Public Scan Examples
-# E.g. www.securecodebox.io sslyze scan
-kubectl apply -f operator/config/samples/execution_v1_scan/nmap_securecodebox_io.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/amass_securecodebox_io.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/sslyze_securecodebox_io.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/nikto_securecodebox_io.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/ssh_iteratec_de.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/wpscan_nurdemteam_org.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/sslyze_securecodebox_io.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/trivy_mediawiki.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/trivy_juiceshop.yaml
+```bash
+kubectl apply -f scanner/nmap/examples/scan.nmap.org/scan.yaml
+```
 
-# Then get the current State of the Scan by running:
+#### Then get the current State of the Scan by running:
+
+```bash
 kubectl get scans
 ```
 
