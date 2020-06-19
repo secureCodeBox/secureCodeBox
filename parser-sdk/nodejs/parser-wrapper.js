@@ -47,6 +47,9 @@ async function updateScanStatus(findings) {
           },
         },
       },
+      undefined,
+      undefined,
+      undefined,
       { headers: { "content-type": "application/merge-patch+json" } }
     );
     console.log("Updated status successfully");

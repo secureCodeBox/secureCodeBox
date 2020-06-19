@@ -102,6 +102,7 @@ jobs:
           path: ./parser-sdk/nodejs/
           tag_with_ref: true
           tag_with_sha: true
+          tags: "ci-local"
       # Actual Parsers
       - uses: docker/build-push-action@v1
         name: "Build & Push Amass Parser Image"
@@ -112,6 +113,7 @@ jobs:
           path: ./scanner/amass/parser/
           tag_with_ref: true
           tag_with_sha: true
+          build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
         name: "Build & Push kube-hunter Parser Image"
         with:
@@ -121,6 +123,7 @@ jobs:
           path: ./scanner/kube-hunter/parser/
           tag_with_ref: true
           tag_with_sha: true
+          build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
         name: "Build & Push Nikto Parser Image"
         with:
@@ -130,6 +133,7 @@ jobs:
           path: ./scanner/nikto/parser/
           tag_with_ref: true
           tag_with_sha: true
+          build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
         name: "Build & Push Nmap Parser Image"
         with:
@@ -139,6 +143,7 @@ jobs:
           path: ./scanner/nmap/parser/
           tag_with_ref: true
           tag_with_sha: true
+          build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
         name: "Build & Push ssh_scan Parser Image"
         with:
@@ -148,6 +153,7 @@ jobs:
           path: ./scanner/ssh_scan/parser/
           tag_with_ref: true
           tag_with_sha: true
+          build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
         name: "Build & Push SSLyze Parser Image"
         with:
@@ -157,6 +163,7 @@ jobs:
           path: ./scanner/sslyze/parser/
           tag_with_ref: true
           tag_with_sha: true
+          build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
         name: "Build & Push test-scan Parser Image"
         with:
@@ -166,6 +173,7 @@ jobs:
           path: ./scanner/test-scan/parser/
           tag_with_ref: true
           tag_with_sha: true
+          build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
         name: "Build & Push Trivy Parser Image"
         with:
@@ -175,6 +183,7 @@ jobs:
           path: ./scanner/trivy/parser/
           tag_with_ref: true
           tag_with_sha: true
+          build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
         name: "Build & Push OWASP Zap Parser Image"
         with:
@@ -184,6 +193,7 @@ jobs:
           path: ./scanner/zap/parser/
           tag_with_ref: true
           tag_with_sha: true
+          build_args: baseImageTag=ci-local
   hookImages:
     name: "Build / Hooks"
     runs-on: ubuntu-latest
@@ -198,6 +208,7 @@ jobs:
           repository: scbexperimental/hook-sdk-nodejs
           path: ./hook-sdk/nodejs/
           tag_with_ref: true
+          tags: "ci-local"
       # Actual PersistenceProviders
       - uses: docker/build-push-action@v1
         name: "Build & Push Elastic PersistenceProvider Hook Image"
@@ -207,6 +218,7 @@ jobs:
           repository: scbexperimental/persistence-elastic
           path: ./hooks/persistence-elastic/
           tag_with_ref: true
+          build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
         name: "Build & Push Elastic PersistenceProvider Dashboard Importer Image"
         with:
@@ -223,6 +235,7 @@ jobs:
           repository: scbexperimental/generic-webhook
           path: ./hooks/generic-webhook/
           tag_with_ref: true
+          build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
         name: "Build & Push ImperativeSubsequentScans Hook Image"
         with:
@@ -231,6 +244,7 @@ jobs:
           repository: scbexperimental/hook-imperative-subsequent-scans
           path: ./hooks/imperative-subsequent-scans/
           tag_with_ref: true
+          build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
         name: "Build & Push UpdateField Hook Image"
         with:
@@ -240,6 +254,7 @@ jobs:
           path: ./hooks/update-field/
           tag_with_ref: true
           tag_with_sha: true
+          build_args: baseImageTag=ci-local
   scannerImages:
     # Note we only build images for scanner that don't provider official public container images
     name: "Build / Scanner"
