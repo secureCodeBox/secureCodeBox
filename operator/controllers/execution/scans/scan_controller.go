@@ -52,6 +52,8 @@ var (
 // https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definitions/#finalizers
 var s3StorageFinalizer = "s3.storage.experimental.securecodebox.io"
 
+const defaultPresignDuration = 12 * time.Hour
+
 // +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=scans,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=scans/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=scantypes,verbs=get;list;watch
@@ -147,11 +149,11 @@ func (r *ScanReconciler) handleFinalizer(scan *executionv1.Scan) error {
 }
 
 // PresignedGetURL returns a presigned URL from the s3 (or compatible) serice.
-func (r *ScanReconciler) PresignedGetURL(scanID types.UID, filename string) (string, error) {
+func (r *ScanReconciler) PresignedGetURL(scanID types.UID, filename string, duration time.Duration) (string, error) {
 	bucketName := os.Getenv("S3_BUCKET")
 
 	reqParams := make(url.Values)
-	rawResultDownloadURL, err := r.MinioClient.PresignedGetObject(bucketName, fmt.Sprintf("scan-%s/%s", string(scanID), filename), 12*time.Hour, reqParams)
+	rawResultDownloadURL, err := r.MinioClient.PresignedGetObject(bucketName, fmt.Sprintf("scan-%s/%s", string(scanID), filename), duration, reqParams)
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
 		return "", err
@@ -160,10 +162,10 @@ func (r *ScanReconciler) PresignedGetURL(scanID types.UID, filename string) (str
 }
 
 // PresignedPutURL returns a presigned URL from the s3 (or compatible) serice.
-func (r *ScanReconciler) PresignedPutURL(scanID types.UID, filename string) (string, error) {
+func (r *ScanReconciler) PresignedPutURL(scanID types.UID, filename string, duration time.Duration) (string, error) {
 	bucketName := os.Getenv("S3_BUCKET")
 
-	rawResultDownloadURL, err := r.MinioClient.PresignedPutObject(bucketName, fmt.Sprintf("scan-%s/%s", string(scanID), filename), 12*time.Hour)
+	rawResultDownloadURL, err := r.MinioClient.PresignedPutObject(bucketName, fmt.Sprintf("scan-%s/%s", string(scanID), filename), duration)
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
 		return "", err

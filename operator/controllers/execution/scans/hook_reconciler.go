@@ -82,20 +82,20 @@ func (r *ScanReconciler) executeReadAndWriteHooks(scan *executionv1.Scan) error 
 
 	switch nonCompletedHook.State {
 	case executionv1.Pending:
-		rawFileURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile)
+		rawFileURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile, defaultPresignDuration)
 		if err != nil {
 			return err
 		}
-		findingsFileURL, err := r.PresignedGetURL(scan.UID, "findings.json")
+		findingsFileURL, err := r.PresignedGetURL(scan.UID, "findings.json", defaultPresignDuration)
 		if err != nil {
 			return err
 		}
 
-		rawFileUploadURL, err := r.PresignedPutURL(scan.UID, scan.Status.RawResultFile)
+		rawFileUploadURL, err := r.PresignedPutURL(scan.UID, scan.Status.RawResultFile, defaultPresignDuration)
 		if err != nil {
 			return err
 		}
-		findingsUploadURL, err := r.PresignedPutURL(scan.UID, "findings.json")
+		findingsUploadURL, err := r.PresignedPutURL(scan.UID, "findings.json", defaultPresignDuration)
 		if err != nil {
 			return err
 		}
@@ -242,11 +242,11 @@ func (r *ScanReconciler) startReadOnlyHooks(scan *executionv1.Scan) error {
 			continue
 		}
 
-		rawFileURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile)
+		rawFileURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile, defaultPresignDuration)
 		if err != nil {
 			return err
 		}
-		findingsFileURL, err := r.PresignedGetURL(scan.UID, "findings.json")
+		findingsFileURL, err := r.PresignedGetURL(scan.UID, "findings.json", defaultPresignDuration)
 		if err != nil {
 			return err
 		}
