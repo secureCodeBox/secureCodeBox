@@ -71,8 +71,11 @@ Deploy the secureCodeBox operator first:
 ```bash
 kubectl create namespace securecodebox-system
 helm -n securecodebox-system install securecodebox-operator ./operator/
+```
 
-# Deploy SCB scanner Charts for each security scanner you want to use (all optional)
+Optionally deploy SCB scanner Charts for each security scanner you want to use:
+
+```bash
 helm upgrade --install amass ./scanner/amass/
 helm upgrade --install kube-hunter ./scanner/kube-hunter/
 helm upgrade --install nikto ./scanner/nikto
