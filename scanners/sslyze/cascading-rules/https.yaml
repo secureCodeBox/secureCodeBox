@@ -1,17 +1,16 @@
 apiVersion: "cascading.experimental.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
-  name: "tls-scans"
+  name: "https-tls-scans"
 spec:
   matches:
     anyOf:
       - category: "Open Port"
         attributes:
           port: 443
-          service: "https"
       - category: "Open Port"
         attributes:
           service: "https"
   scanSpec:
-    name: "sslyze"
-    parameters: ["--regular", "{{attributes.hostname}}"]
+    scanType: "sslyze"
+    parameters: ["--regular", "{{attributes.hostname}}:{{attributes.port}}"]
