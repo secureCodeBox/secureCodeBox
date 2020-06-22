@@ -2,6 +2,9 @@ apiVersion: "cascading.experimental.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
   name: "smtps-tls-scan"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: light
 spec:
   matches:
     anyOf:
@@ -19,6 +22,9 @@ apiVersion: "cascading.experimental.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
   name: "pop3s-tls-scan"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: light
 spec:
   matches:
     anyOf:
@@ -36,6 +42,9 @@ apiVersion: "cascading.experimental.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
   name: "imaps-tls-scan"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: light
 spec:
   matches:
     anyOf:

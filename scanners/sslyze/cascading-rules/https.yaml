@@ -2,6 +2,9 @@ apiVersion: "cascading.experimental.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
   name: "https-tls-scan"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: light
 spec:
   matches:
     anyOf:
