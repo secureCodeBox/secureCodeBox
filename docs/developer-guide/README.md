@@ -21,26 +21,29 @@ To operate your (local) kubernetes cluster you will need to install [kubectl](ht
 For your local development you will need a S3 compatible storage.
 We would recommend to use [Minio](https://min.io/download#/) inside a podman or docker container.
 
+##### If You Want to Use Podman
+
 ```bash
-# if you want to use podman
-$ podman run --name minio -p 9000:9000 minio/minio server /data
-# if you want to use docker
-$ docker run --name minio -p 9000:9000 minio/minio server /data
+podman run --name minio -p 9000:9000 minio/minio server /data
 ```
 
-In the Minio management GUI you will need to add a new bucket for the operator.
-The default credentials for your minio instance are *minioadmin:minioadmin*.
-You might change those.
-
-After setting up your bucket you will need to specify some environment variables to enable the operator to use the bucket.
-You could add these to your *.bashrc* or *.zshrc* as well.
+##### If You Want to Use Docker
 
 ```bash
-$ export S3_ACCESS_KEY="your-minio-access-key"
-$ export S3_SECRET_KEY="your-minio-secret-key"
-$ export S3_BUCKET="name-of-your-bucket"
-$ export S3_USE_SSL="false" # This ensures that the operator will connect even without HTTPS
-$ export S3_ENDPOINT="<your.local.ip1address>:9000/"
+docker run --name minio -p 9000:9000 minio/minio server /data
+```
+
+In the Minio management GUI you will need to add a new bucket for the operator. The default credentials for your minio instance are `minioadmin:minioadmin`. You might change those.
+
+After setting up your bucket you will need to specify some environment variables to enable the operator to use the bucket.
+You could add these to your `.bashrc` or `.zshrc` as well.
+
+```bash
+export S3_ACCESS_KEY="your-minio-access-key"
+export S3_SECRET_KEY="your-minio-secret-key"
+export S3_BUCKET="name-of-your-bucket"
+export S3_USE_SSL="false" # This ensures that the operator will connect even without HTTPS
+export S3_ENDPOINT="<your.local.ip1address>:9000/"
 ```
 
 ### Build and run the operator
@@ -48,7 +51,7 @@ $ export S3_ENDPOINT="<your.local.ip1address>:9000/"
 To build an run the operator you can simply execute *make* in the *operator* directory of this repository.
 
 ```bash
-$ make
+make
 ```
 
 To run the operator locally you can simply execute *make run*
@@ -56,7 +59,7 @@ To run the operator locally you can simply execute *make run*
 *NOTICE:* You will need to uninstall the operator from your local cluster first or it will result in undefined behavior!
 
 ```bash
-$ make run
+make run
 ```
 
 ## How to a new security scanner
@@ -71,13 +74,13 @@ $ make run
 
 ### Hook SDK
 
-# Guidelines
+## Guidelines
 
-## Coding Guidelines
+### Coding Guidelines
 
-### JSON
+#### JSON
 
-We're using snake_case (lower case) for json attributes. If an enum type is used as attribute its converted to lower case. If it's an value it's always used UPPERCASE. This is to hold the attribute api consistent, but make shure Enums are recognized as enums.
+We're using snake_case (lower case) for json attributes. If an enum type is used as attribute its converted to lower case. If it's an value it's always used UPPERCASE. This is to hold the attribute api consistent, but make sure Enums are recognized as enums.
 
 ```json
 {
