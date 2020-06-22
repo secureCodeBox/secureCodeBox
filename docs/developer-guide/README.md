@@ -12,7 +12,7 @@ The operator is written in Golang. To build the operator you will need to instal
 
 For local development we recommend to use [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or [kind](https://github.com/kubernetes-sigs/kind). If you are using MacOS or Windows you can also use the kubernetes cluster included within Docker for Mac/Windows. All of these tools will enable you to run a local kubernetes cluster on your development machine.
 
-#### Operating your local kubernetes cluster
+#### Operating Your Local Kubernetes Cluster
 
 To operate your (local) kubernetes cluster you will need to install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) and [helm](https://helm.sh/)
 
@@ -46,7 +46,7 @@ export S3_USE_SSL="false" # This ensures that the operator will connect even wit
 export S3_ENDPOINT="<your.local.ip1address>:9000/"
 ```
 
-### Build and run the operator
+### Build and Run the Operator
 
 To build an run the operator you can simply execute *make* in the *operator* directory of this repository.
 
@@ -62,13 +62,13 @@ To run the operator locally you can simply execute *make run*
 make run
 ```
 
-## How to a new security scanner
+## How to a New Security Scanner
 
 ### ScanType Definition
 
 ### Parsing SDK
 
-## How to integrate a new hook
+## How to Integrate a New Hook
 
 ### HookType Definition
 
