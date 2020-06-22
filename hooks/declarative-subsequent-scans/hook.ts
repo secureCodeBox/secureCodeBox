@@ -22,8 +22,12 @@ interface CascadingRules {
 }
 
 interface CascadingRuleSpec {
-  matches: Array<Finding>;
+  matches: Matches;
   scanSpec: ScanSpec;
+}
+
+interface Matches {
+  anyOf: Array<Finding>;
 }
 
 interface Scan {
@@ -74,7 +78,7 @@ export function getCascadingScans(
   for (const cascadingRule of cascadingRules) {
     for (const finding of findings) {
       // Check if one (ore more) of the CascadingRule matchers apply to the finding
-      const matches = cascadingRule.spec.matches.some((matchesRule) =>
+      const matches = cascadingRule.spec.matches.anyOf.some((matchesRule) =>
         isMatch(finding, matchesRule)
       );
 

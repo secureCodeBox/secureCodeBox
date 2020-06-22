@@ -35,35 +35,39 @@ spec:
           description: CascadingRuleSpec defines the desired state of CascadingRule
           properties:
             matches:
-              description: Foo is an example field of CascadingRule. Edit CascadingRule_types.go
-                to remove/update
-              items:
-                description: MatchesRule is a generic map which is used to model the
-                  structure of a finding for which the CascadingRule should take effect
-                properties:
-                  attributes:
-                    additionalProperties:
-                      anyOf:
-                      - type: integer
-                      - type: string
-                      x-kubernetes-int-or-string: true
+              description: Matches defines to which findings the CascadingRule should
+                apply
+              properties:
+                anyOf:
+                  items:
+                    description: MatchesRule is a generic map which is used to model
+                      the structure of a finding for which the CascadingRule should
+                      take effect
+                    properties:
+                      attributes:
+                        additionalProperties:
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          x-kubernetes-int-or-string: true
+                        type: object
+                      category:
+                        type: string
+                      description:
+                        type: string
+                      location:
+                        type: string
+                      name:
+                        type: string
+                      osi_layer:
+                        type: string
+                      severity:
+                        type: string
                     type: object
-                  category:
-                    type: string
-                  description:
-                    type: string
-                  location:
-                    type: string
-                  name:
-                    type: string
-                  osi_layer:
-                    type: string
-                  severity:
-                    type: string
-                type: object
-              type: array
+                  type: array
+              type: object
             scanSpec:
-              description: ScanSpec defines the desired state of Scan
+              description: ScanSpec defines how the cascaded scan should look like
               properties:
                 parameters:
                   items:

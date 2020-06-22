@@ -30,9 +30,15 @@ type CascadingRuleSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	// Foo is an example field of CascadingRule. Edit CascadingRule_types.go to remove/update
-	Matches  []MatchesRule        `json:"matches"`
+	// Matches defines to which findings the CascadingRule should apply
+	Matches Matches `json:"matches"`
+	// ScanSpec defines how the cascaded scan should look like
 	ScanSpec executionv1.ScanSpec `json:"scanSpec"`
+}
+
+// Matches defines how matching rules should be combined. Do all have to match? Or just One?
+type Matches struct {
+	AnyOf []MatchesRule `json:"anyOf,omitempty"`
 }
 
 // MatchesRule is a generic map which is used to model the structure of a finding for which the CascadingRule should take effect
