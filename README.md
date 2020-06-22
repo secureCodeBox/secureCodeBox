@@ -1,3 +1,5 @@
+# secureCodeBox – v2 ALPHA
+
 <p align="center">
   <img alt="secureCodeBox Logo" src="./docs/resources/securecodebox-logo.svg" width="800px">
 </p>
@@ -8,7 +10,7 @@
   <a href="https://owasp.org/www-project-securecodebox/"><img alt="OWASP Incubator Project" src="https://img.shields.io/badge/OWASP-Incubator%20Project-365EAA"></a>
 </p>
 
-**NOTE**: This Repository contains a **work in progress** preview of the planned next mayor secureCodeBox Release. You can find the current **stable release** here [https://github.com/secureCodeBox/secureCodeBox](https://github.com/secureCodeBox/secureCodeBox). The release of version 2.0 is still at least some month away but you can already get a sneak peak here 😀. The release will contain a mayor re architecture of the secureCodeBox. More details will follow soon in a series of blog articles.
+**NOTE**: This Repository contains a **work in progress** preview of the planned next major secureCodeBox Release. You can find the current **stable release** here [https://github.com/secureCodeBox/secureCodeBox](https://github.com/secureCodeBox/secureCodeBox). The release of version 2.0 is still at least some month away but you can already get a sneak peak here 😀. The release will contain a major architecture change which will not be backward compatible. More details will follow soon in a series of blog articles.
 
 > _secureCodeBox_ is a kubernetes based, modularized toolchain for continuous security scans of your software project. Its goal is to orchestrate and easily automate a bunch of security-testing tools out of the box.
 
@@ -16,19 +18,23 @@
 
 <!-- toc -->
 
-- [Overview](#overview)
-- [Purpose of this Project](#purpose-of-this-project)
-- [Quickstart](#quickstart)
-  - [Prerequisites](#prerequisites)
-  - [Deployment (based on Helm)](#deployment-based-on-helm)
-  - [Examples](#examples)
-  - [Access Services](#access-services)
-- [How does it work?](#how-does-it-work)
-- [Architecture](#architecture)
-- [License](#license)
-- [Community](#community)
-- [Contributing](#contributing)
-- [Author Information](#author-information)
+- [secureCodeBox – v2 ALPHA](#securecodebox--v2-alpha)
+  - [Overview](#overview)
+  - [Purpose of this Project](#purpose-of-this-project)
+  - [Quickstart](#quickstart)
+    - [Prerequisites](#prerequisites)
+    - [Deployment (based on Helm)](#deployment-based-on-helm)
+    - [Examples](#examples)
+      - [Local Scan Examples](#local-scan-examples)
+      - [Public Scan Examples](#public-scan-examples)
+      - [Then get the current State of the Scan by running:](#then-get-the-current-state-of-the-scan-by-running)
+    - [Access Services](#access-services)
+  - [How does it work?](#how-does-it-work)
+  - [Architecture](#architecture)
+  - [License](#license)
+  - [Community](#community)
+  - [Contributing](#contributing)
+  - [Author Information](#author-information)
 
 For additional documentation aspects please have a look at our:
 
@@ -56,76 +62,86 @@ There is a german article about [Security DevOps – Angreifern (immer) einen Sc
 
 ### Prerequisites
 
-- kubernetes (last 4 mayor releases supported: `1.15`, `1.16`, `1.17` & `1.18`)
+- kubernetes (last 4 major releases supported: `1.15`, `1.16`, `1.17` & `1.18`)
 
 ### Deployment (based on Helm)
 
+Deploy the secureCodeBox operator first:
+
 ```bash
-# Deploy the secureCodeBox Operator first
 kubectl create namespace securecodebox-system
 helm -n securecodebox-system install securecodebox-operator ./operator/
+```
 
-# Deploy SCB scanner Charts for each security scanner you want to use (all optional)
-helm upgrade --install amass ./integrations/amass/
-helm upgrade --install kube-hunter ./integrations/kube-hunter/
-helm upgrade --install nikto ./integrations/nikto
-helm upgrade --install nmap ./integrations/nmap/
-helm upgrade --install ssh-scan ./integrations/ssh_scan/
-helm upgrade --install sslyze ./integrations/sslyze/
-helm upgrade --install trivy ./integrations/trivy/
-helm upgrade --install zap ./integrations/zap/
-helm upgrade --install wpscan ./integrations/wpscan/
+Optionally deploy SCB scanner Charts for each security scanner you want to use:
 
-# Optional Deploy some Demo Apps for scanning
+```bash
+helm upgrade --install amass ./scanner/amass/
+helm upgrade --install kube-hunter ./scanner/kube-hunter/
+helm upgrade --install nikto ./scanner/nikto
+helm upgrade --install nmap ./scanner/nmap/
+helm upgrade --install ssh-scan ./scanner/ssh_scan/
+helm upgrade --install sslyze ./scanner/sslyze/
+helm upgrade --install trivy ./scanner/trivy/
+helm upgrade --install zap ./scanner/zap/
+helm upgrade --install wpscan ./scanner/wpscan/
+```
+
+Optional deploy some demo apps for scanning:
+
+```bash
 helm upgrade --install dummy-ssh ./demo-apps/dummy-ssh/
+```
 
-# Deploy secureCodeBox Hooks 
-helm upgrade --install aah ./hooks/add-attributes/
+Deploy secureCodeBox Hooks:
+
+```bash
+helm upgrade --install aah ./hooks/update-field/
 helm upgrade --install gwh ./hooks/generic-webhook/
 helm upgrade --install issh ./hooks/imperative-subsequent-scans/
+```
 
-## Persistence Provider: Elasticsearch
+Persistence provider Elasticsearch:
+
+```bash
 helm upgrade --install elkh ./hooks/persistence-elastic/
 ```
 
 ### Examples
 
+Now everything is installed. You can try deploying scans from the `scanner/*/examples` directories.
+
+#### Local Scan Examples
+
+E.g. localhost nmap scan:
+
 ```bash
-# Now everything is installed. You can try deploying scans from the `operator/config/samples/` directory
-## Local Scan Examples
+kubectl apply -f scanner/nmap/examples/localhost/scan.yaml
+```
 
-### E.g. localhost nmap scan
-kubectl apply -f operator/config/samples/execution_v1_scan/nmap_localhost.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/kube-hunter_in_cluster.yaml
+#### Public Scan Examples
 
-## Public Scan Examples
-# E.g. www.securecodebox.io sslyze scan
-kubectl apply -f operator/config/samples/execution_v1_scan/nmap_securecodebox_io.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/amass_securecodebox_io.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/sslyze_securecodebox_io.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/nikto_securecodebox_io.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/ssh_iteratec_de.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/wpscan_nurdemteam_org.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/sslyze_securecodebox_io.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/trivy_mediawiki.yaml
-kubectl apply -f operator/config/samples/execution_v1_scan/trivy_juiceshop.yaml
+```bash
+kubectl apply -f scanner/nmap/examples/scan.nmap.org/scan.yaml
+```
 
-# Then get the current State of the Scan by running:
+#### Then get the current State of the Scan by running:
+
+```bash
 kubectl get scans
 ```
 
 ### Access Services
 
-* Minio UI:
-  * AccessKey: `kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.accesskey}' | base64 --decode; echo`
-  * SecretKey: `kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.secretkey}' | base64 --decode; echo`
-  * Port Forward Minio UI: `kubectl port-forward -n securecodebox-system service/securecodebox-operator-minio 9000:9000`
-* Elastic / Kibana UI:
- * User: `elastic`
- * Password: `kubectl get secret scb-elasticsearch-es-elastic-user -n scb-analytics -o=jsonpath='{.data.elastic}' | base64 --decode; echo`
- * Port Forward Kibana: `kubectl port-forward -n default service/persistence-elastic-kibana 5601:5601`
- * Port Forward Elasticsearch: `kubectl port-forward -n default service/elasticsearch-master 9200:9200` 
-
+- Minio UI:
+  - AccessKey: `kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.accesskey}' | base64 --decode; echo`
+  - SecretKey: `kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.secretkey}' | base64 --decode; echo`
+  - Port Forward Minio UI: `kubectl port-forward -n securecodebox-system service/securecodebox-operator-minio 9000:9000`
+- Elastic / Kibana UI:
+  - User: `elastic`
+  - Password: `kubectl get secret scb-elasticsearch-es-elastic-user -n scb-analytics -o=jsonpath='{.data.elastic}' | base64 --decode; echo`
+  - Port Forward Kibana: `kubectl port-forward -n default service/persistence-elastic-kibana 5601:5601`
+  - Port Forward Elasticsearch: `kubectl port-forward -n default service/elasticsearch-master 9200:9200`
 
 ## How does it work?
 
