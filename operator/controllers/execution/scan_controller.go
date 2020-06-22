@@ -39,6 +39,7 @@ import (
 
 	"github.com/minio/minio-go/v6"
 	executionv1 "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/apis/execution/v1"
+	util "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/utils"
 )
 
 // ScanReconciler reconciles a Scan object
@@ -399,10 +400,10 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 	var backOffLimit int32 = 3
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
-			Annotations: make(map[string]string),
-			Name:        fmt.Sprintf("parse-%s", scan.Name),
-			Namespace:   scan.Namespace,
-			Labels:      labels,
+			Annotations:  make(map[string]string),
+			GenerateName: util.TruncateName(fmt.Sprintf("parse-%s", scan.Name)),
+			Namespace:    scan.Namespace,
+			Labels:       labels,
 		},
 		Spec: batch.JobSpec{
 			BackoffLimit: &backOffLimit,
@@ -516,9 +517,9 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 	labels["experimental.securecodebox.io/job-type"] = "scanner"
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
-			Labels:    labels,
-			Name:      fmt.Sprintf("scan-%s", scan.Name),
-			Namespace: scan.Namespace,
+			Labels:       labels,
+			GenerateName: util.TruncateName(fmt.Sprintf("scan-%s", scan.Name)),
+			Namespace:    scan.Namespace,
 		},
 		Spec: *scanType.Spec.JobTemplate.Spec.DeepCopy(),
 	}
@@ -1000,13 +1001,15 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 	} else if hook.Spec.Type == executionv1.ReadOnly {
 		labels["experimental.securecodebox.io/job-type"] = "read-only-hook"
 	}
+	labels["experimental.securecodebox.io/hook-name"] = hook.Name
+
 	var backOffLimit int32 = 3
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
-			Annotations: make(map[string]string),
-			Name:        fmt.Sprintf("%s-%s", hook.Name, scan.Name),
-			Namespace:   scan.Namespace,
-			Labels:      labels,
+			Annotations:  make(map[string]string),
+			GenerateName: util.TruncateName(fmt.Sprintf("%s-%s", hook.Name, scan.Name)),
+			Namespace:    scan.Namespace,
+			Labels:       labels,
 		},
 		Spec: batch.JobSpec{
 			BackoffLimit: &backOffLimit,
