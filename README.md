@@ -169,42 +169,11 @@ Contributions are welcome and extremely helpful 🙌
 
 ## Author Information
 
-Sponsored by [iteratec GmbH](https://www.iteratec.de/) -
-[secureCodeBox.io](https://www.securecodebox.io/)
+Sponsored by [iteratec GmbH](https://www.iteratec.de/) - [secureCodeBox.io](https://www.securecodebox.io/)
 
-[nginx]: https://nginx.org/en/
-[camunda]: https://camunda.com/de/
-[exteralservicetask]: https://docs.camunda.org/manual/latest/user-guide/process-engine/external-tasks/
-[bpmn]: https://en.wikipedia.org/wiki/Business_Process_Model_and_Notation
-[docker]: https://www.docker.com/
-[consul]: https://www.consul.io/
-[microservices]: https://martinfowler.com/articles/microservices.html
-[beta-testers]: https://www.securecodebox.io/
 [owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
 [objspec]: https://www.sigs-datacom.de/fachzeitschriften/objektspektrum.html
 [secdevops-objspec]: http://www.sigs.de/public/ots/2017/OTS_DevOps_2017/Seedorff_Pfaender_OTS_%20DevOps_2017.pdf
-[jenkins]: https://jenkins.io/
-[nmap]: https://nmap.org/
-[nikto]: https://cirt.net/Nikto2
-[arcachni]: http://www.arachni-scanner.com/
-[sslyze]: https://github.com/nabla-c0d3/sslyze
-[sqlmap]: http://sqlmap.org/
-[sshscan]: https://github.com/mozilla/ssh_scan_api
-[burp]: https://portswigger.net/burp
-[arachni]: http://www.arachni-scanner.com/
-[wpscan]: https://wpscan.org/
-[amass]: https://github.com/owasp/amass
-[wordpress]: https://wordpress.com/
-[consul]: https://www.consul.io/
-[resty]: https://openresty.org/en/
-[keycloak]: http://www.keycloak.org/
-[openid]: https://de.wikipedia.org/wiki/OpenID
-[elasticsearch]: https://www.elastic.co/products/elasticsearch
-[kibana]: https://www.elastic.co/de/products/kibana
-[logstash]: https://www.elastic.co/products/logstash
-[dvwa]: http://www.dvwa.co.uk/
-[bodgeit]: https://github.com/psiinon/bodgeit
-[juiceshop]: https://www.owasp.org/index.php/OWASP_Juice_Shop_Project
 [scb-github]: https://github.com/secureCodeBox/
 [scb-engine]: https://github.com/secureCodeBox/engine
 [scb-twitter]: https://twitter.com/secureCodeBox
