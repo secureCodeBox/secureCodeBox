@@ -36,7 +36,7 @@ interface Scan {
 }
 
 interface ScanSpec {
-  name: string;
+  scanType: string;
   parameters: Array<string>;
 }
 
@@ -51,10 +51,10 @@ export async function handle({ scan, getFindings }: HandleArgs) {
 
   const cascadingScans = getCascadingScans(findings, cascadingRules);
 
-  for (const { name, parameters } of cascadingScans) {
+  for (const { scanType, parameters } of cascadingScans) {
     await startSubsequentSecureCodeBoxScan({
       parentScan: scan,
-      scanType: name,
+      scanType,
       parameters,
     });
   }
@@ -83,10 +83,10 @@ export function getCascadingScans(
       );
 
       if (matches) {
-        const { name, parameters } = cascadingRule.spec.scanSpec;
+        const { scanType, parameters } = cascadingRule.spec.scanSpec;
 
         cascadingScans.push({
-          name: Mustache.render(name, finding),
+          scanType: Mustache.render(scanType, finding),
           parameters: parameters.map((parameter) =>
             Mustache.render(parameter, finding)
           ),
