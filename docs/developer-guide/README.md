@@ -64,7 +64,7 @@ export S3_USE_SSL="false" # This ensures that the operator will connect even wit
 export S3_ENDPOINT="127.0.0.1:9000"
 ```
 
-You can save time by using [direnv](https://direnv.net/) to export these variables in your project.
+You can save time by using [direnv](https://direnv.net/) to export these variables in your project. If you use direnv just add a file `.s3_credentials` with your Minio credentials.
 
 ### Build and Run the Operator
 

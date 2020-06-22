@@ -4,4 +4,4 @@ coverage/
 .vagrant
 **.log
 **/*.monopic
-.envrc
+.s3_credentials
