@@ -2,7 +2,7 @@ const { scan } = require("../helpers");
 const k8s = require('@kubernetes/client-node');
 
 test(
-  "localhost port scan should only find a host finding",
+  "should trigger a webhook",
   async () => {
     await scan(
       "test-scan-read-only-hook",
