@@ -1,3 +1,4 @@
+ARG baseImageTag
 FROM node:12-alpine as install
 RUN mkdir -p /home/app
 WORKDIR /home/app
@@ -12,7 +13,7 @@ RUN npm ci
 COPY hook.ts scan-helpers.js ./
 RUN npm run build
 
-FROM scbexperimental/hook-sdk-nodejs:latest
+FROM scbexperimental/hook-sdk-nodejs:${baseImageTag:-latest}
 WORKDIR /home/app/hook-wrapper/hook/
 COPY --chown=app:app scan-helpers.js ./
 COPY --from=build --chown=app:app /home/app/hook.js ./
