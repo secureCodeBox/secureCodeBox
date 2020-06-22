@@ -73,6 +73,8 @@ There is a german article about [Security DevOps – Angreifern (immer) einen Sc
 
 ### Deployment (based on Helm)
 
+There are shorthand scripts to un-/install everything in the `bin` directory.
+
 Deploy the secureCodeBox operator first:
 
 ```bash
@@ -80,7 +82,7 @@ kubectl create namespace securecodebox-system
 helm -n securecodebox-system install securecodebox-operator ./operator/
 ```
 
-Optionally deploy SCB scanner Charts for each security scanner you want to use:
+Optionally deploy SCB scanner charts for each security scanner you want to use. They should not be installed into the `securecodebox-system` like the operator so that different teams can use different kinds of scanners.
 
 ```bash
 helm upgrade --install amass ./scanners/amass/
