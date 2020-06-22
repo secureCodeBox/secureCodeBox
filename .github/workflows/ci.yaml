@@ -10,7 +10,7 @@ jobs:
         run: ls
       - name: "Install npm dependencies in all parser sub projects"
         run: |
-          for dir in scanner/*/parser/
+          for dir in scanners/*/parser/
           do
               cd $dir
               if [ -f package.json ] && [ -f package-lock.json ]; then
