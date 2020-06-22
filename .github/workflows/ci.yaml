@@ -316,7 +316,7 @@ jobs:
 
           # Operator Namespace
           kubectl create namespace securecodebox-system
-          # Install Operator using the images of the current commit 
+          # Install Operator using the images of the current commit
           helm -n securecodebox-system install securecodebox-operator ./operator/ --wait \
             --set="image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="image.digest=null" \
@@ -334,7 +334,7 @@ jobs:
         run: "kubectl create namespace demo-apps"
       - name: "Install Test Dependencies"
         run: |
-          cd tests/integration/ 
+          cd tests/integration/
           npm ci
       # This steps should include Integration tests which are not related to a Specific Scanner
       - name: "Throws NoScanDefiniton Error Integration Tests"
@@ -360,7 +360,7 @@ jobs:
           helm -n integration-tests install test-scan ./scanner/test-scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           helm -n integration-tests install http-webhook ./demo-apps/http-webhook
           WEB_HOOK_IP=$(kubectl get -n integration-tests service/http-webhook -o jsonpath='{.spec.clusterIP}')
-        helm -n integration-test install read-only-hook ./hooks/generic-webhook/ --set="webhookUrl=http://$WEB_HOOK_IP/hallo-welt"
+          helm -n integration-test install read-only-hook ./hooks/generic-webhook/ --set="webhookUrl=http://$WEB_HOOK_IP/hallo-welt"
           cd tests/integration/
           npx jest --ci --color read-write-hook
           helm -n integration-tests uninstall test-scan update-category update-severity
