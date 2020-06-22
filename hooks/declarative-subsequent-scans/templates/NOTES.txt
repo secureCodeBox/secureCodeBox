@@ -1,2 +1,13 @@
-imperative-subsequent-scans Hook deployed.
-This will start possible subsequent security scans based on nmap findings (e.g. open ports found by NMAP or subdomains found by AMASS).
+Declarative Subsequent Scan Hook deployed.
+
+This will allow you to start Scans based on previous findings.
+E.g. start a ssh scan for every open ssh port found.
+
+The rules are defined as kubernetes CRD's. You can list all of these `CascadingScanRules` by running:
+
+$ kubectl get cascadingrules
+
+You need to explicitly turn on scan cascading for every scan you use.
+You can do that by setting a label selector which matches all rules you want to use.
+
+Find out more, on the docs: TODO
