@@ -16,7 +16,7 @@ interface Finding {
   attributes: Map<string, string | number>;
 }
 
-interface CascadingRules {
+interface CascadingRule {
   metadata: k8s.V1ObjectMeta;
   spec: CascadingRuleSpec;
 }
@@ -41,7 +41,9 @@ interface ScanSpec {
 }
 
 interface ExtendedScanSpec extends ScanSpec {
-  generatedBy: string;
+  // This is the name of the scan. Its not "really" part of the scan spec
+  // But this makes the object smaller
+  name: string;
 }
 
 interface HandleArgs {
@@ -53,11 +55,11 @@ export async function handle({ scan, getFindings }: HandleArgs) {
   const findings = await getFindings();
   const cascadingRules = await getCascadingRules();
 
-  const cascadingScans = getCascadingScans(findings, cascadingRules);
+  const cascadingScans = getCascadingScans(scan, findings, cascadingRules);
 
-  for (const { scanType, parameters, generatedBy } of cascadingScans) {
+  for (const { name, scanType, parameters } of cascadingScans) {
     await startSubsequentSecureCodeBoxScan({
-      name: `${scan.metadata.name}-${generatedBy}`,
+      name,
       parentScan: scan,
       scanType,
       parameters,
@@ -65,9 +67,9 @@ export async function handle({ scan, getFindings }: HandleArgs) {
   }
 }
 
-async function getCascadingRules(): Promise<Array<CascadingRules>> {
+async function getCascadingRules(): Promise<Array<CascadingRule>> {
   // Explicit Cast to the proper Type
-  return <Array<CascadingRules>>await getCascadingRulesFromCluster();
+  return <Array<CascadingRule>>await getCascadingRulesFromCluster();
 }
 
 /**
@@ -75,8 +77,9 @@ async function getCascadingRules(): Promise<Array<CascadingRules>> {
  * and returns a List of Scans which should be started based on both.
  */
 export function getCascadingScans(
+  parentScan: Scan,
   findings: Array<Finding>,
-  cascadingRules: Array<CascadingRules>
+  cascadingRules: Array<CascadingRule>
 ): Array<ExtendedScanSpec> {
   const cascadingScans: Array<ExtendedScanSpec> = [];
 
@@ -91,7 +94,7 @@ export function getCascadingScans(
         const { scanType, parameters } = cascadingRule.spec.scanSpec;
 
         cascadingScans.push({
-          generatedBy: cascadingRule.metadata.name,
+          name: generateCascadingScanName(parentScan, cascadingRule),
           scanType: Mustache.render(scanType, finding),
           parameters: parameters.map((parameter) =>
             Mustache.render(parameter, finding)
@@ -102,4 +105,20 @@ export function getCascadingScans(
   }
 
   return cascadingScans;
+}
+
+function generateCascadingScanName(
+  parentScan: Scan,
+  cascadingRule: CascadingRule
+): string {
+  let namePrefix = parentScan.metadata.name;
+
+  // 🧙‍ If the Parent Scan start with its scanType we'll replace it with the ScanType of the CascadingScan
+  if (namePrefix.startsWith(parentScan.spec.scanType)) {
+    namePrefix = namePrefix.replace(
+      parentScan.spec.scanType,
+      cascadingRule.spec.scanSpec.scanType
+    );
+  }
+  return `${namePrefix}-${cascadingRule.metadata.name}-`;
 }
