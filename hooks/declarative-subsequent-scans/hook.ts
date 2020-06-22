@@ -120,5 +120,5 @@ function generateCascadingScanName(
       cascadingRule.spec.scanSpec.scanType
     );
   }
-  return `${namePrefix}-${cascadingRule.metadata.name}-`;
+  return `${namePrefix}-${cascadingRule.metadata.name}`;
 }
