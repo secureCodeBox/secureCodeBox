@@ -341,7 +341,7 @@ jobs:
         run: |
           cd tests/integration/
           npx jest --ci --color no-scan-definition-error
-      - name: "Hooks Integration Tests"
+      - name: "Hooks (Read-Write) Integration Tests"
         run: |
           helm -n integration-tests install update-category ./hooks/update-field/ \
             --set="image.tag=sha-$(git rev-parse --short HEAD)" \
@@ -355,6 +355,16 @@ jobs:
           cd tests/integration/
           npx jest --ci --color read-write-hook
           helm -n integration-tests uninstall test-scan update-category update-severity
+      - name: "Hooks (Read-Only) Integration Tests"
+        run: |
+          helm -n integration-tests install test-scan ./scanner/test-scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          helm -n integration-tests install http-webhook ./demo-apps/http-webhook
+          WEB_HOOK_IP=$(kubectl get -n integration-tests service/http-webhook -o jsonpath='{.spec.clusterIP}')
+        helm -n integration-test install read-only-hook ./hooks/generic-webhook/ --set="webhookUrl=http://$WEB_HOOK_IP/hallo-welt"
+          cd tests/integration/
+          npx jest --ci --color read-write-hook
+          helm -n integration-tests uninstall test-scan update-category update-severity
+
       - name: "nmap Integration Tests"
         run: |
           helm -n integration-tests install nmap ./scanner/nmap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
