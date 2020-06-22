@@ -1,7 +1,7 @@
 apiVersion: "cascading.experimental.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
-  name: "smtps-tls-scans"
+  name: "smtps-tls-scan"
 spec:
   matches:
     anyOf:
@@ -18,7 +18,7 @@ spec:
 apiVersion: "cascading.experimental.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
-  name: "pop3s-tls-scans"
+  name: "pop3s-tls-scan"
 spec:
   matches:
     anyOf:
@@ -35,7 +35,7 @@ spec:
 apiVersion: "cascading.experimental.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
-  name: "imaps-tls-scans"
+  name: "imaps-tls-scan"
 spec:
   matches:
     anyOf:

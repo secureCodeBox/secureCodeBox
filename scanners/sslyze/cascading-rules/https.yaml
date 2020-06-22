@@ -1,7 +1,7 @@
 apiVersion: "cascading.experimental.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
-  name: "https-tls-scans"
+  name: "https-tls-scan"
 spec:
   matches:
     anyOf:
