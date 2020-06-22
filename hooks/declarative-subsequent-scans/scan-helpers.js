@@ -7,16 +7,16 @@ kc.loadFromDefault();
 const k8sApiCRD = kc.makeApiClient(k8s.CustomObjectsApi);
 
 async function startSubsequentSecureCodeBoxScan({
+  name,
   parentScan,
   scanType,
   parameters,
 }) {
-  const name = `${parentScan.metadata.name}-${scanType}`;
   const scanDefinition = {
     apiVersion: "execution.experimental.securecodebox.io/v1",
     kind: "Scan",
     metadata: {
-      name,
+      generateName: `${name}-`,
       labels: {
         ...parentScan.metadata.labels,
       },
