@@ -4,19 +4,17 @@
 
 ### Prerequisites
 
-#### Golang 
+#### Golang
 
-The operator is written in Golang.
-To build the operator you will need to install [Go](https://golang.org/).
+The operator is written in Golang. To build the operator you will need to install [Go](https://golang.org/).
 
 #### Minikube or Kind
 
-For local development we recommend to use [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or [kind](https://github.com/kubernetes-sigs/kind). If you are using MacOS or Windows you can also use the kubernetes cluster included within Docker for Mac/Windows.
-All of these tools will enable you to run a local kubernetes cluster on your development machine.
+For local development we recommend to use [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or [kind](https://github.com/kubernetes-sigs/kind). If you are using MacOS or Windows you can also use the kubernetes cluster included within Docker for Mac/Windows. All of these tools will enable you to run a local kubernetes cluster on your development machine.
 
 #### Operating your local kubernetes cluster
 
-To operate your (local) kubernetes cluster you will need to install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) and [helm](https://helm.sh/) 
+To operate your (local) kubernetes cluster you will need to install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) and [helm](https://helm.sh/)
 
 #### Minio
 
@@ -30,7 +28,7 @@ $ podman run --name minio -p 9000:9000 minio/minio server /data
 $ docker run --name minio -p 9000:9000 minio/minio server /data
 ```
 
-In the Minio management GUI you will need to add a new bucket for the operator. 
+In the Minio management GUI you will need to add a new bucket for the operator.
 The default credentials for your minio instance are *minioadmin:minioadmin*.
 You might change those.
 
