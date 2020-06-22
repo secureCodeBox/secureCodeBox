@@ -1,6 +1,6 @@
 ---
 title: "Nikto"
-path: "scanner/Nikto"
+path: "scanners/nikto"
 category: "scanner"
 usecase: "Webserver Vulnerability Scanner"
 ---
@@ -13,20 +13,21 @@ Nikto is a free software command-line vulnerability scanner that scans webserver
 
 ## Deployment
 
-The Nikto ScanType can be deployed via helm.
+The Nikto ScanType can be deployed via helm:
 
 ```bash
-helm upgrade --install nikto ./scanner/nikto/
+helm upgrade --install nikto ./scanners/nikto/
 ```
 
 ## Examples
 
 A set of examples can be found in the [examples](./examples) folder.
+
 * Example *secureCodeBox.io* [scan](./examples/secureCodeBox.io/scan.yaml) and [findings](./examples/secureCodeBox.io/findings.yaml)
 
 ## Configuration
 
-The follwing security scan configuration example are based on the [Nikto Documentation](https://cirt.net/nikto2-docs/usage.html#id2780332), please take a look at the original documentation for more configuration examples.
+The following security scan configuration example are based on the [Nikto Documentation](https://cirt.net/nikto2-docs/usage.html#id2780332), please take a look at the original documentation for more configuration examples.
 
 * The most basic Nikto scan requires simply a host to target, since port 80 is assumed if none is specified. The host can either be an IP or a hostname of a machine, and is specified using the -h (-host) option. This will scan the IP 192.168.0.1 on TCP port 80: `-h 192.168.0.1`
 * To check on a different port, specify the port number with the -p (-port) option. This will scan the IP 192.168.0.1 on TCP port 443: `-h 192.168.0.1 -p 443`
@@ -49,11 +50,12 @@ Nikto also has a comprehensive list of [command line options documented](https:/
   * a - Authentication Bypass. Allows client to access a resource it should not be allowed to access.
   * b - Software Identification. Installed software or program could be positively identified.
   * c - Remote source inclusion. Software allows remote inclusion of source code.
-  * x - Reverse Tuning Options. Perform exclusion of the specified tuning type instead of inclusion of the specified tuning type  
+  * x - Reverse Tuning Options. Perform exclusion of the specified tuning type instead of inclusion of the specified tuning type
 
 ## Development
 
 ### Local setup
+
 1. Clone the repository `git clone git@github.com:secureCodeBox/secureCodeBox-v2-alpha.git`
 2. Ensure you have node.js installed
    * On MacOs with brew package manager: `brew install node`
@@ -63,7 +65,7 @@ Nikto also has a comprehensive list of [command line options documented](https:/
 1. Install the dependencies `npm install`
 2. Update the parser function here: `./parser/parser.js`
 3. Update the parser tests here: `./parser/parser.test.js`
-4. Run the testsuite: `npm test`
+4. Run the test suite: `npm test`
 
 [cirt.net]: https://cirt.net/
 [nikto github]: https://github.com/sullo/nikto

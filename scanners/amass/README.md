@@ -1,6 +1,6 @@
 ---
 title: "Amass"
-path: "scanner/Amass"
+path: "scanners/amass"
 category: "scanner"
 usecase: "Subdomain Enumeration Scanner"
 ---
@@ -13,35 +13,37 @@ The OWASP Amass Project has developed a tool to help information security profes
 
 ## Deployment
 
-The AMASS scanType can be deployed via helm.
+The AMASS scanType can be deployed via helm:
 
 ```bash
-helm upgrade --install amass ./scanner/amass/
+helm upgrade --install amass ./scanners/amass/
 ```
 
 ## Examples
 
 A set of examples can be found in the [examples](./examples) folder.
+
 * Example *secureCodeBox.io* [scan](./examples/secureCodeBox.io/scan.yaml) and [findings](./examples/secureCodeBox.io/findings.yaml)
 * Example *example.com* [scan](./examples/secureCodeBox.io/scan.yaml) and [findings](./examples/secureCodeBox.io/findings.yaml)
 
 ## Configuration
 
-The follwing security scan configuration example are based on the [Amass User Guide], please take a look at the original documentation for more configuration examples.
+The following security scan configuration example are based on the [Amass User Guide], please take a look at the original documentation for more configuration examples.
 
 * The most basic use of the tool for subdomain enumeration: `amass enum -d example.com`
 * Typical parameters for DNS enumeration: `amass enum -v -src -ip -brute -min-for-recursive 2 -d example.com`
-  
+
 Special command line options:
+
 * Disable generation of altered names	`amass enum -noalts -d example.com`
 * Turn off recursive brute forcing	`amass enum -brute -norecursive -d example.com`
 * Disable saving data into a local database	`amass enum -nolocaldb -d example.com`
 * Domain names separated by commas (can be used multiple times)	`amass enum -d example.com`
 
-
 ## Development
 
 ### Local setup
+
 1. Clone the repository `git clone git@github.com:secureCodeBox/secureCodeBox-v2-alpha.git`
 2. Ensure you have node.js installed
    * On MacOs with brew package manager: `brew install node`
@@ -51,7 +53,7 @@ Special command line options:
 1. Install the dependencies `npm install`
 2. Update the parser function here: `./parser/parser.js`
 3. Update the parser tests here: `./parser/parser.test.js`
-4. Run the testsuite: `npm test`
+4. Run the test suite: `npm test`
 
 [OWASP_Amass_Project]: https://owasp.org/www-project-amass/
 [Amass GitHub]: https://github.com/OWASP/Amass

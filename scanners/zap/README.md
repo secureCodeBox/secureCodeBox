@@ -1,6 +1,6 @@
 ---
 title: "ZAP"
-path: "scanner/Zap"
+path: "scanners/zap"
 category: "scanner"
 usecase: "Webapplication Vulnerability Scanner"
 ---
@@ -15,21 +15,22 @@ To learn more about the ZAP scanner itself visit [OWASP_Zap_Project] or [zaproxy
 
 ## Deployment
 
-The ZAP scanType can be deployed via helm.
+The ZAP scanType can be deployed via helm:
 
 ```bash
-helm upgrade --install zap ./scanner/zap/
+helm upgrade --install zap ./scanners/zap/
 ```
 
 ## Examples
 
 A set of examples can be found in the [examples](./examples) folder.
+
 * Example *secureCodeBox.io* [scan](./examples/secureCodeBox.io/scan.yaml) and [findings](./examples/secureCodeBox.io/findings.yaml)
 * Example *example.com* [scan](./examples/example.com/scan.yaml) and [findings](./examples/example.com/findings.yaml)
 
 ## Configuration
 
-The follwing security scan configuration example are based on the [ZAP Documentation], please take a look at the original documentation for more configuration examples.
+The following security scan configuration example are based on the [ZAP Documentation], please take a look at the original documentation for more configuration examples.
 
 The command line interface can be used to easily run server scans: `-t www.example.com`
 
@@ -49,7 +50,7 @@ Options:
     -a                include the alpha passive scan rules as well
     -d                show debug messages
     -P                specify listen port
-    -D                delay in seconds to wait for passive scanning 
+    -D                delay in seconds to wait for passive scanning
     -i                default rules not in the config file to INFO
     -I                do not return failure on warning
     -j                use the Ajax spider in addition to the traditional one
@@ -65,6 +66,7 @@ Options:
 ## Development
 
 ### Local setup
+
 1. Clone the repository `git clone git@github.com:secureCodeBox/secureCodeBox-v2-alpha.git`
 2. Ensure you have node.js installed
    * On MacOs with brew package manager: `brew install node`
@@ -74,7 +76,7 @@ Options:
 1. Install the dependencies `npm install`
 2. Update the parser function here: `./parser/parser.js`
 3. Update the parser tests here: `./parser/parser.test.js`
-4. Run the testsuite: `npm test`
+4. Run the test suite: `npm test`
 
 [SSLyze GitHub]: https://github.com/nabla-c0d3/sslyze
 [SSLyze Documentation]: https://nabla-c0d3.github.io/sslyze/documentation/

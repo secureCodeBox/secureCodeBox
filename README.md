@@ -76,15 +76,15 @@ helm -n securecodebox-system install securecodebox-operator ./operator/
 Optionally deploy SCB scanner Charts for each security scanner you want to use:
 
 ```bash
-helm upgrade --install amass ./scanner/amass/
-helm upgrade --install kube-hunter ./scanner/kube-hunter/
-helm upgrade --install nikto ./scanner/nikto
-helm upgrade --install nmap ./scanner/nmap/
-helm upgrade --install ssh-scan ./scanner/ssh_scan/
-helm upgrade --install sslyze ./scanner/sslyze/
-helm upgrade --install trivy ./scanner/trivy/
-helm upgrade --install zap ./scanner/zap/
-helm upgrade --install wpscan ./scanner/wpscan/
+helm upgrade --install amass ./scanners/amass/
+helm upgrade --install kube-hunter ./scanners/kube-hunter/
+helm upgrade --install nikto ./scanners/nikto
+helm upgrade --install nmap ./scanners/nmap/
+helm upgrade --install ssh-scan ./scanners/ssh_scan/
+helm upgrade --install sslyze ./scanners/sslyze/
+helm upgrade --install trivy ./scanners/trivy/
+helm upgrade --install zap ./scanners/zap/
+helm upgrade --install wpscan ./scanners/wpscan/
 ```
 
 Optional deploy some demo apps for scanning:
@@ -109,20 +109,20 @@ helm upgrade --install elkh ./hooks/persistence-elastic/
 
 ### Examples
 
-Now everything is installed. You can try deploying scans from the `scanner/*/examples` directories.
+Now everything is installed. You can try deploying scans from the `scanners/*/examples` directories.
 
 #### Local Scan Examples
 
 E.g. localhost nmap scan:
 
 ```bash
-kubectl apply -f scanner/nmap/examples/localhost/scan.yaml
+kubectl apply -f scanners/nmap/examples/localhost/scan.yaml
 ```
 
 #### Public Scan Examples
 
 ```bash
-kubectl apply -f scanner/nmap/examples/scan.nmap.org/scan.yaml
+kubectl apply -f scanners/nmap/examples/scan.nmap.org/scan.yaml
 ```
 
 #### Then get the current State of the Scan by running:

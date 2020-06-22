@@ -1,6 +1,6 @@
 ---
 title: "Nmap"
-path: "scanner/Nmap"
+path: "scanners/nmap"
 category: "scanner"
 usecase: "Network Scanner"
 ---
@@ -15,15 +15,16 @@ To learn more about the Nmap scanner itself visit [nmap.org].
 
 ## Deployment
 
-The Nmap ScanType can be deployed via helm.
+The Nmap ScanType can be deployed via helm:
 
 ```bash
-helm install nmap ./scanner/nmap/
+helm install nmap ./scanners/nmap/
 ```
 
 ## Examples
 
 A set of examples can be found in the [examples](./examples) folder.
+
 * Example *local-network* [scan](./examples/local-network/scan.yaml) and [findings](./examples/local-network/findings.yaml)
 * Example *localhost* [scan](./examples/local-network/scan.yaml) and [findings](./examples/local-network/findings.yaml)
 * Example *scan.nmap.org* [scan](./examples/local-network/scan.yaml) and [findings](./examples/local-network/findings.yaml)
@@ -49,6 +50,7 @@ Some useful example parameters listed below:
 ## Development
 
 ### Local setup
+
 1. Clone the repository `git clone git@github.com:secureCodeBox/secureCodeBox-v2-alpha.git`
 2. Ensure you have node.js installed
    * On MacOs with brew package manager: `brew install node`
@@ -58,7 +60,8 @@ Some useful example parameters listed below:
 1. Install the dependencies `npm install`
 2. Update the parser function here: `./parser/parser.js`
 3. Update the parser tests here: `./parser/parser.test.js`
-4. Run the testsuite: `npm test`
+4. Run the test suite: `npm test`
 
 #### Basic scanner tests
+
 If you want to test sslyze localy you can use brew (only on macOS) to install it: `brew install nmap`

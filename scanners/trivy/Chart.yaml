@@ -1,6 +1,6 @@
 apiVersion: v2
 name: trivy
-description: A Helm chart for the trivy security Scanner that integrates with the secureCodeBox.
+description: A Helm chart for the trivy security scanner that integrates with the secureCodeBox.
 
 type: application
 version: 0.1.0
@@ -12,7 +12,7 @@ keywords:
   - image-scanning
   - scanner
   - secureCodeBox
-home: https://www.securecodebox.io/scanner/trivy
+home: https://www.securecodebox.io/scanners/trivy
 icon: https://github.com/aquasecurity/trivy/blob/master/imgs/logo.png
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
