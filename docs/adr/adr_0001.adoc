@@ -46,7 +46,7 @@ To find a proper solution, we splitted the topic into the follwong two questions
 
 ==== Question 1: Should we unify the concepts MetaDataProvider and PersistenceProvider?
 
-==== Solution approach 1: Unify
+===== Solution approach 1: Unify
 
 Both "modules" are "processing" the security findings, which are generated in the parsing phase.
 But there is one larger difference between them:
@@ -96,18 +96,18 @@ The Execution Flow would then look something like this:
                                                                                                             ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
 ....
 
-**Pros:**
+====== Pros
 
 * Only one Implementation
 * Pretty Generic to expand and test out new ideas without having to modify the secureCodeBox Operator
 
-**Cons:**
+====== Cons
 
 * Possible "over-abstraction"?
 * Need to refactor the ElasticSearch PersistenceProvider
 * The "General Implementation" will be harder than the individual ones
 
-==== Solution approach 1: Keep Split between Persistence Provider and MetaData Provider
+===== Solution approach 1: Keep Split between Persistence Provider and MetaData Provider
 
 Keep PersistenceProvider as they are and introduce new "MetaDataProvider" CRD which gets executed before the PersistenceProviders by the operator.
 
@@ -122,18 +122,18 @@ Keep PersistenceProvider as they are and introduce new "MetaDataProvider" CRD wh
                                                                                                             ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
 ....
 
-**Pros:**
+====== Pros
 
 * Quicker to implement
 * Might be worth it to have a seperate concept for it
 
-**Cons:**
+====== Cons
 
 * Really worth introducing a new CRD for everything, especially when the are conceptually pretty close?
 
-=== Question 2: How should the execution model look like for each?
+==== Question 2: How should the execution model look like for each?
 
-==== Solution approach 1: Like the persistence provider
+===== Solution approach 1: Like the persistence provider
 
 Basically a docker container which process takes two command line args:
 
@@ -146,31 +146,30 @@ Examples:
 * java `java my-metadata.jar "https://storage.googleapi.com/..." "https://storage.googleapi.com/..."`
 * golang `./my-metadata "https://storage.googleapi.com/..." "https://storage.googleapi.com/..."`
 
-**Pros:**
+====== Pros
 
 * on liner with the current implementations
 * code overhead / wrapper code is pretty minimal
 * zero scale - no resource costs when nothing is running
 
-**Cons:**
+===== Cons
 
 * results in too many k8s jobs?
 ** resource blocking on finished resources
 ** ttlAfterFinished enabled
 * container runtime overhead (especially time)
 
-### Option 2: A WebHooks like concept
+=== Option 2: A WebHooks like concept
 
-Analog to kubernetes webhooks.
-Https server receiving findings and returning results.
+Analog to kubernetes webhooks. Https server receiving findings and returning results.
 
-**Pros:**
+==== Pros
 
 * MilliSeconds instead of seconds for processing
 * No ContainerCreation Overhead
 * No additional k8s jobs needed
 
-**Cons:**
+===== Cons
 
 * Introduces new running Services that need to be maintained and have uptime
 * Code Overhead / Boilerplate (Can be mitigated by sdk)
