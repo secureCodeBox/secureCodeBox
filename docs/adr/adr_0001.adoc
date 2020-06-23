@@ -39,11 +39,10 @@ By now the "Persisting Phase 3" was implemented by so called _persistenceProvide
 
 We identified different additional UseCases with a more _data proccessing oriented_ pattern than the implemented _persisting phase3_ indicates. For example, we implemented a so called "MetaDataProvider" feature, which is responsible for enhancing each security finding with additional metadata. But the MetaDataProvider must be executed after the _parsing phase 2_ and before the _persisting phase 3_ because it depends on the parsed finding results (which will be enhanced) and the update findings should be also persisted.
 
-
 To find a proper solution, we splitted the topic into the follwong two questions:
 
-. Question 1: Should we unify the concepts MetaDataProvider and PersistenceProvider?
-. Question 2: How should the execution model look like for each concept?
+. Should we unify the concepts MetaDataProvider and PersistenceProvider?
+. How should the execution model look like for each concept?
 
 ==== Question 1: Should we unify the concepts MetaDataProvider and PersistenceProvider?
 
