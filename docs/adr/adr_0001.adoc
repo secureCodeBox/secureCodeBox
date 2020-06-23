@@ -42,8 +42,8 @@ We identified different additional UseCases with a more _data proccessing orient
 
 To find a proper solution, we splitted the topic into the follwong two questions:
 
-* Question 1: Should we unify the concepts MetaDataProvider and PersistenceProvider?
-* Question 2: How should the execution model look like for each concept?
+. Question 1: Should we unify the concepts MetaDataProvider and PersistenceProvider?
+. Question 2: How should the execution model look like for each concept?
 
 ==== Question 1: Should we unify the concepts MetaDataProvider and PersistenceProvider?
 
@@ -59,8 +59,8 @@ There is a similar thing in kubernetes called [AdmissionController](https://kube
 
 The are two variants:
 
-* `ValidatingWebhookConfiguration` (ReadOnly) *Executed Last*
-* `MutatingWebhookConfiguration` (ReadAndWrite) *Executed First*
+. `ValidatingWebhookConfiguration` (ReadOnly) *Executed Last*
+. `MutatingWebhookConfiguration` (ReadAndWrite) *Executed First*
 
 We could do a similar thing and introduce CRD which allows to execute "custom code" (generally speaking, depends on the second question) after a scan has completed (meaning both scan and parser phases are done). Some name ideas:
 
