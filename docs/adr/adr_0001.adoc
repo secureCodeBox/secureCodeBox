@@ -16,7 +16,8 @@
 | Author(s)
 | Jannik Hollenbach <Jannik.Hollenbach@iteratec.com>,
   Jorge Estigarribia <Jorge.Estigarribia@iteratec.com>,
-  Robert Seedorff <Robert.Seedorff@iteratec.com>
+  Robert Seedorff <Robert.Seedorff@iteratec.com>,
+  Sven Strittmatter <Sven.Strittmatter@iteratec.com>
 |====
 
 == Context
@@ -24,17 +25,19 @@
 === Status Quo
 
 One major challenge implementing the _secureCodeBox_ is to provide a flexible and modular architecture, which enables the open source community to easily understand the concepts and especially to extend the _secureCodeBox_ with individual features. Therefore we decided to seperate the process stages of a single security scan (instance of scanType CRD) in 3 major phases:
-```
-	┌──────────────────┐          ┌──────────────────┐          ┌──────────────────┐
-	│     Scanning     ├─────────▶│     Parsing      ├─────────▶│    Persisting    │
-	│    (Phase 1)     │          │    (Phase 2)     │          │    (Phase 3)     │
-	└──────────────────┘          └──────────────────┘          └──────────────────┘
-```
+
+....
+┌──────────────────┐          ┌──────────────────┐          ┌──────────────────┐
+│     Scanning     ├─────────▶│     Parsing      ├─────────▶│    Persisting    │
+│    (Phase 1)     │          │    (Phase 2)     │          │    (Phase 3)     │
+└──────────────────┘          └──────────────────┘          └──────────────────┘
+....
+
 By now the "Persisting Phase 3" was implemented by so called _persistenceProviders_ e.g the *persistence-elastic* provider which is responsible for persisting all findings in a given elasticsearch database. The _secureCodeBox_ Operator is aware of this 3 phases and is responsible for the state model and execution of each security scan (instance of scanType CRD).
 
 === Problem and Question
 
-We identified different additional UseCases with a more _data proccessing oriented_ pattern than the implemented _persisting phase3_ indicates. For example, we implemented a so called "MetaDataProvider" feature, which is responsible for enhancing each security finding with additional metadata. But the MetaDataProvider must be executed after the _parsing phase 2_ and before the _persisting phase 3_ because it depends on the parsed finding results (which will be enhanced) and the update findings should be also persisted. 
+We identified different additional UseCases with a more _data proccessing oriented_ pattern than the implemented _persisting phase3_ indicates. For example, we implemented a so called "MetaDataProvider" feature, which is responsible for enhancing each security finding with additional metadata. But the MetaDataProvider must be executed after the _parsing phase 2_ and before the _persisting phase 3_ because it depends on the parsed finding results (which will be enhanced) and the update findings should be also persisted.
 
 
 To find a proper solution, we splitted the topic into the follwong two questions:
@@ -43,6 +46,7 @@ To find a proper solution, we splitted the topic into the follwong two questions
 * Question 2: How should the execution model look like for each concept?
 
 ==== Question 1: Should we unify the concepts MetaDataProvider and PersistenceProvider?
+
 ==== Solution approach 1: Unify
 
 Both "modules" are "processing" the security findings, which are generated in the parsing phase.
@@ -68,7 +72,8 @@ These could be implemented with a `type` attribute, which declares if they are `
 
 The operator would process all these resources in the namespace and execute the `ReadAndWrite` ones first (in serial: one at a time to avoid write conflicts) and then the `ReadOnly` ones (in parallel).
 
-```yaml
+[source,yaml]
+----
 apiVersion: execution.experimental.securecodebox.io/v1
 kind: ScanCompletionHook
 metadata:
@@ -77,11 +82,11 @@ spec:
   type: ReadAndWrite
   # If implemented like the current persistence provider
   image: my-metadata:v2.0.0
-```
+----
 
 The Execution Flow would then look something like this:
 
-```
+....
                                                                                                            ┌ ReadOnly─Hooks─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─
                                               ┌ ReadAndWriteHooks ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─        ┌────────────────────────────────┐ │
                                                 ┌───────────────────────┐                            │  ┌──┼▶│  Elastic PersistenceProvider   │
@@ -90,7 +95,7 @@ The Execution Flow would then look something like this:
 └──────────────────┘   └──────────────────┘   │ └───────────────────────┘  └───────────────────────┘    └───▶│ DefectDojo PersistenceProvider │ │
                                                ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘     │ └────────────────────────────────┘
                                                                                                             ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
-```
+....
 
 **Pros:**
 
@@ -107,7 +112,7 @@ The Execution Flow would then look something like this:
 
 Keep PersistenceProvider as they are and introduce new "MetaDataProvider" CRD which gets executed before the PersistenceProviders by the operator.
 
-```
+....
                                                                                                            ┌ Persistence Provider─ ─ ─ ─ ─ ─ ─ ─
                                               ┌ MetaData Provider ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─        ┌────────────────────────────────┐ │
                                                 ┌───────────────────────┐                            │  ┌──┼▶│  Elastic PersistenceProvider   │
@@ -116,7 +121,7 @@ Keep PersistenceProvider as they are and introduce new "MetaDataProvider" CRD wh
 └──────────────────┘   └──────────────────┘   │ └───────────────────────┘  └───────────────────────┘    └───▶│ DefectDojo PersistenceProvider │ │
                                                ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘     │ └────────────────────────────────┘
                                                                                                             ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
-```
+....
 
 **Pros:**
 
@@ -180,17 +185,17 @@ Https server receiving findings and returning results.
 
 Regarding the Question 1 it seems that both solution approaches are resulting in the same execution model. We descided to implement solution approach 1 and unify both concepts into a more general concept with the name _"hook concept"_. Therefore we exchange the existing name `persistenceProvider` for phase 3 in the excecution model with a more general term `DataProcessing`:
 
-```
-	┌──────────────────┐          ┌──────────────────┐          ┌──────────────────┐
-	│     Scanning     ├─────────▶│     Parsing      ├─────────▶│ DataProcessing   │
-	│    (Phase 1)     │          │    (Phase 2)     │          │    (Phase 3)     │
-	└──────────────────┘          └──────────────────┘          └──────────────────┘
-```
+....
+┌──────────────────┐          ┌──────────────────┐          ┌──────────────────┐
+│     Scanning     ├─────────▶│     Parsing      ├─────────▶│ DataProcessing   │
+│    (Phase 1)     │          │    (Phase 2)     │          │    (Phase 3)     │
+└──────────────────┘          └──────────────────┘          └──────────────────┘
+....
 
 Regarding the Question 2 we decided to implement the solution approach 1 with a job-based approach (no active service componend needed).
 The Phase 3 `DataProcessing` will be therefore splitt into to seperate phases named `ReadAndWriteHooks (3.1)` and `ReadOnlyHooks (3.2)`
 
-```
+....
                                                                                                            ┌ DataProcessing: ReadOnlyHooks ─ ─ ─
                                               ┌ DataProcessing: ReadAndWriteHooks ─ ─ ─ ─ ─ ─ ─ ─ ─ ─        ┌────────────────────────────────┐ │
                                                 ┌───────────────────────┐                            │  ┌──┼▶│  Elastic PersistenceProvider   │
@@ -199,7 +204,7 @@ The Phase 3 `DataProcessing` will be therefore splitt into to seperate phases na
 └──────────────────┘   └──────────────────┘   │ └───────────────────────┘  └───────────────────────┘    └───▶│ DefectDojo PersistenceProvider │ │
                                                ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘     │ └────────────────────────────────┘
                                                                                                             ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
-```
+....
 
 == Consequences
 
