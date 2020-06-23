@@ -44,9 +44,9 @@ To find a proper solution, we splitted the topic into the follwong two questions
 . Should we unify the concepts MetaDataProvider and PersistenceProvider?
 . How should the execution model look like for each concept?
 
-==== Question 1: Should we unify the concepts MetaDataProvider and PersistenceProvider?
+==== Question 1: Should We Unify the Concepts MetaDataProvider and PersistenceProvider?
 
-===== Solution approach 1: Unify
+===== Solution Approach 1: Unify
 
 Both "modules" are "processing" the security findings, which are generated in the parsing phase.
 But there is one larger difference between them:
@@ -107,7 +107,7 @@ The Execution Flow would then look something like this:
 * Need to refactor the ElasticSearch PersistenceProvider
 * The "General Implementation" will be harder than the individual ones
 
-===== Solution approach 1: Keep Split between Persistence Provider and MetaData Provider
+===== Solution Approach 1: Keep Split between Persistence Provider and MetaData Provider
 
 Keep PersistenceProvider as they are and introduce new "MetaDataProvider" CRD which gets executed before the PersistenceProviders by the operator.
 
@@ -131,9 +131,9 @@ Keep PersistenceProvider as they are and introduce new "MetaDataProvider" CRD wh
 
 * Really worth introducing a new CRD for everything, especially when the are conceptually pretty close?
 
-==== Question 2: How should the execution model look like for each?
+==== Question 2: How Should the Execution Model Look like for Each?
 
-===== Solution approach 1: Like the persistence provider
+===== Solution Approach 1: Like the Persistence Provider
 
 Basically a docker container which process takes two command line args:
 
@@ -159,7 +159,7 @@ Examples:
 ** ttlAfterFinished enabled
 * container runtime overhead (especially time)
 
-=== Option 2: A WebHooks like concept
+=== Option 2: A WebHooks Like Concept
 
 Analog to kubernetes webhooks. Https server receiving findings and returning results.
 
