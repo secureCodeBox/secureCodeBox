@@ -8,8 +8,8 @@ const k8sBatchApi = kc.makeApiClient(k8s.BatchV1Api);
 
 const namespace = "integration-tests";
 
-const sleep = duration =>
-  new Promise(resolve => setTimeout(resolve, duration * 1000));
+const sleep = (duration) =>
+  new Promise((resolve) => setTimeout(resolve, duration * 1000));
 
 async function deleteScan(name) {
   await k8sCRDApi.deleteNamespacedCustomObject(
@@ -30,21 +30,21 @@ async function getScan(name) {
     "scans",
     name
   );
-  return scan
+  return scan;
 }
 
-async function logJob(name) {
+async function logJobs() {
   try {
-    const { body: job } = await k8sBatchApi.readNamespacedJob(
-      name,
-      namespace,
-    );
-    console.log(`Job: '${name}' Spec:`)
-    console.dir(job.spec)
-    console.log(`Job: '${name}' Status:`)
-    console.dir(job.status)
+    const { body: jobs } = await k8sBatchApi.listNamespacedJob(namespace);
+
+    for (const job of jobs.items) {
+      console.log(`Job: '${job.metadata.name}' Spec:`);
+      console.dir(job.spec);
+      console.log(`Job: '${job.metadata.name}' Status:`);
+      console.dir(job.status);
+    }
   } catch (error) {
-    console.info(`Job: '${name} not found.'`)
+    console.info(`Failed to list Jobs'`);
   }
 }
 
@@ -61,12 +61,12 @@ async function scan(name, scanType, parameters = [], timeout = 180) {
     kind: "Scan",
     metadata: {
       // Use `generateName` instead of name to generate a random sufix and avoid name clashes
-      generateName: `${name}-`
+      generateName: `${name}-`,
     },
     spec: {
       scanType,
-      parameters
-    }
+      parameters,
+    },
   };
 
   const { body } = await k8sCRDApi.createNamespacedCustomObject(
@@ -82,23 +82,24 @@ async function scan(name, scanType, parameters = [], timeout = 180) {
   for (let i = 0; i < timeout; i++) {
     await sleep(1);
     const { status } = await getScan(actualName);
-    
+
     if (status && status.state === "Done") {
       await deleteScan(actualName);
       return status.findings;
     } else if (status && status.state === "Errored") {
       await deleteScan(actualName);
-      throw new Error(`Scan failed with description "${status.errorDescription}"`)
+      throw new Error(
+        `Scan failed with description "${status.errorDescription}"`
+      );
     }
   }
-  
-  console.error("Scan Timed out!")
+
+  console.error("Scan Timed out!");
 
   const scan = await getScan(actualName);
-  console.log("Last Scan State:")
-  console.dir(scan)
-  await logJob(`scan-${actualName}`)
-  await logJob(`parse-${actualName}`)
+  console.log("Last Scan State:");
+  console.dir(scan);
+  await logJobs();
 
   throw new Error("timed out while waiting for scan results");
 }

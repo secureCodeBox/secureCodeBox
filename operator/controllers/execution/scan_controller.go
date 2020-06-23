@@ -39,6 +39,7 @@ import (
 
 	"github.com/minio/minio-go/v6"
 	executionv1 "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/apis/execution/v1"
+	util "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/utils"
 )
 
 // ScanReconciler reconciles a Scan object
@@ -116,7 +117,6 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		err = r.setHookStatus(&scan)
 	case "ReadAndWriteHookProcessing":
 		err = r.executeReadAndWriteHooks(&scan)
-
 	case "ReadAndWriteHookCompleted":
 		err = r.startReadOnlyHooks(&scan)
 	case "ReadOnlyHookProcessing":
@@ -129,21 +129,6 @@ func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return ctrl.Result{}, nil
 }
 
-func (r *ScanReconciler) getJob(name, namespace string) (*batch.Job, error) {
-	ctx := context.Background()
-
-	var job batch.Job
-	err := r.Get(ctx, types.NamespacedName{Name: name, Namespace: namespace}, &job)
-	if apierrors.IsNotFound(err) {
-		return nil, nil
-	} else if err != nil {
-		r.Log.Error(err, "unable to get job")
-		return nil, err
-	}
-
-	return &job, nil
-}
-
 type jobCompletionType string
 
 const (
@@ -153,22 +138,51 @@ const (
 	unknown    jobCompletionType = "Unknown"
 )
 
-func (r *ScanReconciler) checkIfJobIsCompleted(name, namespace string) (jobCompletionType, error) {
-	job, err := r.getJob(name, namespace)
+func allJobsCompleted(jobs *batch.JobList) jobCompletionType {
+	hasCompleted := true
+
+	for _, job := range jobs.Items {
+		if job.Status.Failed > 0 {
+			return failed
+		} else if job.Status.Succeeded == 0 {
+			hasCompleted = false
+		}
+	}
+
+	if hasCompleted {
+		return completed
+	}
+	return incomplete
+}
+
+func (r *ScanReconciler) getJobsForScan(scan *executionv1.Scan, labels client.MatchingLabels) (*batch.JobList, error) {
+	ctx := context.Background()
+
+	// check if k8s job for scan was already created
+	var jobs batch.JobList
+	if err := r.List(
+		ctx,
+		&jobs,
+		client.InNamespace(scan.Namespace),
+		client.MatchingField(ownerKey, scan.Name),
+		labels,
+	); err != nil {
+		r.Log.Error(err, "Unable to list child jobs")
+		return nil, err
+	}
+
+	return &jobs, nil
+}
+
+func (r *ScanReconciler) checkIfJobIsCompleted(scan *executionv1.Scan, labels client.MatchingLabels) (jobCompletionType, error) {
+	jobs, err := r.getJobsForScan(scan, labels)
 	if err != nil {
 		return unknown, err
 	}
-	if job == nil {
-		return unknown, errors.New("Both Job and error were nil. This isn't really expected")
-	}
 
-	if job.Status.Succeeded != 0 {
-		return completed, nil
-	}
-	if job.Status.Failed != 0 {
-		return failed, nil
-	}
-	return unknown, nil
+	r.Log.V(9).Info("Got related jobs", "count", len(jobs.Items))
+
+	return allJobsCompleted(jobs), nil
 }
 
 // Helper functions to check and remove string from a slice of strings.
@@ -220,11 +234,11 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 	namespacedName := fmt.Sprintf("%s/%s", scan.Namespace, scan.Name)
 	log := r.Log.WithValues("scan_init", namespacedName)
 
-	job, err := r.getJob(fmt.Sprintf("scan-%s", scan.Name), scan.Namespace)
+	jobs, err := r.getJobsForScan(scan, client.MatchingLabels{"experimental.securecodebox.io/job-type": "scanner"})
 	if err != nil {
 		return err
 	}
-	if job != nil {
+	if len(jobs.Items) > 0 {
 		log.V(8).Info("Job already exists. Doesn't need to be created.")
 		return nil
 	}
@@ -267,7 +281,7 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 		rules,
 	)
 
-	job, err = r.constructJobForScan(scan, &scanType)
+	job, err := r.constructJobForScan(scan, &scanType)
 	if err != nil {
 		log.Error(err, "unable to create job object ScanType")
 		return err
@@ -296,7 +310,7 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 func (r *ScanReconciler) checkIfScanIsCompleted(scan *executionv1.Scan) error {
 	ctx := context.Background()
 
-	status, err := r.checkIfJobIsCompleted(fmt.Sprintf("scan-%s", scan.Name), scan.Namespace)
+	status, err := r.checkIfJobIsCompleted(scan, client.MatchingLabels{"experimental.securecodebox.io/job-type": "scanner"})
 	if err != nil {
 		return err
 	}
@@ -326,11 +340,11 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 	namespacedName := fmt.Sprintf("%s/%s", scan.Namespace, scan.Name)
 	log := r.Log.WithValues("scan_parse", namespacedName)
 
-	job, err := r.getJob(fmt.Sprintf("parse-%s", scan.Name), scan.Namespace)
+	jobs, err := r.getJobsForScan(scan, client.MatchingLabels{"experimental.securecodebox.io/job-type": "parser"})
 	if err != nil {
 		return err
 	}
-	if job != nil {
+	if len(jobs.Items) > 0 {
 		log.V(8).Info("Job already exists. Doesn't need to be created.")
 		return nil
 	}
@@ -384,12 +398,12 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 	labels["experimental.securecodebox.io/job-type"] = "parser"
 	automountServiceAccountToken := true
 	var backOffLimit int32 = 3
-	job = &batch.Job{
+	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
-			Annotations: make(map[string]string),
-			Name:        fmt.Sprintf("parse-%s", scan.Name),
-			Namespace:   scan.Namespace,
-			Labels:      labels,
+			Annotations:  make(map[string]string),
+			GenerateName: util.TruncateName(fmt.Sprintf("parse-%s", scan.Name)),
+			Namespace:    scan.Namespace,
+			Labels:       labels,
 		},
 		Spec: batch.JobSpec{
 			BackoffLimit: &backOffLimit,
@@ -459,7 +473,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 func (r *ScanReconciler) checkIfParsingIsCompleted(scan *executionv1.Scan) error {
 	ctx := context.Background()
 
-	status, err := r.checkIfJobIsCompleted(fmt.Sprintf("parse-%s", scan.Name), scan.Namespace)
+	status, err := r.checkIfJobIsCompleted(scan, client.MatchingLabels{"experimental.securecodebox.io/job-type": "parser"})
 	if err != nil {
 		return err
 	}
@@ -503,9 +517,9 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 	labels["experimental.securecodebox.io/job-type"] = "scanner"
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
-			Labels:    labels,
-			Name:      fmt.Sprintf("scan-%s", scan.Name),
-			Namespace: scan.Namespace,
+			Labels:       labels,
+			GenerateName: util.TruncateName(fmt.Sprintf("scan-%s", scan.Name)),
+			Namespace:    scan.Namespace,
 		},
 		Spec: *scanType.Spec.JobTemplate.Spec.DeepCopy(),
 	}
@@ -729,44 +743,13 @@ func (r *ScanReconciler) startReadOnlyHooks(scan *executionv1.Scan) error {
 	return nil
 }
 
-func allJobsCompleted(jobs *batch.JobList) jobCompletionType {
-	hasCompleted := true
-
-	for _, job := range jobs.Items {
-		if job.Status.Failed > 0 {
-			return failed
-		} else if job.Status.Succeeded == 0 {
-			hasCompleted = false
-		}
-	}
-
-	if hasCompleted {
-		return completed
-	}
-	return incomplete
-}
-
 func (r *ScanReconciler) checkIfReadOnlyHookIsCompleted(scan *executionv1.Scan) error {
 	ctx := context.Background()
-
-	// check if k8s job for scan was already created
-	var readOnlyHookJobs batch.JobList
-	if err := r.List(
-		ctx,
-		&readOnlyHookJobs,
-		client.InNamespace(scan.Namespace),
-		client.MatchingField(ownerKey, scan.Name),
-		client.MatchingLabels{
-			"experimental.securecodebox.io/job-type": "read-only-hook",
-		},
-	); err != nil {
-		r.Log.Error(err, "Unable to list child jobs")
+	readOnlyHookCompletion, err := r.checkIfJobIsCompleted(scan, client.MatchingLabels{"experimental.securecodebox.io/job-type": "read-only-hook"})
+	if err != nil {
 		return err
 	}
 
-	r.Log.V(9).Info("Got related jobs", "count", len(readOnlyHookJobs.Items))
-
-	readOnlyHookCompletion := allJobsCompleted(&readOnlyHookJobs)
 	if readOnlyHookCompletion == completed {
 		r.Log.V(7).Info("All ReadOnlyHooks have completed")
 		scan.Status.State = "Done"
@@ -1018,13 +1001,15 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 	} else if hook.Spec.Type == executionv1.ReadOnly {
 		labels["experimental.securecodebox.io/job-type"] = "read-only-hook"
 	}
+	labels["experimental.securecodebox.io/hook-name"] = hook.Name
+
 	var backOffLimit int32 = 3
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
-			Annotations: make(map[string]string),
-			Name:        fmt.Sprintf("%s-%s", hook.Name, scan.Name),
-			Namespace:   scan.Namespace,
-			Labels:      labels,
+			Annotations:  make(map[string]string),
+			GenerateName: util.TruncateName(fmt.Sprintf("%s-%s", hook.Name, scan.Name)),
+			Namespace:    scan.Namespace,
+			Labels:       labels,
 		},
 		Spec: batch.JobSpec{
 			BackoffLimit: &backOffLimit,
@@ -1143,7 +1128,10 @@ func (r *ScanReconciler) executeReadAndWriteHooks(scan *executionv1.Scan) error 
 		})
 		return err
 	case executionv1.InProgress:
-		jobStatus, err := r.checkIfJobIsCompleted(nonCompletedHook.JobName, scan.Namespace)
+		jobStatus, err := r.checkIfJobIsCompleted(scan, client.MatchingLabels{
+			"experimental.securecodebox.io/job-type":  "read-and-write-hook",
+			"experimental.securecodebox.io/hook-name": nonCompletedHook.HookName,
+		})
 		if err != nil {
 			r.Log.Error(err, "Failed to check job status for ReadAndWrite Hook")
 			return err
