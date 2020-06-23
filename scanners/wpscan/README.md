@@ -1,6 +1,6 @@
 ---
 title: 'WPScan'
-path: 'scanner/WPScan'
+path: 'scanners/wpscan'
 category: 'scanner'
 usecase: 'Wordpress Vulnerability Scanner'
 ---
@@ -17,20 +17,21 @@ To learn more about the WPScan scanner itself visit [wpscan.org] or [wpscan.io].
 
 ## Deployment
 
-The WPScan scanType can be deployed via helm.
+The WPScan scanType can be deployed via helm:
 
 ```bash
-helm upgrade --install wpscan ./scanner/wpscan/
+helm upgrade --install wpscan ./scanners/wpscan/
 ```
 
 ## Examples
 
 A set of examples can be found in the [examples](./examples) folder.
+
 * Example *example.com* [scan](./examples/secureCodeBox.io/scan.yaml) and [findings](./examples/secureCodeBox.io/findings.yaml)
 
 ## Configuration
 
-The follwing security scan configuration example are based on the [WPScan Documentation], please take a look at the original documentation for more configuration examples.
+The following security scan configuration example are based on the [WPScan Documentation], please take a look at the original documentation for more configuration examples.
 
 * Scan all plugins with known vulnerabilities: `wpscan --url example.com -e vp --plugins-detection mixed --api-token WPVULNDB_API_TOKEN`
 * Scan all plugins in our database (could take a very long time): `wpscan --url example.com -e ap --plugins-detection mixed --api-token WPVULNDB_API_TOKEN`
@@ -41,7 +42,8 @@ The follwing security scan configuration example are based on the [WPScan Docume
   * aggressive
   * mixed
   If you want the most results use the "mixed" mode. However, if you are worried that the server may not be able to handle a large number of requests, use the "passive" mode. The default mode is "mixed", with the exception of plugin enumeration, which is "passive". You will need to manually override the plugin detection mode, if you want to use anything other than the default, with the `--plugins-detection` option.
-* WPScan can enumerate various things from a remote WordPress applcation, such as plugins, themes, usernames, backed up files wp-config.php files, Timthumb files, database exports and more. To use WPScan's enumeration capabilities supply the `-e `option.
+* WPScan can enumerate various things from a remote WordPress application, such as plugins, themes, usernames, backed up files wp-config.php files, Timthumb files, database exports and more. To use WPScan's enumeration capabilities supply the `-e `option.
+
 ```bash
 Available Choices:
   vp  |  Vulnerable plugins
@@ -72,6 +74,7 @@ Incompatible choices (only one of each group/s can be used):
 ## Development
 
 ### Local setup
+
 1. Clone the repository `git clone git@github.com:secureCodeBox/secureCodeBox-v2-alpha.git`
 2. Ensure you have node.js installed
    * On MacOs with brew package manager: `brew install node`

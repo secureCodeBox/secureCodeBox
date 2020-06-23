@@ -1,6 +1,6 @@
 ---
 title: "Trivy"
-path: "scanner/Trivy"
+path: "scanners/trivy"
 category: "scanner"
 usecase: "Containers Vulnerability Scanner"
 ---
@@ -16,21 +16,22 @@ To learn more about the Trivy scanner itself visit or [Trivy GitHub].
 
 ## Deployment
 
-The Trivy scanType can be deployed via helm.
+The Trivy scanType can be deployed via helm:
 
 ```bash
-helm upgrade --install trivy ./scanner/trivy/
+helm upgrade --install trivy ./scanners/trivy/
 ```
 
 ## Examples
 
 A set of examples can be found in the [examples](./examples) folder.
+
 * Example *juice-shop* [scan](./examples/juice-shop/scan.yaml) and [findings](./examples/juice-shop/findings.yaml)
 * Example *mediawiki* [scan](./examples/mediawikip/scan.yaml) and [findings](./examples/mediawiki/findings.yaml)
 
 ## Configuration
 
-The follwing security scan configuration example are based on the [Trivy Documentation], please take a look at the original documentation for more configuration examples.
+The following security scan configuration example are based on the [Trivy Documentation], please take a look at the original documentation for more configuration examples.
 
 * Filter the vulnerabilities by severities `trivy image --severity HIGH,CRITICAL ruby:2.4.0`
 * Filter the vulnerabilities by type (`os` or `library`) `trivy image --vuln-type os ruby:2.4.0`
@@ -40,6 +41,7 @@ The follwing security scan configuration example are based on the [Trivy Documen
 ## Development
 
 ### Local setup
+
 1. Clone the repository `git clone git@github.com:secureCodeBox/secureCodeBox-v2-alpha.git`
 2. Ensure you have node.js installed
    * On MacOs with brew package manager: `brew install node`
@@ -49,7 +51,7 @@ The follwing security scan configuration example are based on the [Trivy Documen
 1. Install the dependencies `npm install`
 2. Update the parser function here: `./parser/parser.js`
 3. Update the parser tests here: `./parser/parser.test.js`
-4. Run the testsuite: `npm test`
+4. Run the test suite: `npm test`
 
 [Trivy GitHub]: https://github.com/aquasecurity/trivy
 [Trivy Documentation]: https://github.com/aquasecurity/trivy#examples

@@ -1,6 +1,6 @@
 ---
 title: "SSH"
-path: "scanner/SSH"
+path: "scanners/ssh"
 category: "scanner"
 usecase: "SSH Configuration and Policy Scanner"
 release: "https://img.shields.io/github/release/secureCodeBox/scanner-infrastructure-ssh.svg"
@@ -17,18 +17,19 @@ To learn more about the ssh_scan scanner itself visit [ssh_scan GitHub].
 The SSH_scan ScanType can be deployed via helm.
 
 ```bash
-helm upgrade --install ssh ./scanner/ssh_scan/
+helm upgrade --install ssh ./scanners/ssh_scan/
 ```
 
 ## Examples
 
 A set of examples can be found in the [examples](./examples) folder.
+
 * Example *example.com* [scan](./examples/example.com/scan.yaml) and [findings](./examples/example.com/findings.yaml)
 * Example *localhost* [scan](./examples/localhost/scan.yaml) and [findings](./examples/localhost/findings.yaml)
 
 ## Configuration
 
-The follwing security scan configuration example are based on the [ssh_scan Documentation], please take a look at the original documentation for more configuration examples.
+The following security scan configuration example are based on the [ssh_scan Documentation], please take a look at the original documentation for more configuration examples.
 
 ```bash
 ssh_scan v0.0.21 (https://github.com/mozilla/ssh_scan)
@@ -69,6 +70,7 @@ Examples:
 ## Development
 
 ### Local setup
+
 1. Clone the repository `git clone git@github.com:secureCodeBox/secureCodeBox-v2-alpha.git`
 2. Ensure you have node.js installed
    * On MacOs with brew package manager: `brew install node`
@@ -78,7 +80,7 @@ Examples:
 1. Install the dependencies `npm install`
 2. Update the parser function here: `./parser/parser.js`
 3. Update the parser tests here: `./parser/parser.test.js`
-4. Run the testsuite: `npm test`
+4. Run the test suite: `npm test`
 
 [ssh_scan GitHub]: https://github.com/mozilla/ssh_scan
 [ssh_scan Documentation]: https://github.com/mozilla/ssh_scan#example-command-line-usage
