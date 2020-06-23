@@ -1,11 +1,8 @@
 [[ADR-0000]]
-= ADR-0000: How can we introduce a more general extension concept for data proccessing modules?
+= ADR-0000: How can we introduce a more general extension concept for data processing modules?
 
 [cols="h,d",grid=rows,frame=none,stripes=none,caption="Status",%autowidth]
 |====
-// Use one of the ADR status parameter based on status
-// Please add a cross reference link to the new ADR on 'superseded' ADR.
-// e.g.: {adr_suposed_by} <<ADR-0000>>
 
 | Status
 | ACCEPTED
@@ -24,7 +21,7 @@
 
 === Status Quo
 
-One major challenge implementing the _secureCodeBox_ is to provide a flexible and modular architecture, which enables the open source community to easily understand the concepts and especially to extend the _secureCodeBox_ with individual features. Therefore we decided to seperate the process stages of a single security scan (instance of scanType CRD) in 3 major phases:
+One major challenge implementing the _secureCodeBox_ is to provide a flexible and modular architecture, which enables the open source community to easily understand the concepts and especially to extend the _secureCodeBox_ with individual features. Therefore we decided to separate the process stages of a single security scan (instance of scanType CRD) in 3 major phases:
 
 ....
 ┌──────────────────┐          ┌──────────────────┐          ┌──────────────────┐
@@ -37,9 +34,9 @@ By now the "Persisting Phase 3" was implemented by so called _persistenceProvide
 
 === Problem and Question
 
-We identified different additional UseCases with a more _data proccessing oriented_ pattern than the implemented _persisting phase3_ indicates. For example, we implemented a so called "MetaDataProvider" feature, which is responsible for enhancing each security finding with additional metadata. But the MetaDataProvider must be executed after the _parsing phase 2_ and before the _persisting phase 3_ because it depends on the parsed finding results (which will be enhanced) and the update findings should be also persisted.
+We identified different additional UseCases with a more _data processing oriented_ pattern than the implemented _persisting phase3_ indicates. For example, we implemented a so called "MetaDataProvider" feature, which is responsible for enhancing each security finding with additional metadata. But the MetaDataProvider must be executed after the _parsing phase 2_ and before the _persisting phase 3_ because it depends on the parsed finding results (which will be enhanced) and the update findings should be also persisted.
 
-To find a proper solution, we splitted the topic into the follwong two questions:
+To find a proper solution, we split the topic into the following two questions:
 
 . Should we unify the concepts MetaDataProvider and PersistenceProvider?
 . How should the execution model look like for each concept?
@@ -51,8 +48,8 @@ To find a proper solution, we splitted the topic into the follwong two questions
 Both "modules" are "processing" the security findings, which are generated in the parsing phase.
 But there is one larger difference between them:
 
-* `PersistenceProvider` is proccesing the findings with a *ReadOnly* pattern
-* `MetaDataProvider` is proccesing the findings with a *ReadAndWrite* pattern
+* `PersistenceProvider` is processing the findings with a *ReadOnly* pattern
+* `MetaDataProvider` is processing the findings with a *ReadAndWrite* pattern
 
 There is a similar thing in kubernetes called [AdmissionController](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/), with the exception that the are executed before a resource gets created.
 
@@ -125,7 +122,7 @@ Keep PersistenceProvider as they are and introduce new "MetaDataProvider" CRD wh
 ====== Pros
 
 * Quicker to implement
-* Might be worth it to have a seperate concept for it
+* Might be worth it to have a separate concept for it
 
 ====== Cons
 
@@ -142,9 +139,9 @@ Basically a docker container which process takes two command line args:
 
 Examples:
 
-* Node.js `node my-metadata.js "https://storage.googleapi.com/..." "https://storage.googleapi.com/..."`
-* java `java my-metadata.jar "https://storage.googleapi.com/..." "https://storage.googleapi.com/..."`
-* golang `./my-metadata "https://storage.googleapi.com/..." "https://storage.googleapi.com/..."`
+* NodeJS: `node my-metadata.js "https://storage.googleapi.com/..." "https://storage.googleapi.com/..."`
+* Java: `java my-metadata.jar "https://storage.googleapi.com/..." "https://storage.googleapi.com/..."`
+* Golang: `./my-metadata "https://storage.googleapi.com/..." "https://storage.googleapi.com/..."`
 
 ====== Pros
 
@@ -172,16 +169,16 @@ Analog to kubernetes webhooks. Https server receiving findings and returning res
 ===== Cons
 
 * Introduces new running Services that need to be maintained and have uptime
-* Code Overhead / Boilerplate (Can be mitigated by sdk)
+* Code Overhead / Boilerplate (Can be mitigated by SDK)
 * Debugging of individual MetaDataProvider is harder as everything is handled by a single service
 * Introduces "New" Concept
 * Certificate Management for webhook services (`cert-manager` required by default?)
 * Scaling for systems with lots of load could be a problem
-* One service per namespace (multiple tenants) needed => results in many running active services which is ressource consuming
+* One service per namespace (multiple tenants) needed => results in many running active services which is resource consuming
 
 == Decision
 
-Regarding the Question 1 it seems that both solution approaches are resulting in the same execution model. We descided to implement solution approach 1 and unify both concepts into a more general concept with the name _"hook concept"_. Therefore we exchange the existing name `persistenceProvider` for phase 3 in the excecution model with a more general term `DataProcessing`:
+Regarding the Question 1 it seems that both solution approaches are resulting in the same execution model. We decided to implement solution approach 1 and unify both concepts into a more general concept with the name _"hook concept"_. Therefore we exchange the existing name `persistenceProvider` for phase 3 in the execution model with a more general term `DataProcessing`:
 
 ....
 ┌──────────────────┐          ┌──────────────────┐          ┌──────────────────┐
@@ -190,8 +187,8 @@ Regarding the Question 1 it seems that both solution approaches are resulting in
 └──────────────────┘          └──────────────────┘          └──────────────────┘
 ....
 
-Regarding the Question 2 we decided to implement the solution approach 1 with a job-based approach (no active service componend needed).
-The Phase 3 `DataProcessing` will be therefore splitt into to seperate phases named `ReadAndWriteHooks (3.1)` and `ReadOnlyHooks (3.2)`
+Regarding the Question 2 we decided to implement the solution approach 1 with a job-based approach (no active service component needed).
+The Phase 3 `DataProcessing` will be therefore split into to separate phases named `ReadAndWriteHooks (3.1)` and `ReadOnlyHooks (3.2)`
 
 ....
                                                                                                            ┌ DataProcessing: ReadOnlyHooks ─ ─ ─
@@ -210,8 +207,8 @@ With the new `Hook Concept` we open the `DataProcessing` Phase 3 to a more intui
 
 Ideas for additional data processing hooks:
 
-* Notifier-Hooks (ReadOnlyHook) e.g. for chat systems (slack, teams...) or metric / alerting systems
-* MetaData Enrichment Hooks (ReadAndWriteHook)
-* FilterData Hooks (e.g. false/positive Handling) (ReadAndWriteHook)
-* SystemIntegration Hooks (ReadOnlyHook) e.g. for ticketing systems like JIRA
-* CascadingScans Hooks (ReadOnlyHook) e.g. for starting new security scans based on findings
+* Notifier-Hooks (ReadOnlyHook) e.g., for chat (slack, teams etc.), metric, alerting systems
+* MetaData enrichment hooks (ReadAndWriteHook)
+* FilterData Hooks (e.g., false/positive handling) (ReadAndWriteHook)
+* SystemIntegration Hooks (ReadOnlyHook) e.g., for ticketing systems like Jira
+* CascadingScans Hooks (ReadOnlyHook) e.g., for starting new security scans based on findings
