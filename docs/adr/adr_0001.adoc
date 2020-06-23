@@ -64,9 +64,9 @@ The are two variants:
 
 We could do a similar thing and introduce CRD which allows to execute "custom code" (generally speaking, depends on the second question) after a scan has completed (meaning both scan and parser phases are done). Some name ideas:
 
-- `ScanHooks`
-- `ScanCompletionHooks`
-- `FindingProcessors`
+* `ScanHooks`
+* `ScanCompletionHooks`
+* `FindingProcessors`
 
 These could be implemented with a `type` attribute, which declares if they are `ReadOnly` or `ReadAndWrite`.
 
@@ -99,14 +99,14 @@ The Execution Flow would then look something like this:
 
 **Pros:**
 
-- Only one Implementation
-- Pretty Generic to expand and test out new ideas without having to modify the secureCodeBox Operator
+* Only one Implementation
+* Pretty Generic to expand and test out new ideas without having to modify the secureCodeBox Operator
 
 **Cons:**
 
-- Possible "over-abstraction"?
-- Need to refactor the ElasticSearch PersistenceProvider
-- The "General Implementation" will be harder than the individual ones
+* Possible "over-abstraction"?
+* Need to refactor the ElasticSearch PersistenceProvider
+* The "General Implementation" will be harder than the individual ones
 
 ==== Solution approach 1: Keep Split between Persistence Provider and MetaData Provider
 
@@ -125,12 +125,12 @@ Keep PersistenceProvider as they are and introduce new "MetaDataProvider" CRD wh
 
 **Pros:**
 
-- Quicker to implement
-- Might be worth it to have a seperate concept for it
+* Quicker to implement
+* Might be worth it to have a seperate concept for it
 
 **Cons:**
 
-- Really worth introducing a new CRD for everything, especially when the are conceptually pretty close?
+* Really worth introducing a new CRD for everything, especially when the are conceptually pretty close?
 
 === Question 2: How should the execution model look like for each?
 
@@ -211,6 +211,7 @@ The Phase 3 `DataProcessing` will be therefore splitt into to seperate phases na
 With the new `Hook Concept` we open the `DataProcessing` Phase 3 to a more intuitive and flexible architecture. It is easier to understand because _WebHooks_ are already a well known concept. It is possible to keep the existing implementation of the `persistenceProviders` and to integrate them with a lot of other possible data processing components in a more general fashion. In the end, this step will result in a lot of additional feature possibilities, which go fare beyond the existing ones. Therefore we only need to implement this concept once in the secureCodeBox Operator and new ideas for extending the DataProcessing will not enforce conceptual or architectural changes.
 
 Ideas for additional data processing hooks:
+
 * Notifier-Hooks (ReadOnlyHook) e.g. for chat systems (slack, teams...) or metric / alerting systems
 * MetaData Enrichment Hooks (ReadAndWriteHook)
 * FilterData Hooks (e.g. false/positive Handling) (ReadAndWriteHook)
