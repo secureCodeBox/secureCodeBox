@@ -4,82 +4,107 @@
 
 ### Prerequisites
 
-#### Golang 
+#### Golang
 
-The operator is written in Golang.
-To build the operator you will need to install [Go](https://golang.org/).
+The operator is written in Golang. To build the operator you will need to install [Go](https://golang.org/).
 
 #### Minikube or Kind
 
-For local development we recommend to use [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or [kind](https://github.com/kubernetes-sigs/kind). If you are using MacOS or Windows you can also use the kubernetes cluster included within Docker for Mac/Windows.
-All of these tools will enable you to run a local kubernetes cluster on your development machine.
+For local development we recommend to use [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or [kind](https://github.com/kubernetes-sigs/kind). If you are using MacOS or Windows you can also use the kubernetes cluster included within Docker for Mac/Windows. All of these tools will enable you to run a local kubernetes cluster on your development machine.
 
-#### Operating your local kubernetes cluster
+#### Operating Your Local Kubernetes Cluster
 
-To operate your (local) kubernetes cluster you will need to install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) and [helm](https://helm.sh/) 
+To operate your (local) Kubernetes cluster you will need to install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) and [helm](https://helm.sh/)
+
+#### macOS
+
+For macOs simply use [Homebrew](https://brew.sh/) to install all the tools:
+
+```bash
+brew cask install docker
+brew install go helm
+```
+
+After that start the `Docker.app` and go to it's settings and start Kubernetes.
 
 #### Minio
 
 For your local development you will need a S3 compatible storage.
-We would recommend to use [Minio](https://min.io/download#/) inside a podman or docker container.
+We would recommend to use [Minio](https://min.io/download#/) inside a Podman or docker container.
+
+##### If You Want to Use Podman
 
 ```bash
-# if you want to use podman
-$ podman run --name minio -p 9000:9000 minio/minio server /data
-# if you want to use docker
-$ docker run --name minio -p 9000:9000 minio/minio server /data
+podman run \
+  --name minio \
+  -p 9000:9000 \
+  minio/minio \
+  server /data
 ```
 
-In the Minio management GUI you will need to add a new bucket for the operator. 
-The default credentials for your minio instance are *minioadmin:minioadmin*.
-You might change those.
-
-After setting up your bucket you will need to specify some environment variables to enable the operator to use the bucket.
-You could add these to your *.bashrc* or *.zshrc* as well.
+##### If You Want to Use Docker
 
 ```bash
-$ export S3_ACCESS_KEY="your-minio-access-key"
-$ export S3_SECRET_KEY="your-minio-secret-key"
-$ export S3_BUCKET="name-of-your-bucket"
-$ export S3_USE_SSL="false" # This ensures that the operator will connect even without HTTPS
-$ export S3_ENDPOINT="<your.local.ip1address>:9000/"
+docker container run \
+  --name minio \
+  -p 9000:9000 \
+  -d \
+  --rm \
+  minio/minio \
+  server /data
 ```
 
-### Build and run the operator
-
-To build an run the operator you can simply execute *make* in the *operator* directory of this repository.
+In the Minio management GUI you will need to add a new bucket for the operator. The default credentials for your minio instance are `minioadmin:minioadmin`. You might change those. Go to the management UI at <http://localhost:9000/> and add a new bucket. After creating your bucket you will need to specify some environment variables to enable the operator to use the bucket. For that export these variables:
 
 ```bash
-$ make
+export S3_ACCESS_KEY="your-minio-access-key"
+export S3_SECRET_KEY="your-minio-secret-key"
+export S3_BUCKET="name-of-your-bucket"
+export S3_USE_SSL="false" # This ensures that the operator will connect even without HTTPS
+export S3_ENDPOINT="127.0.0.1:9000"
 ```
 
-To run the operator locally you can simply execute *make run*
+You can save time by using [direnv](https://direnv.net/) to export these variables in your project. If you use direnv just add a file `.s3_credentials` with your Minio credentials.
 
-*NOTICE:* You will need to uninstall the operator from your local cluster first or it will result in undefined behavior!
+### Build and Run the Operator
+
+To build an run the operator you can simply execute `make` in the `operator` directory of this repository:
 
 ```bash
-$ make run
+cd operator
+make
 ```
 
-## How to a new security scanner
+This will produce the operator as `bin/manager`. If you wonder why the operator is named _manager_ (the resulting binary). The reason for that is in Kubernetes a combination of more than one _controller_ is called _controller-manager_ or short _manager_. In contrast _operator_ is created by the community to name a _controller-manager_ which controls _custom resources_ and hence we use _custom resources_. (see <https://book.kubebuilder.io/> for further information)
+
+To run the operator locally you can simply execute `make run` in the `operator` directory of this repository:
+
+*NOTICE:* You will need to uninstall the operator with `helm -n securecodebox-system uninstall securecodebox-operator` from your local cluster, if you've installed it via helm. Unless both operators try to work on the same cluster which may cause unexpected behavior.
+
+```bash
+cd operator
+make run
+```
+
+## How to a New Security Scanner
 
 ### ScanType Definition
 
 ### Parsing SDK
 
-## How to integrate a new hook
+## How to Integrate a New Hook
 
 ### HookType Definition
 
 ### Hook SDK
 
-# Guidelines
+## Guidelines
 
-## Coding Guidelines
+### Coding Guidelines
 
-### JSON
+#### JSON
 
-We're using snake_case (lower case) for json attributes. If an enum type is used as attribute its converted to lower case. If it's an value it's always used UPPERCASE. This is to hold the attribute api consistent, but make shure Enums are recognized as enums.
+We're using snake_case (lower case) for json attributes. If an enum type is used as attribute its converted to lower case. If it's an value it's always used UPPERCASE. This is to hold the attribute api consistent, but make sure Enums are recognized as enums.
 
 ```json
 {
