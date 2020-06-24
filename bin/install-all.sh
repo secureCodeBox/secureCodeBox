@@ -3,7 +3,7 @@
 set -eu
 
 kubectl create namespace securecodebox-system
-helm -n securecodebox-system install securecodebox-operator ./operator/
+helm -n securecodebox-system upgrade --install securecodebox-operator ./operator/
 
 helm upgrade --install amass ./scanners/amass/
 helm upgrade --install kube-hunter ./scanners/kube-hunter/

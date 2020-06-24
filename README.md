@@ -14,7 +14,7 @@
 <p align="center">
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="Build" src="https://github.com/secureCodeBox/secureCodeBox-v2-alpha/workflows/CI/badge.svg"></a>
   <a href="https://codeclimate.com/github/secureCodeBox/secureCodeBox-v2-alpha/test_coverage"><img alt="Test Coverage" src="https://api.codeclimate.com/v1/badges/b6bf3af707671b5e5251/test_coverage" /></a>
-  <a href="https://snyk.io/test/github/secureCodeBox/secureCodeBox-v2-alpha/"><img alt="Known Vulnerabilities" src="https://snyk.io/test/github/secureCodeBox/secureCodeBox-v2-alpha/badge.svg"></a>  
+  <a href="https://snyk.io/test/github/secureCodeBox/secureCodeBox-v2-alpha/"><img alt="Known Vulnerabilities" src="https://snyk.io/test/github/secureCodeBox/secureCodeBox-v2-alpha/badge.svg"></a>
 </p>
 
 **NOTE**: This Repository contains a **work in progress** preview of the planned next major secureCodeBox Release. You can find the current **stable release** here [https://github.com/secureCodeBox/secureCodeBox](https://github.com/secureCodeBox/secureCodeBox). The release of version 2.0 is still at least some month away but you can already get a sneak peak here 😀. The release will contain a major architecture change which will not be backward compatible. More details will follow soon in a series of blog articles.
@@ -79,7 +79,7 @@ Deploy the secureCodeBox operator first:
 
 ```bash
 kubectl create namespace securecodebox-system
-helm -n securecodebox-system install securecodebox-operator ./operator/
+helm -n securecodebox-system upgrade --install securecodebox-operator ./operator/
 ```
 
 Optionally deploy SCB scanner charts for each security scanner you want to use. They should not be installed into the `securecodebox-system` like the operator so that different teams can use different kinds of scanners.
