@@ -363,7 +363,7 @@ jobs:
           helm -n integration-tests install ro-hook ./hooks/generic-webhook/ --set="webhookUrl=http://$WEB_HOOK_IP/hallo-welt"
           cd tests/integration/
           npx jest --ci --color read-only-hook
-          helm -n integration-tests uninstall test-scan http-webhook read-only-hook
+          helm -n integration-tests uninstall test-scan http-webhook ro-hook
       - name: "nmap Integration Tests"
         run: |
           helm -n integration-tests install nmap ./scanner/nmap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
