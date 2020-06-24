@@ -10,11 +10,10 @@ RUN mkdir -p /home/app
 WORKDIR /home/app
 COPY package.json package-lock.json ./
 RUN npm ci
-COPY hook.ts scan-helpers.js ./
+COPY hook.ts scan-helpers.ts ./
 RUN npm run build
 
 FROM scbexperimental/hook-sdk-nodejs:${baseImageTag:-latest}
 WORKDIR /home/app/hook-wrapper/hook/
-COPY --chown=app:app scan-helpers.js ./
-COPY --from=build --chown=app:app /home/app/hook.js ./
 COPY --from=install --chown=app:app /home/app/node_modules/ ./node_modules/
+COPY --from=build --chown=app:app /home/app/hook.js /home/app/scan-helpers.js ./
