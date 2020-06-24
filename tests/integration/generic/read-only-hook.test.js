@@ -5,7 +5,7 @@ test(
   "should trigger a webhook",
   async () => {
     await scan(
-      "test-scan-read-only-hook",
+      "ro-hook-test",
       "test-scan",
       [],
       90
