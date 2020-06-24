@@ -6,6 +6,8 @@ kc.loadFromDefault();
 
 const k8sApiCRD = kc.makeApiClient(k8s.CustomObjectsApi);
 
+const namespace = process.env["NAMESPACE"];
+
 export async function startSubsequentSecureCodeBoxScan({
   name,
   parentScan,
@@ -57,12 +59,11 @@ export async function startSubsequentSecureCodeBoxScan({
   console.log(`Starting Scan ${name}`);
 
   try {
-    // Starting another subsequent sslyze scan based on the nmap results
-    // found at: https://github.com/kubernetes-client/javascript/blob/79736b9a608c18d818de61a6b44503a08ea3a78f/src/gen/api/customObjectsApi.ts#L209
+    // Submitting the Scan to the kubernetes api
     await k8sApiCRD.createNamespacedCustomObject(
       "execution.experimental.securecodebox.io",
       "v1",
-      "default",
+      namespace,
       "scans",
       scanDefinition,
       "false"
@@ -75,7 +76,6 @@ export async function startSubsequentSecureCodeBoxScan({
 
 export async function getCascadingRulesFromCluster() {
   try {
-    const namespace = process.env["NAMESPACE"];
     const response: any = await k8sApiCRD.listNamespacedCustomObject(
       "cascading.experimental.securecodebox.io",
       "v1",
