@@ -1,3 +1,4 @@
 node_modules
 hook.js
-hook.js.map
+scan-helpers.js
+*.map
