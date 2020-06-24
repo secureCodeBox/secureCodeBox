@@ -1,3 +1,4 @@
 **/node_modules
 **/coverage
 hooks/declarative-subsequent-scans/hook.js
+hooks/declarative-subsequent-scans/scan-helpers.ts
