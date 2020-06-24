@@ -44,6 +44,9 @@ interface ExtendedScanSpec extends ScanSpec {
   // This is the name of the scan. Its not "really" part of the scan spec
   // But this makes the object smaller
   name: string;
+
+  // Indicates which CascadingRule was used to generate the resulting Scan
+  generatedBy: string;
 }
 
 interface HandleArgs {
@@ -57,10 +60,11 @@ export async function handle({ scan, getFindings }: HandleArgs) {
 
   const cascadingScans = getCascadingScans(scan, findings, cascadingRules);
 
-  for (const { name, scanType, parameters } of cascadingScans) {
+  for (const { name, scanType, parameters, generatedBy } of cascadingScans) {
     await startSubsequentSecureCodeBoxScan({
       name,
       parentScan: scan,
+      generatedBy,
       scanType,
       parameters,
     });
@@ -99,6 +103,7 @@ export function getCascadingScans(
           parameters: parameters.map((parameter) =>
             Mustache.render(parameter, finding)
           ),
+          generatedBy: cascadingRule.metadata.name,
         });
       }
     }

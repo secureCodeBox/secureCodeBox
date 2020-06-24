@@ -1,0 +1,31 @@
+apiVersion: "cascading.experimental.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "nmap-smb"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: light
+spec:
+  matches:
+    anyOf:
+      - category: "Open Port"
+        attributes:
+          port: 445
+      - category: "Open Port"
+        attributes:
+          service: "microsoft-ds"
+      - category: "Open Port"
+        attributes:
+          service: "netbios-ssn"
+  scanSpec:
+    scanType: "nmap"
+    parameters:
+      # Treat all hosts as online -- skip host discovery
+      - "-Pn"
+      # Target Port of the finding
+      - "-p{{attributes.port}}"
+      # Use SMB Script
+      - "--script"
+      - "smb-protocols"
+      # Against Host
+      - "{{attributes.hostname}}"

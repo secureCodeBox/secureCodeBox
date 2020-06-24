@@ -1,4 +1,4 @@
-const k8s = require("@kubernetes/client-node");
+import * as k8s from "@kubernetes/client-node";
 
 // configure k8s client
 const kc = new k8s.KubeConfig();
@@ -11,6 +11,7 @@ async function startSubsequentSecureCodeBoxScan({
   parentScan,
   scanType,
   parameters,
+  generatedBy,
 }) {
   const scanDefinition = {
     apiVersion: "execution.experimental.securecodebox.io/v1",
@@ -21,8 +22,9 @@ async function startSubsequentSecureCodeBoxScan({
         ...parentScan.metadata.labels,
       },
       annotations: {
-        "securecodebox.io/hook": "nmap-subsequent-scans",
+        "securecodebox.io/hook": "declarative-subsequent-scans",
         "securecodebox.io/parent-scan": parentScan.metadata.name,
+        "cascading.securecodebox.io/generated-by": generatedBy,
       },
       ownerReferences: [
         {
@@ -80,3 +82,28 @@ async function getCascadingRulesFromCluster() {
   }
 }
 module.exports.getCascadingRulesFromCluster = getCascadingRulesFromCluster;
+
+enum LabelSelectorRequirementOperator {
+  In,
+  NotIn,
+  Exists,
+  DoesNotExist,
+}
+
+// See: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#labelselectorrequirement-v1-meta
+// Re created in TS because the included types suck 😕
+interface LabelSelectorRequirement {
+  key: string;
+  values: string;
+
+  operator: LabelSelectorRequirementOperator;
+}
+
+function generateLabelSelectorString(
+  matchExpression: Array<LabelSelectorRequirement>,
+  matchLabels: Map<string, string>
+): string {
+  // Convert matchLabels to matchExpression syntax
+  matchExpression;
+  return "";
+}
