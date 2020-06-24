@@ -5,11 +5,14 @@ test(
   "should trigger a webhook",
   async () => {
     await scan(
-      "ro-hook-test",
+      "test-scan-read-only-hook",
       "test-scan",
       [],
       90
     );
+
+    // This is necessary to ensure that the HTTP-Server already logged the Request
+    await new Promise(resolve => setTimeout(resolve, 5000));
 
     const webhook = "http-webhook";
     const namespace = "integration-tests";
