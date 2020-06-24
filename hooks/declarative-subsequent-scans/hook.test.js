@@ -1,6 +1,7 @@
 const { getCascadingScans } = require("./hook");
 
 let parentScan = undefined;
+let sslyzeCascadingRules = undefined;
 
 beforeEach(() => {
   parentScan = {
@@ -8,46 +9,47 @@ beforeEach(() => {
     kind: "Scan",
     metadata: {
       name: "nmap-foobar.com",
+      annotations: {}
     },
     spec: {
       scanType: "nmap",
-      parameters: "foobar.com",
-    },
+      parameters: "foobar.com"
+    }
   };
-});
 
-const sslyzeCascadingRules = [
-  {
-    apiVersion: "cascading.experimental.securecodebox.io/v1",
-    kind: "CascadingRule",
-    metadata: {
-      name: "tls-scans",
-    },
-    spec: {
-      matches: {
-        anyOf: [
-          {
-            category: "Open Port",
-            attributes: {
-              port: 443,
-              service: "https",
-            },
-          },
-          {
-            category: "Open Port",
-            attributes: {
-              service: "https",
-            },
-          },
-        ],
+  sslyzeCascadingRules = [
+    {
+      apiVersion: "cascading.experimental.securecodebox.io/v1",
+      kind: "CascadingRule",
+      metadata: {
+        name: "tls-scans"
       },
-      scanSpec: {
-        scanType: "sslyze",
-        parameters: ["--regular", "{{attributes.hostname}}"],
-      },
-    },
-  },
-];
+      spec: {
+        matches: {
+          anyOf: [
+            {
+              category: "Open Port",
+              attributes: {
+                port: 443,
+                service: "https"
+              }
+            },
+            {
+              category: "Open Port",
+              attributes: {
+                service: "https"
+              }
+            }
+          ]
+        },
+        scanSpec: {
+          scanType: "sslyze",
+          parameters: ["--regular", "{{attributes.hostname}}"]
+        }
+      }
+    }
+  ];
+});
 
 test("should create subsequent scans for open HTTPS ports (NMAP findings)", () => {
   const findings = [
@@ -58,9 +60,9 @@ test("should create subsequent scans for open HTTPS ports (NMAP findings)", () =
         state: "open",
         hostname: "foobar.com",
         port: 443,
-        service: "https",
-      },
-    },
+        service: "https"
+      }
+    }
   ];
 
   const cascadedScans = getCascadingScans(
@@ -72,6 +74,7 @@ test("should create subsequent scans for open HTTPS ports (NMAP findings)", () =
   expect(cascadedScans).toMatchInlineSnapshot(`
     Array [
       Object {
+        "generatedBy": "tls-scans",
         "name": "sslyze-foobar.com-tls-scans",
         "parameters": Array [
           "--regular",
@@ -92,9 +95,9 @@ test("Should create no subsequent scans if there are no rules", () => {
         state: "open",
         hostname: "foobar.com",
         port: 443,
-        service: "https",
-      },
-    },
+        service: "https"
+      }
+    }
   ];
 
   const cascadingRules = [];
@@ -115,9 +118,9 @@ test("should not try to do magic to the scan name if its something random", () =
         state: "open",
         hostname: "foobar.com",
         port: 443,
-        service: "https",
-      },
-    },
+        service: "https"
+      }
+    }
   ];
 
   const cascadedScans = getCascadingScans(
@@ -129,6 +132,7 @@ test("should not try to do magic to the scan name if its something random", () =
   expect(cascadedScans).toMatchInlineSnapshot(`
     Array [
       Object {
+        "generatedBy": "tls-scans",
         "name": "foobar.com-tls-scans",
         "parameters": Array [
           "--regular",
@@ -138,4 +142,30 @@ test("should not try to do magic to the scan name if its something random", () =
       },
     ]
   `);
+});
+
+test("should not start scan when the cascadingrule for it is already in the chain", () => {
+  parentScan.metadata.annotations["cascading.securecodebox.io/chain"] =
+    sslyzeCascadingRules[0].metadata.name;
+
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  expect(cascadedScans).toMatchInlineSnapshot(`Array []`);
 });

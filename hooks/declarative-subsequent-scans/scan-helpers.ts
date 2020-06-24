@@ -6,13 +6,21 @@ kc.loadFromDefault();
 
 const k8sApiCRD = kc.makeApiClient(k8s.CustomObjectsApi);
 
-async function startSubsequentSecureCodeBoxScan({
+export async function startSubsequentSecureCodeBoxScan({
   name,
   parentScan,
   scanType,
   parameters,
   generatedBy,
 }) {
+  let cascadingChain: Array<string> = [];
+
+  if (parentScan.metadata.annotations["cascading.securecodebox.io/chain"]) {
+    cascadingChain = parentScan.metadata.annotations[
+      "cascading.securecodebox.io/chain"
+    ].split(",");
+  }
+
   const scanDefinition = {
     apiVersion: "execution.experimental.securecodebox.io/v1",
     kind: "Scan",
@@ -23,8 +31,11 @@ async function startSubsequentSecureCodeBoxScan({
       },
       annotations: {
         "securecodebox.io/hook": "declarative-subsequent-scans",
-        "securecodebox.io/parent-scan": parentScan.metadata.name,
-        "cascading.securecodebox.io/generated-by": generatedBy,
+        "cascading.securecodebox.io/parent-scan": parentScan.metadata.name,
+        "cascading.securecodebox.io/chain": [
+          ...cascadingChain,
+          generatedBy,
+        ].join(","),
       },
       ownerReferences: [
         {
@@ -43,6 +54,8 @@ async function startSubsequentSecureCodeBoxScan({
     },
   };
 
+  console.log(`Starting Scan ${name}`);
+
   try {
     // Starting another subsequent sslyze scan based on the nmap results
     // found at: https://github.com/kubernetes-client/javascript/blob/79736b9a608c18d818de61a6b44503a08ea3a78f/src/gen/api/customObjectsApi.ts#L209
@@ -60,50 +73,21 @@ async function startSubsequentSecureCodeBoxScan({
   }
 }
 
-module.exports.startSubsequentSecureCodeBoxScan = startSubsequentSecureCodeBoxScan;
-
-async function getCascadingRulesFromCluster() {
+export async function getCascadingRulesFromCluster() {
   try {
     const namespace = process.env["NAMESPACE"];
-    const { body } = await k8sApiCRD.listNamespacedCustomObject(
+    const response: any = await k8sApiCRD.listNamespacedCustomObject(
       "cascading.experimental.securecodebox.io",
       "v1",
       namespace,
       "cascadingrules"
     );
-    console.log("got CascadingRules");
-    console.log(body);
-    console.log(JSON.stringify(body));
-    return body.items;
+
+    console.log(`Fetched ${response.body.items.length} CascadingRules`);
+    return response.body.items;
   } catch (err) {
     console.error("Failed to get CascadingRules from the kubernetes api");
     console.error(err);
     process.exit(1);
   }
-}
-module.exports.getCascadingRulesFromCluster = getCascadingRulesFromCluster;
-
-enum LabelSelectorRequirementOperator {
-  In,
-  NotIn,
-  Exists,
-  DoesNotExist,
-}
-
-// See: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#labelselectorrequirement-v1-meta
-// Re created in TS because the included types suck 😕
-interface LabelSelectorRequirement {
-  key: string;
-  values: string;
-
-  operator: LabelSelectorRequirementOperator;
-}
-
-function generateLabelSelectorString(
-  matchExpression: Array<LabelSelectorRequirement>,
-  matchLabels: Map<string, string>
-): string {
-  // Convert matchLabels to matchExpression syntax
-  matchExpression;
-  return "";
 }
