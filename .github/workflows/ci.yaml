@@ -253,7 +253,6 @@ jobs:
           tag_with_ref: true
           build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
-        name: "Build & Push UpdateField Hook Image"
         name: "Build & Push DeclarativeSubsequentScans Hook Image"
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
