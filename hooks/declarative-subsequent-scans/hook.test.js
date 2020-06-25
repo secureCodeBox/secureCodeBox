@@ -75,7 +75,7 @@ test("should create subsequent scans for open HTTPS ports (NMAP findings)", () =
   expect(cascadedScans).toMatchInlineSnapshot(`
     Array [
       Object {
-        "cascades": Object {},
+        "cascades": null,
         "generatedBy": "tls-scans",
         "name": "sslyze-foobar.com-tls-scans",
         "parameters": Array [
@@ -134,7 +134,7 @@ test("should not try to do magic to the scan name if its something random", () =
   expect(cascadedScans).toMatchInlineSnapshot(`
     Array [
       Object {
-        "cascades": Object {},
+        "cascades": null,
         "generatedBy": "tls-scans",
         "name": "foobar.com-tls-scans",
         "parameters": Array [
