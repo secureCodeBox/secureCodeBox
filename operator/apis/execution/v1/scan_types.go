@@ -31,6 +31,8 @@ type ScanSpec struct {
 	ScanType string `json:"scanType,omitempty"`
 
 	Parameters []string `json:"parameters,omitempty"`
+
+	Cascades *metav1.LabelSelector `json:"cascades,omitempty"`
 }
 
 // ScanStatus defines the observed state of Scan
