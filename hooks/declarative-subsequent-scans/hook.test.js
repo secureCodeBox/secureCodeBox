@@ -13,7 +13,8 @@ beforeEach(() => {
     },
     spec: {
       scanType: "nmap",
-      parameters: "foobar.com"
+      parameters: "foobar.com",
+      cascades: {}
     }
   };
 
@@ -74,6 +75,7 @@ test("should create subsequent scans for open HTTPS ports (NMAP findings)", () =
   expect(cascadedScans).toMatchInlineSnapshot(`
     Array [
       Object {
+        "cascades": Object {},
         "generatedBy": "tls-scans",
         "name": "sslyze-foobar.com-tls-scans",
         "parameters": Array [
@@ -132,6 +134,7 @@ test("should not try to do magic to the scan name if its something random", () =
   expect(cascadedScans).toMatchInlineSnapshot(`
     Array [
       Object {
+        "cascades": Object {},
         "generatedBy": "tls-scans",
         "name": "foobar.com-tls-scans",
         "parameters": Array [

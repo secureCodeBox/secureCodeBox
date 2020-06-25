@@ -1,53 +1,15 @@
 import { isMatch } from "lodash";
 import * as Mustache from "mustache";
-import * as k8s from "@kubernetes/client-node";
 
 import {
   startSubsequentSecureCodeBoxScan,
-  getCascadingRulesFromCluster,
+  getCascadingRulesForScan,
+  // types
+  Scan,
+  Finding,
+  CascadingRule,
+  ExtendedScanSpec
 } from "./scan-helpers";
-
-interface Finding {
-  name: string;
-  location: string;
-  category: string;
-  severity: string;
-  osi_layer: string;
-  attributes: Map<string, string | number>;
-}
-
-interface CascadingRule {
-  metadata: k8s.V1ObjectMeta;
-  spec: CascadingRuleSpec;
-}
-
-interface CascadingRuleSpec {
-  matches: Matches;
-  scanSpec: ScanSpec;
-}
-
-interface Matches {
-  anyOf: Array<Finding>;
-}
-
-interface Scan {
-  metadata: k8s.V1ObjectMeta;
-  spec: ScanSpec;
-}
-
-interface ScanSpec {
-  scanType: string;
-  parameters: Array<string>;
-}
-
-interface ExtendedScanSpec extends ScanSpec {
-  // This is the name of the scan. Its not "really" part of the scan spec
-  // But this makes the object smaller
-  name: string;
-
-  // Indicates which CascadingRule was used to generate the resulting Scan
-  generatedBy: string;
-}
 
 interface HandleArgs {
   scan: Scan;
@@ -56,7 +18,7 @@ interface HandleArgs {
 
 export async function handle({ scan, getFindings }: HandleArgs) {
   const findings = await getFindings();
-  const cascadingRules = await getCascadingRules();
+  const cascadingRules = await getCascadingRules(scan);
 
   const cascadingScans = getCascadingScans(scan, findings, cascadingRules);
 
@@ -66,14 +28,14 @@ export async function handle({ scan, getFindings }: HandleArgs) {
       parentScan: scan,
       generatedBy,
       scanType,
-      parameters,
+      parameters
     });
   }
 }
 
-async function getCascadingRules(): Promise<Array<CascadingRule>> {
+async function getCascadingRules(scan: Scan): Promise<Array<CascadingRule>> {
   // Explicit Cast to the proper Type
-  return <Array<CascadingRule>>await getCascadingRulesFromCluster();
+  return <Array<CascadingRule>>await getCascadingRulesForScan(scan);
 }
 
 /**
@@ -112,7 +74,7 @@ export function getCascadingScans(
 
     for (const finding of findings) {
       // Check if one (ore more) of the CascadingRule matchers apply to the finding
-      const matches = cascadingRule.spec.matches.anyOf.some((matchesRule) =>
+      const matches = cascadingRule.spec.matches.anyOf.some(matchesRule =>
         isMatch(finding, matchesRule)
       );
 
@@ -122,10 +84,11 @@ export function getCascadingScans(
         cascadingScans.push({
           name: generateCascadingScanName(parentScan, cascadingRule),
           scanType: Mustache.render(scanType, finding),
-          parameters: parameters.map((parameter) =>
+          parameters: parameters.map(parameter =>
             Mustache.render(parameter, finding)
           ),
-          generatedBy: cascadingRule.metadata.name,
+          cascades: null,
+          generatedBy: cascadingRule.metadata.name
         });
       }
     }
