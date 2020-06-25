@@ -59,6 +59,9 @@ type CascadingRuleStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:printcolumn:name="Starts",type=string,JSONPath=`.spec.scanSpec.scanType`,description="Which Scanner is started when the CascadingRule applies"
+// +kubebuilder:printcolumn:name="Invasiveness",type=string,JSONPath=`.metadata.labels.securecodebox\.io/invasive`,description="Indicates how invasive the Scanner is. Can be either 'invasive' or 'non-invasive'"
+// +kubebuilder:printcolumn:name="Intensiveness",type=string,JSONPath=`.metadata.labels.securecodebox\.io/intensive`,description="Indicates how much ressource the Scanner consumes. Can be either 'light' or 'medium'"
 
 // CascadingRule is the Schema for the cascadingrules API
 type CascadingRule struct {
