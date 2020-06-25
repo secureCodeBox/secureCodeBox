@@ -1,0 +1,19 @@
+apiVersion: "cascading.experimental.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "nmap-hostscan"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: light
+spec:
+  matches:
+    anyOf:
+      - category: "Subdomain"
+        osi_layer: "NETWORK"
+  scanSpec:
+    scanType: "nmap"
+    parameters:
+      # Treat all hosts as online -- skip host discovery
+      - "-Pn"
+      # Target Port of the finding
+      - "{{location}}"
