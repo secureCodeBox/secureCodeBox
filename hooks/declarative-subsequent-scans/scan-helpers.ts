@@ -124,7 +124,6 @@ export async function startSubsequentSecureCodeBoxScan({
 }
 
 export async function getCascadingRulesForScan(scan: Scan) {
-  console.log(`CascadeConfig = "${scan.spec.cascades}"`);
   if (scan.spec.cascades === undefined || scan.spec.cascades === null) {
     console.log("Skipping cascades as no selector was defined.");
     return [];
