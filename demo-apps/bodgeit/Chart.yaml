@@ -1,0 +1,19 @@
+apiVersion: v2
+version: 0.1.0
+type: application
+appVersion: "latest"
+name: bodgeit
+description: "The BodgeIt Store is a vulnerable web app which is aimed at people who are new to pen testing"
+home: https://github.com/psiinon/bodgeit
+icon: https://scb-art.j12934.now.sh/bodgeit.png
+keywords:
+- vulnerable
+- webapp
+- demo
+sources:
+- https://github.com/secureCodeBox/helm
+- https://github.com/psiinon/bodgeit
+maintainers:
+- name: iteratec GmbH
+  email: security@iteratec.com
+
