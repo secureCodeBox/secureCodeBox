@@ -1,0 +1,46 @@
+apiVersion: "cascading.experimental.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "kubernetes-control-plane"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: light
+spec:
+  matches:
+    anyOf:
+      # API Server
+      - category: "Open Port"
+        attributes:
+          port: 6443
+          state: "open"
+      # etcd API
+      - category: "Open Port"
+        attributes:
+          port: 2379
+          state: "open"
+  scanSpec:
+    scanType: "kube-hunter"
+    parameters:
+      - "--remote"
+      - "{{attributes.ip_address}}"
+---
+apiVersion: "cascading.experimental.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "kubernetes-node"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: light
+spec:
+  matches:
+    anyOf:
+      # kubelet API
+      - category: "Open Port"
+        attributes:
+          port: 10250
+          state: "open"
+  scanSpec:
+    scanType: "kube-hunter"
+    parameters:
+      - "--remote"
+      - "{{attributes.ip_address}}"
