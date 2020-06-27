@@ -153,6 +153,55 @@ test("should properly parse a nmap xml without any host", async () => {
   expect(await parse(xmlContent)).toMatchInlineSnapshot(`Array []`);
 });
 
+test("should properly parse a nmap xml with missing service information", async () => {
+  const xmlContent = await readFile(
+    __dirname + "/__testFiles__/no-service.xml",
+    {
+      encoding: "utf8"
+    }
+  );
+
+  expect(await parse(xmlContent)).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "attributes": Object {
+          "hostname": "example.com",
+          "ip_address": "93.184.216.34",
+          "mac_address": null,
+          "method": undefined,
+          "operating_system": null,
+          "port": 10250,
+          "protocol": "tcp",
+          "scripts": null,
+          "service": undefined,
+          "serviceProduct": null,
+          "serviceVersion": null,
+          "state": "filtered",
+        },
+        "category": "Open Port",
+        "description": "Port 10250 is filtered using tcp protocol.",
+        "location": "tcp://93.184.216.34:10250",
+        "name": undefined,
+        "osi_layer": "NETWORK",
+        "severity": "INFORMATIONAL",
+      },
+      Object {
+        "attributes": Object {
+          "hostname": "example.com",
+          "ip_address": "93.184.216.34",
+          "operating_system": null,
+        },
+        "category": "Host",
+        "description": "Found a host",
+        "location": "example.com",
+        "name": "Host: example.com",
+        "osi_layer": "NETWORK",
+        "severity": "INFORMATIONAL",
+      },
+    ]
+  `);
+});
+
 test("Should properly parse a nmap xml with script specific SMB findings", async () => {
   const xmlContent = await readFile(
     __dirname + "/__testFiles__/localhost-smb-script.xml",
