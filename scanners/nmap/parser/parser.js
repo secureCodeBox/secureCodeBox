@@ -1,4 +1,5 @@
 const xml2js = require('xml2js');
+const { get } = require('lodash');
 
 async function parse(fileContent) {
   const hosts = await parseResultFile(fileContent);
@@ -271,13 +272,13 @@ function parseResultFile(fileContent) {
 
               const port = parseInt(portItem.$.portid, 10);
               const protocol = portItem.$.protocol;
-              const service = portItem.service[0].$.name;
-              const serviceProduct = portItem.service[0].$.product;
-              const serviceVersion = portItem.service[0].$.version;
+              const service = get(portItem, ["service",0,"$","name"]);
+              const serviceProduct = get(portItem, ["service",0,"$","product"]);
+              const serviceVersion = get(portItem, ["service",0,"$","version"]);
 
-              const tunnel = portItem.service[0].$.tunnel;
-              const method = portItem.service[0].$.method;
-              const product = portItem.service[0].$.tunnel;
+              const tunnel = get(portItem, ["service",0,"$","tunnel"]);
+              const method = get(portItem, ["service",0,"$","method"]);
+              const product = get(portItem, ["service",0,"$","tunnel"]);
 
               const state = portItem.state[0].$.state;
 
