@@ -1,0 +1,131 @@
+[
+  {
+    "ssh_scan_version": "0.0.43",
+    "ip": "10.102.131.102",
+    "hostname": "dummy-ssh.demo-apps.svc",
+    "port": 22,
+    "server_banner": "SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu2.8",
+    "ssh_version": 2.0,
+    "os": "ubuntu",
+    "os_cpe": "o:canonical:ubuntu:16.04",
+    "ssh_lib": "openssh",
+    "ssh_lib_cpe": "a:openssh:openssh:7.2p2",
+    "key_algorithms": [
+      "curve25519-sha256@libssh.org",
+      "ecdh-sha2-nistp256",
+      "ecdh-sha2-nistp384",
+      "ecdh-sha2-nistp521",
+      "diffie-hellman-group-exchange-sha256",
+      "diffie-hellman-group14-sha1"
+    ],
+    "encryption_algorithms_client_to_server": [
+      "chacha20-poly1305@openssh.com",
+      "aes128-ctr",
+      "aes192-ctr",
+      "aes256-ctr",
+      "aes128-gcm@openssh.com",
+      "aes256-gcm@openssh.com"
+    ],
+    "encryption_algorithms_server_to_client": [
+      "chacha20-poly1305@openssh.com",
+      "aes128-ctr",
+      "aes192-ctr",
+      "aes256-ctr",
+      "aes128-gcm@openssh.com",
+      "aes256-gcm@openssh.com"
+    ],
+    "mac_algorithms_client_to_server": [
+      "umac-64-etm@openssh.com",
+      "umac-128-etm@openssh.com",
+      "hmac-sha2-256-etm@openssh.com",
+      "hmac-sha2-512-etm@openssh.com",
+      "hmac-sha1-etm@openssh.com",
+      "umac-64@openssh.com",
+      "umac-128@openssh.com",
+      "hmac-sha2-256",
+      "hmac-sha2-512",
+      "hmac-sha1"
+    ],
+    "mac_algorithms_server_to_client": [
+      "umac-64-etm@openssh.com",
+      "umac-128-etm@openssh.com",
+      "hmac-sha2-256-etm@openssh.com",
+      "hmac-sha2-512-etm@openssh.com",
+      "hmac-sha1-etm@openssh.com",
+      "umac-64@openssh.com",
+      "umac-128@openssh.com",
+      "hmac-sha2-256",
+      "hmac-sha2-512",
+      "hmac-sha1"
+    ],
+    "compression_algorithms_client_to_server": [
+      "none",
+      "zlib@openssh.com"
+    ],
+    "compression_algorithms_server_to_client": [
+      "none",
+      "zlib@openssh.com"
+    ],
+    "languages_client_to_server": [
+
+    ],
+    "languages_server_to_client": [
+
+    ],
+    "auth_methods": [
+      "publickey",
+      "password"
+    ],
+    "keys": {
+      "rsa": {
+        "raw": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDm2L8IYocSd9gmOCacv/W8rYTloYr3xqOiP65rdu1pqoRkhgdIe4KluDj3dor/cuPwl0W/E3v9eI5HJTJ0WfbPVUzNTDCoX+Fj4g2kdwGQdhePlYjfEBeLxze2cNK5bVP2ngjRAkhgDl9w0oQoFVAi4rpzvyu5xOO/YcmE0hMboQmAL5ckWxZNP3XPrEbxqUUzb1B5QU7oq2D8oh9o8WaLvTplssBH3ut/i7e4Tva2Y6d+lwlB4lep1Tat0sNyn8P5l5acprjA6CM4Dd2bd1mz/1L4hhX4bAx5fhuDGbM1OJvsLiDQx3Eic5q5iCrBFpjTs/4m4W3aLAo1jgXziMGv",
+        "length": 2048,
+        "fingerprints": {
+          "md5": "a5:6f:62:26:81:03:b7:5e:06:48:10:04:79:4b:ac:32",
+          "sha1": "89:df:39:42:b6:32:b0:0d:99:e0:42:de:29:8f:dc:bf:af:d0:e9:d2",
+          "sha256": "31:b4:57:fc:28:10:c8:de:bf:a7:cf:d9:8c:e4:6e:ad:f6:89:a8:38:6e:e1:51:08:59:f5:e8:d0:19:f1:68:21"
+        }
+      },
+      "ecdsa-sha2-nistp256": {
+        "raw": "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOcE3ozTkDElL4Gdd+phO3+3bNlIG6yU8rLKWWJ9eOlArBJgFkK1lqQnM3Ac4ITwwGBwAhMqlREFQtc8ZIuUMi0=",
+        "length": 520,
+        "fingerprints": {
+          "md5": "f5:fb:82:83:cd:0e:1f:af:2a:45:17:0b:b7:3c:9f:ee",
+          "sha1": "01:30:c1:d2:7c:21:93:fc:45:7a:90:35:a0:6f:78:fe:d6:20:cc:8c",
+          "sha256": "a5:af:89:c1:ac:79:b3:28:9e:cd:f2:f6:f6:8e:a3:ea:e6:96:06:82:5e:2b:f2:d9:27:c3:97:53:03:eb:13:90"
+        }
+      },
+      "ed25519": {
+        "raw": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIProev4CeCXno/TMpdg0lVlsp19iF2tIB0dkT/Akid2w",
+        "length": 256,
+        "fingerprints": {
+          "md5": "c8:65:6b:d1:59:03:56:21:d9:0f:84:83:ce:ac:40:86",
+          "sha1": "6d:05:43:94:57:96:c2:70:ff:ed:d3:e6:c0:03:95:a4:7e:58:d2:0c",
+          "sha256": "78:bc:20:cf:28:ef:ae:9c:03:6c:3a:fe:a4:36:c8:7d:48:65:34:03:41:e0:33:c7:f7:fd:30:d6:f1:9a:f3:b1"
+        }
+      }
+    },
+    "dns_keys": [
+
+    ],
+    "duplicate_host_key_ips": [
+
+    ],
+    "compliance": {
+      "policy": "Mozilla Modern",
+      "compliant": false,
+      "recommendations": [
+        "Remove these key exchange algorithms: diffie-hellman-group14-sha1",
+        "Remove these MAC algorithms: umac-64-etm@openssh.com, hmac-sha1-etm@openssh.com, umac-64@openssh.com, hmac-sha1",
+        "Remove these authentication methods: password"
+      ],
+      "references": [
+        "https://wiki.mozilla.org/Security/Guidelines/OpenSSH"
+      ],
+      "grade": "D"
+    },
+    "start_time": "2020-06-28 17:55:43 +0000",
+    "end_time": "2020-06-28 17:55:43 +0000",
+    "scan_duration_seconds": 0.2357902
+  }
+]
