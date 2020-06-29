@@ -100,6 +100,10 @@ Optional deploy some demo apps for scanning:
 
 ```bash
 helm upgrade --install dummy-ssh ./demo-apps/dummy-ssh/
+helm upgrade --install bodgeit ./demo-apps/bodgeit/
+helm upgrade --install juice-shop ./demo-apps/juice-shop/
+helm upgrade --install old-wordpress ./demo-apps/old-wordpress/
+helm upgrade --install swagger-petstore ./demo-apps/swagger-petstore/
 ```
 
 Deploy secureCodeBox Hooks:
