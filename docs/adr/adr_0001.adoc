@@ -107,9 +107,9 @@ The Execution Flow would then look something like this:
 * Need to refactor the _persistence-elastic_ provider.
 * The "`general implementation`" will be harder than the individual ones.
 
-===== Solution Approach 1: Keep Split between Persistence Provider and MetaData Provider
+===== Solution Approach 2: Keep Split between Persistence Provider and MetaData Provider
 
-Keep PersistenceProvider as they are and introduce new "MetaDataProvider" CRD which gets executed before the PersistenceProviders by the operator.
+Keep _PersistenceProvider_ as they are and introduce new _MetaDataProvider_ CRD which gets executed before the _PersistenceProviders_ by the __secureCodeBox operator_.
 
 ....
                                                                                                            ┌ Persistence Provider─ ─ ─ ─ ─ ─ ─ ─
@@ -124,12 +124,12 @@ Keep PersistenceProvider as they are and introduce new "MetaDataProvider" CRD wh
 
 ====== Pros
 
-* Quicker to implement
-* Might be worth it to have a separate concept for it
+* Quicker to implement.
+* Might be worth it to have a separate concept for it.
 
 ====== Cons
 
-* Really worth introducing a new CRD for everything, especially when the are conceptually pretty close?
+* Not sure if it worth to introduce a new CRD for everything, especially when it's conceptually pretty close to to something already existing.
 
 ==== Question 2: How Should the Execution Model Look like for Each?
 
