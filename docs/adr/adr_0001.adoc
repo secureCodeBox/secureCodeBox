@@ -181,17 +181,18 @@ Analog to kubernetes webhooks: HTTP server receiving findings and returning resu
 
 == Decision
 
-Regarding the Question 1 it seems that both solution approaches are resulting in the same execution model. We decided to implement solution approach 1 and unify both concepts into a more general concept with the name _"hook concept"_. Therefore we exchange the existing name `persistenceProvider` for phase 3 in the execution model with a more general term `DataProcessing`:
+Regarding question 1 it seems that both solution approaches are resulting in the same execution model. We decided to implement solution approach 1 and unify both concepts into a more general concept with the name _hook concept_. Therefore we exchange the existing name _PersistenceProvider_ for phase 3 in the execution model with a more general term _DataProcessing_:
 
+// #30 I suggest the term "processing" instead of data processing/
 ....
 ┌──────────────────┐          ┌──────────────────┐          ┌──────────────────┐
-│     Scanning     ├─────────▶│     Parsing      ├─────────▶│ DataProcessing   │
+│     scanning     ├─────────▶│     parsing      ├─────────▶│  data processing │
 │    (Phase 1)     │          │    (Phase 2)     │          │    (Phase 3)     │
 └──────────────────┘          └──────────────────┘          └──────────────────┘
 ....
 
-Regarding the Question 2 we decided to implement the solution approach 1 with a job-based approach (no active service component needed).
-The Phase 3 `DataProcessing` will be therefore split into to separate phases named `ReadAndWriteHooks (3.1)` and `ReadOnlyHooks (3.2)`
+Regarding question 2 we decided to implement the solution approach 1 with a job-based approach (no active service component needed). Therefore the phase 3 _data processing_ will be split into two separate phases named _ReadAndWriteHooks_ (3.1) and _ReadOnlyHooks_ (3.2)
+// #30 to what refers 3.1 and 3.2?
 
 ....
                                                                                                            ┌ DataProcessing: ReadOnlyHooks ─ ─ ─
