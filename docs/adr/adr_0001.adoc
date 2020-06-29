@@ -21,16 +21,16 @@
 
 === Status Quo
 
-One major challenge implementing the _secureCodeBox_ is to provide a flexible and modular architecture, which enables the open source community to easily understand the concepts and especially to extend the _secureCodeBox_ with individual features. Therefore we decided to separate the process stages of a single security scan (instance of scanType CRD) in 3 major phases:
+One major challenge implementing the _secureCodeBox_ is to provide a flexible and modular architecture, which enables the open source community to easily understand the concepts and especially to extend the _secureCodeBox_ with individual features. Therefore we decided to separate the process stages of a single security scan (instance of _scanType_ custom resource definition; further abbreviated with _CRD_) in three major phases:
 
 ....
 ┌──────────────────┐          ┌──────────────────┐          ┌──────────────────┐
-│     Scanning     ├─────────▶│     Parsing      ├─────────▶│    Persisting    │
-│    (Phase 1)     │          │    (Phase 2)     │          │    (Phase 3)     │
+│     scanning     ├─────────▶│     parsing      ├─────────▶│    persisting    │
+│    (phase 1)     │          │    (phase 2)     │          │    (phase 3)     │
 └──────────────────┘          └──────────────────┘          └──────────────────┘
 ....
 
-By now the "Persisting Phase 3" was implemented by so called _persistenceProviders_ e.g the *persistence-elastic* provider which is responsible for persisting all findings in a given elasticsearch database. The _secureCodeBox_ Operator is aware of this 3 phases and is responsible for the state model and execution of each security scan (instance of scanType CRD).
+By now the phase 3 "`persisting`" was implemented by so called _persistenceProviders_ (e.g. the _persistence-elastic_ provider which is responsible for persisting all findings in a given elasticsearch database). The _secureCodeBox_ Operator is aware of this 3 phases and is responsible for the state model and execution of each security scan.
 
 === Problem and Question
 
