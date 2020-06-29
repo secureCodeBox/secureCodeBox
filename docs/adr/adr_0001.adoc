@@ -131,14 +131,14 @@ Keep _PersistenceProvider_ as they are and introduce new _MetaDataProvider_ CRD 
 
 * Not sure if it worth to introduce a new CRD for everything, especially when it's conceptually pretty close to to something already existing.
 
-==== Question 2: How Should the Execution Model Look like for Each?
+==== Question 2: How Should the Execution Model Look like for Each Concept?
 
 ===== Solution Approach 1: Like the Persistence Provider
 
-Basically a docker container which process takes two command line args:
+Basically a docker container which process findings takes two arguments:
 
-* A pre-signed URL to download the findings from
-* A pre-signed URL to upload the modified findings to
+. A pre-defined URL to download the findings from.
+. A pre-defined URL to upload the modified findings to.
 
 Examples:
 
@@ -148,36 +148,36 @@ Examples:
 
 ====== Pros
 
-* on liner with the current implementations
-* code overhead / wrapper code is pretty minimal
-* zero scale - no resource costs when nothing is running
+* One liner with the current implementations.
+* Code overhead / wrapper code is pretty minimal.
+* Zero scale: no resource costs when nothing is running.
 
 ===== Cons
 
-* results in too many k8s jobs?
-** resource blocking on finished resources
-** ttlAfterFinished enabled
-* container runtime overhead (especially time)
+* May results in too many Kubernetes jobs.
+** Resource blocking on finished resources.
+** `ttlAfterFinished` enabled.
+* Container runtime overhead (especially time).
 
-=== Option 2: A WebHooks Like Concept
+===== Solution Approach 2: A WebHooks Like Concept
 
-Analog to kubernetes webhooks. Https server receiving findings and returning results.
+Analog to kubernetes webhooks: HTTP server receiving findings and returning results.
 
-==== Pros
+===== Pros
 
-* MilliSeconds instead of seconds for processing
-* No ContainerCreation Overhead
-* No additional k8s jobs needed
+* Milliseconds instead of seconds for processing.
+* No overhead for container Creation.
+* No additional kubernetes jobs needed.
 
 ===== Cons
 
-* Introduces new running Services that need to be maintained and have uptime
-* Code Overhead / Boilerplate (Can be mitigated by SDK)
-* Debugging of individual MetaDataProvider is harder as everything is handled by a single service
-* Introduces "New" Concept
-* Certificate Management for webhook services (`cert-manager` required by default?)
-* Scaling for systems with lots of load could be a problem
-* One service per namespace (multiple tenants) needed => results in many running active services which is resource consuming
+* Introduces new running services which needs to be maintained and have uptime.
+* Code overhead / boilerplate (Can be mitigated by an SDK).
+* Debugging of individual _MetaDataProvider_ is harder than a single service which handles everything.
+* Introduces "`new`"cConcept.
+* Certificate management for webhook services (`cert-manager` required by default?).
+* Scaling for systems with lots of load could be a problem.
+* One service per namespace (multiple tenants) needed -> results in many running active services which is resource consuming.
 
 == Decision
 
