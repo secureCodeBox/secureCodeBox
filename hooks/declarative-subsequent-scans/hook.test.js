@@ -45,7 +45,7 @@ beforeEach(() => {
         },
         scanSpec: {
           scanType: "sslyze",
-          parameters: ["--regular", "{{attributes.hostname}}"]
+          parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"]
         }
       }
     }
@@ -80,7 +80,7 @@ test("should create subsequent scans for open HTTPS ports (NMAP findings)", () =
         "name": "sslyze-foobar.com-tls-scans",
         "parameters": Array [
           "--regular",
-          "foobar.com",
+          "foobar.com:443",
         ],
         "scanType": "sslyze",
       },
@@ -118,7 +118,8 @@ test("should not try to do magic to the scan name if its something random", () =
       category: "Open Port",
       attributes: {
         state: "open",
-        hostname: "foobar.com",
+        hostname: undefined,
+        ip_address: "10.42.42.42",
         port: 443,
         service: "https"
       }
@@ -139,7 +140,7 @@ test("should not try to do magic to the scan name if its something random", () =
         "name": "foobar.com-tls-scans",
         "parameters": Array [
           "--regular",
-          "foobar.com",
+          "10.42.42.42:443",
         ],
         "scanType": "sslyze",
       },
