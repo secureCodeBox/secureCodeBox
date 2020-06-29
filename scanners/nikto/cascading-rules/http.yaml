@@ -20,7 +20,8 @@ spec:
     scanType: "nikto"
     parameters:
       - "-host"
-      - "{{attributes.hostname}}"
+      # Use Hostname if defined, fall back to ip if not defined
+      - "{{#attributes.hostname}}{{attributes.hostname}}{{/attributes.hostname}}{{^attributes.hostname}}{{attributes.ip_address}}{{/attributes.hostname}}"
       - "-port"
       - "{{attributes.port}}"
       - "-Tuning"
