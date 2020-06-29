@@ -10,10 +10,12 @@ spec:
     anyOf:
       - category: "Open Port"
         attributes:
-          service: "http"
+          service: http
+          state: open
       - category: "Open Port"
         attributes:
-          service: "https"
+          service: https
+          state: open
   scanSpec:
     scanType: "zap-baseline"
     parameters: ["-t", "{{attributes.service}}://{{attributes.hostname}}"]

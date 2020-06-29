@@ -11,12 +11,15 @@ spec:
       - category: "Open Port"
         attributes:
           port: 445
+          state: open
       - category: "Open Port"
         attributes:
           service: "microsoft-ds"
+          state: open
       - category: "Open Port"
         attributes:
           service: "netbios-ssn"
+          state: open
   scanSpec:
     scanType: "nmap"
     parameters:

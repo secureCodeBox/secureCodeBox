@@ -11,9 +11,11 @@ spec:
       - category: "Open Port"
         attributes:
           port: 22
+          state: open
       - category: "Open Port"
         attributes:
           service: "ssh"
+          state: open
   scanSpec:
     scanType: "ssh-scan"
     parameters:
