@@ -31,4 +31,4 @@ spec:
       - "--script"
       - "smb-protocols"
       # Against Host
-      - "{{attributes.hostname}}"
+      - "{{$.hostOrIP}}"

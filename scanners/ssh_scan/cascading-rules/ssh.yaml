@@ -20,6 +20,6 @@ spec:
     scanType: "ssh-scan"
     parameters:
       - "--target"
-      - "{{attributes.hostname}}"
+      - "{{$.hostOrIP}}"
       - "--port"
       - "{{attributes.port}}"

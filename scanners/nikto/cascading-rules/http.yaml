@@ -21,7 +21,7 @@ spec:
     parameters:
       - "-host"
       # Use Hostname if defined, fall back to ip if not defined
-      - "{{#attributes.hostname}}{{attributes.hostname}}{{/attributes.hostname}}{{^attributes.hostname}}{{attributes.ip_address}}{{/attributes.hostname}}"
+      - "{{$.hostOrIP}}"
       - "-port"
       - "{{attributes.port}}"
       - "-Tuning"

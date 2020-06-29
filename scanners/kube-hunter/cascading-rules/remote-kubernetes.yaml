@@ -22,7 +22,7 @@ spec:
     scanType: "kube-hunter"
     parameters:
       - "--remote"
-      - "{{attributes.ip_address}}"
+      - "{{$.hostOrIP}}"
 ---
 apiVersion: "cascading.experimental.securecodebox.io/v1"
 kind: CascadingRule
@@ -43,4 +43,4 @@ spec:
     scanType: "kube-hunter"
     parameters:
       - "--remote"
-      - "{{attributes.ip_address}}"
+      - "{{$.hostOrIP}}"
