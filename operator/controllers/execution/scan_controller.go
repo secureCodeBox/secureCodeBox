@@ -31,6 +31,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	rbacv1 "k8s.io/api/rbac/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
+	resource "k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -439,6 +440,16 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 								findingsUploadURL,
 							},
 							ImagePullPolicy: "Always",
+							Resources: corev1.ResourceRequirements{
+								Requests: corev1.ResourceList{
+									corev1.ResourceCPU:    resource.MustParse("200m"),
+									corev1.ResourceMemory: resource.MustParse("100Mi"),
+								},
+								Limits: corev1.ResourceList{
+									corev1.ResourceCPU:    resource.MustParse("400m"),
+									corev1.ResourceMemory: resource.MustParse("200Mi"),
+								},
+							},
 						},
 					},
 					AutomountServiceAccountToken: &automountServiceAccountToken,
@@ -598,19 +609,16 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 				},
 			},
 		},
-		// TODO Assign sane default limits for lurcher
-		// Resources: corev1.ResourceRequirements{
-		// 	Limits: map[corev1.ResourceName]resource.Quantity{
-		// 		"": {
-		// 			Format: "",
-		// 		},
-		// 	},
-		// 	Requests: map[corev1.ResourceName]resource.Quantity{
-		// 		"": {
-		// 			Format: "",
-		// 		},
-		// 	},
-		// },
+		Resources: corev1.ResourceRequirements{
+			Requests: corev1.ResourceList{
+				corev1.ResourceCPU:    resource.MustParse("20m"),
+				corev1.ResourceMemory: resource.MustParse("20Mi"),
+			},
+			Limits: corev1.ResourceList{
+				corev1.ResourceCPU:    resource.MustParse("100m"),
+				corev1.ResourceMemory: resource.MustParse("100Mi"),
+			},
+		},
 		VolumeMounts: []corev1.VolumeMount{
 			{
 				Name:      "scan-results",
@@ -1029,6 +1037,16 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 							Args:            cliArgs,
 							Env:             append(hook.Spec.Env, standardEnvVars...),
 							ImagePullPolicy: "IfNotPresent",
+							Resources: corev1.ResourceRequirements{
+								Requests: corev1.ResourceList{
+									corev1.ResourceCPU:    resource.MustParse("200m"),
+									corev1.ResourceMemory: resource.MustParse("100Mi"),
+								},
+								Limits: corev1.ResourceList{
+									corev1.ResourceCPU:    resource.MustParse("400m"),
+									corev1.ResourceMemory: resource.MustParse("200Mi"),
+								},
+							},
 						},
 					},
 				},
