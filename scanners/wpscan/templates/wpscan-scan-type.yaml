@@ -22,3 +22,5 @@ spec:
                 - "/home/securecodebox/wpscan-results.json"
                 - "-f"
                 - json
+              resources:
+                {{- toYaml .Values.scannerJob.resources | nindent 16 }}

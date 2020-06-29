@@ -2,3 +2,6 @@ parserImage:
   registry: docker.io
   repository: scbexperimental/parser-amass
   tag: latest
+
+scannerJob:
+  resources: {}

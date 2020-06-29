@@ -22,3 +22,5 @@ spec:
                 - '/wrapper.sh'
                 - '-o'
                 - '/home/securecodebox/nikto-results.json'
+              resources:
+                {{- toYaml .Values.scannerJob.resources | nindent 16 }}

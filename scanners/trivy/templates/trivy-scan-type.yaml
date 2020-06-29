@@ -24,3 +24,5 @@ spec:
                 - "json"
                 - "--output"
                 - "/home/securecodebox/trivy-results.json"
+              resources:
+                {{- toYaml .Values.scannerJob.resources | nindent 16 }}

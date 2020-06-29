@@ -20,3 +20,5 @@ spec:
                 - '/wrapper.sh'
                 - '--report'
                 - 'json'
+              resources:
+                {{- toYaml .Values.scannerJob.resources | nindent 16 }}
