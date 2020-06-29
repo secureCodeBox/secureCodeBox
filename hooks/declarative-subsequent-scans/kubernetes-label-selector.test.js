@@ -131,3 +131,19 @@ test("should generate selectors with both expression and labelMatching", () => {
     "critical=true,environment notin (production),team in (search,payment),foobar,!barfoo"
   );
 });
+
+test("should throw a exception when passed a unknown operator", () => {
+  expect(() =>
+    generateLabelSelectorString({
+      matchExpression: [
+        {
+          key: "environment",
+          operator: "FooBar",
+          values: ["production"]
+        }
+      ]
+    })
+  ).toThrowErrorMatchingInlineSnapshot(
+    `"Unknown LabelSelector Operator \\"FooBar\\". Supported are (In, NotIn, Exists, DoesNotExist). If this is an official label selector operator in kubernetes please open up a issue in the secureCodeBox Repo."`
+  );
+});

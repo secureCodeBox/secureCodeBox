@@ -43,6 +43,14 @@ export function generateLabelSelectorString({
       if (operator === LabelSelectorRequirementOperator.DoesNotExist) {
         return `!${key}`;
       }
+
+      const supportedOperators = Object.values(
+        LabelSelectorRequirementOperator
+      ).join(", ");
+
+      throw new Error(
+        `Unknown LabelSelector Operator "${operator}". Supported are (${supportedOperators}). If this is an official label selector operator in kubernetes please open up a issue in the secureCodeBox Repo.`
+      );
     }
   );
 
