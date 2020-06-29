@@ -30,11 +30,11 @@ One major challenge implementing the _secureCodeBox_ is to provide a flexible an
 └──────────────────┘          └──────────────────┘          └──────────────────┘
 ....
 
-By now the phase 3 "`persisting`" was implemented by so called _persistenceProviders_ (e.g. the _persistence-elastic_ provider which is responsible for persisting all findings in a given elasticsearch database). The _secureCodeBox_ Operator is aware of this 3 phases and is responsible for the state model and execution of each security scan.
+By now the phase 3 "`persisting`" was implemented by so called _persistenceProviders_ (e.g., the _persistence-elastic_ provider which is responsible for persisting all findings in a given elasticsearch database). The _secureCodeBox_ Operator is aware of this 3 phases and is responsible for the state model and execution of each security scan.
 
 === Problem and Question
 
-We identified different additional UseCases with a more _data processing oriented_ pattern than the implemented _persisting phase3_ indicates. For example, we implemented a so called "MetaDataProvider" feature, which is responsible for enhancing each security finding with additional metadata. But the MetaDataProvider must be executed after the _parsing phase 2_ and before the _persisting phase 3_ because it depends on the parsed finding results (which will be enhanced) and the update findings should be also persisted.
+We identified different additional use cases with a more "`data processing oriented`" pattern than the implemented phase 3 "`persisting`" indicates. For example, we implemented a so called _MetaDataProvider_ feature, which is responsible for enhancing each security finding with additional metadata. But the _MetaDataProvider_ must be executed after the phase 2 "`parsing`" and before the phase 3 "`persisting`" because it depends on the parsed finding results (which will be enhanced) and the updated findings should be also persisted.
 
 To find a proper solution, we split the topic into the following two questions:
 
