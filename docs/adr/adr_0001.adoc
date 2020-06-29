@@ -30,7 +30,7 @@ One major challenge implementing the _secureCodeBox_ is to provide a flexible an
 └──────────────────┘          └──────────────────┘          └──────────────────┘
 ....
 
-By now the phase 3 "`persisting`" was implemented by so called _persistenceProviders_ (e.g., the _persistence-elastic_ provider which is responsible for persisting all findings in a given elasticsearch database). The _secureCodeBox_ Operator is aware of this 3 phases and is responsible for the state model and execution of each security scan.
+By now the phase 3 "`persisting`" was implemented by so called _PersistenceProviders_ (e.g., the _persistence-elastic_ provider which is responsible for persisting all findings in a given elasticsearch database). The _secureCodeBox_ Operator is aware of this 3 phases and is responsible for the state model and execution of each security scan.
 
 === Problem and Question
 
@@ -38,35 +38,38 @@ We identified different additional use cases with a more "`data processing orien
 
 To find a proper solution, we split the topic into the following two questions:
 
-. Should we unify the concepts MetaDataProvider and PersistenceProvider?
+. Should we unify the concepts _MetaDataProvider_ and _PersistenceProvider_?
 . How should the execution model look like for each concept?
 
 ==== Question 1: Should We Unify the Concepts MetaDataProvider and PersistenceProvider?
 
 ===== Solution Approach 1: Unify
 
-Both "modules" are "processing" the security findings, which are generated in the parsing phase.
-But there is one larger difference between them:
+Both "`modules`" are "`processing`" the security findings, which were generated in the phase 2 "`parsing`",
+but there is one major difference between them:
 
-* `PersistenceProvider` is processing the findings with a *ReadOnly* pattern
-* `MetaDataProvider` is processing the findings with a *ReadAndWrite* pattern
+* a _PersistenceProvider_ is processing the findings *read only*, and
+* a _MetaDataProvider_ is processing the findings *read and write*.
 
-There is a similar thing in kubernetes called [AdmissionController](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/), with the exception that the are executed before a resource gets created.
+There is a similar concept in Kubernetes called https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/[AdmissionController], but with the exception that the will be executed before a resource is created.
 
-The are two variants:
+There are two variants of _AdmissionControllers_:
 
-. `ValidatingWebhookConfiguration` (ReadOnly) *Executed Last*
-. `MutatingWebhookConfiguration` (ReadAndWrite) *Executed First*
+. _ValidatingWebhookConfiguration_: *read only*, *executed last*; and
+. _MutatingWebhookConfiguration_: *read and write*, *executed first*.
 
-We could do a similar thing and introduce CRD which allows to execute "custom code" (generally speaking, depends on the second question) after a scan has completed (meaning both scan and parser phases are done). Some name ideas:
+We could do a similar thing and introduce CRD which allows to execute "`custom code`" (depends on the second question) after a scan has completed (meaning both phases "`scan`" and "`parsing`" were done). Some name ideas:
 
-* `ScanHooks`
-* `ScanCompletionHooks`
-* `FindingProcessors`
+* _ScanHooks_
+* _ScanCompletionHooks_
+* _FindingProcessors_
 
-These could be implemented with a `type` attribute, which declares if they are `ReadOnly` or `ReadAndWrite`.
+These could be implemented with a `type` attribute, which declares if they are *read only* or *read and write*.
 
-The operator would process all these resources in the namespace and execute the `ReadAndWrite` ones first (in serial: one at a time to avoid write conflicts) and then the `ReadOnly` ones (in parallel).
+The _secureCodeBox operator_ would process all these CRDs in the namespace and execute the *read and write* ones first in serial only one at a time to avoid write conflicts and then the *read only* ones in parallel.
+////
+#30: What namespace is meant here?
+////
 
 [source,yaml]
 ----
@@ -95,14 +98,14 @@ The Execution Flow would then look something like this:
 
 ====== Pros
 
-* Only one Implementation
-* Pretty Generic to expand and test out new ideas without having to modify the secureCodeBox Operator
+* Only one implementation.
+* Pretty generic to expand and test out new ideas without having to modify the _secureCodeBox operator_.
 
 ====== Cons
 
-* Possible "over-abstraction"?
-* Need to refactor the ElasticSearch PersistenceProvider
-* The "General Implementation" will be harder than the individual ones
+* Possibly an "`over-abstraction`".
+* Need to refactor the _persistence-elastic_ provider.
+* The "`general implementation`" will be harder than the individual ones.
 
 ===== Solution Approach 1: Keep Split between Persistence Provider and MetaData Provider
 
