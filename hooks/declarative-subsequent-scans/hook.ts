@@ -81,11 +81,20 @@ export function getCascadingScans(
       if (matches) {
         const { scanType, parameters } = cascadingRule.spec.scanSpec;
 
+        const templateArgs = {
+          ...finding,
+          // Attribute "$" hold special non finding helper attributes
+          $: {
+            hostOrIP:
+              finding.attributes["hostname"] || finding.attributes["ip_address"]
+          }
+        };
+
         cascadingScans.push({
           name: generateCascadingScanName(parentScan, cascadingRule),
-          scanType: Mustache.render(scanType, finding),
+          scanType: Mustache.render(scanType, templateArgs),
           parameters: parameters.map(parameter =>
-            Mustache.render(parameter, finding)
+            Mustache.render(parameter, templateArgs)
           ),
           cascades: null,
           generatedBy: cascadingRule.metadata.name
