@@ -1,0 +1,20 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "zap-api-petstore"
+  labels:
+    organization: "OWASP"
+spec:
+  scanType: "zap-baseline"
+  parameters:
+    # target URL including the protocol
+    - "-t"
+    - "http://swagger-petstore.demo-apps.svc"
+    # show debug messages
+    - "-d"
+    # use the Ajax spider in addition to the traditional one
+    - "-j"                
+    # the number of minutes to spider for (default 1)
+    - "-m"
+    - "3"
+        
