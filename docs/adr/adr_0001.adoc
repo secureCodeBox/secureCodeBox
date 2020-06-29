@@ -207,12 +207,12 @@ Regarding question 2 we decided to implement the solution approach 1 with a job-
 
 == Consequences
 
-With the new `Hook Concept` we open the `DataProcessing` Phase 3 to a more intuitive and flexible architecture. It is easier to understand because _WebHooks_ are already a well known concept. It is possible to keep the existing implementation of the `persistenceProviders` and to integrate them with a lot of other possible data processing components in a more general fashion. In the end, this step will result in a lot of additional feature possibilities, which go fare beyond the existing ones. Therefore we only need to implement this concept once in the secureCodeBox Operator and new ideas for extending the DataProcessing will not enforce conceptual or architectural changes.
+With the new _hook concept_ we open the _phase 3 data processing_ to a more intuitive and flexible architecture. It is easier to understand because _WebHooks_ are already a well known concept. It is possible to keep the existing implementation of the _PersistenceProvider_ and integrate them with a lot of other possible data processing components in a more general fashion. In the end, this step will result in a lot of additional feature possibilities, which go far beyond the existing ones proposed here. Therefore we only need to implement this concept once in the _secureCodeBox operator_ and new ideas for extending the _DataProcessing_ will not enforce conceptual or architectural changes.
 
 Ideas for additional data processing hooks:
 
-* Notifier-Hooks (ReadOnlyHook) e.g., for chat (slack, teams etc.), metric, alerting systems
-* MetaData enrichment hooks (ReadAndWriteHook)
-* FilterData Hooks (e.g., false/positive handling) (ReadAndWriteHook)
-* SystemIntegration Hooks (ReadOnlyHook) e.g., for ticketing systems like Jira
-* CascadingScans Hooks (ReadOnlyHook) e.g., for starting new security scans based on findings
+* Notifier hooks (_ReadOnlyHook_) e.g., for chat (slack, teams etc.), metric, alerting systems
+* MetaData enrichment hooks (_ReadAndWriteHook_)
+* FilterData hooks (_ReadAndWriteHook_) (e.g., false/positive handling)
+* SystemIntegration hooks (_ReadOnlyHook_) e.g., for ticketing systems like Jira
+* CascadingScans hooks (_ReadOnlyHook_) e.g., for starting new security scans based on findings
