@@ -12,7 +12,7 @@
   <a href="https://twitter.com/securecodebox"><img alt="Twitter Follower" src="https://img.shields.io/twitter/follow/securecodebox?style=flat&color=blue&logo=twitter"></a>
 </p>
 <p align="center">
-  <a href="https://opensource.org/licenses/Apache-2.0"><img alt="Build" src="https://github.com/secureCodeBox/secureCodeBox-v2-alpha/workflows/CI/badge.svg"></a>
+  <a href="https://github.com/secureCodeBox/secureCodeBox-v2-alpha/actions?query=workflow%3ACI"><img alt="Build" src="https://github.com/secureCodeBox/secureCodeBox-v2-alpha/workflows/CI/badge.svg"></a>
   <a href="https://codeclimate.com/github/secureCodeBox/secureCodeBox-v2-alpha/test_coverage"><img alt="Test Coverage" src="https://api.codeclimate.com/v1/badges/b6bf3af707671b5e5251/test_coverage" /></a>
   <a href="https://snyk.io/test/github/secureCodeBox/secureCodeBox-v2-alpha/"><img alt="Known Vulnerabilities" src="https://snyk.io/test/github/secureCodeBox/secureCodeBox-v2-alpha/badge.svg"></a>
 </p>
