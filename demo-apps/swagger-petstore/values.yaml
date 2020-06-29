@@ -9,7 +9,8 @@ image:
   pullPolicy: IfNotPresent
 
 # If you want to expose the petstore under a url different to the default service name address use the override to specify a the full host with protocol
-swaggerHostOverride: "https://petstore.example.com"
+#swaggerHostOverride: "https://petstore.example.com"
+swaggerHostOverride: "http://swagger-petstore.demo-apps.svc"
 
 imagePullSecrets: []
 nameOverride: ""
