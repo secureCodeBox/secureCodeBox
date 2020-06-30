@@ -272,7 +272,7 @@ jobs:
           repository: scbexperimental/nmap
           path: ./scanners/nmap/scanner/
           # Note: not prefixed with a "v" as this seems to match nmap versioning standards
-          tags: "7.80,7.80-1,latest"
+          tags: "7.80,7.80-2,latest"
       - uses: docker/build-push-action@v1
         name: "Build & Push kube-hunter Scanner Image"
         with:
