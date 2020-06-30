@@ -726,7 +726,22 @@ func (r *ScanReconciler) startReadOnlyHooks(scan *executionv1.Scan) error {
 		rules,
 	)
 
+	// Get all read-only-hooks for scan to later check that they weren't already created
+	jobs, err := r.getJobsForScan(scan, client.MatchingLabels{
+		"experimental.securecodebox.io/job-type": "read-only-hook",
+	})
+	if err != nil {
+		return err
+	}
+
 	for _, hook := range readOnlyHooks {
+		// Check if hook was already executed
+		if containsJobForHook(jobs, hook) == true {
+			r.Log.V(4).Info("Skipping creation of job for hook '%s' as it already exists", hook.Name)
+			// Job was already created
+			continue
+		}
+
 		rawFileURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile)
 		if err != nil {
 			return err
@@ -756,6 +771,20 @@ func (r *ScanReconciler) startReadOnlyHooks(scan *executionv1.Scan) error {
 	}
 	r.Log.Info("Started ReadOnlyHook", "ReadOnlyHookCount", len(readOnlyHooks))
 	return nil
+}
+
+func containsJobForHook(jobs *batch.JobList, hook executionv1.ScanCompletionHook) bool {
+	if len(jobs.Items) == 0 {
+		return false
+	}
+
+	for _, job := range jobs.Items {
+		if job.ObjectMeta.Labels["experimental.securecodebox.io/hook-name"] == hook.Name {
+			return true
+		}
+	}
+
+	return false
 }
 
 func (r *ScanReconciler) checkIfReadOnlyHookIsCompleted(scan *executionv1.Scan) error {
