@@ -14,7 +14,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: sslyze
-              image: nablac0d3/sslyze@sha256:591d8626c7952788d5aa3946a60146d039c1582bc31aea6f9989500ebb5cc222
+              image: nablac0d3/sslyze@sha256:ff2c5c626401b1961736a5b2ae6e35a41d213e8b2712102100abf5ee46dcca71
               command:
                 - 'sslyze'
                 - '--json_out'
