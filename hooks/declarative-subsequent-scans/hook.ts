@@ -113,6 +113,7 @@ function generateCascadingScanName(
   let namePrefix = parentScan.metadata.name;
 
   // 🧙‍ If the Parent Scan start with its scanType we'll replace it with the ScanType of the CascadingScan
+  // Otherwise scans like nmap-network would have cascading scans like nmap-network-nikto-http-12345 which would be confusing as it is not clear from the name anymore which scanType is actually used.
   if (namePrefix.startsWith(parentScan.spec.scanType)) {
     namePrefix = namePrefix.replace(
       parentScan.spec.scanType,
