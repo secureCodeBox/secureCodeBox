@@ -711,21 +711,6 @@ func (r *ScanReconciler) startReadOnlyHooks(scan *executionv1.Scan) error {
 		return nil
 	}
 
-	rules := []rbacv1.PolicyRule{
-		{
-			APIGroups: []string{"execution.experimental.securecodebox.io"},
-			Resources: []string{"scans"},
-			Verbs:     []string{"get", "create", "list"},
-		},
-	}
-	serviceAccountName := "scan-completion-hook"
-	r.ensureServiceAccountExists(
-		scan.Namespace,
-		serviceAccountName,
-		"ScanCompletionHooks need to access the current scan to view where its results are stored",
-		rules,
-	)
-
 	// Get all read-only-hooks for scan to later check that they weren't already created
 	jobs, err := r.getJobsForScan(scan, client.MatchingLabels{
 		"experimental.securecodebox.io/job-type": "read-only-hook",
