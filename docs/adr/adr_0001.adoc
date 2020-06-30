@@ -185,7 +185,7 @@ Regarding question 1 it seems that both solution approaches are resulting in the
 
 ....
 ┌──────────────────┐          ┌──────────────────┐          ┌──────────────────┐
-│     scanning     ├─────────▶│     parsing      ├─────────▶│    processing    │
+│    scanning      ├─────────▶│    parsing       ├─────────▶│    processing    │
 │    (Phase 1)     │          │    (Phase 2)     │          │    (Phase 3)     │
 └──────────────────┘          └──────────────────┘          └──────────────────┘
 ....
@@ -194,11 +194,11 @@ Regarding question 2 we decided to implement the solution approach 1 with a job-
 // #30 to what refers 3.1 and 3.2?
 
 ....
-                                                                                                           ┌ DataProcessing: ReadOnlyHooks ─ ─ ─
-                                              ┌ DataProcessing: ReadAndWriteHooks ─ ─ ─ ─ ─ ─ ─ ─ ─ ─        ┌────────────────────────────────┐ │
+                                                                                                           ┌ 3.2 processing: ReadOnlyHooks ─ ─ ─
+                                              ┌ 3.1 processing: ReadAndWriteHooks ─ ─ ─ ─ ─ ─ ─ ─ ─ ─        ┌────────────────────────────────┐ │
                                                 ┌───────────────────────┐                            │  ┌──┼▶│  Elastic PersistenceProvider   │
 ┌──────────────────┐   ┌──────────────────┐   │ │ ReadAndWrite Hook #1  │  ┌───────────────────────┐    │    └────────────────────────────────┘ │
-│       Scan       ├──▶│     Parsing      │────▶│  "MyMetaDataProvider" ├─▶│ ReadAndWrite Hook #2  │─┼──┤  │ ┌────────────────────────────────┐
+│    scanning      ├──▶│     parsing      │────▶│  "MyMetaDataProvider" ├─▶│ ReadAndWrite Hook #2  │─┼──┤  │ ┌────────────────────────────────┐
 └──────────────────┘   └──────────────────┘   │ └───────────────────────┘  └───────────────────────┘    └───▶│ DefectDojo PersistenceProvider │ │
                                                ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘     │ └────────────────────────────────┘
                                                                                                             ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
