@@ -17,6 +17,7 @@ limitations under the License.
 package v1
 
 import (
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -29,8 +30,9 @@ type ParseDefinitionSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// Foo is an example field of ParseDefinition. Edit ParseDefinition_types.go to remove/update
-	HandlesResultsType string `json:"handlesResultsType,omitempty"`
-	Image              string `json:"image,omitempty"`
+	HandlesResultsType string                        `json:"handlesResultsType,omitempty"`
+	Image              string                        `json:"image,omitempty"`
+	ImagePullSecrets   []corev1.LocalObjectReference `json:"imagePullSecrets,omitempty"`
 }
 
 // ParseDefinitionStatus defines the observed state of ParseDefinition

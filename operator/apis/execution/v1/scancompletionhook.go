@@ -40,9 +40,10 @@ type ScanCompletionHookSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// Image is the container image for the hooks kubernetes job
-	Image string          `json:"image,omitempty"`
-	Env   []corev1.EnvVar `json:"env,omitempty"`
-	Type  HookType        `json:"type"`
+	Image            string                        `json:"image,omitempty"`
+	ImagePullSecrets []corev1.LocalObjectReference `json:"imagePullSecrets,omitempty"`
+	Env              []corev1.EnvVar               `json:"env,omitempty"`
+	Type             HookType                      `json:"type"`
 }
 
 // ScanCompletionHookStatus defines the observed state of ScanCompletionHook
