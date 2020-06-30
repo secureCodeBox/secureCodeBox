@@ -1135,6 +1135,18 @@ func (r *ScanReconciler) executeReadAndWriteHooks(scan *executionv1.Scan) error 
 			return err
 		}
 
+		jobs, err := r.getJobsForScan(scan, client.MatchingLabels{
+			"experimental.securecodebox.io/job-type":  "read-and-write-hook",
+			"experimental.securecodebox.io/hook-name": nonCompletedHook.HookName,
+		})
+		if err != nil {
+			return err
+		}
+		if len(jobs.Items) > 0 {
+			// Job already exists
+			return nil
+		}
+
 		jobName, err := r.createJobForHook(
 			&hook,
 			scan,
