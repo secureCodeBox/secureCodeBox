@@ -416,6 +416,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 				Spec: corev1.PodSpec{
 					RestartPolicy:      corev1.RestartPolicyNever,
 					ServiceAccountName: "parser",
+					ImagePullSecrets:   parseDefinition.Spec.ImagePullSecrets,
 					Containers: []corev1.Container{
 						{
 							Name:  "parser",
@@ -1022,6 +1023,7 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 				Spec: corev1.PodSpec{
 					ServiceAccountName: serviceAccountName,
 					RestartPolicy:      corev1.RestartPolicyNever,
+					ImagePullSecrets:   hook.Spec.ImagePullSecrets,
 					Containers: []corev1.Container{
 						{
 							Name:            "hook",
