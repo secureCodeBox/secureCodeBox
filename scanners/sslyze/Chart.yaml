@@ -4,7 +4,7 @@ description: A Helm chart for the SSLyze security scanner that integrates with t
 
 type: application
 version: 0.1.0
-appVersion: latest
+appVersion: 3.0.6
 
 keywords:
 - security
