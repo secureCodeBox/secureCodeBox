@@ -1,0 +1,19 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "zap-full-scan-bodgeit"
+  labels:
+    organization: "OWASP"
+spec:
+  scanType: "zap-full-scan"
+  parameters:
+    # target URL including the protocol
+    - "-t"
+    - "http://bodgeit.demo-apps.svc:8080"
+    # include the alpha active and passive scan rules as well
+    - "-a"                
+    # show debug messages
+    - "-d"
+    # the number of minutes to spider for (default 1)
+    - "-m"
+    - "3"

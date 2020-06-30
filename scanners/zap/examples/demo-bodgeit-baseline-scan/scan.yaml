@@ -1,0 +1,17 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "zap-baseline-bodgeit"
+  labels:
+    organization: "OWASP"
+spec:
+  scanType: "zap-baseline"
+  parameters:
+    # target URL including the protocol
+    - "-t"
+    - "http://bodgeit.demo-apps.svc:8080"
+    # show debug messages
+    - "-d"
+    # the number of minutes to spider for (default 1)
+    - "-m"
+    - "2"

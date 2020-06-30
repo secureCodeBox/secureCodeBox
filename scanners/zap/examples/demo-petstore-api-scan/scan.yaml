@@ -1,0 +1,22 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "zap-api-petstore"
+  labels:
+    organization: "OWASP"
+spec:
+  scanType: "zap-api-scan"
+  parameters:
+    # target URL including the protocol
+    - "-t"
+    - "http://swagger-petstore.demo-apps.svc/v2/swagger.json"
+    # format can either 'openapi' or 'soap'
+    - "-f"
+    - "openapi"
+    # include the alpha passive scan rules as well
+    # - "-a"
+    # show debug messages
+    - "-d"
+    # the number of minutes to spider for (default 1)
+    - "-m"
+    - "3"

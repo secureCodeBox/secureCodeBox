@@ -1,0 +1,22 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "zap-full-scan-juiceshop"
+  labels:
+    organization: "OWASP"
+spec:
+  scanType: "zap-full-scan"
+  parameters:
+    # target URL including the protocol
+    - "-t"
+    - "http://juice-shop.demo-apps.svc:3000"
+    # include the alpha active and passive scan rules as well
+    - "-a"                
+    # show debug messages
+    - "-d"
+    # use the Ajax spider in addition to the traditional one
+    - "-j"                
+    # the number of minutes to spider for (default 1)
+    - "-m"
+    - "3"
+        

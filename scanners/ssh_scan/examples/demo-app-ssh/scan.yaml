@@ -1,11 +1,9 @@
 apiVersion: "execution.experimental.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: "ssh-localhost"
-  labels:
-    company: localhost
+  name: "ssh-ssh-demo-cluster-internal"
 spec:
   scanType: "ssh-scan"
   parameters:
     - "-t"
-    - localhost
+    - "dummy-ssh.demo-apps.svc"

@@ -1,0 +1,566 @@
+{
+    "@version": "D-2020-06-24",
+    "@generated": "Mon, 29 Jun 2020 09:56:27",
+    "site": [
+        {
+            "@name": "http://swagger-petstore.demo-apps.svc",
+            "@host": "swagger-petstore.demo-apps.svc",
+            "@port": "80",
+            "@ssl": "false",
+            "alerts": [
+                {
+                    "pluginid": "10021",
+                    "alert": "X-Content-Type-Options Header Missing",
+                    "name": "X-Content-Type-Options Header Missing",
+                    "riskcode": "1",
+                    "confidence": "2",
+                    "riskdesc": "Low (Medium)",
+                    "desc": "<p>The Anti-MIME-Sniffing header X-Content-Type-Options was not set to 'nosniff'. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.<\/p>",
+                    "instances": [
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/store/inventory",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/store/order/10",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/swagger.json",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/store/order",
+                            "method": "POST",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/login?username=username&password=ZAP",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet",
+                            "method": "PUT",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet/findByTags?tags=tags",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet",
+                            "method": "POST",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet/10",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet/findByStatus?status=available",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        }
+                    ],
+                    "count": "10",
+                    "solution": "<p>Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to 'nosniff' for all web pages.<\/p><p>If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.<\/p>",
+                    "otherinfo": "<p>This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.<\/p><p>At \"High\" threshold this scanner will not alert on client or server error responses.<\/p>",
+                    "reference": "<p>http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspx<\/p><p>https://owasp.org/www-community/Security_Headers<\/p>",
+                    "cweid": "16",
+                    "wascid": "15",
+                    "sourceid": "3"
+                },
+                {
+                    "pluginid": "10098",
+                    "alert": "Cross-Domain Misconfiguration",
+                    "name": "Cross-Domain Misconfiguration",
+                    "riskcode": "2",
+                    "confidence": "2",
+                    "riskdesc": "Medium (Medium)",
+                    "desc": "<p>Web browser data loading may be possible, due to a Cross Origin Resource Sharing (CORS) misconfiguration on the web server<\/p>",
+                    "instances": [
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/login?username=username&password=ZAP",
+                            "method": "GET",
+                            "evidence": "Access-Control-Allow-Origin: *"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/username",
+                            "method": "GET",
+                            "evidence": "Access-Control-Allow-Origin: *"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet",
+                            "method": "PUT",
+                            "evidence": "Access-Control-Allow-Origin: *"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet",
+                            "method": "POST",
+                            "evidence": "Access-Control-Allow-Origin: *"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet/10",
+                            "method": "DELETE",
+                            "evidence": "Access-Control-Allow-Origin: *"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/store/order",
+                            "method": "POST",
+                            "evidence": "Access-Control-Allow-Origin: *"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/username",
+                            "method": "PUT",
+                            "evidence": "Access-Control-Allow-Origin: *"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet/10",
+                            "method": "GET",
+                            "evidence": "Access-Control-Allow-Origin: *"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet/10",
+                            "method": "POST",
+                            "evidence": "Access-Control-Allow-Origin: *"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user",
+                            "method": "POST",
+                            "evidence": "Access-Control-Allow-Origin: *"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet/findByStatus?status=available",
+                            "method": "GET",
+                            "evidence": "Access-Control-Allow-Origin: *"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/store/inventory",
+                            "method": "GET",
+                            "evidence": "Access-Control-Allow-Origin: *"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet/10/uploadImage",
+                            "method": "POST",
+                            "evidence": "Access-Control-Allow-Origin: *"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/store/order/10",
+                            "method": "GET",
+                            "evidence": "Access-Control-Allow-Origin: *"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/logout",
+                            "method": "GET",
+                            "evidence": "Access-Control-Allow-Origin: *"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/createWithArray",
+                            "method": "POST",
+                            "evidence": "Access-Control-Allow-Origin: *"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/swagger.json",
+                            "method": "GET",
+                            "evidence": "Access-Control-Allow-Origin: *"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/createWithList",
+                            "method": "POST",
+                            "evidence": "Access-Control-Allow-Origin: *"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/store/order/10",
+                            "method": "DELETE",
+                            "evidence": "Access-Control-Allow-Origin: *"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/username",
+                            "method": "DELETE",
+                            "evidence": "Access-Control-Allow-Origin: *"
+                        }
+                    ],
+                    "count": "21",
+                    "solution": "<p>Ensure that sensitive data is not available in an unauthenticated manner (using IP address white-listing, for instance).<\/p><p>Configure the \"Access-Control-Allow-Origin\" HTTP header to a more restrictive set of domains, or remove all CORS headers entirely, to allow the web browser to enforce the Same Origin Policy (SOP) in a more restrictive manner.<\/p>",
+                    "otherinfo": "<p>The CORS misconfiguration on the web server permits cross-domain read requests from arbitrary third party domains, using unauthenticated APIs on this domain. Web browser implementations do not permit arbitrary third parties to read the response from authenticated APIs, however. This reduces the risk somewhat. This misconfiguration could be used by an attacker to access data that is available in an unauthenticated manner, but which uses some other form of security, such as IP address white-listing.<\/p>",
+                    "reference": "<p>http://www.hpenterprisesecurity.com/vulncat/en/vulncat/vb/html5_overly_permissive_cors_policy.html<\/p>",
+                    "cweid": "264",
+                    "wascid": "14",
+                    "sourceid": "3"
+                },
+                {
+                    "pluginid": "100000",
+                    "alert": "A Client Error response code was returned by the server",
+                    "name": "A Client Error response code was returned by the server",
+                    "riskcode": "0",
+                    "confidence": "3",
+                    "riskdesc": "Informational (High)",
+                    "desc": "<p>A response code of 404 was returned by the server.<\/p><p>This may indicate that the application is failing to handle unexpected input correctly.<\/p><p>Raised by the 'Alert on HTTP Response Code Error' script<\/p>",
+                    "instances": [
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2",
+                            "method": "GET",
+                            "evidence": "HTTP/1.1 404"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/2826924580843642668",
+                            "method": "GET",
+                            "evidence": "HTTP/1.1 404"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet/10/uploadImage/",
+                            "method": "POST",
+                            "evidence": "HTTP/1.1 415"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/username/",
+                            "method": "DELETE",
+                            "evidence": "HTTP/1.1 404"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/store/order/10/",
+                            "method": "GET",
+                            "evidence": "HTTP/1.1 404"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/store/order",
+                            "method": "GET",
+                            "evidence": "HTTP/1.1 405"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/",
+                            "method": "GET",
+                            "evidence": "HTTP/1.1 404"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/username",
+                            "method": "DELETE",
+                            "evidence": "HTTP/1.1 404"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/trace.axd",
+                            "method": "GET",
+                            "evidence": "HTTP/1.1 404"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet/10/.htaccess",
+                            "method": "GET",
+                            "evidence": "HTTP/1.1 404"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet/trace.axd",
+                            "method": "GET",
+                            "evidence": "HTTP/1.1 404"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/username/",
+                            "method": "GET",
+                            "evidence": "HTTP/1.1 404"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/",
+                            "method": "GET",
+                            "evidence": "HTTP/1.1 405"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet",
+                            "method": "GET",
+                            "evidence": "HTTP/1.1 405"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/.htaccess",
+                            "method": "GET",
+                            "evidence": "HTTP/1.1 404"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/.htaccess",
+                            "method": "GET",
+                            "evidence": "HTTP/1.1 404"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/7748677433108351032",
+                            "method": "GET",
+                            "evidence": "HTTP/1.1 404"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet/10/trace.axd",
+                            "method": "GET",
+                            "evidence": "HTTP/1.1 404"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/store/order/",
+                            "method": "GET",
+                            "evidence": "HTTP/1.1 405"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet/10/3673112191056276290",
+                            "method": "GET",
+                            "evidence": "HTTP/1.1 404"
+                        }
+                    ],
+                    "count": "41",
+                    "solution": "<p><\/p>",
+                    "reference": "<p><\/p>",
+                    "cweid": "388",
+                    "wascid": "20",
+                    "sourceid": "4"
+                },
+                {
+                    "pluginid": "10036",
+                    "alert": "Server Leaks Version Information via \"Server\" HTTP Response Header Field",
+                    "name": "Server Leaks Version Information via \"Server\" HTTP Response Header Field",
+                    "riskcode": "1",
+                    "confidence": "3",
+                    "riskdesc": "Low (High)",
+                    "desc": "<p>The web/application server is leaking version information via the \"Server\" HTTP response header. Access to such information may facilitate attackers identifying other vulnerabilities your web/application server is subject to.<\/p>",
+                    "instances": [
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet/10/uploadImage",
+                            "method": "POST",
+                            "evidence": "Jetty(9.2.9.v20150224)"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user",
+                            "method": "POST",
+                            "evidence": "Jetty(9.2.9.v20150224)"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/store/order/10",
+                            "method": "DELETE",
+                            "evidence": "Jetty(9.2.9.v20150224)"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/store/inventory",
+                            "method": "GET",
+                            "evidence": "Jetty(9.2.9.v20150224)"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/store/order/10",
+                            "method": "GET",
+                            "evidence": "Jetty(9.2.9.v20150224)"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/createWithArray",
+                            "method": "POST",
+                            "evidence": "Jetty(9.2.9.v20150224)"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet/findByTags?tags=tags",
+                            "method": "GET",
+                            "evidence": "Jetty(9.2.9.v20150224)"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet/10",
+                            "method": "DELETE",
+                            "evidence": "Jetty(9.2.9.v20150224)"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/store/order",
+                            "method": "POST",
+                            "evidence": "Jetty(9.2.9.v20150224)"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/username",
+                            "method": "GET",
+                            "evidence": "Jetty(9.2.9.v20150224)"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/username",
+                            "method": "PUT",
+                            "evidence": "Jetty(9.2.9.v20150224)"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet/findByStatus?status=available",
+                            "method": "GET",
+                            "evidence": "Jetty(9.2.9.v20150224)"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet",
+                            "method": "PUT",
+                            "evidence": "Jetty(9.2.9.v20150224)"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet/10",
+                            "method": "POST",
+                            "evidence": "Jetty(9.2.9.v20150224)"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/createWithList",
+                            "method": "POST",
+                            "evidence": "Jetty(9.2.9.v20150224)"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/logout",
+                            "method": "GET",
+                            "evidence": "Jetty(9.2.9.v20150224)"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet/10",
+                            "method": "GET",
+                            "evidence": "Jetty(9.2.9.v20150224)"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/username",
+                            "method": "DELETE",
+                            "evidence": "Jetty(9.2.9.v20150224)"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/swagger.json",
+                            "method": "GET",
+                            "evidence": "Jetty(9.2.9.v20150224)"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/login?username=username&password=ZAP",
+                            "method": "GET",
+                            "evidence": "Jetty(9.2.9.v20150224)"
+                        }
+                    ],
+                    "count": "21",
+                    "solution": "<p>Ensure that your web server, application server, load balancer, etc. is configured to suppress the \"Server\" header or provide generic details.<\/p>",
+                    "reference": "<p>http://httpd.apache.org/docs/current/mod/core.html#servertokens<\/p><p>http://msdn.microsoft.com/en-us/library/ff648552.aspx#ht_urlscan_007<\/p><p>http://blogs.msdn.com/b/varunm/archive/2013/04/23/remove-unwanted-http-response-headers.aspx<\/p><p>http://www.troyhunt.com/2012/02/shhh-dont-let-your-response-headers.html<\/p>",
+                    "cweid": "200",
+                    "wascid": "13",
+                    "sourceid": "3"
+                },
+                {
+                    "pluginid": "100001",
+                    "alert": "Unexpected Content-Type was returned",
+                    "name": "Unexpected Content-Type was returned",
+                    "riskcode": "1",
+                    "confidence": "3",
+                    "riskdesc": "Low (High)",
+                    "desc": "<p>A Content-Type of text/html was returned by the server.<\/p><p>This is not one of the types expected to be returned by an API.<\/p><p>Raised by the 'Alert on Unexpected Content Types' script<\/p>",
+                    "instances": [
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/.htaccess",
+                            "method": "GET",
+                            "evidence": "text/html"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc",
+                            "method": "GET",
+                            "evidence": "text/html"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/",
+                            "method": "GET",
+                            "evidence": "text/html"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/elmah.axd",
+                            "method": "GET",
+                            "evidence": "text/html"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/trace.axd",
+                            "method": "GET",
+                            "evidence": "text/html"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/2826924580843642668",
+                            "method": "GET",
+                            "evidence": "text/html"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet/10/",
+                            "method": "POST",
+                            "evidence": "text/html"
+                        }
+                    ],
+                    "count": "7",
+                    "solution": "<p><\/p>",
+                    "reference": "<p><\/p>",
+                    "sourceid": "4"
+                },
+                {
+                    "pluginid": "10024",
+                    "alert": "Information Disclosure - Sensitive Information in URL",
+                    "name": "Information Disclosure - Sensitive Information in URL",
+                    "riskcode": "0",
+                    "confidence": "2",
+                    "riskdesc": "Informational (Medium)",
+                    "desc": "<p>The request appeared to contain sensitive information leaked in the URL. This can violate PCI and most organizational compliance policies. You can configure the list of strings for this check to add or remove values specific to your environment.<\/p>",
+                    "instances": [
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/login?username=username&password=ZAP",
+                            "method": "GET",
+                            "param": "password",
+                            "evidence": "password"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/login?username=username&password=ZAP",
+                            "method": "GET",
+                            "param": "username",
+                            "evidence": "username"
+                        }
+                    ],
+                    "count": "2",
+                    "solution": "<p>Do not pass sensitive information in URIs.<\/p>",
+                    "otherinfo": "<p>The URL contains potentially sensitive information. The following string was found via the pattern: pass<\/p><p>password<\/p>",
+                    "reference": "<p><\/p>",
+                    "cweid": "200",
+                    "wascid": "13",
+                    "sourceid": "3"
+                },
+                {
+                    "pluginid": "100000",
+                    "alert": "A Server Error response code was returned by the server",
+                    "name": "A Server Error response code was returned by the server",
+                    "riskcode": "1",
+                    "confidence": "3",
+                    "riskdesc": "Low (High)",
+                    "desc": "<p>A response code of 500 was returned by the server.<\/p><p>This may indicate that the application is failing to handle unexpected input correctly.<\/p><p>Raised by the 'Alert on HTTP Response Code Error' script<\/p>",
+                    "instances": [
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/store/order",
+                            "method": "POST",
+                            "evidence": "HTTP/1.1 500"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/createWithList",
+                            "method": "POST",
+                            "evidence": "HTTP/1.1 500"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet",
+                            "method": "POST",
+                            "evidence": "HTTP/1.1 500"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/pet",
+                            "method": "PUT",
+                            "evidence": "HTTP/1.1 500"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user",
+                            "method": "POST",
+                            "evidence": "HTTP/1.1 500"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/createWithArray",
+                            "method": "POST",
+                            "evidence": "HTTP/1.1 500"
+                        },
+                        {
+                            "uri": "http://swagger-petstore.demo-apps.svc/v2/user/username",
+                            "method": "PUT",
+                            "evidence": "HTTP/1.1 500"
+                        }
+                    ],
+                    "count": "7",
+                    "solution": "<p><\/p>",
+                    "reference": "<p><\/p>",
+                    "cweid": "388",
+                    "wascid": "20",
+                    "sourceid": "4"
+                }
+            ]
+        }
+    ]
+}
