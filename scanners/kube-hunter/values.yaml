@@ -2,3 +2,6 @@ parserImage:
   registry: docker.io
   repository: scbexperimental/parser-kube-hunter
   tag: latest
+
+scannerJob:
+  resources: {}

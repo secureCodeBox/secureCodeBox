@@ -19,3 +19,5 @@ spec:
                 - 'sslyze'
                 - '--json_out'
                 - '/home/securecodebox/sslyze-results.json'
+              resources:
+                {{- toYaml .Values.scannerJob.resources | nindent 16 }}

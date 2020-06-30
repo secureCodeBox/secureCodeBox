@@ -2,3 +2,6 @@ parserImage:
   registry: docker.io
   repository: scbexperimental/parser-nikto
   tag: latest
+
+scannerJob:
+  resources: {}

@@ -26,6 +26,8 @@ spec:
                 - name: "amass-config"
                   mountPath: "/amass/output/config.ini"
                   subPath: "config.ini"
+              resources:
+                {{- toYaml .Values.scannerJob.resources | nindent 16 }}
           volumes:
             - name: "amass-config"
               configMap:

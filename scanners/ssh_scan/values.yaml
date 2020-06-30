@@ -2,3 +2,6 @@ parserImage:
   registry: docker.io
   repository: scbexperimental/parser-ssh-scan
   tag: latest
+
+scannerJob:
+  resources: {}

@@ -26,6 +26,8 @@ spec:
               volumeMounts:
                 - mountPath: /zap/wrk
                   name: zap-workdir
+              resources:
+                {{- toYaml .Values.scannerJob.resources | nindent 16 }}
           volumes:
             - name: zap-workdir
               emptyDir: {}
@@ -58,6 +60,8 @@ spec:
               volumeMounts:
                 - mountPath: /zap/wrk
                   name: zap-workdir
+              resources:
+                {{- toYaml .Values.scannerJob.resources | nindent 16 }}
           volumes:
             - name: zap-workdir
               emptyDir: {}
@@ -90,6 +94,8 @@ spec:
               volumeMounts:
                 - mountPath: /zap/wrk
                   name: zap-workdir
+              resources:
+                {{- toYaml .Values.scannerJob.resources | nindent 16 }}
           volumes:
             - name: zap-workdir
               emptyDir: {}

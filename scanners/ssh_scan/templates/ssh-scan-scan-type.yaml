@@ -20,3 +20,5 @@ spec:
                 - "/app/bin/ssh_scan"
                 - "--output"
                 - "/home/securecodebox/ssh-scan-results.json"
+              resources:
+                {{- toYaml .Values.scannerJob.resources | nindent 16 }}
