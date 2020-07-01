@@ -640,6 +640,12 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 		scan.Spec.Parameters...,
 	)
 
+	// Merge Env from ScanTemplate with Env defined in scan
+	job.Spec.Template.Spec.Containers[0].Env = append(
+		job.Spec.Template.Spec.Containers[0].Env,
+		scan.Spec.Env...,
+	)
+
 	// Using command over args
 	job.Spec.Template.Spec.Containers[0].Command = command
 	job.Spec.Template.Spec.Containers[0].Args = nil
