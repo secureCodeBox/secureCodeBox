@@ -66,10 +66,7 @@ We could do a similar thing and introduce CRD which allows to execute "`custom c
 
 These could be implemented with a `type` attribute, which declares if they are *read only* or *read and write*.
 
-The _secureCodeBox operator_ would process all these CRDs in the namespace and execute the *read and write* ones first in serial only one at a time to avoid write conflicts and then the *read only* ones in parallel.
-////
-#30: What namespace is meant here?
-////
+The _secureCodeBox operator_ would process all these CRDs in the namespace of the scan and execute the *read and write* ones first in serial only one at a time to avoid write conflicts and then the *read only* ones in parallel.
 
 [source,yaml]
 ----
