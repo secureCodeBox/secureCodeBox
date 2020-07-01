@@ -1,0 +1,25 @@
+apiVersion: "cascading.experimental.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "ssh-scan"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: light
+spec:
+  matches:
+    anyOf:
+      - category: "Open Port"
+        attributes:
+          port: 22
+          state: open
+      - category: "Open Port"
+        attributes:
+          service: "ssh"
+          state: open
+  scanSpec:
+    scanType: "ssh-scan"
+    parameters:
+      - "--target"
+      - "{{$.hostOrIP}}"
+      - "--port"
+      - "{{attributes.port}}"

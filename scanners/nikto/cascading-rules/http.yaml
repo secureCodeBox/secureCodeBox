@@ -1,0 +1,28 @@
+apiVersion: "cascading.experimental.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "nikto-http"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: medium
+spec:
+  matches:
+    anyOf:
+      - category: "Open Port"
+        attributes:
+          service: http
+          state: open
+      - category: "Open Port"
+        attributes:
+          service: https
+          state: open
+  scanSpec:
+    scanType: "nikto"
+    parameters:
+      - "-host"
+      # Use Hostname if defined, fall back to ip if not defined
+      - "{{$.hostOrIP}}"
+      - "-port"
+      - "{{attributes.port}}"
+      - "-Tuning"
+      - "1,2,3,5,7,b"

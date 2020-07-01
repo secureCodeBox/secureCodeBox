@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.80 scan initiated Sat Jun 27 19:40:19 2020 as: nmap -oX /home/securecodebox/nmap-results.xml &quot;-p 10250&quot; example.com -->
+<nmaprun scanner="nmap" args="nmap -oX /home/securecodebox/nmap-results.xml &quot;-p 10250&quot; example.com" start="1593286819" startstr="Sat Jun 27 19:40:19 2020" version="7.80" xmloutputversion="1.04">
+<scaninfo type="syn" protocol="tcp" numservices="1" services="10250"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1593286819" endtime="1593286820"><status state="up" reason="reset" reason_ttl="37"/>
+<address addr="93.184.216.34" addrtype="ipv4"/>
+<hostnames>
+<hostname name="example.com" type="user"/>
+</hostnames>
+<ports><port protocol="tcp" portid="10250"><state state="filtered" reason="no-response" reason_ttl="0"/></port>
+</ports>
+<times srtt="301" rttvar="5000" to="100000"/>
+</host>
+<runstats><finished time="1593286820" timestr="Sat Jun 27 19:40:20 2020" elapsed="0.38" summary="Nmap done at Sat Jun 27 19:40:20 2020; 1 IP address (1 host up) scanned in 0.38 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

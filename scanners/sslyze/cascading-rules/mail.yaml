@@ -1,0 +1,65 @@
+apiVersion: "cascading.experimental.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "smtps-tls-scan"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: light
+spec:
+  matches:
+    anyOf:
+      - category: "Open Port"
+        attributes:
+          port: 465
+          state: open
+      - category: "Open Port"
+        attributes:
+          service: "smtps"
+          state: open
+  scanSpec:
+    scanType: "sslyze"
+    parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"]
+---
+apiVersion: "cascading.experimental.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "pop3s-tls-scan"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: light
+spec:
+  matches:
+    anyOf:
+      - category: "Open Port"
+        attributes:
+          port: 995
+          state: open
+      - category: "Open Port"
+        attributes:
+          service: "pop3s"
+          state: open
+  scanSpec:
+    scanType: "sslyze"
+    parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"]
+---
+apiVersion: "cascading.experimental.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "imaps-tls-scan"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: light
+spec:
+  matches:
+    anyOf:
+      - category: "Open Port"
+        attributes:
+          port: 993
+          state: open
+      - category: "Open Port"
+        attributes:
+          service: "imaps"
+          state: open
+  scanSpec:
+    scanType: "sslyze"
+    parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"]

@@ -40,6 +40,10 @@ jobs:
           cd -
           cd hooks/
           npm ci
+      - name: "Compile Typescript"
+        run: |
+          cd hooks/declarative-subsequent-scans
+          npm run build
       - name: "Run tests & publish code coverage"
         uses: paambaati/codeclimate-action@v2.6.0
         env:
@@ -247,6 +251,16 @@ jobs:
           repository: scbexperimental/hook-imperative-subsequent-scans
           path: ./hooks/imperative-subsequent-scans/
           tag_with_ref: true
+          build_args: baseImageTag=ci-local
+      - uses: docker/build-push-action@v1
+        name: "Build & Push DeclarativeSubsequentScans Hook Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/hook-declarative-subsequent-scans
+          path: ./hooks/declarative-subsequent-scans/
+          tag_with_ref: true
+          tag_with_sha: true
           build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
         name: "Build & Push UpdateField Hook Image"
