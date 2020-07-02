@@ -356,6 +356,13 @@ func (in *ScanSpec) DeepCopyInto(out *ScanSpec) {
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
+	if in.Env != nil {
+		in, out := &in.Env, &out.Env
+		*out = make([]corev1.EnvVar, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.Cascades != nil {
 		in, out := &in.Cascades, &out.Cascades
 		*out = new(metav1.LabelSelector)

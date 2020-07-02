@@ -17,6 +17,7 @@ limitations under the License.
 package v1
 
 import (
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -31,6 +32,9 @@ type ScanSpec struct {
 	ScanType string `json:"scanType,omitempty"`
 
 	Parameters []string `json:"parameters,omitempty"`
+
+	// Env allows to specify environment vars for the scanner container. These will be merged will the env vars specified for the first container of the pod defined in the ScanType
+	Env []corev1.EnvVar `json:"env,omitempty"`
 
 	Cascades *metav1.LabelSelector `json:"cascades,omitempty"`
 }
