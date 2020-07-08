@@ -341,7 +341,7 @@ jobs:
         run: |
           cd tests/integration/
           npx jest --ci --color no-scan-definition-error
-      - name: "Hooks (Read-Write) Integration Tests"
+      - name: "Hooks (ReadAndWrite) Integration Tests"
         run: |
           helm -n integration-tests install update-category ./hooks/update-field/ \
             --set="image.tag=sha-$(git rev-parse --short HEAD)" \
@@ -355,7 +355,7 @@ jobs:
           cd tests/integration/
           npx jest --ci --color read-write-hook
           helm -n integration-tests uninstall test-scan update-category update-severity
-      - name: "Hooks (Read-Only) Integration Tests"
+      - name: "Hooks (ReadOnly) Integration Tests"
         run: |
           helm -n integration-tests install test-scan ./scanner/test-scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           helm -n integration-tests install http-webhook ./demo-apps/http-webhook
