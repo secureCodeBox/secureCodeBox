@@ -1,0 +1,64 @@
+@startuml sequence_overview
+!include _iteratecTheme.ipuml
+!include _copyright.ipuml
+
+skinparam shadowing false
+skinparam componentStyle uml2
+
+actor kubectl
+
+box "secureCodeBox"
+  participant Operator
+  participant Scanner <<Container>>
+  participant Lurcher <<Sidecar>>
+  participant Minio
+  participant Parser
+  collections ReadOnlyHooks
+  collections ReadAndWriteHooks
+end box
+
+participant Target
+
+activate Target
+activate Minio
+
+kubectl -\ Operator : start scan
+activate Operator
+Operator -> Scanner : run job
+activate Scanner
+activate Lurcher
+Scanner -> Target : scan
+Lurcher -\ Scanner : read data
+Lurcher -\ Minio : store raw results
+Scanner <-- Target
+Operator <-- Scanner
+deactivate Scanner
+deactivate Lurcher
+
+Operator -> Parser : run job
+activate Parser
+Parser -> Minio : read raw results
+Parser <-- Minio
+Parser -> Minio : store JSON findings
+Parser <-- Minio
+Operator <-- Parser
+deactivate Parser
+
+Operator -> ReadAndWriteHooks
+activate ReadAndWriteHooks
+ReadAndWriteHooks -> Minio : read issues
+ReadAndWriteHooks <-- Minio
+Operator <-- ReadAndWriteHooks
+deactivate ReadAndWriteHooks
+
+Operator -> ReadOnlyHooks
+activate ReadOnlyHooks
+ReadOnlyHooks -> Minio : read issues
+ReadOnlyHooks <-- Minio
+ReadOnlyHooks -> Minio : write issues
+ReadOnlyHooks <-- Minio
+Operator <-- ReadOnlyHooks
+deactivate ReadOnlyHooks
+
+deactivate Operator
+@enduml
