@@ -374,7 +374,7 @@ jobs:
           helm -n integration-tests uninstall test-scan update-category update-severity
       - name: "Hooks (ReadOnly) Integration Tests"
         run: |
-          helm -n integration-tests install test-scan ./scanner/test-scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          helm -n integration-tests install test-scan ./scanners/test-scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           helm -n integration-tests install http-webhook ./demo-apps/http-webhook
           helm -n integration-tests install ro-hook ./hooks/generic-webhook/ --set="webhookUrl=http://http-webhook/hallo-welt"
           cd tests/integration/
