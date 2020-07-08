@@ -25,17 +25,21 @@ test(
 
     let podName;
     await k8sApi.listNamespacedPod(NAMESPACE, 'true').then((res) => {
-      let podArray = res.body.items.filter(containsPod);
-      podName = podArray.pop().metadata.name;
+      let podArray = res.body.items.filter((containsPod));
+      if (podArray.length === 0) {
+        throw new Error(`Did not find Pod for "${WEBHOOK}" Hook`);
+      }
+
+      podName = podArray[0].metadata.name;
     });
 
     const containerName = WEBHOOK;
 
-    let params = {
-      k8sApi: k8sApi,
-      podName: podName,
+    const params = {
+      k8sApi,
+      podName,
       namespace: NAMESPACE,
-      containerName: containerName
+      containerName
     }
     const result = await delayedRepeat(isHookTriggered, params, 1000, 10);
 
