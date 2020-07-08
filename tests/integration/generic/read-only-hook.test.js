@@ -11,11 +11,8 @@ test(
       90
     );
 
-    // This is necessary to ensure that the HTTP-Server already logged the Request
-    await new Promise(resolve => setTimeout(resolve, 5000));
-
-    const webhook = "http-webhook";
-    const namespace = "integration-tests";
+    const WEBHOOK = "http-webhook";
+    const NAMESPACE = "integration-tests";
 
     const kc = new k8s.KubeConfig();
     kc.loadFromDefault();
@@ -23,19 +20,49 @@ test(
     const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
 
     function containsPod(item) {
-      return item.metadata.name.includes(webhook)
+      return item.metadata.name.includes(WEBHOOK)
     }
 
     let podName;
-    await k8sApi.listNamespacedPod(namespace, 'true').then((res) => {
+    await k8sApi.listNamespacedPod(NAMESPACE, 'true').then((res) => {
       let podArray = res.body.items.filter(containsPod);
       podName = podArray.pop().metadata.name;
     });
 
-    const containerName = webhook;
+    const containerName = WEBHOOK;
 
-    let containerLog = await k8sApi.readNamespacedPodLog(podName, namespace, containerName, false);
-    expect(containerLog.body.includes("path: '/hallo-welt'")).toBe(true);
+    let params = {
+      k8sApi: k8sApi,
+      podName: podName,
+      namespace: NAMESPACE,
+      containerName: containerName
+    }
+    const result = await delayedRepeat(isHookTriggered, params, 1000, 10);
+
+    expect(result).toBe(true)
   },
   3 * 60 * 1000
 );
+
+async function isHookTriggered(params) {
+  console.log("Fetch Container Logs...")
+  let containerLog = await params.k8sApi.readNamespacedPodLog(params.podName, params.namespace, params.containerName, false);  
+  return containerLog.body.includes("/hallo-welt");
+}
+
+
+const sleep = durationInMs =>
+  new Promise(resolve => setTimeout(resolve, durationInMs));
+
+async function delayedRepeat(fun, functionParamObject, intervalInMs, maxRetries,) {
+  for (let i = 0; i < maxRetries; i++){
+    const condition = await fun(functionParamObject);
+    if(condition){
+      return condition;
+    }
+
+    await sleep(intervalInMs);
+  }
+
+  throw new Error("Reached max retries")
+}
