@@ -70,7 +70,7 @@ Parser</panel_attributes>
       <w>160</w>
       <h>60</h>
     </coordinates>
-    <panel_attributes>&lt;&lt;Pod&gt;&gt;
+    <panel_attributes>&lt;&lt;Deployment&gt;&gt;
 Minio</panel_attributes>
     <additional_attributes/>
   </element>
@@ -111,18 +111,6 @@ listen v</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
   </element>
   <element>
-    <id>UMLPackage</id>
-    <coordinates>
-      <x>250</x>
-      <y>50</y>
-      <w>180</w>
-      <h>220</h>
-    </coordinates>
-    <panel_attributes>Job
---</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>Relation</id>
     <coordinates>
       <x>530</x>
@@ -149,7 +137,7 @@ store JSON finding v</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>700</x>
+      <x>810</x>
       <y>440</y>
       <w>160</w>
       <h>60</h>
@@ -161,7 +149,7 @@ ReadAndWriteHook</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>500</x>
+      <x>480</x>
       <y>440</y>
       <w>160</w>
       <h>60</h>
@@ -173,43 +161,43 @@ ReadOnlyHook</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>570</x>
+      <x>490</x>
       <y>250</y>
-      <w>110</w>
+      <w>200</w>
       <h>210</h>
     </coordinates>
     <panel_attributes>lt=-
-read issue v</panel_attributes>
-    <additional_attributes>90.0;10.0;90.0;140.0;10.0;140.0;10.0;190.0</additional_attributes>
+read finding/raw result v</panel_attributes>
+    <additional_attributes>120.0;10.0;120.0;140.0;70.0;140.0;70.0;190.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>680</x>
       <y>250</y>
-      <w>120</w>
+      <w>210</w>
       <h>210</h>
     </coordinates>
     <panel_attributes>lt=-
-read issue v</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;140.0;100.0;140.0;100.0;190.0</additional_attributes>
+read finding/raw result v</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0;190.0;140.0;190.0;190.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>720</x>
       <y>250</y>
-      <w>120</w>
+      <w>220</w>
       <h>210</h>
     </coordinates>
     <panel_attributes>lt=-
-store issue ^</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;110.0;100.0;110.0;100.0;190.0</additional_attributes>
+store finding/raw result ^</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0;200.0;110.0;200.0;190.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>390</x>
+      <x>370</x>
       <y>580</y>
       <w>160</w>
       <h>50</h>
@@ -221,7 +209,7 @@ bg=gray</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>600</x>
+      <x>590</x>
       <y>580</y>
       <w>160</w>
       <h>50</h>
@@ -233,7 +221,7 @@ bg=gray</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>460</x>
+      <x>440</x>
       <y>490</y>
       <w>120</w>
       <h>110</h>
@@ -245,14 +233,14 @@ persist v</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>600</x>
+      <x>580</x>
       <y>490</y>
-      <w>100</w>
+      <w>110</w>
       <h>110</h>
     </coordinates>
     <panel_attributes>lt=-
 persist v</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;60.0;80.0;60.0;80.0;90.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0;90.0;60.0;90.0;90.0</additional_attributes>
   </element>
   <element>
     <id>UMLNote</id>
@@ -291,6 +279,20 @@ bg=blue</panel_attributes>
     <panel_attributes>Kubernetes/secureCodeBox
 --
 bg=#3296DC</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>250</x>
+      <y>50</y>
+      <w>180</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=..
+&lt;&lt;Job&gt;&gt;
+
+layer=1</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
