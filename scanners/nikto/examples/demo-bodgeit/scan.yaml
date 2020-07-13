@@ -1,0 +1,15 @@
+apiVersion: 'execution.experimental.securecodebox.io/v1'
+kind: Scan
+metadata:
+  name: 'nikto-bodgeit'
+  labels:
+    organization: 'secureCodeBox'
+spec:
+  scanType: 'nikto'
+  parameters:
+    - '-h'
+    - 'bodgeit'
+    - '-port 8080'
+    - '-Tuning'
+    # Only enable fast (ish) Scan Options, remove attack option like SQLi and RCE. We will leave those to ZAP
+    - '1,2,3,5,7,b'
