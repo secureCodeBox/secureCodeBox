@@ -63,7 +63,7 @@ The purpose of _secureCodeBox_ **is not** to replace the penetration testers or 
 
 **Important note**: The _secureCodeBox_ is no simple one-button-click-solution! You must have a deep understanding of security and how to configure the scanners. Furthermore, an understanding of the scan results and how to interpret them is also necessary.
 
-There is a german article about [Security DevOps – Angreifern (immer) einen Schritt voraus][secdevops-objspec] in the software engineering journal [OBJEKTSpektrum][objspec].
+There is a German article about [Security DevOps – Angreifern (immer) einen Schritt voraus][secdevops-objspec] in the software engineering journal [OBJEKTSpektrum][objspec].
 
 ## Quickstart
 
@@ -144,16 +144,19 @@ kubectl apply -f scanners/nmap/examples/scan.nmap.org/scan.yaml
 kubectl get scans
 ```
 
+#### To delete a scan, use ```kubectl delete```, e.g. for localhost nmap scan:
+```
+kubectl delete -f scanners/nmap/examples/localhost/scan.yaml
+```
+
 ### Access Services
 
 - Minio UI:
+  - Port Forward Minio UI: `kubectl port-forward -n securecodebox-system service/securecodebox-operator-minio 9000:9000`
   - AccessKey: `kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.accesskey}' | base64 --decode; echo`
   - SecretKey: `kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.secretkey}' | base64 --decode; echo`
-  - Port Forward Minio UI: `kubectl port-forward -n securecodebox-system service/securecodebox-operator-minio 9000:9000`
 - Elastic / Kibana UI:
-  - User: `elastic`
-  - Password: `kubectl get secret scb-elasticsearch-es-elastic-user -n scb-analytics -o=jsonpath='{.data.elastic}' | base64 --decode; echo`
-  - Port Forward Kibana: `kubectl port-forward -n default service/persistence-elastic-kibana 5601:5601`
+  - Port Forward Kibana: `kubectl port-forward -n default service/elkh-kibana 5601:5601`
   - Port Forward Elasticsearch: `kubectl port-forward -n default service/elasticsearch-master 9200:9200`
 
 ## How does it work?
