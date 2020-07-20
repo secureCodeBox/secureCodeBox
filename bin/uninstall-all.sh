@@ -15,6 +15,11 @@ helm uninstall zap
 helm uninstall wpscan
 
 helm uninstall dummy-ssh
+helm uninstall bodgeit
+helm uninstall http-webhook
+helm uninstall juice-shop
+helm uninstall old-wordpress
+helm uninstall swagger-petstore
 
 helm uninstall aah
 helm uninstall gwh
