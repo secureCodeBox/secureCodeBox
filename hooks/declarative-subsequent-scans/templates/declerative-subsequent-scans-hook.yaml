@@ -17,3 +17,4 @@ spec:
   image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
   {{- end }}
   {{- end }}
+  serviceAccountName: declarative-combined-scans

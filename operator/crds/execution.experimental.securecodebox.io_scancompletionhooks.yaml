@@ -156,6 +156,13 @@ spec:
                     type: string
                 type: object
               type: array
+            serviceAccountName:
+              description: ServiceAccountName Name of the serviceAccount Name used.
+                Should only be used if your hook needs specifc RBAC Access. Otherwise
+                the hook is run using a "scan-completion-hook" service account. The
+                service account should have at least "get" rights on scans.execution.experimental.securecodebox.io,
+                and "get" & "patch" scans.execution.experimental.securecodebox.io/status
+              type: string
             type:
               description: HookType Defines weather the hook should be able to change
                 the findings or is run in a read only mode.

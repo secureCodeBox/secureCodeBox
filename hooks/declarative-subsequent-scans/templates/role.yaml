@@ -1,0 +1,29 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  annotations:
+    description: DeclarativeCombinedScansHooks needs to have the rights to create new scans and the usual patch rules to update the scan status
+  name: declarative-combined-scans
+  namespace: {{ .Release.Namespace }}
+rules:
+  - apiGroups:
+      - execution.experimental.securecodebox.io
+    resources:
+      - scans
+    verbs:
+      - get
+      - create
+  - apiGroups:
+      - execution.experimental.securecodebox.io
+    resources:
+      - scans/status
+    verbs:
+      - get
+      - patch
+  - apiGroups:
+      - cascading.experimental.securecodebox.io
+    resources:
+      - cascadingrules
+    verbs:
+      - get
+      - list
