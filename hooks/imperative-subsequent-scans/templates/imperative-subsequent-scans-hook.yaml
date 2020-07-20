@@ -17,6 +17,7 @@ spec:
   image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
   {{- end }}
   {{- end }}
+  serviceAccountName: imperative-combined-scans
   env:
     - name: CASCADE_AMASS_NMAP
       value: {{ .Values.cascade.amassNmap | quote }}

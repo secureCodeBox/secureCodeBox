@@ -1,0 +1,23 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  annotations:
+    description: ImperativeCombinedScansHook needs to have the rights to create new scans and the usual patch rules to update the scan status
+  name: imperative-combined-scans
+  namespace: {{ .Release.Namespace }}
+rules:
+  - apiGroups:
+      - execution.experimental.securecodebox.io
+    resources:
+      - scans
+    verbs:
+      - get
+      - list
+      - create
+  - apiGroups:
+      - execution.experimental.securecodebox.io
+    resources:
+      - scans/status
+    verbs:
+      - get
+      - patch
