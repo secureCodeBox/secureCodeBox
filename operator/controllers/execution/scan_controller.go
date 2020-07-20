@@ -985,25 +985,33 @@ func (r *ScanReconciler) setHookStatus(scan *executionv1.Scan) error {
 
 func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, scan *executionv1.Scan, cliArgs []string) (string, error) {
 	ctx := context.Background()
-	rules := []rbacv1.PolicyRule{
-		{
-			APIGroups: []string{"execution.experimental.securecodebox.io"},
-			Resources: []string{"scans"},
-			Verbs:     []string{"get", "list", "create"},
-		},
-		{
-			APIGroups: []string{"execution.experimental.securecodebox.io"},
-			Resources: []string{"scans/status"},
-			Verbs:     []string{"get", "patch"},
-		},
-	}
+
 	serviceAccountName := "scan-completion-hook"
-	r.ensureServiceAccountExists(
-		hook.Namespace,
-		serviceAccountName,
-		"ScanCompletionHooks need to access the current scan to view where its results are stored",
-		rules,
-	)
+	if hook.Spec.ServiceAccountName != nil {
+		// Hook uses a custom ServiceAccount
+		serviceAccountName = *hook.Spec.ServiceAccountName
+	} else {
+		// Check and create a serviceAccount for the hook in its namespace, if it doesn't already exist.
+		rules := []rbacv1.PolicyRule{
+			{
+				APIGroups: []string{"execution.experimental.securecodebox.io"},
+				Resources: []string{"scans"},
+				Verbs:     []string{"get"},
+			},
+			{
+				APIGroups: []string{"execution.experimental.securecodebox.io"},
+				Resources: []string{"scans/status"},
+				Verbs:     []string{"get", "patch"},
+			},
+		}
+
+		r.ensureServiceAccountExists(
+			hook.Namespace,
+			serviceAccountName,
+			"ScanCompletionHooks need to access the current scan to view where its results are stored",
+			rules,
+		)
+	}
 
 	standardEnvVars := []corev1.EnvVar{
 		{
