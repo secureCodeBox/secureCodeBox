@@ -25,9 +25,9 @@ helm upgrade --install wpscan ./scanners/wpscan/
 
 ## Examples
 
-A set of examples can be found in the [examples](./examples) folder.
+A set of examples can be found in the [examples](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/tree/master/scanners/wpscan/examples) folder.
 
-* Example *example.com* [scan](./examples/secureCodeBox.io/scan.yaml) and [findings](./examples/secureCodeBox.io/findings.yaml)
+* Example *example.com* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/wpscan/examples/example.com/scan.yaml) and [findings](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/wpscan/examples/example.com/findings.yaml)
 
 ## Configuration
 

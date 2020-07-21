@@ -21,9 +21,9 @@ helm upgrade --install kube-hunter ./scanners/kube-hunter/
 
 ## Examples
 
-A set of examples can be found in the [examples](./examples) folder.
+A set of examples can be found in the [examples](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/tree/master/scanners/kube-hunter/examples) folder.
 
-* Example *in-cluster* [scan](./examples/in-cluster/scan.yaml) and [findings](./examples/in-cluster/findings.yaml)
+* Example *in-cluster* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/kube-hunter/examples/in-cluster/scan.yaml) and [findings](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/kube-hunter/examples/in-cluster/findings.json)
 
 ## Configuration
 

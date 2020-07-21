@@ -21,10 +21,10 @@ helm upgrade --install amass ./scanners/amass/
 
 ## Examples
 
-A set of examples can be found in the [examples](./examples) folder.
+A set of examples can be found in the [examples](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/tree/master/scanners/amass/examples) folder.
 
-* Example *secureCodeBox.io* [scan](./examples/secureCodeBox.io/scan.yaml) and [findings](./examples/secureCodeBox.io/findings.yaml)
-* Example *example.com* [scan](./examples/secureCodeBox.io/scan.yaml) and [findings](./examples/secureCodeBox.io/findings.yaml)
+* Example *secureCodeBox.io* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/amass/examples/secureCodeBox.io/scan.yaml)
+* Example *example.com* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/amass/examples/example.com/scan.yaml)
 
 ## Configuration
 

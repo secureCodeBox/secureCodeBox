@@ -24,10 +24,10 @@ helm upgrade --install trivy ./scanners/trivy/
 
 ## Examples
 
-A set of examples can be found in the [examples](./examples) folder.
+A set of examples can be found in the [examples](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/tree/master/scanners/trivy/examples) folder.
 
-* Example *juice-shop* [scan](./examples/juice-shop/scan.yaml) and [findings](./examples/juice-shop/findings.yaml)
-* Example *mediawiki* [scan](./examples/mediawikip/scan.yaml) and [findings](./examples/mediawiki/findings.yaml)
+* Example *juice-shop* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/trivy/examples/juice-shop/scan.yaml) and [findings](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/trivy/examples/juice-shop/findings.yaml)
+* Example *mediawiki* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/trivy/examples/mediawiki/scan.yaml) and [findings](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/trivy/examples/mediawiki/findings.yaml)
 
 ## Configuration
 
