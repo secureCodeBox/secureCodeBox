@@ -21,9 +21,9 @@ helm upgrade --install nikto ./scanners/nikto/
 
 ## Examples
 
-A set of examples can be found in the [examples](./examples) folder.
+A set of examples can be found in the [examples](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/tree/master/scanners/nikto/examples) folder.
 
-* Example *secureCodeBox.io* [scan](./examples/secureCodeBox.io/scan.yaml) and [findings](./examples/secureCodeBox.io/findings.yaml)
+* Example *secureCodeBox.io* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/nikto/examples/secureCodeBox.io/scan.yaml)
 
 ## Configuration
 

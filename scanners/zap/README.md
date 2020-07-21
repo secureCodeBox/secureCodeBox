@@ -23,10 +23,10 @@ helm upgrade --install zap ./scanners/zap/
 
 ## Examples
 
-A set of examples can be found in the [examples](./examples) folder.
+A set of examples can be found in the [examples](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/tree/master/scanners/zap/examples) folder.
 
-* Example *secureCodeBox.io* [scan](./examples/secureCodeBox.io/scan.yaml) and [findings](./examples/secureCodeBox.io/findings.yaml)
-* Example *example.com* [scan](./examples/example.com/scan.yaml) and [findings](./examples/example.com/findings.yaml)
+* Example *Juice Shop* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/zap/examples/demo-juice-shop-full-scan/scan.yaml) and [findings](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/zap/examples/demo-juice-shop-full-scan/findings.yaml)
+* Example *Pet Store* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/zap/examples/demo-petstore-api-scan/scan.yaml) and [findings](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/zap/examples/demo-petstore-api-scan/findings.yaml)
 
 ## Configuration
 
