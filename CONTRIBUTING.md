@@ -1,13 +1,8 @@
 # Contributing
 
-There are multiple different workflows with different advantages and disadvantages.
-The most common workflows are:
+## GitHub Flow
 
-- [GitFlow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
-- [GitHub Flow](https://githubflow.github.io/)
-- [GitLab Flow](https://about.gitlab.com/blog/2014/09/29/gitlab-flow/)
-
-## GitHub Flow (How we want to work)
+For more information see [GitHub Flow](https://githubflow.github.io/)
 
 GitHub Flow is very lightweight (especially compared to GitFlow).
 This workflow uses only two kinds of branches:
@@ -23,7 +18,7 @@ The `main` branch is expected to be deployed regularly and is considered stable.
 
 ### How to work with GitHub Flow
 
-For more Information see [GitHub Flow](https://githubflow.github.io/)
+For more information see [GitHub Flow](https://githubflow.github.io/)
 
 TL;DR
 
@@ -34,22 +29,20 @@ TL;DR
 5. merge only after pull request review
 6. deploy immediately after review
 
-### Why not GitLab Flow or GitFlow
-
-Both `GitLab Flow` and `GitFlow` are to complex for our use case.
-
-## Working with The Community / Working with Forks
+## Working with Forks and Pull Requests
 
 Our current continuous integration workflow makes it very hard to work on own forks of the SecureCodeBox because CI tests cannot be executed outside of our repository. We are aware of that problem and are working on a solution.
 
-## Working with Issues
+Generally the SCB project follows the standard [GitHub Pull request process](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests).
 
-`GitHub Flow` does not enforce you to use Issues but it is highly encouraged.
-It is recommended to use an Issue for every Task taking longer than 1h (See [GitLab Flow](https://about.gitlab.com/blog/2014/09/29/gitlab-flow/)).
+## Working with Issues / How to Contribute in Issues
+
+For every task taking more than 1h, opening an issue is required.
+Before opening an Issue please verify there is no existing one covering your issue.
 
 ## How to Write Commit Messages
 
-For more Information see [here](https://chris.beams.io/posts/git-commit/).
+For more information see [here](https://chris.beams.io/posts/git-commit/).
 
 TL;DR
 
@@ -60,3 +53,13 @@ TL;DR
 5. Use the imperative mood in the subject line
 6. Wrap the body at 72 characters
 7. Use the body to explain what and why vs. how
+
+NOTE: Make sure you don't include `@mentions` or `fixes` keywords in your git commit messages. These should be included in the PR body instead.
+
+## Code Review
+
+## Code of Conduct
+
+## Code Style
+
+
