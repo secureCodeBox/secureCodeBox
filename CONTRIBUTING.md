@@ -62,4 +62,6 @@ NOTE: Make sure you don't include `@mentions` or `fixes` keywords in your git co
 
 ## Code Style
 
+## Contributor License Agreement (CLA)
+
 
