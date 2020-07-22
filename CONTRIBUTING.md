@@ -1,12 +1,15 @@
 # Contributing
 
-. [GitHub Flow](#GitHub Flow)
-. [Working with Forks and Pull Requests](#Working with Forks and Pull Requests)
-. [Working with Issues / How to Contribute in Issues](#Working with Issues / How to Contribute in Issues)
-. [How to Write Commit Messages](#How to Write Commit Messages)
-. [Code Review](#Code Review)
-. [Code of Conduct](#Code of Conduct)
-. [Contributor License Agreement (CLA](#Contributor License Agreement (CLA)
+- [Contributing](#contributing)
+  - [GitHub Flow](#github-flow)
+    - [How to work with GitHub Flow](#how-to-work-with-github-flow)
+  - [Working with Forks and Pull Requests](#working-with-forks-and-pull-requests)
+  - [Working with Issues / How to Contribute in Issues](#working-with-issues--how-to-contribute-in-issues)
+  - [How to Write Commit Messages](#how-to-write-commit-messages)
+  - [Code Review](#code-review)
+  - [Code of Conduct](#code-of-conduct)
+  - [Code Style](#code-style)
+  - [Contributor License Agreement (CLA)](#contributor-license-agreement-cla)
 
 ## GitHub Flow
 
