@@ -60,6 +60,8 @@ NOTE: Make sure you don't include `@mentions` or `fixes` keywords in your git co
 
 ## Code of Conduct
 
+Please have a look at our [Code of Conduct](./CODE_OF_CONDUCT.md) before you write an Issue or make a PR.
+
 ## Code Style
 
 ## Contributor License Agreement (CLA)
