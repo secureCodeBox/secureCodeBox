@@ -1,0 +1,15 @@
+apiVersion: 'execution.experimental.securecodebox.io/v1'
+kind: Scan
+metadata:
+  name: 'nikto-juice-shop'
+  labels:
+    organization: 'secureCodeBox'
+spec:
+  scanType: 'nikto'
+  parameters:
+    - '-h'
+    - 'juice-shop'
+    - '-port 3000'
+    - '-Tuning'
+    # Only enable fast (ish) Scan Options, remove attack option like SQLi and RCE. We will leave those to ZAP
+    - '1,2,3,5,7,b'

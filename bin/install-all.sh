@@ -16,6 +16,11 @@ helm upgrade --install zap ./scanners/zap/
 helm upgrade --install wpscan ./scanners/wpscan/
 
 helm upgrade --install dummy-ssh ./demo-apps/dummy-ssh/
+helm upgrade --install juice-shop ./demo-apps/juice-shop/
+helm upgrade --install old-wordpress ./demo-apps/old-wordpress/
+helm upgrade --install bodgeit ./demo-apps/bodgeit/
+helm upgrade --install swagger-petstore ./demo-apps/swagger-petstore/
+helm upgrade --install http-webhook ./demo-apps/http-webhook/
 
 helm upgrade --install aah ./hooks/update-field/
 helm upgrade --install gwh ./hooks/generic-webhook/
