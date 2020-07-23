@@ -16,7 +16,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: amass
-              image: caffix/amass:v3.8.0
+              image: "caffix/amass:v{{ .Chart.AppVersion }}"
               command:
                 - "amass"
                 - "enum"
