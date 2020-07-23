@@ -52,7 +52,10 @@ export function getCascadingScans(
   const cascadingRuleChain = new Set<string>();
 
   // Get the current Scan Chain (meaning which CascadingRules were used to start this scan and its parents) and convert it to a set, which makes it easier to query.
-  if (parentScan.metadata.annotations["cascading.securecodebox.io/chain"]) {
+  if (
+    parentScan.metadata.annotations &&
+    parentScan.metadata.annotations["cascading.securecodebox.io/chain"]
+  ) {
     const chainElements = parentScan.metadata.annotations[
       "cascading.securecodebox.io/chain"
     ].split(",");

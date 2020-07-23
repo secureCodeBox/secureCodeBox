@@ -65,7 +65,7 @@ export async function startSubsequentSecureCodeBoxScan({
 }) {
   let cascadingChain: Array<string> = [];
 
-  if (parentScan.metadata.annotations["cascading.securecodebox.io/chain"]) {
+  if (parentScan.metadata.annotations && parentScan.metadata.annotations["cascading.securecodebox.io/chain"]) {
     cascadingChain = parentScan.metadata.annotations[
       "cascading.securecodebox.io/chain"
     ].split(",");
