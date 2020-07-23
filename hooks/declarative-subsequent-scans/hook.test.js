@@ -173,3 +173,41 @@ test("should not start scan when the cascadingrule for it is already in the chai
 
   expect(cascadedScans).toMatchInlineSnapshot(`Array []`);
 });
+
+test("should not crash when the annotations are not set", () => {
+  parentScan.metadata.annotations = undefined;
+
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https",
+      },
+    },
+  ];
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  expect(cascadedScans).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "cascades": null,
+        "generatedBy": "tls-scans",
+        "name": "sslyze-foobar.com-tls-scans",
+        "parameters": Array [
+          "--regular",
+          "foobar.com:443",
+        ],
+        "scanType": "sslyze",
+      },
+    ]
+  `);
+});
