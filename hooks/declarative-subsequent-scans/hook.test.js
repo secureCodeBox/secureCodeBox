@@ -9,13 +9,13 @@ beforeEach(() => {
     kind: "Scan",
     metadata: {
       name: "nmap-foobar.com",
-      annotations: {}
+      annotations: {},
     },
     spec: {
       scanType: "nmap",
       parameters: "foobar.com",
-      cascades: {}
-    }
+      cascades: {},
+    },
   };
 
   sslyzeCascadingRules = [
@@ -23,7 +23,7 @@ beforeEach(() => {
       apiVersion: "cascading.experimental.securecodebox.io/v1",
       kind: "CascadingRule",
       metadata: {
-        name: "tls-scans"
+        name: "tls-scans",
       },
       spec: {
         matches: {
@@ -32,23 +32,23 @@ beforeEach(() => {
               category: "Open Port",
               attributes: {
                 port: 443,
-                service: "https"
-              }
+                service: "https",
+              },
             },
             {
               category: "Open Port",
               attributes: {
-                service: "https"
-              }
-            }
-          ]
+                service: "https",
+              },
+            },
+          ],
         },
         scanSpec: {
           scanType: "sslyze",
-          parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"]
-        }
-      }
-    }
+          parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"],
+        },
+      },
+    },
   ];
 });
 
@@ -61,9 +61,9 @@ test("should create subsequent scans for open HTTPS ports (NMAP findings)", () =
         state: "open",
         hostname: "foobar.com",
         port: 443,
-        service: "https"
-      }
-    }
+        service: "https",
+      },
+    },
   ];
 
   const cascadedScans = getCascadingScans(
@@ -97,9 +97,9 @@ test("Should create no subsequent scans if there are no rules", () => {
         state: "open",
         hostname: "foobar.com",
         port: 443,
-        service: "https"
-      }
-    }
+        service: "https",
+      },
+    },
   ];
 
   const cascadingRules = [];
@@ -121,9 +121,9 @@ test("should not try to do magic to the scan name if its something random", () =
         hostname: undefined,
         ip_address: "10.42.42.42",
         port: 443,
-        service: "https"
-      }
-    }
+        service: "https",
+      },
+    },
   ];
 
   const cascadedScans = getCascadingScans(
@@ -160,9 +160,9 @@ test("should not start scan when the cascadingrule for it is already in the chai
         state: "open",
         hostname: "foobar.com",
         port: 443,
-        service: "https"
-      }
-    }
+        service: "https",
+      },
+    },
   ];
 
   const cascadedScans = getCascadingScans(
