@@ -32,6 +32,13 @@ async function parse(fileContent) {
   return fileContent.site.flatMap(
     ({ "@name": location, "@host": host, alerts }) => {
       return alerts.map((alert) => {
+        const findingUrls = (alert.instances || []).map((instance) => {
+          return {
+            ...instance,
+            evidence: truncate({ text: instance.evidence, maxLength: 256 }),
+          };
+        });
+
         return {
           name: stripHtmlTags(alert.name),
           description: stripHtmlTags(alert.desc),
@@ -54,7 +61,7 @@ async function parse(fileContent) {
             zap_wascid: alert.wascid || null,
             zap_riskcode: alert.riskcode || null,
             zap_pluginid: alert.pluginid || null,
-            zap_finding_urls: alert.instances || null,
+            zap_finding_urls: findingUrls,
           },
         };
       });

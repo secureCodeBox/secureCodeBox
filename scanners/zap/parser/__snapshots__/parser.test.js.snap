@@ -133,31 +133,37 @@ Array [
       "zap_cweid": "16",
       "zap_finding_urls": Array [
         Object {
+          "evidence": undefined,
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://www.example.com/robots.txt",
         },
         Object {
+          "evidence": undefined,
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://www.example.com/ui/favicon-68e1a9c89026b0efeddf718a48c282a5.png",
         },
         Object {
+          "evidence": undefined,
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://www.example.com/ui/assets/vendor-80e5aa891cdede4b1c75dded09c689cd.css",
         },
         Object {
+          "evidence": undefined,
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://www.example.com/ui/assets/vault-7752ef07d9318e76f557551f2abd741f.css",
         },
         Object {
+          "evidence": undefined,
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://www.example.com/ui/assets/vendor-0237c49b8601dcbec2f0f06a8078e405.js",
         },
         Object {
+          "evidence": undefined,
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://www.example.com/ui/",
@@ -334,6 +340,7 @@ Array [
       "zap_cweid": "200",
       "zap_finding_urls": Array [
         Object {
+          "evidence": undefined,
           "method": "GET",
           "uri": "https://www.example.com/ui/assets/vendor-0237c49b8601dcbec2f0f06a8078e405.js",
         },
@@ -764,61 +771,73 @@ Array [
       "zap_cweid": "933",
       "zap_finding_urls": Array [
         Object {
+          "evidence": undefined,
           "method": "GET",
           "param": "X-XSS-Protection",
           "uri": "http://192.168.1.14:3000/ftp/package.json.bak",
         },
         Object {
+          "evidence": undefined,
           "method": "GET",
           "param": "X-XSS-Protection",
           "uri": "http://192.168.1.14:3000/sitemap.xml",
         },
         Object {
+          "evidence": undefined,
           "method": "GET",
           "param": "X-XSS-Protection",
           "uri": "http://192.168.1.14:3000/ftp/suspicious_errors.yml",
         },
         Object {
+          "evidence": undefined,
           "method": "GET",
           "param": "X-XSS-Protection",
           "uri": "http://192.168.1.14:3000/ftp/quarantine/juicy_malware_macos_64.url",
         },
         Object {
+          "evidence": undefined,
           "method": "GET",
           "param": "X-XSS-Protection",
           "uri": "http://192.168.1.14:3000/ftp/coupons_2013.md.bak",
         },
         Object {
+          "evidence": undefined,
           "method": "GET",
           "param": "X-XSS-Protection",
           "uri": "http://192.168.1.14:3000/ftp/eastere.gg",
         },
         Object {
+          "evidence": undefined,
           "method": "GET",
           "param": "X-XSS-Protection",
           "uri": "http://192.168.1.14:3000",
         },
         Object {
+          "evidence": undefined,
           "method": "GET",
           "param": "X-XSS-Protection",
           "uri": "http://192.168.1.14:3000/ftp",
         },
         Object {
+          "evidence": undefined,
           "method": "GET",
           "param": "X-XSS-Protection",
           "uri": "http://192.168.1.14:3000/ftp/quarantine",
         },
         Object {
+          "evidence": undefined,
           "method": "GET",
           "param": "X-XSS-Protection",
           "uri": "http://192.168.1.14:3000/",
         },
         Object {
+          "evidence": undefined,
           "method": "GET",
           "param": "X-XSS-Protection",
           "uri": "http://192.168.1.14:3000/ftp/quarantine/juicy_malware_windows_64.exe.url",
         },
         Object {
+          "evidence": undefined,
           "method": "GET",
           "param": "X-XSS-Protection",
           "uri": "http://192.168.1.14:3000/ftp/quarantine/juicy_malware_linux_64.url",
@@ -939,26 +958,32 @@ Array [
       "zap_cweid": "200",
       "zap_finding_urls": Array [
         Object {
+          "evidence": undefined,
           "method": "GET",
           "uri": "http://192.168.1.14:3000/vendor-es5.js",
         },
         Object {
+          "evidence": undefined,
           "method": "GET",
           "uri": "http://192.168.1.14:3000/vendor-es2015.js",
         },
         Object {
+          "evidence": undefined,
           "method": "GET",
           "uri": "http://192.168.1.14:3000/polyfills-es2015.js",
         },
         Object {
+          "evidence": undefined,
           "method": "GET",
           "uri": "http://192.168.1.14:3000/main-es2015.js",
         },
         Object {
+          "evidence": undefined,
           "method": "GET",
           "uri": "http://192.168.1.14:3000/main-es5.js",
         },
         Object {
+          "evidence": undefined,
           "method": "GET",
           "uri": "http://192.168.1.14:3000/polyfills-es5.js",
         },
