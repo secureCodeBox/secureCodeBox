@@ -48,8 +48,8 @@ Generally the _secureCodeBox_ project follows the standard [GitHub Pull request 
 
 ## Working with Issues/How to Contribute in Issues
 
-For every task taking more than 1h, opening an issue is required.
-Before opening an Issue please verify there is no existing one covering your issue.
+It is mandatory to open an issue, if the task takes longer than one hour.
+Before you open an issue please verify there is no existing one covering your issue.
 
 ## How to Write Commit Messages
 
