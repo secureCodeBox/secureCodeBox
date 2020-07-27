@@ -75,6 +75,4 @@ Please have a look at our [Code of Conduct](./CODE_OF_CONDUCT.md) before you wri
 
 ## Code Style
 
-## Contributor License Agreement (CLA)
-
 
