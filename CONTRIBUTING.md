@@ -21,11 +21,11 @@ This workflow uses only two kinds of branches:
 - Feature branch
 - Main branch (previously called master)
 
-The `feature` branches are used to develop new features as well as fixes.
+The _feature_ branches are used to develop new features as well as fixes.
 These branches are usually created out of main.
 
-Anything in the `main` branch is deployable.
-The `main` branch is expected to be deployed regularly and is considered stable.
+Anything in the _main_ branch is deployable.
+The _main_ branch is expected to be deployed regularly and is considered stable.
 
 ### How to work with GitHub Flow
 
@@ -33,7 +33,7 @@ For more information see [GitHub Flow](https://githubflow.github.io/)
 
 TL;DR
 
-1. anything in the main branch is deployable
+1. anything in the _main_ branch is deployable
 2. create descriptive branches off of main
 3. push to named branches constantly
 4. open a pull request at any time
@@ -42,11 +42,11 @@ TL;DR
 
 ## Working with Forks and Pull Requests
 
-Our current continuous integration workflow makes it very hard to work on own forks of the SecureCodeBox because CI tests cannot be executed outside of our repository. We are aware of that problem and are working on a solution.
+Our current continuous integration workflow makes it very hard to work on own forks of the _secureCodeBox_ because CI tests cannot be executed outside of our repository. We are aware of that problem and are working on a solution.
 
-Generally the SCB project follows the standard [GitHub Pull request process](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests).
+Generally the _secureCodeBox_ project follows the standard [GitHub Pull request process](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests).
 
-## Working with Issues / How to Contribute in Issues
+## Working with Issues/How to Contribute in Issues
 
 For every task taking more than 1h, opening an issue is required.
 Before opening an Issue please verify there is no existing one covering your issue.
