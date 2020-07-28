@@ -2,8 +2,7 @@ parserImage:
   registry: docker.io
   repository: scbexperimental/parser-zap
   tag: latest
-
-scannerJob:
+# scannerJob:
 #   resources:
 #     requests:
 #       memory: "2Gi"

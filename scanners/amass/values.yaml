@@ -2,12 +2,11 @@ parserImage:
   registry: docker.io
   repository: scbexperimental/parser-amass
   tag: latest
-
-scannerJob:
-  # resources:
-  #   requests:
-  #     memory: "64Mi"
-  #     cpu: "250m"
-  #   limits:
-  #     memory: "128Mi"
-  #     cpu: "500m"
+# scannerJob:
+#   resources:
+#     requests:
+#       memory: "256Mi"
+#       cpu: "250m"
+#     limits:
+#       memory: "512Mi"
+#       cpu: "500m"
