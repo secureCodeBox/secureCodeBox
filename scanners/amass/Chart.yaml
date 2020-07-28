@@ -4,7 +4,7 @@ description: A Helm chart for the Amass security scanner that integrates with th
 
 type: application
 version: 0.1.0
-appVersion: 3.8.1
+appVersion: 3.8.2
 
 keywords:
   - security
