@@ -2,6 +2,9 @@ parserImage:
   registry: docker.io
   repository: scbexperimental/parser-test-scan
   tag: latest
+
+scannerJob:
+  resources: {}
 # scannerJob:
 #   resources:
 #     requests:

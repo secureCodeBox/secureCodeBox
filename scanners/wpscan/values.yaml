@@ -2,6 +2,9 @@ parserImage:
   registry: docker.io
   repository: scbexperimental/parser-wpscan
   tag: latest
+
+scannerJob:
+  resources: {}
 # scannerJob:
 #   resources:
 #     requests:
