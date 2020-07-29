@@ -9,7 +9,6 @@
   - [Code Review](#code-review)
   - [Code of Conduct](#code-of-conduct)
   - [Code Style](#code-style)
-  - [Contributor License Agreement (CLA)](#contributor-license-agreement-cla)
 
 ## GitHub Flow
 
