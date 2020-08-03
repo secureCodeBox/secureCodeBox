@@ -32,6 +32,11 @@ import (
 	executionv1 "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/apis/execution/v1"
 )
 
+var (
+	ownerKey = ".metadata.controller"
+	apiGVStr = executionv1.GroupVersion.String()
+)
+
 // ScheduledScanReconciler reconciles a ScheduledScan object
 type ScheduledScanReconciler struct {
 	client.Client
