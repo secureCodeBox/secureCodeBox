@@ -5,7 +5,14 @@ import (
 	"fmt"
 
 	executionv1 "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/apis/execution/v1"
+	util "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/utils"
+	batch "k8s.io/api/batch/v1"
+	corev1 "k8s.io/api/core/v1"
+	rbacv1 "k8s.io/api/rbac/v1"
+	resource "k8s.io/apimachinery/pkg/api/resource"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
+	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -170,6 +177,20 @@ func (r *ScanReconciler) executeReadAndWriteHooks(scan *executionv1.Scan) error 
 	return nil
 }
 
+func containsJobForHook(jobs *batch.JobList, hook executionv1.ScanCompletionHook) bool {
+	if len(jobs.Items) == 0 {
+		return false
+	}
+
+	for _, job := range jobs.Items {
+		if job.ObjectMeta.Labels["experimental.securecodebox.io/hook-name"] == hook.Name {
+			return true
+		}
+	}
+
+	return false
+}
+
 func (r *ScanReconciler) startReadOnlyHooks(scan *executionv1.Scan) error {
 	ctx := context.Background()
 
@@ -276,5 +297,131 @@ func (r *ScanReconciler) checkIfReadOnlyHookIsCompleted(scan *executionv1.Scan) 
 
 	// ReadOnlyHook(s) are still running. At least some of them are.
 	// Waiting until all are done.
+	return nil
+}
+
+func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, scan *executionv1.Scan, cliArgs []string) (string, error) {
+	ctx := context.Background()
+
+	serviceAccountName := "scan-completion-hook"
+	if hook.Spec.ServiceAccountName != nil {
+		// Hook uses a custom ServiceAccount
+		serviceAccountName = *hook.Spec.ServiceAccountName
+	} else {
+		// Check and create a serviceAccount for the hook in its namespace, if it doesn't already exist.
+		rules := []rbacv1.PolicyRule{
+			{
+				APIGroups: []string{"execution.experimental.securecodebox.io"},
+				Resources: []string{"scans"},
+				Verbs:     []string{"get"},
+			},
+			{
+				APIGroups: []string{"execution.experimental.securecodebox.io"},
+				Resources: []string{"scans/status"},
+				Verbs:     []string{"get", "patch"},
+			},
+		}
+
+		r.ensureServiceAccountExists(
+			hook.Namespace,
+			serviceAccountName,
+			"ScanCompletionHooks need to access the current scan to view where its results are stored",
+			rules,
+		)
+	}
+
+	standardEnvVars := []corev1.EnvVar{
+		{
+			Name: "NAMESPACE",
+			ValueFrom: &corev1.EnvVarSource{
+				FieldRef: &corev1.ObjectFieldSelector{
+					FieldPath: "metadata.namespace",
+				},
+			},
+		},
+		{
+			Name:  "SCAN_NAME",
+			Value: scan.Name,
+		},
+	}
+
+	// Starting a new job based on the current ReadAndWrite Hook
+	labels := scan.ObjectMeta.DeepCopy().Labels
+	if labels == nil {
+		labels = make(map[string]string)
+	}
+	if hook.Spec.Type == executionv1.ReadAndWrite {
+		labels["experimental.securecodebox.io/job-type"] = "read-and-write-hook"
+	} else if hook.Spec.Type == executionv1.ReadOnly {
+		labels["experimental.securecodebox.io/job-type"] = "read-only-hook"
+	}
+	labels["experimental.securecodebox.io/hook-name"] = hook.Name
+
+	var backOffLimit int32 = 3
+	job := &batch.Job{
+		ObjectMeta: metav1.ObjectMeta{
+			Annotations:  make(map[string]string),
+			GenerateName: util.TruncateName(fmt.Sprintf("%s-%s", hook.Name, scan.Name)),
+			Namespace:    scan.Namespace,
+			Labels:       labels,
+		},
+		Spec: batch.JobSpec{
+			BackoffLimit: &backOffLimit,
+			Template: corev1.PodTemplateSpec{
+				ObjectMeta: metav1.ObjectMeta{
+					Annotations: map[string]string{
+						"auto-discovery.experimental.securecodebox.io/ignore": "true",
+					},
+				},
+				Spec: corev1.PodSpec{
+					ServiceAccountName: serviceAccountName,
+					RestartPolicy:      corev1.RestartPolicyNever,
+					ImagePullSecrets:   hook.Spec.ImagePullSecrets,
+					Containers: []corev1.Container{
+						{
+							Name:            "hook",
+							Image:           hook.Spec.Image,
+							Args:            cliArgs,
+							Env:             append(hook.Spec.Env, standardEnvVars...),
+							ImagePullPolicy: "IfNotPresent",
+							Resources: corev1.ResourceRequirements{
+								Requests: corev1.ResourceList{
+									corev1.ResourceCPU:    resource.MustParse("200m"),
+									corev1.ResourceMemory: resource.MustParse("100Mi"),
+								},
+								Limits: corev1.ResourceList{
+									corev1.ResourceCPU:    resource.MustParse("400m"),
+									corev1.ResourceMemory: resource.MustParse("200Mi"),
+								},
+							},
+						},
+					},
+				},
+			},
+			TTLSecondsAfterFinished: nil,
+		},
+	}
+	if err := ctrl.SetControllerReference(scan, job, r.Scheme); err != nil {
+		r.Log.Error(err, "Unable to set controllerReference on job", "job", job)
+		return "", err
+	}
+
+	if err := r.Create(ctx, job); err != nil {
+		return "", err
+	}
+	return job.Name, nil
+}
+
+func (r *ScanReconciler) updateHookStatus(scan *executionv1.Scan, hookStatus executionv1.HookStatus) error {
+	for i, hook := range scan.Status.ReadAndWriteHookStatus {
+		if hook.HookName == hookStatus.HookName {
+			scan.Status.ReadAndWriteHookStatus[i] = hookStatus
+			break
+		}
+	}
+	if err := r.Status().Update(context.Background(), scan); err != nil {
+		r.Log.Error(err, "unable to update Scan status")
+		return err
+	}
 	return nil
 }
