@@ -1,0 +1,60 @@
+on:
+  release:
+    types: [published]
+name: "Publish Helm Charts"
+jobs:
+  helm:
+    name: Package and Publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Install yq"
+        run: |
+          sudo snap install yq
+      - name: Parse Tag 
+        run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF#refs/*/}
+      - name: "Publish Helm Chart"
+        env:
+          HELM_REGISTRY: https://charts.securecodebox.io
+          USERNAME: ${{ secrets.HELM_REGISTRY_USERNAME }}
+          PASSWORD: ${{ secrets.HELM_REGISTRY_PASSWORD }}
+        run: |
+          package_publish () {
+            echo "Linting Helm Chart"
+            helm lint .
+            echo "Packaging Helm Chart"
+            helm package --version $RELEASE_VERSION .
+            echo "Publising Helm Chart"
+            curl --data-binary "@$(cat Chart.yaml | yq read - name)-${RELEASE_VERSION}.tgz" "${HELM_REGISTRY}/api/charts"
+          }
+
+          # Publishing
+
+          # Operator
+          cd operator
+          package_publish
+          cd -
+
+          # Scanner
+          for dir in scanners/*/
+          do
+            cd $dir
+            echo "Processing Chart in: $dir"
+            if [ -f Chart.yaml ]; then
+                package_publish
+            fi
+            # cd back
+            cd -
+          done
+
+          # Hooks
+          for dir in hooks/*/
+          do
+            cd $dir
+            echo "Processing Chart in: $dir"
+            if [ -f Chart.yaml ]; then
+                package_publish
+            fi
+            # cd back
+            cd -
+          done
