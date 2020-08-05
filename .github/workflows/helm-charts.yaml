@@ -19,42 +19,16 @@ jobs:
           USERNAME: ${{ secrets.HELM_REGISTRY_USERNAME }}
           PASSWORD: ${{ secrets.HELM_REGISTRY_PASSWORD }}
         run: |
-          package_publish () {
-            echo "Linting Helm Chart"
+          # Publish charts in all folders containing a `Chart.yaml` file
+          # https://github.com/koalaman/shellcheck/wiki/SC2044
+          find . -type f -name Chart.yaml -print0 | while IFS= read -r -d '' chart; do
+          (
+            dir="$(dirname "${chart}")"
+            cd "${dir}" || exit
+            echo "Processing Chart in $dir"
             helm lint .
-            echo "Packaging Helm Chart"
             helm package --version $RELEASE_VERSION .
-            echo "Publising Helm Chart"
-            curl --data-binary "@$(cat Chart.yaml | yq read - name)-${RELEASE_VERSION}.tgz" "${HELM_REGISTRY}/api/charts"
-          }
-
-          # Publishing
-
-          # Operator
-          cd operator
-          package_publish
-          cd -
-
-          # Scanner
-          for dir in scanners/*/
-          do
-            cd $dir
-            echo "Processing Chart in: $dir"
-            if [ -f Chart.yaml ]; then
-                package_publish
-            fi
-            # cd back
-            cd -
-          done
-
-          # Hooks
-          for dir in hooks/*/
-          do
-            cd $dir
-            echo "Processing Chart in: $dir"
-            if [ -f Chart.yaml ]; then
-                package_publish
-            fi
-            # cd back
-            cd -
+            NAME=$(yq read - name < Chart.yaml)
+            curl --silent --show-error --user "${USERNAME}:${PASSWORD}" --data-binary "@${NAME}-${RELEASE_VERSION}.tgz" "${HELM_REGISTRY}/api/charts"
+          )
           done
