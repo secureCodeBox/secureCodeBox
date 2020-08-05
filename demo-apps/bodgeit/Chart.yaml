@@ -1,7 +1,7 @@
 apiVersion: v2
 version: 0.1.0
 type: application
-appVersion: "latest"
+appVersion: "v1.4.0"
 name: bodgeit
 description: "The BodgeIt Store is a vulnerable web app which is aimed at people who are new to pen testing"
 home: https://github.com/psiinon/bodgeit
