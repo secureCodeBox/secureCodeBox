@@ -2,6 +2,9 @@
 title: "ZAP"
 path: "scanners/zap"
 category: "scanner"
+type: "WebApplication"
+state: "released"
+appVersion: 2.9.0
 usecase: "Webapplication Vulnerability Scanner"
 ---
 

@@ -2,6 +2,9 @@
 title: "SSLyze"
 path: "scanners/sslyze"
 category: "scanner"
+type: "Kubernetes"
+state: "SSL"
+appVersion: 3.0.8
 usecase: "SSL/TLS Configuration Scanner"
 ---
 
