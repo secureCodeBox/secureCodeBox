@@ -2,6 +2,9 @@
 title: "Nmap"
 path: "scanners/nmap"
 category: "scanner"
+type: "Network"
+state: "released"
+appVersion: 7.80
 usecase: "Network Scanner"
 ---
 

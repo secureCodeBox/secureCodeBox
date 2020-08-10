@@ -35,6 +35,7 @@
       - [Local Scan Examples](#local-scan-examples)
       - [Public Scan Examples](#public-scan-examples)
       - [Then get the current State of the Scan by running:](#then-get-the-current-state-of-the-scan-by-running)
+      - [To delete a scan, use ```kubectl delete```, e.g. for localhost nmap scan:](#to-delete-a-scan-use-kubectl-delete-eg-for-localhost-nmap-scan)
     - [Access Services](#access-services)
   - [How does it work?](#how-does-it-work)
   - [Architecture](#architecture)
@@ -109,9 +110,10 @@ helm upgrade --install swagger-petstore ./demo-apps/swagger-petstore/
 Deploy secureCodeBox Hooks:
 
 ```bash
-helm upgrade --install aah ./hooks/update-field/
+helm upgrade --install ufh ./hooks/update-field/
 helm upgrade --install gwh ./hooks/generic-webhook/
 helm upgrade --install issh ./hooks/imperative-subsequent-scans/
+helm upgrade --install dssh ./hooks/declarative-subsequent-scans/
 ```
 
 Persistence provider Elasticsearch:
