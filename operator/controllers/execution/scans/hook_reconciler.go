@@ -217,6 +217,8 @@ func (r *ScanReconciler) startReadOnlyHooks(scan *executionv1.Scan) error {
 	if len(readOnlyHooks) == 0 {
 		r.Log.Info("Marked scan as done as without running ReadOnly hooks as non were configured", "ScanName", scan.Name)
 		scan.Status.State = "Done"
+		var now metav1.Time = metav1.Now()
+		scan.Status.FinishedAt = &now
 		if err := r.Status().Update(ctx, scan); err != nil {
 			r.Log.Error(err, "Unable to update Scan status")
 			return err
@@ -281,6 +283,8 @@ func (r *ScanReconciler) checkIfReadOnlyHookIsCompleted(scan *executionv1.Scan) 
 	if readOnlyHookCompletion == completed {
 		r.Log.V(7).Info("All ReadOnlyHooks have completed")
 		scan.Status.State = "Done"
+		var now metav1.Time = metav1.Now()
+		scan.Status.FinishedAt = &now
 		if err := r.Status().Update(ctx, scan); err != nil {
 			r.Log.Error(err, "Unable to update Scan status")
 			return err

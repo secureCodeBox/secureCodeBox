@@ -252,6 +252,11 @@ spec:
                       type: integer
                   type: object
               type: object
+            finishedAt:
+              description: FinishedAt contains the time where the scan (including
+                parser & hooks) has been marked as "Done"
+              format: date-time
+              type: string
             rawResultFile:
               description: RawResultFile Filename of the result file of the scanner.
                 e.g. `nmap-result.xml`
