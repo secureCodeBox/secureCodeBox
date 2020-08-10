@@ -19,7 +19,7 @@ helm upgrade --install dssh ./hooks/declarative-subsequent-scans/
 
 ### Verification
 ```bash
-$ kubectl get ScanCompletionHooks
+kubectl get ScanCompletionHooks
 NAME   TYPE       IMAGE
 dssh   ReadOnly   docker.io/scbexperimental/hook-declarative-subsequent-scans:latest
 ```
@@ -29,7 +29,7 @@ The CascadingRules are included directly in each helm chart of the individual sc
 
 ```bash
 # Check your CascadingRules
-$ kubectl get CascadingRules
+kubectl get CascadingRules
 NAME             STARTS         INVASIVENESS   INTENSIVENESS
 https-tls-scan   sslyze         non-invasive   light
 imaps-tls-scan   sslyze         non-invasive   light
@@ -67,7 +67,7 @@ This Scan will used all CascadingRules which are labeled with a "light" intensit
 You can lookup which CascadingRules this selects by running:
 
 ```bash
-$ kubectl get CascadingRules -l "securecodebox.io/intensive=light"
+kubectl get CascadingRules -l "securecodebox.io/intensive=light"
 NAME             STARTS     INVASIVENESS   INTENSIVENESS
 https-tls-scan   sslyze     non-invasive   light
 imaps-tls-scan   sslyze     non-invasive   light

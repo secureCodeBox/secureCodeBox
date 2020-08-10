@@ -1,10 +1,10 @@
 ---
 title: "Generic WebHook"
-path: "hooks/generic-webhook"
+path: "hooks/udapte-field"
 category: "hook"
-type: "integration"
+type: "dataProcessing"
 state: "released"
-usecase: "Publishes Scan Findings as WebHook."
+usecase: "Updates fields in finding results."
 ---
 
 <!-- end -->
@@ -14,5 +14,5 @@ usecase: "Publishes Scan Findings as WebHook."
 Installing the _Update Field_ hook will add a ReadOnly Hook to your namespace. 
 
 ```bash
-helm upgrade --install gwh ./hooks/generic-webhook/ --set webhookUrl="http://example.com/my/webhook/target"
+helm upgrade --install ufh ./hooks/update-field/ --set attribute.name="category" --set attribute.value="my-own-category"
 ```

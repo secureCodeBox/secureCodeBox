@@ -35,6 +35,7 @@
       - [Local Scan Examples](#local-scan-examples)
       - [Public Scan Examples](#public-scan-examples)
       - [Then get the current State of the Scan by running:](#then-get-the-current-state-of-the-scan-by-running)
+      - [To delete a scan, use ```kubectl delete```, e.g. for localhost nmap scan:](#to-delete-a-scan-use-kubectl-delete-eg-for-localhost-nmap-scan)
     - [Access Services](#access-services)
   - [How does it work?](#how-does-it-work)
   - [Architecture](#architecture)
@@ -85,16 +86,15 @@ helm -n securecodebox-system upgrade --install securecodebox-operator ./operator
 Optionally deploy SCB scanner charts for each security scanner you want to use. They should not be installed into the `securecodebox-system` like the operator so that different teams can use different kinds of scanners.
 
 ```bash
-kubectl create namespace scans
-helm upgrade --install -n scans amass ./scanners/amass/
-helm upgrade --install -n scans kube-hunter ./scanners/kube-hunter/
-helm upgrade --install -n scans nikto ./scanners/nikto
-helm upgrade --install -n scans nmap ./scanners/nmap/
-helm upgrade --install -n scans ssh-scan ./scanners/ssh_scan/
-helm upgrade --install -n scans sslyze ./scanners/sslyze/
-helm upgrade --install -n scans trivy ./scanners/trivy/
-helm upgrade --install -n scans zap ./scanners/zap/
-helm upgrade --install -n scans wpscan ./scanners/wpscan/
+helm upgrade --install amass ./scanners/amass/
+helm upgrade --install kube-hunter ./scanners/kube-hunter/
+helm upgrade --install nikto ./scanners/nikto
+helm upgrade --install nmap ./scanners/nmap/
+helm upgrade --install ssh-scan ./scanners/ssh_scan/
+helm upgrade --install sslyze ./scanners/sslyze/
+helm upgrade --install trivy ./scanners/trivy/
+helm upgrade --install zap ./scanners/zap/
+helm upgrade --install wpscan ./scanners/wpscan/
 ```
 
 Optional deploy some demo apps for scanning:
@@ -110,7 +110,7 @@ helm upgrade --install swagger-petstore ./demo-apps/swagger-petstore/
 Deploy secureCodeBox Hooks:
 
 ```bash
-helm upgrade --install aah ./hooks/update-field/
+helm upgrade --install ufh ./hooks/update-field/
 helm upgrade --install gwh ./hooks/generic-webhook/
 helm upgrade --install issh ./hooks/imperative-subsequent-scans/
 helm upgrade --install dssh ./hooks/declarative-subsequent-scans/
