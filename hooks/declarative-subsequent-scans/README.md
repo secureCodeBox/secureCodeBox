@@ -4,7 +4,7 @@ path: "hooks/declarative-subsequent-scans"
 category: "hook"
 type: "processing"
 state: "released"
-usecase: "Enables cascading Scans based declarative _CascadingRules_."
+usecase: "Cascading Scans based declarative Rules."
 ---
 
 <!-- end -->

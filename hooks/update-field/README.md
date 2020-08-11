@@ -1,6 +1,6 @@
 ---
-title: "Generic WebHook"
-path: "hooks/udapte-field"
+title: "Update Field"
+path: "hooks/update-field"
 category: "hook"
 type: "dataProcessing"
 state: "released"
