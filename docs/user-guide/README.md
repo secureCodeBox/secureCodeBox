@@ -1,8 +1,8 @@
 # Using the secureCodeBox
 
-## Declarative Combines Scans
+## Declarative Combined Scans
 ### Install Hook
-Installing the Declarative Combined Scan hook will add a ReadOnly Hook to your namespace which looks for matching CascadingRules in the namespace and start subsequent scans accordingly.
+Installing the Declarative Combined Scan hook will add a ReadOnly Hook to your namespace which looks for matching CascadingRules in the namespace and starts subsequent scans accordingly.
 
 ```bash
 helm install combined-scans ./hooks/declarative-subsequent-scans
@@ -48,6 +48,7 @@ zap-http         zap-baseline   non-invasive   medium
 
 When you start a normal Scan, no CascadingRule will be applied.
 To use CascadingRules the scan must be marked to allow cascading rules.
+
 This is implemented using kubernetes label selectors, meaning that scans mark the classes of scans which are allowed to be cascaded by the current one.
 
 ### Example
