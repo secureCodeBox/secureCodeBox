@@ -4,8 +4,8 @@ path: "scanners/zap"
 category: "scanner"
 type: "WebApplication"
 state: "released"
-appVersion: 2.9.0
-usecase: "Webapplication Vulnerability Scanner"
+appVersion: "2.9.0"
+usecase: "WebApp & OpenAPI Vulnerability Scanner"
 ---
 
 ![zap logo](https://raw.githubusercontent.com/wiki/zaproxy/zaproxy/images/zap32x32.png)

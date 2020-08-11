@@ -4,7 +4,7 @@ path: "scanners/trivy"
 category: "scanner"
 type: "Container"
 state: "released"
-appVersion: 0.10.1
+appVersion: "0.10.1"
 usecase: "Container Vulnerability Scanner"
 ---
 
