@@ -3,7 +3,7 @@ title: "DefectDojo"
 path: "hooks/persistence-defectdojo"
 category: "hook"
 type: "persistenceProvider"
-state: "roadmap"
+state: "developing"
 usecase: "Publishes all Scan Findings to DefectDojo."
 ---
 
