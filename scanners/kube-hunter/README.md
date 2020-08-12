@@ -4,7 +4,7 @@ path: "scanners/kube-hunter"
 category: "scanner"
 type: "Kubernetes"
 state: "released"
-appVersion: 0.3.1
+appVersion: "0.3.1"
 usecase: "Kubernetes Vulnerability Scanner"
 ---
 

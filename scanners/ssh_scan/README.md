@@ -4,7 +4,7 @@ path: "scanners/ssh"
 category: "scanner"
 type: "SSH"
 state: "released"
-appVersion: 0.0.43
+appVersion: "0.0.43"
 usecase: "SSH Configuration and Policy Scanner"
 ---
 

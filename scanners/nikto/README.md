@@ -4,7 +4,7 @@ path: "scanners/nikto"
 category: "scanner"
 type: "Webserver"
 state: "released"
-appVersion: 2.1.6
+appVersion: "2.1.6"
 usecase: "Webserver Vulnerability Scanner"
 ---
 
