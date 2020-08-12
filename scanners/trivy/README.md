@@ -2,7 +2,10 @@
 title: "Trivy"
 path: "scanners/trivy"
 category: "scanner"
-usecase: "Containers Vulnerability Scanner"
+type: "Container"
+state: "released"
+appVersion: "0.10.1"
+usecase: "Container Vulnerability Scanner"
 ---
 
 `Trivy` (`tri` pronounced like **tri**gger, `vy` pronounced like en**vy**) is a simple and comprehensive vulnerability scanner for containers and other artifacts.

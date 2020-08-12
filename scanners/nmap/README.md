@@ -2,7 +2,10 @@
 title: "Nmap"
 path: "scanners/nmap"
 category: "scanner"
-usecase: "Network Scanner"
+type: "Network"
+state: "released"
+appVersion: "7.80"
+usecase: "Network discovery and security auditing"
 ---
 
 ![Nmap logo](https://nmap.org/images/sitelogo.png)

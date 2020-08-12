@@ -2,6 +2,9 @@
 title: 'WPScan'
 path: 'scanners/wpscan'
 category: 'scanner'
+type: "CMS"
+state: "released"
+appVersion: "3.8.5"
 usecase: 'Wordpress Vulnerability Scanner'
 ---
 

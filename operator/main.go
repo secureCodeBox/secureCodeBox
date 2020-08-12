@@ -30,6 +30,7 @@ import (
 	executionv1 "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/apis/execution/v1"
 	targetsv1 "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/apis/targets/v1"
 	executioncontroller "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/controllers/execution"
+	scancontroller "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/controllers/execution/scans"
 	targetscontroller "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/controllers/targets"
 	// +kubebuilder:scaffold:imports
 )
@@ -71,7 +72,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&executioncontroller.ScanReconciler{
+	if err = (&scancontroller.ScanReconciler{
 		Client: mgr.GetClient(),
 		Log:    ctrl.Log.WithName("controllers").WithName("Scan"),
 		Scheme: mgr.GetScheme(),
