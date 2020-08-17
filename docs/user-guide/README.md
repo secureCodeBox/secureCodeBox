@@ -1,7 +1,9 @@
 # Using the secureCodeBox
 
 ## Declarative Combined Scans
+
 ### Install Hook
+
 Installing the Declarative Combined Scan hook will add a ReadOnly Hook to your namespace which looks for matching CascadingRules in the namespace and starts subsequent scans accordingly.
 
 ```bash
@@ -13,7 +15,7 @@ helm install combined-scans ./hooks/declarative-subsequent-scans
 Successful installation can be verified by retrieving installed ScanCompletionHooks.
 
 ```bash
-$ kubectl get ScanCompletionHooks
+kubectl get ScanCompletionHooks
 ```
 
 The result should contain a hook for declarative subsequent scans.
@@ -28,8 +30,9 @@ combined-scans-declarative-subsequent-scans   ReadOnly   docker.io/scbexperiment
 CascadingRules are included in each individual scanner's Helm chart.
 
 ```bash
-$ kubectl get CascadingRules
+kubectl get CascadingRules
 ```
+
 Output should show these CascadingRules:
 
 ```bash
@@ -75,7 +78,7 @@ This Scan will used all CascadingRules which are labeled with a "light" intensit
 You can lookup which CascadingRules this selects by running:
 
 ```bash
-$ kubectl get CascadingRules -l "securecodebox.io/intensive=light"
+kubectl get CascadingRules -l "securecodebox.io/intensive=light"
 NAME             STARTS     INVASIVENESS   INTENSIVENESS
 https-tls-scan   sslyze     non-invasive   light
 imaps-tls-scan   sslyze     non-invasive   light
