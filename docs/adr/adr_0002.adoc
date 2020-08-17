@@ -1,5 +1,5 @@
-[[ADR-0000]]
-= ADR-0000: How can we introduce a more general extension concept for data processing modules?
+[[ADR-0002]]
+= ADR-0002: How can we introduce a mechanism to start specialized scans on the results of previous scans?
 
 [cols="h,d",grid=rows,frame=none,stripes=none,caption="Status",%autowidth]
 |====
