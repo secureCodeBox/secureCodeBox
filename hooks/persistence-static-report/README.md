@@ -10,4 +10,6 @@ usecase: "Publishes all Scan Findings as HTML Report."
 <!-- end -->
 
 ## Deployment
-> 🔧 The secureCodeBox core team is working on an integration of a static report. We will keep you informed.
+
+> 🔧 The implementation is currently work-in-progress and still undergoing major changes. It'll be released here once it has stabilized.
+

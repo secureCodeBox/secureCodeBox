@@ -14,7 +14,7 @@ To learn more about the Ncrack scanner itself visit [Ncrack GitHub] or [Ncrack W
 
 <!-- end -->
 
-> 🔧 The secureCodeBox core team is working on an integration of Ncrack. We will keep you informed.
+> 🔧 The implementation is currently work-in-progress and still undergoing major changes. It'll be released here once it has stabilized.
 
 [Ncrack Website]: https://nmap.org/ncrack/
 [Ncrack GitHub]: https://github.com/nmap/ncrack

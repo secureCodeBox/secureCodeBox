@@ -7,4 +7,4 @@ state: "roadmap"
 usecase: "Cascading Scans based imperative Rules."
 ---
 
-> 🔧 The secureCodeBox core team is working on this, we will keep you informed.
+> 🔧 The implementation is currently work-in-progress and still undergoing major changes. It'll be released here once it has stabilized.
