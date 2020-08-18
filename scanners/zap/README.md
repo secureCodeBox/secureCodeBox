@@ -16,6 +16,14 @@ To learn more about the ZAP scanner itself visit [OWASP_Zap_Project] or [zaproxy
 
 <!-- end -->
 
+## Deployment
+
+The ZAP scanType can be deployed via helm:
+
+```bash
+helm upgrade --install zap ./scanners/zap/
+```
+
 ## Configuration
 
 The following security scan configuration example are based on the [ZAP Documentation], please take a look at the original documentation for more configuration examples.

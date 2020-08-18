@@ -14,6 +14,14 @@ The OWASP Amass Project has developed a tool to help information security profes
 
 <!-- end -->
 
+## Deployment
+
+The AMASS scanType can be deployed via helm:
+
+```bash
+helm upgrade --install amass ./scanners/amass/
+```
+
 ## Configuration
 
 The following security scan configuration example are based on the [Amass User Guide], please take a look at the original documentation for more configuration examples.

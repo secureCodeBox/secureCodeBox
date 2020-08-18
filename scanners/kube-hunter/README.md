@@ -14,6 +14,14 @@ To learn more about the kube-hunter scanner itself visit [kube-hunter GitHub] or
 
 <!-- end -->
 
+## Deployment
+
+The kube-hunter ScanType can be deployed via helm:
+
+```bash
+helm upgrade --install kube-hunter ./scanners/kube-hunter/
+```
+
 ## Configuration
 
 The following security scan configuration example are based on the [kube-hunter Documentation], please take a look at the original documentation for more configuration examples.

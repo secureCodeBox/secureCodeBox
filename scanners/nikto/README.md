@@ -14,6 +14,14 @@ Nikto is a free software command-line vulnerability scanner that scans webserver
 
 <!-- end -->
 
+## Deployment
+
+The Nikto ScanType can be deployed via helm:
+
+```bash
+helm upgrade --install nikto ./scanners/nikto/
+```
+
 ## Configuration
 
 The following security scan configuration example are based on the [Nikto Documentation](https://cirt.net/nikto2-docs/usage.html#id2780332), please take a look at the original documentation for more configuration examples.

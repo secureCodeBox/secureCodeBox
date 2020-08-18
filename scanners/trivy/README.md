@@ -17,6 +17,14 @@ To learn more about the Trivy scanner itself visit or [Trivy GitHub].
 
 <!-- end -->
 
+## Deployment
+
+The Trivy scanType can be deployed via helm:
+
+```bash
+helm upgrade --install trivy ./scanners/trivy/
+```
+
 ## Configuration
 
 The following security scan configuration example are based on the [Trivy Documentation], please take a look at the original documentation for more configuration examples.

@@ -16,6 +16,14 @@ To learn more about the Nmap scanner itself visit [nmap.org].
 
 <!-- end -->
 
+## Deployment
+
+The Nikto ScanType can be deployed via helm:
+
+```bash
+helm upgrade --install nikto ./scanners/nikto/
+```
+
 ## Nmap Configuration
 
 The nmap scan target is set via the targets location of the securityTest. The target should be a Hostname or an IP Address.

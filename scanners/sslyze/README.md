@@ -12,6 +12,14 @@ SSLyze is a Python library and a CLI tool that can analyze the SSL configuration
 
 <!-- end -->
 
+## Deployment
+
+The SSLyze scanType can be deployed via helm:
+
+```bash
+helm upgrade --install sslyze ./scanners/sslyze/
+```
+
 ## Configuration
 
 The following security scan configuration example are based on the [SSLyze Documentation], please take a look at the original documentation for more configuration examples.
