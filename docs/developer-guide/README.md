@@ -89,7 +89,7 @@ make run
 ## How to add a New Security Scanner
 
 ### ScanType Definition
-> 🔧 **Following...**
+> ✍ **Following...**
 
 ### Parsing SDK
 
@@ -99,19 +99,19 @@ make run
 4. Run the test suite: `npm test`
 
 ## How to Integrate a New Hook
-> 🔧 **Following...**
+> ✍ **Following...**
 
 ### HookType Definition
-> 🔧 **Following...**
+> ✍ **Following...**
 
 ### Hook SDK
-> 🔧 **Following...**
+> ✍ **Following...**
 
 ## Guidelines
-> 🔧 **Following...**
+> ✍ **Following...**
 
 ### Coding Guidelines
-> 🔧 **Following...**
+> ✍ **Following...**
 
 #### JSON
 

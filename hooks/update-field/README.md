@@ -17,4 +17,4 @@ Installing the _Update Field_ hook will add a ReadOnly Hook to your namespace.
 helm upgrade --install ufh ./hooks/update-field/ --set attribute.name="category" --set attribute.value="my-own-category"
 ```
 
-> 🔧 The secureCodeBox core team is working on this, we will keep you informed.
+> ✍ This documentation is currently work-in-progress. 
