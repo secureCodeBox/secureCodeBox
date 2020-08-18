@@ -18,7 +18,7 @@ Tools which are supported both by the secureCodeBox and DefectDojo (OWASP ZAP & 
 To learn more about DefectDojo visit [DefectDojo GitHub] or [DefectDojo Website].
 
 ## Deployment
-The secureCodeBox core team is working on an integration of DefectDojo. We will keep you informed.
+> 🔧 The secureCodeBox core team is working on an integration of DefectDojo. We will keep you informed.
 
 
 [DefectDojo Website]: https://www.defectdojo.org/

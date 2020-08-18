@@ -13,4 +13,4 @@ usecase: "Publishes Scan Summary to Slack."
 
 Installing the Slack WebHook hook will add a ReadOnly Hook to your namespace. 
 
-The secureCodeBox core team is working on this, we will keep you informed.
+> 🔧 The secureCodeBox core team is working on this, we will keep you informed.

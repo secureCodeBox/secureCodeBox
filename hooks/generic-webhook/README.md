@@ -16,3 +16,4 @@ Installing the Generic WebHook hook will add a ReadOnly Hook to your namespace.
 ```bash
 helm upgrade --install gwh ./hooks/generic-webhook/ --set webhookUrl="http://example.com/my/webhook/target"
 ```
+> 🔧 The secureCodeBox core team is working on this, we will keep you informed.
