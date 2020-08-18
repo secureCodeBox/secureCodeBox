@@ -14,14 +14,6 @@ To learn more about the ssh_scan scanner itself visit [ssh_scan GitHub].
 
 <!-- end -->
 
-## Deployment
-
-The SSH_scan ScanType can be deployed via helm.
-
-```bash
-helm upgrade --install ssh ./scanners/ssh_scan/
-```
-
 ## Configuration
 
 The following security scan configuration example are based on the [ssh_scan Documentation], please take a look at the original documentation for more configuration examples.
@@ -61,21 +53,6 @@ Examples:
   ssh_scan -t 192.168.1.1 -P custom_policy.yml
   ssh_scan -t 192.168.1.1 --unit-test -P custom_policy.yml
 ```
-
-## Development
-
-### Local setup
-
-1. Clone the repository `git clone git@github.com:secureCodeBox/secureCodeBox-v2-alpha.git`
-2. Ensure you have node.js installed
-   * On MacOs with brew package manager: `brew install node`
-
-### Parser Development
-
-1. Install the dependencies `npm install`
-2. Update the parser function here: `./parser/parser.js`
-3. Update the parser tests here: `./parser/parser.test.js`
-4. Run the test suite: `npm test`
 
 [ssh_scan GitHub]: https://github.com/mozilla/ssh_scan
 [ssh_scan Documentation]: https://github.com/mozilla/ssh_scan#example-command-line-usage

@@ -16,14 +16,6 @@ To learn more about the ZAP scanner itself visit [OWASP_Zap_Project] or [zaproxy
 
 <!-- end -->
 
-## Deployment
-
-The ZAP scanType can be deployed via helm:
-
-```bash
-helm upgrade --install zap ./scanners/zap/
-```
-
 ## Configuration
 
 The following security scan configuration example are based on the [ZAP Documentation], please take a look at the original documentation for more configuration examples.
@@ -58,21 +50,6 @@ Options:
     -z zap_options    ZAP command line options e.g. -z "-config aaa=bbb -config ccc=ddd"
     --hook            path to python file that define your custom hooks
 ```
-
-## Development
-
-### Local setup
-
-1. Clone the repository `git clone git@github.com:secureCodeBox/secureCodeBox-v2-alpha.git`
-2. Ensure you have node.js installed
-   * On MacOs with brew package manager: `brew install node`
-
-### Parser Development
-
-1. Install the dependencies `npm install`
-2. Update the parser function here: `./parser/parser.js`
-3. Update the parser tests here: `./parser/parser.test.js`
-4. Run the test suite: `npm test`
 
 [SSLyze GitHub]: https://github.com/nabla-c0d3/sslyze
 [SSLyze Documentation]: https://nabla-c0d3.github.io/sslyze/documentation/
