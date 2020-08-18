@@ -24,14 +24,6 @@ The Nmap ScanType can be deployed via helm:
 helm install nmap ./scanners/nmap/
 ```
 
-## Examples
-
-A set of examples can be found in the [examples](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/tree/master/scanners/nmap/examples) folder.
-
-* Example *local-network* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/nmap/examples/local-network/scan.yaml) and [findings](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/nmap/examples/local-network/findings.yaml)
-* Example *localhost* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/nmap/examples/localhost/scan.yaml) and [findings](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/nmap/examples/localhost/findings.yaml)
-* Example *scan.nmap.org* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/nmap/examples/scan.nmap.org/scan.yaml) and [findings](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/nmap/examples/scan.nmap.org/findings.yaml)
-
 ## Nmap Configuration
 
 The nmap scan target is set via the targets location of the securityTest. The target should be a Hostname or an IP Address.

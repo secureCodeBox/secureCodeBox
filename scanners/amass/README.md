@@ -22,13 +22,6 @@ The AMASS scanType can be deployed via helm:
 helm upgrade --install amass ./scanners/amass/
 ```
 
-## Examples
-
-A set of examples can be found in the [examples](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/tree/master/scanners/amass/examples) folder.
-
-* Example *secureCodeBox.io* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/amass/examples/secureCodeBox.io/scan.yaml)
-* Example *example.com* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/amass/examples/example.com/scan.yaml)
-
 ## Configuration
 
 The following security scan configuration example are based on the [Amass User Guide], please take a look at the original documentation for more configuration examples.

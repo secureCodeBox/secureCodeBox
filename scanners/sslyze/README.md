@@ -20,13 +20,6 @@ The SSLyze scanType can be deployed via helm:
 helm upgrade --install sslyze ./scanners/sslyze/
 ```
 
-## Examples
-
-A set of examples can be found in the [examples](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/tree/master/scanners/sslyze/examples) folder.
-
-* Example *secureCodeBox.io* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/sslyze/examples/secureCodeBox.io/scan.yaml)
-* Example *example.com* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/sslyze/examples/example.com/scan.yaml)
-
 ## Configuration
 
 The following security scan configuration example are based on the [SSLyze Documentation], please take a look at the original documentation for more configuration examples.

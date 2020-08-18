@@ -22,12 +22,6 @@ The Nikto ScanType can be deployed via helm:
 helm upgrade --install nikto ./scanners/nikto/
 ```
 
-## Examples
-
-A set of examples can be found in the [examples](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/tree/master/scanners/nikto/examples) folder.
-
-* Example *secureCodeBox.io* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/nikto/examples/secureCodeBox.io/scan.yaml)
-
 ## Configuration
 
 The following security scan configuration example are based on the [Nikto Documentation](https://cirt.net/nikto2-docs/usage.html#id2780332), please take a look at the original documentation for more configuration examples.

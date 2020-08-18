@@ -25,13 +25,6 @@ The Trivy scanType can be deployed via helm:
 helm upgrade --install trivy ./scanners/trivy/
 ```
 
-## Examples
-
-A set of examples can be found in the [examples](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/tree/master/scanners/trivy/examples) folder.
-
-* Example *juice-shop* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/trivy/examples/juice-shop/scan.yaml) and [findings](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/trivy/examples/juice-shop/findings.yaml)
-* Example *mediawiki* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/trivy/examples/mediawiki/scan.yaml) and [findings](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/trivy/examples/mediawiki/findings.yaml)
-
 ## Configuration
 
 The following security scan configuration example are based on the [Trivy Documentation], please take a look at the original documentation for more configuration examples.

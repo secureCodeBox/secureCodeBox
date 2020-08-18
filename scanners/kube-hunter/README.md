@@ -22,12 +22,6 @@ The kube-hunter ScanType can be deployed via helm:
 helm upgrade --install kube-hunter ./scanners/kube-hunter/
 ```
 
-## Examples
-
-A set of examples can be found in the [examples](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/tree/master/scanners/kube-hunter/examples) folder.
-
-* Example *in-cluster* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/kube-hunter/examples/in-cluster/scan.yaml) and [findings](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/kube-hunter/examples/in-cluster/findings.json)
-
 ## Configuration
 
 The following security scan configuration example are based on the [kube-hunter Documentation], please take a look at the original documentation for more configuration examples.

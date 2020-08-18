@@ -24,13 +24,6 @@ The ZAP scanType can be deployed via helm:
 helm upgrade --install zap ./scanners/zap/
 ```
 
-## Examples
-
-A set of examples can be found in the [examples](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/tree/master/scanners/zap/examples) folder.
-
-* Example *Juice Shop* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/zap/examples/demo-juice-shop-full-scan/scan.yaml) and [findings](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/zap/examples/demo-juice-shop-full-scan/findings.yaml)
-* Example *Pet Store* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/zap/examples/demo-petstore-api-scan/scan.yaml) and [findings](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/zap/examples/demo-petstore-api-scan/findings.yaml)
-
 ## Configuration
 
 The following security scan configuration example are based on the [ZAP Documentation], please take a look at the original documentation for more configuration examples.

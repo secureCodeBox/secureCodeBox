@@ -22,13 +22,6 @@ The SSH_scan ScanType can be deployed via helm.
 helm upgrade --install ssh ./scanners/ssh_scan/
 ```
 
-## Examples
-
-A set of examples can be found in the [examples](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/tree/master/scanners/ssh_scan/examples) folder.
-
-* Example *example.com* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/ssh_scan/examples/example.com/scan.yaml)
-* Example *localhost* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/ssh_scan/examples/localhost/scan.yaml) and [findings](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/ssh_scan/examples/localhost/findings.yaml)
-
 ## Configuration
 
 The following security scan configuration example are based on the [ssh_scan Documentation], please take a look at the original documentation for more configuration examples.
