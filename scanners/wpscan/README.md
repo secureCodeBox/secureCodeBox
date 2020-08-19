@@ -26,12 +26,6 @@ The WPScan scanType can be deployed via helm:
 helm upgrade --install wpscan ./scanners/wpscan/
 ```
 
-## Examples
-
-A set of examples can be found in the [examples](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/tree/master/scanners/wpscan/examples) folder.
-
-* Example *example.com* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/wpscan/examples/example.com/scan.yaml) and [findings](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/wpscan/examples/example.com/findings.yaml)
-
 ## Configuration
 
 The following security scan configuration example are based on the [WPScan Documentation], please take a look at the original documentation for more configuration examples.
@@ -73,21 +67,6 @@ Incompatible choices (only one of each group/s can be used):
   - vp, ap, p
   - vt, at, t
 ```
-
-## Development
-
-### Local setup
-
-1. Clone the repository `git clone git@github.com:secureCodeBox/secureCodeBox-v2-alpha.git`
-2. Ensure you have node.js installed
-   * On MacOs with brew package manager: `brew install node`
-
-### Parser Development
-
-1. Install the dependencies `npm install`
-2. Update the parser function here: `./parser/parser.js`
-3. Update the parser tests here: `./parser/parser.test.js`
-4. Run the testsuite: `npm test`
 
 [wpscan.io]: https://wpscan.io/
 [wpscan.org]: https://wpscan.org/

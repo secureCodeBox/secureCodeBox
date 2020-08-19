@@ -63,7 +63,7 @@ spec:
 EOF
 ```
 
-This Scan will used all CascadingRules which are labeled with a "light" intensity.
+This Scan will use all CascadingRules which are labeled with a "light" intensity.
 You can lookup which CascadingRules this selects by running:
 
 ```bash

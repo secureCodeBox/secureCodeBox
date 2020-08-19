@@ -22,12 +22,6 @@ The Nikto ScanType can be deployed via helm:
 helm upgrade --install nikto ./scanners/nikto/
 ```
 
-## Examples
-
-A set of examples can be found in the [examples](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/tree/master/scanners/nikto/examples) folder.
-
-* Example *secureCodeBox.io* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/nikto/examples/secureCodeBox.io/scan.yaml)
-
 ## Configuration
 
 The following security scan configuration example are based on the [Nikto Documentation](https://cirt.net/nikto2-docs/usage.html#id2780332), please take a look at the original documentation for more configuration examples.
@@ -54,21 +48,6 @@ Nikto also has a comprehensive list of [command line options documented](https:/
   * b - Software Identification. Installed software or program could be positively identified.
   * c - Remote source inclusion. Software allows remote inclusion of source code.
   * x - Reverse Tuning Options. Perform exclusion of the specified tuning type instead of inclusion of the specified tuning type
-
-## Development
-
-### Local setup
-
-1. Clone the repository `git clone git@github.com:secureCodeBox/secureCodeBox-v2-alpha.git`
-2. Ensure you have node.js installed
-   * On MacOs with brew package manager: `brew install node`
-
-### Parser Development
-
-1. Install the dependencies `npm install`
-2. Update the parser function here: `./parser/parser.js`
-3. Update the parser tests here: `./parser/parser.test.js`
-4. Run the test suite: `npm test`
 
 [cirt.net]: https://cirt.net/
 [nikto github]: https://github.com/sullo/nikto

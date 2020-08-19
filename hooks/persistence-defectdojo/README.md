@@ -3,7 +3,7 @@ title: "DefectDojo"
 path: "hooks/persistence-defectdojo"
 category: "hook"
 type: "persistenceProvider"
-state: "roadmap"
+state: "developing"
 usecase: "Publishes all Scan Findings to DefectDojo."
 ---
 
@@ -18,7 +18,7 @@ Tools which are supported both by the secureCodeBox and DefectDojo (OWASP ZAP & 
 To learn more about DefectDojo visit [DefectDojo GitHub] or [DefectDojo Website].
 
 ## Deployment
-The secureCodeBox core team is working on an integration of DefectDojo. We will keep you informed.
+> 🔧 The implementation is currently work-in-progress and under still undergoing major changes. It'll be released here once it has stabilized.
 
 
 [DefectDojo Website]: https://www.defectdojo.org/
