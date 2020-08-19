@@ -4,8 +4,8 @@ path: "scanners/zap"
 category: "scanner"
 type: "WebApplication"
 state: "released"
-appVersion: 2.9.0
-usecase: "Webapplication Vulnerability Scanner"
+appVersion: "2.9.0"
+usecase: "WebApp & OpenAPI Vulnerability Scanner"
 ---
 
 ![zap logo](https://raw.githubusercontent.com/wiki/zaproxy/zaproxy/images/zap32x32.png)
@@ -23,13 +23,6 @@ The ZAP scanType can be deployed via helm:
 ```bash
 helm upgrade --install zap ./scanners/zap/
 ```
-
-## Examples
-
-A set of examples can be found in the [examples](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/tree/master/scanners/zap/examples) folder.
-
-* Example *Juice Shop* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/zap/examples/demo-juice-shop-full-scan/scan.yaml) and [findings](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/zap/examples/demo-juice-shop-full-scan/findings.yaml)
-* Example *Pet Store* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/zap/examples/demo-petstore-api-scan/scan.yaml) and [findings](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/zap/examples/demo-petstore-api-scan/findings.yaml)
 
 ## Configuration
 
@@ -65,21 +58,6 @@ Options:
     -z zap_options    ZAP command line options e.g. -z "-config aaa=bbb -config ccc=ddd"
     --hook            path to python file that define your custom hooks
 ```
-
-## Development
-
-### Local setup
-
-1. Clone the repository `git clone git@github.com:secureCodeBox/secureCodeBox-v2-alpha.git`
-2. Ensure you have node.js installed
-   * On MacOs with brew package manager: `brew install node`
-
-### Parser Development
-
-1. Install the dependencies `npm install`
-2. Update the parser function here: `./parser/parser.js`
-3. Update the parser tests here: `./parser/parser.test.js`
-4. Run the test suite: `npm test`
 
 [SSLyze GitHub]: https://github.com/nabla-c0d3/sslyze
 [SSLyze Documentation]: https://nabla-c0d3.github.io/sslyze/documentation/

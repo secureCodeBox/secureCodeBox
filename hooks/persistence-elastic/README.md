@@ -4,13 +4,13 @@ path: "hooks/persistence-elastic"
 category: "hook"
 type: "persistenceProvider"
 state: "released"
-usecase: "Publishes all Scan Findings to elasticsearch (ECK)."
+usecase: "Publishes all Scan Findings to Elasticsearch."
 ---
 
 <!-- end -->
 
 ## About
-The ElasticSearch persistenceProvider hook saves all findings and reports into the configured ElasticSearch index. This allows for some easy searching and visualization of the findings. To learn more about Elasticsearch visit elastic.io.
+The ElasticSearch persistenceProvider hook saves all findings and reports into the configured ElasticSearch index. This allows for some easy searching and visualization of the findings. To learn more about Elasticsearch visit [elastic.io].
 
 ## Deployment
 
@@ -53,3 +53,5 @@ kibana:
   enabled: true
   # image: docker.elastic.co/kibana/kibana-oss
 ```
+
+[elastic.io]: https://www.elastic.co/products/elasticsearch

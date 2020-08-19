@@ -4,7 +4,7 @@ path: "hooks/declarative-subsequent-scans"
 category: "hook"
 type: "processing"
 state: "released"
-usecase: "Enables cascading Scans based declarative _CascadingRules_."
+usecase: "Cascading Scans based declarative Rules."
 ---
 
 <!-- end -->
@@ -63,7 +63,7 @@ spec:
 EOF
 ```
 
-This Scan will used all CascadingRules which are labeled with a "light" intensity.
+This Scan will use all CascadingRules which are labeled with a "light" intensity.
 You can lookup which CascadingRules this selects by running:
 
 ```bash

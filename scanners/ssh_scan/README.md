@@ -4,7 +4,7 @@ path: "scanners/ssh"
 category: "scanner"
 type: "SSH"
 state: "released"
-appVersion: 0.0.43
+appVersion: "0.0.43"
 usecase: "SSH Configuration and Policy Scanner"
 ---
 
@@ -21,13 +21,6 @@ The SSH_scan ScanType can be deployed via helm.
 ```bash
 helm upgrade --install ssh ./scanners/ssh_scan/
 ```
-
-## Examples
-
-A set of examples can be found in the [examples](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/tree/master/scanners/ssh_scan/examples) folder.
-
-* Example *example.com* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/ssh_scan/examples/example.com/scan.yaml)
-* Example *localhost* [scan](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/ssh_scan/examples/localhost/scan.yaml) and [findings](https://github.com/secureCodeBox/secureCodeBox-v2-alpha/blob/master/scanners/ssh_scan/examples/localhost/findings.yaml)
 
 ## Configuration
 
@@ -68,21 +61,6 @@ Examples:
   ssh_scan -t 192.168.1.1 -P custom_policy.yml
   ssh_scan -t 192.168.1.1 --unit-test -P custom_policy.yml
 ```
-
-## Development
-
-### Local setup
-
-1. Clone the repository `git clone git@github.com:secureCodeBox/secureCodeBox-v2-alpha.git`
-2. Ensure you have node.js installed
-   * On MacOs with brew package manager: `brew install node`
-
-### Parser Development
-
-1. Install the dependencies `npm install`
-2. Update the parser function here: `./parser/parser.js`
-3. Update the parser tests here: `./parser/parser.test.js`
-4. Run the test suite: `npm test`
 
 [ssh_scan GitHub]: https://github.com/mozilla/ssh_scan
 [ssh_scan Documentation]: https://github.com/mozilla/ssh_scan#example-command-line-usage
