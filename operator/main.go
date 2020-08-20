@@ -32,6 +32,7 @@ import (
 	executioncontroller "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/controllers/execution"
 	scancontroller "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/controllers/execution/scans"
 	targetscontroller "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/controllers/targets"
+	"github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/internal/telemetry"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -97,6 +98,10 @@ func main() {
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder
+
+	if enabled, ok := os.LookupEnv("TELEMETRY_ENABLED"); ok && enabled == "true" {
+		go telemetry.Loop(mgr.GetClient(), ctrl.Log.WithName("telemetry"))
+	}
 
 	setupLog.Info("starting manager")
 	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
