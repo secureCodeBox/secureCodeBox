@@ -141,6 +141,7 @@ The scanners also have to check whether the engine has a job to fulfill using th
 The following scanners are currently available out of the box:
 
 - [Nmap][nmap] for IP and port scans
+- [OWASP ZAP](https://www.zaproxy.org/) for web applications and APIs
 - [Nikto][nikto] for web server scans
 - [SSLyze][sslyze] for SSL/TLS scans
 - [Arachni][arachni] web vulnerability scans
