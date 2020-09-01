@@ -1,6 +1,6 @@
 ---
 title: "SSH"
-path: "scanners/ssh"
+path: "scanners/ssh_scan"
 category: "scanner"
 type: "SSH"
 state: "released"
