@@ -4,7 +4,7 @@ path: "scanners/amass"
 category: "scanner"
 type: "Network"
 state: "released"
-appVersion: "3.10.1"
+appVersion: "3.10.2"
 usecase: "Subdomain Enumeration Scanner"
 ---
 
