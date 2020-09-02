@@ -31,8 +31,8 @@ import (
 
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	executionv1 "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/apis/execution/v1"
-	targetsv1 "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/apis/targets/v1"
+	executionv1 "github.com/secureCodeBox/secureCodeBox-v2/operator/apis/execution/v1"
+	targetsv1 "github.com/secureCodeBox/secureCodeBox-v2/operator/apis/targets/v1"
 )
 
 var (

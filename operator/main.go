@@ -26,12 +26,12 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	cascadingv1 "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/apis/cascading/v1"
-	executionv1 "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/apis/execution/v1"
-	targetsv1 "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/apis/targets/v1"
-	executioncontroller "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/controllers/execution"
-	scancontroller "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/controllers/execution/scans"
-	targetscontroller "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/controllers/targets"
+	cascadingv1 "github.com/secureCodeBox/secureCodeBox-v2/operator/apis/cascading/v1"
+	executionv1 "github.com/secureCodeBox/secureCodeBox-v2/operator/apis/execution/v1"
+	targetsv1 "github.com/secureCodeBox/secureCodeBox-v2/operator/apis/targets/v1"
+	executioncontroller "github.com/secureCodeBox/secureCodeBox-v2/operator/controllers/execution"
+	scancontroller "github.com/secureCodeBox/secureCodeBox-v2/operator/controllers/execution/scans"
+	targetscontroller "github.com/secureCodeBox/secureCodeBox-v2/operator/controllers/targets"
 	// +kubebuilder:scaffold:imports
 )
 

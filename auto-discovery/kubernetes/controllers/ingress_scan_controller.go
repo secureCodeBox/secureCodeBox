@@ -21,7 +21,7 @@ import (
 	"fmt"
 
 	"github.com/go-logr/logr"
-	targetsv1 "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/apis/targets/v1"
+	targetsv1 "github.com/secureCodeBox/secureCodeBox-v2/operator/apis/targets/v1"
 
 	networking "k8s.io/api/networking/v1beta1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

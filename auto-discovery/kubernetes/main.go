@@ -26,9 +26,9 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	"github.com/secureCodeBox/secureCodeBox-v2-alpha/auto-discovery/kubernetes/controllers"
+	"github.com/secureCodeBox/secureCodeBox-v2/auto-discovery/kubernetes/controllers"
 
-	targetsv1 "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/apis/targets/v1"
+	targetsv1 "github.com/secureCodeBox/secureCodeBox-v2/operator/apis/targets/v1"
 	// +kubebuilder:scaffold:imports
 )
 
