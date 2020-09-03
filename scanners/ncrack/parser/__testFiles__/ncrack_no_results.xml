@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ncrackrun>
+<!-- Ncrack 0.7 scan initiated Wed Dec  4 22:50:34 2019 as: ncrack -p ftp:3210 -oX /tmp/ncrack.xml scanme.nmap.org -->
+<ncrackrun scanner="ncrack" args="ncrack -p ftp:3210 -oX /tmp/ncrack.xml scanme.nmap.org" start="1575496234" startstr="Wed Dec  4 22:50:34 2019" version="0.7" xmloutputversion="1.00">
+<verbose level="0"/>
+<debugging level="0"/>
+<service starttime="1575496234" endtime="1575496234">
+<address addr="45.33.32.156" addrtype="ipv4"/>
+<port protocol="tcp" portid="3210" name="ftp"></port>
+</service>
+</ncrackrun>

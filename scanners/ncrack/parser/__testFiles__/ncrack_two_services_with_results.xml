@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ncrackrun>
+<!-- Ncrack 0.7 scan initiated Mon Jan 13 20:49:03 2020 as: ncrack -oX ncrackResults.xml -U usernames.txt -P passwords.txt -p ssh foo.juicy-ctf.dev 192.168.0.1 -->
+<ncrackrun scanner="ncrack" args="ncrack -oX ncrackResults.xml -U usernames.txt -P passwords.txt -p ssh foo.juicy-ctf.dev 192.168.0.1" start="1578944943" startstr="Mon Jan 13 20:49:03 2020" version="0.7" xmloutputversion="1.00">
+<verbose level="0"/>
+<debugging level="0"/>
+<service starttime="1578944943" endtime="1578944981">
+<address addr="192.168.0.2" addrtype="ipv4"/>
+<port protocol="tcp" portid="22" name="ssh"></port>
+<credentials username="root" password="55994bcdabd8b0b69d4cb32919"></credentials>
+</service>
+<service starttime="1578944943" endtime="1578944981">
+<address addr="192.168.0.1" addrtype="ipv4"/>
+<port protocol="tcp" portid="22" name="ssh"></port>
+<credentials username="root" password="2a4707625af87d8d4302ad226d"></credentials>
+</service>
+</ncrackrun>
