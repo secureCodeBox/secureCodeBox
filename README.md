@@ -73,7 +73,7 @@ There is a German article about [Security DevOps – Angreifern (immer) einen Sc
 
 ### Prerequisites
 
-- kubernetes (last 4 major releases supported: `1.16`, `1.17`, `1.18` & `1.19`,)
+- kubernetes (last 4 major releases supported: `1.16`, `1.17`, `1.18` & `1.19`)
 
 ### Deployment (based on Helm)
 
