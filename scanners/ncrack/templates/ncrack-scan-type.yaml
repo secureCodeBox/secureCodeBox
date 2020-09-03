@@ -1,0 +1,21 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: ScanType
+metadata:
+  name: "ncrack"
+spec:
+  extractResults:
+    type: ncrack-xml
+    location: "/home/securecodebox/ncrack-results.xml"
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 10
+      backoffLimit: 3
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: ncrack
+              image: scbexperimental/ncrack:0.7
+              command: ["ncrack", "-oX", "/home/securecodebox/ncrack-results.xml"]
+              resources:
+                {{- toYaml .Values.scannerJob.resources | nindent 16 }}
