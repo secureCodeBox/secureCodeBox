@@ -255,6 +255,7 @@ github.com/remyoudompheng/bigfft v0.0.0-20170806203942-52369c62f446/go.mod h1:uY
 github.com/rogpeppe/fastuuid v0.0.0-20150106093220-6724a57986af/go.mod h1:XWv6SoW27p1b0cqNHllgS5HIMJraePCO15w5zCzIWYg=
 github.com/russross/blackfriday v1.5.2/go.mod h1:JO/DiYxRf+HjHt06OyowR9PTA263kcR/rfWxYHBV53g=
 github.com/secureCodeBox/secureCodeBox-v2 v0.0.0-20200526134830-4f0a0ddfccc0 h1:cmPDEtYAxHRmOmMuKUKe90RjJUjALqiXnJtPB4VGe44=
+github.com/secureCodeBox/secureCodeBox-v2 v2.0.0-rc.1+incompatible h1:beH1o7Y/nuUUkE0OutEPMkJ6ml+jnq27CFGWJq1NFS0=
 github.com/sergi/go-diff v1.0.0/go.mod h1:0CfEIISq7TuYL3j771MWULgwwjU+GofnZX9QAmXWZgo=
 github.com/sirupsen/logrus v1.2.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
 github.com/sirupsen/logrus v1.4.2/go.mod h1:tLMulIdttU9McNUspp0xgXVQah82FyeX6MwdIuYE2rE=
