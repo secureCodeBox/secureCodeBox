@@ -43,7 +43,9 @@ type ScanSpec struct {
 type ScanStatus struct {
 	State string `json:"state,omitempty"`
 
-	ErrorDescription string `json:"errorDescription,omitempty"`
+	// FinishedAt contains the time where the scan (including parser & hooks) has been marked as "Done"
+	FinishedAt       *metav1.Time `json:"finishedAt,omitempty"`
+	ErrorDescription string       `json:"errorDescription,omitempty"`
 
 	// RawResultType determines which kind of ParseDefinition will be used to turn the raw results of the scanner into findings
 	RawResultType string `json:"rawResultType,omitempty"`
