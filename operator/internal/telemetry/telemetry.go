@@ -45,8 +45,8 @@ type telemetryData struct {
 func Loop(apiClient client.Client, log logr.Logger) {
 	log.Info("The Operator sends anonymous telemetry data, to give the team an overview how much the secureCodeBox is used. Find out more at https://www.securecodebox.io/telemetry")
 
-	// Wait until controller cache is initialized
-	time.Sleep(10 * time.Second)
+	// Wait 1hour to give users time to uninstall / disable telemetry
+	time.Sleep(1 * time.Hour)
 
 	for {
 		var version string
