@@ -28,6 +28,8 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: manager
           env:
+            - name: TELEMETRY_ENABLED
+              value: {{ .Values.telemetryEnabled | quote }}
             # TODO: integrate with cert manager and auto gen a cert for minio
             {{- if .Values.minio.enabled }}
             - name: S3_USE_SSL
