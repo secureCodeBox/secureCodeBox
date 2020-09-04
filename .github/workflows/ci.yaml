@@ -57,7 +57,7 @@ jobs:
       - uses: actions/checkout@master
       - uses: actions/setup-go@v2-beta
         with:
-          go-version: "1.13"
+          go-version: "1.15"
       - name: "Lint Operator Go Code"
         run: |
           cd operator/
@@ -83,7 +83,7 @@ jobs:
       - uses: actions/checkout@master
       - uses: actions/setup-go@v2-beta
         with:
-          go-version: "1.13"
+          go-version: "1.15"
       - name: "Lint Lurcher Go Code"
         run: |
           cd lurcher/
@@ -320,7 +320,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        k8sVersion: ["1.18.6", "1.17.5", "1.16.9", "1.15.11"]
+        k8sVersion: ["1.19.0", "1.18.8", "1.17.5", "1.16.9"]
     steps:
       - uses: actions/checkout@master
       - name: "Start kind cluster"

@@ -1,6 +1,6 @@
 domain: experimental.securecodebox.io
 multigroup: true
-repo: github.com/secureCodeBox/secureCodeBox-v2-alpha
+repo: github.com/secureCodeBox/secureCodeBox-v2
 resources:
 - group: execution
   kind: Scan
