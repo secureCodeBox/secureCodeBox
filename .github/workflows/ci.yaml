@@ -57,7 +57,7 @@ jobs:
       - uses: actions/checkout@master
       - uses: actions/setup-go@v2-beta
         with:
-          go-version: "1.13"
+          go-version: "1.15"
       - name: "Lint Operator Go Code"
         run: |
           cd operator/
@@ -79,7 +79,7 @@ jobs:
       - uses: actions/checkout@master
       - uses: actions/setup-go@v2-beta
         with:
-          go-version: "1.13"
+          go-version: "1.15"
       - name: "Lint Lurcher Go Code"
         run: |
           cd lurcher/
