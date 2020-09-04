@@ -23,8 +23,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o manager 
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
 FROM gcr.io/distroless/static:nonroot
 
-ARG VERSION=unkown
-ENV VERSION ENV ${BRANCH}
+ENV VERSION=unkown
 ENV TELEMETRY_ENABLED "true"
 
 WORKDIR /
