@@ -1,5 +1,4 @@
 const { parse } = require('./parser');
-const uuid = require('uuid/v4');
 const fs = require('fs');
 
 it('should return no findings when ncrack has not found credentials', async () => {
