@@ -1,7 +1,7 @@
 const { scan } = require('../helpers')
 
 test(
-    "localhost port scan should only find a host finding",
+    "ncrack should find 1 credential in vulnerable ssh service",
     async () => {
         const { categories, severities, count } = await scan(
             "ncrack-dummy-ssh",
