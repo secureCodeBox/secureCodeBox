@@ -54,6 +54,7 @@ async function logJobs() {
  * @param {string} scanType type of the scan. Must match the name of a ScanType CRD
  * @param {string[]} parameters cli argument to be passed to the scanner
  * @param {number} timeout in seconds
+ * @returns {scan.findings} returns findings { categories, severities, count } 
  */
 async function scan(name, scanType, parameters = [], timeout = 180) {
   const scanDefinition = {
