@@ -17,9 +17,6 @@ resources:
 - group: execution
   kind: ScheduledScan
   version: v1
-- group: targets
-  kind: Host
-  version: v1
 - group: cascading
   kind: CascadingRule
   version: v1
