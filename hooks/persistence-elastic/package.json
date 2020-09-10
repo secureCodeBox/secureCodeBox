@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@elastic/elasticsearch": "^7.8.0",
+    "@elastic/elasticsearch": "^7.9.0",
     "lodash.chunk": "^4.2.0",
     "lodash.flatmap": "^4.5.0"
   },
