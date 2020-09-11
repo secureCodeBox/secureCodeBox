@@ -1,8 +1,0 @@
-apiVersion: "execution.experimental.securecodebox.io/v1"
-kind: Scan
-metadata:
-  name: "raspberry"
-spec:
-  scanType: "ncrack"
-  parameters:
-    - ssh://192.168.178.83
