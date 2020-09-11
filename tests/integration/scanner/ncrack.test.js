@@ -6,21 +6,21 @@ test(
         const { categories, severities, count } = await scan(
             "ncrack-dummy-ssh",
             "ncrack",
-            ["--user", "root,admin", "--pass", "password,123456,THEPASSWORDYOUCREATED", "ssh://dummy-ssh.demo-apps.svc"],
+            ["-v","--user=root,admin", "--pass=THEPASSWORDYOUCREATED,12345", "ssh://dummy-ssh.demo-apps.svc"],
             90
         );
 
         expect(count).toBe(1);
-        expect(categories).toMatchInlineSnapshot(`
-        Object {
+        expect(categories).toEqual(
+        {
             "Discovered Credentials": 1,
         }
-        `);
-        expect(severities).toMatchInlineSnapshot(`
-        Object {
+        );
+        expect(severities).toEqual(
+        {
             "high": 1,
         }
-        `);
+        );
     },
     3 * 60 * 1000
 );
