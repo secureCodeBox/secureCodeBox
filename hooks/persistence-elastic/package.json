@@ -1,14 +1,42 @@
 {
   "name": "persistence-elastic",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "secureCodeBox v2 Hook to persist results to elasticsearch.",
+  "homepage": "https://www.secureCodeBox.io",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/secureCodeBox/secureCodeBox-v2.git"
+  },
+  "main": "hook.js",
   "scripts": {
     "test": "jest ."
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "secureCodeBox",
+    "security",
+    "hook",
+    "elasticsearch",
+    "persistence"
+  ],
+  "author": {
+    "name": "iteratec GmbH",
+    "email": "security@iteratec.com",
+    "url": "https://www.iteratec.com"
+  },
+  "contributors": [
+    { 
+      "name" : "Jannik Hollenbach",
+      "url" : "https://github.com/J12934"
+    },
+    { 
+      "name" : "Robert Seedorff",
+      "url" : "https://github.com/rseedorff"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/secureCodeBox/secureCodeBox-v2/issues"
+  },
+  "license": "Apache-2.0",
   "dependencies": {
     "@elastic/elasticsearch": "^7.9.0",
     "lodash.chunk": "^4.2.0",

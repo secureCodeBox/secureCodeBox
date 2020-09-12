@@ -1,14 +1,40 @@
 {
   "name": "declarative-subsequent-scans",
   "version": "1.0.0",
-  "description": "",
+  "description": "secureCodeBox v2 Hook to cascade scan in an declarative manner.",
+  "homepage": "https://www.secureCodeBox.io",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/secureCodeBox/secureCodeBox-v2.git"
+  },
   "main": "hook.js",
   "scripts": {
     "build": "npx typescript hook.ts --sourceMap",
     "test": "jest ."
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "secureCodeBox",
+    "security",
+    "hook"
+  ],
+  "author": {
+    "name": "iteratec GmbH",
+    "email": "security@iteratec.com",
+    "url": "https://www.iteratec.com"
+  },
+  "contributors": [
+    { 
+      "name" : "Jannik Hollenbach",
+      "url" : "https://github.com/J12934"
+    },
+    { 
+      "name" : "Robert Seedorff",
+      "url" : "https://github.com/rseedorff"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/secureCodeBox/secureCodeBox-v2/issues"
+  },
   "license": "Apache-2.0",
   "dependencies": {
     "@kubernetes/client-node": "^0.12.0",
