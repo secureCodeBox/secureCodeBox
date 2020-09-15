@@ -27,44 +27,44 @@ For additional documentation aspects please have a look at our:
 The typical way to ensure application security is to hire a security specialist (aka penetration tester) at some point in your project to check the application for security bugs and vulnerabilities. Usually, this check is done at a later stage of the project and has two major drawbacks:
 
 1. Nowadays, a lot of projects do continuous delivery, which means the developers deploy new versions multiple times each day. The penetration tester is only able to check a single snapshot, but some further commits could introduce new security issues. To ensure ongoing application security, the penetration tester should also continuously test the application. Unfortunately, such an approach is rarely financially feasible.
-2. Due to a typically time boxed analysis, the penetration tester has to focus on trivial security issues (low-hanging fruits) and therefore will not address the serious, non-obvious ones.
+2. Due to a typically time boxed analysis, the penetration tester has to focus on trivial security issues (low-hanging fruit) and therefore will probably not address the serious, non-obvious ones.
 
 With the _secureCodeBox_ we provide a toolchain for continuous scanning of applications to find the low-hanging fruit issues early in the development process and free the resources of the penetration tester to concentrate on the major security issues.
 
-The purpose of *secureCodeBox* **is not** to replace the penetration testers or make them obsolete. We strongly recommend to run extensive tests by experienced penetration testers on all your applications.
+The purpose of *secureCodeBox* **is not** to replace the penetration testers or make them obsolete. We strongly recommend running extensive tests by experienced penetration testers on all your applications.
 
 ![Overview of the architecture.](docs/resources/macbook_kibana.jpg "Overview of the architecture.")
 
 
 **Important note**: The _secureCodeBox_ is no simple one-button-click-solution! You must have a deep understanding of security and how to configure the scanners. Furthermore, an understanding of the scan results and how to interpret them is also necessary.
 
-There is a german article about [Security DevOps – Angreifern (immer) einen Schritt voraus][secdevops-objspec] in the software engineering journal [OBJEKTSpektrum][objspec].
+There is a German article about [Security DevOps – Angreifern (immer) einen Schritt voraus][secdevops-objspec] in the software engineering journal [OBJEKTSpektrum][objspec].
 
 ## Quickstart
-For a quick start checkout this repository and start the complete secureCodeBox stack with docker-compose or vagrant:
+For a quick start checkout this repository and start the complete _secureCodeBox_ stack with docker-compose or vagrant:
 
 ```bash
 git clone https://github.com/secureCodeBox/secureCodeBox
 cd secureCodeBox
 ```
 
-You can start the secureCodeBox project based on docker-compose or localy with Vagrant.
+You can start the _secureCodeBox_ project based on docker-compose or locally with Vagrant.
 
 ### Start with docker and docker-compose
 
 #### Prerequisites
- * Minimal Docker version 18.03.0 is required
+ * Minimum Docker version required is 18.03.0
  * Docker-Compose is required.
- * Your docker host will need at least 4GB virtual memory to run the complete stack. If you want to scale out the scanner you will need more...
+ * Your docker host will need at least 4GB virtual memory to run the complete stack. If you want to scale out the scanner you will need even more...
 
-The docker-compose.yml file can be used to launch a secureCodeBox instance.
-To start the secureCodeBox and some demo targets run the following:
+The docker-compose.yml file can be used to launch a _secureCodeBox_ instance.
+To start the _secureCodeBox_ and some demo targets run the following:
 
 ```bash
 docker-compose -f docker-compose.yml -f docker-compose.demo.yml up
 ```
 
-Running `docker-compose up` uses the default credentials specified in the [`.env`](https://github.com/secureCodeBox/starter/blob/master/.env) file. You can override these by changing the file or setting the environment variables on your system. Before running the SecureCodeBox outside a testing environment you should at least change the following variables:
+Running `docker-compose up` uses the default credentials specified in the [`.env`](https://github.com/secureCodeBox/starter/blob/master/.env) file. You can override these by changing the file or setting the environment variables on your system. Before running the _secureCodeBox_ outside a testing environment you should at least change the following variables:
  * `CAMUNDADB_ROOT_PW` MySQL root password
  * `CAMUNDADB_USER` MySQL username used by the Camunda Engine
  * `CAMUNDADB_PW` MySQL password also used by the Camunda Engine
@@ -75,20 +75,20 @@ Running `docker-compose up` uses the default credentials specified in the [`.env
 #### Prerequisites
  * Vagrant Version 2.x is required
  * VirtualBox is required
- * Your vagrant maschine will need at least 8GB virtual memory to run the complete stack. If you want to scale out the scanner you will need more...
+ * Your vagrant machine will need at least 8GB virtual memory to run the complete stack. If you want to scale out the scanner you will need more...
 
 ```bash
 vagrant plugin install vagrant-docker-compose
 vagrant plugin install vagrant-disksize
 ```
-To start the complete setup localy you can easily start the vagrant maschine:
+To start the complete setup locally you can easily start the vagrant machine:
 
 ```bash
 vagrant up
 ```
 
 ### Run your first security scan
-There are several ways to start a security scan with the secureCodeBox. One way is to use the WebUI of the engine and start the scan manually.
+There are several ways to start a security scan with the _secureCodeBox_. One way is to use the WebUI of the engine and start the scan manually.
 
 Access the WebUI via:
 [http://your-docker-host:8080/](http://localhost:8080)
@@ -97,11 +97,11 @@ Access the WebUI via:
 2. Click on the user name -> my profile
 3. Open the "Tasklist"
 4. Click on "start process" in the upper menu
-5. Select one of the implemented scan processes (e.g. NMAP)
+5. Select one of the implemented scan processes (e.g. Nmap)
 6. Configure the scanner and hit "complete" / "start" (depending on the process)
 7. Wait for the result and have fun
 
-> **Hint**: If you wan't to use ZAP you might should increase the spider depth from 1 to minimum 3 (advanced configuration). If you use Arachni increase DOM depth, path depth and page limit (scan scope).
+> **Hint**: If you want to use ZAP you should increase the spider depth from 1 to minimum 3 (advanced configuration). If you use Arachni increase DOM depth, path depth and page limit (scan scope).
 
 ## How Does it Work?
 
@@ -109,7 +109,7 @@ The core of the _secureCodeBox_ is a [process engine][scb-engine] (based on the 
 
 ![An example scan process.](docs/resources/scan_process.png "An example scan process.")
 
-The scan itself may be triggered via the WebUI, a REST-API call or via webhooks. The system allows continuous integration software such as Jenkins, Travis CI, Bamboo etc. to trigger a scan automatically. The scans will be executed by the specified scanners and the results will be aggregated for review in the control center or the CI environment. For a more detailed description of the components and how they interact see the [architecture](#architecture) section.
+The scan itself may be triggered via the WebUI, a REST-API call or via webhooks. The system allows continuous integration software such as Jenkins, Travis CI, Bamboo etc. to trigger a scan automatically. The scan will be executed by the specified scanners and the results will be aggregated for review in the control center or the CI environment. For a more detailed description of the components and how they interact see the [architecture](#architecture) section.
 
 ## Architecture
 
@@ -136,7 +136,7 @@ The scanners are individual tools like [Nmap][nmap], [Nikto][nikto], [Arachni][a
 
 Each scanner requires a small adapter, usually written in Java, Ruby, Python, or JavaScript. The adapter fulfills two needs. Firstly it translates the configuration data, defining what to do, from the engine format into a usable format for the particular scanning tool. Secondly, it transforms the results of the scan into a usable format by the data collection component.
 
-The scanners also have to check whether the engine has a job to fulfill using the  [external service task pattern][exteralServiceTask]. Requests from scanners were chosen over pushes from the engine due to an easier and more fail tolerant implementation. Otherwise the engine had to monitor the current progress of each scanner instance and whether it is still alive. Thanks to the current implementation a scanner might die and just sends a request after a restart.
+The scanners also have to check whether the engine has a job to fulfill using the [external service task pattern][exteralServiceTask]. Requests from scanners were chosen over pushes from the engine due to an easier and more fail tolerant implementation. Otherwise the engine had to monitor the current progress of each scanner instance and whether it is still alive. Thanks to the current implementation a scanner might die and just sends a request after a restart.
 
 The following scanners are currently available out of the box:
 
@@ -147,7 +147,7 @@ The following scanners are currently available out of the box:
 - [Arachni][arachni] web vulnerability scans
 - [Amass][amass] for subdomain scans
 - [WPScan][wpscan] black box [WordPress][wordpress] vulnerability scans
-- [SSH Scan][sshscan] checking ssh servers for known vulnarabilities
+- [SSH Scan][sshscan] checking ssh servers for known vulnerabilities
 
 In the works (coming soon)
 - [SQLMap][sqlmap] for SQL Injection scans
@@ -175,7 +175,7 @@ On the host machine run `sysctl -w vm.max_map_count=262144` as root. To make the
 
 ### Scan-Container can't access outside of secure-code-box containers on CentOS
 
-While it is possible to access for example the camunda engine from outside, it is not possible to perform scans outside of SecureCodeBox containers. _firewalld_ blocks traffic from containers to outside, please configure _firewalld_.
+While it is possible to access for example the camunda engine from outside, it is not possible to perform scans outside of _secureCodeBox_ containers. _firewalld_ blocks traffic from containers to outside, please configure _firewalld_.
 
 
 ## Roadmap
@@ -183,7 +183,7 @@ While it is possible to access for example the camunda engine from outside, it i
 At the moment, the _secureCodeBox_ is in a stable *beta state*. We are working hard on polishing, documenting and integrating new security scanners.
 
 ## License
-Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
+Code of _secureCodeBox_ is licensed under the [Apache License 2.0][scb-license].
 
 ## Community
 You are welcome, please join us on... 👋
@@ -191,7 +191,7 @@ You are welcome, please join us on... 👋
 - [Slack][scb-slack]
 - [Twitter][scb-twitter]
 
-secureCodeBox is an official [OWASP][owasp] project.
+_secureCodeBox_ is an official [OWASP][owasp] project.
 
 ## Contributing
 Contributions are welcome and extremely helpful 🙌
@@ -199,7 +199,7 @@ Contributions are welcome and extremely helpful 🙌
 Author Information
 ------------------
 
-Sponsored by [iteratec GmbH](https://www.iteratec.de/) - 
+Sponsored by [iteratec GmbH](https://www.iteratec.de/) -
 [secureCodeBox.io](https://www.securecodebox.io/)
 
 [nginx]:                https://nginx.org/en/
