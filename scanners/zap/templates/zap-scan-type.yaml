@@ -48,7 +48,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: zap-api-scan
-              image: owasp/zap2docker-weekly:w2020-06-24
+              image: owasp/zap2docker-weekly:w2020-09-08
               command:
                 - "zap-api-scan.py"
                 # Force Zap to always return a zero exit code. k8s would otherwise try to restart zap.
@@ -82,7 +82,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: zap-full-scan
-              image: owasp/zap2docker-weekly:w2020-06-24
+              image: owasp/zap2docker-weekly:w2020-09-08
               command:
                 - "zap-full-scan.py"
                 # Force Zap to always return a zero exit code. k8s would otherwise try to restart zap.
