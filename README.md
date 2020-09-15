@@ -18,7 +18,7 @@
 </p>
 
 **NOTE**: This Repository contains the stable beta preview of the next major secureCodeBox (SCB) Release v2.  
-You can find the current **stable release** here [https://github.com/secureCodeBox/secureCodeBox](https://github.com/secureCodeBox/secureCodeBox). 
+You can find the current **stable release** here [https://github.com/secureCodeBox/secureCodeBox](https://github.com/secureCodeBox/secureCodeBox).
 
 _The major release of SCB version 2.0 will be available in the next weeks._ The release will contain a major architecture change which will not be backward compatible. More details will follow soon in a series of blog articles.
 
@@ -38,7 +38,7 @@ _The major release of SCB version 2.0 will be available in the next weeks._ The 
       - [Local Scan Examples](#local-scan-examples)
       - [Public Scan Examples](#public-scan-examples)
       - [Then get the current State of the Scan by running:](#then-get-the-current-state-of-the-scan-by-running)
-      - [To delete a scan, use ```kubectl delete```, e.g. for localhost nmap scan:](#to-delete-a-scan-use-kubectl-delete-eg-for-localhost-nmap-scan)
+      - [To delete a scan, use `kubectl delete`, e.g. for localhost nmap scan:](#to-delete-a-scan-use-kubectl-delete-eg-for-localhost-nmap-scan)
     - [Access Services](#access-services)
   - [How does it work?](#how-does-it-work)
   - [Architecture](#architecture)
@@ -59,11 +59,11 @@ For additional documentation aspects please have a look at our:
 The typical way to ensure application security is to hire a security specialist (aka penetration tester) at some point in your project to check the application for security bugs and vulnerabilities. Usually, this check is done at a later stage of the project and has two major drawbacks:
 
 1. Nowadays, a lot of projects do continuous delivery, which means the developers deploy new versions multiple times each day. The penetration tester is only able to check a single snapshot, but some further commits could introduce new security issues. To ensure ongoing application security, the penetration tester should also continuously test the application. Unfortunately, such an approach is rarely financially feasible.
-2. Due to a typically time boxed analysis, the penetration tester has to focus on trivial security issues (low-hanging fruits) and therefore will not address the serious, non-obvious ones.
+2. Due to a typically time boxed analysis, the penetration tester has to focus on trivial security issues (low-hanging fruit) and therefore will probably not address the serious, non-obvious ones.
 
 With the _secureCodeBox_ we provide a toolchain for continuous scanning of applications to find the low-hanging fruit issues early in the development process and free the resources of the penetration tester to concentrate on the major security issues.
 
-The purpose of _secureCodeBox_ **is not** to replace the penetration testers or make them obsolete. We strongly recommend to run extensive tests by experienced penetration testers on all your applications.
+The purpose of _secureCodeBox_ **is not** to replace the penetration testers or make them obsolete. We strongly recommend running extensive tests by experienced penetration testers on all your applications.
 
 **Important note**: The _secureCodeBox_ is no simple one-button-click-solution! You must have a deep understanding of security and how to configure the scanners. Furthermore, an understanding of the scan results and how to interpret them is also necessary.
 
@@ -77,7 +77,7 @@ There is a German article about [Security DevOps – Angreifern (immer) einen Sc
 
 ### Deployment (based on Helm)
 
-> The install instrucions require you to have the repository cloned and to have your terminal located in the folder of repository.
+> The install instructions require you to have the repository cloned and to have your terminal located in the folder of repository.
 > There are shorthand scripts to un-/install everything in the `bin` directory.
 
 Deploy the secureCodeBox operator first:
@@ -150,7 +150,8 @@ kubectl apply -f scanners/nmap/examples/scan.nmap.org/scan.yaml
 kubectl get scans
 ```
 
-#### To delete a scan, use ```kubectl delete```, e.g. for localhost nmap scan:
+#### To delete a scan, use `kubectl delete`, e.g. for localhost nmap scan:
+
 ```
 kubectl delete -f scanners/nmap/examples/localhost/scan.yaml
 ```
