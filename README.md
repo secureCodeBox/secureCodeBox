@@ -77,7 +77,8 @@ There is a German article about [Security DevOps – Angreifern (immer) einen Sc
 
 ### Deployment (based on Helm)
 
-There are shorthand scripts to un-/install everything in the `bin` directory.
+> The install instrucions require you to have the repository cloned and to have your terminal located in the folder of repository.
+> There are shorthand scripts to un-/install everything in the `bin` directory.
 
 Deploy the secureCodeBox operator first:
 
