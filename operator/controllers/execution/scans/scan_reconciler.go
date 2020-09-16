@@ -50,7 +50,7 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 		log.V(7).Info("Unable to fetch ScanType")
 
 		scan.Status.State = "Errored"
-		scan.Status.ErrorDescription = fmt.Sprintf("Configured ScanType '%s' not found in Scans Namespace. You'll likely need to deploy the ScanType.", scan.Spec.ScanType)
+		scan.Status.ErrorDescription = fmt.Sprintf("Configured ScanType '%s' not found in '%s' namespace. You'll likely need to deploy the ScanType.", scan.Spec.ScanType, scan.Namespace)
 		if err := r.Status().Update(ctx, scan); err != nil {
 			r.Log.Error(err, "unable to update Scan status")
 			return err
