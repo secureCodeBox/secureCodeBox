@@ -1,8 +1,7 @@
 parserImage:
-  registry: docker.io
-  repository: scbexperimental/parser-ncrack
-  tag: latest
+  repository: docker.io/scbexperimental/parser-ncrack
+  # parserImage.tag - defaults to the charts version
+  tag: null
 
 scannerJob:
   resources: {}
-
