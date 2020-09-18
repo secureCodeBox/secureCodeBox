@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ncrackrun>
+<!-- Ncrack 0.7 scan initiated Wed Dec 11 17:44:38 2019 as: ncrack -p ssh,http -oX ncrackResults2.xml -vv -P passwords.txt -U usernames.txt scanme.nmap.org -->
+<ncrackrun scanner="ncrack" args="ncrack -p ssh,http -oX ncrackResults2.xml -vv -P passwords.txt -U usernames.txt scanme.nmap.org" start="1576082678" startstr="Wed Dec 11 17:44:38 2019" version="0.7" xmloutputversion="1.00">
+<verbose level="2"/>
+<debugging level="0"/>
+<service starttime="1576082678" endtime="1576082712">
+<address addr="45.33.32.156" addrtype="ipv4"/>
+<port protocol="tcp" portid="22" name="ssh"></port>
+</service>
+<service starttime="1576082678" endtime="1576082678">
+<address addr="45.33.32.156" addrtype="ipv4"/>
+<port protocol="tcp" portid="80" name="http"></port>
+</service>
+</ncrackrun>

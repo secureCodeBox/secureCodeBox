@@ -1,0 +1,20 @@
+apiVersion: v2
+name: ncrack
+description: A Helm chart for the NCRACK security Scanner that integrates with the secureCodeBox.
+
+type: application
+version: 0.1.0
+appVersion: 0.7
+
+keywords:
+- security
+- ncrack
+- scanner
+- secureCodeBox
+home: https://www.securecodebox.io/scanners/ncrack
+icon: https://www.securecodebox.io/scannerIcons/Ncrack.svg
+sources:
+- https://github.com/secureCodeBox/secureCodeBox
+maintainers:
+- name: iteratec GmbH
+  email: security@iteratec.com

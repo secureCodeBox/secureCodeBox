@@ -1,0 +1,8 @@
+parserImage:
+  registry: docker.io
+  repository: scbexperimental/parser-ncrack
+  tag: latest
+
+scannerJob:
+  resources: {}
+

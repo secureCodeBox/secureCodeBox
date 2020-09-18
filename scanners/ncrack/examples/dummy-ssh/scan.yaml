@@ -1,0 +1,12 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "dummy-ssh"
+spec:
+  scanType: "ncrack"
+  parameters:
+    - -v
+    - --user=root,admin
+    - --pass=THEPASSWORDYOUCREATED,12345
+    - ssh://dummy-ssh
+
