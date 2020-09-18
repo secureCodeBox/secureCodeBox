@@ -1,5 +1,5 @@
 apiVersion: v2
-version: 0.1.0
+version: latesttt
 appVersion: "4.0"
 name: old-wordpress
 description: "Insecure & Outdated Wordpress Instance: Never expose it to the internet!"
@@ -7,11 +7,11 @@ type: application
 home: https://wordpress.org
 icon: https://s.w.org/style/images/about/WordPress-logotype-alternative.png
 keywords:
-- vulnerable
-- wordpress
+  - vulnerable
+  - wordpress
 sources:
-- https://github.com/secureCodeBox/helm
-- https://github.com/secureCodeBox/secureCodeBox/tree/master/demo/old-wordpress
+  - https://github.com/secureCodeBox/helm
+  - https://github.com/secureCodeBox/secureCodeBox/tree/master/demo/old-wordpress
 maintainers:
-- name: iteratec GmbH
-  email: security@iteratec.com
+  - name: iteratec GmbH
+    email: security@iteratec.com

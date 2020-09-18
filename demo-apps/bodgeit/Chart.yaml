@@ -1,5 +1,5 @@
 apiVersion: v2
-version: 0.1.0
+version: latest
 type: application
 appVersion: "v1.4.0"
 name: bodgeit
@@ -7,13 +7,12 @@ description: "The BodgeIt Store is a vulnerable web app which is aimed at people
 home: https://github.com/psiinon/bodgeit
 icon: https://scb-art.j12934.now.sh/bodgeit.png
 keywords:
-- vulnerable
-- webapp
-- demo
+  - vulnerable
+  - webapp
+  - demo
 sources:
-- https://github.com/secureCodeBox/helm
-- https://github.com/psiinon/bodgeit
+  - https://github.com/secureCodeBox/helm
+  - https://github.com/psiinon/bodgeit
 maintainers:
-- name: iteratec GmbH
-  email: security@iteratec.com
-
+  - name: iteratec GmbH
+    email: security@iteratec.com
