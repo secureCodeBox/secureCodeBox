@@ -98,3 +98,4 @@ it('should return findings when ncrack found two credentials scanning two servic
         ]
     `);
 });
+

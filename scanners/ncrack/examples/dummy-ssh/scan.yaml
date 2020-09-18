@@ -9,3 +9,4 @@ spec:
     - --user=root,admin
     - --pass=THEPASSWORDYOUCREATED,12345
     - ssh://dummy-ssh
+
