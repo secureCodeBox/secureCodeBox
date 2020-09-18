@@ -4,8 +4,8 @@ description: A Helm chart for the SSH_Scan security scanner that integrates with
 
 type: application
 # version - gets automatically set to the secureCodeBox release version when the helm charts gets published
-version: 0.1.0
-appVersion: latest
+version: latest
+appVersion: "0.0.43"
 
 keywords:
   - security

@@ -4,4 +4,4 @@ metadata:
   name: "test-txt"
 spec:
   handlesResultsType: test-txt
-  image: "{{ .Values.parserImage.registry }}/{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag }}"
+  image: "{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag | default .Chart.Version }}"
