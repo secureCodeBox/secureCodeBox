@@ -1,5 +1,5 @@
 apiVersion: v2
-version: latesttt
+version: latest
 appVersion: "4.0"
 name: old-wordpress
 description: "Insecure & Outdated Wordpress Instance: Never expose it to the internet!"
