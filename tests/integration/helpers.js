@@ -38,7 +38,7 @@ async function displayAllLogsForJob(jobName) {
   const {
     body: { items: pods },
   } = await k8sPodsApi.listNamespacedPod(
-    "default",
+    namespace,
     true,
     undefined,
     undefined,
@@ -58,7 +58,7 @@ async function displayAllLogsForJob(jobName) {
     for (const container of pod.spec.containers) {
       const response = await k8sPodsApi.readNamespacedPodLog(
         pod.metadata.name,
-        "default",
+        namespace,
         container.name
       );
       console.log(`Container ${container.name}:`);
