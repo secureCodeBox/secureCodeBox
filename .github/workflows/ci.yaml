@@ -211,6 +211,17 @@ jobs:
           tag_with_ref: true
           tag_with_sha: true
           build_args: baseImageTag=ci-local
+      - uses: docker/build-push-action@v1
+        name: "Build & Push wpscan Parser Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/wpscan-parser
+          path: ./scanners/wpscan/parser/
+          tag_with_ref: true
+          tag_with_sha: true
+          build_args: baseImageTag=ci-local
+
   hookImages:
     name: "Build / Hooks"
     runs-on: ubuntu-latest
