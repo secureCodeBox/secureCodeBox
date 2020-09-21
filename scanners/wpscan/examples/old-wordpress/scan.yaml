@@ -1,0 +1,13 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "wpscan-old-wordpress-internal"
+spec:
+  scanType: "wpscan"
+  parameters:
+    - "--url"
+    - old-wordpress.demo-apps.svc.cluster.local
+    - "-e"
+    - "vp"
+    - "--plugins-detection"
+    - "mixed"
