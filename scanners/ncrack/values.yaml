@@ -4,5 +4,5 @@ parserImage:
   tag: latest
 
 scannerJob:
+  ttlSecondsAfterFinished: null
   resources: {}
-
