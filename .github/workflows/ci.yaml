@@ -426,7 +426,7 @@ jobs:
           helm -n integration-tests install ssh-scan ./scanners/ssh_scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color ssh-scan
-      - name: "ssh-scan Integration Tests"
+      - name: "zap Integration Tests"
         run: |
           helm -n integration-tests install zap ./scanners/zap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
