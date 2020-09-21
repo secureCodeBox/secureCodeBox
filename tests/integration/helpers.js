@@ -124,6 +124,9 @@ async function scan(name, scanType, parameters = [], timeout = 180) {
 
     if (status && status.state === "Done") {
       await deleteScan(actualName);
+      // Wait a couple seconds to give kubernetes more time to update the fields
+      await sleep(2000);
+      const { status } = await getScan(actualName);
       return status.findings;
     } else if (status && status.state === "Errored") {
       console.error("Scan Errored");
