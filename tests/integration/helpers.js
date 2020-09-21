@@ -34,7 +34,7 @@ async function getScan(name) {
 }
 
 async function displayAllLogsForJob(jobName) {
-  console.log(`Listing logs for Job ${jobName}:`);
+  console.log(`Listing logs for Job '${jobName}':`);
   const {
     body: { items: pods },
   } = await k8sPodsApi.listNamespacedPod(
@@ -46,7 +46,15 @@ async function displayAllLogsForJob(jobName) {
     `job-name=${jobName}`
   );
 
+  if (pods.length === 0) {
+    console.log(`No Pods found for Job '${jobName}'`);
+  }
+
   for (const pod of pods) {
+    console.log(
+      `Listing logs for Job '${jobName}' > Pod '${pod.metadata.name}':`
+    );
+
     for (const container of pod.spec.containers) {
       const response = await k8sPodsApi.readNamespacedPodLog(
         pod.metadata.name,
@@ -67,14 +75,14 @@ async function logJobs() {
 
     for (const job of jobs.items) {
       console.log(`Job: '${job.metadata.name}' Spec:`);
-      console.dir(job.spec);
+      console.log(JSON.stringify(job.spec, null, 2));
       console.log(`Job: '${job.metadata.name}' Status:`);
-      console.dir(job.status);
+      console.log(JSON.stringify(job.status, null, 2));
 
       await displayAllLogsForJob(job.metadata.name);
     }
   } catch (error) {
-    console.info(`Failed to list Jobs'`);
+    console.error(`Failed to list Jobs'`);
   }
 }
 
