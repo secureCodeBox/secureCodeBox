@@ -82,7 +82,8 @@ async function logJobs() {
       await displayAllLogsForJob(job.metadata.name);
     }
   } catch (error) {
-    console.error(`Failed to list Jobs'`);
+    console.error("Failed to list Jobs");
+    console.error(error);
   }
 }
 
