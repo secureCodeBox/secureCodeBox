@@ -5,7 +5,7 @@ description: secureCodeBox Operator to automate the execution of security scans 
 type: application
 
 # version - gets automatically set to the secureCodeBox release version when the helm charts gets published
-version: v2.0.0-alpha1
+version: latest
 
 dependencies:
   - name: minio
