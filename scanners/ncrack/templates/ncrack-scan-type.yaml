@@ -19,3 +19,12 @@ spec:
               command: ["ncrack", "-oX", "/home/securecodebox/ncrack-results.xml"]
               resources:
                 {{- toYaml .Values.scannerJob.resources | nindent 16 }}
+              volumeMounts:
+              {{- if .Values.scannerJob.extraVolumeMounts }}
+              {{- toYaml .Values.scannerJob.extraVolumeMounts | nindent 14 }}
+              {{- end }}
+          volumes:
+          {{- if .Values.scannerJob.extraVolumes }}
+          {{- toYaml .Values.scannerJob.extraVolumes | nindent 10 }}
+          {{- end }}
+

@@ -5,4 +5,5 @@ parserImage:
 
 scannerJob:
   resources: {}
-
+  extraVolumes: []
+  extraVolumeMounts: []
