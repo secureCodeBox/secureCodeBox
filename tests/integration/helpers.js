@@ -56,13 +56,19 @@ async function displayAllLogsForJob(jobName) {
     );
 
     for (const container of pod.spec.containers) {
-      const response = await k8sPodsApi.readNamespacedPodLog(
-        pod.metadata.name,
-        namespace,
-        container.name
-      );
-      console.log(`Container ${container.name}:`);
-      console.log(response.body);
+      try {
+        const response = await k8sPodsApi.readNamespacedPodLog(
+          pod.metadata.name,
+          namespace,
+          container.name
+        );
+        console.log(`Container ${container.name}:`);
+        console.log(response.body);
+      } catch (exception) {
+        console.error(
+          `Failed to display logs of container ${container.name}: ${exception.body.message}`
+        );
+      }
     }
   }
 }
