@@ -3,10 +3,9 @@
 # Declare variables to be passed into your templates.
 
 image:
-  registry: docker.io
-  repository: scbexperimental/persistence-elastic
-  tag: latest
-  digest: null
+  repository: docker.io/scbexperimental/persistence-elastic
+  # image.tag - defaults to the charts version
+  tag: null
 
 # Define a specific index prefix
 indexPrefix: "scbv2"

@@ -366,9 +366,7 @@ jobs:
           # Install Operator using the images of the current commit
           helm -n securecodebox-system install securecodebox-operator ./operator/ --wait \
             --set="image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="image.digest=null" \
             --set="lurcher.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="lurcher.image.digest=null"
       - name: "Inspect Operator"
         run: |
           echo "Deployment in namespace 'securecodebox-system'"

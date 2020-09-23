@@ -4,4 +4,4 @@ metadata:
   name: "kube-hunter-json"
 spec:
   handlesResultsType: kube-hunter-json
-  image: "{{ .Values.parserImage.registry }}/{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag }}"
+  image: "{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag | default .Chart.Version }}"

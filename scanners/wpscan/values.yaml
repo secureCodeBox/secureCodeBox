@@ -1,7 +1,7 @@
 parserImage:
-  registry: docker.io
-  repository: scbexperimental/parser-wpscan
-  tag: latest
+  repository: docker.io/scbexperimental/parser-wpscan
+  # parserImage.tag - defaults to the charts version
+  tag: null
 
 scannerJob:
   resources: {}

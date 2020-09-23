@@ -1,7 +1,7 @@
 parserImage:
-  registry: docker.io
-  repository: scbexperimental/parser-sslyze
-  tag: latest
+  repository: docker.io/scbexperimental/parser-sslyze
+  # parserImage.tag - defaults to the charts version
+  tag: null
 
 scannerJob:
   resources: {}

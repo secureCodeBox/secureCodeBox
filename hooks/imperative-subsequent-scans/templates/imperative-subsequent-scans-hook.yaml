@@ -4,19 +4,7 @@ metadata:
   name: {{ .Release.Name }}
 spec:
   type: ReadOnly
-  {{- if .Values.image.registry }}
-  {{- if .Values.image.digest }}
-  image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}@{{ .Values.image.digest }}"
-  {{- else }}
-  image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-  {{- end }}
-  {{- else }}
-  {{- if .Values.image.digest }}
-  image: "{{ .Values.image.repository }}@{{ .Values.image.digest }}"
-  {{- else }}
-  image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-  {{- end }}
-  {{- end }}
+  image: "{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag | default .Chart.Version }}"
   serviceAccountName: imperative-combined-scans
   env:
     - name: CASCADE_AMASS_NMAP

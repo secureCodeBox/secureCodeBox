@@ -3,18 +3,20 @@ name: nikto
 description: A Helm chart for the Nikto security scanner that integrates with the secureCodeBox.
 
 type: application
-version: 0.1.0
+# version - gets automatically set to the secureCodeBox release version when the helm charts gets published
+version: latest
+# appVersion - Nikto doesn't really version its releases
 appVersion: latest
 
 keywords:
-- security
-- nikto
-- scanner
-- secureCodeBox
+  - security
+  - nikto
+  - scanner
+  - secureCodeBox
 home: https://www.securecodebox.io/scanners/nikto
 icon: https://www.securecodebox.io/scannerIcons/Nikto.svg
 sources:
-- https://github.com/secureCodeBox/secureCodeBox
+  - https://github.com/secureCodeBox/secureCodeBox
 maintainers:
-- name: iteratec GmbH
-  email: security@iteratec.com
+  - name: iteratec GmbH
+    email: security@iteratec.com

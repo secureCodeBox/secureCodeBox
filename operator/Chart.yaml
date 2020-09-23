@@ -4,13 +4,8 @@ description: secureCodeBox Operator to automate the execution of security scans 
 
 type: application
 
-# This is the chart version. This version number should be incremented each time you make changes
-# to the chart and its templates, including the app version.
-version: 0.2.0
-
-# This is the version number of the application being deployed. This version number should be
-# incremented each time you make changes to the application.
-appVersion: 1.18.0
+# version - gets automatically set to the secureCodeBox release version when the helm charts gets published
+version: latest
 
 dependencies:
   - name: minio

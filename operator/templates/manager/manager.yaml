@@ -20,11 +20,7 @@ spec:
             - /manager
           args:
             - --enable-leader-election
-          {{- if .Values.image.digest }}
-          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}@{{ .Values.image.digest }}"
-          {{- else }}
-          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          {{- end }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: manager
           env:
@@ -74,14 +70,9 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.s3.keySecret }}
                   key: secretkey
-            {{- end }}
-            {{- if .Values.lurcher.image.digest }}
+            {{- end }}          
             - name: LURCHER_IMAGE
-              value: "{{ .Values.lurcher.image.registry }}/{{ .Values.lurcher.image.repository }}@{{ .Values.lurcher.image.digest }}"
-            {{- else }}
-            - name: LURCHER_IMAGE
-              value: "{{ .Values.lurcher.image.registry }}/{{ .Values.lurcher.image.repository }}:{{ .Values.lurcher.image.tag }}"
-            {{- end }}
+              value: "{{ .Values.lurcher.image.repository }}:{{ .Values.lurcher.image.tag | default .Chart.Version }}"
             - name: LURCHER_PULL_POLICY
               value: {{ .Values.lurcher.image.pullPolicy }}
           resources:
