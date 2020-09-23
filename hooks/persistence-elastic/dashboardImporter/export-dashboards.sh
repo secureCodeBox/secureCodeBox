@@ -9,3 +9,4 @@ exportDashboard() {
 }
 
 exportDashboard "daily-summary.json" "34c734b0-6e79-11ea-bdc0-35f8aa7c4664"
+exportDashboard "wordpress-overview.json" "12b72880-fc09-11ea-a91c-5358dd402fdc"
