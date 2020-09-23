@@ -6,3 +6,5 @@ parserImage:
 scannerJob:
   ttlSecondsAfterFinished: null
   resources: {}
+  extraVolumes: []
+  extraVolumeMounts: []

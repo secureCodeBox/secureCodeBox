@@ -5,8 +5,10 @@ metadata:
 spec:
   scanType: "ncrack"
   parameters:
+    # Enable verbose logging
     - -v
-    - --user=root,admin
-    - --pass=THEPASSWORDYOUCREATED,12345
+    - -U
+    - /ncrack/users.txt
+    - -P
+    - /ncrack/passwords.txt
     - ssh://dummy-ssh
-
