@@ -1,6 +1,6 @@
 parserImage:
   registry: docker.io
-  repository: scbexperimental/wpscan-parser
+  repository: scbexperimental/parser-wpscan
   tag: latest
 
 scannerJob:
