@@ -24,6 +24,7 @@ async function parse(scanResults) {
     reference: {},
     confidence: wp.confidence,
     attributes: {
+      hostname: targetUrl,
       ip_address: targetIp,
       wpscan_version: wpscanVersion,
       wpscan_requests: wpscanRequestsDone,
@@ -50,6 +51,7 @@ async function parse(scanResults) {
       confidence: interestingFinding.confidence,
       reference: {},
       attributes: {
+	hostname: targetUrl,
         wp_interesting_entries: interestingFinding.interesting_entries,
         wp_found_by: interestingFinding.found_by,
         wp_confirmed_by: interestingFinding.confirmed_by
