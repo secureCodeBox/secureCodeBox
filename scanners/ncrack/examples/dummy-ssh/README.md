@@ -1,6 +1,6 @@
 In this example we execute an ncrack scan against the intentional vulnerable ssh service (dummy-ssh)
 
-### Install dummy-ssh
+#### Install dummy-ssh
 
 Before executing the scan, make sure to have dummy-ssh installed, and have the proper username & password lists:
 
