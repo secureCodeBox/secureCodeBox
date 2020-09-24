@@ -8,7 +8,9 @@ spec:
     location: "/home/securecodebox/ncrack-results.xml"
   jobTemplate:
     spec:
-      ttlSecondsAfterFinished: 10
+      {{- if .Values.scannerJob.ttlSecondsAfterFinished }}
+      ttlSecondsAfterFinished: {{ .Values.scannerJob.ttlSecondsAfterFinished }}
+      {{- end }}
       backoffLimit: 3
       template:
         spec:

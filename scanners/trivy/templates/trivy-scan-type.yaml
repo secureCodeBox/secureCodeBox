@@ -9,7 +9,9 @@ spec:
     location: "/home/securecodebox/trivy-results.json"
   jobTemplate:
     spec:
-      ttlSecondsAfterFinished: 10
+      {{- if .Values.scannerJob.ttlSecondsAfterFinished }}
+      ttlSecondsAfterFinished: {{ .Values.scannerJob.ttlSecondsAfterFinished }}
+      {{- end }}
       template:
         spec:
           restartPolicy: OnFailure

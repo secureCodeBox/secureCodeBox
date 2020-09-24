@@ -412,6 +412,9 @@ jobs:
         run: |
           # Install dummy-ssh app
           helm -n demo-apps install dummy-ssh ./demo-apps/dummy-ssh/ --wait
+          # Install plain nginx server
+          kubectl create deployment --image nginx:alpine nginx --namespace demo-apps
+          kubectl expose deployment nginx --port 80 --namespace demo-apps
       - name: "nmap Integration Tests"
         run: |
           helm -n integration-tests install nmap ./scanners/nmap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
@@ -432,6 +435,11 @@ jobs:
           helm -n integration-tests install ssh-scan ./scanners/ssh_scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color ssh-scan
+      - name: "zap Integration Tests"
+        run: |
+          helm -n integration-tests install zap ./scanners/zap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          cd tests/integration/
+          npx jest --ci --color zap
       - name: Inspect Post Failure
         if: failure()
         run: |
