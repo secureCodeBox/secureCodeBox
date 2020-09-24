@@ -27,6 +27,7 @@ test("WPScan parser parses a successfull scan result with at least one informati
     Array [
       Object {
         "attributes": Object {
+          "hostname": "https://www.example.com/",
           "ip_address": "192.168.200.100",
           "wp_confirmed_by": Object {},
           "wp_found_by": "Rss Generator (Passive Detection)",
@@ -52,6 +53,7 @@ test("WPScan parser parses a successfull scan result with at least one informati
       },
       Object {
         "attributes": Object {
+          "hostname": "https://www.example.com/",
           "wp_confirmed_by": Object {},
           "wp_found_by": "Headers (Passive Detection)",
           "wp_interesting_entries": Array [
@@ -69,6 +71,7 @@ test("WPScan parser parses a successfull scan result with at least one informati
       },
       Object {
         "attributes": Object {
+          "hostname": "https://www.example.com/",
           "wp_confirmed_by": Object {},
           "wp_found_by": "Robots Txt (Aggressive Detection)",
           "wp_interesting_entries": Array [
@@ -87,6 +90,7 @@ test("WPScan parser parses a successfull scan result with at least one informati
       },
       Object {
         "attributes": Object {
+          "hostname": "https://www.example.com/",
           "wp_confirmed_by": Object {},
           "wp_found_by": "Direct Access (Aggressive Detection)",
           "wp_interesting_entries": Array [],
@@ -102,6 +106,7 @@ test("WPScan parser parses a successfull scan result with at least one informati
       },
       Object {
         "attributes": Object {
+          "hostname": "https://www.example.com/",
           "wp_confirmed_by": Object {},
           "wp_found_by": "Direct Access (Aggressive Detection)",
           "wp_interesting_entries": Array [],
@@ -117,6 +122,7 @@ test("WPScan parser parses a successfull scan result with at least one informati
       },
       Object {
         "attributes": Object {
+          "hostname": "https://www.example.com/",
           "wp_confirmed_by": Object {},
           "wp_found_by": "Direct Access (Aggressive Detection)",
           "wp_interesting_entries": Array [],
