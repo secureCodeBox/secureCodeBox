@@ -26,7 +26,6 @@ jobs:
             dir="$(dirname "${chart}")"
             cd "${dir}" || exit
             echo "Processing Chart in $dir"
-            helm lint .
             helm package --version $RELEASE_VERSION .
             NAME=$(yq read - name < Chart.yaml)
             curl --silent --show-error --user "${USERNAME}:${PASSWORD}" --data-binary "@${NAME}-${RELEASE_VERSION}.tgz" "${HELM_REGISTRY}/api/charts"
