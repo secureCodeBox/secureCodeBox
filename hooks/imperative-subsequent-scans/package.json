@@ -22,13 +22,13 @@
     "url": "https://www.iteratec.com"
   },
   "contributors": [
-    { 
-      "name" : "Jannik Hollenbach",
-      "url" : "https://github.com/J12934"
+    {
+      "name": "Jannik Hollenbach",
+      "url": "https://github.com/J12934"
     },
-    { 
-      "name" : "Robert Seedorff",
-      "url" : "https://github.com/rseedorff"
+    {
+      "name": "Robert Seedorff",
+      "url": "https://github.com/rseedorff"
     }
   ],
   "bugs": {
@@ -36,7 +36,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@kubernetes/client-node": "^0.12.0",
+    "@kubernetes/client-node": "^0.12.2",
     "lodash.set": "^4.3.2"
   },
   "devDependencies": {
