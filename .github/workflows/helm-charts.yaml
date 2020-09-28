@@ -33,7 +33,7 @@ jobs:
           done
       - name: "Publish Helm2 Charts"
         env:
-          HELM_REGISTRY: https://charts.securecodebox.io
+          HELM_REGISTRY: https://charts-helm2.securecodebox.io
           USERNAME: ${{ secrets.HELM_REGISTRY_USERNAME }}
           PASSWORD: ${{ secrets.HELM_REGISTRY_PASSWORD }}
         run: |
@@ -44,8 +44,12 @@ jobs:
             dir="$(dirname "${chart}")"
             cd "${dir}" || exit
             mv Chart.yaml helm3.Chart.yaml
-            echo "Restoring Helm2 Chart and replace Helm3 Chart temporary"
             mv helm2.Chart.yaml Chart.yaml
+            if [ ${dir} = "operator" ]
+            then
+                cp -R crds templates/crds
+            fi
+            echo "Restoring Helm2 Chart and replace Helm3 Chart temporary"
             [ ! -f helm2.requirements.lock ] || mv helm2.requirements.lock requirements.lock
             [ ! -f helm2.requirements.yaml ] || mv helm2.requirements.yaml requirements.yaml
             echo "Processing Helm2 Chart in $dir"
