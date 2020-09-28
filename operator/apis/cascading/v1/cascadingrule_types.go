@@ -17,7 +17,7 @@ limitations under the License.
 package v1
 
 import (
-	executionv1 "github.com/secureCodeBox/secureCodeBox-v2-alpha/operator/apis/execution/v1"
+	executionv1 "github.com/secureCodeBox/secureCodeBox-v2/operator/apis/execution/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
 )

@@ -1,0 +1,729 @@
+{
+  "host": "juice-shop",
+  "ip": "10.111.44.167",
+  "port": "3000",
+  "banner": "",
+  "vulnerabilities": [
+    {
+      "id": "999986",
+      "OSVDB": "0",
+      "method": "GET",
+      "url": "/",
+      "msg": "Retrieved x-powered-by header: Express"
+    },
+    {
+      "id": "999986",
+      "OSVDB": "0",
+      "method": "GET",
+      "url": "/",
+      "msg": "Retrieved access-control-allow-origin header: *"
+    },
+    {
+      "id": "999102",
+      "OSVDB": "0",
+      "method": "GET",
+      "url": "/",
+      "msg": "The X-XSS-Protection header is not defined. This header can hint to the user agent to protect against some forms of XSS"
+    },
+    {
+      "id": "999997",
+      "OSVDB": "0",
+      "method": "GET",
+      "url": "/ftp/",
+      "msg": "Entry '/ftp/' in robots.txt returned a non-forbidden or redirect HTTP code (200)"
+    },
+    {
+      "id": "999996",
+      "OSVDB": "0",
+      "method": "GET",
+      "url": "/robots.txt",
+      "msg": "\"robots.txt\" contains 1 entry which should be manually viewed."
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/database.pem",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/10.111.44.167.tar.gz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/archive.tar",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/site.tgz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/database.tgz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/10.111.44.167.zip",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/archive.pem",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/backup.tgz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/database.egg",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/juice-shop.tar.gz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/dump.tar.gz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/database.zip",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/backup.tar.bz2",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/backup.jks",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/juice-shop.cer",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/site.cer",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/site.sql",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/10.111.44.167.war",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/site.pem",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/database.tar.lzma",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/10.111.44.167.gz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/site.egg",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/juice-shop.sql",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/juice-shop.egg",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/database.gz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/backup.sql",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/dump.war",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/archive.jks",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/site.gz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/site.tar.lzma",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/juice-shop.tar",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/juice-shop.war",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/dump.jks",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/10.111.44.167.tar.bz2",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/dump.zip",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/dump.tar.bz2",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/site.tar",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/archive.sql",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/juice-shop.zip",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/database.alz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/site.alz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/juice-shop.pem",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/juice-shop.tar.lzma",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/10.111.44.167.tar",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/backup.tar.lzma",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/dump.tgz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/juice-shop.tgz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/10.111.44.167.sql",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/database.sql",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/site.tar.gz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/archive.gz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/archive.tgz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/archive.alz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/10.111.44.167.jks",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/dump.cer",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/dump.sql",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/archive.cer",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/database.cer",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/juice-shop.tar.bz2",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/dump.egg",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/archive.tar.bz2",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/juice-shop.gz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/10.111.44.167.tar.lzma",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/dump.pem",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/database.jks",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/10.111.44.167.tgz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/backup.alz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/site.war",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/backup.tar.gz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/dump.gz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/dump.tar.lzma",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/juice-shop.jks",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/database.tar.bz2",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/backup.zip",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/site.jks",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/backup.pem",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/archive.zip",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/backup.egg",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/site.zip",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/database.war",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/10.111.44.167.alz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/10.111.44.167.pem",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/archive.war",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/database.tar",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/backup.gz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/10.111.44.167.egg",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/site.tar.bz2",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/backup.war",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/archive.egg",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/dump.tar",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/backup.tar",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/database.tar.gz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/10.111.44.167.cer",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/juice-shop.alz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/backup.cer",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/dump.alz",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/archive.tar.lzma",
+      "msg": "Potentially interesting backup/cert file found. "
+    },
+    {
+      "id": "740001",
+      "OSVDB": "0",
+      "method": "HEAD",
+      "url": "/archive.tar.gz",
+      "msg": "Potentially interesting backup/cert file found. "
+    }
+  ]
+}

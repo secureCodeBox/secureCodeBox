@@ -1,7 +1,16 @@
 parserImage:
-  registry: docker.io
-  repository: scbexperimental/parser-amass
-  tag: latest
+  repository: docker.io/scbexperimental/parser-amass
+  # parserImage.tag - defaults to the charts version
+  tag: null
 
 scannerJob:
+  ttlSecondsAfterFinished: null
   resources: {}
+# scannerJob:
+#   resources:
+#     requests:
+#       memory: "256Mi"
+#       cpu: "250m"
+#     limits:
+#       memory: "512Mi"
+#       cpu: "500m"

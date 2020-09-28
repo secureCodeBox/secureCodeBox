@@ -5,7 +5,6 @@
 webhookUrl: "http://example.com"
 
 image:
-  registry: docker.io
-  repository: scbexperimental/generic-webhook
-  tag: latest
-  digest: null
+  repository: docker.io/scbexperimental/generic-webhook
+  # image.tag - defaults to the charts version
+  tag: null

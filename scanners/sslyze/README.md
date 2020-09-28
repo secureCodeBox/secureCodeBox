@@ -2,6 +2,9 @@
 title: "SSLyze"
 path: "scanners/sslyze"
 category: "scanner"
+type: "SSL"
+state: "released"
+appVersion: "3.0.8"
 usecase: "SSL/TLS Configuration Scanner"
 ---
 
@@ -16,13 +19,6 @@ The SSLyze scanType can be deployed via helm:
 ```bash
 helm upgrade --install sslyze ./scanners/sslyze/
 ```
-
-## Examples
-
-A set of examples can be found in the [examples](./examples) folder.
-
-* Example *secureCodeBox.io* [scan](./examples/secureCodeBox.io/scan.yaml) and [findings](./examples/secureCodeBox.io/findings.yaml)
-* Example *example.com* [scan](./examples/example.com/scan.yaml) and [findings](./examples/example.com/findings.yaml)
 
 ## Configuration
 
@@ -132,25 +128,6 @@ Options:
     --openssl_ccs       Test a server for the OpenSSL CCS Injection
                         vulnerability (CVE-2014-0224).
 ```
-
-## Development
-
-### Local setup
-
-1. Clone the repository `git clone git@github.com:secureCodeBox/secureCodeBox-v2-alpha.git`
-2. Ensure you have node.js installed
-   * On MacOs with brew package manager: `brew install node`
-
-### Parser Development
-
-1. Install the dependencies `npm install`
-2. Update the parser function here: `./parser/parser.js`
-3. Update the parser tests here: `./parser/parser.test.js`
-4. Run the test suite: `npm test`
-
-#### Basic scanner tests
-
-If you want to test sslyze localy you can use brew (only on macOS) to install it: `brew install sslyze`
 
 [SSLyze GitHub]: https://github.com/nabla-c0d3/sslyze
 [SSLyze Documentation]: https://nabla-c0d3.github.io/sslyze/documentation/

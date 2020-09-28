@@ -2,14 +2,17 @@
 title: "ZAP"
 path: "scanners/zap"
 category: "scanner"
-usecase: "Webapplication Vulnerability Scanner"
+type: "WebApplication"
+state: "released"
+appVersion: "2.9.0"
+usecase: "WebApp & OpenAPI Vulnerability Scanner"
 ---
 
 ![zap logo](https://raw.githubusercontent.com/wiki/zaproxy/zaproxy/images/zap32x32.png)
 
 The OWASP Zed Attack Proxy (ZAP) is one of the world’s most popular free security tools and is actively maintained by hundreds of international volunteers*. It can help you automatically find security vulnerabilities in your web applications while you are developing and testing your applications. Its also a great tool for experienced pentesters to use for manual security testing.
 
-To learn more about the ZAP scanner itself visit [OWASP_Zap_Project] or [zaproxy.org].
+To learn more about the ZAP scanner itself visit [https://www.zaproxy.org/](https://www.zaproxy.org/).
 
 <!-- end -->
 
@@ -21,16 +24,9 @@ The ZAP scanType can be deployed via helm:
 helm upgrade --install zap ./scanners/zap/
 ```
 
-## Examples
-
-A set of examples can be found in the [examples](./examples) folder.
-
-* Example *secureCodeBox.io* [scan](./examples/secureCodeBox.io/scan.yaml) and [findings](./examples/secureCodeBox.io/findings.yaml)
-* Example *example.com* [scan](./examples/example.com/scan.yaml) and [findings](./examples/example.com/findings.yaml)
-
 ## Configuration
 
-The following security scan configuration example are based on the [ZAP Documentation], please take a look at the original documentation for more configuration examples.
+The following security scan configuration example are based on the ZAP Docker Scan Scripts. By default the secureCodeBox ZAP Helm Chart installs all three ZAP scripts: `zap-baseline`, `zap-full-scan` & `zap-api-scan`. Listed below are the arguments supported by the `zap-baseline` script, which are mostly interchangable with the other ZAP scripts. For a more complete reference check out the [ZAP Documentation](https://www.zaproxy.org/docs/docker/) and the secureCodeBox based ZAP examples listed below.
 
 The command line interface can be used to easily run server scans: `-t www.example.com`
 
@@ -62,21 +58,3 @@ Options:
     -z zap_options    ZAP command line options e.g. -z "-config aaa=bbb -config ccc=ddd"
     --hook            path to python file that define your custom hooks
 ```
-
-## Development
-
-### Local setup
-
-1. Clone the repository `git clone git@github.com:secureCodeBox/secureCodeBox-v2-alpha.git`
-2. Ensure you have node.js installed
-   * On MacOs with brew package manager: `brew install node`
-
-### Parser Development
-
-1. Install the dependencies `npm install`
-2. Update the parser function here: `./parser/parser.js`
-3. Update the parser tests here: `./parser/parser.test.js`
-4. Run the test suite: `npm test`
-
-[SSLyze GitHub]: https://github.com/nabla-c0d3/sslyze
-[SSLyze Documentation]: https://nabla-c0d3.github.io/sslyze/documentation/

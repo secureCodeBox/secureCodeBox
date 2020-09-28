@@ -1,0 +1,14 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "dummy-ssh"
+spec:
+  scanType: "ncrack"
+  parameters:
+    # Enable verbose logging
+    - -v
+    - -U
+    - /ncrack/users.txt
+    - -P
+    - /ncrack/passwords.txt
+    - ssh://dummy-ssh

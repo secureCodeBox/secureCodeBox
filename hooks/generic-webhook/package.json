@@ -1,16 +1,42 @@
 {
   "name": "scb-generic-webhook",
   "version": "1.0.0",
-  "description": "",
+  "description": "secureCodeBox v2 Generic WebHook.",
+  "homepage": "https://www.secureCodeBox.io",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/secureCodeBox/secureCodeBox-v2.git"
+  },
   "main": "hook.js",
   "scripts": {
     "test": "jest ."
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "secureCodeBox",
+    "security",
+    "hook"
+  ],
+  "author": {
+    "name": "iteratec GmbH",
+    "email": "security@iteratec.com",
+    "url": "https://www.iteratec.com"
+  },
+  "contributors": [
+    { 
+      "name" : "Jannik Hollenbach",
+      "url" : "https://github.com/J12934"
+    },
+    { 
+      "name" : "Robert Seedorff",
+      "url" : "https://github.com/rseedorff"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/secureCodeBox/secureCodeBox-v2/issues"
+  },
+  "license": "Apache-2.0",
   "dependencies": {
-    "axios": "^0.19.2"
+    "axios": "^0.20.0"
   },
   "devDependencies": {
     "jest": "^25.1.0"

@@ -10,4 +10,4 @@ $ kubectl get cascadingrules
 You need to explicitly turn on scan cascading for every scan you use.
 You can do that by setting a label selector which matches all rules you want to use.
 
-Find out more, on the docs: TODO(https://github.com/secureCodeBox/secureCodeBox-v2-alpha/issues/46)
+Find out more, on the docs: TODO(https://github.com/secureCodeBox/secureCodeBox-v2/issues/46)

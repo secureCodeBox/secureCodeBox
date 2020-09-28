@@ -1,6 +1,6 @@
 domain: experimental.securecodebox.io
 multigroup: true
-repo: github.com/secureCodeBox/secureCodeBox-v2-alpha
+repo: github.com/secureCodeBox/secureCodeBox-v2
 resources:
 - group: execution
   kind: Scan
@@ -16,9 +16,6 @@ resources:
   version: v1
 - group: execution
   kind: ScheduledScan
-  version: v1
-- group: targets
-  kind: Host
   version: v1
 - group: cascading
   kind: CascadingRule

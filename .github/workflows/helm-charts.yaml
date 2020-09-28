@@ -1,0 +1,33 @@
+on:
+  release:
+    types: [published]
+name: "Publish Helm Charts"
+jobs:
+  helm:
+    name: Package and Publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Install yq"
+        run: |
+          sudo snap install yq
+      - name: Parse Tag 
+        run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF#refs/*/}
+      - name: "Publish Helm Chart"
+        env:
+          HELM_REGISTRY: https://charts.securecodebox.io
+          USERNAME: ${{ secrets.HELM_REGISTRY_USERNAME }}
+          PASSWORD: ${{ secrets.HELM_REGISTRY_PASSWORD }}
+        run: |
+          # Publish charts in all folders containing a `Chart.yaml` file
+          # https://github.com/koalaman/shellcheck/wiki/SC2044
+          find . -type f -name Chart.yaml -print0 | while IFS= read -r -d '' chart; do
+          (
+            dir="$(dirname "${chart}")"
+            cd "${dir}" || exit
+            echo "Processing Chart in $dir"
+            helm package --version $RELEASE_VERSION .
+            NAME=$(yq read - name < Chart.yaml)
+            curl --silent --show-error --user "${USERNAME}:${PASSWORD}" --data-binary "@${NAME}-${RELEASE_VERSION}.tgz" "${HELM_REGISTRY}/api/charts"
+          )
+          done

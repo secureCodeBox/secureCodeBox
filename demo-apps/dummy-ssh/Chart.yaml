@@ -1,5 +1,5 @@
 apiVersion: v2
-version: 0.1.0
+version: latest
 type: application
 appVersion: "v1.0.0"
 name: dummy-ssh
@@ -7,11 +7,10 @@ description: "SSH Server for scan testing."
 home: https://wordpress.org
 icon: https://www.securecodebox.io/integrationIcons/SSH.svg
 keywords:
-- vulnerable
-- ssh
+  - vulnerable
+  - ssh
 sources:
-- https://github.com/secureCodeBox/secureCodeBox/tree/master/demo/dummy-ssh
+  - https://github.com/secureCodeBox/secureCodeBox/tree/master/demo/dummy-ssh
 maintainers:
-- name: iteratec GmbH
-  email: security@iteratec.com
-
+  - name: iteratec GmbH
+    email: security@iteratec.com

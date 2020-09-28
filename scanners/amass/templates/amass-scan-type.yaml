@@ -10,13 +10,15 @@ spec:
     location: "/home/securecodebox/amass-results.jsonl"
   jobTemplate:
     spec:
-      ttlSecondsAfterFinished: 10
+      {{- if .Values.scannerJob.ttlSecondsAfterFinished }}
+      ttlSecondsAfterFinished: {{ .Values.scannerJob.ttlSecondsAfterFinished }}
+      {{- end }}
       template:
         spec:
           restartPolicy: OnFailure
           containers:
             - name: amass
-              image: caffix/amass:v3.7.4
+              image: "caffix/amass:v{{ .Chart.AppVersion }}"
               command:
                 - "amass"
                 - "enum"

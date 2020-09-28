@@ -57,7 +57,7 @@ jobs:
       - uses: actions/checkout@master
       - uses: actions/setup-go@v2-beta
         with:
-          go-version: "1.13"
+          go-version: "1.15"
       - name: "Lint Operator Go Code"
         run: |
           cd operator/
@@ -79,7 +79,7 @@ jobs:
       - uses: actions/checkout@master
       - uses: actions/setup-go@v2-beta
         with:
-          go-version: "1.13"
+          go-version: "1.15"
       - name: "Lint Lurcher Go Code"
         run: |
           cd lurcher/
@@ -128,6 +128,16 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: scbexperimental/parser-kube-hunter
           path: ./scanners/kube-hunter/parser/
+          tag_with_ref: true
+          tag_with_sha: true
+          build_args: baseImageTag=ci-local
+      - uses: docker/build-push-action@v1
+        name: "Build & Push Ncrack Parser Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/parser-ncrack
+          path: ./scanners/ncrack/parser/
           tag_with_ref: true
           tag_with_sha: true
           build_args: baseImageTag=ci-local
@@ -201,6 +211,17 @@ jobs:
           tag_with_ref: true
           tag_with_sha: true
           build_args: baseImageTag=ci-local
+      - uses: docker/build-push-action@v1
+        name: "Build & Push wpscan Parser Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/parser-wpscan
+          path: ./scanners/wpscan/parser/
+          tag_with_ref: true
+          tag_with_sha: true
+          build_args: baseImageTag=ci-local
+
   hookImages:
     name: "Build / Hooks"
     runs-on: ubuntu-latest
@@ -279,6 +300,15 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - uses: docker/build-push-action@v1
+        name: "Build & Push Ncrack Scanner Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: scbexperimental/ncrack
+          path: ./scanners/ncrack/scanner/
+          # Note: not prefixed with a "v" as this seems to match ncrack versioning standards
+          tags: "0.7,latest"
+      - uses: docker/build-push-action@v1
         name: "Build & Push Nmap Scanner Image"
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -316,7 +346,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        k8sVersion: ["1.18.2", "1.17.5", "1.16.9", "1.15.11"]
+        k8sVersion: ["1.19.0", "1.18.8", "1.17.5", "1.16.9"]
     steps:
       - uses: actions/checkout@master
       - name: "Start kind cluster"
@@ -336,9 +366,7 @@ jobs:
           # Install Operator using the images of the current commit
           helm -n securecodebox-system install securecodebox-operator ./operator/ --wait \
             --set="image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="image.digest=null" \
             --set="lurcher.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="lurcher.image.digest=null"
       - name: "Inspect Operator"
         run: |
           echo "Deployment in namespace 'securecodebox-system'"
@@ -380,11 +408,23 @@ jobs:
           cd tests/integration/
           npx jest --ci --color read-only-hook
           helm -n integration-tests uninstall test-scan http-webhook ro-hook
+      - name: "Install Demo Apps"
+        run: |
+          # Install dummy-ssh app
+          helm -n demo-apps install dummy-ssh ./demo-apps/dummy-ssh/ --wait
+          # Install plain nginx server
+          kubectl create deployment --image nginx:alpine nginx --namespace demo-apps
+          kubectl expose deployment nginx --port 80 --namespace demo-apps
       - name: "nmap Integration Tests"
         run: |
           helm -n integration-tests install nmap ./scanners/nmap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color nmap
+      - name: "ncrack Integration Tests"
+        run: |
+          helm -n integration-tests install ncrack ./scanners/ncrack/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          cd tests/integration/
+          npx jest --ci --color ncrack
       - name: "kube-hunter Integration Tests"
         run: |
           helm -n integration-tests install kube-hunter ./scanners/kube-hunter/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
@@ -393,10 +433,13 @@ jobs:
       - name: "ssh-scan Integration Tests"
         run: |
           helm -n integration-tests install ssh-scan ./scanners/ssh_scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
-          # Install dummy-ssh app
-          helm -n demo-apps install dummy-ssh ./demo-apps/dummy-ssh/ --wait
           cd tests/integration/
           npx jest --ci --color ssh-scan
+      - name: "zap Integration Tests"
+        run: |
+          helm -n integration-tests install zap ./scanners/zap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          cd tests/integration/
+          npx jest --ci --color zap
       - name: Inspect Post Failure
         if: failure()
         run: |

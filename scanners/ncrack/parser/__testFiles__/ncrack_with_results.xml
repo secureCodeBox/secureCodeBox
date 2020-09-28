@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ncrackrun>
+<!-- Ncrack 0.7 scan initiated Wed Dec  4 22:54:53 2019 as: ncrack -&#45;user root -&#45;pass aaf076d4fe7cfb63fd1628df91 -oX /tmp/ncrack2.xml ssh://192.168.0.1 -->
+<ncrackrun scanner="ncrack" args="ncrack -&#45;user root -&#45;pass aaf076d4fe7cfb63fd1628df91 -oX /tmp/ncrack2.xml ssh://192.168.0.1" start="1575496493" startstr="Wed Dec  4 22:54:53 2019" version="0.7" xmloutputversion="1.00">
+<verbose level="0"/>
+<debugging level="0"/>
+<service starttime="1575496493" endtime="1575496494">
+<address addr="192.168.0.1" addrtype="ipv4"/>
+<port protocol="tcp" portid="22" name="ssh"></port>
+<credentials username="root" password="aaf076d4fe7cfb63fd1628df91"></credentials>
+</service>
+</ncrackrun>

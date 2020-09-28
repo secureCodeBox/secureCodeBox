@@ -2,19 +2,20 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# telemetryEnabled -- The Operator sends anonymous telemetry data, to give the team an overview how much the secureCodeBox is used. Find out more at https://www.securecodebox.io/telemetry
+telemetryEnabled: true
+
 image:
-  registry: docker.io
-  repository: scbexperimental/operator
-  tag: latest
-  digest: null
+  repository: docker.io/scbexperimental/operator
+  # image.tag -- defaults to the charts version
+  tag: null
   pullPolicy: Always
 
 lurcher:
   image:
-    registry: docker.io
-    repository: scbexperimental/lurcher
+    repository: docker.io/scbexperimental/lurcher
+    # lurcher.image.tag -- defaults to the charts version
     tag: null
-    digest: "sha256:0e9f18f85809fb8c042543657d340949db14e81fc727bf9fab4421befd317850"
     pullPolicy: IfNotPresent
 
 minio:

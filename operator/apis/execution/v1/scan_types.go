@@ -43,12 +43,19 @@ type ScanSpec struct {
 type ScanStatus struct {
 	State string `json:"state,omitempty"`
 
-	ErrorDescription string `json:"errorDescription,omitempty"`
+	// FinishedAt contains the time where the scan (including parser & hooks) has been marked as "Done"
+	FinishedAt       *metav1.Time `json:"finishedAt,omitempty"`
+	ErrorDescription string       `json:"errorDescription,omitempty"`
 
 	// RawResultType determines which kind of ParseDefinition will be used to turn the raw results of the scanner into findings
 	RawResultType string `json:"rawResultType,omitempty"`
 	// RawResultFile Filename of the result file of the scanner. e.g. `nmap-result.xml`
 	RawResultFile string `json:"rawResultFile,omitempty"`
+
+	// FindingDownloadLink link to download the finding json file from. Valid for 7 days
+	FindingDownloadLink string `json:"findingDownloadLink,omitempty"`
+	// RawResultDownloadLink link to download the raw result file from. Valid for 7 days
+	RawResultDownloadLink string `json:"rawResultDownloadLink,omitempty"`
 
 	Findings FindingStats `json:"findings,omitempty"`
 

@@ -6,18 +6,17 @@ cascade:
   # Cascade nmap scans for each subdomain found by amass
   amassNmap: true
   # Cascade nmap SMB scans for each SMB Port found by nmap
-  nmapSmb: true
+  nmapSmb: false
   # Cascade SSH scans for each SSH Port found by nmap
   nmapSsh: true
   # Cascade SSL scans for each HTTP Port found by nmap
   nmapSsl: true
   # Cascade Nikto scans for each HTTP Port found by nmap
-  nmapNikto: true
+  nmapNikto: false
   # Cascade ZAP scans for each HTTP Port found by nmap
-  nmapZapBaseline: true
+  nmapZapBaseline: false
 
 image:
-  registry: docker.io
-  repository: scbexperimental/hook-imperative-subsequent-scans
-  tag: latest
-  digest: null
+  repository: docker.io/scbexperimental/hook-imperative-subsequent-scans
+  # image.tag - defaults to the charts version
+  tag: null

@@ -1,3 +1,11 @@
+---
+title: "Developer Guide"
+path: "docs/developer-guide"
+category: "develop"
+---
+
+<!-- end -->
+
 # Extending secureCodeBox
 
 ## Developing the SCB Operator
@@ -86,21 +94,32 @@ cd operator
 make run
 ```
 
-## How to a New Security Scanner
+## How to add a New Security Scanner
 
 ### ScanType Definition
+> ✍ **Following...**
 
 ### Parsing SDK
 
+1. Install the dependencies `npm install`
+2. Update the parser function here: `./parser/parser.js`
+3. Update the parser tests here: `./parser/parser.test.js`
+4. Run the test suite: `npm test`
+
 ## How to Integrate a New Hook
+> ✍ **Following...**
 
 ### HookType Definition
+> ✍ **Following...**
 
 ### Hook SDK
+> ✍ **Following...**
 
 ## Guidelines
+> ✍ **Following...**
 
 ### Coding Guidelines
+> ✍ **Following...**
 
 #### JSON
 

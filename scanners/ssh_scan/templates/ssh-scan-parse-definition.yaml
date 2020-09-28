@@ -4,4 +4,4 @@ metadata:
   name: "ssh-scan-json"
 spec:
   handlesResultsType: ssh-scan-json
-  image: "{{ .Values.parserImage.registry }}/{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag }}"
+  image: "{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag | default .Chart.Version }}"

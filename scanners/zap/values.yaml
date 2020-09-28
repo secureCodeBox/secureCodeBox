@@ -1,7 +1,15 @@
 parserImage:
-  registry: docker.io
-  repository: scbexperimental/parser-zap
-  tag: latest
+  repository: docker.io/scbexperimental/parser-zap
+  # parserImage.tag - defaults to the charts version
+  tag: null
 
 scannerJob:
   resources: {}
+# scannerJob:
+#   resources:
+#     requests:
+#       memory: "2Gi"
+#       cpu: "250m"
+#     limits:
+#       memory: "2Gi"
+#       cpu: "500m"

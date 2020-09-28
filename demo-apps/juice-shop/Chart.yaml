@@ -1,26 +1,26 @@
 apiVersion: v2
-version: 0.1.0
-appVersion: "v10.0.0"
+version: latest
+appVersion: "v12.0.2"
 name: juice-shop
 description: "OWASP Juice Shop: Probably the most modern and sophisticated insecure web application"
 type: application
 home: https://owasp.org/www-project-juice-shop/
 icon: https://raw.githubusercontent.com/bkimminich/juice-shop/bdbcc0ea4484a2dd6b8ca243daa34c882129cdd4/frontend/src/assets/public/images/JuiceShop_Logo_400px.png
 keywords:
-- owasp
-- javascript
-- vulnerable
-- hacking
-- application-security
-- owasp-top-10
-- owasp-top-ten
-- pentesting
-- vulnapp
-- appsec
-- ctf
+  - owasp
+  - javascript
+  - vulnerable
+  - hacking
+  - application-security
+  - owasp-top-10
+  - owasp-top-ten
+  - pentesting
+  - vulnapp
+  - appsec
+  - ctf
 sources:
-- https://github.com/secureCodeBox/helm
-- https://github.com/bkimminich/juice-shop
+  - https://github.com/secureCodeBox/helm
+  - https://github.com/bkimminich/juice-shop
 maintainers:
-- name: iteratec GmbH
-  email: security@iteratec.com
+  - name: iteratec GmbH
+    email: security@iteratec.com

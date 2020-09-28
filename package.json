@@ -2,22 +2,39 @@
   "name": "securecodebox",
   "version": "1.0.0",
   "description": "",
+  "homepage": "https://github.com/secureCodeBox/secureCodeBox-v2#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/secureCodeBox/secureCodeBox-v2.git"
+  },
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "lint": "eslint **/*.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/secureCodeBox/secureCodeBox-v2-alpha.git"
+  "keywords": [
+    "secureCodeBox",
+    "security"
+  ],
+  "author": {
+    "name": "iteratec GmbH",
+    "email": "security@iteratec.com",
+    "url": "https://www.iteratec.com"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "contributors": [
+    { 
+      "name" : "Jannik Hollenbach",
+      "url" : "https://github.com/J12934"
+    },
+    { 
+      "name" : "Robert Seedorff",
+      "url" : "https://github.com/rseedorff"
+    }
+  ],
   "bugs": {
-    "url": "https://github.com/secureCodeBox/secureCodeBox-v2-alpha/issues"
+    "url": "https://github.com/secureCodeBox/secureCodeBox-v2/issues"
   },
-  "homepage": "https://github.com/secureCodeBox/secureCodeBox-v2-alpha#readme",
+  "license": "Apache-2.0",
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-oclif": "^3.1.0",

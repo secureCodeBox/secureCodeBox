@@ -1,11 +1,13 @@
 ---
 title: "SSH"
-path: "scanners/ssh"
+path: "scanners/ssh_scan"
 category: "scanner"
+type: "SSH"
+state: "released"
+appVersion: "0.0.43"
 usecase: "SSH Configuration and Policy Scanner"
-release: "https://img.shields.io/github/release/secureCodeBox/scanner-infrastructure-ssh.svg"
-
 ---
+
 SSH_scan is an easy-to-use prototype SSH configuration and policy scanner, inspired by Mozilla OpenSSH Security Guide, which provides a reasonable baseline policy recommendation for SSH configuration parameters such as Ciphers, MACs, and KexAlgos and much more.
 
 To learn more about the ssh_scan scanner itself visit [ssh_scan GitHub].
@@ -19,13 +21,6 @@ The SSH_scan ScanType can be deployed via helm.
 ```bash
 helm upgrade --install ssh ./scanners/ssh_scan/
 ```
-
-## Examples
-
-A set of examples can be found in the [examples](./examples) folder.
-
-* Example *example.com* [scan](./examples/example.com/scan.yaml) and [findings](./examples/example.com/findings.yaml)
-* Example *localhost* [scan](./examples/localhost/scan.yaml) and [findings](./examples/localhost/findings.yaml)
 
 ## Configuration
 
@@ -66,21 +61,6 @@ Examples:
   ssh_scan -t 192.168.1.1 -P custom_policy.yml
   ssh_scan -t 192.168.1.1 --unit-test -P custom_policy.yml
 ```
-
-## Development
-
-### Local setup
-
-1. Clone the repository `git clone git@github.com:secureCodeBox/secureCodeBox-v2-alpha.git`
-2. Ensure you have node.js installed
-   * On MacOs with brew package manager: `brew install node`
-
-### Parser Development
-
-1. Install the dependencies `npm install`
-2. Update the parser function here: `./parser/parser.js`
-3. Update the parser tests here: `./parser/parser.test.js`
-4. Run the test suite: `npm test`
 
 [ssh_scan GitHub]: https://github.com/mozilla/ssh_scan
 [ssh_scan Documentation]: https://github.com/mozilla/ssh_scan#example-command-line-usage
