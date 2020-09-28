@@ -397,7 +397,7 @@ jobs:
             --set="attribute.name=severity" \
             --set="attribute.value=high"
           helm -n integration-tests install test-scan ./scanners/test-scan/ \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color read-write-hook
