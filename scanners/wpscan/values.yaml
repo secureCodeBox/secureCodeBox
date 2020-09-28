@@ -1,5 +1,5 @@
 parserImage:
-  repository: docker.io/scbexperimental/parser-wpscan
+  repository: docker.io/securecodebox/parser-wpscan
   # parserImage.tag - defaults to the charts version
   tag: null
 

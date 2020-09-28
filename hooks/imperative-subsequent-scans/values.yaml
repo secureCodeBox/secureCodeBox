@@ -17,6 +17,6 @@ cascade:
   nmapZapBaseline: false
 
 image:
-  repository: docker.io/scbexperimental/hook-imperative-subsequent-scans
+  repository: docker.io/securecodebox/hook-imperative-subsequent-scans
   # image.tag - defaults to the charts version
   tag: null

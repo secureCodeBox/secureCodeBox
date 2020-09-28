@@ -1,5 +1,5 @@
 parserImage:
-  repository: docker.io/scbexperimental/parser-test-scan
+  repository: docker.io/securecodebox/parser-test-scan
   # parserImage.tag - defaults to the charts version
   tag: null
 

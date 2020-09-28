@@ -202,7 +202,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 	// Get lurcher image config from env
 	lurcherImage := os.Getenv("LURCHER_IMAGE")
 	if lurcherImage == "" {
-		lurcherImage = "scbexperimental/lurcher:latest"
+		lurcherImage = "securecodebox/lurcher:latest"
 	}
 	lurcherPullPolicyRaw := os.Getenv("LURCHER_PULL_POLICY")
 	var lurcherPullPolicy corev1.PullPolicy

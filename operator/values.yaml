@@ -6,14 +6,14 @@
 telemetryEnabled: true
 
 image:
-  repository: docker.io/scbexperimental/operator
+  repository: docker.io/securecodebox/operator
   # image.tag -- defaults to the charts version
   tag: null
   pullPolicy: Always
 
 lurcher:
   image:
-    repository: docker.io/scbexperimental/lurcher
+    repository: docker.io/securecodebox/lurcher
     # lurcher.image.tag -- defaults to the charts version
     tag: null
     pullPolicy: IfNotPresent

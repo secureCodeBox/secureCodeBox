@@ -7,6 +7,6 @@ attribute:
   value: my-own-category
 
 image:
-  repository: docker.io/scbexperimental/update-field
+  repository: docker.io/securecodebox/update-field
   # image.tag - defaults to the charts version
   tag: null
