@@ -3,6 +3,8 @@ parserImage:
   # parserImage.tag - defaults to the charts version
   tag: null
 
+image:
+  repository: docker.io/securecodebox/scanner-nmap
 scannerJob:
   ttlSecondsAfterFinished: null
   resources: {}
