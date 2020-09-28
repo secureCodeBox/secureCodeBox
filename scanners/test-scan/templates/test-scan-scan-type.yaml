@@ -17,7 +17,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: test-scan
-              image: securecodebox/test-scan:latest
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
               command: ["touch", "/home/securecodebox/hello-world.txt"]
               resources:
                 {{- toYaml .Values.scannerJob.resources | nindent 16 }}
