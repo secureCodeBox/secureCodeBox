@@ -1,0 +1,8 @@
+apiVersion: v1
+name: operator
+description: secureCodeBox Operator to automate the execution of security scans on kubernetes
+
+type: application
+
+# version - gets automatically set to the secureCodeBox release version when the helm charts gets published
+version: latest
