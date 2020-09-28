@@ -5,8 +5,9 @@ metadata:
 spec:
   scanType: "ncrack"
   parameters:
-    # Enable verbose logging
+    # Enable verbose logging, d10: Debug Level 10, printing more output to the console
     - -v
+    - -d10
     - -U
     - /ncrack/users.txt
     - -P
