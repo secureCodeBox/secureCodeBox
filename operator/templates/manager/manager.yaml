@@ -64,12 +64,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.s3.keySecret }}
-                  key: accesskey
+                  key: {{ .Values.s3.secretAttributeNames.accesskey }}
             - name: S3_SECRET_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.s3.keySecret }}
-                  key: secretkey
+                  key: {{ .Values.s3.secretAttributeNames.secretkey }}
             {{- end }}          
             - name: LURCHER_IMAGE
               value: "{{ .Values.lurcher.image.repository }}:{{ .Values.lurcher.image.tag | default .Chart.Version }}"
