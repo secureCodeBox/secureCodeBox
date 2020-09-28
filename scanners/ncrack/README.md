@@ -42,7 +42,7 @@ scannerJob:
 EOF
 ```
 
-This enables us now to refer to our files via "/ncrack/<file>" in the scan.yaml.
+This enables us now to refer to our files via `/ncrack/<file>` in the scan.yaml.
 
 For a full example on how to configure ncrack with your custom files against a ssh service, see the "dummy-ssh" example.
 
