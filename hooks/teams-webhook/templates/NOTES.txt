@@ -1,0 +1,4 @@
+Micorsoft Teams Webhook deployed.
+Will send requests to:
+POST {{ .Values.webhookUrl }}
+on every completed scan
