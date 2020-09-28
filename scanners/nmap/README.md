@@ -18,7 +18,7 @@ To learn more about the Nmap scanner itself visit [nmap.org].
 
 ## Deployment
 
-The Nikto ScanType can be deployed via helm:
+The Nmap ScanType can be deployed via helm:
 
 ```bash
 helm upgrade --install nmap ./scanners/nmap/
