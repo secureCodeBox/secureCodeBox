@@ -6,7 +6,6 @@
   - [Working with Forks and Pull Requests](#working-with-forks-and-pull-requests)
   - [Working with Issues / How to Contribute in Issues](#working-with-issues--how-to-contribute-in-issues)
   - [How to Write Commit Messages](#how-to-write-commit-messages)
-  - [Code Review](#code-review)
   - [Code of Conduct](#code-of-conduct)
 
 ## GitHub Flow
@@ -64,8 +63,6 @@ TL;DR
 7. Use the body to explain what and why vs. how
 
 NOTE: Make sure you don't include `@mentions` or `fixes` keywords in your git commit messages. These should be included in the PR body instead.
-
-## Code Review
 
 ## Code of Conduct
 
