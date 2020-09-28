@@ -1,5 +1,5 @@
 parserImage:
-  repository: docker.io/scbexperimental/parser-ssh-scan
+  repository: docker.io/securecodebox/parser-ssh-scan
   # parserImage.tag - defaults to the charts version
   tag: null
 

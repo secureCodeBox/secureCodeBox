@@ -5,6 +5,6 @@
 webhookUrl: "http://example.com"
 
 image:
-  repository: docker.io/scbexperimental/generic-webhook
+  repository: docker.io/securecodebox/generic-webhook
   # image.tag - defaults to the charts version
   tag: null

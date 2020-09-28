@@ -17,7 +17,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: test-scan
-              image: scbexperimental/test-scan:latest
+              image: securecodebox/test-scan:latest
               command: ["touch", "/home/securecodebox/hello-world.txt"]
               resources:
                 {{- toYaml .Values.scannerJob.resources | nindent 16 }}
