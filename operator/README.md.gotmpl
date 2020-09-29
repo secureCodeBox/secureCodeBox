@@ -1,0 +1,23 @@
+![operator logo](https://docs.securecodebox.io/img/Logo%20Color.svg)
+
+The secureCodeBox operator is runniing on kubernetes and the core component of the complete secureCodeBox stack, responsible for operating all scans and ressources.
+
+<!-- end -->
+
+## Deployment
+
+The secureCodeBox Operator can be deployed via helm:
+
+```bash
+# Add the secureCodeBox Helm Repo
+helm repo add secureCodeBox https://charts.securecodebox.io
+# Create a new namespace for the secureCodeBox Operator
+kubectl create namespace securecodebox-system
+# Install the Operator & CRD's
+helm install securecodebox-operator secureCodeBox/operator
+```
+
+## Chart Configuration
+
+{{ template "chart.valuesTable" . }}
+

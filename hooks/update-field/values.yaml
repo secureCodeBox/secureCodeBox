@@ -3,10 +3,14 @@
 # Declare variables to be passed into your templates.
 
 attribute:
+  # attribute.name -- The name of the attribute you want to add to each finding result
   name: "category"
+  # attribute.value -- The value of the attribute you want to add to each finding result
   value: my-own-category
 
 image:
+  # image.repository -- Hook image repository
   repository: docker.io/scbexperimental/update-field
-  # image.tag - defaults to the charts version
+  # parserImage.tag -- Parser image tag
+  # @default -- defaults to the charts version
   tag: null
