@@ -172,6 +172,8 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 		podAnnotations = make(map[string]string)
 	}
 	podAnnotations["experimental.securecodebox.io/job-type"] = "scanner"
+	// Ensuring that istio doesn't inject a sidecar proxy.
+	podAnnotations["sidecar.istio.io/inject"] = "true"
 	job.Spec.Template.Annotations = podAnnotations
 
 	job.Spec.Template.Spec.ServiceAccountName = "lurcher"
@@ -186,16 +188,6 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 			EmptyDir: &corev1.EmptyDirVolumeSource{},
 		},
 	})
-
-	// Ensuring that istio doesn't inject a sidecar proxy.
-	// This currently messes with
-	if job.Spec.Template.ObjectMeta.Labels != nil {
-		job.Spec.Template.ObjectMeta.Labels["sidecar.istio.io/inject"] = "true"
-	} else {
-		job.Spec.Template.ObjectMeta.Labels = map[string]string{
-			"sidecar.istio.io/inject": "false",
-		}
-	}
 
 	// merging volume mounts (for the primary scanner container) from ScanType (if existing) with standard results volume mount
 	if job.Spec.Template.Spec.Containers[0].VolumeMounts == nil || len(job.Spec.Template.Spec.Containers[0].VolumeMounts) == 0 {
