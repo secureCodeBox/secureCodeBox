@@ -25,7 +25,8 @@ kubectl create secret generic --from-file users.txt --from-file passwords.txt nc
 
 <b> IMPORTANT: Use an extra empty line at the end of your files, otherwise the last letter of the last line will be omitted (due to a bug in k8) </b>
 
-Now we created a secret named "ncrack-lists".
+
+Now we created a secret named "ncrack-lists". 
 But before we can use the files, we have to install the ncrack ScanType:
 
 ```bash
@@ -102,7 +103,7 @@ TIMING AND PERFORMANCE:
     to (time-out): maximum cracking <time> for service, regardless of success so far
   -T<0-5>: Set timing template (higher is faster)
   --connection-limit <number>: threshold for total concurrent connections
-  --stealthy-linear: try credentials using only one connection against each specified host
+  --stealthy-linear: try credentials using only one connection against each specified host 
     until you hit the same host again. Overrides all other timing options.
 AUTHENTICATION:
   -U <filename>: username file
@@ -140,18 +141,10 @@ SEE THE MAN PAGE (http://nmap.org/ncrack/man.html) FOR MORE OPTIONS AND EXAMPLES
 
 ## Chart Configuration
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| parserImage.repository | string | `"docker.io/scbexperimental/parser-ncrack"` | Parser image repository |
-| parserImage.tag | string | defaults to the charts version | Parser image tag |
-| scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
-| scannerJob.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
-| scannerJob.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
-| scannerJob.extraVolumes | list | `[]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
-| scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
-| scannerJob.ttlSecondsAfterFinished | string | `nil` | Defines how long the scanner job after finishing will be available (see: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/) |
+{{ template "chart.valuesTable" . }}
 
 ---
+
 
 > 🔧 The implementation is currently work-in-progress and still undergoing major changes. It'll be released here once it has stabilized.
 

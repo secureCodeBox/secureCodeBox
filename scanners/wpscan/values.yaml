@@ -1,12 +1,16 @@
 parserImage:
-  repository: docker.io/securecodebox/parser-wpscan
-  # parserImage.tag - defaults to the charts version
+  # parserImage.repository -- Parser image repository
+  repository: docker.io/scbexperimental/parser-wpscan
+  # parserImage.tag -- Parser image tag
+  # @default -- defaults to the charts version
   tag: null
 
 scannerJob:
+  # scannerJob.ttlSecondsAfterFinished -- Defines how long the scanner job after finishing will be available (see: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/)
   ttlSecondsAfterFinished: null
+
+  # scannerJob.resources -- CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)
   resources: {}
-# scannerJob:
 #   resources:
 #     requests:
 #       memory: "256Mi"
@@ -14,3 +18,15 @@ scannerJob:
 #     limits:
 #       memory: "512Mi"
 #       cpu: "500m"
+
+  # scannerJob.env -- Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
+  env: []
+
+  # scannerJob.extraVolumes -- Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
+  extraVolumes: []
+
+  # scannerJob.extraVolumeMounts -- Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
+  extraVolumeMounts: []
+
+  # scannerJob.extraContainers -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
+  extraContainers: []

@@ -1,0 +1,28 @@
+---
+title: "Elasticsearch"
+path: "hooks/persistence-elastic"
+category: "hook"
+type: "persistenceProvider"
+state: "released"
+usecase: "Publishes all Scan Findings to Elasticsearch."
+---
+
+<!-- end -->
+
+## About
+The ElasticSearch persistenceProvider hook saves all findings and reports into the configured ElasticSearch index. This allows for some easy searching and visualization of the findings. To learn more about Elasticsearch visit [elastic.io].
+
+## Deployment
+
+Installing the Elasticsearch persistenceProvider hook will add a _ReadOnly Hook_ to your namespace. 
+
+```bash
+helm upgrade --install elkh ./hooks/persistence-elastic/
+```
+
+## Chart Configuration
+
+{{ template "chart.valuesTable" . }}
+
+
+[elastic.io]: https://www.elastic.co/products/elasticsearch
