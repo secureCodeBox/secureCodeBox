@@ -1,5 +1,5 @@
 [[ADR-0002]]
-= ADR-0000: How can we introduce a more general extension concept for data processing modules?
+= ADR-0002: How can we introduce a more general extension concept for data processing modules?
 
 [cols="h,d",grid=rows,frame=none,stripes=none,caption="Status",%autowidth]
 |====
