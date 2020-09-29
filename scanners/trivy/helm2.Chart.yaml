@@ -13,10 +13,10 @@ keywords:
   - image-scanning
   - scanner
   - secureCodeBox
-home: https://www.securecodebox.io/scanners/trivy
-icon: https://github.com/aquasecurity/trivy/blob/master/imgs/logo.png
+home: https://docs.securecodebox.io/docs/scanners/Trivy
+icon: https://docs.securecodebox.io/img/integrationIcons/Trivy.svg
 sources:
-  - https://github.com/secureCodeBox/secureCodeBox
+  - https://github.com/secureCodeBox/secureCodeBox-v2
 maintainers:
   - name: iteratec GmbH
-    email: security@iteratec.com
+    email: secureCodeBox@iteratec.com

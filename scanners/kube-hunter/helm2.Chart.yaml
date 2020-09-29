@@ -12,10 +12,10 @@ keywords:
   - kube-hunter
   - scanner
   - secureCodeBox
-home: https://www.securecodebox.io/scanners/kube-hunter
-icon: https://www.securecodebox.io/scannerIcons/kube-hunter.svg
+home: https://docs.securecodebox.io/docs/scanners/kube-hunter
+icon: https://docs.securecodebox.io/img/integrationIcons/kube-hunter.svg
 sources:
-  - https://github.com/secureCodeBox/secureCodeBox
+  - https://github.com/secureCodeBox/secureCodeBox-v2
 maintainers:
   - name: iteratec GmbH
-    email: security@iteratec.com
+    email: secureCodeBox@iteratec.com

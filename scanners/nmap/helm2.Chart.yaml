@@ -12,10 +12,10 @@ keywords:
   - nmap
   - scanner
   - secureCodeBox
-home: https://www.securecodebox.io/scanners/nmap
-icon: https://www.securecodebox.io/scannerIcons/Nmap.svg
+home: https://docs.securecodebox.io/docs/scanners/Nmap
+icon: https://docs.securecodebox.io/img/integrationIcons/Nmap.svg
 sources:
-  - https://github.com/secureCodeBox/secureCodeBox
+  - https://github.com/secureCodeBox/secureCodeBox-v2
 maintainers:
   - name: iteratec GmbH
-    email: security@iteratec.com
+    email: secureCodeBox@iteratec.com

@@ -12,10 +12,10 @@ keywords:
   - ssl
   - scanner
   - secureCodeBox
-home: https://www.securecodebox.io/scanners/sslyze
-icon: https://www.securecodebox.io/scannerIcons/SSLyze.svg
+home: https://docs.securecodebox.io/docs/scanners/SSLyze
+icon: https://docs.securecodebox.io/img/integrationIcons/SSLyze.svg
 sources:
-  - https://github.com/secureCodeBox/secureCodeBox
+  - https://github.com/secureCodeBox/secureCodeBox-v2
 maintainers:
   - name: iteratec GmbH
-    email: security@iteratec.com
+    email: secureCodeBox@iteratec.com

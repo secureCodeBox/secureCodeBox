@@ -13,10 +13,10 @@ keywords:
   - wordpress
   - scanner
   - secureCodeBox
-home: https://www.securecodebox.io/scanners/wpscan
-icon: https://www.securecodebox.io/scannerIcons/WPScan.svg
+home: https://docs.securecodebox.io/docs/scanners/WPScan
+icon: https://docs.securecodebox.io/img/integrationIcons/WPScan.svg
 sources:
-  - https://github.com/secureCodeBox/scanner-infrastructure-wpscan
+  - https://github.com/secureCodeBox/secureCodeBox-v2
 maintainers:
   - name: iteratec GmbH
-    email: security@iteratec.com
+    email: secureCodeBox@iteratec.com

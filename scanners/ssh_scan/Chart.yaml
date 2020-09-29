@@ -12,10 +12,10 @@ keywords:
   - ssh
   - scanner
   - secureCodeBox
-home: https://www.securecodebox.io/scanners/ssh
-icon: https://www.securecodebox.io/scannerIcons/SSH.svg
+home: https://docs.securecodebox.io/docs/scanners/SSH
+icon: https://docs.securecodebox.io/img/integrationIcons/SSH.svg
 sources:
-  - https://github.com/secureCodeBox/secureCodeBox
+  - https://github.com/secureCodeBox/secureCodeBox-v2
 maintainers:
   - name: iteratec GmbH
-    email: security@iteratec.com
+    email: secureCodeBox@iteratec.com
