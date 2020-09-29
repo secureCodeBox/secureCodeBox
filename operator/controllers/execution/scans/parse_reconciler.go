@@ -94,6 +94,9 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 					Annotations: map[string]string{
 						"auto-discovery.experimental.securecodebox.io/ignore": "true",
 					},
+					Labels: map[string]string{
+						"sidecar.istio.io/inject": "false",
+					},
 				},
 				Spec: corev1.PodSpec{
 					RestartPolicy:      corev1.RestartPolicyNever,

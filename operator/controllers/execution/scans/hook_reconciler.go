@@ -376,6 +376,9 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 					Annotations: map[string]string{
 						"auto-discovery.experimental.securecodebox.io/ignore": "true",
 					},
+					Labels: map[string]string{
+						"sidecar.istio.io/inject": "false",
+					},
 				},
 				Spec: corev1.PodSpec{
 					ServiceAccountName: serviceAccountName,
