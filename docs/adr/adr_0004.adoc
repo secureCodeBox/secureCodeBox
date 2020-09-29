@@ -5,7 +5,7 @@
 |====
 
 | Status
-| ACCEPTED
+| ACCEPTED | SUPERSEDES <<ADR-0001>>
 
 | Date
 | 2020-09-29
@@ -37,5 +37,5 @@ by Docusaurus itself.
 
 As simple and easy it sounds, so it is, meaning that since the build is automated to a very big degree, we are 'forced' to follow Docusaurus' exact guidelines and mechanics. 
 For now they are almost identical to what we require. And of course we can build custom components and custom pages, but the documentation and blog part of the site are very strict.
-Since we want to use this website mainly (ideally only) for documentation purposes, we need a separate marketing page (more on that in <<ADR-0005>>). As far as maintenance goes,
+Since we want to use this website mainly (ideally only) for documentation purposes, we need a separate marketing page. As far as maintenance goes,
 we mostly need to maintain our custom build scripts. Everything else is very much automated. 
