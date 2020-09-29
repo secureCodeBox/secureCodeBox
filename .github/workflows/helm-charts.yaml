@@ -11,7 +11,7 @@ jobs:
       - name: "Install yq"
         run: |
           sudo snap install yq
-      - name: Parse Tag 
+      - name: Parse Tag
         run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF#refs/*/}
       - name: "Publish Helm3 Charts"
         env:
@@ -45,8 +45,9 @@ jobs:
             cd "${dir}" || exit
             mv Chart.yaml helm3.Chart.yaml
             mv helm2.Chart.yaml Chart.yaml
-            if [ ${dir} = "operator" ]
+            if [ "$(basename "$PWD")" = "operator" ]
             then
+                echo "Copying CRDS to templates folder, as helm2 doesn't have native crds support."
                 cp -R crds templates/crds
             fi
             echo "Restoring Helm2 Chart and replace Helm3 Chart temporary"
