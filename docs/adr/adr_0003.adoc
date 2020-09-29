@@ -1,5 +1,5 @@
 [[ADR-0003]]
-= ADR-0002: How can we introduce a mechanism to start specialized scans on the results of previous scans?
+= ADR-0003: How can we introduce a mechanism to start specialized scans on the results of previous scans?
 
 [cols="h,d",grid=rows,frame=none,stripes=none,caption="Status",%autowidth]
 |====
