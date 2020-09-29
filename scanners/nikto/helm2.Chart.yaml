@@ -13,10 +13,10 @@ keywords:
   - nikto
   - scanner
   - secureCodeBox
-home: https://www.securecodebox.io/scanners/nikto
-icon: https://www.securecodebox.io/scannerIcons/Nikto.svg
+home: https://docs.securecodebox.io/docs/scanners/Nikto
+icon: https://docs.securecodebox.io/img/integrationIcons/Nikto.svg
 sources:
-  - https://github.com/secureCodeBox/secureCodeBox
+  - https://github.com/secureCodeBox/secureCodeBox-v2
 maintainers:
   - name: iteratec GmbH
-    email: security@iteratec.com
+    email: secureCodeBox@iteratec.com

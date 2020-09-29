@@ -12,10 +12,10 @@ keywords:
   - ncrack
   - scanner
   - secureCodeBox
-home: https://www.securecodebox.io/scanners/ncrack
-icon: https://www.securecodebox.io/scannerIcons/Ncrack.svg
+home: https://docs.securecodebox.io/docs/scanners/Ncrack
+icon: https://docs.securecodebox.io/img/integrationIcons/Ncrack.svg
 sources:
-  - https://github.com/secureCodeBox/secureCodeBox
+  - https://github.com/secureCodeBox/secureCodeBox-v2
 maintainers:
   - name: iteratec GmbH
-    email: security@iteratec.com
+    email: secureCodeBox@iteratec.com

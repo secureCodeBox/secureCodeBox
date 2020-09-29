@@ -13,10 +13,10 @@ keywords:
   - OWASP
   - scanner
   - secureCodeBox
-home: https://www.securecodebox.io/scanners/zap
-icon: https://www.securecodebox.io/scannerIcons/ZAP.svg
+home: https://docs.securecodebox.io/docs/scanners/ZAP
+icon: https://docs.securecodebox.io/img/integrationIcons/ZAP.svg
 sources:
-  - https://github.com/secureCodeBox/secureCodeBox
+  - https://github.com/secureCodeBox/secureCodeBox-v2
 maintainers:
   - name: iteratec GmbH
-    email: security@iteratec.com
+    email: secureCodeBox@iteratec.com
