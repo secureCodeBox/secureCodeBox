@@ -173,7 +173,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 	}
 	podAnnotations["experimental.securecodebox.io/job-type"] = "scanner"
 	// Ensuring that istio doesn't inject a sidecar proxy.
-	podAnnotations["sidecar.istio.io/inject"] = "true"
+	podAnnotations["sidecar.istio.io/inject"] = "false"
 	job.Spec.Template.Annotations = podAnnotations
 
 	job.Spec.Template.Spec.ServiceAccountName = "lurcher"
