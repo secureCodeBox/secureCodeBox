@@ -6,3 +6,22 @@ type: application
 
 # version - gets automatically set to the secureCodeBox release version when the helm charts gets published
 version: latest
+kubeVersion: ">=v1.11.0"
+
+keywords:
+  - security
+  - secureCodeBox
+  - operator
+home: https://docs.securecodebox.io/docs/getting-started/installation
+icon: https://docs.securecodebox.io/img/Logo%20Color.svg
+sources:
+  - https://github.com/secureCodeBox/secureCodeBox-v2
+maintainers:
+  - name: iteratec GmbH
+    email: secureCodeBox@iteratec.com
+
+dependencies:
+  - name: minio
+    version: 5.0.19
+    repository: https://kubernetes-charts.storage.googleapis.com/
+    condition: minio.enabled
