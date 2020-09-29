@@ -1,0 +1,21 @@
+apiVersion: v1
+name: amass
+description: A Helm chart for the Amass security scanner that integrates with the secureCodeBox.
+
+type: application
+# version - gets automatically set to the secureCodeBox release version when the helm charts gets published
+version: latest
+appVersion: 3.10.3
+
+keywords:
+  - security
+  - amass
+  - scanner
+  - secureCodeBox
+home: https://www.securecodebox.io/scanners/amass
+icon: https://www.securecodebox.io/scannerIcons/Amass.svg
+sources:
+  - https://github.com/secureCodeBox/secureCodeBox
+maintainers:
+  - name: iteratec GmbH
+    email: security@iteratec.com

@@ -1,0 +1,22 @@
+apiVersion: v1
+name: wpscan
+description: A Helm chart for the WordPress security scanner that integrates with the secureCodeBox.
+
+type: application
+# version - gets automatically set to the secureCodeBox release version when the helm charts gets published
+version: latest
+appVersion: latest
+
+keywords:
+  - security
+  - wpscan
+  - wordpress
+  - scanner
+  - secureCodeBox
+home: https://www.securecodebox.io/scanners/wpscan
+icon: https://www.securecodebox.io/scannerIcons/WPScan.svg
+sources:
+  - https://github.com/secureCodeBox/scanner-infrastructure-wpscan
+maintainers:
+  - name: iteratec GmbH
+    email: security@iteratec.com
