@@ -5,6 +5,8 @@ parserImage:
 
 image:
   repository: docker.io/securecodebox/scanner-nmap
+  # image.tag - defaults to the charts version
+  tag: null
 scannerJob:
   ttlSecondsAfterFinished: null
   resources: {}
