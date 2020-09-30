@@ -334,7 +334,8 @@ jobs:
           repository: securecodebox/scanner-test-scan
           path: ./scanners/test-scan/scanner/
           # Note: not prefixed with a "v" as this seems to match nmap versioning standards
-          tags: "latest"
+          tag_with_ref: true
+          tag_with_sha: true
   integrationTests:
     name: "Test / Integration / k8s ${{ matrix.k8sVersion }}"
     needs:
