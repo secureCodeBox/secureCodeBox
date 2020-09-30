@@ -426,7 +426,7 @@ jobs:
       - name: "nmap Integration Tests"
         run: |
           helm -n integration-tests install nmap ./scanners/nmap/ \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parserImage.tag=7.80" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color nmap
