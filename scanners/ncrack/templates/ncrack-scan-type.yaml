@@ -17,7 +17,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: ncrack
-              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default 0.7 }}"
               command: ["ncrack", "-oX", "/home/securecodebox/ncrack-results.xml"]
               resources:
                 {{- toYaml .Values.scannerJob.resources | nindent 16 }}
