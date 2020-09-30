@@ -304,7 +304,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/ncrack
+          repository: securecodebox/scanner-ncrack
           path: ./scanners/ncrack/scanner/
           # Note: not prefixed with a "v" as this seems to match ncrack versioning standards
           tags: "0.7,latest"
@@ -313,7 +313,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/nmap
+          repository: securecodebox/scanner-nmap
           path: ./scanners/nmap/scanner/
           # Note: not prefixed with a "v" as this seems to match nmap versioning standards
           tags: "7.80,7.80-2,latest"
@@ -322,7 +322,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/kube-hunter
+          repository: securecodebox/scanner-kube-hunter
           path: ./scanners/kube-hunter/scanner/
           # Note: not prefixed with a "v" as this matches the aquasec/kube-hunter tags
           tags: "0.3.0,latest"
@@ -331,7 +331,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/test-scan
+          repository: securecodebox/scanner-test-scan
           path: ./scanners/test-scan/scanner/
           # Note: not prefixed with a "v" as this seems to match nmap versioning standards
           tags: "latest"
