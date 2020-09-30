@@ -434,7 +434,7 @@ jobs:
         run: |
           helm -n integration-tests install ncrack ./scanners/ncrack/ \
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)"
+            --set="image.tag=0.7"
           cd tests/integration/
           npx jest --ci --color ncrack
       - name: "kube-hunter Integration Tests"
