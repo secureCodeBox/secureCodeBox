@@ -5,7 +5,7 @@ parserImage:
 
 image:
   repository: docker.io/securecodebox/scanner-ncrack
-  # image.tag - defaults to ncrack version 0.7
+  # image.tag - defaults to the charts version
   tag: null
 
 scannerJob:
