@@ -18,7 +18,7 @@ jobs:
           mkdir helm-docs
           cd helm-docs
 
-          wget -o https://github.com/norwoodj/helm-docs/releases/download/v0.15.0/helm-docs_0.15.0_Linux_x86_64.tar.gz
+          curl --output helm-docs.tar.gz --location https://github.com/norwoodj/helm-docs/releases/download/v0.15.0/helm-docs_0.15.0_Linux_x86_64.tar.gz
           tar -xvf helm-docs.tar.gz
           # Verify install
           ./helm-docs --version
