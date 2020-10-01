@@ -22,7 +22,7 @@ The Nikto ScanType can be deployed via helm:
 helm upgrade --install nikto ./scanners/nikto/
 ```
 
-## Configuration
+## Scanner Configuration
 
 The following security scan configuration example are based on the [Nikto Documentation](https://cirt.net/nikto2-docs/usage.html#id2780332), please take a look at the original documentation for more configuration examples.
 
@@ -48,6 +48,19 @@ Nikto also has a comprehensive list of [command line options documented](https:/
   * b - Software Identification. Installed software or program could be positively identified.
   * c - Remote source inclusion. Software allows remote inclusion of source code.
   * x - Reverse Tuning Options. Perform exclusion of the specified tuning type instead of inclusion of the specified tuning type
+
+## Chart Configuration
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| parserImage.repository | string | `"docker.io/scbexperimental/parser-nikto"` | Parser image repository |
+| parserImage.tag | string | defaults to the charts version | Parser image tag |
+| scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
+| scannerJob.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
+| scannerJob.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scannerJob.extraVolumes | list | `[]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
+| scannerJob.ttlSecondsAfterFinished | string | `nil` | Defines how long the scanner job after finishing will be available (see: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/) |
 
 [cirt.net]: https://cirt.net/
 [nikto github]: https://github.com/sullo/nikto

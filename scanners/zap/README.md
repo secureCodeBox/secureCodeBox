@@ -24,7 +24,7 @@ The ZAP scanType can be deployed via helm:
 helm upgrade --install zap ./scanners/zap/
 ```
 
-## Configuration
+## Scanner Configuration
 
 The following security scan configuration example are based on the ZAP Docker Scan Scripts. By default the secureCodeBox ZAP Helm Chart installs all three ZAP scripts: `zap-baseline`, `zap-full-scan` & `zap-api-scan`. Listed below are the arguments supported by the `zap-baseline` script, which are mostly interchangable with the other ZAP scripts. For a more complete reference check out the [ZAP Documentation](https://www.zaproxy.org/docs/docker/) and the secureCodeBox based ZAP examples listed below.
 
@@ -58,3 +58,16 @@ Options:
     -z zap_options    ZAP command line options e.g. -z "-config aaa=bbb -config ccc=ddd"
     --hook            path to python file that define your custom hooks
 ```
+
+## Chart Configuration
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| parserImage.repository | string | `"docker.io/scbexperimental/parser-zap"` | Parser image repository |
+| parserImage.tag | string | defaults to the charts version | Parser image tag |
+| scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
+| scannerJob.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
+| scannerJob.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scannerJob.extraVolumes | list | `[]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
+| scannerJob.ttlSecondsAfterFinished | string | `nil` | Defines how long the scanner job after finishing will be available (see: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/) |

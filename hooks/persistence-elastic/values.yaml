@@ -3,36 +3,44 @@
 # Declare variables to be passed into your templates.
 
 image:
+  # image.repository -- Hook image repository
   repository: docker.io/scbexperimental/persistence-elastic
-  # image.tag - defaults to the charts version
+  # parserImage.tag -- Parser image tag
+  # @default -- defaults to the charts version
   tag: null
 
-# Define a specific index prefix
+# indexPrefix -- Define a specific index prefix used for all elasticsearch indices.
 indexPrefix: "scbv2"
 
-# Enable this when you already have an Elastic Stack running to which you want to send your results
 externalElasticStack:
+  # externalElasticStack.enabled -- Enable this when you already have an Elastic Stack running to which you want to send your results
   enabled: false
+  # externalElasticStack.elasticsearchAddress -- The URL of the elasticsearch service to persists all findings to.
   elasticsearchAddress: "https://elasticsearch.example.com"
+  # externalElasticStack.kibanaAddress -- The URL of the kibana service used to visualize all findings.
   kibanaAddress: "https://kibana.example.com"
 
-# Configure authentication schema and credentials the persistence provider should use to connect to elasticsearch
+# authentication -- Configure authentication schema and credentials the persistence provider should use to connect to elasticsearch
 # user and apikey are mutually exclusive, only set one!
 authentication:
-  # Link a pre-existing generic secret with `username` and `password` key / value pairs
+  # authentication.userSecret -- Link a pre-existing generic secret with `username` and `password` key / value pairs
   userSecret: null
-  # Link a pre-existing generic secret with `id` and `key` key / value pairs
+  # authentication.apiKeySecret -- Link a pre-existing generic secret with `id` and `key` key / value pairs
   apiKeySecret: null
 
-# Configures included Elasticsearch subchart
+# elasticsearch -- Configures the included elasticsearch subchart (see: https://github.com/elastic/helm-charts/tree/elasticsearch)
 elasticsearch:
+  # elasticsearch.enabled -- Enable if you want to deploy an elasticsearch service.
   enabled: true
+  # elasticsearch.replicas -- Kubernetes replica count for the StatefulSet (i.e. how many pods)
   replicas: 1
+  # elasticsearch.minimumMasterNodes -- The value for discovery.zen.minimum_master_nodes. Should be set to (master_eligible_nodes / 2) + 1. Ignored in Elasticsearch versions >= 7
   minimumMasterNodes: 1
   # image: docker.elastic.co/elasticsearch/elasticsearch-oss
 
-# Configures included Elasticsearch subchart
+# kibana -- Configures included Elasticsearch subchart
 kibana:
+  # kibana.enabled -- Enable if you want to deploy an kibana service (see: https://github.com/elastic/helm-charts/tree/master/kibana)
   enabled: true
   # image: docker.elastic.co/kibana/kibana-oss
 

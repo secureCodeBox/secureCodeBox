@@ -20,7 +20,7 @@ The SSLyze scanType can be deployed via helm:
 helm upgrade --install sslyze ./scanners/sslyze/
 ```
 
-## Configuration
+## Scanner Configuration
 
 The following security scan configuration example are based on the [SSLyze Documentation], please take a look at the original documentation for more configuration examples.
 
@@ -128,6 +128,19 @@ Options:
     --openssl_ccs       Test a server for the OpenSSL CCS Injection
                         vulnerability (CVE-2014-0224).
 ```
+
+## Chart Configuration
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| parserImage.repository | string | `"docker.io/scbexperimental/parser-sslyze"` | Parser image repository |
+| parserImage.tag | string | defaults to the charts version | Parser image tag |
+| scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
+| scannerJob.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
+| scannerJob.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scannerJob.extraVolumes | list | `[]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
+| scannerJob.ttlSecondsAfterFinished | string | `nil` | Defines how long the scanner job after finishing will be available (see: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/) |
 
 [SSLyze GitHub]: https://github.com/nabla-c0d3/sslyze
 [SSLyze Documentation]: https://nabla-c0d3.github.io/sslyze/documentation/

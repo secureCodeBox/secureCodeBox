@@ -24,7 +24,7 @@ The Nmap ScanType can be deployed via helm:
 helm upgrade --install nmap ./scanners/nmap/
 ```
 
-## Nmap Configuration
+## Scanner Configuration
 
 The nmap scan target is set via the targets location of the securityTest. The target should be a Hostname or an IP Address.
 
@@ -42,3 +42,15 @@ Some useful example parameters listed below:
 - `-script` xx: Replace xx with the script name. Start the scan with the given script.
 - `--script` xx: Replace xx with a coma-separated list of scripts. Start the scan with the given scripts.
 
+## Chart Configuration
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| parserImage.repository | string | `"docker.io/scbexperimental/parser-nmap"` | Parser image repository |
+| parserImage.tag | string | defaults to the charts version | Parser image tag |
+| scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
+| scannerJob.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
+| scannerJob.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scannerJob.extraVolumes | list | `[]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
+| scannerJob.ttlSecondsAfterFinished | string | `nil` | Defines how long the scanner job after finishing will be available (see: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/) |
