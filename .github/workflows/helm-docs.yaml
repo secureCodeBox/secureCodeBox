@@ -1,7 +1,6 @@
 name: "Update Helm Docs"
 
 on:
-  pull_request:
   push:
 
 jobs:
