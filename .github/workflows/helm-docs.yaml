@@ -1,0 +1,34 @@
+name: "Update Helm Docs"
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  helm-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Download Helm Docs
+        run: |
+          mkdir helm-docs
+          cd helm-docs
+
+          wget -o https://github.com/norwoodj/helm-docs/releases/download/v0.15.0/helm-docs_0.15.0_Linux_x86_64.tar.gz
+          tar -xvf helm-docs.tar.gz
+          # Verify install
+          ./helm-docs --version
+
+      - name: Generate Helm Docs
+        run: |
+          ./helm-docs/helm-docs
+          # Remove helm-docs download to ensure they dont get commited back
+          rm -rf helm-docs
+      - uses: stefanzweifel/git-auto-commit-action@v4.5.1
+        with:
+          commit_message: Updating Helm Docs
+          file_pattern: "*/README.md"
