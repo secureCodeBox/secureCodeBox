@@ -30,4 +30,3 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4.5.1
         with:
           commit_message: Updating Helm Docs
-          file_pattern: "**/README.md"
