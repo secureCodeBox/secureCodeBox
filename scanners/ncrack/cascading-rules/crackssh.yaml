@@ -1,0 +1,22 @@
+apiVersion: "cascading.experimental.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "ncrack-ssh"
+  labels:
+    securecodebox.io/invasive: invasive
+    securecodebox.io/intensive: high
+spec:
+  matches:
+    anyOf:
+      - category: "Open Port"
+        attributes:
+          port: 22
+          state: open
+  scanSpec:
+    scanType: "ncrack"
+    parameters:
+      - -v
+      - -d10
+      - --user=root,admin
+      - --pass=abcdef,THEPASSWORDYOUCREATED,12345
+      - ssh://"{{location}}"
