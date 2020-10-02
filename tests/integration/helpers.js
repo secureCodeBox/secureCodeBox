@@ -157,4 +157,125 @@ async function scan(name, scanType, parameters = [], timeout = 180) {
   throw new Error("timed out while waiting for scan results");
 }
 
+/**
+ *
+ * @param {string} name name of the scan. Actual name will be sufixed with a random number to avoid conflicts
+ * @param {string} scanType type of the scan. Must match the name of a ScanType CRD
+ * @param {string[]} parameters cli argument to be passed to the scanner
+ * @param {number} timeout in seconds
+ * @returns {scan.findings} returns findings { categories, severities, count }
+ */
+async function cascadingScan(name, scanType, parameters = [], nameCascade, scanTypeCascade, parametersCascade, intensive, invasive, timeout = 180) {
+  const cascadingDefinition = {
+    apiVersion: "cascading.experimental.securecodebox.io/v1",
+    kind: "CascadingRule",
+    metadata: {
+      generateName: `${nameCascade}-`,
+      labels: {
+        invasive,
+        intensive,
+      },
+    spec: {
+      matches: {
+        anyOf: {
+          category: "Open Port",
+          attributes: {
+            port: 22,
+            state: "open"
+          }
+        }
+      },
+      scanSpec: {
+        scanTypeCascade,
+        parametersCascade
+      }
+    } 
+    }
+  };
+
+  
+  const scanDefinition = {
+    apiVersion: "execution.experimental.securecodebox.io/v1",
+    kind: "Scan",
+    metadata: {
+      // Use `generateName` instead of name to generate a random sufix and avoid name clashes
+      generateName: `${name}-`,
+    },
+    spec: {
+      scanType,
+      parameters,
+    },
+    cascades: {
+        matchLabels: {
+            intensive
+          }
+        }
+  };
+
+  const { bodyCascade } = await k8sCRDApi.createNamespacedCustomObject(
+    "cascading.experimental.securecodebox.io",
+    "v1",
+    namespace,
+    "scans",
+    cascadingDefinition
+  );
+
+  const { body } = await k8sCRDApi.createNamespacedCustomObject(
+    "execution.experimental.securecodebox.io",
+    "v1",
+    namespace,
+    "scans",
+    scanDefinition
+  );
+
+  const actualName = body.metadata.name;
+  const actualNameCascade = bodyCascade.metadata.name;
+
+  for (let i = 0; i < timeout; i++) {
+    await sleep(1);
+    const { status } = await getScan(actualName);
+
+    if (status && status.state === "Done") {
+      // Wait a couple seconds to give kubernetes more time to update the fields
+      await sleep(2);
+      
+      for(let j = 0; j < timeout; j++) {
+        await sleep(1)
+        const { statusCascade } = await getScan(actualNameCascade);
+        if (statusCascade && statusCascade.state === "Done") {
+           await sleep(2); 
+           const { statusCascade } = await getScan(actualNameCascade);
+           
+           await deleteScan(actualName);
+           await deleteScan(actualNameCascade);
+           return statusCascade.findings;
+      } else if (statusCascade && statusCascade.state === "Errored") {
+        console.error("Scan Errored");
+        await disasterRecovery(actualNameCascade);
+        throw new Error(
+          `Cascade Scan failed with description "${statusCascade.errorDescription}"`
+        );
+      }
+      console.error("Cascade Scan Timed out!");
+      await disasterRecovery(actualNameCascade);
+
+      throw new Error("timed out while waiting for cascading scan results");
+      }
+
+    } else if (status && status.state === "Errored") {
+      console.error("Scan Errored");
+      await disasterRecovery(actualName);
+
+      throw new Error(
+        `Scan failed with description "${status.errorDescription}"`
+      );
+    }
+  }
+  console.error("Scan Timed out!");
+  await disasterRecovery(actualName);
+
+  throw new Error("timed out while waiting for scan results");
+}
+
 module.exports.scan = scan;
+module.exports.cascadingScan = cascadingScan;
