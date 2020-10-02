@@ -16,7 +16,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: zap-baseline
-              image: owasp/zap2docker-weekly:w2020-09-15
+              image: owasp/zap2docker-weekly:w2020-09-29
               command:
                 - "zap-baseline.py"
                 # Force Zap to always return a zero exit code. k8s would otherwise try to restart zap.
@@ -25,14 +25,19 @@ spec:
                 # ZAP Baseline Script doesn't allow absolute paths...
                 # Hacky workaround: specify a relative path to the `/zap/wrk` base dir.
                 - "../../home/securecodebox/zap-results.json"
-              volumeMounts:
-                - mountPath: /zap/wrk
-                  name: zap-workdir
               resources:
                 {{- toYaml .Values.scannerJob.resources | nindent 16 }}
+              securityContext:
+                {{- toYaml .Values.scannerJob.securityContext | nindent 16 }}
+              env:
+                {{- toYaml .Values.scannerJob.env | nindent 16 }}
+              volumeMounts:
+                {{- toYaml .Values.scannerJob.extraVolumeMounts | nindent 16 }}
+            {{- if .Values.scannerJob.extraContainers }}
+            {{- toYaml .Values.scannerJob.extraContainers | nindent 12 }}
+            {{- end }}
           volumes:
-            - name: zap-workdir
-              emptyDir: {}
+            {{- toYaml .Values.scannerJob.extraVolumes | nindent 12 }}
 ---
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
@@ -52,7 +57,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: zap-api-scan
-              image: owasp/zap2docker-weekly:w2020-09-15
+              image: owasp/zap2docker-weekly:w2020-09-29
               command:
                 - "zap-api-scan.py"
                 # Force Zap to always return a zero exit code. k8s would otherwise try to restart zap.
@@ -61,14 +66,19 @@ spec:
                 # ZAP Baseline Script doesn't allow absolute paths...
                 # Hacky workaround: specify a relative path to the `/zap/wrk` base dir.
                 - "../../home/securecodebox/zap-results.json"
-              volumeMounts:
-                - mountPath: /zap/wrk
-                  name: zap-workdir
               resources:
                 {{- toYaml .Values.scannerJob.resources | nindent 16 }}
+              securityContext:
+                {{- toYaml .Values.scannerJob.securityContext | nindent 16 }}
+              env:
+                {{- toYaml .Values.scannerJob.env | nindent 16 }}
+              volumeMounts:
+                {{- toYaml .Values.scannerJob.extraVolumeMounts | nindent 16 }}
+            {{- if .Values.scannerJob.extraContainers }}
+            {{- toYaml .Values.scannerJob.extraContainers | nindent 12 }}
+            {{- end }}
           volumes:
-            - name: zap-workdir
-              emptyDir: {}
+            {{- toYaml .Values.scannerJob.extraVolumes | nindent 12 }}
 ---
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
@@ -88,7 +98,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: zap-full-scan
-              image: owasp/zap2docker-weekly:w2020-09-15
+              image: owasp/zap2docker-weekly:w2020-09-29
               command:
                 - "zap-full-scan.py"
                 # Force Zap to always return a zero exit code. k8s would otherwise try to restart zap.
@@ -97,11 +107,16 @@ spec:
                 # ZAP Baseline Script doesn't allow absolute paths...
                 # Hacky workaround: specify a relative path to the `/zap/wrk` base dir.
                 - "../../home/securecodebox/zap-results.json"
-              volumeMounts:
-                - mountPath: /zap/wrk
-                  name: zap-workdir
               resources:
                 {{- toYaml .Values.scannerJob.resources | nindent 16 }}
+              securityContext:
+                {{- toYaml .Values.scannerJob.securityContext | nindent 16 }}
+              env:
+                {{- toYaml .Values.scannerJob.env | nindent 16 }}
+              volumeMounts:
+                {{- toYaml .Values.scannerJob.extraVolumeMounts | nindent 16 }}
+            {{- if .Values.scannerJob.extraContainers }}
+            {{- toYaml .Values.scannerJob.extraContainers | nindent 12 }}
+            {{- end }}
           volumes:
-            - name: zap-workdir
-              emptyDir: {}
+            {{- toYaml .Values.scannerJob.extraVolumes | nindent 12 }}
