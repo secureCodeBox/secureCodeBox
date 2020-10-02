@@ -454,8 +454,29 @@ jobs:
           helm -n integration-tests install zap ./scanners/zap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color zap
-      - name: "Cascading Scans Integration Tests"
+      - name: "cascading Scans Integration Tests"
         run: |
+          # We'll run these in a separate namespace so that only the cascadingRules we want to test will be used
+          kubectl create namespace cascading-tests
+          # Install declarative-subsequent-scans hook
+          helm upgrade --install dssh ./hooks/declarative-subsequent-scans/ -n cascading-tests
+          # Install nmap
+          helm -n cascading-tests install nmap ./scanners/nmap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          # Install ncrack
+          printf "root\nadmin\n" > users.txt
+          printf "THEPASSWORDYOUCREATED\n123456\npassword\n" > passwords.txt
+          kubectl create secret generic --from-file users.txt --from-file passwords.txt ncrack-lists -n cascading-tests
+          cat <<EOF | helm -n cascading-tests install ncrack ./scanners/ncrack --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" --values -
+          scannerJob:
+            extraVolumes:
+              - name: ncrack-lists
+                secret:
+                  secretName: ncrack-lists
+            extraVolumeMounts:
+              - name: ncrack-lists
+                mountPath: "/ncrack/"
+          EOF
+          # Actually run the tests
           cd tests/integration/
           npx jest --ci --color cascade
       - name: Inspect Post Failure
