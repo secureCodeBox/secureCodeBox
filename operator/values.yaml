@@ -12,7 +12,16 @@ image:
   # @default -- defaults to the charts version
   tag: null
   # image.pullPolicy -- Image pull policy
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
+
+securityContext:
+  runAsNonRoot: true
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  privileged: false
+  capabilities:
+    drop:
+      - all
 
 lurcher:
   image:

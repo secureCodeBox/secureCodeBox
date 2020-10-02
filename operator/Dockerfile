@@ -28,6 +28,5 @@ ENV TELEMETRY_ENABLED "true"
 
 WORKDIR /
 COPY --from=builder /workspace/manager .
-USER nonroot:nonroot
 
 ENTRYPOINT ["/manager"]
