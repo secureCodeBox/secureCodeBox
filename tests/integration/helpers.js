@@ -168,7 +168,7 @@ async function scan(name, scanType, parameters = [], timeout = 180) {
  */
 async function cascadingScan(name, scanType, parameters = [], { nameCascade, matchLabels }, timeout = 180) {
   namespace = "cascading-tests";
-  
+
   const scanDefinition = {
     apiVersion: "execution.experimental.securecodebox.io/v1",
     kind: "Scan",
@@ -225,9 +225,8 @@ async function cascadingScan(name, scanType, parameters = [], { nameCascade, mat
     "execution.experimental.securecodebox.io",
     "v1",
     namespace,
-    namespace,
     "scans"
-  )
+  );
 
   let cascadedScan = null;
 
