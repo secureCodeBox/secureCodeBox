@@ -68,7 +68,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/operator
+          repository: securecodebox/operator
           tag_with_ref: true
           tag_with_sha: true
           path: ./operator/
@@ -90,7 +90,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/lurcher
+          repository: securecodebox/lurcher
           tag_with_ref: true
           tag_with_sha: true
           path: ./lurcher/
@@ -105,7 +105,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/parser-sdk-nodejs
+          repository: securecodebox/parser-sdk-nodejs
           path: ./parser-sdk/nodejs/
           tag_with_ref: true
           tag_with_sha: true
@@ -116,7 +116,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/parser-amass
+          repository: securecodebox/parser-amass
           path: ./scanners/amass/parser/
           tag_with_ref: true
           tag_with_sha: true
@@ -126,7 +126,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/parser-kube-hunter
+          repository: securecodebox/parser-kube-hunter
           path: ./scanners/kube-hunter/parser/
           tag_with_ref: true
           tag_with_sha: true
@@ -136,7 +136,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/parser-ncrack
+          repository: securecodebox/parser-ncrack
           path: ./scanners/ncrack/parser/
           tag_with_ref: true
           tag_with_sha: true
@@ -146,7 +146,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/parser-nikto
+          repository: securecodebox/parser-nikto
           path: ./scanners/nikto/parser/
           tag_with_ref: true
           tag_with_sha: true
@@ -156,7 +156,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/parser-nmap
+          repository: securecodebox/parser-nmap
           path: ./scanners/nmap/parser/
           tag_with_ref: true
           tag_with_sha: true
@@ -166,7 +166,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/parser-ssh-scan
+          repository: securecodebox/parser-ssh-scan
           path: ./scanners/ssh_scan/parser/
           tag_with_ref: true
           tag_with_sha: true
@@ -176,7 +176,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/parser-sslyze
+          repository: securecodebox/parser-sslyze
           path: ./scanners/sslyze/parser/
           tag_with_ref: true
           tag_with_sha: true
@@ -186,7 +186,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/parser-test-scan
+          repository: securecodebox/parser-test-scan
           path: ./scanners/test-scan/parser/
           tag_with_ref: true
           tag_with_sha: true
@@ -196,7 +196,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/parser-trivy
+          repository: securecodebox/parser-trivy
           path: ./scanners/trivy/parser/
           tag_with_ref: true
           tag_with_sha: true
@@ -206,7 +206,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/parser-zap
+          repository: securecodebox/parser-zap
           path: ./scanners/zap/parser/
           tag_with_ref: true
           tag_with_sha: true
@@ -216,7 +216,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/parser-wpscan
+          repository: securecodebox/parser-wpscan
           path: ./scanners/wpscan/parser/
           tag_with_ref: true
           tag_with_sha: true
@@ -233,7 +233,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/hook-sdk-nodejs
+          repository: securecodebox/hook-sdk-nodejs
           path: ./hook-sdk/nodejs/
           tag_with_ref: true
           tags: "ci-local"
@@ -243,7 +243,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/persistence-elastic
+          repository: securecodebox/persistence-elastic
           path: ./hooks/persistence-elastic/
           tag_with_ref: true
           build_args: baseImageTag=ci-local
@@ -252,7 +252,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/persistence-elastic-dashboard-importer
+          repository: securecodebox/persistence-elastic-dashboard-importer
           path: ./hooks/persistence-elastic/dashboardImporter/
           tag_with_ref: true
       - uses: docker/build-push-action@v1
@@ -260,16 +260,17 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/generic-webhook
+          repository: securecodebox/generic-webhook
           path: ./hooks/generic-webhook/
           tag_with_ref: true
+          tag_with_sha: true
           build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
         name: "Build & Push ImperativeSubsequentScans Hook Image"
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/hook-imperative-subsequent-scans
+          repository: securecodebox/hook-imperative-subsequent-scans
           path: ./hooks/imperative-subsequent-scans/
           tag_with_ref: true
           build_args: baseImageTag=ci-local
@@ -278,7 +279,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/hook-declarative-subsequent-scans
+          repository: securecodebox/hook-declarative-subsequent-scans
           path: ./hooks/declarative-subsequent-scans/
           tag_with_ref: true
           tag_with_sha: true
@@ -288,7 +289,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/update-field
+          repository: securecodebox/update-field
           path: ./hooks/update-field/
           tag_with_ref: true
           tag_with_sha: true
@@ -304,7 +305,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/ncrack
+          repository: securecodebox/scanner-ncrack
           path: ./scanners/ncrack/scanner/
           # Note: not prefixed with a "v" as this seems to match ncrack versioning standards
           tags: "0.7,latest"
@@ -313,7 +314,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/nmap
+          repository: securecodebox/scanner-nmap
           path: ./scanners/nmap/scanner/
           # Note: not prefixed with a "v" as this seems to match nmap versioning standards
           tags: "7.80,7.80-2,latest"
@@ -322,7 +323,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/kube-hunter
+          repository: securecodebox/scanner-kube-hunter
           path: ./scanners/kube-hunter/scanner/
           # Note: not prefixed with a "v" as this matches the aquasec/kube-hunter tags
           tags: "0.3.0,latest"
@@ -331,10 +332,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: scbexperimental/test-scan
+          repository: securecodebox/scanner-test-scan
           path: ./scanners/test-scan/scanner/
           # Note: not prefixed with a "v" as this seems to match nmap versioning standards
-          tags: "latest"
+          tag_with_ref: true
+          tag_with_sha: true
   integrationTests:
     name: "Test / Integration / k8s ${{ matrix.k8sVersion }}"
     needs:
@@ -396,15 +398,21 @@ jobs:
             --set="image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="attribute.name=severity" \
             --set="attribute.value=high"
-          helm -n integration-tests install test-scan ./scanners/test-scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          helm -n integration-tests install test-scan ./scanners/test-scan/ \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color read-write-hook
           helm -n integration-tests uninstall test-scan update-category update-severity
       - name: "Hooks (ReadOnly) Integration Tests"
         run: |
-          helm -n integration-tests install test-scan ./scanners/test-scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          helm -n integration-tests install test-scan ./scanners/test-scan/ \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)"
           helm -n integration-tests install http-webhook ./demo-apps/http-webhook
-          helm -n integration-tests install ro-hook ./hooks/generic-webhook/ --set="webhookUrl=http://http-webhook/hallo-welt"
+          helm -n integration-tests install ro-hook ./hooks/generic-webhook/ \
+            --set="webhookUrl=http://http-webhook/hallo-welt" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color read-only-hook
           helm -n integration-tests uninstall test-scan http-webhook ro-hook
@@ -417,17 +425,23 @@ jobs:
           kubectl expose deployment nginx --port 80 --namespace demo-apps
       - name: "nmap Integration Tests"
         run: |
-          helm -n integration-tests install nmap ./scanners/nmap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          helm -n integration-tests install nmap ./scanners/nmap/ \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="image.tag=7.80"
           cd tests/integration/
           npx jest --ci --color nmap
       - name: "ncrack Integration Tests"
         run: |
-          helm -n integration-tests install ncrack ./scanners/ncrack/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          helm -n integration-tests install ncrack ./scanners/ncrack/ \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="image.tag=0.7"
           cd tests/integration/
           npx jest --ci --color ncrack
       - name: "kube-hunter Integration Tests"
         run: |
-          helm -n integration-tests install kube-hunter ./scanners/kube-hunter/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          helm -n integration-tests install kube-hunter ./scanners/kube-hunter/ \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="image.tag=0.3.0"
           cd tests/integration/
           npx jest --ci --color kube-hunter
       - name: "ssh-scan Integration Tests"

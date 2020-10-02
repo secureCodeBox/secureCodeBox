@@ -10,7 +10,7 @@ spec:
       restartPolicy: 'OnFailure'
       containers:
         - name: dasboard-importer
-          image: scbexperimental/persistence-elastic-dashboard-importer
+          image: securecodebox/persistence-elastic-dashboard-importer
           imagePullPolicy: Always
           env:
 {{- if .Values.externalElasticStack.enabled }}      

@@ -46,7 +46,9 @@ Some useful example parameters listed below:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| parserImage.repository | string | `"docker.io/scbexperimental/parser-nmap"` | Parser image repository |
+| image.repository | string | `"docker.io/securecodebox/scanner-nmap"` |  |
+| image.tag | string | `nil` |  |
+| parserImage.repository | string | `"docker.io/securecodebox/parser-nmap"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |
 | scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | scannerJob.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |

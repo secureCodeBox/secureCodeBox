@@ -25,5 +25,5 @@ helm upgrade --install ufh ./hooks/update-field/ --set attribute.name="category"
 |-----|------|---------|-------------|
 | attribute.name | string | `"category"` | The name of the attribute you want to add to each finding result |
 | attribute.value | string | `"my-own-category"` | The value of the attribute you want to add to each finding result |
-| image.repository | string | `"docker.io/scbexperimental/update-field"` | Hook image repository |
+| image.repository | string | `"docker.io/securecodebox/update-field"` | Hook image repository |
 | image.tag | string | `nil` |  |
