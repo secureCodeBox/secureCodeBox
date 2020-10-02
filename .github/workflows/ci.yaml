@@ -404,7 +404,9 @@ jobs:
         run: |
           helm -n integration-tests install test-scan ./scanners/test-scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           helm -n integration-tests install http-webhook ./demo-apps/http-webhook
-          helm -n integration-tests install ro-hook ./hooks/generic-webhook/ --set="webhookUrl=http://http-webhook/hallo-welt"
+          helm -n integration-tests install ro-hook ./hooks/generic-webhook/ \
+            --set="webhookUrl=http://http-webhook/hallo-welt" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color read-only-hook
           helm -n integration-tests uninstall test-scan http-webhook ro-hook
