@@ -24,10 +24,19 @@ scannerJob:
   env: []
 
   # scannerJob.extraVolumes -- Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
-  extraVolumes: []
+  extraVolumes:
+    - name: "amass-config"
+      configMap:
+        name: "amass-config"
 
   # scannerJob.extraVolumeMounts -- Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
-  extraVolumeMounts: []
+  extraVolumeMounts:
+    - name: "amass-config"
+      mountPath: "/amass/output/config.ini"
+      subPath: "config.ini"
 
   # scannerJob.extraContainers -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
   extraContainers: []
+
+  # scannerJob.securityContext -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+  securityContext: {}

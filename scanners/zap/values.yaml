@@ -24,10 +24,17 @@ scannerJob:
   env: []
 
   # scannerJob.extraVolumes -- Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
-  extraVolumes: []
+  extraVolumes:
+    - name: zap-workdir
+      emptyDir: {}
 
   # scannerJob.extraVolumeMounts -- Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
-  extraVolumeMounts: []
+  extraVolumeMounts:
+    - mountPath: /zap/wrk
+      name: zap-workdir
 
   # scannerJob.extraContainers -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
   extraContainers: []
+
+  # scannerJob.securityContext -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+  securityContext: {}
