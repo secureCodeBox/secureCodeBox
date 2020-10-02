@@ -21,7 +21,7 @@ helm install securecodebox-operator secureCodeBox/operator
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| image.pullPolicy | string | `"Always"` | Image pull policy |
+| image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | image.repository | string | `"docker.io/scbexperimental/operator"` | The operator image repository |
 | image.tag | string | defaults to the charts version | Parser image tag |
 | lurcher.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
@@ -38,5 +38,10 @@ helm install securecodebox-operator secureCodeBox/operator
 | s3.port | string | `nil` |  |
 | s3.secretAttributeNames.accesskey | string | `"accesskey"` |  |
 | s3.secretAttributeNames.secretkey | string | `"secretkey"` |  |
+| securityContext.allowPrivilegeEscalation | bool | `false` |  |
+| securityContext.capabilities.drop[0] | string | `"all"` |  |
+| securityContext.privileged | bool | `false` |  |
+| securityContext.readOnlyRootFilesystem | bool | `true` |  |
+| securityContext.runAsNonRoot | bool | `true` |  |
 | telemetryEnabled | bool | `true` | The Operator sends anonymous telemetry data, to give the team an overview how much the secureCodeBox is used. Find out more at https://www.securecodebox.io/telemetry |
 
