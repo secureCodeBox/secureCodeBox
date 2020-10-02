@@ -221,6 +221,9 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 		return nil, fmt.Errorf("Unknown imagePull Policy for lurcher: %s", lurcherPullPolicyRaw)
 	}
 
+	falsePointer := false
+	truePointer := true
+
 	lurcherSidecar := &corev1.Container{
 		Name:            "lurcher",
 		Image:           lurcherImage,
@@ -258,6 +261,15 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 				Name:      "scan-results",
 				MountPath: "/home/securecodebox/",
 				ReadOnly:  true,
+			},
+		},
+		SecurityContext: &corev1.SecurityContext{
+			RunAsNonRoot:             &truePointer,
+			AllowPrivilegeEscalation: &falsePointer,
+			ReadOnlyRootFilesystem:   &truePointer,
+			Privileged:               &falsePointer,
+			Capabilities: &corev1.Capabilities{
+				Drop: []corev1.Capability{"all"},
 			},
 		},
 	}
