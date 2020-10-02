@@ -15,12 +15,17 @@ image:
   pullPolicy: IfNotPresent
 
 securityContext:
+  # securityContext.runAsNonRoot -- Enforces that the Operator image is run as a non root user
   runAsNonRoot: true
+  # securityContext.readOnlyRootFilesystem -- Prevents write access to the containers file system
   readOnlyRootFilesystem: true
+  # securityContext.allowPrivilegeEscalation -- Ensures that users privilidges canout be escalated
   allowPrivilegeEscalation: false
+  # securityContext.privileged -- Ensures that the operator container is not run in privilidged mode
   privileged: false
   capabilities:
     drop:
+      # securityContext.capabilities.drop[0] -- This drops all linux privilidges from the operator container. They are not required
       - all
 
 lurcher:
