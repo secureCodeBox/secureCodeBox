@@ -454,6 +454,10 @@ jobs:
           helm -n integration-tests install zap ./scanners/zap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color zap
+      - name: "Cascading Scans Integration Tests"
+        run: |
+          cd tests/integration/
+          npx jest --ci --color cascading-test
       - name: Inspect Post Failure
         if: failure()
         run: |
