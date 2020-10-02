@@ -390,7 +390,7 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 							Image:           hook.Spec.Image,
 							Args:            cliArgs,
 							Env:             append(hook.Spec.Env, standardEnvVars...),
-							ImagePullPolicy: "IfNotPresent",
+							ImagePullPolicy: "Always",
 							Resources: corev1.ResourceRequirements{
 								Requests: corev1.ResourceList{
 									corev1.ResourceCPU:    resource.MustParse("200m"),
