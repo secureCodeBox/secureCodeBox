@@ -93,6 +93,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 				ObjectMeta: metav1.ObjectMeta{
 					Annotations: map[string]string{
 						"auto-discovery.experimental.securecodebox.io/ignore": "true",
+						"sidecar.istio.io/inject":                             "false",
 					},
 				},
 				Spec: corev1.PodSpec{

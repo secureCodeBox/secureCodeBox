@@ -13,8 +13,10 @@
 </p>
 <p align="center">
   <a href="https://github.com/secureCodeBox/secureCodeBox-v2/actions?query=workflow%3ACI"><img alt="Build" src="https://github.com/secureCodeBox/secureCodeBox-v2/workflows/CI/badge.svg"></a>
-  <a href="https://codeclimate.com/github/secureCodeBox/secureCodeBox-v2/test_coverage"><img alt="Test Coverage" src="https://api.codeclimate.com/v1/badges/b6bf3af707671b5e5251/test_coverage" /></a>
+  <a href="https://codeclimate.com/github/secureCodeBox/secureCodeBox-v2-alpha/maintainability"><img alt="Maintainability" src="https://api.codeclimate.com/v1/badges/b6bf3af707671b5e5251/maintainability" /></a>
+  <a href="https://codeclimate.com/github/secureCodeBox/secureCodeBox-v2-alpha/test_coverage"><img alt="Test Coverage" src="https://api.codeclimate.com/v1/badges/b6bf3af707671b5e5251/test_coverage" /></a>
   <a href="https://snyk.io/test/github/secureCodeBox/secureCodeBox-v2/"><img alt="Known Vulnerabilities" src="https://snyk.io/test/github/secureCodeBox/secureCodeBox-v2/badge.svg"></a>
+  <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FsecureCodeBox%2FsecureCodeBox-v2?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FsecureCodeBox%2FsecureCodeBox-v2.svg?type=shield"/></a>
 </p>
 
 **NOTE**: This Repository contains the stable beta preview of the next major secureCodeBox (SCB) Release v2.  
@@ -63,7 +65,9 @@ The typical way to ensure application security is to hire a security specialist 
 
 With the _secureCodeBox_ we provide a toolchain for continuous scanning of applications to find the low-hanging fruit issues early in the development process and free the resources of the penetration tester to concentrate on the major security issues.
 
-The purpose of _secureCodeBox_ **is not** to replace the penetration testers or make them obsolete. We strongly recommend running extensive tests by experienced penetration testers on all your applications.
+![secureCodeBox Architecture](./docs/resources/macbook_kibana.jpg)
+
+The purpose of _secureCodeBox_ **is not** to replace the penetration testers or make them obsolete. We strongly recommend to run extensive tests by experienced penetration testers on all your applications.
 
 **Important note**: The _secureCodeBox_ is no simple one-button-click-solution! You must have a deep understanding of security and how to configure the scanners. Furthermore, an understanding of the scan results and how to interpret them is also necessary.
 

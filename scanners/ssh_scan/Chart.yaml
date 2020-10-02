@@ -6,16 +6,17 @@ type: application
 # version - gets automatically set to the secureCodeBox release version when the helm charts gets published
 version: latest
 appVersion: "0.0.43"
+kubeVersion: ">=v1.11.0"
 
 keywords:
   - security
   - ssh
   - scanner
   - secureCodeBox
-home: https://www.securecodebox.io/scanners/ssh
-icon: https://www.securecodebox.io/scannerIcons/SSH.svg
+home: https://docs.securecodebox.io/docs/scanners/SSH
+icon: https://docs.securecodebox.io/img/integrationIcons/SSH.svg
 sources:
-  - https://github.com/secureCodeBox/secureCodeBox
+  - https://github.com/secureCodeBox/secureCodeBox-v2
 maintainers:
   - name: iteratec GmbH
-    email: security@iteratec.com
+    email: secureCodeBox@iteratec.com

@@ -1,35 +1,39 @@
 ---
-name: 'New Security Scanner request'
+name: '🚓 New Security Scanner request'
 about: 'Suggest an idea for a new security scanner to integrate in this project.'
-labels: 'security scanner'
+labels: 'scanner'
 ---
+
+<!--
+Thank you for contributing to our project 🙌
+
+Before opening a new issue, please make sure that we do not have any duplicates already open. You can ensure this by searching the issue list for this repository. If there is a duplicate, please close your issue and add a comment to the existing issue instead. Also, please, have a look at our FAQs and existing questions before opening a new question.
+-->
+
 ## New Scanner implementation request
 
 **Is your feature request related to a problem? Please describe.**
-- _A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]_
+<!-- A clear and concise description of what the problem is. Ex. I'm always frustrated when [...] -->
 
 **Describe the solution you'd like**
-- _A clear and concise description of what you want to happen._
+<!-- A clear and concise description of what you want to happen. -->
 
 **Describe alternatives you've considered**
-- _A clear and concise description of any alternative solutions or features you've considered._
+<!-- A clear and concise description of any alternative solutions or features you've considered. -->
 
 **Additional context**
-- _Add any other context or screenshots about the feature request here._
+<!-- Add any other context or screenshots about the feature request here. -->
 
 ## Steps to implement a new scanner
-> Hint: A general guide how to implement a new scanner is documented [here]( https://github.com/secureCodeBox/secureCodeBox/blob/master/docs/developer-guide/README.md#developing-own-processes)
+<!--
+Hint: A general guide how to implement a new scanner is documented [here](https://github.com/secureCodeBox/secureCodeBox-v2/tree/master/docs/developer-guide)
+-->
 
-### Must have
-- [ ] Create a [new public secureCodeBox repository](https://github.com/organizations/secureCodeBox/repositories/new) for the scanner implementation
-- [ ] Implement a new scanner microservice an reuse some of the existing stuff, if possible
-- [ ] Check if there is a [healthcheck](https://github.com/secureCodeBox/secureCodeBox/blob/master/docs/developer-guide/README.md#healthchecks-for-scanner-microservices) for the microservice implemented
-- [ ] Implement a [new basic security process](https://github.com/secureCodeBox/secureCodeBox/blob/master/docs/developer-guide/README.md#developing-a-process-model) for the scanner
-- [ ] Update the [docker-compose](https://github.com/secureCodeBox/secureCodeBox/blob/master/docker-compose.yml) files and integrate your new scanner there
-- [ ] Update the [user guide](https://github.com/secureCodeBox/secureCodeBox/tree/master/docs/user-guide) and [developer guide](https://github.com/secureCodeBox/secureCodeBox/tree/master/docs/developer-guide)
-- [ ] Implement a integration test for the scanner [here](https://github.com/secureCodeBox/secureCodeBox/tree/master/test)
-
-### Should have
-- [ ] Update the [CLI examples](https://github.com/secureCodeBox/secureCodeBox/tree/master/cli)
-- [ ] Update the [Jenkins Pipeline](https://github.com/secureCodeBox/integration-pipeline-jenkins-examples) examples
-- [ ] Update the [OpenShift Container Setup](https://github.com/secureCodeBox/ansible-role-securecodebox-openshift)
+- [ ] Create a new folder with the name of the [scanner here](https://github.com/secureCodeBox/secureCodeBox-v2/tree/master/scanners)
+- [ ] Add a README.md and give a brief overview of the scanner and its configuration options.
+- [ ] Implement a new scanner specific scan-type.yaml
+- [ ] Implement a new scanner specific parse-definition.yaml
+- [ ] Add (optional) some cascading-rules.yaml
+- [ ] Add (optional) a Dockerfile for the scanner if there is no existing one publicly available on dockerHub
+- [ ] Use the [parser-SDK](https://github.com/secureCodeBox/secureCodeBox-v2/tree/master/parser-sdk) to implement a new findings parser (currently based on NodeJS)
+- [ ] Add unit tests with at minimum 80% test coverage

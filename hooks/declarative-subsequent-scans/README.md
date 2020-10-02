@@ -11,7 +11,7 @@ usecase: "Cascading Scans based declarative Rules."
 
 ## Deployment
 
-Installing the Cascading Scans hook will add a ReadOnly Hook to your namespace which looks for matching _CascadingRules_ in the namespace and start the according scans. 
+Installing the Cascading Scans hook will add a ReadOnly Hook to your namespace which looks for matching _CascadingRules_ in the namespace and start the according scans.
 
 ```bash
 helm upgrade --install dssh ./hooks/declarative-subsequent-scans/
@@ -25,7 +25,7 @@ dssh   ReadOnly   docker.io/securecodebox/hook-declarative-subsequent-scans:late
 ```
 
 ## CascadingScan Rules
-The CascadingRules are included directly in each helm chart of the individual scanners. 
+The CascadingRules are included directly in each helm chart of the individual scanners.
 
 ```bash
 # Check your CascadingRules
@@ -114,3 +114,10 @@ smtps-tls-scan   sslyze         non-invasive   light
 ssh-scan         ssh-scan       non-invasive   light
 zap-http         zap-baseline   non-invasive   medium
 ```
+
+## Chart Configuration
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| image.repository | string | `"docker.io/securecodebox/hook-declarative-subsequent-scans"` | Hook image repository |
+| image.tag | string | `nil` |  |
