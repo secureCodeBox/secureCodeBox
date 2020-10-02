@@ -443,7 +443,7 @@ jobs:
       - name: "Cascading Scans Integration Tests"
         run: |
           cd tests/integration/
-          npx jest --ci --color cascading-test
+          npx jest --ci --color cascade
       - name: Inspect Post Failure
         if: failure()
         run: |
