@@ -30,3 +30,17 @@ scannerJob:
 
   # scannerJob.extraContainers -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
   extraContainers: []
+
+  securityContext:
+    # scannerJob.securityContext.runAsNonRoot -- Enforces that the scanner image is run as a non root user
+    runAsNonRoot: true
+    # scannerJob.securityContext.readOnlyRootFilesystem -- Prevents write access to the containers file system
+    readOnlyRootFilesystem: true
+    # scannerJob.securityContext.allowPrivilegeEscalation -- Ensures that users privilidges canout be escalated
+    allowPrivilegeEscalation: false
+    # scannerJob.securityContext.privileged -- Ensures that the scanner container is not run in privilidged mode
+    privileged: false
+    capabilities:
+      drop:
+        # scannerJob.securityContext.capabilities.drop[0] -- This drops all linux privilidges from the container.
+        - all

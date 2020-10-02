@@ -1,7 +1,7 @@
 apiVersion: "execution.experimental.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: "nmap"
+  name: {{ .Release.Name }}
 spec:
   extractResults:
     type: nmap-xml
@@ -19,5 +19,9 @@ spec:
             - name: nmap
               image: scbexperimental/nmap:7.80
               command: ["nmap", "-oX", "/home/securecodebox/nmap-results.xml"]
+              env:
+                {{- toYaml .Values.scannerJob.env | nindent 16 }}
               resources:
                 {{- toYaml .Values.scannerJob.resources | nindent 16 }}
+              securityContext:
+                {{- toYaml .Values.scannerJob.securityContext | nindent 16 }}
