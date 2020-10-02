@@ -12,11 +12,19 @@ spec:
         attributes:
           port: 22
           state: open
+      - category: "Open Port"
+        attributes:
+          service: "ssh"
+          state: open
   scanSpec:
     scanType: "ncrack"
     parameters:
       - -v
       - -d10
-      - --user=root,admin
-      - --pass=abcdef,THEPASSWORDYOUCREATED,12345
-      - ssh://"{{location}}"
+      - -U
+      - /ncrack/users.txt
+      - -P
+      - /ncrack/passwords.txt
+      - -p 
+      - ssh:{{attributes.port}}
+      - "{{attributes.ip_address}}"
