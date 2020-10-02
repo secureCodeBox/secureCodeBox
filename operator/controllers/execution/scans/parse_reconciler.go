@@ -80,6 +80,8 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 	labels["experimental.securecodebox.io/job-type"] = "parser"
 	automountServiceAccountToken := true
 	var backOffLimit int32 = 3
+	truePointer := true
+	falsePointer := false
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
 			Annotations:  make(map[string]string),
@@ -131,6 +133,15 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 								Limits: corev1.ResourceList{
 									corev1.ResourceCPU:    resource.MustParse("400m"),
 									corev1.ResourceMemory: resource.MustParse("200Mi"),
+								},
+							},
+							SecurityContext: &corev1.SecurityContext{
+								RunAsNonRoot:             &truePointer,
+								AllowPrivilegeEscalation: &falsePointer,
+								ReadOnlyRootFilesystem:   &truePointer,
+								Privileged:               &falsePointer,
+								Capabilities: &corev1.Capabilities{
+									Drop: []corev1.Capability{"all"},
 								},
 							},
 						},
