@@ -7,7 +7,7 @@ telemetryEnabled: true
 
 image:
   # image.repository -- The operator image repository
-  repository: docker.io/scbexperimental/operator
+  repository: docker.io/securecodebox/operator
   # image.tag -- Parser image tag
   # @default -- defaults to the charts version
   tag: null
@@ -31,7 +31,7 @@ securityContext:
 lurcher:
   image:
     # lurcher.image.repository -- The operator image repository
-    repository: docker.io/scbexperimental/lurcher
+    repository: docker.io/securecodebox/lurcher
     # lurcher.image.tag -- Parser image tag
     # @default -- defaults to the charts version
     tag: null

@@ -26,5 +26,5 @@ helm upgrade --install issh ./hooks/imperative-subsequent-scans/
 | cascade.nmapSsh | bool | `false` | True if you want to cascade SSH scans for each SSH Port found by nmap, otherwise false. |
 | cascade.nmapSsl | bool | `false` | True if you want to cascade SSL scans for each HTTP Port found by nmap, otherwise false. |
 | cascade.nmapZapBaseline | bool | `false` | True if you want to cascade ZAP scans for each HTTP Port found by nmap, otherwise false. |
-| image.repository | string | `"docker.io/scbexperimental/hook-imperative-subsequent-scans"` | Hook image repository |
+| image.repository | string | `"docker.io/securecodebox/hook-imperative-subsequent-scans"` | Hook image repository |
 | image.tag | string | `nil` |  |

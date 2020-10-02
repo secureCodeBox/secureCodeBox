@@ -1,6 +1,7 @@
 parserImage:
+  # parserImage.tag - defaults to the charts version
   # parserImage.repository -- Parser image repository
-  repository: docker.io/scbexperimental/parser-ssh-scan
+  repository: docker.io/securecodebox/parser-ssh-scan
   # parserImage.tag -- Parser image tag
   # @default -- defaults to the charts version
   tag: null

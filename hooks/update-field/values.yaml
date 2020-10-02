@@ -9,8 +9,9 @@ attribute:
   value: my-own-category
 
 image:
+  # image.tag - defaults to the charts version
   # image.repository -- Hook image repository
-  repository: docker.io/scbexperimental/update-field
+  repository: docker.io/securecodebox/update-field
   # parserImage.tag -- Parser image tag
   # @default -- defaults to the charts version
   tag: null

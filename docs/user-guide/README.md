@@ -33,7 +33,7 @@ The result should contain a hook for declarative subsequent scans.
 
 ```bash
 NAME                                          TYPE       IMAGE
-combined-scans-declarative-subsequent-scans   ReadOnly   docker.io/scbexperimental/hook-declarative-subsequent-scans:latest
+combined-scans-declarative-subsequent-scans   ReadOnly   docker.io/securecodebox/hook-declarative-subsequent-scans:latest
 ```
 
 ### Verify CascadingRules

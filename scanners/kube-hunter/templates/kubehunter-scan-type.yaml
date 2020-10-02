@@ -16,7 +16,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: kube-hunter
-              image: scbexperimental/kube-hunter:latest
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
               command:
                 - 'sh'
                 - '/wrapper.sh'

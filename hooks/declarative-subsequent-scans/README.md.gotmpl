@@ -21,7 +21,7 @@ helm upgrade --install dssh ./hooks/declarative-subsequent-scans/
 ```bash
 kubectl get ScanCompletionHooks
 NAME   TYPE       IMAGE
-dssh   ReadOnly   docker.io/scbexperimental/hook-declarative-subsequent-scans:latest
+dssh   ReadOnly   docker.io/securecodebox/hook-declarative-subsequent-scans:latest
 ```
 
 ## CascadingScan Rules
