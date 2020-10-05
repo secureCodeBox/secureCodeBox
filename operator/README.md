@@ -24,7 +24,7 @@ helm install securecodebox-operator secureCodeBox/operator
 | image.pullPolicy | string | `"Always"` | Image pull policy |
 | image.repository | string | `"docker.io/securecodebox/operator"` | The operator image repository |
 | image.tag | string | defaults to the charts version | Parser image tag |
-| lurcher.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
+| lurcher.image.pullPolicy | string | `"Always"` | Image pull policy |
 | lurcher.image.repository | string | `"docker.io/securecodebox/lurcher"` | The operator image repository |
 | lurcher.image.tag | string | defaults to the charts version | Parser image tag |
 | minio.defaultBucket.enabled | bool | `true` |  |

@@ -36,7 +36,7 @@ lurcher:
     # @default -- defaults to the charts version
     tag: null
     # lurcher.image.pullPolicy -- Image pull policy
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
 
 minio:
   # minio.enabled Enable this to use minio as storage backend instead of a cloud bucket provider like AWS S3, Google Cloud Storage, DigitalOcean Spaces etc.
