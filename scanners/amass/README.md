@@ -4,7 +4,7 @@ path: "scanners/amass"
 category: "scanner"
 type: "Network"
 state: "released"
-appVersion: "3.10.3"
+appVersion: "3.10.4"
 usecase: "Subdomain Enumeration Scanner"
 ---
 
@@ -44,9 +44,10 @@ Special command line options:
 | parserImage.tag | string | defaults to the charts version | Parser image tag |
 | scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | scannerJob.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
-| scannerJob.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
-| scannerJob.extraVolumes | list | `[]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scannerJob.extraVolumeMounts | list | `[{"mountPath":"/amass/output/config.ini","name":"amass-config","subPath":"config.ini"}]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scannerJob.extraVolumes | list | `[{"configMap":{"name":"amass-config"},"name":"amass-config"}]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
 | scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
+| scannerJob.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | scannerJob.ttlSecondsAfterFinished | string | `nil` | Defines how long the scanner job after finishing will be available (see: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/) |
 
 [owasp_amass_project]: https://owasp.org/www-project-amass/

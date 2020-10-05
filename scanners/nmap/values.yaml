@@ -16,13 +16,13 @@ scannerJob:
 
   # scannerJob.resources -- CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)
   resources: {}
-#   resources:
-#     requests:
-#       memory: "256Mi"
-#       cpu: "250m"
-#     limits:
-#       memory: "512Mi"
-#       cpu: "500m"
+  #   resources:
+  #     requests:
+  #       memory: "256Mi"
+  #       cpu: "250m"
+  #     limits:
+  #       memory: "512Mi"
+  #       cpu: "500m"
 
   # scannerJob.env -- Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
   env: []
@@ -35,3 +35,18 @@ scannerJob:
 
   # scannerJob.extraContainers -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
   extraContainers: []
+
+  # scannerJob.securityContext -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+  securityContext:
+    # scannerJob.securityContext.runAsNonRoot -- Enforces that the scanner image is run as a non root user
+    runAsNonRoot: true
+    # scannerJob.securityContext.readOnlyRootFilesystem -- Prevents write access to the containers file system
+    readOnlyRootFilesystem: true
+    # scannerJob.securityContext.allowPrivilegeEscalation -- Ensure that users privileges cannot be escalated
+    allowPrivilegeEscalation: false
+    # scannerJob.securityContext.privileged -- Ensures that the scanner container is not run in privileged mode
+    privileged: false
+    capabilities:
+      drop:
+        # scannerJob.securityContext.capabilities.drop[0] -- This drops all linux privileges from the container.
+        - all
