@@ -70,7 +70,7 @@ The _secureCodeBox operator_ would process all these CRDs in the namespace of th
 
 [source,yaml]
 ----
-apiVersion: execution.experimental.securecodebox.io/v1
+apiVersion: execution.securecodebox.io/v1
 kind: ScanCompletionHook
 metadata:
   name: my-metadata

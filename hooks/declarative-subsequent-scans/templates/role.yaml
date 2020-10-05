@@ -7,21 +7,21 @@ metadata:
   namespace: {{ .Release.Namespace }}
 rules:
   - apiGroups:
-      - execution.experimental.securecodebox.io
+      - execution.securecodebox.io
     resources:
       - scans
     verbs:
       - get
       - create
   - apiGroups:
-      - execution.experimental.securecodebox.io
+      - execution.securecodebox.io
     resources:
       - scans/status
     verbs:
       - get
       - patch
   - apiGroups:
-      - cascading.experimental.securecodebox.io
+      - cascading.securecodebox.io
     resources:
       - cascadingrules
     verbs:

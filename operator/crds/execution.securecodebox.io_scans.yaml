@@ -6,28 +6,43 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.2.4
   creationTimestamp: null
-  name: scancompletionhooks.execution.experimental.securecodebox.io
+  name: scans.execution.securecodebox.io
 spec:
   additionalPrinterColumns:
-  - JSONPath: .spec.type
-    description: ScanCompletionHook Type
+  - JSONPath: .metadata.uid
+    description: K8s Resource UID
+    name: UID
+    priority: 1
+    type: string
+  - JSONPath: .spec.scanType
+    description: Scan Type
     name: Type
     type: string
-  - JSONPath: .spec.image
-    description: ScanCompletionHook Image
-    name: Image
+  - JSONPath: .status.state
+    description: Scan State
+    name: State
     type: string
-  group: execution.experimental.securecodebox.io
+  - JSONPath: .status.findings.count
+    description: Total Finding Count
+    name: Findings
+    type: string
+  - JSONPath: .spec.parameters
+    description: Arguments passed to the Scanner
+    name: Parameters
+    priority: 1
+    type: string
+  group: execution.securecodebox.io
   names:
-    kind: ScanCompletionHook
-    listKind: ScanCompletionHookList
-    plural: scancompletionhooks
-    singular: scancompletionhook
+    kind: Scan
+    listKind: ScanList
+    plural: scans
+    singular: scan
   scope: Namespaced
-  subresources: {}
+  subresources:
+    status: {}
   validation:
     openAPIV3Schema:
-      description: ScanCompletionHook is the Schema for the ScanCompletionHooks API
+      description: Scan is the Schema for the scans API
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
@@ -42,9 +57,58 @@ spec:
         metadata:
           type: object
         spec:
-          description: ScanCompletionHookSpec defines the desired state of ScanCompletionHook
+          description: ScanSpec defines the desired state of Scan
           properties:
+            cascades:
+              description: A label selector is a label query over a set of resources.
+                The result of matchLabels and matchExpressions are ANDed. An empty
+                label selector matches all objects. A null label selector matches
+                no objects.
+              properties:
+                matchExpressions:
+                  description: matchExpressions is a list of label selector requirements.
+                    The requirements are ANDed.
+                  items:
+                    description: A label selector requirement is a selector that contains
+                      values, a key, and an operator that relates the key and values.
+                    properties:
+                      key:
+                        description: key is the label key that the selector applies
+                          to.
+                        type: string
+                      operator:
+                        description: operator represents a key's relationship to a
+                          set of values. Valid operators are In, NotIn, Exists and
+                          DoesNotExist.
+                        type: string
+                      values:
+                        description: values is an array of string values. If the operator
+                          is In or NotIn, the values array must be non-empty. If the
+                          operator is Exists or DoesNotExist, the values array must
+                          be empty. This array is replaced during a strategic merge
+                          patch.
+                        items:
+                          type: string
+                        type: array
+                    required:
+                    - key
+                    - operator
+                    type: object
+                  type: array
+                matchLabels:
+                  additionalProperties:
+                    type: string
+                  description: matchLabels is a map of {key,value} pairs. A single
+                    {key,value} in the matchLabels map is equivalent to an element
+                    of matchExpressions, whose key field is "key", the operator is
+                    "In", and the values array contains only "value". The requirements
+                    are ANDed.
+                  type: object
+              type: object
             env:
+              description: Env allows to specify environment vars for the scanner
+                container. These will be merged will the env vars specified for the
+                first container of the pod defined in the ScanType
               items:
                 description: EnvVar represents an environment variable present in
                   a Container.
@@ -142,36 +206,82 @@ spec:
                 - name
                 type: object
               type: array
-            image:
-              description: Image is the container image for the hooks kubernetes job
-              type: string
-            imagePullSecrets:
+            parameters:
               items:
-                description: LocalObjectReference contains enough information to let
-                  you locate the referenced object inside the same namespace.
-                properties:
-                  name:
-                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                      TODO: Add other useful fields. apiVersion, kind, uid?'
-                    type: string
-                type: object
+                type: string
               type: array
-            serviceAccountName:
-              description: ServiceAccountName Name of the serviceAccount Name used.
-                Should only be used if your hook needs specifc RBAC Access. Otherwise
-                the hook is run using a "scan-completion-hook" service account. The
-                service account should have at least "get" rights on scans.execution.experimental.securecodebox.io,
-                and "get" & "patch" scans.execution.experimental.securecodebox.io/status
+            scanType:
               type: string
-            type:
-              description: HookType Defines weather the hook should be able to change
-                the findings or is run in a read only mode.
-              type: string
-          required:
-          - type
           type: object
         status:
-          description: ScanCompletionHookStatus defines the observed state of ScanCompletionHook
+          description: ScanStatus defines the observed state of Scan
+          properties:
+            errorDescription:
+              type: string
+            findings:
+              description: FindingStats contains the general stats about the results
+                of the scan
+              properties:
+                categories:
+                  additionalProperties:
+                    format: int64
+                    type: integer
+                  description: FindingCategories indicates the count of finding broken
+                    down by their categories
+                  type: object
+                count:
+                  description: Count indicates how many findings were identified in
+                    total
+                  format: int64
+                  type: integer
+                severities:
+                  description: FindingSeverities indicates the count of finding with
+                    the respective severity
+                  properties:
+                    high:
+                      format: int64
+                      type: integer
+                    informational:
+                      format: int64
+                      type: integer
+                    low:
+                      format: int64
+                      type: integer
+                    medium:
+                      format: int64
+                      type: integer
+                  type: object
+              type: object
+            finishedAt:
+              description: FinishedAt contains the time where the scan (including
+                parser & hooks) has been marked as "Done"
+              format: date-time
+              type: string
+            rawResultFile:
+              description: RawResultFile Filename of the result file of the scanner.
+                e.g. `nmap-result.xml`
+              type: string
+            rawResultType:
+              description: RawResultType determines which kind of ParseDefinition
+                will be used to turn the raw results of the scanner into findings
+              type: string
+            readAndWriteHookStatus:
+              items:
+                properties:
+                  hookName:
+                    type: string
+                  jobName:
+                    type: string
+                  state:
+                    description: HookState Describes the State of a Hook on a Scan
+                    type: string
+                required:
+                - hookName
+                - state
+                type: object
+              type: array
+            state:
+              type: string
           type: object
       type: object
   version: v1

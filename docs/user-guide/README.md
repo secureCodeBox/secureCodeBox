@@ -69,7 +69,7 @@ This is implemented using kubernetes label selectors, meaning that scans mark th
 
 ```bash
 cat <<EOF | kubectl apply -f -
-apiVersion: "execution.experimental.securecodebox.io/v1"
+apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
   name: "example.com"
@@ -103,7 +103,7 @@ The label selectors also allow the more powerful [matchExpression](https://kuber
 
 ```bash
 cat <<EOF | kubectl apply -f -
-apiVersion: "execution.experimental.securecodebox.io/v1"
+apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
   name: "example.com"

@@ -34,7 +34,7 @@ rules:
   - list
   - watch
 - apiGroups:
-  - execution.experimental.securecodebox.io
+  - execution.securecodebox.io
   resources:
   - parsedefinitions
   verbs:
@@ -42,7 +42,7 @@ rules:
   - list
   - watch
 - apiGroups:
-  - execution.experimental.securecodebox.io
+  - execution.securecodebox.io
   resources:
   - scancompletionhooks
   verbs:
@@ -50,7 +50,7 @@ rules:
   - list
   - watch
 - apiGroups:
-  - execution.experimental.securecodebox.io
+  - execution.securecodebox.io
   resources:
   - scans
   verbs:
@@ -62,7 +62,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - execution.experimental.securecodebox.io
+  - execution.securecodebox.io
   resources:
   - scans/status
   verbs:
@@ -70,7 +70,7 @@ rules:
   - patch
   - update
 - apiGroups:
-  - execution.experimental.securecodebox.io
+  - execution.securecodebox.io
   resources:
   - scantypes
   verbs:
@@ -78,7 +78,7 @@ rules:
   - list
   - watch
 - apiGroups:
-  - execution.experimental.securecodebox.io
+  - execution.securecodebox.io
   resources:
   - scheduledscans
   verbs:
@@ -90,7 +90,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - execution.experimental.securecodebox.io
+  - execution.securecodebox.io
   resources:
   - scheduledscans/status
   verbs:

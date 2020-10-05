@@ -6,7 +6,7 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.2.4
   creationTimestamp: null
-  name: cascadingrules.cascading.experimental.securecodebox.io
+  name: cascadingrules.cascading.securecodebox.io
 spec:
   additionalPrinterColumns:
   - JSONPath: .spec.scanSpec.scanType
@@ -23,7 +23,7 @@ spec:
       'light' or 'medium'
     name: Intensiveness
     type: string
-  group: cascading.experimental.securecodebox.io
+  group: cascading.securecodebox.io
   names:
     kind: CascadingRule
     listKind: CascadingRuleList

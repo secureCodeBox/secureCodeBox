@@ -1,4 +1,4 @@
-apiVersion: "execution.experimental.securecodebox.io/v1"
+apiVersion: "execution.securecodebox.io/v1"
 kind: ParseDefinition
 metadata:
   name: "zap-json"
