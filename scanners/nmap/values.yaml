@@ -37,11 +37,11 @@ scannerJob:
     runAsNonRoot: true
     # scannerJob.securityContext.readOnlyRootFilesystem -- Prevents write access to the containers file system
     readOnlyRootFilesystem: true
-    # scannerJob.securityContext.allowPrivilegeEscalation -- Ensures that users privilidges canout be escalated
+    # scannerJob.securityContext.allowPrivilegeEscalation -- Ensure that users privileges cannot be escalated
     allowPrivilegeEscalation: false
-    # scannerJob.securityContext.privileged -- Ensures that the scanner container is not run in privilidged mode
+    # scannerJob.securityContext.privileged -- Ensures that the scanner container is not run in privileged mode
     privileged: false
     capabilities:
       drop:
-        # scannerJob.securityContext.capabilities.drop[0] -- This drops all linux privilidges from the container.
+        # scannerJob.securityContext.capabilities.drop[0] -- This drops all linux privileges from the container.
         - all
