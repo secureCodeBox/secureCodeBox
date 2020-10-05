@@ -5,7 +5,7 @@ metadata:
   name: parsedefinition-editor-role
 rules:
 - apiGroups:
-  - execution.experimental.securecodebox.io
+  - execution.securecodebox.io
   resources:
   - parsedefinitions
   verbs:
@@ -17,7 +17,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - execution.experimental.securecodebox.io
+  - execution.securecodebox.io
   resources:
   - parsedefinitions/status
   verbs:

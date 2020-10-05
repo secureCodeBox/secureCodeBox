@@ -1,4 +1,4 @@
-apiVersion: "cascading.experimental.securecodebox.io/v1"
+apiVersion: "cascading.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
   name: "kubernetes-control-plane"
@@ -24,7 +24,7 @@ spec:
       - "--remote"
       - "{{$.hostOrIP}}"
 ---
-apiVersion: "cascading.experimental.securecodebox.io/v1"
+apiVersion: "cascading.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
   name: "kubernetes-node"

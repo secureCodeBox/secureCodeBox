@@ -5,7 +5,7 @@ metadata:
   name: scheduledscan-viewer-role
 rules:
 - apiGroups:
-  - execution.experimental.securecodebox.io
+  - execution.securecodebox.io
   resources:
   - scheduledscans
   verbs:
@@ -13,7 +13,7 @@ rules:
   - list
   - watch
 - apiGroups:
-  - execution.experimental.securecodebox.io
+  - execution.securecodebox.io
   resources:
   - scheduledscans/status
   verbs:

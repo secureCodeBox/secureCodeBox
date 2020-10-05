@@ -1,4 +1,4 @@
-apiVersion: "execution.experimental.securecodebox.io/v1"
+apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
   name: "ssh-localhost"

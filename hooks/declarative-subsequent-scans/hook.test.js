@@ -5,7 +5,7 @@ let sslyzeCascadingRules = undefined;
 
 beforeEach(() => {
   parentScan = {
-    apiVersion: "execution.experimental.securecodebox.io/v1",
+    apiVersion: "execution.securecodebox.io/v1",
     kind: "Scan",
     metadata: {
       name: "nmap-foobar.com",
@@ -20,7 +20,7 @@ beforeEach(() => {
 
   sslyzeCascadingRules = [
     {
-      apiVersion: "cascading.experimental.securecodebox.io/v1",
+      apiVersion: "cascading.securecodebox.io/v1",
       kind: "CascadingRule",
       metadata: {
         name: "tls-scans",

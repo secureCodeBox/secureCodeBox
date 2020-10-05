@@ -1,4 +1,4 @@
-apiVersion: "cascading.experimental.securecodebox.io/v1"
+apiVersion: "cascading.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
   name: "smtps-tls-scan"
@@ -20,7 +20,7 @@ spec:
     scanType: "sslyze"
     parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"]
 ---
-apiVersion: "cascading.experimental.securecodebox.io/v1"
+apiVersion: "cascading.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
   name: "pop3s-tls-scan"
@@ -42,7 +42,7 @@ spec:
     scanType: "sslyze"
     parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"]
 ---
-apiVersion: "cascading.experimental.securecodebox.io/v1"
+apiVersion: "cascading.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
   name: "imaps-tls-scan"
