@@ -12,4 +12,5 @@ echo "Kibana is availible"
 for filename in ./dashboards/*.json; do
     echo "Importing dashboard '${filename}'"
     curl -i -H "Content-Type: application/json" -H "kbn-xsrf: reporting" -X POST --data @${filename} ${kibanaURL}/api/kibana/dashboards/import
+    echo -e "\n\n"
 done
