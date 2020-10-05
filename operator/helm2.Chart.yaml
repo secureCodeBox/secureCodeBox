@@ -13,7 +13,7 @@ keywords:
   - secureCodeBox
   - operator
 home: https://docs.securecodebox.io/docs/getting-started/installation
-icon: https://docs.securecodebox.io/img/Logo%20Color.svg
+icon: https://docs.securecodebox.io/img/Logo_Color.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox-v2
 maintainers:
