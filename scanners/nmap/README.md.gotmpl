@@ -50,10 +50,10 @@ Warning! This is currently not tested and might require additional testing to wo
 
 If you want to use Nmap to identify operating systems of hosts you'll need to weaken the securityContext config, as Nmap requires the capability to send raw sockets to identify operating systems. See [Nmap Docs](https://secwiki.org/w/Running_nmap_as_an_unprivileged_user)
 
-You can deployed the ScanType with the config like this:
+You can deploy the ScanType with the config like this:
 
 ```bash
-cat <<EOF | helm install nmap-privilidged ./scanners/nmap --values -
+cat <<EOF | helm install nmap-privileged ./scanners/nmap --values -
 scannerJob:
   env:
     - name: "NMAP_PRIVILEGED"
@@ -77,7 +77,7 @@ kind: Scan
 metadata:
   name: "nmap-os-scan"
 spec:
-  scanType: "nmap-privilidged"
+  scanType: "nmap-privileged"
   parameters:
     - --privileged
     - "-O"

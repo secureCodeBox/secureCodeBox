@@ -50,10 +50,10 @@ Warning! This is currently not tested and might require additional testing to wo
 
 If you want to use Nmap to identify operating systems of hosts you'll need to weaken the securityContext config, as Nmap requires the capability to send raw sockets to identify operating systems. See [Nmap Docs](https://secwiki.org/w/Running_nmap_as_an_unprivileged_user)
 
-You can deployed the ScanType with the config like this:
+You can deploy the ScanType with the config like this:
 
 ```bash
-cat <<EOF | helm install nmap-privilidged ./scanners/nmap --values -
+cat <<EOF | helm install nmap-privileged ./scanners/nmap --values -
 scannerJob:
   env:
     - name: "NMAP_PRIVILEGED"
@@ -77,7 +77,7 @@ kind: Scan
 metadata:
   name: "nmap-os-scan"
 spec:
-  scanType: "nmap-privilidged"
+  scanType: "nmap-privileged"
   parameters:
     - --privileged
     - "-O"
@@ -98,9 +98,9 @@ spec:
 | scannerJob.extraVolumes | list | `[]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
 | scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | scannerJob.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"privileged":false,"readOnlyRootFilesystem":true,"runAsNonRoot":true}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
-| scannerJob.securityContext.allowPrivilegeEscalation | bool | `false` | Ensures that users privilidges canout be escalated |
-| scannerJob.securityContext.capabilities.drop[0] | string | `"all"` | This drops all linux privilidges from the container. |
-| scannerJob.securityContext.privileged | bool | `false` | Ensures that the scanner container is not run in privilidged mode |
+| scannerJob.securityContext.allowPrivilegeEscalation | bool | `false` | Ensure that users privileges cannot be escalated |
+| scannerJob.securityContext.capabilities.drop[0] | string | `"all"` | This drops all linux privileges from the container. |
+| scannerJob.securityContext.privileged | bool | `false` | Ensures that the scanner container is not run in privileged mode |
 | scannerJob.securityContext.readOnlyRootFilesystem | bool | `true` | Prevents write access to the containers file system |
 | scannerJob.securityContext.runAsNonRoot | bool | `true` | Enforces that the scanner image is run as a non root user |
 | scannerJob.ttlSecondsAfterFinished | string | `nil` | Defines how long the scanner job after finishing will be available (see: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/) |

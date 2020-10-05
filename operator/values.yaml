@@ -12,20 +12,20 @@ image:
   # @default -- defaults to the charts version
   tag: null
   # image.pullPolicy -- Image pull policy
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 securityContext:
   # securityContext.runAsNonRoot -- Enforces that the Operator image is run as a non root user
   runAsNonRoot: true
   # securityContext.readOnlyRootFilesystem -- Prevents write access to the containers file system
   readOnlyRootFilesystem: true
-  # securityContext.allowPrivilegeEscalation -- Ensures that users privilidges canout be escalated
+  # securityContext.allowPrivilegeEscalation -- Ensure that users privileges cannot be escalated
   allowPrivilegeEscalation: false
-  # securityContext.privileged -- Ensures that the operator container is not run in privilidged mode
+  # securityContext.privileged -- Ensures that the operator container is not run in privileged mode
   privileged: false
   capabilities:
     drop:
-      # securityContext.capabilities.drop[0] -- This drops all linux privilidges from the operator container. They are not required
+      # securityContext.capabilities.drop[0] -- This drops all linux privileges from the operator container. They are not required
       - all
 
 lurcher:
