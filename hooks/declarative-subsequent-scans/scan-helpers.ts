@@ -72,7 +72,7 @@ export async function startSubsequentSecureCodeBoxScan({
   }
 
   const scanDefinition = {
-    apiVersion: "execution.experimental.securecodebox.io/v1",
+    apiVersion: "execution.securecodebox.io/v1",
     kind: "Scan",
     metadata: {
       generateName: `${name}-`,
@@ -89,7 +89,7 @@ export async function startSubsequentSecureCodeBoxScan({
       },
       ownerReferences: [
         {
-          apiVersion: "execution.experimental.securecodebox.io/v1",
+          apiVersion: "execution.securecodebox.io/v1",
           blockOwnerDeletion: true,
           controller: true,
           kind: "Scan",
@@ -110,7 +110,7 @@ export async function startSubsequentSecureCodeBoxScan({
   try {
     // Submitting the Scan to the kubernetes api
     await k8sApiCRD.createNamespacedCustomObject(
-      "execution.experimental.securecodebox.io",
+      "execution.securecodebox.io",
       "v1",
       namespace,
       "scans",
@@ -137,7 +137,7 @@ export async function getCascadingRulesForScan(scan: Scan) {
     );
 
     const response: any = await k8sApiCRD.listNamespacedCustomObject(
-      "cascading.experimental.securecodebox.io",
+      "cascading.securecodebox.io",
       "v1",
       namespace,
       "cascadingrules",

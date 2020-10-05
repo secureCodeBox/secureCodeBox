@@ -13,7 +13,7 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms * 1000));
 
 async function deleteScan(name) {
   await k8sCRDApi.deleteNamespacedCustomObject(
-    "execution.experimental.securecodebox.io",
+    "execution.securecodebox.io",
     "v1",
     namespace,
     "scans",
@@ -24,7 +24,7 @@ async function deleteScan(name) {
 
 async function getScan(name) {
   const { body: scan } = await k8sCRDApi.getNamespacedCustomObjectStatus(
-    "execution.experimental.securecodebox.io",
+    "execution.securecodebox.io",
     "v1",
     namespace,
     "scans",
@@ -110,7 +110,7 @@ async function disasterRecovery(scanName) {
  */
 async function scan(name, scanType, parameters = [], timeout = 180) {
   const scanDefinition = {
-    apiVersion: "execution.experimental.securecodebox.io/v1",
+    apiVersion: "execution.securecodebox.io/v1",
     kind: "Scan",
     metadata: {
       // Use `generateName` instead of name to generate a random sufix and avoid name clashes
@@ -123,7 +123,7 @@ async function scan(name, scanType, parameters = [], timeout = 180) {
   };
 
   const { body } = await k8sCRDApi.createNamespacedCustomObject(
-    "execution.experimental.securecodebox.io",
+    "execution.securecodebox.io",
     "v1",
     namespace,
     "scans",

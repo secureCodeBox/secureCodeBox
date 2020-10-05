@@ -102,7 +102,7 @@ async function updateFindings(findings) {
   }
 
   await k8sApi.patchNamespacedCustomObjectStatus(
-    "execution.experimental.securecodebox.io",
+    "execution.securecodebox.io",
     "v1",
     namespace,
     "scans",
@@ -133,7 +133,7 @@ async function main() {
   let scan;
   try {
     const { body } = await k8sApi.getNamespacedCustomObject(
-      "execution.experimental.securecodebox.io",
+      "execution.securecodebox.io",
       "v1",
       namespace,
       "scans",

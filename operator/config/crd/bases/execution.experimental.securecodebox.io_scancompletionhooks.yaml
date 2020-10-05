@@ -6,7 +6,7 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.2.4
   creationTimestamp: null
-  name: scancompletionhooks.execution.experimental.securecodebox.io
+  name: scancompletionhooks.execution.securecodebox.io
 spec:
   additionalPrinterColumns:
   - JSONPath: .spec.type
@@ -17,7 +17,7 @@ spec:
     description: ScanCompletionHook Image
     name: Image
     type: string
-  group: execution.experimental.securecodebox.io
+  group: execution.securecodebox.io
   names:
     kind: ScanCompletionHook
     listKind: ScanCompletionHookList
@@ -160,8 +160,8 @@ spec:
               description: ServiceAccountName Name of the serviceAccount Name used.
                 Should only be used if your hook needs specifc RBAC Access. Otherwise
                 the hook is run using a "scan-completion-hook" service account. The
-                service account should have at least "get" rights on scans.execution.experimental.securecodebox.io,
-                and "get" & "patch" scans.execution.experimental.securecodebox.io/status
+                service account should have at least "get" rights on scans.execution.securecodebox.io,
+                and "get" & "patch" scans.execution.securecodebox.io/status
               type: string
             type:
               description: HookType Defines weather the hook should be able to change

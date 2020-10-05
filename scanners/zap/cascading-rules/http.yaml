@@ -1,4 +1,4 @@
-apiVersion: "cascading.experimental.securecodebox.io/v1"
+apiVersion: "cascading.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
   name: "zap-http"

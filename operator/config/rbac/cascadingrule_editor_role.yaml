@@ -5,7 +5,7 @@ metadata:
   name: cascadingrule-editor-role
 rules:
 - apiGroups:
-  - cascading.experimental.securecodebox.io
+  - cascading.securecodebox.io
   resources:
   - cascadingrules
   verbs:
@@ -17,7 +17,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - cascading.experimental.securecodebox.io
+  - cascading.securecodebox.io
   resources:
   - cascadingrules/status
   verbs:

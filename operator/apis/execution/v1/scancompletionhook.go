@@ -44,7 +44,7 @@ type ScanCompletionHookSpec struct {
 	ImagePullSecrets []corev1.LocalObjectReference `json:"imagePullSecrets,omitempty"`
 	Env              []corev1.EnvVar               `json:"env,omitempty"`
 	Type             HookType                      `json:"type"`
-	// ServiceAccountName Name of the serviceAccount Name used. Should only be used if your hook needs specifc RBAC Access. Otherwise the hook is run using a "scan-completion-hook" service account. The service account should have at least "get" rights on scans.execution.experimental.securecodebox.io, and "get" & "patch" scans.execution.experimental.securecodebox.io/status
+	// ServiceAccountName Name of the serviceAccount Name used. Should only be used if your hook needs specifc RBAC Access. Otherwise the hook is run using a "scan-completion-hook" service account. The service account should have at least "get" rights on scans.execution.securecodebox.io, and "get" & "patch" scans.execution.securecodebox.io/status
 	ServiceAccountName *string `json:"serviceAccountName,omitempty"`
 }
 

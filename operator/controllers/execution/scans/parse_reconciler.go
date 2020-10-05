@@ -22,7 +22,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 	namespacedName := fmt.Sprintf("%s/%s", scan.Namespace, scan.Name)
 	log := r.Log.WithValues("scan_parse", namespacedName)
 
-	jobs, err := r.getJobsForScan(scan, client.MatchingLabels{"experimental.securecodebox.io/job-type": "parser"})
+	jobs, err := r.getJobsForScan(scan, client.MatchingLabels{"securecodebox.io/job-type": "parser"})
 	if err != nil {
 		return err
 	}
@@ -61,7 +61,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 
 	rules := []rbacv1.PolicyRule{
 		{
-			APIGroups: []string{"execution.experimental.securecodebox.io"},
+			APIGroups: []string{"execution.securecodebox.io"},
 			Resources: []string{"scans/status"},
 			Verbs:     []string{"get", "patch"},
 		},
@@ -77,7 +77,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 	if labels == nil {
 		labels = make(map[string]string)
 	}
-	labels["experimental.securecodebox.io/job-type"] = "parser"
+	labels["securecodebox.io/job-type"] = "parser"
 	automountServiceAccountToken := true
 	var backOffLimit int32 = 3
 	job := &batch.Job{
@@ -92,8 +92,8 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
 					Annotations: map[string]string{
-						"auto-discovery.experimental.securecodebox.io/ignore": "true",
-						"sidecar.istio.io/inject":                             "false",
+						"auto-discovery.securecodebox.io/ignore": "true",
+						"sidecar.istio.io/inject":                "false",
 					},
 				},
 				Spec: corev1.PodSpec{
@@ -166,7 +166,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 func (r *ScanReconciler) checkIfParsingIsCompleted(scan *executionv1.Scan) error {
 	ctx := context.Background()
 
-	status, err := r.checkIfJobIsCompleted(scan, client.MatchingLabels{"experimental.securecodebox.io/job-type": "parser"})
+	status, err := r.checkIfJobIsCompleted(scan, client.MatchingLabels{"securecodebox.io/job-type": "parser"})
 	if err != nil {
 		return err
 	}

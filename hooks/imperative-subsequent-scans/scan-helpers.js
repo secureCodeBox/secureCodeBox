@@ -13,7 +13,7 @@ async function startSubsequentSecureCodeBoxScan({
   parameters,
 }) {
   const scanDefinition = {
-    apiVersion: "execution.experimental.securecodebox.io/v1",
+    apiVersion: "execution.securecodebox.io/v1",
     kind: "Scan",
     metadata: {
       name: name,
@@ -26,7 +26,7 @@ async function startSubsequentSecureCodeBoxScan({
       },
       ownerReferences: [
         {
-          apiVersion: "execution.experimental.securecodebox.io/v1",
+          apiVersion: "execution.securecodebox.io/v1",
           blockOwnerDeletion: true,
           controller: true,
           kind: "Scan",
@@ -50,7 +50,7 @@ async function startSubsequentSecureCodeBoxScan({
     // Starting another subsequent sslyze scan based on the nmap results
     // found at: https://github.com/kubernetes-client/javascript/blob/79736b9a608c18d818de61a6b44503a08ea3a78f/src/gen/api/customObjectsApi.ts#L209
     await k8sApiCRD.createNamespacedCustomObject(
-      "execution.experimental.securecodebox.io",
+      "execution.securecodebox.io",
       "v1",
       process.env["NAMESPACE"],
       "scans",

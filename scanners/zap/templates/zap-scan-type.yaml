@@ -1,4 +1,4 @@
-apiVersion: "execution.experimental.securecodebox.io/v1"
+apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
   name: "zap-baseline"
@@ -34,7 +34,7 @@ spec:
             - name: zap-workdir
               emptyDir: {}
 ---
-apiVersion: "execution.experimental.securecodebox.io/v1"
+apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
   name: "zap-api-scan"
@@ -70,7 +70,7 @@ spec:
             - name: zap-workdir
               emptyDir: {}
 ---
-apiVersion: "execution.experimental.securecodebox.io/v1"
+apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
   name: "zap-full-scan"

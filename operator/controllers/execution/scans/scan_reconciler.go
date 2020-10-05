@@ -27,7 +27,7 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 	namespacedName := fmt.Sprintf("%s/%s", scan.Namespace, scan.Name)
 	log := r.Log.WithValues("scan_init", namespacedName)
 
-	jobs, err := r.getJobsForScan(scan, client.MatchingLabels{"experimental.securecodebox.io/job-type": "scanner"})
+	jobs, err := r.getJobsForScan(scan, client.MatchingLabels{"securecodebox.io/job-type": "scanner"})
 	if err != nil {
 		return err
 	}
@@ -116,7 +116,7 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 func (r *ScanReconciler) checkIfScanIsCompleted(scan *executionv1.Scan) error {
 	ctx := context.Background()
 
-	status, err := r.checkIfJobIsCompleted(scan, client.MatchingLabels{"experimental.securecodebox.io/job-type": "scanner"})
+	status, err := r.checkIfJobIsCompleted(scan, client.MatchingLabels{"securecodebox.io/job-type": "scanner"})
 	if err != nil {
 		return err
 	}
@@ -157,7 +157,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 	if labels == nil {
 		labels = make(map[string]string)
 	}
-	labels["experimental.securecodebox.io/job-type"] = "scanner"
+	labels["securecodebox.io/job-type"] = "scanner"
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
 			Labels:       labels,
@@ -171,7 +171,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 	if podAnnotations == nil {
 		podAnnotations = make(map[string]string)
 	}
-	podAnnotations["experimental.securecodebox.io/job-type"] = "scanner"
+	podAnnotations["securecodebox.io/job-type"] = "scanner"
 	// Ensuring that istio doesn't inject a sidecar proxy.
 	podAnnotations["sidecar.istio.io/inject"] = "false"
 	job.Spec.Template.Annotations = podAnnotations
