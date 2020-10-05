@@ -1,4 +1,4 @@
-![operator logo](https://docs.securecodebox.io/img/Logo%20Color.svg)
+![operator logo](https://docs.securecodebox.io/img/Logo_Color.svg)
 
 The secureCodeBox operator is runniing on kubernetes and the core component of the complete secureCodeBox stack, responsible for operating all scans and ressources.
 
