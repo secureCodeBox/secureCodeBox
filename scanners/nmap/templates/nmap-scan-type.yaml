@@ -17,7 +17,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: nmap
-              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
               command: ["nmap", "-oX", "/home/securecodebox/nmap-results.xml"]
               resources:
                 {{- toYaml .Values.scannerJob.resources | nindent 16 }}
