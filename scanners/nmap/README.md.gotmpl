@@ -72,7 +72,7 @@ EOF
 You the start scans with operating system identification enabled:
 
 ```yaml
-apiVersion: "execution.experimental.securecodebox.io/v1"
+apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
   name: "nmap-os-scan"
