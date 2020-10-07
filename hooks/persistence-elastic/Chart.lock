@@ -1,9 +1,9 @@
 dependencies:
 - name: elasticsearch
   repository: https://helm.elastic.co
-  version: 7.8.0
+  version: 7.9.2
 - name: kibana
   repository: https://helm.elastic.co
-  version: 7.8.0
-digest: sha256:05a0916ea2d539f153f611b2763cf927983c91f0f8b02ab4b3a0c60334a962a0
-generated: "2020-10-07T09:27:42.928592232+02:00"
+  version: 7.9.2
+digest: sha256:e47a0c36a3ded9bc2cab9b2482dfa117dd2c3b9950d92d19d92cf47ac774ad69
+generated: "2020-10-07T10:47:56.519541956+02:00"
