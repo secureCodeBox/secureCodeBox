@@ -1,11 +1,11 @@
 {
-  "version": "7.6.1",
+  "version": "7.8.0",
   "objects": [
     {
       "id": "34c734b0-6e79-11ea-bdc0-35f8aa7c4664",
       "type": "dashboard",
-      "updated_at": "2020-03-25T10:15:04.535Z",
-      "version": "WzEwOCwxXQ==",
+      "updated_at": "2020-10-07T06:45:25.958Z",
+      "version": "WzYyLDFd",
       "attributes": {
         "title": "Daily Summary",
         "hits": 0,
@@ -68,8 +68,8 @@
     {
       "id": "c0042750-6e78-11ea-bdc0-35f8aa7c4664",
       "type": "visualization",
-      "updated_at": "2020-03-25T10:15:04.535Z",
-      "version": "WzEwOSwxXQ==",
+      "updated_at": "2020-10-07T06:45:25.958Z",
+      "version": "WzYzLDFd",
       "attributes": {
         "title": "Findings Today",
         "visState": "{\"title\":\"Findings Today\",\"type\":\"metric\",\"params\":{\"metric\":{\"percentageMode\":false,\"useRanges\":false,\"colorSchema\":\"Green to Red\",\"metricColorMode\":\"None\",\"colorsRange\":[{\"type\":\"range\",\"from\":0,\"to\":10000}],\"labels\":{\"show\":true},\"invertColors\":false,\"style\":{\"bgFill\":\"#000\",\"bgColor\":false,\"labelColor\":false,\"subText\":\"\",\"fontSize\":60}},\"dimensions\":{\"metrics\":[{\"type\":\"vis_dimension\",\"accessor\":0,\"format\":{\"id\":\"number\",\"params\":{}}}]},\"addTooltip\":true,\"addLegend\":false,\"type\":\"metric\"},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{\"customLabel\":\"Findings today\"}}]}",
@@ -93,14 +93,14 @@
         }
       ],
       "migrationVersion": {
-        "visualization": "7.4.2"
+        "visualization": "7.8.0"
       }
     },
     {
       "id": "063dc0f0-6e79-11ea-bdc0-35f8aa7c4664",
       "type": "visualization",
-      "updated_at": "2020-03-25T10:15:04.535Z",
-      "version": "WzExMCwxXQ==",
+      "updated_at": "2020-10-07T06:45:25.958Z",
+      "version": "WzY0LDFd",
       "attributes": {
         "title": "Scanners Run Today",
         "visState": "{\"title\":\"Scanners Run Today\",\"type\":\"table\",\"params\":{\"perPage\":10,\"showPartialRows\":false,\"showMetricsAtAllLevels\":false,\"sort\":{\"columnIndex\":null,\"direction\":null},\"showTotal\":false,\"totalFunc\":\"sum\",\"percentageCol\":\"\",\"dimensions\":{\"metrics\":[{\"accessor\":1,\"format\":{\"id\":\"number\"},\"params\":{},\"label\":\"Count\",\"aggType\":\"count\"}],\"buckets\":[{\"accessor\":0,\"format\":{\"id\":\"terms\",\"params\":{\"id\":\"string\",\"otherBucketLabel\":\"Other\",\"missingBucketLabel\":\"Missing\",\"parsedUrl\":{\"origin\":\"http://localhost:5601\",\"pathname\":\"/app/kibana\",\"basePath\":\"\"}}},\"params\":{},\"label\":\"scan_type.keyword: Descending\",\"aggType\":\"terms\"}]}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"scan_type.keyword\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":20,\"otherBucket\":true,\"otherBucketLabel\":\"Others\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\",\"customLabel\":\"Scanners\"}}]}",
@@ -124,14 +124,14 @@
         }
       ],
       "migrationVersion": {
-        "visualization": "7.4.2"
+        "visualization": "7.8.0"
       }
     },
     {
       "id": "819bc8f0-6e79-11ea-bdc0-35f8aa7c4664",
       "type": "visualization",
-      "updated_at": "2020-03-25T10:15:04.535Z",
-      "version": "WzExMSwxXQ==",
+      "updated_at": "2020-10-07T06:45:25.958Z",
+      "version": "WzY1LDFd",
       "attributes": {
         "title": "Findings of the Day Grouped by Severity",
         "visState": "{\"title\":\"Findings of the Day Grouped by Severity\",\"type\":\"metric\",\"params\":{\"metric\":{\"percentageMode\":false,\"useRanges\":false,\"colorSchema\":\"Green to Red\",\"metricColorMode\":\"None\",\"colorsRange\":[{\"type\":\"range\",\"from\":0,\"to\":10000}],\"labels\":{\"show\":true},\"invertColors\":false,\"style\":{\"bgFill\":\"#000\",\"bgColor\":false,\"labelColor\":false,\"subText\":\"\",\"fontSize\":60}},\"dimensions\":{\"metrics\":[{\"type\":\"vis_dimension\",\"accessor\":1,\"format\":{\"id\":\"number\",\"params\":{}}}],\"bucket\":{\"type\":\"vis_dimension\",\"accessor\":0,\"format\":{\"id\":\"terms\",\"params\":{\"id\":\"string\",\"otherBucketLabel\":\"Other\",\"missingBucketLabel\":\"Missing\",\"parsedUrl\":{\"origin\":\"http://localhost:5601\",\"pathname\":\"/app/kibana\",\"basePath\":\"\"}}}}},\"addTooltip\":true,\"addLegend\":false,\"type\":\"metric\"},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"group\",\"params\":{\"field\":\"severity.keyword\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":4,\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\",\"customLabel\":\"Findings\"}}]}",
@@ -155,14 +155,14 @@
         }
       ],
       "migrationVersion": {
-        "visualization": "7.4.2"
+        "visualization": "7.8.0"
       }
     },
     {
       "id": "01736ad0-6e7d-11ea-bdc0-35f8aa7c4664",
       "type": "visualization",
-      "updated_at": "2020-03-25T10:15:04.535Z",
-      "version": "WzExMiwxXQ==",
+      "updated_at": "2020-10-07T06:45:25.958Z",
+      "version": "WzY2LDFd",
       "attributes": {
         "title": "Findings of the Day",
         "visState": "{\"title\":\"Findings of the Day\",\"type\":\"pie\",\"params\":{\"type\":\"pie\",\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"isDonut\":true,\"labels\":{\"show\":true,\"values\":true,\"last_level\":true,\"truncate\":100},\"dimensions\":{\"metric\":{\"accessor\":1,\"format\":{\"id\":\"number\"},\"params\":{},\"label\":\"Count\",\"aggType\":\"count\"},\"buckets\":[{\"accessor\":0,\"format\":{\"id\":\"terms\",\"params\":{\"id\":\"string\",\"otherBucketLabel\":\"Other\",\"missingBucketLabel\":\"Missing\",\"parsedUrl\":{\"origin\":\"http://localhost:5601\",\"pathname\":\"/app/kibana\",\"basePath\":\"\"}}},\"params\":{},\"label\":\"severity.keyword: Descending\",\"aggType\":\"terms\"}]}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"severity.keyword\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":4,\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\"}}]}",
@@ -186,14 +186,14 @@
         }
       ],
       "migrationVersion": {
-        "visualization": "7.4.2"
+        "visualization": "7.8.0"
       }
     },
     {
       "id": "8e8f8840-6e7d-11ea-bdc0-35f8aa7c4664",
       "type": "visualization",
-      "updated_at": "2020-03-25T10:15:04.535Z",
-      "version": "WzExMywxXQ==",
+      "updated_at": "2020-10-07T06:45:25.958Z",
+      "version": "WzY3LDFd",
       "attributes": {
         "title": "Findings of the Day Grouped by Scanner and Severity",
         "visState": "{\"title\":\"Findings of the Day Grouped by Scanner and Severity\",\"type\":\"histogram\",\"params\":{\"type\":\"histogram\",\"grid\":{\"categoryLines\":false},\"categoryAxes\":[{\"id\":\"CategoryAxis-1\",\"type\":\"category\",\"position\":\"bottom\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\"},\"labels\":{\"show\":true,\"filter\":true,\"truncate\":100},\"title\":{}}],\"valueAxes\":[{\"id\":\"ValueAxis-1\",\"name\":\"LeftAxis-1\",\"type\":\"value\",\"position\":\"left\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\",\"mode\":\"normal\"},\"labels\":{\"show\":true,\"rotate\":0,\"filter\":false,\"truncate\":100},\"title\":{\"text\":\"Findings\"}}],\"seriesParams\":[{\"show\":true,\"type\":\"histogram\",\"mode\":\"stacked\",\"data\":{\"label\":\"Findings\",\"id\":\"1\"},\"valueAxis\":\"ValueAxis-1\",\"drawLinesBetweenPoints\":true,\"lineWidth\":2,\"showCircles\":true}],\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"times\":[],\"addTimeMarker\":false,\"labels\":{\"show\":false},\"thresholdLine\":{\"show\":false,\"value\":10,\"width\":1,\"style\":\"full\",\"color\":\"#E7664C\"},\"dimensions\":{\"x\":{\"accessor\":0,\"format\":{\"id\":\"terms\",\"params\":{\"id\":\"string\",\"otherBucketLabel\":\"Other\",\"missingBucketLabel\":\"Missing\",\"parsedUrl\":{\"origin\":\"http://localhost:5601\",\"pathname\":\"/app/kibana\",\"basePath\":\"\"}}},\"params\":{},\"label\":\"scan_type.keyword: Descending\",\"aggType\":\"terms\"},\"y\":[{\"accessor\":2,\"format\":{\"id\":\"number\"},\"params\":{},\"label\":\"Findings\",\"aggType\":\"count\"}],\"series\":[{\"accessor\":1,\"format\":{\"id\":\"terms\",\"params\":{\"id\":\"string\",\"otherBucketLabel\":\"Other\",\"missingBucketLabel\":\"Missing\",\"parsedUrl\":{\"origin\":\"http://localhost:5601\",\"pathname\":\"/app/kibana\",\"basePath\":\"\"}}},\"params\":{},\"label\":\"Scanner\",\"aggType\":\"terms\"}]}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{\"customLabel\":\"Findings\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"scan_type.keyword\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":5,\"otherBucket\":true,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\",\"customLabel\":\"Scanners\"}},{\"id\":\"3\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"group\",\"params\":{\"field\":\"severity.keyword\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":5,\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\",\"customLabel\":\"Scanner\"}}]}",
@@ -217,14 +217,14 @@
         }
       ],
       "migrationVersion": {
-        "visualization": "7.4.2"
+        "visualization": "7.8.0"
       }
     },
     {
       "id": "1b6acc20-6e7e-11ea-bdc0-35f8aa7c4664",
       "type": "visualization",
-      "updated_at": "2020-03-25T10:15:04.535Z",
-      "version": "WzExNCwxXQ==",
+      "updated_at": "2020-10-07T06:45:25.958Z",
+      "version": "WzY4LDFd",
       "attributes": {
         "title": "Scanner Distribution over the Day",
         "visState": "{\"title\":\"Scanner Distribution over the Day\",\"type\":\"histogram\",\"params\":{\"type\":\"histogram\",\"grid\":{\"categoryLines\":true,\"valueAxis\":\"ValueAxis-1\"},\"categoryAxes\":[{\"id\":\"CategoryAxis-1\",\"type\":\"category\",\"position\":\"bottom\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\"},\"labels\":{\"show\":true,\"filter\":true,\"truncate\":100},\"title\":{}}],\"valueAxes\":[{\"id\":\"ValueAxis-1\",\"name\":\"LeftAxis-1\",\"type\":\"value\",\"position\":\"left\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\",\"mode\":\"normal\"},\"labels\":{\"show\":true,\"rotate\":0,\"filter\":false,\"truncate\":100},\"title\":{\"text\":\"Count\"}}],\"seriesParams\":[{\"show\":true,\"type\":\"histogram\",\"mode\":\"normal\",\"data\":{\"label\":\"Count\",\"id\":\"1\"},\"valueAxis\":\"ValueAxis-1\",\"drawLinesBetweenPoints\":true,\"lineWidth\":2,\"showCircles\":true}],\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"times\":[],\"addTimeMarker\":false,\"labels\":{\"show\":false},\"thresholdLine\":{\"show\":false,\"value\":10,\"width\":1,\"style\":\"full\",\"color\":\"#E7664C\"},\"dimensions\":{\"x\":{\"accessor\":0,\"format\":{\"id\":\"date\",\"params\":{\"pattern\":\"YYYY-MM-DD HH:mm\"}},\"params\":{\"date\":true,\"interval\":\"PT1H\",\"intervalESValue\":1,\"intervalESUnit\":\"h\",\"format\":\"YYYY-MM-DD HH:mm\",\"bounds\":{\"min\":\"2020-03-24T23:00:00.000Z\",\"max\":\"2020-03-25T22:59:59.999Z\"}},\"label\":\"Time\",\"aggType\":\"date_histogram\"},\"y\":[{\"accessor\":2,\"format\":{\"id\":\"number\"},\"params\":{},\"label\":\"Count\",\"aggType\":\"count\"}],\"series\":[{\"accessor\":1,\"format\":{\"id\":\"terms\",\"params\":{\"id\":\"string\",\"otherBucketLabel\":\"Other\",\"missingBucketLabel\":\"Missing\",\"parsedUrl\":{\"origin\":\"http://localhost:5601\",\"pathname\":\"/app/kibana\",\"basePath\":\"\"}}},\"params\":{},\"label\":\"scan_type.keyword: Descending\",\"aggType\":\"terms\"}]}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"date_histogram\",\"schema\":\"segment\",\"params\":{\"field\":\"@timestamp\",\"timeRange\":{\"from\":\"now/d\",\"to\":\"now/d\"},\"useNormalizedEsInterval\":true,\"scaleMetricValues\":false,\"interval\":\"h\",\"drop_partials\":false,\"min_doc_count\":1,\"extended_bounds\":{},\"customLabel\":\"Time\"}},{\"id\":\"3\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"group\",\"params\":{\"field\":\"scan_type.keyword\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":8,\"otherBucket\":true,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\"}}]}",
@@ -248,14 +248,14 @@
         }
       ],
       "migrationVersion": {
-        "visualization": "7.4.2"
+        "visualization": "7.8.0"
       }
     },
     {
       "id": "d86d2e30-6e7e-11ea-bdc0-35f8aa7c4664",
       "type": "visualization",
-      "updated_at": "2020-03-25T10:15:04.535Z",
-      "version": "WzExNSwxXQ==",
+      "updated_at": "2020-10-07T06:45:25.958Z",
+      "version": "WzY5LDFd",
       "attributes": {
         "title": "Finding Categories",
         "visState": "{\"title\":\"Finding Categories\",\"type\":\"histogram\",\"params\":{\"type\":\"histogram\",\"grid\":{\"categoryLines\":true,\"valueAxis\":\"ValueAxis-1\"},\"categoryAxes\":[{\"id\":\"CategoryAxis-1\",\"type\":\"category\",\"position\":\"bottom\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\"},\"labels\":{\"show\":true,\"filter\":true,\"truncate\":100},\"title\":{}}],\"valueAxes\":[{\"id\":\"ValueAxis-1\",\"name\":\"LeftAxis-1\",\"type\":\"value\",\"position\":\"left\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\",\"mode\":\"normal\"},\"labels\":{\"show\":true,\"rotate\":0,\"filter\":false,\"truncate\":100},\"title\":{\"text\":\"Count\"}}],\"seriesParams\":[{\"show\":true,\"type\":\"histogram\",\"mode\":\"stacked\",\"data\":{\"label\":\"Count\",\"id\":\"1\"},\"valueAxis\":\"ValueAxis-1\",\"drawLinesBetweenPoints\":true,\"lineWidth\":2,\"showCircles\":true}],\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"times\":[],\"addTimeMarker\":false,\"labels\":{\"show\":false},\"thresholdLine\":{\"show\":false,\"value\":10,\"width\":1,\"style\":\"full\",\"color\":\"#E7664C\"},\"dimensions\":{\"x\":{\"accessor\":0,\"format\":{\"id\":\"date\",\"params\":{\"pattern\":\"YYYY-MM-DD HH:mm\"}},\"params\":{\"date\":true,\"interval\":\"PT1H\",\"intervalESValue\":1,\"intervalESUnit\":\"h\",\"format\":\"YYYY-MM-DD HH:mm\",\"bounds\":{\"min\":\"2020-03-24T23:00:00.000Z\",\"max\":\"2020-03-25T22:59:59.999Z\"}},\"label\":\"Time\",\"aggType\":\"date_histogram\"},\"y\":[{\"accessor\":2,\"format\":{\"id\":\"number\"},\"params\":{},\"label\":\"Count\",\"aggType\":\"count\"}],\"series\":[{\"accessor\":1,\"format\":{\"id\":\"terms\",\"params\":{\"id\":\"string\",\"otherBucketLabel\":\"Other\",\"missingBucketLabel\":\"Missing\",\"parsedUrl\":{\"origin\":\"http://localhost:5601\",\"pathname\":\"/app/kibana\",\"basePath\":\"\"}}},\"params\":{},\"label\":\"category.keyword: Descending\",\"aggType\":\"terms\"}]}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"date_histogram\",\"schema\":\"segment\",\"params\":{\"field\":\"@timestamp\",\"timeRange\":{\"from\":\"now/d\",\"to\":\"now/d\"},\"useNormalizedEsInterval\":true,\"scaleMetricValues\":false,\"interval\":\"h\",\"drop_partials\":false,\"min_doc_count\":1,\"extended_bounds\":{},\"customLabel\":\"Time\"}},{\"id\":\"3\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"group\",\"params\":{\"field\":\"category.keyword\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":8,\"otherBucket\":true,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\"}}]}",
@@ -279,14 +279,14 @@
         }
       ],
       "migrationVersion": {
-        "visualization": "7.4.2"
+        "visualization": "7.8.0"
       }
     },
     {
       "id": "60ee6af0-6e78-11ea-bdc0-35f8aa7c4664",
       "type": "index-pattern",
-      "updated_at": "2020-03-25T10:15:04.535Z",
-      "version": "WzExNiwxXQ==",
+      "updated_at": "2020-10-07T06:45:25.958Z",
+      "version": "WzcwLDFd",
       "attributes": {
         "title": "scbv2_*",
         "timeFieldName": "@timestamp",
