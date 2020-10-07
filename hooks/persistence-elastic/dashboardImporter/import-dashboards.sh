@@ -7,6 +7,7 @@ until $(curl --output /dev/null --silent --head --fail ${kibanaURL}); do
     printf '.'
     sleep 5
 done
+echo ""
 echo "Kibana is availible"
 
 for filename in ./dashboards/*.json; do
