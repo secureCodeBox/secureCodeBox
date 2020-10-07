@@ -10,7 +10,7 @@ spec:
       restartPolicy: 'OnFailure'
       containers:
         - name: dasboard-importer
-          image: securecodebox/persistence-elastic-dashboard-importer
+          image: "{{ .Values.dashboardImporter.image.repository }}:{{ .Values.dashboardImporter.image.tag | default .Chart.Version }}"
           imagePullPolicy: Always
           env:
 {{- if .Values.externalElasticStack.enabled }}      

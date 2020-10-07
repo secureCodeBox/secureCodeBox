@@ -44,6 +44,14 @@ kibana:
   enabled: true
   # image: docker.elastic.co/kibana/kibana-oss
 
+dashboardImporter:
+  image:
+    # image.repository -- Image repository for the dashboard importer job
+    repository: securecodebox/persistence-elastic-dashboard-importer
+    # image.tag -- Image tag for the dashboard importer job
+    # @default -- defaults to the charts version
+    tag: null
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
