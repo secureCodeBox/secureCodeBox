@@ -1,0 +1,432 @@
+{
+  "version": "7.8.0",
+  "objects": [
+    {
+      "id": "f5e576c0-af97-11ea-b237-7b9069d086af",
+      "type": "dashboard",
+      "updated_at": "2020-10-07T06:57:38.769Z",
+      "version": "WzExNCwxXQ==",
+      "attributes": {
+        "title": "TLS/SSL (SSLyze) Overview",
+        "hits": 0,
+        "description": "",
+        "panelsJSON": "[{\"version\":\"7.8.0\",\"gridData\":{\"x\":0,\"y\":0,\"w\":8,\"h\":8,\"i\":\"164d323a-d2c8-47c7-9383-a333a7b9cb7b\"},\"panelIndex\":\"164d323a-d2c8-47c7-9383-a333a7b9cb7b\",\"embeddableConfig\":{},\"panelRefName\":\"panel_0\"},{\"version\":\"7.8.0\",\"gridData\":{\"x\":8,\"y\":0,\"w\":8,\"h\":8,\"i\":\"896f77b8-b797-4c28-bffe-7485c2b51e0b\"},\"panelIndex\":\"896f77b8-b797-4c28-bffe-7485c2b51e0b\",\"embeddableConfig\":{},\"panelRefName\":\"panel_1\"},{\"version\":\"7.8.0\",\"gridData\":{\"x\":16,\"y\":0,\"w\":8,\"h\":8,\"i\":\"c521873b-6c8d-48b0-b1ca-6a0433382703\"},\"panelIndex\":\"c521873b-6c8d-48b0-b1ca-6a0433382703\",\"embeddableConfig\":{},\"panelRefName\":\"panel_2\"},{\"version\":\"7.8.0\",\"gridData\":{\"x\":24,\"y\":0,\"w\":24,\"h\":12,\"i\":\"50b58fb8-bc82-4f0d-9632-8b5e4859a40c\"},\"panelIndex\":\"50b58fb8-bc82-4f0d-9632-8b5e4859a40c\",\"embeddableConfig\":{},\"panelRefName\":\"panel_3\"},{\"version\":\"7.8.0\",\"gridData\":{\"x\":0,\"y\":8,\"w\":24,\"h\":19,\"i\":\"c0eeaec9-1923-4e15-b913-8bef98c3f1d0\"},\"panelIndex\":\"c0eeaec9-1923-4e15-b913-8bef98c3f1d0\",\"embeddableConfig\":{},\"panelRefName\":\"panel_4\"},{\"version\":\"7.8.0\",\"gridData\":{\"x\":24,\"y\":12,\"w\":24,\"h\":15,\"i\":\"5e9e232f-2a55-46ed-a051-20276691925b\"},\"panelIndex\":\"5e9e232f-2a55-46ed-a051-20276691925b\",\"embeddableConfig\":{},\"panelRefName\":\"panel_5\"},{\"version\":\"7.8.0\",\"gridData\":{\"x\":0,\"y\":27,\"w\":10,\"h\":18,\"i\":\"2827d73e-16a5-411f-b666-0181f4511065\"},\"panelIndex\":\"2827d73e-16a5-411f-b666-0181f4511065\",\"embeddableConfig\":{},\"panelRefName\":\"panel_6\"},{\"version\":\"7.8.0\",\"gridData\":{\"x\":10,\"y\":27,\"w\":38,\"h\":18,\"i\":\"e84f6296-df1d-4382-94b0-229496815970\"},\"panelIndex\":\"e84f6296-df1d-4382-94b0-229496815970\",\"embeddableConfig\":{},\"panelRefName\":\"panel_7\"},{\"version\":\"7.8.0\",\"gridData\":{\"x\":0,\"y\":45,\"w\":48,\"h\":12,\"i\":\"e5cc761e-604c-48ae-86cc-577fe82be7f2\"},\"panelIndex\":\"e5cc761e-604c-48ae-86cc-577fe82be7f2\",\"embeddableConfig\":{},\"panelRefName\":\"panel_8\"},{\"version\":\"7.8.0\",\"gridData\":{\"x\":0,\"y\":57,\"w\":48,\"h\":16,\"i\":\"791b05e7-010b-477d-aa41-7194acafde51\"},\"panelIndex\":\"791b05e7-010b-477d-aa41-7194acafde51\",\"embeddableConfig\":{},\"panelRefName\":\"panel_9\"}]",
+        "optionsJSON": "{\"hidePanelTitles\":false,\"useMargins\":true}",
+        "version": 1,
+        "timeRestore": false,
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[]}"
+        }
+      },
+      "references": [
+        {
+          "name": "panel_0",
+          "type": "visualization",
+          "id": "cd94e7d0-af94-11ea-b237-7b9069d086af"
+        },
+        {
+          "name": "panel_1",
+          "type": "visualization",
+          "id": "a952df70-af95-11ea-b237-7b9069d086af"
+        },
+        {
+          "name": "panel_2",
+          "type": "visualization",
+          "id": "65ad1010-af95-11ea-b237-7b9069d086af"
+        },
+        {
+          "name": "panel_3",
+          "type": "visualization",
+          "id": "d02bd470-af96-11ea-b237-7b9069d086af"
+        },
+        {
+          "name": "panel_4",
+          "type": "visualization",
+          "id": "35e5f6c0-af96-11ea-b237-7b9069d086af"
+        },
+        {
+          "name": "panel_5",
+          "type": "visualization",
+          "id": "c41769e0-af98-11ea-b237-7b9069d086af"
+        },
+        {
+          "name": "panel_6",
+          "type": "visualization",
+          "id": "01d1cda0-af9b-11ea-b237-7b9069d086af"
+        },
+        {
+          "name": "panel_7",
+          "type": "visualization",
+          "id": "fc8c4650-af99-11ea-b237-7b9069d086af"
+        },
+        {
+          "name": "panel_8",
+          "type": "visualization",
+          "id": "bb536d60-af9b-11ea-b237-7b9069d086af"
+        },
+        {
+          "name": "panel_9",
+          "type": "visualization",
+          "id": "5b86d230-af9d-11ea-b237-7b9069d086af"
+        }
+      ],
+      "migrationVersion": {
+        "dashboard": "7.3.0"
+      }
+    },
+    {
+      "id": "cd94e7d0-af94-11ea-b237-7b9069d086af",
+      "type": "visualization",
+      "updated_at": "2020-10-07T06:56:04.257Z",
+      "version": "Wzk4LDFd",
+      "attributes": {
+        "description": "Counts the total amount of tls services found during a given period of time. ",
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"key\":\"category\",\"negate\":false,\"params\":{\"query\":\"TLS Service Info\"},\"type\":\"phrase\",\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match_phrase\":{\"category\":\"TLS Service Info\"}}}]}"
+        },
+        "savedSearchRefName": "search_0",
+        "title": "TLS Unique Service Count",
+        "uiStateJSON": "{}",
+        "version": 1,
+        "visState": "{\"type\":\"metric\",\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"cardinality\",\"schema\":\"metric\",\"params\":{\"field\":\"location.keyword\",\"customLabel\":\"Unique TLS Services\"}}],\"params\":{\"addLegend\":false,\"addTooltip\":true,\"metric\":{\"colorSchema\":\"Green to Red\",\"colorsRange\":[{\"from\":0,\"to\":10000}],\"invertColors\":false,\"labels\":{\"show\":true},\"metricColorMode\":\"None\",\"percentageMode\":false,\"style\":{\"bgColor\":false,\"bgFill\":\"#000\",\"fontSize\":60,\"labelColor\":false,\"subText\":\"\"},\"useRanges\":false},\"type\":\"metric\"},\"title\":\"TLS Unique Service Count\"}"
+      },
+      "references": [
+        {
+          "id": "60ee6af0-6e78-11ea-bdc0-35f8aa7c4664",
+          "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
+          "type": "index-pattern"
+        },
+        {
+          "id": "414409a0-af94-11ea-b237-7b9069d086af",
+          "name": "search_0",
+          "type": "search"
+        }
+      ],
+      "migrationVersion": {
+        "visualization": "7.8.0"
+      }
+    },
+    {
+      "id": "a952df70-af95-11ea-b237-7b9069d086af",
+      "type": "visualization",
+      "updated_at": "2020-10-07T06:56:04.257Z",
+      "version": "Wzk5LDFd",
+      "attributes": {
+        "description": "",
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"key\":\"category.keyword\",\"negate\":false,\"params\":{\"query\":\"Invalid Certificate\"},\"type\":\"phrase\",\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match_phrase\":{\"category.keyword\":\"Invalid Certificate\"}}}]}"
+        },
+        "savedSearchRefName": "search_0",
+        "title": "TLS Unique Count of Invalid Certificate Findings",
+        "uiStateJSON": "{}",
+        "version": 1,
+        "visState": "{\"type\":\"metric\",\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"cardinality\",\"schema\":\"metric\",\"params\":{\"field\":\"location.keyword\",\"customLabel\":\"Unique Invalid TLS Cert Findings\"}}],\"params\":{\"addLegend\":false,\"addTooltip\":true,\"metric\":{\"colorSchema\":\"Green to Red\",\"colorsRange\":[{\"from\":0,\"to\":10000}],\"invertColors\":false,\"labels\":{\"show\":true},\"metricColorMode\":\"None\",\"percentageMode\":false,\"style\":{\"bgColor\":false,\"bgFill\":\"#000\",\"fontSize\":60,\"labelColor\":false,\"subText\":\"\"},\"useRanges\":false},\"type\":\"metric\"},\"title\":\"TLS Unique Count of Invalid Certificate Findings\"}"
+      },
+      "references": [
+        {
+          "id": "60ee6af0-6e78-11ea-bdc0-35f8aa7c4664",
+          "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
+          "type": "index-pattern"
+        },
+        {
+          "id": "414409a0-af94-11ea-b237-7b9069d086af",
+          "name": "search_0",
+          "type": "search"
+        }
+      ],
+      "migrationVersion": {
+        "visualization": "7.8.0"
+      }
+    },
+    {
+      "id": "65ad1010-af95-11ea-b237-7b9069d086af",
+      "type": "visualization",
+      "updated_at": "2020-10-07T06:56:04.257Z",
+      "version": "WzEwMCwxXQ==",
+      "attributes": {
+        "description": "",
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"key\":\"category.keyword\",\"negate\":false,\"params\":{\"query\":\"Outdated TLS Version\"},\"type\":\"phrase\",\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match_phrase\":{\"category.keyword\":\"Outdated TLS Version\"}}}]}"
+        },
+        "savedSearchRefName": "search_0",
+        "title": "TLS Unique Count of Outdated Certificate Findings",
+        "uiStateJSON": "{}",
+        "version": 1,
+        "visState": "{\"type\":\"metric\",\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"cardinality\",\"schema\":\"metric\",\"params\":{\"field\":\"location.keyword\",\"customLabel\":\"Outdated TLS Versions\"}}],\"params\":{\"addLegend\":false,\"addTooltip\":true,\"metric\":{\"colorSchema\":\"Green to Red\",\"colorsRange\":[{\"from\":0,\"to\":10000}],\"invertColors\":false,\"labels\":{\"show\":true},\"metricColorMode\":\"None\",\"percentageMode\":false,\"style\":{\"bgColor\":false,\"bgFill\":\"#000\",\"fontSize\":60,\"labelColor\":false,\"subText\":\"\"},\"useRanges\":false},\"type\":\"metric\"},\"title\":\"TLS Unique Count of Outdated Certificate Findings\"}"
+      },
+      "references": [
+        {
+          "id": "60ee6af0-6e78-11ea-bdc0-35f8aa7c4664",
+          "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
+          "type": "index-pattern"
+        },
+        {
+          "id": "414409a0-af94-11ea-b237-7b9069d086af",
+          "name": "search_0",
+          "type": "search"
+        }
+      ],
+      "migrationVersion": {
+        "visualization": "7.8.0"
+      }
+    },
+    {
+      "id": "d02bd470-af96-11ea-b237-7b9069d086af",
+      "type": "visualization",
+      "updated_at": "2020-10-07T06:56:04.257Z",
+      "version": "WzEwMSwxXQ==",
+      "attributes": {
+        "description": "",
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"key\":\"category.keyword\",\"negate\":false,\"params\":{\"query\":\"Invalid Certificate\"},\"type\":\"phrase\",\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match_phrase\":{\"category.keyword\":\"Invalid Certificate\"}}}]}"
+        },
+        "savedSearchRefName": "search_0",
+        "title": "TLS Service Issue Distribution",
+        "uiStateJSON": "{\"vis\":{\"colors\":{\"Untrusted Certificate Root\":\"#EA6460\",\"Expired Certificate\":\"#890F02\",\"Invalid Hostname\":\"#70DBED\"}}}",
+        "version": 1,
+        "visState": "{\"aggs\":[{\"enabled\":true,\"id\":\"1\",\"params\":{\"field\":\"location.keyword\"},\"schema\":\"metric\",\"type\":\"cardinality\"},{\"enabled\":true,\"id\":\"2\",\"params\":{\"field\":\"name.keyword\",\"missingBucket\":true,\"missingBucketLabel\":\"Missing\",\"order\":\"desc\",\"orderBy\":\"1\",\"otherBucket\":true,\"otherBucketLabel\":\"Other\",\"size\":10},\"schema\":\"segment\",\"type\":\"terms\"}],\"params\":{\"addLegend\":true,\"addTooltip\":true,\"isDonut\":true,\"labels\":{\"last_level\":true,\"show\":false,\"truncate\":100,\"values\":true},\"legendPosition\":\"right\",\"type\":\"pie\"},\"title\":\"TLS Service Issue Distribution\",\"type\":\"pie\"}"
+      },
+      "references": [
+        {
+          "id": "60ee6af0-6e78-11ea-bdc0-35f8aa7c4664",
+          "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
+          "type": "index-pattern"
+        },
+        {
+          "id": "414409a0-af94-11ea-b237-7b9069d086af",
+          "name": "search_0",
+          "type": "search"
+        }
+      ],
+      "migrationVersion": {
+        "visualization": "7.8.0"
+      }
+    },
+    {
+      "id": "35e5f6c0-af96-11ea-b237-7b9069d086af",
+      "type": "visualization",
+      "updated_at": "2020-10-07T06:56:04.257Z",
+      "version": "WzEwMiwxXQ==",
+      "attributes": {
+        "description": "",
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
+        },
+        "savedSearchRefName": "search_0",
+        "title": "TLS Findings by Category and Severity",
+        "uiStateJSON": "{\"vis\":{\"colors\":{\"INFORMATIONAL\":\"#DEDAF7\",\"MEDIUM\":\"#EF843C\"}}}",
+        "version": 1,
+        "visState": "{\"type\":\"histogram\",\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"cardinality\",\"schema\":\"metric\",\"params\":{\"field\":\"location.keyword\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"category.keyword\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":5,\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\"}},{\"id\":\"3\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"group\",\"params\":{\"field\":\"severity.keyword\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":5,\"otherBucket\":true,\"otherBucketLabel\":\"Other\",\"missingBucket\":true,\"missingBucketLabel\":\"Missing\"}}],\"params\":{\"type\":\"histogram\",\"grid\":{\"categoryLines\":false},\"categoryAxes\":[{\"id\":\"CategoryAxis-1\",\"type\":\"category\",\"position\":\"left\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\"},\"labels\":{\"show\":true,\"rotate\":0,\"filter\":false,\"truncate\":200},\"title\":{}}],\"valueAxes\":[{\"id\":\"ValueAxis-1\",\"name\":\"LeftAxis-1\",\"type\":\"value\",\"position\":\"bottom\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\",\"mode\":\"normal\"},\"labels\":{\"show\":true,\"rotate\":75,\"filter\":true,\"truncate\":100},\"title\":{\"text\":\"Unique count of location.keyword\"}}],\"seriesParams\":[{\"show\":true,\"type\":\"histogram\",\"mode\":\"stacked\",\"data\":{\"label\":\"Unique count of location.keyword\",\"id\":\"1\"},\"valueAxis\":\"ValueAxis-1\",\"drawLinesBetweenPoints\":true,\"lineWidth\":2,\"showCircles\":true}],\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"times\":[],\"addTimeMarker\":false,\"labels\":{\"show\":true},\"thresholdLine\":{\"show\":false,\"value\":10,\"width\":1,\"style\":\"full\",\"color\":\"#E7664C\"},\"orderBucketsBySum\":true},\"title\":\"TLS Findings by Category and Severity\"}"
+      },
+      "references": [
+        {
+          "id": "414409a0-af94-11ea-b237-7b9069d086af",
+          "name": "search_0",
+          "type": "search"
+        }
+      ],
+      "migrationVersion": {
+        "visualization": "7.8.0"
+      }
+    },
+    {
+      "id": "c41769e0-af98-11ea-b237-7b9069d086af",
+      "type": "visualization",
+      "updated_at": "2020-10-07T06:56:04.257Z",
+      "version": "WzEwMywxXQ==",
+      "attributes": {
+        "description": "",
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
+        },
+        "savedSearchRefName": "search_0",
+        "title": "TLS Version Distribution by Severity",
+        "uiStateJSON": "{\"vis\":{\"colors\":{\"INFORMATIONAL\":\"#DEDAF7\"}}}",
+        "version": 1,
+        "visState": "{\"type\":\"histogram\",\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"cardinality\",\"schema\":\"metric\",\"params\":{\"field\":\"location.keyword\",\"customLabel\":\"Unique Count\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"attributes.tls_versions.keyword\",\"orderBy\":\"_key\",\"order\":\"desc\",\"size\":10,\"otherBucket\":true,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\",\"customLabel\":\"TLS Version\"}},{\"id\":\"3\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"group\",\"params\":{\"field\":\"severity.keyword\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":5,\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":true,\"missingBucketLabel\":\"Missing\"}}],\"params\":{\"type\":\"histogram\",\"grid\":{\"categoryLines\":false},\"categoryAxes\":[{\"id\":\"CategoryAxis-1\",\"type\":\"category\",\"position\":\"bottom\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\"},\"labels\":{\"show\":true,\"filter\":true,\"truncate\":100},\"title\":{}}],\"valueAxes\":[{\"id\":\"ValueAxis-1\",\"name\":\"LeftAxis-1\",\"type\":\"value\",\"position\":\"left\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\",\"mode\":\"normal\"},\"labels\":{\"show\":true,\"rotate\":0,\"filter\":false,\"truncate\":100},\"title\":{\"text\":\"Unique Count\"}}],\"seriesParams\":[{\"show\":true,\"type\":\"histogram\",\"mode\":\"stacked\",\"data\":{\"label\":\"Unique Count\",\"id\":\"1\"},\"valueAxis\":\"ValueAxis-1\",\"drawLinesBetweenPoints\":true,\"lineWidth\":2,\"showCircles\":true}],\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"times\":[],\"addTimeMarker\":false,\"labels\":{\"show\":true},\"thresholdLine\":{\"show\":false,\"value\":10,\"width\":1,\"style\":\"full\",\"color\":\"#E7664C\"},\"orderBucketsBySum\":false},\"title\":\"TLS Version Distribution by Severity\"}"
+      },
+      "references": [
+        {
+          "id": "414409a0-af94-11ea-b237-7b9069d086af",
+          "name": "search_0",
+          "type": "search"
+        }
+      ],
+      "migrationVersion": {
+        "visualization": "7.8.0"
+      }
+    },
+    {
+      "id": "01d1cda0-af9b-11ea-b237-7b9069d086af",
+      "type": "visualization",
+      "updated_at": "2020-10-07T06:56:04.257Z",
+      "version": "WzEwNCwxXQ==",
+      "attributes": {
+        "description": "",
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
+        },
+        "savedSearchRefName": "search_0",
+        "title": "TLS Port Distribution",
+        "uiStateJSON": "{}",
+        "version": 1,
+        "visState": "{\"type\":\"pie\",\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"cardinality\",\"schema\":\"metric\",\"params\":{\"field\":\"location.keyword\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"attributes.port\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":10,\"otherBucket\":true,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\",\"customLabel\":\"Port\"}}],\"params\":{\"type\":\"pie\",\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"isDonut\":true,\"labels\":{\"show\":false,\"values\":true,\"last_level\":true,\"truncate\":100}},\"title\":\"TLS Port Distribution\"}"
+      },
+      "references": [
+        {
+          "id": "414409a0-af94-11ea-b237-7b9069d086af",
+          "name": "search_0",
+          "type": "search"
+        }
+      ],
+      "migrationVersion": {
+        "visualization": "7.8.0"
+      }
+    },
+    {
+      "id": "fc8c4650-af99-11ea-b237-7b9069d086af",
+      "type": "visualization",
+      "updated_at": "2020-10-07T06:56:04.257Z",
+      "version": "WzEwNSwxXQ==",
+      "attributes": {
+        "description": "",
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[]}"
+        },
+        "savedSearchRefName": "search_0",
+        "title": "TLS Cipher Suites Distribution by Severity",
+        "uiStateJSON": "{\"vis\":{\"colors\":{\"INFORMATIONAL\":\"#DEDAF7\"}}}",
+        "version": 1,
+        "visState": "{\"type\":\"histogram\",\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"cardinality\",\"schema\":\"metric\",\"params\":{\"field\":\"location.keyword\",\"customLabel\":\"Unique Count\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"attributes.cipher_suites.keyword\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":20,\"otherBucket\":true,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\",\"customLabel\":\"TLS Cipher Suites\"}},{\"id\":\"3\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"group\",\"params\":{\"field\":\"severity.keyword\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":5,\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\"}}],\"params\":{\"addLegend\":true,\"addTimeMarker\":false,\"addTooltip\":true,\"categoryAxes\":[{\"id\":\"CategoryAxis-1\",\"labels\":{\"filter\":true,\"show\":true,\"truncate\":100},\"position\":\"bottom\",\"scale\":{\"type\":\"linear\"},\"show\":true,\"style\":{},\"title\":{},\"type\":\"category\"}],\"grid\":{\"categoryLines\":false},\"labels\":{\"show\":true},\"legendPosition\":\"right\",\"seriesParams\":[{\"data\":{\"id\":\"1\",\"label\":\"Unique Count\"},\"drawLinesBetweenPoints\":true,\"lineWidth\":2,\"mode\":\"stacked\",\"show\":true,\"showCircles\":true,\"type\":\"histogram\",\"valueAxis\":\"ValueAxis-1\"}],\"thresholdLine\":{\"color\":\"#E7664C\",\"show\":false,\"style\":\"full\",\"value\":10,\"width\":1},\"times\":[],\"type\":\"histogram\",\"valueAxes\":[{\"id\":\"ValueAxis-1\",\"labels\":{\"filter\":false,\"rotate\":0,\"show\":true,\"truncate\":100},\"name\":\"LeftAxis-1\",\"position\":\"left\",\"scale\":{\"mode\":\"normal\",\"type\":\"linear\"},\"show\":true,\"style\":{},\"title\":{\"text\":\"Unique Count\"},\"type\":\"value\"}]},\"title\":\"TLS Cipher Suites Distribution by Severity\"}"
+      },
+      "references": [
+        {
+          "id": "414409a0-af94-11ea-b237-7b9069d086af",
+          "name": "search_0",
+          "type": "search"
+        }
+      ],
+      "migrationVersion": {
+        "visualization": "7.8.0"
+      }
+    },
+    {
+      "id": "bb536d60-af9b-11ea-b237-7b9069d086af",
+      "type": "visualization",
+      "updated_at": "2020-10-07T06:56:04.257Z",
+      "version": "WzEwNiwxXQ==",
+      "attributes": {
+        "description": "",
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
+        },
+        "savedSearchRefName": "search_0",
+        "title": "TLS Findings by Category Histogram",
+        "uiStateJSON": "{}",
+        "version": 1,
+        "visState": "{\"type\":\"line\",\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"cardinality\",\"schema\":\"metric\",\"params\":{\"field\":\"location.keyword\",\"customLabel\":\"Unique Count\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"date_histogram\",\"schema\":\"segment\",\"params\":{\"field\":\"@timestamp\",\"timeRange\":{\"from\":\"now-4d\",\"to\":\"now\"},\"useNormalizedEsInterval\":true,\"scaleMetricValues\":false,\"interval\":\"auto\",\"drop_partials\":false,\"min_doc_count\":1,\"extended_bounds\":{}}},{\"id\":\"3\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"group\",\"params\":{\"field\":\"category.keyword\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":10,\"otherBucket\":true,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\"}}],\"params\":{\"type\":\"line\",\"grid\":{\"categoryLines\":false},\"categoryAxes\":[{\"id\":\"CategoryAxis-1\",\"type\":\"category\",\"position\":\"bottom\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\"},\"labels\":{\"show\":true,\"filter\":true,\"truncate\":100},\"title\":{}}],\"valueAxes\":[{\"id\":\"ValueAxis-1\",\"name\":\"LeftAxis-1\",\"type\":\"value\",\"position\":\"left\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\",\"mode\":\"normal\"},\"labels\":{\"show\":true,\"rotate\":0,\"filter\":false,\"truncate\":100},\"title\":{\"text\":\"Unique Count\"}}],\"seriesParams\":[{\"show\":true,\"type\":\"line\",\"mode\":\"normal\",\"data\":{\"label\":\"Unique Count\",\"id\":\"1\"},\"valueAxis\":\"ValueAxis-1\",\"drawLinesBetweenPoints\":true,\"lineWidth\":2,\"interpolate\":\"linear\",\"showCircles\":true}],\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"times\":[],\"addTimeMarker\":false,\"labels\":{},\"thresholdLine\":{\"show\":false,\"value\":10,\"width\":1,\"style\":\"full\",\"color\":\"#E7664C\"}},\"title\":\"TLS Findings by Category Histogram\"}"
+      },
+      "references": [
+        {
+          "id": "414409a0-af94-11ea-b237-7b9069d086af",
+          "name": "search_0",
+          "type": "search"
+        }
+      ],
+      "migrationVersion": {
+        "visualization": "7.8.0"
+      }
+    },
+    {
+      "id": "5b86d230-af9d-11ea-b237-7b9069d086af",
+      "type": "visualization",
+      "updated_at": "2020-10-07T06:56:04.257Z",
+      "version": "WzEwNywxXQ==",
+      "attributes": {
+        "description": "",
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"key\":\"category.keyword\",\"negate\":false,\"params\":{\"query\":\"Outdated TLS Version\"},\"type\":\"phrase\",\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match_phrase\":{\"category.keyword\":\"Outdated TLS Version\"}}}]}"
+        },
+        "savedSearchRefName": "search_0",
+        "title": "TLS Hostnames with Outdated Certificates",
+        "uiStateJSON": "{\"vis\":{\"params\":{\"sort\":{\"columnIndex\":2,\"direction\":null}}}}",
+        "version": 1,
+        "visState": "{\"aggs\":[{\"enabled\":true,\"id\":\"1\",\"params\":{\"customLabel\":\"Unique Count\",\"field\":\"attributes.hostname.keyword\"},\"schema\":\"metric\",\"type\":\"cardinality\"},{\"enabled\":true,\"id\":\"4\",\"params\":{\"customLabel\":\"Hostname\",\"field\":\"attributes.hostname.keyword\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\",\"order\":\"desc\",\"orderBy\":\"1\",\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"size\":100},\"schema\":\"bucket\",\"type\":\"terms\"},{\"enabled\":true,\"id\":\"3\",\"params\":{\"customLabel\":\"Port\",\"field\":\"attributes.port\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\",\"order\":\"desc\",\"orderBy\":\"1\",\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"size\":10},\"schema\":\"bucket\",\"type\":\"terms\"},{\"enabled\":true,\"id\":\"5\",\"params\":{\"customLabel\":\"TLS Category\",\"field\":\"category.keyword\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\",\"order\":\"desc\",\"orderBy\":\"1\",\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"size\":5},\"schema\":\"bucket\",\"type\":\"terms\"}],\"params\":{\"perPage\":10,\"percentageCol\":\"\",\"showMetricsAtAllLevels\":false,\"showPartialRows\":false,\"showTotal\":false,\"sort\":{\"columnIndex\":null,\"direction\":null},\"totalFunc\":\"sum\"},\"title\":\"TLS Hostnames with Outdated Certificates\",\"type\":\"table\"}"
+      },
+      "references": [
+        {
+          "id": "60ee6af0-6e78-11ea-bdc0-35f8aa7c4664",
+          "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
+          "type": "index-pattern"
+        },
+        {
+          "id": "414409a0-af94-11ea-b237-7b9069d086af",
+          "name": "search_0",
+          "type": "search"
+        }
+      ],
+      "migrationVersion": {
+        "visualization": "7.8.0"
+      }
+    },
+    {
+      "id": "60ee6af0-6e78-11ea-bdc0-35f8aa7c4664",
+      "type": "index-pattern",
+      "updated_at": "2020-10-07T06:45:25.958Z",
+      "version": "WzcwLDFd",
+      "attributes": {
+        "title": "scbv2_*",
+        "timeFieldName": "@timestamp",
+        "fields": "[{\"name\":\"@timestamp\",\"type\":\"date\",\"esTypes\":[\"date\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true},{\"name\":\"_id\",\"type\":\"string\",\"esTypes\":[\"_id\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":false},{\"name\":\"_index\",\"type\":\"string\",\"esTypes\":[\"_index\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":false},{\"name\":\"_score\",\"type\":\"number\",\"count\":0,\"scripted\":false,\"searchable\":false,\"aggregatable\":false,\"readFromDocValues\":false},{\"name\":\"_source\",\"type\":\"_source\",\"esTypes\":[\"_source\"],\"count\":0,\"scripted\":false,\"searchable\":false,\"aggregatable\":false,\"readFromDocValues\":false},{\"name\":\"_type\",\"type\":\"string\",\"esTypes\":[\"_type\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":false},{\"name\":\"attributes.hostname\",\"type\":\"string\",\"esTypes\":[\"text\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":false,\"readFromDocValues\":false},{\"name\":\"attributes.hostname.keyword\",\"type\":\"string\",\"esTypes\":[\"keyword\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true,\"subType\":{\"multi\":{\"parent\":\"attributes.hostname\"}}},{\"name\":\"attributes.ip_address\",\"type\":\"ip\",\"scripted\":false,\"searchable\":true,\"aggregatable\":false,\"readFromDocValues\":false},{\"name\":\"category\",\"type\":\"string\",\"esTypes\":[\"text\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":false,\"readFromDocValues\":false},{\"name\":\"category.keyword\",\"type\":\"string\",\"esTypes\":[\"keyword\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true,\"subType\":{\"multi\":{\"parent\":\"category\"}}},{\"name\":\"description\",\"type\":\"string\",\"esTypes\":[\"text\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":false,\"readFromDocValues\":false},{\"name\":\"description.keyword\",\"type\":\"string\",\"esTypes\":[\"keyword\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true,\"subType\":{\"multi\":{\"parent\":\"description\"}}},{\"name\":\"id\",\"type\":\"string\",\"esTypes\":[\"text\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":false,\"readFromDocValues\":false},{\"name\":\"id.keyword\",\"type\":\"string\",\"esTypes\":[\"keyword\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true,\"subType\":{\"multi\":{\"parent\":\"id\"}}},{\"name\":\"location\",\"type\":\"string\",\"esTypes\":[\"text\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":false,\"readFromDocValues\":false},{\"name\":\"location.keyword\",\"type\":\"string\",\"esTypes\":[\"keyword\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true,\"subType\":{\"multi\":{\"parent\":\"location\"}}},{\"name\":\"name\",\"type\":\"string\",\"esTypes\":[\"text\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":false,\"readFromDocValues\":false},{\"name\":\"name.keyword\",\"type\":\"string\",\"esTypes\":[\"keyword\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true,\"subType\":{\"multi\":{\"parent\":\"name\"}}},{\"name\":\"osi_layer\",\"type\":\"string\",\"esTypes\":[\"text\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":false,\"readFromDocValues\":false},{\"name\":\"osi_layer.keyword\",\"type\":\"string\",\"esTypes\":[\"keyword\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true,\"subType\":{\"multi\":{\"parent\":\"osi_layer\"}}},{\"name\":\"parameters\",\"type\":\"string\",\"esTypes\":[\"text\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":false,\"readFromDocValues\":false},{\"name\":\"parameters.keyword\",\"type\":\"string\",\"esTypes\":[\"keyword\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true,\"subType\":{\"multi\":{\"parent\":\"parameters\"}}},{\"name\":\"scan_id\",\"type\":\"string\",\"esTypes\":[\"text\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":false,\"readFromDocValues\":false},{\"name\":\"scan_id.keyword\",\"type\":\"string\",\"esTypes\":[\"keyword\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true,\"subType\":{\"multi\":{\"parent\":\"scan_id\"}}},{\"name\":\"scan_name\",\"type\":\"string\",\"esTypes\":[\"text\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":false,\"readFromDocValues\":false},{\"name\":\"scan_name.keyword\",\"type\":\"string\",\"esTypes\":[\"keyword\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true,\"subType\":{\"multi\":{\"parent\":\"scan_name\"}}},{\"name\":\"scan_type\",\"type\":\"string\",\"esTypes\":[\"text\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":false,\"readFromDocValues\":false},{\"name\":\"scan_type.keyword\",\"type\":\"string\",\"esTypes\":[\"keyword\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true,\"subType\":{\"multi\":{\"parent\":\"scan_type\"}}},{\"name\":\"severity\",\"type\":\"string\",\"esTypes\":[\"text\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":false,\"readFromDocValues\":false},{\"name\":\"severity.keyword\",\"type\":\"string\",\"esTypes\":[\"keyword\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true,\"subType\":{\"multi\":{\"parent\":\"severity\"}}},{\"name\":\"type\",\"type\":\"string\",\"esTypes\":[\"text\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":false,\"readFromDocValues\":false},{\"name\":\"type.keyword\",\"type\":\"string\",\"esTypes\":[\"keyword\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true,\"subType\":{\"multi\":{\"parent\":\"type\"}}}]"
+      },
+      "references": [],
+      "migrationVersion": {
+        "index-pattern": "7.6.0"
+      }
+    },
+    {
+      "id": "414409a0-af94-11ea-b237-7b9069d086af",
+      "type": "search",
+      "updated_at": "2020-10-07T06:56:04.257Z",
+      "version": "WzEwOCwxXQ==",
+      "attributes": {
+        "columns": [
+          "_source"
+        ],
+        "description": "",
+        "hits": 0,
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"highlightAll\":true,\"version\":true,\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[{\"meta\":{\"alias\":null,\"negate\":false,\"disabled\":true,\"type\":\"phrase\",\"key\":\"type\",\"params\":{\"query\":\"scan\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"match_phrase\":{\"type\":\"scan\"}},\"$state\":{\"store\":\"appState\"}},{\"meta\":{\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"phrase\",\"key\":\"scan_type\",\"params\":{\"query\":\"sslyze\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[1].meta.index\"},\"query\":{\"match_phrase\":{\"scan_type\":\"sslyze\"}},\"$state\":{\"store\":\"appState\"}},{\"meta\":{\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"phrase\",\"key\":\"type\",\"params\":{\"query\":\"finding\"},\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[2].meta.index\"},\"query\":{\"match_phrase\":{\"type\":\"finding\"}},\"$state\":{\"store\":\"appState\"}}],\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\"}"
+        },
+        "sort": [],
+        "title": "SSL Scan Findings",
+        "version": 1
+      },
+      "references": [
+        {
+          "id": "60ee6af0-6e78-11ea-bdc0-35f8aa7c4664",
+          "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+          "type": "index-pattern"
+        },
+        {
+          "id": "60ee6af0-6e78-11ea-bdc0-35f8aa7c4664",
+          "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
+          "type": "index-pattern"
+        },
+        {
+          "id": "60ee6af0-6e78-11ea-bdc0-35f8aa7c4664",
+          "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[1].meta.index",
+          "type": "index-pattern"
+        },
+        {
+          "id": "60ee6af0-6e78-11ea-bdc0-35f8aa7c4664",
+          "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[2].meta.index",
+          "type": "index-pattern"
+        }
+      ],
+      "migrationVersion": {
+        "search": "7.4.0"
+      }
+    }
+  ]
+}
