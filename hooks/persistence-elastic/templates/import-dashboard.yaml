@@ -18,5 +18,5 @@ spec:
               value: {{ .Values.externalElasticStack.kibanaAddress | quote }}
 {{- else }}
             - name: KIBANA_URL
-              value: "http://persistence-elastic-kibana.{{ .Release.Namespace }}.svc.cluster.local:5601"
+              value: "http://{{ .Release.Name }}-kibana.{{ .Release.Namespace }}.svc.cluster.local:5601"
 {{- end }}
