@@ -13,4 +13,6 @@ spec:
     - "dummy-ssh.demo-apps.svc"
   cascades:
     matchLabels:
+      securecodebox.io/invasive: invasive
       securecodebox.io/intensive: high
+      
