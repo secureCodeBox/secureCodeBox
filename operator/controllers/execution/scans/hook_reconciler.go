@@ -107,8 +107,8 @@ func (r *ScanReconciler) executeReadAndWriteHooks(scan *executionv1.Scan) error 
 		}
 
 		jobs, err := r.getJobsForScan(scan, client.MatchingLabels{
-			"experimental.securecodebox.io/job-type":  "read-and-write-hook",
-			"experimental.securecodebox.io/hook-name": nonCompletedHook.HookName,
+			"securecodebox.io/job-type":  "read-and-write-hook",
+			"securecodebox.io/hook-name": nonCompletedHook.HookName,
 		})
 		if err != nil {
 			return err
@@ -138,8 +138,8 @@ func (r *ScanReconciler) executeReadAndWriteHooks(scan *executionv1.Scan) error 
 		return err
 	case executionv1.InProgress:
 		jobStatus, err := r.checkIfJobIsCompleted(scan, client.MatchingLabels{
-			"experimental.securecodebox.io/job-type":  "read-and-write-hook",
-			"experimental.securecodebox.io/hook-name": nonCompletedHook.HookName,
+			"securecodebox.io/job-type":  "read-and-write-hook",
+			"securecodebox.io/hook-name": nonCompletedHook.HookName,
 		})
 		if err != nil {
 			r.Log.Error(err, "Failed to check job status for ReadAndWrite Hook")
@@ -183,7 +183,7 @@ func containsJobForHook(jobs *batch.JobList, hook executionv1.ScanCompletionHook
 	}
 
 	for _, job := range jobs.Items {
-		if job.ObjectMeta.Labels["experimental.securecodebox.io/hook-name"] == hook.Name {
+		if job.ObjectMeta.Labels["securecodebox.io/hook-name"] == hook.Name {
 			return true
 		}
 	}
@@ -228,7 +228,7 @@ func (r *ScanReconciler) startReadOnlyHooks(scan *executionv1.Scan) error {
 
 	// Get all read-only-hooks for scan to later check that they weren't already created
 	jobs, err := r.getJobsForScan(scan, client.MatchingLabels{
-		"experimental.securecodebox.io/job-type": "read-only-hook",
+		"securecodebox.io/job-type": "read-only-hook",
 	})
 	if err != nil {
 		return err
@@ -275,7 +275,7 @@ func (r *ScanReconciler) startReadOnlyHooks(scan *executionv1.Scan) error {
 
 func (r *ScanReconciler) checkIfReadOnlyHookIsCompleted(scan *executionv1.Scan) error {
 	ctx := context.Background()
-	readOnlyHookCompletion, err := r.checkIfJobIsCompleted(scan, client.MatchingLabels{"experimental.securecodebox.io/job-type": "read-only-hook"})
+	readOnlyHookCompletion, err := r.checkIfJobIsCompleted(scan, client.MatchingLabels{"securecodebox.io/job-type": "read-only-hook"})
 	if err != nil {
 		return err
 	}
@@ -315,12 +315,12 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 		// Check and create a serviceAccount for the hook in its namespace, if it doesn't already exist.
 		rules := []rbacv1.PolicyRule{
 			{
-				APIGroups: []string{"execution.experimental.securecodebox.io"},
+				APIGroups: []string{"execution.securecodebox.io"},
 				Resources: []string{"scans"},
 				Verbs:     []string{"get"},
 			},
 			{
-				APIGroups: []string{"execution.experimental.securecodebox.io"},
+				APIGroups: []string{"execution.securecodebox.io"},
 				Resources: []string{"scans/status"},
 				Verbs:     []string{"get", "patch"},
 			},
@@ -355,13 +355,15 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 		labels = make(map[string]string)
 	}
 	if hook.Spec.Type == executionv1.ReadAndWrite {
-		labels["experimental.securecodebox.io/job-type"] = "read-and-write-hook"
+		labels["securecodebox.io/job-type"] = "read-and-write-hook"
 	} else if hook.Spec.Type == executionv1.ReadOnly {
-		labels["experimental.securecodebox.io/job-type"] = "read-only-hook"
+		labels["securecodebox.io/job-type"] = "read-only-hook"
 	}
-	labels["experimental.securecodebox.io/hook-name"] = hook.Name
+	labels["securecodebox.io/hook-name"] = hook.Name
 
 	var backOffLimit int32 = 3
+	truePointer := true
+	falsePointer := false
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
 			Annotations:  make(map[string]string),
@@ -374,8 +376,8 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
 					Annotations: map[string]string{
-						"auto-discovery.experimental.securecodebox.io/ignore": "true",
-						"sidecar.istio.io/inject":                             "false",
+						"auto-discovery.securecodebox.io/ignore": "true",
+						"sidecar.istio.io/inject":                "false",
 					},
 				},
 				Spec: corev1.PodSpec{
@@ -388,7 +390,7 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 							Image:           hook.Spec.Image,
 							Args:            cliArgs,
 							Env:             append(hook.Spec.Env, standardEnvVars...),
-							ImagePullPolicy: "IfNotPresent",
+							ImagePullPolicy: "Always",
 							Resources: corev1.ResourceRequirements{
 								Requests: corev1.ResourceList{
 									corev1.ResourceCPU:    resource.MustParse("200m"),
@@ -397,6 +399,15 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 								Limits: corev1.ResourceList{
 									corev1.ResourceCPU:    resource.MustParse("400m"),
 									corev1.ResourceMemory: resource.MustParse("200Mi"),
+								},
+							},
+							SecurityContext: &corev1.SecurityContext{
+								RunAsNonRoot:             &truePointer,
+								AllowPrivilegeEscalation: &falsePointer,
+								ReadOnlyRootFilesystem:   &truePointer,
+								Privileged:               &falsePointer,
+								Capabilities: &corev1.Capabilities{
+									Drop: []corev1.Capability{"all"},
 								},
 							},
 						},

@@ -1,7 +1,7 @@
-apiVersion: execution.experimental.securecodebox.io/v1
+apiVersion: execution.securecodebox.io/v1
 kind: ParseDefinition
 metadata:
   name: "nmap-xml"
 spec:
   handlesResultsType: nmap-xml
-  image: scbexperimental/nmap-parser
+  image: securecodebox/nmap-parser

@@ -2,9 +2,13 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# webhookUrl -- The URL of your WebHook endpoint
 webhookUrl: "http://example.com"
 
 image:
-  repository: docker.io/scbexperimental/generic-webhook
   # image.tag - defaults to the charts version
+  # image.repository -- Hook image repository
+  repository: docker.io/securecodebox/generic-webhook
+  # parserImage.tag -- Parser image tag
+  # @default -- defaults to the charts version
   tag: null

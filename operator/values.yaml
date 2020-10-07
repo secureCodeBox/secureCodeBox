@@ -6,27 +6,48 @@
 telemetryEnabled: true
 
 image:
-  repository: docker.io/scbexperimental/operator
-  # image.tag -- defaults to the charts version
+  # image.repository -- The operator image repository
+  repository: docker.io/securecodebox/operator
+  # image.tag -- Parser image tag
+  # @default -- defaults to the charts version
   tag: null
+  # image.pullPolicy -- Image pull policy
   pullPolicy: Always
+
+securityContext:
+  # securityContext.runAsNonRoot -- Enforces that the Operator image is run as a non root user
+  runAsNonRoot: true
+  # securityContext.readOnlyRootFilesystem -- Prevents write access to the containers file system
+  readOnlyRootFilesystem: true
+  # securityContext.allowPrivilegeEscalation -- Ensure that users privileges cannot be escalated
+  allowPrivilegeEscalation: false
+  # securityContext.privileged -- Ensures that the operator container is not run in privileged mode
+  privileged: false
+  capabilities:
+    drop:
+      # securityContext.capabilities.drop[0] -- This drops all linux privileges from the operator container. They are not required
+      - all
 
 lurcher:
   image:
-    repository: docker.io/scbexperimental/lurcher
-    # lurcher.image.tag -- defaults to the charts version
+    # lurcher.image.repository -- The operator image repository
+    repository: docker.io/securecodebox/lurcher
+    # lurcher.image.tag -- Parser image tag
+    # @default -- defaults to the charts version
     tag: null
-    pullPolicy: IfNotPresent
+    # lurcher.image.pullPolicy -- Image pull policy
+    pullPolicy: Always
 
 minio:
+  # minio.enabled Enable this to use minio as storage backend instead of a cloud bucket provider like AWS S3, Google Cloud Storage, DigitalOcean Spaces etc.
   enabled: true
   defaultBucket:
     enabled: true
     name: "securecodebox"
 
 # Config for external s3 systems
-# enable this and disable minio if you want to directly connect agains AWS S3, Google Cloud Storage, DigitalOcean Spaces etc.
 s3:
+  # s3.enabled Enable this and disable minio if you want to directly connect agains AWS S3, Google Cloud Storage, DigitalOcean Spaces etc.
   enabled: false
   endpoint: "fra1.digitaloceanspaces.com"
   bucket: "my-bucket"
@@ -45,6 +66,7 @@ s3:
 #
 # Config for the operator ressource limits
 #
+# resources -- CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)
 resources:
   limits:
     cpu: 100m

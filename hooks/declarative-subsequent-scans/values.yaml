@@ -3,6 +3,9 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: docker.io/scbexperimental/hook-declarative-subsequent-scans
   # image.tag - defaults to the charts version
+  # image.repository -- Hook image repository
+  repository: docker.io/securecodebox/hook-declarative-subsequent-scans
+  # parserImage.tag -- Parser image tag
+  # @default -- defaults to the charts version
   tag: null

@@ -7,13 +7,13 @@ const k8sCRDApi = kc.makeApiClient(k8s.CustomObjectsApi);
 const k8sBatchApi = kc.makeApiClient(k8s.BatchV1Api);
 const k8sPodsApi = kc.makeApiClient(k8s.CoreV1Api);
 
-const namespace = "integration-tests";
+let namespace = "integration-tests";
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms * 1000));
 
 async function deleteScan(name) {
   await k8sCRDApi.deleteNamespacedCustomObject(
-    "execution.experimental.securecodebox.io",
+    "execution.securecodebox.io",
     "v1",
     namespace,
     "scans",
@@ -24,7 +24,7 @@ async function deleteScan(name) {
 
 async function getScan(name) {
   const { body: scan } = await k8sCRDApi.getNamespacedCustomObjectStatus(
-    "execution.experimental.securecodebox.io",
+    "execution.securecodebox.io",
     "v1",
     namespace,
     "scans",
@@ -109,8 +109,9 @@ async function disasterRecovery(scanName) {
  * @returns {scan.findings} returns findings { categories, severities, count }
  */
 async function scan(name, scanType, parameters = [], timeout = 180) {
+  namespace ="integration-tests"
   const scanDefinition = {
-    apiVersion: "execution.experimental.securecodebox.io/v1",
+    apiVersion: "execution.securecodebox.io/v1",
     kind: "Scan",
     metadata: {
       // Use `generateName` instead of name to generate a random sufix and avoid name clashes
@@ -123,7 +124,7 @@ async function scan(name, scanType, parameters = [], timeout = 180) {
   };
 
   const { body } = await k8sCRDApi.createNamespacedCustomObject(
-    "execution.experimental.securecodebox.io",
+    "execution.securecodebox.io",
     "v1",
     namespace,
     "scans",
@@ -157,4 +158,116 @@ async function scan(name, scanType, parameters = [], timeout = 180) {
   throw new Error("timed out while waiting for scan results");
 }
 
+/**
+ *
+ * @param {string} name name of the scan. Actual name will be sufixed with a random number to avoid conflicts
+ * @param {string} scanType type of the scan. Must match the name of a ScanType CRD
+ * @param {string[]} parameters cli argument to be passed to the scanner
+ * @param {number} timeout in seconds
+ * @returns {scan.findings} returns findings { categories, severities, count }
+ */
+async function cascadingScan(name, scanType, parameters = [], { nameCascade, matchLabels }, timeout = 180) {
+  namespace = "cascading-tests";
+
+  const scanDefinition = {
+    apiVersion: "execution.securecodebox.io/v1",
+    kind: "Scan",
+    metadata: {
+      // Use `generateName` instead of name to generate a random sufix and avoid name clashes
+      generateName: `${name}-`,
+    },
+    spec: {
+      scanType,
+      parameters,
+      cascades: {
+        matchLabels,
+      }
+    },
+  };
+
+  const { body } = await k8sCRDApi.createNamespacedCustomObject(
+    "execution.securecodebox.io",
+    "v1",
+    namespace,
+    "scans",
+    scanDefinition
+  );
+
+  const actualName = body.metadata.name;
+
+  for (let i = 0; i < timeout; i++) {
+    await sleep(1);
+    const { status } = await getScan(actualName);
+
+    if (status && status.state === "Done") {
+      // Wait a couple seconds to give kubernetes more time to update the fields
+      await sleep(2);
+
+      break;
+    } else if (status && status.state === "Errored") {
+      console.error("Scan Errored");
+      await disasterRecovery(actualName);
+      throw new Error(
+        `Initial Scan failed with description "${status.errorDescription}"`
+      );
+    }
+
+    if (i === (timeout - 1)) {
+      throw new Error(
+        `Initial Scan timed out failed`
+      );
+    }
+  }
+
+  console.log("First Scan finished")
+
+  const { body: scans } = await k8sCRDApi.listNamespacedCustomObject(
+    "execution.securecodebox.io",
+    "v1",
+    namespace,
+    "scans"
+  );
+
+  let cascadedScan = null;
+
+  for (const scan of scans.items) {
+    if (scan.metadata.annotations && scan.metadata.annotations["cascading.securecodebox.io/chain"] === nameCascade) {
+      cascadedScan = scan;
+      break;
+    }
+  }
+
+  if (cascadedScan === null) {
+    throw new Error(`Didn't find cascaded Scan for ${nameCascade}`)
+  }
+  const actualNameCascade = cascadedScan.metadata.name;
+
+  for (let j = 0; j < timeout; j++) {
+    await sleep(1)
+    const { status: statusCascade } = await getScan(actualNameCascade);
+
+    if (statusCascade && statusCascade.state === "Done") {
+      await sleep(2);
+      const { status: statusCascade } = await getScan(actualNameCascade);
+
+      await deleteScan(actualName);
+      await deleteScan(actualNameCascade);
+      return statusCascade.findings;
+    } else if (statusCascade && statusCascade.state === "Errored") {
+      console.error("Scan Errored");
+      await disasterRecovery(actualName);
+      await disasterRecovery(actualNameCascade);
+      throw new Error(
+        `Cascade Scan failed with description "${statusCascade.errorDescription}"`
+      );
+    }
+  }
+  console.error("Cascade Scan Timed out!");
+  await disasterRecovery(actualName);
+  await disasterRecovery(actualNameCascade);
+
+  throw new Error("timed out while waiting for scan results");
+}
+
 module.exports.scan = scan;
+module.exports.cascadingScan = cascadingScan;

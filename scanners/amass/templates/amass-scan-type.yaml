@@ -1,4 +1,4 @@
-apiVersion: "execution.experimental.securecodebox.io/v1"
+apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
   name: "amass"
@@ -24,16 +24,19 @@ spec:
                 - "enum"
                 - "-json"
                 - "/home/securecodebox/amass-results.jsonl"
-              volumeMounts:
-                - name: "amass-config"
-                  mountPath: "/amass/output/config.ini"
-                  subPath: "config.ini"
               resources:
                 {{- toYaml .Values.scannerJob.resources | nindent 16 }}
+              securityContext:
+                {{- toYaml .Values.scannerJob.securityContext | nindent 16 }}
+              env:
+                {{- toYaml .Values.scannerJob.env | nindent 16 }}
+              volumeMounts:
+                {{- toYaml .Values.scannerJob.extraVolumeMounts | nindent 16 }}
+            {{- if .Values.scannerJob.extraContainers }}
+            {{- toYaml .Values.scannerJob.extraContainers | nindent 12 }}
+            {{- end }}
           volumes:
-            - name: "amass-config"
-              configMap:
-                name: "amass-config"
+            {{- toYaml .Values.scannerJob.extraVolumeMounts | nindent 12 }}
 ---
 apiVersion: v1
 kind: ConfigMap

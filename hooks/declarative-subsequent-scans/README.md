@@ -11,7 +11,7 @@ usecase: "Cascading Scans based declarative Rules."
 
 ## Deployment
 
-Installing the Cascading Scans hook will add a ReadOnly Hook to your namespace which looks for matching _CascadingRules_ in the namespace and start the according scans. 
+Installing the Cascading Scans hook will add a ReadOnly Hook to your namespace which looks for matching _CascadingRules_ in the namespace and start the according scans.
 
 ```bash
 helm upgrade --install dssh ./hooks/declarative-subsequent-scans/
@@ -21,11 +21,11 @@ helm upgrade --install dssh ./hooks/declarative-subsequent-scans/
 ```bash
 kubectl get ScanCompletionHooks
 NAME   TYPE       IMAGE
-dssh   ReadOnly   docker.io/scbexperimental/hook-declarative-subsequent-scans:latest
+dssh   ReadOnly   docker.io/securecodebox/hook-declarative-subsequent-scans:latest
 ```
 
 ## CascadingScan Rules
-The CascadingRules are included directly in each helm chart of the individual scanners. 
+The CascadingRules are included directly in each helm chart of the individual scanners.
 
 ```bash
 # Check your CascadingRules
@@ -48,7 +48,7 @@ This is implemented using kubernetes label selectors, meaning that scans mark th
 ### Example
 ```yaml
 cat <<EOF | kubectl apply -f -
-apiVersion: "execution.experimental.securecodebox.io/v1"
+apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
   name: "example.com"
@@ -81,7 +81,7 @@ The label selectors also allow the more powerful matchExpression selectors:
 
 ```yaml
 cat <<EOF | kubectl apply -f -
-apiVersion: "execution.experimental.securecodebox.io/v1"
+apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
   name: "example.com"
@@ -114,3 +114,10 @@ smtps-tls-scan   sslyze         non-invasive   light
 ssh-scan         ssh-scan       non-invasive   light
 zap-http         zap-baseline   non-invasive   medium
 ```
+
+## Chart Configuration
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| image.repository | string | `"docker.io/securecodebox/hook-declarative-subsequent-scans"` | Hook image repository |
+| image.tag | string | `nil` |  |

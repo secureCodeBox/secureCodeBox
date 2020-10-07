@@ -71,7 +71,7 @@ When a finding matches a rule the "scanSpec" section will then be used to create
 To customize the scan to match the finding, the [mustache](https://github.com/janl/mustache.js) templating language can be used to reference fields of the finding.
 
 ```yaml
-apiVersion: "cascading.experimental.securecodebox.io/v1"
+apiVersion: "cascading.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
   name: "tls-scans"
@@ -110,7 +110,7 @@ By default no cascading Rules will be used.
 
 ```yaml
 # Nmap Scan without cascading rules
-apiVersion: "execution.experimental.securecodebox.io/v1"
+apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
   name: "portscan-berlin-wifi"
@@ -125,7 +125,7 @@ spec:
 To enable cascading rules you need to specify a label selector to select the cascading rules you'd like
 
 ```yaml
-apiVersion: "execution.experimental.securecodebox.io/v1"
+apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
   name: "portscan-berlin-wifi"
@@ -145,7 +145,7 @@ spec:
 To implicitly enable all cascading rules (not-recommended) a empty label selector can be used
 
 ```yaml
-apiVersion: "execution.experimental.securecodebox.io/v1"
+apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
   name: "portscan-berlin-wifi"
@@ -163,7 +163,7 @@ spec:
 The label selectors also allow the more powerful [matchExpression](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#set-based-requirement) selectors:
 
 ```yaml
-apiVersion: "execution.experimental.securecodebox.io/v1"
+apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
   name: "example.com"

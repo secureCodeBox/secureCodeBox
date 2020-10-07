@@ -50,15 +50,15 @@ var (
 
 // Finalizer to delete related files in s3 when the scan gets deleted
 // https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definitions/#finalizers
-var s3StorageFinalizer = "s3.storage.experimental.securecodebox.io"
+var s3StorageFinalizer = "s3.storage.securecodebox.io"
 
 const defaultPresignDuration = 12 * time.Hour
 
-// +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=scans,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=scans/status,verbs=get;update;patch
-// +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=scantypes,verbs=get;list;watch
-// +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=parsedefinitions,verbs=get;list;watch
-// +kubebuilder:rbac:groups=execution.experimental.securecodebox.io,resources=scancompletionhooks,verbs=get;list;watch
+// +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scans,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scans/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scantypes,verbs=get;list;watch
+// +kubebuilder:rbac:groups=execution.securecodebox.io,resources=parsedefinitions,verbs=get;list;watch
+// +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scancompletionhooks,verbs=get;list;watch
 // +kubebuilder:rbac:groups=batch,resources=jobs,verbs=get;list;watch;create;update;patch;delete
 // Permissions needed to create service accounts for lurcher, parser and scanCompletionHooks
 

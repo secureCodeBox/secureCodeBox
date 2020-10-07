@@ -1,4 +1,4 @@
-apiVersion: "execution.experimental.securecodebox.io/v1"
+apiVersion: "execution.securecodebox.io/v1"
 kind: ScanCompletionHook
 metadata:
   name: {{ include "generic-webhook.fullname" . }}

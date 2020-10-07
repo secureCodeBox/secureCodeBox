@@ -13,7 +13,7 @@ RUN npm ci
 COPY hook.ts scan-helpers.ts kubernetes-label-selector.ts ./
 RUN npm run build
 
-FROM scbexperimental/hook-sdk-nodejs:${baseImageTag:-latest}
+FROM securecodebox/hook-sdk-nodejs:${baseImageTag:-latest}
 WORKDIR /home/app/hook-wrapper/hook/
 COPY --from=install --chown=app:app /home/app/node_modules/ ./node_modules/
 COPY --from=build --chown=app:app /home/app/hook.js /home/app/scan-helpers.js /home/app/kubernetes-label-selector.js ./

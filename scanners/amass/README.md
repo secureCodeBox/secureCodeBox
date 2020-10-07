@@ -4,7 +4,7 @@ path: "scanners/amass"
 category: "scanner"
 type: "Network"
 state: "released"
-appVersion: "3.10.3"
+appVersion: "3.10.4"
 usecase: "Subdomain Enumeration Scanner"
 ---
 
@@ -22,7 +22,7 @@ The AMASS scanType can be deployed via helm:
 helm upgrade --install amass ./scanners/amass/
 ```
 
-## Configuration
+## Scanner Configuration
 
 The following security scan configuration example are based on the [Amass User Guide], please take a look at the original documentation for more configuration examples.
 
@@ -35,6 +35,20 @@ Special command line options:
 - Turn off recursive brute forcing `amass enum -brute -norecursive -d example.com`
 - Disable saving data into a local database `amass enum -nolocaldb -d example.com`
 - Domain names separated by commas (can be used multiple times) `amass enum -d example.com`
+
+## Chart Configuration
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| parserImage.repository | string | `"docker.io/securecodebox/parser-amass"` | Parser image repository |
+| parserImage.tag | string | defaults to the charts version | Parser image tag |
+| scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
+| scannerJob.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
+| scannerJob.extraVolumeMounts | list | `[{"mountPath":"/amass/output/config.ini","name":"amass-config","subPath":"config.ini"}]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scannerJob.extraVolumes | list | `[{"configMap":{"name":"amass-config"},"name":"amass-config"}]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
+| scannerJob.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
+| scannerJob.ttlSecondsAfterFinished | string | `nil` | Defines how long the scanner job after finishing will be available (see: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/) |
 
 [owasp_amass_project]: https://owasp.org/www-project-amass/
 [amass github]: https://github.com/OWASP/Amass

@@ -1,4 +1,4 @@
-domain: experimental.securecodebox.io
+domain: securecodebox.io
 multigroup: true
 repo: github.com/secureCodeBox/secureCodeBox-v2
 resources:

@@ -24,7 +24,7 @@ The Nmap ScanType can be deployed via helm:
 helm upgrade --install nmap ./scanners/nmap/
 ```
 
-## Nmap Configuration
+## Scanner Configuration
 
 The nmap scan target is set via the targets location of the securityTest. The target should be a Hostname or an IP Address.
 
@@ -42,3 +42,65 @@ Some useful example parameters listed below:
 - `-script` xx: Replace xx with the script name. Start the scan with the given script.
 - `--script` xx: Replace xx with a coma-separated list of scripts. Start the scan with the given scripts.
 
+## Operating System Scans
+
+:::caution
+Warning! This is currently not tested and might require additional testing to work 😕
+:::
+
+If you want to use Nmap to identify operating systems of hosts you'll need to weaken the securityContext config, as Nmap requires the capability to send raw sockets to identify operating systems. See [Nmap Docs](https://secwiki.org/w/Running_nmap_as_an_unprivileged_user)
+
+You can deploy the ScanType with the config like this:
+
+```bash
+cat <<EOF | helm install nmap-privileged ./scanners/nmap --values -
+scannerJob:
+  env:
+    - name: "NMAP_PRIVILEGED"
+      value: "true"
+  securityContext:
+    capabilities:
+      drop:
+        - all
+      add:
+        - CAP_NET_RAW
+        - CAP_NET_ADMIN
+        - CAP_NET_BIND_SERVICE
+EOF
+```
+
+You the start scans with operating system identification enabled:
+
+```yaml
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "nmap-os-scan"
+spec:
+  scanType: "nmap-privileged"
+  parameters:
+    - --privileged
+    - "-O"
+    - www.iteratec.de
+```
+
+## Chart Configuration
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| image.repository | string | `"docker.io/securecodebox/scanner-nmap"` |  |
+| image.tag | string | `nil` |  |
+| parserImage.repository | string | `"docker.io/securecodebox/parser-nmap"` | Parser image repository |
+| parserImage.tag | string | defaults to the charts version | Parser image tag |
+| scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
+| scannerJob.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
+| scannerJob.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scannerJob.extraVolumes | list | `[]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
+| scannerJob.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"privileged":false,"readOnlyRootFilesystem":true,"runAsNonRoot":true}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
+| scannerJob.securityContext.allowPrivilegeEscalation | bool | `false` | Ensure that users privileges cannot be escalated |
+| scannerJob.securityContext.capabilities.drop[0] | string | `"all"` | This drops all linux privileges from the container. |
+| scannerJob.securityContext.privileged | bool | `false` | Ensures that the scanner container is not run in privileged mode |
+| scannerJob.securityContext.readOnlyRootFilesystem | bool | `true` | Prevents write access to the containers file system |
+| scannerJob.securityContext.runAsNonRoot | bool | `true` | Enforces that the scanner image is run as a non root user |
+| scannerJob.ttlSecondsAfterFinished | string | `nil` | Defines how long the scanner job after finishing will be available (see: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/) |
