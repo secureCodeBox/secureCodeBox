@@ -22,6 +22,6 @@ maintainers:
 
 dependencies:
   - name: minio
-    version: 5.0.19
-    repository: https://kubernetes-charts.storage.googleapis.com/
+    version: 7.1.2
+    repository: https://helm.min.io/
     condition: minio.enabled
