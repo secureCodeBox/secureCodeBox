@@ -1,20 +1,14 @@
+---
+title: "test-scan"
+hidden: true
+---
+
 # test-scan
 
-![Version: latest](https://img.shields.io/badge/Version-latest-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+The `test-scan` type is used internally in the secureCodeBox to test the operator.
+It's rather unlikely that you'll need this outside of testing usecases, as it doesn't really do anything ;)
 
-A Helm chart to test the secureCodeBox operator
-
-## Maintainers
-
-| Name | Email | Url |
-| ---- | ------ | --- |
-| iteratec GmbH | security@iteratec.com |  |
-
-## Source Code
-
-* <https://github.com/secureCodeBox/secureCodeBox>
-
-## Values
+## Chart Configuration
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
