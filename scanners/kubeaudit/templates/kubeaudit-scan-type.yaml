@@ -14,8 +14,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: kubeaudit
-              image: kubeaudit:latest
-              imagePullPolicy: Never
+              image: "securecodebox/scanner-kubeaudit:{{ .Chart.AppVersion }}"
               command:
                 - "sh"
                 - "/wrapper.sh"
