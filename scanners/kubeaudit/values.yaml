@@ -1,8 +1,10 @@
 parserImage:
-  registry: docker.io
-  repository: j12934/parser-kubeaudit
-  # todo change to latest
-  tag: latest
+  # parserImage.tag - defaults to the charts version
+  # parserImage.repository -- Parser image repository
+  repository: docker.io/securecodebox/parser-kubeaudit
+  # parserImage.tag -- Parser image tag
+  # @default -- defaults to the charts version
+  tag: null
 
 scannerJob:
   resources: {}

@@ -4,4 +4,4 @@ metadata:
   name: "kubeaudit-jsonl"
 spec:
   handlesResultsType: kubeaudit-jsonl
-  image: "{{ .Values.parserImage.registry }}/{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag }}"
+  image: "{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag | default .Chart.Version }}"
