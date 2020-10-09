@@ -1,0 +1,8 @@
+parserImage:
+  registry: docker.io
+  repository: j12934/parser-kubeaudit
+  # todo change to latest
+  tag: latest
+
+scannerJob:
+  resources: {}

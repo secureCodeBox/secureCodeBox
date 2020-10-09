@@ -1,0 +1,9 @@
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "kubeaudit-juiceshop"
+spec:
+  scanType: "kubeaudit"
+  parameters:
+    - "-n"
+    - "juice-shop"
