@@ -5,7 +5,7 @@ Array [
   Object {
     "attributes": Object {},
     "category": "Automounted ServiceAccount Token",
-    "description": "Default service account with token mounted. automountServiceAccountToken should be set to 'false' or a non-default service account should be used.",
+    "description": "Default service account with token mounted. automountServiceAccountToken should be set to 'false' on either the ServiceAccount or on the PodSpec or a non-default service account should be used.",
     "location": null,
     "name": "Default ServiceAccount uses Automounted Service Account Token",
     "osi_layer": "NOT_APPLICABLE",
