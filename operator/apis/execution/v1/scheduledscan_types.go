@@ -29,13 +29,13 @@ type ScheduledScanSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// Interval describes how often the scan should be repeated
-	// Examples: '12h', '7d', '30m' (only days, hours and minutes supported, specified as integers)
+	// Examples: '12h', '30m'
 	Interval metav1.Duration `json:"interval"`
 
-	// HistoryLimit determines how many past Scans will be kept until the oldest one will be delted, defaults to 3. When set to 0 Scans will be deleted directly after completion
-	HistoryLimit int64 `json:"historyLimit,omitempty"`
+	// SuccessfulJobsHistoryLimit determines how many past Scans will be kept until the oldest one will be delted, defaults to 3. When set to 0 Scans will be deleted directly after completion
+	SuccessfulJobsHistoryLimit int64 `json:"successfulJobsHistoryLimit,omitempty"`
 
-	// Foo is an example field of ScheduledScan. Edit ScheduledScan_types.go to remove/update
+	// ScanSpec describes the scan which should be started regularly
 	ScanSpec *ScanSpec `json:"scanSpec"`
 }
 
