@@ -11,7 +11,6 @@ test(
     );
     
     // If we got here the scan succeded
-    expect()
     expect(true).toBe(true);
   },
   5 * 60 * 1000
