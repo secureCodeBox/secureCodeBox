@@ -96,8 +96,13 @@ func (r *ScheduledScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	}
 
 	// Delete Old Scans when exceeding the history limit
+	var historyLimit int32 = 3
+	if scheduledScan.Spec.SuccessfulJobsHistoryLimit != nil {
+		historyLimit = *scheduledScan.Spec.SuccessfulJobsHistoryLimit
+	}
+
 	for i, scan := range completedScans {
-		if int64(i) >= int64(len(completedScans))-scheduledScan.Spec.HistoryLimit {
+		if int32(i) >= int32(len(completedScans))-historyLimit {
 			break
 		}
 		if err := r.Delete(ctx, &scan, client.PropagationPolicy(metav1.DeletePropagationBackground)); (err) != nil {

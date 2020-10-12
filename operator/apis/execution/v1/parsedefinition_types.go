@@ -29,10 +29,10 @@ type ParseDefinitionSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	// Foo is an example field of ParseDefinition. Edit ParseDefinition_types.go to remove/update
-	HandlesResultsType string                        `json:"handlesResultsType,omitempty"`
-	Image              string                        `json:"image,omitempty"`
-	ImagePullSecrets   []corev1.LocalObjectReference `json:"imagePullSecrets,omitempty"`
+	// Image is the reference to the parser container image which ca transform the raw scan report into findings
+	Image string `json:"image,omitempty"`
+	// ImagePullSecrets used to access private parser images
+	ImagePullSecrets []corev1.LocalObjectReference `json:"imagePullSecrets,omitempty"`
 }
 
 // ParseDefinitionStatus defines the observed state of ParseDefinition
@@ -42,7 +42,6 @@ type ParseDefinitionStatus struct {
 }
 
 // +kubebuilder:object:root=true
-// +kubebuilder:printcolumn:name="Handles Type",type=string,JSONPath=`.spec.handlesResultsType`,description="Which result file type the parser is able to handle"
 // +kubebuilder:printcolumn:name="Image",type=string,JSONPath=`.spec.image`,description="Scanner Container Image"
 
 // ParseDefinition is the Schema for the parsedefinitions API
