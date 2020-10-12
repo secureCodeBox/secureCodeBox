@@ -19,5 +19,7 @@ RUN go build -a -ldflags '-w -s -extldflags "-static"' -o /go/bin/kubeaudit ./cm
 FROM alpine:3.12
 COPY --from=builder /go/bin/kubeaudit /kubeaudit
 COPY wrapper.sh /wrapper.sh
+RUN addgroup --system --gid 1001 kubeaudit && adduser kubeaudit --system --uid 1001 --ingroup kubeaudit
+USER 1001
 ENTRYPOINT ["/kubeaudit"]
 CMD ["all"]
