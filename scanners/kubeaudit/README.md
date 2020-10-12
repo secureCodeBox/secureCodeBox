@@ -20,6 +20,7 @@ A Helm chart for the kubeaudit security scanner that integrates with the secureC
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| kubeauditScope | string | `"namespace"` | Automatically sets up rbac roles for kubeaudit to access the ressources it scans. Can be either "cluster" (ClusterRole) or "namespace" (Role)         |
 | parserImage.repository | string | `"docker.io/securecodebox/parser-kubeaudit"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |
 | scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
