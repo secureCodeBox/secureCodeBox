@@ -102,7 +102,7 @@ async function disasterRecovery(scanName) {
 
 /**
  *
- * @param {string} name name of the scan. Actual name will be sufixed with a random number to avoid conflicts
+ * @param {string} name name of the scan. Actual name will be suffixed with a random number to avoid conflicts
  * @param {string} scanType type of the scan. Must match the name of a ScanType CRD
  * @param {string[]} parameters cli argument to be passed to the scanner
  * @param {number} timeout in seconds
@@ -114,7 +114,7 @@ async function scan(name, scanType, parameters = [], timeout = 180) {
     apiVersion: "execution.securecodebox.io/v1",
     kind: "Scan",
     metadata: {
-      // Use `generateName` instead of name to generate a random sufix and avoid name clashes
+      // Use `generateName` instead of name to generate a random suffix and avoid name clashes
       generateName: `${name}-`,
     },
     spec: {
@@ -163,6 +163,8 @@ async function scan(name, scanType, parameters = [], timeout = 180) {
  * @param {string} name name of the scan. Actual name will be sufixed with a random number to avoid conflicts
  * @param {string} scanType type of the scan. Must match the name of a ScanType CRD
  * @param {string[]} parameters cli argument to be passed to the scanner
+ * @param {string} nameCascade name of cascading scan
+ * @param {object} matchLabels set invasive and intensive of cascading scan
  * @param {number} timeout in seconds
  * @returns {scan.findings} returns findings { categories, severities, count }
  */
