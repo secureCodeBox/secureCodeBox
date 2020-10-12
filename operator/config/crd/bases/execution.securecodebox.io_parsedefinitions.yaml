@@ -9,10 +9,6 @@ metadata:
   name: parsedefinitions.execution.securecodebox.io
 spec:
   additionalPrinterColumns:
-  - JSONPath: .spec.handlesResultsType
-    description: Which result file type the parser is able to handle
-    name: Handles Type
-    type: string
   - JSONPath: .spec.image
     description: Scanner Container Image
     name: Image
@@ -44,13 +40,12 @@ spec:
         spec:
           description: ParseDefinitionSpec defines the desired state of ParseDefinition
           properties:
-            handlesResultsType:
-              description: Foo is an example field of ParseDefinition. Edit ParseDefinition_types.go
-                to remove/update
-              type: string
             image:
+              description: Image is the reference to the parser container image which
+                ca transform the raw scan report into findings
               type: string
             imagePullSecrets:
+              description: ImagePullSecrets used to access private parser images
               items:
                 description: LocalObjectReference contains enough information to let
                   you locate the referenced object inside the same namespace.

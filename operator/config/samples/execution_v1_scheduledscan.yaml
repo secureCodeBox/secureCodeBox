@@ -4,7 +4,7 @@ metadata:
   name: scheduled-nmap-localhost
 spec:
   interval: 1m
-  historyLimit: 2
+  successfulJobsHistoryLimit: 2
   scanSpec:
     scanType: "nmap"
     parameters:

@@ -59,20 +59,12 @@ spec:
         spec:
           description: ScheduledScanSpec defines the desired state of ScheduledScan
           properties:
-            historyLimit:
-              description: HistoryLimit determines how many past Scans will be kept
-                until the oldest one will be delted, defaults to 3. When set to 0
-                Scans will be deleted directly after completion
-              format: int64
-              type: integer
             interval:
               description: 'Interval describes how often the scan should be repeated
-                Examples: ''12h'', ''7d'', ''30m'' (only days, hours and minutes supported,
-                specified as integers)'
+                Examples: ''12h'', ''30m'''
               type: string
             scanSpec:
-              description: Foo is an example field of ScheduledScan. Edit ScheduledScan_types.go
-                to remove/update
+              description: ScanSpec describes the scan which should be started regularly
               properties:
                 cascades:
                   description: A label selector is a label query over a set of resources.
@@ -232,6 +224,12 @@ spec:
                 scanType:
                   type: string
               type: object
+            successfulJobsHistoryLimit:
+              description: SuccessfulJobsHistoryLimit determines how many past Scans
+                will be kept until the oldest one will be delted, defaults to 3. When
+                set to 0 Scans will be deleted directly after completion
+              format: int64
+              type: integer
           required:
           - interval
           - scanSpec
