@@ -226,9 +226,10 @@ spec:
               type: object
             successfulJobsHistoryLimit:
               description: SuccessfulJobsHistoryLimit determines how many past Scans
-                will be kept until the oldest one will be delted, defaults to 3. When
-                set to 0 Scans will be deleted directly after completion
-              format: int64
+                will be kept until the oldest one will be deleted, defaults to 3.
+                When set to 0, Scans will be deleted directly after completion
+              format: int32
+              minimum: 0
               type: integer
           required:
           - interval
