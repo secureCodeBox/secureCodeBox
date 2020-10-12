@@ -3,7 +3,7 @@ const { scan } = require("../helpers");
 test(
   "kubeaudit should run and check our integration-tests namespace",
   async () => {
-    const { _ } = await scan(
+    await scan(
       "kubeaudit-test",
       "kubeaudit",
       ["-n", "integration-tests"],
@@ -11,6 +11,7 @@ test(
     );
     
     // If we got here the scan succeded
+    expect()
     expect(true).toBe(true);
   },
   5 * 60 * 1000
