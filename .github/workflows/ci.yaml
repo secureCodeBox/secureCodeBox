@@ -451,7 +451,14 @@ jobs:
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="image.tag=0.3.0"
           cd tests/integration/
-          npx jest --ci --color kube-hunter
+          npx jest --ci --color kubeaudit
+      - name: "kubeaudit Integration Tests"
+        run: |
+          helm -n integration-tests install kubeaudit ./scanners/kubeaudit/ \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="image.tag=0.3.0"
+          cd tests/integration/
+          npx jest --ci --color kube-hunter    
       - name: "ssh-scan Integration Tests"
         run: |
           helm -n integration-tests install ssh-scan ./scanners/ssh_scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
