@@ -7,7 +7,7 @@ test(
       "kubeaudit-test",
       "kubeaudit",
       ["-n", "integration-tests"],
-      20
+      60
     );
     
     // If we got here the scan succeded
