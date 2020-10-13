@@ -23,7 +23,6 @@ helm uninstall swagger-petstore
 
 helm uninstall aah
 helm uninstall gwh
-helm uninstall issh
 
 helm uninstall elkh
 

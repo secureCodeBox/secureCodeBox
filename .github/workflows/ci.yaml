@@ -266,15 +266,6 @@ jobs:
           tag_with_sha: true
           build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
-        name: "Build & Push ImperativeSubsequentScans Hook Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/hook-imperative-subsequent-scans
-          path: ./hooks/imperative-subsequent-scans/
-          tag_with_ref: true
-          build_args: baseImageTag=ci-local
-      - uses: docker/build-push-action@v1
         name: "Build & Push DeclarativeSubsequentScans Hook Image"
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
