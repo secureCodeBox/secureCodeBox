@@ -120,7 +120,6 @@ Deploy secureCodeBox Hooks:
 ```bash
 helm upgrade --install ufh ./hooks/update-field/
 helm upgrade --install gwh ./hooks/generic-webhook/
-helm upgrade --install issh ./hooks/imperative-subsequent-scans/
 helm upgrade --install dssh ./hooks/declarative-subsequent-scans/
 ```
 
