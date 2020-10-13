@@ -24,6 +24,5 @@ helm upgrade --install http-webhook ./demo-apps/http-webhook/
 
 helm upgrade --install aah ./hooks/update-field/
 helm upgrade --install gwh ./hooks/generic-webhook/
-helm upgrade --install issh ./hooks/imperative-subsequent-scans/
 
 helm upgrade --install elkh ./hooks/persistence-elastic/
