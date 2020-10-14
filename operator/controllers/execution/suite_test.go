@@ -30,7 +30,7 @@ import (
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	executionv1 "github.com/secureCodeBox/secureCodeBox-v2/operator/apis/execution/v1"
+	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	// +kubebuilder:scaffold:imports
 )
 

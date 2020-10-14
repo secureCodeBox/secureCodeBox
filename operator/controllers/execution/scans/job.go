@@ -3,7 +3,7 @@ package scancontrollers
 import (
 	"context"
 
-	executionv1 "github.com/secureCodeBox/secureCodeBox-v2/operator/apis/execution/v1"
+	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	batch "k8s.io/api/batch/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )

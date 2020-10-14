@@ -16,7 +16,7 @@ keywords:
 home: https://docs.securecodebox.io/docs/scanners/Nmap
 icon: https://docs.securecodebox.io/img/integrationIcons/Nmap.svg
 sources:
-  - https://github.com/secureCodeBox/secureCodeBox-v2
+  - https://github.com/secureCodeBox/secureCodeBox
 maintainers:
   - name: iteratec GmbH
     email: secureCodeBox@iteratec.com
