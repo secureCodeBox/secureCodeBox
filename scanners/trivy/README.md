@@ -38,6 +38,8 @@ The following security scan configuration example are based on the [Trivy Docume
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| image.repository | string | `"aquasec/trivy"` | Container Image to run the scan |
+| image.tag | string | `"0.6.0@sha256:61d42dbc030001463048f2f59fa034310fc114c7dee90b9dd9a9e3765dea7f5e"` | defaults to the charts appVersion |
 | parserImage.repository | string | `"docker.io/securecodebox/parser-trivy"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |
 | scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |

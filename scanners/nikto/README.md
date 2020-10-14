@@ -53,6 +53,8 @@ Nikto also has a comprehensive list of [command line options documented](https:/
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| image.repository | string | `"securecodebox/scannner-nikto"` | Container Image to run the scan |
+| image.tag | string | `nil` | defaults to the charts appVersion |
 | parserImage.repository | string | `"docker.io/securecodebox/parser-nikto"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |
 | scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
