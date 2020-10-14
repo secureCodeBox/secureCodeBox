@@ -1,4 +1,4 @@
-# secureCodeBox – v2 Beta
+# secureCodeBox – v2
 
 <p align="center">
   <img alt="secureCodeBox Logo" src="./docs/resources/securecodebox-logo.svg" width="500px">
@@ -7,20 +7,17 @@
 
 <p align="center">
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Apache-2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>
-  <a href="https://github.com/secureCodeBox/secureCodeBox/releases/tag/v2.0.0-rc.1"><img alt="Preview GitHub Release" src="https://img.shields.io/badge/release-v2.0.0%7Erc.1-blue.svg"></a>
+  <a href="https://github.com/secureCodeBox/secureCodeBox/releases/tag/v2.0.0-rc.11"><img alt="Preview GitHub Release" src="https://img.shields.io/badge/release-v2.0.0%7Erc.11-blue.svg"></a>
   <a href="https://owasp.org/www-project-securecodebox/"><img alt="OWASP Incubator Project" src="https://img.shields.io/badge/OWASP-Incubator%20Project-365EAA"></a>
   <a href="https://twitter.com/securecodebox"><img alt="Twitter Follower" src="https://img.shields.io/twitter/follow/securecodebox?style=flat&color=blue&logo=twitter"></a>
 </p>
 <p align="center">
   <a href="https://github.com/secureCodeBox/secureCodeBox/actions?query=workflow%3ACI"><img alt="Build" src="https://github.com/secureCodeBox/secureCodeBox/workflows/CI/badge.svg"></a>
-  <a href="https://codeclimate.com/github/secureCodeBox/secureCodeBox-alpha/maintainability"><img alt="Maintainability" src="https://api.codeclimate.com/v1/badges/b6bf3af707671b5e5251/maintainability" /></a>
-  <a href="https://codeclimate.com/github/secureCodeBox/secureCodeBox-alpha/test_coverage"><img alt="Test Coverage" src="https://api.codeclimate.com/v1/badges/b6bf3af707671b5e5251/test_coverage" /></a>
+  <a href="https://codeclimate.com/github/secureCodeBox/secureCodeBox/maintainability"><img alt="Maintainability"  src="https://api.codeclimate.com/v1/badges/0c41659fde992429bfed/maintainability" /></a>
+  <a href="https://codeclimate.com/github/secureCodeBox/secureCodeBox/test_coverage"><img alt="Test Coverage" src="https://api.codeclimate.com/v1/badges/0c41659fde992429bfed/test_coverage" /></a>
   <a href="https://snyk.io/test/github/secureCodeBox/secureCodeBox/"><img alt="Known Vulnerabilities" src="https://snyk.io/test/github/secureCodeBox/secureCodeBox/badge.svg"></a>
-  <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FsecureCodeBox%2FsecureCodeBox-v2?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FsecureCodeBox%2FsecureCodeBox-v2.svg?type=shield"/></a>
+  <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FsecureCodeBox%2FsecureCodeBox?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FsecureCodeBox%2FsecureCodeBox.svg?type=shield"/></a>
 </p>
-
-**NOTE**: This Repository contains the stable beta preview of the next major secureCodeBox (SCB) Release v2.  
-You can find the current **stable release** here [https://github.com/secureCodeBox/secureCodeBox](https://github.com/secureCodeBox/secureCodeBox).
 
 _The major release of SCB version 2.0 will be available in the next weeks._ The release will contain a major architecture change which will not be backward compatible. More details will follow soon in a series of blog articles.
 
@@ -30,7 +27,7 @@ _The major release of SCB version 2.0 will be available in the next weeks._ The 
 
 <!-- toc -->
 
-- [secureCodeBox – v2 Beta](#securecodebox--v2-beta)
+- [secureCodeBox – v2](#securecodebox--v2)
   - [Overview](#overview)
   - [Purpose of this Project](#purpose-of-this-project)
   - [Quickstart](#quickstart)

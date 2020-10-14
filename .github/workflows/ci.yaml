@@ -47,7 +47,7 @@ jobs:
       - name: "Run tests & publish code coverage"
         uses: paambaati/codeclimate-action@v2.6.0
         env:
-          CC_TEST_REPORTER_ID: 545b7af20f13dc58a3284275828532a26d89a8e90c8f276fb54a23d78bae7a19
+          CC_TEST_REPORTER_ID: a09c9e6ef697176ac6ec9f71063e2d18156aa1a904e2dd62ba2b68fab1d22ced
         with:
           coverageCommand: npm test -- --ci --colors --coverage
   operator:
