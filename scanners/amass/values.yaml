@@ -1,11 +1,11 @@
 image:
   # image.repository -- Container Image to run the scan
   repository: caffix/amass
-  # image.tag - defaults to the charts appVersion
+  # image.tag -- defaults to the charts appVersion
   tag: null
 
 parserImage:
-  # parserImage.tag - defaults to the charts version
+  # parserImage.tag -- defaults to the charts version
   # parserImage.repository -- Parser image repository
   repository: docker.io/securecodebox/parser-amass
   # parserImage.tag -- Parser image tag
