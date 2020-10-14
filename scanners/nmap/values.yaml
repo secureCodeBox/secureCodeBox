@@ -1,3 +1,9 @@
+image:
+  # image.repository -- Container Image to run the scan
+  repository: docker.io/securecodebox/scanner-nmap
+  # image.tag - defaults to the charts version
+  tag: null
+
 parserImage:
   # parserImage.tag - defaults to the charts version
   # parserImage.repository -- Parser image repository
@@ -6,10 +12,6 @@ parserImage:
   # @default -- defaults to the charts version
   tag: null
 
-image:
-  repository: docker.io/securecodebox/scanner-nmap
-  # image.tag - defaults to the charts version
-  tag: null
 scannerJob:
   # scannerJob.ttlSecondsAfterFinished -- Defines how long the scanner job after finishing will be available (see: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/)
   ttlSecondsAfterFinished: null

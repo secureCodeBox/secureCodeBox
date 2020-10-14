@@ -1,3 +1,9 @@
+image:
+  # image.repository -- Container Image to run the scan
+  repository: aquasec/trivy
+  # image.tag - defaults to the charts appVersion
+  tag: "0.6.0@sha256:61d42dbc030001463048f2f59fa034310fc114c7dee90b9dd9a9e3765dea7f5e"
+
 parserImage:
   # parserImage.tag - defaults to the charts version
   # parserImage.repository -- Parser image repository
