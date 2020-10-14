@@ -17,7 +17,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: wpscan
-              image: wpscanteam/wpscan:latest
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
               command:
                 - "wpscan"
                 - "-o"
