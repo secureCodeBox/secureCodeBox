@@ -14,4 +14,4 @@ Backend components will always remain compatible due to ongoing the availability
 
 ## Changelogs
 
-Changelogs can be found the in release notes attached to git tags, e.g. (https://github.com/secureCodeBox/secureCodeBox-v2/releases).
+Changelogs can be found the in release notes attached to git tags, e.g. (https://github.com/secureCodeBox/secureCodeBox/releases).
