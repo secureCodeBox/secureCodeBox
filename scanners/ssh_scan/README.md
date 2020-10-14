@@ -66,7 +66,9 @@ Examples:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| parserImage.repository | string | `"docker.io/scbexperimental/parser-ssh-scan"` | Parser image repository |
+| image.repository | string | `"mozilla/ssh_scan"` | Container Image to run the scan |
+| image.tag | string | `"latest@sha256:ebd76f798159844c0baca6b78cc324ba1966b11eb4f45118397a59d01f764c97"` | defaults to the charts appVersion |
+| parserImage.repository | string | `"docker.io/securecodebox/parser-ssh-scan"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |
 | scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | scannerJob.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |

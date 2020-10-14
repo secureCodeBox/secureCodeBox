@@ -133,7 +133,9 @@ Options:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| parserImage.repository | string | `"docker.io/scbexperimental/parser-sslyze"` | Parser image repository |
+| image.repository | string | `"nablac0d3/sslyze"` | Container Image to run the scan |
+| image.tag | string | `"latest@sha256:ff2c5c626401b1961736a5b2ae6e35a41d213e8b2712102100abf5ee46dcca71"` | defaults to the charts appVersion |
+| parserImage.repository | string | `"docker.io/securecodebox/parser-sslyze"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |
 | scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | scannerJob.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |

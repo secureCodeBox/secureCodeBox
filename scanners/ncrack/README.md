@@ -142,7 +142,9 @@ SEE THE MAN PAGE (http://nmap.org/ncrack/man.html) FOR MORE OPTIONS AND EXAMPLES
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| parserImage.repository | string | `"docker.io/scbexperimental/parser-ncrack"` | Parser image repository |
+| image.repository | string | `"docker.io/securecodebox/scanner-ncrack"` | Container Image to run the scan |
+| image.tag | string | `nil` | defaults to the charts appVersion |
+| parserImage.repository | string | `"docker.io/securecodebox/parser-ncrack"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |
 | scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | scannerJob.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
