@@ -5,7 +5,6 @@ image:
   tag: null
 
 parserImage:
-  # parserImage.tag -- defaults to the charts version
   # parserImage.repository -- Parser image repository
   repository: docker.io/securecodebox/parser-wpscan
   # parserImage.tag -- Parser image tag
