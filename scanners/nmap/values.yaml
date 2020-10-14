@@ -5,8 +5,9 @@ image:
   tag: null
 
 parserImage:
+  # parserImage.tag -- defaults to the charts version
   # parserImage.repository -- Parser image repository
-  repository: docker.io/scbexperimental/parser-nmap
+  repository: docker.io/securecodebox/parser-nmap
   # parserImage.tag -- Parser image tag
   # @default -- defaults to the charts version
   tag: null
