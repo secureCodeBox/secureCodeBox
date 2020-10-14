@@ -16,7 +16,7 @@ keywords:
 home: https://docs.securecodebox.io/docs/scanners/SSH
 icon: https://docs.securecodebox.io/img/integrationIcons/SSH.svg
 sources:
-  - https://github.com/secureCodeBox/secureCodeBox-v2
+  - https://github.com/secureCodeBox/secureCodeBox
 maintainers:
   - name: iteratec GmbH
     email: secureCodeBox@iteratec.com

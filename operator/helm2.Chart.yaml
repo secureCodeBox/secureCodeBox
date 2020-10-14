@@ -15,7 +15,7 @@ keywords:
 home: https://docs.securecodebox.io/docs/getting-started/installation
 icon: https://docs.securecodebox.io/img/Logo_Color.svg
 sources:
-  - https://github.com/secureCodeBox/secureCodeBox-v2
+  - https://github.com/secureCodeBox/secureCodeBox
 maintainers:
   - name: iteratec GmbH
     email: secureCodeBox@iteratec.com

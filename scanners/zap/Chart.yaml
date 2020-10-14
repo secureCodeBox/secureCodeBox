@@ -17,7 +17,7 @@ keywords:
 home: https://docs.securecodebox.io/docs/scanners/ZAP
 icon: https://docs.securecodebox.io/img/integrationIcons/ZAP.svg
 sources:
-  - https://github.com/secureCodeBox/secureCodeBox-v2
+  - https://github.com/secureCodeBox/secureCodeBox
 maintainers:
   - name: iteratec GmbH
     email: secureCodeBox@iteratec.com

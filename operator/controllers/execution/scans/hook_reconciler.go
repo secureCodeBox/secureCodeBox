@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	executionv1 "github.com/secureCodeBox/secureCodeBox-v2/operator/apis/execution/v1"
-	util "github.com/secureCodeBox/secureCodeBox-v2/operator/utils"
+	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
+	util "github.com/secureCodeBox/secureCodeBox/operator/utils"
 	batch "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
 	rbacv1 "k8s.io/api/rbac/v1"
