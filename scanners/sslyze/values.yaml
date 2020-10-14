@@ -1,3 +1,9 @@
+image:
+  # image.repository -- Container Image to run the scan
+  repository: nablac0d3/sslyze
+  # image.tag - defaults to the charts appVersion
+  tag: "latest@sha256:ff2c5c626401b1961736a5b2ae6e35a41d213e8b2712102100abf5ee46dcca71"
+
 parserImage:
   # parserImage.repository -- Parser image repository
   repository: docker.io/scbexperimental/parser-sslyze

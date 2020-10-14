@@ -1,3 +1,9 @@
+image:
+  # image.repository -- Container Image to run the scan
+  repository: wpscanteam/wpscan
+  # image.tag - defaults to the charts appVersion
+  tag: null
+
 parserImage:
   # parserImage.repository -- Parser image repository
   repository: docker.io/scbexperimental/parser-wpscan

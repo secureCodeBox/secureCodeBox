@@ -1,3 +1,9 @@
+image:
+  # image.repository -- Container Image to run the scan
+  repository: docker.io/securecodebox/scanner-kube-hunter
+  # image.tag -- defaults to the charts version
+  tag: null
+
 parserImage:
   # parserImage.repository -- Parser image repository
   repository: docker.io/scbexperimental/parser-kube-hunter
