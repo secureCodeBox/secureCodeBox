@@ -58,6 +58,22 @@ severity because the often produce false positives.
 **Please keep in mind that findings with a low severity can be actually
 very critical.**
 
+## Chart Configuration
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| image.repository | string | `"secureCodeBox/scanner-gitleaks"` | Container Image to run the scan |
+| image.tag | string | `nil` | defaults to the charts version |
+| parserImage.repository | string | `"secureCodeBox/parser-gitleaks"` | Parser image repository |
+| parserImage.tag | string | defaults to the charts version | Parser image tag |
+| scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
+| scannerJob.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
+| scannerJob.extraVolumeMounts | list | `[{"mountPath":"/home/","name":"gitleaks-config"}]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scannerJob.extraVolumes | list | `[{"configMap":{"name":"gitleaks-config"},"name":"gitleaks-config"}]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
+| scannerJob.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
+| scannerJob.ttlSecondsAfterFinished | string | `nil` | Defines how long the scanner job after finishing will be available (see: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/) |
+
 #### Examples
 
 ```bash
