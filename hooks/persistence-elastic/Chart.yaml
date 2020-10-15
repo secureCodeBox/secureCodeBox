@@ -8,7 +8,7 @@ type: application
 version: latest
 
 appVersion: 7.9.2
-kubeVersion: ">=v1.11.0"
+kubeVersion: ">=v1.11.0-0"
 
 dependencies:
   - name: elasticsearch
