@@ -122,6 +122,16 @@ jobs:
           tag_with_sha: true
           build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
+        name: "Build & Push Gitleaks Parser Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: securecodebox/parser-gitleaks
+          path: ./scanners/gitleaks/parser/
+          tag_with_ref: true
+          tag_with_sha: true
+          build_args: baseImageTag=ci-local
+      - uses: docker/build-push-action@v1
         name: "Build & Push kube-hunter Parser Image"
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -291,6 +301,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      - uses: docker/build-push-action@v1
+        name: "Build & Push Gitleaks Scanner Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: securecodebox/scanner-gitleaks
+          path: ./scanners/gitleaks/scanner/
+          tags: "v6.1.2,latest"
       - uses: docker/build-push-action@v1
         name: "Build & Push Ncrack Scanner Image"
         with:
