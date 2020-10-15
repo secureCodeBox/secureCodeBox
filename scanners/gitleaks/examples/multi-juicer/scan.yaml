@@ -1,0 +1,11 @@
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "scan-multi-juicer-example"
+spec:
+  scanType: "gitleaks"
+  parameters:
+    - "-r"
+    - "https://github.com/iteratec/multi-juicer"
+    - "--config"
+    - "/home/config_all.toml"
