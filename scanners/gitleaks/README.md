@@ -74,39 +74,3 @@ very critical.**
 | scannerJob.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | scannerJob.ttlSecondsAfterFinished | string | `nil` | Defines how long the scanner job after finishing will be available (see: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/) |
 
-#### Examples
-
-```bash
-apiVersion: "execution.securecodebox.io/v1"
-kind: Scan
-metadata:
-  name: "scan multi-juicer"
-spec:
-  scanType: "gitleaks"
-  parameters:
-    - "-r"
-    - "https://github.com/iteratec/multi-juicer"
-    - "--config"
-    - "/home/config_all.toml"
-```
-
-Another example for how to scan a private GitLab repository:
-
-```bash
-apiVersion: "execution.securecodebox.io/v1"
-kind: Scan
-metadata:
-  name: "scan private repository"
-spec:
-  scanType: "gitleaks"
-  parameters:
-    - "-r"
-    - "https://gitlab.yourcompany.com/group/project"
-    - "--access-token"
-    - "<YOUR-GITLAB-TOKEN>"
-    - "--config"
-    - "/home/config_filenames_only.toml"
-    - "--comit-since"
-    - "2020-04-20"
-```
-
