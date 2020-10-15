@@ -1,4 +1,4 @@
-apiVersion: v2
+apiVersion: v1
 name: gitleaks
 description: A Helm chart for the gitleaks repository scanner that integrates with the secureCodeBox.
 
@@ -16,7 +16,7 @@ keywords:
 home: https://docs.securecodebox.io/docs/scanners/gitleaks
 icon: https://docs.securecodebox.io/img/integrationIcons/gitleakslogo.png
 sources:
-  - https://github.com/secureCodeBox/secureCodeBox-v2
+  - https://github.com/secureCodeBox/secureCodeBox
 maintainers:
   - name: iteratec GmbH
     email: secureCodeBox@iteratec.com

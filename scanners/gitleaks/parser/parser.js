@@ -1,7 +1,6 @@
 const HIGH_TAGS = ['JWT', 'Artifactory', 'AWS', 'PrivateKey'];
 const MEDIUM_TAGS = ['Hash', 'Facebook', 'Twitter', 'Github', 'LinkedIn', 'Slack', 'Google', 'Heroku',
   'Mailchimp', 'Mailgun', 'Paypal', 'Picatic', 'Teams', 'Jenkins', 'Stripe', 'Square', 'Twilio'];
-const LOW_TAGS = ['Generic', 'FileName', 'FileExtension'];
 
 async function parse (fileContent) {
 
