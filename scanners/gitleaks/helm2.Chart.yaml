@@ -1,4 +1,4 @@
-apiVersion: v2
+apiVersion: v1
 name: gitleaks
 description: A Helm chart for the gitleaks repository scanner that integrates with the secureCodeBox.
 

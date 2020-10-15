@@ -1,7 +1,7 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: "gitleaks-example"
+  name: "scan-multi-juicer-example"
 spec:
   scanType: "gitleaks"
   parameters:
