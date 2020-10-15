@@ -11,5 +11,5 @@ spec:
     - "<YOUR-GITLAB-TOKEN>"
     - "--config"
     - "/home/config_filenames_only.toml"
-    - "--comit-since"
+    - "--commit-since"
     - "2020-04-20"
