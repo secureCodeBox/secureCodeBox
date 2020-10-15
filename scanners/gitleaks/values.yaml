@@ -1,13 +1,13 @@
 image:
   # image.repository -- Container Image to run the scan
-  repository: secureCodeBox/scanner-gitleaks
+  repository: docker.io/securecodebox/scanner-gitleaks
   # image.tag -- defaults to the charts version
   tag: null
 
 parserImage:
   # parserImage.tag - defaults to the charts version
   # parserImage.repository -- Parser image repository
-  repository: secureCodeBox/parser-gitleaks
+  repository: docker.io/securecodebox/parser-gitleaks
   # parserImage.tag -- Parser image tag
   # @default -- defaults to the charts version
   tag: null
