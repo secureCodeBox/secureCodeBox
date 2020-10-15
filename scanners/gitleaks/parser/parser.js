@@ -20,7 +20,7 @@ async function parse (fileContent) {
       description: 'The name of the rule which triggered the finding: ' + finding.rule,
       osi_layer: 'APPLICATION',
       severity: severity,
-      category: 'potential secret',
+      category: 'Potential Secret',
       attributes: {
         commit: finding.commit,
         repo: finding.repo,
