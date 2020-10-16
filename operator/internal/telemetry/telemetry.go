@@ -21,6 +21,7 @@ var telemetryInterval = 24 * time.Hour
 // Unofficial Scan Types should be reported as "other" to avoid leakage of confidential data via the scan-types name
 var officialScanTypes map[string]bool = map[string]bool{
 	"amass":         true,
+	"gitleaks":      true,
 	"kube-hunter":   true,
 	"kubeaudit":     true,
 	"ncrack":        true,
