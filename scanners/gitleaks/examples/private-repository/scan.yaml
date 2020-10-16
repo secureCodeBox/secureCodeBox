@@ -1,0 +1,15 @@
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "scan-private-repository-example"
+spec:
+  scanType: "gitleaks"
+  parameters:
+    - "-r"
+    - "https://gitlab.yourcompany.com/group/project"
+    - "--access-token"
+    - "<YOUR-GITLAB-TOKEN>"
+    - "--config"
+    - "/home/config_filenames_only.toml"
+    - "--commit-since"
+    - "2020-04-20"
