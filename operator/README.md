@@ -43,5 +43,5 @@ helm install securecodebox-operator secureCodeBox/operator
 | securityContext.privileged | bool | `false` | Ensures that the operator container is not run in privileged mode |
 | securityContext.readOnlyRootFilesystem | bool | `true` | Prevents write access to the containers file system |
 | securityContext.runAsNonRoot | bool | `true` | Enforces that the Operator image is run as a non root user |
-| telemetryEnabled | bool | `true` | The Operator sends anonymous telemetry data, to give the team an overview how much the secureCodeBox is used. Find out more at https://www.securecodebox.io/telemetry |
+| telemetryEnabled | bool | `true` | The Operator sends anonymous telemetry data, to give the team an overview how much the secureCodeBox is used. Find out more at https://docs.securecodebox.io/docs/telemetry |
 
