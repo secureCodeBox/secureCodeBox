@@ -19,7 +19,7 @@ To learn more about the ssh_scan scanner itself visit [ssh_scan GitHub].
 The SSH_scan ScanType can be deployed via helm.
 
 ```bash
-helm upgrade --install ssh ./scanners/ssh_scan/
+helm upgrade --install ssh-scan secureCodeBox/ssh-scan
 ```
 
 ## Scanner Configuration

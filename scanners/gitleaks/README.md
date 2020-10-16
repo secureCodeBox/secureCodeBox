@@ -20,7 +20,7 @@ To learn more about gitleaks visit <https://github.com/zricethezav/gitleaks>
 ## Deployment
 The gitleaks scanner can be deployed with helm:
 ```bash
-helm upgrade --install gitleaks ./scanners/gitleaks/
+helm upgrade --install gitleaks secureCodeBox/gitleaks
 ```
 
 ## Scanner configuration

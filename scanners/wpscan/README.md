@@ -23,7 +23,7 @@ To learn more about the WPScan scanner itself visit [wpscan.org] or [wpscan.io].
 The WPScan scanType can be deployed via helm:
 
 ```bash
-helm upgrade --install wpscan ./scanners/wpscan/
+helm upgrade --install wpscan secureCodeBox/wpscan
 ```
 
 ## Scanner Configuration

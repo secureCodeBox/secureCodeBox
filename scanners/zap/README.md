@@ -21,7 +21,7 @@ To learn more about the ZAP scanner itself visit [https://www.zaproxy.org/](http
 The ZAP scanType can be deployed via helm:
 
 ```bash
-helm upgrade --install zap ./scanners/zap/
+helm upgrade --install zap secureCodeBox/zap
 ```
 
 ## Scanner Configuration

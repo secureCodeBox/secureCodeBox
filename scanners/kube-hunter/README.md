@@ -19,7 +19,7 @@ To learn more about the kube-hunter scanner itself visit [kube-hunter GitHub] or
 The kube-hunter ScanType can be deployed via helm:
 
 ```bash
-helm upgrade --install kube-hunter ./scanners/kube-hunter/
+helm upgrade --install kube-hunter secureCodeBox/kube-hunter
 ```
 
 ## Scanner Configuration

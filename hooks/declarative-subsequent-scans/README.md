@@ -14,7 +14,7 @@ usecase: "Cascading Scans based declarative Rules."
 Installing the Cascading Scans hook will add a ReadOnly Hook to your namespace which looks for matching _CascadingRules_ in the namespace and start the according scans.
 
 ```bash
-helm upgrade --install dssh ./hooks/declarative-subsequent-scans/
+helm upgrade --install dssh secureCodeBox/declarative-subsequent-scans
 ```
 
 ### Verification
