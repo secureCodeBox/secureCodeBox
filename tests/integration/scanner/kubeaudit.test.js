@@ -1,10 +1,10 @@
 const { scan } = require("../helpers");
 
 test(
-  "kubeaudit should run and check the jshop in kubeaudit-test namespace",
+  "kubeaudit should run and check the jshop in kubeaudit-tests namespace",
   async () => {
     const { categories, severities } = await scan(
-      "kubeaudit-test",
+      "kubeaudit-tests",
       "kubeaudit",
       ["-n", "kubeaudit-test"],
       60
