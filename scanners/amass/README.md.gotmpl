@@ -19,7 +19,7 @@ The OWASP Amass Project has developed a tool to help information security profes
 The AMASS scanType can be deployed via helm:
 
 ```bash
-helm upgrade --install amass ./scanners/amass/
+helm upgrade --install amass secureCodeBox/amass
 ```
 
 ## Scanner Configuration

@@ -21,7 +21,7 @@ To learn more about the Nmap scanner itself visit [nmap.org].
 The Nmap ScanType can be deployed via helm:
 
 ```bash
-helm upgrade --install nmap ./scanners/nmap/
+helm upgrade --install nmap secureCodeBox/nmap
 ```
 
 ## Scanner Configuration
