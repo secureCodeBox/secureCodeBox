@@ -175,7 +175,7 @@ async function cascadingScan(name, scanType, parameters = [], { nameCascade, mat
     apiVersion: "execution.securecodebox.io/v1",
     kind: "Scan",
     metadata: {
-      // Use `generateName` instead of name to generate a random sufix and avoid name clashes
+      // Use `generateName` instead of name to generate a random suffix and avoid name clashes
       generateName: `${name}-`,
     },
     spec: {
