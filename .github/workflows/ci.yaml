@@ -480,6 +480,7 @@ jobs:
             --set="image.tag=0.11.5"
           cd tests/integration/
           npx jest --ci --color kubeaudit
+          kubectl delete namespace kubeaudit-tests
       - name: "ssh-scan Integration Tests"
         run: |
           helm -n integration-tests install ssh-scan ./scanners/ssh_scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"

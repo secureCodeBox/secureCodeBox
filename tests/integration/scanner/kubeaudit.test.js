@@ -7,7 +7,7 @@ test(
       "kubeaudit-tests",
       "kubeaudit",
       ["-n", "kubeaudit-tests"],
-      60
+      90
     );
 
     expect(categories).toMatchInlineSnapshot(`
