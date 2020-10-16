@@ -47,7 +47,7 @@ jobs:
       - name: "Run tests & publish code coverage"
         uses: paambaati/codeclimate-action@v2.6.0
         env:
-          CC_TEST_REPORTER_ID: 545b7af20f13dc58a3284275828532a26d89a8e90c8f276fb54a23d78bae7a19
+          CC_TEST_REPORTER_ID: a09c9e6ef697176ac6ec9f71063e2d18156aa1a904e2dd62ba2b68fab1d22ced
         with:
           coverageCommand: npm test -- --ci --colors --coverage
   operator:
@@ -122,12 +122,22 @@ jobs:
           tag_with_sha: true
           build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
-        name: "Build & Push kubeaudit Parser Image"
+          name: "Build & Push kubeaudit Parser Image"
+          with:
+            username: ${{ secrets.DOCKER_USERNAME }}
+            password: ${{ secrets.DOCKER_PASSWORD }}
+            repository: securecodebox/parser-kubeaudit
+            path: ./scanners/kubeaudit/parser/
+            tag_with_ref: true
+            tag_with_sha: true
+            build_args: baseImageTag=ci-local
+      - uses: docker/build-push-action@v1
+        name: "Build & Push Gitleaks Parser Image"
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/parser-kubeaudit
-          path: ./scanners/kubeaudit/parser/
+          repository: securecodebox/parser-gitleaks
+          path: ./scanners/gitleaks/parser/
           tag_with_ref: true
           tag_with_sha: true
           build_args: baseImageTag=ci-local
@@ -276,15 +286,6 @@ jobs:
           tag_with_sha: true
           build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
-        name: "Build & Push ImperativeSubsequentScans Hook Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/hook-imperative-subsequent-scans
-          path: ./hooks/imperative-subsequent-scans/
-          tag_with_ref: true
-          build_args: baseImageTag=ci-local
-      - uses: docker/build-push-action@v1
         name: "Build & Push DeclarativeSubsequentScans Hook Image"
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -310,6 +311,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      - uses: docker/build-push-action@v1
+        name: "Build & Push Gitleaks Scanner Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: securecodebox/scanner-gitleaks
+          path: ./scanners/gitleaks/scanner/
+          tags: "v6.1.2,latest"
       - uses: docker/build-push-action@v1
         name: "Build & Push Ncrack Scanner Image"
         with:
@@ -468,7 +477,7 @@ jobs:
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="image.tag=0.11.5"
           cd tests/integration/
-          npx jest --ci --color kubeaudit   
+          npx jest --ci --color kubeaudit
       - name: "ssh-scan Integration Tests"
         run: |
           helm -n integration-tests install ssh-scan ./scanners/ssh_scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
