@@ -6,7 +6,7 @@ test(
     const { categories, severities } = await scan(
       "kubeaudit-tests",
       "kubeaudit",
-      ["-n", "kubeaudit-test"],
+      ["-n", "kubeaudit-tests"],
       60
     );
 
