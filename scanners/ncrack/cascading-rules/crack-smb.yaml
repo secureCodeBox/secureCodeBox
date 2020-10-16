@@ -1,0 +1,35 @@
+apiVersion: "cascading.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "ncrack-smb"
+  labels:
+    securecodebox.io/invasive: invasive
+    securecodebox.io/intensive: high
+    securecodebox.io/type: bruteforce
+spec:
+  matches:
+    anyOf:
+      - category: "Open Port"
+        attributes:
+          port: 445
+          state: open
+      - category: "Open Port"
+        attributes:
+          port: 139
+          state: open
+      - category: "Open Port"
+        attributes:
+          service: "microsoft-ds"
+          state: open
+  scanSpec:
+    scanType: "ncrack"
+    parameters:
+      - -v
+      - -d10
+      - -U
+      - /ncrack/users.txt
+      - -P
+      - /ncrack/passwords.txt
+      - -p 
+      - smb:{{attributes.port}}
+      - "{{attributes.ip_address}}"
