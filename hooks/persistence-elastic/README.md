@@ -17,7 +17,7 @@ The ElasticSearch persistenceProvider hook saves all findings and reports into t
 Installing the Elasticsearch persistenceProvider hook will add a _ReadOnly Hook_ to your namespace.
 
 ```bash
-helm upgrade --install elkh ./hooks/persistence-elastic/
+helm upgrade --install elkh secureCodeBox/persistence-elastic
 ```
 
 ## Chart Configuration

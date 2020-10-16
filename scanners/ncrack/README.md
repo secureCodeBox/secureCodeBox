@@ -50,7 +50,7 @@ For a full example on how to configure ncrack with your custom files against a s
 The Ncrack ScanType can be deployed via helm:
 
 ```bash
-helm upgrade --install ncrack ./scanners/ncrack/
+helm upgrade --install ncrack secureCodeBox/ncrack
 ```
 
 #### Delete Ncrack ScanType:
