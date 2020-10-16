@@ -22,7 +22,7 @@ To learn more about the Trivy scanner itself visit on [Trivy's GitHub Repository
 The Trivy scanType can be deployed via helm:
 
 ```bash
-helm upgrade --install trivy ./scanners/trivy/
+helm upgrade --install trivy secureCodeBox/trivy
 ```
 
 ## Scanner Configuration
