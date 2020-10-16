@@ -122,15 +122,15 @@ jobs:
           tag_with_sha: true
           build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
-          name: "Build & Push kubeaudit Parser Image"
-          with:
-            username: ${{ secrets.DOCKER_USERNAME }}
-            password: ${{ secrets.DOCKER_PASSWORD }}
-            repository: securecodebox/parser-kubeaudit
-            path: ./scanners/kubeaudit/parser/
-            tag_with_ref: true
-            tag_with_sha: true
-            build_args: baseImageTag=ci-local
+        name: "Build & Push kubeaudit Parser Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: securecodebox/parser-kubeaudit
+          path: ./scanners/kubeaudit/parser/
+          tag_with_ref: true
+          tag_with_sha: true
+          build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
         name: "Build & Push Gitleaks Parser Image"
         with:
