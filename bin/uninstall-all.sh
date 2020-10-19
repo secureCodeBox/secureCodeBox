@@ -2,28 +2,28 @@
 
 set -eu
 
-helm -n securecodebox-system uninstall securecodebox-operator
+helm -n securecodebox-system uninstall securecodebox-operator || true
 
-helm uninstall amass
-helm uninstall kube-hunter
-helm uninstall nikto
-helm uninstall nmap
-helm uninstall ssh-scan
-helm uninstall sslyze
-helm uninstall trivy
-helm uninstall zap
-helm uninstall wpscan
+helm uninstall amass || true
+helm uninstall kube-hunter || true
+helm uninstall nikto || true
+helm uninstall nmap || true
+helm uninstall ssh-scan || true
+helm uninstall sslyze || true
+helm uninstall trivy || true
+helm uninstall zap || true
+helm uninstall wpscan || true
 
-helm uninstall dummy-ssh
-helm uninstall bodgeit
-helm uninstall http-webhook
-helm uninstall juice-shop
-helm uninstall old-wordpress
-helm uninstall swagger-petstore
+helm uninstall dummy-ssh || true
+helm uninstall bodgeit || true
+helm uninstall http-webhook || true
+helm uninstall juice-shop || true
+helm uninstall old-wordpress || true
+helm uninstall swagger-petstore || true
 
-helm uninstall aah
-helm uninstall gwh
+helm uninstall aah || true
+helm uninstall gwh || true
 
-helm uninstall elkh
+helm uninstall elkh || true
 
-kubectl delete namespaces securecodebox-system
+kubectl delete namespaces securecodebox-system || true
