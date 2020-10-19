@@ -1,6 +1,5 @@
 ---
 title: "kubeaudit"
-path: "scanners/kubeaudit"
 category: "scanner"
 type: "Kubernetes"
 state: "roadmap"

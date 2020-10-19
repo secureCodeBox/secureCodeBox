@@ -1,6 +1,5 @@
 ---
 title: "Amass"
-path: "scanners/amass"
 category: "scanner"
 type: "Network"
 state: "released"

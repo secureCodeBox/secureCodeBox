@@ -1,6 +1,5 @@
 ---
 title: "MS Teams WebHook"
-path: "hooks/teams-webhook"
 category: "hook"
 type: "integration"
 state: "roadmap"

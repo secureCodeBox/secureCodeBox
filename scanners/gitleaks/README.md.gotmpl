@@ -1,6 +1,5 @@
 ---
 title: "Gitleaks"
-path: "scanners/gitleaks"
 category: "scanner"
 type: "Repository"
 state: "in progress"

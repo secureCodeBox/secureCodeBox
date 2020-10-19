@@ -1,6 +1,5 @@
 ---
 title: "ZAP"
-path: "scanners/zap"
 category: "scanner"
 type: "WebApplication"
 state: "released"
