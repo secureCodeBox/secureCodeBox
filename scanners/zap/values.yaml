@@ -28,6 +28,9 @@ scannerJob:
   # scannerJob.env -- Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
   env: []
 
+  # scannerJob.envFrom -- Optional mount environment variables from configMaps or secrets (see: https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/#configure-all-key-value-pairs-in-a-secret-as-container-environment-variables)
+  envFrom: []
+
   # scannerJob.extraVolumes -- Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
   extraVolumes:
     - name: zap-workdir

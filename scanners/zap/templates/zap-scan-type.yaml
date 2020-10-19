@@ -31,6 +31,8 @@ spec:
                 {{- toYaml .Values.scannerJob.securityContext | nindent 16 }}
               env:
                 {{- toYaml .Values.scannerJob.env | nindent 16 }}
+              envFrom:
+                {{- toYaml .Values.scannerJob.envFrom | nindent 16 }}
               volumeMounts:
                 {{- toYaml .Values.scannerJob.extraVolumeMounts | nindent 16 }}
             {{- if .Values.scannerJob.extraContainers }}
@@ -72,6 +74,8 @@ spec:
                 {{- toYaml .Values.scannerJob.securityContext | nindent 16 }}
               env:
                 {{- toYaml .Values.scannerJob.env | nindent 16 }}
+              envFrom:
+                {{- toYaml .Values.scannerJob.envFrom | nindent 16 }}
               volumeMounts:
                 {{- toYaml .Values.scannerJob.extraVolumeMounts | nindent 16 }}
             {{- if .Values.scannerJob.extraContainers }}
@@ -113,6 +117,8 @@ spec:
                 {{- toYaml .Values.scannerJob.securityContext | nindent 16 }}
               env:
                 {{- toYaml .Values.scannerJob.env | nindent 16 }}
+              envFrom:
+                {{- toYaml .Values.scannerJob.envFrom | nindent 16 }}
               volumeMounts:
                 {{- toYaml .Values.scannerJob.extraVolumeMounts | nindent 16 }}
             {{- if .Values.scannerJob.extraContainers }}
