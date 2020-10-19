@@ -3,5 +3,4 @@ kind: ParseDefinition
 metadata:
   name: "nmap-xml"
 spec:
-  handlesResultsType: nmap-xml
   image: securecodebox/nmap-parser

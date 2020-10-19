@@ -2,10 +2,10 @@
   "name": "securecodebox",
   "version": "1.0.0",
   "description": "",
-  "homepage": "https://github.com/secureCodeBox/secureCodeBox-v2#readme",
+  "homepage": "https://github.com/secureCodeBox/secureCodeBox#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/secureCodeBox/secureCodeBox-v2.git"
+    "url": "git+https://github.com/secureCodeBox/secureCodeBox.git"
   },
   "main": "index.js",
   "scripts": {
@@ -32,7 +32,7 @@
     }
   ],
   "bugs": {
-    "url": "https://github.com/secureCodeBox/secureCodeBox-v2/issues"
+    "url": "https://github.com/secureCodeBox/secureCodeBox/issues"
   },
   "license": "Apache-2.0",
   "devDependencies": {

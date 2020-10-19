@@ -6,7 +6,7 @@ type: application
 # version - gets automatically set to the secureCodeBox release version when the helm charts gets published
 version: latest
 appVersion: v2.9.0
-kubeVersion: ">=v1.11.0"
+kubeVersion: ">=v1.11.0-0"
 
 keywords:
   - security
@@ -17,7 +17,7 @@ keywords:
 home: https://docs.securecodebox.io/docs/scanners/ZAP
 icon: https://docs.securecodebox.io/img/integrationIcons/ZAP.svg
 sources:
-  - https://github.com/secureCodeBox/secureCodeBox-v2
+  - https://github.com/secureCodeBox/secureCodeBox
 maintainers:
   - name: iteratec GmbH
     email: secureCodeBox@iteratec.com

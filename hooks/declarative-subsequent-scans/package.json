@@ -5,7 +5,7 @@
   "homepage": "https://www.secureCodeBox.io",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/secureCodeBox/secureCodeBox-v2.git"
+    "url": "git+https://github.com/secureCodeBox/secureCodeBox.git"
   },
   "main": "hook.js",
   "scripts": {
@@ -33,12 +33,12 @@
     }
   ],
   "bugs": {
-    "url": "https://github.com/secureCodeBox/secureCodeBox-v2/issues"
+    "url": "https://github.com/secureCodeBox/secureCodeBox/issues"
   },
   "license": "Apache-2.0",
   "dependencies": {
     "@kubernetes/client-node": "^0.12.2",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.20",
     "mustache": "^4.0.1"
   },
   "devDependencies": {

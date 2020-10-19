@@ -1,20 +1,21 @@
 apiVersion: "cascading.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
-  name: "ncrack-ssh"
+  name: "ncrack-ftp"
   labels:
     securecodebox.io/invasive: invasive
     securecodebox.io/intensive: high
+    securecodebox.io/type: bruteforce
 spec:
   matches:
     anyOf:
       - category: "Open Port"
         attributes:
-          port: 22
+          port: 21
           state: open
       - category: "Open Port"
         attributes:
-          service: "ssh"
+          service: "ftp"
           state: open
   scanSpec:
     scanType: "ncrack"
@@ -26,5 +27,5 @@ spec:
       - -P
       - /ncrack/passwords.txt
       - -p 
-      - ssh:{{attributes.port}}
+      - ftp:{{attributes.port}}
       - "{{attributes.ip_address}}"

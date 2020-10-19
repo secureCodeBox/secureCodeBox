@@ -1,6 +1,5 @@
 ---
 title: "Nmap"
-path: "scanners/nmap"
 category: "scanner"
 type: "Network"
 state: "released"
@@ -21,7 +20,7 @@ To learn more about the Nmap scanner itself visit [nmap.org].
 The Nmap ScanType can be deployed via helm:
 
 ```bash
-helm upgrade --install nmap ./scanners/nmap/
+helm upgrade --install nmap secureCodeBox/nmap
 ```
 
 ## Scanner Configuration
@@ -88,10 +87,10 @@ spec:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| image.repository | string | `"docker.io/securecodebox/scanner-nmap"` |  |
-| image.tag | string | `nil` |  |
+| image.repository | string | `"docker.io/securecodebox/scanner-nmap"` | Container Image to run the scan |
+| image.tag | string | `nil` | defaults to the charts version |
 | parserImage.repository | string | `"docker.io/securecodebox/parser-nmap"` | Parser image repository |
-| parserImage.tag | string | defaults to the charts version | Parser image tag |
+| parserImage.tag | string | defaults to the charts appVersion | Parser image tag |
 | scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | scannerJob.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
 | scannerJob.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |

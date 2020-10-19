@@ -1,6 +1,5 @@
 ---
 title: "ZAP"
-path: "scanners/zap"
 category: "scanner"
 type: "WebApplication"
 state: "released"
@@ -21,7 +20,7 @@ To learn more about the ZAP scanner itself visit [https://www.zaproxy.org/](http
 The ZAP scanType can be deployed via helm:
 
 ```bash
-helm upgrade --install zap ./scanners/zap/
+helm upgrade --install zap secureCodeBox/zap
 ```
 
 ## Scanner Configuration
@@ -63,6 +62,8 @@ Options:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| image.repository | string | `"owasp/zap2docker-weekly"` | Container Image to run the scan |
+| image.tag | string | `nil` | defaults to the charts appVersion |
 | parserImage.repository | string | `"docker.io/securecodebox/parser-zap"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |
 | scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |

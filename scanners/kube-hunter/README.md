@@ -1,6 +1,5 @@
 ---
 title: "kube-hunter"
-path: "scanners/kube-hunter"
 category: "scanner"
 type: "Kubernetes"
 state: "released"
@@ -19,7 +18,7 @@ To learn more about the kube-hunter scanner itself visit [kube-hunter GitHub] or
 The kube-hunter ScanType can be deployed via helm:
 
 ```bash
-helm upgrade --install kube-hunter ./scanners/kube-hunter/
+helm upgrade --install kube-hunter secureCodeBox/kube-hunter
 ```
 
 ## Scanner Configuration
@@ -34,8 +33,8 @@ The following security scan configuration example are based on the [kube-hunter 
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| image.repository | string | `"docker.io/securecodebox/scanner-kube-hunter"` |  |
-| image.tag | string | `nil` |  |
+| image.repository | string | `"docker.io/securecodebox/scanner-kube-hunter"` | Container Image to run the scan |
+| image.tag | string | `nil` | defaults to the charts version |
 | parserImage.repository | string | `"docker.io/securecodebox/parser-kube-hunter"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |
 | scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |

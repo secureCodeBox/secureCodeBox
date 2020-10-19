@@ -5,7 +5,7 @@
   "homepage": "https://www.secureCodeBox.io",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/secureCodeBox/secureCodeBox-v2.git"
+    "url": "git+https://github.com/secureCodeBox/secureCodeBox.git"
   },
   "main": "index.js",
   "directories": {
@@ -35,7 +35,7 @@
     }
   ],
   "bugs": {
-    "url": "https://github.com/secureCodeBox/secureCodeBox-v2/issues"
+    "url": "https://github.com/secureCodeBox/secureCodeBox/issues"
   },
   "license": "Apache-2.0",
   "devDependencies": {

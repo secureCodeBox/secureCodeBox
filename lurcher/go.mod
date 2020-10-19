@@ -1,4 +1,4 @@
-module github.com/secureCodeBox/secureCodeBox-v2/lurcher
+module github.com/secureCodeBox/secureCodeBox/lurcher
 
 go 1.15
 

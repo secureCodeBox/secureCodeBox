@@ -1,6 +1,5 @@
 ---
 title: "Slack WebHook"
-path: "hooks/slack-webhook"
 category: "hook"
 type: "integration"
 state: "roadmap"

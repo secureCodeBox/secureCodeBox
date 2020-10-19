@@ -1,6 +1,5 @@
 ---
 title: "Amass"
-path: "scanners/amass"
 category: "scanner"
 type: "Network"
 state: "released"
@@ -19,7 +18,7 @@ The OWASP Amass Project has developed a tool to help information security profes
 The AMASS scanType can be deployed via helm:
 
 ```bash
-helm upgrade --install amass ./scanners/amass/
+helm upgrade --install amass secureCodeBox/amass
 ```
 
 ## Scanner Configuration
@@ -40,6 +39,8 @@ Special command line options:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| image.repository | string | `"caffix/amass"` | Container Image to run the scan |
+| image.tag | string | `nil` | defaults to the charts appVersion |
 | parserImage.repository | string | `"docker.io/securecodebox/parser-amass"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |
 | scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
