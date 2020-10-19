@@ -17,12 +17,15 @@ with all commits up to the initial one.
 To learn more about gitleaks visit <https://github.com/zricethezav/gitleaks>
 
 ## Deployment
+
 The gitleaks scanner can be deployed with helm:
+
 ```bash
 helm upgrade --install gitleaks secureCodeBox/gitleaks
 ```
 
 ## Scanner configuration
+
 For a complete overview of the configuration options checkout the
 [Gitleaks documentation](https://github.com/zricethezav/gitleaks/wiki/Options).
 
@@ -35,6 +38,7 @@ The only mandatory parameters are:
 **Do not** override the option `--report-format` or `--report`. It is already configured for automatic findings parsing.
 
 #### Ruleset
+
 At this point we provide three rulesets which you can pass to the `--config` oprtion:
 
 - `/home/config_all.toml`: Includes every rule.
@@ -43,11 +47,13 @@ At this point we provide three rulesets which you can pass to the `--config` opr
 find something like **password = Ej2ifDk2jfeo2** but it will reduce resulting false positives.
 
 #### Other useful options are:
+
 - `--commit-since`: Scan commits more recent than a specific date. Ex: '2006-01-02' or '2006-01-02T15:04:05-0700' format.
 - `--commit-until`: Scan commits older than a specific date. Ex: '2006-01-02' or '2006-01-02T15:04:05-0700' format.
 - `--repo-config`: Load config from target repo. Config file must be ".gitleaks.toml" or "gitleaks.toml".
 
 #### Finding format
+
 It is not an easy task to classify the severity of the scans because we can't tell for sure if the finding is e.g. a real
 or a testing password. Another issue is that the rate of false positives for generic rules can be very high. Therefore,
 we tried to classify the severity of the finding by looking at the accuracy of the rule which detected it. Rules for AWS
