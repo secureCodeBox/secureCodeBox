@@ -1,5 +1,5 @@
-[[ADR-0001]]
-= ADR-0001: How We Want to Handle Versions in Our Documentation
+[[ADR-0006]]
+= ADR-0006: How We Want to Handle Versions in Our Documentation
 
 [cols="h,d",grid=rows,frame=none,stripes=none,caption="Status",%autowidth]
 |====
