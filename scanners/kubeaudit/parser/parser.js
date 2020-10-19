@@ -99,7 +99,7 @@ async function parse(fileContent) {
         finding.AuditResultName === "ReadOnlyRootFilesystemFalse" ||
         finding.AuditResultName === "ReadOnlyRootFilesystemNil"
       ) {
-        return createNonRootFsFinding(finding);
+        return createNonReadOnlyRootFsFinding(finding);
       }
       if (finding.AuditResultName === "PrivilegedTrue") {
         return createPrivilegedContainerFinding(finding);
