@@ -1,6 +1,5 @@
 ---
 title: "DefectDojo"
-path: "hooks/persistence-defectdojo"
 category: "hook"
 type: "persistenceProvider"
 state: "developing"

@@ -1,6 +1,5 @@
 ---
 title: "Update Field"
-path: "hooks/update-field"
 category: "hook"
 type: "dataProcessing"
 state: "released"

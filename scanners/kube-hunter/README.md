@@ -1,6 +1,5 @@
 ---
 title: "kube-hunter"
-path: "scanners/kube-hunter"
 category: "scanner"
 type: "Kubernetes"
 state: "released"
