@@ -1,0 +1,43 @@
+apiVersion: "cascading.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "ncrack-vnc"
+  labels:
+    securecodebox.io/invasive: invasive
+    securecodebox.io/intensive: high
+    securecodebox.io/type: bruteforce
+spec:
+  matches:
+    anyOf:
+      - category: "Open Port"
+        attributes:
+          port: 5801
+          state: open
+      - category: "Open Port"
+        attributes:
+          port: 5900
+          state: open
+      - category: "Open Port"
+        attributes:
+          port: 5901
+          state: open
+      - category: "Open Port"
+        attributes:
+          port: 6001
+          state: open
+      - category: "Open Port"
+        attributes:
+          service: "vnc"
+          state: open
+  scanSpec:
+    scanType: "ncrack"
+    parameters:
+      - -v
+      - -d10
+      - -U
+      - /ncrack/users.txt
+      - -P
+      - /ncrack/passwords.txt
+      - -p 
+      - vnc:{{attributes.port}}
+      - "{{attributes.ip_address}}"
