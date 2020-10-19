@@ -1,11 +1,4 @@
----
-title: "kubeaudit"
-category: "scanner"
-type: "Kubernetes"
-state: "roadmap"
-appVersion: "0.9.0"
-usecase: "Audit your Kubernetes clusters"
----
+# kubeaudit
 
 ![Version: latest](https://img.shields.io/badge/Version-latest-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.11.5](https://img.shields.io/badge/AppVersion-v0.11.5-informational?style=flat-square)
 
