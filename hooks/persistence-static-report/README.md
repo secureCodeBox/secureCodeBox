@@ -1,6 +1,5 @@
 ---
 title: "Static Report"
-path: "hooks/persistence-staticreport"
 category: "hook"
 type: "persistenceProvider"
 state: "developing"

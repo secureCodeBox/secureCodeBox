@@ -1,6 +1,5 @@
 ---
 title: "Ncrack"
-path: "scanners/Ncrack"
 category: "scanner"
 type: "Authentication"
 state: "developing"

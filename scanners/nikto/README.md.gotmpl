@@ -1,6 +1,5 @@
 ---
 title: "Nikto"
-path: "scanners/nikto"
 category: "scanner"
 type: "Webserver"
 state: "released"

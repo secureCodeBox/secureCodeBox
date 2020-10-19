@@ -1,6 +1,5 @@
 ---
 title: "Trivy"
-path: "scanners/trivy"
 category: "scanner"
 type: "Container"
 state: "released"

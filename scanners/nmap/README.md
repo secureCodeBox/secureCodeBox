@@ -1,6 +1,5 @@
 ---
 title: "Nmap"
-path: "scanners/nmap"
 category: "scanner"
 type: "Network"
 state: "released"

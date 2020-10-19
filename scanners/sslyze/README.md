@@ -1,6 +1,5 @@
 ---
 title: "SSLyze"
-path: "scanners/sslyze"
 category: "scanner"
 type: "SSL"
 state: "released"
