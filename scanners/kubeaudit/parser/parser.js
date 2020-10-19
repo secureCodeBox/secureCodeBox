@@ -13,7 +13,7 @@ function createDropCapabilityFinding({ Capability, Container, msg }) {
   };
 }
 
-function createNonRootFsFinding({ Container, msg }) {
+function createNonReadOnlyRootFsFinding({ Container, msg }) {
   return {
     name: `Container Uses a non ReadOnly Root Filesystem`,
     description: msg,
