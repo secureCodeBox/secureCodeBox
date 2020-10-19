@@ -1,7 +1,3 @@
-# FROM golang:1.15 as inliner
-# WORKDIR /ui
-# RUN go get -u github.com/Shopify/kubeaudit/...
-
 FROM golang:1.15.1 AS builder
 
 # no need to include cgo bindings

@@ -4,7 +4,7 @@
 
 SSH Server for scan testing.
 
-**Homepage:** <https://wordpress.org>
+**Homepage:** <https://docs.securecodebox.io>
 
 ## Maintainers
 

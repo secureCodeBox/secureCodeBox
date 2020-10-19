@@ -17,7 +17,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: ssh-scan
-              image: mozilla/ssh_scan@sha256:ebd76f798159844c0baca6b78cc324ba1966b11eb4f45118397a59d01f764c97
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
               command:
                 - "/app/bin/ssh_scan"
                 - "--output"

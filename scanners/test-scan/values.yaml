@@ -1,5 +1,4 @@
 parserImage:
-  # parserImage.tag - defaults to the charts version
   # parserImage.repository -- Parser image repository
   repository: docker.io/securecodebox/parser-test-scan
   # parserImage.tag -- Parser image tag

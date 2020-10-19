@@ -564,6 +564,11 @@ func (in *ScheduledScanList) DeepCopyObject() runtime.Object {
 func (in *ScheduledScanSpec) DeepCopyInto(out *ScheduledScanSpec) {
 	*out = *in
 	out.Interval = in.Interval
+	if in.SuccessfulJobsHistoryLimit != nil {
+		in, out := &in.SuccessfulJobsHistoryLimit, &out.SuccessfulJobsHistoryLimit
+		*out = new(int32)
+		**out = **in
+	}
 	if in.ScanSpec != nil {
 		in, out := &in.ScanSpec, &out.ScanSpec
 		*out = new(ScanSpec)

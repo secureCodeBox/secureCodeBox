@@ -1,6 +1,5 @@
 ---
 title: "Ncrack"
-path: "scanners/Ncrack"
 category: "scanner"
 type: "Authentication"
 state: "developing"
@@ -50,7 +49,7 @@ For a full example on how to configure ncrack with your custom files against a s
 The Ncrack ScanType can be deployed via helm:
 
 ```bash
-helm upgrade --install ncrack ./scanners/ncrack/
+helm upgrade --install ncrack secureCodeBox/ncrack
 ```
 
 #### Delete Ncrack ScanType:
@@ -142,8 +141,8 @@ SEE THE MAN PAGE (http://nmap.org/ncrack/man.html) FOR MORE OPTIONS AND EXAMPLES
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| image.repository | string | `"docker.io/securecodebox/scanner-ncrack"` |  |
-| image.tag | string | `nil` |  |
+| image.repository | string | `"docker.io/securecodebox/scanner-ncrack"` | Container Image to run the scan |
+| image.tag | string | `nil` | defaults to the charts appVersion |
 | parserImage.repository | string | `"docker.io/securecodebox/parser-ncrack"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |
 | scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |

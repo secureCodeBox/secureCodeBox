@@ -1,22 +1,30 @@
-# kubeaudit
+---
+title: "kubeaudit"
+category: "scanner"
+type: "Kubernetes"
+state: "released"
+appVersion: "0.15.1"
+usecase: "Kubernetes Configuration Scanner"
+---
 
-![Version: latest](https://img.shields.io/badge/Version-latest-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.11.5](https://img.shields.io/badge/AppVersion-v0.11.5-informational?style=flat-square)
+Kubeaudit finds security misconfigurations in you Kubernetes Resources and gives tips on how to resolve these.
 
-A Helm chart for the kubeaudit security scanner that integrates with the secureCodeBox.
+Kubeaudit comes with a large lists of "auditors" which test various aspects, like the SecurityContext of pods.
+You can find the complete list of [auditors here](https://github.com/Shopify/kubeaudit/tree/master/docs/auditors).
 
-**Homepage:** <https://www.securecodebox.io/scanners/kubeaudit>
+To learn more about the kubeaudit itself visit [kubeaudit GitHub].
 
-## Maintainers
+<!-- end -->
 
-| Name | Email | Url |
-| ---- | ------ | --- |
-| iteratec GmbH | secureCodeBox@iteratec.com |  |
+## Deployment
 
-## Source Code
+The kube-hunter ScanType can be deployed via helm:
 
-* <https://github.com/secureCodeBox/secureCodeBox>
+```bash
+helm upgrade --install kubeaudit secureCodeBox/kubeaudit
+```
 
-## Values
+## Chart Configuration
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -35,3 +43,5 @@ A Helm chart for the kubeaudit security scanner that integrates with the secureC
 | scannerJob.securityContext.readOnlyRootFilesystem | bool | `true` | Prevents write access to the containers file system |
 | scannerJob.securityContext.runAsNonRoot | bool | `true` | Enforces that the scanner image is run as a non root user |
 | scannerJob.ttlSecondsAfterFinished | string | `nil` | Defines how long the scanner job after finishing will be available (see: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/) |
+
+[kubeaudit GitHub]: https://github.com/Shopify/kubeaudit/

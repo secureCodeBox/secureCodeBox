@@ -1,6 +1,5 @@
 ---
 title: "SSH"
-path: "scanners/ssh_scan"
 category: "scanner"
 type: "SSH"
 state: "released"
@@ -19,7 +18,7 @@ To learn more about the ssh_scan scanner itself visit [ssh_scan GitHub].
 The SSH_scan ScanType can be deployed via helm.
 
 ```bash
-helm upgrade --install ssh ./scanners/ssh_scan/
+helm upgrade --install ssh-scan secureCodeBox/ssh-scan
 ```
 
 ## Scanner Configuration
@@ -66,6 +65,8 @@ Examples:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| image.repository | string | `"mozilla/ssh_scan"` | Container Image to run the scan |
+| image.tag | string | `"latest@sha256:ebd76f798159844c0baca6b78cc324ba1966b11eb4f45118397a59d01f764c97"` | defaults to the charts appVersion |
 | parserImage.repository | string | `"docker.io/securecodebox/parser-ssh-scan"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |
 | scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |

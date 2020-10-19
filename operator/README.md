@@ -30,6 +30,7 @@ helm install securecodebox-operator secureCodeBox/operator
 | minio.defaultBucket.enabled | bool | `true` |  |
 | minio.defaultBucket.name | string | `"securecodebox"` |  |
 | minio.enabled | bool | `true` |  |
+| minio.resources.requests.memory | string | `"256Mi"` |  |
 | resources | object | `{"limits":{"cpu":"100m","memory":"30Mi"},"requests":{"cpu":"100m","memory":"20Mi"}}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | s3.bucket | string | `"my-bucket"` |  |
 | s3.enabled | bool | `false` |  |

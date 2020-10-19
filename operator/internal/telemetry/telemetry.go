@@ -11,7 +11,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/go-logr/logr"
-	executionv1 "github.com/secureCodeBox/secureCodeBox-v2/operator/apis/execution/v1"
+	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -21,6 +21,7 @@ var telemetryInterval = 24 * time.Hour
 // Unofficial Scan Types should be reported as "other" to avoid leakage of confidential data via the scan-types name
 var officialScanTypes map[string]bool = map[string]bool{
 	"amass":         true,
+	"gitleaks":      true,
 	"kube-hunter":   true,
 	"kubeaudit":     true,
 	"ncrack":        true,
@@ -43,7 +44,7 @@ type telemetryData struct {
 
 // Loop Submits Telemetry Data in a regular interval
 func Loop(apiClient client.Client, log logr.Logger) {
-	log.Info("The Operator sends anonymous telemetry data, to give the team an overview how much the secureCodeBox is used. Find out more at https://www.securecodebox.io/telemetry")
+	log.Info("The Operator sends anonymous telemetry data, to give the team an overview how much the secureCodeBox is used. Find out more at https://docs.securecodebox.io/docs/telemetry")
 
 	// Wait 1hour to give users time to uninstall / disable telemetry
 	time.Sleep(1 * time.Hour)

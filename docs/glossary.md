@@ -1,6 +1,6 @@
 # Glossary
 
-This overview provides a description for all acronyms and special terms which are used in this project. If you encounter any missing terms, please [let us know](https://github.com/corona-warn-app/cwa-documentation/issues/new?labels=documentation%2C+bug&template=01_doc_issue.md) or [create a pull request](https://github.com/secureCodeBox/secureCodeBox-v2/pulls).
+This overview provides a description for all acronyms and special terms which are used in this project. If you encounter any missing terms, please [let us know](https://github.com/corona-warn-app/cwa-documentation/issues/new?labels=documentation%2C+bug&template=01_doc_issue.md) or [create a pull request](https://github.com/secureCodeBox/secureCodeBox/pulls).
 
 | Term, acronym... | Description |
 | --- | --- |

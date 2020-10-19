@@ -67,6 +67,20 @@ function createNonRootUserNotEnforcedFinding({ msg, Container }) {
   };
 }
 
+function createMissingNetworkPolicyFinding({ msg, Namespace }) {
+  return {
+    name: `Namespace "${Namespace}" is missing a Default Deny NetworkPolicy`,
+    description: msg,
+    category: "No Default Deny NetworkPolicy",
+    location: `namespace://${Namespace}`,
+    osi_layer: "NOT_APPLICABLE",
+    severity: "MEDIUM",
+    attributes: {
+      Namespace: Namespace,
+    },
+  };
+}
+
 async function parse(fileContent) {
   return fileContent
     .split("\n")
@@ -102,6 +116,11 @@ async function parse(fileContent) {
         finding.AuditResultName === "RunAsNonRootPSCFalseCSCNil"
       ) {
         return createNonRootUserNotEnforcedFinding(finding);
+      }
+      if (
+        finding.AuditResultName === "MissingDefaultDenyIngressAndEgressNetworkPolicy"
+      ) {
+        return createMissingNetworkPolicyFinding(finding);
       }
 
       return null;

@@ -1,4 +1,4 @@
-# secureCodeBox – v2 Beta
+# OWASP secureCodeBox
 
 <p align="center">
   <img alt="secureCodeBox Logo" src="./docs/resources/securecodebox-logo.svg" width="500px">
@@ -7,20 +7,17 @@
 
 <p align="center">
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Apache-2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>
-  <a href="https://github.com/secureCodeBox/secureCodeBox-v2/releases/tag/v2.0.0-rc.1"><img alt="Preview GitHub Release" src="https://img.shields.io/badge/release-v2.0.0%7Erc.1-blue.svg"></a>
+  <a href="https://github.com/secureCodeBox/secureCodeBox/releases/latest"><img alt="GitHub release (latest SemVer)" src="https://img.shields.io/github/v/release/secureCodeBox/secureCodeBox?sort=semver"></a>
   <a href="https://owasp.org/www-project-securecodebox/"><img alt="OWASP Incubator Project" src="https://img.shields.io/badge/OWASP-Incubator%20Project-365EAA"></a>
   <a href="https://twitter.com/securecodebox"><img alt="Twitter Follower" src="https://img.shields.io/twitter/follow/securecodebox?style=flat&color=blue&logo=twitter"></a>
 </p>
 <p align="center">
-  <a href="https://github.com/secureCodeBox/secureCodeBox-v2/actions?query=workflow%3ACI"><img alt="Build" src="https://github.com/secureCodeBox/secureCodeBox-v2/workflows/CI/badge.svg"></a>
-  <a href="https://codeclimate.com/github/secureCodeBox/secureCodeBox-v2-alpha/maintainability"><img alt="Maintainability" src="https://api.codeclimate.com/v1/badges/b6bf3af707671b5e5251/maintainability" /></a>
-  <a href="https://codeclimate.com/github/secureCodeBox/secureCodeBox-v2-alpha/test_coverage"><img alt="Test Coverage" src="https://api.codeclimate.com/v1/badges/b6bf3af707671b5e5251/test_coverage" /></a>
-  <a href="https://snyk.io/test/github/secureCodeBox/secureCodeBox-v2/"><img alt="Known Vulnerabilities" src="https://snyk.io/test/github/secureCodeBox/secureCodeBox-v2/badge.svg"></a>
-  <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FsecureCodeBox%2FsecureCodeBox-v2?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FsecureCodeBox%2FsecureCodeBox-v2.svg?type=shield"/></a>
+  <a href="https://github.com/secureCodeBox/secureCodeBox/actions?query=workflow%3ACI"><img alt="Build" src="https://github.com/secureCodeBox/secureCodeBox/workflows/CI/badge.svg"></a>
+  <a href="https://codeclimate.com/github/secureCodeBox/secureCodeBox/maintainability"><img alt="Maintainability"  src="https://api.codeclimate.com/v1/badges/0c41659fde992429bfed/maintainability" /></a>
+  <a href="https://codeclimate.com/github/secureCodeBox/secureCodeBox/test_coverage"><img alt="Test Coverage" src="https://api.codeclimate.com/v1/badges/0c41659fde992429bfed/test_coverage" /></a>
+  <a href="https://snyk.io/test/github/secureCodeBox/secureCodeBox/"><img alt="Known Vulnerabilities" src="https://snyk.io/test/github/secureCodeBox/secureCodeBox/badge.svg"></a>
+  <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FsecureCodeBox%2FsecureCodeBox?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FsecureCodeBox%2FsecureCodeBox.svg?type=shield"/></a>
 </p>
-
-**NOTE**: This Repository contains the stable beta preview of the next major secureCodeBox (SCB) Release v2.  
-You can find the current **stable release** here [https://github.com/secureCodeBox/secureCodeBox](https://github.com/secureCodeBox/secureCodeBox).
 
 _The major release of SCB version 2.0 will be available in the next weeks._ The release will contain a major architecture change which will not be backward compatible. More details will follow soon in a series of blog articles.
 
@@ -30,29 +27,15 @@ _The major release of SCB version 2.0 will be available in the next weeks._ The 
 
 <!-- toc -->
 
-- [secureCodeBox – v2 Beta](#securecodebox--v2-beta)
-  - [Overview](#overview)
-  - [Purpose of this Project](#purpose-of-this-project)
-  - [Quickstart](#quickstart)
-    - [Prerequisites](#prerequisites)
-    - [Deployment (based on Helm)](#deployment-based-on-helm)
-    - [Examples](#examples)
-      - [Local Scan Examples](#local-scan-examples)
-      - [Public Scan Examples](#public-scan-examples)
-      - [Then get the current State of the Scan by running:](#then-get-the-current-state-of-the-scan-by-running)
-      - [To delete a scan, use `kubectl delete`, e.g. for localhost nmap scan:](#to-delete-a-scan-use-kubectl-delete-eg-for-localhost-nmap-scan)
-    - [Access Services](#access-services)
-  - [How does it work?](#how-does-it-work)
-  - [Architecture](#architecture)
-  - [License](#license)
-  - [Community](#community)
-  - [Contributing](#contributing)
-  - [Author Information](#author-information)
+- [Purpose of this Project](#purpose-of-this-project)
+- [Quickstart](#quickstart)
+- [Architecture Overview](#architecture-overview)
+- [License](#license)
+- [Community](#community)
+- [Contributing](#contributing)
+- [Author Information](#author-information)
 
-For additional documentation aspects please have a look at our:
-
-- [User Guide](docs/user-guide/README.md)
-- [Developer Guide](docs/developer-guide/README.md)
+For additional documentation aspects please have a look at our [documentation website](https://docs.securecodebox.io):
 
 <!-- tocstop -->
 
@@ -75,104 +58,9 @@ There is a German article about [Security DevOps – Angreifern (immer) einen Sc
 
 ## Quickstart
 
-### Prerequisites
+You can find resources to help you get started on our [documentation website](https://docs.securecodebox.io) including instruction on how to [install the secureCodeBox](https://docs.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://docs.securecodebox.io/docs/getting-started/first-scans) with it.
 
-- kubernetes (last 4 major releases supported: `1.16`, `1.17`, `1.18` & `1.19`)
-
-### Deployment (based on Helm)
-
-> The install instructions require you to have the repository cloned and to have your terminal located in the folder of repository.
-> There are shorthand scripts to un-/install everything in the `bin` directory.
-
-Deploy the secureCodeBox operator first:
-
-```bash
-kubectl create namespace securecodebox-system
-helm -n securecodebox-system upgrade --install securecodebox-operator ./operator/
-```
-
-Optionally deploy SCB scanner charts for each security scanner you want to use. They should not be installed into the `securecodebox-system` like the operator so that different teams can use different kinds of scanners.
-
-```bash
-helm upgrade --install amass ./scanners/amass/
-helm upgrade --install kube-hunter ./scanners/kube-hunter/
-helm upgrade --install nikto ./scanners/nikto
-helm upgrade --install nmap ./scanners/nmap/
-helm upgrade --install ssh-scan ./scanners/ssh_scan/
-helm upgrade --install sslyze ./scanners/sslyze/
-helm upgrade --install trivy ./scanners/trivy/
-helm upgrade --install zap ./scanners/zap/
-helm upgrade --install wpscan ./scanners/wpscan/
-```
-
-Optional deploy some demo apps for scanning:
-
-```bash
-helm upgrade --install dummy-ssh ./demo-apps/dummy-ssh/
-helm upgrade --install bodgeit ./demo-apps/bodgeit/
-helm upgrade --install juice-shop ./demo-apps/juice-shop/
-helm upgrade --install old-wordpress ./demo-apps/old-wordpress/
-helm upgrade --install swagger-petstore ./demo-apps/swagger-petstore/
-```
-
-Deploy secureCodeBox Hooks:
-
-```bash
-helm upgrade --install ufh ./hooks/update-field/
-helm upgrade --install gwh ./hooks/generic-webhook/
-helm upgrade --install issh ./hooks/imperative-subsequent-scans/
-helm upgrade --install dssh ./hooks/declarative-subsequent-scans/
-```
-
-Persistence provider Elasticsearch:
-
-```bash
-helm upgrade --install elkh ./hooks/persistence-elastic/
-```
-
-### Examples
-
-Now everything is installed. You can try deploying scans from the `scanners/*/examples` directories.
-
-#### Local Scan Examples
-
-E.g. localhost nmap scan:
-
-```bash
-kubectl apply -f scanners/nmap/examples/localhost/scan.yaml
-```
-
-#### Public Scan Examples
-
-```bash
-kubectl apply -f scanners/nmap/examples/scan.nmap.org/scan.yaml
-```
-
-#### Then get the current State of the Scan by running:
-
-```bash
-kubectl get scans
-```
-
-#### To delete a scan, use `kubectl delete`, e.g. for localhost nmap scan:
-
-```
-kubectl delete -f scanners/nmap/examples/localhost/scan.yaml
-```
-
-### Access Services
-
-- Minio UI:
-  - Port Forward Minio UI: `kubectl port-forward -n securecodebox-system service/securecodebox-operator-minio 9000:9000`
-  - AccessKey: `kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.accesskey}' | base64 --decode; echo`
-  - SecretKey: `kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.secretkey}' | base64 --decode; echo`
-- Elastic / Kibana UI:
-  - Port Forward Kibana: `kubectl port-forward -n default service/elkh-kibana 5601:5601`
-  - Port Forward Elasticsearch: `kubectl port-forward -n default service/elasticsearch-master 9200:9200`
-
-## How does it work?
-
-## Architecture
+## Architecture Overview
 
 ![secureCodeBox Architecture](./docs/resources/scb-architecture.svg)
 

@@ -201,5 +201,16 @@ Array [
     "osi_layer": "NOT_APPLICABLE",
     "severity": "LOW",
   },
+  Object {
+    "attributes": Object {
+      "Namespace": "default",
+    },
+    "category": "No Default Deny NetworkPolicy",
+    "description": "Namespace is missing a default deny ingress and egress NetworkPolicy.",
+    "location": "namespace://default",
+    "name": "Namespace \\"default\\" is missing a Default Deny NetworkPolicy",
+    "osi_layer": "NOT_APPLICABLE",
+    "severity": "MEDIUM",
+  },
 ]
 `;

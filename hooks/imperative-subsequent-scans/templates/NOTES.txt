@@ -1,2 +1,0 @@
-imperative-subsequent-scans Hook deployed.
-This will start possible subsequent security scans based on nmap findings (e.g. open ports found by NMAP or subdomains found by AMASS).
