@@ -1,0 +1,14 @@
+apiVersion: "execution.experimental.securecodebox.io/v1"
+kind: ScanCompletionHook
+metadata:
+  name: {{ include "teams-webhook.fullname" . }}
+spec:
+  type: ReadOnly
+  {{- if .Values.image.digest }}
+  image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}@{{ .Values.image.digest }}"
+  {{- else }}
+  image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+  {{- end }}
+  env:
+    - name: WEBHOOK_URL
+      value: {{ .Values.webhookUrl | quote }}

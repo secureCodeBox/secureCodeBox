@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should send a post request to the url when fired 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "http://example.com/foo/bar",
+      Object {
+        "findings": Array [],
+        "paylod": Object {
+          "@context": "https://schema.org/extensions",
+          "@type": "MessageCard",
+          "potentialAction": Array [
+            Object {
+              "@type": "OpenUri",
+              "name": "Open Dashboard",
+              "targets": Array [
+                Object {
+                  "os": "default",
+                  "uri": "https://your-dashboard.url/",
+                },
+              ],
+            },
+            Object {
+              "@type": "OpenUri",
+              "name": "Show Results in Dashboard",
+              "targets": Array [
+                Object {
+                  "os": "default",
+                  "uri": "https://your-dashboard.url/",
+                },
+              ],
+            },
+          ],
+          "sections": Array [
+            Object {
+              "activityImage": "https://raw.githubusercontent.com/secureCodeBox/securecodebox.github.io/gh-source/static/Favicon.png",
+              "activitySubtitle": "Finished at 2020-05-25T02:38:13Z",
+              "activityTitle": "Scheduled scan: **'demo-scan-1601086432'**",
+              "facts": Array [
+                Object {
+                  "name": "High:",
+                  "value": "10",
+                },
+                Object {
+                  "name": "Medium:",
+                  "value": "5",
+                },
+                Object {
+                  "name": "Low:",
+                  "value": "2",
+                },
+                Object {
+                  "name": "Informational",
+                  "value": "1",
+                },
+              ],
+              "startGroup": true,
+              "text": "__Findings Severity Overview:__",
+            },
+            Object {
+              "facts": Array [
+                Object {
+                  "name": "Open Ports:",
+                  "value": "3",
+                },
+                Object {
+                  "name": "Hosts:",
+                  "value": "8",
+                },
+              ],
+              "text": "__Findings Category Overview:__",
+            },
+          ],
+          "summary": "Scan 09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
+          "themeColor": "0078D7",
+          "title": "New security scan Nmap results are available!",
+        },
+      },
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;

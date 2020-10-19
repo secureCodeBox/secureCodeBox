@@ -1,0 +1,11 @@
+apiVersion: v2
+name: teams-webhook
+description: Lets you send a findings result summary as webhook to MS Teams, after a scan is completed.
+
+type: application
+
+version: 0.1.0
+
+appVersion: latest
+
+dependencies: []
