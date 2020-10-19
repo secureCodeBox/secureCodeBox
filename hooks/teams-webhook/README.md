@@ -1,21 +1,15 @@
----
-title: "MS Teams WebHook"
-category: "hook"
-type: "integration"
-state: "roadmap"
-usecase: "Publishes Scan Summary to MS Teams."
----
+# teams-webhook
 
-<!-- end -->
+![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
-## Deployment
+Lets you send a findings result summary as webhook to MS Teams, after a scan is completed.
 
-Installing the Teams WebHook hook will add a ReadOnly Hook to your namespace. 
+## Values
 
-> 🔧 The implementation is currently work-in-progress and still undergoing major changes. It'll be released here once it has stabilized.
-
-
-```bash
-helm upgrade --install twh ./hooks/teams-webhook/ --set webhookUrl="http://example.com/my/webhook/target"
-```
-> ✍ This documentation is currently work-in-progress. 
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| image.digest | string | `nil` |  |
+| image.registry | string | `"docker.io"` |  |
+| image.repository | string | `"scbexperimental/teams-webhook"` |  |
+| image.tag | string | `"latest"` |  |
+| webhookUrl | string | `"http://example.com"` |  |

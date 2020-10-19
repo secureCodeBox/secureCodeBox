@@ -12,7 +12,9 @@ It's rather unlikely that you'll need this outside of testing usecases, as it do
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| parserImage.repository | string | `"docker.io/scbexperimental/parser-test-scan"` | Parser image repository |
+| image.repository | string | `"docker.io/securecodebox/scanner-test-scan"` |  |
+| image.tag | string | `nil` |  |
+| parserImage.repository | string | `"docker.io/securecodebox/parser-test-scan"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |
 | scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | scannerJob.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
