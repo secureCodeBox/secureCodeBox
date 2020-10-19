@@ -44,6 +44,10 @@ minio:
   defaultBucket:
     enabled: true
     name: "securecodebox"
+  # Overwrite Minio's default 4Gi memory request
+  resources:
+    requests:
+      memory: "256Mi"
 
 # Config for external s3 systems
 s3:
