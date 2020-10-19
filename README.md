@@ -19,8 +19,6 @@
   <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FsecureCodeBox%2FsecureCodeBox?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FsecureCodeBox%2FsecureCodeBox.svg?type=shield"/></a>
 </p>
 
-_The major release of SCB version 2.0 will be available in the next weeks._ The release will contain a major architecture change which will not be backward compatible. More details will follow soon in a series of blog articles.
-
 > _secureCodeBox_ is a kubernetes based, modularized toolchain for continuous security scans of your software project. Its goal is to orchestrate and easily automate a bunch of security-testing tools out of the box.
 
 ## Overview
