@@ -328,6 +328,23 @@ jobs:
           path: ./scanners/ncrack/scanner/
           # Note: not prefixed with a "v" as this seems to match ncrack versioning standards
           tags: "0.7,latest"
+      # Build normal nikto Image before building custom Image
+      - uses: actions/checkout@master
+      - name: "Build Base Nikto Image"
+        run: |
+          git clone https://github.com/sullo/nikto
+          cd nikto
+          docker build -t sullo/nikto .
+      - uses: docker/build-push-action@v1
+        name: "Build & Push Nikto Scanner Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: securecodebox/scanner-nikto
+          path: ./scanners/nikto/scanner/
+          tags: "latest"
+          tag_with_ref: true
+          tag_with_sha: true
       - uses: docker/build-push-action@v1
         name: "Build & Push Nmap Scanner Image"
         with:
