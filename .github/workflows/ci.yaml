@@ -342,9 +342,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: securecodebox/scanner-nikto
           path: ./scanners/nikto/scanner/
-          tags: "latest"
-          tag_with_ref: true
-          tag_with_sha: true
+          tags: "latest, 2.1.6"
       - uses: docker/build-push-action@v1
         name: "Build & Push Nmap Scanner Image"
         with:
