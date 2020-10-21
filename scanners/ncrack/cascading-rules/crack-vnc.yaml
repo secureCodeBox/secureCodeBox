@@ -40,4 +40,4 @@ spec:
       - /ncrack/passwords.txt
       - -p 
       - vnc:{{attributes.port}}
-      - "{{attributes.ip_address}}"
+      - "{{$.hostOrIP}}"

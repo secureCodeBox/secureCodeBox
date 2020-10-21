@@ -28,4 +28,4 @@ spec:
       - /ncrack/passwords.txt
       - -p 
       - mssql:{{attributes.port}}
-      - "{{attributes.ip_address}}"
+      - "{{$.hostOrIP}}"

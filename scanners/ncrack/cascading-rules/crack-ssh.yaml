@@ -28,4 +28,4 @@ spec:
       - /ncrack/passwords.txt
       - -p 
       - ssh:{{attributes.port}}
-      - "{{attributes.ip_address}}"
+      - "{{$.hostOrIP}}"

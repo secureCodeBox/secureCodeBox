@@ -28,4 +28,4 @@ spec:
       - /ncrack/passwords.txt
       - -p 
       - ms-wbt-server:{{attributes.port}}
-      - "{{attributes.ip_address}}"
+      - "{{$.hostOrIP}}"

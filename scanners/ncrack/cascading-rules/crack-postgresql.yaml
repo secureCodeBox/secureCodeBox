@@ -28,4 +28,4 @@ spec:
       - /ncrack/passwords.txt
       - -p 
       - psql:{{attributes.port}}
-      - "{{attributes.ip_address}}"
+      - "{{$.hostOrIP}}"

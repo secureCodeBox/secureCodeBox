@@ -28,4 +28,5 @@ spec:
       - /ncrack/passwords.txt
       - -p 
       - ftp:{{attributes.port}}
-      - "{{attributes.ip_address}}"
+      - "{{$.hostOrIP}}"
+
