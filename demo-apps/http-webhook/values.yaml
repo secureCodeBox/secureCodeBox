@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   # image.repository -- Container Image
   repository: docker.io/mendhak/http-https-echo
-  # image.tag -- Parser image tag
+  # image.tag -- The image tag
   # @default -- defaults to the latest version because the appVersion tag is not available at docker.io
   tag: latest
   pullPolicy: IfNotPresent
