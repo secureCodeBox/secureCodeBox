@@ -12,12 +12,18 @@ Vagrant.configure("2") do |config|
     export DEBIAN_FRONTEND="noninteractive"
     apt-get update
     apt-get upgrade -y
-    apt-get install -y curl
+    apt-get install -y apt-transport-https gnupg2 curl
 
     # Install minikube (https://minikube.sigs.k8s.io/docs/start/)
     curl -sSLO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
     dpkg -i minikube_latest_amd64.deb
     rm minikube_latest_amd64.deb
+
+    # Install kubectl (https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-using-native-package-management)
+    curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+    echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list
+    apt-get update
+    apt-get install -y kubectl
   SHELL
 
   # Do not automaticall install VirtualBox guest additions, if available.
