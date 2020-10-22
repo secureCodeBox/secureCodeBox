@@ -28,7 +28,7 @@ The BodgeIt Store is a vulnerable web app which is aimed at people who are new t
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"docker.io/psiinon/bodgeit"` | Container Image containing the bodgeit |
-| image.tag | string | defaults to the "latest" version because the appVersion tag is not available at docker.io | Parser image tag |
+| image.tag | string | defaults to the "latest" version because the appVersion tag is not available at docker.io | The image tag |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.enabled | bool | `false` |  |

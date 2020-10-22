@@ -24,7 +24,7 @@ SSH Server for scan testing.
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"docker.io/securecodebox/dummy-ssh"` | Container Image |
-| image.tag | string | defaults to the appVersion | Parser image tag |
+| image.tag | string | defaults to the appVersion | The image tag |
 | imagePullSecrets | list | `[]` |  |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |

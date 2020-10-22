@@ -25,7 +25,7 @@ This is the sample petstore application with an restful API.
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"docker.io/swaggerapi/petstore"` | Container Image |
-| image.tag | string | defaults to the appVersion | Parser image tag |
+| image.tag | string | defaults to the appVersion | The image tag |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.enabled | bool | `false` |  |

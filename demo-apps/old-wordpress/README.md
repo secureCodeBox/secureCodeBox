@@ -25,7 +25,7 @@ Insecure & Outdated Wordpress Instance: Never expose it to the internet!
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"docker.io/securecodebox/old-wordpress"` | Container Image |
-| image.tag | string | defaults to the appVersion | Parser image tag |
+| image.tag | string | defaults to the appVersion | The image tag |
 | imagePullSecrets | list | `[]` |  |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |

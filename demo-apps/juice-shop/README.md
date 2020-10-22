@@ -25,7 +25,7 @@ OWASP Juice Shop: Probably the most modern and sophisticated insecure web applic
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"docker.io/bkimminich/juice-shop"` | Container Image containing the juice-shop |
-| image.tag | string | defaults to the appVersion | Parser image tag |
+| image.tag | string | defaults to the appVersion | The image tag |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.enabled | bool | `false` |  |
