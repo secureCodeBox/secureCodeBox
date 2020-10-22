@@ -5,7 +5,11 @@
 replicaCount: 1
 
 image:
-  repository: swaggerapi/petstore
+  # image.repository -- Container Image
+  repository: docker.io/swaggerapi/petstore
+  # image.tag -- Parser image tag
+  # @default -- defaults to the appVersion
+  tag: null
   pullPolicy: IfNotPresent
 
 # If you want to expose the petstore under a url different to the default service name address use the override to specify a the full host with protocol

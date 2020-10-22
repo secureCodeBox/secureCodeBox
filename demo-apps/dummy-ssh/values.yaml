@@ -5,7 +5,11 @@
 replicaCount: 1
 
 image:
-  repository: securecodebox/dummy-ssh
+  # image.repository -- Container Image
+  repository: docker.io/securecodebox/dummy-ssh
+  # image.tag -- Parser image tag
+  # @default -- defaults to the appVersion
+  tag: null
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []

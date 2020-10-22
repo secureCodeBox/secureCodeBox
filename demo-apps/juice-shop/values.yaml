@@ -5,7 +5,11 @@
 replicaCount: 1
 
 image:
-  repository: bkimminich/juice-shop
+  # image.repository -- Container Image containing the juice-shop
+  repository: docker.io/bkimminich/juice-shop
+  # image.tag -- Parser image tag
+  # @default -- defaults to the appVersion
+  tag: null
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []

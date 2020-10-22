@@ -5,10 +5,15 @@
 replicaCount: 1
 
 image:
-  repository: psiinon/bodgeit
+  # image.repository -- Container Image containing the bodgeit
+  repository: docker.io/psiinon/bodgeit
+  # image.tag -- Parser image tag
+  # @default -- defaults to the "latest" version because the appVersion tag is not available at docker.io
+  tag: latest
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
+
 nameOverride: ""
 fullnameOverride: ""
 
