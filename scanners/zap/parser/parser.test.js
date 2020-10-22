@@ -38,3 +38,14 @@ test("Parsing the docs.securecodebox.io results.", async () => {
 
   expect(await parse(fileContent)).toMatchSnapshot();
 });
+
+test("Parsing an empty result.", async () => {
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/not-found.xml",
+    {
+      encoding: "utf8"
+    }
+  );
+
+  expect(await parse(fileContent)).toMatchInlineSnapshot(`Array []`);
+});

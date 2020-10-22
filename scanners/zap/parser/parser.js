@@ -55,7 +55,7 @@ async function parse(fileContent) {
   for (const site of OWASPZAPReport.site) {
     // Extract site information from the xml attributes
     const { name: location, host, port } = site.$;
-    for (const { alertitem: alerts } of site.alerts) {
+    for (const { alertitem: alerts = [] } of site.alerts) {
       for (const rawAlert of alerts) {
         const alert = normalizeXmlObject(rawAlert)
         const findingUrls = alert.instances.instance.map(normalizeXmlObject);
