@@ -52,7 +52,7 @@ Nikto also has a comprehensive list of [command line options documented](https:/
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| image.repository | string | `"securecodebox/scannner-nikto"` | Container Image to run the scan |
+| image.repository | string | `"securecodebox/scanner-nikto"` | Container Image to run the scan |
 | image.tag | string | `nil` | defaults to the charts appVersion |
 | parserImage.repository | string | `"docker.io/securecodebox/parser-nikto"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |

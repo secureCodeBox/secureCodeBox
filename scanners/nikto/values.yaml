@@ -1,6 +1,6 @@
 image:
   # image.repository -- Container Image to run the scan
-  repository: securecodebox/scannner-nikto
+  repository: securecodebox/scanner-nikto
   # image.tag -- defaults to the charts appVersion
   tag: null
 
