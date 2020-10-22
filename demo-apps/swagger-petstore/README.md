@@ -2,7 +2,7 @@
 
 ![Version: latest](https://img.shields.io/badge/Version-latest-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.3](https://img.shields.io/badge/AppVersion-1.0.3-informational?style=flat-square)
 
-This is the sample petstore application
+This is the sample petstore application with an restful API.
 
 **Homepage:** <https://github.com/swagger-api/swagger-petstore>
 
@@ -17,14 +17,15 @@ This is the sample petstore application
 * <https://github.com/secureCodeBox/helm>
 * <https://github.com/swagger-api/swagger-petstore>
 
-## Values
+## Chart Configuration
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"swaggerapi/petstore"` |  |
+| image.repository | string | `"docker.io/swaggerapi/petstore"` | Container Image |
+| image.tag | string | defaults to the appVersion | Parser image tag |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.enabled | bool | `false` |  |
