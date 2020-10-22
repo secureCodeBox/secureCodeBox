@@ -47,8 +47,8 @@ metadata:
   name: "zap-api-scan"
 spec:
   extractResults:
-    type: zap-json
-    location: "/home/securecodebox/zap-results.json"
+    type: zap-xml
+    location: "/home/securecodebox/zap-results.xml"
   jobTemplate:
     spec:
       {{- if .Values.scannerJob.ttlSecondsAfterFinished }}
@@ -64,10 +64,10 @@ spec:
                 - "zap-api-scan.py"
                 # Force Zap to always return a zero exit code. k8s would otherwise try to restart zap.
                 - "-I"
-                - "-J"
+                - "-x"
                 # ZAP Baseline Script doesn't allow absolute paths...
                 # Hacky workaround: specify a relative path to the `/zap/wrk` base dir.
-                - "../../home/securecodebox/zap-results.json"
+                - "../../home/securecodebox/zap-results.xml"
               resources:
                 {{- toYaml .Values.scannerJob.resources | nindent 16 }}
               securityContext:
@@ -90,8 +90,8 @@ metadata:
   name: "zap-full-scan"
 spec:
   extractResults:
-    type: zap-json
-    location: "/home/securecodebox/zap-results.json"
+    type: zap-xml
+    location: "/home/securecodebox/zap-results.xml"
   jobTemplate:
     spec:
       {{- if .Values.scannerJob.ttlSecondsAfterFinished }}
@@ -107,10 +107,10 @@ spec:
                 - "zap-full-scan.py"
                 # Force Zap to always return a zero exit code. k8s would otherwise try to restart zap.
                 - "-I"
-                - "-J"
+                - "-x"
                 # ZAP Baseline Script doesn't allow absolute paths...
                 # Hacky workaround: specify a relative path to the `/zap/wrk` base dir.
-                - "../../home/securecodebox/zap-results.json"
+                - "../../home/securecodebox/zap-results.xml"
               resources:
                 {{- toYaml .Values.scannerJob.resources | nindent 16 }}
               securityContext:
