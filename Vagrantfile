@@ -8,6 +8,10 @@ Vagrant.configure("2") do |config|
   # Don't sync anything onto the box.
   config.vm.synced_folder File.dirname(__FILE__), '/vagrant', disabled: true
 
+  config.vm.provider "virtualbox" do |vbox|
+    vbox.memory = 1024
+  end
+
   config.vm.provision :shell, inline: <<-SHELL
     export DEBIAN_FRONTEND="noninteractive"
     apt-get update
