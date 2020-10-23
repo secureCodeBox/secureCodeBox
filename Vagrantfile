@@ -3,10 +3,12 @@
 #
 
 Vagrant.configure("2") do |config|
+  base_dir = File.dirname(__FILE__)
+
   config.vm.box = "debian/buster64"
   config.vm.hostname = "securecodebox"
   # Don't sync anything onto the box.
-  config.vm.synced_folder File.dirname(__FILE__), '/vagrant', disabled: true
+  config.vm.synced_folder base_dir, '/vagrant', disabled: true
 
   # We use the same defaults like Docker Desktop.
   memory = 2048
@@ -36,36 +38,7 @@ Vagrant.configure("2") do |config|
     c.cpus = cpus
   end
 
-  config.vm.provision :shell, inline: <<-SHELL
-    export DEBIAN_FRONTEND="noninteractive"
-    apt-get update
-    apt-get upgrade -y
-    apt-get install -y \
-      apt-transport-https \
-      ca-certificates \
-      gnupg2 \
-      curl \
-      software-properties-common
-
-    # Install Docker as minikube provider (https://docs.docker.com/engine/install/debian/)
-    curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
-    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
-    apt-get -y update
-    apt-get install -y docker-ce
-    systemctl start docker
-    usermod -a -G docker vagrant
-
-    # Install minikube (https://minikube.sigs.k8s.io/docs/start/)
-    curl -sSLO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
-    dpkg -i minikube_latest_amd64.deb
-    rm minikube_latest_amd64.deb
-
-    # Install kubectl (https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-using-native-package-management)
-    curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-    echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list
-    apt-get update
-    apt-get install -y kubectl
-  SHELL
+  config.vm.provision :shell, path: "#{base_dir}/bin/install-minikube.sh"
 
   # Do not automaticall install VirtualBox guest additions, if available.
   # Because this would take lot of time with additional reboot.
