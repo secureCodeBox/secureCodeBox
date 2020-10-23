@@ -39,6 +39,10 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision :shell, path: "#{base_dir}/bin/install-minikube.sh"
+  # Using sudo -g to run the command w/ newly created group from isntallation w/o the need of relogin.
+  # Redirecting STDERR to /dev/null because these morons print download progress
+  # for the images to STDERR which clutters up the Vagrant output w/ error output!
+  config.vm.provision :shell, privileged: false, inline: "sudo -g docker minikube start 2>/dev/null"
 
   # Do not automaticall install VirtualBox guest additions, if available.
   # Because this would take lot of time with additional reboot.
