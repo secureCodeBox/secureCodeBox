@@ -1,30 +1,35 @@
-# bodgeit
+---
+title: "Bodgeit"
+category: "target"
+type: "Website"
+state: "released"
+appVersion: "v1.4.0"
+usecase: "Vulnerable WebApp based on html serverside rendering"
+---
+
+# Bodgeit
 
 ![Version: latest](https://img.shields.io/badge/Version-latest-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.4.0](https://img.shields.io/badge/AppVersion-v1.4.0-informational?style=flat-square)
 
-The BodgeIt Store is a vulnerable web app which is aimed at people who are new to pen testing
+The BodgeIt Store is a vulnerable web app which is aimed at people who are new to pen testing.
+BodgeIt Store is a serverside renering based html website without any heavy javascript.
 
 **Homepage:** <https://github.com/psiinon/bodgeit>
-
-## Maintainers
-
-| Name | Email | Url |
-| ---- | ------ | --- |
-| iteratec GmbH | security@iteratec.com |  |
 
 ## Source Code
 
 * <https://github.com/secureCodeBox/helm>
 * <https://github.com/psiinon/bodgeit>
 
-## Values
+## Chart Configuration
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"psiinon/bodgeit"` |  |
+| image.repository | string | `"docker.io/psiinon/bodgeit"` | Container Image containing the bodgeit |
+| image.tag | string | defaults to the "latest" version because the appVersion tag is not available at docker.io | The image tag |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.enabled | bool | `false` |  |

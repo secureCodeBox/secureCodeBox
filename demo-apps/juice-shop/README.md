@@ -17,14 +17,15 @@ OWASP Juice Shop: Probably the most modern and sophisticated insecure web applic
 * <https://github.com/secureCodeBox/helm>
 * <https://github.com/bkimminich/juice-shop>
 
-## Values
+## Chart Configuration
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"bkimminich/juice-shop"` |  |
+| image.repository | string | `"docker.io/bkimminich/juice-shop"` | Container Image containing the juice-shop |
+| image.tag | string | defaults to the appVersion | The image tag |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.enabled | bool | `false` |  |

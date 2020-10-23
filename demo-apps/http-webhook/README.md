@@ -4,7 +4,7 @@
 
 A Dummy webserver to echo HTTP requests in log
 
-## Values
+## Chart Configuration
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -15,9 +15,8 @@ A Dummy webserver to echo HTTP requests in log
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.registry | string | `"docker.io"` |  |
-| image.repository | string | `"mendhak/http-https-echo"` |  |
-| image.tag | string | `"latest"` |  |
+| image.repository | string | `"docker.io/mendhak/http-https-echo"` | Container Image |
+| image.tag | string | defaults to the latest version because the appVersion tag is not available at docker.io | The image tag |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.enabled | bool | `false` |  |

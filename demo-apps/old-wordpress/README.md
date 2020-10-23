@@ -17,14 +17,15 @@ Insecure & Outdated Wordpress Instance: Never expose it to the internet!
 * <https://github.com/secureCodeBox/helm>
 * <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo/old-wordpress>
 
-## Values
+## Chart Configuration
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"securecodebox/old-wordpress"` |  |
+| image.repository | string | `"docker.io/securecodebox/old-wordpress"` | Container Image |
+| image.tag | string | defaults to the appVersion | The image tag |
 | imagePullSecrets | list | `[]` |  |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |

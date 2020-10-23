@@ -5,11 +5,12 @@
 replicaCount: 1
 
 image:
-  registry: docker.io
-  repository: mendhak/http-https-echo
+  # image.repository -- Container Image
+  repository: docker.io/mendhak/http-https-echo
+  # image.tag -- The image tag
+  # @default -- defaults to the latest version because the appVersion tag is not available at docker.io
+  tag: latest
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
 
 imagePullSecrets: []
 nameOverride: ""

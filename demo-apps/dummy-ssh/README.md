@@ -16,14 +16,15 @@ SSH Server for scan testing.
 
 * <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo/dummy-ssh>
 
-## Values
+## Chart Configuration
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"securecodebox/dummy-ssh"` |  |
+| image.repository | string | `"docker.io/securecodebox/dummy-ssh"` | Container Image |
+| image.tag | string | defaults to the appVersion | The image tag |
 | imagePullSecrets | list | `[]` |  |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
