@@ -1,0 +1,11 @@
+spring:
+    main:
+        web-application-type: none
+
+securecodebox:
+    persistence:
+        defectdojo:
+            url: "http://defectdojo-django.default.svc:8080"
+            auth:
+                key: "<apiv2-key>"
+                name: "admin"

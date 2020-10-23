@@ -1,0 +1,5 @@
+Dockerfile
+./gradle
+./idea
+build/
+gradle/

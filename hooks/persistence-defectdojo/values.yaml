@@ -1,0 +1,19 @@
+# Default values for dispatcher.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  # image.tag - defaults to the charts version
+  # image.repository -- Hook image repository
+  repository: docker.io/j12934/hook-defectdojo
+  # parserImage.tag -- Parser image tag
+  # @default -- defaults to the charts version
+  tag: null
+
+defectdojo:
+  url: "http://defectdojo-django.default.svc"
+  auth:
+    # defectdojo.auth.name -- Username for the apiKey, also used as a lead in the created engagments
+    username: "admin"
+    # defectdojo.auth.apiKey -- API v2 Key (just the key)
+    apiKey: ""
