@@ -29,68 +29,80 @@ import java.util.List;
 
 @Data
 public class EngagementPayload {
-    @JsonProperty
-    protected String name;
+  @JsonProperty
+  protected String name;
 
-    @JsonProperty
-    protected long product;
+  @JsonProperty
+  protected long product;
 
-    @JsonProperty("target_start")
-    protected String targetStart;
+  @JsonProperty("target_start")
+  protected String targetStart;
 
-    @JsonProperty("target_end")
-    protected String targetEnd;
+  @JsonProperty("target_end")
+  protected String targetEnd;
 
-    @JsonProperty
-    protected Long lead;
+  @JsonProperty
+  protected Long lead;
 
-    @JsonProperty("engagement_type")
-    protected String engagementType = "CI/CD";
+  @JsonProperty("engagement_type")
+  protected String engagementType = "CI/CD";
 
-    @JsonProperty
-    protected Status status = Status.IN_PROGRESS;
+  @JsonProperty
+  protected Status status = Status.IN_PROGRESS;
 
-    @JsonProperty
-    protected List<String> tags = new LinkedList<>();
+  @JsonProperty
+  protected List<String> tags = new LinkedList<>();
 
-    @JsonProperty
-    protected String tracker;
+  @JsonProperty
+  protected String tracker;
 
-    @JsonProperty("build_id")
-    protected String buildID;
+  @JsonProperty("build_id")
+  protected String buildID;
 
-    @JsonProperty("commit_hash")
-    protected String commitHash;
+  @JsonProperty("commit_hash")
+  protected String commitHash;
 
-    @JsonProperty("branch_tag")
-    public String branch;
+  @JsonProperty("branch_tag")
+  public String branch;
 
-    @JsonProperty("source_code_management_uri")
-    protected String repo;
+  @JsonProperty("source_code_management_uri")
+  protected String repo;
 
-    @JsonProperty("build_server")
-    protected Long buildServer;
+  @JsonProperty("build_server")
+  protected Long buildServer;
 
-    @JsonProperty("source_code_management_server")
-    protected Long scmServer;
+  @JsonProperty("source_code_management_server")
+  protected Long scmServer;
 
-    @JsonProperty("orchestration_engine")
-    protected Long orchestrationEngine;
+  @JsonProperty("orchestration_engine")
+  protected Long orchestrationEngine;
 
-    @JsonProperty
-    protected String description;
+  @JsonProperty
+  protected String description;
 
-    @JsonProperty("deduplication_on_engagement")
-    protected boolean deduplicationOnEngagement;
+  @JsonProperty("deduplication_on_engagement")
+  protected boolean deduplicationOnEngagement;
 
-    /**
-     * Currently only contains the statuses relevant to us.
-     * If you need others, feel free to add them ;)
-     */
-    public static enum Status {
-        @JsonProperty("Completed")
-        COMPLETED,
-        @JsonProperty("In Progress")
-        IN_PROGRESS
-    }
+  @JsonProperty("threat_model")
+  protected boolean threatModel = false;
+
+  @JsonProperty("api_test")
+  protected boolean apiTest = false;
+
+  @JsonProperty("pen_test")
+  protected boolean penTest = false;
+
+  @JsonProperty("check_list")
+  protected boolean checkList = false;
+
+  /**
+   * Currently only contains the statuses relevant to us.
+   * If you need others, feel free to add them ;)
+   */
+  public static enum Status {
+    @JsonProperty("Completed")
+    COMPLETED,
+    @JsonProperty("In Progress")
+    IN_PROGRESS
+  }
 }
