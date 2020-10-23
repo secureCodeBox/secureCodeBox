@@ -3,30 +3,50 @@
 set -eu
 shopt -s extglob
 
-echo -e "\e[32mWelcome to the secureCodeBox!\e[0m"
-echo -e "This interactive installation script will guide you through all the relevant installation steps in order to have you ready to scan."
+COLOR_HIGHLIGHT="\e[35m"
+COLOR_OK="\e[32m"
+COLOR_ERROR="\e[31m"
+COLOR_RESET="\e[0m"
 
-echo -e "Start ? [y/n]"
+function print() {
+  if [[ $# = 0 ]]; then
+    echo
+  elif [[ $# = 1 ]]; then
+    local message="${2}"
+    echo "${message}"
+  elif [[ $# = 2 ]]; then
+    local color="${1}"
+    local message="${2}"
+    echo -e "${color}${message}${COLOR_RESET}"
+  fi
+}
+
+print "$COLOR_HIGHLIGHT" "Welcome to the secureCodeBox!"
+print "This interactive installation script will guide you through all the relevant installation steps in order to have you ready to scan."
+print "Start? [y/N]"
+
 read -r line
+
 if [[ $line == *[Yy] ]]; then
-  echo -e "Starting!"
+  print "Starting!"
 else
   exit
 fi
 
-echo
-echo -e "Checking kubectl.."
+print
+print "Checking kubectl..."
 kube=$(kubectl version)
+
 if [[ $kube == *"GitVersion"* ]]; then
-  echo -e "\e[32mIt's there!\e[0m"
+  print "$COLOR_OK" "It's there!"
 else
-  echo -e "\e[31mKubectl not found, quitting..\e[0m"
+  print "$COLOR_ERROR" "Kubectl not found, quitting..."
   exit
 fi
 
-echo
-echo -e "Creating namespace securecodebox-system"
-kubectl create namespace securecodebox-system || echo -e "Namespace already exists.. "
+print
+print "Creating namespace securecodebox-system"
+kubectl create namespace securecodebox-system || print "Namespace already exists..."
 
 [ -z "${SCRIPT_DIRECTORY:-}" ] \
   && SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )" \
@@ -35,29 +55,30 @@ kubectl create namespace securecodebox-system || echo -e "Namespace already exis
 cd "$SCRIPT_DIRECTORY"
 cd ..
 
-echo -e "Installing the operator in the securecodebox-system namespace"
-helm -n securecodebox-system upgrade --install securecodebox-operator ./operator/ && echo -e "\e[32mSuccessfully installed the operator!\e[0m" \
-  || (echo -e "\e[31mOperator installation failed, cancelling..\e[0m" && exit)
-
+print "Installing the operator in the securecodebox-system namespace"
+helm -n securecodebox-system upgrade --install securecodebox-operator ./operator/ \
+  && print "$COLOR_OK" "Successfully installed the operator!" \
+  || (print "$COLOR_ERROR" "Operator installation failed, cancelling..." && exit)
 
 # $1: resourceName, $2: namespace
 function installResources() {
   cd "$1"
   resources=()
-  for directory in */ ; do
+  for directory in */
+  do
     resources+=("${directory::-1}")
   done
 
   for resource in "${resources[@]}"
   do
   while true
-  echo -e "Do you want to install $resource? [y/n/(r)eadme]"
+  print "Do you want to install $resource? [y/n/(r)eadme]"
   do
     read -r line
     # Install:
     if [[ $line == *[Yy] ]]; then
       resourceName="${resource//+([_])/-}" # Necessary because ssh_scan is called ssh-scan
-      helm upgrade --install -n "$2" "$resourceName" ./"$resource"/ || echo -e "\e[31mInstallation of ""$resource"" failed\e[0m"
+      helm upgrade --install -n "$2" "$resourceName" ./"$resource"/ || print "$COLOR_ERROR" "Installation of '$resource' failed"
       break
     # Show Readme:
     elif [[ $line == *[r] ]]; then
@@ -69,41 +90,41 @@ function installResources() {
   done
   done
 
-  echo
-  echo -e "\e[32mCompleted to install $1!\e[0m"
+  print
+  print "$COLOR_OK" "Completed to install $1!"
 }
 
-echo
-echo -e "Starting to install scanners.."
+print
+print "Starting to install scanners..."
 installResources "scanners" "default"
 cd ..
 
-echo
-echo -e "Starting to install demo-apps.."
-echo -e "Do you want to install the demo apps in a separate namespace? Otherwise they will be installed into the [default] namespace [y/n]"
+print
+print "Starting to install demo-apps..."
+print "Do you want to install the demo apps in a separate namespace? Otherwise they will be installed into the [default] namespace [y/N]"
 read -r line
 namespace="default"
 if [[ $line == *[Yy] ]]; then
-  echo -e "Please provide a name for the namespace:"
+  print "Please provide a name for the namespace:"
   read -r namespace
-  kubectl create namespace "$namespace" || echo -e "Namespace already exists or could not be created.. "
+  kubectl create namespace "$namespace" || print "Namespace already exists or could not be created.. "
 fi
 
 installResources "demo-apps" "$namespace"
 cd ..
 
-echo
-echo -e "Starting to install hooks.."
+print
+print "Starting to install hooks..."
 installResources "hooks" "default"
 cd ..
 
-echo
-echo -e "\e[32mInformation about your cluster:\e[0m"
+print
+print "$COLOR_OK" "Information about your cluster:"
 kubectl get namespaces
-echo
+print
 kubectl get scantypes
-echo
+print
 kubectl get pods
 
-echo
-echo -e "\e[32mFinished installation successfully!\e[0m"
+print
+print "$COLOR_OK" "Finished installation successfully!"
