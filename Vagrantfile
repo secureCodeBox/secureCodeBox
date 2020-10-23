@@ -8,8 +8,32 @@ Vagrant.configure("2") do |config|
   # Don't sync anything onto the box.
   config.vm.synced_folder File.dirname(__FILE__), '/vagrant', disabled: true
 
-  config.vm.provider "virtualbox" do |vbox|
-    vbox.memory = 1024
+  # We use the same defaults like Docker Desktop.
+  memory = 2048
+  cpus = 2
+
+  config.vm.provider :virtualbox do |c|
+    # https://www.vagrantup.com/docs/providers/virtualbox/configuration
+    c.memory = memory
+    c.cpus = cpus
+  end
+
+  config.vm.provider :vmware_desktop do |c|
+    # https://www.vagrantup.com/docs/providers/vmware/configuration
+    c.vmx["memsize"] = memory
+    c.vmx["numvcpus"] = "2"
+  end
+
+  config.vm.provider :hyperv do |c|
+    # https://www.vagrantup.com/docs/providers/hyperv/configuration
+    c.memory = memory
+    c.cpus = cpus
+  end
+
+  config.vm.provider :libvirt do |c|
+    # https://github.com/vagrant-libvirt/vagrant-libvirt
+    c.memory = memory
+    c.cpus = cpus
   end
 
   config.vm.provision :shell, inline: <<-SHELL
