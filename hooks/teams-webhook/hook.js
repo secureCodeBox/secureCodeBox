@@ -1,4 +1,7 @@
 const axios = require("axios");
+const mustache = require("mustache");
+// Read Synchrously
+var fs = require("fs");
 
 async function handle({
   getFindings,
@@ -11,7 +14,7 @@ async function handle({
   console.log(scan);
   console.log(findings);
 
-  const paylod = getMessageCard(scan);
+  const paylod = getMessageCardByTemplate(scan);
 
   await axios.post(webhookUrl, {paylod, findings });
 }
@@ -20,77 +23,36 @@ async function handle({
  * Returns a MS Teams WebHook Payload in the classic "MessageCard" style.
  * @param {*} scan 
  */
-function getMessageCard(scan) {
-  var result = {
-    "@type": "MessageCard",
-    "@context": "https://schema.org/extensions",
-    "summary": "Scan " + scan.metadata.uid,
-    "themeColor": "0078D7",
-    "title": "New security scan "+ scan.spec.scanType +" results are available!",
-    "sections": [
-        {
-            "activityTitle": "Scheduled scan: **'"+ scan.metadata.name +"'**",
-            "activitySubtitle": "Finished at "+ scan.status.finishedAt,
-            "activityImage": "https://raw.githubusercontent.com/secureCodeBox/securecodebox.github.io/gh-source/static/Favicon.png",
-            "startGroup": true,
-            "facts": [
-                {
-                    "name": "High:",
-                    "value": ""+ scan.status.findings.severities.high +""
-                },
-                {
-                    "name": "Medium:",
-                    "value": ""+ scan.status.findings.severities.medium +""
-                },
-                {
-                    "name": "Low:",
-                    "value": ""+ scan.status.findings.severities.low +""
-                },
-                {
-                    "name": "Informational",
-                    "value": ""+ scan.status.findings.severities.informational +""
-                }
-            ],
-            "text": "__Findings Severity Overview:__"
-        },
-        {
-            "facts": [
-                {
-                    "name": "Open Ports:",
-                    "value": "3"
-                },
-                {
-                    "name": "Hosts:",
-                    "value": "8"
-                }
-            ],
-            "text": "__Findings Category Overview:__"
+function getMessageCardByTemplate(scan) {
+    let template = fs.readFileSync('messageCard.mustache');
+    console.log("Output Content : \n"+ template);
+    var rendered = mustache.render(template.toString(), { 
+          uuid: scan.metadata.uid,
+          scanType: scan.spec.scanType,
+          name: scan.metadata.name,
+          finishedAt: scan.status.finishedAt,
+          severityFacts: getMessageCardFacts(scan.status.findings.severities),
+          categoryFacts: getMessageCardFacts(scan.status.findings.categories) 
+    });
+    console.log("Output Rendered : \n"+ rendered);
+    
+    return rendered;
+}
+
+function getMessageCardFacts(facts)
+{
+    const result = [];
+    for (var key in facts) {
+        if (facts.hasOwnProperty(key)) {
+            console.log(key + " -> " + facts[key]);
+            result.push({
+                "name": ""+key+"",
+                "value": ""+facts[key]+""
+            });
         }
-    ],
-    "potentialAction": [
-        {
-            "@type": "OpenUri",
-            "name": "Open Dashboard",
-            "targets": [
-                {
-                    "os": "default",
-                    "uri": "https://your-dashboard.url/"
-                }
-            ]
-        },
-        {
-            "@type": "OpenUri",
-            "name": "Show Results in Dashboard",
-            "targets": [
-                {
-                    "os": "default",
-                    "uri": "https://your-dashboard.url/"
-                }
-            ]
-        }
-    ]
-  }
-  return result;
+    }
+    //console.log("getMessageCardFacts Content : \n"+ JSON.stringify(result));
+    return JSON.stringify(result);
 }
 
 module.exports.handle = handle;

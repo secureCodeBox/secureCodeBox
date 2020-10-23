@@ -36,7 +36,8 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "axios": "^0.20.0"
+    "axios": "^0.20.0",
+    "mustache": "^4.0.1"
   },
   "devDependencies": {
     "jest": "^25.1.0"

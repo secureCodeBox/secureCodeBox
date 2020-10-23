@@ -1,0 +1,43 @@
+{
+    "@type": "MessageCard",
+    "@context": "https://schema.org/extensions",
+    "summary": "Scan {{uuid}}",
+    "themeColor": "0078D7",
+    "title": "New security scan results (Type: {{scanType}}) are available!",
+    "sections": [
+        {
+            "activityTitle": "Scheduled scan: **'{{name}}'**",
+            "activitySubtitle": "Finished at {{finishedAt}}",
+            "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
+            "startGroup": true,
+            "facts": {{severityFacts}},
+            "text": "__Findings Severity Overview:__"
+        },
+        {
+            "facts": {{categoryFacts}},
+            "text": "__Findings Category Overview:__"
+        }
+    ],
+    "potentialAction": [
+        {
+            "@type": "OpenUri",
+            "name": "Open Dashboard",
+            "targets": [
+                {
+                    "os": "default",
+                    "uri": "{{dashboardUrl}}"
+                }
+            ]
+        },
+        {
+            "@type": "OpenUri",
+            "name": "Show Results in Dashboard",
+            "targets": [
+                {
+                    "os": "default",
+                    "uri": "{{resultsUrl}}"
+                }
+            ]
+        }
+    ]
+}
