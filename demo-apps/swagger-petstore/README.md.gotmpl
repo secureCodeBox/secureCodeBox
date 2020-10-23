@@ -2,7 +2,7 @@
 
 ![Version: latest](https://img.shields.io/badge/Version-latest-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.3](https://img.shields.io/badge/AppVersion-1.0.3-informational?style=flat-square)
 
-This is the sample petstore application with an restful API.
+This is the sample petstore application with a restful API.
 
 **Homepage:** <https://github.com/swagger-api/swagger-petstore>
 
