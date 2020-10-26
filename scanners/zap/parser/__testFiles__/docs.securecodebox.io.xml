@@ -1,0 +1,1198 @@
+<?xml version="1.0"?><OWASPZAPReport version="D-2020-10-13" generated="Thu, 22 Oct 2020 09:13:15">
+<site name="https://docs.securecodebox.io" host="docs.securecodebox.io" port="443" ssl="true"><alerts><alertitem>
+  <pluginid>10096</pluginid>
+  <alert>Timestamp Disclosure - Unix</alert>
+  <name>Timestamp Disclosure - Unix</name>
+  <riskcode>0</riskcode>
+  <confidence>1</confidence>
+  <riskdesc>Informational (Low)</riskdesc>
+  <desc>&lt;p&gt;A timestamp was disclosed by the application/web server - Unix&lt;/p&gt;</desc>
+  <instances>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/zap/</uri>
+  <method>GET</method>
+  <evidence>14356247</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/getting-started/uninstallation</uri>
+  <method>GET</method>
+  <evidence>17896441</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/4465cfb6.2dca36b4.js</uri>
+  <method>GET</method>
+  <evidence>24710355</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/kubeaudit</uri>
+  <method>GET</method>
+  <evidence>24656292</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/3.f6078885.js</uri>
+  <method>GET</method>
+  <evidence>2147483647</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/696e17eb.6646ccf1.js</uri>
+  <method>GET</method>
+  <evidence>24709778</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/26fdb175.030b75d8.js</uri>
+  <method>GET</method>
+  <evidence>24711273</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/img/integrationIcons/DefectDojo.svg</uri>
+  <method>GET</method>
+  <evidence>17700762</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/crds/cascading-rule/</uri>
+  <method>GET</method>
+  <evidence>24692760</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/getting-started/first-scans/</uri>
+  <method>GET</method>
+  <evidence>14356247</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/cd9a430b.0a5f1ff9.js</uri>
+  <method>GET</method>
+  <evidence>24721247</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/gitleaks/</uri>
+  <method>GET</method>
+  <evidence>17896441</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/how-tos/automatically-repeating-scans</uri>
+  <method>GET</method>
+  <evidence>14356247</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/hooks/cascading-scans</uri>
+  <method>GET</method>
+  <evidence>14356247</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/crds/scan-type/</uri>
+  <method>GET</method>
+  <evidence>14356247</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/img/integrationIcons/kubeaudit.svg</uri>
+  <method>GET</method>
+  <evidence>24668827</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/wpscan</uri>
+  <method>GET</method>
+  <evidence>14356247</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/contributing/integrating-a-hook</uri>
+  <method>GET</method>
+  <evidence>17896441</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/hooks/slack-webhook</uri>
+  <method>GET</method>
+  <evidence>14356247</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/crds/scan-type</uri>
+  <method>GET</method>
+  <evidence>14356247</evidence>
+  </instance>
+  </instances>
+  <count>490</count>
+  <solution>&lt;p&gt;Manually confirm that the timestamp data is not sensitive, and that the data cannot be aggregated to disclose exploitable patterns.&lt;/p&gt;</solution>
+  <otherinfo>&lt;p&gt;14356247, which evaluates to: 1970-06-16 03:50:47&lt;/p&gt;</otherinfo>
+  <reference>&lt;p&gt;http://projects.webappsec.org/w/page/13246936/Information%20Leakage&lt;/p&gt;</reference>
+  <cweid>200</cweid>
+  <wascid>13</wascid>
+  <sourceid>3</sourceid>
+</alertitem>
+<alertitem>
+  <pluginid>10021</pluginid>
+  <alert>X-Content-Type-Options Header Missing</alert>
+  <name>X-Content-Type-Options Header Missing</name>
+  <riskcode>1</riskcode>
+  <confidence>2</confidence>
+  <riskdesc>Low (Medium)</riskdesc>
+  <desc>&lt;p&gt;The Anti-MIME-Sniffing header X-Content-Type-Options was not set to &apos;nosniff&apos;. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.&lt;/p&gt;</desc>
+  <instances>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/contributing/integrating-a-hook/</uri>
+  <method>GET</method>
+  <param>X-Content-Type-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/crds/scan-completion-hook/</uri>
+  <method>GET</method>
+  <param>X-Content-Type-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/styles.c9559d75.js</uri>
+  <method>GET</method>
+  <param>X-Content-Type-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/01805dbd.a35506a4.js</uri>
+  <method>GET</method>
+  <param>X-Content-Type-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/</uri>
+  <method>GET</method>
+  <param>X-Content-Type-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/6ac6c269.eb766bcf.js</uri>
+  <method>GET</method>
+  <param>X-Content-Type-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/blog/tags/release/</uri>
+  <method>GET</method>
+  <param>X-Content-Type-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/a41edef1.361c2485.js</uri>
+  <method>GET</method>
+  <param>X-Content-Type-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/kube-hunter/</uri>
+  <method>GET</method>
+  <param>X-Content-Type-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/img/integrationIcons/Cascading%20Scans.svg</uri>
+  <method>GET</method>
+  <param>X-Content-Type-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/getting-started/first-scans/</uri>
+  <method>GET</method>
+  <param>X-Content-Type-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/b4010e28.2d695275.js</uri>
+  <method>GET</method>
+  <param>X-Content-Type-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/runtime~main.0510559a.js</uri>
+  <method>GET</method>
+  <param>X-Content-Type-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/fc4fa29a.f8b0651d.js</uri>
+  <method>GET</method>
+  <param>X-Content-Type-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/2.f9d04a90.js</uri>
+  <method>GET</method>
+  <param>X-Content-Type-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/54f44165.3b7dc2c3.js</uri>
+  <method>GET</method>
+  <param>X-Content-Type-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/98701709.a7141487.js</uri>
+  <method>GET</method>
+  <param>X-Content-Type-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/696e17eb.6646ccf1.js</uri>
+  <method>GET</method>
+  <param>X-Content-Type-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/17896441.dfdf4284.js</uri>
+  <method>GET</method>
+  <param>X-Content-Type-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/blog/2020/09/08/blinmaker/</uri>
+  <method>GET</method>
+  <param>X-Content-Type-Options</param>
+  </instance>
+  </instances>
+  <count>170</count>
+  <solution>&lt;p&gt;Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to &apos;nosniff&apos; for all web pages.&lt;/p&gt;&lt;p&gt;If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.&lt;/p&gt;</solution>
+  <otherinfo>&lt;p&gt;This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.&lt;/p&gt;&lt;p&gt;At &quot;High&quot; threshold this scan rule will not alert on client or server error responses.&lt;/p&gt;</otherinfo>
+  <reference>&lt;p&gt;http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspx&lt;/p&gt;&lt;p&gt;https://owasp.org/www-community/Security_Headers&lt;/p&gt;</reference>
+  <cweid>16</cweid>
+  <wascid>15</wascid>
+  <sourceid>3</sourceid>
+</alertitem>
+<alertitem>
+  <pluginid>10038</pluginid>
+  <alert>Content Security Policy (CSP) Header Not Set</alert>
+  <name>Content Security Policy (CSP) Header Not Set</name>
+  <riskcode>1</riskcode>
+  <confidence>2</confidence>
+  <riskdesc>Low (Medium)</riskdesc>
+  <desc>&lt;p&gt;Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of attacks, including Cross Site Scripting (XSS) and data injection attacks. These attacks are used for everything from data theft to site defacement or distribution of malware. CSP provides a set of standard HTTP headers that allow website owners to declare approved sources of content that browsers should be allowed to load on that page — covered types are JavaScript, CSS, HTML frames, fonts, images and embeddable objects such as Java applets, ActiveX, audio and video files.&lt;/p&gt;</desc>
+  <instances>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/crds/scan/</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/hooks/generic-webhook/</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/ncrack/</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/finding/</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/blog/tags/v-1/</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/nmap/</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/crds/scan-type/</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/kube-hunter/</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/zap/</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/how-tos/</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/contributing/conventions/</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/crds/scan-completion-hook/</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/crds/docs/contributing/integrating-a-scanner</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/contributing/operator/</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/wpscan/</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/getting-started/first-scans/</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/trivy/</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/blog/tags/</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/</uri>
+  <method>GET</method>
+  </instance>
+  </instances>
+  <count>63</count>
+  <solution>&lt;p&gt;Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: &quot;Content-Security-Policy&quot; for Chrome 25+, Firefox 23+ and Safari 7+, &quot;X-Content-Security-Policy&quot; for Firefox 4.0+ and Internet Explorer 10+, and &quot;X-WebKit-CSP&quot; for Chrome 14+ and Safari 6+.&lt;/p&gt;</solution>
+  <reference>&lt;p&gt;https://developer.mozilla.org/en-US/docs/Web/Security/CSP/Introducing_Content_Security_Policy&lt;/p&gt;&lt;p&gt;https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html&lt;/p&gt;&lt;p&gt;http://www.w3.org/TR/CSP/&lt;/p&gt;&lt;p&gt;http://w3c.github.io/webappsec/specs/content-security-policy/csp-specification.dev.html&lt;/p&gt;&lt;p&gt;http://www.html5rocks.com/en/tutorials/security/content-security-policy/&lt;/p&gt;&lt;p&gt;http://caniuse.com/#feat=contentsecuritypolicy&lt;/p&gt;&lt;p&gt;http://content-security-policy.com/&lt;/p&gt;</reference>
+  <cweid>16</cweid>
+  <wascid>15</wascid>
+  <sourceid>3</sourceid>
+</alertitem>
+<alertitem>
+  <pluginid>10050</pluginid>
+  <alert>Retrieved from Cache</alert>
+  <name>Retrieved from Cache</name>
+  <riskcode>0</riskcode>
+  <confidence>2</confidence>
+  <riskdesc>Informational (Medium)</riskdesc>
+  <desc>&lt;p&gt;The content was retrieved from a shared cache. If the response data is sensitive, personal or user-specific, this may result in sensitive information being leaked. In some cases, this may even result in a user gaining complete control of the session of another user, depending on the configuration of the caching components in use in their environment. This is primarily an issue where caching servers such as &quot;proxy&quot; caches are configured on the local network. This configuration is typically found in corporate or educational environments, for instance. &lt;/p&gt;</desc>
+  <instances>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/ncrack</uri>
+  <method>GET</method>
+  <evidence>Age: 0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/0e7bd4ca.21f2ccd7.js</uri>
+  <method>GET</method>
+  <evidence>Age: 0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/assets/images/2020-10-12-Fingerpost-a006af5f911eecef723e462db8d2a89a.jpg</uri>
+  <method>GET</method>
+  <evidence>Age: 0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/a73ad625.daca9aec.js</uri>
+  <method>GET</method>
+  <evidence>Age: 0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/crds/parse-definition</uri>
+  <method>GET</method>
+  <evidence>Age: 0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/ssh</uri>
+  <method>GET</method>
+  <evidence>Age: 0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/finding</uri>
+  <method>GET</method>
+  <evidence>Age: 0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/b2b675dd.a26036da.js</uri>
+  <method>GET</method>
+  <evidence>Age: 4301</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/26fdb175.030b75d8.js</uri>
+  <method>GET</method>
+  <evidence>Age: 0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/img/features/code.svg</uri>
+  <method>GET</method>
+  <evidence>Age: 2</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/1e6c7aa9.edd847c5.js</uri>
+  <method>GET</method>
+  <evidence>Age: 0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/how-tos/scanning-networks</uri>
+  <method>GET</method>
+  <evidence>Age: 0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/6eda5a75.150d84a1.js</uri>
+  <method>GET</method>
+  <evidence>Age: 1</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/fbbb2bf9.2bd5d8a5.js</uri>
+  <method>GET</method>
+  <evidence>Age: 0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/</uri>
+  <method>GET</method>
+  <evidence>Age: 3</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/6875c492.64f73903.js</uri>
+  <method>GET</method>
+  <evidence>Age: 0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/crds/cascading-rule/</uri>
+  <method>GET</method>
+  <evidence>Age: 0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/93523fe8.14f093cb.js</uri>
+  <method>GET</method>
+  <evidence>Age: 2</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/30ea1053.cba2edd8.js</uri>
+  <method>GET</method>
+  <evidence>Age: 0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/blog/2020/10/12/whats-going-on</uri>
+  <method>GET</method>
+  <evidence>Age: 1</evidence>
+  </instance>
+  </instances>
+  <count>235</count>
+  <solution>&lt;p&gt;Validate that the response does not contain sensitive, personal or user-specific information.  If it does, consider the use of the following HTTP response headers, to limit, or prevent the content being stored and retrieved from the cache by another user:&lt;/p&gt;&lt;p&gt;Cache-Control: no-cache, no-store, must-revalidate, private&lt;/p&gt;&lt;p&gt;Pragma: no-cache&lt;/p&gt;&lt;p&gt;Expires: 0&lt;/p&gt;&lt;p&gt;This configuration directs both HTTP 1.0 and HTTP 1.1 compliant caching servers to not store the response, and to not retrieve the response (without validation) from the cache, in response to a similar request.&lt;/p&gt;</solution>
+  <otherinfo>&lt;p&gt;The presence of the &apos;Age&apos; header indicates that that a HTTP/1.1 compliant caching server is in use.&lt;/p&gt;</otherinfo>
+  <reference>&lt;p&gt;https://tools.ietf.org/html/rfc7234&lt;/p&gt;&lt;p&gt;https://tools.ietf.org/html/rfc7231&lt;/p&gt;&lt;p&gt;http://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html (obsoleted by rfc7234)&lt;/p&gt;</reference>
+  <sourceid>3</sourceid>
+</alertitem>
+<alertitem>
+  <pluginid>10015</pluginid>
+  <alert>Incomplete or No Cache-control and Pragma HTTP Header Set</alert>
+  <name>Incomplete or No Cache-control and Pragma HTTP Header Set</name>
+  <riskcode>1</riskcode>
+  <confidence>2</confidence>
+  <riskdesc>Low (Medium)</riskdesc>
+  <desc>&lt;p&gt;The cache-control and pragma HTTP header have not been set properly or are missing allowing the browser and proxies to cache content.&lt;/p&gt;</desc>
+  <instances>
+  <instance>
+  <uri>https://docs.securecodebox.io/img/integrationIcons/Trivy.svg</uri>
+  <method>GET</method>
+  <param>Cache-Control</param>
+  <evidence>public, max-age=0, must-revalidate</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/sitemap.xml</uri>
+  <method>GET</method>
+  <param>Cache-Control</param>
+  <evidence>public, max-age=0, must-revalidate</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/contributing/integrating-a-hook/</uri>
+  <method>GET</method>
+  <param>Cache-Control</param>
+  <evidence>public, max-age=0, must-revalidate</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/crds/scan-completion-hook/</uri>
+  <method>GET</method>
+  <param>Cache-Control</param>
+  <evidence>public, max-age=0, must-revalidate</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/</uri>
+  <method>GET</method>
+  <param>Cache-Control</param>
+  <evidence>public, max-age=0, must-revalidate</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/blog/tags/release/</uri>
+  <method>GET</method>
+  <param>Cache-Control</param>
+  <evidence>public, max-age=0, must-revalidate</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/how-tos/automatically-repeating-scans/</uri>
+  <method>GET</method>
+  <param>Cache-Control</param>
+  <evidence>public, max-age=0, must-revalidate</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/kube-hunter/</uri>
+  <method>GET</method>
+  <param>Cache-Control</param>
+  <evidence>public, max-age=0, must-revalidate</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/blog/atom.xml</uri>
+  <method>GET</method>
+  <param>Cache-Control</param>
+  <evidence>public, max-age=0, must-revalidate</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/hooks/elasticsearch/</uri>
+  <method>GET</method>
+  <param>Cache-Control</param>
+  <evidence>public, max-age=0, must-revalidate</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/img/integrationIcons/Slack%20WebHook.svg</uri>
+  <method>GET</method>
+  <param>Cache-Control</param>
+  <evidence>public, max-age=0, must-revalidate</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/crds/scheduled-scan/</uri>
+  <method>GET</method>
+  <param>Cache-Control</param>
+  <evidence>public, max-age=0, must-revalidate</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/img/integrationIcons/ZAP.svg</uri>
+  <method>GET</method>
+  <param>Cache-Control</param>
+  <evidence>public, max-age=0, must-revalidate</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/hooks/generic-webhook/</uri>
+  <method>GET</method>
+  <param>Cache-Control</param>
+  <evidence>public, max-age=0, must-revalidate</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/img/features/close.svg</uri>
+  <method>GET</method>
+  <param>Cache-Control</param>
+  <evidence>public, max-age=0, must-revalidate</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/zap/</uri>
+  <method>GET</method>
+  <param>Cache-Control</param>
+  <evidence>public, max-age=0, must-revalidate</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/img/features/code.svg</uri>
+  <method>GET</method>
+  <param>Cache-Control</param>
+  <evidence>public, max-age=0, must-revalidate</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/crds/scan-type/</uri>
+  <method>GET</method>
+  <param>Cache-Control</param>
+  <evidence>public, max-age=0, must-revalidate</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/ncrack/</uri>
+  <method>GET</method>
+  <param>Cache-Control</param>
+  <evidence>public, max-age=0, must-revalidate</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/img/integrationIcons/Cascading%20Scans.svg</uri>
+  <method>GET</method>
+  <param>Cache-Control</param>
+  <evidence>public, max-age=0, must-revalidate</evidence>
+  </instance>
+  </instances>
+  <count>90</count>
+  <solution>&lt;p&gt;Whenever possible ensure the cache-control HTTP header is set with no-cache, no-store, must-revalidate; and that the pragma HTTP header is set with no-cache.&lt;/p&gt;</solution>
+  <reference>&lt;p&gt;https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#web-content-caching&lt;/p&gt;</reference>
+  <cweid>525</cweid>
+  <wascid>13</wascid>
+  <sourceid>3</sourceid>
+</alertitem>
+<alertitem>
+  <pluginid>2</pluginid>
+  <alert>Private IP Disclosure</alert>
+  <name>Private IP Disclosure</name>
+  <riskcode>1</riskcode>
+  <confidence>2</confidence>
+  <riskdesc>Low (Medium)</riskdesc>
+  <desc>&lt;p&gt;A private IP (such as 10.x.x.x, 172.x.x.x, 192.168.x.x) or an Amazon EC2 private hostname (for example, ip-10-0-56-78) has been found in the HTTP response body. This information might be helpful for further attacks targeting internal systems.&lt;/p&gt;</desc>
+  <instances>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/nmap/</uri>
+  <method>GET</method>
+  <evidence>192.168.178.0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/98701709.a7141487.js</uri>
+  <method>GET</method>
+  <evidence>192.168.0.1</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/ncrack/</uri>
+  <method>GET</method>
+  <evidence>192.168.0.1</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/123d7b49.c7ac3740.js</uri>
+  <method>GET</method>
+  <evidence>192.168.200.100</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/b650ae8f.1ac2f5e8.js</uri>
+  <method>GET</method>
+  <evidence>10.102.131.102:22</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/kube-hunter/</uri>
+  <method>GET</method>
+  <evidence>192.168.0.0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/b92f2143.b5302d92.js</uri>
+  <method>GET</method>
+  <evidence>192.168.0.1</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/kube-hunter</uri>
+  <method>GET</method>
+  <evidence>192.168.0.0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/edd86307.afcc49d0.js</uri>
+  <method>GET</method>
+  <evidence>192.168.0.0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/nmap</uri>
+  <method>GET</method>
+  <evidence>192.168.178.0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/1e6c7aa9.edd847c5.js</uri>
+  <method>GET</method>
+  <evidence>ip-10-0-56-78</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/nikto/</uri>
+  <method>GET</method>
+  <evidence>192.168.0.1</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/how-tos/scanning-networks</uri>
+  <method>GET</method>
+  <evidence>192.168.178.0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/a3ff696f.8750fdc6.js</uri>
+  <method>GET</method>
+  <evidence>192.168.178.0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/how-tos/scanning-networks/</uri>
+  <method>GET</method>
+  <evidence>192.168.178.0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/Nmap</uri>
+  <method>GET</method>
+  <evidence>192.168.178.0</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/nikto</uri>
+  <method>GET</method>
+  <evidence>192.168.0.1</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/71aa2dad.6919055f.js</uri>
+  <method>GET</method>
+  <evidence>192.168.1.1</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/ncrack</uri>
+  <method>GET</method>
+  <evidence>192.168.0.1</evidence>
+  </instance>
+  </instances>
+  <count>19</count>
+  <solution>&lt;p&gt;Remove the private IP address from the HTTP response body.  For comments, use JSP/ASP/PHP comment instead of HTML/JavaScript comment which can be seen by client browsers.&lt;/p&gt;</solution>
+  <otherinfo>&lt;p&gt;192.168.178.0&lt;/p&gt;&lt;p&gt;&lt;/p&gt;</otherinfo>
+  <reference>&lt;p&gt;https://tools.ietf.org/html/rfc1918&lt;/p&gt;</reference>
+  <cweid>200</cweid>
+  <wascid>13</wascid>
+  <sourceid>3</sourceid>
+</alertitem>
+<alertitem>
+  <pluginid>10109</pluginid>
+  <alert>Modern Web Application</alert>
+  <name>Modern Web Application</name>
+  <riskcode>0</riskcode>
+  <confidence>2</confidence>
+  <riskdesc>Informational (Medium)</riskdesc>
+  <desc>&lt;p&gt;The application appears to be a modern web application. If you need to explore it automatically then the Ajax Spider may well be more effective than the standard one.&lt;/p&gt;</desc>
+  <instances>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/crds/scheduled-scan</uri>
+  <method>GET</method>
+  <evidence>&lt;a aria-hidden=&quot;true&quot; tabindex=&quot;-1&quot; class=&quot;anchor enhancedAnchor_2cZh&quot; id=&quot;specification-spec&quot;&gt;&lt;/a&gt;</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/main.f8a1453c.js</uri>
+  <method>GET</method>
+  <evidence>&lt;script&gt;</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/hooks/DefectDojo</uri>
+  <method>GET</method>
+  <evidence>&lt;a aria-hidden=&quot;true&quot; tabindex=&quot;-1&quot; class=&quot;anchor enhancedAnchor_2cZh&quot; id=&quot;about&quot;&gt;&lt;/a&gt;</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/gitleaks/</uri>
+  <method>GET</method>
+  <evidence>&lt;a aria-hidden=&quot;true&quot; tabindex=&quot;-1&quot; class=&quot;anchor enhancedAnchor_2cZh&quot; id=&quot;deployment&quot;&gt;&lt;/a&gt;</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/blog/2020/10/12/whats-going-on</uri>
+  <method>GET</method>
+  <evidence>&lt;a aria-hidden=&quot;true&quot; tabindex=&quot;-1&quot; class=&quot;anchor enhancedAnchor_2cZh&quot; id=&quot;the-state-of-the-union&quot;&gt;&lt;/a&gt;</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/telemetry</uri>
+  <method>GET</method>
+  <evidence>&lt;a aria-hidden=&quot;true&quot; tabindex=&quot;-1&quot; class=&quot;anchor enhancedAnchor_2cZh&quot; id=&quot;datapoints-collected&quot;&gt;&lt;/a&gt;</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/crds/parse-definition/</uri>
+  <method>GET</method>
+  <evidence>&lt;a aria-hidden=&quot;true&quot; tabindex=&quot;-1&quot; class=&quot;anchor enhancedAnchor_2cZh&quot; id=&quot;specification-spec&quot;&gt;&lt;/a&gt;</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/nikto/</uri>
+  <method>GET</method>
+  <evidence>&lt;a aria-hidden=&quot;true&quot; tabindex=&quot;-1&quot; class=&quot;anchor enhancedAnchor_2cZh&quot; id=&quot;deployment&quot;&gt;&lt;/a&gt;</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/contributing/operator</uri>
+  <method>GET</method>
+  <evidence>&lt;a aria-hidden=&quot;true&quot; tabindex=&quot;-1&quot; class=&quot;anchor enhancedAnchor_2cZh&quot; id=&quot;prerequisites&quot;&gt;&lt;/a&gt;</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/blog/2020/09/08/blinmaker/</uri>
+  <method>GET</method>
+  <evidence>&lt;a aria-hidden=&quot;true&quot; tabindex=&quot;-1&quot; class=&quot;anchor enhancedAnchor_2cZh&quot; id=&quot;making-the-blin&quot;&gt;&lt;/a&gt;</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/hooks/update-field/</uri>
+  <method>GET</method>
+  <evidence>&lt;a aria-hidden=&quot;true&quot; tabindex=&quot;-1&quot; class=&quot;anchor enhancedAnchor_2cZh&quot; id=&quot;deployment&quot;&gt;&lt;/a&gt;</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/ncrack</uri>
+  <method>GET</method>
+  <evidence>&lt;a aria-hidden=&quot;true&quot; tabindex=&quot;-1&quot; class=&quot;anchor enhancedAnchor_2cZh&quot; id=&quot;ncrack-deployment--configuration&quot;&gt;&lt;/a&gt;</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/blog/2020/10/15/sundown-and-eol-of-version-1/</uri>
+  <method>GET</method>
+  <evidence>&lt;a aria-hidden=&quot;true&quot; tabindex=&quot;-1&quot; class=&quot;anchor enhancedAnchor_2cZh&quot; id=&quot;sundown&quot;&gt;&lt;/a&gt;</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/contributing/integrating-a-hook/</uri>
+  <method>GET</method>
+  <evidence>&lt;a aria-hidden=&quot;true&quot; tabindex=&quot;-1&quot; class=&quot;anchor enhancedAnchor_2cZh&quot; id=&quot;how-to-integrate-a-new-hook&quot;&gt;&lt;/a&gt;</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/blog/2020/10/16/release-of-securecodebox-version-2</uri>
+  <method>GET</method>
+  <evidence>&lt;a aria-hidden=&quot;true&quot; tabindex=&quot;-1&quot; class=&quot;anchor enhancedAnchor_2cZh&quot; id=&quot;whats-new-in-securecodebox-v2&quot;&gt;&lt;/a&gt;</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/contributing/integrating-a-scanner</uri>
+  <method>GET</method>
+  <evidence>&lt;a aria-hidden=&quot;true&quot; tabindex=&quot;-1&quot; class=&quot;anchor enhancedAnchor_2cZh&quot; id=&quot;extending-securecodebox&quot;&gt;&lt;/a&gt;</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/hooks/ms-teams-webhook</uri>
+  <method>GET</method>
+  <evidence>&lt;a aria-hidden=&quot;true&quot; tabindex=&quot;-1&quot; class=&quot;anchor enhancedAnchor_2cZh&quot; id=&quot;deployment&quot;&gt;&lt;/a&gt;</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/crds/scan</uri>
+  <method>GET</method>
+  <evidence>&lt;a aria-hidden=&quot;true&quot; tabindex=&quot;-1&quot; class=&quot;anchor enhancedAnchor_2cZh&quot; id=&quot;specification-spec&quot;&gt;&lt;/a&gt;</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/getting-started/uninstallation/</uri>
+  <method>GET</method>
+  <evidence>&lt;a aria-hidden=&quot;true&quot; tabindex=&quot;-1&quot; class=&quot;anchor enhancedAnchor_2cZh&quot; id=&quot;uninstall-scanner--hook&quot;&gt;&lt;/a&gt;</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/hooks/elasticsearch/</uri>
+  <method>GET</method>
+  <evidence>&lt;a aria-hidden=&quot;true&quot; tabindex=&quot;-1&quot; class=&quot;anchor enhancedAnchor_2cZh&quot; id=&quot;about&quot;&gt;&lt;/a&gt;</evidence>
+  </instance>
+  </instances>
+  <count>83</count>
+  <solution>&lt;p&gt;This is an informational alert and so no changes are required.&lt;/p&gt;</solution>
+  <otherinfo>&lt;p&gt;Links have been found that do not have traditional href attributes, which is an indication that this is a modern web application.&lt;/p&gt;</otherinfo>
+  <reference>&lt;p&gt;&lt;/p&gt;</reference>
+  <sourceid>3</sourceid>
+</alertitem>
+<alertitem>
+  <pluginid>10044</pluginid>
+  <alert>Big Redirect Detected (Potential Sensitive Information Leak)</alert>
+  <name>Big Redirect Detected (Potential Sensitive Information Leak)</name>
+  <riskcode>1</riskcode>
+  <confidence>2</confidence>
+  <riskdesc>Low (Medium)</riskdesc>
+  <desc>&lt;p&gt;The server has responded with a redirect that seems to provide a large response. This may indicate that although the server sent a redirect it also responded with body content (which may include sensitive details, PII, etc.).&lt;/p&gt;</desc>
+  <instances>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/zap</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/blog/tags/sundown</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/crds/scan-completion-hook</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/Nmap</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/getting-started/uninstallation</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/finding</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/blog/tags/v-2</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/ncrack</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/blog/tags/cooking</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/how-tos/automatically-repeating-scans</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/how-tos/scanning-web-applications</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/nmap</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/blog/tags/v-1</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/trivy</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/hooks/elasticsearch</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/telemetry</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/hooks/Elasticsearch</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/crds/scan</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/crds/parse-definition</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/how-tos/scanning-networks</uri>
+  <method>GET</method>
+  </instance>
+  </instances>
+  <count>58</count>
+  <solution>&lt;p&gt;Ensure that no sensitive information is leaked via redirect responses. Redirect responses should have almost no content.&lt;/p&gt;</solution>
+  <otherinfo>&lt;p&gt;Location header URI length: 19 [/docs/scanners/zap/].&lt;/p&gt;&lt;p&gt;Predicted response size: 319.&lt;/p&gt;&lt;p&gt;Response Body Length: 63,846.&lt;/p&gt;</otherinfo>
+  <reference>&lt;p&gt;&lt;/p&gt;</reference>
+  <cweid>201</cweid>
+  <wascid>13</wascid>
+  <sourceid>3</sourceid>
+</alertitem>
+<alertitem>
+  <pluginid>10027</pluginid>
+  <alert>Information Disclosure - Suspicious Comments</alert>
+  <name>Information Disclosure - Suspicious Comments</name>
+  <riskcode>0</riskcode>
+  <confidence>1</confidence>
+  <riskdesc>Informational (Low)</riskdesc>
+  <desc>&lt;p&gt;The response appears to contain suspicious comments which may help an attacker. Note: Matches made within script blocks or files are against the entire content not only comments.&lt;/p&gt;</desc>
+  <instances>
+  <instance>
+  <uri>https://docs.securecodebox.io/26fdb175.030b75d8.js</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/b4010e28.2d695275.js</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/71aa2dad.6919055f.js</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/6eda5a75.150d84a1.js</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/a3ff696f.8750fdc6.js</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/4465cfb6.2dca36b4.js</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/main.f8a1453c.js</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/0e7bd4ca.21f2ccd7.js</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/93523fe8.14f093cb.js</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/aefcdaa8.445ec0f9.js</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/fc67adc7.2ae0c034.js</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/98701709.a7141487.js</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/06e66d46.e643e8e1.js</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/b650ae8f.1ac2f5e8.js</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/123d7b49.c7ac3740.js</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/edd86307.afcc49d0.js</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/96aff01a.23389d2b.js</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/a41edef1.361c2485.js</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/cb73d7b3.13965292.js</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/3.f6078885.js</uri>
+  <method>GET</method>
+  </instance>
+  </instances>
+  <count>33</count>
+  <solution>&lt;p&gt;Remove all comments that return information that may help an attacker and fix any underlying problems they refer to.&lt;/p&gt;</solution>
+  <otherinfo>&lt;p&gt;The following comment/snippet was identified via the pattern: \bBUG\b&lt;/p&gt;&lt;p&gt;(window.webpackJsonp=window.webpackJsonp||[]).push([[14],{132:function(e,t,n){&quot;use strict&quot;;n.d(t,&quot;a&quot;,(function(){return d})),n.d(t,&quot;b&quot;,(function(){return f}));var o=n(0),r=n.n(o);function a(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function i(e,t){var n=Object.keys(e);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);t&amp;&amp;(o=o.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),n.push.apply(n,o)}return n}function s(e){for(var t=1;t&lt;arguments.length;t++){var n=null!=arguments[t]?arguments[t]:{};t%2?i(Object(n),!0).forEach((function(t){a(e,t,n[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(n)):i(Object(n)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(n,t))}))}return e}function c(e,t){if(null==e)return{};var n,o,r=function(e,t){if(null==e)return{};var n,o,r={},a=Object.keys(e);for(o=0;o&lt;a.length;o++)n=a[o],t.indexOf(n)&gt;=0||(r[n]=e[n]);return r}(e,t);if(Object.getOwnPropertySymbols){var a=Object.getOwnPropertySymbols(e);for(o=0;o&lt;a.length;o++)n=a[o],t.indexOf(n)&gt;=0||Object.prototype.propertyIsEnumerable.call(e,n)&amp;&amp;(r[n]=e[n])}return r}var u=r.a.createContext({}),l=function(e){var t=r.a.useContext(u),n=t;return e&amp;&amp;(n=&quot;function&quot;==typeof e?e(t):s(s({},t),e)),n},d=function(e){var t=l(e.components);return r.a.createElement(u.Provider,{value:t},e.children)},p={inlineCode:&quot;code&quot;,wrapper:function(e){var t=e.children;return r.a.createElement(r.a.Fragment,{},t)}},b=r.a.forwardRef((function(e,t){var n=e.components,o=e.mdxType,a=e.originalType,i=e.parentName,u=c(e,[&quot;components&quot;,&quot;mdxType&quot;,&quot;originalType&quot;,&quot;parentName&quot;]),d=l(n),b=o,f=d[&quot;&quot;.concat(i,&quot;.&quot;).concat(b)]||d[b]||p[b]||a;return n?r.a.createElement(f,s(s({ref:t},u),{},{components:n})):r.a.createElement(f,s({ref:t},u))}));function f(e,t){var n=arguments,o=t&amp;&amp;t.mdxType;if(&quot;string&quot;==typeof e||o){var a=n.length,i=new Array(a);i[0]=b;var s={};for(var c in t)hasOwnProperty.call(t,c)&amp;&amp;(s[c]=t[c]);s.originalType=e,s.mdxType=&quot;string&quot;==typeof e?e:o,i[1]=s;for(var u=2;u&lt;a;u++)i[u]=n[u];return r.a.createElement.apply(null,i)}return r.a.createElement.apply(null,n)}b.displayName=&quot;MDXCreateElement&quot;},155:function(e,t,n){&quot;use strict&quot;;n.r(t),t.default=n.p+&quot;assets/images/2020-10-15-sundown-96b67ac09901996c301b01592a1d6d5e.jpg&quot;},223:function(e,t,n){&quot;use strict&quot;;n.r(t),t.default=n.p+&quot;assets/images/2020-10-15-cute-kitten-7eb5b3a2dd94cf7d63b48e3f698dd9e4.jpg&quot;},73:function(e,t,n){&quot;use strict&quot;;n.r(t),n.d(t,&quot;frontMatter&quot;,(function(){return i})),n.d(t,&quot;metadata&quot;,(function(){return s})),n.d(t,&quot;rightToc&quot;,(function(){return c})),n.d(t,&quot;default&quot;,(function(){return l}));var o=n(2),r=n(6),a=(n(0),n(132)),i={title:&quot;Sundown and EOL of Version 1&quot;,author:&quot;Sven Strittmatter&quot;,author_title:&quot;Core Developer&quot;,author_url:&quot;https://github.com/Weltraumschaf&quot;,author_image_url:&quot;https://www.gravatar.com/avatar/3fe213284598b5cb69009665902c77a1&quot;,tags:[&quot;eol&quot;,&quot;sundown&quot;,&quot;v1&quot;],description:&quot;Sundown and end of live of secureCodeBox version 1.&quot;,image:&quot;/img/blog/2020-10-15-sundown.jpg&quot;},s={permalink:&quot;/blog/2020/10/15/sundown-and-eol-of-version-1&quot;,editUrl:&quot;https://github.com/securecodebox/docusaurus/edit/master/blog/2020-10-15-sundown-and-eol-of-version-1.md&quot;,source:&quot;@site/blog/2020-10-15-sundown-and-eol-of-version-1.md&quot;,description:&quot;Sundown and end of live of secureCodeBox version 1.&quot;,date:&quot;2020-10-15T00:00:00.000Z&quot;,tags:[{label:&quot;eol&quot;,permalink:&quot;/blog/tags/eol&quot;},{label:&quot;sundown&quot;,permalink:&quot;/blog/tags/sundown&quot;},{label:&quot;v1&quot;,permalink:&quot;/blog/tags/v-1&quot;}],title:&quot;Sundown and EOL of Version 1&quot;,readingTime:2.115,truncated:!0,prevItem:{title:&quot;Release of Version 2&quot;,permalink:&quot;/blog/2020/10/16/release-of-securecodebox-version-2&quot;},nextItem:{title:&quot;What&apos;s Going On&quot;,permalink:&quot;/blog/2020/10/12/whats-going-on&quot;}},c=[{value:&quot;Sundown&quot;,id:&quot;sundown&quot;,children:[]},{value:&quot;End of Live&quot;,id:&quot;end-of-live&quot;,children:[]},{value:&quot;Migrating to Version 2&quot;,id:&quot;migrating-to-version-2&quot;,children:[]},{value:&quot;Please Sorry \ud83e\udd7a&quot;,id:&quot;please-sorry-\ud83e\udd7a&quot;,children:[]}],u={rightToc:c};function l(e){var t=e.components,i=Object(r.a)(e,[&quot;components&quot;]);return Object(a.b)(&quot;wrapper&quot;,Object(o.a)({},u,i,{components:t,mdxType:&quot;MDXLayout&quot;}),Object(a.b)(&quot;p&quot;,null,Object(a.b)(&quot;img&quot;,{alt:&quot;Sundown&quot;,src:n(155).default})),Object(a.b)(&quot;p&quot;,null,&quot;(Photo by &quot;,Object(a.b)(&quot;a&quot;,Object(o.a)({parentName:&quot;p&quot;},{href:&quot;https://unsplash.com/@xxm&quot;}),&quot;Zou Meng&quot;),&quot; on &quot;,Object(a.b)(&quot;a&quot;,Object(o.a)({parentName:&quot;p&quot;},{href:&quot;https://unsplash.com/s/photos/sundown&quot;}),&quot;Unsplash&quot;),&quot;)&quot;),Object(a.b)(&quot;p&quot;,null,&quot;Sad news but the &quot;,Object(a.b)(&quot;em&quot;,{parentName:&quot;p&quot;},&quot;secureCodeBox&quot;),&quot; version 1 will soon reach its end of life. So here we announce its sundown phase beginning from now on until the end of the year.&quot;),Object(a.b)(&quot;h2&quot;,{id:&quot;sundown&quot;},&quot;Sundown&quot;),Object(a.b)(&quot;p&quot;,null,&quot;From today we announce the sundown phase of &quot;,Object(a.b)(&quot;em&quot;,{parentName:&quot;p&quot;},&quot;secureCodeBox&quot;),&quot; version 1. This means that we will &quot;,Object(a.b)(&quot;strong&quot;,{parentName:&quot;p&quot;},&quot;not implement any new features nor update any dependencies&quot;),&quot; in this version! We will only patch critical security issues or bugs.&quot;),Object(a.b)(&quot;p&quot;,null,&quot;Of course, you can submit pull requests or ask kindly for a bug fix. We may do it if we have the resources. But don&apos;t be annoyed if we won&apos;t. If you need urgently a patch you may pay us for doing it. But also don&apos;t be annoyed if we decline.&quot;),Object(a.b)(&quot;p&quot;,null,&quot;We won&apos;t put any more effort into the &quot;,Object(a.b)(&quot;em&quot;,{parentName:&quot;p&quot;},&quot;secureCodeBox&quot;),&quot; version 1 as necessary and we want to focus on the work for &quot;,Object(a.b)(&quot;em&quot;,{parentName:&quot;p&quot;},&quot;secureCodeBox&quot;),&quot; version 2.&quot;),Object(a.b)(&quot;h2&quot;,{id:&quot;end-of-live&quot;},&quot;End of Live&quot;),Object(a.b)(&quot;p&quot;,null,&quot;The sundown phase will last until 31. December 2020. After that date, we will archive all the repositories belonging only to version 1 and won&apos;t do any updates or accept pull requests for version 1.&quot;),Object(a.b)(&quot;p&quot;,null,&quot;If you need patches after this date you must pay us or fork the sources and do it by yourself.&quot;),Object(a.b)(&quot;h2&quot;,{id:&quot;migrating-to-version-2&quot;},&quot;Migrating to Version 2&quot;),Object(a.b)(&quot;p&quot;,null,&quot;Is there a migration tool or guide from version 1 to version 2? Short answer: No!&quot;),Object(a.b)(&quot;p&quot;,null,&quot;Version 1 and version 2 are so different that you can&apos;t migrate the installation automatically. It is necessary to knock down your version 1 installation and setup a fresh version 2.&quot;),Object(a.b)(&quot;p&quot;,null,&quot;It may be possible to migrate the data collected by version 1 in Elastic. But at the moment we do not provide tools to migrate this data. Maybe we will provide such a tool in the future. It depends on the demand. We don&apos;t want to put effort into something nobody needs. We dropped our data from version 1 and started from scratch.&quot;),Object(a.b)(&quot;h2&quot;,{id:&quot;please-sorry-\ud83e\udd7a&quot;},&quot;Please Sorry \ud83e\udd7a&quot;),Object(a.b)(&quot;p&quot;,null,&quot;So you may face a major fuckup now. We understand that such a move is almost always quite a bit annoying. That&apos;s why we ask you for sorry and hope we won&apos;t lose you as a &quot;,Object(a.b)(&quot;em&quot;,{parentName:&quot;p&quot;},&quot;secureCodeBox&quot;),&quot; user. If you need help moving to &quot;,Object(a.b)(&quot;em&quot;,{parentName:&quot;p&quot;},&quot;secureCodeBox&quot;),&quot; version 2 don&apos;t hesitate to ask us for help! You can reach us at &quot;,Object(a.b)(&quot;a&quot;,Object(o.a)({parentName:&quot;p&quot;},{href:&quot;https://www.twitter.com/secureCodeBox&quot;}),&quot;Twitter&quot;),&quot;, &quot;,Object(a.b)(&quot;a&quot;,Object(o.a)({parentName:&quot;p&quot;},{href:&quot;https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU&quot;}),&quot;Slack&quot;),&quot;, E-Mail (securecodebox &quot;,&quot;[at]&quot;,&quot; iteratec &quot;,&quot;[dot]&quot;,&quot; com) or just file an issue at GitHub.&quot;),Object(a.b)(&quot;p&quot;,null,&quot;Finally to cheer you up a little cute kitten:&quot;),Object(a.b)(&quot;p&quot;,null,Object(a.b)(&quot;img&quot;,{alt:&quot;Cute kitten&quot;,src:n(223).default})),Object(a.b)(&quot;p&quot;,null,&quot;(Photo by &quot;,Object(a.b)(&quot;a&quot;,Object(o.a)({parentName:&quot;p&quot;},{href:&quot;https://unsplash.com/@yirage&quot;}),&quot;Andriyko Podilnyk&quot;),&quot; on &quot;,Object(a.b)(&quot;a&quot;,Object(o.a)({parentName:&quot;p&quot;},{href:&quot;https://unsplash.com/s/photos/kitten&quot;}),&quot;Unsplash&quot;),&quot;)&quot;))}l.isMDXComponent=!0}}]);&lt;/p&gt;&lt;p&gt;&lt;/p&gt;</otherinfo>
+  <reference>&lt;p&gt;&lt;/p&gt;</reference>
+  <cweid>200</cweid>
+  <wascid>13</wascid>
+  <sourceid>3</sourceid>
+</alertitem>
+<alertitem>
+  <pluginid>10020</pluginid>
+  <alert>X-Frame-Options Header Not Set</alert>
+  <name>X-Frame-Options Header Not Set</name>
+  <riskcode>2</riskcode>
+  <confidence>2</confidence>
+  <riskdesc>Medium (Medium)</riskdesc>
+  <desc>&lt;p&gt;X-Frame-Options header is not included in the HTTP response to protect against &apos;ClickJacking&apos; attacks.&lt;/p&gt;</desc>
+  <instances>
+  <instance>
+  <uri>https://docs.securecodebox.io/blog/tags/release/</uri>
+  <method>GET</method>
+  <param>X-Frame-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/</uri>
+  <method>GET</method>
+  <param>X-Frame-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/how-tos/automatically-repeating-scans/</uri>
+  <method>GET</method>
+  <param>X-Frame-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/contributing/integrating-a-hook/</uri>
+  <method>GET</method>
+  <param>X-Frame-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/hooks/elasticsearch/</uri>
+  <method>GET</method>
+  <param>X-Frame-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/blog/2020/09/08/blinmaker/</uri>
+  <method>GET</method>
+  <param>X-Frame-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/finding/</uri>
+  <method>GET</method>
+  <param>X-Frame-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/blog/2020/10/16/release-of-securecodebox-version-2/</uri>
+  <method>GET</method>
+  <param>X-Frame-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/nmap/</uri>
+  <method>GET</method>
+  <param>X-Frame-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/wpscan/</uri>
+  <method>GET</method>
+  <param>X-Frame-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/blog/tags/v-2/</uri>
+  <method>GET</method>
+  <param>X-Frame-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/how-tos/</uri>
+  <method>GET</method>
+  <param>X-Frame-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/crds/cascading-rule/</uri>
+  <method>GET</method>
+  <param>X-Frame-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/gitleaks/</uri>
+  <method>GET</method>
+  <param>X-Frame-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/blog/</uri>
+  <method>GET</method>
+  <param>X-Frame-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/kubeaudit/</uri>
+  <method>GET</method>
+  <param>X-Frame-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/hooks/defectdojo/</uri>
+  <method>GET</method>
+  <param>X-Frame-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/nikto/</uri>
+  <method>GET</method>
+  <param>X-Frame-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io</uri>
+  <method>GET</method>
+  <param>X-Frame-Options</param>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/scanners/kube-hunter/</uri>
+  <method>GET</method>
+  <param>X-Frame-Options</param>
+  </instance>
+  </instances>
+  <count>57</count>
+  <solution>&lt;p&gt;Most modern Web browsers support the X-Frame-Options HTTP header. Ensure it&apos;s set on all web pages returned by your site (if you expect the page to be framed only by pages on your server (e.g. it&apos;s part of a FRAMESET) then you&apos;ll want to use SAMEORIGIN, otherwise if you never expect the page to be framed, you should use DENY. ALLOW-FROM allows specific websites to frame the web page in supported web browsers).&lt;/p&gt;</solution>
+  <reference>&lt;p&gt;https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options&lt;/p&gt;</reference>
+  <cweid>16</cweid>
+  <wascid>15</wascid>
+  <sourceid>3</sourceid>
+</alertitem>
+<alertitem>
+  <pluginid>90022</pluginid>
+  <alert>Application Error Disclosure</alert>
+  <name>Application Error Disclosure</name>
+  <riskcode>2</riskcode>
+  <confidence>2</confidence>
+  <riskdesc>Medium (Medium)</riskdesc>
+  <desc>&lt;p&gt;This page contains an error/warning message that may disclose sensitive information like the location of the file that produced the unhandled exception. This information can be used to launch further attacks against the web application. The alert could be a false positive if the error message is found inside a documentation page.&lt;/p&gt;</desc>
+  <instances>
+  <instance>
+  <uri>https://docs.securecodebox.io/1e6c7aa9.edd847c5.js</uri>
+  <method>GET</method>
+  <evidence>java.lang.NumberFormatException: For input string:</evidence>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/3.f6078885.js</uri>
+  <method>GET</method>
+  <evidence>Unterminated string constant</evidence>
+  </instance>
+  </instances>
+  <count>2</count>
+  <solution>&lt;p&gt;Review the source code of this page. Implement custom error pages. Consider implementing a mechanism to provide a unique error reference/identifier to the client (browser) while logging the details on the server side and not exposing them to the user.&lt;/p&gt;</solution>
+  <reference>&lt;p&gt;&lt;/p&gt;</reference>
+  <cweid>200</cweid>
+  <wascid>13</wascid>
+  <sourceid>3</sourceid>
+</alertitem>
+<alertitem>
+  <pluginid>10035</pluginid>
+  <alert>Strict-Transport-Security Header Not Set</alert>
+  <name>Strict-Transport-Security Header Not Set</name>
+  <riskcode>1</riskcode>
+  <confidence>3</confidence>
+  <riskdesc>Low (High)</riskdesc>
+  <desc>&lt;p&gt;HTTP Strict Transport Security (HSTS) is a web security policy mechanism whereby a web server declares that complying user agents (such as a web browser) are to interact with it using only secure HTTPS connections (i.e. HTTP layered over TLS/SSL). HSTS is an IETF standards track protocol and is specified in RFC 6797.&lt;/p&gt;</desc>
+  <instances>
+  <instance>
+  <uri>https://docs.securecodebox.io/robots.txt</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/hooks/Cascading%20Scans</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/api/crds/docs/contributing/integrating-a-scanner</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/crds/cascading-rule</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/crds/scan</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>https://docs.securecodebox.io/docs/crds/scan-type</uri>
+  <method>GET</method>
+  </instance>
+  </instances>
+  <count>6</count>
+  <solution>&lt;p&gt;Ensure that your web server, application server, load balancer, etc. is configured to enforce Strict-Transport-Security.&lt;/p&gt;</solution>
+  <reference>&lt;p&gt;https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Strict_Transport_Security_Cheat_Sheet.html&lt;/p&gt;&lt;p&gt;https://owasp.org/www-community/Security_Headers&lt;/p&gt;&lt;p&gt;http://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security&lt;/p&gt;&lt;p&gt;http://caniuse.com/stricttransportsecurity&lt;/p&gt;&lt;p&gt;http://tools.ietf.org/html/rfc6797&lt;/p&gt;</reference>
+  <cweid>16</cweid>
+  <wascid>15</wascid>
+  <sourceid>3</sourceid>
+</alertitem>
+</alerts></site></OWASPZAPReport>

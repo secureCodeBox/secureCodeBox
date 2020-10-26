@@ -1,0 +1,163 @@
+<?xml version="1.0"?><OWASPZAPReport version="D-2020-10-13" generated="Thu, 22 Oct 2020 08:51:36">
+<site name="http://example.com" host="example.com" port="80" ssl="false"><alerts><alertitem>
+  <pluginid>10036</pluginid>
+  <alert>Server Leaks Version Information via &quot;Server&quot; HTTP Response Header Field</alert>
+  <name>Server Leaks Version Information via &quot;Server&quot; HTTP Response Header Field</name>
+  <riskcode>1</riskcode>
+  <confidence>3</confidence>
+  <riskdesc>Low (High)</riskdesc>
+  <desc>&lt;p&gt;The web/application server is leaking version information via the &quot;Server&quot; HTTP response header. Access to such information may facilitate attackers identifying other vulnerabilities your web/application server is subject to.&lt;/p&gt;</desc>
+  <instances>
+  <instance>
+  <uri>http://example.com/robots.txt</uri>
+  <method>GET</method>
+  <evidence>ECS (mic/9B13)</evidence>
+  </instance>
+  <instance>
+  <uri>http://example.com</uri>
+  <method>GET</method>
+  <evidence>ECS (mic/9A9C)</evidence>
+  </instance>
+  <instance>
+  <uri>http://example.com/sitemap.xml</uri>
+  <method>GET</method>
+  <evidence>ECS (dab/4AD5)</evidence>
+  </instance>
+  <instance>
+  <uri>http://example.com/</uri>
+  <method>GET</method>
+  <evidence>ECS (dab/DC46)</evidence>
+  </instance>
+  </instances>
+  <count>4</count>
+  <solution>&lt;p&gt;Ensure that your web server, application server, load balancer, etc. is configured to suppress the &quot;Server&quot; header or provide generic details.&lt;/p&gt;</solution>
+  <reference>&lt;p&gt;http://httpd.apache.org/docs/current/mod/core.html#servertokens&lt;/p&gt;&lt;p&gt;http://msdn.microsoft.com/en-us/library/ff648552.aspx#ht_urlscan_007&lt;/p&gt;&lt;p&gt;http://blogs.msdn.com/b/varunm/archive/2013/04/23/remove-unwanted-http-response-headers.aspx&lt;/p&gt;&lt;p&gt;http://www.troyhunt.com/2012/02/shhh-dont-let-your-response-headers.html&lt;/p&gt;</reference>
+  <cweid>200</cweid>
+  <wascid>13</wascid>
+  <sourceid>3</sourceid>
+</alertitem>
+<alertitem>
+  <pluginid>10050</pluginid>
+  <alert>Retrieved from Cache</alert>
+  <name>Retrieved from Cache</name>
+  <riskcode>0</riskcode>
+  <confidence>2</confidence>
+  <riskdesc>Informational (Medium)</riskdesc>
+  <desc>&lt;p&gt;The content was retrieved from a shared cache. If the response data is sensitive, personal or user-specific, this may result in sensitive information being leaked. In some cases, this may even result in a user gaining complete control of the session of another user, depending on the configuration of the caching components in use in their environment. This is primarily an issue where caching servers such as &quot;proxy&quot; caches are configured on the local network. This configuration is typically found in corporate or educational environments, for instance. &lt;/p&gt;</desc>
+  <instances>
+  <instance>
+  <uri>http://example.com/robots.txt</uri>
+  <method>GET</method>
+  <evidence>Age: 214571</evidence>
+  </instance>
+  <instance>
+  <uri>http://example.com</uri>
+  <method>GET</method>
+  <evidence>HIT</evidence>
+  </instance>
+  <instance>
+  <uri>http://example.com/sitemap.xml</uri>
+  <method>GET</method>
+  <evidence>Age: 447454</evidence>
+  </instance>
+  <instance>
+  <uri>http://example.com/</uri>
+  <method>GET</method>
+  <evidence>HIT</evidence>
+  </instance>
+  </instances>
+  <count>4</count>
+  <solution>&lt;p&gt;Validate that the response does not contain sensitive, personal or user-specific information.  If it does, consider the use of the following HTTP response headers, to limit, or prevent the content being stored and retrieved from the cache by another user:&lt;/p&gt;&lt;p&gt;Cache-Control: no-cache, no-store, must-revalidate, private&lt;/p&gt;&lt;p&gt;Pragma: no-cache&lt;/p&gt;&lt;p&gt;Expires: 0&lt;/p&gt;&lt;p&gt;This configuration directs both HTTP 1.0 and HTTP 1.1 compliant caching servers to not store the response, and to not retrieve the response (without validation) from the cache, in response to a similar request.&lt;/p&gt;</solution>
+  <otherinfo>&lt;p&gt;The presence of the &apos;Age&apos; header indicates that that a HTTP/1.1 compliant caching server is in use.&lt;/p&gt;</otherinfo>
+  <reference>&lt;p&gt;https://tools.ietf.org/html/rfc7234&lt;/p&gt;&lt;p&gt;https://tools.ietf.org/html/rfc7231&lt;/p&gt;&lt;p&gt;http://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html (obsoleted by rfc7234)&lt;/p&gt;</reference>
+  <sourceid>3</sourceid>
+</alertitem>
+<alertitem>
+  <pluginid>10038</pluginid>
+  <alert>Content Security Policy (CSP) Header Not Set</alert>
+  <name>Content Security Policy (CSP) Header Not Set</name>
+  <riskcode>1</riskcode>
+  <confidence>2</confidence>
+  <riskdesc>Low (Medium)</riskdesc>
+  <desc>&lt;p&gt;Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of attacks, including Cross Site Scripting (XSS) and data injection attacks. These attacks are used for everything from data theft to site defacement or distribution of malware. CSP provides a set of standard HTTP headers that allow website owners to declare approved sources of content that browsers should be allowed to load on that page — covered types are JavaScript, CSS, HTML frames, fonts, images and embeddable objects such as Java applets, ActiveX, audio and video files.&lt;/p&gt;</desc>
+  <instances>
+  <instance>
+  <uri>http://example.com/sitemap.xml</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>http://example.com/robots.txt</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>http://example.com/</uri>
+  <method>GET</method>
+  </instance>
+  <instance>
+  <uri>http://example.com</uri>
+  <method>GET</method>
+  </instance>
+  </instances>
+  <count>4</count>
+  <solution>&lt;p&gt;Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: &quot;Content-Security-Policy&quot; for Chrome 25+, Firefox 23+ and Safari 7+, &quot;X-Content-Security-Policy&quot; for Firefox 4.0+ and Internet Explorer 10+, and &quot;X-WebKit-CSP&quot; for Chrome 14+ and Safari 6+.&lt;/p&gt;</solution>
+  <reference>&lt;p&gt;https://developer.mozilla.org/en-US/docs/Web/Security/CSP/Introducing_Content_Security_Policy&lt;/p&gt;&lt;p&gt;https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html&lt;/p&gt;&lt;p&gt;http://www.w3.org/TR/CSP/&lt;/p&gt;&lt;p&gt;http://w3c.github.io/webappsec/specs/content-security-policy/csp-specification.dev.html&lt;/p&gt;&lt;p&gt;http://www.html5rocks.com/en/tutorials/security/content-security-policy/&lt;/p&gt;&lt;p&gt;http://caniuse.com/#feat=contentsecuritypolicy&lt;/p&gt;&lt;p&gt;http://content-security-policy.com/&lt;/p&gt;</reference>
+  <cweid>16</cweid>
+  <wascid>15</wascid>
+  <sourceid>3</sourceid>
+</alertitem>
+<alertitem>
+  <pluginid>10021</pluginid>
+  <alert>X-Content-Type-Options Header Missing</alert>
+  <name>X-Content-Type-Options Header Missing</name>
+  <riskcode>1</riskcode>
+  <confidence>2</confidence>
+  <riskdesc>Low (Medium)</riskdesc>
+  <desc>&lt;p&gt;The Anti-MIME-Sniffing header X-Content-Type-Options was not set to &apos;nosniff&apos;. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.&lt;/p&gt;</desc>
+  <instances>
+  <instance>
+  <uri>http://example.com</uri>
+  <method>GET</method>
+  <param>X-Content-Type-Options</param>
+  </instance>
+  <instance>
+  <uri>http://example.com/</uri>
+  <method>GET</method>
+  <param>X-Content-Type-Options</param>
+  </instance>
+  </instances>
+  <count>2</count>
+  <solution>&lt;p&gt;Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to &apos;nosniff&apos; for all web pages.&lt;/p&gt;&lt;p&gt;If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.&lt;/p&gt;</solution>
+  <otherinfo>&lt;p&gt;This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.&lt;/p&gt;&lt;p&gt;At &quot;High&quot; threshold this scan rule will not alert on client or server error responses.&lt;/p&gt;</otherinfo>
+  <reference>&lt;p&gt;http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspx&lt;/p&gt;&lt;p&gt;https://owasp.org/www-community/Security_Headers&lt;/p&gt;</reference>
+  <cweid>16</cweid>
+  <wascid>15</wascid>
+  <sourceid>3</sourceid>
+</alertitem>
+<alertitem>
+  <pluginid>10020</pluginid>
+  <alert>X-Frame-Options Header Not Set</alert>
+  <name>X-Frame-Options Header Not Set</name>
+  <riskcode>2</riskcode>
+  <confidence>2</confidence>
+  <riskdesc>Medium (Medium)</riskdesc>
+  <desc>&lt;p&gt;X-Frame-Options header is not included in the HTTP response to protect against &apos;ClickJacking&apos; attacks.&lt;/p&gt;</desc>
+  <instances>
+  <instance>
+  <uri>http://example.com</uri>
+  <method>GET</method>
+  <param>X-Frame-Options</param>
+  </instance>
+  <instance>
+  <uri>http://example.com/</uri>
+  <method>GET</method>
+  <param>X-Frame-Options</param>
+  </instance>
+  </instances>
+  <count>2</count>
+  <solution>&lt;p&gt;Most modern Web browsers support the X-Frame-Options HTTP header. Ensure it&apos;s set on all web pages returned by your site (if you expect the page to be framed only by pages on your server (e.g. it&apos;s part of a FRAMESET) then you&apos;ll want to use SAMEORIGIN, otherwise if you never expect the page to be framed, you should use DENY. ALLOW-FROM allows specific websites to frame the web page in supported web browsers).&lt;/p&gt;</solution>
+  <reference>&lt;p&gt;https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options&lt;/p&gt;</reference>
+  <cweid>16</cweid>
+  <wascid>15</wascid>
+  <sourceid>3</sourceid>
+</alertitem>
+</alerts></site></OWASPZAPReport>
