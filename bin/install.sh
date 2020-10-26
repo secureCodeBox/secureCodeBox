@@ -45,8 +45,8 @@ function installResources() {
     read -r line
 
     if [[ $line == *[Yy] ]]; then
-      local resourceName="${resource//+([_])/-}" # Necessary because ssh_scan is called ssh-scan
-      helm upgrade --install -n "$namespace" "$resourceName" "$resource_directory"/"$resource"/ || print "$COLOR_ERROR" "Installation of '$resource' failed"
+      local resource_name="${resource//+([_])/-}" # Necessary because ssh_scan is called ssh-scan
+      helm upgrade --install -n "$namespace" "$resource_name" "$resource_directory"/"$resource"/ || print "$COLOR_ERROR" "Installation of '$resource' failed"
     fi
   done
 
