@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
 # Official uninstall script for the secureCodeBox
+#
 # Removes all available resources (scanners, demo-apps, hooks, operator) and namespaces
-# https://docs.securecodebox.io/
+#
+# For more information see https://docs.securecodebox.io/
 
 set -eu
 shopt -s extglob
