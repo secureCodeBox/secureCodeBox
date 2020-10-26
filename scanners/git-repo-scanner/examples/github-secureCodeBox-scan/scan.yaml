@@ -1,0 +1,11 @@
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "scan-github"
+spec:
+  scanType: "git-repo-scanner"
+  parameters:
+    - "--git-type"
+    - "github"
+    - "--organization"
+    - "secureCodeBox"

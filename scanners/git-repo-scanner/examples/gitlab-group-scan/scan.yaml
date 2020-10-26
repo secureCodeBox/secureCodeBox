@@ -1,0 +1,20 @@
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "scan-company-gitlab-group"
+spec:
+  scanType: "git-repo-scanner"
+  parameters:
+    - "--git-type"
+    - "gitlab"
+    - "--url"
+    - "https://gitlab.your-company.com"
+    - "--access-token"
+    - "<YOUR-GITLAB-TOKEN>"
+    - "--group" #Gitlab group id
+    - "542"
+    - "--ignore-groups" #A group can contain subgroups
+    - "723"
+    - "--ignore-projects" #Gitlab project id
+    - "423"
+    - "123"

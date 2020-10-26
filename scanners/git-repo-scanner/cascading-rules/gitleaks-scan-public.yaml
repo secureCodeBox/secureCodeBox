@@ -1,0 +1,21 @@
+apiVersion: "cascading.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "gitleaks-scan"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: medium
+spec:
+  matches:
+    anyOf:
+      - category: "Git Repository"
+        attributes:
+          visibility: public
+  scanSpec:
+    scanType: "gitleaks"
+    parameters:
+      - "-r"
+      - "{{attributes.web_url}}"
+      - "--config"
+      - "/home/config_all.toml"
+
