@@ -74,7 +74,7 @@ if [[ $KUBE == *"GitVersion"* ]]; then
   print "$COLOR_OK" "It's there!"
 else
   print "$COLOR_ERROR" "Kubectl not found, quitting..."
-  exit
+  exit 1
 fi
 
 print
@@ -84,7 +84,7 @@ kubectl create namespace securecodebox-system || print "Namespace already exists
 print "Installing the operator in the securecodebox-system namespace"
 helm -n securecodebox-system upgrade --install securecodebox-operator "$BASE_DIR"/operator/ \
   && print "$COLOR_OK" "Successfully installed the operator!" \
-  || (print "$COLOR_ERROR" "Operator installation failed, cancelling..." && exit)
+  || (print "$COLOR_ERROR" "Operator installation failed, cancelling..." && exit 1)
 
 print
 print "Starting to install scanners..."
