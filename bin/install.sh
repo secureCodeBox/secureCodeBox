@@ -82,9 +82,12 @@ print "Creating namespace securecodebox-system"
 kubectl create namespace securecodebox-system || print "Namespace already exists..."
 
 print "Installing the operator in the securecodebox-system namespace"
-helm -n securecodebox-system upgrade --install securecodebox-operator "$BASE_DIR"/operator/ \
-  && print "$COLOR_OK" "Successfully installed the operator!" \
-  || (print "$COLOR_ERROR" "Operator installation failed, cancelling..." && exit 1)
+
+if [[ $(helm -n securecodebox-system upgrade --install securecodebox-operator "$BASE_DIR"/operator/) ]]; then
+  print "$COLOR_OK" "Successfully installed the operator!"
+else
+  print "$COLOR_ERROR" "Operator installation failed, cancelling..." && exit 1
+fi
 
 print
 print "Starting to install scanners..."
