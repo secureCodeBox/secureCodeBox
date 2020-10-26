@@ -89,7 +89,6 @@ helm -n securecodebox-system upgrade --install securecodebox-operator "$BASE_DIR
 print
 print "Starting to install scanners..."
 installResources "$BASE_DIR/scanners" "default"
-cd ..
 
 print
 print "Starting to install demo-apps..."
@@ -103,12 +102,10 @@ if [[ $line == *[Yy] ]]; then
 fi
 
 installResources "$BASE_DIR/demo-apps" "$NAMESPACE"
-cd ..
 
 print
 print "Starting to install hooks..."
 installResources "$BASE_DIR/hooks" "default"
-cd ..
 
 print
 print "$COLOR_OK" "Information about your cluster:"
