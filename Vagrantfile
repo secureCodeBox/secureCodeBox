@@ -1,5 +1,5 @@
 #
-# All in one Vagrant box.
+# All in one Vagrant box for the secureCodeBox.
 #
 
 Vagrant.configure("2") do |config|
@@ -39,12 +39,12 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision :shell, path: "#{base_dir}/bin/install-minikube.sh"
-  # Using sudo -g to run the command w/ newly created group from isntallation w/o the need of relogin.
-  # Redirecting STDERR to /dev/null because these morons print download progress
+  # Using sudo -g to run the command w/ newly created group from installation w/o the need of relogin.
+  # Redirecting STDERR to /dev/null because Minikube print download progress
   # for the images to STDERR which clutters up the Vagrant output w/ error output!
   config.vm.provision :shell, privileged: false, inline: "sudo -g docker minikube start 2>/dev/null"
 
-  # Do not automaticall install VirtualBox guest additions, if available.
+  # Do not automatically install VirtualBox guest additions, if available.
   # Because this would take lot of time with additional reboot.
   # Necessary for environments w/ guest additions available.
   if Vagrant.has_plugin?("vagrant-vbguest")
