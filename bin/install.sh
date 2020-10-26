@@ -12,13 +12,40 @@ function print() {
   if [[ $# = 0 ]]; then
     echo
   elif [[ $# = 1 ]]; then
-    local message="${2}"
+    local message="${1}"
     echo "${message}"
   elif [[ $# = 2 ]]; then
     local color="${1}"
     local message="${2}"
     echo -e "${color}${message}${COLOR_RESET}"
   fi
+}
+
+function installResources() {
+  local resourceDirectory="$1"
+  local namespace="$2"
+  resources=()
+  for directory in $resourceDirectory; do
+    resources+=("${directory::-1}")
+  done
+
+  for resource in "${resources[@]}"; do
+    while true; do
+      print "Do you want to install $resource? [y/N]"
+      read -r line
+
+      if [[ $line == *[Yy] ]]; then
+        resourceName="${resource//+([_])/-}" # Necessary because ssh_scan is called ssh-scan
+        helm upgrade --install -n "$namespace" "$resourceName" ./"$resource"/ || print "$COLOR_ERROR" "Installation of '$resource' failed"
+        break
+      elif [[ $line == *[Nn] ]]; then
+        break
+      fi
+    done
+  done
+
+  print
+  print "$COLOR_OK" "Completed to install '$resourceDirectory'!"
 }
 
 print "$COLOR_HIGHLIGHT" "Welcome to the secureCodeBox!"
@@ -59,40 +86,6 @@ print "Installing the operator in the securecodebox-system namespace"
 helm -n securecodebox-system upgrade --install securecodebox-operator ./operator/ \
   && print "$COLOR_OK" "Successfully installed the operator!" \
   || (print "$COLOR_ERROR" "Operator installation failed, cancelling..." && exit)
-
-# $1: resourceName, $2: namespace
-function installResources() {
-  cd "$1"
-  resources=()
-  for directory in */
-  do
-    resources+=("${directory::-1}")
-  done
-
-  for resource in "${resources[@]}"
-  do
-  while true
-  print "Do you want to install $resource? [y/n/(r)eadme]"
-  do
-    read -r line
-    # Install:
-    if [[ $line == *[Yy] ]]; then
-      resourceName="${resource//+([_])/-}" # Necessary because ssh_scan is called ssh-scan
-      helm upgrade --install -n "$2" "$resourceName" ./"$resource"/ || print "$COLOR_ERROR" "Installation of '$resource' failed"
-      break
-    # Show Readme:
-    elif [[ $line == *[r] ]]; then
-      grep '' ./"$resource"/README.md
-    # Do not install:
-    elif [[ $line == *[Nn] ]]; then
-      break
-    fi
-  done
-  done
-
-  print
-  print "$COLOR_OK" "Completed to install $1!"
-}
 
 print
 print "Starting to install scanners..."
