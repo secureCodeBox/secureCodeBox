@@ -2,9 +2,10 @@
 
 # Official installation script for the secureCodeBox
 #
-# Creates namespace securecodebox-system and installs the operator
-# Then interactively installs all possible resources (scanners, demo-apps, hooks)
-# https://docs.securecodebox.io/
+# Creates namespace, securecodebox-system, and installs the operator.
+# Then interactively installs all possible resources (scanners, demo-apps, hooks).
+#
+# For more information see https://docs.securecodebox.io/
 
 set -eu
 shopt -s extglob
