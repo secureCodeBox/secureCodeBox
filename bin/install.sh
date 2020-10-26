@@ -29,12 +29,13 @@ function print() {
 }
 
 function installResources() {
-  local resourceDirectory="$1"
+  local resource_directory="$1"
   local namespace="$2"
 
-  resources=()
-  for path in "$resourceDirectory"/*; do
+  local resources=()
+  for path in "$resource_directory"/*; do
     [ -d "${path}" ] || continue # skip if not a directory
+    local directory
     directory="$(basename "${path}")"
     resources+=("${directory}")
   done
@@ -44,22 +45,22 @@ function installResources() {
     read -r line
 
     if [[ $line == *[Yy] ]]; then
-      resourceName="${resource//+([_])/-}" # Necessary because ssh_scan is called ssh-scan
-      helm upgrade --install -n "$namespace" "$resourceName" "$resourceDirectory"/"$resource"/ || print "$COLOR_ERROR" "Installation of '$resource' failed"
+      local resourceName="${resource//+([_])/-}" # Necessary because ssh_scan is called ssh-scan
+      helm upgrade --install -n "$namespace" "$resourceName" "$resource_directory"/"$resource"/ || print "$COLOR_ERROR" "Installation of '$resource' failed"
     fi
   done
 
   print
-  print "$COLOR_OK" "Completed to install '$resourceDirectory'!"
+  print "$COLOR_OK" "Completed to install '$resource_directory'!"
 }
 
 print "$COLOR_HIGHLIGHT" "Welcome to the secureCodeBox!"
 print "This interactive installation script will guide you through all the relevant installation steps in order to have you ready to scan."
 print "Start? [y/N]"
 
-read -r line
+read -r LINE
 
-if [[ $line == *[Yy] ]]; then
+if [[ $LINE == *[Yy] ]]; then
   print "Starting!"
 else
   exit
@@ -67,9 +68,9 @@ fi
 
 print
 print "Checking kubectl..."
-kube=$(kubectl version)
+KUBE=$(kubectl version)
 
-if [[ $kube == *"GitVersion"* ]]; then
+if [[ $KUBE == *"GitVersion"* ]]; then
   print "$COLOR_OK" "It's there!"
 else
   print "$COLOR_ERROR" "Kubectl not found, quitting..."
@@ -94,14 +95,14 @@ print
 print "Starting to install demo-apps..."
 print "Do you want to install the demo apps in a separate namespace? Otherwise they will be installed into the [default] namespace [y/N]"
 read -r line
-namespace="default"
+NAMESPACE="default"
 if [[ $line == *[Yy] ]]; then
   print "Please provide a name for the namespace:"
-  read -r namespace
-  kubectl create namespace "$namespace" || print "Namespace already exists or could not be created.. "
+  read -r NAMESPACE
+  kubectl create namespace "$NAMESPACE" || print "Namespace already exists or could not be created.. "
 fi
 
-installResources "$BASE_DIR/demo-apps" "$namespace"
+installResources "$BASE_DIR/demo-apps" "$NAMESPACE"
 cd ..
 
 print
