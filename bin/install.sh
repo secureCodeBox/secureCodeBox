@@ -54,6 +54,15 @@ function installResources() {
   print "$COLOR_OK" "Completed to install '$resource_directory'!"
 }
 
+print "$COLOR_HIGHLIGHT" "                                                                             "
+print "$COLOR_HIGHLIGHT" "                               _____           _      ____                   "
+print "$COLOR_HIGHLIGHT" "                              / ____|         | |    |  _ \                  "
+print "$COLOR_HIGHLIGHT" "  ___  ___  ___ _   _ _ __ ___| |     ___   __| | ___| |_) | _____  __       "
+print "$COLOR_HIGHLIGHT" " / __|/ _ \/ __| | | | '__/ _ \ |    / _ \ / _  |/ _ \  _ < / _ \ \/ /       "
+print "$COLOR_HIGHLIGHT" " \__ \  __/ (__| |_| | | |  __/ |___| (_) | (_| |  __/ |_) | (_) >  <        "
+print "$COLOR_HIGHLIGHT" " |___/\___|\___|\__,_|_|  \___|\_____\___/ \__,_|\___|____/ \___/_/\_\       "
+print "$COLOR_HIGHLIGHT" "                                                                             "
+
 print "$COLOR_HIGHLIGHT" "Welcome to the secureCodeBox!"
 print "This interactive installation script will guide you through all the relevant installation steps in order to have you ready to scan."
 print "Start? [y/N]"
