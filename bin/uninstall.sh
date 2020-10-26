@@ -1,29 +1,36 @@
 #!/usr/bin/env bash
 
 set -eu
+shopt -s extglob
+
+# @see: http://wiki.bash-hackers.org/syntax/shellvars
+[ -z "${SCRIPT_DIRECTORY:-}" ] \
+  && SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )" \
+  && export SCRIPT_DIRECTORY
+
+BASE_DIR=$(dirname "${SCRIPT_DIRECTORY}")
+
+function uninstallResources() {
+  local resource_directory="$1"
+
+  local resources=()
+  for path in "$resource_directory"/*; do
+    [ -d "${path}" ] || continue # skip if not a directory
+    local directory
+    directory="$(basename "${path}")"
+    resources+=("${directory}")
+  done
+
+  for resource in "${resources[@]}"; do
+    local resource_name="${resource//+([_])/-}" # Necessary because ssh_scan is called ssh-scan
+    helm uninstall "$resource_name" || true
+  done
+}
 
 helm -n securecodebox-system uninstall securecodebox-operator || true
 
-helm uninstall amass || true
-helm uninstall kube-hunter || true
-helm uninstall nikto || true
-helm uninstall nmap || true
-helm uninstall ssh-scan || true
-helm uninstall sslyze || true
-helm uninstall trivy || true
-helm uninstall zap || true
-helm uninstall wpscan || true
-
-helm uninstall dummy-ssh || true
-helm uninstall bodgeit || true
-helm uninstall http-webhook || true
-helm uninstall juice-shop || true
-helm uninstall old-wordpress || true
-helm uninstall swagger-petstore || true
-
-helm uninstall aah || true
-helm uninstall gwh || true
-
-helm uninstall elkh || true
+uninstallResources "$BASE_DIR/scanners"
+uninstallResources "$BASE_DIR/demo-apps"
+uninstallResources "$BASE_DIR/hooks"
 
 kubectl delete namespaces securecodebox-system || true
