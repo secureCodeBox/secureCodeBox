@@ -9,7 +9,7 @@ RUN gradle build
 # USER 1001
 # CMD ["java", "-jar", "/app/demo-*.jar", "--spring.profiles.active=prod"]
 
-
 FROM gcr.io/distroless/java:11-nonroot
 COPY --from=build --chown=nonroot:nonroot /home/gradle/src/build/libs /app
-ENTRYPOINT ["java", "-Djdk.tls.client.protocols=TLSv1.2", "-jar", "/app/demo-0.0.1-SNAPSHOT.jar", "--spring.profiles.active=prod"]
+# TLS Config works around an issue in OpenJDK... See: https://github.com/kubernetes-client/java/issues/854
+ENTRYPOINT ["java", "-Djdk.tls.client.protocols=TLSv1.2", "-jar", "/app/defectdojo-persistenceprovider-0.0.1-SNAPSHOT.jar", "--spring.profiles.active=prod"]
