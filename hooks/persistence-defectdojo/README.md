@@ -1,25 +1,19 @@
----
-title: "DefectDojo"
-category: "hook"
-type: "persistenceProvider"
-state: "developing"
-usecase: "Publishes all Scan Findings to DefectDojo."
----
+# persistence-defectdojo
 
-<!-- end -->
+![Version: latest](https://img.shields.io/badge/Version-latest-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.8.0](https://img.shields.io/badge/AppVersion-1.8.0-informational?style=flat-square)
 
-## About
+The defectdojo persistence provider persists secureCodeBox scan results into defectdojo.
 
-DefectDojo is an open-source tool for importing and managing findings of security scanners. The DefectDojo persistence provider can be used to create new Engagements for SecurityTests run via the secureCodeBox and import all findings which were identified automatically to DefectDojo.
+## Requirements
 
-Tools which are supported both by the secureCodeBox and DefectDojo (OWASP ZAP & Nmap) this is done by importing the raw scan report into DefectDojo. Findings by other secureCodeBox supported scanners are currently not directly supported by DefectDojo. These findings are imported via a generic finding API of DefectDojo, which might cause some loss of information on the findings.  
+Kubernetes: `>=v1.11.0-0`
 
-To learn more about DefectDojo visit [DefectDojo GitHub] or [DefectDojo Website].
+## Values
 
-## Deployment
-> 🔧 The implementation is currently work-in-progress and under still undergoing major changes. It'll be released here once it has stabilized.
-
-
-[DefectDojo Website]: https://www.defectdojo.org/
-[DefectDojo GitHub]: https://github.com/DefectDojo/django-DefectDojo
-[DefectDojo Documentation]: https://defectdojo.readthedocs.io/en/latest/
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| defectdojo.auth.apiKey | string | `""` | API v2 Key (just the key) |
+| defectdojo.auth.username | string | `"admin"` |  |
+| defectdojo.url | string | `"http://defectdojo-django.default.svc"` |  |
+| image.repository | string | `"docker.io/j12934/hook-defectdojo"` | Hook image repository |
+| image.tag | string | `nil` |  |
