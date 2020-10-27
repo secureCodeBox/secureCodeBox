@@ -13,7 +13,7 @@ image:
 defectdojo:
   url: "http://defectdojo-django.default.svc"
   auth:
-    # defectdojo.auth.name -- Username for the apiKey, also used as a lead in the created engagments
+    # defectdojo.auth.name -- Username for the apiKey, also used as a lead in the created engagements
     username: "admin"
     # defectdojo.auth.apiKey -- API v2 Key (just the key)
     apiKey: ""
