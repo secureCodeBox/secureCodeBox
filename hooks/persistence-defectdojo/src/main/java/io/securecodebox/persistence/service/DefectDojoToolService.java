@@ -132,12 +132,13 @@ public class DefectDojoToolService {
 
         if(toolResponse.getBody() != null && toolResponse.getBody().getCount() > 0){
             LOG.info("Tool configuration already exists. Returning existing configuration.");
+            return toolResponse.getBody().getResults().get(0).getId();
         }
         else {
             LOG.info("Tool configuration does not exist yet. Creating new configuration.");
-            createToolConfiguration(toolUrl, toolType);
+            var toolConfig = createToolConfiguration(toolUrl, toolType);
+            return toolConfig.getId();
         }
-        return toolResponse.getBody().getResults().get(0).getId();
     }
 
     private ResponseEntity<DefectDojoResponse<ToolConfig>> retrieveToolConfiguration(String toolUrl) {
@@ -148,7 +149,7 @@ public class DefectDojoToolService {
         return restTemplate.exchange(uri, HttpMethod.GET, toolRequest, new ParameterizedTypeReference<DefectDojoResponse<ToolConfig>>(){});
     }
 
-    private void createToolConfiguration(String toolUrl, String toolType) {
+    private ToolConfig createToolConfiguration(String toolUrl, String toolType) {
         HttpEntity toolTypeRequest = new HttpEntity(getDefectDojoAuthorizationHeaders());
         String toolTypeRequestUri = defectDojoUrl + "/api/v2/tool_types/?name=" + toolType;
         RestTemplate restTemplate = new RestTemplate();
@@ -163,6 +164,8 @@ public class DefectDojoToolService {
         toolConfig.setDescription(toolType);
 
         HttpEntity<ToolConfig> toolPayload = new HttpEntity<>(toolConfig, getDefectDojoAuthorizationHeaders());
-        restTemplate.exchange(defectDojoUrl + "/api/v2/tool_configurations/", HttpMethod.POST, toolPayload, ToolConfig.class);
+        var response = restTemplate.exchange(defectDojoUrl + "/api/v2/tool_configurations/", HttpMethod.POST, toolPayload, ToolConfig.class);
+
+        return response.getBody();
     }
 }
