@@ -139,10 +139,14 @@ public class DefectDojoPersistenceProvider {
           "scans",
           ClientBuilder.defaultClient());
 
-      var scan = scanApi.get(namespace, scanName);
+      var response = scanApi.get(namespace, scanName);
+
+      if(!response.isSuccess()) {
+        throw new DefectDojoPersistenceException("Failed to fetch Scan '" + scanName + "' in Namespace '" + namespace + "' from Kubernetes API");
+      }
 
       LOG.info("Fetched Scan from Kubernetes API");
-      this.persist(scan.getObject());
+      this.persist(response.getObject());
     };
   }
 
