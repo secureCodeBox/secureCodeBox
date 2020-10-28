@@ -19,16 +19,15 @@
 package io.securecodebox.persistence.util;
 
 import io.securecodebox.models.V1Scan;
-import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.time.Clock;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Component
 public class DescriptionGenerator {
@@ -39,16 +38,30 @@ public class DescriptionGenerator {
     Clock clock = Clock.systemDefaultZone();
 
     public String generate(V1Scan scan){
-        return MessageFormat.format("#{0}  \nTime: {1}  \nScanType: {2}  \nParameters: [{3}]",
-                getDefectDojoScanName(scan),
-                currentTime(),
-                scan.getSpec().getScanType(),
-                String.join(",", scan.getSpec().getParameters())
+        var spec = Objects.requireNonNull(scan.getSpec());
+
+        return String.join(
+            System.getProperty("line.separator"),
+            MessageFormat.format("# {0}", getDefectDojoScanName(scan)),
+            MessageFormat.format("Started: {0}", getStartTime(scan)),
+            MessageFormat.format("Ended: {0}", getEndTime(scan)),
+            MessageFormat.format("ScanType: {0}", spec.getScanType()),
+            MessageFormat.format("Parameters: [{0}]", String.join(",", Objects.requireNonNull(spec.getParameters())))
         );
     }
 
-    private String currentTime() {
-        return LocalDateTime.now(clock).format(DateTimeFormatter.ofPattern(TIME_FORMAT));
+    private String getStartTime(V1Scan scan) {
+        if (scan.getMetadata() == null || scan.getMetadata().getCreationTimestamp() == null){
+          return null;
+        }
+        return scan.getMetadata().getCreationTimestamp().toString(TIME_FORMAT);
+    }
+
+    private String getEndTime(V1Scan scan) {
+        if (scan.getStatus() == null || scan.getStatus().getFinishedAt() == null){
+          return null;
+        }
+        return scan.getStatus().getFinishedAt().toString(TIME_FORMAT);
     }
 
     /**

@@ -183,7 +183,7 @@ public class DefectDojoEngagementService {
   }
 
   public String generateDescription(V1Scan scan) {
-    return this.descriptionGenerator.getDefectDojoScanName(scan);
+    return this.descriptionGenerator.generate(scan);
   }
 
   /**

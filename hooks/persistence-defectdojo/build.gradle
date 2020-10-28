@@ -4,7 +4,7 @@ plugins {
 	id 'java-library'
 }
 
-group = 'com.example'
+group = 'io.securecodebox'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
@@ -26,9 +26,7 @@ dependencies {
 	compile 'io.kubernetes:client-java:10.0.0'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
 
 test {
