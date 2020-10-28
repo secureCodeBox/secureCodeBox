@@ -191,14 +191,14 @@ public class DefectDojoPersistenceProvider {
     LOG.info("Downloading Scan Report (RawResults)");
 
     LOG.info("Uploading Scan Report (RawResults) to DefectDojo");
-    defectFindingService.createFindings(
+    var ddTest= defectFindingService.createFindings(
       result,
       engagementId,
       userId,
       this.descriptionGenerator.currentDate(),
       this.descriptionGenerator.getDefectDojoScanName(scan.getSpec().getScanType())
     );
-    LOG.info("Uploaded Scan Report (RawResults) to DefectDojo");
+    LOG.info("Uploaded Scan Report (RawResults) as testID {} to DefectDojo", ddTest.getTestId());
   }
 
   /**

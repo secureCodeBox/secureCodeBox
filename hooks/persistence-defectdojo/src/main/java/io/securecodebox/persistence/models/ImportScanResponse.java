@@ -19,7 +19,9 @@
 package io.securecodebox.persistence.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
+@Data
 public class ImportScanResponse {
     @JsonProperty
     protected Boolean verified;
@@ -27,19 +29,6 @@ public class ImportScanResponse {
     @JsonProperty
     protected Boolean active;
 
-    public Boolean getVerified() {
-        return verified;
-    }
-
-    public void setVerified(Boolean verified) {
-        this.verified = verified;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
+    @JsonProperty("test")
+    protected long testId;
 }
