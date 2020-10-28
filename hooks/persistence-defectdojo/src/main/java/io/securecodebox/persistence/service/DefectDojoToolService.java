@@ -18,6 +18,7 @@
  */
 package io.securecodebox.persistence.service;
 
+import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import io.securecodebox.persistence.models.DefectDojoResponse;
 import io.securecodebox.persistence.models.ToolConfig;
 import io.securecodebox.persistence.models.ToolType;
@@ -26,12 +27,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Optional;
 
 @Component
 public class DefectDojoToolService {
@@ -65,18 +66,18 @@ public class DefectDojoToolService {
      * Creates Tool Types for GIT_SERVER_NAME, BUILD_SERVER_NAME, SECURITY_TEST_SERVER_NAME if they are not existing.
      */
     public void ensureToolTypesExistence() {
-        DefectDojoResponse<ToolType> toolTypeGitResponse = getToolTypeByName(GIT_SERVER_NAME);
-        if(toolTypeGitResponse.getCount() == 0) {
+        Optional<ToolType> toolTypeGitResponse = getToolTypeByName(GIT_SERVER_NAME);
+        if(toolTypeGitResponse.isEmpty()) {
             createToolType(GIT_SERVER_NAME, "Source Code Management Server");
         }
 
-        DefectDojoResponse<ToolType> toolTypeScmResponse = getToolTypeByName(BUILD_SERVER_NAME);
-        if(toolTypeScmResponse.getCount() == 0) {
+        Optional<ToolType> toolTypeScmResponse = getToolTypeByName(BUILD_SERVER_NAME);
+        if(toolTypeScmResponse.isEmpty()) {
             createToolType(BUILD_SERVER_NAME, "Build Server responsible for starting Security Scan");
         }
 
-        DefectDojoResponse<ToolType> toolTypeStoeResponse = getToolTypeByName(SECURITY_TEST_SERVER_NAME);
-        if(toolTypeStoeResponse.getCount() == 0) {
+        Optional<ToolType> toolTypeStoeResponse = getToolTypeByName(SECURITY_TEST_SERVER_NAME);
+        if(toolTypeStoeResponse.isEmpty()) {
             createToolType(SECURITY_TEST_SERVER_NAME, "Security Test Orchestration Engine");
         }
     }
@@ -86,14 +87,25 @@ public class DefectDojoToolService {
      * @param name The name to return the ToolType for.
      * @return a DefectDojo ToolType based on the given ToolType name.
      */
-    public DefectDojoResponse<ToolType> getToolTypeByName(String name){
+    public Optional<ToolType> getToolTypeByName(String name){
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity toolTypeRequest = new HttpEntity(getDefectDojoAuthorizationHeaders());
 
         String uri = defectDojoUrl + "/api/v2/tool_types/?name=" + name;
-        ResponseEntity<DefectDojoResponse<ToolType>> toolTypeResponse = restTemplate.exchange(uri, HttpMethod.GET, toolTypeRequest, new ParameterizedTypeReference<DefectDojoResponse<ToolType>>(){});
+        try {
+          ResponseEntity<DefectDojoResponse<ToolType>> toolTypeResponse = restTemplate.exchange(uri, HttpMethod.GET, toolTypeRequest, new ParameterizedTypeReference<DefectDojoResponse<ToolType>>() {});
 
-        return toolTypeResponse.getBody();
+          if (toolTypeResponse.getBody().getCount() == 0) {
+            return Optional.empty();
+          }
+
+          return Optional.of(toolTypeResponse.getBody().getResults().get(0));
+        } catch (HttpClientErrorException e) {
+          if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
+            return Optional.empty();
+          }
+          throw new DefectDojoPersistenceException("Failed to check for existing ToolTypes.");
+        }
     }
 
     /**
