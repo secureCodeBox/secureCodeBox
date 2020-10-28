@@ -50,6 +50,19 @@ jobs:
           CC_TEST_REPORTER_ID: a09c9e6ef697176ac6ec9f71063e2d18156aa1a904e2dd62ba2b68fab1d22ced
         with:
           coverageCommand: npm test -- --ci --colors --coverage
+      - name: "Run python test for git-repo-scanner"
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: "Install dependencies"
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install -r scanners/git-repo-scanner/scanner/requirements.txt
+      - name: "Test git-repo-scanner script"
+        working-directory: scanners/git-repo-scanner/scanner/
+        run: |
+          pip install pytest
+          pytest git_repo_scanner_test.py
   operator:
     name: "Build / Operator"
     runs-on: ubuntu-latest

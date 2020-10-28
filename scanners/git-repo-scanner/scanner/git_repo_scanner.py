@@ -29,10 +29,9 @@ def main():
 
 def process(args):
   if args.git_type == 'gitlab':
-    findings = process_gitlab(args)
+    return process_gitlab(args)
   else:
-    findings = process_github(args)
-  return findings
+    return process_github(args)
 
 
 def process_github(args):
@@ -57,7 +56,7 @@ def write_findings_to_file(args, findings):
     json.dump(findings, out)
 
 
-def get_parser_args():
+def get_parser_args(args=None):
   parser = argparse.ArgumentParser(description='Scan public or private git repositories of organizations or groups')
   parser.add_argument('--git-type',
                       help='Repository type can be github or gitlab',
@@ -91,7 +90,10 @@ def get_parser_args():
                       type=int,
                       default=[],
                       required=False)
-  return parser.parse_args()
+  if args:
+    return parser.parse_args(args)
+  else:
+    return parser.parse_args()
 
 
 def parse_gitlab(args):
@@ -116,7 +118,7 @@ def process_gitlab_projects(args, projects):
   findings = []
   i = 1
   for project in projects:
-    if is_not_on_ignorelist_gitlab(project, args.ignore_groups, args.ignore_repos):
+    if is_not_on_ignore_list_gitlab(project, args.ignore_groups, args.ignore_repos):
       logger.info(f' {i} - {project.name}')
       i += 1
       findings.append(create_finding_gitlab(project))
@@ -142,7 +144,7 @@ def gitlab_authenticate(args):
       gl = gitlab.Gitlab(args.url, args.access_token)
       gl.auth()
     except gitlab.exceptions.GitlabAuthenticationError:
-      gl = gitlab_authenticate_oauth(args, gl)
+      gl = gitlab_authenticate_oauth(args)
   else:
     logger.info(' Access token required for gitlab authentication.')
     sys.exit(-1)
@@ -150,7 +152,7 @@ def gitlab_authenticate(args):
   return gl
 
 
-def gitlab_authenticate_oauth(args, gl):
+def gitlab_authenticate_oauth(args):
   try:
     gl = gitlab.Gitlab(args.url, oauth_token=args.access_token)
     gl.auth()
@@ -178,13 +180,13 @@ def process_github_repos(args, gh):
   org: Organization = gh.get_organization(args.organization)
   repos: PaginatedList[Repository] = org.get_repos(type='all')
   for i in range(repos.totalCount):
-    process_github_repos_page(args, findings, i, repos)
+    process_github_repos_page(args, findings, repos.get_page(i))
   return findings
 
 
-def process_github_repos_page(args, findings, i, repos):
+def process_github_repos_page(args, findings, repos):
   repo: Repository
-  for repo in repos.get_page(i):
+  for repo in repos:
     if repo.id not in args.ignore_repos:
       logger.info(f' {len(findings) + 1} - {repo.name}')
       findings.append(create_finding_github(repo))
@@ -212,7 +214,7 @@ def setup_github_with_url(args):
     sys.exit(-1)
 
 
-def is_not_on_ignorelist_gitlab(project: Project, groups: List, repos: List):
+def is_not_on_ignore_list_gitlab(project: Project, groups: List, repos: List):
   id_project = project.id
   kind = project.namespace['kind']
   id_namespace = project.namespace['id']
@@ -223,7 +225,7 @@ def is_not_on_ignorelist_gitlab(project: Project, groups: List, repos: List):
   return True
 
 
-def create_finding_gitlab(project):
+def create_finding_gitlab(project: Project):
   return {
     'name': 'GitLab Repo',
     'description': 'A GitLab repository',
@@ -246,14 +248,14 @@ def create_finding_gitlab(project):
 
 def create_finding_github(repo: Repository):
   return {
-    'name': 'Github Repo',
-    'description': 'A Github repository',
+    'name': 'GitHub Repo',
+    'description': 'A GitHub repository',
     'category': 'Git Repository',
     'osi_layer': 'APPLICATION',
     'severity': 'INFORMATIONAL',
     'attributes': {
       'id': repo.id,
-      'web_url': repo.url,
+      'web_url': repo.html_url,
       'full_name': repo.full_name,
       'owner_type': repo.owner.type,
       'owner_id': repo.owner.id,
