@@ -42,7 +42,7 @@ for authentication. If not provided the rate limiting will kick in after about 3
 #### GitLab
 For type gitlab you can use the following options:
 - `--url`: The url of the gitlab server.
-- `--access-token`: Your personal gitlab access token or oauth token.
+- `--access-token`: Your personal gitlab access token.
 - `--group`: A specific gitlab group id you want to san, including subgroups.
 - `--ignore-groups`: A list of gitlab group ids you want to ignore
 - `--ignore-repos`: A list of gitlab project ids you want to ignore
@@ -54,9 +54,9 @@ on the gitlab server are going to be discovered.
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| image.repository | string | `"docker.io/securecodebox/parser-git-repo-scanner"` | Container Image to run the scan |
+| image.repository | string | `"docker.io/securecodebox/scanner-git-repo-scanner"` | Container Image to run the scan |
 | image.tag | string | `nil` | defaults to the charts version |
-| parserImage.repository | string | `"docker.io/securecodebox/scanner-git-repo-scanner"` | Parser image repository |
+| parserImage.repository | string | `"docker.io/securecodebox/parser-git-repo-scanner"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |
 | scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | scannerJob.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
