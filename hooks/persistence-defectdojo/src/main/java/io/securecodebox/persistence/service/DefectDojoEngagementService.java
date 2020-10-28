@@ -153,7 +153,7 @@ public class DefectDojoEngagementService {
 
     engagementPayload.setTargetStart(currentDate());
     engagementPayload.setTargetEnd(currentDate());
-    engagementPayload.setStatus(EngagementPayload.Status.COMPLETED);
+    engagementPayload.setStatus(EngagementPayload.Status.IN_PROGRESS);
 
     engagementPayload.getTags().add("secureCodeBox");
     engagementPayload.getTags().add("automated");
