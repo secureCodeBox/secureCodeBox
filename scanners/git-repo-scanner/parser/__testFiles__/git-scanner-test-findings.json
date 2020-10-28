@@ -1,13 +1,13 @@
 [
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 80711933,
-      "web_url": "https://api.github.com/repos/secureCodeBox/secureCodeBox",
+      "web_url": "https://github.com/secureCodeBox/secureCodeBox",
       "full_name": "secureCodeBox/secureCodeBox",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -18,14 +18,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 123422137,
-      "web_url": "https://api.github.com/repos/secureCodeBox/engine",
+      "web_url": "https://github.com/secureCodeBox/engine",
       "full_name": "secureCodeBox/engine",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -36,14 +36,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 124402117,
-      "web_url": "https://api.github.com/repos/secureCodeBox/scanner-infrastructure-nmap",
+      "web_url": "https://github.com/secureCodeBox/scanner-infrastructure-nmap",
       "full_name": "secureCodeBox/scanner-infrastructure-nmap",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -54,14 +54,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 126042943,
-      "web_url": "https://api.github.com/repos/secureCodeBox/nodejs-scanner-scaffolding",
+      "web_url": "https://github.com/secureCodeBox/nodejs-scanner-scaffolding",
       "full_name": "secureCodeBox/nodejs-scanner-scaffolding",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -72,14 +72,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 128396681,
-      "web_url": "https://api.github.com/repos/secureCodeBox/scanner-webserver-nikto",
+      "web_url": "https://github.com/secureCodeBox/scanner-webserver-nikto",
       "full_name": "secureCodeBox/scanner-webserver-nikto",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -90,14 +90,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 128920739,
-      "web_url": "https://api.github.com/repos/secureCodeBox/scanner-webapplication-zap",
+      "web_url": "https://github.com/secureCodeBox/scanner-webapplication-zap",
       "full_name": "secureCodeBox/scanner-webapplication-zap",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -108,14 +108,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 133507929,
-      "web_url": "https://api.github.com/repos/secureCodeBox/scanner-infrastructure-sslyze",
+      "web_url": "https://github.com/secureCodeBox/scanner-infrastructure-sslyze",
       "full_name": "secureCodeBox/scanner-infrastructure-sslyze",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -126,14 +126,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 134673181,
-      "web_url": "https://api.github.com/repos/secureCodeBox/scanner-webapplication-arachni",
+      "web_url": "https://github.com/secureCodeBox/scanner-webapplication-arachni",
       "full_name": "secureCodeBox/scanner-webapplication-arachni",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -144,14 +144,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 141462466,
-      "web_url": "https://api.github.com/repos/secureCodeBox/scanner-infrastructure-amass",
+      "web_url": "https://github.com/secureCodeBox/scanner-infrastructure-amass",
       "full_name": "secureCodeBox/scanner-infrastructure-amass",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -162,14 +162,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 142870794,
-      "web_url": "https://api.github.com/repos/secureCodeBox/integration-pipeline-jenkins-examples",
+      "web_url": "https://github.com/secureCodeBox/integration-pipeline-jenkins-examples",
       "full_name": "secureCodeBox/integration-pipeline-jenkins-examples",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -180,14 +180,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 144957631,
-      "web_url": "https://api.github.com/repos/secureCodeBox/ansible-role-securecodebox-openshift",
+      "web_url": "https://github.com/secureCodeBox/ansible-role-securecodebox-openshift",
       "full_name": "secureCodeBox/ansible-role-securecodebox-openshift",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -198,14 +198,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 161506648,
-      "web_url": "https://api.github.com/repos/secureCodeBox/django-DefectDojo",
+      "web_url": "https://github.com/secureCodeBox/django-DefectDojo",
       "full_name": "secureCodeBox/django-DefectDojo",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -216,14 +216,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 171298120,
-      "web_url": "https://api.github.com/repos/secureCodeBox/scanner-infrastructure-ssh",
+      "web_url": "https://github.com/secureCodeBox/scanner-infrastructure-ssh",
       "full_name": "secureCodeBox/scanner-infrastructure-ssh",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -234,14 +234,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 180543766,
-      "web_url": "https://api.github.com/repos/secureCodeBox/scanner-cms-wpscan",
+      "web_url": "https://github.com/secureCodeBox/scanner-cms-wpscan",
       "full_name": "secureCodeBox/scanner-cms-wpscan",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -252,14 +252,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 180568880,
-      "web_url": "https://api.github.com/repos/secureCodeBox/ruby-scanner-scaffolding",
+      "web_url": "https://github.com/secureCodeBox/ruby-scanner-scaffolding",
       "full_name": "secureCodeBox/ruby-scanner-scaffolding",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -270,14 +270,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 203588805,
-      "web_url": "https://api.github.com/repos/secureCodeBox/securecodebox.github.io",
+      "web_url": "https://github.com/secureCodeBox/securecodebox.github.io",
       "full_name": "secureCodeBox/securecodebox.github.io",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -288,14 +288,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 204489733,
-      "web_url": "https://api.github.com/repos/secureCodeBox/gatsby-gh-pages-action",
+      "web_url": "https://github.com/secureCodeBox/gatsby-gh-pages-action",
       "full_name": "secureCodeBox/gatsby-gh-pages-action",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -306,14 +306,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 204701677,
-      "web_url": "https://api.github.com/repos/secureCodeBox/ssh_scan",
+      "web_url": "https://github.com/secureCodeBox/ssh_scan",
       "full_name": "secureCodeBox/ssh_scan",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -324,14 +324,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 214418800,
-      "web_url": "https://api.github.com/repos/secureCodeBox/swagger-petstore-openshift",
+      "web_url": "https://github.com/secureCodeBox/swagger-petstore-openshift",
       "full_name": "secureCodeBox/swagger-petstore-openshift",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -342,14 +342,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 222679857,
-      "web_url": "https://api.github.com/repos/secureCodeBox/nikto",
+      "web_url": "https://github.com/secureCodeBox/nikto",
       "full_name": "secureCodeBox/nikto",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -360,14 +360,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 223956455,
-      "web_url": "https://api.github.com/repos/secureCodeBox/scanner-infrastructure-ncrack",
+      "web_url": "https://github.com/secureCodeBox/scanner-infrastructure-ncrack",
       "full_name": "secureCodeBox/scanner-infrastructure-ncrack",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -378,14 +378,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 249731346,
-      "web_url": "https://api.github.com/repos/secureCodeBox/secureCodeBox-v2",
+      "web_url": "https://github.com/secureCodeBox/secureCodeBox-v2",
       "full_name": "secureCodeBox/secureCodeBox-v2",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -396,14 +396,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 251007807,
-      "web_url": "https://api.github.com/repos/secureCodeBox/zap-extensions",
+      "web_url": "https://github.com/secureCodeBox/zap-extensions",
       "full_name": "secureCodeBox/zap-extensions",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -414,14 +414,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 277835641,
-      "web_url": "https://api.github.com/repos/secureCodeBox/zaproxy",
+      "web_url": "https://github.com/secureCodeBox/zaproxy",
       "full_name": "secureCodeBox/zaproxy",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -432,14 +432,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 285890805,
-      "web_url": "https://api.github.com/repos/secureCodeBox/static-export",
+      "web_url": "https://github.com/secureCodeBox/static-export",
       "full_name": "secureCodeBox/static-export",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -450,14 +450,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 288212154,
-      "web_url": "https://api.github.com/repos/secureCodeBox/telemetry",
+      "web_url": "https://github.com/secureCodeBox/telemetry",
       "full_name": "secureCodeBox/telemetry",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -468,14 +468,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 292293538,
-      "web_url": "https://api.github.com/repos/secureCodeBox/documentation",
+      "web_url": "https://github.com/secureCodeBox/documentation",
       "full_name": "secureCodeBox/documentation",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -486,14 +486,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 292573194,
-      "web_url": "https://api.github.com/repos/secureCodeBox/ui",
+      "web_url": "https://github.com/secureCodeBox/ui",
       "full_name": "secureCodeBox/ui",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -504,14 +504,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 299249650,
-      "web_url": "https://api.github.com/repos/secureCodeBox/internal",
+      "web_url": "https://github.com/secureCodeBox/internal",
       "full_name": "secureCodeBox/internal",
       "owner_type": "Organization",
       "owner_id": 34573705,
@@ -522,14 +522,14 @@
     }
   },
   {
-    "name": "Github Repo",
-    "description": "A Github repository",
+    "name": "GitHub Repo",
+    "description": "A GitHub repository",
     "category": "Git Repository",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "attributes": {
       "id": 303349727,
-      "web_url": "https://api.github.com/repos/secureCodeBox/kubeaudit",
+      "web_url": "https://github.com/secureCodeBox/kubeaudit",
       "full_name": "secureCodeBox/kubeaudit",
       "owner_type": "Organization",
       "owner_id": 34573705,

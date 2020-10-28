@@ -42,7 +42,7 @@ for authentication. If not provided the rate limiting will kick in after about 3
 #### GitLab
 For type gitlab you can use the following options:
 - `--url`: The url of the gitlab server.
-- `--access-token`: Your personal gitlab access token.
+- `--access-token`: Your personal gitlab access token or oauth token.
 - `--group`: A specific gitlab group id you want to san, including subgroups.
 - `--ignore-groups`: A list of gitlab group ids you want to ignore
 - `--ignore-repos`: A list of gitlab project ids you want to ignore

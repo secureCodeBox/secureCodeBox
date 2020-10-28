@@ -1,14 +1,14 @@
 apiVersion: "cascading.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
-  name: "gitleaks-scan"
+  name: "gitleaks-scan-public"
   labels:
     securecodebox.io/invasive: non-invasive
     securecodebox.io/intensive: medium
 spec:
   matches:
     anyOf:
-      - category: "Git Repository"
+      - name: "GitHub Repo"
         attributes:
           visibility: public
   scanSpec:

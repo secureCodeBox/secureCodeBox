@@ -349,7 +349,8 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: securecodebox/scanner-git-repo-scanner
           path: ./scanners/git-repo-scanner/scanner/
-          tags: "v0.1,latest"
+          tags: "latest"
+          tag_with_ref: true
       - uses: docker/build-push-action@v1
         name: "Build & Push Ncrack Scanner Image"
         with:
