@@ -18,3 +18,7 @@ spec:
     - "--ignore-projects" #Gitlab project id
     - "423"
     - "123"
+  cascades:
+    matchLabels:
+      securecodebox.io/intensive: medium
+      securecodebox.io/invasive: non-invasive

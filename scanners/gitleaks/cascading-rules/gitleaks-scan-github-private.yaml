@@ -18,13 +18,13 @@ spec:
       - "{{attributes.web_url}}"
       #Provide an access token
       - "--access-token"
-      - "$(GIT_TOKEN)"
+      - "$(GITHUB_TOKEN)"
       - "--config"
       - "/home/config_all.toml"
     env:
-      - name: GIT_TOKEN
+      - name: GITHUB_TOKEN
         valueFrom:
           secretKeyRef:
-            name: git-access-token
+            name: github-access-token
             key: token
 

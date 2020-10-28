@@ -12,13 +12,13 @@ scanSpec:
     - "{{attributes.web_url}}"
     #Provide an access token
     - "--access-token"
-    - "$(GIT_TOKEN)"
+    - "$(GITLAB_TOKEN)"
     - "--config"
     - "/home/config_all.toml"
   env:
-    - name: GIT_TOKEN
+    - name: GITLAB_TOKEN
       valueFrom:
         secretKeyRef:
-          name: git-access-token
+          name: gitlab-access-token
           key: token
 

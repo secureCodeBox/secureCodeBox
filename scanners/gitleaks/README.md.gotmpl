@@ -63,6 +63,27 @@ severity because the often produce false positives.
 **Please keep in mind that findings with a low severity can be actually
 very critical.**
 
+#### Cascading Rules
+
+If you want to scan multiple repositories from github or gitlab automatically at once, you should 
+take a look at the cascading rules which get triggered by the **git-repo-scanner**. 
+For more information on how to use **git-repo-scanner** checkout the 
+[Readme](https://github.com/secureCodeBox/secureCodeBox/tree/main/scanners/git-repo-scanner).
+
+For cascading scans on public github repositories you don't need any credentials. For the gitlab
+and private github rules you need to provide an access token via environment. You could do that with
+the following commands:
+
+```bash
+kubectl create secret generic github-access-token --from-literal="token=<YOUR-GITHUB-TOKEN>"
+kubectl create secret generic gitlab-access-token --from-literal="token=<YOUR-GITLAB-TOKEN>"
+```
+
+For more information on how to use cascades take a look at 
+[Scanning Networks Example](https://docs.securecodebox.io/docs/how-tos/scanning-networks/)
+
+
+
 ## Chart Configuration
 
 {{ template "chart.valuesTable" . }}
