@@ -18,6 +18,7 @@ spec:
       - "{{{attributes.web_url}}}"
       - "--config"
       - "/home/config_all.toml"
+      #Provide an access token
       - "--access-token"
       - "$(GITHUB_TOKEN)"
     env:

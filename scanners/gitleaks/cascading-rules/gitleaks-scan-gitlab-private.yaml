@@ -16,11 +16,11 @@ spec:
     parameters:
       - "-r"
       - "{{{attributes.web_url}}}"
+      - "--config"
+      - "/home/config_all.toml"
       #Provide an access token
       - "--access-token"
       - "$(GITLAB_TOKEN)"
-      - "--config"
-      - "/home/config_all.toml"
     env:
       - name: GITLAB_TOKEN
         valueFrom:
