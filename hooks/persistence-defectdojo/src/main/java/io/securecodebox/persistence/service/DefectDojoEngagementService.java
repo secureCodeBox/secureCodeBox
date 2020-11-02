@@ -21,16 +21,12 @@ package io.securecodebox.persistence.service;
 import io.securecodebox.models.V1Scan;
 import io.securecodebox.persistence.exceptions.DefectDojoLoopException;
 import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
-import io.securecodebox.persistence.models.DefectDojoResponse;
-import io.securecodebox.persistence.models.EngagementPayload;
-import io.securecodebox.persistence.models.EngagementResponse;
-import io.securecodebox.persistence.models.TestResponse;
+import io.securecodebox.persistence.models.*;
 import io.securecodebox.persistence.util.DescriptionGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -41,12 +37,12 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.text.MessageFormat;
 import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class DefectDojoEngagementService {
@@ -115,7 +111,7 @@ public class DefectDojoEngagementService {
    * @param scan The Scan to crete an DefectDojo engagement for.
    * @return The newly created engagement.
    */
-  public EngagementResponse createEngagement(V1Scan scan, Long userId) {
+  public long createEngagement(V1Scan scan, Long userId) {
     EngagementPayload engagementPayload = new EngagementPayload();
     assert scan.getMetadata() != null;
 
@@ -131,13 +127,20 @@ public class DefectDojoEngagementService {
     }
 
     // If the Scan has a explicit product name referenced via a label, use the labelled product name
-    if (scan.getMetadata().getLabels() != null && scan.getMetadata().getLabels().containsKey("defectdojo.securecodebox.io/product-name")) {
-      productName = scan.getMetadata().getLabels().get("defectdojo.securecodebox.io/product-name");
+    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanLabels.PRODUCT_NAME.getLabel())) {
+      productName = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanLabels.PRODUCT_NAME.getLabel());
     }
 
-    engagementPayload.setProduct(defectDojoProductService.getProductId(productName));
+    long productId = defectDojoProductService.getProductId(productName);
 
-    engagementPayload.setName(scan.getMetadata().getName());
+    String engagementName = scan.getMetadata().getName();
+    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanLabels.ENGAGEMENT_NAME.getLabel())) {
+      engagementName = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanLabels.ENGAGEMENT_NAME.getLabel());
+    }
+
+    engagementPayload.setProduct(productId);
+
+    engagementPayload.setName(engagementName);
 
     engagementPayload.setLead(userId);
     engagementPayload.setDescription(generateDescription(scan));
@@ -155,10 +158,23 @@ public class DefectDojoEngagementService {
     engagementPayload.setTargetEnd(currentDate());
     engagementPayload.setStatus(EngagementPayload.Status.IN_PROGRESS);
 
-    engagementPayload.getTags().add("secureCodeBox");
-    engagementPayload.getTags().add("automated");
+    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanLabels.ENGAGEMENT_TAGS.getLabel())) {
+      var tags = new LinkedList<>(
+        Arrays.asList(scan.getMetadata().getAnnotations().get(SecureCodeBoxScanLabels.ENGAGEMENT_TAGS.getLabel()).split(","))
+      ).stream()
+        .map(String::trim)
+        .collect(Collectors.toList());
 
-    return createEngagement(engagementPayload);
+      engagementPayload.getTags().addAll(tags);
+    }
+
+    String version = null;
+    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanLabels.ENGAGEMENT_VERSION.getLabel())) {
+      version = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanLabels.ENGAGEMENT_VERSION.getLabel());
+      engagementPayload.setVersion(version);
+    }
+
+    return this.getEngagementIdByEngagementNameOrCreate(productId, engagementName, version, engagementPayload, userId);
   }
 
   /**
@@ -227,41 +243,38 @@ public class DefectDojoEngagementService {
     return latestTestResponseId;
   }
 
-  public Optional<Long> getEngagementIdByEngagementName(String engagementName, String productName) {
-    long productId = this.defectDojoProductService.getProductId(productName);
-    return getEngagementIdByEngagementName(engagementName, productId, 0L);
-  }
-
-  public Optional<Long> getEngagementIdByEngagementName(String engagementName, long productId) {
-    return getEngagementIdByEngagementName(engagementName, productId, 0L);
-  }
-
-  public Optional<Long> getEngagementIdByEngagementName(String engagementName, long productId, long offset) {
-    UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(defectDojoUrl + "/api/v2/engagements")
+  public Optional<Long> getEngagementIdByEngagementName(String engagementName, long productId, String version) {
+    UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(defectDojoUrl + "/api/v2/engagements/")
       .queryParam("product", Long.toString(productId))
-      .queryParam("limit", Long.toString(50L))
-      .queryParam("offset", Long.toString(offset));
+      .queryParam("name", engagementName);
+
+    if(version != null) {
+      builder.queryParam("version", version);
+    }
 
     RestTemplate restTemplate = new RestTemplate();
     HttpEntity engagementRequest = new HttpEntity(getDefectDojoAuthorizationHeaders());
 
-    ResponseEntity<DefectDojoResponse<EngagementResponse>> engagementResponse = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, engagementRequest, new ParameterizedTypeReference<DefectDojoResponse<EngagementResponse>>() {
-    });
+    LOG.debug("Looking for engagements with url: '{}'", builder.toUriString());
 
-    for (EngagementResponse engagement : engagementResponse.getBody().getResults()) {
-      if (engagement.getName().equals(engagementName)) {
-        return Optional.of(engagement.getId());
-      }
+    var engagementResponse = restTemplate.exchange(
+      builder.build().toUri(),
+      HttpMethod.GET,
+      engagementRequest,
+      new ParameterizedTypeReference<DefectDojoResponse<EngagementResponse>>() {}
+    );
+
+    LOG.debug("Got back a response ({}) of {} engagements", engagementResponse.getStatusCode(), engagementResponse.getBody().getCount());
+
+    if (engagementResponse.getBody().getCount() > 0) {
+      return Optional.of(engagementResponse.getBody().getResults().get(0).getId());
     }
-    if (engagementResponse.getBody().getNext() != null) {
-      return getEngagementIdByEngagementName(engagementName, productId, offset + 1);
-    }
-    LOG.warn("Engagement with name '{}' not found.", engagementName);
+
     return Optional.empty();
   }
 
   public long getEngagementIdByEngagementNameOrCreate(long productId, String engagementName, EngagementPayload engagementPayload, long lead) {
-    Long engagementId = getEngagementIdByEngagementName(engagementName, productId).orElseGet(() -> {
+    return getEngagementIdByEngagementName(engagementName, productId, null).orElseGet(() -> {
       engagementPayload.setName(engagementName);
       engagementPayload.setProduct(productId);
       engagementPayload.setTargetStart(currentDate());
@@ -269,7 +282,18 @@ public class DefectDojoEngagementService {
       engagementPayload.setLead(lead);
       return createEngagement(engagementPayload).getId();
     });
-    return engagementId;
+  }
+
+  public long getEngagementIdByEngagementNameOrCreate(long productId, String engagementName, String version, EngagementPayload engagementPayload, long lead) {
+    return getEngagementIdByEngagementName(engagementName, productId, version).orElseGet(() -> {
+      LOG.info("No Engagement found, creating one now.");
+      engagementPayload.setName(engagementName);
+      engagementPayload.setProduct(productId);
+      engagementPayload.setTargetStart(currentDate());
+      engagementPayload.setTargetEnd(currentDate());
+      engagementPayload.setLead(lead);
+      return createEngagement(engagementPayload).getId();
+    });
   }
 
   public List<EngagementResponse> getEngagementsForProduct(long productId, long offset) throws DefectDojoLoopException {

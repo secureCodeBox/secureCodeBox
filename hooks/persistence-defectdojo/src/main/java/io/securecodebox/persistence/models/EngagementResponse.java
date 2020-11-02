@@ -19,7 +19,9 @@
 package io.securecodebox.persistence.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
+@Data
 public class EngagementResponse {
     @JsonProperty
     protected long id;
@@ -29,28 +31,4 @@ public class EngagementResponse {
 
     @JsonProperty("branch_tag")
     protected String branch;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getBranch() {
-        return branch;
-    }
-
-    public void setBranch(String branch) {
-        this.branch = branch;
-    }
 }

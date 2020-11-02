@@ -18,14 +18,11 @@
  */
 package io.securecodebox.persistence;
 
-import io.kubernetes.client.openapi.apis.CustomObjectsApi;
 import io.kubernetes.client.util.generic.GenericKubernetesApi;
 import io.securecodebox.models.V1Scan;
 import io.securecodebox.models.V1ScanList;
 import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import io.securecodebox.persistence.exceptions.DefectDojoUnreachableException;
-import io.securecodebox.persistence.models.EngagementPayload;
-import io.securecodebox.persistence.models.EngagementResponse;
 import io.securecodebox.persistence.service.DefectDojoEngagementService;
 import io.securecodebox.persistence.service.DefectDojoFindingService;
 import io.securecodebox.persistence.service.DefectDojoToolService;
@@ -42,28 +39,20 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import io.kubernetes.client.openapi.ApiClient;
 import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.Configuration;
-import io.kubernetes.client.openapi.apis.CoreV1Api;
-import io.kubernetes.client.openapi.models.V1Pod;
-import io.kubernetes.client.openapi.models.V1PodList;
 import io.kubernetes.client.util.ClientBuilder;
 import io.kubernetes.client.util.KubeConfig;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Arrays;
-import java.util.List;
 
 @SpringBootApplication
 public class DefectDojoPersistenceProvider {
@@ -185,10 +174,9 @@ public class DefectDojoPersistenceProvider {
     long userId = defectDojoUserService.getUserId(defectDojoUser);
     LOG.info("Running with DefectDojo User Id: {}", userId);
 
-    LOG.info("Creating DefectDojo Engagement");
-    EngagementResponse res = this.defectDojoEngagementService.createEngagement(scan, userId);
-    long engagementId = res.getId();
-    LOG.info("Created Engagement: '{}'", engagementId);
+    LOG.info("Looking for existing or creating new DefectDojo Engagement");
+    long engagementId = this.defectDojoEngagementService.createEngagement(scan, userId);
+    LOG.info("Using Engagement with Id: '{}'", engagementId);
 
     LOG.info("Downloading Scan Report (RawResults)");
     String result = this.getRawResults(scan);
@@ -203,6 +191,7 @@ public class DefectDojoPersistenceProvider {
       this.descriptionGenerator.getDefectDojoScanName(scan.getSpec().getScanType())
     );
     LOG.info("Uploaded Scan Report (RawResults) as testID {} to DefectDojo", ddTest.getTestId());
+    LOG.info("All done!");
   }
 
   /**

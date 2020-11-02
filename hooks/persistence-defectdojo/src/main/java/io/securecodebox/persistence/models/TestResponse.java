@@ -19,28 +19,61 @@
 package io.securecodebox.persistence.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
+import java.util.List;
+
+@Data
 public class TestResponse {
-    @JsonProperty
-    protected long id;
+  @JsonProperty
+  protected long id;
 
-    @JsonProperty
-    protected String title;
+  @JsonProperty
+  protected List<String> tags;
 
+  @JsonProperty("test_type_name")
+  protected String testTypeName;
 
-    public long getId() {
-        return id;
-    }
+  @JsonProperty
+  protected String title;
 
-    public void setId(long id) {
-        this.id = id;
-    }
+  @JsonProperty
+  protected String description;
 
-    public String getTitle() {
-        return title;
-    }
+  @JsonProperty("target_start")
+  protected String targetStart;
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  @JsonProperty("target_end")
+  protected String targetEnd;
+
+  @JsonProperty("estimated_time")
+  protected String estimatedTime;
+
+  @JsonProperty("actual_time")
+  protected String actualTime;
+
+  @JsonProperty("percent_complete")
+  protected long percentComplete;
+
+  @JsonProperty
+  protected String updated;
+
+  @JsonProperty
+  protected String created;
+
+  @JsonProperty
+  protected String version;
+
+  @JsonProperty
+  protected long engagement;
+
+  @JsonProperty
+  protected long lead;
+
+  @JsonProperty("test_type")
+  protected long testType;
+
+  @JsonProperty
+  protected long environment;
+
 }

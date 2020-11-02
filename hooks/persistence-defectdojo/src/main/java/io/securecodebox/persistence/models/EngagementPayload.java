@@ -95,6 +95,9 @@ public class EngagementPayload {
   @JsonProperty("check_list")
   protected boolean checkList = false;
 
+  @JsonProperty
+  protected String version;
+
   /**
    * Currently only contains the statuses relevant to us.
    * If you need others, feel free to add them ;)
