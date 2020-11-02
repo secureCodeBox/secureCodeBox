@@ -8,6 +8,8 @@
 # There exist two modes:
 # Call without parameters to install interactively
 # Call with --all to install all available resources automatically
+# Call with --scanners / --demo-apps / --hooks to only install the wanted resources
+# Call with --help for usage information
 #
 # For more information see https://docs.securecodebox.io/
 
