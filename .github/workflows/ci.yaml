@@ -536,7 +536,7 @@ jobs:
           EOF
           # Actually run the tests
           cd tests/integration/
-          npx jest --ci --color cascade-ncrack
+          npx jest --ci --color cascade-nmnc
           # Clean up:
           kubectl -n cascading-tests delete scans --all
           kubectl delete namespace cascading-tests
@@ -552,7 +552,7 @@ jobs:
           helm -n cascading-tests install sslyze ./scanners/sslyze/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           # Actually run the tests
           cd tests/integration/
-          npx jest --ci --color cascade-sslyze
+          npx jest --ci --color cascade-nmssly
           # Clean up:
           kubectl -n cascading-tests delete scans --all
           kubectl delete namespace cascading-tests
