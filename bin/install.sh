@@ -49,12 +49,26 @@ function checkKubectl() {
   print
   print "Checking kubectl..."
   local kube
-  kube=$(kubectl version)
+  kube=$(kubectl cluster-info) || true
 
-  if [[ $kube == *"GitVersion"* ]]; then
-    print "$COLOR_OK" "It's there!"
+  if [[ $kube == *"running"* ]]; then
+    print "$COLOR_OK" "Kubectl is there!"
   else
-    print "$COLOR_ERROR" "Kubectl not found, quitting..."
+    print "$COLOR_ERROR" "Kubectl not found or not working, quitting..."
+    exit 1
+  fi
+}
+
+function checkHelm() {
+  print
+  print "Checking helm..."
+  local helm
+  helm=$(helm version) || true
+
+  if [[ $helm == *"Version"* ]]; then
+    print "$COLOR_OK" "Helm is there!"
+  else
+    print "$COLOR_ERROR" "Helm not found or not working, quitting..."
     exit 1
   fi
 }
@@ -125,6 +139,7 @@ function interactiveInstall() {
   fi
 
   checkKubectl
+  checkHelm
   createNamespaceAndInstallOperator
 
   print
@@ -162,16 +177,27 @@ function interactiveInstall() {
 
 function unattendedInstall() {
   checkKubectl
+  checkHelm
   createNamespaceAndInstallOperator
 
-  print "Starting to install scanners..."
-  installResources "$BASE_DIR/scanners" "default" True
+  local install_scanners=$1
+  local install_demo_apps=$2
+  local install_hooks=$3
 
-  print "Starting to install demo-apps..."
-  installResources "$BASE_DIR/demo-apps" "default" True
+  if [[ $install_scanners == true ]]; then
+    print "Starting to install scanners..."
+    installResources "$BASE_DIR/scanners" "default" True
+  fi
 
-  print "Starting to install hooks..."
-  installResources "$BASE_DIR/hooks" "default" True
+  if [[ $install_demo_apps == true ]]; then
+    print "Starting to install demo-apps..."
+    installResources "$BASE_DIR/demo-apps" "default" True
+  fi
+
+  if [[ $install_hooks == true ]]; then
+    print "Starting to install hooks..."
+    installResources "$BASE_DIR/hooks" "default" True
+  fi
 
   print "$COLOR_OK" "Finished installation successfully!"
 }
@@ -189,7 +215,7 @@ if [[ $# == 0 ]]; then
     interactiveInstall
   elif [[ $# == 1 ]]; then
     if [[ $1 == "--all" ]]; then
-      unattendedInstall
+      unattendedInstall true true true
     else
       usage
     fi
