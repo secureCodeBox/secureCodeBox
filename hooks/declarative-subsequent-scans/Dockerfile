@@ -16,4 +16,4 @@ RUN npm run build
 FROM securecodebox/hook-sdk-nodejs:${baseImageTag:-latest}
 WORKDIR /home/app/hook-wrapper/hook/
 COPY --from=install --chown=app:app /home/app/node_modules/ ./node_modules/
-COPY --from=build --chown=app:app /home/app/hook.js /home/app/scan-helpers.js /home/app/kubernetes-label-selector.js ./
+COPY --from=build --chown=app:app /home/app/hook.js /home/app/hook.js.map /home/app/scan-helpers.js /home/app/scan-helpers.js.map /home/app/kubernetes-label-selector.js /home/app/kubernetes-label-selector.js.map ./
