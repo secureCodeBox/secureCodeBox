@@ -3,8 +3,6 @@ package io.securecodebox.persistence.models;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import javax.swing.*;
-
 @AllArgsConstructor
 public enum SecureCodeBoxScanLabels {
   ENGAGEMENT_NAME("defectdojo.securecodebox.io/engagement-name"),
