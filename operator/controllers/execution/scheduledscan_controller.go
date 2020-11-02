@@ -20,6 +20,7 @@ import (
 	"context"
 	"fmt"
 	"reflect"
+	"regexp"
 	"sort"
 	"time"
 
@@ -122,11 +123,21 @@ func (r *ScheduledScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 
 	// check if it is time to start the next Scan
 	if !time.Now().Before(nextSchedule) {
+		// Include only *.securecodebox.io/* annotations, to not confuse other automated tools setting their annotations
+		var scbAnnotations = map[string]string{}
+		var scbOwnedAnnotationRegex = regexp.MustCompile("^.*\\.securecodebox\\.io/.*$")
+		for key, value := range scheduledScan.Annotations {
+			if scbOwnedAnnotationRegex.MatchString(key) {
+				scbAnnotations[key] = value
+			}
+		}
+
 		// It's time!
 		var scan = &executionv1.Scan{
 			ObjectMeta: metav1.ObjectMeta{
-				Namespace: scheduledScan.Namespace,
-				Labels:    scheduledScan.ObjectMeta.GetLabels(),
+				Namespace:   scheduledScan.Namespace,
+				Labels:      scheduledScan.ObjectMeta.GetLabels(),
+				Annotations: scbAnnotations,
 			},
 			Spec: *scheduledScan.Spec.ScanSpec.DeepCopy(),
 		}
