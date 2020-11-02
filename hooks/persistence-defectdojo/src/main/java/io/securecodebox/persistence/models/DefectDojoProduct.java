@@ -21,11 +21,4 @@ public class DefectDojoProduct {
 
     @JsonProperty("authorized_users")
     List<String> authorizedUsers;
-
-    public DefectDojoProduct() {}
-
-    public DefectDojoProduct(String productName, String productDescription) {
-        name = productName;
-        description = productDescription;
-    }
 }

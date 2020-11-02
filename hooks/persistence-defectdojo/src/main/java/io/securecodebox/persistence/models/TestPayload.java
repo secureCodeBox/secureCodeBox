@@ -29,6 +29,9 @@ public class TestPayload {
     @JsonProperty
     protected String title;
 
+    @JsonProperty
+    protected String description;
+
     @JsonProperty("target_start")
     protected String targetStart;
 
@@ -38,10 +41,19 @@ public class TestPayload {
     protected List<String> tags = new LinkedList<>();
 
     @JsonProperty("test_type")
-    protected String testType;
+    protected int testType;
 
     @JsonProperty
-    protected String engagement;    
+    protected long lead;
+
+    @JsonProperty("percent_complete")
+    protected int percentComplete;
+
+    @JsonProperty
+    protected long engagement;
+
+    @JsonProperty
+    protected String version;
 
     /**
      * 1 Development
@@ -49,17 +61,4 @@ public class TestPayload {
      */
     @JsonProperty
     protected String environment = "1";
-
-    /**
-     * 
-     * @return OWASP DefectDojo test type id, -1 in case it is not found
-     */
-    public static int getTestTypeIdForName(String name) {
-        switch (name) {    
-            case "Dependency Check Scan":
-            return 18;
-            default:
-            return -1;
-        }
-    }
 }
