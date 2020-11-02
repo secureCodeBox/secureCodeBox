@@ -15,7 +15,7 @@ spec:
     scanType: "gitleaks"
     parameters:
       - "-r"
-      - "{{attributes.web_url}}"
+      - "{{{attributes.web_url}}}"
       - "--config"
       - "/home/config_all.toml"
       - "--access-token"
