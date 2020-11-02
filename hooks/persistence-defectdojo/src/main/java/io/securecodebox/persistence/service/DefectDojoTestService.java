@@ -23,6 +23,7 @@ import io.securecodebox.persistence.models.DefectDojoResponse;
 import io.securecodebox.persistence.models.EngagementResponse;
 import io.securecodebox.persistence.models.TestPayload;
 import io.securecodebox.persistence.models.TestResponse;
+import io.securecodebox.persistence.util.ScanNameMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -97,7 +98,7 @@ public class DefectDojoTestService {
 
         ResponseEntity<DefectDojoResponse<TestResponse>> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, engagementRequest, new ParameterizedTypeReference<DefectDojoResponse<TestResponse>>(){});
 
-        Optional<Long> testResponseId = null;
+        Optional<Long> testResponseId = Optional.empty();
         Optional<Long> latestTestResponseId = Optional.empty();
         for(TestResponse test : response.getBody().getResults()) {
             if(testName == null || (test.getTitle() != null && test.getTitle().equals(testName))) {
@@ -108,7 +109,7 @@ public class DefectDojoTestService {
             }
 
         }
-        if(testResponseId != null) {
+        if(testResponseId.isPresent()) {
             return testResponseId;
         }
 
@@ -164,28 +165,18 @@ public class DefectDojoTestService {
         return Optional.empty();
     }
 
-    private EngagementResponse createTest(TestPayload testPayload) {
+    public TestResponse createTest(TestPayload testPayload) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpEntity<TestPayload> payload = new HttpEntity<>(testPayload, getDefectDojoAuthorizationHeaders());
 
         try {
-            ResponseEntity<EngagementResponse> response = restTemplate.exchange(defectDojoUrl + "/api/v2/tests/", HttpMethod.POST, payload, EngagementResponse.class);
+            ResponseEntity<TestResponse> response = restTemplate.exchange(defectDojoUrl + "/api/v2/tests/", HttpMethod.POST, payload, TestResponse.class);
             return response.getBody();
         } catch (HttpClientErrorException e) {
-            LOG.warn("Failed to create Test for SecurityTest.", e);
+            LOG.warn("Failed to create Test for Scan.", e);
             LOG.warn("Failure response body. {}", e.getResponseBodyAsString());
-            throw new DefectDojoPersistenceException("Failed to create Test for SecurityTest", e);
+            throw new DefectDojoPersistenceException("Failed to create Test for Scan", e);
         }
-    }
-
-    long getTestIdOrCreate(long engagementId, TestPayload testPayload, String testType) {
-        return getTestIdByEngagementName(engagementId, testPayload.getTitle(), 0).orElseGet(() -> {
-            testPayload.setEngagement(Long.toString(engagementId));
-            testPayload.setTargetStart(currentDateTime());
-            testPayload.setTargetEnd(currentDateTime());
-            testPayload.setTestType(Integer.toString(TestPayload.getTestTypeIdForName(testType)));
-            return createTest(testPayload).getId();
-        });
     }
 }

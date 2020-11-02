@@ -134,13 +134,6 @@ public class DefectDojoFindingService {
         }
     }
 
-    public ImportScanResponse createFindingsReImport(String rawResult, String productName, String engagementName, long lead, String currentDate, String defectDojoScanName, EngagementPayload engagementPayload, TestPayload testPayload, MultiValueMap<String, Object> options, String productDescription, List<String> productTags)  {
-        long productId = this.defectDojoProductService.retrieveOrCreateProduct(productName, productDescription, productTags);
-        long engagementId = this.defectDojoEngagementService.getEngagementIdByEngagementNameOrCreate(productId, engagementName, engagementPayload, lead);
-        long testId = defectDojoTestService.getTestIdOrCreate(engagementId, testPayload, defectDojoScanName);
-        return createFindingsReImport(rawResult, testId, lead, currentDate, defectDojoScanName, options);
-    }
-
     public ImportScanResponse createFindingsReImport(String rawResult, long testId, long lead, String currentDate,String defectDojoScanName, MultiValueMap<String, Object> options) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = getDefectDojoAuthorizationHeaders();

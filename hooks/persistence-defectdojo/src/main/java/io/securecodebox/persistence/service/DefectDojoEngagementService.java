@@ -127,15 +127,15 @@ public class DefectDojoEngagementService {
     }
 
     // If the Scan has a explicit product name referenced via a label, use the labelled product name
-    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanLabels.PRODUCT_NAME.getLabel())) {
-      productName = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanLabels.PRODUCT_NAME.getLabel());
+    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.PRODUCT_NAME.getLabel())) {
+      productName = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.PRODUCT_NAME.getLabel());
     }
 
     long productId = defectDojoProductService.getProductId(productName);
 
     String engagementName = scan.getMetadata().getName();
-    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanLabels.ENGAGEMENT_NAME.getLabel())) {
-      engagementName = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanLabels.ENGAGEMENT_NAME.getLabel());
+    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.ENGAGEMENT_NAME.getLabel())) {
+      engagementName = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.ENGAGEMENT_NAME.getLabel());
     }
 
     engagementPayload.setProduct(productId);
@@ -143,7 +143,7 @@ public class DefectDojoEngagementService {
     engagementPayload.setName(engagementName);
 
     engagementPayload.setLead(userId);
-    engagementPayload.setDescription(generateDescription(scan));
+    engagementPayload.setDescription("");
 //        engagementPayload.setBranch(securityTest.getMetaData().get(CommonMetaFields.SCB_BRANCH.name()));
 //        engagementPayload.setBuildID(securityTest.getMetaData().get(CommonMetaFields.SCB_BUILD_ID.name()));
 //        engagementPayload.setCommitHash(securityTest.getMetaData().get(CommonMetaFields.SCB_COMMIT_HASH.name()));
@@ -158,9 +158,9 @@ public class DefectDojoEngagementService {
     engagementPayload.setTargetEnd(currentDate());
     engagementPayload.setStatus(EngagementPayload.Status.IN_PROGRESS);
 
-    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanLabels.ENGAGEMENT_TAGS.getLabel())) {
+    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.ENGAGEMENT_TAGS.getLabel())) {
       var tags = new LinkedList<>(
-        Arrays.asList(scan.getMetadata().getAnnotations().get(SecureCodeBoxScanLabels.ENGAGEMENT_TAGS.getLabel()).split(","))
+        Arrays.asList(scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.ENGAGEMENT_TAGS.getLabel()).split(","))
       ).stream()
         .map(String::trim)
         .collect(Collectors.toList());
@@ -169,8 +169,8 @@ public class DefectDojoEngagementService {
     }
 
     String version = null;
-    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanLabels.ENGAGEMENT_VERSION.getLabel())) {
-      version = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanLabels.ENGAGEMENT_VERSION.getLabel());
+    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.ENGAGEMENT_VERSION.getLabel())) {
+      version = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.ENGAGEMENT_VERSION.getLabel());
       engagementPayload.setVersion(version);
     }
 

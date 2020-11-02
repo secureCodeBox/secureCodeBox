@@ -23,11 +23,12 @@ import io.securecodebox.models.V1Scan;
 import io.securecodebox.models.V1ScanList;
 import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import io.securecodebox.persistence.exceptions.DefectDojoUnreachableException;
-import io.securecodebox.persistence.service.DefectDojoEngagementService;
-import io.securecodebox.persistence.service.DefectDojoFindingService;
-import io.securecodebox.persistence.service.DefectDojoToolService;
-import io.securecodebox.persistence.service.DefectDojoUserService;
+import io.securecodebox.persistence.models.SecureCodeBoxScanAnnotations;
+import io.securecodebox.persistence.models.TestPayload;
+import io.securecodebox.persistence.service.*;
 import io.securecodebox.persistence.util.DescriptionGenerator;
+import io.securecodebox.persistence.util.ScanNameMapping;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -53,6 +55,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Arrays;
+import java.util.Objects;
 
 @SpringBootApplication
 public class DefectDojoPersistenceProvider {
@@ -78,6 +81,9 @@ public class DefectDojoPersistenceProvider {
 
   @Autowired
   private DefectDojoEngagementService defectDojoEngagementService;
+
+  @Autowired
+  private DefectDojoTestService defectDojoTestService;
 
   @Autowired
   private Environment environment;
@@ -139,7 +145,6 @@ public class DefectDojoPersistenceProvider {
     };
   }
 
-
   /**
    * Persists the given securityTest within DefectDojo.
    * @param scan The securityTest to persist.
@@ -147,6 +152,11 @@ public class DefectDojoPersistenceProvider {
    */
   public void persist(V1Scan scan) throws DefectDojoPersistenceException {
     LOG.debug("Starting DefectDojo persistence provider");
+
+    Objects.requireNonNull(scan.getStatus());
+    Objects.requireNonNull(scan.getSpec());
+    Objects.requireNonNull(scan.getMetadata());
+
     LOG.debug("RawFindings: {}", scan.getStatus().getRawResultDownloadLink());
 
     try {
@@ -182,13 +192,41 @@ public class DefectDojoPersistenceProvider {
     String result = this.getRawResults(scan);
     LOG.info("Downloading Scan Report (RawResults)");
 
+    var startDate = Objects.requireNonNull(scan.getMetadata().getCreationTimestamp()).toString("yyyy-MM-dd HH:mm:ssZ");
+    LOG.info("Timestamp Test: '{}'", startDate);
+
+    String endDate;
+    if (scan.getStatus().getFinishedAt() != null) {
+      endDate = scan.getStatus().getFinishedAt().toString("yyyy-MM-dd HH:mm:ssZ");
+    } else {
+      endDate = DateTime.now().toString("yyyy-MM-dd HH:mm:ssZ");
+    }
+
+    String version = null;
+    if (scan.getMetadata().getAnnotations() != null ) {
+      version = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.ENGAGEMENT_VERSION.getLabel());
+    }
+
+    var testPayload = new TestPayload();
+    testPayload.setTitle(scan.getMetadata().getName());
+    testPayload.setDescription(descriptionGenerator.generate(scan));
+    testPayload.setTestType(ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).testType.id);
+    testPayload.setTargetStart(startDate);
+    testPayload.setTargetEnd(endDate);
+    testPayload.setEngagement(engagementId);
+    testPayload.setLead(userId);
+    testPayload.setPercentComplete(100);
+    testPayload.setVersion(version);
+    var test = defectDojoTestService.createTest(testPayload);
+
     LOG.info("Uploading Scan Report (RawResults) to DefectDojo");
-    var ddTest= defectFindingService.createFindings(
+    var ddTest= defectFindingService.createFindingsReImport(
       result,
-      engagementId,
+      test.getId(),
       userId,
       this.descriptionGenerator.currentDate(),
-      this.descriptionGenerator.getDefectDojoScanName(scan.getSpec().getScanType())
+      ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).scanType,
+      new LinkedMultiValueMap<>()
     );
     LOG.info("Uploaded Scan Report (RawResults) as testID {} to DefectDojo", ddTest.getTestId());
     LOG.info("All done!");
