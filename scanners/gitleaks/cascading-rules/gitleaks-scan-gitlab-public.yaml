@@ -1,30 +1,20 @@
 apiVersion: "cascading.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
-  name: "gitleaks-github-scan-private"
+  name: "gitleaks-gitlab-scan-public"
   labels:
     securecodebox.io/invasive: non-invasive
     securecodebox.io/intensive: medium
 spec:
   matches:
     anyOf:
-      - name: "GitHub Repo"
+      - name: "GitLab Repo"
         attributes:
-          visibility: private
+          visibility: public
   scanSpec:
     scanType: "gitleaks"
     parameters:
       - "-r"
       - "{{attributes.web_url}}"
-      #Provide an access token
-      - "--access-token"
-      - "$(GITHUB_TOKEN)"
       - "--config"
       - "/home/config_all.toml"
-    env:
-      - name: GITHUB_TOKEN
-        valueFrom:
-          secretKeyRef:
-            name: github-access-token
-            key: token
-

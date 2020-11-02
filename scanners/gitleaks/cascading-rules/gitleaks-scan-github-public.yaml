@@ -1,7 +1,7 @@
 apiVersion: "cascading.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
-  name: "gitleaks-scan-public"
+  name: "gitleaks-github-scan-public"
   labels:
     securecodebox.io/invasive: non-invasive
     securecodebox.io/intensive: medium
@@ -18,4 +18,12 @@ spec:
       - "{{attributes.web_url}}"
       - "--config"
       - "/home/config_all.toml"
+      - "--access-token"
+      - "$(GITHUB_TOKEN)"
+    env:
+      - name: GITHUB_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: github-access-token
+            key: token
 
