@@ -39,10 +39,32 @@ function print() {
 }
 
 function usage() {
+  local usage
+  usage="Usage: $(basename "$0") [--all] [--scanners] [--hooks] [--demo-apps] [--help]"
+  local help
+  help=$(cat <<- EOT
+        The installation is interactive if no arguments are provided.
+
+        Options:
+          --all          Install scanners, demo-apps and hooks
+          --scanners     Install scanners
+          --demo-apps    Install demo-apps
+          --hooks        Install hooks
+          -h|--help      Show help
+
+        Examples:
+        install.sh --all
+        Installs the operator in namespace: securecodebox-system and
+        all resources in namespace: default
+
+        install.sh --hooks --scanners
+        Installs only operator, scanners and hooks
+EOT
+  )
   print "SecureCodeBox Install Script"
-  print "Usage:"
-  print "./install.sh: Interactive Install"
-  print "./install.sh --all: Unattended Install, installs all available resouces"
+  print "$usage"
+  print
+  print "$help"
 }
 
 function checkKubectl() {
@@ -202,6 +224,49 @@ function unattendedInstall() {
   print "$COLOR_OK" "Finished installation successfully!"
 }
 
+function parseArguments() {
+  local install_scanners=false
+  local install_demo_apps=false
+  local install_hooks=false
+
+  while (( "$#" )); do
+        case "$1" in
+          --scanners)
+            install_scanners=true
+            shift # Pop current argument from array
+            ;;
+          --demo-apps)
+            install_demo_apps=true
+            shift
+            ;;
+          --hooks)
+            install_hooks=true
+            shift
+            ;;
+          --all)
+            install_scanners=true
+            install_demo_apps=true
+            install_hooks=true
+            shift
+            ;;
+          -h|--help)
+            usage
+            exit
+            ;;
+          --*) # unsupported flags
+            echo "Error: Unsupported flag $1" >&2
+            usage
+            exit 1
+            ;;
+          *) # preserve positional arguments
+            shift
+            ;;
+        esac
+  done
+
+  unattendedInstall $install_scanners $install_demo_apps $install_hooks
+}
+
 print "$COLOR_HIGHLIGHT" "                                                                             "
 print "$COLOR_HIGHLIGHT" "                               _____           _      ____                   "
 print "$COLOR_HIGHLIGHT" "                              / ____|         | |    |  _ \                  "
@@ -213,10 +278,6 @@ print "$COLOR_HIGHLIGHT" "                                                      
 
 if [[ $# == 0 ]]; then
     interactiveInstall
-  elif [[ $# == 1 ]]; then
-    if [[ $1 == "--all" ]]; then
-      unattendedInstall true true true
-    else
-      usage
-    fi
+  else
+    parseArguments "$@"
 fi
