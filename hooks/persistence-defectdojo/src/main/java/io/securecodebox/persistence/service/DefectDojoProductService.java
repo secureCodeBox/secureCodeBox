@@ -20,10 +20,8 @@ package io.securecodebox.persistence.service;
 
 import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import io.securecodebox.persistence.exceptions.DefectDojoProductNotFound;
-import io.securecodebox.persistence.models.DefectDojoProduct;
-import io.securecodebox.persistence.models.DefectDojoResponse;
-import io.securecodebox.persistence.models.ProductPayload;
-import io.securecodebox.persistence.models.ProductResponse;
+import io.securecodebox.persistence.models.*;
+import org.checkerframework.checker.nullness.Opt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,9 +33,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class DefectDojoProductService {
@@ -88,7 +89,7 @@ public class DefectDojoProductService {
       }
     }
 
-    throw new DefectDojoProductNotFound(MessageFormat.format("DefectDojo Product API Returned multiple products but non matched the productNmae: \"{0}\"", productName));
+    throw new DefectDojoProductNotFound(MessageFormat.format("DefectDojo Product API Returned multiple products but non matched the productName: \"{0}\"", productName));
   }
 
   /**
@@ -100,7 +101,7 @@ public class DefectDojoProductService {
    * @param productTags        A list of tags of the DefectDojo product.
    * @return The productId for the given product details.
    */
-  public long retrieveOrCreateProduct(String productName, String productDescription, List<String> productTags) {
+  public long retrieveOrCreateProduct(String productName, long productTypeId, String productDescription, List<String> productTags) {
     long productId = 0;
     try {
       productId = getProductId(productName);
@@ -108,15 +109,15 @@ public class DefectDojoProductService {
       LOG.debug("Given product does not exists");
     }
     if (productId == 0) {
-      ProductResponse productResponse = createProduct(productName, productDescription, productTags);
+      ProductResponse productResponse = createProduct(productName, productTypeId, productDescription, productTags);
       productId = productResponse.getId();
     }
     return productId;
   }
 
-  public ProductResponse createProduct(String productName, String description, List<String> productTags) {
+  public ProductResponse createProduct(String productName, long productTypeId, String description, List<String> productTags) {
     RestTemplate restTemplate = new RestTemplate();
-    ProductPayload productPayload = new ProductPayload(productName, description, productTags);
+    ProductPayload productPayload = new ProductPayload(productName, productTypeId, description, productTags);
     HttpEntity<ProductPayload> payload = new HttpEntity<>(productPayload, getDefectDojoAuthorizationHeaders());
 
     try {
@@ -124,6 +125,43 @@ public class DefectDojoProductService {
       return response.getBody();
     } catch (HttpClientErrorException e) {
       LOG.warn("Failed to create product {}", e);
+      LOG.warn("Failure response body. {}", e.getResponseBodyAsString());
+      throw new DefectDojoPersistenceException("Failed to create product", e);
+    }
+  }
+
+  public Optional<ProductTypeResponse> getProductType(String productTypeName) {
+    RestTemplate restTemplate = new RestTemplate();
+
+    UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(defectDojoUrl + "/api/v2/product_types/")
+      .queryParam("name", productTypeName);
+
+    HttpEntity productRequest = new HttpEntity(getDefectDojoAuthorizationHeaders());
+    ResponseEntity<DefectDojoResponse<ProductTypeResponse>> productTypeResponse = restTemplate.exchange(builder.build().toUri(), HttpMethod.GET, productRequest, new ParameterizedTypeReference<DefectDojoResponse<ProductTypeResponse>>() {
+    });
+    if (productTypeResponse.getBody().getCount() == 0) {
+      return Optional.empty();
+    }
+
+    for (var productType : productTypeResponse.getBody().getResults()) {
+      if (productTypeName.equals(productType.getName())) {
+        return Optional.of(productType);
+      }
+    }
+
+    return Optional.empty();
+  }
+
+  public ProductTypeResponse createProductType(String productTypeName) {
+    RestTemplate restTemplate = new RestTemplate();
+    ProductTypePayload productPayload = new ProductTypePayload(productTypeName);
+    HttpEntity<ProductTypePayload> payload = new HttpEntity<>(productPayload, getDefectDojoAuthorizationHeaders());
+
+    try {
+      ResponseEntity<ProductTypeResponse> response = restTemplate.exchange(defectDojoUrl + "/api/v2/product_types/", HttpMethod.POST, payload, ProductTypeResponse.class);
+      return response.getBody();
+    } catch (HttpClientErrorException e) {
+      LOG.warn("Failed to create product type", e);
       LOG.warn("Failure response body. {}", e.getResponseBodyAsString());
       throw new DefectDojoPersistenceException("Failed to create product", e);
     }

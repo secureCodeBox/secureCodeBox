@@ -111,27 +111,9 @@ public class DefectDojoEngagementService {
    * @param scan The Scan to crete an DefectDojo engagement for.
    * @return The newly created engagement.
    */
-  public long createEngagement(V1Scan scan, Long userId) {
+  public long createEngagement(V1Scan scan, Long productId, Long userId) {
     EngagementPayload engagementPayload = new EngagementPayload();
     assert scan.getMetadata() != null;
-
-    String productName = scan.getMetadata().getName();
-
-    // If the Scan was created via a scheduled scan, the Name of the ScheduledScan should be preferred to the scans name
-    if (scan.getMetadata().getOwnerReferences() != null) {
-      for(var ownerReference : scan.getMetadata().getOwnerReferences()) {
-        if ("ScheduledScan".equals(ownerReference.getKind())){
-          productName = ownerReference.getName();
-        }
-      }
-    }
-
-    // If the Scan has a explicit product name referenced via a label, use the labelled product name
-    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.PRODUCT_NAME.getLabel())) {
-      productName = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.PRODUCT_NAME.getLabel());
-    }
-
-    long productId = defectDojoProductService.getProductId(productName);
 
     String engagementName = scan.getMetadata().getName();
     if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.ENGAGEMENT_NAME.getLabel())) {

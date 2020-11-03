@@ -17,7 +17,7 @@ public enum ScanNameMapping {
    * secureCodeBox ScanType
    * Examples: "nmap", "zap-api-scan", "zap-baseline"
    */
-  protected String scbScanType;
+  protected final String scbScanType;
 
 
   public static ScanNameMapping bySecureCodeBoxScanType(@NonNull String scanType) {
@@ -34,7 +34,7 @@ public enum ScanNameMapping {
    * DefectDojo Scan Type
    * Example: "Nmap Scan"
    */
-  public String scanType;
+  public final String scanType;
 
   /**
    * DefectDojo ToolType Id
@@ -42,7 +42,7 @@ public enum ScanNameMapping {
    *
    * Example
    */
-  public TestType testType;
+  public final TestType testType;
 
   @AllArgsConstructor
   public static enum TestType{
@@ -55,6 +55,6 @@ public enum ScanNameMapping {
     MANUAL_CODE_REVIEW(7);
 
     @JsonProperty
-    public int id;
+    public final int id;
   }
 }

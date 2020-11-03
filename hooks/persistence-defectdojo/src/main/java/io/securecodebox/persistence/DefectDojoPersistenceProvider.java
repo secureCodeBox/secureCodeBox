@@ -55,7 +55,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @SpringBootApplication
 public class DefectDojoPersistenceProvider {
@@ -84,6 +86,9 @@ public class DefectDojoPersistenceProvider {
 
   @Autowired
   private DefectDojoTestService defectDojoTestService;
+
+  @Autowired
+  private DefectDojoProductService defectDojoProductService;
 
   @Autowired
   private Environment environment;
@@ -184,45 +189,23 @@ public class DefectDojoPersistenceProvider {
     long userId = defectDojoUserService.getUserId(defectDojoUser);
     LOG.info("Running with DefectDojo User Id: {}", userId);
 
+    long productTypeId = this.ensureProductTypeExistsForScan(scan);
+    long productId = this.ensureProductExistsForScan(scan, productTypeId);
+
     LOG.info("Looking for existing or creating new DefectDojo Engagement");
-    long engagementId = this.defectDojoEngagementService.createEngagement(scan, userId);
+    long engagementId = this.defectDojoEngagementService.createEngagement(scan, productId, userId);
     LOG.info("Using Engagement with Id: '{}'", engagementId);
 
     LOG.info("Downloading Scan Report (RawResults)");
     String result = this.getRawResults(scan);
-    LOG.info("Downloading Scan Report (RawResults)");
+    LOG.info("Finished Downloading Scan Report (RawResults)");
 
-    var startDate = Objects.requireNonNull(scan.getMetadata().getCreationTimestamp()).toString("yyyy-MM-dd HH:mm:ssZ");
-    LOG.info("Timestamp Test: '{}'", startDate);
-
-    String endDate;
-    if (scan.getStatus().getFinishedAt() != null) {
-      endDate = scan.getStatus().getFinishedAt().toString("yyyy-MM-dd HH:mm:ssZ");
-    } else {
-      endDate = DateTime.now().toString("yyyy-MM-dd HH:mm:ssZ");
-    }
-
-    String version = null;
-    if (scan.getMetadata().getAnnotations() != null ) {
-      version = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.ENGAGEMENT_VERSION.getLabel());
-    }
-
-    var testPayload = new TestPayload();
-    testPayload.setTitle(scan.getMetadata().getName());
-    testPayload.setDescription(descriptionGenerator.generate(scan));
-    testPayload.setTestType(ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).testType.id);
-    testPayload.setTargetStart(startDate);
-    testPayload.setTargetEnd(endDate);
-    testPayload.setEngagement(engagementId);
-    testPayload.setLead(userId);
-    testPayload.setPercentComplete(100);
-    testPayload.setVersion(version);
-    var test = defectDojoTestService.createTest(testPayload);
+    var testId = this.createTest(scan, engagementId, userId);
 
     LOG.info("Uploading Scan Report (RawResults) to DefectDojo");
     var ddTest= defectFindingService.createFindingsReImport(
       result,
-      test.getId(),
+      testId,
       userId,
       this.descriptionGenerator.currentDate(),
       ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).scanType,
@@ -262,5 +245,88 @@ public class DefectDojoPersistenceProvider {
     } catch (HttpClientErrorException e) {
       throw new DefectDojoPersistenceException("Failed to download Raw Findings", e);
     }
+  }
+
+  private long ensureProductTypeExistsForScan(V1Scan scan){
+    // Put newly created Products in productType Id 1 (Research & Development) if not otherwise specified
+    long productTypeId = 1;
+    // If a product-type was specified use the specified one
+    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.PRODUCT_TYPE.getLabel())) {
+      var productTypeName = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.PRODUCT_TYPE.getLabel());
+
+      LOG.info("Looking for ID of ProductType '{}'", productTypeName);
+      final String finalProductTypeName = productTypeName;
+      var productType = defectDojoProductService.getProductType(productTypeName).orElseGet(() -> {
+        LOG.info("ProductType '{}' didn't already exists creating now", productTypeName);
+        return defectDojoProductService.createProductType(finalProductTypeName);
+      });
+
+      productTypeId = productType.getId();
+      LOG.info("Using ProductType Id: {}", productTypeId);
+    } else {
+      LOG.info("Using default ProductType as no '{}' annotation was found on the scan", SecureCodeBoxScanAnnotations.PRODUCT_TYPE.getLabel());
+    }
+
+    return productTypeId;
+  }
+
+  private long ensureProductExistsForScan(V1Scan scan, long productTypeId) {
+    String productName = scan.getMetadata().getName();
+    // If the Scan was created via a scheduled scan, the Name of the ScheduledScan should be preferred to the scans name
+    if (scan.getMetadata().getOwnerReferences() != null) {
+      for(var ownerReference : scan.getMetadata().getOwnerReferences()) {
+        if ("ScheduledScan".equals(ownerReference.getKind())){
+          productName = ownerReference.getName();
+        }
+      }
+    }
+    // If the Scan has a explicit product name referenced via a label, use the labelled product name
+    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.PRODUCT_NAME.getLabel())) {
+      productName = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.PRODUCT_NAME.getLabel());
+    }
+
+    String productDescription = " ";
+    // If the Scan was created via a scheduled scan, the Name of the ScheduledScan should be preferred to the scans name
+    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.PRODUCT_DESCRIPTION.getLabel())) {
+      productDescription = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.PRODUCT_DESCRIPTION.getLabel());
+    }
+
+    List<String> tags = List.of();
+    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.PRODUCT_TAGS.getLabel())) {
+      tags = Arrays.stream(scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.ENGAGEMENT_TAGS.getLabel()).split(","))
+        .map(String::trim)
+        .collect(Collectors.toList());
+    }
+
+    return defectDojoProductService.retrieveOrCreateProduct(productName, productTypeId, productDescription, tags);
+  }
+
+  private long createTest(V1Scan scan, long engagementId, long userId) {
+        var startDate = Objects.requireNonNull(scan.getMetadata().getCreationTimestamp()).toString("yyyy-MM-dd HH:mm:ssZ");
+
+    String endDate;
+    if (scan.getStatus().getFinishedAt() != null) {
+      endDate = scan.getStatus().getFinishedAt().toString("yyyy-MM-dd HH:mm:ssZ");
+    } else {
+      endDate = DateTime.now().toString("yyyy-MM-dd HH:mm:ssZ");
+    }
+
+    String version = null;
+    if (scan.getMetadata().getAnnotations() != null ) {
+      version = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.ENGAGEMENT_VERSION.getLabel());
+    }
+
+    var testPayload = new TestPayload();
+    testPayload.setTitle(scan.getMetadata().getName());
+    testPayload.setDescription(descriptionGenerator.generate(scan));
+    testPayload.setTestType(ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).testType.id);
+    testPayload.setTargetStart(startDate);
+    testPayload.setTargetEnd(endDate);
+    testPayload.setEngagement(engagementId);
+    testPayload.setLead(userId);
+    testPayload.setPercentComplete(100);
+    testPayload.setVersion(version);
+
+    return defectDojoTestService.createTest(testPayload).getId();
   }
 }
