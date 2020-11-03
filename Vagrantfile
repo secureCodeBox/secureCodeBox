@@ -7,8 +7,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.box = "debian/buster64"
   config.vm.hostname = "securecodebox"
-  # Don't sync anything onto the box.
-  config.vm.synced_folder base_dir, '/vagrant', disabled: true
 
   # We use the same defaults like Docker Desktop.
   memory = 2048
@@ -43,6 +41,8 @@ Vagrant.configure("2") do |config|
   # Redirecting STDERR to /dev/null because Minikube print download progress
   # for the images to STDERR which clutters up the Vagrant output w/ error output!
   config.vm.provision :shell, privileged: false, inline: "sudo -g docker minikube start 2>/dev/null"
+  # Install everything from secureCodeBox:
+  config.vm.provision :shell, privileged: false, inline: "sudo -g docker /vagrant/bin/install.sh --all"
 
   # Do not automatically install VirtualBox guest additions, if available.
   # Because this would take lot of time with additional reboot.
