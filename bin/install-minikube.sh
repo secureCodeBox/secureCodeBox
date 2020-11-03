@@ -1,32 +1,83 @@
 #!/usr/bin/env bash
 
+#
+# Install the Minikube setup in the all-in-one Vagrant box.
+#
+# This scriptmust be executedas root.
+#
+
 set -eu
 
 export DEBIAN_FRONTEND="noninteractive"
-apt-get update
-apt-get upgrade -y
-apt-get install -y \
-  apt-transport-https \
-  ca-certificates \
-  gnupg2 \
-  curl \
-  software-properties-common
+MINIKUBE_DEB_FILE="minikube_latest_amd64.deb"
+MINIKUBE_DEB_PATH="${HOME}/${MINIKUBE_DEB_FILE}"
+
+cleanup() {
+  rm -rfv "${MINIKUBE_DEB_PATH}"
+}
+
+# Cleanup stuff on normal exit and interuption.
+trap cleanup EXIT
+trap cleanup INT
+
+update_system() {
+  apt-get update
+  apt-get upgrade -y
+  apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    gnupg2 \
+    curl \
+    software-properties-common
+}
 
 # Install Docker as minikube provider (https://docs.docker.com/engine/install/debian/)
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
-add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
-apt-get -y update
-apt-get install -y docker-ce
-systemctl start docker
-usermod -a -G docker vagrant
-
-# Install minikube (https://minikube.sigs.k8s.io/docs/start/)
-curl -sSLO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
-dpkg -i minikube_latest_amd64.deb
-rm minikube_latest_amd64.deb
+add_docker_apt_source() {
+  add_apt_key "https://download.docker.com/linux/debian/gpg"
+  add_apt_source "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" "docker"
+}
 
 # Install kubectl (https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-using-native-package-management)
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list
-apt-get update
-apt-get install -y kubectl
+add_kubectl_apt_source() {
+  add_apt_key "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+  add_apt_source "deb https://apt.kubernetes.io/ kubernetes-xenial main" "kubernetes"
+}
+
+# https://helm.sh/docs/intro/install/
+add_helm_apt_source() {
+  add_apt_key "https://baltocdn.com/helm/signing.asc"
+  add_apt_source "deb https://baltocdn.com/helm/stable/debian/ all main" "helm"
+}
+
+add_apt_key() {
+  local url="${1}"
+  curl -fsSL "${url}" | apt-key add -
+}
+
+add_apt_source() {
+  local src="${1}"
+  local destination="${2}"
+  echo "${src}" > "/etc/apt/sources.list.d/${destination}.list"
+}
+
+# Install minikube (https://minikube.sigs.k8s.io/docs/start/)
+donwload_and_install_minikube() {
+  curl -sSLo "${MINIKUBE_DEB_PATH}" "https://storage.googleapis.com/minikube/releases/latest/${MINIKUBE_DEB_FILE}"
+  dpkg -i "${MINIKUBE_DEB_PATH}"
+}
+
+update_system
+add_docker_apt_source
+add_kubectl_apt_source
+add_helm_apt_source
+
+apt-get -y update
+apt-get install -y \
+  docker-ce \
+  kubectl \
+  helm
+
+donwload_and_install_minikube
+
+systemctl start docker
+usermod -a -G docker vagrant
