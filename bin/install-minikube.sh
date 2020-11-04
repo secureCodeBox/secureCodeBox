@@ -3,7 +3,7 @@
 #
 # Install the Minikube setup in the all-in-one Vagrant box.
 #
-# This scriptmust be executedas root.
+# IMPORTANT: This script must be executed as root.
 #
 
 set -eu
