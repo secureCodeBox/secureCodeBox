@@ -18,6 +18,11 @@
  */
 package io.securecodebox.persistence;
 
+import io.kubernetes.client.openapi.ApiClient;
+import io.kubernetes.client.openapi.ApiException;
+import io.kubernetes.client.openapi.Configuration;
+import io.kubernetes.client.util.ClientBuilder;
+import io.kubernetes.client.util.KubeConfig;
 import io.kubernetes.client.util.generic.GenericKubernetesApi;
 import io.securecodebox.models.V1Scan;
 import io.securecodebox.models.V1ScanList;
@@ -36,12 +41,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import io.kubernetes.client.openapi.ApiClient;
-import io.kubernetes.client.openapi.ApiException;
-import io.kubernetes.client.openapi.Configuration;
-import io.kubernetes.client.util.ClientBuilder;
-import io.kubernetes.client.util.KubeConfig;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
@@ -104,7 +103,7 @@ public class DefectDojoPersistenceProvider {
 
       ApiClient client;
 
-      if(Arrays.asList(environment.getActiveProfiles()).contains("prod")) {
+      if (Arrays.asList(environment.getActiveProfiles()).contains("prod")) {
         client = ClientBuilder.cluster().build();
       } else {
         // loading the out-of-cluster config, a kubeconfig from file-system
@@ -119,11 +118,11 @@ public class DefectDojoPersistenceProvider {
       Configuration.setDefaultApiClient(client);
 
       String scanName = System.getenv("SCAN_NAME");
-      if (scanName == null){
+      if (scanName == null) {
         scanName = "nmap-scanme.nmap.org";
       }
       String namespace = System.getenv("NAMESPACE");
-      if (namespace == null){
+      if (namespace == null) {
         namespace = "default";
       }
 
@@ -141,7 +140,7 @@ public class DefectDojoPersistenceProvider {
 
       var response = scanApi.get(namespace, scanName);
 
-      if(!response.isSuccess()) {
+      if (!response.isSuccess()) {
         throw new DefectDojoPersistenceException("Failed to fetch Scan '" + scanName + "' in Namespace '" + namespace + "' from Kubernetes API");
       }
 
@@ -152,6 +151,7 @@ public class DefectDojoPersistenceProvider {
 
   /**
    * Persists the given securityTest within DefectDojo.
+   *
    * @param scan The securityTest to persist.
    * @throws DefectDojoPersistenceException If any persistence error occurs.
    */
@@ -174,7 +174,8 @@ public class DefectDojoPersistenceProvider {
 
   /**
    * Persists a given securityTest within DefectDojo.
-   * @param scan The securitTest to persist.
+   *
+   * @param scan The scan to persist.
    * @throws io.securecodebox.persistence.exceptions.DefectDojoPersistenceException If any persistence error occurs.
    */
   private void persistInDefectDojo(V1Scan scan) throws DefectDojoPersistenceException {
@@ -203,7 +204,7 @@ public class DefectDojoPersistenceProvider {
     var testId = this.createTest(scan, engagementId, userId);
 
     LOG.info("Uploading Scan Report (RawResults) to DefectDojo");
-    var ddTest= defectFindingService.createFindingsReImport(
+    var ddTest = defectFindingService.createFindingsReImport(
       result,
       testId,
       userId,
@@ -217,6 +218,7 @@ public class DefectDojoPersistenceProvider {
 
   /**
    * Checks if DefectDojo is available and reachable.
+   *
    * @throws DefectDojoUnreachableException If DefectDojo is not reachable
    */
   public void checkConnection() throws DefectDojoUnreachableException {
@@ -247,7 +249,7 @@ public class DefectDojoPersistenceProvider {
     }
   }
 
-  private long ensureProductTypeExistsForScan(V1Scan scan){
+  private long ensureProductTypeExistsForScan(V1Scan scan) {
     // Put newly created Products in productType Id 1 (Research & Development) if not otherwise specified
     long productTypeId = 1;
     // If a product-type was specified use the specified one
@@ -274,8 +276,8 @@ public class DefectDojoPersistenceProvider {
     String productName = scan.getMetadata().getName();
     // If the Scan was created via a scheduled scan, the Name of the ScheduledScan should be preferred to the scans name
     if (scan.getMetadata().getOwnerReferences() != null) {
-      for(var ownerReference : scan.getMetadata().getOwnerReferences()) {
-        if ("ScheduledScan".equals(ownerReference.getKind())){
+      for (var ownerReference : scan.getMetadata().getOwnerReferences()) {
+        if ("ScheduledScan".equals(ownerReference.getKind())) {
           productName = ownerReference.getName();
         }
       }
@@ -302,7 +304,7 @@ public class DefectDojoPersistenceProvider {
   }
 
   private long createTest(V1Scan scan, long engagementId, long userId) {
-        var startDate = Objects.requireNonNull(scan.getMetadata().getCreationTimestamp()).toString("yyyy-MM-dd HH:mm:ssZ");
+    var startDate = Objects.requireNonNull(scan.getMetadata().getCreationTimestamp()).toString("yyyy-MM-dd HH:mm:ssZ");
 
     String endDate;
     if (scan.getStatus().getFinishedAt() != null) {
@@ -312,7 +314,7 @@ public class DefectDojoPersistenceProvider {
     }
 
     String version = null;
-    if (scan.getMetadata().getAnnotations() != null ) {
+    if (scan.getMetadata().getAnnotations() != null) {
       version = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.ENGAGEMENT_VERSION.getLabel());
     }
 
