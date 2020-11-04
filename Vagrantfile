@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
   config.vm.provider :vmware_desktop do |c|
     # https://www.vagrantup.com/docs/providers/vmware/configuration
     c.vmx["memsize"] = memory
-    c.vmx["numvcpus"] = "2"
+    c.vmx["numvcpus"] = cpus
   end
 
   config.vm.provider :hyperv do |c|
