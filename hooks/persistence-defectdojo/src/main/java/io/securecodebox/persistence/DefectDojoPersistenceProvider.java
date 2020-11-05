@@ -98,54 +98,10 @@ public class DefectDojoPersistenceProvider {
   }
 
   @Bean
-  public CommandLineRunner commandLineRunner(ApplicationContext ctx) throws ApiException, IOException {
+  public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
     return args -> {
-
-      ApiClient client;
-
-      if (Arrays.asList(environment.getActiveProfiles()).contains("prod")) {
-        client = ClientBuilder.cluster().build();
-      } else {
-        // loading the out-of-cluster config, a kubeconfig from file-system
-        String kubeConfigPath = System.getProperty("user.home") + "/.kube/config";
-
-        System.out.println(kubeConfigPath);
-
-        client = ClientBuilder.kubeconfig(KubeConfig.loadKubeConfig(new FileReader(kubeConfigPath))).build();
-      }
-
-      // set the global default api-client to the in-cluster one from above
-      Configuration.setDefaultApiClient(client);
-
-      String scanName = System.getenv("SCAN_NAME");
-      if (scanName == null) {
-        scanName = "nmap-scanme.nmap.org";
-      }
-      String namespace = System.getenv("NAMESPACE");
-      if (namespace == null) {
-        namespace = "default";
-      }
-
-      // set the global default api-client to the in-cluster one from above
-      Configuration.setDefaultApiClient(client);
-
-      GenericKubernetesApi<V1Scan, V1ScanList> scanApi =
-        new GenericKubernetesApi<>(
-          V1Scan.class,
-          V1ScanList.class,
-          "execution.securecodebox.io",
-          "v1",
-          "scans",
-          ClientBuilder.defaultClient());
-
-      var response = scanApi.get(namespace, scanName);
-
-      if (!response.isSuccess()) {
-        throw new DefectDojoPersistenceException("Failed to fetch Scan '" + scanName + "' in Namespace '" + namespace + "' from Kubernetes API");
-      }
-
-      LOG.info("Fetched Scan from Kubernetes API");
-      this.persist(response.getObject());
+      var scan = getScanFromKubernetes();
+      this.persist(scan);
     };
   }
 
@@ -230,10 +186,55 @@ public class DefectDojoPersistenceProvider {
     }
   }
 
+  private V1Scan getScanFromKubernetes() throws IOException {
+    ApiClient client;
+
+    if (Arrays.asList(environment.getActiveProfiles()).contains("prod")) {
+      client = ClientBuilder.cluster().build();
+    } else {
+      // loading the out-of-cluster config, a kubeconfig from file-system
+      String kubeConfigPath = System.getProperty("user.home") + "/.kube/config";
+      client = ClientBuilder.kubeconfig(KubeConfig.loadKubeConfig(new FileReader(kubeConfigPath))).build();
+    }
+
+    // set the global default api-client to the in-cluster one from above
+    Configuration.setDefaultApiClient(client);
+
+    String scanName = System.getenv("SCAN_NAME");
+    if (scanName == null) {
+      scanName = "nmap-scanme.nmap.org";
+    }
+    String namespace = System.getenv("NAMESPACE");
+    if (namespace == null) {
+      namespace = "default";
+    }
+
+    // set the global default api-client to the in-cluster one from above
+    Configuration.setDefaultApiClient(client);
+
+    GenericKubernetesApi<V1Scan, V1ScanList> scanApi =
+      new GenericKubernetesApi<>(
+        V1Scan.class,
+        V1ScanList.class,
+        "execution.securecodebox.io",
+        "v1",
+        "scans",
+        ClientBuilder.defaultClient());
+
+    var response = scanApi.get(namespace, scanName);
+
+    if (!response.isSuccess()) {
+      throw new DefectDojoPersistenceException("Failed to fetch Scan '" + scanName + "' in Namespace '" + namespace + "' from Kubernetes API");
+    }
+    LOG.info("Fetched Scan from Kubernetes API");
+
+    return response.getObject();
+  }
+
   /**
    * Returns the rawResults (original security scanner results) of the given securityTests.
    *
-   * @param scan The securityTest to return the rawResults for.
+   * @param scan The scan to return the rawResults for.
    * @return the rawResults (original security scanner results) of the given securityTests.
    * @throws DefectDojoPersistenceException If the raw
    */
