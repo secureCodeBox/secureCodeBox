@@ -10,7 +10,7 @@ This is the sample petstore application with a restful API.
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| iteratec GmbH | security@iteratec.com |  |
+| iteratec GmbH | securecodebox@iteratec.com |  |
 
 ## Source Code
 

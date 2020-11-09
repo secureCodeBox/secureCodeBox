@@ -10,7 +10,7 @@ Insecure & Outdated Wordpress Instance: Never expose it to the internet!
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| iteratec GmbH | security@iteratec.com |  |
+| iteratec GmbH | securecodebox@iteratec.com |  |
 
 ## Source Code
 

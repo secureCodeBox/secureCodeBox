@@ -10,7 +10,7 @@ OWASP Juice Shop: Probably the most modern and sophisticated insecure web applic
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| iteratec GmbH | security@iteratec.com |  |
+| iteratec GmbH | securecodebox@iteratec.com |  |
 
 ## Source Code
 
