@@ -1,0 +1,2 @@
+ScanPostprocess Hook deployed.
+This will add or override "{{ .Values.attribute.name }}: {{ .Values.attribute.value }}" on every finding in this namespace matching these rules.

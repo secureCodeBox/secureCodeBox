@@ -1,0 +1,10 @@
+apiVersion: "execution.securecodebox.io/v1"
+kind: ScanCompletionHook
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  type: ReadAndWrite
+  image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
+  env:
+    - name: RULES
+      value: {{ .Values.rules | quote }}

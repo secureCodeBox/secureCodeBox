@@ -1,0 +1,36 @@
+# Default values for dispatcher.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  # image.tag - defaults to the charts version
+  # image.repository -- Hook image repository
+  repository: docker.io/securecodebox/scan-postprocessing
+  # parserImage.tag -- Parser image tag
+  # @default -- defaults to the charts version
+  tag: null
+
+rules:
+  - matches:
+      anyOf:
+        - category: "Open Port"
+          attributes:
+            port: 21
+            state: open
+        - category: "Open Port"
+          attributes:
+            port: 389
+            state: open
+    override:
+      severity: "high"
+      description: "Telnet is bad"
+  - matches:
+      anyOf:
+        - category: "Open Port"
+          attributes:
+            port: 42
+            state: open
+    override:
+      severity: "Informational"
+      falsePositive: true
+      description: "False Positive due to VPN weirdness"

@@ -1,0 +1,23 @@
+---
+title: "Scan Postprocessing"
+category: "hook"
+type: "dataProcessing"
+state: "released"
+usecase: "Updates fields for findings meeting specified conditions."
+---
+
+<!-- end -->
+
+## Deployment
+
+Installing the _Scan Postprocessing hook will add a ReadAndWrite Hook to your namespace, which can be used to add or update fields from your findings meeting specified conditions.
+
+```bash
+helm upgrade --install spp secureCodeBox/scan-postprocessing
+```
+
+> ✍ This documentation is currently work-in-progress.
+
+## Chart Configuration
+
+{{ template "chart.valuesTable" . }}

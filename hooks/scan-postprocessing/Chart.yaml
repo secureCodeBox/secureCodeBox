@@ -1,0 +1,11 @@
+apiVersion: v2
+name: scan-postprocessing
+description: Lets you add or override a field to every finding that meets specified conditions
+
+type: application
+
+# version - gets automatically set to the secureCodeBox release version when the helm charts gets published
+version: latest
+kubeVersion: ">=v1.11.0-0"
+
+dependencies: []
