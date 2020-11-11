@@ -256,7 +256,7 @@ test("Should Not Duplicate Findings For Multiple Matching Rules", async () => {
 });
 
 test("Should Update Nested Attributes", async () => {
-const findings = [
+  const findings = [
     {
       category: "Open Port",
       attributes: {
@@ -312,4 +312,51 @@ const findings = [
     }
   ]);
 
+});
+
+test("Should Ignore Findings Not Matched By Any Rule", async () => {
+  const findings = [
+    {
+      category: "Open Port",
+      attributes: {
+        hostname: "foobar.com",
+        port: 22,
+        state: "open"
+      },
+    },
+  ];
+
+  const rules = [{
+    matches: {
+      anyOf: [
+        {
+          category: "Open Port",
+          attributes: {
+            port: 23,
+            state: "open"
+          }
+        },
+      ]
+    },
+    override: {
+      severity: "high",
+      attributes: {
+        hostname: "foo.bar",
+        port: 42,
+      },
+      description: "Telnet is bad"
+    }
+  }]
+
+  const getFindings = async () => findings;
+
+  const updateFindings = jest.fn();
+
+  await handle({
+    getFindings,
+    updateFindings,
+    rules: rules,
+  });
+
+  expect(updateFindings).toBeCalledWith([]);
 });
