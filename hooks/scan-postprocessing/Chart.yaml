@@ -13,7 +13,7 @@
 # limitations under the License.
 
 apiVersion: v2
-name: scan-postprocessing
+name: finding-post-processing
 description: Lets you add or override a field to every finding that meets specified conditions
 
 type: application

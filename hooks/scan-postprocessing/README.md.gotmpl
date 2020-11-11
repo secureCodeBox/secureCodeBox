@@ -14,7 +14,7 @@
 # limitations under the License.
 *\ }}
 ---
-title: "Scan Postprocessing"
+title: "Finding Post Processing"
 category: "hook"
 type: "dataProcessing"
 state: "released"
@@ -25,10 +25,10 @@ usecase: "Updates fields for findings meeting specified conditions."
 
 ## Deployment
 
-Installing the _Scan Postprocessing hook will add a ReadAndWrite Hook to your namespace, which can be used to add or update fields from your findings meeting specified conditions.
+Installing the _Finding Post Processing hook will add a ReadAndWrite Hook to your namespace, which can be used to add or update fields from your findings meeting specified conditions.
 
 ```bash
-helm upgrade --install spp secureCodeBox/scan-postprocessing
+helm upgrade --install spp secureCodeBox/finding-post-processing
 ```
 
 > ✍ This documentation is currently work-in-progress.

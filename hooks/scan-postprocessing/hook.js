@@ -25,7 +25,7 @@ async function handle({
 }
 module.exports.handle = handle;
 /**
- * Goes thought the Findings and the Scan Postprocessing Rules
+ * Goes thought the Findings and the Finding Post Processing Rules
  * and applies the changes to the findings defined in the rules if matching
  */
 function applyRules(rules, findings) {

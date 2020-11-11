@@ -19,7 +19,7 @@
 image:
   # image.tag - defaults to the charts version
   # image.repository -- Hook image repository
-  repository: docker.io/securecodebox/scan-postprocessing
+  repository: docker.io/securecodebox/finding-post-processing
   # parserImage.tag -- Parser image tag
   # @default -- defaults to the charts version
   tag: null

@@ -1,7 +1,7 @@
 {
-  "name": "scb-scan-postprocessing",
+  "name": "scb-finding-post-processing",
   "version": "1.0.0",
-  "description": "secureCodeBox v2 Scan Postprocessing Hook",
+  "description": "secureCodeBox v2 Finding Post Processing Hook",
   "main": "hook.js",
   "scripts": {
     "build": "npx typescript hook.ts --sourceMap",
