@@ -20,8 +20,10 @@ async function handle({
   rules = process.env["RULES"],
 }) {
   const findings = await getFindings();
-  const newFindings = applyRules(rules, findings);
-  await updateFindings(newFindings);
+  const res = applyRules(rules, findings);
+  if (res.hasChanged) {
+    await updateFindings(res.findings);
+  }
 }
 module.exports.handle = handle;
 /**
@@ -29,21 +31,19 @@ module.exports.handle = handle;
  * and applies the changes to the findings defined in the rules if matching
  */
 function applyRules(rules, findings) {
+  let hasChanged = false;
   const newFindings = []
   findings.forEach(finding => {
-    let processedFinding = {};
-    Object.assign(processedFinding, finding);
     rules.forEach(rule => {
-      const isRuleMatching = rule.matches.anyOf.some(condition => isMatch(processedFinding, condition));
+      const isRuleMatching = rule.matches.anyOf.some(condition => isMatch(finding, condition));
       if (isRuleMatching) {
-        processedFinding = postProcessFinding(processedFinding, rule);
+        hasChanged = true;
+        finding = postProcessFinding(finding, rule);
       }
     })
-    if (notEqual(processedFinding, finding)) {
-      newFindings.push(processedFinding);
-    }
+    newFindings.push(finding);
   });
-  return newFindings
+  return { hasChanged: hasChanged, findings: newFindings }
 }
 
 function postProcessFinding(finding, rule) {

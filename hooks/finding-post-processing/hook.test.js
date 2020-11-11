@@ -177,7 +177,7 @@ test("Should Ignore not Matching Conditions", async () => {
     rules: rules,
   });
 
-  expect(updateFindings).toBeCalledWith([]);
+  expect(updateFindings).not.toBeCalled();
 });
 
 test("Should Not Duplicate Findings For Multiple Matching Rules", async () => {
@@ -358,5 +358,5 @@ test("Should Ignore Findings Not Matched By Any Rule", async () => {
     rules: rules,
   });
 
-  expect(updateFindings).toBeCalledWith([]);
+  expect(updateFindings).not.toBeCalled();
 });
