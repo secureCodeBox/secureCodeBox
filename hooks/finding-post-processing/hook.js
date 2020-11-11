@@ -36,7 +36,7 @@ function applyRules(rules, findings) {
     rules.forEach(rule => {
       const isRuleMatching = rule.matches.anyOf.some(condition => isMatch(processedFinding, condition));
       if (isRuleMatching) {
-        processedFinding = postProcessFindings(processedFinding, rule);
+        processedFinding = postProcessFinding(processedFinding, rule);
       }
     })
     if (notEqual(processedFinding, finding)) {
@@ -46,7 +46,7 @@ function applyRules(rules, findings) {
   return newFindings
 }
 
-function postProcessFindings(finding, rule) {
+function postProcessFinding(finding, rule) {
   const newFinding = merge(finding, rule.override);
   return newFinding;
 }
