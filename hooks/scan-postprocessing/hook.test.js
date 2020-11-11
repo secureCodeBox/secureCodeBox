@@ -179,3 +179,78 @@ test("Should Ignore not Matching Conditions", async () => {
 
   expect(updateFindings).toBeCalledWith([]);
 });
+
+test("Should Not Duplicate Findings For Multiple Matching Rules", async () => {
+  const findings = [
+    {
+      category: "Open Port",
+      attributes: {
+        hostname: "foobar.com",
+        port: 23,
+        state: "open"
+      },
+    },
+  ];
+
+  const rules = [
+    {
+      matches: {
+        anyOf: [
+          {
+            category: "Open Port",
+            attributes: {
+              port: 23,
+              state: "open"
+            }
+          },
+        ]
+      },
+      override: {
+        severity: "high",
+        description: "Telnet is bad"
+      }
+    },
+    {
+      matches: {
+        anyOf: [
+          {
+            category: "Open Port",
+            attributes: {
+              state: "open"
+            }
+          },
+        ]
+      },
+      override: {
+        severity: "high",
+        description: "Telnet is bad",
+        ticket: "Issue #33"
+      }
+    }
+  ]
+
+  const getFindings = async () => findings;
+
+  const updateFindings = jest.fn();
+
+  await handle({
+    getFindings,
+    updateFindings,
+    rules: rules,
+  });
+
+  const expected = [{
+    category: "Open Port",
+    attributes: {
+      port: 23,
+      hostname: "foobar.com",
+      state: "open"
+    },
+    severity: "high",
+    description: "Telnet is bad",
+    ticket: "Issue #33"
+  }]
+
+  expect(updateFindings).toBeCalledWith(expected);
+
+});

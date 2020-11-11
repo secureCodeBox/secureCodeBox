@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-const { isMatch } = require("lodash")
+const { isMatch, isEqual } = require("lodash")
 async function handle({
   getFindings,
   updateFindings,
@@ -30,22 +30,27 @@ module.exports.handle = handle;
  */
 function applyRules(rules, findings) {
   const newFindings = []
-  for (const rule of rules) {
-    for (const finding of findings) {
-      // Check if one (ore more) of the Scan Postprocessing conditions apply to the finding
-      const isRuleMatching = rule.matches.anyOf.some(condition =>
-        isMatch(finding, condition)
-      );
-
+  findings.forEach(finding => {
+    let processedFinding = {};
+    Object.assign(processedFinding, finding);
+    rules.forEach(rule => {
+      const isRuleMatching = rule.matches.anyOf.some(condition => isMatch(processedFinding, condition));
       if (isRuleMatching) {
-        newFindings.push(postprocessingFindings(finding, rule));
+        processedFinding = postprocessingFindings(processedFinding, rule);
       }
+    })
+    if (notEqual(processedFinding, finding)) {
+      newFindings.push(processedFinding);
     }
-  }
+  });
   return newFindings
 }
 
 function postprocessingFindings(finding, rule) {
   const newFinding = Object.assign(finding, rule.override);
   return newFinding;
+}
+
+function notEqual(processedFinding, finding) {
+  return !isEqual(processedFinding, finding)
 }
