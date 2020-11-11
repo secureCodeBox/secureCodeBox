@@ -254,3 +254,4 @@ test("Should Not Duplicate Findings For Multiple Matching Rules", async () => {
   expect(updateFindings).toBeCalledWith(expected);
 
 });
+
