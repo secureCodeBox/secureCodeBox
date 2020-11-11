@@ -299,6 +299,16 @@ jobs:
           path: ./hooks/persistence-elastic/dashboardImporter/
           tag_with_ref: true
       - uses: docker/build-push-action@v1
+        name: "Build & Push Finding Post Processing Hook Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: securecodebox/finding-post-processing
+          path: ./hooks/finding-post-processing/
+          build_args: baseImageTag=ci-local
+          tag_with_ref: true
+          tag_with_sha: true
+      - uses: docker/build-push-action@v1
         name: "Build & Push GenericWebhook Hook Image"
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
