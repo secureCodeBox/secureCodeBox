@@ -32,25 +32,19 @@ module.exports.handle = handle;
  */
 function applyRules(rules, findings) {
   let hasChanged = false;
-  const newFindings = []
-  findings.forEach(finding => {
-    rules.forEach(rule => {
+  findings.map(finding => {
+    for (const rule of rules) {
       const isRuleMatching = rule.matches.anyOf.some(condition => isMatch(finding, condition));
       if (isRuleMatching) {
         hasChanged = true;
         finding = postProcessFinding(finding, rule);
       }
-    })
-    newFindings.push(finding);
+    }
   });
-  return { hasChanged: hasChanged, findings: newFindings }
+  return { hasChanged: hasChanged, findings: findings }
 }
 
 function postProcessFinding(finding, rule) {
   const newFinding = merge(finding, rule.override);
   return newFinding;
-}
-
-function notEqual(processedFinding, finding) {
-  return !isEqual(processedFinding, finding)
 }
