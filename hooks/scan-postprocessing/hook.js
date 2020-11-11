@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-const { isMatch, isEqual } = require("lodash")
+const { isMatch, isEqual, merge } = require("lodash")
 async function handle({
   getFindings,
   updateFindings,
@@ -47,7 +47,7 @@ function applyRules(rules, findings) {
 }
 
 function postProcessFindings(finding, rule) {
-  const newFinding = Object.assign(finding, rule.override);
+  const newFinding = merge(finding, rule.override);
   return newFinding;
 }
 
