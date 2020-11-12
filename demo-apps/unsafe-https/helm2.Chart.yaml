@@ -1,0 +1,16 @@
+apiVersion: v2
+version: latest
+type: application
+appVersion: "v1.0.0"
+name: unsafe-https
+description: "SSH Server for scan testing."
+home: https://docs.securecodebox.io
+#icon: https://docs.securecodebox.io/img/integrationIcons/SSH.svg
+keywords:
+  - unsafe
+  - https
+sources:
+  - https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/unsafe-https
+maintainers:
+  - name: iteratec GmbH
+    email: securecodebox@iteratec.com
