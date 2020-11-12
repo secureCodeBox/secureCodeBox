@@ -5,7 +5,7 @@ spring:
 securecodebox:
     persistence:
         defectdojo:
-            url: "http://defectdojo-django.default.svc:8080"
+            url: "http://defectdojo-django.default.svc:8082"
             auth:
-                key: "<apiv2-key>"
+                key: "ca267cf37a368b8ae02a184164b196a25fca77de"
                 name: "admin"

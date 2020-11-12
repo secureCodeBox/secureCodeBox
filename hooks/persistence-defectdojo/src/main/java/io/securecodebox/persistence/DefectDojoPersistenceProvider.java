@@ -19,15 +19,18 @@
 package io.securecodebox.persistence;
 
 import io.kubernetes.client.openapi.ApiClient;
-import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.Configuration;
 import io.kubernetes.client.util.ClientBuilder;
 import io.kubernetes.client.util.KubeConfig;
 import io.kubernetes.client.util.generic.GenericKubernetesApi;
+import io.securecodebox.persistence.defectdojo.models.product.Product;
+import io.securecodebox.persistence.defectdojo.service.ProductService;
 import io.securecodebox.models.V1Scan;
 import io.securecodebox.models.V1ScanList;
+import io.securecodebox.persistence.defectdojo.service.ProductTypeService;
 import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import io.securecodebox.persistence.exceptions.DefectDojoUnreachableException;
+import io.securecodebox.persistence.models.DefectDojoProduct;
 import io.securecodebox.persistence.models.SecureCodeBoxScanAnnotations;
 import io.securecodebox.persistence.models.TestPayload;
 import io.securecodebox.persistence.service.*;
@@ -55,6 +58,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -92,16 +96,41 @@ public class DefectDojoPersistenceProvider {
   @Autowired
   private Environment environment;
 
+  @Autowired
+  private ProductService productService;
+
+  @Autowired
+  private ProductTypeService productTypeService;
+
 
   public static void main(String[] args) {
     SpringApplication.run(DefectDojoPersistenceProvider.class, args);
   }
 
+//  @Bean
+//  public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+//    return args -> {
+//      var scan = getScanFromKubernetes();
+//      this.persist(scan);
+//    };
+//  }
+
   @Bean
   public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
     return args -> {
-      var scan = getScanFromKubernetes();
-      this.persist(scan);
+
+      //productService.create(Product.builder().name("testtest").description("This is an awesome product").productType(1L).build());
+
+      var products = productService.search();
+      LOG.info(String.valueOf(products));
+
+      productService.searchUnique(Map.of("name", "test")).ifPresent((product) -> {
+        LOG.info("Product: {}", product);
+
+        var productType = productTypeService.get(product.getProductType());
+
+        LOG.info("ProductType {}", productType);
+      });
     };
   }
 
