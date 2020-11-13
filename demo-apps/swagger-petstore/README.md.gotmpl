@@ -14,7 +14,7 @@ This is the sample petstore application with a restful API.
 
 ## Source Code
 
-* <https://github.com/secureCodeBox/helm>
+* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/swagger-petstore>
 * <https://github.com/swagger-api/swagger-petstore>
 
 ## Chart Configuration

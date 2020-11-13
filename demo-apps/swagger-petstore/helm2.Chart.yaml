@@ -10,7 +10,7 @@ keywords:
   - swagger
   - openapi
 sources:
-  - https://github.com/secureCodeBox/helm
+  - https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/swagger-petstore
   - https://github.com/swagger-api/swagger-petstore
 maintainers:
   - name: iteratec GmbH
