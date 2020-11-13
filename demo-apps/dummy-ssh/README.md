@@ -2,7 +2,8 @@
 
 ![Version: latest](https://img.shields.io/badge/Version-latest-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.0.0](https://img.shields.io/badge/AppVersion-v1.0.0-informational?style=flat-square)
 
-SSH Server for scan testing.
+Vulnerable SSH Server for scan testing.
+Port 22: Username root, Password: THEPASSWORDYOUCREATED
 
 **Homepage:** <https://docs.securecodebox.io>
 
@@ -14,7 +15,7 @@ SSH Server for scan testing.
 
 ## Source Code
 
-* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo/dummy-ssh>
+* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/dummy-ssh>
 
 ## Chart Configuration
 
