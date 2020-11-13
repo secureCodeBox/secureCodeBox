@@ -3,9 +3,9 @@ version: latest
 type: application
 appVersion: "v1.0.0"
 name: unsafe-https
-description: "SSH Server for scan testing."
+description: "Self-signed https Server for scan testing."
 home: https://docs.securecodebox.io
-#icon: https://docs.securecodebox.io/img/integrationIcons/SSH.svg
+icon: https://docs.securecodebox.io/img/integrationIcons/SSLyze.svg
 keywords:
   - unsafe
   - https
