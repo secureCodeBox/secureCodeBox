@@ -6,7 +6,7 @@ test(
     const { categories, severities, count } = await cascadingScan(
       "nmap-unsafe-https-sslyze",
       "nmap",
-      ["-Pn", "-sV", "unsafe-https"],
+      ["-Pn", "-sV", "unsafe-https", "-p 443"],
       {
         nameCascade: "https-tls-scan",
         matchLabels: {
