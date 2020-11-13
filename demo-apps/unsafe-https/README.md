@@ -4,7 +4,7 @@
 
 Unsafe https Server for SSL Checking.
 Can be used for scanners that check for unsafe ssl certificates, as the server uses a self-signed certificate
-which contains both private and public key and is not authorized by a third party.  
+which contains both private and public key and is not authorized by a third party.
 
 **Homepage:** <https://docs.securecodebox.io>
 
