@@ -62,6 +62,11 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 	rules := []rbacv1.PolicyRule{
 		{
 			APIGroups: []string{"execution.securecodebox.io"},
+			Resources: []string{"scans"},
+			Verbs:     []string{"get"},
+		},
+		{
+			APIGroups: []string{"execution.securecodebox.io"},
 			Resources: []string{"scans/status"},
 			Verbs:     []string{"get", "patch"},
 		},
