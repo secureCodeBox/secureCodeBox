@@ -10,7 +10,7 @@ keywords:
   - vulnerable
   - ssh
 sources:
-  - https://github.com/secureCodeBox/secureCodeBox/tree/master/demo/dummy-ssh
+  - https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/dummy-ssh
 maintainers:
   - name: iteratec GmbH
     email: securecodebox@iteratec.com
