@@ -16,12 +16,6 @@ BodgeIt Store is a serverside rendering based html website without any heavy jav
 
 **Homepage:** <https://github.com/psiinon/bodgeit>
 
-## Maintainers
-
-| Name | Email | Url |
-| ---- | ------ | --- |
-| iteratec GmbH | securecodebox@iteratec.com |  |
-
 ## Source Code
 
 * <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/bodgeit>
