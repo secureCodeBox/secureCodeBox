@@ -464,9 +464,18 @@ jobs:
           helm -n demo-apps install dummy-ssh ./demo-apps/dummy-ssh/ --wait
           # Install unsafe-https app
           helm -n demo-apps install unsafe-https ./demo-apps/unsafe-https/ --wait
+          # Install bodgeit app
+          helm -n demo-apps install bodgeit ./demo-apps/bodgeit/ --wait
           # Install plain nginx server
           kubectl create deployment --image nginx:alpine nginx --namespace demo-apps
           kubectl expose deployment nginx --port 80 --namespace demo-apps
+      - name: "nikto Integration Tests"
+        run: |
+          helm -n integration-tests install nikto ./scanners/nikto/ \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="image.tag=2.1.6"
+          cd tests/integration/
+          npx jest --ci --color scanner/nikto.test.js
       - name: "nmap Integration Tests"
         run: |
           helm -n integration-tests install nmap ./scanners/nmap/ \
