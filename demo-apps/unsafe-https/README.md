@@ -1,8 +1,10 @@
-# dummy-ssh
+# unsafe-https
 
 ![Version: latest](https://img.shields.io/badge/Version-latest-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.0.0](https://img.shields.io/badge/AppVersion-v1.0.0-informational?style=flat-square)
 
-SSH Server for scan testing.
+Unsafe https Server for SSL Checking.
+Can be used for scanners that check for unsafe ssl certificates, as the server uses a self-signed certificate
+which contains both private and public key and is not authorized by a third party.  
 
 **Homepage:** <https://docs.securecodebox.io>
 
@@ -10,11 +12,11 @@ SSH Server for scan testing.
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| iteratec GmbH | security@iteratec.com |  |
+| iteratec GmbH | securecodebox@iteratec.com |  |
 
 ## Source Code
 
-* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo/dummy-ssh>
+* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/unsafe-https>
 
 ## Chart Configuration
 
