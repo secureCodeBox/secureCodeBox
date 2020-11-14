@@ -20,8 +20,6 @@ from secureCodeBox cannot be directly mapped to the fields from DefectDojo.
 
 Installing the DefectDojo persistenceProvider hook will add a _ReadOnly Hook_ to your namespace. 
 
-
-
 ```bash
 helm upgrade --install dd secureCodeBox/persistence-defectdojo \
     --set="defectdojo.url=https://defectdojo-django.default.svc" \
@@ -32,6 +30,3 @@ helm upgrade --install dd secureCodeBox/persistence-defectdojo \
 ## Chart Configuration
 
 {{ template "chart.valuesTable" . }}
-
-
-[elastic.io]: https://www.elastic.co/products/elasticsearch

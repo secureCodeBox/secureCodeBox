@@ -1,14 +1,33 @@
-# persistence-defectdojo
+---
+title: "DefectDojo"
+category: "hook"
+type: "persistenceProvider"
+state: "in progress"
+usecase: "Publishes all Scan Reports to DefectDojo."
+---
 
-![Version: latest](https://img.shields.io/badge/Version-latest-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.9.0](https://img.shields.io/badge/AppVersion-1.9.0-informational?style=flat-square)
+## About
 
-The defectdojo persistence provider persists secureCodeBox scan results into defectdojo.
+The DefectDojo persistenceProvider hook imports the reports from the scans automatically into DefectDojo.
+Scanners which are directly supported by the secureCodeBox and DefectDojo the hook will use the DefectDojo "import scan"
+method to upload the results to DefectDojo.
 
-## Requirements
+When a scanner is supported by the secureCodeBox but not DefectDojo, the hooks imports the findings using the
+"DefectDojo finding" api, this might lead to missing information in the DefectDojo findings as the fields
+from secureCodeBox cannot be directly mapped to the fields from DefectDojo. 
 
-Kubernetes: `>=v1.11.0-0`
+## Deployment
 
-## Values
+Installing the DefectDojo persistenceProvider hook will add a _ReadOnly Hook_ to your namespace.
+
+```bash
+helm upgrade --install dd secureCodeBox/persistence-defectdojo \
+    --set="defectdojo.url=https://defectdojo-django.default.svc" \
+    --set="defectdojo.auth.username=admin" \
+    --set="defectdojo.auth.apiKey=08b7...." \
+```
+
+## Chart Configuration
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
