@@ -20,11 +20,11 @@ package io.securecodebox.persistence.exceptions;
 
 public class DefectDojoUnreachableException extends DefectDojoPersistenceException {
 
-    public DefectDojoUnreachableException(String message) {
-        super(message);
-    }
+  public DefectDojoUnreachableException(String message) {
+    super(message);
+  }
 
-    public DefectDojoUnreachableException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  public DefectDojoUnreachableException(String message, Throwable cause) {
+    super(message, cause);
+  }
 }

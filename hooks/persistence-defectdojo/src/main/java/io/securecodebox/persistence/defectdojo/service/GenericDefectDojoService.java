@@ -2,8 +2,9 @@ package io.securecodebox.persistence.defectdojo.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.securecodebox.persistence.defectdojo.models.product.DefectDojoModel;
-import io.securecodebox.persistence.models.DefectDojoResponse;
+import io.securecodebox.persistence.defectdojo.models.DefectDojoModel;
+import io.securecodebox.persistence.defectdojo.models.DefectDojoResponse;
+import io.securecodebox.persistence.exceptions.DefectDojoLoopException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -48,11 +49,12 @@ abstract public class GenericDefectDojoService<T extends DefectDojoModel> {
   protected abstract String getUrlPath();
 
   protected abstract Class<T> getModelClass();
+
   protected abstract DefectDojoResponse<T> deserializeList(String response) throws JsonProcessingException;
 
   public T get(long id) {
     RestTemplate restTemplate = new RestTemplate();
-    HttpEntity payload = new HttpEntity(getDefectDojoAuthorizationHeaders());
+    HttpEntity<String> payload = new HttpEntity<>(getDefectDojoAuthorizationHeaders());
 
     LOG.info("Sending Request to DefectDojo: '{}'", defectDojoUrl + "/api/v2/" + this.getUrlPath() + "/" + String.valueOf(id));
 
@@ -66,17 +68,24 @@ abstract public class GenericDefectDojoService<T extends DefectDojoModel> {
     return response.getBody();
   }
 
-  protected DefectDojoResponse<T> internalSearch(Map<String,Object> queryParams, long limit, long offset) throws JsonProcessingException, URISyntaxException {
+  protected DefectDojoResponse<T> internalSearch(Map<String, Object> queryParams, long limit, long offset) throws JsonProcessingException, URISyntaxException {
     RestTemplate restTemplate = new RestTemplate();
-    HttpEntity payload = new HttpEntity(getDefectDojoAuthorizationHeaders());
+    HttpEntity<String> payload = new HttpEntity<>(getDefectDojoAuthorizationHeaders());
 
-    var mutableQueryParams = new HashMap<String,Object>(queryParams);
+    var mutableQueryParams = new HashMap<String, Object>(queryParams);
 
     mutableQueryParams.put("limit", String.valueOf(limit));
     mutableQueryParams.put("offset", String.valueOf(offset));
 
+    var multiValueMap = new LinkedMultiValueMap<String, String>();
+    for (var entry : mutableQueryParams.entrySet()) {
+      multiValueMap.set(entry.getKey(), String.valueOf(entry.getValue()));
+    }
+
     var url = new URI(defectDojoUrl + "/api/v2/" + this.getUrlPath() + "/");
-    var uriBuilder = UriComponentsBuilder.fromUri(url);
+    var uriBuilder = UriComponentsBuilder.fromUri(url).queryParams(multiValueMap);
+
+    LOG.debug("Sending search request as: '{}'", uriBuilder.build(multiValueMap).toString());
 
     ResponseEntity<String> responseString = restTemplate.exchange(
       uriBuilder.build(mutableQueryParams),
@@ -94,13 +103,16 @@ abstract public class GenericDefectDojoService<T extends DefectDojoModel> {
     boolean hasNext = false;
     long page = 0;
     do {
-      LOG.info("Getting up to {} results from Page {}", DEFECT_DOJO_OBJET_LIMIT, page);
+      LOG.debug("Getting up to {} results from Page {}", DEFECT_DOJO_OBJET_LIMIT, page);
       var response = internalSearch(queryParams, DEFECT_DOJO_OBJET_LIMIT, DEFECT_DOJO_OBJET_LIMIT * page++);
       objects.addAll(response.getResults());
-      if(response.getNext() != null) {
+      if (response.getNext() != null) {
         hasNext = true;
       }
-    } while(hasNext);
+      if (page > 100) {
+        throw new DefectDojoLoopException("Looked for DefectDojo Object but could not find it after " + String.valueOf(page) + " paginated API pages of " + DEFECT_DOJO_OBJET_LIMIT + " each.");
+      }
+    } while (hasNext);
 
     return objects;
   }
@@ -117,7 +129,7 @@ abstract public class GenericDefectDojoService<T extends DefectDojoModel> {
       .findFirst();
   }
 
-  public T create(T object){
+  public T create(T object) {
     RestTemplate restTemplate = new RestTemplate();
     HttpEntity<T> payload = new HttpEntity<T>(object, getDefectDojoAuthorizationHeaders());
 

@@ -31,56 +31,56 @@ import java.util.Objects;
 @Component
 public class DescriptionGenerator {
 
-    private static final String DATE_FORMAT = "yyyy-MM-dd";
-    protected static final String TIME_FORMAT = "dd.MM.yyyy HH:mm:ss";
+  private static final String DATE_FORMAT = "yyyy-MM-dd";
+  protected static final String TIME_FORMAT = "dd.MM.yyyy HH:mm:ss";
 
-    Clock clock = Clock.systemDefaultZone();
+  Clock clock = Clock.systemDefaultZone();
 
-    public String generate(V1Scan scan){
-        var spec = Objects.requireNonNull(scan.getSpec());
+  public String generate(V1Scan scan) {
+    var spec = Objects.requireNonNull(scan.getSpec());
 
-        return String.join(
-            System.getProperty("line.separator"),
-            MessageFormat.format("# {0}", getDefectDojoScanName(scan)),
-            MessageFormat.format("Started: {0}", getStartTime(scan)),
-            MessageFormat.format("Ended: {0}", getEndTime(scan)),
-            MessageFormat.format("ScanType: {0}", spec.getScanType()),
-            MessageFormat.format("Parameters: [{0}]", String.join(",", Objects.requireNonNull(spec.getParameters())))
-        );
+    return String.join(
+      System.getProperty("line.separator"),
+      MessageFormat.format("# {0}", getDefectDojoScanName(scan)),
+      MessageFormat.format("Started: {0}", getStartTime(scan)),
+      MessageFormat.format("Ended: {0}", getEndTime(scan)),
+      MessageFormat.format("ScanType: {0}", spec.getScanType()),
+      MessageFormat.format("Parameters: [{0}]", String.join(",", Objects.requireNonNull(spec.getParameters())))
+    );
+  }
+
+  private String getStartTime(V1Scan scan) {
+    if (scan.getMetadata() == null || scan.getMetadata().getCreationTimestamp() == null) {
+      return null;
     }
+    return scan.getMetadata().getCreationTimestamp().toString(TIME_FORMAT);
+  }
 
-    private String getStartTime(V1Scan scan) {
-        if (scan.getMetadata() == null || scan.getMetadata().getCreationTimestamp() == null){
-          return null;
-        }
-        return scan.getMetadata().getCreationTimestamp().toString(TIME_FORMAT);
+  private String getEndTime(V1Scan scan) {
+    if (scan.getStatus() == null || scan.getStatus().getFinishedAt() == null) {
+      return currentTime();
     }
+    return scan.getStatus().getFinishedAt().toString(TIME_FORMAT);
+  }
 
-    private String getEndTime(V1Scan scan) {
-        if (scan.getStatus() == null || scan.getStatus().getFinishedAt() == null){
-          return currentTime();
-        }
-        return scan.getStatus().getFinishedAt().toString(TIME_FORMAT);
-    }
+  /**
+   * Returns the current date as string based on the DATE_FORMAT.
+   *
+   * @return the current date as string based on the DATE_FORMAT.
+   */
+  public String currentDate() {
+    return LocalDate.now(clock).format(DateTimeFormatter.ofPattern(DATE_FORMAT));
+  }
 
-    /**
-     * Returns the current date as string based on the DATE_FORMAT.
-     *
-     * @return the current date as string based on the DATE_FORMAT.
-     */
-    public String currentDate() {
-        return LocalDate.now(clock).format(DateTimeFormatter.ofPattern(DATE_FORMAT));
-    }
+  public String currentTime() {
+    return LocalDateTime.now(clock).format(DateTimeFormatter.ofPattern(TIME_FORMAT));
+  }
 
-    public String currentTime() {
-        return LocalDateTime.now(clock).format(DateTimeFormatter.ofPattern(TIME_FORMAT));
-    }
+  public void setClock(Clock clock) {
+    this.clock = clock;
+  }
 
-    public void setClock(Clock clock) {
-        this.clock = clock;
-    }
-
-    public String getDefectDojoScanName(V1Scan scan){
-      return ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).scanType;
-    }
+  public String getDefectDojoScanName(V1Scan scan) {
+    return ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).scanType;
+  }
 }

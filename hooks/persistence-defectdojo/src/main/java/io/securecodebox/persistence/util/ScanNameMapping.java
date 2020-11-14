@@ -39,13 +39,13 @@ public enum ScanNameMapping {
   /**
    * DefectDojo ToolType Id
    * Used to differentiate different Types of tools from another
-   *
+   * <p>
    * Example
    */
   public final TestType testType;
 
   @AllArgsConstructor
-  public static enum TestType{
+  public static enum TestType {
     API_TEST(1),
     STATIC_CHECK(2),
     PEN_TEST(3),

@@ -18,24 +18,21 @@
  */
 package io.securecodebox.persistence;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.kubernetes.client.openapi.ApiClient;
 import io.kubernetes.client.openapi.Configuration;
 import io.kubernetes.client.util.ClientBuilder;
 import io.kubernetes.client.util.KubeConfig;
 import io.kubernetes.client.util.generic.GenericKubernetesApi;
-import io.securecodebox.persistence.defectdojo.models.product.Product;
-import io.securecodebox.persistence.defectdojo.service.ProductService;
 import io.securecodebox.models.V1Scan;
 import io.securecodebox.models.V1ScanList;
-import io.securecodebox.persistence.defectdojo.service.ProductTypeService;
+import io.securecodebox.persistence.defectdojo.models.*;
+import io.securecodebox.persistence.defectdojo.service.*;
 import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import io.securecodebox.persistence.exceptions.DefectDojoUnreachableException;
-import io.securecodebox.persistence.models.DefectDojoProduct;
-import io.securecodebox.persistence.models.SecureCodeBoxScanAnnotations;
-import io.securecodebox.persistence.models.TestPayload;
-import io.securecodebox.persistence.service.*;
 import io.securecodebox.persistence.util.DescriptionGenerator;
 import io.securecodebox.persistence.util.ScanNameMapping;
+import io.securecodebox.persistence.util.SecureCodeBoxScanAnnotations;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,18 +45,15 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @SpringBootApplication
@@ -73,25 +67,7 @@ public class DefectDojoPersistenceProvider {
   protected String defectDojoUser;
 
   @Autowired
-  private DefectDojoUserService defectDojoUserService;
-
-  @Autowired
   private DescriptionGenerator descriptionGenerator;
-
-  @Autowired
-  private DefectDojoFindingService defectFindingService;
-
-  @Autowired
-  private DefectDojoToolService defectDojoToolService;
-
-  @Autowired
-  private DefectDojoEngagementService defectDojoEngagementService;
-
-  @Autowired
-  private DefectDojoTestService defectDojoTestService;
-
-  @Autowired
-  private DefectDojoProductService defectDojoProductService;
 
   @Autowired
   private Environment environment;
@@ -102,84 +78,85 @@ public class DefectDojoPersistenceProvider {
   @Autowired
   private ProductTypeService productTypeService;
 
+  @Autowired
+  private UserService userService;
+
+  @Autowired
+  private ToolTypeService toolTypeService;
+
+  @Autowired
+  private ToolConfigService toolConfigService;
+
+  @Autowired
+  private EngagementService engagementService;
+
+  @Autowired
+  private TestService testService;
+
+  @Autowired
+  private ImportScanService importScanService;
+
+  @Autowired
+  private FindingService findingService;
 
   public static void main(String[] args) {
     SpringApplication.run(DefectDojoPersistenceProvider.class, args);
   }
 
-//  @Bean
-//  public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
-//    return args -> {
-//      var scan = getScanFromKubernetes();
-//      this.persist(scan);
-//    };
-//  }
-
   @Bean
   public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
     return args -> {
+      LOG.debug("Starting DefectDojo persistence provider");
+      var scan = getScanFromKubernetes();
 
-      //productService.create(Product.builder().name("testtest").description("This is an awesome product").productType(1L).build());
+      Objects.requireNonNull(scan.getStatus());
+      Objects.requireNonNull(scan.getSpec());
+      Objects.requireNonNull(scan.getMetadata());
 
-      var products = productService.search();
-      LOG.info(String.valueOf(products));
-
-      productService.searchUnique(Map.of("name", "test")).ifPresent((product) -> {
-        LOG.info("Product: {}", product);
-
-        var productType = productTypeService.get(product.getProductType());
-
-        LOG.info("ProductType {}", productType);
-      });
+      this.persist(scan);
     };
   }
 
-  /**
-   * Persists the given securityTest within DefectDojo.
-   *
-   * @param scan The securityTest to persist.
-   * @throws DefectDojoPersistenceException If any persistence error occurs.
-   */
-  public void persist(V1Scan scan) throws DefectDojoPersistenceException {
-    LOG.debug("Starting DefectDojo persistence provider");
-
-    Objects.requireNonNull(scan.getStatus());
-    Objects.requireNonNull(scan.getSpec());
-    Objects.requireNonNull(scan.getMetadata());
-
-    LOG.debug("RawFindings: {}", scan.getStatus().getRawResultDownloadLink());
-
-    try {
-      persistInDefectDojo(scan);
-    } catch (Exception e) {
-      // ignore error if defect dojo provider is set to optional
-      LOG.error("Failed to persist security test in defect dojo", e);
-    }
-  }
+//  @Bean
+//  public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+//    return args -> {
+//      findingService.create(
+//        Finding.builder()
+//          .title("Foobar")
+//          .test(31L)
+//          .description("This is a really cool finding")
+//          .foundBy(List.of(1L))
+//          .severity(Finding.Severity.Medium)
+//          .mitigation("No mitigation advice available.")
+//          .impact("No impact information available.")
+//          .build()
+//      );
+//    };
+//  }
 
   /**
-   * Persists a given securityTest within DefectDojo.
+   * Persists a given Scan within DefectDojo.
    *
    * @param scan The scan to persist.
    * @throws io.securecodebox.persistence.exceptions.DefectDojoPersistenceException If any persistence error occurs.
    */
-  private void persistInDefectDojo(V1Scan scan) throws DefectDojoPersistenceException {
+  private void persist(V1Scan scan) throws DefectDojoPersistenceException, URISyntaxException, JsonProcessingException {
     LOG.info("Checking if DefectDojo is reachable");
     checkConnection();
     LOG.info("DefectDojo is reachable");
 
-    LOG.info("Checking if DefectDojo Tool Types exist");
-    this.defectDojoToolService.ensureToolTypesExistence();
-
     LOG.info("Getting DefectDojo User Id");
-    long userId = defectDojoUserService.getUserId(defectDojoUser);
+    var userId = userService.searchUnique(Map.of("username", defectDojoUser))
+      .orElseThrow(() -> new DefectDojoPersistenceException("Failed to find user with name: '" + defectDojoUser + "'"))
+      .getId();
+
     LOG.info("Running with DefectDojo User Id: {}", userId);
 
     long productTypeId = this.ensureProductTypeExistsForScan(scan);
-    long productId = this.ensureProductExistsForScan(scan, productTypeId);
+    long productId = this.ensureProductExistsForScan(scan, productTypeId).getId();
 
     LOG.info("Looking for existing or creating new DefectDojo Engagement");
-    long engagementId = this.defectDojoEngagementService.createEngagement(scan, productId, userId);
+    long engagementId = this.createEngagement(scan, productId, userId).getId();
     LOG.info("Using Engagement with Id: '{}'", engagementId);
 
     LOG.info("Downloading Scan Report (RawResults)");
@@ -189,16 +166,87 @@ public class DefectDojoPersistenceProvider {
     var testId = this.createTest(scan, engagementId, userId);
 
     LOG.info("Uploading Scan Report (RawResults) to DefectDojo");
-    var ddTest = defectFindingService.createFindingsReImport(
+
+    importScanService.reimportScan(
       result,
       testId,
       userId,
-      this.descriptionGenerator.currentDate(),
-      ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).scanType,
-      new LinkedMultiValueMap<>()
+      this.descriptionGenerator.currentDate(), ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType())
     );
-    LOG.info("Uploaded Scan Report (RawResults) as testID {} to DefectDojo", ddTest.getTestId());
+
+    LOG.info("Uploaded Scan Report (RawResults) as testID {} to DefectDojo", testId);
     LOG.info("All done!");
+  }
+
+  /**
+   * Creates a new DefectDojo engagement for the given securityTest.
+   *
+   * @param scan The Scan to crete an DefectDojo engagement for.
+   * @return The newly created engagement.
+   */
+  public Engagement createEngagement(V1Scan scan, Long productId, Long userId) throws URISyntaxException, JsonProcessingException {
+    assert scan.getMetadata() != null;
+
+    String engagementName = scan.getMetadata().getName();
+    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.ENGAGEMENT_NAME.getLabel())) {
+      engagementName = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.ENGAGEMENT_NAME.getLabel());
+    }
+
+    final String SECURITY_TEST_SERVER_NAME = "Security Test Orchestration Engine";
+    var securityTestOrchestrationEngine = toolTypeService.searchUnique(Map.of("name", ToolTypeService.SECURITY_TEST_SERVER_NAME)).orElseGet(
+      () -> toolTypeService.create(
+        ToolType.builder()
+          .name(ToolTypeService.SECURITY_TEST_SERVER_NAME)
+          .description("Security Test Orchestration Engine")
+          .build()
+      )
+    );
+
+    var toolConfig = toolConfigService.searchUnique(
+      Map.of("name", SECURITY_TEST_SERVER_NAME, "url", "https://github.com/secureCodeBox")
+    ).orElseGet(() -> {
+      LOG.info("Creating secureCodeBox Tool Config");
+      return toolConfigService.create(
+        ToolConfig.builder()
+          .toolType(securityTestOrchestrationEngine.getId())
+          .name("secureCodeBox")
+          .url("https://github.com/secureCodeBox")
+          .configUrl("https://github.com/secureCodeBox")
+          .build()
+      );
+    });
+
+    List<String> tags = List.of();
+    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.ENGAGEMENT_TAGS.getLabel())) {
+      tags = new LinkedList<>(
+        Arrays.asList(scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.ENGAGEMENT_TAGS.getLabel()).split(","))
+      ).stream()
+        .map(String::trim)
+        .collect(Collectors.toList());
+    }
+
+    String version = null;
+    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.ENGAGEMENT_VERSION.getLabel())) {
+      version = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.ENGAGEMENT_VERSION.getLabel());
+    }
+
+    var engagement = Engagement.builder()
+      .product(productId)
+      .name(engagementName)
+      .lead(userId)
+      .description("")
+      .tags(tags)
+      .version(version)
+      .orchestrationEngine(toolConfig.getId())
+      .targetStart(descriptionGenerator.currentDate())
+      .targetEnd(descriptionGenerator.currentDate())
+      .status(Engagement.Status.IN_PROGRESS)
+      .build();
+
+    return engagementService.searchUnique(Map.of("product", productId, "name", engagementName, "version", version)).orElseGet(() -> {
+      LOG.info("Creating new Engagement as no matching Engagements could be found.");
+      return engagementService.create(engagement);
+    });
   }
 
   /**
@@ -208,10 +256,10 @@ public class DefectDojoPersistenceProvider {
    */
   public void checkConnection() throws DefectDojoUnreachableException {
     try {
-      final URLConnection connection = new URL(defectDojoUserService.defectDojoUrl).openConnection();
+      final URLConnection connection = new URL(this.defectDojoUrl).openConnection();
       connection.connect();
     } catch (final Exception e) {
-      throw new DefectDojoUnreachableException("Could not reach defectdojo at '" + defectDojoUserService.defectDojoUrl + "'!");
+      throw new DefectDojoUnreachableException("Could not reach defectdojo at '" + this.defectDojoUrl + "'!");
     }
   }
 
@@ -279,30 +327,29 @@ public class DefectDojoPersistenceProvider {
     }
   }
 
-  private long ensureProductTypeExistsForScan(V1Scan scan) {
-    // Put newly created Products in productType Id 1 (Research & Development) if not otherwise specified
-    long productTypeId = 1;
+  private long ensureProductTypeExistsForScan(V1Scan scan) throws URISyntaxException, JsonProcessingException {
     // If a product-type was specified use the specified one
-    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.PRODUCT_TYPE.getLabel())) {
-      var productTypeName = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.PRODUCT_TYPE.getLabel());
-
-      LOG.info("Looking for ID of ProductType '{}'", productTypeName);
-      final String finalProductTypeName = productTypeName;
-      var productType = defectDojoProductService.getProductType(productTypeName).orElseGet(() -> {
-        LOG.info("ProductType '{}' didn't already exists creating now", productTypeName);
-        return defectDojoProductService.createProductType(finalProductTypeName);
-      });
-
-      productTypeId = productType.getId();
-      LOG.info("Using ProductType Id: {}", productTypeId);
-    } else {
+    if (scan.getMetadata().getAnnotations() == null || !scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.PRODUCT_TYPE.getLabel())) {
       LOG.info("Using default ProductType as no '{}' annotation was found on the scan", SecureCodeBoxScanAnnotations.PRODUCT_TYPE.getLabel());
+      return 1;
     }
 
-    return productTypeId;
+    var productTypeName = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.PRODUCT_TYPE.getLabel());
+
+    LOG.info("Looking for ID of ProductType '{}'", productTypeName);
+    final String finalProductTypeName = productTypeName;
+
+    var productType = productTypeService.searchUnique(Map.of("name", productTypeName)).orElseGet(() -> {
+      LOG.info("ProductType '{}' didn't already exists creating now", productTypeName);
+      return productTypeService.create(ProductType.builder().name(finalProductTypeName).build());
+    });
+
+    LOG.info("Using ProductType Id: {}", productType.getId());
+
+    return productType.getId();
   }
 
-  private long ensureProductExistsForScan(V1Scan scan, long productTypeId) {
+  private Product ensureProductExistsForScan(V1Scan scan, long productTypeId) throws URISyntaxException, JsonProcessingException {
     String productName = scan.getMetadata().getName();
     // If the Scan was created via a scheduled scan, the Name of the ScheduledScan should be preferred to the scans name
     if (scan.getMetadata().getOwnerReferences() != null) {
@@ -325,12 +372,24 @@ public class DefectDojoPersistenceProvider {
 
     List<String> tags = List.of();
     if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.PRODUCT_TAGS.getLabel())) {
-      tags = Arrays.stream(scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.ENGAGEMENT_TAGS.getLabel()).split(","))
+      tags = Arrays.stream(scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.PRODUCT_TAGS.getLabel()).split(","))
         .map(String::trim)
         .collect(Collectors.toList());
     }
 
-    return defectDojoProductService.retrieveOrCreateProduct(productName, productTypeId, productDescription, tags);
+    String finalProductName = productName;
+    String finalProductDescription = productDescription;
+    List<String> finalTags = tags;
+    return productService.searchUnique(Map.of("name", productName, "prod_type", productTypeId)).orElseGet(() -> {
+      LOG.info("Creating Product");
+      return productService.create(Product.builder()
+        .name(finalProductName)
+        .description(finalProductDescription)
+        .productType(productTypeId)
+        .tags(finalTags)
+        .build()
+      );
+    });
   }
 
   private long createTest(V1Scan scan, long engagementId, long userId) {
@@ -348,17 +407,18 @@ public class DefectDojoPersistenceProvider {
       version = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.ENGAGEMENT_VERSION.getLabel());
     }
 
-    var testPayload = new TestPayload();
-    testPayload.setTitle(scan.getMetadata().getName());
-    testPayload.setDescription(descriptionGenerator.generate(scan));
-    testPayload.setTestType(ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).testType.id);
-    testPayload.setTargetStart(startDate);
-    testPayload.setTargetEnd(endDate);
-    testPayload.setEngagement(engagementId);
-    testPayload.setLead(userId);
-    testPayload.setPercentComplete(100);
-    testPayload.setVersion(version);
+    var test = Test.builder()
+      .title(scan.getMetadata().getName())
+      .description(descriptionGenerator.generate(scan))
+      .testType(ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).testType.id)
+      .targetStart(startDate)
+      .targetEnd(endDate)
+      .engagement(engagementId)
+      .lead(userId)
+      .percentComplete(100)
+      .version(version)
+      .build();
 
-    return defectDojoTestService.createTest(testPayload).getId();
+    return testService.create(test).getId();
   }
 }

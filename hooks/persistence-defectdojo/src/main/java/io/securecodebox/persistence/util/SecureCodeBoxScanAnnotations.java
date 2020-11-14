@@ -1,4 +1,4 @@
-package io.securecodebox.persistence.models;
+package io.securecodebox.persistence.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +16,6 @@ public enum SecureCodeBoxScanAnnotations {
 
   @Getter
   private final String label;
-
 
   @Override
   public String toString() {

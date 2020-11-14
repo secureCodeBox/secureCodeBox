@@ -1,4 +1,4 @@
-package io.securecodebox.persistence.defectdojo.models.product;
+package io.securecodebox.persistence.defectdojo.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -10,26 +10,26 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductType extends DefectDojoModel {
+public class User extends DefectDojoModel {
   @JsonProperty
-  long id;
+  Long id;
 
   @JsonProperty
   @NonNull
-  String name;
+  String username;
 
-  @JsonProperty("critical_product")
-  boolean criticalProduct;
+  @JsonProperty("first_name")
+  String firstName;
 
-  @JsonProperty("key_product")
-  boolean keyProduct;
+  @JsonProperty("last_name")
+  String lastName;
 
   @Override
   public boolean equalsQueryString(Map<String, Object> queryParams) {
     if (queryParams.containsKey("id") && queryParams.get("id").equals(this.id)) {
       return true;
     }
-    if (queryParams.containsKey("name") && queryParams.get("name").equals(this.name)) {
+    if (queryParams.containsKey("username") && queryParams.get("username").equals(this.username)) {
       return true;
     }
 

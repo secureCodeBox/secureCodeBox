@@ -19,11 +19,11 @@
 package io.securecodebox.persistence.exceptions;
 
 public class DefectDojoPersistenceException extends RuntimeException {
-    public DefectDojoPersistenceException(String message) {
-        super(message);
-    }
+  public DefectDojoPersistenceException(String message) {
+    super(message);
+  }
 
-    public DefectDojoPersistenceException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  public DefectDojoPersistenceException(String message, Throwable cause) {
+    super(message, cause);
+  }
 }

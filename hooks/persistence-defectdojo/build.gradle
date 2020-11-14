@@ -22,10 +22,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
-  implementation("com.squareup.okhttp3:okhttp:4.9.0")
-  implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
-  implementation 'com.google.code.gson:gson:2.8.6'
-	compileOnly 'org.projectlombok:lombok'
+  compileOnly 'org.projectlombok:lombok'
 	compile 'io.kubernetes:client-java:10.0.0'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'

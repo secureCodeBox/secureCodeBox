@@ -18,12 +18,12 @@
  */
 package io.securecodebox.persistence.exceptions;
 
-public class DefectDojoLoopException extends DefectDojoPersistenceException{
-    public DefectDojoLoopException(String message) {
-        super(message);
-    }
+public class DefectDojoLoopException extends DefectDojoPersistenceException {
+  public DefectDojoLoopException(String message) {
+    super(message);
+  }
 
-    public DefectDojoLoopException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  public DefectDojoLoopException(String message, Throwable cause) {
+    super(message, cause);
+  }
 }

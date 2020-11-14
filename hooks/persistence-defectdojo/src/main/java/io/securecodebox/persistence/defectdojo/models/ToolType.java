@@ -1,37 +1,25 @@
-package io.securecodebox.persistence.defectdojo.models.product;
+package io.securecodebox.persistence.defectdojo.models;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@NoArgsConstructor
 @AllArgsConstructor
-public class Product extends DefectDojoModel {
+@NoArgsConstructor
+@Builder
+public class ToolType extends DefectDojoModel {
   @JsonProperty
   long id;
 
   @JsonProperty
+  @NonNull
   String name;
 
   @JsonProperty
   String description;
-
-  @JsonProperty("findings_count")
-  int findingsCount;
-
-  @JsonProperty("authorized_users")
-  List<String> authorizedUsers;
-
-  @JsonProperty("prod_type")
-  long productType;
 
   @Override
   public boolean equalsQueryString(Map<String, Object> queryParams) {

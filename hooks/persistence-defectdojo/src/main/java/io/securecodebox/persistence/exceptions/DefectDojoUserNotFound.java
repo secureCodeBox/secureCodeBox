@@ -19,11 +19,11 @@
 package io.securecodebox.persistence.exceptions;
 
 public class DefectDojoUserNotFound extends DefectDojoPersistenceException {
-    public DefectDojoUserNotFound(String message) {
-        super(message);
-    }
+  public DefectDojoUserNotFound(String message) {
+    super(message);
+  }
 
-    public DefectDojoUserNotFound(String message, Throwable cause) {
-        super(message, cause);
-    }
+  public DefectDojoUserNotFound(String message, Throwable cause) {
+    super(message, cause);
+  }
 }
