@@ -1,7 +1,7 @@
 FROM gradle:jdk11 as build
 COPY . /home/gradle/src
 WORKDIR /home/gradle/src
-RUN gradle build
+RUN gradle build -x test
 
 # FROM openjdk:11-jre-alpine
 # RUN addgroup --system --gid 1001 app && adduser app --system --uid 1001 --ingroup app
