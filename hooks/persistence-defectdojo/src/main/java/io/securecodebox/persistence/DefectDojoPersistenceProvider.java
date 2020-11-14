@@ -30,9 +30,9 @@ import io.securecodebox.persistence.defectdojo.models.*;
 import io.securecodebox.persistence.defectdojo.service.*;
 import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import io.securecodebox.persistence.exceptions.DefectDojoUnreachableException;
+import io.securecodebox.persistence.models.Scan;
 import io.securecodebox.persistence.util.DescriptionGenerator;
 import io.securecodebox.persistence.util.ScanNameMapping;
-import io.securecodebox.persistence.util.SecureCodeBoxScanAnnotations;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +54,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @SpringBootApplication
 public class DefectDojoPersistenceProvider {
@@ -107,32 +106,13 @@ public class DefectDojoPersistenceProvider {
   public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
     return args -> {
       LOG.debug("Starting DefectDojo persistence provider");
-      var scan = getScanFromKubernetes();
 
-      Objects.requireNonNull(scan.getStatus());
-      Objects.requireNonNull(scan.getSpec());
-      Objects.requireNonNull(scan.getMetadata());
+      var scan = new Scan(getScanFromKubernetes());
+      scan.validate();
 
       this.persist(scan);
     };
   }
-
-//  @Bean
-//  public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
-//    return args -> {
-//      findingService.create(
-//        Finding.builder()
-//          .title("Foobar")
-//          .test(31L)
-//          .description("This is a really cool finding")
-//          .foundBy(List.of(1L))
-//          .severity(Finding.Severity.Medium)
-//          .mitigation("No mitigation advice available.")
-//          .impact("No impact information available.")
-//          .build()
-//      );
-//    };
-//  }
 
   /**
    * Persists a given Scan within DefectDojo.
@@ -140,7 +120,7 @@ public class DefectDojoPersistenceProvider {
    * @param scan The scan to persist.
    * @throws io.securecodebox.persistence.exceptions.DefectDojoPersistenceException If any persistence error occurs.
    */
-  private void persist(V1Scan scan) throws DefectDojoPersistenceException, URISyntaxException, JsonProcessingException {
+  private void persist(Scan scan) throws DefectDojoPersistenceException, URISyntaxException, JsonProcessingException {
     LOG.info("Checking if DefectDojo is reachable");
     checkConnection();
     LOG.info("DefectDojo is reachable");
@@ -184,13 +164,8 @@ public class DefectDojoPersistenceProvider {
    * @param scan The Scan to crete an DefectDojo engagement for.
    * @return The newly created engagement.
    */
-  public Engagement createEngagement(V1Scan scan, Long productId, Long userId) throws URISyntaxException, JsonProcessingException {
-    assert scan.getMetadata() != null;
-
-    String engagementName = scan.getMetadata().getName();
-    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.ENGAGEMENT_NAME.getLabel())) {
-      engagementName = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.ENGAGEMENT_NAME.getLabel());
-    }
+  public Engagement createEngagement(Scan scan, Long productId, Long userId) throws URISyntaxException, JsonProcessingException {
+    String engagementName = this.getEngagementsName(scan);
 
     final String SECURITY_TEST_SERVER_NAME = "Security Test Orchestration Engine";
     var securityTestOrchestrationEngine = toolTypeService.searchUnique(Map.of("name", ToolTypeService.SECURITY_TEST_SERVER_NAME)).orElseGet(
@@ -216,19 +191,9 @@ public class DefectDojoPersistenceProvider {
       );
     });
 
-    List<String> tags = List.of();
-    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.ENGAGEMENT_TAGS.getLabel())) {
-      tags = new LinkedList<>(
-        Arrays.asList(scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.ENGAGEMENT_TAGS.getLabel()).split(","))
-      ).stream()
-        .map(String::trim)
-        .collect(Collectors.toList());
-    }
 
-    String version = null;
-    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.ENGAGEMENT_VERSION.getLabel())) {
-      version = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.ENGAGEMENT_VERSION.getLabel());
-    }
+    List<String> tags = scan.getEngagementTags().orElseGet(List::of);
+    String version = scan.getEngagementVersion().orElse("");
 
     var engagement = Engagement.builder()
       .product(productId)
@@ -279,7 +244,7 @@ public class DefectDojoPersistenceProvider {
 
     String scanName = System.getenv("SCAN_NAME");
     if (scanName == null) {
-      scanName = "nmap-scanme.nmap.org";
+      scanName = "sslyze-securecodebox.io";
     }
     String namespace = System.getenv("NAMESPACE");
     if (namespace == null) {
@@ -315,7 +280,7 @@ public class DefectDojoPersistenceProvider {
    * @return the rawResults (original security scanner results) of the given securityTests.
    * @throws DefectDojoPersistenceException If the raw
    */
-  private String getRawResults(V1Scan scan) throws DefectDojoPersistenceException {
+  private String getRawResults(Scan scan) throws DefectDojoPersistenceException {
     RestTemplate restTemplate = new RestTemplate();
 
     try {
@@ -327,21 +292,19 @@ public class DefectDojoPersistenceProvider {
     }
   }
 
-  private long ensureProductTypeExistsForScan(V1Scan scan) throws URISyntaxException, JsonProcessingException {
-    // If a product-type was specified use the specified one
-    if (scan.getMetadata().getAnnotations() == null || !scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.PRODUCT_TYPE.getLabel())) {
-      LOG.info("Using default ProductType as no '{}' annotation was found on the scan", SecureCodeBoxScanAnnotations.PRODUCT_TYPE.getLabel());
+  private long ensureProductTypeExistsForScan(Scan scan) throws URISyntaxException, JsonProcessingException {
+    var productTypeName = scan.getProductType();
+
+    if(productTypeName.isEmpty()) {
+      LOG.info("Using default ProductType as no '{}' annotation was found on the scan", Scan.SecureCodeBoxScanAnnotations.PRODUCT_TYPE.getLabel());
       return 1;
     }
 
-    var productTypeName = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.PRODUCT_TYPE.getLabel());
-
     LOG.info("Looking for ID of ProductType '{}'", productTypeName);
-    final String finalProductTypeName = productTypeName;
 
-    var productType = productTypeService.searchUnique(Map.of("name", productTypeName)).orElseGet(() -> {
-      LOG.info("ProductType '{}' didn't already exists creating now", productTypeName);
-      return productTypeService.create(ProductType.builder().name(finalProductTypeName).build());
+    var productType = productTypeService.searchUnique(Map.of("name", productTypeName.get())).orElseGet(() -> {
+      LOG.info("ProductType '{}' didn't already exists creating now", productTypeName.get());
+      return productTypeService.create(ProductType.builder().name(productTypeName.get()).build());
     });
 
     LOG.info("Using ProductType Id: {}", productType.getId());
@@ -349,50 +312,24 @@ public class DefectDojoPersistenceProvider {
     return productType.getId();
   }
 
-  private Product ensureProductExistsForScan(V1Scan scan, long productTypeId) throws URISyntaxException, JsonProcessingException {
-    String productName = scan.getMetadata().getName();
-    // If the Scan was created via a scheduled scan, the Name of the ScheduledScan should be preferred to the scans name
-    if (scan.getMetadata().getOwnerReferences() != null) {
-      for (var ownerReference : scan.getMetadata().getOwnerReferences()) {
-        if ("ScheduledScan".equals(ownerReference.getKind())) {
-          productName = ownerReference.getName();
-        }
-      }
-    }
-    // If the Scan has a explicit product name referenced via a label, use the labelled product name
-    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.PRODUCT_NAME.getLabel())) {
-      productName = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.PRODUCT_NAME.getLabel());
-    }
+  private Product ensureProductExistsForScan(Scan scan, long productTypeId) throws URISyntaxException, JsonProcessingException {
+    String productName = this.getProductName(scan);
+    String productDescription = scan.getProductDescription().orElse("Product was automatically created by the secureCodeBox DefectDojo integration");
+    List<String> tags = scan.getProductTags().orElseGet(List::of);
 
-    String productDescription = " ";
-    // If the Scan was created via a scheduled scan, the Name of the ScheduledScan should be preferred to the scans name
-    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.PRODUCT_DESCRIPTION.getLabel())) {
-      productDescription = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.PRODUCT_DESCRIPTION.getLabel());
-    }
-
-    List<String> tags = List.of();
-    if (scan.getMetadata().getAnnotations() != null && scan.getMetadata().getAnnotations().containsKey(SecureCodeBoxScanAnnotations.PRODUCT_TAGS.getLabel())) {
-      tags = Arrays.stream(scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.PRODUCT_TAGS.getLabel()).split(","))
-        .map(String::trim)
-        .collect(Collectors.toList());
-    }
-
-    String finalProductName = productName;
-    String finalProductDescription = productDescription;
-    List<String> finalTags = tags;
     return productService.searchUnique(Map.of("name", productName, "prod_type", productTypeId)).orElseGet(() -> {
       LOG.info("Creating Product");
       return productService.create(Product.builder()
-        .name(finalProductName)
-        .description(finalProductDescription)
+        .name(productName)
+        .description(productDescription)
         .productType(productTypeId)
-        .tags(finalTags)
+        .tags(tags)
         .build()
       );
     });
   }
 
-  private long createTest(V1Scan scan, long engagementId, long userId) {
+  private long createTest(Scan scan, long engagementId, long userId) {
     var startDate = Objects.requireNonNull(scan.getMetadata().getCreationTimestamp()).toString("yyyy-MM-dd HH:mm:ssZ");
 
     String endDate;
@@ -402,10 +339,7 @@ public class DefectDojoPersistenceProvider {
       endDate = DateTime.now().toString("yyyy-MM-dd HH:mm:ssZ");
     }
 
-    String version = null;
-    if (scan.getMetadata().getAnnotations() != null) {
-      version = scan.getMetadata().getAnnotations().get(SecureCodeBoxScanAnnotations.ENGAGEMENT_VERSION.getLabel());
-    }
+    String version = scan.getEngagementVersion().orElse(null);
 
     var test = Test.builder()
       .title(scan.getMetadata().getName())
@@ -420,5 +354,26 @@ public class DefectDojoPersistenceProvider {
       .build();
 
     return testService.create(test).getId();
+  }
+
+  protected String getProductName(Scan scan) {
+    if (scan.getProductName().isPresent()) {
+      return scan.getProductName().get();
+    }
+
+    // If the Scan was created via a scheduled scan, the Name of the ScheduledScan should be preferred to the scans name
+    if (scan.getMetadata().getOwnerReferences() != null) {
+      for (var ownerReference : scan.getMetadata().getOwnerReferences()) {
+        if ("ScheduledScan".equals(ownerReference.getKind())) {
+          return ownerReference.getName();
+        }
+      }
+    }
+
+    return scan.getMetadata().getName();
+  }
+
+  protected String getEngagementsName(Scan scan){
+    return scan.getEngagementName().orElseGet(() -> scan.getMetadata().getName());
   }
 }
