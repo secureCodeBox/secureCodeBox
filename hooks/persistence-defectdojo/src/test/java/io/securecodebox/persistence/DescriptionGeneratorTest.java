@@ -6,22 +6,21 @@ import io.securecodebox.models.V1ScanSpec;
 import io.securecodebox.models.V1ScanStatus;
 import io.securecodebox.persistence.util.DescriptionGenerator;
 import org.joda.time.DateTime;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DescriptionGeneratorTest {
   DescriptionGenerator descriptionGenerator;
   V1Scan scan;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     descriptionGenerator = new DescriptionGenerator();
     descriptionGenerator.setClock(Clock.fixed(Instant.ofEpochSecond(1546876203), ZoneId.of("Europe/Berlin")));
@@ -60,6 +59,7 @@ public class DescriptionGeneratorTest {
 
   @Test
   public void nullGenerate() {
+
     assertEquals(String.join(
       System.getProperty("line.separator"),
       "# Nmap Scan",
