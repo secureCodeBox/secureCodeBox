@@ -203,7 +203,9 @@ async function cascadingScan(name, scanType, parameters = [], { nameCascade, mat
 
     if (status && status.state === "Done") {
       // Wait a couple seconds to give kubernetes more time to update the fields
-      await sleep(2);
+      await sleep(5);
+      console.log("First Scan finished")
+      console.log(`First Scan Status: ${JSON.stringify(status, undefined, 2)}`)
 
       break;
     } else if (status && status.state === "Errored") {
@@ -220,8 +222,6 @@ async function cascadingScan(name, scanType, parameters = [], { nameCascade, mat
       );
     }
   }
-
-  console.log("First Scan finished")
 
   const { body: scans } = await k8sCRDApi.listNamespacedCustomObject(
     "execution.securecodebox.io",
@@ -240,6 +240,7 @@ async function cascadingScan(name, scanType, parameters = [], { nameCascade, mat
   }
 
   if (cascadedScan === null) {
+    console.warn(`Didn't find matching cascaded scan in available scans: ${JSON.stringify(scans.items, undefined, 2)}`)
     throw new Error(`Didn't find cascaded Scan for ${nameCascade}`)
   }
   const actualNameCascade = cascadedScan.metadata.name;
