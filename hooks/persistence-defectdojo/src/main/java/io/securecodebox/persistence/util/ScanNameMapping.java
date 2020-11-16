@@ -6,11 +6,11 @@ import lombok.NonNull;
 
 @AllArgsConstructor
 public enum ScanNameMapping {
-  NMAP("nmap", "Nmap Scan", TestType.WEB_APPLICATION_TEST),
-  ZAP_BASELINE("zap-baseline", "ZAP Scan", TestType.WEB_APPLICATION_TEST),
-  ZAP_API_SCAN("zap-api-scan", "ZAP Scan", TestType.API_TEST),
-  ZAP_FULL_SCAN("zap-full-scan", "ZAP Scan", TestType.WEB_APPLICATION_TEST),
-  SSLYZE("sslyze", "SSLyze 3 Scan (JSON)", TestType.WEB_APPLICATION_TEST),
+  NMAP("Nmap Scan", TestType.WEB_APPLICATION_TEST, "nmap"),
+  ZAP_BASELINE("ZAP Scan", TestType.WEB_APPLICATION_TEST, "zap-baseline"),
+  ZAP_API_SCAN("ZAP Scan", TestType.API_TEST, "zap-api-scan"),
+  ZAP_FULL_SCAN("ZAP Scan", TestType.WEB_APPLICATION_TEST, "zap-full-scan"),
+  SSLYZE("SSLyze 3 Scan (JSON)", TestType.WEB_APPLICATION_TEST, "sslyze"),
   ;
 
   /**
