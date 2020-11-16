@@ -1,6 +1,4 @@
-const arg = require("arg");
-
-async function parse(image) {
+async function parse(image, scan) {
 
   if (image.length === 0) {
     return []

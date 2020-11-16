@@ -19,7 +19,7 @@ beforeEach(() => {
 });
 
 test("should create finding correctly", async () => {
-  expect(await parse(undefined, { scan })).toMatchInlineSnapshot(`
+  expect(await parse("thisisabinarystringformatedimage", scan )).toMatchInlineSnapshot(`
     Array [
       Object {
         "attributes": Object {
@@ -36,21 +36,7 @@ test("should create finding correctly", async () => {
   `);
 });
 
-test("should also create finding correctly when using short flag '-u' instead of full '--url' flag", async () => {
+test("should not create finding if image is empty", async () => {
   (scan.spec.parameters = ["https://www.iteratec.de"]),
-    expect(await parse(undefined, { scan })).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "attributes": Object {
-            "downloadLink": "https://s3.example.com/foobar.png",
-          },
-          "category": "Screenshot",
-          "description": "Took a Screenshot for website: 'https://www.iteratec.de'",
-          "location": "https://www.iteratec.de",
-          "name": "Screenshot for https://www.iteratec.de",
-          "osi_layer": "APPLICATION",
-          "severity": "INFORMATIONAL",
-        },
-      ]
-    `);
+    expect(await parse("", scan )).toMatchInlineSnapshot(`Array []`);
 });

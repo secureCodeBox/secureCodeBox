@@ -1,12 +1,12 @@
 image:
   # image.repository -- Container Image to run the scan
-  repository: docker.io/paulschmelzer/scanner-screenshooter
+  repository: docker.io/securecodebox/scanner-screenshooter
   # image.tag -- defaults to the charts version
   tag: null
 
 parserImage:
   # parserImage.repository -- Parser image repository
-  repository: docker.io/paulschmelzer/parser-screenshooter
+  repository: docker.io/securecodebox/parser-screenshooter
   # parserImage.tag -- Parser image tag
   # @default -- defaults to the charts appVersion
   tag: null
