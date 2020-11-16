@@ -563,9 +563,9 @@ jobs:
       - name: Inspect Post Failure
         if: failure()
         run: |
-          kubectl -n integration-tests get scan -o wide
-          kubectl -n integration-tests get jobs -o wide
-          kubectl -n integration-tests get pods -o wide
+          kubectl -n integration-tests get scan -o wide --all-namespaces
+          kubectl -n integration-tests get jobs -o wide --all-namespaces
+          kubectl -n integration-tests get pods -o wide --all-namespaces
       - name: "Inspect Operator"
         if: failure()
         run: |
