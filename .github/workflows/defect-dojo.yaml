@@ -1,10 +1,10 @@
-name: "Update Helm Docs"
+name: "CI / DefectDojo / Integration"
 
 on:
   push:
 
 jobs:
-  helm-docs:
+  defectdojo:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
