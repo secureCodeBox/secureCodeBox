@@ -14,8 +14,7 @@ Insecure & Outdated Wordpress Instance: Never expose it to the internet!
 
 ## Source Code
 
-* <https://github.com/secureCodeBox/helm>
-* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo/old-wordpress>
+* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/old-wordpress>
 
 ## Chart Configuration
 
