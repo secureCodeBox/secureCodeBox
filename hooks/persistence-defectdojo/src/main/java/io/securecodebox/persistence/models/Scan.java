@@ -19,13 +19,10 @@ public class Scan extends V1Scan {
 
   @AllArgsConstructor
   public enum SecureCodeBoxScanAnnotations {
-    // Required
     ENGAGEMENT_NAME("defectdojo.securecodebox.io/engagement-name"),
     ENGAGEMENT_VERSION("defectdojo.securecodebox.io/engagement-version"),
     ENGAGEMENT_TAGS("defectdojo.securecodebox.io/engagement-tags"),
-    // Required
     PRODUCT_NAME("defectdojo.securecodebox.io/product-name"),
-    // Required
     PRODUCT_TYPE("defectdojo.securecodebox.io/product-type"),
     PRODUCT_TAGS("defectdojo.securecodebox.io/product-tags"),
     PRODUCT_DESCRIPTION("defectdojo.securecodebox.io/product-description"),
@@ -69,23 +66,21 @@ public class Scan extends V1Scan {
   }
 
   public Optional<List<String>> getEngagementTags() {
-    return this.getKey(SecureCodeBoxScanAnnotations.ENGAGEMENT_TAGS).map((tags) -> {
-      return new LinkedList<>(
-        Arrays.asList(tags.split(","))
-      ).stream()
+    return this.getKey(SecureCodeBoxScanAnnotations.ENGAGEMENT_TAGS).map(
+      (tags) -> new LinkedList<>(Arrays.asList(tags.split(",")))
+        .stream()
         .map(String::trim)
-        .collect(Collectors.toList());
-    });
+        .collect(Collectors.toList())
+    );
   }
 
   public Optional<List<String>> getProductTags() {
-    return this.getKey(SecureCodeBoxScanAnnotations.PRODUCT_TAGS).map((tags) -> {
-      return new LinkedList<>(
-        Arrays.asList(tags.split(","))
-      ).stream()
+    return this.getKey(SecureCodeBoxScanAnnotations.PRODUCT_TAGS).map(
+      (tags) -> new LinkedList<>(Arrays.asList(tags.split(",")))
+        .stream()
         .map(String::trim)
-        .collect(Collectors.toList());
-    });
+        .collect(Collectors.toList())
+    );
   }
 
   public Optional<String> getProductDescription() {
