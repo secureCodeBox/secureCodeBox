@@ -56,10 +56,10 @@ abstract public class GenericDefectDojoService<T extends DefectDojoModel> {
     RestTemplate restTemplate = new RestTemplate();
     HttpEntity<String> payload = new HttpEntity<>(getDefectDojoAuthorizationHeaders());
 
-    LOG.info("Sending Request to DefectDojo: '{}'", defectDojoUrl + "/api/v2/" + this.getUrlPath() + "/" + String.valueOf(id));
+    LOG.info("Sending Request to DefectDojo: '{}'", defectDojoUrl + "/api/v2/" + this.getUrlPath() + "/" + id);
 
     ResponseEntity<T> response = restTemplate.exchange(
-      defectDojoUrl + "/api/v2/" + this.getUrlPath() + "/" + String.valueOf(id),
+      defectDojoUrl + "/api/v2/" + this.getUrlPath() + "/" + id,
       HttpMethod.GET,
       payload,
       getModelClass()
@@ -110,7 +110,7 @@ abstract public class GenericDefectDojoService<T extends DefectDojoModel> {
         hasNext = true;
       }
       if (page > 100) {
-        throw new DefectDojoLoopException("Looked for DefectDojo Object but could not find it after " + String.valueOf(page) + " paginated API pages of " + DEFECT_DOJO_OBJET_LIMIT + " each.");
+        throw new DefectDojoLoopException("Looked for DefectDojo Object but could not find it after " + page + " paginated API pages of " + DEFECT_DOJO_OBJET_LIMIT + " each.");
       }
     } while (hasNext);
 

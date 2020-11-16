@@ -1,7 +1,6 @@
 package io.securecodebox.persistence.models;
 
 import io.securecodebox.models.V1Scan;
-import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -15,21 +14,6 @@ public class Scan extends V1Scan {
     this.setMetadata(other.getMetadata());
     this.setSpec(other.getSpec());
     this.setStatus(other.getStatus());
-  }
-
-  @AllArgsConstructor
-  public enum SecureCodeBoxScanAnnotations {
-    ENGAGEMENT_NAME("defectdojo.securecodebox.io/engagement-name"),
-    ENGAGEMENT_VERSION("defectdojo.securecodebox.io/engagement-version"),
-    ENGAGEMENT_TAGS("defectdojo.securecodebox.io/engagement-tags"),
-    PRODUCT_NAME("defectdojo.securecodebox.io/product-name"),
-    PRODUCT_TYPE("defectdojo.securecodebox.io/product-type"),
-    PRODUCT_TAGS("defectdojo.securecodebox.io/product-tags"),
-    PRODUCT_DESCRIPTION("defectdojo.securecodebox.io/product-description"),
-    ;
-
-    @Getter
-    private final String label;
   }
 
   private boolean containsKey(SecureCodeBoxScanAnnotations annotation) {
@@ -85,5 +69,20 @@ public class Scan extends V1Scan {
 
   public Optional<String> getProductDescription() {
     return this.getKey(SecureCodeBoxScanAnnotations.PRODUCT_DESCRIPTION);
+  }
+
+  @AllArgsConstructor
+  public enum SecureCodeBoxScanAnnotations {
+    ENGAGEMENT_NAME("defectdojo.securecodebox.io/engagement-name"),
+    ENGAGEMENT_VERSION("defectdojo.securecodebox.io/engagement-version"),
+    ENGAGEMENT_TAGS("defectdojo.securecodebox.io/engagement-tags"),
+    PRODUCT_NAME("defectdojo.securecodebox.io/product-name"),
+    PRODUCT_TYPE("defectdojo.securecodebox.io/product-type"),
+    PRODUCT_TAGS("defectdojo.securecodebox.io/product-tags"),
+    PRODUCT_DESCRIPTION("defectdojo.securecodebox.io/product-description"),
+    ;
+
+    @Getter
+    private final String label;
   }
 }

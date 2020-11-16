@@ -45,18 +45,6 @@ public class ImportScanService {
     return headers;
   }
 
-  @Data
-  public static class ImportScanResponse {
-    @JsonProperty
-    protected Boolean verified;
-
-    @JsonProperty
-    protected Boolean active;
-
-    @JsonProperty("test")
-    protected long testId;
-  }
-
   /**
    * Before version 1.5.4. testName (in DefectDojo _test_type_) must be defectDojoScanName, afterwards, you can have somethings else
    */
@@ -106,7 +94,6 @@ public class ImportScanService {
     }
   }
 
-
   public ImportScanResponse importScan(String rawResults, long engagementId, long lead, String currentDate, ScanNameMapping scanType) {
     var additionalValues = new LinkedMultiValueMap<String, Object>();
     additionalValues.add("engagement", Long.toString(engagementId));
@@ -119,5 +106,17 @@ public class ImportScanService {
     additionalValues.add("test", Long.toString(testId));
 
     return this.createFindings(rawResults, "reimport-scan", lead, currentDate, scanType, additionalValues);
+  }
+
+  @Data
+  public static class ImportScanResponse {
+    @JsonProperty
+    protected Boolean verified;
+
+    @JsonProperty
+    protected Boolean active;
+
+    @JsonProperty("test")
+    protected long testId;
   }
 }

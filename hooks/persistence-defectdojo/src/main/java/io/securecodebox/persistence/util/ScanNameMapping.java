@@ -14,11 +14,22 @@ public enum ScanNameMapping {
   ;
 
   /**
+   * DefectDojo Scan Type
+   * Example: "Nmap Scan"
+   */
+  public final String scanType;
+  /**
+   * DefectDojo ToolType Id
+   * Used to differentiate different Types of tools from another
+   * <p>
+   * Example
+   */
+  public final TestType testType;
+  /**
    * secureCodeBox ScanType
    * Examples: "nmap", "zap-api-scan", "zap-baseline"
    */
   protected final String scbScanType;
-
 
   public static ScanNameMapping bySecureCodeBoxScanType(@NonNull String scanType) {
     for (var mapping : ScanNameMapping.values()) {
@@ -30,22 +41,8 @@ public enum ScanNameMapping {
     throw new IllegalArgumentException("No Mapping found for ScanType '" + scanType + "'");
   }
 
-  /**
-   * DefectDojo Scan Type
-   * Example: "Nmap Scan"
-   */
-  public final String scanType;
-
-  /**
-   * DefectDojo ToolType Id
-   * Used to differentiate different Types of tools from another
-   * <p>
-   * Example
-   */
-  public final TestType testType;
-
   @AllArgsConstructor
-  public static enum TestType {
+  public enum TestType {
     API_TEST(1),
     STATIC_CHECK(2),
     PEN_TEST(3),

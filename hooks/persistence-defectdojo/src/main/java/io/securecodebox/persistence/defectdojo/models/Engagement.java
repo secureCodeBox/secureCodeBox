@@ -13,6 +13,9 @@ import java.util.Map;
 @NoArgsConstructor
 @Builder
 public class Engagement extends DefectDojoModel {
+  @JsonProperty("branch_tag")
+  public String branch;
+
   @JsonProperty
   protected long id;
 
@@ -52,9 +55,6 @@ public class Engagement extends DefectDojoModel {
   @JsonProperty("commit_hash")
   protected String commitHash;
 
-  @JsonProperty("branch_tag")
-  public String branch;
-
   @JsonProperty("source_code_management_uri")
   protected String repo;
 
@@ -92,17 +92,6 @@ public class Engagement extends DefectDojoModel {
   @JsonProperty
   protected String version;
 
-  /**
-   * Currently only contains the statuses relevant to us.
-   * If you need others, feel free to add them ;)
-   */
-  public static enum Status {
-    @JsonProperty("Completed")
-    COMPLETED,
-    @JsonProperty("In Progress")
-    IN_PROGRESS
-  }
-
   @Override
   public boolean equalsQueryString(Map<String, Object> queryParams) {
     if (queryParams.containsKey("id") && queryParams.get("id").equals(this.id)) {
@@ -113,5 +102,16 @@ public class Engagement extends DefectDojoModel {
     }
 
     return false;
+  }
+
+  /**
+   * Currently only contains the statuses relevant to us.
+   * If you need others, feel free to add them ;)
+   */
+  public enum Status {
+    @JsonProperty("Completed")
+    COMPLETED,
+    @JsonProperty("In Progress")
+    IN_PROGRESS
   }
 }

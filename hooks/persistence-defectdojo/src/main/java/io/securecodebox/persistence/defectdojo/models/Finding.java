@@ -81,20 +81,6 @@ public class Finding extends DefectDojoModel {
   @Builder.Default
   Boolean falsePositive = false;
 
-  public enum Severity {
-    @JsonProperty
-    Critical,
-    @JsonProperty
-    High,
-    @JsonProperty
-    Medium,
-    @JsonProperty
-    Low,
-    @JsonProperty
-    Informational,
-    ;
-  }
-
   @JsonProperty("numerical_severity")
   public String getNumericalSeverity() {
     switch (this.severity) {
@@ -115,10 +101,20 @@ public class Finding extends DefectDojoModel {
 
   @Override
   public boolean equalsQueryString(Map<String, Object> queryParams) {
-    if (queryParams.containsKey("id") && queryParams.get("id").equals(this.id)) {
-      return true;
-    }
+    return queryParams.containsKey("id") && queryParams.get("id").equals(this.id);
+  }
 
-    return false;
+  public enum Severity {
+    @JsonProperty
+    Critical,
+    @JsonProperty
+    High,
+    @JsonProperty
+    Medium,
+    @JsonProperty
+    Low,
+    @JsonProperty
+    Informational,
+    ;
   }
 }

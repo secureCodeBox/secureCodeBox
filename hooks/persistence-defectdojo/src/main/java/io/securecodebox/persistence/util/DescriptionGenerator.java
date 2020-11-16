@@ -31,9 +31,8 @@ import java.util.Objects;
 @Component
 public class DescriptionGenerator {
 
-  private static final String DATE_FORMAT = "yyyy-MM-dd";
   protected static final String TIME_FORMAT = "dd.MM.yyyy HH:mm:ss";
-
+  private static final String DATE_FORMAT = "yyyy-MM-dd";
   Clock clock = Clock.systemDefaultZone();
 
   public String generate(V1Scan scan) {

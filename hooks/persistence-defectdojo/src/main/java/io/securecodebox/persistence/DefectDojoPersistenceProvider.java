@@ -53,7 +53,10 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @SpringBootApplication
 public class DefectDojoPersistenceProvider {
@@ -295,7 +298,7 @@ public class DefectDojoPersistenceProvider {
   private long ensureProductTypeExistsForScan(Scan scan) throws URISyntaxException, JsonProcessingException {
     var productTypeName = scan.getProductType();
 
-    if(productTypeName.isEmpty()) {
+    if (productTypeName.isEmpty()) {
       LOG.info("Using default ProductType as no '{}' annotation was found on the scan", Scan.SecureCodeBoxScanAnnotations.PRODUCT_TYPE.getLabel());
       return 1;
     }
@@ -373,7 +376,7 @@ public class DefectDojoPersistenceProvider {
     return scan.getMetadata().getName();
   }
 
-  protected String getEngagementsName(Scan scan){
+  protected String getEngagementsName(Scan scan) {
     return scan.getEngagementName().orElseGet(() -> scan.getMetadata().getName());
   }
 }
