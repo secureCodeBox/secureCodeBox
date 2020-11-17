@@ -18,4 +18,4 @@ spec:
           state: open
   scanSpec:
     scanType: "screenshooter"
-    parameters: ["{{attributes.service}}://{{$.hostOrIP}}"]
+    parameters: ["{{attributes.service}}://{{$.hostOrIP}}:{{attributes.port}}"]
