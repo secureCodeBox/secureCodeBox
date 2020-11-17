@@ -1,20 +1,20 @@
 apiVersion: v1
-name: nmap
-description: A Helm chart for the NMAP security Scanner that integrates with the secureCodeBox.
+name: screenshooter
+description: A Helm chart for the Screenshooter that integrates with the secureCodeBox, which can take screenshots of your applications.
 
 type: application
 # version - gets automatically set to the secureCodeBox release version when the helm charts gets published
 version: latest
-appVersion: 7.80-r2
 kubeVersion: ">=v1.11.0-0"
 
 keywords:
   - security
-  - nmap
+  - screenshot
+  - webpages
   - scanner
   - secureCodeBox
-home: https://docs.securecodebox.io/docs/scanners/Nmap
-icon: https://docs.securecodebox.io/img/integrationIcons/Nmap.svg
+home: https://docs.securecodebox.io/docs/scanners/Screenshooter
+icon: https://docs.securecodebox.io/img/integrationIcons/Screenshooter.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:
