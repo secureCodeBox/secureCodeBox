@@ -1,7 +1,7 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: "sslyze-securecodebox.io"
+  name: "sslyze-example"
 spec:
   scanType: "sslyze"
   parameters:

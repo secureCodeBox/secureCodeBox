@@ -53,6 +53,8 @@ jobs:
             echo "Restoring Helm2 Chart and replace Helm3 Chart temporary"
             [ ! -f helm2.requirements.lock ] || mv helm2.requirements.lock requirements.lock
             [ ! -f helm2.requirements.yaml ] || mv helm2.requirements.yaml requirements.yaml
+            # Removing packaged Helm3 chart version build in the previous step
+            rm *.tgz
             echo "Processing Helm2 Chart in $dir"
             helm package --version $RELEASE_VERSION .
             NAME=$(yq read - name < Chart.yaml)

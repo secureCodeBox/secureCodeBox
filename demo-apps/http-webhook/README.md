@@ -4,6 +4,19 @@
 
 A Dummy webserver to echo HTTP requests in log
 
+**Homepage:** <https://docs.securecodebox.io>
+
+## Maintainers
+
+| Name | Email | Url |
+| ---- | ------ | --- |
+| iteratec GmbH | securecodebox@iteratec.com |  |
+
+## Source Code
+
+* <https://github.com/mendhak/docker-http-https-echo>
+* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/http-webhook>
+
 ## Chart Configuration
 
 | Key | Type | Default | Description |

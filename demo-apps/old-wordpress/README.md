@@ -10,12 +10,11 @@ Insecure & Outdated Wordpress Instance: Never expose it to the internet!
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| iteratec GmbH | security@iteratec.com |  |
+| iteratec GmbH | securecodebox@iteratec.com |  |
 
 ## Source Code
 
-* <https://github.com/secureCodeBox/helm>
-* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo/old-wordpress>
+* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/old-wordpress>
 
 ## Chart Configuration
 

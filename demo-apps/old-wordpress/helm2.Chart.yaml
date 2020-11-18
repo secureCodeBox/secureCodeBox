@@ -10,8 +10,7 @@ keywords:
   - vulnerable
   - wordpress
 sources:
-  - https://github.com/secureCodeBox/helm
-  - https://github.com/secureCodeBox/secureCodeBox/tree/master/demo/old-wordpress
+  - https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/old-wordpress
 maintainers:
   - name: iteratec GmbH
-    email: security@iteratec.com
+    email: securecodebox@iteratec.com

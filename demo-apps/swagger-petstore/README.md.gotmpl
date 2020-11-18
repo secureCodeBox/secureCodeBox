@@ -10,11 +10,11 @@ This is the sample petstore application with a restful API.
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| iteratec GmbH | security@iteratec.com |  |
+| iteratec GmbH | securecodebox@iteratec.com |  |
 
 ## Source Code
 
-* <https://github.com/secureCodeBox/helm>
+* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/swagger-petstore>
 * <https://github.com/swagger-api/swagger-petstore>
 
 ## Chart Configuration
