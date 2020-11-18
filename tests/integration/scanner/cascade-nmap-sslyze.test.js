@@ -14,7 +14,7 @@ test(
           "securecodebox.io/intensive": "light"
         }
       },
-      10 * 60
+      20 * 60
     );
 
     expect(count).toBe(4);
@@ -32,5 +32,5 @@ test(
       }
     `);
   },
-  12 * 60 * 1000
+  22 * 60 * 1000
 );
