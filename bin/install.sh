@@ -112,7 +112,10 @@ function createNamespaceAndInstallOperator() {
   fi
 }
 
-# TOD: Such a generic function shouldhavesome API doc bout how to use it andwhat to expect
+# installResources() installs all the available helm Charts found in the subdirectories for the given directory
+# @$1 - resource_directory: Directory where the subdirectories with Chart.yamls are located
+# @$2 - namespace: Namespace where the resources should be installed
+# @$3 - unattended: If the installation is interactive or unattended
 function installResources() {
   local resource_directory="$1"
   local namespace="$2"
