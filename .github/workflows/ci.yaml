@@ -468,7 +468,7 @@ jobs:
           cd tests/integration/
           npm ci
       # This steps should include Integration tests which are not related to a Specific Scanner
-      - name: "Throws NoScanDefiniton Error Integration Tests"
+      - name: "Throws NoScanDefinition Error Integration Tests"
         run: |
           cd tests/integration/
           npx jest --ci --color no-scan-definition-error
