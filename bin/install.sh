@@ -5,7 +5,7 @@
 # Creates namespace, securecodebox-system, and installs the operator.
 # Then installs all possible resources (scanners, demo-apps, hooks).
 #
-# There exist two modes:
+# There exist different modes:
 # Call without parameters to install interactively
 # Call with --all to install all available resources automatically
 # Call with --scanners / --demo-apps / --hooks to only install the wanted resources
@@ -15,6 +15,8 @@
 
 set -e
 shopt -s extglob
+
+USAGE="Usage: $(basename "$0") [--all] [--scanners] [--hooks] [--demo-apps] [--help|-h]"
 
 COLOR_HIGHLIGHT="\e[35m"
 COLOR_OK="\e[32m"
@@ -45,11 +47,10 @@ function print() {
   fi
 }
 
-function usage() {
-  local usage
-  usage="Usage: $(basename "$0") [--all] [--scanners] [--hooks] [--demo-apps] [--help]"
+function printHelp() {
   local help
   help=$(cat <<- EOT
+$USAGE
 The installation is interactive if no arguments are provided.
 
 Options
@@ -65,13 +66,9 @@ Examples:
   install.sh --all  Installs the operator in namespace: securecodebox-system and
                     all resources in namespace: default
 
-  install.sh --hooks --scanners
-Installs only operator, scanners and hooks
+  install.sh --hooks --scanners Installs only operator, scanners and hooks
 EOT
   )
-  print "SecureCodeBox Install Script"
-  print "$usage"
-  print
   print "$help"
 }
 
@@ -255,12 +252,12 @@ function parseArguments() {
             shift
             ;;
           -h|--help)
-            usage
+            printHelp
             exit
             ;;
           --*) # unsupported flags
             print "Error: Unsupported flag $1" >&2
-            usage
+            print "$USAGE"
             exit 1
             ;;
           *) # preserve positional arguments
@@ -270,6 +267,9 @@ function parseArguments() {
   done
 }
 
+# Main Script:
+parseArguments "$@"
+
 print "$COLOR_HIGHLIGHT" "                                                                             "
 print "$COLOR_HIGHLIGHT" "                               _____           _      ____                   "
 print "$COLOR_HIGHLIGHT" "                              / ____|         | |    |  _ \                  "
@@ -278,7 +278,6 @@ print "$COLOR_HIGHLIGHT" " / __|/ _ \/ __| | | | '__/ _ \ |    / _ \ / _  |/ _ \
 print "$COLOR_HIGHLIGHT" " \__ \  __/ (__| |_| | | |  __/ |___| (_) | (_| |  __/ |_) | (_) >  <        "
 print "$COLOR_HIGHLIGHT" " |___/\___|\___|\__,_|_|  \___|\_____\___/ \__,_|\___|____/ \___/_/\_\       "
 print "$COLOR_HIGHLIGHT" "                                                                             "
-
 
 parseArguments "$@"
 if [[ -n "${INSTALL_INTERACTIVE}" ]]; then
