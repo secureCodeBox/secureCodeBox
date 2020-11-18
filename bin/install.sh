@@ -27,6 +27,11 @@ COLOR_RESET="\e[0m"
 
 BASE_DIR=$(dirname "${SCRIPT_DIRECTORY}")
 
+INSTALL_INTERACTIVE=''
+INSTALL_SCANNERS=''
+INSTALL_DEMO_APPS=''
+INSTALL_HOOKS=''
+
 function print() {
   if [[ $# == 0 ]]; then
     echo
@@ -154,7 +159,7 @@ function installResources() {
   print "$COLOR_OK" "Completed to install '$resource_directory'!"
 }
 
-function interactiveInstall() {
+function welcomeToInteractiveInstall() {
   print "$COLOR_HIGHLIGHT" "Welcome to the secureCodeBox!"
   print "This interactive installation script will guide you through all the relevant installation steps in order to have you ready to scan."
   print "Start? [y/N]"
@@ -166,11 +171,9 @@ function interactiveInstall() {
   else
     exit
   fi
+}
 
-  exitIfKubectlIsNotInstalled
-  exitIfHelmIsNotInstalled
-  createNamespaceAndInstallOperator
-
+function interactiveInstall() {
   print
   print "Starting to install scanners..."
   installResources "$BASE_DIR/scanners" "default" False
@@ -205,25 +208,17 @@ function interactiveInstall() {
 }
 
 function unattendedInstall() {
-  exitIfKubectlIsNotInstalled
-  exitIfHelmIsNotInstalled
-  createNamespaceAndInstallOperator
-
-  local install_scanners=$1
-  local install_demo_apps=$2
-  local install_hooks=$3
-
-  if [[ $install_scanners == true ]]; then
+  if [[ -n "${INSTALL_SCANNERS}" ]]; then
     print "Starting to install scanners..."
     installResources "$BASE_DIR/scanners" "default" True
   fi
 
-  if [[ $install_demo_apps == true ]]; then
+  if [[ -n "${INSTALL_DEMO_APPS}" ]]; then
     print "Starting to install demo-apps..."
     installResources "$BASE_DIR/demo-apps" "default" True
   fi
 
-  if [[ $install_hooks == true ]]; then
+  if [[ -n "${INSTALL_HOOKS}" ]]; then
     print "Starting to install hooks..."
     installResources "$BASE_DIR/hooks" "default" True
   fi
@@ -232,28 +227,29 @@ function unattendedInstall() {
 }
 
 function parseArguments() {
-  local install_scanners=false
-  local install_demo_apps=false
-  local install_hooks=false
+  if [[ $# == 0 ]]; then
+      INSTALL_INTERACTIVE=true
+      return
+  fi
 
   while (( "$#" )); do
         case "$1" in
           --scanners)
-            install_scanners=true
+            INSTALL_SCANNERS='true'
             shift # Pop current argument from array
             ;;
           --demo-apps)
-            install_demo_apps=true
+            INSTALL_DEMO_APPS='true'
             shift
             ;;
           --hooks)
-            install_hooks=true
+            INSTALL_HOOKS='true'
             shift
             ;;
           --all)
-            install_scanners=true
-            install_demo_apps=true
-            install_hooks=true
+            INSTALL_SCANNERS='true'
+            INSTALL_DEMO_APPS='true'
+            INSTALL_HOOKS='true'
             shift
             ;;
           -h|--help)
@@ -261,7 +257,7 @@ function parseArguments() {
             exit
             ;;
           --*) # unsupported flags
-            echo "Error: Unsupported flag $1" >&2
+            print "Error: Unsupported flag $1" >&2
             usage
             exit 1
             ;;
@@ -270,8 +266,6 @@ function parseArguments() {
             ;;
         esac
   done
-
-  unattendedInstall $install_scanners $install_demo_apps $install_hooks
 }
 
 print "$COLOR_HIGHLIGHT" "                                                                             "
@@ -284,8 +278,17 @@ print "$COLOR_HIGHLIGHT" " |___/\___|\___|\__,_|_|  \___|\_____\___/ \__,_|\___|
 print "$COLOR_HIGHLIGHT" "                                                                             "
 
 
-if [[ $# == 0 ]]; then
+parseArguments "$@"
+if [[ -n "${INSTALL_INTERACTIVE}" ]]; then
+  welcomeToInteractiveInstall
+fi
+
+exitIfKubectlIsNotInstalled
+exitIfHelmIsNotInstalled
+createNamespaceAndInstallOperator
+
+if [[ -n "${INSTALL_INTERACTIVE}" ]]; then
     interactiveInstall
   else
-    parseArguments "$@"
+    unattendedInstall
 fi
