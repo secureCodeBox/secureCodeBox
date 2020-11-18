@@ -1,0 +1,21 @@
+apiVersion: "cascading.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "screenshooter-https-scan"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: light
+spec:
+  matches:
+    anyOf:
+      - category: "Open Port"
+        attributes:
+          service: https
+          state: open
+      - category: "Open Port"
+        attributes:
+          port: 443
+          state: open
+  scanSpec:
+    scanType: "screenshooter"
+    parameters: ["https://{{$.hostOrIP}}:{{attributes.port}}"]
