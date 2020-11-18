@@ -1,4 +1,4 @@
-{{ /*
+<!--
 # Copyright 2020 iteratec GmbH
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-*\ }}
+-->
 ---
 title: "Finding Post Processing"
 category: "hook"
@@ -29,7 +29,7 @@ Installing the _Finding Post Processing_ hook will add a ReadAndWrite Hook to yo
 which can be used to add or update fields from your findings meeting specified conditions.
 
 ```bash
-helm upgrade --install spp secureCodeBox/finding-post-processing
+helm upgrade --install fpp secureCodeBox/finding-post-processing
 ```
 
 ## Rule Configuration
