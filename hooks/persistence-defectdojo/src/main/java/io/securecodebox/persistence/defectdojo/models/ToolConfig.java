@@ -12,7 +12,7 @@ import java.util.Map;
 @Builder
 public class ToolConfig extends DefectDojoModel {
   @JsonProperty
-  long id;
+  Long id;
 
   @JsonProperty
   String url;
@@ -22,7 +22,7 @@ public class ToolConfig extends DefectDojoModel {
   String name;
 
   @JsonProperty("tool_type")
-  long toolType;
+  Long toolType;
 
   @JsonProperty("configuration_url")
   String configUrl;

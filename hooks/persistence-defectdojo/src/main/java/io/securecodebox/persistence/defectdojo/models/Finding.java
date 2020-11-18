@@ -31,7 +31,7 @@ import java.util.Map;
 @NoArgsConstructor
 public class Finding extends DefectDojoModel {
   @JsonProperty
-  long id;
+  Long id;
 
   @JsonProperty
   @NonNull

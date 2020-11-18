@@ -12,17 +12,17 @@ import java.util.Map;
 @Builder
 public class ProductType extends DefectDojoModel {
   @JsonProperty
-  long id;
+  Long id;
 
   @JsonProperty
   @NonNull
   String name;
 
   @JsonProperty("critical_product")
-  boolean criticalProduct;
+  Boolean criticalProduct;
 
   @JsonProperty("key_product")
-  boolean keyProduct;
+  Boolean keyProduct;
 
   @Override
   public boolean equalsQueryString(Map<String, Object> queryParams) {

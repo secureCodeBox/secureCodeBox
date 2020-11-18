@@ -129,7 +129,7 @@ public class DefectDojoPersistenceProvider {
     LOG.info("DefectDojo is reachable");
 
     LOG.info("Getting DefectDojo User Id");
-    var userId = userService.searchUnique(Map.of("username", defectDojoUser))
+    var userId = userService.searchUnique(User.builder().username(defectDojoUser).build())
       .orElseThrow(() -> new DefectDojoPersistenceException("Failed to find user with name: '" + defectDojoUser + "'"))
       .getId();
 
@@ -170,8 +170,10 @@ public class DefectDojoPersistenceProvider {
   public Engagement createEngagement(Scan scan, Long productId, Long userId) throws URISyntaxException, JsonProcessingException {
     String engagementName = this.getEngagementsName(scan);
 
-    final String SECURITY_TEST_SERVER_NAME = "Security Test Orchestration Engine";
-    var securityTestOrchestrationEngine = toolTypeService.searchUnique(Map.of("name", ToolTypeService.SECURITY_TEST_SERVER_NAME)).orElseGet(
+    final String SECURITY_TEST_SERVER_NAME = "secureCodeBox";
+    final String SECURITY_TEST_SERVER_DESCRIPTION = "secureCodeBox is a kubernetes based, modularized toolchain for continuous security scans of your software project.";
+
+    var securityTestOrchestrationEngine = toolTypeService.searchUnique(ToolType.builder().name(ToolTypeService.SECURITY_TEST_SERVER_NAME).build()).orElseGet(
       () -> toolTypeService.create(
         ToolType.builder()
           .name(ToolTypeService.SECURITY_TEST_SERVER_NAME)
@@ -181,13 +183,14 @@ public class DefectDojoPersistenceProvider {
     );
 
     var toolConfig = toolConfigService.searchUnique(
-      Map.of("name", SECURITY_TEST_SERVER_NAME, "url", "https://github.com/secureCodeBox")
+      ToolConfig.builder().name(SECURITY_TEST_SERVER_NAME).url("https://github.asda/secureCodeBox").build()
     ).orElseGet(() -> {
       LOG.info("Creating secureCodeBox Tool Config");
       return toolConfigService.create(
         ToolConfig.builder()
           .toolType(securityTestOrchestrationEngine.getId())
-          .name("secureCodeBox")
+          .name(SECURITY_TEST_SERVER_NAME)
+          .description(SECURITY_TEST_SERVER_DESCRIPTION)
           .url("https://github.com/secureCodeBox")
           .configUrl("https://github.com/secureCodeBox")
           .build()
@@ -211,7 +214,8 @@ public class DefectDojoPersistenceProvider {
       .status(Engagement.Status.IN_PROGRESS)
       .build();
 
-    return engagementService.searchUnique(Map.of("product", productId, "name", engagementName, "version", version)).orElseGet(() -> {
+
+    return engagementService.searchUnique(Engagement.builder().product(productId).name(engagementName).version(version).build()).orElseGet(() -> {
       LOG.info("Creating new Engagement as no matching Engagements could be found.");
       return engagementService.create(engagement);
     });
@@ -296,18 +300,20 @@ public class DefectDojoPersistenceProvider {
   }
 
   private long ensureProductTypeExistsForScan(Scan scan) throws URISyntaxException, JsonProcessingException {
-    var productTypeName = scan.getProductType();
+    var productTypeNameOptional = scan.getProductType();
 
-    if (productTypeName.isEmpty()) {
+    if (productTypeNameOptional.isEmpty()) {
       LOG.info("Using default ProductType as no '{}' annotation was found on the scan", Scan.SecureCodeBoxScanAnnotations.PRODUCT_TYPE.getLabel());
       return 1;
     }
 
+    var productTypeName = productTypeNameOptional.get();
+
     LOG.info("Looking for ID of ProductType '{}'", productTypeName);
 
-    var productType = productTypeService.searchUnique(Map.of("name", productTypeName.get())).orElseGet(() -> {
-      LOG.info("ProductType '{}' didn't already exists creating now", productTypeName.get());
-      return productTypeService.create(ProductType.builder().name(productTypeName.get()).build());
+    var productType = productTypeService.searchUnique(ProductType.builder().name(productTypeName).build()).orElseGet(() -> {
+      LOG.info("ProductType '{}' didn't already exists creating now", productTypeName);
+      return productTypeService.create(ProductType.builder().name(productTypeName).build());
     });
 
     LOG.info("Using ProductType Id: {}", productType.getId());
@@ -320,8 +326,8 @@ public class DefectDojoPersistenceProvider {
     String productDescription = scan.getProductDescription().orElse("Product was automatically created by the secureCodeBox DefectDojo integration");
     List<String> tags = scan.getProductTags().orElseGet(List::of);
 
-    return productService.searchUnique(Map.of("name", productName, "prod_type", productTypeId)).orElseGet(() -> {
-      LOG.info("Creating Product");
+    return productService.searchUnique(Product.builder().name(productName).productType(productTypeId).build()).orElseGet(() -> {
+      LOG.info("Creating Product: '{}'", productName);
       return productService.create(Product.builder()
         .name(productName)
         .description(productDescription)
@@ -352,7 +358,7 @@ public class DefectDojoPersistenceProvider {
       .targetEnd(endDate)
       .engagement(engagementId)
       .lead(userId)
-      .percentComplete(100)
+      .percentComplete(100L)
       .version(version)
       .build();
 

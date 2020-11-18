@@ -15,7 +15,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class Product extends DefectDojoModel {
   @JsonProperty
-  long id;
+  Long id;
 
   @JsonProperty
   String name;
@@ -27,13 +27,13 @@ public class Product extends DefectDojoModel {
   String description;
 
   @JsonProperty("findings_count")
-  int findingsCount;
+  Long findingsCount;
 
   @JsonProperty("authorized_users")
   List<String> authorizedUsers;
 
   @JsonProperty("prod_type")
-  long productType;
+  Long productType;
 
   @Override
   public boolean equalsQueryString(Map<String, Object> queryParams) {

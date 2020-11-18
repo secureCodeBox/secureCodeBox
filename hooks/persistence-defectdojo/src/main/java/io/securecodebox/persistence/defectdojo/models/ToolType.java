@@ -12,7 +12,7 @@ import java.util.Map;
 @Builder
 public class ToolType extends DefectDojoModel {
   @JsonProperty
-  long id;
+  Long id;
 
   @JsonProperty
   @NonNull

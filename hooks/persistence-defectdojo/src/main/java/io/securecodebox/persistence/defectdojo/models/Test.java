@@ -33,7 +33,7 @@ import java.util.Map;
 @Builder
 public class Test extends DefectDojoModel {
   @JsonProperty
-  long id;
+  Long id;
 
   @JsonProperty
   String title;
@@ -52,16 +52,16 @@ public class Test extends DefectDojoModel {
   List<String> tags = new LinkedList<>();
 
   @JsonProperty("test_type")
-  int testType;
+  Long testType;
 
   @JsonProperty
-  long lead;
+  Long lead;
 
   @JsonProperty("percent_complete")
-  int percentComplete;
+  Long percentComplete;
 
   @JsonProperty
-  long engagement;
+  Long engagement;
 
   @JsonProperty
   String version;
@@ -72,7 +72,7 @@ public class Test extends DefectDojoModel {
    */
   @JsonProperty
   @Builder.Default
-  long environment = 1L;
+  Long environment = 1L;
 
   @Override
   public boolean equalsQueryString(Map<String, Object> queryParams) {

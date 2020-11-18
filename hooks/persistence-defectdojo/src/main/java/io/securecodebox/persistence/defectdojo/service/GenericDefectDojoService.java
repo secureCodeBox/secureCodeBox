@@ -1,5 +1,6 @@
 package io.securecodebox.persistence.defectdojo.service;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.securecodebox.persistence.defectdojo.models.DefectDojoModel;
@@ -34,6 +35,9 @@ abstract public class GenericDefectDojoService<T extends DefectDojoModel> {
 
   @Autowired
   protected ObjectMapper objectMapper;
+
+  @Autowired
+  protected ObjectMapper searchStringMapper;
 
   protected long DEFECT_DOJO_OBJET_LIMIT = 100L;
 
@@ -121,6 +125,20 @@ abstract public class GenericDefectDojoService<T extends DefectDojoModel> {
     return search(new LinkedHashMap<>());
   }
 
+  @SuppressWarnings("unchecked")
+  public Optional<T> searchUnique(T searchObject) throws URISyntaxException, JsonProcessingException {
+    searchStringMapper.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
+    Map<String, Object> queryParams = searchStringMapper.convertValue(searchObject, Map.class);
+
+    LOG.info("SearchMap: {}", queryParams);
+
+    var objects = search(queryParams);
+
+    return objects.stream()
+      .filter((object) -> object != null && object.equalsQueryString(queryParams))
+      .findFirst();
+  }
+
   public Optional<T> searchUnique(Map<String, Object> queryParams) throws URISyntaxException, JsonProcessingException {
     var objects = search(queryParams);
 
@@ -135,5 +153,14 @@ abstract public class GenericDefectDojoService<T extends DefectDojoModel> {
 
     ResponseEntity<T> response = restTemplate.exchange(defectDojoUrl + "/api/v2/" + getUrlPath() + "/", HttpMethod.POST, payload, getModelClass());
     return response.getBody();
+  }
+
+  public void delete(long id) {
+    RestTemplate restTemplate = new RestTemplate();
+    HttpEntity<String> payload = new HttpEntity<>(getDefectDojoAuthorizationHeaders());
+
+    LOG.debug("Sending: DELETE {}", defectDojoUrl + "/api/v2/" + getUrlPath() + "/" + id + "/");
+
+    restTemplate.exchange(defectDojoUrl + "/api/v2/" + getUrlPath() + "/" + id + "/", HttpMethod.DELETE, payload, String.class);
   }
 }

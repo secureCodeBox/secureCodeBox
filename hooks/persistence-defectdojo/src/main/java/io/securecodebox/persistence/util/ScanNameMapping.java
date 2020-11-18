@@ -52,6 +52,6 @@ public enum ScanNameMapping {
     MANUAL_CODE_REVIEW(7);
 
     @JsonProperty
-    public final int id;
+    public final long id;
   }
 }

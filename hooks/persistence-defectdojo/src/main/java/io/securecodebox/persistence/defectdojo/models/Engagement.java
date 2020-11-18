@@ -1,5 +1,6 @@
 package io.securecodebox.persistence.defectdojo.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
@@ -17,13 +18,13 @@ public class Engagement extends DefectDojoModel {
   public String branch;
 
   @JsonProperty
-  protected long id;
+  protected Long id;
 
   @JsonProperty
   protected String name;
 
   @JsonProperty
-  protected long product;
+  protected Long product;
 
   @JsonProperty("target_start")
   protected String targetStart;
@@ -43,8 +44,7 @@ public class Engagement extends DefectDojoModel {
   protected Status status = Status.IN_PROGRESS;
 
   @JsonProperty
-  @Builder.Default
-  protected List<String> tags = new LinkedList<>();
+  protected List<String> tags;
 
   @JsonProperty
   protected String tracker;
@@ -75,29 +75,32 @@ public class Engagement extends DefectDojoModel {
 
   @JsonProperty("threat_model")
   @Builder.Default
-  protected boolean threatModel = false;
+  protected Boolean threatModel = false;
 
   @JsonProperty("api_test")
   @Builder.Default
-  protected boolean apiTest = false;
+  protected Boolean apiTest = false;
 
   @JsonProperty("pen_test")
   @Builder.Default
-  protected boolean penTest = false;
+  protected Boolean penTest = false;
 
   @JsonProperty("check_list")
   @Builder.Default
-  protected boolean checkList = false;
+  protected Boolean checkList = false;
 
   @JsonProperty
   protected String version;
 
   @Override
   public boolean equalsQueryString(Map<String, Object> queryParams) {
-    if (queryParams.containsKey("id") && queryParams.get("id").equals(this.id)) {
+    if (queryParams == null) {
+      return false;
+    }
+    if (queryParams.containsKey("id") && queryParams.get("id") != null && queryParams.get("id").equals(this.id)) {
       return true;
     }
-    if (queryParams.containsKey("name") && queryParams.get("name").equals(this.name)) {
+    if (queryParams.containsKey("name") && queryParams.get("name") != null && queryParams.get("name").equals(this.name)) {
       return true;
     }
 
