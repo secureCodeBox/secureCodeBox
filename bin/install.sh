@@ -103,6 +103,8 @@ function exitIfHelmIsNotInstalled() {
   fi
 }
 
+# Create namespace securecodebox-system and install Operator there in one step,
+# because the namespace is not used otherwise
 function createNamespaceAndInstallOperator() {
   print
   print "Creating namespace securecodebox-system"
