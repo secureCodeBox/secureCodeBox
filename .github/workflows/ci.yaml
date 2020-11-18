@@ -480,7 +480,7 @@ jobs:
       - name: "Throws NoScanDefiniton Error Integration Tests"
         run: |
           cd tests/integration/
-          npx jest --ci --color no-scan-definition-error
+          npx jest --ci --color generic/no-scan-definition-error.test.js
       - name: "Hooks (ReadAndWrite) Integration Tests"
         run: |
           helm -n integration-tests install update-category ./hooks/update-field/ \
@@ -495,7 +495,7 @@ jobs:
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
-          npx jest --ci --color read-write-hook
+          npx jest --ci --color generic/read-write-hook.test.js
           helm -n integration-tests uninstall test-scan update-category update-severity
       - name: "Hooks (ReadOnly) Integration Tests"
         run: |
@@ -507,12 +507,14 @@ jobs:
             --set="webhookUrl=http://http-webhook/hallo-welt" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
-          npx jest --ci --color read-only-hook
+          npx jest --ci --color generic/read-only-hook.test.js
           helm -n integration-tests uninstall test-scan http-webhook ro-hook
       - name: "Install Demo Apps"
         run: |
           # Install dummy-ssh app
           helm -n demo-apps install dummy-ssh ./demo-apps/dummy-ssh/ --wait
+          # Install unsafe-https app
+          helm -n demo-apps install unsafe-https ./demo-apps/unsafe-https/ --wait
           # Install plain nginx server
           kubectl create deployment --image nginx:alpine nginx --namespace demo-apps
           kubectl expose deployment nginx --port 80 --namespace demo-apps
@@ -522,21 +524,21 @@ jobs:
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="image.tag=7.80"
           cd tests/integration/
-          npx jest --ci --color nmap
+          npx jest --ci --color scanner/nmap.test.js
       - name: "ncrack Integration Tests"
         run: |
           helm -n integration-tests install ncrack ./scanners/ncrack/ \
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="image.tag=0.7"
           cd tests/integration/
-          npx jest --ci --color ncrack
+          npx jest --ci --color scanner/ncrack.test.js
       - name: "kube-hunter Integration Tests"
         run: |
           helm -n integration-tests install kube-hunter ./scanners/kube-hunter/ \
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="image.tag=0.3.0"
           cd tests/integration/
-          npx jest --ci --color kube-hunter
+          npx jest --ci --color scanner/kube-hunter.test.js
       - name: "kubeaudit Integration Tests"
         run: |
           kubectl create namespace kubeaudit-tests
@@ -546,19 +548,24 @@ jobs:
             --set="image.tag=0.11.5" \
             --set="kubeauditScope=cluster"
           cd tests/integration/
-          npx jest --ci --color kubeaudit
+          npx jest --ci --color scanner/kubeaudit.test.js
           kubectl delete namespace kubeaudit-tests
+      - name: "sslyze Integration Tests"
+        run: |
+          helm -n integration-tests install sslyze ./scanners/sslyze/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          cd tests/integration/
+          npx jest --ci --color scanner/sslyze.test.js
       - name: "ssh-scan Integration Tests"
         run: |
           helm -n integration-tests install ssh-scan ./scanners/ssh_scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
-          npx jest --ci --color ssh-scan
+          npx jest --ci --color scanner/ssh-scan.test.js
       - name: "zap Integration Tests"
         run: |
           helm -n integration-tests install zap ./scanners/zap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
-          npx jest --ci --color zap
-      - name: "cascading Scans Integration Tests"
+          npx jest --ci --color scanner/zap.test.js
+      - name: "cascading Scans ncrack Integration Tests"
         run: |
           # We'll run these in a separate namespace so that only the cascadingRules we want to test will be used
           kubectl create namespace cascading-tests
@@ -582,13 +589,34 @@ jobs:
           EOF
           # Actually run the tests
           cd tests/integration/
-          npx jest --ci --color cascade
+          npx jest --ci --color scanner/cascade-nmap-ncrack.test.js
+          # Clean up:
+          kubectl -n cascading-tests delete scans --all
+          kubectl delete namespace cascading-tests
+      - name: "cascading Scans sslyze Integration Tests"
+        run: |
+          # We'll run these in a separate namespace so that only the cascadingRules we want to test will be used
+          kubectl create namespace cascading-tests
+          # Install declarative-subsequent-scans hook
+          helm upgrade --install dssh ./hooks/declarative-subsequent-scans/ -n cascading-tests --wait
+          # Install unsafe-https
+          helm upgrade --install unsafe-https ./demo-apps/unsafe-https/ -n cascading-tests --wait
+          # Install nmap
+          helm -n cascading-tests install nmap ./scanners/nmap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" --wait
+          # Install sslyze
+          helm -n cascading-tests install sslyze ./scanners/sslyze/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" --wait
+          # Actually run the tests
+          cd tests/integration/
+          npx jest --ci --color scanner/cascade-nmap-sslyze.test.js
+          # Clean up:
+          kubectl -n cascading-tests delete scans --all
+          kubectl delete namespace cascading-tests
       - name: Inspect Post Failure
         if: failure()
         run: |
-          kubectl -n integration-tests get scan -o wide
-          kubectl -n integration-tests get jobs -o wide
-          kubectl -n integration-tests get pods -o wide
+          kubectl -n integration-tests get scan -o wide --all-namespaces
+          kubectl -n integration-tests get jobs -o wide --all-namespaces
+          kubectl -n integration-tests get pods -o wide --all-namespaces
       - name: "Inspect Operator"
         if: failure()
         run: |
