@@ -32,16 +32,18 @@ module.exports.handle = handle;
  */
 function applyRules(rules, findings) {
   let hasChanged = false;
-  findings.map(finding => {
+  const newFindings = findings.map(finding => {
+    let newFinding;
     for (const rule of rules) {
       const isRuleMatching = rule.matches.anyOf.some(condition => isMatch(finding, condition));
       if (isRuleMatching) {
         hasChanged = true;
-        finding = postProcessFinding(finding, rule);
+        newFinding = postProcessFinding(finding, rule);
       }
     }
+    return newFinding;
   });
-  return { hasChanged: hasChanged, findings: findings }
+  return { hasChanged, findings: newFindings }
 }
 
 function postProcessFinding(finding, rule) {
