@@ -4,6 +4,12 @@
 
 webhookUrl: "http://example.com"
 
+vulnerabilitymanagement:
+  enabled: true
+  name: Kibana Dashboard
+  url: "https://dashboard.chase.securecodebox.io/s/securecodebox-v2/"
+  findingsurl: "https://dashboard.chase.securecodebox.io/s/securecodebox-v2/filter:{{scanId}}"
+
 image:
   registry: docker.io
   repository: scbexperimental/teams-webhook

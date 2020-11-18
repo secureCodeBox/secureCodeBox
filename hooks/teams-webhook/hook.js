@@ -6,7 +6,11 @@ var fs = require("fs");
 async function handle({
   getFindings,
   scan,
-  webhookUrl = process.env["WEBHOOK_URL"],
+  webhookUrl                    = process.env["WEBHOOK_URL"],
+  vulnMngmEnabled               = process.env["VULNMANAG_ENABLED"],
+  vulnMngmName                  = process.env["VULNMANAG_NAME"],
+  vulnMngmDashboardUrl          = process.env["VULNMANAG_DASHBOARD_URL"],
+  vulnMngmDashboardFindingsUrl  = process.env["VULNMANAG_DASHBOARD_FINDINGS_URL"],
 }) {
   const findings = await getFindings();
 
@@ -14,7 +18,7 @@ async function handle({
   console.log(scan);
   console.log(findings);
 
-  const paylod = getMessageCardByTemplate(scan);
+  const paylod = getMessageCardByTemplate(scan, vulnMngmEnabled, vulnMngmName, vulnMngmDashboardUrl, vulnMngmDashboardFindingsUrl);
 
   await axios.post(webhookUrl, {paylod, findings });
 }
@@ -23,8 +27,8 @@ async function handle({
  * Returns a MS Teams WebHook Payload in the classic "MessageCard" style.
  * @param {*} scan 
  */
-function getMessageCardByTemplate(scan) {
-    let template = fs.readFileSync('messageCard.mustache');
+function getMessageCardByTemplate(scan, vulnMngmEnabled, vulnMngmName, vulnMngmDashboardUrl, vulnMngmDashboardFindingsUrl) {
+    let template = fs.readFileSync('./messageCard.mustache');
     console.log("Output Content : \n"+ template);
     var rendered = mustache.render(template.toString(), { 
           uuid: scan.metadata.uid,
@@ -32,7 +36,10 @@ function getMessageCardByTemplate(scan) {
           name: scan.metadata.name,
           finishedAt: scan.status.finishedAt,
           severityFacts: getMessageCardFacts(scan.status.findings.severities),
-          categoryFacts: getMessageCardFacts(scan.status.findings.categories) 
+          categoryFacts: getMessageCardFacts(scan.status.findings.categories),
+          dashboardName: vulnMngmName, 
+          dashboardUrl: vulnMngmDashboardUrl, 
+          resultsUrl: vulnMngmDashboardFindingsUrl
     });
     console.log("Output Rendered : \n"+ rendered);
     

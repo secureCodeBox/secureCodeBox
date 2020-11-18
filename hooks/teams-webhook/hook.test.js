@@ -48,6 +48,10 @@ test("should send a post request to the url when fired", async () => {
   };
 
   const webhookUrl = "http://example.com/foo/bar";
+  const vulnMngmEnabled = "true";
+  const vulnMngmName = "Kibana Dashboard";
+  const vulnMngmDashboardUrl = "htps://dashboard.yourservice/";
+  const vulnMngmDashboardFindingsUrl = "https://dashboard.yourservice/filter:{{scanId}}";
 
   await handle({ getFindings, scan, webhookUrl });
 

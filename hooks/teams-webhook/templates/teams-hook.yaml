@@ -12,3 +12,11 @@ spec:
   env:
     - name: WEBHOOK_URL
       value: {{ .Values.webhookUrl | quote }}
+    - name: VULNMANAG_ENABLED
+      value: {{ .Values.vulnerabilitymanagement.enabled | quote }}
+    - name: VULNMANAG_NAME
+      value: {{ .Values.vulnerabilitymanagement.name | quote }}
+    - name: VULNMANAG_DASHBOARD_URL
+      value: {{ .Values.vulnerabilitymanagement.url | quote }}
+    - name: VULNMANAG_DASHBOARD_FINDINGS_URL
+      value: {{ .Values.vulnerabilitymanagement.findingsurl | quote }}
