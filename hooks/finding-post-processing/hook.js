@@ -45,6 +45,5 @@ function applyRules(rules, findings) {
 }
 
 function postProcessFinding(finding, rule) {
-  const newFinding = merge(finding, rule.override);
-  return newFinding;
+  return merge(finding, rule.override);
 }
