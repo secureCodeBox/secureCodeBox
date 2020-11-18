@@ -13,7 +13,7 @@
 #
 # For more information see https://docs.securecodebox.io/
 
-set -eu
+set -e
 shopt -s extglob
 
 COLOR_HIGHLIGHT="\e[35m"
@@ -45,22 +45,23 @@ function usage() {
   usage="Usage: $(basename "$0") [--all] [--scanners] [--hooks] [--demo-apps] [--help]"
   local help
   help=$(cat <<- EOT
-        The installation is interactive if no arguments are provided.
+The installation is interactive if no arguments are provided.
 
-        Options:
-          --all          Install scanners, demo-apps and hooks
-          --scanners     Install scanners
-          --demo-apps    Install demo-apps
-          --hooks        Install hooks
-          -h|--help      Show help
+Options
 
-        Examples:
-        install.sh --all
-        Installs the operator in namespace: securecodebox-system and
-        all resources in namespace: default
+  --all          Install scanners, demo-apps and hooks
+  --scanners     Install scanners
+  --demo-apps    Install demo-apps
+  --hooks        Install hooks
+  -h|--help      Show help
 
-        install.sh --hooks --scanners
-        Installs only operator, scanners and hooks
+Examples:
+
+  install.sh --all  Installs the operator in namespace: securecodebox-system and
+                    all resources in namespace: default
+
+  install.sh --hooks --scanners
+Installs only operator, scanners and hooks
 EOT
   )
   print "SecureCodeBox Install Script"
@@ -69,7 +70,7 @@ EOT
   print "$help"
 }
 
-function checkKubectl() {
+function exitIfKubectlIsNotInstalled() {
   print
   print "Checking kubectl..."
   local kube
@@ -83,7 +84,7 @@ function checkKubectl() {
   fi
 }
 
-function checkHelm() {
+function exitIfHelmIsNotInstalled() {
   print
   print "Checking helm..."
   local helm
@@ -111,6 +112,7 @@ function createNamespaceAndInstallOperator() {
   fi
 }
 
+# TOD: Such a generic function shouldhavesome API doc bout how to use it andwhat to expect
 function installResources() {
   local resource_directory="$1"
   local namespace="$2"
@@ -162,8 +164,8 @@ function interactiveInstall() {
     exit
   fi
 
-  checkKubectl
-  checkHelm
+  exitIfKubectlIsNotInstalled
+  exitIfHelmIsNotInstalled
   createNamespaceAndInstallOperator
 
   print
@@ -200,8 +202,8 @@ function interactiveInstall() {
 }
 
 function unattendedInstall() {
-  checkKubectl
-  checkHelm
+  exitIfKubectlIsNotInstalled
+  exitIfHelmIsNotInstalled
   createNamespaceAndInstallOperator
 
   local install_scanners=$1
@@ -277,6 +279,7 @@ print "$COLOR_HIGHLIGHT" " / __|/ _ \/ __| | | | '__/ _ \ |    / _ \ / _  |/ _ \
 print "$COLOR_HIGHLIGHT" " \__ \  __/ (__| |_| | | |  __/ |___| (_) | (_| |  __/ |_) | (_) >  <        "
 print "$COLOR_HIGHLIGHT" " |___/\___|\___|\__,_|_|  \___|\_____\___/ \__,_|\___|____/ \___/_/\_\       "
 print "$COLOR_HIGHLIGHT" "                                                                             "
+
 
 if [[ $# == 0 ]]; then
     interactiveInstall
