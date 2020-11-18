@@ -130,7 +130,10 @@ function installResources() {
     [ -d "${path}" ] || continue # skip if not a directory
     local directory
     directory="$(basename "${path}")"
-    resources+=("${directory}")
+    # Check if directory contains Chart.yaml File:
+    if [[ -f "${resource_directory}/${directory}/Chart.yaml" ]]; then
+      resources+=("${directory}")
+    fi
   done
 
   if [[ $unattended == True ]]; then
