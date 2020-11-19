@@ -5,7 +5,7 @@
 # Creates namespace, securecodebox-system, and installs the operator.
 # Then installs all possible resources (scanners, demo-apps, hooks).
 #
-# There exist two modes:
+# There exist different modes:
 # Call without parameters to install interactively
 # Call with --all to install all available resources automatically
 # Call with --scanners / --demo-apps / --hooks to only install the wanted resources
@@ -13,8 +13,10 @@
 #
 # For more information see https://docs.securecodebox.io/
 
-set -eu
+set -euo pipefail
 shopt -s extglob
+
+USAGE="Usage: $(basename "$0") [--all] [--scanners] [--hooks] [--demo-apps] [--help|-h]"
 
 COLOR_HIGHLIGHT="\e[35m"
 COLOR_OK="\e[32m"
@@ -26,6 +28,11 @@ COLOR_RESET="\e[0m"
   && SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 BASE_DIR=$(dirname "${SCRIPT_DIRECTORY}")
+
+INSTALL_INTERACTIVE=''
+INSTALL_SCANNERS=''
+INSTALL_DEMO_APPS=''
+INSTALL_HOOKS=''
 
 function print() {
   if [[ $# == 0 ]]; then
@@ -40,36 +47,32 @@ function print() {
   fi
 }
 
-function usage() {
-  local usage
-  usage="Usage: $(basename "$0") [--all] [--scanners] [--hooks] [--demo-apps] [--help]"
+function printHelp() {
   local help
   help=$(cat <<- EOT
-        The installation is interactive if no arguments are provided.
+$USAGE
+The installation is interactive if no arguments are provided.
 
-        Options:
-          --all          Install scanners, demo-apps and hooks
-          --scanners     Install scanners
-          --demo-apps    Install demo-apps
-          --hooks        Install hooks
-          -h|--help      Show help
+Options
 
-        Examples:
-        install.sh --all
-        Installs the operator in namespace: securecodebox-system and
-        all resources in namespace: default
+  --all          Install scanners, demo-apps and hooks
+  --scanners     Install scanners
+  --demo-apps    Install demo-apps
+  --hooks        Install hooks
+  -h|--help      Show help
 
-        install.sh --hooks --scanners
-        Installs only operator, scanners and hooks
+Examples:
+
+  install.sh --all  Installs the operator in namespace: securecodebox-system and
+                    all resources in namespace: default
+
+  install.sh --hooks --scanners Installs only operator, scanners and hooks
 EOT
   )
-  print "SecureCodeBox Install Script"
-  print "$usage"
-  print
   print "$help"
 }
 
-function checkKubectl() {
+function exitIfKubectlIsNotInstalled() {
   print
   print "Checking kubectl..."
   local kube
@@ -83,7 +86,7 @@ function checkKubectl() {
   fi
 }
 
-function checkHelm() {
+function exitIfHelmIsNotInstalled() {
   print
   print "Checking helm..."
   local helm
@@ -97,6 +100,8 @@ function checkHelm() {
   fi
 }
 
+# Create namespace securecodebox-system and install Operator there in one step,
+# because the namespace is not used otherwise
 function createNamespaceAndInstallOperator() {
   print
   print "Creating namespace securecodebox-system"
@@ -111,6 +116,10 @@ function createNamespaceAndInstallOperator() {
   fi
 }
 
+# installResources() installs all the available helm Charts found in the subdirectories for the given directory
+# @$1 - resource_directory: Directory where the subdirectories with Chart.yamls are located
+# @$2 - namespace: Namespace where the resources should be installed
+# @$3 - unattended: If the installation is interactive or unattended
 function installResources() {
   local resource_directory="$1"
   local namespace="$2"
@@ -121,7 +130,10 @@ function installResources() {
     [ -d "${path}" ] || continue # skip if not a directory
     local directory
     directory="$(basename "${path}")"
-    resources+=("${directory}")
+    # Check if directory contains Chart.yaml File:
+    if [[ -f "${resource_directory}/${directory}/Chart.yaml" ]]; then
+      resources+=("${directory}")
+    fi
   done
 
   if [[ $unattended == True ]]; then
@@ -149,7 +161,7 @@ function installResources() {
   print "$COLOR_OK" "Completed to install '$resource_directory'!"
 }
 
-function interactiveInstall() {
+function welcomeToInteractiveInstall() {
   print "$COLOR_HIGHLIGHT" "Welcome to the secureCodeBox!"
   print "This interactive installation script will guide you through all the relevant installation steps in order to have you ready to scan."
   print "Start? [y/N]"
@@ -161,11 +173,9 @@ function interactiveInstall() {
   else
     exit
   fi
+}
 
-  checkKubectl
-  checkHelm
-  createNamespaceAndInstallOperator
-
+function interactiveInstall() {
   print
   print "Starting to install scanners..."
   installResources "$BASE_DIR/scanners" "default" False
@@ -200,25 +210,17 @@ function interactiveInstall() {
 }
 
 function unattendedInstall() {
-  checkKubectl
-  checkHelm
-  createNamespaceAndInstallOperator
-
-  local install_scanners=$1
-  local install_demo_apps=$2
-  local install_hooks=$3
-
-  if [[ $install_scanners == true ]]; then
+  if [[ -n "${INSTALL_SCANNERS}" ]]; then
     print "Starting to install scanners..."
     installResources "$BASE_DIR/scanners" "default" True
   fi
 
-  if [[ $install_demo_apps == true ]]; then
+  if [[ -n "${INSTALL_DEMO_APPS}" ]]; then
     print "Starting to install demo-apps..."
     installResources "$BASE_DIR/demo-apps" "default" True
   fi
 
-  if [[ $install_hooks == true ]]; then
+  if [[ -n "${INSTALL_HOOKS}" ]]; then
     print "Starting to install hooks..."
     installResources "$BASE_DIR/hooks" "default" True
   fi
@@ -227,37 +229,38 @@ function unattendedInstall() {
 }
 
 function parseArguments() {
-  local install_scanners=false
-  local install_demo_apps=false
-  local install_hooks=false
+  if [[ $# == 0 ]]; then
+      INSTALL_INTERACTIVE=true
+      return
+  fi
 
   while (( "$#" )); do
         case "$1" in
           --scanners)
-            install_scanners=true
+            INSTALL_SCANNERS='true'
             shift # Pop current argument from array
             ;;
           --demo-apps)
-            install_demo_apps=true
+            INSTALL_DEMO_APPS='true'
             shift
             ;;
           --hooks)
-            install_hooks=true
+            INSTALL_HOOKS='true'
             shift
             ;;
           --all)
-            install_scanners=true
-            install_demo_apps=true
-            install_hooks=true
+            INSTALL_SCANNERS='true'
+            INSTALL_DEMO_APPS='true'
+            INSTALL_HOOKS='true'
             shift
             ;;
           -h|--help)
-            usage
+            printHelp
             exit
             ;;
           --*) # unsupported flags
-            echo "Error: Unsupported flag $1" >&2
-            usage
+            print "Error: Unsupported flag $1" >&2
+            print "$USAGE"
             exit 1
             ;;
           *) # preserve positional arguments
@@ -265,9 +268,10 @@ function parseArguments() {
             ;;
         esac
   done
-
-  unattendedInstall $install_scanners $install_demo_apps $install_hooks
 }
+
+# Main Script:
+parseArguments "$@"
 
 print "$COLOR_HIGHLIGHT" "                                                                             "
 print "$COLOR_HIGHLIGHT" "                               _____           _      ____                   "
@@ -278,8 +282,17 @@ print "$COLOR_HIGHLIGHT" " \__ \  __/ (__| |_| | | |  __/ |___| (_) | (_| |  __/
 print "$COLOR_HIGHLIGHT" " |___/\___|\___|\__,_|_|  \___|\_____\___/ \__,_|\___|____/ \___/_/\_\       "
 print "$COLOR_HIGHLIGHT" "                                                                             "
 
-if [[ $# == 0 ]]; then
+parseArguments "$@"
+if [[ -n "${INSTALL_INTERACTIVE}" ]]; then
+  welcomeToInteractiveInstall
+fi
+
+exitIfKubectlIsNotInstalled
+exitIfHelmIsNotInstalled
+createNamespaceAndInstallOperator
+
+if [[ -n "${INSTALL_INTERACTIVE}" ]]; then
     interactiveInstall
   else
-    parseArguments "$@"
+    unattendedInstall
 fi
