@@ -7,6 +7,7 @@ metadata:
 spec:
   type: ReadOnly
   image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
+  ttlSecondsAfterFinished: {{ .Values.hookJob.ttlSecondsAfterFinished }}
   env:
     - name: ELASTICSEARCH_INDEX_PREFIX
       value: {{ .Values.indexPrefix | quote }}

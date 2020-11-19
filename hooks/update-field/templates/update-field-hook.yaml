@@ -5,6 +5,7 @@ metadata:
 spec:
   type: ReadAndWrite
   image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
+  ttlSecondsAfterFinished: {{ .Values.hookJob.ttlSecondsAfterFinished }}
   env:
     - name: ATTRIBUTE_NAME
       value: {{ .Values.attribute.name | quote }}

@@ -5,6 +5,7 @@ metadata:
 spec:
   type: ReadOnly
   image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
+  ttlSecondsAfterFinished: {{ .Values.hookJob.ttlSecondsAfterFinished }}
   env:
     - name: WEBHOOK_URL
       value: {{ .Values.webhookUrl | quote }}
