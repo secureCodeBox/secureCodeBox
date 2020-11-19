@@ -16,7 +16,7 @@ parseJob:
   ttlSecondsAfterFinished: null
 
 scannerJob:
-  # scannerJob.ttlSecondsAfterFinished -- Defines how long the scanner job after finishing will be available (see: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/)
+# scannerJob.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
   ttlSecondsAfterFinished: 0
 
   # scannerJob.resources -- CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)
