@@ -5,3 +5,4 @@ metadata:
 spec:
   handlesResultsType: ssh-scan-json
   image: "{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag | default .Chart.Version }}"
+  ttlSecondsAfterFinished: {{ .Values.parseJob.ttlSecondsAfterFinished }}

@@ -1,10 +1,132 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: "nmap-localhost"
+  generateName: "nmap-localhost"
 spec:
   scanType: "nmap"
   parameters:
     # Note: Localhost here isn't "your" localhost, but the scanner container.
     # This container doesn't have any ports open...
     - localhost
+---
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  generateName: "nmap-localhost"
+spec:
+  scanType: "nmap"
+  parameters:
+    # Note: Localhost here isn't "your" localhost, but the scanner container.
+    # This container doesn't have any ports open...
+    - localhost
+---
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  generateName: "nmap-localhost"
+spec:
+  scanType: "nmap"
+  parameters:
+    # Note: Localhost here isn't "your" localhost, but the scanner container.
+    # This container doesn't have any ports open...
+    - localhost
+---
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  generateName: "nmap-localhost"
+spec:
+  scanType: "nmap"
+  parameters:
+    # Note: Localhost here isn't "your" localhost, but the scanner container.
+    # This container doesn't have any ports open...
+    - localhost
+---
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  generateName: "nmap-localhost"
+spec:
+  scanType: "nmap"
+  parameters:
+    # Note: Localhost here isn't "your" localhost, but the scanner container.
+    # This container doesn't have any ports open...
+    - localhost
+---
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  generateName: "nmap-localhost"
+spec:
+  scanType: "nmap"
+  parameters:
+    # Note: Localhost here isn't "your" localhost, but the scanner container.
+    # This container doesn't have any ports open...
+    - localhost
+---
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  generateName: "nmap-localhost"
+spec:
+  scanType: "nmap"
+  parameters:
+    # Note: Localhost here isn't "your" localhost, but the scanner container.
+    # This container doesn't have any ports open...
+    - localhost
+---
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  generateName: "nmap-localhost"
+spec:
+  scanType: "nmap"
+  parameters:
+    # Note: Localhost here isn't "your" localhost, but the scanner container.
+    # This container doesn't have any ports open...
+    - localhost
+---
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  generateName: "nmap-localhost"
+spec:
+  scanType: "nmap"
+  parameters:
+    # Note: Localhost here isn't "your" localhost, but the scanner container.
+    # This container doesn't have any ports open...
+    - localhost
+---
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  generateName: "nmap-localhost"
+spec:
+  scanType: "nmap"
+  parameters:
+    # Note: Localhost here isn't "your" localhost, but the scanner container.
+    # This container doesn't have any ports open...
+    - localhost
+---
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  generateName: "nmap-localhost"
+spec:
+  scanType: "nmap"
+  parameters:
+    # Note: Localhost here isn't "your" localhost, but the scanner container.
+    # This container doesn't have any ports open...
+    - localhost
+---
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  generateName: "nmap-localhost"
+spec:
+  scanType: "nmap"
+  parameters:
+    # Note: Localhost here isn't "your" localhost, but the scanner container.
+    # This container doesn't have any ports open...
+    - localhost
+---

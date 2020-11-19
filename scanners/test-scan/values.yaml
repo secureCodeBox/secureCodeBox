@@ -10,6 +10,10 @@ image:
   # image.tag - defaults to the charts version
   tag: null
 
+parseJob:
+  # parseJob.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+  ttlSecondsAfterFinished: null
+
 scannerJob:
   # scannerJob.ttlSecondsAfterFinished -- Defines how long the scanner job after finishing will be available (see: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/)
   ttlSecondsAfterFinished: null
