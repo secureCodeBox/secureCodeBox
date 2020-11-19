@@ -13,7 +13,7 @@
 #
 # For more information see https://docs.securecodebox.io/
 
-set -e
+set -euo pipefail
 shopt -s extglob
 
 USAGE="Usage: $(basename "$0") [--all] [--scanners] [--hooks] [--demo-apps] [--help|-h]"
