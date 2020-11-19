@@ -26,6 +26,7 @@ import io.kubernetes.client.util.KubeConfig;
 import io.kubernetes.client.util.generic.GenericKubernetesApi;
 import io.securecodebox.models.V1Scan;
 import io.securecodebox.models.V1ScanList;
+import io.securecodebox.persistence.defectdojo.TestType;
 import io.securecodebox.persistence.defectdojo.models.*;
 import io.securecodebox.persistence.defectdojo.service.*;
 import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
@@ -150,11 +151,15 @@ public class DefectDojoPersistenceProvider {
 
     LOG.info("Uploading Scan Report (RawResults) to DefectDojo");
 
+    var scanMapping = ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType());
+
     importScanService.reimportScan(
       result,
       testId,
       userId,
-      this.descriptionGenerator.currentDate(), ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType())
+      this.descriptionGenerator.currentDate(),
+      scanMapping.scanType,
+      scanMapping.testType
     );
 
     LOG.info("Uploaded Scan Report (RawResults) as testID {} to DefectDojo", testId);
@@ -350,10 +355,11 @@ public class DefectDojoPersistenceProvider {
 
     String version = scan.getEngagementVersion().orElse(null);
 
+    TestType testType = ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).testType;
     var test = Test.builder()
       .title(scan.getMetadata().getName())
       .description(descriptionGenerator.generate(scan))
-      .testType(ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).testType.id)
+      .testType(testType.getId())
       .targetStart(startDate)
       .targetEnd(endDate)
       .engagement(engagementId)

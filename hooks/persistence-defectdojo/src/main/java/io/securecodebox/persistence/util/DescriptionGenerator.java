@@ -80,6 +80,6 @@ public class DescriptionGenerator {
   }
 
   public String getDefectDojoScanName(V1Scan scan) {
-    return ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).scanType;
+    return ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).scanType.getTestType();
   }
 }

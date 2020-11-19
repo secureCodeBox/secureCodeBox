@@ -105,16 +105,26 @@ public class Finding extends DefectDojoModel {
   }
 
   public enum Severity {
-    @JsonProperty
-    Critical,
-    @JsonProperty
-    High,
-    @JsonProperty
-    Medium,
-    @JsonProperty
-    Low,
-    @JsonProperty
-    Informational,
+    @JsonProperty("Critical")
+    Critical(5),
+    @JsonProperty("High")
+    High(4),
+    @JsonProperty("Medium")
+    Medium(3),
+    @JsonProperty("Low")
+    Low(2),
+    @JsonProperty("Informational")
+    Informational(1),
     ;
+
+    long severity;
+
+    Severity(long severity) {
+      this.severity = severity;
+    }
+
+    public long getNumericRepresentation() {
+      return severity;
+    }
   }
 }
