@@ -6,6 +6,11 @@ import io.securecodebox.persistence.defectdojo.models.DefectDojoResponse;
 import io.securecodebox.persistence.defectdojo.models.Finding;
 import org.springframework.stereotype.Component;
 
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @Component
 public class FindingService extends GenericDefectDojoService<Finding> {
   @Override
@@ -22,5 +27,16 @@ public class FindingService extends GenericDefectDojoService<Finding> {
   protected DefectDojoResponse<Finding> deserializeList(String response) throws JsonProcessingException {
     return this.objectMapper.readValue(response, new TypeReference<>() {
     });
+  }
+
+  public List<Finding> getUnhandledFindingsForProduct(long productId, Finding.Severity minimumSeverity) throws URISyntaxException, JsonProcessingException {
+    return this.search(Map.of("test__engagement__product", productId, "active", true)).stream().filter((finding -> {
+      return finding.getSeverity().getNumericRepresentation() >= minimumSeverity.getNumericRepresentation();
+    })).collect(Collectors.toList());
+  }
+  public List<Finding> getUnhandledFindingsForEngagement(long engagementId, Finding.Severity minimumSeverity) throws URISyntaxException, JsonProcessingException {
+    return this.search(Map.of("test__engagement", engagementId, "active", true)).stream().filter((finding -> {
+      return finding.getSeverity().getNumericRepresentation() >= minimumSeverity.getNumericRepresentation();
+    })).collect(Collectors.toList());
   }
 }
