@@ -46,6 +46,8 @@ type ScanCompletionHookSpec struct {
 	Type             HookType                      `json:"type"`
 	// ServiceAccountName Name of the serviceAccount Name used. Should only be used if your hook needs specifc RBAC Access. Otherwise the hook is run using a "scan-completion-hook" service account. The service account should have at least "get" rights on scans.execution.securecodebox.io, and "get" & "patch" scans.execution.securecodebox.io/status
 	ServiceAccountName *string `json:"serviceAccountName,omitempty"`
+	// TTLSecondsAfterFinished configures the ttlSecondsAfterFinished field for the created hook job
+	TTLSecondsAfterFinished *int32 `json:"ttlSecondsAfterFinished,omitempty"`
 }
 
 // ScanCompletionHookStatus defines the observed state of ScanCompletionHook

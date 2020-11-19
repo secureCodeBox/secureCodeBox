@@ -95,7 +95,8 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 			Labels:       labels,
 		},
 		Spec: batch.JobSpec{
-			BackoffLimit: &backOffLimit,
+			TTLSecondsAfterFinished: parseDefinition.Spec.TTLSecondsAfterFinished,
+			BackoffLimit:            &backOffLimit,
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
 					Annotations: map[string]string{
@@ -154,7 +155,6 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 					AutomountServiceAccountToken: &automountServiceAccountToken,
 				},
 			},
-			TTLSecondsAfterFinished: nil,
 		},
 	}
 

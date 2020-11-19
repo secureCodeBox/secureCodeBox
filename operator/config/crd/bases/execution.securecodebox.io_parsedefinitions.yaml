@@ -56,6 +56,11 @@ spec:
                     type: string
                 type: object
               type: array
+            ttlSecondsAfterFinished:
+              description: TTLSecondsAfterFinished configures the ttlSecondsAfterFinished
+                field for the created parse job
+              format: int32
+              type: integer
           type: object
         status:
           description: ParseDefinitionStatus defines the observed state of ParseDefinition
