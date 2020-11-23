@@ -13,4 +13,4 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 FindingPostProcessing Hook deployed.
-This will add postprocessing on every finding in this namespace matching these rules: {{ .Values.rules }}.
+This will add postprocessing on every finding in this namespace matching these rules: {{ .Values.rules | toJson }}.

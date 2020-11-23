@@ -17,7 +17,7 @@ const { isMatch, merge } = require("lodash")
 async function handle({
   getFindings,
   updateFindings,
-  rules = process.env["RULES"],
+  rules =JSON.parse(process.env["RULES"]),
 }) {
   const findings = await getFindings();
   const res = applyRules(rules, findings);

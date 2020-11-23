@@ -21,4 +21,4 @@ spec:
   image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
   env:
     - name: RULES
-      value: {{ .Values.rules | quote }}
+      value: {{ .Values.rules | toJson | quote }}
