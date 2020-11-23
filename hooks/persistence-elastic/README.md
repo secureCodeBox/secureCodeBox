@@ -40,7 +40,9 @@ helm upgrade --install elkh secureCodeBox/persistence-elastic
 | image.repository | string | `"docker.io/securecodebox/persistence-elastic"` | Image repository for the dashboard importer job |
 | image.tag | string | defaults to the charts version | Image tag for the dashboard importer job |
 | imagePullSecrets | list | `[]` |  |
+| indexAppendNamespace | bool | `true` | Define if the name of the namespace where this hook is deployed to must be added to the index name. The namespace can be used to separate index by tenants (namespaces). |
 | indexPrefix | string | `"scbv2"` | Define a specific index prefix used for all elasticsearch indices. |
+| indexSuffix | string | `"“YYYY-MM-DD”"` | Define a specific index suffix based on date pattern (YEAR (YYYY), MONTH (YYYY-MM), WEEK (YYYY-Www), DATE (YYYY-MM-DD)) |
 | kibana | object | `{"enabled":true}` | Configures included Elasticsearch subchart |
 | kibana.enabled | bool | `true` | Enable if you want to deploy an kibana service (see: https://github.com/elastic/helm-charts/tree/master/kibana) |
 | nameOverride | string | `""` |  |
