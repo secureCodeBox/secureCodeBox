@@ -24,13 +24,13 @@
     "url": "https://www.iteratec.com"
   },
   "contributors": [
-    { 
-      "name" : "Jannik Hollenbach",
-      "url" : "https://github.com/J12934"
+    {
+      "name": "Jannik Hollenbach",
+      "url": "https://github.com/J12934"
     },
-    { 
-      "name" : "Robert Seedorff",
-      "url" : "https://github.com/rseedorff"
+    {
+      "name": "Robert Seedorff",
+      "url": "https://github.com/rseedorff"
     }
   ],
   "bugs": {
@@ -40,7 +40,8 @@
   "dependencies": {
     "@elastic/elasticsearch": "^7.9.1",
     "lodash.chunk": "^4.2.0",
-    "lodash.flatmap": "^4.5.0"
+    "lodash.flatmap": "^4.5.0",
+    "moment": "^2.29.1"
   },
   "devDependencies": {
     "jest": "^25.1.0"

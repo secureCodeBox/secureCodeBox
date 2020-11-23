@@ -3,12 +3,16 @@ const { Client } = require("@elastic/elasticsearch");
 const flatMap = require("lodash.flatmap");
 const chunk = require("lodash.chunk");
 
+const moment = require('moment');
+
 const authParams = {};
 
 const username = process.env["ELASTICSEARCH_USERNAME"];
 const password = process.env["ELASTICSEARCH_PASSWORD"];
 const apiKeyId = process.env["ELASTICSEARCH_APIKEY_ID"];
 const apiKey = process.env["ELASTICSEARCH_APIKEY"];
+
+const defaultDateFormat = 'YYYY-MM-DD';
 
 if (apiKeyId && apiKey) {
   console.log("Using API Key for Authentication");
@@ -39,6 +43,8 @@ async function handle({
   now = new Date(),
   tenant = process.env["NAMESPACE"],
   indexPrefix = process.env["ELASTICSEARCH_INDEX_PREFIX"] || "scbv2",
+  indexSuffix = process.env["ELASTICSEARCH_INDEX_SUFFIX"] || defaultDateFormat,
+  appendNamespace = process.env['ELASTICSEARCH_INDEX_APPEND_NAMESPACE'] || false
 }) {
   const findings = await getFindings();
 
@@ -47,8 +53,8 @@ async function handle({
     `Using Elasticsearch Instance at "${process.env["ELASTICSEARCH_ADDRESS"]}"`
   );
 
-  const timeStamp = now.toISOString().substr(0, 10);
-  const indexName = `${indexPrefix}_${tenant}_${timeStamp}`;
+  let indexName = appendNamespace ? `${indexPrefix}_${tenant}_` : `${indexPrefix}_`;
+  indexName += moment(now).format(indexSuffix)
 
   await client.indices.create(
     {
