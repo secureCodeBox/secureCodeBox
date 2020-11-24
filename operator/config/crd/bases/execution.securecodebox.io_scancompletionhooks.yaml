@@ -167,6 +167,7 @@ spec:
               description: TTLSecondsAfterFinished configures the ttlSecondsAfterFinished
                 field for the created hook job
               format: int32
+              nullable: true
               type: integer
             type:
               description: HookType Defines weather the hook should be able to change

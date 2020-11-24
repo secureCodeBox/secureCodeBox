@@ -34,6 +34,7 @@ type ParseDefinitionSpec struct {
 	// ImagePullSecrets used to access private parser images
 	ImagePullSecrets []corev1.LocalObjectReference `json:"imagePullSecrets,omitempty"`
 	// TTLSecondsAfterFinished configures the ttlSecondsAfterFinished field for the created parse job
+	// +nullable
 	TTLSecondsAfterFinished *int32 `json:"ttlSecondsAfterFinished,omitempty"`
 }
 
