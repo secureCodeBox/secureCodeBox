@@ -163,6 +163,12 @@ spec:
                 service account should have at least "get" rights on scans.execution.securecodebox.io,
                 and "get" & "patch" scans.execution.securecodebox.io/status
               type: string
+            ttlSecondsAfterFinished:
+              description: TTLSecondsAfterFinished configures the ttlSecondsAfterFinished
+                field for the created hook job
+              format: int32
+              nullable: true
+              type: integer
             type:
               description: HookType Defines weather the hook should be able to change
                 the findings or is run in a read only mode.

@@ -67,6 +67,7 @@ Examples:
 |-----|------|---------|-------------|
 | image.repository | string | `"mozilla/ssh_scan"` | Container Image to run the scan |
 | image.tag | string | `"latest@sha256:ebd76f798159844c0baca6b78cc324ba1966b11eb4f45118397a59d01f764c97"` | defaults to the charts appVersion |
+| parseJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | parserImage.repository | string | `"docker.io/securecodebox/parser-ssh-scan"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |
 | scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
@@ -75,7 +76,7 @@ Examples:
 | scannerJob.extraVolumes | list | `[]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
 | scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | scannerJob.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
-| scannerJob.ttlSecondsAfterFinished | string | `nil` | Defines how long the scanner job after finishing will be available (see: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/) |
+| scannerJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 
 [ssh_scan GitHub]: https://github.com/mozilla/ssh_scan
 [ssh_scan Documentation]: https://github.com/mozilla/ssh_scan#example-command-line-usage
