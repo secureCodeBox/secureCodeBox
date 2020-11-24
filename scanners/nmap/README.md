@@ -103,4 +103,4 @@ spec:
 | scannerJob.securityContext.privileged | bool | `false` | Ensures that the scanner container is not run in privileged mode |
 | scannerJob.securityContext.readOnlyRootFilesystem | bool | `true` | Prevents write access to the containers file system |
 | scannerJob.securityContext.runAsNonRoot | bool | `true` | Enforces that the scanner image is run as a non root user |
-| scannerJob.ttlSecondsAfterFinished | int | `0` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+| scannerJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |

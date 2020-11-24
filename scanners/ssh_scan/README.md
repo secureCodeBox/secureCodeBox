@@ -67,6 +67,7 @@ Examples:
 |-----|------|---------|-------------|
 | image.repository | string | `"mozilla/ssh_scan"` | Container Image to run the scan |
 | image.tag | string | `"latest@sha256:ebd76f798159844c0baca6b78cc324ba1966b11eb4f45118397a59d01f764c97"` | defaults to the charts appVersion |
+| parseJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | parserImage.repository | string | `"docker.io/securecodebox/parser-ssh-scan"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |
 | scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
