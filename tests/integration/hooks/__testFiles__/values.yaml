@@ -30,5 +30,5 @@ rules:
         - category: "Open Port"
     override:
       severity: "high"
-      category: "Some New Category"
+      category: "SomeNewCategory"
 

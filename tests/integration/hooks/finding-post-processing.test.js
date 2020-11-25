@@ -12,6 +12,7 @@ test(
 
     expect(count).toBe(2);
     expect(severities.high === 1)
+    expect(categories.SomeNewCategory === 1)
   },
   3 * 60 * 1000
 );
