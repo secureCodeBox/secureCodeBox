@@ -12,8 +12,8 @@ image:
 
 # indexPrefix -- Define a specific index prefix used for all elasticsearch indices.
 indexPrefix: "scbv2"
-# indexSuffix -- Define a specific index suffix based on date pattern (YEAR (YYYY), MONTH (YYYY-MM), WEEK (YYYY-Www), DATE (YYYY-MM-DD))
-indexSuffix: “YYYY-MM-DD”
+# indexSuffix -- Define a specific index suffix based on date pattern (YEAR (yyyy), MONTH (yyyy-MM), WEEK (yyyy-'W'W), DATE (yyyy-MM-dd)). We use Luxon for date formatting (https://moment.github.io/luxon/docs/manual/formatting.html#table-of-tokens)
+indexSuffix: “yyyy-MM-dd”
 # indexAppendNamespace -- Define if the name of the namespace where this hook is deployed to must be added to the index name. The namespace can be used to separate index by tenants (namespaces).
 indexAppendNamespace: true
 

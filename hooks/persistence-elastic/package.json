@@ -40,10 +40,10 @@
   "dependencies": {
     "@elastic/elasticsearch": "^7.9.1",
     "lodash.chunk": "^4.2.0",
-    "lodash.flatmap": "^4.5.0",
-    "moment": "^2.29.1"
+    "lodash.flatmap": "^4.5.0"
   },
   "devDependencies": {
-    "jest": "^25.1.0"
+    "jest": "^25.1.0",
+    "luxon": "^1.25.0"
   }
 }

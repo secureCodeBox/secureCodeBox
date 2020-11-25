@@ -3,7 +3,7 @@ const { Client } = require("@elastic/elasticsearch");
 const flatMap = require("lodash.flatmap");
 const chunk = require("lodash.chunk");
 
-const moment = require('moment');
+const { DateTime } = require("luxon");
 
 const authParams = {};
 
@@ -12,7 +12,7 @@ const password = process.env["ELASTICSEARCH_PASSWORD"];
 const apiKeyId = process.env["ELASTICSEARCH_APIKEY_ID"];
 const apiKey = process.env["ELASTICSEARCH_APIKEY"];
 
-const defaultDateFormat = 'YYYY-MM-DD';
+const defaultDateFormat = 'yyyy-MM-dd';
 
 if (apiKeyId && apiKey) {
   console.log("Using API Key for Authentication");
@@ -54,7 +54,7 @@ async function handle({
   );
 
   let indexName = appendNamespace ? `${indexPrefix}_${tenant}_` : `${indexPrefix}_`;
-  indexName += moment(now).format(indexSuffix)
+  indexName += DateTime.fromJSDate(now).toFormat(indexSuffix)
 
   await client.indices.create(
     {
