@@ -361,6 +361,93 @@ test("Should Not Update Findings If No Rule Matches", async () => {
   expect(updateFindings).not.toBeCalled();
 });
 
-test("Should Handle Rules Only Matching Some Findings", async () => {
+test("Should Ignore Findings That Don't Match The Rule", async () => {
+  const findings = [
+    {
+      category: "Open Port",
+      attributes: {
+        hostname: "foo.com",
+        port: 22,
+        state: "open"
+      },
+    },
+    {
+      category: "Open Port",
+      attributes: {
+        hostname: "bar.com",
+        port: 22,
+        state: "open"
+      },
+    },
+    {
+      category: "Open Port",
+      attributes: {
+        hostname: "foobar.com",
+        port: 22,
+        state: "open"
+      },
+    },
+  ];
+
+  const rules = [{
+    matches: {
+      anyOf: [
+        {
+          category: "Open Port",
+          attributes: {
+            hostname: "foobar.com",
+            port: 22,
+            state: "open"
+          }
+        },
+      ]
+    },
+    override: {
+      severity: "high",
+      attributes: {
+        port: 42,
+      },
+      description: "Foobar"
+    }
+  }]
+
+  const getFindings = async () => findings;
+
+  const updateFindings = jest.fn();
+
+  await handle({
+    getFindings,
+    updateFindings,
+    rules: rules,
+  });
+
+  expect(updateFindings).toBeCalledWith([
+    {
+      category: "Open Port",
+      attributes: {
+        hostname: "foo.com",
+        port: 22,
+        state: "open"
+      },
+    },
+    {
+      category: "Open Port",
+      attributes: {
+        hostname: "bar.com",
+        port: 22,
+        state: "open"
+      },
+    },
+    {
+      category: "Open Port",
+      attributes: {
+        hostname: "foobar.com",
+        port: 42,
+        state: "open"
+      },
+      severity: "high",
+      description: "Foobar",
+    }
+  ]);
 
 })
