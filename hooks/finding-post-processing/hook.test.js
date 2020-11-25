@@ -314,7 +314,7 @@ test("Should Update Nested Attributes", async () => {
 
 });
 
-test("Should Ignore Findings Not Matched By Any Rule", async () => {
+test("Should Not Update Findings If No Rule Matches", async () => {
   const findings = [
     {
       category: "Open Port",
@@ -360,3 +360,7 @@ test("Should Ignore Findings Not Matched By Any Rule", async () => {
 
   expect(updateFindings).not.toBeCalled();
 });
+
+test("Should Handle Rules Only Matching Some Findings", async () => {
+
+})
