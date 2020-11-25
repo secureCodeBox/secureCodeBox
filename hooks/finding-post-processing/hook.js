@@ -33,7 +33,7 @@ module.exports.handle = handle;
 function applyRules(rules, findings) {
   let hasChanged = false;
   const newFindings = findings.map(finding => {
-    let newFinding;
+    let newFinding = finding;
     for (const rule of rules) {
       const isRuleMatching = rule.matches.anyOf.some(condition => isMatch(finding, condition));
       if (isRuleMatching) {
