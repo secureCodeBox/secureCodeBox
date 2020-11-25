@@ -37,7 +37,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@kubernetes/client-node": "^0.12.3",
+    "@kubernetes/client-node": "^0.13.0",
     "lodash": "^4.17.20",
     "mustache": "^4.0.1"
   },
