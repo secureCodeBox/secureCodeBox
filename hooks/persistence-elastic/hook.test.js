@@ -81,7 +81,7 @@ test("should send findings to elasticsearch with given prefix", async () => {
     body: [
       {
         index: {
-          _index: `myPrefix_default_${testDate.toISOString().substr(0, 10)}`,
+          _index: `myPrefix_default_2020-11-11`,
         },
       },
       {
@@ -125,7 +125,7 @@ test("should not append namespace if 'appendNamespace' is null", async () => {
   });
 });
 
-test("should append date format YYYY", async () => {
+test("should append date format yyyy", async () => {
   const findings = [];
 
   const getFindings = async () => findings;
@@ -149,7 +149,7 @@ test("should append date format YYYY", async () => {
   });
 });
 
-test("should append week format like YYYY/[W]w -> 2020/W46", async () => {
+test("should append week format like yyyy/'W'W -> 2020/W46", async () => {
   const findings = [];
 
   const getFindings = async () => findings;
