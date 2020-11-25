@@ -130,7 +130,7 @@ test("Should Check Multiple 'anyOf'", async () => {
   ]);
 });
 
-test("Should Ignore not Matching Conditions", async () => {
+test("Should Ignore Rule Without Matching Conditions", async () => {
   const findings = [
     {
       category: "Open Port",
