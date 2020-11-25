@@ -1,0 +1,47 @@
+[[ADR-0007]]
+= ADR-0007: Proposal How to Mark Findings With Hashes to Find Duplicates
+
+[cols="h,d",grid=rows,frame=none,stripes=none,caption="Status",%autowidth]
+|====
+// Use one of the ADR status parameter based on status
+// Please add a cross reference link to the new ADR on 'superseded' ADR.
+// e.g.: {adr_suposed_by} <<ADR-0000>>
+| Status
+| PROPOSED
+
+| Date
+| 2020-11-25
+
+| Author(s)
+| Sven Strittmatter <Sven.Strittmatter@iteratec.com>
+// ...
+|====
+
+NOTE: The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and "OPTIONAL" in this document are to be interpreted as described in https://tools.ietf.org/html/rfc2119[RFC 2119].
+
+== Context
+
+We need the possibility to find duplicate findings. One use case is that we want to accept a finding and want to ignore the same finding in the future.
+
+=== Assumptions
+
+* The execution order of _hooks_ is unspecified.
+* The information if a finding's hash is a duplicate MUST NOT be stored or maintained in the _SCB_ S3 storage.
+* The _SCB_ MUST NOT remove findings: _read-write-hooks_ may alter them, but never delete or filter them out.
+** Maybe a _read-hooks_ MAY decide to not store a finding into an external system.
+
+== Decision
+
+* We generate a hash over each finding so we can compare findings by the hash and identify duplicates.
+* This hash MUST be mutable and MAY be altered by _read-write-hooks_ because we do not want to introduce an exceptions to what a _read-write-hooks_ can alter.
+* The _parser_ MUST generate the initial hash of a finding over some attributes of it.
+** Each _scanner_ MUST have a default set of hashed attributes.
+** This set of hashed attributes MAY be overwritten.
+* Each _read-write-hooks_ MUST update the hash as last step because the _hook_ MAY changed a hashed attribute.
+
+We implement the hashing step in the _parser_ first with feature flag to evaluate this proposal.
+
+== Consequences
+
+* We don't need to introduce an ordering for the _read-write-hooks_.
+* The duplicate detection/handling MUST be done in another service with its own data storage because we have a stable hash not until the _read-hooks_ will beexecuted and these MUST NOT alter the data in _SCB_ itself. But the _read-hooks_ MAY decide to not store data into an external system.
