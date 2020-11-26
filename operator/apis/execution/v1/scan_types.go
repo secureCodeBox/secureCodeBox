@@ -35,6 +35,10 @@ type ScanSpec struct {
 
 	// Env allows to specify environment vars for the scanner container. These will be merged will the env vars specified for the first container of the pod defined in the ScanType
 	Env []corev1.EnvVar `json:"env,omitempty"`
+	// Volumes allows to specify volumes for the scan container.
+	Volumes []corev1.Volume `json:"volumes,omitempty"`
+	// VolumeMounts allows to specify volume mounts for the scan container.
+	VolumeMounts []corev1.VolumeMount `json:"volumeMounts,omitempty"`
 
 	Cascades *metav1.LabelSelector `json:"cascades,omitempty"`
 }
