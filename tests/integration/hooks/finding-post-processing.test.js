@@ -3,7 +3,7 @@ const { scan } = require('../helpers')
 test(
   "Finding Post Processing after test-scan",
   async () => {
-    const { severities, count, categories } = await scan(
+    const { severities, count } = await scan(
       "finding-post-processing",
       "test-scan",
       [],
@@ -11,8 +11,7 @@ test(
     );
 
     expect(count).toBe(2);
-    expect(severities.high === 1)
-    expect(categories.SomeNewCategory === 1)
+    expect(severities.high).toBe(1)
   },
   3 * 60 * 1000
 );
