@@ -100,7 +100,7 @@ func (r *ScheduledScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 
 	// Delete Old Failed Scans when exceeding the history limit
 	failedScans := getScansWithState(childScans.Items, "Errored")
-	var failedHistoryLimit int32 = 3
+	var failedHistoryLimit int32 = 1
 	if scheduledScan.Spec.FailedJobsHistoryLimit != nil {
 		failedHistoryLimit = *scheduledScan.Spec.FailedJobsHistoryLimit
 	}
