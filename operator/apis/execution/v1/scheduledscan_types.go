@@ -37,6 +37,8 @@ type ScheduledScanSpec struct {
 
 	// SuccessfulJobsHistoryLimit determines how many past Scans will be kept until the oldest one will be deleted, defaults to 3. When set to 0, Scans will be deleted directly after completion
 	SuccessfulJobsHistoryLimit *int32 `json:"successfulJobsHistoryLimit,omitempty"`
+	// FailedJobsHistoryLimit determines how many failed past Scans will be kept until the oldest one will be deleted, defaults to 3. When set to 0, Scans will be deleted directly after failure
+	FailedJobsHistoryLimit *int32 `json:"failedJobsHistoryLimit,omitempty"`
 
 	// ScanSpec describes the scan which should be started regularly
 	ScanSpec *ScanSpec `json:"scanSpec"`
