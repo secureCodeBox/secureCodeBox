@@ -41,6 +41,7 @@ spec:
           description: ParseDefinitionSpec defines the desired state of ParseDefinition
           properties:
             env:
+              description: Env allows to specify environment vars for the parser container.
               items:
                 description: EnvVar represents an environment variable present in
                   a Container.
@@ -161,6 +162,8 @@ spec:
               nullable: true
               type: integer
             volumeMounts:
+              description: VolumeMounts allows to specify volume mounts for the parser
+                container.
               items:
                 description: VolumeMount describes a mounting of a Volume within a
                   container.
@@ -198,6 +201,7 @@ spec:
                 type: object
               type: array
             volumes:
+              description: Volumes allows to specify volumes for the parser container.
               items:
                 description: Volume represents a named volume in a pod that may be
                   accessed by any container in the pod.
