@@ -158,6 +158,22 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 		},
 	}
 
+	// Merge Env from ParserTemplate
+	job.Spec.Template.Spec.Containers[0].Env = append(
+		job.Spec.Template.Spec.Containers[0].Env,
+		parseDefinition.Spec.Env...,
+	)
+	// Merge VolumeMounts from ParserTemplate
+	job.Spec.Template.Spec.Containers[0].VolumeMounts = append(
+		job.Spec.Template.Spec.Containers[0].VolumeMounts,
+		parseDefinition.Spec.VolumeMounts...,
+	)
+	// Merge Volumes from ParserTemplate
+	job.Spec.Template.Spec.Volumes = append(
+		job.Spec.Template.Spec.Volumes,
+		parseDefinition.Spec.Volumes...,
+	)
+
 	if err := ctrl.SetControllerReference(scan, job, r.Scheme); err != nil {
 		return err
 	}
