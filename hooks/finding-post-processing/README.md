@@ -71,4 +71,4 @@ The `override` field specifies the desired fields and values that need to be upd
 |-----|------|---------|-------------|
 | image.repository | string | `"docker.io/securecodebox/finding-post-processing"` | Hook image repository |
 | image.tag | string | `nil` |  |
-| rules | string | `nil` |  |
+| rules | list | `[]` |  |
