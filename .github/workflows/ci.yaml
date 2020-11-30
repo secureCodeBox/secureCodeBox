@@ -500,6 +500,18 @@ jobs:
           cd tests/integration/
           npx jest --ci --color read-only-hook
           helm -n integration-tests uninstall test-scan http-webhook ro-hook
+      - name: "Hooks (Finding Post Processing) Integration Tests"
+        run: |
+          helm -n integration-tests install finding-post-processing ./hooks/finding-post-processing/ \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
+            --values ./tests/integration/hooks/__testFiles__/finding-post-processing-values.yaml
+          helm -n integration-tests install test-scan ./scanners/test-scan/ \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)"
+          cd tests/integration/
+          npx jest --ci --color finding-post-processing
+          helm -n integration-tests uninstall test-scan finding-post-processing
+
       - name: "Install Demo Apps"
         run: |
           # Install dummy-ssh app
