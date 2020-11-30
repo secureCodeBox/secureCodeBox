@@ -19,10 +19,10 @@
 image:
   # image.tag - defaults to the charts version
   # image.repository -- Hook image repository
-  repository: localhost:5000/securecodebox/finding-post-processing
+  repository: docker.io/securecodebox/finding-post-processing
   # parserImage.tag -- Parser image tag
   # @default -- defaults to the charts version
-  tag: local
+  tag: null
 
 rules:
   - matches:
