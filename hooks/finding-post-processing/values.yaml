@@ -24,7 +24,7 @@ image:
   # @default -- defaults to the charts version
   tag: null
 
-rules:
+rules: []
   #- matches:
   #    anyOf:
   #      - category: "Open Port"
