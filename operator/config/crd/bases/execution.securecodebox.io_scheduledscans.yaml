@@ -59,6 +59,12 @@ spec:
         spec:
           description: ScheduledScanSpec defines the desired state of ScheduledScan
           properties:
+            failedJobsHistoryLimit:
+              description: FailedJobsHistoryLimit determines how many failed past
+                Scans will be kept until the oldest one will be deleted, defaults
+                to 3. When set to 0, Scans will be deleted directly after failure
+              format: int32
+              type: integer
             interval:
               description: 'Interval describes how often the scan should be repeated
                 Examples: ''12h'', ''30m'''

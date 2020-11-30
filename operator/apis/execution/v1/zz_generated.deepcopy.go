@@ -614,6 +614,11 @@ func (in *ScheduledScanSpec) DeepCopyInto(out *ScheduledScanSpec) {
 		*out = new(int32)
 		**out = **in
 	}
+	if in.FailedJobsHistoryLimit != nil {
+		in, out := &in.FailedJobsHistoryLimit, &out.FailedJobsHistoryLimit
+		*out = new(int32)
+		**out = **in
+	}
 	if in.ScanSpec != nil {
 		in, out := &in.ScanSpec, &out.ScanSpec
 		*out = new(ScanSpec)
