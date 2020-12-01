@@ -11,6 +11,12 @@ parserImage:
   # @default -- defaults to the charts version
   tag: null
 
+encryptPasswords:
+  # encryptPasswords.existingSecret -- secret name with a pem encoded rsa public key to encrypt identified passwords
+  existingSecret: null
+  # encryptPasswords.key -- name of the property in the secret with the pem encoded rsa public key
+  key: "public.key"
+
 parseJob:
   # parseJob.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
   ttlSecondsAfterFinished: null
