@@ -182,3 +182,87 @@ test("should properly parse gitleaks json file", async () => {
     ]
   `);
 });
+
+test("should properly construct commit URL if present with -r option", async () => {
+  const scan = {
+    spec: {
+      scanType: "gitleaks",
+      parameters: ["-r", "https://github.com/iteratec/multi-juicer", "--config", "/home/config_all.toml"]
+    }
+  };
+
+  const jsonContent = await readFile(
+    __dirname + "/__testFiles__/test-report-small.json",
+    {
+      encoding: "utf8"
+    }
+  );
+  expect(await parse(JSON.parse(jsonContent), scan)).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "attributes": Object {
+          "author": "Max Mustermann",
+          "commit": "https://github.com/iteratec/multi-juicer/commit/2a42fc73f76e3fd9d015d0a98030037a8972e3d1",
+          "date": "2019-12-11T12:45:48+01:00",
+          "email": "max.mustermann@host.de",
+          "file": ".gitlab-ci.yml",
+          "line": "    - aws --profile default configure set aws_access_key_id \\"AKIAS2QBEJFO232FJDO\\"",
+          "line_number": 67,
+          "offender": "AKIAS2QBEJFO232FJDO",
+          "repo": "web-app",
+          "tags": Array [
+            "key",
+            "AWS",
+          ],
+        },
+        "category": "Potential Secret",
+        "description": "The name of the rule which triggered the finding: AWS Manager ID",
+        "name": "AWS Manager ID",
+        "osi_layer": "APPLICATION",
+        "severity": "HIGH",
+      },
+    ]
+  `);
+});
+
+test("should properly construct commit URL if present with --repo option", async () => {
+  const scan = {
+    spec: {
+      scanType: "gitleaks",
+      parameters: ["--repo", "https://github.com/iteratec/multi-juicer/", "--config", "/home/config_all.toml"]
+    }
+  };
+
+  const jsonContent = await readFile(
+    __dirname + "/__testFiles__/test-report-small.json",
+    {
+      encoding: "utf8"
+    }
+  );
+  expect(await parse(JSON.parse(jsonContent), scan)).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "attributes": Object {
+          "author": "Max Mustermann",
+          "commit": "https://github.com/iteratec/multi-juicer/commit/2a42fc73f76e3fd9d015d0a98030037a8972e3d1",
+          "date": "2019-12-11T12:45:48+01:00",
+          "email": "max.mustermann@host.de",
+          "file": ".gitlab-ci.yml",
+          "line": "    - aws --profile default configure set aws_access_key_id \\"AKIAS2QBEJFO232FJDO\\"",
+          "line_number": 67,
+          "offender": "AKIAS2QBEJFO232FJDO",
+          "repo": "web-app",
+          "tags": Array [
+            "key",
+            "AWS",
+          ],
+        },
+        "category": "Potential Secret",
+        "description": "The name of the rule which triggered the finding: AWS Manager ID",
+        "name": "AWS Manager ID",
+        "osi_layer": "APPLICATION",
+        "severity": "HIGH",
+      },
+    ]
+  `);
+});

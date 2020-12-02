@@ -1,14 +1,14 @@
 {
-  "name": "screenshooter-parser",
+  "name": "gitleaks-parser",
   "version": "1.0.0",
-  "description": "Parses result files for the type: 'screenshot-png'",
+  "description": "Parses result files for the type: 'gitleaks-json'",
   "main": "",
   "scripts": {},
   "keywords": [],
   "author": "iteratec GmbH",
   "license": "Apache-2.0",
   "dependencies": {
-    "arg": "^4.1.3"
+    "arg": "^5.0.0"
   },
   "devDependencies": {}
 }
