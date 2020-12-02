@@ -137,10 +137,41 @@ EXAMPLES:
 SEE THE MAN PAGE (http://nmap.org/ncrack/man.html) FOR MORE OPTIONS AND EXAMPLES
 ```
 
+## Password encryption
+
+Because **Ncrack** findings are very sensitive you probably don't want every SecureCodeBox user to see them. In order
+to address this issue we provide an option that lets you encrypt found passwords with public key crypto. Just
+generate a key pair with openssl:
+
+```bash
+openssl genrsa -out key.pem 2048
+openssl rsa -in key.pem -outform PEM -pubout -out public.pem
+```
+
+After you created the public key file you have to create a kubernetes secret from that
+file:
+```bash
+  kubectl create secret generic --from-file="public.key=public.pem" <ncrack-secret-name>
+```
+Now you only need to set the value *encryptPasswords.existingSecret* to the
+secrets name when installing the scanner
+
+```bash
+  helm install ncrack secureCodeBox/ncrack --set="encryptPasswords.existingSecret=<ncrack-secret-name>"
+```
+
+To decrypt a password from a finding use:
+
+```bash
+base64 encryptedPassword -d | openssl rsautl -decrypt -inkey key.pem -out decryptedPassword.txt
+```
+
 ## Chart Configuration
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| encryptPasswords.existingSecret | string | `nil` | secret name with a pem encoded rsa public key to encrypt identified passwords |
+| encryptPasswords.key | string | `"public.key"` | name of the property in the secret with the pem encoded rsa public key |
 | image.repository | string | `"docker.io/securecodebox/scanner-ncrack"` | Container Image to run the scan |
 | image.tag | string | `nil` | defaults to the charts appVersion |
 | parseJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
