@@ -9,7 +9,7 @@ async function parse (fileContent, scan, encryptionKeyLocation = process.env['EN
   let publicKey = null;
   if (encryptionKeyLocation) {
     publicKey = await readPublicKey(encryptionKeyLocation)
-      .catch( () => {
+      .catch(() => {
         console.log('Public key not found on file system location: ' + encryptionKeyLocation)
         process.exit()
       });
@@ -65,7 +65,7 @@ function transformXML (fileContent) {
 }
 
 async function readPublicKey (keyLocation) {
-  return readFile(keyLocation, 'utf-8')
+  return readFile(keyLocation)
 }
 
 module.exports.parse = parse;

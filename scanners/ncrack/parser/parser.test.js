@@ -105,9 +105,9 @@ it('should encrypt findings when a public key is set', async () => {
   const ncrackXML = fs.readFileSync(__dirname + '/__testFiles__/ncrack_with_results.xml', {
     encoding: 'utf8',
   });
-  const [finding, ...otherFindings] = await parse(ncrackXML, null, __dirname + "/__testFiles__/public_key.pem");
+  const [finding] = await parse(ncrackXML, null, __dirname + "/__testFiles__/public_key.pem");
 
-  decryptedData = crypto.privateDecrypt({
+  let decryptedData = crypto.privateDecrypt({
     key: privateKey,
     padding: crypto.constants.RSA_PKCS1_PADDING,
   }, Buffer.from(finding.attributes.password, "base64"));
