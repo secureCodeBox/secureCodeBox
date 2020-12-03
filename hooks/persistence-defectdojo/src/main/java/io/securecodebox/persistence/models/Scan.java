@@ -17,6 +17,9 @@ public class Scan extends V1Scan {
   }
 
   private boolean containsKey(SecureCodeBoxScanAnnotations annotation) {
+    if (this.getMetadata().getAnnotations() == null) {
+      return false;
+    }
     return this.getMetadata().getAnnotations().containsKey(annotation.getLabel());
   }
 
