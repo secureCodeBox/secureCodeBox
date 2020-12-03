@@ -46,6 +46,9 @@ At this point we provide three rulesets which you can pass to the `--config` opr
 - `/home/config_no_generics.toml`: No generic rules like searching for the word *password*. With this option you won't
 find something like **password = Ej2ifDk2jfeo2** but it will reduce resulting false positives.
 
+If you like to provide your custom ruleset, you can create a configMap and mount it into
+the scan. Checkout the examples for more information about providing your own gitleaks rules config.
+
 #### Other useful options are:
 
 - `--commit-since`: Scan commits more recent than a specific date. Ex: '2006-01-02' or '2006-01-02T15:04:05-0700' format.
