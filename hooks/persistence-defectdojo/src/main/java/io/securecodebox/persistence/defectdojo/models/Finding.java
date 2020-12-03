@@ -17,6 +17,7 @@
  */
 package io.securecodebox.persistence.defectdojo.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import lombok.*;
@@ -26,9 +27,10 @@ import java.util.Map;
 
 @Data
 @Builder
-@EqualsAndHashCode(callSuper = true)
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Finding extends DefectDojoModel {
   @JsonProperty
   Long id;
