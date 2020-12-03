@@ -6,3 +6,15 @@ spec:
   handlesResultsType: ncrack-xml
   image: "{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag | default .Chart.Version }}"
   ttlSecondsAfterFinished: {{ .Values.parseJob.ttlSecondsAfterFinished }}
+  {{- if .Values.encryptPasswords.existingSecret }}
+  volumes:
+  - name: "ncrack-secret"
+    secret:
+      secretName: {{ .Values.encryptPasswords.existingSecret }}
+  volumeMounts:
+  - name: "ncrack-secret"
+    mountPath: "/secrets/"
+  env:
+  - name: "ENCRYPTION_KEY_LOCATION"
+    value: "/secrets/{{ .Values.encryptPasswords.key }}"
+  {{- end }}
