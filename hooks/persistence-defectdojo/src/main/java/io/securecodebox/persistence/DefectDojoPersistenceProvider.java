@@ -213,12 +213,12 @@ public class DefectDojoPersistenceProvider {
       .description("")
       .tags(tags)
       .version(version)
+      .branch(version)
       .orchestrationEngine(toolConfig.getId())
       .targetStart(descriptionGenerator.currentDate())
       .targetEnd(descriptionGenerator.currentDate())
       .status(Engagement.Status.IN_PROGRESS)
       .build();
-
 
     return engagementService.searchUnique(Engagement.builder().product(productId).name(engagementName).version(version).build()).orElseGet(() -> {
       LOG.info("Creating new Engagement as no matching Engagements could be found.");
