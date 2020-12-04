@@ -38,20 +38,22 @@ const (
 type ScanCompletionHookSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+
+	// Defines weather the hook should be able to change the findings or is run in a read only mode.
 	Type HookType `json:"type"`
 
 	// Image is the container image for the hooks kubernetes job
 	Image string `json:"image,omitempty"`
-	// ImagePullSecrets used to access private parser images
+	// ImagePullSecrets used to access private hooks images
 	ImagePullSecrets []corev1.LocalObjectReference `json:"imagePullSecrets,omitempty"`
 	// Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. Cannot be updated. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
 	ImagePullPolicy corev1.PullPolicy `json:"imagePullPolicy,omitempty"`
 
-	// Env allows to specify environment vars for the parser container.
+	// Env allows to specify environment vars for the hooks container.
 	Env []corev1.EnvVar `json:"env,omitempty"`
-	// Volumes allows to specify volumes for the parser container.
+	// Volumes allows to specify volumes for the hooks container.
 	Volumes []corev1.Volume `json:"volumes,omitempty"`
-	// VolumeMounts allows to specify volume mounts for the parser container.
+	// VolumeMounts allows to specify volume mounts for the hooks container.
 	VolumeMounts []corev1.VolumeMount `json:"volumeMounts,omitempty"`
 
 	// ServiceAccountName Name of the serviceAccount Name used. Should only be used if your hook needs specifc RBAC Access. Otherwise the hook is run using a "scan-completion-hook" service account. The service account should have at least "get" rights on scans.execution.securecodebox.io, and "get" & "patch" scans.execution.securecodebox.io/status

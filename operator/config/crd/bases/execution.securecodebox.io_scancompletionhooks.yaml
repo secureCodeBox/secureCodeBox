@@ -45,7 +45,7 @@ spec:
           description: ScanCompletionHookSpec defines the desired state of ScanCompletionHook
           properties:
             env:
-              description: Env allows to specify environment vars for the parser container.
+              description: Env allows to specify environment vars for the hooks container.
               items:
                 description: EnvVar represents an environment variable present in
                   a Container.
@@ -152,7 +152,7 @@ spec:
                 Cannot be updated. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images'
               type: string
             imagePullSecrets:
-              description: ImagePullSecrets used to access private parser images
+              description: ImagePullSecrets used to access private hooks images
               items:
                 description: LocalObjectReference contains enough information to let
                   you locate the referenced object inside the same namespace.
@@ -177,11 +177,11 @@ spec:
               nullable: true
               type: integer
             type:
-              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-                Important: Run "make" to regenerate code after modifying this file'
+              description: Defines weather the hook should be able to change the findings
+                or is run in a read only mode.
               type: string
             volumeMounts:
-              description: VolumeMounts allows to specify volume mounts for the parser
+              description: VolumeMounts allows to specify volume mounts for the hooks
                 container.
               items:
                 description: VolumeMount describes a mounting of a Volume within a
@@ -220,7 +220,7 @@ spec:
                 type: object
               type: array
             volumes:
-              description: Volumes allows to specify volumes for the parser container.
+              description: Volumes allows to specify volumes for the hooks container.
               items:
                 description: Volume represents a named volume in a pod that may be
                   accessed by any container in the pod.
