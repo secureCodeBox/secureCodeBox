@@ -64,6 +64,7 @@ spec:
                 Scans will be kept until the oldest one will be deleted, defaults
                 to 3. When set to 0, Scans will be deleted directly after failure
               format: int32
+              minimum: 0
               type: integer
             interval:
               description: 'Interval describes how often the scan should be repeated
@@ -224,10 +225,12 @@ spec:
                     type: object
                   type: array
                 parameters:
+                  description: All CLI parameters to configure the scan container.
                   items:
                     type: string
                   type: array
                 scanType:
+                  description: The name of the scanType which should be started.
                   type: string
                 volumeMounts:
                   description: VolumeMounts allows to specify volume mounts for the
