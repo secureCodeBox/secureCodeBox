@@ -8,7 +8,12 @@ spec:
     location: "/home/securecodebox/kubeaudit.jsonl"
   jobTemplate:
     spec:
-      ttlSecondsAfterFinished: 10
+      {{- if .Values.scannerJob.ttlSecondsAfterFinished }}
+      ttlSecondsAfterFinished: {{ .Values.scannerJob.ttlSecondsAfterFinished }}
+      {{- end }}
+      {{- if .Values.scannerJob.backoffLimit }}
+      backoffLimit: {{ .Values.scannerJob.backoffLimit }}
+      {{- end }}
       template:
         spec:
           restartPolicy: OnFailure
