@@ -31,7 +31,8 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/minio/minio-go/v6"
+	"github.com/minio/minio-go/v7"
+	"github.com/minio/minio-go/v7/pkg/credentials"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 )
 
@@ -130,11 +131,11 @@ func (r *ScanReconciler) handleFinalizer(scan *executionv1.Scan) error {
 	if containsString(scan.ObjectMeta.Finalizers, s3StorageFinalizer) {
 		bucketName := os.Getenv("S3_BUCKET")
 		r.Log.V(0).Info("Deleting External Files from FileStorage", "ScanUID", scan.UID)
-		err := r.MinioClient.RemoveObject(bucketName, fmt.Sprintf("scan-%s/%s", scan.UID, scan.Status.RawResultFile))
+		err := r.MinioClient.RemoveObject(context.Background(), bucketName, fmt.Sprintf("scan-%s/%s", scan.UID, scan.Status.RawResultFile), minio.RemoveObjectOptions{})
 		if err != nil && err.Error() != errNotFound {
 			return err
 		}
-		err = r.MinioClient.RemoveObject(bucketName, fmt.Sprintf("scan-%s/findings.json", scan.UID))
+		err = r.MinioClient.RemoveObject(context.Background(), bucketName, fmt.Sprintf("scan-%s/findings.json", scan.UID), minio.RemoveObjectOptions{})
 
 		if err != nil && err.Error() != errNotFound {
 			return err
@@ -153,7 +154,7 @@ func (r *ScanReconciler) PresignedGetURL(scanID types.UID, filename string, dura
 	bucketName := os.Getenv("S3_BUCKET")
 
 	reqParams := make(url.Values)
-	rawResultDownloadURL, err := r.MinioClient.PresignedGetObject(bucketName, fmt.Sprintf("scan-%s/%s", string(scanID), filename), duration, reqParams)
+	rawResultDownloadURL, err := r.MinioClient.PresignedGetObject(context.Background(), bucketName, fmt.Sprintf("scan-%s/%s", string(scanID), filename), duration, reqParams)
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
 		return "", err
@@ -165,7 +166,7 @@ func (r *ScanReconciler) PresignedGetURL(scanID types.UID, filename string, dura
 func (r *ScanReconciler) PresignedPutURL(scanID types.UID, filename string, duration time.Duration) (string, error) {
 	bucketName := os.Getenv("S3_BUCKET")
 
-	rawResultDownloadURL, err := r.MinioClient.PresignedPutObject(bucketName, fmt.Sprintf("scan-%s/%s", string(scanID), filename), duration)
+	rawResultDownloadURL, err := r.MinioClient.PresignedPutObject(context.Background(), bucketName, fmt.Sprintf("scan-%s/%s", string(scanID), filename), duration)
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
 		return "", err
@@ -175,8 +176,6 @@ func (r *ScanReconciler) PresignedPutURL(scanID types.UID, filename string, dura
 
 func (r *ScanReconciler) initS3Connection() *minio.Client {
 	endpoint := os.Getenv("S3_ENDPOINT")
-	accessKeyID := os.Getenv("S3_ACCESS_KEY")
-	secretAccessKey := os.Getenv("S3_SECRET_KEY")
 	if os.Getenv("S3_PORT") != "" {
 		endpoint = fmt.Sprintf("%s:%s", endpoint, os.Getenv("S3_PORT"))
 	}
@@ -187,7 +186,10 @@ func (r *ScanReconciler) initS3Connection() *minio.Client {
 	}
 
 	// Initialize minio client object.
-	minioClient, err := minio.New(endpoint, accessKeyID, secretAccessKey, useSSL)
+	minioClient, err := minio.New(endpoint, &minio.Options{
+		Creds:  credentials.NewEnvMinio(),
+		Secure: useSSL,
+	})
 	if err != nil {
 		r.Log.Error(err, "Could not create minio client to communicate with s3 or compatible storage provider")
 		panic(err)
