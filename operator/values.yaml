@@ -57,7 +57,9 @@ s3:
   bucket: "my-bucket"
   # Implicit 443. You probably only need to change this when the system uses a non default port
   port: null
-  # Name to a k8s secret in the same namespace as this release with credentials to the s3 bucket
+  # s3.authType -- Authentication method. Supports access-secret-key (used by most s3 endpoint) and aws-irsa (Used by AWS EKS IAM Role to Kubenetes Service Account Binding. Support for AWS IRSA is considered experimental in the secureCodeBox)
+  authType: access-secret-key
+  # Name to a k8s secret in the same namespace as this release with credentials to the s3 bucket. Only used when s3.authType is set to "access-secret-key"
   # By default this assumes to have 'accesskey' and 'secretkey' as attributes
   # Example creation via kubectl:
   # kubectl create secret generic my-secret --from-literal=accessKey="******" --from-literal=secretKey="******"
@@ -66,10 +68,9 @@ s3:
   secretAttributeNames:
     accesskey: accesskey
     secretkey: secretkey
+  # s3.awsStsEndpoint -- STS Endpoint used in AWS IRSA Authentication. Change this to the sts endpoint of your aws region. Only used when s3.authType is set to "aws-irsa"
+  awsStsEndpoint: "https://sts.amazonaws.com"
 
-#
-# Config for the operator ressource limits
-#
 # resources -- CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)
 resources:
   limits:

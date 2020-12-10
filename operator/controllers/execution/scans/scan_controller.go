@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"net/url"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/go-logr/logr"
@@ -185,9 +186,22 @@ func (r *ScanReconciler) initS3Connection() *minio.Client {
 		useSSL = false
 	}
 
+	var creds *credentials.Credentials
+
+	if authType, ok := os.LookupEnv("S3_AUTH_TYPE"); ok && strings.ToLower(authType) == "aws-irsa" {
+		stsEndpoint := ""
+		if configuredStsEndpoint, ok := os.LookupEnv("S3_AWS_IRSA_STS_ENDPOINT"); ok {
+			stsEndpoint = configuredStsEndpoint
+		}
+
+		creds = credentials.NewIAM(stsEndpoint)
+	} else {
+		creds = credentials.NewEnvMinio()
+	}
+
 	// Initialize minio client object.
 	minioClient, err := minio.New(endpoint, &minio.Options{
-		Creds:  credentials.NewEnvMinio(),
+		Creds:  creds,
 		Secure: useSSL,
 	})
 	if err != nil {
