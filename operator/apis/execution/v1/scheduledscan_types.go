@@ -32,12 +32,13 @@ type ScheduledScanSpec struct {
 	// Examples: '12h', '30m'
 	Interval metav1.Duration `json:"interval"`
 
+	// SuccessfulJobsHistoryLimit determines how many past Scans will be kept until the oldest one will be deleted, defaults to 3. When set to 0, Scans will be deleted directly after completion
 	// +kubebuilder:validation:Optional
 	// +kubebuilder:validation:Minimum=0
-
-	// SuccessfulJobsHistoryLimit determines how many past Scans will be kept until the oldest one will be deleted, defaults to 3. When set to 0, Scans will be deleted directly after completion
 	SuccessfulJobsHistoryLimit *int32 `json:"successfulJobsHistoryLimit,omitempty"`
 	// FailedJobsHistoryLimit determines how many failed past Scans will be kept until the oldest one will be deleted, defaults to 3. When set to 0, Scans will be deleted directly after failure
+	// +kubebuilder:validation:Optional
+	// +kubebuilder:validation:Minimum=0
 	FailedJobsHistoryLimit *int32 `json:"failedJobsHistoryLimit,omitempty"`
 
 	// ScanSpec describes the scan which should be started regularly

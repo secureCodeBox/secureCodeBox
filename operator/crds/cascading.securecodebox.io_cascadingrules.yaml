@@ -237,10 +237,12 @@ spec:
                     type: object
                   type: array
                 parameters:
+                  description: All CLI parameters to configure the scan container.
                   items:
                     type: string
                   type: array
                 scanType:
+                  description: The name of the scanType which should be started.
                   type: string
                 volumeMounts:
                   description: VolumeMounts allows to specify volume mounts for the

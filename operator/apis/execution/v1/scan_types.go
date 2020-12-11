@@ -29,8 +29,10 @@ type ScanSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
+	// The name of the scanType which should be started.
 	ScanType string `json:"scanType,omitempty"`
 
+	// All CLI parameters to configure the scan container.
 	Parameters []string `json:"parameters,omitempty"`
 
 	// Env allows to specify environment vars for the scanner container. These will be merged will the env vars specified for the first container of the pod defined in the ScanType

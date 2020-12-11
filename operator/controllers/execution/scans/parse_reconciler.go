@@ -130,7 +130,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 								rawResultDownloadURL,
 								findingsUploadURL,
 							},
-							ImagePullPolicy: "Always",
+							ImagePullPolicy: parseDefinition.Spec.ImagePullPolicy,
 							Resources: corev1.ResourceRequirements{
 								Requests: corev1.ResourceList{
 									corev1.ResourceCPU:    resource.MustParse("200m"),
