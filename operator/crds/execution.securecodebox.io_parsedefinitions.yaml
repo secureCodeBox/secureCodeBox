@@ -143,6 +143,11 @@ spec:
               description: Image is the reference to the parser container image which
                 ca transform the raw scan report into findings
               type: string
+            imagePullPolicy:
+              description: 'Image pull policy. One of Always, Never, IfNotPresent.
+                Defaults to Always if :latest tag is specified, or IfNotPresent otherwise.
+                More info: https://kubernetes.io/docs/concepts/containers/images#updating-images'
+              type: string
             imagePullSecrets:
               description: ImagePullSecrets used to access private parser images
               items:
