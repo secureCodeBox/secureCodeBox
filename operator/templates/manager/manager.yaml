@@ -60,6 +60,9 @@ spec:
             - name: S3_PORT
               value: {{ .Values.s3.port }}
             {{- end }}
+            - name: S3_AUTH_TYPE
+              value: {{ .Values.s3.authType }}
+            {{- if eq .Values.s3.authType "access-secret-key" }}
             - name:  MINIO_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
@@ -70,8 +73,7 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.s3.keySecret }}
                   key: {{ .Values.s3.secretAttributeNames.secretkey }}
-            - name: S3_AUTH_TYPE
-              value: {{ .Values.s3.authType }}
+            {{- end }}
             {{- if eq .Values.s3.authType "aws-irsa" }}
             - name: S3_AWS_IRSA_STS_ENDPOINT
               value: {{ .Values.s3.awsStsEndpoint | quote }}
