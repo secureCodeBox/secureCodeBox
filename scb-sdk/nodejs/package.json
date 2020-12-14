@@ -1,0 +1,28 @@
+{
+  "name": "scb-sdk",
+  "version": "1.0.0",
+  "description": "SDK to interact with a secureCodeBox instance",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/secureCodeBox/secureCodeBox.git"
+  },
+  "keywords": [
+    "security",
+    "scb",
+    "sdk"
+  ],
+  "author": "Yannik Fuhrmeister",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/secureCodeBox/secureCodeBox/issues"
+  },
+  "homepage": "https://github.com/secureCodeBox/secureCodeBox#readme",
+  "dependencies": {
+    "@kubernetes/client-node": "^0.13.2",
+    "axios": "^0.21.1",
+    "jest": "^26.6.3"
+  }
+}

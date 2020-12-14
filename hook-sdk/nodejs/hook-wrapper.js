@@ -71,13 +71,6 @@ function updateRawResults(fileContents) {
   return uploadFile(rawResultUploadUrl, fileContents);
 }
 
-function severityCount(findings, severity) {
-  return findings.filter(
-    ({ severity: findingSeverity }) =>
-      findingSeverity.toUpperCase() === severity
-  ).length;
-}
-
 async function updateFindings(findings) {
   const findingsUploadUrl = process.argv[5];
   if (findingsUploadUrl === undefined) {

@@ -2,19 +2,13 @@ const axios = require("axios");
 const { parse } = require("./parser/parser");
 const { v4: uuid } = require('uuid');
 const k8s = require("@kubernetes/client-node");
+const severityCount = require("../../scb-sdk/nodejs/scb-sdk");
 
 const kc = new k8s.KubeConfig();
 kc.loadFromCluster();
 const k8sApi = kc.makeApiClient(k8s.CustomObjectsApi);
 const scanName = process.env["SCAN_NAME"];
 const namespace = process.env["NAMESPACE"];
-
-function severityCount(findings, severity) {
-  return findings.filter(
-    ({ severity: findingSeverity }) =>
-      findingSeverity.toUpperCase() === severity
-  ).length;
-}
 
 async function updateScanStatus(findings) {
 
