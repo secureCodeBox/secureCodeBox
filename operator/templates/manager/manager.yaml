@@ -36,12 +36,12 @@ spec:
               value: "{{ .Release.Name }}-minio.{{ .Release.Namespace }}.svc.cluster.local"
             - name: S3_PORT
               value: '9000'
-            - name: S3_ACCESS_KEY
+            - name:  MINIO_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
                   name: "{{ .Release.Name }}-minio"
                   key: accesskey
-            - name: S3_SECRET_KEY
+            - name: MINIO_SECRET_KEY
               valueFrom:
                 secretKeyRef:
                   name: "{{ .Release.Name }}-minio"
@@ -60,17 +60,23 @@ spec:
             - name: S3_PORT
               value: {{ .Values.s3.port }}
             {{- end }}
-            - name: S3_ACCESS_KEY
+            - name:  MINIO_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.s3.keySecret }}
                   key: {{ .Values.s3.secretAttributeNames.accesskey }}
-            - name: S3_SECRET_KEY
+            - name: MINIO_SECRET_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.s3.keySecret }}
                   key: {{ .Values.s3.secretAttributeNames.secretkey }}
-            {{- end }}          
+            - name: S3_AUTH_TYPE
+              value: {{ .Values.s3.authType }}
+            {{- if eq .Values.s3.authType "aws-irsa" }}
+            - name: S3_AWS_IRSA_STS_ENDPOINT
+              value: {{ .Values.s3.awsStsEndpoint | quote }}
+            {{- end }}
+            {{- end }}
             - name: LURCHER_IMAGE
               value: "{{ .Values.lurcher.image.repository }}:{{ .Values.lurcher.image.tag | default .Chart.Version }}"
             - name: LURCHER_PULL_POLICY
