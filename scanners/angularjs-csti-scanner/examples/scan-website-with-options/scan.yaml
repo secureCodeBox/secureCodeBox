@@ -1,0 +1,20 @@
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "scan-website-with-jwt"
+spec:
+  scanType: "angularjs-csti-scanner"
+  parameters:
+    - "-d"
+    - "https://angularjs.org/"
+    - "-c"
+    # you should always specify a max depth when crawling
+    - "-md"
+    - "3"
+  volumes:
+    - name: "acstis-config"
+      configMap:
+        name: "acstis-config"
+  volumeMounts:
+    - name: "acstis-config"
+      mountPath: "/acstis/config/"
