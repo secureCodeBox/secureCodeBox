@@ -16,9 +16,9 @@ async function handle({
 
   console.log(`Sending ${findings.length} findings to ${webhookUrl}`);
   console.log(scan);
-  console.log(findings);
-
+  
   const paylod = getMessageCardByTemplate(scan, vulnMngmEnabled, vulnMngmName, vulnMngmDashboardUrl, vulnMngmDashboardFindingsUrl);
+  console.log(JSON.stringify(paylod));
 
   await axios.post(webhookUrl, {paylod, findings });
 }
@@ -28,22 +28,80 @@ async function handle({
  * @param {*} scan 
  */
 function getMessageCardByTemplate(scan, vulnMngmEnabled, vulnMngmName, vulnMngmDashboardUrl, vulnMngmDashboardFindingsUrl) {
-    let template = fs.readFileSync('./messageCard.mustache');
-    console.log("Output Content : \n"+ template);
-    var rendered = mustache.render(template.toString(), { 
-          uuid: scan.metadata.uid,
-          scanType: scan.spec.scanType,
-          name: scan.metadata.name,
-          finishedAt: scan.status.finishedAt,
-          severityFacts: getMessageCardFacts(scan.status.findings.severities),
-          categoryFacts: getMessageCardFacts(scan.status.findings.categories),
-          dashboardName: vulnMngmName, 
-          dashboardUrl: vulnMngmDashboardUrl, 
-          resultsUrl: vulnMngmDashboardFindingsUrl
-    });
-    console.log("Output Rendered : \n"+ rendered);
+    let messageCard = null;
+
+    if(vulnMngmEnabled === "true") {
+        messageCard = {
+            "@type": "MessageCard",
+            "@context": "https://schema.org/extensions",
+            "summary": `Scan ${scan.metadata.uid}`,
+            "themeColor": "0078D7",
+            "title": "New security scan results (Type: {{scanType}}) are available!",
+            "sections": [
+                {
+                    "activityTitle": `Scheduled scan: **'${scan.metadata.name}'**`,
+                    "activitySubtitle": `Finished at ${scan.finishedAt}`,
+                    "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
+                    "startGroup": true,
+                    "facts": getMessageCardFacts(scan.status.findings.severities),
+                    "text": "__Findings Severity Overview:__"
+                },
+                {
+                    "facts": getMessageCardFacts(scan.status.findings.categories),
+                    "text": "__Findings Category Overview:__"
+                }
+            ],
+            "potentialAction": [
+                {
+                    "@type": "OpenUri",
+                    "name": `Open ${vulnMngmName}`,
+                    "targets": [
+                        {
+                            "os": "default",
+                            "uri": `${vulnMngmDashboardUrl}`
+                        }
+                    ]
+                },
+                {
+                    "@type": "OpenUri",
+                    "name": `Show Results in ${vulnMngmName}`,
+                    "targets": [
+                        {
+                            "os": "default",
+                            "uri": `${vulnMngmDashboardFindingsUrl}`
+                        }
+                    ]
+                }
+            ]
+        };
+
+    } else {
+        messageCard = {
+            "@type": "MessageCard",
+            "@context": "https://schema.org/extensions",
+            "summary": `Scan ${scan.metadata.uid}`,
+            "themeColor": "0078D7",
+            "title": "New security scan results (Type: {{scanType}}) are available!",
+            "sections": [
+                {
+                    "activityTitle": `Scheduled scan: **'${scan.metadata.name}'**`,
+                    "activitySubtitle": `Finished at ${scan.finishedAt}`,
+                    "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
+                    "startGroup": true,
+                    "facts": getMessageCardFacts(scan.status.findings.severities),
+                    "text": "__Findings Severity Overview:__"
+                },
+                {
+                    "facts": getMessageCardFacts(scan.status.findings.categories),
+                    "text": "__Findings Category Overview:__"
+                }
+            ]
+        };
+    }
     
-    return rendered;
+    console.log("Post Payload: \n"+ messageCard);
+    
+    return messageCard;
 }
 
 function getMessageCardFacts(facts)
@@ -51,15 +109,15 @@ function getMessageCardFacts(facts)
     const result = [];
     for (var key in facts) {
         if (facts.hasOwnProperty(key)) {
-            console.log(key + " -> " + facts[key]);
+            // console.log(key + " -> " + facts[key]);
             result.push({
-                "name": ""+key+"",
-                "value": ""+facts[key]+""
+                "name": `${key}`,
+                "value": `${facts[key]}`
             });
         }
     }
-    //console.log("getMessageCardFacts Content : \n"+ JSON.stringify(result));
-    return JSON.stringify(result);
+    
+    return result;
 }
 
 module.exports.handle = handle;
