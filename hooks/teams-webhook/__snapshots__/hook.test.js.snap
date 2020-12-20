@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`DefectDojo enbled should send a post request to the url when fired 1`] = `
+exports[`DefectDojo enabled should send a post request to the url when fired 1`] = `
 [MockFunction] {
   "calls": Array [
     Array [
@@ -92,7 +92,7 @@ exports[`DefectDojo enbled should send a post request to the url when fired 1`] 
 }
 `;
 
-exports[`Kibana enbled example should send a post request to the url when fired 1`] = `
+exports[`Kibana enabled example should send a post request to the url when fired 1`] = `
 [MockFunction] {
   "calls": Array [
     Array [
@@ -254,7 +254,7 @@ exports[`vulnMngmEnabled ENV Vars missing test should result in a minimal payloa
 }
 `;
 
-exports[`vulnMngmEnabled disabled should send a post request to the url when fired 1`] = `
+exports[`vulnMngmEnabled disabled should should result in a minimal payload 1`] = `
 [MockFunction] {
   "calls": Array [
     Array [
