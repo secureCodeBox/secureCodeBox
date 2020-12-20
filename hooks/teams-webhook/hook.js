@@ -1,7 +1,4 @@
 const axios = require("axios");
-const mustache = require("mustache");
-// Read Synchrously
-var fs = require("fs");
 
 async function handle({
   getFindings,
