@@ -6,7 +6,7 @@ spec:
   scanType: "angularjs-csti-scanner"
   parameters:
     - "-d"
-    - "https://angularjs.org/"
+    - "https://example.com"
     - "-c"
     # you should always specify a max depth when crawling
     - "-md"

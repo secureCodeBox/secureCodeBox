@@ -135,6 +135,16 @@ jobs:
           tag_with_sha: true
           build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
+        name: "Build & Push AngularJS CSTI Parser Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: securecodebox/parser-acstis
+          path: ./scanners/angularjs-csti-scanner/parser/
+          tag_with_ref: true
+          tag_with_sha: true
+          build_args: baseImageTag=ci-local
+      - uses: docker/build-push-action@v1
         name: "Build & Push Git-Repo-Scanner Parser Image"
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -371,6 +381,14 @@ jobs:
           path: ./scanners/git-repo-scanner/scanner/
           tags: "latest"
           tag_with_ref: true
+      - uses: docker/build-push-action@v1
+        name: "Build & Push AngularJS CSTI Scanner Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: securecodebox/scanner-acstis
+          path: ./scanners/angularjs-csti-scanner/scanner/
+          tags: "3.0.6,latest"
       - uses: docker/build-push-action@v1
         name: "Build & Push Ncrack Scanner Image"
         with:

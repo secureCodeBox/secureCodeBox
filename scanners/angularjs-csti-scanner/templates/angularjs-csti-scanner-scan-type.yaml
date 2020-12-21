@@ -19,6 +19,8 @@ spec:
             - name: acstis-scanner
               image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
               command:
+                - "sh"
+                - "/wrapper.sh"
                 - "-vrl"
                 - "/home/securecodebox/findings.log"
               resources:

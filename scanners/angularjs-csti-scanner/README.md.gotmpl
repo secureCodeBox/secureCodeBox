@@ -49,10 +49,10 @@ Optional arguments:
 
 Because *acstis* does not provide provide command line arguments for configuring the sent requests,
 you have to mount a config map into the scan container on a specific location. Your additional config map should be
- mounted to `/acstis/config/acstis-config.txt`. For example create a config map:
+ mounted to `/acstis/config/acstis-config.py`. For example create a config map:
  
  ```bash
-kubectl create configmap --from-file /path/to/my/acstis-config.txt acstis-config 
+kubectl create configmap --from-file /path/to/my/acstis-config.py acstis-config 
 ```
  
  And mount it into the container:
@@ -67,9 +67,9 @@ kubectl create configmap --from-file /path/to/my/acstis-config.txt acstis-config
        mountPath: "/acstis/config/"
 ```
 
-#### Configuration options in *acstis-config.txt*
+#### Configuration options in *acstis-config.py*
 
-Add the following snippets to the *acstis-config.txt* file to enable further options.
+Add the following snippets to the *acstis-config.py* file to enable further options.
 The options are python code which will be injected into the *acstis* script before execution.
 
 **Basic Authentication**

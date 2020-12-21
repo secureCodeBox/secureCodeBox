@@ -6,4 +6,4 @@ spec:
   scanType: "angularjs-csti-scanner"
   parameters:
     - "-d"
-    - "https://angularjs.org/"
+    - "https://example.com"
