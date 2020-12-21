@@ -1,0 +1,18 @@
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "scan-multi-juicer-with-own-rules"
+spec:
+  scanType: "gitleaks"
+  parameters:
+    - "-r"
+    - "https://github.com/iteratec/multi-juicer"
+    - "--config"
+    - "/config/gitleaks-config.toml"
+  volumes:
+    - name: "gitleaks-config"
+      configMap:
+        name: "gitleaks-config"
+  volumeMounts:
+    - name: "gitleaks-config"
+      mountPath: "/config/"

@@ -19,8 +19,8 @@ keywords:
   - appsec
   - ctf
 sources:
-  - https://github.com/secureCodeBox/helm
+  - https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/juice-shop
   - https://github.com/bkimminich/juice-shop
 maintainers:
   - name: iteratec GmbH
-    email: security@iteratec.com
+    email: securecodebox@iteratec.com

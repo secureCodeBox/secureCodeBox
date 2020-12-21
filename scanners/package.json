@@ -18,17 +18,17 @@
   ],
   "author": {
     "name": "iteratec GmbH",
-    "email": "security@iteratec.com",
+    "email": "securecodebox@iteratec.com",
     "url": "https://www.iteratec.com"
   },
   "contributors": [
-    { 
-      "name" : "Jannik Hollenbach",
-      "url" : "https://github.com/J12934"
+    {
+      "name": "Jannik Hollenbach",
+      "url": "https://github.com/J12934"
     },
-    { 
-      "name" : "Robert Seedorff",
-      "url" : "https://github.com/rseedorff"
+    {
+      "name": "Robert Seedorff",
+      "url": "https://github.com/rseedorff"
     }
   ],
   "bugs": {
@@ -36,6 +36,6 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
-    "jest": "^25.5.4"
+    "jest": "^26.6.3"
   }
 }

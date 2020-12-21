@@ -137,21 +137,54 @@ EXAMPLES:
 SEE THE MAN PAGE (http://nmap.org/ncrack/man.html) FOR MORE OPTIONS AND EXAMPLES
 ```
 
+## Password encryption
+
+Because **Ncrack** findings are very sensitive you probably don't want every *secureCodeBox* user to see them. In order
+to address this issue we provide an option that lets you encrypt found passwords with public key crypto. Just
+generate a key pair with openssl:
+
+```bash
+openssl genrsa -out key.pem 2048
+openssl rsa -in key.pem -outform PEM -pubout -out public.pem
+```
+
+After you created the public key file you have to create a kubernetes secret from that
+file:
+```bash
+  kubectl create secret generic --from-file="public.key=public.pem" <ncrack-secret-name>
+```
+Now you only need to set the value *encryptPasswords.existingSecret* to the
+secrets name when installing the scanner
+
+```bash
+  helm install ncrack secureCodeBox/ncrack --set="encryptPasswords.existingSecret=<ncrack-secret-name>"
+```
+
+To decrypt a password from a finding use:
+
+```bash
+base64 encryptedPassword -d | openssl rsautl -decrypt -inkey key.pem -out decryptedPassword.txt
+```
+
 ## Chart Configuration
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| encryptPasswords.existingSecret | string | `nil` | secret name with a pem encoded rsa public key to encrypt identified passwords |
+| encryptPasswords.key | string | `"public.key"` | name of the property in the secret with the pem encoded rsa public key |
 | image.repository | string | `"docker.io/securecodebox/scanner-ncrack"` | Container Image to run the scan |
 | image.tag | string | `nil` | defaults to the charts appVersion |
+| parseJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | parserImage.repository | string | `"docker.io/securecodebox/parser-ncrack"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |
+| scannerJob.backoffLimit | int | 3 | There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy) |
 | scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | scannerJob.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
 | scannerJob.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
 | scannerJob.extraVolumes | list | `[]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
 | scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | scannerJob.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
-| scannerJob.ttlSecondsAfterFinished | string | `nil` | Defines how long the scanner job after finishing will be available (see: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/) |
+| scannerJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 
 ---
 

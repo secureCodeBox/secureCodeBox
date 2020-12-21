@@ -176,7 +176,9 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 	podAnnotations["sidecar.istio.io/inject"] = "false"
 	job.Spec.Template.Annotations = podAnnotations
 
-	job.Spec.Template.Spec.ServiceAccountName = "lurcher"
+	if job.Spec.Template.Spec.ServiceAccountName == "" {
+		job.Spec.Template.Spec.ServiceAccountName = "lurcher"
+	}
 
 	// merging volume definition from ScanType (if existing) with standard results volume
 	if job.Spec.Template.Spec.Containers[0].VolumeMounts == nil || len(job.Spec.Template.Spec.Containers[0].VolumeMounts) == 0 {
@@ -289,6 +291,16 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 	job.Spec.Template.Spec.Containers[0].Env = append(
 		job.Spec.Template.Spec.Containers[0].Env,
 		scan.Spec.Env...,
+	)
+	// Merge VolumeMounts from ScanTemplate with VolumeMounts defined in scan
+	job.Spec.Template.Spec.Containers[0].VolumeMounts = append(
+		job.Spec.Template.Spec.Containers[0].VolumeMounts,
+		scan.Spec.VolumeMounts...,
+	)
+	// Merge Volumes from ScanTemplate with Volumes defined in scan
+	job.Spec.Template.Spec.Volumes = append(
+		job.Spec.Template.Spec.Volumes,
+		scan.Spec.Volumes...,
 	)
 
 	// Using command over args

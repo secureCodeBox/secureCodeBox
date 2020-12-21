@@ -1,7 +1,8 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: ParseDefinition
 metadata:
-  name: "zap-json"
+  name: "zap-xml"
 spec:
-  handlesResultsType: zap-json
+  handlesResultsType: zap-xml
   image: "{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag | default .Chart.Version }}"
+  ttlSecondsAfterFinished: {{ .Values.parseJob.ttlSecondsAfterFinished }}

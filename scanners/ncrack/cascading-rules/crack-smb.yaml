@@ -32,4 +32,4 @@ spec:
       - /ncrack/passwords.txt
       - -p 
       - smb:{{attributes.port}}
-      - "{{attributes.ip_address}}"
+      - "{{$.hostOrIP}}"

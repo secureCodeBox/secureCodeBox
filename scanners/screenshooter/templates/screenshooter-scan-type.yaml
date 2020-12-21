@@ -1,0 +1,38 @@
+apiVersion: "execution.securecodebox.io/v1"
+kind: ScanType
+metadata:
+  name: "screenshooter"
+spec:
+  extractResults:
+    type: screenshot-png
+    location: "/home/securecodebox/screenshot.png"
+  jobTemplate:
+    spec:
+      {{- if .Values.scannerJob.ttlSecondsAfterFinished }}
+      ttlSecondsAfterFinished: {{ .Values.scannerJob.ttlSecondsAfterFinished }}
+      {{- end }}
+      backoffLimit: {{ .Values.scannerJob.backoffLimit }}
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: screenshooter
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
+              command:
+                - 'sh'
+                - '/wrapper.sh'
+                - "-screenshot"
+                - "/home/securecodebox/screenshot.png"
+              resources:
+                {{- toYaml .Values.scannerJob.resources | nindent 16 }}
+              securityContext:
+                {{- toYaml .Values.scannerJob.securityContext | nindent 16 }}
+              env:
+                {{- toYaml .Values.scannerJob.env | nindent 16 }}
+              volumeMounts:
+                {{- toYaml .Values.scannerJob.extraVolumeMounts | nindent 16 }}
+            {{- if .Values.scannerJob.extraContainers }}
+            {{- toYaml .Values.scannerJob.extraContainers | nindent 12 }}
+            {{- end }}
+          volumes:
+            {{- toYaml .Values.scannerJob.extraVolumes | nindent 12 }}

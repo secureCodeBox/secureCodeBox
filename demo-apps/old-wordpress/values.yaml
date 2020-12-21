@@ -5,7 +5,11 @@
 replicaCount: 1
 
 image:
-  repository: securecodebox/old-wordpress
+  # image.repository -- Container Image
+  repository: docker.io/securecodebox/old-wordpress
+  # image.tag -- The image tag
+  # @default -- defaults to the appVersion
+  tag: null
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []

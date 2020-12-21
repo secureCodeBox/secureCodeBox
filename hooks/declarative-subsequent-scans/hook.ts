@@ -22,13 +22,14 @@ export async function handle({ scan, getFindings }: HandleArgs) {
 
   const cascadingScans = getCascadingScans(scan, findings, cascadingRules);
 
-  for (const { name, scanType, parameters, generatedBy } of cascadingScans) {
+  for (const { name, scanType, parameters, generatedBy, env } of cascadingScans) {
     await startSubsequentSecureCodeBoxScan({
       name,
       parentScan: scan,
       generatedBy,
       scanType,
-      parameters
+      parameters,
+      env,
     });
   }
 }
@@ -82,7 +83,7 @@ export function getCascadingScans(
       );
 
       if (matches) {
-        const { scanType, parameters } = cascadingRule.spec.scanSpec;
+        const { scanType, parameters, env } = cascadingRule.spec.scanSpec;
 
         const templateArgs = {
           ...finding,
@@ -100,7 +101,8 @@ export function getCascadingScans(
             Mustache.render(parameter, templateArgs)
           ),
           cascades: null,
-          generatedBy: cascadingRule.metadata.name
+          generatedBy: cascadingRule.metadata.name,
+          env,
         });
       }
     }

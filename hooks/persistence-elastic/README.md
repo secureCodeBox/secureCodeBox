@@ -19,6 +19,12 @@ Installing the Elasticsearch persistenceProvider hook will add a _ReadOnly Hook_
 helm upgrade --install elkh secureCodeBox/persistence-elastic
 ```
 
+## Elasticsearch Indexing
+
+For the elasticsearch `indexSuffix` you can provide a date format pattern. We use [Luxon](https://moment.github.io/luxon/) to format the date. So checkout
+the [Luxon documentation](https://moment.github.io/luxon/docs/manual/formatting.html#table-of-tokens) to see what kind of format patterns you can use for the
+`indexSuffix`. Default pattern is `yyyy-MM-dd`
+
 ## Chart Configuration
 
 | Key | Type | Default | Description |
@@ -37,10 +43,13 @@ helm upgrade --install elkh secureCodeBox/persistence-elastic
 | externalElasticStack.enabled | bool | `false` | Enable this when you already have an Elastic Stack running to which you want to send your results |
 | externalElasticStack.kibanaAddress | string | `"https://kibana.example.com"` | The URL of the kibana service used to visualize all findings. |
 | fullnameOverride | string | `""` |  |
+| hookJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | image.repository | string | `"docker.io/securecodebox/persistence-elastic"` | Image repository for the dashboard importer job |
 | image.tag | string | defaults to the charts version | Image tag for the dashboard importer job |
 | imagePullSecrets | list | `[]` |  |
+| indexAppendNamespace | bool | `true` | Define if the name of the namespace where this hook is deployed to must be added to the index name. The namespace can be used to separate index by tenants (namespaces). |
 | indexPrefix | string | `"scbv2"` | Define a specific index prefix used for all elasticsearch indices. |
+| indexSuffix | string | `"“yyyy-MM-dd”"` | Define a specific index suffix based on date pattern (YEAR (yyyy), MONTH (yyyy-MM), WEEK (yyyy-'W'W), DATE (yyyy-MM-dd)). We use Luxon for date formatting (https://moment.github.io/luxon/docs/manual/formatting.html#table-of-tokens) |
 | kibana | object | `{"enabled":true}` | Configures included Elasticsearch subchart |
 | kibana.enabled | bool | `true` | Enable if you want to deploy an kibana service (see: https://github.com/elastic/helm-charts/tree/master/kibana) |
 | nameOverride | string | `""` |  |

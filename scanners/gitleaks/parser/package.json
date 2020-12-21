@@ -1,0 +1,14 @@
+{
+  "name": "gitleaks-parser",
+  "version": "1.0.0",
+  "description": "Parses result files for the type: 'gitleaks-json'",
+  "main": "",
+  "scripts": {},
+  "keywords": [],
+  "author": "iteratec GmbH",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "arg": "^5.0.0"
+  },
+  "devDependencies": {}
+}

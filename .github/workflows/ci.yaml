@@ -50,12 +50,25 @@ jobs:
           CC_TEST_REPORTER_ID: a09c9e6ef697176ac6ec9f71063e2d18156aa1a904e2dd62ba2b68fab1d22ced
         with:
           coverageCommand: npm test -- --ci --colors --coverage
+      - name: "Run python test for git-repo-scanner"
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: "Install dependencies"
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install -r scanners/git-repo-scanner/scanner/requirements.txt
+      - name: "Test git-repo-scanner script"
+        working-directory: scanners/git-repo-scanner/scanner/
+        run: |
+          pip install pytest
+          pytest git_repo_scanner_test.py
   operator:
     name: "Build / Operator"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - uses: actions/setup-go@v2-beta
+      - uses: actions/setup-go@v2
         with:
           go-version: "1.15"
       - name: "Lint Operator Go Code"
@@ -77,7 +90,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - uses: actions/setup-go@v2-beta
+      - uses: actions/setup-go@v2
         with:
           go-version: "1.15"
       - name: "Lint Lurcher Go Code"
@@ -122,12 +135,32 @@ jobs:
           tag_with_sha: true
           build_args: baseImageTag=ci-local
       - uses: docker/build-push-action@v1
+        name: "Build & Push Git-Repo-Scanner Parser Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: securecodebox/parser-git-repo-scanner
+          path: ./scanners/git-repo-scanner/parser/
+          tag_with_ref: true
+          tag_with_sha: true
+          build_args: baseImageTag=ci-local
+      - uses: docker/build-push-action@v1
         name: "Build & Push Gitleaks Parser Image"
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: securecodebox/parser-gitleaks
           path: ./scanners/gitleaks/parser/
+          tag_with_ref: true
+          tag_with_sha: true
+          build_args: baseImageTag=ci-local
+      - uses: docker/build-push-action@v1
+        name: "Build & Push kubeaudit Parser Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: securecodebox/parser-kubeaudit
+          path: ./scanners/kubeaudit/parser/
           tag_with_ref: true
           tag_with_sha: true
           build_args: baseImageTag=ci-local
@@ -168,6 +201,16 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: securecodebox/parser-nmap
           path: ./scanners/nmap/parser/
+          tag_with_ref: true
+          tag_with_sha: true
+          build_args: baseImageTag=ci-local
+      - uses: docker/build-push-action@v1
+        name: "Build & Push Screenshooter Parser Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: securecodebox/parser-screenshooter
+          path: ./scanners/screenshooter/parser/
           tag_with_ref: true
           tag_with_sha: true
           build_args: baseImageTag=ci-local
@@ -266,6 +309,16 @@ jobs:
           path: ./hooks/persistence-elastic/dashboardImporter/
           tag_with_ref: true
       - uses: docker/build-push-action@v1
+        name: "Build & Push Finding Post Processing Hook Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: securecodebox/finding-post-processing
+          path: ./hooks/finding-post-processing/
+          build_args: baseImageTag=ci-local
+          tag_with_ref: true
+          tag_with_sha: true
+      - uses: docker/build-push-action@v1
         name: "Build & Push GenericWebhook Hook Image"
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -310,6 +363,15 @@ jobs:
           path: ./scanners/gitleaks/scanner/
           tags: "v6.1.2,latest"
       - uses: docker/build-push-action@v1
+        name: "Build & Push Git-Repo-Scanner Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: securecodebox/scanner-git-repo-scanner
+          path: ./scanners/git-repo-scanner/scanner/
+          tags: "latest"
+          tag_with_ref: true
+      - uses: docker/build-push-action@v1
         name: "Build & Push Ncrack Scanner Image"
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -318,6 +380,21 @@ jobs:
           path: ./scanners/ncrack/scanner/
           # Note: not prefixed with a "v" as this seems to match ncrack versioning standards
           tags: "0.7,latest"
+      # Build normal nikto Image before building custom Image
+      - uses: actions/checkout@master
+      - name: "Build Base Nikto Image"
+        run: |
+          git clone https://github.com/sullo/nikto
+          cd nikto
+          docker build -t sullo/nikto .
+      - uses: docker/build-push-action@v1
+        name: "Build & Push Nikto Scanner Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: securecodebox/scanner-nikto
+          path: ./scanners/nikto/scanner/
+          tags: "latest, 2.1.6"
       - uses: docker/build-push-action@v1
         name: "Build & Push Nmap Scanner Image"
         with:
@@ -328,6 +405,15 @@ jobs:
           # Note: not prefixed with a "v" as this seems to match nmap versioning standards
           tags: "7.80,7.80-r2,latest"
       - uses: docker/build-push-action@v1
+        name: "Build & Push Screenshooter Scanner Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: securecodebox/scanner-screenshooter
+          path: ./scanners/screenshooter/scanner/
+          tags: "latest"
+          tag_with_ref: true
+      - uses: docker/build-push-action@v1
         name: "Build & Push kube-hunter Scanner Image"
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -336,6 +422,14 @@ jobs:
           path: ./scanners/kube-hunter/scanner/
           # Note: not prefixed with a "v" as this matches the aquasec/kube-hunter tags
           tags: "0.3.0,latest"
+      - uses: docker/build-push-action@v1
+        name: "Build & Push kubeaudit Scanner Image"
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: securecodebox/scanner-kubeaudit
+          path: ./scanners/kubeaudit/scanner/
+          tags: "v0.11.5,latest"
       - uses: docker/build-push-action@v1
         name: "Build & Push test-scan Scanner Image"
         with:
@@ -357,7 +451,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        k8sVersion: ["1.19.0", "1.18.8", "1.17.5", "1.16.9"]
+         k8sVersion: ["1.20.0", "1.19.4", "1.18.8", "1.17.11"]
     steps:
       - uses: actions/checkout@master
       - name: "Start kind cluster"
@@ -393,10 +487,10 @@ jobs:
           cd tests/integration/
           npm ci
       # This steps should include Integration tests which are not related to a Specific Scanner
-      - name: "Throws NoScanDefiniton Error Integration Tests"
+      - name: "Throws NoScanDefinition Error Integration Tests"
         run: |
           cd tests/integration/
-          npx jest --ci --color no-scan-definition-error
+          npx jest --ci --color generic/no-scan-definition-error.test.js
       - name: "Hooks (ReadAndWrite) Integration Tests"
         run: |
           helm -n integration-tests install update-category ./hooks/update-field/ \
@@ -411,7 +505,7 @@ jobs:
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
-          npx jest --ci --color read-write-hook
+          npx jest --ci --color generic/read-write-hook.test.js
           helm -n integration-tests uninstall test-scan update-category update-severity
       - name: "Hooks (ReadOnly) Integration Tests"
         run: |
@@ -423,47 +517,86 @@ jobs:
             --set="webhookUrl=http://http-webhook/hallo-welt" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
-          npx jest --ci --color read-only-hook
+          npx jest --ci --color generic/read-only-hook.test.js
           helm -n integration-tests uninstall test-scan http-webhook ro-hook
+      - name: "Hooks (Finding Post Processing) Integration Tests"
+        run: |
+          helm -n integration-tests install finding-post-processing ./hooks/finding-post-processing/ \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
+            --values ./tests/integration/hooks/__testFiles__/finding-post-processing-values.yaml
+          helm -n integration-tests install test-scan ./scanners/test-scan/ \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)"
+          cd tests/integration/
+          npx jest --ci --color finding-post-processing
+          helm -n integration-tests uninstall test-scan finding-post-processing
+
       - name: "Install Demo Apps"
         run: |
           # Install dummy-ssh app
           helm -n demo-apps install dummy-ssh ./demo-apps/dummy-ssh/ --wait
+          # Install unsafe-https app
+          helm -n demo-apps install unsafe-https ./demo-apps/unsafe-https/ --wait
+          # Install bodgeit app
+          helm -n demo-apps install bodgeit ./demo-apps/bodgeit/ --wait
           # Install plain nginx server
           kubectl create deployment --image nginx:alpine nginx --namespace demo-apps
           kubectl expose deployment nginx --port 80 --namespace demo-apps
+      - name: "nikto Integration Tests"
+        run: |
+          helm -n integration-tests install nikto ./scanners/nikto/ \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="image.tag=2.1.6"
+          cd tests/integration/
+          npx jest --ci --color scanner/nikto.test.js
       - name: "nmap Integration Tests"
         run: |
           helm -n integration-tests install nmap ./scanners/nmap/ \
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="image.tag=7.80"
           cd tests/integration/
-          npx jest --ci --color nmap
+          npx jest --ci --color scanner/nmap.test.js
       - name: "ncrack Integration Tests"
         run: |
           helm -n integration-tests install ncrack ./scanners/ncrack/ \
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="image.tag=0.7"
           cd tests/integration/
-          npx jest --ci --color ncrack
+          npx jest --ci --color scanner/ncrack.test.js
       - name: "kube-hunter Integration Tests"
         run: |
           helm -n integration-tests install kube-hunter ./scanners/kube-hunter/ \
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="image.tag=0.3.0"
           cd tests/integration/
-          npx jest --ci --color kube-hunter
+          npx jest --ci --color scanner/kube-hunter.test.js
+      - name: "kubeaudit Integration Tests"
+        run: |
+          kubectl create namespace kubeaudit-tests
+          helm -n kubeaudit-tests install juice-shop ./demo-apps/juice-shop/ --wait
+          helm -n integration-tests install kubeaudit ./scanners/kubeaudit/ \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="image.tag=0.11.5" \
+            --set="kubeauditScope=cluster"
+          cd tests/integration/
+          npx jest --ci --color scanner/kubeaudit.test.js
+          kubectl delete namespace kubeaudit-tests
+      - name: "sslyze Integration Tests"
+        run: |
+          helm -n integration-tests install sslyze ./scanners/sslyze/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          cd tests/integration/
+          npx jest --ci --color scanner/sslyze.test.js
       - name: "ssh-scan Integration Tests"
         run: |
           helm -n integration-tests install ssh-scan ./scanners/ssh_scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
-          npx jest --ci --color ssh-scan
+          npx jest --ci --color scanner/ssh-scan.test.js
       - name: "zap Integration Tests"
         run: |
           helm -n integration-tests install zap ./scanners/zap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
-          npx jest --ci --color zap
-      - name: "cascading Scans Integration Tests"
+          npx jest --ci --color scanner/zap.test.js
+      - name: "cascading Scans ncrack Integration Tests"
         run: |
           # We'll run these in a separate namespace so that only the cascadingRules we want to test will be used
           kubectl create namespace cascading-tests
@@ -487,13 +620,34 @@ jobs:
           EOF
           # Actually run the tests
           cd tests/integration/
-          npx jest --ci --color cascade
+          npx jest --ci --color scanner/cascade-nmap-ncrack.test.js
+          # Clean up:
+          kubectl -n cascading-tests delete scans --all
+          kubectl delete namespace cascading-tests
+      - name: "cascading Scans sslyze Integration Tests"
+        run: |
+          # We'll run these in a separate namespace so that only the cascadingRules we want to test will be used
+          kubectl create namespace cascading-tests
+          # Install declarative-subsequent-scans hook
+          helm upgrade --install dssh ./hooks/declarative-subsequent-scans/ -n cascading-tests --wait
+          # Install unsafe-https
+          helm upgrade --install unsafe-https ./demo-apps/unsafe-https/ -n cascading-tests --wait
+          # Install nmap
+          helm -n cascading-tests install nmap ./scanners/nmap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" --wait
+          # Install sslyze
+          helm -n cascading-tests install sslyze ./scanners/sslyze/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" --wait
+          # Actually run the tests
+          cd tests/integration/
+          npx jest --ci --color scanner/cascade-nmap-sslyze.test.js
+          # Clean up:
+          kubectl -n cascading-tests delete scans --all
+          kubectl delete namespace cascading-tests
       - name: Inspect Post Failure
         if: failure()
         run: |
-          kubectl -n integration-tests get scan -o wide
-          kubectl -n integration-tests get jobs -o wide
-          kubectl -n integration-tests get pods -o wide
+          kubectl -n integration-tests get scan -o wide --all-namespaces
+          kubectl -n integration-tests get jobs -o wide --all-namespaces
+          kubectl -n integration-tests get pods -o wide --all-namespaces
       - name: "Inspect Operator"
         if: failure()
         run: |

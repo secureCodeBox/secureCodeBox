@@ -45,6 +45,7 @@ export interface ScanSpec {
   scanType: string;
   parameters: Array<string>;
   cascades: LabelSelector;
+  env?: Array<k8s.V1EnvVar>;
 }
 
 export interface ExtendedScanSpec extends ScanSpec {
@@ -61,7 +62,8 @@ export async function startSubsequentSecureCodeBoxScan({
   parentScan,
   scanType,
   parameters,
-  generatedBy
+  generatedBy,
+  env,
 }) {
   let cascadingChain: Array<string> = [];
 
@@ -101,7 +103,8 @@ export async function startSubsequentSecureCodeBoxScan({
     spec: {
       scanType,
       parameters,
-      cascades: parentScan.spec.cascades
+      cascades: parentScan.spec.cascades,
+      env,
     }
   };
 

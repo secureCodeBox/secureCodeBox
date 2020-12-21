@@ -33,6 +33,19 @@ type ParseDefinitionSpec struct {
 	Image string `json:"image,omitempty"`
 	// ImagePullSecrets used to access private parser images
 	ImagePullSecrets []corev1.LocalObjectReference `json:"imagePullSecrets,omitempty"`
+	// Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
+	ImagePullPolicy corev1.PullPolicy `json:"imagePullPolicy,omitempty"`
+
+	// TTLSecondsAfterFinished configures the ttlSecondsAfterFinished field for the created parse job
+	// +nullable
+	TTLSecondsAfterFinished *int32 `json:"ttlSecondsAfterFinished,omitempty"`
+
+	// Env allows to specify environment vars for the parser container.
+	Env []corev1.EnvVar `json:"env,omitempty"`
+	// Volumes allows to specify volumes for the parser container.
+	Volumes []corev1.Volume `json:"volumes,omitempty"`
+	// VolumeMounts allows to specify volume mounts for the parser container.
+	VolumeMounts []corev1.VolumeMount `json:"volumeMounts,omitempty"`
 }
 
 // ParseDefinitionStatus defines the observed state of ParseDefinition

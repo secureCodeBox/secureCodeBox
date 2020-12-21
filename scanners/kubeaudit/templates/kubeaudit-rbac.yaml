@@ -1,0 +1,105 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubeaudit
+  namespace: {{ .Release.Namespace}}
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: kubeaudit-lurcher
+  namespace: {{ .Release.Namespace}}
+subjects:
+  - kind: ServiceAccount
+    name: kubeaudit
+    namespace: {{ .Release.Namespace}}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: lurcher
+---  
+{{- if eq .Values.kubeauditScope "namespace" }}
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: kubeaudit
+  namespace: {{ .Release.Namespace}}
+rules:
+  - apiGroups: [""]
+    resources:
+      - pods
+      - podtemplates
+      - replicationcontrollers
+      - namespaces
+    verbs: ["get", "list"]
+  - apiGroups: ["apps"]
+    resources:
+      - daemonsets
+      - statefulsets
+      - deployments
+    verbs: ["get", "list"]
+  - apiGroups: ["batch"]
+    resources:
+      - cronjobs
+    verbs: ["get", "list"]
+  - apiGroups: ["networking"]
+    resources:
+      - networkpolicies
+    verbs: ["get", "list"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: kubeaudit
+  namespace: {{ .Release.Namespace}}
+subjects:
+  - kind: ServiceAccount
+    name: kubeaudit
+    namespace: {{ .Release.Namespace}}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kubeaudit
+{{- end }}
+{{- if eq .Values.kubeauditScope "cluster" }}
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: kubeaudit
+rules:
+  - apiGroups: [""]
+    resources:
+      - pods
+      - podtemplates
+      - replicationcontrollers
+      - namespaces
+    verbs: ["get", "list"]
+  - apiGroups: ["apps"]
+    resources:
+      - daemonsets
+      - statefulsets
+      - deployments
+    verbs: ["get", "list"]
+  - apiGroups: ["batch"]
+    resources:
+      - cronjobs
+    verbs: ["get", "list"]
+  - apiGroups: ["networking"]
+    resources:
+      - networkpolicies
+    verbs: ["get", "list"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: kubeaudit
+subjects:
+  - kind: ServiceAccount
+    name: kubeaudit
+    namespace: {{ .Release.Namespace}}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubeaudit
+{{- end }}

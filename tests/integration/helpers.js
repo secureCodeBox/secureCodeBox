@@ -102,7 +102,7 @@ async function disasterRecovery(scanName) {
 
 /**
  *
- * @param {string} name name of the scan. Actual name will be sufixed with a random number to avoid conflicts
+ * @param {string} name name of the scan. Actual name will be suffixed with a random number to avoid conflicts
  * @param {string} scanType type of the scan. Must match the name of a ScanType CRD
  * @param {string[]} parameters cli argument to be passed to the scanner
  * @param {number} timeout in seconds
@@ -114,7 +114,7 @@ async function scan(name, scanType, parameters = [], timeout = 180) {
     apiVersion: "execution.securecodebox.io/v1",
     kind: "Scan",
     metadata: {
-      // Use `generateName` instead of name to generate a random sufix and avoid name clashes
+      // Use `generateName` instead of name to generate a random suffix and avoid name clashes
       generateName: `${name}-`,
     },
     spec: {
@@ -163,6 +163,8 @@ async function scan(name, scanType, parameters = [], timeout = 180) {
  * @param {string} name name of the scan. Actual name will be sufixed with a random number to avoid conflicts
  * @param {string} scanType type of the scan. Must match the name of a ScanType CRD
  * @param {string[]} parameters cli argument to be passed to the scanner
+ * @param {string} nameCascade name of cascading scan
+ * @param {object} matchLabels set invasive and intensive of cascading scan
  * @param {number} timeout in seconds
  * @returns {scan.findings} returns findings { categories, severities, count }
  */
@@ -173,7 +175,7 @@ async function cascadingScan(name, scanType, parameters = [], { nameCascade, mat
     apiVersion: "execution.securecodebox.io/v1",
     kind: "Scan",
     metadata: {
-      // Use `generateName` instead of name to generate a random sufix and avoid name clashes
+      // Use `generateName` instead of name to generate a random suffix and avoid name clashes
       generateName: `${name}-`,
     },
     spec: {
@@ -201,7 +203,9 @@ async function cascadingScan(name, scanType, parameters = [], { nameCascade, mat
 
     if (status && status.state === "Done") {
       // Wait a couple seconds to give kubernetes more time to update the fields
-      await sleep(2);
+      await sleep(5);
+      console.log("First Scan finished")
+      console.log(`First Scan Status: ${JSON.stringify(status, undefined, 2)}`)
 
       break;
     } else if (status && status.state === "Errored") {
@@ -218,8 +222,6 @@ async function cascadingScan(name, scanType, parameters = [], { nameCascade, mat
       );
     }
   }
-
-  console.log("First Scan finished")
 
   const { body: scans } = await k8sCRDApi.listNamespacedCustomObject(
     "execution.securecodebox.io",
@@ -238,6 +240,7 @@ async function cascadingScan(name, scanType, parameters = [], { nameCascade, mat
   }
 
   if (cascadedScan === null) {
+    console.warn(`Didn't find matching cascaded scan in available scans: ${JSON.stringify(scans.items, undefined, 2)}`)
     throw new Error(`Didn't find cascaded Scan for ${nameCascade}`)
   }
   const actualNameCascade = cascadedScan.metadata.name;
