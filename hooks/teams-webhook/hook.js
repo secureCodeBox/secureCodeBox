@@ -105,7 +105,8 @@ function getMessageCardFacts(facts)
 {
     const result = [];
     for (var key in facts) {
-        if (facts.hasOwnProperty(key)) {
+        // Wonder why this call? https://dev.to/aman_singh/what-s-the-deal-with-object-prototype-hasownproperty-call-4mbj
+        if (Object.prototype.hasOwnProperty.call(facts, key)) {
             // console.log(key + " -> " + facts[key]);
             result.push({
                 "name": `${key}`,
