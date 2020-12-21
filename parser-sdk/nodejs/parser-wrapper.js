@@ -2,13 +2,11 @@ const axios = require("axios");
 const { parse } = require("./parser/parser");
 const { v4: uuid } = require('uuid');
 const k8s = require("@kubernetes/client-node");
-const { severityCount, uploadFile } = require("../../scb-sdk/nodejs/scb-sdk");
+const { severityCount, uploadFile, NAMESPACE, SCAN_NAME } = require("../../scb-sdk/nodejs/scb-sdk");
 
 const kc = new k8s.KubeConfig();
 kc.loadFromCluster();
 const k8sApi = kc.makeApiClient(k8s.CustomObjectsApi);
-const scanName = process.env["SCAN_NAME"];
-const namespace = process.env["NAMESPACE"];
 
 async function updateScanStatus(findings) {
 
@@ -25,9 +23,9 @@ async function updateScanStatus(findings) {
     await k8sApi.patchNamespacedCustomObjectStatus(
       "execution.securecodebox.io",
       "v1",
-      namespace,
+      NAMESPACE,
       "scans",
-      scanName,
+      SCAN_NAME,
       {
         status: {
           findings: {
@@ -60,9 +58,9 @@ async function extractScan() {
     const { body } = await k8sApi.getNamespacedCustomObject(
       "execution.securecodebox.io",
       "v1",
-      namespace,
+      NAMESPACE,
       "scans",
-      scanName
+      SCAN_NAME
     );
     return body;
   } catch (err) {

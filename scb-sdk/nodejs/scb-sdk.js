@@ -1,4 +1,6 @@
 const axios = require("axios");
+const NAMESPACE = process.env["NAMESPACE"];
+const SCAN_NAME = process.env["SCAN_NAME"];
 
 function severityCount(findings, severity) {
   return findings.filter(
@@ -33,5 +35,12 @@ async function uploadFile(url, fileContents) {
     });
 }
 
+async function downloadFile(url) {
+  return axios.get(url);
+}
+
 module.exports.severityCount = severityCount;
 module.exports.uploadFile = uploadFile;
+module.exports.downloadFile = downloadFile;
+module.exports.NAMESPACE = NAMESPACE;
+module.exports.SCAN_NAME = SCAN_NAME;

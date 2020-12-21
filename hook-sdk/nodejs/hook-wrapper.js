@@ -1,11 +1,9 @@
 const axios = require("axios");
 const { handle } = require("./hook/hook");
 const k8s = require("@kubernetes/client-node");
-const { uploadFile, severityCount } = require("../../scb-sdk")
+const { uploadFile, severityCount, NAMESPACE, SCAN_NAME } = require("../../scb-sdk")
 
-const scanName = process.env["SCAN_NAME"];
-const namespace = process.env["NAMESPACE"];
-console.log(`Starting hook for Scan "${scanName}"`);
+console.log(`Starting hook for Scan "${SCAN_NAME}"`);
 
 const kc = new k8s.KubeConfig();
 kc.loadFromCluster();
@@ -73,9 +71,9 @@ async function updateFindings(findings) {
   await k8sApi.patchNamespacedCustomObjectStatus(
     "execution.securecodebox.io",
     "v1",
-    namespace,
+    NAMESPACE,
     "scans",
-    scanName,
+    SCAN_NAME,
     {
       status: {
         findings: {
@@ -104,9 +102,9 @@ async function main() {
     const { body } = await k8sApi.getNamespacedCustomObject(
       "execution.securecodebox.io",
       "v1",
-      namespace,
+      NAMESPACE,
       "scans",
-      scanName
+      SCAN_NAME
     );
     scan = body;
   } catch (err) {
