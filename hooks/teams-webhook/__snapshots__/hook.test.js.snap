@@ -184,7 +184,7 @@ exports[`Kibana enabled example should send a post request to the url when fired
 }
 `;
 
-exports[`vulnMngmEnabled all ENV Vars missing test should result in a minimal payload 1`] = `[MockFunction]`;
+exports[`Rules that didn't match shouldn't be send 1`] = `[MockFunction]`;
 
 exports[`vulnMngmEnabled disabled should should result in a minimal payload 1`] = `
 [MockFunction] {

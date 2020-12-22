@@ -11,7 +11,11 @@ spec:
   {{- end }}
   env:
     - name: WEBHOOK_URL
-      value: {{ .Values.webhookUrl | quote }}
+      value: {{ .Values.notification.url | quote }}
+    - name: RULES
+      value: {{ .Values.notification.rules | | toJson | quote }}
+    - name: TEMPLATE
+      value: {{ .Values.notification.template | quote }}
     - name: VULNMANAG_ENABLED
       value: {{ .Values.vulnerabilitymanagement.enabled | quote }}
     - name: VULNMANAG_NAME

@@ -1,17 +1,45 @@
+# Copyright 2020 iteratec GmbH
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 # Default values for dispatcher.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-webhookUrl: "http://example.com"
+notification:
+  # notification.url -- The URL of your WebHook endpoint
+  url: "http://example.com"
+  template: messageCard
+  rules: []
+  #- matches:
+  #    anyOf:
+  #      - severity: "high"
+  #      - severity: "medium"
+
+image:
+  # image.tag - defaults to the charts version
+  # image.repository -- Hook image repository
+  repository: docker.io/securecodebox/generic-webhook
+  # parserImage.tag -- Parser image tag
+  # @default -- defaults to the charts version
+  tag: null
 
 vulnerabilitymanagement:
   enabled: true
   name: Kibana Dashboard
-  url: "https://dashboard.chase.securecodebox.io/s/securecodebox-v2/"
-  findingsurl: "https://dashboard.chase.securecodebox.io/s/securecodebox-v2/filter:{{scanId}}"
+  url: "https://your-kibana-service.url/your-dashboard-path"
+  findingsurl: "https://your-kibana-service.url/your-dashboard-path/filter:{{scanId}}"
 
-image:
-  registry: docker.io
-  repository: scbexperimental/teams-webhook
-  tag: latest
-  digest: null
+hookJob:
+  # hookJob.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+  ttlSecondsAfterFinished: null
