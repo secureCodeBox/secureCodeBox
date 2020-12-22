@@ -90,7 +90,7 @@ test("vulnMngmEnabled disabled should should result in a minimal payload", async
   expect(axios.post).toMatchSnapshot();
 });
 
-test("vulnMngmEnabled ENV Vars missing test should result in a minimal payload", async () => {
+test("vulnMngmEnabled some ENV Vars missing test should result in a minimal payload", async () => {
   const findings = [];
 
   const getFindings = async () => findings;
@@ -102,3 +102,12 @@ test("vulnMngmEnabled ENV Vars missing test should result in a minimal payload",
   expect(axios.post).toMatchSnapshot();
 });
 
+test("vulnMngmEnabled all ENV Vars missing test should result in a minimal payload", async () => {
+  const findings = [];
+
+  const getFindings = async () => findings;
+
+  await handle({ getFindings, scan });
+  
+  expect(axios.post).toMatchSnapshot();
+});

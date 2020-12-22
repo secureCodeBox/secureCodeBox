@@ -20,17 +20,23 @@ async function handle({
     dashboardFindingsUrl: vulnMngmDashboardFindingsUrl,
   };
 
-  console.log(
-    `Sending ${findings.length} findings to ${webhookUrl} with config: ` +
-      JSON.stringify(vulnerabilityManagement)
-  );
-  console.log(scan);
+  if (webhookUrl) {
+    console.log(
+      `Sending ${findings.length} findings to ${webhookUrl} with config: ` +
+        JSON.stringify(vulnerabilityManagement)
+    );
+    console.log(scan);
 
-  const paylod = getMessageCardByTemplate(scan, vulnerabilityManagement);
+    const paylod = getMessageCardByTemplate(scan, vulnerabilityManagement);
 
-  console.log(`With Payload:` + JSON.stringify(paylod));
+    console.log(`With Payload:` + JSON.stringify(paylod));
 
-  await axios.post(webhookUrl, { paylod, findings });
+    await axios.post(webhookUrl, { paylod, findings });
+  } else {
+    console.error(
+      "Couldnt send any message because there is no 'WEBHOOK_URL' defined!"
+    );
+  }
 }
 
 /**
@@ -46,7 +52,7 @@ function getMessageCardByTemplate(scan, vulnerabilityManagement) {
     "@context": "https://schema.org/extensions",
     summary: `Scan ${scan.metadata.uid}`,
     themeColor: "0078D7",
-    title: "New security scan results (Type: {{scanType}}) are available!",
+    title: `New **'${scan.spec.scanType}'** security scan results are available!`,
     sections: [
       {
         activityTitle: `Scheduled scan: **'${scan.metadata.name}'**`,
@@ -61,7 +67,8 @@ function getMessageCardByTemplate(scan, vulnerabilityManagement) {
         text: "__Findings Category Overview:__",
       },
     ],
-    ...(vulnerabilityManagement.enabled === "true" && getMessageCardActionPayload(vulnerabilityManagement)),
+    ...(vulnerabilityManagement.enabled === "true" &&
+      getMessageCardActionPayload(vulnerabilityManagement)),
   };
 
   console.log("Post Payload: \n" + messageCard);
@@ -97,7 +104,7 @@ function getMessageCardActionPayload(vulnerabilityManagement) {
         ],
       },
     ],
-  }
+  };
 
   return result;
 }
