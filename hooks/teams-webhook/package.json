@@ -5,7 +5,7 @@
   "homepage": "https://www.secureCodeBox.io",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/secureCodeBox/secureCodeBox-v2.git"
+    "url": "git+https://github.com/secureCodeBox/secureCodeBox.git"
   },
   "main": "hook.js",
   "scripts": {
@@ -32,13 +32,13 @@
     }
   ],
   "bugs": {
-    "url": "https://github.com/secureCodeBox/secureCodeBox-v2/issues"
+    "url": "https://github.com/secureCodeBox/secureCodeBox/issues"
   },
   "license": "Apache-2.0",
   "dependencies": {
     "axios": "^0.20.0"
   },
   "devDependencies": {
-    "jest": "^25.1.0"
+    "jest": "^26.6.3"
   }
 }
