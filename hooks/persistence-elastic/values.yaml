@@ -3,10 +3,9 @@
 # Declare variables to be passed into your templates.
 
 image:
-  # image.tag - defaults to the charts version
   # image.repository -- Hook image repository
   repository: docker.io/securecodebox/persistence-elastic
-  # parserImage.tag -- Parser image tag
+  # image.tag - The image Tag defaults to the charts version if not defined.
   # @default -- defaults to the charts version
   tag: null
 
@@ -83,5 +82,5 @@ tolerations: []
 affinity: {}
 
 hookJob:
-  # hookJob.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+  # hookJob.ttlSecondsAfterFinished -- Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
   ttlSecondsAfterFinished: null
