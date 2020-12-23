@@ -21,7 +21,7 @@ helm upgrade --install gwh secureCodeBox/generic-webhook --set webhookUrl="http:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| hookJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+| hookJob.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | image.repository | string | `"docker.io/securecodebox/generic-webhook"` | Hook image repository |
 | image.tag | string | `nil` |  |
 | webhookUrl | string | `"http://example.com"` | The URL of your WebHook endpoint |
