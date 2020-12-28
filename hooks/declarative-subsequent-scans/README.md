@@ -120,4 +120,4 @@ zap-http         zap-baseline   non-invasive   medium
 |-----|------|---------|-------------|
 | hookJob.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | image.repository | string | `"docker.io/securecodebox/hook-declarative-subsequent-scans"` | Hook image repository |
-| image.tag | string | `nil` |  |
+| image.tag | string | defaults to the charts version | The image Tag defaults to the charts version if not defined. |
