@@ -39,7 +39,7 @@
   "dependencies": {
     "@kubernetes/client-node": "^0.13.0",
     "lodash": "^4.17.20",
-    "mustache": "^4.0.1"
+    "mustache": "^4.1.0"
   },
   "devDependencies": {
     "@types/node": "^14.0.14",
