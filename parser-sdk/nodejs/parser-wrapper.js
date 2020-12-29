@@ -1,6 +1,6 @@
 const axios = require("axios");
 const { parse } = require("./parser/parser");
-const uuid = require("uuid/v4");
+const { v4: uuid } = require('uuid');
 const k8s = require("@kubernetes/client-node");
 
 const kc = new k8s.KubeConfig();
