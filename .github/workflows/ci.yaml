@@ -58,7 +58,7 @@ jobs:
 # ---- Build Stage | Lurcher ----
 
   lurcher:
-    name: "Build Stage | Lurcher"
+    name: "Build | Lurcher"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
