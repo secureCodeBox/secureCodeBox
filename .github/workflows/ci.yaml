@@ -1,6 +1,12 @@
 name: "CI"
 on: push
+
 jobs:
+
+# ---- Build Stage ----
+
+# ---- Build Stage | SDKs ----
+
   parser-sdk:
     name: "Build | Parser SDK"
     runs-on: ubuntu-latest
