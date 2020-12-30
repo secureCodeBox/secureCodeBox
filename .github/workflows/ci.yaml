@@ -48,7 +48,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          image: ${{ secrets.DOCKER_NAMESPACE }}/hook-sdk-nodejs
+          images: ${{ secrets.DOCKER_NAMESPACE }}/hook-sdk-nodejs
           tag-sha: true
           tag-semver: |
             {{ version }}
