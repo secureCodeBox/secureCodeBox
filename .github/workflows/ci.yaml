@@ -1,11 +1,14 @@
 name: "CI"
 on: push
 
+env:
+  GO_VERSION: "1.15"
+
 jobs:
 
 # ---- Build Stage ----
 
-# ---- Build Stage | Operator
+# ---- Build Stage | Operator ----
 
   operator:
     name: "Build | Operator"
@@ -17,7 +20,7 @@ jobs:
       - name: Go Setup
         uses: action/setup-go@v2
         with:
-          go-version: "1.15"
+          go-version: ${{ env.GO_VERSION }}
 
       - name: Lint Go Code
         run: |
@@ -52,7 +55,48 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
-# ---- Build Stage | SDKs ----
+# ---- Build Stage | Lurcher ----
+
+  lurcher:
+    name: "Build Stage | Lurcher"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: action/checkout@v2
+
+      - name: Go Setup
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Docker Meta
+        uses: crazy-max/ghaction-docker
+        with:
+          images: ${{ secrets.DOCKER_NAMESPACE }}/lurcher
+          tag-sha: true
+          tag-semver: |
+            {{ version }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./lurcher
+          file: ./lurcher/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+# ---- Build Stage | parser-sdk ----
 
   parser-sdk:
     name: "Build | Parser SDK"
@@ -89,6 +133,8 @@ jobs:
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
+
+  # ---- Build Stage | hook-sdk ----
 
   hook-sdk:
     name: "Build | Hook SDK"
