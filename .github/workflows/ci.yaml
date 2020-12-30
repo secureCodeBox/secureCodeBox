@@ -12,7 +12,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: fuhrmeistery/parser-sdk-nodejs
+          images: ${{ secrets.DOCKER_NAMESPACE }}/parser-sdk-nodejs
           tag-sha: true
           tag-custom: ci-local
           tag-semver: |
