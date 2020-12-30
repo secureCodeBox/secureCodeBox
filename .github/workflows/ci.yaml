@@ -178,6 +178,7 @@ jobs:
 
   hooks:
     name: "Build | Hooks"
+    needs: hook-sdk
     runs-on: ubuntu-latest
     strategy:
       matrix:
