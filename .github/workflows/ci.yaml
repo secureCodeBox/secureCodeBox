@@ -151,6 +151,7 @@ jobs:
         with:
           images: ${{ secrets.DOCKER_NAMESPACE }}/hook-sdk-nodejs
           tag-sha: true
+          tag-custom: ci-local
           tag-semver: |
             {{ version }}
 
@@ -168,6 +169,51 @@ jobs:
         with:
           context: ./hook-sdk/nodejs
           file: ./hook-sdk/nodejs/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+# ---- Build Stage | Hooks
+
+  hooks:
+    name: "Build | Hooks"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        hook: [
+          "generic-webhook",
+          "update-field"
+        ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Docker Meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ${{ secrets.DOCKER_NAMESPACE }}/${{ matrix.hook }}
+          tag-sha: true
+          tag-semver: |
+            {{ version }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./hooks/${{ matrix.hook }}
+          file: ./hooks/${{ matrix.hook }}/Dockerfile
+          build-args: |
+            baseImageTag=ci-local
           platforms: linux/amd64
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
