@@ -19,7 +19,9 @@
 notification:
   # notification.url -- The URL of your WebHook endpoint
   url: "http://example.com"
+  # notification.template -- The MS Teams message template that should be used [messageCard | adaptiveCard].
   template: messageCard
+  # notification.rules -- A optional rule definition that can be used to describe in wich case a notification must be fired. If not defined / empty each scan result will be notified.
   rules: []
   #- matches:
   #    anyOf:
@@ -27,18 +29,21 @@ notification:
   #      - severity: "medium"
 
 image:
-  # image.tag - defaults to the charts version
   # image.repository -- Hook image repository
-  repository: docker.io/securecodebox/generic-webhook
-  # parserImage.tag -- Parser image tag
+  repository: docker.io/securecodebox/hook-teams-notification
+  # image.tag -- Image tag
   # @default -- defaults to the charts version
   tag: null
 
-vulnerabilitymanagement:
-  enabled: true
+vulnerabilityManagement:
+  # vulnerabilityManagement.enabled If enabled a direct link to your vulnerability management system will be added at the bottom of each message. 
+  enabled: false
+  # vulnerabilityManagement.name The name of your vulnerability management system wich you reference to.
   name: Kibana Dashboard
+  # vulnerabilityManagement.url The URL to your vulnerability management system wich will be added at the bottom of each message.
   url: "https://your-kibana-service.url/your-dashboard-path"
-  findingsurl: "https://your-kibana-service.url/your-dashboard-path/filter:{{scanId}}"
+  # vulnerabilityManagement.url A special URL used to deep link into your vulnerability management system. The placeholder {{scanId}} will be replaced with the current scanId.
+  findingsUrl: "https://your-kibana-service.url/your-dashboard-path/filter:{{scanId}}"
 
 hookJob:
   # hookJob.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/

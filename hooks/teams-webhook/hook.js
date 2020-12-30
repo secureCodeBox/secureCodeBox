@@ -58,9 +58,9 @@ async function handle({
 
     console.log(`With Payload:` + JSON.stringify(paylod));
 
-    await axios.post(webhookUrl, { paylod, findings });
+    await axios.post(webhookUrl, paylod);
   } else {
-    console.log(`No rulze matched with the findings, nothing to do here.`);
+    console.log(`No rules matched with the findings, nothing to do here.`);
   }
 }
 

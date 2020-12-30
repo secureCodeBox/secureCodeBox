@@ -16,13 +16,11 @@ limitations under the License.
 
 /**
  * Returns a MS Teams WebHook Message Payload in the classic "MessageCard" style.
- * @param {*} scan
- * @param {*} vulnerabilityManagement
+ * @param {Object} scan The scan as object.
+ * @param {Object} vulnerabilityManagement A vulnerabilityManagement configuration object.
  */
 function getMessageCardByTemplate(scan, vulnerabilityManagement) {
-  let messageCard = null;
-
-  messageCard = {
+  const messageCard = {
     "@type": "MessageCard",
     "@context": "https://schema.org/extensions",
     summary: `Scan ${scan.metadata.uid}`,
@@ -30,8 +28,8 @@ function getMessageCardByTemplate(scan, vulnerabilityManagement) {
     title: `New **'${scan.spec.scanType}'** security scan results are available!`,
     sections: [
       {
-        activityTitle: `Scheduled scan: **'${scan.metadata.name}'**`,
-        activitySubtitle: `Finished at ${scan.finishedAt}`,
+        activityTitle: `Scan: **'${scan.metadata.name}'**`,
+        activitySubtitle: `Finished at ${scan.status.finishedAt}`,
         activityImage: "https://docs.securecodebox.io/img/Favicon.svg",
         startGroup: true,
         facts: getMessageCardFactsPayload(scan.status.findings.severities),
@@ -46,14 +44,12 @@ function getMessageCardByTemplate(scan, vulnerabilityManagement) {
       getMessageCardActionPayload(vulnerabilityManagement)),
   };
 
-  console.log("Post Payload: \n" + messageCard);
-
   return messageCard;
 }
 
 /**
  * Returns a MS Teams Webhook potentialAction message object, based on the given vulnerabilityManagement configuration data.
- * @param {*} vulnerabilityManagement A vulnerabilityManagement configuration object
+ * @param {Object} vulnerabilityManagement A vulnerabilityManagement configuration object.
  */
 function getMessageCardActionPayload(vulnerabilityManagement) {
   const result = {
@@ -86,22 +82,10 @@ function getMessageCardActionPayload(vulnerabilityManagement) {
 
 /**
  * Returns a MS Teams Webhook facts message object, based on the given facts data.
- * @param {*} scanData The scan data as array
+ * @param {Object} scanData The scan data as object.
  */
 function getMessageCardFactsPayload(scanData) {
-  const result = [];
-  for (var key in scanData) {
-    // Wonder why this call? https://dev.to/aman_singh/what-s-the-deal-with-object-prototype-hasownproperty-call-4mbj
-    if (Object.prototype.hasOwnProperty.call(scanData, key)) {
-      // console.log(key + " -> " + facts[key]);
-      result.push({
-        name: `${key}`,
-        value: `${scanData[key]}`,
-      });
-    }
-  }
-
-  return result;
+  return scanData != null ? Object.entries(scanData).map(([name,value]) => ({ name, value })) : [];
 }
 
 module.exports.getMessageCardByTemplate = getMessageCardByTemplate;

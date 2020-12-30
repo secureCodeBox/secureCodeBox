@@ -1,30 +1,78 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test 1 1`] = `
+exports[`Test if a  scan (with empty categories / severities object) will be rendered properly 1`] = `
 Object {
   "@context": "https://schema.org/extensions",
   "@type": "MessageCard",
   "sections": Array [
     Object {
       "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
-      "activitySubtitle": "Finished at undefined",
-      "activityTitle": "Scheduled scan: **'demo-scan-1601086432'**",
+      "activitySubtitle": "Finished at 2020-05-25T02:38:13Z",
+      "activityTitle": "Scan: **'demo-scan-1601086432'**",
+      "facts": Array [],
+      "startGroup": true,
+      "text": "__Findings Severity Overview:__",
+    },
+    Object {
+      "facts": Array [],
+      "text": "__Findings Category Overview:__",
+    },
+  ],
+  "summary": "Scan 09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
+  "themeColor": "0078D7",
+  "title": "New **'Nmap'** security scan results are available!",
+}
+`;
+
+exports[`Test if a  scan (without categories / severities objects) will be rendered properly 1`] = `
+Object {
+  "@context": "https://schema.org/extensions",
+  "@type": "MessageCard",
+  "sections": Array [
+    Object {
+      "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
+      "activitySubtitle": "Finished at 2020-05-25T02:38:13Z",
+      "activityTitle": "Scan: **'demo-scan-1601086432'**",
+      "facts": Array [],
+      "startGroup": true,
+      "text": "__Findings Severity Overview:__",
+    },
+    Object {
+      "facts": Array [],
+      "text": "__Findings Category Overview:__",
+    },
+  ],
+  "summary": "Scan 09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
+  "themeColor": "0078D7",
+  "title": "New **'Nmap'** security scan results are available!",
+}
+`;
+
+exports[`Test if a complete scan (with findings / categories / severities) will be rendered properly 1`] = `
+Object {
+  "@context": "https://schema.org/extensions",
+  "@type": "MessageCard",
+  "sections": Array [
+    Object {
+      "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
+      "activitySubtitle": "Finished at 2020-05-25T02:38:13Z",
+      "activityTitle": "Scan: **'demo-scan-1601086432'**",
       "facts": Array [
         Object {
           "name": "high",
-          "value": "10",
+          "value": 10,
         },
         Object {
           "name": "medium",
-          "value": "5",
+          "value": 5,
         },
         Object {
           "name": "low",
-          "value": "2",
+          "value": 2,
         },
         Object {
           "name": "informational",
-          "value": "1",
+          "value": 1,
         },
       ],
       "startGroup": true,
@@ -34,65 +82,17 @@ Object {
       "facts": Array [
         Object {
           "name": "A Client Error response code was returned by the server",
-          "value": "1",
+          "value": 1,
         },
         Object {
           "name": "Information Disclosure - Sensitive Information in URL",
-          "value": "1",
+          "value": 1,
         },
         Object {
           "name": "Strict-Transport-Security Header Not Set",
-          "value": "1",
+          "value": 1,
         },
       ],
-      "text": "__Findings Category Overview:__",
-    },
-  ],
-  "summary": "Scan 09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
-  "themeColor": "0078D7",
-  "title": "New **'Nmap'** security scan results are available!",
-}
-`;
-
-exports[`Test 2 1`] = `
-Object {
-  "@context": "https://schema.org/extensions",
-  "@type": "MessageCard",
-  "sections": Array [
-    Object {
-      "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
-      "activitySubtitle": "Finished at undefined",
-      "activityTitle": "Scheduled scan: **'demo-scan-1601086432'**",
-      "facts": Array [],
-      "startGroup": true,
-      "text": "__Findings Severity Overview:__",
-    },
-    Object {
-      "facts": Array [],
-      "text": "__Findings Category Overview:__",
-    },
-  ],
-  "summary": "Scan 09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
-  "themeColor": "0078D7",
-  "title": "New **'Nmap'** security scan results are available!",
-}
-`;
-
-exports[`Test 3 1`] = `
-Object {
-  "@context": "https://schema.org/extensions",
-  "@type": "MessageCard",
-  "sections": Array [
-    Object {
-      "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
-      "activitySubtitle": "Finished at undefined",
-      "activityTitle": "Scheduled scan: **'demo-scan-1601086432'**",
-      "facts": Array [],
-      "startGroup": true,
-      "text": "__Findings Severity Overview:__",
-    },
-    Object {
-      "facts": Array [],
       "text": "__Findings Category Overview:__",
     },
   ],

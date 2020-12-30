@@ -1,26 +1,23 @@
-apiVersion: "execution.experimental.securecodebox.io/v1"
+apiVersion: "execution.securecodebox.io/v1"
 kind: ScanCompletionHook
 metadata:
   name: {{ include "teams-webhook.fullname" . }}
 spec:
   type: ReadOnly
-  {{- if .Values.image.digest }}
-  image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}@{{ .Values.image.digest }}"
-  {{- else }}
-  image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-  {{- end }}
+  image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
+  ttlSecondsAfterFinished: {{ .Values.hookJob.ttlSecondsAfterFinished }}
   env:
     - name: WEBHOOK_URL
       value: {{ .Values.notification.url | quote }}
     - name: RULES
-      value: {{ .Values.notification.rules | | toJson | quote }}
+      value: {{ .Values.notification.rules | toJson | quote }}
     - name: TEMPLATE
       value: {{ .Values.notification.template | quote }}
     - name: VULNMANAG_ENABLED
-      value: {{ .Values.vulnerabilitymanagement.enabled | quote }}
+      value: {{ .Values.vulnerabilityManagement.enabled | quote }}
     - name: VULNMANAG_NAME
-      value: {{ .Values.vulnerabilitymanagement.name | quote }}
+      value: {{ .Values.vulnerabilityManagement.name | quote }}
     - name: VULNMANAG_DASHBOARD_URL
-      value: {{ .Values.vulnerabilitymanagement.url | quote }}
+      value: {{ .Values.vulnerabilityManagement.url | quote }}
     - name: VULNMANAG_DASHBOARD_FINDINGS_URL
-      value: {{ .Values.vulnerabilitymanagement.findingsurl | quote }}
+      value: {{ .Values.vulnerabilityManagement.findingsUrl | quote }}

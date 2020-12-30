@@ -7,7 +7,7 @@ const vulnerabilityManagement = {
   dashboardFindingsUrl: "https://dashboard.yourservice/filter:09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
 };
 
-test("Test 1", async () => {
+test("Test if a complete scan (with findings / categories / severities) will be rendered properly", async () => {
 
   const scan = {
     metadata: {
@@ -52,7 +52,7 @@ test("Test 1", async () => {
   expect(getMessageCardByTemplate(scan, vulnerabilityManagement) ).toMatchSnapshot();
 });
 
-test("Test 2", async () => {
+test("Test if a  scan (with empty categories / severities object) will be rendered properly", async () => {
 
   const scan = {
     metadata: {
@@ -88,7 +88,7 @@ test("Test 2", async () => {
   expect(getMessageCardByTemplate(scan, vulnerabilityManagement) ).toMatchSnapshot();
 });
 
-test("Test 3", async () => {
+test("Test if a  scan (without categories / severities objects) will be rendered properly", async () => {
 
   const scan = {
     metadata: {
