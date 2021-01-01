@@ -25,11 +25,11 @@ function getMessageCardByTemplate(scan, vulnerabilityManagement) {
     "@context": "https://schema.org/extensions",
     summary: `Scan ${scan.metadata.uid}`,
     themeColor: "0078D7",
-    title: `New **'${scan.spec.scanType}'** security scan results are available!`,
+    title: `New ${scan.spec.scanType} security scan results are available!`,
     sections: [
       {
         activityTitle: `Scan: **'${scan.metadata.name}'**`,
-        activitySubtitle: `Finished at ${scan.status.finishedAt}`,
+        activitySubtitle: `Created at ${scan.metadata.creationTimestamp}`,
         activityImage: "https://docs.securecodebox.io/img/Favicon.svg",
         startGroup: true,
         facts: getMessageCardFactsPayload(scan.status.findings.severities),

@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test if a  scan (with empty categories / severities object) will be rendered properly 1`] = `
+exports[`Test if Kibana Dashboard URL contains the parsed scan UID 1`] = `
 Object {
   "@context": "https://schema.org/extensions",
   "@type": "MessageCard",
   "sections": Array [
     Object {
       "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
-      "activitySubtitle": "Finished at 2020-05-25T02:38:13Z",
+      "activitySubtitle": "Created at 2021-01-01T14:29:25Z",
       "activityTitle": "Scan: **'demo-scan-1601086432'**",
       "facts": Array [],
       "startGroup": true,
@@ -20,7 +20,31 @@ Object {
   ],
   "summary": "Scan 09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
   "themeColor": "0078D7",
-  "title": "New **'Nmap'** security scan results are available!",
+  "title": "New Nmap security scan results are available!",
+}
+`;
+
+exports[`Test if a  scan (with empty categories / severities object) will be rendered properly 1`] = `
+Object {
+  "@context": "https://schema.org/extensions",
+  "@type": "MessageCard",
+  "sections": Array [
+    Object {
+      "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
+      "activitySubtitle": "Created at 2021-01-01T14:29:25Z",
+      "activityTitle": "Scan: **'demo-scan-1601086432'**",
+      "facts": Array [],
+      "startGroup": true,
+      "text": "__Findings Severity Overview:__",
+    },
+    Object {
+      "facts": Array [],
+      "text": "__Findings Category Overview:__",
+    },
+  ],
+  "summary": "Scan 09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
+  "themeColor": "0078D7",
+  "title": "New Nmap security scan results are available!",
 }
 `;
 
@@ -31,7 +55,7 @@ Object {
   "sections": Array [
     Object {
       "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
-      "activitySubtitle": "Finished at 2020-05-25T02:38:13Z",
+      "activitySubtitle": "Created at 2021-01-01T14:29:25Z",
       "activityTitle": "Scan: **'demo-scan-1601086432'**",
       "facts": Array [],
       "startGroup": true,
@@ -44,7 +68,7 @@ Object {
   ],
   "summary": "Scan 09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
   "themeColor": "0078D7",
-  "title": "New **'Nmap'** security scan results are available!",
+  "title": "New Nmap security scan results are available!",
 }
 `;
 
@@ -55,7 +79,7 @@ Object {
   "sections": Array [
     Object {
       "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
-      "activitySubtitle": "Finished at 2020-05-25T02:38:13Z",
+      "activitySubtitle": "Created at 2021-01-01T14:29:25Z",
       "activityTitle": "Scan: **'demo-scan-1601086432'**",
       "facts": Array [
         Object {
@@ -98,6 +122,6 @@ Object {
   ],
   "summary": "Scan 09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
   "themeColor": "0078D7",
-  "title": "New **'Nmap'** security scan results are available!",
+  "title": "New Nmap security scan results are available!",
 }
 `;

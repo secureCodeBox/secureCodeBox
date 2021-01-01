@@ -9,6 +9,7 @@ const scan = {
     uid: "09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
     name: "demo-scan-1601086432",
     namespace: "my-scans",
+    creationTimestamp: "2021-01-01T14:29:25Z",
     labels: {
       company: "iteratec",
       "attack-surface": "external",

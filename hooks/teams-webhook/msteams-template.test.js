@@ -14,6 +14,7 @@ test("Test if a complete scan (with findings / categories / severities) will be 
       uid: "09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
       name: "demo-scan-1601086432",
       namespace: "my-scans",
+      creationTimestamp: "2021-01-01T14:29:25Z",
       labels: {
         company: "iteratec",
         "attack-surface": "external",
@@ -59,6 +60,7 @@ test("Test if a  scan (with empty categories / severities object) will be render
       uid: "09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
       name: "demo-scan-1601086432",
       namespace: "my-scans",
+      creationTimestamp: "2021-01-01T14:29:25Z",
       labels: {
         company: "iteratec",
         "attack-surface": "external",
@@ -95,6 +97,39 @@ test("Test if a  scan (without categories / severities objects) will be rendered
       uid: "09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
       name: "demo-scan-1601086432",
       namespace: "my-scans",
+      creationTimestamp: "2021-01-01T14:29:25Z",
+      labels: {
+        company: "iteratec",
+        "attack-surface": "external",
+      },
+    },
+    spec: {
+      scanType: "Nmap",
+      parameters: ["-Pn", "localhost"],
+    },
+    status: {
+      findingDownloadLink:
+        "https://my-secureCodeBox-instance.com/scan-b9as-sdweref--sadf-asdfsdf-dasdgf-asdffdsfa7/findings.json",
+      findings: {},
+      finishedAt: "2020-05-25T02:38:13Z",
+      rawResultDownloadLink:
+        "https://my-secureCodeBox-instance.com/scan-blkfsdg-sdgfsfgd-sfg-sdfg-dfsg-gfs98-e8af2172caa7/zap-results.json?Expires=1601691232",
+      rawResultFile: "zap-results.json",
+      rawResultType: "zap-json",
+      state: "Done",
+    },
+  };
+
+  expect(getMessageCardByTemplate(scan, vulnerabilityManagement) ).toMatchSnapshot();
+});
+
+test("Test if Kibana Dashboard URL contains the parsed scan UID", async () => {
+  const scan = {
+    metadata: {
+      uid: "09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
+      name: "demo-scan-1601086432",
+      namespace: "my-scans",
+      creationTimestamp: "2021-01-01T14:29:25Z",
       labels: {
         company: "iteratec",
         "attack-surface": "external",

@@ -33,7 +33,7 @@ exports[`DefectDojo enabled should send a post request to the url when fired 1`]
         "sections": Array [
           Object {
             "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
-            "activitySubtitle": "Finished at 2020-05-25T02:38:13Z",
+            "activitySubtitle": "Created at 2021-01-01T14:29:25Z",
             "activityTitle": "Scan: **'demo-scan-1601086432'**",
             "facts": Array [
               Object {
@@ -76,7 +76,7 @@ exports[`DefectDojo enabled should send a post request to the url when fired 1`]
         ],
         "summary": "Scan 09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
         "themeColor": "0078D7",
-        "title": "New **'Nmap'** security scan results are available!",
+        "title": "New Nmap security scan results are available!",
       },
     ],
   ],
@@ -122,7 +122,7 @@ exports[`Kibana enabled example should send a post request to the url when fired
         "sections": Array [
           Object {
             "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
-            "activitySubtitle": "Finished at 2020-05-25T02:38:13Z",
+            "activitySubtitle": "Created at 2021-01-01T14:29:25Z",
             "activityTitle": "Scan: **'demo-scan-1601086432'**",
             "facts": Array [
               Object {
@@ -165,7 +165,7 @@ exports[`Kibana enabled example should send a post request to the url when fired
         ],
         "summary": "Scan 09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
         "themeColor": "0078D7",
-        "title": "New **'Nmap'** security scan results are available!",
+        "title": "New Nmap security scan results are available!",
       },
     ],
   ],
@@ -191,7 +191,7 @@ exports[`vulnMngmEnabled disabled should should result in a minimal payload 1`] 
         "sections": Array [
           Object {
             "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
-            "activitySubtitle": "Finished at 2020-05-25T02:38:13Z",
+            "activitySubtitle": "Created at 2021-01-01T14:29:25Z",
             "activityTitle": "Scan: **'demo-scan-1601086432'**",
             "facts": Array [
               Object {
@@ -234,7 +234,7 @@ exports[`vulnMngmEnabled disabled should should result in a minimal payload 1`] 
         ],
         "summary": "Scan 09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
         "themeColor": "0078D7",
-        "title": "New **'Nmap'** security scan results are available!",
+        "title": "New Nmap security scan results are available!",
       },
     ],
   ],
@@ -258,7 +258,7 @@ exports[`vulnMngmEnabled some ENV Vars missing test should result in a minimal p
         "sections": Array [
           Object {
             "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
-            "activitySubtitle": "Finished at 2020-05-25T02:38:13Z",
+            "activitySubtitle": "Created at 2021-01-01T14:29:25Z",
             "activityTitle": "Scan: **'demo-scan-1601086432'**",
             "facts": Array [
               Object {
@@ -301,7 +301,7 @@ exports[`vulnMngmEnabled some ENV Vars missing test should result in a minimal p
         ],
         "summary": "Scan 09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
         "themeColor": "0078D7",
-        "title": "New **'Nmap'** security scan results are available!",
+        "title": "New Nmap security scan results are available!",
       },
     ],
   ],
