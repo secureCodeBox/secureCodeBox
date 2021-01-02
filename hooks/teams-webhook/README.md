@@ -17,4 +17,4 @@ Installing the Teams WebHook hook will add a ReadOnly Hook to your namespace.
 ```bash
 helm upgrade --install twh ./hooks/teams-webhook/ --set notification.url="http://example.com/my/webhook/target"
 ```
-> ✍ This documentation is currently work-in-progress. 
+> ✍ This documentation is currently work-in-progress.
