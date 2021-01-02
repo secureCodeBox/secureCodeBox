@@ -42,8 +42,8 @@ vulnerabilityManagement:
   name: Kibana Dashboard
   # vulnerabilityManagement.url The URL to your vulnerability management system wich will be added at the bottom of each message.
   url: "https://your-kibana-service.url/your-dashboard-path"
-  # vulnerabilityManagement.url A special URL used to deep link into your vulnerability management system. The placeholder {{scanId}} will be replaced with the current scanId.
-  findingsUrl: "https://your-kibana-service.url/your-dashboard-path/filter:{{scanId}}"
+  # vulnerabilityManagement.url A special URL used to deep link into your vulnerability management system. The placeholder {{uid}} will be replaced with the current scanId (uid).
+  findingsUrl: "https://your-kibana-service.url/your-dashboard-path/filter:{{uid}}"
 
 hookJob:
   # hookJob.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/

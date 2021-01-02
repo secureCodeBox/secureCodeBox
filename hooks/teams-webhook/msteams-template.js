@@ -41,7 +41,7 @@ function getMessageCardByTemplate(scan, vulnerabilityManagement) {
       },
     ],
     ...(vulnerabilityManagement.enabled === "true" &&
-      getMessageCardActionPayload(vulnerabilityManagement)),
+      getMessageCardActionPayload(scan, vulnerabilityManagement)),
   };
 
   return messageCard;
@@ -51,7 +51,20 @@ function getMessageCardByTemplate(scan, vulnerabilityManagement) {
  * Returns a MS Teams Webhook potentialAction message object, based on the given vulnerabilityManagement configuration data.
  * @param {Object} vulnerabilityManagement A vulnerabilityManagement configuration object.
  */
-function getMessageCardActionPayload(vulnerabilityManagement) {
+function getMessageCardActionPayload(scan, vulnerabilityManagement) {
+  if (vulnerabilityManagement && vulnerabilityManagement.dashboardUrl) {
+    vulnerabilityManagement.dashboardUrl = vulnerabilityManagement.dashboardUrl.replace(
+      "{{uid}}",
+      scan.metadata.uid
+    );
+  }
+  if (vulnerabilityManagement && vulnerabilityManagement.dashboardFindingsUrl) {
+    vulnerabilityManagement.dashboardFindingsUrl = vulnerabilityManagement.dashboardFindingsUrl.replace(
+      "{{uid}}",
+      scan.metadata.uid
+    );
+  }
+
   const result = {
     potentialAction: [
       {
@@ -85,7 +98,9 @@ function getMessageCardActionPayload(vulnerabilityManagement) {
  * @param {Object} scanData The scan data as object.
  */
 function getMessageCardFactsPayload(scanData) {
-  return scanData != null ? Object.entries(scanData).map(([name,value]) => ({ name, value })) : [];
+  return scanData != null
+    ? Object.entries(scanData).map(([name, value]) => ({ name, value }))
+    : [];
 }
 
 module.exports.getMessageCardByTemplate = getMessageCardByTemplate;

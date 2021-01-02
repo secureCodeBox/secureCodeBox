@@ -166,7 +166,7 @@ test("Kibana enabled example should send a post request to the url when fired", 
   const vulnMngmName = "Kibana Dashboard";
   const vulnMngmDashboardUrl = "htps://dashboard.yourservice/";
   const vulnMngmDashboardFindingsUrl =
-    "https://dashboard.yourservice/filter:09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc";
+    "https://dashboard.yourservice/filter:{{uid}}";
 
   await handle({
     getFindings,
@@ -192,8 +192,7 @@ test("DefectDojo enabled should send a post request to the url when fired", asyn
   const vulnMngmEnabled = "true";
   const vulnMngmName = "DefectDojo";
   const vulnMngmDashboardUrl = "htps://defect.dojo/";
-  const vulnMngmDashboardFindingsUrl =
-    "https://defect.dojo/project?id=09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc";
+  const vulnMngmDashboardFindingsUrl = "https://defect.dojo/project?id={{uid}}";
 
   await handle({
     getFindings,
@@ -270,7 +269,6 @@ test("Rules that didn't match shouldn't be send", async () => {
   expect(axios.post).toMatchSnapshot();
 });
 
-
 test("vulnMngmEnabled some ENV Vars missing test should result in a minimal payload", async () => {
   const findings = [];
   const rules = [];
@@ -326,6 +324,6 @@ test("isAnyRuleMatching returns false if it matches no rule.", async () => {
       },
     },
   ];
-  
+
   expect(isAnyRuleMatching(rulesWithoutMatch, findings)).toBeFalsy();
 });

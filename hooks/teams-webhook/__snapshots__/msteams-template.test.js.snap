@@ -1,9 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test if Kibana Dashboard URL contains the parsed scan UID 1`] = `
+exports[`Test if Dashboard URLs are missing 1`] = `
 Object {
   "@context": "https://schema.org/extensions",
   "@type": "MessageCard",
+  "potentialAction": Array [
+    Object {
+      "@type": "OpenUri",
+      "name": "Open Kibana Dashboard",
+      "targets": Array [
+        Object {
+          "os": "default",
+          "uri": "undefined",
+        },
+      ],
+    },
+    Object {
+      "@type": "OpenUri",
+      "name": "Show Results in Kibana Dashboard",
+      "targets": Array [
+        Object {
+          "os": "default",
+          "uri": "undefined",
+        },
+      ],
+    },
+  ],
   "sections": Array [
     Object {
       "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
@@ -24,10 +46,108 @@ Object {
 }
 `;
 
+exports[`Test if Kibana Dashboard URLs render properly without any uid template 1`] = `
+Object {
+  "@context": "https://schema.org/extensions",
+  "@type": "MessageCard",
+  "potentialAction": Array [
+    Object {
+      "@type": "OpenUri",
+      "name": "Open Kibana Dashboard",
+      "targets": Array [
+        Object {
+          "os": "default",
+          "uri": "https://dashboard.yourservice/",
+        },
+      ],
+    },
+    Object {
+      "@type": "OpenUri",
+      "name": "Show Results in Kibana Dashboard",
+      "targets": Array [
+        Object {
+          "os": "default",
+          "uri": "https://dashboard.filter.yourservice/filter:static",
+        },
+      ],
+    },
+  ],
+  "sections": Array [
+    Object {
+      "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
+      "activitySubtitle": "Created at 2021-01-01T14:29:25Z",
+      "activityTitle": "Scan: **'demo-scan-1601086432'**",
+      "facts": Array [
+        Object {
+          "name": "high",
+          "value": 10,
+        },
+        Object {
+          "name": "medium",
+          "value": 5,
+        },
+        Object {
+          "name": "low",
+          "value": 2,
+        },
+        Object {
+          "name": "informational",
+          "value": 1,
+        },
+      ],
+      "startGroup": true,
+      "text": "__Findings Severity Overview:__",
+    },
+    Object {
+      "facts": Array [
+        Object {
+          "name": "A Client Error response code was returned by the server",
+          "value": 1,
+        },
+        Object {
+          "name": "Information Disclosure - Sensitive Information in URL",
+          "value": 1,
+        },
+        Object {
+          "name": "Strict-Transport-Security Header Not Set",
+          "value": 1,
+        },
+      ],
+      "text": "__Findings Category Overview:__",
+    },
+  ],
+  "summary": "Scan 09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
+  "themeColor": "0078D7",
+  "title": "New Nmap security scan results are available!",
+}
+`;
+
 exports[`Test if a  scan (with empty categories / severities object) will be rendered properly 1`] = `
 Object {
   "@context": "https://schema.org/extensions",
   "@type": "MessageCard",
+  "potentialAction": Array [
+    Object {
+      "@type": "OpenUri",
+      "name": "Open Kibana Dashboard",
+      "targets": Array [
+        Object {
+          "os": "default",
+          "uri": "https://dashboard.yourservice/projectId=09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
+        },
+      ],
+    },
+    Object {
+      "@type": "OpenUri",
+      "name": "Show Results in Kibana Dashboard",
+      "targets": Array [
+        Object {
+          "os": "default",
+          "uri": "https://dashboard.filter.yourservice/filter:09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
+        },
+      ],
+    },
+  ],
   "sections": Array [
     Object {
       "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
@@ -52,6 +172,28 @@ exports[`Test if a  scan (without categories / severities objects) will be rende
 Object {
   "@context": "https://schema.org/extensions",
   "@type": "MessageCard",
+  "potentialAction": Array [
+    Object {
+      "@type": "OpenUri",
+      "name": "Open Kibana Dashboard",
+      "targets": Array [
+        Object {
+          "os": "default",
+          "uri": "https://dashboard.yourservice/projectId=09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
+        },
+      ],
+    },
+    Object {
+      "@type": "OpenUri",
+      "name": "Show Results in Kibana Dashboard",
+      "targets": Array [
+        Object {
+          "os": "default",
+          "uri": "https://dashboard.filter.yourservice/filter:09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
+        },
+      ],
+    },
+  ],
   "sections": Array [
     Object {
       "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
@@ -76,6 +218,104 @@ exports[`Test if a complete scan (with findings / categories / severities) will 
 Object {
   "@context": "https://schema.org/extensions",
   "@type": "MessageCard",
+  "potentialAction": Array [
+    Object {
+      "@type": "OpenUri",
+      "name": "Open Kibana Dashboard",
+      "targets": Array [
+        Object {
+          "os": "default",
+          "uri": "https://dashboard.yourservice/projectId=09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
+        },
+      ],
+    },
+    Object {
+      "@type": "OpenUri",
+      "name": "Show Results in Kibana Dashboard",
+      "targets": Array [
+        Object {
+          "os": "default",
+          "uri": "https://dashboard.filter.yourservice/filter:09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
+        },
+      ],
+    },
+  ],
+  "sections": Array [
+    Object {
+      "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
+      "activitySubtitle": "Created at 2021-01-01T14:29:25Z",
+      "activityTitle": "Scan: **'demo-scan-1601086432'**",
+      "facts": Array [
+        Object {
+          "name": "high",
+          "value": 10,
+        },
+        Object {
+          "name": "medium",
+          "value": 5,
+        },
+        Object {
+          "name": "low",
+          "value": 2,
+        },
+        Object {
+          "name": "informational",
+          "value": 1,
+        },
+      ],
+      "startGroup": true,
+      "text": "__Findings Severity Overview:__",
+    },
+    Object {
+      "facts": Array [
+        Object {
+          "name": "A Client Error response code was returned by the server",
+          "value": 1,
+        },
+        Object {
+          "name": "Information Disclosure - Sensitive Information in URL",
+          "value": 1,
+        },
+        Object {
+          "name": "Strict-Transport-Security Header Not Set",
+          "value": 1,
+        },
+      ],
+      "text": "__Findings Category Overview:__",
+    },
+  ],
+  "summary": "Scan 09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
+  "themeColor": "0078D7",
+  "title": "New Nmap security scan results are available!",
+}
+`;
+
+exports[`Test if the Kibana Dashboard URLs contain the parsed UID 1`] = `
+Object {
+  "@context": "https://schema.org/extensions",
+  "@type": "MessageCard",
+  "potentialAction": Array [
+    Object {
+      "@type": "OpenUri",
+      "name": "Open Kibana Dashboard",
+      "targets": Array [
+        Object {
+          "os": "default",
+          "uri": "https://dashboard.yourservice/projectId=09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
+        },
+      ],
+    },
+    Object {
+      "@type": "OpenUri",
+      "name": "Show Results in Kibana Dashboard",
+      "targets": Array [
+        Object {
+          "os": "default",
+          "uri": "https://dashboard.filter.yourservice/filter:09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
+        },
+      ],
+    },
+  ],
   "sections": Array [
     Object {
       "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
