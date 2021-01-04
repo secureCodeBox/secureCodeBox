@@ -279,9 +279,10 @@ jobs:
 
   # ---- Build | Scanners ----
 
-  scanners:
   # Note we only build images for scanner that don't provider official public container images
+  scanners:
     name: "Build | Scanner"
+    needs: [unit-python, unit-javascript]
     runs-on: ubuntu-latest
     strategy:
       matrix:
