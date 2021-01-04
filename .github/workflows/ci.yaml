@@ -143,12 +143,15 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
-# ---- Build Stage | parser-sdk ----
+# ---- Build Stage | SDK Matrix ----
 
-  parser-sdk:
-    name: "Build | Parser SDK"
+  sdk:
+    name: "Build | Matrix SDK"
     needs: [unit-python, unit-javascript]
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        sdk: ["parser-sdk", "hook-sdk"]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -157,7 +160,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: ${{ secrets.DOCKER_NAMESPACE }}/parser-sdk-nodejs
+          images: ${{ secrets.DOCKER_NAMESPACE }}/${{ matrix.sdk }}-nodejs
           tag-sha: true
           tag-custom: ci-local
           tag-semver: |
@@ -175,47 +178,8 @@ jobs:
       - name: Build and Push
         uses: docker/build-push-action@v2
         with:
-          context: ./parser-sdk/nodejs
-          file: ./parser-sdk/nodejs/Dockerfile
-          platforms: linux/amd64
-          push: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
-
-  # ---- Build Stage | hook-sdk ----
-
-  hook-sdk:
-    name: "Build | Hook SDK"
-    needs: [unit-python, unit-javascript]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Docker Meta
-        id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v1
-        with:
-          images: ${{ secrets.DOCKER_NAMESPACE }}/hook-sdk-nodejs
-          tag-sha: true
-          tag-custom: ci-local
-          tag-semver: |
-            {{ version }}
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build and Push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./hook-sdk/nodejs
-          file: ./hook-sdk/nodejs/Dockerfile
+          context: ./${{ matrix.sdk }}/nodejs
+          file: ./${{ matrix.sdk }}/nodejs/Dockerfile
           platforms: linux/amd64
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
@@ -225,7 +189,7 @@ jobs:
 
   hooks:
     name: "Build | Hooks"
-    needs: hook-sdk
+    needs: sdk
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -271,7 +235,7 @@ jobs:
 
   parsers:
     name: "Build | Parsers"
-    needs: parser-sdk
+    needs: sdk
     runs-on: ubuntu-latest
     strategy:
       matrix:
