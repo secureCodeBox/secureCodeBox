@@ -3,8 +3,38 @@ on: push
 
 env:
   GO_VERSION: "1.15"
+  PYTHON_VERSION: '3.9'
 
 jobs:
+
+# ---- Unit-Test ----
+
+  unit-python:
+    name: "Unit-Test | Python"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        unit: ["git_repo_scanner"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout/@v2
+
+      - name: "Setup Python"
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: "Install dependencies"
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install -r scanners/git-repo-scanner/scanner/requirements.txt
+
+      - name: "Execute Tests"
+        working-directory: scanners/git-repo-scanner/scanner/
+        run: |
+          pip install pytest
+          pytest ${{ matrix.unit }}_test.py
+
 
 # ---- Build Stage ----
 
@@ -12,6 +42,7 @@ jobs:
 
   operator:
     name: "Build | Operator"
+    needs: [unit-python]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -63,6 +94,7 @@ jobs:
 
   parser-sdk:
     name: "Build | Parser SDK"
+    needs: [unit-python]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -101,6 +133,7 @@ jobs:
 
   hook-sdk:
     name: "Build | Hook SDK"
+    needs: [unit-python]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
