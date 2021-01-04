@@ -3,13 +3,12 @@ on: push
 
 env:
   GO_VERSION: "1.15"
-  PYTHON_VERSION: '3.9'
+  PYTHON_VERSION: "3.9"
 
 jobs:
+  # ---- Unit-Test ----
 
-# ---- Unit-Test ----
-
-# ---- Unit-Test | Python ----
+  # ---- Unit-Test | Python ----
 
   unit-python:
     name: "Unit-Test | Python"
@@ -40,58 +39,58 @@ jobs:
   # ---- Unit-Test | JavaScript ----
 
   unit-javascript:
-     name: "Unit-Test | JavaScript"
-     runs-on: ubuntu-latest
-     steps:
-       - uses: actions/checkout@master
-       - name: "list files and folders"
-         run: ls
-       - name: "Install npm dependencies in all parser sub projects"
-         run: |
-           for dir in scanners/*/parser/
-           do
-               cd $dir
-               if [ -f package.json ] && [ -f package-lock.json ]; then
-                   echo "Installing dependencies for $dir"
-                   npm ci
-               fi
-               # cd back
-               cd -
-           done
-       - name: "Install npm dependencies in all hook sub projects"
-         run: |
-           for dir in hooks/*/
-           do
-               cd $dir
-               if [ -f package.json ] && [ -f package-lock.json ]; then
-                   echo "Installing dependencies for $dir"
-                   npm ci
-               fi
-               # cd back
-               cd -
-           done
-       - name: "Install npm test dependencies"
-         run: |
-           npm ci
-           cd scanners/
-           npm ci
-           cd -
-           cd hooks/
-           npm ci
-       - name: "Compile Typescript"
-         run: |
-           cd hooks/declarative-subsequent-scans
-           npm run build
-       #- name: "Run tests & publish code coverage"
-       #  uses: paambaati/codeclimate-action@v2.6.0
-       #  env:
-       #    CC_TEST_REPORTER_ID: a09c9e6ef697176ac6ec9f71063e2d18156aa1a904e2dd62ba2b68fab1d22ced
-       #  with:
-       #    coverageCommand: npm test -- --ci --colors --coverage
+    name: "Unit-Test | JavaScript"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: "list files and folders"
+        run: ls
+      - name: "Install npm dependencies in all parser sub projects"
+        run: |
+          for dir in scanners/*/parser/
+          do
+              cd $dir
+              if [ -f package.json ] && [ -f package-lock.json ]; then
+                  echo "Installing dependencies for $dir"
+                  npm ci
+              fi
+              # cd back
+              cd -
+          done
+      - name: "Install npm dependencies in all hook sub projects"
+        run: |
+          for dir in hooks/*/
+          do
+              cd $dir
+              if [ -f package.json ] && [ -f package-lock.json ]; then
+                  echo "Installing dependencies for $dir"
+                  npm ci
+              fi
+              # cd back
+              cd -
+          done
+      - name: "Install npm test dependencies"
+        run: |
+          npm ci
+          cd scanners/
+          npm ci
+          cd -
+          cd hooks/
+          npm ci
+      - name: "Compile Typescript"
+        run: |
+          cd hooks/declarative-subsequent-scans
+          npm run build
+      #- name: "Run tests & publish code coverage"
+      #  uses: paambaati/codeclimate-action@v2.6.0
+      #  env:
+      #    CC_TEST_REPORTER_ID: a09c9e6ef697176ac6ec9f71063e2d18156aa1a904e2dd62ba2b68fab1d22ced
+      #  with:
+      #    coverageCommand: npm test -- --ci --colors --coverage
 
-# ---- Build Stage ----
+  # ---- Build Stage ----
 
-# ---- Build Stage | Operator & Lurcher ----
+  # ---- Build Stage | Operator & Lurcher ----
 
   operator:
     name: "Build | Operator"
@@ -143,7 +142,7 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
-# ---- Build Stage | SDK Matrix ----
+  # ---- Build Stage | SDK Matrix ----
 
   sdk:
     name: "Build | Matrix SDK"
@@ -185,7 +184,7 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
-# ---- Build Stage | Matrix Hooks
+  # ---- Build Stage | Matrix Hooks
 
   hooks:
     name: "Build | Hooks"
@@ -193,10 +192,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        hook: [
-          "generic-webhook",
-          "update-field"
-        ]
+        hook: ["generic-webhook", "update-field"]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -231,7 +227,7 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
-# ---- Build Stage | Matrix Parsers
+  # ---- Build Stage | Matrix Parsers
 
   parsers:
     name: "Build | Parsers"
@@ -239,10 +235,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        parser: [
-          "amass",
-          "git-repo-scanner"
-        ]
+        parser: ["amass", "git-repo-scanner"]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -319,6 +312,74 @@ jobs:
         with:
           context: ./scanners/${{ matrix.scanner }}/scanner
           file: ./scanners/${{ matrix.scanner }}/scanner/Dockerfile
+          build-args: |
+            baseImageTag=ci-local
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+  scanner-nikto:
+    # This Scanner has to be build seperately because the official image is only on GitHub but not on DockerHub
+    name: "Build | Scanner | Nikto"
+    needs: [unit-python, unit-javascript]
+    runs-on: ubuntu-latest
+    services:
+      registry:
+        image: registry:2
+        ports:
+          - 5000:5000
+    steps:
+      - name: Checkout secureCodeBox
+        uses: actions/checkout/@v2
+        with:
+          path: scb
+
+      - name: "Checkout Nikto"
+        uses: actions/checkout/@v2
+        with:
+          repository: "sullo/nikto"
+          path: nikto
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          driver-opts: network=host
+
+      - name: Build and Push Nikto to Local Registry
+        uses: docker/build-push-action@v2
+        with:
+          context: ./nikto/
+          file: ./nikto/Dockerfile
+          push: true
+          tags: localhost:5000/sullo/nikto:latest
+
+      - name: Docker Meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ${{ secrets.DOCKER_NAMESPACE }}/scanner-nikto
+          tag-sha: true
+          tag-custom: latest, 2.1.6
+          tag-semver: |
+            {{ version }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          driver-opts: network=host
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./scb/scanners/nikto/scanner
+          file: ./scb/scanners/nikto/scanner/Dockerfile
           build-args: |
             baseImageTag=ci-local
           platforms: linux/amd64
