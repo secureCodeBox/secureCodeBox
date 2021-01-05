@@ -30,7 +30,7 @@ function getMessageCardByTemplate(scan, vulnerabilityManagement) {
       {
         activityTitle: `Scan: **'${scan.metadata.name}'**`,
         activitySubtitle: `Created at ${scan.metadata.creationTimestamp}`,
-        activityImage: "https://www.securecodebox.io/logo.png",
+        activityImage: "https://www.securecodebox.io/favicon.png",
         startGroup: true,
         facts: getMessageCardFactsPayload(scan.status.findings.severities),
         text: "__Findings Severity Overview:__",
