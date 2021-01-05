@@ -57,7 +57,7 @@ test("example parser parses single line json successully", async () => {
   `);
 });
 
-test("example parser parses large json result successully", async () => {
+test("example parser parses large json result successfully", async () => {
   const fileContent = await readFile(
     __dirname + "/__testFiles__/securecodebox.io.jsonl",
     {
