@@ -57,13 +57,35 @@ test("example parser parses single line json successully", async () => {
   `);
 });
 
-test('example parser parses large json result successully', async () => {
+test("example parser parses large json result successully", async () => {
   const fileContent = await readFile(
-    __dirname + '/__testFiles__/securecodebox.io.jsonl',
+    __dirname + "/__testFiles__/securecodebox.io.jsonl",
     {
-      encoding: 'utf8',
+      encoding: "utf8",
     }
   );
+
+  expect(await parse(fileContent)).toMatchSnapshot();
+});
+
+// axios parses jsonl with a single line / entry as a json object as they are coincidentally also valid json objects.
+// This means that the parser needs to also handle objects passed into into it, not just strings
+test("handles jsonl files with a single row correctly", async () => {
+  const fileContent = {
+    name: "www.securecodebox.io",
+    domain: "securecodebox.io",
+    addresses: [
+      {
+        ip: "185.199.109.153",
+        cidr: "185.199.108.0/22",
+        asn: 54113,
+        desc: "FASTLY - Fastly",
+      },
+      // ...
+    ],
+    tag: "cert",
+    sources: ["Crtsh"],
+  };
 
   expect(await parse(fileContent)).toMatchSnapshot();
 });
