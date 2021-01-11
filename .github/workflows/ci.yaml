@@ -2,8 +2,13 @@ name: "CI"
 on: push
 
 env:
+  # ---- Language Versions ----
+
   GO_VERSION: "1.15"
   PYTHON_VERSION: "3.9"
+
+  # ---- Docker Namespace ----
+  DOCKER_NAMESPACE: fuhrmeistery
 
 jobs:
   # ---- Unit-Test ----
@@ -118,7 +123,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: ${{ secrets.DOCKER_NAMESPACE }}/${{ matrix.component }}
+          images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.component }}
           tag-sha: true
           tag-semver: |
             {{ version }}
@@ -159,7 +164,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: ${{ secrets.DOCKER_NAMESPACE }}/${{ matrix.sdk }}-nodejs
+          images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.sdk }}-nodejs
           tag-sha: true
           tag-custom: ci-local
           tag-semver: |
@@ -201,7 +206,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: ${{ secrets.DOCKER_NAMESPACE }}/${{ matrix.hook }}
+          images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.hook }}
           tag-sha: true
           tag-semver: |
             {{ version }}
@@ -235,7 +240,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        parser: ["amass", "git-repo-scanner"]
+        parser: ["amass", "git-repo-scanner", "test-scan"]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -244,7 +249,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: ${{ secrets.DOCKER_NAMESPACE }}/${{ matrix.parser }}
+          images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.parser }}
           tag-sha: true
           tag-semver: |
             {{ version }}
@@ -284,6 +289,8 @@ jobs:
             tags: "v6.1.2, latest"
           - scanner: ncrack
             tags: "0.7, latest"
+          - scanner: test-scan
+            tags: "latest"
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -292,7 +299,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: ${{ secrets.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
+          images: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
           tag-sha: true
           tag-custom: ${{ matrix.tags }}
           tag-semver: |
@@ -358,7 +365,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: ${{ secrets.DOCKER_NAMESPACE }}/scanner-nikto
+          images: ${{ env.DOCKER_NAMESPACE }}/scanner-nikto
           tag-sha: true
           tag-custom: latest, 2.1.6
           tag-semver: |
@@ -386,3 +393,88 @@ jobs:
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
+
+  # ---- Integration Tests ----
+
+  Integration-tests:
+    name: Integration Tests | k8s ${{ matrix.k8sVersion }}
+    needs: [operator, hooks, parsers, scanners, scanner-nikto]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        k8sVersion: ["1.20.0"]
+    steps:
+      - uses: actions/checkout@master
+      - name: "Start kind cluster"
+        run: |
+          kind create cluster --image kindest/node:v${{ matrix.k8sVersion }} --wait 3m
+      - name: "Inspect kind cluster"
+        run: |
+          kubectl config current-context
+          kubectl get node
+      - name: "Install Operator"
+        run: |
+          # Namespace in which the scans for the tests will be executed
+          kubectl create namespace integration-tests
+          # Operator Namespace
+          kubectl create namespace securecodebox-system
+          # Install Operator using the images of the current commit
+          helm -n securecodebox-system install securecodebox-operator ./operator/ --wait \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/operator" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="lurcher.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/lurcher" \
+            --set="lurcher.image.tag=sha-$(git rev-parse --short HEAD)" \
+      - name: "Inspect Operator"
+        run: |
+          echo "Deployment in namespace 'securecodebox-system'"
+          kubectl -n securecodebox-system get deployments
+          echo "Pods in namespace 'securecodebox-system'"
+          kubectl -n securecodebox-system get pods
+          echo "Operator Startup Logs"
+          kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
+      - name: "Create 'demo-apps' namespace"
+        run: "kubectl create namespace demo-apps"
+      - name: "Install Test Dependencies"
+        run: |
+          cd tests/integration/
+          npm ci
+      # This steps should include Integration tests which are not related to a Specific Scanner
+      - name: "Throws NoScanDefinition Error Integration Tests"
+        run: |
+          cd tests/integration/
+          npx jest --ci --color generic/no-scan-definition-error.test.js
+      - name: "Hooks (ReadAndWrite) Integration Tests"
+        run: |
+          helm -n integration-tests install update-category ./hooks/update-field/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/update-field" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="attribute.name=category" \
+            --set="attribute.value=fancy-category"
+          helm -n integration-tests install update-severity ./hooks/update-field/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/update-field" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="attribute.name=severity" \
+            --set="attribute.value=high"
+          helm -n integration-tests install test-scan ./scanners/test-scan/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/test-scan" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)"
+          cd tests/integration/
+          npx jest --ci --color generic/read-write-hook.test.js
+          helm -n integration-tests uninstall test-scan update-category update-severity
+      - name: "Hooks (ReadOnly) Integration Tests"
+        run: |
+          helm -n integration-tests install test-scan ./scanners/test-scan/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/test-scan" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)"
+          helm -n integration-tests install http-webhook ./demo-apps/http-webhook
+          helm -n integration-tests install ro-hook ./hooks/generic-webhook/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/generic-webhook" \
+            --set="webhookUrl=http://http-webhook/hallo-welt" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)"
+          cd tests/integration/
+          npx jest --ci --color generic/read-only-hook.test.js
+          helm -n integration-tests uninstall test-scan http-webhook ro-hook
