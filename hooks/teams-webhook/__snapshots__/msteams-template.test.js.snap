@@ -28,7 +28,7 @@ Object {
   ],
   "sections": Array [
     Object {
-      "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
+      "activityImage": "https://www.securecodebox.io/favicon.png",
       "activitySubtitle": "Created at 2021-01-01T14:29:25Z",
       "activityTitle": "Scan: **'demo-scan-1601086432'**",
       "facts": Array [],
@@ -74,7 +74,7 @@ Object {
   ],
   "sections": Array [
     Object {
-      "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
+      "activityImage": "https://www.securecodebox.io/favicon.png",
       "activitySubtitle": "Created at 2021-01-01T14:29:25Z",
       "activityTitle": "Scan: **'demo-scan-1601086432'**",
       "facts": Array [
@@ -150,7 +150,7 @@ Object {
   ],
   "sections": Array [
     Object {
-      "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
+      "activityImage": "https://www.securecodebox.io/favicon.png",
       "activitySubtitle": "Created at 2021-01-01T14:29:25Z",
       "activityTitle": "Scan: **'demo-scan-1601086432'**",
       "facts": Array [],
@@ -196,7 +196,7 @@ Object {
   ],
   "sections": Array [
     Object {
-      "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
+      "activityImage": "https://www.securecodebox.io/favicon.png",
       "activitySubtitle": "Created at 2021-01-01T14:29:25Z",
       "activityTitle": "Scan: **'demo-scan-1601086432'**",
       "facts": Array [],
@@ -242,7 +242,7 @@ Object {
   ],
   "sections": Array [
     Object {
-      "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
+      "activityImage": "https://www.securecodebox.io/favicon.png",
       "activitySubtitle": "Created at 2021-01-01T14:29:25Z",
       "activityTitle": "Scan: **'demo-scan-1601086432'**",
       "facts": Array [
@@ -318,7 +318,7 @@ Object {
   ],
   "sections": Array [
     Object {
-      "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
+      "activityImage": "https://www.securecodebox.io/favicon.png",
       "activitySubtitle": "Created at 2021-01-01T14:29:25Z",
       "activityTitle": "Scan: **'demo-scan-1601086432'**",
       "facts": Array [

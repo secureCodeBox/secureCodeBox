@@ -32,7 +32,7 @@ exports[`DefectDojo enabled should send a post request to the url when fired 1`]
         ],
         "sections": Array [
           Object {
-            "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
+            "activityImage": "https://www.securecodebox.io/favicon.png",
             "activitySubtitle": "Created at 2021-01-01T14:29:25Z",
             "activityTitle": "Scan: **'demo-scan-1601086432'**",
             "facts": Array [
@@ -121,7 +121,7 @@ exports[`Kibana enabled example should send a post request to the url when fired
         ],
         "sections": Array [
           Object {
-            "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
+            "activityImage": "https://www.securecodebox.io/favicon.png",
             "activitySubtitle": "Created at 2021-01-01T14:29:25Z",
             "activityTitle": "Scan: **'demo-scan-1601086432'**",
             "facts": Array [
@@ -190,7 +190,7 @@ exports[`vulnMngmEnabled disabled should should result in a minimal payload 1`] 
         "@type": "MessageCard",
         "sections": Array [
           Object {
-            "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
+            "activityImage": "https://www.securecodebox.io/favicon.png",
             "activitySubtitle": "Created at 2021-01-01T14:29:25Z",
             "activityTitle": "Scan: **'demo-scan-1601086432'**",
             "facts": Array [
@@ -257,7 +257,7 @@ exports[`vulnMngmEnabled some ENV Vars missing test should result in a minimal p
         "@type": "MessageCard",
         "sections": Array [
           Object {
-            "activityImage": "https://docs.securecodebox.io/img/Favicon.svg",
+            "activityImage": "https://www.securecodebox.io/favicon.png",
             "activitySubtitle": "Created at 2021-01-01T14:29:25Z",
             "activityTitle": "Scan: **'demo-scan-1601086432'**",
             "facts": Array [
