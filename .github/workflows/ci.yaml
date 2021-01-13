@@ -618,8 +618,7 @@ jobs:
       - name: "ssh-scan Integration Tests"
         run: |
           helm -n integration-tests install ssh-scan ./scanners/ssh_scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-ssh-scan" \
-            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/ssh-scan"
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/ssh_scan"
           cd tests/integration/
           npx jest --ci --color scanner/ssh-scan.test.js
 
@@ -628,7 +627,6 @@ jobs:
       - name: "sslyze Integration Tests"
         run: |
           helm -n integration-tests install sslyze ./scanners/sslyze/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-sslyze" \
             --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/sslyze"
           cd tests/integration/
           npx jest --ci --color scanner/sslyze.test.js
@@ -638,7 +636,6 @@ jobs:
       - name: "zap Integration Tests"
         run: |
           helm -n integration-tests install zap ./scanners/zap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-zap" \
             --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/zap"
           cd tests/integration/
           npx jest --ci --color scanner/zap.test.js
@@ -650,14 +647,25 @@ jobs:
           # We'll run these in a separate namespace so that only the cascadingRules we want to test will be used
           kubectl create namespace cascading-tests
           # Install declarative-subsequent-scans hook
-          helm upgrade --install dssh ./hooks/declarative-subsequent-scans/ -n cascading-tests
+          helm upgrade --install dssh ./hooks/declarative-subsequent-scans/ -n cascading-tests \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/declarative-subsequent-scans" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)"
           # Install nmap
-          helm -n cascading-tests install nmap ./scanners/nmap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          helm -n cascading-tests install nmap ./scanners/nmap/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \
+            --set="image.tag=7.80" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/nmap" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           # Install ncrack
           printf "root\nadmin\n" > users.txt
           printf "THEPASSWORDYOUCREATED\n123456\npassword\n" > passwords.txt
           kubectl create secret generic --from-file users.txt --from-file passwords.txt ncrack-lists -n cascading-tests
-          cat <<EOF | helm -n cascading-tests install ncrack ./scanners/ncrack --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" --values -
+          cat <<EOF | helm -n cascading-tests install ncrack ./scanners/ncrack \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-ncrack" \
+            --set="image.tag=0.7" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/ncrack" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --values -
           scannerJob:
             extraVolumes:
               - name: ncrack-lists
@@ -681,13 +689,21 @@ jobs:
           # We'll run these in a separate namespace so that only the cascadingRules we want to test will be used
           kubectl create namespace cascading-tests
           # Install declarative-subsequent-scans hook
-          helm upgrade --install dssh ./hooks/declarative-subsequent-scans/ -n cascading-tests --wait
+          helm upgrade --install dssh ./hooks/declarative-subsequent-scans/ -n cascading-tests --wait \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/declarative-subsequent-scans" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)"
           # Install unsafe-https
           helm upgrade --install unsafe-https ./demo-apps/unsafe-https/ -n cascading-tests --wait
           # Install nmap
-          helm -n cascading-tests install nmap ./scanners/nmap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" --wait
+          helm -n cascading-tests install nmap ./scanners/nmap/ --wait \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \
+            --set="image.tag=7.80" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/nmap" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           # Install sslyze
-          helm -n cascading-tests install sslyze ./scanners/sslyze/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" --wait
+          helm -n cascading-tests install sslyze ./scanners/sslyze/ --wait \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/sslyze" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           # Actually run the tests
           cd tests/integration/
           npx jest --ci --color scanner/cascade-nmap-sslyze.test.js
