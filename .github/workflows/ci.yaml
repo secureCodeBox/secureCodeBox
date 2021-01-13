@@ -240,7 +240,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        parser: ["amass", "git-repo-scanner", "test-scan"]
+        parser: ["amass", "git-repo-scanner", "gitleaks", "kube-hunter", "ncrack", "nikto", "nmap", "screenshooter", "ssh_scan", "sslyze", "test-scan", "trivy", "wpscan", "zap"]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
