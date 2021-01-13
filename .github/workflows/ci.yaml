@@ -454,6 +454,9 @@ jobs:
         run: |
           kubectl config current-context
           kubectl get node
+
+      # ---- Install Operator & Create Namespaces ----
+
       - name: "Install Operator"
         run: |
           # Namespace in which the scans for the tests will be executed
@@ -466,6 +469,9 @@ jobs:
             --set="image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="lurcher.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/lurcher" \
             --set="lurcher.image.tag=sha-$(git rev-parse --short HEAD)" \
+
+      # ---- Operator Health Check ----
+
       - name: "Inspect Operator"
         run: |
           echo "Deployment in namespace 'securecodebox-system'"
@@ -476,11 +482,20 @@ jobs:
           kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
       - name: "Create 'demo-apps' namespace"
         run: "kubectl create namespace demo-apps"
+
+      # ---- Install Test Dependencies ----
+
       - name: "Install Test Dependencies"
         run: |
           cd tests/integration/
           npm ci
+
+      # ---- General Testing ----
+
       # This steps should include Integration tests which are not related to a Specific Scanner
+
+      # ---- General Testing | ReadAndWrite Hook ----
+
       - name: "Throws NoScanDefinition Error Integration Tests"
         run: |
           cd tests/integration/
@@ -505,6 +520,9 @@ jobs:
           cd tests/integration/
           npx jest --ci --color generic/read-write-hook.test.js
           helm -n integration-tests uninstall test-scan update-category update-severity
+
+      # ---- Gerneral Testing | ReadOnly Hook ----
+
       - name: "Hooks (ReadOnly) Integration Tests"
         run: |
           helm -n integration-tests install test-scan ./scanners/test-scan/ \
@@ -520,3 +538,111 @@ jobs:
           cd tests/integration/
           npx jest --ci --color generic/read-only-hook.test.js
           helm -n integration-tests uninstall test-scan http-webhook ro-hook
+
+      # ---- Install Demo Apps for Specific Tests ----
+
+      - name: "Install Demo Apps"
+        run: |
+          # Install dummy-ssh app
+          helm -n demo-apps install dummy-ssh ./demo-apps/dummy-ssh/ --wait
+          # Install unsafe-https app
+          helm -n demo-apps install unsafe-https ./demo-apps/unsafe-https/ --wait
+          # Install bodgeit app
+          helm -n demo-apps install bodgeit ./demo-apps/bodgeit/ --wait
+          # Install plain nginx server
+          kubectl create deployment --image nginx:alpine nginx --namespace demo-apps
+          kubectl expose deployment nginx --port 80 --namespace demo-apps
+
+      # ---- Kubehunter Integration Tests ----
+
+      - name: "kube-hunter Integration Tests"
+        run: |
+          helm -n integration-tests install kube-hunter ./scanners/kube-hunter/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-kube-hunter" \
+            --set="image.tag=0.3.0" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/kube-hunter" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          cd tests/integration/
+          npx jest --ci --color scanner/kube-hunter.test.js
+
+      # ---- Kubeaudit Integration Tests ----
+
+      - name: "kubeaudit Integration Tests"
+        run: |
+          kubectl create namespace kubeaudit-tests
+          helm -n kubeaudit-tests install juice-shop ./demo-apps/juice-shop/ --wait
+          helm -n integration-tests install kubeaudit ./scanners/kubeaudit/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-kube-audit" \
+            --set="image.tag=0.11.5" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/kube-audit" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="kubeauditScope=cluster"
+          cd tests/integration/
+          npx jest --ci --color scanner/kubeaudit.test.js
+          kubectl delete namespace kubeaudit-tests
+
+      # ---- Ncrack Integration Tests ----
+
+      - name: "ncrack Integration Tests"
+        run: |
+          helm -n integration-tests install ncrack ./scanners/ncrack/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-ncrack" \
+            --set="image.tag=0.7" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/ncrack" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          cd tests/integration/
+          npx jest --ci --color scanner/ncrack.test.js
+
+      # ---- Nikto Integration Tests ----
+
+      - name: "nikto Integration Tests"
+        run: |
+          helm -n integration-tests install nikto ./scanners/nikto/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nikto" \
+            --set="image.tag=2.1.6" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/nikto" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          cd tests/integration/
+          npx jest --ci --color scanner/nikto.test.js
+
+      # ---- Nmap Integration Tests ----
+
+      - name: "nmap Integration Tests"
+        run: |
+          helm -n integration-tests install nmap ./scanners/nmap/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \
+            --set="image.tag=7.80" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/nmap" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          cd tests/integration/
+          npx jest --ci --color scanner/nmap.test.js
+
+      # ---- SSH_SCAN Integration Tests ----
+
+      - name: "ssh-scan Integration Tests"
+        run: |
+          helm -n integration-tests install ssh-scan ./scanners/ssh_scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-ssh-scan" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/ssh-scan"
+          cd tests/integration/
+          npx jest --ci --color scanner/ssh-scan.test.js
+
+      # ---- SSLyze Integration Tests ----
+
+      - name: "sslyze Integration Tests"
+        run: |
+          helm -n integration-tests install sslyze ./scanners/sslyze/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-sslyze" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/sslyze"
+          cd tests/integration/
+          npx jest --ci --color scanner/sslyze.test.js
+
+      # ---- Zap Integration Tests ----
+
+      - name: "zap Integration Tests"
+        run: |
+          helm -n integration-tests install zap ./scanners/zap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-zap" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/zap"
+          cd tests/integration/
+          npx jest --ci --color scanner/zap.test.js
