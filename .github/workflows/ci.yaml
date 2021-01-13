@@ -197,7 +197,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        hook: ["generic-webhook", "update-field"]
+        hook: ["declarative-subsequent-scans", "finding-post-processing", "generic-webhook", "persistence-elastic", "update-field"]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
