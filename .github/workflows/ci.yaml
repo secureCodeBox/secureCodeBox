@@ -8,7 +8,19 @@ env:
   PYTHON_VERSION: "3.9"
 
   # ---- Docker Namespace ----
+
   DOCKER_NAMESPACE: fuhrmeistery
+
+  # ---- Scanner Versions ----
+
+  GIT_REPO_SCANNER_VERSION: v6.1.2
+  GITLEAKS_VERSION: latest
+  KUBE_HUNTER_VERSION: 0.3.0
+  KUBEAUDIT_VERSION: v0.11.5
+  NCRACK_VERSION: 0.7
+  NMAP_VERSION: "7.80,7.80-r2"
+  SCREENSHOOTER: latest
+  TEST_SCAN_VERSION: latest
 
 jobs:
   # ---- Unit-Test ----
@@ -646,3 +658,79 @@ jobs:
             --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/zap"
           cd tests/integration/
           npx jest --ci --color scanner/zap.test.js
+
+      # ---- Cascading Scans ncrack Integration Test ----
+
+      - name: "cascading Scans ncrack Integration Tests"
+        run: |
+          # We'll run these in a separate namespace so that only the cascadingRules we want to test will be used
+          kubectl create namespace cascading-tests
+          # Install declarative-subsequent-scans hook
+          helm upgrade --install dssh ./hooks/declarative-subsequent-scans/ -n cascading-tests
+          # Install nmap
+          helm -n cascading-tests install nmap ./scanners/nmap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          # Install ncrack
+          printf "root\nadmin\n" > users.txt
+          printf "THEPASSWORDYOUCREATED\n123456\npassword\n" > passwords.txt
+          kubectl create secret generic --from-file users.txt --from-file passwords.txt ncrack-lists -n cascading-tests
+          cat <<EOF | helm -n cascading-tests install ncrack ./scanners/ncrack --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" --values -
+          scannerJob:
+            extraVolumes:
+              - name: ncrack-lists
+                secret:
+                  secretName: ncrack-lists
+            extraVolumeMounts:
+              - name: ncrack-lists
+                mountPath: "/ncrack/"
+          EOF
+          # Actually run the tests
+          cd tests/integration/
+          npx jest --ci --color scanner/cascade-nmap-ncrack.test.js
+          # Clean up:
+          kubectl -n cascading-tests delete scans --all
+          kubectl delete namespace cascading-tests
+
+      # ---- Cascading Scans SSLyze Integration Tests ----
+
+      - name: "cascading Scans sslyze Integration Tests"
+        run: |
+          # We'll run these in a separate namespace so that only the cascadingRules we want to test will be used
+          kubectl create namespace cascading-tests
+          # Install declarative-subsequent-scans hook
+          helm upgrade --install dssh ./hooks/declarative-subsequent-scans/ -n cascading-tests --wait
+          # Install unsafe-https
+          helm upgrade --install unsafe-https ./demo-apps/unsafe-https/ -n cascading-tests --wait
+          # Install nmap
+          helm -n cascading-tests install nmap ./scanners/nmap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" --wait
+          # Install sslyze
+          helm -n cascading-tests install sslyze ./scanners/sslyze/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" --wait
+          # Actually run the tests
+          cd tests/integration/
+          npx jest --ci --color scanner/cascade-nmap-sslyze.test.js
+          # Clean up:
+          kubectl -n cascading-tests delete scans --all
+          kubectl delete namespace cascading-tests
+
+      # ---- Debuging Cluster on Failure ----
+
+      - name: Inspect Post Failure
+        if: failure()
+        run: |
+          kubectl -n integration-tests get scan -o wide --all-namespaces
+          kubectl -n integration-tests get jobs -o wide --all-namespaces
+          kubectl -n integration-tests get pods -o wide --all-namespaces
+      - name: "Inspect Operator"
+        if: failure()
+        run: |
+          echo "Deployment in namespace 'securecodebox-system'"
+          kubectl -n securecodebox-system get deployments
+          echo "Deployment in namespace 'securecodebox-system'"
+          kubectl -n securecodebox-system get pods
+          echo "Operator Startup Logs"
+          kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
+
+      # ---- Clean UP ----
+
+      - name: "Delete kind cluster"
+        run: |
+          kind delete cluster
