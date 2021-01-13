@@ -308,10 +308,29 @@ jobs:
     strategy:
       matrix:
         include:
+        # With `tags` you can specify custom tags for the build image.
+        # By default tags for git-tags, commit hash as well as the branch are created
+          - scanner: git-repo-scanner
+            tags: latest
+
           - scanner: gitleaks
             tags: "v6.1.2, latest"
+
+          - scanner: kube-hunter
+            tags: "0.3.0, latest"
+
+          - scanner: kubeaudit
+            tags: "v0.11.5,latest"
+
           - scanner: ncrack
             tags: "0.7, latest"
+
+          - scanner: nmap
+            tags: "7.80,7.80-r2,latest"
+
+          - scanner: screenshooter
+            tags: "latest"
+
           - scanner: test-scan
             tags: "latest"
     steps:
