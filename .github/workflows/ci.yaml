@@ -11,17 +11,6 @@ env:
 
   DOCKER_NAMESPACE: fuhrmeistery
 
-  # ---- Scanner Versions ----
-
-  GIT_REPO_SCANNER_VERSION: v6.1.2
-  GITLEAKS_VERSION: latest
-  KUBE_HUNTER_VERSION: 0.3.0
-  KUBEAUDIT_VERSION: v0.11.5
-  NCRACK_VERSION: 0.7
-  NMAP_VERSION: "7.80,7.80-r2"
-  SCREENSHOOTER: latest
-  TEST_SCAN_VERSION: latest
-
 jobs:
   # ---- Unit-Test ----
 
