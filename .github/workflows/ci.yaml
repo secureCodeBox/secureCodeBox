@@ -315,19 +315,19 @@ jobs:
             tags: latest
 
           - scanner: gitleaks
-            tags: "v6.1.2, latest"
+            tags: "v6.1.2"
 
           - scanner: kube-hunter
-            tags: "0.3.0, latest"
+            tags: "0.3.0"
 
           - scanner: kubeaudit
-            tags: "v0.11.5,latest"
+            tags: "v0.11.5"
 
           - scanner: ncrack
-            tags: "0.7, latest"
+            tags: "0.7"
 
           - scanner: nmap
-            tags: "7.80,7.80-r2,latest"
+            tags: "7.80,7.80-r2"
 
           - scanner: screenshooter
             tags: "latest"
@@ -410,7 +410,7 @@ jobs:
         with:
           images: ${{ env.DOCKER_NAMESPACE }}/scanner-nikto
           tag-sha: true
-          tag-custom: latest, 2.1.6
+          tag-custom: 2.1.6
           tag-semver: |
             {{ version }}
 
