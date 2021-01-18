@@ -302,18 +302,21 @@ jobs:
   # ---- Build | Scanners ----
 
   # Note we only build images for scanner that don't provider official public container images
-  scanners:
-    name: "Build | Matrix Scanner"
+
+  # ---- Build | Scanners | Third Party Scanner ----
+
+  # This Matrix should contain Third Party Scanners
+  # The Tag for the Image should be the current version of the Scanner
+
+  scanners-third-party:
+    name: "Build | Matrix Third Party Scanner"
     needs: [unit-python, unit-javascript]
     runs-on: ubuntu-latest
     strategy:
       matrix:
         include:
-        # With `tags` you can specify custom tags for the build image.
-        # By default tags for git-tags, commit hash as well as the branch are created
-          - scanner: git-repo-scanner
-            tags: latest
-
+          # With `tags` you can specify custom tags for the build image.
+          # By default tags for git-tags, commit hash as well as the branch are created
           - scanner: gitleaks
             tags: "v6.1.2"
 
@@ -329,11 +332,6 @@ jobs:
           - scanner: nmap
             tags: "7.80,7.80-r2"
 
-          - scanner: screenshooter
-            tags: "latest"
-
-          - scanner: test-scan
-            tags: "latest"
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -344,7 +342,52 @@ jobs:
         with:
           images: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
           tag-sha: true
+          tag-custom-only: true
           tag-custom: ${{ matrix.tags }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./scanners/${{ matrix.scanner }}/scanner
+          file: ./scanners/${{ matrix.scanner }}/scanner/Dockerfile
+          build-args: |
+            baseImageTag=ci-local
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+  # ---- Build | Scanners | Custom Scanner ----
+
+  # This Section contains Scanners that are developed by the secureCodeBox project
+  # The tag for these images will be the Semver of the release
+
+  scanners-custom:
+    name: "Build | Matrix Custom Scanner"
+    needs: [unit-python, unit-javascript]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        scanner: ["git-repo-scanner", "screenshooter", "test-scan"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Docker Meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
+          tag-sha: true
           tag-semver: |
             {{ version }}
 
@@ -441,7 +484,7 @@ jobs:
 
   Integration-tests:
     name: Integration Tests | k8s ${{ matrix.k8sVersion }}
-    needs: [operator, hooks, parsers, scanners, scanner-nikto]
+    needs: [operator, hooks, parsers, scanners-third-party, scanners-custom, scanner-nikto]
     runs-on: ubuntu-latest
     strategy:
       matrix:
