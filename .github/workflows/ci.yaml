@@ -324,6 +324,7 @@ jobs:
         # Notice: The current version of the scanner is provided via the Chart.yaml to ensure
         # there is only one place to edit the version of a scanner
         run: |
+          cd scanners/${{ matrix.scanner }}
           echo "scannerVersion=$(cat Chart.yaml | grep appVersion | cut -d" " -f2)" >> $GITHUB_ENV
 
       - name: Docker Meta
@@ -350,7 +351,7 @@ jobs:
           context: ./scanners/${{ matrix.scanner }}/scanner
           file: ./scanners/${{ matrix.scanner }}/scanner/Dockerfile
           build-args: |
-            baseImageTag=ci-local
+            scannerVersion=${{ env.scannerVersion }}
           platforms: linux/amd64
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
@@ -601,7 +602,7 @@ jobs:
         run: |
           helm -n integration-tests install kube-hunter ./scanners/kube-hunter/ \
             --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-kube-hunter" \
-            --set="image.tag=0.3.0" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-kube-hunter" \
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
@@ -613,7 +614,7 @@ jobs:
         run: |
           helm -n integration-tests install ncrack ./scanners/ncrack/ \
             --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-ncrack" \
-            --set="image.tag=0.7" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-ncrack" \
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
@@ -625,7 +626,7 @@ jobs:
         run: |
           helm -n integration-tests install nikto ./scanners/nikto/ \
             --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nikto" \
-            --set="image.tag=2.1.6" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nikto" \
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
@@ -637,7 +638,7 @@ jobs:
         run: |
           helm -n integration-tests install nmap ./scanners/nmap/ \
             --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \
-            --set="image.tag=7.80" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nmap" \
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
@@ -683,7 +684,7 @@ jobs:
           # Install nmap
           helm -n cascading-tests install nmap ./scanners/nmap/ \
             --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \
-            --set="image.tag=7.80" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nmap" \
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           # Install ncrack
@@ -692,7 +693,7 @@ jobs:
           kubectl create secret generic --from-file users.txt --from-file passwords.txt ncrack-lists -n cascading-tests
           cat <<EOF | helm -n cascading-tests install ncrack ./scanners/ncrack \
             --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-ncrack" \
-            --set="image.tag=0.7" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-ncrack" \
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --values -
@@ -727,7 +728,7 @@ jobs:
           # Install nmap
           helm -n cascading-tests install nmap ./scanners/nmap/ --wait \
             --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \
-            --set="image.tag=7.80" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nmap" \
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           # Install sslyze
