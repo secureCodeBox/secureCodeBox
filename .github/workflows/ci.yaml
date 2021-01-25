@@ -608,6 +608,22 @@ jobs:
           cd tests/integration/
           npx jest --ci --color scanner/kube-hunter.test.js
 
+      # ---- Kubeaudit Integration Tests ----
+
+      - name: "kubeaudit Integration Tests"
+        run: |
+          kubectl create namespace kubeaudit-tests
+          helm -n kubeaudit-tests install juice-shop ./demo-apps/juice-shop/ --wait
+          helm -n integration-tests install kubeaudit ./scanners/kubeaudit/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-kube-audit" \
+            --set="image.tag=0.11.5" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/kube-audit" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="kubeauditScope=cluster"
+          cd tests/integration/
+          npx jest --ci --color scanner/kubeaudit.test.js
+          kubectl delete namespace kubeaudit-tests
+
       # ---- Ncrack Integration Tests ----
 
       - name: "ncrack Integration Tests"
