@@ -314,13 +314,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        scanner: [
-          gitleaks,
-          kube-hunter,
-          kubeaudit,
-          ncrack,
-          nmap
-        ]
+        scanner: [gitleaks, kube-hunter, kubeaudit, ncrack, nmap]
 
     steps:
       - name: Checkout
@@ -330,7 +324,7 @@ jobs:
         # Notice: The current version of the scanner is provided via the Chart.yaml to ensure
         # there is only one place to edit the version of a scanner
         run: |
-          echo "scannerVersion=$(cat Chart.yaml | grep appVersion | cut -d" " -f2)"
+          echo "scannerVersion=$(cat Chart.yaml | grep appVersion | cut -d" " -f2)" >> $GITHUB_ENV
 
       - name: Docker Meta
         id: docker_meta
@@ -480,7 +474,15 @@ jobs:
 
   Integration-tests:
     name: Integration Tests | k8s ${{ matrix.k8sVersion }}
-    needs: [operator, hooks, parsers, scanners-third-party, scanners-custom, scanner-nikto]
+    needs:
+      [
+        operator,
+        hooks,
+        parsers,
+        scanners-third-party,
+        scanners-custom,
+        scanner-nikto,
+      ]
     runs-on: ubuntu-latest
     strategy:
       matrix:
