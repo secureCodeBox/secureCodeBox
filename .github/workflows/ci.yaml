@@ -167,7 +167,6 @@ jobs:
         with:
           images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.sdk }}-nodejs
           tag-sha: true
-          tag-custom: ci-local
           tag-semver: |
             {{ version }}
 
@@ -228,13 +227,17 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Set baseImageTag to commit hash
+        run: |
+          echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
       - name: Build and Push
         uses: docker/build-push-action@v2
         with:
           context: ./hooks/${{ matrix.hook }}
           file: ./hooks/${{ matrix.hook }}/Dockerfile
           build-args: |
-            baseImageTag=ci-local
+            baseImageTag=${{ env.baseImageTag }}
           platforms: linux/amd64
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
@@ -287,13 +290,17 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Set baseImageTag to commit hash
+        run: |
+          echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
       - name: Build and Push
         uses: docker/build-push-action@v2
         with:
           context: ./scanners/${{ matrix.parser }}/parser
           file: ./scanners/${{ matrix.parser }}/parser/Dockerfile
           build-args: |
-            baseImageTag=ci-local
+            baseImageTag=${{ baseImageTag }}
           platforms: linux/amd64
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
@@ -391,13 +398,17 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Set baseImageTag to commit hash
+        run: |
+          echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
       - name: Build and Push
         uses: docker/build-push-action@v2
         with:
           context: ./scanners/${{ matrix.scanner }}/scanner
           file: ./scanners/${{ matrix.scanner }}/scanner/Dockerfile
           build-args: |
-            baseImageTag=ci-local
+            baseImageTag=${{ env.baseImageTag }}
           platforms: linux/amd64
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
@@ -459,13 +470,17 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Set baseImageTag to commit hash
+        run: |
+          echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
       - name: Build and Push
         uses: docker/build-push-action@v2
         with:
           context: ./scb/scanners/nikto/scanner
           file: ./scb/scanners/nikto/scanner/Dockerfile
           build-args: |
-            baseImageTag=ci-local
+            baseImageTag=${{ env.baseImageTag }}
           platforms: linux/amd64
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
