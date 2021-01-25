@@ -151,7 +151,7 @@ jobs:
   # ---- Build Stage | SDK Matrix ----
 
   sdk:
-    name: "Build | Matrix SDK"
+    name: "Build | SDKs"
     needs: [unit-python, unit-javascript]
     runs-on: ubuntu-latest
     strategy:
@@ -243,7 +243,7 @@ jobs:
   # ---- Build Stage | Matrix Parsers
 
   parsers:
-    name: "Build | Matrix Parsers"
+    name: "Build | Parsers"
     needs: sdk
     runs-on: ubuntu-latest
     strategy:
@@ -309,7 +309,7 @@ jobs:
   # The Tag for the Image should be the current version of the Scanner
 
   scanners-third-party:
-    name: "Build | Matrix Third Party Scanner"
+    name: "Build | Third Party Scanner"
     needs: [unit-python, unit-javascript]
     runs-on: ubuntu-latest
     strategy:
@@ -362,7 +362,7 @@ jobs:
   # The tag for these images will be the Semver of the release
 
   scanners-custom:
-    name: "Build | Matrix Custom Scanner"
+    name: "Build | Custom Scanner"
     needs: [unit-python, unit-javascript]
     runs-on: ubuntu-latest
     strategy:
