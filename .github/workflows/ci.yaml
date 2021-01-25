@@ -237,6 +237,7 @@ jobs:
           context: ./hooks/${{ matrix.hook }}
           file: ./hooks/${{ matrix.hook }}/Dockerfile
           build-args: |
+            namespace=${{ env.DOCKER_NAMESPACE }}
             baseImageTag=${{ env.baseImageTag }}
           platforms: linux/amd64
           push: true
@@ -300,6 +301,7 @@ jobs:
           context: ./scanners/${{ matrix.parser }}/parser
           file: ./scanners/${{ matrix.parser }}/parser/Dockerfile
           build-args: |
+            namespace=${{ env.DOCKER_NAMESPACE }}
             baseImageTag=${{ env.baseImageTag }}
           platforms: linux/amd64
           push: true
