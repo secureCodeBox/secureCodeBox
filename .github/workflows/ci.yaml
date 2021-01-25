@@ -632,7 +632,7 @@ jobs:
           helm -n integration-tests install kubeaudit ./scanners/kubeaudit/ \
             --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-kube-audit" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/kube-audit" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-kube-audit" \
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="kubeauditScope=cluster"
           cd tests/integration/
