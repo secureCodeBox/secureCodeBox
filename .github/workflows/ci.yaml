@@ -300,7 +300,7 @@ jobs:
           context: ./scanners/${{ matrix.parser }}/parser
           file: ./scanners/${{ matrix.parser }}/parser/Dockerfile
           build-args: |
-            baseImageTag=${{ baseImageTag }}
+            baseImageTag=${{ env.baseImageTag }}
           platforms: linux/amd64
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
