@@ -314,27 +314,23 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        include:
-          # With `tags` you can specify custom tags for the build image.
-          # By default tags for git-tags, commit hash as well as the branch are created
-          - scanner: gitleaks
-            tags: "v6.1.2"
-
-          - scanner: kube-hunter
-            tags: "0.3.0"
-
-          - scanner: kubeaudit
-            tags: "v0.11.5"
-
-          - scanner: ncrack
-            tags: "0.7"
-
-          - scanner: nmap
-            tags: "7.80,7.80-r2"
+        scanner: [
+          gitleaks,
+          kube-hunter,
+          kubeaudit,
+          ncrack,
+          nmap
+        ]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Set ENV Var with Scanner Version
+        # Notice: The current version of the scanner is provided via the Chart.yaml to ensure
+        # there is only one place to edit the version of a scanner
+        run: |
+          echo "scannerVersion=$(cat Chart.yaml | grep appVersion | cut -d" " -f2)"
 
       - name: Docker Meta
         id: docker_meta
@@ -343,7 +339,7 @@ jobs:
           images: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
           tag-sha: true
           tag-custom-only: true
-          tag-custom: ${{ matrix.tags }}
+          tag-custom: ${{ env.scannerVersion }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
