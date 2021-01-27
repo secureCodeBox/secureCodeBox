@@ -632,9 +632,9 @@ jobs:
           kubectl create namespace kubeaudit-tests
           helm -n kubeaudit-tests install juice-shop ./demo-apps/juice-shop/ --wait
           helm -n integration-tests install kubeaudit ./scanners/kubeaudit/ \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-kube-audit" \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-kubeaudit" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-kube-audit" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-kubeaudit" \
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="kubeauditScope=cluster"
           cd tests/integration/
