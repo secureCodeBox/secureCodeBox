@@ -258,6 +258,7 @@ jobs:
             "git-repo-scanner",
             "gitleaks",
             "kube-hunter",
+            "kubeaudit",
             "ncrack",
             "nikto",
             "nmap",
