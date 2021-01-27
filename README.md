@@ -79,6 +79,7 @@ secureCodeBox is an official [OWASP][owasp] project.
 ## Contributing
 
 Contributions are welcome and extremely helpful 🙌
+Please have a look at [Contributing](./CONTRIBUTING.md)
 
 ## Author Information
 
