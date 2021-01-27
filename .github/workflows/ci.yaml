@@ -101,7 +101,9 @@ jobs:
 
   operator:
     name: "Build | Operator"
-    needs: [unit-python, unit-javascript]
+    needs:
+      - unit-python
+      - unit-javascript
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -153,11 +155,15 @@ jobs:
 
   sdk:
     name: "Build | SDKs"
-    needs: [unit-python, unit-javascript]
+    needs:
+      - unit-python
+      - unit-javascript
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        sdk: ["parser-sdk", "hook-sdk"]
+        sdk:
+          - parser-sdk
+          - hook-sdk
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -199,13 +205,11 @@ jobs:
     strategy:
       matrix:
         hook:
-          [
-            "declarative-subsequent-scans",
-            "finding-post-processing",
-            "generic-webhook",
-            "persistence-elastic",
-            "update-field",
-          ]
+          - declarative-subsequent-scans
+          - finding-post-processing
+          - generic-webhook
+          - persistence-elastic
+          - update-field
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -254,23 +258,22 @@ jobs:
     strategy:
       matrix:
         parser:
-          [
-            "amass",
-            "git-repo-scanner",
-            "gitleaks",
-            "kube-hunter",
-            "kubeaudit",
-            "ncrack",
-            "nikto",
-            "nmap",
-            "screenshooter",
-            "ssh_scan",
-            "sslyze",
-            "test-scan",
-            "trivy",
-            "wpscan",
-            "zap",
-          ]
+          - amass
+          - git-repo-scanner
+          - gitleaks
+          - kube-hunter
+          - kubeaudit
+          - ncrack
+          - nikto
+          - nmap
+          - screenshooter
+          - ssh_scan
+          - sslyze
+          - test-scan
+          - trivy
+          - wpscan
+          - zap
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -321,12 +324,18 @@ jobs:
 
   scanners-third-party:
     name: "Build | Third Party Scanner"
-    needs: [unit-python, unit-javascript]
+    needs:
+      - unit-python
+      - unit-javascript
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        scanner: [gitleaks, kube-hunter, kubeaudit, ncrack, nmap]
-
+        scanner:
+          - gitleaks
+          - kube-hunter
+          - kubeaudit
+          - ncrack
+          - nmap
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -375,11 +384,16 @@ jobs:
 
   scanners-custom:
     name: "Build | Custom Scanner"
-    needs: [unit-python, unit-javascript]
+    needs: 
+      - unit-python
+      - unit-javascript
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        scanner: ["git-repo-scanner", "screenshooter", "test-scan"]
+        scanner:
+        - git-repo-scanner
+        - screenshooter
+        - test-scan
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -421,7 +435,9 @@ jobs:
   scanner-nikto:
     # This Scanner has to be build seperately because the official image is only on GitHub but not on DockerHub
     name: "Build | Scanner | Nikto"
-    needs: [unit-python, unit-javascript]
+    needs:
+      - unit-python
+      - unit-javascript
     runs-on: ubuntu-latest
     services:
       registry:
@@ -495,18 +511,20 @@ jobs:
   Integration-tests:
     name: Integration Tests | k8s ${{ matrix.k8sVersion }}
     needs:
-      [
-        operator,
-        hooks,
-        parsers,
-        scanners-third-party,
-        scanners-custom,
-        scanner-nikto,
-      ]
+      - operator
+      - hooks
+      - parsers
+      - scanners-third-party
+      - scanners-custom
+      - scanner-nikto
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        k8sVersion: ["1.20.0", "1.19.4", "1.18.8", "1.17.11"]
+        k8sVersion:
+        - 1.20.0
+        - 1.19.4
+        - 1.18.8
+        - 1.17.11
     steps:
       - uses: actions/checkout@master
       - name: "Start kind cluster"
