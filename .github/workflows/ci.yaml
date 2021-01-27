@@ -88,12 +88,12 @@ jobs:
         run: |
           cd hooks/declarative-subsequent-scans
           npm run build
-      #- name: "Run tests & publish code coverage"
-      #  uses: paambaati/codeclimate-action@v2.6.0
-      #  env:
-      #    CC_TEST_REPORTER_ID: a09c9e6ef697176ac6ec9f71063e2d18156aa1a904e2dd62ba2b68fab1d22ced
-      #  with:
-      #    coverageCommand: npm test -- --ci --colors --coverage
+      - name: "Run tests & publish code coverage"
+        uses: paambaati/codeclimate-action@v2.6.0
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }} 
+        with:
+          coverageCommand: npm test -- --ci --colors --coverage
 
   # ---- Build Stage ----
 
