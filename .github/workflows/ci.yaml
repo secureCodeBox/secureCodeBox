@@ -9,7 +9,8 @@ env:
 
   # ---- Docker Namespace ----
 
-  DOCKER_NAMESPACE: fuhrmeistery
+  # DOCKER_USER and DOCKER_TOKEN are stored as GitHub secrets as well
+  DOCKER_NAMESPACE: ${{ secrets.DOCKER_NAMESPACE }}
 
 jobs:
   # ---- Unit-Test ----
