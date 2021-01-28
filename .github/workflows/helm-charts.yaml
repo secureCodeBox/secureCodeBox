@@ -47,8 +47,8 @@ jobs:
             mv helm2.Chart.yaml Chart.yaml
             if [ "$(basename "$PWD")" = "operator" ]
             then
-                echo "Copying CRDS to templates folder, as helm2 doesn't have native crds support."
-                cp -R crds templates/crds
+                echo "Moving CRDS to templates folder, as helm2 doesn't have native crds support."
+                mv crds templates/crds
             fi
             echo "Restoring Helm2 Chart and replace Helm3 Chart temporary"
             [ ! -f helm2.requirements.lock ] || mv helm2.requirements.lock requirements.lock
