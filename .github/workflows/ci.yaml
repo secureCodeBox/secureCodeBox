@@ -440,6 +440,7 @@ jobs:
           repository: securecodebox/scanner-kubeaudit
           path: ./scanners/kubeaudit/scanner/
           tags: "v0.11.5,latest"
+          build_args: "version=v0.11.5"
       - uses: docker/build-push-action@v1
         name: "Build & Push test-scan Scanner Image"
         with:
