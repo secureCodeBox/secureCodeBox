@@ -91,7 +91,7 @@ jobs:
       - name: "Run tests & publish code coverage"
         uses: paambaati/codeclimate-action@v2.6.0
         env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }} 
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
           coverageCommand: npm test -- --ci --colors --coverage
 
@@ -196,7 +196,7 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
-  # ---- Build Stage | Matrix Hooks
+  # ---- Build Stage | Matrix Hooks ----
 
   hooks:
     name: "Build | Hooks"
@@ -249,7 +249,7 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
-  # ---- Build Stage | Matrix Parsers
+  # ---- Build Stage | Matrix Parsers ----
 
   parsers:
     name: "Build | Parsers"
@@ -384,7 +384,7 @@ jobs:
 
   scanners-custom:
     name: "Build | Custom Scanner"
-    needs: 
+    needs:
       - unit-python
       - unit-javascript
     runs-on: ubuntu-latest
