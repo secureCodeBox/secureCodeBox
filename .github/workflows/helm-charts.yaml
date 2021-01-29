@@ -26,7 +26,7 @@ jobs:
             cd "${dir}" || exit
             echo "Processing Helm3 Chart in $dir"
             helm package --version $RELEASE_VERSION .
-            NAME=$(yq read - name < Chart.yaml)
+            NAME=$(yq eval '.name' - < Chart.yaml)
             curl --silent --show-error --user "${USERNAME}:${PASSWORD}" --data-binary "@${NAME}-${RELEASE_VERSION}.tgz" "${HELM_REGISTRY}/api/charts"
           )
           done
@@ -57,7 +57,7 @@ jobs:
             rm *.tgz
             echo "Processing Helm2 Chart in $dir"
             helm package --version $RELEASE_VERSION .
-            NAME=$(yq read - name < Chart.yaml)
+            NAME=$(yq eval '.name' - < Chart.yaml)
             curl --silent --show-error --user "${USERNAME}:${PASSWORD}" --data-binary "@${NAME}-${RELEASE_VERSION}.tgz" "${HELM_REGISTRY}/api/charts"
           )
           done
