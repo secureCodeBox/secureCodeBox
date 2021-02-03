@@ -2,7 +2,16 @@ apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
   name: "nmap-scanme.nmap.org"
+  annotations:
+    defectdojo.securecodebox.io/product-type: "test"
+    defectdojo.securecodebox.io/product-name: "nmap-scanme.nmap.org"
+    defectdojo.securecodebox.io/product-description: "nmap-test"
+    defectdojo.securecodebox.io/product-tags: "test"
+    defectdojo.securecodebox.io/engagement-name: "nmap-scanme.nmap.org"
+    defectdojo.securecodebox.io/engagement-version: "v1.0.0"
+    defectdojo.securecodebox.io/engagement-tags: "test"
 spec:
   scanType: "nmap"
   parameters:
-    - scanme.nmap.org
+    - -F
+    - localhost

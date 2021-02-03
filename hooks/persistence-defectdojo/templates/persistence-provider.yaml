@@ -8,9 +8,9 @@ spec:
   type: ReadOnly
   image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
   env:
-    - name: SECURECODEBOX_PERSISTENCE_DEFECTDOJO_URL
+    - name: DEFECTDOJO_URL
       value: {{ .Values.defectdojo.url | quote }}
-    - name: SECURECODEBOX_PERSISTENCE_DEFECTDOJO_AUTH_NAME
+    - name: DEFECTDOJO_USERNAME
       value: {{ .Values.defectdojo.auth.username | quote }}
-    - name: SECURECODEBOX_PERSISTENCE_DEFECTDOJO_AUTH_KEY
+    - name: DEFECTDOJO_APIKEY
       value: {{ .Values.defectdojo.auth.apiKey | quote }}

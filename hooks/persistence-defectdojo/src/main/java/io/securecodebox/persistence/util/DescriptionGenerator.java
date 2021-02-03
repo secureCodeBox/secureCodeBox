@@ -19,7 +19,6 @@
 package io.securecodebox.persistence.util;
 
 import io.securecodebox.models.V1Scan;
-import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.time.Clock;
@@ -28,7 +27,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-@Component
 public class DescriptionGenerator {
 
   protected static final String TIME_FORMAT = "dd.MM.yyyy HH:mm:ss";
