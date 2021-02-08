@@ -1,3 +1,4 @@
-FROM aquasec/kube-hunter:0.3.0
+ARG scannerVersion=latest
+FROM aquasec/kube-hunter:${scannerVersion}
 COPY wrapper.sh /wrapper.sh
 ENTRYPOINT [ "sh", "/wrapper.sh" ]
