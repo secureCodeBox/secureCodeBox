@@ -702,8 +702,8 @@ jobs:
 
       - name: "ssh-scan Integration Tests"
         run: |
-          helm -n integration-tests install ssh-scan ./scanners/ssh_scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-ssh_scan"
+          helm -n integration-tests install ssh-scan ./scanners/ssh-scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-ssh-scan"
           cd tests/integration/
           npx jest --ci --color scanner/ssh-scan.test.js
 
