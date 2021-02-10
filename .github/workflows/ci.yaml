@@ -151,13 +151,51 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
-  # ---- Build Stage | SDK Matrix ----
+  # ---- Build Stage | SCB-SDK
 
-  sdk:
-    name: "Build | SDKs"
+  scb-sdk:
+    name: "Build | SCB-SDK"
     needs:
       - unit-python
       - unit-javascript
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Docker Meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ${{ env.DOCKER_NAMESPACE }}/scb-sdk-nodejs
+          tag-sha: true
+          tag-semver: |
+            {{ version }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./scb-sdk/nodejs
+          file: ./scb-sdk/nodejs/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+  # ---- Build Stage | SDK Matrix ----
+
+  sdk:
+    name: "Build | SDK ${{ matrix.sdk }}"
+    needs: scb-sdk
     runs-on: ubuntu-latest
     strategy:
       matrix:
