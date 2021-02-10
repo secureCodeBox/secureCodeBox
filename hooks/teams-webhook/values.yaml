@@ -30,7 +30,7 @@ notification:
 
 image:
   # image.repository -- Hook image repository
-  repository: docker.io/securecodebox/hook-teams-notification
+  repository: docker.io/securecodebox/teams-webhook
   # image.tag -- Image tag
   # @default -- defaults to the charts version
   tag: null
