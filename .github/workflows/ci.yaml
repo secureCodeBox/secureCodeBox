@@ -1,8 +1,52 @@
-on: push
 name: "CI"
+on: push
+
+env:
+  # ---- Language Versions ----
+
+  GO_VERSION: "1.15"
+  PYTHON_VERSION: "3.9"
+
+  # ---- Docker Namespace ----
+
+  # DOCKER_USER and DOCKER_TOKEN are stored as GitHub secrets as well
+  DOCKER_NAMESPACE: ${{ secrets.DOCKER_NAMESPACE }}
+
 jobs:
-  unit:
-    name: "Test / Unit / Node.js Code"
+  # ---- Unit-Test ----
+
+  # ---- Unit-Test | Python ----
+
+  unit-python:
+    name: "Unit-Test | Python"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        unit: ["git_repo_scanner"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout/@v2
+
+      - name: "Setup Python"
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: "Install dependencies"
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install -r scanners/git-repo-scanner/scanner/requirements.txt
+
+      - name: "Execute Tests"
+        working-directory: scanners/git-repo-scanner/scanner/
+        run: |
+          pip install pytest
+          pytest ${{ matrix.unit }}_test.py
+
+  # ---- Unit-Test | JavaScript ----
+
+  unit-javascript:
+    name: "Unit-Test | JavaScript"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -47,422 +91,441 @@ jobs:
       - name: "Run tests & publish code coverage"
         uses: paambaati/codeclimate-action@v2.6.0
         env:
-          CC_TEST_REPORTER_ID: a09c9e6ef697176ac6ec9f71063e2d18156aa1a904e2dd62ba2b68fab1d22ced
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
           coverageCommand: npm test -- --ci --colors --coverage
-      - name: "Run python test for git-repo-scanner"
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.9'
-      - name: "Install dependencies"
-        run: |
-          python -m pip install --upgrade pip setuptools wheel
-          pip install -r scanners/git-repo-scanner/scanner/requirements.txt
-      - name: "Test git-repo-scanner script"
-        working-directory: scanners/git-repo-scanner/scanner/
-        run: |
-          pip install pytest
-          pytest git_repo_scanner_test.py
-  operator:
-    name: "Build / Operator"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-go@v2
-        with:
-          go-version: "1.15"
-      - name: "Lint Operator Go Code"
-        run: |
-          cd operator/
-          go fmt ./...
-          go vet ./...
-      - name: "Build'n Push Operator"
-        uses: docker/build-push-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/operator
-          tag_with_ref: true
-          tag_with_sha: true
-          path: ./operator/
-  lurcher:
-    name: "Build / Lurcher"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-go@v2
-        with:
-          go-version: "1.15"
-      - name: "Lint Lurcher Go Code"
-        run: |
-          cd lurcher/
-          go fmt ./...
-          go vet ./...
-      - uses: docker/build-push-action@v1
-        name: "Build & Push Lurcher Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/lurcher
-          tag_with_ref: true
-          tag_with_sha: true
-          path: ./lurcher/
-  parserImages:
-    name: "Build / Parsers"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      # SDK
-      - uses: docker/build-push-action@v1
-        name: "Build & Push Parser SDK"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/parser-sdk-nodejs
-          path: ./parser-sdk/nodejs/
-          tag_with_ref: true
-          tag_with_sha: true
-          tags: "ci-local"
-      # Actual Parsers
-      - uses: docker/build-push-action@v1
-        name: "Build & Push Amass Parser Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/parser-amass
-          path: ./scanners/amass/parser/
-          tag_with_ref: true
-          tag_with_sha: true
-          build_args: baseImageTag=ci-local
-      - uses: docker/build-push-action@v1
-        name: "Build & Push Git-Repo-Scanner Parser Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/parser-git-repo-scanner
-          path: ./scanners/git-repo-scanner/parser/
-          tag_with_ref: true
-          tag_with_sha: true
-          build_args: baseImageTag=ci-local
-      - uses: docker/build-push-action@v1
-        name: "Build & Push Gitleaks Parser Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/parser-gitleaks
-          path: ./scanners/gitleaks/parser/
-          tag_with_ref: true
-          tag_with_sha: true
-          build_args: baseImageTag=ci-local
-      - uses: docker/build-push-action@v1
-        name: "Build & Push kubeaudit Parser Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/parser-kubeaudit
-          path: ./scanners/kubeaudit/parser/
-          tag_with_ref: true
-          tag_with_sha: true
-          build_args: baseImageTag=ci-local
-      - uses: docker/build-push-action@v1
-        name: "Build & Push kube-hunter Parser Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/parser-kube-hunter
-          path: ./scanners/kube-hunter/parser/
-          tag_with_ref: true
-          tag_with_sha: true
-          build_args: baseImageTag=ci-local
-      - uses: docker/build-push-action@v1
-        name: "Build & Push Ncrack Parser Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/parser-ncrack
-          path: ./scanners/ncrack/parser/
-          tag_with_ref: true
-          tag_with_sha: true
-          build_args: baseImageTag=ci-local
-      - uses: docker/build-push-action@v1
-        name: "Build & Push Nikto Parser Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/parser-nikto
-          path: ./scanners/nikto/parser/
-          tag_with_ref: true
-          tag_with_sha: true
-          build_args: baseImageTag=ci-local
-      - uses: docker/build-push-action@v1
-        name: "Build & Push Nmap Parser Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/parser-nmap
-          path: ./scanners/nmap/parser/
-          tag_with_ref: true
-          tag_with_sha: true
-          build_args: baseImageTag=ci-local
-      - uses: docker/build-push-action@v1
-        name: "Build & Push Screenshooter Parser Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/parser-screenshooter
-          path: ./scanners/screenshooter/parser/
-          tag_with_ref: true
-          tag_with_sha: true
-          build_args: baseImageTag=ci-local
-      - uses: docker/build-push-action@v1
-        name: "Build & Push ssh_scan Parser Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/parser-ssh-scan
-          path: ./scanners/ssh_scan/parser/
-          tag_with_ref: true
-          tag_with_sha: true
-          build_args: baseImageTag=ci-local
-      - uses: docker/build-push-action@v1
-        name: "Build & Push SSLyze Parser Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/parser-sslyze
-          path: ./scanners/sslyze/parser/
-          tag_with_ref: true
-          tag_with_sha: true
-          build_args: baseImageTag=ci-local
-      - uses: docker/build-push-action@v1
-        name: "Build & Push test-scan Parser Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/parser-test-scan
-          path: ./scanners/test-scan/parser/
-          tag_with_ref: true
-          tag_with_sha: true
-          build_args: baseImageTag=ci-local
-      - uses: docker/build-push-action@v1
-        name: "Build & Push Trivy Parser Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/parser-trivy
-          path: ./scanners/trivy/parser/
-          tag_with_ref: true
-          tag_with_sha: true
-          build_args: baseImageTag=ci-local
-      - uses: docker/build-push-action@v1
-        name: "Build & Push OWASP Zap Parser Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/parser-zap
-          path: ./scanners/zap/parser/
-          tag_with_ref: true
-          tag_with_sha: true
-          build_args: baseImageTag=ci-local
-      - uses: docker/build-push-action@v1
-        name: "Build & Push wpscan Parser Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/parser-wpscan
-          path: ./scanners/wpscan/parser/
-          tag_with_ref: true
-          tag_with_sha: true
-          build_args: baseImageTag=ci-local
 
-  hookImages:
-    name: "Build / Hooks"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      # SDK
-      - uses: docker/build-push-action@v1
-        name: "Build & Push Hook SDK"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/hook-sdk-nodejs
-          path: ./hook-sdk/nodejs/
-          tag_with_ref: true
-          tags: "ci-local"
-      # Actual PersistenceProviders
-      - uses: docker/build-push-action@v1
-        name: "Build & Push Elastic PersistenceProvider Hook Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/persistence-elastic
-          path: ./hooks/persistence-elastic/
-          tag_with_ref: true
-          build_args: baseImageTag=ci-local
-      - uses: docker/build-push-action@v1
-        name: "Build & Push Elastic PersistenceProvider Dashboard Importer Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/persistence-elastic-dashboard-importer
-          path: ./hooks/persistence-elastic/dashboardImporter/
-          tag_with_ref: true
-      - uses: docker/build-push-action@v1
-        name: "Build & Push Finding Post Processing Hook Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/finding-post-processing
-          path: ./hooks/finding-post-processing/
-          build_args: baseImageTag=ci-local
-          tag_with_ref: true
-          tag_with_sha: true
-      - uses: docker/build-push-action@v1
-        name: "Build & Push MS Teams Notification Hook Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/hook-teams-notification
-          path: ./hooks/teams-webhook/
-          build_args: baseImageTag=ci-local
-          tag_with_ref: true
-          tag_with_sha: true
-      - uses: docker/build-push-action@v1
-        name: "Build & Push GenericWebhook Hook Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/generic-webhook
-          path: ./hooks/generic-webhook/
-          tag_with_ref: true
-          tag_with_sha: true
-          build_args: baseImageTag=ci-local
-      - uses: docker/build-push-action@v1
-        name: "Build & Push DeclarativeSubsequentScans Hook Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/hook-declarative-subsequent-scans
-          path: ./hooks/declarative-subsequent-scans/
-          tag_with_ref: true
-          tag_with_sha: true
-          build_args: baseImageTag=ci-local
-      - uses: docker/build-push-action@v1
-        name: "Build & Push UpdateField Hook Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/update-field
-          path: ./hooks/update-field/
-          tag_with_ref: true
-          tag_with_sha: true
-          build_args: baseImageTag=ci-local
-  scannerImages:
-    # Note we only build images for scanner that don't provider official public container images
-    name: "Build / Scanner"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - uses: docker/build-push-action@v1
-        name: "Build & Push Gitleaks Scanner Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/scanner-gitleaks
-          path: ./scanners/gitleaks/scanner/
-          tags: "v6.1.2,latest"
-      - uses: docker/build-push-action@v1
-        name: "Build & Push Git-Repo-Scanner Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/scanner-git-repo-scanner
-          path: ./scanners/git-repo-scanner/scanner/
-          tags: "latest"
-          tag_with_ref: true
-      - uses: docker/build-push-action@v1
-        name: "Build & Push Ncrack Scanner Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/scanner-ncrack
-          path: ./scanners/ncrack/scanner/
-          # Note: not prefixed with a "v" as this seems to match ncrack versioning standards
-          tags: "0.7,latest"
-      # Build normal nikto Image before building custom Image
-      - uses: actions/checkout@master
-      - name: "Build Base Nikto Image"
-        run: |
-          git clone https://github.com/sullo/nikto
-          cd nikto
-          docker build -t sullo/nikto .
-      - uses: docker/build-push-action@v1
-        name: "Build & Push Nikto Scanner Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/scanner-nikto
-          path: ./scanners/nikto/scanner/
-          tags: "latest, 2.1.6"
-      - uses: docker/build-push-action@v1
-        name: "Build & Push Nmap Scanner Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/scanner-nmap
-          path: ./scanners/nmap/scanner/
-          # Note: not prefixed with a "v" as this seems to match nmap versioning standards
-          tags: "7.80,7.80-r2,latest"
-      - uses: docker/build-push-action@v1
-        name: "Build & Push Screenshooter Scanner Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/scanner-screenshooter
-          path: ./scanners/screenshooter/scanner/
-          tags: "latest"
-          tag_with_ref: true
-      - uses: docker/build-push-action@v1
-        name: "Build & Push kube-hunter Scanner Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/scanner-kube-hunter
-          path: ./scanners/kube-hunter/scanner/
-          # Note: not prefixed with a "v" as this matches the aquasec/kube-hunter tags
-          tags: "0.3.0,latest"
-      - uses: docker/build-push-action@v1
-        name: "Build & Push kubeaudit Scanner Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/scanner-kubeaudit
-          path: ./scanners/kubeaudit/scanner/
-          tags: "v0.11.5,latest"
-          build_args: "version=v0.11.5"
-      - uses: docker/build-push-action@v1
-        name: "Build & Push test-scan Scanner Image"
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: securecodebox/scanner-test-scan
-          path: ./scanners/test-scan/scanner/
-          # Note: not prefixed with a "v" as this seems to match nmap versioning standards
-          tag_with_ref: true
-          tag_with_sha: true
-  integrationTests:
-    name: "Test / Integration / k8s ${{ matrix.k8sVersion }}"
+  # ---- Build Stage ----
+
+  # ---- Build Stage | Operator & Lurcher ----
+
+  operator:
+    name: "Build | Operator"
     needs:
-      - scannerImages
-      - hookImages
-      - parserImages
-      - operator
-      - lurcher
+      - unit-python
+      - unit-javascript
     runs-on: ubuntu-latest
     strategy:
       matrix:
-         k8sVersion: ["1.20.0", "1.19.4", "1.18.8", "1.17.11"]
+        component: ["operator", "lurcher"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Go Setup
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Lint Go Code
+        run: |
+          cd ${{ matrix.component }}/
+          go fmt ./...
+          go vet ./...
+
+      - name: Docker Meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.component }}
+          tag-sha: true
+          tag-semver: |
+            {{ version }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./${{ matrix.component }}
+          file: ./${{ matrix.component }}/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+  # ---- Build Stage | SDK Matrix ----
+
+  sdk:
+    name: "Build | SDKs"
+    needs:
+      - unit-python
+      - unit-javascript
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        sdk:
+          - parser-sdk
+          - hook-sdk
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Docker Meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.sdk }}-nodejs
+          tag-sha: true
+          tag-semver: |
+            {{ version }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./${{ matrix.sdk }}/nodejs
+          file: ./${{ matrix.sdk }}/nodejs/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+  # ---- Build Stage | Matrix Hooks ----
+
+  hooks:
+    name: "Build | Hooks"
+    needs: sdk
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        hook:
+          - declarative-subsequent-scans
+          - finding-post-processing
+          - generic-webhook
+          - persistence-elastic
+          - update-field
+          - teams-webhook
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Docker Meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.hook }}
+          tag-sha: true
+          tag-semver: |
+            {{ version }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Set baseImageTag to commit hash
+        run: |
+          echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./hooks/${{ matrix.hook }}
+          file: ./hooks/${{ matrix.hook }}/Dockerfile
+          build-args: |
+            namespace=${{ env.DOCKER_NAMESPACE }}
+            baseImageTag=${{ env.baseImageTag }}
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+  # ---- Build Stage | Matrix Parsers ----
+
+  parsers:
+    name: "Build | Parsers"
+    needs: sdk
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        parser:
+          - amass
+          - git-repo-scanner
+          - gitleaks
+          - kube-hunter
+          - kubeaudit
+          - ncrack
+          - nikto
+          - nmap
+          - screenshooter
+          - ssh-scan
+          - sslyze
+          - test-scan
+          - trivy
+          - wpscan
+          - zap
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Docker Meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ${{ env.DOCKER_NAMESPACE }}/parser-${{ matrix.parser }}
+          tag-sha: true
+          tag-semver: |
+            {{ version }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Set baseImageTag to commit hash
+        run: |
+          echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./scanners/${{ matrix.parser }}/parser
+          file: ./scanners/${{ matrix.parser }}/parser/Dockerfile
+          build-args: |
+            namespace=${{ env.DOCKER_NAMESPACE }}
+            baseImageTag=${{ env.baseImageTag }}
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+  # ---- Build | Scanners ----
+
+  # Note we only build images for scanner that don't provider official public container images
+
+  # ---- Build | Scanners | Third Party Scanner ----
+
+  # This Matrix should contain Third Party Scanners
+  # The Tag for the Image should be the current version of the Scanner
+
+  scanners-third-party:
+    name: "Build | Third Party Scanner"
+    needs:
+      - unit-python
+      - unit-javascript
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        scanner:
+          - gitleaks
+          - kube-hunter
+          - kubeaudit
+          - ncrack
+          - nmap
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set ENV Var with Scanner Version
+        uses: mikefarah/yq@v4.4.1
+        # Notice: The current version of the scanner is provided via the Chart.yaml to ensure
+        # there is only one place to edit the version of a scanner
+        with:
+          cmd: echo scannerVersion=$(yq e .appVersion scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
+
+      - name: Docker Meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
+          tag-sha: true
+          tag-custom-only: true
+          tag-custom: ${{ env.scannerVersion }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./scanners/${{ matrix.scanner }}/scanner
+          file: ./scanners/${{ matrix.scanner }}/scanner/Dockerfile
+          build-args: |
+            scannerVersion=${{ env.scannerVersion }}
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+  # ---- Build | Scanners | Custom Scanner ----
+
+  # This Section contains Scanners that are developed by the secureCodeBox project
+  # The tag for these images will be the Semver of the release
+
+  scanners-custom:
+    name: "Build | Custom Scanner"
+    needs:
+      - unit-python
+      - unit-javascript
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        scanner:
+        - git-repo-scanner
+        - screenshooter
+        - test-scan
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Docker Meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
+          tag-sha: true
+          tag-semver: |
+            {{ version }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Set baseImageTag to commit hash
+        run: |
+          echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./scanners/${{ matrix.scanner }}/scanner
+          file: ./scanners/${{ matrix.scanner }}/scanner/Dockerfile
+          build-args: |
+            baseImageTag=${{ env.baseImageTag }}
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+  scanner-nikto:
+    # This Scanner has to be build seperately because the official image is only on GitHub but not on DockerHub
+    name: "Build | Scanner | Nikto"
+    needs:
+      - unit-python
+      - unit-javascript
+    runs-on: ubuntu-latest
+    services:
+      registry:
+        image: registry:2
+        ports:
+          - 5000:5000
+    steps:
+      - name: Checkout secureCodeBox
+        uses: actions/checkout/@v2
+        with:
+          path: scb
+
+      - name: "Checkout Nikto"
+        uses: actions/checkout/@v2
+        with:
+          repository: "sullo/nikto"
+          path: nikto
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          driver-opts: network=host
+
+      - name: Build and Push Nikto to Local Registry
+        uses: docker/build-push-action@v2
+        with:
+          context: ./nikto/
+          file: ./nikto/Dockerfile
+          push: true
+          tags: localhost:5000/sullo/nikto:latest
+
+      - name: Docker Meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ${{ env.DOCKER_NAMESPACE }}/scanner-nikto
+          tag-sha: true
+          tag-custom: 2.1.6
+          tag-semver: |
+            {{ version }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          driver-opts: network=host
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Set baseImageTag to commit hash
+        run: |
+          echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./scb/scanners/nikto/scanner
+          file: ./scb/scanners/nikto/scanner/Dockerfile
+          build-args: |
+            baseImageTag=${{ env.baseImageTag }}
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+  # ---- Integration Tests ----
+
+  Integration-tests:
+    name: Integration Tests | k8s ${{ matrix.k8sVersion }}
+    needs:
+      - operator
+      - hooks
+      - parsers
+      - scanners-third-party
+      - scanners-custom
+      - scanner-nikto
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        k8sVersion:
+        - 1.20.0
+        - 1.19.4
+        - 1.18.8
+        - 1.17.11
     steps:
       - uses: actions/checkout@master
       - name: "Start kind cluster"
@@ -472,17 +535,24 @@ jobs:
         run: |
           kubectl config current-context
           kubectl get node
+
+      # ---- Install Operator & Create Namespaces ----
+
       - name: "Install Operator"
         run: |
           # Namespace in which the scans for the tests will be executed
           kubectl create namespace integration-tests
-
           # Operator Namespace
           kubectl create namespace securecodebox-system
           # Install Operator using the images of the current commit
           helm -n securecodebox-system install securecodebox-operator ./operator/ --wait \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/operator" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="lurcher.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/lurcher" \
             --set="lurcher.image.tag=sha-$(git rev-parse --short HEAD)" \
+
+      # ---- Operator Health Check ----
+
       - name: "Inspect Operator"
         run: |
           echo "Deployment in namespace 'securecodebox-system'"
@@ -493,11 +563,20 @@ jobs:
           kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
       - name: "Create 'demo-apps' namespace"
         run: "kubectl create namespace demo-apps"
+
+      # ---- Install Test Dependencies ----
+
       - name: "Install Test Dependencies"
         run: |
           cd tests/integration/
           npm ci
+
+      # ---- General Testing ----
+
       # This steps should include Integration tests which are not related to a Specific Scanner
+
+      # ---- General Testing | ReadAndWrite Hook ----
+
       - name: "Throws NoScanDefinition Error Integration Tests"
         run: |
           cd tests/integration/
@@ -505,42 +584,43 @@ jobs:
       - name: "Hooks (ReadAndWrite) Integration Tests"
         run: |
           helm -n integration-tests install update-category ./hooks/update-field/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/update-field" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="attribute.name=category" \
             --set="attribute.value=fancy-category"
           helm -n integration-tests install update-severity ./hooks/update-field/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/update-field" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="attribute.name=severity" \
             --set="attribute.value=high"
           helm -n integration-tests install test-scan ./scanners/test-scan/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color generic/read-write-hook.test.js
           helm -n integration-tests uninstall test-scan update-category update-severity
+
+      # ---- Gerneral Testing | ReadOnly Hook ----
+
       - name: "Hooks (ReadOnly) Integration Tests"
         run: |
           helm -n integration-tests install test-scan ./scanners/test-scan/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)"
           helm -n integration-tests install http-webhook ./demo-apps/http-webhook
           helm -n integration-tests install ro-hook ./hooks/generic-webhook/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/generic-webhook" \
             --set="webhookUrl=http://http-webhook/hallo-welt" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color generic/read-only-hook.test.js
           helm -n integration-tests uninstall test-scan http-webhook ro-hook
-      - name: "Hooks (Finding Post Processing) Integration Tests"
-        run: |
-          helm -n integration-tests install finding-post-processing ./hooks/finding-post-processing/ \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
-            --values ./tests/integration/hooks/__testFiles__/finding-post-processing-values.yaml
-          helm -n integration-tests install test-scan ./scanners/test-scan/ \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)"
-          cd tests/integration/
-          npx jest --ci --color finding-post-processing
-          helm -n integration-tests uninstall test-scan finding-post-processing
+
+      # ---- Install Demo Apps for Specific Tests ----
 
       - name: "Install Demo Apps"
         run: |
@@ -553,73 +633,124 @@ jobs:
           # Install plain nginx server
           kubectl create deployment --image nginx:alpine nginx --namespace demo-apps
           kubectl expose deployment nginx --port 80 --namespace demo-apps
-      - name: "nikto Integration Tests"
-        run: |
-          helm -n integration-tests install nikto ./scanners/nikto/ \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="image.tag=2.1.6"
-          cd tests/integration/
-          npx jest --ci --color scanner/nikto.test.js
-      - name: "nmap Integration Tests"
-        run: |
-          helm -n integration-tests install nmap ./scanners/nmap/ \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="image.tag=7.80"
-          cd tests/integration/
-          npx jest --ci --color scanner/nmap.test.js
-      - name: "ncrack Integration Tests"
-        run: |
-          helm -n integration-tests install ncrack ./scanners/ncrack/ \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="image.tag=0.7"
-          cd tests/integration/
-          npx jest --ci --color scanner/ncrack.test.js
+
+      # ---- Kubehunter Integration Tests ----
+
       - name: "kube-hunter Integration Tests"
         run: |
           helm -n integration-tests install kube-hunter ./scanners/kube-hunter/ \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="image.tag=0.3.0"
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-kube-hunter" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-kube-hunter" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color scanner/kube-hunter.test.js
+
+      # ---- Kubeaudit Integration Tests ----
+
       - name: "kubeaudit Integration Tests"
         run: |
           kubectl create namespace kubeaudit-tests
           helm -n kubeaudit-tests install juice-shop ./demo-apps/juice-shop/ --wait
           helm -n integration-tests install kubeaudit ./scanners/kubeaudit/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-kubeaudit" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-kubeaudit" \
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="image.tag=0.11.5" \
             --set="kubeauditScope=cluster"
           cd tests/integration/
           npx jest --ci --color scanner/kubeaudit.test.js
           kubectl delete namespace kubeaudit-tests
-      - name: "sslyze Integration Tests"
+
+      # ---- Ncrack Integration Tests ----
+
+      - name: "ncrack Integration Tests"
         run: |
-          helm -n integration-tests install sslyze ./scanners/sslyze/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          helm -n integration-tests install ncrack ./scanners/ncrack/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-ncrack" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-ncrack" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
-          npx jest --ci --color scanner/sslyze.test.js
+          npx jest --ci --color scanner/ncrack.test.js
+
+      # ---- Nikto Integration Tests ----
+
+      - name: "nikto Integration Tests"
+        run: |
+          helm -n integration-tests install nikto ./scanners/nikto/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nikto" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nikto" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          cd tests/integration/
+          npx jest --ci --color scanner/nikto.test.js
+
+      # ---- Nmap Integration Tests ----
+
+      - name: "nmap Integration Tests"
+        run: |
+          helm -n integration-tests install nmap ./scanners/nmap/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nmap" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          cd tests/integration/
+          npx jest --ci --color scanner/nmap.test.js
+
+      # ---- SSH_SCAN Integration Tests ----
+
       - name: "ssh-scan Integration Tests"
         run: |
-          helm -n integration-tests install ssh-scan ./scanners/ssh_scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          helm -n integration-tests install ssh-scan ./scanners/ssh-scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-ssh-scan"
           cd tests/integration/
           npx jest --ci --color scanner/ssh-scan.test.js
+
+      # ---- SSLyze Integration Tests ----
+
+      - name: "sslyze Integration Tests"
+        run: |
+          helm -n integration-tests install sslyze ./scanners/sslyze/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-sslyze"
+          cd tests/integration/
+          npx jest --ci --color scanner/sslyze.test.js
+
+      # ---- Zap Integration Tests ----
+
       - name: "zap Integration Tests"
         run: |
-          helm -n integration-tests install zap ./scanners/zap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          helm -n integration-tests install zap ./scanners/zap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-zap"
           cd tests/integration/
           npx jest --ci --color scanner/zap.test.js
+
+      # ---- Cascading Scans ncrack Integration Test ----
+
       - name: "cascading Scans ncrack Integration Tests"
         run: |
           # We'll run these in a separate namespace so that only the cascadingRules we want to test will be used
           kubectl create namespace cascading-tests
           # Install declarative-subsequent-scans hook
-          helm upgrade --install dssh ./hooks/declarative-subsequent-scans/ -n cascading-tests
+          helm upgrade --install dssh ./hooks/declarative-subsequent-scans/ -n cascading-tests \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/declarative-subsequent-scans" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)"
           # Install nmap
-          helm -n cascading-tests install nmap ./scanners/nmap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          helm -n cascading-tests install nmap ./scanners/nmap/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nmap" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           # Install ncrack
           printf "root\nadmin\n" > users.txt
           printf "THEPASSWORDYOUCREATED\n123456\npassword\n" > passwords.txt
           kubectl create secret generic --from-file users.txt --from-file passwords.txt ncrack-lists -n cascading-tests
-          cat <<EOF | helm -n cascading-tests install ncrack ./scanners/ncrack --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" --values -
+          cat <<EOF | helm -n cascading-tests install ncrack ./scanners/ncrack \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-ncrack" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-ncrack" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --values -
           scannerJob:
             extraVolumes:
               - name: ncrack-lists
@@ -635,24 +766,38 @@ jobs:
           # Clean up:
           kubectl -n cascading-tests delete scans --all
           kubectl delete namespace cascading-tests
+
+      # ---- Cascading Scans SSLyze Integration Tests ----
+
       - name: "cascading Scans sslyze Integration Tests"
         run: |
           # We'll run these in a separate namespace so that only the cascadingRules we want to test will be used
           kubectl create namespace cascading-tests
           # Install declarative-subsequent-scans hook
-          helm upgrade --install dssh ./hooks/declarative-subsequent-scans/ -n cascading-tests --wait
+          helm upgrade --install dssh ./hooks/declarative-subsequent-scans/ -n cascading-tests --wait \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/declarative-subsequent-scans" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)"
           # Install unsafe-https
           helm upgrade --install unsafe-https ./demo-apps/unsafe-https/ -n cascading-tests --wait
           # Install nmap
-          helm -n cascading-tests install nmap ./scanners/nmap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" --wait
+          helm -n cascading-tests install nmap ./scanners/nmap/ --wait \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nmap" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           # Install sslyze
-          helm -n cascading-tests install sslyze ./scanners/sslyze/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" --wait
+          helm -n cascading-tests install sslyze ./scanners/sslyze/ --wait \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-sslyze" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           # Actually run the tests
           cd tests/integration/
           npx jest --ci --color scanner/cascade-nmap-sslyze.test.js
           # Clean up:
           kubectl -n cascading-tests delete scans --all
           kubectl delete namespace cascading-tests
+
+      # ---- Debuging Cluster on Failure ----
+
       - name: Inspect Post Failure
         if: failure()
         run: |
@@ -668,6 +813,9 @@ jobs:
           kubectl -n securecodebox-system get pods
           echo "Operator Startup Logs"
           kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
+
+      # ---- Clean UP ----
+
       - name: "Delete kind cluster"
         run: |
           kind delete cluster

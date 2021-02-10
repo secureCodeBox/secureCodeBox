@@ -1,4 +1,5 @@
 FROM golang:1.15.1 AS builder
+ARG scannerVersion=latest
 
 # no need to include cgo bindings
 ENV CGO_ENABLED=0 GOOS=linux GOARCH=amd64
@@ -6,8 +7,7 @@ ENV CGO_ENABLED=0 GOOS=linux GOARCH=amd64
 # this is where we build our app
 WORKDIR /go/src/app/
 
-ARG version
-RUN git clone --depth 1 --branch $version https://github.com/Shopify/kubeaudit.git /go/src/app/
+RUN git clone --depth 1 --branch $scannerVersion https://github.com/Shopify/kubeaudit.git /go/src/app/
 RUN go mod download
 
 RUN go build -a -ldflags '-w -s -extldflags "-static"' -o /go/bin/kubeaudit ./cmd/ \
