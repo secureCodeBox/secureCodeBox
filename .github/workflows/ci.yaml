@@ -268,7 +268,7 @@ jobs:
           - nikto
           - nmap
           - screenshooter
-          - ssh_scan
+          - ssh-scan
           - sslyze
           - test-scan
           - trivy
