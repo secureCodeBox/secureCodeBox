@@ -20,6 +20,7 @@ import (
 	"context"
 	"fmt"
 	"reflect"
+	"regexp"
 	"sort"
 	"time"
 
@@ -123,8 +124,9 @@ func (r *ScheduledScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 		// It's time!
 		var scan = &executionv1.Scan{
 			ObjectMeta: metav1.ObjectMeta{
-				Namespace: scheduledScan.Namespace,
-				Labels:    scheduledScan.ObjectMeta.GetLabels(),
+				Namespace:   scheduledScan.Namespace,
+				Labels:      scheduledScan.ObjectMeta.GetLabels(),
+				Annotations: getAnnotationsForScan(scheduledScan),
 			},
 			Spec: *scheduledScan.Spec.ScanSpec.DeepCopy(),
 		}
@@ -151,6 +153,24 @@ func (r *ScheduledScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	}
 
 	return ctrl.Result{RequeueAfter: nextSchedule.Sub(time.Now())}, nil
+}
+
+// Copy over securecodebox.io annotations from the scheduledScan to the created scan
+func getAnnotationsForScan(scheduledScan executionv1.ScheduledScan) map[string]string {
+	annotations := map[string]string{}
+
+	if scheduledScan.Annotations == nil {
+		return annotations
+	}
+
+	re := regexp.MustCompile(`.*securecodebox\.io/.*`)
+	for key, value := range scheduledScan.Annotations {
+		if matches := re.MatchString(key); matches {
+			annotations[key] = value
+		}
+	}
+
+	return annotations
 }
 
 // Returns a sorted list of scans with a matching state
