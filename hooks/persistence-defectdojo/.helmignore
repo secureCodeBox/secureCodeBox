@@ -35,3 +35,4 @@ gradlew
 gradlew.bat
 settings.gradle
 update.sh
+build/

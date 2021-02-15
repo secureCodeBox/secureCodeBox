@@ -9,6 +9,7 @@ sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
+  jcenter()
   maven {
     url = "https://oss.sonatype.org/content/repositories/snapshots/"
   }
@@ -24,6 +25,13 @@ dependencies {
 
   testImplementation(platform('org.junit:junit-bom:5.7.0'))
   testImplementation('org.junit.jupiter:junit-jupiter')
+
+  testCompile "org.mockito:mockito-core:2.+"
+  testCompile "org.mockito:mockito-junit-jupiter:2.+"
+}
+
+test {
+	useJUnitPlatform()
 }
 
 def mainClassName = "io.securecodebox.persistence.DefectDojoPersistenceProvider"
@@ -39,8 +47,4 @@ jar {
 
   // Exclude signatures from dependency jars, as these would not match the fat jars content.
   exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
-}
-
-test {
-	useJUnitPlatform()
 }

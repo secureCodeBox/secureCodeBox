@@ -3,11 +3,16 @@ package io.securecodebox.persistence.models;
 import io.securecodebox.models.V1Scan;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Scan extends V1Scan {
+  public Scan(){}
+
   public Scan(V1Scan other) {
     this.setApiVersion(other.getApiVersion());
     this.setKind(other.getKind());
@@ -72,6 +77,12 @@ public class Scan extends V1Scan {
 
   public Optional<String> getProductDescription() {
     return this.getKey(SecureCodeBoxScanAnnotations.PRODUCT_DESCRIPTION);
+  }
+
+  public String getRawResults() throws HttpClientErrorException {
+    RestTemplate restTemplate = new RestTemplate();
+    ResponseEntity<String> response = restTemplate.getForEntity(this.getStatus().getRawResultDownloadLink(), String.class);
+    return response.getBody();
   }
 
   @AllArgsConstructor

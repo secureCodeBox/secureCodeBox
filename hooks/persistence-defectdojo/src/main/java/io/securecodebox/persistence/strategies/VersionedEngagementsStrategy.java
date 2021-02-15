@@ -6,20 +6,15 @@ import io.securecodebox.persistence.defectdojo.config.DefectDojoConfig;
 import io.securecodebox.persistence.defectdojo.models.*;
 import io.securecodebox.persistence.defectdojo.service.*;
 import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
-import io.securecodebox.persistence.exceptions.DefectDojoUnreachableException;
 import io.securecodebox.persistence.models.Scan;
 import io.securecodebox.persistence.util.DescriptionGenerator;
 import io.securecodebox.persistence.util.ScanNameMapping;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
 
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,16 +27,16 @@ public class VersionedEngagementsStrategy implements Strategy {
 
   private final DescriptionGenerator descriptionGenerator = new DescriptionGenerator();
 
-  private ProductService productService;
-  private ProductTypeService productTypeService;
-  private UserService userService;
-  private ToolTypeService toolTypeService;
-  private ToolConfigService toolConfigService;
-  private EngagementService engagementService;
-  private TestService testService;
-  private ImportScanService importScanService;
+  ProductService productService;
+  ProductTypeService productTypeService;
+  UserService userService;
+  ToolTypeService toolTypeService;
+  ToolConfigService toolConfigService;
+  EngagementService engagementService;
+  TestService testService;
+  ImportScanService importScanService;
 
-  private DefectDojoConfig config;
+  DefectDojoConfig config;
 
   public VersionedEngagementsStrategy() {}
 
@@ -59,10 +54,6 @@ public class VersionedEngagementsStrategy implements Strategy {
   }
 
   public void run(Scan scan) throws Exception {
-    LOG.info("Checking if DefectDojo is reachable");
-    checkConnection();
-    LOG.info("DefectDojo is reachable");
-
     LOG.info("Getting DefectDojo User Id");
     var userId = userService.searchUnique(User.builder().username(this.config.getUsername()).build())
       .orElseThrow(() -> new DefectDojoPersistenceException("Failed to find user with name: '" + this.config.getUsername() + "'"))
@@ -78,7 +69,12 @@ public class VersionedEngagementsStrategy implements Strategy {
     LOG.info("Using Engagement with Id: {}", engagementId);
 
     LOG.info("Downloading Scan Report (RawResults)");
-    String result = this.getRawResults(scan);
+    String result;
+    try {
+      result = scan.getRawResults();
+    } catch (HttpClientErrorException e) {
+      throw new DefectDojoPersistenceException("Failed to download Raw Findings", e);
+    }
     LOG.info("Finished Downloading Scan Report (RawResults)");
 
     var testId = this.createTest(scan, engagementId, userId);
@@ -158,39 +154,6 @@ public class VersionedEngagementsStrategy implements Strategy {
       LOG.info("Creating new Engagement as no matching Engagements could be found.");
       return engagementService.create(engagement);
     });
-  }
-
-  /**
-   * Checks if DefectDojo is available and reachable.
-   *
-   * @throws DefectDojoUnreachableException If DefectDojo is not reachable
-   */
-  public void checkConnection() throws DefectDojoUnreachableException {
-    try {
-      final URLConnection connection = new URL(this.config.getUrl()).openConnection();
-      connection.connect();
-    } catch (final Exception e) {
-      throw new DefectDojoUnreachableException("Could not reach DefectDojo at '" + this.config.getUrl() + "'!");
-    }
-  }
-
-  /**
-   * Returns the rawResults (original security scanner results) of the given securityTests.
-   *
-   * @param scan The scan to return the rawResults for.
-   * @return the rawResults (original security scanner results) of the given securityTests.
-   * @throws DefectDojoPersistenceException If the raw
-   */
-  private String getRawResults(Scan scan) throws DefectDojoPersistenceException {
-    RestTemplate restTemplate = new RestTemplate();
-
-    try {
-      ResponseEntity<String> response = restTemplate.getForEntity(scan.getStatus().getRawResultDownloadLink(), String.class);
-      LOG.debug("Got Raw Results {}", response.getBody());
-      return response.getBody();
-    } catch (HttpClientErrorException e) {
-      throw new DefectDojoPersistenceException("Failed to download Raw Findings", e);
-    }
   }
 
   private long ensureProductTypeExistsForScan(Scan scan) throws URISyntaxException, JsonProcessingException {
