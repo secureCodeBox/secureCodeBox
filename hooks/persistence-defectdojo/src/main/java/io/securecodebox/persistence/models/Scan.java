@@ -87,13 +87,13 @@ public class Scan extends V1Scan {
 
   @AllArgsConstructor
   public enum SecureCodeBoxScanAnnotations {
+    PRODUCT_TYPE("defectdojo.securecodebox.io/product-type-name"),
+    PRODUCT_NAME("defectdojo.securecodebox.io/product-name"),
+    PRODUCT_DESCRIPTION("defectdojo.securecodebox.io/product-description"),
+    PRODUCT_TAGS("defectdojo.securecodebox.io/product-tags"),
     ENGAGEMENT_NAME("defectdojo.securecodebox.io/engagement-name"),
     ENGAGEMENT_VERSION("defectdojo.securecodebox.io/engagement-version"),
     ENGAGEMENT_TAGS("defectdojo.securecodebox.io/engagement-tags"),
-    PRODUCT_NAME("defectdojo.securecodebox.io/product-name"),
-    PRODUCT_TYPE("defectdojo.securecodebox.io/product-type"),
-    PRODUCT_TAGS("defectdojo.securecodebox.io/product-tags"),
-    PRODUCT_DESCRIPTION("defectdojo.securecodebox.io/product-description"),
     ;
 
     @Getter
