@@ -110,5 +110,5 @@ helm upgrade --install dd secureCodeBox/persistence-defectdojo \
 | defectdojo.authentication.userSecret | string | `"defectdojo-credentials"` | Link a pre-existing generic secret with `username` and `apikey` key / value pairs |
 | defectdojo.authentication.usernameKey | string | `"username"` | Name of the username key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |
 | defectdojo.url | string | `"http://defectdojo-django.default.svc"` | Url to the DefectDojo Instance |
-| image.repository | string | `"docker.io/securecodebox/hook-defectdojo"` | Hook image repository |
+| image.repository | string | `"docker.io/securecodebox/persistence-defectdojo"` | Hook image repository |
 | image.tag | string | `nil` | Container image tag |
