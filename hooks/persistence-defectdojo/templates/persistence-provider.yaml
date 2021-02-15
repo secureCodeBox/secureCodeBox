@@ -11,6 +11,12 @@ spec:
     - name: DEFECTDOJO_URL
       value: {{ .Values.defectdojo.url | quote }}
     - name: DEFECTDOJO_USERNAME
-      value: {{ .Values.defectdojo.auth.username | quote }}
+      valueFrom:
+        secretKeyRef:
+        name: {{ .Values.defectdojo.authentication.userSecret }}
+        key: {{ .Values.defectdojo.authentication.usernameKey }}
     - name: DEFECTDOJO_APIKEY
-      value: {{ .Values.defectdojo.auth.apiKey | quote }}
+      valueFrom:
+        secretKeyRef:
+          name: {{ .Values.defectdojo.authentication.userSecret }}
+          key: {{ .Values.defectdojo.authentication.apiKeyKey }}

@@ -3,17 +3,19 @@
 # Declare variables to be passed into your templates.
 
 image:
-  # image.tag - defaults to the charts version
   # image.repository -- Hook image repository
-  repository: docker.io/j12934/hook-defectdojo
-  # parserImage.tag -- Parser image tag
+  repository: docker.io/securecodebox/hook-defectdojo
+  # -- Container image tag
   # @default -- defaults to the charts version
   tag: null
 
 defectdojo:
+  # -- Url to the DefectDojo Instance
   url: "http://defectdojo-django.default.svc"
-  auth:
-    # defectdojo.auth.name -- Username for the apiKey, also used as a lead in the created engagements
-    username: "admin"
-    # defectdojo.auth.apiKey -- API v2 Key (just the key)
-    apiKey: ""
+  authentication:
+    # -- Link a pre-existing generic secret with `username` and `apikey` key / value pairs
+    userSecret: defectdojo-credentials
+    # -- Name of the username key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs
+    usernameKey: username
+    # -- Name of the apikey key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs
+    apiKeyKey: apikey # what a name 🙃
