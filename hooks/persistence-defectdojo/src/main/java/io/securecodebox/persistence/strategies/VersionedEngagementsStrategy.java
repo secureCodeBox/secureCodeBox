@@ -1,7 +1,7 @@
 package io.securecodebox.persistence.strategies;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import io.securecodebox.persistence.defectdojo.TestType;
+import io.securecodebox.persistence.defectdojo.ScanType;
 import io.securecodebox.persistence.defectdojo.config.DefectDojoConfig;
 import io.securecodebox.persistence.defectdojo.models.*;
 import io.securecodebox.persistence.defectdojo.service.*;
@@ -34,6 +34,7 @@ public class VersionedEngagementsStrategy implements Strategy {
   ToolConfigService toolConfigService;
   EngagementService engagementService;
   TestService testService;
+  TestTypeService testTypeService;
   ImportScanService importScanService;
 
   DefectDojoConfig config;
@@ -48,6 +49,7 @@ public class VersionedEngagementsStrategy implements Strategy {
     this.toolConfigService = new ToolConfigService(defectDojoConfig);
     this.engagementService = new EngagementService(defectDojoConfig);
     this.testService = new TestService(defectDojoConfig);
+    this.testTypeService = new TestTypeService(defectDojoConfig);
     this.importScanService = new ImportScanService(defectDojoConfig);
 
     this.config = defectDojoConfig;
@@ -81,15 +83,16 @@ public class VersionedEngagementsStrategy implements Strategy {
 
     LOG.info("Uploading Scan Report (RawResults) to DefectDojo");
 
-    var scanMapping = ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType());
+    ScanType scanType = ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).scanType;
+    TestType testType = testTypeService.searchUnique(TestType.builder().name(scanType.getTestType()).build()).orElseThrow(() -> new DefectDojoPersistenceException("Could not find test type '" + scanType.getTestType() + "' in DefectDojo API. DefectDojo might be running in an unsupported version."));
 
     importScanService.reimportScan(
       result,
       testId,
       userId,
       this.descriptionGenerator.currentDate(),
-      scanMapping.scanType,
-      scanMapping.testType
+      scanType,
+      testType.getId()
     );
 
     LOG.info("Uploaded Scan Report (RawResults) as testID {} to DefectDojo", testId);
@@ -195,7 +198,7 @@ public class VersionedEngagementsStrategy implements Strategy {
     });
   }
 
-  private long createTest(Scan scan, long engagementId, long userId) {
+  private long createTest(Scan scan, long engagementId, long userId) throws URISyntaxException, JsonProcessingException {
     var startDate = Objects.requireNonNull(scan.getMetadata().getCreationTimestamp()).toString("yyyy-MM-dd HH:mm:ssZ");
 
     String endDate;
@@ -207,7 +210,9 @@ public class VersionedEngagementsStrategy implements Strategy {
 
     String version = scan.getEngagementVersion().orElse(null);
 
-    TestType testType = ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).testType;
+    String scanType = ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).scanType.getTestType();
+    TestType testType = testTypeService.searchUnique(TestType.builder().name(scanType).build()).orElseThrow(() -> new DefectDojoPersistenceException("Could not find test type '" + scanType + "' in DefectDojo API. DefectDojo might be running in an unsupported version."));
+
     var test = Test.builder()
       .title(scan.getMetadata().getName())
       .description(descriptionGenerator.generate(scan))
