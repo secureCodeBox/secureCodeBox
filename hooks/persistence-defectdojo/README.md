@@ -55,10 +55,10 @@ metadata:
 spec:
   interval: 24h
   scanSpec:
-    scanType: "zap-baseline"
+    scanType: "zap-full-scan"
     parameters:
       - "-t"
-      - "http://juice-shop:3000"
+      - "http://juice-shop.demo-apps.svc:3000"
 ```
 
 #### Complete
@@ -85,10 +85,10 @@ metadata:
 spec:
   interval: 24h
   scanSpec:
-    scanType: "zap-baseline"
+    scanType: "zap-full-scan"
     parameters:
       - "-t"
-      - "http://juice-shop:3000"
+      - "http://juice-shop.demo-apps.svc:3000"
 ```
 
 ## Deployment
