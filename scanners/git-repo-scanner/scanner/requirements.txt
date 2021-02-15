@@ -1,0 +1,4 @@
+PyGithub == 1.53
+python-gitlab == 2.5.0
+munch == 2.5.0
+mock == 4.0.2

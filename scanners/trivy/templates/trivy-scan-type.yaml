@@ -12,6 +12,7 @@ spec:
       {{- if .Values.scannerJob.ttlSecondsAfterFinished }}
       ttlSecondsAfterFinished: {{ .Values.scannerJob.ttlSecondsAfterFinished }}
       {{- end }}
+      backoffLimit: {{ .Values.scannerJob.backoffLimit }}
       template:
         spec:
           restartPolicy: OnFailure

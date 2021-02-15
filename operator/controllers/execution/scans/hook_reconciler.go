@@ -372,7 +372,8 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 			Labels:       labels,
 		},
 		Spec: batch.JobSpec{
-			BackoffLimit: &backOffLimit,
+			TTLSecondsAfterFinished: hook.Spec.TTLSecondsAfterFinished,
+			BackoffLimit:            &backOffLimit,
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
 					Annotations: map[string]string{
@@ -390,7 +391,7 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 							Image:           hook.Spec.Image,
 							Args:            cliArgs,
 							Env:             append(hook.Spec.Env, standardEnvVars...),
-							ImagePullPolicy: "Always",
+							ImagePullPolicy: hook.Spec.ImagePullPolicy,
 							Resources: corev1.ResourceRequirements{
 								Requests: corev1.ResourceList{
 									corev1.ResourceCPU:    resource.MustParse("200m"),
@@ -414,7 +415,6 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 					},
 				},
 			},
-			TTLSecondsAfterFinished: nil,
 		},
 	}
 	if err := ctrl.SetControllerReference(scan, job, r.Scheme); err != nil {

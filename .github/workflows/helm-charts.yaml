@@ -11,14 +11,13 @@ jobs:
       - name: "Install yq"
         run: |
           sudo snap install yq
-      - name: Parse Tag
-        run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF#refs/*/}
       - name: "Publish Helm3 Charts"
         env:
           HELM_REGISTRY: https://charts.securecodebox.io
           USERNAME: ${{ secrets.HELM_REGISTRY_USERNAME }}
           PASSWORD: ${{ secrets.HELM_REGISTRY_PASSWORD }}
         run: |
+          RELEASE_VERSION="${GITHUB_REF#refs/*/}"
           # Publish all helm3 charts in all folders containing a `Chart.yaml` file
           # https://github.com/koalaman/shellcheck/wiki/SC2044
           find . -type f -name Chart.yaml -print0 | while IFS= read -r -d '' chart; do
@@ -27,7 +26,7 @@ jobs:
             cd "${dir}" || exit
             echo "Processing Helm3 Chart in $dir"
             helm package --version $RELEASE_VERSION .
-            NAME=$(yq read - name < Chart.yaml)
+            NAME=$(yq eval '.name' - < Chart.yaml)
             curl --silent --show-error --user "${USERNAME}:${PASSWORD}" --data-binary "@${NAME}-${RELEASE_VERSION}.tgz" "${HELM_REGISTRY}/api/charts"
           )
           done
@@ -37,6 +36,7 @@ jobs:
           USERNAME: ${{ secrets.HELM_REGISTRY_USERNAME }}
           PASSWORD: ${{ secrets.HELM_REGISTRY_PASSWORD }}
         run: |
+          RELEASE_VERSION="${GITHUB_REF#refs/*/}"
           # Publish all helm2 charts in all folders containing a `helm2.Chart.yaml` file
           # https://github.com/koalaman/shellcheck/wiki/SC2044
           find . -type f -name helm2.Chart.yaml -print0 | while IFS= read -r -d '' chart; do
@@ -47,15 +47,17 @@ jobs:
             mv helm2.Chart.yaml Chart.yaml
             if [ "$(basename "$PWD")" = "operator" ]
             then
-                echo "Copying CRDS to templates folder, as helm2 doesn't have native crds support."
-                cp -R crds templates/crds
+                echo "Moving CRDS to templates folder, as helm2 doesn't have native crds support."
+                mv crds templates/crds
             fi
             echo "Restoring Helm2 Chart and replace Helm3 Chart temporary"
             [ ! -f helm2.requirements.lock ] || mv helm2.requirements.lock requirements.lock
             [ ! -f helm2.requirements.yaml ] || mv helm2.requirements.yaml requirements.yaml
+            # Removing packaged Helm3 chart version build in the previous step
+            rm *.tgz
             echo "Processing Helm2 Chart in $dir"
             helm package --version $RELEASE_VERSION .
-            NAME=$(yq read - name < Chart.yaml)
+            NAME=$(yq eval '.name' - < Chart.yaml)
             curl --silent --show-error --user "${USERNAME}:${PASSWORD}" --data-binary "@${NAME}-${RELEASE_VERSION}.tgz" "${HELM_REGISTRY}/api/charts"
           )
           done

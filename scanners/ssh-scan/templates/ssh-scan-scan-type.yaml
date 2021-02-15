@@ -1,0 +1,38 @@
+apiVersion: "execution.securecodebox.io/v1"
+kind: ScanType
+metadata:
+  name: "ssh-scan"
+spec:
+  name: "ssh-scan"
+  extractResults:
+    type: ssh-scan-json
+    location: "/home/securecodebox/ssh-scan-results.json"
+  jobTemplate:
+    spec:
+      {{- if .Values.scannerJob.ttlSecondsAfterFinished }}
+      ttlSecondsAfterFinished: {{ .Values.scannerJob.ttlSecondsAfterFinished }}
+      {{- end }}
+      backoffLimit: {{ .Values.scannerJob.backoffLimit }}
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: ssh-scan
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+              command:
+                - "/app/bin/ssh_scan"
+                - "--output"
+                - "/home/securecodebox/ssh-scan-results.json"
+              resources:
+                {{- toYaml .Values.scannerJob.resources | nindent 16 }}
+              securityContext:
+                {{- toYaml .Values.scannerJob.securityContext | nindent 16 }}
+              env:
+                {{- toYaml .Values.scannerJob.env | nindent 16 }}
+              volumeMounts:
+                {{- toYaml .Values.scannerJob.extraVolumeMounts | nindent 16 }}
+            {{- if .Values.scannerJob.extraContainers }}
+            {{- toYaml .Values.scannerJob.extraContainers | nindent 12 }}
+            {{- end }}
+          volumes:
+            {{- toYaml .Values.scannerJob.extraVolumes | nindent 12 }}

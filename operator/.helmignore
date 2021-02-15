@@ -27,3 +27,12 @@ config/
 bin/
 controllers/
 apis/
+internal/
+utils/
+Dockerfile
+go.mod
+go.sum
+main.go
+Makefile
+PROJECT
+README.md.gotmpl

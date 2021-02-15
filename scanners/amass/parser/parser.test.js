@@ -1,18 +1,91 @@
-const fs = require('fs');
-const util = require('util');
+const fs = require("fs");
+const util = require("util");
 
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 const readFile = util.promisify(fs.readFile);
 
-const { parse } = require('./parser');
+const { parse } = require("./parser");
 
-test('example parser parses empty json to zero findings', async () => {
+test("example parser parses empty json files to zero findings", async () => {
+  const fileContent = await readFile(__dirname + "/__testFiles__/empty.jsonl", {
+    encoding: "utf8",
+  });
+  expect(await parse(fileContent)).toEqual([]);
+});
+
+// test("example parser parses missing json files to zero findings", async () => {
+//   expect(await parse(null)).toEqual([]);
+// });
+
+// test("example parser parses missing json files to zero findings", async () => {
+//   expect(await parse(0)).toEqual([]);
+// });
+
+test("example parser parses single line json successully", async () => {
   const fileContent = await readFile(
-    __dirname + '/__testFiles__/securecodebox.io.jsonl',
+    __dirname + "/__testFiles__/example.com.jsonl",
     {
-      encoding: 'utf8',
+      encoding: "utf8",
     }
   );
+
+  expect(await parse(fileContent)).toMatchInlineSnapshot(`
+  Array [
+    Object {
+      "attributes": Object {
+        "addresses": Array [
+          Object {
+            "asn": 34011,
+            "cidr": "10.110.224.0/21",
+            "desc": "GD-EMEA-DC-CGN1",
+            "ip": "10.110.225.135",
+          },
+        ],
+        "domain": "example.de",
+        "name": "www.example.de",
+        "source": undefined,
+        "tag": "cert",
+      },
+      "category": "Subdomain",
+      "description": "Found subdomain www.example.de",
+      "location": "www.example.de",
+      "name": "www.example.de",
+      "osi_layer": "NETWORK",
+      "severity": "INFORMATIONAL",
+    },
+  ]
+  `);
+});
+
+test("example parser parses large json result successfully", async () => {
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/securecodebox.io.jsonl",
+    {
+      encoding: "utf8",
+    }
+  );
+
+  expect(await parse(fileContent)).toMatchSnapshot();
+});
+
+// axios parses jsonl with a single line / entry as a json object as they are coincidentally also valid json objects.
+// This means that the parser needs to also handle objects passed into into it, not just strings
+test("handles jsonl files with a single row correctly", async () => {
+  const fileContent = {
+    name: "www.securecodebox.io",
+    domain: "securecodebox.io",
+    addresses: [
+      {
+        ip: "185.199.109.153",
+        cidr: "185.199.108.0/22",
+        asn: 54113,
+        desc: "FASTLY - Fastly",
+      },
+      // ...
+    ],
+    tag: "cert",
+    sources: ["Crtsh"],
+  };
 
   expect(await parse(fileContent)).toMatchSnapshot();
 });

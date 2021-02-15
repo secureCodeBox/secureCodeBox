@@ -1,0 +1,41 @@
+{
+  "name": "scb-finding-post-processing",
+  "version": "1.0.0",
+  "description": "secureCodeBox v2 Finding Post Processing Hook",
+  "main": "hook.js",
+  "scripts": {
+    "build": "npx typescript hook.ts --sourceMap",
+    "test": "jest ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/secureCodeBox/secureCodeBox.git"
+  },
+  "keywords": [
+    "secureCodeBox",
+    "security",
+    "hook"
+  ],
+  "author": {
+    "name": "iteratec GmbH",
+    "email": "security@iteratec.com",
+    "url": "https://www.iteratec.com"
+  },
+  "contributors": [
+    {
+      "name": "Yannik Fuhrmeister",
+      "url": "https://github.com/fuhrmeistery"
+    }
+  ],
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/secureCodeBox/secureCodeBox/issues"
+  },
+  "homepage": "https://www.secureCodeBox.io",
+  "dependencies": {
+    "lodash": "^4.17.20"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3"
+  }
+}

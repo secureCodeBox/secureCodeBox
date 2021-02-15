@@ -1,0 +1,11 @@
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "sslyze-unsafe-https"
+  labels:
+    organization: "secureCodeBox"
+spec:
+  scanType: "sslyze"
+  parameters:
+    - "--regular"
+    - "unsafe-https"

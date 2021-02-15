@@ -5,3 +5,10 @@ coverage/
 **.log
 **/*.monopic
 .s3_credentials
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/

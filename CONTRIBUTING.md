@@ -39,7 +39,18 @@ TL;DR
 
 ## Working with Forks and Pull Requests
 
-Our current continuous integration workflow makes it very hard to work on own forks of the _secureCodeBox_ because CI tests cannot be executed outside of our repository. We are aware of that problem and are working on a solution.
+If you want to contribute you will need to fork the project.
+To enable the use of our CI Pipeline you will need to add these GitHub secrets:
+
+| Secret           | Usage |
+|------------------|--------|
+| DOCKER_NAMESPACE | This is the namespace for the docker images. For the main repository this is *securecodebox*. On you fork this is probably your Docker user |
+| DOCKER_USERNAME  | This is the username that is used to push the Docker images |
+| DOCKER_TOKEN     | This is the Token that enables the CI to push |
+| CC_TEST_REPORTER_ID | Your Codeclimate ID (optional) |
+
+If you want early feedback feel free to open a *Draft Pull Request*.
+When you are done, you can convert it to a standard *Pull Request* (or create one if you did not create a *Draft Pull Request*).
 
 Generally the _secureCodeBox_ project follows the standard [GitHub Pull request process](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests).
 
@@ -67,4 +78,3 @@ NOTE: Make sure you don't include `@mentions` or `fixes` keywords in your git co
 ## Code of Conduct
 
 Please have a look at our [Code of Conduct](./CODE_OF_CONDUCT.md) before you write an Issue or make a PR.
-

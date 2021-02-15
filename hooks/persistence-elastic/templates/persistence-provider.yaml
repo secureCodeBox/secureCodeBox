@@ -7,9 +7,14 @@ metadata:
 spec:
   type: ReadOnly
   image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
+  ttlSecondsAfterFinished: {{ .Values.hookJob.ttlSecondsAfterFinished }}
   env:
     - name: ELASTICSEARCH_INDEX_PREFIX
       value: {{ .Values.indexPrefix | quote }}
+    - name: ELASTICSEARCH_INDEX_SUFFIX
+      value: {{ .Values.indexSuffix | quote }}
+    - name: ELASTICSEARCH_INDEX_APPEND_NAMESPACE
+      value: {{ .Values.indexAppendNamespace | quote }}
 {{- if .Values.externalElasticStack.enabled }}
     - name: ELASTICSEARCH_ADDRESS
       value: {{ .Values.externalElasticStack.elasticsearchAddress | quote }}

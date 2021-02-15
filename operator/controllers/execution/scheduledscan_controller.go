@@ -72,18 +72,10 @@ func (r *ScheduledScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	}
 	log.V(8).Info("Got Child Scans for ScheduledScan", "count", len(childScans.Items))
 
-	// Get a sorted list of all successful child scans.
-	var completedScans []executionv1.Scan
-	for _, scan := range childScans.Items {
-		if scan.Status.State == "Done" {
-			completedScans = append(completedScans, scan)
-		}
-	}
-	sort.Slice(completedScans, func(i, j int) bool {
-		return completedScans[i].ObjectMeta.CreationTimestamp.Before(&completedScans[j].ObjectMeta.CreationTimestamp)
-	})
+	// Get all completed (successful scans)
+	completedScans := getScansWithState(childScans.Items, "Done")
 
-	// Update findingsStats of ScheduledScan to match the most recent Scan
+	// Update Finding Summary of scan with the results of the latest successful Scan
 	if len(completedScans) >= 1 {
 		lastFindings := completedScans[len(completedScans)-1].Status.Findings
 		if !reflect.DeepEqual(lastFindings, scheduledScan.Status.Findings) {
@@ -96,21 +88,27 @@ func (r *ScheduledScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 		}
 	}
 
-	// Delete Old Scans when exceeding the history limit
-	var historyLimit int32 = 3
+	// Delete Old Failed Scans when exceeding the history limit
+	var successfulHistoryLimit int32 = 3
 	if scheduledScan.Spec.SuccessfulJobsHistoryLimit != nil {
-		historyLimit = *scheduledScan.Spec.SuccessfulJobsHistoryLimit
+		successfulHistoryLimit = *scheduledScan.Spec.SuccessfulJobsHistoryLimit
+	}
+	err := r.deleteOldScans(completedScans, successfulHistoryLimit)
+	if err != nil {
+		log.Error(err, "Failed to clean up old scan")
+		return ctrl.Result{}, err
 	}
 
-	for i, scan := range completedScans {
-		if int32(i) >= int32(len(completedScans))-historyLimit {
-			break
-		}
-		if err := r.Delete(ctx, &scan, client.PropagationPolicy(metav1.DeletePropagationBackground)); (err) != nil {
-			log.Error(err, "Unable to delete old Scan", "scan", scan.Name)
-		} else {
-			log.V(2).Info("Deleted old successful Scan", "scan", scan.Name)
-		}
+	// Delete Old Failed Scans when exceeding the history limit
+	failedScans := getScansWithState(childScans.Items, "Errored")
+	var failedHistoryLimit int32 = 1
+	if scheduledScan.Spec.FailedJobsHistoryLimit != nil {
+		failedHistoryLimit = *scheduledScan.Spec.FailedJobsHistoryLimit
+	}
+	err = r.deleteOldScans(failedScans, failedHistoryLimit)
+	if err != nil {
+		log.Error(err, "Failed to clean up old scan")
+		return ctrl.Result{}, err
 	}
 
 	// Calculate the next schedule
@@ -123,21 +121,12 @@ func (r *ScheduledScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 
 	// check if it is time to start the next Scan
 	if !time.Now().Before(nextSchedule) {
-		// Include only *.securecodebox.io/* annotations, to not confuse other automated tools setting their annotations
-		var scbAnnotations = map[string]string{}
-		var scbOwnedAnnotationRegex = regexp.MustCompile("^.*\\.securecodebox\\.io/.*$")
-		for key, value := range scheduledScan.Annotations {
-			if scbOwnedAnnotationRegex.MatchString(key) {
-				scbAnnotations[key] = value
-			}
-		}
-
 		// It's time!
 		var scan = &executionv1.Scan{
 			ObjectMeta: metav1.ObjectMeta{
 				Namespace:   scheduledScan.Namespace,
 				Labels:      scheduledScan.ObjectMeta.GetLabels(),
-				Annotations: scbAnnotations,
+				Annotations: getAnnotationsForScan(scheduledScan),
 			},
 			Spec: *scheduledScan.Spec.ScanSpec.DeepCopy(),
 		}
@@ -164,6 +153,54 @@ func (r *ScheduledScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	}
 
 	return ctrl.Result{RequeueAfter: nextSchedule.Sub(time.Now())}, nil
+}
+
+// Copy over securecodebox.io annotations from the scheduledScan to the created scan
+func getAnnotationsForScan(scheduledScan executionv1.ScheduledScan) map[string]string {
+	annotations := map[string]string{}
+
+	if scheduledScan.Annotations == nil {
+		return annotations
+	}
+
+	re := regexp.MustCompile(`.*securecodebox\.io/.*`)
+	for key, value := range scheduledScan.Annotations {
+		if matches := re.MatchString(key); matches {
+			annotations[key] = value
+		}
+	}
+
+	return annotations
+}
+
+// Returns a sorted list of scans with a matching state
+func getScansWithState(scans []executionv1.Scan, state string) []executionv1.Scan {
+	// Get a sorted list of scans.
+	var newScans []executionv1.Scan
+	for _, scan := range scans {
+		if scan.Status.State == state {
+			newScans = append(newScans, scan)
+		}
+	}
+	sort.Slice(newScans, func(i, j int) bool {
+		return newScans[i].ObjectMeta.CreationTimestamp.Before(&newScans[j].ObjectMeta.CreationTimestamp)
+	})
+
+	return newScans
+}
+
+// DeleteOldScans when exceeding the history limit
+func (r *ScheduledScanReconciler) deleteOldScans(scans []executionv1.Scan, maxCount int32) error {
+	for i, scan := range scans {
+		if int32(i) >= int32(len(scans))-maxCount {
+			break
+		}
+		if err := r.Delete(context.Background(), &scan, client.PropagationPolicy(metav1.DeletePropagationBackground)); (err) != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 // SetupWithManager sets up the controller and initializes every thing it needs

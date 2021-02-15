@@ -17,7 +17,8 @@ const (
 	unknown    jobCompletionType = "Unknown"
 )
 
-func allJobsCompleted(jobs *batch.JobList) jobCompletionType {
+// checkIfAllJobsCompleted returns `completed` if all jobs of the given jobList are in a successful state, incompleted otherwise.
+func checkIfAllJobsCompleted(jobs *batch.JobList) jobCompletionType {
 	hasCompleted := true
 
 	for _, job := range jobs.Items {
@@ -61,5 +62,5 @@ func (r *ScanReconciler) checkIfJobIsCompleted(scan *executionv1.Scan, labels cl
 
 	r.Log.V(9).Info("Got related jobs", "count", len(jobs.Items))
 
-	return allJobsCompleted(jobs), nil
+	return checkIfAllJobsCompleted(jobs), nil
 }

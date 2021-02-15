@@ -1,6 +1,6 @@
 apiVersion: v2
 version: latest
-appVersion: "v12.0.2"
+appVersion: "v12.4.0"
 name: juice-shop
 description: "OWASP Juice Shop: Probably the most modern and sophisticated insecure web application"
 type: application
@@ -19,8 +19,8 @@ keywords:
   - appsec
   - ctf
 sources:
-  - https://github.com/secureCodeBox/helm
+  - https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/juice-shop
   - https://github.com/bkimminich/juice-shop
 maintainers:
   - name: iteratec GmbH
-    email: security@iteratec.com
+    email: securecodebox@iteratec.com

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`example parser parses empty json to zero findings 1`] = `
+exports[`example parser parses large json result successfully 1`] = `
 Array [
   Object {
     "attributes": Object {
@@ -967,6 +967,33 @@ Array [
     "description": "Found subdomain api.securecodebox.io",
     "location": "api.securecodebox.io",
     "name": "api.securecodebox.io",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+  },
+]
+`;
+
+exports[`handles jsonl files with a single row correctly 1`] = `
+Array [
+  Object {
+    "attributes": Object {
+      "addresses": Array [
+        Object {
+          "asn": 54113,
+          "cidr": "185.199.108.0/22",
+          "desc": "FASTLY - Fastly",
+          "ip": "185.199.109.153",
+        },
+      ],
+      "domain": "securecodebox.io",
+      "name": "www.securecodebox.io",
+      "source": undefined,
+      "tag": "cert",
+    },
+    "category": "Subdomain",
+    "description": "Found subdomain www.securecodebox.io",
+    "location": "www.securecodebox.io",
+    "name": "www.securecodebox.io",
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },

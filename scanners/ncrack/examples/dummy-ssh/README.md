@@ -16,7 +16,7 @@ kubectl create secret generic --from-file users.txt --from-file passwords.txt nc
 helm install dummy-ssh ./demo-apps/dummy-ssh/ --wait
 
 # Install the ncrack scanType and set mount the files from the ncrack-lists Kubernetes secret
-cat <<EOF | helm install ncrack ./scanners/ncrack --values -
+cat <<EOF | helm upgrade --install ncrack ./scanners/ncrack --values -
 scannerJob:
   extraVolumes:
     - name: ncrack-lists
@@ -27,6 +27,13 @@ scannerJob:
       mountPath: "/ncrack/"
 EOF
 ```
+
+After that you can execute the scan in this directory:
+```bash
+kubectl apply -f scan.yaml
+```
+
+The scan should find credentials for username 'root' with password 'THEPASSWORDYOUCREATED'. 
 
 #### Troubleshooting:
 * <b> Make sure to leave a blank line at the end of each file used in the secret!</b>

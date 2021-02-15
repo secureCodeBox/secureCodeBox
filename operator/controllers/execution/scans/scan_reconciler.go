@@ -292,6 +292,16 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 		job.Spec.Template.Spec.Containers[0].Env,
 		scan.Spec.Env...,
 	)
+	// Merge VolumeMounts from ScanTemplate with VolumeMounts defined in scan
+	job.Spec.Template.Spec.Containers[0].VolumeMounts = append(
+		job.Spec.Template.Spec.Containers[0].VolumeMounts,
+		scan.Spec.VolumeMounts...,
+	)
+	// Merge Volumes from ScanTemplate with Volumes defined in scan
+	job.Spec.Template.Spec.Volumes = append(
+		job.Spec.Template.Spec.Volumes,
+		scan.Spec.Volumes...,
+	)
 
 	// Using command over args
 	job.Spec.Template.Spec.Containers[0].Command = command

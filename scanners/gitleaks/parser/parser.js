@@ -1,8 +1,12 @@
+const arg = require("arg");
+
 const HIGH_TAGS = ['JWT', 'Artifactory', 'AWS', 'PrivateKey'];
 const MEDIUM_TAGS = ['Hash', 'Facebook', 'Twitter', 'Github', 'LinkedIn', 'Slack', 'Google', 'Heroku',
   'Mailchimp', 'Mailgun', 'Paypal', 'Picatic', 'Teams', 'Jenkins', 'Stripe', 'Square', 'Twilio'];
 
-async function parse (fileContent) {
+async function parse (fileContent, scan) {
+
+  const commitUrl = prepareCommitUrl(scan)
 
   return fileContent.map(finding => {
 
@@ -21,7 +25,7 @@ async function parse (fileContent) {
       severity: severity,
       category: 'Potential Secret',
       attributes: {
-        commit: finding.commit,
+        commit: commitUrl + finding.commit,
         repo: finding.repo,
         offender: finding.offender,
         author: finding.author,
@@ -34,6 +38,30 @@ async function parse (fileContent) {
       }
     }
   });
+}
+
+function prepareCommitUrl (scan) {
+  if (!scan) {
+    return '';
+  }
+
+  const args = arg(
+    {
+      '-r': String,
+      '--repo': '-r'
+    },
+    { permissive: true, argv: scan.spec.parameters }
+  );
+
+  const repositoryUrl = args['-r'];
+
+  if (!repositoryUrl) {
+    return '';
+  }
+
+  return repositoryUrl.endsWith('/') ?
+    repositoryUrl + 'commit/'
+    : repositoryUrl + '/commit/'
 }
 
 function containsTag (tag, tags) {

@@ -3,6 +3,8 @@ package scancontrollers
 import (
 	"context"
 
+	"reflect"
+
 	corev1 "k8s.io/api/core/v1"
 	rbacv1 "k8s.io/api/rbac/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -53,6 +55,14 @@ func (r *ScanReconciler) ensureServiceAccountExists(namespace, serviceAccountNam
 		err := r.Create(ctx, &role)
 		if err != nil {
 			r.Log.Error(err, "Failed to create Role")
+			return err
+		}
+	} else if !reflect.DeepEqual(role.Rules, policyRules) {
+		r.Log.Info("Role already exists but not in the correct state")
+		role.Rules = policyRules
+		err := r.Update(ctx, &role)
+		if err != nil {
+			r.Log.Error(err, "Failed to update Role")
 			return err
 		}
 	} else if err != nil {

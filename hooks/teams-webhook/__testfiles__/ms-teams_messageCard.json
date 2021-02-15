@@ -1,0 +1,69 @@
+{
+    "@type": "MessageCard",
+    "@context": "https://schema.org/extensions",
+    "summary": "Issue 176715375",
+    "themeColor": "0078D7",
+    "title": "New security scan results are available",
+    "sections": [
+        {
+            "activityTitle": "Scheduled scan: **'nmap-hamburg-2345678'**",
+            "activitySubtitle": "Startet at 15.06.2020 20:10",
+            "activityImage": "https://raw.githubusercontent.com/secureCodeBox/securecodebox.github.io/gh-source/static/Favicon.png",
+            "startGroup": true,
+            "facts": [
+                {
+                    "name": "High:",
+                    "value": "11"
+                },
+                {
+                    "name": "Medium:",
+                    "value": "20"
+                },
+                {
+                    "name": "Low:",
+                    "value": "10"
+                },
+                {
+                    "name": "Informational",
+                    "value": "10"
+                }
+            ],
+            "text": "__Findings Severity Overview:__"
+        },
+        {
+            "facts": [
+                {
+                    "name": "Open Ports:",
+                    "value": "3"
+                },
+                {
+                    "name": "Hosts:",
+                    "value": "8"
+                }
+            ],
+            "text": "__Findings Category Overview:__"
+        }
+    ],
+    "potentialAction": [
+        {
+            "@type": "OpenUri",
+            "name": "Open Dashboard",
+            "targets": [
+                {
+                    "os": "default",
+                    "uri": "https://my-secureCodeBoc-dashboard.url/"
+                }
+            ]
+        },
+        {
+            "@type": "OpenUri",
+            "name": "Show Results in Dashboard",
+            "targets": [
+                {
+                    "os": "default",
+                    "uri": "https://my-secureCodeBoc-dashboard.url/"
+                }
+            ]
+        }
+    ]
+}

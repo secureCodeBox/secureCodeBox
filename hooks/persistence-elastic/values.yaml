@@ -3,15 +3,18 @@
 # Declare variables to be passed into your templates.
 
 image:
-  # image.tag - defaults to the charts version
   # image.repository -- Hook image repository
   repository: docker.io/securecodebox/persistence-elastic
-  # parserImage.tag -- Parser image tag
+  # image.tag -- The image Tag defaults to the charts version if not defined.
   # @default -- defaults to the charts version
   tag: null
 
 # indexPrefix -- Define a specific index prefix used for all elasticsearch indices.
 indexPrefix: "scbv2"
+# indexSuffix -- Define a specific index suffix based on date pattern (YEAR (yyyy), MONTH (yyyy-MM), WEEK (yyyy-'W'W), DATE (yyyy-MM-dd)). We use Luxon for date formatting (https://moment.github.io/luxon/docs/manual/formatting.html#table-of-tokens)
+indexSuffix: “yyyy-MM-dd”
+# indexAppendNamespace -- Define if the name of the namespace where this hook is deployed to must be added to the index name. The namespace can be used to separate index by tenants (namespaces).
+indexAppendNamespace: true
 
 externalElasticStack:
   # externalElasticStack.enabled -- Enable this when you already have an Elastic Stack running to which you want to send your results
@@ -77,3 +80,7 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+hookJob:
+  # hookJob.ttlSecondsAfterFinished -- Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+  ttlSecondsAfterFinished: null

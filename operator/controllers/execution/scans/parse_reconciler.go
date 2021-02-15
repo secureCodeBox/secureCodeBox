@@ -62,6 +62,11 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 	rules := []rbacv1.PolicyRule{
 		{
 			APIGroups: []string{"execution.securecodebox.io"},
+			Resources: []string{"scans"},
+			Verbs:     []string{"get"},
+		},
+		{
+			APIGroups: []string{"execution.securecodebox.io"},
 			Resources: []string{"scans/status"},
 			Verbs:     []string{"get", "patch"},
 		},
@@ -90,7 +95,8 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 			Labels:       labels,
 		},
 		Spec: batch.JobSpec{
-			BackoffLimit: &backOffLimit,
+			TTLSecondsAfterFinished: parseDefinition.Spec.TTLSecondsAfterFinished,
+			BackoffLimit:            &backOffLimit,
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
 					Annotations: map[string]string{
@@ -124,7 +130,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 								rawResultDownloadURL,
 								findingsUploadURL,
 							},
-							ImagePullPolicy: "Always",
+							ImagePullPolicy: parseDefinition.Spec.ImagePullPolicy,
 							Resources: corev1.ResourceRequirements{
 								Requests: corev1.ResourceList{
 									corev1.ResourceCPU:    resource.MustParse("200m"),
@@ -149,9 +155,24 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 					AutomountServiceAccountToken: &automountServiceAccountToken,
 				},
 			},
-			TTLSecondsAfterFinished: nil,
 		},
 	}
+
+	// Merge Env from ParserTemplate
+	job.Spec.Template.Spec.Containers[0].Env = append(
+		job.Spec.Template.Spec.Containers[0].Env,
+		parseDefinition.Spec.Env...,
+	)
+	// Merge VolumeMounts from ParserTemplate
+	job.Spec.Template.Spec.Containers[0].VolumeMounts = append(
+		job.Spec.Template.Spec.Containers[0].VolumeMounts,
+		parseDefinition.Spec.VolumeMounts...,
+	)
+	// Merge Volumes from ParserTemplate
+	job.Spec.Template.Spec.Volumes = append(
+		job.Spec.Template.Spec.Volumes,
+		parseDefinition.Spec.Volumes...,
+	)
 
 	if err := ctrl.SetControllerReference(scan, job, r.Scheme); err != nil {
 		return err
