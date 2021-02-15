@@ -41,3 +41,7 @@ rules: []
 hookJob:
   # hookJob.ttlSecondsAfterFinished -- Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
   ttlSecondsAfterFinished: null
+
+customCACertificate:
+  existingCertificate: null
+  certificate: "certificate.pem"
