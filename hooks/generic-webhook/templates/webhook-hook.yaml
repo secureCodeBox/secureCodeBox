@@ -9,3 +9,13 @@ spec:
   env:
     - name: WEBHOOK_URL
       value: {{ .Values.webhookUrl | quote }}
+  {{- if .Values.customCACertificate.existingCertificate }}
+  volumes:
+    - name: ca-certificate-dir
+      configMap:
+        name: {{ .Values.customCACertificate.existingCertificate }}
+  
+  volumeMounts:
+    - name: ca-certificate-dir
+      mountPath: /etc/ssl/certs/{{ .Values.customCACertificate.certificate }}
+  {{- end }}
