@@ -13,8 +13,8 @@ spec:
     - name: DEFECTDOJO_USERNAME
       valueFrom:
         secretKeyRef:
-        name: {{ .Values.defectdojo.authentication.userSecret }}
-        key: {{ .Values.defectdojo.authentication.usernameKey }}
+          name: {{ .Values.defectdojo.authentication.userSecret }}
+          key: {{ .Values.defectdojo.authentication.usernameKey }}
     - name: DEFECTDOJO_APIKEY
       valueFrom:
         secretKeyRef:
