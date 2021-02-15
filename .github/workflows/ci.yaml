@@ -209,6 +209,7 @@ jobs:
           - finding-post-processing
           - generic-webhook
           - persistence-elastic
+          - persistence-defectdojo
           - update-field
           - teams-webhook
     steps:
