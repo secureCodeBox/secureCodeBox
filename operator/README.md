@@ -30,7 +30,10 @@ helm install securecodebox-operator secureCodeBox/operator
 | minio.defaultBucket.enabled | bool | `true` |  |
 | minio.defaultBucket.name | string | `"securecodebox"` |  |
 | minio.enabled | bool | `true` |  |
+| minio.environment.MINIO_CERT_PASSWD | string | `"PASSWORD"` |  |
 | minio.resources.requests.memory | string | `"256Mi"` |  |
+| minio.tls.certSecret | string | `"tls-ssl-minio"` |  |
+| minio.tls.enabled | bool | `true` |  |
 | resources | object | `{"limits":{"cpu":"100m","memory":"30Mi"},"requests":{"cpu":"100m","memory":"20Mi"}}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | s3.authType | string | `"access-secret-key"` | Authentication method. Supports access-secret-key (used by most s3 endpoint) and aws-irsa (Used by AWS EKS IAM Role to Kubenetes Service Account Binding. Support for AWS IRSA is considered experimental in the secureCodeBox) |
 | s3.awsStsEndpoint | string | `"https://sts.amazonaws.com"` | STS Endpoint used in AWS IRSA Authentication. Change this to the sts endpoint of your aws region. Only used when s3.authType is set to "aws-irsa" |
