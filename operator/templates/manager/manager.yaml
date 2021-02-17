@@ -15,12 +15,26 @@ spec:
       labels:
         control-plane: securecodebox-controller-manager
     spec:
+      {{- if .Values.customCACertificate.existingCertificate }}
+      volumes:
+        - name: ca-certificate
+          configMap:
+            name: {{ .Values.customCACertificate.existingCertificate }}
+
+      {{- end }}
+
       containers:
         - command:
             - /manager
           args:
             - --enable-leader-election
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
+          {{- if .Values.customCACertificate.existingCertificate }}
+          volumeMounts:
+            - name: ca-certificate
+              mountPath: /etc/ssl/certs/{{ .Values.customCACertificate.certificate }}
+              subPath: {{ .Values.customCACertificate.certificate }}
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: manager
           env:
