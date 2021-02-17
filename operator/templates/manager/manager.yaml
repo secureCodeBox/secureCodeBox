@@ -31,7 +31,7 @@ spec:
             # TODO: integrate with cert manager and auto gen a cert for minio
             {{- if .Values.minio.enabled }}
             - name: S3_USE_SSL
-              value: 'false'
+              value: 'true'
             - name: S3_ENDPOINT
               value: "{{ .Release.Name }}-minio.{{ .Release.Namespace }}.svc.cluster.local"
             - name: S3_PORT

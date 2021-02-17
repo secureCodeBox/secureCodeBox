@@ -40,6 +40,12 @@ lurcher:
 
 minio:
   # minio.enabled Enable this to use minio as storage backend instead of a cloud bucket provider like AWS S3, Google Cloud Storage, DigitalOcean Spaces etc.
+
+  environment:
+    MINIO_CERT_PASSWD: PASSWORD
+  tls:
+    enabled: true
+    certSecret: tls-ssl-minio
   enabled: true
   defaultBucket:
     enabled: true
