@@ -97,6 +97,10 @@ spec:
               value: "{{ .Values.lurcher.image.repository }}:{{ .Values.lurcher.image.tag | default .Chart.Version }}"
             - name: LURCHER_PULL_POLICY
               value: {{ .Values.lurcher.image.pullPolicy }}
+            - name: LURCHER_CUSTOM_CA_CERTIFICATE_EXISTING_CERTIFICATE
+              value: "{{ .Values.lurcher.customCACertificate.existingCertificate }}"
+            - name: LURCHER_CUSTOM_CA_CERTIFICATE_NAME
+              value: "{{ .Values.lurcher.customCACertificate.certificate }}""
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           securityContext:
