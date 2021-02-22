@@ -45,11 +45,11 @@ lurcher:
     # lurcher.image.pullPolicy -- Image pull policy
     pullPolicy: Always
     # Setup for Custom CA certificates
-    customCACertificate:
-      # configMap name
-      existingCertificate: cert-map
-      # certificate name
-      certificate: "public.crt"
+  customCACertificate:
+    # configMap name
+    existingCertificate: cert-map
+    # certificate name
+    certificate: "public.crt"
 
 minio:
   # minio.enabled Enable this to use minio as storage backend instead of a cloud bucket provider like AWS S3, Google Cloud Storage, DigitalOcean Spaces etc.
