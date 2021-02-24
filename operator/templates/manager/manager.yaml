@@ -15,6 +15,10 @@ spec:
       labels:
         control-plane: securecodebox-controller-manager
     spec:
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      # todo(@J12934): this should be configurable, unfortunatly it can't go into the containers security context... :(
+      securityContext:
+        fsGroup: 1001
       containers:
         - command:
             - /manager

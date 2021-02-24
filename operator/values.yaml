@@ -14,6 +14,15 @@ image:
   # image.pullPolicy -- Image pull policy
   pullPolicy: Always
 
+
+serviceAccount:
+  # -- Name of the serviceAccount the operator uses to talk to the k8s api
+  name: securecodebox-operator
+  # -- Annotations of the serviceAccount the operator uses to talk to the k8s api
+  annotations: {}
+  # -- Labels of the serviceAccount the operator uses to talk to the k8s api
+  labels: {}
+
 securityContext:
   # securityContext.runAsNonRoot -- Enforces that the Operator image is run as a non root user
   runAsNonRoot: true
