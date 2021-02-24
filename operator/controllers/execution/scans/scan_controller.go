@@ -194,6 +194,7 @@ func (r *ScanReconciler) initS3Connection() *minio.Client {
 			stsEndpoint = configuredStsEndpoint
 		}
 
+		r.Log.Info("Using AWS IRSA ServiceAccount Bindung for S3 Authentication", "sts", stsEndpoint)
 		creds = credentials.NewIAM(stsEndpoint)
 
 		// todo(@J12934) remove this
