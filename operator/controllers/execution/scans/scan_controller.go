@@ -209,6 +209,9 @@ func (r *ScanReconciler) initS3Connection() *minio.Client {
 		panic(err)
 	}
 
+	// todo(@J12934) revert this before merge
+	minioClient.TraceOn(nil)
+
 	return minioClient
 }
 
