@@ -195,6 +195,15 @@ func (r *ScanReconciler) initS3Connection() *minio.Client {
 		}
 
 		creds = credentials.NewIAM(stsEndpoint)
+
+		// todo(@J12934) remove this
+		val, err := creds.Get()
+		if err != nil {
+			r.Log.Info("Successfully got credentials from AWS IRSA Mechanism", "val", val)
+		} else {
+			r.Log.Error(err, "Failed to get credentials from AWS IRSA Mechanism...")
+			panic(err)
+		}
 	} else {
 		creds = credentials.NewEnvMinio()
 	}
