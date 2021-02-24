@@ -201,7 +201,6 @@ func (r *ScanReconciler) initS3Connection() *minio.Client {
 		val, err := creds.Get()
 		if err != nil {
 			r.Log.Error(err, "Failed to get credentials from AWS IRSA Mechanism...")
-			panic(err)
 		} else {
 			r.Log.Info("Successfully got credentials from AWS IRSA Mechanism", "val", val)
 		}
