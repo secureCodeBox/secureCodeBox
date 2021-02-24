@@ -210,7 +210,7 @@ func (r *ScanReconciler) initS3Connection() *minio.Client {
 	}
 
 	// todo(@J12934) revert this before merge
-	minioClient.TraceOn(nil)
+	minioClient.TraceOn(os.Stdout)
 
 	return minioClient
 }
