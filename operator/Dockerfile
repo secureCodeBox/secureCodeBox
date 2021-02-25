@@ -21,10 +21,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o manager 
 
 # Use distroless as minimal base image to package the manager binary
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
-# todo(@J12934) revert back to distroless
-FROM alpine
-RUN addgroup --system --gid 1001 app && adduser app --system --uid 1001 --ingroup app
-USER 1001
+FROM gcr.io/distroless/static:nonroot
 
 ENV VERSION=unkown
 ENV TELEMETRY_ENABLED "true"
