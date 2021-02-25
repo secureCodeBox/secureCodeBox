@@ -196,14 +196,6 @@ func (r *ScanReconciler) initS3Connection() *minio.Client {
 
 		r.Log.Info("Using AWS IRSA ServiceAccount Bindung for S3 Authentication", "sts", stsEndpoint)
 		creds = credentials.NewIAM(stsEndpoint)
-
-		// todo(@J12934) remove this
-		val, err := creds.Get()
-		if err != nil {
-			r.Log.Error(err, "Failed to get credentials from AWS IRSA Mechanism...")
-		} else {
-			r.Log.Info("Successfully got credentials from AWS IRSA Mechanism", "val", val)
-		}
 	} else {
 		creds = credentials.NewEnvMinio()
 	}
@@ -217,9 +209,6 @@ func (r *ScanReconciler) initS3Connection() *minio.Client {
 		r.Log.Error(err, "Could not create minio client to communicate with s3 or compatible storage provider")
 		panic(err)
 	}
-
-	// todo(@J12934) revert this before merge
-	minioClient.TraceOn(os.Stdout)
 
 	return minioClient
 }
