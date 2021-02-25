@@ -79,10 +79,21 @@ func uploadFile(path, url string) error {
 	defer res.Body.Close()
 
 	if res.StatusCode < 300 {
+		// all good
 		return nil
 	}
 
-	return fmt.Errorf("File upload returned non 2xx status code (%d)", res.StatusCode)
+	fmt.Printf("File upload returned non 2xx status code (%d)", res.StatusCode)
+
+	bytes, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	fmt.Println("Response Body:")
+	fmt.Println(string(bytes))
+
+	return fmt.Errorf("Lurcher failed to upload scan result file. File upload returned non 2xx status code (%d)", res.StatusCode)
 }
 
 func waitForMainContainerToEnd(container, pod, namespace string) {
