@@ -23,6 +23,7 @@ serviceAccount:
   # -- Labels of the serviceAccount the operator uses to talk to the k8s api
   labels: {}
 
+# -- Sets the securityContext on the operators container level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
 securityContext:
   # securityContext.runAsNonRoot -- Enforces that the Operator image is run as a non root user
   runAsNonRoot: true
@@ -36,6 +37,9 @@ securityContext:
     drop:
       # securityContext.capabilities.drop[0] -- This drops all linux privileges from the operator container. They are not required
       - all
+
+# -- Sets the securityContext on the operators pod level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
+podSecurityContext: {}
 
 lurcher:
   image:

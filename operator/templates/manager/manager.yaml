@@ -16,9 +16,8 @@ spec:
         control-plane: securecodebox-controller-manager
     spec:
       serviceAccountName: {{ .Values.serviceAccount.name }}
-      # todo(@J12934): this should be configurable, unfortunatly it can't go into the containers security context... :(
       securityContext:
-        fsGroup: 1001
+        {{ .Values.podSecurityContext | toYaml | nindent 8 }}
       containers:
         - command:
             - /manager
