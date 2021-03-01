@@ -26,8 +26,8 @@ helm install securecodebox-operator secureCodeBox/operator
 | image.pullPolicy | string | `"Always"` | Image pull policy |
 | image.repository | string | `"docker.io/securecodebox/operator"` | The operator image repository |
 | image.tag | string | defaults to the charts version | Parser image tag |
-| lurcher.image.customCACertificate.certificate | string | `"public.crt"` |  |
-| lurcher.image.customCACertificate.existingCertificate | string | `"cert-map"` |  |
+| lurcher.customCACertificate.certificate | string | `"public.crt"` |  |
+| lurcher.customCACertificate.existingCertificate | string | `"cert-map"` |  |
 | lurcher.image.pullPolicy | string | `"Always"` | Image pull policy |
 | lurcher.image.repository | string | `"docker.io/securecodebox/lurcher"` | The operator image repository |
 | lurcher.image.tag | string | defaults to the charts version | Parser image tag |
