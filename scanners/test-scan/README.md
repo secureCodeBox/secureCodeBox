@@ -12,6 +12,8 @@ It's rather unlikely that you'll need this outside of testing usecases, as it do
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| customCACertificate.certificate | string | `"public.crt"` |  |
+| customCACertificate.existingCertificate | string | `nil` |  |
 | image.repository | string | `"docker.io/securecodebox/scanner-test-scan"` |  |
 | image.tag | string | `nil` |  |
 | parseJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |

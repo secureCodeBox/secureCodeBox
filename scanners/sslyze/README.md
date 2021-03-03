@@ -132,6 +132,8 @@ Options:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| customCACertificate.certificate | string | `"public.crt"` |  |
+| customCACertificate.existingCertificate | string | `nil` |  |
 | image.repository | string | `"nablac0d3/sslyze"` | Container Image to run the scan |
 | image.tag | string | `"latest@sha256:ff2c5c626401b1961736a5b2ae6e35a41d213e8b2712102100abf5ee46dcca71"` | defaults to the charts appVersion |
 | parseJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
