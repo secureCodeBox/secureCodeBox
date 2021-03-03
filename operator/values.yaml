@@ -57,7 +57,7 @@ minio:
   environment:
     MINIO_CERT_PASSWD: PASSWORD
   tls:
-    enabled: true
+    enabled: false
     certSecret: tls-ssl-minio
   enabled: true
   defaultBucket:
