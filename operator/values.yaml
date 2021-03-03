@@ -17,7 +17,7 @@ image:
 # Setup for Custom CA certificates
 customCACertificate:
   # configMap name
-  existingCertificate: cert-map
+  existingCertificate: null
   # certificate name
   certificate: "public.crt"
 
@@ -47,7 +47,7 @@ lurcher:
     # Setup for Custom CA certificates
   customCACertificate:
     # configMap name
-    existingCertificate: cert-map
+    existingCertificate: null
     # certificate name
     certificate: "public.crt"
 
