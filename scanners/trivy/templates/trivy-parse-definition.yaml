@@ -6,3 +6,16 @@ spec:
   handlesResultsType: trivy-json
   image: "{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag | default .Chart.Version }}"
   ttlSecondsAfterFinished: {{ .Values.parseJob.ttlSecondsAfterFinished }}
+  {{- if .Values.customCACertificate.existingCertificate }}
+  env:
+    - name: NODE_EXTRA_CA_CERTS
+      value: "/etc/ssl/certs/{{ .Values.customCACertificate.certificate }}"
+  volumes:
+    - name: ca-certificate
+      configMap:
+        name: {{ .Values.customCACertificate.existingCertificate }}
+  volumeMounts:
+    - name: ca-certificate
+      mountPath: "/etc/ssl/certs/"
+  {{- end }}
+  ttlSecondsAfterFinished: {{ .Values.parseJob.ttlSecondsAfterFinished }}
