@@ -6,7 +6,7 @@ spec:
   handlesResultsType: ncrack-xml
   image: "{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag | default .Chart.Version }}"
   ttlSecondsAfterFinished: {{ .Values.parseJob.ttlSecondsAfterFinished }}
-  {{- if .Values.encryptPasswords.existingSecret || .Values.customCACertificate.existingCertificate }}
+  {{- if or .Values.encryptPasswords.existingSecret .Values.customCACertificate.existingCertificate }}
   volumes:
     {{- if .Values.encryptPasswords.existingSecret }}
     - name: "ncrack-secret"
@@ -23,7 +23,7 @@ spec:
     - name: "ncrack-secret"
       mountPath: "/secrets/"
     {{- end }}
-    {{- if .Values.encryptPasswords.existingSecret }}
+    {{- if .Values.customCACertificate.existingCertificate }}
     - name: ca-certificate
       mountPath: "/etc/ssl/certs/"
     {{- end }}
@@ -33,7 +33,7 @@ spec:
       value: "/secrets/{{ .Values.encryptPasswords.key }}"
     {{- end }}
     {{- if .Values.customCACertificate.existingCertificate }}
-      - name: NODE_EXTRA_CA_CERTS
-        value: "/etc/ssl/certs/{{ .Values.customCACertificate.certificate }}"
+    - name: NODE_EXTRA_CA_CERTS
+      value: "/etc/ssl/certs/{{ .Values.customCACertificate.certificate }}"
     {{- end }}
   {{- end }}
