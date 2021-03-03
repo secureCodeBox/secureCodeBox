@@ -12,7 +12,9 @@ parserImage:
   tag: null
 
 customCACertificate:
-  existingCertificate: cert-map
+  # Specifies a ConfigMap containing custom CA certificates.
+  existingCertificate: null
+  # Contains the name of the file containing the certificates
   certificate: public.crt
 
 parseJob:
