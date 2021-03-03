@@ -11,6 +11,12 @@ parserImage:
   # @default -- defaults to the charts version
   tag: null
 
+customCACertificate:
+  # Specifies a ConfigMap containing custom CA certificates.
+  existingCertificate: null
+  # Contains the name of the file containing the certificates
+  certificate: public.crt
+
 parseJob:
   # parseJob.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
   ttlSecondsAfterFinished: null
