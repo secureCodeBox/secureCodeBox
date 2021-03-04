@@ -3,6 +3,7 @@ package scancontrollers
 import (
 	"context"
 	"fmt"
+	"os"
 	"strings"
 
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
@@ -173,6 +174,37 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 		job.Spec.Template.Spec.Volumes,
 		parseDefinition.Spec.Volumes...,
 	)
+
+	customCACertificate, isConfigured := os.LookupEnv("CUSTOM_CA_CERTIFICATE_EXISTING_CERTIFICATE")
+	r.Log.Info("Configuring customCACerts for Parser", "customCACertificate", customCACertificate, "isConfigured", isConfigured)
+	if isConfigured {
+		job.Spec.Template.Spec.Volumes = append(job.Spec.Template.Spec.Volumes, corev1.Volume{
+			Name: "ca-certificate",
+			VolumeSource: corev1.VolumeSource{
+				ConfigMap: &corev1.ConfigMapVolumeSource{
+					LocalObjectReference: corev1.LocalObjectReference{
+						Name: customCACertificate,
+					},
+				},
+			},
+		})
+
+		certificateName := os.Getenv("CUSTOM_CA_CERTIFICATE_NAME")
+		mountPath := fmt.Sprintf("/etc/ssl/certs/%s", certificateName)
+
+		job.Spec.Template.Spec.Containers[0].VolumeMounts = append(job.Spec.Template.Spec.Containers[0].VolumeMounts, corev1.VolumeMount{
+			Name:      "ca-certificate",
+			ReadOnly:  true,
+			MountPath: mountPath,
+			SubPath:   certificateName,
+		})
+
+		// Add env var for node.js to load the custom ca certs
+		job.Spec.Template.Spec.Containers[0].Env = append(job.Spec.Template.Spec.Containers[0].Env, corev1.EnvVar{
+			Name:  "NODE_EXTRA_CA_CERTS",
+			Value: mountPath,
+		})
+	}
 
 	if err := ctrl.SetControllerReference(scan, job, r.Scheme); err != nil {
 		return err
