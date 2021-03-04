@@ -20,9 +20,7 @@ spec:
         - name: ca-certificate
           configMap:
             name: {{ .Values.customCACertificate.existingCertificate }}
-
       {{- end }}
-
       containers:
         - command:
             - /manager
@@ -97,11 +95,11 @@ spec:
               value: "{{ .Values.lurcher.image.repository }}:{{ .Values.lurcher.image.tag | default .Chart.Version }}"
             - name: LURCHER_PULL_POLICY
               value: {{ .Values.lurcher.image.pullPolicy }}
-            {{- if .Values.lurcher.customCACertificate.existingCertificate }}
-            - name: LURCHER_CUSTOM_CA_CERTIFICATE_EXISTING_CERTIFICATE
-              value: "{{ .Values.lurcher.customCACertificate.existingCertificate }}"
-            - name: LURCHER_CUSTOM_CA_CERTIFICATE_NAME
-              value: "{{ .Values.lurcher.customCACertificate.certificate }}"
+            {{- if .Values.customCACertificate.existingCertificate }}
+            - name: CUSTOM_CA_CERTIFICATE_EXISTING_CERTIFICATE
+              value: {{ .Values.customCACertificate.existingCertificate | quote }}
+            - name: CUSTOM_CA_CERTIFICATE_NAME
+              value: {{ .Values.customCACertificate.certificate | quote }}
             {{ end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

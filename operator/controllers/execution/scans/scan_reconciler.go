@@ -276,21 +276,21 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 		},
 	}
 
-	lurcherCustomCACertificate := os.Getenv("LURCHER_CUSTOM_CA_CERTIFICATE_EXISTING_CERTIFICATE")
-	if lurcherCustomCACertificate != "" {
-		fmt.Println("Reach the Volume creation")
+	customCACertificate, isConfigured := os.LookupEnv("CUSTOM_CA_CERTIFICATE_EXISTING_CERTIFICATE")
+	r.Log.Info("Configuring customCACerts for lurcher", "customCACertificate", customCACertificate, "isConfigured", isConfigured)
+	if customCACertificate != "" {
 		job.Spec.Template.Spec.Volumes = append(job.Spec.Template.Spec.Volumes, corev1.Volume{
 			Name: "ca-certificate",
 			VolumeSource: corev1.VolumeSource{
 				ConfigMap: &corev1.ConfigMapVolumeSource{
 					LocalObjectReference: corev1.LocalObjectReference{
-						Name: lurcherCustomCACertificate,
+						Name: customCACertificate,
 					},
 				},
 			},
 		})
 
-		certificateName := os.Getenv("LURCHER_CUSTOM_CA_CERTIFICATE_NAME")
+		certificateName := os.Getenv("CUSTOM_CA_CERTIFICATE_NAME")
 		lurcherSidecar.VolumeMounts = append(lurcherSidecar.VolumeMounts, corev1.VolumeMount{
 			Name:      "ca-certificate",
 			ReadOnly:  true,
