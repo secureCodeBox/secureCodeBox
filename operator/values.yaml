@@ -14,11 +14,12 @@ image:
   # image.pullPolicy -- Image pull policy
   pullPolicy: Always
 
-# Setup for Custom CA certificates
+# -- Setup for Custom CA certificates. These are automatically mounted into every secureCodeBox component (lurcher, parser & hooks).
+# Requires that every namespace has a configmap with the CA certificate(s)
 customCACertificate:
-  # configMap name
-  existingCertificate: null
-  # certificate name
+  # -- name of the configMap holding the ca certificate(s), needs to be the same across all namespaces
+  existingCertificate: ca-certs
+  # -- key in the configmap holding the certificate(s)
   certificate: "public.crt"
 
 securityContext:
@@ -44,22 +45,13 @@ lurcher:
     tag: null
     # lurcher.image.pullPolicy -- Image pull policy
     pullPolicy: Always
-    # Setup for Custom CA certificates
-  customCACertificate:
-    # configMap name
-    existingCertificate: null
-    # certificate name
-    certificate: "public.crt"
 
 minio:
-  # minio.enabled Enable this to use minio as storage backend instead of a cloud bucket provider like AWS S3, Google Cloud Storage, DigitalOcean Spaces etc.
-
-  environment:
-    MINIO_CERT_PASSWD: PASSWORD
-  tls:
-    enabled: false
-    certSecret: tls-ssl-minio
+  # -- Enable this to use minio as storage backend instead of a cloud bucket provider like AWS S3, Google Cloud Storage, DigitalOcean Spaces etc.
   enabled: true
+  tls:
+    enabled: true
+    certSecret: minio-tls
   defaultBucket:
     enabled: true
     name: "securecodebox"
@@ -67,7 +59,6 @@ minio:
   resources:
     requests:
       memory: "256Mi"
-
 
 # Config for external s3 systems
 s3:

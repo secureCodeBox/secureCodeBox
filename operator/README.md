@@ -21,13 +21,12 @@ helm install securecodebox-operator secureCodeBox/operator
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| customCACertificate.certificate | string | `"public.crt"` |  |
-| customCACertificate.existingCertificate | string | `nil` |  |
+| customCACertificate | object | `{"certificate":"public.crt","existingCertificate":null}` | Setup for Custom CA certificates. These are automatically mounted into every secureCodeBox component (lurcher, parser & hooks). Requires that every namespace has a configmap with the CA certificate(s) |
+| customCACertificate.certificate | string | `"public.crt"` | key in the configmap holding the certificate(s) |
+| customCACertificate.existingCertificate | string | `nil` | name of the configMap holding the ca certificate(s), needs to be the same across all namespaces |
 | image.pullPolicy | string | `"Always"` | Image pull policy |
 | image.repository | string | `"docker.io/securecodebox/operator"` | The operator image repository |
 | image.tag | string | defaults to the charts version | Parser image tag |
-| lurcher.customCACertificate.certificate | string | `"public.crt"` |  |
-| lurcher.customCACertificate.existingCertificate | string | `nil` |  |
 | lurcher.image.pullPolicy | string | `"Always"` | Image pull policy |
 | lurcher.image.repository | string | `"docker.io/securecodebox/lurcher"` | The operator image repository |
 | lurcher.image.tag | string | defaults to the charts version | Parser image tag |
