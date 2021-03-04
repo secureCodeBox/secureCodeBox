@@ -21,6 +21,9 @@ helm install securecodebox-operator secureCodeBox/operator
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| customCACertificate | object | `{"certificate":"public.crt","existingCertificate":null}` | Setup for Custom CA certificates. These are automatically mounted into every secureCodeBox component (lurcher, parser & hooks). Requires that every namespace has a configmap with the CA certificate(s) |
+| customCACertificate.certificate | string | `"public.crt"` | key in the configmap holding the certificate(s) |
+| customCACertificate.existingCertificate | string | `nil` | name of the configMap holding the ca certificate(s), needs to be the same across all namespaces |
 | image.pullPolicy | string | `"Always"` | Image pull policy |
 | image.repository | string | `"docker.io/securecodebox/operator"` | The operator image repository |
 | image.tag | string | defaults to the charts version | Parser image tag |
@@ -29,8 +32,10 @@ helm install securecodebox-operator secureCodeBox/operator
 | lurcher.image.tag | string | defaults to the charts version | Parser image tag |
 | minio.defaultBucket.enabled | bool | `true` |  |
 | minio.defaultBucket.name | string | `"securecodebox"` |  |
-| minio.enabled | bool | `true` |  |
+| minio.enabled | bool | `true` | Enable this to use minio as storage backend instead of a cloud bucket provider like AWS S3, Google Cloud Storage, DigitalOcean Spaces etc. |
 | minio.resources.requests.memory | string | `"256Mi"` |  |
+| minio.tls.certSecret | string | `"minio-tls"` |  |
+| minio.tls.enabled | bool | `false` |  |
 | podSecurityContext | object | `{}` | Sets the securityContext on the operators pod level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container |
 | resources | object | `{"limits":{"cpu":"100m","memory":"30Mi"},"requests":{"cpu":"100m","memory":"20Mi"}}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | s3.authType | string | `"access-secret-key"` | Authentication method. Supports access-secret-key (used by most s3 endpoint) and aws-irsa (Used by AWS EKS IAM Role to Kubenetes Service Account Binding. Support for AWS IRSA is considered experimental in the secureCodeBox) |

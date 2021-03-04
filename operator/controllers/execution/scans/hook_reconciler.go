@@ -417,6 +417,10 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 			},
 		},
 	}
+
+	r.Log.V(8).Info("Configuring customCACerts for Hook")
+	injectCustomCACertsIfConfigured(job)
+
 	if err := ctrl.SetControllerReference(scan, job, r.Scheme); err != nil {
 		r.Log.Error(err, "Unable to set controllerReference on job", "job", job)
 		return "", err
