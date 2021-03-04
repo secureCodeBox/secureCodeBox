@@ -54,8 +54,6 @@ The `override` field specifies the desired fields and values that need to be upd
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| customCACertificate.certificate | string | `"certificate.pem"` |  |
-| customCACertificate.existingCertificate | string | `nil` |  |
 | hookJob.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | image.repository | string | `"docker.io/securecodebox/finding-post-processing"` | Hook image repository |
 | image.tag | string | defaults to the charts version | The image Tag defaults to the charts version if not defined. |
