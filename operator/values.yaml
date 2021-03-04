@@ -18,7 +18,7 @@ image:
 # Requires that every namespace has a configmap with the CA certificate(s)
 customCACertificate:
   # -- name of the configMap holding the ca certificate(s), needs to be the same across all namespaces
-  existingCertificate: ca-certs
+  existingCertificate: null
   # -- key in the configmap holding the certificate(s)
   certificate: "public.crt"
 
@@ -62,7 +62,7 @@ minio:
   # -- Enable this to use minio as storage backend instead of a cloud bucket provider like AWS S3, Google Cloud Storage, DigitalOcean Spaces etc.
   enabled: true
   tls:
-    enabled: true
+    enabled: false
     certSecret: minio-tls
   defaultBucket:
     enabled: true
