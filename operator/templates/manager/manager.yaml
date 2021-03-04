@@ -21,6 +21,9 @@ spec:
           configMap:
             name: {{ .Values.customCACertificate.existingCertificate }}
       {{- end }}
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      securityContext:
+        {{ .Values.podSecurityContext | toYaml | nindent 8 }}
       containers:
         - command:
             - /manager
