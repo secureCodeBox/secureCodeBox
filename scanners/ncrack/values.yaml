@@ -11,12 +11,6 @@ parserImage:
   # @default -- defaults to the charts version
   tag: null
 
-customCACertificate:
-  # Specifies a ConfigMap containing custom CA certificates.
-  existingCertificate: null
-  # Contains the name of the file containing the certificates
-  certificate: public.crt
-
 encryptPasswords:
   # encryptPasswords.existingSecret -- secret name with a pem encoded rsa public key to encrypt identified passwords
   existingSecret: null

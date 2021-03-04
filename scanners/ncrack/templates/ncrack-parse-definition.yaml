@@ -6,34 +6,15 @@ spec:
   handlesResultsType: ncrack-xml
   image: "{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag | default .Chart.Version }}"
   ttlSecondsAfterFinished: {{ .Values.parseJob.ttlSecondsAfterFinished }}
-  {{- if or .Values.encryptPasswords.existingSecret .Values.customCACertificate.existingCertificate }}
+  {{- if .Values.encryptPasswords.existingSecret }}
   volumes:
-    {{- if .Values.encryptPasswords.existingSecret }}
-    - name: "ncrack-secret"
-      secret:
-        secretName: {{ .Values.encryptPasswords.existingSecret }}
-    {{- end }}
-    {{- if .Values.customCACertificate.existingCertificate }}
-    - name: ca-certificate
-      configMap:
-        name: {{ .Values.customCACertificate.existingCertificate }}
-    {{- end }}
+  - name: "ncrack-secret"
+    secret:
+      secretName: {{ .Values.encryptPasswords.existingSecret }}
   volumeMounts:
-    {{- if .Values.encryptPasswords.existingSecret }}
-    - name: "ncrack-secret"
-      mountPath: "/secrets/"
-    {{- end }}
-    {{- if .Values.customCACertificate.existingCertificate }}
-    - name: ca-certificate
-      mountPath: "/etc/ssl/certs/"
-    {{- end }}
+  - name: "ncrack-secret"
+    mountPath: "/secrets/"
   env:
-    {{- if .Values.encryptPasswords.existingSecret }}
-    - name: "ENCRYPTION_KEY_LOCATION"
-      value: "/secrets/{{ .Values.encryptPasswords.key }}"
-    {{- end }}
-    {{- if .Values.customCACertificate.existingCertificate }}
-    - name: NODE_EXTRA_CA_CERTS
-      value: "/etc/ssl/certs/{{ .Values.customCACertificate.certificate }}"
-    {{- end }}
+  - name: "ENCRYPTION_KEY_LOCATION"
+    value: "/secrets/{{ .Values.encryptPasswords.key }}"
   {{- end }}

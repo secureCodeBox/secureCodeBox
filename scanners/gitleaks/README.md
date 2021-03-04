@@ -89,10 +89,8 @@ For more information on how to use cascades take a look at
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| customCACertificate.certificate | string | `"public.crt"` |  |
-| customCACertificate.existingCertificate | string | `nil` |  |
 | image.repository | string | `"docker.io/securecodebox/scanner-gitleaks"` | Container Image to run the scan |
-| image.tag | string | `nil` | defaults to the app version |
+| image.tag | string | `nil` | defaults to the charts version |
 | parseJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | parserImage.repository | string | `"docker.io/securecodebox/parser-gitleaks"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |

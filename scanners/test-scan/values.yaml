@@ -5,12 +5,6 @@ parserImage:
   # @default -- defaults to the charts version
   tag: null
 
-customCACertificate:
-  # Specifies a ConfigMap containing custom CA certificates.
-  existingCertificate: null
-  # Contains the name of the file containing the certificates
-  certificate: public.crt
-
 image:
   repository: docker.io/securecodebox/scanner-test-scan
   # image.tag - defaults to the charts version

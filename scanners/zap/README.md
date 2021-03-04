@@ -62,8 +62,6 @@ Options:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| customCACertificate.certificate | string | `"public.crt"` |  |
-| customCACertificate.existingCertificate | string | `nil` |  |
 | image.repository | string | `"owasp/zap2docker-stable"` | Container Image to run the scan |
 | image.tag | string | `nil` | defaults to the charts appVersion |
 | parseJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
