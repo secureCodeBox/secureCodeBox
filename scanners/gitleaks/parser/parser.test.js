@@ -16,6 +16,16 @@ test("should properly parse empty gitleaks json file", async () => {
   expect(await parse(JSON.parse(jsonContent))).toMatchObject([]);
 });
 
+test("should properly parse gitleaks json file with null result", async () => {
+  const jsonContent = await readFile(
+    __dirname + "/__testFiles__/test-null-report.json",
+    {
+      encoding: "utf8"
+    }
+  );
+  expect(await parse(JSON.parse(jsonContent))).toMatchObject([]);
+});
+
 test("should properly parse gitleaks json file", async () => {
   const jsonContent = await readFile(
     __dirname + "/__testFiles__/test-report.json",
