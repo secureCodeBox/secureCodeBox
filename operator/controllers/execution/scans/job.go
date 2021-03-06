@@ -2,9 +2,12 @@ package scancontrollers
 
 import (
 	"context"
+	"fmt"
+	"os"
 
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	batch "k8s.io/api/batch/v1"
+	corev1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -63,4 +66,43 @@ func (r *ScanReconciler) checkIfJobIsCompleted(scan *executionv1.Scan, labels cl
 	r.Log.V(9).Info("Got related jobs", "count", len(jobs.Items))
 
 	return checkIfAllJobsCompleted(jobs), nil
+}
+
+// injectCustomCACertsIfConfigured injects CA Certificates to /etc/ssl/certs/
+// currently only supports jobs with a single container
+func injectCustomCACertsIfConfigured(job *batch.Job) {
+	customCACertificate, isConfigured := os.LookupEnv("CUSTOM_CA_CERTIFICATE_EXISTING_CERTIFICATE")
+	if !isConfigured {
+		return
+	}
+
+	job.Spec.Template.Spec.Volumes = append(job.Spec.Template.Spec.Volumes, corev1.Volume{
+		Name: "ca-certificate",
+		VolumeSource: corev1.VolumeSource{
+			ConfigMap: &corev1.ConfigMapVolumeSource{
+				LocalObjectReference: corev1.LocalObjectReference{
+					Name: customCACertificate,
+				},
+			},
+		},
+	})
+
+	certificateName, hasCertificateName := os.LookupEnv("CUSTOM_CA_CERTIFICATE_NAME")
+	if !hasCertificateName {
+		panic("Missing CUSTOM_CA_CERTIFICATE_NAME config parameter. Do you have `customCACertificate.certificate` configured you helm values?")
+	}
+	mountPath := fmt.Sprintf("/etc/ssl/certs/%s", certificateName)
+
+	job.Spec.Template.Spec.Containers[0].VolumeMounts = append(job.Spec.Template.Spec.Containers[0].VolumeMounts, corev1.VolumeMount{
+		Name:      "ca-certificate",
+		ReadOnly:  true,
+		MountPath: mountPath,
+		SubPath:   certificateName,
+	})
+
+	// Add env var for node.js to load the custom ca certs
+	job.Spec.Template.Spec.Containers[0].Env = append(job.Spec.Template.Spec.Containers[0].Env, corev1.EnvVar{
+		Name:  "NODE_EXTRA_CA_CERTS",
+		Value: mountPath,
+	})
 }
