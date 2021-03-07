@@ -18,7 +18,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: trivy
-              image: aquasec/trivy
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
               command:
                 - "trivy"
                 # Suppress progress bar, as it pollutes non interactive terminal logs
