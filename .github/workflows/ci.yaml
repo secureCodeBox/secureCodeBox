@@ -205,7 +205,6 @@ jobs:
     strategy:
       matrix:
         hook:
-          - angularjs-csti-scanner
           - declarative-subsequent-scans
           - finding-post-processing
           - generic-webhook
@@ -334,6 +333,7 @@ jobs:
     strategy:
       matrix:
         scanner:
+          - angularjs-csti-scanner
           - gitleaks
           - kube-hunter
           - kubeaudit
