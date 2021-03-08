@@ -1,0 +1,4 @@
+Notification Webhook deployed.
+Will send requests to:
+POST {{ .Values.notification.url }}
+on every completed scan.
