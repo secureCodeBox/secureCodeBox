@@ -174,6 +174,9 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 		parseDefinition.Spec.Volumes...,
 	)
 
+	r.Log.V(8).Info("Configuring customCACerts for Parser")
+	injectCustomCACertsIfConfigured(job)
+
 	if err := ctrl.SetControllerReference(scan, job, r.Scheme); err != nil {
 		return err
 	}

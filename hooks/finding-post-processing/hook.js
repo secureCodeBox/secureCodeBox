@@ -13,11 +13,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-const { isMatch, merge } = require("lodash")
+const { isMatch, merge } = require("lodash");
 async function handle({
   getFindings,
   updateFindings,
-  rules =JSON.parse(process.env["RULES"]),
+  rules = JSON.parse(process.env["RULES"]),
 }) {
   const findings = await getFindings();
   const res = applyRules(rules, findings);
@@ -32,10 +32,12 @@ module.exports.handle = handle;
  */
 function applyRules(rules, findings) {
   let hasChanged = false;
-  const newFindings = findings.map(finding => {
+  const newFindings = findings.map((finding) => {
     let newFinding = finding;
     for (const rule of rules) {
-      const isRuleMatching = rule.matches.anyOf.some(condition => isMatch(finding, condition));
+      const isRuleMatching = rule.matches.anyOf.some((condition) =>
+        isMatch(finding, condition)
+      );
       if (isRuleMatching) {
         hasChanged = true;
         newFinding = postProcessFinding(finding, rule);
@@ -43,7 +45,7 @@ function applyRules(rules, findings) {
     }
     return newFinding;
   });
-  return { hasChanged, findings: newFindings }
+  return { hasChanged, findings: newFindings };
 }
 
 function postProcessFinding(finding, rule) {

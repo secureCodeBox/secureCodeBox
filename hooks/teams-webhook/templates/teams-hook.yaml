@@ -1,0 +1,23 @@
+apiVersion: "execution.securecodebox.io/v1"
+kind: ScanCompletionHook
+metadata:
+  name: {{ include "teams-webhook.fullname" . }}
+spec:
+  type: ReadOnly
+  image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
+  ttlSecondsAfterFinished: {{ .Values.hookJob.ttlSecondsAfterFinished }}
+  env:
+    - name: WEBHOOK_URL
+      value: {{ .Values.notification.url | quote }}
+    - name: RULES
+      value: {{ .Values.notification.rules | toJson | quote }}
+    - name: TEMPLATE
+      value: {{ .Values.notification.template | quote }}
+    - name: VULNMANAG_ENABLED
+      value: {{ .Values.vulnerabilityManagement.enabled | quote }}
+    - name: VULNMANAG_NAME
+      value: {{ .Values.vulnerabilityManagement.name | quote }}
+    - name: VULNMANAG_DASHBOARD_URL
+      value: {{ .Values.vulnerabilityManagement.url | quote }}
+    - name: VULNMANAG_DASHBOARD_FINDINGS_URL
+      value: {{ .Values.vulnerabilityManagement.findingsUrl | quote }}
