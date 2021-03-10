@@ -16,6 +16,7 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -36,6 +37,7 @@ public class VersionedEngagementsStrategy implements Strategy {
   TestService testService;
   TestTypeService testTypeService;
   ImportScanService importScanService;
+  FindingService findingService;
 
   DefectDojoConfig config;
 
@@ -51,11 +53,12 @@ public class VersionedEngagementsStrategy implements Strategy {
     this.testService = new TestService(defectDojoConfig);
     this.testTypeService = new TestTypeService(defectDojoConfig);
     this.importScanService = new ImportScanService(defectDojoConfig);
+    this.findingService = new FindingService(defectDojoConfig);
 
     this.config = defectDojoConfig;
   }
 
-  public void run(Scan scan) throws Exception {
+  public List<Finding> run(Scan scan) throws Exception {
     LOG.info("Getting DefectDojo User Id");
     var userId = userService.searchUnique(User.builder().username(this.config.getUsername()).build())
       .orElseThrow(() -> new DefectDojoPersistenceException("Failed to find user with name: '" + this.config.getUsername() + "'"))
@@ -96,7 +99,8 @@ public class VersionedEngagementsStrategy implements Strategy {
     );
 
     LOG.info("Uploaded Scan Report (RawResults) as testID {} to DefectDojo", testId);
-    LOG.info("All done!");
+
+    return findingService.search(Map.of("test", String.valueOf(testId)));
   }
 
   /**
