@@ -16,15 +16,19 @@ limitations under the License.
 import * as Mustach from "mustache"
 import { isMatch } from "lodash";
 import * as axios from "axios"
+import { Finding } from "./model/Finding";
+import { Notification } from "./model/Notification"
+import { NotifierFactory } from "./NotifierFactory"
 
-async function handle({ getFindings, scan, notifications = JSON.parse(process.env["NOTIFIERS"]) }) {
-  const findings: Finding[] = await getFindings();
-  notifications.forEach((notification: FindingNotification) => {
+export async function handle({ getFindings, scan, notifications = JSON.parse(process.env["NOTIFICATIONS"]) }) {
+  const findings: Finding[] = await getFindings()
+  notifications.forEach((notification: Notification) => {
     let matchingFindings = findings.filter(finding => matches(finding, notification.rules));
     const notifier = NotifierFactory.create(notification.type, notification.template);
     notifier.sendNotification(matchingFindings);
-  }
+  });
 }
+
 
 function matches(finding: Finding, rules: any): boolean {
   let matches = false;
@@ -33,5 +37,3 @@ function matches(finding: Finding, rules: any): boolean {
   }
   return false
 }
-
-module.exports.axios = axios;
