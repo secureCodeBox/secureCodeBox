@@ -1,4 +1,4 @@
-const { handle, axios } = require("./hook");
+import { handle, axios } from "./hook";
 
 beforeEach(() => {
   axios.post.mockClear();
@@ -176,7 +176,7 @@ test("Should Only Send Post Request for Matching Rules", async () => {
   expect(true).toBe(false)
 })
 
-test("Should Apply Custom Template", async () =>{
+test("Should Apply Custom Template", async () => {
   expect(true).toBe(false)
 })
 
