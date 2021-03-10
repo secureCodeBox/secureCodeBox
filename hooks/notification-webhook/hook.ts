@@ -15,7 +15,6 @@ limitations under the License.
  */
 import * as Mustach from "mustache"
 import { isMatch } from "lodash";
-import * as axios from "axios"
 import { Finding } from "./model/Finding";
 import { Notification } from "./model/Notification"
 import { NotifierFactory } from "./NotifierFactory"
