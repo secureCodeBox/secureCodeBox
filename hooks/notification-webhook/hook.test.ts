@@ -1,8 +1,4 @@
-import { handle, axios } from "./hook";
-
-beforeEach(() => {
-  axios.post.mockClear();
-});
+import { handle } from "./hook";
 
 const scan = {
   metadata: {
