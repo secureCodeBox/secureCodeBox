@@ -19,13 +19,8 @@ import { Finding } from "./model/Finding";
 import { Notification } from "./model/Notification"
 import { NotifierFactory } from "./NotifierFactory"
 
-export async function handle({ getFindings, scan, notifications = JSON.parse(process.env["NOTIFICATIONS"]) }) {
-  const findings: Finding[] = await getFindings()
-  notifications.forEach((notification: Notification) => {
-    let matchingFindings = findings.filter(finding => matches(finding, notification.rules));
-    const notifier = NotifierFactory.create(notification.type, notification.template);
-    notifier.sendNotification(matchingFindings);
-  });
+export async function handle({ }) {
+  console.log("This Hook is working")
 }
 
 
