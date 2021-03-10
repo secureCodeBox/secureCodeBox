@@ -4,7 +4,8 @@
   "description": "secureCodeBox v2 Notification WebHook",
   "main": "hook.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "npx tsc hook.ts --sourceMap"
   },
   "repository": {
     "type": "git",

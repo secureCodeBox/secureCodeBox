@@ -14,13 +14,21 @@
 
 ARG namespace
 ARG baseImageTag
+FROM node:12-alpine as install
+RUN mkdir -p /home/app
+WORKDIR /home/app
+COPY src/package.json src/package-lock.json ./
+RUN npm ci --production
+
 FROM node:12-alpine as build
 RUN mkdir -p /home/app
 WORKDIR /home/app
-COPY package.json package-lock.json ./
-RUN npm ci --production
+COPY src/package.json src/package-lock.json ./
+RUN npm ci
+COPY src ./
+RUN npm run build
 
 FROM ${namespace:-securecodebox}/hook-sdk-nodejs:${baseImageTag:-latest}
 WORKDIR /home/app/hook-wrapper/hook/
-COPY --from=build --chown=app:app /home/app/node_modules/ ./node_modules/
-COPY --chown=app:app ./hook.js ./hook.js
+COPY --from=install --chown=app:app /home/app/node_modules/ ./node_modules/
+COPY --from=build --chown=app:app /home/app/ ./
