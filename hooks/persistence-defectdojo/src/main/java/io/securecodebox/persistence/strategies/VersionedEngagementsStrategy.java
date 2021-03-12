@@ -43,6 +43,7 @@ public class VersionedEngagementsStrategy implements Strategy {
 
   public VersionedEngagementsStrategy() {}
 
+  @Override
   public void init(DefectDojoConfig defectDojoConfig) {
     this.productService = new ProductService(defectDojoConfig);
     this.productTypeService = new ProductTypeService(defectDojoConfig);
@@ -58,7 +59,8 @@ public class VersionedEngagementsStrategy implements Strategy {
     this.config = defectDojoConfig;
   }
 
-  public List<Finding> run(Scan scan) throws Exception {
+  @Override
+  public List<Finding> run(Scan scan, String rawResults) throws Exception {
     LOG.info("Getting DefectDojo User Id");
     var userId = userService.searchUnique(User.builder().username(this.config.getUsername()).build())
       .orElseThrow(() -> new DefectDojoPersistenceException("Failed to find user with name: '" + this.config.getUsername() + "'"))
@@ -73,15 +75,6 @@ public class VersionedEngagementsStrategy implements Strategy {
     long engagementId = this.createEngagement(scan, productId, userId).getId();
     LOG.info("Using Engagement with Id: {}", engagementId);
 
-    LOG.info("Downloading Scan Report (RawResults)");
-    String result;
-    try {
-      result = scan.getRawResults();
-    } catch (HttpClientErrorException e) {
-      throw new DefectDojoPersistenceException("Failed to download Raw Findings", e);
-    }
-    LOG.info("Finished Downloading Scan Report (RawResults)");
-
     var testId = this.createTest(scan, engagementId, userId);
 
     LOG.info("Uploading Scan Report (RawResults) to DefectDojo");
@@ -90,7 +83,7 @@ public class VersionedEngagementsStrategy implements Strategy {
     TestType testType = testTypeService.searchUnique(TestType.builder().name(scanType.getTestType()).build()).orElseThrow(() -> new DefectDojoPersistenceException("Could not find test type '" + scanType.getTestType() + "' in DefectDojo API. DefectDojo might be running in an unsupported version."));
 
     importScanService.reimportScan(
-      result,
+      rawResults,
       testId,
       userId,
       this.descriptionGenerator.currentDate(),

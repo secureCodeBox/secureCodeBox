@@ -9,5 +9,5 @@ import java.util.List;
 public interface Strategy {
   void init(DefectDojoConfig defectDojoConfig);
 
-  List<Finding> run(Scan scan) throws Exception;
+  List<Finding> run(Scan scan, String rawResults) throws Exception;
 }

@@ -19,11 +19,16 @@
 package io.securecodebox.persistence;
 
 import io.securecodebox.persistence.defectdojo.config.DefectDojoConfig;
+import io.securecodebox.persistence.models.Finding;
 import io.securecodebox.persistence.models.Scan;
 import io.securecodebox.persistence.service.KubernetesService;
+import io.securecodebox.persistence.service.S3Service;
 import io.securecodebox.persistence.strategies.VersionedEngagementsStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class DefectDojoPersistenceProvider {
   private static final Logger LOG = LoggerFactory.getLogger(DefectDojoPersistenceProvider.class);
@@ -31,6 +36,19 @@ public class DefectDojoPersistenceProvider {
   public static void main(String[] args) throws Exception {
     LOG.info("Starting DefectDojo persistence provider");
 
+    // Parse Hook Args passed via command line flags
+    if (args == null) {
+      throw new RuntimeException("Received `null` as command line flags. Expected exactly four (RawResult & Finding Up/Download Urls)");
+    } else if(args.length != 4) {
+      LOG.error("Received unexpected command line arguments: {}", List.of(args));
+      throw new RuntimeException("DefectDojo Hook received a unexpected number of command line flags. Expected exactly four (RawResult & Finding Up/Download Urls)");
+    }
+    // RawResult Download Url is passed as the first command line arg
+    String rawResultDownloadUrl = args[0];
+    // RawResult Upload Url is passed as the forth command line arg
+    String findingUploadUrl = args[3];
+
+    var s3Service = new S3Service();
     var kubernetesService = new KubernetesService();
     kubernetesService.init();
 
@@ -39,16 +57,27 @@ public class DefectDojoPersistenceProvider {
 
     var config = DefectDojoConfig.fromEnv();
 
+    LOG.info("Downloading Scan Report (RawResults)");
+    var rawResults = s3Service.downloadRawResults(rawResultDownloadUrl);
+    LOG.info("Finished Downloading Scan Report (RawResults)");
+
+    LOG.info("RawResults: {}", rawResults);
+
     LOG.info("Uploading Findings to DefectDojo at: {}", config.getUrl());
 
     var defectdojoImportStrategy = new VersionedEngagementsStrategy();
     defectdojoImportStrategy.init(config);
-    var findings = defectdojoImportStrategy.run(scan);
+    var defectDojoFindings = defectdojoImportStrategy.run(scan, rawResults);
 
-    LOG.info("Identified total Number of findings in DefectDojo: {}", findings.size());
+    LOG.info("Identified total Number of findings in DefectDojo: {}", defectDojoFindings.size());
+    var findings = defectDojoFindings.stream()
+      .map(Finding::fromDefectDojoFining)
+      .collect(Collectors.toList());
 
     for (var finding: findings) {
-      LOG.info("Finding: {} - FalsePositive: {} - Duplicate: {}", finding.getTitle(), finding.getFalsePositive(), finding.getDuplicate());
+      LOG.info("Finding: {}", finding);
     }
+
+    s3Service.overwriteFindings(findingUploadUrl, findings);
   }
 }

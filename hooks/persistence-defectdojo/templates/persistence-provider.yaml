@@ -5,7 +5,7 @@ metadata:
   labels:
     type: Unstructured
 spec:
-  type: ReadOnly
+  type: ReadAndWrite
   image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
   env:
     - name: DEFECTDOJO_URL

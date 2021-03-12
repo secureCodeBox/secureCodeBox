@@ -3,11 +3,12 @@ package io.securecodebox.persistence.models;
 import io.securecodebox.models.V1Scan;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
+import javax.print.attribute.standard.Media;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -78,18 +79,6 @@ public class Scan extends V1Scan {
 
   public Optional<String> getProductDescription() {
     return this.getKey(SecureCodeBoxScanAnnotations.PRODUCT_DESCRIPTION);
-  }
-
-  public String getRawResults() throws HttpClientErrorException {
-    RestTemplate restTemplate = new RestTemplate();
-
-    // Don't url encode the url again. It's already valid and encoding it again will mess with the s3 signatures...
-    DefaultUriBuilderFactory defaultUriBuilderFactory = new DefaultUriBuilderFactory();
-    defaultUriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
-    restTemplate.setUriTemplateHandler(defaultUriBuilderFactory);
-
-    ResponseEntity<String> response = restTemplate.getForEntity(this.getStatus().getRawResultDownloadLink(), String.class);
-    return response.getBody();
   }
 
   @AllArgsConstructor

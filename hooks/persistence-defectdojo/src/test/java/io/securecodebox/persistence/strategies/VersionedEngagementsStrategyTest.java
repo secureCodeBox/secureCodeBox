@@ -56,21 +56,11 @@ public class VersionedEngagementsStrategyTest {
 
   Scan scan;
 
-  private static class MockedScan extends Scan{
-    public MockedScan() {
-    }
-
-    @Override
-    public String getRawResults() {
-      return "<xml/>";
-    }
-  }
-
   @BeforeEach
   public void setup() throws Exception {
     versionedEngagementsStrategy.config = new DefectDojoConfig("https://defectdojo.example.com", "<key>", "foobar");
 
-    scan = new MockedScan();
+    scan = new Scan();
     scan.setApiVersion("execution.securecodebox.io/v1");
     scan.setKind("Scan");
     scan.setMetadata(new V1ObjectMeta());
@@ -88,7 +78,7 @@ public class VersionedEngagementsStrategyTest {
     when(userService.searchUnique(any(User.class))).thenReturn(Optional.empty());
 
     Assertions.assertThrows(DefectDojoPersistenceException.class, () -> {
-      versionedEngagementsStrategy.run(scan);
+      versionedEngagementsStrategy.run(scan, "<!-- Nmap Report -->");
     });
   }
 }
