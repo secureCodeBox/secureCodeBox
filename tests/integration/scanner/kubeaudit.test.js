@@ -13,7 +13,6 @@ test(
     expect(categories).toMatchInlineSnapshot(`
       Object {
         "Automounted ServiceAccount Token": 1,
-        "Capability Not Dropped": 14,
         "No Default Deny NetworkPolicy": 1,
         "Non ReadOnly Root Filesystem": 1,
         "Non Root User Not Enforced": 1,
@@ -21,7 +20,7 @@ test(
     `);
     expect(severities).toMatchInlineSnapshot(`
       Object {
-        "low": 16,
+        "low": 2,
         "medium": 2,
       }
     `);

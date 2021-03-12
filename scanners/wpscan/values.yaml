@@ -2,7 +2,8 @@ image:
   # image.repository -- Container Image to run the scan
   repository: wpscanteam/wpscan
   # image.tag -- defaults to the charts appVersion
-  tag: null
+  # @default -- defaults to latest because WPscan didn't offer tagged image versions
+  tag: latest
 
 parserImage:
   # parserImage.repository -- Parser image repository
