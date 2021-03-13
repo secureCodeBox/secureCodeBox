@@ -94,6 +94,7 @@ class GitRepoScannerTests(unittest.TestCase):
 def get_args(ignore_groups=0, ignore_projects=0, url=None, access_token=None, org=None):
   args = ['--git-type', 'gitlab',
           '--file-output', 'out',
+          '--obey-rate-limit', False,
           '--ignore-repos', str(ignore_projects),
           '--ignore-groups', str(ignore_groups)]
   if url:

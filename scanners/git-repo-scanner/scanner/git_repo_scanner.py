@@ -2,6 +2,8 @@ import argparse
 import logging
 import sys
 import json
+import calendar
+import time
 from typing import List
 from pathlib import Path
 
@@ -59,22 +61,22 @@ def write_findings_to_file(args, findings):
 def get_parser_args(args=None):
   parser = argparse.ArgumentParser(description='Scan public or private git repositories of organizations or groups')
   parser.add_argument('--git-type',
-                      help='Repository type can be github or gitlab',
+                      help='Repository type can be github or GitLab',
                       choices=['github', 'gitlab'],
                       required=True)
   parser.add_argument('--file-output',
                       help='The path of the output file',
                       required=True),
-  parser.add_argument('--url', help='The gitlab url or a github enterprise api url.',
+  parser.add_argument('--url', help='The GitLab url or a GitHub enterprise api url.',
                       required=False)
   parser.add_argument('--access-token',
                       help='An access token for authentication',
                       required=False)
   parser.add_argument('--organization',
-                      help='The name of the githup organization to scan',
+                      help='The name of the GitHub organization to scan',
                       required=False)
   parser.add_argument('--group',
-                      help='The id of the gitlab group to scan',
+                      help='The id of the GitLab group to scan',
                       required=False)
   parser.add_argument('--ignore-repos',
                       help='A list of repo ids to ignore',
@@ -84,12 +86,18 @@ def get_parser_args(args=None):
                       default=[],
                       required=False)
   parser.add_argument('--ignore-groups',
-                      help='A list of gitlab group ids to ignore',
+                      help='A list of GitLab group ids to ignore',
                       action='extend',
                       nargs='+',
                       type=int,
                       default=[],
                       required=False)
+  parser.add_argument('--obey-rate-limit',
+                      help='True to obey the rate limit of the GitLab or GitHub server (default), otherwise False',
+                      type=bool,
+                      default=True,
+                      required=False)
+                      
   if args:
     return parser.parse_args(args)
   else:
@@ -99,7 +107,7 @@ def get_parser_args(args=None):
 def parse_gitlab(args):
   gl: gitlab.Gitlab
   if not args.url:
-    logger.info(' URL required for gitlab connection.')
+    logger.info(' URL required for GitLab connection.')
     sys.exit(-1)
   logger.info(' Gitlab authentication...')
 
@@ -128,12 +136,12 @@ def process_gitlab_projects(args, projects):
 def get_gitlab_projects(args, gl):
   if args.group:
     try:
-      projects = gl.groups.get(args.group).projects.list(all=True, include_subgroups=True)
+      projects = gl.groups.get(args.group).projects.list(all=True, include_subgroups=True, obey_rate_limit=args.obey_rate_limit)
     except gitlab.exceptions.GitlabGetError:
       logger.info(' Group does not exist.')
       sys.exit(-1)
   else:
-    projects = gl.projects.list(all=True, max_retries=12)
+    projects = gl.projects.list(all=True, max_retries=12, obey_rate_limit=args.obey_rate_limit)
   return projects
 
 
@@ -146,7 +154,7 @@ def gitlab_authenticate(args):
     except gitlab.exceptions.GitlabAuthenticationError:
       gl = gitlab_authenticate_oauth(args)
   else:
-    logger.info(' Access token required for gitlab authentication.')
+    logger.info(' Access token required for GitLab authentication.')
     sys.exit(-1)
   logger.info(' Success')
   return gl
@@ -174,22 +182,34 @@ def parse_github(args):
     logger.info(' No organization provided')
     sys.exit(-1)
 
+def respect_github_ratelimit(args, gh):
+  if args.obey_rate_limit:
+    api_limit = gh.get_rate_limit().core
+    reset_timestamp = calendar.timegm(api_limit.reset.timetuple())
+    seconds_until_reset = reset_timestamp - calendar.timegm(time.gmtime()) + 5  # add 5 seconds to be sure the rate limit has been reset
+    sleep_time = seconds_until_reset / api_limit.remaining
+
+    logger.info(' Checking Rate-Limit ('+ str(args.obey_rate_limit) +') [remainingApiCalls: ' + str(api_limit.remaining) + ', seconds_until_reset: ' + str(seconds_until_reset) + ', sleepTime: ' + str(sleep_time) + ']')
+    time.sleep(sleep_time)
 
 def process_github_repos(args, gh):
   findings = []
   org: Organization = gh.get_organization(args.organization)
   repos: PaginatedList[Repository] = org.get_repos(type='all')
   for i in range(repos.totalCount):
-    process_github_repos_page(args, findings, repos.get_page(i))
+    process_github_repos_page(args, findings, repos.get_page(i), gh)
   return findings
 
 
-def process_github_repos_page(args, findings, repos):
+def process_github_repos_page(args, findings, repos, gh):
   repo: Repository
   for repo in repos:
     if repo.id not in args.ignore_repos:
       logger.info(f' {len(findings) + 1} - {repo.name}')
+      
       findings.append(create_finding_github(repo))
+      respect_github_ratelimit(args, gh)
+      
 
 
 def setup_github(args):
