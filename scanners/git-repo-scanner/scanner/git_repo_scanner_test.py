@@ -1,4 +1,5 @@
 import datetime
+from datetime import timezone 
 import unittest
 import git_repo_scanner
 from munch import Munch
@@ -13,7 +14,7 @@ class GitRepoScannerTests(unittest.TestCase):
     projects = assemble_projects()
     args = get_args()
     # when
-    findings = git_repo_scanner.process_gitlab_projects(args, projects)
+    findings = git_repo_scanner.process_gitlab_projects(args, projects, 0, datetime.datetime.now())
     # then
     self.assertEqual(3, len(findings), msg='There should be exactly 3 findings')
     self.assertEqual(findings[0]['name'], 'GitLab Repo', msg='Test finding output')
@@ -25,7 +26,7 @@ class GitRepoScannerTests(unittest.TestCase):
     projects = assemble_projects()
     args = get_args(ignore_groups=33)
     # when
-    findings = git_repo_scanner.process_gitlab_projects(args, projects)
+    findings = git_repo_scanner.process_gitlab_projects(args, projects, 0, datetime.datetime.now())
     # then
     self.assertEqual(2, len(findings), msg='There should be exactly 2 findings')
     self.assertEqual(findings[0]['attributes']['web_url'], 'url1', msg='Test finding output')
@@ -36,7 +37,7 @@ class GitRepoScannerTests(unittest.TestCase):
     projects = assemble_projects()
     args = get_args(ignore_projects=1)
     # when
-    findings = git_repo_scanner.process_gitlab_projects(args, projects)
+    findings = git_repo_scanner.process_gitlab_projects(args, projects, 0, datetime.datetime.now())
     # then
     self.assertEqual(2, len(findings), msg='There should be exactly 2 findings')
     self.assertEqual(findings[0]['attributes']['web_url'], 'url2', msg='Test finding output')
@@ -118,14 +119,16 @@ def create_mocks(github_mock, org_mock, pag_mock, repos):
 
 
 def assemble_projects():
-  project1 = assemble_project(p_id=1, name='name1', url='url1', path='path1', date_created='10.10.2020',
-                              date_updated='10.11.2020', visibility='private', o_id=11, o_kind='group',
+  created = datetime.datetime(2020, 10, 10, tzinfo=timezone.utc).isoformat()
+  updated = datetime.datetime(2020, 11, 10, tzinfo=timezone.utc).isoformat()
+  project1 = assemble_project(p_id=1, name='name1', url='url1', path='path1', date_created=created,
+                              date_updated=updated, visibility='private', o_id=11, o_kind='group',
                               o_name='name11')
-  project2 = assemble_project(p_id=2, name='name2', url='url2', path='path2', date_created='10.10.2020',
-                              date_updated='10.11.2020', visibility='private', o_id=22, o_kind='user',
+  project2 = assemble_project(p_id=2, name='name2', url='url2', path='path2', date_created=created,
+                              date_updated=updated, visibility='private', o_id=22, o_kind='user',
                               o_name='name22')
-  project3 = assemble_project(p_id=3, name='name3', url='url3', path='path3', date_created='10.10.2020',
-                              date_updated='10.11.2020', visibility='private', o_id=33, o_kind='group',
+  project3 = assemble_project(p_id=3, name='name3', url='url3', path='path3', date_created=created,
+                              date_updated=updated, visibility='private', o_id=33, o_kind='group',
                               o_name='name33')
   return [project1, project2, project3]
 
@@ -148,20 +151,20 @@ def assemble_project(p_id, name, url, path, date_created, date_updated, visibili
 
 
 def assemble_repos():
-  date = datetime.datetime(2020, 5, 17)
+  date = datetime.datetime(2020, 5, 17, tzinfo=timezone.utc)
   project1 = assemble_repository(p_id=1, name='name1', url='url1', path='path1', date_created=date,
-                                 date_updated=date, visibility=True, o_id=11, o_kind='organization',
+                                 date_updated=date, date_pushed=date, visibility=True, o_id=11, o_kind='organization',
                                  o_name='name11')
   project2 = assemble_repository(p_id=2, name='name2', url='url2', path='path2', date_created=date,
-                                 date_updated=date, visibility=False, o_id=22, o_kind='organization',
+                                 date_updated=date, date_pushed=date, visibility=False, o_id=22, o_kind='organization',
                                  o_name='name22')
   project3 = assemble_repository(p_id=3, name='name3', url='url3', path='path3', date_created=date,
-                                 date_updated=date, visibility=False, o_id=33, o_kind='organization',
+                                 date_updated=date, date_pushed=date, visibility=False, o_id=33, o_kind='organization',
                                  o_name='name33')
   return [project1, project2, project3]
 
 
-def assemble_repository(p_id, name, url, path, date_created: datetime, date_updated: datetime, visibility: bool, o_id,
+def assemble_repository(p_id, name, url, path, date_created: datetime, date_updated: datetime, date_pushed: datetime, visibility: bool, o_id,
                         o_kind, o_name):
   repo = Munch()
   repo.id = p_id
@@ -169,6 +172,7 @@ def assemble_repository(p_id, name, url, path, date_created: datetime, date_upda
   repo.html_url = url
   repo.full_name = path
   repo.created_at = date_created
+  repo.pushed_at = date_pushed
   repo.updated_at = date_updated
   repo.private = visibility
   repo.owner = Munch(type=o_kind, id=o_id, name=o_name)

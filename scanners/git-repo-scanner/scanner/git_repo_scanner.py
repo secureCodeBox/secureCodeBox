@@ -4,8 +4,16 @@ import sys
 import json
 import calendar
 import time
+from datetime import datetime
+import pytz
+
 from typing import List
 from pathlib import Path
+
+# https://pypi.org/project/pytimeparse/
+from pytimeparse.timeparse import timeparse
+# https://docs.python.org/3/library/datetime.html
+from datetime import timedelta
 
 import gitlab
 from gitlab.v4.objects import Project
@@ -97,6 +105,14 @@ def get_parser_args(args=None):
                       type=bool,
                       default=True,
                       required=False)
+  parser.add_argument('--activity-since-duration',
+                      help='Return git repo findings with repo activity (e.g. commits) more recent than a specific date expresed by an duration (now + duration)',
+                      type=str,
+                      required=False)
+  parser.add_argument('--activity-until-duration',
+                      help='Return git repo findings with repo activity (e.g. commits) older than a specific date expresed by an duration (now + duration)',
+                      type=str,
+                      required=False)
                       
   if args:
     return parser.parse_args(args)
@@ -109,31 +125,70 @@ def parse_gitlab(args):
   if not args.url:
     logger.info(' URL required for GitLab connection.')
     sys.exit(-1)
-  logger.info(' Gitlab authentication...')
 
+  logger.info(' Gitlab authentication...')
   gl = gitlab_authenticate(args)
 
-  projects: List[Project] = get_gitlab_projects(args, gl)
+  logger.info(' Gitlab retrieve all repositories...')
+  now_utc = pytz.utc.localize(datetime.utcnow())
+  # Respect time filtering based on "pushed_at" (not "updated_at")
+  # The difference is that "pushed_at" represents the date and time of the last commit, whereas the "updated_at" represents the date and time of the last change the the repository. 
+  # A change to the repository might be a commit, but it may also be other things, such as changing the description of the repo, creating wiki pages, etc. 
+  # In other words, commits are a subset of updates, and the pushed_at timestamp will therefore either be the same as the updated_at timestamp, or it will be an earlier timestamp.
+  duration = 0
+  activityDeltaDatetime = now_utc
+  if args.activity_since_duration:
+    activityDuration = timeparse(args.activity_since_duration)
+    activityDeltaDatetime = timedelta(seconds=activityDuration)
+    logger.info(' Get all GitLab Repos (filtered by last activity since '+ str(activityDeltaDatetime) +' ago.)')
+
+    projects: List[Project] = get_gitlab_projects_active_since(args, gl)
+  elif args.activity_until_duration:
+    activityDuration = timeparse(args.activity_until_duration)
+    activityDeltaDatetime = timedelta(seconds=activityDuration)
+    logger.info(' Get all GitLab Repos (filtered by last activity until '+ str(activityDeltaDatetime) +' ago.)')
+
+    projects: List[Project] = get_gitlab_projects_active_until(args, gl)
+  else:
+    logger.info(' Get all Gitlab Repos (not filtered)')
+    projects: List[Project] = get_gitlab_projects_all(args, gl)
 
   logger.info(' Process Projects...')
-
-  findings = process_gitlab_projects(args, projects)
+  activityDate = now_utc - activityDeltaDatetime
+  findings = process_gitlab_projects(args, projects, activityDeltaDatetime, activityDate)
 
   return findings
 
 
-def process_gitlab_projects(args, projects):
+def process_gitlab_projects(args, projects, activityDeltaDatetime, activityDate):
   findings = []
   i = 1
   for project in projects:
     if is_not_on_ignore_list_gitlab(project, args.ignore_groups, args.ignore_repos):
-      logger.info(f' {i} - {project.name}')
+      lastUpDatetime = datetime.fromisoformat(project.last_activity_at)
+      logger.info(f' {i} - Name: {project.name} - LastUpdate: {lastUpDatetime}')
       i += 1
-      findings.append(create_finding_gitlab(project))
+      
+      # respect time filtering
+      if args.activity_since_duration:
+        if lastUpDatetime > activityDate:
+          findings.append(create_finding_gitlab(project))
+        else:
+          logger.info(f' Reached activity limit! Ignoring all repos with latest activity since `{activityDeltaDatetime}` ago ({ str(activityDate) }).')
+          break
+      elif args.activity_until_duration:
+        if lastUpDatetime < activityDate:
+          findings.append(create_finding_gitlab(project))
+        else:
+          logger.info(f' Reached activity limit! Ignoring all repos with latest activity until `{activityDeltaDatetime}` ago ({ str(activityDate) }).')
+          break
+      else:
+        findings.append(create_finding_gitlab(project))
+
   return findings
 
 
-def get_gitlab_projects(args, gl):
+def get_gitlab_projects_all(args, gl):
   if args.group:
     try:
       projects = gl.groups.get(args.group).projects.list(all=True, include_subgroups=True, obey_rate_limit=args.obey_rate_limit)
@@ -142,6 +197,28 @@ def get_gitlab_projects(args, gl):
       sys.exit(-1)
   else:
     projects = gl.projects.list(all=True, max_retries=12, obey_rate_limit=args.obey_rate_limit)
+  return projects
+
+def get_gitlab_projects_active_since(args, gl):
+  if args.group:
+    try:
+      projects = gl.groups.get(args.group).projects.list(all=True, include_subgroups=True, order_by='last_activity_at', sort='desc', obey_rate_limit=args.obey_rate_limit)
+    except gitlab.exceptions.GitlabGetError:
+      logger.info(' Group does not exist.')
+      sys.exit(-1)
+  else:
+    projects = gl.projects.list(all=True, max_retries=12, order_by='last_activity_at', sort='desc', obey_rate_limit=args.obey_rate_limit)
+  return projects
+
+def get_gitlab_projects_active_until(args, gl):
+  if args.group:
+    try:
+      projects = gl.groups.get(args.group).projects.list(all=True, include_subgroups=True, order_by='last_activity_at', sort='asc', obey_rate_limit=args.obey_rate_limit)
+    except gitlab.exceptions.GitlabGetError:
+      logger.info(' Group does not exist.')
+      sys.exit(-1)
+  else:
+    projects = gl.projects.list(all=True, max_retries=12, order_by='last_activity_at', sort='asc', obey_rate_limit=args.obey_rate_limit)
   return projects
 
 
@@ -195,22 +272,59 @@ def respect_github_ratelimit(args, gh):
 def process_github_repos(args, gh):
   findings = []
   org: Organization = gh.get_organization(args.organization)
-  repos: PaginatedList[Repository] = org.get_repos(type='all')
+
+  # Respect time filtering based on "pushed_at" (not "updated_at")
+  # The difference is that "pushed_at" represents the date and time of the last commit, whereas the "updated_at" represents the date and time of the last change the the repository. 
+  # A change to the repository might be a commit, but it may also be other things, such as changing the description of the repo, creating wiki pages, etc. 
+  # In other words, commits are a subset of updates, and the pushed_at timestamp will therefore either be the same as the updated_at timestamp, or it will be an earlier timestamp.
+  duration = 0
+  activityDeltaDatetime = datetime.now()
+  if args.activity_since_duration:
+    activityDuration = timeparse(args.activity_since_duration)
+    activityDeltaDatetime = timedelta(seconds=activityDuration)
+    logger.info(' Get all GitHub Repos (filtered by last activity since '+ str(activityDeltaDatetime) +' ago.)')
+
+    repos: PaginatedList[Repository] = org.get_repos(type='all', sort='pushed', direction='desc')
+  elif args.activity_until_duration:
+    activityDuration = timeparse(args.activity_until_duration)
+    activityDeltaDatetime = timedelta(seconds=activityDuration)
+    logger.info(' Get all GitHub Repos (filtered by last activity until '+ str(activityDeltaDatetime) +' ago.)')
+
+    repos: PaginatedList[Repository] = org.get_repos(type='all', sort='pushed', direction='asc')
+  else:
+    logger.info(' Get all GitHub Repos (not filtered)')
+    repos: PaginatedList[Repository] = org.get_repos(type='all')
+  
+  activityDate = datetime.now() - activityDeltaDatetime
+
   for i in range(repos.totalCount):
-    process_github_repos_page(args, findings, repos.get_page(i), gh)
+    process_github_repos_page(args, findings, repos.get_page(i), gh, activityDeltaDatetime, activityDate)
   return findings
 
-
-def process_github_repos_page(args, findings, repos, gh):
+def process_github_repos_page(args, findings, repos, gh, activityDeltaDatetime, activityDate):
   repo: Repository
   for repo in repos:
     if repo.id not in args.ignore_repos:
-      logger.info(f' {len(findings) + 1} - {repo.name}')
+      logger.info(f' {len(findings) + 1} - Name: {repo.name} - LastUpdate: {repo.updated_at} - LastPush: {repo.pushed_at}')
       
-      findings.append(create_finding_github(repo))
-      respect_github_ratelimit(args, gh)
-      
-
+      # respect time filtering
+      if args.activity_since_duration:
+        if repo.updated_at > activityDate:
+          findings.append(create_finding_github(repo))
+          respect_github_ratelimit(args, gh)
+        else:
+          logger.info(f' Reached activity limit! Ignoring all repos with latest activity since `{activityDeltaDatetime}` ago ({ str(activityDate) }).')
+          break
+      elif args.activity_until_duration:
+        if repo.updated_at < activityDate:
+          findings.append(create_finding_github(repo))
+          respect_github_ratelimit(args, gh)
+        else:
+          logger.info(f' Reached activity limit! Ignoring all repos with latest activity until `{activityDeltaDatetime}` ago ({ str(activityDate) }).')
+          break
+      else:
+        findings.append(create_finding_github(repo))
+        respect_github_ratelimit(args, gh)
 
 def setup_github(args):
   if args.url:
