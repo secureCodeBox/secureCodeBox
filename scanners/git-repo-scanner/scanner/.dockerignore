@@ -1,0 +1,3 @@
+__pytest_cache
+.pytest_cache
+*.test.py
