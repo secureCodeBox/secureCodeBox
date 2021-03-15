@@ -3,36 +3,37 @@ import * as fs from "fs";
 import * as util from "util";
 import { NotifierType } from "../NotifierType";
 import { Finding } from "../model/Finding";
-import axios from 'axios';
 import { TemplateType } from "../templateType";
 
 export abstract class AbstractNotifier implements Notifier {
-  private readonly TEMPLATE_DIR: string = "./templates";
+  private static readonly TEMPLATE_DIR: string = "./templates";
+  private static readonly TEMPLATE_FILE_TYPE = "json";
   protected template: string;
   protected abstract type: NotifierType;
 
   constructor() { }
 
-  public async initCustomTemplate(): Promise<void> {
-    if (this.template == null || this.template === "") {
+  public async initCustomTemplate(template: string): Promise<void> {
+    if (template == null || template === "") {
       console.log("No Custom Template found. Loading Default Template")
       await this.loadDefaultTemplate();
     }
+    this.template = template;
   }
 
   public abstract initTemplate(templateName: string): Promise<void>;
 
-  protected async load(templateName: string) {
-    await this.loadTemplate(`${this.TEMPLATE_DIR}/${this.type}/${templateName}`)
+  protected async loadTemplate(templateName: string) {
+    await this.loadFile(`${AbstractNotifier.TEMPLATE_DIR}/${this.type}/${templateName}.${AbstractNotifier.TEMPLATE_FILE_TYPE}`)
   }
 
   public abstract sendMessage(findings: Finding[]): string
 
   private async loadDefaultTemplate(): Promise<void> {
-    await this.loadTemplate(`${this.TEMPLATE_DIR}/${this.type}/${TemplateType.MESSAGE_CARD}.json`)
+    await this.loadTemplate(TemplateType.MESSAGE_CARD)
   }
 
-  private async loadTemplate(template: string): Promise<void> {
+  private async loadFile(template: string): Promise<void> {
     const readFile = util.promisify(fs.readFile)
     const buf = await readFile(template, "utf8");
     this.template = buf.toString();

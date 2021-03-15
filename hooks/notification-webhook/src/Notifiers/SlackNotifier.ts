@@ -19,7 +19,7 @@ export class SlackNotifier extends AbstractNotifier {
   public async initTemplate(templateName: string): Promise<void> {
     switch (templateName) {
       case TemplateType.MESSAGE_CARD:
-        await this.load(templateName)
+        await this.loadTemplate(templateName)
       default:
         throw new Error(`The Template Type "${templateName}" does not exist :(`)
     }
