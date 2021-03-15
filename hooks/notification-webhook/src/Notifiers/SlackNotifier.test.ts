@@ -2,7 +2,7 @@ import { SlackNotifier } from "./SlackNotifier";
 
 test("Should Send Minimal Message Slack", async () => {
   const slackNotifier = new SlackNotifier();
-  await slackNotifier.init();
+  await slackNotifier.initTemplate("messageCard");
   const message = slackNotifier.sendMessage([]);
   expect(message).toBe({});
 });
