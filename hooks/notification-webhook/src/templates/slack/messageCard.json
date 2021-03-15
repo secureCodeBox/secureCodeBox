@@ -1,0 +1,53 @@
+{
+  "blocks": [
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "New {{ scanner }} security scan results are available!",
+        "emoji": true
+      }
+    },
+    {
+      "type": "section",
+      "fields": [
+        {
+          "type": "mrkdwn",
+          "text": "*Created at:* 2021-03-10T12:13:17Z\n\n *Findings Severity Overview*:\n high: 1 \n informational: 2 \n medium: 4 \n\n *Findings Category Overview*: \n Host: 1 \n Open Port: 3"
+        }
+      ],
+      "accessory": {
+        "type": "image",
+        "image_url": "https://www.securecodebox.io/favicon.png",
+        "alt_text": "computer thumbnail"
+      }
+    },
+    {
+      "type": "actions",
+      "elements": [
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "Open Kibana Dashboard",
+            "emoji": true
+          },
+          "value": "click_me_123",
+          "action_id": "actionId-0",
+          "url": "https://securecodebox.io"
+        },
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "Show Results in Kibana Dashboard",
+            "emoji": true
+          },
+          "value": "click_me_123",
+          "action_id": "actionId-1",
+          "url": "https://securecodebox.io"
+        }
+      ]
+    }
+  ]
+}
