@@ -1,7 +1,7 @@
 import { NotifierType } from "../NotifierType"
 import { AbstractNotifier } from "./AbstractNotifier"
 import { Finding } from "../model/Finding"
-import Mustache from 'mustache';
+import * as Mustache from 'mustache';
 import { TemplateType } from "../templateType";
 
 export class SlackNotifier extends AbstractNotifier {
@@ -22,7 +22,7 @@ export class SlackNotifier extends AbstractNotifier {
       case TemplateType.MESSAGE_CARD:
         await this.loadTemplate(templateName)
       default:
-        throw new Error(`The Template Type "${templateName}" does not exist :(`)
+        throw new Error(`The Template Type ${templateName} does not exist :(`)
     }
   }
 
