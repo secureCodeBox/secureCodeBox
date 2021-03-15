@@ -3,10 +3,10 @@ import { NotifierType } from "./NotifierType";
 import { SlackNotifier } from "./Notifiers/SlackNotifier"
 
 export class NotifierFactory {
-  static create(type: NotifierType, template: string): Notifier {
-    switch (type) {
+  static create(notifierType: NotifierType): Notifier {
+    switch (notifierType) {
       case NotifierType.SLACK:
-        return new SlackNotifier(template);
+        return new SlackNotifier();
       default:
         throw new Error("This Type is not Implemented :(")
     }

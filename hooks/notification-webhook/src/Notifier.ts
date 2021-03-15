@@ -10,5 +10,10 @@ export interface Notifier {
   /**
    * Initializes the Notifier with the given template
    */
-  init(): void
+  initCustomTemplate(customTemplate: string): void
+
+  /**
+   * Loads Template with given name from default templates for this Notifier
+   */
+  initTemplate(templateName: string): void
 }
