@@ -10,10 +10,10 @@ export interface Notifier {
   /**
    * Initializes the Notifier with the given template
    */
-  initCustomTemplate(customTemplate: string): void
+  initCustomTemplate(customTemplate: string): Promise<void>
 
   /**
    * Loads Template with given name from default templates for this Notifier
    */
-  initTemplate(templateName: string): void
+  initTemplate(templateName: string): Promise<void>
 }
