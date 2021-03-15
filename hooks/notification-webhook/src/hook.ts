@@ -24,8 +24,15 @@ export async function handle({ getFindings }) {
   let notifications: Notification[] = JSON.parse(process.env["NOTIFICATIONS"])
   notifications.forEach(notification => {
     const findingsToNotify = findings.filter(finding => matches(finding, notification.rules));
-    const notifier: Notifier = NotifierFactory.create(notification.type, notification.template);
-    notifier.init();
+    const notifier: Notifier = NotifierFactory.create(notification.type);
+    notifier.initTemplate(notification.template);
+
+    if (notification.customTemplate != null && notification.customTemplate !== "") {
+      this.initCustomTemplate(notification.customTemplate);
+    } else {
+      this.initTemplate(notification.template);
+    }
+
     const message = notifier.sendMessage(findingsToNotify);
   })
 }
