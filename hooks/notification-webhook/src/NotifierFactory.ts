@@ -7,6 +7,8 @@ export class NotifierFactory {
     switch (type) {
       case NotifierType.SLACK:
         return new SlackNotifier(template);
+      default:
+        throw new Error("This Type is not Implemented :(")
     }
   }
 }
