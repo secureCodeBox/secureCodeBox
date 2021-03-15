@@ -4,6 +4,7 @@ import * as util from "util";
 import { NotifierType } from "../NotifierType";
 import { Finding } from "../model/Finding";
 import axios from 'axios';
+import { TemplateType } from "../templateType";
 
 export abstract class AbstractNotifier implements Notifier {
   private readonly TEMPLATE_DIR: string = "./templates";
@@ -19,16 +20,16 @@ export abstract class AbstractNotifier implements Notifier {
     }
   }
 
-  public async initTemplate(templateName: string): Promise<void> {
-    if (templateName !== "") {
-      await this.loadTemplate(`${this.TEMPLATE_DIR}/${this.type}/${templateName}`)
-    }
+  public abstract initTemplate(templateName: string): Promise<void>;
+
+  protected async load(templateName: string) {
+    await this.loadTemplate(`${this.TEMPLATE_DIR}/${this.type}/${templateName}`)
   }
 
   public abstract sendMessage(findings: Finding[]): string
 
   private async loadDefaultTemplate(): Promise<void> {
-    await this.loadTemplate(`${this.TEMPLATE_DIR}/${this.type}/messageCard.json`)
+    await this.loadTemplate(`${this.TEMPLATE_DIR}/${this.type}/${TemplateType.MESSAGE_CARD}.json`)
   }
 
   private async loadTemplate(template: string): Promise<void> {
