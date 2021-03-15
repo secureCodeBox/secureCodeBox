@@ -15,5 +15,5 @@ export interface Notifier {
   /**
    * Loads Template with given name from default templates for this Notifier
    */
-  initTemplate(templateName: string): Promise<void>
+  initTemplate(templateType: string): Promise<void>
 }

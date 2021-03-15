@@ -21,7 +21,7 @@ export abstract class AbstractNotifier implements Notifier {
     this.template = template;
   }
 
-  public abstract initTemplate(templateName: string): Promise<void>;
+  public abstract initTemplate(templateType: string): Promise<void>;
 
   protected async loadTemplate(templateName: string) {
     await this.loadFile(`${AbstractNotifier.TEMPLATE_DIR}/${this.type}/${templateName}.${AbstractNotifier.TEMPLATE_FILE_TYPE}`)
