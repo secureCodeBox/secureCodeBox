@@ -10,9 +10,10 @@ export class SlackNotifier extends AbstractNotifier {
     super();
   }
 
-  sendMessage(findings: Finding[]): string {
+  public async sendMessage(findings: Finding[]): Promise<void> {
     console.log("Render Slack Message");
-    return Mustache.render(this.template, { scanner: "nmap" });
+    let template = Mustache.render(this.template, { scanner: "nmap" });
+    await this.sendPostRequest(template);
   }
 
 
@@ -23,5 +24,9 @@ export class SlackNotifier extends AbstractNotifier {
       default:
         throw new Error(`The Template Type "${templateName}" does not exist :(`)
     }
+  }
+
+  private async sendPostRequest(template: string) {
+    console.log(`Template: ${template}`);
   }
 }

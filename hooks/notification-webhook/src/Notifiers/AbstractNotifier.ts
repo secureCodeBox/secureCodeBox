@@ -27,7 +27,7 @@ export abstract class AbstractNotifier implements Notifier {
     await this.loadFile(`${AbstractNotifier.TEMPLATE_DIR}/${this.type}/${templateName}.${AbstractNotifier.TEMPLATE_FILE_TYPE}`)
   }
 
-  public abstract sendMessage(findings: Finding[]): string
+  public abstract sendMessage(findings: Finding[]): Promise<void>
 
   private async loadDefaultTemplate(): Promise<void> {
     await this.loadTemplate(TemplateType.MESSAGE_CARD)

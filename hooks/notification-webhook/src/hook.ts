@@ -22,7 +22,7 @@ import { NotifierFactory } from "./NotifierFactory";
 export async function handle({ getFindings }) {
   let findings: Finding[] = getFindings();
   let notifications: Notification[] = JSON.parse(process.env["NOTIFICATIONS"])
-  notifications.forEach(notification => {
+  notifications.forEach(async notification => {
     const findingsToNotify = findings.filter(finding => matches(finding, notification.rules));
     const notifier: Notifier = NotifierFactory.create(notification.type);
     notifier.initTemplate(notification.template);
@@ -33,7 +33,7 @@ export async function handle({ getFindings }) {
       this.initTemplate(notification.template);
     }
 
-    const message = notifier.sendMessage(findingsToNotify);
+    await notifier.sendMessage(findingsToNotify);
   })
 }
 
