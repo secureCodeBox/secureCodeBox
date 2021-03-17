@@ -5,16 +5,19 @@ import { Finding } from "../model/Finding";
 import * as Mustache from "mustache";
 import { NotificationChannel } from "../model/NotificationChannel";
 import * as jsyaml from "js-yaml";
+import { Scan } from "../model/Scan"
 
 export abstract class AbstractNotifier implements Notifier {
   private static readonly TEMPLATE_DIR: string = "./templates";
   private static readonly TEMPLATE_FILE_TYPE = "yaml";
   protected channel: NotificationChannel;
+  protected scan: Scan;
   protected template: string;
   protected abstract type: NotifierType;
 
-  constructor(channel: NotificationChannel) {
+  constructor(channel: NotificationChannel, scan: Scan) {
     this.channel = channel;
+    this.scan = scan;
   }
 
   protected async loadTemplate() {

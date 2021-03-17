@@ -3,13 +3,14 @@ import { AbstractNotifier } from "./AbstractNotifier"
 import { Finding } from "../model/Finding"
 import axios from 'axios';
 import { NotificationChannel } from "../model/NotificationChannel";
+import { Scan } from "../model/Scan";
 
 export class SlackNotifier extends AbstractNotifier {
 
   protected type: NotifierType = NotifierType.SLACK
 
-  constructor(channel: NotificationChannel) {
-    super(channel);
+  constructor(channel: NotificationChannel, scan: Scan) {
+    super(channel, scan);
   }
 
   public async sendMessage(findings: Finding[]): Promise<void> {
