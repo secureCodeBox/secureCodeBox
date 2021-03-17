@@ -27,7 +27,7 @@
       "fields": [
         {
           "type": "mrkdwn",
-          "text": "*Findings Severity Overview*:\n high: 1 \n informational: 2 \n medium: 4 \n\n"
+          "text": "*Findings Severity Overview*:\n high: 1 \n informational: 2 \n medium: 4"
         }
       ]
     },
