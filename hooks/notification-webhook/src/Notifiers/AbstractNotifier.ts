@@ -3,6 +3,7 @@ import * as fs from "fs";
 import * as util from "util";
 import { NotifierType } from "../NotifierType";
 import { Finding } from "../model/Finding";
+import * as Mustache from "mustache";
 
 export abstract class AbstractNotifier implements Notifier {
   private static readonly TEMPLATE_DIR: string = "./templates";
@@ -19,8 +20,11 @@ export abstract class AbstractNotifier implements Notifier {
   public abstract sendMessage(findings: Finding[]): Promise<void>
 
   private loadFileAsString(template: string): string {
-    const readFile = util.promisify(fs.readFile)
     const buf = fs.readFileSync(template, "utf8");
     return buf.toString();
+  }
+
+  protected renderMessage(findings: Finding[]): string {
+    return Mustache.render(this.template, { scanner: "nmap" });
   }
 }
