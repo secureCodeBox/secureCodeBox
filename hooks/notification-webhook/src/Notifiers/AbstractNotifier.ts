@@ -9,7 +9,7 @@ import { NotificationChannel } from "../model/NotificationChannel";
 export abstract class AbstractNotifier implements Notifier {
   private static readonly TEMPLATE_DIR: string = "./templates";
   private static readonly TEMPLATE_FILE_TYPE = "json";
-  protected channel;
+  protected channel: NotificationChannel;
   protected template: string;
   protected abstract type: NotifierType;
 
@@ -18,6 +18,7 @@ export abstract class AbstractNotifier implements Notifier {
   }
 
   protected async loadTemplate() {
+    console.log(`Try to Load Template "${this.channel.templateName}"`)
     this.template = this.loadFileAsString(`${AbstractNotifier.TEMPLATE_DIR}/${this.channel.templateName}.${AbstractNotifier.TEMPLATE_FILE_TYPE}`);
   }
 
@@ -29,6 +30,7 @@ export abstract class AbstractNotifier implements Notifier {
   }
 
   protected renderMessage(findings: Finding[]): string {
+    this.loadTemplate();
     return Mustache.render(this.template, { scanner: "nmap" });
   }
 }
