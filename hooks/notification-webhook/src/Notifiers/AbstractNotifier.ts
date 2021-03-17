@@ -1,6 +1,5 @@
 import { Notifier } from "../Notifier";
 import * as fs from "fs";
-import * as util from "util";
 import { NotifierType } from "../NotifierType";
 import { Finding } from "../model/Finding";
 import * as Mustache from "mustache";
