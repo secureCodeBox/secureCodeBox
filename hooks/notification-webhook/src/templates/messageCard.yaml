@@ -11,17 +11,25 @@ blocks:
     image_url: https://www.securecodebox.io/favicon.png
     alt_text: secureCodeBox Favicon
   - type: mrkdwn
-    text: 'Scan: {{ scan.metadata.name }} Created at {{ scan.metadata.creationTimestamp
-      }}'
+    text: |
+      Scan: {{ scan.metadata.name }}
+      Created at {{ scan.metadata.creationTimestamp}}
 - type: section
   fields:
   - type: mrkdwn
-    text: "*Findings Severity Overview*:\n high: 1 \n informational: 2 \n medium:
-      4"
+    text: |
+      {{ #getSeverityOverview}}
+        *Findings Severity Overview*:
+       {{ getSeverityOverview }}
+      {{ /getSeverityOverview}}
 - type: section
   fields:
   - type: mrkdwn
-    text: "*Findings Category Overview*: \n Host: 1 \n Open Port: 3"
+    text: |
+      {{ #getCategoryOverview}}
+        *Findings Category Overview*:
+       {{ getCategoryOverview }}
+      {{ /getCategoryOverview}}
 - type: actions
   elements:
   - type: button
