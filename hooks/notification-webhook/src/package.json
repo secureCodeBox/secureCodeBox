@@ -31,6 +31,7 @@
     "ts-jest": "^26.5.3"
   },
   "dependencies": {
+    "@kubernetes/client-node": "^0.14.0",
     "@types/js-yaml": "^4.0.0",
     "axios": "^0.21.1",
     "js-yaml": "^3.14.1",
