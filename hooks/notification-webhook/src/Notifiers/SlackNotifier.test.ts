@@ -6,7 +6,7 @@ import { Scan } from "../model/Scan";
 
 jest.mock('axios');
 
-test.only("Should Send Message With Findings And Severities", async () => {
+test("Should Send Message With Findings And Severities", async () => {
   const message = `{\"blocks\":[{\"type\":\"header\",\"text\":{\"type\":\"plain_text\",\"text\":\"New Nmap security scan results are available!\",\"emoji\":true}},{\"type\":\"context\",\"elements\":[{\"type\":\"image\",\"image_url\":\"https://www.securecodebox.io/favicon.png\",\"alt_text\":\"secureCodeBox Favicon\"},{\"type\":\"mrkdwn\",\"text\":\"Scan: demo-scan-1601086432\\nCreated at Fri Jan 01 2021 15:29:25 GMT+0100 (Central European Standard Time)\\n\"}]},{\"type\":\"section\",\"fields\":[{\"type\":\"mrkdwn\",\"text\":\"\\n  *Findings Severity Overview*:\\n high: 10
 medium: 5
 low: 2
