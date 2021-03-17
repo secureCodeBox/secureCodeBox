@@ -15,7 +15,7 @@ limitations under the License.
  */
 import { isMatch } from "lodash";
 import { Finding } from "./model/Finding";
-import { NotificationChannel } from "./model/notification-channel";
+import { NotificationChannel } from "./model/NotificationChannel";
 import { Notifier } from "./Notifier";
 import { NotifierFactory } from "./NotifierFactory";
 
