@@ -1,7 +1,7 @@
 import { Notifier } from "./Notifier"
 import { NotifierType } from "./NotifierType";
 import { SlackNotifier } from "./Notifiers/SlackNotifier"
-import { NotificationChannel } from "./model/notification-channel";
+import { NotificationChannel } from "./model/NotificationChannel";
 
 export class NotifierFactory {
   static create(channel: NotificationChannel): Notifier {
