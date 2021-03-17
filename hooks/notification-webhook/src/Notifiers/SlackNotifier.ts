@@ -2,7 +2,7 @@ import { NotifierType } from "../NotifierType"
 import { AbstractNotifier } from "./AbstractNotifier"
 import { Finding } from "../model/Finding"
 import axios from 'axios';
-import { NotificationChannel } from "../model/notification-channel";
+import { NotificationChannel } from "../model/NotificationChannel";
 
 export class SlackNotifier extends AbstractNotifier {
 
