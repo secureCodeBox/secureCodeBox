@@ -35,6 +35,45 @@ export abstract class AbstractNotifier implements Notifier {
 
   protected renderMessage(findings: Finding[]): string {
     this.loadTemplate();
-    return Mustache.render(this.template, { scanner: "nmap" });
+    return Mustache.render(this.template, {
+      "findings": findings,
+      "scan": this.scan,
+      "getSeverityOverview": this.getSeverityOverview(),
+      "getCategoryOverview": this.getCategoryOverview(),
+    });
+  }
+
+  protected getSeverityOverview(): string {
+    let template = ""
+    try {
+      const severities = this.getDetails(this.scan.status.findings.severities);
+      for (const severity of severities) {
+        template += `${severity.name}: ${severity.value}\n`
+      }
+      return template;
+    } catch (error) {
+      console.log(`There was an Error getting Severities from Scan: ${error}`)
+    }
+    return null;
+  }
+
+  protected getCategoryOverview(): string {
+    let template = "";
+    try {
+      const categories = this.getDetails(this.scan.status.findings.categories);
+      for (const category of categories) {
+        template += `${category.name}: ${category.value}\n`
+      }
+      return template;
+    } catch (error) {
+      console.log(`There was an Error getting Categories from Scan: ${error}`)
+    }
+    return null;
+  }
+
+  protected getDetails(data): any[] {
+    return data != null
+      ? Object.entries(data).map(([name, value]) => ({ name, value }))
+      : [];
   }
 }
