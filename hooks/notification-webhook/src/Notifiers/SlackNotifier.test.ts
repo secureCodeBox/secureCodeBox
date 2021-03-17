@@ -1,10 +1,21 @@
 import { SlackNotifier } from "./SlackNotifier";
+import axios from 'axios'
+import { NotificationChannel } from "../model/NotificationChannel";
+import { NotifierType } from "../NotifierType";
 
-test("Should Send Minimal Message Slack", async () => {
-  const slackNotifier = new SlackNotifier();
-  await slackNotifier.initTemplate("messageCard");
-  const message = slackNotifier.sendMessage([]);
-  expect(message).toBe({});
+jest.mock('axios');
+
+test.only("Should Send Minimal Message Slack", async () => {
+  const channel: NotificationChannel = {
+    name: "Channel Name",
+    type: NotifierType.SLACK,
+    templateName: "messageCard",
+    rules: [],
+    endPoint: "https://webhook.site/85040864-7cf4-4a3a-8aa9-34c1fb7c66ba"
+  };
+  const slackNotifier = new SlackNotifier(channel);
+  slackNotifier.sendMessage([]);
+  expect(axios.post).toHaveBeenCalledWith("");
 });
 
 test("Should Send Post Request with Findings", async () => {
