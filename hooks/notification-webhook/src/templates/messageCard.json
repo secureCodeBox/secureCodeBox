@@ -4,23 +4,41 @@
       "type": "header",
       "text": {
         "type": "plain_text",
-        "text": "New {{ scanner }} security scan results are available!",
+        "text": "New {{ scan.spec.scanType }} security scan results are available!",
         "emoji": true
       }
+    },
+    {
+      "type": "context",
+      "elements": [
+        {
+          "type": "image",
+          "image_url": "https://www.securecodebox.io/favicon.png",
+          "alt_text": "secureCodeBox Favicon"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "Scan: {{ scan.metadata.name }} Created at {{ scan.metadata.creationTimestamp }}"
+        }
+      ]
     },
     {
       "type": "section",
       "fields": [
         {
           "type": "mrkdwn",
-          "text": "*Created at:* 2021-03-10T12:13:17Z\n\n *Findings Severity Overview*:\n high: 1 \n informational: 2 \n medium: 4 \n\n *Findings Category Overview*: \n Host: 1 \n Open Port: 3"
+          "text": "*Findings Severity Overview*:\n high: 1 \n informational: 2 \n medium: 4 \n\n"
         }
-      ],
-      "accessory": {
-        "type": "image",
-        "image_url": "https://www.securecodebox.io/favicon.png",
-        "alt_text": "computer thumbnail"
-      }
+      ]
+    },
+    {
+      "type": "section",
+      "fields": [
+        {
+          "type": "mrkdwn",
+          "text": "*Findings Category Overview*: \n Host: 1 \n Open Port: 3"
+        }
+      ]
     },
     {
       "type": "actions",
