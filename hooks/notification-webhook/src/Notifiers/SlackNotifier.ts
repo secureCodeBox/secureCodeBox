@@ -2,13 +2,14 @@ import { NotifierType } from "../NotifierType"
 import { AbstractNotifier } from "./AbstractNotifier"
 import { Finding } from "../model/Finding"
 import axios from 'axios';
+import { NotificationChannel } from "../model/notification-channel";
 
 export class SlackNotifier extends AbstractNotifier {
 
   protected type: NotifierType = NotifierType.SLACK
 
-  constructor() {
-    super();
+  constructor(channel: NotificationChannel) {
+    super(channel);
   }
 
   public async sendMessage(findings: Finding[]): Promise<void> {
@@ -17,9 +18,9 @@ export class SlackNotifier extends AbstractNotifier {
 
   protected async sendPostRequest(message: string) {
     try {
-      await axios.post("https://webhook.site/85040864-7cf4-4a3a-8aa9-34c1fb7c66ba", message)
+      await axios.post(this.channel.endPoint, message)
     } catch (error) {
-      console.log(`There was an Error sending the Message for the Slack Notifier`);
+      console.log(`There was an Error sending the Message for the Slack Notifier "${this.channel.name}"`);
     }
   }
 }
