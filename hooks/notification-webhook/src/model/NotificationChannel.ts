@@ -1,9 +1,9 @@
 import { NotifierType } from "../NotifierType"
 
-export class NotificationChannel {
-  public name: string;
-  public type: NotifierType;
-  public templateName: string;
-  public rules: any;
-  public endPoint: string;
+export interface NotificationChannel {
+  name: string;
+  type: NotifierType;
+  templateName: string;
+  rules: any;
+  endPoint: string;
 }
