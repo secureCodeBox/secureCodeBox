@@ -1,4 +1,3 @@
----
 blocks:
 - type: header
   text:
@@ -18,18 +17,18 @@ blocks:
   fields:
   - type: mrkdwn
     text: |
-      {{ #getSeverityOverview}}
         *Findings Severity Overview*:
-       {{ getSeverityOverview }}
-      {{ /getSeverityOverview}}
+        {{ #severities }}
+        {{ name }}: {{ value }}
+        {{ /severities }}
 - type: section
   fields:
   - type: mrkdwn
     text: |
-      {{ #getCategoryOverview}}
         *Findings Category Overview*:
-       {{ getCategoryOverview }}
-      {{ /getCategoryOverview}}
+        {{ #categories }}
+        {{ name }}: {{ value }}
+        {{ /categories }}
 - type: actions
   elements:
   - type: button

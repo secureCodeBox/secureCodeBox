@@ -9,7 +9,7 @@ import { Scan } from "../model/Scan"
 
 export abstract class AbstractNotifier implements Notifier {
   private static readonly TEMPLATE_DIR: string = "./templates";
-  private static readonly TEMPLATE_FILE_TYPE = "yaml";
+  private static readonly TEMPLATE_FILE_TYPE = "mustache";
   protected channel: NotificationChannel;
   protected scan: Scan;
   protected template: string;
@@ -28,43 +28,41 @@ export abstract class AbstractNotifier implements Notifier {
   public abstract sendMessage(findings: Finding[]): Promise<void>
 
   private loadFileAsString(template: string): string {
-    const buf = fs.readFileSync(template, "utf8");
-    const yamlTemplate = jsyaml.load(buf);
-    return JSON.stringify(yamlTemplate);
+    return fs.readFileSync(template, "utf8");
   }
 
   protected renderMessage(findings: Finding[]): string {
     this.loadTemplate();
-    return Mustache.render(this.template, {
+    const renderedTemplate = Mustache.render(this.template, {
       "findings": findings,
       "scan": this.scan,
-      "getSeverityOverview": this.getSeverityOverview(),
-      "getCategoryOverview": this.getCategoryOverview(),
+      "severities": this.getSeverityOverview(),
+      "categories": this.getCategoryOverview(),
     });
+    try {
+      const templateObject = jsyaml.load(renderedTemplate);
+      return JSON.stringify(templateObject);
+    } catch (e) {
+      console.log(e)
+    }
   }
 
-  protected getSeverityOverview(): string {
-    let template = ""
+  protected getSeverityOverview(): any {
     try {
       const severities = this.getDetails(this.scan.status.findings.severities);
-      for (const severity of severities) {
-        template += `${severity.name}: ${severity.value}\n`
-      }
-      return template;
+      console.log(severities);
+      return severities;
     } catch (error) {
       console.log(`There was an Error getting Severities from Scan: ${error}`)
     }
     return null;
   }
 
-  protected getCategoryOverview(): string {
-    let template = "";
+  protected getCategoryOverview(): any {
     try {
       const categories = this.getDetails(this.scan.status.findings.categories);
-      for (const category of categories) {
-        template += `${category.name}: ${category.value}\n`
-      }
-      return template;
+      console.log(categories);
+      return categories;
     } catch (error) {
       console.log(`There was an Error getting Categories from Scan: ${error}`)
     }
