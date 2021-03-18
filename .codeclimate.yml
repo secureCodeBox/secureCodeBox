@@ -10,19 +10,20 @@ checks:
     enabled: false
   identical-code:
     enabled: false
-plugins:
-  eslint:
-    enabled: true
-  fixme:
-    enabled: true
-  golint:
-    enabled: true
-  gofmt:
-    enabled: true
-  govet:
-    enabled: true
-  markdownlint:
-    enabled: true
+# plugins:
+#   eslint:
+#     enabled: true
+#     channel: "eslint-7"
+#   fixme:
+#     enabled: true
+#   golint:
+#     enabled: true
+#   gofmt:
+#     enabled: true
+#   govet:
+#     enabled: true
+#   markdownlint:
+#     enabled: true
 exclude_patterns:
   - "config/"
   - "db/"
