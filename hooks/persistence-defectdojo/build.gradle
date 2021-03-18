@@ -18,7 +18,7 @@ repositories {
 dependencies {
   implementation 'io.kubernetes:client-java:10.0.0'
 
-  implementation 'io.securecodebox:defectdojo-client:0.0.7-SNAPSHOT'
+  implementation 'io.securecodebox:defectdojo-client:0.0.12-SNAPSHOT'
 
   implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
   implementation 'org.slf4j:slf4j-log4j12:1.7.30'

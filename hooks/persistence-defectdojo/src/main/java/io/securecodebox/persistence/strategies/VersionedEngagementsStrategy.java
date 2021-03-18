@@ -274,24 +274,43 @@ public class VersionedEngagementsStrategy implements Strategy {
 
   /**
    * Returns the DefectDojo Product Name related to the given scan.
+   * 
    * @param scan The scan the productName relates to.
    * @return The productName related to the given scan.
    */
   protected String getProductName(Scan scan) {
+    String result = scan.getMetadata().getName();
+
     if (scan.getProductName().isPresent()) {
-      return scan.getProductName().get();
+      result = scan.getProductName().get();
     }
 
-    // If the Scan was created via a scheduled scan, the Name of the ScheduledScan should be preferred to the scans name
+    if (scan.getMetadata().getOwnerReferences() != null) {
+      result = getProductNameForScheduedScan(scan);
+    }
+
+    return result;
+  }
+
+  /**
+   * Returns the DefectDojo Product Name related to the given scan.
+   * If the Scan was created via a scheduled scan, the Name of the ScheduledScan should be preferred to the scans name.
+   * 
+   * @param scan The scan the productName relates to.
+   * @return The productName related to the given scan.
+   */
+  protected String getProductNameForScheduedScan(Scan scan) {
+    String result = scan.getMetadata().getName();
+  
     if (scan.getMetadata().getOwnerReferences() != null) {
       for (var ownerReference : scan.getMetadata().getOwnerReferences()) {
         if ("ScheduledScan".equals(ownerReference.getKind())) {
-          return ownerReference.getName();
+          result = ownerReference.getName();
         }
       }
     }
 
-    return scan.getMetadata().getName();
+    return result;
   }
 
   /**
