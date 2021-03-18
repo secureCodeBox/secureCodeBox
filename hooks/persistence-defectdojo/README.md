@@ -8,20 +8,23 @@ usecase: "Publishes all Scan Reports to OWASP DefectDojo."
 
 ## About
 
-The DefectDojo hook imports the reports from scans automatically into DefectDojo.
-The hook uses the import scan api from DefectDojo to import the scan results.
+The DefectDojo hook imports the reports from scans automatically into [OWASP DefectDojo](https://www.defectdojo.org/).
+The hook uses the import scan [API from DefectDojo](https://defectdojo.readthedocs.io/en/latest/api-v2-docs.html) to import the scan results.
+
 This means that only scan types are supported by the hook which are both supported by the secureCodeBox and DefectDojo.
-
 These are:
-
 - Nmap
 - ZAP (Baseline, API Scan and Full Scan)
 - SSLyze
 - Trivy
 - Gitleaks
 
+:::caution
+
 Nikto is currently **not** supported even though it's supported by the secureCodeBox and DefectDojo as the secureCodeBox
 uses the Nikto JSON format while DefectDojo uses the XML format.
+
+:::
 
 ## Runtime Configuration
 
@@ -43,7 +46,7 @@ can add these via annotation to the scan. See examples below.
 | `defectdojo.securecodebox.io/engagement-version` | Engagement Version         | Nothing                                                              |                                                                                       |
 | `defectdojo.securecodebox.io/engagement-tags`    | Engagement Tags            | Nothing                                                              | Only used when creating the Product not used for updating                             |
 
-### Example Scans
+### Simple Example Scans
 
 This will import the results daily into an engagements called: "zap-juiceshop-$UNIX_TIMESTAMP" (Name of the Scan created daily by the ScheduledScan), in a Product called: "zap-juiceshop" in the default DefectDojo product type.
 
@@ -61,7 +64,7 @@ spec:
       - "http://juice-shop.demo-apps.svc:3000"
 ```
 
-#### Complete
+### Complete Example Scan
 
 This will import the results into engagement, product and product type following the labels.
 The engagement will be reused by the hook for the daily scans / imports until the engagement version is increased.
