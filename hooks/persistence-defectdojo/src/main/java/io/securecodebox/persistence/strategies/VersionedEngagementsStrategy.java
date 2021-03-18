@@ -37,6 +37,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 
+import javax.lang.model.util.ElementScanner14;
+
 /**
  * VersionedEngagementsStrategy creates a new Engagement for every new version of the software.
  * If a engagement already exists for this version it'll reuse the engagement and append new tests for every scan until the version gets bumped.
@@ -281,14 +283,17 @@ public class VersionedEngagementsStrategy implements Strategy {
    * @return The productName related to the given scan.
    */
   protected String getProductName(Scan scan) {
-    String result = scan.getMetadata().getName();
+    String result = "unkown";
 
     if (scan.getProductName().isPresent()) {
       result = scan.getProductName().get();
     }
-
-    if (scan.getMetadata().getOwnerReferences() != null) {
+    else if (scan.getMetadata().getOwnerReferences() != null) {
+      // try to use the scheduledScan name if no productName is defined
       result = getProductNameForParentScan(scan.getMetadata().getOwnerReferences());
+    }
+    else {
+      result = scan.getMetadata().getName();
     }
 
     return result;
