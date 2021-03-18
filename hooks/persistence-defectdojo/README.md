@@ -2,8 +2,8 @@
 title: "DefectDojo"
 category: "hook"
 type: "persistenceProvider"
-state: "in progress"
-usecase: "Publishes all Scan Reports to DefectDojo."
+state: "released"
+usecase: "Publishes all Scan Reports to OWASP DefectDojo."
 ---
 
 ## About

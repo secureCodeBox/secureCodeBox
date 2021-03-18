@@ -26,8 +26,8 @@ dependencies {
   testImplementation(platform('org.junit:junit-bom:5.7.0'))
   testImplementation('org.junit.jupiter:junit-jupiter')
 
-  testCompile "org.mockito:mockito-core:2.+"
-  testCompile "org.mockito:mockito-junit-jupiter:2.+"
+  testImplementation "org.mockito:mockito-core:2.+"
+  testImplementation "org.mockito:mockito-junit-jupiter:2.+"
 }
 
 test {
