@@ -18,7 +18,7 @@
 
 image:
   # image.repository -- Hook image repository
-  repository: docker.io/securecodebox/notification-webhook
+  repository: docker.io/securecodebox/notification-hook
   # image.tag -- Image tag
   # @default -- defaults to the charts version
   tag: null

@@ -1,7 +1,7 @@
 {
-  "name": "scb-notification-webhook",
+  "name": "scb-notification-hook",
   "version": "1.0.0",
-  "description": "secureCodeBox v2 Notification WebHook",
+  "description": "secureCodeBox v2 Notification Hook",
   "main": "hook.js",
   "scripts": {
     "test": "jest",

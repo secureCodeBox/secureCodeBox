@@ -13,8 +13,8 @@
 # limitations under the License.
 
 apiVersion: v2
-name: notification-webhook
-description: Lets you send a findings result summary as webhook to MS Teams, after a scan is completed.
+name: notification-hook
+description: Lets you send a findings result summary as hook to MS Teams, after a scan is completed.
 
 type: application
 

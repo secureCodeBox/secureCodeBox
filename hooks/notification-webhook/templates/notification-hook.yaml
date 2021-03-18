@@ -1,7 +1,7 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanCompletionHook
 metadata:
-  name: {{ include "notification-webhook.fullname" . }}
+  name: {{ include "notification-hook.fullname" . }}
 spec:
   type: ReadOnly
   imagePullPolicy: "{{ .Values.image.pullPolicy }}" 
