@@ -29,8 +29,8 @@ import java.util.Objects;
 
 public class DescriptionGenerator {
 
-  protected static final String TIME_FORMAT = "dd.MM.yyyy HH:mm:ss";
-  private static final String DATE_FORMAT = "yyyy-MM-dd";
+  protected static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+  private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
   Clock clock = Clock.systemDefaultZone();
 
   public String generate(V1Scan scan) {
@@ -40,7 +40,7 @@ public class DescriptionGenerator {
       System.getProperty("line.separator"),
       MessageFormat.format("# {0}", getDefectDojoScanName(scan)),
       MessageFormat.format("Started: {0}", getStartTime(scan)),
-      MessageFormat.format("Ended: {0}", getEndTime(scan)),
+      MessageFormat.format("Ended: {0}", currentTime()),
       MessageFormat.format("ScanType: {0}", spec.getScanType()),
       MessageFormat.format("Parameters: [{0}]", String.join(",", Objects.requireNonNull(spec.getParameters())))
     );
@@ -50,14 +50,7 @@ public class DescriptionGenerator {
     if (scan.getMetadata() == null || scan.getMetadata().getCreationTimestamp() == null) {
       return null;
     }
-    return scan.getMetadata().getCreationTimestamp().toString(TIME_FORMAT);
-  }
-
-  private String getEndTime(V1Scan scan) {
-    if (scan.getStatus() == null || scan.getStatus().getFinishedAt() == null) {
-      return currentTime();
-    }
-    return scan.getStatus().getFinishedAt().toString(TIME_FORMAT);
+    return scan.getMetadata().getCreationTimestamp().format(TIME_FORMAT);
   }
 
   /**
@@ -66,11 +59,11 @@ public class DescriptionGenerator {
    * @return the current date as string based on the DATE_FORMAT.
    */
   public String currentDate() {
-    return LocalDate.now(clock).format(DateTimeFormatter.ofPattern(DATE_FORMAT));
+    return LocalDate.now(clock).format(DATE_FORMAT);
   }
 
   public String currentTime() {
-    return LocalDateTime.now(clock).format(DateTimeFormatter.ofPattern(TIME_FORMAT));
+    return LocalDateTime.now(clock).format(TIME_FORMAT);
   }
 
   public void setClock(Clock clock) {

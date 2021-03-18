@@ -5,13 +5,10 @@ import io.securecodebox.models.V1Scan;
 import io.securecodebox.models.V1ScanSpec;
 import io.securecodebox.models.V1ScanStatus;
 import io.securecodebox.persistence.util.DescriptionGenerator;
-import org.joda.time.DateTime;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
-import java.time.Clock;
-import java.time.Instant;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,8 +27,7 @@ public class DescriptionGeneratorTest {
     scan.setStatus(new V1ScanStatus());
     scan.getSpec().setScanType("nmap");
     scan.getMetadata().setName("test-scan");
-    scan.getMetadata().setCreationTimestamp(DateTime.parse("2010-06-30T01:20+02:00"));
-    scan.getStatus().setFinishedAt(DateTime.parse("2010-06-30T01:25+02:00"));
+    scan.getMetadata().setCreationTimestamp(OffsetDateTime.parse("2010-06-30T01:20+02:00"));
 
     scan.getSpec().setParameters(List.of());
   }
@@ -49,7 +45,7 @@ public class DescriptionGeneratorTest {
         System.getProperty("line.separator"),
         "# Nmap Scan",
         "Started: 30.06.2010 01:20:00",
-        "Ended: 30.06.2010 01:25:00",
+        "Ended: 07.01.2019 16:50:03",
         "ScanType: nmap",
         "Parameters: [http://example.target]"
       ),
@@ -64,7 +60,7 @@ public class DescriptionGeneratorTest {
       System.getProperty("line.separator"),
       "# Nmap Scan",
       "Started: 30.06.2010 01:20:00",
-      "Ended: 30.06.2010 01:25:00",
+      "Ended: 07.01.2019 16:50:03",
       "ScanType: nmap",
       "Parameters: []"
     ), descriptionGenerator.generate(scan));

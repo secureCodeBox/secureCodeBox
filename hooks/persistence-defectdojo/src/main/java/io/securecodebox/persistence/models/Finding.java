@@ -1,33 +1,37 @@
 package io.securecodebox.persistence.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * secureCodeCode Finding Format
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Finding {
-  @JsonProperty("id")
-  String Id;
-  @JsonProperty("name")
-  String Name;
-  @JsonProperty("location")
-  String Location;
-  @JsonProperty("description")
-  String Description;
-  @JsonProperty("category")
-  String Category;
+  @JsonProperty
+  String id;
+  @JsonProperty
+  String name;
+  @JsonProperty
+  String location;
+  @JsonProperty
+  String description;
+  @JsonProperty
+  String category;
   @JsonProperty("osi_layer")
-  String OsiLayer;
-  @JsonProperty("severity")
-  Severities Severity;
-  @JsonProperty("attributes")
-  Map<String, Object> Attributes;
+  String osiLayer;
+  @JsonProperty
+  Severities severity;
+  @JsonProperty
+  Map<String, Object> attributes;
 
   public enum Severities {
     @JsonProperty("High")

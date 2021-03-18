@@ -9,11 +9,12 @@ import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import io.securecodebox.persistence.models.Scan;
 import io.securecodebox.persistence.util.DescriptionGenerator;
 import io.securecodebox.persistence.util.ScanNameMapping;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URISyntaxException;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -195,14 +196,12 @@ public class VersionedEngagementsStrategy implements Strategy {
   }
 
   private long createTest(Scan scan, long engagementId, long userId) throws URISyntaxException, JsonProcessingException {
-    var startDate = Objects.requireNonNull(scan.getMetadata().getCreationTimestamp()).toString("yyyy-MM-dd HH:mm:ssZ");
+    var dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ssZ");
 
-    String endDate;
-    if (scan.getStatus().getFinishedAt() != null) {
-      endDate = scan.getStatus().getFinishedAt().toString("yyyy-MM-dd HH:mm:ssZ");
-    } else {
-      endDate = DateTime.now().toString("yyyy-MM-dd HH:mm:ssZ");
-    }
+    var startDate = Objects.requireNonNull(scan.getMetadata().getCreationTimestamp()).format(dateFormat);
+
+    // End date on the Scan Object isn't set when the DefectDojo Hook runs, best approximation of the end date is the current time.
+    String endDate = ZonedDateTime.now().format(dateFormat);
 
     String version = scan.getEngagementVersion().orElse(null);
 

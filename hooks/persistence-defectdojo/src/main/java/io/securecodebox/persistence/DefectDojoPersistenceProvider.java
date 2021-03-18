@@ -81,5 +81,8 @@ public class DefectDojoPersistenceProvider {
     LOG.debug("Mapped Findings: {}", findings);
 
     s3Service.overwriteFindings(findingUploadUrl, findings);
+    kubernetesService.updateScanInKubernetes(findings);
+
+    LOG.info("DefectDojo Persistence Completed");
   }
 }
