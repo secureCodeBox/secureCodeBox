@@ -18,6 +18,8 @@
 package io.securecodebox.persistence.strategies;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+
+import io.kubernetes.client.openapi.models.V1OwnerReference;
 import io.securecodebox.persistence.defectdojo.ScanType;
 import io.securecodebox.persistence.defectdojo.config.DefectDojoConfig;
 import io.securecodebox.persistence.defectdojo.models.*;
@@ -286,7 +288,7 @@ public class VersionedEngagementsStrategy implements Strategy {
     }
 
     if (scan.getMetadata().getOwnerReferences() != null) {
-      result = getProductNameForScheduedScan(scan);
+      result = getProductNameForParentScan(scan.getMetadata().getOwnerReferences());
     }
 
     return result;
@@ -299,14 +301,12 @@ public class VersionedEngagementsStrategy implements Strategy {
    * @param scan The scan the productName relates to.
    * @return The productName related to the given scan.
    */
-  protected String getProductNameForScheduedScan(Scan scan) {
-    String result = scan.getMetadata().getName();
-  
-    if (scan.getMetadata().getOwnerReferences() != null) {
-      for (var ownerReference : scan.getMetadata().getOwnerReferences()) {
-        if ("ScheduledScan".equals(ownerReference.getKind())) {
-          result = ownerReference.getName();
-        }
+  protected String getProductNameForParentScan(List<V1OwnerReference> ownerReferences) {
+    String result = "";
+
+    for (var ownerReference : ownerReferences) {
+      if ("ScheduledScan".equals(ownerReference.getKind())) {
+        result = ownerReference.getName();
       }
     }
 
