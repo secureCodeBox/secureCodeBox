@@ -19,6 +19,8 @@
 package io.securecodebox.persistence;
 
 import io.securecodebox.persistence.defectdojo.config.DefectDojoConfig;
+import io.securecodebox.persistence.defectdojo.service.EndpointService;
+import io.securecodebox.persistence.mapping.DefectDojoFindingToSecureCodeBoxMapper;
 import io.securecodebox.persistence.models.Finding;
 import io.securecodebox.persistence.models.Scan;
 import io.securecodebox.persistence.service.KubernetesService;
@@ -60,8 +62,7 @@ public class DefectDojoPersistenceProvider {
     LOG.info("Downloading Scan Report (RawResults)");
     var rawResults = s3Service.downloadRawResults(rawResultDownloadUrl);
     LOG.info("Finished Downloading Scan Report (RawResults)");
-
-    LOG.info("RawResults: {}", rawResults);
+    LOG.debug("RawResults: {}", rawResults);
 
     LOG.info("Uploading Findings to DefectDojo at: {}", config.getUrl());
 
@@ -70,13 +71,15 @@ public class DefectDojoPersistenceProvider {
     var defectDojoFindings = defectdojoImportStrategy.run(scan, rawResults);
 
     LOG.info("Identified total Number of findings in DefectDojo: {}", defectDojoFindings.size());
+
+    var endpointService = new EndpointService(config);
+    var mapper = new DefectDojoFindingToSecureCodeBoxMapper(config, endpointService);
+
     var findings = defectDojoFindings.stream()
-      .map(Finding::fromDefectDojoFining)
+      .map(mapper::fromDefectDojoFining)
       .collect(Collectors.toList());
 
-    for (var finding: findings) {
-      LOG.info("Finding: {}", finding);
-    }
+    LOG.debug("Mapped Findings: {}", findings);
 
     s3Service.overwriteFindings(findingUploadUrl, findings);
   }
