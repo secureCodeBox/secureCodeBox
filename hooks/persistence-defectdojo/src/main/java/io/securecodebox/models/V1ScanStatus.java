@@ -13,6 +13,8 @@
 
 package io.securecodebox.models;
 
+import java.time.ZonedDateTime;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.Arrays;
 import com.google.gson.TypeAdapter;
@@ -20,20 +22,21 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.kubernetes.client.proto.Meta;
 import io.securecodebox.models.V1ScanStatusFindings;
 import io.securecodebox.models.V1ScanStatusReadAndWriteHookStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.joda.time.DateTime;
 
 /**
  * ScanStatus defines the observed state of Scan
  */
 @ApiModel(description = "ScanStatus defines the observed state of Scan")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-10-21T08:16:15.156Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-03-18T15:41:43.082Z[Etc/UTC]")
 public class V1ScanStatus {
   public static final String SERIALIZED_NAME_ERROR_DESCRIPTION = "errorDescription";
   @SerializedName(SERIALIZED_NAME_ERROR_DESCRIPTION)
@@ -49,7 +52,7 @@ public class V1ScanStatus {
 
   public static final String SERIALIZED_NAME_FINISHED_AT = "finishedAt";
   @SerializedName(SERIALIZED_NAME_FINISHED_AT)
-  private DateTime finishedAt;
+  private String finishedAt;
 
   public static final String SERIALIZED_NAME_RAW_RESULT_DOWNLOAD_LINK = "rawResultDownloadLink";
   @SerializedName(SERIALIZED_NAME_RAW_RESULT_DOWNLOAD_LINK)
@@ -141,7 +144,7 @@ public class V1ScanStatus {
   }
 
 
-  public V1ScanStatus finishedAt(DateTime finishedAt) {
+  public V1ScanStatus finishedAt(String finishedAt) {
     
     this.finishedAt = finishedAt;
     return this;
@@ -154,12 +157,12 @@ public class V1ScanStatus {
   @javax.annotation.Nullable
   @ApiModelProperty(value = "FinishedAt contains the time where the scan (including parser & hooks) has been marked as \"Done\"")
 
-  public DateTime getFinishedAt() {
+  public String getFinishedAt() {
     return finishedAt;
   }
 
 
-  public void setFinishedAt(DateTime finishedAt) {
+  public void setFinishedAt(String finishedAt) {
     this.finishedAt = finishedAt;
   }
 

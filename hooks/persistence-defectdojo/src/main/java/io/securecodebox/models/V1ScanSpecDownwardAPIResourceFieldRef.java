@@ -25,11 +25,11 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
- * Selects a resource of the container: only resources limits and requests (limits.cpu, limits.memory, limits.ephemeral-storage, requests.cpu, requests.memory and requests.ephemeral-storage) are currently supported.
+ * Selects a resource of the container: only resources limits and requests (limits.cpu, limits.memory, requests.cpu and requests.memory) are currently supported.
  */
-@ApiModel(description = "Selects a resource of the container: only resources limits and requests (limits.cpu, limits.memory, limits.ephemeral-storage, requests.cpu, requests.memory and requests.ephemeral-storage) are currently supported.")
+@ApiModel(description = "Selects a resource of the container: only resources limits and requests (limits.cpu, limits.memory, requests.cpu and requests.memory) are currently supported.")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-03-18T15:41:43.082Z[Etc/UTC]")
-public class V1ScanSpecValueFromResourceFieldRef {
+public class V1ScanSpecDownwardAPIResourceFieldRef {
   public static final String SERIALIZED_NAME_CONTAINER_NAME = "containerName";
   @SerializedName(SERIALIZED_NAME_CONTAINER_NAME)
   private String containerName;
@@ -43,7 +43,7 @@ public class V1ScanSpecValueFromResourceFieldRef {
   private String resource;
 
 
-  public V1ScanSpecValueFromResourceFieldRef containerName(String containerName) {
+  public V1ScanSpecDownwardAPIResourceFieldRef containerName(String containerName) {
     
     this.containerName = containerName;
     return this;
@@ -66,7 +66,7 @@ public class V1ScanSpecValueFromResourceFieldRef {
   }
 
 
-  public V1ScanSpecValueFromResourceFieldRef divisor(String divisor) {
+  public V1ScanSpecDownwardAPIResourceFieldRef divisor(String divisor) {
     
     this.divisor = divisor;
     return this;
@@ -89,7 +89,7 @@ public class V1ScanSpecValueFromResourceFieldRef {
   }
 
 
-  public V1ScanSpecValueFromResourceFieldRef resource(String resource) {
+  public V1ScanSpecDownwardAPIResourceFieldRef resource(String resource) {
     
     this.resource = resource;
     return this;
@@ -119,10 +119,10 @@ public class V1ScanSpecValueFromResourceFieldRef {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    V1ScanSpecValueFromResourceFieldRef v1ScanSpecValueFromResourceFieldRef = (V1ScanSpecValueFromResourceFieldRef) o;
-    return Objects.equals(this.containerName, v1ScanSpecValueFromResourceFieldRef.containerName) &&
-        Objects.equals(this.divisor, v1ScanSpecValueFromResourceFieldRef.divisor) &&
-        Objects.equals(this.resource, v1ScanSpecValueFromResourceFieldRef.resource);
+    V1ScanSpecDownwardAPIResourceFieldRef v1ScanSpecDownwardAPIResourceFieldRef = (V1ScanSpecDownwardAPIResourceFieldRef) o;
+    return Objects.equals(this.containerName, v1ScanSpecDownwardAPIResourceFieldRef.containerName) &&
+        Objects.equals(this.divisor, v1ScanSpecDownwardAPIResourceFieldRef.divisor) &&
+        Objects.equals(this.resource, v1ScanSpecDownwardAPIResourceFieldRef.resource);
   }
 
   @Override
@@ -134,7 +134,7 @@ public class V1ScanSpecValueFromResourceFieldRef {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class V1ScanSpecValueFromResourceFieldRef {\n");
+    sb.append("class V1ScanSpecDownwardAPIResourceFieldRef {\n");
     sb.append("    containerName: ").append(toIndentedString(containerName)).append("\n");
     sb.append("    divisor: ").append(toIndentedString(divisor)).append("\n");
     sb.append("    resource: ").append(toIndentedString(resource)).append("\n");

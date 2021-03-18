@@ -25,11 +25,11 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
- * Selects a field of the pod: supports metadata.name, metadata.namespace, metadata.labels, metadata.annotations, spec.nodeName, spec.serviceAccountName, status.hostIP, status.podIP, status.podIPs.
+ * Required: Selects a field of the pod: only annotations, labels, name and namespace are supported.
  */
-@ApiModel(description = "Selects a field of the pod: supports metadata.name, metadata.namespace, metadata.labels, metadata.annotations, spec.nodeName, spec.serviceAccountName, status.hostIP, status.podIP, status.podIPs.")
+@ApiModel(description = "Required: Selects a field of the pod: only annotations, labels, name and namespace are supported.")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-03-18T15:41:43.082Z[Etc/UTC]")
-public class V1ScanSpecValueFromFieldRef {
+public class V1ScanSpecDownwardAPIFieldRef {
   public static final String SERIALIZED_NAME_API_VERSION = "apiVersion";
   @SerializedName(SERIALIZED_NAME_API_VERSION)
   private String apiVersion;
@@ -39,7 +39,7 @@ public class V1ScanSpecValueFromFieldRef {
   private String fieldPath;
 
 
-  public V1ScanSpecValueFromFieldRef apiVersion(String apiVersion) {
+  public V1ScanSpecDownwardAPIFieldRef apiVersion(String apiVersion) {
     
     this.apiVersion = apiVersion;
     return this;
@@ -62,7 +62,7 @@ public class V1ScanSpecValueFromFieldRef {
   }
 
 
-  public V1ScanSpecValueFromFieldRef fieldPath(String fieldPath) {
+  public V1ScanSpecDownwardAPIFieldRef fieldPath(String fieldPath) {
     
     this.fieldPath = fieldPath;
     return this;
@@ -92,9 +92,9 @@ public class V1ScanSpecValueFromFieldRef {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    V1ScanSpecValueFromFieldRef v1ScanSpecValueFromFieldRef = (V1ScanSpecValueFromFieldRef) o;
-    return Objects.equals(this.apiVersion, v1ScanSpecValueFromFieldRef.apiVersion) &&
-        Objects.equals(this.fieldPath, v1ScanSpecValueFromFieldRef.fieldPath);
+    V1ScanSpecDownwardAPIFieldRef v1ScanSpecDownwardAPIFieldRef = (V1ScanSpecDownwardAPIFieldRef) o;
+    return Objects.equals(this.apiVersion, v1ScanSpecDownwardAPIFieldRef.apiVersion) &&
+        Objects.equals(this.fieldPath, v1ScanSpecDownwardAPIFieldRef.fieldPath);
   }
 
   @Override
@@ -106,7 +106,7 @@ public class V1ScanSpecValueFromFieldRef {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class V1ScanSpecValueFromFieldRef {\n");
+    sb.append("class V1ScanSpecDownwardAPIFieldRef {\n");
     sb.append("    apiVersion: ").append(toIndentedString(apiVersion)).append("\n");
     sb.append("    fieldPath: ").append(toIndentedString(fieldPath)).append("\n");
     sb.append("}");

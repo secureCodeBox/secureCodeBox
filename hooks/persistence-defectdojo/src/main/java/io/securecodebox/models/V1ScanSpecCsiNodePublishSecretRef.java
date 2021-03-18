@@ -25,47 +25,17 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
- * Selects a key of a secret in the pod&#39;s namespace
+ * NodePublishSecretRef is a reference to the secret object containing sensitive information to pass to the CSI driver to complete the CSI NodePublishVolume and NodeUnpublishVolume calls. This field is optional, and  may be empty if no secret is required. If the secret object contains more than one secret, all secret references are passed.
  */
-@ApiModel(description = "Selects a key of a secret in the pod's namespace")
+@ApiModel(description = "NodePublishSecretRef is a reference to the secret object containing sensitive information to pass to the CSI driver to complete the CSI NodePublishVolume and NodeUnpublishVolume calls. This field is optional, and  may be empty if no secret is required. If the secret object contains more than one secret, all secret references are passed.")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-03-18T15:41:43.082Z[Etc/UTC]")
-public class V1ScanSpecValueFromSecretKeyRef {
-  public static final String SERIALIZED_NAME_KEY = "key";
-  @SerializedName(SERIALIZED_NAME_KEY)
-  private String key;
-
+public class V1ScanSpecCsiNodePublishSecretRef {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
-  public static final String SERIALIZED_NAME_OPTIONAL = "optional";
-  @SerializedName(SERIALIZED_NAME_OPTIONAL)
-  private Boolean optional;
 
-
-  public V1ScanSpecValueFromSecretKeyRef key(String key) {
-    
-    this.key = key;
-    return this;
-  }
-
-   /**
-   * The key of the secret to select from.  Must be a valid secret key.
-   * @return key
-  **/
-  @ApiModelProperty(required = true, value = "The key of the secret to select from.  Must be a valid secret key.")
-
-  public String getKey() {
-    return key;
-  }
-
-
-  public void setKey(String key) {
-    this.key = key;
-  }
-
-
-  public V1ScanSpecValueFromSecretKeyRef name(String name) {
+  public V1ScanSpecCsiNodePublishSecretRef name(String name) {
     
     this.name = name;
     return this;
@@ -88,29 +58,6 @@ public class V1ScanSpecValueFromSecretKeyRef {
   }
 
 
-  public V1ScanSpecValueFromSecretKeyRef optional(Boolean optional) {
-    
-    this.optional = optional;
-    return this;
-  }
-
-   /**
-   * Specify whether the Secret or its key must be defined
-   * @return optional
-  **/
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "Specify whether the Secret or its key must be defined")
-
-  public Boolean getOptional() {
-    return optional;
-  }
-
-
-  public void setOptional(Boolean optional) {
-    this.optional = optional;
-  }
-
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -119,25 +66,21 @@ public class V1ScanSpecValueFromSecretKeyRef {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    V1ScanSpecValueFromSecretKeyRef v1ScanSpecValueFromSecretKeyRef = (V1ScanSpecValueFromSecretKeyRef) o;
-    return Objects.equals(this.key, v1ScanSpecValueFromSecretKeyRef.key) &&
-        Objects.equals(this.name, v1ScanSpecValueFromSecretKeyRef.name) &&
-        Objects.equals(this.optional, v1ScanSpecValueFromSecretKeyRef.optional);
+    V1ScanSpecCsiNodePublishSecretRef v1ScanSpecCsiNodePublishSecretRef = (V1ScanSpecCsiNodePublishSecretRef) o;
+    return Objects.equals(this.name, v1ScanSpecCsiNodePublishSecretRef.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, name, optional);
+    return Objects.hash(name);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class V1ScanSpecValueFromSecretKeyRef {\n");
-    sb.append("    key: ").append(toIndentedString(key)).append("\n");
+    sb.append("class V1ScanSpecCsiNodePublishSecretRef {\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    optional: ").append(toIndentedString(optional)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -20,19 +20,22 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import io.securecodebox.models.V1ScanSpecConfigMapItems;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Selects a key of a secret in the pod&#39;s namespace
+ * information about the secret data to project
  */
-@ApiModel(description = "Selects a key of a secret in the pod's namespace")
+@ApiModel(description = "information about the secret data to project")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-03-18T15:41:43.082Z[Etc/UTC]")
-public class V1ScanSpecValueFromSecretKeyRef {
-  public static final String SERIALIZED_NAME_KEY = "key";
-  @SerializedName(SERIALIZED_NAME_KEY)
-  private String key;
+public class V1ScanSpecProjectedSecret {
+  public static final String SERIALIZED_NAME_ITEMS = "items";
+  @SerializedName(SERIALIZED_NAME_ITEMS)
+  private List<V1ScanSpecConfigMapItems> items = null;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -43,29 +46,38 @@ public class V1ScanSpecValueFromSecretKeyRef {
   private Boolean optional;
 
 
-  public V1ScanSpecValueFromSecretKeyRef key(String key) {
+  public V1ScanSpecProjectedSecret items(List<V1ScanSpecConfigMapItems> items) {
     
-    this.key = key;
+    this.items = items;
+    return this;
+  }
+
+  public V1ScanSpecProjectedSecret addItemsItem(V1ScanSpecConfigMapItems itemsItem) {
+    if (this.items == null) {
+      this.items = new ArrayList<V1ScanSpecConfigMapItems>();
+    }
+    this.items.add(itemsItem);
     return this;
   }
 
    /**
-   * The key of the secret to select from.  Must be a valid secret key.
-   * @return key
+   * If unspecified, each key-value pair in the Data field of the referenced Secret will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the Secret, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the &#39;..&#39; path or start with &#39;..&#39;.
+   * @return items
   **/
-  @ApiModelProperty(required = true, value = "The key of the secret to select from.  Must be a valid secret key.")
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "If unspecified, each key-value pair in the Data field of the referenced Secret will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the Secret, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'.")
 
-  public String getKey() {
-    return key;
+  public List<V1ScanSpecConfigMapItems> getItems() {
+    return items;
   }
 
 
-  public void setKey(String key) {
-    this.key = key;
+  public void setItems(List<V1ScanSpecConfigMapItems> items) {
+    this.items = items;
   }
 
 
-  public V1ScanSpecValueFromSecretKeyRef name(String name) {
+  public V1ScanSpecProjectedSecret name(String name) {
     
     this.name = name;
     return this;
@@ -88,7 +100,7 @@ public class V1ScanSpecValueFromSecretKeyRef {
   }
 
 
-  public V1ScanSpecValueFromSecretKeyRef optional(Boolean optional) {
+  public V1ScanSpecProjectedSecret optional(Boolean optional) {
     
     this.optional = optional;
     return this;
@@ -119,23 +131,23 @@ public class V1ScanSpecValueFromSecretKeyRef {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    V1ScanSpecValueFromSecretKeyRef v1ScanSpecValueFromSecretKeyRef = (V1ScanSpecValueFromSecretKeyRef) o;
-    return Objects.equals(this.key, v1ScanSpecValueFromSecretKeyRef.key) &&
-        Objects.equals(this.name, v1ScanSpecValueFromSecretKeyRef.name) &&
-        Objects.equals(this.optional, v1ScanSpecValueFromSecretKeyRef.optional);
+    V1ScanSpecProjectedSecret v1ScanSpecProjectedSecret = (V1ScanSpecProjectedSecret) o;
+    return Objects.equals(this.items, v1ScanSpecProjectedSecret.items) &&
+        Objects.equals(this.name, v1ScanSpecProjectedSecret.name) &&
+        Objects.equals(this.optional, v1ScanSpecProjectedSecret.optional);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, name, optional);
+    return Objects.hash(items, name, optional);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class V1ScanSpecValueFromSecretKeyRef {\n");
-    sb.append("    key: ").append(toIndentedString(key)).append("\n");
+    sb.append("class V1ScanSpecProjectedSecret {\n");
+    sb.append("    items: ").append(toIndentedString(items)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    optional: ").append(toIndentedString(optional)).append("\n");
     sb.append("}");
