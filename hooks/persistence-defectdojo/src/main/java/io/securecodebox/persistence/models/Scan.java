@@ -3,12 +3,7 @@ package io.securecodebox.persistence.models;
 import io.securecodebox.models.V1Scan;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.http.*;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.DefaultUriBuilderFactory;
 
-import javax.print.attribute.standard.Media;
 import java.util.*;
 import java.util.stream.Collectors;
 

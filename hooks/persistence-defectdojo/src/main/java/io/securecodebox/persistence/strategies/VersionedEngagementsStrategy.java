@@ -12,7 +12,6 @@ import io.securecodebox.persistence.util.ScanNameMapping;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.net.URISyntaxException;
 import java.util.List;
