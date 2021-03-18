@@ -37,8 +37,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 
-import javax.lang.model.util.ElementScanner14;
-
 /**
  * VersionedEngagementsStrategy creates a new Engagement for every new version of the software.
  * If a engagement already exists for this version it'll reuse the engagement and append new tests for every scan until the version gets bumped.
