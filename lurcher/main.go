@@ -7,10 +7,12 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/http/httputil"
 	"net/url"
 	"os"
 	"time"
 
+	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
@@ -79,10 +81,21 @@ func uploadFile(path, url string) error {
 	defer res.Body.Close()
 
 	if res.StatusCode < 300 {
+		// all good
 		return nil
 	}
 
-	return fmt.Errorf("File upload returned non 2xx status code (%d)", res.StatusCode)
+	log.Printf("File upload returned non 2xx status code (%d)", res.StatusCode)
+
+	bytes, err := httputil.DumpResponse(res, true)
+	if err != nil {
+		log.Fatal(errors.Wrap(err, "Failed to dump out failed requests to upload scan report to the s3 bucket"))
+	}
+
+	log.Println("Failed Request:")
+	log.Println(string(bytes))
+
+	return fmt.Errorf("Lurcher failed to upload scan result file. File upload returned non 2xx status code (%d)", res.StatusCode)
 }
 
 func waitForMainContainerToEnd(container, pod, namespace string) {

@@ -15,12 +15,27 @@ spec:
       labels:
         control-plane: securecodebox-controller-manager
     spec:
+      {{- if .Values.customCACertificate.existingCertificate }}
+      volumes:
+        - name: ca-certificate
+          configMap:
+            name: {{ .Values.customCACertificate.existingCertificate }}
+      {{- end }}
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      securityContext:
+        {{ .Values.podSecurityContext | toYaml | nindent 8 }}
       containers:
         - command:
             - /manager
           args:
             - --enable-leader-election
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
+          {{- if .Values.customCACertificate.existingCertificate }}
+          volumeMounts:
+            - name: ca-certificate
+              mountPath: /etc/ssl/certs/{{ .Values.customCACertificate.certificate }}
+              subPath: {{ .Values.customCACertificate.certificate }}
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: manager
           env:
@@ -31,7 +46,7 @@ spec:
             # TODO: integrate with cert manager and auto gen a cert for minio
             {{- if .Values.minio.enabled }}
             - name: S3_USE_SSL
-              value: 'false'
+              value: "{{ .Values.minio.tls.enabled }}"
             - name: S3_ENDPOINT
               value: "{{ .Release.Name }}-minio.{{ .Release.Namespace }}.svc.cluster.local"
             - name: S3_PORT
@@ -83,6 +98,12 @@ spec:
               value: "{{ .Values.lurcher.image.repository }}:{{ .Values.lurcher.image.tag | default .Chart.Version }}"
             - name: LURCHER_PULL_POLICY
               value: {{ .Values.lurcher.image.pullPolicy }}
+            {{- if .Values.customCACertificate.existingCertificate }}
+            - name: CUSTOM_CA_CERTIFICATE_EXISTING_CERTIFICATE
+              value: {{ .Values.customCACertificate.existingCertificate | quote }}
+            - name: CUSTOM_CA_CERTIFICATE_NAME
+              value: {{ .Values.customCACertificate.certificate | quote }}
+            {{ end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           securityContext:

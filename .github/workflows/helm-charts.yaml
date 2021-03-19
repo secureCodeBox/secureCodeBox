@@ -18,6 +18,8 @@ jobs:
           PASSWORD: ${{ secrets.HELM_REGISTRY_PASSWORD }}
         run: |
           RELEASE_VERSION="${GITHUB_REF#refs/*/}"
+          # Remove leading 'v' from git tag to create valid semver
+          RELEASE_VERSION="${RELEASE_VERSION//v}"
           # Publish all helm3 charts in all folders containing a `Chart.yaml` file
           # https://github.com/koalaman/shellcheck/wiki/SC2044
           find . -type f -name Chart.yaml -print0 | while IFS= read -r -d '' chart; do
@@ -37,6 +39,8 @@ jobs:
           PASSWORD: ${{ secrets.HELM_REGISTRY_PASSWORD }}
         run: |
           RELEASE_VERSION="${GITHUB_REF#refs/*/}"
+          # Remove leading 'v' from git tag to create valid semver
+          RELEASE_VERSION="${RELEASE_VERSION//v}"
           # Publish all helm2 charts in all folders containing a `helm2.Chart.yaml` file
           # https://github.com/koalaman/shellcheck/wiki/SC2044
           find . -type f -name helm2.Chart.yaml -print0 | while IFS= read -r -d '' chart; do

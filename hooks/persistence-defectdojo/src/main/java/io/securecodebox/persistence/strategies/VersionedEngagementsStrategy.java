@@ -1,6 +1,25 @@
+/*
+ *  secureCodeBox (SCB)
+ *  Copyright 2015-2021 iteratec GmbH
+ *  https://www.iteratec.com
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  	http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package io.securecodebox.persistence.strategies;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+
+import io.kubernetes.client.openapi.models.V1OwnerReference;
 import io.securecodebox.persistence.defectdojo.ScanType;
 import io.securecodebox.persistence.defectdojo.config.DefectDojoConfig;
 import io.securecodebox.persistence.defectdojo.models.*;
@@ -61,7 +80,7 @@ public class VersionedEngagementsStrategy implements Strategy {
 
   @Override
   public List<Finding> run(Scan scan, String rawResults) throws Exception {
-    LOG.info("Getting DefectDojo User Id");
+    LOG.debug("Getting DefectDojo User Id");
     var userId = userService.searchUnique(User.builder().username(this.config.getUsername()).build())
       .orElseThrow(() -> new DefectDojoPersistenceException("Failed to find user with name: '" + this.config.getUsername() + "'"))
       .getId();
@@ -71,13 +90,13 @@ public class VersionedEngagementsStrategy implements Strategy {
     long productTypeId = this.ensureProductTypeExistsForScan(scan);
     long productId = this.ensureProductExistsForScan(scan, productTypeId).getId();
 
-    LOG.info("Looking for existing or creating new DefectDojo Engagement");
+    LOG.debug("Looking for existing or creating new DefectDojo Engagement");
     long engagementId = this.createEngagement(scan, productId, userId).getId();
-    LOG.info("Using Engagement with Id: {}", engagementId);
+    LOG.debug("Using Engagement with Id: {}", engagementId);
 
     var testId = this.createTest(scan, engagementId, userId);
 
-    LOG.info("Uploading Scan Report (RawResults) to DefectDojo");
+    LOG.debug("Uploading Scan Report (RawResults) to DefectDojo");
 
     ScanType scanType = ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).scanType;
     TestType testType = testTypeService.searchUnique(TestType.builder().name(scanType.getTestType()).build()).orElseThrow(() -> new DefectDojoPersistenceException("Could not find test type '" + scanType.getTestType() + "' in DefectDojo API. DefectDojo might be running in an unsupported version."));
@@ -156,6 +175,15 @@ public class VersionedEngagementsStrategy implements Strategy {
     });
   }
 
+  /**
+   * Creates a new productType in DefectDojo if none exists already for the given scan. 
+   * If no productType is defined for the given scan a default productType will be used (productType Id = 1).
+   * 
+   * @param scan The scan to ensure the DefectDojo productType for.
+   * @return The productType Id already existing or newly created.
+   * @throws URISyntaxException
+   * @throws JsonProcessingException
+   */
   private long ensureProductTypeExistsForScan(Scan scan) throws URISyntaxException, JsonProcessingException {
     var productTypeNameOptional = scan.getProductType();
 
@@ -178,6 +206,14 @@ public class VersionedEngagementsStrategy implements Strategy {
     return productType.getId();
   }
 
+  /**
+   * Creates a new product in DefectDojo if none exists already related to the given scan and productType.
+   * @param scan The scan to ensure the DefectDojo product for.
+   * @param productTypeId The id of the productType.
+   * @return The existing or newly created product releated to the given scan.
+   * @throws URISyntaxException
+   * @throws JsonProcessingException
+   */
   private Product ensureProductExistsForScan(Scan scan, long productTypeId) throws URISyntaxException, JsonProcessingException {
     String productName = this.getProductName(scan);
     String productDescription = scan.getProductDescription().orElse("Product was automatically created by the secureCodeBox DefectDojo integration");
@@ -195,6 +231,16 @@ public class VersionedEngagementsStrategy implements Strategy {
     });
   }
 
+  /**
+   * Creates a new test in DefectDojo related to the given scan and engagement.
+   * 
+   * @param scan The scan to create a new test in defectDojo for (related to the given engagement).
+   * @param engagementId The engagement (referenced by id) to relate the new test to.
+   * @param userId The user id corresponding to create the test on behalf to.
+   * @return The newly created test id.
+   * @throws URISyntaxException
+   * @throws JsonProcessingException
+   */
   private long createTest(Scan scan, long engagementId, long userId) throws URISyntaxException, JsonProcessingException {
     var dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ssZ");
 
@@ -223,23 +269,53 @@ public class VersionedEngagementsStrategy implements Strategy {
     return testService.create(test).getId();
   }
 
+  /**
+   * Returns the DefectDojo Product Name related to the given scan.
+   * 
+   * @param scan The scan the productName relates to.
+   * @return The productName related to the given scan.
+   */
   protected String getProductName(Scan scan) {
+    String result = "unkown";
+
     if (scan.getProductName().isPresent()) {
-      return scan.getProductName().get();
+      result = scan.getProductName().get();
+    }
+    else if (scan.getMetadata().getOwnerReferences() != null) {
+      // try to use the scheduledScan name if no productName is defined
+      result = getProductNameForParentScan(scan.getMetadata().getOwnerReferences());
+    }
+    else {
+      result = scan.getMetadata().getName();
     }
 
-    // If the Scan was created via a scheduled scan, the Name of the ScheduledScan should be preferred to the scans name
-    if (scan.getMetadata().getOwnerReferences() != null) {
-      for (var ownerReference : scan.getMetadata().getOwnerReferences()) {
-        if ("ScheduledScan".equals(ownerReference.getKind())) {
-          return ownerReference.getName();
-        }
+    return result;
+  }
+
+  /**
+   * Returns the DefectDojo Product Name related to the given scan.
+   * If the Scan was created via a scheduled scan, the Name of the ScheduledScan should be preferred to the scans name.
+   * 
+   * @param scan The scan the productName relates to.
+   * @return The productName related to the given scan.
+   */
+  protected String getProductNameForParentScan(List<V1OwnerReference> ownerReferences) {
+    String result = "";
+
+    for (var ownerReference : ownerReferences) {
+      if ("ScheduledScan".equals(ownerReference.getKind())) {
+        result = ownerReference.getName();
       }
     }
 
-    return scan.getMetadata().getName();
+    return result;
   }
 
+  /**
+   * Returns the DefectDojo Engagement Name related to the given scan.
+   * @param scan The scan the Engagement Name relates to.
+   * @return the DefectDojo Engagement Name related to the given scan.
+   */
   protected String getEngagementsName(Scan scan) {
     return scan.getEngagementName().orElseGet(() -> scan.getMetadata().getName());
   }

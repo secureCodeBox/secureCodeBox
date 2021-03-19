@@ -1,1 +1,1 @@
-DefectDojo PersistenceProvider deployed.
+DefectDojo PersistenceProvider succesfully deployed 🎉.

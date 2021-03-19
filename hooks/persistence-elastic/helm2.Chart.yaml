@@ -5,6 +5,6 @@ description: The elastic persistence provider persists secureCodeBox findings in
 type: application
 
 # version - gets automatically set to the secureCodeBox release version when the helm charts gets published
-version: v2.5.0-alpha1
+version: v2.6.0-alpha1
 appVersion: 7.6.1
 kubeVersion: ">=v1.11.0-0"

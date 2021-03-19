@@ -1,0 +1,38 @@
+apiVersion: "execution.securecodebox.io/v1"
+kind: ScanType
+metadata:
+  name: "angularjs-csti-scanner"
+spec:
+  extractResults:
+    type: acstis-log
+    location: "/home/securecodebox/findings.log"
+  jobTemplate:
+    spec:
+      {{- if .Values.scannerJob.ttlSecondsAfterFinished }}
+      ttlSecondsAfterFinished: {{ .Values.scannerJob.ttlSecondsAfterFinished }}
+      {{- end }}
+      backoffLimit: 3
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: acstis-scanner
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.appVersion }}"
+              command:
+                - "sh"
+                - "/wrapper.sh"
+                - "-vrl"
+                - "/home/securecodebox/findings.log"
+              resources:
+                {{- toYaml .Values.scannerJob.resources | nindent 16 }}
+              securityContext:
+                {{- toYaml .Values.scannerJob.securityContext | nindent 16 }}
+              env:
+                {{- toYaml .Values.scannerJob.env | nindent 16 }}
+              volumeMounts:
+                {{- toYaml .Values.scannerJob.extraVolumeMounts | nindent 16 }}
+            {{- if .Values.scannerJob.extraContainers }}
+            {{- toYaml .Values.scannerJob.extraContainers | nindent 12 }}
+            {{- end }}
+          volumes:
+            {{- toYaml .Values.scannerJob.extraVolumes | nindent 12 }}
