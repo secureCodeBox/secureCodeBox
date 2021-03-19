@@ -20,8 +20,9 @@ export class SlackNotifier extends AbstractNotifier {
   protected async sendPostRequest(message: string) {
     try {
       await axios.post(this.channel.endPoint, message)
-    } catch (error) {
+    } catch (e) {
       console.log(`There was an Error sending the Message for the Slack Notifier "${this.channel.name}"`);
+      console.log(e);
     }
   }
 }
