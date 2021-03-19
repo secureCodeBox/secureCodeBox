@@ -90,17 +90,13 @@ public class KubernetesService {
     var stats = new V1ScanStatusFindings();
 
     stats.setCount((long) findings.size());
+    stats.setCategories(recalculateFindingCategoryStats(findings));
+    stats.setSeverities(recalculateFindingSeverityStats(findings));
 
-    var categories = new HashMap<String, Long>();
-    for (var finding: findings) {
-      if (categories.containsKey(finding.getCategory())) {
-        categories.put(finding.getCategory(), categories.get(finding.getCategory()) + 1);
-      } else {
-        categories.put(finding.getCategory(), 1L);
-      }
-    }
-    stats.setCategories(categories);
+    return stats;
+  }
 
+  private static V1ScanStatusFindingsSeverities recalculateFindingSeverityStats(List<Finding> findings) {
     var severities = new V1ScanStatusFindingsSeverities();
     severities.setInformational(0L);
     severities.setLow(0L);
@@ -122,8 +118,18 @@ public class KubernetesService {
           break;
       }
     }
-    stats.setSeverities(severities);
+    return severities;
+  }
 
-    return stats;
+  private static HashMap<String, Long> recalculateFindingCategoryStats(List<Finding> findings) {
+    var categories = new HashMap<String, Long>();
+    for (var finding: findings) {
+      if (categories.containsKey(finding.getCategory())) {
+        categories.put(finding.getCategory(), categories.get(finding.getCategory()) + 1);
+      } else {
+        categories.put(finding.getCategory(), 1L);
+      }
+    }
+    return categories;
   }
 }
