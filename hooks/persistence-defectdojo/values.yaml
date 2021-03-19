@@ -1,0 +1,21 @@
+# Default values for dispatcher.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  # image.repository -- Hook image repository
+  repository: docker.io/securecodebox/persistence-defectdojo
+  # -- Container image tag
+  # @default -- defaults to the charts version
+  tag: null
+
+defectdojo:
+  # -- Url to the DefectDojo Instance
+  url: "http://defectdojo-django.default.svc"
+  authentication:
+    # -- Link a pre-existing generic secret with `username` and `apikey` key / value pairs
+    userSecret: defectdojo-credentials
+    # -- Name of the username key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs
+    usernameKey: username
+    # -- Name of the apikey key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs
+    apiKeyKey: apikey # what a name 🙃
