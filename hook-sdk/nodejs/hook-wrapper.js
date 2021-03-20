@@ -1,10 +1,14 @@
 const axios = require("axios");
 const { handle } = require("./hook/hook");
 const k8s = require("@kubernetes/client-node");
+const {
+  uploadFile,
+  NAMESPACE,
+  SCAN_NAME,
+  updateScanStatus
+} = require("../../scb-sdk")
 
-const scanName = process.env["SCAN_NAME"];
-const namespace = process.env["NAMESPACE"];
-console.log(`Starting hook for Scan "${scanName}"`);
+console.log(`Starting hook for Scan "${SCAN_NAME}"`);
 
 const kc = new k8s.KubeConfig();
 kc.loadFromCluster();
@@ -31,32 +35,6 @@ function getFindings() {
   });
 }
 
-function uploadFile(url, fileContents) {
-  return axios
-    .put(url, fileContents, {
-      headers: { "content-type": "" },
-    })
-    .catch(function(error) {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.error(
-          `File Upload Failed with Response Code: ${error.response.status}`
-        );
-        console.error(`Error Response Body: ${error.response.data}`);
-      } else if (error.request) {
-        console.error(
-          "No response received from FileStorage when uploading finding"
-        );
-        console.error(error);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log("Error", error.message);
-      }
-      process.exit(1);
-    });
-}
-
 function updateRawResults(fileContents) {
   const rawResultUploadUrl = process.argv[4];
   if (rawResultUploadUrl === undefined) {
@@ -71,12 +49,6 @@ function updateRawResults(fileContents) {
   return uploadFile(rawResultUploadUrl, fileContents);
 }
 
-function severityCount(findings, severity) {
-  return findings.filter(
-    ({ severity: findingSeverity }) =>
-      findingSeverity.toUpperCase() === severity
-  ).length;
-}
 
 async function updateFindings(findings) {
   const findingsUploadUrl = process.argv[5];
@@ -92,41 +64,7 @@ async function updateFindings(findings) {
   await uploadFile(findingsUploadUrl, JSON.stringify(findings));
 
   // Update the scans findingStats (severities, categories, or the count) of the scan results
-  const findingCategories = new Map();
-  for (const { category } of findings) {
-    if (findingCategories.has(category)) {
-      findingCategories.set(category, findingCategories.get(category) + 1);
-    } else {
-      findingCategories.set(category, 1);
-    }
-  }
-
-  await k8sApi.patchNamespacedCustomObjectStatus(
-    "execution.securecodebox.io",
-    "v1",
-    namespace,
-    "scans",
-    scanName,
-    {
-      status: {
-        findings: {
-          count: findings.length,
-          severities: {
-            informational: severityCount(findings, "INFORMATIONAL"),
-            low: severityCount(findings, "LOW"),
-            medium: severityCount(findings, "MEDIUM"),
-            high: severityCount(findings, "HIGH"),
-          },
-          categories: Object.fromEntries(findingCategories.entries()),
-        },
-      },
-    },
-    undefined,
-    undefined,
-    undefined,
-    { headers: { "content-type": "application/merge-patch+json" } }
-  );
-  console.log("Updated status successfully");
+  await updateScanStatus(findings);
 }
 
 async function main() {
@@ -135,9 +73,9 @@ async function main() {
     const { body } = await k8sApi.getNamespacedCustomObject(
       "execution.securecodebox.io",
       "v1",
-      namespace,
+      NAMESPACE,
       "scans",
-      scanName
+      SCAN_NAME
     );
     scan = body;
   } catch (err) {
