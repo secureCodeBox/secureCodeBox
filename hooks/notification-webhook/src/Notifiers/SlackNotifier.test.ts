@@ -100,19 +100,3 @@ test("Should Send Minimal Template For Empty Findings", async () => {
   n.sendMessage();
   expect(axios.post).toBeCalledWith(link, shortMessage);
 })
-
-test("Should Include Link To Kibana Dashboard", async () => {
-  expect(true).toBe(false)
-})
-
-test("Should Include Link To DefectDojo Project", async () => {
-  expect(true).toBe(false)
-})
-
-test("Should Send Minimal Template For Disabled VulnerabilityManagement", async () => {
-  expect(true).toBe(false)
-})
-
-test("Should Send Minimal Template For Incomplete VulnerabilityManagement Configuration", async () => {
-  expect(true).toBe(false)
-})
