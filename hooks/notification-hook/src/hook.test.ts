@@ -315,3 +315,17 @@ test("Should Not Match Multiple 'and' Rules", async () => {
 
   expect(matches(finding, rules)).toBeFalsy();
 })
+
+test("Should Match If No Rules Provided", async () => {
+  const finding: Finding = {
+    name: "test finding",
+    location: "hostname",
+    category: "Open Port",
+    severity: "high",
+    osi_layer: "asdf",
+    attributes: new Map(),
+  };
+  const rules = [];
+
+  expect(matches(finding, rules)).toBeTruthy()
+})

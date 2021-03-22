@@ -21,7 +21,8 @@ import { NotifierFactory } from "./NotifierFactory";
 import { readFileSync } from 'fs';
 import * as jsyaml from 'js-yaml';
 
-const CHANNEL_FILE = "/Some/Path/to/file";
+const BASE_PATH = "/home/app/config"
+const CHANNEL_FILE = `${BASE_PATH}/notification-channel.yaml`;
 
 export async function handle({ getFindings, scan }) {
   let findings: Finding[] = getFindings();
@@ -33,7 +34,14 @@ export async function handle({ getFindings, scan }) {
   }
 }
 
-export function matches(finding: Finding, rules: any): boolean {
+/**
+ * Checks if a finding is matching a set of rules
+ * @param finding 
+ * @param rules 
+ * @returns False if not matching, True if no rules specified or matching
+ */
+export function matches(finding: Finding, rules: any[]): boolean {
+  if (rules == null || rules.length === 0) return true;
   for (let rule of rules) {
     if (doesNotMatch(rule, finding)) return false;
   }
