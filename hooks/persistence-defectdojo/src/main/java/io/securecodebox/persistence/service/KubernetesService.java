@@ -69,13 +69,13 @@ public class KubernetesService {
     if (!response.isSuccess()) {
       throw new DefectDojoPersistenceException("Failed to fetch Scan '" + scanName + "' in Namespace '" + namespace + "' from Kubernetes API");
     }
-    LOG.info("Fetched Scan from Kubernetes API");
+    LOG.debug("Fetched Scan from Kubernetes API");
 
     return response.getObject();
   }
 
   public void updateScanInKubernetes(List<Finding> findings) throws IOException {
-    LOG.info("Refetching the scan to minimize possibility to write conflicts");
+    LOG.debug("Refetching the scan to minimize possibility to write conflicts");
     var scan = this.getScanFromKubernetes();
 
     Objects.requireNonNull(scan.getStatus(), "Scan status field is not set, this should have been previously set by the Operator and Parser.")
@@ -83,7 +83,7 @@ public class KubernetesService {
 
     LOG.info("Updating Scan metadata");
     scanApi.updateStatus(scan, V1Scan::getStatus);
-    LOG.info("Updated Scan metadata");
+    LOG.debug("Updated Scan metadata");
   }
 
   static V1ScanStatusFindings recalculateFindingStats(List<Finding> findings) {
