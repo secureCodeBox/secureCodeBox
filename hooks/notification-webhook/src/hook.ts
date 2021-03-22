@@ -19,13 +19,15 @@ import { NotificationChannel } from "./model/NotificationChannel";
 import { Notifier } from "./Notifier";
 import { NotifierFactory } from "./NotifierFactory";
 
-export async function handle({ getFindings }) {
+const NOTIFICATION_CHANNELS = "/Some/Path/to/file";
+
+export async function handle({ getFindings, scan }) {
   let findings: Finding[] = getFindings();
   let notificationChannels: NotificationChannel[] = JSON.parse(process.env["NOTIFICATIONS"])
   for (const channel of notificationChannels) {
     const findingsToNotify = findings.filter(finding => matches(finding, channel.rules));
-    const notifier: Notifier = NotifierFactory.create(channel);
-    await notifier.sendMessage(findingsToNotify);
+    const notifier: Notifier = NotifierFactory.create(channel, scan, findingsToNotify);
+    await notifier.sendMessage();
   }
 }
 

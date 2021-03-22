@@ -12,12 +12,14 @@ export abstract class AbstractNotifier implements Notifier {
   private static readonly TEMPLATE_FILE_TYPE = "mustache";
   protected channel: NotificationChannel;
   protected scan: Scan;
+  protected findings: Finding[];
   protected template: string;
   protected abstract type: NotifierType;
 
-  constructor(channel: NotificationChannel, scan: Scan) {
+  constructor(channel: NotificationChannel, scan: Scan, findings: Finding[]) {
     this.channel = channel;
     this.scan = scan;
+    this.findings = findings;
   }
 
   protected async loadTemplate() {
@@ -25,16 +27,16 @@ export abstract class AbstractNotifier implements Notifier {
     this.template = this.loadFileAsString(`${AbstractNotifier.TEMPLATE_DIR}/${this.channel.templateName}.${AbstractNotifier.TEMPLATE_FILE_TYPE}`);
   }
 
-  public abstract sendMessage(findings: Finding[]): Promise<void>
+  public abstract sendMessage(): Promise<void>
 
   private loadFileAsString(template: string): string {
     return fs.readFileSync(template, "utf8");
   }
 
-  protected renderMessage(findings: Finding[]): string {
+  protected renderMessage(): string {
     this.loadTemplate();
     const renderedTemplate = Mustache.render(this.template, {
-      "findings": findings,
+      "findings": this.findings,
       "scan": this.scan,
       "severities": this.getSeverityOverview(),
       "categories": this.getCategoryOverview(),
