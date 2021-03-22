@@ -31,9 +31,13 @@ export async function handle({ getFindings, scan }) {
   }
 }
 
-function matches(finding: Finding, rules: any): boolean {
+export function matches(finding: Finding, rules: any): boolean {
   for (let rule of rules) {
-    if (isMatch(finding, rule)) return true;
+    if (doesNotMatch(rule, finding)) return false;
   }
-  return false;
+  return true;
+}
+
+function doesNotMatch(rule: any, finding: Finding): boolean {
+  return !rule.matches.anyOf.some((condition: object) => isMatch(finding, condition));
 }

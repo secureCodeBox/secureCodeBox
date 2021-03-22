@@ -1,4 +1,5 @@
-import { handle } from "./hook";
+import { handle, matches } from "./hook";
+import { Finding } from "./model/Finding";
 
 const scan = {
   metadata: {
@@ -151,39 +152,166 @@ const findings = [
   },
 ];
 
+test("Should Match for High Severity Findings", async () => {
+  const finding: Finding = {
+    name: "test finding",
+    location: "hostname",
+    category: "Open Port",
+    severity: "high",
+    osi_layer: "asdf",
+    attributes: new Map(),
+  };
 
-test("Should Send Post Request with Findings", async () => {
-  expect(true).toBe(false)
+  const rules = [{
+    matches: {
+      anyOf: [
+        {
+          severity: "high"
+        }
+      ]
+    },
+  }]
+  expect(matches(finding, rules)).toBeTruthy();
 })
 
-test("Should Send Minimal Template For Empty Findings", async () => {
-  expect(true).toBe(false)
+test("Should Not Match for High Severity Findings", async () => {
+  const finding: Finding = {
+    name: "test finding",
+    location: "hostname",
+    category: "Open Port",
+    severity: "high",
+    osi_layer: "asdf",
+    attributes: new Map(),
+  };
+
+  const rules = [{
+    matches: {
+      anyOf: [
+        {
+          severity: "NOT HIGH"
+        }
+      ]
+    },
+  }]
+  expect(matches(finding, rules)).toBeFalsy();
+
 })
 
-test("Should Include Link To Kibana Dashboard", async () => {
-  expect(true).toBe(false)
+test("Should Match for Multiple 'anyOf' Rules", async () => {
+  const finding: Finding = {
+    name: "test finding",
+    location: "hostname",
+    category: "Open Port",
+    severity: "high",
+    osi_layer: "asdf",
+    attributes: new Map(),
+  };
+
+  const rules = [{
+    matches: {
+      anyOf: [
+        {
+          severity: "NOT HIGH"
+        },
+        {
+          category: "Open Port",
+        }
+      ]
+    },
+  }]
+  expect(matches(finding, rules)).toBeTruthy();
 })
 
-test("Should Include Link To DefectDojo Project", async () => {
-  expect(true).toBe(false)
+test("Should NOT Match Multiple 'anyOf' Rules", async () => {
+  const finding: Finding = {
+    name: "test finding",
+    location: "hostname",
+    category: "Open Port",
+    severity: "high",
+    osi_layer: "asdf",
+    attributes: new Map(),
+  };
+
+  const rules = [{
+    matches: {
+      anyOf: [
+        {
+          severity: "NOT HIGH"
+        },
+        {
+          category: "NOT OPEN PORT"
+        }
+      ]
+    },
+  }]
+
+  expect(matches(finding, rules)).toBeFalsy();
 })
 
-test("Should Only Send Post Request for Matching Rules", async () => {
-  expect(true).toBe(false)
+test("Should Match Multiple 'and' Rules", async () => {
+  const finding: Finding = {
+    name: "test finding",
+    location: "hostname",
+    category: "Open Port",
+    severity: "high",
+    osi_layer: "asdf",
+    attributes: new Map(),
+  };
+
+  const rules = [
+    {
+      matches: {
+        anyOf: [
+          {
+            severity: "high"
+          }
+        ]
+      },
+    },
+    {
+      matches: {
+        anyOf: [
+          {
+            category: "Open Port"
+          }
+        ]
+      },
+    },
+  ]
+
+  expect(matches(finding, rules)).toBeTruthy();
 })
 
-test("Should Apply Custom Template", async () => {
-  expect(true).toBe(false)
-})
+test("Should Not Match Multiple 'and' Rules", async () => {
+  const finding: Finding = {
+    name: "test finding",
+    location: "hostname",
+    category: "Open Port",
+    severity: "high",
+    osi_layer: "asdf",
+    attributes: new Map(),
+  };
 
-test("Should Send Minimal Template For Disabled VulnerabilityManagement", async () => {
-  expect(true).toBe(false)
-})
+  const rules = [
+    {
+      matches: {
+        anyOf: [
+          {
+            severity: "high"
+          }
+        ]
+      },
+    },
+    {
+      matches: {
+        anyOf: [
+          {
+            severity: "low"
+          }
+        ]
+      },
+    },
+  ]
 
-test("Should Send Minimal Template For Incomplete VulnerabilityManagement Configuration", async () => {
-  expect(true).toBe(false)
-})
-
-test("Should Only Send Post Request For High Severity Findings", async () => {
-  expect(true).toBe(false)
+  expect(matches(finding, rules)).toBeFalsy();
 })
