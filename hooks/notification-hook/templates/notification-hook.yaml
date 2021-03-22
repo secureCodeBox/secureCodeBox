@@ -7,3 +7,20 @@ spec:
   imagePullPolicy: "{{ .Values.image.pullPolicy }}" 
   image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
   ttlSecondsAfterFinished: {{ .Values.hookJob.ttlSecondsAfterFinished }}
+  volumes:
+    - name: {{ .Release.Name }}-config
+      configMap:
+        name: {{ .Release.Name }}-config
+    {{  if .Values.customTemplateMap }}
+    - name: {{ .Release.Name }}-custom-templates
+      configMap:
+        name: {{ .Values.customTeplateMap }} 
+    {{ end }}
+  volumeMounts:
+    - name: {{ .Release.Name }}-config
+      mountPath: /home/app/config
+      readOnly: true
+    {{  if .Values.customTemplateMap }}
+    - name: {{ .Release.Name }}-custom-templates
+      mountPath: /home/app/src/templates 
+    {{ end }}
