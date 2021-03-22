@@ -18,12 +18,14 @@ import { Finding } from "./model/Finding";
 import { NotificationChannel } from "./model/NotificationChannel";
 import { Notifier } from "./Notifier";
 import { NotifierFactory } from "./NotifierFactory";
+import { readFileSync } from 'fs';
+import * as jsyaml from 'js-yaml';
 
-const NOTIFICATION_CHANNELS = "/Some/Path/to/file";
+const CHANNEL_FILE = "/Some/Path/to/file";
 
 export async function handle({ getFindings, scan }) {
   let findings: Finding[] = getFindings();
-  let notificationChannels: NotificationChannel[] = JSON.parse(process.env["NOTIFICATIONS"])
+  let notificationChannels: NotificationChannel[] = getNotificationChannels(CHANNEL_FILE);
   for (const channel of notificationChannels) {
     const findingsToNotify = findings.filter(finding => matches(finding, channel.rules));
     const notifier: Notifier = NotifierFactory.create(channel, scan, findingsToNotify);
@@ -36,6 +38,12 @@ export function matches(finding: Finding, rules: any): boolean {
     if (doesNotMatch(rule, finding)) return false;
   }
   return true;
+}
+
+function getNotificationChannels(channelFile: string): NotificationChannel[] {
+  const yaml = readFileSync(channelFile);
+  const notificationChannels = jsyaml.load(yaml.toString()) as NotificationChannel[];
+  return notificationChannels;
 }
 
 function doesNotMatch(rule: any, finding: Finding): boolean {
