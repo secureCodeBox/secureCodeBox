@@ -126,6 +126,7 @@ helm upgrade --install dd secureCodeBox/persistence-defectdojo \
 | defectdojo.authentication.apiKeyKey | string | `"apikey"` | Name of the apikey key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |
 | defectdojo.authentication.userSecret | string | `"defectdojo-credentials"` | Link a pre-existing generic secret with `username` and `apikey` key / value pairs |
 | defectdojo.authentication.usernameKey | string | `"username"` | Name of the username key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |
+| defectdojo.syncFindingsBack | bool | `true` | Syncs back (two way sync) all imported findings from DefectDojo to SCB Findings Store, set to false to only import the findings to DefectDojo (one way sync). |
 | defectdojo.url | string | `"http://defectdojo-django.default.svc"` | Url to the DefectDojo Instance |
 | image.repository | string | `"docker.io/securecodebox/persistence-defectdojo"` | Hook image repository |
 | image.tag | string | `nil` | Container image tag |
