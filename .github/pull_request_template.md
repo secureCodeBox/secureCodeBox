@@ -10,11 +10,12 @@ Before submitting your Pull Request, please take the time to check the points be
 * [ ] Make sure each new source file you add has a correct license header.
 -->
 
-## Checklist
+## Description
+<!-- Please be brief in describing which issue is solved by your PR or which enhancement it brings -->
+
+
+### Checklist
 
 * [ ] Test your changes as thoroughly as possible before you commit them. Preferably, automate your test by unit/integration tests.
 * [ ] Make sure `npm test` runs for the whole project.
-
-## Description
-
-<!-- Please be brief in describing which issue is solved by your PR or which enhancement it brings -->
+* [ ] Make codeclimate checks happy
