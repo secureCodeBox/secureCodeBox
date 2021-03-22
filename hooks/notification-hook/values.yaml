@@ -27,3 +27,13 @@ image:
 hookJob:
   # hookJob.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
   ttlSecondsAfterFinished: null
+
+notificationChannels:
+  - name: slack
+    type: slack
+    template: slack-messageCard
+    rules:
+      - matches:
+          anyOf:
+            - category: "Open Port"
+    endPoint: "https://webhook.some.where"
