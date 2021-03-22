@@ -17,6 +17,7 @@
  */
 package io.securecodebox.persistence;
 
+import io.securecodebox.persistence.config.PersistenceProviderConfig;
 import io.securecodebox.persistence.defectdojo.config.DefectDojoConfig;
 import io.securecodebox.persistence.defectdojo.service.EndpointService;
 import io.securecodebox.persistence.mapping.DefectDojoFindingToSecureCodeBoxMapper;
@@ -27,7 +28,6 @@ import io.securecodebox.persistence.strategies.VersionedEngagementsStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class DefectDojoPersistenceProvider {
@@ -36,17 +36,7 @@ public class DefectDojoPersistenceProvider {
   public static void main(String[] args) throws Exception {
     LOG.info("Starting DefectDojo persistence provider");
 
-    // Parse Hook Args passed via command line flags
-    if (args == null) {
-      throw new RuntimeException("Received `null` as command line flags. Expected exactly four (RawResult & Finding Up/Download Urls)");
-    } else if(args.length != 4) {
-      LOG.error("Received unexpected command line arguments: {}", List.of(args));
-      throw new RuntimeException("DefectDojo Hook received a unexpected number of command line flags. Expected exactly four (RawResult & Finding Up/Download Urls)");
-    }
-    // RawResult Download Url is passed as the first command line arg
-    String rawResultDownloadUrl = args[0];
-    // RawResult Upload Url is passed as the forth command line arg
-    String findingUploadUrl = args[3];
+    var persistenceProviderConfig = new PersistenceProviderConfig(args);
 
     var s3Service = new S3Service();
     var kubernetesService = new KubernetesService();
@@ -58,7 +48,7 @@ public class DefectDojoPersistenceProvider {
     var config = DefectDojoConfig.fromEnv();
 
     LOG.info("Downloading Scan Report (RawResults)");
-    var rawResults = s3Service.downloadRawResults(rawResultDownloadUrl);
+    var rawResults = s3Service.downloadRawResults(persistenceProviderConfig.getRawResultDownloadUrl());
     LOG.info("Finished Downloading Scan Report (RawResults)");
     LOG.debug("RawResults: {}", rawResults);
 
@@ -70,17 +60,21 @@ public class DefectDojoPersistenceProvider {
 
     LOG.info("Identified total Number of findings in DefectDojo: {}", defectDojoFindings.size());
 
-    var endpointService = new EndpointService(config);
-    var mapper = new DefectDojoFindingToSecureCodeBoxMapper(config, endpointService);
+    if (persistenceProviderConfig.isReadAndWrite()) {
+      var endpointService = new EndpointService(config);
+      var mapper = new DefectDojoFindingToSecureCodeBoxMapper(config, endpointService);
 
-    var findings = defectDojoFindings.stream()
-      .map(mapper::fromDefectDojoFining)
-      .collect(Collectors.toList());
+      LOG.info("Overwriting secureCodeBox findings with the findings from DefectDojo.");
 
-    LOG.debug("Mapped Findings: {}", findings);
+      var findings = defectDojoFindings.stream()
+        .map(mapper::fromDefectDojoFining)
+        .collect(Collectors.toList());
 
-    s3Service.overwriteFindings(findingUploadUrl, findings);
-    kubernetesService.updateScanInKubernetes(findings);
+      LOG.debug("Mapped Findings: {}", findings);
+
+      s3Service.overwriteFindings(persistenceProviderConfig.getFindingUploadUrl(), findings);
+      kubernetesService.updateScanInKubernetes(findings);
+    }
 
     LOG.info("DefectDojo Persistence Completed");
   }

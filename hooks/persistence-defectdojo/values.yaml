@@ -10,6 +10,8 @@ image:
   tag: null
 
 defectdojo:
+  # -- Syncs back (two way sync) all imported findings from DefectDojo to SCB Findings Store, set to false to only import the findings to DefectDojo (one way sync).
+  syncFindingsBack: true
   # -- Url to the DefectDojo Instance
   url: "http://defectdojo-django.default.svc"
   authentication:

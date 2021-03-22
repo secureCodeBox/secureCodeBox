@@ -5,7 +5,11 @@ metadata:
   labels:
     type: Unstructured
 spec:
+  {{- if .Values.defectdojo.syncFindingsBack }}
   type: ReadAndWrite
+  {{- else }}
+  type: ReadOnly
+  {{- end }}
   image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
   env:
     - name: DEFECTDOJO_URL
