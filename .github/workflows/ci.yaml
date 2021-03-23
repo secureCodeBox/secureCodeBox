@@ -636,6 +636,18 @@ jobs:
           kubectl create deployment --image nginx:alpine nginx --namespace demo-apps
           kubectl expose deployment nginx --port 80 --namespace demo-apps
 
+      # ---- gitleaks Integration Tests ----
+
+      - name: "gitleaks Integration Tests"
+        run: |
+          helm -n integration-tests install gitleaks ./scanners/gitleaks/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-gitleaks" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-gitleaks" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          cd tests/integration/
+          npx jest --ci --color scanner/gitleaks.test.js
+
       # ---- Kubehunter Integration Tests ----
 
       - name: "kube-hunter Integration Tests"
