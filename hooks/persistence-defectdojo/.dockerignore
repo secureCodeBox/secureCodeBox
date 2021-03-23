@@ -1,0 +1,7 @@
+Dockerfile
+./gradle
+./idea
+./settings
+build/
+gradle/
+templates
