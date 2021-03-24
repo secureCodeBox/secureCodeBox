@@ -9,7 +9,7 @@ jest.mock('axios');
 const channel: NotificationChannel = {
   name: "Channel Name",
   type: NotifierType.SLACK,
-  template: "messageCard",
+  template: "slack-messageCard",
   rules: [],
   endPoint: "https://hooks.slack.com/services/<YOUR_TOKEN>"
 };
