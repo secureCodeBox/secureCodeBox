@@ -1,5 +1,7 @@
-import { handle, matches } from "./hook";
+import { handle, matches, getNotificationChannels } from "./hook";
 import { Finding } from "./model/Finding";
+import { NotificationChannel } from "./model/NotificationChannel";
+import { NotifierType } from "./NotifierType";
 
 const scan = {
   metadata: {
@@ -328,4 +330,20 @@ test("Should Match If No Rules Provided", async () => {
   const rules = [];
 
   expect(matches(finding, rules)).toBeTruthy()
+})
+
+test("Should Return Channels", async () => {
+  const channelFile = "./__testfiles__/channels.yaml"
+  console.log(process.cwd())
+  const channels = getNotificationChannels(channelFile) as NotificationChannel[];
+  const c: NotificationChannel = {
+    name: "slack",
+    type: NotifierType.SLACK,
+    template: "messageCard",
+    rules: [],
+    endPoint: "some.url"
+  }
+  const expected: NotificationChannel[] = [];
+  expected.push(c)
+  expect(channels).toStrictEqual(expected);
 })

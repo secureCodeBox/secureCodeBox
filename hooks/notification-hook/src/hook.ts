@@ -25,7 +25,7 @@ const BASE_PATH = "/home/app/config"
 const CHANNEL_FILE = `${BASE_PATH}/notification-channel.yaml`;
 
 export async function handle({ getFindings, scan }) {
-  let findings: Finding[] = getFindings();
+  let findings: Finding[] = await getFindings();
   let notificationChannels: NotificationChannel[] = getNotificationChannels(CHANNEL_FILE);
   for (const channel of notificationChannels) {
     const findingsToNotify = findings.filter(finding => matches(finding, channel.rules));
@@ -48,10 +48,10 @@ export function matches(finding: Finding, rules: any[]): boolean {
   return true;
 }
 
-function getNotificationChannels(channelFile: string): NotificationChannel[] {
+export function getNotificationChannels(channelFile: string): any[] {
   const yaml = readFileSync(channelFile);
-  const notificationChannels = jsyaml.load(yaml.toString()) as NotificationChannel[];
-  return notificationChannels;
+  const notificationChannels = jsyaml.load(yaml.toString())
+  return notificationChannels as any[];
 }
 
 function doesNotMatch(rule: any, finding: Finding): boolean {
