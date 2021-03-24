@@ -23,8 +23,8 @@ export abstract class AbstractNotifier implements Notifier {
   }
 
   protected async loadTemplate() {
-    console.log(`Try to Load Template "${this.channel.templateName}"`)
-    this.template = this.loadFileAsString(`${AbstractNotifier.TEMPLATE_DIR}/${this.channel.templateName}.${AbstractNotifier.TEMPLATE_FILE_TYPE}`);
+    console.log(`Try to Load Template "${this.channel.template}"`)
+    this.template = this.loadFileAsString(`${AbstractNotifier.TEMPLATE_DIR}/${this.channel.template}.${AbstractNotifier.TEMPLATE_FILE_TYPE}`);
   }
 
   public abstract sendMessage(): Promise<void>
