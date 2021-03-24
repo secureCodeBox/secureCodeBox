@@ -52,7 +52,6 @@ export abstract class AbstractNotifier implements Notifier {
   protected getSeverityOverview(): any {
     try {
       const severities = this.getDetails(this.scan.status.findings.severities);
-      console.log(severities);
       return severities;
     } catch (error) {
       console.log(`There was an Error getting Severities from Scan: ${error}`)
@@ -63,7 +62,6 @@ export abstract class AbstractNotifier implements Notifier {
   protected getCategoryOverview(): any {
     try {
       const categories = this.getDetails(this.scan.status.findings.categories);
-      console.log(categories);
       return categories;
     } catch (error) {
       console.log(`There was an Error getting Categories from Scan: ${error}`)
