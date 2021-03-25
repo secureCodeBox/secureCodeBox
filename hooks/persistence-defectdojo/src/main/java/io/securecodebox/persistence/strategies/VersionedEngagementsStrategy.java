@@ -28,13 +28,14 @@ import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import io.securecodebox.persistence.models.Scan;
 import io.securecodebox.persistence.util.DescriptionGenerator;
 import io.securecodebox.persistence.util.ScanNameMapping;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.net.URISyntaxException;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -55,11 +56,13 @@ public class VersionedEngagementsStrategy implements Strategy {
   TestService testService;
   TestTypeService testTypeService;
   ImportScanService importScanService;
+  FindingService findingService;
 
   DefectDojoConfig config;
 
   public VersionedEngagementsStrategy() {}
 
+  @Override
   public void init(DefectDojoConfig defectDojoConfig) {
     this.productService = new ProductService(defectDojoConfig);
     this.productTypeService = new ProductTypeService(defectDojoConfig);
@@ -70,11 +73,13 @@ public class VersionedEngagementsStrategy implements Strategy {
     this.testService = new TestService(defectDojoConfig);
     this.testTypeService = new TestTypeService(defectDojoConfig);
     this.importScanService = new ImportScanService(defectDojoConfig);
+    this.findingService = new FindingService(defectDojoConfig);
 
     this.config = defectDojoConfig;
   }
 
-  public void run(Scan scan) throws Exception {
+  @Override
+  public List<Finding> run(Scan scan, String rawResults) throws Exception {
     LOG.debug("Getting DefectDojo User Id");
     var userId = userService.searchUnique(User.builder().username(this.config.getUsername()).build())
       .orElseThrow(() -> new DefectDojoPersistenceException("Failed to find user with name: '" + this.config.getUsername() + "'"))
@@ -89,15 +94,6 @@ public class VersionedEngagementsStrategy implements Strategy {
     long engagementId = this.createEngagement(scan, productId, userId).getId();
     LOG.debug("Using Engagement with Id: {}", engagementId);
 
-    LOG.debug("Downloading Scan Report (RawResults)");
-    String result;
-    try {
-      result = scan.getRawResults();
-    } catch (HttpClientErrorException e) {
-      throw new DefectDojoPersistenceException("Failed to download Raw Findings", e);
-    }
-    LOG.debug("Finished Downloading Scan Report (RawResults)");
-
     var testId = this.createTest(scan, engagementId, userId);
 
     LOG.debug("Uploading Scan Report (RawResults) to DefectDojo");
@@ -106,7 +102,7 @@ public class VersionedEngagementsStrategy implements Strategy {
     TestType testType = testTypeService.searchUnique(TestType.builder().name(scanType.getTestType()).build()).orElseThrow(() -> new DefectDojoPersistenceException("Could not find test type '" + scanType.getTestType() + "' in DefectDojo API. DefectDojo might be running in an unsupported version."));
 
     importScanService.reimportScan(
-      result,
+      rawResults,
       testId,
       userId,
       this.descriptionGenerator.currentDate(),
@@ -115,7 +111,8 @@ public class VersionedEngagementsStrategy implements Strategy {
     );
 
     LOG.info("Uploaded Scan Report (RawResults) as testID {} to DefectDojo", testId);
-    LOG.info("All done!");
+
+    return findingService.search(Map.of("test", String.valueOf(testId)));
   }
 
   /**
@@ -245,14 +242,12 @@ public class VersionedEngagementsStrategy implements Strategy {
    * @throws JsonProcessingException
    */
   private long createTest(Scan scan, long engagementId, long userId) throws URISyntaxException, JsonProcessingException {
-    var startDate = Objects.requireNonNull(scan.getMetadata().getCreationTimestamp()).toString("yyyy-MM-dd HH:mm:ssZ");
+    var dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ssZ");
 
-    String endDate;
-    if (scan.getStatus().getFinishedAt() != null) {
-      endDate = scan.getStatus().getFinishedAt().toString("yyyy-MM-dd HH:mm:ssZ");
-    } else {
-      endDate = DateTime.now().toString("yyyy-MM-dd HH:mm:ssZ");
-    }
+    var startDate = Objects.requireNonNull(scan.getMetadata().getCreationTimestamp()).format(dateFormat);
+
+    // End date on the Scan Object isn't set when the DefectDojo Hook runs, best approximation of the end date is the current time.
+    String endDate = ZonedDateTime.now().format(dateFormat);
 
     String version = scan.getEngagementVersion().orElse(null);
 

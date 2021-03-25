@@ -27,7 +27,7 @@ import java.io.IOException;
 /**
  * V1ScanStatusReadAndWriteHookStatus
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-10-21T08:16:15.156Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-03-18T15:41:43.082Z[Etc/UTC]")
 public class V1ScanStatusReadAndWriteHookStatus {
   public static final String SERIALIZED_NAME_HOOK_NAME = "hookName";
   @SerializedName(SERIALIZED_NAME_HOOK_NAME)

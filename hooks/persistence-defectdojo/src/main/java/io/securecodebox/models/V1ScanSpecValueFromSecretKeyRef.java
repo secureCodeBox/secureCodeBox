@@ -28,7 +28,7 @@ import java.io.IOException;
  * Selects a key of a secret in the pod&#39;s namespace
  */
 @ApiModel(description = "Selects a key of a secret in the pod's namespace")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-10-21T08:16:15.156Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-03-18T15:41:43.082Z[Etc/UTC]")
 public class V1ScanSpecValueFromSecretKeyRef {
   public static final String SERIALIZED_NAME_KEY = "key";
   @SerializedName(SERIALIZED_NAME_KEY)

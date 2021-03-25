@@ -31,7 +31,7 @@ docker run \
   --network host \
   ${IMAGE_NAME}:${IMAGE_TAG} \
   /generate.sh \
-  -u https://gist.githubusercontent.com/J12934/01ecd4eb16be67ab1c574e988214b51a/raw/ed40cdc8f7d995f658cbaf3094e8fbcac6c9ed54/scan.yaml \
+  -u https://gist.githubusercontent.com/J12934/67722bc1c6bf69dc5d09cb7aed341fac/raw/3cfcd1ca7de278f68e059ba97af66e87d0e98d61/scan-crd.yaml \
   -n io.securecodebox \
   -p io.securecodebox \
   -o "$(pwd)"

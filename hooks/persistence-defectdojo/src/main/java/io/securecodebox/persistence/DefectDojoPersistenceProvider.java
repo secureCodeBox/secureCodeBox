@@ -17,84 +17,65 @@
  */
 package io.securecodebox.persistence;
 
-import io.kubernetes.client.openapi.ApiClient;
-import io.kubernetes.client.openapi.Configuration;
-import io.kubernetes.client.util.ClientBuilder;
-import io.kubernetes.client.util.KubeConfig;
-import io.kubernetes.client.util.generic.GenericKubernetesApi;
-import io.securecodebox.models.V1Scan;
-import io.securecodebox.models.V1ScanList;
+import io.securecodebox.persistence.config.PersistenceProviderConfig;
 import io.securecodebox.persistence.defectdojo.config.DefectDojoConfig;
-import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
+import io.securecodebox.persistence.defectdojo.service.EndpointService;
+import io.securecodebox.persistence.mapping.DefectDojoFindingToSecureCodeBoxMapper;
 import io.securecodebox.persistence.models.Scan;
+import io.securecodebox.persistence.service.KubernetesService;
+import io.securecodebox.persistence.service.S3Service;
 import io.securecodebox.persistence.strategies.VersionedEngagementsStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.util.stream.Collectors;
 
 public class DefectDojoPersistenceProvider {
   private static final Logger LOG = LoggerFactory.getLogger(DefectDojoPersistenceProvider.class);
 
   public static void main(String[] args) throws Exception {
-    LOG.debug("Starting DefectDojo persistence provider");
+    LOG.info("Starting DefectDojo persistence provider");
 
-    var scan = new Scan(getScanFromKubernetes());
+    var persistenceProviderConfig = new PersistenceProviderConfig(args);
+
+    var s3Service = new S3Service();
+    var kubernetesService = new KubernetesService();
+    kubernetesService.init();
+
+    var scan = new Scan(kubernetesService.getScanFromKubernetes());
     scan.validate();
 
     var config = DefectDojoConfig.fromEnv();
 
-    LOG.info("URL: {}", config.getUrl());
+    LOG.info("Downloading Scan Report (RawResults)");
+    var rawResults = s3Service.downloadRawResults(persistenceProviderConfig.getRawResultDownloadUrl());
+    LOG.info("Finished Downloading Scan Report (RawResults)");
+    LOG.debug("RawResults: {}", rawResults);
+
+    LOG.info("Uploading Findings to DefectDojo at: {}", config.getUrl());
 
     var defectdojoImportStrategy = new VersionedEngagementsStrategy();
     defectdojoImportStrategy.init(config);
+    var defectDojoFindings = defectdojoImportStrategy.run(scan, rawResults);
 
-    defectdojoImportStrategy.run(scan);
-  }
+    LOG.info("Identified total Number of findings in DefectDojo: {}", defectDojoFindings.size());
 
-  private static V1Scan getScanFromKubernetes() throws IOException {
-    ApiClient client;
+    if (persistenceProviderConfig.isReadAndWrite()) {
+      var endpointService = new EndpointService(config);
+      var mapper = new DefectDojoFindingToSecureCodeBoxMapper(config, endpointService);
 
-    if ("true".equals(System.getenv("IS_DEV"))) {
-      // loading the out-of-cluster config, a kubeconfig from file-system
-      String kubeConfigPath = System.getProperty("user.home") + "/.kube/config";
-      client = ClientBuilder.kubeconfig(KubeConfig.loadKubeConfig(new FileReader(kubeConfigPath))).build();
-    } else {
-      client = ClientBuilder.cluster().build();
+      LOG.info("Overwriting secureCodeBox findings with the findings from DefectDojo.");
+
+      var findings = defectDojoFindings.stream()
+        .map(mapper::fromDefectDojoFining)
+        .collect(Collectors.toList());
+
+      LOG.debug("Mapped Findings: {}", findings);
+
+      s3Service.overwriteFindings(persistenceProviderConfig.getFindingUploadUrl(), findings);
+      kubernetesService.updateScanInKubernetes(findings);
     }
 
-    // set the global default api-client to the in-cluster one from above
-    Configuration.setDefaultApiClient(client);
-
-    String scanName = System.getenv("SCAN_NAME");
-    if (scanName == null) {
-      scanName = "nmap-scanme.nmap.org";
-    }
-    String namespace = System.getenv("NAMESPACE");
-    if (namespace == null) {
-      namespace = "default";
-    }
-
-    // set the global default api-client to the in-cluster one from above
-    Configuration.setDefaultApiClient(client);
-
-    GenericKubernetesApi<V1Scan, V1ScanList> scanApi =
-      new GenericKubernetesApi<>(
-        V1Scan.class,
-        V1ScanList.class,
-        "execution.securecodebox.io",
-        "v1",
-        "scans",
-        ClientBuilder.defaultClient());
-
-    var response = scanApi.get(namespace, scanName);
-
-    if (!response.isSuccess()) {
-      throw new DefectDojoPersistenceException("Failed to fetch Scan '" + scanName + "' in Namespace '" + namespace + "' from Kubernetes API");
-    }
-    LOG.info("Fetched Scan from Kubernetes API");
-
-    return response.getObject();
+    LOG.info("DefectDojo Persistence Completed");
   }
 }
