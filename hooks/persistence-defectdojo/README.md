@@ -26,6 +26,20 @@ uses the Nikto JSON format while DefectDojo uses the XML format.
 
 :::
 
+After uploading the results to DefectDojo it will use the findings parsed by DefectDojo to overwrite the
+original secureCodeBox findings identified by the parser. This lets you access the finding metadata like the false
+positive and duplicate status from DefectDojo in further ReadOnly hooks, e.g. send out slack notification
+for non-duplicate & non-false positive findings only.
+
+:::caution
+
+Be careful when using the DefectDojo Hook in combination with other ReadAndWrite hooks. The secureCodeBox currently has
+no way to guarantee that one ReadAndWrite hook gets executed before another ReadAndWrite hook. This can lead to
+"lost update" problems as the DefectDojo hook will overwrite all findings, which disregards the results of previously
+run ReadAndWrite hooks.
+ReadOnly hooks work fine with the DefectDojo hook as they are always executed after ReadAndWrite Hooks.
+:::
+
 ## Runtime Configuration
 
 The hook will automatically import the scan results into an engagement in DefectDojo.
@@ -112,6 +126,7 @@ helm upgrade --install dd secureCodeBox/persistence-defectdojo \
 | defectdojo.authentication.apiKeyKey | string | `"apikey"` | Name of the apikey key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |
 | defectdojo.authentication.userSecret | string | `"defectdojo-credentials"` | Link a pre-existing generic secret with `username` and `apikey` key / value pairs |
 | defectdojo.authentication.usernameKey | string | `"username"` | Name of the username key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |
+| defectdojo.syncFindingsBack | bool | `true` | Syncs back (two way sync) all imported findings from DefectDojo to SCB Findings Store, set to false to only import the findings to DefectDojo (one way sync). |
 | defectdojo.url | string | `"http://defectdojo-django.default.svc"` | Url to the DefectDojo Instance |
 | image.repository | string | `"docker.io/securecodebox/persistence-defectdojo"` | Hook image repository |
 | image.tag | string | `nil` | Container image tag |

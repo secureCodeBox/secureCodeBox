@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-  implementation 'io.kubernetes:client-java:10.0.0'
+  implementation 'io.kubernetes:client-java:12.0.0'
 
   implementation 'io.securecodebox:defectdojo-client:0.0.12-SNAPSHOT'
 

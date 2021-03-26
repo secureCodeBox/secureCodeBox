@@ -17,14 +17,10 @@
  */
 package io.securecodebox.persistence.strategies;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.kubernetes.client.openapi.models.V1ObjectMeta;
-import io.securecodebox.models.V1Scan;
 import io.securecodebox.models.V1ScanSpec;
 import io.securecodebox.models.V1ScanStatus;
 import io.securecodebox.persistence.defectdojo.config.DefectDojoConfig;
-import io.securecodebox.persistence.defectdojo.models.Product;
-import io.securecodebox.persistence.defectdojo.models.ProductType;
 import io.securecodebox.persistence.defectdojo.models.User;
 import io.securecodebox.persistence.defectdojo.service.*;
 import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
@@ -36,17 +32,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.swing.text.html.Option;
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class VersionedEngagementsStrategyTest {
@@ -73,21 +65,11 @@ public class VersionedEngagementsStrategyTest {
 
   Scan scan;
 
-  private static class MockedScan extends Scan{
-    public MockedScan() {
-    }
-
-    @Override
-    public String getRawResults() {
-      return "<xml/>";
-    }
-  }
-
   @BeforeEach
   public void setup() throws Exception {
     versionedEngagementsStrategy.config = new DefectDojoConfig("https://defectdojo.example.com", "<key>", "foobar");
 
-    scan = new MockedScan();
+    scan = new Scan();
     scan.setApiVersion("execution.securecodebox.io/v1");
     scan.setKind("Scan");
     scan.setMetadata(new V1ObjectMeta());
@@ -105,7 +87,7 @@ public class VersionedEngagementsStrategyTest {
     when(userService.searchUnique(any(User.class))).thenReturn(Optional.empty());
 
     Assertions.assertThrows(DefectDojoPersistenceException.class, () -> {
-      versionedEngagementsStrategy.run(scan);
+      versionedEngagementsStrategy.run(scan, "<!-- Nmap Report -->");
     });
   }
 }
