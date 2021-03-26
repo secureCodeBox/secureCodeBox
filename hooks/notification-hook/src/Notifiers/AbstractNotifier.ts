@@ -5,10 +5,11 @@ import { Finding } from "../model/Finding";
 import * as Mustache from "mustache";
 import { NotificationChannel } from "../model/NotificationChannel";
 import * as jsyaml from "js-yaml";
-import { Scan } from "../model/Scan"
+import { Scan } from "../model/Scan";
+import * as path from 'path';
 
 export abstract class AbstractNotifier implements Notifier {
-  private static readonly TEMPLATE_DIR: string = "./templates";
+  private static readonly TEMPLATE_DIR: string = path.join(__dirname, "../templates");
   private static readonly TEMPLATE_FILE_TYPE = "mustache";
   protected channel: NotificationChannel;
   protected scan: Scan;

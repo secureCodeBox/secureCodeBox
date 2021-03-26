@@ -1,3 +1,4 @@
+import * as path from "path";
 import { handle, matches, getNotificationChannels } from "./hook";
 import { Finding } from "./model/Finding";
 import { NotificationChannel } from "./model/NotificationChannel";
@@ -333,8 +334,7 @@ test("Should Match If No Rules Provided", async () => {
 })
 
 test("Should Return Channels", async () => {
-  const channelFile = "./__testfiles__/channels.yaml"
-  console.log(process.cwd())
+  const channelFile = path.join(__dirname, "./__testfiles__/channels.yaml")
   const channels = getNotificationChannels(channelFile) as NotificationChannel[];
   const c: NotificationChannel = {
     name: "slack",
