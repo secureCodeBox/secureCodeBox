@@ -37,10 +37,14 @@ For type GitHub you can use the following options:
 - `--access-token`: Your personal GitHub access token.
 - `--ignore-repos`: A list of GitHub repository ids you want to ignore
 - `--obey-rate-limit`: True to obey the rate limit of the GitHub server (default), otherwise False
-- `--activity-since-duration`: Return git repo findings with repo activity (e.g. commits) more recent than a specific date expresed by an duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each
-                               with optional fraction and a unit suffix, such as '1h' or '2h45m'. Valid time units are 'm', 'h', 'd', 'w'.
-- `--activity-until-duration`: Return git repo findings with repo activity (e.g. commits) older than a specific date expresed by an duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each with
-                               optional fraction and a unit suffix, such as '1h' or '2h45m'. Valid time units are 'm', 'h', 'd', 'w'.
+- `--activity-since-duration`: Return git repo findings with repo activity (e.g. commits) more recent than a specific
+ date expressed by a duration (now - duration). A duration string is a possibly signed sequence of decimal numbers, each
+                               with an optional fraction and a unit suffix, such as '1h' or '2h45m'. Valid time units
+                                are 'm', 'h', 'd', 'w'.
+- `--activity-until-duration`: Return git repo findings with repo activity (e.g. commits) older than a specific date
+ expressed by a duration (now - duration). A duration string is a possibly signed sequence of decimal numbers, each with
+                               an optional fraction and a unit suffix, such as '1h' or '2h45m'. Valid time units are 'm
+                               ', 'h', 'd', 'w'.
 
 For now only organizations are supported so the option is mandatory. We **strongly recommend** providing an access token
 for authentication. If not provided the rate limiting will kick in after about 30 repositories scanned.
@@ -49,14 +53,18 @@ for authentication. If not provided the rate limiting will kick in after about 3
 For type GitLab you can use the following options:
 - `--url`: The url of the GitLab server.
 - `--access-token`: Your personal GitLab access token.
-- `--group`: A specific GitLab group id you want to san, including subgroups.
+- `--group`: A specific GitLab group id you want to scan, including subgroups.
 - `--ignore-groups`: A list of GitLab group ids you want to ignore
 - `--ignore-repos`: A list of GitLab project ids you want to ignore
 - `--obey-rate-limit`: True to obey the rate limit of the GitLab server (default), otherwise False
-- `--activity-since-duration`: Return git repo findings with repo activity (e.g. commits) more recent than a specific date expresed by an duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each
-                               with optional fraction and a unit suffix, such as '1h' or '2h45m'. Valid time units are 'm', 'h', 'd', 'w'.
-- `--activity-until-duration`: Return git repo findings with repo activity (e.g. commits) older than a specific date expresed by an duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each with
-                               optional fraction and a unit suffix, such as '1h' or '2h45m'. Valid time units are 'm', 'h', 'd', 'w'.
+- `--activity-since-duration`: Return git repo findings with repo activity (e.g. commits) more recent than a specific
+ date expressed by a duration (now - duration). A duration string is a possibly signed sequence of decimal numbers, each
+                               with an optional fraction and a unit suffix, such as '1h' or '2h45m'. Valid time units
+                                are 'm', 'h', 'd', 'w'.
+- `--activity-until-duration`: Return git repo findings with repo activity (e.g. commits) older than a specific date
+ expressed by a duration (now - duration). A duration string is a possibly signed sequence of decimal numbers, each with
+                               an optional fraction and a unit suffix, such as '1h' or '2h45m'. Valid time units are 'm
+                               ', 'h', 'd', 'w'.
 
 For gitlab the url and the access token is mandatory. If you don't provide a specific group id all projects
 on the gitlab server are going to be discovered.
