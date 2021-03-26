@@ -32,7 +32,7 @@ import java.util.Map;
  * FindingStats contains the general stats about the results of the scan
  */
 @ApiModel(description = "FindingStats contains the general stats about the results of the scan")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-03-18T15:41:43.082Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-03-26T19:41:39.505Z[Etc/UTC]")
 public class V1ScanStatusFindings {
   public static final String SERIALIZED_NAME_CATEGORIES = "categories";
   @SerializedName(SERIALIZED_NAME_CATEGORIES)
