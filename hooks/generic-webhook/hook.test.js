@@ -1,4 +1,6 @@
-const { handle, axios } = require("./hook");
+const { handle } = require("./hook");
+const axios = require('axios')
+jest.mock('axios')
 
 beforeEach(() => {
   axios.post.mockClear();
