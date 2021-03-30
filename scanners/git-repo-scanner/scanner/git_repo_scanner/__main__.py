@@ -1,9 +1,7 @@
 import argparse
-import calendar
 import json
 import logging
 import sys
-import time
 from datetime import datetime
 # https://docs.python.org/3/library/datetime.html
 from datetime import timedelta
@@ -12,10 +10,6 @@ from pathlib import Path
 import github
 import gitlab
 import pytz
-from github.Organization import Organization
-from github.PaginatedList import PaginatedList
-from github.Repository import Repository
-from gitlab.v4.objects import Project
 # https://pypi.org/project/pytimeparse/
 from pytimeparse.timeparse import timeparse
 

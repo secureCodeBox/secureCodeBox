@@ -19,8 +19,6 @@ class GitHubScanner(AbstractScanner):
     def __init__(self, url: str, access_token: str, organization: str, ignore_repos: List[int],
                  obey_rate_limit: bool = True) -> None:
         super().__init__()
-        if not url:
-            raise argparse.ArgumentError(None, 'URL required for GitLab connection.')
         if not organization:
             raise argparse.ArgumentError(None, 'Organization required for GitLab connection.')
 
@@ -43,15 +41,18 @@ class GitHubScanner(AbstractScanner):
         findings = []
         org: Organization = self._gh.get_organization(self._organization)
 
-        repos: PaginatedList[Repository] = org.get_repos(type='all', sort='pushed', direction='desc')
+        repos: PaginatedList[Repository] = org.get_repos(type='all', sort='pushed', direction='asc')
+
+        if start_time:
+            repos = org.get_repos(type='all', sort='pushed', direction='desc')
 
         for i in range(repos.totalCount):
-            _process_repos_page(findings, repos.get_page(i), start_time, end_time)
+            self._process_repos_page(findings, repos.get_page(i), start_time, end_time)
         return findings
 
     def _process_repos_page(self,
                             findings: List[FINDING],
-                            repos: PaginatedList[Repository],
+                            repos: List[Repository],
                             start_time: Optional[datetime] = None,
                             end_time: Optional[datetime] = None):
         repo: Repository
@@ -60,26 +61,30 @@ class GitHubScanner(AbstractScanner):
                 self.LOGGER.info(
                     f'{len(findings) + 1} - Name: {repo.name} - LastUpdate: {repo.updated_at} - LastPush: {repo.pushed_at}')
 
-                # respect time filtering
-                if start_time:
-                    if repo.updated_at > start_time:
-                        findings.append(self._create_finding_from_repo(repo))
-                        self._respect_github_ratelimit()
-                    else:
-                        self.LOGGER.info(
-                            f'Reached activity limit! Ignoring all repos with latest activity since `{activityDeltaDatetime}` ago ({str(activityDate)}).')
+                if start_time or end_time:
+                    isInTimeFrame = self._check_repo_is_in_time_frame(repo.pushed_at, start_time, end_time)
+                    if not isInTimeFrame:
                         break
-                elif end_time:
-                    if repo.updated_at < end_time:
-                        findings.append(self._create_finding_from_repo(repo))
-                        self._respect_github_ratelimit()
-                    else:
-                        self.LOGGER.info(
-                            f'Reached activity limit! Ignoring all repos with latest activity until `{activityDeltaDatetime}` ago ({str(activityDate)}).')
-                        break
-                else:
-                    findings.append(self._create_finding_from_repo(repo))
-                    self._respect_github_ratelimit()
+
+                findings.append(self._create_finding_from_repo(repo))
+                self._respect_github_ratelimit()
+
+    def _check_repo_is_in_time_frame(self,
+                                     pushed_at: datetime,
+                                     start_time: Optional[datetime] = None,
+                                     end_time: Optional[datetime] = None):
+        if start_time:
+            if pushed_at > start_time:
+                return True
+            else:
+                self.LOGGER.info(f'Reached activity limit! Ignoring all repos with activity since `{start_time}`.')
+                return False
+        elif end_time:
+            if pushed_at < end_time:
+                return True
+            else:
+                self.LOGGER.info(f'Reached activity limit! Ignoring all repos with activity until `{end_time}`.')
+                return False
 
     def _respect_github_ratelimit(self):
         if self._obey_rate_limit:
@@ -112,10 +117,7 @@ class GitHubScanner(AbstractScanner):
         else:
             raise argparse.ArgumentError(None, 'Access token required for github enterprise authentication.')
 
-    def _create_finding_from_repo(self, repo: Repository, index: int, total: int) -> FINDING:
-        self.LOGGER.info(
-            f'({index + 1}/{total}) Add finding for repo {repo.full_name} with last activity at '
-            f'{repo.updated_at}')
+    def _create_finding_from_repo(self, repo: Repository) -> FINDING:
         return super()._create_finding(
             str(repo.id),
             repo.html_url,
