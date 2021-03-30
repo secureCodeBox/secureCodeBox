@@ -19,6 +19,8 @@ from gitlab.v4.objects import Project
 # https://pypi.org/project/pytimeparse/
 from pytimeparse.timeparse import timeparse
 
+from git_repo_scanner.abstract_scanner import AbstractScanner
+from git_repo_scanner.github_scanner import GitHubScanner
 from git_repo_scanner.gitlab_scanner import GitLabScanner
 
 log_format = '%(asctime)s - %(levelname)-7s - %(name)s - %(message)s'
@@ -31,6 +33,10 @@ now_utc = pytz.utc.localize(datetime.utcnow())
 def main():
     args = get_parser_args()
 
+    if not args.git_type:
+        logger.info('Argument error: No git type specified')
+        sys.exit(1)
+
     findings = process(args)
 
     logger.info('Write findings to file...')
@@ -39,6 +45,8 @@ def main():
 
 
 def process(args):
+    scanner: AbstractScanner
+
     if args.git_type == 'gitlab':
         scanner = GitLabScanner(
             url=args.url,
@@ -48,11 +56,20 @@ def process(args):
             ignore_repos=args.ignore_repos,
             obey_rate_limit=args.obey_rate_limit
         )
+    if args.git_type == 'github':
+        scanner = GitHubScanner(
+            url=args.url,
+            access_token=args.access_token,
+            organization=args.organization,
+            ignore_repos=args.ignore_repos,
+            obey_rate_limit=args.obey_rate_limit
+        )
     else:
-        return parse_github(args)
+        logger.info('Argument error: Unkown git type')
+        sys.exit(1)
 
     try:
-        scanner.process(
+        return scanner.process(
             args.activity_since_duration,
             args.activity_until_duration
         )
@@ -143,159 +160,6 @@ def get_parser_args(args=None):
                         required=False)
 
     return parser.parse_args(args)
-
-
-def parse_github(args):
-    gh: github.Github = setup_github(args)
-
-    logger.info('Process Repositories...')
-
-    if args.organization:
-        findings = process_github_repos(args, gh)
-        return findings
-    else:
-        logger.info('No organization provided')
-        sys.exit(-1)
-
-
-def respect_github_ratelimit(args, gh):
-    if args.obey_rate_limit:
-        api_limit = gh.get_rate_limit().core
-        reset_timestamp = calendar.timegm(api_limit.reset.timetuple())
-        seconds_until_reset = reset_timestamp - calendar.timegm(
-            time.gmtime()) + 5  # add 5 seconds to be sure the rate limit has been reset
-        sleep_time = seconds_until_reset / api_limit.remaining
-
-        logger.info('Checking Rate-Limit (' + str(args.obey_rate_limit) + ') [remainingApiCalls: ' + str(
-            api_limit.remaining) + ', seconds_until_reset: ' + str(seconds_until_reset) + ', sleepTime: ' + str(
-            sleep_time) + ']')
-        time.sleep(sleep_time)
-
-
-def process_github_repos(args, gh):
-    findings = []
-    org: Organization = gh.get_organization(args.organization)
-
-    # Respect time filtering based on "pushed_at" (not "updated_at")
-    # The difference is that "pushed_at" represents the date and time of the last commit, whereas the "updated_at" represents the date and time of the last change the the repository.
-    # A change to the repository might be a commit, but it may also be other things, such as changing the description of the repo, creating wiki pages, etc.
-    # In other words, commits are a subset of updates, and the pushed_at timestamp will therefore either be the same as the updated_at timestamp, or it will be an earlier timestamp.
-    duration = 0
-    activityDeltaDatetime = datetime.now()
-    if args.activity_since_duration:
-        activityDuration = timeparse(args.activity_since_duration)
-        activityDeltaDatetime = timedelta(seconds=activityDuration)
-        logger.info('Get all GitHub Repos (filtered by last activity since ' + str(activityDeltaDatetime) + 'ago.)')
-
-        repos: PaginatedList[Repository] = org.get_repos(type='all', sort='pushed', direction='desc')
-    elif args.activity_until_duration:
-        activityDuration = timeparse(args.activity_until_duration)
-        activityDeltaDatetime = timedelta(seconds=activityDuration)
-        logger.info('Get all GitHub Repos (filtered by last activity until ' + str(activityDeltaDatetime) + 'ago.)')
-
-        repos: PaginatedList[Repository] = org.get_repos(type='all', sort='pushed', direction='asc')
-    else:
-        logger.info('Get all GitHub Repos (not filtered)')
-        repos: PaginatedList[Repository] = org.get_repos(type='all')
-
-    activityDate = datetime.now() - activityDeltaDatetime
-
-    for i in range(repos.totalCount):
-        process_github_repos_page(args, findings, repos.get_page(i), gh, activityDeltaDatetime, activityDate)
-    return findings
-
-
-def process_github_repos_page(args, findings, repos, gh, activityDeltaDatetime, activityDate):
-    repo: Repository
-    for repo in repos:
-        if repo.id not in args.ignore_repos:
-            logger.info(
-                f'{len(findings) + 1} - Name: {repo.name} - LastUpdate: {repo.updated_at} - LastPush: {repo.pushed_at}')
-
-            # respect time filtering
-            if args.activity_since_duration:
-                if repo.updated_at > activityDate:
-                    findings.append(create_finding_github(repo))
-                    respect_github_ratelimit(args, gh)
-                else:
-                    logger.info(
-                        f'Reached activity limit! Ignoring all repos with latest activity since `{activityDeltaDatetime}` ago ({str(activityDate)}).')
-                    break
-            elif args.activity_until_duration:
-                if repo.updated_at < activityDate:
-                    findings.append(create_finding_github(repo))
-                    respect_github_ratelimit(args, gh)
-                else:
-                    logger.info(
-                        f'Reached activity limit! Ignoring all repos with latest activity until `{activityDeltaDatetime}` ago ({str(activityDate)}).')
-                    break
-            else:
-                findings.append(create_finding_github(repo))
-                respect_github_ratelimit(args, gh)
-
-
-def setup_github(args):
-    if args.url:
-        return setup_github_with_url(args)
-    else:
-        return setup_github_without_url(args)
-
-
-def setup_github_without_url(args):
-    if args.access_token:
-        return github.Github(args.access_token)
-    else:
-        return github.Github()
-
-
-def setup_github_with_url(args):
-    if args.access_token:
-        return github.Github(base_url=args.url, login_or_token=args.access_token)
-    else:
-        logger.info('Access token required for github enterprise authentication.')
-        sys.exit(-1)
-
-
-def create_finding_gitlab(project: Project):
-    return {
-        'name': 'GitLab Repo',
-        'description': 'A GitLab repository',
-        'category': 'Git Repository',
-        'osi_layer': 'APPLICATION',
-        'severity': 'INFORMATIONAL',
-        'attributes': {
-            'id': project.id,
-            'web_url': project.web_url,
-            'full_name': project.path_with_namespace,
-            'owner_type': project.namespace['kind'],
-            'owner_id': project.namespace['id'],
-            'owner_name': project.namespace['name'],
-            'created_at': project.created_at,
-            'last_activity_at': project.last_activity_at,
-            'visibility': project.visibility
-        }
-    }
-
-
-def create_finding_github(repo: Repository):
-    return {
-        'name': 'GitHub Repo',
-        'description': 'A GitHub repository',
-        'category': 'Git Repository',
-        'osi_layer': 'APPLICATION',
-        'severity': 'INFORMATIONAL',
-        'attributes': {
-            'id': repo.id,
-            'web_url': repo.html_url,
-            'full_name': repo.full_name,
-            'owner_type': repo.owner.type,
-            'owner_id': repo.owner.id,
-            'owner_name': repo.owner.name,
-            'created_at': repo.created_at.strftime("%Y-%m-%dT%H:%M:%SZ"),
-            'last_activity_at': repo.updated_at.strftime("%Y-%m-%dT%H:%M:%SZ"),
-            'visibility': 'private' if repo.private else 'public'
-        }
-    }
 
 
 if __name__ == '__main__':
