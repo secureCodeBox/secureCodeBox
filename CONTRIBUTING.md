@@ -8,6 +8,28 @@
   - [How to Write Commit Messages](#how-to-write-commit-messages)
   - [Code of Conduct](#code-of-conduct)
 
+## Release Strategy
+
+Our Release Cycle for new Features (Minior semver update)
+is roughly every two weeks (We will usually make a new Release after each Review).
+
+### Major Release (Semver)
+
+For Upcomming major updates we decided that there will be a time window in which both Major versions (starting with v2.x.x)
+will receive security updates and bugfixes.
+We did not yet decide on the size window but it will probably be a couple of months
+and will be published when the next major version will be released.
+
+### Minor Release/Feature Releases (Semver)
+
+We currently plan to provide support for the latest Minor semver release only.
+
+### Patch Release/Bugfix/Security Fix
+
+We try to make bugfixes and high severity fixes available as patch release for the current minor release
+as early as possible.
+
+
 ## GitHub Flow
 
 For more information see [GitHub Flow](https://githubflow.github.io/)
@@ -53,6 +75,20 @@ If you want early feedback feel free to open a *Draft Pull Request*.
 When you are done, you can convert it to a standard *Pull Request* (or create one if you did not create a *Draft Pull Request*).
 
 Generally the _secureCodeBox_ project follows the standard [GitHub Pull request process](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests).
+
+## Bugfixing And Securityfixing Released Features
+
+For Bugfixes and security fixes of the current release please follow the following workflow:
+- For the minor release
+  - Checkout current minor release branch (e.g. v2.5.x) or create if not existent from latest git tag
+  - Create a bugfix branch from release branch
+  - Fix Bug
+  - Create PR to release branch
+  - Generate new semver release
+- For the main branch:
+  - Create a bugfix branch from `main` branch
+  - Cherry-Pick Bugfix and commit to bugfix branch
+  - Create PR to `main` branch 
 
 ## Working with Issues/How to Contribute in Issues
 
