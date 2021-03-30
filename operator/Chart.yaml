@@ -25,3 +25,139 @@ dependencies:
     version: 7.1.2
     repository: https://helm.min.io/
     condition: minio.enabled
+
+# Artifacthub.io specific annotations
+# https://artifacthub.io/docs/topics/annotations/helm/
+annotations:
+  # artifacthub.io/changes: |
+  #   - Added cool feature
+  #   - Fixed minor bug
+  artifacthub.io/containsSecurityUpdates: "true"
+  artifacthub.io/images: |
+    - name: securecodebox-operator
+      image: docker.io/securecodebox/operator:v2.6.0-alpha1
+    - name: securecodebox-lurcher
+      image: docker.io/securecodebox/lurcher:v2.6.0-alpha1
+  artifacthub.io/crds: |
+    - kind: Scan
+      version: v1
+      name: Scan
+      displayName: secureCodeBox Scan
+      description: |
+        The Scan Custom Resource Definition (CRD) lets you define how a specific security scan should be configured.
+        More details about this CRD are documented here: https://docs.securecodebox.io/docs/api/crds/scan
+    - kind: ScheduledScan
+      version: v1
+      name: ScheduledScan
+      displayName: secureCodeBox Scheduled Scan
+      description: |
+        The ScheduledScan Custom Resource Definition (CRD) lets you define a Scan which gets repeated in a specific time interval, 
+        e.g. every 24 hours or every 7 days. More details about this CRD are documented here: https://docs.securecodebox.io/docs/api/crds/scheduled-scan
+    - kind: CascadingRule
+      version: v1
+      name: Scan
+      displayName: secureCodeBox Cascading Rule
+      description:  |
+        CascadingRules are Custom Resource Definitions (CRD's) used to define how scans can be started automatically based on the results of previous scans. 
+        This lets you run large exploratory scans and automatically start more in depth scans on the targets found by the initial scans.
+        More details about this CRD are documented here: https://docs.securecodebox.io/docs/api/crds/cascading-rule
+    - kind: ScanType
+      version: v1
+      name: Scan
+      displayName: secureCodeBox ScanType
+      description:  |
+        The ScanType Custom Resource Definition (CRD) is used to define to the secureCodeBox how a specific scanner can be executed in Kubernetes. 
+        The main part of the ScanType is the JobTemplate, which contains a Kubernetes Job definition which will be used to construct the scans Job.
+        More details about this CRD are documented here: https://docs.securecodebox.io/docs/api/crds/scan-type
+    - kind: ParseDefinition
+      version: v1
+      name: Scan
+      displayName: secureCodeBox ParseDefinition
+      description:  |
+        ParseDefinitions are Custom Resource Definitions (CRD's) used to describe to the secureCodeBox 
+        how it can convert a raw finding report (e.g. XML report from nmap) into the generic secureCodeBox finding format.
+        More details about this CRD are documented here: https://docs.securecodebox.io/docs/api/crds/parse-definition
+    - kind: ScanCompletionHook
+      version: v1
+      name: ScanCompletionHook
+      displayName: secureCodeBox Scan Completion Hook
+      description:  |
+        ScanCompletionHooks are Custom Resource Definitions (CRD's) used to define custom behavior which should be run after a scan has been completed.
+        More details about this CRD are documented here: https://docs.securecodebox.io/docs/api/crds/parse-definition
+  artifacthub.io/crdsExamples: |
+    - apiVersion: "execution.securecodebox.io/v1"
+      kind: Scan
+      metadata:
+        name: "nmap-scanme.nmap.org"
+      spec:
+        scanType: "nmap"
+        parameters:
+          # Use nmap's service detection feature
+          - "-sV"
+          - scanme.nmap.org
+        env:
+          - name: TEST_ENV
+            valueFrom:
+              secretKeyRef:
+                key: secret-name
+                name: zap-customer-credentials
+          - name: GREETING
+            value: "Hello from the secureCodeBox :D"
+        cascades:
+          matchLabels:
+            securecodebox.io/intensive: light
+          matchExpression:
+            key: "securecodebox.io/invasive"
+            operator: In
+            values: [non-invasive, invasive]
+    - apiVersion: "execution.securecodebox.io/v1"
+      kind: ScheduledScan
+      metadata:
+        name: "nmap-scanme.nmap.org-daily"
+      spec:
+        interval: 24h
+        scanSpec:
+          scanType: "nmap"
+          parameters:
+              # Use nmaps service detection feature
+              - "-sV"
+              - scanme.nmap.org
+        successfulJobsHistoryLimit: 3
+        failedJobsHistoryLimit: 5
+    - apiVersion: "cascading.securecodebox.io/v1"
+      kind: CascadingRule
+      metadata:
+        name: "zap-http"
+        labels:
+          securecodebox.io/invasive: non-invasive
+          securecodebox.io/intensive: medium
+      spec:
+        matches:
+          anyOf:
+            - category: "Open Port"
+              attributes:
+                service: http
+                state: open
+            - category: "Open Port"
+              attributes:
+                service: https
+                state: open
+        scanSpec:
+          scanType: "zap-baseline"
+          parameters: ["-t", "{{attributes.service}}://{{$.hostOrIP}}"]
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/links: |
+    - name: Documentation
+      url: https://docs.securecodebox.io/docs/getting-started/installation
+    - name: Homepage
+      url: https://www.securecodebox.io
+    - name: iteratec GmbH
+      url: https://www.iteratec.com  
+  artifacthub.io/operator: "true"
+  artifacthub.io/operatorCapabilities: Seamless Upgrades
+  artifacthub.io/prerelease: "false"
+  artifacthub.io/recommendations: |
+    - url: https://artifacthub.io/packages/helm/seccurecodebox/auto-discovery
+    - url: https://artifacthub.io/packages/helm/seccurecodebox/zap
+    - url: https://artifacthub.io/packages/helm/seccurecodebox/amass
+    - url: https://artifacthub.io/packages/helm/seccurecodebox/nmap

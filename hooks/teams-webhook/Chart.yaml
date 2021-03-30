@@ -22,4 +22,17 @@ type: application
 version: v2.6.0-alpha1
 kubeVersion: ">=v1.11.0-0"
 
+keywords:
+  - security
+  - secureCodeBox
+  - hook
+  - teams
+home: https://docs.securecodebox.io/docs/hooks/ms-teams-webhook
+icon: https://docs.securecodebox.io/img/integrationIcons/MS Teams WebHook.svg
+sources:
+  - https://github.com/secureCodeBox/secureCodeBox
+maintainers:
+  - name: iteratec GmbH
+    email: secureCodeBox@iteratec.com
+
 dependencies: []
