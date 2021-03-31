@@ -4,31 +4,10 @@
   - [GitHub Flow](#github-flow)
     - [How to work with GitHub Flow](#how-to-work-with-github-flow)
   - [Working with Forks and Pull Requests](#working-with-forks-and-pull-requests)
-  - [Working with Issues / How to Contribute in Issues](#working-with-issues--how-to-contribute-in-issues)
+  - [Bugfixing And Securityfixing Released Features](#bugfixing-and-securityfixing-released-features)
+  - [Working with Issues/How to Contribute in Issues](#working-with-issueshow-to-contribute-in-issues)
   - [How to Write Commit Messages](#how-to-write-commit-messages)
   - [Code of Conduct](#code-of-conduct)
-
-## Release Strategy
-
-Our Release Cycle for new Features (Minior semver update)
-is roughly every two weeks (We will usually make a new Release after each Review).
-
-### Major Release (Semver)
-
-For Upcomming major updates we decided that there will be a time window in which both Major versions (starting with v2.x.x)
-will receive security updates and bugfixes.
-We did not yet decide on the size window but it will probably be a couple of months
-and will be published when the next major version will be released.
-
-### Minor Release/Feature Releases (Semver)
-
-We currently plan to provide support for the latest Minor semver release only.
-
-### Patch Release/Bugfix/Security Fix
-
-We try to make bugfixes and high severity fixes available as patch release for the current minor release
-as early as possible.
-
 
 ## GitHub Flow
 
