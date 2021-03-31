@@ -18,17 +18,17 @@ blocks:
   - type: mrkdwn
     text: |
         *Findings Severity Overview*:
-        {{ #severities }}
-        {{ name }}: {{ value }}
-        {{ /severities }}
+        {% for severity, counter in scan.status.findings.severities -%}
+        {{ severity }}: {{ counter }}
+        {% endfor %}
 - type: section
   fields:
   - type: mrkdwn
     text: |
         *Findings Category Overview*:
-        {{ #categories }}
-        {{ name }}: {{ value }}
-        {{ /categories }}
+        {% for category, counter in scan.status.findings.categories -%}
+        {{ category }}: {{ counter }}
+        {% endfor %}
 - type: actions
   elements:
   - type: button

@@ -33,10 +33,11 @@
   "dependencies": {
     "@kubernetes/client-node": "^0.14.0",
     "@types/js-yaml": "^4.0.0",
+    "@types/nunjucks": "^3.1.4",
     "axios": "^0.21.1",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
-    "mustache": "^4.1.0",
+    "nunjucks": "^3.2.3",
     "typescript": "^4.2.3"
   }
 }
