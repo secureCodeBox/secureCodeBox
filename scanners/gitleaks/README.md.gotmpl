@@ -21,6 +21,7 @@ To learn more about gitleaks visit <https://github.com/zricethezav/gitleaks>
 The gitleaks scanner can be deployed with helm:
 
 ```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install gitleaks secureCodeBox/gitleaks
 ```
 
@@ -36,6 +37,45 @@ The only mandatory parameters are:
 - `--config`: The ruleset you want to use.
 
 **Do not** override the option `--report-format` or `--report`. It is already configured for automatic findings parsing.
+
+## secureCodeBox extended GitLeaks Features
+
+:::info
+If you run gitleaks based on a scheduledScan (e.g. one scan per day) it would be enough to scan all git-commits since the last executed schedule. 
+Instead of scanning all commits in the complete git history every day it would safe a lot of resources to scan only all commits of the last day.
+
+_Problem is: This is a feature and configuration option gitleaks is currently not supporting._
+
+That's why we created an [issue](https://github.com/zricethezav/gitleaks/issues/497) and a [pull request](https://github.com/zricethezav/gitleaks/pull/498) for that. 
+If you like the idea, please vote for our issue and PR.
+
+If you already want to use our implementation (fork) of this feature you can use our [gitleaks forked docker image](https://hub.docker.com/r/securecodebox/gitleaks) instead of the gitleaks original image.
+:::
+
+```yaml
+# Corresponding HelmChart Configuration
+image:
+  # image.repository -- Container Image to run the scan
+  repository: docker.io/securecodebox/scanner-gitleaks
+  # image.tag -- defaults to the charts version
+  tag: v7.3.0
+```
+
+### Deployment with extended GitLeaks
+```bash
+# Install HelmChart (use -n to configure another namespace)
+helm upgrade --install gitleaks secureCodeBox/gitleaks \
+  --set="image.repository=docker.io/securecodebox/scanner-gitleaks" \
+  --set="image.tag=v7.3.0"
+```
+
+### Additional (Fork) Scanner configuration options
+```bash
+--commit-since-duration= Scan commits more recent than a specific date expresed by an duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each
+                               with optional fraction and a unit suffix, such as '300ms', '-1.5h' or '2h45m'. Valid time units are 'ns', 'us' (or 'µs'), 'ms', 's', 'm', 'h'.
+--commit-until-duration= Scan commits older than a specific date expresed by an duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each with
+                               optional fraction and a unit suffix, such as '300ms', '-1.5h' or '2h45m'. Valid time units are 'ns', 'us' (or 'µs'), 'ms', 's', 'm', 'h'.
+```
 
 #### Ruleset
 
@@ -84,7 +124,6 @@ kubectl create secret generic gitlab-access-token --from-literal="token=<YOUR-GI
 
 For more information on how to use cascades take a look at 
 [Scanning Networks Example](https://docs.securecodebox.io/docs/how-tos/scanning-networks/)
-
 
 
 ## Chart Configuration
