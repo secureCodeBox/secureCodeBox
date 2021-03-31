@@ -4,7 +4,7 @@ const axios = require('axios');
 jest.mock('axios');
 
 beforeEach(() => {
-  axios.post.mockClear();
+  jest.clearAllMocks();
 });
 
 const scan = {

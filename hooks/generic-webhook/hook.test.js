@@ -3,7 +3,7 @@ const axios = require('axios')
 jest.mock('axios')
 
 beforeEach(() => {
-  axios.post.mockClear();
+  jest.clearAllMocks();
 });
 
 test("should send a post request to the url when fired", async () => {

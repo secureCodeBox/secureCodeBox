@@ -12,4 +12,3 @@ async function handle({
   await axios.post(webhookUrl, { scan, findings });
 }
 module.exports.handle = handle;
-module.exports.axios = axios;

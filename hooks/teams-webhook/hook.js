@@ -93,4 +93,3 @@ function isAnyRuleMatching(rules, findings) {
 
 module.exports.handle = handle;
 module.exports.isAnyRuleMatching = isAnyRuleMatching;
-module.exports.axios = axios;
