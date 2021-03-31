@@ -53,14 +53,7 @@
   "jest": {
     "projects": [
       "<rootDir>/scanners/",
-      "<rootDir>/hooks/",
-      {
-        "displayName": "lint",
-        "runner": "jest-runner-eslint",
-        "testMatch": [
-          "<rootDir>/**/*.js"
-        ]
-      }
+      "<rootDir>/hooks/"
     ]
   }
 }

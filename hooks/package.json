@@ -44,5 +44,17 @@
   },
   "dependencies": {
     "axios": "^0.21.1"
+  },
+  "jest": {
+    "projects": [
+      "<rootDir>/declarative-subsequent-scans",
+      "<rootDir>/finding-post-processing",
+      "<rootDir>/generic-webhook",
+      "<rootDir>/notification-hook/src",
+      "<rootDir>/persistence-defectdojo",
+      "<rootDir>/persistence-elastic",
+      "<rootDir>/teams-webhook",
+      "<rootDir>/update-field"
+    ]
   }
 }
