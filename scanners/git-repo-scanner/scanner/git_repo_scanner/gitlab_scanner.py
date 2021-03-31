@@ -14,7 +14,11 @@ logger = logging.getLogger('git_repo_scanner')
 class GitLabScanner(AbstractScanner):
     LOGGER = logging.getLogger('git_repo_scanner')
 
-    def __init__(self, url: str, access_token: str, group: int, ignored_groups: List[int], ignore_repos: List[int],
+    def __init__(self, url: str,
+                 access_token: str,
+                 group: Optional[int],
+                 ignored_groups: List[int],
+                 ignore_repos: List[int],
                  obey_rate_limit: bool = True) -> None:
         super().__init__()
         if not url:

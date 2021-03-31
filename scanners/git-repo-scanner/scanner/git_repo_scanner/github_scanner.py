@@ -1,7 +1,7 @@
 import argparse
 import logging
 import time
-from calendar import calendar
+from calendar import timegm
 from datetime import datetime
 from typing import Optional, List
 
@@ -16,11 +16,13 @@ from git_repo_scanner.abstract_scanner import AbstractScanner, FINDING
 class GitHubScanner(AbstractScanner):
     LOGGER = logging.getLogger('git_repo_scanner')
 
-    def __init__(self, url: str, access_token: str, organization: str, ignore_repos: List[int],
+    def __init__(self, url: Optional[str], access_token: Optional[str], organization: str, ignore_repos: List[int],
                  obey_rate_limit: bool = True) -> None:
         super().__init__()
         if not organization:
-            raise argparse.ArgumentError(None, 'Organization required for GitLab connection.')
+            raise argparse.ArgumentError(None, 'Organization required for GitHab connection.')
+        if url and not access_token:
+            raise argparse.ArgumentError(None, 'Access token required for GitHab connection.')
 
         self._url = url
         self._access_token = access_token
@@ -89,9 +91,9 @@ class GitHubScanner(AbstractScanner):
     def _respect_github_ratelimit(self):
         if self._obey_rate_limit:
             api_limit = self._gh.get_rate_limit().core
-            reset_timestamp = calendar.timegm(api_limit.reset.timetuple())
-            seconds_until_reset = reset_timestamp - calendar.timegm(
-                time.gmtime()) + 5  # add 5 seconds to be sure the rate limit has been reset
+            reset_timestamp = timegm(api_limit.reset.timetuple())
+            # add 5 seconds to be sure the rate limit has been reset
+            seconds_until_reset = reset_timestamp - timegm(time.gmtime()) + 5
             sleep_time = seconds_until_reset / api_limit.remaining
 
             self.LOGGER.info('Checking Rate-Limit (' + str(self._obey_rate_limit) + ') [remainingApiCalls: ' + str(
