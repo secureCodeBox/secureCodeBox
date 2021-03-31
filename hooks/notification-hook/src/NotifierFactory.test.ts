@@ -65,7 +65,7 @@ test("Should Create Slack Notifier", async () => {
   }
   const findings: Finding[] = []
   findings.push(finding)
-  const s = NotifierFactory.create(chan, scan, findings);
+  const s = NotifierFactory.create(chan, scan, findings, []);
 
   expect(s instanceof SlackNotifier).toBe(true);
 })
@@ -82,7 +82,7 @@ test("Should Create MS Teams Notifier", async () => {
   findings.push(finding)
 
   const t = () => {
-    NotifierFactory.create(chan, scan, findings);
+    NotifierFactory.create(chan, scan, findings, []);
   }
 
   expect(t).toThrow("This Type is not Implemented :(");
