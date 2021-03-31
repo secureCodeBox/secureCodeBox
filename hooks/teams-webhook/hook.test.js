@@ -1,7 +1,4 @@
-const { handle, isAnyRuleMatching } = require("./hook");
-
-const axios = require('axios');
-jest.mock('axios');
+const { handle, isAnyRuleMatching, axios } = require("./hook");
 
 beforeEach(() => {
   jest.clearAllMocks();
