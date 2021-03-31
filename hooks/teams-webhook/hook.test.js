@@ -1,4 +1,5 @@
-const { handle, isAnyRuleMatching, axios } = require("./hook");
+const { handle, isAnyRuleMatching } = require("./hook");
+const axios = jest.createMockFromModule('axios')
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -177,6 +178,7 @@ test("Kibana enabled example should send a post request to the url when fired", 
     vulnMngmName,
     vulnMngmDashboardUrl,
     vulnMngmDashboardFindingsUrl,
+    axios
   });
 
   expect(axios.post).toMatchSnapshot();
@@ -203,6 +205,7 @@ test("DefectDojo enabled should send a post request to the url when fired", asyn
     vulnMngmName,
     vulnMngmDashboardUrl,
     vulnMngmDashboardFindingsUrl,
+    axios
   });
 
   expect(axios.post).toMatchSnapshot();
@@ -229,6 +232,7 @@ test("vulnMngmEnabled disabled should should result in a minimal payload", async
     vulnMngmName,
     vulnMngmDashboardUrl,
     vulnMngmDashboardFindingsUrl,
+    axios
   });
 
   expect(axios.post).toMatchSnapshot();
@@ -264,6 +268,7 @@ test("Rules that didn't match shouldn't be send", async () => {
     vulnMngmName,
     vulnMngmDashboardUrl,
     vulnMngmDashboardFindingsUrl,
+    axios
   });
 
   expect(axios.post).toMatchSnapshot();
@@ -277,7 +282,7 @@ test("vulnMngmEnabled some ENV Vars missing test should result in a minimal payl
 
   const webhookUrl = "http://example.com/foo/bar";
 
-  await handle({ getFindings, scan, webhookUrl, rules });
+  await handle({ getFindings, scan, webhookUrl, rules, axios });
 
   expect(axios.post).toMatchSnapshot();
 });
@@ -287,7 +292,7 @@ test("vulnMngmEnabled all ENV Vars missing test should result in a minimal paylo
 
   const getFindings = async () => findings;
 
-  await expect(handle({ getFindings, scan })).rejects.toThrow(Error);
+  await expect(handle({ getFindings, scan, axios })).rejects.toThrow(Error);
 });
 
 test("isAnyRuleMatching returns true if it matches correctly one rule", async () => {

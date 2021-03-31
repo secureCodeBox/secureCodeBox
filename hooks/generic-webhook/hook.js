@@ -1,9 +1,9 @@
-const axios = require("axios");
 
 async function handle({
   getFindings,
   scan,
   webhookUrl = process.env["WEBHOOK_URL"],
+  axios = require('axios')
 }) {
   const findings = await getFindings();
 

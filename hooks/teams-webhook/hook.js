@@ -14,7 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-const axios = require("axios");
 const { isMatch } = require("lodash");
 const { getMessageCardByTemplate } = require("./msteams-template");
 
@@ -27,8 +26,9 @@ async function handle({
   vulnMngmName = process.env["VULNMANAG_NAME"],
   vulnMngmDashboardUrl = process.env["VULNMANAG_DASHBOARD_URL"],
   vulnMngmDashboardFindingsUrl = process.env[
-    "VULNMANAG_DASHBOARD_FINDINGS_URL"
+  "VULNMANAG_DASHBOARD_FINDINGS_URL"
   ],
+  axios = require('axios')
 }) {
   const findings = await getFindings();
 
@@ -46,11 +46,11 @@ async function handle({
     );
   }
 
-  if (isAnyRuleMatching(rules, findings) ) {
+  if (isAnyRuleMatching(rules, findings)) {
     console.log(
       `Sending ${findings.length} findings to ${webhookUrl} with config: \n` +
-        JSON.stringify(vulnerabilityManagement) +
-        ` and rules: \n` + JSON.stringify(rules)
+      JSON.stringify(vulnerabilityManagement) +
+      ` and rules: \n` + JSON.stringify(rules)
     );
     console.log(scan);
 
