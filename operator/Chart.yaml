@@ -29,15 +29,17 @@ dependencies:
 # Artifacthub.io specific annotations
 # https://artifacthub.io/docs/topics/annotations/helm/
 annotations:
+  # TODO: should be replaced during release process with the release body
   # artifacthub.io/changes: |
   #   - Added cool feature
   #   - Fixed minor bug
   artifacthub.io/containsSecurityUpdates: "true"
-  artifacthub.io/images: |
-    - name: securecodebox-operator
-      image: docker.io/securecodebox/operator:v2.6.0-alpha1
-    - name: securecodebox-lurcher
-      image: docker.io/securecodebox/lurcher:v2.6.0-alpha1
+  # TODO: docker tags should be replaced during release process with the release version
+  # artifacthub.io/images: |
+  #   - name: securecodebox-operator
+  #     image: docker.io/securecodebox/operator:v2.6.0-alpha1
+  #   - name: securecodebox-lurcher
+  #     image: docker.io/securecodebox/lurcher:v2.6.0-alpha1
   artifacthub.io/crds: |
     - kind: Scan
       version: v1
