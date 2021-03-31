@@ -9,8 +9,8 @@ export class SlackNotifier extends AbstractNotifier {
 
   protected type: NotifierType = NotifierType.SLACK
 
-  constructor(channel: NotificationChannel, scan: Scan, findings: Finding[]) {
-    super(channel, scan, findings);
+  constructor(channel: NotificationChannel, scan: Scan, findings: Finding[], args: any[]) {
+    super(channel, scan, findings, args);
   }
 
   public async sendMessage(): Promise<void> {

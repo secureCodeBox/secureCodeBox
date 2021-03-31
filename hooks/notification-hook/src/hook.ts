@@ -20,16 +20,19 @@ import { Notifier } from "./Notifier";
 import { NotifierFactory } from "./NotifierFactory";
 import { readFileSync } from 'fs';
 import * as jsyaml from 'js-yaml';
+import { getJSDocParameterTags } from "typescript";
 
 const BASE_PATH = "/home/app/config"
 const CHANNEL_FILE = `${BASE_PATH}/notification-channel.yaml`;
+const ARGS_FILE = `${BASE_PATH}/args`
 
 export async function handle({ getFindings, scan }) {
   let findings: Finding[] = await getFindings();
   let notificationChannels: NotificationChannel[] = getNotificationChannels(CHANNEL_FILE);
+  let args: any[] = getArgs(ARGS_FILE);
   for (const channel of notificationChannels) {
     const findingsToNotify = findings.filter(finding => matches(finding, channel.rules));
-    const notifier: Notifier = NotifierFactory.create(channel, scan, findingsToNotify);
+    const notifier: Notifier = NotifierFactory.create(channel, scan, findingsToNotify, args);
     await notifier.sendMessage();
   }
 }
@@ -56,4 +59,9 @@ export function getNotificationChannels(channelFile: string): any[] {
 
 function doesNotMatch(rule: any, finding: Finding): boolean {
   return !rule.matches.anyOf.some((condition: object) => isMatch(finding, condition));
+}
+
+function getArgs(argsFile: string): any[] {
+  const yaml = readFileSync(argsFile);
+  return jsyaml.load(yaml.toString()) as any[]
 }

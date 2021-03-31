@@ -16,11 +16,13 @@ export abstract class AbstractNotifier implements Notifier {
   protected findings: Finding[];
   protected template: string;
   protected abstract type: NotifierType;
+  protected args: any[]
 
-  constructor(channel: NotificationChannel, scan: Scan, findings: Finding[]) {
+  constructor(channel: NotificationChannel, scan: Scan, findings: Finding[], args: any[]) {
     this.channel = channel;
     this.scan = scan;
     this.findings = findings;
+    this.args = args;
   }
 
   public abstract sendMessage(): Promise<void>
@@ -29,7 +31,8 @@ export abstract class AbstractNotifier implements Notifier {
     nunjucks.configure(`${AbstractNotifier.TEMPLATE_DIR}`)
     const renderedTemplate = nunjucks.render(`${this.channel.template}.${AbstractNotifier.TEMPLATE_FILE_TYPE}`, {
       "findings": this.findings,
-      "scan": this.scan
+      "scan": this.scan,
+      "args": this.args
     });
     try {
       const templateObject = jsyaml.load(renderedTemplate);
