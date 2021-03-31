@@ -21,17 +21,23 @@
 
 > _secureCodeBox_ is a kubernetes based, modularized toolchain for continuous security scans of your software project. Its goal is to orchestrate and easily automate a bunch of security-testing tools out of the box.
 
+<p align="center">
+  <img width="950" src="./docs/resources/ascii/scb-first-start.svg">
+</p>
+
 ## Overview
 
 <!-- toc -->
 
-- [Purpose of this Project](#purpose-of-this-project)
-- [Quickstart](#quickstart)
-- [Architecture Overview](#architecture-overview)
-- [License](#license)
-- [Community](#community)
-- [Contributing](#contributing)
-- [Author Information](#author-information)
+- [OWASP secureCodeBox](#owasp-securecodebox)
+  - [Overview](#overview)
+  - [Purpose of this Project](#purpose-of-this-project)
+  - [Quickstart](#quickstart)
+  - [Architecture Overview](#architecture-overview)
+  - [License](#license)
+  - [Community](#community)
+  - [Contributing](#contributing)
+  - [Author Information](#author-information)
 
 For additional documentation aspects please have a look at our [documentation website](https://docs.securecodebox.io):
 
