@@ -22,4 +22,16 @@ type: application
 version: v2.6.0-alpha1
 kubeVersion: ">=v1.11.0-0"
 
+keywords:
+  - security
+  - secureCodeBox
+  - hook
+home: https://docs.securecodebox.io/docs/hooks/finding-post-processing
+icon: https://docs.securecodebox.io/img/integrationIcons/Default.svg
+sources:
+  - https://github.com/secureCodeBox/secureCodeBox
+maintainers:
+  - name: iteratec GmbH
+    email: secureCodeBox@iteratec.com
+
 dependencies: []
