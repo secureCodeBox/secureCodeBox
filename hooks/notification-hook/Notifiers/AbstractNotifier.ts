@@ -1,5 +1,4 @@
 import { Notifier } from "../Notifier";
-import * as fs from "fs";
 import { NotifierType } from "../NotifierType";
 import { Finding } from "../model/Finding";
 import { NotificationChannel } from "../model/NotificationChannel";
@@ -9,7 +8,7 @@ import * as path from 'path';
 import * as nunjucks from 'nunjucks';
 
 export abstract class AbstractNotifier implements Notifier {
-  private static readonly TEMPLATE_DIR: string = path.join(__dirname, "../notificaton-templates");
+  private static readonly TEMPLATE_DIR: string = path.join(__dirname, "../notification-templates");
   private static readonly TEMPLATE_FILE_TYPE = "njk";
   protected channel: NotificationChannel;
   protected scan: Scan;
