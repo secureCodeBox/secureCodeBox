@@ -6,6 +6,10 @@ import { Scan } from "../model/Scan";
 
 jest.mock('axios');
 
+beforeEach(() => {
+  jest.clearAllMocks();
+})
+
 const channel: NotificationChannel = {
   name: "Channel Name",
   type: NotifierType.SLACK,
