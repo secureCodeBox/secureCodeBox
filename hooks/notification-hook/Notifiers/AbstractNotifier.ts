@@ -9,7 +9,7 @@ import * as path from 'path';
 import * as nunjucks from 'nunjucks';
 
 export abstract class AbstractNotifier implements Notifier {
-  private static readonly TEMPLATE_DIR: string = path.join(__dirname, "../templates");
+  private static readonly TEMPLATE_DIR: string = path.join(__dirname, "../notificaton-templates");
   private static readonly TEMPLATE_FILE_TYPE = "njk";
   protected channel: NotificationChannel;
   protected scan: Scan;

@@ -22,5 +22,5 @@ spec:
       readOnly: true
     {{  if .Values.customTemplateMap }}
     - name: {{ .Release.Name }}-custom-templates
-      mountPath: /home/app/src/templates 
+      mountPath: /home/app/notification-templates 
     {{ end }}

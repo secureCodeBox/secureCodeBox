@@ -17,15 +17,15 @@ ARG baseImageTag
 FROM node:12-alpine as install
 RUN mkdir -p /home/app
 WORKDIR /home/app
-COPY src/package.json src/package-lock.json ./
+COPY package.json package-lock.json ./
 RUN npm ci --production
 
 FROM node:12-alpine as build
 RUN mkdir -p /home/app
 WORKDIR /home/app
-COPY src/package.json src/package-lock.json ./
+COPY package.json package-lock.json ./
 RUN npm ci
-COPY src ./
+COPY ./ ./
 RUN npm run build
 
 FROM ${namespace:-securecodebox}/hook-sdk-nodejs:${baseImageTag:-latest}
