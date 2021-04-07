@@ -18,4 +18,85 @@ Installing the Notification hook will add a ReadOnly Hook to your namespace.
 helm upgrade --install nwh ./hooks/notification-hook/ --set notification.url="http://example.com/my/hook/target"
 ```
 
-> ✍ This documentation is currently work-in-progress.
+## Configuration of a Notification
+
+The general configuration of a notification looks something like this
+
+```yaml
+notificationChannels:
+  - name: slack
+    type: slack
+    template: slack-messageCard
+    rules:
+      - matches:
+          anyOf:
+            - category: "Open Port"
+    endPoint: "https://webhook.some.where"
+```
+
+The Notification Hook enables you to define multiple so called `notificationChannels`. A `notificationChannel` defines the Notification to a specific platform (e.g. Slack or Teams).
+
+The `name` is used to for debugging failing notifications.
+it can be a *string* of you choice.
+
+The `type` specifies the type of the notification (in this example slack).
+Currently `slack` is the only available type but we are working on others (e.g. ms teams or email) as well.
+
+The `template` field defines the name of a Nunjuck template to send to your notification channel.
+These templates are usually tied to their notification channel (slack templates will not work for teams).
+The template `slack-messageCard` is provided by default.
+Notice that for the name of the template we chose to omit the file type.
+The template `slack-messageCard` will point to `slack-messageCard.njk` in the filesystem of the hook.
+
+The `endPoint` specifies where the notification has to go to.
+For slack this would be your webhook URL to slack.
+
+To define conditions when a notification should be created you can use `rules`.
+If no rules are specified this hook will assume that you always want to be notified.
+
+### Rule Configuration
+
+The rules can be defined in the values of the Chart.
+The syntax and semantic for these rules are quite similar to CascadingRules (See: [secureCodeBox | CascadingRules](/docs/api/crds/cascading-rule))
+To define Rules you will have to provide the `rules` field with one or more `matches` elements.
+Each `machtes` defines one Rule.
+For example:
+
+```yaml
+rules:
+  - matches:
+      anyOf:
+        - category: "Open Port"
+          attributes:
+            port: 23
+            state: open
+```
+
+This Rule will match all Findings with an open port on 23.
+
+#### matches
+
+Within the `matches` you will have to provide `anyOf`
+`anyOff` contains one or more conditions to be met by the finding to match the rule.
+Notice that only one of this elements needs to match the finding for the rule to match.
+
+### Configuration of a Slack Notification
+
+To configure a slack notification set the `type` to `slack` and the `endPoint` to your Webhook URL to slack.
+
+## Chart Configuration
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| args | string | `nil` |  |
+| customTemplateMap | string | `"config-map-name"` |  |
+| hookJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+| image.pullPolicy | string | `"Always"` |  |
+| image.repository | string | `"docker.io/securecodebox/notification-hook"` | Hook image repository |
+| image.tag | string | defaults to the charts version | Image tag |
+| notificationChannels[0].endPoint | string | `"https://webhook.some.where"` |  |
+| notificationChannels[0].name | string | `"slack"` |  |
+| notificationChannels[0].rules[0].matches.anyOf[0].category | string | `"Open Port"` |  |
+| notificationChannels[0].template | string | `"slack-messageCard"` |  |
+| notificationChannels[0].type | string | `"slack"` |  |
+
