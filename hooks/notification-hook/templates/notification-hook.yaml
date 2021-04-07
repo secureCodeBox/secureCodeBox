@@ -11,16 +11,16 @@ spec:
     - name: {{ .Release.Name }}-config
       configMap:
         name: {{ .Release.Name }}-config
-    {{  if .Values.customTemplateMap }}
+    {{  if .Values.customTemplateMap.exists }}
     - name: {{ .Release.Name }}-custom-templates
       configMap:
-        name: {{ .Values.customTeplateMap }} 
+        name: {{ .Values.customTeplateMap.name }} 
     {{ end }}
   volumeMounts:
     - name: {{ .Release.Name }}-config
       mountPath: /home/app/config
       readOnly: true
-    {{  if .Values.customTemplateMap }}
+    {{  if .Values.customTemplateMap.exists}}
     - name: {{ .Release.Name }}-custom-templates
       mountPath: /home/app/notification-templates 
     {{ end }}

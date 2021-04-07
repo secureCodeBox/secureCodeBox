@@ -38,7 +38,9 @@ notificationChannels:
             - category: "Open Port"
     endPoint: "https://webhook.some.where"
 
-customTemplateMap: config-map-name
+customTemplateMap:
+  exists: false
+  name: config-map-name
 
 args: null 
 #  - foo:bar
