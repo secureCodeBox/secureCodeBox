@@ -83,6 +83,22 @@ Notice that only one of this elements needs to match the finding for the rule to
 ### Configuration of a Slack Notification
 
 To configure a slack notification set the `type` to `slack` and the `endPoint` to your Webhook URL to slack.
+You can use one of the following default templates:
+* slack-messageCard
+
+## Custom Message Templates
+
+The Notification Hook enables you to write your own message templates if the templates provided by default are not sufficient.
+Templates for this hook are written using the [Nunjucks](https://mozilla.github.io/nunjucks/) templating engine.
+
+To fill your template with data we provide the following objects.
+
+| object   | Details                                                                                                                     |
+|----------|-----------------------------------------------------------------------------------------------------------------------------|
+| findings | An array of the findings matching your rules (See [Finding | secureCodeBox](https://docs.securecodebox.io/docs/api/finding) |
+| scan     | An Object containing information about the scan that triggered the notification                                             |
+| args     | An Array containing the information given to the scan via the `args` property in the `values.yaml`.
+             `args` are used to pass additional information to the template like the url to your vulnerability management system         |
 
 ## Chart Configuration
 
