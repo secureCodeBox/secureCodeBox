@@ -26,7 +26,7 @@ WORKDIR /home/app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY ./ ./
-RUN npm run build
+RUN npm run build && rm -rf node_modules
 
 FROM ${namespace:-securecodebox}/hook-sdk-nodejs:${baseImageTag:-latest}
 WORKDIR /home/app/hook-wrapper/hook/
