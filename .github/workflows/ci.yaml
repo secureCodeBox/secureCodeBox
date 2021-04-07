@@ -227,6 +227,7 @@ jobs:
           - declarative-subsequent-scans
           - finding-post-processing
           - generic-webhook
+          - notification-hook
           - persistence-elastic
           - persistence-defectdojo
           - update-field
