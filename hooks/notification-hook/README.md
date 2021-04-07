@@ -77,7 +77,7 @@ This Rule will match all Findings with an open port on 23.
 #### matches
 
 Within the `matches` you will have to provide `anyOf`
-`anyOff` contains one or more conditions to be met by the finding to match the rule.
+`anyOf` contains one or more conditions to be met by the finding to match the rule.
 Notice that only one of this elements needs to match the finding for the rule to match.
 
 ### Configuration of a Slack Notification

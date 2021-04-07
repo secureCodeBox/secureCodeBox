@@ -735,7 +735,7 @@ jobs:
             --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nmap" \
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
-          npx jest --ci --color - name: "Hooks (ReadOnly) Integration Tests"
+          npx jest --ci --color scanner/nmap.test.js
 
       # ---- Notification Hook Tests ----
 
