@@ -61,7 +61,7 @@ class GitRepoScannerTests(unittest.TestCase):
     @patch('github.PaginatedList')
     def test_process_github_repos_with_no_ignore_list(self, github_mock, org_mock, pag_mock):
         # given
-        scanner = GitHubScanner('url', 'token', 'org', [])
+        scanner = GitHubScanner('url', 'token', 'org', [], False)
         repos = assemble_repos()
         create_mocks(github_mock, org_mock, pag_mock, repos)
         scanner._gh = github_mock
@@ -78,7 +78,7 @@ class GitRepoScannerTests(unittest.TestCase):
     @patch('github.PaginatedList')
     def test_process_github_repos_with_ignore_repos(self, github_mock, org_mock, pag_mock):
         # given
-        scanner = GitHubScanner('url', 'token', 'org', [1])
+        scanner = GitHubScanner('url', 'token', 'org', [1], False)
         repos = assemble_repos()
         create_mocks(github_mock, org_mock, pag_mock, repos)
         scanner._gh = github_mock
