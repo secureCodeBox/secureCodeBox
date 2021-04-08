@@ -50,7 +50,7 @@ def process(args):
             ignore_repos=args.ignore_repos,
             obey_rate_limit=args.obey_rate_limit
         )
-    if args.git_type == 'github':
+    elif args.git_type == 'github':
         scanner = GitHubScanner(
             url=args.url,
             access_token=args.access_token,
@@ -59,7 +59,7 @@ def process(args):
             obey_rate_limit=args.obey_rate_limit
         )
     else:
-        logger.info('Argument error: Unkown git type')
+        logger.info('Argument error: Unknown git type')
         sys.exit(1)
 
     try:
