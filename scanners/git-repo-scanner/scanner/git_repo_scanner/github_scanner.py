@@ -63,10 +63,9 @@ class GitHubScanner(AbstractScanner):
                 self.LOGGER.info(
                     f'{len(findings) + 1} - Name: {repo.name} - LastUpdate: {repo.updated_at} - LastPush: {repo.pushed_at}')
 
-                if start_time or end_time:
-                    isInTimeFrame = self._check_repo_is_in_time_frame(repo.pushed_at, start_time, end_time)
-                    if not isInTimeFrame:
-                        break
+                if (start_time or end_time) \
+                        and not self._check_repo_is_in_time_frame(repo.pushed_at, start_time, end_time):
+                    break
 
                 findings.append(self._create_finding_from_repo(repo))
                 self._respect_github_ratelimit()
