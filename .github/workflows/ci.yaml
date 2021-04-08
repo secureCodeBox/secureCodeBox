@@ -41,7 +41,7 @@ jobs:
         working-directory: scanners/git-repo-scanner/scanner/
         run: |
           pip install pytest
-          pytest ${{ matrix.unit }}_test.py
+          pytest
 
   # ---- Unit-Test | JavaScript ----
 
