@@ -20,7 +20,8 @@ spec:
               image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
               command:
                 - "python"
-                - "-m git_repo_scanner"
+                - "-m"
+                - "git_repo_scanner"
                 - "--file-output"
                 - "/home/securecodebox"
               resources:
