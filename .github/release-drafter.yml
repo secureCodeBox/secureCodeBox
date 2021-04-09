@@ -3,18 +3,30 @@ tag-template: 'v$NEXT_PATCH_VERSION'
 categories:
   - title: '🚀 Features'
     label: 'enhancement'
+  - title: '🕷 Security Scanner'
+    label: 'security scanner'
+  - title: '⚓️ Hooks'
+    label: 'hook'
   - title: '🐛 Bug Fixes'
     label: 'bug'
+  - title: '🧪 Test'
+    labels: 
+      - 'test'
+      - 'testing' 
+  - title: '📚 Documentation'
+    label: 'docs'
   - title: '🔧 Maintenance'
     label: 'maintenance'
-  - title: '🧪 Test'
-    label: 'test'
-  - title: '🧪 Documentation'
-    label: 'docs'
   - title: '📌 Dependencies'
     label: 'dependencies'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 exclude-labels:
   - 'skip-changelog'
 template: |
+  ## Changes
+  This release contains the following changes. 
   $CHANGES
+
+  ## Contributers
+  Thx to all our contributers supporting this project 🤗
+  $CONTRIBUTORS

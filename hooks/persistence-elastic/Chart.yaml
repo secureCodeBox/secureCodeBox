@@ -10,6 +10,19 @@ version: v2.6.0-alpha1
 appVersion: 7.9.2
 kubeVersion: ">=v1.11.0-0"
 
+keywords:
+  - security
+  - secureCodeBox
+  - hook
+  - elasticsearch
+home: https://docs.securecodebox.io/docs/hooks/elasticsearch
+icon: https://docs.securecodebox.io/img/integrationIcons/Elasticsearch.svg
+sources:
+  - https://github.com/secureCodeBox/secureCodeBox
+maintainers:
+  - name: iteratec GmbH
+    email: secureCodeBox@iteratec.com
+
 dependencies:
   - name: elasticsearch
     version: 7.9.2

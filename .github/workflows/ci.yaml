@@ -14,6 +14,25 @@ env:
 
 jobs:
   # ---- Unit-Test ----
+  
+  # ---- Unit-Test | Java ----
+  
+  unit-java:
+    name: "Unit-Test | Java"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        unit: ["persistence-defectdojo"]
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1
+      with:
+        java-version: '11' # The JDK version to make available on the path.
+        java-package: jdk # (jre, jdk, or jdk+fx) - defaults to jdk
+        architecture: x64 # (x64 or x86) - defaults to x64
+    - run: |
+        cd hooks/${{ matrix.unit }}/
+        ./gradlew test
 
   # ---- Unit-Test | Python ----
 
@@ -209,6 +228,7 @@ jobs:
           - finding-post-processing
           - generic-webhook
           - persistence-elastic
+          - persistence-defectdojo
           - update-field
           - teams-webhook
     steps:
@@ -635,6 +655,18 @@ jobs:
           # Install plain nginx server
           kubectl create deployment --image nginx:alpine nginx --namespace demo-apps
           kubectl expose deployment nginx --port 80 --namespace demo-apps
+
+      # ---- gitleaks Integration Tests ----
+
+      - name: "gitleaks Integration Tests"
+        run: |
+          helm -n integration-tests install gitleaks ./scanners/gitleaks/ \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-gitleaks" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-gitleaks" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          cd tests/integration/
+          npx jest --ci --color scanner/gitleaks.test.js
 
       # ---- Kubehunter Integration Tests ----
 

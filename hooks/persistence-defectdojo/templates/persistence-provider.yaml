@@ -1,0 +1,26 @@
+apiVersion: "execution.securecodebox.io/v1"
+kind: ScanCompletionHook
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    type: Unstructured
+spec:
+  {{- if .Values.defectdojo.syncFindingsBack }}
+  type: ReadAndWrite
+  {{- else }}
+  type: ReadOnly
+  {{- end }}
+  image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
+  env:
+    - name: DEFECTDOJO_URL
+      value: {{ .Values.defectdojo.url | quote }}
+    - name: DEFECTDOJO_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: {{ .Values.defectdojo.authentication.userSecret }}
+          key: {{ .Values.defectdojo.authentication.usernameKey }}
+    - name: DEFECTDOJO_APIKEY
+      valueFrom:
+        secretKeyRef:
+          name: {{ .Values.defectdojo.authentication.userSecret }}
+          key: {{ .Values.defectdojo.authentication.apiKeyKey }}
