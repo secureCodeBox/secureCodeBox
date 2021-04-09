@@ -1,16 +1,14 @@
 import argparse
-import unittest
-import gitlab
 import datetime
+import unittest
 from datetime import timezone
+from unittest.mock import MagicMock, Mock
+from unittest.mock import patch
+
+import gitlab
 from gitlab.v4.objects import Project, ProjectManager
 
-from mock import MagicMock
-from mock import patch
-from munch import Munch
-
 from git_repo_scanner.__main__ import get_parser_args
-
 from git_repo_scanner.github_scanner import GitHubScanner
 from git_repo_scanner.gitlab_scanner import GitLabScanner
 
@@ -174,7 +172,12 @@ def assemble_repos():
 def assemble_repository(p_id, name, url, path, date_created: datetime, date_updated: datetime, date_pushed: datetime,
                         visibility: bool, o_id,
                         o_kind, o_name):
-    repo = Munch()
+
+    repo = Mock()
+    owner = Mock()
+    owner.type = o_kind
+    owner.id = o_id
+    owner.name = o_name
     repo.id = p_id
     repo.name = name
     repo.html_url = url
@@ -183,7 +186,7 @@ def assemble_repository(p_id, name, url, path, date_created: datetime, date_upda
     repo.pushed_at = date_pushed
     repo.updated_at = date_updated
     repo.private = visibility
-    repo.owner = Munch(type=o_kind, id=o_id, name=o_name)
+    repo.owner = owner
     return repo
 
 
