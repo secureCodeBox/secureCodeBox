@@ -3,7 +3,7 @@ title: "ZAP"
 category: "scanner"
 type: "WebApplication"
 state: "released"
-appVersion: "2.9.0"
+appVersion: "2.10.0"
 usecase: "WebApp & OpenAPI Vulnerability Scanner"
 ---
 
