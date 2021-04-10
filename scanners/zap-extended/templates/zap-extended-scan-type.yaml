@@ -1,0 +1,69 @@
+apiVersion: "execution.securecodebox.io/v1"
+kind: ScanType
+metadata:
+  name: {{ include "zap.fullname" . }}
+  labels:
+    {{- include "zap.labels" . | nindent 4 }}
+spec:
+  extractResults:
+    type: zap-xml
+    location: "/home/securecodebox/zap-results.xml"
+  jobTemplate:
+    spec:
+      {{- if .Values.scannerJob.ttlSecondsAfterFinished }}
+      ttlSecondsAfterFinished: {{ .Values.scannerJob.ttlSecondsAfterFinished }}
+      {{- end }}
+      backoffLimit: {{ .Values.scannerJob.backoffLimit }}
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: zap-extended-baseline
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+              command:
+                - "zap-full-scan.py"
+                # Force OWASP ZAP to always return a zero exit code. K8S would otherwise try to restart zap.
+                - "-I"
+                - "-d"
+                - "-x"
+                # ZAP Baseline Script doesn't allow absolute paths...
+                # Hacky workaround: specify a relative path to the `/zap/wrk` base dir.
+                - "../../home/securecodebox/zap-results.xml"
+                - "--hook=/zap/zap_hooks.py"
+              resources:
+                {{- toYaml .Values.scannerJob.resources | nindent 16 }}
+              securityContext:
+                {{- toYaml .Values.scannerJob.securityContext | nindent 16 }}
+              env:
+                - name: SCB_ZAP_SCANTYPE_CONFIG_DIR
+                  value: "/zap/secureCodeBox-extensions/configs/scantype/"
+                - name: SCB_ZAP_SCAN_CONFIG_DIR
+                  value: "/zap/secureCodeBox-extensions/configs/scan/"
+                {{- if not (empty .Values.scannerJob.env) }}
+                {{- toYaml .Values.scannerJob.env | nindent 16 }}
+                {{- end }}
+              envFrom:
+                {{- if not (empty .Values.scannerJob.envFrom) }}
+                {{- toYaml .Values.scannerJob.envFrom | nindent 16 }}
+                {{- end }}
+              volumeMounts:
+                {{- if not (empty .Values.zapExtendedConfigs) }}
+                - mountPath: /zap/secureCodeBox-extensions/configs/scantype
+                  name: zap-extended-scantype-configs
+                - mountPath: /zap/secureCodeBox-extensions/configs/scan
+                  name: zap-extended-scan-configs
+                {{- end }}
+                {{- toYaml .Values.scannerJob.extraVolumeMounts | nindent 16 }}
+            {{- if .Values.scannerJob.extraContainers }}
+            {{- toYaml .Values.scannerJob.extraContainers | nindent 12 }}
+            {{- end }}
+          volumes:
+            {{- if not (empty .Values.zapExtendedConfigs) }}
+            - configMap:
+                 name: "zap-extended-scantype-{{ .Release.Name }}"
+              name: zap-extended-scantype-configs
+            - configMap:
+                name: "zap-extended-scan-config"
+              name: zap-extended-scan-configs
+            {{- end }}
+            {{- toYaml .Values.scannerJob.extraVolumes | nindent 12 }}

@@ -1,0 +1,147 @@
+image:
+  # image.repository -- Container Image to run the scan
+  repository: docker.io/securecodebox/scanner-zap
+  # image.tag -- defaults to the charts appVersion
+  tag: main
+
+parserImage:
+  # parserImage.repository -- Parser image repository
+  repository: docker.io/securecodebox/parser-zap
+  # parserImage.tag -- Parser image tag
+  # @default -- defaults to the charts version
+  tag: main
+
+parseJob:
+  # parseJob.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+  ttlSecondsAfterFinished: null
+  # scannerJob.backoffLimit -- There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy)
+  # @default -- 3
+  backoffLimit: 3
+
+scannerJob:
+  # scannerJob.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+  ttlSecondsAfterFinished: null
+  # scannerJob.backoffLimit -- There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy)
+  # @default -- 3
+  backoffLimit: 3
+
+  # scannerJob.resources -- CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)
+  resources: {}
+  #   resources:
+  #     requests:
+  #       memory: "256Mi"
+  #       cpu: "250m"
+  #     limits:
+  #       memory: "512Mi"
+  #       cpu: "500m"
+
+  # scannerJob.env -- Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
+  env: []
+
+  # scannerJob.envFrom -- Optional mount environment variables from configMaps or secrets (see: https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/#configure-all-key-value-pairs-in-a-secret-as-container-environment-variables)
+  envFrom: []
+
+  # scannerJob.extraVolumes -- Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
+  extraVolumes:
+    - name: zap-workdir
+      emptyDir: {}
+
+  # scannerJob.extraVolumeMounts -- Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
+  extraVolumeMounts:
+    - mountPath: /zap/wrk
+      name: zap-workdir
+
+  # scannerJob.extraContainers -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
+  extraContainers: []
+
+  # scannerJob.securityContext -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+  securityContext: {}
+
+zapExtendedConfigs:
+  contexts:
+    # Name to be used to refer to this context in other jobs, mandatory
+    - name: scbcontext
+      # The top level url, mandatory, everything under this will be included
+      url: https://example.com/
+      # An optional list of regexes to include
+      includePaths:
+        - "https://example.com/.*"
+      # An optional list of regexes to exclude
+      excludePaths:
+        - "https://example.com/authserver/v1/.*"
+        - ".*\\.js"
+        - ".*\\.css"
+        - ".*\\.png"
+        - ".*\\.jpeg"
+      # Optional technology list
+      # technology:
+      #   # By default all technologies are enabed for each context by default by ZAP. You can use the following config to change that explicitly:
+      #   included: 
+      #     - Db.CouchDB
+      #     - Db.Firebird
+      #     - Db.HypersonicSQL
+      #     - Language.ASP
+      #     - OS
+      #   excluded:
+      #     - SCM
+      # Auth Credentials for the scanner to access the application
+      # Can be either basicAuth or a oidc token.
+      # If both are set, the oidc token takes precedent
+      authentication:
+        # Currently supports "basic-auth", "form-based", "json-based", "script-based"
+        type: "script-based"
+        # script-based: https://www.zaproxy.org/docs/api/#script-based-authentication
+        script-based:
+          # Script engine values: 'Oracle Nashorn' for Javascript
+          # 'jython' for python, 'JSR 223 JRuby Engine' for ruby
+          scriptEngine: "Oracle Nashorn"
+          # Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
+          scriptFileName: "/zap/scripts/authentication/TwoStepAuthentication.js"
+          scriptDescription: "This is a description"
+          scriptArguments:
+            email: "secureCodeBox@teratec.com"
+            # should have at least the role "reserved_view_swagger" to access the OpenAPI spec
+            sub: "secureCodeBox@iteratec.com"
+            exp: "1609459140"
+        # basic-auth: https://www.zaproxy.org/docs/api/?python#general-steps
+        basic-auth: {}
+          # hostname: "https://www.secureCodeBox.io"
+          # realm: "Realm"
+          # port: 8080
+        # form-based: https://www.zaproxy.org/docs/api/#form-based-authentication
+        form-based: {}
+          # loginUrl: "http://localhost:8090/bodgeit/login.jsp"
+          # # must be escaped already to prevent yaml parser colidations 'username={%username%}&password={%password%}''
+          # loginRequestData: "username%3D%7B%25username%25%7D%26password%3D%7B%25password%25%7D"
+        # json-based: https://www.zaproxy.org/docs/api/#json-based-authentication
+        json-based: {}
+          # loginUrl: "http://localhost:3000/rest/user/login"
+          # # must be escaped already to prevent yaml parser colidations '{"user":{"id":1,"email":"test@test.com"}}''
+          # loginRequestData: '{"user":{"id":1,"email":"test@test.com"}}'
+        # Indicates if the current Zap User Session is based on a valid authentication (loggedIn) or not (loggedOut)
+        verification:
+          isLoggedInIndicator: ""
+          isLoggedOutIndicator: ""
+      users:
+        - name: "testuser1"
+          username: "user1"
+          password: "password1"
+        - name: "testuser2"
+          username: "user2"
+          password: "password2"
+          # Optional, could be set to True only once in the users list. If not defined the first user in the list will be forced by default.
+          forced: true
+      session:
+        # Currently supports "scriptBasedSessionManagement", "cookieBasedSessionManagement", "httpAuthSessionManagement"
+        type: "scriptBasedSessionManagement"
+        # scriptBasedSessionManagement requires further configurations
+        scriptBasedSessionManagement:
+          scriptName: "mysession"
+          # Script engine values: 'Oracle Nashorn' for Javascript
+          # 'jython' for python, 'JSR 223 JRuby Engine' for ruby
+          scriptEngine: "Oracle Nashorn"
+          # Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
+          scriptFileName: "/zap/scripts/session/TwoStepAuthentication.js"
+          scriptDescription: "This is a session script description."
+
+    

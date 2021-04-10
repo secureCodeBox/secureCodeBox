@@ -1,0 +1,8 @@
+.DS_Store
+
+parser/
+scanner/
+examples/
+
+helm2.Chart.yaml
+README.md.gotmpl

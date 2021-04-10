@@ -1,0 +1,17 @@
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "zap-extended-baseline-securecodebox"
+  labels:
+    organization: "OWASP"
+spec:
+  scanType: "zap-extended-baseline"
+  parameters:
+    # target URL including the protocol
+    - "-t"
+    - "https://www.secureCodeBox.io"
+    # show debug messages
+    - "-d"
+    # the number of minutes to spider for (default 1)
+    - "-m"
+    - "1"

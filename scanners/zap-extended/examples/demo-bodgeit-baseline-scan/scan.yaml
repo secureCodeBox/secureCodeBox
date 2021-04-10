@@ -1,0 +1,27 @@
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "zap-authenticated-baseline-bodgeit"
+  labels:
+    organization: "OWASP"
+spec:
+  scanType: "zap-extended-baseline"
+  parameters:
+    # target URL including the protocol
+    - "-t"
+    - "http://bodgeit.default.svc:8080/bodgeit/"
+    # show debug messages
+    - "-d"
+    # the number of minutes to spider for (default 1)
+    - "-m"
+    - "1"
+  # env:
+  #   - name: SCB_ZAP_SCAN_CONFIG_DIR
+  #     value: "/zap/secureCodeBox-extensions/configs/scan"
+  # extraVolumeMounts:
+  #   - mountPath: /zap/secureCodeBox-extensions/configs/scan
+  #     name: zap-extended-scan-config
+  # extraVolumes:
+  #   - configMap:
+  #       name: "zap-extended-scan-config"
+  #     name: zap-extended-scan-config
