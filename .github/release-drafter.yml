@@ -28,7 +28,7 @@ template: |
   ## Changes
   This release contains the following changes 🎉 please spread the word or leave a GitHub star if you like it 😉
     
-  ![GitHub commits since tagged version](https://img.shields.io/github/commits-since/secureCodeBox/secureCodeBox/v2.5.1) ![GitHub Repo stars](https://img.shields.io/github/stars/secureCodeBox/secureCodeBox?style=social) ![Twitter URL](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2FsecureCodeBox%2FsecureCodeBox%2Freleases%2Ftag%2Fv2.5.2)
+  ![GitHub commits since tagged version](https://img.shields.io/github/commits-since/secureCodeBox/secureCodeBox/$PREVIOUS_TAG) ![GitHub Repo stars](https://img.shields.io/github/stars/secureCodeBox/secureCodeBox?style=social) ![Twitter URL](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2FsecureCodeBox%2FsecureCodeBox%2Freleases%2Ftag%2Flatest)
 
   $CHANGES
   
