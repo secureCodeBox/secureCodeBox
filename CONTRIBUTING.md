@@ -4,8 +4,8 @@
   - [GitHub Flow](#github-flow)
     - [How to work with GitHub Flow](#how-to-work-with-github-flow)
   - [Working with Forks and Pull Requests](#working-with-forks-and-pull-requests)
-  - [Bugfixing And Securityfixing Released Features](#bugfixing-and-securityfixing-released-features)
-  - [Working with Issues/How to Contribute in Issues](#working-with-issueshow-to-contribute-in-issues)
+  - [Bugfixing and Security Fixing Released Features](#bugfixing-and-security-fixing-released-features)
+  - [Working with Issues - How to Contribute in Issues](#working-with-issues---how-to-contribute-in-issues)
   - [How to Write Commit Messages](#how-to-write-commit-messages)
   - [Code of Conduct](#code-of-conduct)
 
@@ -55,9 +55,9 @@ When you are done, you can convert it to a standard *Pull Request* (or create on
 
 Generally the _secureCodeBox_ project follows the standard [GitHub Pull request process](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests).
 
-## Bugfixing And Securityfixing Released Features
+## Bugfixing and Security Fixing Released Features
 
-For Bugfixes and security fixes of the current release please follow the following workflow:
+For bugfixes and security fixes of the current release please follow the following workflow:
 - For the minor release
   - Checkout current minor release branch (e.g. v2.5.x) or create if not existent from latest git tag
   - Create a bugfix branch from release branch
@@ -69,7 +69,7 @@ For Bugfixes and security fixes of the current release please follow the followi
   - Cherry-Pick Bugfix and commit to bugfix branch
   - Create PR to `main` branch 
 
-## Working with Issues/How to Contribute in Issues
+## Working with Issues - How to Contribute in Issues
 
 It is mandatory to open an issue, if the task takes longer than one hour.
 Before you open an issue please verify there is no existing one covering your issue.
