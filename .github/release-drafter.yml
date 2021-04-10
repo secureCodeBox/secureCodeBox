@@ -16,7 +16,7 @@ categories:
   - title: '📚 Documentation'
     labels: 
       - 'docs'
-      - 'documentation '
+      - 'documentation'
   - title: '🔧 Maintenance'
     label: 'maintenance'
   - title: '📌 Dependencies'
