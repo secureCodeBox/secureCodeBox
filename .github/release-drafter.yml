@@ -3,8 +3,8 @@ tag-template: 'v$NEXT_PATCH_VERSION'
 categories:
   - title: '🚀 Features'
     label: 'enhancement'
-  - title: '🕷 Security Scanner'
-    label: 'security scanner'
+  - title: '🚓 Security Scanner'
+    label: 'scanner'
   - title: '⚓️ Hooks'
     label: 'hook'
   - title: '🐛 Bug Fixes'
@@ -14,7 +14,9 @@ categories:
       - 'test'
       - 'testing' 
   - title: '📚 Documentation'
-    label: 'docs'
+    labels: 
+      - 'docs'
+      - 'documentation '
   - title: '🔧 Maintenance'
     label: 'maintenance'
   - title: '📌 Dependencies'
@@ -24,9 +26,16 @@ exclude-labels:
   - 'skip-changelog'
 template: |
   ## Changes
-  This release contains the following changes. 
-  $CHANGES
+  This release contains the following changes 🎉 please spread the word or leave a GitHub star if you like it 😉
+    
+  ![GitHub commits since tagged version](https://img.shields.io/github/commits-since/secureCodeBox/secureCodeBox/v2.5.1) ![GitHub Repo stars](https://img.shields.io/github/stars/secureCodeBox/secureCodeBox?style=social) ![Twitter URL](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2FsecureCodeBox%2FsecureCodeBox%2Freleases%2Ftag%2Fv2.5.2)
 
+  $CHANGES
+  
+  ## Distribution
+  [![Artifact HUB](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/seccureCodeBox)](https://artifacthub.io/packages/search?repo=seccurecodebox)
+  [![Docker Hub](https://img.shields.io/badge/Docker%20Hub-secureCodeBox-blue?style=flat&logo=docker&color=lightblue&labelColor=blue&logoColor=white)](https://hub.docker.com/u/securecodebox) 
+  
   ## Contributers
   Thx to all our contributers supporting this project 🤗
   $CONTRIBUTORS
