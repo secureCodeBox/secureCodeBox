@@ -20,7 +20,7 @@ To learn more about the ZAP scanner itself visit [https://www.zaproxy.org/](http
 The ZAP scanType can be deployed via helm:
 
 ```bash
-helm upgrade --install zap secureCodeBox/zap-extended
+helm upgrade --install zap secureCodeBox/zap
 ```
 
 ## Scanner Configuration
@@ -62,8 +62,9 @@ Options:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| image.repository | string | `"owasp/zap2docker-stable"` | Container Image to run the scan |
-| image.tag | string | `nil` | defaults to the charts appVersion |
+| image.repository | string | `"docker.io/securecodebox/scanner-zap"` | Container Image to run the scan |
+| image.tag | string | `"main"` | defaults to the charts appVersion |
+| parseJob.backoffLimit | int | `3` |  |
 | parseJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | parserImage.repository | string | `"docker.io/securecodebox/parser-zap"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |
@@ -76,3 +77,35 @@ Options:
 | scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | scannerJob.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | scannerJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+| zapExtendedConfigs.contexts[0].authentication.basic-auth | object | `{}` |  |
+| zapExtendedConfigs.contexts[0].authentication.form-based | object | `{}` |  |
+| zapExtendedConfigs.contexts[0].authentication.json-based | object | `{}` |  |
+| zapExtendedConfigs.contexts[0].authentication.script-based.scriptArguments.email | string | `"secureCodeBox@teratec.com"` |  |
+| zapExtendedConfigs.contexts[0].authentication.script-based.scriptArguments.exp | string | `"1609459140"` |  |
+| zapExtendedConfigs.contexts[0].authentication.script-based.scriptArguments.sub | string | `"secureCodeBox@iteratec.com"` |  |
+| zapExtendedConfigs.contexts[0].authentication.script-based.scriptDescription | string | `"This is a description"` |  |
+| zapExtendedConfigs.contexts[0].authentication.script-based.scriptEngine | string | `"Oracle Nashorn"` |  |
+| zapExtendedConfigs.contexts[0].authentication.script-based.scriptFileName | string | `"/zap/scripts/authentication/TwoStepAuthentication.js"` |  |
+| zapExtendedConfigs.contexts[0].authentication.type | string | `"script-based"` |  |
+| zapExtendedConfigs.contexts[0].authentication.verification.isLoggedInIndicator | string | `""` |  |
+| zapExtendedConfigs.contexts[0].authentication.verification.isLoggedOutIndicator | string | `""` |  |
+| zapExtendedConfigs.contexts[0].excludePaths[0] | string | `"https://example.com/authserver/v1/.*"` |  |
+| zapExtendedConfigs.contexts[0].excludePaths[1] | string | `".*\\.js"` |  |
+| zapExtendedConfigs.contexts[0].excludePaths[2] | string | `".*\\.css"` |  |
+| zapExtendedConfigs.contexts[0].excludePaths[3] | string | `".*\\.png"` |  |
+| zapExtendedConfigs.contexts[0].excludePaths[4] | string | `".*\\.jpeg"` |  |
+| zapExtendedConfigs.contexts[0].includePaths[0] | string | `"https://example.com/.*"` |  |
+| zapExtendedConfigs.contexts[0].name | string | `"scbcontext"` |  |
+| zapExtendedConfigs.contexts[0].session.scriptBasedSessionManagement.scriptDescription | string | `"This is a session script description."` |  |
+| zapExtendedConfigs.contexts[0].session.scriptBasedSessionManagement.scriptEngine | string | `"Oracle Nashorn"` |  |
+| zapExtendedConfigs.contexts[0].session.scriptBasedSessionManagement.scriptFileName | string | `"/zap/scripts/session/TwoStepAuthentication.js"` |  |
+| zapExtendedConfigs.contexts[0].session.scriptBasedSessionManagement.scriptName | string | `"mysession"` |  |
+| zapExtendedConfigs.contexts[0].session.type | string | `"scriptBasedSessionManagement"` |  |
+| zapExtendedConfigs.contexts[0].url | string | `"https://example.com/"` |  |
+| zapExtendedConfigs.contexts[0].users[0].name | string | `"testuser1"` |  |
+| zapExtendedConfigs.contexts[0].users[0].password | string | `"password1"` |  |
+| zapExtendedConfigs.contexts[0].users[0].username | string | `"user1"` |  |
+| zapExtendedConfigs.contexts[0].users[1].forced | bool | `true` |  |
+| zapExtendedConfigs.contexts[0].users[1].name | string | `"testuser2"` |  |
+| zapExtendedConfigs.contexts[0].users[1].password | string | `"password2"` |  |
+| zapExtendedConfigs.contexts[0].users[1].username | string | `"user2"` |  |
