@@ -8,36 +8,42 @@ async function parse (fileContent, scan) {
 
   const commitUrl = prepareCommitUrl(scan)
 
-  return fileContent.map(finding => {
-
-    let severity = 'LOW';
-
-    if (containsTag(finding.tags, HIGH_TAGS)) {
-      severity = 'HIGH'
-    } else if (containsTag(finding.tags, MEDIUM_TAGS)) {
-      severity = 'MEDIUM'
-    }
-
-    return {
-      name: finding.rule,
-      description: 'The name of the rule which triggered the finding: ' + finding.rule,
-      osi_layer: 'APPLICATION',
-      severity: severity,
-      category: 'Potential Secret',
-      attributes: {
-        commit: commitUrl + finding.commit,
-        repo: finding.repo,
-        offender: finding.offender,
-        author: finding.author,
-        email: finding.email,
-        date: finding.date,
-        file: finding.file,
-        line_number: finding.lineNumber,
-        tags: finding.tags.split(',').map(tag => tag.trim()),
-        line: finding.line
+  if (fileContent) {
+    return fileContent.map(finding => {
+  
+      let severity = 'LOW';
+  
+      if (containsTag(finding.tags, HIGH_TAGS)) {
+        severity = 'HIGH'
+      } else if (containsTag(finding.tags, MEDIUM_TAGS)) {
+        severity = 'MEDIUM'
       }
-    }
-  });
+  
+      return {
+        name: finding.rule,
+        description: 'The name of the rule which triggered the finding: ' + finding.rule,
+        osi_layer: 'APPLICATION',
+        severity: severity,
+        category: 'Potential Secret',
+        attributes: {
+          commit: commitUrl + finding.commit,
+          repo: finding.repo,
+          offender: finding.offender,
+          author: finding.author,
+          email: finding.email,
+          date: finding.date,
+          file: finding.file,
+          line_number: finding.lineNumber,
+          tags: finding.tags.split(',').map(tag => tag.trim()),
+          line: finding.line
+        }
+      }
+    });
+  }
+  else
+  {
+    return [];
+  }
 }
 
 function prepareCommitUrl (scan) {
