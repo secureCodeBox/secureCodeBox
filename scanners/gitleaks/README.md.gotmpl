@@ -34,7 +34,7 @@ The only mandatory parameters are:
 - `-r`: The link to the repository you want to scan.
 - `--access-token`: Only for non-public repositories.
 - `--username` and `--password`: Only for non-public repositories.
-- `--config`: The ruleset you want to use.
+- `--config-path`: The ruleset you want to use.
 
 **Do not** override the option `--report-format` or `--report`. It is already configured for automatic findings parsing.
 
@@ -79,7 +79,7 @@ helm upgrade --install gitleaks secureCodeBox/gitleaks \
 
 #### Ruleset
 
-At this point we provide three rulesets which you can pass to the `--config` oprtion:
+At this point we provide three rulesets which you can pass to the `--config-path` oprtion:
 
 - `/home/config_all.toml`: Includes every rule.
 - `/home/config_filenames_only.toml`: Gitleaks scans only file names and extensions.
