@@ -22,7 +22,7 @@ spec:
                 - 'sh'
                 - '/wrapper.sh'
                 - "--verbose"
-                - "--report-format"
+                - "--format"
                 - "json"
                 - "--report"
                 - "/home/securecodebox/report.json"
