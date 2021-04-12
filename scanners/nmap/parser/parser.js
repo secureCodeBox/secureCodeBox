@@ -36,6 +36,7 @@ function transformToFindings(hosts) {
           serviceProduct: openPort.serviceProduct || null,
           serviceVersion: openPort.serviceVersion || null,
           scripts: openPort.scriptOutputs || null,
+          tunnel: openPort.tunnel || null,
         },
       };
     });
