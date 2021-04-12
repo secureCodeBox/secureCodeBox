@@ -6,7 +6,7 @@ test(
     const {categories, severities, count} = await scan(
       'gitleaks-dummy-scan',
       'gitleaks',
-      ['-r', 'https://github.com/secureCodeBox/secureCodeBox', '--commit=ec0fe179ccf178b56fcd51d1730448bc64bb9ab5', '--config', '/home/config_all.toml'],
+      ['-r', 'https://github.com/secureCodeBox/secureCodeBox', '--commit=ec0fe179ccf178b56fcd51d1730448bc64bb9ab5', '--config-path', '/home/config_all.toml'],
       90
     );
 
