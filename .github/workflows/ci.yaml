@@ -746,7 +746,7 @@ jobs:
             --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)"
-          helm -n integration-tests install http-webhook ./demo-apps/http-webhook
+          helm -n integration-tests install http-webhook ./demo-apps/http-webhook --wait
 
           helm -n integration-tests upgrade --install notification-hook ./hooks/notification-hook --values tests/integration/hooks/__testFiles__/notification-hook-values.yaml \                                         ─╯
             --set="image.repository=docker.io/${{env.DOCKER_NAMESPACE }}/notification-hook" \
