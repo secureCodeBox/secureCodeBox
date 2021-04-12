@@ -1,8 +1,9 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanCompletionHook
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ include "persistence-defectdojo.fullname" . }}
   labels:
+    {{- include "persistence-defectdojo.labels" . | nindent 4 }}
     type: Unstructured
 spec:
   {{- if .Values.defectdojo.syncFindingsBack }}
