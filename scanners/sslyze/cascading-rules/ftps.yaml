@@ -12,6 +12,10 @@ spec:
         attributes:
           port: 990
           state: open
+      - category: "Open Port"
+        attributes:
+          service: "ftps"
+          state: open
   scanSpec:
     scanType: "sslyze"
     parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"]

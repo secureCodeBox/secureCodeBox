@@ -26,8 +26,9 @@ spec:
           state: open
       - category: "Open Port"
         attributes:
-          service: "ssl/http"
-          state: open
+          service: "http"
+          tunnel: "ssl"
+          state: "open"
   scanSpec:
     scanType: "sslyze"
     parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"]
