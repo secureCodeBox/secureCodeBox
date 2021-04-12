@@ -748,7 +748,7 @@ jobs:
             --set="image.tag=sha-$(git rev-parse --short HEAD)"
           helm -n integration-tests install http-webhook ./demo-apps/http-webhook
 
-            cat <<EOF | helm -n integration-tests install notification-hook ./hooks/notification-hook/ \
+          cat <<EOF | helm -n integration-tests install notification-hook ./hooks/notification-hook/ \
             --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/notification-hook" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)" \
             --values -
@@ -756,8 +756,8 @@ jobs:
             - name: slack
               type: slack
               template: slack-messageCard
-              rules []
-              endPoint: "http//http-webhook/slack-notification"
+              rules: []
+              endPoint: "http://http-webhook/slack-notification"
           EOF
 
           cd tests/integration/
