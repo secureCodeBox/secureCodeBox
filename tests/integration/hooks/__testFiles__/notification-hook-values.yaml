@@ -1,0 +1,22 @@
+image:
+  # image.repository -- Hook image repository
+  repository: null
+  # image.tag -- Image tag
+  # @default -- defaults to the charts version
+  tag: null
+  pullPolicy: Always
+
+hookJob:
+  # hookJob.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+  ttlSecondsAfterFinished: null
+
+notificationChannels:
+  - name: slack
+    type: slack
+    template: slack-messageCard
+    rules: []
+    endPoint: "http://http-webhook.integration-tests.svc.cluster.local/slack-notification"
+
+args:
+  - key: name
+    value: tom

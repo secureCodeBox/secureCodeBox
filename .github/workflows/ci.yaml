@@ -748,17 +748,9 @@ jobs:
             --set="image.tag=sha-$(git rev-parse --short HEAD)"
           helm -n integration-tests install http-webhook ./demo-apps/http-webhook
 
-          cat <<EOF | helm -n integration-tests install notification-hook ./hooks/notification-hook/ \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/notification-hook" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
-            --values -
-          notificationChannels:
-            - name: slack
-              type: slack
-              template: slack-messageCard
-              rules: []
-              endPoint: "http://http-webhook/slack-notification"
-          EOF
+          helm -n integration-tests upgrade --install notification-hook ./hooks/notification-hook --values tests/integration/hooks/__testFiles__/notification-hook-values.yaml \                                         ─╯
+            --set="image.repository=docker.io/${{env.DOCKER_NAMESPACE }}/notification-hook" \
+            --set="image.tag=sha-$(git rev-parse --short HEAD)"
 
           cd tests/integration/
           npx jest --ci --color ./hooks/notification-hook.test.js
