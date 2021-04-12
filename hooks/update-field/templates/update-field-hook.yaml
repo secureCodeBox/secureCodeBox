@@ -1,7 +1,9 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanCompletionHook
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ include "update-field.fullname" . }}
+  labels:
+    {{- include "update-field.labels" . | nindent 4 }}
 spec:
   type: ReadAndWrite
   image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
