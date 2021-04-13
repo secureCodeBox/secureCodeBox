@@ -14,5 +14,8 @@ indent_size = 2
 [*.go]
 indent_style = tab
 
+[*.py]
+indent_size = 4
+
 [Makefile]
 indent_style = tab

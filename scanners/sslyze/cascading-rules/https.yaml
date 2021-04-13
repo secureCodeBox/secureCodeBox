@@ -14,7 +14,19 @@ spec:
           state: open
       - category: "Open Port"
         attributes:
+          port: 8443
+          state: open
+      - category: "Open Port"
+        attributes:
           service: "https"
+          state: open
+      - category: "Open Port"
+        attributes:
+          service: "https-alt"
+          state: open
+      - category: "Open Port"
+        attributes:
+          service: "ssl/http"
           state: open
   scanSpec:
     scanType: "sslyze"

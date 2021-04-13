@@ -60,7 +60,7 @@ jobs:
         working-directory: scanners/git-repo-scanner/scanner/
         run: |
           pip install pytest
-          pytest ${{ matrix.unit }}_test.py
+          pytest
 
   # ---- Unit-Test | JavaScript ----
 
@@ -660,6 +660,7 @@ jobs:
 
       - name: "gitleaks Integration Tests"
         run: |
+          kubectl -n integration-tests delete scans --all
           helm -n integration-tests install gitleaks ./scanners/gitleaks/ \
             --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-gitleaks" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)" \
@@ -700,6 +701,7 @@ jobs:
 
       - name: "ncrack Integration Tests"
         run: |
+          kubectl -n integration-tests delete scans --all
           helm -n integration-tests install ncrack ./scanners/ncrack/ \
             --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-ncrack" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)" \
@@ -712,6 +714,7 @@ jobs:
 
       - name: "nikto Integration Tests"
         run: |
+          kubectl -n integration-tests delete scans --all
           helm -n integration-tests install nikto ./scanners/nikto/ \
             --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nikto" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)" \
@@ -724,6 +727,7 @@ jobs:
 
       - name: "nmap Integration Tests"
         run: |
+          kubectl -n integration-tests delete scans --all
           helm -n integration-tests install nmap ./scanners/nmap/ \
             --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)" \
@@ -736,6 +740,7 @@ jobs:
 
       - name: "ssh-scan Integration Tests"
         run: |
+          kubectl -n integration-tests delete scans --all
           helm -n integration-tests install ssh-scan ./scanners/ssh-scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-ssh-scan"
           cd tests/integration/
@@ -745,6 +750,7 @@ jobs:
 
       - name: "sslyze Integration Tests"
         run: |
+          kubectl -n integration-tests delete scans --all
           helm -n integration-tests install sslyze ./scanners/sslyze/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-sslyze"
           cd tests/integration/
@@ -754,6 +760,7 @@ jobs:
 
       - name: "zap Integration Tests"
         run: |
+          kubectl -n integration-tests delete scans --all
           helm -n integration-tests install zap ./scanners/zap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-zap"
           cd tests/integration/
@@ -763,6 +770,7 @@ jobs:
 
       - name: "cascading Scans ncrack Integration Tests"
         run: |
+          kubectl -n integration-tests delete scans --all
           # We'll run these in a separate namespace so that only the cascadingRules we want to test will be used
           kubectl create namespace cascading-tests
           # Install declarative-subsequent-scans hook
@@ -805,6 +813,7 @@ jobs:
 
       - name: "cascading Scans sslyze Integration Tests"
         run: |
+          kubectl -n integration-tests delete scans --all
           # We'll run these in a separate namespace so that only the cascadingRules we want to test will be used
           kubectl create namespace cascading-tests
           # Install declarative-subsequent-scans hook
@@ -835,9 +844,15 @@ jobs:
       - name: Inspect Post Failure
         if: failure()
         run: |
+          echo "HelmCharts in all namespaces"
+          helm list --all-namespaces
+          echo "Scans in all namespaces"
           kubectl -n integration-tests get scan -o wide --all-namespaces
+          echo "Jobs in all namespaces"
           kubectl -n integration-tests get jobs -o wide --all-namespaces
+          echo "Pods in all namespaces"
           kubectl -n integration-tests get pods -o wide --all-namespaces
+
       - name: "Inspect Operator"
         if: failure()
         run: |

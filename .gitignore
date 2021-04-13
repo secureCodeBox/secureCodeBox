@@ -8,6 +8,8 @@
 **/*.log
 **/*.monopic
 .s3_credentials
+**/__pycache__
+
 
 ### IntelliJ IDEA ###
 .idea

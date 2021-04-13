@@ -10,4 +10,18 @@ version: v2.6.0-alpha1
 appVersion: 1.12.0
 kubeVersion: ">=v1.11.0-0"
 
+keywords:
+  - security
+  - secureCodeBox
+  - hook
+  - defectdojo
+  - owasp
+home: https://docs.securecodebox.io/docs/hooks/defectdojo
+icon: https://docs.securecodebox.io/img/integrationIcons/DefectDojo.svg
+sources:
+  - https://github.com/secureCodeBox/secureCodeBox
+maintainers:
+  - name: iteratec GmbH
+    email: secureCodeBox@iteratec.com
+
 dependencies: []
