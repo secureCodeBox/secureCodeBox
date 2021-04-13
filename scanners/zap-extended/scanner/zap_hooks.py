@@ -7,8 +7,8 @@
 import os
 import sys
 import logging
-import zap_extended
-import zap_configuration
+from scbzapv2.zap_configuration import ZapConfiguration
+from scbzapv2.zap_extended import ZapExtended
 from zapv2 import ZAPv2
 
 # set up logging to file - see previous section for more details
@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.DEBUG,
                     filename='zap-extended.log',
                     filemode='w')
 
-#config = zap_configuration.ZapConfiguration("/zap/secureCodeBox-extensions/configs/")
+config = ZapConfiguration("/zap/secureCodeBox-extensions/configs/", "")
 
 # def override_from_env_vars(d, prefix=""):
 #     """Overwrite config values, when a equivalent env var is defined.
@@ -53,7 +53,7 @@ def zap_started(zap, target):
 
     if config:
         # Starting to configure the ZAP Instance based on the given Configuration
-        scb_zap = zap_extended.ZapExtended(zap, [])
+        scb_zap = ZapExtended(zap, [])
         scb_zap.configure_context(zap, config.get_zap_contexts())
     else:
         logging.warning("No valid ZAP configuration object found: %s! It seems there is something important missing.", config)

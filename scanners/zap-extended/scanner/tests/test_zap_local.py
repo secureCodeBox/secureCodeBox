@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
+
 import logging
 from zapv2 import ZAPv2
 
-from zap_configuration import ZapConfiguration
-from zap_extended import ZapExtended
+from scbzapv2.zap_configuration import ZapConfiguration
+from scbzapv2.zap_extended import ZapExtended
 
 #######################################
 ### BEGINNING OF CONFIGURATION AREA ###
@@ -39,7 +43,7 @@ testYaml3 = "./examples/empty/"
 testYaml4 = "./examples/scan-overlay-secrets/"
 testYaml5 = "./examples/bodgeit/"
 
-config = ZapConfiguration(testYaml5, "")
+config = ZapConfiguration(testYaml4, "")
 
 #logging.debug("ZAP Configuration: %s", config.get_config())
 #logging.debug("ZAP Configuration/Contexts: %s", config.get_zap_contexts())

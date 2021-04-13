@@ -13,7 +13,7 @@ import requests
 import base64
 from urllib.parse import urlparse
 from zapv2 import ZAPv2
-import zap_configuration
+from . import zap_configuration
 
 class ZapExtended():
     """This class configures a running ZAP Inctance based on a ZAP Configuration
