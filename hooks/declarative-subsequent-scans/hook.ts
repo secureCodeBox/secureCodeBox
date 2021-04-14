@@ -1,4 +1,6 @@
 import { isMatch } from "lodash";
+import { isMatchWith } from "lodash";
+import { isString } from "lodash";
 import * as Mustache from "mustache";
 
 import {
@@ -79,7 +81,7 @@ export function getCascadingScans(
     for (const finding of findings) {
       // Check if one (ore more) of the CascadingRule matchers apply to the finding
       const matches = cascadingRule.spec.matches.anyOf.some(matchesRule =>
-        isMatch(finding, matchesRule)
+        isMatch(finding, matchesRule) || isMatchWith(finding, matchesRule, wildcardMatcher)
       );
 
       if (matches) {
@@ -126,4 +128,22 @@ function generateCascadingScanName(
     );
   }
   return `${namePrefix}-${cascadingRule.metadata.name}`;
+}
+
+function wildcardMatcher(
+  findingValue: any,
+  matchesRuleValue: any
+) : boolean {
+  if(isString(matchesRuleValue)){
+    try{
+      return new RegExp('^' + new String(matchesRuleValue).replace(/\*/g, '.*') + '$').test(findingValue);
+    } catch(error) {
+      return false;
+    }
+
+  }
+
+  // if(isMatchWith(findingValue, matchesRuleValue, wildcardMatcher)){
+  //   return true;
+  // }
 }
