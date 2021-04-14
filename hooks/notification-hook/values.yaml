@@ -42,5 +42,11 @@ customTemplateMap:
   exists: false
   name: config-map-name
 
-args: null 
-#  - foo:bar
+env:
+  - name: SOME_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: secret-name
+        key: SOME_KEY
+  - name: key
+    value: value

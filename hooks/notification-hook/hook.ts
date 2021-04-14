@@ -28,7 +28,7 @@ const ARGS_FILE = `${BASE_PATH}/args`
 export async function handle({ getFindings, scan }) {
   let findings: Finding[] = await getFindings();
   let notificationChannels: NotificationChannel[] = getNotificationChannels(CHANNEL_FILE);
-  let args: any[] = getArgs(ARGS_FILE);
+  let args: Object = getArgs();
   for (const channel of notificationChannels) {
     const findingsToNotify = findings.filter(finding => matches(finding, channel.rules));
     const notifier: Notifier = NotifierFactory.create(channel, scan, findingsToNotify, args);
@@ -60,7 +60,6 @@ function doesNotMatch(rule: any, finding: Finding): boolean {
   return !rule.matches.anyOf.some((condition: object) => isMatch(finding, condition));
 }
 
-function getArgs(argsFile: string): any[] {
-  const yaml = readFileSync(argsFile);
-  return jsyaml.load(yaml.toString()) as any[]
+function getArgs(): Object {
+  return process.env;
 }

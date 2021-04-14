@@ -4,6 +4,3 @@ metadata:
   name: "{{ .Release.Name }}-config"
 data:
   notification-channel.yaml: {{ .Values.notificationChannels | toYaml | quote }}
-  {{ if .Values.args }}
-  args: {{ .Values.args | toYaml | quote }}
-  {{ end }}

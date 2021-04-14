@@ -6,7 +6,7 @@ import { Scan } from "./model/Scan";
 import { Finding } from "./model/Finding";
 
 export class NotifierFactory {
-  static create(channel: NotificationChannel, scan: Scan, findings: Finding[], args: any[]): Notifier {
+  static create(channel: NotificationChannel, scan: Scan, findings: Finding[], args: Object): Notifier {
     switch (channel.type) {
       case NotifierType.SLACK:
         return new SlackNotifier(channel, scan, findings, args);

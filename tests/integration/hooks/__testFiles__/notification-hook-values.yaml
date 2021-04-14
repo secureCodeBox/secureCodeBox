@@ -17,6 +17,6 @@ notificationChannels:
     rules: []
     endPoint: "http://http-webhook.integration-tests.svc.cluster.local/slack-notification"
 
-args:
+env:
   - key: name
     value: tom

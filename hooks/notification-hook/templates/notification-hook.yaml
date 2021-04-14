@@ -24,3 +24,4 @@ spec:
     - name: {{ .Release.Name }}-custom-templates
       mountPath: /home/app/notification-templates 
     {{ end }}
+  env: {{- toYaml .Values.env }} 

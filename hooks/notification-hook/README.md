@@ -106,9 +106,13 @@ To fill your template with data we provide the following objects.
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| args | string | `nil` |  |
 | customTemplateMap.exists | bool | `false` |  |
 | customTemplateMap.name | string | `"config-map-name"` |  |
+| env[0].name | string | `"SOME_SECRET"` |  |
+| env[0].valueFrom.secretKeyRef.key | string | `"SOME_KEY"` |  |
+| env[0].valueFrom.secretKeyRef.name | string | `"secret-name"` |  |
+| env[1].name | string | `"key"` |  |
+| env[1].value | string | `"value"` |  |
 | hookJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | image.pullPolicy | string | `"Always"` |  |
 | image.repository | string | `"docker.io/securecodebox/notification-hook"` | Hook image repository |

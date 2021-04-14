@@ -9,7 +9,7 @@ export class SlackNotifier extends AbstractNotifier {
 
   protected type: NotifierType = NotifierType.SLACK
 
-  constructor(channel: NotificationChannel, scan: Scan, findings: Finding[], args: any[]) {
+  constructor(channel: NotificationChannel, scan: Scan, findings: Finding[], args: Object) {
     super(channel, scan, findings, args);
   }
 

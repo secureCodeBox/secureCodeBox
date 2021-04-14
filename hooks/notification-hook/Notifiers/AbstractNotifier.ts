@@ -15,9 +15,9 @@ export abstract class AbstractNotifier implements Notifier {
   protected findings: Finding[];
   protected template: string;
   protected abstract type: NotifierType;
-  protected args: any[]
+  protected args: Object;
 
-  constructor(channel: NotificationChannel, scan: Scan, findings: Finding[], args: any[]) {
+  constructor(channel: NotificationChannel, scan: Scan, findings: Finding[], args: Object) {
     this.channel = channel;
     this.scan = scan;
     this.findings = findings;
