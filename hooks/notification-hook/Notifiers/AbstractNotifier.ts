@@ -29,9 +29,9 @@ export abstract class AbstractNotifier implements Notifier {
   protected renderMessage(): string {
     nunjucks.configure(AbstractNotifier.TEMPLATE_DIR);
     const renderedTemplate = nunjucks.render(`${this.channel.template}.${AbstractNotifier.TEMPLATE_FILE_TYPE}`, {
-      "findings": this.findings,
-      "scan": this.scan,
-      "args": this.args
+      findings: this.findings,
+      scan: this.scan,
+      args: this.args
     });
     try {
       const templateObject = jsyaml.load(renderedTemplate);
