@@ -20,7 +20,6 @@ import { Notifier } from "./Notifier";
 import { NotifierFactory } from "./NotifierFactory";
 import { readFileSync } from 'fs';
 import * as jsyaml from 'js-yaml';
-import { getJSDocParameterTags } from "typescript";
 
 const BASE_PATH = "/home/app/config"
 const CHANNEL_FILE = `${BASE_PATH}/notification-channel.yaml`;
