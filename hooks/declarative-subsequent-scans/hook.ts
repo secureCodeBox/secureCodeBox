@@ -140,10 +140,5 @@ function wildcardMatcher(
     } catch(error) {
       return false;
     }
-
   }
-
-  // if(isMatchWith(findingValue, matchesRuleValue, wildcardMatcher)){
-  //   return true;
-  // }
 }
