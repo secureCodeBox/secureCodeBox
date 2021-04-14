@@ -1,5 +1,5 @@
 import * as path from "path";
-import { handle, matches, getNotificationChannels } from "./hook";
+import { handle, matches, getNotificationChannels, mapToEndPoint } from "./hook";
 import { Finding } from "./model/Finding";
 import { NotificationChannel } from "./model/NotificationChannel";
 import { NotifierType } from "./NotifierType";
@@ -347,3 +347,12 @@ test("Should Return Channels", async () => {
   expected.push(c)
   expect(channels).toStrictEqual(expected);
 })
+
+test("Should Map Env Name To endPoint", async () => {
+  const expectedEndPoint = 'webhook.site';
+  process.env["TEST_ENDPOINT"] = expectedEndPoint;
+
+  const endpoint = mapToEndPoint("TEST_ENDPOINT");
+
+  expect(endpoint).toBe(expectedEndPoint);
+});

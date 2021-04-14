@@ -108,16 +108,16 @@ To fill your template with data we provide the following objects.
 |-----|------|---------|-------------|
 | customTemplateMap.exists | bool | `false` |  |
 | customTemplateMap.name | string | `"config-map-name"` |  |
-| env[0].name | string | `"SOME_SECRET"` |  |
-| env[0].valueFrom.secretKeyRef.key | string | `"SOME_KEY"` |  |
-| env[0].valueFrom.secretKeyRef.name | string | `"secret-name"` |  |
+| env[0].name | string | `"SOME_ENV_KEY"` |  |
+| env[0].valueFrom.secretKeyRef.key | string | `"some-key"` |  |
+| env[0].valueFrom.secretKeyRef.name | string | `"some-secret"` |  |
 | env[1].name | string | `"key"` |  |
 | env[1].value | string | `"value"` |  |
 | hookJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | image.pullPolicy | string | `"Always"` |  |
 | image.repository | string | `"docker.io/securecodebox/notification-hook"` | Hook image repository |
 | image.tag | string | defaults to the charts version | Image tag |
-| notificationChannels[0].endPoint | string | `"https://webhook.some.where"` |  |
+| notificationChannels[0].endPoint | string | `"SOME_ENV_KEY"` |  |
 | notificationChannels[0].name | string | `"slack"` |  |
 | notificationChannels[0].rules[0].matches.anyOf[0].category | string | `"Open Port"` |  |
 | notificationChannels[0].template | string | `"slack-messageCard"` |  |

@@ -36,17 +36,17 @@ notificationChannels:
       - matches:
           anyOf:
             - category: "Open Port"
-    endPoint: "https://webhook.some.where"
+    endPoint: SOME_ENV_KEY
 
 customTemplateMap:
   exists: false
   name: config-map-name
 
 env:
-  - name: SOME_SECRET
+  - name: SOME_ENV_KEY
     valueFrom:
       secretKeyRef:
-        name: secret-name
-        key: SOME_KEY
+        name: some-secret
+        key: some-key
   - name: key
     value: value

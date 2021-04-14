@@ -15,8 +15,8 @@ notificationChannels:
     type: slack
     template: slack-messageCard
     rules: []
-    endPoint: "http://http-webhook.integration-tests.svc.cluster.local/slack-notification"
+    endPoint: SLACK_ENDPOINT
 
 env:
-  - key: name
-    value: tom
+  - key: SLACK_ENDPOINT
+    value: "http://http-webhook.integration-tests.svc.cluster.local/slack-notification"

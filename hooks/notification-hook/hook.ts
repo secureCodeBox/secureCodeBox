@@ -30,6 +30,7 @@ export async function handle({ getFindings, scan }) {
   let notificationChannels: NotificationChannel[] = getNotificationChannels(CHANNEL_FILE);
   let args: Object = getArgs();
   for (const channel of notificationChannels) {
+    channel.endPoint = mapToEndPoint(channel.endPoint);
     const findingsToNotify = findings.filter(finding => matches(finding, channel.rules));
     const notifier: Notifier = NotifierFactory.create(channel, scan, findingsToNotify, args);
     await notifier.sendMessage();
@@ -62,4 +63,8 @@ function doesNotMatch(rule: any, finding: Finding): boolean {
 
 function getArgs(): Object {
   return process.env;
+}
+
+export function mapToEndPoint(envName: string) {
+  return process.env[envName];
 }
