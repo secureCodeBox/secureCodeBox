@@ -88,6 +88,8 @@ You can use one of the following default templates:
 
 ## Custom Message Templates
 
+CAUTION: Nunjucks templates allow code to be injected! Use templates from trusted sources only!
+
 The Notification Hook enables you to write your own message templates if the templates provided by default are not sufficient.
 Templates for this hook are written using the [Nunjucks](https://mozilla.github.io/nunjucks/) templating engine.
 
