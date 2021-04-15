@@ -137,7 +137,8 @@ function wildcardMatcher(
     try{
       return wildcardIsMatch(findingValue.toString(), matchesRuleValue.toString(), {caseSensitive: true});
       // return new RegExp('^' + new String(matchesRuleValue).replace(/\*/g, '.*') + '$').test(findingValue);
-    } catch(error) {}
+    } catch(error) {
+      return false;
+    }
   }
-  return false;
 }
