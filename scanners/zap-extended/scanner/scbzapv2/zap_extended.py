@@ -1,8 +1,3 @@
-#
-# This file contains some ZAP hooks.
-#
-# See https://www.zaproxy.org/docs/docker/scan-hooks/ for more information.
-#
 import collections
 import logging
 
@@ -65,7 +60,7 @@ class ZapExtended():
                 if("session" in context and "type" in context["session"] and context["session"]["type"]):
                     self._configure_context_session_management(zap, context["session"], context_id)
             if("technologies" in context):
-                # TODO: raise an ZAP Issue: Why (or) is this difference (context_id vs. context_name) here really necessary?
+                # TODO: Open a new ZAP GH Issue: Why (or) is this difference (context_id vs. context_name) here really necessary?
                 self._configure_context_technologies(zap, context["technologies"], context_name)
 
     def _configure_context_include(self, zap: ZAPv2, context: collections.OrderedDict):
@@ -314,7 +309,7 @@ class ZapExtended():
                 userid=user_id, 
                 name=user_name)
 
-            # TODO: raise a new issue at ZAP GitHub: Why (or) is this difference (camelCase vs. pascalCase) here realy necessary?
+            # TODO: Open a new issue at ZAP GitHub: Why (or) is this difference (camelCase vs. pascalCase) here really necessary?
             if auth_type == "script-based":
                 zap.users.set_authentication_credentials(
                     contextid=context_id,

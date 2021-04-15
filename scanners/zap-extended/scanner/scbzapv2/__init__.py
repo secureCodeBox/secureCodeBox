@@ -1,6 +1,6 @@
 """
 scbzapv2
-A Python package  containing secureCodeBox ZAPv2 Client extensions.
+A Python package containing secureCodeBox specific ZAPv2 Client extensions.
 """
 
 __all__ = ['zap_configuration', 'zap_extended']

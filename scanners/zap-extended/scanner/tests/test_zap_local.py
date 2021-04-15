@@ -37,17 +37,19 @@ logging.info('Configuring ZAP Instance with %s', localProxy)
 # Connect ZAP API client to the listening address of ZAP instance
 zap = ZAPv2(proxies=localProxy, apikey=apiKey)
 
-testYaml1 = "./examples/scan-overlay/"
-testYaml2 = "./examples/empty-files/"
-testYaml3 = "./examples/empty/"
-testYaml4 = "./examples/scan-overlay-secrets/"
-testYaml5 = "./examples/bodgeit/"
+testYaml1 = "./tmp/configs/empty-files/"
+testYaml2 = "./tmp/configs/empty/"
+testYaml3 = "./tmp/configs/scan-overlay/"
+testYaml4 = "./tmp/configs/scan-overlay-secrets/"
+testYaml5 = "./tmp/configs/bodgeit/"
 
-config = ZapConfiguration(testYaml4, "")
+logging.info("HERE"+ str(sys.path))
 
-#logging.debug("ZAP Configuration: %s", config.get_config())
-#logging.debug("ZAP Configuration/Contexts: %s", config.get_zap_contexts())
-#logging.debug("ZAP Configuration/Contexts/1: %s", config.get_zap_context(1))
+config = ZapConfiguration(testYaml3)
+
+logging.debug("ZAP Configuration: %s", config.get_config())
+logging.debug("ZAP Configuration/Contexts: %s", config.get_zap_contexts())
+logging.debug("ZAP Configuration/Contexts/1: %s", config.get_zap_context(1))
 
 # Starting to configure the ZAP Instance based on the given Configuration
 local_zap = ZapExtended(zap, [])
