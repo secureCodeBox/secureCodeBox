@@ -1,6 +1,4 @@
-import { isMatch } from "lodash";
-import { isMatchWith } from "lodash";
-import { isString } from "lodash";
+import { isMatch, isMatchWith, isString } from "lodash";
 import * as Mustache from "mustache";
 
 import {
