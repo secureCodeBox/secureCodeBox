@@ -1,4 +1,5 @@
 import { isMatch, isMatchWith, isString } from "lodash";
+import { isMatch as wildcardIsMatch } from "matcher";
 import * as Mustache from "mustache";
 
 import {
@@ -132,11 +133,11 @@ function wildcardMatcher(
   findingValue: any,
   matchesRuleValue: any
 ) : boolean {
-  if(isString(matchesRuleValue)){
+  if(isString(findingValue) && isString(matchesRuleValue)){
     try{
-      return new RegExp('^' + new String(matchesRuleValue).replace(/\*/g, '.*') + '$').test(findingValue);
-    } catch(error) {
-      return false;
-    }
+      return wildcardIsMatch(findingValue.toString(), matchesRuleValue.toString(), {caseSensitive: true});
+      // return new RegExp('^' + new String(matchesRuleValue).replace(/\*/g, '.*') + '$').test(findingValue);
+    } catch(error) {}
   }
+  return false;
 }
