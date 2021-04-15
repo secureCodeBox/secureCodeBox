@@ -1,7 +1,7 @@
 const {scan} = require('../helpers');
 
 test(
-  'gitleaks should find at least 1 repository in the GitHub secureCodeBox organisation',
+  'WPScan should find at least 1 finding regarding the old-wordpress demo app',
   async () => {
     // This integration tests runs about 30min because of the GitHub Public API call rate limit.
     // If you want to speed up you need to add an valid access token like: ['--git-type', 'github', '--organization', 'secureCodeBox', '--access-token', '23476VALID2345TOKEN'],
