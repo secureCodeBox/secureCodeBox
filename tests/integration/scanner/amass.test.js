@@ -9,7 +9,7 @@ test(
       'amass-scanner-dummy-scan',
       'amass',
       ['-passive', '-noalts', '-norecursive', '-d', 'owasp.org'],
-      180
+      90
     );
     // There must be >= 20 subdomains found for the domain owasp.org.
     expect(count).toBeGreaterThanOrEqual(20);
