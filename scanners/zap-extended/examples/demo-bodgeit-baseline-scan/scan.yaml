@@ -14,7 +14,7 @@ spec:
     - "-d"
     # the number of minutes to spider for (default 1)
     - "-m"
-    - "1"
+    - "5"
   # env:
   #   - name: SCB_ZAP_SCAN_CONFIG_DIR
   #     value: "/zap/secureCodeBox-extensions/configs/scan"

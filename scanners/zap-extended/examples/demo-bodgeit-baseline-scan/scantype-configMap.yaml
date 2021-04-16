@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: zap-extended-scan-config
+  name: zap-extended-scantype-config
 data:
-  zap-extended-scan.yaml: |-
+  zap-extended-scantype.yaml: |-
 
     contexts:
       # Name to be used to refer to this context in other jobs, mandatory

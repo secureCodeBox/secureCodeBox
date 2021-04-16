@@ -45,11 +45,11 @@ testYaml5 = "./tmp/configs/bodgeit/"
 
 logging.info("HERE"+ str(sys.path))
 
-config = ZapConfiguration(testYaml3)
+config = ZapConfiguration(testYaml5)
 
 logging.debug("ZAP Configuration: %s", config.get_config())
 logging.debug("ZAP Configuration/Contexts: %s", config.get_zap_contexts())
-logging.debug("ZAP Configuration/Contexts/1: %s", config.get_zap_context(1))
+logging.debug("ZAP Configuration/Contexts/0: %s", config.get_zap_context(0))
 
 # Starting to configure the ZAP Instance based on the given Configuration
 local_zap = ZapExtended(zap, [])

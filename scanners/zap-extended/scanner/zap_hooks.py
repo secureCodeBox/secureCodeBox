@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.DEBUG,
                     filename='zap-extended.log',
                     filemode='w')
 
-config = ZapConfiguration("/zap/secureCodeBox-extensions/configs/", "")
+config = ZapConfiguration("/zap/secureCodeBox-extensions/configs/")
 
 # def override_from_env_vars(d, prefix=""):
 #     """Overwrite config values, when a equivalent env var is defined.
@@ -47,11 +47,10 @@ def zap_started(zap, target):
        
        This hook is executed in the early stage after the ZAP started successfully.
     """
-    logging.info('Hook zap_started started (target: '+ str(target) +') ...')
+    logging.info('Hook zap_started started (target: %s) ...', str(target))
 
-    config = get_config('SCB_ZAP_SCANTYPE_CONFIG_DIR', 'SCB_ZAP_SCAN_CONFIG_DIR') 
-
-    if config:
+    # if a ZAP Configuration is defined start to configure the running ZAP instance (`zap`)
+    if config and config.get_zap_contexts():
         # Starting to configure the ZAP Instance based on the given Configuration
         scb_zap = ZapExtended(zap, [])
         scb_zap.configure_context(zap, config.get_zap_contexts())
@@ -59,6 +58,42 @@ def zap_started(zap, target):
         logging.warning("No valid ZAP configuration object found: %s! It seems there is something important missing.", config)
 
     logging.info('Hook zap_started() finished...')
+
+    return zap, target
+
+def zap_spider(zap, target):
+    """This is a hook function called by the ZAP Python wrapper zap-api-scan.py
+       
+       This hook is executed in the early stage after the ZAP started successfully.
+    """
+    logging.info('Hook zap_spider started (target: %s) ...', str(target))
+
+
+    logging.info('Hook zap_spider() finished...')
+
+    return zap, target
+
+def zap_ajax_spider(zap, target, max_time):
+    """This is a hook function called by the ZAP Python wrapper zap-api-scan.py
+       
+       This hook is executed in the early stage after the ZAP started successfully.
+    """
+    logging.info('Hook zap_ajax_spider started (target: %s) ...', str(target))
+
+
+    logging.info('Hook zap_ajax_spider() finished...')
+
+    return zap, target
+
+def zap_active_scan(zap, target, policy):
+    """This is a hook function called by the ZAP Python wrapper zap-api-scan.py
+       
+       This hook is executed in the early stage after the ZAP started successfully.
+    """
+    logging.info('Hook zap_active_scan started (target: %s) ...', str(target))
+
+
+    logging.info('Hook zap_active_scan() finished...')
 
     return zap, target
 
@@ -93,20 +128,17 @@ def find_env_var(name: str) -> str:
 
     return value
 
-def get_config(config_scantype_dir_env: str, config_scan_dir_env: str):
+def get_config(config_dir_env: str):
     config = None
 
-    scantype_config_dir = find_env_var(config_scantype_dir_env)
-    logging.info("Searching for ScanType YAML configs at: '%s'", config_scantype_dir_env)
-
-    scan_config_dir = find_env_var(config_scan_dir_env)
-    logging.info("Searching for Scan YAML configs at: '%s'", config_scan_dir_env)
+    config_dir = find_env_var(config_dir_env)
+    logging.info("Searching for ScanType YAML configs at: '%s'", config_dir_env)
     
-    if ((scan_config_dir and len(scan_config_dir) > 0) or (scantype_config_dir and len(scantype_config_dir) > 0)):
-        logging.info("ZapConfiguration('%s', '%s')", scantype_config_dir, scan_config_dir)
-        config = zap_configuration.ZapConfiguration(scantype_config_dir, scan_config_dir)
+    if ((config_dir and len(config_dir) > 0)):
+        logging.info("ZapConfiguration('%s')", config_dir)
+        config = ZapConfiguration(config_dir)
     else:
         logging.info("ZapConfiguration('/zap/secureCodeBox-extensions/configs/')")
-        config = zap_configuration.ZapConfiguration("/zap/secureCodeBox-extensions/configs/scantype", "/zap/secureCodeBox-extensions/configs/scan")
+        config = ZapConfiguration("/zap/secureCodeBox-extensions/configs")
 
     return config

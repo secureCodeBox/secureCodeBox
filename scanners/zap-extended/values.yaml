@@ -1,8 +1,8 @@
 image:
   # image.repository -- Container Image to run the scan
-  repository: docker.io/securecodebox/scanner-zap
+  repository: securecodebox/zap
   # image.tag -- defaults to the charts appVersion
-  tag: main
+  tag: null
 
 parserImage:
   # parserImage.repository -- Parser image repository
@@ -36,7 +36,9 @@ scannerJob:
   #       cpu: "500m"
 
   # scannerJob.env -- Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
-  env: []
+  env:
+    - name: SCB_ZAP_CONFIG_DIR
+      value: "/zap/secureCodeBox-extensions/configs/"
 
   # scannerJob.envFrom -- Optional mount environment variables from configMaps or secrets (see: https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/#configure-all-key-value-pairs-in-a-secret-as-container-environment-variables)
   envFrom: []
@@ -45,17 +47,26 @@ scannerJob:
   extraVolumes:
     - name: zap-workdir
       emptyDir: {}
+    - name: zap-extended-scantype-config
+      configMap:
+        name: zap-extended-scantype-config
 
   # scannerJob.extraVolumeMounts -- Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
   extraVolumeMounts:
-    - mountPath: /zap/wrk
-      name: zap-workdir
+    - name: zap-workdir
+      mountPath: /zap/wrk
+    - name: zap-extended-scantype-config
+      mountPath: /zap/secureCodeBox-extensions/configs/zap-extended-scantype.yaml
+      subPath: zap-extended-scantype.yaml
+      readOnly: true
 
   # scannerJob.extraContainers -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
   extraContainers: []
 
   # scannerJob.securityContext -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
-  securityContext: {}
+  securityContext:
+    # 1000 = zap
+    fsGroup: 1000
 
 zapExtendedConfigs:
   contexts:

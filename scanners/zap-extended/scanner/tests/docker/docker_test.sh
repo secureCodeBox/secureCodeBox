@@ -19,12 +19,11 @@ docker build -t securecodebox/zap:local-test "${docker_dir}"
 
 docker run -t --rm \
     -v "${docker_tmp_dir}":/zap/wrk \
-    -v "${docker_tmp_dir}/configs/bodgeit":/zap/secureCodeBox-extensions/configs \
-    -e SCB_ZAP_SCANTYPE_CONFIG_DIR="/zap/secureCodeBox-extensions/configs/" \
-    -e SCB_ZAP_SCAN_CONFIG_DIR="/zap/secureCodeBox-extensions/configs/scan/" \
+    -v "${docker_tmp_dir}/configs/empty-files":/zap/secureCodeBox-extensions/configs \
+    -e SCB_ZAP_CONFIG_DIR="/zap/secureCodeBox-extensions/configs/" \
     securecodebox/zap:local-test \
     zap-full-scan.py \
-    -t "http://localhost:8080/bodgeit" \
+    -t "https://www.secureCodeBox.io/" \
     -I \
     --hook=/zap/zap_hooks.py
 

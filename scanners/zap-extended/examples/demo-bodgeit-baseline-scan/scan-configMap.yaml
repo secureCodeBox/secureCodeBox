@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zap-extended-scan-config
+data:
+  zap-extended-scan.yaml: |-
+
+    contexts:
+      # Name to be used to refer to this context in other jobs, mandatory
+      - name: secureCodeBox-BodgeIT-Context

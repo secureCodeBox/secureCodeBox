@@ -12,7 +12,7 @@ class ZapConfiguration():
         self.config_dir = config_dir
         self.config_dir_glob = config_dir + "*.yaml"
         
-        self.__config = None
+        self.__config = []
         self.__readConfigFiles()
 
     def __readConfigFiles(self):
@@ -39,13 +39,17 @@ class ZapConfiguration():
     
     def get_zap_contexts(self) -> list:
         """Returns a list with all ZAP context configuration objects"""
+        result = []
 
-        return self.__config["contexts"]
+        if len(self.__config) > 0 and "contexts" in self.__config:
+            result = self.__config["contexts"]
+
+        return result
     
     def get_zap_context(self, id) -> list:
         """Returns the ZAP context configuration object with the given id."""
 
-        return self.__config["contexts"][id]
+        return self.get_zap_contexts().get(id)
     
     def __str__(self):
-        return " ZapConfiguration( " + self.get_config() + " )"
+        return " ZapConfiguration( " + str(self.get_config()) + " )"
