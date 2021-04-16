@@ -1,8 +1,9 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanCompletionHook
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ include "persistence-elastic.fullname" . }}
   labels:
+    {{- include "persistence-elastic.labels" . | nindent 4 }}
     type: Structured
 spec:
   type: ReadOnly

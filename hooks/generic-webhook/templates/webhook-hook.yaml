@@ -2,6 +2,8 @@ apiVersion: "execution.securecodebox.io/v1"
 kind: ScanCompletionHook
 metadata:
   name: {{ include "generic-webhook.fullname" . }}
+  labels:
+    {{- include "generic-webhook.labels" . | nindent 4 }}
 spec:
   type: ReadOnly
   image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
