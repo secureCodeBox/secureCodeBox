@@ -73,7 +73,7 @@ Incompatible choices (only one of each group/s can be used):
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | image.repository | string | `"wpscanteam/wpscan"` | Container Image to run the scan |
-| image.tag | string | defaults to latest because WPscan didn't offer tagged image versions | defaults to the charts appVersion |
+| image.tag | string | `nil` | defaults to the charts appVersion |
 | parseJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | parserImage.repository | string | `"docker.io/securecodebox/parser-wpscan"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |
