@@ -3,15 +3,12 @@ const {scan} = require('../helpers');
 test(
   'WPScan should find at least 1 finding regarding the old-wordpress demo app',
   async () => {
-    // This integration tests runs about 30min because of the GitHub Public API call rate limit.
-    // If you want to speed up you need to add an valid access token like: ['--git-type', 'github', '--organization', 'secureCodeBox', '--access-token', '23476VALID2345TOKEN'],
     const {count} = await scan(
       'wpscan-scanner-dummy-scan',
       'wpscan',
       ['--url', 'old-wordpress.demo-apps.svc'],
       90
     );
-    // There must be >= 28 Repositories found in the GitHub secureCodeBox organisation.
     expect(count).toBeGreaterThanOrEqual(1);
   },
   3 * 60 * 1000
