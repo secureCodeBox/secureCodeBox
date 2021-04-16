@@ -658,6 +658,17 @@ jobs:
           kubectl create deployment --image nginx:alpine nginx --namespace demo-apps
           kubectl expose deployment nginx --port 80 --namespace demo-apps
 
+      # ---- OWASP Amass Integration Tests ----
+
+      - name: "amass Integration Tests"
+        run: |
+          kubectl -n integration-tests delete scans --all
+          helm -n integration-tests install amass ./scanners/amass/ \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-amass" \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+          cd tests/integration/
+          npx jest --ci --color scanner/amass.test.js
+      
       # ---- gitleaks Integration Tests ----
 
       - name: "gitleaks Integration Tests"
@@ -743,7 +754,8 @@ jobs:
       - name: "ssh-scan Integration Tests"
         run: |
           kubectl -n integration-tests delete scans --all
-          helm -n integration-tests install ssh-scan ./scanners/ssh-scan/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+          helm -n integration-tests install ssh-scan ./scanners/ssh-scan/  \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-ssh-scan"
           cd tests/integration/
           npx jest --ci --color scanner/ssh-scan.test.js
@@ -753,7 +765,8 @@ jobs:
       - name: "sslyze Integration Tests"
         run: |
           kubectl -n integration-tests delete scans --all
-          helm -n integration-tests install sslyze ./scanners/sslyze/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+          helm -n integration-tests install sslyze ./scanners/sslyze/  \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-sslyze"
           cd tests/integration/
           npx jest --ci --color scanner/sslyze.test.js
@@ -775,7 +788,8 @@ jobs:
       - name: "zap Integration Tests"
         run: |
           kubectl -n integration-tests delete scans --all
-          helm -n integration-tests install zap ./scanners/zap/ --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+          helm -n integration-tests install zap ./scanners/zap/  \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-zap"
           cd tests/integration/
           npx jest --ci --color scanner/zap.test.js
