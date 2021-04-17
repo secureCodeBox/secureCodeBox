@@ -9,6 +9,7 @@ from zapv2 import ZAPv2
 
 from scbzapv2.zap_configuration import ZapConfiguration
 from scbzapv2.zap_context import ZapConfigureContext
+from scbzapv2.zap_spider import ZapConfigureSpider
 
 #######################################
 ### BEGINNING OF CONFIGURATION AREA ###
@@ -37,19 +38,27 @@ logging.info('Configuring ZAP Instance with %s', localProxy)
 # Connect ZAP API client to the listening address of ZAP instance
 zap = ZAPv2(proxies=localProxy, apikey=apiKey)
 
-testYaml1 = "./tmp/configs/empty-files/"
-testYaml2 = "./tmp/configs/empty/"
-testYaml3 = "./tmp/configs/scan-overlay/"
-testYaml4 = "./tmp/configs/scan-overlay-secrets/"
-testYaml5 = "./tmp/configs/bodgeit/"
+testYaml1 = "./mocks/empty-files/"
+testYaml2 = "./mocks/empty/"
+testYaml3 = "./mocks/context-with-overlay/"
+testYaml4 = "./mocks/context-with-overlay-secrets/"
+testYaml5 = "./mocks/scan-full-bodgeit/"
+testYaml6 = "./mocks/scan-full-secureCodeBox.io/"
 
 logging.info("HERE"+ str(sys.path))
 
-config = ZapConfiguration(testYaml3)
+config = ZapConfiguration(testYaml6)
 
 logging.debug("ZAP Configuration: %s with type %s", config.get_config(), type(config.get_config()))
 logging.debug("ZAP Configuration/Contexts: %s with type %s", config.get_contexts(), type(config.get_contexts()))
 logging.debug("ZAP Configuration/Contexts/0: %s with type %s", config.get_context_by_index(0), type(config.get_context_by_index(0)))
 
 # Starting to configure the ZAP Instance based on the given Configuration
-local_zap_context = ZapConfigureContext(zap, config)
+if config.has_configurations() and config.has_context_configurations:
+    local_zap_context = ZapConfigureContext(zap, config)
+
+if config.has_configurations() and config.has_spider_configurations:
+    local_zap_spider = ZapConfigureSpider(zap, config)
+    spider_id=local_zap_spider.start_spider_by_index(0, False)
+    local_zap_spider.wait_until_finished(spider_id)
+

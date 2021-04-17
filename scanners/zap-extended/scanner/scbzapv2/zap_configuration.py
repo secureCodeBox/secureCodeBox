@@ -142,9 +142,6 @@ class ZapConfiguration():
 
         return result
 
-
-#-----
-
     def has_spider_configurations(self) -> bool:
         """Returns true if any ZAP Spider is defined, otherwise false."""
 
@@ -188,7 +185,6 @@ class ZapConfiguration():
             result = next((spider for spider in self.get_spiders() if spider['name'] == value), None)
 
         return result
-
 
     def __str__(self):
         return " ZapConfiguration( " + str(self.get_config()) + " )"

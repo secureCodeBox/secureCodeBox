@@ -13,10 +13,10 @@ from zapv2 import ZAPv2
 from .zap_configuration import ZapConfiguration
 
 class ZapConfigureContext():
-    """This class configures a running ZAP Inctance based on a ZAP Configuration
+    """This class configures the context in running ZAP instance, based on a given ZAP Configuration.
     
     Based on this opensource ZAP Python example:
-    # https://github.com/zaproxy/zap-api-python/blob/9bab9bf1862df389a32aab15ea4a910551ba5bfc/src/examples/zap_example_api_script.py
+    - https://github.com/zaproxy/zap-api-python/blob/9bab9bf1862df389a32aab15ea4a910551ba5bfc/src/examples/zap_example_api_script.py
     
     """
 
@@ -37,11 +37,11 @@ class ZapConfigureContext():
         # if at least one ZAP Context is defined start to configure the running ZAP instance (`zap`) accordingly
         if self.__config.has_context_configurations:
             # Starting to configure the ZAP Instance based on the given context configurations
-            self._configure_context(zap, config.get_contexts())
+            self._configure_contexts(zap, config.get_contexts())
         else:
             logging.warning("No valid ZAP configuration object found: %s! It seems there is something important missing.", config)
 
-    def _configure_context(self, zap: ZAPv2, contexts: list):
+    def _configure_contexts(self, zap: ZAPv2, contexts: list):
         """ Configures a given ZAP instance with the given list of contexts.
         
         Parameters

@@ -19,32 +19,39 @@ class ZapConfigurationTests(TestCase):
         self.assertFalse(config.has_context_configurations())
 
     def test_existing_config_path(self):
-        config = ZapConfiguration("./mocks/configs/context-with-overlay/")
+        config = ZapConfiguration("./mocks/context-with-overlay/")
         self.assertTrue(config.has_context_configurations())
     
     def test_empty_config_folder(self):
-        config = ZapConfiguration("./mocks/configs/empty/")
+        config = ZapConfiguration("./mocks/empty/")
         self.assertFalse(config.has_context_configurations())
     
     def test_empty_config_file(self):
-        config = ZapConfiguration("./mocks/configs/empty-files/")
+        config = ZapConfiguration("./mocks/empty-files/")
         self.assertFalse(config.has_context_configurations())
     
     def test_config_context_without_overlay(self):
-        config = ZapConfiguration("./mocks/configs/context-without-overlay/")
+        config = ZapConfiguration("./mocks/context-without-overlay/")
         self.assertTrue(config.has_context_configurations())
     
     def test_config_context_with_overlay(self):
-        config = ZapConfiguration("./mocks/configs/context-with-overlay/")
+        config = ZapConfiguration("./mocks/context-with-overlay/")
         self.assertTrue(config.has_context_configurations())
     
     def test_has_spider_configurations(self):
-        config = ZapConfiguration("./mocks/configs/context-with-overlay/")
+        config = ZapConfiguration("./mocks/context-with-overlay/")
         self.assertFalse(config.has_spider_configurations())
+
+        config = ZapConfiguration("./mocks/scan-full-bodgeit/")
+        self.assertTrue(config.has_spider_configurations())
     
     def test_has_scan_configurations(self):
-        config = ZapConfiguration("./mocks/configs/context-with-overlay/")
+        config = ZapConfiguration("./mocks/context-with-overlay/")
         self.assertFalse(config.has_scan_configurations())
+    
+        config = ZapConfiguration("./mocks/scan-full-bodgeit/")
+        self.assertTrue(config.has_scan_configurations())
         
-
+        
+        
 

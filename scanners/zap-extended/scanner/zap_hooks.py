@@ -7,9 +7,12 @@
 import os
 import sys
 import logging
-from scbzapv2.zap_configuration import ZapConfiguration
-from scbzapv2.zap_extended import ZapExtended
+import time
+
 from zapv2 import ZAPv2
+from scbzapv2 import ZapConfiguration
+from scbzapv2 import ZapConfigureContext
+from scbzapv2 import ZapConfigureSpider
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(level=logging.DEBUG,
@@ -20,26 +23,10 @@ logging.basicConfig(level=logging.DEBUG,
 
 config = ZapConfiguration("/zap/secureCodeBox-extensions/configs/")
 
-# def override_from_env_vars(d, prefix=""):
-#     """Overwrite config values, when a equivalent env var is defined.
-
-#        E.g. config['openApi']['url] will return the value for OPENAPI_URL, if defined. Otherwise the existing value from json config will be used.
-#     """
-#     for k, v in d.items():
-#         if isinstance(v, dict):
-#             override_from_env_vars(v, prefix + k + "_")
-#         else:
-#             env_var_name = (prefix + k).upper()
-#             if env_var_name in os.environ:
-#                 print("'" + env_var_name + "' defined as Env Var. Will override value from config.json")
-#                 d[k] = os.environ[env_var_name]
-
-# override_from_env_vars(config)
-
 def cli_opts(opts):
-    logging.info('Hook cli_opts() startet (opts: ' + str(opts) + ') ...')
+    logging.info('-> Hook cli_opts() startet (opts: ' + str(opts) + ') ...')
 
-    logging.info('Hook cli_opts() finished...')
+    logging.info('-> Hook cli_opts() finished...')
     return opts
 
 def zap_started(zap, target):
@@ -47,17 +34,16 @@ def zap_started(zap, target):
        
        This hook is executed in the early stage after the ZAP started successfully.
     """
-    logging.info('Hook zap_started started (target: %s) ...', str(target))
+    logging.info('-> Hook zap_started started (target: %s) ...', str(target))
 
     # if a ZAP Configuration is defined start to configure the running ZAP instance (`zap`)
-    if config and config.get_zap_contexts():
+    if config and config.has_context_configurations:
         # Starting to configure the ZAP Instance based on the given Configuration
-        scb_zap = ZapExtended(zap, [])
-        scb_zap.configure_context(zap, config.get_zap_contexts())
+        ZapConfigureContext(zap, config)
     else:
         logging.warning("No valid ZAP configuration object found: %s! It seems there is something important missing.", config)
 
-    logging.info('Hook zap_started() finished...')
+    logging.info('-> Hook zap_started() finished...')
 
     return zap, target
 
@@ -66,10 +52,17 @@ def zap_spider(zap, target):
        
        This hook is executed in the early stage after the ZAP started successfully.
     """
-    logging.info('Hook zap_spider started (target: %s) ...', str(target))
+    logging.info('-> Hook zap_spider started (target: %s) ...', str(target))
 
+    # if a ZAP Configuration is defined start to configure the running ZAP instance (`zap`)
+    if config and config.has_spider_configurations:
+        #logging.info('Spider %s as user %s', target, str(config))
+        # Starting to configure the ZAP Instance based on the given Configuration
+        zap_spider = ZapConfigureSpider(zap, config)
+        spider_id = zap_spider.start_spider_by_index(0, False)
+        zap_spider.wait_until_finished(spider_id)
 
-    logging.info('Hook zap_spider() finished...')
+    logging.info('-> Hook zap_spider() finished...')
 
     return zap, target
 

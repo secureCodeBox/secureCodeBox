@@ -158,9 +158,9 @@ zapExtendedConfigs:
   spiders:
     - name: scbspider
       # String: Name of the context to spider, default: first context
-      context:
+      context: scbcontext
       # String: Url to start spidering from, default: first context URL
-      url:
+      url: https://example.com/
       # Int: Fail if spider finds less than the specified number of URLs, default: 0
       failIfFoundUrlsLessThan: 0
       # Int: Warn if spider finds less than the specified number of URLs, default: 0
@@ -204,7 +204,9 @@ zapExtendedConfigs:
   scans:
     - name: scbscan
       # String: Name of the context to attack, default: first context
-      context:
+      context: scbcontext
+      # String: Url to start scaning from, default: first context URL
+      url: https://example.com/
       # String: Name of the scan policy to be used, default: Default Policy
       policy:
       # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited

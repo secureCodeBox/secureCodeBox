@@ -2,16 +2,11 @@
 
 set -eu
 
-
 # $PROJECT is defined by .envrc file
 scb_zap_extended_dir="${PROJECT}"
+
 docker_dir="${scb_zap_extended_dir}/scanner/"
-docker_tmp_dir="${docker_dir}/tests/docker/tmp"
-zap_examples_dir="${scb_zap_extended_dir}/scanner/examples"
-
-mkdir -pv "${docker_tmp_dir}"
-
-cp -Rv "${zap_examples_dir}" "${docker_tmp_dir}/configs/"
+zap_mock_configs_dir="${scb_zap_extended_dir}/scanner/tests/mocks/"
 
 # Test: `docker run --rm -it securecodebox/zap:local-test`
 docker build -t securecodebox/zap:local-test "${docker_dir}"
@@ -20,11 +15,10 @@ docker build -t securecodebox/zap:local-test "${docker_dir}"
 #  docker.io/psiinon/bodgeit:latest
 
 docker run -t --rm --link bodgeit:bodgeit --name zap \
-  -v "${docker_tmp_dir}":/zap/wrk \
-  -v "${docker_tmp_dir}/configs/bodgeit-docker":/zap/secureCodeBox-extensions/configs \
+  -v "${zap_mock_configs_dir}/scan-full-bodgeit":/zap/secureCodeBox-extensions/configs \
   -e SCB_ZAP_CONFIG_DIR="/zap/secureCodeBox-extensions/configs/" \
   securecodebox/zap:local-test \
-  zap-full-scan.py \
+  zap-baseline.py \
   -t "http://bodgeit:8080/bodgeit" \
   -m 1  \
   -I \

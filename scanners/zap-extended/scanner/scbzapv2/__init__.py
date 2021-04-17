@@ -8,3 +8,4 @@ __all__ = ['zap_configuration', 'zap_extended']
 
 from .zap_configuration import ZapConfiguration
 from .zap_context import ZapConfigureContext
+from .zap_spider import ZapConfigureSpider
