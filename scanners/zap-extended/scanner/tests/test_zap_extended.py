@@ -1,17 +1,13 @@
 from unittest.mock import MagicMock, Mock
 from unittest.mock import patch
+from unittest import TestCase
 
 
 from scbzapv2.zap_configuration import ZapConfiguration
 from scbzapv2.zap_extended import ZapExtended
 
-class ZapConfigurationTests(unittest.TestCase):
+class ZapConfigurationTests(TestCase):
 
-    def simple_check(self):
-        pass
+    def test_always_passes(self):
+        self.assertTrue(True)
 
-    def complex_check(self):
-        pass
-
-if __name__ == '__main__':
-    unittest.main()
