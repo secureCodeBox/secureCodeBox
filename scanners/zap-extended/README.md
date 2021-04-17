@@ -117,14 +117,14 @@ Options:
 | zapExtendedConfigs.contexts[0].users[1].username | string | `"user2"` |  |
 | zapExtendedConfigs.scans[0].addQueryParam | bool | `false` |  |
 | zapExtendedConfigs.scans[0].context | string | `"scbcontext"` |  |
-| zapExtendedConfigs.scans[0].defaultPolicy | string | `nil` |  |
+| zapExtendedConfigs.scans[0].defaultPolicy | string | `"Default Policy"` |  |
 | zapExtendedConfigs.scans[0].delayInMs | int | `0` |  |
 | zapExtendedConfigs.scans[0].handleAntiCSRFTokens | bool | `false` |  |
 | zapExtendedConfigs.scans[0].injectPluginIdInHeader | bool | `false` |  |
 | zapExtendedConfigs.scans[0].maxRuleDurationInMins | int | `0` |  |
 | zapExtendedConfigs.scans[0].maxScanDurationInMins | int | `0` |  |
 | zapExtendedConfigs.scans[0].name | string | `"scbscan"` |  |
-| zapExtendedConfigs.scans[0].policy | string | `nil` |  |
+| zapExtendedConfigs.scans[0].policy | string | `"Default Policy"` |  |
 | zapExtendedConfigs.scans[0].policyDefinition.defaultStrength | string | `"Medium"` |  |
 | zapExtendedConfigs.scans[0].policyDefinition.defaultThreshold | string | `"Medium"` |  |
 | zapExtendedConfigs.scans[0].policyDefinition.rules[0].id | string | `nil` |  |
@@ -139,7 +139,7 @@ Options:
 | zapExtendedConfigs.spiders[0].failIfFoundUrlsLessThan | int | `0` |  |
 | zapExtendedConfigs.spiders[0].handleODataParametersVisited | bool | `false` |  |
 | zapExtendedConfigs.spiders[0].handleParameters | string | `"use_all"` |  |
-| zapExtendedConfigs.spiders[0].maxChildren | string | `nil` |  |
+| zapExtendedConfigs.spiders[0].maxChildren | int | `10` |  |
 | zapExtendedConfigs.spiders[0].maxDepth | int | `5` |  |
 | zapExtendedConfigs.spiders[0].maxDuration | int | `0` |  |
 | zapExtendedConfigs.spiders[0].maxParseSizeBytes | int | `2621440` |  |
@@ -155,5 +155,5 @@ Options:
 | zapExtendedConfigs.spiders[0].sendRefererHeader | bool | `true` |  |
 | zapExtendedConfigs.spiders[0].threadCount | int | `2` |  |
 | zapExtendedConfigs.spiders[0].url | string | `"https://example.com/"` |  |
-| zapExtendedConfigs.spiders[0].userAgent | string | `""` |  |
+| zapExtendedConfigs.spiders[0].userAgent | string | `"secureCodeBox / ZAP Spider"` |  |
 | zapExtendedConfigs.spiders[0].warnIfFoundUrlsLessThan | int | `0` |  |
