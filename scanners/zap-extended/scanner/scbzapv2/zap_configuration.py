@@ -12,7 +12,7 @@ class ZapConfiguration():
         self.config_dir = config_dir
         self.config_dir_glob = config_dir + "*.yaml"
         
-        self.__config = []
+        self.__config = collections.OrderedDict()
         self.__readConfigFiles()
 
     def __readConfigFiles(self):
@@ -32,24 +32,46 @@ class ZapConfiguration():
         else:
             logging.warning("No ZAP YAML Configuration files found :-/ This is no problem but possibly not intendend here.")
 
-    def get_config(self) -> collections.OrderedDict:
-        """Returns the ZAP configuration object"""
+    def get_config(self) -> collections.OrderedDict():
+        """Returns the complete ZAP configuration object"""
 
         return self.__config
     
-    def get_zap_contexts(self) -> list:
-        """Returns a list with all ZAP context configuration objects"""
-        result = []
+    def has_context_configurations(self) -> bool:
+        result = False
 
         if len(self.__config) > 0 and "contexts" in self.__config:
+            result = True
+
+        return result
+    
+    def get_contexts(self) -> list:
+        """Returns a list with all ZAP context configuration objects"""
+        result = collections.OrderedDict()
+
+        if self.has_context_configurations:
             result = self.__config["contexts"]
 
         return result
     
-    def get_zap_context(self, id) -> list:
-        """Returns the ZAP context configuration object with the given id."""
+    def get_context_by_index(self, index: int) -> collections.OrderedDict:
+        """Returns the ZAP context configuration object with the given index."""
+        result = collections.OrderedDict()
 
-        return self.get_zap_contexts().get(id)
+        if self.has_context_configurations and len(self.get_contexts()) > index:
+            result = self.get_contexts()[index]
+
+        return result
     
+    def get_context_by_name(self, name: str) -> collections.OrderedDict:
+        """Returns the ZAP context configuration object with the given index."""
+
+        result = collections.OrderedDict()
+
+        if self.has_context_configurations:
+            result = next((context for context in self.get_contexts() if context['name'] == value), None)
+
+        return result
+
     def __str__(self):
         return " ZapConfiguration( " + str(self.get_config()) + " )"

@@ -6,11 +6,13 @@ import sys
 import json
 import requests
 import base64
+
 from urllib.parse import urlparse
 from zapv2 import ZAPv2
-from . import zap_configuration
 
-class ZapExtended():
+from .zap_configuration import ZapConfiguration
+
+class ZapConfigureContext():
     """This class configures a running ZAP Inctance based on a ZAP Configuration
     
     Based on this opensource ZAP Python example:
@@ -18,13 +20,28 @@ class ZapExtended():
     
     """
 
-    def __init__(self, zap, config):
-        """Initial constructor used for this class"""
+    def __init__(self, zap: ZAPv2, config: ZapConfiguration):
+        """Initial constructor used for this class
         
-        self.zap = zap
-        self.config = config
+        Parameters
+        ----------
+        zap : ZAPv2
+            The running ZAP instance to configure.
+        config : ZapConfiguration
+            The configuration object containing all ZAP configs (based on the class ZapConfiguration).
+        """
+        
+        self.__zap = zap
+        self.__config = config
 
-    def configure_context(self, zap: ZAPv2, contexts: list):
+        # if at least one ZAP Context is defined start to configure the running ZAP instance (`zap`) accordingly
+        if self.__config.has_context_configurations:
+            # Starting to configure the ZAP Instance based on the given context configurations
+            self._configure_context(zap, config.get_contexts())
+        else:
+            logging.warning("No valid ZAP configuration object found: %s! It seems there is something important missing.", config)
+
+    def _configure_context(self, zap: ZAPv2, contexts: list):
         """ Configures a given ZAP instance with the given list of contexts.
         
         Parameters

@@ -8,7 +8,7 @@ import logging
 from zapv2 import ZAPv2
 
 from scbzapv2.zap_configuration import ZapConfiguration
-from scbzapv2.zap_extended import ZapExtended
+from scbzapv2.zap_context import ZapConfigureContext
 
 #######################################
 ### BEGINNING OF CONFIGURATION AREA ###
@@ -45,13 +45,12 @@ testYaml5 = "./tmp/configs/bodgeit/"
 
 logging.info("HERE"+ str(sys.path))
 
-config = ZapConfiguration(testYaml5)
+config = ZapConfiguration(testYaml3)
 
-logging.debug("ZAP Configuration: %s", config.get_config())
-logging.debug("ZAP Configuration/Contexts: %s", config.get_zap_contexts())
-logging.debug("ZAP Configuration/Contexts/0: %s", config.get_zap_context(0))
+logging.debug("ZAP Configuration: %s with type %s", config.get_config(), type(config.get_config()))
+logging.debug("ZAP Configuration/Contexts: %s with type %s", config.get_contexts(), type(config.get_contexts()))
+logging.debug("ZAP Configuration/Contexts/0: %s with type %s", config.get_context_by_index(0), type(config.get_context_by_index(0)))
 
 # Starting to configure the ZAP Instance based on the given Configuration
-local_zap = ZapExtended(zap, [])
-local_zap.configure_context(zap, config.get_zap_contexts())
+local_zap_context = ZapConfigureContext(zap, config)
 
