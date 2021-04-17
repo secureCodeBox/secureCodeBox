@@ -94,7 +94,7 @@ class ZapConfiguration():
         result = collections.OrderedDict()
 
         if self.has_context_configurations:
-            result = next((context for context in self.get_contexts() if context['name'] == value), None)
+            result = next((context for context in self.get_contexts() if context['name'] == name), None)
 
         return result
 

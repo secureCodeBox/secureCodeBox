@@ -18,7 +18,7 @@ docker run -t --rm --link bodgeit:bodgeit --name zap \
   -v "${zap_mock_configs_dir}/scan-full-bodgeit":/zap/secureCodeBox-extensions/configs \
   -e SCB_ZAP_CONFIG_DIR="/zap/secureCodeBox-extensions/configs/" \
   securecodebox/zap:local-test \
-  zap-baseline.py \
+  zap-full-scan.py \
   -t "http://bodgeit:8080/bodgeit" \
   -m 1  \
   -I \

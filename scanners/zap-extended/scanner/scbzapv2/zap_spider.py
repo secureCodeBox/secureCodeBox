@@ -81,17 +81,17 @@ class ZapConfigureSpider():
 
         if(spider_id >= 0):
             while (int(self.__zap.spider.status(spider_id)) < 100):
-                logging.debug("Spider(%s) progress %: %s", spider_id, self.__zap.spider.status(spider_id))
+                logging.debug("Spider(%s) progress: %s", str(spider_id), str(self.__zap.spider.status(spider_id)))
                 time.sleep(1)
                 
-                logging.debug("Spider(%s) completed", spider_id)
+                logging.debug("Spider(%s) completed", str(spider_id))
 
             # Print out a count of the number of urls
             num_urls = len(self.__zap.core.urls())
             if num_urls == 0:
                 logging.warning("No URLs found - is the target URL accessible? Local services may not be accessible from the Docker container")
             else:
-                logging.info("Spider(%s) found total: %s URLs", spider_id, str(num_urls))
+                logging.info("Spider(%s) found total: %s URLs", str(spider_id), str(num_urls))
                 for url in self.__zap.spider.results(scanid=spider_id):
                     logging.info("URL: %s", url)
     
@@ -299,4 +299,6 @@ class ZapConfigureSpider():
         """
         
         if "OK" != spiderId:
-            logging.warn("Failed to configure '%s', result is: '%s'", method, spiderId)
+            logging.warn("Failed to configure Spider ['%s'], result is: '%s'", method, spiderId)
+        else:
+            logging.debug("Successfull configured Spider ['%s'], result is: '%s'", method, spiderId)

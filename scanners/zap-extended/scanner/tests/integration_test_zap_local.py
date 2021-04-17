@@ -7,9 +7,10 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 import logging
 from zapv2 import ZAPv2
 
-from scbzapv2.zap_configuration import ZapConfiguration
-from scbzapv2.zap_context import ZapConfigureContext
-from scbzapv2.zap_spider import ZapConfigureSpider
+from scbzapv2 import ZapConfiguration
+from scbzapv2 import ZapConfigureContext
+from scbzapv2 import ZapConfigureSpider
+from scbzapv2 import ZapConfigureActiveScanner
 
 #######################################
 ### BEGINNING OF CONFIGURATION AREA ###
@@ -57,8 +58,12 @@ logging.debug("ZAP Configuration/Contexts/0: %s with type %s", config.get_contex
 if config.has_configurations() and config.has_context_configurations:
     local_zap_context = ZapConfigureContext(zap, config)
 
-if config.has_configurations() and config.has_spider_configurations:
+if config.has_spider_configurations:
     local_zap_spider = ZapConfigureSpider(zap, config)
     spider_id=local_zap_spider.start_spider_by_index(0, False)
     local_zap_spider.wait_until_finished(spider_id)
 
+if config.has_scan_configurations:
+    local_zap_scan = ZapConfigureActiveScanner(zap, config)
+    scanner_id=local_zap_scan.start_scan_by_index(0)
+    local_zap_scan.wait_until_finished(scanner_id)

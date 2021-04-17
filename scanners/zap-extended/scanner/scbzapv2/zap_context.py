@@ -65,6 +65,7 @@ class ZapConfigureContext():
             logging.debug('Configure ZAP Context: ' + context["name"])
             context_id = zap.context.new_context(context["name"])
             context_name = context["name"]
+            context["id"] = context_id
 
             if("includePaths" in context):
                 self._configure_context_include(zap, context)

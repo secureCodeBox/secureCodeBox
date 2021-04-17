@@ -89,26 +89,26 @@ scans:
     context: secureCodeBox-BodgeIT-Context
     # String: Url to start scaning from, default: first context URL
     url: http://bodgeit:8080/bodgeit
-    # String: Name of the scan policy to be used, default: Default Policy
-    policy:
     # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
-    maxRuleDurationInMins: 0
+    maxRuleDurationInMins: 1
     # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited          
-    maxScanDurationInMins: 0
-    # Bool: If set will add an extra query parameter to requests that do not have one, default: false
-    addQueryParam: false
-    # String: The name of the default scan policy to use, default: Default Policy
-    defaultPolicy:
+    maxScanDurationInMins: 1
+    # Int: The max number of threads per host, default: 2
+    threadPerHost: 5
     # Int: The delay in milliseconds between each request, use to reduce the strain on the target, default 0
     delayInMs: 0
+    # Bool: If set will add an extra query parameter to requests that do not have one, default: false
+    addQueryParam: false
     # Bool: If set then automatically handle anti CSRF tokens, default: false
     handleAntiCSRFTokens: false
     # Bool: If set then the relevant rule Id will be injected into the X-ZAP-Scan-ID header of each request, default: false           
     injectPluginIdInHeader: false
     # Bool: If set then the headers of requests that do not include any parameters will be scanned, default: false
     scanHeadersAllRequests: false
-    # Int: The max number of threads per host, default: 2
-    threadPerHost: 2
+    # String: The name of the default scan policy to use, default: Default Policy
+    defaultPolicy: "Default Policy"
+    # String: Name of the scan policy to be used, default: Default Policy
+    policy: "Default Policy"
     # The policy definition - only used if the 'policy' is not set
     policyDefinition:
       # String: The default Attack Strength for all rules, one of Low, Medium, High, Insane (not recommended), default: Medium

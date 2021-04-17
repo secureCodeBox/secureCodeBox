@@ -13,6 +13,7 @@ from zapv2 import ZAPv2
 from scbzapv2 import ZapConfiguration
 from scbzapv2 import ZapConfigureContext
 from scbzapv2 import ZapConfigureSpider
+from scbzapv2 import ZapConfigureActiveScanner
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(level=logging.DEBUG,
@@ -56,7 +57,6 @@ def zap_spider(zap, target):
 
     # if a ZAP Configuration is defined start to configure the running ZAP instance (`zap`)
     if config and config.has_spider_configurations:
-        #logging.info('Spider %s as user %s', target, str(config))
         # Starting to configure the ZAP Instance based on the given Configuration
         zap_spider = ZapConfigureSpider(zap, config)
         spider_id = zap_spider.start_spider_by_index(0, False)
@@ -71,10 +71,10 @@ def zap_ajax_spider(zap, target, max_time):
        
        This hook is executed in the early stage after the ZAP started successfully.
     """
-    logging.info('Hook zap_ajax_spider started (target: %s) ...', str(target))
+    logging.info('-> Hook zap_ajax_spider started (target: %s) ...', str(target))
 
 
-    logging.info('Hook zap_ajax_spider() finished...')
+    logging.info('-> Hook zap_ajax_spider() finished...')
 
     return zap, target
 
@@ -83,10 +83,16 @@ def zap_active_scan(zap, target, policy):
        
        This hook is executed in the early stage after the ZAP started successfully.
     """
-    logging.info('Hook zap_active_scan started (target: %s) ...', str(target))
+    logging.info('-> Hook zap_active_scan started (target: %s) ...', str(target))
 
+    # if a ZAP Configuration is defined start to configure the running ZAP instance (`zap`)
+    if config and config.has_scan_configurations:
+        # Starting to configure the ZAP Instance based on the given Configuration
+        zap_scan = ZapConfigureActiveScanner(zap, config)
+        scan_id = zap_scan.start_scan_by_index(0)
+        zap_scan.wait_until_finished(scan_id)
 
-    logging.info('Hook zap_active_scan() finished...')
+    logging.info('-> Hook zap_active_scan() finished...')
 
     return zap, target
 
