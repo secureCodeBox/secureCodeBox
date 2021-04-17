@@ -5,6 +5,7 @@ metadata:
 data:
   zap-extended-scantype.yaml: |-
 
+    # ZAP Contexts Configuration 
     contexts:
       # Name to be used to refer to this context in other jobs, mandatory
       - name: secureCodeBox-BodgeIT-Context
@@ -41,3 +42,47 @@ data:
         session:
           # Currently supports "scriptBasedSessionManagement", "cookieBasedSessionManagement", "httpAuthSessionManagement"
           type: "cookieBasedSessionManagement"
+
+    # ZAP Spiders Configuration 
+    spiders:
+      - name: scbspider
+        # String: Name of the context to spider, default: first context
+        context: secureCodeBox-BodgeIT-Context
+        # String: Url to start spidering from, default: first context URL
+        url: http://bodgeit:8080/bodgeit
+        # Int: Fail if spider finds less than the specified number of URLs, default: 0
+        failIfFoundUrlsLessThan: 0
+        # Int: Warn if spider finds less than the specified number of URLs, default: 0
+        warnIfFoundUrlsLessThan: 0
+        # Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
+        maxDuration: 1
+        # Int: The maximum tree depth to explore, default 5
+        maxDepth: 5
+        # Int: The maximum number of children to add to each node in the tree                     
+        maxChildren: 10
+        # String: The user agent to use in requests, default: '' - use the default ZAP one               
+        userAgent: "secureCodeBox / ZAP Spider"
+
+    # ZAP ActiveScans Configuration 
+    scans:
+      - name: scbscan
+        # String: Name of the context to attack, default: first context
+        context: secureCodeBox-BodgeIT-Context
+        # String: Url to start scaning from, default: first context URL
+        url: http://bodgeit:8080/bodgeit
+        # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
+        maxRuleDurationInMins: 1
+        # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited          
+        maxScanDurationInMins: 1
+        # Int: The max number of threads per host, default: 2
+        threadPerHost: 2
+        # Int: The delay in milliseconds between each request, use to reduce the strain on the target, default 0
+        delayInMs: 0
+        # Bool: If set will add an extra query parameter to requests that do not have one, default: false
+        addQueryParam: false
+        # Bool: If set then automatically handle anti CSRF tokens, default: false
+        handleAntiCSRFTokens: false
+        # Bool: If set then the relevant rule Id will be injected into the X-ZAP-Scan-ID header of each request, default: false           
+        injectPluginIdInHeader: false
+        # Bool: If set then the headers of requests that do not include any parameters will be scanned, default: false
+        scanHeadersAllRequests: false
