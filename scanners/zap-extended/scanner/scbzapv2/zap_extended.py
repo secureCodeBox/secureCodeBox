@@ -303,6 +303,7 @@ class ZapExtended():
             
             user_id = zap.users.new_user(contextid=context_id, name=user_name)
             logging.warn("Created ZAP UserID '%s'", user_id)
+            user['id'] = user_id
             
             zap.users.set_user_name(
                 contextid=context_id, 

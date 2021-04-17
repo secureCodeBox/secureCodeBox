@@ -12,20 +12,23 @@ zap_examples_dir="${scb_zap_extended_dir}/scanner/examples"
 mkdir -pv "${docker_tmp_dir}"
 
 cp -Rv "${zap_examples_dir}" "${docker_tmp_dir}/configs/"
-#cp -rv "${zap_examples_dir}/scan-overlay/"* "${docker_tmp_dir}/configs/"
 
 # Test: `docker run --rm -it securecodebox/zap:local-test`
 docker build -t securecodebox/zap:local-test "${docker_dir}"
 
-docker run -t --rm \
-    -v "${docker_tmp_dir}":/zap/wrk \
-    -v "${docker_tmp_dir}/configs/empty-files":/zap/secureCodeBox-extensions/configs \
-    -e SCB_ZAP_CONFIG_DIR="/zap/secureCodeBox-extensions/configs/" \
-    securecodebox/zap:local-test \
-    zap-full-scan.py \
-    -t "https://www.secureCodeBox.io/" \
-    -I \
-    --hook=/zap/zap_hooks.py
+#docker run -t --rm -d --name bodgeit \
+#  docker.io/psiinon/bodgeit:latest
+
+docker run -t --rm --link bodgeit:bodgeit --name zap \
+  -v "${docker_tmp_dir}":/zap/wrk \
+  -v "${docker_tmp_dir}/configs/bodgeit-docker":/zap/secureCodeBox-extensions/configs \
+  -e SCB_ZAP_CONFIG_DIR="/zap/secureCodeBox-extensions/configs/" \
+  securecodebox/zap:local-test \
+  zap-full-scan.py \
+  -t "http://bodgeit:8080/bodgeit" \
+  -m 1  \
+  -I \
+  --hook=/zap/zap_hooks.py
 
 # docker run -t --rm \
 #     -v "${docker_tmp_dir}":/zap/wrk \

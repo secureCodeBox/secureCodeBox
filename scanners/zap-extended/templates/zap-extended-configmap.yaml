@@ -2,45 +2,7 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: zap-extended-scantype-{{ .Release.Name }}
+  name: zap-extended-scantype-config
 data:
   1-zap-extended-scantype.yaml: {{ .Values.zapExtendedConfigs | toYaml | quote }}
 {{- end }}
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: zap-hooks-{{ .Release.Name }}
-binaryData:
-  {{- range $path, $d := .Files.Glob "zap-customization/hooks/*.*" }}
-  {{ $path | base }}: |-
-  {{- $d | toString | b64enc | nindent 4 }}
-  {{ end }}
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: zap-scripts-authentication-{{ .Release.Name }}
-  labels:
-    heritage: {{ .Release.Service }}
-    release: {{ .Release.Name }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-binaryData:
-  {{- range $path, $d := .Files.Glob "zap-customization/scripts/authentication/*" }}
-  {{ $path | base }}: |-
-  {{- $d | toString | b64enc | nindent 4 }}
-  {{ end }}
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: zap-scripts-session-{{ .Release.Name }}
-  labels:
-    heritage: {{ .Release.Service }}
-    release: {{ .Release.Name }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-binaryData:
-  {{- range $path, $d := .Files.Glob "zap-customization/scripts/session/*" }}
-  {{ $path | base }}: |-
-  {{- $d | toString | b64enc | nindent 4 }}
-  {{ end }}

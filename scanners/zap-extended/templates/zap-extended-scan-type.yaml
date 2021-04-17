@@ -2,7 +2,7 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: zap-extended-baseline
+  name: zap-extended-baseline-scan
   labels:
     {{- include "zap.labels" . | nindent 4 }}
 spec:

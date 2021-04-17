@@ -17,15 +17,15 @@ To learn more about the ZAP scanner itself visit [https://www.zaproxy.org/](http
 
 ## Deployment
 
-The ZAP scanType can be deployed via helm:
+The ZAP-Extended scanType can be deployed via helm:
 
 ```bash
-helm upgrade --install zap secureCodeBox/zap
+helm upgrade --install zap-extended secureCodeBox/zap-extended
 ```
 
 ## Scanner Configuration
 
-The following security scan configuration example are based on the ZAP Docker Scan Scripts. By default the secureCodeBox ZAP Helm Chart installs all three ZAP scripts: `zap-baseline`, `zap-full-scan` & `zap-api-scan`. Listed below are the arguments supported by the `zap-baseline` script, which are mostly interchangable with the other ZAP scripts. For a more complete reference check out the [ZAP Documentation](https://www.zaproxy.org/docs/docker/) and the secureCodeBox based ZAP examples listed below.
+The following security scan configuration example are based on the ZAP Docker Scan Scripts. By default the secureCodeBox ZAP Helm Chart installs all three ZAP scripts: `zap-extended-baseline-scan`, `zap-extended-full-scan` & `zap-extended-api-scan`. Listed below are the arguments supported by the `zap-extended-baseline-scan` script, which are mostly interchangable with the other ZAP scripts. For a more complete reference check out the [ZAP Documentation](https://www.zaproxy.org/docs/docker/) and the secureCodeBox based ZAP examples listed below.
 
 The command line interface can be used to easily run server scans: `-t www.example.com`
 
