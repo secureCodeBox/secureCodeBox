@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        unit: ["git_repo_scanner"]
+        unit: ["git_repo_scanner", "zap-extended"]
     steps:
       - name: Checkout
         uses: actions/checkout/@v2
@@ -54,13 +54,13 @@ jobs:
       - name: "Install dependencies"
         run: |
           python -m pip install --upgrade pip setuptools wheel
-          pip install -r scanners/git-repo-scanner/scanner/requirements.txt
+          pip install -r scanners/${{ matrix.unit }}/scanner/requirements.txt
 
       - name: "Execute Tests"
-        working-directory: scanners/git-repo-scanner/scanner/
+        working-directory: scanners/${{ matrix.unit }}/scanner/
         run: |
           pip install pytest
-          pytest
+          pytest --ignore-glob='*_local.py' --ignore=tests/docker
 
   # ---- Unit-Test | JavaScript ----
 
@@ -359,6 +359,7 @@ jobs:
           - kubeaudit
           - ncrack
           - nmap
+          - zap-extended
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -782,10 +783,9 @@ jobs:
           cd tests/integration/
           npx jest --ci --color scanner/wpscan.test.js
 
-      
       # ---- Zap Integration Tests ----
 
-      - name: "zap Integration Tests"
+      - name: "ZAP Integration Tests"
         run: |
           kubectl -n integration-tests delete scans --all
           helm -n integration-tests install zap ./scanners/zap/  \
@@ -793,6 +793,17 @@ jobs:
             --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-zap"
           cd tests/integration/
           npx jest --ci --color scanner/zap.test.js
+
+      # ---- Zap Extended Integration Tests ----
+
+      - name: "ZAP Extended Integration Tests"
+        run: |
+          kubectl -n integration-tests delete scans --all
+          helm -n integration-tests install zap ./scanners/zap-extended/  \
+            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-zap"
+          cd tests/integration/
+          npx jest --ci --color scanner/zap-extended.test.js
 
       # ---- Cascading Scans ncrack Integration Test ----
 
