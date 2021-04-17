@@ -62,20 +62,20 @@ Options:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| image.repository | string | `"docker.io/securecodebox/scanner-zap"` | Container Image to run the scan |
-| image.tag | string | `"main"` | defaults to the charts appVersion |
+| image.repository | string | `"securecodebox/zap"` | Container Image to run the scan |
+| image.tag | string | `nil` | defaults to the charts appVersion |
 | parseJob.backoffLimit | int | `3` |  |
 | parseJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | parserImage.repository | string | `"docker.io/securecodebox/parser-zap"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |
 | scannerJob.backoffLimit | int | 3 | There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy) |
-| scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
+| scannerJob.env | list | `[{"name":"SCB_ZAP_CONFIG_DIR","value":"/zap/secureCodeBox-extensions/configs/"}]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | scannerJob.envFrom | list | `[]` | Optional mount environment variables from configMaps or secrets (see: https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/#configure-all-key-value-pairs-in-a-secret-as-container-environment-variables) |
 | scannerJob.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
-| scannerJob.extraVolumeMounts | list | `[{"mountPath":"/zap/wrk","name":"zap-workdir"}]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
-| scannerJob.extraVolumes | list | `[{"emptyDir":{},"name":"zap-workdir"}]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scannerJob.extraVolumeMounts | list | `[{"mountPath":"/zap/wrk","name":"zap-workdir"},{"mountPath":"/zap/secureCodeBox-extensions/configs/1-zap-extended-scantype.yaml","name":"zap-extended-scantype-config","readOnly":true,"subPath":"1-zap-extended-scantype.yaml"}]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scannerJob.extraVolumes | list | `[{"emptyDir":{},"name":"zap-workdir"},{"configMap":{"name":"zap-extended-scantype-config"},"name":"zap-extended-scantype-config"}]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
 | scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
-| scannerJob.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
+| scannerJob.securityContext | object | `{"fsGroup":1000}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | scannerJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | zapExtendedConfigs.contexts[0].authentication.basic-auth | object | `{}` |  |
 | zapExtendedConfigs.contexts[0].authentication.form-based | object | `{}` |  |
@@ -101,6 +101,12 @@ Options:
 | zapExtendedConfigs.contexts[0].session.scriptBasedSessionManagement.scriptFileName | string | `"/zap/scripts/session/TwoStepAuthentication.js"` |  |
 | zapExtendedConfigs.contexts[0].session.scriptBasedSessionManagement.scriptName | string | `"mysession"` |  |
 | zapExtendedConfigs.contexts[0].session.type | string | `"scriptBasedSessionManagement"` |  |
+| zapExtendedConfigs.contexts[0].technology.excluded[0] | string | `"SCM"` |  |
+| zapExtendedConfigs.contexts[0].technology.included[0] | string | `"Db.CouchDB"` |  |
+| zapExtendedConfigs.contexts[0].technology.included[1] | string | `"Db.Firebird"` |  |
+| zapExtendedConfigs.contexts[0].technology.included[2] | string | `"Db.HypersonicSQL"` |  |
+| zapExtendedConfigs.contexts[0].technology.included[3] | string | `"Language.ASP"` |  |
+| zapExtendedConfigs.contexts[0].technology.included[4] | string | `"OS"` |  |
 | zapExtendedConfigs.contexts[0].url | string | `"https://example.com/"` |  |
 | zapExtendedConfigs.contexts[0].users[0].name | string | `"testuser1"` |  |
 | zapExtendedConfigs.contexts[0].users[0].password | string | `"password1"` |  |
@@ -109,3 +115,44 @@ Options:
 | zapExtendedConfigs.contexts[0].users[1].name | string | `"testuser2"` |  |
 | zapExtendedConfigs.contexts[0].users[1].password | string | `"password2"` |  |
 | zapExtendedConfigs.contexts[0].users[1].username | string | `"user2"` |  |
+| zapExtendedConfigs.scans[0].addQueryParam | bool | `false` |  |
+| zapExtendedConfigs.scans[0].context | string | `nil` |  |
+| zapExtendedConfigs.scans[0].defaultPolicy | string | `nil` |  |
+| zapExtendedConfigs.scans[0].delayInMs | int | `0` |  |
+| zapExtendedConfigs.scans[0].handleAntiCSRFTokens | bool | `false` |  |
+| zapExtendedConfigs.scans[0].injectPluginIdInHeader | bool | `false` |  |
+| zapExtendedConfigs.scans[0].maxRuleDurationInMins | int | `0` |  |
+| zapExtendedConfigs.scans[0].maxScanDurationInMins | int | `0` |  |
+| zapExtendedConfigs.scans[0].name | string | `"scbscan"` |  |
+| zapExtendedConfigs.scans[0].policy | string | `nil` |  |
+| zapExtendedConfigs.scans[0].policyDefinition.defaultStrength | string | `"Medium"` |  |
+| zapExtendedConfigs.scans[0].policyDefinition.defaultThreshold | string | `"Medium"` |  |
+| zapExtendedConfigs.scans[0].policyDefinition.rules[0].id | string | `nil` |  |
+| zapExtendedConfigs.scans[0].policyDefinition.rules[0].name | string | `nil` |  |
+| zapExtendedConfigs.scans[0].policyDefinition.rules[0].strength | string | `nil` |  |
+| zapExtendedConfigs.scans[0].policyDefinition.rules[0].threshold | string | `nil` |  |
+| zapExtendedConfigs.scans[0].scanHeadersAllRequests | bool | `false` |  |
+| zapExtendedConfigs.scans[0].threadPerHost | int | `2` |  |
+| zapExtendedConfigs.spiders[0].acceptCookies | bool | `true` |  |
+| zapExtendedConfigs.spiders[0].context | string | `nil` |  |
+| zapExtendedConfigs.spiders[0].failIfFoundUrlsLessThan | int | `0` |  |
+| zapExtendedConfigs.spiders[0].handleODataParametersVisited | bool | `false` |  |
+| zapExtendedConfigs.spiders[0].handleParameters | string | `"use_all"` |  |
+| zapExtendedConfigs.spiders[0].maxChildren | string | `nil` |  |
+| zapExtendedConfigs.spiders[0].maxDepth | int | `5` |  |
+| zapExtendedConfigs.spiders[0].maxDuration | int | `0` |  |
+| zapExtendedConfigs.spiders[0].maxParseSizeBytes | int | `2621440` |  |
+| zapExtendedConfigs.spiders[0].name | string | `"scbspider"` |  |
+| zapExtendedConfigs.spiders[0].parseComments | bool | `true` |  |
+| zapExtendedConfigs.spiders[0].parseGit | bool | `false` |  |
+| zapExtendedConfigs.spiders[0].parseRobotsTxt | bool | `true` |  |
+| zapExtendedConfigs.spiders[0].parseSVNEntries | bool | `false` |  |
+| zapExtendedConfigs.spiders[0].parseSitemapXml | bool | `true` |  |
+| zapExtendedConfigs.spiders[0].postForm | bool | `true` |  |
+| zapExtendedConfigs.spiders[0].processForm | bool | `true` |  |
+| zapExtendedConfigs.spiders[0].requestWaitTime | int | `200` |  |
+| zapExtendedConfigs.spiders[0].sendRefererHeader | bool | `true` |  |
+| zapExtendedConfigs.spiders[0].threadCount | int | `2` |  |
+| zapExtendedConfigs.spiders[0].url | string | `nil` |  |
+| zapExtendedConfigs.spiders[0].userAgent | string | `""` |  |
+| zapExtendedConfigs.spiders[0].warnIfFoundUrlsLessThan | int | `0` |  |
