@@ -148,49 +148,49 @@ class ZapConfigureActiveScanner():
             
         # Configure ActiveScan (ajax or http)
         
-        if "maxRuleDurationInMins" in scanner_config and scanner_config['maxRuleDurationInMins'] >= 0:
+        if "maxRuleDurationInMins" in scanner_config and (scanner_config['maxRuleDurationInMins'] is not None) and scanner_config['maxRuleDurationInMins'] >= 0:
             self.__check_zap_scan_result(
                 scannerId=zap_scanner.set_option_max_rule_duration_in_mins(str(scanner_config['maxRuleDurationInMins'])), 
                 method="set_option_max_rule_duration_in_mins"
             )
-        if "maxScanDurationInMins" in scanner_config and scanner_config['maxScanDurationInMins'] >= 0:
+        if "maxScanDurationInMins" in scanner_config and (scanner_config['maxScanDurationInMins'] is not None) and scanner_config['maxScanDurationInMins'] >= 0:
             self.__check_zap_scan_result(
                 scannerId=zap_scanner.set_option_max_scan_duration_in_mins(str(scanner_config['maxScanDurationInMins'])), 
                 method="set_option_max_scan_duration_in_mins"
             )
-        if "threadPerHost" in scanner_config and scanner_config['threadPerHost'] >= 0:
+        if "threadPerHost" in scanner_config and (scanner_config['threadPerHost'] is not None) and scanner_config['threadPerHost'] >= 0:
             self.__check_zap_scan_result(
                 scannerId=zap_scanner.set_option_thread_per_host(str(scanner_config['threadPerHost'])), 
                 method="set_option_thread_per_host"
             )
-        if "delayInMs" in scanner_config and scanner_config['delayInMs'] >= 0:
+        if "delayInMs" in scanner_config and (scanner_config['delayInMs'] is not None) and scanner_config['delayInMs'] >= 0:
             self.__check_zap_scan_result(
                 scannerId=zap_scanner.set_option_delay_in_ms(str(scanner_config['delayInMs'])), 
                 method="set_option_delay_in_ms"
             )
         
-        if "addQueryParam" in scanner_config:
+        if "addQueryParam" in scanner_config and (scanner_config['addQueryParam'] is not None) :
             self.__check_zap_scan_result(
                 scannerId=zap_scanner.set_option_add_query_param(str(scanner_config['addQueryParam'])), 
                 method="set_option_add_query_param"
             )
-        if "handleAntiCSRFTokens" in scanner_config:
+        if "handleAntiCSRFTokens" in scanner_config and (scanner_config['handleAntiCSRFTokens'] is not None) :
             self.__check_zap_scan_result(
                 scannerId=zap_scanner.set_option_handle_anti_csrf_tokens(str(scanner_config['handleAntiCSRFTokens'])), 
                 method="set_option_handle_anti_csrf_tokens"
             )
-        if "injectPluginIdInHeader" in scanner_config:
+        if "injectPluginIdInHeader" in scanner_config and (scanner_config['injectPluginIdInHeader'] is not None) :
             self.__check_zap_scan_result(
                 scannerId=zap_scanner.set_option_inject_plugin_id_in_header(str(scanner_config['injectPluginIdInHeader'])), 
                 method="set_option_inject_plugin_id_in_header"
             )
-        if "scanHeadersAllRequests" in scanner_config:
+        if "scanHeadersAllRequests" in scanner_config and (scanner_config['scanHeadersAllRequests'] is not None) :
             self.__check_zap_scan_result(
                 scannerId=zap_scanner.set_option_scan_headers_all_requests(str(scanner_config['scanHeadersAllRequests'])), 
                 method="set_option_scan_headers_all_requests"
             )
         
-        if "defaultPolicy" in scanner_config and len(scanner_config['defaultPolicy']) >= 0:
+        if "defaultPolicy" in scanner_config and (scanner_config['defaultPolicy'] is not None) and len(scanner_config['defaultPolicy']) >= 0:
             self.__check_zap_scan_result(
                 scannerId=zap_scanner.set_option_default_policy(str(scanner_config['defaultPolicy'])), 
                 method="set_option_default_policy"

@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: zap-extended-scantype-config
 data:
-  zap-extended-scantype.yaml: |-
+  1_zap-extended-scantype.yaml: |-
 
     # ZAP Contexts Configuration 
     contexts:

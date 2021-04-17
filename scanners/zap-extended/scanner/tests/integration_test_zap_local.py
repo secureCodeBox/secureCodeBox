@@ -39,12 +39,12 @@ logging.info('Configuring ZAP Instance with %s', localProxy)
 # Connect ZAP API client to the listening address of ZAP instance
 zap = ZAPv2(proxies=localProxy, apikey=apiKey)
 
-testYaml1 = "./mocks/empty-files/"
-testYaml2 = "./mocks/empty/"
-testYaml3 = "./mocks/context-with-overlay/"
-testYaml4 = "./mocks/context-with-overlay-secrets/"
-testYaml5 = "./mocks/scan-full-bodgeit/"
-testYaml6 = "./mocks/scan-full-secureCodeBox.io/"
+testYaml1 = "./tests/mocks/empty-files/"
+testYaml2 = "./tests/mocks/empty/"
+testYaml3 = "./tests/mocks/context-with-overlay/"
+testYaml4 = "./tests/mocks/context-with-overlay-secrets/"
+testYaml5 = "./tests/mocks/scan-full-bodgeit/"
+testYaml6 = "./tests/mocks/scan-full-secureCodeBox.io/"
 
 logging.info("HERE"+ str(sys.path))
 
