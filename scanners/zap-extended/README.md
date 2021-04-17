@@ -62,7 +62,7 @@ Options:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| image.repository | string | `"securecodebox/zap"` | Container Image to run the scan |
+| image.repository | string | `"docker.io/securecodebox/scanner-zap-extended"` | Container Image to run the scan |
 | image.tag | string | `nil` | defaults to the charts appVersion |
 | parseJob.backoffLimit | int | `3` |  |
 | parseJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
