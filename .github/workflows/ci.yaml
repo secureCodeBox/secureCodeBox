@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        unit: ["git_repo_scanner", "zap-extended"]
+        unit: ["git-repo-scanner", "zap-extended"]
     steps:
       - name: Checkout
         uses: actions/checkout/@v2
