@@ -53,4 +53,3 @@ logging.debug("ZAP Configuration/Contexts/0: %s with type %s", config.get_contex
 
 # Starting to configure the ZAP Instance based on the given Configuration
 local_zap_context = ZapConfigureContext(zap, config)
-

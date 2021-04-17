@@ -1,0 +1,71 @@
+---
+# List of 1 or more contexts, mandatory
+contexts:
+# Name to be used to refer to this context in other jobs, mandatory
+  - name: secureCodeBoxScan-Script-Based
+    # The top level url, mandatory, everything under this will be included
+    url: https://www.secureCodeBox.io/
+    # An optional list of regexes to include
+    includePaths:
+      - "https://www.secureCodeBox.io/.*"
+    # An optional list of regexes to exclude
+    excludePaths:
+      - "https://www.secureCodeBox.io/authserver/v1/.*"
+      - ".*\\.js"
+      - ".*\\.css"
+      - ".*\\.png"
+      - ".*\\.jpeg"
+    # Optional technology list
+    technologies:
+      included:
+        - Db.CouchDB
+        - Db.Firebird
+        - Db.HypersonicSQL
+        - Language.ASP
+        - OS
+      excluded:
+        - SCM
+    # Auth Credentials for the scanner to access the application
+    # Can be either basicAuth or a oidc token.
+    # If both are set, the oidc token takes precedent
+    authentication:
+      # Currently supports "basic-auth", "form-based", "json-based", "script-based"
+      type: "script-based"
+      # script-based
+      script-based:
+        scriptName: "MyOIDCAuth.js"
+        # Script engine values: 'Oracle Nashorn' for Javascript
+        # 'jython' for python, 'JSR 223 JRuby Engine' for ruby
+        scriptEngine: "Oracle Nashorn"
+        # Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
+        scriptFile: "/Users/robert/Library/Application Support/ZAP/scripts/scripts/authentication/sda-auth.js"
+        scriptDescription: "This is a description for the SCB OIDC Script."
+        scriptArguments:
+          URL: "https://www.secureCodeBox.io/authserver/"
+          email: "secureCodeBox@teratec.com"
+          # should have at least the role "reserved_view_swagger" to access the OpenAPI spec
+          sub: "secureCodeBox@iteratec.com"
+          exp: "1609459140"
+      # Indicates if the current Zap User Session is based on a valid authentication (loggedIn) or not (loggedOut)
+      verification:
+        isLoggedInIndicator: "(.*Credentials are required to access this resource.*)|(.*Verifying token failed*)"
+        isLoggedOutIndicator: ".*User is not Authenticated.*"
+    users:
+      - name: "script-based-user-1"
+        username: "script-based-user-1"
+        password: "script-based-password-1"
+      - name: "script-based-user-2"
+        username: "script-based-user-2"
+        password: "script-based-password-2"
+    session:
+      # Currently supports "scriptBasedSessionManagement", "cookieBasedSessionManagement", "httpAuthSessionManagement"
+      type: "scriptBasedSessionManagement"
+      # basic-auth requires no further configuration
+      scriptBasedSessionManagement:
+        scriptName: "mysession"
+          # Script engine values: 'Oracle Nashorn' for Javascript
+        # 'jython' for python, 'JSR 223 JRuby Engine' for ruby
+        scriptEngine: "Oracle Nashorn"
+        # Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
+        scriptFile: "/Users/robert/Library/Application Support/ZAP/scripts/scripts/session/sda-sms.js"
+        scriptDescription: "This is a session description."
