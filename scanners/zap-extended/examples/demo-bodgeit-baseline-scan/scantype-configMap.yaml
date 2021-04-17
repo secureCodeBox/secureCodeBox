@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: zap-extended-scantype-config
 data:
-  1_zap-extended-scantype.yaml: |-
+  1-zap-extended-scantype.yaml: |-
 
     # ZAP Contexts Configuration 
     contexts:
@@ -49,7 +49,7 @@ data:
         # String: Name of the context to spider, default: first context
         context: secureCodeBox-BodgeIT-Context
         # String: Url to start spidering from, default: first context URL
-        url: http://bodgeit:8080/bodgeit
+        url: http://bodgeit.default.svc:8080/bodgeit
         # Int: Fail if spider finds less than the specified number of URLs, default: 0
         failIfFoundUrlsLessThan: 0
         # Int: Warn if spider finds less than the specified number of URLs, default: 0
@@ -69,7 +69,7 @@ data:
         # String: Name of the context to attack, default: first context
         context: secureCodeBox-BodgeIT-Context
         # String: Url to start scaning from, default: first context URL
-        url: http://bodgeit:8080/bodgeit
+        url: http://bodgeit.default.svc:8080/bodgeit
         # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
         maxRuleDurationInMins: 1
         # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited          

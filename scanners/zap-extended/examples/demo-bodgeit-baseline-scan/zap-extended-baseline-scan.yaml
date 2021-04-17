@@ -1,7 +1,7 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: "zap-authenticated-baseline-bodgeit"
+  name: "zap-authenticated-baseline-scan-bodgeit"
   labels:
     organization: "OWASP"
 spec:

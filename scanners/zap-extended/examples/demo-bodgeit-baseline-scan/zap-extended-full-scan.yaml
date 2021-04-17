@@ -1,0 +1,12 @@
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "zap-authenticated-full-scan-bodgeit"
+  labels:
+    organization: "OWASP"
+spec:
+  scanType: "zap-extended-full-scan"
+  parameters:
+    # target URL including the protocol
+    - "-t"
+    - "http://bodgeit.default.svc:8080/bodgeit/"

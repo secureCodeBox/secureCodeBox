@@ -105,7 +105,6 @@ class ZapConfigureActiveScanner():
         target = scanner_config['url']
         context = scanner_config['context']
 
-        logging.info("HIER --- Context: %s, ConfigConfig: %s", str(context), str(self.__config.get_context_by_name(context)))
         context_id = self.__config.get_context_by_name(context)['id']
 
         # Clear all excisting/previous scanner data

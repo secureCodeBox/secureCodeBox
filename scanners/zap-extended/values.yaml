@@ -170,7 +170,7 @@ zapExtendedConfigs:
       # Int: The maximum tree depth to explore, default 5
       maxDepth: 5
       # Int: The maximum number of children to add to each node in the tree                     
-      maxChildren:
+      maxChildren: 10
       # Bool: Whether the spider will accept cookies, default: true
       acceptCookies: true
       # Bool: Whether the spider will handle OData responses, default: false
@@ -200,7 +200,7 @@ zapExtendedConfigs:
       # Int: The number of spider threads, default: 2             
       threadCount: 2
       # String: The user agent to use in requests, default: '' - use the default ZAP one               
-      userAgent: ''
+      userAgent: "secureCodeBox / ZAP Spider"
   scans:
     - name: scbscan
       # String: Name of the context to attack, default: first context
@@ -208,7 +208,7 @@ zapExtendedConfigs:
       # String: Url to start scaning from, default: first context URL
       url: https://example.com/
       # String: Name of the scan policy to be used, default: Default Policy
-      policy:
+      policy: "Default Policy"
       # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
       maxRuleDurationInMins: 0
       # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited          
@@ -216,7 +216,7 @@ zapExtendedConfigs:
       # Bool: If set will add an extra query parameter to requests that do not have one, default: false
       addQueryParam: false
       # String: The name of the default scan policy to use, default: Default Policy
-      defaultPolicy:
+      defaultPolicy: "Default Policy"
       # Int: The delay in milliseconds between each request, use to reduce the strain on the target, default 0
       delayInMs: 0
       # Bool: If set then automatically handle anti CSRF tokens, default: false

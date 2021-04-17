@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: zap-extended-scan-config
 data:
-  2_zap-extended-scan.yaml: |-
+  2-zap-extended-scan.yaml: |-
 
     contexts:
       # Name to be used to refer to this context in other jobs, mandatory
