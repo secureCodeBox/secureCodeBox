@@ -1,6 +1,6 @@
 image:
   # image.repository -- Container Image to run the scan
-  repository: securecodebox/zap
+  repository: docker.io/securecodebox/scanner-zap-extended
   # image.tag -- defaults to the charts appVersion
   tag: null
 
@@ -9,7 +9,7 @@ parserImage:
   repository: docker.io/securecodebox/parser-zap
   # parserImage.tag -- Parser image tag
   # @default -- defaults to the charts version
-  tag: main
+  tag: null
 
 parseJob:
   # parseJob.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
