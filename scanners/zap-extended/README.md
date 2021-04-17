@@ -116,7 +116,7 @@ Options:
 | zapExtendedConfigs.contexts[0].users[1].password | string | `"password2"` |  |
 | zapExtendedConfigs.contexts[0].users[1].username | string | `"user2"` |  |
 | zapExtendedConfigs.scans[0].addQueryParam | bool | `false` |  |
-| zapExtendedConfigs.scans[0].context | string | `nil` |  |
+| zapExtendedConfigs.scans[0].context | string | `"scbcontext"` |  |
 | zapExtendedConfigs.scans[0].defaultPolicy | string | `nil` |  |
 | zapExtendedConfigs.scans[0].delayInMs | int | `0` |  |
 | zapExtendedConfigs.scans[0].handleAntiCSRFTokens | bool | `false` |  |
@@ -133,8 +133,9 @@ Options:
 | zapExtendedConfigs.scans[0].policyDefinition.rules[0].threshold | string | `nil` |  |
 | zapExtendedConfigs.scans[0].scanHeadersAllRequests | bool | `false` |  |
 | zapExtendedConfigs.scans[0].threadPerHost | int | `2` |  |
+| zapExtendedConfigs.scans[0].url | string | `"https://example.com/"` |  |
 | zapExtendedConfigs.spiders[0].acceptCookies | bool | `true` |  |
-| zapExtendedConfigs.spiders[0].context | string | `nil` |  |
+| zapExtendedConfigs.spiders[0].context | string | `"scbcontext"` |  |
 | zapExtendedConfigs.spiders[0].failIfFoundUrlsLessThan | int | `0` |  |
 | zapExtendedConfigs.spiders[0].handleODataParametersVisited | bool | `false` |  |
 | zapExtendedConfigs.spiders[0].handleParameters | string | `"use_all"` |  |
@@ -153,6 +154,6 @@ Options:
 | zapExtendedConfigs.spiders[0].requestWaitTime | int | `200` |  |
 | zapExtendedConfigs.spiders[0].sendRefererHeader | bool | `true` |  |
 | zapExtendedConfigs.spiders[0].threadCount | int | `2` |  |
-| zapExtendedConfigs.spiders[0].url | string | `nil` |  |
+| zapExtendedConfigs.spiders[0].url | string | `"https://example.com/"` |  |
 | zapExtendedConfigs.spiders[0].userAgent | string | `""` |  |
 | zapExtendedConfigs.spiders[0].warnIfFoundUrlsLessThan | int | `0` |  |
