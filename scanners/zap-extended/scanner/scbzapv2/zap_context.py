@@ -314,13 +314,13 @@ class ZapConfigureContext():
 
         # Add all new ZAP Users to given context
         for user in users:
-            logging.debug("Adding ZAP User '%s' to context: %s", user, context_id)
+            logging.debug("Adding ZAP User '%s', to context(%s)", user, context_id)
             user_name = user['username']
             user_password = user['password']
             logging.warn("ZAP User '%s' and password: %s", user_name, user_password)
             
             user_id = zap.users.new_user(contextid=context_id, name=user_name)
-            logging.warn("Created ZAP UserID '%s'", user_id)
+            logging.debug("Created ZAP User(%s), for context(%s)", user_id, context_id)
             user['id'] = user_id
             
             zap.users.set_user_name(
@@ -343,7 +343,7 @@ class ZapConfigureContext():
                 zap.users.set_user_enabled(contextid=context_id, userid=user_id, enabled=True)
 
             if ("forced" in user and user["forced"]):
-                logging.debug("Configuring a forced user '%s' with id for context with id '%s'", user_id, context_id)
+                logging.debug("Configuring a forced user '%s' with id, for context(%s)'", user_id, context_id)
                 zap.forcedUser.set_forced_user(contextid=context_id, userid=user_id)
                 zap.forcedUser.set_forced_user_mode_enabled(True)
 

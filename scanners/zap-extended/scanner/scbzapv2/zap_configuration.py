@@ -83,7 +83,7 @@ class ZapConfiguration():
         return result
     
     def get_context_by_name(self, name: str) -> collections.OrderedDict:
-        """Returns the ZAP Context configuration object with the given index.
+        """Returns the ZAP Context configuration object with the given name.
         
         Parameters
         ----------
@@ -95,6 +95,67 @@ class ZapConfiguration():
 
         if self.has_context_configurations:
             result = next((context for context in self.get_contexts() if context['name'] == name), None)
+
+        return result
+
+    def has_context_users_configurations(self, context: collections.OrderedDict) -> bool:
+        """Returns true if any ZAP Context Users are defined, otherwise false."""
+
+        return (self.has_context_configurations() and ("users" in context) and len(context["users"]) > 0)
+    
+    def get_context_users(self, context: collections.OrderedDict) -> list:
+        """Returns a list with all ZAP Context Users configuration objects
+        
+        Parameters
+        ----------
+        context: collections.OrderedDict
+            The ZAP context configuration object to return the users list for.
+        """
+        result = collections.OrderedDict()
+
+        logging.info("get_context_users has_context_users_configurations(context=%s)", context)
+
+        if self.has_context_users_configurations(context):
+            result = context["users"]
+
+        return result
+    
+    def get_context_user_by_index(self, context: collections.OrderedDict, index: int) -> collections.OrderedDict:
+        """Returns the ZAP Context User configuration object with the given index.
+        
+        Parameters
+        ----------
+        context: collections.OrderedDict
+            The ZAP context configuration object to return the user for.
+        index: int
+            The list index of the context to return from the list of contexts.
+        """
+        result = collections.OrderedDict()
+        authentications = self.get_context_users(context)
+
+        if self.has_context_users_configurations(context) and len(authentications) > index:
+            result = authentications[index]
+
+        return result
+    
+    def get_context_user_by_name(self, context: collections.OrderedDict, name: str) -> collections.OrderedDict:
+        """Returns the ZAP Context Users configuration object with the given name.
+        
+        Parameters
+        ----------
+        context: collections.OrderedDict
+            The ZAP context configuration object to return the user for.
+        name: str
+            The name of the context to return from the list of contexts.
+        """
+
+        result = collections.OrderedDict()
+        users = self.get_context_users(context)
+
+        logging.info("get_context_user_by_name(name=%s, users=%s", name, users)
+
+        if self.has_context_users_configurations(context):
+            result = next((user for user in users if user['name'] == name), None)
 
         return result
 

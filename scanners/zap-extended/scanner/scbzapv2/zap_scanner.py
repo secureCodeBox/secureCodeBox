@@ -103,10 +103,14 @@ class ZapConfigureActiveScanner():
         """
         scannerId = -1
         target = scanner_config['url']
-        context = scanner_config['context']
-
-        context_id = self.__config.get_context_by_name(context)['id']
-
+        context_name = scanner_config['context']
+        user_name = scanner_config['user']
+        
+        # search for the current ZAP Context id for the given context name
+        scanner_context_config = self.__config.get_context_by_name(context_name)
+        user_id = self.__config.get_context_user_by_name(scanner_context_config, user_name)['id']
+        context_id = scanner_context_config['id']
+        
         # Clear all excisting/previous scanner data
         logging.debug("Cleaning all existing ActiveScans")
         self.__zap.ascan.remove_all_scans()
@@ -116,9 +120,9 @@ class ZapConfigureActiveScanner():
         self.__configure_scanner(self.__zap.ascan, scanner_config)
 
         # ActiveScan with user
-        if False:
-            logging.debug('Starting ActiveScan %s with user %s', target, scan_user['name'])
-            scannerId = self.__zap.ascan.scan_as_user(contextid=context_id, userid=scan_user['id'])
+        if user_id and int(user_id) >= 0:
+            logging.debug('Starting ActiveScan(url=%s, contextid=%s, userid=%s)', target, context_id, user_id)
+            scannerId = self.__zap.ascan.scan_as_user(url=target, contextid=context_id, userid=user_id)
         else:
             logging.debug('Starting ActiveScan(url=%s, contextid=%s)', target, context_id)
             scannerId = self.__zap.ascan.scan(url=target, contextid=context_id)

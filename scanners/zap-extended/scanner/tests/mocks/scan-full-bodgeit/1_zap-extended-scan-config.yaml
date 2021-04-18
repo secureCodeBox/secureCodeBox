@@ -28,12 +28,13 @@ contexts:
         loginRequestData: "username%3D%7B%25username%25%7D%26password%3D%7B%25password%25%7D"
       # Indicates if the current Zap User Session is based on a valid authentication (loggedIn) or not (loggedOut)
       verification:
-        isLoggedInIndicator: '\\Q<a href="password.jsp">\\E'
-        isLoggedOutIndicator: '\\QGuest user\\E'
+        isLoggedInIndicator: '\Q<a href="password.jsp">\E'
+        isLoggedOutIndicator: '\QGuest user\E'
     users:
       - name: "bodgeit-user-1"
         username: "test@thebodgeitstore.com"
         password: "password"
+        forced: true
     session:
       # Currently supports "scriptBasedSessionManagement", "cookieBasedSessionManagement", "httpAuthSessionManagement"
       type: "cookieBasedSessionManagement"
@@ -41,6 +42,8 @@ spiders:
   - name: scbspider
     # String: Name of the context to spider, default: first context
     context: secureCodeBox-BodgeIT-Context
+    # String: Name of the user to authenticate with and used to spider
+    user: "bodgeit-user-1"
     # String: Url to start spidering from, default: first context URL
     url: http://bodgeit:8080/bodgeit
     # Int: Fail if spider finds less than the specified number of URLs, default: 0
@@ -87,6 +90,8 @@ scans:
   - name: scbscan
     # String: Name of the context to attack, default: first context
     context: secureCodeBox-BodgeIT-Context
+    # String: Name of the user to authenticate with and used to spider
+    user: "bodgeit-user-1"
     # String: Url to start scaning from, default: first context URL
     url: http://bodgeit:8080/bodgeit
     # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited

@@ -11,7 +11,7 @@ zap_mock_configs_dir="${scb_zap_extended_dir}/scanner/tests/mocks/"
 # Test: `docker run --rm -it securecodebox/zap:local-test`
 docker build -t securecodebox/zap:local-test "${docker_dir}"
 
-#docker run -t --rm -d --name bodgeit \
+#docker run -t --rm -d -p 8080:8080 --name bodgeit \
 #  docker.io/psiinon/bodgeit:latest
 
 docker run -t --rm --link bodgeit:bodgeit --name zap \
