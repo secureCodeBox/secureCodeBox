@@ -18,15 +18,12 @@ spec:
           state: open
       - category: "Open Port"
         attributes:
-          service: "https"
+          service: "https*"
           state: open
       - category: "Open Port"
         attributes:
-          service: "https-alt"
-          state: open
-      - category: "Open Port"
-        attributes:
-          service: "ssl/http"
+          service: "http*"
+          tunnel: "ssl"
           state: open
   scanSpec:
     scanType: "sslyze"

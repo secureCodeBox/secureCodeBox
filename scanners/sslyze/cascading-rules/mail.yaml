@@ -16,6 +16,11 @@ spec:
         attributes:
           service: "smtps"
           state: open
+      - category: "Open Port"
+        attributes:
+          service: "smtp"
+          tunnel: "ssl"
+          state: open
   scanSpec:
     scanType: "sslyze"
     parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"]
@@ -38,6 +43,11 @@ spec:
         attributes:
           service: "pop3s"
           state: open
+      - category: "Open Port"
+        attributes:
+          service: "pop3"
+          tunnel: "ssl"
+          state: open
   scanSpec:
     scanType: "sslyze"
     parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"]
@@ -59,6 +69,11 @@ spec:
       - category: "Open Port"
         attributes:
           service: "imaps"
+          state: open
+      - category: "Open Port"
+        attributes:
+          service: "imap"
+          tunnel: "ssl"
           state: open
   scanSpec:
     scanType: "sslyze"

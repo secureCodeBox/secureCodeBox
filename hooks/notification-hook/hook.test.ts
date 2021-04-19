@@ -1,9 +1,8 @@
-const { handle, isAnyRuleMatching } = require("./hook");
-const axios = jest.createMockFromModule('axios')
-
-beforeEach(() => {
-  jest.clearAllMocks();
-});
+import * as path from "path";
+import { handle, matches, getNotificationChannels, mapToEndPoint } from "./hook";
+import { Finding } from "./model/Finding";
+import { NotificationChannel } from "./model/NotificationChannel";
+import { NotifierType } from "./NotifierType";
 
 const scan = {
   metadata: {
@@ -156,179 +155,204 @@ const findings = [
   },
 ];
 
-test("Kibana enabled example should send a post request to the url when fired", async () => {
-  const findings = [];
-  const rules = [];
+test("Should Match for High Severity Findings", async () => {
+  const finding: Finding = {
+    name: "test finding",
+    location: "hostname",
+    category: "Open Port",
+    severity: "high",
+    osi_layer: "asdf",
+    attributes: new Map(),
+  };
 
-  const getFindings = async () => findings;
+  const rules = [{
+    matches: {
+      anyOf: [
+        {
+          severity: "high"
+        }
+      ]
+    },
+  }]
+  expect(matches(finding, rules)).toBeTruthy();
+})
 
-  const webhookUrl = "http://example.com/foo/bar";
-  const vulnMngmEnabled = "true";
-  const vulnMngmName = "Kibana Dashboard";
-  const vulnMngmDashboardUrl = "htps://dashboard.yourservice/";
-  const vulnMngmDashboardFindingsUrl =
-    "https://dashboard.yourservice/filter:{{uid}}";
+test("Should Not Match for High Severity Findings", async () => {
+  const finding: Finding = {
+    name: "test finding",
+    location: "hostname",
+    category: "Open Port",
+    severity: "high",
+    osi_layer: "asdf",
+    attributes: new Map(),
+  };
 
-  await handle({
-    getFindings,
-    scan,
-    webhookUrl,
-    rules,
-    vulnMngmEnabled,
-    vulnMngmName,
-    vulnMngmDashboardUrl,
-    vulnMngmDashboardFindingsUrl,
-    axios
-  });
+  const rules = [{
+    matches: {
+      anyOf: [
+        {
+          severity: "NOT HIGH"
+        }
+      ]
+    },
+  }]
+  expect(matches(finding, rules)).toBeFalsy();
 
-  expect(axios.post).toMatchSnapshot();
-});
+})
 
-test("DefectDojo enabled should send a post request to the url when fired", async () => {
-  const findings = [];
-  const rules = [];
+test("Should Match for Multiple 'anyOf' Rules", async () => {
+  const finding: Finding = {
+    name: "test finding",
+    location: "hostname",
+    category: "Open Port",
+    severity: "high",
+    osi_layer: "asdf",
+    attributes: new Map(),
+  };
 
-  const getFindings = async () => findings;
+  const rules = [{
+    matches: {
+      anyOf: [
+        {
+          severity: "NOT HIGH"
+        },
+        {
+          category: "Open Port",
+        }
+      ]
+    },
+  }]
+  expect(matches(finding, rules)).toBeTruthy();
+})
 
-  const webhookUrl = "http://example.com/foo/bar";
-  const vulnMngmEnabled = "true";
-  const vulnMngmName = "DefectDojo";
-  const vulnMngmDashboardUrl = "htps://defect.dojo/";
-  const vulnMngmDashboardFindingsUrl = "https://defect.dojo/project?id={{uid}}";
+test("Should NOT Match Multiple 'anyOf' Rules", async () => {
+  const finding: Finding = {
+    name: "test finding",
+    location: "hostname",
+    category: "Open Port",
+    severity: "high",
+    osi_layer: "asdf",
+    attributes: new Map(),
+  };
 
-  await handle({
-    getFindings,
-    scan,
-    webhookUrl,
-    rules,
-    vulnMngmEnabled,
-    vulnMngmName,
-    vulnMngmDashboardUrl,
-    vulnMngmDashboardFindingsUrl,
-    axios
-  });
+  const rules = [{
+    matches: {
+      anyOf: [
+        {
+          severity: "NOT HIGH"
+        },
+        {
+          category: "NOT OPEN PORT"
+        }
+      ]
+    },
+  }]
 
-  expect(axios.post).toMatchSnapshot();
-});
+  expect(matches(finding, rules)).toBeFalsy();
+})
 
-test("vulnMngmEnabled disabled should should result in a minimal payload", async () => {
-  const findings = [];
-  const rules = [];
+test("Should Match Multiple 'and' Rules", async () => {
+  const finding: Finding = {
+    name: "test finding",
+    location: "hostname",
+    category: "Open Port",
+    severity: "high",
+    osi_layer: "asdf",
+    attributes: new Map(),
+  };
 
-  const getFindings = async () => findings;
-
-  const webhookUrl = "http://example.com/foo/bar";
-  const vulnMngmEnabled = "false";
-  const vulnMngmName = "";
-  const vulnMngmDashboardUrl = "";
-  const vulnMngmDashboardFindingsUrl = "";
-
-  await handle({
-    getFindings,
-    scan,
-    webhookUrl,
-    rules,
-    vulnMngmEnabled,
-    vulnMngmName,
-    vulnMngmDashboardUrl,
-    vulnMngmDashboardFindingsUrl,
-    axios
-  });
-
-  expect(axios.post).toMatchSnapshot();
-});
-
-test("Rules that didn't match shouldn't be send", async () => {
-  const rulesWithoutMatch = [
+  const rules = [
     {
       matches: {
         anyOf: [
           {
-            severity: "unkown",
-          },
-        ],
+            severity: "high"
+          }
+        ]
       },
     },
-  ];
+    {
+      matches: {
+        anyOf: [
+          {
+            category: "Open Port"
+          }
+        ]
+      },
+    },
+  ]
 
-  const getFindings = async () => findings;
+  expect(matches(finding, rules)).toBeTruthy();
+})
 
-  const webhookUrl = "http://nofindings.com/foo/bar";
-  const vulnMngmEnabled = "false";
-  const vulnMngmName = "";
-  const vulnMngmDashboardUrl = "";
-  const vulnMngmDashboardFindingsUrl = "";
+test("Should Not Match Multiple 'and' Rules", async () => {
+  const finding: Finding = {
+    name: "test finding",
+    location: "hostname",
+    category: "Open Port",
+    severity: "high",
+    osi_layer: "asdf",
+    attributes: new Map(),
+  };
 
-  await handle({
-    getFindings,
-    scan,
-    webhookUrl,
-    rules: rulesWithoutMatch,
-    vulnMngmEnabled,
-    vulnMngmName,
-    vulnMngmDashboardUrl,
-    vulnMngmDashboardFindingsUrl,
-    axios
-  });
+  const rules = [
+    {
+      matches: {
+        anyOf: [
+          {
+            severity: "high"
+          }
+        ]
+      },
+    },
+    {
+      matches: {
+        anyOf: [
+          {
+            severity: "low"
+          }
+        ]
+      },
+    },
+  ]
 
-  expect(axios.post).toMatchSnapshot();
-});
+  expect(matches(finding, rules)).toBeFalsy();
+})
 
-test("vulnMngmEnabled some ENV Vars missing test should result in a minimal payload", async () => {
-  const findings = [];
+test("Should Match If No Rules Provided", async () => {
+  const finding: Finding = {
+    name: "test finding",
+    location: "hostname",
+    category: "Open Port",
+    severity: "high",
+    osi_layer: "asdf",
+    attributes: new Map(),
+  };
   const rules = [];
 
-  const getFindings = async () => findings;
+  expect(matches(finding, rules)).toBeTruthy()
+})
 
-  const webhookUrl = "http://example.com/foo/bar";
+test("Should Return Channels", async () => {
+  const channelFile = path.join(__dirname, "./__testfiles__/channels.yaml")
+  const channels = getNotificationChannels(channelFile) as NotificationChannel[];
+  const c: NotificationChannel = {
+    name: "slack",
+    type: NotifierType.SLACK,
+    template: "messageCard",
+    rules: [],
+    endPoint: "some.url"
+  }
+  const expected: NotificationChannel[] = [];
+  expected.push(c)
+  expect(channels).toStrictEqual(expected);
+})
 
-  await handle({ getFindings, scan, webhookUrl, rules, axios });
+test("Should Map Env Name To endPoint", async () => {
+  const expectedEndPoint = 'webhook.site';
+  process.env["TEST_ENDPOINT"] = expectedEndPoint;
 
-  expect(axios.post).toMatchSnapshot();
-});
+  const endpoint = mapToEndPoint("TEST_ENDPOINT");
 
-test("vulnMngmEnabled all ENV Vars missing test should result in a minimal payload", async () => {
-  const findings = [];
-
-  const getFindings = async () => findings;
-
-  await expect(handle({ getFindings, scan, axios })).rejects.toThrow(Error);
-});
-
-test("isAnyRuleMatching returns true if it matches correctly one rule", async () => {
-  const rulesWithMatch = [
-    {
-      matches: {
-        anyOf: [
-          {
-            severity: "INFORMATIONAL",
-          },
-        ],
-      },
-    },
-  ];
-
-  expect(isAnyRuleMatching(rulesWithMatch, findings)).toBeTruthy();
-});
-
-test("isAnyRuleMatching returns true if the rules array didn't contain any rule", async () => {
-  const rulesEmpty = [];
-
-  expect(isAnyRuleMatching(rulesEmpty, findings)).toBeTruthy();
-});
-
-test("isAnyRuleMatching returns false if it matches no rule.", async () => {
-  const rulesWithoutMatch = [
-    {
-      matches: {
-        anyOf: [
-          {
-            severity: "unkown",
-          },
-        ],
-      },
-    },
-  ];
-
-  expect(isAnyRuleMatching(rulesWithoutMatch, findings)).toBeFalsy();
+  expect(endpoint).toBe(expectedEndPoint);
 });

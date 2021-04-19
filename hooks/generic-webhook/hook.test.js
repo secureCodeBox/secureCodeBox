@@ -1,7 +1,8 @@
-const { handle, axios } = require("./hook");
+const { handle } = require("./hook");
+const axios = jest.createMockFromModule('axios')
 
 beforeEach(() => {
-  axios.post.mockClear();
+  jest.clearAllMocks();
 });
 
 test("should send a post request to the url when fired", async () => {
@@ -25,7 +26,7 @@ test("should send a post request to the url when fired", async () => {
 
   const webhookUrl = "http://example.com/foo/bar";
 
-  await handle({ getFindings, scan, webhookUrl });
+  await handle({ getFindings, scan, webhookUrl, axios });
 
   expect(axios.post).toBeCalledWith(webhookUrl, {
     scan,
