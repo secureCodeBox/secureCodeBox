@@ -24,4 +24,5 @@ spec:
     - name: {{ .Release.Name }}-custom-templates
       mountPath: /home/app/notification-templates 
     {{ end }}
-  env: {{- toYaml .Values.env }} 
+  env:
+    {{- toYaml .Values.env | nindent 4}} 
