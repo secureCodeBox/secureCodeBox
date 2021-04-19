@@ -17,7 +17,7 @@ contexts:
       - ".*\\.jpeg"
 
 spiders:
-  - name: scbspider
+  - name: scb-spider
     # String: Name of the context to spider, default: first context
     context: secureCodeBoxScanType-NoAuth
     # String: Url to start spidering from, default: first context URL
@@ -62,8 +62,9 @@ spiders:
     threadCount: 2
     # String: The user agent to use in requests, default: '' - use the default ZAP one               
     userAgent: "secureCodeBox / ZAP Spider"
-scans:
-  - name: scbscan
+
+scanners:
+  - name: scb-scan
     # String: Name of the context to attack, default: first context
     context: secureCodeBoxScanType-NoAuth
     # String: Url to start scaning from, default: first context URL

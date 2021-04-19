@@ -48,7 +48,7 @@ testYaml6 = "./tests/mocks/scan-full-secureCodeBox.io/"
 
 logging.info("HERE"+ str(sys.path))
 
-config = ZapConfiguration(testYaml6)
+config = ZapConfiguration(testYaml5)
 
 logging.debug("ZAP Configuration: %s with type %s", config.get_config(), type(config.get_config()))
 logging.debug("ZAP Configuration/Contexts: %s with type %s", config.get_contexts(), type(config.get_contexts()))

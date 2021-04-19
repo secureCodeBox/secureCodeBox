@@ -7,4 +7,4 @@ data:
 
     contexts:
       # Name to be used to refer to this context in other jobs, mandatory
-      - name: secureCodeBox-BodgeIT-Context
+      - name: scb-BodgeIT-context

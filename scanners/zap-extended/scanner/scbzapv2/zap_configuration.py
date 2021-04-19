@@ -162,14 +162,14 @@ class ZapConfiguration():
     def has_scan_configurations(self) -> bool:
         """Returns true if any ZAP Scan is defined, otherwise false."""
 
-        return (self.has_configurations() and "scans" in self.get_config())
+        return (self.has_configurations() and "scanners" in self.get_config())
     
     def get_scans(self) -> list:
         """Returns a list with all ZAP Scan configuration objects"""
         result = collections.OrderedDict()
 
         if self.has_scan_configurations:
-            result = self.__config["scans"]
+            result = self.__config["scanners"]
 
         return result
     

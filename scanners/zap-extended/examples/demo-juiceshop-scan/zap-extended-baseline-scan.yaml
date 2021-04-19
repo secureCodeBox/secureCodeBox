@@ -1,7 +1,7 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: "zap-authenticated-baseline-scan-bodgeit"
+  name: "zap-authenticated-baseline-scan-juiceshop"
   labels:
     organization: "OWASP"
 spec:
@@ -9,12 +9,7 @@ spec:
   parameters:
     # target URL including the protocol
     - "-t"
-    - "http://bodgeit.default.svc:8080/bodgeit/"
-    # show debug messages
-    - "-d"
-    # the number of minutes to spider for (default 1)
-    - "-m"
-    - "5"
+    - "http://juiceshop.default.svc:3000/"
   # env:
   #   - name: SCB_ZAP_SCAN_CONFIG_DIR
   #     value: "/zap/secureCodeBox-extensions/configs/scan"

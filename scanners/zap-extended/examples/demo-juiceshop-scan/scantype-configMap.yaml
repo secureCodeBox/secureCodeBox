@@ -8,12 +8,12 @@ data:
     # ZAP Contexts Configuration 
     contexts:
       # Name to be used to refer to this context in other jobs, mandatory
-      - name: secureCodeBox-BodgeIT-Context
+      - name: scb-juiceshop-context
         # The top level url, mandatory, everything under this will be included
-        url: http://bodgeit.default.svc:8080/bodgeit
+        url: http://juiceshop.default.svc:3000/
         # An optional list of regexes to include
         includePaths:
-          - "http://bodgeit.default.svc:8080/bodgeit.*"
+          - "http://juiceshop.default.svc:3000.*"
         # An optional list of regexes to exclude
         excludePaths:
           - ".*\\.js"
@@ -25,37 +25,42 @@ data:
         # If both are set, the oidc token takes precedent
         authentication:
           # Currently supports "basic-auth", "form-based", "json-based", "script-based"
-          type: "form-based"
-          # basic-auth requires no further configuration
-          form-based:
-            loginUrl: "http://bodgeit.default.svc:8080/bodgeit/login.jsp"
-            # must be escaped already to prevent yaml parser colidations 'username={%username%}&password={%password%}''
-            loginRequestData: "username%3D%7B%25username%25%7D%26password%3D%7B%25password%25%7D"
+          type: "json-based"
+          # json-based requires no further configuration
+          # zapConfiguration.contexts[0].authentication.json-based -- Configure `type: json-based` authentication (more: https://www.zaproxy.org/docs/api/#json-based-authentication).
+          json-based:
+            loginUrl: "http://localhost:3000/rest/user/login"
+            # must be escaped already to prevent yaml parser colidations '{"user":{"id":1,"email":"test@test.com"}}''
+            loginRequestData: '{"email":"test@test.com","password":"test1"}'
+            # Username Parameter: email
+            # Password Parameter: password
           # Indicates if the current Zap User Session is based on a valid authentication (loggedIn) or not (loggedOut)
           verification:
-            isLoggedInIndicator: '\\Q<a href="password.jsp">\\E'
-            isLoggedOutIndicator: '\\QGuest user\\E'
+            # isLoggedInIndicator: "\Q<a href="password.jsp">\E"
+            isLoggedOutIndicator: '\Q{"user":{}}\E'
         users:
-          - name: "bodgeit-user-1"
-            username: "test@thebodgeitstore.com"
-            password: "password"
+          - name: bodgeit-user-1
+            username: test@thebodgeitstore.com
+            password: password
         session:
           # Currently supports "scriptBasedSessionManagement", "cookieBasedSessionManagement", "httpAuthSessionManagement"
           type: "cookieBasedSessionManagement"
 
     # ZAP Spiders Configuration 
     spiders:
-      - name: scbspider
+      - name: scb-juiceshop-spider
         # String: Name of the context to spider, default: first context
-        context: secureCodeBox-BodgeIT-Context
+        context: scb-juiceshop-context
+        # String: Name of the user to authenticate with and used to spider
+        user: bodgeit-user-1
         # String: Url to start spidering from, default: first context URL
-        url: http://bodgeit.default.svc:8080/bodgeit
+        url: http://juiceshop.default.svc:3000/
         # Int: Fail if spider finds less than the specified number of URLs, default: 0
         failIfFoundUrlsLessThan: 0
         # Int: Warn if spider finds less than the specified number of URLs, default: 0
         warnIfFoundUrlsLessThan: 0
         # Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
-        maxDuration: 1
+        maxDuration: 3
         # Int: The maximum tree depth to explore, default 5
         maxDepth: 5
         # Int: The maximum number of children to add to each node in the tree                     
@@ -64,16 +69,18 @@ data:
         userAgent: "secureCodeBox / ZAP Spider"
 
     # ZAP ActiveScans Configuration 
-    scans:
-      - name: scbscan
+    scanners:
+      - name: scb-juiceshop-scanner
         # String: Name of the context to attack, default: first context
-        context: secureCodeBox-BodgeIT-Context
+        context: scb-juiceshop-context
+        # String: Name of the user to authenticate with and used to spider
+        user: bodgeit-user-1
         # String: Url to start scaning from, default: first context URL
-        url: http://bodgeit.default.svc:8080/bodgeit
+        url: http://juiceshop.default.svc:3000/
         # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
-        maxRuleDurationInMins: 1
+        maxRuleDurationInMins: 3
         # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited          
-        maxScanDurationInMins: 1
+        maxScanDurationInMins: 10
         # Int: The max number of threads per host, default: 2
         threadPerHost: 2
         # Int: The delay in milliseconds between each request, use to reduce the strain on the target, default 0

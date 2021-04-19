@@ -1,12 +1,12 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: "zap-extended-baseline-securecodebox"
+  name: "zap-authenticated-full-scan-juiceshop"
   labels:
     organization: "OWASP"
 spec:
-  scanType: "zap-extended-baseline-scan"
+  scanType: "zap-extended-full-scan"
   parameters:
     # target URL including the protocol
     - "-t"
-    - "https://www.secureCodeBox.io"
+    - "http://juiceshop.default.svc:3000/"
