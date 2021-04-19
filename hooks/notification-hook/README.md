@@ -12,11 +12,11 @@ usecase: "Publishes Scan Summary to MS Teams, Slack and others."
 
 Installing the Notification hook will add a ReadOnly Hook to your namespace.
 
-> 🔧 The implementation is currently work-in-progress and still undergoing major changes. It'll be released here once it has stabilized.
-
 ```bash
-helm upgrade --install nwh ./hooks/notification-hook/ --set notification.url="http://example.com/my/hook/target"
+helm upgrade --install nwh ./hooks/notification-hook/ --values /path/to/your/values"
 ```
+The `values.yaml` you need depends on the notification type you want to use.
+Please take a look at the documentation for each type (e.g. for slack see [Configuration of a Slack Notification](#configuration-o-a-slack-notification))
 
 ## Configuration of a Notification
 
