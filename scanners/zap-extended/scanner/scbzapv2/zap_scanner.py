@@ -102,14 +102,30 @@ class ZapConfigureActiveScanner():
             The scanner configuration based on ZapConfiguration.
         """
         scannerId = -1
-        target = scanner_config['url']
-        context_name = scanner_config['context']
-        user_name = scanner_config['user']
+        user_id = None
+        context_id = None
+        target = None
+
+        if("url" in scanner_config):
+            target = str(scanner_config['url'])
+        else:
+            logging.warning("The Scanner has no 'URL' target defined, trying to use the context URL")
+            # TODO: hanlde missing url
+
+
+        # "Context" is an optional config for Scanner
+        if("context" in scanner_config):
         
-        # search for the current ZAP Context id for the given context name
-        scanner_context_config = self.__config.get_context_by_name(context_name)
-        user_id = self.__config.get_context_user_by_name(scanner_context_config, user_name)['id']
-        context_id = scanner_context_config['id']
+            context_name = str(scanner_config['context'])
+            scanner_context_config = self.__config.get_context_by_name(context_name)
+            context_id = int(scanner_context_config['id'])
+
+            # "User" is an optional config for Scanner in addition to the context
+            if("user" in scanner_config):
+
+                user_name = str(scanner_config['user'])
+                # search for the current ZAP Context id for the given context name
+                user_id = int(self.__config.get_context_user_by_name(scanner_context_config, user_name)['id'])
         
         # Clear all excisting/previous scanner data
         logging.debug("Cleaning all existing ActiveScans")
@@ -129,7 +145,7 @@ class ZapConfigureActiveScanner():
         
         logging.info("ActiveScan returned: %s", scannerId)
 
-        if not str(scannerId).isdigit():
+        if not str(scannerId).isdigit() or int(scannerId) < 0:
             logging.error("ActiveScan couldnt be started due to errors: %s", scannerId)
         else:
             logging.info("ActiveScan successfully started with id: %s", scannerId)

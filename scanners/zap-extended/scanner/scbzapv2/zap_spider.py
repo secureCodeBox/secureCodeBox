@@ -103,21 +103,52 @@ class ZapConfigureSpider():
         spider: collections.OrderedDict
             The spider configuration based on ZapConfiguration.
         """
-        spiderId = -1
+        spiderId = ""
+        user_id = None
+        context_id = None
+        ajax = False
+        target = ""
 
         # Clear all excisting/previous spider data
         self.__zap.spider.remove_all_scans()
 
-        # Spider target
+        if("url" in spider_config):
+            target = str(spider_config['url'])
+        else:
+            logging.warning("The spider has no 'URL' target defined, trying to use the context URL")
+            # TODO: hanlde missing url
+
+        # "Context" is an optional config for spider
+        if("ajax" in spider_config):
+            ajax = bool(spider_config['ajax'])
+
+        # "Context" is an optional config for spider
+        if("context" in spider_config):
+        
+            context_name = str(spider_config['context'])
+            spider_context_config = self.__config.get_context_by_name(context_name)
+            context_id = int(spider_context_config['id'])
+
+            # "User" is an optional config for spider in addition to the context
+            if("user" in spider_config):
+
+                user_name = str(spider_config['user'])
+                # search for the current ZAP Context id for the given context name
+                user_id = int(self.__config.get_context_user_by_name(spider_context_config, user_name)['id'])
+        
+        # Open first URL before the spider start's to crawl
+        self.__zap.core.access_url(target)
+
+        # Start Spider:
         if (ajax):
             logging.debug('Trying to start "ajax" Spider with config: %s', spider_config)
-            spiderId = self.___start_spider_ajax(spider_config)
+            spiderId = self.___start_spider_ajax(spider_config, target, context_id, context_name, user_id)
         else:
             logging.debug('Trying to start "traditional" Spider with config: %s', spider_config)
-            spiderId = self.__start_spider_http(spider_config)
+            spiderId = self.__start_spider_http(spider_config, target, context_id, context_name, user_id)
 
-        if not str(spiderId).isdigit():
-            logging.error("Spider couldnt be started due to errors: %s", spiderId)
+        if (not str(spiderId).isdigit()) or int(spiderId) < 0:
+            logging.error("Spider couldn't be started due to errors: %s", spiderId)
         else:
             logging.info("Spider successfully started with id: %s", spiderId)
              # Give the scanner a chance to start
@@ -125,55 +156,57 @@ class ZapConfigureSpider():
 
         return spiderId
 
-    def __start_spider_http(self, spider_config: collections.OrderedDict) -> int:
+    def __start_spider_http(self, spider_config: collections.OrderedDict, target: str, context_id: int, context_name: str, user_id: int) -> str:
         """ Starts a ZAP Spider with the given name for the spiders configuration, based on the given configuration and ZAP instance.
         
         Parameters
         ----------
-        spider: collections.OrderedDict
-            The spider configuration based on ZapConfiguration.
+        spider_config: collections.OrderedDict
+            The context id
+        target: str
+            The target
+        context_id: int
+            The context id
+        context_name: str
+            The context name
+        user_id: int
+            The user id (Optional)
         """
-        spiderId = -1
+        spiderId = ""
         spider = self.__zap.spider
 
-        target = spider_config['url']
-        context_name = spider_config['context']
-        user_name = spider_config['user']
-        # search for the current ZAP Context id for the given context name
-        spider_context_config = self.__config.get_context_by_name(context_name)
-        user_id = self.__config.get_context_user_by_name(spider_context_config, user_name)['id']
-        context_id = spider_context_config['id']
-        
-        self.__zap.core.access_url(target)
-
-        # Configure HTTP Spider
+        # Configure Spider Options
         self.__configure_spider(spider, spider_config)
-
+        
         # Spider target
-        if user_id and int(user_id) >= 0:
+        if context_id >= 0 and user_id >= 0:
             logging.info('Starting traditional Spider(%s) with Context(%s) and User(%s)', target, context_id, user_id)
             spiderId = self.__zap.spider.scan_as_user(url=target, contextid=context_id, userid=user_id)
         else:
             logging.info('Starting traditional Spider(url=%s, contextname=%s)', target, context_name)
             spiderId = self.__zap.spider.scan(url=target, contextname=context_name)
         
-        logging.info("Spider returned: %s", spiderId)
-
         return spiderId
     
-    def __start_spider_ajax(self, spider_config: collections.OrderedDict) -> int:
+    def __start_spider_ajax(self, spider_config: collections.OrderedDict, target: str, context_id: int, context_name: str, user_id: int) -> str:
         """ Starts a ZAP Spider with the given name for the spiders configuration, based on the given configuration and ZAP instance.
         
         Parameters
         ----------
-        spider: collections.OrderedDict
-            The spider configuration based on ZapConfiguration.
+        spider_config: collections.OrderedDict
+            The context id
+        target: str
+            The target
+        context_id: int
+            The context id
+        context_name: str
+            The context name
+        user_id: int
+            The user id (Optional)
         """
 
-        spiderId = -1
+        spiderId = ""
         spider = self.__zap.ajaxSpider
-        target = spider_config['url']
-        context = spider_config['context']
 
         # Configure Ajax Spider
         self.__configure_spider(spider, spider_config)
@@ -182,10 +215,10 @@ class ZapConfigureSpider():
         
         if scan_user:
             logging.debug('Starting Ajax Spider %s with user %s', target, scan_user['name'])
-            spiderId = self.__zap.ajaxSpider.scan_as_user(contextid=context_id, userid=scan_user['id'])
+            spiderId = self.__zap.ajaxSpider.scan_as_user(url=target, contextid=context_id, userid=user_id)
         else:
             logging.debug('Starting Ajax Spider(url=%s, contextname=%s)', target, context)
-            spiderId = self.__zap.ajaxSpider.scan(url=target, contextname=context)
+            spiderId = self.__zap.ajaxSpider.scan(url=target, contextname=context_name)
 
         return spiderId
 
