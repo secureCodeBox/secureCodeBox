@@ -55,6 +55,8 @@ When you are done, you can convert it to a standard *Pull Request* (or create on
 
 Generally the _secureCodeBox_ project follows the standard [GitHub Pull request process](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests).
 
+Please make sure to sign all your commits (See: [git-scm](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work)).
+
 ## Bugfixing and Security Fixing Released Features
 
 For bugfixes and security fixes of the current release please follow the following workflow:
