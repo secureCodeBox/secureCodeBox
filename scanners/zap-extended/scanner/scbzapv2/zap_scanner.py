@@ -136,7 +136,7 @@ class ZapConfigureActiveScanner():
         self.__configure_scanner(self.__zap.ascan, scanner_config)
 
         # ActiveScan with user
-        if user_id and int(user_id) >= 0:
+        if (not context_id is None) and context_id >= 0 and (not user_id is None) and user_id >= 0:
             logging.debug('Starting ActiveScan(url=%s, contextid=%s, userid=%s)', target, context_id, user_id)
             scannerId = self.__zap.ascan.scan_as_user(url=target, contextid=context_id, userid=user_id)
         else:

@@ -179,7 +179,7 @@ class ZapConfigureSpider():
         self.__configure_spider(spider, spider_config)
         
         # Spider target
-        if context_id >= 0 and user_id >= 0:
+        if (not context_id is None) and context_id >= 0 and (not user_id is None) and user_id >= 0:
             logging.info('Starting traditional Spider(%s) with Context(%s) and User(%s)', target, context_id, user_id)
             spiderId = self.__zap.spider.scan_as_user(url=target, contextid=context_id, userid=user_id)
         else:
