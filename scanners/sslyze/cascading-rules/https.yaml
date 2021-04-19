@@ -18,17 +18,13 @@ spec:
           state: open
       - category: "Open Port"
         attributes:
-          service: "https"
+          service: "https*"
           state: open
       - category: "Open Port"
         attributes:
-          service: "https-alt"
-          state: open
-      - category: "Open Port"
-        attributes:
-          service: "http"
+          service: "http*"
           tunnel: "ssl"
-          state: "open"
+          state: open
   scanSpec:
     scanType: "sslyze"
     parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"]
