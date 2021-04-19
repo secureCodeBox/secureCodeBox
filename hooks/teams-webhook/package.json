@@ -1,5 +1,5 @@
 {
-  "name": "scb-generic-webhook",
+  "name": "scb-teams-webhook",
   "version": "1.0.0",
   "description": "secureCodeBox v2 MS Teams WebHook.",
   "homepage": "https://www.secureCodeBox.io",

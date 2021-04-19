@@ -1,0 +1,28 @@
+apiVersion: "execution.securecodebox.io/v1"
+kind: ScanCompletionHook
+metadata:
+  name: {{ include "notification-hook.fullname" . }}
+spec:
+  type: ReadOnly
+  imagePullPolicy: "{{ .Values.image.pullPolicy }}" 
+  image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
+  ttlSecondsAfterFinished: {{ .Values.hookJob.ttlSecondsAfterFinished }}
+  volumes:
+    - name: {{ .Release.Name }}-config
+      configMap:
+        name: {{ .Release.Name }}-config
+    {{  if .Values.customTemplateMap.exists }}
+    - name: {{ .Release.Name }}-custom-templates
+      configMap:
+        name: {{ .Values.customTeplateMap.name }} 
+    {{ end }}
+  volumeMounts:
+    - name: {{ .Release.Name }}-config
+      mountPath: /home/app/config
+      readOnly: true
+    {{  if .Values.customTemplateMap.exists}}
+    - name: {{ .Release.Name }}-custom-templates
+      mountPath: /home/app/notification-templates 
+    {{ end }}
+  env:
+    {{- toYaml .Values.env | nindent 4}} 

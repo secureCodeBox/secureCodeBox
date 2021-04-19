@@ -12,6 +12,10 @@ spec:
         attributes:
           port: 636
           state: open
+      - category: "Open Port"
+        attributes:
+          service: "ldapssl"
+          state: open
   scanSpec:
     scanType: "sslyze"
     parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"]
