@@ -799,7 +799,7 @@ jobs:
       - name: "ZAP Extended Integration Tests"
         run: |
           kubectl -n integration-tests delete scans --all
-          helm -n integration-tests install zap ./scanners/zap-extended/  \
+          helm -n integration-tests install zap-extended ./scanners/zap-extended/  \
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-zap"
           cd tests/integration/
