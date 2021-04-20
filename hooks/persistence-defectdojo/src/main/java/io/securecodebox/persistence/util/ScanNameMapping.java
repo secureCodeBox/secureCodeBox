@@ -28,9 +28,9 @@ public enum ScanNameMapping {
   SSLYZE("sslyze", ScanType.SS_LYZE_3_SCAN_JSON),
   TRIVY("trivy", ScanType.TRIVY_SCAN),
   GITLEAKS("gitleaks", ScanType.GITLEAKS_SCAN),
-  // WPSCAN("wpscan", ScanType.WPSCAN),
-  // NIKTO("nikto", ScanType.NIKTO_SCAN),
-  // SSH("ssh-scan, ScanType.?),
+  WPSCAN("wpscan", ScanType.GENERIC_FINDINGS_IMPORT),
+  NIKTO("nikto", ScanType.GENERIC_FINDINGS_IMPORT),
+  SSH("ssh-scan", ScanType.GENERIC_FINDINGS_IMPORT),
   ;
 
   /**
