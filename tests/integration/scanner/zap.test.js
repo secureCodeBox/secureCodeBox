@@ -5,7 +5,7 @@ test(
   async () => {
     const { categories, severities } = await scan(
       "zap-nginx-baseline",
-      "zap-baseline",
+      "zap-baseline-scan",
       ["-t", "http://nginx.demo-apps.svc"],
       60 * 4
     );

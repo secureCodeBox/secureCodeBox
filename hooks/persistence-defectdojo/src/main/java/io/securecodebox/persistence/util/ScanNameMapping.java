@@ -22,9 +22,12 @@ import lombok.NonNull;
 
 public enum ScanNameMapping {
   NMAP("nmap", ScanType.NMAP_SCAN),
-  ZAP_BASELINE("zap-baseline", ScanType.ZAP_SCAN),
+  ZAP_BASELINE("zap-baseline-scan", ScanType.ZAP_SCAN),
   ZAP_API_SCAN("zap-api-scan", ScanType.ZAP_SCAN),
   ZAP_FULL_SCAN("zap-full-scan", ScanType.ZAP_SCAN),
+  ZAP_EXTENDED_BASELINE("zap-extended-baseline-scan", ScanType.ZAP_SCAN),
+  ZAP_EXTENDED_API_SCAN("zap-extended-api-scan", ScanType.ZAP_SCAN),
+  ZAP_EXTENDED_FULL_SCAN("zap-extended-full-scan", ScanType.ZAP_SCAN),
   SSLYZE("sslyze", ScanType.SS_LYZE_3_SCAN_JSON),
   TRIVY("trivy", ScanType.TRIVY_SCAN),
   GITLEAKS("gitleaks", ScanType.GITLEAKS_SCAN),
@@ -41,7 +44,7 @@ public enum ScanNameMapping {
 
   /**
    * secureCodeBox ScanType
-   * Examples: "nmap", "zap-api-scan", "zap-baseline"
+   * Examples: "nmap", "zap-api-scan", "zap-baseline-scan"
    */
   public final String scbScanType;
 
