@@ -198,23 +198,23 @@ zapConfiguration:
           # zapConfiguration.contexts[0].session.scriptBasedSessionManagement.scriptDescription --  An optional description used for the script.
           scriptDescription: "This is a session script description."
   
-  # zapConfiguration.openApis -- Optional list of ZAP OpenAPI configurations
-  openApis:
-      # zapConfiguration.openApis[0].name -- The name of the spider configuration
-    - name: scbapi
-      # zapConfiguration.openApis[0].context -- The Name of the context (zapConfiguration.contexts[x].name) to spider, default: first context available.
-      context: scbcontext
-      # zapConfiguration.openApis[0].user -- The Name of the user (zapConfiguration.contexts[0].users[0].name) used to authenticate the spider with.
-      user: "test-user-1"
-      # zapConfiguration.openApis[0].url -- Url to start spidering from, default: first context URL
-      url: https://example.com/
-      # zapConfiguration.openApis[0].configMap -- Assumes that the OpenAPI Spec has been saved to a configmap in the namespace of the scan / this release. Should be null if not used.
-      configMap: null
-        # Object with two keys: "name" name of the config map, and "key" which is the key / property in the configmap which holds the openapi spec file.
-        # name: my-configmap-with-openapi-spec
-        # key: openapi.yaml
-      # zapConfiguration.openApis[0].spec -- Allows to embed the entire yaml / json OpenAPI spec in the values. Should be null if not used.
-      spec: null
+  # zapConfiguration.openApis -- Optional list of ZAP OpenAPI configurations  - NOT YET IMPLEMENTED
+  openApis: {}
+    #   # zapConfiguration.openApis[0].name -- The name of the spider configuration
+    # - name: scbapi
+    #   # zapConfiguration.openApis[0].context -- The Name of the context (zapConfiguration.contexts[x].name) to spider, default: first context available.
+    #   context: scbcontext
+    #   # zapConfiguration.openApis[0].user -- The Name of the user (zapConfiguration.contexts[0].users[0].name) used to authenticate the spider with.
+    #   user: "test-user-1"
+    #   # zapConfiguration.openApis[0].url -- Url to start spidering from, default: first context URL
+    #   url: https://example.com/
+    #   # zapConfiguration.openApis[0].configMap -- Assumes that the OpenAPI Spec has been saved to a configmap in the namespace of the scan / this release. Should be null if not used.
+    #   configMap: null
+    #     # Object with two keys: "name" name of the config map, and "key" which is the key / property in the configmap which holds the openapi spec file.
+    #     # name: my-configmap-with-openapi-spec
+    #     # key: openapi.yaml
+    #   # zapConfiguration.openApis[0].spec -- Allows to embed the entire yaml / json OpenAPI spec in the values. Should be null if not used.
+    #   spec: null
 
   # zapConfiguration.spiders -- Optional list of ZAP Spider configurations
   spiders:

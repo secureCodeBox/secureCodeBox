@@ -40,7 +40,10 @@ class ZapConfigureSpider():
         ----------
         target: str
             The target to spider.
+        ajax: bool
+            True if the ajax spider must be used instead of the traditional spider, otherwise false.
         """
+        return NotImplemented
 
     def start_spider_by_index(self, index: int, ajax: bool) -> int:
         """ Starts a ZAP Spider with the given index for the spiders configuration, based on the given configuration and ZAP instance.
@@ -49,12 +52,14 @@ class ZapConfigureSpider():
         ----------
         index: int
             The index of the spider object in the list of spider configuration.
+        ajax: bool
+            True if the ajax spider must be used instead of the traditional spider, otherwise false.
         """
         spiderId = -1
 
         if self.__config.has_spider_configurations:
             logging.debug('Trying to start Spider (Ajax: %s) by configuration index %s', str(ajax), str(index))
-            spiderId = self._start_spider(self.__config.get_spider_by_index(index), ajax)
+            spiderId = self._start_spider(spider_config=self.__config.get_spider_by_index(index), ajax=ajax)
         
         return int(spiderId)
 
@@ -65,10 +70,12 @@ class ZapConfigureSpider():
         ----------
         index: int
             The name of the spider object in the list of spider configuration.
+        ajax: bool
+            True if the ajax spider must be used instead of the traditional spider, otherwise false.
         """
 
         if self.__config.has_spider_configurations:
-            self._start_spider(self.__config.get_spider_by_name(name))
+            self._start_spider(spider_config=self.__config.get_spider_by_name(name), ajax=ajax)
 
     def wait_until_finished(self, spider_id: int):
         """ Wait until the running ZAP Spider finished and log results.
@@ -100,8 +107,10 @@ class ZapConfigureSpider():
         
         Parameters
         ----------
-        spider: collections.OrderedDict
+        spider_config: collections.OrderedDict
             The spider configuration based on ZapConfiguration.
+        ajax: bool
+            True if the ajax spider must be used instead of the traditional spider, otherwise false.
         """
         spiderId = ""
         user_id = None
@@ -157,20 +166,20 @@ class ZapConfigureSpider():
         return spiderId
 
     def __start_spider_http(self, spider_config: collections.OrderedDict, target: str, context_id: int, context_name: str, user_id: int) -> str:
-        """ Starts a ZAP Spider with the given name for the spiders configuration, based on the given configuration and ZAP instance.
+        """ Starts a traditional HTTP based ZAP Spider with the given context and user configuration, based on the given spider configuration and ZAP instance.
         
         Parameters
         ----------
         spider_config: collections.OrderedDict
             The context id
         target: str
-            The target
+            The target to spider.
         context_id: int
-            The context id
+            The internal ZAP id of the context that must be used during spidering (e.g. for authentication).
         context_name: str
-            The context name
+            The  name of the context that must be used during spidering (e.g. for authentication).
         user_id: int
-            The user id (Optional)
+            The user id must be used during spidering (for authentication). (Optional)
         """
         spiderId = ""
         spider = self.__zap.spider
@@ -189,20 +198,20 @@ class ZapConfigureSpider():
         return spiderId
     
     def __start_spider_ajax(self, spider_config: collections.OrderedDict, target: str, context_id: int, context_name: str, user_id: int) -> str:
-        """ Starts a ZAP Spider with the given name for the spiders configuration, based on the given configuration and ZAP instance.
+        """ Starts a ajax ZAP Spider with the given name for the spiders configuration, based on the given configuration and ZAP instance.
         
         Parameters
         ----------
         spider_config: collections.OrderedDict
             The context id
         target: str
-            The target
+            The target to spider.
         context_id: int
-            The context id
+            The internal ZAP id of the context that must be used during spidering (e.g. for authentication).
         context_name: str
-            The context name
+            The  name of the context that must be used during spidering (e.g. for authentication).
         user_id: int
-            The user id (Optional)
+            The user id must be used during spidering (for authentication). (Optional)
         """
 
         spiderId = ""
@@ -222,12 +231,14 @@ class ZapConfigureSpider():
 
         return spiderId
 
-    def __configure_spider(self, zap_spider, spider_config: collections.OrderedDict):
+    def __configure_spider(self, zap_spider: spider, spider_config: collections.OrderedDict):
         """ Starts a ZAP Spider with the given name for the spiders configuration, based on the given configuration and ZAP instance.
         
         Parameters
         ----------
-        spider: collections.OrderedDict
+        zap_spider: spider
+            The reference to the running ZAP spider to configure.
+        spider_config: collections.OrderedDict
             The spider configuration based on ZapConfiguration.
         """
 

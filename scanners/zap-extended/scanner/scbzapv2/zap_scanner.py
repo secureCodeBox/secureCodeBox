@@ -39,7 +39,7 @@ class ZapConfigureActiveScanner():
         Parameters
         ----------
         target: str
-            The target to scanner.
+            The target to scan with the ZAP active scanner.
         """
 
     def start_scan_by_index(self, index: int) -> int:
@@ -98,8 +98,8 @@ class ZapConfigureActiveScanner():
         
         Parameters
         ----------
-        scanner: collections.OrderedDict
-            The scanner configuration based on ZapConfiguration.
+        scanner_config: collections.OrderedDict
+            The scanner configuration based on a ZapConfiguration.
         """
         scannerId = -1
         user_id = None
@@ -159,7 +159,9 @@ class ZapConfigureActiveScanner():
         
         Parameters
         ----------
-        scanner: collections.OrderedDict
+        zap_scanner: ascan
+            A reference to the active ZAP scanner (of the running ZAP instance) to configure. 
+        scanner_config: collections.OrderedDict
             The scanner configuration based on ZapConfiguration.
         """
 

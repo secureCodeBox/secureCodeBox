@@ -7,7 +7,7 @@ test(
       "zap-extended-baseline-scan-nginx-demo",
       "zap-extended-baseline-scan",
       ["-t", "http://nginx.demo-apps.svc"],
-      60 * 4
+      60 * 6
     );
 
     expect(categories).toMatchInlineSnapshot(`
@@ -29,5 +29,5 @@ test(
       }
     `);
   },
-  5 * 60 * 1000
+  6 * 60 * 1000
 );
