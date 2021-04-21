@@ -14,7 +14,7 @@ spec:
     {{  if .Values.customTemplateMap.exists }}
     - name: {{ .Release.Name }}-custom-templates
       configMap:
-        name: {{ .Values.customTeplateMap.name }} 
+        name: {{ .Values.customTemplateMap.name }} 
     {{ end }}
   volumeMounts:
     - name: {{ .Release.Name }}-config
