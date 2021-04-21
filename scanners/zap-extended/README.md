@@ -104,13 +104,7 @@ Options:
 | zapConfiguration.contexts[0].users[0].password | string | `"password1"` | The password used to authenticate this user |
 | zapConfiguration.contexts[0].users[0].username | string | `"user1"` | The username used to authenticate this user |
 | zapConfiguration.global | object | `{}` |  |
-| zapConfiguration.openApis | list | `[{"configMap":null,"context":"scbcontext","name":"scbapi","spec":null,"url":"https://example.com/","user":"test-user-1"}]` | Optional list of ZAP OpenAPI configurations |
-| zapConfiguration.openApis[0].configMap | string | `nil` | Assumes that the OpenAPI Spec has been saved to a configmap in the namespace of the scan / this release. Should be null if not used. |
-| zapConfiguration.openApis[0].context | string | `"scbcontext"` | The Name of the context (zapConfiguration.contexts[x].name) to spider, default: first context available. |
-| zapConfiguration.openApis[0].name | string | `"scbapi"` | The name of the spider configuration |
-| zapConfiguration.openApis[0].spec | string | `nil` | Allows to embed the entire yaml / json OpenAPI spec in the values. Should be null if not used. |
-| zapConfiguration.openApis[0].url | string | `"https://example.com/"` | Url to start spidering from, default: first context URL |
-| zapConfiguration.openApis[0].user | string | `"test-user-1"` | The Name of the user (zapConfiguration.contexts[0].users[0].name) used to authenticate the spider with. |
+| zapConfiguration.openApis | object | `{}` | Optional list of ZAP OpenAPI configurations  - NOT YET IMPLEMENTED |
 | zapConfiguration.scanners | list | `[{"addQueryParam":false,"context":"scbcontext","defaultPolicy":"Default Policy","delayInMs":0,"handleAntiCSRFTokens":false,"injectPluginIdInHeader":false,"maxRuleDurationInMins":0,"maxScanDurationInMins":0,"name":"scbscan","policy":"Default Policy","policyDefinition":{},"scanHeadersAllRequests":false,"threadPerHost":2,"url":"https://example.com/"}]` | Optional list of ZAP Active Scanner configurations |
 | zapConfiguration.scanners[0].addQueryParam | bool | `false` | Bool: If set will add an extra query parameter to requests that do not have one, default: false |
 | zapConfiguration.scanners[0].context | string | `"scbcontext"` | String: Name of the context to attack, default: first context |
