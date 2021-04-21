@@ -22,6 +22,7 @@ docker run -t --rm --link bodgeit:bodgeit --name zap \
   -t "http://bodgeit:8080/bodgeit/" \
   -m 1  \
   -I \
+  -d \
   --hook=/zap/zap_hooks.py
 
 # docker run -t --rm \

@@ -47,7 +47,14 @@ class ZapConfigureSpider():
 
         if self.__config.has_spider_configurations:
             logging.info('Trying to start Spider (Ajax: %s) by configuration target url %s', str(ajax), url)
-            spiderId = self._start_spider(spider_config=self.__config.get_context_by_url(url), ajax=ajax)
+
+            context=self.__config.get_context_by_url(url)
+
+            spider_config=None
+            if "name" in context:
+                spider_config=self.__config.get_spider_by_context_name(str(context["name"]))
+
+            spiderId = self._start_spider(spider_config=spider_config, ajax=ajax)
         else:
             logging.error("There is no spider specific configuration found.")
 
@@ -160,10 +167,10 @@ class ZapConfigureSpider():
 
         # Start Spider:
         if (ajax):
-            logging.debug('Trying to start "ajax" Spider with config: %s', spider_config)
+            logging.info('Trying to start "ajax" Spider with config: %s', spider_config)
             spiderId = self.___start_spider_ajax(spider_config, target, context_id, context_name, user_id)
         else:
-            logging.debug('Trying to start "traditional" Spider with config: %s', spider_config)
+            logging.info('Trying to start "traditional" Spider with config: %s', spider_config)
             spiderId = self.__start_spider_http(spider_config, target, context_id, context_name, user_id)
 
         if (not str(spiderId).isdigit()) or int(spiderId) < 0:

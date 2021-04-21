@@ -45,7 +45,14 @@ class ZapConfigureActiveScanner():
 
         if self.__config.has_scan_configurations:
             logging.debug('Trying to start ActiveScan by configuration target url %s', str(url))
-            scannerId = self._start_scanner(scanner_config=self.__config.get_context_by_url(url))
+
+            context=self.__config.get_context_by_url(url)
+
+            scanner_config=None
+            if "name" in context:
+                scanner_config=self.__config.get_scans_by_context_name(str(context["name"]))
+
+            scannerId = self._start_scanner(scanner_config=scanner_config)
         else:
             logging.error("There is no scanner specific configuration found.")
 

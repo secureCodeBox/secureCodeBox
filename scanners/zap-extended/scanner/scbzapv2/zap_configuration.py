@@ -217,7 +217,22 @@ class ZapConfiguration():
         result = collections.OrderedDict()
 
         if self.has_scan_configurations:
-            result = next((scan for scan in self.get_scans() if scan['name'] == value), None)
+            result = next((scan for scan in self.get_scans() if scan['name'] == name), None)
+
+        return result
+    
+    def get_scans_by_context_name(self, name: str) -> collections.OrderedDict:
+        """Returns the ZAP Scan configuration object with the referencing context name.
+        
+        Parameters
+        ----------
+        name: str
+            The name of the context which is referenced in the scanner configuration to return from the list of scans.
+        """
+        result = collections.OrderedDict()
+
+        if self.has_scan_configurations:
+            result = next((scan for scan in self.get_scans() if scan['context'] == name), None)
 
         return result
 
@@ -261,7 +276,22 @@ class ZapConfiguration():
         result = collections.OrderedDict()
 
         if self.has_spider_configurations:
-            result = next((spider for spider in self.get_spiders() if spider['name'] == value), None)
+            result = next((spider for spider in self.get_spiders() if spider['name'] == name), None)
+
+        return result
+    
+    def get_spider_by_context_name(self, name: str) -> collections.OrderedDict:
+        """Returns the ZAP Spider configuration object with the given context name referenced.
+        
+        Parameters
+        ----------
+        name: str
+            The name of the context referenced in the spider config to return to return from the list of spiders.
+        """
+        result = collections.OrderedDict()
+
+        if self.has_spider_configurations:
+            result = next((spider for spider in self.get_spiders() if spider['context'] == name), None)
 
         return result
 
