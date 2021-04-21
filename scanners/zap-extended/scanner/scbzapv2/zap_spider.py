@@ -33,17 +33,26 @@ class ZapConfigureSpider():
         self.__zap = zap
         self.__config = config
 
-    def start_spider_by_target(self, target: str, ajax: bool) -> int:
-        """ Starts a ZAP Spider for the given target, based on the given configuration and ZAP instance.
+    def start_spider_by_url(self, url: str, ajax: bool) -> int:
+        """ Starts a ZAP Spider for the given url, based on the given configuration and ZAP instance.
         
         Parameters
         ----------
-        target: str
-            The target to spider.
+        url: str
+            The url to spider.
         ajax: bool
             True if the ajax spider must be used instead of the traditional spider, otherwise false.
         """
-        return NotImplemented
+        spiderId = -1
+
+        if self.__config.has_spider_configurations:
+            logging.info('Trying to start Spider (Ajax: %s) by configuration target url %s', str(ajax), url)
+            spiderId = self._start_spider(spider_config=self.__config.get_context_by_url(url), ajax=ajax)
+        else:
+            logging.error("There is no spider specific configuration found.")
+
+        
+        return int(spiderId)
 
     def start_spider_by_index(self, index: int, ajax: bool) -> int:
         """ Starts a ZAP Spider with the given index for the spiders configuration, based on the given configuration and ZAP instance.
@@ -115,6 +124,7 @@ class ZapConfigureSpider():
         spiderId = ""
         user_id = None
         context_id = None
+        context_name = None
         ajax = False
         target = ""
 

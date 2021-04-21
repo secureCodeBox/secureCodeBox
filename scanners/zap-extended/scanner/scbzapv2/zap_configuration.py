@@ -98,6 +98,24 @@ class ZapConfiguration():
 
         return result
 
+    def get_context_by_url(self, url: str) -> collections.OrderedDict:
+        """Returns the ZAP Context configuration object based on the given target url.
+        
+        Parameters
+        ----------
+        url: str
+            The url of the context to return from the list of contexts.
+        """
+
+        result = collections.OrderedDict()
+
+        if self.has_context_configurations:
+            result = next((context for context in self.get_contexts() if context['url'] == url), None)
+        else:
+            logging.warn("There is no context configuration to search for.")
+
+        return result
+
     def has_context_users_configurations(self, context: collections.OrderedDict) -> bool:
         """Returns true if any ZAP Context Users are defined, otherwise false."""
 

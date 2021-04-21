@@ -33,14 +33,24 @@ class ZapConfigureActiveScanner():
         self.__zap = zap
         self.__config = config
 
-    def start_scan_by_target(self, target: str) -> int:
+    def start_scan_by_url(self, url: str) -> int:
         """ Starts a ZAP ActiveScan for the given target, based on the given configuration and ZAP instance.
         
         Parameters
         ----------
-        target: str
-            The target to scan with the ZAP active scanner.
+        url: str
+            The url to scan with the ZAP active scanner.
         """
+        scannerId = -1
+
+        if self.__config.has_scan_configurations:
+            logging.debug('Trying to start ActiveScan by configuration target url %s', str(url))
+            scannerId = self._start_scanner(scanner_config=self.__config.get_context_by_url(url))
+        else:
+            logging.error("There is no scanner specific configuration found.")
+
+
+        return int(scannerId)
 
     def start_scan_by_index(self, index: int) -> int:
         """ Starts a ZAP ActiveScan with the given index for the scanners configuration, based on the given configuration and ZAP instance.
@@ -66,9 +76,13 @@ class ZapConfigureActiveScanner():
         index: int
             The name of the scanner object in the list of scanners configuration.
         """
+        scannerId = -1
 
         if self.__config.has_scan_configurations:
-            self._start_scanner(self.__config.get_scans_by_name(name))
+            logging.debug('Trying to start ActiveScan by configuration name %s', str(name))
+            scannerId = self._start_scanner(self.__config.get_scans_by_name(name))
+        
+        return int(scannerId)
 
     def wait_until_finished(self, scanner_id: int):
         """ Wait until the running ZAP ActiveScan finished and log results.
