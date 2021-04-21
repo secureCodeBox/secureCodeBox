@@ -18,6 +18,11 @@ helm upgrade --install nwh ./hooks/notification-hook/ --values /path/to/your/val
 The `values.yaml` you need depends on the notification type you want to use.
 Please take a look at the documentation for each type (e.g. for slack see [Configuration of a Slack Notification](#configuration-o-a-slack-notification))
 
+## Available Notifier
+
+* [Slack](#configuration-of-a-slack-notification)
+* [Email](#configuration-of-an-email-notification)
+
 ## Configuration of a Notification
 
 The general configuration of a notification looks something like this
@@ -97,6 +102,29 @@ Notice that only one of this elements needs to match the finding for the rule to
 To configure a slack notification set the `type` to `slack` and the `endPoint` to point to your env containing your Webhook URL to slack.
 You can use one of the following default templates:
 * slack-messageCard
+
+### Configuration Of An Email Notification
+
+To configure an email notification set the `tuype` to `email` and the `endPoint` to point to your env containing your target email address.
+You can use one of the following default templates:
+* email
+
+Additional to this configuration you will have to provide a special smtp configuration.
+This config reflects the transporter configuration of nodemailer (See [nodemailer | SMTP Transport](https://nodemailer.com/smtp/)) and should be written in `YAML`.
+To provide the `from` field of the email we extended the nodemailer configuration with the `from` field in the transporter configuration.
+This configuration needs to be specified under `env` in the values yaml.
+The identifier for this config has to be `SMTP_CONFIG`.
+A basic configuration could look like this:
+
+```yaml
+host: smtp.ethereal.email
+ port: 587
+ secure: false
+ auth:
+   user: some_user
+   pass: some_password
+ from: secureCodeBox <mail@from.someone>
+```
 
 ## Custom Message Templates
 
