@@ -1,4 +1,4 @@
-const retry = require("jest-retries");
+const retry = require("../retry");
 // todo: Integrate into github ci pipeline
 const { scan } = require("../helpers");
 

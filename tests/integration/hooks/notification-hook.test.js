@@ -1,4 +1,4 @@
-const retry = require("jest-retries");
+const retry = require("../retry");
 
 const { scan } = require("../helpers");
 const k8s = require("@kubernetes/client-node");

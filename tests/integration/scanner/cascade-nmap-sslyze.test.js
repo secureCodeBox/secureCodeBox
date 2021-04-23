@@ -1,4 +1,4 @@
-const retry = require("jest-retries");
+const retry = require("../retry");
 
 const { cascadingScan } = require("../helpers");
 
