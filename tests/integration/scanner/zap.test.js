@@ -1,7 +1,10 @@
+const retry = require("../retry");
+
 const { scan } = require("../helpers");
 
-test(
+retry(
   "zap baseline scan against a plain nginx container should only find couple findings",
+  3,
   async () => {
     const { categories, severities } = await scan(
       "zap-nginx-baseline",
