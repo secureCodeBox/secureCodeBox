@@ -1,7 +1,10 @@
-const { scan } = require('../helpers')
+const retry = require("jest-retries");
 
-test(
+const { scan } = require("../helpers");
+
+retry(
   "Finding Post Processing after test-scan",
+  3,
   async () => {
     const { severities, count } = await scan(
       "finding-post-processing",
@@ -11,7 +14,7 @@ test(
     );
 
     expect(count).toBe(2);
-    expect(severities.high).toBe(1)
+    expect(severities.high).toBe(1);
   },
   3 * 60 * 1000
 );

@@ -1,7 +1,10 @@
+const retry = require("jest-retries");
+
 const { scan } = require("../helpers");
 
-test(
+retry(
   "kubeaudit should run and check the jshop in kubeaudit-tests namespace",
+  3,
   async () => {
     const { categories, severities } = await scan(
       "kubeaudit-tests",

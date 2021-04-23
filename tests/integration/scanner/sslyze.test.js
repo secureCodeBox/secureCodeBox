@@ -1,7 +1,10 @@
+const retry = require("jest-retries");
+
 const { scan } = require("../helpers");
 
-test(
+retry(
   "Sslyze scans the self-signed unsafe-https demo-app",
+  3,
   async () => {
     const { categories, severities, count } = await scan(
       "sslyze-unsafe-https",
@@ -28,8 +31,9 @@ test(
   3 * 60 * 1000
 );
 
-test(
+retry(
   "Invalid argument should be marked as errored",
+  3,
   async () => {
     await expect(
       scan("sslyze-invalidArg", "sslyze", ["--invalidArg", "example.com"], 90)

@@ -1,12 +1,22 @@
+const retry = require("jest-retries");
+
 const { scan } = require("../helpers");
 
-test(
+retry(
   "nikto scan against bodgeit demo-app",
+  3,
   async () => {
     const { categories, severities, count } = await scan(
       "nikto-bodgeit",
       "nikto",
-      ["-h", "bodgeit.demo-apps.svc", "-port", "8080", "-Tuning", "1,2,3,5,7,b"], // See nikto bodgeit example
+      [
+        "-h",
+        "bodgeit.demo-apps.svc",
+        "-port",
+        "8080",
+        "-Tuning",
+        "1,2,3,5,7,b",
+      ], // See nikto bodgeit example
       90
     );
 

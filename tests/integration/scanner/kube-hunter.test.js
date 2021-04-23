@@ -1,7 +1,10 @@
+const retry = require("jest-retries");
+
 const { scan } = require("../helpers");
 
-test(
+retry(
   "kube-hunter should find a fixed number of findings for the kind cluster",
+  3,
   async () => {
     await scan(
       "kube-hunter-in-cluster",

@@ -1,8 +1,10 @@
+const retry = require("jest-retries");
 // todo: Integrate into github ci pipeline
 const { scan } = require("../helpers");
 
-test(
+retry(
   "ssh-scan should find a couple of findings for a dummy ssh service",
+  3,
   async () => {
     const { categories, severities, count } = await scan(
       "ssh-scan-dummy-ssh",
@@ -28,8 +30,9 @@ test(
   3 * 60 * 1000
 );
 
-test(
+retry(
   "ssh-scan should gracefully handle a non-existing target",
+  3,
   async () => {
     await expect(
       scan(

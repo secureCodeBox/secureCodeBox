@@ -1,12 +1,15 @@
-const {scan} = require('../helpers');
+const retry = require("jest-retries");
 
-test(
-  'amass should find at least 20 subdomains',
+const { scan } = require("../helpers");
+
+retry(
+  "amass should find at least 20 subdomains",
+  3,
   async () => {
-    const {count} = await scan(
-      'amass-scanner-dummy-scan',
-      'amass',
-      ['-passive', '-noalts', '-norecursive', '-d', 'owasp.org'],
+    const { count } = await scan(
+      "amass-scanner-dummy-scan",
+      "amass",
+      ["-passive", "-noalts", "-norecursive", "-d", "owasp.org"],
       90
     );
     expect(count).toBeGreaterThanOrEqual(20);
