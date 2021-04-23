@@ -1,3 +1,6 @@
+// Vendored from https://www.npmjs.com/package/jest-retries MIT License
+// Includes adjustments to pass in timeout values to the underlying jest test function
+
 function runTest(handler) {
   return new Promise((resolve, reject) => {
     const result = handler((err) => (err ? reject(err) : resolve()));
