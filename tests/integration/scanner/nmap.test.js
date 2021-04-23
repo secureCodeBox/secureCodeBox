@@ -1,7 +1,10 @@
-const { scan } = require('../helpers')
+const retry = require("../retry");
 
-test(
+const { scan } = require("../helpers");
+
+retry(
   "localhost port scan should only find a host finding",
+  3,
   async () => {
     const { categories, severities, count } = await scan(
       "nmap-localhost",
@@ -25,15 +28,15 @@ test(
   3 * 60 * 1000
 );
 
-test(
+retry(
   "invalid port scan should be marked as errored",
+  3,
   async () => {
-    await expect(scan(
-      "nmap-localhost",
-      "nmap",
-      ["-invalidFlag", "localhost"],
-      90
-    )).rejects.toThrow('Scan failed with description "Failed to run the Scan Container, check k8s Job and its logs for more details"');
+    await expect(
+      scan("nmap-localhost", "nmap", ["-invalidFlag", "localhost"], 90)
+    ).rejects.toThrow(
+      'Scan failed with description "Failed to run the Scan Container, check k8s Job and its logs for more details"'
+    );
   },
   3 * 60 * 1000
 );

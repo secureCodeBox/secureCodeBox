@@ -1,15 +1,13 @@
-const { scan } = require("../helpers");
-const k8s = require('@kubernetes/client-node');
+const retry = require("../retry");
 
-test(
+const { scan } = require("../helpers");
+const k8s = require("@kubernetes/client-node");
+
+retry(
   "should trigger notification",
+  3,
   async () => {
-    await scan(
-      "test-scan-notification-web-hook",
-      "test-scan",
-      [],
-      90
-    );
+    await scan("test-scan-notification-web-hook", "test-scan", [], 90);
 
     const WEBHOOK = "http-webhook";
     const NAMESPACE = "integration-tests";
@@ -20,12 +18,12 @@ test(
     const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
 
     function containsPod(item) {
-      return item.metadata.name.includes(WEBHOOK)
+      return item.metadata.name.includes(WEBHOOK);
     }
 
     let podName;
-    await k8sApi.listNamespacedPod(NAMESPACE, 'true').then((res) => {
-      let podArray = res.body.items.filter((containsPod));
+    await k8sApi.listNamespacedPod(NAMESPACE, "true").then((res) => {
+      let podArray = res.body.items.filter(containsPod);
       if (podArray.length === 0) {
         throw new Error(`Did not find Pod for "${WEBHOOK}" Hook`);
       }
@@ -39,26 +37,35 @@ test(
       k8sApi,
       podName,
       namespace: NAMESPACE,
-      containerName
-    }
+      containerName,
+    };
     const result = await delayedRepeat(isHookTriggered, params, 1000, 10);
 
-    expect(result).toBe(true)
+    expect(result).toBe(true);
   },
   3 * 60 * 1000
 );
 
 async function isHookTriggered(params) {
-  console.log("Fetch Container Logs...")
-  let containerLog = await params.k8sApi.readNamespacedPodLog(params.podName, params.namespace, params.containerName, false);
+  console.log("Fetch Container Logs...");
+  let containerLog = await params.k8sApi.readNamespacedPodLog(
+    params.podName,
+    params.namespace,
+    params.containerName,
+    false
+  );
   return containerLog.body.includes("/slack-notification");
 }
 
+const sleep = (durationInMs) =>
+  new Promise((resolve) => setTimeout(resolve, durationInMs));
 
-const sleep = durationInMs =>
-  new Promise(resolve => setTimeout(resolve, durationInMs));
-
-async function delayedRepeat(fun, functionParamObject, intervalInMs, maxRetries,) {
+async function delayedRepeat(
+  fun,
+  functionParamObject,
+  intervalInMs,
+  maxRetries
+) {
   for (let i = 0; i < maxRetries; i++) {
     const condition = await fun(functionParamObject);
     if (condition) {
@@ -68,5 +75,5 @@ async function delayedRepeat(fun, functionParamObject, intervalInMs, maxRetries,
     await sleep(intervalInMs);
   }
 
-  throw new Error("Reached max retries")
+  throw new Error("Reached max retries");
 }
