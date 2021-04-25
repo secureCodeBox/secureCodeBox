@@ -1,0 +1,44 @@
+version: "3"
+services:
+  bodgeit:
+    image: docker.io/psiinon/bodgeit:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    expose:
+      - 8080
+    healthcheck:
+      interval: 1m30s
+      retries: 3
+      test:
+        - CMD
+        - curl
+        - -f
+        - http://bodgeit:8080
+      timeout: 10s
+  zap:
+    build:
+      context: ./
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: none
+    links:
+      - "bodgeit:bodgeit"
+    depends_on: 
+      - "bodgeit"
+    environment: 
+      - SCB_ZAP_CONFIG_DIR="/zap/secureCodeBox-extensions/configs/"
+    volumes: 
+      - ./tests/mocks/scan-full-bodgeit:/zap/secureCodeBox-extensions/configs/
+    entrypoint: ['zap-full-scan.py', '-t', 'http://bodgeit:8080/bodgeit/', '-m', '1', '-I', '-d', '--hook=/zap/zap_hooks.py']
+    healthcheck:
+      interval: 1m30s
+      retries: 3
+      test:
+        - CMD
+        - curl
+        - -f
+        - http://zap:8080
+      timeout: 10s

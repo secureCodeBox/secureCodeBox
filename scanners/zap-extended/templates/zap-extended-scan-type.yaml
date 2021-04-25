@@ -21,6 +21,7 @@ spec:
           containers:
             - name: zap-extended-baseline-scan
               image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
               command:
                 - "zap-baseline.py"
                 # Force OWASP ZAP to always return a zero exit code. K8S would otherwise try to restart zap.

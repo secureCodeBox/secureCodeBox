@@ -3,7 +3,7 @@ import logging
 import glob
 import hiyapyco
 
-class ZapConfiguration():
+class ZapConfiguration:
     """This class represent a ZAP specific configuration based on a given YAML file"""
     
     def __init__(self, config_dir: str):
@@ -19,12 +19,12 @@ class ZapConfiguration():
         self.config_dir_glob = config_dir + "*.yaml"
         
         self.__config = collections.OrderedDict()
-        self.__readConfigFiles()
+        self.__read_config_files()
 
-    def __readConfigFiles(self):
+    def __read_config_files(self):
         """Private method to read all existing config YAML files an create a new ZAP Configuration object"""
 
-        if(self.config_dir):
+        if self.config_dir:
             logging.debug("ZAP YAML config dir: '%s'", self.config_dir)
             config_files = glob.glob(self.config_dir_glob)
         else:

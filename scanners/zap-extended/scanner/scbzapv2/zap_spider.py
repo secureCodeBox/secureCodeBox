@@ -12,7 +12,7 @@ from zapv2 import ZAPv2, spider
 
 from .zap_configuration import ZapConfiguration
 
-class ZapConfigureSpider():
+class ZapConfigureSpider:
     """This class configures a spider in a running ZAP instance, based on a ZAP Configuration
     
     Based on this opensource ZAP Python example:
@@ -119,7 +119,7 @@ class ZapConfigureSpider():
                     logging.info("URL: %s", url)
     
     def _start_spider(self, spider_config: collections.OrderedDict, ajax: bool) -> int:
-        """ Starts a ZAP Spider with the given name for the spiders configuration, based on the given configuration and ZAP instance.
+        """ Starts a ZAP Spider with the given spiders configuration, based on the internal referenced ZAP instance.
         
         Parameters
         ----------
