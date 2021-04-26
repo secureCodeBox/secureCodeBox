@@ -268,3 +268,67 @@ test("should add env fields from cascading rule to created scan", () => {
     ]
   `);
 });
+
+test("should allow wildcards in cascading rules", () => {
+  sslyzeCascadingRules = [
+    {
+      apiVersion: "cascading.securecodebox.io/v1",
+      kind: "CascadingRule",
+      metadata: {
+        name: "tls-scans"
+      },
+      spec: {
+        matches: {
+          anyOf: [
+            {
+              category: "Open Port",
+              attributes: {
+                port: 8443,
+                service: "https*"
+              }
+            }
+          ]
+        },
+        scanSpec: {
+          scanType: "sslyze",
+          parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"]
+        }
+      }
+    }
+  ];
+
+  const findings = [
+    {
+      name: "Port 8443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 8443,
+        service: "https-alt"
+      }
+    }
+  ];
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  expect(cascadedScans).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "cascades": null,
+        "env": undefined,
+        "generatedBy": "tls-scans",
+        "name": "sslyze-foobar.com-tls-scans",
+        "parameters": Array [
+          "--regular",
+          "foobar.com:8443",
+        ],
+        "scanType": "sslyze",
+      },
+    ]
+  `);
+});
