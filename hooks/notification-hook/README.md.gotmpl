@@ -105,7 +105,7 @@ You can use one of the following default templates:
 
 ### Configuration Of An Email Notification
 
-To configure an email notification set the `tuype` to `email` and the `endPoint` to point to your env containing your target email address.
+To configure an email notification set the `type` to `email` and the `endPoint` to point to your env containing your target email address.
 You can use one of the following default templates:
 * email
 
@@ -118,12 +118,12 @@ A basic configuration could look like this:
 
 ```yaml
 host: smtp.ethereal.email
- port: 587
- secure: false
- auth:
-   user: some_user 
-   pass: some_password
- from: secureCodeBox <mail@from.someone>
+port: 587
+secure: false
+auth:
+  user: some_user
+  pass: some_password
+from: secureCodeBox <mail@from.someone>
 ```
 
 ## Custom Message Templates
