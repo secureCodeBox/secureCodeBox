@@ -20,23 +20,16 @@ public class S3Service {
 
     LOG.info("Uploading Findings to S3");
 
-    var request = java.net.http.HttpRequest
-      .newBuilder()
-      .uri(URI.create(url))
-      .PUT(java.net.http.HttpRequest.BodyPublishers.ofString(findingJson))
-      .build();
+    var request = java.net.http.HttpRequest.newBuilder().uri(URI.create(url))
+        .PUT(java.net.http.HttpRequest.BodyPublishers.ofString(findingJson)).build();
 
     HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.discarding());
   }
 
-  public String downloadRawResults(String rawResultDownloadUrl) throws IOException, InterruptedException {
-    var request = java.net.http.HttpRequest
-      .newBuilder()
-      .uri(URI.create(rawResultDownloadUrl))
-      .build();
+  public String downloadFile(String downloadUrl) throws IOException, InterruptedException {
+    var request = java.net.http.HttpRequest.newBuilder().uri(URI.create(downloadUrl)).build();
 
-    var response = HttpClient.newHttpClient()
-      .send(request, HttpResponse.BodyHandlers.ofString());
+    var response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
     return response.body();
   }
