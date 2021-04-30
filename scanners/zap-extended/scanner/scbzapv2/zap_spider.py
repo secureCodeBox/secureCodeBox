@@ -33,7 +33,7 @@ class ZapConfigureSpider:
         self.__zap = zap
         self.__config = config
 
-    def start_spider_by_url(self, url: str, ajax: bool) -> int:
+    def start_spider_by_url(self, url: str) -> int:
         """ Starts a ZAP Spider for the given url, based on the given configuration and ZAP instance.
         
         Parameters
@@ -44,24 +44,26 @@ class ZapConfigureSpider:
             True if the ajax spider must be used instead of the traditional spider, otherwise false.
         """
         spiderId = -1
+        ajax_config=False
 
         if self.__config.has_spider_configurations:
-            logging.info('Trying to start Spider (Ajax: %s) by configuration target url %s', str(ajax), url)
 
             context=self.__config.get_context_by_url(url)
 
             spider_config=None
             if "name" in context:
-                spider_config=self.__config.get_spider_by_context_name(str(context["name"]))
+                spider_config = self.__config.get_spider_by_context_name(str(context["name"]))
+                ajax = bool(spider_config["ajax"]) if "ajax" in spider_config else False
 
-            spiderId = self._start_spider(spider_config=spider_config, ajax=ajax)
+            logging.info('Trying to start Spider (Ajax: %s) by configuration target url %s', str(ajax), url)
+            spiderId = self._start_spider(spider_config=spider_config, ajax=ajax_config)
         else:
             logging.error("There is no spider specific configuration found.")
 
         
         return int(spiderId)
 
-    def start_spider_by_index(self, index: int, ajax: bool) -> int:
+    def start_spider_by_index(self, index: int) -> int:
         """ Starts a ZAP Spider with the given index for the spiders configuration, based on the given configuration and ZAP instance.
         
         Parameters
@@ -72,14 +74,18 @@ class ZapConfigureSpider:
             True if the ajax spider must be used instead of the traditional spider, otherwise false.
         """
         spiderId = -1
+        ajax_config=False
 
         if self.__config.has_spider_configurations:
+            spider_config = self.__config.get_spider_by_index(index)
+            ajax = bool(spider_config["ajax"]) if "ajax" in spider_config else False
+
             logging.debug('Trying to start Spider (Ajax: %s) by configuration index %s', str(ajax), str(index))
-            spiderId = self._start_spider(spider_config=self.__config.get_spider_by_index(index), ajax=ajax)
+            spiderId = self._start_spider(spider_config=spider_config, ajax=ajax)
         
         return int(spiderId)
 
-    def start_spider_by_name(self, name: str, ajax: bool) -> int:
+    def start_spider_by_name(self, name: str) -> int:
         """ Starts a ZAP Spider with the given name for the spiders configuration, based on the given configuration and ZAP instance.
         
         Parameters
@@ -90,8 +96,16 @@ class ZapConfigureSpider:
             True if the ajax spider must be used instead of the traditional spider, otherwise false.
         """
 
+        spiderId = -1
+
         if self.__config.has_spider_configurations:
-            self._start_spider(spider_config=self.__config.get_spider_by_name(name), ajax=ajax)
+            spider_config = self.__config.get_spider_by_name(name)
+            ajax = bool(spider_config["ajax"]) if "ajax" in spider_config else False
+
+            logging.debug('Trying to start Spider (Ajax: %s) by configuration index %s', str(ajax), str(index))
+            spiderId = self._start_spider(spider_config=spider_config, ajax=ajax)
+        
+        return int(spiderId)
 
     def wait_until_http_spider_finished(self, spider_id: int):
         """ Wait until the running ZAP Spider finished and log results.

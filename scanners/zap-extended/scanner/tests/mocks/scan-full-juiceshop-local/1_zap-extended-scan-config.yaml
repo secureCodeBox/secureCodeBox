@@ -73,7 +73,7 @@ scanners:
     # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
     maxRuleDurationInMins: 1
     # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited          
-    maxScanDurationInMins: 5
+    maxScanDurationInMins: 2
     # Int: The max number of threads per host, default: 2
     threadPerHost: 5
     # Int: The delay in milliseconds between each request, use to reduce the strain on the target, default 0

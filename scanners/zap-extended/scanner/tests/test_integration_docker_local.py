@@ -108,7 +108,7 @@ def test_bodgeit_scan(get_bodgeit_url, get_juiceshop_url, get_zap_instance: ZAPv
     if config and config.has_spider_configurations:
         # Starting to configure the ZAP Spider Instance based on the given Configuration
         zap_spider = ZapConfigureSpider(zap, config)
-        spider_id = zap_spider.start_spider_by_url(target, False)
+        spider_id = zap_spider.start_spider_by_url(target)
 
         assert int(zap.spider.status(spider_id)) > 0
 
@@ -159,7 +159,7 @@ def test_juiceshop_scan(get_bodgeit_url, get_juiceshop_url, get_zap_instance: ZA
     if config and config.has_spider_configurations:
         # Starting to configure the ZAP Spider Instance based on the given Configuration
         zap_spider = ZapConfigureSpider(zap, config)
-        spider_id = zap_spider.start_spider_by_url(target, True)
+        spider_id = zap_spider.start_spider_by_url(target)
 
         assert zap.ajaxSpider.status == 'running'
 
