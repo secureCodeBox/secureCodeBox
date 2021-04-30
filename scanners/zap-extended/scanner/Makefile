@@ -10,18 +10,18 @@ all: init
 init:
 	pip3 install -r requirements.txt
 
-test: unit-test docker-test
+test: unit-test docker-test local-test
 
 unit-test:
 	@echo "Running with Unit Tests based on pytest ..."
-	pytest --ignore-glob='*_local.py' --ignore=tests/docker
+	pytest --ignore-glob='*_local.py'
 
 docker-test:
 	@echo "Running local Integrations Tests based on docker-compose..."
 	#docker-compose up
     # docker-compose -f docker-compose.yaml down
-	pytest --ignore-glob='*_zap_local.py'
+	pytest ./tests/test_integration_docker_local.py  --log-cli-level "INFO"
 
 local-test:
-	@echo "Running local Integrations Tests based on ZAP..."
-	python3 ./tests/integration_test_zap_local.py --log=DEBUG
+	@echo "Running local Integrations Tests based on local ZAP + docker-compose..."
+	pytest ./tests/test_integration_zap_local.py --log-cli-level "INFO"

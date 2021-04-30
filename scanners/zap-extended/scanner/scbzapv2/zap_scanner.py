@@ -102,10 +102,10 @@ class ZapConfigureActiveScanner():
 
         if(scanner_id >= 0):
             while (int(self.__zap.ascan.status(scanner_id)) < 100):
-                logging.debug("ActiveScan(%s) progress: %s", scanner_id, self.__zap.ascan.status(scanner_id))
+                logging.info("ActiveScan(%s) progress: %s", scanner_id, self.__zap.ascan.status(scanner_id))
                 time.sleep(1)
                 
-                logging.debug("ActiveScan(%s) completed", scanner_id)
+            logging.info("ActiveScan(%s) completed", scanner_id)
 
             # Print out a count of the number of urls
             num_urls = len(self.__zap.core.urls())

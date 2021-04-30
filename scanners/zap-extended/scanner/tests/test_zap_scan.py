@@ -11,5 +11,5 @@ class ZapConfigurationTests(TestCase):
         config = ZapConfiguration("./tests/mocks/context-with-overlay/")
         self.assertFalse(config.has_scan_configurations())
     
-        config = ZapConfiguration("./tests/mocks/scan-full-bodgeit/")
+        config = ZapConfiguration("./tests/mocks/scan-full-bodgeit-docker/")
         self.assertTrue(config.has_scan_configurations())

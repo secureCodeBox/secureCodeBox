@@ -1,0 +1,88 @@
+---
+# List of 1 or more contexts, mandatory
+contexts:
+  # Name to be used to refer to this context in other jobs, mandatory
+  - name: scb-juiceshop-context
+    # The top level url, mandatory, everything under this will be included. IMPORTANT: must be the hostname without any subpath!
+    url: http://localhost:3000/
+    # An optional list of regexes to include
+    includePaths:
+      - "http://localhost:3000.*"
+    # An optional list of regexes to exclude
+    excludePaths:
+      - "http://localhost:3000/socket.io.*"
+      - ".*\\.js"
+      - ".*\\.css"
+      - ".*\\.png"
+      - ".*\\.jpeg"
+      - ".*\\.jpg"
+      - ".*\\.woff"
+      - ".*\\.woff2"
+      - ".*\\.ttf"
+      - ".*\\.ico"
+    # Auth Credentials for the scanner to access the application
+    authentication:
+      # Currently supports "basic-auth", "form-based", "json-based", "script-based"
+      type: "json-based"
+      # json-based requires no further configuration
+      # zapConfiguration.contexts[0].authentication.json-based -- Configure `type: json-based` authentication (more: https://www.zaproxy.org/docs/api/#json-based-authentication).
+      json-based:
+        loginUrl: "http://localhost:3000/rest/user/login"
+        # must be escaped already to prevent yaml parser colidations '{"user":{"id":1,"email":"test@test.com"}}''
+        loginRequestData: '{"email":"test@test.com","password":"test1"}'
+        # Username Parameter: email
+        # Password Parameter: password
+      # Indicates if the current Zap User Session is based on a valid authentication (loggedIn) or not (loggedOut)
+      verification:
+        # isLoggedInIndicator: "\Q<a href="password.jsp">\E"
+        isLoggedOutIndicator: '\Q{"user":{}}\E'
+    users:
+      - name: juiceshop-user-1
+        username: admin@juice-sh.op
+        password: admin123
+        forced: true
+    session:
+      # Currently supports "scriptBasedSessionManagement", "cookieBasedSessionManagement", "httpAuthSessionManagement"
+      type: "cookieBasedSessionManagement"
+spiders:
+  - name: scb-juiceshop-spider
+    # String: Name of the context to spider, default: first context
+    context: scb-juiceshop-context
+    # String: Name of the user to authenticate with and used to spider
+    user: juiceshop-user-1
+    # String: Url to start spidering from, default: first context URL
+    url: http://localhost:3000/
+    # zapConfiguration.spiders[0].ajax -- Bool: Whether to use the ZAP ajax spider, default: false
+    ajax: true
+    # Int: Fail if spider finds less than the specified number of URLs, default: 0
+    failIfFoundUrlsLessThan: 0
+    # Int: Warn if spider finds less than the specified number of URLs, default: 0
+    warnIfFoundUrlsLessThan: 0
+    # Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
+    maxDuration: 2
+    # Int: The maximum tree depth to explore, default 5
+    maxDepth: 5
+scanners:
+  - name: scb-juiceshop-scan
+    # String: Name of the context to attack, default: first context
+    context: scb-juiceshop-context
+    # String: Name of the user to authenticate with and used to spider
+    user: juiceshop-user-1
+    # String: Url to start scaning from, default: first context URL
+    url: http://localhost:3000/
+    # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
+    maxRuleDurationInMins: 1
+    # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited          
+    maxScanDurationInMins: 5
+    # Int: The max number of threads per host, default: 2
+    threadPerHost: 5
+    # Int: The delay in milliseconds between each request, use to reduce the strain on the target, default 0
+    delayInMs: 0
+    # Bool: If set will add an extra query parameter to requests that do not have one, default: false
+    addQueryParam: false
+    # Bool: If set then automatically handle anti CSRF tokens, default: false
+    handleAntiCSRFTokens: false
+    # Bool: If set then the relevant rule Id will be injected into the X-ZAP-Scan-ID header of each request, default: false           
+    injectPluginIdInHeader: false
+    # Bool: If set then the headers of requests that do not include any parameters will be scanned, default: false
+    scanHeadersAllRequests: false

@@ -7,7 +7,7 @@ services:
       restart_policy:
         condition: any
     ports:
-      - 8080
+      - "8080:8080"
     healthcheck:
       interval: 1m
       retries: 3
@@ -24,7 +24,7 @@ services:
       restart_policy:
         condition: any
     ports:
-      - 3000
+      - "3000:3000"
     healthcheck:
       interval: 1m
       retries: 3
@@ -48,6 +48,7 @@ services:
     depends_on: 
       - "bodgeit"
       - "juiceshop"
+    # -config api.key=change-me-9203935709
     entrypoint: ['zap.sh', '-daemon', '-port', '8090', '-host', '0.0.0.0', '-config', 'api.addrs.addr.name=.*', '-config', 'api.addrs.addr.regex=true', '-config', 'api.disablekey=true']
     healthcheck:
       interval: 1m30s
