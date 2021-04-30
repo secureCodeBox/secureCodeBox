@@ -18,8 +18,9 @@ unit-test:
 
 docker-test:
 	@echo "Running local Integrations Tests based on docker-compose..."
-	docker-compose up
+	#docker-compose up
     # docker-compose -f docker-compose.yaml down
+	pytest --ignore-glob='*_zap_local.py'
 
 local-test:
 	@echo "Running local Integrations Tests based on ZAP..."

@@ -35,12 +35,11 @@ services:
         - http://juiceshop:3000/#/
       timeout: 10s
   zap:
-    build:
-      context: ./
+    image: owasp/zap2docker-stable:latest
     deploy:
       replicas: 1
       restart_policy:
-        condition: none
+        condition: any
     ports:
       - "8090:8090"
     links:
@@ -49,11 +48,7 @@ services:
     depends_on: 
       - "bodgeit"
       - "juiceshop"
-    environment: 
-      - SCB_ZAP_CONFIG_DIR="/zap/secureCodeBox-extensions/configs/"
-    volumes: 
-      - ./tests/mocks/scan-full-bodgeit:/zap/secureCodeBox-extensions/configs/
-    entrypoint: ['zap-full-scan.py', '-t', 'http://bodgeit:8080/bodgeit/', '-m', '1', '-I', '-d', '--hook=/zap/zap_hooks.py']
+    entrypoint: ['zap.sh', '-daemon', '-port', '8090', '-host', '0.0.0.0', '-config', 'api.addrs.addr.name=.*', '-config', 'api.addrs.addr.regex=true', '-config', 'api.disablekey=true']
     healthcheck:
       interval: 1m30s
       retries: 3
