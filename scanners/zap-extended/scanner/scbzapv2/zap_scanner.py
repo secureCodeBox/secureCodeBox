@@ -175,6 +175,34 @@ class ZapConfigureActiveScanner():
 
         return scannerId
 
+    def get_alerts(self, baseurl, ignore_scan_rules, out_of_scope_dict):
+        # Retrieve the alerts using paging in case there are lots of them
+        st = 0
+        pg = 5000
+        alert_dict = {}
+        alert_count = 0
+        alerts = self.__zap.core.alerts(baseurl=baseurl, start=st, count=pg)
+        while len(alerts) > 0:
+            logging.debug('Reading ' + str(pg) + ' alerts from ' + str(st))
+            alert_count += len(alerts)
+            for alert in alerts:
+                plugin_id = alert.get('pluginId')
+                # if plugin_id in ignore_scan_rules:
+                #     continue
+                # if not is_in_scope(plugin_id, alert.get('url'), out_of_scope_dict):
+                #     continue
+                # if alert.get('risk') == 'Informational':
+                #     # Ignore all info alerts - some of them may have been downgraded by security annotations
+                #     continue
+                if (plugin_id not in alert_dict):
+                    alert_dict[plugin_id] = []
+                alert_dict[plugin_id].append(alert)
+            st += pg
+            alerts = self.__zap.core.alerts(start=st, count=pg)
+        logging.debug('Total number of alerts: ' + str(alert_count))
+        return alert_dict
+
+    
     def __configure_scanner(self, zap_scanner: ascan, scanner_config: collections.OrderedDict):
         """ Starts a ZAP ActiveScan with the given name for the scanners configuration, based on the given configuration and ZAP instance.
         
@@ -250,6 +278,6 @@ class ZapConfigureActiveScanner():
         """
         
         if "OK" != scannerId:
-            logging.warn("Failed to configure ActiveScan ['%s'], result is: '%s'", method, scannerId)
+            logging.warning("Failed to configure ActiveScan ['%s'], result is: '%s'", method, scannerId)
         else:
             logging.debug("Successfull configured ActiveScan ['%s'], result is: '%s'", method, scannerId)

@@ -74,9 +74,9 @@ if config and config.has_spider_configurations:
     zap_spider.wait_until_finished(spider_id)
 
 # if a ZAP Configuration is defined start to configure the running ZAP instance (`zap`)
-if config and config.has_spider_configurations:
+if config and config.has_scan_configurations:
     # Starting to configure the ZAP Instance based on the given Configuration
-    zap_spider = ZapConfigureSpider(zap, config)
+    zap_scan = ZapConfigureActiveScanner(zap, config)
     # Search for the corresponding context based on the given targetUrl which should correspond to defined the spider url
-    spider_id = zap_spider.start_spider_by_url(target, True)
-    zap_spider.wait_until_finished(spider_id)
+    scan_id = zap_scan.start_scan_by_url(target)
+    zap_scan.wait_until_finished(scan_id)

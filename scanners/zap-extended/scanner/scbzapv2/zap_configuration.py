@@ -112,7 +112,7 @@ class ZapConfiguration:
         if self.has_context_configurations:
             result = next((context for context in self.get_contexts() if context['url'] == url), None)
         else:
-            logging.warn("There is no context configuration to search for.")
+            logging.warning("There is no context configuration to search for.")
 
         return result
 

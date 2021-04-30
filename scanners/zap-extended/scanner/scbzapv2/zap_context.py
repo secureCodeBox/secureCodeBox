@@ -52,7 +52,6 @@ class ZapConfigureContext():
             The list of context configuration objects (based on the class ZapConfiguration).
         """
 
-        logging.debug("TYPE: %s", type(contexts))
         logging.debug('Configure #%s context(s) with: %s', len(contexts), contexts)
 
         # Remove all existing ZAP contexts 
@@ -317,7 +316,6 @@ class ZapConfigureContext():
             logging.debug("Adding ZAP User '%s', to context(%s)", user, context_id)
             user_name = user['username']
             user_password = user['password']
-            logging.warn("ZAP User '%s' and password: %s", user_name, user_password)
             
             user_id = zap.users.new_user(contextid=context_id, name=user_name)
             logging.debug("Created ZAP User(%s), for context(%s)", user_id, context_id)
