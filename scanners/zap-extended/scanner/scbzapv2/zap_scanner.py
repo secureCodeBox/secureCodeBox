@@ -167,11 +167,14 @@ class ZapConfigureActiveScanner():
         logging.info("ActiveScan returned: %s", scannerId)
 
         if not str(scannerId).isdigit() or int(scannerId) < 0:
-            logging.error("ActiveScan couldnt be started due to errors: %s", scannerId)
+            logging.error("ActiveScan couldn't be started due to errors: %s", scannerId)
+            raise RuntimeError("ActiveScan couldn't be started due to errors: %s", scannerId)
         else:
             logging.info("ActiveScan successfully started with id: %s", scannerId)
              # Give the scanner a chance to start
             time.sleep(5)
+
+            self.wait_until_finished(int(scannerId))
 
         return scannerId
 

@@ -9,3 +9,4 @@ from .zap_configuration import ZapConfiguration
 from .zap_context import ZapConfigureContext
 from .zap_spider import ZapConfigureSpider
 from .zap_scanner import ZapConfigureActiveScanner
+from .zap_extended import ZapExtended

@@ -53,7 +53,7 @@ class ZapConfigureSpider:
             spider_config=None
             if "name" in context:
                 spider_config = self.__config.get_spider_by_context_name(str(context["name"]))
-                ajax = bool(spider_config["ajax"]) if "ajax" in spider_config else False
+                ajax = True if "ajax" in spider_config else False
 
             logging.info('Trying to start Spider (Ajax: %s) by configuration target url %s', str(ajax), url)
             spiderId = self._start_spider(spider_config=spider_config, ajax=ajax_config)
@@ -78,7 +78,7 @@ class ZapConfigureSpider:
 
         if self.__config.has_spider_configurations:
             spider_config = self.__config.get_spider_by_index(index)
-            ajax = bool(spider_config["ajax"]) if "ajax" in spider_config else False
+            ajax = True if "ajax" in spider_config else False
 
             logging.debug('Trying to start Spider (Ajax: %s) by configuration index %s', str(ajax), str(index))
             spiderId = self._start_spider(spider_config=spider_config, ajax=ajax)
@@ -100,8 +100,8 @@ class ZapConfigureSpider:
 
         if self.__config.has_spider_configurations:
             spider_config = self.__config.get_spider_by_name(name)
-            ajax = bool(spider_config["ajax"]) if "ajax" in spider_config else False
-
+            ajax = True if "ajax" in spider_config else False
+            
             logging.debug('Trying to start Spider (Ajax: %s) by configuration index %s', str(ajax), str(index))
             spiderId = self._start_spider(spider_config=spider_config, ajax=ajax)
         
@@ -215,22 +215,29 @@ class ZapConfigureSpider:
 
             if ("OK" != str(spiderId)):
                 logging.error("Spider couldn't be started due to errors: %s", spiderId)
+                raise RuntimeError("Spider couldn't be started due to errors: %s", spiderId)
             else:
                 # due to the fact that there can be only one ajax spider at once the id is "pinned" to 1
                 spiderId = 1
                 logging.info("Spider successfully started with id: %s", spiderId)
                 # Give the scanner a chance to start
                 time.sleep(5)
+            
+                self.wait_until_ajax_spider_finished()
+
         else:
             logging.info('Trying to start "traditional" Spider with config: %s', spider_config)
             spiderId = self.__start_spider_http(spider_config, target, context_id, context_name, user_id)
 
             if (not str(spiderId).isdigit()) or int(spiderId) < 0:
                 logging.error("Spider couldn't be started due to errors: %s", spiderId)
+                raise RuntimeError("Spider couldn't be started due to errors: %s", spiderId)
             else:
                 logging.info("Spider successfully started with id: %s", spiderId)
                 # Give the scanner a chance to start
                 time.sleep(5)
+            
+            self.wait_until_http_spider_finished(int(spiderId))
 
         return spiderId
 

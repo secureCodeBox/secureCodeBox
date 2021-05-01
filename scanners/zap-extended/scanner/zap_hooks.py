@@ -65,8 +65,8 @@ def zap_spider(zap, target):
     if config and config.has_spider_configurations:
         # Starting to configure the ZAP Instance based on the given Configuration
         zap_spider = ZapConfigureSpider(zap, config)
-        spider_id = zap_spider.start_spider_by_url(target, False)
-        zap_spider.wait_until_finished(spider_id)
+        spider_id = zap_spider.start_spider_by_url(target)
+        zap_spider.wait_until_http_spider_finished(spider_id)
 
     logging.info('-> Hook zap_spider() finished...')
 
@@ -85,8 +85,8 @@ def zap_ajax_spider(zap, target, max_time):
         # Starting to configure the ZAP Instance based on the given Configuration
         zap_spider = ZapConfigureSpider(zap, config)
         # Search for the corresponding context based on the given targetUrl which should correspond to defined the spider url
-        spider_id = zap_spider.start_spider_by_url(target, True)
-        zap_spider.wait_until_finished(spider_id)
+        spider_id = zap_spider.start_spider_by_url(target)
+        zap_spider.wait_until_ajax_spider_finished(spider_id)
 
     logging.info('-> Hook zap_ajax_spider() finished...')
 

@@ -10,6 +10,7 @@ from scbzapv2.zap_configuration import ZapConfiguration
 from scbzapv2.zap_context import ZapConfigureContext
 from scbzapv2.zap_spider import ZapConfigureSpider
 from scbzapv2.zap_scanner import ZapConfigureActiveScanner
+from scbzapv2.zap_extended import ZapExtended
 
 def is_responsive(url):
     try:
@@ -91,101 +92,29 @@ def test_bodgeit_scan(get_bodgeit_url, get_juiceshop_url, get_zap_instance: ZAPv
 
     zap = get_zap_instance
     test_config_yaml = "./tests/mocks/scan-full-bodgeit-local/"
+    test_target = "http://localhost:8080/"
     
-    config = ZapConfiguration(test_config_yaml)
-    target = "http://localhost:8080/"
+    zap_extended = ZapExtended(zap=zap, config_dir=test_config_yaml)
+    zap_extended.scb_scan(target=test_target)
+    
+    alerts = zap_extended.get_zap_scan().get_alerts(test_target, [], [])
 
-    logging.info('Configuring ZAP Context')
-    # Starting to configure the ZAP Instance based on the given Configuration
-    if config.has_configurations() and config.has_context_configurations:
-        local_zap_context = ZapConfigureContext(zap, config)
+    logging.info('Found ZAP Alerts: %s', str(len(alerts)))
 
-        configured_context = zap.context.context("scb-bodgeit-context")
-        assert configured_context["name"] == "scb-bodgeit-context"
-
-    logging.info('Starting ZAP Spider with target %s', target)
-    # if a ZAP Configuration is defined start to configure the running ZAP instance (`zap`)
-    if config and config.has_spider_configurations:
-        # Starting to configure the ZAP Spider Instance based on the given Configuration
-        zap_spider = ZapConfigureSpider(zap, config)
-        spider_id = zap_spider.start_spider_by_url(target)
-
-        assert int(zap.spider.status(spider_id)) > 0
-
-        zap_spider.wait_until_http_spider_finished(spider_id)
-        result_urls = len(zap.core.urls())
-
-        assert int(result_urls) > 10
-
-    logging.info('Starting ZAP Scanner with target %s', target)
-    # if a ZAP Configuration is defined start to configure the running ZAP instance (`zap`)
-    if config and config.has_scan_configurations:
-        # Starting to configure the ZAP Instance based on the given Configuration
-        zap_scan = ZapConfigureActiveScanner(zap, config)
-        # Search for the corresponding context based on the given targetUrl which should correspond to defined the spider url
-        scan_id = zap_scan.start_scan_by_url(target)
-
-        assert int(zap.ascan.status(scan_id)) > 0
-
-        zap_scan.wait_until_finished(scan_id)
-        result_urls = len(zap.core.urls())
-
-        assert int(result_urls) > 10
-
-        alerts = zap_scan.get_alerts(target, [], [])
-
-        logging.info('Found ZAP Alerts: %s', str(len(alerts)))
-
-        assert int(len(alerts)) >= 5
+    assert int(len(alerts)) >= 5
     
 def test_juiceshop_scan(get_bodgeit_url, get_juiceshop_url, get_zap_instance: ZAPv2):
     
     zap = get_zap_instance
     test_config_yaml = "./tests/mocks/scan-full-juiceshop-local/"
+    test_target = "http://localhost:3000/"
     
-    config = ZapConfiguration(test_config_yaml)
-    target = "http://localhost:3000/"
+    zap_extended = ZapExtended(zap=zap, config_dir=test_config_yaml)
+    zap_extended.scb_scan(target=test_target)
+    
+    alerts = zap_extended.get_zap_scan().get_alerts(test_target, [], [])
 
-    logging.info('Configuring ZAP Context')
-    # Starting to configure the ZAP Instance based on the given Configuration
-    if config.has_configurations() and config.has_context_configurations:
-        local_zap_context = ZapConfigureContext(zap, config)
-
-        configured_context = zap.context.context("scb-juiceshop-context")
-        assert configured_context["name"] == "scb-juiceshop-context"
-
-    logging.info('Starting ZAP Spider with target %s', target)
-    # if a ZAP Configuration is defined start to configure the running ZAP instance (`zap`)
-    if config and config.has_spider_configurations:
-        # Starting to configure the ZAP Spider Instance based on the given Configuration
-        zap_spider = ZapConfigureSpider(zap, config)
-        spider_id = zap_spider.start_spider_by_url(target)
-
-        assert zap.ajaxSpider.status == 'running'
-
-        zap_spider.wait_until_ajax_spider_finished()
-        result_urls = len(zap.core.urls())
-
-        assert int(result_urls) > 10
-
-    logging.info('Starting ZAP Scanner with target %s', target)
-    # if a ZAP Configuration is defined start to configure the running ZAP instance (`zap`)
-    if config and config.has_scan_configurations:
-        # Starting to configure the ZAP Instance based on the given Configuration
-        zap_scan = ZapConfigureActiveScanner(zap, config)
-        # Search for the corresponding context based on the given targetUrl which should correspond to defined the spider url
-        scan_id = zap_scan.start_scan_by_url(target)
-
-        assert int(zap.ascan.status(scan_id)) >= 0
-
-        zap_scan.wait_until_finished(scan_id)
-        result_urls = len(zap.core.urls())
-
-        assert int(result_urls) > 10
-
-        alerts = zap_scan.get_alerts(target, [], [])
-
-        logging.info('Found ZAP Alerts: %s', str(len(alerts)))
-
-        assert int(len(alerts)) >= 3
+    logging.info('Found ZAP Alerts: %s', str(len(alerts)))
+    
+    assert int(len(alerts)) >= 3
 
