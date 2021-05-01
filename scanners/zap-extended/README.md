@@ -62,6 +62,7 @@ Options:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| image.pullPolicy | string | `"Always"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | image.repository | string | `"docker.io/securecodebox/scanner-zap-extended"` | Container Image to run the scan |
 | image.tag | string | `nil` | defaults to the charts appVersion |
 | parseJob.backoffLimit | int | `3` |  |
