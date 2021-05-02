@@ -44,18 +44,20 @@ class ZapConfigureActiveScanner():
         scannerId = -1
 
         if self.__config.has_scan_configurations:
-            logging.debug('Trying to start ActiveScan by configuration target url %s', str(url))
+            logging.debug("Trying to start ActiveScan by configuration target url: '%s'", str(url))
 
             context=self.__config.get_context_by_url(url)
 
             scanner_config=None
-            if "name" in context:
+            if not context == None and "name" in context:
                 scanner_config=self.__config.get_scans_by_context_name(str(context["name"]))
+            else:
+                logging.warning("No context configuration found for target: %s! Starting active scanning without any related context.", url)
 
-            scannerId = self._start_scanner(scanner_config=scanner_config)
+            scannerId = self._start_scanner(url=url, scanner_config=scanner_config)
         else:
             logging.error("There is no scanner specific configuration found.")
-
+            scannerId = self._start_scanner(url=url)
 
         return int(scannerId)
 
@@ -114,7 +116,7 @@ class ZapConfigureActiveScanner():
             else:
                 logging.info("ActiveScan(%s) found total: %s URLs", scanner_id, str(num_urls))
     
-    def _start_scanner(self, scanner_config: collections.OrderedDict) -> int:
+    def _start_scanner(self, url: str, scanner_config: collections.OrderedDict) -> int:
         """ Starts a ZAP ActiveScan with the given name for the scanners configuration, based on the given configuration and ZAP instance.
         
         Parameters
@@ -127,42 +129,46 @@ class ZapConfigureActiveScanner():
         context_id = None
         target = None
 
-        if("url" in scanner_config):
-            target = str(scanner_config['url'])
-        else:
-            logging.warning("The Scanner has no 'URL' target defined, trying to use the context URL")
-            # TODO: hanlde missing url
-
-
-        # "Context" is an optional config for Scanner
-        if("context" in scanner_config):
-        
-            context_name = str(scanner_config['context'])
-            scanner_context_config = self.__config.get_context_by_name(context_name)
-            context_id = int(scanner_context_config['id'])
-
-            # "User" is an optional config for Scanner in addition to the context
-            if("user" in scanner_config):
-
-                user_name = str(scanner_config['user'])
-                # search for the current ZAP Context id for the given context name
-                user_id = int(self.__config.get_context_user_by_name(scanner_context_config, user_name)['id'])
-        
         # Clear all excisting/previous scanner data
         logging.debug("Cleaning all existing ActiveScans")
         self.__zap.ascan.remove_all_scans()
-        
-        # Configure HTTP ActiveScan
-        logging.debug("Trying to configure ActiveScan with %s", scanner_config)
-        self.__configure_scanner(self.__zap.ascan, scanner_config)
 
-        # ActiveScan with user
-        if (not context_id is None) and context_id >= 0 and (not user_id is None) and user_id >= 0:
-            logging.debug('Starting ActiveScan(url=%s, contextid=%s, userid=%s)', target, context_id, user_id)
-            scannerId = self.__zap.ascan.scan_as_user(url=target, contextid=context_id, userid=user_id)
+        if not scanner_config == None:
+
+            if("url" in scanner_config):
+                target = str(scanner_config['url'])
+            else:
+                logging.warning("The active scanner configuration section has no specific 'url' target defined, trying to use scanType target instead with url: '%s'", url)
+                target=url
+
+            # "Context" is an optional config for Scanner
+            if("context" in scanner_config):
+            
+                context_name = str(scanner_config['context'])
+                scanner_context_config = self.__config.get_context_by_name(context_name)
+                context_id = int(scanner_context_config['id'])
+
+                # "User" is an optional config for Scanner in addition to the context
+                if("user" in scanner_config):
+
+                    user_name = str(scanner_config['user'])
+                    # search for the current ZAP Context id for the given context name
+                    user_id = int(self.__config.get_context_user_by_name(scanner_context_config, user_name)['id'])
+        
+            # Configure HTTP ActiveScan
+            logging.debug("Trying to configure ActiveScan with %s", scanner_config)
+            self.__configure_scanner(self.__zap.ascan, scanner_config)
+
+            # ActiveScan with user
+            if (not context_id is None) and context_id >= 0 and (not user_id is None) and user_id >= 0:
+                logging.debug('Starting ActiveScan(url=%s, contextid=%s, userid=%s)', target, context_id, user_id)
+                scannerId = self.__zap.ascan.scan_as_user(url=target, contextid=context_id, userid=user_id)
+            else:
+                logging.debug('Starting ActiveScan(url=%s, contextid=%s)', target, context_id)
+                scannerId = self.__zap.ascan.scan(url=target, contextid=context_id)
         else:
-            logging.debug('Starting ActiveScan(url=%s, contextid=%s)', target, context_id)
-            scannerId = self.__zap.ascan.scan(url=target, contextid=context_id)
+            logging.info("Starting ActiveScan(url='%s') without any additinal scanner configuration!", url)
+            scannerId = self.__zap.ascan.scan(url=url, contextid=None)
         
         logging.info("ActiveScan returned: %s", scannerId)
 
@@ -171,7 +177,7 @@ class ZapConfigureActiveScanner():
             raise RuntimeError("ActiveScan couldn't be started due to errors: %s", scannerId)
         else:
             logging.info("ActiveScan successfully started with id: %s", scannerId)
-             # Give the scanner a chance to start
+            # Give the scanner a chance to start
             time.sleep(5)
 
             self.wait_until_finished(int(scannerId))

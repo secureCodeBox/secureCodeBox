@@ -1,3 +1,2 @@
 python-owasp-zap-v2.4==0.0.18
 HiYaPyCo==0.4.16
-pytest-docker==0.10.1

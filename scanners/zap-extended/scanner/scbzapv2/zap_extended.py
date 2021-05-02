@@ -7,8 +7,9 @@ import base64
 import collections
 import logging
 
+from pathlib import Path
 from urllib.parse import urlparse
-from zapv2 import ZAPv2, ascan
+from zapv2 import ZAPv2
 
 from .zap_configuration import ZapConfiguration
 from .zap_context import ZapConfigureContext
@@ -64,7 +65,7 @@ class ZapExtended:
             # Search for the corresponding context based on the given targetUrl which should correspond to defined the spider url
             scan_id = self.__zap_scan.start_scan_by_url(target)
     
-    def get_zap_context(self) -> ZapConfigureContext: 
+    def get_zap_context(self) -> ZapConfigureContext:
         return self.__zap_context
 
     def get_zap_spider(self) -> ZapConfigureSpider:
@@ -72,3 +73,57 @@ class ZapExtended:
 
     def get_zap_scan(self) -> ZapConfigureActiveScanner:
         return self.__zap_scan
+    
+    def __create_session(self, session_name:str):
+        # Start the ZAP session
+        logging.info('Creating a new ZAP session with the name: %s', session_name)
+        self.__zap.core.new_session(name=session_name, overwrite=True)
+    
+    def generate_report_file(self, file_path:str, report_type:str):
+        # To retrieve ZAP report in XML or HTML format
+        logging.info("Creating a new ZAP Report file with type '%s' at location: '%s'", report_type, file_path)
+        
+        # To retrieve ZAP report in XML or HTML format
+        logging.info('Creating a new ZAP Report with type %s', report_type)
+        if report_type == None or report_type == "XML":
+            # Save the XML report (default)
+            self.__write_report(
+                self.__zap.core.xmlreport(),
+                file_path,
+                "xml"
+            )
+        if report_type == None or report_type == "HTML":
+            # Get the HTML report
+            self.__write_report(
+                self.__zap.core.htmlreport(),
+                file_path,
+                "html"
+            )
+        if report_type == None or report_type == "JSON":
+            # Get the JSON report
+            self.__write_report(
+                self.__zap.core.jsonreport(),
+                file_path,
+                "json"
+            )
+        if report_type == None or report_type == "MD":
+            # Get the Markdown report
+            self.__write_report(
+                self.__zap.core.mdreport(),
+                file_path,
+                "md"
+            )
+    
+    def __write_report(self, report, file_path:str, filetype:str):
+        Path(file_path).mkdir(parents=True, exist_ok=True)
+        with open(f'{file_path}/zap-results.{filetype}', mode='w') as f:
+            f.write(report)
+        
+    def zap_shutdown(self):
+        """ This shutdown ZAP and prints out ZAP Scanning stats before shutting down.
+        """
+        stats = self.__zap.stats.all_sites_stats()
+        logging.info(stats)
+
+        logging.info("Shutting down the running ZAP Instance")
+        self.__zap.core.shutdown()

@@ -44,19 +44,21 @@ class ZapConfigureSpider:
             True if the ajax spider must be used instead of the traditional spider, otherwise false.
         """
         spiderId = -1
+        ajax = False
         ajax_config=False
 
         if self.__config.has_spider_configurations:
-
             context=self.__config.get_context_by_url(url)
 
             spider_config=None
-            if "name" in context:
+            if not context == None and "name" in context:
                 spider_config = self.__config.get_spider_by_context_name(str(context["name"]))
                 ajax = True if "ajax" in spider_config else False
+            else:
+                logging.warning("No context configuration found for target: %s! Starting spider without any related context.", url)
 
-            logging.info('Trying to start Spider (Ajax: %s) by configuration target url %s', str(ajax), url)
-            spiderId = self._start_spider(spider_config=spider_config, ajax=ajax_config)
+            logging.info("Trying to start Spider (Ajax: %s) with target url: '%s'", str(ajax), url)
+            spiderId = self._start_spider(url=url, spider_config=spider_config, ajax=ajax_config)
         else:
             logging.error("There is no spider specific configuration found.")
 
@@ -79,6 +81,7 @@ class ZapConfigureSpider:
         if self.__config.has_spider_configurations:
             spider_config = self.__config.get_spider_by_index(index)
             ajax = True if "ajax" in spider_config else False
+            url = spider_config["url"] if "url" in spider_config else None
 
             logging.debug('Trying to start Spider (Ajax: %s) by configuration index %s', str(ajax), str(index))
             spiderId = self._start_spider(spider_config=spider_config, ajax=ajax)
@@ -101,9 +104,10 @@ class ZapConfigureSpider:
         if self.__config.has_spider_configurations:
             spider_config = self.__config.get_spider_by_name(name)
             ajax = True if "ajax" in spider_config else False
+            url = spider_config["url"] if "url" in spider_config else None
             
             logging.debug('Trying to start Spider (Ajax: %s) by configuration index %s', str(ajax), str(index))
-            spiderId = self._start_spider(spider_config=spider_config, ajax=ajax)
+            spiderId = self._start_spider(url=url, spider_config=spider_config, ajax=ajax)
         
         return int(spiderId)
 
@@ -160,7 +164,7 @@ class ZapConfigureSpider:
                     logging.info("URL: %s", url['requestHeader'])
     
 
-    def _start_spider(self, spider_config: collections.OrderedDict, ajax: bool) -> int:
+    def _start_spider(self, url: str, spider_config: collections.OrderedDict, ajax: bool) -> int:
         """ Starts a ZAP Spider with the given spiders configuration, based on the internal referenced ZAP instance.
         
         Parameters
@@ -170,7 +174,7 @@ class ZapConfigureSpider:
         ajax: bool
             True if the ajax spider must be used instead of the traditional spider, otherwise false.
         """
-        spiderId = ""
+        spiderId = -1
         user_id = None
         context_id = None
         context_name = None
@@ -180,65 +184,71 @@ class ZapConfigureSpider:
         # Clear all excisting/previous spider data
         self.__zap.spider.remove_all_scans()
 
-        if("url" in spider_config):
-            target = str(spider_config['url'])
-        else:
-            logging.warning("The spider has no 'URL' target defined, trying to use the context URL")
-            # TODO: hanlde missing url
+        if not spider_config == None:
 
-        # "Context" is an optional config for spider
-        if("ajax" in spider_config):
-            ajax = bool(spider_config['ajax'])
-
-        # "Context" is an optional config for spider
-        if("context" in spider_config):
-        
-            context_name = str(spider_config['context'])
-            spider_context_config = self.__config.get_context_by_name(context_name)
-            context_id = int(spider_context_config['id'])
-
-            # "User" is an optional config for spider in addition to the context
-            if("user" in spider_config):
-
-                user_name = str(spider_config['user'])
-                # search for the current ZAP Context id for the given context name
-                user_id = int(self.__config.get_context_user_by_name(spider_context_config, user_name)['id'])
-                user_username = self.__config.get_context_user_by_name(spider_context_config, user_name)['username']
-        
-        # Open first URL before the spider start's to crawl
-        self.__zap.core.access_url(target)
-
-        # Start Spider:
-        if (ajax):
-            logging.info('Trying to start "ajax" Spider with config: %s', spider_config)
-            spiderId = self.__start_spider_ajax(spider_config, target, context_name, user_username)
-
-            if ("OK" != str(spiderId)):
-                logging.error("Spider couldn't be started due to errors: %s", spiderId)
-                raise RuntimeError("Spider couldn't be started due to errors: %s", spiderId)
+            if("url" in spider_config):
+                target = str(spider_config['url'])
             else:
-                # due to the fact that there can be only one ajax spider at once the id is "pinned" to 1
-                spiderId = 1
-                logging.info("Spider successfully started with id: %s", spiderId)
-                # Give the scanner a chance to start
-                time.sleep(5)
+                logging.warning("The spider configuration section has no specific 'url' target defined, trying to use scanType target instead with url: '%s'", url)
+                target=url
+
+            # "Context" is an optional config for spider
+            if("ajax" in spider_config):
+                ajax = bool(spider_config['ajax'])
+
+            # "Context" is an optional config for spider
+            if("context" in spider_config):
             
-                self.wait_until_ajax_spider_finished()
+                context_name = str(spider_config['context'])
+                spider_context_config = self.__config.get_context_by_name(context_name)
+                context_id = int(spider_context_config['id'])
+
+                # "User" is an optional config for spider in addition to the context
+                if("user" in spider_config):
+
+                    user_name = str(spider_config['user'])
+                    # search for the current ZAP Context id for the given context name
+                    user_id = int(self.__config.get_context_user_by_name(spider_context_config, user_name)['id'])
+                    user_username = self.__config.get_context_user_by_name(spider_context_config, user_name)['username']
+            
+            # Open first URL before the spider start's to crawl
+            self.__zap.core.access_url(target)
+
+            # Start Spider:
+            if (ajax):
+                logging.info('Trying to start "ajax" Spider with config: %s', spider_config)
+                spiderId = self.__start_spider_ajax(spider_config, target, context_name, user_username)
+
+                if ("OK" != str(spiderId)):
+                    logging.error("Spider couldn't be started due to errors: %s", spiderId)
+                    raise RuntimeError("Spider couldn't be started due to errors: %s", spiderId)
+                else:
+                    # due to the fact that there can be only one ajax spider at once the id is "pinned" to 1
+                    spiderId = 1
+                    logging.info("Spider successfully started with id: %s", spiderId)
+                    # Give the scanner a chance to start
+                    time.sleep(5)
+                
+                    self.wait_until_ajax_spider_finished()
+
+            else:
+                logging.info('Trying to start "traditional" Spider with config: %s', spider_config)
+                spiderId = self.__start_spider_http(spider_config, target, context_id, context_name, user_id)
+
+                if (not str(spiderId).isdigit()) or int(spiderId) < 0:
+                    logging.error("Spider couldn't be started due to errors: %s", spiderId)
+                    raise RuntimeError("Spider couldn't be started due to errors: %s", spiderId)
+                else:
+                    logging.info("Spider successfully started with id: %s", spiderId)
+                    # Give the scanner a chance to start
+                    time.sleep(5)
+                
+                self.wait_until_http_spider_finished(int(spiderId))
 
         else:
-            logging.info('Trying to start "traditional" Spider with config: %s', spider_config)
-            spiderId = self.__start_spider_http(spider_config, target, context_id, context_name, user_id)
-
-            if (not str(spiderId).isdigit()) or int(spiderId) < 0:
-                logging.error("Spider couldn't be started due to errors: %s", spiderId)
-                raise RuntimeError("Spider couldn't be started due to errors: %s", spiderId)
-            else:
-                logging.info("Spider successfully started with id: %s", spiderId)
-                # Give the scanner a chance to start
-                time.sleep(5)
-            
-            self.wait_until_http_spider_finished(int(spiderId))
-
+            logging.info("Trying to start 'traditional' Spider to spider target '%s' without any additinal config!", url)
+            spiderId = self.__start_spider_http(spider_config=None, target=url, context_id=None, context_name=None, user_id=None)
+        
         return spiderId
 
     def __start_spider_http(self, spider_config: collections.OrderedDict, target: str, context_id: int, context_name: str, user_id: int) -> str:
@@ -260,8 +270,9 @@ class ZapConfigureSpider:
         spiderId = ""
         spider = self.__zap.spider
 
-        # Configure Spider Options
-        self.__configure_http_spider(spider, spider_config)
+        # Configure Spider Options if there are any
+        if not spider_config == None:
+            self.__configure_http_spider(spider, spider_config)
         
         # Spider target
         if (not context_id is None) and context_id >= 0 and (not user_id is None) and user_id >= 0:

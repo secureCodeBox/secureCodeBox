@@ -1,11 +1,11 @@
 const { scan } = require("../helpers");
 
 test(
-  "ZAP-extended baseline scan against a plain nginx container should only find couple findings",
+  "ZAP-extended scan without config YAML against a plain nginx container should only find couple findings",
   async () => {
     const { categories, severities } = await scan(
-      "zap-extended-baseline-scan-nginx-demo",
-      "zap-extended-baseline-scan",
+      "zap-extended-scan-nginx-demo",
+      "zap-extended-scan",
       ["-t", "http://nginx.demo-apps.svc"],
       60 * 6
     );
@@ -24,7 +24,7 @@ test(
     expect(severities).toMatchInlineSnapshot(`
       Object {
         "informational": 1,
-        "low": 6,
+        "low": 6, 
         "medium": 4,
       }
     `);

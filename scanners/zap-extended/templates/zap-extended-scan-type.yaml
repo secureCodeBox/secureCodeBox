@@ -2,13 +2,13 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: zap-extended-baseline-scan
+  name: zap-extended-scan
   labels:
     {{- include "zap.labels" . | nindent 4 }}
 spec:
   extractResults:
     type: zap-xml
-    location: "/home/securecodebox/zap-results.xml"
+    location: "/home/securecodebox/results/zap-results.xml"
   jobTemplate:
     spec:
       {{- if .Values.scannerJob.ttlSecondsAfterFinished }}
@@ -19,19 +19,23 @@ spec:
         spec:
           restartPolicy: Never
           containers:
-            - name: zap-extended-baseline-scan
+            - name: zap-extended-scan
               image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: {{ .Values.image.pullPolicy }}
               command:
-                - "zap-baseline.py"
-                # Force OWASP ZAP to always return a zero exit code. K8S would otherwise try to restart zap.
-                - "-I"
-                - "-d"
-                - "-x"
-                # ZAP Baseline Script doesn't allow absolute paths...
-                # Hacky workaround: specify a relative path to the `/zap/wrk` base dir.
-                - "../../home/securecodebox/zap-results.xml"
-                - "--hook=/zap/zap_hooks.py"
+                - "python3"
+                - "-m"
+                - "scbzapv2"
+                - "--report-type"
+                - "XML"
+                - "--zap-url"
+                - "zap-sidecar:8080"
+                # - "--api-key"
+                # - "ertzukndtzuikbvcfjkmnbvcfghjklmnbvc"
+                - "--config-folder"
+                - "/home/securecodebox/configs"
+                - "--output-folder"
+                - "/home/securecodebox/results"
               resources:
                 {{- toYaml .Values.scannerJob.resources | nindent 16 }}
               securityContext:
@@ -42,104 +46,27 @@ spec:
                 {{- toYaml .Values.scannerJob.envFrom | nindent 16 }}
               volumeMounts:
                 {{- toYaml .Values.scannerJob.extraVolumeMounts | nindent 16 }}
-            {{- if .Values.scannerJob.extraContainers }}
-            {{- toYaml .Values.scannerJob.extraContainers | nindent 12 }}
-            {{- end }}
-          volumes:
-            {{- toYaml .Values.scannerJob.extraVolumes | nindent 12 }}
----
-apiVersion: "execution.securecodebox.io/v1"
-kind: ScanType
-metadata:
-  name: zap-extended-full-scan
-  labels:
-    {{- include "zap.labels" . | nindent 4 }}
-spec:
-  extractResults:
-    type: zap-xml
-    location: "/home/securecodebox/zap-results.xml"
-  jobTemplate:
-    spec:
-      {{- if .Values.scannerJob.ttlSecondsAfterFinished }}
-      ttlSecondsAfterFinished: {{ .Values.scannerJob.ttlSecondsAfterFinished }}
-      {{- end }}
-      backoffLimit: {{ .Values.scannerJob.backoffLimit }}
-      template:
-        spec:
-          restartPolicy: Never
-          containers:
-            - name: zap-extended-full-scan
-              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+              {{- if .Values.scannerJob.extraContainers }}
+              {{- toYaml .Values.scannerJob.extraContainers | nindent 12 }}
+              {{- end }}
+            - name: zap-sidecar
+              image: "owasp/zap2docker-stable:latest"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
               command:
-                - "zap-full-scan.py"
-                # Force OWASP ZAP to always return a zero exit code. K8S would otherwise try to restart zap.
-                - "-I"
-                - "-d"
-                - "-x"
-                # ZAP Baseline Script doesn't allow absolute paths...
-                # Hacky workaround: specify a relative path to the `/zap/wrk` base dir.
-                - "../../home/securecodebox/zap-results.xml"
-                - "--hook=/zap/zap_hooks.py"
-              resources:
-                {{- toYaml .Values.scannerJob.resources | nindent 16 }}
-              securityContext:
-                {{- toYaml .Values.scannerJob.securityContext | nindent 16 }}
-              env:
-                {{- toYaml .Values.scannerJob.env | nindent 16 }}
-              envFrom:
-                {{- toYaml .Values.scannerJob.envFrom | nindent 16 }}
-              volumeMounts:
-                {{- toYaml .Values.scannerJob.extraVolumeMounts | nindent 16 }}
-            {{- if .Values.scannerJob.extraContainers }}
-            {{- toYaml .Values.scannerJob.extraContainers | nindent 12 }}
-            {{- end }}
-          volumes:
-            {{- toYaml .Values.scannerJob.extraVolumes | nindent 12 }}
----
-apiVersion: "execution.securecodebox.io/v1"
-kind: ScanType
-metadata:
-  name: zap-extended-api-scan
-  labels:
-    {{- include "zap.labels" . | nindent 4 }}
-spec:
-  extractResults:
-    type: zap-xml
-    location: "/home/securecodebox/zap-results.xml"
-  jobTemplate:
-    spec:
-      {{- if .Values.scannerJob.ttlSecondsAfterFinished }}
-      ttlSecondsAfterFinished: {{ .Values.scannerJob.ttlSecondsAfterFinished }}
-      {{- end }}
-      backoffLimit: {{ .Values.scannerJob.backoffLimit }}
-      template:
-        spec:
-          restartPolicy: Never
-          containers:
-            - name: zap-extended-api-scan
-              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-              command:
-                - "zap-api-scan.py"
-                # Force OWASP ZAP to always return a zero exit code. K8S would otherwise try to restart zap.
-                - "-I"
-                - "-d"
-                - "-x"
-                # ZAP Baseline Script doesn't allow absolute paths...
-                # Hacky workaround: specify a relative path to the `/zap/wrk` base dir.
-                - "../../home/securecodebox/zap-results.xml"
-                - "--hook=/zap/zap_hooks.py"
-              resources:
-                {{- toYaml .Values.scannerJob.resources | nindent 16 }}
-              securityContext:
-                {{- toYaml .Values.scannerJob.securityContext | nindent 16 }}
-              env:
-                {{- toYaml .Values.scannerJob.env | nindent 16 }}
-              envFrom:
-                {{- toYaml .Values.scannerJob.envFrom | nindent 16 }}
-              volumeMounts:
-                {{- toYaml .Values.scannerJob.extraVolumeMounts | nindent 16 }}
-            {{- if .Values.scannerJob.extraContainers }}
-            {{- toYaml .Values.scannerJob.extraContainers | nindent 12 }}
-            {{- end }}
+                - "zap.sh"
+                - "-daemon"
+                - "-port"
+                - "8080" 
+                - "-host"
+                - "0.0.0.0"
+                - "-config"
+                # allow API Access from internal IP's
+                - "api.addrs.addr.name=.*'"
+                - "-config"
+                - "api.addrs.addr.regex=true"
+                # Disble API Key. TODO: change with helm random value? -config api.key=change-me-9203935709
+                - "-config"
+                - "api.disablekey=true"
+          dnsPolicy: Default
           volumes:
             {{- toYaml .Values.scannerJob.extraVolumes | nindent 12 }}

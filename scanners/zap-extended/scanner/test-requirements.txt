@@ -1,0 +1,1 @@
+pytest-docker==0.10.1
