@@ -46,6 +46,9 @@ def process(args):
             "http": "http://" + args.zap_url,
             "https": "http://" + args.zap_url
         }
+    
+    # wait at least 3 minutes for ZAP to start
+    self.__wait_for_zap_start(zap_proxy, 3 * 60)
 
     try:
         logging.info(':: Configuring ZAP Instance with %s', zap_proxy)
@@ -111,6 +114,26 @@ def get_parser_args(args=None):
                         default='baseline',
                         required=False)
     return parser.parse_args(args)
+
+def __wait_for_zap_start(zap, timeout_in_secs = 600):
+    version = None
+    if not timeout_in_secs:
+        # if ZAP doesn't start in 10 mins then its probably not going to start
+        timeout_in_secs = 600
+
+    for x in range(0, timeout_in_secs):
+        try:
+            version = zap.core.version
+            logging.debug('ZAP Version ' + version)
+            logging.debug('Took ' + str(x) + ' seconds')
+            break
+        except IOError:
+            time.sleep(1)
+
+    if not version:
+        raise IOError(
+          errno.EIO,
+          'Failed to connect to ZAP after {0} seconds'.format(timeout_in_secs))
 
 if __name__ == '__main__':
     main()
