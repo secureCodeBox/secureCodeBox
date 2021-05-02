@@ -64,10 +64,10 @@ def process(args):
         zap_extended.generate_report_file(file_path=args.output_folder, report_type=args.report_type)
 
     except argparse.ArgumentError as e:
-        logger.error(f'Argument error: {e}')
+        logger.exception(f'Argument error: {e}')
         sys.exit(1)
     except Exception as e:
-        logger.error(f'Unexpected error: {e}')
+        logger.exception(f'Unexpected error: {e}')
         sys.exit(3)
 
 def get_parser_args(args=None):
