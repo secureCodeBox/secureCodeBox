@@ -37,13 +37,14 @@ class ZapConfiguration:
             logging.info("Finished importing YAML: %s", self.__config)
         else:
             logging.warning("No ZAP YAML Configuration files found :-/ This is no problem but possibly not intendend here.")
+            self.__config = None
 
     def has_configurations(self) -> bool:
         """Returns true if any ZAP Configuration is defined, otherwise false."""
         
         result = False
 
-        if self.__config and len(self.__config) > 0:
+        if (not self.__config == None) and len(self.__config) > 0:
             result = True
 
         return result
