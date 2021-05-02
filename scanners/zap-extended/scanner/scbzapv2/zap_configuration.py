@@ -63,8 +63,8 @@ class ZapConfiguration:
         """Returns a list with all ZAP Context configuration objects"""
         result = collections.OrderedDict()
 
-        if self.has_context_configurations:
-            result = self.__config["contexts"]
+        if self.has_context_configurations():
+            result = self.get_config()["contexts"]
 
         return result
     
