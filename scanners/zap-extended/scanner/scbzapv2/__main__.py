@@ -30,7 +30,6 @@ def main():
     # write_findings_to_file(args.output_folder, findings)
     logging.info('Finished :-) !')
 
-
 def process(args):
 
     api_key = None

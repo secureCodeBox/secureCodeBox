@@ -35,7 +35,7 @@ services:
         - http://juiceshop:3000/#/
       timeout: 10s
   zap:
-    image: owasp/zap2docker-stable:latest
+    image: owasp/zap2docker-bare:latest
     deploy:
       replicas: 1
       restart_policy:

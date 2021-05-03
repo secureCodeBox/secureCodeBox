@@ -18,8 +18,6 @@ unit-test:
 
 docker-test:
 	@echo "Running local Integrations Tests based on docker-compose..."
-	#docker-compose up
-    # docker-compose -f docker-compose.yaml down
 	pytest ./tests/test_integration_docker_local.py  --log-cli-level "INFO"
 
 local-test:

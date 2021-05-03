@@ -39,22 +39,33 @@ class ZapConfiguration:
             logging.warning("No ZAP YAML Configuration files found :-/ This is no problem but possibly not intendend here.")
             self.__config = None
 
+
     def has_configurations(self) -> bool:
         """Returns true if any ZAP Configuration is defined, otherwise false."""
         
-        result = False
-
-        if (not self.__config == None) and len(self.__config) > 0:
-            result = True
-
-        return result
+        return (not self.__config == None) and len(self.__config) > 0
     
     def get_configurations(self) -> collections.OrderedDict():
         """Returns the complete ZAP Configuration object"""
 
         return self.__config
 
-   
+
+    def has_global_configurations(self) -> bool:
+        """Returns true if any ZAP Global Configuration is defined, otherwise false."""
+        
+        return (self.has_configurations() and "global" in self.get_configurations())
+    
+    def get_global(self) -> collections.OrderedDict():
+        """Returns the complete ZAP Configuration object"""
+        result = collections.OrderedDict()
+
+        if self.has_global_configurations():
+            result = self.get_configurations()["global"]
+
+        return result
+
+    
     def has_contexts_configurations(self) -> bool:
         """Returns true if any ZAP Context is defined, otherwise false."""
 

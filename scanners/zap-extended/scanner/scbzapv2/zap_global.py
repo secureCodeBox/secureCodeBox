@@ -41,7 +41,39 @@ class ZapConfigureGlobal():
         self.__zap = zap
         self.__config = config
 
-    def __configure_scanner(self, zap, scanner_config: collections.OrderedDict):
+        if self.__config.has_global_configurations:
+            global_config = self.__config.get_global()
+
+            if "isNewSession" in global_config and "sessionName" in global_config:
+                self.__create_session(str(global_config["sessionName"]))
+            else:
+                self.__create_session("secureCodeBox")
+
+    def __create_session(self, session_name:str):
+        # Start the ZAP session
+        logging.info('Creating a new ZAP session with the name: %s', session_name)
+        self.__zap.core.new_session(name=session_name, overwrite=True)
+
+        # Wait for ZAP to update the internal caches 
+        time.sleep(5)
+    
+    def _configure_exclude_proxy(self, zap: ZAPv2, global_config: collections.OrderedDict):
+        """Protected method to configure the ZAP Global 'Proxy Exclude Settings' based on a given ZAP config.
+        
+        Parameters
+        ----------
+        zap : ZAPv2
+            The running ZAP instance to configure.
+        global_config : collections.OrderedDict
+            The current zap gloabl configuration object containing the ZAP Proxy exclude configuration (based on the class ZapConfiguration).
+        """
+
+        if "excludeProxyPaths" in global_config:
+            for regex in global_config["excludeProxyPaths"]:
+                logging.debug("Excluding regex '%s' from global proxy setting", regex)
+                zap.core.exclude_from_proxy(regex=regex)
+
+    def __configure_global(self, zap, scanner_config: collections.OrderedDict):
         """ Starts a ZAP ActiveScan with the given name for the scanners configuration, based on the given configuration and ZAP instance.
         
         Parameters
@@ -103,19 +135,3 @@ class ZapConfigureGlobal():
                 scannerId=zap_scanner.set_option_default_policy(str(scanner_config['defaultPolicy'])), 
                 method="set_option_default_policy"
             )
-        
-    def __check_zap_scan_result(self, scannerId: str, method: str):
-        """ Checks the given scannerId for ZAP Errors and logs wariing messages if there are errors returened by ZAP.
-        
-        Parameters
-        ----------
-        scannerId: str
-            The scannerId of a ZAP Call.
-        method: str
-            The name of the method used (to call ZAP).
-        """
-        
-        if "OK" != scannerId:
-            logging.warning("Failed to configure ActiveScan ['%s'], result is: '%s'", method, scannerId)
-        else:
-            logging.debug("Successfull configured ActiveScan ['%s'], result is: '%s'", method, scannerId)

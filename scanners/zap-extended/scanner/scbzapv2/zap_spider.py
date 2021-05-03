@@ -161,15 +161,15 @@ class ZapConfigureSpider:
                 
             logging.info('Ajax Spider complete')
 
-            # Print out a count of the number of urls
-            num_urls = len(self.__zap.core.urls())
-            if num_urls == 0:
-                logging.error("No URLs found - is the target URL accessible? Local services may not be accessible from the Docker container")
-                raise RuntimeError('No URLs found by ZAP Spider :-( - is the target URL accessible? Local services may not be accessible from the Docker container')
-            else:
-                logging.info("Ajax Spider found total: %s URLs", str(num_urls))
-                for url in self.__zap.ajaxSpider.results():
-                    logging.info("URL: %s", url['requestHeader'])
+        # Print out a count of the number of urls
+        num_urls = len(self.__zap.core.urls())
+        if num_urls == 0:
+            logging.error("No URLs found - is the target URL accessible? Local services may not be accessible from the Docker container")
+            raise RuntimeError('No URLs found by ZAP Spider :-( - is the target URL accessible? Local services may not be accessible from the Docker container')
+        else:
+            logging.info("Ajax Spider found total: %s URLs", str(num_urls))
+            for url in self.__zap.ajaxSpider.results():
+                logging.info("URL: %s", url['requestHeader'])
     
 
     def _start_spider(self, url: str, spider_config: collections.OrderedDict, ajax: bool) -> int:

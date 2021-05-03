@@ -88,7 +88,35 @@ def test_all_services_available(get_bodgeit_url, get_juiceshop_url, get_zap_url)
     response = requests.get(get_zap_url + "/UI/core/")
     assert response.status_code == 200
 
-def test_bodgeit_scan(get_bodgeit_url, get_juiceshop_url, get_zap_instance: ZAPv2):
+def test_scb_scan_without_config(get_zap_instance: ZAPv2):
+
+    zap = get_zap_instance
+    test_target = "http://www.secureCodeBox.io/"
+    
+    zap_extended = ZapExtended(zap=zap, config_dir="")
+    zap_extended.scb_scan(target=test_target)
+    
+    alerts = zap_extended.get_zap_scan().get_alerts(test_target, [], [])
+
+    logging.info('Found ZAP Alerts: %s', str(len(alerts)))
+
+    assert int(len(alerts)) >= 1
+
+def test_bodgeit_scan_without_config(get_bodgeit_url, get_zap_instance: ZAPv2):
+
+    zap = get_zap_instance
+    test_target = "http://localhost:8080/bodgeit/"
+    
+    zap_extended = ZapExtended(zap=zap, config_dir="")
+    zap_extended.scb_scan(target=test_target)
+    
+    alerts = zap_extended.get_zap_scan().get_alerts(test_target, [], [])
+
+    logging.info('Found ZAP Alerts: %s', str(len(alerts)))
+
+    assert int(len(alerts)) >= 5
+
+def test_bodgeit_scan_with_config(get_bodgeit_url, get_zap_instance: ZAPv2):
 
     zap = get_zap_instance
     test_config_yaml = "./tests/mocks/scan-full-bodgeit-local/"
@@ -103,7 +131,22 @@ def test_bodgeit_scan(get_bodgeit_url, get_juiceshop_url, get_zap_instance: ZAPv
 
     assert int(len(alerts)) >= 5
     
-def test_juiceshop_scan(get_bodgeit_url, get_juiceshop_url, get_zap_instance: ZAPv2):
+def test_juiceshop_scan_without_config(get_juiceshop_url, get_zap_instance: ZAPv2):
+    
+    zap = get_zap_instance
+    test_config_yaml = "./tests/mocks/scan-full-juiceshop-local/"
+    test_target = "http://localhost:3000/"
+    
+    zap_extended = ZapExtended(zap=zap, config_dir="")
+    zap_extended.scb_scan(target=test_target)
+    
+    alerts = zap_extended.get_zap_scan().get_alerts(test_target, [], [])
+
+    logging.info('Found ZAP Alerts: %s', str(len(alerts)))
+    
+    assert int(len(alerts)) >= 2
+
+def test_juiceshop_scan_with_config(get_juiceshop_url, get_zap_instance: ZAPv2):
     
     zap = get_zap_instance
     test_config_yaml = "./tests/mocks/scan-full-juiceshop-local/"
@@ -116,5 +159,4 @@ def test_juiceshop_scan(get_bodgeit_url, get_juiceshop_url, get_zap_instance: ZA
 
     logging.info('Found ZAP Alerts: %s', str(len(alerts)))
     
-    assert int(len(alerts)) >= 3
-
+    assert int(len(alerts)) >= 2

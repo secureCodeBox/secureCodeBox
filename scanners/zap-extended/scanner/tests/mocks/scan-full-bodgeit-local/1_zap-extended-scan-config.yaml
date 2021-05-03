@@ -1,10 +1,42 @@
 ---
+# Global ZAP Configurations - NOT YET IMPLEMENTED
+global:
+  # True to create another ZAP session (overwrite the former if the same name already exists), False to use an existing on
+  isNewSession: true
+  # ZAP Session name
+  sessionName: SCB
+  # excludeProxyPaths:
+  #   - ".*\\.js"
+  #   - ".*\\.css"
+  #   - ".*\\.png"
+  #   - ".*\\.jpeg"
+#   proxy:
+#     # Define if an outgoing proxy server is used.
+#     enabled: false
+#     port: 8080
+#     # MANDATORY only if useProxyChain is True, ignored otherwise. Outgoing proxy address and port
+#     address: my.corp.proxy
+#     # Define the addresses to skip in case useProxyChain is True. Ignored otherwise. List can be empty.
+#     skipProxyAddresses:
+#       - "127.0.0.1"
+#       - localhost
+#     # MANDATORY only if proxy.enabled is True. Ignored otherwise. Define if proxy server needs authentication
+#     authentication:
+#         enabled: false
+#         proxyUsername: ""
+#         proxyPassword: ""
+#         proxyRealm: ""
+#       # Determine if a proxy script must be loaded. Proxy scripts are executed for every request traversing ZAP
+#     script:
+#       enabled: false
+#       # MANDATORY only if useProxyScript is True. Ignored otherwise
+#       script
 # List of 1 or more contexts, mandatory
 contexts:
   # Name to be used to refer to this context in other jobs, mandatory
   - name: scb-bodgeit-context
     # The top level url, mandatory, everything under this will be included. IMPORTANT: must be the hostname without any subpath!
-    url: http://localhost:8080/
+    url: http://localhost:8080/bodgeit/
     # An optional list of regexes to include
     includePaths:
       - "http://localhost:8080/bodgeit.*"

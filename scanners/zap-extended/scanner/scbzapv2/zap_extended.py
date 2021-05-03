@@ -13,6 +13,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 from zapv2 import ZAPv2
 
+from .zap_global import ZapConfigureGlobal
 from .zap_configuration import ZapConfiguration
 from .zap_context import ZapConfigureContext
 from .zap_spider import ZapConfigureSpider
@@ -49,6 +50,7 @@ class ZapExtended:
 
         self.__config = ZapConfiguration(config_dir)
 
+        self.__zap_global = None
         self.__zap_context = None
         self.__zap_spider = None
         self.__zap_scan = None
@@ -57,8 +59,17 @@ class ZapExtended:
 
         # wait at least 3 minutes for ZAP to start
         self.wait_for_zap_start(3 * 60)
+        
+        logging.info('Configuring ZAP Global')
+        # Starting to configure the ZAP Instance based on the given Configuration
+        self.__zap_global = ZapConfigureGlobal(self.__zap, self.__config)
+        
         self.zap_tune()
-        #self.zap_access_target(target)
+        self.zap_access_target(target)
+
+        # if target.count('/') > 2:
+        #     # The url can include a valid path, but always reset to spider the host
+        #     target = target[0:target.index('/', 8)+1]
 
         logging.info('Configuring ZAP Context')
         # Starting to configure the ZAP Instance based on the given Configuration
@@ -71,6 +82,9 @@ class ZapExtended:
             # Starting to configure the ZAP Spider Instance based on the given Configuration
             self.__zap_spider = ZapConfigureSpider(self.__zap, self.__config)
             spider_id = self.__zap_spider.start_spider_by_url(target)
+
+        # Wait for ZAP to update the internal caches 
+        time.sleep(5)
 
         logging.info('Starting ZAP Scanner with target %s', target)
         # if a ZAP Configuration is defined start to configure the running ZAP instance (`zap`)
@@ -88,11 +102,6 @@ class ZapExtended:
 
     def get_zap_scan(self) -> ZapConfigureActiveScanner:
         return self.__zap_scan
-    
-    def __create_session(self, session_name:str):
-        # Start the ZAP session
-        logging.info('Creating a new ZAP session with the name: %s', session_name)
-        self.__zap.core.new_session(name=session_name, overwrite=True)
     
     def generate_report_file(self, file_path:str, report_type:str):
         # To retrieve ZAP report in XML or HTML format
@@ -155,6 +164,8 @@ class ZapExtended:
             'Failed to connect to ZAP after {0} seconds'.format(timeout_in_secs))
 
     def zap_access_target(self, target:str):
+        logging.info("Testing ZAP Acces to target URL: %s", target)
+        
         res = self.__zap.urlopen(target)
         if res.startswith("ZAP Error"):
             raise IOError(errno.EIO, 'ZAP failed to access: {0}'.format(target))

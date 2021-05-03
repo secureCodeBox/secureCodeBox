@@ -50,7 +50,7 @@ spec:
               {{- toYaml .Values.scannerJob.extraContainers | nindent 12 }}
               {{- end }}
             - name: zap-sidecar
-              image: "owasp/zap2docker-stable:latest"
+              image: "owasp/zap2docker-bare:2.10.0"
               imagePullPolicy: {{ .Values.image.pullPolicy }}
               command:
                 - "zap.sh"
