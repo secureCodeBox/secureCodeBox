@@ -12,6 +12,14 @@ from zapv2 import ZAPv2, ascan
 
 from .zap_configuration import ZapConfiguration
 
+# set up logging to file - see previous section for more details
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s %(name)-12s %(levelname)-8s: %(message)s',
+    datefmt='%Y-%m-%d %H:%M')
+
+logging = logging.getLogger('ZapConfigureActiveScanner')
+
 class ZapConfigureActiveScanner():
     """This class configures a scanner in a running ZAP instance, based on a ZAP Configuration
     
@@ -43,14 +51,14 @@ class ZapConfigureActiveScanner():
         """
         scannerId = -1
 
-        if self.__config.has_scan_configurations:
+        if self.__config.has_scans_configurations:
             logging.debug("Trying to start ActiveScan by configuration target url: '%s'", str(url))
 
             context=self.__config.get_context_by_url(url)
 
             scanner_config=None
             if not context == None and "name" in context:
-                scanner_config=self.__config.get_scans_by_context_name(str(context["name"]))
+                scanner_config=self.__config.get_scan_by_context_name(str(context["name"]))
             else:
                 logging.warning("No context configuration found for target: %s! Starting active scanning without any related context.", url)
 
@@ -71,7 +79,7 @@ class ZapConfigureActiveScanner():
         """
         scannerId = -1
 
-        if self.__config.has_scan_configurations:
+        if self.__config.has_scans_configurations:
             logging.debug('Trying to start ActiveScan by configuration index %s', str(index))
             scannerId = self._start_scanner(self.__config.get_scan_by_index(index))
         
@@ -87,7 +95,7 @@ class ZapConfigureActiveScanner():
         """
         scannerId = -1
 
-        if self.__config.has_scan_configurations:
+        if self.__config.has_scans_configurations:
             logging.debug('Trying to start ActiveScan by configuration name %s', str(name))
             scannerId = self._start_scanner(self.__config.get_scans_by_name(name))
         

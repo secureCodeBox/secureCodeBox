@@ -12,6 +12,14 @@ from zapv2 import ZAPv2, spider, ajaxSpider
 
 from .zap_configuration import ZapConfiguration
 
+# set up logging to file - see previous section for more details
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s %(name)-12s %(levelname)-8s: %(message)s',
+    datefmt='%Y-%m-%d %H:%M')
+
+logging = logging.getLogger('ZapConfigureSpider')
+
 class ZapConfigureSpider:
     """This class configures a spider in a running ZAP instance, based on a ZAP Configuration
     
@@ -47,7 +55,7 @@ class ZapConfigureSpider:
         ajax = False
         ajax_config=False
 
-        if self.__config.has_spider_configurations:
+        if self.__config.has_spiders_configurations:
             context=self.__config.get_context_by_url(url)
 
             spider_config=None
@@ -78,7 +86,7 @@ class ZapConfigureSpider:
         spiderId = -1
         ajax_config=False
 
-        if self.__config.has_spider_configurations:
+        if self.__config.has_spiders_configurations:
             spider_config = self.__config.get_spider_by_index(index)
             ajax = True if "ajax" in spider_config else False
             url = spider_config["url"] if "url" in spider_config else None
@@ -101,7 +109,7 @@ class ZapConfigureSpider:
 
         spiderId = -1
 
-        if self.__config.has_spider_configurations:
+        if self.__config.has_spiders_configurations:
             spider_config = self.__config.get_spider_by_name(name)
             ajax = True if "ajax" in spider_config else False
             url = spider_config["url"] if "url" in spider_config else None

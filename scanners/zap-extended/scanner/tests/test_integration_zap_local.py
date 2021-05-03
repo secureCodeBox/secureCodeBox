@@ -92,7 +92,7 @@ def test_bodgeit_scan(get_bodgeit_url, get_juiceshop_url, get_zap_instance: ZAPv
 
     zap = get_zap_instance
     test_config_yaml = "./tests/mocks/scan-full-bodgeit-local/"
-    test_target = "http://localhost:8080/"
+    test_target = "http://localhost:8080/bodgeit/"
     
     zap_extended = ZapExtended(zap=zap, config_dir=test_config_yaml)
     zap_extended.scb_scan(target=test_target)

@@ -10,7 +10,7 @@ class ZapSpiderTests(TestCase):
 
     def test_has_spider_configurations(self):
         config = ZapConfiguration("./tests/mocks/context-with-overlay/")
-        self.assertFalse(config.has_spider_configurations())
+        self.assertFalse(config.has_spiders_configurations())
 
         config = ZapConfiguration("./tests/mocks/scan-full-bodgeit-docker/")
-        self.assertTrue(config.has_spider_configurations())
+        self.assertTrue(config.has_spiders_configurations())

@@ -2,8 +2,6 @@ import argparse
 import json
 import logging
 import sys
-import time
-import errno
 
 from pathlib import Path
 from zapv2 import ZAPv2
@@ -54,17 +52,10 @@ def process(args):
     # Connect ZAP API client to the listening address of ZAP instance
     zap = ZAPv2(proxies=zap_proxy, apikey=api_key)
 
+    logging.info(':: Starting SCB ZAP Automation Framework with config %s', args.config_folder)
+    zap_extended = ZapExtended(zap=zap, config_dir=args.config_folder)
+    
     try:
-        # wait at least 3 minutes for ZAP to start
-        __wait_for_zap_start(zap, 3 * 60)
-
-        __zap_tune(zap)
-
-        __zap_access_target(zap, args.target)
-
-        logging.info(':: Starting SCB ZAP Automation Framework with config %s', args.config_folder)
-        zap_extended = ZapExtended(zap=zap, config_dir=args.config_folder)
-        
         logging.info(':: Starting SCB ZAP Scan with target %s', args.target)
         zap_extended.scb_scan(target=args.target)
 
@@ -73,7 +64,7 @@ def process(args):
 
         zap_extended.generate_report_file(file_path=args.output_folder, report_type=args.report_type)
 
-        __zap_shutdown(zap)
+        zap_extended.zap_shutdown(zap)
         logging.info(':: Finished !')
 
     except argparse.ArgumentError as e:
@@ -81,7 +72,7 @@ def process(args):
         sys.exit(1)
     except Exception as e:
         logging.exception(f'Unexpected error: {e}')
-        __zap_shutdown(zap)
+        zap_extended.zap_shutdown(zap)
         sys.exit(3)
 
 def get_parser_args(args=None):
@@ -125,50 +116,6 @@ def get_parser_args(args=None):
                         default='baseline',
                         required=False)
     return parser.parse_args(args)
-
-def __wait_for_zap_start(zap: ZAPv2, timeout_in_secs = 600):
-    version = None
-    if not timeout_in_secs:
-        # if ZAP doesn't start in 10 mins then its probably not going to start
-        timeout_in_secs = 600
-
-    for x in range(0, timeout_in_secs):
-        try:
-            version = zap.core.version
-            logging.debug('ZAP Version ' + version)
-            logging.debug('Took ' + str(x) + ' seconds')
-            break
-        except IOError:
-            time.sleep(1)
-
-    if not version:
-        raise IOError(
-          errno.EIO,
-          'Failed to connect to ZAP after {0} seconds'.format(timeout_in_secs))
-
-def __zap_access_target(zap: ZAPv2, target):
-    res = zap.urlopen(target)
-    if res.startswith("ZAP Error"):
-        raise IOError(errno.EIO, 'ZAP failed to access: {0}'.format(target))
-
-
-def __zap_tune(zap: ZAPv2):
-    logging.debug('Tune')
-    logging.debug('Disable all tags')
-    zap.pscan.disable_all_tags()
-    logging.debug('Set max pscan alerts')
-    zap.pscan.set_max_alerts_per_rule(10)
-
-def __zap_shutdown(zap: ZAPv2):
-        """ This shutdown ZAP and prints out ZAP Scanning stats before shutting down.
-        """
-
-        logging.info(":: Show all Statistics")
-        stats = zap.stats.all_sites_stats()
-        logging.info(stats)
-
-        logging.info(":: Shutting down the running ZAP Instance.")
-        zap.core.shutdown()
 
 if __name__ == '__main__':
     main()

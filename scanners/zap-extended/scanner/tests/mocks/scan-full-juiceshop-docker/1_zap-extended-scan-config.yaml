@@ -10,7 +10,7 @@ contexts:
       - "http://juiceshop:3000.*"
     # An optional list of regexes to exclude
     excludePaths:
-      - "http://localhost:3000/socket.io.*"
+      - "http://juiceshop:3000/socket.io.*"
       - ".*\\.js"
       - ".*\\.css"
       - ".*\\.png"
@@ -27,7 +27,7 @@ contexts:
       # json-based requires no further configuration
       # zapConfiguration.contexts[0].authentication.json-based -- Configure `type: json-based` authentication (more: https://www.zaproxy.org/docs/api/#json-based-authentication).
       json-based:
-        loginUrl: "http://localhost:3000/rest/user/login"
+        loginUrl: "http://juiceshop:3000/rest/user/login"
         # must be escaped already to prevent yaml parser colidations '{"user":{"id":1,"email":"test@test.com"}}''
         loginRequestData: '{"email":"test@test.com","password":"test1"}'
         # Username Parameter: email

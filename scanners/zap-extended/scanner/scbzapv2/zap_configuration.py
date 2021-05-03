@@ -49,22 +49,23 @@ class ZapConfiguration:
 
         return result
     
-    def get_config(self) -> collections.OrderedDict():
+    def get_configurations(self) -> collections.OrderedDict():
         """Returns the complete ZAP Configuration object"""
 
         return self.__config
-    
-    def has_context_configurations(self) -> bool:
+
+   
+    def has_contexts_configurations(self) -> bool:
         """Returns true if any ZAP Context is defined, otherwise false."""
 
-        return (self.has_configurations() and "contexts" in self.get_config())
+        return (self.has_configurations() and "contexts" in self.get_configurations())
     
     def get_contexts(self) -> list:
         """Returns a list with all ZAP Context configuration objects"""
         result = collections.OrderedDict()
 
-        if self.has_context_configurations():
-            result = self.get_config()["contexts"]
+        if self.has_contexts_configurations():
+            result = self.get_configurations()["contexts"]
 
         return result
     
@@ -78,7 +79,7 @@ class ZapConfiguration:
         """
         result = collections.OrderedDict()
 
-        if self.has_context_configurations and len(self.get_contexts()) > index:
+        if self.has_contexts_configurations and len(self.get_contexts()) > index:
             result = self.get_contexts()[index]
 
         return result
@@ -94,7 +95,7 @@ class ZapConfiguration:
 
         result = collections.OrderedDict()
 
-        if self.has_context_configurations:
+        if self.has_contexts_configurations:
             result = next((context for context in self.get_contexts() if context['name'] == name), None)
 
         return result
@@ -110,7 +111,7 @@ class ZapConfiguration:
 
         result = collections.OrderedDict()
 
-        if self.has_context_configurations:
+        if self.has_contexts_configurations:
             result = next((context for context in self.get_contexts() if context['url'] == url), None)
         else:
             logging.warning("There is no context configuration to search for.")
@@ -120,7 +121,7 @@ class ZapConfiguration:
     def has_context_users_configurations(self, context: collections.OrderedDict) -> bool:
         """Returns true if any ZAP Context Users are defined, otherwise false."""
 
-        return (self.has_context_configurations() and ("users" in context) and len(context["users"]) > 0)
+        return (self.has_contexts_configurations() and ("users" in context) and len(context["users"]) > 0)
     
     def get_context_users(self, context: collections.OrderedDict) -> list:
         """Returns a list with all ZAP Context Users configuration objects
@@ -178,16 +179,17 @@ class ZapConfiguration:
 
         return result
 
-    def has_scan_configurations(self) -> bool:
+
+    def has_scans_configurations(self) -> bool:
         """Returns true if any ZAP Scan is defined, otherwise false."""
 
-        return (self.has_configurations() and "scanners" in self.get_config())
-    
+        return (self.has_configurations() and "scanners" in self.get_configurations())
+
     def get_scans(self) -> list:
         """Returns a list with all ZAP Scan configuration objects"""
         result = collections.OrderedDict()
 
-        if self.has_scan_configurations:
+        if self.has_scans_configurations:
             result = self.__config["scanners"]
 
         return result
@@ -202,12 +204,12 @@ class ZapConfiguration:
         """
         result = collections.OrderedDict()
 
-        if self.has_scan_configurations and len(self.get_scans()) > index:
+        if self.has_scans_configurations and len(self.get_scans()) > index:
             result = self.get_scans()[index]
 
         return result
     
-    def get_scans_by_name(self, name: str) -> collections.OrderedDict:
+    def get_scan_by_name(self, name: str) -> collections.OrderedDict:
         """Returns the ZAP Scan configuration object with the given name.
         
         Parameters
@@ -217,12 +219,12 @@ class ZapConfiguration:
         """
         result = collections.OrderedDict()
 
-        if self.has_scan_configurations:
+        if self.has_scans_configurations:
             result = next((scan for scan in self.get_scans() if scan['name'] == name), None)
 
         return result
     
-    def get_scans_by_context_name(self, name: str) -> collections.OrderedDict:
+    def get_scan_by_context_name(self, name: str) -> collections.OrderedDict:
         """Returns the ZAP Scan configuration object with the referencing context name.
         
         Parameters
@@ -232,21 +234,22 @@ class ZapConfiguration:
         """
         result = collections.OrderedDict()
 
-        if self.has_scan_configurations:
+        if self.has_scans_configurations:
             result = next((scan for scan in self.get_scans() if scan['context'] == name), None)
 
         return result
 
-    def has_spider_configurations(self) -> bool:
+    def has_spiders_configurations(self) -> bool:
         """Returns true if any ZAP Spider is defined, otherwise false."""
 
-        return (self.has_configurations() and "spiders" in self.get_config())
-    
+        return (self.has_configurations() and "spiders" in self.get_configurations())
+
+
     def get_spiders(self) -> list:
         """Returns a list with all ZAP Spider configuration objects"""
         result = collections.OrderedDict()
 
-        if self.has_spider_configurations:
+        if self.has_spiders_configurations:
             result = self.__config["spiders"]
 
         return result
@@ -261,7 +264,7 @@ class ZapConfiguration:
         """
         result = collections.OrderedDict()
 
-        if self.has_spider_configurations and len(self.get_spiders()) > index:
+        if self.has_spiders_configurations and len(self.get_spiders()) > index:
             result = self.get_spiders()[index]
 
         return result
@@ -276,7 +279,7 @@ class ZapConfiguration:
         """
         result = collections.OrderedDict()
 
-        if self.has_spider_configurations:
+        if self.has_spiders_configurations:
             result = next((spider for spider in self.get_spiders() if spider['name'] == name), None)
 
         return result
@@ -291,10 +294,10 @@ class ZapConfiguration:
         """
         result = collections.OrderedDict()
 
-        if self.has_spider_configurations:
+        if self.has_spiders_configurations:
             result = next((spider for spider in self.get_spiders() if spider['context'] == name), None)
 
         return result
 
     def __str__(self):
-        return " ZapConfiguration( " + str(self.get_config()) + " )"
+        return " ZapConfiguration( " + str(self.get_configurations()) + " )"

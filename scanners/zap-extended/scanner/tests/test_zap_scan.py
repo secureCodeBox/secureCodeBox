@@ -9,7 +9,7 @@ class ZapConfigurationTests(TestCase):
 
     def test_has_scan_configurations(self):
         config = ZapConfiguration("./tests/mocks/context-with-overlay/")
-        self.assertFalse(config.has_scan_configurations())
+        self.assertFalse(config.has_scans_configurations())
     
         config = ZapConfiguration("./tests/mocks/scan-full-bodgeit-docker/")
-        self.assertTrue(config.has_scan_configurations())
+        self.assertTrue(config.has_scans_configurations())

@@ -12,6 +12,14 @@ from zapv2 import ZAPv2
 
 from .zap_configuration import ZapConfiguration
 
+# set up logging to file - see previous section for more details
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s %(name)-12s %(levelname)-8s: %(message)s',
+    datefmt='%Y-%m-%d %H:%M')
+
+logging = logging.getLogger('ZapConfigureContext')
+
 class ZapConfigureContext():
     """This class configures the context in running ZAP instance, based on a given ZAP Configuration.
     
@@ -35,7 +43,7 @@ class ZapConfigureContext():
         self.__config = config
 
         # if at least one ZAP Context is defined start to configure the running ZAP instance (`zap`) accordingly
-        if self.__config.has_context_configurations:
+        if self.__config.has_contexts_configurations:
             # Starting to configure the ZAP Instance based on the given context configurations
             self._configure_contexts(zap, config.get_contexts())
         else:
