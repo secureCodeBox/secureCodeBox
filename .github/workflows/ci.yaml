@@ -824,7 +824,7 @@ jobs:
           helm -n integration-tests install zap-extended ./scanners/zap-extended/  \
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
             --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-zap"
-          kubectl apply -f ./examples/integration-tests/scantype-configMap.yaml -n integration-tests
+          kubectl apply -f ./scanners/zap-extended/examples/integration-tests/scantype-configMap.yaml -n integration-tests
           cd tests/integration/
           npx jest --ci --color scanner/zap-extended.test.js
 

@@ -162,6 +162,11 @@ def __zap_tune(zap: ZAPv2):
 def __zap_shutdown(zap: ZAPv2):
         """ This shutdown ZAP and prints out ZAP Scanning stats before shutting down.
         """
+
+        logging.info(":: Show all Statistics")
+        stats = zap.stats.all_sites_stats()
+        logging.info(stats)
+
         logging.info(":: Shutting down the running ZAP Instance.")
         zap.core.shutdown()
 

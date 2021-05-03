@@ -12,6 +12,8 @@ parserImage:
   # parserImage.tag -- Parser image tag
   # @default -- defaults to the charts version
   tag: null
+  # image.pullPolicy -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
+  pullPolicy: Always
 
 parseJob:
   # parseJob.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
@@ -38,27 +40,21 @@ scannerJob:
   #       cpu: "500m"
 
   # scannerJob.env -- Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
-  env:
-    - name: SCB_ZAP_CONFIG_DIR
-      value: "/zap/secureCodeBox-extensions/configs/"
+  env: []
 
   # scannerJob.envFrom -- Optional mount environment variables from configMaps or secrets (see: https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/#configure-all-key-value-pairs-in-a-secret-as-container-environment-variables)
   envFrom: []
 
   # scannerJob.extraVolumes -- Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
   extraVolumes:
-    - name: zap-workdir
-      emptyDir: {}
     - name: zap-extended-scantype-config
       configMap:
         name: zap-extended-scantype-config
 
   # scannerJob.extraVolumeMounts -- Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
   extraVolumeMounts:
-    - name: zap-workdir
-      mountPath: /zap/wrk
     - name: zap-extended-scantype-config
-      mountPath: /zap/secureCodeBox-extensions/configs/1-zap-extended-scantype.yaml
+      mountPath: /home/securecodebox/configs/1-zap-extended-scantype.yaml
       subPath: 1-zap-extended-scantype.yaml
       readOnly: true
 
@@ -77,7 +73,7 @@ zapConfiguration:
   #   # True to create another ZAP session (overwrite the former if the same name already exists), False to use an existing on
   #   isNewSession: true
   #   # ZAP Session name
-  #   sessionName: 
+  #   sessionName: secureCodeBox
   #   # zapConfiguration.global.includePaths -- An optional list of global regexes to include
   #   includePaths:
   #     - "https://example.com/.*"

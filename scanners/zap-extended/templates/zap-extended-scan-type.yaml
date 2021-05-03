@@ -33,9 +33,9 @@ spec:
                 # - "--api-key"
                 # - "ertzukndtzuikbvcfjkmnbvcfghjklmnbvc"
                 - "--config-folder"
-                - "/home/securecodebox/configs"
+                - "/home/securecodebox/configs/"
                 - "--output-folder"
-                - "/home/securecodebox/results"
+                - "/home/securecodebox/results/"
               resources:
                 {{- toYaml .Values.scannerJob.resources | nindent 16 }}
               securityContext:
