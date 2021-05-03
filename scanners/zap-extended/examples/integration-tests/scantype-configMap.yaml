@@ -45,13 +45,13 @@ data:
           type: "cookieBasedSessionManagement"
       - name: scb-juiceshop-context
         # The top level url, mandatory, everything under this will be included
-        url: http://juice-shop.demo-apps.svc:3000/
+        url: http://juiceshop.demo-apps.svc:3000/
         # An optional list of regexes to include
         includePaths:
-          - "http://juice-shop.demo-apps.svc:3000.*"
+          - "http://juiceshop.demo-apps.svc:3000.*"
         # An optional list of regexes to exclude
         excludePaths:
-          - "http://juice-shop.demo-apps.svc:3000/socket.io.*"
+          - "http://juiceshop.demo-apps.svc:3000/socket.io.*"
           - ".*\\.js"
           - ".*\\.css"
           - ".*\\.png"
@@ -70,7 +70,7 @@ data:
           # json-based requires no further configuration
           # zapConfiguration.contexts[0].authentication.json-based -- Configure `type: json-based` authentication (more: https://www.zaproxy.org/docs/api/#json-based-authentication).
           json-based:
-            loginUrl: "http://juice-shop.demo-apps.svc:3000/rest/user/login"
+            loginUrl: "http://juiceshop.demo-apps.svc:3000/rest/user/login"
             # must be escaped already to prevent yaml parser colidations '{"user":{"id":1,"email":"test@test.com"}}''
             loginRequestData: '{"email":"test@test.com","password":"test1"}'
             # Username Parameter: email
@@ -143,7 +143,7 @@ data:
         # String: Name of the user to authenticate with and used to spider
         user: juiceshop-user-1
         # String: Url to start spidering from, default: first context URL
-        url: http://juice-shop.demo-apps.svc:3000/
+        url: http://juiceshop.demo-apps.svc:3000/
         # zapConfiguration.spiders[0].ajax -- Bool: Whether to use the ZAP ajax spider, default: false
         ajax: true
         # Int: Fail if spider finds less than the specified number of URLs, default: 0
@@ -186,7 +186,7 @@ data:
         # String: Name of the user to authenticate with and used to spider
         user: juiceshop-user-1
         # String: Url to start scaning from, default: first context URL
-        url: http://juice-shop.demo-apps.svc:3000/
+        url: http://juiceshop.demo-apps.svc:3000/
         # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
         maxRuleDurationInMins: 1
         # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited          

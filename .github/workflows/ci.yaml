@@ -906,14 +906,16 @@ jobs:
       - name: Inspect Post Failure
         if: failure()
         run: |
-          echo "HelmCharts in all namespaces"
+          echo "List all 'HelmCharts' in all namespaces"
           helm list --all-namespaces
-          echo "Scans in all namespaces"
+          echo "List all 'Scans' in all namespaces"
           kubectl -n integration-tests get scan -o wide --all-namespaces
-          echo "Jobs in all namespaces"
+          echo "List all 'Jobs' in all namespaces"
           kubectl -n integration-tests get jobs -o wide --all-namespaces
-          echo "Pods in all namespaces"
+          echo "List all 'Pods' in all namespaces"
           kubectl -n integration-tests get pods -o wide --all-namespaces
+          echo "List all 'Services' in all namespaces"
+          kubectl -n integration-tests get services -o wide --all-namespaces
 
       - name: "Inspect Operator"
         if: failure()

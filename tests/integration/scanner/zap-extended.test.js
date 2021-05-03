@@ -38,7 +38,7 @@ test(
     const { count } = await scan(
       "zap-extended-scan-juiceshop-demo",
       "zap-extended-scan",
-      ["-t", "http://juice-shop.demo-apps.svc:3000/"],
+      ["-t", "http://juiceshop.demo-apps.svc:3000/"],
       60 * 6
     );
 
