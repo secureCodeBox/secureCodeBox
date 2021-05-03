@@ -3,6 +3,7 @@ import json
 import logging
 import sys
 import time
+import errno
 
 from pathlib import Path
 from zapv2 import ZAPv2

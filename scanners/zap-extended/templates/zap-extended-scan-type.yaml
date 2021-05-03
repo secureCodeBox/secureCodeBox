@@ -67,6 +67,5 @@ spec:
                 - "api.disablekey=true" # Disble API Key. TODO: change with helm random value? -config api.key=change-me-9203935709
               ports:
                 - containerPort: 8080
-          dnsPolicy: Default
           volumes:
             {{- toYaml .Values.scannerJob.extraVolumes | nindent 12 }}
