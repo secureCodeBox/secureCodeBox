@@ -60,13 +60,11 @@ spec:
                 - "-host"
                 - "0.0.0.0"
                 - "-config"
-                # allow API Access from internal IP's
-                - "api.addrs.addr.name=.*'"
+                - "api.addrs.addr.name=.*" # allow API Access from internal IP's
                 - "-config"
                 - "api.addrs.addr.regex=true"
-                # Disble API Key. TODO: change with helm random value? -config api.key=change-me-9203935709
                 - "-config"
-                - "api.disablekey=true"
+                - "api.disablekey=true" # Disble API Key. TODO: change with helm random value? -config api.key=change-me-9203935709
               ports:
                 - containerPort: 8080
           dnsPolicy: Default

@@ -49,12 +49,11 @@ def process(args):
             "https": "http://" + args.zap_url
         }
     
+    logging.info(':: Configuring ZAP Instance with %s', zap_proxy)
+    # Connect ZAP API client to the listening address of ZAP instance
+    zap = ZAPv2(proxies=zap_proxy, apikey=api_key)
 
     try:
-        logging.info(':: Configuring ZAP Instance with %s', zap_proxy)
-        # Connect ZAP API client to the listening address of ZAP instance
-        zap = ZAPv2(proxies=zap_proxy, apikey=api_key)
-    
         # wait at least 3 minutes for ZAP to start
         __wait_for_zap_start(zap, 3 * 60)
 
@@ -69,11 +68,15 @@ def process(args):
 
         zap_extended.generate_report_file(file_path=args.output_folder, report_type=args.report_type)
 
+        __zap_shutdown(zap)
+        logging.info(':: Finished !')
+
     except argparse.ArgumentError as e:
         logger.exception(f'Argument error: {e}')
         sys.exit(1)
     except Exception as e:
         logger.exception(f'Unexpected error: {e}')
+        __zap_shutdown(zap)
         sys.exit(3)
 
 def get_parser_args(args=None):
@@ -137,6 +140,12 @@ def __wait_for_zap_start(zap: ZAPv2, timeout_in_secs = 600):
         raise IOError(
           errno.EIO,
           'Failed to connect to ZAP after {0} seconds'.format(timeout_in_secs))
+
+def __zap_shutdown(zap: ZAPv2):
+        """ This shutdown ZAP and prints out ZAP Scanning stats before shutting down.
+        """
+        logging.info(":: Shutting down the running ZAP Instance.")
+        zap.core.shutdown()
 
 if __name__ == '__main__':
     main()
