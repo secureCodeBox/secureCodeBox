@@ -2,9 +2,11 @@ import argparse
 import json
 import logging
 import sys
-from pathlib import Path
+import time
 
+from pathlib import Path
 from zapv2 import ZAPv2
+
 from .zap_extended import ZapExtended
 from .zap_configuration import ZapConfiguration
 
