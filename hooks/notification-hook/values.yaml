@@ -49,7 +49,7 @@ env:
         name: some-secret
         key: some-key
   - name: SMTP_CONFIG
-    valueFRom:
+    valueFrom:
       secretKeyRef:
         name: some-secret
         key: smtp-config-key

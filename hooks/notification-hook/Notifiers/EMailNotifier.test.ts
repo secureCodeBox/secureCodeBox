@@ -26,7 +26,7 @@ test("Should Send Mail", async () => {
   port: 587
   secure: false
   auth:
-    user: some_user 
+    user: some_user
     pass: some_password
   from: mail@from.someone`
   process.env[EMailNotifier.SMTP_CONFIG] = smtp;
@@ -49,7 +49,7 @@ test("Should Send Mail", async () => {
       },
     },
     spec: {
-      scanType: "Nmap",
+      scanType: "nmap",
       parameters: ["-Pn", "localhost"],
     },
     status: {

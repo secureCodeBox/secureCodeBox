@@ -151,8 +151,8 @@ To fill your template with data we provide the following objects.
 | env[0].valueFrom.secretKeyRef.key | string | `"some-key"` |  |
 | env[0].valueFrom.secretKeyRef.name | string | `"some-secret"` |  |
 | env[1].name | string | `"SMTP_CONFIG"` |  |
-| env[1].valueFRom.secretKeyRef.key | string | `"smtp-config-key"` |  |
-| env[1].valueFRom.secretKeyRef.name | string | `"some-secret"` |  |
+| env[1].valueFrom.secretKeyRef.key | string | `"smtp-config-key"` |  |
+| env[1].valueFrom.secretKeyRef.name | string | `"some-secret"` |  |
 | hookJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | image.pullPolicy | string | `"Always"` |  |
 | image.repository | string | `"docker.io/securecodebox/notification-hook"` | Hook image repository |
