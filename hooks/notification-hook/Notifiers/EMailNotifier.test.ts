@@ -2,7 +2,6 @@ import { NotifierType } from "../NotifierType";
 import { EMailNotifier } from "./EMailNotifier";
 import { NotificationChannel } from "../model/NotificationChannel";
 import { Scan } from "../model/Scan";
-import * as nodemailer from "nodemailer";
 
 const sendMail = jest.fn();
 const close = jest.fn();
@@ -19,16 +18,8 @@ jest.mock("nodemailer", () => {
 });
 
 test("Should Send Mail", async () => {
-
-  const smtp =
-    `
-  host: smtp.ethereal.email
-  port: 587
-  secure: false
-  auth:
-    user: some_user
-    pass: some_password
-  from: mail@from.someone`
+  const from = "secureCodeBox";
+  const smtp = "smtp://user:pass@smtp.ethereal.email/"
   process.env[EMailNotifier.SMTP_CONFIG] = smtp;
   const channel: NotificationChannel = {
     name: "Channel Name",
@@ -78,7 +69,10 @@ test("Should Send Mail", async () => {
     },
   };
 
-  const notifier = new EMailNotifier(channel, scan, [], []);
+  const args = new Array();
+  args[EMailNotifier.EMAIL_FROM] = from;
+
+  const notifier = new EMailNotifier(channel, scan, [], args);
 
   await notifier.sendMessage();
 

@@ -1,10 +1,10 @@
 import { NotifierType } from "../NotifierType";
 import { AbstractNotifier } from "./AbstractNotifier";
 import { createTransport } from "nodemailer"
-import * as jsyaml from "js-yaml";
 
 export class EMailNotifier extends AbstractNotifier {
   public static readonly SMTP_CONFIG = 'SMTP_CONFIG';
+  public static readonly EMAIL_FROM = 'EMAIL_FROM';
   protected type: NotifierType.EMAIL;
 
   public async sendMessage(): Promise<void> {
@@ -14,7 +14,7 @@ export class EMailNotifier extends AbstractNotifier {
   }
 
   private getSMTPConfig(): any {
-    return jsyaml.load(process.env[EMailNotifier.SMTP_CONFIG]);
+    return process.env[EMailNotifier.SMTP_CONFIG];
   }
 
   protected async sendMail(message: any, smtpConfig: any) {
@@ -32,7 +32,7 @@ export class EMailNotifier extends AbstractNotifier {
   private prepareMessage(): any {
     const message = JSON.parse(this.renderMessage());
     message.to = this.channel.endPoint;
-    message.from = this.getSMTPConfig().from;
+    message.from = this.args[EMailNotifier.EMAIL_FROM];
     return message;
   }
 }
