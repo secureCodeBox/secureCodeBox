@@ -109,21 +109,28 @@ To configure an email notification set the `type` to `email` and the `endPoint` 
 You can use one of the following default templates:
 * email
 
-Additional to this configuration you will have to provide a special smtp configuration.
-This config reflects the transporter configuration of nodemailer (See [nodemailer | SMTP Transport](https://nodemailer.com/smtp/)) and should be written in `YAML`.
-To provide the `from` field of the email we extended the nodemailer configuration with the `from` field in the transporter configuration.
+Additional to this configuration you will have to provide a special smtp configuration URL.
+This config reflects the transporter configuration of nodemailer (See [nodemailer | SMTP Transport](https://nodemailer.com/smtp/)).
 This configuration needs to be specified under `env` in the values yaml.
 The identifier for this config has to be `SMTP_CONFIG`.
 A basic configuration could look like this:
 
-```yaml
-host: smtp.ethereal.email
-port: 587
-secure: false
-auth:
-  user: some_user
-  pass: some_password
-from: secureCodeBox <mail@from.someone>
+```
+...
+env:
+  - name: SMTP_CONFIG
+    value: "smtp://kaden.lueilwitz48@ethereal.email:pezuHHseu8sS2QGcRS@smtp.ethereal.email/"
+```
+
+To provide a custom `from` field for your email you can specify `EMAIL_FROM` under env.
+For example:
+
+```
+env:
+  - name: SMTP_CONFIG
+    value: "smtp://kaden.lueilwitz48@ethereal.email:pezuHHseu8sS2QGcRS@smtp.ethereal.email/"
+  - name: EMAIL_FROM
+    value: secureCodeBox
 ```
 
 ## Custom Message Templates
