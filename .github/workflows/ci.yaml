@@ -649,15 +649,15 @@ jobs:
       - name: "Install Demo Apps"
         run: |
           # Install dummy-ssh app
-          helm -n demo-apps install dummy-ssh ./demo-apps/dummy-ssh/ --wait
+          helm -n demo-apps install dummy-ssh ./demo-apps/dummy-ssh/ --set="fullnameOverride=dummy-ssh" --wait
           # Install unsafe-https app
-          helm -n demo-apps install unsafe-https ./demo-apps/unsafe-https/ --wait
+          helm -n demo-apps install unsafe-https ./demo-apps/unsafe-https/ --set="fullnameOverride=unsafe-https" --wait
           # Install bodgeit app
-          helm -n demo-apps install bodgeit ./demo-apps/bodgeit/ --wait
+          helm -n demo-apps install bodgeit ./demo-apps/bodgeit/ --set="fullnameOverride=bodgeit" --wait
           # Install old-wordpress app
-          helm -n demo-apps install old-wordpress ./demo-apps/old-wordpress/ --wait
+          helm -n demo-apps install old-wordpress ./demo-apps/old-wordpress/ --set="fullnameOverride=old-wordpress" --wait
           # Install juiceshop app
-          helm -n demo-apps install juiceshop ./demo-apps/juice-shop/ --wait
+          helm -n demo-apps install juiceshop ./demo-apps/juice-shop/ --set="fullnameOverride=juiceshop" --wait
           # Install plain nginx server
           kubectl create deployment --image nginx:alpine nginx --namespace demo-apps
           kubectl expose deployment nginx --port 80 --namespace demo-apps
