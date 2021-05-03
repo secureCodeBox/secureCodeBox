@@ -16,20 +16,20 @@ logging.basicConfig(
     format='%(asctime)s %(name)-12s %(levelname)-8s: %(message)s',
     datefmt='%Y-%m-%d %H:%M')
 
-logger = logging.getLogger('zap-scb-extended')
+logging = logging.getlogging('zap-scb-extended')
 
 def main():
     args = get_parser_args()
 
     if args.target == None or len(args.target) <= 0:
-        logger.info('Argument error: No target specified!')
+        logging.info('Argument error: No target specified!')
         sys.exit(1)
 
     process(args)
 
-    # logger.info('Write findings to file...')
+    # logging.info('Write findings to file...')
     # write_findings_to_file(args.output_folder, findings)
-    logger.info('Finished :-) !')
+    logging.info('Finished :-) !')
 
 
 def process(args):
@@ -57,6 +57,10 @@ def process(args):
         # wait at least 3 minutes for ZAP to start
         __wait_for_zap_start(zap, 3 * 60)
 
+        __zap_tune(zap)
+
+        __zap_access_target(zap, args.target)
+
         logging.info(':: Starting SCB ZAP Automation Framework with config %s', args.config_folder)
         zap_extended = ZapExtended(zap=zap, config_dir=args.config_folder)
         
@@ -72,10 +76,10 @@ def process(args):
         logging.info(':: Finished !')
 
     except argparse.ArgumentError as e:
-        logger.exception(f'Argument error: {e}')
+        logging.exception(f'Argument error: {e}')
         sys.exit(1)
     except Exception as e:
-        logger.exception(f'Unexpected error: {e}')
+        logging.exception(f'Unexpected error: {e}')
         __zap_shutdown(zap)
         sys.exit(3)
 
@@ -140,6 +144,19 @@ def __wait_for_zap_start(zap: ZAPv2, timeout_in_secs = 600):
         raise IOError(
           errno.EIO,
           'Failed to connect to ZAP after {0} seconds'.format(timeout_in_secs))
+
+def __zap_access_target(zap: ZAPv2, target):
+    res = zap.urlopen(target)
+    if res.startswith("ZAP Error"):
+        raise IOError(errno.EIO, 'ZAP failed to access: {0}'.format(target))
+
+
+def __zap_tune(zap: ZAPv2):
+    logging.debug('Tune')
+    logging.debug('Disable all tags')
+    zap.pscan.disable_all_tags()
+    logging.debug('Set max pscan alerts')
+    zap.pscan.set_max_alerts_per_rule(10)
 
 def __zap_shutdown(zap: ZAPv2):
         """ This shutdown ZAP and prints out ZAP Scanning stats before shutting down.
