@@ -48,7 +48,7 @@ def process(args):
         }
     
     # wait at least 3 minutes for ZAP to start
-    self.__wait_for_zap_start(zap_proxy, 3 * 60)
+    __wait_for_zap_start(zap_proxy, 3 * 60)
 
     try:
         logging.info(':: Configuring ZAP Instance with %s', zap_proxy)
