@@ -47,13 +47,14 @@ def process(args):
             "https": "http://" + args.zap_url
         }
     
-    # wait at least 3 minutes for ZAP to start
-    __wait_for_zap_start(zap_proxy, 3 * 60)
 
     try:
         logging.info(':: Configuring ZAP Instance with %s', zap_proxy)
         # Connect ZAP API client to the listening address of ZAP instance
         zap = ZAPv2(proxies=zap_proxy, apikey=api_key)
+    
+        # wait at least 3 minutes for ZAP to start
+        __wait_for_zap_start(zap, 3 * 60)
 
         logging.info(':: Starting SCB ZAP Automation Framework with config %s', args.config_folder)
         zap_extended = ZapExtended(zap=zap, config_dir=args.config_folder)
@@ -115,7 +116,7 @@ def get_parser_args(args=None):
                         required=False)
     return parser.parse_args(args)
 
-def __wait_for_zap_start(zap, timeout_in_secs = 600):
+def __wait_for_zap_start(zap: ZAPv2, timeout_in_secs = 600):
     version = None
     if not timeout_in_secs:
         # if ZAP doesn't start in 10 mins then its probably not going to start
