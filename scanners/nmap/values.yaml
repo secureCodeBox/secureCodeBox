@@ -60,5 +60,5 @@ scannerJob:
         - all
 
 cascadingRules:
-  # cascadingRules.enabled -- Enabled or disabled the installation of the default cascading rules for this scanner.
+  # cascadingRules.enabled -- Enables or disables the installation of the default cascading rules for this scanner.
   enabled: true
