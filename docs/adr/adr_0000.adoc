@@ -7,7 +7,7 @@
 // Please add a cross reference link to the new ADR on 'superseded' ADR.
 // e.g.: {adr_suposed_by} <<ADR-0000>>
 | Status
-| PROPOSED | ACCEPTED | REJECTED | DEPRECATED | SUPOSED_BY <<ADR-0000>>
+| PROPOSED | ACCEPTED | REJECTED | DEPRECATED | SUPERSEDES <<ADR-0000>>
 
 | Date
 | YYYY-MM-DD
