@@ -17,7 +17,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: acstis-scanner
-              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.appVersion }}"
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
               command:
                 - "sh"
                 - "/wrapper.sh"
