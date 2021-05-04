@@ -128,7 +128,7 @@ For example:
 ```
 env:
   - name: SMTP_CONFIG
-    value: "smtp://youraccount.yourpassword@ethereal.email:FOOBARXYZ@smtp.ethereal.email/"
+    value: "smtp://kaden.lueilwitz48@ethereal.email:pezuHHseu8sS2QGcRS@smtp.ethereal.email/"
   - name: EMAIL_FROM
     value: secureCodeBox
 ```
@@ -169,3 +169,4 @@ To fill your template with data we provide the following objects.
 | notificationChannels[0].rules[0].matches.anyOf[0].category | string | `"Open Port"` |  |
 | notificationChannels[0].template | string | `"slack-messageCard"` |  |
 | notificationChannels[0].type | string | `"slack"` |  |
+
