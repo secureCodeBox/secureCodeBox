@@ -3,7 +3,6 @@ kind: ParseDefinition
 metadata:
   name: "ncrack-xml"
 spec:
-  handlesResultsType: ncrack-xml
   image: "{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag | default .Chart.Version }}"
   ttlSecondsAfterFinished: {{ .Values.parseJob.ttlSecondsAfterFinished }}
   {{- if .Values.encryptPasswords.existingSecret }}
