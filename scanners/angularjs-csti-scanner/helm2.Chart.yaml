@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: v2
 name: angularja-csti-scanner
 description: A Helm chart for the  angularja csti scanner that integrates with the secureCodeBox.
 
