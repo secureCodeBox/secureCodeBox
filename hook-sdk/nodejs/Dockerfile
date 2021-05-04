@@ -1,12 +1,14 @@
 FROM node:14-buster-slim as build
-WORKDIR /app
+WORKDIR /home/app
 COPY package.json package-lock.json ./
 RUN npm ci --production
 
 FROM gcr.io/distroless/nodejs:14
 ARG NODE_ENV
-WORKDIR /app
-COPY --from=build /app/node_modules/ ./node_modules/
-COPY ./hook-wrapper.js ./hook-wrapper.js
+RUN addgroup --system --gid 1001 app && adduser app --system --uid 1001 --ingroup app
+WORKDIR /home/app/hook-wrapper/
+COPY --from=build --chown=app:app /home/app/node_modules/ ./node_modules/
+COPY --chown=app:app ./hook-wrapper.js ./hook-wrapper.js
+USER 1001
 ENV NODE_ENV ${NODE_ENV:-production}
-CMD ["hook-wrapper.js"]
+ENTRYPOINT ["node", "/home/app/hook-wrapper/hook-wrapper.js"]
