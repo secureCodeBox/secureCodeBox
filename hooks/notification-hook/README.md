@@ -119,7 +119,7 @@ A basic configuration could look like this:
 ...
 env:
   - name: SMTP_CONFIG
-    value: "smtp://kaden.lueilwitz48@ethereal.email:pezuHHseu8sS2QGcRS@smtp.ethereal.email/"
+    value: "smtp://user@domain.tld:pass@smtp.domain.tld/"
 ```
 
 To provide a custom `from` field for your email you can specify `EMAIL_FROM` under env.
@@ -128,7 +128,7 @@ For example:
 ```
 env:
   - name: SMTP_CONFIG
-    value: "smtp://kaden.lueilwitz48@ethereal.email:pezuHHseu8sS2QGcRS@smtp.ethereal.email/"
+    value: "smtp://user@domain.tld:pass@smtp.domain.tld/"
   - name: EMAIL_FROM
     value: secureCodeBox
 ```
