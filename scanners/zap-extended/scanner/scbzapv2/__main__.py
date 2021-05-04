@@ -63,7 +63,7 @@ def process(args):
 
         zap_extended.generate_report_file(file_path=args.output_folder, report_type=args.report_type)
 
-        zap_extended.zap_shutdown(zap)
+        zap_extended.zap_shutdown()
         logging.info(':: Finished !')
 
     except argparse.ArgumentError as e:
@@ -71,7 +71,7 @@ def process(args):
         sys.exit(1)
     except Exception as e:
         logging.exception(f'Unexpected error: {e}')
-        zap_extended.zap_shutdown(zap)
+        zap_extended.zap_shutdown()
         sys.exit(3)
 
 def get_parser_args(args=None):
