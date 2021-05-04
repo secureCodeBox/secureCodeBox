@@ -3,6 +3,5 @@ kind: ParseDefinition
 metadata:
   name: "gitleaks-json"
 spec:
-  handlesResultsType: gitleaks-json
   image: "{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag | default .Chart.Version }}"
   ttlSecondsAfterFinished: {{ .Values.parseJob.ttlSecondsAfterFinished }}

@@ -3,6 +3,5 @@ kind: ParseDefinition
 metadata:
   name: "sslyze-json"
 spec:
-  handlesResultsType: sslyze-json
   image: "{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag | default .Chart.Version }}"
   ttlSecondsAfterFinished: {{ .Values.parseJob.ttlSecondsAfterFinished }}

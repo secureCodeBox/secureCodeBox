@@ -3,6 +3,5 @@ kind: ParseDefinition
 metadata:
   name: "trivy-json"
 spec:
-  handlesResultsType: trivy-json
   image: "{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag | default .Chart.Version }}"
   ttlSecondsAfterFinished: {{ .Values.parseJob.ttlSecondsAfterFinished }}
