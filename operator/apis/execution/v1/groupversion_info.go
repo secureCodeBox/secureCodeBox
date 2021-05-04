@@ -1,5 +1,5 @@
 /*
-Copyright 2020 iteratec GmbH.
+Copyright 2021.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,8 +15,8 @@ limitations under the License.
 */
 
 // Package v1 contains API Schema definitions for the execution v1 API group
-// +kubebuilder:object:generate=true
-// +groupName=execution.securecodebox.io
+//+kubebuilder:object:generate=true
+//+groupName=execution.securecodebox.io
 package v1
 
 import (

@@ -1,7 +1,7 @@
 apiVersion: execution.securecodebox.io/v1
-kind: ScanType
+kind: Scan
 metadata:
-  name: scantype-sample
+  name: scan-sample
 spec:
   # Add fields here
   foo: bar

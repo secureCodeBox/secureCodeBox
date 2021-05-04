@@ -1,12 +1,7 @@
 apiVersion: execution.securecodebox.io/v1
 kind: ScheduledScan
 metadata:
-  name: scheduled-nmap-localhost
+  name: scheduledscan-sample
 spec:
-  interval: 1m
-  successfulJobsHistoryLimit: 2
-  scanSpec:
-    scanType: "nmap"
-    parameters:
-      - "-Pn"
-      - "192.168.178.24"
+  # Add fields here
+  foo: bar
