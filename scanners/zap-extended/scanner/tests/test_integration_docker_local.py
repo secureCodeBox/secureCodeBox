@@ -2,6 +2,7 @@ import os
 import pytest
 import requests
 import logging
+import pytest
 
 from zapv2 import ZAPv2
 from requests.exceptions import ConnectionError
@@ -78,6 +79,7 @@ def get_zap_instance(docker_ip, docker_services, get_zap_url) -> ZAPv2:
 
     return zap
 
+@pytest.mark.integrationtest
 def test_all_services_available(get_bodgeit_url, get_juiceshop_url, get_zap_url):
     response = requests.get(get_bodgeit_url + "/bodgeit/")
     assert response.status_code == 200
@@ -88,6 +90,7 @@ def test_all_services_available(get_bodgeit_url, get_juiceshop_url, get_zap_url)
     response = requests.get(get_zap_url + "/UI/core/")
     assert response.status_code == 200
 
+@pytest.mark.integrationtest
 def test_bodgeit_scan_without_config(get_bodgeit_url, get_zap_instance: ZAPv2):
 
     zap = get_zap_instance
@@ -104,6 +107,7 @@ def test_bodgeit_scan_without_config(get_bodgeit_url, get_zap_instance: ZAPv2):
 
     assert int(len(alerts)) >= 5
 
+@pytest.mark.integrationtest
 def test_bodgeit_scan_with_config(get_bodgeit_url, get_zap_instance: ZAPv2):
 
     zap = get_zap_instance
@@ -121,6 +125,7 @@ def test_bodgeit_scan_with_config(get_bodgeit_url, get_zap_instance: ZAPv2):
 
     assert int(len(alerts)) >= 5
     
+@pytest.mark.integrationtest
 def test_juiceshop_scan_without_config(get_juiceshop_url, get_zap_instance: ZAPv2):
     
     zap = get_zap_instance
@@ -135,6 +140,7 @@ def test_juiceshop_scan_without_config(get_juiceshop_url, get_zap_instance: ZAPv
 
     assert int(len(alerts)) >= 2
 
+@pytest.mark.integrationtest
 def test_juiceshop_scan_with_config(get_juiceshop_url, get_zap_instance: ZAPv2):
     
     zap = get_zap_instance
