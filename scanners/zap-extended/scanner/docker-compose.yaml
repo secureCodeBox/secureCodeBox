@@ -7,7 +7,7 @@ services:
       restart_policy:
         condition: any
     ports:
-      - 8080
+      - "8080:8080"
     healthcheck:
       interval: 1m
       retries: 3
@@ -24,7 +24,7 @@ services:
       restart_policy:
         condition: any
     ports:
-      - 3000
+      - "3000:3000"
     healthcheck:
       interval: 1m
       retries: 3
@@ -35,12 +35,11 @@ services:
         - http://juiceshop:3000/#/
       timeout: 10s
   zap:
-    build:
-      context: ./
+    image: owasp/zap2docker-stable:latest
     deploy:
       replicas: 1
       restart_policy:
-        condition: none
+        condition: any
     ports:
       - "8090:8090"
     links:
@@ -49,11 +48,10 @@ services:
     depends_on: 
       - "bodgeit"
       - "juiceshop"
-    environment: 
-      - SCB_ZAP_CONFIG_DIR="/zap/secureCodeBox-extensions/configs/"
     volumes: 
-      - ./tests/mocks/scan-full-bodgeit:/zap/secureCodeBox-extensions/configs/
-    entrypoint: ['zap-full-scan.py', '-t', 'http://bodgeit:8080/bodgeit/', '-m', '1', '-I', '-d', '--hook=/zap/zap_hooks.py']
+      - ./scripts/:/home/zap/.ZAP_D/scripts/scripts/
+    # -config api.key=change-me-9203935709
+    entrypoint: ['zap.sh', '-daemon', '-port', '8090', '-host', '0.0.0.0', '-config', 'api.addrs.addr.name=.*', '-config', 'api.addrs.addr.regex=true', '-config', 'api.disablekey=true']
     healthcheck:
       interval: 1m30s
       retries: 3
@@ -63,3 +61,36 @@ services:
         - -f
         - http://zap:8090/UI/core/
       timeout: 10s
+  automation:
+    build:
+      context: ./
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: none
+    links:
+      - "zap:zap"
+    depends_on: 
+      - "bodgeit"
+      - "juiceshop"
+      - "zap"
+    # environment: 
+    #   - SCB_ZAP_CONFIG_DIR="/zap/secureCodeBox-extensions/configs/"
+    volumes: 
+      - ./tests/mocks/scan-full-juiceshop-docker/:/home/securecodebox/configs/
+    entrypoint: ['python3', 
+                 '-m', 'scbzapv2', 
+                 '--report-type', 'XML', 
+                 '--zap-url', 'zap:8090',
+                 '--config-folder',
+                 '/home/securecodebox/configs/',
+                 '-t', 'http://juiceshop:3000/']
+    # healthcheck:
+    #   interval: 1m30s
+    #   retries: 3
+    #   test:
+    #     - CMD
+    #     - curl
+    #     - -f
+    #     - http://zap:8090/UI/core/
+    #   timeout: 10s

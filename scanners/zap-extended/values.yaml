@@ -140,11 +140,12 @@ zapConfiguration:
         type: "script-based"
         # zapConfiguration.contexts[0].authentication.script-based -- Configure `type: script-based` Authentication: https://www.zaproxy.org/docs/api/#script-based-authentication
         script-based:
+          scriptName: TwoStepAuthentication
           # Script engine values: 'Oracle Nashorn' for Javascript
           # 'jython' for python, 'JSR 223 JRuby Engine' for ruby
           scriptEngine: "Oracle Nashorn"
           # Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
-          scriptFileName: "/zap/scripts/authentication/TwoStepAuthentication.js"
+          scriptFilePath: "/zap/scripts/authentication/TwoStepAuthentication.js"
           scriptDescription: "This is a description"
           scriptArguments:
             sub: "secureCodeBox@iteratec.com"

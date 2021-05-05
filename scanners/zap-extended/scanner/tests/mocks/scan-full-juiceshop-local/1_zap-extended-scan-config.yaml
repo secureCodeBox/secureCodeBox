@@ -1,4 +1,10 @@
 ---
+# Global ZAP Configurations - NOT YET IMPLEMENTED
+global:
+  # True to create another ZAP session (overwrite the former if the same name already exists), False to use an existing on
+  isNewSession: true
+  # ZAP Session name
+  sessionName: secureCodeBox
 # List of 1 or more contexts, mandatory
 contexts:
   # Name to be used to refer to this context in other jobs, mandatory
@@ -43,7 +49,16 @@ contexts:
         forced: true
     session:
       # Currently supports "scriptBasedSessionManagement", "cookieBasedSessionManagement", "httpAuthSessionManagement"
-      type: "cookieBasedSessionManagement"
+      type: "scriptBasedSessionManagement"
+      # scriptBasedSessionManagement configuration details
+      scriptBasedSessionManagement:
+        scriptName: juiceshop-session-management.js
+        # Script engine values: 'Oracle Nashorn' for Javascript
+        # 'jython' for python, 'JSR 223 JRuby Engine' for ruby
+        scriptEngine: "Oracle Nashorn"
+        # Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
+        scriptFilePath: "/home/zap/.ZAP_D/scripts/scripts/session/juiceshop-session-management.js"
+        scriptDescription: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
 spiders:
   - name: scb-juiceshop-spider
     # String: Name of the context to spider, default: first context
@@ -54,9 +69,9 @@ spiders:
     url: http://localhost:3000/
     # zapConfiguration.spiders[0].ajax -- Bool: Whether to use the ZAP ajax spider, default: false
     ajax: true
-    # Int: Fail if spider finds less than the specified number of URLs, default: 0
+    # Int: Fail if spider finds less than the specified number of URLs, default: 0 (TODO: not yet implemented)
     failIfFoundUrlsLessThan: 0
-    # Int: Warn if spider finds less than the specified number of URLs, default: 0
+    # Int: Warn if spider finds less than the specified number of URLs, default: 0 (TODO: not yet implemented)
     warnIfFoundUrlsLessThan: 0
     # Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
     maxDuration: 2
@@ -73,7 +88,7 @@ scanners:
     # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
     maxRuleDurationInMins: 1
     # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited          
-    maxScanDurationInMins: 5
+    maxScanDurationInMins: 10
     # Int: The max number of threads per host, default: 2
     threadPerHost: 5
     # Int: The delay in milliseconds between each request, use to reduce the strain on the target, default 0

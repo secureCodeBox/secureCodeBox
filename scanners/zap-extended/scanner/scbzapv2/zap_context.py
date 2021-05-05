@@ -153,28 +153,28 @@ class ZapConfigureContext():
         else:
             logging.info("No Authentication verification found :-/ are you sure? %s", script)
         
-    def _configure_context_authentication_script(self, zap: ZAPv2, script: collections.OrderedDict, context_id: int):
+    def _configure_context_authentication_script(self, zap: ZAPv2, script_config: collections.OrderedDict, context_id: int):
         """Protected method to configure the ZAP 'Context / Authentication Settings with Script based Authentication' based on a given ZAP config.
         
         Parameters
         ----------
         zap : ZAPv2
             The running ZAP instance to configure.
-        authentication : collections.OrderedDict
+        script_config : collections.OrderedDict
             The current 'script-based' authentication configuration object containing the ZAP authentication configuration (based on the class ZapConfiguration).
         context_id : int
             The zap context id tot configure the ZAP authentication for (based on the class ZapConfiguration).
         """
         
-        if(script and "scriptName" in script and "scriptFile" in script and "scriptEngine" in script):
-            self._configure_load_script(zap, script, context_id)
+        if(not script_config == None and "scriptName" in script_config and "scriptFilePath" in script_config and "scriptEngine" in script_config):
+            self._configure_load_script(zap, script_config, context_id, 'authentication')
 
             # Create ZAP Script parameters based on given configruation object
             auth_params = [
-                'scriptName=' + script["scriptName"],
+                'scriptName=' + script_config["scriptName"],
             ]
             # Creates a list of URL-Encoded params, based on the YAML config
-            for key, value in script["scriptArguments"].items():
+            for key, value in script_config["scriptArguments"].items():
                 auth_params.append(key + "=" + value)
             # Add a '&' to all elements except the last one
             auth_params = '&'.join(auth_params)
@@ -190,7 +190,7 @@ class ZapConfigureContext():
             if( "missing_parameter" in auth_response ):
                 raise Exception("Missing ZAP Authentication Script Parameters! Please check your secureCoeBix YAML configuration!")
         else:
-          logging.warning("Important authentiation configs are missing!")
+          logging.warning("Important script authentication configs (scriptName, scriptFilePath, scriptEngine) are missing! Ignoring the authenication script configuration. Please check your YAML configuration.")
 
     def _configure_context_authentication_basic_auth(self, zap: ZAPv2, basic_auth: collections.OrderedDict, context_id: int):
         """Protected method to configure the ZAP 'Context / Authentication Settings with Basic Authentication' based on a given ZAP config.
@@ -353,7 +353,7 @@ class ZapConfigureContext():
                 zap.forcedUser.set_forced_user(contextid=context_id, userid=user_id)
                 zap.forcedUser.set_forced_user_mode_enabled(True)
 
-    def _configure_load_script(self, zap: ZAPv2, script: collections.OrderedDict, context_id: int):
+    def _configure_load_script(self, zap: ZAPv2, script: collections.OrderedDict, script_type:str, context_id: int):
         """Protected method to load a new ZAP Script based on a given ZAP config.
         
         Parameters
@@ -366,25 +366,36 @@ class ZapConfigureContext():
             The zap context id tot configure the ZAP authentication for (based on the class ZapConfiguration).
         """
         
-        if(script and "scriptName" in script and "scriptFile" in script and "scriptEngine" in script):
+        if(script and "scriptName" in script and "scriptFilePath" in script and "scriptEngine" in script):
             # Remove exisitng Script if already exisiting
-            logging.debug("Removing Auth script '%s' at '%s'", script["scriptName"], script["scriptFile"])
+            logging.debug("Removing Auth script '%s' at '%s'", script["scriptName"], script["scriptFilePath"])
             zap.script.remove(scriptname=script["scriptName"])
 
             # Add Script again
-            logging.debug('Loading Authentication Script: %s', script["scriptFile"])
+            logging.debug("Loading Authentication Script '%s' at '%s' with type: '%s' and engine '%s'", script["scriptName"], script["scriptFilePath"], script_type, script["scriptEngine"])
             response = zap.script.load(
                 scriptname=script["scriptName"],
-                scripttype='authentication',
+                scripttype=script_type,
                 scriptengine=script["scriptEngine"],
-                filename=script["scriptFile"],
+                filename=script["scriptFilePath"],
                 scriptdescription=script["scriptDescription"]
                 )
-            zap.script.enable(scriptname=script["scriptName"])
-        else:
-          logging.warning("Important script configuration values are missing! Please check your YAML configuration for mandatory parameters.")
+            
+            if response != "OK":
+                logging.warning("Script Response: %s", response)
+                raise RuntimeError("The Script (%s) couldnt be loaded due to errors: %s", script, response)
 
-    def _configure_context_session_management(self, zap: ZAPv2, sessions: collections.OrderedDict, context_id: int):
+            zap.script.enable(scriptname=script["scriptName"])
+
+            self._show_all_scripts(zap)
+        else:
+          logging.warning("Important script configs (scriptName, scriptFilePath, scriptEngine) are missing! Ignoring the script configuration. Please check your YAML configuration.")
+
+    def _show_all_scripts(self, zap: ZAPv2):
+        for scripts in zap.script.list_scripts:
+            logging.debug(scripts)
+
+    def _configure_context_session_management(self, zap: ZAPv2, sessions_config: collections.OrderedDict, context_id: int):
         """Protected method to configure the ZAP 'Context / Session Mannagement' Settings based on a given ZAP config.
         
         Parameters
@@ -397,7 +408,9 @@ class ZapConfigureContext():
             The zap context id tot configure the ZAP authentication for (based on the class ZapConfiguration).
         """
 
-        sessions_type = sessions["type"]
+        sessions_type = sessions_config["type"]
+        
+        logging.info("Configuring the ZAP session management (type=%s)", sessions_type)
         if sessions_type == "cookieBasedSessionManagement":
             logging.debug("Configuring cookieBasedSessionManagement")
             zap.sessionManagement.set_session_management_method(
@@ -409,17 +422,24 @@ class ZapConfigureContext():
                 contextid=context_id,
                 methodname='httpAuthSessionManagement')
         elif sessions_type == "scriptBasedSessionManagement":
-            logging.debug("Configuring scriptBasedSessionManagement")
-            if("scriptBasedSessionManagement" in sessions and sessions["scriptBasedSessionManagement"]):
-                self._configure_load_script(zap, sessions["scriptBasedSessionManagement"], context_id)
-                # Here they say that only "cookieBasedSessionManagement"; "httpAuthSessionManagement"
-                # is possible, but maybe this is outdated and it works anyway, hopefully:
-                # https://github.com/zaproxy/zap-api-python/blob/9bab9bf1862df389a32aab15ea4a910551ba5bfc/src/examples/zap_example_api_script.py#L97
-                session_params = ('scriptName=' + sessions["scriptBasedSessionManagement"]["scriptName"])
-                zap.sessionManagement.set_session_management_method(
-                    contextid=context_id,
-                    methodname='scriptBasedSessionManagement',
-                    methodconfigparams=session_params)
+            logging.debug("Configuring scriptBasedSessionManagement()")
+            if("scriptBasedSessionManagement" in sessions_config):
+                script_config = sessions_config["scriptBasedSessionManagement"]
+                logging.debug("Script Config: %s", str(script_config))
+                if(not script_config == None and "scriptName" in script_config and "scriptFilePath" in script_config and "scriptEngine" in script_config):
+                    self._configure_load_script(zap, script=script_config, script_type="session", context_id=context_id)
+                    # Here they say that only "cookieBasedSessionManagement"; "httpAuthSessionManagement"
+                    # is possible, but maybe this is outdated and it works anyway, hopefully:
+                    # https://github.com/zaproxy/zap-api-python/blob/9bab9bf1862df389a32aab15ea4a910551ba5bfc/src/examples/zap_example_api_script.py#L97
+                    session_params = ('scriptName=' + script_config["scriptName"])
+                    zap.sessionManagement.set_session_management_method(
+                        contextid=context_id,
+                        methodname='scriptBasedSessionManagement',
+                        methodconfigparams=session_params)
+                else:
+                    logging.warning("Important script authentication configs (scriptName, scriptFilePath, scriptEngine) are missing! Ignoring the authenication script configuration. Please check your YAML configuration.")
+            else:
+                    logging.warning("The 'scriptBasedSessionManagement' configuration section is missing but you have activated it (type: scriptBasedSessionManagement)! Ignoring the script configuration for session management. Please check your YAML configuration.")
 
     def _configure_context_technologies(self, zap: ZAPv2, technology: collections.OrderedDict, context_name: str):
         """Protected method to configure the ZAP 'Context / Technology' Settings based on a given ZAP config.
