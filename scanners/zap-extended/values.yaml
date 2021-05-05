@@ -4,7 +4,7 @@ image:
   # image.tag -- defaults to the charts appVersion
   tag: null
   # image.pullPolicy -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 parserImage:
   # parserImage.repository -- Parser image repository
@@ -13,7 +13,7 @@ parserImage:
   # @default -- defaults to the charts version
   tag: null
   # image.pullPolicy -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 parseJob:
   # parseJob.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
@@ -66,14 +66,18 @@ scannerJob:
     # 1000 = zap
     fsGroup: 1000
 
+cascadingRules:
+  # cascadingRules.enabled -- Enables or disables the installation of the default cascading rules for this scanner
+  enabled: true
+
 # based on https://www.zaproxy.org/docs/desktop/addons/automation-framework/
 zapConfiguration:
   # Global ZAP Configurations - NOT YET IMPLEMENTED
-  global: {}
-  #   # True to create another ZAP session (overwrite the former if the same name already exists), False to use an existing on
-  #   isNewSession: true
-  #   # ZAP Session name
-  #   sessionName: secureCodeBox
+  global:
+    # True to create another ZAP session (overwrite the former if the same name already exists), False to use an existing on
+    isNewSession: true
+    # ZAP Session name
+    sessionName: secureCodeBox
   #   # zapConfiguration.global.includePaths -- An optional list of global regexes to include
   #   includePaths:
   #     - "https://example.com/.*"
@@ -140,13 +144,13 @@ zapConfiguration:
         type: "script-based"
         # zapConfiguration.contexts[0].authentication.script-based -- Configure `type: script-based` Authentication: https://www.zaproxy.org/docs/api/#script-based-authentication
         script-based:
-          scriptName: TwoStepAuthentication
+          scriptName: scb-oidc-password-grand-type.js
           # Script engine values: 'Oracle Nashorn' for Javascript
           # 'jython' for python, 'JSR 223 JRuby Engine' for ruby
           scriptEngine: "Oracle Nashorn"
           # Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
-          scriptFilePath: "/zap/scripts/authentication/TwoStepAuthentication.js"
-          scriptDescription: "This is a description"
+          scriptFilePath: "/home/zap/.ZAP_D/scripts/scripts/authentication/scb-oidc-password-grand-type.js"
+          scriptDescription: "This is a description for the SCB OIDC Script."
           scriptArguments:
             sub: "secureCodeBox@iteratec.com"
             # email: "secureCodeBox@teratec.com"
@@ -189,13 +193,13 @@ zapConfiguration:
         type: "scriptBasedSessionManagement"
         # zapConfiguration.contexts[0].session.scriptBasedSessionManagement -- Additional configrations for the session type "scriptBasedSessionManagement"
         scriptBasedSessionManagement:
-          scriptName: "mysession"
+          scriptName: "juiceshop-session-management.js"
           # zapConfiguration.contexts[0].session.scriptBasedSessionManagement.scriptEngine -- Possible Script engine values: 'Oracle Nashorn' for Javascript, 'jython' for python, 'JSR 223 JRuby Engine' for ruby
           scriptEngine: "Oracle Nashorn"
           # zapConfiguration.contexts[0].session.scriptBasedSessionManagement.scriptFileName --  Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
-          scriptFileName: "/zap/scripts/session/TwoStepAuthentication.js"
+          scriptFileName: "/home/zap/.ZAP_D/scripts/scripts/session/juiceshop-session-management.js"
           # zapConfiguration.contexts[0].session.scriptBasedSessionManagement.scriptDescription --  An optional description used for the script.
-          scriptDescription: "This is a session script description."
+          scriptDescription: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
   
   # zapConfiguration.openApis -- Optional list of ZAP OpenAPI configurations  - NOT YET IMPLEMENTED
   openApis: {}

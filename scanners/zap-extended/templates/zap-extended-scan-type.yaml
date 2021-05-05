@@ -1,4 +1,13 @@
 ---
+{{- if not (empty .Values.zapConfiguration) }}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: zap-extended-scantype-config
+data:
+  1-zap-extended-scantype.yaml: {{ .Values.zapConfiguration | toYaml | quote }}
+{{- end }}
+---
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:

@@ -5,7 +5,7 @@ metadata:
   labels:
     organization: "OWASP"
 spec:
-  scanType: "zap-extended-baseline-scan"
+  scanType: "zap-extended-scan"
   parameters:
     # target URL including the protocol
     - "-t"

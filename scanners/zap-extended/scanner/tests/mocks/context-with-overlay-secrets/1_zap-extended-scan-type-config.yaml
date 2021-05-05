@@ -33,12 +33,12 @@ contexts:
       type: "script-based"
       # script-based
       script-based:
-        scriptName: "MyOIDCAuth.js"
+        scriptName: "scb-oidc-password-grand-type.js"
         # Script engine values: 'Oracle Nashorn' for Javascript
         # 'jython' for python, 'JSR 223 JRuby Engine' for ruby
         scriptEngine: "Oracle Nashorn"
         # Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
-        scriptFile: "/Users/robert/Library/Application Support/ZAP/scripts/scripts/authentication/sda-auth.js"
+        scriptFilePath: "/home/zap/.ZAP_D/scripts/scripts/authentication/scb-oidc-password-grand-type.js"
         scriptDescription: "This is a description for the SCB OIDC Script."
         scriptArguments:
           URL: "https://www.secureCodeBox.io/authserver/"
@@ -62,10 +62,10 @@ contexts:
       type: "scriptBasedSessionManagement"
       # basic-auth requires no further configuration
       scriptBasedSessionManagement:
-        scriptName: "mysession"
+        scriptName: "juiceshop-session-management.js"
           # Script engine values: 'Oracle Nashorn' for Javascript
         # 'jython' for python, 'JSR 223 JRuby Engine' for ruby
         scriptEngine: "Oracle Nashorn"
         # Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
-        scriptFile: "/Users/robert/Library/Application Support/ZAP/scripts/scripts/session/sda-sms.js"
-        scriptDescription: "This is a session description."
+        scriptFilePath: "/home/zap/.ZAP_D/scripts/scripts/session/juiceshop-session-management.js"
+        scriptDescription: "This is a JuiceShop specific SessionManagement Script used to handle JWT."

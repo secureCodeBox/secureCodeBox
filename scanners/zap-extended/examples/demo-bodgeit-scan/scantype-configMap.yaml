@@ -8,7 +8,7 @@ data:
     # ZAP Contexts Configuration 
     contexts:
       # Name to be used to refer to this context in other jobs, mandatory
-      - name: scb-BodgeIT-context
+      - name: scb-bodgeit-context
         # The top level url, mandatory, everything under this will be included
         url: http://bodgeit.default.svc:8080/bodgeit/
         # An optional list of regexes to include
@@ -46,9 +46,9 @@ data:
 
     # ZAP Spiders Configuration 
     spiders:
-      - name: scb-BodgeIT-spider
+      - name: scb-bodgeit-spider
         # String: Name of the context to spider, default: first context
-        context: scb-BodgeIT-context
+        context: scb-bodgeit-context
         # String: Name of the user to authenticate with and used to spider
         user: bodgeit-user-1
         # String: Url to start spidering from, default: first context URL
@@ -68,9 +68,9 @@ data:
 
     # ZAP ActiveScans Configuration 
     scanners:
-      - name: scb-BodgeIT-scan
+      - name: scb-bodgeit-scan
         # String: Name of the context to attack, default: first context
-        context: scb-BodgeIT-context
+        context: scb-bodgeit-context
         # String: Name of the user to authenticate with and used to spider
         user: bodgeit-user-1
         # String: Url to start scaning from, default: first context URL

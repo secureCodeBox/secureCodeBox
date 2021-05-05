@@ -17,8 +17,6 @@ contexts:
     # An optional list of regexes to exclude
     excludePaths:
       - ".*socket\\.io.*"
-      # - ".*\\.js"
-      # - ".*\\.css"
       - ".*\\.png"
       - ".*\\.jpeg"
       - ".*\\.jpg"
