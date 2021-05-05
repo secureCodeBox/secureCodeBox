@@ -222,6 +222,20 @@ class ZapConfigureSpider:
             # Open first URL before the spider start's to crawl
             self.__zap.core.access_url(target)
 
+            # Always start with traditional spider first (even if ajax=true) to ensure the maximum spider results
+            logging.info('Trying to start "traditional" Spider with config: %s', spider_config)
+            spiderId = self.__start_spider_http(spider_config, target, context_id, context_name, user_id)
+
+            if (not str(spiderId).isdigit()) or int(spiderId) < 0:
+                logging.error("Spider couldn't be started due to errors: %s", spiderId)
+                raise RuntimeError("Spider couldn't be started due to errors: %s", spiderId)
+            else:
+                logging.info("Spider successfully started with id: %s", spiderId)
+                # Give the scanner a chance to start
+                time.sleep(5)
+
+                self.wait_until_http_spider_finished(int(spiderId))
+            
             # Start Spider:
             if (ajax):
                 logging.info('Trying to start "ajax" Spider with config: %s', spider_config)
@@ -238,20 +252,6 @@ class ZapConfigureSpider:
                     time.sleep(5)
                 
                     self.wait_until_ajax_spider_finished()
-
-            else:
-                logging.info('Trying to start "traditional" Spider with config: %s', spider_config)
-                spiderId = self.__start_spider_http(spider_config, target, context_id, context_name, user_id)
-
-                if (not str(spiderId).isdigit()) or int(spiderId) < 0:
-                    logging.error("Spider couldn't be started due to errors: %s", spiderId)
-                    raise RuntimeError("Spider couldn't be started due to errors: %s", spiderId)
-                else:
-                    logging.info("Spider successfully started with id: %s", spiderId)
-                    # Give the scanner a chance to start
-                    time.sleep(5)
-                
-                self.wait_until_http_spider_finished(int(spiderId))
 
         else:
             logging.info("Trying to start 'traditional' Spider to spider target '%s' without any additinal config!", url)
