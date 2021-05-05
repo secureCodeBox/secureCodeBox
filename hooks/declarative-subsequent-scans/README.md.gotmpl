@@ -24,7 +24,8 @@ dssh   ReadOnly   docker.io/securecodebox/hook-declarative-subsequent-scans:late
 ```
 
 ## CascadingScan Rules
-The CascadingRules are included directly in each helm chart of the individual scanners. 
+The CascadingRules are included directly in each helm chart of the individual scanners.
+There is a configuration option `cascadingRules.enabled` for each scanner to prevent this inclusion.
 
 ```bash
 # Check your CascadingRules
