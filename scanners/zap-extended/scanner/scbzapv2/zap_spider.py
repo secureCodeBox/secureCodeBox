@@ -70,7 +70,6 @@ class ZapConfigureSpider:
         else:
             logging.error("There is no spider specific configuration found.")
 
-        
         return int(spiderId)
 
     def start_spider_by_index(self, index: int) -> int:
@@ -184,12 +183,13 @@ class ZapConfigureSpider:
         """
         spiderId = -1
         user_id = None
+        user_username = None
         context_id = None
         context_name = None
         ajax = False
         target = ""
 
-        # Clear all excisting/previous spider data
+        # Clear all existing/previous spider data
         self.__zap.spider.remove_all_scans()
 
         if not spider_config == None:
@@ -321,7 +321,7 @@ class ZapConfigureSpider:
             logging.info('Starting Ajax Spider(%s) with Context(%s) and User(%s)', target, context_name, user_name)
             spiderId = self.__zap.ajaxSpider.scan_as_user(url=target, contextname=context_name, username=user_name)
         else:
-            logging.debug('Starting Ajax Spider(url=%s, contextname=%s)', target, context)
+            logging.debug('Starting Ajax Spider(url=%s, contextname=%s)', target, context_name)
             spiderId = self.__zap.ajaxSpider.scan(url=target, contextname=context_name)
 
         return spiderId
