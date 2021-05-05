@@ -16,9 +16,9 @@ contexts:
       - "http://juiceshop:3000.*"
     # An optional list of regexes to exclude
     excludePaths:
-      - "http://juiceshop:3000/socket.io.*"
-      - ".*\\.js"
-      - ".*\\.css"
+      - ".*socket\\.io.*"
+      # - ".*\\.js"
+      # - ".*\\.css"
       - ".*\\.png"
       - ".*\\.jpeg"
       - ".*\\.jpg"
@@ -86,7 +86,7 @@ scanners:
     url: http://juiceshop:3000/
     # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
     maxRuleDurationInMins: 1
-    # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited          
+    # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited
     maxScanDurationInMins: 10
     # Int: The max number of threads per host, default: 2
     threadPerHost: 5
@@ -96,7 +96,7 @@ scanners:
     addQueryParam: false
     # Bool: If set then automatically handle anti CSRF tokens, default: false
     handleAntiCSRFTokens: false
-    # Bool: If set then the relevant rule Id will be injected into the X-ZAP-Scan-ID header of each request, default: false           
+    # Bool: If set then the relevant rule Id will be injected into the X-ZAP-Scan-ID header of each request, default: false
     injectPluginIdInHeader: false
     # Bool: If set then the headers of requests that do not include any parameters will be scanned, default: false
     scanHeadersAllRequests: false
