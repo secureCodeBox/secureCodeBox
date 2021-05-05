@@ -18,6 +18,11 @@ helm upgrade --install nwh ./hooks/notification-hook/ --values /path/to/your/val
 The `values.yaml` you need depends on the notification type you want to use.
 Please take a look at the documentation for each type (e.g. for slack see [Configuration of a Slack Notification](#configuration-o-a-slack-notification))
 
+## Available Notifier
+
+* [Slack](#configuration-of-a-slack-notification)
+* [Email](#configuration-of-an-email-notification)
+
 ## Configuration of a Notification
 
 The general configuration of a notification looks something like this
@@ -98,6 +103,36 @@ To configure a slack notification set the `type` to `slack` and the `endPoint` t
 You can use one of the following default templates:
 * slack-messageCard
 
+### Configuration Of An Email Notification
+
+To configure an email notification set the `type` to `email` and the `endPoint` to point to your env containing your target email address.
+You can use one of the following default templates:
+* email
+
+Additional to this configuration you will have to provide a special smtp configuration URL.
+This config reflects the transporter configuration of nodemailer (See [nodemailer | SMTP Transport](https://nodemailer.com/smtp/)).
+This configuration needs to be specified under `env` in the values yaml.
+The identifier for this config has to be `SMTP_CONFIG`.
+A basic configuration could look like this:
+
+```
+...
+env:
+  - name: SMTP_CONFIG
+    value: "smtp://user@domain.tld:pass@smtp.domain.tld/"
+```
+
+To provide a custom `from` field for your email you can specify `EMAIL_FROM` under env.
+For example:
+
+```
+env:
+  - name: SMTP_CONFIG
+    value: "smtp://user@domain.tld:pass@smtp.domain.tld/"
+  - name: EMAIL_FROM
+    value: secureCodeBox
+```
+
 ## Custom Message Templates
 
 CAUTION: Nunjucks templates allow code to be injected! Use templates from trusted sources only!
@@ -122,8 +157,9 @@ To fill your template with data we provide the following objects.
 | env[0].name | string | `"SOME_ENV_KEY"` |  |
 | env[0].valueFrom.secretKeyRef.key | string | `"some-key"` |  |
 | env[0].valueFrom.secretKeyRef.name | string | `"some-secret"` |  |
-| env[1].name | string | `"key"` |  |
-| env[1].value | string | `"value"` |  |
+| env[1].name | string | `"SMTP_CONFIG"` |  |
+| env[1].valueFrom.secretKeyRef.key | string | `"smtp-config-key"` |  |
+| env[1].valueFrom.secretKeyRef.name | string | `"some-secret"` |  |
 | hookJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | image.pullPolicy | string | `"Always"` |  |
 | image.repository | string | `"docker.io/securecodebox/notification-hook"` | Hook image repository |
