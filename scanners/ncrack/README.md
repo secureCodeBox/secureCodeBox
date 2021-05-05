@@ -170,6 +170,7 @@ base64 encryptedPassword -d | openssl rsautl -decrypt -inkey key.pem -out decryp
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| cascadingRules.enabled | bool | `true` | Enables or disables the installation of the default cascading rules for this scanner |
 | encryptPasswords.existingSecret | string | `nil` | secret name with a pem encoded rsa public key to encrypt identified passwords |
 | encryptPasswords.key | string | `"public.key"` | name of the property in the secret with the pem encoded rsa public key |
 | image.repository | string | `"docker.io/securecodebox/scanner-ncrack"` | Container Image to run the scan |
