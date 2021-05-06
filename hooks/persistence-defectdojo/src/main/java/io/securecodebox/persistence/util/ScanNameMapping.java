@@ -25,9 +25,7 @@ public enum ScanNameMapping {
   ZAP_BASELINE("zap-baseline-scan", ScanType.ZAP_SCAN),
   ZAP_API_SCAN("zap-api-scan", ScanType.ZAP_SCAN),
   ZAP_FULL_SCAN("zap-full-scan", ScanType.ZAP_SCAN),
-  ZAP_EXTENDED_BASELINE("zap-extended-baseline-scan", ScanType.ZAP_SCAN),
-  ZAP_EXTENDED_API_SCAN("zap-extended-api-scan", ScanType.ZAP_SCAN),
-  ZAP_EXTENDED_FULL_SCAN("zap-extended-full-scan", ScanType.ZAP_SCAN),
+  ZAP_EXTENDED_BASELINE("zap-extended-scan", ScanType.ZAP_SCAN)
   SSLYZE("sslyze", ScanType.SS_LYZE_3_SCAN_JSON),
   TRIVY("trivy", ScanType.TRIVY_SCAN),
   GITLEAKS("gitleaks", ScanType.GITLEAKS_SCAN),
