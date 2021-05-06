@@ -1,7 +1,6 @@
 apiVersion: execution.securecodebox.io/v1
 kind: ParseDefinition
 metadata:
-  name: parsedefinition-sample
+  name: "nmap-xml"
 spec:
-  # Add fields here
-  foo: bar
+  image: securecodebox/nmap-parser

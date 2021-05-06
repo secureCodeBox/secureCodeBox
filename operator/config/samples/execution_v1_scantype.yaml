@@ -1,7 +1,18 @@
 apiVersion: execution.securecodebox.io/v1
 kind: ScanType
 metadata:
-  name: scantype-sample
+  name: "nmap"
 spec:
-  # Add fields here
-  foo: bar
+  extractResults:
+    type: nmap-xml
+    location: "/home/securecodebox/nmap-results.xml"
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 10
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: nmap
+              image: securecodebox/nmap:7.80
+              command: ["nmap", "-oX", "/home/securecodebox/nmap-results.xml"]

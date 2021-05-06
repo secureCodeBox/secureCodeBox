@@ -1,7 +1,8 @@
 apiVersion: execution.securecodebox.io/v1
 kind: ScanCompletionHook
 metadata:
-  name: scancompletionhook-sample
+  name: "sleep-rw"
 spec:
-  # Add fields here
-  foo: bar
+  image: "sleep"
+  type: "ReadAndWrite"
+  env: []

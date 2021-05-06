@@ -1,0 +1,8 @@
+apiVersion: execution.securecodebox.io/v1
+kind: ScanCompletionHook
+metadata:
+  name: "echo-r"
+spec:
+  image: "echo"
+  type: "ReadOnly"
+  env: []
