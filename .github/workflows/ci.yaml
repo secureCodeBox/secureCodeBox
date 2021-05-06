@@ -822,10 +822,10 @@ jobs:
         run: |
           kubectl -n integration-tests delete scans --all
           helm -n integration-tests install zap-extended ./scanners/zap-extended/  \
+            --set="parseJob.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-zap" \
             --set="parseJob.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parseJob.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-zap"
-            --set="scannerJob.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="scannerJob.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-zap-extended"
+            --set="scannerJob.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-zap-extended" \
+            --set="scannerJob.image.tag=sha-$(git rev-parse --short HEAD)"
           kubectl apply -f ./scanners/zap-extended/examples/integration-tests/scantype-configMap.yaml -n integration-tests
           cd tests/integration/
           npx jest --ci --color scanner/zap-extended.test.js
