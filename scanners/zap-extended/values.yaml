@@ -109,7 +109,7 @@ zapContainer:
 
 # based on https://www.zaproxy.org/docs/desktop/addons/automation-framework/
 zapConfiguration:
-  # Global ZAP Configurations - NOT YET IMPLEMENTED
+  # Global ZAP Configurations
   global:
     # True to create another ZAP session (overwrite the former if the same name already exists), False to use an existing on
     isNewSession: true
@@ -147,212 +147,212 @@ zapConfiguration:
   #       # MANDATORY only if useProxyScript is True. Ignored otherwise
   #       scriptName: 'proxyScript.js'
 
-  # zapConfiguration.contexts -- Optional list of ZAP Context definitions
-  contexts:
-    # zapConfiguration.contexts[0].name -- Name to be used to refer to this context in other jobs, mandatory
-    - name: scbcontext
-      # zapConfiguration.contexts[0].url -- The top level url, mandatory, everything under this will be included
-      url: https://example.com/
-      # zapConfiguration.contexts[0].includePaths -- An optional list of regexes to include
-      includePaths:
-        - "https://example.com/.*"
-      # zapConfiguration.contexts[0].excludePaths -- An optional list of regexes to exclude
-      excludePaths:
-        # - "https://example.com/authserver/v1/.*"
-        - ".*\\.js"
-        - ".*\\.css"
-        - ".*\\.png"
-        - ".*\\.jpeg"
-      # zapConfiguration.contexts[0].technology -- Optional technology list
-      technology:
-        # zapConfiguration.contexts[0].technology.included -- By default all technologies are enabed for each context by default by ZAP. You can use the following config to change that explicitly.
-        included: 
-          # - Db.CouchDB
-          # - Db.Firebird
-          # - Db.HypersonicSQL
-          # - Language.ASP
-          # - OS
-        # zapConfiguration.contexts[0].technology.excluded -- By default all technologies are enabed for each context by default by ZAP. You can use the following config to change that explicitly.
-        excluded:
-          # - SCM
-      # zapConfiguration.contexts[0].authentication -- Authentiation Configuration that can be uses by ZAP Spider and/or Scanner. You need to reference the `context` name in the corresponding `zapConfiguration.spiders[0].context` and `zapConfiguration.scanners[0].context` section.
-      authentication:
-        # zapConfiguration.contexts[0].authentication.type -- Currently supports "basic-auth", "form-based", "json-based", "script-based"
-        type: "script-based"
-        # zapConfiguration.contexts[0].authentication.script-based -- Configure `type: script-based` Authentication: https://www.zaproxy.org/docs/api/#script-based-authentication
-        script-based:
-          scriptName: scb-oidc-password-grand-type.js
-          # Script engine values: 'Oracle Nashorn' for Javascript
-          # 'jython' for python, 'JSR 223 JRuby Engine' for ruby
-          scriptEngine: "Oracle Nashorn"
-          # Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
-          scriptFilePath: "/home/zap/.ZAP_D/scripts/scripts/authentication/scb-oidc-password-grand-type.js"
-          scriptDescription: "This is a description for the SCB OIDC Script."
-          scriptArguments:
-            sub: "secureCodeBox@iteratec.com"
-            # email: "secureCodeBox@teratec.com"
-            # exp: "1609459140"
-        # zapConfiguration.contexts[0].authentication.basic-auth -- Configure `type: basic-auth` authentication (more:https://www.zaproxy.org/docs/api/?python#general-steps).
-        basic-auth:
-          hostname: "https://example.com/"
-          realm: "Realm"
-          port: 8080
-        # zapConfiguration.contexts[0].authentication.form-based -- Configure `type: form-based` authentication (more: https://www.zaproxy.org/docs/api/#form-based-authentication).
-        form-based:
-          loginUrl: "http://localhost:8090/bodgeit/login.jsp"
-          # must be escaped already to prevent yaml parser colidations 'username={%username%}&password={%password%}''
-          loginRequestData: "username%3D%7B%25username%25%7D%26password%3D%7B%25password%25%7D"
-        # zapConfiguration.contexts[0].authentication.json-based -- Configure `type: json-based` authentication (more: https://www.zaproxy.org/docs/api/#json-based-authentication).
-        json-based:
-          loginUrl: "http://localhost:3000/rest/user/login"
-          # must be escaped already to prevent yaml parser colidations '{"user":{"id":1,"email":"test@test.com"}}''
-          loginRequestData: '{"user":{"id":1,"email":"test@test.com"}}'
-        # zapConfiguration.contexts[0].authentication.verification -- Indicates if the current Zap User Session is based on a valid authentication (loggedIn) or not (loggedOut)
-        verification:
-          isLoggedInIndicator: ""
-          isLoggedOutIndicator: ""
-      # zapConfiguration.contexts[0].users -- A list of users with credentials which can be referenced by spider or scanner configurations to run them authenticated (you have to configure the authentiation settings).
-      users:
-        # zapConfiguration.contexts[0].users[0].name -- The name of this user configuration
-        - name: test-user-1
-          # zapConfiguration.contexts[0].users[0].username -- The username used to authenticate this user
-          username: user1
-          # zapConfiguration.contexts[0].users[0].password -- The password used to authenticate this user
-          password: password1
-          # zapConfiguration.contexts[0].users[0].forced -- Optional, could be set to True only once in the users list. If not defined the first user in the list will be forced by default.
-          forced: true
-        - name: test-user-2
-          username: user2
-          password: password2
-      # zapConfiguration.contexts[0].session -- The ZAP session configuration
-      session:
-        # zapConfiguration.contexts[0].session.type -- Currently supports the following types: "scriptBasedSessionManagement", "cookieBasedSessionManagement", "httpAuthSessionManagement"
-        type: "scriptBasedSessionManagement"
-        # zapConfiguration.contexts[0].session.scriptBasedSessionManagement -- Additional configrations for the session type "scriptBasedSessionManagement"
-        scriptBasedSessionManagement:
-          scriptName: "juiceshop-session-management.js"
-          # zapConfiguration.contexts[0].session.scriptBasedSessionManagement.scriptEngine -- Possible Script engine values: 'Oracle Nashorn' for Javascript, 'jython' for python, 'JSR 223 JRuby Engine' for ruby
-          scriptEngine: "Oracle Nashorn"
-          # zapConfiguration.contexts[0].session.scriptBasedSessionManagement.scriptFileName --  Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
-          scriptFileName: "/home/zap/.ZAP_D/scripts/scripts/session/juiceshop-session-management.js"
-          # zapConfiguration.contexts[0].session.scriptBasedSessionManagement.scriptDescription --  An optional description used for the script.
-          scriptDescription: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
+  # # zapConfiguration.contexts -- Optional list of ZAP Context definitions
+  # contexts:
+  #   # zapConfiguration.contexts[0].name -- Name to be used to refer to this context in other jobs, mandatory
+  #   - name: scbcontext
+  #     # zapConfiguration.contexts[0].url -- The top level url, mandatory, everything under this will be included
+  #     url: https://example.com/
+  #     # zapConfiguration.contexts[0].includePaths -- An optional list of regexes to include
+  #     includePaths:
+  #       - "https://example.com/.*"
+  #     # zapConfiguration.contexts[0].excludePaths -- An optional list of regexes to exclude
+  #     excludePaths:
+  #       # - "https://example.com/authserver/v1/.*"
+  #       - ".*\\.js"
+  #       - ".*\\.css"
+  #       - ".*\\.png"
+  #       - ".*\\.jpeg"
+  #     # zapConfiguration.contexts[0].technology -- Optional technology list
+  #     technology:
+  #       # zapConfiguration.contexts[0].technology.included -- By default all technologies are enabed for each context by default by ZAP. You can use the following config to change that explicitly.
+  #       included: 
+  #         # - Db.CouchDB
+  #         # - Db.Firebird
+  #         # - Db.HypersonicSQL
+  #         # - Language.ASP
+  #         # - OS
+  #       # zapConfiguration.contexts[0].technology.excluded -- By default all technologies are enabed for each context by default by ZAP. You can use the following config to change that explicitly.
+  #       excluded:
+  #         # - SCM
+  #     # zapConfiguration.contexts[0].authentication -- Authentiation Configuration that can be uses by ZAP Spider and/or Scanner. You need to reference the `context` name in the corresponding `zapConfiguration.spiders[0].context` and `zapConfiguration.scanners[0].context` section.
+  #     authentication:
+  #       # zapConfiguration.contexts[0].authentication.type -- Currently supports "basic-auth", "form-based", "json-based", "script-based"
+  #       type: "script-based"
+  #       # zapConfiguration.contexts[0].authentication.script-based -- Configure `type: script-based` Authentication: https://www.zaproxy.org/docs/api/#script-based-authentication
+  #       script-based:
+  #         scriptName: scb-oidc-password-grand-type.js
+  #         # Script engine values: 'Oracle Nashorn' for Javascript
+  #         # 'jython' for python, 'JSR 223 JRuby Engine' for ruby
+  #         scriptEngine: "Oracle Nashorn"
+  #         # Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
+  #         scriptFilePath: "/home/zap/.ZAP_D/scripts/scripts/authentication/scb-oidc-password-grand-type.js"
+  #         scriptDescription: "This is a description for the SCB OIDC Script."
+  #         scriptArguments:
+  #           sub: "secureCodeBox@iteratec.com"
+  #           # email: "secureCodeBox@teratec.com"
+  #           # exp: "1609459140"
+  #       # zapConfiguration.contexts[0].authentication.basic-auth -- Configure `type: basic-auth` authentication (more:https://www.zaproxy.org/docs/api/?python#general-steps).
+  #       basic-auth:
+  #         hostname: "https://example.com/"
+  #         realm: "Realm"
+  #         port: 8080
+  #       # zapConfiguration.contexts[0].authentication.form-based -- Configure `type: form-based` authentication (more: https://www.zaproxy.org/docs/api/#form-based-authentication).
+  #       form-based:
+  #         loginUrl: "http://localhost:8090/bodgeit/login.jsp"
+  #         # must be escaped already to prevent yaml parser colidations 'username={%username%}&password={%password%}''
+  #         loginRequestData: "username%3D%7B%25username%25%7D%26password%3D%7B%25password%25%7D"
+  #       # zapConfiguration.contexts[0].authentication.json-based -- Configure `type: json-based` authentication (more: https://www.zaproxy.org/docs/api/#json-based-authentication).
+  #       json-based:
+  #         loginUrl: "http://localhost:3000/rest/user/login"
+  #         # must be escaped already to prevent yaml parser colidations '{"user":{"id":1,"email":"test@test.com"}}''
+  #         loginRequestData: '{"user":{"id":1,"email":"test@test.com"}}'
+  #       # zapConfiguration.contexts[0].authentication.verification -- Indicates if the current Zap User Session is based on a valid authentication (loggedIn) or not (loggedOut)
+  #       verification:
+  #         isLoggedInIndicator: ""
+  #         isLoggedOutIndicator: ""
+  #     # zapConfiguration.contexts[0].users -- A list of users with credentials which can be referenced by spider or scanner configurations to run them authenticated (you have to configure the authentiation settings).
+  #     users:
+  #       # zapConfiguration.contexts[0].users[0].name -- The name of this user configuration
+  #       - name: test-user-1
+  #         # zapConfiguration.contexts[0].users[0].username -- The username used to authenticate this user
+  #         username: user1
+  #         # zapConfiguration.contexts[0].users[0].password -- The password used to authenticate this user
+  #         password: password1
+  #         # zapConfiguration.contexts[0].users[0].forced -- Optional, could be set to True only once in the users list. If not defined the first user in the list will be forced by default.
+  #         forced: true
+  #       - name: test-user-2
+  #         username: user2
+  #         password: password2
+  #     # zapConfiguration.contexts[0].session -- The ZAP session configuration
+  #     session:
+  #       # zapConfiguration.contexts[0].session.type -- Currently supports the following types: "scriptBasedSessionManagement", "cookieBasedSessionManagement", "httpAuthSessionManagement"
+  #       type: "scriptBasedSessionManagement"
+  #       # zapConfiguration.contexts[0].session.scriptBasedSessionManagement -- Additional configrations for the session type "scriptBasedSessionManagement"
+  #       scriptBasedSessionManagement:
+  #         scriptName: "juiceshop-session-management.js"
+  #         # zapConfiguration.contexts[0].session.scriptBasedSessionManagement.scriptEngine -- Possible Script engine values: 'Oracle Nashorn' for Javascript, 'jython' for python, 'JSR 223 JRuby Engine' for ruby
+  #         scriptEngine: "Oracle Nashorn"
+  #         # zapConfiguration.contexts[0].session.scriptBasedSessionManagement.scriptFileName --  Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
+  #         scriptFileName: "/home/zap/.ZAP_D/scripts/scripts/session/juiceshop-session-management.js"
+  #         # zapConfiguration.contexts[0].session.scriptBasedSessionManagement.scriptDescription --  An optional description used for the script.
+  #         scriptDescription: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
   
-  # zapConfiguration.openApis -- Optional list of ZAP OpenAPI configurations  - NOT YET IMPLEMENTED
-  openApis: {}
-    #   # zapConfiguration.openApis[0].name -- The name of the spider configuration
-    # - name: scbapi
-    #   # zapConfiguration.openApis[0].context -- The Name of the context (zapConfiguration.contexts[x].name) to spider, default: first context available.
-    #   context: scbcontext
-    #   # zapConfiguration.openApis[0].user -- The Name of the user (zapConfiguration.contexts[0].users[0].name) used to authenticate the spider with.
-    #   user: "test-user-1"
-    #   # zapConfiguration.openApis[0].url -- Url to start spidering from, default: first context URL
-    #   url: https://example.com/
-    #   # zapConfiguration.openApis[0].configMap -- Assumes that the OpenAPI Spec has been saved to a configmap in the namespace of the scan / this release. Should be null if not used.
-    #   configMap: null
-    #     # Object with two keys: "name" name of the config map, and "key" which is the key / property in the configmap which holds the openapi spec file.
-    #     # name: my-configmap-with-openapi-spec
-    #     # key: openapi.yaml
-    #   # zapConfiguration.openApis[0].spec -- Allows to embed the entire yaml / json OpenAPI spec in the values. Should be null if not used.
-    #   spec: null
+  # # zapConfiguration.openApis -- Optional list of ZAP OpenAPI configurations  - NOT YET IMPLEMENTED
+  # openApis: {}
+  #   #   # zapConfiguration.openApis[0].name -- The name of the spider configuration
+  #   # - name: scbapi
+  #   #   # zapConfiguration.openApis[0].context -- The Name of the context (zapConfiguration.contexts[x].name) to spider, default: first context available.
+  #   #   context: scbcontext
+  #   #   # zapConfiguration.openApis[0].user -- The Name of the user (zapConfiguration.contexts[0].users[0].name) used to authenticate the spider with.
+  #   #   user: "test-user-1"
+  #   #   # zapConfiguration.openApis[0].url -- Url to start spidering from, default: first context URL
+  #   #   url: https://example.com/
+  #   #   # zapConfiguration.openApis[0].configMap -- Assumes that the OpenAPI Spec has been saved to a configmap in the namespace of the scan / this release. Should be null if not used.
+  #   #   configMap: null
+  #   #     # Object with two keys: "name" name of the config map, and "key" which is the key / property in the configmap which holds the openapi spec file.
+  #   #     # name: my-configmap-with-openapi-spec
+  #   #     # key: openapi.yaml
+  #   #   # zapConfiguration.openApis[0].spec -- Allows to embed the entire yaml / json OpenAPI spec in the values. Should be null if not used.
+  #   #   spec: null
 
-  # zapConfiguration.spiders -- Optional list of ZAP Spider configurations
-  spiders:
-      # zapConfiguration.spiders[0].name -- The name of the spider configuration
-    - name: scbspider
-      # zapConfiguration.spiders[0].name -- The Name of the context (zapConfiguration.contexts[x].name) to spider, default: first context available
-      context: scbcontext
-      # zapConfiguration.spiders[0].user -- The Name of the user (zapConfiguration.contexts[0].users[0].name) used to authenticate the spider with
-      user: "test-user-1"
-      # zapConfiguration.spiders[0].url -- Url to start spidering from, default: first context URL
-      url: https://example.com/
-      # zapConfiguration.spiders[0].ajax -- Bool: Whether to use the ZAP ajax spider, default: false
-      ajax: false
-      # zapConfiguration.spiders[0].failIfFoundUrlsLessThan -- Int: Fail if spider finds less than the specified number of URLs, default: 0
-      failIfFoundUrlsLessThan: 0
-      # zapConfiguration.spiders[0].warnIfFoundUrlsLessThan -- Int: Warn if spider finds less than the specified number of URLs, default: 0
-      warnIfFoundUrlsLessThan: 0
-      # zapConfiguration.spiders[0].maxDuration -- Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
-      maxDuration: 0
-      # zapConfiguration.spiders[0].maxDepth -- Int: The maximum tree depth to explore, default 5
-      maxDepth: 5
-      # zapConfiguration.spiders[0].maxChildren -- Int: The maximum number of children to add to each node in the tree                     
-      maxChildren: 10
-      # zapConfiguration.spiders[0].acceptCookies -- Bool: Whether the spider will accept cookies, default: true
-      acceptCookies: true
-      # zapConfiguration.spiders[0].handleODataParametersVisited -- Bool: Whether the spider will handle OData responses, default: false
-      handleODataParametersVisited: false
-      # zapConfiguration.spiders[0].handleParameters -- Enum [ignore_completely, ignore_value, use_all]: How query string parameters are used when checking if a URI has already been visited, default: use_all
-      handleParameters: use_all
-      # zapConfiguration.spiders[0].maxParseSizeBytes -- Int: The max size of a response that will be parsed, default: 2621440 - 2.5 Mb
-      maxParseSizeBytes: 2621440
-      # zapConfiguration.spiders[0].parseComments -- Bool: Whether the spider will parse HTML comments in order to find URLs, default: true
-      parseComments: true
-      # zapConfiguration.spiders[0].parseGit -- Bool: Whether the spider will parse Git metadata in order to find URLs, default: false
-      parseGit: false
-      # zapConfiguration.spiders[0].parseRobotsTxt -- Bool: Whether the spider will parse 'robots.txt' files in order to find URLs, default: true
-      parseRobotsTxt: true
-      # zapConfiguration.spiders[0].parseSitemapXml -- Bool: Whether the spider will parse 'sitemap.xml' files in order to find URLs, default: true
-      parseSitemapXml: true
-      # zapConfiguration.spiders[0].parseSVNEntries -- Bool: Whether the spider will parse SVN metadata in order to find URLs, default: false
-      parseSVNEntries: false
-      # zapConfiguration.spiders[0].postForm -- Bool: Whether the spider will submit POST forms, default: true
-      postForm: true
-      # zapConfiguration.spiders[0].processForm -- Bool: Whether the spider will process forms, default: true
-      processForm: true
-      # zapConfiguration.spiders[0].requestWaitTime -- Int: The time between the requests sent to a server in milliseconds, default: 200
-      requestWaitTime: 200
-      # zapConfiguration.spiders[0].sendRefererHeader -- Bool: Whether the spider will send the referer header, default: true
-      sendRefererHeader: true
-      # zapConfiguration.spiders[0].threadCount -- Int: The number of spider threads, default: 2             
-      threadCount: 2
-      # zapConfiguration.spiders[0].userAgent -- String: The user agent to use in requests, default: '' - use the default ZAP one               
-      userAgent: "secureCodeBox / ZAP Spider"
+  # # zapConfiguration.spiders -- Optional list of ZAP Spider configurations
+  # spiders:
+  #     # zapConfiguration.spiders[0].name -- The name of the spider configuration
+  #   - name: scbspider
+  #     # zapConfiguration.spiders[0].name -- The Name of the context (zapConfiguration.contexts[x].name) to spider, default: first context available
+  #     context: scbcontext
+  #     # zapConfiguration.spiders[0].user -- The Name of the user (zapConfiguration.contexts[0].users[0].name) used to authenticate the spider with
+  #     user: "test-user-1"
+  #     # zapConfiguration.spiders[0].url -- Url to start spidering from, default: first context URL
+  #     url: https://example.com/
+  #     # zapConfiguration.spiders[0].ajax -- Bool: Whether to use the ZAP ajax spider, default: false
+  #     ajax: false
+  #     # zapConfiguration.spiders[0].failIfFoundUrlsLessThan -- Int: Fail if spider finds less than the specified number of URLs, default: 0
+  #     failIfFoundUrlsLessThan: 0
+  #     # zapConfiguration.spiders[0].warnIfFoundUrlsLessThan -- Int: Warn if spider finds less than the specified number of URLs, default: 0
+  #     warnIfFoundUrlsLessThan: 0
+  #     # zapConfiguration.spiders[0].maxDuration -- Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
+  #     maxDuration: 0
+  #     # zapConfiguration.spiders[0].maxDepth -- Int: The maximum tree depth to explore, default 5
+  #     maxDepth: 5
+  #     # zapConfiguration.spiders[0].maxChildren -- Int: The maximum number of children to add to each node in the tree                     
+  #     maxChildren: 10
+  #     # zapConfiguration.spiders[0].acceptCookies -- Bool: Whether the spider will accept cookies, default: true
+  #     acceptCookies: true
+  #     # zapConfiguration.spiders[0].handleODataParametersVisited -- Bool: Whether the spider will handle OData responses, default: false
+  #     handleODataParametersVisited: false
+  #     # zapConfiguration.spiders[0].handleParameters -- Enum [ignore_completely, ignore_value, use_all]: How query string parameters are used when checking if a URI has already been visited, default: use_all
+  #     handleParameters: use_all
+  #     # zapConfiguration.spiders[0].maxParseSizeBytes -- Int: The max size of a response that will be parsed, default: 2621440 - 2.5 Mb
+  #     maxParseSizeBytes: 2621440
+  #     # zapConfiguration.spiders[0].parseComments -- Bool: Whether the spider will parse HTML comments in order to find URLs, default: true
+  #     parseComments: true
+  #     # zapConfiguration.spiders[0].parseGit -- Bool: Whether the spider will parse Git metadata in order to find URLs, default: false
+  #     parseGit: false
+  #     # zapConfiguration.spiders[0].parseRobotsTxt -- Bool: Whether the spider will parse 'robots.txt' files in order to find URLs, default: true
+  #     parseRobotsTxt: true
+  #     # zapConfiguration.spiders[0].parseSitemapXml -- Bool: Whether the spider will parse 'sitemap.xml' files in order to find URLs, default: true
+  #     parseSitemapXml: true
+  #     # zapConfiguration.spiders[0].parseSVNEntries -- Bool: Whether the spider will parse SVN metadata in order to find URLs, default: false
+  #     parseSVNEntries: false
+  #     # zapConfiguration.spiders[0].postForm -- Bool: Whether the spider will submit POST forms, default: true
+  #     postForm: true
+  #     # zapConfiguration.spiders[0].processForm -- Bool: Whether the spider will process forms, default: true
+  #     processForm: true
+  #     # zapConfiguration.spiders[0].requestWaitTime -- Int: The time between the requests sent to a server in milliseconds, default: 200
+  #     requestWaitTime: 200
+  #     # zapConfiguration.spiders[0].sendRefererHeader -- Bool: Whether the spider will send the referer header, default: true
+  #     sendRefererHeader: true
+  #     # zapConfiguration.spiders[0].threadCount -- Int: The number of spider threads, default: 2             
+  #     threadCount: 2
+  #     # zapConfiguration.spiders[0].userAgent -- String: The user agent to use in requests, default: '' - use the default ZAP one               
+  #     userAgent: "secureCodeBox / ZAP Spider"
   
-  # zapConfiguration.scanners -- Optional list of ZAP Active Scanner configurations
-  scanners:
-      # zapConfiguration.scanners[0].name -- String: Name of the context to attack, default: first context
-    - name: scbscan
-      # zapConfiguration.scanners[0].context -- String: Name of the context to attack, default: first context
-      context: scbcontext
-      # zapConfiguration.scanners[0].url -- String: Url to start scaning from, default: first context URL
-      url: https://example.com/
-      # zapConfiguration.scanners[0].defaultPolicy -- String: The name of the default scan policy to use, default: Default Policy
-      defaultPolicy: "Default Policy"
-      # zapConfiguration.scanners[0].policy -- String: Name of the scan policy to be used, default: Default Policy
-      policy: "Default Policy"
-      # zapConfiguration.scanners[0].maxRuleDurationInMins -- Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
-      maxRuleDurationInMins: 0
-      # zapConfiguration.scanners[0].maxScanDurationInMins -- Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited          
-      maxScanDurationInMins: 0
-      # zapConfiguration.scanners[0].delayInMs -- Int: The delay in milliseconds between each request, use to reduce the strain on the target, default 0
-      delayInMs: 0
-      # zapConfiguration.scanners[0].addQueryParam -- Bool: If set will add an extra query parameter to requests that do not have one, default: false
-      addQueryParam: false
-      # zapConfiguration.scanners[0].handleAntiCSRFTokens -- Bool: If set then automatically handle anti CSRF tokens, default: false
-      handleAntiCSRFTokens: false
-      # zapConfiguration.scanners[0].injectPluginIdInHeader -- Bool: If set then the relevant rule Id will be injected into the X-ZAP-Scan-ID header of each request, default: false           
-      injectPluginIdInHeader: false
-      # zapConfiguration.scanners[0].scanHeadersAllRequests -- Bool: If set then the headers of requests that do not include any parameters will be scanned, default: false
-      scanHeadersAllRequests: false
-      # zapConfiguration.scanners[0].threadPerHost -- Int: The max number of threads per host, default: 2
-      threadPerHost: 2
-      # zapConfiguration.scanners[0].policyDefinition -- The policy definition, only used if the 'policy' is not set - NOT YET IMPLEMENTED
-      policyDefinition: {}
-      #   # zapConfiguration.scanners[0].policyDefinition.defaultStrength -- String: The default Attack Strength for all rules, one of Low, Medium, High, Insane (not recommended), default: Medium
-      #   defaultStrength: Medium
-      #   # zapConfiguration.scanners[0].policyDefinition.defaultThreshold -- String: The default Alert Threshold for all rules, one of Off, Low, Medium, High, default: Medium
-      #   defaultThreshold: Medium
-      #   # zapConfiguration.scanners[0].policyDefinition.rules -- A list of one or more active scan rules and associated settings which override the defaults
-      #   rules:
-      #     # zapConfiguration.scanners[0].policyDefinition.rules[0].id -- Int: The rule id as per https://www.zaproxy.org/docs/alerts/
-      #   - id:
-      #     # zapConfiguration.scanners[0].policyDefinition.rules[0].name -- The name of the rule for documentation purposes - this is not required or actually used
-      #     name:
-      #     # zapConfiguration.scanners[0].policyDefinition.rules[0].strength -- String: The Attack Strength for this rule, one of Low, Medium, High, Insane, default: Medium
-      #     strength:
-      #     # zapConfiguration.scanners[0].policyDefinition.rules[0].threshold -- String: The Alert Threshold for this rule, one of Off, Low, Medium, High, default: Medium
-      #     threshold:
+  # # zapConfiguration.scanners -- Optional list of ZAP Active Scanner configurations
+  # scanners:
+  #     # zapConfiguration.scanners[0].name -- String: Name of the context to attack, default: first context
+  #   - name: scbscan
+  #     # zapConfiguration.scanners[0].context -- String: Name of the context to attack, default: first context
+  #     context: scbcontext
+  #     # zapConfiguration.scanners[0].url -- String: Url to start scaning from, default: first context URL
+  #     url: https://example.com/
+  #     # zapConfiguration.scanners[0].defaultPolicy -- String: The name of the default scan policy to use, default: Default Policy
+  #     defaultPolicy: "Default Policy"
+  #     # zapConfiguration.scanners[0].policy -- String: Name of the scan policy to be used, default: Default Policy
+  #     policy: "Default Policy"
+  #     # zapConfiguration.scanners[0].maxRuleDurationInMins -- Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
+  #     maxRuleDurationInMins: 0
+  #     # zapConfiguration.scanners[0].maxScanDurationInMins -- Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited          
+  #     maxScanDurationInMins: 0
+  #     # zapConfiguration.scanners[0].delayInMs -- Int: The delay in milliseconds between each request, use to reduce the strain on the target, default 0
+  #     delayInMs: 0
+  #     # zapConfiguration.scanners[0].addQueryParam -- Bool: If set will add an extra query parameter to requests that do not have one, default: false
+  #     addQueryParam: false
+  #     # zapConfiguration.scanners[0].handleAntiCSRFTokens -- Bool: If set then automatically handle anti CSRF tokens, default: false
+  #     handleAntiCSRFTokens: false
+  #     # zapConfiguration.scanners[0].injectPluginIdInHeader -- Bool: If set then the relevant rule Id will be injected into the X-ZAP-Scan-ID header of each request, default: false           
+  #     injectPluginIdInHeader: false
+  #     # zapConfiguration.scanners[0].scanHeadersAllRequests -- Bool: If set then the headers of requests that do not include any parameters will be scanned, default: false
+  #     scanHeadersAllRequests: false
+  #     # zapConfiguration.scanners[0].threadPerHost -- Int: The max number of threads per host, default: 2
+  #     threadPerHost: 2
+  #     # zapConfiguration.scanners[0].policyDefinition -- The policy definition, only used if the 'policy' is not set - NOT YET IMPLEMENTED
+  #     policyDefinition: {}
+  #     #   # zapConfiguration.scanners[0].policyDefinition.defaultStrength -- String: The default Attack Strength for all rules, one of Low, Medium, High, Insane (not recommended), default: Medium
+  #     #   defaultStrength: Medium
+  #     #   # zapConfiguration.scanners[0].policyDefinition.defaultThreshold -- String: The default Alert Threshold for all rules, one of Off, Low, Medium, High, default: Medium
+  #     #   defaultThreshold: Medium
+  #     #   # zapConfiguration.scanners[0].policyDefinition.rules -- A list of one or more active scan rules and associated settings which override the defaults
+  #     #   rules:
+  #     #     # zapConfiguration.scanners[0].policyDefinition.rules[0].id -- Int: The rule id as per https://www.zaproxy.org/docs/alerts/
+  #     #   - id:
+  #     #     # zapConfiguration.scanners[0].policyDefinition.rules[0].name -- The name of the rule for documentation purposes - this is not required or actually used
+  #     #     name:
+  #     #     # zapConfiguration.scanners[0].policyDefinition.rules[0].strength -- String: The Attack Strength for this rule, one of Low, Medium, High, Insane, default: Medium
+  #     #     strength:
+  #     #     # zapConfiguration.scanners[0].policyDefinition.rules[0].threshold -- String: The Alert Threshold for this rule, one of Off, Low, Medium, High, default: Medium
+  #     #     threshold:
 
 cascadingRules:
   # cascadingRules.enabled -- Enables or disables the installation of the default cascading rules for this scanner

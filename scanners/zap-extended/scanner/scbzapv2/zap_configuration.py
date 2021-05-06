@@ -33,6 +33,7 @@ class ZapConfiguration:
             
         logging.info("Importing YAML files for ZAP configuration at dir: '%s'", config_files)
         if (len(config_files) > 0):
+            config_files.sort()
             self.__config = hiyapyco.load(*config_files, method=hiyapyco.METHOD_MERGE, interpolate=True, mergelists=True, failonmissingfiles=False)
             logging.info("Finished importing YAML: %s", self.__config)
         else:
@@ -202,6 +203,8 @@ class ZapConfiguration:
 
         if self.has_scans_configurations:
             result = self.__config["scanners"]
+        else:
+            logging.debug("No scanner specific configuration found!")
 
         return result
     
@@ -217,6 +220,8 @@ class ZapConfiguration:
 
         if self.has_scans_configurations and len(self.get_scans()) > index:
             result = self.get_scans()[index]
+        else:
+            logging.warning("No scanner specific configuration found! Therefore couldn't find the scanner configuration with the index: %s", index)
 
         return result
     
@@ -232,6 +237,8 @@ class ZapConfiguration:
 
         if self.has_scans_configurations:
             result = next((scan for scan in self.get_scans() if scan['name'] == name), None)
+        else:
+            logging.warning("No scanner specific configuration found! Therefore couldn't find the scanner configuration with the name: %s", name)
 
         return result
     
@@ -247,6 +254,8 @@ class ZapConfiguration:
 
         if self.has_scans_configurations:
             result = next((scan for scan in self.get_scans() if scan['context'] == name), None)
+        else:
+            logging.warning("No scanner specific configuration found! Therefore couldn't find the scanner configuration with the context name: %s", name)
 
         return result
 

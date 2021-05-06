@@ -51,9 +51,7 @@ data:
           - "http://juiceshop.demo-apps.svc:3000.*"
         # An optional list of regexes to exclude
         excludePaths:
-          - "http://juiceshop.demo-apps.svc:3000/socket.io.*"
-          - ".*\\.js"
-          - ".*\\.css"
+          - ".*socket\\.io.*"
           - ".*\\.png"
           - ".*\\.jpeg"
           - ".*\\.jpg"
@@ -72,9 +70,7 @@ data:
           json-based:
             loginUrl: "http://juiceshop.demo-apps.svc:3000/rest/user/login"
             # must be escaped already to prevent yaml parser colidations '{"user":{"id":1,"email":"test@test.com"}}''
-            loginRequestData: '{"email":"test@test.com","password":"test1"}'
-            # Username Parameter: email
-            # Password Parameter: password
+            loginRequestData: '{"email":"admin@juice-sh.op","password":"admin123"}'
           # Indicates if the current Zap User Session is based on a valid authentication (loggedIn) or not (loggedOut)
           verification:
             # isLoggedInIndicator: "\Q<a href="password.jsp">\E"
@@ -86,7 +82,16 @@ data:
             forced: true
         session:
           # Currently supports "scriptBasedSessionManagement", "cookieBasedSessionManagement", "httpAuthSessionManagement"
-          type: "cookieBasedSessionManagement"
+          type: "scriptBasedSessionManagement"
+          # scriptBasedSessionManagement configuration details
+          scriptBasedSessionManagement:
+            scriptName: "juiceshop-session-management.js"
+            # Script engine values: 'Oracle Nashorn' for Javascript
+            # 'jython' for python, 'JSR 223 JRuby Engine' for ruby
+            scriptEngine: "Oracle Nashorn"
+            # Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
+            scriptFilePath: "/home/zap/.ZAP_D/scripts/scripts/session/juiceshop-session-management.js"
+            scriptDescription: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
 
     # ZAP Spiders Configuration 
     spiders:
