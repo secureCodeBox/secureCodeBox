@@ -4,6 +4,8 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: zap-extended-scantype-config
+  labels:
+    {{- include "zap.labels" . | nindent 4 }}
 data:
   1-zap-extended-scantype.yaml: {{ .Values.zapConfiguration | toYaml | quote }}
 {{- end }}
@@ -29,8 +31,8 @@ spec:
           restartPolicy: Never
           containers:
             - name: zap-extended-scan
-              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              image: "{{ .Values.scannerJob.image.repository }}:{{ .Values.scannerJob.image.tag | default .Chart.Version }}"
+              imagePullPolicy: {{ .Values.scannerJob.image.pullPolicy }}
               command:
                 - "python3"
                 - "-m"
@@ -59,8 +61,8 @@ spec:
               {{- toYaml .Values.scannerJob.extraContainers | nindent 12 }}
               {{- end }}
             - name: zap-sidecar
-              image: "owasp/zap2docker-stable:2.10.0"
-              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              image: "{{ .Values.zapContainer.image.repository }}:{{ .Values.zapContainer.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.zapContainer.image.pullPolicy }}
               command:
                 - "zap.sh"
                 - "-daemon"
@@ -74,6 +76,19 @@ spec:
                 - "api.addrs.addr.regex=true"
                 - "-config"
                 - "api.disablekey=true" # Disble API Key. TODO: change with helm random value? -config api.key=change-me-9203935709
+              resources:
+                {{- toYaml .Values.zapContainer.resources | nindent 16 }}
+              securityContext:
+                {{- toYaml .Values.zapContainer.securityContext | nindent 16 }}
+              env:
+                {{- toYaml .Values.zapContainer.env | nindent 16 }}
+              envFrom:
+                {{- toYaml .Values.zapContainer.envFrom | nindent 16 }}
+              volumeMounts:
+                {{- toYaml .Values.zapContainer.extraVolumeMounts | nindent 16 }}
+              {{- if .Values.zapContainer.extraContainers }}
+              {{- toYaml .Values.zapContainer.extraContainers | nindent 12 }}
+              {{- end }}
               ports:
                 - containerPort: 8080
           volumes:
