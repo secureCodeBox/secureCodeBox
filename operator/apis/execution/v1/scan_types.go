@@ -30,9 +30,11 @@ type ScanSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// The name of the scanType which should be started.
+	// +kubebuilder:validation:Required
 	ScanType string `json:"scanType,omitempty"`
 
 	// All CLI parameters to configure the scan container.
+	// +kubebuilder:validation:Required
 	Parameters []string `json:"parameters,omitempty"`
 
 	// Env allows to specify environment vars for the scanner container. These will be merged will the env vars specified for the first container of the pod defined in the ScanType
