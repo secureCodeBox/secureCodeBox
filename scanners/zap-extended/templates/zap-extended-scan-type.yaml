@@ -71,10 +71,6 @@ spec:
                 - "-host"
                 - "0.0.0.0"
                 - "-config"
-                - "api.addrs.addr.name=.*" # allow API Access from internal IP's
-                - "-config"
-                - "api.addrs.addr.regex=true"
-                - "-config"
                 - "api.disablekey=true" # Disble API Key. TODO: change with helm random value? -config api.key=change-me-9203935709
               resources:
                 {{- toYaml .Values.zapContainer.resources | nindent 16 }}
