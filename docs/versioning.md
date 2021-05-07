@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Versioning
 
 All components of the secureCodeBox use [Semantic versioning](https://semver.org/).

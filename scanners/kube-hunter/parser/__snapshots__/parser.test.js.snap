@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`parses result from kind-1.18-in-cluster-scan correctly 1`] = `

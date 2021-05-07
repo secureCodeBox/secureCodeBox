@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 FROM python:3.6-alpine
 ARG scannerVersion
 COPY acstis-script.py /acstis/acstis-script.py

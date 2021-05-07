@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Continuous Secure Delivery - Out of the Box
 
 ![secureCodeBox](resources/logo.png "secureCodeBox")

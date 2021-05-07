@@ -1,3 +1,8 @@
+{{- /*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/}}
 Old Wordpress Instance deployed.
 
 Note this should used for demo and test purposes.
