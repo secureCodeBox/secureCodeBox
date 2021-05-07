@@ -8,6 +8,7 @@ metadata:
   creationTimestamp: null
   name: parsedefinitions.execution.securecodebox.io
 spec:
+  preserveUnknownFields: false
   group: execution.securecodebox.io
   names:
     kind: ParseDefinition

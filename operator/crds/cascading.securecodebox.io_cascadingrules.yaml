@@ -8,6 +8,7 @@ metadata:
   creationTimestamp: null
   name: cascadingrules.cascading.securecodebox.io
 spec:
+  preserveUnknownFields: false
   group: cascading.securecodebox.io
   names:
     kind: CascadingRule

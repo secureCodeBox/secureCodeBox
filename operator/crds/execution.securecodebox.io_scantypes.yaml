@@ -8,6 +8,7 @@ metadata:
   creationTimestamp: null
   name: scantypes.execution.securecodebox.io
 spec:
+  preserveUnknownFields: false
   group: execution.securecodebox.io
   names:
     kind: ScanType
