@@ -12,6 +12,7 @@ spec:
   type: ReadOnly
   {{- end }}
   image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
+  imagePullPolicy: "{{ .Values.image.pullPolicy }}"
   env:
     - name: DEFECTDOJO_URL
       value: {{ .Values.defectdojo.url | quote }}
