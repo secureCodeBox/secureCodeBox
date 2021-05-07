@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Architecture Decision Records (ADRs)
 
 This subdirectory contains all ADRs for the architecture documentation. The ids of these ADRs are within the number range from 0001 to 0999. The 0000 is reserved for the example template.

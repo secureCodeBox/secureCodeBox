@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
 plugins {
 	id 'java'
   id "io.freefair.lombok" version "5.3.0"

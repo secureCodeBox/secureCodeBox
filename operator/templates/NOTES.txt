@@ -1,3 +1,8 @@
+{{- /*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/}}
 secureCodeBox Operator Deployed 🚀
 
 The operator can orchestrate the execution of various security scanning tools inside of your cluster.

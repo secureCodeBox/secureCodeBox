@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { SlackNotifier } from "./SlackNotifier";
 import axios from 'axios'
 import { NotificationChannel } from "../model/NotificationChannel";

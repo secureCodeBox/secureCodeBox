@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 ![operator logo](https://docs.securecodebox.io/img/Logo_Color.svg)
 
 The secureCodeBox operator is running on kubernetes and the core component of the complete secureCodeBox stack, responsible for managing all scans and resources.

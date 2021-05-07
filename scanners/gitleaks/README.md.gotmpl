@@ -1,3 +1,8 @@
+{{/*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/}}
 ---
 title: "Gitleaks"
 category: "scanner"
@@ -10,8 +15,8 @@ usecase: "Find potential secrets in repositories"
 ![gitleaks logo](https://raw.githubusercontent.com/zricethezav/gifs/master/gitleakslogo.png)
 
 Gitleaks is a free and open source tool for finding secrets in git repositories.
-These secrets could be passwords, API keys, tokens, private keys or suspicious file names or 
-file extensions like *id_rsa*, *.pem*, *htpasswd*. Furthermore gitleaks can scan your whole repository's history 
+These secrets could be passwords, API keys, tokens, private keys or suspicious file names or
+file extensions like *id_rsa*, *.pem*, *htpasswd*. Furthermore gitleaks can scan your whole repository's history
 with all commits up to the initial one.
 
 To learn more about gitleaks visit <https://github.com/zricethezav/gitleaks>
@@ -27,7 +32,7 @@ helm upgrade --install gitleaks secureCodeBox/gitleaks
 
 ## Scanner configuration
 
-For a complete overview of the configuration options checkout the 
+For a complete overview of the configuration options checkout the
 [Gitleaks documentation](https://github.com/zricethezav/gitleaks/wiki/Options).
 
 The only mandatory parameters are:
@@ -41,12 +46,12 @@ The only mandatory parameters are:
 ## secureCodeBox extended GitLeaks Features
 
 :::info
-If you run gitleaks based on a scheduledScan (e.g. one scan per day) it would be enough to scan all git-commits since the last executed schedule. 
+If you run gitleaks based on a scheduledScan (e.g. one scan per day) it would be enough to scan all git-commits since the last executed schedule.
 Instead of scanning all commits in the complete git history every day it would safe a lot of resources to scan only all commits of the last day.
 
 _Problem is: This is a feature and configuration option gitleaks is currently not supporting._
 
-That's why we created an [issue](https://github.com/zricethezav/gitleaks/issues/497) and a [pull request](https://github.com/zricethezav/gitleaks/pull/498) for that. 
+That's why we created an [issue](https://github.com/zricethezav/gitleaks/issues/497) and a [pull request](https://github.com/zricethezav/gitleaks/pull/498) for that.
 If you like the idea, please vote for our issue and PR.
 
 If you already want to use our implementation (fork) of this feature you can use our [gitleaks forked docker image](https://hub.docker.com/r/securecodebox/gitleaks) instead of the gitleaks original image.
@@ -98,19 +103,19 @@ the scan. Checkout the examples for more information about providing your own gi
 #### Finding format
 
 It is not an easy task to classify the severity of the scans because we can't tell for sure if the finding is e.g. a real
-or a testing password. Another issue is that the rate of false positives for generic rules can be very high. Therefore, 
-we tried to classify the severity of the finding by looking at the accuracy of the rule which detected it. Rules for AWS 
-secrets or Artifactory tokens are very precise, so they get a high severity. Generic rules on the other hand get a low 
-severity because the often produce false positives. 
+or a testing password. Another issue is that the rate of false positives for generic rules can be very high. Therefore,
+we tried to classify the severity of the finding by looking at the accuracy of the rule which detected it. Rules for AWS
+secrets or Artifactory tokens are very precise, so they get a high severity. Generic rules on the other hand get a low
+severity because the often produce false positives.
 
 **Please keep in mind that findings with a low severity can be actually
 very critical.**
 
 #### Cascading Rules
 
-If you want to scan multiple repositories from github or gitlab automatically at once, you should 
-take a look at the cascading rules which get triggered by the **git-repo-scanner**. 
-For more information on how to use **git-repo-scanner** checkout the 
+If you want to scan multiple repositories from github or gitlab automatically at once, you should
+take a look at the cascading rules which get triggered by the **git-repo-scanner**.
+For more information on how to use **git-repo-scanner** checkout the
 [Readme](https://github.com/secureCodeBox/secureCodeBox/tree/main/scanners/git-repo-scanner).
 
 For cascading scans on public github repositories you don't need any credentials. For the gitlab
@@ -122,11 +127,10 @@ kubectl create secret generic github-access-token --from-literal="token=<YOUR-GI
 kubectl create secret generic gitlab-access-token --from-literal="token=<YOUR-GITLAB-TOKEN>"
 ```
 
-For more information on how to use cascades take a look at 
+For more information on how to use cascades take a look at
 [Scanning Networks Example](https://docs.securecodebox.io/docs/how-tos/scanning-networks/)
 
 
 ## Chart Configuration
 
 {{ template "chart.valuesTable" . }}
-

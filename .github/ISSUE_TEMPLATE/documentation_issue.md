@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 ---
 name: "📚 Documentation Issue"
 about: "Did you come across parts of our documentation that should be fixed?"

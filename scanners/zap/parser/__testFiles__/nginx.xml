@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 <?xml version="1.0"?><OWASPZAPReport version="D-2020-10-13" generated="Thu, 22 Oct 2020 09:37:04">
 <site name="http://nginx.demo-apps.svc" host="nginx.demo-apps.svc" port="80" ssl="false"><alerts><alertitem>
   <pluginid>10020</pluginid>

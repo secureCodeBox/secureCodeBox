@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 apiVersion: v2
 name: nmap
 description: A Helm chart for the NMAP security Scanner that integrates with the secureCodeBox.

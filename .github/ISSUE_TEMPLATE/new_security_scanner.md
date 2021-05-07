@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 ---
 name: '🚓  New Security Scanner request'
 about: 'Suggest an idea for a new security scanner to integrate in this project.'

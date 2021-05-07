@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
 async function parse(scanResults) {
   // The first scan always contains the image id a similar format to: "bkimminich/juice-shop:v10.2.0 (alpine 3.11.5)"
   const [imageScanResult] = scanResults;

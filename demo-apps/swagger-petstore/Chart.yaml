@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 apiVersion: v2
 version: v2.7.0-alpha1
 appVersion: "1.0.3"
