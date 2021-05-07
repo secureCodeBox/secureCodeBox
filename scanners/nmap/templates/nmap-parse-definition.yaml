@@ -3,6 +3,5 @@ kind: ParseDefinition
 metadata:
   name: "nmap-xml"
 spec:
-  handlesResultsType: nmap-xml
   image: "{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag | default .Chart.Version }}"
   ttlSecondsAfterFinished: {{ .Values.parseJob.ttlSecondsAfterFinished }}
