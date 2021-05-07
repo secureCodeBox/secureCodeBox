@@ -3,6 +3,5 @@ kind: ParseDefinition
 metadata:
   name: "kube-hunter-json"
 spec:
-  handlesResultsType: kube-hunter-json
   image: "{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag | default .Chart.Version }}"
   ttlSecondsAfterFinished: {{ .Values.parseJob.ttlSecondsAfterFinished }}
