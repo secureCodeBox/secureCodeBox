@@ -56,7 +56,7 @@ class ZapConfigureSpiderHttp(ZapConfigureSpider):
             logging.info("HTTP Spider(%s) completed", str(self.get_spider_id))
 
             # Print out a count of the number of urls
-            num_urls = len(self.__zap.core.urls())
+            num_urls = len(self.get_zap.core.urls())
             if num_urls == 0:
                 logging.error("No URLs found - is the target URL accessible? Local services may not be accessible from the Docker container")
                 raise RuntimeError('No URLs found by ZAP Spider :-( - is the target URL accessible? Local services may not be accessible from the Docker container')
@@ -107,7 +107,7 @@ class ZapConfigureSpiderHttp(ZapConfigureSpider):
                     user_username = self.get_config.get_context_user_by_name(spider_context_config, user_name)['username']
             
             # Open first URL before the spider start's to crawl
-            self.__zap.core.access_url(target)
+            self.get_zap.core.access_url(target)
 
             logging.info('Trying to start "traditional" Spider with config: %s', spider_config)
             spiderId = self.__start_spider(spider_config, target, context_id, context_name, user_id)
