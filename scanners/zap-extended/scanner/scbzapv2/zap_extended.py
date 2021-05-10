@@ -16,7 +16,8 @@ from zapv2 import ZAPv2
 from .zap_global import ZapConfigureGlobal
 from .zap_configuration import ZapConfiguration
 from .zap_context import ZapConfigureContext
-from .zap_spider import ZapConfigureSpider
+from .zap_abstract_spider import ZapConfigureSpider
+from .zap_spider_http import ZapConfigureSpiderHttp
 from .zap_scanner import ZapConfigureActiveScanner
 
 # set up logging to file - see previous section for more details
@@ -79,9 +80,17 @@ class ZapExtended:
         logging.info('Starting ZAP Spider with target %s', target)
         # if a ZAP Configuration is defined start to configure the running ZAP instance (`zap`)
         if self.__config and self.__config.has_spiders_configurations:
+            
+            
             # Starting to configure the ZAP Spider Instance based on the given Configuration
-            self.__zap_spider = ZapConfigureSpider(self.__zap, self.__config)
+            self.__zap_spider = ZapConfigureSpiderHttp(self.__zap, self.__config)
             spider_id = self.__zap_spider.start_spider_by_url(target)
+
+            # Additionaly start the ZAP Ajax Spider if enabled
+            if self.__zap_spider.is_ajax_spider_enabled():
+                self.__zap_spider = ZapConfigureSpiderAjax(self.__zap, self.__config)
+                self.__zap_spider.start_spider_by_url(target)
+            
 
         # Wait for ZAP to update the internal caches 
         time.sleep(5)

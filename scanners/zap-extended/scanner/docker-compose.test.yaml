@@ -35,7 +35,7 @@ services:
         - http://juiceshop:3000/#/
       timeout: 10s
   zap:
-    image: owasp/zap2docker-bare:latest
+    image: owasp/zap2docker-stable:latest
     deploy:
       replicas: 1
       restart_policy:
@@ -48,6 +48,8 @@ services:
     depends_on: 
       - "bodgeit"
       - "juiceshop"
+    volumes: 
+      - ./scripts/:/home/zap/.ZAP_D/scripts/scripts/
     # -config api.key=change-me-9203935709
     entrypoint: ['zap.sh', '-daemon', '-port', '8090', '-host', '0.0.0.0', '-config', 'api.addrs.addr.name=.*', '-config', 'api.addrs.addr.regex=true', '-config', 'api.disablekey=true']
     healthcheck:

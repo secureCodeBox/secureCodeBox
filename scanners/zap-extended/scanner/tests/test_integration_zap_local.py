@@ -23,7 +23,7 @@ def is_responsive(url):
 
 @pytest.fixture(scope="session")
 def docker_compose_file(pytestconfig):
-    return os.path.join(str(pytestconfig.rootdir), "tests", "docker-compose.yaml")
+    return os.path.join(str(pytestconfig.rootdir), "", "docker-compose.test.yaml")
 
 @pytest.fixture(scope="session")
 def get_bodgeit_url(docker_ip, docker_services):

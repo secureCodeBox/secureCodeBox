@@ -5,7 +5,7 @@ from unittest.mock import patch
 from unittest import TestCase
 
 from scbzapv2.zap_configuration import ZapConfiguration
-from scbzapv2.zap_spider import ZapConfigureSpider
+from scbzapv2.zap_spider_ajax import ZapConfigureSpiderAjax
 
 class ZapSpiderTests(TestCase):
 

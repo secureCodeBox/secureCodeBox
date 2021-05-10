@@ -9,7 +9,9 @@ from requests.exceptions import ConnectionError
 
 from scbzapv2.zap_configuration import ZapConfiguration
 from scbzapv2.zap_context import ZapConfigureContext
-from scbzapv2.zap_spider import ZapConfigureSpider
+from scbzapv2.zap_abstract_spider import ZapConfigureSpider
+from scbzapv2.zap_spider_ajax import ZapConfigureSpiderAjax
+from scbzapv2.zap_spider_http import ZapConfigureSpiderHttp
 from scbzapv2.zap_scanner import ZapConfigureActiveScanner
 from scbzapv2.zap_extended import ZapExtended
 
@@ -23,7 +25,7 @@ def is_responsive(url):
 
 @pytest.fixture(scope="session")
 def docker_compose_file(pytestconfig):
-    return os.path.join(str(pytestconfig.rootdir), "tests", "docker-compose.yaml")
+    return os.path.join(str(pytestconfig.rootdir), "", "docker-compose.test.yaml")
 
 @pytest.fixture(scope="session")
 def get_bodgeit_url(docker_ip, docker_services):
