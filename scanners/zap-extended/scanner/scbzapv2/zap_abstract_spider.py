@@ -36,7 +36,6 @@ class ZapConfigureSpider(ABC):
         self.__config = config
 
         self.__spider_config = None
-        self.__spider_id = -1
         self.__ajax = False
     
     @property
@@ -50,23 +49,19 @@ class ZapConfigureSpider(ABC):
         return self.__zap
 
     @property
-    def get_spider_id(self) -> int:
-        """ Returns the spider id of the currently running ZAP instance."""
-        return self.__spider_id
-
-    @property
     def get_spider_config(self) -> collections.OrderedDict:
         """ Returns the spider config of the currently running ZAP instance."""
         return self.__spider_config
     
-    def has_spider_id(self) -> bool:
-        """ Returns a spider is currently running in the ZAP instance."""
-        return self.__spider_id > 0
-    
     def is_ajax_spider_enabled(self) -> bool:
         # "Context" is an optional config for spider
-        if(not self.get_spider_config == None and "ajax" in self.get_spider_config and self.get_spider_config["ajax"] == "true"):
-            self.__ajax = bool(self.get_spider_config['ajax'])
+        if(not self.get_spider_config == None and "ajax" in self.get_spider_config):
+            if(self.get_spider_config["ajax"]):
+                self.__ajax = bool(self.get_spider_config['ajax'])
+            else:
+                logging.debug("Spider Ajax configuration is not 'true': %s", self.get_spider_config)
+        else:
+            logging.debug("No Ajax configuration 'ajax: true' found in spider configuration: %s", self.get_spider_config)
         
         return self.__ajax
 
@@ -87,8 +82,8 @@ class ZapConfigureSpider(ABC):
             else:
                 logging.warning("No context configuration found for target: '%s'! Starting spider without any related context.", url)
 
-            logging.info("Trying to start Spider (Ajax: %s) with target url: '%s'", str(self.__ajax), url)
-            self.__spider_id = self._start_spider(url=url, spider_config=self.get_spider_config)
+            logging.info("Trying to start Spider (Ajax: %s) with target url: '%s'", str(self.is_ajax_spider_enabled()), url)
+            self.start_spider(url=url, spider_config=self.get_spider_config)
         else:
             logging.error("There is no spider specific configuration section defined in your configuration YAML.")
 
@@ -106,7 +101,7 @@ class ZapConfigureSpider(ABC):
             url = self.get_spider_config["url"] if "url" in self.get_spider_config else None
 
             logging.debug('Trying to start Spider (Ajax: %s) by configuration index: %s', str(self.is_ajax_spider_enabled()), str(index))
-            self.__spider_id = self._start_spider(url=url, spider_config=self.get_spider_config)
+            self.start_spider(url=url, spider_config=self.get_spider_config)
 
     def start_spider_by_name(self, name: str) -> int:
         """ Starts a ZAP Spider with the given name for the spiders configuration, based on the given configuration and ZAP instance.
@@ -121,8 +116,8 @@ class ZapConfigureSpider(ABC):
             self.__spider_config = self.get_config.get_spider_by_name(name)
             url = self.get_spider_config["url"] if "url" in self.get_spider_config else None
             
-            logging.debug('Trying to start Spider (Ajax: %s) by name: %s', str(self.__ajax), name)
-            self.__spider_id = self._start_spider(url=url, spider_config=self.get_spider_config)
+            logging.debug('Trying to start Spider (Ajax: %s) by name: %s', str(self.is_ajax_spider_enabled()), name)
+            self.start_spider(url=url, spider_config=self.get_spider_config)
     
     @abstractmethod
     def configure_spider(self, zap_spider: spider, spider_config: collections.OrderedDict):
@@ -138,7 +133,7 @@ class ZapConfigureSpider(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def _start_spider(self, url: str, spider_config: collections.OrderedDict):
+    def start_spider(self, url: str, spider_config: collections.OrderedDict):
         """ Starts a ZAP Spider with the given spiders configuration, based on the internal referenced ZAP instance.
         
         Parameters
@@ -146,6 +141,11 @@ class ZapConfigureSpider(ABC):
         spider_config: collections.OrderedDict
             The spider configuration based on ZapConfiguration.
         """
+        raise NotImplementedError
+    
+    @abstractmethod
+    def wait_until_spider_finished(self):
+        """ Wait until the running ZAP Spider finished and log results."""
         raise NotImplementedError
     
     def _check_zap_spider_result(self, result: str, method: str):
@@ -163,8 +163,3 @@ class ZapConfigureSpider(ABC):
             logging.warning("Failed to configure Spider ['%s'], result is: '%s'", method, result)
         else:
             logging.debug("Successfull configured Spider ['%s'], result is: '%s'", method, result)
-    
-    @abstractmethod
-    def wait_until_spider_finished(self):
-        """ Wait until the running ZAP Spider finished and log results."""
-        raise NotImplementedError

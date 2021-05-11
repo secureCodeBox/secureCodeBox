@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "zap.labels" . | nindent 4 }}
 binaryData:
-  {{- range $path, $d := .Files.Glob "scripts/authentication/*" }}
+  {{- range $path, $d := .Files.Glob "scanner/scripts/authentication/*" }}
   {{ $path | base }}: |-
   {{- $d | toString | b64enc | nindent 4 }}
   {{ end }}
@@ -18,7 +18,7 @@ metadata:
   labels:
     {{- include "zap.labels" . | nindent 4 }}
 binaryData:
-  {{- range $path, $d := .Files.Glob "scripts/session/*" }}
+  {{- range $path, $d := .Files.Glob "scanner/scripts/session/*" }}
   {{ $path | base }}: |-
   {{- $d | toString | b64enc | nindent 4 }}
   {{ end }}

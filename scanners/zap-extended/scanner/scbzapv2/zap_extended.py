@@ -86,7 +86,7 @@ class ZapExtended:
             
             # Starting to configure the ZAP Spider Instance based on the given Configuration
             self.__zap_spider = ZapConfigureSpiderHttp(self.__zap, self.__config)
-            spider_id = self.__zap_spider.start_spider_by_url(target)
+            self.__zap_spider.start_spider_by_url(target)
 
             # Additionaly start the ZAP Ajax Spider if enabled
             if self.__zap_spider.is_ajax_spider_enabled():
