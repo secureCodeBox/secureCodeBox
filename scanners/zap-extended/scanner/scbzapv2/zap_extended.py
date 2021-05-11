@@ -66,7 +66,7 @@ class ZapExtended:
         self.__zap_global = ZapConfigureGlobal(self.__zap, self.__config)
         
         self.zap_tune()
-        self.zap_access_target(target)
+        #self.zap_access_target(target)
 
         # if target.count('/') > 2:
         #     # The url can include a valid path, but always reset to spider the host
@@ -178,7 +178,7 @@ class ZapExtended:
             'Failed to connect to ZAP after {0} seconds'.format(timeout_in_secs))
 
     def zap_access_target(self, target:str):
-        logging.info("Testing ZAP Acces to target URL: %s", target)
+        logging.info("Testing ZAP Access to target URL: %s", target)
         
         res = self.__zap.urlopen(target)
         if res.startswith("ZAP Error"):
