@@ -1,6 +1,6 @@
 ![operator logo](https://docs.securecodebox.io/img/Logo_Color.svg)
 
-The secureCodeBox operator is running on kubernetes and the core component of the complete secureCodeBox stack, responsible for managing all scans and resources.
+The secureCodeBox operator is running on Kubernetes and is the core component of the complete secureCodeBox stack, responsible for managing all scans and resources.
 
 <!-- end -->
 

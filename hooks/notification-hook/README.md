@@ -52,22 +52,22 @@ The `name` is used to for debugging failing notifications.
 it can be a *string* of you choice.
 
 The `type` specifies the type of the notification (in this example slack).
-Currently `slack` is the only available type but we are working on others (e.g. ms teams or email) as well.
+Currently `slack` is the only available type, but we are working on others (e.g. MS Teams or email) as well.
 
-The `template` field defines the name of a Nunjuck template to send to your notification channel.
+The `template` field defines the name of a Nunjucks template to send to your notification channel.
 These templates are usually tied to their notification channel (slack templates will not work for teams).
 The template `slack-messageCard` is provided by default.
 Notice that for the name of the template we chose to omit the file type.
 The template `slack-messageCard` will point to `slack-messageCard.njk` in the filesystem of the hook.
 
 The `endPoint` specifies where the notification has to go to.
-To protect the actual endPoint (e.g. a webhook url) this should point to a env name defined under `env`
+To protect the actual endPoint (e.g. a webhook url) this should point to an env name defined under `env`
 For slack this would be your webhook URL to slack.
 
 To define conditions when a notification should be created you can use `rules`.
-If no rules are specified this hook will assume that you always want to be notified.
+If no rules are specified, this hook will assume that you always want to be notified.
 
-Under `env` you have to define additional informations needed for your templates such as the actual endpoint.
+Under `env` you have to define additional information needed for your templates such as the actual endpoint.
 `env` will be mapped to the `env` implementation of Kubernetes.
 This means that you can define key-value pairs as well as providing envs via secrets (See [Define Environment Variables for a Container | Kubernetes](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)).
 
@@ -95,11 +95,11 @@ This Rule will match all Findings with an open port on 23.
 
 Within the `matches` you will have to provide `anyOf`
 `anyOf` contains one or more conditions to be met by the finding to match the rule.
-Notice that only one of this elements needs to match the finding for the rule to match.
+Notice that only one of these elements needs to match the finding for the rule to match.
 
 ### Configuration of a Slack Notification
 
-To configure a slack notification set the `type` to `slack` and the `endPoint` to point to your env containing your Webhook URL to slack.
+To configure a Slack notification set the `type` to `slack` and the `endPoint` to point to your env containing your Webhook URL to slack.
 You can use one of the following default templates:
 * slack-messageCard
 

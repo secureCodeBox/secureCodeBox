@@ -54,5 +54,5 @@ scannerJob:
         # scannerJob.securityContext.capabilities.drop[0] -- This drops all linux privileges from the container.
         - all
 
-# kubeauditScope -- Automatically sets up rbac roles for kubeaudit to access the ressources it scans. Can be either "cluster" (ClusterRole) or "namespace" (Role)        
+# kubeauditScope -- Automatically sets up rbac roles for kubeaudit to access the resources it scans. Can be either "cluster" (ClusterRole) or "namespace" (Role)
 kubeauditScope: "namespace"

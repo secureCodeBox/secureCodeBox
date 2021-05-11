@@ -28,7 +28,7 @@ helm upgrade --install kubeaudit secureCodeBox/kubeaudit
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| kubeauditScope | string | `"namespace"` | Automatically sets up rbac roles for kubeaudit to access the ressources it scans. Can be either "cluster" (ClusterRole) or "namespace" (Role)         |
+| kubeauditScope | string | `"namespace"` | Automatically sets up rbac roles for kubeaudit to access the resources it scans. Can be either "cluster" (ClusterRole) or "namespace" (Role) |
 | parseJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | parserImage.repository | string | `"docker.io/securecodebox/parser-kubeaudit"` | Parser image repository |
 | parserImage.tag | string | defaults to the charts version | Parser image tag |
