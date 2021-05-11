@@ -51,7 +51,28 @@ services:
     volumes: 
       - ./scripts/:/home/zap/.ZAP_D/scripts/scripts/
     # -config api.key=change-me-9203935709
-    entrypoint: ['zap.sh', '-daemon', '-port', '8090', '-host', '0.0.0.0', '-config', 'api.addrs.addr.name=.*', '-config', 'api.addrs.addr.regex=true', '-config', 'api.disablekey=true']
+    entrypoint:
+      - 'zap.sh'
+      - '-daemon'
+      - '-port'
+      - '8090'
+      - '-host'
+      - '0.0.0.0'
+      - '-config'
+      - 'api.addrs.addr.name=.*'
+      - '-config'
+      - 'api.addrs.addr.regex=true'
+      - '-config'
+      - 'api.disablekey=true'
+      - '-addonupdate'
+      - '-addoninstall'
+      - 'pscanrulesBeta'
+      - '-addoninstall'
+      - 'ascanrulesBeta'
+      - '-addoninstall'
+      - 'pscanrulesAlpha'
+      - '-addoninstall'
+      - 'ascanrulesAlpha'
     healthcheck:
       interval: 1m30s
       retries: 3

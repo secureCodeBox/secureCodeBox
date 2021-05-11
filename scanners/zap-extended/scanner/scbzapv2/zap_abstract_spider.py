@@ -40,17 +40,17 @@ class ZapConfigureSpider(ABC):
     
     @property
     def get_config(self) -> ZapConfiguration:
-        """ Returns the complete config of the currently running ZAP instance."""
+        """ Returns the complete config of the currently running ZAP instance. """
         return self.__config
 
     @property
     def get_zap(self) -> ZAPv2:
-        """ Returns the spider id of the currently running ZAP instance."""
+        """ Returns the currently running ZAP instance. """
         return self.__zap
 
     @property
     def get_spider_config(self) -> collections.OrderedDict:
-        """ Returns the spider config of the currently running ZAP instance."""
+        """ Returns the spider config of the currently running ZAP instance. """
         return self.__spider_config
     
     def is_ajax_spider_enabled(self) -> bool:
@@ -149,12 +149,12 @@ class ZapConfigureSpider(ABC):
         raise NotImplementedError
     
     def _check_zap_spider_result(self, result: str, method: str):
-        """ Checks the given spiderId for ZAP Errors and logs wariing messages if there are errors returened by ZAP.
+        """ Checks the given spider result for ZAP Errors and logs warning messages if there are errors returned by ZAP.
         
         Parameters
         ----------
-        spiderId: str
-            The spiderId of a ZAP Call.
+        result: str
+            The result of an ZAP Call.
         method: str
             The name of the method used (to call ZAP).
         """
