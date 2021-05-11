@@ -151,7 +151,7 @@ class ZapConfigureSpider(ABC):
         """
         raise NotImplementedError
     
-    def __check_zap_spider_id_result(self, method: str):
+    def _check_zap_spider_id_result(self, method: str):
         """ Checks the given spiderId for ZAP Errors and logs wariing messages if there are errors returened by ZAP.
         
         Parameters

@@ -76,11 +76,12 @@ class ZapExtended:
         # Starting to configure the ZAP Instance based on the given Configuration
         if self.__config.has_configurations() and self.__config.has_contexts_configurations:
             self.__zap_context = ZapConfigureContext(self.__zap, self.__config)
+        else:
+            logging.info("No ZAP specific YAML configuration found.")
 
         logging.info('Starting ZAP Spider with target %s', target)
         # if a ZAP Configuration is defined start to configure the running ZAP instance (`zap`)
         if self.__config and self.__config.has_spiders_configurations:
-            
             
             # Starting to configure the ZAP Spider Instance based on the given Configuration
             self.__zap_spider = ZapConfigureSpiderHttp(self.__zap, self.__config)
@@ -90,7 +91,8 @@ class ZapExtended:
             if self.__zap_spider.is_ajax_spider_enabled():
                 self.__zap_spider = ZapConfigureSpiderAjax(self.__zap, self.__config)
                 self.__zap_spider.start_spider_by_url(target)
-            
+        else:
+            logging.info("No ZAP Spider specific YAML configuration found.")  
 
         # Wait for ZAP to update the internal caches 
         time.sleep(5)
@@ -102,6 +104,9 @@ class ZapExtended:
             self.__zap_scan = ZapConfigureActiveScanner(self.__zap, self.__config)
             # Search for the corresponding context based on the given targetUrl which should correspond to defined the spider url
             scan_id = self.__zap_scan.start_scan_by_url(target)
+
+        else:
+            logging.info("No ZAP Scanner specific YAML configuration found.") 
     
     def get_zap_context(self) -> ZapConfigureContext:
         return self.__zap_context
