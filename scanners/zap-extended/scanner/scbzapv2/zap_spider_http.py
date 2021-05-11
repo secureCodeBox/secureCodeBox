@@ -75,12 +75,12 @@ class ZapConfigureSpiderHttp(ZapConfigureSpider):
         """
         spiderId = -1
         user_id = None
-        user_username = None
         context_id = None
         context_name = None
         target = ""
 
         # Clear all existing/previous spider data
+        logging.debug("Removing all pre existing spider scans.")     
         self.get_zap.spider.remove_all_scans()
 
         if not spider_config == None:
@@ -121,7 +121,7 @@ class ZapConfigureSpiderHttp(ZapConfigureSpider):
                 # Give the scanner a chance to start
                 time.sleep(5)
 
-                self.wait_until_spider_finished(int(spiderId))
+                self.wait_until_spider_finished()
 
         else:
             logging.info("Trying to start 'traditional' Spider to spider target '%s' without any additinal config!", url)
@@ -179,93 +179,93 @@ class ZapConfigureSpiderHttp(ZapConfigureSpider):
         
         if "maxDuration" in spider_config and (spider_config['maxDuration'] is not None) and spider_config['maxDuration'] >= 0:
             self._check_zap_spider_result(
-                spiderId=zap_spider.set_option_max_duration(str(spider_config['maxDuration'])), 
+                result=zap_spider.set_option_max_duration(str(spider_config['maxDuration'])), 
                 method="set_option_max_duration"
             )
         if "maxDepth" in spider_config and (spider_config['maxDepth'] is not None) and spider_config['maxDepth'] >= 0:
             self._check_zap_spider_result(
-                spiderId=zap_spider.set_option_max_depth(str(spider_config['maxDepth'])), 
+                result=zap_spider.set_option_max_depth(str(spider_config['maxDepth'])), 
                 method="set_option_max_depth"
             )
         if "maxChildren" in spider_config and (spider_config['maxChildren'] is not None) and spider_config['maxChildren'] >= 0:
             self._check_zap_spider_result(
-                spiderId=zap_spider.set_option_max_children(str(spider_config['maxChildren'])), 
+                result=zap_spider.set_option_max_children(str(spider_config['maxChildren'])), 
                 method="set_option_max_children"
             )
         if "maxParseSizeBytes" in spider_config and (spider_config['maxParseSizeBytes'] is not None) and spider_config['maxParseSizeBytes'] >= 0:
             self._check_zap_spider_result(
-                spiderId=zap_spider.set_option_max_parse_size_bytes(str(spider_config['maxParseSizeBytes'])), 
+                result=zap_spider.set_option_max_parse_size_bytes(str(spider_config['maxParseSizeBytes'])), 
                 method="set_option_max_parse_size_bytes"
             )
         if "acceptCookies" in spider_config and (spider_config['acceptCookies'] is not None) :
             self._check_zap_spider_result(
-                spiderId=zap_spider.set_option_accept_cookies(str(spider_config['acceptCookies'])), 
+                result=zap_spider.set_option_accept_cookies(str(spider_config['acceptCookies'])), 
                 method="set_option_accept_cookies"
             )
         if "handleODataParametersVisited" in spider_config and (spider_config['handleODataParametersVisited'] is not None) :
             self._check_zap_spider_result(
-                spiderId=zap_spider.set_option_handle_o_data_parameters_visited(str(spider_config['handleODataParametersVisited'])), 
+                result=zap_spider.set_option_handle_o_data_parameters_visited(str(spider_config['handleODataParametersVisited'])), 
                 method="set_option_handle_o_data_parameters_visited"
             )
         if "handleParameters" in spider_config and (spider_config['handleParameters'] is not None) :
             self._check_zap_spider_result(
-                spiderId=zap_spider.set_option_handle_parameters(str(spider_config['handleParameters'])), 
+                result=zap_spider.set_option_handle_parameters(str(spider_config['handleParameters'])), 
                 method="set_option_handle_parameters"
             )
         
         if "parseComments" in spider_config and (spider_config['parseComments'] is not None) :
             self._check_zap_spider_result(
-                spiderId=zap_spider.set_option_parse_comments(str(spider_config['parseComments'])), 
+                result=zap_spider.set_option_parse_comments(str(spider_config['parseComments'])), 
                 method="set_option_parse_comments"
             )
         if "parseGit" in spider_config and (spider_config['parseGit'] is not None) :
             self._check_zap_spider_result(
-                spiderId=zap_spider.set_option_parse_git(str(spider_config['parseGit'])), 
+                result=zap_spider.set_option_parse_git(str(spider_config['parseGit'])), 
                 method="set_option_parse_git"
             )
         if "parseRobotsTxt" in spider_config and (spider_config['parseRobotsTxt'] is not None) :
             self._check_zap_spider_result(
-                spiderId=zap_spider.set_option_parse_robots_txt(str(spider_config['parseRobotsTxt'])), 
+                result=zap_spider.set_option_parse_robots_txt(str(spider_config['parseRobotsTxt'])), 
                 method="set_option_parse_robots_txt"
             )
         if "parseSitemapXml" in spider_config and (spider_config['parseSitemapXml'] is not None) :
             self._check_zap_spider_result(
-                spiderId=zap_spider.set_option_parse_sitemap_xml(str(spider_config['parseSitemapXml'])), 
+                result=zap_spider.set_option_parse_sitemap_xml(str(spider_config['parseSitemapXml'])), 
                 method="set_option_parse_sitemap_xml"
             )
         if "parseSVNEntries" in spider_config and (spider_config['parseSVNEntries'] is not None) :
             self._check_zap_spider_result(
-                spiderId=zap_spider.set_option_parse_svn_entries(str(spider_config['parseSVNEntries'])), 
+                result=zap_spider.set_option_parse_svn_entries(str(spider_config['parseSVNEntries'])), 
                 method="set_option_parse_svn_entries"
             )
         if "postForm" in spider_config and (spider_config['postForm'] is not None) :
             self._check_zap_spider_result(
-                spiderId=zap_spider.set_option_post_form(str(spider_config['postForm'])), 
+                result=zap_spider.set_option_post_form(str(spider_config['postForm'])), 
                 method="set_option_post_form"
             )
         if "processForm" in spider_config and (spider_config['processForm'] is not None) :
             self._check_zap_spider_result(
-                spiderId=zap_spider.set_option_process_form(str(spider_config['processForm'])), 
+                result=zap_spider.set_option_process_form(str(spider_config['processForm'])), 
                 method="set_option_process_form"
             )
         
         if "requestWaitTime" in spider_config and (spider_config['requestWaitTime'] is not None) :
             self._check_zap_spider_result(
-                spiderId=zap_spider.set_option_request_wait_time(str(spider_config['requestWaitTime'])), 
+                result=zap_spider.set_option_request_wait_time(str(spider_config['requestWaitTime'])), 
                 method="set_option_request_wait_time"
             )
         if "sendRefererHeader" in spider_config and (spider_config['sendRefererHeader'] is not None) :
             self._check_zap_spider_result(
-                spiderId=zap_spider.set_option_send_referer_header(str(spider_config['sendRefererHeader'])), 
+                result=zap_spider.set_option_send_referer_header(str(spider_config['sendRefererHeader'])), 
                 method="set_option_send_referer_header"
             )
         if "threadCount" in spider_config and (spider_config['threadCount'] is not None) and spider_config['threadCount'] >= 0:
             self._check_zap_spider_result(
-                spiderId=zap_spider.set_option_thread_count(str(spider_config['threadCount'])), 
+                result=zap_spider.set_option_thread_count(str(spider_config['threadCount'])), 
                 method="set_option_thread_count"
             )
         if "userAgent" in spider_config and (spider_config['userAgent'] is not None) and len(spider_config['userAgent']) > 0:
             self._check_zap_spider_result(
-                spiderId=zap_spider.set_option_user_agent(string=str(spider_config['userAgent'])), 
+                result=zap_spider.set_option_user_agent(string=str(spider_config['userAgent'])), 
                 method="set_option_user_agent"
             )

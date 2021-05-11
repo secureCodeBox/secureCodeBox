@@ -18,6 +18,7 @@ from .zap_configuration import ZapConfiguration
 from .zap_context import ZapConfigureContext
 from .zap_abstract_spider import ZapConfigureSpider
 from .zap_spider_http import ZapConfigureSpiderHttp
+from .zap_spider_ajax import ZapConfigureSpiderAjax
 from .zap_scanner import ZapConfigureActiveScanner
 
 # set up logging to file - see previous section for more details
@@ -91,8 +92,10 @@ class ZapExtended:
             if self.__zap_spider.is_ajax_spider_enabled():
                 self.__zap_spider = ZapConfigureSpiderAjax(self.__zap, self.__config)
                 self.__zap_spider.start_spider_by_url(target)
+            else:
+                logging.info("No ZAP AjaxSpider specific YAML configuration found.")
         else:
-            logging.info("No ZAP Spider specific YAML configuration found.")  
+            logging.info("No ZAP Spider specific YAML configuration found.")
 
         # Wait for ZAP to update the internal caches 
         time.sleep(5)
@@ -106,8 +109,8 @@ class ZapExtended:
             scan_id = self.__zap_scan.start_scan_by_url(target)
 
         else:
-            logging.info("No ZAP Scanner specific YAML configuration found.") 
-    
+            logging.info("No ZAP Scanner specific YAML configuration found.")
+
     def get_zap_context(self) -> ZapConfigureContext:
         return self.__zap_context
 

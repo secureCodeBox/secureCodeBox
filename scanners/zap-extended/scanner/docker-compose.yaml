@@ -78,10 +78,13 @@ services:
     #   - SCB_ZAP_CONFIG_DIR="/zap/secureCodeBox-extensions/configs/"
     volumes: 
       - ./tests/mocks/scan-full-juiceshop-docker/:/home/securecodebox/configs/
+      - ./tests/results/:/home/securecodebox/results/
     entrypoint: ['python3', 
                  '-m', 'scbzapv2', 
                  '--report-type', 'XML', 
                  '--zap-url', 'zap:8090',
+                 '--output-folder',
+                 '/home/securecodebox/results/',
                  '--config-folder',
                  '/home/securecodebox/configs/',
                  '-t', 'http://juiceshop:3000/']

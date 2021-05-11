@@ -4,7 +4,7 @@ contexts:
   # Name to be used to refer to this context in other jobs, mandatory
   - name: scb-bodgeit-context
     # The top level url, mandatory, everything under this will be included. IMPORTANT: must be the hostname without any subpath!
-    url: http://bodgeit:8080/
+    url: http://bodgeit:8080/bodgeit/
     # An optional list of regexes to include
     includePaths:
       - "http://bodgeit:8080/bodgeit.*"
