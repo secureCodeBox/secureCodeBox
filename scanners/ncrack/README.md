@@ -16,7 +16,7 @@ To learn more about the Ncrack scanner itself visit [Ncrack GitHub] or [Ncrack W
 ## Ncrack Deployment & Configuration
 
 #### Setup with custom files:
-If you want to use your own files within the ncrack scan, you have to create a secret first:
+If you want to use your own files within the Ncrack scan, you have to create a secret first:
 
 ```bash
 kubectl create secret generic --from-file users.txt --from-file passwords.txt ncrack-lists
@@ -25,7 +25,7 @@ kubectl create secret generic --from-file users.txt --from-file passwords.txt nc
 <b> IMPORTANT: Use an extra empty line at the end of your files, otherwise the last letter of the last line will be omitted (due to a bug in k8) </b>
 
 Now we created a secret named "ncrack-lists".
-Before we can use the files, we have to install the ncrack ScanType:
+Before we can use the files, we have to install the Ncrack ScanType:
 
 ```bash
 cat <<EOF | helm install ncrack ./scanners/ncrack --values -
@@ -42,7 +42,7 @@ EOF
 
 This enables us now to refer to our files via `/ncrack/<file>` in the scan.yaml.
 
-For a full example on how to configure ncrack with your custom files against a ssh service, see the "dummy-ssh" example.
+For a full example on how to configure Ncrack with your custom files against a ssh service, see the "dummy-ssh" example.
 
 #### Basic setup (no files can be mounted):
 
