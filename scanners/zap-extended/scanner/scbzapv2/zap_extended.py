@@ -57,7 +57,7 @@ class ZapExtended:
         self.__zap_spider = None
         self.__zap_scan = None
     
-    def scb_scan(self, target:str):
+    def scb_scan(self, target: str):
 
         # wait at least 3 minutes for ZAP to start
         self.wait_for_zap_start(3 * 60)

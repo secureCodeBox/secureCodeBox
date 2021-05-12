@@ -1,13 +1,12 @@
 import pytest
 
 from unittest.mock import MagicMock, Mock
-from unittest.mock import patch
 from unittest import TestCase
 
 from scbzapv2.zap_configuration import ZapConfiguration
 from scbzapv2.zap_spider_http import ZapConfigureSpider
 
-class ZapSpiderTests(TestCase):
+class ZapSpiderHttpTests(TestCase):
 
     @pytest.mark.unit
     def test_has_spider_configurations(self):

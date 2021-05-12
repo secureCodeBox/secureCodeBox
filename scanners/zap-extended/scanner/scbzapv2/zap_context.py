@@ -167,9 +167,9 @@ class ZapConfigureContext():
         """
         
         if(not script_config == None and "scriptName" in script_config and "scriptFilePath" in script_config and "scriptEngine" in script_config):
-            self._configure_load_script(zap, script_config, context_id, 'authentication')
+            self._configure_load_script(zap=zap, script_config=script_config, script_type='authentication')
 
-            # Create ZAP Script parameters based on given configruation object
+            # Create ZAP Script parameters based on given configuration object
             auth_params = [
                 'scriptName=' + script_config["scriptName"],
             ]
@@ -353,7 +353,7 @@ class ZapConfigureContext():
                 zap.forcedUser.set_forced_user(contextid=context_id, userid=user_id)
                 zap.forcedUser.set_forced_user_mode_enabled(True)
 
-    def _configure_load_script(self, zap: ZAPv2, script: collections.OrderedDict, script_type:str, context_id: int):
+    def _configure_load_script(self, zap: ZAPv2, script_config: collections.OrderedDict, script_type: str):
         """Protected method to load a new ZAP Script based on a given ZAP config.
         
         Parameters
@@ -366,26 +366,26 @@ class ZapConfigureContext():
             The zap context id tot configure the ZAP authentication for (based on the class ZapConfiguration).
         """
         
-        if(script and "scriptName" in script and "scriptFilePath" in script and "scriptEngine" in script):
+        if((script_config is not None) and "scriptName" in script_config and "scriptFilePath" in script_config and "scriptEngine" in script_config):
             # Remove exisitng Script if already exisiting
-            logging.debug("Removing Auth script '%s' at '%s'", script["scriptName"], script["scriptFilePath"])
-            zap.script.remove(scriptname=script["scriptName"])
+            logging.debug("Removing pre-existing Auth script '%s' at '%s'", script_config["scriptName"], script_config["scriptFilePath"])
+            zap.script.remove(scriptname=script_config["scriptName"])
 
             # Add Script again
-            logging.debug("Loading Authentication Script '%s' at '%s' with type: '%s' and engine '%s'", script["scriptName"], script["scriptFilePath"], script_type, script["scriptEngine"])
+            logging.debug("Loading Authentication Script '%s' at '%s' with type: '%s' and engine '%s'", script_config["scriptName"], script_config["scriptFilePath"], script_type, script_config["scriptEngine"])
             response = zap.script.load(
-                scriptname=script["scriptName"],
+                scriptname=script_config["scriptName"],
                 scripttype=script_type,
-                scriptengine=script["scriptEngine"],
-                filename=script["scriptFilePath"],
-                scriptdescription=script["scriptDescription"]
+                scriptengine=script_config["scriptEngine"],
+                filename=script_config["scriptFilePath"],
+                scriptdescription=script_config["scriptDescription"]
                 )
             
             if response != "OK":
                 logging.warning("Script Response: %s", response)
-                raise RuntimeError("The Script (%s) couldnt be loaded due to errors: %s", script, response)
+                raise RuntimeError("The script (%s) couldn't be loaded due to errors: %s", script_config, response)
 
-            zap.script.enable(scriptname=script["scriptName"])
+            zap.script.enable(scriptname=script_config["scriptName"])
 
             self._show_all_scripts(zap)
         else:
@@ -427,7 +427,7 @@ class ZapConfigureContext():
                 script_config = sessions_config["scriptBasedSessionManagement"]
                 logging.debug("Script Config: %s", str(script_config))
                 if(not script_config == None and "scriptName" in script_config and "scriptFilePath" in script_config and "scriptEngine" in script_config):
-                    self._configure_load_script(zap, script=script_config, script_type="session", context_id=context_id)
+                    self._configure_load_script(zap=zap, script_config=script_config, script_type="session")
                     # Here they say that only "cookieBasedSessionManagement"; "httpAuthSessionManagement"
                     # is possible, but maybe this is outdated and it works anyway, hopefully:
                     # https://github.com/zaproxy/zap-api-python/blob/9bab9bf1862df389a32aab15ea4a910551ba5bfc/src/examples/zap_example_api_script.py#L97

@@ -3,34 +3,19 @@
 global:
   # True to create another ZAP session (overwrite the former if the same name already exists), False to use an existing on
   isNewSession: true
-  # ZAP Session name
+  # Sets the ZAP Session name
   sessionName: SCB
-  # excludeProxyPaths:
-  #   - ".*\\.js"
-  #   - ".*\\.css"
-  #   - ".*\\.png"
-  #   - ".*\\.jpeg"
-#   proxy:
-#     # Define if an outgoing proxy server is used.
-#     enabled: false
-#     port: 8080
-#     # MANDATORY only if useProxyChain is True, ignored otherwise. Outgoing proxy address and port
-#     address: my.corp.proxy
-#     # Define the addresses to skip in case useProxyChain is True. Ignored otherwise. List can be empty.
-#     skipProxyAddresses:
-#       - "127.0.0.1"
-#       - localhost
-#     # MANDATORY only if proxy.enabled is True. Ignored otherwise. Define if proxy server needs authentication
-#     authentication:
-#         enabled: false
-#         proxyUsername: ""
-#         proxyPassword: ""
-#         proxyRealm: ""
-#       # Determine if a proxy script must be loaded. Proxy scripts are executed for every request traversing ZAP
-#     script:
-#       enabled: false
-#       # MANDATORY only if useProxyScript is True. Ignored otherwise
-#       script
+  # Sets the connection time out, in seconds.
+  timeoutInSeconds: 120
+  # Sets the mode, which may be one of [safe, protect, standard, attack]
+  mode: attack
+  # Sets the user agent that ZAP should use when creating HTTP messages (for example, spider messages or CONNECT requests to outgoing proxy).
+  defaultUserAgent: "secureCodeBox/2.7.0 (Windows NT 10.0; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0"
+  globalExcludePaths:
+    - ".*\\.css"
+    - ".*\\.png"
+    - ".*\\.jpeg"
+
 # List of 1 or more contexts, mandatory
 contexts:
   # Name to be used to refer to this context in other jobs, mandatory

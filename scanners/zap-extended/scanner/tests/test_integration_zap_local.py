@@ -7,10 +7,6 @@ import pytest
 from zapv2 import ZAPv2
 from requests.exceptions import ConnectionError
 
-from scbzapv2.zap_configuration import ZapConfiguration
-from scbzapv2.zap_context import ZapConfigureContext
-from scbzapv2.zap_spider import ZapConfigureSpider
-from scbzapv2.zap_scanner import ZapConfigureActiveScanner
 from scbzapv2.zap_extended import ZapExtended
 
 def is_responsive(url):
@@ -90,67 +86,78 @@ def test_all_services_available(get_bodgeit_url, get_juiceshop_url, get_zap_url)
     response = requests.get(get_zap_url + "/UI/core/")
     assert response.status_code == 200
 
-# @pytest.mark.integrationtest
-# def test_scb_scan_without_config(get_zap_instance: ZAPv2):
+@pytest.mark.integrationtest
+def test_global_config(get_zap_instance: ZAPv2):
 
-#     zap = get_zap_instance
-#     test_target = "http://www.secureCodeBox.io/"
+    zap = get_zap_instance
+    test_target = "http://www.secureCodeBox.io/"
+    test_config_yaml = "./tests/mocks/global/"
     
-#     zap_extended = ZapExtended(zap=zap, config_dir="")
-#     zap_extended.scb_scan(target=test_target)
+    zap_extended = ZapExtended(zap=zap, config_dir=test_config_yaml)
+    zap_extended.scb_scan(target=test_target)
     
-#     alerts = zap_extended.get_zap_scan().get_alerts(test_target, [], [])
+    alerts = zap_extended.get_zap_scan().get_alerts(test_target, [], [])
 
-#     logging.info('Found ZAP Alerts: %s', str(len(alerts)))
+    logging.info('Found ZAP Alerts: %s', str(len(alerts)))
 
-#     assert int(len(alerts)) >= 1
+    assert int(len(alerts)) >= 1
 
-# @pytest.mark.integrationtest
-# def test_bodgeit_scan_without_config(get_bodgeit_url, get_zap_instance: ZAPv2):
+@pytest.mark.integrationtest
+def test_scb_scan_without_config(get_zap_instance: ZAPv2):
 
-#     zap = get_zap_instance
-#     test_target = "http://localhost:8080/bodgeit/"
+    zap = get_zap_instance
+    test_target = "http://www.secureCodeBox.io/"
     
-#     zap_extended = ZapExtended(zap=zap, config_dir="")
-#     zap_extended.scb_scan(target=test_target)
     
-#     alerts = zap_extended.get_zap_scan().get_alerts(test_target, [], [])
+    zap_extended = ZapExtended(zap=zap, config_dir="")
+    zap_extended.scb_scan(target=test_target)
 
-#     logging.info('Found ZAP Alerts: %s', str(len(alerts)))
+@pytest.mark.integrationtest
+def test_bodgeit_scan_without_config(get_bodgeit_url, get_zap_instance: ZAPv2):
 
-#     assert int(len(alerts)) >= 5
+    zap = get_zap_instance
+    test_target = "http://localhost:8080/bodgeit/"
+    
+    zap_extended = ZapExtended(zap=zap, config_dir="")
+    zap_extended.scb_scan(target=test_target)
+    
+    alerts = zap_extended.get_zap_scan().get_alerts(test_target, [], [])
 
-# @pytest.mark.integrationtest
-# def test_bodgeit_scan_with_config(get_bodgeit_url, get_zap_instance: ZAPv2):
+    logging.info('Found ZAP Alerts: %s', str(len(alerts)))
 
-#     zap = get_zap_instance
-#     test_config_yaml = "./tests/mocks/scan-full-bodgeit-local/"
-#     test_target = "http://localhost:8080/bodgeit/"
-    
-#     zap_extended = ZapExtended(zap=zap, config_dir=test_config_yaml)
-#     zap_extended.scb_scan(target=test_target)
-    
-#     alerts = zap_extended.get_zap_scan().get_alerts(test_target, [], [])
+    assert int(len(alerts)) >= 5
 
-#     logging.info('Found ZAP Alerts: %s', str(len(alerts)))
+@pytest.mark.integrationtest
+def test_bodgeit_scan_with_config(get_bodgeit_url, get_zap_instance: ZAPv2):
 
-#     assert int(len(alerts)) >= 5
+    zap = get_zap_instance
+    test_config_yaml = "./tests/mocks/scan-full-bodgeit-local/"
+    test_target = "http://localhost:8080/bodgeit/"
     
-# @pytest.mark.integrationtest
-# def test_juiceshop_scan_without_config(get_juiceshop_url, get_zap_instance: ZAPv2):
+    zap_extended = ZapExtended(zap=zap, config_dir=test_config_yaml)
+    zap_extended.scb_scan(target=test_target)
     
-#     zap = get_zap_instance
-#     test_config_yaml = "./tests/mocks/scan-full-juiceshop-local/"
-#     test_target = "http://localhost:3000/"
-    
-#     zap_extended = ZapExtended(zap=zap, config_dir="")
-#     zap_extended.scb_scan(target=test_target)
-    
-#     alerts = zap_extended.get_zap_scan().get_alerts(test_target, [], [])
+    alerts = zap_extended.get_zap_scan().get_alerts(test_target, [], [])
 
-#     logging.info('Found ZAP Alerts: %s', str(len(alerts)))
+    logging.info('Found ZAP Alerts: %s', str(len(alerts)))
+
+    assert int(len(alerts)) >= 5
     
-#     assert int(len(alerts)) >= 2
+@pytest.mark.integrationtest
+def test_juiceshop_scan_without_config(get_juiceshop_url, get_zap_instance: ZAPv2):
+    
+    zap = get_zap_instance
+    test_config_yaml = "./tests/mocks/scan-full-juiceshop-local/"
+    test_target = "http://localhost:3000/"
+    
+    zap_extended = ZapExtended(zap=zap, config_dir="")
+    zap_extended.scb_scan(target=test_target)
+    
+    alerts = zap_extended.get_zap_scan().get_alerts(test_target, [], [])
+
+    logging.info('Found ZAP Alerts: %s', str(len(alerts)))
+    
+    assert int(len(alerts)) >= 2
 
 @pytest.mark.integrationtest
 def test_juiceshop_scan_with_config(get_juiceshop_url, get_zap_instance: ZAPv2):
