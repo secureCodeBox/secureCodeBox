@@ -107,10 +107,10 @@ data:
             scriptDescription: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
       - name: scb-petstore-context
         # The top level url, mandatory, everything under this will be included. IMPORTANT: must be the hostname without any subpath!
-        url: http://petstore.demo-apps.svc:8080/
+        url: http://petstore.demo-apps.svc/
         # An optional list of regexes to include
         includePaths:
-          - "http://petstore.demo-apps.svc:8080/v2.*"
+          - "http://petstore.demo-apps.svc/v2.*"
         # An optional list of regexes to exclude
         excludePaths:
           - ".*\\.css"
@@ -124,9 +124,9 @@ data:
         # -- format of the API ('openapi', 'grapql', 'soap')
         format: openapi
         # -- Url to start spidering from, default: first context URL
-        url: http://petstore.demo-apps.svc:8080/v2/swagger.json
+        url: http://petstore.demo-apps.svc/v2/swagger.json
         # -- Override host setting in swagger.json
-        hostOverride: http://petstore.demo-apps.svc:8080
+        hostOverride: http://petstore.demo-apps.svc
 
     # ZAP Spiders Configuration 
     spiders:
@@ -198,7 +198,7 @@ data:
         # String: Name of the context to spider, default: first context
         context: scb-petstore-context
         # String: Url to start spidering from, default: first context URL
-        url: http://petstore.demo-apps.svc:8080/v2/
+        url: http://petstore.demo-apps.svc/v2/
         # Int: Fail if spider finds less than the specified number of URLs, default: 0
         failIfFoundUrlsLessThan: 0
         # Int: Warn if spider finds less than the specified number of URLs, default: 0
@@ -292,7 +292,7 @@ data:
         # String: Name of the context to attack, default: first context
         context: scb-petstore-context
         # String: Url to start scaning from, default: first context URL
-        url: http://petstore.demo-apps.svc:8080/v2/
+        url: http://petstore.demo-apps.svc/v2/
         # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
         maxRuleDurationInMins: 1
         # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited          

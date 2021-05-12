@@ -13,7 +13,7 @@ test(
     // There must be at least one finding
     expect(count).toBeGreaterThanOrEqual(1);
   },
-  60 * 4 * 1000
+  60 * 5 * 1000
 );
 
 test(
@@ -29,7 +29,7 @@ test(
     // There must be at least one finding
     expect(count).toBeGreaterThanOrEqual(1);
   },
-  60 * 10 * 1000
+  60 * 11 * 1000
 );
 
 test(
@@ -45,5 +45,37 @@ test(
     // There must be at least one finding
     expect(count).toBeGreaterThanOrEqual(1);
   },
-  60 * 10 * 1000
+  60 * 11 * 1000
 );
+
+test(
+  "ZAP-extended scan without config YAML against 'swagger-petstore' should only find couple findings",
+  async () => {
+    const { count } = await scan(
+      "zap-extended-scan-petstore-demo",
+      "zap-extended-scan",
+      ["-t", "http://petstore.demo-apps.svc/"],
+      60 * 10
+    );
+
+    // There must be at least one finding
+    expect(count).toBeGreaterThanOrEqual(1);
+  },
+  60 * 11 * 1000
+);
+
+// test(
+//   "ZAP-extended scan without config YAML against 'old-wordpress' should only find couple findings",
+//   async () => {
+//     const { count } = await scan(
+//       "zap-extended-scan-wordpress-demo",
+//       "zap-extended-scan",
+//       ["-t", "http://old-wordpress.demo-apps.svc/"],
+//       60 * 5
+//     );
+
+//     // There must be at least one finding
+//     expect(count).toBeGreaterThanOrEqual(1);
+//   },
+//   60 * 5 * 1000
+// );

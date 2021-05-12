@@ -654,6 +654,8 @@ jobs:
           helm -n demo-apps install unsafe-https ./demo-apps/unsafe-https/ --set="fullnameOverride=unsafe-https" --wait
           # Install bodgeit app
           helm -n demo-apps install bodgeit ./demo-apps/bodgeit/ --set="fullnameOverride=bodgeit" --wait
+          # Install bodgeit app
+          helm -n demo-apps install petstore ./demo-apps/swagger-petstore/ --set="fullnameOverride=petstore" --wait
           # Install old-wordpress app
           helm -n demo-apps install old-wordpress ./demo-apps/old-wordpress/ --set="fullnameOverride=old-wordpress" --wait
           # Install juiceshop app
