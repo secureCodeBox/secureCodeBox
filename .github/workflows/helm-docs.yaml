@@ -38,4 +38,4 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4.11.0
         with:
           commit_message: Updating Helm Docs
-          commit_user_email: github-actions-bot@securecodebox.io
+          commit_user_email: securecodebox@iteratec.com
