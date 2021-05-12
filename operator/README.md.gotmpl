@@ -13,7 +13,7 @@ The secureCodeBox Operator can be deployed via helm:
 helm repo add secureCodeBox https://charts.securecodebox.io
 # Create a new namespace for the secureCodeBox Operator
 kubectl create namespace securecodebox-system
-# Install the Operator & CRD's
+# Install the Operator & CRDs
 helm install securecodebox-operator secureCodeBox/operator
 ```
 
