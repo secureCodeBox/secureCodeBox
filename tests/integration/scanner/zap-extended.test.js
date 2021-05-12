@@ -7,13 +7,13 @@ test(
       "zap-extended-scan-nginx-demo",
       "zap-extended-scan",
       ["-t", "http://nginx.demo-apps.svc"],
-      60 * 4
+      60 * 6
     );
 
     // There must be at least one finding
     expect(count).toBeGreaterThanOrEqual(1);
   },
-  60 * 5 * 1000
+  60 * 7 * 1000
 );
 
 test(
@@ -23,13 +23,13 @@ test(
       "zap-extended-scan-bodgeit-demo",
       "zap-extended-scan",
       ["-t", "http://bodgeit.demo-apps.svc:8080/"],
-      60 * 10
+      60 * 15
     );
 
     // There must be at least one finding
     expect(count).toBeGreaterThanOrEqual(1);
   },
-  60 * 11 * 1000
+  60 * 16 * 1000
 );
 
 test(
@@ -39,13 +39,13 @@ test(
       "zap-extended-scan-juiceshop-demo",
       "zap-extended-scan",
       ["-t", "http://juiceshop.demo-apps.svc:3000/"],
-      60 * 10
+      60 * 15
     );
 
     // There must be at least one finding
     expect(count).toBeGreaterThanOrEqual(1);
   },
-  60 * 11 * 1000
+  60 * 16 * 1000
 );
 
 test(
@@ -55,13 +55,13 @@ test(
       "zap-extended-scan-petstore-demo",
       "zap-extended-scan",
       ["-t", "http://petstore.demo-apps.svc/"],
-      60 * 10
+      60 * 15
     );
 
     // There must be at least one finding
     expect(count).toBeGreaterThanOrEqual(1);
   },
-  60 * 11 * 1000
+  60 * 16 * 1000
 );
 
 // test(
