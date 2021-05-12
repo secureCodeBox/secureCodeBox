@@ -26,9 +26,9 @@ uses the Nikto JSON format while DefectDojo uses the XML format.
 
 :::
 
-After uploading the results to DefectDojo it will use the findings parsed by DefectDojo to overwrite the
+After uploading the results to DefectDojo, it will use the findings parsed by DefectDojo to overwrite the
 original secureCodeBox findings identified by the parser. This lets you access the finding metadata like the false
-positive and duplicate status from DefectDojo in further ReadOnly hooks, e.g. send out slack notification
+positive and duplicate status from DefectDojo in further ReadOnly hooks, e.g. send out Slack notification
 for non-duplicate & non-false positive findings only.
 
 :::caution
