@@ -1,65 +1,55 @@
 ---
-# Global ZAP Configurations - NOT YET IMPLEMENTED
+# Global ZAP Configurations
 global:
   # True to create another ZAP session (overwrite the former if the same name already exists), False to use an existing on
   isNewSession: true
-  # Sets the ZAP Session name
-  sessionName: SCB
-  # Sets the connection time out, in seconds.
-  timeoutInSeconds: 120
-  # Sets the mode, which may be one of [safe, protect, standard, attack]
-  mode: attack
-  # Sets the user agent that ZAP should use when creating HTTP messages (for example, spider messages or CONNECT requests to outgoing proxy).
-  defaultUserAgent: "secureCodeBox/2.7.0 (Windows NT 10.0; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0"
+  # Determine if a proxy script must be loaded. Proxy scripts are executed for every request traversing ZAP
+  scripts:
+    - name: "Alert on HTTP Response Code Errors.js"
+      enabled: true
+    - name: "Alert on Unexpected Content Types.js"
+      enabled: true
 
 # List of 1 or more contexts, mandatory
 contexts:
   # Name to be used to refer to this context in other jobs, mandatory
-  - name: scb-bodgeit-context
+  - name: scb-petstore-context
     # The top level url, mandatory, everything under this will be included. IMPORTANT: must be the hostname without any subpath!
-    url: http://localhost:8080/bodgeit/
+    url: http://petstore:8080/
     # An optional list of regexes to include
     includePaths:
-      - "http://localhost:8080/bodgeit.*"
+      - "http://petstore:8080/v2.*"
     # An optional list of regexes to exclude
     excludePaths:
-      - ".*\\.js"
       - ".*\\.css"
       - ".*\\.png"
       - ".*\\.jpeg"
-    # Auth Credentials for the scanner to access the application
-    # Can be either basicAuth or a oidc token.
-    # If both are set, the oidc token takes precedent
-    # More infos about "ZAP Authentication for BodgeIT": https://play.sonatype.com/watch/B1vhaLSUsme7eA5hU8WeGB?
-    authentication:
-      # Currently supports "basic-auth", "form-based", "json-based", "script-based"
-      type: "form-based"
-      # basic-auth requires no further configuration
-      form-based:
-        loginUrl: "http://localhost:8080/bodgeit/login.jsp"
-        # must be escaped already to prevent yaml parser colidations 'username={%username%}&password={%password%}''
-        loginRequestData: "username%3D%7B%25username%25%7D%26password%3D%7B%25password%25%7D"
-      # Indicates if the current Zap User Session is based on a valid authentication (loggedIn) or not (loggedOut)
-      verification:
-        isLoggedInIndicator: '\Q<a href="password.jsp">\E'
-        isLoggedOutIndicator: '\QGuest user\E'
-    users:
-      - name: bodgeit-user-1
-        username: test@thebodgeitstore.com
-        password: password
-        forced: true
-    session:
-      # Currently supports "scriptBasedSessionManagement", "cookieBasedSessionManagement", "httpAuthSessionManagement"
-      type: "cookieBasedSessionManagement"
+
+apis:
+    # -- The name of the spider configuration
+  - name: scb-petstore-api
+    # -- The Name of the context (zapConfiguration.contexts[x].name) to spider, default: first context available.
+    context: scb-petstore-context
+    # -- format of the API ('openapi', 'grapql', 'soap')
+    format: openapi
+    # -- Url to start spidering from, default: first context URL
+    url: http://petstore:8080/v2/swagger.json
+    # -- Override host setting in swagger.json
+    hostOverride: http://petstore:8080
+    # -- Assumes that the OpenAPI Spec has been saved to a configmap in the namespace of the scan / this release. Should be null if not used.
+    #configMap: null
+      # Object with two keys: "name" name of the config map, and "key" which is the key / property in the configmap which holds the openapi spec file.
+      # name: my-configmap-with-openapi-spec
+      # key: openapi.yaml
+    # -- Allows to embed the entire yaml / json OpenAPI spec in the values. Should be null if not used.
+    #spec: null
 
 spiders:
-  - name: scb-bodgeit-spider
+  - name: scb-petstore-spider
     # String: Name of the context to spider, default: first context
-    context: scb-bodgeit-context
-    # String: Name of the user to authenticate with and used to spider
-    user: bodgeit-user-1
+    context: scb-petstore-context
     # String: Url to start spidering from, default: first context URL
-    url: http://localhost:8080/bodgeit/
+    url: http://petstore:8080/v2/
     # Int: Fail if spider finds less than the specified number of URLs, default: 0
     failIfFoundUrlsLessThan: 0
     # Int: Warn if spider finds less than the specified number of URLs, default: 0
@@ -68,7 +58,7 @@ spiders:
     maxDuration: 1
     # Int: The maximum tree depth to explore, default 5
     maxDepth: 5
-    # Int: The maximum number of children to add to each node in the tree
+    # Int: The maximum number of children to add to each node in the tree                     
     maxChildren: 10
     # # Int: The max size of a response that will be parsed, default: 2621440 - 2.5 Mb
     # maxParseSizeBytes: 2621440
@@ -83,7 +73,7 @@ spiders:
     # Bool: Whether the spider will parse Git metadata in order to find URLs, default: false
     parseGit: false
     # Bool: Whether the spider will parse 'robots.txt' files in order to find URLs, default: true
-    parseRobotsTxt: true
+    parseRobotsTxt: false
     # Bool: Whether the spider will parse 'sitemap.xml' files in order to find URLs, default: true
     parseSitemapXml: false
     # Bool: Whether the spider will parse SVN metadata in order to find URLs, default: false
@@ -96,22 +86,19 @@ spiders:
     requestWaitTime: 200
     # Bool: Whether the spider will send the referer header, default: true
     sendRefererHeader: true
-    # Int: The number of spider threads, default: 2
+    # Int: The number of spider threads, default: 2             
     threadCount: 2
-    # String: The user agent to use in requests, default: '' - use the default ZAP one
+    # String: The user agent to use in requests, default: '' - use the default ZAP one               
     userAgent: "secureCodeBox / ZAP Spider"
-
 scanners:
-  - name: scb-bodgeit-scan
+  - name: scb-petstore-scan
     # String: Name of the context to attack, default: first context
-    context: scb-bodgeit-context
-    # String: Name of the user to authenticate with and used to spider
-    user: bodgeit-user-1
+    context: scb-petstore-context
     # String: Url to start scaning from, default: first context URL
-    url: http://localhost:8080/bodgeit/
+    url: http://petstore:8080/v2/
     # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
     maxRuleDurationInMins: 1
-    # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited
+    # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited          
     maxScanDurationInMins: 5
     # Int: The max number of threads per host, default: 2
     threadPerHost: 5
@@ -121,7 +108,7 @@ scanners:
     addQueryParam: false
     # Bool: If set then automatically handle anti CSRF tokens, default: false
     handleAntiCSRFTokens: false
-    # Bool: If set then the relevant rule Id will be injected into the X-ZAP-Scan-ID header of each request, default: false
+    # Bool: If set then the relevant rule Id will be injected into the X-ZAP-Scan-ID header of each request, default: false           
     injectPluginIdInHeader: false
     # Bool: If set then the headers of requests that do not include any parameters will be scanned, default: false
     scanHeadersAllRequests: false

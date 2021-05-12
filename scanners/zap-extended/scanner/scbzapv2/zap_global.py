@@ -48,7 +48,10 @@ class ZapConfigureGlobal():
             logging.debug("Found the following ZAP Global config: %s", self.get_global_config)
 
             if "isNewSession" in self.get_global_config:
-                self.__create_session(str(self.get_global_config["sessionName"]))
+                if self.get_global_config["isNewSession"] and "sessionName" in self.get_global_config:
+                    self.__create_session(str(self.get_global_config["sessionName"]))
+                else:
+                    logging.debug("No new session (%s) is configured or the 'sessionName' is missing: %s", self.get_global_config["isNewSession"], self.get_global_config["sessionName"])
             else:
                 self.__create_session("secureCodeBox")
             

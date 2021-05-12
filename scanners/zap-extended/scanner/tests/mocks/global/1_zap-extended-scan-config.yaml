@@ -1,5 +1,5 @@
 ---
-# Global ZAP Configurations - NOT YET IMPLEMENTED
+# Global ZAP Configurations
 global:
   # True to create another ZAP session (overwrite the former if the same name already exists), False to use an existing on
   isNewSession: true

@@ -16,6 +16,7 @@ from zapv2 import ZAPv2
 from .zap_global import ZapConfigureGlobal
 from .zap_configuration import ZapConfiguration
 from .zap_context import ZapConfigureContext
+from .zap_api import ZapConfigureApi
 from .zap_abstract_spider import ZapConfigureSpider
 from .zap_spider_http import ZapConfigureSpiderHttp
 from .zap_spider_ajax import ZapConfigureSpiderAjax
@@ -54,6 +55,7 @@ class ZapExtended:
 
         self.__zap_global = None
         self.__zap_context = None
+        self.__zap_api = None
         self.__zap_spider = None
         self.__zap_scan = None
     
@@ -79,6 +81,14 @@ class ZapExtended:
             self.__zap_context = ZapConfigureContext(self.__zap, self.__config)
         else:
             logging.info("No ZAP specific YAML configuration found.")
+
+        logging.info('Configuring API Import')
+        # Starting to configure the ZAP Instance based on the given Configuration
+        if self.__config.has_configurations() and self.__config.has_api_configurations():
+            self.__zap_api = ZapConfigureApi(self.__zap, self.__config)
+            self.__zap_api.start_api_by_url(target)
+        else:
+            logging.info("No ZAP API specific YAML configuration found.")
 
         logging.info('Starting ZAP Spider with target %s', target)
         # if a ZAP Configuration is defined start to configure the running ZAP instance (`zap`)

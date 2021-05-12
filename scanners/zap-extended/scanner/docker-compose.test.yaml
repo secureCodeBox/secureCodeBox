@@ -34,6 +34,27 @@ services:
         - --spider
         - http://juiceshop:3000/#/
       timeout: 10s
+  petstore:
+    image: docker.io/swaggerapi/petstore
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    ports:
+      - "8000:8080"
+    environment: 
+       - SWAGGER_BASE_PATH=/v2
+       - SWAGGER_HOST=http://localhost:8000
+       - SWAGGER_URL=http://localhost:8000
+    # healthcheck:
+    #   interval: 1m
+    #   retries: 3
+    #   test:
+    #     - CMD
+    #     - wget
+    #     - --spider
+    #     - http://petstore/
+    #   timeout: 10s
   zap:
     image: owasp/zap2docker-stable:latest
     deploy:
@@ -45,9 +66,11 @@ services:
     links:
       - "bodgeit:bodgeit"
       - "juiceshop:juiceshop"
+      - "petstore:petstore"
     depends_on: 
       - "bodgeit"
       - "juiceshop"
+      - "petstore"
     volumes: 
       - ./scripts/:/home/zap/.ZAP_D/scripts/scripts/
     # -config api.key=change-me-9203935709

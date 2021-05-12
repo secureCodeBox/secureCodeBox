@@ -5,6 +5,7 @@ global:
   isNewSession: true
   # ZAP Session name
   sessionName: secureCodeBox
+
 # List of 1 or more contexts, mandatory
 contexts:
   # Name to be used to refer to this context in other jobs, mandatory
@@ -59,6 +60,7 @@ contexts:
         # Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
         scriptFilePath: "/home/zap/.ZAP_D/scripts/scripts/session/juiceshop-session-management.js"
         scriptDescription: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
+
 spiders:
   - name: scb-juiceshop-spider
     # String: Name of the context to spider, default: first context
@@ -77,6 +79,7 @@ spiders:
     maxDuration: 2
     # Int: The maximum tree depth to explore, default 5
     maxDepth: 5
+
 scanners:
   - name: scb-juiceshop-scan
     # String: Name of the context to attack, default: first context

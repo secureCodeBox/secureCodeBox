@@ -46,6 +46,18 @@ def get_juiceshop_url(docker_ip, docker_services):
     return url
 
 @pytest.fixture(scope="session")
+def get_petstore_url(docker_ip, docker_services):
+    """Ensure that HTTP service is up and responsive."""
+
+    # `port_for` takes a container port and returns the corresponding host port
+    port = docker_services.port_for("petstore", 8080)
+    url = "http://{}:{}".format(docker_ip, port)
+    docker_services.wait_until_responsive(
+        timeout=30.0, pause=0.1, check=lambda: is_responsive(url)
+    )
+    return url
+
+@pytest.fixture(scope="session")
 def get_zap_url(docker_ip, docker_services):
     """Ensure that HTTP service is up and responsive."""
 
@@ -76,11 +88,14 @@ def get_zap_instance(docker_ip, docker_services, get_zap_url) -> ZAPv2:
     return zap
 
 @pytest.mark.integrationtest
-def test_all_services_available(get_bodgeit_url, get_juiceshop_url, get_zap_url):
+def test_all_services_available(get_bodgeit_url, get_juiceshop_url, get_petstore_url, get_zap_url):
     response = requests.get(get_bodgeit_url + "/bodgeit/")
     assert response.status_code == 200
     
     response = requests.get(get_juiceshop_url + "/#/")
+    assert response.status_code == 200
+
+    response = requests.get(get_petstore_url + "/v2/swagger.json")
     assert response.status_code == 200
 
     response = requests.get(get_zap_url + "/UI/core/")
@@ -92,6 +107,22 @@ def test_global_config(get_zap_instance: ZAPv2):
     zap = get_zap_instance
     test_target = "http://www.secureCodeBox.io/"
     test_config_yaml = "./tests/mocks/global/"
+    
+    zap_extended = ZapExtended(zap=zap, config_dir=test_config_yaml)
+    zap_extended.scb_scan(target=test_target)
+    
+    alerts = zap_extended.get_zap_scan().get_alerts(test_target, [], [])
+
+    logging.info('Found ZAP Alerts: %s', str(len(alerts)))
+
+    assert int(len(alerts)) >= 1
+
+@pytest.mark.integrationtest
+def test_petstore_scan_with_config(get_petstore_url, get_zap_instance: ZAPv2):
+
+    zap = get_zap_instance
+    test_config_yaml = "./tests/mocks/scan-full-petstore-local/"
+    test_target = "http://localhost:8000/"
     
     zap_extended = ZapExtended(zap=zap, config_dir=test_config_yaml)
     zap_extended.scb_scan(target=test_target)

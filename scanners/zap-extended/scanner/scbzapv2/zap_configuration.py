@@ -259,11 +259,11 @@ class ZapConfiguration:
 
         return result
 
+
     def has_spiders_configurations(self) -> bool:
         """Returns true if any ZAP Spider is defined, otherwise false."""
 
         return (self.has_configurations() and "spiders" in self.get_configurations())
-
 
     def get_spiders(self) -> list:
         """Returns a list with all ZAP Spider configuration objects"""
@@ -316,6 +316,66 @@ class ZapConfiguration:
 
         if self.has_spiders_configurations:
             result = next((spider for spider in self.get_spiders() if spider['context'] == name), None)
+
+        return result
+
+
+    def has_api_configurations(self) -> bool:
+        """Returns true if any ZAP OpenAPI configuration is defined, otherwise false."""
+
+        return (self.has_configurations() and "apis" in self.get_configurations())
+
+    def get_api_configurations(self) -> list:
+        """Returns a list with all ZAP OpenAPI configuration objects"""
+        result = collections.OrderedDict()
+
+        if self.has_api_configurations:
+            result = self.__config["apis"]
+
+        return result
+    
+    def get_api_configurations_by_index(self, index: int) -> collections.OrderedDict:
+        """Returns the ZAP OpenApi configuration object with the given index.
+        
+        Parameters
+        ----------
+        index: int
+            The list index of the OpenApi config to return from the list of apis.
+        """
+        result = collections.OrderedDict()
+
+        if self.has_api_configurations and len(self.get_api_configurations()) > index:
+            result = self.get_api_configurations()[index]
+
+        return result
+    
+    def get_api_configurations_by_name(self, name: str) -> collections.OrderedDict:
+        """Returns the ZAP OpenApi configuration object with the given name.
+        
+        Parameters
+        ----------
+        name: str
+            The name of the OpenApi to return from the list of apis.
+        """
+        result = collections.OrderedDict()
+
+        if self.has_api_configurations:
+            result = next((api for api in self.get_api_configurations() if api['name'] == name), None)
+
+        return result
+    
+    def get_api_configurations_by_context_name(self, name: str) -> collections.OrderedDict:
+        """Returns the ZAP OpenApi configuration object with the given context name referenced.
+        
+        Parameters
+        ----------
+        name: str
+            The name of the context referenced in the OpenApi config to return to return from the list of apis.
+        """
+        result = collections.OrderedDict()
+
+        if self.has_api_configurations:
+            result = next((api for api in self.get_api_configurations() if api['context'] == name), None)
 
         return result
 
