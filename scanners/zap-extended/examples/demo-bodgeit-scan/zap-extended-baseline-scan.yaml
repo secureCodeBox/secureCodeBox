@@ -27,8 +27,6 @@ data:
       - name: scb-bodgeit-spider
         # String: Name of the context to spider, default: first context
         context: scb-bodgeit-context
-        # String: Name of the user to authenticate with and used to spider
-        user: bodgeit-user-1
         # String: Url to start spidering from, default: first context URL
         url: http://bodgeit.default.svc:8080/bodgeit/
         # Int: Fail if spider finds less than the specified number of URLs, default: 0

@@ -1,9 +1,10 @@
 import collections
 import logging
 
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from zapv2 import ZAPv2, spider
 
+from .zap_abstract_client import ZapClient
 from .zap_configuration import ZapConfiguration
 
 # set up logging to file - see previous section for more details
@@ -14,7 +15,7 @@ logging.basicConfig(
 
 logging = logging.getLogger('ZapConfigureSpider')
 
-class ZapConfigureSpider(ABC):
+class ZapConfigureSpider(ZapClient):
     """This abstract class configures a ZAP Spider in a running ZAP instance, based on a ZAP Configuration.
     
     Based on this opensource ZAP Python example:
@@ -31,23 +32,12 @@ class ZapConfigureSpider(ABC):
         config : ZapConfiguration
             The configuration object containing all ZAP configs (based on the class ZapConfiguration).
         """
+        super().__init__(zap, config)
         
-        self.__zap = zap
-        self.__config = config
-
         self.__spider_config = None
         self.__ajax = False
+
     
-    @property
-    def get_config(self) -> ZapConfiguration:
-        """ Returns the complete config of the currently running ZAP instance. """
-        return self.__config
-
-    @property
-    def get_zap(self) -> ZAPv2:
-        """ Returns the currently running ZAP instance. """
-        return self.__zap
-
     @property
     def get_spider_config(self) -> collections.OrderedDict:
         """ Returns the spider config of the currently running ZAP instance. """

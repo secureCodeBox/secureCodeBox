@@ -10,6 +10,7 @@ import logging
 from urllib.parse import urlparse
 from zapv2 import ZAPv2
 
+from .zap_abstract_client import ZapClient
 from .zap_configuration import ZapConfiguration
 
 # set up logging to file - see previous section for more details
@@ -20,7 +21,7 @@ logging.basicConfig(
 
 logging = logging.getLogger('ZapConfigureApi')
 
-class ZapConfigureApi():
+class ZapConfigureApi(ZapClient):
     """This class configures a Api scan in a running ZAP instance, based on a ZAP Configuration
     
     Based on this opensource ZAP Python example:
@@ -37,27 +38,16 @@ class ZapConfigureApi():
         config : ZapConfiguration
             The configuration object containing all ZAP configs (based on the class ZapConfiguration).
         """
+
+        super().__init__(zap, config)
         
-        self.__zap = zap
-        self.__config = config
         self.__api_config = None
 
         # if at least one ZAP Context is defined start to configure the running ZAP instance (`zap`) accordingly
-        if self.__config.has_api_configurations():
-            logging.debug('Configure #%s APIs(s) with: %s', len(self.__config.get_api_configurations()), self.__config.get_api_configurations())
+        if self.get_config.has_api_configurations():
+            logging.debug('Configure #%s APIs(s) with: %s', len(self.get_config.get_api_configurations()), self.get_config.get_api_configurations())
         else:
             logging.warning("No valid ZAP configuration object found: %s! It seems there is something important missing.", config)
-
-
-    @property
-    def get_config(self) -> ZapConfiguration:
-        """ Returns the complete config of the currently running ZAP instance. """
-        return self.__config
-
-    @property
-    def get_zap(self) -> ZAPv2:
-        """ Returns the currently running ZAP instance. """
-        return self.__zap
 
     @property
     def get_api_config(self) -> collections.OrderedDict:
@@ -94,9 +84,9 @@ class ZapConfigureApi():
         index: int
             The index of the Api object in the list of Api configuration.
         """
-        if self.__config.has_api_configurations:
+        if self.get_config.has_api_configurations:
             logging.debug('Trying to start API Import by configuration index: %s', str(index))
-            self.__load_api(api_config=self.__config.get_api_by_index(index))
+            self.__load_api(api_config=self.get_config.get_api_by_index(index))
 
     def start_api_by_name(self, name: str):
         """ Starts a ZAP Api scan with the given name for the Apis configuration, based on the given configuration and ZAP instance.
@@ -107,9 +97,9 @@ class ZapConfigureApi():
             The name of the Api object in the list of Api configuration.
         """
 
-        if self.__config.has_api_configurations:
+        if self.get_config.has_api_configurations:
             logging.debug('Trying to start API Import by name: %s', str(name))
-            self.__load_api(api_config=self.__config.get_api_by_name(name))
+            self.__load_api(api_config=self.get_config.get_api_by_name(name))
 
     def __load_api(self, url: str, api_config: collections.OrderedDict):
         

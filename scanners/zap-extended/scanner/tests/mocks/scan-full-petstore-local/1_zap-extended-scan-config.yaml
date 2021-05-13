@@ -75,7 +75,7 @@ spiders:
     # Bool: Whether the spider will parse Git metadata in order to find URLs, default: false
     parseGit: false
     # Bool: Whether the spider will parse 'robots.txt' files in order to find URLs, default: true
-    parseRobotsTxt: true
+    parseRobotsTxt: false
     # Bool: Whether the spider will parse 'sitemap.xml' files in order to find URLs, default: true
     parseSitemapXml: false
     # Bool: Whether the spider will parse SVN metadata in order to find URLs, default: false

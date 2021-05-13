@@ -1,10 +1,7 @@
-import os
-import sys
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import time
-import json
-import requests
-import base64
-import collections
 import logging
 import time
 import errno
@@ -20,7 +17,7 @@ from .zap_api import ZapConfigureApi
 from .zap_abstract_spider import ZapConfigureSpider
 from .zap_spider_http import ZapConfigureSpiderHttp
 from .zap_spider_ajax import ZapConfigureSpiderAjax
-from .zap_scanner import ZapConfigureActiveScanner
+from .zap_scanner_active import ZapConfigureActiveScanner
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(
@@ -51,7 +48,7 @@ class ZapExtended:
         self.__zap = zap
         self.__config_dir = config_dir
 
-        self.__config = ZapConfiguration(config_dir)
+        self.__config = ZapConfiguration(self.__config_dir)
 
         self.__zap_global = None
         self.__zap_context = None
@@ -79,6 +76,7 @@ class ZapExtended:
         # Starting to configure the ZAP Instance based on the given Configuration
         if self.__config.has_configurations() and self.__config.has_contexts_configurations:
             self.__zap_context = ZapConfigureContext(self.__zap, self.__config)
+            self.__zap_context.configure_contexts()
         else:
             logging.info("No ZAP specific YAML configuration found.")
 

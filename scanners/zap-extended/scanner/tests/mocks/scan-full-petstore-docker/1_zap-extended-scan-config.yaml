@@ -3,6 +3,8 @@
 global:
   # True to create another ZAP session (overwrite the former if the same name already exists), False to use an existing on
   isNewSession: true
+  # Sets the ZAP Session name
+  sessionName: SCB
   # Determine if a proxy script must be loaded. Proxy scripts are executed for every request traversing ZAP
   scripts:
     - name: "Alert on HTTP Response Code Errors.js"
@@ -87,7 +89,7 @@ spiders:
     # Bool: Whether the spider will send the referer header, default: true
     sendRefererHeader: true
     # Int: The number of spider threads, default: 2             
-    threadCount: 2
+    threadCount: 5
     # String: The user agent to use in requests, default: '' - use the default ZAP one               
     userAgent: "secureCodeBox / ZAP Spider"
 scanners:

@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, Mock
 from unittest import TestCase
 
 from scbzapv2.zap_configuration import ZapConfiguration
-from scbzapv2.zap_scanner import ZapConfigureActiveScanner
+from scbzapv2.zap_scanner_active import ZapConfigureActiveScanner
 
 class ZapConfigurationTests(TestCase):
 

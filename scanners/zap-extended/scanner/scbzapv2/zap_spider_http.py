@@ -1,9 +1,7 @@
-import os
-import sys
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import time
-import json
-import requests
-import base64
 import collections
 import logging
 
