@@ -10,7 +10,7 @@ from pathlib import Path
 from zapv2 import ZAPv2
 
 from . import ZapConfiguration
-from .settings import ZapConfigureGlobal
+from .settings import ZapConfigureSettings
 from .context import ZapConfigureContext
 from .api import ZapConfigureApi
 from .spider import ZapConfigureSpider, ZapConfigureSpiderHttp, ZapConfigureSpiderAjax
@@ -47,27 +47,23 @@ class ZapAutomation:
 
         self.__config = ZapConfiguration(self.__config_dir)
 
-        self.__zap_global = None
+        self.__zap_settings = None
         self.__zap_context = None
         self.__zap_api = None
         self.__zap_spider = None
         self.__zap_scan = None
     
-    def scb_scan(self, target: str):
-
-        # wait at least 3 minutes for ZAP to start
+    def scan_target(self, target: str):
+        # Wait at least 3 minutes for ZAP to start
         self.wait_for_zap_start(3 * 60)
         
         logging.info('Configuring ZAP Global')
         # Starting to configure the ZAP Instance based on the given Configuration
-        self.__zap_global = ZapConfigureGlobal(self.__zap, self.__config)
+        self.__zap_settings = ZapConfigureSettings(self.__zap, self.__config)
+        self.__zap_settings.configure()
         
         self.zap_tune()
         #self.zap_access_target(target)
-
-        # if target.count('/') > 2:
-        #     # The url can include a valid path, but always reset to spider the host
-        #     target = target[0:target.index('/', 8)+1]
 
         logging.info('Configuring ZAP Context')
         # Starting to configure the ZAP Instance based on the given Configuration
@@ -77,14 +73,32 @@ class ZapAutomation:
         else:
             logging.info("No ZAP specific YAML configuration found.")
 
+        self.__start_api_import(target)
+        self.__start_spider(target)
+        self.__start_scanner(target)
+
+    def get_zap_context(self) -> ZapConfigureContext:
+        return self.__zap_context
+
+    def get_zap_spider(self) -> ZapConfigureSpider:
+        return self.__zap_spider
+
+    def get_zap_scan(self) -> ZapConfigureActiveScanner:
+        return self.__zap_scan
+
+    def __start_api_import(self, target: str):
         logging.info('Configuring API Import')
         # Starting to configure the ZAP Instance based on the given Configuration
         if self.__config.has_configurations() and self.__config.has_api_configurations():
             self.__zap_api = ZapConfigureApi(self.__zap, self.__config)
             self.__zap_api.start_api_by_url(target)
+
+            # Wait for ZAP to update the internal caches 
+            time.sleep(5)
         else:
             logging.info("No ZAP API specific YAML configuration found.")
 
+    def __start_spider(self, target: str):
         logging.info('Starting ZAP Spider with target %s', target)
         # if a ZAP Configuration is defined start to configure the running ZAP instance (`zap`)
         if self.__config and self.__config.has_spiders_configurations:
@@ -93,18 +107,22 @@ class ZapAutomation:
             self.__zap_spider = ZapConfigureSpiderHttp(self.__zap, self.__config)
             self.__zap_spider.start_spider_by_url(target)
 
+            # Wait for ZAP to update the internal caches 
+            time.sleep(5)
+
             # Additionaly start the ZAP Ajax Spider if enabled
             if self.__zap_spider.is_ajax_spider_enabled():
                 self.__zap_spider = ZapConfigureSpiderAjax(self.__zap, self.__config)
                 self.__zap_spider.start_spider_by_url(target)
+
+                # Wait for ZAP to update the internal caches 
+                time.sleep(5)
             else:
                 logging.info("No ZAP AjaxSpider specific YAML configuration found.")
         else:
             logging.info("No ZAP Spider specific YAML configuration found.")
 
-        # Wait for ZAP to update the internal caches 
-        time.sleep(5)
-
+    def __start_scanner(self, target: str):
         logging.info('Starting ZAP Scanner with target %s', target)
         # if a ZAP Configuration is defined start to configure the running ZAP instance (`zap`)
         if self.__config and self.__config.has_scans_configurations:
@@ -116,15 +134,6 @@ class ZapAutomation:
         else:
             logging.info("No ZAP Scanner specific YAML configuration found.")
 
-    def get_zap_context(self) -> ZapConfigureContext:
-        return self.__zap_context
-
-    def get_zap_spider(self) -> ZapConfigureSpider:
-        return self.__zap_spider
-
-    def get_zap_scan(self) -> ZapConfigureActiveScanner:
-        return self.__zap_scan
-    
     def generate_report_file(self, file_path:str, report_type:str):
         # To retrieve ZAP report in XML or HTML format
         logging.info("Creating a new ZAP Report file with type '%s' at location: '%s'", report_type, file_path)

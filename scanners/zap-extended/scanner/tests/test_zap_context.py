@@ -4,7 +4,7 @@
 from mock.mock import patch
 import pytest
 
-import mock
+from unittest.mock import MagicMock, Mock
 from unittest import TestCase
 
 from zapv2 import ZAPv2

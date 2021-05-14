@@ -53,7 +53,7 @@ def process(args):
     
     try:
         logging.info(':: Starting SCB ZAP Scan with target %s', args.target)
-        zap_extended.scb_scan(target=args.target)
+        zap_extended.scan_target(target=args.target)
 
         alerts = zap_extended.get_zap_scan().get_alerts(args.target, [], [])
         logging.info(':: Found ZAP Alerts: %s', str(len(alerts)))

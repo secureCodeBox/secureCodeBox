@@ -113,7 +113,7 @@ def test_bodgeit_scan_without_config(get_bodgeit_url, get_zap_instance: ZAPv2):
     logging.warning("get_bodgeit_url: %s", get_bodgeit_url)
 
     zap_automation = ZapAutomation(zap=zap, config_dir="")
-    zap_automation.scb_scan(target=test_target)
+    zap_automation.scan_target(target=test_target)
     
     alerts = zap_automation.get_zap_scan().get_alerts(test_target, [], [])
 
@@ -131,7 +131,7 @@ def test_bodgeit_scan_with_config(get_bodgeit_url, get_zap_instance: ZAPv2):
     logging.warning("get_bodgeit_url: %s", get_bodgeit_url)
 
     zap_automation = ZapAutomation(zap=zap, config_dir=test_config_yaml)
-    zap_automation.scb_scan(target=test_target)
+    zap_automation.scan_target(target=test_target)
     
     alerts = zap_automation.get_zap_scan().get_alerts(test_target, [], [])
 
@@ -146,7 +146,7 @@ def test_juiceshop_scan_without_config(get_juiceshop_url, get_zap_instance: ZAPv
     test_target = "http://juiceshop:3000/"
 
     zap_automation = ZapAutomation(zap=zap, config_dir="")
-    zap_automation.scb_scan(target=test_target)
+    zap_automation.scan_target(target=test_target)
     
     alerts = zap_automation.get_zap_scan().get_alerts(test_target, [], [])
 
@@ -162,7 +162,7 @@ def test_juiceshop_scan_with_config(get_juiceshop_url, get_zap_instance: ZAPv2):
     test_target = "http://juiceshop:3000/"
 
     zap_automation = ZapAutomation(zap=zap, config_dir=test_config_yaml)
-    zap_automation.scb_scan(target=test_target)
+    zap_automation.scan_target(target=test_target)
     
     alerts = zap_automation.get_zap_scan().get_alerts(test_target, [], [])
 
@@ -178,7 +178,7 @@ def test_petstore_scan_with_config(get_petstore_url, get_zap_instance: ZAPv2):
     test_target = "http://petstore:8080/"
     
     zap_automation = ZapAutomation(zap=zap, config_dir=test_config_yaml)
-    zap_automation.scb_scan(target=test_target)
+    zap_automation.scan_target(target=test_target)
     
     alerts = zap_automation.get_zap_scan().get_alerts(test_target, [], [])
 

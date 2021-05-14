@@ -111,8 +111,8 @@ def test_global_config(get_zap_instance: ZAPv2):
     test_target = "http://www.secureCodeBox.io/"
     test_config_yaml = "./tests/mocks/global/"
     
-    zap_automation = ZapExtended(zap=zap, config_dir=test_config_yaml)
-    zap_automation.scb_scan(target=test_target)
+    zap_automation = ZapAutomation(zap=zap, config_dir=test_config_yaml)
+    zap_automation.scan_target(target=test_target)
     
     alerts = zap_automation.get_zap_scan().get_alerts(test_target, [], [])
 
@@ -128,7 +128,7 @@ def test_petstore_scan_with_config(get_petstore_url, get_zap_instance: ZAPv2):
     test_target = "http://localhost:8000/"
     
     zap_automation = ZapAutomation(zap=zap, config_dir=test_config_yaml)
-    zap_automation.scb_scan(target=test_target)
+    zap_automation.scan_target(target=test_target)
     
     alerts = zap_automation.get_zap_scan().get_alerts(test_target, [], [])
 
@@ -137,14 +137,14 @@ def test_petstore_scan_with_config(get_petstore_url, get_zap_instance: ZAPv2):
     assert int(len(alerts)) >= 1
 
 @pytest.mark.integrationtest
-def test_scb_scan_without_config(get_zap_instance: ZAPv2):
+def test_scan_target_without_config(get_zap_instance: ZAPv2):
 
     zap = get_zap_instance
     test_target = "http://www.secureCodeBox.io/"
     
     
     zap_automation = ZapAutomation(zap=zap, config_dir="")
-    zap_automation.scb_scan(target=test_target)
+    zap_automation.scan_target(target=test_target)
 
 @pytest.mark.integrationtest
 def test_bodgeit_scan_without_config(get_bodgeit_url, get_zap_instance: ZAPv2):
@@ -153,7 +153,7 @@ def test_bodgeit_scan_without_config(get_bodgeit_url, get_zap_instance: ZAPv2):
     test_target = "http://localhost:8080/bodgeit/"
     
     zap_automation = ZapAutomation(zap=zap, config_dir="")
-    zap_automation.scb_scan(target=test_target)
+    zap_automation.scan_target(target=test_target)
     
     alerts = zap_automation.get_zap_scan().get_alerts(test_target, [], [])
 
@@ -169,7 +169,7 @@ def test_bodgeit_scan_with_config(get_bodgeit_url, get_zap_instance: ZAPv2):
     test_target = "http://localhost:8080/bodgeit/"
     
     zap_automation = ZapAutomation(zap=zap, config_dir=test_config_yaml)
-    zap_automation.scb_scan(target=test_target)
+    zap_automation.scan_target(target=test_target)
     
     alerts = zap_automation.get_zap_scan().get_alerts(test_target, [], [])
 
@@ -185,7 +185,7 @@ def test_juiceshop_scan_without_config(get_juiceshop_url, get_zap_instance: ZAPv
     test_target = "http://localhost:3000/"
     
     zap_automation = ZapAutomation(zap=zap, config_dir="")
-    zap_automation.scb_scan(target=test_target)
+    zap_automation.scan_target(target=test_target)
     
     alerts = zap_automation.get_zap_scan().get_alerts(test_target, [], [])
 
@@ -201,7 +201,7 @@ def test_juiceshop_scan_with_config(get_juiceshop_url, get_zap_instance: ZAPv2):
     test_target = "http://localhost:3000/"
     
     zap_automation = ZapAutomation(zap=zap, config_dir=test_config_yaml)
-    zap_automation.scb_scan(target=test_target)
+    zap_automation.scan_target(target=test_target)
     
     alerts = zap_automation.get_zap_scan().get_alerts(test_target, [], [])
 
