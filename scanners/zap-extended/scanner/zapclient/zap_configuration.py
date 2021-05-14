@@ -5,9 +5,8 @@ import collections
 import logging
 import glob
 import hiyapyco
-
 class ZapConfiguration:
-    """This class represent a ZAP specific configuration based on a given YAML file"""
+    """This class represent a ZAP specific configuration based on a given YAML file."""
     
     def __init__(self, config_dir: str):
         """Initial constructor used for this class

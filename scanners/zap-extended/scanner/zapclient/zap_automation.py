@@ -7,17 +7,14 @@ import time
 import errno
 
 from pathlib import Path
-from urllib.parse import urlparse
 from zapv2 import ZAPv2
 
-from .zap_global import ZapConfigureGlobal
-from .zap_configuration import ZapConfiguration
-from .zap_context import ZapConfigureContext
-from .zap_api import ZapConfigureApi
-from .zap_abstract_spider import ZapConfigureSpider
-from .zap_spider_http import ZapConfigureSpiderHttp
-from .zap_spider_ajax import ZapConfigureSpiderAjax
-from .zap_scanner_active import ZapConfigureActiveScanner
+from . import ZapConfiguration
+from .settings import ZapConfigureGlobal
+from .context import ZapConfigureContext
+from .api import ZapConfigureApi
+from .spider import ZapConfigureSpider, ZapConfigureSpiderHttp, ZapConfigureSpiderAjax
+from .scanner import ZapConfigureActiveScanner
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(
@@ -27,7 +24,7 @@ logging.basicConfig(
 
 logging = logging.getLogger('ZapExtended')
 
-class ZapExtended:
+class ZapAutomation:
     """This class configures running ZAP instance
     
     Based on this opensource ZAP Python example:

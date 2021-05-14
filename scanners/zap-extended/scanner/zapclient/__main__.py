@@ -1,13 +1,10 @@
 import argparse
-import json
 import logging
 import sys
 
-from pathlib import Path
 from zapv2 import ZAPv2
 
-from .zap_extended import ZapExtended
-from .zap_configuration import ZapConfiguration
+from .zap_automation import ZapAutomation
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(
@@ -52,7 +49,7 @@ def process(args):
     zap = ZAPv2(proxies=zap_proxy, apikey=api_key)
 
     logging.info(':: Starting SCB ZAP Automation Framework with config %s', args.config_folder)
-    zap_extended = ZapExtended(zap=zap, config_dir=args.config_folder)
+    zap_extended = ZapAutomation(zap=zap, config_dir=args.config_folder)
     
     try:
         logging.info(':: Starting SCB ZAP Scan with target %s', args.target)

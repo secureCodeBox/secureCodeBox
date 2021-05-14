@@ -5,9 +5,9 @@ import collections
 import logging
 
 from abc import ABC, abstractmethod
-from zapv2 import ZAPv2, spider
+from zapv2 import ZAPv2
 
-from .zap_configuration import ZapConfiguration
+from . import ZapConfiguration
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(
@@ -44,24 +44,32 @@ class ZapClient(ABC):
         """ Returns the currently running ZAP instance. """
         return self.__zap
     
-    def check_zap_result(self, result: str, method: str) -> bool:
+    def check_zap_result(self, result: str, method_name: str, exception_message=None) -> bool:
         """ Checks the given result for ZAP API Call for errors and logs a warning messages if there are errors returened by ZAP.
         
         Parameters
         ----------
         result: str
             The result of a ZAP API Call.
-        method: str
-            The name of the method used (to call ZAP).
+        method_name: str
+            The name of the method used (to call ZAP) used to log a warning, if the given result is not "OK".
+        exception_message: str
+            The exception message that mus be thrown with an Exception, if the given result is not "OK".
         """
 
         result = False
         
         if "OK" != result:
-            logging.warning("Failed to call ZAP Method ['%s'], result is: '%s'", method, result)
+            if(exception_message is not None):
+                logging.error(exception_message)
+                raise Exception(exception_message)
+            else:
+                logging.warning("Failed to call ZAP Method ['%s'], result is: '%s'", method_name, result)
         else:
-            logging.debug("Successfull called ZAP Method ['%s'], result is: '%s'", method, result)
+            logging.debug("Successfull called ZAP Method ['%s'], result is: '%s'", method_name, result)
             result = True
+        
+        return result
     
     def _configure_load_script(self, script_config: collections.OrderedDict, script_type: str):
         """Protected method to load a new ZAP Script based on a given ZAP config.

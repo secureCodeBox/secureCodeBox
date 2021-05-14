@@ -6,8 +6,7 @@ import logging
 
 from zapv2 import ZAPv2
 
-from .zap_abstract_client import ZapClient
-from .zap_configuration import ZapConfiguration
+from .. import ZapClient, ZapConfiguration
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(
@@ -38,8 +37,8 @@ class ZapConfigureContextAuthentication(ZapClient):
         
         Parameters
         ----------
-        authentication : list
-            The current authentication configuration object containing the ZAP authentication configuration (based on the class ZapConfiguration).
+        context: collections.OrderedDict
+            The current configuration object containing the ZAP authentication configuration (based on the class ZapConfiguration).
         context_id : int
             The zap context id tot configure the ZAP authentication for (based on the class ZapConfiguration).
         """
@@ -73,26 +72,18 @@ class ZapConfigureContextAuthentication(ZapClient):
         if(not script_config == None and "scriptName" in script_config and "scriptFilePath" in script_config and "scriptEngine" in script_config):
             self._configure_load_script(zap=self.get_zap, script_config=script_config, script_type='authentication')
 
-            # Create ZAP Script parameters based on given configuration object
-            auth_params = [
-                'scriptName=' + script_config["scriptName"],
-            ]
-            # Creates a list of URL-Encoded params, based on the YAML config
-            for key, value in script_config["scriptArguments"].items():
-                auth_params.append(key + "=" + value)
-            # Add a '&' to all elements except the last one
-            auth_params = '&'.join(auth_params)
+            auth_params = self.__get_script_auth_params(script_config)
 
             # Add additional script parameters
             logging.debug('Loading Authentication Script Parameters: %s', auth_params)
-            auth_response = self.get_zap.authentication.set_authentication_method(
-                contextid=context_id,
-                authmethodname='scriptBasedAuthentication',
-                authmethodconfigparams=auth_params)
-            logging.debug("Auth_response for context_id: %s with response: %s, type: %s", context_id, auth_response, type(auth_response))
-
-            if( "missing_parameter" in auth_response ):
-                raise Exception("Missing ZAP Authentication Script Parameters! Please check your secureCoeBix YAML configuration!")
+            self.check_zap_result(
+                result=self.get_zap.authentication.set_authentication_method(
+                    contextid=context_id,
+                    authmethodname='scriptBasedAuthentication',
+                    authmethodconfigparams=auth_params),
+                method_name="set_authentication_method",
+                exception_message="Missing ZAP Authentication Script Parameters! Please check your secureCodeBox YAML configuration!"
+            )
         else:
           logging.warning("Important script authentication configs (scriptName, scriptFilePath, scriptEngine) are missing! Ignoring the authenication script configuration. Please check your YAML configuration.")
 
@@ -194,3 +185,24 @@ class ZapConfigureContextAuthentication(ZapClient):
             self.get_zap.authentication.set_logged_out_indicator(
                 contextid=context_id,
                 loggedoutindicatorregex=validation["isLoggedOutIndicator"])
+
+    def __get_script_auth_params(self, script_config: collections.OrderedDict) -> list:
+        """Protected method to configure the ZAP 'Context / Authentication Settings with JSON Authentication' based on a given ZAP config.
+        
+        Parameters
+        ----------
+        json_auth : collections.OrderedDict
+            The current 'json-auth' authentication configuration object containing the ZAP authentication configuration (based on the class ZapConfiguration).
+        context_id : int
+            The zap context id tot configure the ZAP authentication for (based on the class ZapConfiguration).
+        """
+
+        # Create ZAP Script parameters based on given configuration object
+        auth_params = ['scriptName=' + script_config["scriptName"],]
+        # Creates a list of URL-Encoded params, based on the YAML config
+        for key, value in script_config["scriptArguments"].items():
+            auth_params.append(key + "=" + value)
+        # Add a '&' to all elements except the last one
+        auth_params = '&'.join(auth_params)
+
+        return auth_params

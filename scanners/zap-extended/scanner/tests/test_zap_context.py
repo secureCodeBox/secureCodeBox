@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from mock.mock import patch
 import pytest
 
@@ -7,7 +10,7 @@ from unittest import TestCase
 from zapv2 import ZAPv2
 
 from zapclient.zap_configuration import ZapConfiguration
-from zapclient.zap_context import ZapConfigureContext
+from zapclient.context.zap_context import ZapConfigureContext
 
 class ZapScannerTests(TestCase):
 

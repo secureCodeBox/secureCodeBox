@@ -10,7 +10,7 @@ import pytest
 from zapv2 import ZAPv2
 from requests.exceptions import ConnectionError
 
-from zapclient.zap_extended import ZapExtended
+from zapclient.zap_automation import ZapAutomation
 
 def is_responsive(url):
     try:
@@ -112,10 +112,10 @@ def test_bodgeit_scan_without_config(get_bodgeit_url, get_zap_instance: ZAPv2):
 
     logging.warning("get_bodgeit_url: %s", get_bodgeit_url)
 
-    zap_extended = ZapExtended(zap=zap, config_dir="")
-    zap_extended.scb_scan(target=test_target)
+    zap_automation = ZapAutomation(zap=zap, config_dir="")
+    zap_automation.scb_scan(target=test_target)
     
-    alerts = zap_extended.get_zap_scan().get_alerts(test_target, [], [])
+    alerts = zap_automation.get_zap_scan().get_alerts(test_target, [], [])
 
     logging.info('Found ZAP Alerts: %s', str(len(alerts)))
 
@@ -130,10 +130,10 @@ def test_bodgeit_scan_with_config(get_bodgeit_url, get_zap_instance: ZAPv2):
 
     logging.warning("get_bodgeit_url: %s", get_bodgeit_url)
 
-    zap_extended = ZapExtended(zap=zap, config_dir=test_config_yaml)
-    zap_extended.scb_scan(target=test_target)
+    zap_automation = ZapAutomation(zap=zap, config_dir=test_config_yaml)
+    zap_automation.scb_scan(target=test_target)
     
-    alerts = zap_extended.get_zap_scan().get_alerts(test_target, [], [])
+    alerts = zap_automation.get_zap_scan().get_alerts(test_target, [], [])
 
     logging.info('Found ZAP Alerts: %s', str(len(alerts)))
 
@@ -145,10 +145,10 @@ def test_juiceshop_scan_without_config(get_juiceshop_url, get_zap_instance: ZAPv
     zap = get_zap_instance
     test_target = "http://juiceshop:3000/"
 
-    zap_extended = ZapExtended(zap=zap, config_dir="")
-    zap_extended.scb_scan(target=test_target)
+    zap_automation = ZapAutomation(zap=zap, config_dir="")
+    zap_automation.scb_scan(target=test_target)
     
-    alerts = zap_extended.get_zap_scan().get_alerts(test_target, [], [])
+    alerts = zap_automation.get_zap_scan().get_alerts(test_target, [], [])
 
     logging.info('Found ZAP Alerts: %s', str(len(alerts)))
 
@@ -161,10 +161,10 @@ def test_juiceshop_scan_with_config(get_juiceshop_url, get_zap_instance: ZAPv2):
     test_config_yaml = "./tests/mocks/scan-full-juiceshop-docker/"
     test_target = "http://juiceshop:3000/"
 
-    zap_extended = ZapExtended(zap=zap, config_dir=test_config_yaml)
-    zap_extended.scb_scan(target=test_target)
+    zap_automation = ZapAutomation(zap=zap, config_dir=test_config_yaml)
+    zap_automation.scb_scan(target=test_target)
     
-    alerts = zap_extended.get_zap_scan().get_alerts(test_target, [], [])
+    alerts = zap_automation.get_zap_scan().get_alerts(test_target, [], [])
 
     logging.info('Found ZAP Alerts: %s', str(len(alerts)))
 
@@ -177,10 +177,10 @@ def test_petstore_scan_with_config(get_petstore_url, get_zap_instance: ZAPv2):
     test_config_yaml = "./tests/mocks/scan-full-petstore-docker/"
     test_target = "http://petstore:8080/"
     
-    zap_extended = ZapExtended(zap=zap, config_dir=test_config_yaml)
-    zap_extended.scb_scan(target=test_target)
+    zap_automation = ZapAutomation(zap=zap, config_dir=test_config_yaml)
+    zap_automation.scb_scan(target=test_target)
     
-    alerts = zap_extended.get_zap_scan().get_alerts(test_target, [], [])
+    alerts = zap_automation.get_zap_scan().get_alerts(test_target, [], [])
 
     logging.info('Found ZAP Alerts: %s', str(len(alerts)))
 

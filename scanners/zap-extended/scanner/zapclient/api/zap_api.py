@@ -1,17 +1,15 @@
-import os
-import sys
-import time
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import json
 import requests
-import base64
 import collections
 import logging
 
 from urllib.parse import urlparse
 from zapv2 import ZAPv2
 
-from .zap_abstract_client import ZapClient
-from .zap_configuration import ZapConfiguration
+from .. import ZapClient, ZapConfiguration
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(
@@ -22,7 +20,7 @@ logging.basicConfig(
 logging = logging.getLogger('ZapConfigureApi')
 
 class ZapConfigureApi(ZapClient):
-    """This class configures a Api scan in a running ZAP instance, based on a ZAP Configuration
+    """This class configures a Api scan in a running ZAP instance, based on a ZAP Configuration.
     
     Based on this opensource ZAP Python example:
     - https://github.com/zaproxy/zap-api-python/blob/9bab9bf1862df389a32aab15ea4a910551ba5bfc/src/examples/zap_example_api_script.py
@@ -65,11 +63,7 @@ class ZapConfigureApi(ZapClient):
 
         if self.get_config.has_api_configurations:
             api_context=self.get_config.get_context_by_url(url)
-
-            if not api_context == None and "name" in api_context:
-                self.__api_config = self.get_config.get_api_configurations_by_context_name(str(api_context["name"]))
-            else:
-                logging.warning("No context configuration found for target: '%s'!", url)
+            self.__api_config = self.get_config.get_api_configurations_by_context_name(str(api_context["name"]))
 
             logging.info("Trying to start API Import with target url: '%s'", url)
             self.__load_api(url=url, api_config=self.__api_config)
@@ -103,21 +97,15 @@ class ZapConfigureApi(ZapClient):
 
     def __load_api(self, url: str, api_config: collections.OrderedDict):
         
-        if (api_config is not None) and "format" in api_config:
-            if api_config["format"] == 'openapi':
-                if "url" in api_config:
-                    logging.debug('Import Api URL ' + api_config["url"])
-                    result = self.get_zap.openapi.import_url(api_config["url"], api_config["hostOverride"])
-                    urls = self.get_zap.core.urls()
-                    
-                    logging.info('Number of Imported URLs: ' + str(len(urls)))
-                    logging.debug('Import warnings: ' + str(result))
-                else:
-                    logging.warning("No Api Url configured!")
-            else:
-                logging.warning("No Api format (e.g. 'Api') configured!")
+        if (api_config is not None) and "format" in api_config and api_config["format"] == 'openapi' and "url" in api_config:
+            logging.debug('Import Api URL ' + api_config["url"])
+            result = self.get_zap.openapi.import_url(api_config["url"], api_config["hostOverride"])
+            urls = self.get_zap.core.urls()
+            
+            logging.info('Number of Imported URLs: ' + str(len(urls)))
+            logging.debug('Import warnings: ' + str(result))
         else:
-            logging.info("No API definition configured: %s!", api_config)
+            logging.info("No complete API definition configured (format: openapi, url: xxx): %s!", api_config)
 
     def __obtain_and_store_api_spec(self, target: str, Api_config: collections.OrderedDict):
         """ This function downloads the Api JSON spec file and saves it into the ZAP container volume.

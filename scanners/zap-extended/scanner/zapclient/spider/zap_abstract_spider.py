@@ -1,11 +1,13 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import collections
 import logging
 
 from abc import abstractmethod
 from zapv2 import ZAPv2, spider
 
-from .zap_abstract_client import ZapClient
-from .zap_configuration import ZapConfiguration
+from .. import ZapConfiguration, ZapClient
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(
@@ -45,11 +47,8 @@ class ZapConfigureSpider(ZapClient):
     
     def is_ajax_spider_enabled(self) -> bool:
         # "Context" is an optional config for spider
-        if(not self.get_spider_config == None and "ajax" in self.get_spider_config):
-            if(self.get_spider_config["ajax"]):
-                self.__ajax = bool(self.get_spider_config['ajax'])
-            else:
-                logging.debug("Spider Ajax configuration is not 'true': %s", self.get_spider_config)
+        if(self.get_spider_config is not None and "ajax" in self.get_spider_config and self.get_spider_config["ajax"]):
+            self.__ajax = bool(self.get_spider_config['ajax'])
         else:
             logging.debug("No Ajax configuration 'ajax: true' found in spider configuration: %s", self.get_spider_config)
         

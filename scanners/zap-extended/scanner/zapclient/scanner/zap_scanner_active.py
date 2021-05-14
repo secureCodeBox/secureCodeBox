@@ -5,11 +5,10 @@ import time
 import collections
 import logging
 
-from urllib.parse import urlparse
 from zapv2 import ZAPv2, ascan
 
-from .zap_abstract_scanner import ZapConfigureScanner
-from .zap_configuration import ZapConfiguration
+from .. import ZapClient, ZapConfiguration
+from . import ZapConfigureScanner
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(
@@ -20,7 +19,7 @@ logging.basicConfig(
 logging = logging.getLogger('ZapConfigureActiveScanner')
 
 class ZapConfigureActiveScanner(ZapConfigureScanner):
-    """This class configures a scanner in a running ZAP instance, based on a ZAP Configuration
+    """This class configures a scanner in a running ZAP instance, based on a ZAP Configuration.
     
     Based on this opensource ZAP Python example:
     - https://github.com/zaproxy/zap-api-python/blob/9bab9bf1862df389a32aab15ea4a910551ba5bfc/src/examples/zap_example_api_script.py

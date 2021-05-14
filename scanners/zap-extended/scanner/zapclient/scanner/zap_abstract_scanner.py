@@ -1,17 +1,10 @@
-import os
-import sys
-import time
-import json
-import requests
-import base64
-import collections
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import logging
+from zapv2 import ZAPv2
 
-from urllib.parse import urlparse
-from zapv2 import ZAPv2, ascan
-
-from .zap_abstract_client import ZapClient
-from .zap_configuration import ZapConfiguration
+from .. import ZapClient, ZapConfiguration
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(

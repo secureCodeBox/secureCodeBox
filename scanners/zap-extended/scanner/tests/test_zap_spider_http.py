@@ -1,10 +1,13 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import pytest
 
 from unittest.mock import MagicMock, Mock
 from unittest import TestCase
 
 from zapclient.zap_configuration import ZapConfiguration
-from zapclient.zap_spider_http import ZapConfigureSpider
+from zapclient.spider.zap_spider_http import ZapConfigureSpider
 
 class ZapSpiderHttpTests(TestCase):
 

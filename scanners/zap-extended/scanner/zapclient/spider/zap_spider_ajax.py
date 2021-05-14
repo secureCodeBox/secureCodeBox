@@ -1,17 +1,14 @@
-import os
-import sys
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import time
-import json
-import requests
-import base64
 import collections
 import logging
 
-from urllib.parse import urlparse
 from zapv2 import ZAPv2, ajaxSpider
 
-from .zap_configuration import ZapConfiguration
-from .zap_abstract_spider import ZapConfigureSpider
+from .. import ZapConfiguration
+from . import ZapConfigureSpider
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(
@@ -22,7 +19,7 @@ logging.basicConfig(
 logging = logging.getLogger('ZapConfigureSpiderAjax')
 
 class ZapConfigureSpiderAjax(ZapConfigureSpider):
-    """This class configures a ZAP Ajax Spider in a running ZAP instance, based on a ZAP Configuration
+    """This class configures a ZAP Ajax Spider in a running ZAP instance, based on a ZAP Configuration.
     
     Based on this opensource ZAP Python example:
     - https://github.com/zaproxy/zap-api-python/blob/9bab9bf1862df389a32aab15ea4a910551ba5bfc/src/examples/zap_example_api_script.py

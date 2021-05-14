@@ -5,11 +5,10 @@ import time
 import collections
 import logging
 
-from urllib.parse import urlparse
 from zapv2 import ZAPv2, spider
 
-from .zap_configuration import ZapConfiguration
-from .zap_abstract_spider import ZapConfigureSpider
+from .. import ZapConfiguration
+from . import ZapConfigureSpider
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(

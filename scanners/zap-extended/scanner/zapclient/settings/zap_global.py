@@ -8,8 +8,7 @@ import logging
 from urllib.parse import urlparse
 from zapv2 import ZAPv2
 
-from .zap_abstract_client import ZapClient
-from .zap_configuration import ZapConfiguration
+from .. import ZapClient, ZapConfiguration
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(

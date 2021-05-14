@@ -6,8 +6,7 @@ import logging
 
 from zapv2 import ZAPv2
 
-from .zap_abstract_client import ZapClient
-from .zap_configuration import ZapConfiguration
+from .. import ZapClient, ZapConfiguration
 from .zap_context_authentication import ZapConfigureContextAuthentication
 
 # set up logging to file - see previous section for more details
