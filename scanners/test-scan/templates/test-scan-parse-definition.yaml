@@ -3,6 +3,5 @@ kind: ParseDefinition
 metadata:
   name: "test-txt"
 spec:
-  handlesResultsType: test-txt
   image: "{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag | default .Chart.Version }}"
   ttlSecondsAfterFinished: {{ .Values.parseJob.ttlSecondsAfterFinished }}

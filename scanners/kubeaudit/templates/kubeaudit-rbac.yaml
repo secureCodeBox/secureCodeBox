@@ -6,7 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace}}
 ---
 kind: RoleBinding
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: kubeaudit-lurcher
   namespace: {{ .Release.Namespace}}
@@ -21,7 +21,7 @@ roleRef:
 ---  
 {{- if eq .Values.kubeauditScope "namespace" }}
 kind: Role
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: kubeaudit
   namespace: {{ .Release.Namespace}}
@@ -49,7 +49,7 @@ rules:
     verbs: ["get", "list"]
 ---
 kind: RoleBinding
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: kubeaudit
   namespace: {{ .Release.Namespace}}
@@ -64,7 +64,7 @@ roleRef:
 {{- end }}
 {{- if eq .Values.kubeauditScope "cluster" }}
 kind: ClusterRole
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: kubeaudit
 rules:
@@ -91,7 +91,7 @@ rules:
     verbs: ["get", "list"]
 ---
 kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: kubeaudit
 subjects:
