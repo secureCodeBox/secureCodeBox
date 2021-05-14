@@ -86,7 +86,7 @@ class ZapConfigureGlobal(ZapClient):
         logging.info('Creating a new ZAP session with the name: %s', session_name)
         self.check_zap_result(
             result=self.get_zap.core.new_session(name=session_name, overwrite=True),
-            method="new_session()"
+            method_name="new_session()"
         )
 
         # Wait for ZAP to update the internal caches 
@@ -100,7 +100,7 @@ class ZapConfigureGlobal(ZapClient):
                 logging.debug("Excluding regex '%s' from global proxy setting", regex)
                 self.check_zap_result(
                     result=self.get_zap.core.exclude_from_proxy(regex=regex),
-                    method="exclude_from_proxy"
+                    method_name="exclude_from_proxy"
                 )
     
     def __configure_proxy(self, proxy_config: collections.OrderedDict):
@@ -116,30 +116,30 @@ class ZapConfigureGlobal(ZapClient):
 
             self.check_zap_result(
                 result=self.get_zap.core.set_option_use_proxy_chain(boolean=str(proxy_config["enabled"]).lower()),
-                method="set_option_use_proxy_chain"
+                method_name="set_option_use_proxy_chain"
             )
 
             if "address" in proxy_config and (proxy_config['address'] is not None) and len(proxy_config['address']) > 0:
                 self.check_zap_result(
                     result=self.get_zap.core.set_option_proxy_chain_name(string=str(proxy_config['address'])), 
-                    method="set_option_proxy_chain_name"
+                    method_name="set_option_proxy_chain_name"
                 )
             if "port" in proxy_config and (proxy_config['port'] is not None) and proxy_config['port'] > 0:
                 self.check_zap_result(
                     result=self.get_zap.core.set_option_proxy_chain_port(integer=str(proxy_config['port'])), 
-                    method="set_option_proxy_chain_port"
+                    method_name="set_option_proxy_chain_port"
                 )
             if "skipProxyAddresses" in proxy_config and (proxy_config['skipProxyAddresses'] is not None):
                 logging.debug("Disabling all possible pre existing proxy excluded domains before adding new ones.")
                 self.check_zap_result(
                     result=self.get_zap.core.disable_all_proxy_chain_excluded_domains(),
-                    method="add_proxy_chain_excluded_domain"
+                    method_name="add_proxy_chain_excluded_domain"
                 )
                 for address in proxy_config["skipProxyAddresses"]:
                     logging.debug("Excluding (skip) address '%s' from global proxy setting", address)
                     self.check_zap_result(
                         result=self.get_zap.core.add_proxy_chain_excluded_domain(value=address, isregex=True, isenabled=True),
-                        method="add_proxy_chain_excluded_domain"
+                        method_name="add_proxy_chain_excluded_domain"
                     )
             # Configure ZAP outgoing proxy server authentication
             if "authentication" in proxy_config and (proxy_config['authentication'] is not None):
@@ -148,22 +148,22 @@ class ZapConfigureGlobal(ZapClient):
                 if "enabled" in proxy_authentication_config and proxy_authentication_config["enabled"]:
                     self.check_zap_result(
                             result=self.get_zap.core.set_option_use_proxy_chain_auth(boolean=str(proxy_authentication_config["enabled"]).lower()),
-                            method="set_option_use_proxy_chain_auth"
+                            method_name="set_option_use_proxy_chain_auth"
                         )
                     if "username" in proxy_authentication_config and (proxy_authentication_config['username'] is not None) and len(proxy_authentication_config['username']) > 0:
                         self.check_zap_result(
                             result=self.get_zap.core.set_option_proxy_chain_user_name(string=str(proxy_authentication_config['username'])), 
-                            method="set_option_proxy_chain_user_name"
+                            method_name="set_option_proxy_chain_user_name"
                         )
                     if "password" in proxy_authentication_config and (proxy_authentication_config['password'] is not None) and len(proxy_authentication_config['password']) > 0:
                         self.check_zap_result(
                             result=self.get_zap.core.set_option_proxy_chain_password(string=str(proxy_authentication_config['password'])), 
-                            method="set_option_proxy_chain_password"
+                            method_name="set_option_proxy_chain_password"
                         )
                     if "realm" in proxy_authentication_config and (proxy_authentication_config['realm'] is not None) and len(proxy_authentication_config['realm']) > 0:
                         self.check_zap_result(
                             result=self.get_zap.core.set_option_proxy_chain_realm(string=str(proxy_authentication_config['realm'])), 
-                            method="set_option_proxy_chain_realm"
+                            method_name="set_option_proxy_chain_realm"
                         )
             
             # Configure ZAP outgoing proxy server authentication
@@ -173,7 +173,7 @@ class ZapConfigureGlobal(ZapClient):
                 if "enabled" in socks_config and socks_config["enabled"]:
                     self.check_zap_result(
                         result=self.get_zap.core.set_option_use_socks_proxy(boolean=str(socks_config["enabled"]).lower()),
-                        method="set_option_use_socks_proxy"
+                        method_name="set_option_use_socks_proxy"
                     )
 
     def __configure_global(self):
@@ -186,17 +186,17 @@ class ZapConfigureGlobal(ZapClient):
         if "timeoutInSeconds" in self.get_global_config and (self.get_global_config['timeoutInSeconds'] is not None) and self.get_global_config['timeoutInSeconds'] >= 0:
             self.check_zap_result(
                 result=self.get_zap.core.set_option_timeout_in_secs(str(self.get_global_config['timeoutInSeconds'])), 
-                method="set_option_timeout_in_secs"
+                method_name="set_option_timeout_in_secs"
             )
         if "defaultUserAgent" in self.get_global_config and (self.get_global_config['defaultUserAgent'] is not None) and len(self.get_global_config['defaultUserAgent']) > 0:
             self.check_zap_result(
                 result=self.get_zap.core.set_option_default_user_agent(str(self.get_global_config['defaultUserAgent'])), 
-                method="set_option_default_user_agent"
+                method_name="set_option_default_user_agent"
             )
         if "mode" in self.get_global_config and (self.get_global_config['mode'] is not None) and len(self.get_global_config['mode']) > 0:
             self.check_zap_result(
                 result=self.get_zap.core.set_mode(str(self.get_global_config['mode'])), 
-                method="set_mode"
+                method_name="set_mode"
             )
         
     def __configure_load_script(self, script_config: collections.OrderedDict):
@@ -236,12 +236,12 @@ class ZapConfigureGlobal(ZapClient):
             if(script_config["enabled"]):
                 self.check_zap_result(
                     result=self.get_zap.script.enable(scriptname=script_config["name"]),
-                    method="script.enable"
+                    method_name="script.enable"
                 )
             else:
                 self.check_zap_result(
                     result=self.get_zap.script.disable(scriptname=script_config["name"]),
-                    method="script.disable"
+                    method_name="script.disable"
                 )
         else:
           logging.warning("Important script configs (scriptName, scriptType, scriptFilePath, scriptEngine) are missing! Ignoring the script configuration. Please check your YAML configuration.")
