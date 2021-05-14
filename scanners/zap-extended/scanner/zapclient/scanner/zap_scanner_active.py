@@ -7,7 +7,8 @@ import logging
 
 from zapv2 import ZAPv2, ascan
 
-from .. import ZapClient, ZapConfiguration
+from .. import ZapClient
+from ..configuration import ZapConfiguration
 from . import ZapConfigureScanner
 
 # set up logging to file - see previous section for more details

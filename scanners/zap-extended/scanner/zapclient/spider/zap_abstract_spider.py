@@ -7,7 +7,8 @@ import logging
 from abc import abstractmethod
 from zapv2 import ZAPv2, spider
 
-from .. import ZapConfiguration, ZapClient
+from .. import ZapClient
+from ..configuration import ZapConfiguration
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(

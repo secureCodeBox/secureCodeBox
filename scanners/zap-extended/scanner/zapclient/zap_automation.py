@@ -9,7 +9,7 @@ import errno
 from pathlib import Path
 from zapv2 import ZAPv2
 
-from . import ZapConfiguration
+from .configuration import ZapConfiguration
 from .settings import ZapConfigureSettings
 from .context import ZapConfigureContext
 from .api import ZapConfigureApi

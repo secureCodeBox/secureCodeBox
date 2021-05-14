@@ -4,7 +4,8 @@
 import logging
 from zapv2 import ZAPv2
 
-from .. import ZapClient, ZapConfiguration
+from .. import ZapClient
+from ..configuration import ZapConfiguration
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(

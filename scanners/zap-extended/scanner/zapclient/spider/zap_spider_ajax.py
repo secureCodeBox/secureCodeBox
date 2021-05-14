@@ -7,7 +7,7 @@ import logging
 
 from zapv2 import ZAPv2, ajaxSpider
 
-from .. import ZapConfiguration
+from ..configuration import ZapConfiguration
 from . import ZapConfigureSpider
 
 # set up logging to file - see previous section for more details
