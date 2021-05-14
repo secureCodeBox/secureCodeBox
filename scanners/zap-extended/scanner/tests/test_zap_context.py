@@ -1,14 +1,24 @@
+from mock.mock import patch
 import pytest
 
-from unittest.mock import MagicMock, Mock
+import mock
 from unittest import TestCase
 
-from scbzapv2.zap_configuration import ZapConfiguration
-from scbzapv2.zap_context import ZapConfigureContext
+from zapv2 import ZAPv2
+
+from zapclient.zap_configuration import ZapConfiguration
+from zapclient.zap_context import ZapConfigureContext
 
 class ZapScannerTests(TestCase):
 
     @pytest.mark.unit
-    def test_always_passes(self):
-        self.assertTrue(True)
+    def test_context_empty(self):
+        pass
+
+        # # build our dependencies
+        # mock_zap = mock.create_autospec(ZAPv2.context.context_list)
+        # mock_config = mock.create_autospec(ZapConfiguration)
+
+        # testobject = ZapConfigureContext(mock_zap, mock_config)
+        # testobject.configure_contexts()
 

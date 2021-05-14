@@ -1,5 +1,5 @@
 """
-scbzapv2
+zapclient
 A Python package containing secureCodeBox specific ZAPv2 Client extensions.
 """
 

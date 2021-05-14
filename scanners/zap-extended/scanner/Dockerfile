@@ -1,8 +1,8 @@
 FROM python:3.9.0-alpine
-COPY . /zap-extended/
-RUN pip3 install -r /zap-extended/requirements.txt
-RUN addgroup --system --gid 1001 zap-extended && adduser zap-extended --system --uid 1001 --ingroup zap-extended
+COPY . /zap-client/
+RUN pip3 install -r /zap-client/requirements.txt
+RUN addgroup --system --gid 1001 zap-client && adduser zap-client --system --uid 1001 --ingroup zap-client
 USER 1001
 CMD ["/bin/sh"]
-WORKDIR /zap-extended
-ENTRYPOINT ["python3", "-m", "scbzapv2"]
+WORKDIR /zap-client
+ENTRYPOINT ["python3", "-m", "zapclient"]

@@ -10,10 +10,10 @@ import logging
 import time
 
 from zapv2 import ZAPv2
-from scbzapv2 import ZapConfiguration
-from scbzapv2 import ZapConfigureContext
-from scbzapv2 import ZapConfigureSpider
-from scbzapv2 import ZapConfigureActiveScanner
+from zapclient import ZapConfiguration
+from zapclient import ZapConfigureContext
+from zapclient import ZapConfigureSpider
+from zapclient import ZapConfigureActiveScanner
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(

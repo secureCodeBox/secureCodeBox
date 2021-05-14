@@ -124,7 +124,7 @@ services:
       - ./tests/mocks/scan-full-petstore-docker/:/home/securecodebox/configs/
       - ./tests/results/:/home/securecodebox/results/
     entrypoint: ['python3', 
-                 '-m', 'scbzapv2', 
+                 '-m', 'zapclient', 
                  '--report-type', 'XML', 
                  '--zap-url', 'zap:8090',
                  '--output-folder',

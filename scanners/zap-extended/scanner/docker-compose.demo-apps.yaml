@@ -1,0 +1,57 @@
+version: "3"
+services:
+  bodgeit:
+    image: docker.io/psiinon/bodgeit:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    ports:
+      - "8080:8080"
+    healthcheck:
+      interval: 1m
+      retries: 3
+      test:
+        - CMD
+        - curl
+        - -f
+        - http://bodgeit:8080/bodgeit/
+      timeout: 10s
+  juiceshop:
+    image: docker.io/bkimminich/juice-shop:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    ports:
+      - "3000:3000"
+    healthcheck:
+      interval: 1m
+      retries: 3
+      test:
+        - CMD
+        - wget
+        - --spider
+        - http://juiceshop:3000/#/
+      timeout: 10s
+  petstore:
+    image: docker.io/swaggerapi/petstore
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    ports:
+      - "8000:8080"
+    environment: 
+       - SWAGGER_BASE_PATH=/v2
+       - SWAGGER_HOST=http://localhost:8000
+       - SWAGGER_URL=http://localhost:8000
+    # healthcheck:
+    #   interval: 1m
+    #   retries: 3
+    #   test:
+    #     - CMD
+    #     - wget
+    #     - --spider
+    #     - http://petstore/
+    #   timeout: 10s

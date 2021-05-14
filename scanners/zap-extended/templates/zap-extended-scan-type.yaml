@@ -36,7 +36,7 @@ spec:
               command:
                 - "python3"
                 - "-m"
-                - "scbzapv2"
+                - "zapclient"
                 - "--report-type"
                 - "XML"
                 - "--zap-url"

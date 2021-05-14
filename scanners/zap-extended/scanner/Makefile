@@ -18,7 +18,7 @@ unit-test:
 
 docker-test:
 	@echo "Running local Integrations Tests based on docker-compose..."
-	pytest ./tests/test_integration_docker_local.py  --log-cli-level "INFO"
+	pytest ./tests/test_integration_docker_local.py  --log-cli-level "DEBUG"
 
 local-test:
 	@echo "Running local Integrations Tests based on local ZAP + docker-compose..."

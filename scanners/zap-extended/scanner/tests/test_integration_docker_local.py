@@ -10,7 +10,7 @@ import pytest
 from zapv2 import ZAPv2
 from requests.exceptions import ConnectionError
 
-from scbzapv2.zap_extended import ZapExtended
+from zapclient.zap_extended import ZapExtended
 
 def is_responsive(url):
     try:

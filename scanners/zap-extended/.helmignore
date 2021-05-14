@@ -2,7 +2,7 @@
 
 parser/
 scanner/*.*
-scanner/scbzapv2/
+scanner/zapclient/
 scanner/tests/
 examples/
 

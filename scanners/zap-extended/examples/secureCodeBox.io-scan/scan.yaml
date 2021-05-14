@@ -2,7 +2,7 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: "zap-extended-baseline-securecodebox"
+  name: "zap-extended-scan-securecodebox"
   labels:
     organization: "OWASP"
 spec:
