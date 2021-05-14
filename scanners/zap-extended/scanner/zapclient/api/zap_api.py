@@ -6,6 +6,7 @@ import requests
 import collections
 import logging
 
+from urllib.parse import urlparse
 from zapv2 import ZAPv2
 
 from .. import ZapClient

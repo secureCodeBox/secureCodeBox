@@ -52,26 +52,23 @@ class ZapConfigureSettings(ZapClient):
         return self.__global_config
     
     def configure(self):
+        """Configure a new active ZAP Session with all Settings, based on the configuration settings."""
         
-        if "isNewSession" in self.get_global_config and self.get_global_config["isNewSession"] and "sessionName" in self.get_global_config:
-            self.__create_session(str(self.get_global_config["sessionName"]))
-        else:
-            self.__create_session("secureCodeBox")
-        
-        self.__configure_global_settings()
-        self.__configure_exclude_paths()
-        self.__configure_proxy()        
-        self.__configure_scripts()
+        if self.get_config.has_global_configurations():
+            self.__create_session()
+            self.__configure_global_settings()
+            self.__configure_exclude_paths()
+            self.__configure_proxy()        
+            self.__configure_scripts()
 
-    def __create_session(self, session_name: str):
-        """Private method to configure a new active ZAP Session with the given name.
-        
-        Parameters
-        ----------
-        session_name : str
-            The name of the new active ZAP Session to create.
-        """
-        
+    def __create_session(self):
+        """Private method to configure a new active ZAP Session, based on the configuration settings."""
+
+        session_name = "secureCodeBox"
+
+        if self.get_config.has_global_configurations() and "sessionName" in self.get_global_config and len(self.get_global_config["sessionName"]) > 0:
+            session_name = self.get_global_config["sessionName"]
+
         # Start the ZAP session
         logging.info('Creating a new ZAP session with the name: %s', session_name)
         self.check_zap_result(
@@ -119,13 +116,7 @@ class ZapConfigureSettings(ZapClient):
             logging.debug("No global exclude paths configuration defined (global.globalExcludePaths: ).")
 
     def __configure_proxy(self):
-        """Private method to configure the ZAP Global 'Proxy Settings' based on a given ZAP config.
-        
-        Parameters
-        ----------
-        proxy_config : collections.OrderedDict
-            The current zap global proxy configuration object containing the ZAP Proxy configurations (based on the class ZapConfiguration).
-        """
+        """Private method to configure the ZAP Global 'Proxy Settings' based on a given ZAP config."""
 
         if "proxy" in self.get_global_config:
             proxy_config = self.get_global_config["proxy"]
@@ -145,6 +136,8 @@ class ZapConfigureSettings(ZapClient):
             logging.debug("No proxy configuration defined (global.proxy: ).")
             
     def __configure_proxy_settings(self, proxy_config: collections.OrderedDict):
+        """Private method to configure all proxy specific setings, based on the configuration settings."""
+        
         if "address" in proxy_config and (proxy_config['address'] is not None) and len(proxy_config['address']) > 0:
             self.check_zap_result(
                 result=self.get_zap.core.set_option_proxy_chain_name(string=str(proxy_config['address'])), 
@@ -169,6 +162,8 @@ class ZapConfigureSettings(ZapClient):
                 )
 
     def __configure_proxy_authentication(self, proxy_config: collections.OrderedDict):
+        """Private method to configure the proxy authenication, based on the configuration settings."""
+        
         # Configure ZAP outgoing proxy server authentication
         if "authentication" in proxy_config and (proxy_config['authentication'] is not None):
             proxy_authentication_config = proxy_config['authentication']
@@ -185,6 +180,8 @@ class ZapConfigureSettings(ZapClient):
             logging.debug("No authentication configuration defined for proxy (global.proxy.authentication: ).")
 
     def __configure_proxy_authentication_settings(self, proxy_authentication_config: collections.OrderedDict):
+        """Private method to configure the proxy authenication specific settings, based on the configuration settings."""
+        
         if "username" in proxy_authentication_config and (proxy_authentication_config['username'] is not None) and len(proxy_authentication_config['username']) > 0:
             self.check_zap_result(
                 result=self.get_zap.core.set_option_proxy_chain_user_name(string=str(proxy_authentication_config['username'])), 
@@ -202,6 +199,8 @@ class ZapConfigureSettings(ZapClient):
             )
 
     def __configure_socks(self, proxy_config: collections.OrderedDict):
+        """Private method to configure the proxy socks settings, based on the configuration settings."""
+        
         # Configure ZAP outgoing proxy server authentication
         if "socks" in proxy_config and (proxy_config['socks'] is not None):
             socks_config = proxy_config['socks']
@@ -217,6 +216,8 @@ class ZapConfigureSettings(ZapClient):
             logging.debug("No proxy sock configuration found (global.proxy.socks: ).")
 
     def __configure_scripts(self):
+        """Private method to configure the script settings, based on the configuration settings."""
+        
         if "scripts" in self.get_global_config:
             self._log_all_scripts()
             for script in self.get_global_config["scripts"]:
@@ -231,8 +232,6 @@ class ZapConfigureSettings(ZapClient):
         
         Parameters
         ----------
-        zap : ZAPv2
-            The running ZAP instance to configure.
         script_config : collections.OrderedDict
             The current 'script'  configuration object containing the ZAP script configuration (based on the class ZapConfiguration).
         """
