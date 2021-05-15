@@ -12,7 +12,7 @@ from . import ZapConfigureSpider
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     format='%(asctime)s %(name)-12s %(levelname)-8s: %(message)s',
     datefmt='%Y-%m-%d %H:%M')
 
@@ -172,4 +172,4 @@ class ZapConfigureSpiderAjax(ZapConfigureSpider):
         else:
             logging.info("Ajax Spider found total: %s URLs", str(num_urls))
             for url in self.get_zap_spider.results():
-                logging.info("URL: %s", url['requestHeader'])
+                logging.debug("URL: %s", url['requestHeader'])

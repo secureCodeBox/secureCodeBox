@@ -12,7 +12,7 @@ from ..configuration import ZapConfiguration
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     format='%(asctime)s %(name)-12s %(levelname)-8s: %(message)s',
     datefmt='%Y-%m-%d %H:%M')
 
@@ -71,7 +71,10 @@ class ZapConfigureSettings(ZapClient):
 
         # Start the ZAP session
         logging.info('Creating a new ZAP session with the name: %s', session_name)
-        self.get_zap.core.new_session(name=session_name, overwrite=True),
+        self.check_zap_result(
+            result=self.get_zap.core.new_session(name=session_name, overwrite=True),
+            method_name="new_session"
+        )
         
         # Wait for ZAP to update the internal caches 
         time.sleep(5)

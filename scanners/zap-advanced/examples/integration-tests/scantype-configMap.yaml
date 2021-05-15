@@ -292,6 +292,8 @@ data:
         context: scb-petstore-context
         # String: Url to start scaning from, default: first context URL
         url: http://petstore.demo-apps.svc/v2/
+        # String: Name of the scan policy to be used, default: Default Policy
+        policy: "API-Minimal"
         # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
         maxRuleDurationInMins: 1
         # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited          

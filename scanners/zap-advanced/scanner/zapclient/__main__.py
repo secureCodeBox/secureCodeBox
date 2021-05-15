@@ -8,7 +8,7 @@ from .zap_automation import ZapAutomation
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     format='%(asctime)s %(name)-12s %(levelname)-8s: %(message)s',
     datefmt='%Y-%m-%d %H:%M')
 
@@ -57,6 +57,9 @@ def process(args):
 
         alerts = zap_automation.get_zap_scanner.get_alerts(args.target, [], [])
         logging.info(':: Found ZAP Alerts: %s', str(len(alerts)))
+
+        summary = zap.alert.alerts_summary(baseurl=args.target)
+        logging.info(':: ZAP Alerts Summary: %s', str(summary))
 
         zap_automation.generate_report_file(file_path=args.output_folder, report_type=args.report_type)
 

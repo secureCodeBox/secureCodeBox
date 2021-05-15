@@ -11,7 +11,7 @@ from ..configuration import ZapConfiguration
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     format='%(asctime)s %(name)-12s %(levelname)-8s: %(message)s',
     datefmt='%Y-%m-%d %H:%M')
 
@@ -133,7 +133,7 @@ class ZapConfigureContextAuthentication(ZapClient):
             if "loginRequestData" in form_auth:
                 auth_method_config_params += "&loginRequestData=" + form_auth["loginRequestData"]
 
-            logging.info("HTTP ZAP HTTP Form Params: '%s'", auth_method_config_params)
+            logging.debug("HTTP ZAP HTTP Form Params: '%s'", auth_method_config_params)
 
             self.get_zap.authentication.set_authentication_method(
                 contextid=context_id,

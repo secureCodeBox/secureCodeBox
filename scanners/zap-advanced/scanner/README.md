@@ -1,23 +1,34 @@
-# ZAP Hooks
+# ZAP Scanner
 
-This directory contains Python [hook scripts](https://www.zaproxy.org/docs/docker/scan-hooks/)
-for the Zap Python wrapper used by the ZAP Docker image.
-
-These scripts are automatically executed, if placed into the `/wrk` volume mount.
-
+This directory contains a secureCodeBox specific python implementation of an ZAP Client.
 
 ## Testing
+If you want to test the ZAP Client localy you can use
 
-### Local testing with an already running ZAP instance
-Please configure `test_zap_local.py` before running with your ZAP _host_ and _port_ address:
 ```bash
-python3 test_zap_local.py --log=INFO
+# test everything combined
+make test
+# start only unit tests
+make unit-test
+# start only docker base tests
+make docker-test
+# start only local zap based tests
+make local-test
+```
+
+### Local testing with an already running ZAP instance (at localhost)
+If you want to run the local test directly based on pytest you can do so.
+Please configure `test_integration_zap_local.py` before running with your ZAP _host_ and _port_ address:
+
+```bash
+pytest ./tests/test_integration_zap_local.py --log-cli-level "DEBUG"
 ```
 
 ### Docker based testing
+If you want to run the local test directly based on pytest you can do so.
+
 ```bash
-export PROJECT="/your/fullPath/to/this/folder/secureCodeBox/scanners/zap-advanced"
-./tests/docker/test.sh
+pytest ./tests/test_integration_docker_local.py  --log-cli-level "DEBUG"
 ```
 
 ## Additional reading and sources

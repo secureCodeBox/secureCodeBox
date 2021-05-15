@@ -64,8 +64,6 @@ class ZapConfigurationContext(ZapConfigurationList):
         """
         result = collections.OrderedDict()
 
-        logging.info("get_context_users has_context_users_configurations(context=%s)", context)
-
         if self.has_context_users_configurations(context):
             result = context["users"]
 
@@ -102,8 +100,6 @@ class ZapConfigurationContext(ZapConfigurationList):
 
         result = collections.OrderedDict()
         users = self.get_context_users(context)
-
-        logging.info("get_context_user_by_name(name=%s, users=%s", name, users)
 
         if self.has_context_users_configurations(context):
             result = next((user for user in users if user['name'] == name), None)

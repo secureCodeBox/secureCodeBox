@@ -14,7 +14,7 @@ from .zap_configuration_scanner import ZapConfigurationScanner
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     format='%(asctime)s %(name)-12s %(levelname)-8s: %(message)s',
     datefmt='%Y-%m-%d %H:%M')
 
@@ -52,7 +52,7 @@ class ZapConfiguration:
         if (len(config_files) > 0):
             config_files.sort()
             self.__config = hiyapyco.load(*config_files, method=hiyapyco.METHOD_MERGE, interpolate=True, mergelists=True, failonmissingfiles=False)
-            logging.info("Finished importing YAML: %s", self.__config)
+            logging.debug("Finished importing YAML: %s", self.__config)
             
             self.__parse_configurations()
         else:
