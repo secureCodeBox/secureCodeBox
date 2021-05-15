@@ -136,7 +136,7 @@ zapConfiguration:
       # -- Optional technology list
       technology:
         # -- By default all technologies are enabed for each context by ZAP. You can use the following config to change that explicitly.
-        included: 
+        included:
           - Db.CouchDB
           - Db.Firebird
           - Db.HypersonicSQL
@@ -219,7 +219,7 @@ zapConfiguration:
           scriptFileName: "/home/zap/.ZAP_D/scripts/scripts/session/juiceshop-session-management.js"
           # --  An optional description used for the script.
           scriptDescription: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
-  
+ 
   # -- Optional list of ZAP OpenAPI configurations
   apis: {}
     # -- The name of the api configuration
@@ -260,7 +260,7 @@ zapConfiguration:
       maxDuration: 0
       # -- Int: The maximum tree depth to explore, default 5
       maxDepth: 5
-      # -- Int: The maximum number of children to add to each node in the tree                     
+      # -- Int: The maximum number of children to add to each node in the tree                    
       maxChildren: 10
       # -- Bool: Whether the spider will accept cookies, default: true
       acceptCookies: true
@@ -288,11 +288,11 @@ zapConfiguration:
       requestWaitTime: 200
       # -- Bool: Whether the spider will send the referer header, default: true
       sendRefererHeader: true
-      # -- Int: The number of spider threads, default: 2             
+      # -- Int: The number of spider threads, default: 2            
       threadCount: 2
-      # -- String: The user agent to use in requests, default: '' - use the default ZAP one               
+      # -- String: The user agent to use in requests, default: '' - use the default ZAP one              
       userAgent: "secureCodeBox / ZAP Spider"
-  
+ 
   # -- Optional list of ZAP Active Scanner configurations
   scanners:
       # -- String: Name of the context to attack, default: first context
@@ -307,7 +307,7 @@ zapConfiguration:
       policy: "Default Policy"
       # -- Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
       maxRuleDurationInMins: 0
-      # -- Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited          
+      # -- Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited         
       maxScanDurationInMins: 0
       # -- Int: The delay in milliseconds between each request, use to reduce the strain on the target, default 0
       delayInMs: 0
@@ -315,7 +315,7 @@ zapConfiguration:
       addQueryParam: false
       # -- Bool: If set then automatically handle anti CSRF tokens, default: false
       handleAntiCSRFTokens: false
-      # -- Bool: If set then the relevant rule Id will be injected into the X-ZAP-Scan-ID header of each request, default: false           
+      # -- Bool: If set then the relevant rule Id will be injected into the X-ZAP-Scan-ID header of each request, default: false          
       injectPluginIdInHeader: false
       # -- Bool: If set then the headers of requests that do not include any parameters will be scanned, default: false
       scanHeadersAllRequests: false
@@ -343,6 +343,7 @@ zapConfiguration:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| cascadingRules | object | `{"enabled":true}` | Configurations regarding the cascading scan |
 | cascadingRules.enabled | bool | `true` | Enables or disables the installation of the default cascading rules for this scanner |
 | parseJob.backoffLimit | int | `3` |  |
 | parseJob.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
@@ -361,8 +362,7 @@ zapConfiguration:
 | scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | scannerJob.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | scannerJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
-| zapConfiguration.global.isNewSession | bool | `true` |  |
-| zapConfiguration.global.sessionName | string | `"secureCodeBox"` |  |
+| zapConfiguration | object | `{"global":{"isNewSession":true,"sessionName":"secureCodeBox"}}` | All scanType specific configuration options. Feel free to add more configuration options. All configuration options can be overriden by scan specific configurations if defined. Please have a look into the README.md to find more configuration options. |
 | zapContainer.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | zapContainer.envFrom | list | `[]` | Optional mount environment variables from configMaps or secrets (see: https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/#configure-all-key-value-pairs-in-a-secret-as-container-environment-variables) |
 | zapContainer.extraVolumeMounts | list | `[{"mountPath":"/home/zap/.ZAP_D/scripts/scripts/authentication/","name":"zap-scripts-authentication","readOnly":true},{"mountPath":"/home/zap/.ZAP_D/scripts/scripts/session/","name":"zap-scripts-session","readOnly":true}]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
