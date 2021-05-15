@@ -73,7 +73,7 @@ def process(args):
 
 def get_parser_args(args=None):
     parser = argparse.ArgumentParser(prog='zap-client',
-                                     description='OWASP ZAP Scan (extended with advanced authentication fatures')
+                                     description='OWASP secureCodeBox OWASP ZAP Client (can be used to automate OWASP ZAP instances based on YAML configuration files.)')
     parser.add_argument("-z",
                         "--zap-url",
                         help='The ZAP API Url used to call the ZAP API',
@@ -104,12 +104,6 @@ def get_parser_args(args=None):
                         help='The OWASP ZAP Report Type u.',
                         choices=['XML', 'JSON', 'HTML', 'MD'],
                         default=None,
-                        required=False),
-    parser.add_argument("-s",
-                        "--scan",
-                        help='The scan config is optionaly used to configure what type of scan ZAP is forced to. Normaly this shold be configured with the config YAML.',
-                        choices=['baseline', 'full', 'openApi', 'graphQl'],
-                        default='baseline',
                         required=False)
     return parser.parse_args(args)
 

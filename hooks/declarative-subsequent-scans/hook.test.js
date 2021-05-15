@@ -52,7 +52,7 @@ beforeEach(() => {
   ];
 });
 
-test("should create subsequent scans for open HTTPS ports (NMAP findings)", () => {
+test("Should create subsequent scans for open HTTPS ports (NMAP findings)", () => {
   const findings = [
     {
       name: "Port 443 is open",
@@ -110,7 +110,7 @@ test("Should create no subsequent scans if there are no rules", () => {
   expect(cascadedScans).toMatchInlineSnapshot(`Array []`);
 });
 
-test("should not try to do magic to the scan name if its something random", () => {
+test("Should not try to do magic to the scan name if its something random", () => {
   parentScan.metadata.name = "foobar.com";
 
   const findings = [
@@ -150,7 +150,7 @@ test("should not try to do magic to the scan name if its something random", () =
   `);
 });
 
-test("should not start scan when the cascadingrule for it is already in the chain", () => {
+test("Should not start a new scan when the corresponding cascadingRule is already in the chain", () => {
   parentScan.metadata.annotations["cascading.securecodebox.io/chain"] =
     sslyzeCascadingRules[0].metadata.name;
 
@@ -176,7 +176,7 @@ test("should not start scan when the cascadingrule for it is already in the chai
   expect(cascadedScans).toMatchInlineSnapshot(`Array []`);
 });
 
-test("should not crash when the annotations are not set", () => {
+test("Should not crash when the annotations are not set", () => {
   parentScan.metadata.annotations = undefined;
 
   const findings = [
@@ -215,7 +215,7 @@ test("should not crash when the annotations are not set", () => {
   `);
 });
 
-test("should add env fields from cascading rule to created scan", () => {
+test("Should copy ENV fields from cascadingRule to created scan", () => {
   sslyzeCascadingRules[0].spec.scanSpec.env = [
     {
       name: "FOOBAR",
@@ -269,7 +269,7 @@ test("should add env fields from cascading rule to created scan", () => {
   `);
 });
 
-test("should allow wildcards in cascading rules", () => {
+test("Should allow wildcards in cascadingRules", () => {
   sslyzeCascadingRules = [
     {
       apiVersion: "cascading.securecodebox.io/v1",
