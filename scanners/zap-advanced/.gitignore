@@ -1,2 +1,1 @@
-/scanner/tests/tmp/*
-/scanner/tests/docker/tmp/*
+/scanner/tests/results/*

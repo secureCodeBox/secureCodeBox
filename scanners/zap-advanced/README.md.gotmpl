@@ -42,9 +42,9 @@ OWASP secureCodeBox OWASP ZAP Client  (can be used to automate OWASP ZAP instanc
 optional arguments:
   -h, --help            show this help message and exit
   -z ZAP_URL, --zap-url ZAP_URL
-                        The ZAP API Url used to call the ZAP API
+                        The ZAP API Url used to call the ZAP API.
   -a API_KEY, --api-key API_KEY
-                        The ZAP API Key used to call the ZAP API
+                        The ZAP API Key used to call the ZAP API.
   -c CONFIG_FOLDER, --config-folder CONFIG_FOLDER
                         The path to a local folder containing the additional ZAP configuration YAMLs used to configure OWASP ZAP.
   -t TARGET, --target TARGET
@@ -52,7 +52,7 @@ optional arguments:
   -o OUTPUT_FOLDER, --output-folder OUTPUT_FOLDER
                         The path to a local folder used to store the output files, eg. the ZAP Report or logfiles.
   -r {XML,JSON,HTML,MD}, --report-type {XML,JSON,HTML,MD}
-                        The OWASP ZAP Report Type u.
+                        The OWASP ZAP Report Type.
 ```
 
 ## Zap Configurations
@@ -221,7 +221,7 @@ zapConfiguration:
           scriptDescription: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
   
   # -- Optional list of ZAP OpenAPI configurations
-  apis: {}
+  apis:
     # -- The name of the api configuration
     - name: scb-petstore-api
       # -- The Name of the context (zapConfiguration.contexts[x].name) to reference, default: the first context available
@@ -233,7 +233,7 @@ zapConfiguration:
       # -- Optional: Override host setting in the API (e.g. swagger.json) if your API is using some kind of internal routing.
       hostOverride: http://localhost:8000
       # -- Optional: Assumes that the API Spec has been saved to a configmap in the namespace of the scan / this release. Should be null if not used.
-      configMap: null
+      configMap:
         # Object with two keys: "name" name of the config map, and "key" which is the key / property in the configmap which holds the openapi spec file.
         name: my-configmap-with-openapi-spec
         key: openapi.yaml
@@ -322,7 +322,7 @@ zapConfiguration:
       # -- Int: The max number of threads per host, default: 2
       threadPerHost: 2
       # -- The policy definition, only used if the 'policy' is not set - NOT YET IMPLEMENTED
-      policyDefinition: {}
+      policyDefinition:
         # -- String: The default Attack Strength for all rules, one of Low, Medium, High, Insane (not recommended), default: Medium
         defaultStrength: Medium
         # -- String: The default Alert Threshold for all rules, one of Off, Low, Medium, High, default: Medium

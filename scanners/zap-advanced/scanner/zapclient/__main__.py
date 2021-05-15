@@ -17,7 +17,7 @@ logging = logging.getLogger('zapclient')
 def main():
     args = get_parser_args()
 
-    if args.target == None or len(args.target) <= 0:
+    if args.target is None or len(args.target) <= 0:
         logging.info('Argument error: No target specified!')
         sys.exit(1)
 
@@ -30,15 +30,15 @@ def main():
 def process(args):
 
     api_key = None
-    if not args.api_key == None and len(args.api_key) > 0:
-        api_key = 'eor898q1luuq8054e0e5r9s3jh'    
+    if args.api_key is not None and len(args.api_key) > 0:
+        api_key = args.api_key
 
     # MANDATORY. Define the listening address of ZAP instance
     zap_proxy = {
         "http": "http://127.0.0.1:8080",
         "https": "http://127.0.0.1:8080"
     }
-    if not args.zap_url == None and len(args.zap_url) > 0:
+    if args.zap_url is not None and len(args.zap_url) > 0:
         zap_proxy = {
             "http": "http://" + args.zap_url,
             "https": "http://" + args.zap_url
@@ -79,12 +79,12 @@ def get_parser_args(args=None):
                                      description='OWASP secureCodeBox OWASP ZAP Client (can be used to automate OWASP ZAP instances based on YAML configuration files.)')
     parser.add_argument("-z",
                         "--zap-url",
-                        help='The ZAP API Url used to call the ZAP API',
+                        help='The ZAP API Url used to call the ZAP API.',
                         default=None,
                         required=True),
     parser.add_argument("-a",
                         "--api-key",
-                        help='The ZAP API Key used to call the ZAP API',
+                        help='The ZAP API Key used to call the ZAP API.',
                         default=None,
                         required=False),
     parser.add_argument("-c",
@@ -104,7 +104,7 @@ def get_parser_args(args=None):
                         required=False)
     parser.add_argument("-r",
                         "--report-type",
-                        help='The OWASP ZAP Report Type u.',
+                        help='The OWASP ZAP Report Type.',
                         choices=['XML', 'JSON', 'HTML', 'MD'],
                         default=None,
                         required=False)

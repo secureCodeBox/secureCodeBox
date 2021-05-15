@@ -4,3 +4,7 @@
 examples/
 tests/
 *.log
+*.yaml
+pytest.ini
+test-requirements.txt
+Makefile

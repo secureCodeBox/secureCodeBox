@@ -74,7 +74,7 @@ spec:
                 - "database.recoverylog=false" # Tune ZAP, DB recovery is not needed here
                 - "-config"
                 - "connection.timeoutInSecs=120" # Tune ZAP timeout by default to be 2minutes
-                - "-addonupdate"    # Enable AddOn Update on startup if possible
+                - "-addonupdate"    # Enable AddOn Updates on startup if possible
                 - "-addoninstall"
                 - "pscanrulesBeta"  # Enable PassiveScan Beta Rules
                 - "-addoninstall"
