@@ -3,4 +3,4 @@
 hooks/declarative-subsequent-scans/hook.js
 hooks/declarative-subsequent-scans/scan-helpers.js
 hooks/declarative-subsequent-scans/kubernetes-label-selector.js
-scanners/zap-extended/scanner/scripts/*
+scanners/zap-advanced/scanner/scripts/*

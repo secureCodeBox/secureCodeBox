@@ -1,0 +1,10 @@
+apiVersion: "execution.securecodebox.io/v1"
+kind: ParseDefinition
+metadata:
+  name: "zap-advanced-xml"
+  labels:
+    {{- include "zap.labels" . | nindent 4 }}
+spec:
+  handlesResultsType: zap-xml
+  image: "{{ .Values.parseJob.image.repository }}:{{ .Values.parseJob.image.tag | default .Chart.Version }}"
+  ttlSecondsAfterFinished: {{ .Values.parseJob.ttlSecondsAfterFinished }}

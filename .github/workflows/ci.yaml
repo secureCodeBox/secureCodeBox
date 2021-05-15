@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        unit: ["git-repo-scanner", "zap-extended"]
+        unit: ["git-repo-scanner", "zap-advanced"]
     steps:
       - name: Checkout
         uses: actions/checkout/@v2
@@ -360,7 +360,7 @@ jobs:
           - kubeaudit
           - ncrack
           - nmap
-          - zap-extended
+          - zap-advanced
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -823,14 +823,14 @@ jobs:
       - name: "ZAP Extended Integration Tests"
         run: |
           kubectl -n integration-tests delete scans --all
-          helm -n integration-tests install zap-extended ./scanners/zap-extended/  \
+          helm -n integration-tests install zap-advanced ./scanners/zap-advanced/  \
             --set="parseJob.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-zap" \
             --set="parseJob.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="scannerJob.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-zap-extended" \
+            --set="scannerJob.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-zap-advanced" \
             --set="scannerJob.image.tag=sha-$(git rev-parse --short HEAD)"
-          kubectl apply -f ./scanners/zap-extended/examples/integration-tests/scantype-configMap.yaml -n integration-tests
+          kubectl apply -f ./scanners/zap-advanced/examples/integration-tests/scantype-configMap.yaml -n integration-tests
           cd tests/integration/
-          npx jest --ci --color scanner/zap-extended.test.js
+          npx jest --ci --color scanner/zap-advanced.test.js
 
       # ---- Cascading Scans ncrack Integration Test ----
 

@@ -1,0 +1,104 @@
+---
+{{- if not (empty .Values.zapConfiguration) }}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: zap-advanced-scantype-config
+  labels:
+    {{- include "zap.labels" . | nindent 4 }}
+data:
+  1-zap-advanced-scantype.yaml: {{ .Values.zapConfiguration | toYaml | quote }}
+{{- end }}
+---
+apiVersion: "execution.securecodebox.io/v1"
+kind: ScanType
+metadata:
+  name: zap-advanced-scan
+  labels:
+    {{- include "zap.labels" . | nindent 4 }}
+spec:
+  extractResults:
+    type: zap-xml
+    location: "/home/securecodebox/results/zap-results.xml"
+  jobTemplate:
+    spec:
+      {{- if .Values.scannerJob.ttlSecondsAfterFinished }}
+      ttlSecondsAfterFinished: {{ .Values.scannerJob.ttlSecondsAfterFinished }}
+      {{- end }}
+      backoffLimit: {{ .Values.scannerJob.backoffLimit }}
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: zap-advanced-scan
+              image: "{{ .Values.scannerJob.image.repository }}:{{ .Values.scannerJob.image.tag | default .Chart.Version }}"
+              imagePullPolicy: {{ .Values.scannerJob.image.pullPolicy }}
+              command:
+                - "python3"
+                - "-m"
+                - "zapclient"
+                - "--report-type"
+                - "XML"
+                - "--zap-url"
+                - "localhost:8080"
+                # - "--api-key"
+                # - "ertzukndtzuikbvcfjkmnbvcfghjklmnbvc"
+                - "--config-folder"
+                - "/home/securecodebox/configs/"
+                - "--output-folder"
+                - "/home/securecodebox/results/"
+              resources:
+                {{- toYaml .Values.scannerJob.resources | nindent 16 }}
+              securityContext:
+                {{- toYaml .Values.scannerJob.securityContext | nindent 16 }}
+              env:
+                {{- toYaml .Values.scannerJob.env | nindent 16 }}
+              envFrom:
+                {{- toYaml .Values.scannerJob.envFrom | nindent 16 }}
+              volumeMounts:
+                {{- toYaml .Values.scannerJob.extraVolumeMounts | nindent 16 }}
+              {{- if .Values.scannerJob.extraContainers }}
+              {{- toYaml .Values.scannerJob.extraContainers | nindent 12 }}
+              {{- end }}
+            - name: zap-sidecar
+              image: "{{ .Values.zapContainer.image.repository }}:{{ .Values.zapContainer.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.zapContainer.image.pullPolicy }}
+              command:
+                - "zap.sh"
+                - "-daemon"
+                - "-port"
+                - "8080" 
+                - "-host"
+                - "0.0.0.0"
+                - "-config"
+                - "database.recoverylog=false" # Tune ZAP, DB recovery is not needed here
+                - "-config"
+                - "connection.timeoutInSecs=120" # Tune ZAP timeout by default to be 2minutes
+                - "-addonupdate"    # Enable AddOn Update on startup if possible
+                - "-addoninstall"
+                - "pscanrulesBeta"  # Enable PassiveScan Beta Rules
+                - "-addoninstall"
+                - "ascanrulesBeta"  # Enable ActiveScan Beta Rules
+                - "-addoninstall"
+                - "pscanrulesAlpha" # Enable PassiveScan Alpha Rules
+                - "-addoninstall"
+                - "ascanrulesAlpha" # Enable ActiveScan Alpha Rules
+                - "-config"
+                - "api.disablekey=true" # Disble API Key. TODO: change with helm random value? -config api.key=change-me-9203935709
+              resources:
+                {{- toYaml .Values.zapContainer.resources | nindent 16 }}
+              securityContext:
+                {{- toYaml .Values.zapContainer.securityContext | nindent 16 }}
+              env:
+                {{- toYaml .Values.zapContainer.env | nindent 16 }}
+              envFrom:
+                {{- toYaml .Values.zapContainer.envFrom | nindent 16 }}
+              volumeMounts:
+                {{- toYaml .Values.zapContainer.extraVolumeMounts | nindent 16 }}
+              {{- if .Values.zapContainer.extraContainers }}
+              {{- toYaml .Values.zapContainer.extraContainers | nindent 12 }}
+              {{- end }}
+              ports:
+                - containerPort: 8080
+          volumes:
+            {{- toYaml .Values.scannerJob.extraVolumes | nindent 12 }}

@@ -37,7 +37,7 @@ var officialScanTypes map[string]bool = map[string]bool{
 	"zap-baseline-scan":      true,
 	"zap-api-scan":           true,
 	"zap-full-scan":          true,
-	"zap-extended-scan":      true,
+	"zap-advanced-scan":      true,
 }
 
 // telemetryData submitted by operator
