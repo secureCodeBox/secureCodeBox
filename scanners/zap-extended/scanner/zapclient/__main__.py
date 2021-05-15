@@ -12,7 +12,7 @@ logging.basicConfig(
     format='%(asctime)s %(name)-12s %(levelname)-8s: %(message)s',
     datefmt='%Y-%m-%d %H:%M')
 
-logging = logging.getLogger('zap-scb-extended')
+logging = logging.getLogger('zapclient')
 
 def main():
     args = get_parser_args()
@@ -49,18 +49,18 @@ def process(args):
     zap = ZAPv2(proxies=zap_proxy, apikey=api_key)
 
     logging.info(':: Starting SCB ZAP Automation Framework with config %s', args.config_folder)
-    zap_extended = ZapAutomation(zap=zap, config_dir=args.config_folder)
+    zap_automation = ZapAutomation(zap=zap, config_dir=args.config_folder)
     
     try:
         logging.info(':: Starting SCB ZAP Scan with target %s', args.target)
-        zap_extended.scan_target(target=args.target)
+        zap_automation.scan_target(target=args.target)
 
-        alerts = zap_extended.get_zap_scan().get_alerts(args.target, [], [])
+        alerts = zap_automation.get_zap_scanner.get_alerts(args.target, [], [])
         logging.info(':: Found ZAP Alerts: %s', str(len(alerts)))
 
-        zap_extended.generate_report_file(file_path=args.output_folder, report_type=args.report_type)
+        zap_automation.generate_report_file(file_path=args.output_folder, report_type=args.report_type)
 
-        zap_extended.zap_shutdown()
+        zap_automation.zap_shutdown()
         logging.info(':: Finished !')
 
     except argparse.ArgumentError as e:
@@ -68,7 +68,7 @@ def process(args):
         sys.exit(1)
     except Exception as e:
         logging.exception(f'Unexpected error: {e}')
-        zap_extended.zap_shutdown()
+        zap_automation.zap_shutdown()
         sys.exit(3)
 
 def get_parser_args(args=None):

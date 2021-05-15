@@ -93,7 +93,7 @@ class ZapConfigureSpiderHttp(ZapConfigureSpider):
         # Open first URL before the spider start's to crawl
         self.get_zap.core.access_url(url)
 
-        if not spider_config == None:
+        if spider_config is not None:
 
             if("url" in spider_config):
                 target = str(spider_config['url'])
@@ -108,16 +108,15 @@ class ZapConfigureSpiderHttp(ZapConfigureSpider):
             if("context" in spider_config):
             
                 context_name = str(spider_config['context'])
-                spider_context_config = self.get_config.get_context_by_name(context_name)
+                spider_context_config = self.get_config.get_contexts.get_configuration_by_context_name(context_name)
                 context_id = int(spider_context_config['id'])
-
 
                 # "User" is an optional config for spider in addition to the context
                 if("user" in spider_config):
 
                     user_name = str(spider_config['user'])
                     # search for the current ZAP Context id for the given context name
-                    user_id = int(self.get_config.get_context_user_by_name(spider_context_config, user_name)['id'])
+                    user_id = int(self.get_config.get_contexts.get_context_user_by_name(spider_context_config, user_name)['id'])
             else:
                 logging.warning("No context 'context: XYZ' referenced within the spider config. This is ok but maybe not intended.")
 
@@ -128,7 +127,7 @@ class ZapConfigureSpiderHttp(ZapConfigureSpider):
                 logging.info("Starting 'traditional' Spider(target=%s) with Context(%s)", target, context_name)
                 result = self.get_zap_spider.scan(url=target, contextname=context_name)
         else:
-            logging.info("Starting 'traditional' Spider(target=%s) without any additinal Config!", url)
+            logging.info("Starting 'traditional' Spider(target=%s) without any additinal configuration!", url)
             result = self.get_zap_spider.scan(url=url, contextname=None)
         
         # Check if spider is running successfully

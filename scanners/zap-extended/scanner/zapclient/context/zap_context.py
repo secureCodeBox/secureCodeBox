@@ -42,14 +42,14 @@ class ZapConfigureContext(ZapClient):
     def configure_contexts(self):
         """ Configures the ZAP instance with the given list of contexts."""
 
-        if self.get_config.has_contexts_configurations:
+        if self.get_config.has_configurations:
 
-            contexts = self.get_config.get_contexts()
+            contexts = self.get_config.get_contexts.get_configurations
 
             logging.debug('Configuring the List of #%s context(s) with: %s', len(contexts), contexts)
 
             # Remove all existing ZAP contexts 
-            logging.warning("Existing Contexts will be removed: %s", self.get_zap.context.context_list)
+            logging.info("Existing Contexts will be removed: %s", self.get_zap.context.context_list)
             for remove_context in self.get_zap.context.context_list:
                 self.get_zap.context.remove_context(contextname=remove_context)
 
@@ -136,7 +136,7 @@ class ZapConfigureContext(ZapClient):
         """
 
         # Remove all existing ZAP Users for given context
-        logging.warning("Existing Contexts will be removed: %s", self.get_zap.context.context_list)
+        logging.info("Existing Users will be removed before adding new ones.")
         for user_id in self.get_zap.users.users_list(contextid=context_id):
             self.get_zap.users.remove_user(contextid=context_id, userid=user_id)
 

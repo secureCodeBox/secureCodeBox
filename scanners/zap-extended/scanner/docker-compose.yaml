@@ -71,8 +71,8 @@ services:
       - "bodgeit"
       - "juiceshop"
       - "petstore"
-    volumes: 
-      - ./scripts/:/home/zap/.ZAP_D/scripts/scripts/
+    #volumes: 
+    #  - ./scripts/:/home/zap/.ZAP_D/scripts/scripts/
     # -config api.key=change-me-9203935709
     entrypoint:
       - 'zap.sh'

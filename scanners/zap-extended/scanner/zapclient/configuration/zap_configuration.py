@@ -5,6 +5,20 @@ import collections
 import logging
 import glob
 import hiyapyco
+
+from .zap_configuration_context import ZapConfigurationContext
+from .zap_configuration_context_users import ZapConfigurationContextUsers
+from .zap_configuration_api import ZapConfigurationApi
+from .zap_configuration_spider import ZapConfigurationSpider
+from .zap_configuration_scanner import ZapConfigurationScanner
+
+# set up logging to file - see previous section for more details
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s %(name)-12s %(levelname)-8s: %(message)s',
+    datefmt='%Y-%m-%d %H:%M')
+
+logging = logging.getLogger('ZapClient')
 class ZapConfiguration:
     """This class represent a ZAP specific configuration based on a given YAML file."""
     
@@ -22,11 +36,12 @@ class ZapConfiguration:
         
         self.__config = collections.OrderedDict()
         self.__read_config_files()
+        self.__parse_configurations()
 
     def __read_config_files(self):
         """Private method to read all existing config YAML files an create a new ZAP Configuration object"""
 
-        if self.config_dir:
+        if self.config_dir is not None and len(self.config_dir) > 0:
             logging.debug("ZAP YAML config dir: '%s'", self.config_dir)
             config_files = glob.glob(self.config_dir_glob)
         else:
@@ -38,348 +53,91 @@ class ZapConfiguration:
             config_files.sort()
             self.__config = hiyapyco.load(*config_files, method=hiyapyco.METHOD_MERGE, interpolate=True, mergelists=True, failonmissingfiles=False)
             logging.info("Finished importing YAML: %s", self.__config)
+            
+            self.__parse_configurations()
         else:
             logging.warning("No ZAP YAML Configuration files found :-/ This is no problem but possibly not intendend here.")
-            self.__config = None
+            self.__config = collections.OrderedDict()
+    
+    def __parse_configurations(self):
+        if self.has_configurations and ("contexts" in self.get_configurations):
+            self.__context_configuration = ZapConfigurationContext(context_configurations=self.get_configurations["contexts"])
+        else:
+            self.__context_configuration = ZapConfigurationContext(context_configurations=collections.OrderedDict())
+        
+        if self.has_configurations and ("apis" in self.get_configurations):
+            self.__api_configuration = ZapConfigurationApi(api_configurations=self.get_configurations["apis"])
+        else:
+            self.__api_configuration = ZapConfigurationApi(api_configurations=collections.OrderedDict())
+        
+        if self.has_configurations and ("spiders" in self.get_configurations):
+            self.__spider_configuration = ZapConfigurationSpider(spider_configurations=self.get_configurations["spiders"])
+        else:
+            self.__spider_configuration = ZapConfigurationSpider(spider_configurations=collections.OrderedDict())
+        
+        if self.has_configurations and ("scanners" in self.get_configurations):
+            self.__scanner_configuration = ZapConfigurationScanner(scanner_configurations=self.get_configurations["scanners"])
+        else:
+            self.__scanner_configuration = ZapConfigurationScanner(scanner_configurations=collections.OrderedDict())
 
-
+    @property
     def has_configurations(self) -> bool:
         """Returns true if any ZAP Configuration is defined, otherwise false."""
         
-        return (not self.__config == None) and len(self.__config) > 0
+        return (self.__config is not None) and len(self.__config) > 0
     
+    @property
     def get_configurations(self) -> collections.OrderedDict():
         """Returns the complete ZAP Configuration object"""
 
         return self.__config
 
-
     def has_global_configurations(self) -> bool:
         """Returns true if any ZAP Global Configuration is defined, otherwise false."""
         
-        return (self.has_configurations() and "global" in self.get_configurations())
+        return (self.has_configurations and "global" in self.get_configurations)
     
+    @property
     def get_global(self) -> collections.OrderedDict():
         """Returns the complete ZAP Configuration object"""
         result = collections.OrderedDict()
 
         if self.has_global_configurations():
-            result = self.get_configurations()["global"]
+            result = self.get_configurations["global"]
 
         return result
 
+    @property
+    def get_contexts(self) -> ZapConfigurationContext:
+        return self.__context_configuration
     
+    @property
     def has_contexts_configurations(self) -> bool:
-        """Returns true if any ZAP Context is defined, otherwise false."""
-
-        return (self.has_configurations() and "contexts" in self.get_configurations())
+        return self.has_configurations and self.__context_configuration.has_configurations
     
-    def get_contexts(self) -> list:
-        """Returns a list with all ZAP Context configuration objects"""
-        result = collections.OrderedDict()
+    @property
+    def get_apis(self) -> ZapConfigurationApi:
+        return self.__api_configuration
 
-        if self.has_contexts_configurations():
-            result = self.get_configurations()["contexts"]
+    @property
+    def has_apis_configurations(self) -> bool:
+        return self.has_configurations and self.__api_configuration.has_configurations
 
-        return result
+    @property
+    def get_spiders(self) -> ZapConfigurationSpider:
+        return self.__spider_configuration
     
-    def get_context_by_index(self, index: int) -> collections.OrderedDict:
-        """Returns the ZAP Context configuration object with the given index.
-        
-        Parameters
-        ----------
-        index: int
-            The list index of the context to return from the list of contexts.
-        """
-        result = collections.OrderedDict()
-
-        if self.has_contexts_configurations and len(self.get_contexts()) > index:
-            result = self.get_contexts()[index]
-
-        return result
-    
-    def get_context_by_name(self, name: str) -> collections.OrderedDict:
-        """Returns the ZAP Context configuration object with the given name.
-        
-        Parameters
-        ----------
-        name: str
-            The name of the context to return from the list of contexts.
-        """
-
-        result = collections.OrderedDict()
-
-        if self.has_contexts_configurations:
-            result = next((context for context in self.get_contexts() if context['name'] == name), None)
-
-        return result
-
-    def get_context_by_url(self, url: str) -> collections.OrderedDict:
-        """Returns the ZAP Context configuration object based on the given target url.
-        
-        Parameters
-        ----------
-        url: str
-            The url of the context to return from the list of contexts.
-        """
-
-        result = collections.OrderedDict()
-
-        if self.has_contexts_configurations:
-            result = next((context for context in self.get_contexts() if context['url'] == url), None)
-        else:
-            logging.warning("There is no context configuration to search for.")
-
-        return result
-
-    def has_context_users_configurations(self, context: collections.OrderedDict) -> bool:
-        """Returns true if any ZAP Context Users are defined, otherwise false."""
-
-        return (self.has_contexts_configurations() and ("users" in context) and len(context["users"]) > 0)
-    
-    def get_context_users(self, context: collections.OrderedDict) -> list:
-        """Returns a list with all ZAP Context Users configuration objects
-        
-        Parameters
-        ----------
-        context: collections.OrderedDict
-            The ZAP context configuration object to return the users list for.
-        """
-        result = collections.OrderedDict()
-
-        logging.info("get_context_users has_context_users_configurations(context=%s)", context)
-
-        if self.has_context_users_configurations(context):
-            result = context["users"]
-
-        return result
-    
-    def get_context_user_by_index(self, context: collections.OrderedDict, index: int) -> collections.OrderedDict:
-        """Returns the ZAP Context User configuration object with the given index.
-        
-        Parameters
-        ----------
-        context: collections.OrderedDict
-            The ZAP context configuration object to return the user for.
-        index: int
-            The list index of the context to return from the list of contexts.
-        """
-        result = collections.OrderedDict()
-        authentications = self.get_context_users(context)
-
-        if self.has_context_users_configurations(context) and len(authentications) > index:
-            result = authentications[index]
-
-        return result
-    
-    def get_context_user_by_name(self, context: collections.OrderedDict, name: str) -> collections.OrderedDict:
-        """Returns the ZAP Context Users configuration object with the given name.
-        
-        Parameters
-        ----------
-        context: collections.OrderedDict
-            The ZAP context configuration object to return the user for.
-        name: str
-            The name of the context to return from the list of contexts.
-        """
-
-        result = collections.OrderedDict()
-        users = self.get_context_users(context)
-
-        logging.info("get_context_user_by_name(name=%s, users=%s", name, users)
-
-        if self.has_context_users_configurations(context):
-            result = next((user for user in users if user['name'] == name), None)
-
-        return result
-
-
-    def has_scans_configurations(self) -> bool:
-        """Returns true if any ZAP Scan is defined, otherwise false."""
-
-        return (self.has_configurations() and "scanners" in self.get_configurations())
-
-    def get_scans(self) -> list:
-        """Returns a list with all ZAP Scan configuration objects"""
-        result = collections.OrderedDict()
-
-        if self.has_scans_configurations:
-            result = self.__config["scanners"]
-        else:
-            logging.debug("No scanner specific configuration found!")
-
-        return result
-    
-    def get_scan_by_index(self, index: int) -> collections.OrderedDict:
-        """Returns the ZAP Scan configuration object with the given index.
-        
-        Parameters
-        ----------
-        index: int
-            The list index of the scan to return from the list of scans.
-        """
-        result = collections.OrderedDict()
-
-        if self.has_scans_configurations and len(self.get_scans()) > index:
-            result = self.get_scans()[index]
-        else:
-            logging.warning("No scanner specific configuration found! Therefore couldn't find the scanner configuration with the index: %s", index)
-
-        return result
-    
-    def get_scan_by_name(self, name: str) -> collections.OrderedDict:
-        """Returns the ZAP Scan configuration object with the given name.
-        
-        Parameters
-        ----------
-        name: str
-            The name of the scan to return from the list of scans.
-        """
-        result = collections.OrderedDict()
-
-        if self.has_scans_configurations:
-            result = next((scan for scan in self.get_scans() if scan['name'] == name), None)
-        else:
-            logging.warning("No scanner specific configuration found! Therefore couldn't find the scanner configuration with the name: %s", name)
-
-        return result
-    
-    def get_scan_by_context_name(self, name: str) -> collections.OrderedDict:
-        """Returns the ZAP Scan configuration object with the referencing context name.
-        
-        Parameters
-        ----------
-        name: str
-            The name of the context which is referenced in the scanner configuration to return from the list of scans.
-        """
-        result = collections.OrderedDict()
-
-        if self.has_scans_configurations:
-            result = next((scan for scan in self.get_scans() if scan['context'] == name), None)
-        else:
-            logging.warning("No scanner specific configuration found! Therefore couldn't find the scanner configuration with the context name: %s", name)
-
-        return result
-
-
+    @property
     def has_spiders_configurations(self) -> bool:
-        """Returns true if any ZAP Spider is defined, otherwise false."""
-
-        return (self.has_configurations() and "spiders" in self.get_configurations())
-
-    def get_spiders(self) -> list:
-        """Returns a list with all ZAP Spider configuration objects"""
-        result = collections.OrderedDict()
-
-        if self.has_spiders_configurations:
-            result = self.__config["spiders"]
-
-        return result
+        return self.has_configurations and self.__spider_configuration.has_configurations
     
-    def get_spider_by_index(self, index: int) -> collections.OrderedDict:
-        """Returns the ZAP Spider configuration object with the given index.
-        
-        Parameters
-        ----------
-        index: int
-            The list index of the spider to return from the list of spiders.
-        """
-        result = collections.OrderedDict()
-
-        if self.has_spiders_configurations and len(self.get_spiders()) > index:
-            result = self.get_spiders()[index]
-
-        return result
+    @property
+    def get_scanners(self) -> ZapConfigurationScanner:
+        return self.__scanner_configuration
     
-    def get_spider_by_name(self, name: str) -> collections.OrderedDict:
-        """Returns the ZAP Spider configuration object with the given name.
-        
-        Parameters
-        ----------
-        name: str
-            The name of the spider to return from the list of spiders.
-        """
-        result = collections.OrderedDict()
-
-        if self.has_spiders_configurations:
-            result = next((spider for spider in self.get_spiders() if spider['name'] == name), None)
-
-        return result
-    
-    def get_spider_by_context_name(self, name: str) -> collections.OrderedDict:
-        """Returns the ZAP Spider configuration object with the given context name referenced.
-        
-        Parameters
-        ----------
-        name: str
-            The name of the context referenced in the spider config to return to return from the list of spiders.
-        """
-        result = collections.OrderedDict()
-
-        if self.has_spiders_configurations:
-            result = next((spider for spider in self.get_spiders() if spider['context'] == name), None)
-
-        return result
-
-
-    def has_api_configurations(self) -> bool:
-        """Returns true if any ZAP OpenAPI configuration is defined, otherwise false."""
-
-        return (self.has_configurations() and "apis" in self.get_configurations())
-
-    def get_api_configurations(self) -> list:
-        """Returns a list with all ZAP OpenAPI configuration objects"""
-        result = collections.OrderedDict()
-
-        if self.has_api_configurations:
-            result = self.__config["apis"]
-
-        return result
-    
-    def get_api_configurations_by_index(self, index: int) -> collections.OrderedDict:
-        """Returns the ZAP OpenApi configuration object with the given index.
-        
-        Parameters
-        ----------
-        index: int
-            The list index of the OpenApi config to return from the list of apis.
-        """
-        result = collections.OrderedDict()
-
-        if self.has_api_configurations and len(self.get_api_configurations()) > index:
-            result = self.get_api_configurations()[index]
-
-        return result
-    
-    def get_api_configurations_by_name(self, name: str) -> collections.OrderedDict:
-        """Returns the ZAP OpenApi configuration object with the given name.
-        
-        Parameters
-        ----------
-        name: str
-            The name of the OpenApi to return from the list of apis.
-        """
-        result = collections.OrderedDict()
-
-        if self.has_api_configurations:
-            result = next((api for api in self.get_api_configurations() if api['name'] == name), None)
-
-        return result
-    
-    def get_api_configurations_by_context_name(self, name: str) -> collections.OrderedDict:
-        """Returns the ZAP OpenApi configuration object with the given context name referenced.
-        
-        Parameters
-        ----------
-        name: str
-            The name of the context referenced in the OpenApi config to return to return from the list of apis.
-        """
-        result = collections.OrderedDict()
-
-        if self.has_api_configurations:
-            result = next((api for api in self.get_api_configurations() if api['context'] == name), None)
-
-        return result
+    @property
+    def has_scanners_configurations(self) -> bool:
+        return self.has_configurations and self.__scanner_configuration.has_configurations
 
     def __str__(self):
-        return " ZapConfiguration( " + str(self.get_configurations()) + " )"
+        return " ZapConfiguration( " + str(self.get_configurations) + " )"

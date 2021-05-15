@@ -16,7 +16,7 @@ logging.basicConfig(
     format='%(asctime)s %(name)-12s %(levelname)-8s: %(message)s',
     datefmt='%Y-%m-%d %H:%M')
 
-logging = logging.getLogger('ZapConfigureGlobal')
+logging = logging.getLogger('ZapConfigureSettings')
 
 class ZapConfigureSettings(ZapClient):
     """This class configures a running ZAP instance, based on a ZAP Global Configuration
@@ -41,7 +41,7 @@ class ZapConfigureSettings(ZapClient):
         self.__global_config = None
 
         if self.get_config.has_global_configurations():
-            self.__global_config = self.get_config.get_global()
+            self.__global_config = self.get_config.get_global
             logging.debug("Found the following ZAP Global config: %s", self.get_global_config)
         else:
             logging.debug("No ZAP settings defined!")
@@ -71,11 +71,8 @@ class ZapConfigureSettings(ZapClient):
 
         # Start the ZAP session
         logging.info('Creating a new ZAP session with the name: %s', session_name)
-        self.check_zap_result(
-            result=self.get_zap.core.new_session(name=session_name, overwrite=True),
-            method_name="new_session()"
-        )
-
+        self.get_zap.core.new_session(name=session_name, overwrite=True),
+        
         # Wait for ZAP to update the internal caches 
         time.sleep(5)
 

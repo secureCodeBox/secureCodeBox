@@ -75,7 +75,7 @@ class ZapConfigureSpiderAjax(ZapConfigureSpider):
             if("context" in spider_config):
             
                 context_name = str(spider_config['context'])
-                spider_context_config = self.get_config.get_context_by_name(context_name)
+                spider_context_config = self.get_config.get_contexts.get_configuration_by_context_name(context_name)
                 context_id = int(spider_context_config['id'])
 
                 # "User" is an optional config for spider in addition to the context
@@ -83,7 +83,7 @@ class ZapConfigureSpiderAjax(ZapConfigureSpider):
 
                     user_name = str(spider_config['user'])
                     # search for the current ZAP Context id for the given context name
-                    user_name = self.get_config.get_context_user_by_name(spider_context_config, user_name)['username']
+                    user_name = self.get_config.get_contexts.get_context_user_by_name(spider_context_config, user_name)['username']
             else:
                 logging.warning("No context 'context: XYZ' referenced within the spider config. This is ok but maybe not intended.")
 

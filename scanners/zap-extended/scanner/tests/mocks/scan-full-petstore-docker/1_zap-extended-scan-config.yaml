@@ -7,10 +7,18 @@ global:
   sessionName: SCB
   # Determine if a proxy script must be loaded. Proxy scripts are executed for every request traversing ZAP
   scripts:
-    - name: "Alert on HTTP Response Code Errors.js"
+    - name: "Alert_on_HTTP_Response_Code_Errors.js"
       enabled: true
-    - name: "Alert on Unexpected Content Types.js"
+      filePath: "/home/zap/.ZAP_D/scripts/scripts/httpsender/Alert_on_HTTP_Response_Code_Errors.js"
+      engine: "Oracle Nashorn"
+      type: "httpsender"
+      description: "A HTTP Sender Script which will raise alerts based on HTTP Response codes."
+    - name: "Alert_on_Unexpected_Content_Types.js"
       enabled: true
+      filePath: "/home/zap/.ZAP_D/scripts/scripts/httpsender/Alert_on_Unexpected_Content_Types.js"
+      engine: "Oracle Nashorn"
+      type: "httpsender"
+      description: "A HTTP Sender Script which will raise alerts based on unexpected Content-Types."
 
 # List of 1 or more contexts, mandatory
 contexts:

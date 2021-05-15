@@ -9,7 +9,7 @@ from unittest import TestCase
 
 from zapv2 import ZAPv2
 
-from zapclient.zap_configuration import ZapConfiguration
+from zapclient.configuration import ZapConfiguration
 from zapclient.context.zap_context import ZapConfigureContext
 
 class ZapScannerTests(TestCase):

@@ -43,8 +43,8 @@ class ZapConfigureApi(ZapClient):
         self.__api_config = None
 
         # if at least one ZAP Context is defined start to configure the running ZAP instance (`zap`) accordingly
-        if self.get_config.has_api_configurations():
-            logging.debug('Configure #%s APIs(s) with: %s', len(self.get_config.get_api_configurations()), self.get_config.get_api_configurations())
+        if self.get_config.has_configurations and self.get_config.get_apis.has_configurations:
+            logging.debug('Configure #%s APIs(s) with: %s', len(self.get_config.get_apis.get_configurations), self.get_config.get_apis.get_configurations)
         else:
             logging.warning("No valid ZAP configuration object found: %s! It seems there is something important missing.", config)
 
@@ -62,14 +62,19 @@ class ZapConfigureApi(ZapClient):
             The target to Api.
         """
 
-        if self.get_config.has_api_configurations:
-            api_context=self.get_config.get_context_by_url(url)
-            self.__api_config = self.get_config.get_api_configurations_by_context_name(str(api_context["name"]))
+        if self.get_config.get_apis.has_configurations:
+            # Search for the corresponding context object related to the given url
+            api_context=self.get_config.get_contexts.get_configuration_by_url(url)
+            # Search for a API configuration referencing the context identified by url
+            if api_context is not None and "name" in api_context:
+                self.__api_config = self.get_config.get_apis.get_configuration_by_context_name(str(api_context["name"]))
 
-            logging.info("Trying to start API Import with target url: '%s'", url)
-            self.__load_api(url=url, api_config=self.__api_config)
+                logging.info("Trying to start API Import with target url: '%s'", url)
+                self.__load_api(url=url, api_config=self.__api_config)
+            else:
+                logging.warning("No context configuration found for target: %s!", url)
         else:
-            logging.error("There is no API specific configuration section defined in your configuration YAML.")
+            logging.error("There is no API configuration section defined in your configuration YAML.")
 
     def start_api_by_index(self, index: int):
         """ Starts a ZAP Api scan with the given index for the Apis configuration, based on the given configuration and ZAP instance.
@@ -79,7 +84,7 @@ class ZapConfigureApi(ZapClient):
         index: int
             The index of the Api object in the list of Api configuration.
         """
-        if self.get_config.has_api_configurations:
+        if self.get_config.get_apis.has_configurations:
             logging.debug('Trying to start API Import by configuration index: %s', str(index))
             self.__load_api(api_config=self.get_config.get_api_by_index(index))
 
@@ -92,9 +97,9 @@ class ZapConfigureApi(ZapClient):
             The name of the Api object in the list of Api configuration.
         """
 
-        if self.get_config.has_api_configurations:
+        if self.get_config.get_apis.has_configurations:
             logging.debug('Trying to start API Import by name: %s', str(name))
-            self.__load_api(api_config=self.get_config.get_api_by_name(name))
+            self.__load_api(api_config=self.get_config.get_apis.get_configuration_by_name(name))
 
     def __load_api(self, url: str, api_config: collections.OrderedDict):
         

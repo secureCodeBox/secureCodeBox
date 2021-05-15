@@ -115,7 +115,7 @@ def test_bodgeit_scan_without_config(get_bodgeit_url, get_zap_instance: ZAPv2):
     zap_automation = ZapAutomation(zap=zap, config_dir="")
     zap_automation.scan_target(target=test_target)
     
-    alerts = zap_automation.get_zap_scan().get_alerts(test_target, [], [])
+    alerts = zap_automation.get_zap_scan.get_alerts(test_target, [], [])
 
     logging.info('Found ZAP Alerts: %s', str(len(alerts)))
 
@@ -133,7 +133,7 @@ def test_bodgeit_scan_with_config(get_bodgeit_url, get_zap_instance: ZAPv2):
     zap_automation = ZapAutomation(zap=zap, config_dir=test_config_yaml)
     zap_automation.scan_target(target=test_target)
     
-    alerts = zap_automation.get_zap_scan().get_alerts(test_target, [], [])
+    alerts = zap_automation.get_zap_scan.get_alerts(test_target, [], [])
 
     logging.info('Found ZAP Alerts: %s', str(len(alerts)))
 
@@ -148,7 +148,7 @@ def test_juiceshop_scan_without_config(get_juiceshop_url, get_zap_instance: ZAPv
     zap_automation = ZapAutomation(zap=zap, config_dir="")
     zap_automation.scan_target(target=test_target)
     
-    alerts = zap_automation.get_zap_scan().get_alerts(test_target, [], [])
+    alerts = zap_automation.get_zap_scan.get_alerts(test_target, [], [])
 
     logging.info('Found ZAP Alerts: %s', str(len(alerts)))
 
@@ -164,7 +164,7 @@ def test_juiceshop_scan_with_config(get_juiceshop_url, get_zap_instance: ZAPv2):
     zap_automation = ZapAutomation(zap=zap, config_dir=test_config_yaml)
     zap_automation.scan_target(target=test_target)
     
-    alerts = zap_automation.get_zap_scan().get_alerts(test_target, [], [])
+    alerts = zap_automation.get_zap_scan.get_alerts(test_target, [], [])
 
     logging.info('Found ZAP Alerts: %s', str(len(alerts)))
 
@@ -180,7 +180,7 @@ def test_petstore_scan_with_config(get_petstore_url, get_zap_instance: ZAPv2):
     zap_automation = ZapAutomation(zap=zap, config_dir=test_config_yaml)
     zap_automation.scan_target(target=test_target)
     
-    alerts = zap_automation.get_zap_scan().get_alerts(test_target, [], [])
+    alerts = zap_automation.get_zap_scan.get_alerts(test_target, [], [])
 
     logging.info('Found ZAP Alerts: %s', str(len(alerts)))
 

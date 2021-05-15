@@ -49,21 +49,22 @@ class ZapConfigureActiveScanner(ZapConfigureScanner):
         """
         scannerId = -1
 
-        if self.get_config.has_scans_configurations:
+        if self.get_config.get_scanners.has_configurations:
             logging.debug("Trying to start ActiveScan by configuration target url: '%s'", str(url))
-
-            context=self.get_config.get_context_by_url(url)
-
+            # Search for the corresponding context object related to the given url
+            context_config=self.get_config.get_contexts.get_configuration_by_url(url)
+            # Search for a API configuration referencing the context identified by url
+            
             scanner_config=None
-            if not context == None and "name" in context:
-                scanner_config=self.get_config.get_scan_by_context_name(str(context["name"]))
+            if not context_config == None and "name" in context_config:
+                scanner_config=self.get_config.get_scanners.get_configuration_by_context_name(str(context_config["name"]))
             else:
                 logging.warning("No context configuration found for target: %s! Starting active scanning without any related context.", url)
 
             scannerId = self._start_scanner(url=url, scanner_config=scanner_config)
         else:
-            logging.error("There is no scanner specific configuration found.")
-            scannerId = self._start_scanner(url=url)
+            logging.warning("There is no scanner configuration section defined in your configuration YAML to start by url: %s.", url)
+            scannerId = self._start_scanner(url=url, scanner_config=None)
 
         return int(scannerId)
 
@@ -77,10 +78,13 @@ class ZapConfigureActiveScanner(ZapConfigureScanner):
         """
         scannerId = -1
 
-        if self.get_config.has_scans_configurations:
+        if self.get_config.get_scanners.has_configurations:
             logging.debug('Trying to start ActiveScan by configuration index %s', str(index))
-            scannerId = self._start_scanner(self.get_config.get_scan_by_index(index))
-        
+            scannerId = self._start_scanner(url=None, scanner_config=self.get_config.get_scanners.get_configuration_by_index(index))
+        else:
+            logging.warning("There is no scanner configuration section defined in your configuration YAML to start by index: %s.", index)
+            scannerId = self._start_scanner(url=None, scanner_config=None)
+
         return int(scannerId)
 
     def start_scan_by_name(self, name: str) -> int:
@@ -93,10 +97,13 @@ class ZapConfigureActiveScanner(ZapConfigureScanner):
         """
         scannerId = -1
 
-        if self.get_config.has_scans_configurations:
+        if self.get_config.get_scanners.has_configurations:
             logging.debug('Trying to start ActiveScan by configuration name %s', str(name))
-            scannerId = self._start_scanner(self.get_config.get_scans_by_name(name))
-        
+            scannerId = self._start_scanner(url=None, scanner_config=self.get_config.get_scanners.get_configuration_by_name(name))
+        else:
+            logging.warning("There is no scanner configuration section defined in your configuration YAML to start by name: %s.", name)
+            scannerId = self._start_scanner(url=None, scanner_config=None)
+
         return int(scannerId)
 
     def wait_until_finished(self, scanner_id: int):
@@ -151,7 +158,7 @@ class ZapConfigureActiveScanner(ZapConfigureScanner):
             if("context" in scanner_config):
             
                 context_name = str(scanner_config['context'])
-                scanner_context_config = self.get_config.get_context_by_name(context_name)
+                scanner_context_config = self.get_config.get_contexts.get_configuration_by_context_name(context_name)
                 context_id = int(scanner_context_config['id'])
 
                 # "User" is an optional config for Scanner in addition to the context
@@ -159,7 +166,7 @@ class ZapConfigureActiveScanner(ZapConfigureScanner):
 
                     user_name = str(scanner_config['user'])
                     # search for the current ZAP Context id for the given context name
-                    user_id = int(self.get_config.get_context_user_by_name(scanner_context_config, user_name)['id'])
+                    user_id = int(self.get_config.get_contexts.get_context_user_by_name(scanner_context_config, user_name)['id'])
         
             # Configure HTTP ActiveScan
             logging.debug("Trying to configure ActiveScan with %s", scanner_config)
