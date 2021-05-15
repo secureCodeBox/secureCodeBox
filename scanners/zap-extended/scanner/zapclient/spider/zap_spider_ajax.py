@@ -123,35 +123,35 @@ class ZapConfigureSpiderAjax(ZapConfigureSpider):
             
         # Configure Spider (ajax or http)
         
-        if "maxDuration" in spider_config and (spider_config['maxDuration'] is not None) and spider_config['maxDuration'] >= 0:
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_max_duration(str(spider_config['maxDuration'])), 
-                method="set_option_max_duration"
+        if self._is_not_empty_integer("maxDuration", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_max_duration(integer=str(spider_config['maxDuration'])), 
+                method_name="set_option_max_duration"
             )
-        if "maxDepth" in spider_config and (spider_config['maxDepth'] is not None) and spider_config['maxDepth'] >= 0:
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_max_crawl_depth(str(spider_config['maxDepth'])), 
-                method="set_option_max_crawl_depth"
+        if self._is_not_empty_integer("maxDepth", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_max_crawl_depth(integer=str(spider_config['maxDepth'])), 
+                method_name="set_option_max_crawl_depth"
             )
-        if "maxStates" in spider_config and (spider_config['maxStates'] is not None) and spider_config['maxStates'] >= 0:
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_max_crawl_states(str(spider_config['maxStates'])), 
-                method="set_option_max_crawl_states"
+        if self._is_not_empty_integer("maxStates", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_max_crawl_states(integer=str(spider_config['maxStates'])), 
+                method_name="set_option_max_crawl_states"
             )
-        if "browserId" in spider_config and (spider_config['browserId'] is not None):
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_browser_id(str(spider_config['browserId'])), 
-                method="set_option_browser_id"
+        if self._is_not_empty_string("browserId", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_browser_id(string=str(spider_config['browserId'])), 
+                method_name="set_option_browser_id"
             )
-        if "browserCount" in spider_config and (spider_config['browserCount'] is not None) and spider_config['browserCount'] >= 0:
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_number_of_browsers(str(spider_config['browserCount'])), 
-                method="set_option_number_of_browsers"
+        if self._is_not_empty_integer("browserCount", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_number_of_browsers(integer=str(spider_config['browserCount'])), 
+                method_name="set_option_number_of_browsers"
             )
-        if "randomInputs" in spider_config and (spider_config['randomInputs'] is not None):
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_random_inputs(str(spider_config['randomInputs'])), 
-                method="set_option_random_inputs"
+        if self._is_not_empty_integer("randomInputs", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_random_inputs(boolean=str(spider_config['randomInputs'])), 
+                method_name="set_option_random_inputs"
             )
 
     def wait_until_spider_finished(self):

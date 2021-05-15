@@ -144,19 +144,3 @@ class ZapConfigureSpider(ZapClient):
     def wait_until_spider_finished(self):
         """ Wait until the running ZAP Spider finished and log results."""
         raise NotImplementedError
-    
-    def _check_zap_spider_result(self, result: str, method: str):
-        """ Checks the given spider result for ZAP Errors and logs warning messages if there are errors returned by ZAP.
-        
-        Parameters
-        ----------
-        result: str
-            The result of an ZAP Call.
-        method: str
-            The name of the method used (to call ZAP).
-        """
-        
-        if "OK" != result:
-            logging.warning("Failed to configure Spider ['%s'], result is: '%s'", method, result)
-        else:
-            logging.debug("Successfull configured Spider ['%s'], result is: '%s'", method, result)

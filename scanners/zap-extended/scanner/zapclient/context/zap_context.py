@@ -74,23 +74,23 @@ class ZapConfigureContext(ZapClient):
         context_id = self.get_zap.context.new_context(context_name)
         context["id"] = context_id
 
-        if("includePaths" in context):
+        if self._is_not_empty("includePaths", context):
             self._configure_context_include(context)
         
-        if("excludePaths" in context):
+        if self._is_not_empty("excludePaths", context):
             self._configure_context_exclude(context)
         
-        if("authentication" in context and "type" in context["authentication"] and context["authentication"]["type"] is not None):
+        if self._is_not_empty("authentication", context) and self._is_not_empty_string("type", context["authentication"]):
             configure_authenication = ZapConfigureContextAuthentication(zap=self.get_zap, config=self.get_config)
             configure_authenication.configure_context_authentication(context, context_id)
         
-        if("users" in context and "type" in context["authentication"] and context["authentication"]["type"]):
+        if self._is_not_empty("users", context) and self._is_not_empty_string("type", context["authentication"]):
             self._configure_context_create_users(users=context["users"], auth_type=context["authentication"]["type"], context_id=context_id)
         
-        if("session" in context and "type" in context["session"] and context["session"]["type"] is not None):
+        if self._is_not_empty("session", context) and self._is_not_empty_string("type", context["session"]):
             self._configure_context_session_management(sessions_config=context["session"], context_id=context_id)
         
-        if("technologies" in context):
+        if self._is_not_empty("technologies", context):
             # TODO: Open a new ZAP GH Issue: Why (or) is this difference (context_id vs. context_name) here really necessary?
             self._configure_context_technologies(context["technologies"], context_name)
 

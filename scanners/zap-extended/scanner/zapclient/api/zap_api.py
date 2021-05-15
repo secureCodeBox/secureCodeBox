@@ -66,7 +66,7 @@ class ZapConfigureApi(ZapClient):
             # Search for the corresponding context object related to the given url
             api_context=self.get_config.get_contexts.get_configuration_by_url(url)
             # Search for a API configuration referencing the context identified by url
-            if api_context is not None and "name" in api_context:
+            if self._is_not_empty_string("name", api_context):
                 self.__api_config = self.get_config.get_apis.get_configuration_by_context_name(str(api_context["name"]))
 
                 logging.info("Trying to start API Import with target url: '%s'", url)

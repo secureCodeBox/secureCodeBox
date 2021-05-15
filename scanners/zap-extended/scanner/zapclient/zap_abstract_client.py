@@ -57,9 +57,10 @@ class ZapClient(ABC):
             The exception message that mus be thrown with an Exception, if the given result is not "OK".
         """
 
-        result = False
+        __result = False
         
         if "OK" != result:
+            __result = False
             if(exception_message is not None):
                 logging.error(exception_message)
                 raise Exception(exception_message)
@@ -67,9 +68,9 @@ class ZapClient(ABC):
                 logging.warning("Failed to call ZAP Method ['%s'], result is: '%s'", method_name, result)
         else:
             logging.debug("Successfull called ZAP Method ['%s'], result is: '%s'", method_name, result)
-            result = True
-        
-        return result
+            __result = True
+
+        return __result
     
     def _configure_load_script(self, script_config: collections.OrderedDict, script_type: str):
         """Protected method to load a new ZAP Script based on a given ZAP config.
@@ -114,3 +115,31 @@ class ZapClient(ABC):
         
         for scripts in self.get_zap.script.list_scripts:
             logging.debug(scripts)
+    
+    def _is_not_empty(self, item_name: str, config: collections.OrderedDict) -> bool:
+        """Return True if the item with the name 'item_name' is exisiting and not None, otherwise false."""
+        result = False
+        if item_name in config and (config[item_name] is not None):
+            result = True
+        return result
+
+    def _is_not_empty_integer(self, item_name: str, config: collections.OrderedDict) -> bool:
+        """Return True if the item with the name 'item_name' is exisiting and a valid integer >= 0, otherwise false."""
+        result = False
+        if self._is_not_empty(item_name, config) and isinstance(config[item_name], int) and config[item_name] >= 0:
+            result = True
+        return result
+    
+    def _is_not_empty_string(self, item_name: str, config: collections.OrderedDict) -> bool:
+        """Return True if the item with the name 'item_name' is exisiting and a valid string with len() >= 0, otherwise false."""
+        result = False
+        if self._is_not_empty(item_name, config) and isinstance(config[item_name], str) and len(config[item_name]) > 0:
+            result = True
+        return result
+    
+    def _is_not_empty_bool(self, item_name: str, config: collections.OrderedDict) -> bool:
+        """Return True if the item with the name 'item_name' is exisiting and a valid bool, otherwise false."""
+        result = False
+        if self._is_not_empty(item_name, config) and isinstance(config[item_name], bool):
+            result = True
+        return result

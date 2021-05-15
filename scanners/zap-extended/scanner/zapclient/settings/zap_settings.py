@@ -66,7 +66,7 @@ class ZapConfigureSettings(ZapClient):
 
         session_name = "secureCodeBox"
 
-        if self.get_config.has_global_configurations() and "sessionName" in self.get_global_config and len(self.get_global_config["sessionName"]) > 0:
+        if self._is_not_empty_string("sessionName", self.get_global_config):
             session_name = self.get_global_config["sessionName"]
 
         # Start the ZAP session
@@ -81,21 +81,19 @@ class ZapConfigureSettings(ZapClient):
 
         logging.debug('Trying to configure the ZAP Global Settings')
             
-        # Configure ActiveScan (ajax or http)
-        
-        if "timeoutInSeconds" in self.get_global_config and (self.get_global_config['timeoutInSeconds'] is not None) and self.get_global_config['timeoutInSeconds'] >= 0:
+        if self._is_not_empty_integer("timeoutInSeconds", self.get_global_config):
             self.check_zap_result(
-                result=self.get_zap.core.set_option_timeout_in_secs(str(self.get_global_config['timeoutInSeconds'])), 
+                result=self.get_zap.core.set_option_timeout_in_secs(integer=str(self.get_global_config['timeoutInSeconds'])), 
                 method_name="set_option_timeout_in_secs"
             )
-        if "defaultUserAgent" in self.get_global_config and (self.get_global_config['defaultUserAgent'] is not None) and len(self.get_global_config['defaultUserAgent']) > 0:
+        if self._is_not_empty_string("defaultUserAgent", self.get_global_config):
             self.check_zap_result(
-                result=self.get_zap.core.set_option_default_user_agent(str(self.get_global_config['defaultUserAgent'])), 
+                result=self.get_zap.core.set_option_default_user_agent(string=str(self.get_global_config['defaultUserAgent'])), 
                 method_name="set_option_default_user_agent"
             )
-        if "mode" in self.get_global_config and (self.get_global_config['mode'] is not None) and len(self.get_global_config['mode']) > 0:
+        if self._is_not_empty_string("mode", self.get_global_config):
             self.check_zap_result(
-                result=self.get_zap.core.set_mode(str(self.get_global_config['mode'])), 
+                result=self.get_zap.core.set_mode(mode=str(self.get_global_config['mode'])), 
                 method_name="set_mode"
             )
 
@@ -135,12 +133,12 @@ class ZapConfigureSettings(ZapClient):
     def __configure_proxy_settings(self, proxy_config: collections.OrderedDict):
         """Private method to configure all proxy specific setings, based on the configuration settings."""
         
-        if "address" in proxy_config and (proxy_config['address'] is not None) and len(proxy_config['address']) > 0:
+        if self._is_not_empty_string("address", proxy_config):
             self.check_zap_result(
                 result=self.get_zap.core.set_option_proxy_chain_name(string=str(proxy_config['address'])), 
                 method_name="set_option_proxy_chain_name"
             )
-        if "port" in proxy_config and (proxy_config['port'] is not None) and proxy_config['port'] > 0:
+        if self._is_not_empty_integer("port", proxy_config):
             self.check_zap_result(
                 result=self.get_zap.core.set_option_proxy_chain_port(integer=str(proxy_config['port'])), 
                 method_name="set_option_proxy_chain_port"
@@ -179,17 +177,17 @@ class ZapConfigureSettings(ZapClient):
     def __configure_proxy_authentication_settings(self, proxy_authentication_config: collections.OrderedDict):
         """Private method to configure the proxy authenication specific settings, based on the configuration settings."""
         
-        if "username" in proxy_authentication_config and (proxy_authentication_config['username'] is not None) and len(proxy_authentication_config['username']) > 0:
+        if self._is_not_empty_string("username", proxy_authentication_config):
             self.check_zap_result(
                 result=self.get_zap.core.set_option_proxy_chain_user_name(string=str(proxy_authentication_config['username'])), 
                 method_name="set_option_proxy_chain_user_name"
             )
-        if "password" in proxy_authentication_config and (proxy_authentication_config['password'] is not None) and len(proxy_authentication_config['password']) > 0:
+        if self._is_not_empty_string("password", proxy_authentication_config):
             self.check_zap_result(
                 result=self.get_zap.core.set_option_proxy_chain_password(string=str(proxy_authentication_config['password'])), 
                 method_name="set_option_proxy_chain_password"
             )
-        if "realm" in proxy_authentication_config and (proxy_authentication_config['realm'] is not None) and len(proxy_authentication_config['realm']) > 0:
+        if self._is_not_empty_string("realm", proxy_authentication_config):
             self.check_zap_result(
                 result=self.get_zap.core.set_option_proxy_chain_realm(string=str(proxy_authentication_config['realm'])), 
                 method_name="set_option_proxy_chain_realm"

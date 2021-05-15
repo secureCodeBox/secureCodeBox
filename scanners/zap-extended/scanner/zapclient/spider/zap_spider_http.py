@@ -157,95 +157,95 @@ class ZapConfigureSpiderHttp(ZapConfigureSpider):
             
         # Configure Spider (ajax or http)
         
-        if "maxDuration" in spider_config and (spider_config['maxDuration'] is not None) and spider_config['maxDuration'] >= 0:
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_max_duration(str(spider_config['maxDuration'])), 
-                method="set_option_max_duration"
+        if self._is_not_empty_integer("maxDuration", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_max_duration(integer=str(spider_config['maxDuration'])), 
+                method_name="set_option_max_duration"
             )
-        if "maxDepth" in spider_config and (spider_config['maxDepth'] is not None) and spider_config['maxDepth'] >= 0:
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_max_depth(str(spider_config['maxDepth'])), 
-                method="set_option_max_depth"
+        if self._is_not_empty_integer("maxDepth", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_max_depth(integer=str(spider_config['maxDepth'])), 
+                method_name="set_option_max_depth"
             )
-        if "maxChildren" in spider_config and (spider_config['maxChildren'] is not None) and spider_config['maxChildren'] >= 0:
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_max_children(str(spider_config['maxChildren'])), 
-                method="set_option_max_children"
+        if self._is_not_empty_integer("maxChildren", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_max_children(integer=str(spider_config['maxChildren'])), 
+                method_name="set_option_max_children"
             )
-        if "maxParseSizeBytes" in spider_config and (spider_config['maxParseSizeBytes'] is not None) and spider_config['maxParseSizeBytes'] >= 0:
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_max_parse_size_bytes(str(spider_config['maxParseSizeBytes'])), 
-                method="set_option_max_parse_size_bytes"
+        if self._is_not_empty_integer("maxParseSizeBytes", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_max_parse_size_bytes(integer=str(spider_config['maxParseSizeBytes'])), 
+                method_name="set_option_max_parse_size_bytes"
             )
-        if "acceptCookies" in spider_config and (spider_config['acceptCookies'] is not None) :
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_accept_cookies(str(spider_config['acceptCookies'])), 
-                method="set_option_accept_cookies"
+        if self._is_not_empty_bool("acceptCookies", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_accept_cookies(boolean=str(spider_config['acceptCookies'])), 
+                method_name="set_option_accept_cookies"
             )
-        if "handleODataParametersVisited" in spider_config and (spider_config['handleODataParametersVisited'] is not None) :
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_handle_o_data_parameters_visited(str(spider_config['handleODataParametersVisited'])), 
-                method="set_option_handle_o_data_parameters_visited"
+        if self._is_not_empty_bool("handleODataParametersVisited", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_handle_o_data_parameters_visited(boolean=str(spider_config['handleODataParametersVisited'])), 
+                method_name="set_option_handle_o_data_parameters_visited"
             )
-        if "handleParameters" in spider_config and (spider_config['handleParameters'] is not None) :
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_handle_parameters(str(spider_config['handleParameters'])), 
-                method="set_option_handle_parameters"
-            )
-        
-        if "parseComments" in spider_config and (spider_config['parseComments'] is not None) :
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_parse_comments(str(spider_config['parseComments'])), 
-                method="set_option_parse_comments"
-            )
-        if "parseGit" in spider_config and (spider_config['parseGit'] is not None) :
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_parse_git(str(spider_config['parseGit'])), 
-                method="set_option_parse_git"
-            )
-        if "parseRobotsTxt" in spider_config and (spider_config['parseRobotsTxt'] is not None) :
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_parse_robots_txt(str(spider_config['parseRobotsTxt'])), 
-                method="set_option_parse_robots_txt"
-            )
-        if "parseSitemapXml" in spider_config and (spider_config['parseSitemapXml'] is not None) :
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_parse_sitemap_xml(str(spider_config['parseSitemapXml'])), 
-                method="set_option_parse_sitemap_xml"
-            )
-        if "parseSVNEntries" in spider_config and (spider_config['parseSVNEntries'] is not None) :
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_parse_svn_entries(str(spider_config['parseSVNEntries'])), 
-                method="set_option_parse_svn_entries"
-            )
-        if "postForm" in spider_config and (spider_config['postForm'] is not None) :
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_post_form(str(spider_config['postForm'])), 
-                method="set_option_post_form"
-            )
-        if "processForm" in spider_config and (spider_config['processForm'] is not None) :
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_process_form(str(spider_config['processForm'])), 
-                method="set_option_process_form"
+        if self._is_not_empty_bool("handleParameters", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_handle_parameters(string=str(spider_config['handleParameters'])), 
+                method_name="set_option_handle_parameters"
             )
         
-        if "requestWaitTime" in spider_config and (spider_config['requestWaitTime'] is not None) :
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_request_wait_time(str(spider_config['requestWaitTime'])), 
-                method="set_option_request_wait_time"
+        if self._is_not_empty_bool("parseComments", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_parse_comments(boolean=str(spider_config['parseComments'])), 
+                method_name="set_option_parse_comments"
             )
-        if "sendRefererHeader" in spider_config and (spider_config['sendRefererHeader'] is not None) :
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_send_referer_header(str(spider_config['sendRefererHeader'])), 
-                method="set_option_send_referer_header"
+        if self._is_not_empty_bool("parseGit", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_parse_git(boolean=str(spider_config['parseGit'])), 
+                method_name="set_option_parse_git"
             )
-        if "threadCount" in spider_config and (spider_config['threadCount'] is not None) and spider_config['threadCount'] >= 0:
-            self._check_zap_spider_result(
-                result=self.get_zap_spider.set_option_thread_count(str(spider_config['threadCount'])), 
-                method="set_option_thread_count"
+        if self._is_not_empty_bool("parseRobotsTxt", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_parse_robots_txt(boolean=str(spider_config['parseRobotsTxt'])), 
+                method_name="set_option_parse_robots_txt"
             )
-        if "userAgent" in spider_config and (spider_config['userAgent'] is not None) and len(spider_config['userAgent']) > 0:
-            self._check_zap_spider_result(
+        if self._is_not_empty_bool("parseSitemapXml", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_parse_sitemap_xml(boolean=str(spider_config['parseSitemapXml'])), 
+                method_name="set_option_parse_sitemap_xml"
+            )
+        if self._is_not_empty_bool("parseSVNEntries", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_parse_svn_entries(boolean=str(spider_config['parseSVNEntries'])), 
+                method_name="set_option_parse_svn_entries"
+            )
+        if self._is_not_empty_bool("postForm", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_post_form(boolean=str(spider_config['postForm'])), 
+                method_name="set_option_post_form"
+            )
+        if self._is_not_empty_bool("processForm", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_process_form(boolean=str(spider_config['processForm'])), 
+                method_name="set_option_process_form"
+            )
+        
+        if self._is_not_empty_integer("requestWaitTime", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_request_wait_time(integer=str(spider_config['requestWaitTime'])), 
+                method_name="set_option_request_wait_time"
+            )
+        if self._is_not_empty_bool("sendRefererHeader", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_send_referer_header(boolean=str(spider_config['sendRefererHeader'])), 
+                method_name="set_option_send_referer_header"
+            )
+        if self._is_not_empty_integer("threadCount", spider_config):
+            self.check_zap_result(
+                result=self.get_zap_spider.set_option_thread_count(integer=str(spider_config['threadCount'])), 
+                method_name="set_option_thread_count"
+            )
+        if self._is_not_empty_string("userAgent", spider_config):
+            self.check_zap_result(
                 result=self.get_zap_spider.set_option_user_agent(string=str(spider_config['userAgent'])), 
-                method="set_option_user_agent"
+                method_name="set_option_user_agent"
             )
