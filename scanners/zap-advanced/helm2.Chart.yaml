@@ -1,16 +1,16 @@
 apiVersion: v1
-name: zap
-description: A Helm chart for the OWASP ZAP security scanner that integrates with the secureCodeBox.
+name: zap-advanced
+description: A Helm chart for the OWASP ZAP (extended with advanced authentication features) security scanner that integrates with the secureCodeBox.
 
 type: application
 # version - gets automatically set to the secureCodeBox release version when the helm charts gets published
 version: v2.7.0-alpha1
-appVersion: v2.10.0
+appVersion: "2.10.0"
 kubeVersion: ">=v1.11.0-0"
 
 keywords:
   - security
-  - Zap
+  - ZAP
   - OWASP
   - scanner
   - secureCodeBox

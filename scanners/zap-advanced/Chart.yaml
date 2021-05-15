@@ -10,7 +10,7 @@ kubeVersion: ">=v1.11.0-0"
 
 keywords:
   - security
-  - Zap
+  - ZAP
   - OWASP
   - scanner
   - secureCodeBox

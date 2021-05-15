@@ -4,7 +4,7 @@ parseJob:
     repository: docker.io/securecodebox/parser-zap
     # -- Parser image tag
     # @default -- defaults to the charts version
-    tag: sha-5626669
+    tag: null
     # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
     pullPolicy: IfNotPresent
 
@@ -19,7 +19,7 @@ scannerJob:
     # -- Container Image to run the scan
     repository: docker.io/securecodebox/scanner-zap-advanced
     # -- defaults to the charts appVersion
-    tag: sha-5626669
+    tag: null
     # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
     pullPolicy: IfNotPresent
 
