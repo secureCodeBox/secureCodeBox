@@ -56,7 +56,7 @@ class ZapConfigureContextAuthentication(ZapClient):
         elif auth_type == "json-based" and "json-based" in authentication:
             self._configure_context_authentication_json_auth(authentication["json-based"], context_id)
 
-        if "verification" in authentication:
+        if self._is_not_empty("verification", authentication):
             self._confige_auth_validation(authentication["verification"], context_id)
         
     def _configure_context_authentication_script(self, script_config: collections.OrderedDict, context_id: int):

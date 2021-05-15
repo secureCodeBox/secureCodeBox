@@ -116,10 +116,10 @@ class ZapConfigureSettings(ZapClient):
     def __configure_proxy(self):
         """Private method to configure the ZAP Global 'Proxy Settings' based on a given ZAP config."""
 
-        if "proxy" in self.get_global_config:
+        if self._is_not_empty("proxy", self.get_global_config):
             proxy_config = self.get_global_config["proxy"]
 
-            if "enabled" in proxy_config and proxy_config["enabled"]:
+            if self._is_not_empty_bool("enabled", proxy_config):
 
                 self.check_zap_result(
                     result=self.get_zap.core.set_option_use_proxy_chain(boolean=str(proxy_config["enabled"]).lower()),
@@ -131,7 +131,7 @@ class ZapConfigureSettings(ZapClient):
             else:
                 logging.debug("Proxy configuration is not enabled (global.proxy.enabled: true)")
         else:
-            logging.debug("No proxy configuration defined (global.proxy: ).")
+            logging.debug("No proxy configuration defined (global.proxy: ...).")
             
     def __configure_proxy_settings(self, proxy_config: collections.OrderedDict):
         """Private method to configure all proxy specific setings, based on the configuration settings."""
@@ -200,10 +200,10 @@ class ZapConfigureSettings(ZapClient):
         """Private method to configure the proxy socks settings, based on the configuration settings."""
         
         # Configure ZAP outgoing proxy server authentication
-        if "socks" in proxy_config and (proxy_config['socks'] is not None):
+        if self._is_not_empty("socks", proxy_config):
             socks_config = proxy_config['socks']
             
-            if "enabled" in socks_config and socks_config["enabled"]:
+            if self._is_not_empty_bool("enabled", socks_config):
                 self.check_zap_result(
                     result=self.get_zap.core.set_option_use_socks_proxy(boolean=str(socks_config["enabled"]).lower()),
                     method_name="set_option_use_socks_proxy"
@@ -234,7 +234,7 @@ class ZapConfigureSettings(ZapClient):
             The current 'script'  configuration object containing the ZAP script configuration (based on the class ZapConfiguration).
         """
         
-        if((script_config is not None) and "name" in script_config):
+        if self._is_not_empty("name", script_config):
 
             # Only try to add new scripts if the definition contains all nessesary config options, otherwise try to only activate/deactivate a given script name
             if("filePath" in script_config and "engine" in script_config and "type" in script_config):
@@ -244,17 +244,16 @@ class ZapConfigureSettings(ZapClient):
 
                 # Add Script again
                 logging.info("Loading new Authentication Script '%s' at '%s' with type: '%s' and engine '%s'", script_config["name"], script_config["filePath"], script_config["type"], script_config["engine"])
-                response = self.get_zap.script.load(
-                    scriptname=script_config["name"],
-                    scripttype=script_config["type"],
-                    scriptengine=script_config["engine"],
-                    filename=script_config["filePath"],
-                    scriptdescription=script_config["description"]
+                self.check_zap_result(
+                    result=self.get_zap.script.load(
+                            scriptname=script_config["name"],
+                            scripttype=script_config["type"],
+                            scriptengine=script_config["engine"],
+                            filename=script_config["filePath"],
+                            scriptdescription=script_config["description"]),
+                    method_name="script.load",
+                    exception_message="The script couldn't be loaded due to errors!"
                 )
-                
-                if response != "OK":
-                    logging.warning("Script Response: %s", response)
-                    raise RuntimeError("The script (%s) couldn't be loaded due to errors: %s", script_config, response)
 
             logging.info("Activating Script '%s' with 'enabled: %s'", script_config["name"], str(script_config["enabled"]).lower())
             if(script_config["enabled"]):

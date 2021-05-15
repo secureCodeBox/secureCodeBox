@@ -142,37 +142,52 @@ class ZapConfigureContext(ZapClient):
 
         # Add all new ZAP Users to given context
         for user in users:
-            logging.debug("Adding ZAP User '%s', to context(%s)", user, context_id)
-            user_name = user['username']
-            user_password = user['password']
+            self._configure_context_create_user(user, auth_type, context_id)
             
-            user_id = self.get_zap.users.new_user(contextid=context_id, name=user_name)
-            logging.debug("Created ZAP User(%s), for context(%s)", user_id, context_id)
-            user['id'] = user_id
-            
-            self.get_zap.users.set_user_name(
-                contextid=context_id, 
-                userid=user_id, 
-                name=user_name)
+    def _configure_context_create_user(self, user: collections.OrderedDict, auth_type: str, context_id: int):
+        """Protected method to adds anew User to the ZAP Context.
+        
+        Parameters
+        ----------
+        user : collections.OrderedDict
+            The user configuration object to add.
+        auth_type: str
+            The configured authentiation type (e.g.: "basic-auth", "form-based", "json-based", "script-based").
+        context_id : int
+            The zap context id tot configure the ZAP authentication for (based on the class ZapConfiguration).
+        """
 
-            # TODO: Open a new issue at ZAP GitHub: Why (or) is this difference (camelCase vs. pascalCase) here really necessary?
-            if auth_type == "script-based":
-                self.get_zap.users.set_authentication_credentials(
-                    contextid=context_id,
-                    userid=user_id,
-                    authcredentialsconfigparams='Username=' + user_name + '&Password=' + user_password)
-                self.get_zap.users.set_user_enabled(contextid=context_id, userid=user_id, enabled=True)
-            else:
-                self.get_zap.users.set_authentication_credentials(
-                    contextid=context_id,
-                    userid=user_id,
-                    authcredentialsconfigparams='username=' + user_name + '&password=' + user_password)
-                self.get_zap.users.set_user_enabled(contextid=context_id, userid=user_id, enabled=True)
+        logging.debug("Adding ZAP User '%s', to context(%s)", user, context_id)
+        user_name = user['username']
+        user_password = user['password']
+        
+        user_id = self.get_zap.users.new_user(contextid=context_id, name=user_name)
+        logging.debug("Created ZAP User(%s), for context(%s)", user_id, context_id)
+        user['id'] = user_id
+        
+        self.get_zap.users.set_user_name(
+            contextid=context_id, 
+            userid=user_id, 
+            name=user_name)
 
-            if ("forced" in user and user["forced"]):
-                logging.debug("Configuring a forced user '%s' with id, for context(%s)'", user_id, context_id)
-                self.get_zap.forcedUser.set_forced_user(contextid=context_id, userid=user_id)
-                self.get_zap.forcedUser.set_forced_user_mode_enabled(True)
+        # TODO: Open a new issue at ZAP GitHub: Why (or) is this difference (camelCase vs. pascalCase) here really necessary?
+        if auth_type == "script-based":
+            self.get_zap.users.set_authentication_credentials(
+                contextid=context_id,
+                userid=user_id,
+                authcredentialsconfigparams='Username=' + user_name + '&Password=' + user_password)
+            self.get_zap.users.set_user_enabled(contextid=context_id, userid=user_id, enabled=True)
+        else:
+            self.get_zap.users.set_authentication_credentials(
+                contextid=context_id,
+                userid=user_id,
+                authcredentialsconfigparams='username=' + user_name + '&password=' + user_password)
+            self.get_zap.users.set_user_enabled(contextid=context_id, userid=user_id, enabled=True)
+
+        if ("forced" in user and user["forced"]):
+            logging.debug("Configuring a forced user '%s' with id, for context(%s)'", user_id, context_id)
+            self.get_zap.forcedUser.set_forced_user(contextid=context_id, userid=user_id)
+            self.get_zap.forcedUser.set_forced_user_mode_enabled(True)
 
     def _configure_context_session_management(self, sessions_config: collections.OrderedDict, context_id: int):
         """Protected method to configure the ZAP 'Context / Session Mannagement' Settings based on a given ZAP config.
@@ -202,22 +217,35 @@ class ZapConfigureContext(ZapClient):
             logging.debug("Configuring scriptBasedSessionManagement()")
             if("scriptBasedSessionManagement" in sessions_config):
                 script_config = sessions_config["scriptBasedSessionManagement"]
-                logging.debug("Script Config: %s", str(script_config))
-                if(not script_config == None and "scriptName" in script_config and "scriptFilePath" in script_config and "scriptEngine" in script_config):
-                    self._configure_load_script(script_config=script_config, script_type="session")
-                    # Here they say that only "cookieBasedSessionManagement"; "httpAuthSessionManagement"
-                    # is possible, but maybe this is outdated and it works anyway, hopefully:
-                    # https://github.com/zaproxy/zap-api-python/blob/9bab9bf1862df389a32aab15ea4a910551ba5bfc/src/examples/zap_example_api_script.py#L97
-                    session_params = ('scriptName=' + script_config["scriptName"])
-                    self.get_zap.sessionManagement.set_session_management_method(
-                        contextid=context_id,
-                        methodname='scriptBasedSessionManagement',
-                        methodconfigparams=session_params)
-                else:
-                    logging.warning("Important script authentication configs (scriptName, scriptFilePath, scriptEngine) are missing! Ignoring the authenication script configuration. Please check your YAML configuration.")
+                self._configure_context_session_management_scriptbased(script_config=script_config, context_id=context_id)
             else:
                     logging.warning("The 'scriptBasedSessionManagement' configuration section is missing but you have activated it (type: scriptBasedSessionManagement)! Ignoring the script configuration for session management. Please check your YAML configuration.")
 
+    def _configure_context_session_management_scriptbased(self, script_config: collections.OrderedDict, context_id: int):
+        """Protected method to configure the ZAP 'Context / Session Mannagement' Settings based on script.
+        
+        Parameters
+        ----------
+        script_config : collections.OrderedDict
+            The script_config configuration object containing the ZAP Script specific configuration (based on the class ZapConfiguration).
+        context_id : int
+            The zap context id tot configure the ZAP authentication for (based on the class ZapConfiguration).
+        """
+
+        logging.debug("Script Config: %s", str(script_config))
+        if(not script_config == None and "scriptName" in script_config and "scriptFilePath" in script_config and "scriptEngine" in script_config):
+            self._configure_load_script(script_config=script_config, script_type="session")
+            # Here they say that only "cookieBasedSessionManagement"; "httpAuthSessionManagement"
+            # is possible, but maybe this is outdated and it works anyway, hopefully:
+            # https://github.com/zaproxy/zap-api-python/blob/9bab9bf1862df389a32aab15ea4a910551ba5bfc/src/examples/zap_example_api_script.py#L97
+            session_params = ('scriptName=' + script_config["scriptName"])
+            self.get_zap.sessionManagement.set_session_management_method(
+                contextid=context_id,
+                methodname='scriptBasedSessionManagement',
+                methodconfigparams=session_params)
+        else:
+            logging.warning("Important script authentication configs (scriptName, scriptFilePath, scriptEngine) are missing! Ignoring the authenication script configuration. Please check your YAML configuration.")
+    
     def _configure_context_technologies(self, technology: collections.OrderedDict, context_name: str):
         """Protected method to configure the ZAP 'Context / Technology' Settings based on a given ZAP config.
         

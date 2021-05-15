@@ -119,7 +119,7 @@ class ZapClient(ABC):
     def _is_not_empty(self, item_name: str, config: collections.OrderedDict) -> bool:
         """Return True if the item with the name 'item_name' is exisiting and not None, otherwise false."""
         result = False
-        if item_name in config and (config[item_name] is not None):
+        if config is not None and item_name in config and (config[item_name] is not None):
             result = True
         return result
 

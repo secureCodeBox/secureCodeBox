@@ -85,14 +85,14 @@ class ZapConfigureSpiderHttp(ZapConfigureSpider):
             self.configure_spider(spider_config)
 
             # "Context" is an optional config for spider
-            if("context" in spider_config):
+            if self._is_not_empty("context", spider_config):
             
                 context_name = str(spider_config['context'])
                 spider_context_config = self.get_config.get_contexts.get_configuration_by_context_name(context_name)
                 context_id = int(spider_context_config['id'])
 
                 # "User" is an optional config for spider in addition to the context
-                if("user" in spider_config):
+                if self._is_not_empty("user", spider_config):
 
                     user_name = str(spider_config['user'])
                     # search for the current ZAP Context id for the given context name

@@ -86,21 +86,21 @@ class ZapConfigureActiveScanner(ZapConfigureScanner):
         context_id = None
         target = None
 
-        if("url" in scanner_config):
+        if self._is_not_empty("url", scanner_config):
             target = str(scanner_config['url'])
         else:
             logging.warning("The active scanner configuration section has no specific 'url' target defined, trying to use scanType target instead with url: '%s'", url)
             target=url
 
         # "Context" is an optional config for Scanner
-        if("context" in scanner_config):
+        if self._is_not_empty("context", scanner_config):
         
             context_name = str(scanner_config['context'])
             scanner_context_config = self.get_config.get_contexts.get_configuration_by_context_name(context_name)
             context_id = int(scanner_context_config['id'])
 
             # "User" is an optional config for Scanner in addition to the context
-            if("user" in scanner_config):
+            if self._is_not_empty("user", scanner_config):
 
                 user_name = str(scanner_config['user'])
                 # search for the current ZAP Context id for the given context name
