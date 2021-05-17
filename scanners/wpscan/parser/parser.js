@@ -8,8 +8,6 @@ async function parse(scanResults) {
   const targetUrl = scanResults.target_url;
   const targetIp = scanResults.target_ip;
 
-  const wp = scanResults.version;
-
   const findings = [];
 
   // add a general INFORMATIONAL summary finding
@@ -21,20 +19,20 @@ async function parse(scanResults) {
     osi_layer: "APPLICATION",
     severity: "INFORMATIONAL",
     reference: {},
-    confidence: wp.confidence,
+    confidence: scanResults.version?.confidence,
     attributes: {
       hostname: targetUrl,
       ip_address: targetIp,
       wpscan_version: wpscanVersion,
       wpscan_requests: wpscanRequestsDone,
-      wp_version: wp.number,
-      wp_release_date: wp.release_date,
-      wp_release_status: wp.status,
-      wp_interesting_entries: wp.interesting_entries,
-      wp_found_by: wp.found_by,
-      wp_confirmed_by: wp.confirmed_by,
-      wp_vulnerabilities: wp.vulnerabilities
-    }
+      wp_version: scanResults.version?.number,
+      wp_release_date: scanResults.version?.release_date,
+      wp_release_status: scanResults.version?.status,
+      wp_interesting_entries: scanResults.version?.interesting_entries,
+      wp_found_by: scanResults.version?.found_by,
+      wp_confirmed_by: scanResults.version?.confirmed_by,
+      wp_vulnerabilities: scanResults.version?.vulnerabilities,
+    },
   });
 
   // add all interesting findings as INFORMATIONAL
@@ -53,8 +51,8 @@ async function parse(scanResults) {
         hostname: targetUrl,
         wp_interesting_entries: interestingFinding.interesting_entries,
         wp_found_by: interestingFinding.found_by,
-        wp_confirmed_by: interestingFinding.confirmed_by
-      }
+        wp_confirmed_by: interestingFinding.confirmed_by,
+      },
     });
   }
 
