@@ -33,6 +33,11 @@ INSTALL_INTERACTIVE=''
 INSTALL_SCANNERS=''
 INSTALL_DEMO_APPS=''
 INSTALL_HOOKS=''
+INSTALL_NAMESPACED="false"
+
+SCB_SYSTEM_NAMESPACE='securecodebox-system'
+SCB_DEMO_NAMESPACE='demo-apps'
+SCB_NAMESPACE='default'
 
 function print() {
   if [[ $# == 0 ]]; then
@@ -56,9 +61,9 @@ The installation is interactive if no arguments are provided.
 Options
 
   --all          Install scanners, demo-apps and hooks
-  --scanners     Install scanners
-  --demo-apps    Install demo-apps
-  --hooks        Install hooks
+  --scanners     Install scanners (namespace: default)
+  --demo-apps    Install demo-apps (namespace: default)
+  --hooks        Install hooks (namespace: default)
   -h|--help      Show help
 
 Examples:
@@ -100,19 +105,19 @@ function exitIfHelmIsNotInstalled() {
   fi
 }
 
-# Create namespace securecodebox-system and install Operator there in one step,
+# Create namespace 'securecodebox-system' and install Operator there in one step,
 # because the namespace is not used otherwise
 function createNamespaceAndInstallOperator() {
   print
-  print "Creating namespace securecodebox-system"
-  kubectl create namespace securecodebox-system || print "Namespace already exists..."
+  print "Creating namespace $SCB_SYSTEM_NAMESPACE"
+  kubectl create namespace $SCB_SYSTEM_NAMESPACE || print "Namespace '$SCB_SYSTEM_NAMESPACE' already exists..."
 
-  print "Installing the operator in the securecodebox-system namespace"
+  print "Installing the operator in the '$SCB_SYSTEM_NAMESPACE' namespace"
 
-  if [[ $(helm -n securecodebox-system upgrade --install securecodebox-operator "$BASE_DIR"/operator/) ]]; then
-    print "$COLOR_OK" "Successfully installed the operator!"
+  if [[ $(helm -n $SCB_SYSTEM_NAMESPACE upgrade --install securecodebox-operator "$BASE_DIR"/operator/) ]]; then
+    print "$COLOR_OK" "Successfully installed the operator in namespace '$SCB_SYSTEM_NAMESPACE'!"
   else
-    print "$COLOR_ERROR" "Operator installation failed, cancelling..." && exit 1
+    print "$COLOR_ERROR" "Operator installation failed in namespace '$SCB_SYSTEM_NAMESPACE', cancelling..." && exit 1
   fi
 }
 
@@ -177,10 +182,6 @@ function welcomeToInteractiveInstall() {
 
 function interactiveInstall() {
   print
-  print "Starting to install scanners..."
-  installResources "$BASE_DIR/scanners" "default" False
-
-  print
   print "Starting to install demo-apps..."
   print "Do you want to install the demo apps in a separate namespace? Otherwise they will be installed into the [default] namespace [y/N]"
   read -r line
@@ -188,14 +189,29 @@ function interactiveInstall() {
   if [[ $line == *[Yy] ]]; then
     print "Please provide a name for the namespace:"
     read -r NAMESPACE
-    kubectl create namespace "$NAMESPACE" || print "Namespace already exists or could not be created.. "
+    kubectl create namespace "$NAMESPACE" || print "Namespace '$NAMESPACE' already exists or could not be created.. "
   fi
 
   installResources "$BASE_DIR/demo-apps" "$NAMESPACE" False
 
   print
+  print "Starting to install 'scanners' and 'hooks'..."
+  print "Do you want to install the secureCodeBox 'scanners' and 'hooks' in a separate namespace? Otherwise they will be installed into the [default] namespace [y/N]"
+  read -r line
+  NAMESPACE="default"
+  if [[ $line == *[Yy] ]]; then
+    print "Please provide a name for the namespace:"
+    read -r NAMESPACE
+    kubectl create namespace "$NAMESPACE" || print "Namespace '$NAMESPACE' already exists or could not be created.. "
+  fi
+
+  print
   print "Starting to install hooks..."
-  installResources "$BASE_DIR/hooks" "default" False
+  installResources "$BASE_DIR/hooks" "$NAMESPACE" False
+
+  print
+  print "Starting to install scanners..."
+  installResources "$BASE_DIR/scanners" "$NAMESPACE" False
 
   print
   print "$COLOR_OK" "Information about your cluster:"
@@ -210,19 +226,22 @@ function interactiveInstall() {
 }
 
 function unattendedInstall() {
-  if [[ -n "${INSTALL_SCANNERS}" ]]; then
-    print "Starting to install scanners..."
-    installResources "$BASE_DIR/scanners" "default" True
+  if [[ -n "${INSTALL_DEMO_APPS}" ]]; then
+    print "Starting to install 'demo-apps' into namespace '$SCB_DEMO_NAMESPACE' ..."
+    kubectl create namespace "$SCB_DEMO_NAMESPACE" || print "Namespace '$SCB_DEMO_NAMESPACE' already exists or could not be created.. "
+    installResources "$BASE_DIR/demo-apps" "$SCB_DEMO_NAMESPACE" True
   fi
 
-  if [[ -n "${INSTALL_DEMO_APPS}" ]]; then
-    print "Starting to install demo-apps..."
-    installResources "$BASE_DIR/demo-apps" "default" True
+  if [[ -n "${INSTALL_SCANNERS}" ]]; then
+    print "Starting to install 'scanners' into namespace '$SCB_NAMESPACE' ..."
+    kubectl create namespace "$SCB_NAMESPACE" || print "Namespace '$SCB_NAMESPACE' already exists or could not be created.. "
+    installResources "$BASE_DIR/scanners" "$SCB_NAMESPACE" True
   fi
 
   if [[ -n "${INSTALL_HOOKS}" ]]; then
-    print "Starting to install hooks..."
-    installResources "$BASE_DIR/hooks" "default" True
+    print "Starting to install 'hooks' into namespace '$SCB_NAMESPACE' ..."
+    kubectl create namespace "$SCB_NAMESPACE" || print "Namespace '$SCB_NAMESPACE' already exists or could not be created.. "
+    installResources "$BASE_DIR/hooks" "$SCB_NAMESPACE" True
   fi
 
   print "$COLOR_OK" "Finished installation successfully!"

@@ -15,8 +15,13 @@ shopt -s extglob
 
 BASE_DIR=$(dirname "${SCRIPT_DIRECTORY}")
 
+SCB_SYSTEM_NAMESPACE='securecodebox-system'
+SCB_DEMO_NAMESPACE='demo-apps'
+SCB_NAMESPACE='default'
+
 function uninstallResources() {
   local resource_directory="$1"
+  local namespace="$2"
 
   local resources=()
   for path in "$resource_directory"/*; do
@@ -28,14 +33,14 @@ function uninstallResources() {
 
   for resource in "${resources[@]}"; do
     local resource_name="${resource//+([_])/-}" # Necessary because ssh_scan is called ssh-scan
-    helm uninstall "$resource_name" || true
+    helm uninstall "$resource_name" -n $namespace || true
   done
 }
 
-helm -n securecodebox-system uninstall securecodebox-operator || true
+helm -n $SCB_SYSTEM_NAMESPACE uninstall securecodebox-operator || true
 
-uninstallResources "$BASE_DIR/scanners"
-uninstallResources "$BASE_DIR/demo-apps"
-uninstallResources "$BASE_DIR/hooks"
+uninstallResources "$BASE_DIR/demo-apps" "$SCB_DEMO_NAMESPACE"
+uninstallResources "$BASE_DIR/scanners" "$SCB_NAMESPACE"
+uninstallResources "$BASE_DIR/hooks" "$SCB_NAMESPACE"
 
-kubectl delete namespaces securecodebox-system || true
+kubectl delete namespaces $SCB_SYSTEM_NAMESPACE || true
