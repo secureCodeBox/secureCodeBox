@@ -296,7 +296,7 @@ public class VersionedEngagementsStrategy implements Strategy {
    * Returns the DefectDojo Product Name related to the given scan.
    * If the Scan was created via a scheduled scan, the Name of the ScheduledScan should be preferred to the scans name.
    * 
-   * @param scan The scan the productName relates to.
+   * @param ownerReferences The ownerReferences of the child Object.
    * @return The productName related to the given scan.
    */
   protected String getProductNameForParentScan(List<V1OwnerReference> ownerReferences) {
