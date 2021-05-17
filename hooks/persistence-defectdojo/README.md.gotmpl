@@ -100,6 +100,7 @@ metadata:
     defectdojo.securecodebox.io/engagement-name: "Juice Shop"
     defectdojo.securecodebox.io/engagement-version: "v12.6.1"
     defectdojo.securecodebox.io/engagement-tags: "automated,daily"
+    defectdojo.securecodebox.io/test-title: "Juice Shop - v12.6.1"
 spec:
   interval: 24h
   scanSpec:
