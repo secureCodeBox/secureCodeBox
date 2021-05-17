@@ -93,6 +93,10 @@ public class Scan extends V1Scan {
     return this.getKey(SecureCodeBoxScanAnnotations.PRODUCT_DESCRIPTION);
   }
 
+  public Optional<String> getTestTitle() {
+    return this.getKey(SecureCodeBoxScanAnnotations.TEST_TITLE);
+  }
+
   @AllArgsConstructor
   public enum SecureCodeBoxScanAnnotations {
     PRODUCT_TYPE("defectdojo.securecodebox.io/product-type-name"),
@@ -102,6 +106,7 @@ public class Scan extends V1Scan {
     ENGAGEMENT_NAME("defectdojo.securecodebox.io/engagement-name"),
     ENGAGEMENT_VERSION("defectdojo.securecodebox.io/engagement-version"),
     ENGAGEMENT_TAGS("defectdojo.securecodebox.io/engagement-tags"),
+    TEST_TITLE("defectdojo.securecodebox.io/test-title"),
     ;
 
     @Getter
