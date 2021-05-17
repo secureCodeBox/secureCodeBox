@@ -11,7 +11,7 @@
   "scripts": {
     "build": "npx typescript hook.ts --sourceMap",
     "test": "jest",
-    "lint": "eslint **/*.js"
+    "lint": "eslint '**/*.js'"
   },
   "keywords": [
     "secureCodeBox",
