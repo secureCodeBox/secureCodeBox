@@ -59,6 +59,7 @@ can add these via annotation to the scan. See examples below.
 | `defectdojo.securecodebox.io/engagement-name`    | Name of the Engagement     | Scan Name                                                            | Will be automatically created if not Engagement with that name **and** version exists |
 | `defectdojo.securecodebox.io/engagement-version` | Engagement Version         | Nothing                                                              |                                                                                       |
 | `defectdojo.securecodebox.io/engagement-tags`    | Engagement Tags            | Nothing                                                              | Only used when creating the Product not used for updating                             |
+| `defectdojo.securecodebox.io/test-title`         | Test Title                 | Scan Name                                                            |                                                                                       |
 
 ### Simple Example Scans
 

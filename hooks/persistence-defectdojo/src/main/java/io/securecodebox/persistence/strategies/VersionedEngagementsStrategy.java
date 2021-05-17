@@ -253,9 +253,10 @@ public class VersionedEngagementsStrategy implements Strategy {
 
     String scanType = ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).scanType.getTestType();
     TestType testType = testTypeService.searchUnique(TestType.builder().name(scanType).build()).orElseThrow(() -> new DefectDojoPersistenceException("Could not find test type '" + scanType + "' in DefectDojo API. DefectDojo might be running in an unsupported version."));
+    String testTitle = scan.getTestTitle().orElse(scan.getMetadata().getName());
 
     var test = Test.builder()
-      .title(scan.getMetadata().getName())
+      .title(testTitle)
       .description(descriptionGenerator.generate(scan))
       .testType(testType.getId())
       .targetStart(startDate)
