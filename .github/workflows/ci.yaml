@@ -545,10 +545,10 @@ jobs:
     strategy:
       matrix:
         k8sVersion:
+          - 1.21.1
           - 1.20.0
           - 1.19.4
           - 1.18.8
-          - 1.17.11
     steps:
       - uses: actions/checkout@master
       - name: "Start kind cluster"
