@@ -30,6 +30,12 @@ export interface CascadingRule {
 export interface CascadingRuleSpec {
   matches: Matches;
   scanSpec: ScanSpec;
+  scanLabels: {
+    [key: string]: string;
+  };
+  scanAnnotations: {
+    [key: string]: string;
+  };
 }
 
 export interface Matches {
@@ -60,6 +66,16 @@ export interface ExtendedScanSpec extends ScanSpec {
 
   // Indicates which CascadingRule was used to generate the resulting Scan
   generatedBy: string;
+
+  // Additional label to be added to the resulting scan
+  scanLabels: {
+    [key: string]: string;
+  };
+
+  // Additional annotations to be added to the resulting scan
+  scanAnnotations: {
+    [key: string]: string;
+  };
 }
 
 export function getSubsequentSecureCodeBoxScanDefinition({
@@ -69,6 +85,8 @@ export function getSubsequentSecureCodeBoxScanDefinition({
    parameters,
    generatedBy,
    env,
+   scanLabels,
+   scanAnnotations
  }) {
   let inheritedAnnotations = {};
   let inheritedLabels = {};
@@ -94,7 +112,8 @@ export function getSubsequentSecureCodeBoxScanDefinition({
     metadata: {
       generateName: `${name}-`,
       labels: {
-        ...inheritedLabels
+        ...inheritedLabels,
+        ...scanLabels // Due to this order, scanLabels overwrite inheritedLabels
       },
       annotations: {
         "securecodebox.io/hook": "declarative-subsequent-scans",
@@ -103,7 +122,8 @@ export function getSubsequentSecureCodeBoxScanDefinition({
           ...cascadingChain,
           generatedBy
         ].join(","),
-        ...inheritedAnnotations
+        ...inheritedAnnotations,
+        ...scanAnnotations // Due to this order, scanAnnotations overwrite inheritedAnnotations
       },
       ownerReferences: [
         {

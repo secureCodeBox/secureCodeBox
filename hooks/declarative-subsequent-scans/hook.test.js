@@ -84,6 +84,8 @@ test("should create subsequent scans for open HTTPS ports (NMAP findings)", () =
           "--regular",
           "foobar.com:443",
         ],
+        "scanAnnotations": Object {},
+        "scanLabels": Object {},
         "scanType": "sslyze",
       },
     ]
@@ -145,6 +147,8 @@ test("should not try to do magic to the scan name if its something random", () =
           "--regular",
           "10.42.42.42:443",
         ],
+        "scanAnnotations": Object {},
+        "scanLabels": Object {},
         "scanType": "sslyze",
       },
     ]
@@ -210,6 +214,8 @@ test("should not crash when the annotations are not set", () => {
           "--regular",
           "foobar.com:443",
         ],
+        "scanAnnotations": Object {},
+        "scanLabels": Object {},
         "scanType": "sslyze",
       },
     ]
@@ -264,6 +270,8 @@ test("should add env fields from cascading rule to created scan", () => {
           "--regular",
           "foobar.com:443",
         ],
+        "scanAnnotations": Object {},
+        "scanLabels": Object {},
         "scanType": "sslyze",
       },
     ]
@@ -328,6 +336,8 @@ test("should allow wildcards in cascading rules", () => {
           "--regular",
           "foobar.com:8443",
         ],
+        "scanAnnotations": Object {},
+        "scanLabels": Object {},
         "scanType": "sslyze",
       },
     ]
@@ -361,14 +371,16 @@ test("should not copy labels if inheritLabels is set to false", () => {
     sslyzeCascadingRules
   );
 
-  for (const { name, scanType, parameters, generatedBy, env } of cascadedScans) {
+  for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
     const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
       name,
       parentScan: parentScan,
       generatedBy,
       scanType,
       parameters,
-      env
+      env,
+      scanLabels,
+      scanAnnotations
     });
 
     expect(Object.entries(parentScan.metadata.labels).every(([label, value]) =>
@@ -403,14 +415,16 @@ test("should copy labels if inheritLabels is not set", () => {
     sslyzeCascadingRules
   );
 
-  for (const { name, scanType, parameters, generatedBy, env } of cascadedScans) {
+  for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
     const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
       name,
       parentScan: parentScan,
       generatedBy,
       scanType,
       parameters,
-      env
+      env,
+      scanLabels,
+      scanAnnotations
     });
 
     expect(Object.entries(parentScan.metadata.labels).every(([label, value]) =>
@@ -447,14 +461,16 @@ test("should copy labels if inheritLabels is set to true", () => {
     sslyzeCascadingRules
   );
 
-  for (const { name, scanType, parameters, generatedBy, env } of cascadedScans) {
+  for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
     const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
       name,
       parentScan: parentScan,
       generatedBy,
       scanType,
       parameters,
-      env
+      env,
+      scanLabels,
+      scanAnnotations
     });
 
     expect(Object.entries(parentScan.metadata.labels).every(([label, value]) =>
@@ -489,14 +505,16 @@ test("should not copy annotations if inheritAnnotations is set to false", () => 
     sslyzeCascadingRules
   );
 
-  for (const { name, scanType, parameters, generatedBy, env } of cascadedScans) {
+  for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
     const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
       name,
       parentScan: parentScan,
       generatedBy,
       scanType,
       parameters,
-      env
+      env,
+      scanLabels,
+      scanAnnotations
     });
 
     expect(Object.entries(parentScan.metadata.annotations).every(([label, value]) =>
@@ -530,14 +548,16 @@ test("should copy annotations if inheritAnnotations is not set", () => {
     sslyzeCascadingRules
   );
 
-  for (const { name, scanType, parameters, generatedBy, env } of cascadedScans) {
+  for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
     const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
       name,
       parentScan: parentScan,
       generatedBy,
       scanType,
       parameters,
-      env
+      env,
+      scanLabels,
+      scanAnnotations
     });
 
     expect(Object.entries(parentScan.metadata.annotations).every(([label, value]) =>
@@ -572,18 +592,148 @@ test("should copy annotations if inheritAnnotations is set to true", () => {
     sslyzeCascadingRules
   );
 
-  for (const { name, scanType, parameters, generatedBy, env } of cascadedScans) {
+  for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
     const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
       name,
       parentScan: parentScan,
       generatedBy,
       scanType,
       parameters,
-      env
+      env,
+      scanLabels,
+      scanAnnotations
     });
 
     expect(Object.entries(parentScan.metadata.annotations).every(([label, value]) =>
       cascadingScanDefinition.metadata.annotations[label] === value
     )).toBe(true)
   }
+});
+
+test("should copy scanLabels from CascadingRule to cascading scan", () => {
+  sslyzeCascadingRules[0].spec.scanLabels = {
+    k_one: "v_one",
+    k_two: "v_two"
+  }
+
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } = cascadedScans[0]
+
+  expect(cascadedScans).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "cascades": null,
+        "env": undefined,
+        "generatedBy": "tls-scans",
+        "name": "sslyze-foobar.com-tls-scans",
+        "parameters": Array [
+          "--regular",
+          "foobar.com:443",
+        ],
+        "scanAnnotations": Object {},
+        "scanLabels": Object {
+          "k_one": "v_one",
+          "k_two": "v_two",
+        },
+        "scanType": "sslyze",
+      },
+    ]
+  `);
+
+  const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
+    name,
+    parentScan: parentScan,
+    generatedBy,
+    scanType,
+    parameters,
+    env,
+    scanLabels,
+    scanAnnotations
+  });
+
+  expect(Object.entries(sslyzeCascadingRules[0].spec.scanLabels).every(([label, value]) =>
+    cascadingScanDefinition.metadata.labels[label] === value
+  )).toBe(true)
+});
+
+test("should copy scanAnnotations from CascadingRule to cascading scan", () => {
+  sslyzeCascadingRules[0].spec.scanAnnotations = {
+    k_one: "v_one",
+    k_two: "v_two"
+  }
+
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } = cascadedScans[0]
+
+  expect(cascadedScans).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "cascades": null,
+        "env": undefined,
+        "generatedBy": "tls-scans",
+        "name": "sslyze-foobar.com-tls-scans",
+        "parameters": Array [
+          "--regular",
+          "foobar.com:443",
+        ],
+        "scanAnnotations": Object {
+          "k_one": "v_one",
+          "k_two": "v_two",
+        },
+        "scanLabels": Object {},
+        "scanType": "sslyze",
+      },
+    ]
+  `);
+
+  const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
+    name,
+    parentScan: parentScan,
+    generatedBy,
+    scanType,
+    parameters,
+    env,
+    scanLabels,
+    scanAnnotations
+  });
+
+  expect(Object.entries(sslyzeCascadingRules[0].spec.scanAnnotations).every(([label, value]) =>
+    cascadingScanDefinition.metadata.annotations[label] === value
+  )).toBe(true)
 });
