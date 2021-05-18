@@ -737,3 +737,50 @@ test("should copy scanAnnotations from CascadingRule to cascading scan", () => {
     cascadingScanDefinition.metadata.annotations[label] === value
   )).toBe(true)
 });
+
+test("should properly parse template values in scanLabels and scanAnnotations", () => {
+  sslyzeCascadingRules[0].spec.scanAnnotations = {
+    k_one: "{{metadata.name}}",
+    k_two: "{{metadata.unknown_property}}",
+    k_three: "{{$.hostOrIP}}"
+  }
+
+  sslyzeCascadingRules[0].spec.scanLabels = {
+    k_one: "{{metadata.name}}",
+    k_two: "{{metadata.unknown_property}}",
+    k_three: "{{$.hostOrIP}}"
+  }
+
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const { scanLabels, scanAnnotations } = cascadedScans[0]
+
+  // No snapshots as scanLabels/scanAnnotations can be in any order
+  const result = {
+    "k_one": "nmap-foobar.com",
+    "k_two": "",
+    "k_three": "foobar.com",
+  }
+
+  expect(scanLabels).toEqual(result)
+
+  expect(scanAnnotations).toEqual(result)
+})
+

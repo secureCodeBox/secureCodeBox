@@ -1,4 +1,4 @@
-import { isMatch, isMatchWith, isString } from "lodash";
+import { isMatch, isMatchWith, isString, mapValues } from "lodash";
 import { isMatch as wildcardIsMatch } from "matcher";
 import * as Mustache from "mustache";
 
@@ -92,6 +92,7 @@ export function getCascadingScans(
 
         const templateArgs = {
           ...finding,
+          ...parentScan,
           // Attribute "$" hold special non finding helper attributes
           $: {
             hostOrIP:
@@ -108,8 +109,10 @@ export function getCascadingScans(
           cascades: null,
           generatedBy: cascadingRule.metadata.name,
           env,
-          scanLabels: cascadingRule.spec.scanLabels === undefined ? {} : cascadingRule.spec.scanLabels,
-          scanAnnotations: cascadingRule.spec.scanAnnotations === undefined ? {} : cascadingRule.spec.scanAnnotations,
+          scanLabels: cascadingRule.spec.scanLabels === undefined ? {} :
+            mapValues(cascadingRule.spec.scanLabels, value => Mustache.render(value, templateArgs)),
+          scanAnnotations: cascadingRule.spec.scanAnnotations === undefined ? {} :
+            mapValues(cascadingRule.spec.scanAnnotations, value => Mustache.render(value, templateArgs)),
         });
       }
     }
