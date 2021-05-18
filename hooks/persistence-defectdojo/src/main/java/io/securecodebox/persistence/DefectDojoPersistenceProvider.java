@@ -26,7 +26,6 @@ import io.securecodebox.persistence.service.KubernetesService;
 import io.securecodebox.persistence.service.S3Service;
 import io.securecodebox.persistence.strategies.VersionedEngagementsStrategy;
 import io.securecodebox.persistence.util.ScanNameMapping;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,7 +76,9 @@ public class DefectDojoPersistenceProvider {
 
       LOG.info("Overwriting secureCodeBox findings with the findings from DefectDojo.");
 
-      var findings = defectDojoFindings.stream().map(mapper::fromDefectDojoFining).collect(Collectors.toList());
+      var findings = defectDojoFindings.stream()
+        .map(mapper::fromDefectDojoFining)
+        .collect(Collectors.toList());
 
       LOG.debug("Mapped Findings: {}", findings);
 
