@@ -88,15 +88,20 @@ export function getSubsequentScanDefinition({
    scanLabels,
    scanAnnotations
  }) {
-  let inheritedAnnotations = {};
-  let inheritedLabels = {};
+  function mergeInherited(parentProps, ruleProps, inherit: boolean = true) {
+    if (!inherit) {
+      parentProps = {};
+    }
+    return {
+      ...parentProps,
+      ...ruleProps // ruleProps overwrites any duplicate keys from parentProps
+    }
+  }
 
-  if (typeof parentScan.spec.cascades.inheritAnnotations === 'undefined' || parentScan.spec.cascades.inheritAnnotations) {
-    inheritedAnnotations = parentScan.metadata.annotations;
-  }
-  if (typeof parentScan.spec.cascades.inheritLabels === 'undefined' || parentScan.spec.cascades.inheritLabels) {
-    inheritedLabels = parentScan.metadata.labels;
-  }
+  let annotations = mergeInherited(
+    parentScan.metadata.annotations, scanAnnotations, parentScan.spec.cascades.inheritAnnotations);
+  let labels = mergeInherited(
+    parentScan.metadata.labels, scanLabels, parentScan.spec.cascades.inheritLabels);
 
   let cascadingChain: Array<string> = [];
 
@@ -112,8 +117,7 @@ export function getSubsequentScanDefinition({
     metadata: {
       generateName: `${name}-`,
       labels: {
-        ...inheritedLabels,
-        ...scanLabels // Due to this order, scanLabels overwrite inheritedLabels
+        ...labels
       },
       annotations: {
         "securecodebox.io/hook": "declarative-subsequent-scans",
@@ -122,8 +126,7 @@ export function getSubsequentScanDefinition({
           ...cascadingChain,
           generatedBy
         ].join(","),
-        ...inheritedAnnotations,
-        ...scanAnnotations // Due to this order, scanAnnotations overwrite inheritedAnnotations
+        ...annotations,
       },
       ownerReferences: [
         {
