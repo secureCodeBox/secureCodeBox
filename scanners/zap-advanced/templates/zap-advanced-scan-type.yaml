@@ -18,7 +18,7 @@ metadata:
     {{- include "zap.labels" . | nindent 4 }}
 spec:
   extractResults:
-    type: zap-xml
+    type: zap-advanced-xml
     location: "/home/securecodebox/results/zap-results.xml"
   jobTemplate:
     spec:
