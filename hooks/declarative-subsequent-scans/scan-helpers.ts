@@ -78,7 +78,7 @@ export interface ExtendedScanSpec extends ScanSpec {
   };
 }
 
-export function getSubsequentSecureCodeBoxScanDefinition({
+export function getSubsequentScanDefinition({
    name,
    parentScan,
    scanType,

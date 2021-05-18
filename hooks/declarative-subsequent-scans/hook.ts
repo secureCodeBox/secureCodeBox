@@ -5,7 +5,7 @@ import * as Mustache from "mustache";
 import {
   startSubsequentSecureCodeBoxScan,
   getCascadingRulesForScan,
-  getSubsequentSecureCodeBoxScanDefinition,
+  getSubsequentScanDefinition,
   // types
   Scan,
   Finding,
@@ -25,7 +25,7 @@ export async function handle({ scan, getFindings }: HandleArgs) {
   const cascadingScans = getCascadingScans(scan, findings, cascadingRules);
 
   for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadingScans) {
-    const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
+    const cascadingScanDefinition = getSubsequentScanDefinition({
       name,
       parentScan: scan,
       generatedBy,

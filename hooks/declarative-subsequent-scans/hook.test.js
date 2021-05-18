@@ -1,4 +1,4 @@
-const { getSubsequentSecureCodeBoxScanDefinition } = require("./scan-helpers");
+const { getSubsequentScanDefinition } = require("./scan-helpers");
 const { getCascadingScans } = require("./hook");
 
 let parentScan = undefined;
@@ -372,7 +372,7 @@ test("should not copy labels if inheritLabels is set to false", () => {
   );
 
   for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
-    const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
+    const cascadingScanDefinition = getSubsequentScanDefinition({
       name,
       parentScan: parentScan,
       generatedBy,
@@ -416,7 +416,7 @@ test("should copy labels if inheritLabels is not set", () => {
   );
 
   for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
-    const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
+    const cascadingScanDefinition = getSubsequentScanDefinition({
       name,
       parentScan: parentScan,
       generatedBy,
@@ -462,7 +462,7 @@ test("should copy labels if inheritLabels is set to true", () => {
   );
 
   for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
-    const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
+    const cascadingScanDefinition = getSubsequentScanDefinition({
       name,
       parentScan: parentScan,
       generatedBy,
@@ -506,7 +506,7 @@ test("should not copy annotations if inheritAnnotations is set to false", () => 
   );
 
   for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
-    const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
+    const cascadingScanDefinition = getSubsequentScanDefinition({
       name,
       parentScan: parentScan,
       generatedBy,
@@ -549,7 +549,7 @@ test("should copy annotations if inheritAnnotations is not set", () => {
   );
 
   for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
-    const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
+    const cascadingScanDefinition = getSubsequentScanDefinition({
       name,
       parentScan: parentScan,
       generatedBy,
@@ -593,7 +593,7 @@ test("should copy annotations if inheritAnnotations is set to true", () => {
   );
 
   for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
-    const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
+    const cascadingScanDefinition = getSubsequentScanDefinition({
       name,
       parentScan: parentScan,
       generatedBy,
@@ -658,7 +658,7 @@ test("should copy scanLabels from CascadingRule to cascading scan", () => {
     ]
   `);
 
-  const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
+  const cascadingScanDefinition = getSubsequentScanDefinition({
     name,
     parentScan: parentScan,
     generatedBy,
@@ -722,7 +722,7 @@ test("should copy scanAnnotations from CascadingRule to cascading scan", () => {
     ]
   `);
 
-  const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
+  const cascadingScanDefinition = getSubsequentScanDefinition({
     name,
     parentScan: parentScan,
     generatedBy,
