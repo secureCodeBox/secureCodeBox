@@ -1,3 +1,4 @@
+const { getSubsequentSecureCodeBoxScanDefinition } = require("./scan-helpers");
 const { getCascadingScans } = require("./hook");
 
 let parentScan = undefined;
@@ -331,4 +332,258 @@ test("should allow wildcards in cascading rules", () => {
       },
     ]
   `);
+});
+
+test("should not copy labels if inheritLabels is set to false", () => {
+  parentScan.metadata.labels = {
+    organization: "OWASP",
+    location: "barcelona",
+    vlan: "lan"
+  };
+  parentScan.spec.cascades.inheritLabels = false;
+
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  for (const { name, scanType, parameters, generatedBy, env } of cascadedScans) {
+    const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
+      name,
+      parentScan: parentScan,
+      generatedBy,
+      scanType,
+      parameters,
+      env
+    });
+
+    expect(Object.entries(parentScan.metadata.labels).every(([label, value]) =>
+      cascadingScanDefinition.metadata.labels[label] === value
+    )).toBe(false)
+  }
+});
+
+test("should copy labels if inheritLabels is not set", () => {
+  parentScan.metadata.labels = {
+    organization: "OWASP",
+    location: "barcelona",
+    vlan: "lan"
+  };
+
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  for (const { name, scanType, parameters, generatedBy, env } of cascadedScans) {
+    const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
+      name,
+      parentScan: parentScan,
+      generatedBy,
+      scanType,
+      parameters,
+      env
+    });
+
+    expect(Object.entries(parentScan.metadata.labels).every(([label, value]) =>
+      cascadingScanDefinition.metadata.labels[label] === value
+    )).toBe(true)
+  }
+});
+
+test("should copy labels if inheritLabels is set to true", () => {
+  parentScan.metadata.labels = {
+    organization: "OWASP",
+    location: "barcelona",
+    vlan: "lan"
+  };
+
+  parentScan.spec.cascades.inheritLabels = true;
+
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  for (const { name, scanType, parameters, generatedBy, env } of cascadedScans) {
+    const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
+      name,
+      parentScan: parentScan,
+      generatedBy,
+      scanType,
+      parameters,
+      env
+    });
+
+    expect(Object.entries(parentScan.metadata.labels).every(([label, value]) =>
+      cascadingScanDefinition.metadata.labels[label] === value
+    )).toBe(true)
+  }
+});
+
+test("should not copy annotations if inheritAnnotations is set to false", () => {
+  parentScan.metadata.annotations = {
+    "defectdojo.securecodebox.io/product-name": "barcelona-network-sca",
+    "defectdojo.securecodebox.io/engagement-name": "scb-automated-scan"
+  };
+  parentScan.spec.cascades.inheritAnnotations = false;
+
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  for (const { name, scanType, parameters, generatedBy, env } of cascadedScans) {
+    const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
+      name,
+      parentScan: parentScan,
+      generatedBy,
+      scanType,
+      parameters,
+      env
+    });
+
+    expect(Object.entries(parentScan.metadata.annotations).every(([label, value]) =>
+      cascadingScanDefinition.metadata.annotations[label] === value
+    )).toBe(false)
+  }
+});
+
+test("should copy annotations if inheritAnnotations is not set", () => {
+  parentScan.metadata.annotations = {
+    "defectdojo.securecodebox.io/product-name": "barcelona-network-sca",
+    "defectdojo.securecodebox.io/engagement-name": "scb-automated-scan"
+  };
+
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  for (const { name, scanType, parameters, generatedBy, env } of cascadedScans) {
+    const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
+      name,
+      parentScan: parentScan,
+      generatedBy,
+      scanType,
+      parameters,
+      env
+    });
+
+    expect(Object.entries(parentScan.metadata.annotations).every(([label, value]) =>
+      cascadingScanDefinition.metadata.annotations[label] === value
+    )).toBe(true)
+  }
+});
+
+test("should copy annotations if inheritAnnotations is set to true", () => {
+  parentScan.metadata.annotations = {
+    "defectdojo.securecodebox.io/product-name": "barcelona-network-sca",
+    "defectdojo.securecodebox.io/engagement-name": "scb-automated-scan"
+  };
+  parentScan.spec.cascades.inheritAnnotations = true;
+
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  for (const { name, scanType, parameters, generatedBy, env } of cascadedScans) {
+    const cascadingScanDefinition = getSubsequentSecureCodeBoxScanDefinition({
+      name,
+      parentScan: parentScan,
+      generatedBy,
+      scanType,
+      parameters,
+      env
+    });
+
+    expect(Object.entries(parentScan.metadata.annotations).every(([label, value]) =>
+      cascadingScanDefinition.metadata.annotations[label] === value
+    )).toBe(true)
+  }
 });
