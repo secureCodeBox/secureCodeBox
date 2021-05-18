@@ -63,16 +63,6 @@ The following examples gives you an overview about all the different configurati
 zapConfiguration:
   # Optional global ZAP Configurations Settings
   global:
-    # -- Updates all Zap addOns on startup if true, otherwise false
-    addonUpdate: true
-    # -- Installs additional addons on startup listed by name:
-    addonInstall:
-      - pscanrulesBeta
-      - ascanrulesBeta
-      - pscanrulesAlpha
-      - ascanrulesAlpha
-    # -- Sets the ZAP Attack mode, which may be one of [safe, protect, standard, attack], default: "standard"
-    mode: "standard"
     # -- ZAP Session name
     sessionName: secureCodeBox
     # -- An optional list of global regexes to include
@@ -373,7 +363,9 @@ zapConfiguration:
 | scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | scannerJob.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | scannerJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
-| zapConfiguration | object | `{"global":{"isNewSession":true,"sessionName":"secureCodeBox"}}` | All scanType specific configuration options. Feel free to add more configuration options. All configuration options can be overriden by scan specific configurations if defined. Please have a look into the README.md to find more configuration options. |
+| zapConfiguration | object | `{"global":{"addonInstall":["pscanrulesBeta","ascanrulesBeta","pscanrulesAlpha","ascanrulesAlpha"],"addonUpdate":true,"isNewSession":true,"sessionName":"secureCodeBox"}}` | All scanType specific configuration options. Feel free to add more configuration options. All configuration options can be overriden by scan specific configurations if defined. Please have a look into the README.md to find more configuration options. |
+| zapConfiguration.global.addonInstall | list | `["pscanrulesBeta","ascanrulesBeta","pscanrulesAlpha","ascanrulesAlpha"]` | Installs additional addons on startup listed by name: |
+| zapConfiguration.global.addonUpdate | bool | `true` | Updates all Zap addOns on startup if true, otherwise false |
 | zapContainer.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | zapContainer.envFrom | list | `[]` | Optional mount environment variables from configMaps or secrets (see: https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/#configure-all-key-value-pairs-in-a-secret-as-container-environment-variables) |
 | zapContainer.extraVolumeMounts | list | `[{"mountPath":"/home/zap/.ZAP_D/scripts/scripts/authentication/","name":"zap-scripts-authentication","readOnly":true},{"mountPath":"/home/zap/.ZAP_D/scripts/scripts/session/","name":"zap-scripts-session","readOnly":true}]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
