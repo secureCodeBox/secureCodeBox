@@ -115,6 +115,14 @@ zapConfiguration:
     isNewSession: true
     # ZAP Session name
     sessionName: secureCodeBox
+    # -- Updates all Zap addOns on startup if true, otherwise false
+    addonUpdate: true
+    # -- Installs additional addons on startup listed by name:
+    addonInstall:
+      - pscanrulesBeta
+      - ascanrulesBeta
+      - pscanrulesAlpha
+      - ascanrulesAlpha
 
 # --  Configurations regarding the cascading scan
 cascadingRules:

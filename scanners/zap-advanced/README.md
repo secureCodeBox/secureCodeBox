@@ -62,6 +62,16 @@ The follwoing examples gives you an overview about all the different configurati
 zapConfiguration:
   # Optional global ZAP Configurations Settings
   global:
+    # -- Updates all Zap addOns on startup if true, otherwise false
+    addonUpdate: true
+    # -- Installs additional addons on startup listed by name:
+    addonInstall:
+      - pscanrulesBeta
+      - ascanrulesBeta
+      - pscanrulesAlpha
+      - ascanrulesAlpha
+    # -- Sets the ZAP Attack mode, which may be one of [safe, protect, standard, attack], default: "standard"
+    mode: "standard"
     # -- ZAP Session name
     sessionName: secureCodeBox
     # -- An optional list of global regexes to include

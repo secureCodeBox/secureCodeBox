@@ -74,15 +74,13 @@ spec:
                 - "database.recoverylog=false" # Tune ZAP, DB recovery is not needed here
                 - "-config"
                 - "connection.timeoutInSecs=120" # Tune ZAP timeout by default to be 2minutes
+                {{ if .Values.zapConfiguration.global.addonUpdate }}
                 - "-addonupdate"    # Enable AddOn Updates on startup if possible
+                {{- end }}
+                {{- range .Values.zapConfiguration.global.addonInstall }}
                 - "-addoninstall"
-                - "pscanrulesBeta"  # Enable PassiveScan Beta Rules
-                - "-addoninstall"
-                - "ascanrulesBeta"  # Enable ActiveScan Beta Rules
-                - "-addoninstall"
-                - "pscanrulesAlpha" # Enable PassiveScan Alpha Rules
-                - "-addoninstall"
-                - "ascanrulesAlpha" # Enable ActiveScan Alpha Rules
+                - {{ . | quote }}
+                {{- end }}
                 - "-config"
                 - "api.disablekey=true" # Disble API Key. TODO: change with helm random value? -config api.key=change-me-9203935709
               resources:
