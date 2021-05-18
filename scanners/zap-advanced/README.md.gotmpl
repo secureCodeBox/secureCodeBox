@@ -25,11 +25,12 @@ helm upgrade --install zap-advanced secureCodeBox/zap-advanced
 
 ## Scanner Configuration
 
-By default the secureCodeBox ZAP Helm Chart installs the scanType `zap-advanced-scan` along with an minimal _default configuration_ based on the value `zapConfiguration`. The configuration will be stored in a dedicate scanType specific _configMap_ named `zap-advanced-scantype-config`. Feel free to use the configMap or even the HelmChart Values to adjust your ZAP Advanced configuraion settings. Details about the different configuration options can be found below.
+By default the secureCodeBox ZAP Helm Chart installs the scanType `zap-advanced-scan` along with an minimal _default configuration_ based on the value `zapConfiguration`. The configuration will be stored in a dedicate scanType specific _configMap_ named `zap-advanced-scantype-config`. Feel free to use the configMap or even the HelmChart Values to adjust your ZAP Advanced configuration settings. Details about the different configuration options can be found below.
 
-Additional to that there will be some ZAP Scripts included and installed, which are stored in the corresponding configMaps `zap-scripts-authentication` and `zap-scripts-session`. Scripts can be used to implement a specific behavior or even new authentication patterns which are not supported by ZAP out of the box. Feel free to add additional scripts in your on if you need them.
+Additionally there will be some ZAP Scripts included and installed, these are stored in the corresponding configMaps `zap-scripts-authentication` and `zap-scripts-session`. Scripts can be used to implement a specific behavior or even new authentication patterns which are not supported by ZAP out of the box. Feel free to add additional scripts in your on if you need them.
 
 ### ScanType Configurations
+
 Listed below are the arguments (scanType parameter specs) supported by the `zap-advanced-scan` script.
 
 The command line interface can be used to easily run server scans: `-t www.example.com`
@@ -56,7 +57,7 @@ optional arguments:
 ```
 
 ## Zap Configurations
-The follwoing examples gives you an overview about all the different configuration options you have to configure the ZAP Advanced scanType. Please have a look into our `examples`. We provide a list of working examples to scan our `demo-apps` with the `zap-advanced-scan`.
+The following examples gives you an overview about all the different configuration options you have to configure the ZAP Advanced scanType. Please have a look into our `examples`. We provide a list of working examples to scan our `demo-apps` with the `zap-advanced-scan`.
 
 ```yaml
 zapConfiguration:
@@ -145,7 +146,7 @@ zapConfiguration:
         # -- By default all technologies are enabed for each context by ZAP. You can use the following config to change that explicitly.
         excluded:
          - SCM
-      # -- Authentiation Configuration that can be uses by ZAP Spider and/or Scanner. You need to reference the `context` name in the corresponding `zapConfiguration.spiders[0].context` and `zapConfiguration.scanners[0].context` section if you want to use them.
+      # -- Authentication Configuration that can be uses by ZAP Spider and/or Scanner. You need to reference the `context` name in the corresponding `zapConfiguration.spiders[0].context` and `zapConfiguration.scanners[0].context` section if you want to use them.
       authentication:
         # -- Currently supports "basic-auth", "form-based", "json-based", "script-based"
         type: "script-based"
