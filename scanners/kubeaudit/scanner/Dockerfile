@@ -1,4 +1,4 @@
-FROM golang:1.15.1 AS builder
+FROM golang:1.16.4 AS builder
 ARG scannerVersion=latest
 
 # no need to include cgo bindings
