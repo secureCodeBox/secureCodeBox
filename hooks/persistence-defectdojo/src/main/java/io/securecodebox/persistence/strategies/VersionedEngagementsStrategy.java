@@ -166,6 +166,7 @@ public class VersionedEngagementsStrategy implements Strategy {
       .orchestrationEngine(toolConfig.getId())
       .targetStart(descriptionGenerator.currentDate())
       .targetEnd(descriptionGenerator.currentDate())
+      .deduplicationOnEngagement(scan.getDeDuplicateOnEngagement().orElse(false))
       .status(Engagement.Status.IN_PROGRESS)
       .build();
 
