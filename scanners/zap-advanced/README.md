@@ -9,15 +9,25 @@ usecase: "WebApp & OpenAPI Vulnerability Scanner extend with authentication feat
 
 ![zap logo](https://raw.githubusercontent.com/wiki/zaproxy/zaproxy/images/zap32x32.png)
 
-The OWASP Zed Attack Proxy (ZAP) is one of the world’s most popular free security tools and is actively maintained by hundreds of international volunteers*. It can help you automatically find security vulnerabilities in your web applications while you are developing and testing your applications. It is also a great tool for experienced pentesters to use for manual security testing.
+The OWASP Zed Attack Proxy (ZAP) is one of the world’s most popular free security tools and is actively maintained by hundreds of international volunteers*.
+It can help you automatically find security vulnerabilities in your web applications while you are developing and testing your applications. It is also a great tool for experienced pentesters to use for manual security testing.
 
-To learn more about the ZAP scanner itself visit [https://www.zaproxy.org/](https://www.zaproxy.org/).
+To learn more about the OWASP ZAP scanner itself visit: [https://www.zaproxy.org/](https://www.zaproxy.org/).
 
 <!-- end -->
 
+The secureCodeBox provides two different scanner charts (`zap, `zap-advanced`) to automate ZAP WebApplication security scans. The first one `zap` comes with three scanTypes:
+- `zap-baseline-scan`
+- `zap-full-scan`
+- `zap-api-scan`
+
+All three scanTypes can be configured via CLI arguments which are somehow a bit limited for some advanced usecases, e.g. using custom zap scripts or configuring complex authentication settings.
+
+That's why we introduced this `zap-advanced` scanner chart, which introduces extensive YAML configuration options for ZAP. The YAML configuration can be splitted in multiple files and will be merged at start.
+
 ## Deployment
 
-The ZAP-advanced scanType can be deployed via helm:
+The zap-advanced `scanType` can be deployed via helm:
 
 ```bash
 helm upgrade --install zap-advanced secureCodeBox/zap-advanced
@@ -25,46 +35,108 @@ helm upgrade --install zap-advanced secureCodeBox/zap-advanced
 
 ## Scanner Configuration
 
-By default the secureCodeBox ZAP Helm Chart installs the scanType `zap-advanced-scan` along with an minimal _default configuration_ based on the value `zapConfiguration`. The configuration will be stored in a dedicate scanType specific _configMap_ named `zap-advanced-scantype-config`. Feel free to use the configMap or even the HelmChart Values to adjust your ZAP Advanced configuration settings. Details about the different configuration options can be found below.
+By default the secureCodeBox ZAP Helm Chart installs the scanType `zap-advanced-scan` along with an minimal _default configuration_ based on the HelmChart value `zapConfiguration`. The configuration will be stored in a dedicate scanType specific _configMap_ named `zap-advanced-scantype-config`. Feel free to use the `configMap` or even the HelmChart values to adjust the  advanced ZAP configuration settings according to your needs. Details about the different configuration options can be found below.
 
-Additionally there will be some ZAP Scripts included and installed, these are stored in the corresponding configMaps `zap-scripts-authentication` and `zap-scripts-session`. Scripts can be used to implement a specific behavior or even new authentication patterns which are not supported by ZAP out of the box. Feel free to add additional scripts in your on if you need them.
-
-### ScanType Configurations
-
-Listed below are the arguments (scanType parameter specs) supported by the `zap-advanced-scan` script.
-
-The command line interface can be used to easily run server scans: `-t www.example.com`
+Additionally there will be some ZAP Scripts included, these are stored in the corresponding configMaps `zap-scripts-authentication` and `zap-scripts-session`. Scripts can be used to implement a specific behavior or even new authentication patterns, which are not supported by ZAP out of the box. Feel free to add additional scripts in your own, if you need them.
 
 ```bash
-usage: zap-client [-h] -z ZAP_URL [-a API_KEY] [-c CONFIG_FOLDER] -t TARGET [-o OUTPUT_FOLDER] [-r {XML,JSON,HTML,MD}]
+                                                                                            ┌────────────────────────────────────────┐
+┌──────────────────────────────────────┐                                                    │A YAML configuration file for ZAP that  │
+│This CM contains ZAP authentication   │                                                    │relates to the scanType directly.       │
+│scripts that are already included     │                                                    │- will be used for all scans by default │
+│within the zap-advanced scanner.      │                                                    │- can be configured via Helm Values:    │
+│Feel free to add your own.            │────────┐     ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐   ┌───────│  zapConfiguration                      │
+│                                      │        │                                   │       │- add your baseline config here         │
+│ConfigMap: zap-scripts-authentication │        │     │  ┌───────────────────┐  │   │       │                                        │
+└──────────────────────────────────────┘        │        │                   │      │       │ConfigMap: zap-advanced-scantype-config │
+                                                │     │  │  ZAP Client       │  │   │       └────────────────────────────────────────┘
+               All scripts are mounted as files │        │  Python3 Module   │◀─────┤                                                
+        directly into the ZAP container. To use │     │  │                   │  │   │  All referenced YAML files will be merged into 
+        them add a corresponding script section │        └───────────────────┘      │  one single YAML configuration. The merged one 
+                           in your config YAML. │     │            │            │   │  will be used to configure the ZAP instance.   
+                                                │              uses API             │                                                
+┌──────────────────────────────────────┐        │     │            │            │   │       ┌────────────────────────────────────────┐
+│This CM contains ZAP session          │        │                  ▼                │       │A YAML configuration for ZAP that       │
+│scripts that are already included     │        │     │  ┌───────────────────┐  │   │       │relates to a single scan execution.     │
+│within the zap-advanced scanner.      │        │        │                   │      │       │- can by used for selected scans        │
+│Feel free to add your own.            │────────┼─────┼─▶│  OWASP ZAP Proxy  │  │   │       │- not created by default                │
+│                                      │        │        │                   │      └───────│- add your scan target specific config  │
+│ConfigMap: zap-scripts-session        │        │     │  └───────────────────┘  │           │- needs to be referenced in Scan        │
+└──────────────────────────────────────┘        │                                           │- please use SecretMap for credentials! │
+┌──────────────────────────────────────┐        │     │  secureCodeBox scanner  │           │                                        │
+│Feel free to add your own scripts :)  │        │        scanType: zap-advanced             │ConfigMap: zap-advanced-scan-config     │
+│                                      │────────┘     └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘           └────────────────────────────────────────┘
+│ConfigMap: zap-scripts-your-name      │                                                                                             
+└──────────────────────────────────────┘                                                                                             
 
-OWASP secureCodeBox OWASP ZAP Client  (can be used to automate OWASP ZAP instances based on YAML configuration files.)
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -z ZAP_URL, --zap-url ZAP_URL
-                        The ZAP API Url used to call the ZAP API.
-  -a API_KEY, --api-key API_KEY
-                        The ZAP API Key used to call the ZAP API.
-  -c CONFIG_FOLDER, --config-folder CONFIG_FOLDER
-                        The path to a local folder containing the additional ZAP configuration YAMLs used to configure OWASP ZAP.
-  -t TARGET, --target TARGET
-                        The target to scan with OWASP ZAP.
-  -o OUTPUT_FOLDER, --output-folder OUTPUT_FOLDER
-                        The path to a local folder used to store the output files, eg. the ZAP Report or logfiles.
-  -r {XML,JSON,HTML,MD}, --report-type {XML,JSON,HTML,MD}
-                        The OWASP ZAP Report Type.
 ```
 
-## Zap Configurations
-The following examples gives you an overview about all the different configuration options you have to configure the ZAP Advanced scanType. Please have a look into our `examples`. We provide a list of working examples to scan our `demo-apps` with the `zap-advanced-scan`.
+The following picture outlines the reference concept of the ZAP YAML configuration `zapConfiguration`. If you want to configure an `api` scan, `spider` or active 'scan` you must at least add one `context` item with a `name` and `url` configured. The context `url` must match the target url used in the `Scan` execution:
+
+```yaml
+spec:
+  scanType: "zap-advanced-scan"
+  parameters:
+    # target URL must match with `context.url` to identify the corresponding configurations.
+    - "-t"
+    - "http://bodgeit.default.svc:8080/bodgeit/"
+```
+
+If you want to configure the `api` scan, `spider` or active 'scan` section it is mandatory to add the `context: ` reference the section. Otherwise it is not possible to identify which configuration must be used for a scan. The `url` in the `api` , `spider` or active 'scan` section can be different to the context.url (and scan target url).
+
+```bash
+┌────────────────────────────────────────────────────────────────┐
+│      ZAP Configuration YAML - reference by "context name"      │
+└────────────────────────────────────────────────────────────────┘
+                                                                                                                      
+┌────────────────┐            ┌────────────────┐                 
+│ Context        │            │ Context        │                 
+│  - name:  ABC  │◀───┬─┬─┐   │  - name:  XYZ  │◀───┬─┬─┐        
+│    url:   ...  │    │ │ │   │    url:   ...  │    │ │ │        
+└────────────────┘    │ │ │   └────────────────┘    │ │ │        
+ ┌─────────────────┐  │ │ │    ┌─────────────────┐  │ │ │        
+ │ API:            │  │ │ │    │ API:            │  │ │ │        
+ │  - context: ABC │──┘ │ │    │  - context: XYZ │──┘ │ │        
+ │  - ...          │    │ │    │  - ...          │    │ │        
+ └─────────────────┘    │ │    └─────────────────┘    │ │        
+   ┌─────────────────┐  │ │      ┌─────────────────┐  │ │        
+   │ Spider:         │  │ │      │ Spider:         │  │ │        
+   │  - context: ABC │──┘ │      │  - context: XYZ │──┘ │        
+   │  - ...          │    │      │  - ...          │    │        
+   └─────────────────┘    │      └─────────────────┘    │        
+     ┌─────────────────┐  │        ┌─────────────────┐  │        
+     │ Scanner:        │  │        │ Scanner:        │  │        
+     │  - context: ABC │──┘        │  - context: XYZ │──┘        
+     │  - ...          │           │  - ...          │           
+     └─────────────────┘           └─────────────────┘           
+
+```
+
+## ZAP Configuration
+The following YAMl gives you an overview about all the different configuration options you have to configure the ZAP advanced scan. Please have a look into our `./examples/...` to find some working examples. We provide a list of working examples to scan our `demo-apps` with the `zap-advanced-scan`.
+
+:::note
+
+The YAML format is based on the new [ZAP Automation Framework](https://www.zaproxy.org/docs/desktop/addons/automation-framework/) but not exactly the same. The ZAP Automation Framework is a new approach of the ZAP Team to ease up the automation possibilities of the ZAP scanner itself. Since this ZAP Automation Framework is not ready yet we are not using it for now. We track the progress in this [issue #321](https://github.com/secureCodeBox/secureCodeBox/issues/321) for the future.
+
+The ZAP Automation format represents a more "imperative" semantic, due to the fact that you have to configure sequences of "jobs" containing the steps to configure and automate ZAP. In contrast to that has the secureCodeBox `zap-advanced` YAML format `zapConfiguration` a  "declarative" semantic. The similarity of both YAML formats can help to migrate to the ZAP Automation Framework.
+
+:::
 
 ```yaml
 zapConfiguration:
-  # Optional global ZAP Configurations Settings
+  # -- Optional general ZAP Configurations settings.
   global:
-    # -- ZAP Session name
+    # -- The ZAP internal Session name. Default: secureCodeBox
     sessionName: secureCodeBox
+    # -- Updates all installed ZAP AddOns on startup if true, otherwise false.
+    addonUpdate: true
+    # -- Installs additional ZAP AddOns on startup, listed by their name:
+    addonInstall:
+      - pscanrulesBeta
+      - ascanrulesBeta
+      - pscanrulesAlpha
+      - ascanrulesAlpha
     # -- An optional list of global regexes to include
     includePaths:
       - "https://example.com/.*"
@@ -340,6 +412,33 @@ zapConfiguration:
           threshold: Low
 ```
 
+### ScanType Configurations
+
+Listed below are the arguments (scanType parameter specs) supported by the `zap-advanced-scan` script.
+
+The command line interface can be used to easily run server scans: `-t www.example.com`
+
+```bash
+usage: zap-client [-h] -z ZAP_URL [-a API_KEY] [-c CONFIG_FOLDER] -t TARGET [-o OUTPUT_FOLDER] [-r {XML,JSON,HTML,MD}]
+
+OWASP secureCodeBox OWASP ZAP Client  (can be used to automate OWASP ZAP instances based on YAML configuration files.)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -z ZAP_URL, --zap-url ZAP_URL
+                        The ZAP API Url used to call the ZAP API.
+  -a API_KEY, --api-key API_KEY
+                        The ZAP API Key used to call the ZAP API.
+  -c CONFIG_FOLDER, --config-folder CONFIG_FOLDER
+                        The path to a local folder containing the additional ZAP configuration YAMLs used to configure OWASP ZAP.
+  -t TARGET, --target TARGET
+                        The target to scan with OWASP ZAP.
+  -o OUTPUT_FOLDER, --output-folder OUTPUT_FOLDER
+                        The path to a local folder used to store the output files, eg. the ZAP Report or logfiles.
+  -r {XML,JSON,HTML,MD}, --report-type {XML,JSON,HTML,MD}
+                        The OWASP ZAP Report Type.
+```
+
 ## Chart Configuration
 
 | Key | Type | Default | Description |
@@ -363,9 +462,11 @@ zapConfiguration:
 | scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | scannerJob.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | scannerJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
-| zapConfiguration | object | `{"global":{"addonInstall":["pscanrulesBeta","ascanrulesBeta","pscanrulesAlpha","ascanrulesAlpha"],"addonUpdate":true,"isNewSession":true,"sessionName":"secureCodeBox"}}` | All scanType specific configuration options. Feel free to add more configuration options. All configuration options can be overriden by scan specific configurations if defined. Please have a look into the README.md to find more configuration options. |
-| zapConfiguration.global.addonInstall | list | `["pscanrulesBeta","ascanrulesBeta","pscanrulesAlpha","ascanrulesAlpha"]` | Installs additional addons on startup listed by name: |
-| zapConfiguration.global.addonUpdate | bool | `true` | Updates all Zap addOns on startup if true, otherwise false |
+| zapConfiguration | object | `{"global":{"addonInstall":["pscanrulesBeta","ascanrulesBeta","pscanrulesAlpha","ascanrulesAlpha"],"addonUpdate":true,"sessionName":"secureCodeBox"}}` | All `scanType` specific configuration options. Feel free to add more configuration options. All configuration options can be overriden by scan specific configurations if defined. Please have a look into the README.md to find more configuration options. |
+| zapConfiguration.global | object | `{"addonInstall":["pscanrulesBeta","ascanrulesBeta","pscanrulesAlpha","ascanrulesAlpha"],"addonUpdate":true,"sessionName":"secureCodeBox"}` | Optional general ZAP Configurations settings. |
+| zapConfiguration.global.addonInstall | list | `["pscanrulesBeta","ascanrulesBeta","pscanrulesAlpha","ascanrulesAlpha"]` | Installs additional ZAP AddOns on startup, listed by their name: |
+| zapConfiguration.global.addonUpdate | bool | `true` | Updates all installed ZAP AddOns on startup if true, otherwise false. |
+| zapConfiguration.global.sessionName | string | `"secureCodeBox"` | The ZAP internal Session name. Default: secureCodeBox |
 | zapContainer.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | zapContainer.envFrom | list | `[]` | Optional mount environment variables from configMaps or secrets (see: https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/#configure-all-key-value-pairs-in-a-secret-as-container-environment-variables) |
 | zapContainer.extraVolumeMounts | list | `[{"mountPath":"/home/zap/.ZAP_D/scripts/scripts/authentication/","name":"zap-scripts-authentication","readOnly":true},{"mountPath":"/home/zap/.ZAP_D/scripts/scripts/session/","name":"zap-scripts-session","readOnly":true}]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
