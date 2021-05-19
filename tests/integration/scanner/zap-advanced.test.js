@@ -9,13 +9,13 @@ retry(
       "zap-advanced-scan-nginx-demo",
       "zap-advanced-scan",
       ["-t", "http://nginx.demo-apps.svc"],
-      60 * 6
+      60 * 15
     );
 
     // There must be at least one finding
     expect(count).toBeGreaterThanOrEqual(1);
   },
-  60 * 7 * 1000
+  60 * 16 * 1000
 );
 
 retry(
@@ -26,13 +26,13 @@ retry(
       "zap-advanced-scan-bodgeit-demo",
       "zap-advanced-scan",
       ["-t", "http://bodgeit.demo-apps.svc:8080/"],
-      60 * 15
+      60 * 30
     );
 
     // There must be at least one finding
     expect(count).toBeGreaterThanOrEqual(1);
   },
-  60 * 16 * 1000
+  60 * 31 * 1000
 );
 
 retry(
@@ -43,13 +43,13 @@ retry(
       "zap-advanced-scan-juiceshop-demo",
       "zap-advanced-scan",
       ["-t", "http://juiceshop.demo-apps.svc:3000/"],
-      60 * 15
+      60 * 30
     );
 
     // There must be at least one finding
     expect(count).toBeGreaterThanOrEqual(1);
   },
-  60 * 16 * 1000
+  60 * 31 * 1000
 );
 
 retry(
@@ -60,13 +60,13 @@ retry(
       "zap-advanced-scan-petstore-demo",
       "zap-advanced-scan",
       ["-t", "http://petstore.demo-apps.svc/"],
-      60 * 15
+      60 * 30
     );
 
     // There must be at least one finding
     expect(count).toBeGreaterThanOrEqual(1);
   },
-  60 * 16 * 1000
+  60 * 31 * 1000
 );
 
 // test(
