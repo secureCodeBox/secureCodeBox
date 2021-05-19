@@ -4,7 +4,7 @@ description: A Helm chart for the kubeaudit security scanner that integrates wit
 
 type: application
 version: v2.7.0-alpha1
-appVersion: v0.13.0
+appVersion: v0.14.0
 kubeVersion: ">=v1.11.0-0"
 
 keywords:
