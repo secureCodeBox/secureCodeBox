@@ -36,7 +36,7 @@ async function parse({ vulnerabilities = [], nodes = [] }) {
   });
 }
 
-function to_valid_url(location){
+function toValidUrl(location){
   return "tcp://"+location
 }
 
