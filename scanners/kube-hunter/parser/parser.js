@@ -24,7 +24,7 @@ async function parse({ vulnerabilities = [], nodes = [] }) {
     return {
       name: vulnerability.vulnerability,
       description: vulnerability.description,
-      location: to_valid_url(location),
+      location: toValidUrl(location),
       severity: vulnerability.severity.toUpperCase(),
       category: vulnerability.category,
       reference,
