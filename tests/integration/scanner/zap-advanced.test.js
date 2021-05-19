@@ -1,6 +1,7 @@
 const { scan } = require("../helpers");
+const retry = require("../retry");
 
-test(
+retry(
   "ZAP-advanced scan without config YAML against a plain 'nginx container' should only find couple findings",
   async () => {
     const { count } = await scan(
@@ -16,7 +17,7 @@ test(
   60 * 7 * 1000
 );
 
-test(
+retry(
   "ZAP-advanced scan without config YAML against 'bodgeit' container should only find couple findings",
   async () => {
     const { count } = await scan(
@@ -32,7 +33,7 @@ test(
   60 * 16 * 1000
 );
 
-test(
+retry(
   "ZAP-advanced scan without config YAML against 'juiceshop' should only find couple findings",
   async () => {
     const { count } = await scan(
@@ -48,7 +49,7 @@ test(
   60 * 16 * 1000
 );
 
-test(
+retry(
   "ZAP-advanced scan without config YAML against 'swagger-petstore' should only find couple findings",
   async () => {
     const { count } = await scan(
