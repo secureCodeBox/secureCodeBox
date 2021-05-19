@@ -107,17 +107,15 @@ zapContainer:
   # -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
   securityContext: {}
 
-# -- All scanType specific configuration options. Feel free to add more configuration options. All configuration options can be overriden by scan specific configurations if defined. Please have a look into the README.md to find more configuration options.
+# -- All `scanType` specific configuration options. Feel free to add more configuration options. All configuration options can be overriden by scan specific configurations if defined. Please have a look into the README.md to find more configuration options.
 zapConfiguration:
-  # Global ZAP Configurations
+  # -- Optional general ZAP Configurations settings.
   global:
-    # True to create another ZAP session (overwrite the former if the same name already exists), False to use an existing on
-    isNewSession: true
-    # ZAP Session name
+    # -- The ZAP internal Session name. Default: secureCodeBox
     sessionName: secureCodeBox
-    # -- Updates all Zap addOns on startup if true, otherwise false
+    # -- Updates all installed ZAP AddOns on startup if true, otherwise false.
     addonUpdate: true
-    # -- Installs additional addons on startup listed by name:
+    # -- Installs additional ZAP AddOns on startup, listed by their name:
     addonInstall:
       - pscanrulesBeta
       - ascanrulesBeta
