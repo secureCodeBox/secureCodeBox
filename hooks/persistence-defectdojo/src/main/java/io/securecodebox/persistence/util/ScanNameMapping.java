@@ -28,8 +28,7 @@ public enum ScanNameMapping {
   SSLYZE("sslyze", ScanType.SSLYZE_3_JSON_SCAN),
   TRIVY("trivy", ScanType.TRIVY_SCAN),
   GITLEAKS("gitleaks", ScanType.GITLEAKS_SCAN),
-  // nikto requires .json or .xml file extension
-  // NIKTO("nikto", ScanType.NIKTO_SCAN), 
+  NIKTO("nikto", ScanType.NIKTO_SCAN), 
   GENERIC(null, ScanType.SECURECODEBOX_FINDINGS_IMPORT)
   ;
 
