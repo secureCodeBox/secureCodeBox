@@ -253,9 +253,10 @@ public class VersionedEngagementsStrategy implements Strategy {
 
     String scanType = ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).scanType.getTestType();
     TestType testType = testTypeService.searchUnique(TestType.builder().name(scanType).build()).orElseThrow(() -> new DefectDojoPersistenceException("Could not find test type '" + scanType + "' in DefectDojo API. DefectDojo might be running in an unsupported version."));
+    String testTitle = scan.getTestTitle().orElse(scan.getMetadata().getName());
 
     var test = Test.builder()
-      .title(scan.getMetadata().getName())
+      .title(testTitle)
       .description(descriptionGenerator.generate(scan))
       .testType(testType.getId())
       .targetStart(startDate)
@@ -296,7 +297,7 @@ public class VersionedEngagementsStrategy implements Strategy {
    * Returns the DefectDojo Product Name related to the given scan.
    * If the Scan was created via a scheduled scan, the Name of the ScheduledScan should be preferred to the scans name.
    * 
-   * @param scan The scan the productName relates to.
+   * @param ownerReferences The ownerReferences of the child Object.
    * @return The productName related to the given scan.
    */
   protected String getProductNameForParentScan(List<V1OwnerReference> ownerReferences) {

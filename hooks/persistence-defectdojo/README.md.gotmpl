@@ -26,9 +26,9 @@ uses the Nikto JSON format while DefectDojo uses the XML format.
 
 :::
 
-After uploading the results to DefectDojo it will use the findings parsed by DefectDojo to overwrite the
+After uploading the results to DefectDojo, it will use the findings parsed by DefectDojo to overwrite the
 original secureCodeBox findings identified by the parser. This lets you access the finding metadata like the false
-positive and duplicate status from DefectDojo in further ReadOnly hooks, e.g. send out slack notification
+positive and duplicate status from DefectDojo in further ReadOnly hooks, e.g. send out Slack notification
 for non-duplicate & non-false positive findings only.
 
 :::caution
@@ -59,6 +59,7 @@ can add these via annotation to the scan. See examples below.
 | `defectdojo.securecodebox.io/engagement-name`    | Name of the Engagement     | Scan Name                                                            | Will be automatically created if not Engagement with that name **and** version exists |
 | `defectdojo.securecodebox.io/engagement-version` | Engagement Version         | Nothing                                                              |                                                                                       |
 | `defectdojo.securecodebox.io/engagement-tags`    | Engagement Tags            | Nothing                                                              | Only used when creating the Product not used for updating                             |
+| `defectdojo.securecodebox.io/test-title`         | Test Title                 | Scan Name                                                            |                                                                                       |
 
 ### Simple Example Scans
 
@@ -99,6 +100,7 @@ metadata:
     defectdojo.securecodebox.io/engagement-name: "Juice Shop"
     defectdojo.securecodebox.io/engagement-version: "v12.6.1"
     defectdojo.securecodebox.io/engagement-tags: "automated,daily"
+    defectdojo.securecodebox.io/test-title: "Juice Shop - v12.6.1"
 spec:
   interval: 24h
   scanSpec:

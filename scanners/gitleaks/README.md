@@ -11,7 +11,7 @@ usecase: "Find potential secrets in repositories"
 
 Gitleaks is a free and open source tool for finding secrets in git repositories.
 These secrets could be passwords, API keys, tokens, private keys or suspicious file names or
-file extensions like *id_rsa*, *.pem*, *htpasswd*. Furthermore gitleaks can scan your whole repository's history
+file extensions like *id_rsa*, *.pem*, *htpasswd*. Furthermore, gitleaks can scan your whole repository's history
 with all commits up to the initial one.
 
 To learn more about gitleaks visit <https://github.com/zricethezav/gitleaks>
@@ -42,7 +42,7 @@ The only mandatory parameters are:
 
 :::info
 If you run gitleaks based on a scheduledScan (e.g. one scan per day) it would be enough to scan all git-commits since the last executed schedule.
-Instead of scanning all commits in the complete git history every day it would safe a lot of resources to scan only all commits of the last day.
+Instead of scanning all commits in the complete git history every day it would save a lot of resources to scan only all commits of the last day.
 
 _Problem is: This is a feature and configuration option gitleaks is currently not supporting._
 
@@ -84,7 +84,7 @@ At this point we provide three rulesets which you can pass to the `--config-path
 - `/home/config_all.toml`: Includes every rule.
 - `/home/config_filenames_only.toml`: Gitleaks scans only file names and extensions.
 - `/home/config_no_generics.toml`: No generic rules like searching for the word *password*. With this option you won't
-find something like **password = Ej2ifDk2jfeo2** but it will reduce resulting false positives.
+find something like **password = Ej2ifDk2jfeo2**, but it will reduce resulting false positives.
 
 If you like to provide your custom ruleset, you can create a configMap and mount it into
 the scan. Checkout the examples for more information about providing your own gitleaks rules config.
@@ -108,13 +108,13 @@ very critical.**
 
 #### Cascading Rules
 
-If you want to scan multiple repositories from github or gitlab automatically at once, you should
+If you want to scan multiple repositories from GitHub or gitlab automatically at once, you should
 take a look at the cascading rules which get triggered by the **git-repo-scanner**.
 For more information on how to use **git-repo-scanner** checkout the
 [Readme](https://github.com/secureCodeBox/secureCodeBox/tree/main/scanners/git-repo-scanner).
 
-For cascading scans on public github repositories you don't need any credentials. For the gitlab
-and private github rules you need to provide an access token via environment. You could do that with
+For cascading scans on public GitHub repositories you don't need any credentials. For the gitlab
+and private GitHub rules you need to provide an access token via environment. You could do that with
 the following commands:
 
 ```bash
@@ -129,6 +129,7 @@ For more information on how to use cascades take a look at
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| cascadingRules.enabled | bool | `true` | Enables or disables the installation of the default cascading rules for this scanner |
 | image.repository | string | `"docker.io/securecodebox/scanner-gitleaks"` | Container Image to run the scan |
 | image.tag | string | `nil` | defaults to the app version |
 | parseJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |

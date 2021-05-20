@@ -14,7 +14,7 @@ spec:
     {{  if .Values.customTemplateMap.exists }}
     - name: {{ .Release.Name }}-custom-templates
       configMap:
-        name: {{ .Values.customTeplateMap.name }} 
+        name: {{ .Values.customTemplateMap.name }} 
     {{ end }}
   volumeMounts:
     - name: {{ .Release.Name }}-config
@@ -22,7 +22,7 @@ spec:
       readOnly: true
     {{  if .Values.customTemplateMap.exists}}
     - name: {{ .Release.Name }}-custom-templates
-      mountPath: /home/app/notification-templates 
+      mountPath: /home/app/hook-wrapper/hook/notification-templates 
     {{ end }}
   env:
     {{- toYaml .Values.env | nindent 4}} 
