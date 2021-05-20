@@ -7,8 +7,6 @@ data:
   2-zap-advanced-scan.yaml: |-
 
     global:
-      # True to create another ZAP session (overwrite the former if the same name already exists), False to use an existing on
-      isNewSession: true
       # Sets the ZAP Session name
       sessionName: integration-test
       # Determine if a proxy script must be loaded. Proxy scripts are executed for every request traversing ZAP

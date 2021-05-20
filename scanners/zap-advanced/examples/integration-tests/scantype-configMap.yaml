@@ -7,16 +7,8 @@ data:
 
     # Global ZAP Configurations
     global:
-      # True to create another ZAP session (overwrite the former if the same name already exists), False to use an existing on
-      isNewSession: true
       # Sets the ZAP Session name
       sessionName: integration-test
-      # Determine if a proxy script must be loaded. Proxy scripts are executed for every request traversing ZAP
-      scripts:
-        - name: "Alert on HTTP Response Code Errors.js"
-          enabled: true
-        - name: "Alert on Unexpected Content Types.js"
-          enabled: true
 
     # ZAP Contexts Configuration 
     contexts:
