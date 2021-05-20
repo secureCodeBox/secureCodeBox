@@ -21,16 +21,15 @@ import io.securecodebox.persistence.defectdojo.ScanType;
 import lombok.NonNull;
 
 public enum ScanNameMapping {
-  NMAP("nmap", ScanType.NMAP_SCAN),
+  NMAP("nmap", ScanType.NMAP_XML_SCAN),
   ZAP_BASELINE("zap-baseline", ScanType.ZAP_SCAN),
   ZAP_API_SCAN("zap-api-scan", ScanType.ZAP_SCAN),
   ZAP_FULL_SCAN("zap-full-scan", ScanType.ZAP_SCAN),
-  SSLYZE("sslyze", ScanType.SS_LYZE_3_SCAN_JSON),
+  SSLYZE("sslyze", ScanType.SSLYZE_3_JSON_SCAN),
   TRIVY("trivy", ScanType.TRIVY_SCAN),
   GITLEAKS("gitleaks", ScanType.GITLEAKS_SCAN),
-  // WPSCAN("wpscan", ScanType.WPSCAN),
-  // NIKTO("nikto", ScanType.NIKTO_SCAN),
-  // SSH("ssh-scan, ScanType.?),
+  NIKTO("nikto", ScanType.NIKTO_SCAN), 
+  GENERIC(null, ScanType.SECURECODEBOX_FINDINGS_IMPORT)
   ;
 
   /**
@@ -58,5 +57,7 @@ public enum ScanNameMapping {
     }
 
     throw new IllegalArgumentException("No Mapping found for ScanType '" + scanType + "'");
+    // use this as soon as generic parser is released (in DD or this Hook)
+    // return ScanNameMapping.GENERIC;
   }
 }
