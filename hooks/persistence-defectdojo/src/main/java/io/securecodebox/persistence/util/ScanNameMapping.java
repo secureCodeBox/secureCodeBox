@@ -55,6 +55,9 @@ public enum ScanNameMapping {
         return mapping;
       }
     }
-    return ScanNameMapping.GENERIC;
+
+    throw new IllegalArgumentException("No Mapping found for ScanType '" + scanType + "'");
+    // use this as soon as generic parser is released (in DD or this Hook)
+    // return ScanNameMapping.GENERIC;
   }
 }
