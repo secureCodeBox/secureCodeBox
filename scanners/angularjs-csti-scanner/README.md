@@ -58,7 +58,7 @@ kubectl create configmap --from-file /path/to/my/acstis-config.py acstis-config
 
 Then, mount it into the container:
 
- ```yaml
+```yaml
  volumes:
      - name: "acstis-config"
        configMap:
