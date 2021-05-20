@@ -6,20 +6,10 @@ const readFile = util.promisify(fs.readFile);
 
 const { parse } = require("./parser");
 
-// test("WPScan parser parses errored result (no Wordpress server) to zero findings", async () => {
-//   const hosts = JSON.parse(
-//     await readFile(__dirname + "/__testFiles__/empty-localhost.json", {
-//       encoding: "utf8"
-//     })
-//   );
-
-//   expect(await parse(hosts)).toEqual([]);
-// });
-
-test("WPScan parser parses a successfull scan result with at least one informational finding", async () => {
+test("WPScan parser parses a successfully scan result with at least one informational finding", async () => {
   const scanResults = JSON.parse(
     await readFile(__dirname + "/__testFiles__/example-latest.json", {
-      encoding: "utf8"
+      encoding: "utf8",
     })
   );
 
@@ -131,6 +121,128 @@ test("WPScan parser parses a successfull scan result with at least one informati
         "confidence": 60,
         "description": "The external WP-Cron seems to be enabled: https://www.example.com/wp-cron.php",
         "location": "https://www.example.com/wp-cron.php",
+        "name": "WordPress finding 'wp_cron'",
+        "osi_layer": "APPLICATION",
+        "reference": Object {},
+        "severity": "INFORMATIONAL",
+      },
+    ]
+  `);
+});
+
+test("WPScan parser parses a scan result file without a detected wp version correctly", async () => {
+  const scanResults = JSON.parse(
+    await readFile(__dirname + "/__testFiles__/no-version-detected.json", {
+      encoding: "utf8",
+    })
+  );
+
+  expect(await parse(scanResults)).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "attributes": Object {
+          "hostname": "https://wp.example.com/",
+          "ip_address": "203.0.113.42",
+          "wp_confirmed_by": undefined,
+          "wp_found_by": undefined,
+          "wp_interesting_entries": undefined,
+          "wp_release_date": undefined,
+          "wp_release_status": undefined,
+          "wp_version": undefined,
+          "wp_vulnerabilities": undefined,
+          "wpscan_requests": 3734,
+          "wpscan_version": "3.8.17",
+        },
+        "category": "WordPress Service",
+        "confidence": undefined,
+        "description": "WordPress Service Information",
+        "location": "https://wp.example.com/",
+        "name": "WordPress Service",
+        "osi_layer": "APPLICATION",
+        "reference": Object {},
+        "severity": "INFORMATIONAL",
+      },
+      Object {
+        "attributes": Object {
+          "hostname": "https://wp.example.com/",
+          "wp_confirmed_by": Object {},
+          "wp_found_by": "Headers (Passive Detection)",
+          "wp_interesting_entries": Array [
+            "Server: Apache",
+            "Expect-CT: max-age=86400, enforce",
+          ],
+        },
+        "category": "WordPress headers",
+        "confidence": 100,
+        "description": "Headers",
+        "location": "https://wp.example.com/",
+        "name": "WordPress finding 'headers'",
+        "osi_layer": "APPLICATION",
+        "reference": Object {},
+        "severity": "INFORMATIONAL",
+      },
+      Object {
+        "attributes": Object {
+          "hostname": "https://wp.example.com/",
+          "wp_confirmed_by": Object {},
+          "wp_found_by": "Robots Txt (Aggressive Detection)",
+          "wp_interesting_entries": Array [
+            "/wp-admin/",
+            "/wp-admin/admin-ajax.php",
+          ],
+        },
+        "category": "WordPress robots_txt",
+        "confidence": 100,
+        "description": "robots.txt found: https://wp.example.com/robots.txt",
+        "location": "https://wp.example.com/robots.txt",
+        "name": "WordPress finding 'robots_txt'",
+        "osi_layer": "APPLICATION",
+        "reference": Object {},
+        "severity": "INFORMATIONAL",
+      },
+      Object {
+        "attributes": Object {
+          "hostname": "https://wp.example.com/",
+          "wp_confirmed_by": Object {},
+          "wp_found_by": "Direct Access (Aggressive Detection)",
+          "wp_interesting_entries": Array [],
+        },
+        "category": "WordPress readme",
+        "confidence": 100,
+        "description": "WordPress readme found: https://wp.example.com/readme.html",
+        "location": "https://wp.example.com/readme.html",
+        "name": "WordPress finding 'readme'",
+        "osi_layer": "APPLICATION",
+        "reference": Object {},
+        "severity": "INFORMATIONAL",
+      },
+      Object {
+        "attributes": Object {
+          "hostname": "https://wp.example.com/",
+          "wp_confirmed_by": Object {},
+          "wp_found_by": "Direct Access (Aggressive Detection)",
+          "wp_interesting_entries": Array [],
+        },
+        "category": "WordPress mu_plugins",
+        "confidence": 80,
+        "description": "This site has 'Must Use Plugins': https://wp.example.com/wp-content/mu-plugins/",
+        "location": "https://wp.example.com/wp-content/mu-plugins/",
+        "name": "WordPress finding 'mu_plugins'",
+        "osi_layer": "APPLICATION",
+        "reference": Object {},
+        "severity": "INFORMATIONAL",
+      },
+      Object {
+        "attributes": Object {
+          "hostname": "https://wp.example.com/",
+          "wp_confirmed_by": Object {},
+          "wp_found_by": "Direct Access (Aggressive Detection)",
+          "wp_interesting_entries": Array [],
+        },
+        "category": "WordPress wp_cron",
+        "confidence": 60,
+        "description": "The external WP-Cron seems to be enabled: https://wp.example.com/wp-cron.php",
+        "location": "https://wp.example.com/wp-cron.php",
         "name": "WordPress finding 'wp_cron'",
         "osi_layer": "APPLICATION",
         "reference": Object {},

@@ -3,6 +3,5 @@ kind: ParseDefinition
 metadata:
   name: "screenshot-png"
 spec:
-  handlesResultsType: screenshot-png
   image: "{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag | default .Chart.Version }}"
   ttlSecondsAfterFinished: {{ .Values.parseJob.ttlSecondsAfterFinished }}

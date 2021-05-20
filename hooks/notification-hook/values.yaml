@@ -48,5 +48,9 @@ env:
       secretKeyRef:
         name: some-secret
         key: some-key
-  - name: key
-    value: value
+  - name: SMTP_CONFIG
+    valueFrom:
+      secretKeyRef:
+        name: some-secret
+        key: smtp-config-key
+

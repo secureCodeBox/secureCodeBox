@@ -23,7 +23,6 @@ import * as jsyaml from 'js-yaml';
 
 const BASE_PATH = "/home/app/config"
 const CHANNEL_FILE = `${BASE_PATH}/notification-channel.yaml`;
-const ARGS_FILE = `${BASE_PATH}/args`
 
 export async function handle({ getFindings, scan }) {
   let findings: Finding[] = await getFindings();

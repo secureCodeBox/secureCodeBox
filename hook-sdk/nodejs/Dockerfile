@@ -1,9 +1,9 @@
-FROM node:12-alpine as build
+FROM node:14-alpine as build
 WORKDIR /home/app
 COPY package.json package-lock.json ./
 RUN npm ci --production
 
-FROM node:12-alpine
+FROM node:14-alpine
 ARG NODE_ENV
 RUN addgroup --system --gid 1001 app && adduser app --system --uid 1001 --ingroup app
 WORKDIR /home/app/hook-wrapper/

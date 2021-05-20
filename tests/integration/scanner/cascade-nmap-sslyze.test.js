@@ -1,7 +1,10 @@
-const { cascadingScan } = require('../helpers')
+const retry = require("../retry");
 
-test(
+const { cascadingScan } = require("../helpers");
+
+retry(
   "Cascading Scan nmap -> sslyze on unsafe-https",
+  3,
   async () => {
     const { categories, severities, count } = await cascadingScan(
       "nmap-unsafe-https-sslyze",
@@ -11,8 +14,8 @@ test(
         nameCascade: "https-tls-scan",
         matchLabels: {
           "securecodebox.io/invasive": "non-invasive",
-          "securecodebox.io/intensive": "light"
-        }
+          "securecodebox.io/intensive": "light",
+        },
       },
       4 * 60
     );

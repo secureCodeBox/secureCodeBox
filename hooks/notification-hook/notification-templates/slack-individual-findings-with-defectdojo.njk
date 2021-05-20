@@ -1,0 +1,24 @@
+blocks:
+- type: header
+  text:
+    type: plain_text
+    text: New ZAP / secureCodeBox Findings
+    emoji: true
+
+{% for finding in findings -%}
+- type: section
+  text:
+    type: mrkdwn
+    text: |-
+      *{{ finding.name }}*
+
+      {{ finding.description | replace("\n", " ") | truncate(200) }}
+  accessory:
+    type: button
+    text:
+      type: plain_text
+      text: View
+      emoji: true
+    value: open_in_defectdojo
+    url: {{ finding.attributes["defectdojo.org/finding-url"] | safe }}
+{% endfor %}

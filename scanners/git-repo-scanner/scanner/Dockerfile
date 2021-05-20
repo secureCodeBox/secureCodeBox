@@ -1,4 +1,4 @@
-FROM python:3.9.0-alpine
+FROM docker.io/python:3-alpine
 COPY . /scripts/
 RUN pip install -r /scripts/requirements.txt
 CMD ["/bin/sh"]

@@ -1,4 +1,5 @@
 export enum NotifierType {
   SLACK = "slack",
-  MS_TEAMS = "ms-teams"
+  MS_TEAMS = "ms-teams",
+  EMAIL = "email"
 }

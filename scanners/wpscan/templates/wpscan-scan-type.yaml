@@ -3,7 +3,6 @@ kind: ScanType
 metadata:
   name: "wpscan"
 spec:
-  name: "wpscan"
   extractResults:
     type: wpscan-json
     location: "/home/securecodebox/wpscan-results.json"

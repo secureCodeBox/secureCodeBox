@@ -3,7 +3,6 @@ kind: ScanType
 metadata:
   name: "ssh-scan"
 spec:
-  name: "ssh-scan"
   extractResults:
     type: ssh-scan-json
     location: "/home/securecodebox/ssh-scan-results.json"
