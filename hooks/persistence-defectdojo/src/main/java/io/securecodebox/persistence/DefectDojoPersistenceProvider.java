@@ -19,6 +19,7 @@ package io.securecodebox.persistence;
 
 import io.securecodebox.persistence.config.PersistenceProviderConfig;
 import io.securecodebox.persistence.defectdojo.config.DefectDojoConfig;
+import io.securecodebox.persistence.defectdojo.models.ScanFile;
 import io.securecodebox.persistence.defectdojo.service.EndpointService;
 import io.securecodebox.persistence.mapping.DefectDojoFindingToSecureCodeBoxMapper;
 import io.securecodebox.persistence.models.Scan;
@@ -26,9 +27,10 @@ import io.securecodebox.persistence.service.KubernetesService;
 import io.securecodebox.persistence.service.S3Service;
 import io.securecodebox.persistence.strategies.VersionedEngagementsStrategy;
 import io.securecodebox.persistence.util.ScanNameMapping;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import java.net.URL;
 import java.util.stream.Collectors;
 
 public class DefectDojoPersistenceProvider {
@@ -66,7 +68,8 @@ public class DefectDojoPersistenceProvider {
 
     var defectdojoImportStrategy = new VersionedEngagementsStrategy();
     defectdojoImportStrategy.init(config);
-    var defectDojoFindings = defectdojoImportStrategy.run(scan, scanResults);
+    var scanResultFile = new ScanFile(scanResults, FilenameUtils.getName(new URL(downloadUrl).getPath()));
+    var defectDojoFindings = defectdojoImportStrategy.run(scan, scanResultFile);
 
     LOG.info("Identified total Number of findings in DefectDojo: {}", defectDojoFindings.size());
 
