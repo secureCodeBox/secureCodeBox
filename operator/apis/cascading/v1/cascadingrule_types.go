@@ -32,6 +32,15 @@ type CascadingRuleSpec struct {
 
 	// Matches defines to which findings the CascadingRule should apply
 	Matches Matches `json:"matches"`
+
+	// ScanLabels define additional labels for cascading scans
+	// +optional
+	ScanLabels map[string]string `json:"scanLabels"`
+
+	// ScanAnnotations define additional annotations for cascading scans
+	// + optional
+	ScanAnnotations map[string]string `json:"scanAnnotations"`
+
 	// ScanSpec defines how the cascaded scan should look like
 	ScanSpec executionv1.ScanSpec `json:"scanSpec"`
 }
