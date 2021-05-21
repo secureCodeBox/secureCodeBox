@@ -112,8 +112,8 @@ annotations:
         cascades:
           matchLabels:
             securecodebox.io/intensive: light
-          matchExpression:
-            key: "securecodebox.io/invasive"
+          matchExpressions:
+          - key: "securecodebox.io/invasive"
             operator: In
             values: [non-invasive, invasive]
     - apiVersion: "execution.securecodebox.io/v1"

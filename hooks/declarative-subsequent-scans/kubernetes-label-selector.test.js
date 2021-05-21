@@ -45,7 +45,7 @@ test("should generate basic label string for multiple key values selector", () =
 test("should generate label string for set based expressions", () => {
   expect(
     generateLabelSelectorString({
-      matchExpression: [
+      matchExpressions: [
         {
           key: "environment",
           operator: "In",
@@ -57,7 +57,7 @@ test("should generate label string for set based expressions", () => {
 
   expect(
     generateLabelSelectorString({
-      matchExpression: [
+      matchExpressions: [
         {
           key: "environment",
           operator: "In",
@@ -71,7 +71,7 @@ test("should generate label string for set based expressions", () => {
 test("should generate label string for set based expressions with multiple entries", () => {
   expect(
     generateLabelSelectorString({
-      matchExpression: [
+      matchExpressions: [
         {
           key: "environment",
           operator: "NotIn",
@@ -90,7 +90,7 @@ test("should generate label string for set based expressions with multiple entri
 test("should generate label string for set based Exists and DoesNotExist operators", () => {
   expect(
     generateLabelSelectorString({
-      matchExpression: [
+      matchExpressions: [
         {
           key: "environment",
           operator: "Exists"
@@ -107,7 +107,7 @@ test("should generate label string for set based Exists and DoesNotExist operato
 test("should generate selectors with both expression and labelMatching", () => {
   expect(
     generateLabelSelectorString({
-      matchExpression: [
+      matchExpressions: [
         {
           key: "environment",
           operator: "NotIn",
@@ -139,7 +139,7 @@ test("should generate selectors with both expression and labelMatching", () => {
 test("should throw a exception when passed a unknown operator", () => {
   expect(() =>
     generateLabelSelectorString({
-      matchExpression: [
+      matchExpressions: [
         {
           key: "environment",
           operator: "FooBar",
