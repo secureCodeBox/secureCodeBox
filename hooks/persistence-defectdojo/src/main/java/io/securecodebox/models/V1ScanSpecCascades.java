@@ -35,6 +35,14 @@ import java.util.Map;
 @ApiModel(description = "A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all objects. A null label selector matches no objects.")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-03-26T19:41:39.505Z[Etc/UTC]")
 public class V1ScanSpecCascades {
+  public static final String SERIALIZED_NAME_INHERIT_LABELS = "inheritLabels";
+  @SerializedName(SERIALIZED_NAME_INHERIT_LABELS)
+  private boolean inheritLabels = true;
+
+  public static final String SERIALIZED_NAME_INHERIT_ANNOTATIONS = "inheritAnnotations";
+  @SerializedName(SERIALIZED_NAME_INHERIT_ANNOTATIONS)
+  private boolean inheritAnnotations = true;
+
   public static final String SERIALIZED_NAME_MATCH_EXPRESSIONS = "matchExpressions";
   @SerializedName(SERIALIZED_NAME_MATCH_EXPRESSIONS)
   private List<V1ScanSpecCascadesMatchExpressions> matchExpressions = null;
@@ -43,6 +51,21 @@ public class V1ScanSpecCascades {
   @SerializedName(SERIALIZED_NAME_MATCH_LABELS)
   private Map<String, String> matchLabels = null;
 
+  public boolean inheritsLabels() {
+    return inheritsAnnotations();
+  }
+
+  public void setInheritLabels(boolean inheritLabels) {
+    this.inheritLabels = inheritLabels;
+  }
+
+  public boolean inheritsAnnotations() {
+    return inheritAnnotations;
+  }
+
+  public void setInheritAnnotations(boolean inheritAnnotations) {
+    this.inheritAnnotations = inheritAnnotations;
+  }
 
   public V1ScanSpecCascades matchExpressions(List<V1ScanSpecCascadesMatchExpressions> matchExpressions) {
     
@@ -116,7 +139,9 @@ public class V1ScanSpecCascades {
     }
     V1ScanSpecCascades v1ScanSpecCascades = (V1ScanSpecCascades) o;
     return Objects.equals(this.matchExpressions, v1ScanSpecCascades.matchExpressions) &&
-        Objects.equals(this.matchLabels, v1ScanSpecCascades.matchLabels);
+        Objects.equals(this.matchLabels, v1ScanSpecCascades.matchLabels) &&
+        this.inheritLabels == v1ScanSpecCascades.inheritLabels &&
+        this.inheritAnnotations == v1ScanSpecCascades.inheritAnnotations;
   }
 
   @Override
@@ -129,6 +154,8 @@ public class V1ScanSpecCascades {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class V1ScanSpecCascades {\n");
+    sb.append("    inheritLabels: ").append(String.valueOf(inheritLabels)).append("\n");
+    sb.append("    inheritAnnotations: ").append(String.valueOf(inheritAnnotations)).append("\n");
     sb.append("    matchExpressions: ").append(toIndentedString(matchExpressions)).append("\n");
     sb.append("    matchLabels: ").append(toIndentedString(matchLabels)).append("\n");
     sb.append("}");
