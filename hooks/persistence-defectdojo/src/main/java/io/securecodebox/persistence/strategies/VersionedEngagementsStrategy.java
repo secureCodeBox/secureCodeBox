@@ -79,7 +79,7 @@ public class VersionedEngagementsStrategy implements Strategy {
   }
 
   @Override
-  public List<Finding> run(Scan scan, String rawResults) throws Exception {
+  public List<Finding> run(Scan scan, ScanFile scanResultFile) throws Exception {
     LOG.debug("Getting DefectDojo User Id");
     var userId = userService.searchUnique(User.builder().username(this.config.getUsername()).build())
       .orElseThrow(() -> new DefectDojoPersistenceException("Failed to find user with name: '" + this.config.getUsername() + "'"))
@@ -100,9 +100,9 @@ public class VersionedEngagementsStrategy implements Strategy {
 
     ScanType scanType = ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).scanType;
     TestType testType = testTypeService.searchUnique(TestType.builder().name(scanType.getTestType()).build()).orElseThrow(() -> new DefectDojoPersistenceException("Could not find test type '" + scanType.getTestType() + "' in DefectDojo API. DefectDojo might be running in an unsupported version."));
-
+    
     importScanService.reimportScan(
-      rawResults,
+      scanResultFile,
       testId,
       userId,
       this.descriptionGenerator.currentDate(),
@@ -166,6 +166,7 @@ public class VersionedEngagementsStrategy implements Strategy {
       .orchestrationEngine(toolConfig.getId())
       .targetStart(descriptionGenerator.currentDate())
       .targetEnd(descriptionGenerator.currentDate())
+      .deduplicationOnEngagement(scan.getDeDuplicateOnEngagement().orElse(false))
       .status(Engagement.Status.IN_PROGRESS)
       .build();
 
