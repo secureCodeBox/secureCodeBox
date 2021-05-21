@@ -49,12 +49,12 @@ contexts:
       type: "scriptBasedSessionManagement"
       # scriptBasedSessionManagement configuration details
       scriptBasedSessionManagement:
-        scriptName: juiceshop-session-management.js
+        name: juiceshop-session-management.js
         # Script engine values: 'Graal.js', 'Oracle Nashorn' for Javascript and 'Mozilla Zest' for Zest Scripts
-        scriptEngine: "Oracle Nashorn"
+        engine: "Oracle Nashorn"
         # Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
-        scriptFilePath: "/home/zap/.ZAP_D/scripts/scripts/session/juiceshop-session-management.js"
-        scriptDescription: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
+        filePath: "/home/zap/.ZAP_D/scripts/scripts/session/juiceshop-session-management.js"
+        description: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
 spiders:
   - name: scb-juiceshop-spider
     # String: Name of the context to spider, default: first context

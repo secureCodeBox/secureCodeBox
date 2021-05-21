@@ -134,7 +134,8 @@ class ZapConfigureSpiderHttp(ZapConfigureSpider):
         """
 
         logging.debug('Trying to configure the Spider')
-            
+        self.configure_scripts(config=spider_config)
+        
         # Configure Spider (ajax or http)
         
         if self._is_not_empty_integer("maxDuration", spider_config):

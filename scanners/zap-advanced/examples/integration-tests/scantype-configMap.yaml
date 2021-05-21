@@ -9,6 +9,28 @@ data:
     global:
       # Sets the ZAP Session name
       sessionName: integration-test
+      # Configures existings ZAP Scripts or add new ZAP Scripts.
+      scripts:
+        - name: "Alert_on_HTTP_Response_Code_Errors.js"
+          enabled: false
+          filePath: "/home/zap/.ZAP_D/scripts/scripts/httpsender/Alert_on_HTTP_Response_Code_Errors.js"
+          engine: "Oracle Nashorn"
+          type: "httpsender"
+          description: "A HTTP Sender Script which will raise alerts based on HTTP Response codes."
+        - name: "Alert_on_Unexpected_Content_Types.js"
+          enabled: false
+          filePath: "/home/zap/.ZAP_D/scripts/scripts/httpsender/Alert_on_Unexpected_Content_Types.js"
+          engine: "Oracle Nashorn"
+          type: "httpsender"
+          description: "A HTTP Sender Script which will raise alerts based on unexpected Content-Types."
+        - name: "juiceshop-session-management.js"
+          enabled: false
+          # Script engine values: 'Graal.js', 'Oracle Nashorn' for Javascript and 'Mozilla Zest' for Zest Scripts
+          engine: "Oracle Nashorn"
+          type: "session"
+          # Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
+          filePath: "/home/zap/.ZAP_D/scripts/scripts/session/juiceshop-session-management.js"
+          description: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
 
     # ZAP Contexts Configuration 
     contexts:
@@ -90,12 +112,15 @@ data:
           type: "scriptBasedSessionManagement"
           # scriptBasedSessionManagement configuration details
           scriptBasedSessionManagement:
-            scriptName: "juiceshop-session-management.js"
-            # Script engine values: 'Graal.js', 'Oracle Nashorn' for Javascript and 'Mozilla Zest' for Zest Scripts
-        scriptEngine: "Oracle Nashorn"
-            # Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
-            scriptFilePath: "/home/zap/.ZAP_D/scripts/scripts/session/juiceshop-session-management.js"
-            scriptDescription: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
+            name: "juiceshop-session-management.js"
+            enabled: true
+            # Already loaded via global setting:
+            # # Script engine values: 'Graal.js', 'Oracle Nashorn' for Javascript and 'Mozilla Zest' for Zest Scripts
+            # engine: "Oracle Nashorn"
+            # type: "session"
+            # # Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
+            # filePath: "/home/zap/.ZAP_D/scripts/scripts/session/juiceshop-session-management.js"
+            # description: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
       - name: scb-petstore-context
         # The top level url, mandatory, everything under this will be included. IMPORTANT: must be the hostname without any subpath!
         url: http://petstore.demo-apps.svc/
@@ -230,6 +255,12 @@ data:
         threadCount: 2
         # String: The user agent to use in requests, default: '' - use the default ZAP one               
         userAgent: "secureCodeBox / ZAP Spider"
+        # Configures existings ZAP Scripts or add new ZAP Scripts.
+        scripts:
+          - name: "Alert_on_HTTP_Response_Code_Errors.js"
+            enabled: true
+          - name: "Alert_on_Unexpected_Content_Types.js"
+            enabled: true
 
     # ZAP ActiveScans Configuration 
     scanners:
@@ -302,3 +333,9 @@ data:
         injectPluginIdInHeader: false
         # Bool: If set then the headers of requests that do not include any parameters will be scanned, default: false
         scanHeadersAllRequests: false
+        # Configures existings ZAP Scripts or add new ZAP Scripts.
+        scripts:
+          - name: "Alert_on_HTTP_Response_Code_Errors.js"
+            enabled: true
+          - name: "Alert_on_Unexpected_Content_Types.js"
+            enabled: true

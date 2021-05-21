@@ -136,6 +136,7 @@ class ZapConfigureActiveScanner(ZapConfigureScanner):
         """
 
         logging.debug('Trying to configure the ActiveScan')
+        self.configure_scripts(config=scanner_config)
             
         if self._is_not_empty_integer("maxRuleDurationInMins", scanner_config):
             self.check_zap_result(

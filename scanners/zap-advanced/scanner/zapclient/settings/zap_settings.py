@@ -59,7 +59,7 @@ class ZapConfigureSettings(ZapClient):
             self.__configure_global_settings()
             self.__configure_exclude_paths()
             self.__configure_proxy()        
-            self.__configure_scripts()
+            self.configure_scripts(config=self.get_global_config)
 
     def __create_session(self):
         """Private method to configure a new active ZAP Session, based on the configuration settings."""
@@ -212,59 +212,3 @@ class ZapConfigureSettings(ZapClient):
                 logging.debug("Proxy Socks configuration is not enabled (global.proxy.socks.enabled: true)")   
         else:
             logging.debug("No proxy sock configuration found (global.proxy.socks: ).")
-
-    def __configure_scripts(self):
-        """Private method to configure the script settings, based on the configuration settings."""
-        
-        if "scripts" in self.get_global_config:
-            self._log_all_scripts()
-            for script in self.get_global_config["scripts"]:
-                logging.debug("Configuring Script: '%s'", script["name"])
-                self.__configure_load_script(script_config=script)
-            self._log_all_scripts()
-        else:
-            logging.debug("No global scripts found to configure.")
-
-    def __configure_load_script(self, script_config: collections.OrderedDict):
-        """Protected method to load a new ZAP Script based on a given ZAP config.
-        
-        Parameters
-        ----------
-        script_config : collections.OrderedDict
-            The current 'script'  configuration object containing the ZAP script configuration (based on the class ZapConfiguration).
-        """
-        
-        if self._is_not_empty("name", script_config):
-
-            # Only try to add new scripts if the definition contains all nessesary config options, otherwise try to only activate/deactivate a given script name
-            if("filePath" in script_config and "engine" in script_config and "type" in script_config):
-                # Remove existing Script, if already pre-existing
-                logging.debug("Trying to remove pre-existing Script '%s' at '%s'", script_config["name"], script_config["filePath"])
-                self.get_zap.script.remove(scriptname=script_config["name"])
-
-                # Add Script again
-                logging.info("Loading new Authentication Script '%s' at '%s' with type: '%s' and engine '%s'", script_config["name"], script_config["filePath"], script_config["type"], script_config["engine"])
-                self.check_zap_result(
-                    result=self.get_zap.script.load(
-                            scriptname=script_config["name"],
-                            scripttype=script_config["type"],
-                            scriptengine=script_config["engine"],
-                            filename=script_config["filePath"],
-                            scriptdescription=script_config["description"]),
-                    method_name="script.load",
-                    exception_message="The script couldn't be loaded due to errors!"
-                )
-
-            logging.info("Activating Script '%s' with 'enabled: %s'", script_config["name"], str(script_config["enabled"]).lower())
-            if(script_config["enabled"]):
-                self.check_zap_result(
-                    result=self.get_zap.script.enable(scriptname=script_config["name"]),
-                    method_name="script.enable"
-                )
-            else:
-                self.check_zap_result(
-                    result=self.get_zap.script.disable(scriptname=script_config["name"]),
-                    method_name="script.disable"
-                )
-        else:
-          logging.warning("Important script configs (scriptName, scriptType, scriptFilePath, scriptEngine) are missing! Ignoring the script configuration. Please check your YAML configuration.")

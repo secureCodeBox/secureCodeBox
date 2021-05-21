@@ -112,3 +112,6 @@ class ZapConfigureApi(ZapClient):
             logging.debug('Import warnings: ' + str(result))
         else:
             logging.info("No complete API definition configured (format: openapi, url: xxx): %s!", api_config)
+        
+        logging.debug('Trying to configure the API Scan')
+        self.configure_scripts(config=api_config)

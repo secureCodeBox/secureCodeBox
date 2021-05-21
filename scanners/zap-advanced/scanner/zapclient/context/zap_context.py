@@ -233,12 +233,12 @@ class ZapConfigureContext(ZapClient):
         """
 
         logging.debug("Script Config: %s", str(script_config))
-        if(not script_config == None and "scriptName" in script_config and "scriptFilePath" in script_config and "scriptEngine" in script_config):
+        if(not script_config == None and "name" in script_config and "filePath" in script_config and "engine" in script_config):
             self._configure_load_script(script_config=script_config, script_type="session")
             # Here they say that only "cookieBasedSessionManagement"; "httpAuthSessionManagement"
             # is possible, but maybe this is outdated and it works anyway, hopefully:
             # https://github.com/zaproxy/zap-api-python/blob/9bab9bf1862df389a32aab15ea4a910551ba5bfc/src/examples/zap_example_api_script.py#L97
-            session_params = ('scriptName=' + script_config["scriptName"])
+            session_params = ('scriptName=' + script_config["name"])
             self.get_zap.sessionManagement.set_session_management_method(
                 contextid=context_id,
                 methodname='scriptBasedSessionManagement',

@@ -72,43 +72,69 @@ class ZapClient(ABC):
 
         return __result
     
+    def configure_scripts(self, config: collections.OrderedDict):
+        """Private method to configure the script settings, based on the configuration settings."""
+        
+        if "scripts" in config:
+            self._log_all_scripts()
+            for script in config["scripts"]:
+                logging.debug("Configuring Script: '%s'", script["name"])
+                self._configure_load_script(script_config=script, script_type=None)
+            self._log_all_scripts()
+        else:
+            logging.debug("No Scripts found to configure.")
+
     def _configure_load_script(self, script_config: collections.OrderedDict, script_type: str):
         """Protected method to load a new ZAP Script based on a given ZAP config.
         
         Parameters
         ----------
-        zap : ZAPv2
-            The running ZAP instance to configure.
-        script : collections.OrderedDict
+        script_config : collections.OrderedDict
             The current 'script'  configuration object containing the ZAP script configuration (based on the class ZapConfiguration).
-        context_id : int
-            The zap context id tot configure the ZAP authentication for (based on the class ZapConfiguration).
         """
         
-        if((script_config is not None) and "scriptName" in script_config and "scriptFilePath" in script_config and "scriptEngine" in script_config):
-            # Remove exisitng Script if already exisiting
-            logging.debug("Removing pre-existing Auth script '%s' at '%s'", script_config["scriptName"], script_config["scriptFilePath"])
-            self.get_zap.script.remove(scriptname=script_config["scriptName"])
+        if self._is_not_empty("name", script_config):
 
-            # Add Script again
-            logging.debug("Loading Authentication Script '%s' at '%s' with type: '%s' and engine '%s'", script_config["scriptName"], script_config["scriptFilePath"], script_type, script_config["scriptEngine"])
-            response = self.get_zap.script.load(
-                scriptname=script_config["scriptName"],
-                scripttype=script_type,
-                scriptengine=script_config["scriptEngine"],
-                filename=script_config["scriptFilePath"],
-                scriptdescription=script_config["scriptDescription"]
+            # Set default to script_type if it is defined
+            if(script_type is not None and isinstance(script_type, str) and len(script_type) > 0 ):
+                script_config["type"] = script_type
+
+            # Only try to add new scripts if the definition contains all nessesary config options, otherwise try to only activate/deactivate a given script name
+            if("filePath" in script_config and "engine" in script_config and "type" in script_config):
+                # Remove existing Script, if already pre-existing
+                logging.debug("Trying to remove pre-existing Script '%s' at '%s'", script_config["name"], script_config["filePath"])
+                self.get_zap.script.remove(scriptname=script_config["name"])
+
+                # Add Script again
+                logging.info("Loading new Script '%s' at '%s' with type: '%s' and engine '%s'", script_config["name"], script_config["filePath"], script_config["type"], script_config["engine"])
+                self.check_zap_result(
+                    result=self.get_zap.script.load(
+                            scriptname=script_config["name"],
+                            scripttype=script_config["type"],
+                            scriptengine=script_config["engine"],
+                            filename=script_config["filePath"],
+                            scriptdescription=script_config["description"]),
+                    method_name="script.load",
+                    exception_message="The script couldn't be loaded due to errors!"
                 )
+
+            # Set default to: True
+            if(not self._is_not_empty("enabled", script_config)):
+                script_config["enabled"] = True
             
-            if response != "OK":
-                logging.warning("Script Response: %s", response)
-                raise RuntimeError("The script (%s) couldn't be loaded due to errors: %s", script_config, response)
-
-            self.get_zap.script.enable(scriptname=script_config["scriptName"])
-
-            self._log_all_scripts()
+            logging.info("Activating Script '%s' with 'enabled: %s'", script_config["name"], str(script_config["enabled"]).lower())
+            if(script_config["enabled"]):
+                self.check_zap_result(
+                    result=self.get_zap.script.enable(scriptname=script_config["name"]),
+                    method_name="script.enable"
+                )
+            else:
+                self.check_zap_result(
+                    result=self.get_zap.script.disable(scriptname=script_config["name"]),
+                    method_name="script.disable"
+                )
         else:
-          logging.warning("Important script configs (scriptName, scriptFilePath, scriptEngine) are missing! Ignoring the script configuration. Please check your YAML configuration.")
+          logging.warning("Important script configs (scriptName, scriptType, scriptFilePath, scriptEngine) are missing! Ignoring the script configuration. Please check your YAML configuration.")
 
     def _log_all_scripts(self):
         """Protected method to log all currently configured ZAP Scripts."""

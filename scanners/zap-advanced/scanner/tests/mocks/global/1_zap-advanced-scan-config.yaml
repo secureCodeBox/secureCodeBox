@@ -1,8 +1,6 @@
 ---
 # Global ZAP Configurations
 global:
-  # True to create another ZAP session (overwrite the former if the same name already exists), False to use an existing on
-  isNewSession: true
   # Sets the ZAP Session name
   sessionName: SCB
   # Sets the connection time out, in seconds.

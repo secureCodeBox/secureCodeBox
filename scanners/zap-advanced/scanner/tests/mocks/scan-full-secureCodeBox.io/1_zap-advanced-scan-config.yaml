@@ -89,20 +89,3 @@ scanners:
     scanHeadersAllRequests: false
     # Int: The max number of threads per host, default: 2
     threadPerHost: 2
-    # # The policy definition - only used if the 'policy' is not set
-    # policyDefinition:
-    #   # String: The default Attack Strength for all rules, one of Low, Medium, High, Insane (not recommended), default: Medium
-    #   defaultStrength: Medium
-    #   # String: The default Alert Threshold for all rules, one of Off, Low, Medium, High, default: Medium
-    #   defaultThreshold: Medium
-    #   # A list of one or more active scan rules and associated settings which override the defaults
-    #   rules:
-    #   # Int: The rule id as per https://docs.zaproxy.org/docs/alerts/
-    #   - id:
-    #     # Comment: The name of the rule for documentation purposes - this is not required or actually used
-    #     name:
-    #     # String: The Attack Strength for this rule, one of Low, Medium, High, Insane, default: Medium
-    #     strength:
-    #     # String: The Alert Threshold for this rule, one of Off, Low, Medium, High, default: Medium
-    #     threshold:
-  

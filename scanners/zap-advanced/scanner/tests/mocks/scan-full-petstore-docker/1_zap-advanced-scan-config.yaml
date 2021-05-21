@@ -100,6 +100,7 @@ spiders:
     threadCount: 5
     # String: The user agent to use in requests, default: '' - use the default ZAP one               
     userAgent: "secureCodeBox / ZAP Spider"
+
 scanners:
   - name: scb-petstore-scan
     # String: Name of the context to attack, default: first context

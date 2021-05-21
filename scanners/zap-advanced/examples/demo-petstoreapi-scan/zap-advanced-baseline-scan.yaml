@@ -9,7 +9,7 @@ data:
     global:
       # Sets the ZAP Session name
       sessionName: integration-test
-      # Determine if a proxy script must be loaded. Proxy scripts are executed for every request traversing ZAP
+      # Configures existings ZAP Scripts or add new ZAP Scripts.
       scripts:
         - name: "Alert_on_HTTP_Response_Code_Errors.js"
           enabled: true

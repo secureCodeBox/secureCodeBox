@@ -120,6 +120,7 @@ class ZapConfigureSpiderAjax(ZapConfigureSpider):
         """
 
         logging.debug('Trying to configure the AjaxSpider')
+        self.configure_scripts(config=spider_config)
             
         # Configure Spider (ajax or http)
         
