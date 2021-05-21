@@ -21,6 +21,7 @@ import io.kubernetes.client.openapi.models.V1ObjectMeta;
 import io.securecodebox.models.V1ScanSpec;
 import io.securecodebox.models.V1ScanStatus;
 import io.securecodebox.persistence.defectdojo.config.DefectDojoConfig;
+import io.securecodebox.persistence.defectdojo.models.ScanFile;
 import io.securecodebox.persistence.defectdojo.models.User;
 import io.securecodebox.persistence.defectdojo.service.*;
 import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
@@ -87,7 +88,7 @@ public class VersionedEngagementsStrategyTest {
     when(userService.searchUnique(any(User.class))).thenReturn(Optional.empty());
 
     Assertions.assertThrows(DefectDojoPersistenceException.class, () -> {
-      versionedEngagementsStrategy.run(scan, "<!-- Nmap Report -->");
+      versionedEngagementsStrategy.run(scan, new ScanFile("nmap.xml","<!-- Nmap Report -->"));
     });
   }
 }
