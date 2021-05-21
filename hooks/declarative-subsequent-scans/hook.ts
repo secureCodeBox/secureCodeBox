@@ -88,37 +88,45 @@ export function getCascadingScans(
       );
 
       if (matches) {
-        const { scanType, parameters, env } = cascadingRule.spec.scanSpec;
-
-        const templateArgs = {
-          ...finding,
-          ...parentScan,
-          // Attribute "$" hold special non finding helper attributes
-          $: {
-            hostOrIP:
-              finding.attributes["hostname"] || finding.attributes["ip_address"]
-          }
-        };
-
-        cascadingScans.push({
-          name: generateCascadingScanName(parentScan, cascadingRule),
-          scanType: Mustache.render(scanType, templateArgs),
-          parameters: parameters.map(parameter =>
-            Mustache.render(parameter, templateArgs)
-          ),
-          cascades: null,
-          generatedBy: cascadingRule.metadata.name,
-          env,
-          scanLabels: cascadingRule.spec.scanLabels === undefined ? {} :
-            mapValues(cascadingRule.spec.scanLabels, value => Mustache.render(value, templateArgs)),
-          scanAnnotations: cascadingRule.spec.scanAnnotations === undefined ? {} :
-            mapValues(cascadingRule.spec.scanAnnotations, value => Mustache.render(value, templateArgs)),
-        });
+        cascadingScans.push(getCascadingScan(parentScan, finding, cascadingRule))
       }
     }
   }
 
   return cascadingScans;
+}
+
+function getCascadingScan(
+  parentScan: Scan,
+  finding: Finding,
+  cascadingRule: CascadingRule
+) {
+  const { scanType, parameters, env } = cascadingRule.spec.scanSpec;
+
+  const templateArgs = {
+    ...finding,
+    ...parentScan,
+    // Attribute "$" hold special non finding helper attributes
+    $: {
+      hostOrIP:
+        finding.attributes["hostname"] || finding.attributes["ip_address"]
+    }
+  };
+
+  return {
+    name: generateCascadingScanName(parentScan, cascadingRule),
+    scanType: Mustache.render(scanType, templateArgs),
+    parameters: parameters.map(parameter =>
+      Mustache.render(parameter, templateArgs)
+    ),
+    cascades: null,
+    generatedBy: cascadingRule.metadata.name,
+    env,
+    scanLabels: cascadingRule.spec.scanLabels === undefined ? {} :
+      mapValues(cascadingRule.spec.scanLabels, value => Mustache.render(value, templateArgs)),
+    scanAnnotations: cascadingRule.spec.scanAnnotations === undefined ? {} :
+      mapValues(cascadingRule.spec.scanAnnotations, value => Mustache.render(value, templateArgs)),
+  };
 }
 
 function generateCascadingScanName(
