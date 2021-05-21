@@ -165,11 +165,11 @@ zapConfiguration:
           proxyUsername: ""
           proxyPassword: ""
           proxyRealm: ""
-    # -- Determine if a proxy script must be loaded. Proxy scripts are executed for every request traversing ZAP
+    # -- Configures existings ZAP Scripts or add new ZAP Scripts. For example can be used if a proxy script must be loaded. Proxy scripts are executed for every request traversing ZAP
     scripts:
       - name: "Alert_on_HTTP_Response_Code_Errors.js"
         # -- True if the script must be enabled, false otherwise
-        enabled: true
+        enabled: false
         # -- The complete filepath (inside the ZAP Container!) to the script file.
         filePath: "/home/zap/.ZAP_D/scripts/scripts/httpsender/Alert_on_HTTP_Response_Code_Errors.js"
         # -- The script engine. Possible values are: 'Graal.js', 'Oracle Nashorn' for Javascript and 'Mozilla Zest' for Zest Scripts
@@ -180,7 +180,7 @@ zapConfiguration:
         description: "A HTTP Sender Script which will raise alerts based on HTTP Response codes."
       - name: "Alert_on_Unexpected_Content_Types.js"
         # -- True if the script must be enabled, false otherwise
-        enabled: true
+        enabled: false
         # -- The complete filepath (inside the ZAP Container!) to the script file.
         filePath: "/home/zap/.ZAP_D/scripts/scripts/httpsender/Alert_on_Unexpected_Content_Types.js"
         # -- The type of script engine used. Possible values are: 'Graal.js', 'Oracle Nashorn' for Javascript and 'Mozilla Zest' for Zest Scripts
@@ -225,15 +225,17 @@ zapConfiguration:
         # -- Optional, only mandatory if zapConfiguration.contexts[0].authentication.type: "script-based". More ZAP details about 'script based' authentication can be found here: https://www.zaproxy.org/docs/api/#script-based-authentication.
         script-based:
           # -- The name of the authentication script
-          scriptName: scb-oidc-password-grand-type.js
+          name: scb-oidc-password-grand-type.js
+          # -- Enables the script if true, otherwise false
+          enabled: true
           # -- The type of script engine used. Possible values are: 'Graal.js', 'Oracle Nashorn' for Javascript and 'Mozilla Zest' for Zest Scripts
-          scriptEngine: "Oracle Nashorn"
+          engine: "Oracle Nashorn"
           # -- Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
-          scriptFilePath: "/home/zap/.ZAP_D/scripts/scripts/authentication/scb-oidc-password-grand-type.js"
+          filePath: "/home/zap/.ZAP_D/scripts/scripts/authentication/scb-oidc-password-grand-type.js"
           # -- A short description for the script.
-          scriptDescription: "This is a description for the SCB OIDC Script."
+          description: "This is a description for the SCB OIDC Script."
           # -- Optional list of all script arguments needed to be passed to the script.
-          scriptArguments:
+          arguments:
             sub: "secureCodeBox@iteratec.com"
             email: "secureCodeBox@teratec.com"
             exp: "1609459140"
@@ -285,13 +287,15 @@ zapConfiguration:
         # -- Optional, only mandatory if zapConfiguration.contexts[0].session.type: "scriptBasedSessionManagement". Additional configrations for the session type "scriptBasedSessionManagement"
         scriptBasedSessionManagement:
           # -- The name of the session script to be used.
-          scriptName: "juiceshop-session-management.js"
+          name: "juiceshop-session-management.js"
+          # -- Enables the script if true, otherwise false
+          enabled: true
           # -- The type of script engine used. Possible values are: 'Graal.js', 'Oracle Nashorn' for Javascript and 'Mozilla Zest' for Zest Scripts
-          scriptEngine: "Oracle Nashorn"
+          engine: "Oracle Nashorn"
           # --  Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
-          scriptFileName: "/home/zap/.ZAP_D/scripts/scripts/session/juiceshop-session-management.js"
+          fileName: "/home/zap/.ZAP_D/scripts/scripts/session/juiceshop-session-management.js"
           # --  An optional description used for the script.
-          scriptDescription: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
+          description: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
  
   # -- Optional list of ZAP OpenAPI configurations
   apis:
@@ -312,6 +316,14 @@ zapConfiguration:
         key: openapi.yaml
       # -- Allows to embed the entire yaml / json API spec in the values (e.g. OpenAPI YAML spec). Should be null if not used.
       spec: null
+      # -- Configures existings ZAP Scripts or add new ZAP Scripts. For example can be used if a proxy script must be loaded. Proxy scripts are executed for every request traversing ZAP
+      scripts:
+        - name: "Alert_on_HTTP_Response_Code_Errors.js"
+          # -- True if the script must be enabled, false otherwise
+          enabled: true
+        - name: "Alert_on_Unexpected_Content_Types.js"
+          # -- True if the script must be enabled, false otherwise
+          enabled: true
 
   # -- Optional list of ZAP Spider configurations
   spiders:
@@ -365,6 +377,8 @@ zapConfiguration:
       threadCount: 2
       # -- String: The user agent to use in requests, default: '' - use the default ZAP one              
       userAgent: "secureCodeBox / ZAP Spider"
+      # -- Configures existings ZAP Scripts or add new ZAP Scripts. For example can be used if a proxy script must be loaded. Proxy scripts are executed for every request traversing ZAP
+      scripts: {}
  
   # -- Optional list of ZAP Active Scanner configurations
   scanners:
@@ -410,6 +424,8 @@ zapConfiguration:
           strength: Medium
           # -- String: The Alert Threshold for this rule, one of Off, Low, Medium, High, default: Medium
           threshold: Low
+      # -- Configures existings ZAP Scripts or add new ZAP Scripts. For example can be used if a proxy script must be loaded. Proxy scripts are executed for every request traversing ZAP
+      scripts: {}
 ```
 
 ### ScanType Configurations
