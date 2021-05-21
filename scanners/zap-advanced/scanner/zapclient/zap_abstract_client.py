@@ -134,7 +134,7 @@ class ZapClient(ABC):
                     method_name="script.disable"
                 )
         else:
-          logging.warning("Important script configs (scriptName, scriptType, scriptFilePath, scriptEngine) are missing! Ignoring the script configuration. Please check your YAML configuration.")
+          logging.warning("Important script configs (name, type, filePath, engine) are missing! Ignoring the script configuration. Please check your YAML configuration.")
 
     def _log_all_scripts(self):
         """Protected method to log all currently configured ZAP Scripts."""

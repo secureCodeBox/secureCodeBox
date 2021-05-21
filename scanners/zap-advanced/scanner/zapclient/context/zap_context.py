@@ -233,8 +233,9 @@ class ZapConfigureContext(ZapClient):
         """
 
         logging.debug("Script Config: %s", str(script_config))
-        if(not script_config == None and "name" in script_config and "filePath" in script_config and "engine" in script_config):
-            self._configure_load_script(script_config=script_config, script_type="session")
+        self._configure_load_script(script_config=script_config, script_type="session")
+
+        if self._is_not_empty_string("name", script_config):
             # Here they say that only "cookieBasedSessionManagement"; "httpAuthSessionManagement"
             # is possible, but maybe this is outdated and it works anyway, hopefully:
             # https://github.com/zaproxy/zap-api-python/blob/9bab9bf1862df389a32aab15ea4a910551ba5bfc/src/examples/zap_example_api_script.py#L97
@@ -244,7 +245,7 @@ class ZapConfigureContext(ZapClient):
                 methodname='scriptBasedSessionManagement',
                 methodconfigparams=session_params)
         else:
-            logging.warning("Important script authentication configs (scriptName, scriptFilePath, scriptEngine) are missing! Ignoring the authenication script configuration. Please check your YAML configuration.")
+            logging.warning("Important script authentication configs (script name) are missing! Ignoring the authenication script configuration. Please check your YAML configuration.")
     
     def _configure_context_technologies(self, technology: collections.OrderedDict, context_name: str):
         """Protected method to configure the ZAP 'Context / Technology' Settings based on a given ZAP config.

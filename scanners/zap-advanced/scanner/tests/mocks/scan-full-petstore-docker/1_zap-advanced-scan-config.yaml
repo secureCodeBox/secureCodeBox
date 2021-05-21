@@ -8,13 +8,13 @@ global:
   # Determine if a proxy script must be loaded. Proxy scripts are executed for every request traversing ZAP
   scripts:
     - name: "Alert_on_HTTP_Response_Code_Errors.js"
-      enabled: true
+      enabled: false
       filePath: "/home/zap/.ZAP_D/scripts/scripts/httpsender/Alert_on_HTTP_Response_Code_Errors.js"
       engine: "Oracle Nashorn"
       type: "httpsender"
       description: "A HTTP Sender Script which will raise alerts based on HTTP Response codes."
     - name: "Alert_on_Unexpected_Content_Types.js"
-      enabled: true
+      enabled: false
       filePath: "/home/zap/.ZAP_D/scripts/scripts/httpsender/Alert_on_Unexpected_Content_Types.js"
       engine: "Oracle Nashorn"
       type: "httpsender"
@@ -53,6 +53,11 @@ apis:
       # key: openapi.yaml
     # -- Allows to embed the entire yaml / json OpenAPI spec in the values. Should be null if not used.
     #spec: null
+    scripts:
+      - name: "Alert_on_HTTP_Response_Code_Errors.js"
+        enabled: true
+      - name: "Alert_on_Unexpected_Content_Types.js"
+        enabled: true
 
 spiders:
   - name: scb-petstore-spider
