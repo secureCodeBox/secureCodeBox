@@ -75,7 +75,7 @@ class ZapClient(ABC):
     def configure_scripts(self, config: collections.OrderedDict):
         """Private method to configure the script settings, based on the configuration settings."""
         
-        if "scripts" in config:
+        if self._is_not_empty("scripts", config):
             self._log_all_scripts()
             for script in config["scripts"]:
                 logging.debug("Configuring Script: '%s'", script["name"])
