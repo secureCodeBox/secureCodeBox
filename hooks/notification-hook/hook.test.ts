@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import * as path from "path";
 import { handle, matches, getNotificationChannels, mapToEndPoint } from "./hook";
 import { Finding } from "./model/Finding";

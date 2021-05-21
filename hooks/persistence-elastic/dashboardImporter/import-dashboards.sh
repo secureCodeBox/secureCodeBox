@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
  #!/usr/bin/env bash
 
 kibanaURL=${KIBANA_URL:-"http://localhost:5601"}

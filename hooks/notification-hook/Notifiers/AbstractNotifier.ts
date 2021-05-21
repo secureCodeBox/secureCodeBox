@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { Notifier } from "../Notifier";
 import { NotifierType } from "../NotifierType";
 import { Finding } from "../model/Finding";

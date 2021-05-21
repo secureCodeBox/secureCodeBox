@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
 // Vendored from https://www.npmjs.com/package/jest-retries MIT License
 // Includes adjustments to pass in timeout values to the underlying jest test function
 

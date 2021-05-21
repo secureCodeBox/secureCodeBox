@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
 export enum LabelSelectorRequirementOperator {
   In = "In",
   NotIn = "NotIn",
