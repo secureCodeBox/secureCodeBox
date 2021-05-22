@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 FROM python:3.9.0-alpine
 COPY . /zap-client/
 RUN pip3 install -r /zap-client/requirements.txt

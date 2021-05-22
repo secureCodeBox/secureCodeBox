@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2021 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
 var HttpRequestHeader = Java.type("org.parosproxy.paros.network.HttpRequestHeader"),
     HttpHeader = Java.type("org.parosproxy.paros.network.HttpHeader"),
     URI = Java.type("org.apache.commons.httpclient.URI");

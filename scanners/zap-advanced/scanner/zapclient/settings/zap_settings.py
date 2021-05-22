@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 # -*- coding: utf-8 -*-
 
 import time

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 """
 context
 A Python package containing secureCodeBox specific ZAPv2 Client extensions to configure ZAP API contexts.

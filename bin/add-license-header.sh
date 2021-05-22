@@ -21,6 +21,8 @@
 
 set -eu
 
+echo "Adding Header to all files..."
+
 FILES=""
 
 if [[ -p /dev/stdin ]]; then
@@ -30,9 +32,10 @@ else
 fi
 
 for file in $FILES; do
+    echo "Adding HEADER to file: $file"
     reuse addheader \
       --copyright "iteratec GmbH" \
-      --year 2020 \
+      --year 2021 \
       --license "Apache-2.0" \
       --skip-unrecognised \
       "$file"
