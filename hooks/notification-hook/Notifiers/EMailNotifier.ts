@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { NotifierType } from "../NotifierType";
 import { AbstractNotifier } from "./AbstractNotifier";
 import { createTransport } from "nodemailer"

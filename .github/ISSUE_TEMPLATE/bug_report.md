@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 ---
 name: "🐞 Bug report"
 about: Please create a bug report if you encouter any project specific issue.

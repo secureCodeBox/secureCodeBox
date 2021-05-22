@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 apiVersion: v2
 name: operator
 description: secureCodeBox Operator to automate the execution of security scans on kubernetes
@@ -108,8 +112,8 @@ annotations:
         cascades:
           matchLabels:
             securecodebox.io/intensive: light
-          matchExpression:
-            key: "securecodebox.io/invasive"
+          matchExpressions:
+          - key: "securecodebox.io/invasive"
             operator: In
             values: [non-invasive, invasive]
     - apiVersion: "execution.securecodebox.io/v1"

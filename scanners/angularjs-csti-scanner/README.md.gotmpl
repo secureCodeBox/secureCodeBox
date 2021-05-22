@@ -1,3 +1,8 @@
+{{/*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/}}
 ---
 title: "Angularjs CSTI Scanner"
 category: "scanner"
@@ -50,14 +55,14 @@ Optional arguments:
 Because *acstis* does not provide command line arguments for configuring the sent requests,
 you have to mount a config map into the scan container on a specific location. Your additional config map should be
  mounted to `/acstis/config/acstis-config.py`. For example create a config map:
- 
+
  ```bash
-kubectl create configmap --from-file /path/to/my/acstis-config.py acstis-config 
+kubectl create configmap --from-file /path/to/my/acstis-config.py acstis-config
 ```
- 
+
 Then, mount it into the container:
- 
- ```yaml
+
+```yaml
  volumes:
      - name: "acstis-config"
        configMap:
@@ -133,4 +138,3 @@ options.scope.request_methods = [
 ## Chart Configuration
 
 {{ template "chart.valuesTable" . }}
-

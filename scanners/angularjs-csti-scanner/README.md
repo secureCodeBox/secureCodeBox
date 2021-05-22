@@ -1,3 +1,4 @@
+
 ---
 title: "Angularjs CSTI Scanner"
 category: "scanner"
@@ -57,7 +58,7 @@ kubectl create configmap --from-file /path/to/my/acstis-config.py acstis-config
 
 Then, mount it into the container:
 
- ```yaml
+```yaml
  volumes:
      - name: "acstis-config"
        configMap:
@@ -146,4 +147,3 @@ options.scope.request_methods = [
 | scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | scannerJob.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | scannerJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
-

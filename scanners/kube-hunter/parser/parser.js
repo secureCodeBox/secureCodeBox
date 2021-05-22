@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
 async function parse({ vulnerabilities = [], nodes = [] }) {
   return vulnerabilities.map(vulnerability => {
     const reference = {}
@@ -24,7 +28,7 @@ async function parse({ vulnerabilities = [], nodes = [] }) {
     return {
       name: vulnerability.vulnerability,
       description: vulnerability.description,
-      location,
+      location: toValidUrl(location),
       severity: vulnerability.severity.toUpperCase(),
       category: vulnerability.category,
       reference,
@@ -34,6 +38,10 @@ async function parse({ vulnerabilities = [], nodes = [] }) {
       }
     };
   });
+}
+
+function toValidUrl(location){
+  return "tcp://"+location
 }
 
 module.exports.parse = parse;

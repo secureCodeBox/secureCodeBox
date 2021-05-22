@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
 package io.securecodebox.persistence.service;
 
 import io.kubernetes.client.openapi.ApiClient;

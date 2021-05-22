@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 ---
 name: '⚓️ New Hook request'
 about: 'Suggest an idea for a new data processing or integration hook in this project.'

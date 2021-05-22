@@ -1,3 +1,4 @@
+
 ---
 title: "Cascading Scans"
 category: "hook"
@@ -77,7 +78,7 @@ smtps-tls-scan   sslyze     non-invasive   light
 ssh-scan         ssh-scan   non-invasive   light
 ```
 
-The label selectors also allow the more powerful matchExpression selectors:
+The label selectors also allow the more powerful matchExpressions selectors:
 
 ```yaml
 cat <<EOF | kubectl apply -f -
@@ -91,9 +92,9 @@ spec:
     - -p22,80,443
     - example.com
   cascades:
-    # Using matchExpression instead of matchLabels
-    matchExpression:
-      key: "securecodebox.io/intensive"
+    # Using matchExpressions instead of matchLabels
+    matchExpressions:
+    - key: "securecodebox.io/intensive"
       operator: In
       # This select both light and medium intensity rules
       values: [light, medium]
