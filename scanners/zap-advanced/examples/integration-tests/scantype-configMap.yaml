@@ -8,29 +8,15 @@ data:
     # Global ZAP Configurations
     global:
       # Sets the ZAP Session name
-      sessionName: integration-test
-      # Configures existings ZAP Scripts or add new ZAP Scripts.
-      scripts:
-        - name: "Alert_on_HTTP_Response_Code_Errors.js"
-          enabled: false
-          filePath: "/home/zap/.ZAP_D/scripts/scripts/httpsender/Alert_on_HTTP_Response_Code_Errors.js"
-          engine: "Oracle Nashorn"
-          type: "httpsender"
-          description: "A HTTP Sender Script which will raise alerts based on HTTP Response codes."
-        - name: "Alert_on_Unexpected_Content_Types.js"
-          enabled: false
-          filePath: "/home/zap/.ZAP_D/scripts/scripts/httpsender/Alert_on_Unexpected_Content_Types.js"
-          engine: "Oracle Nashorn"
-          type: "httpsender"
-          description: "A HTTP Sender Script which will raise alerts based on unexpected Content-Types."
-        - name: "juiceshop-session-management.js"
-          enabled: false
-          filePath: "/home/zap/.ZAP_D/scripts/scripts/session/juiceshop-session-management.js"
-          # Script engine values: 'Graal.js', 'Oracle Nashorn' for Javascript and 'Mozilla Zest' for Zest Scripts
-          engine: "Oracle Nashorn"
-          type: "session"
-          # Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
-          description: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
+      sessionName: scb-integration-test
+      # -- Updates all installed ZAP AddOns on startup if true, otherwise false.
+      addonUpdate: true
+      # -- Installs additional ZAP AddOns on startup, listed by their name:
+      addonInstall:
+        - pscanrulesBeta
+        - ascanrulesBeta
+        - pscanrulesAlpha
+        - ascanrulesAlpha
 
     # ZAP Contexts Configuration 
     contexts:
@@ -107,20 +93,18 @@ data:
             username: admin@juice-sh.op
             password: admin123
             forced: true
-        session:
-          # Currently supports "scriptBasedSessionManagement", "cookieBasedSessionManagement", "httpAuthSessionManagement"
-          type: "scriptBasedSessionManagement"
-          # scriptBasedSessionManagement configuration details
-          scriptBasedSessionManagement:
-            name: "juiceshop-session-management.js"
-            enabled: true
-            # Already loaded via global setting:
-            # # Script engine values: 'Graal.js', 'Oracle Nashorn' for Javascript and 'Mozilla Zest' for Zest Scripts
-            # engine: "Oracle Nashorn"
-            # type: "session"
-            # # Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
-            # filePath: "/home/zap/.ZAP_D/scripts/scripts/session/juiceshop-session-management.js"
-            # description: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
+        # session:
+        #   # Currently supports "scriptBasedSessionManagement", "cookieBasedSessionManagement", "httpAuthSessionManagement"
+        #   type: "scriptBasedSessionManagement"
+        #   # scriptBasedSessionManagement configuration details
+        #   scriptBasedSessionManagement:
+        #     name: "juiceshop-session-management.js"
+        #     # Script engine values: 'Graal.js', 'Oracle Nashorn' for Javascript and 'Mozilla Zest' for Zest Scripts
+        #     engine: "Oracle Nashorn"
+        #     type: "session"
+        #     # Must be a full path to the script file inside the ZAP container (corresponding to the configMap FileMount)
+        #     filePath: "/home/zap/.ZAP_D/scripts/scripts/session/juiceshop-session-management.js"
+        #     description: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
       - name: scb-petstore-context
         # The top level url, mandatory, everything under this will be included. IMPORTANT: must be the hostname without any subpath!
         url: http://petstore.demo-apps.svc/
@@ -143,6 +127,20 @@ data:
         url: http://petstore.demo-apps.svc/v2/swagger.json
         # -- Override host setting in swagger.json
         hostOverride: http://petstore.demo-apps.svc
+        # Configures existings ZAP Scripts or add new ZAP Scripts.
+        scripts:
+          - name: "Alert_on_HTTP_Response_Code_Errors.js"
+            enabled: true
+            filePath: "/home/zap/.ZAP_D/scripts/scripts/httpsender/Alert_on_HTTP_Response_Code_Errors.js"
+            engine: "Oracle Nashorn"
+            type: "httpsender"
+            description: "A HTTP Sender Script which will raise alerts based on HTTP Response codes."
+          - name: "Alert_on_Unexpected_Content_Types.js"
+            enabled: true
+            filePath: "/home/zap/.ZAP_D/scripts/scripts/httpsender/Alert_on_Unexpected_Content_Types.js"
+            engine: "Oracle Nashorn"
+            type: "httpsender"
+            description: "A HTTP Sender Script which will raise alerts based on unexpected Content-Types."
 
     # ZAP Spiders Configuration 
     spiders:
@@ -252,15 +250,9 @@ data:
         # Bool: Whether the spider will send the referer header, default: true
         sendRefererHeader: true
         # Int: The number of spider threads, default: 2             
-        threadCount: 2
+        threadCount: 5
         # String: The user agent to use in requests, default: '' - use the default ZAP one               
         userAgent: "secureCodeBox / ZAP Spider"
-        # Configures existings ZAP Scripts or add new ZAP Scripts.
-        scripts:
-          - name: "Alert_on_HTTP_Response_Code_Errors.js"
-            enabled: true
-          - name: "Alert_on_Unexpected_Content_Types.js"
-            enabled: true
 
     # ZAP ActiveScans Configuration 
     scanners:
@@ -333,9 +325,3 @@ data:
         injectPluginIdInHeader: false
         # Bool: If set then the headers of requests that do not include any parameters will be scanned, default: false
         scanHeadersAllRequests: false
-        # Configures existings ZAP Scripts or add new ZAP Scripts.
-        scripts:
-          - name: "Alert_on_HTTP_Response_Code_Errors.js"
-            enabled: true
-          - name: "Alert_on_Unexpected_Content_Types.js"
-            enabled: true
