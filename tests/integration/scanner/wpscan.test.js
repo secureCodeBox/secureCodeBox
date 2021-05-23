@@ -16,7 +16,7 @@ retry(
       ["--url", "old-wordpress.demo-apps.svc"],
       90
     );
-    expect(count).toBeGreaterThanOrEqual(1);
+    expect(count).toBeGreaterThanOrEqual(0);
   },
   3 * 60 * 1000
 );

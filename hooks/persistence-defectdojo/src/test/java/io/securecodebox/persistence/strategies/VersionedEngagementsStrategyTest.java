@@ -60,10 +60,10 @@ public class VersionedEngagementsStrategyTest {
     scan.setApiVersion("execution.securecodebox.io/v1");
     scan.setKind("Scan");
     scan.setMetadata(new V1ObjectMeta());
-    scan.getMetadata().setName("zap-baseline-juiceshop");
+    scan.getMetadata().setName("zap-baseline-scan-juiceshop");
     scan.getMetadata().setNamespace("default");
     scan.setSpec(new V1ScanSpec());
-    scan.getSpec().setScanType("zap-baseline");
+    scan.getSpec().setScanType("zap-baseline-scan");
     scan.getSpec().setParameters(List.of("-t","http://juice-shop.demo-apps.svc:3000", "-j"));
     scan.setStatus(new V1ScanStatus());
   }

@@ -5,11 +5,11 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: "zap-baseline-bodgeit"
+  name: "zap-baseline-scan-bodgeit"
   labels:
     organization: "OWASP"
 spec:
-  scanType: "zap-baseline"
+  scanType: "zap-baseline-scan"
   parameters:
     # target URL including the protocol
     - "-t"

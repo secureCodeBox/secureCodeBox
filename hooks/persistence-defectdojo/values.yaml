@@ -12,6 +12,8 @@ image:
   # -- Container image tag
   # @default -- defaults to the charts version
   tag: null
+  # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
+  pullPolicy: IfNotPresent
 
 defectdojo:
   # -- Syncs back (two way sync) all imported findings from DefectDojo to SCB Findings Store, set to false to only import the findings to DefectDojo (one way sync).

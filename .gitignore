@@ -4,9 +4,12 @@
 
 .DS_Store
 **/node_modules
-coverage/
+**/coverage/
+**/__pycache__
+**/.pytest_cache
+**/.asciinema
 .vagrant
-**.log
+**/*.log
 **/*.monopic
 .s3_credentials
 **/__pycache__

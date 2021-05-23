@@ -53,15 +53,15 @@ kubectl get CascadingRules
 Output should show these CascadingRules:
 
 ```bash
-NAME             STARTS         INVASIVENESS   INTENSIVENESS
-https-tls-scan   sslyze         non-invasive   light
-imaps-tls-scan   sslyze         non-invasive   light
-nikto-http       nikto          non-invasive   medium
-nmap-smb         nmap           non-invasive   light
-pop3s-tls-scan   sslyze         non-invasive   light
-smtps-tls-scan   sslyze         non-invasive   light
-ssh-scan         ssh-scan       non-invasive   light
-zap-http         zap-baseline   non-invasive   medium
+NAME             STARTS              INVASIVENESS   INTENSIVENESS
+https-tls-scan   sslyze              non-invasive   light
+imaps-tls-scan   sslyze              non-invasive   light
+nikto-http       nikto               non-invasive   medium
+nmap-smb         nmap                non-invasive   light
+pop3s-tls-scan   sslyze              non-invasive   light
+smtps-tls-scan   sslyze              non-invasive   light
+ssh-scan         ssh-scan            non-invasive   light
+zap-http         zap-baseline-scan   non-invasive   medium
 ```
 
 ### Start Scans
@@ -132,13 +132,13 @@ This selection can be replicated in kubectl using:
 
 ```bash
 kubectl get CascadingRules -l "securecodebox.io/intensive in (light,medium)"
-NAME             STARTS         INVASIVENESS   INTENSIVENESS
-https-tls-scan   sslyze         non-invasive   light
-imaps-tls-scan   sslyze         non-invasive   light
-nikto-http       nikto          non-invasive   medium
-nmap-smb         nmap           non-invasive   light
-pop3s-tls-scan   sslyze         non-invasive   light
-smtps-tls-scan   sslyze         non-invasive   light
-ssh-scan         ssh-scan       non-invasive   light
-zap-http         zap-baseline   non-invasive   medium
+NAME             STARTS              INVASIVENESS   INTENSIVENESS
+https-tls-scan   sslyze              non-invasive   light
+imaps-tls-scan   sslyze              non-invasive   light
+nikto-http       nikto               non-invasive   medium
+nmap-smb         nmap                non-invasive   light
+pop3s-tls-scan   sslyze              non-invasive   light
+smtps-tls-scan   sslyze              non-invasive   light
+ssh-scan         ssh-scan            non-invasive   light
+zap-http         zap-baseline-scan   non-invasive   medium
 ```

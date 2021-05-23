@@ -7,4 +7,5 @@
 hooks/declarative-subsequent-scans/hook.js
 hooks/declarative-subsequent-scans/scan-helpers.js
 hooks/declarative-subsequent-scans/kubernetes-label-selector.js
+scanners/zap-advanced/scanner/scripts/*
 **/build/reports/*
