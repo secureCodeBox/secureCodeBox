@@ -444,8 +444,8 @@ func (in *ScanSpec) DeepCopyInto(out *ScanSpec) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.CascadeSpec != nil {
-		in, out := &in.CascadeSpec, &out.CascadeSpec
+	if in.Cascades != nil {
+		in, out := &in.Cascades, &out.Cascades
 		*out = new(CascadeSpec)
 		(*in).DeepCopyInto(*out)
 	}
