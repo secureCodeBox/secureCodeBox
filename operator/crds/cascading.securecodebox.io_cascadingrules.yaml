@@ -1523,7 +1523,6 @@ spec:
               type: object
           required:
           - matches
-          - scanAnnotations
           - scanSpec
           type: object
         status:

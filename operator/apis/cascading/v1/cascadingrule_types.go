@@ -26,7 +26,7 @@ type CascadingRuleSpec struct {
 	ScanLabels map[string]string `json:"scanLabels"`
 
 	// ScanAnnotations define additional annotations for cascading scans
-	// + optional
+	// +optional
 	ScanAnnotations map[string]string `json:"scanAnnotations"`
 
 	// ScanSpec defines how the cascaded scan should look like
