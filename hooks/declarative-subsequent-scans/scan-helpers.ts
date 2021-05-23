@@ -34,6 +34,12 @@ export interface CascadingRule {
 export interface CascadingRuleSpec {
   matches: Matches;
   scanSpec: ScanSpec;
+  scanLabels: {
+    [key: string]: string;
+  };
+  scanAnnotations: {
+    [key: string]: string;
+  };
 }
 
 export interface Matches {
@@ -48,8 +54,13 @@ export interface Scan {
 export interface ScanSpec {
   scanType: string;
   parameters: Array<string>;
-  cascades: LabelSelector;
+  cascades: LabelSelector & CascadingInheritance;
   env?: Array<k8s.V1EnvVar>;
+}
+
+export interface CascadingInheritance {
+  inheritLabels: boolean,
+  inheritAnnotations: boolean
 }
 
 export interface ExtendedScanSpec extends ScanSpec {
@@ -59,16 +70,43 @@ export interface ExtendedScanSpec extends ScanSpec {
 
   // Indicates which CascadingRule was used to generate the resulting Scan
   generatedBy: string;
+
+  // Additional label to be added to the resulting scan
+  scanLabels: {
+    [key: string]: string;
+  };
+
+  // Additional annotations to be added to the resulting scan
+  scanAnnotations: {
+    [key: string]: string;
+  };
 }
 
-export async function startSubsequentSecureCodeBoxScan({
-  name,
-  parentScan,
-  scanType,
-  parameters,
-  generatedBy,
-  env,
-}) {
+export function getSubsequentScanDefinition({
+   name,
+   parentScan,
+   scanType,
+   parameters,
+   generatedBy,
+   env,
+   scanLabels,
+   scanAnnotations
+ }) {
+  function mergeInherited(parentProps, ruleProps, inherit: boolean = true) {
+    if (!inherit) {
+      parentProps = {};
+    }
+    return {
+      ...parentProps,
+      ...ruleProps // ruleProps overwrites any duplicate keys from parentProps
+    }
+  }
+
+  let annotations = mergeInherited(
+    parentScan.metadata.annotations, scanAnnotations, parentScan.spec.cascades.inheritAnnotations);
+  let labels = mergeInherited(
+    parentScan.metadata.labels, scanLabels, parentScan.spec.cascades.inheritLabels);
+
   let cascadingChain: Array<string> = [];
 
   if (parentScan.metadata.annotations && parentScan.metadata.annotations["cascading.securecodebox.io/chain"]) {
@@ -77,13 +115,13 @@ export async function startSubsequentSecureCodeBoxScan({
     ].split(",");
   }
 
-  const scanDefinition = {
+  return {
     apiVersion: "execution.securecodebox.io/v1",
     kind: "Scan",
     metadata: {
       generateName: `${name}-`,
       labels: {
-        ...parentScan.metadata.labels
+        ...labels
       },
       annotations: {
         "securecodebox.io/hook": "declarative-subsequent-scans",
@@ -91,7 +129,8 @@ export async function startSubsequentSecureCodeBoxScan({
         "cascading.securecodebox.io/chain": [
           ...cascadingChain,
           generatedBy
-        ].join(",")
+        ].join(","),
+        ...annotations,
       },
       ownerReferences: [
         {
@@ -111,8 +150,10 @@ export async function startSubsequentSecureCodeBoxScan({
       env,
     }
   };
+}
 
-  console.log(`Starting Scan ${name}`);
+export async function startSubsequentSecureCodeBoxScan(scan: Scan) {
+  console.log(`Starting Scan ${scan.metadata.name}`);
 
   try {
     // Submitting the Scan to the kubernetes api
@@ -121,11 +162,11 @@ export async function startSubsequentSecureCodeBoxScan({
       "v1",
       namespace,
       "scans",
-      scanDefinition,
+      scan,
       "false"
     );
   } catch (error) {
-    console.error(`Failed to start Scan ${name}`);
+    console.error(`Failed to start Scan ${scan.metadata.name}`);
     console.error(error);
   }
 }

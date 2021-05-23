@@ -76,6 +76,20 @@ func (in *CascadingRuleList) DeepCopyObject() runtime.Object {
 func (in *CascadingRuleSpec) DeepCopyInto(out *CascadingRuleSpec) {
 	*out = *in
 	in.Matches.DeepCopyInto(&out.Matches)
+	if in.ScanLabels != nil {
+		in, out := &in.ScanLabels, &out.ScanLabels
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+	if in.ScanAnnotations != nil {
+		in, out := &in.ScanAnnotations, &out.ScanAnnotations
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
 	in.ScanSpec.DeepCopyInto(&out.ScanSpec)
 }
 

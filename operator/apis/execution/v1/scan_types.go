@@ -12,6 +12,26 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
+// CascadeSpec describes how and when cascading scans should be generated.
+type CascadeSpec struct {
+	// InheritLabels defines whether cascading scans should inherit labels from the parent scan
+	// +optional
+	InheritLabels bool `json:"inheritLabels,omitempty"`
+
+	// InheritAnnotations defines whether cascading scans should inherit annotations from the parent scan
+	// +optional
+	InheritAnnotations bool `json:"inheritAnnotations,omitempty"`
+
+	// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+	// map is equivalent to an element of matchExpressions, whose key field is "key", the
+	// operator is "In", and the values array contains only "value". The requirements are ANDed.
+	// +optional
+	MatchLabels map[string]string `json:"matchLabels,omitempty" protobuf:"bytes,1,rep,name=matchLabels"`
+	// matchExpressions is a list of label selector requirements. The requirements are ANDed.
+	// +optional
+	MatchExpressions []metav1.LabelSelectorRequirement `json:"matchExpressions,omitempty" protobuf:"bytes,2,rep,name=matchExpressions"`
+}
+
 // ScanSpec defines the desired state of Scan
 type ScanSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
@@ -30,7 +50,7 @@ type ScanSpec struct {
 	// VolumeMounts allows to specify volume mounts for the scan container.
 	VolumeMounts []corev1.VolumeMount `json:"volumeMounts,omitempty"`
 
-	Cascades *metav1.LabelSelector `json:"cascades,omitempty"`
+	Cascades *CascadeSpec `json:"cascades,omitempty"`
 }
 
 // ScanStatus defines the observed state of Scan
