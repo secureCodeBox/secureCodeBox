@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 In this example we execute an ncrack scan against the intentional vulnerable ssh service (dummy-ssh)
 
 #### Initialize ncrack with lists and dummy-ssh

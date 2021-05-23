@@ -1,0 +1,132 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+parseJob:
+  image:
+    # -- Parser image repository
+    repository: docker.io/securecodebox/parser-zap
+    # -- Parser image tag
+    # @default -- defaults to the charts version
+    tag: null
+    # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
+    pullPolicy: IfNotPresent
+
+  # parseJob.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+  ttlSecondsAfterFinished: null
+  # scannerJob.backoffLimit -- There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy)
+  # @default -- 3
+  backoffLimit: 3
+
+scannerJob:
+  image:
+    # -- Container Image to run the scan
+    repository: docker.io/securecodebox/scanner-zap-advanced
+    # -- defaults to the charts appVersion
+    tag: null
+    # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
+    pullPolicy: IfNotPresent
+
+  # -- seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+  ttlSecondsAfterFinished: null
+  # -- There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy)
+  # @default -- 3
+  backoffLimit: 3
+
+  # -- CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)
+  resources: {}
+  #   resources:
+  #     requests:
+  #       memory: "256Mi"
+  #       cpu: "250m"
+  #     limits:
+  #       memory: "512Mi"
+  #       cpu: "500m"
+
+  # -- Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
+  env: []
+
+  # -- Optional mount environment variables from configMaps or secrets (see: https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/#configure-all-key-value-pairs-in-a-secret-as-container-environment-variables)
+  envFrom: []
+
+  # -- Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
+  extraVolumes:
+    - name: zap-advanced-scantype-config
+      configMap:
+        name: zap-advanced-scantype-config
+    - name: zap-scripts-authentication
+      configMap:
+        name: zap-scripts-authentication
+    - name: zap-scripts-session
+      configMap:
+        name: zap-scripts-session
+
+  # -- Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
+  extraVolumeMounts:
+    - name: zap-advanced-scantype-config
+      mountPath: /home/securecodebox/configs/1-zap-advanced-scantype.yaml
+      subPath: 1-zap-advanced-scantype.yaml
+      readOnly: true
+
+  # -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
+  extraContainers: []
+
+  # -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+  securityContext: {}
+
+zapContainer:
+  image:
+    # -- Container Image to run the scan
+    repository: owasp/zap2docker-stable
+    # -- defaults to the charts appVersion
+    tag: null
+    # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
+    pullPolicy: IfNotPresent
+
+  # -- CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)
+  resources: {}
+  #   resources:
+  #     requests:
+  #       memory: "256Mi"
+  #       cpu: "250m"
+  #     limits:
+  #       memory: "512Mi"
+  #       cpu: "500m"
+
+  # -- Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
+  env: []
+
+  # -- Optional mount environment variables from configMaps or secrets (see: https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/#configure-all-key-value-pairs-in-a-secret-as-container-environment-variables)
+  envFrom: []
+
+  # -- Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
+  extraVolumeMounts:
+    - name: zap-scripts-authentication
+      mountPath: /home/zap/.ZAP_D/scripts/scripts/authentication/
+      readOnly: true
+    - name: zap-scripts-session
+      mountPath: /home/zap/.ZAP_D/scripts/scripts/session/
+      readOnly: true
+
+  # -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+  securityContext: {}
+
+# -- All `scanType` specific configuration options. Feel free to add more configuration options. All configuration options can be overriden by scan specific configurations if defined. Please have a look into the README.md to find more configuration options.
+zapConfiguration:
+  # -- Optional general ZAP Configurations settings.
+  global:
+    # -- The ZAP internal Session name. Default: secureCodeBox
+    sessionName: secureCodeBox
+    # -- Updates all installed ZAP AddOns on startup if true, otherwise false.
+    addonUpdate: true
+    # -- Installs additional ZAP AddOns on startup, listed by their name:
+    addonInstall:
+      - pscanrulesBeta
+      - ascanrulesBeta
+      - pscanrulesAlpha
+      - ascanrulesAlpha
+
+# --  Configurations regarding the cascading scan
+cascadingRules:
+  # -- Enables or disables the installation of the default cascading rules for this scanner
+  enabled: true

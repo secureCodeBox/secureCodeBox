@@ -1,0 +1,46 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+---
+# Global ZAP Configurations
+global:
+  # Sets the ZAP Session name
+  sessionName: SCB
+  # Sets the connection time out, in seconds.
+  timeoutInSeconds: 
+  # Sets the mode, which may be one of [safe, protect, standard, attack]
+  mode: attack
+  # Sets the user agent that ZAP should use when creating HTTP messages (for example, spider messages or CONNECT requests to outgoing proxy).
+  defaultUserAgent: "secureCodeBox/2.7.0 (Windows NT 10.0; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0"
+  globalExcludePaths:
+    - ".*\\.css"
+    - ".*\\.png"
+    - ".*\\.jpeg"
+  proxy:
+    # Define if an outgoing proxy server is used.
+    enabled: false
+    # MANDATORY only if useProxyChain is True, ignored otherwise. Outgoing proxy address and port
+    address: "my.corp.proxy"
+    port: 8080
+    # Define the addresses to skip in case useProxyChain is True. Ignored otherwise. List can be empty.
+    skipProxyAddresses:
+      - "127.0.0.1"
+      - localhost
+    # MANDATORY only if proxy.enabled is True. Ignored otherwise. Define if proxy server needs authentication
+    authentication:
+        # Define if an outgoing proxy server is used with special authentication credentials.
+        enabled: false
+        username: "proxy-username"
+        password: "proxy-password"
+        realm: "proxy-realm"
+    socks:
+      # Define whether or not the SOCKS proxy should be used.
+      enabled: false
+    
+      # Determine if a proxy script must be loaded. Proxy scripts are executed for every request traversing ZAP
+  scripts:
+    - name: "Alert on HTTP Response Code Errors.js"
+      enabled: true
+    - name: "Alert on Unexpected Content Types.js"
+      enabled: true

@@ -1,8 +1,15 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 .DS_Store
 **/node_modules
-coverage/
+**/coverage/
+**/__pycache__
+**/.pytest_cache
+**/.asciinema
 .vagrant
-**.log
+**/*.log
 **/*.monopic
 .s3_credentials
 **/__pycache__

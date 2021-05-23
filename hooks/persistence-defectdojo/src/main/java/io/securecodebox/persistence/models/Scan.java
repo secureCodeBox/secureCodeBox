@@ -1,20 +1,6 @@
-/*
- *  secureCodeBox (SCB)
- *  Copyright 2015-2021 iteratec GmbH
- *  https://www.iteratec.com
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  	http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
 package io.securecodebox.persistence.models;
 
 import io.securecodebox.models.V1Scan;
@@ -93,6 +79,10 @@ public class Scan extends V1Scan {
     return this.getKey(SecureCodeBoxScanAnnotations.PRODUCT_DESCRIPTION);
   }
 
+  public Optional<Boolean>getDeDuplicateOnEngagement(){
+    return this.getKey(SecureCodeBoxScanAnnotations.ENGAGEMENT_DEDUPLICATE_ON_ENGAGEMENT).map("true"::equals);
+  }
+
   public Optional<String> getTestTitle() {
     return this.getKey(SecureCodeBoxScanAnnotations.TEST_TITLE);
   }
@@ -105,6 +95,7 @@ public class Scan extends V1Scan {
     PRODUCT_TAGS("defectdojo.securecodebox.io/product-tags"),
     ENGAGEMENT_NAME("defectdojo.securecodebox.io/engagement-name"),
     ENGAGEMENT_VERSION("defectdojo.securecodebox.io/engagement-version"),
+    ENGAGEMENT_DEDUPLICATE_ON_ENGAGEMENT("defectdojo.securecodebox.io/engagement-deduplicate-on-engagement"),
     ENGAGEMENT_TAGS("defectdojo.securecodebox.io/engagement-tags"),
     TEST_TITLE("defectdojo.securecodebox.io/test-title"),
     ;

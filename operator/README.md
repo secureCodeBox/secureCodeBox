@@ -1,3 +1,4 @@
+
 ![operator logo](https://docs.securecodebox.io/img/Logo_Color.svg)
 
 The secureCodeBox operator is running on Kubernetes and is the core component of the complete secureCodeBox stack, responsible for managing all scans and resources.
@@ -57,4 +58,3 @@ helm install securecodebox-operator secureCodeBox/operator
 | serviceAccount.labels | object | `{}` | Labels of the serviceAccount the operator uses to talk to the k8s api |
 | serviceAccount.name | string | `"securecodebox-operator"` | Name of the serviceAccount the operator uses to talk to the k8s api |
 | telemetryEnabled | bool | `true` | The Operator sends anonymous telemetry data, to give the team an overview how much the secureCodeBox is used. Find out more at https://www.securecodebox.io/telemetry |
-

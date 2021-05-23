@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE ncrackrun>
 <!-- Ncrack 0.7 scan initiated Wed Dec 11 17:44:38 2019 as: ncrack -p ssh,http -oX ncrackResults2.xml -vv -P passwords.txt -U usernames.txt scanme.nmap.org -->

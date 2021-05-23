@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 ---
 name: "🤨 Question"
 about: "If you have *specific* questions about the project, please post them here."

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 name: "CI"
 on: push
 
@@ -41,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        unit: ["git_repo_scanner"]
+        unit: ["git-repo-scanner", "zap-advanced"]
     steps:
       - name: Checkout
         uses: actions/checkout/@v2
@@ -54,13 +58,13 @@ jobs:
       - name: "Install dependencies"
         run: |
           python -m pip install --upgrade pip setuptools wheel
-          pip install -r scanners/git-repo-scanner/scanner/requirements.txt
+          pip install -r scanners/${{ matrix.unit }}/scanner/requirements.txt
 
       - name: "Execute Tests"
-        working-directory: scanners/git-repo-scanner/scanner/
+        working-directory: scanners/${{ matrix.unit }}/scanner/
         run: |
           pip install pytest
-          pytest
+          pytest --ignore-glob='*_local.py' --ignore=tests/docker
 
   # ---- Unit-Test | JavaScript ----
 
@@ -360,6 +364,7 @@ jobs:
           - kubeaudit
           - ncrack
           - nmap
+          - zap-advanced
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -648,13 +653,17 @@ jobs:
       - name: "Install Demo Apps"
         run: |
           # Install dummy-ssh app
-          helm -n demo-apps install dummy-ssh ./demo-apps/dummy-ssh/ --wait
+          helm -n demo-apps install dummy-ssh ./demo-apps/dummy-ssh/ --set="fullnameOverride=dummy-ssh" --wait
           # Install unsafe-https app
-          helm -n demo-apps install unsafe-https ./demo-apps/unsafe-https/ --wait
+          helm -n demo-apps install unsafe-https ./demo-apps/unsafe-https/ --set="fullnameOverride=unsafe-https" --wait
           # Install bodgeit app
-          helm -n demo-apps install bodgeit ./demo-apps/bodgeit/ --wait
+          helm -n demo-apps install bodgeit ./demo-apps/bodgeit/ --set="fullnameOverride=bodgeit" --wait
+          # Install bodgeit app
+          helm -n demo-apps install petstore ./demo-apps/swagger-petstore/ --set="fullnameOverride=petstore" --wait
           # Install old-wordpress app
-          helm -n demo-apps install old-wordpress ./demo-apps/old-wordpress/ --wait
+          helm -n demo-apps install old-wordpress ./demo-apps/old-wordpress/ --set="fullnameOverride=old-wordpress" --wait
+          # Install juiceshop app
+          helm -n demo-apps install juiceshop ./demo-apps/juice-shop/ --set="fullnameOverride=juiceshop" --wait
           # Install plain nginx server
           kubectl create deployment --image nginx:alpine nginx --namespace demo-apps
           kubectl expose deployment nginx --port 80 --namespace demo-apps
@@ -669,7 +678,7 @@ jobs:
             --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color scanner/amass.test.js
-      
+
       # ---- gitleaks Integration Tests ----
 
       - name: "gitleaks Integration Tests"
@@ -802,10 +811,9 @@ jobs:
           cd tests/integration/
           npx jest --ci --color scanner/wpscan.test.js
 
-      
       # ---- Zap Integration Tests ----
 
-      - name: "zap Integration Tests"
+      - name: "ZAP Integration Tests"
         run: |
           kubectl -n integration-tests delete scans --all
           helm -n integration-tests install zap ./scanners/zap/  \
@@ -813,6 +821,22 @@ jobs:
             --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-zap"
           cd tests/integration/
           npx jest --ci --color scanner/zap.test.js
+
+      # ---- Zap Extended Integration Tests ----
+
+      - name: "ZAP Extended Integration Tests"
+        # disable zap extended test temporarily as they slow down the pipeline too much
+        if: ${{ false }}
+        run: |
+          kubectl -n integration-tests delete scans --all
+          helm -n integration-tests install zap-advanced ./scanners/zap-advanced/  \
+            --set="parseJob.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-zap" \
+            --set="parseJob.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="scannerJob.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-zap-advanced" \
+            --set="scannerJob.image.tag=sha-$(git rev-parse --short HEAD)"
+          kubectl apply -f ./scanners/zap-advanced/examples/integration-tests/scantype-configMap.yaml -n integration-tests
+          cd tests/integration/
+          npx jest --ci --color scanner/zap-advanced.test.js
 
       # ---- Cascading Scans ncrack Integration Test ----
 
@@ -892,14 +916,16 @@ jobs:
       - name: Inspect Post Failure
         if: failure()
         run: |
-          echo "HelmCharts in all namespaces"
+          echo "List all 'HelmCharts' in all namespaces"
           helm list --all-namespaces
-          echo "Scans in all namespaces"
+          echo "List all 'Scans' in all namespaces"
           kubectl -n integration-tests get scan -o wide --all-namespaces
-          echo "Jobs in all namespaces"
+          echo "List all 'Jobs' in all namespaces"
           kubectl -n integration-tests get jobs -o wide --all-namespaces
-          echo "Pods in all namespaces"
+          echo "List all 'Pods' in all namespaces"
           kubectl -n integration-tests get pods -o wide --all-namespaces
+          echo "List all 'Services' in all namespaces"
+          kubectl -n integration-tests get services -o wide --all-namespaces
 
       - name: "Inspect Operator"
         if: failure()

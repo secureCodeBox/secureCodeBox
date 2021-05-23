@@ -1,3 +1,4 @@
+
 ---
 title: "Cascading Scans"
 category: "hook"
@@ -30,15 +31,15 @@ There is a configuration option `cascadingRules.enabled` for each scanner to pre
 ```bash
 # Check your CascadingRules
 kubectl get CascadingRules
-NAME             STARTS         INVASIVENESS   INTENSIVENESS
-https-tls-scan   sslyze         non-invasive   light
-imaps-tls-scan   sslyze         non-invasive   light
-nikto-http       nikto          non-invasive   medium
-nmap-smb         nmap           non-invasive   light
-pop3s-tls-scan   sslyze         non-invasive   light
-smtps-tls-scan   sslyze         non-invasive   light
-ssh-scan         ssh-scan       non-invasive   light
-zap-http         zap-baseline   non-invasive   medium
+NAME             STARTS              INVASIVENESS   INTENSIVENESS
+https-tls-scan   sslyze              non-invasive   light
+imaps-tls-scan   sslyze              non-invasive   light
+nikto-http       nikto               non-invasive   medium
+nmap-smb         nmap                non-invasive   light
+pop3s-tls-scan   sslyze              non-invasive   light
+smtps-tls-scan   sslyze              non-invasive   light
+ssh-scan         ssh-scan            non-invasive   light
+zap-http         zap-baseline-scan   non-invasive   medium
 ```
 
 ## Starting a cascading Scan
@@ -77,7 +78,7 @@ smtps-tls-scan   sslyze     non-invasive   light
 ssh-scan         ssh-scan   non-invasive   light
 ```
 
-The label selectors also allow the more powerful matchExpression selectors:
+The label selectors also allow the more powerful matchExpressions selectors:
 
 ```yaml
 cat <<EOF | kubectl apply -f -
@@ -91,9 +92,9 @@ spec:
     - -p22,80,443
     - example.com
   cascades:
-    # Using matchExpression instead of matchLabels
-    matchExpression:
-      key: "securecodebox.io/intensive"
+    # Using matchExpressions instead of matchLabels
+    matchExpressions:
+    - key: "securecodebox.io/intensive"
       operator: In
       # This select both light and medium intensity rules
       values: [light, medium]
@@ -104,15 +105,15 @@ This selection can be replicated in kubectl using:
 
 ```bash
 kubectl get CascadingRules -l "securecodebox.io/intensive in (light,medium)"
-NAME             STARTS         INVASIVENESS   INTENSIVENESS
-https-tls-scan   sslyze         non-invasive   light
-imaps-tls-scan   sslyze         non-invasive   light
-nikto-http       nikto          non-invasive   medium
-nmap-smb         nmap           non-invasive   light
-pop3s-tls-scan   sslyze         non-invasive   light
-smtps-tls-scan   sslyze         non-invasive   light
-ssh-scan         ssh-scan       non-invasive   light
-zap-http         zap-baseline   non-invasive   medium
+NAME             STARTS              INVASIVENESS   INTENSIVENESS
+https-tls-scan   sslyze              non-invasive   light
+imaps-tls-scan   sslyze              non-invasive   light
+nikto-http       nikto               non-invasive   medium
+nmap-smb         nmap                non-invasive   light
+pop3s-tls-scan   sslyze              non-invasive   light
+smtps-tls-scan   sslyze              non-invasive   light
+ssh-scan         ssh-scan            non-invasive   light
+zap-http         zap-baseline-scan   non-invasive   medium
 ```
 
 ## Chart Configuration
