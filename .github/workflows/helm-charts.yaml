@@ -34,5 +34,6 @@ jobs:
             helm package --version $RELEASE_VERSION .
             NAME=$(yq eval '.name' - < Chart.yaml)
             curl --silent --show-error --user "${USERNAME}:${PASSWORD}" --data-binary "@${NAME}-${RELEASE_VERSION}.tgz" "${HELM_REGISTRY}/api/charts"
+            sleep 5s
           )
           done
