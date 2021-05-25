@@ -10,6 +10,5 @@ scanner/zapclient/
 scanner/tests/
 examples/
 
-helm2.Chart.yaml
 README.md.gotmpl
 *.monopic
