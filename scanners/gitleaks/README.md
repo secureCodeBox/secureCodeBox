@@ -1,4 +1,3 @@
-
 ---
 title: "Gitleaks"
 category: "scanner"
