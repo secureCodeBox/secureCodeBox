@@ -364,7 +364,6 @@ jobs:
           - kubeaudit
           - ncrack
           - nmap
-          - zap-advanced
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -423,6 +422,7 @@ jobs:
           - git-repo-scanner
           - screenshooter
           - test-scan
+          - zap-advanced
     steps:
       - name: Checkout
         uses: actions/checkout@v2
