@@ -1,4 +1,3 @@
-
 ---
 title: "Amass"
 category: "scanner"

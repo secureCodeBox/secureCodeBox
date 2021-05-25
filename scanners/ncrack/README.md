@@ -1,4 +1,3 @@
-
 ---
 title: "Ncrack"
 category: "scanner"
