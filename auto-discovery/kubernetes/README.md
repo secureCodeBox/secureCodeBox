@@ -3,7 +3,7 @@ title: "Kubernetes AutoDiscovery"
 category: "system"
 type: "operator"
 state: "released"
-usecase: "Detects new K8S resources and schedules scans."
+usecase: "Detects new K8S resources and schedules scans automatically"
 ---
 
 The secureCodeBox _AutoDiscovery_ is running on kubernetes (K8S) and is an optional component of the complete secureCodeBox stack.
@@ -35,13 +35,13 @@ The scan created uses our `zap-advanced` ScanType by default, this can be change
 
 ### Prerequisites
 
-> The secureCodeBox _AutoDiscovery_ depends on the secureCodeBox Operator to be installed in the same cluster as the AutoDiscovery.
-
-The secureCodeBox _AutoDiscovery_ can be deployed via helm (into the same namespace as the secureCodeBox operator, e.g. _securecodebox-system_):
+The secureCodeBox _AutoDiscovery_ can be deployed via helm (into the same namespace as the secureCodeBox Operator, e.g. _securecodebox-system_):
 
 ```bash
 helm install securecodebox-operator secureCodeBox/auto-discovery -n securecodebox-system
 ```
+
+> The _AutoDiscovery_ depends on the secureCodeBox Operator to be installed in the same cluster as the AutoDiscovery.
 
 ## AutoDiscovery Configuration
 
