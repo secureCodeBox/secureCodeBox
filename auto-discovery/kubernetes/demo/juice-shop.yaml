@@ -11,7 +11,7 @@ metadata:
   name: juice-shop
   namespace: juice-shop
   labels:
-    scm.securecodebox.io/branch: v12.6.1
+    scm.securecodebox.io/branch: v12.8.0
 spec:
   type: ClusterIP
   ports:
@@ -41,7 +41,7 @@ spec:
     spec:
       containers:
         - name: juice-shop
-          image: bkimminich/juice-shop:v12.6.1
+          image: bkimminich/juice-shop:v12.8.0
           ports:
             - name: http
               containerPort: 3000
@@ -57,25 +57,10 @@ spec:
 apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
-  name: zap
+  name: zap-advanced-scan
   namespace: juice-shop
 spec:
   chart:
     repository: https://charts.securecodebox.io
-    version: 2.4.0
-    name: zap
-# ---
-# apiVersion: helm.fluxcd.io/v1
-# kind: HelmRelease
-# metadata:
-#   name: persistence-defectdojo
-#   namespace: juice-shop
-# spec:
-#   chart:
-#     git: https://github.com/secureCodeBox/secureCodeBox.git
-#     ref: feature/defect-dojo
-#     path: hooks/persistence-defectdojo
-#   values:
-#     defectdojo:
-#       auth:
-#         apiKey: e2ed466e0f85127d08879c178ec8ec8df3a15452
+    version: 2.7.2
+    name: zap-advanced-scan
