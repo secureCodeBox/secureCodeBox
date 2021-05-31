@@ -57,4 +57,3 @@ helm install securecodebox-operator secureCodeBox/operator
 | serviceAccount.labels | object | `{}` | Labels of the serviceAccount the operator uses to talk to the k8s api |
 | serviceAccount.name | string | `"securecodebox-operator"` | Name of the serviceAccount the operator uses to talk to the k8s api |
 | telemetryEnabled | bool | `true` | The Operator sends anonymous telemetry data, to give the team an overview how much the secureCodeBox is used. Find out more at https://www.securecodebox.io/telemetry |
-

@@ -1,3 +1,8 @@
+{{- /*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
 ---
 title: "git-repo-scanner"
 category: "scanner"
@@ -34,7 +39,7 @@ or
 #### GitHub
 For type GitHub you can use the following options:
 - `--organization`: The name of the GitHub organization you want to scan.
-- `--url`: The url of the api for a GitHub enterprise server. Skip this option for repos on <https://github.com>. 
+- `--url`: The url of the api for a GitHub enterprise server. Skip this option for repos on <https://github.com>.
 - `--access-token`: Your personal GitHub access token.
 - `--ignore-repos`: A list of GitHub repository ids you want to ignore
 - `--obey-rate-limit`: True to obey the rate limit of the GitHub server (default), otherwise False
@@ -48,7 +53,7 @@ for authentication. If not provided the rate limiting will kick in after about 3
 
 #### GitLab
 For type GitLab you can use the following options:
-- `--url`: The url of the GitLab server. 
+- `--url`: The url of the GitLab server.
 - `--access-token`: Your personal GitLab access token.
 - `--group`: A specific GitLab group id you want to san, including subgroups.
 - `--ignore-groups`: A list of GitLab group ids you want to ignore
@@ -66,4 +71,3 @@ on the Gitlab server are going to be discovered.
 ## Chart Configuration
 
 {{ template "chart.valuesTable" . }}
-

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
 package telemetry
 
 import (
@@ -20,20 +24,24 @@ var telemetryInterval = 24 * time.Hour
 // officialScanTypes contains the list of official secureCodeBox Scan Types.
 // Unofficial Scan Types should be reported as "other" to avoid leakage of confidential data via the scan-types name
 var officialScanTypes map[string]bool = map[string]bool{
-	"amass":         true,
-	"gitleaks":      true,
-	"kube-hunter":   true,
-	"kubeaudit":     true,
-	"ncrack":        true,
-	"nikto":         true,
-	"nmap":          true,
-	"ssh-scan":      true,
-	"sslyze":        true,
-	"trivy":         true,
-	"wpscan":        true,
-	"zap-baseline":  true,
-	"zap-api-scan":  true,
-	"zap-full-scan": true,
+	"amass":                  true,
+	"angularjs-csti-scanner": true,
+	"git-repo-scanner":       true,
+	"gitleaks":               true,
+	"kube-hunter":            true,
+	"kubeaudit":              true,
+	"ncrack":                 true,
+	"nikto":                  true,
+	"nmap":                   true,
+	"screenshooter":          true,
+	"ssh-scan":               true,
+	"sslyze":                 true,
+	"trivy":                  true,
+	"wpscan":                 true,
+	"zap-baseline-scan":      true,
+	"zap-api-scan":           true,
+	"zap-full-scan":          true,
+	"zap-advanced-scan":      true,
 }
 
 // telemetryData submitted by operator

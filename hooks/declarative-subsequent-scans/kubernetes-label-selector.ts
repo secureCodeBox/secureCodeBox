@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
 export enum LabelSelectorRequirementOperator {
   In = "In",
   NotIn = "NotIn",
@@ -15,20 +19,20 @@ export interface LabelSelectorRequirement {
 }
 
 export interface LabelSelector {
-  matchExpression: Array<LabelSelectorRequirement>;
+  matchExpressions: Array<LabelSelectorRequirement>;
   matchLabels: Map<string, string>;
 }
 
 // generateLabelSelectorString transforms a kubernetes labelSelector object in to the string representation
 export function generateLabelSelectorString({
-  matchExpression = [],
+  matchExpressions = [],
   matchLabels = new Map()
 }: LabelSelector): string {
   const matchLabelsSelector = Array.from(Object.entries(matchLabels)).map(
     ([key, values]) => `${key}=${values}`
   );
 
-  const matchExpressionsSelector = matchExpression.map(
+  const matchExpressionsSelector = matchExpressions.map(
     ({ key, values, operator }) => {
       if (
         operator === LabelSelectorRequirementOperator.In ||

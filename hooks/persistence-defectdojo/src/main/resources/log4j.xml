@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 <log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
 

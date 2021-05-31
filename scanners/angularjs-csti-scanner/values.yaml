@@ -1,13 +1,17 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 image:
   # image.repository -- Container Image to run the scan
-  repository: docker.io/securecodebox/scanner-acstis
+  repository: docker.io/securecodebox/scanner-angularjs-csti-scanner
   # image.tag -- defaults to the charts version
   tag: null
 
 parserImage:
   # parserImage.tag - defaults to the charts version
   # parserImage.repository -- Parser image repository
-  repository: docker.io/securecodebox/parser-acstis
+  repository: docker.io/securecodebox/parser-angularjs-csti-scanner
   # parserImage.tag -- Parser image tag
   # @default -- defaults to the charts version
   tag: null

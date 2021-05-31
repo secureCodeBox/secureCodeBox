@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 ARG namespace
 ARG baseImageTag
 FROM node:14-alpine as install

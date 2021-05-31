@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 # Build the manager binary
 FROM golang:1.15 as builder
 

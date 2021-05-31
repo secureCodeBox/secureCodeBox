@@ -1,10 +1,15 @@
-import { isMatch, isMatchWith, isString } from "lodash";
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
+import { isMatch, isMatchWith, isString, mapValues } from "lodash";
 import { isMatch as wildcardIsMatch } from "matcher";
 import * as Mustache from "mustache";
 
 import {
   startSubsequentSecureCodeBoxScan,
   getCascadingRulesForScan,
+  getSubsequentScanDefinition,
   // types
   Scan,
   Finding,
@@ -23,15 +28,18 @@ export async function handle({ scan, getFindings }: HandleArgs) {
 
   const cascadingScans = getCascadingScans(scan, findings, cascadingRules);
 
-  for (const { name, scanType, parameters, generatedBy, env } of cascadingScans) {
-    await startSubsequentSecureCodeBoxScan({
+  for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadingScans) {
+    const cascadingScanDefinition = getSubsequentScanDefinition({
       name,
       parentScan: scan,
       generatedBy,
       scanType,
       parameters,
       env,
+      scanLabels,
+      scanAnnotations
     });
+    await startSubsequentSecureCodeBoxScan(cascadingScanDefinition);
   }
 }
 
@@ -84,32 +92,45 @@ export function getCascadingScans(
       );
 
       if (matches) {
-        const { scanType, parameters, env } = cascadingRule.spec.scanSpec;
-
-        const templateArgs = {
-          ...finding,
-          // Attribute "$" hold special non finding helper attributes
-          $: {
-            hostOrIP:
-              finding.attributes["hostname"] || finding.attributes["ip_address"]
-          }
-        };
-
-        cascadingScans.push({
-          name: generateCascadingScanName(parentScan, cascadingRule),
-          scanType: Mustache.render(scanType, templateArgs),
-          parameters: parameters.map(parameter =>
-            Mustache.render(parameter, templateArgs)
-          ),
-          cascades: null,
-          generatedBy: cascadingRule.metadata.name,
-          env,
-        });
+        cascadingScans.push(getCascadingScan(parentScan, finding, cascadingRule))
       }
     }
   }
 
   return cascadingScans;
+}
+
+function getCascadingScan(
+  parentScan: Scan,
+  finding: Finding,
+  cascadingRule: CascadingRule
+) {
+  const { scanType, parameters, env } = cascadingRule.spec.scanSpec;
+
+  const templateArgs = {
+    ...finding,
+    ...parentScan,
+    // Attribute "$" hold special non finding helper attributes
+    $: {
+      hostOrIP:
+        finding.attributes["hostname"] || finding.attributes["ip_address"]
+    }
+  };
+
+  return {
+    name: generateCascadingScanName(parentScan, cascadingRule),
+    scanType: Mustache.render(scanType, templateArgs),
+    parameters: parameters.map(parameter =>
+      Mustache.render(parameter, templateArgs)
+    ),
+    cascades: null,
+    generatedBy: cascadingRule.metadata.name,
+    env,
+    scanLabels: cascadingRule.spec.scanLabels === undefined ? {} :
+      mapValues(cascadingRule.spec.scanLabels, value => Mustache.render(value, templateArgs)),
+    scanAnnotations: cascadingRule.spec.scanAnnotations === undefined ? {} :
+      mapValues(cascadingRule.spec.scanAnnotations, value => Mustache.render(value, templateArgs)),
+  };
 }
 
 function generateCascadingScanName(
