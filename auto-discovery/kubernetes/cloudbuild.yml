@@ -1,0 +1,4 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "eu.gcr.io/scb-production-7b847126/auto-discovery:latest", "."]
+images: ["eu.gcr.io/scb-production-7b847126/auto-discovery"]

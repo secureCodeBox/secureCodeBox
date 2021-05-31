@@ -1,0 +1,7 @@
+apiVersion: config.securecodebox.io/v2
+kind: AutoDiscoveryConfig
+metadata:
+  name: autodiscoveryconfig-sample
+spec:
+  # Add fields here
+  foo: bar

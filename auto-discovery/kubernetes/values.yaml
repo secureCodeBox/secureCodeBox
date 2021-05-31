@@ -1,0 +1,42 @@
+image:
+  repository: eu.gcr.io/scb-production-7b847126/auto-discovery
+  tag: latest
+  pullPolicy: Always
+
+config:
+  # config is using kubebuilder config framework, it may look like this is a crd but its not, see https://book.kubebuilder.io/component-config-tutorial/tutorial.html
+  apiVersion: config.securecodebox.io/v1
+  kind: AutoDiscoveryConfig
+
+  cluster:
+    name: docker-desktop
+  resourceInclusion:
+    mode: enable-per-namespace
+
+  serviceAutoDiscovery:
+    # -- interval in which every service is re-checked for updated pods, if service object is updated directly this the service will get reconciled immediately
+    passiveReconcileInterval: 1m
+    scanConfig:
+      # -- scanType used for the scans created by the serviceAutoDiscovery
+      scanType: zap-advanced
+      # -- parameters used for the scans created by the serviceAutoDiscovery
+      parameters:
+        - "-t"
+        - "{{ Host.Type }}://{{ .Service.Name }}.{{ .Service.Namespace }}.svc:{{ .Host.Port }}"
+      # -- interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset.
+      repeatInterval: "168h"
+      # -- labels to be added to the scans started by the auto-discovery
+      labels: {}
+      # -- annotations to be added to the scans started by the auto-discovery
+      annotations:
+        defectdojo.securecodebox.io/product-name: "{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}"
+        defectdojo.securecodebox.io/product-tags: "cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"
+        defectdojo.securecodebox.io/engagement-name: "{{ .Target.Name }}"
+        defectdojo.securecodebox.io/engagement-version: "{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}"
+
+  # kubebuilder config
+  metrics:
+    bindAddress: 127.0.0.1:8081
+  leaderElection:
+    leaderElect: true
+    resourceName: 80807133.tutorial.kubebuilder.io
