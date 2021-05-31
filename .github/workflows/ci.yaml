@@ -550,15 +550,13 @@ jobs:
     strategy:
       matrix:
         k8sVersion:
-          - 1.21.1@sha256:fae9a58f17f18f06aeac9772ca8b5ac680ebbed985e266f711d936e91d113bad
-          - 1.20.7@sha256:e645428988191fc824529fd0bb5c94244c12401cf5f5ea3bd875eb0a787f0fe9
-          - 1.19.11@sha256:7664f21f9cb6ba2264437de0eb3fe99f201db7a3ac72329547ec4373ba5f5911
-          - 1.18.19@sha256:530378628c7c518503ade70b1df698b5de5585dcdba4f349328d986b8849b1ee
+          - v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6
     steps:
       - uses: actions/checkout@master
       - name: "Start kind cluster"
         run: |
-          kind create cluster --image kindest/node:v${{ matrix.k8sVersion }} --wait 3m
+          kind version
+          kind create cluster --image kindest/node:${{ matrix.k8sVersion }} --wait 3m
       - name: "Inspect kind cluster"
         run: |
           kubectl config current-context
