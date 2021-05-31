@@ -1,25 +1,23 @@
 ---
-title: "Kubernetes Auto Discovery"
+title: "Kubernetes AutoDiscovery"
 category: "system"
 type: "operator"
 state: "released"
 usecase: "Detects new K8S resources and schedules scans."
 ---
 
+The secureCodeBox _AutoDiscovery_ is running on kubernetes (K8S) and is an optional component of the complete secureCodeBox stack.
+The Kubernetes AutoDiscovery needs to be deployed along side the secureCodeBox Operator. It monitors security relevant resources inside a K8S environment and automatically create scans to continuously monitor security aspects of the resources.
+
 <!-- end -->
 
-![auto-discovery logo](https://docs.securecodebox.io/img/Logo_Color.svg)
-
-The secureCodeBox _auto-discovery_ is running on kubernetes (K8S) and is an optional component of the complete secureCodeBox stack.
-The Kubernetes Auto-Discovery needs to be deployed along side the secureCodeBox Operator. It monitors security relevant resources inside a K8S environment and automatically create scans to continuously monitor security aspects of the resources.
-
-The auto-discovery controller will automatically detect these new resources (services) and start secureCodeBox _scans_ for them:
+The AutoDiscovery controller will automatically detect these new resources (services) and start secureCodeBox _scans_ for them:
 
 1. A ZAP Baseline Scan to detect basic web vulnerabilities in the service. (Using OWASP ZAP)
 2. (WIP) A image scan scanning for vulnerable libraries in the docker / container image of the deployment. (Using trivy)
 3. (WIP) A TLS Scan against the certificate of the ingress for the host. (Using SSLyze)
 
-> ✍ This documentation is currently work-in-progress.
+The AutoDiscovery automatically tracks the lifecycle of the kubernetes resources and will automatically start new scans for new application versions.
 
 ## Example
 
@@ -30,16 +28,16 @@ The auto-discovery controller will automatically detect these new resources (ser
 This example deploys [JuiceShop](https://owasp.org/www-project-juice-shop/) to a new Kubernetes Namespace.
 (You can find the kubernetes manifests for the deployment [here](./demo/juice-shop.yaml))
 
-The auto-discovery will automatically pick up this new deployment and then starts a OWASP ZAP Scan against it.
-The scan created uses our `zap-advanced` ScanType by default, this can be changed with the `config.serviceAutoDiscovery.scanConfig.scanType` config on the auto-discovery helm release.
+The AutoDiscovery will automatically pick up this new deployment and then starts a OWASP ZAP Scan against it.
+The scan created uses our `zap-advanced` ScanType by default, this can be changed with the `config.serviceAutoDiscovery.scanConfig.scanType` config on the autoDiscovery helm release.
 
 ## Deployment
 
 ### Prerequisites
 
-> The secureCodeBox _auto-discovery_ depends on the secureCodeBox Operator and uses all existing security scanners. Both must be installed to
+> The secureCodeBox _AutoDiscovery_ depends on the secureCodeBox Operator to be installed in the same cluster as the AutoDiscovery.
 
-The secureCodeBox auto-discovery can be deployed via helm (into the same namespace as the secureCodeBox operator, e.g. _securecodebox-system_):
+The secureCodeBox _AutoDiscovery_ can be deployed via helm (into the same namespace as the secureCodeBox operator, e.g. _securecodebox-system_):
 
 ```bash
 helm install securecodebox-operator secureCodeBox/auto-discovery -n securecodebox-system
@@ -101,7 +99,7 @@ This mode will start scans for **every** resources in the cluster **unless** it 
 kubectl -n juice-shop annotate service juice-shop auto-discovery.securecodebox.io/ignore=true
 ```
 
-## Chart Configuration
+### Chart Configuration
 
 {{ template "chart.valuesTable" . }}
 
