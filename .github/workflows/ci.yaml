@@ -177,7 +177,7 @@ jobs:
   # ---- Build Stage | AutoDiscovery ----
 
   auto-discovery-kubernetes:
-    name: "CI | AutoDiscovery | Kubernetes"
+    name: "AutoDiscovery | Kubernetes"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
