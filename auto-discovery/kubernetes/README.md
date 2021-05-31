@@ -1,5 +1,5 @@
 ---
-title: "Auto Discovery"
+title: "Kubernetes Auto Discovery"
 category: "system"
 type: "operator"
 state: "released"
@@ -13,13 +13,25 @@ usecase: "Detects new K8S resources and schedules scans."
 The secureCodeBox _auto-discovery_ is running on kubernetes (K8S) and is an optional component of the complete secureCodeBox stack.
 The Kubernetes Auto-Discovery needs to be deployed along side the secureCodeBox Operator. It monitors security relevant resources inside a K8S environment and automatically create scans to continuously monitor security aspects of the resources.
 
-The operator will automatically detect these new resources (services) and start secureCodeBox _scans_ for them:
+The auto-discovery controller will automatically detect these new resources (services) and start secureCodeBox _scans_ for them:
 
 1. A ZAP Baseline Scan to detect basic web vulnerabilities in the service. (Using OWASP ZAP)
 2. (WIP) A image scan scanning for vulnerable libraries in the docker / container image of the deployment. (Using trivy)
 3. (WIP) A TLS Scan against the certificate of the ingress for the host. (Using SSLyze)
 
 > ✍ This documentation is currently work-in-progress.
+
+## Example
+
+<p align="center">
+  <img width="950" src="./auto-discovery-demo.svg" alt="AutoDiscovery CLI Example">
+</p>
+
+This example deploys [JuiceShop](https://owasp.org/www-project-juice-shop/) to a new Kubernetes Namespace.
+(You can find the kubernetes manifests for the deployment [here](./demo/juice-shop.yaml))
+
+The auto-discovery will automatically pick up this new deployment and then starts a OWASP ZAP Scan against it.
+The scan created uses our `zap-advanced` ScanType by default, this can be changed with the `config.serviceAutoDiscovery.scanConfig.scanType` config on the auto-discovery helm release.
 
 ## Deployment
 
@@ -103,9 +115,9 @@ kubectl -n juice-shop annotate service juice-shop auto-discovery.securecodebox.i
 | config.serviceAutoDiscovery.passiveReconcileInterval | string | `"1m"` | interval in which every service is re-checked for updated pods, if service object is updated directly this the service will get reconciled immediately |
 | config.serviceAutoDiscovery.scanConfig.annotations | object | `{"defectdojo.securecodebox.io/engagement-name":"{{ .Target.Name }}","defectdojo.securecodebox.io/engagement-version":"{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}","defectdojo.securecodebox.io/product-name":"{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}","defectdojo.securecodebox.io/product-tags":"cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"}` | annotations to be added to the scans started by the auto-discovery |
 | config.serviceAutoDiscovery.scanConfig.labels | object | `{}` | labels to be added to the scans started by the auto-discovery |
-| config.serviceAutoDiscovery.scanConfig.parameters | list | `["-t","{{ Host.Type }}://{{ .Service.Name }}.{{ .Service.Namespace }}.svc:{{ .Host.Port }}"]` | parameters used for the scans created by the serviceAutoDiscovery |
+| config.serviceAutoDiscovery.scanConfig.parameters | list | `["-t","{{ .Host.Type }}://{{ .Service.Name }}.{{ .Service.Namespace }}.svc:{{ .Host.Port }}"]` | parameters used for the scans created by the serviceAutoDiscovery |
 | config.serviceAutoDiscovery.scanConfig.repeatInterval | string | `"168h"` | interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset. |
-| config.serviceAutoDiscovery.scanConfig.scanType | string | `"zap-advanced"` | scanType used for the scans created by the serviceAutoDiscovery |
+| config.serviceAutoDiscovery.scanConfig.scanType | string | `"zap-advanced-scan"` | scanType used for the scans created by the serviceAutoDiscovery |
 | image.pullPolicy | string | `"Always"` |  |
 | image.repository | string | `"eu.gcr.io/scb-production-7b847126/auto-discovery"` |  |
 | image.tag | string | `"latest"` |  |
