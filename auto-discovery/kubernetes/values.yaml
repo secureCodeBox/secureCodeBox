@@ -18,11 +18,11 @@ config:
     passiveReconcileInterval: 1m
     scanConfig:
       # -- scanType used for the scans created by the serviceAutoDiscovery
-      scanType: zap-advanced
+      scanType: zap-advanced-scan
       # -- parameters used for the scans created by the serviceAutoDiscovery
       parameters:
         - "-t"
-        - "{{ Host.Type }}://{{ .Service.Name }}.{{ .Service.Namespace }}.svc:{{ .Host.Port }}"
+        - "{{ .Host.Type }}://{{ .Service.Name }}.{{ .Service.Namespace }}.svc:{{ .Host.Port }}"
       # -- interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset.
       repeatInterval: "168h"
       # -- labels to be added to the scans started by the auto-discovery
