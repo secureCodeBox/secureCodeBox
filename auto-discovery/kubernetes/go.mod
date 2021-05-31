@@ -1,4 +1,4 @@
-module github.com/secureCodeBox/auto-discovery
+module github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes
 
 go 1.15
 

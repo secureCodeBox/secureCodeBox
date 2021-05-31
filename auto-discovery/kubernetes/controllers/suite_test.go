@@ -38,7 +38,7 @@ import (
 
 	//+kubebuilder:scaffold:imports
 
-	configv1 "github.com/secureCodeBox/auto-discovery/api/v1"
+	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 )
 

@@ -32,8 +32,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	configv1 "github.com/secureCodeBox/auto-discovery/api/v1"
-	"github.com/secureCodeBox/auto-discovery/controllers"
+	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
+	"github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/controllers"
 	//+kubebuilder:scaffold:imports
 )
 
