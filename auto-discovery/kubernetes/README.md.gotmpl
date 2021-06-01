@@ -81,8 +81,6 @@ Enable this by setting `config.resourceInclusion.mode=enabled-per-resource`.
 
 This mode will start scans for every resources with the annotation `auto-discovery.securecodebox.io/enabled=true`.
 
-> ⚠️ Using this setting in larger cluster will likely start a large number of scans in the cluster. This could block all available compute resource in your cluster and seriously affect your applications availability.
-
 ```bash
 # enable AutoDiscovery for service "juice-shop"
 kubectl -n juice-shop annotate service juice-shop auto-discovery.securecodebox.io/enabled=true
@@ -94,8 +92,10 @@ Enable this by setting `config.resourceInclusion.mode=scan-all`.
 
 This mode will start scans for **every** resources in the cluster **unless** it has the annotation `auto-discovery.securecodebox.io/ignore=true`.
 
+> ⚠️ Using this setting in larger cluster will likely start a large number of scans in the cluster. This could block all available compute resource in your cluster and seriously affect your applications availability.
+
 ```bash
-# disable AutoDiscovery for service "juice-shop"
+# *disable* AutoDiscovery for service "juice-shop"
 kubectl -n juice-shop annotate service juice-shop auto-discovery.securecodebox.io/ignore=true
 ```
 
