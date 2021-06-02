@@ -2,13 +2,12 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const retry = require("../retry");
-
 const { cascadingScan } = require("../helpers");
 
-retry(
+jest.retryTimes(3);
+
+test(
   "Cascading Scan nmap -> ncrack on dummy-ssh",
-  3,
   async () => {
     const { categories, severities, count } = await cascadingScan(
       "nmap-dummy-ssh",

@@ -2,13 +2,12 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const retry = require("../retry");
-
 const { scan } = require("../helpers");
 
-retry(
+jest.retryTimes(3);
+
+test(
   "gitleaks should find 1 credential in the testfiles",
-  3,
   async () => {
     const { categories, severities, count } = await scan(
       "gitleaks-dummy-scan",
