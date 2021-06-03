@@ -5,7 +5,7 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: {{ .Release.Name }}
+  name: "nmap"
 spec:
   extractResults:
     type: nmap-xml
