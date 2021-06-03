@@ -8,6 +8,8 @@ metadata:
   name: {{ include "swagger-petstore.fullname" . }}
   labels:
     {{- include "swagger-petstore.labels" . | nindent 4 }}
+  annotations:
+    {{- include "swagger-petstore.annotations" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:

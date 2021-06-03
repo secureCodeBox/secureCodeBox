@@ -8,6 +8,8 @@ metadata:
   name: {{ include "dummy-ssh.fullname" . }}
   labels:
     {{- include "dummy-ssh.labels" . | nindent 4 }}
+  annotations:
+    {{- include "dummy-ssh.annotations" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:

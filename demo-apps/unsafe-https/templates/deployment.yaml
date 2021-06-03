@@ -8,6 +8,8 @@ metadata:
   name: {{ include "unsafe-https.fullname" . }}
   labels:
     {{- include "unsafe-https.labels" . | nindent 4 }}
+  annotations:
+    {{- include "unsafe-https.annotations" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -17,6 +19,8 @@ spec:
     metadata:
       labels:
         {{- include "unsafe-https.selectorLabels" . | nindent 8 }}
+      annotations:
+        {{- include "unsafe-https.annotations" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
