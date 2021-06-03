@@ -8,6 +8,8 @@ metadata:
   name: {{ include "bodgeit.fullname" . }}
   labels:
     {{- include "bodgeit.labels" . | nindent 4 }}
+  annotations:
+    {{- include "bodgeit.annotations" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:

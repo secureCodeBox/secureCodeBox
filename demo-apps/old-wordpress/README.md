@@ -21,11 +21,13 @@ Insecure & Outdated WordPress Instance: Never expose it to the internet!
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
+| annotations | object | `{}` | add annotations to the deployment, service and pods |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"docker.io/securecodebox/old-wordpress"` | Container Image |
 | image.tag | string | defaults to the appVersion | The image tag |
 | imagePullSecrets | list | `[]` |  |
+| labels | object | `{}` | add labels to the deployment, service and pods |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |

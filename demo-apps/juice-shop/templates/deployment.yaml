@@ -8,6 +8,8 @@ metadata:
   name: {{ include "juice-shop.fullname" . }}
   labels:
     {{- include "juice-shop.labels" . | nindent 4 }}
+  annotations:
+    {{- include "juice-shop.annotations" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -17,6 +19,8 @@ spec:
     metadata:
       labels:
         {{- include "juice-shop.selectorLabels" . | nindent 8 }}
+      annotations:
+        {{- include "juice-shop.annotations" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

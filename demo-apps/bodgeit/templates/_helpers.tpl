@@ -46,6 +46,9 @@ helm.sh/chart: {{ include "bodgeit.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- if .Values.labels }}
+{{ .Values.labels | toYaml }}
+{{- end }}
 {{- end -}}
 
 {{/*
@@ -65,4 +68,8 @@ Create the name of the service account to use
 {{- else -}}
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
+{{- end -}}
+
+{{- define "bodgeit.annotations" -}}
+{{ .Values.annotations | toYaml }}
 {{- end -}}
