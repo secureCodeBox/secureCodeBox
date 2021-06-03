@@ -1,4 +1,3 @@
-
 ---
 title: "Nikto"
 category: "scanner"

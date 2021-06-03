@@ -1,4 +1,3 @@
-
 # juice-shop
 
 ![Version: latest](https://img.shields.io/badge/Version-latest-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v12.0.2](https://img.shields.io/badge/AppVersion-v12.0.2-informational?style=flat-square)

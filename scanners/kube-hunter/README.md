@@ -1,4 +1,3 @@
-
 ---
 title: "kube-hunter"
 category: "scanner"

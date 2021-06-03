@@ -4,6 +4,8 @@
 
 const { scan } = require("../helpers");
 
+jest.retryTimes(3);
+
 test(
   "localhost port scan should only find a host finding",
   async () => {
