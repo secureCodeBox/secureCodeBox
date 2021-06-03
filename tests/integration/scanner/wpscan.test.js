@@ -2,13 +2,12 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const retry = require("../retry");
-
 const { scan } = require("../helpers");
 
-retry(
+jest.retryTimes(3);
+
+test(
   "WPScan should find at least 1 finding regarding the old-wordpress demo app",
-  3,
   async () => {
     const { count } = await scan(
       "wpscan-scanner-dummy-scan",

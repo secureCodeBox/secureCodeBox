@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const retry = require("../retry");
-
 const { scan } = require("../helpers");
 
-retry(
+jest.retryTimes(3);
+
+test(
   "gitleaks should find at least 1 repository in the GitHub secureCodeBox organisation",
   3,
   async () => {

@@ -2,13 +2,12 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const retry = require("../retry");
-
 const { scan } = require("../helpers");
 
-retry(
+jest.retryTimes(3);
+
+test(
   "nikto scan against bodgeit demo-app",
-  3,
   async () => {
     const { categories, severities, count } = await scan(
       "nikto-bodgeit",

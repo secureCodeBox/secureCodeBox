@@ -2,13 +2,12 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const retry = require("../retry");
-
 const { scan } = require("../helpers");
 
-retry(
+jest.retryTimes(3);
+
+test(
   "ncrack should find 1 credential in vulnerable ssh service",
-  3,
   async () => {
     const { categories, severities, count } = await scan(
       "ncrack-dummy-ssh",
