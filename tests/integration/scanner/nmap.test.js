@@ -2,13 +2,12 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const retry = require("../retry");
-
 const { scan } = require("../helpers");
 
-retry(
+jest.retryTimes(3);
+
+test(
   "localhost port scan should only find a host finding",
-  3,
   async () => {
     const { categories, severities, count } = await scan(
       "nmap-localhost",
@@ -32,9 +31,8 @@ retry(
   3 * 60 * 1000
 );
 
-retry(
+test(
   "invalid port scan should be marked as errored",
-  3,
   async () => {
     await expect(
       scan("nmap-localhost", "nmap", ["-invalidFlag", "localhost"], 90)

@@ -8,6 +8,8 @@ metadata:
   name: {{ include "bodgeit.fullname" . }}
   labels:
     {{- include "bodgeit.labels" . | nindent 4 }}
+  annotations:
+    {{- include "bodgeit.annotations" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -17,6 +19,8 @@ spec:
     metadata:
       labels:
         {{- include "bodgeit.selectorLabels" . | nindent 8 }}
+      annotations:
+        {{- include "bodgeit.annotations" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

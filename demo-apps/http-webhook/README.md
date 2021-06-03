@@ -22,6 +22,7 @@ A Dummy webserver to echo HTTP requests in log
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
+| annotations | object | `{}` | add annotations to the deployment, service and pods |
 | autoscaling.enabled | bool | `false` |  |
 | autoscaling.maxReplicas | int | `100` |  |
 | autoscaling.minReplicas | int | `1` |  |
@@ -36,9 +37,10 @@ A Dummy webserver to echo HTTP requests in log
 | ingress.hosts[0].host | string | `"chart-example.local"` |  |
 | ingress.hosts[0].paths | list | `[]` |  |
 | ingress.tls | list | `[]` |  |
+| labels | object | `{}` | add labels to the deployment, service and pods |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
-| podAnnotations | object | `{}` |  |
+| podAnnotations | object | `{}` | deprecated. use `labels` instead. Will be removed in v3. todo(@J12934) remove podAnnotations in v3 |
 | podSecurityContext | object | `{}` |  |
 | replicaCount | int | `1` |  |
 | resources | object | `{}` |  |

@@ -8,6 +8,8 @@ metadata:
   name: {{ include "unsafe-https.fullname" . }}
   labels:
     {{- include "unsafe-https.labels" . | nindent 4 }}
+  annotations:
+    {{- include "unsafe-https.annotations" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:

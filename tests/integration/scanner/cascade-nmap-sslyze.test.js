@@ -2,13 +2,12 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const retry = require("../retry");
-
 const { cascadingScan } = require("../helpers");
 
-retry(
+jest.retryTimes(3);
+
+test(
   "Cascading Scan nmap -> sslyze on unsafe-https",
-  3,
   async () => {
     const { categories, severities, count } = await cascadingScan(
       "nmap-unsafe-https-sslyze",

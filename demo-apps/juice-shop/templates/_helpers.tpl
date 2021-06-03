@@ -46,6 +46,9 @@ helm.sh/chart: {{ include "juice-shop.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- if .Values.labels }}
+{{ .Values.labels | toYaml }}
+{{- end }}
 {{- end -}}
 
 {{/*
@@ -54,4 +57,8 @@ Selector labels
 {{- define "juice-shop.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "juice-shop.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
+
+{{- define "juice-shop.annotations" -}}
+{{ .Values.annotations | toYaml }}
 {{- end -}}

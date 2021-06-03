@@ -3,11 +3,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 const { scan } = require("../helpers");
-const retry = require("../retry");
 
-retry(
+jest.retryTimes(3);
+
+test(
   "ZAP-advanced scan without config YAML against a plain 'nginx container' should only find couple findings",
-  3,
   async () => {
     const { count } = await scan(
       "zap-advanced-scan-nginx-demo",
@@ -22,9 +22,8 @@ retry(
   60 * 16 * 1000
 );
 
-retry(
+test(
   "ZAP-advanced scan without config YAML against 'bodgeit' container should only find couple findings",
-  3,
   async () => {
     const { count } = await scan(
       "zap-advanced-scan-bodgeit-demo",
@@ -39,9 +38,8 @@ retry(
   60 * 31 * 1000
 );
 
-retry(
+test(
   "ZAP-advanced scan without config YAML against 'juiceshop' should only find couple findings",
-  3,
   async () => {
     const { count } = await scan(
       "zap-advanced-scan-juiceshop-demo",
@@ -56,9 +54,8 @@ retry(
   60 * 31 * 1000
 );
 
-retry(
+test(
   "ZAP-advanced scan without config YAML against 'swagger-petstore' should only find couple findings",
-  3,
   async () => {
     const { count } = await scan(
       "zap-advanced-scan-petstore-demo",

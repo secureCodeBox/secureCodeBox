@@ -4,6 +4,8 @@
 
 const { scan } = require("../helpers");
 
+jest.retryTimes(3);
+
 test(
   "scan without a matching ScanType should be marked as errored",
   async () => {
