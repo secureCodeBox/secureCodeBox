@@ -11,7 +11,7 @@ config:
   cluster:
     name: docker-desktop
   resourceInclusion:
-    mode: enable-per-namespace
+    mode: enabled-per-namespace
 
   serviceAutoDiscovery:
     # -- interval in which every service is re-checked for updated pods, if service object is updated directly this the service will get reconciled immediately
@@ -33,10 +33,10 @@ config:
         defectdojo.securecodebox.io/product-tags: "cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"
         defectdojo.securecodebox.io/engagement-name: "{{ .Target.Name }}"
         defectdojo.securecodebox.io/engagement-version: "{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}"
-
-  # kubebuilder config
+  health:
+    healthProbeBindAddress: :8081
   metrics:
-    bindAddress: 127.0.0.1:8081
+    bindAddress: 127.0.0.1:8080
   leaderElection:
     leaderElect: true
-    resourceName: 80807133.tutorial.kubebuilder.io
+    resourceName: 0e41a1f4.securecodebox.io
