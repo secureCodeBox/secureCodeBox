@@ -1,6 +1,6 @@
 image:
-  repository: eu.gcr.io/scb-production-7b847126/auto-discovery
-  tag: latest
+  repository: securecodebox/auto-discovery-kubernetes
+  tag: null
   pullPolicy: Always
 
 config:
