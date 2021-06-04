@@ -19,9 +19,10 @@ spec:
         - command:
             - /manager
           args:
-            - --enable-leader-election
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: { { .Values.image.pullPolicy } }
+            - --config
+            - /etc/securecodebox/auto-discovery.yaml
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: auto-discovery
           livenessProbe:
             httpGet:
@@ -46,7 +47,7 @@ spec:
             - name: config
               mountPath: "/etc/securecodebox/auto-discovery.yaml"
               readOnly: true
-              subPath: auto-discovery.json
+              subPath: auto-discovery.yaml
       volumes:
         - name: config
           configMap:
