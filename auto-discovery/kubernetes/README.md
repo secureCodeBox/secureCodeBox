@@ -105,11 +105,12 @@ kubectl -n juice-shop annotate service juice-shop auto-discovery.securecodebox.i
 |-----|------|---------|-------------|
 | config.apiVersion | string | `"config.securecodebox.io/v1"` |  |
 | config.cluster.name | string | `"docker-desktop"` |  |
+| config.health.healthProbeBindAddress | string | `":8081"` |  |
 | config.kind | string | `"AutoDiscoveryConfig"` |  |
 | config.leaderElection.leaderElect | bool | `true` |  |
-| config.leaderElection.resourceName | string | `"80807133.tutorial.kubebuilder.io"` |  |
-| config.metrics.bindAddress | string | `"127.0.0.1:8081"` |  |
-| config.resourceInclusion.mode | string | `"enable-per-namespace"` |  |
+| config.leaderElection.resourceName | string | `"0e41a1f4.securecodebox.io"` |  |
+| config.metrics.bindAddress | string | `"127.0.0.1:8080"` |  |
+| config.resourceInclusion.mode | string | `"enabled-per-namespace"` |  |
 | config.serviceAutoDiscovery.passiveReconcileInterval | string | `"1m"` | interval in which every service is re-checked for updated pods, if service object is updated directly this the service will get reconciled immediately |
 | config.serviceAutoDiscovery.scanConfig.annotations | object | `{"defectdojo.securecodebox.io/engagement-name":"{{ .Target.Name }}","defectdojo.securecodebox.io/engagement-version":"{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}","defectdojo.securecodebox.io/product-name":"{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}","defectdojo.securecodebox.io/product-tags":"cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"}` | annotations to be added to the scans started by the auto-discovery |
 | config.serviceAutoDiscovery.scanConfig.labels | object | `{}` | labels to be added to the scans started by the auto-discovery |
@@ -117,8 +118,8 @@ kubectl -n juice-shop annotate service juice-shop auto-discovery.securecodebox.i
 | config.serviceAutoDiscovery.scanConfig.repeatInterval | string | `"168h"` | interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset. |
 | config.serviceAutoDiscovery.scanConfig.scanType | string | `"zap-advanced-scan"` | scanType used for the scans created by the serviceAutoDiscovery |
 | image.pullPolicy | string | `"Always"` |  |
-| image.repository | string | `"eu.gcr.io/scb-production-7b847126/auto-discovery"` |  |
-| image.tag | string | `"latest"` |  |
+| image.repository | string | `"securecodebox/auto-discovery-kubernetes"` |  |
+| image.tag | string | `nil` |  |
 
 ## Development
 
