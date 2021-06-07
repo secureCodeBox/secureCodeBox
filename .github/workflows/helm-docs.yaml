@@ -36,7 +36,7 @@ jobs:
 
       - name: Generate Helm Docs
         run: |
-          ./helm-docs/helm-docs
+          ./helm-docs/helm-docs --template-files=./_templates.gotmpl --template-files=README.md.gotmpl
           # Remove helm-docs download to ensure they don't get commited back
           rm -rf helm-docs
       - uses: stefanzweifel/git-auto-commit-action@v4.11.0
