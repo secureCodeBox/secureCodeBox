@@ -1,5 +1,3 @@
-
-
 ---
 title: "Screenshooter"
 category: "scanner"

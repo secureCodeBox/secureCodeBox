@@ -1,5 +1,3 @@
-
-
 ---
 title: "Elasticsearch"
 category: "hook"

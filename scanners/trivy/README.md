@@ -1,5 +1,3 @@
-
-
 ---
 title: "Trivy"
 category: "scanner"

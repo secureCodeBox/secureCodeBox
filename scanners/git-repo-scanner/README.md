@@ -1,5 +1,3 @@
-
-
 ---
 title: "git-repo-scanner"
 category: "scanner"

@@ -1,5 +1,3 @@
-
-
 ---
 title: "SSLyze"
 category: "scanner"

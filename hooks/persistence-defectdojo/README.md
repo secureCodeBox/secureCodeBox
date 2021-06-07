@@ -1,5 +1,3 @@
-
-
 ---
 title: "DefectDojo"
 category: "hook"

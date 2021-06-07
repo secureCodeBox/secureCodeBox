@@ -1,5 +1,3 @@
-
-
 ---
 title: "Nmap"
 category: "scanner"

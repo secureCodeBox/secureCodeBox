@@ -1,5 +1,3 @@
-
-
 ---
 title: "Bodgeit"
 category: "target"
