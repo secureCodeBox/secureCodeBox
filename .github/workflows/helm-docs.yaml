@@ -39,7 +39,7 @@ jobs:
           ./helm-docs/helm-docs --template-files=./_templates.gotmpl --template-files=README.md.gotmpl
       - name: Generate Docker Scanner Docs
         run: |
-          ./helm-docs/helm-docs --chart-search-root=./scanners/ --template-files=./_templates.gotmpl --template-files=DockerHub-Scanner.md.gotmpl --output-file=DockerHub-Scanner-Readme.generated.md
+          ./helm-docs/helm-docs --chart-search-root=./scanners/ --template-files=./_templates.gotmpl --template-files=DH-Scanner-Readme.generated.md.gotmpl --output-file=DH-Scanner-Readme.generated.md
       - name: Remove Helm Docs Files
         run: |
           # Remove helm-docs download to ensure they don't get commited back
