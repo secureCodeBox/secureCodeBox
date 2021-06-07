@@ -8,7 +8,7 @@ title: "Amass"
 category: "scanner"
 type: "Network"
 state: "released"
-appVersion: "3.10.4"
+appVersion: '{{ template "chart.appVersion" . }}'
 usecase: "Subdomain Enumeration Scanner"
 ---
 
@@ -17,6 +17,8 @@ usecase: "Subdomain Enumeration Scanner"
 The OWASP Amass Project has developed a tool to help information security professionals perform network mapping of attack surfaces and perform external asset discovery using open source information gathering and active reconnaissance techniques. To learn more about the Amass scanner itself visit [OWASP_Amass_Project] or [Amass GitHub].
 
 <!-- end -->
+
+{{ template “chart.badgesSection” . }}
 
 ## Deployment
 
