@@ -1,0 +1,34 @@
+{
+  "findings": [
+    {
+      "title": "Read access to pod's service account token",
+      "description": " Accessing the pod service account token gives an attacker the option to use the server API ",
+      "severity": "Low",
+      "date": "2021-06-08",
+      "unique_id_from_tool": "df9afbb5-f0c4-475b-a0e5-e3635c55917a",
+      "endpoints": [
+        "tcp://10.1.0.1"
+      ]
+    },
+    {
+      "title": "CAP_NET_RAW Enabled",
+      "description": "CAP_NET_RAW is enabled by default for pods.\n    If an attacker manages to compromise a pod,\n    they could potentially take advantage of this capability to perform network\n    attacks on other pods running on the same node",
+      "severity": "Low",
+      "date": "2021-06-08",
+      "unique_id_from_tool": "341ad0c8-0f3b-47ff-9b89-83d4a7e121f7",
+      "endpoints": [
+        "tcp://10.1.0.1"
+      ]
+    },
+    {
+      "title": "Access to pod's secrets",
+      "description": " Accessing the pod's secrets within a compromised pod might disclose valuable data to a potential attacker",
+      "severity": "Low",
+      "date": "2021-06-08",
+      "unique_id_from_tool": "eb0c75cf-beef-4fd8-b2ed-6e46a5afa1bc",
+      "endpoints": [
+        "tcp://10.1.0.1"
+      ]
+    }
+  ]
+}

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -39,7 +40,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
     return ddFindingJson.toString();
   }
 
-  private static DefectDojoImportFinding fromSecureCodeBoxFinding(SecureCodeBoxFinding secureCodeBoxFinding){
+  protected static DefectDojoImportFinding fromSecureCodeBoxFinding(SecureCodeBoxFinding secureCodeBoxFinding){
     //set basic info
     DefectDojoImportFinding result = new DefectDojoImportFinding();
     result.setTitle(secureCodeBoxFinding.getName());
@@ -54,10 +55,9 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
 
     //set location
     try {
-      URL u = new URL(secureCodeBoxFinding.getLocation());
-      u.toURI();
+      URI.create(secureCodeBoxFinding.getLocation());
       result.setEndpoints(Collections.singletonList(secureCodeBoxFinding.getLocation()));
-    } catch (MalformedURLException | URISyntaxException e) {
+    } catch (IllegalArgumentException e) {
       LOG.info("location is not a valid uri", e);
     }
     return result;

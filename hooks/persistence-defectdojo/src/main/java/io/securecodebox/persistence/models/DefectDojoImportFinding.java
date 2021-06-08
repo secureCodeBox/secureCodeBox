@@ -17,6 +17,8 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DefectDojoImportFinding {
 
@@ -45,7 +47,7 @@ public class DefectDojoImportFinding {
   String cve;
 
   @JsonProperty
-  int cwe;
+  Integer cwe;
 
   @JsonProperty
   String cvssv3;
