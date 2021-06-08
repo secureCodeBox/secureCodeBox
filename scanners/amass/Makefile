@@ -38,7 +38,7 @@ scanner = amass
 scanner-prefix = scanner
 parser-prefix = parser
 
-all: | install-deps unit-test build-images images-export kind-import clean deploy deploy-demo-apps integration-test
+all: | install-deps unit-test build-images images-export kind-import deploy deploy-demo-apps integration-test
 
 .PHONY: unit-test
 unit-test:
