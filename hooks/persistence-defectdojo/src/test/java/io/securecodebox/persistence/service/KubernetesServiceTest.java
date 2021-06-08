@@ -4,7 +4,7 @@
 
 package io.securecodebox.persistence.service;
 
-import io.securecodebox.persistence.models.Finding;
+import io.securecodebox.persistence.models.SecureCodeBoxFinding;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -17,10 +17,10 @@ class KubernetesServiceTest {
   @Test
   public void calculatesFindingStatsCorrectly() throws Exception{
     var findings = List.of(
-      Finding.builder().category("Open Port").severity(Finding.Severities.Informational).build(),
-      Finding.builder().category("Open Port").severity(Finding.Severities.Informational).build(),
-      Finding.builder().category("Open Port").severity(Finding.Severities.Informational).build(),
-      Finding.builder().category("Host").severity(Finding.Severities.Informational).build()
+      SecureCodeBoxFinding.builder().category("Open Port").severity(SecureCodeBoxFinding.Severities.Informational).build(),
+      SecureCodeBoxFinding.builder().category("Open Port").severity(SecureCodeBoxFinding.Severities.Informational).build(),
+      SecureCodeBoxFinding.builder().category("Open Port").severity(SecureCodeBoxFinding.Severities.Informational).build(),
+      SecureCodeBoxFinding.builder().category("Host").severity(SecureCodeBoxFinding.Severities.Informational).build()
     );
 
     var actualStats = KubernetesService.recalculateFindingStats(findings);
@@ -46,9 +46,9 @@ class KubernetesServiceTest {
 
   @Test
   public void calculatesFindingStatsForEmptyFindingsCorrectly() throws Exception{
-    List<Finding> findings = List.of();
+    List<SecureCodeBoxFinding> secureCodeBoxFindings = List.of();
 
-    var actualStats = KubernetesService.recalculateFindingStats(findings);
+    var actualStats = KubernetesService.recalculateFindingStats(secureCodeBoxFindings);
 
     assertEquals(0L, actualStats.getCount());
 
