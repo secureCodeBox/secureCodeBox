@@ -1,0 +1,27 @@
+{
+  "name": "amass-parser",
+  "version": "1.0.0",
+  "description": "secureCodeBox parser for amass",
+  "main": "parser.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/securecodebox/securecodebox.git"
+  },
+  "keywords": [
+    "amass",
+    "scanner",
+    "secureCodeBox"
+  ],
+  "author": "iteratec GmbH",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/securecodebox/securecodebox/issues"
+  },
+  "homepage": "https://github.com/securecodebox/securecodebox#readme",
+  "devDependencies": {
+    "jest": "^27.0.4"
+  }
+}
