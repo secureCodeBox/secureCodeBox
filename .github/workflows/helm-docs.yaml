@@ -31,15 +31,15 @@ jobs:
 
           curl --output helm-docs.tar.gz --location https://github.com/norwoodj/helm-docs/releases/download/v1.5.0/helm-docs_1.5.0_Linux_x86_64.tar.gz
           tar -xvf helm-docs.tar.gz
-          # Verify install
+          # Verify installation
           ./helm-docs --version
 
       - name: Generate Helm Docs
         run: |
-          ./helm-docs/helm-docs --template-files=./_templates.gotmpl --template-files=README.md.gotmpl
+          ./helm-docs/helm-docs --template-files=./_templates.gotmpl --template-files=README.md.gotmpl --output-file=README.md
       - name: Generate Docker Scanner Docs
         run: |
-          ./helm-docs/helm-docs --chart-search-root=./scanners/ --template-files=./_templates.gotmpl --template-files=DH-Scanner-Readme.generated.md.gotmpl --output-file=DH-Scanner-Readme.generated.md
+          ./helm-docs/helm-docs --chart-search-root=./scanners/ --template-files=./../_templates.gotmpl --template-files=README.templates.gotmpl --template-files=README.DockerHub-Scanner.md.gotmpl --output-file=docs/README.DockerHub-Scanner.md
       - name: Remove Helm Docs Files
         run: |
           # Remove helm-docs download to ensure they don't get commited back

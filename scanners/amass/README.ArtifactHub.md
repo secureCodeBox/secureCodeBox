@@ -1,14 +1,3 @@
----
-title: "amass"
-category: "scanner"
-type: "Network"
-state: "released"
-appVersion: "v3.13"
-usecase: "Subdomain Enumeration Scanner"
----
-
-![owasp logo](https://owasp.org/assets/images/logo.png)
-
 <p align="center">
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Apache-2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>
   <a href="https://github.com/secureCodeBox/secureCodeBox/releases/latest"><img alt="GitHub release (latest SemVer)" src="https://img.shields.io/github/v/release/secureCodeBox/secureCodeBox?sort=semver"></a>
