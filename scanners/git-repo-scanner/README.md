@@ -1,67 +1,26 @@
----
-title: "git-repo-scanner"
-category: "scanner"
-type: "Repository"
-state: "in progress"
-appVersion: "0.1"
-usecase: "Discover git repositories"
----
+# git-repo-scanner
 
-Git-Repo-Scanner is a small Python script which discovers repositories on GitHub or GitLab. The main purpose of this scanner
-is to provide a cascading input for the [gitleaks](https://github.com/secureCodeBox/secureCodeBox/tree/main/scanners/gitleaks).
- scanner.
+![Version: v2.7.0-alpha1](https://img.shields.io/badge/Version-v2.7.0--alpha1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
-## Deployment
+A Helm chart for the git-repo-scanner that integrates with the secureCodeBox.
 
-The  git-repo-scanner can be deployed with helm:
+**Homepage:** <https://docs.securecodebox.io/docs/scanners/git-repo-scanner>
 
-```bash
-helm upgrade --install gitleaks secureCodeBox/git-repo-scanner
-```
+## Maintainers
 
-## Scanner configuration
+| Name | Email | Url |
+| ---- | ------ | --- |
+| iteratec GmbH | secureCodeBox@iteratec.com |  |
 
-The scanner options can be divided into two groups for Gitlab and GitHub. You can choose the git
-repository type with the option:
+## Source Code
 
-```bash
---git-type github
-or
---git-type Gitlab
-```
+* <https://github.com/secureCodeBox/secureCodeBox>
 
-#### GitHub
-For type GitHub you can use the following options:
-- `--organization`: The name of the GitHub organization you want to scan.
-- `--url`: The url of the api for a GitHub enterprise server. Skip this option for repos on <https://github.com>.
-- `--access-token`: Your personal GitHub access token.
-- `--ignore-repos`: A list of GitHub repository ids you want to ignore
-- `--obey-rate-limit`: True to obey the rate limit of the GitHub server (default), otherwise False
-- `--activity-since-duration`: Return git repo findings with repo activity (e.g. commits) more recent than a specific date expressed by a duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each
-                               with optional fraction and a unit suffix, such as '1h' or '2h45m'. Valid time units are 'm', 'h', 'd', 'w'.
-- `--activity-until-duration`: Return git repo findings with repo activity (e.g. commits) older than a specific date expressed by a duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each with
-                               optional fraction and a unit suffix, such as '1h' or '2h45m'. Valid time units are 'm', 'h', 'd', 'w'.
+## Requirements
 
-For now only organizations are supported, so the option is mandatory. We **strongly recommend** providing an access token
-for authentication. If not provided the rate limiting will kick in after about 30 repositories scanned.
+Kubernetes: `>=v1.11.0-0`
 
-#### GitLab
-For type GitLab you can use the following options:
-- `--url`: The url of the GitLab server.
-- `--access-token`: Your personal GitLab access token.
-- `--group`: A specific GitLab group id you want to san, including subgroups.
-- `--ignore-groups`: A list of GitLab group ids you want to ignore
-- `--ignore-repos`: A list of GitLab project ids you want to ignore
-- `--obey-rate-limit`: True to obey the rate limit of the GitLab server (default), otherwise False
-- `--activity-since-duration`: Return git repo findings with repo activity (e.g. commits) more recent than a specific date expressed by a duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each
-                               with optional fraction and a unit suffix, such as '1h' or '2h45m'. Valid time units are 'm', 'h', 'd', 'w'.
-- `--activity-until-duration`: Return git repo findings with repo activity (e.g. commits) older than a specific date expressed by a duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each with
-                               optional fraction and a unit suffix, such as '1h' or '2h45m'. Valid time units are 'm', 'h', 'd', 'w'.
-
-For Gitlab, the url and the access token is mandatory. If you don't provide a specific group id, all projects
-on the Gitlab server are going to be discovered.
-
-## Chart Configuration
+## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -78,3 +37,6 @@ on the Gitlab server are going to be discovered.
 | scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | scannerJob.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | scannerJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+
+----------------------------------------------
+Autogenerated from chart metadata using [helm-docs v1.5.0](https://github.com/norwoodj/helm-docs/releases/v1.5.0)
