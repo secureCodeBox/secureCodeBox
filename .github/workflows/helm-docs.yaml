@@ -36,10 +36,27 @@ jobs:
 
       - name: Generate Helm Docs
         run: |
-          ./helm-docs/helm-docs --template-files=./_templates.gotmpl --template-files=README.md.gotmpl --output-file=README.md
+          ./helm-docs/helm-docs --template-files=./_templates.gotmpl --template-files=README.md.gotmpl
       - name: Generate Docker Scanner Docs
         run: |
-          ./helm-docs/helm-docs --chart-search-root=./scanners/ --template-files=./../_templates.gotmpl --template-files=README.templates.gotmpl --template-files=README.DockerHub-Scanner.md.gotmpl --output-file=docs/README.DockerHub-Scanner.md
+          # Start in the scanners folder
+          cd scanners
+          # https://github.com/koalaman/shellcheck/wiki/SC2044
+          find . -type f -name Chart.yaml -print0 | while IFS= read -r -d '' chart; do
+          (
+            dir="$(dirname "${chart}")"
+            #cd "${dir}" || exit
+            echo "Processing Helm Chart in $dir"
+            if [ -d "${dir}/parser" ]; then
+              echo "Parser found at: ’${dir}/parser’"
+            fi
+            if [ -d "${dir}/scanner" ]; then
+              echo "Scanner found at: ’${dir}/parser’"
+            fi
+          )
+          done
+        
+          #./helm-docs/helm-docs --chart-search-root=./scanners/ --template-files=./../_templates.gotmpl --template-files=README.templates.gotmpl --template-files=README.DockerHub-Scanner.md.gotmpl --output-file=docs/README.DockerHub-Scanner.md
       - name: Remove Helm Docs Files
         run: |
           # Remove helm-docs download to ensure they don't get commited back
