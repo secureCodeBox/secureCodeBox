@@ -6,6 +6,18 @@
   <a href="https://twitter.com/securecodebox"><img alt="Twitter Follower" src="https://img.shields.io/twitter/follow/securecodebox?style=flat&color=blue&logo=twitter"></a>
 </p>
 
+## What is OWASP secureCodeBox?
+
+_OWASP secureCodeBox_ is an automated and scalable open source solution that can be used to integrate various *security vulnerability scanners* with a simple and lightweight interface. The _secureCodeBox_ mission is to support *DevSecOps* Teams to make it easy to automate security vulnerability testing in different scenarios.
+
+With the _secureCodeBox_ we provide a toolchain for continuous scanning of applications to find the low-hanging fruit issues early in the development process and free the resources of the penetration tester to concentrate on the major security issues.
+
+The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To install it you need [Helm](https://helm.sh), a package manager for Kubernetes. It is also possible to start the different integrated security vulnerability scanners based on a docker infrastructure.
+
+### Quickstart with secureCodeBox on kubernetes
+
+You can find resources to help you get started on our [documentation website](https://docs.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://docs.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://docs.securecodebox.io/docs/getting-started/first-scans) with it.
+
 ## Supported Tags
 - `latest`  (represents the latest stable release build)
 - tagged releases, e.g. `v3.13`
@@ -51,3 +63,13 @@ View [license information](https://github.com/secureCodeBox/secureCodeBox/blob/m
 As with all Docker images, these likely also contain other software which may be under other licenses (such as Bash, etc from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
 
 As for any pre-built image usage, it is the image user's responsibility to ensure that any use of this image complies with any relevant licenses for all software contained within.
+
+[owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
+[scb-github]: https://github.com/secureCodeBox/
+[scb-engine]: https://github.com/secureCodeBox/engine
+[scb-twitter]: https://twitter.com/secureCodeBox
+[scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
+[scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
+[owasp_amass_project]: https://owasp.org/www-project-amass/
+[amass github]: https://github.com/OWASP/Amass
+[amass user guide]: https://github.com/OWASP/Amass/blob/master/doc/user_guide.md
