@@ -45,14 +45,17 @@ jobs:
           find . -type f -name Chart.yaml -print0 | while IFS= read -r -d '' chart; do
           (
             dir="$(dirname "${chart}")"
-            #cd "${dir}" || exit
+            cd "${dir}" || exit
             echo "Processing Helm Chart in $dir"
             if [ -d "${dir}/parser" ]; then
               echo "Parser found at: ’${dir}/parser’"
+              ./helm-docs/helm-docs --template-files=./../../_templates.gotmpl --template-files=README.templates.gotmpl --template-files=docs/README.DockerHub-Parser.md.gotmpl --output-file=docs/README.DockerHub-Parser.md
             fi
             if [ -d "${dir}/scanner" ]; then
               echo "Scanner found at: ’${dir}/parser’"
+              ./helm-docs/helm-docs --template-files=./../../_templates.gotmpl --template-files=README.templates.gotmpl --template-files=docs/README.DockerHub-Scanner.md.gotmpl --output-file=docs/README.DockerHub-Scanner.md
             fi
+            ./helm-docs/helm-docs --template-files=./../../_templates.gotmpl --template-files=README.templates.gotmpl --template-files=docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
           )
           done
         
