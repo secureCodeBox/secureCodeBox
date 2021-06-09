@@ -57,46 +57,50 @@ export function getCascadingScans(
   findings: Array<Finding>,
   cascadingRules: Array<CascadingRule>
 ): Array<ExtendedScanSpec> {
-  const cascadingScans: Array<ExtendedScanSpec> = [];
-
-  const cascadingRuleChain = new Set<string>();
-
-  // Get the current Scan Chain (meaning which CascadingRules were used to start this scan and its parents) and convert it to a set, which makes it easier to query.
-  if (
-    parentScan.metadata.annotations &&
-    parentScan.metadata.annotations["cascading.securecodebox.io/chain"]
-  ) {
-    const chainElements = parentScan.metadata.annotations[
-      "cascading.securecodebox.io/chain"
-    ].split(",");
-
-    for (const element of chainElements) {
-      cascadingRuleChain.add(element);
-    }
-  }
+  let cascadingScans: Array<ExtendedScanSpec> = [];
+  const cascadingRuleChain = getScanChain(parentScan);
 
   for (const cascadingRule of cascadingRules) {
     // Check if the Same CascadingRule was already applied in the Cascading Chain
     // If it has already been used skip this rule as it could potentially lead to loops
-    if (cascadingRuleChain.has(cascadingRule.metadata.name)) {
+    if (cascadingRuleChain.includes(cascadingRule.metadata.name)) {
       console.log(
         `Skipping Rule "${cascadingRule.metadata.name}" as it was already applied in this chain.`
       );
       continue;
     }
 
-    for (const finding of findings) {
-      // Check if one (ore more) of the CascadingRule matchers apply to the finding
-      const matches = cascadingRule.spec.matches.anyOf.some(matchesRule =>
-        isMatch(finding, matchesRule) || isMatchWith(finding, matchesRule, wildcardMatcher)
-      );
-
-      if (matches) {
-        cascadingScans.push(getCascadingScan(parentScan, finding, cascadingRule))
-      }
-    }
+    cascadingScans = cascadingScans.concat(getScansMatchingRule(parentScan, findings, cascadingRule))
   }
 
+  return cascadingScans;
+}
+
+function getScanChain(parentScan: Scan) {
+  // Get the current Scan Chain (meaning which CascadingRules were used to start this scan and its parents) and convert it to a set, which makes it easier to query.
+  if (
+    parentScan.metadata.annotations &&
+    parentScan.metadata.annotations["cascading.securecodebox.io/chain"]
+  ) {
+    return parentScan.metadata.annotations[
+      "cascading.securecodebox.io/chain"
+    ].split(",");
+  }
+  return []
+}
+
+function getScansMatchingRule(parentScan: Scan, findings: Array<Finding>, cascadingRule: CascadingRule) {
+  const cascadingScans: Array<ExtendedScanSpec> = [];
+  for (const finding of findings) {
+    // Check if one (ore more) of the CascadingRule matchers apply to the finding
+    const matches = cascadingRule.spec.matches.anyOf.some(matchesRule =>
+      isMatch(finding, matchesRule) || isMatchWith(finding, matchesRule, wildcardMatcher)
+    );
+
+    if (matches) {
+      cascadingScans.push(getCascadingScan(parentScan, finding, cascadingRule))
+    }
+  }
   return cascadingScans;
 }
 
