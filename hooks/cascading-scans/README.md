@@ -1,8 +1,3 @@
-{{- /*
-SPDX-FileCopyrightText: 2020 iteratec GmbH
-
-SPDX-License-Identifier: Apache-2.0
-*/ -}}
 ---
 title: "Cascading Scans"
 category: "hook"
@@ -18,14 +13,14 @@ usecase: "Cascading Scans based declarative Rules."
 Installing the Cascading Scans hook will add a ReadOnly Hook to your namespace which looks for matching _CascadingRules_ in the namespace and start the according scans.
 
 ```bash
-helm upgrade --install dssh secureCodeBox/declarative-subsequent-scans
+helm upgrade --install dssh secureCodeBox/cascading-scans
 ```
 
 ### Verification
 ```bash
 kubectl get ScanCompletionHooks
 NAME   TYPE       IMAGE
-dssh   ReadOnly   docker.io/securecodebox/hook-declarative-subsequent-scans:latest
+dssh   ReadOnly   docker.io/securecodebox/cascading-scans:latest
 ```
 
 ## CascadingScan Rules
@@ -122,4 +117,8 @@ zap-http         zap-baseline-scan   non-invasive   medium
 
 ## Chart Configuration
 
-{{ template "chart.valuesTable" . }}
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| hookJob.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+| image.repository | string | `"docker.io/securecodebox/cascading-scans"` | Hook image repository |
+| image.tag | string | defaults to the charts version | The image Tag defaults to the charts version if not defined. |

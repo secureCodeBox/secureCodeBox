@@ -5,11 +5,13 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanCompletionHook
 metadata:
-  name: {{ include "declarative-subsequent-scans.fullname" . }}
+  name: {{ include "cascading-scans.fullname" . }}
   labels:
-    {{- include "declarative-subsequent-scans.labels" . | nindent 4 }}
+    {{- include "cascading-scans.labels" . | nindent 4 }}
 spec:
   type: ReadOnly
   image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
+  imagePullSecrets:
+    - name: "securecodebox"
   ttlSecondsAfterFinished: {{ .Values.hookJob.ttlSecondsAfterFinished }}
   serviceAccountName: declarative-combined-scans
