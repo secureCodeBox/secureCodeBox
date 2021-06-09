@@ -82,7 +82,7 @@ export interface ExtendedScanSpec extends ScanSpec {
   };
 }
 
-export function getSubsequentScanDefinition({
+export function getCascadingScanDefinition({
    name,
    parentScan,
    scanType,
@@ -124,7 +124,7 @@ export function getSubsequentScanDefinition({
         ...labels
       },
       annotations: {
-        "securecodebox.io/hook": "declarative-subsequent-scans",
+        "securecodebox.io/hook": "cascading-scans",
         "cascading.securecodebox.io/parent-scan": parentScan.metadata.name,
         "cascading.securecodebox.io/chain": [
           ...cascadingChain,
