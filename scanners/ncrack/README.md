@@ -173,8 +173,8 @@ base64 encryptedPassword -d | openssl rsautl -decrypt -inkey key.pem -out decryp
 | cascadingRules.enabled | bool | `true` | Enables or disables the installation of the default cascading rules for this scanner |
 | encryptPasswords.existingSecret | string | `nil` | secret name with a pem encoded rsa public key to encrypt identified passwords |
 | encryptPasswords.key | string | `"public.key"` | name of the property in the secret with the pem encoded rsa public key |
-| parser.image.repository | string | `"docker.io/securecodebox/parser-ncrack"` |  |
-| parser.image.tag | string | `nil` |  |
+| parser.image.repository | string | `"docker.io/securecodebox/parser-ncrack"` | Parser image repository |
+| parser.image.tag | string | defaults to the charts version | Parser image tag |
 | parser.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | scanner.backoffLimit | int | 3 | There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy) |
 | scanner.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
