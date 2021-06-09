@@ -57,7 +57,7 @@ export function getCascadingScans(
   findings: Array<Finding>,
   cascadingRules: Array<CascadingRule>
 ): Array<ExtendedScanSpec> {
-  const cascadingScans: Array<ExtendedScanSpec> = [];
+  let cascadingScans: Array<ExtendedScanSpec> = [];
   const cascadingRuleChain = getScanChain(parentScan);
 
   for (const cascadingRule of cascadingRules) {
@@ -70,7 +70,7 @@ export function getCascadingScans(
       continue;
     }
 
-    cascadingScans.concat(getScansMatchingRule(parentScan, findings, cascadingRule))
+    cascadingScans = cascadingScans.concat(getScansMatchingRule(parentScan, findings, cascadingRule))
   }
 
   return cascadingScans;
@@ -86,6 +86,7 @@ function getScanChain(parentScan: Scan) {
       "cascading.securecodebox.io/chain"
     ].split(",");
   }
+  return []
 }
 
 function getScansMatchingRule(parentScan: Scan, findings: Array<Finding>, cascadingRule: CascadingRule) {
