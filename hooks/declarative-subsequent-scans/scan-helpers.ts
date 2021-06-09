@@ -5,7 +5,7 @@
 import * as k8s from "@kubernetes/client-node";
 
 import {
-  generateLabelSelectorString,
+  generateSelectorString,
   LabelSelector
 } from "./kubernetes-label-selector";
 
@@ -178,7 +178,7 @@ export async function getCascadingRulesForScan(scan: Scan) {
   }
 
   try {
-    const labelSelector = generateLabelSelectorString(scan.spec.cascades);
+    const labelSelector = generateSelectorString(scan.spec.cascades);
 
     console.log(
       `Fetching CascadingScans using LabelSelector: "${labelSelector}"`
