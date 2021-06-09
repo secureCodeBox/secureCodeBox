@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-
 encryptPasswords:
   # encryptPasswords.existingSecret -- secret name with a pem encoded rsa public key to encrypt identified passwords
   existingSecret: null
@@ -11,9 +10,9 @@ encryptPasswords:
 
 parser:
   image:
-    # parser.repository -- Parser image repository
+    # parser.image.repository -- Parser image repository
     repository: docker.io/securecodebox/parser-ncrack
-    # parser.tag -- Parser image tag
+    # parser.image.tag -- Parser image tag
     # @default -- defaults to the charts version
     tag: null
   # parser.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/

@@ -7,5 +7,5 @@ kind: ParseDefinition
 metadata:
   name: "nmap-xml"
 spec:
-  image: "{{ .Values.parser.repository }}:{{ .Values.parser.tag | default .Chart.Version }}"
+  image: "{{ .Values.parser.image.repository }}:{{ .Values.parser.image.tag | default .Chart.Version }}"
   ttlSecondsAfterFinished: {{ .Values.parser.ttlSecondsAfterFinished }}
