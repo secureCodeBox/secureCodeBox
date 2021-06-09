@@ -17,14 +17,14 @@ category: "use"
 
 > ✍ **Page under construction.**
 
-## Declarative Combined Scans
+## Cascading Scans
 
 ### Install Hook
 
-Installing the Declarative Combined Scan hook will add a ReadOnly Hook to your namespace which looks for matching CascadingRules in the namespace and starts subsequent scans accordingly.
+Installing the Cascading Scan hook will add a ReadOnly Hook to your namespace which looks for matching CascadingRules in the namespace and starts subsequent scans accordingly.
 
 ```bash
-helm install combined-scans ./hooks/declarative-subsequent-scans
+helm install cascading-scans ./hooks/cascading-scans
 ```
 
 ### Verify Hook Installation
@@ -38,8 +38,8 @@ kubectl get ScanCompletionHooks
 The result should contain a hook for declarative subsequent scans.
 
 ```bash
-NAME                                          TYPE       IMAGE
-combined-scans-declarative-subsequent-scans   ReadOnly   docker.io/securecodebox/hook-declarative-subsequent-scans:latest
+NAME              TYPE       IMAGE
+cascading-scans   ReadOnly   docker.io/securecodebox/cascading-scans:latest
 ```
 
 ### Verify CascadingRules
