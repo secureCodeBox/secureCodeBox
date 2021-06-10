@@ -54,19 +54,20 @@ If you already want to use our implementation (fork) of this feature you can use
 
 ```yaml
 # Corresponding HelmChart Configuration
-image:
-  # image.repository -- Container Image to run the scan
-  repository: docker.io/securecodebox/scanner-gitleaks
-  # image.tag -- defaults to the charts version
-  tag: v7.3.0
+scanner:
+  image:
+    # scanner.image.repository -- Container Image to run the scan
+    repository: docker.io/securecodebox/scanner-gitleaks
+    # scanner.image.tag -- defaults to the charts version
+    tag: v7.3.0
 ```
 
 ### Deployment with extended GitLeaks
 ```bash
 # Install HelmChart (use -n to configure another namespace)
 helm upgrade --install gitleaks secureCodeBox/gitleaks \
-  --set="image.repository=docker.io/securecodebox/scanner-gitleaks" \
-  --set="image.tag=v7.3.0"
+  --set="scanner.image.repository=docker.io/securecodebox/scanner-gitleaks" \
+  --set="scanner.image.tag=v7.3.0"
 ```
 
 ### Additional (Fork) Scanner configuration options
