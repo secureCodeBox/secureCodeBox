@@ -14,4 +14,4 @@ spec:
   imagePullSecrets:
     - name: "securecodebox"
   ttlSecondsAfterFinished: {{ .Values.hookJob.ttlSecondsAfterFinished }}
-  serviceAccountName: declarative-combined-scans
+  serviceAccountName: cascading-scans
