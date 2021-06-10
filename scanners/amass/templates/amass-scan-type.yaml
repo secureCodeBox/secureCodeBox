@@ -4,7 +4,7 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: "amass"
+  name: "amass{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   extractResults:
     # amass saves it's result now in json but in "json lines" format

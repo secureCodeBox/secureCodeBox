@@ -17,7 +17,7 @@ data:
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: zap-advanced-scan
+  name: "zap-advanced-scan{{ .Values.scanner.nameAppend | default ""}}"
   labels:
     {{- include "zap.labels" . | nindent 4 }}
 spec:

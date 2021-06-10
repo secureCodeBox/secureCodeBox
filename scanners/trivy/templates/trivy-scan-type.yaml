@@ -5,7 +5,7 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: "trivy"
+  name: "trivy{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   name: "trivy"
   extractResults:
