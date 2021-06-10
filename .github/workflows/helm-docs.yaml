@@ -36,7 +36,7 @@ jobs:
 
       - name: Generate Helm Docs
         run: |
-          ./helm-docs/helm-docs --template-files=./.helm-docs-templates.gotmpl --template-files=README.md.gotmpl
+          ./helm-docs/helm-docs --template-files=./.helm-docs/templates.gotmpl --template-files=README.md.gotmpl
       - name: Generate Docker Scanner Docs
         run: |
           # Start in the scanners folder
@@ -51,13 +51,13 @@ jobs:
               echo "Docs Folder found at: ${dir}/docs"
               if [ -d "parser" ]; then
                 echo "Parser found at: ${dir}/parser"
-                ./../../helm-docs/helm-docs --template-files=./../../.helm-docs-templates.gotmpl --template-files=README.templates.gotmpl --template-files=docs/README.DockerHub-Parser.md.gotmpl --output-file=docs/README.DockerHub-Parser.md
+                ./../../helm-docs/helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.templates.gotmpl --template-files=docs/README.DockerHub-Parser.md.gotmpl --output-file=docs/README.DockerHub-Parser.md
               fi
               if [ -d "scanner" ]; then
                 echo "Scanner found at: ${dir}/parser"
-                ./../../helm-docs/helm-docs --template-files=./../../.helm-docs-templates.gotmpl --template-files=README.templates.gotmpl --template-files=docs/README.DockerHub-Scanner.md.gotmpl --output-file=docs/README.DockerHub-Scanner.md
+                ./../../helm-docs/helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.templates.gotmpl --template-files=docs/README.DockerHub-Scanner.md.gotmpl --output-file=docs/README.DockerHub-Scanner.md
               fi
-              ./../../helm-docs/helm-docs --template-files=./../../.helm-docs-templates.gotmpl --template-files=README.templates.gotmpl --template-files=docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
+              ./../../helm-docs/helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.templates.gotmpl --template-files=docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
             else
               echo "Ignoring Docs creation for Chart $dir, because no docs folder found at: ${dir}/docs"
             fi
