@@ -1,0 +1,48 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+---
+# List of 1 or more contexts, mandatory
+contexts:
+  # Name to be used to refer to this context in other jobs, mandatory
+  - name: secureCodeBoxScan-Script-Based
+  # Name to be used to refer to this context in other jobs, mandatory
+  - name: secureCodeBox-Basic-Auth
+    # The top level url, mandatory, everything under this will be included
+    url: https://www.secureCodeBox.io/
+    # An optional list of regexes to include
+    includePaths:
+      - "https://www.secureCodeBox.io/.*"
+    # An optional list of regexes to exclude
+    excludePaths:
+      - "https://www.secureCodeBox.io/authserver/v1/.*"
+      - ".*\\.js"
+      - ".*\\.css"
+      - ".*\\.png"
+      - ".*\\.jpeg"
+    # Auth Credentials for the scanner to access the application
+    # Can be either basicAuth or a oidc token.
+    # If both are set, the oidc token takes precedent
+    authentication:
+      # Currently supports "basic-auth", "form-based", "json-based", "script-based"
+      type: "basic-auth"
+      # basic-auth requires no further configuration
+      basic-auth:
+        hostname: "https://www.secureCodeBox.io"
+        realm: "CORP\\administrator"
+        port: 8080
+      # Indicates if the current Zap User Session is based on a valid authentication (loggedIn) or not (loggedOut)
+      verification:
+        isLoggedInIndicator: "(.*Credentials are required to access this resource.*)|(.*Verifying token failed*)"
+        isLoggedOutIndicator: ".*User is not Authenticated.*"
+    users:
+      - name: "basic-auth-user-1"
+        username: "basic-auth-user-1"
+        password: "basic-auth-password-1"
+      - name: "basic-auth-user-2"
+        username: "basic-auth-user-2"
+        password: "basic-auth-password-2"
+    session:
+      # Currently supports "scriptBasedSessionManagement", "cookieBasedSessionManagement", "httpAuthSessionManagement"
+      type: "httpAuthSessionManagement"

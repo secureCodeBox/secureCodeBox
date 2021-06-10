@@ -1,10 +1,13 @@
-const retry = require("../retry");
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
 
 const { scan } = require("../helpers");
 
-retry(
+jest.retryTimes(3);
+
+test(
   "ncrack should find 1 credential in vulnerable ssh service",
-  3,
   async () => {
     const { categories, severities, count } = await scan(
       "ncrack-dummy-ssh",

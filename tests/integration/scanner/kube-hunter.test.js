@@ -1,10 +1,13 @@
-const retry = require("../retry");
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
 
 const { scan } = require("../helpers");
 
-retry(
+jest.retryTimes(3);
+
+test(
   "kube-hunter should find a fixed number of findings for the kind cluster",
-  3,
   async () => {
     await scan(
       "kube-hunter-in-cluster",

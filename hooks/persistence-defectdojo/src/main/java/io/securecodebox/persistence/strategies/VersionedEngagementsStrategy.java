@@ -1,20 +1,6 @@
-/*
- *  secureCodeBox (SCB)
- *  Copyright 2015-2021 iteratec GmbH
- *  https://www.iteratec.com
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  	http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
 package io.securecodebox.persistence.strategies;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -166,6 +152,7 @@ public class VersionedEngagementsStrategy implements Strategy {
       .orchestrationEngine(toolConfig.getId())
       .targetStart(descriptionGenerator.currentDate())
       .targetEnd(descriptionGenerator.currentDate())
+      .deduplicationOnEngagement(scan.getDeDuplicateOnEngagement().orElse(false))
       .status(Engagement.Status.IN_PROGRESS)
       .build();
 
@@ -176,9 +163,9 @@ public class VersionedEngagementsStrategy implements Strategy {
   }
 
   /**
-   * Creates a new productType in DefectDojo if none exists already for the given scan. 
+   * Creates a new productType in DefectDojo if none exists already for the given scan.
    * If no productType is defined for the given scan a default productType will be used (productType Id = 1).
-   * 
+   *
    * @param scan The scan to ensure the DefectDojo productType for.
    * @return The productType Id already existing or newly created.
    * @throws URISyntaxException
@@ -233,7 +220,7 @@ public class VersionedEngagementsStrategy implements Strategy {
 
   /**
    * Creates a new test in DefectDojo related to the given scan and engagement.
-   * 
+   *
    * @param scan The scan to create a new test in defectDojo for (related to the given engagement).
    * @param engagementId The engagement (referenced by id) to relate the new test to.
    * @param userId The user id corresponding to create the test on behalf to.
@@ -272,7 +259,7 @@ public class VersionedEngagementsStrategy implements Strategy {
 
   /**
    * Returns the DefectDojo Product Name related to the given scan.
-   * 
+   *
    * @param scan The scan the productName relates to.
    * @return The productName related to the given scan.
    */
@@ -296,7 +283,7 @@ public class VersionedEngagementsStrategy implements Strategy {
   /**
    * Returns the DefectDojo Product Name related to the given scan.
    * If the Scan was created via a scheduled scan, the Name of the ScheduledScan should be preferred to the scans name.
-   * 
+   *
    * @param ownerReferences The ownerReferences of the child Object.
    * @return The productName related to the given scan.
    */

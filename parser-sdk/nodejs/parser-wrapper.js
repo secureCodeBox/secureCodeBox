@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
 const axios = require("axios");
 const { parse } = require("./parser/parser");
 const { v4: uuid } = require('uuid');

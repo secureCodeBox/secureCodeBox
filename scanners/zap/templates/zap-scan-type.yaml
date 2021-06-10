@@ -1,7 +1,11 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: "zap-baseline"
+  name: "zap-baseline-scan"
 spec:
   extractResults:
     type: zap-xml
@@ -16,7 +20,7 @@ spec:
         spec:
           restartPolicy: Never
           containers:
-            - name: zap-baseline
+            - name: zap-baseline-scan
               image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
               command:
                 - "zap-baseline.py"

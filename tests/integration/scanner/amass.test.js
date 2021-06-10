@@ -1,10 +1,13 @@
-const retry = require("../retry");
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
 
 const { scan } = require("../helpers");
 
-retry(
+jest.retryTimes(3);
+
+test(
   "amass should find at least 20 subdomains",
-  3,
   async () => {
     const { count } = await scan(
       "amass-scanner-dummy-scan",

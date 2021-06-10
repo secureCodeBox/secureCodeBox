@@ -1,10 +1,15 @@
-import { isMatch, isMatchWith, isString } from "lodash";
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
+import { isMatch, isMatchWith, isString, mapValues } from "lodash";
 import { isMatch as wildcardIsMatch } from "matcher";
 import * as Mustache from "mustache";
 
 import {
   startSubsequentSecureCodeBoxScan,
   getCascadingRulesForScan,
+  getSubsequentScanDefinition,
   // types
   Scan,
   Finding,
@@ -23,15 +28,18 @@ export async function handle({ scan, getFindings }: HandleArgs) {
 
   const cascadingScans = getCascadingScans(scan, findings, cascadingRules);
 
-  for (const { name, scanType, parameters, generatedBy, env } of cascadingScans) {
-    await startSubsequentSecureCodeBoxScan({
+  for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadingScans) {
+    const cascadingScanDefinition = getSubsequentScanDefinition({
       name,
       parentScan: scan,
       generatedBy,
       scanType,
       parameters,
       env,
+      scanLabels,
+      scanAnnotations
     });
+    await startSubsequentSecureCodeBoxScan(cascadingScanDefinition);
   }
 }
 
@@ -49,67 +57,84 @@ export function getCascadingScans(
   findings: Array<Finding>,
   cascadingRules: Array<CascadingRule>
 ): Array<ExtendedScanSpec> {
-  const cascadingScans: Array<ExtendedScanSpec> = [];
-
-  const cascadingRuleChain = new Set<string>();
-
-  // Get the current Scan Chain (meaning which CascadingRules were used to start this scan and its parents) and convert it to a set, which makes it easier to query.
-  if (
-    parentScan.metadata.annotations &&
-    parentScan.metadata.annotations["cascading.securecodebox.io/chain"]
-  ) {
-    const chainElements = parentScan.metadata.annotations[
-      "cascading.securecodebox.io/chain"
-    ].split(",");
-
-    for (const element of chainElements) {
-      cascadingRuleChain.add(element);
-    }
-  }
+  let cascadingScans: Array<ExtendedScanSpec> = [];
+  const cascadingRuleChain = getScanChain(parentScan);
 
   for (const cascadingRule of cascadingRules) {
     // Check if the Same CascadingRule was already applied in the Cascading Chain
     // If it has already been used skip this rule as it could potentially lead to loops
-    if (cascadingRuleChain.has(cascadingRule.metadata.name)) {
+    if (cascadingRuleChain.includes(cascadingRule.metadata.name)) {
       console.log(
         `Skipping Rule "${cascadingRule.metadata.name}" as it was already applied in this chain.`
       );
       continue;
     }
 
-    for (const finding of findings) {
-      // Check if one (ore more) of the CascadingRule matchers apply to the finding
-      const matches = cascadingRule.spec.matches.anyOf.some(matchesRule =>
-        isMatch(finding, matchesRule) || isMatchWith(finding, matchesRule, wildcardMatcher)
-      );
-
-      if (matches) {
-        const { scanType, parameters, env } = cascadingRule.spec.scanSpec;
-
-        const templateArgs = {
-          ...finding,
-          // Attribute "$" hold special non finding helper attributes
-          $: {
-            hostOrIP:
-              finding.attributes["hostname"] || finding.attributes["ip_address"]
-          }
-        };
-
-        cascadingScans.push({
-          name: generateCascadingScanName(parentScan, cascadingRule),
-          scanType: Mustache.render(scanType, templateArgs),
-          parameters: parameters.map(parameter =>
-            Mustache.render(parameter, templateArgs)
-          ),
-          cascades: null,
-          generatedBy: cascadingRule.metadata.name,
-          env,
-        });
-      }
-    }
+    cascadingScans = cascadingScans.concat(getScansMatchingRule(parentScan, findings, cascadingRule))
   }
 
   return cascadingScans;
+}
+
+function getScanChain(parentScan: Scan) {
+  // Get the current Scan Chain (meaning which CascadingRules were used to start this scan and its parents) and convert it to a set, which makes it easier to query.
+  if (
+    parentScan.metadata.annotations &&
+    parentScan.metadata.annotations["cascading.securecodebox.io/chain"]
+  ) {
+    return parentScan.metadata.annotations[
+      "cascading.securecodebox.io/chain"
+    ].split(",");
+  }
+  return []
+}
+
+function getScansMatchingRule(parentScan: Scan, findings: Array<Finding>, cascadingRule: CascadingRule) {
+  const cascadingScans: Array<ExtendedScanSpec> = [];
+  for (const finding of findings) {
+    // Check if one (ore more) of the CascadingRule matchers apply to the finding
+    const matches = cascadingRule.spec.matches.anyOf.some(matchesRule =>
+      isMatch(finding, matchesRule) || isMatchWith(finding, matchesRule, wildcardMatcher)
+    );
+
+    if (matches) {
+      cascadingScans.push(getCascadingScan(parentScan, finding, cascadingRule))
+    }
+  }
+  return cascadingScans;
+}
+
+function getCascadingScan(
+  parentScan: Scan,
+  finding: Finding,
+  cascadingRule: CascadingRule
+) {
+  const { scanType, parameters, env } = cascadingRule.spec.scanSpec;
+
+  const templateArgs = {
+    ...finding,
+    ...parentScan,
+    // Attribute "$" hold special non finding helper attributes
+    $: {
+      hostOrIP:
+        finding.attributes["hostname"] || finding.attributes["ip_address"]
+    }
+  };
+
+  return {
+    name: generateCascadingScanName(parentScan, cascadingRule),
+    scanType: Mustache.render(scanType, templateArgs),
+    parameters: parameters.map(parameter =>
+      Mustache.render(parameter, templateArgs)
+    ),
+    cascades: null,
+    generatedBy: cascadingRule.metadata.name,
+    env,
+    scanLabels: cascadingRule.spec.scanLabels === undefined ? {} :
+      mapValues(cascadingRule.spec.scanLabels, value => Mustache.render(value, templateArgs)),
+    scanAnnotations: cascadingRule.spec.scanAnnotations === undefined ? {} :
+      mapValues(cascadingRule.spec.scanAnnotations, value => Mustache.render(value, templateArgs)),
+  };
 }
 
 function generateCascadingScanName(

@@ -1,11 +1,14 @@
-const retry = require("../retry");
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
 
 const { scan } = require("../helpers");
 const k8s = require("@kubernetes/client-node");
 
-retry(
+jest.retryTimes(3);
+
+test(
   "should trigger notification",
-  3,
   async () => {
     await scan("test-scan-notification-web-hook", "test-scan", [], 90);
 

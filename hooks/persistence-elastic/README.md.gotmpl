@@ -1,3 +1,8 @@
+{{- /*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
 ---
 title: "Elasticsearch"
 category: "hook"
@@ -13,7 +18,7 @@ The ElasticSearch persistenceProvider hook saves all findings and reports into t
 
 ## Deployment
 
-Installing the Elasticsearch persistenceProvider hook will add a _ReadOnly Hook_ to your namespace. 
+Installing the Elasticsearch persistenceProvider hook will add a _ReadOnly Hook_ to your namespace.
 
 ```bash
 helm upgrade --install elkh secureCodeBox/persistence-elastic

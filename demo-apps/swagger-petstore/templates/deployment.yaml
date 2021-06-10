@@ -1,9 +1,15 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "swagger-petstore.fullname" . }}
   labels:
     {{- include "swagger-petstore.labels" . | nindent 4 }}
+  annotations:
+    {{- include "swagger-petstore.annotations" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -13,6 +19,8 @@ spec:
     metadata:
       labels:
         {{- include "swagger-petstore.selectorLabels" . | nindent 8 }}
+      annotations:
+        {{- include "swagger-petstore.annotations" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

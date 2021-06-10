@@ -1,9 +1,15 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "dummy-ssh.fullname" . }}
   labels:
     {{- include "dummy-ssh.labels" . | nindent 4 }}
+  annotations:
+    {{- include "dummy-ssh.annotations" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:

@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 If you don't want to use our predefined rule files you can easily provide your own
 gitleaks rules config file. Therefore create a configMap from your rules file.
 

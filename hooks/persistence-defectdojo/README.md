@@ -13,6 +13,7 @@ The hook uses the import scan [API from DefectDojo](https://defectdojo.readthedo
 
 This means that only scan types are supported by the hook which are both supported by the secureCodeBox and DefectDojo.
 These are:
+
 - Nmap
 - ZAP (Baseline, API Scan and Full Scan)
 - SSLyze
@@ -50,16 +51,17 @@ You don't need any configuration for that to work, the hook will infer engagemen
 If you want more control over the names or add additional meta information like the version of the tested software you
 can add these via annotation to the scan. See examples below.
 
-| Scan Annotation                                  | Description                | Default if not set                                                   | Notes                                                                                 |
-|--------------------------------------------------|----------------------------|----------------------------------------------------------------------|---------------------------------------------------------------------------------------|
-| `defectdojo.securecodebox.io/product-type-name`  | Name of the Product Type   | Product Type with ID 1 (typically "Research and Development")        | Product Type will be automatically created if no Product Type under that name exists  |
-| `defectdojo.securecodebox.io/product-name`       | Name of the Product        | ScheduledScan Name if Scheduled, Scan Name if it's a standalone Scan | Product  will be automatically created if no Product under that name exists           |
-| `defectdojo.securecodebox.io/product-description`| Description of the Product | Empty String                                                         | Only used when creating the Product not used for updating                             |
-| `defectdojo.securecodebox.io/product-tags`       | Product Tags               | Nothing                                                              | Only used when creating the Product not used for updating                             |
-| `defectdojo.securecodebox.io/engagement-name`    | Name of the Engagement     | Scan Name                                                            | Will be automatically created if not Engagement with that name **and** version exists |
-| `defectdojo.securecodebox.io/engagement-version` | Engagement Version         | Nothing                                                              |                                                                                       |
-| `defectdojo.securecodebox.io/engagement-tags`    | Engagement Tags            | Nothing                                                              | Only used when creating the Product not used for updating                             |
-| `defectdojo.securecodebox.io/test-title`         | Test Title                 | Scan Name                                                            |                                                                                       |
+| Scan Annotation                                                    | Description                | Default if not set                                                   | Notes                                                                                 |
+| ------------------------------------------------------------------ | -------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `defectdojo.securecodebox.io/product-type-name`                    | Name of the Product Type   | Product Type with ID 1 (typically "Research and Development")        | Product Type will be automatically created if no Product Type under that name exists  |
+| `defectdojo.securecodebox.io/product-name`                         | Name of the Product        | ScheduledScan Name if Scheduled, Scan Name if it's a standalone Scan | Product will be automatically created if no Product under that name exists            |
+| `defectdojo.securecodebox.io/product-description`                  | Description of the Product | Empty String                                                         | Only used when creating the Product not used for updating                             |
+| `defectdojo.securecodebox.io/product-tags`                         | Product Tags               | Nothing                                                              | Only used when creating the Product not used for updating                             |
+| `defectdojo.securecodebox.io/engagement-name`                      | Name of the Engagement     | Scan Name                                                            | Will be automatically created if no *engagement* with that name **and** version exists |
+| `defectdojo.securecodebox.io/engagement-version`                   | Engagement Version         | Nothing                                                              |                                                                                       |
+| `defectdojo.securecodebox.io/engagement-deduplicate-on-engagement` | Deduplicate On Engagement  | false                                                                | Only used when creating the Engagement not used for updating                          |
+| `defectdojo.securecodebox.io/engagement-tags`                      | Engagement Tags            | Nothing                                                              | Only used when creating the Engagement not used for updating                          |
+| `defectdojo.securecodebox.io/test-title`                           | Test Title                 | Scan Name                                                            |                                                                                       |
 
 ### Simple Example Scans
 
@@ -100,6 +102,7 @@ metadata:
     defectdojo.securecodebox.io/engagement-name: "Juice Shop"
     defectdojo.securecodebox.io/engagement-version: "v12.6.1"
     defectdojo.securecodebox.io/engagement-tags: "automated,daily"
+    defectdojo.securecodebox.io/engagement-deduplicate-on-engagement: "true"
     defectdojo.securecodebox.io/test-title: "Juice Shop - v12.6.1"
 spec:
   interval: 24h
@@ -130,5 +133,6 @@ helm upgrade --install dd secureCodeBox/persistence-defectdojo \
 | defectdojo.authentication.usernameKey | string | `"username"` | Name of the username key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |
 | defectdojo.syncFindingsBack | bool | `true` | Syncs back (two way sync) all imported findings from DefectDojo to SCB Findings Store, set to false to only import the findings to DefectDojo (one way sync). |
 | defectdojo.url | string | `"http://defectdojo-django.default.svc"` | Url to the DefectDojo Instance |
+| image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | image.repository | string | `"docker.io/securecodebox/persistence-defectdojo"` | Hook image repository |
 | image.tag | string | `nil` | Container image tag |

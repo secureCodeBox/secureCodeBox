@@ -1,10 +1,13 @@
-const retry = require("../retry");
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
 
 const { scan } = require("../helpers");
 
-retry(
+jest.retryTimes(3);
+
+test(
   "kubeaudit should run and check the jshop in kubeaudit-tests namespace",
-  3,
   async () => {
     const { categories, severities } = await scan(
       "kubeaudit-tests",

@@ -1,10 +1,13 @@
-const retry = require("../retry");
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
 
 const { cascadingScan } = require("../helpers");
 
-retry(
+jest.retryTimes(3);
+
+test(
   "Cascading Scan nmap -> ncrack on dummy-ssh",
-  3,
   async () => {
     const { categories, severities, count } = await cascadingScan(
       "nmap-dummy-ssh",

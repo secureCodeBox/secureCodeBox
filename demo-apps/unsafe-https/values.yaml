@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 # Default values for unsafe-https.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
@@ -15,6 +19,12 @@ image:
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+
+# -- add labels to the deployment, service and pods
+labels: {}
+
+# -- add annotations to the deployment, service and pods
+annotations: {}
 
 podSecurityContext: {}
   # fsGroup: 2000

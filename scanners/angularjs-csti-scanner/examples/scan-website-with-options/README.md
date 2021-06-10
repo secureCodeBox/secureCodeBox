@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 To add some headers to the scanners requests create a file called *acstis-config.py* with the following content:
 
 ```text

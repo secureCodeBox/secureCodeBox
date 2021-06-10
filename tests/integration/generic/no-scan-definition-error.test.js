@@ -1,4 +1,10 @@
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
 const { scan } = require("../helpers");
+
+jest.retryTimes(3);
 
 test(
   "scan without a matching ScanType should be marked as errored",

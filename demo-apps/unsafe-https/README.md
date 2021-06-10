@@ -23,11 +23,13 @@ which contains both private and public key and is not authorized by a third part
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
+| annotations | object | `{}` | add annotations to the deployment, service and pods |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"docker.io/securecodebox/unsafe-https"` | Container Image |
 | image.tag | string | `nil` |  |
 | imagePullSecrets | list | `[]` |  |
+| labels | object | `{}` | add labels to the deployment, service and pods |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
