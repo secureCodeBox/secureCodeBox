@@ -37,6 +37,8 @@ public class SecureCodeBoxFinding {
   @JsonProperty
   Severities severity;
   @JsonProperty
+  String timestamp;
+  @JsonProperty
   Map<String, Object> attributes;
 
   public enum Severities {

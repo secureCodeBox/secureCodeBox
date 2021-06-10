@@ -11,19 +11,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class SecureCodeBoxFindingsToDefectDojoMapper {
   private static final Logger LOG = LoggerFactory.getLogger(SecureCodeBoxFindingsToDefectDojoMapper.class);
+  private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
   public static String fromSecureCodeboxFindingsJson(String scbFindingsJson) throws IOException {
     LOG.debug("Converting SecureCodeBox Findings to DefectDojo Findings");
@@ -48,12 +43,18 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
     result.setSeverity(capitalize(secureCodeBoxFinding.getSeverity().toString()));
     result.setUniqueIdFromTool(secureCodeBoxFinding.getId());
 
-    //set date
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    LocalDateTime now = LocalDateTime.now();
-    result.setDate(dtf.format(now));
+    //set finding date
+    Instant instant;
+    if (secureCodeBoxFinding.getTimestamp() != null) {
+      instant = Instant.from(DateTimeFormatter.ISO_INSTANT.parse(secureCodeBoxFinding.getTimestamp()));
+    }
+    else {
+      instant = Instant.now();
+    }
+    LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+    result.setDate(dtf.format(localDateTime));
 
-    //set location
+    //set finding location
     try {
       URI.create(secureCodeBoxFinding.getLocation());
       result.setEndpoints(Collections.singletonList(secureCodeBoxFinding.getLocation()));
