@@ -31,14 +31,13 @@ helm upgrade --install {{ template "chart.name" . }} secureCodeBox/{{ template "
 {{- define "extra.dockerDeploymentSection" -}}
 ## Supported Tags
 - `latest`  (represents the latest stable release build)
-- tagged releases, e.g. `{{ template "chart.appVersion" . }}`
-- `unstable` (represents the latest unstable build from the master branch. Not recommended for production systems)
+- tagged releases, e.g. `{{ template "chart.version" . }}`
 {{- end }}
 
 {{- define "extra.scannerAboutSection" -}}
 ## What is OWASP Amass?
 
-The OWASP Amass Project has developed a tool to help information security professionals perform network mapping of attack surfaces and perform external asset discovery using open source information gathering and active reconnaissance techniques. To learn more about the Amass scanner itself visit [OWASP_Amass_Project] or [Amass GitHub].
+The [OWASP Amass Project][owasp_amass_project] has developed a tool to help information security professionals perform network mapping of attack surfaces and perform external asset discovery using open source information gathering and active reconnaissance techniques. To learn more about the Amass scanner itself visit [OWASP Amass Project][owasp_amass_project] or [Amass GitHub].
 {{- end }}
 
 {{- define "extra.scannerConfigurationSection" -}}

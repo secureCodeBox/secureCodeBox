@@ -11,8 +11,10 @@ SPDX-License-Identifier: Apache-2.0
 {{ template "extra.dockerDeploymentSection" . }}
 
 ## How to use this image
+This `scanner` image is intended to work in combination with the corresponding `parser` image to parse the scanner `findings` to generic secureCodeBox results. For more informations details please take a look at the [project page][scb-docs] or [documentation page][{{ template "chart.home" . }}].
+
 ```bash
-docker pull securecodebox/scanner-amass
+docker pull securecodebox/scanner-{{ template "chart.name" . }}
 ```
 
 {{ template "extra.scannerAboutSection" . }}
