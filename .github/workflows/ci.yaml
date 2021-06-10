@@ -109,7 +109,7 @@ jobs:
           npm ci
       - name: "Compile Typescript"
         run: |
-          cd hooks/declarative-subsequent-scans
+          cd hooks/cascading-scans
           npm run build
       - name: "Run tests & publish code coverage"
         uses: paambaati/codeclimate-action@v2.6.0
@@ -228,7 +228,7 @@ jobs:
     strategy:
       matrix:
         hook:
-          - declarative-subsequent-scans
+          - cascading-scans
           - finding-post-processing
           - generic-webhook
           - notification-hook
@@ -846,9 +846,9 @@ jobs:
           kubectl -n integration-tests delete scans --all
           # We'll run these in a separate namespace so that only the cascadingRules we want to test will be used
           kubectl create namespace cascading-tests
-          # Install declarative-subsequent-scans hook
-          helm upgrade --install dssh ./hooks/declarative-subsequent-scans/ -n cascading-tests \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/declarative-subsequent-scans" \
+          # Install cascading-scans hook
+          helm upgrade --install dssh ./hooks/cascading-scans/ -n cascading-tests \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/cascading-scans" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)"
           # Install nmap
           helm -n cascading-tests install nmap ./scanners/nmap/ \
@@ -889,9 +889,9 @@ jobs:
           kubectl -n integration-tests delete scans --all
           # We'll run these in a separate namespace so that only the cascadingRules we want to test will be used
           kubectl create namespace cascading-tests
-          # Install declarative-subsequent-scans hook
-          helm upgrade --install dssh ./hooks/declarative-subsequent-scans/ -n cascading-tests --wait \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/declarative-subsequent-scans" \
+          # Install cascading-scans hook
+          helm upgrade --install dssh ./hooks/cascading-scans/ -n cascading-tests --wait \
+            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/cascading-scans" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)"
           # Install unsafe-https
           helm upgrade --install unsafe-https ./demo-apps/unsafe-https/ -n cascading-tests --wait

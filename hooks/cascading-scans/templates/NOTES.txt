@@ -3,7 +3,7 @@ SPDX-FileCopyrightText: 2020 iteratec GmbH
 
 SPDX-License-Identifier: Apache-2.0
 */}}
-Declarative Subsequent Scan Hook deployed.
+Cascading Scan Hook deployed.
 
 This will allow you to start Scans based on previous findings.
 E.g. start a ssh scan for every open ssh port found.

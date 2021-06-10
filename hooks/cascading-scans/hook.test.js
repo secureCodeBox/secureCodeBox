@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { getSubsequentScanDefinition } = require("./scan-helpers");
+const { getCascadingScanDefinition } = require("./scan-helpers");
 const { getCascadingScans } = require("./hook");
 
 let parentScan = undefined;
@@ -376,7 +376,7 @@ test("should not copy labels if inheritLabels is set to false", () => {
   );
 
   for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
-    const cascadingScanDefinition = getSubsequentScanDefinition({
+    const cascadingScanDefinition = getCascadingScanDefinition({
       name,
       parentScan: parentScan,
       generatedBy,
@@ -420,7 +420,7 @@ test("should copy labels if inheritLabels is not set", () => {
   );
 
   for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
-    const cascadingScanDefinition = getSubsequentScanDefinition({
+    const cascadingScanDefinition = getCascadingScanDefinition({
       name,
       parentScan: parentScan,
       generatedBy,
@@ -466,7 +466,7 @@ test("should copy labels if inheritLabels is set to true", () => {
   );
 
   for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
-    const cascadingScanDefinition = getSubsequentScanDefinition({
+    const cascadingScanDefinition = getCascadingScanDefinition({
       name,
       parentScan: parentScan,
       generatedBy,
@@ -510,7 +510,7 @@ test("should not copy annotations if inheritAnnotations is set to false", () => 
   );
 
   for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
-    const cascadingScanDefinition = getSubsequentScanDefinition({
+    const cascadingScanDefinition = getCascadingScanDefinition({
       name,
       parentScan: parentScan,
       generatedBy,
@@ -553,7 +553,7 @@ test("should copy annotations if inheritAnnotations is not set", () => {
   );
 
   for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
-    const cascadingScanDefinition = getSubsequentScanDefinition({
+    const cascadingScanDefinition = getCascadingScanDefinition({
       name,
       parentScan: parentScan,
       generatedBy,
@@ -597,7 +597,7 @@ test("should copy annotations if inheritAnnotations is set to true", () => {
   );
 
   for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
-    const cascadingScanDefinition = getSubsequentScanDefinition({
+    const cascadingScanDefinition = getCascadingScanDefinition({
       name,
       parentScan: parentScan,
       generatedBy,
@@ -662,7 +662,7 @@ test("should copy scanLabels from CascadingRule to cascading scan", () => {
     ]
   `);
 
-  const cascadingScanDefinition = getSubsequentScanDefinition({
+  const cascadingScanDefinition = getCascadingScanDefinition({
     name,
     parentScan: parentScan,
     generatedBy,
@@ -726,7 +726,7 @@ test("should copy scanAnnotations from CascadingRule to cascading scan", () => {
     ]
   `);
 
-  const cascadingScanDefinition = getSubsequentScanDefinition({
+  const cascadingScanDefinition = getCascadingScanDefinition({
     name,
     parentScan: parentScan,
     generatedBy,

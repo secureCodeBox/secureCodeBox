@@ -9,7 +9,7 @@ import * as Mustache from "mustache";
 import {
   startSubsequentSecureCodeBoxScan,
   getCascadingRulesForScan,
-  getSubsequentScanDefinition,
+  getCascadingScanDefinition,
   // types
   Scan,
   Finding,
@@ -29,7 +29,7 @@ export async function handle({ scan, getFindings }: HandleArgs) {
   const cascadingScans = getCascadingScans(scan, findings, cascadingRules);
 
   for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadingScans) {
-    const cascadingScanDefinition = getSubsequentScanDefinition({
+    const cascadingScanDefinition = getCascadingScanDefinition({
       name,
       parentScan: scan,
       generatedBy,

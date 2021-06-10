@@ -47,7 +47,7 @@
   },
   "jest": {
     "projects": [
-      "<rootDir>/declarative-subsequent-scans",
+      "<rootDir>/cascading-scans",
       "<rootDir>/finding-post-processing",
       "<rootDir>/generic-webhook",
       "<rootDir>/notification-hook/src",
