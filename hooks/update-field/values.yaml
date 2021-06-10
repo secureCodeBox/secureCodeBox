@@ -12,13 +12,13 @@ attribute:
   # attribute.value -- The value of the attribute you want to add to each finding result
   value: my-own-category
 
-image:
-  # image.repository -- Hook image repository
-  repository: docker.io/securecodebox/update-field
-  # image.tag -- The image Tag defaults to the charts version if not defined.
-  # @default -- defaults to the charts version
-  tag: null
+hook:
+  image:
+    # hook.image.repository -- Hook image repository
+    repository: docker.io/securecodebox/update-field
+    # hook.image.tag -- The image Tag defaults to the charts version if not defined.
+    # @default -- defaults to the charts version
+    tag: null
 
-hookJob:
-  # hookJob.ttlSecondsAfterFinished -- Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+  # hook.ttlSecondsAfterFinished -- Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
   ttlSecondsAfterFinished: null
