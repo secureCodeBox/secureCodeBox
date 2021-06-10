@@ -6,13 +6,6 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-image:
-  # image.repository -- Hook image repository
-  repository: docker.io/securecodebox/finding-post-processing
-  # image.tag -- The image Tag defaults to the charts version if not defined.
-  # @default -- defaults to the charts version
-  tag: null
-
 rules: []
   #- matches:
   #    anyOf:
@@ -28,6 +21,13 @@ rules: []
   #    severity: "high"
   #    description: "Telnet is bad"
 
-hookJob:
-  # hookJob.ttlSecondsAfterFinished -- Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+hook:
+  image:
+    # hook.image.repository -- Hook image repository
+    repository: docker.io/securecodebox/finding-post-processing
+    # hook.image.tag -- The image Tag defaults to the charts version if not defined.
+    # @default -- defaults to the charts version
+    tag: null
+
+  # hook.ttlSecondsAfterFinished -- Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
   ttlSecondsAfterFinished: null
