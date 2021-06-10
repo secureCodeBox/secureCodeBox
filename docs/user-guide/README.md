@@ -35,7 +35,7 @@ Successful installation can be verified by retrieving installed ScanCompletionHo
 kubectl get ScanCompletionHooks
 ```
 
-The result should contain a hook for declarative subsequent scans.
+The result should contain a hook for cascading scans.
 
 ```bash
 NAME              TYPE       IMAGE
