@@ -2,7 +2,7 @@
   {
     "name": "Read access to pod's service account token",
     "description": " Accessing the pod service account token gives an attacker the option to use the server API ",
-    "timestamp": "2020-04-15T20:08:18Z",
+    "timestamp": "2020-04-15T20:08:18.000Z",
     "location": "tcp://10.1.0.1",
     "severity": "LOW",
     "category": "Access Risk",
