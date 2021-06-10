@@ -180,7 +180,7 @@ A basic configuration could look like this:
 ...
 env:
   - name: SMTP_CONFIG
-    value: "smtp://user@domain.tld:pass@smtp.domain.tld/"
+    value: "smtp://user:pass@smtp.domain.tld/"
 ```
 
 To provide a custom `from` field for your email you can specify `EMAIL_FROM` under env.
@@ -189,7 +189,7 @@ For example:
 ```
 env:
   - name: SMTP_CONFIG
-    value: "smtp://user@domain.tld:pass@smtp.domain.tld/"
+    value: "smtp://user:pass@smtp.domain.tld/"
   - name: EMAIL_FROM
     value: secureCodeBox
 ```
