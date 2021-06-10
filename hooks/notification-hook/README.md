@@ -177,7 +177,12 @@ The identifier for this config has to be `SMTP_CONFIG`.
 A basic configuration could look like this:
 
 ```
-...
+notificationChannels:
+  - name: email
+    type: email
+    template: email
+    rules: []
+    endPoint: "someone@somewhere.xyz"
 env:
   - name: SMTP_CONFIG
     value: "smtp://user:pass@smtp.domain.tld/"
