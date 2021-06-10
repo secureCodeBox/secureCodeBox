@@ -22,6 +22,7 @@ OWASP Juice Shop: Probably the most modern and sophisticated insecure web applic
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
+| annotations | object | `{}` | add annotations to the deployment, service and pods |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"docker.io/bkimminich/juice-shop"` | Container Image containing the juice-shop |
@@ -32,6 +33,7 @@ OWASP Juice Shop: Probably the most modern and sophisticated insecure web applic
 | ingress.hosts[0].host | string | `"chart-example.local"` |  |
 | ingress.hosts[0].paths | list | `[]` |  |
 | ingress.tls | list | `[]` |  |
+| labels | object | `{}` | add labels to the deployment, service and pods |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |

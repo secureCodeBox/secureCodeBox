@@ -8,6 +8,8 @@ metadata:
   name: {{ include "old-wordpress.fullname" . }}
   labels:
     {{- include "old-wordpress.labels" . | nindent 4 }}
+  annotations:
+    {{- include "old-wordpress.annotations" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:

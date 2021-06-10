@@ -46,6 +46,9 @@ helm.sh/chart: {{ include "dummy-ssh.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- if .Values.labels }}
+{{ .Values.labels | toYaml }}
+{{- end }}
 {{- end -}}
 
 {{/*
@@ -54,4 +57,8 @@ Selector labels
 {{- define "dummy-ssh.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "dummy-ssh.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
+
+{{- define "dummy-ssh.annotations" -}}
+{{ .Values.annotations | toYaml }}
 {{- end -}}

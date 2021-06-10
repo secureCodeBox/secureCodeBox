@@ -8,6 +8,8 @@ metadata:
   name: {{ include "juice-shop.fullname" . }}
   labels:
     {{- include "juice-shop.labels" . | nindent 4 }}
+  annotations:
+    {{- include "juice-shop.annotations" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:

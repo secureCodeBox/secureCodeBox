@@ -8,6 +8,8 @@ metadata:
   name: {{ include "http-webhook.fullname" . }}
   labels:
     {{- include "http-webhook.labels" . | nindent 4 }}
+  annotations:
+    {{- include "http-webhook.annotations" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:

@@ -6,7 +6,7 @@ image:
   # image.repository -- Container Image to run the scan
   repository: mozilla/ssh_scan
   # image.tag -- defaults to the charts appVersion
-  tag: "latest@sha256:ebd76f798159844c0baca6b78cc324ba1966b11eb4f45118397a59d01f764c97"
+  tag: "latest@sha256:d6f41c2c328223931b97a4ae5d35d3bb91b5c8d91871ced3d2e0cde06b1edf1f"
 
 parserImage:
   # parserImage.repository -- Parser image repository
