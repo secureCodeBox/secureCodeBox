@@ -5,7 +5,7 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: "screenshooter"
+  name: "screenshooter{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   extractResults:
     type: screenshot-png

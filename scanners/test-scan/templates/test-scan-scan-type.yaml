@@ -5,7 +5,7 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: "test-scan"
+  name: "test-scan{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   extractResults:
     type: test-txt

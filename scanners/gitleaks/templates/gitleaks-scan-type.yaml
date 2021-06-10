@@ -5,7 +5,7 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: "gitleaks"
+  name: "gitleaks{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   extractResults:
     type: gitleaks-json

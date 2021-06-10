@@ -5,7 +5,7 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: "ssh-scan"
+  name: "ssh-scan{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   extractResults:
     type: ssh-scan-json
