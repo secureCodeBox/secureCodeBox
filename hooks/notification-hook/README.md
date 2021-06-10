@@ -54,7 +54,7 @@ The `name` is used to for debugging failing notifications.
 it can be a _string_ of you choice.
 
 The `type` specifies the type of the notification (in this example slack).
-Currently `slack` is the only available type, but we are working on others (e.g. MS Teams or email) as well.
+See [Available Notifier](#available-notifier).
 
 The `template` field defines the name of a Nunjucks template to send to your notification channel.
 These templates are usually tied to their notification channel (slack templates will not work for teams).
@@ -177,7 +177,12 @@ The identifier for this config has to be `SMTP_CONFIG`.
 A basic configuration could look like this:
 
 ```
-...
+notificationChannels:
+  - name: email
+    type: email
+    template: email
+    rules: []
+    endPoint: "someone@somewhere.xyz"
 env:
   - name: SMTP_CONFIG
     value: "smtp://user:pass@smtp.domain.tld/"
