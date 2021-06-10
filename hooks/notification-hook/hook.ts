@@ -19,6 +19,11 @@ export async function handle({ getFindings, scan }) {
   for (const channel of notificationChannels) {
     channel.endPoint = mapToEndPoint(channel.endPoint);
     const findingsToNotify = findings.filter(finding => matches(finding, channel.rules));
+
+    if (channel.skipNotificationOnZeroFindings === true && findings.length === 0) {
+      continue;
+    }
+
     const notifier: Notifier = NotifierFactory.create(channel, scan, findingsToNotify, args);
     await notifier.sendMessage();
   }
