@@ -39,6 +39,7 @@ notificationChannels:
   - name: slack
     type: slack
     template: slack-messageCard
+    skipNotificationOnZeroFinding: true
     rules:
       - matches:
           anyOf:
@@ -66,6 +67,11 @@ These templates are usually tied to their notification channel (slack templates 
 The template `slack-messageCard` is provided by default.
 Notice that for the name of the template we chose to omit the file type.
 The template `slack-messageCard` will point to `slack-messageCard.njk` in the filesystem of the hook.
+
+The `skipNotificationOnZeroFindings` if set to true will cause the notifier when there were no findings.
+This can happen when the scan did not identify any or if all findings were filtered out using [rules](#rule-configuration).
+Defaults to `false` if not set.
+You can use `skipNotificationOnZeroFindings` to only send out notification for non duplicate findings, e.g. by combining the DefectDojo hook with this one and filtering out the `duplicate` attribute in the rules.
 
 The `endPoint` specifies where the notification has to go to.
 To protect the actual endPoint (e.g. a webhook url) this should point to an env name defined under `env`
