@@ -59,7 +59,7 @@ jobs:
               fi
               ./../../helm-docs/helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
             else
-              echo "Ignoring Docs creation for Chart $dir, because no docs folder found at: ${dir}/docs"
+              echo "Ignoring Docs creation process for Chart $dir, because no `docs` folder found at: ${dir}/docs"
             fi
           )
           done
