@@ -28,4 +28,44 @@ You can find resources to help you get started on our [documentation website](ht
 - tagged releases, e.g. `v2.7.0-alpha1`
 
 ## How to use this image
-This `parser` image is intended to work in combination with the corresponding security scanner docker image to parse the `findings` results. For more informations details please take a look at the documentation page: 
+This `parser` image is intended to work in combination with the corresponding security scanner docker image to parse the `findings` results. For more informations details please take a look at the documentation page: https://docs.securecodebox.io/docs/scanners/Trivy.
+
+```bash
+docker pull securecodebox/parser-trivy
+```
+
+## What is Trivy?
+
+`Trivy` (`tri` pronounced like **tri**gger, `vy` pronounced like en**vy**) is a simple and comprehensive vulnerability scanner for containers and other artifacts.
+A software vulnerability is a glitch, flaw, or weakness present in the software or in an Operating System.
+`Trivy` detects vulnerabilities of OS packages (Alpine, RHEL, CentOS, etc.) and application dependencies (Bundler, Composer, npm, yarn, etc.).
+`Trivy` is easy to use. Just install the binary, and you're ready to scan. All you need to do for scanning is to specify a target such as an image name of the container.
+
+To learn more about the Trivy scanner itself visit on [Trivy's GitHub Repository](https://github.com/aquasecurity/trivy).
+
+## Community
+
+You are welcome, please join us on... 👋
+
+- [GitHub][scb-github]
+- [Slack][scb-slack]
+- [Twitter][scb-twitter]
+
+secureCodeBox is an official [OWASP][scb-owasp] project.
+
+## License
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+View [license information](https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE) for the software contained in this image.
+
+As with all Docker images, these likely also contain other software which may be under other licenses (such as Bash, etc from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
+
+As for any pre-built image usage, it is the image user's responsibility to ensure that any use of this image complies with any relevant licenses for all software contained within.
+
+[scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
+[scb-docs]: https://docs.securecodebox.io/
+[scb-site]: https://www.securecodebox.io/
+[scb-github]: https://github.com/secureCodeBox/
+[scb-twitter]: https://twitter.com/secureCodeBox
+[scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
+[scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE

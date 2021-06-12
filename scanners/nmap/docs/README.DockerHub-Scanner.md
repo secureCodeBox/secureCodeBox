@@ -28,4 +28,57 @@ You can find resources to help you get started on our [documentation website](ht
 - tagged releases, e.g. `v2.7.0-alpha1`
 
 ## How to use this image
-This `scanner` image is intended to work in combination with the corresponding `parser` image to parse the scanner `findings` to generic secureCodeBox results. For more informations details please take a look at the [project page][scb-docs] or [documentation page][
+This `scanner` image is intended to work in combination with the corresponding `parser` image to parse the scanner `findings` to generic secureCodeBox results. For more informations details please take a look at the [project page][scb-docs] or [documentation page][https://docs.securecodebox.io/docs/scanners/Nmap].
+
+```bash
+docker pull securecodebox/scanner-nmap
+```
+
+## What is NMAP?
+Nmap ("Network Mapper") is a free and open source (license) utility for network discovery and security auditing. Many systems and network administrators also find it useful for tasks such as network inventory, managing service upgrade schedules, and monitoring host or service uptime.
+
+To learn more about the Nmap scanner itself visit [nmap.org].
+
+## Scanner Configuration
+
+The Nmap scan targets are specified as the last parameter. The target should be a hostname, an IP address or an IP range. See [Nmap Docs](https://nmap.org/book/man-target-specification.html) for details.
+
+Additional Nmap scan features can be configured via the parameter attribute. For a detailed explanation to which parameters are available refer to the [Nmap Reference Guide](https://nmap.org/book/man.html). All parameters are supported, but be careful with parameters that require root level rights, as these require additional configuration on the ScanType to be supported.
+
+Some useful example parameters listed below:
+
+- `-p` xx: Scan ports of the target. Replace xx with a single port number or a range of ports.
+- `-PS`, `-PA`, `-PU` xx: Replace xx with the ports to scan. TCP SYN/ACK or
+  UDP discovery.
+- `-sV`: Determine service and version info.
+- `-O`: Determine OS info. **Note:** This requires that Nmap is run as root, or that the user has the system capabilities to be extended to allow Nmap to send raw sockets. See more information on [how to deploy the secureCodeBox nmap container to allow this](https://github.com/secureCodeBox/scanner-infrastructure-nmap/pull/20) and the [nmap docs about privileged scans](https://secwiki.org/w/Running_nmap_as_an_unprivileged_user)
+- `-A`: Determine service/version and OS info.
+- `-script` xx: Replace xx with the script name. Start the scan with the given script.
+- `--script` xx: Replace xx with a coma-separated list of scripts. Start the scan with the given scripts.
+
+## Community
+
+You are welcome, please join us on... 👋
+
+- [GitHub][scb-github]
+- [Slack][scb-slack]
+- [Twitter][scb-twitter]
+
+secureCodeBox is an official [OWASP][scb-owasp] project.
+
+## License
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+View [license information](https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE) for the software contained in this image.
+
+As with all Docker images, these likely also contain other software which may be under other licenses (such as Bash, etc from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
+
+As for any pre-built image usage, it is the image user's responsibility to ensure that any use of this image complies with any relevant licenses for all software contained within.
+
+[scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
+[scb-docs]: https://docs.securecodebox.io/
+[scb-site]: https://www.securecodebox.io/
+[scb-github]: https://github.com/secureCodeBox/
+[scb-twitter]: https://twitter.com/secureCodeBox
+[scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
+[scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE

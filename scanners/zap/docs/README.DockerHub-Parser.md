@@ -28,4 +28,44 @@ You can find resources to help you get started on our [documentation website](ht
 - tagged releases, e.g. `v2.7.0-alpha1`
 
 ## How to use this image
-This `parser` image is intended to work in combination with the corresponding security scanner docker image to parse the `findings` results. For more informations details please take a look at the documentation page: 
+This `parser` image is intended to work in combination with the corresponding security scanner docker image to parse the `findings` results. For more informations details please take a look at the documentation page: https://docs.securecodebox.io/docs/scanners/ZAP.
+
+```bash
+docker pull securecodebox/parser-zap
+```
+
+## What is OWASP ZAP?
+
+The [OWASP Zed Attack Proxy (ZAP)][zap owasp project] is one of the world’s most popular free security tools and is actively maintained by hundreds of international volunteers*. It can help you automatically find security vulnerabilities in your web applications while you are developing and testing your applications. It's also a great tool for experienced pentesters to use for manual security testing.
+
+To learn more about the ZAP scanner itself visit [https://www.zaproxy.org/](https://www.zaproxy.org/).
+
+## Community
+
+You are welcome, please join us on... 👋
+
+- [GitHub][scb-github]
+- [Slack][scb-slack]
+- [Twitter][scb-twitter]
+
+secureCodeBox is an official [OWASP][scb-owasp] project.
+
+## License
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+View [license information](https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE) for the software contained in this image.
+
+As with all Docker images, these likely also contain other software which may be under other licenses (such as Bash, etc from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
+
+As for any pre-built image usage, it is the image user's responsibility to ensure that any use of this image complies with any relevant licenses for all software contained within.
+
+[scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
+[scb-docs]: https://docs.securecodebox.io/
+[scb-site]: https://www.securecodebox.io/
+[scb-github]: https://github.com/secureCodeBox/
+[scb-twitter]: https://twitter.com/secureCodeBox
+[scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
+[scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
+[zap owasp project]: https://owasp.org/www-project-zap/
+[zap github]: https://github.com/zaproxy/zaproxy/
+[zap user guide]: https://www.zaproxy.org/docs/

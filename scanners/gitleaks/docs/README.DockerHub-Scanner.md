@@ -28,4 +28,66 @@ You can find resources to help you get started on our [documentation website](ht
 - tagged releases, e.g. `v2.7.0-alpha1`
 
 ## How to use this image
-This `scanner` image is intended to work in combination with the corresponding `parser` image to parse the scanner `findings` to generic secureCodeBox results. For more informations details please take a look at the [project page][scb-docs] or [documentation page][
+This `scanner` image is intended to work in combination with the corresponding `parser` image to parse the scanner `findings` to generic secureCodeBox results. For more informations details please take a look at the [project page][scb-docs] or [documentation page][https://docs.securecodebox.io/docs/scanners/gitleaks].
+
+```bash
+docker pull securecodebox/scanner-gitleaks
+```
+
+## What is Gitleaks?
+Gitleaks is a free and open source tool for finding secrets in git repositories.
+These secrets could be passwords, API keys, tokens, private keys or suspicious file names or
+file extensions like *id_rsa*, *.pem*, *htpasswd*. Furthermore, gitleaks can scan your whole repository's history
+with all commits up to the initial one.
+
+To learn more about gitleaks visit <https://github.com/zricethezav/gitleaks>.
+
+## Scanner Configuration
+
+For a complete overview of the configuration options checkout the
+[Gitleaks documentation](https://github.com/zricethezav/gitleaks/wiki/Options).
+
+The only mandatory parameters are:
+- `-r`: The link to the repository you want to scan.
+- `--access-token`: Only for non-public repositories.
+- `--username` and `--password`: Only for non-public repositories.
+- `--config-path`: The ruleset you want to use.
+
+#### Ruleset
+
+At this point we provide three rulesets which you can pass to the `--config-path` oprtion:
+
+- `/home/config_all.toml`: Includes every rule.
+- `/home/config_filenames_only.toml`: Gitleaks scans only file names and extensions.
+- `/home/config_no_generics.toml`: No generic rules like searching for the word *password*. With this option you won't
+find something like **password = Ej2ifDk2jfeo2**, but it will reduce resulting false positives.
+
+If you like to provide your custom ruleset, you can create a configMap and mount it into
+the scan. Checkout the examples for more information about providing your own gitleaks rules config.
+
+## Community
+
+You are welcome, please join us on... 👋
+
+- [GitHub][scb-github]
+- [Slack][scb-slack]
+- [Twitter][scb-twitter]
+
+secureCodeBox is an official [OWASP][scb-owasp] project.
+
+## License
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+View [license information](https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE) for the software contained in this image.
+
+As with all Docker images, these likely also contain other software which may be under other licenses (such as Bash, etc from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
+
+As for any pre-built image usage, it is the image user's responsibility to ensure that any use of this image complies with any relevant licenses for all software contained within.
+
+[scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
+[scb-docs]: https://docs.securecodebox.io/
+[scb-site]: https://www.securecodebox.io/
+[scb-github]: https://github.com/secureCodeBox/
+[scb-twitter]: https://twitter.com/secureCodeBox
+[scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
+[scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
