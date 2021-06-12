@@ -49,10 +49,10 @@ You can find resources to help you get started on our [documentation website](ht
 
 {{- define "extra.chartDeploymentSection" -}}
 ## Deployment
-# Install HelmChart (use -n to configure another namespace)
 The {{ template "chart.name" . }} `scanType` can be deployed via helm:
 
 ```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install {{ template "chart.name" . }} secureCodeBox/{{ template "chart.name" . }}
 ```
 {{- end }}
