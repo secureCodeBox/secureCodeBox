@@ -3,6 +3,8 @@ SPDX-FileCopyrightText: 2020 iteratec GmbH
 
 SPDX-License-Identifier: Apache-2.0
 */ -}}
+
+{{- define "extra.docsSection" -}}
 ---
 title: "Cascading Scans"
 category: "hook"
@@ -10,16 +12,25 @@ type: "processing"
 state: "released"
 usecase: "Cascading Scans based declarative Rules."
 ---
+{{- end }}
 
-<!-- end -->
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.version" . }}`
+{{- end }}
 
-## Deployment
+{{- define "extra.chartAboutSection" -}}
+## What is Cascading Scans Hook?
 
-Installing the Cascading Scans hook will add a ReadOnly Hook to your namespace which looks for matching _CascadingRules_ in the namespace and start the according scans.
+...
+{{- end }}
 
-```bash
-helm upgrade --install dssh secureCodeBox/declarative-subsequent-scans
-```
+{{- define "extra.scannerConfigurationSection" -}}{{- end }}
+
+{{- define "extra.chartConfigurationSection" -}}{{- end }}
+## Additional Chart Configurations
+Installing the `Cascading Scans` hook will add a `ReadOnly Hook` to your namespace which looks for matching _CascadingRules_ in the namespace and start the according scans.
 
 ### Verification
 ```bash
@@ -119,7 +130,7 @@ smtps-tls-scan   sslyze              non-invasive   light
 ssh-scan         ssh-scan            non-invasive   light
 zap-http         zap-baseline-scan   non-invasive   medium
 ```
+{{- end }}
 
-## Chart Configuration
-
-{{ template "chart.valuesTable" . }}
+{{- define "extra.scannerLinksSection" -}}
+{{- end }}
