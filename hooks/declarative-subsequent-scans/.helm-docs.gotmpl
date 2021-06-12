@@ -26,10 +26,9 @@ usecase: "Cascading Scans based declarative Rules."
 ...
 {{- end }}
 
-{{- define "extra.scannerConfigurationSection" -}}
-{{- end }}
+{{- define "extra.scannerConfigurationSection" -}}{{- end }}
 
-{{- define "extra.chartConfigurationSection" -}}{{- end }}
+{{- define "extra.chartConfigurationSection" -}}
 ## Additional Chart Configurations
 Installing the `Cascading Scans` hook will add a `ReadOnly Hook` to your namespace which looks for matching _CascadingRules_ in the namespace and start the according scans.
 

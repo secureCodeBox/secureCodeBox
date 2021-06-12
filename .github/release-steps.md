@@ -1,6 +1,6 @@
 ## A list of steps to ensure after a new release
-- Update all charts with a new chartversion x.x.x-alpha1
-- Add next minor or major release to the `helm-docs` template: `./.helm-docs/template.gotmpl
+- Ensure and update all charts with a new release chartversion x.x.x
+- Add the minor or major release version to the `helm-docs` template: `./.helm-docs/template.gotmpl
 - ensure the all chart annotations specific for ArtifactHub are correct (e.g. release notes)
 
 ::: Note
