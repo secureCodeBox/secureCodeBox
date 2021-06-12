@@ -14,16 +14,6 @@ Please be aware of that and apply your changes only within those template files 
 Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
 --------------------------
 -->
----
-title: "Angularjs CSTI Scanner"
-category: "scanner"
-type: "WebApplication"
-state: "released"
-appVersion: "3.0.6"
-usecase: "Find AngularJS websites vulnerable to template injections"
----
-
-![acstis logo](https://rawgit.com/tijme/angularjs-csti-scanner/master/.github/logo.svg?pypi=png.from.svg)
 
 <p align="center">
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Apache-2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>
@@ -33,6 +23,22 @@ usecase: "Find AngularJS websites vulnerable to template injections"
   <a href="https://github.com/secureCodeBox/secureCodeBox/"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/secureCodeBox/secureCodeBox?logo=GitHub"></a>
   <a href="https://twitter.com/securecodebox"><img alt="Twitter Follower" src="https://img.shields.io/twitter/follow/securecodebox?style=flat&color=blue&logo=twitter"></a>
 </p>
+
+## What is OWASP secureCodeBox?
+
+<p align="center">
+  <img alt="secureCodeBox Logo" src="https://docs.securecodebox.io/img/Logo_Color.svg" width="250px">
+</p>
+
+_[OWASP secureCodeBox][scb-github]_ is an automated and scalable open source solution that can be used to integrate various *security vulnerability scanners* with a simple and lightweight interface. The _secureCodeBox_ mission is to support *DevSecOps* Teams to make it easy to automate security vulnerability testing in different scenarios.
+
+With the _secureCodeBox_ we provide a toolchain for continuous scanning of applications to find the low-hanging fruit issues early in the development process and free the resources of the penetration tester to concentrate on the major security issues.
+
+The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To install it you need [Helm](https://helm.sh), a package manager for Kubernetes. It is also possible to start the different integrated security vulnerability scanners based on a docker infrastructure.
+
+### Quickstart with secureCodeBox on kubernetes
+
+You can find resources to help you get started on our [documentation website](https://docs.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://docs.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://docs.securecodebox.io/docs/getting-started/first-scans) with it.
 
 ## What is AngularJS Client-Side Template Injection Scanner (acstis)?
 
@@ -72,6 +78,21 @@ Optional arguments:
 ```
 
 **Do not** override the option `-vrl` or `--vulnerable-requests-log`. It is already configured for automatic findings parsing.
+
+## Contributing
+
+Contributions are welcome and extremely helpful 🙌
+Please have a look at [Contributing](./CONTRIBUTING.md)
+
+## Community
+
+You are welcome, please join us on... 👋
+
+- [GitHub][scb-github]
+- [Slack][scb-slack]
+- [Twitter][scb-twitter]
+
+secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## Requirements
 

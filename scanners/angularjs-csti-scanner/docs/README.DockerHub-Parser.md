@@ -45,9 +45,43 @@ You can find resources to help you get started on our [documentation website](ht
 - tagged releases, e.g. `v2.7.0-alpha1`
 
 ## How to use this image
-This `scanner` image is intended to work in combination with the corresponding `parser` image to parse the scanner `findings` to generic secureCodeBox results. For more informations details please take a look at the [project page][scb-docs] or [documentation page][https://docs.securecodebox.io/docs/scanners/kube-hunter].
+This `parser` image is intended to work in combination with the corresponding security scanner docker image to parse the `findings` results. For more informations details please take a look at the documentation page: https://docs.securecodebox.io/docs/scanners/angularjs-csti-scanner.
 
 ```bash
-docker pull securecodebox/scanner-kube-hunter
+docker pull securecodebox/parser-angularjs-csti-scanner
 ```
 
+## What is AngularJS Client-Side Template Injection Scanner (acstis)?
+
+The AngularJS Client-Side Template Injection Scanner (acstis) is an open source scanner for
+finding possible template injection vulnerabilities on websites using AngularJS.
+
+For more information visit the projects [GitHub site][acstis-github].
+
+## Community
+
+You are welcome, please join us on... 👋
+
+- [GitHub][scb-github]
+- [Slack][scb-slack]
+- [Twitter][scb-twitter]
+
+secureCodeBox is an official [OWASP][scb-owasp] project.
+
+## License
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+View [license information](https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE) for the software contained in this image.
+
+As with all Docker images, these likely also contain other software which may be under other licenses (such as Bash, etc from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
+
+As for any pre-built image usage, it is the image user's responsibility to ensure that any use of this image complies with any relevant licenses for all software contained within.
+
+[scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
+[scb-docs]: https://docs.securecodebox.io/
+[scb-site]: https://www.securecodebox.io/
+[scb-github]: https://github.com/secureCodeBox/
+[scb-twitter]: https://twitter.com/secureCodeBox
+[scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
+[scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
+[acstis-github]: https://github.com/tijme/angularjs-csti-scanner
