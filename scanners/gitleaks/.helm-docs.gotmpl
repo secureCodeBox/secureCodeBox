@@ -3,34 +3,39 @@ SPDX-FileCopyrightText: 2020 iteratec GmbH
 
 SPDX-License-Identifier: Apache-2.0
 */ -}}
+
+{{- define "extra.docsSection" -}}
 ---
 title: "Gitleaks"
 category: "scanner"
 type: "Repository"
-state: "in progress"
-appVersion: "6.1.2"
+state: "released"
+appVersion: "{{ template "chart.appVersion" . }}"
 usecase: "Find potential secrets in repositories"
 ---
 
 ![gitleaks logo](https://raw.githubusercontent.com/zricethezav/gifs/master/gitleakslogo.png)
 
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.version" . }}`
+{{- end }}
+
+{{- define "extra.scannerAboutSection" -}}
+## What is Gitleaks?
 Gitleaks is a free and open source tool for finding secrets in git repositories.
 These secrets could be passwords, API keys, tokens, private keys or suspicious file names or
 file extensions like *id_rsa*, *.pem*, *htpasswd*. Furthermore, gitleaks can scan your whole repository's history
 with all commits up to the initial one.
 
-To learn more about gitleaks visit <https://github.com/zricethezav/gitleaks>
+To learn more about gitleaks visit <https://github.com/zricethezav/gitleaks>.
+{{- end }}
 
-## Deployment
-
-The gitleaks scanner can be deployed with helm:
-
-```bash
-# Install HelmChart (use -n to configure another namespace)
-helm upgrade --install gitleaks secureCodeBox/gitleaks
-```
-
-## Scanner configuration
+{{- define "extra.scannerConfigurationSection" -}}
+## Scanner Configuration
 
 For a complete overview of the configuration options checkout the
 [Gitleaks documentation](https://github.com/zricethezav/gitleaks/wiki/Options).
@@ -41,9 +46,24 @@ The only mandatory parameters are:
 - `--username` and `--password`: Only for non-public repositories.
 - `--config-path`: The ruleset you want to use.
 
+#### Ruleset
+
+At this point we provide three rulesets which you can pass to the `--config-path` oprtion:
+
+- `/home/config_all.toml`: Includes every rule.
+- `/home/config_filenames_only.toml`: Gitleaks scans only file names and extensions.
+- `/home/config_no_generics.toml`: No generic rules like searching for the word *password*. With this option you won't
+find something like **password = Ej2ifDk2jfeo2**, but it will reduce resulting false positives.
+
+If you like to provide your custom ruleset, you can create a configMap and mount it into
+the scan. Checkout the examples for more information about providing your own gitleaks rules config.
+{{- end }}
+
+{{- define "extra.chartConfigurationSection" -}}
 **Do not** override the option `--report-format` or `--report`. It is already configured for automatic findings parsing.
 
-## secureCodeBox extended GitLeaks Features
+## Additional Chart Configurations
+### secureCodeBox extended GitLeaks Features
 
 :::info
 If you run gitleaks based on a scheduledScan (e.g. one scan per day) it would be enough to scan all git-commits since the last executed schedule.
@@ -66,7 +86,7 @@ image:
   tag: v7.3.0
 ```
 
-### Deployment with extended GitLeaks
+#### Deployment with extended GitLeaks
 ```bash
 # Install HelmChart (use -n to configure another namespace)
 helm upgrade --install gitleaks secureCodeBox/gitleaks \
@@ -74,25 +94,13 @@ helm upgrade --install gitleaks secureCodeBox/gitleaks \
   --set="image.tag=v7.3.0"
 ```
 
-### Additional (Fork) Scanner configuration options
+#### Additional (Fork) Scanner configuration options
 ```bash
 --commit-since-duration= Scan commits more recent than a specific date expresed by an duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each
                                with optional fraction and a unit suffix, such as '300ms', '-1.5h' or '2h45m'. Valid time units are 'ns', 'us' (or 'µs'), 'ms', 's', 'm', 'h'.
 --commit-until-duration= Scan commits older than a specific date expresed by an duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each with
                                optional fraction and a unit suffix, such as '300ms', '-1.5h' or '2h45m'. Valid time units are 'ns', 'us' (or 'µs'), 'ms', 's', 'm', 'h'.
 ```
-
-#### Ruleset
-
-At this point we provide three rulesets which you can pass to the `--config-path` oprtion:
-
-- `/home/config_all.toml`: Includes every rule.
-- `/home/config_filenames_only.toml`: Gitleaks scans only file names and extensions.
-- `/home/config_no_generics.toml`: No generic rules like searching for the word *password*. With this option you won't
-find something like **password = Ej2ifDk2jfeo2**, but it will reduce resulting false positives.
-
-If you like to provide your custom ruleset, you can create a configMap and mount it into
-the scan. Checkout the examples for more information about providing your own gitleaks rules config.
 
 #### Other useful options are:
 
@@ -129,8 +137,7 @@ kubectl create secret generic gitlab-access-token --from-literal="token=<YOUR-GI
 
 For more information on how to use cascades take a look at
 [Scanning Networks Example](https://docs.securecodebox.io/docs/how-tos/scanning-networks/)
+{{- end }}
 
-
-## Chart Configuration
-
-{{ template "chart.valuesTable" . }}
+{{- define "extra.scannerLinksSection" -}}
+{{- end }}

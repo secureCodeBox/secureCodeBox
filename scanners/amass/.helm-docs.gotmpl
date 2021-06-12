@@ -18,16 +18,6 @@ usecase: "Subdomain Enumeration Scanner"
 
 {{- end }}
 
-{{- define "extra.chartDeploymentSection" -}}
-## Deployment
-
-The {{ template "chart.name" . }} `scanType` can be deployed via helm:
-
-```bash
-helm upgrade --install {{ template "chart.name" . }} secureCodeBox/{{ template "chart.name" . }}
-```
-{{- end }}
-
 {{- define "extra.dockerDeploymentSection" -}}
 ## Supported Tags
 - `latest`  (represents the latest stable release build)
@@ -55,6 +45,8 @@ Special command line options:
 - Disable saving data into a local database `amass enum -nolocaldb -d example.com`
 - Domain names separated by commas (can be used multiple times) `amass enum -d example.com`
 {{- end }}
+
+{{- define "extra.chartConfigurationSection" -}}{{- end }}
 
 {{- define "extra.scannerLinksSection" -}}
 [owasp_amass_project]: https://owasp.org/www-project-amass/

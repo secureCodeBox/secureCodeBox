@@ -3,30 +3,49 @@ SPDX-FileCopyrightText: 2020 iteratec GmbH
 
 SPDX-License-Identifier: Apache-2.0
 */ -}}
+
+{{- define "extra.docsSection" -}}
 ---
 title: "Angularjs CSTI Scanner"
 category: "scanner"
-type: "Repository"
-state: "in progress"
+type: "WebApplication"
+state: "released"
+appVersion: "{{ template "chart.appVersion" . }}"
 usecase: "Find AngularJS websites vulnerable to template injections"
 ---
 
 ![acstis logo](https://rawgit.com/tijme/angularjs-csti-scanner/master/.github/logo.svg?pypi=png.from.svg)
 
-AngularJS Client-Side Template Injection Scanner (acstis) is an open source scanner for
-finding possible template injection vulnerabilities on websites using AngularJS.
+{{- end }}
 
-For more information visit the projects GitHub site <https://github.com/tijme/angularjs-csti-scanner>
-
+{{- define "extra.chartDeploymentSection" -}}
 ## Deployment
 
-The acstis scanner can be deployed with helm:
+The {{ template "chart.name" . }} `scanType` can be deployed via helm:
 
 ```bash
-helm upgrade --install acstis secureCodeBox/acstis
+# Install HelmChart (use -n to configure another namespace)
+helm upgrade --install {{ template "chart.name" . }} secureCodeBox/{{ template "chart.name" . }}
 ```
+{{- end }}
 
-## Scanner configuration
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.version" . }}`
+{{- end }}
+
+{{- define "extra.scannerAboutSection" -}}
+## What is AngularJS Client-Side Template Injection Scanner (acstis)?
+
+The AngularJS Client-Side Template Injection Scanner (acstis) is an open source scanner for
+finding possible template injection vulnerabilities on websites using AngularJS.
+
+For more information visit the projects [GitHub site][acstis-github].
+{{- end }}
+
+{{- define "extra.scannerConfigurationSection" -}}
+## Scanner Configuration
 
 The only mandatory parameter is:
 - `-d`: The url to scan (e.g. https://angularjs.org/).
@@ -49,7 +68,10 @@ Optional arguments:
 ```
 
 **Do not** override the option `-vrl` or `--vulnerable-requests-log`. It is already configured for automatic findings parsing.
+{{- end }}
 
+{{- define "extra.chartConfigurationSection" -}}
+## Additional Chart Configurations
 ### Request configuration
 
 Because *acstis* does not provide command line arguments for configuring the sent requests,
@@ -134,7 +156,8 @@ options.scope.request_methods = [
     Request.METHOD_HEAD
 ]
 ```
+{{- end }}
 
-## Chart Configuration
-
-{{ template "chart.valuesTable" . }}
+{{- define "extra.scannerLinksSection" -}}
+[acstis-github]: https://github.com/tijme/angularjs-csti-scanner
+{{- end }}

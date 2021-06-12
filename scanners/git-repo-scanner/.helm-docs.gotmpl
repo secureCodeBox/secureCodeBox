@@ -3,29 +3,35 @@ SPDX-FileCopyrightText: 2020 iteratec GmbH
 
 SPDX-License-Identifier: Apache-2.0
 */ -}}
+
+{{- define "extra.docsSection" -}}
 ---
-title: "git-repo-scanner"
+title: "Git Repo Scanner"
 category: "scanner"
 type: "Repository"
-state: "in progress"
-appVersion: "0.1"
-usecase: "Discover git repositories"
+state: "released"
+appVersion: "{{ template "chart.appVersion" . }}"
+usecase: "Discover Git repositories"
 ---
+
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.version" . }}`
+{{- end }}
+
+{{- define "extra.scannerAboutSection" -}}
+## What is Git-Repo-Scanner?
 
 Git-Repo-Scanner is a small Python script which discovers repositories on GitHub or GitLab. The main purpose of this scanner
 is to provide a cascading input for the [gitleaks](https://github.com/secureCodeBox/secureCodeBox/tree/main/scanners/gitleaks).
  scanner.
+{{- end }}
 
-
-## Deployment
-
-The  git-repo-scanner can be deployed with helm:
-
-```bash
-helm upgrade --install gitleaks secureCodeBox/git-repo-scanner
-```
-
-## Scanner configuration
+{{- define "extra.scannerConfigurationSection" -}}
+## Scanner Configuration
 
 The scanner options can be divided into two groups for Gitlab and GitHub. You can choose the git
 repository type with the option:
@@ -67,7 +73,10 @@ For type GitLab you can use the following options:
 
 For Gitlab, the url and the access token is mandatory. If you don't provide a specific group id, all projects
 on the Gitlab server are going to be discovered.
+{{- end }}
 
-## Chart Configuration
+{{- define "extra.chartConfigurationSection" -}}
+{{- end }}
 
-{{ template "chart.valuesTable" . }}
+{{- define "extra.scannerLinksSection" -}}
+{{- end }}

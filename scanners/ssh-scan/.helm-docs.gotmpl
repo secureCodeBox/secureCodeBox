@@ -3,29 +3,33 @@ SPDX-FileCopyrightText: 2020 iteratec GmbH
 
 SPDX-License-Identifier: Apache-2.0
 */ -}}
+
+{{- define "extra.docsSection" -}}
 ---
 title: "SSH"
 category: "scanner"
 type: "SSH"
 state: "released"
-appVersion: "0.0.43"
+appVersion: "{{ template "chart.appVersion" . }}"
 usecase: "SSH Configuration and Policy Scanner"
 ---
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.version" . }}`
+{{- end }}
+
+{{- define "extra.scannerAboutSection" -}}
+## What is SSH_scan?
 
 SSH_scan is an easy-to-use prototype SSH configuration and policy scanner, inspired by Mozilla OpenSSH Security Guide, which provides a reasonable baseline policy recommendation for SSH configuration parameters such as Ciphers, MACs, and KexAlgos and much more.
 
 To learn more about the ssh_scan scanner itself visit [ssh_scan GitHub].
+{{- end }}
 
-<!-- end -->
-
-## Deployment
-
-The SSH_scan ScanType can be deployed via helm.
-
-```bash
-helm upgrade --install ssh-scan secureCodeBox/ssh-scan
-```
-
+{{- define "extra.scannerConfigurationSection" -}}
 ## Scanner Configuration
 
 The following security scan configuration example are based on the [ssh_scan Documentation], please take a look at the original documentation for more configuration examples.
@@ -66,9 +70,12 @@ Examples:
   ssh_scan -t 192.168.1.1 --unit-test -P custom_policy.yml
 ```
 
-## Chart Configuration
+{{- end }}
 
-{{ template "chart.valuesTable" . }}
+{{- define "extra.chartConfigurationSection" -}}
+{{- end }}
 
+{{- define "extra.scannerLinksSection" -}}
 [ssh_scan GitHub]: https://github.com/mozilla/ssh_scan
 [ssh_scan Documentation]: https://github.com/mozilla/ssh_scan#example-command-line-usage
+{{- end }}

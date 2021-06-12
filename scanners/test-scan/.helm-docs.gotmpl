@@ -1,0 +1,39 @@
+{{- /*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
+
+{{- define "extra.docsSection" -}}
+---
+title: "test-scan"
+category: "test"
+type: "IntegrationTest"
+state: "released"
+appVersion: "{{ template "chart.appVersion" . }}"
+usecase: "A Chart used for integration tests"
+hidden: true
+---
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.version" . }}`
+{{- end }}
+
+{{- define "extra.scannerAboutSection" -}}
+## What is test-scan?
+
+The `test-scan` type is used internally in the secureCodeBox to test the operator.
+It's rather unlikely that you'll need this outside of testing usecases, as it doesn't really do anything ;)
+{{- end }}
+
+{{- define "extra.scannerConfigurationSection" -}}
+{{- end }}
+
+{{- define "extra.chartConfigurationSection" -}}
+{{- end }}
+
+{{- define "extra.scannerLinksSection" -}}
+{{- end }}

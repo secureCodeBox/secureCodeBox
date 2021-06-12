@@ -3,14 +3,26 @@ SPDX-FileCopyrightText: 2020 iteratec GmbH
 
 SPDX-License-Identifier: Apache-2.0
 */ -}}
+
+{{- define "extra.docsSection" -}}
 ---
 title: "Trivy"
 category: "scanner"
 type: "Container"
 state: "released"
-appVersion: "0.18.3"
+appVersion: "{{ template "chart.appVersion" . }}"
 usecase: "Container Vulnerability Scanner"
 ---
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.version" . }}`
+{{- end }}
+
+{{- define "extra.scannerAboutSection" -}}
+## What is Trivy?
 
 `Trivy` (`tri` pronounced like **tri**gger, `vy` pronounced like en**vy**) is a simple and comprehensive vulnerability scanner for containers and other artifacts.
 A software vulnerability is a glitch, flaw, or weakness present in the software or in an Operating System.
@@ -18,17 +30,9 @@ A software vulnerability is a glitch, flaw, or weakness present in the software 
 `Trivy` is easy to use. Just install the binary, and you're ready to scan. All you need to do for scanning is to specify a target such as an image name of the container.
 
 To learn more about the Trivy scanner itself visit on [Trivy's GitHub Repository](https://github.com/aquasecurity/trivy).
+{{- end }}
 
-<!-- end -->
-
-## Deployment
-
-The Trivy scanType can be deployed via helm:
-
-```bash
-helm upgrade --install trivy secureCodeBox/trivy
-```
-
+{{- define "extra.scannerConfigurationSection" -}}
 ## Scanner Configuration
 
 The following security scan configuration example are based on the [Trivy Documentation], please take a look at the original documentation for more configuration examples.
@@ -37,7 +41,10 @@ The following security scan configuration example are based on the [Trivy Docume
 - Filter the vulnerabilities by type (`os` or `library`) `trivy image --vuln-type os ruby:2.4.0`
 - Skip update of vulnerability DB: `trivy image --skip-update python:3.4-alpine3.9`
 - Ignore unfixed vulnerabilities:`trivy image --ignore-unfixed ruby:2.4.0` By default, Trivy also detects unpatched/unfixed vulnerabilities. This means you can't fix these vulnerabilities even if you update all packages. If you would like to ignore them, use the `--ignore-unfixed` option.
+{{- end }}
 
-## Chart Configuration
+{{- define "extra.chartConfigurationSection" -}}
+{{- end }}
 
-{{ template "chart.valuesTable" . }}
+{{- define "extra.scannerLinksSection" -}}
+{{- end }}

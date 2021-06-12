@@ -3,31 +3,35 @@ SPDX-FileCopyrightText: 2020 iteratec GmbH
 
 SPDX-License-Identifier: Apache-2.0
 */ -}}
+
+{{- define "extra.docsSection" -}}
 ---
 title: "Nmap"
 category: "scanner"
 type: "Network"
 state: "released"
-appVersion: "7.80"
+appVersion: "{{ template "chart.appVersion" . }}"
 usecase: "Network discovery and security auditing"
 ---
 
 ![Nmap logo](https://nmap.org/images/sitelogo.png)
 
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.version" . }}`
+{{- end }}
+
+{{- define "extra.scannerAboutSection" -}}
+## What is NMAP?
 Nmap ("Network Mapper") is a free and open source (license) utility for network discovery and security auditing. Many systems and network administrators also find it useful for tasks such as network inventory, managing service upgrade schedules, and monitoring host or service uptime.
 
 To learn more about the Nmap scanner itself visit [nmap.org].
+{{- end }}
 
-<!-- end -->
-
-## Deployment
-
-The Nmap ScanType can be deployed via helm:
-
-```bash
-helm upgrade --install nmap secureCodeBox/nmap
-```
-
+{{- define "extra.scannerConfigurationSection" -}}
 ## Scanner Configuration
 
 The Nmap scan targets are specified as the last parameter. The target should be a hostname, an IP address or an IP range. See [Nmap Docs](https://nmap.org/book/man-target-specification.html) for details.
@@ -44,8 +48,11 @@ Some useful example parameters listed below:
 - `-A`: Determine service/version and OS info.
 - `-script` xx: Replace xx with the script name. Start the scan with the given script.
 - `--script` xx: Replace xx with a coma-separated list of scripts. Start the scan with the given scripts.
+{{- end }}
 
-## Operating System Scans
+{{- define "extra.chartConfigurationSection" -}}
+## Additional Chart Configurations
+### Operating System Scans
 
 :::caution
 Warning! This is currently not tested and might require additional testing to work 😕
@@ -86,7 +93,7 @@ spec:
     - "-O"
     - www.iteratec.de
 ```
+{{- end }}
 
-## Chart Configuration
-
-{{ template "chart.valuesTable" . }}
+{{- define "extra.scannerLinksSection" -}}
+{{- end }}

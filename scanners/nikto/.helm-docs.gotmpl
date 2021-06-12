@@ -3,29 +3,33 @@ SPDX-FileCopyrightText: 2020 iteratec GmbH
 
 SPDX-License-Identifier: Apache-2.0
 */ -}}
+
+{{- define "extra.docsSection" -}}
 ---
 title: "Nikto"
 category: "scanner"
 type: "Webserver"
 state: "released"
-appVersion: "2.1.6"
+appVersion: "{{ template "chart.appVersion" . }}"
 usecase: "Webserver Vulnerability Scanner"
 ---
 
 ![nikto logo](https://cirt.net/files/alienlogo_3.gif)
 
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.version" . }}`
+{{- end }}
+
+{{- define "extra.scannerAboutSection" -}}
+## What is Nikto?
 Nikto is a free software command-line vulnerability scanner that scans webservers for dangerous files/CGIs, outdated server software and other problems. It performs generic and server type specific checks. It also captures and prints any cookies received. To learn more about the Nikto scanner itself visit [cirt.net] or [Nikto GitHub].
+{{- end }}
 
-<!-- end -->
-
-## Deployment
-
-The Nikto ScanType can be deployed via helm:
-
-```bash
-helm upgrade --install nikto secureCodeBox/nikto
-```
-
+{{- define "extra.scannerConfigurationSection" -}}
 ## Scanner Configuration
 
 The following security scan configuration example are based on the [Nikto Documentation](https://cirt.net/nikto2-docs/usage.html#id2780332), please take a look at the original documentation for more configuration examples.
@@ -52,10 +56,12 @@ Nikto also has a comprehensive list of [command line options documented](https:/
   * b - Software Identification. Installed software or program could be positively identified.
   * c - Remote source inclusion. Software allows remote inclusion of source code.
   * x - Reverse Tuning Options. Perform exclusion of the specified tuning type instead of inclusion of the specified tuning type
+{{- end }}
 
-## Chart Configuration
+{{- define "extra.chartConfigurationSection" -}}
+{{- end }}
 
-{{ template "chart.valuesTable" . }}
-
+{{- define "extra.scannerLinksSection" -}}
 [cirt.net]: https://cirt.net/
 [nikto github]: https://github.com/sullo/nikto
+{{- end }}

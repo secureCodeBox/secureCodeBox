@@ -28,6 +28,16 @@ The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To
 You can find resources to help you get started on our [documentation website](https://docs.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://docs.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://docs.securecodebox.io/docs/getting-started/first-scans) with it.
 {{- end }}
 
+{{- define "extra.chartDeploymentSection" -}}
+## Deployment
+# Install HelmChart (use -n to configure another namespace)
+The {{ template "chart.name" . }} `scanType` can be deployed via helm:
+
+```bash
+helm upgrade --install {{ template "chart.name" . }} secureCodeBox/{{ template "chart.name" . }}
+```
+{{- end }}
+
 {{- define "extra.licenseSection" -}}
 ## License
 

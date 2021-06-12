@@ -1,0 +1,57 @@
+{{- /*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
+
+{{- define "extra.docsSection" -}}
+---
+title: "Name of the Scanner"
+category: "scanner"
+type: "WebApplication"
+state: "released"
+appVersion: "{{ template "chart.appVersion" . }}"
+usecase: "Takes Screenshots of websites"
+---
+
+![OWASP logo](https://owasp.org/assets/images/logo.png)
+
+{{- end }}
+
+{{- define "extra.chartDeploymentSection" -}}
+## Deployment
+
+The {{ template "chart.name" . }} `scanType` can be deployed via helm:
+
+```bash
+# Install HelmChart (use -n to configure another namespace)
+helm upgrade --install {{ template "chart.name" . }} secureCodeBox/{{ template "chart.name" . }}
+```
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.version" . }}`
+{{- end }}
+
+{{- define "extra.scannerAboutSection" -}}
+## What is ScannerName?
+
+{{- end }}
+
+{{- define "extra.scannerConfigurationSection" -}}
+## Scanner Configuration
+
+...
+{{- end }}
+
+{{- define "extra.chartConfigurationSection" -}}
+## Additional Chart Configurations
+
+...
+{{- end }}
+
+{{- define "extra.scannerLinksSection" -}}
+[owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
+{{- end }}

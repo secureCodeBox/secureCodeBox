@@ -3,34 +3,38 @@ SPDX-FileCopyrightText: 2020 iteratec GmbH
 
 SPDX-License-Identifier: Apache-2.0
 */ -}}
+
+{{- define "extra.docsSection" -}}
 ---
 title: 'WPScan'
-path: 'scanners/wpscan'
 category: 'scanner'
 type: "CMS"
 state: "released"
-appVersion: "3.8.5"
-usecase: 'Wordpress Vulnerability Scanner'
+appVersion: "{{ template "chart.appVersion" . }}"
+usecase: "Wordpress Vulnerability Scanner"
 ---
 
 ![WPScan Logo](https://raw.githubusercontent.com/wpscanteam/wpscan/gh-pages/images/wpscan_logo.png)
+
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.version" . }}`
+{{- end }}
+
+{{- define "extra.scannerAboutSection" -}}
+## What is WPScan?
 
 WPScan is a free, for non-commercial use, black box WordPress vulnerability scanner written for security professionals and blog maintainers to test the security of their sites.
 
 > NOTE: You need to provide WPSan with an API Token so that it can look up vulnerabilities infos with [https://wpvulndb.com](https://wpvulndb.com). Without the token WPScan will only identify WordPress Core / Plugin / Theme versions but not if they are actually vulnerable. You can get a free API Token at by registering for an account at [https://wpvulndb.com](https://wpvulndb.com). Using the secureCodeBox WPScans you can specify the token via the `WPVULNDB_API_TOKEN` target attribute, see the example below.
 
 To learn more about the WPScan scanner itself visit [wpscan.org] or [wpscan.io].
+{{- end }}
 
-<!-- end -->
-
-## Deployment
-
-The WPScan scanType can be deployed via helm:
-
-```bash
-helm upgrade --install wpscan secureCodeBox/wpscan
-```
-
+{{- define "extra.scannerConfigurationSection" -}}
 ## Scanner Configuration
 
 The following security scan configuration example are based on the [WPScan Documentation], please take a look at the original documentation for more configuration examples.
@@ -72,11 +76,13 @@ Incompatible choices (only one of each group/s can be used):
   - vp, ap, p
   - vt, at, t
 ```
+{{- end }}
 
-## Chart Configuration
+{{- define "extra.chartConfigurationSection" -}}
+{{- end }}
 
-{{ template "chart.valuesTable" . }}
-
+{{- define "extra.scannerLinksSection" -}}
 [wpscan.io]: https://wpscan.io/
 [wpscan.org]: https://wpscan.org/
 [WPScan Documentation]: https://github.com/wpscanteam/wpscan/wiki/WPScan-User-Documentation
+{{- end }}
