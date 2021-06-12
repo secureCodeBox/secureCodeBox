@@ -44,10 +44,10 @@ with all commits up to the initial one.
 To learn more about gitleaks visit <https://github.com/zricethezav/gitleaks>.
 
 ## Deployment
-# Install HelmChart (use -n to configure another namespace)
 The gitleaks `scanType` can be deployed via helm:
 
 ```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install gitleaks secureCodeBox/gitleaks
 ```
 
@@ -73,21 +73,6 @@ find something like **password = Ej2ifDk2jfeo2**, but it will reduce resulting f
 
 If you like to provide your custom ruleset, you can create a configMap and mount it into
 the scan. Checkout the examples for more information about providing your own gitleaks rules config.
-
-## Contributing
-
-Contributions are welcome and extremely helpful 🙌
-Please have a look at [Contributing](./CONTRIBUTING.md)
-
-## Community
-
-You are welcome, please join us on... 👋
-
-- [GitHub][scb-github]
-- [Slack][scb-slack]
-- [Twitter][scb-twitter]
-
-secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## Requirements
 

@@ -40,10 +40,10 @@ SSH_scan is an easy-to-use prototype SSH configuration and policy scanner, inspi
 To learn more about the ssh_scan scanner itself visit [ssh_scan GitHub].
 
 ## Deployment
-# Install HelmChart (use -n to configure another namespace)
 The ssh-scan `scanType` can be deployed via helm:
 
 ```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install ssh-scan secureCodeBox/ssh-scan
 ```
 
@@ -86,21 +86,6 @@ Examples:
   ssh_scan -t 192.168.1.1 -P custom_policy.yml
   ssh_scan -t 192.168.1.1 --unit-test -P custom_policy.yml
 ```
-
-## Contributing
-
-Contributions are welcome and extremely helpful 🙌
-Please have a look at [Contributing](./CONTRIBUTING.md)
-
-## Community
-
-You are welcome, please join us on... 👋
-
-- [GitHub][scb-github]
-- [Slack][scb-slack]
-- [Twitter][scb-twitter]
-
-secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## Requirements
 

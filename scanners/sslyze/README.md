@@ -38,10 +38,10 @@ Otherwise your changes will be reverted/overriden automaticaly due to the build 
 [SSLyze][SSLyze Documentation] is a Python library and a CLI tool that can analyze the SSL configuration of a server by connecting to it. It is designed to be fast and comprehensive, and should help organizations and testers identify mis-configurations affecting their SSL/TLS servers. To learn more about the SSLyze scanner itself visit or [SSLyze GitHub].
 
 ## Deployment
-# Install HelmChart (use -n to configure another namespace)
 The sslyze `scanType` can be deployed via helm:
 
 ```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install sslyze secureCodeBox/sslyze
 ```
 
@@ -153,21 +153,6 @@ Options:
     --openssl_ccs       Test a server for the OpenSSL CCS Injection
                         vulnerability (CVE-2014-0224).
 ```
-
-## Contributing
-
-Contributions are welcome and extremely helpful 🙌
-Please have a look at [Contributing](./CONTRIBUTING.md)
-
-## Community
-
-You are welcome, please join us on... 👋
-
-- [GitHub][scb-github]
-- [Slack][scb-slack]
-- [Twitter][scb-twitter]
-
-secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## Requirements
 

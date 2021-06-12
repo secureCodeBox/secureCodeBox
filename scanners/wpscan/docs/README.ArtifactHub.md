@@ -49,10 +49,10 @@ WPScan is a free, for non-commercial use, black box WordPress vulnerability scan
 To learn more about the WPScan scanner itself visit [wpscan.org] or [wpscan.io].
 
 ## Deployment
-# Install HelmChart (use -n to configure another namespace)
 The wpscan `scanType` can be deployed via helm:
 
 ```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install wpscan secureCodeBox/wpscan
 ```
 

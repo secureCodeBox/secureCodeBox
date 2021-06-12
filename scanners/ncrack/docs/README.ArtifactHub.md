@@ -46,10 +46,10 @@ Ncrack is a high-speed network authentication cracking tool. It was built to hel
 To learn more about the Ncrack scanner itself visit [Ncrack GitHub] or [Ncrack Website].
 
 ## Deployment
-# Install HelmChart (use -n to configure another namespace)
 The ncrack `scanType` can be deployed via helm:
 
 ```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install ncrack secureCodeBox/ncrack
 ```
 

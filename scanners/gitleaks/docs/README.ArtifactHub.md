@@ -49,10 +49,10 @@ with all commits up to the initial one.
 To learn more about gitleaks visit <https://github.com/zricethezav/gitleaks>.
 
 ## Deployment
-# Install HelmChart (use -n to configure another namespace)
 The gitleaks `scanType` can be deployed via helm:
 
 ```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install gitleaks secureCodeBox/gitleaks
 ```
 

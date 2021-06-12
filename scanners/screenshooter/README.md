@@ -40,10 +40,10 @@ Otherwise your changes will be reverted/overriden automaticaly due to the build 
 Screenshoter is a simple scanner that takes Screenshots of Websites. Therefore it's using an embeded Firefox Browser.
 
 ## Deployment
-# Install HelmChart (use -n to configure another namespace)
 The screenshooter `scanType` can be deployed via helm:
 
 ```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install screenshooter secureCodeBox/screenshooter
 ```
 
@@ -52,21 +52,6 @@ helm upgrade --install screenshooter secureCodeBox/screenshooter
 You have to provide only the URL to the screenshooter. Be careful, the protocol is mandatory:
 * `https://secureCodeBox.io`
 * **not** `secureCodeBox.io` or `www.secureCodeBox.io`
-
-## Contributing
-
-Contributions are welcome and extremely helpful 🙌
-Please have a look at [Contributing](./CONTRIBUTING.md)
-
-## Community
-
-You are welcome, please join us on... 👋
-
-- [GitHub][scb-github]
-- [Slack][scb-slack]
-- [Twitter][scb-twitter]
-
-secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## Requirements
 

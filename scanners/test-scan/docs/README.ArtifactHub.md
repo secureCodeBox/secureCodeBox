@@ -46,10 +46,10 @@ The `test-scan` type is used internally in the secureCodeBox to test the operato
 It's rather unlikely that you'll need this outside of testing usecases, as it doesn't really do anything ;)
 
 ## Deployment
-# Install HelmChart (use -n to configure another namespace)
 The test-scan `scanType` can be deployed via helm:
 
 ```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install test-scan secureCodeBox/test-scan
 ```
 

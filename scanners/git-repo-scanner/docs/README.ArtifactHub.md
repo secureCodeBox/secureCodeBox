@@ -47,10 +47,10 @@ is to provide a cascading input for the [gitleaks](https://github.com/secureCode
  scanner.
 
 ## Deployment
-# Install HelmChart (use -n to configure another namespace)
 The git-repo-scanner `scanType` can be deployed via helm:
 
 ```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install git-repo-scanner secureCodeBox/git-repo-scanner
 ```
 

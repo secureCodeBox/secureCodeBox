@@ -41,10 +41,10 @@ Nmap ("Network Mapper") is a free and open source (license) utility for network 
 To learn more about the Nmap scanner itself visit [nmap.org].
 
 ## Deployment
-# Install HelmChart (use -n to configure another namespace)
 The nmap `scanType` can be deployed via helm:
 
 ```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install nmap secureCodeBox/nmap
 ```
 
@@ -64,21 +64,6 @@ Some useful example parameters listed below:
 - `-A`: Determine service/version and OS info.
 - `-script` xx: Replace xx with the script name. Start the scan with the given script.
 - `--script` xx: Replace xx with a coma-separated list of scripts. Start the scan with the given scripts.
-
-## Contributing
-
-Contributions are welcome and extremely helpful 🙌
-Please have a look at [Contributing](./CONTRIBUTING.md)
-
-## Community
-
-You are welcome, please join us on... 👋
-
-- [GitHub][scb-github]
-- [Slack][scb-slack]
-- [Twitter][scb-twitter]
-
-secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## Requirements
 

@@ -44,10 +44,10 @@ You can find resources to help you get started on our [documentation website](ht
 Nikto is a free software command-line vulnerability scanner that scans webservers for dangerous files/CGIs, outdated server software and other problems. It performs generic and server type specific checks. It also captures and prints any cookies received. To learn more about the Nikto scanner itself visit [cirt.net] or [Nikto GitHub].
 
 ## Deployment
-# Install HelmChart (use -n to configure another namespace)
 The nikto `scanType` can be deployed via helm:
 
 ```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install nikto secureCodeBox/nikto
 ```
 

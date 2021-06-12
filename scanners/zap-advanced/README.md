@@ -42,10 +42,10 @@ The [OWASP Zed Attack Proxy (ZAP)][zap owasp project] is one of the world’s mo
 To learn more about the ZAP scanner itself visit [https://www.zaproxy.org/](https://www.zaproxy.org/).
 
 ## Deployment
-# Install HelmChart (use -n to configure another namespace)
 The zap-advanced `scanType` can be deployed via helm:
 
 ```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install zap-advanced secureCodeBox/zap-advanced
 ```
 
@@ -470,21 +470,6 @@ optional arguments:
   -r {XML,JSON,HTML,MD}, --report-type {XML,JSON,HTML,MD}
                         The OWASP ZAP Report Type.
 ```
-
-## Contributing
-
-Contributions are welcome and extremely helpful 🙌
-Please have a look at [Contributing](./CONTRIBUTING.md)
-
-## Community
-
-You are welcome, please join us on... 👋
-
-- [GitHub][scb-github]
-- [Slack][scb-slack]
-- [Twitter][scb-twitter]
-
-secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## Requirements
 

@@ -40,10 +40,10 @@ is to provide a cascading input for the [gitleaks](https://github.com/secureCode
  scanner.
 
 ## Deployment
-# Install HelmChart (use -n to configure another namespace)
 The git-repo-scanner `scanType` can be deployed via helm:
 
 ```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install git-repo-scanner secureCodeBox/git-repo-scanner
 ```
 
@@ -88,21 +88,6 @@ For type GitLab you can use the following options:
 
 For Gitlab, the url and the access token is mandatory. If you don't provide a specific group id, all projects
 on the Gitlab server are going to be discovered.
-
-## Contributing
-
-Contributions are welcome and extremely helpful 🙌
-Please have a look at [Contributing](./CONTRIBUTING.md)
-
-## Community
-
-You are welcome, please join us on... 👋
-
-- [GitHub][scb-github]
-- [Slack][scb-slack]
-- [Twitter][scb-twitter]
-
-secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## Requirements
 

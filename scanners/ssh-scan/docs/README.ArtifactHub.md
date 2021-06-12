@@ -47,10 +47,10 @@ SSH_scan is an easy-to-use prototype SSH configuration and policy scanner, inspi
 To learn more about the ssh_scan scanner itself visit [ssh_scan GitHub].
 
 ## Deployment
-# Install HelmChart (use -n to configure another namespace)
 The ssh-scan `scanType` can be deployed via helm:
 
 ```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install ssh-scan secureCodeBox/ssh-scan
 ```
 

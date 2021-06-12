@@ -39,10 +39,10 @@ Ncrack is a high-speed network authentication cracking tool. It was built to hel
 To learn more about the Ncrack scanner itself visit [Ncrack GitHub] or [Ncrack Website].
 
 ## Deployment
-# Install HelmChart (use -n to configure another namespace)
 The ncrack `scanType` can be deployed via helm:
 
 ```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install ncrack secureCodeBox/ncrack
 ```
 
@@ -124,21 +124,6 @@ EXAMPLES:
   ncrack -v -iX ~/nmap.xml -g CL=5,to=1h
 SEE THE MAN PAGE (http://nmap.org/ncrack/man.html) FOR MORE OPTIONS AND EXAMPLES
 ```
-
-## Contributing
-
-Contributions are welcome and extremely helpful 🙌
-Please have a look at [Contributing](./CONTRIBUTING.md)
-
-## Community
-
-You are welcome, please join us on... 👋
-
-- [GitHub][scb-github]
-- [Slack][scb-slack]
-- [Twitter][scb-twitter]
-
-secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## Requirements
 

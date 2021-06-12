@@ -39,10 +39,10 @@ Otherwise your changes will be reverted/overriden automaticaly due to the build 
 Nikto is a free software command-line vulnerability scanner that scans webservers for dangerous files/CGIs, outdated server software and other problems. It performs generic and server type specific checks. It also captures and prints any cookies received. To learn more about the Nikto scanner itself visit [cirt.net] or [Nikto GitHub].
 
 ## Deployment
-# Install HelmChart (use -n to configure another namespace)
 The nikto `scanType` can be deployed via helm:
 
 ```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install nikto secureCodeBox/nikto
 ```
 
@@ -72,21 +72,6 @@ Nikto also has a comprehensive list of [command line options documented](https:/
   * b - Software Identification. Installed software or program could be positively identified.
   * c - Remote source inclusion. Software allows remote inclusion of source code.
   * x - Reverse Tuning Options. Perform exclusion of the specified tuning type instead of inclusion of the specified tuning type
-
-## Contributing
-
-Contributions are welcome and extremely helpful 🙌
-Please have a look at [Contributing](./CONTRIBUTING.md)
-
-## Community
-
-You are welcome, please join us on... 👋
-
-- [GitHub][scb-github]
-- [Slack][scb-slack]
-- [Twitter][scb-twitter]
-
-secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## Requirements
 

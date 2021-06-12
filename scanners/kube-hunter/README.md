@@ -39,10 +39,10 @@ kube-hunter hunts for security weaknesses in Kubernetes clusters. The tool was d
 To learn more about the kube-hunter scanner itself visit [kube-hunter GitHub] or [kube-hunter Website].
 
 ## Deployment
-# Install HelmChart (use -n to configure another namespace)
 The kube-hunter `scanType` can be deployed via helm:
 
 ```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install kube-hunter secureCodeBox/kube-hunter
 ```
 
@@ -53,21 +53,6 @@ The following security scan configuration example are based on the [kube-hunter 
 * To specify remote machines for hunting, select option 1 or use the --remote option. Example: `kube-hunter --remote some.node.com`
 * To specify interface scanning, you can use the --interface option (this will scan all the machine's network interfaces). Example: `kube-hunter --interface`
 * To specify a specific CIDR to scan, use the --cidr option. Example: `kube-hunter --cidr 192.168.0.0/24`
-
-## Contributing
-
-Contributions are welcome and extremely helpful 🙌
-Please have a look at [Contributing](./CONTRIBUTING.md)
-
-## Community
-
-You are welcome, please join us on... 👋
-
-- [GitHub][scb-github]
-- [Slack][scb-slack]
-- [Twitter][scb-twitter]
-
-secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## Requirements
 

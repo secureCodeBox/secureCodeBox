@@ -50,10 +50,10 @@ A software vulnerability is a glitch, flaw, or weakness present in the software 
 To learn more about the Trivy scanner itself visit on [Trivy's GitHub Repository](https://github.com/aquasecurity/trivy).
 
 ## Deployment
-# Install HelmChart (use -n to configure another namespace)
 The trivy `scanType` can be deployed via helm:
 
 ```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install trivy secureCodeBox/trivy
 ```
 

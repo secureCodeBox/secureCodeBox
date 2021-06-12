@@ -45,10 +45,10 @@ You can find resources to help you get started on our [documentation website](ht
 [SSLyze][SSLyze Documentation] is a Python library and a CLI tool that can analyze the SSL configuration of a server by connecting to it. It is designed to be fast and comprehensive, and should help organizations and testers identify mis-configurations affecting their SSL/TLS servers. To learn more about the SSLyze scanner itself visit or [SSLyze GitHub].
 
 ## Deployment
-# Install HelmChart (use -n to configure another namespace)
 The sslyze `scanType` can be deployed via helm:
 
 ```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install sslyze secureCodeBox/sslyze
 ```
 
