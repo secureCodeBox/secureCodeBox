@@ -37,7 +37,7 @@ jobs:
       - name: Generate Helm Docs
         run: |
           # Generate README.md based on Chart.yaml and template
-          ./helm-docs/helm-docs --template-files=./.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.md.gotmpl
+          ./helm-docs/helm-docs --template-files=./.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./.helm-docs/README.md.gotmpl
       - name: Generate Docker Scanner Docs
         run: |
           # Start in the scanners folder
