@@ -35,7 +35,7 @@ helm upgrade --install {{ template "chart.name" . }} secureCodeBox/{{ template "
 - tagged releases, e.g. `{{ template "chart.version" . }}`
 {{- end }}
 
-{{- define "extra.scannerAboutSection" -}}
+{{- define "extra.chartAboutSection" -}}
 ## What is ScannerName?
 
 {{- end }}

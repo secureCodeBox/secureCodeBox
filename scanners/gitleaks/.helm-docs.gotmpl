@@ -24,7 +24,7 @@ usecase: "Find potential secrets in repositories"
 - tagged releases, e.g. `{{ template "chart.version" . }}`
 {{- end }}
 
-{{- define "extra.scannerAboutSection" -}}
+{{- define "extra.chartAboutSection" -}}
 ## What is Gitleaks?
 Gitleaks is a free and open source tool for finding secrets in git repositories.
 These secrets could be passwords, API keys, tokens, private keys or suspicious file names or

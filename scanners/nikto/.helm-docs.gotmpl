@@ -24,7 +24,7 @@ usecase: "Webserver Vulnerability Scanner"
 - tagged releases, e.g. `{{ template "chart.version" . }}`
 {{- end }}
 
-{{- define "extra.scannerAboutSection" -}}
+{{- define "extra.chartAboutSection" -}}
 ## What is Nikto?
 Nikto is a free software command-line vulnerability scanner that scans webservers for dangerous files/CGIs, outdated server software and other problems. It performs generic and server type specific checks. It also captures and prints any cookies received. To learn more about the Nikto scanner itself visit [cirt.net] or [Nikto GitHub].
 {{- end }}

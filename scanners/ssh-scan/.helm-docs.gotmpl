@@ -21,7 +21,7 @@ usecase: "SSH Configuration and Policy Scanner"
 - tagged releases, e.g. `{{ template "chart.version" . }}`
 {{- end }}
 
-{{- define "extra.scannerAboutSection" -}}
+{{- define "extra.chartAboutSection" -}}
 ## What is SSH_scan?
 
 SSH_scan is an easy-to-use prototype SSH configuration and policy scanner, inspired by Mozilla OpenSSH Security Guide, which provides a reasonable baseline policy recommendation for SSH configuration parameters such as Ciphers, MACs, and KexAlgos and much more.
