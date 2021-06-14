@@ -34,3 +34,4 @@ Dockerfile
 .dockerignore
 docs/
 
+finding-post-processing.tar
