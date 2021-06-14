@@ -11,6 +11,9 @@
   "scripts": {
     "test": "jest"
   },
+  "jest": {
+    "testPathIgnorePatterns": ["/node_modules/", "/e2e/"]
+  },
   "keywords": [
     "secureCodeBox",
     "security",
