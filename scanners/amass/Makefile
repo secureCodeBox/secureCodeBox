@@ -14,6 +14,7 @@
 # - node + npm
 # - docker
 # - kind
+# - kubectl
 # - helm
 
 
@@ -38,41 +39,37 @@ scanner = amass
 scanner-prefix = scanner
 parser-prefix = parser
 
-all: | install-deps unit-test build-images images-export kind-import deploy deploy-demo-apps integration-test
+all: | install-deps unit-tests build-images images-export kind-import deploy deploy-demo-apps integration-tests
 
-.PHONY: unit-test
-unit-test:
-	npm test -- $(scanner)
+.PHONY: unit-tests install-deps build-images images-export kind-import deploy deploy-demo-apps integration-tests all
 
-.PHONY: install-deps
+unit-tests:
+	cd parser && npm test -- --modulePathIgnorePatterns $(scanner).test.js
+
 install-deps:
-	npm ci
+	cd parser && pwd &&  npm ci
 
-.PHONY: build-images
 build-images:
-	docker build -t $(IMG_NS)/$(parser-prefix)-$(scanner):$(IMG_TAG) -f ./parser/Dockerfile ./parser
+	@echo Build With BASE_IMG_TAG: $(BASE_IMG_TAG)
+	docker build --build-arg=baseImageTag=$(BASE_IMG_TAG) --build-arg=namespace=$(IMG_NS) -t $(IMG_NS)/$(parser-prefix)-$(scanner):$(IMG_TAG) -f ./parser/Dockerfile ./parser
 
-.PHONY: images-images
 images-export:
 	docker save $(IMG_NS)/$(parser-prefix)-$(scanner):$(IMG_TAG) -o $(parser-prefix)-$(scanner).tar
 
-.PHONY: kind-import
 kind-import:
 	kind load image-archive ./$(parser-prefix)-$(scanner).tar
 
-.PHONY: deploy
 deploy:
 	helm -n integration-tests upgrade --install $(scanner) ./ \
 		--set="parserImage.repository=docker.io/$(IMG_NS)/$(parser-prefix)-$(scanner)" \
 		--set="parserImage.tag=$(IMG_TAG)"
 
-.PHONY: deploy-demo-apps
 deploy-demo-apps:
 
-.PHONY: integration-test
-integration-test:
-	npx jest ../../tests/integration/scanner/$(scanner).test.js
+integration-tests:
+	kubectl -n integration-tests delete scans --all
+	cd parser && npm test -- amass.test.js
 
-.PHONY: clean
 clean:
 	rm ./$(parser-prefix)-$(scanner).tar
+
