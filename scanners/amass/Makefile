@@ -64,7 +64,9 @@ deploy:
 		--set="parserImage.repository=docker.io/$(IMG_NS)/$(parser-prefix)-$(scanner)" \
 		--set="parserImage.tag=$(IMG_TAG)"
 
-deploy-demo-apps:
+deploy-test-deps:
+
+install-integration-test-deps:
 
 integration-tests:
 	kubectl -n integration-tests delete scans --all
