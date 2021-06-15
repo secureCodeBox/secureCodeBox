@@ -79,7 +79,7 @@ For bugfixes and security fixes of the current release please follow the followi
 - For the main branch:
   - Create a bugfix branch from `main` branch
   - Cherry-Pick Bugfix and commit to bugfix branch
-  - Create PR to `main` branch 
+  - Create PR to `main` branch
 
 ## Working with Issues - How to Contribute in Issues
 
@@ -88,7 +88,7 @@ Before you open an issue please verify there is no existing one covering your is
 
 ## How to Write Commit Messages
 
-For more information see [here](https://chris.beams.io/posts/git-commit/).
+For more information see [Chris Beams article](https://chris.beams.io/posts/git-commit/).
 
 TL;DR
 
