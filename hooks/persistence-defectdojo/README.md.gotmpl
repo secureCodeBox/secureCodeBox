@@ -132,3 +132,23 @@ helm upgrade --install dd secureCodeBox/persistence-defectdojo \
 ## Chart Configuration
 
 {{ template "chart.valuesTable" . }}
+
+## Running Locally from Source
+For Development, it can be useful to run the Hook locally. You can do so by following these steps:
+
+1. Make sure you have access to a running [DefectDojo](https://github.com/DefectDojo/django-DefectDojo) Instance
+2. [Run a Scan](https://docs.securecodebox.io/docs/getting-started/first-scans) of your choice. 
+3. Supply Download Links for the Scan Results (Raw Result and Findings.json). You can e.g., access them from the 
+included [Minio Instance](https://docs.securecodebox.io/docs/getting-started/installation/#accessing-the-included-minio-instance)
+and upload them to a GitHub gist.
+
+4. Set the following environment variables
+
+- DEFECTDOJO_URL (e.g http://192.168.0.228:8080);
+- DEFECTDOJO_USERNAME (e.g admin)
+- DEFECTDOJO_APIKEY= (e.g. b09c.., can be fetched from the DefectDojo Settings)
+- IS_DEV=true
+- SCAN_NAME (e.g nmap-scanme.nmap.org)
+
+5. After running gradle build, start the DefectDojoPersistenceProvider with the following CLI Arguments:
+{Raw Result Download URL} {Findings Download URL} {Raw Result Upload URL} {Findings Upload URL}. E.g. https://gist.githubusercontent.com/.../scanme-nmap-org.xml https://gist.githubusercontent.com/.../nmap-findings.json https://httpbin.org/put https://httpbin.org/put
