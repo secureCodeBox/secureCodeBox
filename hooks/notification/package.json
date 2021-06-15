@@ -1,5 +1,5 @@
 {
-"name": "@securecodebox/hook-@securecodebox/hook-notification",
+"name": "@securecodebox/hook-notification",
   "version": "1.0.0",
   "description": "secureCodeBox Hook for Notification",
   "main": "hook.js",

@@ -1,7 +1,7 @@
 {
-  "name": "cascading-scans",
+"name": "@securecodebox/hook-cascading-scans",
   "version": "1.0.0",
-  "description": "secureCodeBox v2 Hook to cascade scan in an declarative manner.",
+  "description": "secureCodeBox Hook to cascade scan in an declarative manner.",
   "homepage": "https://www.secureCodeBox.io",
   "repository": {
     "type": "git",
