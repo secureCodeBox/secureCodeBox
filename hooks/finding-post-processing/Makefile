@@ -43,7 +43,7 @@ all: | install-deps unit-tests build-images images-export kind-import deploy dep
 .PHONY: unit-tests install-deps build-images images-export kind-import deploy deploy-demo-apps integration-tests all
 
 unit-tests:
-	npm test -- --modulePathIgnorePatterns $(hook).test.js
+	npm test -- --ci --colors --modulePathIgnorePatterns $(hook).test.js
 
 install-deps:
 	npm ci
@@ -67,9 +67,12 @@ deploy:
 deploy-test-deps:
 	helm -n integration-tests upgrade --install test-scan ../../scanners/test-scan/
 
+install-integration-test-deps:
+	cd ../../tests/integration && npm ci
+
 integration-tests:
 	kubectl -n integration-tests delete scans --all
-	npm test --ci --color ./integration-tests/finding-post-processing.test.js
+	cd ../../tests/integration/ && npm test -- --ci --colors $(hook).test.js
 
 clean:
 	rm ./$(hook-prefix)$(hook).tar
