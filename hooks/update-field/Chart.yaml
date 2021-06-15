@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 apiVersion: v2
-name: update-field-hook
+name: hook-update-field-hook
 description: Lets you add or override a field to every finding
 
 type: application

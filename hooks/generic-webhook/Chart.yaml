@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 apiVersion: v2
-name: generic-webhook
+name: hook-generic-webhook
 description: Lets you send http webhooks after scans are completed
 
 type: application

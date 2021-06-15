@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 apiVersion: v2
-name: teams-webhook
+name: hook-teams-webhook
 description: Lets you send a findings result summary as webhook to MS Teams, after a scan is completed.
 
 type: application

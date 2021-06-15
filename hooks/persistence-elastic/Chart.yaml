@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 apiVersion: v2
-name: persistence-elastic
+name: hook-persistence-elastic
 description: The elastic persistence provider persists secureCodeBox findings into the elastic stack.
 
 type: application
