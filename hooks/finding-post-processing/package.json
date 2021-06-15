@@ -7,6 +7,9 @@
     "build": "npx typescript hook.ts --sourceMap",
     "test": "jest ."
   },
+  "jest": {
+    "testPathIgnorePatterns": ["/node_modules/", "/integration-tests/"]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/secureCodeBox/secureCodeBox.git"
