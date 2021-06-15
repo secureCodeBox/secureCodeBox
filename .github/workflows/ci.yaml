@@ -231,7 +231,7 @@ jobs:
           - cascading-scans
           - finding-post-processing
           - generic-webhook
-          - notification-hook
+          - notification
           - persistence-elastic
           - persistence-defectdojo
           - update-field
@@ -244,7 +244,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.hook }}
+          images: ${{ env.DOCKER_NAMESPACE }}/hook-${{ matrix.hook }}
           tag-sha: true
           tag-semver: |
             {{ version }}
