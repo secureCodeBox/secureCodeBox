@@ -44,7 +44,7 @@ all: | install-deps unit-tests build-images images-export kind-import deploy dep
 .PHONY: unit-tests install-deps build-images images-export kind-import deploy deploy-demo-apps integration-tests all
 
 unit-tests:
-	cd parser && npm test -- --modulePathIgnorePatterns $(scanner).test.js
+	cd parser && npm test -- --colors --ci --modulePathIgnorePatterns $(scanner).test.js
 
 install-deps:
 	cd parser && pwd &&  npm ci
@@ -67,10 +67,11 @@ deploy:
 deploy-test-deps:
 
 install-integration-test-deps:
+	cd ../../tests/integration/ && npm ci
 
 integration-tests:
 	kubectl -n integration-tests delete scans --all
-	cd parser && npm test -- amass.test.js
+	cd ../../tests/integration/ && npm test -- --colors --ci $(scanner).test.js
 
 clean:
 	rm ./$(parser-prefix)-$(scanner).tar
