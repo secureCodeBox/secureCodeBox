@@ -60,7 +60,7 @@ kind-import:
 
 deploy:
 	helm -n integration-tests upgrade --install $(hook) ./ \
-		--values ./e2e/__testFiles__/values.yaml \
+		--values ./integration-tests/__testFiles__/values.yaml \
 		--set="image.repository=docker.io/$(IMG_NS)/$(hook-prefix)$(hook)" \
 		--set="image.tag=$(IMG_TAG)"
 
@@ -69,7 +69,7 @@ deploy-test-deps:
 
 integration-tests:
 	kubectl -n integration-tests delete scans --all
-	npm test --ci --color ./e2e/finding-post-processing.test.js
+	npm test --ci --color ./integration-tests/finding-post-processing.test.js
 
 clean:
 	rm ./$(hook-prefix)$(hook).tar
