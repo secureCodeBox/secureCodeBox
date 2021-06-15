@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 apiVersion: v2
-name: hook-cascading-scans
+name: cascading-scans
 description: Starts possible subsequent security scans based on findings (e.g. open ports found by NMAP or subdomains found by AMASS).
 
 type: application

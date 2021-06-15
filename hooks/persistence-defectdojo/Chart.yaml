@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 apiVersion: v2
-name: hook-persistence-defectdojo
+name: persistence-defectdojo
 description: The defectdojo persistence provider persists secureCodeBox scan results into defectdojo.
 
 type: application

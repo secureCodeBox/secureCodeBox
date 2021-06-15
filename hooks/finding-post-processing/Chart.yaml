@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 apiVersion: v2
-name: hook-finding-post-processing
+name: finding-post-processing
 description: Lets you add or override a field to every finding that meets specified conditions
 
 type: application
