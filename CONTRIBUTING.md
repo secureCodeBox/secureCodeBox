@@ -14,6 +14,7 @@ SPDX-License-Identifier: Apache-2.0
   - [Working with Issues - How to Contribute in Issues](#working-with-issues---how-to-contribute-in-issues)
   - [How to Write Commit Messages](#how-to-write-commit-messages)
   - [Code of Conduct](#code-of-conduct)
+  - [Developer Certificate of Origin and Licensing](#developer-certificate-of-origin-and-licensing)
 
 ## GitHub Flow
 
@@ -100,8 +101,21 @@ TL;DR
 6. Wrap the body at 72 characters
 7. Use the body to explain what and why vs. how
 
-NOTE: Make sure you don't include `@mentions` or `fixes` keywords in your git commit messages. These should be included in the PR body instead.
+**NOTE**: Make sure you don't include `@mentions` or `fixes` keywords in your git commit messages. These should be included in the PR body instead.
+
+**NOTE**: Make sure to add your signed-off-by tag as described in our [contributors file][contributors-file].
 
 ## Code of Conduct
 
 Please have a look at our [Code of Conduct](./CODE_OF_CONDUCT.md) before you write an Issue or make a PR.
+
+## Developer Certificate of Origin and Licensing
+
+We decided to use [DCO](https://en.wikipedia.org/wiki/Developer_Certificate_of_Origin) instead of [CLA](https://en.wikipedia.org/wiki/Contributor_License_Agreement) as described in [CLAs and using DCO clearly](https://medium.com/@flamefew/clas-and-using-dco-clearly-e46b09a4c048). The reason for that: We need to be sure that one submitting a contribution to this repository is allowed to do this and does not violates copyrights of someone else. For that purpose you have to do some steps to to fullfil our DCO requirements:
+
+1. Read carefully our [contributors file][contributors-file].
+2. Open a pull request which adds you to the [contributors file][contributors-file] to agree the DCO.
+3. Always add a signed-of tag to all your commits as described in the [contributors file][contributors-file].
+4. Add a SPDX license header to all files your contribution will create. You can use the [reuse tool](https://reuse.software) with our [helper script](./bin/add-license-header.sh).
+
+[contributors-file]: ./CONTRIBUTORS.md
