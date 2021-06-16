@@ -1,0 +1,40 @@
+{{- /*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
+
+{{- define "extra.docsSection" -}}
+---
+title: "Old Wordpress"
+category: "target"
+type: "Website"
+state: "released"
+appVersion: "{{ template "chart.appVersion" . }}"
+usecase: "Modern insecure web application"
+---
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.version" . }}`
+{{- end }}
+
+{{- define "extra.chartAboutSection" -}}
+## What is Old Wordpress?
+
+Insecure & Outdated WordPress Instance: Never expose it to the internet!
+
+### Source Code
+
+* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/old-wordpress>
+
+{{- end }}
+
+{{- define "extra.scannerConfigurationSection" -}}{{- end }}
+
+{{- define "extra.chartConfigurationSection" -}}{{- end }}
+
+{{- define "extra.scannerLinksSection" -}}
+{{- end }}

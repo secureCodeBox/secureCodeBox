@@ -3,29 +3,41 @@ SPDX-FileCopyrightText: 2020 iteratec GmbH
 
 SPDX-License-Identifier: Apache-2.0
 */ -}}
+
+{{- define "extra.docsSection" -}}
 ---
 title: "Bodgeit"
 category: "target"
 type: "Website"
 state: "released"
-appVersion: "v1.4.0"
+appVersion: "{{ template "chart.appVersion" . }}"
 usecase: "Vulnerable WebApp based on html serverside rendering"
 ---
+{{- end }}
 
-# Bodgeit
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.version" . }}`
+{{- end }}
 
-![Version: latest](https://img.shields.io/badge/Version-latest-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.4.0](https://img.shields.io/badge/AppVersion-v1.4.0-informational?style=flat-square)
-
+{{- define "extra.chartAboutSection" -}}
+## What is Bodgeit?
 The BodgeIt Store is a vulnerable web app which is aimed at people who are new to pen testing.
 BodgeIt Store is a serverside rendering based html website without any heavy javascript.
 
 **Homepage:** <https://github.com/psiinon/bodgeit>
 
-## Source Code
+### Source Code
 
 * <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/bodgeit>
 * <https://github.com/psiinon/bodgeit>
 
-## Chart Configuration
+{{- end }}
 
-{{ template "chart.valuesTable" . }}
+{{- define "extra.scannerConfigurationSection" -}}{{- end }}
+
+{{- define "extra.chartConfigurationSection" -}}{{- end }}
+
+{{- define "extra.scannerLinksSection" -}}
+{{- end }}
