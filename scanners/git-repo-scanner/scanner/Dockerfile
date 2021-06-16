@@ -1,4 +1,9 @@
-FROM python:3.9.0-alpine
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+FROM docker.io/python:3-alpine
+
 COPY . /scripts/
 RUN pip install -r /scripts/requirements.txt
 CMD ["/bin/sh"]

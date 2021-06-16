@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanCompletionHook
 metadata:
@@ -12,6 +16,7 @@ spec:
   type: ReadOnly
   {{- end }}
   image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
+  imagePullPolicy: "{{ .Values.image.pullPolicy }}"
   env:
     - name: DEFECTDOJO_URL
       value: {{ .Values.defectdojo.url | quote }}

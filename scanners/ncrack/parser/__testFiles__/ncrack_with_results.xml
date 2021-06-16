@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE ncrackrun>
 <!-- Ncrack 0.7 scan initiated Wed Dec  4 22:54:53 2019 as: ncrack -&#45;user root -&#45;pass aaf076d4fe7cfb63fd1628df91 -oX /tmp/ncrack2.xml ssh://192.168.0.1 -->

@@ -1,14 +1,15 @@
-const retry = require("../retry");
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
 
 const { scan } = require("../helpers");
 
-retry(
+test(
   "zap baseline scan against a plain nginx container should only find couple findings",
-  3,
   async () => {
     const { categories, severities } = await scan(
       "zap-nginx-baseline",
-      "zap-baseline",
+      "zap-baseline-scan",
       ["-t", "http://nginx.demo-apps.svc"],
       60 * 4
     );

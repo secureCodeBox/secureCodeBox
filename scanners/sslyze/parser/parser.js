@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
 function parse(fileContent) {
   // Only 0 when the target wasn't reachable
   if (fileContent.server_scan_results.length === 0) {

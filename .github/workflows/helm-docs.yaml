@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 name: "Update Helm Docs"
 
 on:
@@ -19,6 +23,7 @@ jobs:
           passphrase: ${{ secrets.GPG_COMMITS_PASSPHRASE }}
           git-user-signingkey: true
           git-commit-gpgsign: true
+          commit_options: '--signoff'
 
       - name: Download Helm Docs
         run: |

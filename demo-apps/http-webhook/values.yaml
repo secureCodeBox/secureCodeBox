@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 # Default values for http-webhook.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
@@ -16,6 +20,12 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+# -- add labels to the deployment, service and pods
+labels: {}
+
+# -- add annotations to the deployment, service and pods
+annotations: {}
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
@@ -25,6 +35,7 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+# -- deprecated. use `labels` instead. Will be removed in v3. todo(@J12934) remove podAnnotations in v3
 podAnnotations: {}
 
 podSecurityContext: {}

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 FROM alpine:3.13
 ARG scannerVersion=latest
 RUN apk add --no-cache nmap=$scannerVersion nmap-scripts=$scannerVersion

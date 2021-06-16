@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
 package io.securecodebox.persistence.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,10 +33,10 @@ public class S3Service {
     HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.discarding());
   }
 
-  public String downloadRawResults(String rawResultDownloadUrl) throws IOException, InterruptedException {
+  public String downloadFile(String downloadUrl) throws IOException, InterruptedException {
     var request = java.net.http.HttpRequest
       .newBuilder()
-      .uri(URI.create(rawResultDownloadUrl))
+      .uri(URI.create(downloadUrl))
       .build();
 
     var response = HttpClient.newHttpClient()

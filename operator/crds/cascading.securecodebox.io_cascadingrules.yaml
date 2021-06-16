@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
 
 ---
 apiVersion: apiextensions.k8s.io/v1beta1
@@ -82,15 +85,32 @@ spec:
                     type: object
                   type: array
               type: object
+            scanAnnotations:
+              additionalProperties:
+                type: string
+              description: ScanAnnotations define additional annotations for cascading
+                scans
+              type: object
+            scanLabels:
+              additionalProperties:
+                type: string
+              description: ScanLabels define additional labels for cascading scans
+              type: object
             scanSpec:
               description: ScanSpec defines how the cascaded scan should look like
               properties:
                 cascades:
-                  description: A label selector is a label query over a set of resources.
-                    The result of matchLabels and matchExpressions are ANDed. An empty
-                    label selector matches all objects. A null label selector matches
-                    no objects.
+                  description: Cascades describes how and when cascading scans should
+                    be generated.
                   properties:
+                    inheritAnnotations:
+                      description: InheritAnnotations defines whether cascading scans
+                        should inherit annotations from the parent scan
+                      type: boolean
+                    inheritLabels:
+                      description: InheritLabels defines whether cascading scans should
+                        inherit labels from the parent scan
+                      type: boolean
                     matchExpressions:
                       description: matchExpressions is a list of label selector requirements.
                         The requirements are ANDed.

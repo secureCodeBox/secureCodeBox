@@ -28,8 +28,8 @@
     "@types/mustache": "^4.1.1",
     "@types/node": "^14.14.33",
     "@types/nodemailer": "^6.4.1",
-    "jest": "^26.6.3",
-    "ts-jest": "^26.5.3"
+    "jest": "^27.0.3",
+    "ts-jest": "^27.0.3"
   },
   "dependencies": {
     "@kubernetes/client-node": "^0.14.0",

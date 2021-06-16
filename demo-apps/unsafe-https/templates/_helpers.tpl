@@ -1,3 +1,8 @@
+{{- /*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
 {{/* vim: set filetype=mustache: */}}
 {{/*
 Expand the name of the chart.
@@ -41,6 +46,9 @@ helm.sh/chart: {{ include "unsafe-https.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- if .Values.labels }}
+{{ .Values.labels | toYaml }}
+{{- end }}
 {{- end -}}
 
 {{/*
@@ -49,4 +57,8 @@ Selector labels
 {{- define "unsafe-https.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "unsafe-https.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
+
+{{- define "unsafe-https.annotations" -}}
+{{ .Values.annotations | toYaml }}
 {{- end -}}

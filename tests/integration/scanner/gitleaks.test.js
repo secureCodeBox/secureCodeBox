@@ -1,10 +1,13 @@
-const retry = require("../retry");
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
 
 const { scan } = require("../helpers");
 
-retry(
+jest.retryTimes(3);
+
+test(
   "gitleaks should find 1 credential in the testfiles",
-  3,
   async () => {
     const { categories, severities, count } = await scan(
       "gitleaks-dummy-scan",

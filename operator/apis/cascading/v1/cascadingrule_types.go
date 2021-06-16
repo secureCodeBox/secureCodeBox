@@ -1,18 +1,6 @@
-/*
-Copyright 2020 iteratec GmbH.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
 
 package v1
 
@@ -32,6 +20,15 @@ type CascadingRuleSpec struct {
 
 	// Matches defines to which findings the CascadingRule should apply
 	Matches Matches `json:"matches"`
+
+	// ScanLabels define additional labels for cascading scans
+	// +optional
+	ScanLabels map[string]string `json:"scanLabels"`
+
+	// ScanAnnotations define additional annotations for cascading scans
+	// +optional
+	ScanAnnotations map[string]string `json:"scanAnnotations"`
+
 	// ScanSpec defines how the cascaded scan should look like
 	ScanSpec executionv1.ScanSpec `json:"scanSpec"`
 }

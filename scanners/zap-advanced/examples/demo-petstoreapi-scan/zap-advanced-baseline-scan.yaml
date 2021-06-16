@@ -1,0 +1,124 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zap-advanced-scan-config
+data:
+  2-zap-advanced-scan.yaml: |-
+
+    global:
+      # Sets the ZAP Session name
+      sessionName: integration-test
+      # Configures existings ZAP Scripts or add new ZAP Scripts.
+      scripts:
+        - name: "Alert_on_HTTP_Response_Code_Errors.js"
+          enabled: true
+          filePath: "/home/zap/.ZAP_D/scripts/scripts/httpsender/Alert_on_HTTP_Response_Code_Errors.js"
+          engine: "Oracle Nashorn"
+          type: "httpsender"
+          description: "A HTTP Sender Script which will raise alerts based on HTTP Response codes."
+        - name: "Alert_on_Unexpected_Content_Types.js"
+          enabled: true
+          filePath: "/home/zap/.ZAP_D/scripts/scripts/httpsender/Alert_on_Unexpected_Content_Types.js"
+          engine: "Oracle Nashorn"
+          type: "httpsender"
+          description: "A HTTP Sender Script which will raise alerts based on unexpected Content-Types."
+
+    # ZAP Contexts Configuration 
+    contexts:
+      # Name to be used to refer to this context in other jobs, mandatory
+      - name: scb-petstore-context
+        # The top level url, mandatory, everything under this will be included. IMPORTANT: must be the hostname without any subpath!
+        url: http://petstore.demo-apps.svc/
+        # An optional list of regexes to include
+        includePaths:
+          - "http://petstore.demo-apps.svc/v2.*"
+        # An optional list of regexes to exclude
+        excludePaths:
+          - ".*\\.css"
+          - ".*\\.png"
+          - ".*\\.jpeg"
+
+    apis:
+      - name: scb-petstore-api
+        # -- The Name of the context (zapConfiguration.contexts[x].name) to spider, default: first context available.
+        context: scb-petstore-context
+        # -- format of the API ('openapi', 'grapql', 'soap')
+        format: openapi
+        # -- Url to start spidering from, default: first context URL
+        url: http://petstore.demo-apps.svc/v2/swagger.json
+        # -- Override host setting in swagger.json
+        hostOverride: http://petstore.demo-apps.svc
+
+    # ZAP Spiders Configuration 
+    spiders:
+      - name: scb-petstore-spider
+        # String: Name of the context to spider, default: first context
+        context: scb-petstore-context
+        # String: Url to start spidering from, default: first context URL
+        url: http://petstore.demo-apps.svc/v2/
+        # Int: Fail if spider finds less than the specified number of URLs, default: 0
+        failIfFoundUrlsLessThan: 0
+        # Int: Warn if spider finds less than the specified number of URLs, default: 0
+        warnIfFoundUrlsLessThan: 0
+        # Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
+        maxDuration: 1
+        # Int: The maximum tree depth to explore, default 5
+        maxDepth: 5
+        # Int: The maximum number of children to add to each node in the tree                     
+        maxChildren: 10
+        # # Int: The max size of a response that will be parsed, default: 2621440 - 2.5 Mb
+        # maxParseSizeBytes: 2621440
+        # Bool: Whether the spider will accept cookies, default: true
+        acceptCookies: true
+        # Bool: Whether the spider will handle OData responses, default: false
+        handleODataParametersVisited: false
+        # Bool: Whether the spider will parse HTML comments in order to find URLs, default: true
+        parseComments: true
+        # Bool: Whether the spider will parse Git metadata in order to find URLs, default: false
+        parseGit: false
+        # Bool: Whether the spider will parse 'robots.txt' files in order to find URLs, default: true
+        parseRobotsTxt: false
+        # Bool: Whether the spider will parse 'sitemap.xml' files in order to find URLs, default: true
+        parseSitemapXml: false
+        # Bool: Whether the spider will parse SVN metadata in order to find URLs, default: false
+        parseSVNEntries: false
+        # Bool: Whether the spider will submit POST forms, default: true
+        postForm: true
+        # Bool: Whether the spider will process forms, default: true
+        processForm: true
+        # Int: The time between the requests sent to a server in milliseconds, default: 200
+        requestWaitTime: 200
+        # Bool: Whether the spider will send the referer header, default: true
+        sendRefererHeader: true
+        # Int: The number of spider threads, default: 2             
+        threadCount: 2
+        # String: The user agent to use in requests, default: '' - use the default ZAP one               
+        userAgent: "secureCodeBox / ZAP Spider"
+
+---
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "zap-api-baseline-scan-petstore"
+  labels:
+    organization: "OWASP"
+spec:
+  scanType: "zap-advanced-scan"
+  parameters:
+    # target URL including the protocol
+    - "-t"
+    - "http://petstore.demo-apps.svc/"
+  volumeMounts:
+    - name: zap-advanced-scan-config
+      mountPath: /home/securecodebox/configs/2-zap-advanced-scan.yaml
+      subPath: 2-zap-advanced-scan.yaml
+      readOnly: true
+  volumes:
+    - name: zap-advanced-scan-config
+      configMap:
+        name: zap-advanced-scan-config

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 FROM gradle:jdk11 as build
 COPY . /home/gradle/src
 WORKDIR /home/gradle/src

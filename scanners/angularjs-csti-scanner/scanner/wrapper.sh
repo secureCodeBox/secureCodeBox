@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 # If acstis config exists paste it into the acstis script
 if [ -f /acstis/config/acstis-config.py ]; then
   echo "Insert acstis-config file into acstis script"

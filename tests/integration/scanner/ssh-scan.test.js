@@ -1,10 +1,14 @@
-const retry = require("../retry");
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
 // todo: Integrate into github ci pipeline
 const { scan } = require("../helpers");
 
-retry(
+jest.retryTimes(3);
+
+test(
   "ssh-scan should find a couple of findings for a dummy ssh service",
-  3,
   async () => {
     const { categories, severities, count } = await scan(
       "ssh-scan-dummy-ssh",
@@ -30,9 +34,8 @@ retry(
   3 * 60 * 1000
 );
 
-retry(
+test(
   "ssh-scan should gracefully handle a non-existing target",
-  3,
   async () => {
     await expect(
       scan(

@@ -1,9 +1,15 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "old-wordpress.fullname" . }}
   labels:
     {{- include "old-wordpress.labels" . | nindent 4 }}
+  annotations:
+    {{- include "old-wordpress.annotations" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -13,6 +19,8 @@ spec:
     metadata:
       labels:
         {{- include "old-wordpress.selectorLabels" . | nindent 8 }}
+      annotations:
+        {{- include "old-wordpress.annotations" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

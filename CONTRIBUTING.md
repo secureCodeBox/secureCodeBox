@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Contributing
 
 - [Contributing](#contributing)
@@ -8,6 +14,7 @@
   - [Working with Issues - How to Contribute in Issues](#working-with-issues---how-to-contribute-in-issues)
   - [How to Write Commit Messages](#how-to-write-commit-messages)
   - [Code of Conduct](#code-of-conduct)
+  - [Developer Certificate of Origin and Licensing](#developer-certificate-of-origin-and-licensing)
 
 ## GitHub Flow
 
@@ -38,7 +45,11 @@ TL;DR
 5. merge only after pull request review
 6. deploy immediately after review
 
+**_Please make sure to sign all your commits (See: [git-scm](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work))._**
+
 ## Working with Forks and Pull Requests
+
+**_Please make sure to sign all your commits (See: [git-scm](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work))._**
 
 If you want to contribute you will need to fork the project.
 To enable the use of our CI Pipeline you will need to add these GitHub secrets:
@@ -55,7 +66,7 @@ When you are done, you can convert it to a standard *Pull Request* (or create on
 
 Generally the _secureCodeBox_ project follows the standard [GitHub Pull request process](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests).
 
-Please make sure to sign all your commits (See: [git-scm](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work)).
+**_Please make sure to sign all your commits (See: [git-scm](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work))._**
 
 ## Bugfixing and Security Fixing Released Features
 
@@ -69,7 +80,7 @@ For bugfixes and security fixes of the current release please follow the followi
 - For the main branch:
   - Create a bugfix branch from `main` branch
   - Cherry-Pick Bugfix and commit to bugfix branch
-  - Create PR to `main` branch 
+  - Create PR to `main` branch
 
 ## Working with Issues - How to Contribute in Issues
 
@@ -78,7 +89,7 @@ Before you open an issue please verify there is no existing one covering your is
 
 ## How to Write Commit Messages
 
-For more information see [here](https://chris.beams.io/posts/git-commit/).
+For more information see [Chris Beams article](https://chris.beams.io/posts/git-commit/).
 
 TL;DR
 
@@ -90,8 +101,21 @@ TL;DR
 6. Wrap the body at 72 characters
 7. Use the body to explain what and why vs. how
 
-NOTE: Make sure you don't include `@mentions` or `fixes` keywords in your git commit messages. These should be included in the PR body instead.
+**NOTE**: Make sure you don't include `@mentions` or `fixes` keywords in your git commit messages. These should be included in the PR body instead.
+
+**NOTE**: Make sure to add your signed-off-by tag as described in our [contributors file][contributors-file].
 
 ## Code of Conduct
 
 Please have a look at our [Code of Conduct](./CODE_OF_CONDUCT.md) before you write an Issue or make a PR.
+
+## Developer Certificate of Origin and Licensing
+
+We decided to use [DCO](https://en.wikipedia.org/wiki/Developer_Certificate_of_Origin) instead of [CLA](https://en.wikipedia.org/wiki/Contributor_License_Agreement) as described in [CLAs and using DCO clearly](https://medium.com/@flamefew/clas-and-using-dco-clearly-e46b09a4c048). The reason for that: We need to be sure that one submitting a contribution to this repository is allowed to do this and does not violates copyrights of someone else. For that purpose you have to do some steps to to fullfil our DCO requirements:
+
+1. Read carefully our [contributors file][contributors-file].
+2. Open a pull request which adds you to the [contributors file][contributors-file] to agree the DCO.
+3. Always add a signed-of tag to all your commits as described in the [contributors file][contributors-file].
+4. Add a SPDX license header to all files your contribution will create. You can use the [reuse tool](https://reuse.software) with our [helper script](./bin/add-license-header.sh).
+
+[contributors-file]: ./CONTRIBUTORS.md
