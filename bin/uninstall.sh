@@ -33,14 +33,14 @@ function uninstallResources() {
 
   for resource in "${resources[@]}"; do
     local resource_name="${resource//+([_])/-}" # Necessary because ssh_scan is called ssh-scan
-    helm uninstall "$resource_name" -n $namespace || true
+    helm uninstall "$resource_name" -n "$namespace" || true
   done
 }
 
-helm -n $SCB_SYSTEM_NAMESPACE uninstall securecodebox-operator || true
+helm -n "$SCB_SYSTEM_NAMESPACE" uninstall securecodebox-operator || true
 
 uninstallResources "$BASE_DIR/demo-apps" "$SCB_DEMO_NAMESPACE"
 uninstallResources "$BASE_DIR/scanners" "$SCB_NAMESPACE"
 uninstallResources "$BASE_DIR/hooks" "$SCB_NAMESPACE"
 
-kubectl delete namespaces $SCB_SYSTEM_NAMESPACE || true
+kubectl delete namespaces "$SCB_SYSTEM_NAMESPACE" || true
