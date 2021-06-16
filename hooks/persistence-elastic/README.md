@@ -55,7 +55,11 @@ Kubernetes: `>=v1.11.0-0`
 
 ## Additional Chart Configurations
 
-> ✍ This documentation is currently work-in-progress.
+### Elasticsearch Indexing
+
+For the elasticsearch `indexSuffix` you can provide a date format pattern. We use [Luxon](https://moment.github.io/luxon/) to format the date. So checkout
+the [Luxon documentation](https://moment.github.io/luxon/docs/manual/formatting.html#table-of-tokens) to see what kind of format patterns you can use for the
+`indexSuffix`. Default pattern is `yyyy-MM-dd`
 
 ## Values
 

@@ -84,7 +84,7 @@ NAME   TYPE       IMAGE
 dssh   ReadOnly   docker.io/securecodebox/hook-declarative-subsequent-scans:latest
 ```
 
-## CascadingScan Rules
+### CascadingScan Rules
 The CascadingRules are included directly in each helm chart of the individual scanners.
 There is a configuration option `cascadingRules.enabled` for each scanner to prevent this inclusion.
 
@@ -102,11 +102,11 @@ ssh-scan         ssh-scan            non-invasive   light
 zap-http         zap-baseline-scan   non-invasive   medium
 ```
 
-## Starting a cascading Scan
+### Starting a cascading Scan
 When you start a normal Scan, no CascadingRule will be applied. To use a _CascadingRule_ the scan must be marked to allow cascading rules.
 This is implemented using kubernetes label selectors, meaning that scans mark the classes of scans which are allowed to be cascaded by the current one.
 
-### Example
+#### Example
 ```yaml
 cat <<EOF | kubectl apply -f -
 apiVersion: "execution.securecodebox.io/v1"

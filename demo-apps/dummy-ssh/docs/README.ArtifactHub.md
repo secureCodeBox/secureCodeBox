@@ -14,14 +14,6 @@ Please be aware of that and apply your changes only within those template files 
 Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
 --------------------------
 -->
----
-title: "HTTP WebHook"
-category: "target"
-type: "service"
-state: "released"
-appVersion: "1.16.0"
-usecase: "Vulnerable HTTP WebHook"
----
 
 <p align="center">
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Apache-2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>
@@ -32,21 +24,60 @@ usecase: "Vulnerable HTTP WebHook"
   <a href="https://twitter.com/securecodebox"><img alt="Twitter Follower" src="https://img.shields.io/twitter/follow/securecodebox?style=flat&color=blue&logo=twitter"></a>
 </p>
 
-## What is HTTP WebHook?
-A Dummy webserver to echo HTTP requests in log.
+## What is OWASP secureCodeBox?
+
+<p align="center">
+  <img alt="secureCodeBox Logo" src="https://docs.securecodebox.io/img/Logo_Color.svg" width="250px">
+</p>
+
+_[OWASP secureCodeBox][scb-github]_ is an automated and scalable open source solution that can be used to integrate various *security vulnerability scanners* with a simple and lightweight interface. The _secureCodeBox_ mission is to support *DevSecOps* Teams to make it easy to automate security vulnerability testing in different scenarios.
+
+With the _secureCodeBox_ we provide a toolchain for continuous scanning of applications to find the low-hanging fruit issues early in the development process and free the resources of the penetration tester to concentrate on the major security issues.
+
+The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To install it you need [Helm](https://helm.sh), a package manager for Kubernetes. It is also possible to start the different integrated security vulnerability scanners based on a docker infrastructure.
+
+### Quickstart with secureCodeBox on kubernetes
+
+You can find resources to help you get started on our [documentation website](https://docs.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://docs.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://docs.securecodebox.io/docs/getting-started/first-scans) with it.
+
+## What is Dummy SSH?
+The Dummy SSH service is a vulnerable SSH Service which is aimed at people who are new to pen testing.
+
+The vulnerable SSH Server is used for for security scan testing.
+
+There are also vulnerable credentials which can be identified via bruteforcing:
+- Port 22
+- Username root,
+- Password: THEPASSWORDYOUCREATED
+
+**Homepage:** <https://github.com/psiinon/bodgeit>
 
 ### Source Code
 
-* <https://github.com/mendhak/docker-http-https-echo>
-* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/http-webhook>
+* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/dummy-ssh>
 
 ## Deployment
-The http-webhook `scanType` can be deployed via helm:
+The dummy-ssh `scanType` can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install http-webhook secureCodeBox/http-webhook
+helm upgrade --install dummy-ssh secureCodeBox/dummy-ssh
 ```
+
+## Contributing
+
+Contributions are welcome and extremely helpful 🙌
+Please have a look at [Contributing](./CONTRIBUTING.md)
+
+## Community
+
+You are welcome, please join us on... 👋
+
+- [GitHub][scb-github]
+- [Slack][scb-slack]
+- [Twitter][scb-twitter]
+
+secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## Values
 
@@ -54,33 +85,20 @@ helm upgrade --install http-webhook secureCodeBox/http-webhook
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
 | annotations | object | `{}` | add annotations to the deployment, service and pods |
-| autoscaling.enabled | bool | `false` |  |
-| autoscaling.maxReplicas | int | `100` |  |
-| autoscaling.minReplicas | int | `1` |  |
-| autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"docker.io/mendhak/http-https-echo"` | Container Image |
-| image.tag | string | defaults to the latest version because the appVersion tag is not available at docker.io | The image tag |
+| image.repository | string | `"docker.io/securecodebox/dummy-ssh"` | Container Image |
+| image.tag | string | defaults to the appVersion | The image tag |
 | imagePullSecrets | list | `[]` |  |
-| ingress.annotations | object | `{}` |  |
-| ingress.enabled | bool | `false` |  |
-| ingress.hosts[0].host | string | `"chart-example.local"` |  |
-| ingress.hosts[0].paths | list | `[]` |  |
-| ingress.tls | list | `[]` |  |
 | labels | object | `{}` | add labels to the deployment, service and pods |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
-| podAnnotations | object | `{}` | deprecated. use `labels` instead. Will be removed in v3. todo(@J12934) remove podAnnotations in v3 |
 | podSecurityContext | object | `{}` |  |
 | replicaCount | int | `1` |  |
 | resources | object | `{}` |  |
 | securityContext | object | `{}` |  |
-| service.port | int | `80` |  |
+| service.port | int | `22` |  |
 | service.type | string | `"ClusterIP"` |  |
-| serviceAccount.annotations | object | `{}` |  |
-| serviceAccount.create | bool | `true` |  |
-| serviceAccount.name | string | `""` |  |
 | tolerations | list | `[]` |  |
 
 ## License
@@ -95,4 +113,3 @@ Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 [scb-twitter]: https://twitter.com/secureCodeBox
 [scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
 [scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
-

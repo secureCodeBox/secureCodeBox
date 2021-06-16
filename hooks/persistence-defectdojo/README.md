@@ -15,7 +15,7 @@ Otherwise your changes will be reverted/overriden automaticaly due to the build 
 --------------------------
 -->
 ---
-ttitle: "DefectDojo"
+title: "DefectDojo"
 category: "hook"
 type: "persistenceProvider"
 state: "released"
