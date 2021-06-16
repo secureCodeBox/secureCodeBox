@@ -45,18 +45,40 @@ You can find resources to help you get started on our [documentation website](ht
 - tagged releases, e.g. `v2.7.0-alpha1`
 
 ## How to use this image
-This `hook` image is intended to work in combination with other `parser` images to read or manipulate `findings` results. For more informations details please take a look at the [project page][scb-docs] or [documentation page][https://docs.securecodebox.io/docs/hooks/cascading-scans].
+This `hook` image is intended to work in combination with other `parser` images to read or manipulate `findings` results. For more informations details please take a look at the [project page][scb-docs] or [documentation page][https://docs.securecodebox.io/docs/hooks/defectdojo].
 
 ```bash
-docker pull securecodebox/hook-declarative-subsequent-scans
+docker pull securecodebox/hook-persistence-defectdojo
 ```
 
-## What is "Cascading Scans" Hook about?
-The Cascading Scans Hook can be used to orchestrate security scanners based on defined rule sets.
-The so called `CascadingRules` consist of a `matches section which contains one or multiple rules which are compared against `findings`. When a `finding` matches a `rule` the `scanSpec` section will then be used to create a new scan. To customize the scan to match the finding, the [mustache](https://github.com/janl/mustache.js) templating language can be used to reference fields of the finding.
+## What is "Persistence DefectDojo" Hook about?
+The DefectDojo hook imports the reports from scans automatically into [OWASP DefectDojo](https://www.defectdojo.org/).
+The hook uses the import scan [API v2 from DefectDojo](https://defectdojo.readthedocs.io/en/latest/api-v2-docs.html) to import the scan results.
 
-<-- Todo: should be replaced with an valid docs.secureCodeBox.io link as soon as all ADRs are added there -->
-This Hook is based on the ADR https://github.com/secureCodeBox/secureCodeBox/blob/main/docs/adr/adr_0003.md
+This means that only scan types are supported by the hook which are both supported by the secureCodeBox and DefectDojo.
+These are:
+
+- Nmap
+- Nikto
+- ZAP (Baseline, API Scan and Full Scan)
+- ZAP Advanced
+- SSLyze
+- Trivy
+- Gitleaks
+
+After uploading the results to DefectDojo, it will use the findings parsed by DefectDojo to overwrite the
+original secureCodeBox findings identified by the parser. This lets you access the finding metadata like the false
+positive and duplicate status from DefectDojo in further ReadOnly hooks, e.g. send out Slack notification
+for non-duplicate & non-false positive findings only.
+
+:::caution
+
+Be careful when using the DefectDojo Hook in combination with other ReadAndWrite hooks. The secureCodeBox currently has
+no way to guarantee that one ReadAndWrite hook gets executed before another ReadAndWrite hook. This can lead to
+"lost update" problems as the DefectDojo hook will overwrite all findings, which disregards the results of previously
+run ReadAndWrite hooks.
+ReadOnly hooks work fine with the DefectDojo hook as they are always executed after ReadAndWrite Hooks.
+:::
 
 ## Community
 

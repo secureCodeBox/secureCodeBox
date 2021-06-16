@@ -14,13 +14,6 @@ Please be aware of that and apply your changes only within those template files 
 Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
 --------------------------
 -->
----
-title: "Finding Post Processing"
-category: "hook"
-type: "dataProcessing"
-state: "released"
-usecase: "Updates fields for findings meeting specified conditions."
----
 
 <p align="center">
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Apache-2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>
@@ -31,65 +24,70 @@ usecase: "Updates fields for findings meeting specified conditions."
   <a href="https://twitter.com/securecodebox"><img alt="Twitter Follower" src="https://img.shields.io/twitter/follow/securecodebox?style=flat&color=blue&logo=twitter"></a>
 </p>
 
-## What is "Finding Post Processing" Hook about?
-Installing the _Finding Post Processing_ hook will add a ReadAndWrite Hook to your namespace,
-which can be used to add or update fields from your findings meeting specified conditions.
+## What is OWASP secureCodeBox?
+
+<p align="center">
+  <img alt="secureCodeBox Logo" src="https://docs.securecodebox.io/img/Logo_Color.svg" width="250px">
+</p>
+
+_[OWASP secureCodeBox][scb-github]_ is an automated and scalable open source solution that can be used to integrate various *security vulnerability scanners* with a simple and lightweight interface. The _secureCodeBox_ mission is to support *DevSecOps* Teams to make it easy to automate security vulnerability testing in different scenarios.
+
+With the _secureCodeBox_ we provide a toolchain for continuous scanning of applications to find the low-hanging fruit issues early in the development process and free the resources of the penetration tester to concentrate on the major security issues.
+
+The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To install it you need [Helm](https://helm.sh), a package manager for Kubernetes. It is also possible to start the different integrated security vulnerability scanners based on a docker infrastructure.
+
+### Quickstart with secureCodeBox on kubernetes
+
+You can find resources to help you get started on our [documentation website](https://docs.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://docs.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://docs.securecodebox.io/docs/getting-started/first-scans) with it.
+
+## What is "Update Field" Hook about?
+
+> ✍ This documentation is currently work-in-progress.
 
 ## Deployment
-The finding-post-processing `scanType` can be deployed via helm:
+The update-field-hook `scanType` can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install finding-post-processing secureCodeBox/finding-post-processing
+helm upgrade --install update-field-hook secureCodeBox/update-field-hook
 ```
+
+## Contributing
+
+Contributions are welcome and extremely helpful 🙌
+Please have a look at [Contributing](./CONTRIBUTING.md)
+
+## Community
+
+You are welcome, please join us on... 👋
+
+- [GitHub][scb-github]
+- [Slack][scb-slack]
+- [Twitter][scb-twitter]
+
+secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## Requirements
 
 Kubernetes: `>=v1.11.0-0`
 
 ## Additional Chart Configurations
+Installing the _Update Field_ hook will add a ReadAndWrite Hook to your namespace, which can be used to add or update fields from your findings.
 
-### Rule Configuration
-The _rules_ can be defined in the `values` of the HelmChart.
-The syntax and semantic for these rules are quite similar to CascadingRules (See: [secureCodeBox | CascadingRules](/docs/api/crds/cascading-rule))
-
-To define rules you will have to provide the `rules` field with one or more `matches` elements.
-Each `machtes` defines one Rule.
-For example:
-
-```yaml
-rules:
-  - matches:
-      anyOf:
-        - category: "Open Port"
-          attributes:
-            port: 23
-            state: open
-    override:
-      severity: "high"
-      description: "Telnet is bad"
+```bash
+helm upgrade --install ufh secureCodeBox/update-field --set attribute.name="category" --set attribute.value="my-own-category"
 ```
-
-This rule will match all findings with an open port on 23 and override the severity for this finding with `high` as well as providing a new description `Telnet is bad!`.
-
-#### matches
-
-Within the `matches` you will have to provide `anyOf` and `override`.
-In the `anyOff` contains one or more conditions to be met by the finding to match the rule.
-Notice that only one of these elements needs to match the finding for the rule to match.
-
-#### override
-
-The `override` field specifies the desired fields and values that need to be updated or added if the rule is matching.
+> ✍ This documentation is currently work-in-progress.
 
 ## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| attribute.name | string | `"category"` | The name of the attribute you want to add to each finding result |
+| attribute.value | string | `"my-own-category"` | The value of the attribute you want to add to each finding result |
 | hookJob.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
-| image.repository | string | `"docker.io/securecodebox/finding-post-processing"` | Hook image repository |
+| image.repository | string | `"docker.io/securecodebox/update-field"` | Hook image repository |
 | image.tag | string | defaults to the charts version | The image Tag defaults to the charts version if not defined. |
-| rules | list | `[]` |  |
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -103,4 +101,3 @@ Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 [scb-twitter]: https://twitter.com/secureCodeBox
 [scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
 [scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
-

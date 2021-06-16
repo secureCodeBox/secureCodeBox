@@ -45,18 +45,14 @@ You can find resources to help you get started on our [documentation website](ht
 - tagged releases, e.g. `v2.7.0-alpha1`
 
 ## How to use this image
-This `hook` image is intended to work in combination with other `parser` images to read or manipulate `findings` results. For more informations details please take a look at the [project page][scb-docs] or [documentation page][https://docs.securecodebox.io/docs/hooks/cascading-scans].
+This `hook` image is intended to work in combination with other `parser` images to read or manipulate `findings` results. For more informations details please take a look at the [project page][scb-docs] or [documentation page][https://docs.securecodebox.io/docs/hooks/generic-webhook].
 
 ```bash
-docker pull securecodebox/hook-declarative-subsequent-scans
+docker pull securecodebox/hook-generic-webhook
 ```
 
-## What is "Cascading Scans" Hook about?
-The Cascading Scans Hook can be used to orchestrate security scanners based on defined rule sets.
-The so called `CascadingRules` consist of a `matches section which contains one or multiple rules which are compared against `findings`. When a `finding` matches a `rule` the `scanSpec` section will then be used to create a new scan. To customize the scan to match the finding, the [mustache](https://github.com/janl/mustache.js) templating language can be used to reference fields of the finding.
-
-<-- Todo: should be replaced with an valid docs.secureCodeBox.io link as soon as all ADRs are added there -->
-This Hook is based on the ADR https://github.com/secureCodeBox/secureCodeBox/blob/main/docs/adr/adr_0003.md
+## What is "Generic WebHook" Hook about?
+Installing the Generic WebHook hook will add a ReadOnly Hook to your namespace which is capable of sending scan results containing `findings` to a given webhook url.
 
 ## Community
 
