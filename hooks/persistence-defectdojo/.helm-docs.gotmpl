@@ -3,34 +3,38 @@ SPDX-FileCopyrightText: 2020 iteratec GmbH
 
 SPDX-License-Identifier: Apache-2.0
 */ -}}
+
+{{- define "extra.docsSection" -}}
 ---
-title: "DefectDojo"
+ttitle: "DefectDojo"
 category: "hook"
 type: "persistenceProvider"
 state: "released"
 usecase: "Publishes all Scan Reports to OWASP DefectDojo."
 ---
+{{- end }}
 
-## About
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.version" . }}`
+{{- end }}
 
+{{- define "extra.chartAboutSection" -}}
+## What is "Persistence DefectDojo" Hook about?
 The DefectDojo hook imports the reports from scans automatically into [OWASP DefectDojo](https://www.defectdojo.org/).
-The hook uses the import scan [API from DefectDojo](https://defectdojo.readthedocs.io/en/latest/api-v2-docs.html) to import the scan results.
+The hook uses the import scan [API v2 from DefectDojo](https://defectdojo.readthedocs.io/en/latest/api-v2-docs.html) to import the scan results.
 
 This means that only scan types are supported by the hook which are both supported by the secureCodeBox and DefectDojo.
 These are:
 
 - Nmap
+- Nikto
 - ZAP (Baseline, API Scan and Full Scan)
+- ZAP Advanced
 - SSLyze
 - Trivy
 - Gitleaks
-
-:::caution
-
-Nikto is currently **not** supported even though it's supported by the secureCodeBox and DefectDojo as the secureCodeBox
-uses the Nikto JSON format while DefectDojo uses the XML format.
-
-:::
 
 After uploading the results to DefectDojo, it will use the findings parsed by DefectDojo to overwrite the
 original secureCodeBox findings identified by the parser. This lets you access the finding metadata like the false
@@ -45,8 +49,21 @@ no way to guarantee that one ReadAndWrite hook gets executed before another Read
 run ReadAndWrite hooks.
 ReadOnly hooks work fine with the DefectDojo hook as they are always executed after ReadAndWrite Hooks.
 :::
+{{- end }}
 
-## Runtime Configuration
+{{- define "extra.scannerConfigurationSection" -}}{{- end }}
+
+{{- define "extra.chartConfigurationSection" -}}
+## Additional Chart Configurations
+
+Installing the DefectDojo persistenceProvider hook will add a _ReadOnly Hook_ to your namespace.
+
+```bash
+kubectl create secret generic defectdojo-credentials --from-literal="username=admin" --from-literal="apikey=08b7..."
+
+helm upgrade --install dd secureCodeBox/persistence-defectdojo \
+    --set="defectdojo.url=https://defectdojo-django.default.svc"
+```
 
 The hook will automatically import the scan results into an engagement in DefectDojo.
 If the engagement doesn't exist the hook will create the engagement (CI/CD engagement) and all objects required for it
@@ -117,18 +134,7 @@ spec:
       - "-t"
       - "http://juice-shop.demo-apps.svc:3000"
 ```
+{{- end }}
 
-## Deployment
-
-Installing the DefectDojo persistenceProvider hook will add a _ReadOnly Hook_ to your namespace.
-
-```bash
-kubectl create secret generic defectdojo-credentials --from-literal="username=admin" --from-literal="apikey=08b7..."
-
-helm upgrade --install dd secureCodeBox/persistence-defectdojo \
-    --set="defectdojo.url=https://defectdojo-django.default.svc"
-```
-
-## Chart Configuration
-
-{{ template "chart.valuesTable" . }}
+{{- define "extra.scannerLinksSection" -}}
+{{- end }}
