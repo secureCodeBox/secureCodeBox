@@ -152,7 +152,13 @@ and upload them to a GitHub gist.
 - DEFECTDOJO_USERNAME (e.g admin)
 - DEFECTDOJO_APIKEY= (e.g. b09c.., can be fetched from the DefectDojo Settings)
 - IS_DEV=true
-- SCAN_NAME (e.g nmap-scanme.nmap.org)
+- SCAN_NAME (e.g nmap-scanme.nmap.org, must be set exactly to the name of the scan used in step 2)
 
-5. After running gradle build, start the DefectDojoPersistenceProvider with the following CLI Arguments:
-{Raw Result Download URL} {Findings Download URL} {Raw Result Upload URL} {Findings Upload URL}. E.g. https://gist.githubusercontent.com/.../scanme-nmap-org.xml https://gist.githubusercontent.com/.../nmap-findings.json https://httpbin.org/put https://httpbin.org/put
+5. Build the jar with gradle and run it with the following CLI arguments: {Raw Result Download URL} {Findings Download URL} {Raw Result Upload URL} {Findings Upload URL}.
+See the code snippet below. You have to adjust the filename of the jar for other versions than the '0.1.0-SNAPSHOT'.
+Also you will need to change the download URLs for the Raw Result and Findings to the ones from Step 3. 
+
+```bash
+./gradlew build
+java -jar build/libs/defectdojo-persistenceprovider-0.1.0-SNAPSHOT.jar https://gist.githubusercontent.com/.../scanme-nmap-org.xml https://gist.githubusercontent.com/.../nmap-findings.json https://httpbin.org/put https://httpbin.org/put
+```
