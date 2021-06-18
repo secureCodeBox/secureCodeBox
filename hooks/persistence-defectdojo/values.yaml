@@ -8,7 +8,7 @@
 
 image:
   # image.repository -- Hook image repository
-  repository: docker.io/securecodebox/persistence-defectdojo
+  repository: docker.io/securecodebox/hook-persistence-defectdojo
   # -- Container image tag
   # @default -- defaults to the charts version
   tag: null

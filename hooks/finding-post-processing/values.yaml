@@ -8,7 +8,7 @@
 
 image:
   # image.repository -- Hook image repository
-  repository: docker.io/securecodebox/finding-post-processing
+  repository: docker.io/securecodebox/hook-finding-post-processing
   # image.tag -- The image Tag defaults to the charts version if not defined.
   # @default -- defaults to the charts version
   tag: null

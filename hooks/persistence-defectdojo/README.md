@@ -134,5 +134,5 @@ helm upgrade --install dd secureCodeBox/persistence-defectdojo \
 | defectdojo.syncFindingsBack | bool | `true` | Syncs back (two way sync) all imported findings from DefectDojo to SCB Findings Store, set to false to only import the findings to DefectDojo (one way sync). |
 | defectdojo.url | string | `"http://defectdojo-django.default.svc"` | Url to the DefectDojo Instance |
 | image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
-| image.repository | string | `"docker.io/securecodebox/persistence-defectdojo"` | Hook image repository |
+| image.repository | string | `"docker.io/securecodebox/hook-persistence-defectdojo"` | Hook image repository |
 | image.tag | string | `nil` | Container image tag |
