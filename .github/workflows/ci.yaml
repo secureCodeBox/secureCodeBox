@@ -771,12 +771,12 @@ jobs:
             --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)"
           helm -n integration-tests install http-webhook ./demo-apps/http-webhook --wait
 
-          helm -n integration-tests install notification-hook ./hooks/notification-hook --values tests/integration/hooks/__testFiles__/notification-hook-values.yaml \
+          helm -n integration-tests install notification-hook ./hooks/notification --values tests/integration/hooks/__testFiles__/notification-values.yaml \
             --set="image.repository=docker.io/${{env.DOCKER_NAMESPACE }}/hook-notification" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)"
 
           cd tests/integration/
-          npx jest --ci --color ./hooks/notification-hook.test.js
+          npx jest --ci --color ./hooks/notification.test.js
           helm -n integration-tests uninstall test-scan http-webhook notification-hook
 
       # ---- SSH_SCAN Integration Tests ----
