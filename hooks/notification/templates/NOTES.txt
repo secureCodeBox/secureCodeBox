@@ -1,0 +1,12 @@
+{{- /*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/}}
+Notification hook deployed.
+Will send requests to: 
+{{- range $channel := .Values.notificationChannels }}
+- {{ $channel.type }}: {{ $channel.endPoint }}
+  If matching:
+  {{ $channel.rules | toYaml}}
+{{- end}}

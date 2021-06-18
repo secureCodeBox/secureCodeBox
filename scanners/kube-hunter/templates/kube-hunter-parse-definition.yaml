@@ -1,7 +1,11 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 apiVersion: "execution.securecodebox.io/v1"
 kind: ParseDefinition
 metadata:
   name: "kube-hunter-json"
 spec:
-  image: "{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag | default .Chart.Version }}"
-  ttlSecondsAfterFinished: {{ .Values.parseJob.ttlSecondsAfterFinished }}
+  image: "{{ .Values.parser.image.repository }}:{{ .Values.parser.image.tag | default .Chart.Version }}"
+  ttlSecondsAfterFinished: {{ .Values.parser.image.ttlSecondsAfterFinished }}

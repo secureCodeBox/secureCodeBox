@@ -1,7 +1,7 @@
 {
-  "name": "securecodebox-hooks",
+  "name": "@securecodebox/hooks",
   "version": "1.0.0",
-  "description": "NPM library to easily set up new hooks for the secureCodeBox v2",
+  "description": "NPM library to easily set up new hooks for the secureCodeBox",
   "homepage": "https://www.secureCodeBox.io",
   "repository": {
     "type": "git",
@@ -40,17 +40,17 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@types/jest": "^26.0.21",
-    "jest": "^26.6.3"
+    "jest": "^27.0.3"
   },
   "dependencies": {
     "axios": "^0.21.1"
   },
   "jest": {
     "projects": [
-      "<rootDir>/declarative-subsequent-scans",
+      "<rootDir>/cascading-scans",
       "<rootDir>/finding-post-processing",
       "<rootDir>/generic-webhook",
-      "<rootDir>/notification-hook/src",
+      "<rootDir>/notification/src",
       "<rootDir>/persistence-defectdojo",
       "<rootDir>/persistence-elastic",
       "<rootDir>/teams-webhook",

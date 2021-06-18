@@ -1,15 +1,19 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: "angularjs-csti-scanner"
+  name: "angularjs-csti-scanner{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   extractResults:
     type: acstis-log
     location: "/home/securecodebox/findings.log"
   jobTemplate:
     spec:
-      {{- if .Values.scannerJob.ttlSecondsAfterFinished }}
-      ttlSecondsAfterFinished: {{ .Values.scannerJob.ttlSecondsAfterFinished }}
+      {{- if .Values.scanner.ttlSecondsAfterFinished }}
+      ttlSecondsAfterFinished: {{ .Values.scanner.ttlSecondsAfterFinished }}
       {{- end }}
       backoffLimit: 3
       template:
@@ -17,22 +21,22 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: acstis-scanner
-              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+              image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
               command:
                 - "sh"
                 - "/wrapper.sh"
                 - "-vrl"
                 - "/home/securecodebox/findings.log"
               resources:
-                {{- toYaml .Values.scannerJob.resources | nindent 16 }}
+                {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:
-                {{- toYaml .Values.scannerJob.securityContext | nindent 16 }}
+                {{- toYaml .Values.scanner.securityContext | nindent 16 }}
               env:
-                {{- toYaml .Values.scannerJob.env | nindent 16 }}
+                {{- toYaml .Values.scanner.env | nindent 16 }}
               volumeMounts:
-                {{- toYaml .Values.scannerJob.extraVolumeMounts | nindent 16 }}
-            {{- if .Values.scannerJob.extraContainers }}
-            {{- toYaml .Values.scannerJob.extraContainers | nindent 12 }}
+                {{- toYaml .Values.scanner.extraVolumeMounts | nindent 16 }}
+            {{- if .Values.scanner.extraContainers }}
+            {{- toYaml .Values.scanner.extraContainers | nindent 12 }}
             {{- end }}
           volumes:
-            {{- toYaml .Values.scannerJob.extraVolumes | nindent 12 }}
+            {{- toYaml .Values.scanner.extraVolumes | nindent 12 }}

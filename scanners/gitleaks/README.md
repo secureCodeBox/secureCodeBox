@@ -11,7 +11,7 @@ usecase: "Find potential secrets in repositories"
 
 Gitleaks is a free and open source tool for finding secrets in git repositories.
 These secrets could be passwords, API keys, tokens, private keys or suspicious file names or
-file extensions like *id_rsa*, *.pem*, *htpasswd*. Furthermore gitleaks can scan your whole repository's history
+file extensions like *id_rsa*, *.pem*, *htpasswd*. Furthermore, gitleaks can scan your whole repository's history
 with all commits up to the initial one.
 
 To learn more about gitleaks visit <https://github.com/zricethezav/gitleaks>
@@ -42,7 +42,7 @@ The only mandatory parameters are:
 
 :::info
 If you run gitleaks based on a scheduledScan (e.g. one scan per day) it would be enough to scan all git-commits since the last executed schedule.
-Instead of scanning all commits in the complete git history every day it would safe a lot of resources to scan only all commits of the last day.
+Instead of scanning all commits in the complete git history every day it would save a lot of resources to scan only all commits of the last day.
 
 _Problem is: This is a feature and configuration option gitleaks is currently not supporting._
 
@@ -54,19 +54,20 @@ If you already want to use our implementation (fork) of this feature you can use
 
 ```yaml
 # Corresponding HelmChart Configuration
-image:
-  # image.repository -- Container Image to run the scan
-  repository: docker.io/securecodebox/scanner-gitleaks
-  # image.tag -- defaults to the charts version
-  tag: v7.3.0
+scanner:
+  image:
+    # scanner.image.repository -- Container Image to run the scan
+    repository: docker.io/securecodebox/scanner-gitleaks
+    # scanner.image.tag -- defaults to the charts version
+    tag: v7.3.0
 ```
 
 ### Deployment with extended GitLeaks
 ```bash
 # Install HelmChart (use -n to configure another namespace)
 helm upgrade --install gitleaks secureCodeBox/gitleaks \
-  --set="image.repository=docker.io/securecodebox/scanner-gitleaks" \
-  --set="image.tag=v7.3.0"
+  --set="scanner.image.repository=docker.io/securecodebox/scanner-gitleaks" \
+  --set="scanner.image.tag=v7.3.0"
 ```
 
 ### Additional (Fork) Scanner configuration options
@@ -84,7 +85,7 @@ At this point we provide three rulesets which you can pass to the `--config-path
 - `/home/config_all.toml`: Includes every rule.
 - `/home/config_filenames_only.toml`: Gitleaks scans only file names and extensions.
 - `/home/config_no_generics.toml`: No generic rules like searching for the word *password*. With this option you won't
-find something like **password = Ej2ifDk2jfeo2** but it will reduce resulting false positives.
+find something like **password = Ej2ifDk2jfeo2**, but it will reduce resulting false positives.
 
 If you like to provide your custom ruleset, you can create a configMap and mount it into
 the scan. Checkout the examples for more information about providing your own gitleaks rules config.
@@ -108,13 +109,13 @@ very critical.**
 
 #### Cascading Rules
 
-If you want to scan multiple repositories from github or gitlab automatically at once, you should
+If you want to scan multiple repositories from GitHub or gitlab automatically at once, you should
 take a look at the cascading rules which get triggered by the **git-repo-scanner**.
 For more information on how to use **git-repo-scanner** checkout the
 [Readme](https://github.com/secureCodeBox/secureCodeBox/tree/main/scanners/git-repo-scanner).
 
-For cascading scans on public github repositories you don't need any credentials. For the gitlab
-and private github rules you need to provide an access token via environment. You could do that with
+For cascading scans on public GitHub repositories you don't need any credentials. For the gitlab
+and private GitHub rules you need to provide an access token via environment. You could do that with
 the following commands:
 
 ```bash
@@ -129,17 +130,18 @@ For more information on how to use cascades take a look at
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| image.repository | string | `"docker.io/securecodebox/scanner-gitleaks"` | Container Image to run the scan |
-| image.tag | string | `nil` | defaults to the app version |
-| parseJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
-| parserImage.repository | string | `"docker.io/securecodebox/parser-gitleaks"` | Parser image repository |
-| parserImage.tag | string | defaults to the charts version | Parser image tag |
-| scannerJob.backoffLimit | int | 3 | There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy) |
-| scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
-| scannerJob.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
-| scannerJob.extraVolumeMounts | list | `[{"mountPath":"/home/","name":"gitleaks-config"}]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
-| scannerJob.extraVolumes | list | `[{"configMap":{"name":"gitleaks-config"},"name":"gitleaks-config"}]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
-| scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
-| scannerJob.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
-| scannerJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
-
+| cascadingRules.enabled | bool | `true` | Enables or disables the installation of the default cascading rules for this scanner |
+| parser.image.repository | string | `"docker.io/securecodebox/parser-gitleaks"` | Parser image repository |
+| parser.image.tag | string | defaults to the charts version | Parser image tag |
+| parser.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+| scanner.backoffLimit | int | 3 | There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy) |
+| scanner.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
+| scanner.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
+| scanner.extraVolumeMounts | list | `[{"mountPath":"/home/","name":"gitleaks-config"}]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scanner.extraVolumes | list | `[{"configMap":{"name":"gitleaks-config"},"name":"gitleaks-config"}]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scanner.image.repository | string | `"docker.io/securecodebox/scanner-gitleaks"` | Container Image to run the scan |
+| scanner.image.tag | string | `nil` | defaults to the app version |
+| scanner.nameAppend | string | `nil` | append a string to the default scantype name. |
+| scanner.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
+| scanner.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
+| scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |

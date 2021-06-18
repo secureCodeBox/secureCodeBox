@@ -44,7 +44,7 @@ This Rule will match all Findings with an open port on 23 and override the sever
 
 Within the `matches` you will have to provide `anyOf` and `override`.
 In the `anyOff` contains one or more conditions to be met by the finding to match the rule.
-Notice that only one of this elements needs to match the finding for the rule to match.
+Notice that only one of these elements needs to match the finding for the rule to match.
 
 ### override
 
@@ -54,7 +54,7 @@ The `override` field specifies the desired fields and values that need to be upd
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| hookJob.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
-| image.repository | string | `"docker.io/securecodebox/finding-post-processing"` | Hook image repository |
-| image.tag | string | defaults to the charts version | The image Tag defaults to the charts version if not defined. |
+| hook.image.repository | string | `"docker.io/securecodebox/hook-finding-post-processing"` | Hook image repository |
+| hook.image.tag | string | defaults to the charts version | The image Tag defaults to the charts version if not defined. |
+| hook.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | rules | list | `[]` |  |

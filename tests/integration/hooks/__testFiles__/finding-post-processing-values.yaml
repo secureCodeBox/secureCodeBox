@@ -1,28 +1,18 @@
-# Copyright 2020 iteratec GmbH
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# SPDX-License-Identifier: Apache-2.0
 
 # Default values for dispatcher.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-image:
-  # image.tag - defaults to the charts version
-  # image.repository -- Hook image repository
-  repository: docker.io/securecodebox/finding-post-processing
-  # parserImage.tag -- Parser image tag
-  # @default -- defaults to the charts version
-  tag: null
+hook:
+  image:
+    # hook.image.repository -- Hook image repository
+    repository: docker.io/securecodebox/finding-post-processing
+    # hook.image.tag -- Parser image tag
+    # @default -- defaults to the charts version
+    tag: null
 
 rules:
   - matches:
@@ -31,4 +21,3 @@ rules:
     override:
       severity: "high"
       category: "SomeNewCategory"
-

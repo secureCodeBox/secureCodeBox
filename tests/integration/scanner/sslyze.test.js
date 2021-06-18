@@ -1,10 +1,13 @@
-const retry = require("../retry");
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
 
 const { scan } = require("../helpers");
 
-retry(
+jest.retryTimes(3);
+
+test(
   "Sslyze scans the self-signed unsafe-https demo-app",
-  3,
   async () => {
     const { categories, severities, count } = await scan(
       "sslyze-unsafe-https",
@@ -31,9 +34,8 @@ retry(
   3 * 60 * 1000
 );
 
-retry(
+test(
   "Invalid argument should be marked as errored",
-  3,
   async () => {
     await expect(
       scan("sslyze-invalidArg", "sslyze", ["--invalidArg", "example.com"], 90)

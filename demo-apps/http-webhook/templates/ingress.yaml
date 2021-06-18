@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "http-webhook.fullname" . -}}
 {{- $svcPort := .Values.service.port -}}

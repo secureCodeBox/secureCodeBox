@@ -1,7 +1,0 @@
-Notification hook deployed.
-Will send requests to: 
-{{- range $channel := .Values.notificationChannels }}
-- {{ $channel.type }}: {{ $channel.endPoint }}
-  If matching:
-  {{ $channel.rules | toYaml}}
-{{- end}}

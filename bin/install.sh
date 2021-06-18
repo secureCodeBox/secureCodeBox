@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 # Official installation script for the secureCodeBox
 #
 # Creates namespace, securecodebox-system, and installs the operator.

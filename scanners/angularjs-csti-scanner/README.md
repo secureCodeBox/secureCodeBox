@@ -8,14 +8,14 @@ usecase: "Find AngularJS websites vulnerable to template injections"
 
 ![acstis logo](https://rawgit.com/tijme/angularjs-csti-scanner/master/.github/logo.svg?pypi=png.from.svg)
 
-AngularJS Client-Side Template Injection Scanner (acstis) is a open source scanner for
+AngularJS Client-Side Template Injection Scanner (acstis) is an open source scanner for
 finding possible template injection vulnerabilities on websites using AngularJS.
 
-For more information visit the projects github site <https://github.com/tijme/angularjs-csti-scanner>
+For more information visit the projects GitHub site <https://github.com/tijme/angularjs-csti-scanner>
 
 ## Deployment
 
-The gitleaks scanner can be deployed with helm:
+The acstis scanner can be deployed with helm:
 
 ```bash
 helm upgrade --install acstis secureCodeBox/acstis
@@ -34,10 +34,10 @@ Optional arguments:
 -av ANGULAR_VERSION, --angular-version ANGULAR_VERSION                           manually pass the angular version (e.g. 1.4.2) if the automatic check doesn't work
 -vrl VULNERABLE_REQUESTS_LOG, --vulnerable-requests-log VULNERABLE_REQUESTS_LOG  log all vulnerable requests to this file (e.g. /var/logs/acstis.log or urls.log)
 -siv, --stop-if-vulnerable                                                       (crawler option) stop scanning if a vulnerability was found
--pmm, --protocol-must-match                                                      (crawler option) only scan pages with the same protocol as the startpoint (e.g. only https)
--sos, --scan-other-subdomains                                                    (crawler option) also scan pages that have another subdomain than the startpoint
--soh, --scan-other-hostnames                                                     (crawler option) also scan pages that have another hostname than the startpoint
--sot, --scan-other-tlds                                                          (crawler option) also scan pages that have another tld than the startpoint
+-pmm, --protocol-must-match                                                      (crawler option) only scan pages with the same protocol as the starting point (e.g. only https)
+-sos, --scan-other-subdomains                                                    (crawler option) also scan pages that have another subdomain than the starting point
+-soh, --scan-other-hostnames                                                     (crawler option) also scan pages that have another hostname than the starting point
+-sot, --scan-other-tlds                                                          (crawler option) also scan pages that have another tld than the starting point
 -md MAX_DEPTH, --max-depth MAX_DEPTH                                             (crawler option) the maximum search depth (default is unlimited)
 -mt MAX_THREADS, --max-threads MAX_THREADS                                       (crawler option) the maximum amount of simultaneous threads to use (default is 20)
 -iic, --ignore-invalid-certificates                                              (crawler option) ignore invalid ssl certificates
@@ -47,7 +47,7 @@ Optional arguments:
 
 ### Request configuration
 
-Because *acstis* does not provide provide command line arguments for configuring the sent requests,
+Because *acstis* does not provide command line arguments for configuring the sent requests,
 you have to mount a config map into the scan container on a specific location. Your additional config map should be
  mounted to `/acstis/config/acstis-config.py`. For example create a config map:
 
@@ -55,9 +55,9 @@ you have to mount a config map into the scan container on a specific location. Y
 kubectl create configmap --from-file /path/to/my/acstis-config.py acstis-config
 ```
 
- And mount it into the container:
+Then, mount it into the container:
 
- ```yaml
+```yaml
  volumes:
      - name: "acstis-config"
        configMap:
@@ -134,16 +134,16 @@ options.scope.request_methods = [
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| image.repository | string | `"docker.io/securecodebox/scanner-acstis"` | Container Image to run the scan |
-| image.tag | string | `nil` | defaults to the charts version |
-| parseJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
-| parserImage.repository | string | `"docker.io/securecodebox/parser-acstis"` | Parser image repository |
-| parserImage.tag | string | defaults to the charts version | Parser image tag |
-| scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
-| scannerJob.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
-| scannerJob.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
-| scannerJob.extraVolumes | list | `[]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
-| scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
-| scannerJob.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
-| scannerJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
-
+| parser.image.repository | string | `"docker.io/securecodebox/parser-angularjs-csti-scanner"` | Parser image repository |
+| parser.image.tag | string | defaults to the charts version | Parser image tag |
+| parser.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+| scanner.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
+| scanner.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
+| scanner.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scanner.extraVolumes | list | `[]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scanner.image.repository | string | `"docker.io/securecodebox/scanner-angularjs-csti-scanner"` | Container Image to run the scan |
+| scanner.image.tag | string | `nil` | defaults to the charts version |
+| scanner.nameAppend | string | `nil` | append a string to the default scantype name. |
+| scanner.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
+| scanner.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
+| scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |

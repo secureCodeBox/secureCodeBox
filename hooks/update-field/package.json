@@ -1,7 +1,7 @@
 {
-  "name": "scb-update-field",
+"name": "@securecodebox/hook-update-field",
   "version": "1.0.0",
-  "description": "secureCodeBox v2 Update Field Hook",
+  "description": "secureCodeBox Hook for Update Field",
   "homepage": "https://www.secureCodeBox.io",
   "repository": {
     "type": "git",
@@ -39,6 +39,6 @@
     "lodash.set": "^4.3.2"
   },
   "devDependencies": {
-    "jest": "^26.6.3"
+    "jest": "^27.0.3"
   }
 }

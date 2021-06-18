@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 name: "Update Helm Docs"
 
 on:
@@ -12,6 +16,15 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v3
+        with:
+          gpg-private-key: ${{ secrets.GPG_COMMITS_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_COMMITS_PASSPHRASE }}
+          git-user-signingkey: true
+          git-commit-gpgsign: true
+          commit_options: '--signoff'
+
       - name: Download Helm Docs
         run: |
           mkdir helm-docs
@@ -25,8 +38,9 @@ jobs:
       - name: Generate Helm Docs
         run: |
           ./helm-docs/helm-docs
-          # Remove helm-docs download to ensure they dont get commited back
+          # Remove helm-docs download to ensure they don't get commited back
           rm -rf helm-docs
-      - uses: stefanzweifel/git-auto-commit-action@v4.5.1
+      - uses: stefanzweifel/git-auto-commit-action@v4.11.0
         with:
           commit_message: Updating Helm Docs
+          commit_user_email: securecodebox@iteratec.com

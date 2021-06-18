@@ -1,7 +1,7 @@
 {
-  "name": "scb-teams-webhook",
+"name": "@securecodebox/hook-teams-webhook",
   "version": "1.0.0",
-  "description": "secureCodeBox v2 MS Teams WebHook.",
+  "description": "secureCodeBox Hook for MS Teams WebHook.",
   "homepage": "https://www.secureCodeBox.io",
   "repository": {
     "type": "git",
@@ -40,6 +40,6 @@
     "lodash": "^4.17.20"
   },
   "devDependencies": {
-    "jest": "^26.6.3"
+    "jest": "^27.0.3"
   }
 }

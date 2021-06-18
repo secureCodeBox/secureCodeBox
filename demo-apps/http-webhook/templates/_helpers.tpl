@@ -1,3 +1,8 @@
+{{- /*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
 {{/* vim: set filetype=mustache: */}}
 {{/*
 Expand the name of the chart.
@@ -41,6 +46,9 @@ helm.sh/chart: {{ include "http-webhook.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- if .Values.labels }}
+{{ .Values.labels | toYaml }}
+{{- end }}
 {{- end }}
 
 {{/*
@@ -61,3 +69,7 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{- define "http-webhook.annotations" -}}
+{{ .Values.annotations | toYaml }}
+{{- end -}}

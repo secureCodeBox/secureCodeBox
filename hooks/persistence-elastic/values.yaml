@@ -1,13 +1,10 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 # Default values for dispatcher.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-
-image:
-  # image.repository -- Hook image repository
-  repository: docker.io/securecodebox/persistence-elastic
-  # image.tag -- The image Tag defaults to the charts version if not defined.
-  # @default -- defaults to the charts version
-  tag: null
 
 # indexPrefix -- Define a specific index prefix used for all elasticsearch indices.
 indexPrefix: "scbv2"
@@ -81,6 +78,13 @@ tolerations: []
 
 affinity: {}
 
-hookJob:
-  # hookJob.ttlSecondsAfterFinished -- Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+hook:
+  image:
+    # hook.image.repository -- Hook image repository
+    repository: docker.io/securecodebox/hook-persistence-elastic
+    # hook.image.tag -- The image Tag defaults to the charts version if not defined.
+    # @default -- defaults to the charts version
+    tag: null
+
+  # hook.ttlSecondsAfterFinished -- Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
   ttlSecondsAfterFinished: null

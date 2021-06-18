@@ -1,9 +1,15 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "http-webhook.fullname" . }}
   labels:
     {{- include "http-webhook.labels" . | nindent 4 }}
+  annotations:
+    {{- include "http-webhook.annotations" . | nindent 4 }}
 spec:
 {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -13,12 +19,18 @@ spec:
       {{- include "http-webhook.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      labels:
+        {{- include "http-webhook.selectorLabels" . | nindent 8 }}
+{{/* todo(@J12934) remove podAnnotations in v3, and migrate this to look like the other demo app deployments */}}
+{{- if .Values.annotations }}
+      annotations:
+        {{- include "http-webhook.annotations" . | nindent 8 }}
+{{- else }}
     {{- with .Values.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-      labels:
-        {{- include "http-webhook.selectorLabels" . | nindent 8 }}
+{{- end }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

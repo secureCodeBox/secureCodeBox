@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 In this example we execute an ncrack scan against the intentional vulnerable ssh service (dummy-ssh)
 
 #### Initialize ncrack with lists and dummy-ssh
@@ -17,7 +23,7 @@ helm install dummy-ssh ./demo-apps/dummy-ssh/ --wait
 
 # Install the ncrack scanType and set mount the files from the ncrack-lists Kubernetes secret
 cat <<EOF | helm upgrade --install ncrack ./scanners/ncrack --values -
-scannerJob:
+scanner:
   extraVolumes:
     - name: ncrack-lists
       secret:

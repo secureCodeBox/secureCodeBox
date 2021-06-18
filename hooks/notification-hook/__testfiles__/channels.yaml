@@ -1,5 +1,0 @@
-- name: slack
-  type: slack
-  template: messageCard
-  rules: []
-  endPoint: "some.url"

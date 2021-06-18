@@ -16,7 +16,7 @@ To learn more about the Ncrack scanner itself visit [Ncrack GitHub] or [Ncrack W
 ## Ncrack Deployment & Configuration
 
 #### Setup with custom files:
-If you want to use your own files within the ncrack scan, you have to create a secret first:
+If you want to use your own files within the Ncrack scan, you have to create a secret first:
 
 ```bash
 kubectl create secret generic --from-file users.txt --from-file passwords.txt ncrack-lists
@@ -25,11 +25,11 @@ kubectl create secret generic --from-file users.txt --from-file passwords.txt nc
 <b> IMPORTANT: Use an extra empty line at the end of your files, otherwise the last letter of the last line will be omitted (due to a bug in k8) </b>
 
 Now we created a secret named "ncrack-lists".
-But before we can use the files, we have to install the ncrack ScanType:
+Before we can use the files, we have to install the Ncrack ScanType:
 
 ```bash
 cat <<EOF | helm install ncrack ./scanners/ncrack --values -
-scannerJob:
+scanner:
   extraVolumes:
     - name: ncrack-lists
       secret:
@@ -42,7 +42,7 @@ EOF
 
 This enables us now to refer to our files via `/ncrack/<file>` in the scan.yaml.
 
-For a full example on how to configure ncrack with your custom files against a ssh service, see the "dummy-ssh" example.
+For a full example on how to configure Ncrack with your custom files against a ssh service, see the "dummy-ssh" example.
 
 #### Basic setup (no files can be mounted):
 
@@ -139,7 +139,7 @@ SEE THE MAN PAGE (http://nmap.org/ncrack/man.html) FOR MORE OPTIONS AND EXAMPLES
 
 ## Password encryption
 
-Because **Ncrack** findings are very sensitive you probably don't want every *secureCodeBox* user to see them. In order
+Because **Ncrack** findings are very sensitive, you probably don't want every *secureCodeBox* user to see them. In order
 to address this issue we provide an option that lets you encrypt found passwords with public key crypto. Just
 generate a key pair with openssl:
 
@@ -170,21 +170,23 @@ base64 encryptedPassword -d | openssl rsautl -decrypt -inkey key.pem -out decryp
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| cascadingRules.enabled | bool | `true` | Enables or disables the installation of the default cascading rules for this scanner |
 | encryptPasswords.existingSecret | string | `nil` | secret name with a pem encoded rsa public key to encrypt identified passwords |
 | encryptPasswords.key | string | `"public.key"` | name of the property in the secret with the pem encoded rsa public key |
-| image.repository | string | `"docker.io/securecodebox/scanner-ncrack"` | Container Image to run the scan |
-| image.tag | string | `nil` | defaults to the charts appVersion |
-| parseJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
-| parserImage.repository | string | `"docker.io/securecodebox/parser-ncrack"` | Parser image repository |
-| parserImage.tag | string | defaults to the charts version | Parser image tag |
-| scannerJob.backoffLimit | int | 3 | There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy) |
-| scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
-| scannerJob.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
-| scannerJob.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
-| scannerJob.extraVolumes | list | `[]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
-| scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
-| scannerJob.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
-| scannerJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+| parser.image.repository | string | `"docker.io/securecodebox/parser-ncrack"` | Parser image repository |
+| parser.image.tag | string | defaults to the charts version | Parser image tag |
+| parser.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+| scanner.backoffLimit | int | 3 | There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy) |
+| scanner.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
+| scanner.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
+| scanner.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scanner.extraVolumes | list | `[]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scanner.image.repository | string | `"docker.io/securecodebox/scanner-ncrack"` | Container Image to run the scan |
+| scanner.image.tag | string | `nil` | defaults to the charts appVersion |
+| scanner.nameAppend | string | `nil` | append a string to the default scantype name. |
+| scanner.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
+| scanner.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
+| scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 
 ---
 

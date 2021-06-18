@@ -21,13 +21,13 @@ helm upgrade --install gitleaks secureCodeBox/git-repo-scanner
 
 ## Scanner configuration
 
-The scanner options can be divided into two groups for gitlab and github. You can choose the git
+The scanner options can be divided into two groups for Gitlab and GitHub. You can choose the git
 repository type with the option:
 
 ```bash
 --git-type github
 or
---git-type gitlab
+--git-type Gitlab
 ```
 
 #### GitHub
@@ -37,12 +37,12 @@ For type GitHub you can use the following options:
 - `--access-token`: Your personal GitHub access token.
 - `--ignore-repos`: A list of GitHub repository ids you want to ignore
 - `--obey-rate-limit`: True to obey the rate limit of the GitHub server (default), otherwise False
-- `--activity-since-duration`: Return git repo findings with repo activity (e.g. commits) more recent than a specific date expresed by an duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each
+- `--activity-since-duration`: Return git repo findings with repo activity (e.g. commits) more recent than a specific date expressed by a duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each
                                with optional fraction and a unit suffix, such as '1h' or '2h45m'. Valid time units are 'm', 'h', 'd', 'w'.
-- `--activity-until-duration`: Return git repo findings with repo activity (e.g. commits) older than a specific date expresed by an duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each with
+- `--activity-until-duration`: Return git repo findings with repo activity (e.g. commits) older than a specific date expressed by a duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each with
                                optional fraction and a unit suffix, such as '1h' or '2h45m'. Valid time units are 'm', 'h', 'd', 'w'.
 
-For now only organizations are supported so the option is mandatory. We **strongly recommend** providing an access token
+For now only organizations are supported, so the option is mandatory. We **strongly recommend** providing an access token
 for authentication. If not provided the rate limiting will kick in after about 30 repositories scanned.
 
 #### GitLab
@@ -53,29 +53,29 @@ For type GitLab you can use the following options:
 - `--ignore-groups`: A list of GitLab group ids you want to ignore
 - `--ignore-repos`: A list of GitLab project ids you want to ignore
 - `--obey-rate-limit`: True to obey the rate limit of the GitLab server (default), otherwise False
-- `--activity-since-duration`: Return git repo findings with repo activity (e.g. commits) more recent than a specific date expresed by an duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each
+- `--activity-since-duration`: Return git repo findings with repo activity (e.g. commits) more recent than a specific date expressed by a duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each
                                with optional fraction and a unit suffix, such as '1h' or '2h45m'. Valid time units are 'm', 'h', 'd', 'w'.
-- `--activity-until-duration`: Return git repo findings with repo activity (e.g. commits) older than a specific date expresed by an duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each with
+- `--activity-until-duration`: Return git repo findings with repo activity (e.g. commits) older than a specific date expressed by a duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each with
                                optional fraction and a unit suffix, such as '1h' or '2h45m'. Valid time units are 'm', 'h', 'd', 'w'.
 
-For gitlab the url and the access token is mandatory. If you don't provide a specific group id all projects
-on the gitlab server are going to be discovered.
+For Gitlab, the url and the access token is mandatory. If you don't provide a specific group id, all projects
+on the Gitlab server are going to be discovered.
 
 ## Chart Configuration
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| image.repository | string | `"docker.io/securecodebox/scanner-git-repo-scanner"` | Container Image to run the scan |
-| image.tag | string | `nil` | defaults to the charts version |
-| parseJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
-| parserImage.repository | string | `"docker.io/securecodebox/parser-git-repo-scanner"` | Parser image repository |
-| parserImage.tag | string | defaults to the charts version | Parser image tag |
-| scannerJob.backoffLimit | int | 3 | There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy) |
-| scannerJob.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
-| scannerJob.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
-| scannerJob.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
-| scannerJob.extraVolumes | list | `[]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
-| scannerJob.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
-| scannerJob.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
-| scannerJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
-
+| parser.image.repository | string | `"docker.io/securecodebox/parser-git-repo-scanner"` | Parser image repository |
+| parser.image.tag | string | defaults to the charts version | Parser image tag |
+| parser.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+| scanner.backoffLimit | int | 3 | There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy) |
+| scanner.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
+| scanner.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
+| scanner.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scanner.extraVolumes | list | `[]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scanner.image.repository | string | `"docker.io/securecodebox/scanner-git-repo-scanner"` | Container Image to run the scan |
+| scanner.image.tag | string | `nil` | defaults to the charts version |
+| scanner.nameAppend | string | `nil` | append a string to the default scantype name. |
+| scanner.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
+| scanner.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
+| scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |

@@ -1,0 +1,32 @@
+{#
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+#}
+subject: New {{ scan.spec.scanType }} security scan resulsts are available!
+text: |
+  *Scan {{ scan.metadata.name }}*
+  Created at {{ scan.metadata.creationTimestamp }}
+
+  *Findings Severity Overview*:
+  {% for severity, counter in scan.status.findings.severities -%}
+  {{ severity }}: {{ counter }}
+  {% endfor %}
+  *Findings Category Overview*:
+  {% for category, counter in scan.status.findings.categories -%}
+  {{ category }}: {{ counter }}
+  {% endfor %}
+html: |
+  <strong>Scan {{ scan.metadata.name }}</strong><br>
+  Created at {{ scan.metadata.creationTimestamp }}
+  <br>
+  <br>
+  <strong>Findings Severity Overview:</strong><br>
+  {% for severity, counter in scan.status.findings.severities -%}
+  {{ severity }}: {{ counter }}<br>
+  {% endfor %}
+  <br>
+  <strong>Findings Category Overview:</strong><br>
+  {% for category, counter in scan.status.findings.categories -%}
+  {{ category }}: {{ counter }}<br>
+  {% endfor %}

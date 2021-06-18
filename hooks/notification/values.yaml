@@ -1,0 +1,45 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# Default values for dispatcher.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+hook:
+  image:
+    # hook.image.repository -- Hook image repository
+    repository: docker.io/securecodebox/hook-notification
+    # hook.image.tag -- Image tag
+    # @default -- defaults to the charts version
+    tag: null
+    pullPolicy: Always
+
+  # hook.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+  ttlSecondsAfterFinished: null
+
+notificationChannels:
+  - name: slack
+    type: slack
+    template: slack-messageCard
+    rules:
+      - matches:
+          anyOf:
+            - category: "Open Port"
+    endPoint: SOME_ENV_KEY
+
+customTemplateMap:
+  exists: false
+  name: config-map-name
+
+env:
+  - name: SOME_ENV_KEY
+    valueFrom:
+      secretKeyRef:
+        name: some-secret
+        key: some-key
+  - name: SMTP_CONFIG
+    valueFrom:
+      secretKeyRef:
+        name: some-secret
+        key: smtp-config-key

@@ -1,7 +1,7 @@
 {
-  "name": "scb-finding-post-processing",
+"name": "@securecodebox/hook-finding-post-processing",
   "version": "1.0.0",
-  "description": "secureCodeBox v2 Finding Post Processing Hook",
+  "description": "secureCodeBox Finding Post Processing Hook",
   "main": "hook.js",
   "scripts": {
     "build": "npx typescript hook.ts --sourceMap",
@@ -36,6 +36,6 @@
     "lodash": "^4.17.20"
   },
   "devDependencies": {
-    "jest": "^26.6.3"
+    "jest": "^27.0.3"
   }
 }

@@ -1,0 +1,71 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zap-advanced-scan-config
+data:
+  2-zap-advanced-scan.yaml: |-
+
+    # ZAP Contexts Configuration 
+    contexts:
+      # Name to be used to refer to this context in other jobs, mandatory
+      - name: scb-bodgeit-context
+        # The top level url, mandatory, everything under this will be included
+        url: http://bodgeit.default.svc:8080/bodgeit/
+        # An optional list of regexes to include
+        includePaths:
+          - "http://bodgeit.default.svc:8080/bodgeit.*"
+        # An optional list of regexes to exclude
+        excludePaths:
+          - "http://bodgeit.default.svc:8080/bodgeit/logout.jsp"
+          - ".*\\.js"
+          - ".*\\.css"
+          - ".*\\.png"
+          - ".*\\.jpeg"
+
+    # ZAP Spiders Configuration 
+    spiders:
+      - name: scb-bodgeit-spider
+        # String: Name of the context to spider, default: first context
+        context: scb-bodgeit-context
+        # String: Url to start spidering from, default: first context URL
+        url: http://bodgeit.default.svc:8080/bodgeit/
+        # Int: Fail if spider finds less than the specified number of URLs, default: 0
+        failIfFoundUrlsLessThan: 0
+        # Int: Warn if spider finds less than the specified number of URLs, default: 0
+        warnIfFoundUrlsLessThan: 0
+        # Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
+        maxDuration: 3
+        # Int: The maximum tree depth to explore, default 5
+        maxDepth: 5
+        # Int: The maximum number of children to add to each node in the tree                     
+        maxChildren: 10
+        # String: The user agent to use in requests, default: '' - use the default ZAP one               
+        userAgent: "secureCodeBox / ZAP Spider"
+
+---
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "zap-authenticated-baseline-scan-bodgeit"
+  labels:
+    organization: "OWASP"
+spec:
+  scanType: "zap-advanced-scan"
+  parameters:
+    # target URL including the protocol
+    - "-t"
+    - "http://bodgeit.default.svc:8080/bodgeit/"
+  volumeMounts:
+    - name: zap-advanced-scan-config
+      mountPath: /home/securecodebox/configs/2-zap-advanced-scan.yaml
+      subPath: 2-zap-advanced-scan.yaml
+      readOnly: true
+  volumes:
+    - name: zap-advanced-scan-config
+      configMap:
+        name: zap-advanced-scan-config
+

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 name: "CI"
 on: push
 
@@ -41,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        unit: ["git_repo_scanner"]
+        unit: ["git-repo-scanner", "zap-advanced"]
     steps:
       - name: Checkout
         uses: actions/checkout/@v2
@@ -54,13 +58,13 @@ jobs:
       - name: "Install dependencies"
         run: |
           python -m pip install --upgrade pip setuptools wheel
-          pip install -r scanners/git-repo-scanner/scanner/requirements.txt
+          pip install -r scanners/${{ matrix.unit }}/scanner/requirements.txt
 
       - name: "Execute Tests"
-        working-directory: scanners/git-repo-scanner/scanner/
+        working-directory: scanners/${{ matrix.unit }}/scanner/
         run: |
           pip install pytest
-          pytest
+          pytest --ignore-glob='*_local.py' --ignore=tests/docker
 
   # ---- Unit-Test | JavaScript ----
 
@@ -105,7 +109,7 @@ jobs:
           npm ci
       - name: "Compile Typescript"
         run: |
-          cd hooks/declarative-subsequent-scans
+          cd hooks/cascading-scans
           npm run build
       - name: "Run tests & publish code coverage"
         uses: paambaati/codeclimate-action@v2.6.0
@@ -224,10 +228,10 @@ jobs:
     strategy:
       matrix:
         hook:
-          - declarative-subsequent-scans
+          - cascading-scans
           - finding-post-processing
           - generic-webhook
-          - notification-hook
+          - notification
           - persistence-elastic
           - persistence-defectdojo
           - update-field
@@ -240,7 +244,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.hook }}
+          images: ${{ env.DOCKER_NAMESPACE }}/hook-${{ matrix.hook }}
           tag-sha: true
           tag-semver: |
             {{ version }}
@@ -418,6 +422,7 @@ jobs:
           - git-repo-scanner
           - screenshooter
           - test-scan
+          - zap-advanced
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -545,15 +550,16 @@ jobs:
     strategy:
       matrix:
         k8sVersion:
-          - 1.20.0
-          - 1.19.4
-          - 1.18.8
-          - 1.17.11
+          - v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6
+          - v1.20.7@sha256:cbeaf907fc78ac97ce7b625e4bf0de16e3ea725daf6b04f930bd14c67c671ff9
+          - v1.19.11@sha256:07db187ae84b4b7de440a73886f008cf903fcf5764ba8106a9fd5243d6f32729
+          - v1.18.19@sha256:7af1492e19b3192a79f606e43c35fb741e520d195f96399284515f077b3b622c 
     steps:
       - uses: actions/checkout@master
       - name: "Start kind cluster"
         run: |
-          kind create cluster --image kindest/node:v${{ matrix.k8sVersion }} --wait 3m
+          kind version
+          kind create cluster --image kindest/node:${{ matrix.k8sVersion }} --wait 3m
       - name: "Inspect kind cluster"
         run: |
           kubectl config current-context
@@ -607,20 +613,20 @@ jobs:
       - name: "Hooks (ReadAndWrite) Integration Tests"
         run: |
           helm -n integration-tests install update-category ./hooks/update-field/ \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/update-field" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-update-field" \
+            --set="hook.image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="attribute.name=category" \
             --set="attribute.value=fancy-category"
           helm -n integration-tests install update-severity ./hooks/update-field/ \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/update-field" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-update-field" \
+            --set="hook.image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="attribute.name=severity" \
             --set="attribute.value=high"
           helm -n integration-tests install test-scan ./scanners/test-scan/ \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
-            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)"
+            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color generic/read-write-hook.test.js
           helm -n integration-tests uninstall test-scan update-category update-severity
@@ -630,15 +636,15 @@ jobs:
       - name: "Hooks (ReadOnly) Integration Tests"
         run: |
           helm -n integration-tests install test-scan ./scanners/test-scan/ \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
-            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)"
+            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)"
           helm -n integration-tests install http-webhook ./demo-apps/http-webhook
           helm -n integration-tests install ro-hook ./hooks/generic-webhook/ \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/generic-webhook" \
+            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-generic-webhook" \
             --set="webhookUrl=http://http-webhook/hallo-welt" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)"
+            --set="hook.image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color generic/read-only-hook.test.js
           helm -n integration-tests uninstall test-scan http-webhook ro-hook
@@ -648,13 +654,17 @@ jobs:
       - name: "Install Demo Apps"
         run: |
           # Install dummy-ssh app
-          helm -n demo-apps install dummy-ssh ./demo-apps/dummy-ssh/ --wait
+          helm -n demo-apps install dummy-ssh ./demo-apps/dummy-ssh/ --set="fullnameOverride=dummy-ssh" --wait
           # Install unsafe-https app
-          helm -n demo-apps install unsafe-https ./demo-apps/unsafe-https/ --wait
+          helm -n demo-apps install unsafe-https ./demo-apps/unsafe-https/ --set="fullnameOverride=unsafe-https" --wait
           # Install bodgeit app
-          helm -n demo-apps install bodgeit ./demo-apps/bodgeit/ --wait
+          helm -n demo-apps install bodgeit ./demo-apps/bodgeit/ --set="fullnameOverride=bodgeit" --wait
+          # Install bodgeit app
+          helm -n demo-apps install petstore ./demo-apps/swagger-petstore/ --set="fullnameOverride=petstore" --wait
           # Install old-wordpress app
-          helm -n demo-apps install old-wordpress ./demo-apps/old-wordpress/ --wait
+          helm -n demo-apps install old-wordpress ./demo-apps/old-wordpress/ --set="fullnameOverride=old-wordpress" --wait
+          # Install juiceshop app
+          helm -n demo-apps install juiceshop ./demo-apps/juice-shop/ --set="fullnameOverride=juiceshop" --wait
           # Install plain nginx server
           kubectl create deployment --image nginx:alpine nginx --namespace demo-apps
           kubectl expose deployment nginx --port 80 --namespace demo-apps
@@ -665,21 +675,21 @@ jobs:
         run: |
           kubectl -n integration-tests delete scans --all
           helm -n integration-tests install amass ./scanners/amass/ \
-            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-amass" \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-amass" \
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color scanner/amass.test.js
-      
+
       # ---- gitleaks Integration Tests ----
 
       - name: "gitleaks Integration Tests"
         run: |
           kubectl -n integration-tests delete scans --all
           helm -n integration-tests install gitleaks ./scanners/gitleaks/ \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-gitleaks" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-gitleaks" \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-gitleaks" \
+            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-gitleaks" \
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color scanner/gitleaks.test.js
 
@@ -688,10 +698,10 @@ jobs:
       - name: "kube-hunter Integration Tests"
         run: |
           helm -n integration-tests install kube-hunter ./scanners/kube-hunter/ \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-kube-hunter" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-kube-hunter" \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-kube-hunter" \
+            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-kube-hunter" \
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color scanner/kube-hunter.test.js
 
@@ -702,10 +712,10 @@ jobs:
           kubectl create namespace kubeaudit-tests
           helm -n kubeaudit-tests install juice-shop ./demo-apps/juice-shop/ --wait
           helm -n integration-tests install kubeaudit ./scanners/kubeaudit/ \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-kubeaudit" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-kubeaudit" \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-kubeaudit" \
+            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-kubeaudit" \
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="kubeauditScope=cluster"
           cd tests/integration/
           npx jest --ci --color scanner/kubeaudit.test.js
@@ -717,10 +727,10 @@ jobs:
         run: |
           kubectl -n integration-tests delete scans --all
           helm -n integration-tests install ncrack ./scanners/ncrack/ \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-ncrack" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-ncrack" \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-ncrack" \
+            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-ncrack" \
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color scanner/ncrack.test.js
 
@@ -730,10 +740,10 @@ jobs:
         run: |
           kubectl -n integration-tests delete scans --all
           helm -n integration-tests install nikto ./scanners/nikto/ \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nikto" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nikto" \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nikto" \
+            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nikto" \
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color scanner/nikto.test.js
 
@@ -743,10 +753,10 @@ jobs:
         run: |
           kubectl -n integration-tests delete scans --all
           helm -n integration-tests install nmap ./scanners/nmap/ \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nmap" \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \
+            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nmap" \
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color scanner/nmap.test.js
 
@@ -755,18 +765,18 @@ jobs:
       - name: "Notification Hook Tests"
         run: |
           helm -n integration-tests install test-scan ./scanners/test-scan/ \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
-            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)"
+            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)"
           helm -n integration-tests install http-webhook ./demo-apps/http-webhook --wait
 
-          helm -n integration-tests install notification-hook ./hooks/notification-hook --values tests/integration/hooks/__testFiles__/notification-hook-values.yaml \
-            --set="image.repository=docker.io/${{env.DOCKER_NAMESPACE }}/notification-hook" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)"
+          helm -n integration-tests install notification-hook ./hooks/notification --values tests/integration/hooks/__testFiles__/notification-values.yaml \
+            --set="hook.image.repository=docker.io/${{env.DOCKER_NAMESPACE }}/hook-notification" \
+            --set="hook.image.tag=sha-$(git rev-parse --short HEAD)"
 
           cd tests/integration/
-          npx jest --ci --color ./hooks/notification-hook.test.js
+          npx jest --ci --color ./hooks/notification.test.js
           helm -n integration-tests uninstall test-scan http-webhook notification-hook
 
       # ---- SSH_SCAN Integration Tests ----
@@ -775,8 +785,8 @@ jobs:
         run: |
           kubectl -n integration-tests delete scans --all
           helm -n integration-tests install ssh-scan ./scanners/ssh-scan/  \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-ssh-scan"
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-ssh-scan"
           cd tests/integration/
           npx jest --ci --color scanner/ssh-scan.test.js
 
@@ -786,8 +796,8 @@ jobs:
         run: |
           kubectl -n integration-tests delete scans --all
           helm -n integration-tests install sslyze ./scanners/sslyze/  \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-sslyze"
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-sslyze"
           cd tests/integration/
           npx jest --ci --color scanner/sslyze.test.js
 
@@ -797,22 +807,37 @@ jobs:
         run: |
           kubectl -n integration-tests delete scans --all
           helm -n integration-tests install wpscan ./scanners/wpscan/ \
-            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-wpscan" \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-wpscan" \
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color scanner/wpscan.test.js
 
-      
       # ---- Zap Integration Tests ----
 
-      - name: "zap Integration Tests"
+      - name: "ZAP Integration Tests"
         run: |
           kubectl -n integration-tests delete scans --all
           helm -n integration-tests install zap ./scanners/zap/  \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-zap"
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-zap"
           cd tests/integration/
           npx jest --ci --color scanner/zap.test.js
+
+      # ---- Zap Extended Integration Tests ----
+
+      - name: "ZAP Extended Integration Tests"
+        # disable zap extended test temporarily as they slow down the pipeline too much
+        if: ${{ false }}
+        run: |
+          kubectl -n integration-tests delete scans --all
+          helm -n integration-tests install zap-advanced ./scanners/zap-advanced/  \
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-zap" \
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-zap-advanced" \
+            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)"
+          kubectl apply -f ./scanners/zap-advanced/examples/integration-tests/scantype-configMap.yaml -n integration-tests
+          cd tests/integration/
+          npx jest --ci --color scanner/zap-advanced.test.js
 
       # ---- Cascading Scans ncrack Integration Test ----
 
@@ -821,27 +846,27 @@ jobs:
           kubectl -n integration-tests delete scans --all
           # We'll run these in a separate namespace so that only the cascadingRules we want to test will be used
           kubectl create namespace cascading-tests
-          # Install declarative-subsequent-scans hook
-          helm upgrade --install dssh ./hooks/declarative-subsequent-scans/ -n cascading-tests \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/declarative-subsequent-scans" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)"
+          # Install cascading-scans hook
+          helm upgrade --install dssh ./hooks/cascading-scans/ -n cascading-tests \
+            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-cascading-scans" \
+            --set="hook.image.tag=sha-$(git rev-parse --short HEAD)"
           # Install nmap
           helm -n cascading-tests install nmap ./scanners/nmap/ \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nmap" \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \
+            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nmap" \
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)"
           # Install ncrack
           printf "root\nadmin\n" > users.txt
           printf "THEPASSWORDYOUCREATED\n123456\npassword\n" > passwords.txt
           kubectl create secret generic --from-file users.txt --from-file passwords.txt ncrack-lists -n cascading-tests
           cat <<EOF | helm -n cascading-tests install ncrack ./scanners/ncrack \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-ncrack" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-ncrack" \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-ncrack" \
+            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-ncrack" \
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
             --values -
-          scannerJob:
+          scanner:
             extraVolumes:
               - name: ncrack-lists
                 secret:
@@ -864,22 +889,22 @@ jobs:
           kubectl -n integration-tests delete scans --all
           # We'll run these in a separate namespace so that only the cascadingRules we want to test will be used
           kubectl create namespace cascading-tests
-          # Install declarative-subsequent-scans hook
-          helm upgrade --install dssh ./hooks/declarative-subsequent-scans/ -n cascading-tests --wait \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/declarative-subsequent-scans" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)"
+          # Install cascading-scans hook
+          helm upgrade --install dssh ./hooks/cascading-scans/ -n cascading-tests --wait \
+            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-cascading-scans" \
+            --set="hook.image.tag=sha-$(git rev-parse --short HEAD)"
           # Install unsafe-https
           helm upgrade --install unsafe-https ./demo-apps/unsafe-https/ -n cascading-tests --wait
           # Install nmap
           helm -n cascading-tests install nmap ./scanners/nmap/ --wait \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nmap" \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \
+            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nmap" \
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)"
           # Install sslyze
           helm -n cascading-tests install sslyze ./scanners/sslyze/ --wait \
-            --set="parserImage.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-sslyze" \
-            --set="parserImage.tag=sha-$(git rev-parse --short HEAD)"
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-sslyze" \
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)"
           # Actually run the tests
           cd tests/integration/
           npx jest --ci --color scanner/cascade-nmap-sslyze.test.js
@@ -892,14 +917,16 @@ jobs:
       - name: Inspect Post Failure
         if: failure()
         run: |
-          echo "HelmCharts in all namespaces"
+          echo "List all 'HelmCharts' in all namespaces"
           helm list --all-namespaces
-          echo "Scans in all namespaces"
+          echo "List all 'Scans' in all namespaces"
           kubectl -n integration-tests get scan -o wide --all-namespaces
-          echo "Jobs in all namespaces"
+          echo "List all 'Jobs' in all namespaces"
           kubectl -n integration-tests get jobs -o wide --all-namespaces
-          echo "Pods in all namespaces"
+          echo "List all 'Pods' in all namespaces"
           kubectl -n integration-tests get pods -o wide --all-namespaces
+          echo "List all 'Services' in all namespaces"
+          kubectl -n integration-tests get services -o wide --all-namespaces
 
       - name: "Inspect Operator"
         if: failure()

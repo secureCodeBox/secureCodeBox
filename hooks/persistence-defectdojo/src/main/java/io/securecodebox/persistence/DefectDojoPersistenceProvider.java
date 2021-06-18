@@ -1,33 +1,22 @@
-/*
- *  secureCodeBox (SCB)
- *  Copyright 2015-2021 iteratec GmbH
- *  https://www.iteratec.com
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  	http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
+// SPDX-FileCopyrightText: 2020 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
 package io.securecodebox.persistence;
 
 import io.securecodebox.persistence.config.PersistenceProviderConfig;
 import io.securecodebox.persistence.defectdojo.config.DefectDojoConfig;
+import io.securecodebox.persistence.defectdojo.models.ScanFile;
 import io.securecodebox.persistence.defectdojo.service.EndpointService;
 import io.securecodebox.persistence.mapping.DefectDojoFindingToSecureCodeBoxMapper;
 import io.securecodebox.persistence.models.Scan;
 import io.securecodebox.persistence.service.KubernetesService;
 import io.securecodebox.persistence.service.S3Service;
 import io.securecodebox.persistence.strategies.VersionedEngagementsStrategy;
+import io.securecodebox.persistence.util.ScanNameMapping;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import java.net.URL;
 import java.util.stream.Collectors;
 
 public class DefectDojoPersistenceProvider {
@@ -46,17 +35,27 @@ public class DefectDojoPersistenceProvider {
     scan.validate();
 
     var config = DefectDojoConfig.fromEnv();
-
-    LOG.info("Downloading Scan Report (RawResults)");
-    var rawResults = s3Service.downloadRawResults(persistenceProviderConfig.getRawResultDownloadUrl());
-    LOG.info("Finished Downloading Scan Report (RawResults)");
-    LOG.debug("RawResults: {}", rawResults);
+    LOG.info("Downloading Scan Result");
+    String downloadUrl;
+    String scanType = scan.getSpec().getScanType();
+    ScanNameMapping scanNameMapping = ScanNameMapping.bySecureCodeBoxScanType(scanType);
+    if (scanNameMapping == ScanNameMapping.GENERIC) {
+      LOG.debug("No explicit Parser specified for ScanType {}, using Findings JSON Scan Result", scanType);
+      downloadUrl = persistenceProviderConfig.getFindingDownloadUrl();
+    } else {
+      LOG.debug("Explicit Parser is specified for ScanType {}, using Raw Scan Result", scanNameMapping.scanType);
+      downloadUrl = persistenceProviderConfig.getRawResultDownloadUrl();
+    }
+    var scanResults = s3Service.downloadFile(downloadUrl);
+    LOG.info("Finished Downloading Scan Result");
+    LOG.debug("Scan Result: {}", scanResults);
 
     LOG.info("Uploading Findings to DefectDojo at: {}", config.getUrl());
 
     var defectdojoImportStrategy = new VersionedEngagementsStrategy();
     defectdojoImportStrategy.init(config);
-    var defectDojoFindings = defectdojoImportStrategy.run(scan, rawResults);
+    var scanResultFile = new ScanFile(scanResults, FilenameUtils.getName(new URL(downloadUrl).getPath()));
+    var defectDojoFindings = defectdojoImportStrategy.run(scan, scanResultFile);
 
     LOG.info("Identified total Number of findings in DefectDojo: {}", defectDojoFindings.size());
 

@@ -1,3 +1,8 @@
+{{- /*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
 ---
 title: "Ncrack"
 category: "scanner"
@@ -16,7 +21,7 @@ To learn more about the Ncrack scanner itself visit [Ncrack GitHub] or [Ncrack W
 ## Ncrack Deployment & Configuration
 
 #### Setup with custom files:
-If you want to use your own files within the ncrack scan, you have to create a secret first:
+If you want to use your own files within the Ncrack scan, you have to create a secret first:
 
 ```bash
 kubectl create secret generic --from-file users.txt --from-file passwords.txt ncrack-lists
@@ -26,11 +31,11 @@ kubectl create secret generic --from-file users.txt --from-file passwords.txt nc
 
 
 Now we created a secret named "ncrack-lists". 
-But before we can use the files, we have to install the ncrack ScanType:
+Before we can use the files, we have to install the Ncrack ScanType:
 
 ```bash
 cat <<EOF | helm install ncrack ./scanners/ncrack --values -
-scannerJob:
+scanner:
   extraVolumes:
     - name: ncrack-lists
       secret:
@@ -43,7 +48,7 @@ EOF
 
 This enables us now to refer to our files via `/ncrack/<file>` in the scan.yaml.
 
-For a full example on how to configure ncrack with your custom files against a ssh service, see the "dummy-ssh" example.
+For a full example on how to configure Ncrack with your custom files against a ssh service, see the "dummy-ssh" example.
 
 #### Basic setup (no files can be mounted):
 
@@ -140,7 +145,7 @@ SEE THE MAN PAGE (http://nmap.org/ncrack/man.html) FOR MORE OPTIONS AND EXAMPLES
 
 ## Password encryption
 
-Because **Ncrack** findings are very sensitive you probably don't want every *secureCodeBox* user to see them. In order
+Because **Ncrack** findings are very sensitive, you probably don't want every *secureCodeBox* user to see them. In order
 to address this issue we provide an option that lets you encrypt found passwords with public key crypto. Just
 generate a key pair with openssl:
 

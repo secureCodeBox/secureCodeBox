@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+- name: slack
+  type: slack
+  template: messageCard
+  rules: []
+  endPoint: "some.url"
