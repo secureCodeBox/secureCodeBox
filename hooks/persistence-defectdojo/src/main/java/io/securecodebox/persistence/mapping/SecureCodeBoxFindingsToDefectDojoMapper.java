@@ -1,8 +1,10 @@
 package io.securecodebox.persistence.mapping;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.securecodebox.persistence.models.DefectDojoImportFinding;
@@ -19,6 +21,7 @@ import java.util.*;
 public class SecureCodeBoxFindingsToDefectDojoMapper {
   private static final Logger LOG = LoggerFactory.getLogger(SecureCodeBoxFindingsToDefectDojoMapper.class);
   private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+  private static final ObjectWriter prettyJSONPrinter = new ObjectMapper().writerWithDefaultPrettyPrinter();
 
   public static String fromSecureCodeboxFindingsJson(String scbFindingsJson) throws IOException {
     LOG.debug("Converting SecureCodeBox Findings to DefectDojo Findings");
@@ -35,13 +38,20 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
     return ddFindingJson.toString();
   }
 
-  protected static DefectDojoImportFinding fromSecureCodeBoxFinding(SecureCodeBoxFinding secureCodeBoxFinding){
+  protected static DefectDojoImportFinding fromSecureCodeBoxFinding(SecureCodeBoxFinding secureCodeBoxFinding) throws JsonProcessingException {
     //set basic info
     DefectDojoImportFinding result = new DefectDojoImportFinding();
     result.setTitle(secureCodeBoxFinding.getName());
-    result.setDescription(secureCodeBoxFinding.getDescription());
     result.setSeverity(capitalize(secureCodeBoxFinding.getSeverity().toString()));
     result.setUniqueIdFromTool(secureCodeBoxFinding.getId());
+
+    // set Description as combination of finding description and finding attributes
+    String description = secureCodeBoxFinding.getDescription();
+    if (secureCodeBoxFinding.getAttributes()!=null) {
+      String attributesJson = prettyJSONPrinter.writeValueAsString(secureCodeBoxFinding.getAttributes());
+      description = description + "\n " +  attributesJson;
+    }
+    result.setDescription(description);
 
     //set finding date
     Instant instant;
