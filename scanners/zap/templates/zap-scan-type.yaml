@@ -5,7 +5,7 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: "zap-baseline-scan"
+  name: "zap-baseline-scan{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   extractResults:
     type: zap-xml
@@ -49,7 +49,7 @@ spec:
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: "zap-api-scan"
+  name: "zap-api-scan{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   extractResults:
     type: zap-xml
@@ -92,7 +92,7 @@ spec:
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: "zap-full-scan"
+  name: "zap-full-scan{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   extractResults:
     type: zap-xml

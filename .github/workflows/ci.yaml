@@ -231,7 +231,7 @@ jobs:
           - cascading-scans
           - finding-post-processing
           - generic-webhook
-          - notification-hook
+          - notification
           - persistence-elastic
           - persistence-defectdojo
           - update-field
@@ -244,7 +244,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.hook }}
+          images: ${{ env.DOCKER_NAMESPACE }}/hook-${{ matrix.hook }}
           tag-sha: true
           tag-semver: |
             {{ version }}
@@ -613,12 +613,12 @@ jobs:
       - name: "Hooks (ReadAndWrite) Integration Tests"
         run: |
           helm -n integration-tests install update-category ./hooks/update-field/ \
-            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/update-field" \
+            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-update-field" \
             --set="hook.image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="attribute.name=category" \
             --set="attribute.value=fancy-category"
           helm -n integration-tests install update-severity ./hooks/update-field/ \
-            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/update-field" \
+            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-update-field" \
             --set="hook.image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="attribute.name=severity" \
             --set="attribute.value=high"
@@ -642,7 +642,7 @@ jobs:
             --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)"
           helm -n integration-tests install http-webhook ./demo-apps/http-webhook
           helm -n integration-tests install ro-hook ./hooks/generic-webhook/ \
-            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/generic-webhook" \
+            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-generic-webhook" \
             --set="webhookUrl=http://http-webhook/hallo-welt" \
             --set="hook.image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
@@ -771,12 +771,12 @@ jobs:
             --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)"
           helm -n integration-tests install http-webhook ./demo-apps/http-webhook --wait
 
-          helm -n integration-tests install notification-hook ./hooks/notification-hook --values tests/integration/hooks/__testFiles__/notification-hook-values.yaml \
-            --set="hook.image.repository=docker.io/${{env.DOCKER_NAMESPACE }}/notification-hook" \
+          helm -n integration-tests install notification-hook ./hooks/notification --values tests/integration/hooks/__testFiles__/notification-values.yaml \
+            --set="hook.image.repository=docker.io/${{env.DOCKER_NAMESPACE }}/hook-notification" \
             --set="hook.image.tag=sha-$(git rev-parse --short HEAD)"
 
           cd tests/integration/
-          npx jest --ci --color ./hooks/notification-hook.test.js
+          npx jest --ci --color ./hooks/notification.test.js
           helm -n integration-tests uninstall test-scan http-webhook notification-hook
 
       # ---- SSH_SCAN Integration Tests ----
@@ -848,7 +848,7 @@ jobs:
           kubectl create namespace cascading-tests
           # Install cascading-scans hook
           helm upgrade --install dssh ./hooks/cascading-scans/ -n cascading-tests \
-            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/cascading-scans" \
+            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-cascading-scans" \
             --set="hook.image.tag=sha-$(git rev-parse --short HEAD)"
           # Install nmap
           helm -n cascading-tests install nmap ./scanners/nmap/ \
@@ -891,7 +891,7 @@ jobs:
           kubectl create namespace cascading-tests
           # Install cascading-scans hook
           helm upgrade --install dssh ./hooks/cascading-scans/ -n cascading-tests --wait \
-            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/cascading-scans" \
+            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-cascading-scans" \
             --set="hook.image.tag=sha-$(git rev-parse --short HEAD)"
           # Install unsafe-https
           helm upgrade --install unsafe-https ./demo-apps/unsafe-https/ -n cascading-tests --wait

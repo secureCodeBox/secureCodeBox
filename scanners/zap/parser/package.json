@@ -1,5 +1,5 @@
 {
-  "name": "zap-parser",
+  "name": "@securecodebox/parser-zap",
   "version": "1.0.0",
   "description": "Parses result files for the type: 'zap-xml'",
   "main": "",

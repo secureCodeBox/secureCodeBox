@@ -9,7 +9,7 @@
 hook:
   image:
     # hook.image.repository -- Hook image repository
-    repository: docker.io/securecodebox/cascading-scans
+    repository: docker.io/securecodebox/hook-cascading-scans
     # hook.image.tag -- The image Tag defaults to the charts version if not defined.
     # @default -- defaults to the charts version
     tag: null

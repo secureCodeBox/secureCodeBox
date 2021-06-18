@@ -1,5 +1,5 @@
 {
-  "name": "nmap-parser",
+  "name": "@securecodebox/parser-nmap",
   "version": "1.0.0",
   "description": "Parses result files for the type: 'nmap-xml'",
   "main": "",

@@ -43,7 +43,7 @@ the [Luxon documentation](https://moment.github.io/luxon/docs/manual/formatting.
 | externalElasticStack.enabled | bool | `false` | Enable this when you already have an Elastic Stack running to which you want to send your results |
 | externalElasticStack.kibanaAddress | string | `"https://kibana.example.com"` | The URL of the kibana service used to visualize all findings. |
 | fullnameOverride | string | `""` |  |
-| hook.image.repository | string | `"docker.io/securecodebox/persistence-elastic"` | Hook image repository |
+| hook.image.repository | string | `"docker.io/securecodebox/hook-persistence-elastic"` | Hook image repository |
 | hook.image.tag | string | defaults to the charts version | The image Tag defaults to the charts version if not defined. |
 | hook.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | imagePullSecrets | list | `[]` |  |

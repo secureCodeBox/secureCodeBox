@@ -6,7 +6,7 @@ all: help
 
 .PHONY:
 npm-ci-all: ## Runs npm ci in all node module subfolders.
-# This find construct is basedon https://stackoverflow.com/questions/4210042/how-to-exclude-a-directory-in-find-command/4210072#4210072
+# This find construct is based on https://stackoverflow.com/questions/4210042/how-to-exclude-a-directory-in-find-command/4210072#4210072
 	find . \( \
 		-name '.git' -o \
 		-name '.github' -o \
@@ -23,12 +23,12 @@ npm-ci-all: ## Runs npm ci in all node module subfolders.
 		-name target \) \
 		-prune \
 		-false \
-		-o -type d \
-		-exec test -e '{}'/package.json \; \
+		-o -type f \
+		-iname package.json \
 		-execdir npm ci \;
 
 .PHONY:
-npm-test-all: ## Runs all Jest basedtest suites.
+npm-test-all: ## Runs all Jest based test suites.
 	npm test
 
 .PHONY:

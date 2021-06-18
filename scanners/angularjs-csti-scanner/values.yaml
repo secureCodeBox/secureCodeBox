@@ -19,6 +19,9 @@ scanner:
     # scanner.image.tag -- defaults to the charts version
     tag: null
 
+  # scanner.nameAppend -- append a string to the default scantype name.
+  nameAppend: null
+
   # scanner.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
   ttlSecondsAfterFinished: null
 

@@ -6,7 +6,8 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-rules: []
+rules:
+  []
   #- matches:
   #    anyOf:
   #      - category: "Open Port"
@@ -24,7 +25,7 @@ rules: []
 hook:
   image:
     # hook.image.repository -- Hook image repository
-    repository: docker.io/securecodebox/finding-post-processing
+    repository: docker.io/securecodebox/hook-finding-post-processing
     # hook.image.tag -- The image Tag defaults to the charts version if not defined.
     # @default -- defaults to the charts version
     tag: null

@@ -54,19 +54,20 @@ If you already want to use our implementation (fork) of this feature you can use
 
 ```yaml
 # Corresponding HelmChart Configuration
-image:
-  # image.repository -- Container Image to run the scan
-  repository: docker.io/securecodebox/scanner-gitleaks
-  # image.tag -- defaults to the charts version
-  tag: v7.3.0
+scanner:
+  image:
+    # scanner.image.repository -- Container Image to run the scan
+    repository: docker.io/securecodebox/scanner-gitleaks
+    # scanner.image.tag -- defaults to the charts version
+    tag: v7.3.0
 ```
 
 ### Deployment with extended GitLeaks
 ```bash
 # Install HelmChart (use -n to configure another namespace)
 helm upgrade --install gitleaks secureCodeBox/gitleaks \
-  --set="image.repository=docker.io/securecodebox/scanner-gitleaks" \
-  --set="image.tag=v7.3.0"
+  --set="scanner.image.repository=docker.io/securecodebox/scanner-gitleaks" \
+  --set="scanner.image.tag=v7.3.0"
 ```
 
 ### Additional (Fork) Scanner configuration options
@@ -140,6 +141,7 @@ For more information on how to use cascades take a look at
 | scanner.extraVolumes | list | `[{"configMap":{"name":"gitleaks-config"},"name":"gitleaks-config"}]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
 | scanner.image.repository | string | `"docker.io/securecodebox/scanner-gitleaks"` | Container Image to run the scan |
 | scanner.image.tag | string | `nil` | defaults to the app version |
+| scanner.nameAppend | string | `nil` | append a string to the default scantype name. |
 | scanner.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | scanner.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |

@@ -12,7 +12,7 @@ webhookUrl: "http://example.com"
 hook:
   image:
     # hook.image.repository -- Hook image repository
-    repository: docker.io/securecodebox/generic-webhook
+    repository: docker.io/securecodebox/hook-generic-webhook
     # hook.image.tag -- The image Tag defaults to the charts version if not defined.
     # @default -- defaults to the charts version
     tag: null

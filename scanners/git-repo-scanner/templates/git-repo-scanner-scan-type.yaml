@@ -5,7 +5,7 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: "git-repo-scanner"
+  name: "git-repo-scanner{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   extractResults:
     type: git-repo-scanner-json

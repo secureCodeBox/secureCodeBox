@@ -31,7 +31,7 @@ vulnerabilityManagement:
 hook:
   image:
     # hook.image.repository -- Hook image repository
-    repository: docker.io/securecodebox/teams-webhook
+    repository: docker.io/securecodebox/hook-teams-webhook
     # hook.image.tag -- Image tag
     # @default -- defaults to the charts version
     tag: null

@@ -5,7 +5,7 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: "kubeaudit"
+  name: "kubeaudit{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   extractResults:
     type: kubeaudit-jsonl

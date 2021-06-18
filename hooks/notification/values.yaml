@@ -9,7 +9,7 @@
 hook:
   image:
     # hook.image.repository -- Hook image repository
-    repository: docker.io/securecodebox/notification-hook
+    repository: docker.io/securecodebox/hook-notification
     # hook.image.tag -- Image tag
     # @default -- defaults to the charts version
     tag: null
