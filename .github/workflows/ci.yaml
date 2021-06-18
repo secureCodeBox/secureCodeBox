@@ -613,13 +613,13 @@ jobs:
       - name: "Hooks (ReadAndWrite) Integration Tests"
         run: |
           helm -n integration-tests install update-category ./hooks/update-field/ \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-update-field" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-update-field" \
+            --set="hook.image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="attribute.name=category" \
             --set="attribute.value=fancy-category"
           helm -n integration-tests install update-severity ./hooks/update-field/ \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-update-field" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-update-field" \
+            --set="hook.image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="attribute.name=severity" \
             --set="attribute.value=high"
           helm -n integration-tests install test-scan ./scanners/test-scan/ \
@@ -642,9 +642,9 @@ jobs:
             --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)"
           helm -n integration-tests install http-webhook ./demo-apps/http-webhook
           helm -n integration-tests install ro-hook ./hooks/generic-webhook/ \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-generic-webhook" \
+            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-generic-webhook" \
             --set="webhookUrl=http://http-webhook/hallo-welt" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)"
+            --set="hook.image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color generic/read-only-hook.test.js
           helm -n integration-tests uninstall test-scan http-webhook ro-hook
@@ -772,8 +772,8 @@ jobs:
           helm -n integration-tests install http-webhook ./demo-apps/http-webhook --wait
 
           helm -n integration-tests install notification-hook ./hooks/notification --values tests/integration/hooks/__testFiles__/notification-values.yaml \
-            --set="image.repository=docker.io/${{env.DOCKER_NAMESPACE }}/hook-notification" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)"
+            --set="hook.image.repository=docker.io/${{env.DOCKER_NAMESPACE }}/hook-notification" \
+            --set="hook.image.tag=sha-$(git rev-parse --short HEAD)"
 
           cd tests/integration/
           npx jest --ci --color ./hooks/notification.test.js
@@ -848,8 +848,8 @@ jobs:
           kubectl create namespace cascading-tests
           # Install cascading-scans hook
           helm upgrade --install dssh ./hooks/cascading-scans/ -n cascading-tests \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-cascading-scans" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)"
+            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-cascading-scans" \
+            --set="hook.image.tag=sha-$(git rev-parse --short HEAD)"
           # Install nmap
           helm -n cascading-tests install nmap ./scanners/nmap/ \
             --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \
@@ -891,8 +891,8 @@ jobs:
           kubectl create namespace cascading-tests
           # Install cascading-scans hook
           helm upgrade --install dssh ./hooks/cascading-scans/ -n cascading-tests --wait \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-cascading-scans" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)"
+            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-cascading-scans" \
+            --set="hook.image.tag=sha-$(git rev-parse --short HEAD)"
           # Install unsafe-https
           helm upgrade --install unsafe-https ./demo-apps/unsafe-https/ -n cascading-tests --wait
           # Install nmap

@@ -2,16 +2,16 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-image:
-  # image.repository -- Hook image repository
-  repository: null
-  # image.tag -- Image tag
-  # @default -- defaults to the charts version
-  tag: null
-  pullPolicy: Always
+hook:
+  image:
+    # hook.image.repository -- Hook image repository
+    repository: null
+    # hook.image.tag -- Image tag
+    # @default -- defaults to the charts version
+    tag: null
+    pullPolicy: Always
 
-hookJob:
-  # hookJob.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+  # hook.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
   ttlSecondsAfterFinished: null
 
 notificationChannels:

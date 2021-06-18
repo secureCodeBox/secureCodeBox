@@ -10,8 +10,8 @@ metadata:
     {{- include "cascading-scans.labels" . | nindent 4 }}
 spec:
   type: ReadOnly
-  image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
+  image: "{{ .Values.hook.image.repository }}:{{ .Values.hook.image.tag | default .Chart.Version }}"
   imagePullSecrets:
     - name: "securecodebox"
-  ttlSecondsAfterFinished: {{ .Values.hookJob.ttlSecondsAfterFinished }}
+  ttlSecondsAfterFinished: {{ .Values.hook.ttlSecondsAfterFinished }}
   serviceAccountName: cascading-scans

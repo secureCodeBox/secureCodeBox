@@ -8,9 +8,9 @@ metadata:
   name: {{ include "notification-hook.fullname" . }}
 spec:
   type: ReadOnly
-  imagePullPolicy: "{{ .Values.image.pullPolicy }}" 
-  image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
-  ttlSecondsAfterFinished: {{ .Values.hookJob.ttlSecondsAfterFinished }}
+  imagePullPolicy: "{{ .Values.hook.image.pullPolicy }}"
+  image: "{{ .Values.hook.image.repository }}:{{ .Values.hook.image.tag | default .Chart.Version }}"
+  ttlSecondsAfterFinished: {{ .Values.hook.ttlSecondsAfterFinished }}
   volumes:
     - name: {{ .Release.Name }}-config
       configMap:
