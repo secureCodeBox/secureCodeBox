@@ -7,5 +7,5 @@ kind: ParseDefinition
 metadata:
   name: "nikto-json"
 spec:
-  image: "{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag | default .Chart.Version }}"
-  ttlSecondsAfterFinished: {{ .Values.parseJob.ttlSecondsAfterFinished }}
+  image: "{{ .Values.parser.image.repository }}:{{ .Values.parser.image.tag | default .Chart.Version }}"
+  ttlSecondsAfterFinished: {{ .Values.parser.ttlSecondsAfterFinished }}

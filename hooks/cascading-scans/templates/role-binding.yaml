@@ -7,12 +7,12 @@ kind: RoleBinding
 metadata:
   annotations:
     description: DeclarativeCombinedScansHooks needs to have the rights to create new scans and the usual patch rules to update the scan status
-  name: declarative-combined-scans
+  name: cascading-scans
   namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: declarative-combined-scans
+  name: cascading-scans
 subjects:
   - kind: ServiceAccount
-    name: declarative-combined-scans
+    name: cascading-scans

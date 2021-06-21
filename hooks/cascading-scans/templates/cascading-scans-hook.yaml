@@ -5,12 +5,13 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanCompletionHook
 metadata:
-  name: {{ include "finding-post-processing.fullname" . }}
+  name: {{ include "cascading-scans.fullname" . }}
   labels:
-    {{- include "finding-post-processing.labels" . | nindent 4 }}
+    {{- include "cascading-scans.labels" . | nindent 4 }}
 spec:
-  type: ReadAndWrite
+  type: ReadOnly
   image: "{{ .Values.hook.image.repository }}:{{ .Values.hook.image.tag | default .Chart.Version }}"
-  env:
-    - name: RULES
-      value: {{ .Values.rules | toJson | quote }}
+  imagePullSecrets:
+    - name: "securecodebox"
+  ttlSecondsAfterFinished: {{ .Values.hook.ttlSecondsAfterFinished }}
+  serviceAccountName: cascading-scans

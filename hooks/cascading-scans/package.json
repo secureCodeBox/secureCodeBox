@@ -1,7 +1,7 @@
 {
-  "name": "declarative-subsequent-scans",
+"name": "@securecodebox/hook-cascading-scans",
   "version": "1.0.0",
-  "description": "secureCodeBox v2 Hook to cascade scan in an declarative manner.",
+  "description": "secureCodeBox Hook to cascade scan in an declarative manner.",
   "homepage": "https://www.secureCodeBox.io",
   "repository": {
     "type": "git",
@@ -10,7 +10,7 @@
   "main": "hook.js",
   "scripts": {
     "build": "npx typescript hook.ts --sourceMap",
-    "test": "jest ."
+    "test": "jest . --verbose false"
   },
   "keywords": [
     "secureCodeBox",
@@ -43,6 +43,7 @@
     "mustache": "^4.2.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.169",
     "@types/node": "^14.0.14",
     "jest": "^27.0.3",
     "typescript": "^3.9.5"

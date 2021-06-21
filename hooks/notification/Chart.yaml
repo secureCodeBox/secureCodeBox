@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 apiVersion: v2
-name: notification-hook
+name: notification
 description: Lets you send a findings result summary as hook to MS Teams, Slack, e-mail and others after a scan is completed.
 type: application
 
