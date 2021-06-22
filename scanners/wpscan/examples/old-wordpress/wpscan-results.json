@@ -12,12 +12,12 @@
   },
   "start_time": 1600682567,
   "start_memory": 42774528,
-  "target_url": "http://old-wordpress.demo-apps.svc.cluster.local/",
+  "target_url": "http://old-wordpress.demo-targets.svc.cluster.local/",
   "target_ip": "10.99.82.140",
-  "effective_url": "http://old-wordpress.demo-apps.svc.cluster.local/",
+  "effective_url": "http://old-wordpress.demo-targets.svc.cluster.local/",
   "interesting_findings": [
     {
-      "url": "http://old-wordpress.demo-apps.svc.cluster.local/",
+      "url": "http://old-wordpress.demo-targets.svc.cluster.local/",
       "to_s": "Headers",
       "type": "headers",
       "found_by": "Headers (Passive Detection)",
@@ -34,8 +34,8 @@
       ]
     },
     {
-      "url": "http://old-wordpress.demo-apps.svc.cluster.local/xmlrpc.php",
-      "to_s": "XML-RPC seems to be enabled: http://old-wordpress.demo-apps.svc.cluster.local/xmlrpc.php",
+      "url": "http://old-wordpress.demo-targets.svc.cluster.local/xmlrpc.php",
+      "to_s": "XML-RPC seems to be enabled: http://old-wordpress.demo-targets.svc.cluster.local/xmlrpc.php",
       "type": "xmlrpc",
       "found_by": "Direct Access (Aggressive Detection)",
       "confidence": 100,
@@ -58,8 +58,8 @@
       ]
     },
     {
-      "url": "http://old-wordpress.demo-apps.svc.cluster.local/readme.html",
-      "to_s": "WordPress readme found: http://old-wordpress.demo-apps.svc.cluster.local/readme.html",
+      "url": "http://old-wordpress.demo-targets.svc.cluster.local/readme.html",
+      "to_s": "WordPress readme found: http://old-wordpress.demo-targets.svc.cluster.local/readme.html",
       "type": "readme",
       "found_by": "Direct Access (Aggressive Detection)",
       "confidence": 100,
@@ -74,8 +74,8 @@
       ]
     },
     {
-      "url": "http://old-wordpress.demo-apps.svc.cluster.local/wp-cron.php",
-      "to_s": "The external WP-Cron seems to be enabled: http://old-wordpress.demo-apps.svc.cluster.local/wp-cron.php",
+      "url": "http://old-wordpress.demo-targets.svc.cluster.local/wp-cron.php",
+      "to_s": "The external WP-Cron seems to be enabled: http://old-wordpress.demo-targets.svc.cluster.local/wp-cron.php",
       "type": "wp_cron",
       "found_by": "Direct Access (Aggressive Detection)",
       "confidence": 60,
@@ -100,13 +100,13 @@
     "found_by": "Meta Generator (Passive Detection)",
     "confidence": 100,
     "interesting_entries": [
-      "http://old-wordpress.demo-apps.svc.cluster.local/, Match: 'WordPress 4.0.31'"
+      "http://old-wordpress.demo-targets.svc.cluster.local/, Match: 'WordPress 4.0.31'"
     ],
     "confirmed_by": {
       "Atom Generator (Aggressive Detection)": {
         "confidence": 80,
         "interesting_entries": [
-          "http://old-wordpress.demo-apps.svc.cluster.local/?feed=atom, <generator uri=\"https://wordpress.org/\" version=\"4.0.31\">WordPress</generator>"
+          "http://old-wordpress.demo-targets.svc.cluster.local/?feed=atom, <generator uri=\"https://wordpress.org/\" version=\"4.0.31\">WordPress</generator>"
         ]
       }
     },

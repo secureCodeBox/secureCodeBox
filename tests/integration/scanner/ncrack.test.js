@@ -16,7 +16,7 @@ test(
         "-v",
         "--user=root,admin",
         "--pass=THEPASSWORDYOUCREATED,12345",
-        "ssh://dummy-ssh.demo-apps.svc",
+        "ssh://dummy-ssh.demo-targets.svc",
       ],
       90
     );

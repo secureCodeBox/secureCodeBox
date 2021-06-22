@@ -13,7 +13,7 @@ spec:
   parameters:
     # target URL including the protocol
     - "-t"
-    - "http://bodgeit.demo-apps.svc:8080"
+    - "http://bodgeit.demo-targets.svc:8080"
     # show debug messages
     - "-d"
     # the number of minutes to spider for (default 1)

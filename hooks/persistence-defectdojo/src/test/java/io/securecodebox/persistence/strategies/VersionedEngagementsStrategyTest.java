@@ -64,7 +64,7 @@ public class VersionedEngagementsStrategyTest {
     scan.getMetadata().setNamespace("default");
     scan.setSpec(new V1ScanSpec());
     scan.getSpec().setScanType("zap-baseline-scan");
-    scan.getSpec().setParameters(List.of("-t","http://juice-shop.demo-apps.svc:3000", "-j"));
+    scan.getSpec().setParameters(List.of("-t","http://juice-shop.demo-targets.svc:3000", "-j"));
     scan.setStatus(new V1ScanStatus());
   }
 
