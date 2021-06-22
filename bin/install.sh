@@ -35,7 +35,7 @@ BASE_DIR=$(dirname "${SCRIPT_DIRECTORY}")
 
 INSTALL_INTERACTIVE=''
 INSTALL_SCANNERS=''
-INSTALL_DEMO_APPS=''
+INSTALL_DEMO_TARGETS=''
 INSTALL_HOOKS=''
 
 function print() {
@@ -153,8 +153,7 @@ function installResources() {
       read -r line
 
       if [[ $line == *[Yy] ]]; then
-        local resource_name="${resource//+([_])/-}"
-        helm upgrade --install -n "$namespace" "$resource_name" "$resource_directory"/"$resource"/ \
+        helm upgrade --install -n "$namespace" "$resource" "$resource_directory"/"$resource"/ \
         || print "$COLOR_ERROR" "Installation of '$resource' failed"
       fi
     done
@@ -185,7 +184,7 @@ function interactiveInstall() {
 
   print
   print "Starting to install demo-targets..."
-  print "Do you want to install the demo apps in a separate namespace? Otherwise they will be installed into the [default] namespace [y/N]"
+  print "Do you want to install the demo targets in a separate namespace? Otherwise they will be installed into the [default] namespace [y/N]"
   read -r line
   NAMESPACE="default"
   if [[ $line == *[Yy] ]]; then
@@ -218,7 +217,7 @@ function unattendedInstall() {
     installResources "$BASE_DIR/scanners" "default" True
   fi
 
-  if [[ -n "${INSTALL_DEMO_APPS}" ]]; then
+  if [[ -n "${INSTALL_DEMO_TARGETS}" ]]; then
     print "Starting to install demo-targets..."
     installResources "$BASE_DIR/demo-targets" "default" True
   fi
@@ -244,7 +243,7 @@ function parseArguments() {
             shift # Pop current argument from array
             ;;
           --demo-targets)
-            INSTALL_DEMO_APPS='true'
+            INSTALL_DEMO_TARGETS='true'
             shift
             ;;
           --hooks)
@@ -253,7 +252,7 @@ function parseArguments() {
             ;;
           --all)
             INSTALL_SCANNERS='true'
-            INSTALL_DEMO_APPS='true'
+            INSTALL_DEMO_TARGETS='true'
             INSTALL_HOOKS='true'
             shift
             ;;
