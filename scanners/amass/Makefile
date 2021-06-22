@@ -28,12 +28,15 @@
 #
 # IMG_TAG:			Tag used to tag the newly created image. Defaults to the shortend commit hash
 #								prefixed with `sha-` e.g. `sha-ef8de4b7`
+#
+#	JEST_VERSION  Defines the jest version used for executing the tests. Defaults to latest
 
 SHELL = /bin/sh
 
 IMG_NS ?= securecodebox
 BASE_IMG_TAG ?= latest
 IMG_TAG ?= sha-$$(git rev-parse --short HEAD)
+JEST_VERSION ?= latest
 
 scanner = amass
 scanner-prefix = scanner
@@ -44,10 +47,9 @@ all: | install-deps unit-tests build-images images-export kind-import deploy dep
 .PHONY: unit-tests install-deps build-images images-export kind-import deploy deploy-demo-apps integration-tests all
 
 unit-tests:
-	cd parser && npm test -- --colors --ci --modulePathIgnorePatterns $(scanner).test.js
+	cd parser && npx --yes --package jest@$(JEST_VERSION) jest
 
 install-deps:
-	cd parser && pwd &&  npm ci
 
 build-images:
 	@echo Build With BASE_IMG_TAG: $(BASE_IMG_TAG)
@@ -67,11 +69,10 @@ deploy:
 deploy-test-deps:
 
 install-integration-test-deps:
-	cd ../../tests/integration/ && npm ci
 
 integration-tests:
 	kubectl -n integration-tests delete scans --all
-	cd ../../tests/integration/ && npm test -- --colors --ci $(scanner).test.js
+	cd integration-tests && npx --yes --package jest@$(JEST_VERSION) jest
 
 clean:
 	rm ./$(parser-prefix)-$(scanner).tar
