@@ -31,8 +31,7 @@ function uninstallResources() {
   done
 
   for resource in "${resources[@]}"; do
-    local resource_name="${resource//+([_])/-}" # Necessary because ssh_scan is called ssh-scan
-    helm uninstall "$resource_name" || true
+    helm uninstall "$resource" || true
   done
 }
 

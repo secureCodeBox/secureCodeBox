@@ -142,8 +142,7 @@ function installResources() {
 
   if [[ $unattended == True ]]; then
     for resource in "${resources[@]}"; do
-      local resource_name="${resource//+([_])/-}" # Necessary because ssh_scan is called ssh-scan
-      helm upgrade --install -n "$namespace" "$resource_name" "$resource_directory"/"$resource"/ \
+      helm upgrade --install -n "$namespace" "$resource" "$resource_directory"/"$resource"/ \
       || print "$COLOR_ERROR" "Installation of '$resource' failed"
     done
 
