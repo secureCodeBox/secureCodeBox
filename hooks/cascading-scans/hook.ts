@@ -125,6 +125,7 @@ function getCascadingScan(
       mapValues(cascadingRule.spec.scanLabels, value => Mustache.render(value, templateArgs)),
     scanAnnotations: cascadingRule.spec.scanAnnotations === undefined ? {} :
       mapValues(cascadingRule.spec.scanAnnotations, value => Mustache.render(value, templateArgs)),
+    finding
   };
 }
 

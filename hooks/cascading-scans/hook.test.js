@@ -82,6 +82,16 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", () =
       Object {
         "cascades": Object {},
         "env": undefined,
+        "finding": Object {
+          "attributes": Object {
+            "hostname": "foobar.com",
+            "port": 443,
+            "service": "https",
+            "state": "open",
+          },
+          "category": "Open Port",
+          "name": "Port 443 is open",
+        },
         "generatedBy": "tls-scans",
         "name": "sslyze-foobar.com-tls-scans",
         "parameters": Array [
@@ -145,6 +155,17 @@ test("Should not try to do magic to the scan name if its something random", () =
       Object {
         "cascades": Object {},
         "env": undefined,
+        "finding": Object {
+          "attributes": Object {
+            "hostname": undefined,
+            "ip_address": "10.42.42.42",
+            "port": 443,
+            "service": "https",
+            "state": "open",
+          },
+          "category": "Open Port",
+          "name": "Port 443 is open",
+        },
         "generatedBy": "tls-scans",
         "name": "foobar.com-tls-scans",
         "parameters": Array [
@@ -212,6 +233,16 @@ test("Should not crash when the annotations are not set", () => {
       Object {
         "cascades": Object {},
         "env": undefined,
+        "finding": Object {
+          "attributes": Object {
+            "hostname": "foobar.com",
+            "port": 443,
+            "service": "https",
+            "state": "open",
+          },
+          "category": "Open Port",
+          "name": "Port 443 is open",
+        },
         "generatedBy": "tls-scans",
         "name": "sslyze-foobar.com-tls-scans",
         "parameters": Array [
@@ -268,6 +299,16 @@ test("Should copy ENV fields from cascadingRule to created scan", () => {
             },
           },
         ],
+        "finding": Object {
+          "attributes": Object {
+            "hostname": "foobar.com",
+            "port": 443,
+            "service": "https",
+            "state": "open",
+          },
+          "category": "Open Port",
+          "name": "Port 443 is open",
+        },
         "generatedBy": "tls-scans",
         "name": "sslyze-foobar.com-tls-scans",
         "parameters": Array [
@@ -334,6 +375,16 @@ test("Should allow wildcards in cascadingRules", () => {
       Object {
         "cascades": Object {},
         "env": undefined,
+        "finding": Object {
+          "attributes": Object {
+            "hostname": "foobar.com",
+            "port": 8443,
+            "service": "https-alt",
+            "state": "open",
+          },
+          "category": "Open Port",
+          "name": "Port 8443 is open",
+        },
         "generatedBy": "tls-scans",
         "name": "sslyze-foobar.com-tls-scans",
         "parameters": Array [
@@ -592,6 +643,16 @@ test("should copy scanLabels from CascadingRule to cascading scan", () => {
       Object {
         "cascades": Object {},
         "env": undefined,
+        "finding": Object {
+          "attributes": Object {
+            "hostname": "foobar.com",
+            "port": 443,
+            "service": "https",
+            "state": "open",
+          },
+          "category": "Open Port",
+          "name": "Port 443 is open",
+        },
         "generatedBy": "tls-scans",
         "name": "sslyze-foobar.com-tls-scans",
         "parameters": Array [
@@ -647,6 +708,16 @@ test("should copy scanAnnotations from CascadingRule to cascading scan", () => {
       Object {
         "cascades": Object {},
         "env": undefined,
+        "finding": Object {
+          "attributes": Object {
+            "hostname": "foobar.com",
+            "port": 443,
+            "service": "https",
+            "state": "open",
+          },
+          "category": "Open Port",
+          "name": "Port 443 is open",
+        },
         "generatedBy": "tls-scans",
         "name": "sslyze-foobar.com-tls-scans",
         "parameters": Array [
