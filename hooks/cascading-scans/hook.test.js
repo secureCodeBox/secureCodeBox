@@ -787,3 +787,75 @@ test("should properly parse template values in scanLabels and scanAnnotations", 
   expect(scanAnnotations).toEqual(result)
 })
 
+test("should copy proper finding ID into annotations", () => {
+  const findings = [
+    {
+      name: "Port 12345 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 12345,
+        service: "unknown"
+      },
+      id: "random-id"
+    },
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      },
+      id: "f0c718bd-9987-42c8-2259-73794e61dd5a"
+    }
+  ];
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const cascadedScan = cascadedScans[0]
+
+  expect(cascadedScans).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "cascades": Object {},
+        "env": undefined,
+        "finding": Object {
+          "attributes": Object {
+            "hostname": "foobar.com",
+            "port": 443,
+            "service": "https",
+            "state": "open",
+          },
+          "category": "Open Port",
+          "id": "f0c718bd-9987-42c8-2259-73794e61dd5a",
+          "name": "Port 443 is open",
+        },
+        "generatedBy": "tls-scans",
+        "name": "sslyze-foobar.com-tls-scans",
+        "parameters": Array [
+          "--regular",
+          "foobar.com:443",
+        ],
+        "scanAnnotations": Object {},
+        "scanLabels": Object {},
+        "scanType": "sslyze",
+      },
+    ]
+  `);
+
+  const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
+
+  expect(Object.entries(cascadingScanDefinition.metadata.annotations).every(([label, value]) => {
+    if (label === "cascading.securecodebox.io/matched-finding") {
+      return value === "f0c718bd-9987-42c8-2259-73794e61dd5a";
+    } else return true;
+  }
+  )).toBe(true)
+});
