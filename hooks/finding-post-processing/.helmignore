@@ -33,5 +33,5 @@ config/*
 Dockerfile
 .dockerignore
 docs/
-
 finding-post-processing.tar
+hook/*
