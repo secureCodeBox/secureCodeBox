@@ -41,9 +41,14 @@ JEST_VERSION ?= latest
 hook = finding-post-processing
 hook-prefix =
 
+
+build: | install-deps build-images
+
+test: | unit-tests images-export kind-import deploy deploy-test-deps integration-tests
+
 all: | install-deps unit-tests build-images images-export kind-import deploy deploy-test-deps integration-tests
 
-.PHONY: unit-tests install-deps build-images images-export kind-import deploy deploy-test-deps integration-tests all
+.PHONY: unit-tests install-deps build-images images-export kind-import deploy deploy-test-deps integration-tests all build test
 
 unit-tests:
 	cd hook && npx --yes --package jest@$(JEST_VERSION) jest
