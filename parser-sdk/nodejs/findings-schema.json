@@ -1,0 +1,12 @@
+{
+  "$id": "https://securecodebox.io/findings.schema.json",
+  "$schema": "http://json-schema.org/schema",
+  "type": "array",
+  "items": { "$ref": "#/$defs/finding" },
+  "$defs": {
+    "finding": {
+      "type": "object",
+      "required": ["id", "name", "description", "timestamp"]
+    }
+  }
+}
