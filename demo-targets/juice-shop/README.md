@@ -14,7 +14,7 @@ OWASP Juice Shop: Probably the most modern and sophisticated insecure web applic
 
 ## Source Code
 
-* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/juice-shop>
+* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-targets/juice-shop>
 * <https://github.com/bkimminich/juice-shop>
 
 ## Chart Configuration

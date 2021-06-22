@@ -12,7 +12,7 @@ test(
     const { count } = await scan(
       "wpscan-scanner-dummy-scan",
       "wpscan",
-      ["--url", "old-wordpress.demo-apps.svc"],
+      ["--url", "old-wordpress.demo-targets.svc"],
       90
     );
     expect(count).toBeGreaterThanOrEqual(0);

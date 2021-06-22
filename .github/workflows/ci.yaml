@@ -590,8 +590,8 @@ jobs:
           kubectl -n securecodebox-system get pods
           echo "Operator Startup Logs"
           kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
-      - name: "Create 'demo-apps' namespace"
-        run: "kubectl create namespace demo-apps"
+      - name: "Create 'demo-targets' namespace"
+        run: "kubectl create namespace demo-targets"
 
       # ---- Install Test Dependencies ----
 
@@ -640,7 +640,7 @@ jobs:
             --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
             --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)"
-          helm -n integration-tests install http-webhook ./demo-apps/http-webhook
+          helm -n integration-tests install http-webhook ./demo-targets/http-webhook
           helm -n integration-tests install ro-hook ./hooks/generic-webhook/ \
             --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-generic-webhook" \
             --set="webhookUrl=http://http-webhook/hallo-welt" \
@@ -654,20 +654,20 @@ jobs:
       - name: "Install Demo Apps"
         run: |
           # Install dummy-ssh app
-          helm -n demo-apps install dummy-ssh ./demo-apps/dummy-ssh/ --set="fullnameOverride=dummy-ssh" --wait
+          helm -n demo-targets install dummy-ssh ./demo-targets/dummy-ssh/ --set="fullnameOverride=dummy-ssh" --wait
           # Install unsafe-https app
-          helm -n demo-apps install unsafe-https ./demo-apps/unsafe-https/ --set="fullnameOverride=unsafe-https" --wait
+          helm -n demo-targets install unsafe-https ./demo-targets/unsafe-https/ --set="fullnameOverride=unsafe-https" --wait
           # Install bodgeit app
-          helm -n demo-apps install bodgeit ./demo-apps/bodgeit/ --set="fullnameOverride=bodgeit" --wait
+          helm -n demo-targets install bodgeit ./demo-targets/bodgeit/ --set="fullnameOverride=bodgeit" --wait
           # Install bodgeit app
-          helm -n demo-apps install petstore ./demo-apps/swagger-petstore/ --set="fullnameOverride=petstore" --wait
+          helm -n demo-targets install petstore ./demo-targets/swagger-petstore/ --set="fullnameOverride=petstore" --wait
           # Install old-wordpress app
-          helm -n demo-apps install old-wordpress ./demo-apps/old-wordpress/ --set="fullnameOverride=old-wordpress" --wait
+          helm -n demo-targets install old-wordpress ./demo-targets/old-wordpress/ --set="fullnameOverride=old-wordpress" --wait
           # Install juiceshop app
-          helm -n demo-apps install juiceshop ./demo-apps/juice-shop/ --set="fullnameOverride=juiceshop" --wait
+          helm -n demo-targets install juiceshop ./demo-targets/juice-shop/ --set="fullnameOverride=juiceshop" --wait
           # Install plain nginx server
-          kubectl create deployment --image nginx:alpine nginx --namespace demo-apps
-          kubectl expose deployment nginx --port 80 --namespace demo-apps
+          kubectl create deployment --image nginx:alpine nginx --namespace demo-targets
+          kubectl expose deployment nginx --port 80 --namespace demo-targets
 
       # ---- OWASP Amass Integration Tests ----
 
@@ -710,7 +710,7 @@ jobs:
       - name: "kubeaudit Integration Tests"
         run: |
           kubectl create namespace kubeaudit-tests
-          helm -n kubeaudit-tests install juice-shop ./demo-apps/juice-shop/ --wait
+          helm -n kubeaudit-tests install juice-shop ./demo-targets/juice-shop/ --wait
           helm -n integration-tests install kubeaudit ./scanners/kubeaudit/ \
             --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-kubeaudit" \
             --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
@@ -769,7 +769,7 @@ jobs:
             --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
             --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)"
-          helm -n integration-tests install http-webhook ./demo-apps/http-webhook --wait
+          helm -n integration-tests install http-webhook ./demo-targets/http-webhook --wait
 
           helm -n integration-tests install notification-hook ./hooks/notification --values tests/integration/hooks/__testFiles__/notification-values.yaml \
             --set="hook.image.repository=docker.io/${{env.DOCKER_NAMESPACE }}/hook-notification" \
@@ -894,7 +894,7 @@ jobs:
             --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-cascading-scans" \
             --set="hook.image.tag=sha-$(git rev-parse --short HEAD)"
           # Install unsafe-https
-          helm upgrade --install unsafe-https ./demo-apps/unsafe-https/ -n cascading-tests --wait
+          helm upgrade --install unsafe-https ./demo-targets/unsafe-https/ -n cascading-tests --wait
           # Install nmap
           helm -n cascading-tests install nmap ./scanners/nmap/ --wait \
             --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \

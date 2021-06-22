@@ -78,7 +78,7 @@ spec:
     scanType: "zap-full-scan"
     parameters:
       - "-t"
-      - "http://juice-shop.demo-apps.svc:3000"
+      - "http://juice-shop.demo-targets.svc:3000"
 ```
 
 ### Complete Example Scan
@@ -110,7 +110,7 @@ spec:
     scanType: "zap-full-scan"
     parameters:
       - "-t"
-      - "http://juice-shop.demo-apps.svc:3000"
+      - "http://juice-shop.demo-targets.svc:3000"
 ```
 
 ## Deployment

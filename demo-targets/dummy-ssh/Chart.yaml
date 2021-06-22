@@ -6,15 +6,15 @@ apiVersion: v2
 version: v2.7.0-alpha1
 type: application
 appVersion: "v1.0.0"
-name: unsafe-https
-description: "Self-signed https Server for scan testing."
+name: dummy-ssh
+description: "SSH Server for scan testing."
 home: https://docs.securecodebox.io
-icon: https://docs.securecodebox.io/img/integrationIcons/SSLyze.svg
+icon: https://docs.securecodebox.io/img/integrationIcons/SSH.svg
 keywords:
-  - unsafe
-  - https
+  - vulnerable
+  - ssh
 sources:
-  - https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/unsafe-https
+  - https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-targets/dummy-ssh
 maintainers:
   - name: iteratec GmbH
     email: securecodebox@iteratec.com

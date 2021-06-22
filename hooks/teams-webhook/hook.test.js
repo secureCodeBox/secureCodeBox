@@ -59,9 +59,9 @@ const findings = [
     severity: "INFORMATIONAL",
     reference: {},
     hint: "",
-    location: "dummy-ssh.demo-apps.svc",
+    location: "dummy-ssh.demo-targets.svc",
     attributes: {
-      hostname: "dummy-ssh.demo-apps.svc",
+      hostname: "dummy-ssh.demo-targets.svc",
       ip_address: "10.102.131.102",
       server_banner: "SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu2.8",
       ssh_version: 2,
@@ -112,9 +112,9 @@ const findings = [
     severity: "MEDIUM",
     reference: {},
     hint: "Remove these key exchange algorithms: diffie-hellman-group14-sha1",
-    location: "dummy-ssh.demo-apps.svc",
+    location: "dummy-ssh.demo-targets.svc",
     attributes: {
-      hostname: "dummy-ssh.demo-apps.svc",
+      hostname: "dummy-ssh.demo-targets.svc",
       ip_address: "10.102.131.102",
       payload: ["diffie-hellman-group14-sha1"],
     },
@@ -129,9 +129,9 @@ const findings = [
     reference: {},
     hint:
       "Remove these MAC algorithms: umac-64-etm@openssh.com, hmac-sha1-etm@openssh.com, umac-64@openssh.com, hmac-sha1",
-    location: "dummy-ssh.demo-apps.svc",
+    location: "dummy-ssh.demo-targets.svc",
     attributes: {
-      hostname: "dummy-ssh.demo-apps.svc",
+      hostname: "dummy-ssh.demo-targets.svc",
       ip_address: "10.102.131.102",
       payload: [
         "umac-64-etm@openssh.com",
@@ -150,9 +150,9 @@ const findings = [
     severity: "MEDIUM",
     reference: {},
     hint: "Remove these authentication methods: password",
-    location: "dummy-ssh.demo-apps.svc",
+    location: "dummy-ssh.demo-targets.svc",
     attributes: {
-      hostname: "dummy-ssh.demo-apps.svc",
+      hostname: "dummy-ssh.demo-targets.svc",
       ip_address: "10.102.131.102",
       payload: ["password"],
     },

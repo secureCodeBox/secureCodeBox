@@ -6,7 +6,7 @@
 
 # Official uninstall script for the secureCodeBox
 #
-# Removes all available resources (scanners, demo-apps, hooks, operator) and namespaces
+# Removes all available resources (scanners, demo-targets, hooks, operator) and namespaces
 #
 # For more information see https://docs.securecodebox.io/
 
@@ -39,7 +39,7 @@ function uninstallResources() {
 helm -n securecodebox-system uninstall securecodebox-operator || true
 
 uninstallResources "$BASE_DIR/scanners"
-uninstallResources "$BASE_DIR/demo-apps"
+uninstallResources "$BASE_DIR/demo-targets"
 uninstallResources "$BASE_DIR/hooks"
 
 kubectl delete namespaces securecodebox-system || true

@@ -14,9 +14,8 @@ spec:
     # Service Detection enabled
     - "-sV"
     # Actual Service Address will depend on you cluster and namespace configuration. 🤷‍
-    - "dummy-ssh.demo-apps.svc"
+    - "dummy-ssh.demo-targets.svc"
   cascades:
     matchLabels:
       securecodebox.io/invasive: invasive
       securecodebox.io/intensive: high
-      

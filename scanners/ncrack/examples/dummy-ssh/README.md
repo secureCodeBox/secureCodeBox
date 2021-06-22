@@ -19,7 +19,7 @@ printf "THEPASSWORDYOUCREATED\n123456\npassword\n" > passwords.txt
 kubectl create secret generic --from-file users.txt --from-file passwords.txt ncrack-lists
 
 # Install dummy-ssh app. We'll use ncrack to enumerate its ssh username and password
-helm install dummy-ssh ./demo-apps/dummy-ssh/ --wait
+helm install dummy-ssh ./demo-targets/dummy-ssh/ --wait
 
 # Install the ncrack scanType and set mount the files from the ncrack-lists Kubernetes secret
 cat <<EOF | helm upgrade --install ncrack ./scanners/ncrack --values -
