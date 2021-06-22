@@ -109,7 +109,7 @@ async function main() {
     return {
       ...finding,
       id: uuid(),
-      timestamp: new Date().toISOString(),
+      parsed_at: new Date().toISOString(),
     };
   });
 
