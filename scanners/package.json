@@ -1,7 +1,7 @@
 {
   "name": "@securecodebox/scanner",
   "version": "1.0.0",
-  "description": "NPM library to easily set up new scanners for the secureCodeBox",
+  "description": "NPM library to easily set up new scanners for the secureCodeBox v2",
   "homepage": "https://www.secureCodeBox.io",
   "repository": {
     "type": "git",
