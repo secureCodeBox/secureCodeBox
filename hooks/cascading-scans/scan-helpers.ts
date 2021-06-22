@@ -84,14 +84,14 @@ export interface ExtendedScanSpec extends ScanSpec {
 
 export function getCascadingScanDefinition({
    name,
-   parentScan,
    scanType,
    parameters,
    generatedBy,
    env,
+   cascades,
    scanLabels,
    scanAnnotations
- }) {
+ }: ExtendedScanSpec, parentScan: Scan) {
   function mergeInherited(parentProps, ruleProps, inherit: boolean = true) {
     if (!inherit) {
       parentProps = {};
@@ -146,7 +146,7 @@ export function getCascadingScanDefinition({
     spec: {
       scanType,
       parameters,
-      cascades: parentScan.spec.cascades,
+      cascades,
       env,
     }
   };

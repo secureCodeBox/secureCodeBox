@@ -80,7 +80,7 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", () =
   expect(cascadedScans).toMatchInlineSnapshot(`
     Array [
       Object {
-        "cascades": null,
+        "cascades": Object {},
         "env": undefined,
         "generatedBy": "tls-scans",
         "name": "sslyze-foobar.com-tls-scans",
@@ -143,7 +143,7 @@ test("Should not try to do magic to the scan name if its something random", () =
   expect(cascadedScans).toMatchInlineSnapshot(`
     Array [
       Object {
-        "cascades": null,
+        "cascades": Object {},
         "env": undefined,
         "generatedBy": "tls-scans",
         "name": "foobar.com-tls-scans",
@@ -210,7 +210,7 @@ test("Should not crash when the annotations are not set", () => {
   expect(cascadedScans).toMatchInlineSnapshot(`
     Array [
       Object {
-        "cascades": null,
+        "cascades": Object {},
         "env": undefined,
         "generatedBy": "tls-scans",
         "name": "sslyze-foobar.com-tls-scans",
@@ -256,7 +256,7 @@ test("Should copy ENV fields from cascadingRule to created scan", () => {
   expect(cascadedScans).toMatchInlineSnapshot(`
     Array [
       Object {
-        "cascades": null,
+        "cascades": Object {},
         "env": Array [
           Object {
             "name": "FOOBAR",
@@ -332,7 +332,7 @@ test("Should allow wildcards in cascadingRules", () => {
   expect(cascadedScans).toMatchInlineSnapshot(`
     Array [
       Object {
-        "cascades": null,
+        "cascades": Object {},
         "env": undefined,
         "generatedBy": "tls-scans",
         "name": "sslyze-foobar.com-tls-scans",
@@ -375,17 +375,8 @@ test("should not copy labels if inheritLabels is set to false", () => {
     sslyzeCascadingRules
   );
 
-  for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
-    const cascadingScanDefinition = getCascadingScanDefinition({
-      name,
-      parentScan: parentScan,
-      generatedBy,
-      scanType,
-      parameters,
-      env,
-      scanLabels,
-      scanAnnotations
-    });
+  for (const cascadedScan of cascadedScans) {
+    const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
 
     expect(Object.entries(parentScan.metadata.labels).every(([label, value]) =>
       cascadingScanDefinition.metadata.labels[label] === value
@@ -419,17 +410,8 @@ test("should copy labels if inheritLabels is not set", () => {
     sslyzeCascadingRules
   );
 
-  for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
-    const cascadingScanDefinition = getCascadingScanDefinition({
-      name,
-      parentScan: parentScan,
-      generatedBy,
-      scanType,
-      parameters,
-      env,
-      scanLabels,
-      scanAnnotations
-    });
+  for (const cascadedScan of cascadedScans) {
+    const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
 
     expect(Object.entries(parentScan.metadata.labels).every(([label, value]) =>
       cascadingScanDefinition.metadata.labels[label] === value
@@ -465,17 +447,8 @@ test("should copy labels if inheritLabels is set to true", () => {
     sslyzeCascadingRules
   );
 
-  for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
-    const cascadingScanDefinition = getCascadingScanDefinition({
-      name,
-      parentScan: parentScan,
-      generatedBy,
-      scanType,
-      parameters,
-      env,
-      scanLabels,
-      scanAnnotations
-    });
+  for (const cascadedScan of cascadedScans) {
+    const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
 
     expect(Object.entries(parentScan.metadata.labels).every(([label, value]) =>
       cascadingScanDefinition.metadata.labels[label] === value
@@ -509,17 +482,8 @@ test("should not copy annotations if inheritAnnotations is set to false", () => 
     sslyzeCascadingRules
   );
 
-  for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
-    const cascadingScanDefinition = getCascadingScanDefinition({
-      name,
-      parentScan: parentScan,
-      generatedBy,
-      scanType,
-      parameters,
-      env,
-      scanLabels,
-      scanAnnotations
-    });
+  for (const cascadedScan of cascadedScans) {
+    const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
 
     expect(Object.entries(parentScan.metadata.annotations).every(([label, value]) =>
       cascadingScanDefinition.metadata.annotations[label] === value
@@ -552,17 +516,8 @@ test("should copy annotations if inheritAnnotations is not set", () => {
     sslyzeCascadingRules
   );
 
-  for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
-    const cascadingScanDefinition = getCascadingScanDefinition({
-      name,
-      parentScan: parentScan,
-      generatedBy,
-      scanType,
-      parameters,
-      env,
-      scanLabels,
-      scanAnnotations
-    });
+  for (const cascadedScan of cascadedScans) {
+    const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
 
     expect(Object.entries(parentScan.metadata.annotations).every(([label, value]) =>
       cascadingScanDefinition.metadata.annotations[label] === value
@@ -596,17 +551,8 @@ test("should copy annotations if inheritAnnotations is set to true", () => {
     sslyzeCascadingRules
   );
 
-  for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadedScans) {
-    const cascadingScanDefinition = getCascadingScanDefinition({
-      name,
-      parentScan: parentScan,
-      generatedBy,
-      scanType,
-      parameters,
-      env,
-      scanLabels,
-      scanAnnotations
-    });
+  for (const cascadedScan of cascadedScans) {
+    const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
 
     expect(Object.entries(parentScan.metadata.annotations).every(([label, value]) =>
       cascadingScanDefinition.metadata.annotations[label] === value
@@ -639,12 +585,12 @@ test("should copy scanLabels from CascadingRule to cascading scan", () => {
     sslyzeCascadingRules
   );
 
-  const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } = cascadedScans[0]
+  const cascadedScan = cascadedScans[0]
 
   expect(cascadedScans).toMatchInlineSnapshot(`
     Array [
       Object {
-        "cascades": null,
+        "cascades": Object {},
         "env": undefined,
         "generatedBy": "tls-scans",
         "name": "sslyze-foobar.com-tls-scans",
@@ -662,16 +608,7 @@ test("should copy scanLabels from CascadingRule to cascading scan", () => {
     ]
   `);
 
-  const cascadingScanDefinition = getCascadingScanDefinition({
-    name,
-    parentScan: parentScan,
-    generatedBy,
-    scanType,
-    parameters,
-    env,
-    scanLabels,
-    scanAnnotations
-  });
+  const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
 
   expect(Object.entries(sslyzeCascadingRules[0].spec.scanLabels).every(([label, value]) =>
     cascadingScanDefinition.metadata.labels[label] === value
@@ -703,12 +640,12 @@ test("should copy scanAnnotations from CascadingRule to cascading scan", () => {
     sslyzeCascadingRules
   );
 
-  const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } = cascadedScans[0]
+  const cascadedScan = cascadedScans[0]
 
   expect(cascadedScans).toMatchInlineSnapshot(`
     Array [
       Object {
-        "cascades": null,
+        "cascades": Object {},
         "env": undefined,
         "generatedBy": "tls-scans",
         "name": "sslyze-foobar.com-tls-scans",
@@ -726,16 +663,7 @@ test("should copy scanAnnotations from CascadingRule to cascading scan", () => {
     ]
   `);
 
-  const cascadingScanDefinition = getCascadingScanDefinition({
-    name,
-    parentScan: parentScan,
-    generatedBy,
-    scanType,
-    parameters,
-    env,
-    scanLabels,
-    scanAnnotations
-  });
+  const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
 
   expect(Object.entries(sslyzeCascadingRules[0].spec.scanAnnotations).every(([label, value]) =>
     cascadingScanDefinition.metadata.annotations[label] === value
