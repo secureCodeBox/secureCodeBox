@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Image URL to use all building/pushing image targets
-IMG ?= controller:latest
+IMG ?= securecodebox/operator:latest
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:trivialVersions=true,preserveUnknownFields=false"
 
