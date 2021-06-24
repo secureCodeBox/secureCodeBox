@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "type": "array",
+  "items": {
+    "$ref": "#/$defs/finding"
+  },
+  "$defs": {
+    "finding": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "The unique identifier for a finding",
+          "type": "string"
+        },
+        "name": {
+          "description": "The unique identifier for a finding",
+          "type": "string"
+        },
+        "description": {
+          "description": "The unique identifier for a finding",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "category": {
+          "description": "The unique identifier for a finding",
+          "type": "string"
+        },
+        "osi_layer": {
+          "description": "The unique identifier for a finding",
+          "type": "string"
+        },
+        "severity": {
+          "description": "The unique identifier for a finding",
+          "type": "string"
+        },
+        "attributes": {
+          "description": "...",
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "category",
+        "osi_layer",
+        "severity",
+        "attributes",
+        "location"
+      ]
+    }
+  }
+}
