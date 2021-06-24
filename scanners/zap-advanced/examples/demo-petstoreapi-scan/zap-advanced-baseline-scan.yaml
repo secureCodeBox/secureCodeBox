@@ -33,10 +33,10 @@ data:
       # Name to be used to refer to this context in other jobs, mandatory
       - name: scb-petstore-context
         # The top level url, mandatory, everything under this will be included. IMPORTANT: must be the hostname without any subpath!
-        url: http://petstore.demo-apps.svc/
+        url: http://petstore.demo-targets.svc/
         # An optional list of regexes to include
         includePaths:
-          - "http://petstore.demo-apps.svc/v2.*"
+          - "http://petstore.demo-targets.svc/v2.*"
         # An optional list of regexes to exclude
         excludePaths:
           - ".*\\.css"
@@ -50,9 +50,9 @@ data:
         # -- format of the API ('openapi', 'grapql', 'soap')
         format: openapi
         # -- Url to start spidering from, default: first context URL
-        url: http://petstore.demo-apps.svc/v2/swagger.json
+        url: http://petstore.demo-targets.svc/v2/swagger.json
         # -- Override host setting in swagger.json
-        hostOverride: http://petstore.demo-apps.svc
+        hostOverride: http://petstore.demo-targets.svc
 
     # ZAP Spiders Configuration 
     spiders:
@@ -60,7 +60,7 @@ data:
         # String: Name of the context to spider, default: first context
         context: scb-petstore-context
         # String: Url to start spidering from, default: first context URL
-        url: http://petstore.demo-apps.svc/v2/
+        url: http://petstore.demo-targets.svc/v2/
         # Int: Fail if spider finds less than the specified number of URLs, default: 0
         failIfFoundUrlsLessThan: 0
         # Int: Warn if spider finds less than the specified number of URLs, default: 0
@@ -112,7 +112,7 @@ spec:
   parameters:
     # target URL including the protocol
     - "-t"
-    - "http://petstore.demo-apps.svc/"
+    - "http://petstore.demo-targets.svc/"
   volumeMounts:
     - name: zap-advanced-scan-config
       mountPath: /home/securecodebox/configs/2-zap-advanced-scan.yaml

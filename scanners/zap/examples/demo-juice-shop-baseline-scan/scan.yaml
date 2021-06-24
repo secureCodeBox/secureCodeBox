@@ -13,7 +13,7 @@ spec:
   parameters:
     # target URL including the protocol
     - "-t"
-    - "http://juice-shop.demo-apps.svc:3000"
+    - "http://juice-shop.demo-targets.svc:3000"
     # show debug messages
     - "-d"
     # use the Ajax spider in addition to the traditional one
@@ -21,4 +21,3 @@ spec:
     # the number of minutes to spider for (default 1)
     - "-m"
     - "3"
-        

@@ -1,5 +1,5 @@
 {
-  "name": "sslyze-parser",
+  "name": "@securecodebox/parser-sslyze",
   "version": "1.0.0",
   "description": "Parses result files for the type: 'sslyze-json'",
   "main": "",

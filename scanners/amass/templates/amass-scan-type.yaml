@@ -4,7 +4,7 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: "amass"
+  name: "amass{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   extractResults:
     # amass saves it's result now in json but in "json lines" format
@@ -13,34 +13,34 @@ spec:
     location: "/home/securecodebox/amass-results.jsonl"
   jobTemplate:
     spec:
-      {{- if .Values.scannerJob.ttlSecondsAfterFinished }}
-      ttlSecondsAfterFinished: {{ .Values.scannerJob.ttlSecondsAfterFinished }}
+      {{- if .Values.scanner.ttlSecondsAfterFinished }}
+      ttlSecondsAfterFinished: {{ .Values.scanner.ttlSecondsAfterFinished }}
       {{- end }}
-      backoffLimit: {{ .Values.scannerJob.backoffLimit }}
+      backoffLimit: {{ .Values.scanner.backoffLimit }}
       template:
         spec:
           restartPolicy: OnFailure
           containers:
             - name: amass
-              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+              image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
               command:
                 - "amass"
                 - "enum"
                 - "-json"
                 - "/home/securecodebox/amass-results.jsonl"
               resources:
-                {{- toYaml .Values.scannerJob.resources | nindent 16 }}
+                {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:
-                {{- toYaml .Values.scannerJob.securityContext | nindent 16 }}
+                {{- toYaml .Values.scanner.securityContext | nindent 16 }}
               env:
-                {{- toYaml .Values.scannerJob.env | nindent 16 }}
+                {{- toYaml .Values.scanner.env | nindent 16 }}
               volumeMounts:
-                {{- toYaml .Values.scannerJob.extraVolumeMounts | nindent 16 }}
-            {{- if .Values.scannerJob.extraContainers }}
-            {{- toYaml .Values.scannerJob.extraContainers | nindent 12 }}
+                {{- toYaml .Values.scanner.extraVolumeMounts | nindent 16 }}
+            {{- if .Values.scanner.extraContainers }}
+            {{- toYaml .Values.scanner.extraContainers | nindent 12 }}
             {{- end }}
           volumes:
-            {{- toYaml .Values.scannerJob.extraVolumes | nindent 12 }}
+            {{- toYaml .Values.scanner.extraVolumes | nindent 12 }}
 ---
 apiVersion: v1
 kind: ConfigMap

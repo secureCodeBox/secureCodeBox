@@ -23,6 +23,7 @@ jobs:
           passphrase: ${{ secrets.GPG_COMMITS_PASSPHRASE }}
           git-user-signingkey: true
           git-commit-gpgsign: true
+          commit_options: '--signoff'
 
       - name: Download Helm Docs
         run: |

@@ -18,13 +18,6 @@ notification:
   #      - severity: "high"
   #      - severity: "medium"
 
-image:
-  # image.repository -- Hook image repository
-  repository: docker.io/securecodebox/teams-webhook
-  # image.tag -- Image tag
-  # @default -- defaults to the charts version
-  tag: null
-
 vulnerabilityManagement:
   # vulnerabilityManagement.enabled If enabled a direct link to your vulnerability management system will be added at the bottom of each message.
   enabled: false
@@ -35,6 +28,13 @@ vulnerabilityManagement:
   # vulnerabilityManagement.url A special URL used to deep link into your vulnerability management system. The placeholder {{uid}} will be replaced with the current scanId (uid).
   findingsUrl: "https://your-kibana-service.url/your-dashboard-path/filter:{{uid}}"
 
-hookJob:
-  # hookJob.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+hook:
+  image:
+    # hook.image.repository -- Hook image repository
+    repository: docker.io/securecodebox/hook-teams-webhook
+    # hook.image.tag -- Image tag
+    # @default -- defaults to the charts version
+    tag: null
+
+  # hook.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
   ttlSecondsAfterFinished: null
