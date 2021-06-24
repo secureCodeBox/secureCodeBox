@@ -2,7 +2,7 @@
   {
     "ssh_scan_version": "0.0.43",
     "ip": "10.102.131.102",
-    "hostname": "dummy-ssh.demo-apps.svc",
+    "hostname": "dummy-ssh.demo-targets.svc",
     "port": 22,
     "server_banner": "SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu2.8",
     "ssh_version": 2.0,

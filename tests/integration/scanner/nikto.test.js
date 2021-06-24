@@ -14,7 +14,7 @@ test(
       "nikto",
       [
         "-h",
-        "bodgeit.demo-apps.svc",
+        "bodgeit.demo-targets.svc",
         "-port",
         "8080",
         "-Tuning",

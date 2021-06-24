@@ -104,11 +104,12 @@ async function main() {
 
   console.log(`Transformed raw result file into ${findings.length} findings`);
 
-  console.log("Adding UUIDs to the findings");
-  const findingsWithIds = findings.map((finding) => {
+  console.log("Adding UUIDs and Dates to the findings");
+  const findingsWithIdsAndDates = findings.map((finding) => {
     return {
       ...finding,
       id: uuid(),
+      parsed_at: new Date().toISOString(),
     };
   });
 
@@ -117,7 +118,7 @@ async function main() {
   console.log(`Uploading results to the file storage service`);
 
   await axios
-    .put(resultUploadUrl, findingsWithIds, { headers: { "content-type": "" } })
+    .put(resultUploadUrl, findingsWithIdsAndDates, { headers: { "content-type": "" } })
     .catch(function(error) {
       if (error.response) {
         // The request was made and the server responded with a status code
