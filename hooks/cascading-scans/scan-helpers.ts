@@ -153,7 +153,7 @@ export function getCascadingScanDefinition({
       scanType,
       parameters,
       cascades,
-      env,
+      env: env.concat(parentScan.spec.env || []),
     }
   };
 }

@@ -100,7 +100,7 @@ function getCascadingScan(
   finding: Finding,
   cascadingRule: CascadingRule
 ) {
-  const { scanType, parameters, env } = cascadingRule.spec.scanSpec;
+  const { scanType, parameters, env = [] } = cascadingRule.spec.scanSpec;
 
   const templateArgs = {
     ...finding,

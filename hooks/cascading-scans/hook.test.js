@@ -81,7 +81,7 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", () =
     Array [
       Object {
         "cascades": Object {},
-        "env": undefined,
+        "env": Array [],
         "finding": Object {
           "attributes": Object {
             "hostname": "foobar.com",
@@ -154,7 +154,7 @@ test("Should not try to do magic to the scan name if its something random", () =
     Array [
       Object {
         "cascades": Object {},
-        "env": undefined,
+        "env": Array [],
         "finding": Object {
           "attributes": Object {
             "hostname": undefined,
@@ -232,7 +232,7 @@ test("Should not crash when the annotations are not set", () => {
     Array [
       Object {
         "cascades": Object {},
-        "env": undefined,
+        "env": Array [],
         "finding": Object {
           "attributes": Object {
             "hostname": "foobar.com",
@@ -374,7 +374,7 @@ test("Should allow wildcards in cascadingRules", () => {
     Array [
       Object {
         "cascades": Object {},
-        "env": undefined,
+        "env": Array [],
         "finding": Object {
           "attributes": Object {
             "hostname": "foobar.com",
@@ -642,7 +642,7 @@ test("should copy scanLabels from CascadingRule to cascading scan", () => {
     Array [
       Object {
         "cascades": Object {},
-        "env": undefined,
+        "env": Array [],
         "finding": Object {
           "attributes": Object {
             "hostname": "foobar.com",
@@ -707,7 +707,7 @@ test("should copy scanAnnotations from CascadingRule to cascading scan", () => {
     Array [
       Object {
         "cascades": Object {},
-        "env": undefined,
+        "env": Array [],
         "finding": Object {
           "attributes": Object {
             "hostname": "foobar.com",
@@ -825,7 +825,7 @@ test("should copy proper finding ID into annotations", () => {
     Array [
       Object {
         "cascades": Object {},
-        "env": undefined,
+        "env": Array [],
         "finding": Object {
           "attributes": Object {
             "hostname": "foobar.com",
@@ -858,4 +858,91 @@ test("should copy proper finding ID into annotations", () => {
     } else return true;
   }
   )).toBe(true)
+});
+
+test("should merge environment variables into cascaded scan", () => {
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  parentScan.spec.env = [
+    {
+      "name": "parent_environment_variable_name",
+      "value": "parent_environment_variable_value"
+    }
+  ]
+
+  sslyzeCascadingRules[0].spec.scanSpec.env = [
+    {
+      "name": "rule_environment_variable_name",
+      "value": "rule_environment_variable_value"
+    }
+  ]
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const cascadedScan = cascadedScans[0]
+
+  expect(cascadedScans).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "cascades": Object {},
+        "env": Array [
+          Object {
+            "name": "rule_environment_variable_name",
+            "value": "rule_environment_variable_value",
+          },
+        ],
+        "finding": Object {
+          "attributes": Object {
+            "hostname": "foobar.com",
+            "port": 443,
+            "service": "https",
+            "state": "open",
+          },
+          "category": "Open Port",
+          "name": "Port 443 is open",
+        },
+        "generatedBy": "tls-scans",
+        "name": "sslyze-foobar.com-tls-scans",
+        "parameters": Array [
+          "--regular",
+          "foobar.com:443",
+        ],
+        "scanAnnotations": Object {},
+        "scanLabels": Object {},
+        "scanType": "sslyze",
+        "volumeMounts": Array [],
+        "volumes": Array [],
+      },
+    ]
+  `);
+
+  const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
+
+  expect(cascadingScanDefinition.spec.env).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "name": "rule_environment_variable_name",
+        "value": "rule_environment_variable_value",
+      },
+      Object {
+        "name": "parent_environment_variable_name",
+        "value": "parent_environment_variable_value",
+      },
+    ]
+  `);
 });
