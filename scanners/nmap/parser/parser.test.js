@@ -4,33 +4,13 @@
 
 const fs = require("fs");
 const util = require("util");
-const Ajv = require("ajv-draft-04")
+const { validate } = require("../../../parser-sdk/nodejs/validate.js");
 
 
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 const readFile = util.promisify(fs.readFile);
 
 const { parse } = require("./parser");
-const ajv = new Ajv()
-
-
-test("should comply with findings format", async () => {
-  const jsonSchemaString = await readFile(
-    __dirname + "/__testFiles__/findings-schema.json","utf8"
-  );
-  const findingsString = await readFile(
-    __dirname + "/__testFiles__/findings.json","utf8"
-  );
-  const jsonSchema = JSON.parse(jsonSchemaString)
-  const validate = ajv.compile(jsonSchema)
-  const data = JSON.parse(findingsString)
-  
-  const valid = validate(data)
-  if (!valid) {
-    console.log(validate.errors)
-  }
-  expect(valid).toBeTruthy();
-});
 
 test("should properly parse nmap xml file", async () => {
   const xmlContent = await readFile(
@@ -39,8 +19,9 @@ test("should properly parse nmap xml file", async () => {
       encoding: "utf8"
     }
   );
-
-  expect(await parse(xmlContent)).toMatchInlineSnapshot(`
+  const findings = await parse(xmlContent)
+  await expect(validate(findings)).resolves.toBeUndefined()
+  expect(findings).toMatchInlineSnapshot(`
     Array [
       Object {
         "attributes": Object {

@@ -36,8 +36,6 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
-    "ajv": "^8.6.0",
-    "ajv-draft-04": "^1.0.0",
     "jest": "^27.0.3"
   }
 }
