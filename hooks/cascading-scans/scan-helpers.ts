@@ -57,6 +57,8 @@ export interface ScanSpec {
   parameters: Array<string>;
   cascades: LabelSelector & CascadingInheritance;
   env?: Array<k8s.V1EnvVar>;
+  volumes?: Array<k8s.V1Volume>;
+  volumeMounts?: Array<k8s.V1VolumeMount>;
 }
 
 export interface CascadingInheritance {
@@ -92,6 +94,8 @@ export function getCascadingScanDefinition({
    parameters,
    generatedBy,
    env,
+   volumes,
+   volumeMounts,
    cascades,
    scanLabels,
    scanAnnotations,
@@ -154,6 +158,8 @@ export function getCascadingScanDefinition({
       parameters,
       cascades,
       env: env.concat(parentScan.spec.env || []),
+      volumes: volumes.concat(parentScan.spec.volumes || []),
+      volumeMounts: volumeMounts.concat(parentScan.spec.volumeMounts || []),
     }
   };
 }

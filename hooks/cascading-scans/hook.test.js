@@ -101,6 +101,8 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", () =
         "scanAnnotations": Object {},
         "scanLabels": Object {},
         "scanType": "sslyze",
+        "volumeMounts": Array [],
+        "volumes": Array [],
       },
     ]
   `);
@@ -175,6 +177,8 @@ test("Should not try to do magic to the scan name if its something random", () =
         "scanAnnotations": Object {},
         "scanLabels": Object {},
         "scanType": "sslyze",
+        "volumeMounts": Array [],
+        "volumes": Array [],
       },
     ]
   `);
@@ -252,6 +256,8 @@ test("Should not crash when the annotations are not set", () => {
         "scanAnnotations": Object {},
         "scanLabels": Object {},
         "scanType": "sslyze",
+        "volumeMounts": Array [],
+        "volumes": Array [],
       },
     ]
   `);
@@ -318,6 +324,8 @@ test("Should copy ENV fields from cascadingRule to created scan", () => {
         "scanAnnotations": Object {},
         "scanLabels": Object {},
         "scanType": "sslyze",
+        "volumeMounts": Array [],
+        "volumes": Array [],
       },
     ]
   `);
@@ -394,6 +402,8 @@ test("Should allow wildcards in cascadingRules", () => {
         "scanAnnotations": Object {},
         "scanLabels": Object {},
         "scanType": "sslyze",
+        "volumeMounts": Array [],
+        "volumes": Array [],
       },
     ]
   `);
@@ -665,6 +675,8 @@ test("should copy scanLabels from CascadingRule to cascading scan", () => {
           "k_two": "v_two",
         },
         "scanType": "sslyze",
+        "volumeMounts": Array [],
+        "volumes": Array [],
       },
     ]
   `);
@@ -730,6 +742,8 @@ test("should copy scanAnnotations from CascadingRule to cascading scan", () => {
         },
         "scanLabels": Object {},
         "scanType": "sslyze",
+        "volumeMounts": Array [],
+        "volumes": Array [],
       },
     ]
   `);
@@ -846,6 +860,8 @@ test("should copy proper finding ID into annotations", () => {
         "scanAnnotations": Object {},
         "scanLabels": Object {},
         "scanType": "sslyze",
+        "volumeMounts": Array [],
+        "volumes": Array [],
       },
     ]
   `);
@@ -942,6 +958,200 @@ test("should merge environment variables into cascaded scan", () => {
       Object {
         "name": "parent_environment_variable_name",
         "value": "parent_environment_variable_value",
+      },
+    ]
+  `);
+});
+
+test("should merge volumeMounts into cascaded scan", () => {
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  parentScan.spec.volumeMounts = [
+    {
+      "mountPath": "/etc/ssl/certs/ca-cert.cer",
+      "name": "ca-certificate",
+      "readOnly": true,
+      "subPath": "ca-cert.cer"
+    }
+  ]
+
+  sslyzeCascadingRules[0].spec.scanSpec.volumeMounts = [
+    {
+      "mountPath": "/etc/ssl/certs/ca-cert-sslyze.cer",
+      "name": "ca-certificate-sslyze",
+      "readOnly": true,
+      "subPath": "ca-cert-sslyze.cer"
+    }
+  ]
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const cascadedScan = cascadedScans[0]
+
+  expect(cascadedScans).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "cascades": Object {},
+        "env": Array [],
+        "finding": Object {
+          "attributes": Object {
+            "hostname": "foobar.com",
+            "port": 443,
+            "service": "https",
+            "state": "open",
+          },
+          "category": "Open Port",
+          "name": "Port 443 is open",
+        },
+        "generatedBy": "tls-scans",
+        "name": "sslyze-foobar.com-tls-scans",
+        "parameters": Array [
+          "--regular",
+          "foobar.com:443",
+        ],
+        "scanAnnotations": Object {},
+        "scanLabels": Object {},
+        "scanType": "sslyze",
+        "volumeMounts": Array [
+          Object {
+            "mountPath": "/etc/ssl/certs/ca-cert-sslyze.cer",
+            "name": "ca-certificate-sslyze",
+            "readOnly": true,
+            "subPath": "ca-cert-sslyze.cer",
+          },
+        ],
+        "volumes": Array [],
+      },
+    ]
+  `);
+
+  const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
+
+  expect(cascadingScanDefinition.spec.volumeMounts).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "mountPath": "/etc/ssl/certs/ca-cert-sslyze.cer",
+        "name": "ca-certificate-sslyze",
+        "readOnly": true,
+        "subPath": "ca-cert-sslyze.cer",
+      },
+      Object {
+        "mountPath": "/etc/ssl/certs/ca-cert.cer",
+        "name": "ca-certificate",
+        "readOnly": true,
+        "subPath": "ca-cert.cer",
+      },
+    ]
+  `);
+});
+
+test("should merge volumes into cascaded scan", () => {
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  parentScan.spec.volumes = [
+    {
+      "name": "ca-certificate",
+      "configMap": {
+        "name": "ca-certificate"
+      }
+    }
+  ]
+
+  sslyzeCascadingRules[0].spec.scanSpec.volumes = [
+    {
+      "name": "ca-certificate-sslyze",
+      "configMap": {
+        "name": "ca-certificate-sslyze"
+      }
+    }
+  ]
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const cascadedScan = cascadedScans[0]
+
+  expect(cascadedScans).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "cascades": Object {},
+        "env": Array [],
+        "finding": Object {
+          "attributes": Object {
+            "hostname": "foobar.com",
+            "port": 443,
+            "service": "https",
+            "state": "open",
+          },
+          "category": "Open Port",
+          "name": "Port 443 is open",
+        },
+        "generatedBy": "tls-scans",
+        "name": "sslyze-foobar.com-tls-scans",
+        "parameters": Array [
+          "--regular",
+          "foobar.com:443",
+        ],
+        "scanAnnotations": Object {},
+        "scanLabels": Object {},
+        "scanType": "sslyze",
+        "volumeMounts": Array [],
+        "volumes": Array [
+          Object {
+            "configMap": Object {
+              "name": "ca-certificate-sslyze",
+            },
+            "name": "ca-certificate-sslyze",
+          },
+        ],
+      },
+    ]
+  `);
+
+  const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
+
+  expect(cascadingScanDefinition.spec.volumes).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "configMap": Object {
+          "name": "ca-certificate-sslyze",
+        },
+        "name": "ca-certificate-sslyze",
+      },
+      Object {
+        "configMap": Object {
+          "name": "ca-certificate",
+        },
+        "name": "ca-certificate",
       },
     ]
   `);

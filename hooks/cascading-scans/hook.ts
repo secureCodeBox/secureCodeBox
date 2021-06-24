@@ -100,7 +100,7 @@ function getCascadingScan(
   finding: Finding,
   cascadingRule: CascadingRule
 ) {
-  const { scanType, parameters, env = [] } = cascadingRule.spec.scanSpec;
+  const { scanType, parameters, env = [], volumes = [], volumeMounts = [] } = cascadingRule.spec.scanSpec;
 
   const templateArgs = {
     ...finding,
@@ -121,6 +121,8 @@ function getCascadingScan(
     cascades: parentScan.spec.cascades,
     generatedBy: cascadingRule.metadata.name,
     env,
+    volumes,
+    volumeMounts,
     scanLabels: cascadingRule.spec.scanLabels === undefined ? {} :
       mapValues(cascadingRule.spec.scanLabels, value => Mustache.render(value, templateArgs)),
     scanAnnotations: cascadingRule.spec.scanAnnotations === undefined ? {} :
