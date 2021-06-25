@@ -1,9 +1,0 @@
-# SPDX-FileCopyrightText: 2020 iteratec GmbH
-#
-# SPDX-License-Identifier: Apache-2.0
-
-resources:
-- certificate.yaml
-
-configurations:
-- kustomizeconfig.yaml

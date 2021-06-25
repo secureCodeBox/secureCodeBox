@@ -59,8 +59,7 @@ const defaultPresignDuration = 12 * time.Hour
 // +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=rolebindings,verbs=get;watch;list;create
 
 // Reconcile compares the scan object against the state of the cluster and updates both if needed
-func (r *ScanReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	ctx := context.Background()
+func (r *ScanReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	log := r.Log.WithValues("scan", req.NamespacedName)
 
 	// get the scan
@@ -207,7 +206,8 @@ func (r *ScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
 
 	// Todo: Better config management
 
-	if err := mgr.GetFieldIndexer().IndexField(&batch.Job{}, ownerKey, func(rawObj runtime.Object) []string {
+	ctx := context.Background()
+	if err := mgr.GetFieldIndexer().IndexField(ctx, &batch.Job{}, ownerKey, func(rawObj client.Object) []string {
 		// grab the job object, extract the owner...
 		job := rawObj.(*batch.Job)
 		owner := metav1.GetControllerOf(job)
