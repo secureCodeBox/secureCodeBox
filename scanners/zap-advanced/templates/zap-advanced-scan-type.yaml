@@ -11,7 +11,8 @@ metadata:
   labels:
     {{- include "zap.labels" . | nindent 4 }}
 data:
-  1-zap-advanced-scantype.yaml: {{ .Values.zapConfiguration | toYaml | quote }}
+  1-zap-advanced-scantype.yaml: |
+    {{- .Values.zapConfiguration | toYaml | nindent 4 -}}
 {{- end }}
 ---
 apiVersion: "execution.securecodebox.io/v1"
