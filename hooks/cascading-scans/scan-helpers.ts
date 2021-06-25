@@ -157,9 +157,9 @@ export function getCascadingScanDefinition({
       scanType,
       parameters,
       cascades,
-      env: env.concat(parentScan.spec.env || []),
-      volumes: volumes.concat(parentScan.spec.volumes || []),
-      volumeMounts: volumeMounts.concat(parentScan.spec.volumeMounts || []),
+      env: (parentScan.spec.env || []).concat(env), // CascadingRule's env overwrites scan's env
+      volumes: (parentScan.spec.volumes || []).concat(volumes),
+      volumeMounts: (parentScan.spec.volumeMounts || []).concat(volumeMounts),
     }
   };
 }
