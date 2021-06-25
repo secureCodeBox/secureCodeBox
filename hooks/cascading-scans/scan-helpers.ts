@@ -8,6 +8,7 @@ import {
   generateSelectorString,
   LabelSelector
 } from "./kubernetes-label-selector";
+import {isEqual} from "lodash";
 
 // configure k8s client
 const kc = new k8s.KubeConfig();
@@ -211,6 +212,50 @@ export async function getCascadingRulesForScan(scan: Scan) {
     return response.body.items;
   } catch (err) {
     console.error("Failed to get CascadingRules from the kubernetes api");
+    console.error(err);
+    process.exit(1);
+  }
+}
+
+export function purgeCascadedRuleFromScan(scan: Scan, cascadedRule?: CascadingRule) : Scan {
+  if (cascadedRule === undefined) return scan;
+
+  scan.spec.env = scan.spec.env.filter(scanEnv =>
+    !cascadedRule.spec.scanSpec.env.some(ruleEnv => isEqual(scanEnv, ruleEnv))
+  );
+
+  scan.spec.volumes = scan.spec.volumes.filter(scanVolume =>
+    !cascadedRule.spec.scanSpec.volumes.some(ruleVolume => isEqual(scanVolume, ruleVolume))
+  );
+
+  scan.spec.volumeMounts = scan.spec.volumeMounts.filter(scanVolumeMount =>
+    !cascadedRule.spec.scanSpec.volumeMounts.some(ruleVolumeMount => isEqual(scanVolumeMount, ruleVolumeMount))
+  );
+
+  return scan
+}
+
+export async function getCascadedRuleForScan(scan: Scan) {
+  if (scan.metadata.generation === 1) return undefined;
+
+  const cascadingChain = scan.metadata.annotations["cascading.securecodebox.io/chain"].split(",")
+  return await getCascadingRule(cascadingChain[cascadingChain.length - 1]);
+}
+
+async function getCascadingRule(ruleName) {
+  try {
+    const response: any = await k8sApiCRD.getNamespacedCustomObject(
+      "cascading.securecodebox.io",
+      "v1",
+      namespace,
+      "cascadingrules",
+      ruleName
+    );
+
+    console.log(`Fetched CascadingRule "${ruleName}" that triggered parent scan`);
+    return response.body;
+  } catch (err) {
+    console.error(`Failed to get CascadingRule "${ruleName}" from the kubernetes api`);
     console.error(err);
     process.exit(1);
   }
