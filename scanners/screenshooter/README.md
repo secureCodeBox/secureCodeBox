@@ -1,3 +1,14 @@
+---
+title: "Screenshooter"
+category: "scanner"
+type: "WebApplication"
+state: "released"
+appVersion: "1.0"
+usecase: "Takes Screenshots of websites"
+---
+
+![firefox logo](https://3u26hb1g25wn1xwo8g186fnd-wpengine.netdna-ssl.com/files/2019/10/logo-firefox.svg)
+
 <!--
 SPDX-FileCopyrightText: 2020 iteratec GmbH
 
@@ -14,16 +25,6 @@ Please be aware of that and apply your changes only within those template files 
 Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
 --------------------------
 -->
----
-title: "Screenshooter"
-category: "scanner"
-type: "WebApplication"
-state: "released"
-appVersion: "1.0"
-usecase: "Takes Screenshots of websites"
----
-
-![firefox logo](https://3u26hb1g25wn1xwo8g186fnd-wpengine.netdna-ssl.com/files/2019/10/logo-firefox.svg)
 
 <p align="center">
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Apache-2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>

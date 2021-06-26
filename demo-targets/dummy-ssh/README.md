@@ -1,3 +1,12 @@
+---
+title: "Dummy SSH"
+category: "target"
+type: "service"
+state: "released"
+appVersion: "v1.0.0"
+usecase: "Vulnerable WebApp based on html serverside rendering"
+---
+
 <!--
 SPDX-FileCopyrightText: 2020 iteratec GmbH
 
@@ -14,14 +23,6 @@ Please be aware of that and apply your changes only within those template files 
 Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
 --------------------------
 -->
----
-title: "Dummy SSH"
-category: "target"
-type: "service"
-state: "released"
-appVersion: "v1.0.0"
-usecase: "Vulnerable WebApp based on html serverside rendering"
----
 
 <p align="center">
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Apache-2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>
@@ -41,8 +42,6 @@ There are also vulnerable credentials which can be identified via bruteforcing:
 - Port 22
 - Username root,
 - Password: THEPASSWORDYOUCREATED
-
-**Homepage:** <https://github.com/psiinon/bodgeit>
 
 ### Source Code
 

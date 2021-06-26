@@ -1,3 +1,14 @@
+---
+title: "ZAP Advanced"
+category: "scanner"
+type: "WebApplication"
+state: "released"
+appVersion: "2.10.0"
+usecase: "WebApp & OpenAPI Vulnerability Scanner extend with authentication features"
+---
+
+![zap logo](https://raw.githubusercontent.com/wiki/zaproxy/zaproxy/images/zap32x32.png)
+
 <!--
 SPDX-FileCopyrightText: 2020 iteratec GmbH
 
@@ -14,16 +25,6 @@ Please be aware of that and apply your changes only within those template files 
 Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
 --------------------------
 -->
----
-title: "ZAP Advanced"
-category: "scanner"
-type: "WebApplication"
-state: "released"
-appVersion: "2.10.0"
-usecase: "WebApp & OpenAPI Vulnerability Scanner extend with authentication features"
----
-
-![zap logo](https://raw.githubusercontent.com/wiki/zaproxy/zaproxy/images/zap32x32.png)
 
 <p align="center">
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Apache-2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>

@@ -1,3 +1,14 @@
+---
+title: "Amass"
+category: "scanner"
+type: "Network"
+state: "released"
+appVersion: "v3.13"
+usecase: "Subdomain Enumeration Scanner"
+---
+
+![owasp logo](https://owasp.org/assets/images/logo.png)
+
 <!--
 SPDX-FileCopyrightText: 2020 iteratec GmbH
 
@@ -14,16 +25,6 @@ Please be aware of that and apply your changes only within those template files 
 Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
 --------------------------
 -->
----
-title: "Amass"
-category: "scanner"
-type: "Network"
-state: "released"
-appVersion: "v3.13"
-usecase: "Subdomain Enumeration Scanner"
----
-
-![owasp logo](https://owasp.org/assets/images/logo.png)
 
 <p align="center">
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Apache-2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>

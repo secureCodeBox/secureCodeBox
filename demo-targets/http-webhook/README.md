@@ -1,3 +1,12 @@
+---
+title: "HTTP WebHook"
+category: "target"
+type: "service"
+state: "released"
+appVersion: "1.16.0"
+usecase: "Vulnerable HTTP WebHook"
+---
+
 <!--
 SPDX-FileCopyrightText: 2020 iteratec GmbH
 
@@ -14,14 +23,6 @@ Please be aware of that and apply your changes only within those template files 
 Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
 --------------------------
 -->
----
-title: "HTTP WebHook"
-category: "target"
-type: "service"
-state: "released"
-appVersion: "1.16.0"
-usecase: "Vulnerable HTTP WebHook"
----
 
 <p align="center">
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Apache-2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>

@@ -1,3 +1,14 @@
+---
+title: "Nmap"
+category: "scanner"
+type: "Network"
+state: "released"
+appVersion: "7.91-r0"
+usecase: "Network discovery and security auditing"
+---
+
+![Nmap logo](https://nmap.org/images/sitelogo.png)
+
 <!--
 SPDX-FileCopyrightText: 2020 iteratec GmbH
 
@@ -14,16 +25,6 @@ Please be aware of that and apply your changes only within those template files 
 Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
 --------------------------
 -->
----
-title: "Nmap"
-category: "scanner"
-type: "Network"
-state: "released"
-appVersion: "7.91-r0"
-usecase: "Network discovery and security auditing"
----
-
-![Nmap logo](https://nmap.org/images/sitelogo.png)
 
 <p align="center">
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Apache-2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>

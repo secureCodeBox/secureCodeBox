@@ -1,3 +1,11 @@
+---
+title: "Finding Post Processing"
+category: "hook"
+type: "dataProcessing"
+state: "released"
+usecase: "Updates fields for findings meeting specified conditions."
+---
+
 <!--
 SPDX-FileCopyrightText: 2020 iteratec GmbH
 
@@ -14,13 +22,6 @@ Please be aware of that and apply your changes only within those template files 
 Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
 --------------------------
 -->
----
-title: "Finding Post Processing"
-category: "hook"
-type: "dataProcessing"
-state: "released"
-usecase: "Updates fields for findings meeting specified conditions."
----
 
 <p align="center">
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Apache-2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>

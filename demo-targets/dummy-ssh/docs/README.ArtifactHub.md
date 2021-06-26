@@ -50,8 +50,6 @@ There are also vulnerable credentials which can be identified via bruteforcing:
 - Username root,
 - Password: THEPASSWORDYOUCREATED
 
-**Homepage:** <https://github.com/psiinon/bodgeit>
-
 ### Source Code
 
 * <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-targets/dummy-ssh>
