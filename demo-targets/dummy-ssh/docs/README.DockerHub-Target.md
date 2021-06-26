@@ -65,7 +65,7 @@ There are also vulnerable credentials which can be identified via bruteforcing:
 
 ### Source Code
 
-* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/dummy-ssh>
+* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-targets/dummy-ssh>
 
 ## Community
 

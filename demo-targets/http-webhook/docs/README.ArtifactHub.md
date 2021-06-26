@@ -46,7 +46,7 @@ A Dummy webserver to echo HTTP requests in log.
 ### Source Code
 
 * <https://github.com/mendhak/docker-http-https-echo>
-* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/http-webhook>
+* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-targets/http-webhook>
 
 ## Deployment
 The http-webhook `scanType` can be deployed via helm:

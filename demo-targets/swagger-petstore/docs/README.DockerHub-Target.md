@@ -57,7 +57,7 @@ This is the sample petstore application with a restful API.
 
 ### Source Code
 
-* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/swagger-petstore>
+* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-targets/swagger-petstore>
 * <https://github.com/swagger-api/swagger-petstore>
 
 ## Community

@@ -40,7 +40,7 @@ BodgeIt Store is a serverside rendering based html website without any heavy jav
 
 ### Source Code
 
-* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/bodgeit>
+* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-targets/bodgeit>
 * <https://github.com/psiinon/bodgeit>
 
 ## Deployment

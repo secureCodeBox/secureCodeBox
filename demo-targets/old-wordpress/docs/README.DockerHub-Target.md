@@ -57,7 +57,7 @@ Insecure & Outdated WordPress Instance: Never expose it to the internet!
 
 ### Source Code
 
-* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/old-wordpress>
+* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-targets/old-wordpress>
 
 ## Community
 

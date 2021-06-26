@@ -48,7 +48,7 @@ which contains both private and public key and is not authorized by a third part
 
 ### Source Code
 
-* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/unsafe-https>
+* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-targets/unsafe-https>
 
 ## Deployment
 The unsafe-https `scanType` can be deployed via helm:
