@@ -97,7 +97,7 @@ secureCodeBox is an official [OWASP][scb-owasp] project.
 | securityContext | object | `{}` |  |
 | service.port | int | `80` |  |
 | service.type | string | `"ClusterIP"` |  |
-| swaggerHostOverride | string | `"http://swagger-petstore.demo-apps.svc"` |  |
+| swaggerHostOverride | string | `"http://swagger-petstore.demo-targets.svc"` |  |
 | tolerations | list | `[]` |  |
 
 ## License

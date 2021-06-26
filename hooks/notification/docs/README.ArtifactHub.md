@@ -46,11 +46,11 @@ Installing the Notification WebHook hook will add a ReadOnly Hook to your namesp
 You can customise the message templates on your behalf or use the already provided one.
 
 ## Deployment
-The notification-hook `scanType` can be deployed via helm:
+The notification `scanType` can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install notification-hook secureCodeBox/notification-hook
+helm upgrade --install notification secureCodeBox/notification
 ```
 
 ## Contributing
@@ -296,10 +296,10 @@ To fill your template with data we provide the following objects.
 | env[1].name | string | `"SMTP_CONFIG"` |  |
 | env[1].valueFrom.secretKeyRef.key | string | `"smtp-config-key"` |  |
 | env[1].valueFrom.secretKeyRef.name | string | `"some-secret"` |  |
-| hookJob.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
-| image.pullPolicy | string | `"Always"` |  |
-| image.repository | string | `"docker.io/securecodebox/notification-hook"` | Hook image repository |
-| image.tag | string | defaults to the charts version | Image tag |
+| hook.image.pullPolicy | string | `"Always"` |  |
+| hook.image.repository | string | `"docker.io/securecodebox/hook-notification"` | Hook image repository |
+| hook.image.tag | string | defaults to the charts version | Image tag |
+| hook.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | notificationChannels[0].endPoint | string | `"SOME_ENV_KEY"` |  |
 | notificationChannels[0].name | string | `"slack"` |  |
 | notificationChannels[0].rules[0].matches.anyOf[0].category | string | `"Open Port"` |  |

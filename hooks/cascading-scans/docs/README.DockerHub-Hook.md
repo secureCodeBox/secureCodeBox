@@ -48,7 +48,7 @@ You can find resources to help you get started on our [documentation website](ht
 This `hook` image is intended to work in combination with other `parser` images to read or manipulate `findings` results. For more informations details please take a look at the [project page][scb-docs] or [documentation page][https://docs.securecodebox.io/docs/hooks/cascading-scans].
 
 ```bash
-docker pull securecodebox/hook-declarative-subsequent-scans
+docker pull securecodebox/hook-cascading-scans
 ```
 
 ## What is "Cascading Scans" Hook about?

@@ -1,14 +1,54 @@
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+<!--
+.: IMPORTANT! :.
+--------------------------
+This file is generated automaticaly with `helm-docs` based on the following template files:
+- ./.helm-docs/templates.gotmpl (general template data for all charts)
+- ./chart-folder/.helm-docs.gotmpl (chart specific template data)
+
+Please be aware of that and apply your changes only within those template files instead of this file.
+Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
+--------------------------
+-->
 ---
 title: "Notification Hook"
 category: "hook"
 type: "integration"
-state: "roadmap"
+state: "released"
 usecase: "Publishes Scan Summary to MS Teams, Slack and others."
 ---
 
-<!-- end -->
+<p align="center">
+  <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Apache-2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>
+  <a href="https://github.com/secureCodeBox/secureCodeBox/releases/latest"><img alt="GitHub release (latest SemVer)" src="https://img.shields.io/github/v/release/secureCodeBox/secureCodeBox?sort=semver"></a>
+  <a href="https://owasp.org/www-project-securecodebox/"><img alt="OWASP Incubator Project" src="https://img.shields.io/badge/OWASP-Incubator%20Project-365EAA"></a>
+  <a href="https://artifacthub.io/packages/search?repo=seccurecodebox"><img alt="Artifact HUB" src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/seccurecodebox"></a>
+  <a href="https://github.com/secureCodeBox/secureCodeBox/"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/secureCodeBox/secureCodeBox?logo=GitHub"></a>
+  <a href="https://twitter.com/securecodebox"><img alt="Twitter Follower" src="https://img.shields.io/twitter/follow/securecodebox?style=flat&color=blue&logo=twitter"></a>
+</p>
+
+## What is "Notification" Hook about?
+Installing the Notification WebHook hook will add a ReadOnly Hook to your namespace which is capable of sending scan results containing `findings` as messages to different tools like messangers or even email.
+
+You can customise the message templates on your behalf or use the already provided one.
 
 ## Deployment
+The notification `scanType` can be deployed via helm:
+
+```bash
+# Install HelmChart (use -n to configure another namespace)
+helm upgrade --install notification secureCodeBox/notification
+```
+
+## Requirements
+
+Kubernetes: `>=v1.11.0-0`
+
+## Additional Chart Configurations
 
 Installing the Notification hook will add a ReadOnly Hook to your namespace.
 
@@ -19,13 +59,13 @@ helm upgrade --install nwh ./hooks/notification-hook/ --values /path/to/your/val
 The `values.yaml` you need depends on the notification type you want to use.
 Please take a look at the documentation for each type (e.g. for slack see [Configuration of a Slack Notification](#configuration-o-a-slack-notification))
 
-## Available Notifier
+### Available Notifier
 
 - [Slack](#configuration-of-a-slack-notification)
 - [Slack App](#configuration-of-a-slack-app-notification)
 - [Email](#configuration-of-an-email-notification)
 
-## Configuration of a Notification
+### Configuration of a Notification
 
 The general configuration of a notification looks something like this
 
@@ -79,7 +119,7 @@ Under `env` you have to define additional information needed for your templates 
 `env` will be mapped to the `env` implementation of Kubernetes.
 This means that you can define key-value pairs as well as providing envs via secrets (See [Define Environment Variables for a Container | Kubernetes](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)).
 
-### Rule Configuration
+#### Rule Configuration
 
 The rules can be defined in the values of the Chart.
 The syntax and semantic for these rules are quite similar to CascadingRules (See: [secureCodeBox | CascadingRules](/docs/api/crds/cascading-rule))
@@ -99,13 +139,13 @@ rules:
 
 This Rule will match all Findings with an open port on 23.
 
-#### matches
+##### matches
 
 Within the `matches` you will have to provide `anyOf`
 `anyOf` contains one or more conditions to be met by the finding to match the rule.
 Notice that only one of these elements needs to match the finding for the rule to match.
 
-### Configuration of a Slack Notification
+#### Configuration of a Slack Notification
 
 To configure a Slack notification set the `type` to `slack` and the `endPoint` to point to your env containing your Webhook URL to slack.
 You can use one of the following default templates:
@@ -113,18 +153,18 @@ You can use one of the following default templates:
 - `slack-messageCard`: Sends a message with a summary listing the number of findings per category and severity.
 - `slack-individual-findings-with-defectdojo`: Sends a message with a list of all findings with a link to the finding in DefectDojo. Will only work correctly if the DefectDojo hook is installed in the same namespace.
 
-### Configuration of a Slack App Notification
+#### Configuration of a Slack App Notification
 
 The `slack-app` notifier is an _alternate_ way to send notifications to slack using the slack api directly rather then using webhooks.
 Use `slack-app` over the normal `slack` if you want to send notifications into different slack channels on a per scan basis.
 
-#### Slack App Configuration
+##### Slack App Configuration
 
 To set it up, you'll need to create a new slack app at [https://api.slack.com/apps/](https://api.slack.com/apps/) and add the `chat:write` "Bot Token Scope" to it on the "OAuth & Permissions" tab. Then add the bot to your workspace, this will give you the access token (should begin with a `xoxb-`).
 
 To configure a Slack notification set the `type` to `slack-app` and reference the secret via the `SLACK_APP_TOKEN` env var.
 
-#### Example Config
+##### Example Config
 
 ```yaml
 notificationChannels:
@@ -145,12 +185,12 @@ env:
     value: "#example-channel"
 ```
 
-#### Supported Notification Channels
+##### Supported Notification Channels
 
 The `slack-app` notifier supports the same message templates as the `slack` notifier.
 See [slack](#configuration-of-a-slack-notification) for the supported message types.
 
-#### Scan / Channel Config
+##### Scan / Channel Config
 
 You can configure to which channel the message is sent to by setting the `notification.securecodebox.io/slack-channel` to the channel the message should be sent to, the following example will send its notifications to the `#juice-shop-dev` channel in the slack workspace of the configured token.
 
@@ -169,7 +209,7 @@ spec:
     - juice-shop.default.svc
 ```
 
-### Configuration Of An Email Notification
+#### Configuration Of An Email Notification
 
 To configure an email notification set the `type` to `email` and the `endPoint` to point to your env containing your target email address.
 You can use one of the following default templates:
@@ -205,7 +245,7 @@ env:
     value: secureCodeBox
 ```
 
-## Custom Message Templates
+### Custom Message Templates
 
 CAUTION: Nunjucks templates allow code to be injected! Use templates from trusted sources only!
 
@@ -220,7 +260,7 @@ To fill your template with data we provide the following objects.
 | scan     | An Object containing information about the scan that triggered the notification (See [Scan | secureCodeBox](https://docs.securecodebox.io/docs/api/crds/scan)                                                                        |
 | args     | contains `process.env` (See: [process.env                                                  | nodejs](https://nodejs.org/api/process.html#process_process_env)) you can use this to access data defined in `env` of the `values.yaml` |
 
-## Chart Configuration
+## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -241,3 +281,17 @@ To fill your template with data we provide the following objects.
 | notificationChannels[0].rules[0].matches.anyOf[0].category | string | `"Open Port"` |  |
 | notificationChannels[0].template | string | `"slack-messageCard"` |  |
 | notificationChannels[0].type | string | `"slack"` |  |
+
+## License
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
+
+[scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
+[scb-docs]: https://docs.securecodebox.io/
+[scb-site]: https://www.securecodebox.io/
+[scb-github]: https://github.com/secureCodeBox/
+[scb-twitter]: https://twitter.com/secureCodeBox
+[scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
+[scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
+

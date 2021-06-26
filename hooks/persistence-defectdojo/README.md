@@ -1,3 +1,19 @@
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+<!--
+.: IMPORTANT! :.
+--------------------------
+This file is generated automaticaly with `helm-docs` based on the following template files:
+- ./.helm-docs/templates.gotmpl (general template data for all charts)
+- ./chart-folder/.helm-docs.gotmpl (chart specific template data)
+
+Please be aware of that and apply your changes only within those template files instead of this file.
+Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
+--------------------------
+-->
 ---
 title: "DefectDojo"
 category: "hook"
@@ -6,26 +22,29 @@ state: "released"
 usecase: "Publishes all Scan Reports to OWASP DefectDojo."
 ---
 
-## About
+<p align="center">
+  <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Apache-2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>
+  <a href="https://github.com/secureCodeBox/secureCodeBox/releases/latest"><img alt="GitHub release (latest SemVer)" src="https://img.shields.io/github/v/release/secureCodeBox/secureCodeBox?sort=semver"></a>
+  <a href="https://owasp.org/www-project-securecodebox/"><img alt="OWASP Incubator Project" src="https://img.shields.io/badge/OWASP-Incubator%20Project-365EAA"></a>
+  <a href="https://artifacthub.io/packages/search?repo=seccurecodebox"><img alt="Artifact HUB" src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/seccurecodebox"></a>
+  <a href="https://github.com/secureCodeBox/secureCodeBox/"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/secureCodeBox/secureCodeBox?logo=GitHub"></a>
+  <a href="https://twitter.com/securecodebox"><img alt="Twitter Follower" src="https://img.shields.io/twitter/follow/securecodebox?style=flat&color=blue&logo=twitter"></a>
+</p>
 
+## What is "Persistence DefectDojo" Hook about?
 The DefectDojo hook imports the reports from scans automatically into [OWASP DefectDojo](https://www.defectdojo.org/).
-The hook uses the import scan [API from DefectDojo](https://defectdojo.readthedocs.io/en/latest/api-v2-docs.html) to import the scan results.
+The hook uses the import scan [API v2 from DefectDojo](https://defectdojo.readthedocs.io/en/latest/api-v2-docs.html) to import the scan results.
 
 This means that only scan types are supported by the hook which are both supported by the secureCodeBox and DefectDojo.
 These are:
 
 - Nmap
+- Nikto
 - ZAP (Baseline, API Scan and Full Scan)
+- ZAP Advanced
 - SSLyze
 - Trivy
 - Gitleaks
-
-:::caution
-
-Nikto is currently **not** supported even though it's supported by the secureCodeBox and DefectDojo as the secureCodeBox
-uses the Nikto JSON format while DefectDojo uses the XML format.
-
-:::
 
 After uploading the results to DefectDojo, it will use the findings parsed by DefectDojo to overwrite the
 original secureCodeBox findings identified by the parser. This lets you access the finding metadata like the false
@@ -41,7 +60,28 @@ run ReadAndWrite hooks.
 ReadOnly hooks work fine with the DefectDojo hook as they are always executed after ReadAndWrite Hooks.
 :::
 
-## Runtime Configuration
+## Deployment
+The persistence-defectdojo `scanType` can be deployed via helm:
+
+```bash
+# Install HelmChart (use -n to configure another namespace)
+helm upgrade --install persistence-defectdojo secureCodeBox/persistence-defectdojo
+```
+
+## Requirements
+
+Kubernetes: `>=v1.11.0-0`
+
+## Additional Chart Configurations
+
+Installing the DefectDojo persistenceProvider hook will add a _ReadOnly Hook_ to your namespace.
+
+```bash
+kubectl create secret generic defectdojo-credentials --from-literal="username=admin" --from-literal="apikey=08b7..."
+
+helm upgrade --install dd secureCodeBox/persistence-defectdojo \
+    --set="defectdojo.url=https://defectdojo-django.default.svc"
+```
 
 The hook will automatically import the scan results into an engagement in DefectDojo.
 If the engagement doesn't exist the hook will create the engagement (CI/CD engagement) and all objects required for it
@@ -78,7 +118,7 @@ spec:
     scanType: "zap-full-scan"
     parameters:
       - "-t"
-      - "http://juice-shop.demo-targets.svc:3000"
+      - "http://juice-shop.demo-apps.svc:3000"
 ```
 
 ### Complete Example Scan
@@ -110,21 +150,10 @@ spec:
     scanType: "zap-full-scan"
     parameters:
       - "-t"
-      - "http://juice-shop.demo-targets.svc:3000"
+      - "http://juice-shop.demo-apps.svc:3000"
 ```
 
-## Deployment
-
-Installing the DefectDojo persistenceProvider hook will add a _ReadOnly Hook_ to your namespace.
-
-```bash
-kubectl create secret generic defectdojo-credentials --from-literal="username=admin" --from-literal="apikey=08b7..."
-
-helm upgrade --install dd secureCodeBox/persistence-defectdojo \
-    --set="defectdojo.url=https://defectdojo-django.default.svc"
-```
-
-## Chart Configuration
+## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -137,28 +166,16 @@ helm upgrade --install dd secureCodeBox/persistence-defectdojo \
 | hook.image.repository | string | `"docker.io/securecodebox/hook-persistence-defectdojo"` | Hook image repository |
 | hook.image.tag | string | `nil` | Container image tag |
 
-## Running Locally from Source
-For Development, it can be useful to run the Hook locally. You can do so by following these steps:
+## License
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-1. Make sure you have access to a running [DefectDojo](https://github.com/DefectDojo/django-DefectDojo) Instance
-2. [Run a Scan](https://docs.securecodebox.io/docs/getting-started/first-scans) of your choice.
-3. Supply Download Links for the Scan Results (Raw Result and Findings.json). You can e.g., access them from the
-included [Minio Instance](https://docs.securecodebox.io/docs/getting-started/installation/#accessing-the-included-minio-instance)
-and upload them to a GitHub gist.
+Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 
-4. Set the following environment variables
+[scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
+[scb-docs]: https://docs.securecodebox.io/
+[scb-site]: https://www.securecodebox.io/
+[scb-github]: https://github.com/secureCodeBox/
+[scb-twitter]: https://twitter.com/secureCodeBox
+[scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
+[scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
 
-- DEFECTDOJO_URL (e.g http://192.168.0.228:8080);
-- DEFECTDOJO_USERNAME (e.g admin)
-- DEFECTDOJO_APIKEY= (e.g. b09c.., can be fetched from the DefectDojo Settings)
-- IS_DEV=true
-- SCAN_NAME (e.g nmap-scanme.nmap.org, must be set exactly to the name of the scan used in step 2)
-
-5. Build the jar with gradle and run it with the following CLI arguments: {Raw Result Download URL} {Findings Download URL} {Raw Result Upload URL} {Findings Upload URL}.
-See the code snippet below. You have to adjust the filename of the jar for other versions than the '0.1.0-SNAPSHOT'.
-Also you will need to change the download URLs for the Raw Result and Findings to the ones from Step 3. 
-
-```bash
-./gradlew build
-java -jar build/libs/defectdojo-persistenceprovider-0.1.0-SNAPSHOT.jar https://gist.githubusercontent.com/.../scanme-nmap-org.xml https://gist.githubusercontent.com/.../nmap-findings.json https://httpbin.org/put https://httpbin.org/put
-```

@@ -48,11 +48,11 @@ The so called `CascadingRules` consist of a `matches section which contains one 
 This Hook is based on the ADR https://github.com/secureCodeBox/secureCodeBox/blob/main/docs/adr/adr_0003.md
 
 ## Deployment
-The declarative-subsequent-scans `scanType` can be deployed via helm:
+The cascading-scans `scanType` can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install declarative-subsequent-scans secureCodeBox/declarative-subsequent-scans
+helm upgrade --install cascading-scans secureCodeBox/cascading-scans
 ```
 
 ## Contributing
@@ -180,9 +180,9 @@ zap-http         zap-baseline-scan   non-invasive   medium
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| hookJob.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
-| image.repository | string | `"docker.io/securecodebox/declarative-subsequent-scans"` | Hook image repository |
-| image.tag | string | defaults to the charts version | The image Tag defaults to the charts version if not defined. |
+| hook.image.repository | string | `"docker.io/securecodebox/hook-cascading-scans"` | Hook image repository |
+| hook.image.tag | string | defaults to the charts version | The image Tag defaults to the charts version if not defined. |
+| hook.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
