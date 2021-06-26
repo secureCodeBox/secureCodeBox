@@ -1,0 +1,42 @@
+{{- /*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
+
+{{- define "extra.docsSection" -}}
+---
+title: "Update Field"
+category: "hook"
+type: "dataProcessing"
+state: "released"
+usecase: "Updates fields in finding results."
+---
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.version" . }}`
+{{- end }}
+
+{{- define "extra.chartAboutSection" -}}
+## What is "Update Field" Hook about?
+
+> ✍ This documentation is currently work-in-progress.
+{{- end }}
+
+{{- define "extra.scannerConfigurationSection" -}}{{- end }}
+
+{{- define "extra.chartConfigurationSection" -}}
+## Additional Chart Configurations
+Installing the _Update Field_ hook will add a ReadAndWrite Hook to your namespace, which can be used to add or update fields from your findings.
+
+```bash
+helm upgrade --install ufh secureCodeBox/update-field --set attribute.name="category" --set attribute.value="my-own-category"
+```
+> ✍ This documentation is currently work-in-progress.
+{{- end }}
+
+{{- define "extra.scannerLinksSection" -}}
+{{- end }}

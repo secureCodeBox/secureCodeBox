@@ -1,0 +1,45 @@
+{{- /*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
+
+{{- define "extra.docsSection" -}}
+---
+title: "Screenshooter"
+category: "scanner"
+type: "WebApplication"
+state: "released"
+appVersion: "{{ template "chart.appVersion" . }}"
+usecase: "Takes Screenshots of websites"
+---
+
+![firefox logo](https://3u26hb1g25wn1xwo8g186fnd-wpengine.netdna-ssl.com/files/2019/10/logo-firefox.svg)
+
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.version" . }}`
+{{- end }}
+
+{{- define "extra.chartAboutSection" -}}
+## What is Screenshooter?
+
+Screenshoter is a simple scanner that takes Screenshots of Websites. Therefore it's using an embeded Firefox Browser.
+{{- end }}
+
+{{- define "extra.scannerConfigurationSection" -}}
+## Scanner Configuration
+
+You have to provide only the URL to the screenshooter. Be careful, the protocol is mandatory:
+* `https://secureCodeBox.io`
+* **not** `secureCodeBox.io` or `www.secureCodeBox.io`
+{{- end }}
+
+{{- define "extra.chartConfigurationSection" -}}
+{{- end }}
+
+{{- define "extra.scannerLinksSection" -}}
+{{- end }}

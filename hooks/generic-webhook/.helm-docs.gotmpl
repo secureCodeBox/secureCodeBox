@@ -1,0 +1,38 @@
+{{- /*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
+
+{{- define "extra.docsSection" -}}
+---
+title: "Generic WebHook"
+category: "hook"
+type: "integration"
+state: "released"
+usecase: "Publishes Scan Findings as WebHook."
+---
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.version" . }}`
+{{- end }}
+
+{{- define "extra.chartAboutSection" -}}
+## What is "Generic WebHook" Hook about?
+Installing the Generic WebHook hook will add a ReadOnly Hook to your namespace which is capable of sending scan results containing `findings` to a given webhook url.
+
+{{- end }}
+
+{{- define "extra.scannerConfigurationSection" -}}{{- end }}
+
+{{- define "extra.chartConfigurationSection" -}}
+## Additional Chart Configurations
+
+> ✍ This documentation is currently work-in-progress.
+{{- end }}
+
+{{- define "extra.scannerLinksSection" -}}
+{{- end }}

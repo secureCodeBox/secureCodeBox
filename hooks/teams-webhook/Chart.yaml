@@ -25,4 +25,7 @@ maintainers:
   - name: iteratec GmbH
     email: secureCodeBox@iteratec.com
 
+# Will be replaced by the more general notification-hook soon
+deprecated: true
+
 dependencies: []

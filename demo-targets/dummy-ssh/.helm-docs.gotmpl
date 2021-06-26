@@ -1,0 +1,48 @@
+{{- /*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
+
+{{- define "extra.docsSection" -}}
+---
+title: "Dummy SSH"
+category: "target"
+type: "service"
+state: "released"
+appVersion: "{{ template "chart.appVersion" . }}"
+usecase: "Vulnerable WebApp based on html serverside rendering"
+---
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.version" . }}`
+{{- end }}
+
+{{- define "extra.chartAboutSection" -}}
+## What is Dummy SSH?
+The Dummy SSH service is a vulnerable SSH Service which is aimed at people who are new to pen testing.
+
+The vulnerable SSH Server is used for for security scan testing.
+
+There are also vulnerable credentials which can be identified via bruteforcing:
+- Port 22
+- Username root, 
+- Password: THEPASSWORDYOUCREATED
+
+**Homepage:** <https://github.com/psiinon/bodgeit>
+
+### Source Code
+
+* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-apps/dummy-ssh>
+
+{{- end }}
+
+{{- define "extra.scannerConfigurationSection" -}}{{- end }}
+
+{{- define "extra.chartConfigurationSection" -}}{{- end }}
+
+{{- define "extra.scannerLinksSection" -}}
+{{- end }}
