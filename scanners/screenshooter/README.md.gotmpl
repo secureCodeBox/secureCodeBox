@@ -27,3 +27,7 @@ helm upgrade --install screenshooter ./scanners/screenshooter/
 You have to provide only the URL to the screenshooter. Be careful, the protocol is mandatory:
 * `https://secureCodeBox.io`
 * **not** `secureCodeBox.io` or `www.secureCodeBox.io`
+
+## Chart Configuration
+
+{{ template "chart.valuesTable" . }}

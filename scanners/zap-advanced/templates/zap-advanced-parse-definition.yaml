@@ -9,5 +9,5 @@ metadata:
   labels:
     {{- include "zap.labels" . | nindent 4 }}
 spec:
-  image: "{{ .Values.parseJob.image.repository }}:{{ .Values.parseJob.image.tag | default .Chart.Version }}"
-  ttlSecondsAfterFinished: {{ .Values.parseJob.ttlSecondsAfterFinished }}
+  image: "{{ .Values.parser.image.repository }}:{{ .Values.parser.image.tag | default .Chart.Version }}"
+  ttlSecondsAfterFinished: {{ .Values.parser.ttlSecondsAfterFinished }}

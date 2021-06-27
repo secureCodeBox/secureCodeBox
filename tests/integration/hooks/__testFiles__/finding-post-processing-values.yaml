@@ -6,13 +6,13 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-image:
-  # image.tag - defaults to the charts version
-  # image.repository -- Hook image repository
-  repository: docker.io/securecodebox/finding-post-processing
-  # parserImage.tag -- Parser image tag
-  # @default -- defaults to the charts version
-  tag: null
+hook:
+  image:
+    # hook.image.repository -- Hook image repository
+    repository: docker.io/securecodebox/finding-post-processing
+    # hook.image.tag -- Parser image tag
+    # @default -- defaults to the charts version
+    tag: null
 
 rules:
   - matches:

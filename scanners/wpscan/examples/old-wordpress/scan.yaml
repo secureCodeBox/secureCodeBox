@@ -10,7 +10,7 @@ spec:
   scanType: "wpscan"
   parameters:
     - "--url"
-    - old-wordpress.demo-apps.svc.cluster.local
+    - old-wordpress.demo-targets.svc.cluster.local
     - "-e"
     - "vp"
     - "--plugins-detection"

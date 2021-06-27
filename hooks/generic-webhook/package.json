@@ -1,7 +1,7 @@
 {
-  "name": "scb-generic-webhook",
+"name": "@securecodebox/hook-generic-webhook",
   "version": "1.0.0",
-  "description": "secureCodeBox v2 Generic WebHook.",
+  "description": "secureCodeBox Generic WebHook.",
   "homepage": "https://www.secureCodeBox.io",
   "repository": {
     "type": "git",

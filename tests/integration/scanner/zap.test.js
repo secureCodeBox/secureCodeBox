@@ -10,7 +10,7 @@ test(
     const { categories, severities } = await scan(
       "zap-nginx-baseline",
       "zap-baseline-scan",
-      ["-t", "http://nginx.demo-apps.svc"],
+      ["-t", "http://nginx.demo-targets.svc"],
       60 * 4
     );
 
