@@ -476,21 +476,6 @@ optional arguments:
                         The OWASP ZAP Report Type.
 ```
 
-## Contributing
-
-Contributions are welcome and extremely helpful 🙌
-Please have a look at [Contributing](./CONTRIBUTING.md)
-
-## Community
-
-You are welcome, please join us on... 👋
-
-- [GitHub][scb-github]
-- [Slack][scb-slack]
-- [Twitter][scb-twitter]
-
-secureCodeBox is an official [OWASP][scb-owasp] project.
-
 ## Requirements
 
 Kubernetes: `>=v1.11.0-0`
@@ -531,6 +516,21 @@ Kubernetes: `>=v1.11.0-0`
 | zapContainer.image.tag | string | `nil` | defaults to the charts appVersion |
 | zapContainer.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | zapContainer.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
+
+## Contributing
+
+Contributions are welcome and extremely helpful 🙌
+Please have a look at [Contributing](./CONTRIBUTING.md)
+
+## Community
+
+You are welcome, please join us on... 👋
+
+- [GitHub][scb-github]
+- [Slack][scb-slack]
+- [Twitter][scb-twitter]
+
+secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)

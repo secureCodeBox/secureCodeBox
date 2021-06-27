@@ -82,7 +82,8 @@ You can deploy the ScanType with the config like this:
 
 ```bash
 cat <<EOF | helm install nmap-privileged ./scanners/nmap --values -
-scannerJob:
+scanner:
+  nameAppend: "-privileged"
   env:
     - name: "NMAP_PRIVILEGED"
       value: "true"

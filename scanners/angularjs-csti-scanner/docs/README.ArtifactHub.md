@@ -79,21 +79,6 @@ Optional arguments:
 
 **Do not** override the option `-vrl` or `--vulnerable-requests-log`. It is already configured for automatic findings parsing.
 
-## Contributing
-
-Contributions are welcome and extremely helpful 🙌
-Please have a look at [Contributing](./CONTRIBUTING.md)
-
-## Community
-
-You are welcome, please join us on... 👋
-
-- [GitHub][scb-github]
-- [Slack][scb-slack]
-- [Twitter][scb-twitter]
-
-secureCodeBox is an official [OWASP][scb-owasp] project.
-
 ## Requirements
 
 Kubernetes: `>=v1.11.0-0`
@@ -201,6 +186,21 @@ options.scope.request_methods = [
 | scanner.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | scanner.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+
+## Contributing
+
+Contributions are welcome and extremely helpful 🙌
+Please have a look at [Contributing](./CONTRIBUTING.md)
+
+## Community
+
+You are welcome, please join us on... 👋
+
+- [GitHub][scb-github]
+- [Slack][scb-slack]
+- [Twitter][scb-twitter]
+
+secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)

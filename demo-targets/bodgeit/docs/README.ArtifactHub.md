@@ -59,21 +59,6 @@ The bodgeit `scanType` can be deployed via helm:
 helm upgrade --install bodgeit secureCodeBox/bodgeit
 ```
 
-## Contributing
-
-Contributions are welcome and extremely helpful 🙌
-Please have a look at [Contributing](./CONTRIBUTING.md)
-
-## Community
-
-You are welcome, please join us on... 👋
-
-- [GitHub][scb-github]
-- [Slack][scb-slack]
-- [Twitter][scb-twitter]
-
-secureCodeBox is an official [OWASP][scb-owasp] project.
-
 ## Values
 
 | Key | Type | Default | Description |
@@ -100,6 +85,21 @@ secureCodeBox is an official [OWASP][scb-owasp] project.
 | service.port | int | `8080` |  |
 | service.type | string | `"ClusterIP"` |  |
 | tolerations | list | `[]` |  |
+
+## Contributing
+
+Contributions are welcome and extremely helpful 🙌
+Please have a look at [Contributing](./CONTRIBUTING.md)
+
+## Community
+
+You are welcome, please join us on... 👋
+
+- [GitHub][scb-github]
+- [Slack][scb-slack]
+- [Twitter][scb-twitter]
+
+secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)

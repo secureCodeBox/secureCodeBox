@@ -70,21 +70,6 @@ Some useful example parameters listed below:
 - `-script` xx: Replace xx with the script name. Start the scan with the given script.
 - `--script` xx: Replace xx with a coma-separated list of scripts. Start the scan with the given scripts.
 
-## Contributing
-
-Contributions are welcome and extremely helpful 🙌
-Please have a look at [Contributing](./CONTRIBUTING.md)
-
-## Community
-
-You are welcome, please join us on... 👋
-
-- [GitHub][scb-github]
-- [Slack][scb-slack]
-- [Twitter][scb-twitter]
-
-secureCodeBox is an official [OWASP][scb-owasp] project.
-
 ## Requirements
 
 Kubernetes: `>=v1.11.0-0`
@@ -102,7 +87,8 @@ You can deploy the ScanType with the config like this:
 
 ```bash
 cat <<EOF | helm install nmap-privileged ./scanners/nmap --values -
-scannerJob:
+scanner:
+  nameAppend: "-privileged"
   env:
     - name: "NMAP_PRIVILEGED"
       value: "true"
@@ -156,6 +142,21 @@ spec:
 | scanner.securityContext.readOnlyRootFilesystem | bool | `true` | Prevents write access to the containers file system |
 | scanner.securityContext.runAsNonRoot | bool | `true` | Enforces that the scanner image is run as a non root user |
 | scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+
+## Contributing
+
+Contributions are welcome and extremely helpful 🙌
+Please have a look at [Contributing](./CONTRIBUTING.md)
+
+## Community
+
+You are welcome, please join us on... 👋
+
+- [GitHub][scb-github]
+- [Slack][scb-slack]
+- [Twitter][scb-twitter]
+
+secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)

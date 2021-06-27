@@ -79,21 +79,6 @@ find something like **password = Ej2ifDk2jfeo2**, but it will reduce resulting f
 If you like to provide your custom ruleset, you can create a configMap and mount it into
 the scan. Checkout the examples for more information about providing your own gitleaks rules config.
 
-## Contributing
-
-Contributions are welcome and extremely helpful 🙌
-Please have a look at [Contributing](./CONTRIBUTING.md)
-
-## Community
-
-You are welcome, please join us on... 👋
-
-- [GitHub][scb-github]
-- [Slack][scb-slack]
-- [Twitter][scb-twitter]
-
-secureCodeBox is an official [OWASP][scb-owasp] project.
-
 ## Requirements
 
 Kubernetes: `>=v1.11.0-0`
@@ -117,19 +102,20 @@ If you already want to use our implementation (fork) of this feature you can use
 
 ```yaml
 # Corresponding HelmChart Configuration
-image:
-  # image.repository -- Container Image to run the scan
-  repository: docker.io/securecodebox/scanner-gitleaks
-  # image.tag -- defaults to the charts version
-  tag: v7.3.0
+scanner:
+  image:
+    # scanner.image.repository -- Container Image to run the scan
+    repository: docker.io/securecodebox/scanner-gitleaks
+    # scanner.image.tag -- defaults to the charts version
+    tag: v7.3.0
 ```
 
 #### Deployment with extended GitLeaks
 ```bash
 # Install HelmChart (use -n to configure another namespace)
 helm upgrade --install gitleaks secureCodeBox/gitleaks \
-  --set="image.repository=docker.io/securecodebox/scanner-gitleaks" \
-  --set="image.tag=v7.3.0"
+  --set="scanner.image.repository=docker.io/securecodebox/scanner-gitleaks" \
+  --set="scanner.image.tag=v7.3.0"
 ```
 
 #### Additional (Fork) Scanner configuration options
@@ -195,6 +181,21 @@ For more information on how to use cascades take a look at
 | scanner.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | scanner.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+
+## Contributing
+
+Contributions are welcome and extremely helpful 🙌
+Please have a look at [Contributing](./CONTRIBUTING.md)
+
+## Community
+
+You are welcome, please join us on... 👋
+
+- [GitHub][scb-github]
+- [Slack][scb-slack]
+- [Twitter][scb-twitter]
+
+secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)

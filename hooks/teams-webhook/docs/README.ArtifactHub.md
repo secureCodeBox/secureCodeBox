@@ -51,21 +51,6 @@ The teams-webhook `scanType` can be deployed via helm:
 helm upgrade --install teams-webhook secureCodeBox/teams-webhook
 ```
 
-## Contributing
-
-Contributions are welcome and extremely helpful 🙌
-Please have a look at [Contributing](./CONTRIBUTING.md)
-
-## Community
-
-You are welcome, please join us on... 👋
-
-- [GitHub][scb-github]
-- [Slack][scb-slack]
-- [Twitter][scb-twitter]
-
-secureCodeBox is an official [OWASP][scb-owasp] project.
-
 ## Requirements
 
 Kubernetes: `>=v1.11.0-0`
@@ -88,6 +73,21 @@ Kubernetes: `>=v1.11.0-0`
 | vulnerabilityManagement.findingsUrl | string | `"https://your-kibana-service.url/your-dashboard-path/filter:{{uid}}"` |  |
 | vulnerabilityManagement.name | string | `"Kibana Dashboard"` |  |
 | vulnerabilityManagement.url | string | `"https://your-kibana-service.url/your-dashboard-path"` |  |
+
+## Contributing
+
+Contributions are welcome and extremely helpful 🙌
+Please have a look at [Contributing](./CONTRIBUTING.md)
+
+## Community
+
+You are welcome, please join us on... 👋
+
+- [GitHub][scb-github]
+- [Slack][scb-slack]
+- [Twitter][scb-twitter]
+
+secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)

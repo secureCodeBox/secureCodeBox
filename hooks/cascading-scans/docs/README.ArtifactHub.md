@@ -42,7 +42,7 @@ You can find resources to help you get started on our [documentation website](ht
 
 ## What is "Cascading Scans" Hook about?
 The Cascading Scans Hook can be used to orchestrate security scanners based on defined rule sets.
-The so called `CascadingRules` consist of a `matches section which contains one or multiple rules which are compared against `findings`. When a `finding` matches a `rule` the `scanSpec` section will then be used to create a new scan. To customize the scan to match the finding, the [mustache](https://github.com/janl/mustache.js) templating language can be used to reference fields of the finding.
+The so called `CascadingRules` consist of a `matches` section which contains one or multiple rules which are compared against `findings`. When a `finding` matches a `rule` the `scanSpec` section will then be used to create a new scan. To customize the scan to match the finding, the [mustache](https://github.com/janl/mustache.js) templating language can be used to reference fields of the finding.
 
 <-- Todo: should be replaced with an valid docs.secureCodeBox.io link as soon as all ADRs are added there -->
 This Hook is based on the ADR https://github.com/secureCodeBox/secureCodeBox/blob/main/docs/adr/adr_0003.md
@@ -55,21 +55,6 @@ The cascading-scans `scanType` can be deployed via helm:
 helm upgrade --install cascading-scans secureCodeBox/cascading-scans
 ```
 
-## Contributing
-
-Contributions are welcome and extremely helpful 🙌
-Please have a look at [Contributing](./CONTRIBUTING.md)
-
-## Community
-
-You are welcome, please join us on... 👋
-
-- [GitHub][scb-github]
-- [Slack][scb-slack]
-- [Twitter][scb-twitter]
-
-secureCodeBox is an official [OWASP][scb-owasp] project.
-
 ## Requirements
 
 Kubernetes: `>=v1.11.0-0`
@@ -81,7 +66,7 @@ Installing the `Cascading Scans` hook will add a `ReadOnly Hook` to your namespa
 ```bash
 kubectl get ScanCompletionHooks
 NAME   TYPE       IMAGE
-dssh   ReadOnly   docker.io/securecodebox/hook-declarative-subsequent-scans:latest
+dssh   ReadOnly   docker.io/securecodebox/hook-cascading-scans:latest
 ```
 
 ### CascadingScan Rules
@@ -183,6 +168,21 @@ zap-http         zap-baseline-scan   non-invasive   medium
 | hook.image.repository | string | `"docker.io/securecodebox/hook-cascading-scans"` | Hook image repository |
 | hook.image.tag | string | defaults to the charts version | The image Tag defaults to the charts version if not defined. |
 | hook.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+
+## Contributing
+
+Contributions are welcome and extremely helpful 🙌
+Please have a look at [Contributing](./CONTRIBUTING.md)
+
+## Community
+
+You are welcome, please join us on... 👋
+
+- [GitHub][scb-github]
+- [Slack][scb-slack]
+- [Twitter][scb-twitter]
+
+secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
