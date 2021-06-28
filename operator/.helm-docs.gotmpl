@@ -1,0 +1,53 @@
+{{- /*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
+
+{{- define "extra.docsSection" -}}
+---
+title: "secreCodeBox Operator"
+category: "core"
+type: "Operator"
+state: "released"
+appVersion: "{{ template "chart.appVersion" . }}"
+usecase: "secureCodeBox Operator is the core componente."
+---
+
+![operator logo](https://docs.securecodebox.io/img/Logo_Color.svg)
+
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.version" . }}`
+{{- end }}
+
+{{- define "extra.chartAboutSection" -}}
+## What is secureCodeBox Operator?
+The secureCodeBox operator is running on Kubernetes and is the core component of the complete secureCodeBox stack, responsible for managing all scans and resources.
+
+**Homepage:** <https://docs.securecodebox.io/docs/getting-started/installation>
+
+{{- end }}
+
+{{- define "extra.scannerConfigurationSection" -}}{{- end }}
+
+{{- define "extra.chartConfigurationSection" -}}
+## Deployment
+
+The secureCodeBox Operator can be deployed via helm:
+
+```bash
+# Add the secureCodeBox Helm Repo
+helm repo add secureCodeBox https://charts.securecodebox.io
+# Create a new namespace for the secureCodeBox Operator
+kubectl create namespace securecodebox-system
+# Install the Operator & CRDs
+helm install securecodebox-operator secureCodeBox/operator
+```
+{{- end }}
+
+{{- define "extra.scannerLinksSection" -}}
+{{- end }}

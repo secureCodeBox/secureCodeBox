@@ -40,3 +40,4 @@ main.go
 Makefile
 PROJECT
 README.md.gotmpl
+docs/

@@ -23,7 +23,6 @@ jobs:
           passphrase: ${{ secrets.GPG_COMMITS_PASSPHRASE }}
           git-user-signingkey: true
           git-commit-gpgsign: true
-          commit_options: '--signoff'
 
       - name: Download Helm Docs
         run: |
@@ -107,6 +106,18 @@ jobs:
           )
           done
 
+      - name: Generate Core Docs
+        run: |
+          # Start in the operator folder
+          cd operator
+          if [ -d "docs" ]; then
+            echo "Docs Folder found at: operator/docs"
+            ./../helm-docs/helm-docs --template-files=./../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../.helm-docs/README.DockerHub-Core.md.gotmpl --output-file=docs/README.DockerHub-Core.md
+            ./../helm-docs/helm-docs --template-files=./../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
+          else
+            echo "Ignoring Docs creation process for Chart $dir, because no `docs` folder found at: operator/docs"
+          fi
+
       - name: Remove Helm Docs Files
         run: |
           # Remove helm-docs download to ensure they don't get commited back
@@ -115,3 +126,6 @@ jobs:
         with:
           commit_message: Updating Helm Docs
           commit_user_email: securecodebox@iteratec.com
+          # Optional. Used by `git-commit`.
+          # See https://git-scm.com/docs/git-commit#_options
+          commit_options: '--signoff'
