@@ -224,7 +224,7 @@ This configuration needs to be specified under `env` in the values yaml.
 The identifier for this config has to be `SMTP_CONFIG`.
 A basic configuration could look like this:
 
-```
+```yaml
 notificationChannels:
   - name: email
     type: email
