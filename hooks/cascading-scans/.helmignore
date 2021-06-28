@@ -34,3 +34,4 @@ Dockerfile
 .dockerignore
 docs/
 declarative-subsequent-scans.tar
+hook
