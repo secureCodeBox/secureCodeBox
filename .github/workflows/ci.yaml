@@ -35,7 +35,7 @@ jobs:
           java-package: jdk # (jre, jdk, or jdk+fx) - defaults to jdk
           architecture: x64 # (x64 or x86) - defaults to x64
       - run: |
-          cd hooks/${{ matrix.unit }}/
+          cd hooks/${{ matrix.unit }}/hook
           ./gradlew test
 
   # ---- Unit-Test | Python ----
@@ -89,7 +89,7 @@ jobs:
           done
       - name: "Install npm dependencies in all hook sub projects"
         run: |
-          for dir in hooks/*/
+          for dir in hooks/*/hook/
           do
               cd $dir
               if [ -f package.json ] && [ -f package-lock.json ]; then
@@ -112,7 +112,8 @@ jobs:
           npm ci
       - name: "Compile Typescript"
         run: |
-          cd hooks/cascading-scans
+          cd hooks/cascading-scans/hook
+          npm ci
           npm run build
       - name: "Run tests & publish code coverage"
         uses: paambaati/codeclimate-action@v2.6.0
@@ -328,8 +329,8 @@ jobs:
       - name: Build and Push
         uses: docker/build-push-action@v2
         with:
-          context: ./hooks/${{ matrix.hook }}
-          file: ./hooks/${{ matrix.hook }}/Dockerfile
+          context: ./hooks/${{ matrix.hook }}/hook
+          file: ./hooks/${{ matrix.hook }}/hook/Dockerfile
           build-args: |
             namespace=${{ env.DOCKER_NAMESPACE }}
             baseImageTag=${{ env.baseImageTag }}
