@@ -173,6 +173,14 @@ jobs:
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
+      
+      - name: Update Docker Hub Description
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+          repository: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.component }}
+          readme-filepath: ./docs/README.DockerHub-Core.md
 
   # ---- Build Stage | SDK Matrix ----
 
