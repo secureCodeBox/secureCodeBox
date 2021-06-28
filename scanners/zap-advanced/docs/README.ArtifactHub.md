@@ -56,6 +56,37 @@ helm upgrade --install zap-advanced secureCodeBox/zap-advanced
 
 ## Scanner Configuration
 
+Listed below are the arguments supported by the `zap-advanced-scan` script.
+
+The command line interface can be used to easily run server scans: `-t www.example.com`
+
+```bash
+usage: zap-client [-h] -z ZAP_URL [-a API_KEY] [-c CONFIG_FOLDER] -t TARGET [-o OUTPUT_FOLDER] [-r {XML,JSON,HTML,MD}]
+
+OWASP secureCodeBox OWASP ZAP Client  (can be used to automate OWASP ZAP instances based on YAML configuration files.)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -z ZAP_URL, --zap-url ZAP_URL
+                        The ZAP API Url used to call the ZAP API.
+  -a API_KEY, --api-key API_KEY
+                        The ZAP API Key used to call the ZAP API.
+  -c CONFIG_FOLDER, --config-folder CONFIG_FOLDER
+                        The path to a local folder containing the additional ZAP configuration YAMLs used to configure OWASP ZAP.
+  -t TARGET, --target TARGET
+                        The target to scan with OWASP ZAP.
+  -o OUTPUT_FOLDER, --output-folder OUTPUT_FOLDER
+                        The path to a local folder used to store the output files, eg. the ZAP Report or logfiles.
+  -r {XML,JSON,HTML,MD}, --report-type {XML,JSON,HTML,MD}
+                        The OWASP ZAP Report Type.
+```
+
+## Requirements
+
+Kubernetes: `>=v1.11.0-0`
+
+## Additional Chart Configurations
+
 By default, the secureCodeBox ZAP Helm Chart installs the scanType `zap-advanced-scan` along with a minimal _default configuration_ based on the HelmChart value `zapConfiguration`. The configuration will be stored in a dedicate scanType specific _configMap_ named `zap-advanced-scantype-config`. Feel free to use the `configMap` or even the HelmChart values to adjust the  advanced ZAP configuration settings according to your needs. Details about the different configuration options can be found below.
 
 Additionally, there will be some ZAP Scripts included, these are stored in the corresponding configMaps `zap-scripts-authentication` and `zap-scripts-session`. Scripts can be used to implement a specific behavior or even new authentication patterns, which are not supported by ZAP out of the box. Feel free to add additional scripts in your own, if you need them.
@@ -448,37 +479,6 @@ zapConfiguration:
       # -- Configures existings ZAP Scripts or add new ZAP Scripts. For example can be used if a proxy script must be loaded. Proxy scripts are executed for every request traversing ZAP
       scripts: {}
 ```
-
-### ScanType Configurations
-
-Listed below are the arguments (scanType parameter specs) supported by the `zap-advanced-scan` script.
-
-The command line interface can be used to easily run server scans: `-t www.example.com`
-
-```bash
-usage: zap-client [-h] -z ZAP_URL [-a API_KEY] [-c CONFIG_FOLDER] -t TARGET [-o OUTPUT_FOLDER] [-r {XML,JSON,HTML,MD}]
-
-OWASP secureCodeBox OWASP ZAP Client  (can be used to automate OWASP ZAP instances based on YAML configuration files.)
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -z ZAP_URL, --zap-url ZAP_URL
-                        The ZAP API Url used to call the ZAP API.
-  -a API_KEY, --api-key API_KEY
-                        The ZAP API Key used to call the ZAP API.
-  -c CONFIG_FOLDER, --config-folder CONFIG_FOLDER
-                        The path to a local folder containing the additional ZAP configuration YAMLs used to configure OWASP ZAP.
-  -t TARGET, --target TARGET
-                        The target to scan with OWASP ZAP.
-  -o OUTPUT_FOLDER, --output-folder OUTPUT_FOLDER
-                        The path to a local folder used to store the output files, eg. the ZAP Report or logfiles.
-  -r {XML,JSON,HTML,MD}, --report-type {XML,JSON,HTML,MD}
-                        The OWASP ZAP Report Type.
-```
-
-## Requirements
-
-Kubernetes: `>=v1.11.0-0`
 
 ## Values
 
