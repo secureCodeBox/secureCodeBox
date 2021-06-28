@@ -17,7 +17,7 @@ usecase: "Publishes Scan Findings as WebHook."
 {{- define "extra.dockerDeploymentSection" -}}
 ## Supported Tags
 - `latest`  (represents the latest stable release build)
-- tagged releases, e.g. `{{ template "chart.version" . }}`
+- tagged releases, e.g. `v2.9.0`, `v2.8.0`, `v2.7.0`
 {{- end }}
 
 {{- define "extra.chartAboutSection" -}}
