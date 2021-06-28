@@ -65,6 +65,7 @@ Please take a look at the documentation for each type (e.g. for slack see [Confi
 - [Slack](#configuration-of-a-slack-notification)
 - [Slack App](#configuration-of-a-slack-app-notification)
 - [Email](#configuration-of-an-email-notification)
+- [MS Teams](#configuration-of-a-ms-teams-notification)
 
 ### Configuration of a Notification
 
@@ -244,6 +245,37 @@ env:
     value: "smtp://user:pass@smtp.domain.tld/"
   - name: EMAIL_FROM
     value: secureCodeBox
+```
+
+### Configuration Of A MS Teams Notification
+
+To configure a MS Teams notification you need to set the type to `ms-teams`.
+In `endPoint` you need to specify the MS Teams webhook.
+To use the template provided by the secureCodeBox set template to `msteams-messageCard`.
+
+The default template allows you to specify an additional set of information.
+If you you use the persistence-elastic or use some kind of dashboard, you can set the variable `VULNMANAG_ENABLED` to true, `dashboardUrl` to the URL of your dashboard.
+This will add a button in the notification that opens your dashboard.
+You can also add a button that opens your findings directly in your dashboard.
+To do this you need to specify `dashboardFingingsUrl`.
+You will have to replace the id of the scan in this url with `{{ uid }}` so that nunjucks can parse these urls.
+
+A basic configuration could look like this:
+
+```yaml
+notificationChannels:
+  - name: ms-teams
+    type: ms-teams
+    template: msteams-messageCard
+    rules: []
+    endPoint: "https://somewhere.xyz/sadf12"
+env:
+  - name: VULNMANAG_ENABLED
+    value: true
+  - name: dashboardUrl
+    value: "somedashboard.url"
+  - name: dashboardFindingsUrl
+    value: "somedashboard.url/findings/{{ uid }}"
 ```
 
 ### Custom Message Templates
