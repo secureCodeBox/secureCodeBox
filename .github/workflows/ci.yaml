@@ -776,7 +776,6 @@ jobs:
       # ---- OWASP Amass Integration Tests ----
 
       - name: "amass Integration Tests"
-        working-directory: ./scanners/amass
         run: |
           kubectl -n integration-tests delete scans --all
           helm -n integration-tests install amass ./scanners/amass/ \
