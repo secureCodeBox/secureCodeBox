@@ -177,7 +177,7 @@ jobs:
       - name: Update Docker Hub Description
         uses: peter-evans/dockerhub-description@v2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
           repository: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.component }}
           readme-filepath: ./docs/README.DockerHub-Core.md
