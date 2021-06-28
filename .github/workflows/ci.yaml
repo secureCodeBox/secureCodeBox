@@ -283,6 +283,14 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
+      - name: Update Docker Hub Description
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: ${{ env.DOCKER_NAMESPACE }}/hook-${{ matrix.hook }}
+          readme-filepath: ./hooks/${{ matrix.hook }}/docs/README.DockerHub-Hook.md
+
   # ---- Build Stage | Matrix Parsers ----
 
   parsers:
@@ -347,6 +355,14 @@ jobs:
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
+
+      - name: Update Docker Hub Description
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: ${{ env.DOCKER_NAMESPACE }}/parser-${{ matrix.parser }}
+          readme-filepath: ./scanners/${{ matrix.parser }}/docs/README.DockerHub-Parser.md
 
   # ---- Build | Scanners ----
 
@@ -413,6 +429,14 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
+      - name: Update Docker Hub Description
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
+          readme-filepath: ./scanners/${{ matrix.scanner }}/docs/README.DockerHub-Scanner.md
+
   # ---- Build | Scanners | Custom Scanner ----
 
   # This Section contains Scanners that are developed by the secureCodeBox project
@@ -468,6 +492,14 @@ jobs:
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
+
+      - name: Update Docker Hub Description
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
+          readme-filepath: ./scanners/${{ matrix.scanner }}/docs/README.DockerHub-Scanner.md
 
   scanner-nikto:
     # This Scanner has to be build seperately because the official image is only on GitHub but not on DockerHub
@@ -542,6 +574,14 @@ jobs:
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
+
+      - name: Update Docker Hub Description
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: ${{ env.DOCKER_NAMESPACE }}/scanner-nikto
+          readme-filepath: ./scb/scanners/nikto/docs/README.DockerHub-Scanner.md
 
   # ---- Integration Tests ----
 
