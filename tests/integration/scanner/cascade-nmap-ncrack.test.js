@@ -12,7 +12,7 @@ test(
     const { categories, severities, count } = await cascadingScan(
       "nmap-dummy-ssh",
       "nmap",
-      ["-Pn", "-sV", "dummy-ssh.demo-apps.svc"],
+      ["-Pn", "-sV", "dummy-ssh.demo-targets.svc"],
       {
         nameCascade: "ncrack-ssh",
         matchLabels: {

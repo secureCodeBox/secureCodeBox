@@ -10,8 +10,8 @@ metadata:
     {{- include "update-field.labels" . | nindent 4 }}
 spec:
   type: ReadAndWrite
-  image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
-  ttlSecondsAfterFinished: {{ .Values.hookJob.ttlSecondsAfterFinished }}
+  image: "{{ .Values.hook.image.repository }}:{{ .Values.hook.image.tag | default .Chart.Version }}"
+  ttlSecondsAfterFinished: {{ .Values.hook.ttlSecondsAfterFinished }}
   env:
     - name: ATTRIBUTE_NAME
       value: {{ .Values.attribute.name | quote }}

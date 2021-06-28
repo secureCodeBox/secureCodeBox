@@ -18,3 +18,18 @@ Installing the Teams WebHook hook will add a ReadOnly Hook to your namespace.
 helm upgrade --install twh ./hooks/teams-webhook/ --set notification.url="http://example.com/my/webhook/target"
 ```
 > ✍ This documentation is currently work-in-progress.
+
+## Chart Configuration
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| hook.image.repository | string | `"docker.io/securecodebox/hook-teams-webhook"` | Hook image repository |
+| hook.image.tag | string | defaults to the charts version | Image tag |
+| hook.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+| notification.rules | list | `[]` | A optional rule definition that can be used to describe in wich case a notification must be fired. If not defined / empty each scan result will be notified. |
+| notification.template | string | `"messageCard"` | The MS Teams message template that should be used [messageCard | adaptiveCard]. |
+| notification.url | string | `"http://example.com"` | The URL of your WebHook endpoint |
+| vulnerabilityManagement.enabled | bool | `false` |  |
+| vulnerabilityManagement.findingsUrl | string | `"https://your-kibana-service.url/your-dashboard-path/filter:{{uid}}"` |  |
+| vulnerabilityManagement.name | string | `"Kibana Dashboard"` |  |
+| vulnerabilityManagement.url | string | `"https://your-kibana-service.url/your-dashboard-path"` |  |

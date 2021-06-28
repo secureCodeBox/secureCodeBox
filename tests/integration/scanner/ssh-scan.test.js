@@ -13,7 +13,7 @@ test(
     const { categories, severities, count } = await scan(
       "ssh-scan-dummy-ssh",
       "ssh-scan",
-      ["-t", "dummy-ssh.demo-apps.svc"],
+      ["-t", "dummy-ssh.demo-targets.svc"],
       90
     );
 
@@ -41,7 +41,7 @@ test(
       scan(
         "ssh-scan-non-existing",
         "ssh-scan",
-        ["-t", "this-target-doesnt-exist.demo-apps.svc"],
+        ["-t", "this-target-doesnt-exist.demo-targets.svc"],
         180
       )
     ).rejects.toThrow(

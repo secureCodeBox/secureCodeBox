@@ -43,9 +43,9 @@ the [Luxon documentation](https://moment.github.io/luxon/docs/manual/formatting.
 | externalElasticStack.enabled | bool | `false` | Enable this when you already have an Elastic Stack running to which you want to send your results |
 | externalElasticStack.kibanaAddress | string | `"https://kibana.example.com"` | The URL of the kibana service used to visualize all findings. |
 | fullnameOverride | string | `""` |  |
-| hookJob.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
-| image.repository | string | `"docker.io/securecodebox/persistence-elastic"` | Image repository for the dashboard importer job |
-| image.tag | string | defaults to the charts version | Image tag for the dashboard importer job |
+| hook.image.repository | string | `"docker.io/securecodebox/hook-persistence-elastic"` | Hook image repository |
+| hook.image.tag | string | defaults to the charts version | The image Tag defaults to the charts version if not defined. |
+| hook.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | imagePullSecrets | list | `[]` |  |
 | indexAppendNamespace | bool | `true` | Define if the name of the namespace where this hook is deployed to must be added to the index name. The namespace can be used to separate index by tenants (namespaces). |
 | indexPrefix | string | `"scbv2"` | Define a specific index prefix used for all elasticsearch indices. |

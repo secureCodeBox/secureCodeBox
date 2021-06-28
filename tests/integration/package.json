@@ -1,5 +1,5 @@
 {
-  "name": "securecodebox-integration-tests",
+  "name": "@securecodebox/integration-tests",
   "version": "1.0.0",
   "description": "Integration Tests running on a real k8s cluster",
   "scripts": {

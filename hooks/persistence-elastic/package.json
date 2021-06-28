@@ -1,7 +1,7 @@
 {
-  "name": "persistence-elastic",
+"name": "@securecodebox/hook-persistence-elastic",
   "version": "1.0.0",
-  "description": "secureCodeBox v2 Hook to persist results to elasticsearch.",
+  "description": "secureCodeBox Hook to persist results to elasticsearch.",
   "homepage": "https://www.secureCodeBox.io",
   "repository": {
     "type": "git",

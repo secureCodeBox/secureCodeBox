@@ -7,8 +7,8 @@ kind: ParseDefinition
 metadata:
   name: "ncrack-xml"
 spec:
-  image: "{{ .Values.parserImage.repository }}:{{ .Values.parserImage.tag | default .Chart.Version }}"
-  ttlSecondsAfterFinished: {{ .Values.parseJob.ttlSecondsAfterFinished }}
+  image: "{{ .Values.parser.image.repository }}:{{ .Values.parser.image.tag | default .Chart.Version }}"
+  ttlSecondsAfterFinished: {{ .Values.parser.image.ttlSecondsAfterFinished }}
   {{- if .Values.encryptPasswords.existingSecret }}
   volumes:
   - name: "ncrack-secret"
