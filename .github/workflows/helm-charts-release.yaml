@@ -33,7 +33,15 @@ jobs:
             echo "Processing Helm Chart in $dir"
             helm package --version $RELEASE_VERSION .
             NAME=$(yq eval '.name' - < Chart.yaml)
-            curl --silent --show-error --user "${USERNAME}:${PASSWORD}" --data-binary "@${NAME}-${RELEASE_VERSION}.tgz" "${HELM_REGISTRY}/api/charts"
+            if [ -d "docs" ]; then
+              echo "Docs Folder found at: ${dir}/docs"
+              # Use prepared ArtifactHub specific README instead of the general existing one
+              cp docs/README.ArtifactHub.md README.md
+            else
+              echo "Ignoring Docs process for Chart $dir, because no `docs` folder found at: ${dir}/docs"
+            fi
+
+            curl --silent --show-error --http1.1 --user "${USERNAME}:${PASSWORD}" --data-binary "@${NAME}-${RELEASE_VERSION}.tgz" "${HELM_REGISTRY}/api/charts"
             sleep 5s
           )
           done
