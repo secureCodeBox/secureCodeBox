@@ -180,7 +180,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
           repository: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.component }}
-          readme-filepath: ./docs/README.DockerHub-Core.md
+          readme-filepath: ./${{ matrix.component }}/docs/README.DockerHub-Core.md
 
   # ---- Build Stage | SDK Matrix ----
 
