@@ -47,14 +47,14 @@
   },
   "jest": {
     "projects": [
-      "<rootDir>/cascading-scans",
-      "<rootDir>/finding-post-processing",
-      "<rootDir>/generic-webhook",
-      "<rootDir>/notification/src",
-      "<rootDir>/persistence-defectdojo",
-      "<rootDir>/persistence-elastic",
-      "<rootDir>/teams-webhook",
-      "<rootDir>/update-field"
+      "<rootDir>/cascading-scans/hook",
+      "<rootDir>/finding-post-processing/hook",
+      "<rootDir>/generic-webhook/hook",
+      "<rootDir>/notification/hook",
+      "<rootDir>/persistence-defectdojo/hook",
+      "<rootDir>/persistence-elastic/hook",
+      "<rootDir>/teams-webhook/hook",
+      "<rootDir>/update-field/hook"
     ]
   }
 }
