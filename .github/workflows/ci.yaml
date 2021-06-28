@@ -99,6 +99,9 @@ jobs:
               # cd back
               cd -
           done
+      - name: Debug Hook Installation
+        if: failure()
+        run: "find /home/runner/.npm/_logs -type f -exec cat {} +"
       - name: "Install npm test dependencies"
         run: |
           npm ci
