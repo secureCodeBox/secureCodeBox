@@ -23,10 +23,10 @@ async function validate(jsonData) {
     "utf8"
   );
   const jsonSchema = JSON.parse(jsonSchemaString);
-  const validater = ajv.compile(jsonSchema);
-  const valid = validater(jsonData);
+  const validator = ajv.compile(jsonSchema);
+  const valid = validator(jsonData);
   if (!valid) {
-    throw new Error(JSON.stringify(validater.errors, null, 2));
+    throw new Error(JSON.stringify(validator.errors, null, 2));
   }
 }
 
