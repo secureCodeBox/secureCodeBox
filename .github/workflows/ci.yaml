@@ -779,7 +779,7 @@ jobs:
         working-directory: ./scanners/amass
         run: |
           make deploy IMG_TAG=$(git rev-parse --short HEAD)
-          make integration-test
+          make integration-tests
 
       # ---- gitleaks Integration Tests ----
 
