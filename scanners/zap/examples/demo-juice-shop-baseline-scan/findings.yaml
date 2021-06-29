@@ -7,11 +7,11 @@
         "name": "Cross-Domain Misconfiguration",
         "description": "Web browser data loading may be possible, due to a Cross Origin Resource Sharing (CORS) misconfiguration on the web server",
         "category": "Cross-Domain Misconfiguration",
-        "location": "http://juice-shop.demo-apps.svc:3000",
+        "location": "http://juice-shop.demo-targets.svc:3000",
         "osi_layer": "APPLICATION",
         "severity": "MEDIUM",
         "attributes": {
-            "host": "juice-shop.demo-apps.svc",
+            "host": "juice-shop.demo-targets.svc",
             "zap_confidence": "2",
             "zap_count": "101",
             "zap_solution": "Ensure that sensitive data is not available in an unauthenticated manner (using IP address white-listing, for instance).Configure the \"Access-Control-Allow-Origin\" HTTP header to a more restrictive set of domains, or remove all CORS headers entirely, to allow the web browser to enforce the Same Origin Policy (SOP) in a more restrictive manner.",
@@ -23,102 +23,102 @@
             "zap_pluginid": "10098",
             "zap_finding_urls": [
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/assets/public/images/products/fruit_press.jpg",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/assets/public/images/products/fruit_press.jpg",
                     "method": "GET",
                     "evidence": "Access-Control-Allow-Origin: *"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/api/Quantitys/",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/api/Quantitys/",
                     "method": "GET",
                     "evidence": "Access-Control-Allow-Origin: *"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/ftp/quarantine/juicy_malware_windows_64.exe.url",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/ftp/quarantine/juicy_malware_windows_64.exe.url",
                     "method": "GET",
                     "evidence": "Access-Control-Allow-Origin: *"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/rest/admin/application-version",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/rest/admin/application-version",
                     "method": "GET",
                     "evidence": "Access-Control-Allow-Origin: *"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/assets/public/images/products/coaster.jpg",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/assets/public/images/products/coaster.jpg",
                     "method": "GET",
                     "evidence": "Access-Control-Allow-Origin: *"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/api/Challenges/?name=Score%20Board",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/api/Challenges/?name=Score%20Board",
                     "method": "GET",
                     "evidence": "Access-Control-Allow-Origin: *"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEbOD",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEbOD",
                     "method": "GET",
                     "evidence": "Access-Control-Allow-Origin: *"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/ftp/encrypt.pyc",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/ftp/encrypt.pyc",
                     "method": "GET",
                     "evidence": "Access-Control-Allow-Origin: *"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDm5&sid=Sfqc3o6ZaWNGOVj0AAAB",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDm5&sid=Sfqc3o6ZaWNGOVj0AAAB",
                     "method": "GET",
                     "evidence": "Access-Control-Allow-Origin: *"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEEPs&sid=VyJQXBQvn5VFomoNAAAC",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEEPs&sid=VyJQXBQvn5VFomoNAAAC",
                     "method": "GET",
                     "evidence": "Access-Control-Allow-Origin: *"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEgPo&sid=KgBV8pd7C-XOh69vAAAP",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEgPo&sid=KgBV8pd7C-XOh69vAAAP",
                     "method": "GET",
                     "evidence": "Access-Control-Allow-Origin: *"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/polyfills-es5.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/polyfills-es5.js",
                     "method": "GET",
                     "evidence": "Access-Control-Allow-Origin: *"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/ftp/suspicious_errors.yml",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/ftp/suspicious_errors.yml",
                     "method": "GET",
                     "evidence": "Access-Control-Allow-Origin: *"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/rest/continue-code",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/rest/continue-code",
                     "method": "GET",
                     "evidence": "Access-Control-Allow-Origin: *"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/ftp/quarantine",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/ftp/quarantine",
                     "method": "GET",
                     "evidence": "Access-Control-Allow-Origin: *"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/MaterialIcons-Regular.woff2",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/MaterialIcons-Regular.woff2",
                     "method": "GET",
                     "evidence": "Access-Control-Allow-Origin: *"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/ftp/eastere.gg",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/ftp/eastere.gg",
                     "method": "GET",
                     "evidence": "Access-Control-Allow-Origin: *"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/assets/public/images/products/artwork.jpg",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/assets/public/images/products/artwork.jpg",
                     "method": "GET",
                     "evidence": "Access-Control-Allow-Origin: *"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/rest/admin/application-configuration",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/rest/admin/application-configuration",
                     "method": "GET",
                     "evidence": "Access-Control-Allow-Origin: *"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEgPZ",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEgPZ",
                     "method": "GET",
                     "evidence": "Access-Control-Allow-Origin: *"
                 }
@@ -130,11 +130,11 @@
         "name": "X-Content-Type-Options Header Missing",
         "description": "The Anti-MIME-Sniffing header X-Content-Type-Options was not set to 'nosniff'. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.",
         "category": "X-Content-Type-Options Header Missing",
-        "location": "http://juice-shop.demo-apps.svc:3000",
+        "location": "http://juice-shop.demo-targets.svc:3000",
         "osi_layer": "APPLICATION",
         "severity": "LOW",
         "attributes": {
-            "host": "juice-shop.demo-apps.svc",
+            "host": "juice-shop.demo-targets.svc",
             "zap_confidence": "2",
             "zap_count": "39",
             "zap_solution": "Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to 'nosniff' for all web pages.If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.",
@@ -146,102 +146,102 @@
             "zap_pluginid": "10021",
             "zap_finding_urls": [
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEEIR",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEEIR",
                     "method": "GET",
                     "param": "X-Content-Type-Options"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEHVx&sid=o3YDMwsBCKm_K50oAAAD",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEHVx&sid=o3YDMwsBCKm_K50oAAAD",
                     "method": "GET",
                     "param": "X-Content-Type-Options"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEXpq&sid=X5F2cxN-kti4K7CWAAAN",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEXpq&sid=X5F2cxN-kti4K7CWAAAN",
                     "method": "GET",
                     "param": "X-Content-Type-Options"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDcU&sid=Sfqc3o6ZaWNGOVj0AAAB",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDcU&sid=Sfqc3o6ZaWNGOVj0AAAB",
                     "method": "GET",
                     "param": "X-Content-Type-Options"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDN-",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDN-",
                     "method": "GET",
                     "param": "X-Content-Type-Options"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEQSI&sid=rprwcCtBf361zXSPAAAJ",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEQSI&sid=rprwcCtBf361zXSPAAAJ",
                     "method": "GET",
                     "param": "X-Content-Type-Options"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEOxV&sid=xLGQ_UrdwUt3o8htAAAG",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEOxV&sid=xLGQ_UrdwUt3o8htAAAG",
                     "method": "GET",
                     "param": "X-Content-Type-Options"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEPJQ",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEPJQ",
                     "method": "GET",
                     "param": "X-Content-Type-Options"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEbOD",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEbOD",
                     "method": "GET",
                     "param": "X-Content-Type-Options"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEQLH",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEQLH",
                     "method": "GET",
                     "param": "X-Content-Type-Options"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByErUB&sid=Qu8pR3ezpMi_qo06AAAS",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByErUB&sid=Qu8pR3ezpMi_qo06AAAS",
                     "method": "GET",
                     "param": "X-Content-Type-Options"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEJ8v",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEJ8v",
                     "method": "GET",
                     "param": "X-Content-Type-Options"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEPQX&sid=w3xjV_6oIBcqg82AAAAH",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEPQX&sid=w3xjV_6oIBcqg82AAAAH",
                     "method": "GET",
                     "param": "X-Content-Type-Options"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByETq2&sid=hIi4703wSc5ifD1SAAAL",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByETq2&sid=hIi4703wSc5ifD1SAAAL",
                     "method": "GET",
                     "param": "X-Content-Type-Options"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEgPo&sid=KgBV8pd7C-XOh69vAAAP",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEgPo&sid=KgBV8pd7C-XOh69vAAAP",
                     "method": "GET",
                     "param": "X-Content-Type-Options"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEgPZ",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEgPZ",
                     "method": "GET",
                     "param": "X-Content-Type-Options"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDl-&sid=Sfqc3o6ZaWNGOVj0AAAB",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDl-&sid=Sfqc3o6ZaWNGOVj0AAAB",
                     "method": "POST",
                     "param": "X-Content-Type-Options"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEEPs&sid=VyJQXBQvn5VFomoNAAAC",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEEPs&sid=VyJQXBQvn5VFomoNAAAC",
                     "method": "GET",
                     "param": "X-Content-Type-Options"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByETif",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByETif",
                     "method": "GET",
                     "param": "X-Content-Type-Options"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDs6&sid=Sfqc3o6ZaWNGOVj0AAAB",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDs6&sid=Sfqc3o6ZaWNGOVj0AAAB",
                     "method": "POST",
                     "param": "X-Content-Type-Options"
                 }
@@ -253,11 +253,11 @@
         "name": "X-Frame-Options Header Not Set",
         "description": "X-Frame-Options header is not included in the HTTP response to protect against 'ClickJacking' attacks.",
         "category": "X-Frame-Options Header Not Set",
-        "location": "http://juice-shop.demo-apps.svc:3000",
+        "location": "http://juice-shop.demo-targets.svc:3000",
         "osi_layer": "APPLICATION",
         "severity": "MEDIUM",
         "attributes": {
-            "host": "juice-shop.demo-apps.svc",
+            "host": "juice-shop.demo-targets.svc",
             "zap_confidence": "2",
             "zap_count": "2",
             "zap_solution": "Most modern Web browsers support the X-Frame-Options HTTP header. Ensure it's set on all web pages returned by your site (if you expect the page to be framed only by pages on your server (e.g. it's part of a FRAMESET) then you'll want to use SAMEORIGIN, otherwise if you never expect the page to be framed, you should use DENY. ALLOW-FROM allows specific websites to frame the web page in supported web browsers).",
@@ -269,12 +269,12 @@
             "zap_pluginid": "10020",
             "zap_finding_urls": [
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDs6&sid=Sfqc3o6ZaWNGOVj0AAAB",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDs6&sid=Sfqc3o6ZaWNGOVj0AAAB",
                     "method": "POST",
                     "param": "X-Frame-Options"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDl-&sid=Sfqc3o6ZaWNGOVj0AAAB",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDl-&sid=Sfqc3o6ZaWNGOVj0AAAB",
                     "method": "POST",
                     "param": "X-Frame-Options"
                 }
@@ -286,11 +286,11 @@
         "name": "Cookie Without SameSite Attribute",
         "description": "A cookie has been set without the SameSite attribute, which means that the cookie can be sent as a result of a 'cross-site' request. The SameSite attribute is an effective counter measure to cross-site request forgery, cross-site script inclusion, and timing attacks.",
         "category": "Cookie Without SameSite Attribute",
-        "location": "http://juice-shop.demo-apps.svc:3000",
+        "location": "http://juice-shop.demo-targets.svc:3000",
         "osi_layer": "APPLICATION",
         "severity": "LOW",
         "attributes": {
-            "host": "juice-shop.demo-apps.svc",
+            "host": "juice-shop.demo-targets.svc",
             "zap_confidence": "2",
             "zap_count": "39",
             "zap_solution": "Ensure that the SameSite attribute is set to either 'lax' or ideally 'strict' for all cookies.",
@@ -302,121 +302,121 @@
             "zap_pluginid": "10054",
             "zap_finding_urls": [
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDs6&sid=Sfqc3o6ZaWNGOVj0AAAB",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDs6&sid=Sfqc3o6ZaWNGOVj0AAAB",
                     "method": "POST",
                     "param": "io",
                     "evidence": "Set-Cookie: io"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEEIR",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEEIR",
                     "method": "GET",
                     "param": "io",
                     "evidence": "Set-Cookie: io"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEQzB&sid=4HmXdbxbouPU4jtTAAAK",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEQzB&sid=4HmXdbxbouPU4jtTAAAK",
                     "method": "GET",
                     "param": "io",
                     "evidence": "Set-Cookie: io"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEHVx&sid=o3YDMwsBCKm_K50oAAAD",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEHVx&sid=o3YDMwsBCKm_K50oAAAD",
                     "method": "GET",
                     "param": "io",
                     "evidence": "Set-Cookie: io"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDN-",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDN-",
                     "method": "GET",
                     "param": "io",
                     "evidence": "Set-Cookie: io"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEQLH",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEQLH",
                     "method": "GET",
                     "param": "io",
                     "evidence": "Set-Cookie: io"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEQSI&sid=rprwcCtBf361zXSPAAAJ",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEQSI&sid=rprwcCtBf361zXSPAAAJ",
                     "method": "GET",
                     "param": "io",
                     "evidence": "Set-Cookie: io"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEMPn",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEMPn",
                     "method": "GET",
                     "param": "io",
                     "evidence": "Set-Cookie: io"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEkjy",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEkjy",
                     "method": "GET",
                     "param": "io",
                     "evidence": "Set-Cookie: io"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEW2v",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEW2v",
                     "method": "GET",
                     "param": "io",
                     "evidence": "Set-Cookie: io"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEOph",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEOph",
                     "method": "GET",
                     "param": "io",
                     "evidence": "Set-Cookie: io"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEQrw",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEQrw",
                     "method": "GET",
                     "param": "io",
                     "evidence": "Set-Cookie: io"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEXpq&sid=X5F2cxN-kti4K7CWAAAN",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEXpq&sid=X5F2cxN-kti4K7CWAAAN",
                     "method": "GET",
                     "param": "io",
                     "evidence": "Set-Cookie: io"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDm5&sid=Sfqc3o6ZaWNGOVj0AAAB",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDm5&sid=Sfqc3o6ZaWNGOVj0AAAB",
                     "method": "GET",
                     "param": "io",
                     "evidence": "Set-Cookie: io"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEPqh",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEPqh",
                     "method": "GET",
                     "param": "io",
                     "evidence": "Set-Cookie: io"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDcU&sid=Sfqc3o6ZaWNGOVj0AAAB",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDcU&sid=Sfqc3o6ZaWNGOVj0AAAB",
                     "method": "GET",
                     "param": "io",
                     "evidence": "Set-Cookie: io"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEJKQ&sid=iSqN6t3IWleTVkw3AAAE",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEJKQ&sid=iSqN6t3IWleTVkw3AAAE",
                     "method": "GET",
                     "param": "io",
                     "evidence": "Set-Cookie: io"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEMXp&sid=kx1--9DNXrZXnfRsAAAF",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEMXp&sid=kx1--9DNXrZXnfRsAAAF",
                     "method": "GET",
                     "param": "io",
                     "evidence": "Set-Cookie: io"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEW38&sid=OJ2y0l3qnmwKZ6hKAAAM",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEW38&sid=OJ2y0l3qnmwKZ6hKAAAM",
                     "method": "GET",
                     "param": "io",
                     "evidence": "Set-Cookie: io"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEi1p&sid=pYrqVdEARyUeHqJVAAAQ",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEi1p&sid=pYrqVdEARyUeHqJVAAAQ",
                     "method": "GET",
                     "param": "io",
                     "evidence": "Set-Cookie: io"
@@ -429,11 +429,11 @@
         "name": "Server Leaks Information via \"X-Powered-By\" HTTP Response Header Field(s)",
         "description": "The web/application server is leaking information via one or more \"X-Powered-By\" HTTP response headers. Access to such information may facilitate attackers identifying other frameworks/components your web application is reliant upon and the vulnerabilities such components may be subject to.",
         "category": "Server Leaks Information via \"X-Powered-By\" HTTP Response Header Field(s)",
-        "location": "http://juice-shop.demo-apps.svc:3000",
+        "location": "http://juice-shop.demo-targets.svc:3000",
         "osi_layer": "APPLICATION",
         "severity": "LOW",
         "attributes": {
-            "host": "juice-shop.demo-apps.svc",
+            "host": "juice-shop.demo-targets.svc",
             "zap_confidence": "2",
             "zap_count": "64",
             "zap_solution": "Ensure that your web server, application server, load balancer, etc. is configured to suppress \"X-Powered-By\" headers.",
@@ -445,102 +445,102 @@
             "zap_pluginid": "10037",
             "zap_finding_urls": [
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/assets/i18n/en.json",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/assets/i18n/en.json",
                     "method": "GET",
                     "evidence": "X-Powered-By: Express"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/polyfills-es2015.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/polyfills-es2015.js",
                     "method": "GET",
                     "evidence": "X-Powered-By: Express"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/assets/public/images/carousel/5.png",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/assets/public/images/carousel/5.png",
                     "method": "GET",
                     "evidence": "X-Powered-By: Express"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/ftp/coupons_2013.md.bak",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/ftp/coupons_2013.md.bak",
                     "method": "GET",
                     "evidence": "X-Powered-By: Express"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/tutorial-es2015.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/tutorial-es2015.js",
                     "method": "GET",
                     "evidence": "X-Powered-By: Express"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/robots.txt",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/robots.txt",
                     "method": "GET",
                     "evidence": "X-Powered-By: Express"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/assets/public/images/products/eggfruit_juice.jpg",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/assets/public/images/products/eggfruit_juice.jpg",
                     "method": "GET",
                     "evidence": "X-Powered-By: Express"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/rest/captcha/",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/rest/captcha/",
                     "method": "GET",
                     "evidence": "X-Powered-By: Express"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/ftp/incident-support.kdbx",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/ftp/incident-support.kdbx",
                     "method": "GET",
                     "evidence": "X-Powered-By: Express"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/rest/products/search?q=",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/rest/products/search?q=",
                     "method": "GET",
                     "evidence": "X-Powered-By: Express"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/font-mfizz.woff",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/font-mfizz.woff",
                     "method": "GET",
                     "evidence": "X-Powered-By: Express"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/assets/public/images/products/carrot_juice.jpeg",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/assets/public/images/products/carrot_juice.jpeg",
                     "method": "GET",
                     "evidence": "X-Powered-By: Express"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/assets/public/favicon_js.ico",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/assets/public/favicon_js.ico",
                     "method": "GET",
                     "evidence": "X-Powered-By: Express"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/runtime-es5.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/runtime-es5.js",
                     "method": "GET",
                     "evidence": "X-Powered-By: Express"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/assets/public/images/products/lemon_juice.jpg",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/assets/public/images/products/lemon_juice.jpg",
                     "method": "GET",
                     "evidence": "X-Powered-By: Express"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/assets/public/images/carousel/1.jpg",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/assets/public/images/carousel/1.jpg",
                     "method": "GET",
                     "evidence": "X-Powered-By: Express"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/assets/public/images/carousel/4.jpg",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/assets/public/images/carousel/4.jpg",
                     "method": "GET",
                     "evidence": "X-Powered-By: Express"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/ftp/legal.md",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/ftp/legal.md",
                     "method": "GET",
                     "evidence": "X-Powered-By: Express"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/assets/public/images/products/apple_pressings.jpg",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/assets/public/images/products/apple_pressings.jpg",
                     "method": "GET",
                     "evidence": "X-Powered-By: Express"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/sitemap.xml",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/sitemap.xml",
                     "method": "GET",
                     "evidence": "X-Powered-By: Express"
                 }
@@ -552,11 +552,11 @@
         "name": "Modern Web Application",
         "description": "The application appears to be a modern web application. If you need to explore it automatically then the Ajax Spider may well be more effective than the standard one.",
         "category": "Modern Web Application",
-        "location": "http://juice-shop.demo-apps.svc:3000",
+        "location": "http://juice-shop.demo-targets.svc:3000",
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
         "attributes": {
-            "host": "juice-shop.demo-apps.svc",
+            "host": "juice-shop.demo-targets.svc",
             "zap_confidence": "2",
             "zap_count": "6",
             "zap_solution": "This is an informational alert and so no changes are required.",
@@ -568,32 +568,32 @@
             "zap_pluginid": "10109",
             "zap_finding_urls": [
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/polyfills-es2015.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/polyfills-es2015.js",
                     "method": "GET",
                     "evidence": "<script>"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/tutorial-es2015.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/tutorial-es2015.js",
                     "method": "GET",
                     "evidence": "<script>"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/",
                     "method": "GET",
                     "evidence": "<script src=\"//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js\"></script>"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/polyfills-es5.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/polyfills-es5.js",
                     "method": "GET",
                     "evidence": "<a>"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000",
+                    "uri": "http://juice-shop.demo-targets.svc:3000",
                     "method": "GET",
                     "evidence": "<script src=\"//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js\"></script>"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/sitemap.xml",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/sitemap.xml",
                     "method": "GET",
                     "evidence": "<script src=\"//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js\"></script>"
                 }
@@ -605,11 +605,11 @@
         "name": "Timestamp Disclosure - Unix",
         "description": "A timestamp was disclosed by the application/web server - Unix",
         "category": "Timestamp Disclosure - Unix",
-        "location": "http://juice-shop.demo-apps.svc:3000",
+        "location": "http://juice-shop.demo-targets.svc:3000",
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
         "attributes": {
-            "host": "juice-shop.demo-apps.svc",
+            "host": "juice-shop.demo-targets.svc",
             "zap_confidence": "1",
             "zap_count": "25",
             "zap_solution": "Manually confirm that the timestamp data is not sensitive, and that the data cannot be aggregated to disclose exploitable patterns.",
@@ -621,102 +621,102 @@
             "zap_pluginid": "10096",
             "zap_finding_urls": [
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/vendor-es5.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/vendor-es5.js",
                     "method": "GET",
                     "evidence": "1803700518"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/vendor-es2015.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/vendor-es2015.js",
                     "method": "GET",
                     "evidence": "1801949248"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/vendor-es2015.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/vendor-es2015.js",
                     "method": "GET",
                     "evidence": "0000051215"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/vendor-es2015.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/vendor-es2015.js",
                     "method": "GET",
                     "evidence": "0000000005"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/vendor-es2015.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/vendor-es2015.js",
                     "method": "GET",
                     "evidence": "0000000004"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/rest/products/search?q=",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/rest/products/search?q=",
                     "method": "GET",
                     "evidence": "1969196030"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/vendor-es5.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/vendor-es5.js",
                     "method": "GET",
                     "evidence": "0000039834"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/rest/admin/application-configuration",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/rest/admin/application-configuration",
                     "method": "GET",
                     "evidence": "1970691216"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/vendor-es2015.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/vendor-es2015.js",
                     "method": "GET",
                     "evidence": "1801948466"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/styles.css",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/styles.css",
                     "method": "GET",
                     "evidence": "33333333"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/polyfills-es5.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/polyfills-es5.js",
                     "method": "GET",
                     "evidence": "62425156"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/styles.css",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/styles.css",
                     "method": "GET",
                     "evidence": "33334333"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/vendor-es5.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/vendor-es5.js",
                     "method": "GET",
                     "evidence": "1801949248"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/rest/admin/application-configuration",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/rest/admin/application-configuration",
                     "method": "GET",
                     "evidence": "1969196030"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/vendor-es5.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/vendor-es5.js",
                     "method": "GET",
                     "evidence": "0000000005"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/vendor-es2015.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/vendor-es2015.js",
                     "method": "GET",
                     "evidence": "0000039834"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/vendor-es2015.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/vendor-es2015.js",
                     "method": "GET",
                     "evidence": "179464974"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/vendor-es2015.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/vendor-es2015.js",
                     "method": "GET",
                     "evidence": "1803700518"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/vendor-es5.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/vendor-es5.js",
                     "method": "GET",
                     "evidence": "0000051215"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/vendor-es5.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/vendor-es5.js",
                     "method": "GET",
                     "evidence": "1801948466"
                 }
@@ -728,11 +728,11 @@
         "name": "Cross-Domain JavaScript Source File Inclusion",
         "description": "The page includes one or more script files from a third-party domain.",
         "category": "Cross-Domain JavaScript Source File Inclusion",
-        "location": "http://juice-shop.demo-apps.svc:3000",
+        "location": "http://juice-shop.demo-targets.svc:3000",
         "osi_layer": "APPLICATION",
         "severity": "LOW",
         "attributes": {
-            "host": "juice-shop.demo-apps.svc",
+            "host": "juice-shop.demo-targets.svc",
             "zap_confidence": "2",
             "zap_count": "6",
             "zap_solution": "Ensure JavaScript source files are loaded from only trusted sources, and the sources can't be controlled by end users of the application.",
@@ -744,37 +744,37 @@
             "zap_pluginid": "10017",
             "zap_finding_urls": [
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/",
                     "method": "GET",
                     "param": "//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js",
                     "evidence": "<script src=\"//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js\"></script>"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/sitemap.xml",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/sitemap.xml",
                     "method": "GET",
                     "param": "//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js",
                     "evidence": "<script src=\"//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js\"></script>"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/",
                     "method": "GET",
                     "param": "//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js",
                     "evidence": "<script src=\"//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js\"></script>"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000",
+                    "uri": "http://juice-shop.demo-targets.svc:3000",
                     "method": "GET",
                     "param": "//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js",
                     "evidence": "<script src=\"//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js\"></script>"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000",
+                    "uri": "http://juice-shop.demo-targets.svc:3000",
                     "method": "GET",
                     "param": "//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js",
                     "evidence": "<script src=\"//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js\"></script>"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/sitemap.xml",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/sitemap.xml",
                     "method": "GET",
                     "param": "//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js",
                     "evidence": "<script src=\"//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js\"></script>"
@@ -787,15 +787,15 @@
         "name": "Cookie Poisoning",
         "description": "This check looks at user-supplied input in query string parameters and POST data to identify where cookie parameters might be controlled. This is called a cookie poisoning attack, and becomes exploitable when an attacker can manipulate the cookie in various ways. In some cases this will not be exploitable, however, allowing URL parameters to set cookie values is generally considered a bug.",
         "category": "Cookie Poisoning",
-        "location": "http://juice-shop.demo-apps.svc:3000",
+        "location": "http://juice-shop.demo-targets.svc:3000",
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
         "attributes": {
-            "host": "juice-shop.demo-apps.svc",
+            "host": "juice-shop.demo-targets.svc",
             "zap_confidence": "1",
             "zap_count": "21",
             "zap_solution": "Do not allow user input to control cookie names and values. If some query string parameters must be set in cookie values, be sure to filter out semicolon's that can serve as name/value pair delimiters.",
-            "zap_otherinfo": "An attacker may be able to poison cookie values through URL parameters.  Try injecting a semicolon to see if you can add cookie values (e.g. name=controlledValue;name=anotherValue;).This was identified at:http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByETq2&sid=hIi4703wSc5ifD1SAAALUser-input was found in the following cookie:io=hIi4703wSc5ifD1SAAAL; Path=/; HttpOnlyThe user input was:sid=hIi4703wSc5ifD1SAAAL",
+            "zap_otherinfo": "An attacker may be able to poison cookie values through URL parameters.  Try injecting a semicolon to see if you can add cookie values (e.g. name=controlledValue;name=anotherValue;).This was identified at:http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByETq2&sid=hIi4703wSc5ifD1SAAALUser-input was found in the following cookie:io=hIi4703wSc5ifD1SAAAL; Path=/; HttpOnlyThe user input was:sid=hIi4703wSc5ifD1SAAAL",
             "zap_reference": "http://websecuritytool.codeplex.com/wikipage?title=Checks#user-controlled-cookie",
             "zap_cweid": "20",
             "zap_wascid": "20",
@@ -803,102 +803,102 @@
             "zap_pluginid": "10029",
             "zap_finding_urls": [
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByETq2&sid=hIi4703wSc5ifD1SAAAL",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByETq2&sid=hIi4703wSc5ifD1SAAAL",
                     "method": "GET",
                     "param": "sid"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDcU&sid=Sfqc3o6ZaWNGOVj0AAAB",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDcU&sid=Sfqc3o6ZaWNGOVj0AAAB",
                     "method": "GET",
                     "param": "sid"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEW38&sid=OJ2y0l3qnmwKZ6hKAAAM",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEW38&sid=OJ2y0l3qnmwKZ6hKAAAM",
                     "method": "GET",
                     "param": "sid"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEi1p&sid=pYrqVdEARyUeHqJVAAAQ",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEi1p&sid=pYrqVdEARyUeHqJVAAAQ",
                     "method": "GET",
                     "param": "sid"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEQzB&sid=4HmXdbxbouPU4jtTAAAK",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEQzB&sid=4HmXdbxbouPU4jtTAAAK",
                     "method": "GET",
                     "param": "sid"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDs6&sid=Sfqc3o6ZaWNGOVj0AAAB",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDs6&sid=Sfqc3o6ZaWNGOVj0AAAB",
                     "method": "POST",
                     "param": "sid"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEkrP&sid=9xVXeVjD0zC_6dxjAAAR",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEkrP&sid=9xVXeVjD0zC_6dxjAAAR",
                     "method": "GET",
                     "param": "sid"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEbUV&sid=tPdjt5W3qPkNbm_NAAAO",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEbUV&sid=tPdjt5W3qPkNbm_NAAAO",
                     "method": "GET",
                     "param": "sid"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEP-S&sid=BXJtJF1Pw9i2BaEtAAAI",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEP-S&sid=BXJtJF1Pw9i2BaEtAAAI",
                     "method": "GET",
                     "param": "sid"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEQSI&sid=rprwcCtBf361zXSPAAAJ",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEQSI&sid=rprwcCtBf361zXSPAAAJ",
                     "method": "GET",
                     "param": "sid"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEMXp&sid=kx1--9DNXrZXnfRsAAAF",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEMXp&sid=kx1--9DNXrZXnfRsAAAF",
                     "method": "GET",
                     "param": "sid"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByErUB&sid=Qu8pR3ezpMi_qo06AAAS",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByErUB&sid=Qu8pR3ezpMi_qo06AAAS",
                     "method": "GET",
                     "param": "sid"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEgPo&sid=KgBV8pd7C-XOh69vAAAP",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEgPo&sid=KgBV8pd7C-XOh69vAAAP",
                     "method": "GET",
                     "param": "sid"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEEPs&sid=VyJQXBQvn5VFomoNAAAC",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEEPs&sid=VyJQXBQvn5VFomoNAAAC",
                     "method": "GET",
                     "param": "sid"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEOxV&sid=xLGQ_UrdwUt3o8htAAAG",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEOxV&sid=xLGQ_UrdwUt3o8htAAAG",
                     "method": "GET",
                     "param": "sid"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDl-&sid=Sfqc3o6ZaWNGOVj0AAAB",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDl-&sid=Sfqc3o6ZaWNGOVj0AAAB",
                     "method": "POST",
                     "param": "sid"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEXpq&sid=X5F2cxN-kti4K7CWAAAN",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEXpq&sid=X5F2cxN-kti4K7CWAAAN",
                     "method": "GET",
                     "param": "sid"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEJKQ&sid=iSqN6t3IWleTVkw3AAAE",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEJKQ&sid=iSqN6t3IWleTVkw3AAAE",
                     "method": "GET",
                     "param": "sid"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEHVx&sid=o3YDMwsBCKm_K50oAAAD",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEHVx&sid=o3YDMwsBCKm_K50oAAAD",
                     "method": "GET",
                     "param": "sid"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEPQX&sid=w3xjV_6oIBcqg82AAAAH",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEPQX&sid=w3xjV_6oIBcqg82AAAAH",
                     "method": "GET",
                     "param": "sid"
                 }
@@ -910,11 +910,11 @@
         "name": "Session ID in URL Rewrite",
         "description": "URL rewrite is used to track user session ID. The session ID may be disclosed via cross-site referer header. In addition, the session ID might be stored in browser history or server logs.",
         "category": "Session ID in URL Rewrite",
-        "location": "http://juice-shop.demo-apps.svc:3000",
+        "location": "http://juice-shop.demo-targets.svc:3000",
         "osi_layer": "APPLICATION",
         "severity": "MEDIUM",
         "attributes": {
-            "host": "juice-shop.demo-apps.svc",
+            "host": "juice-shop.demo-targets.svc",
             "zap_confidence": "3",
             "zap_count": "39",
             "zap_solution": "For secure content, put session ID in a cookie. To be even more secure consider using a combination of cookie and URL rewrite.",
@@ -926,121 +926,121 @@
             "zap_pluginid": "3",
             "zap_finding_urls": [
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDm5&sid=Sfqc3o6ZaWNGOVj0AAAB",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDm5&sid=Sfqc3o6ZaWNGOVj0AAAB",
                     "method": "GET",
                     "param": "sid",
                     "evidence": "Sfqc3o6ZaWNGOVj0AAAB"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=websocket&sid=rprwcCtBf361zXSPAAAJ",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=websocket&sid=rprwcCtBf361zXSPAAAJ",
                     "method": "GET",
                     "param": "sid",
                     "evidence": "rprwcCtBf361zXSPAAAJ"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEi1p&sid=pYrqVdEARyUeHqJVAAAQ",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEi1p&sid=pYrqVdEARyUeHqJVAAAQ",
                     "method": "GET",
                     "param": "sid",
                     "evidence": "pYrqVdEARyUeHqJVAAAQ"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEEPs&sid=VyJQXBQvn5VFomoNAAAC",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEEPs&sid=VyJQXBQvn5VFomoNAAAC",
                     "method": "GET",
                     "param": "sid",
                     "evidence": "VyJQXBQvn5VFomoNAAAC"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=websocket&sid=xLGQ_UrdwUt3o8htAAAG",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=websocket&sid=xLGQ_UrdwUt3o8htAAAG",
                     "method": "GET",
                     "param": "sid",
                     "evidence": "xLGQ_UrdwUt3o8htAAAG"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEXpq&sid=X5F2cxN-kti4K7CWAAAN",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEXpq&sid=X5F2cxN-kti4K7CWAAAN",
                     "method": "GET",
                     "param": "sid",
                     "evidence": "X5F2cxN-kti4K7CWAAAN"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=websocket&sid=pYrqVdEARyUeHqJVAAAQ",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=websocket&sid=pYrqVdEARyUeHqJVAAAQ",
                     "method": "GET",
                     "param": "sid",
                     "evidence": "pYrqVdEARyUeHqJVAAAQ"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEJKQ&sid=iSqN6t3IWleTVkw3AAAE",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEJKQ&sid=iSqN6t3IWleTVkw3AAAE",
                     "method": "GET",
                     "param": "sid",
                     "evidence": "iSqN6t3IWleTVkw3AAAE"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=websocket&sid=o3YDMwsBCKm_K50oAAAD",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=websocket&sid=o3YDMwsBCKm_K50oAAAD",
                     "method": "GET",
                     "param": "sid",
                     "evidence": "o3YDMwsBCKm_K50oAAAD"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDs6&sid=Sfqc3o6ZaWNGOVj0AAAB",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDs6&sid=Sfqc3o6ZaWNGOVj0AAAB",
                     "method": "POST",
                     "param": "sid",
                     "evidence": "Sfqc3o6ZaWNGOVj0AAAB"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=websocket&sid=X5F2cxN-kti4K7CWAAAN",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=websocket&sid=X5F2cxN-kti4K7CWAAAN",
                     "method": "GET",
                     "param": "sid",
                     "evidence": "X5F2cxN-kti4K7CWAAAN"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=websocket&sid=BXJtJF1Pw9i2BaEtAAAI",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=websocket&sid=BXJtJF1Pw9i2BaEtAAAI",
                     "method": "GET",
                     "param": "sid",
                     "evidence": "BXJtJF1Pw9i2BaEtAAAI"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDl-&sid=Sfqc3o6ZaWNGOVj0AAAB",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDl-&sid=Sfqc3o6ZaWNGOVj0AAAB",
                     "method": "POST",
                     "param": "sid",
                     "evidence": "Sfqc3o6ZaWNGOVj0AAAB"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEPQX&sid=w3xjV_6oIBcqg82AAAAH",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEPQX&sid=w3xjV_6oIBcqg82AAAAH",
                     "method": "GET",
                     "param": "sid",
                     "evidence": "w3xjV_6oIBcqg82AAAAH"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEQzB&sid=4HmXdbxbouPU4jtTAAAK",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEQzB&sid=4HmXdbxbouPU4jtTAAAK",
                     "method": "GET",
                     "param": "sid",
                     "evidence": "4HmXdbxbouPU4jtTAAAK"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEkrP&sid=9xVXeVjD0zC_6dxjAAAR",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEkrP&sid=9xVXeVjD0zC_6dxjAAAR",
                     "method": "GET",
                     "param": "sid",
                     "evidence": "9xVXeVjD0zC_6dxjAAAR"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=websocket&sid=iSqN6t3IWleTVkw3AAAE",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=websocket&sid=iSqN6t3IWleTVkw3AAAE",
                     "method": "GET",
                     "param": "sid",
                     "evidence": "iSqN6t3IWleTVkw3AAAE"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEOxV&sid=xLGQ_UrdwUt3o8htAAAG",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEOxV&sid=xLGQ_UrdwUt3o8htAAAG",
                     "method": "GET",
                     "param": "sid",
                     "evidence": "xLGQ_UrdwUt3o8htAAAG"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEP-S&sid=BXJtJF1Pw9i2BaEtAAAI",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEP-S&sid=BXJtJF1Pw9i2BaEtAAAI",
                     "method": "GET",
                     "param": "sid",
                     "evidence": "BXJtJF1Pw9i2BaEtAAAI"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByErUB&sid=Qu8pR3ezpMi_qo06AAAS",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByErUB&sid=Qu8pR3ezpMi_qo06AAAS",
                     "method": "GET",
                     "param": "sid",
                     "evidence": "Qu8pR3ezpMi_qo06AAAS"
@@ -1053,11 +1053,11 @@
         "name": "Information Disclosure - Suspicious Comments",
         "description": "The response appears to contain suspicious comments which may help an attacker. Note: Matches made within script blocks or files are against the entire content not only comments.",
         "category": "Information Disclosure - Suspicious Comments",
-        "location": "http://juice-shop.demo-apps.svc:3000",
+        "location": "http://juice-shop.demo-targets.svc:3000",
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
         "attributes": {
-            "host": "juice-shop.demo-apps.svc",
+            "host": "juice-shop.demo-targets.svc",
             "zap_confidence": "1",
             "zap_count": "7",
             "zap_solution": "Remove all comments that return information that may help an attacker and fix any underlying problems they refer to.",
@@ -1069,31 +1069,31 @@
             "zap_pluginid": "10027",
             "zap_finding_urls": [
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/vendor-es2015.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/vendor-es2015.js",
                     "method": "GET"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/vendor-es5.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/vendor-es5.js",
                     "method": "GET"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/main-es5.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/main-es5.js",
                     "method": "GET"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/tutorial-es2015.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/tutorial-es2015.js",
                     "method": "GET"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/polyfills-es5.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/polyfills-es5.js",
                     "method": "GET"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/main-es2015.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/main-es2015.js",
                     "method": "GET"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/polyfills-es2015.js",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/polyfills-es2015.js",
                     "method": "GET"
                 }
             ]
@@ -1104,11 +1104,11 @@
         "name": "Content Security Policy (CSP) Header Not Set",
         "description": "Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of attacks, including Cross Site Scripting (XSS) and data injection attacks. These attacks are used for everything from data theft to site defacement or distribution of malware. CSP provides a set of standard HTTP headers that allow website owners to declare approved sources of content that browsers should be allowed to load on that page — covered types are JavaScript, CSS, HTML frames, fonts, images and embeddable objects such as Java applets, ActiveX, audio and video files.",
         "category": "Content Security Policy (CSP) Header Not Set",
-        "location": "http://juice-shop.demo-apps.svc:3000",
+        "location": "http://juice-shop.demo-targets.svc:3000",
         "osi_layer": "APPLICATION",
         "severity": "LOW",
         "attributes": {
-            "host": "juice-shop.demo-apps.svc",
+            "host": "juice-shop.demo-targets.svc",
             "zap_confidence": "2",
             "zap_count": "15",
             "zap_solution": "Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: \"Content-Security-Policy\" for Chrome 25+, Firefox 23+ and Safari 7+, \"X-Content-Security-Policy\" for Firefox 4.0+ and Internet Explorer 10+, and \"X-WebKit-CSP\" for Chrome 14+ and Safari 6+.",
@@ -1120,63 +1120,63 @@
             "zap_pluginid": "10038",
             "zap_finding_urls": [
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/",
                     "method": "GET"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/ftp/quarantine/juicy_malware_linux_64.url",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/ftp/quarantine/juicy_malware_linux_64.url",
                     "method": "GET"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/ftp",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/ftp",
                     "method": "GET"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/ftp/encrypt.pyc",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/ftp/encrypt.pyc",
                     "method": "GET"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/ftp/coupons_2013.md.bak",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/ftp/coupons_2013.md.bak",
                     "method": "GET"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/ftp/quarantine/juicy_malware_windows_64.exe.url",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/ftp/quarantine/juicy_malware_windows_64.exe.url",
                     "method": "GET"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/ftp/quarantine",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/ftp/quarantine",
                     "method": "GET"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/ftp/package.json.bak",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/ftp/package.json.bak",
                     "method": "GET"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000",
+                    "uri": "http://juice-shop.demo-targets.svc:3000",
                     "method": "GET"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/sitemap.xml",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/sitemap.xml",
                     "method": "GET"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/ftp/suspicious_errors.yml",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/ftp/suspicious_errors.yml",
                     "method": "GET"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/ftp/eastere.gg",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/ftp/eastere.gg",
                     "method": "GET"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDl-&sid=Sfqc3o6ZaWNGOVj0AAAB",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDl-&sid=Sfqc3o6ZaWNGOVj0AAAB",
                     "method": "POST"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/ftp/quarantine/juicy_malware_macos_64.url",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/ftp/quarantine/juicy_malware_macos_64.url",
                     "method": "GET"
                 },
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDs6&sid=Sfqc3o6ZaWNGOVj0AAAB",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/socket.io/?EIO=3&transport=polling&t=NByEDs6&sid=Sfqc3o6ZaWNGOVj0AAAB",
                     "method": "POST"
                 }
             ]
@@ -1187,11 +1187,11 @@
         "name": "Private IP Disclosure",
         "description": "A private IP (such as 10.x.x.x, 172.x.x.x, 192.168.x.x) or an Amazon EC2 private hostname (for example, ip-10-0-56-78) has been found in the HTTP response body. This information might be helpful for further attacks targeting internal systems.",
         "category": "Private IP Disclosure",
-        "location": "http://juice-shop.demo-apps.svc:3000",
+        "location": "http://juice-shop.demo-targets.svc:3000",
         "osi_layer": "APPLICATION",
         "severity": "LOW",
         "attributes": {
-            "host": "juice-shop.demo-apps.svc",
+            "host": "juice-shop.demo-targets.svc",
             "zap_confidence": "2",
             "zap_count": "1",
             "zap_solution": "Remove the private IP address from the HTTP response body.  For comments, use JSP/ASP/PHP comment instead of HTML/JavaScript comment which can be seen by client browsers.",
@@ -1203,7 +1203,7 @@
             "zap_pluginid": "2",
             "zap_finding_urls": [
                 {
-                    "uri": "http://juice-shop.demo-apps.svc:3000/rest/admin/application-configuration",
+                    "uri": "http://juice-shop.demo-targets.svc:3000/rest/admin/application-configuration",
                     "method": "GET",
                     "evidence": "192.168.99.100:3000"
                 }

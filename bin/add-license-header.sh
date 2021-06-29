@@ -14,6 +14,9 @@
 #   add-license-header.sh file1 file2 file3
 #   cat file_list.txt | add-license-header.sh
 #
+# To generate the file list use `reuse lint`. This produces a Markdown report:
+#   reuse lint > spdx-report.md
+#
 # See also:
 # - https://spdx.org
 # - https://reuse.software

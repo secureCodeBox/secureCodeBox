@@ -78,7 +78,7 @@ spec:
     scanType: "zap-full-scan"
     parameters:
       - "-t"
-      - "http://juice-shop.demo-apps.svc:3000"
+      - "http://juice-shop.demo-targets.svc:3000"
 ```
 
 ### Complete Example Scan
@@ -110,7 +110,7 @@ spec:
     scanType: "zap-full-scan"
     parameters:
       - "-t"
-      - "http://juice-shop.demo-apps.svc:3000"
+      - "http://juice-shop.demo-targets.svc:3000"
 ```
 
 ## Deployment
@@ -133,6 +133,32 @@ helm upgrade --install dd secureCodeBox/persistence-defectdojo \
 | defectdojo.authentication.usernameKey | string | `"username"` | Name of the username key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |
 | defectdojo.syncFindingsBack | bool | `true` | Syncs back (two way sync) all imported findings from DefectDojo to SCB Findings Store, set to false to only import the findings to DefectDojo (one way sync). |
 | defectdojo.url | string | `"http://defectdojo-django.default.svc"` | Url to the DefectDojo Instance |
-| image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
-| image.repository | string | `"docker.io/securecodebox/persistence-defectdojo"` | Hook image repository |
-| image.tag | string | `nil` | Container image tag |
+| hook.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
+| hook.image.repository | string | `"docker.io/securecodebox/hook-persistence-defectdojo"` | Hook image repository |
+| hook.image.tag | string | `nil` | Container image tag |
+
+## Running Locally from Source
+For Development, it can be useful to run the Hook locally. You can do so by following these steps:
+
+1. Make sure you have access to a running [DefectDojo](https://github.com/DefectDojo/django-DefectDojo) Instance
+2. [Run a Scan](https://docs.securecodebox.io/docs/getting-started/first-scans) of your choice.
+3. Supply Download Links for the Scan Results (Raw Result and Findings.json). You can e.g., access them from the
+included [Minio Instance](https://docs.securecodebox.io/docs/getting-started/installation/#accessing-the-included-minio-instance)
+and upload them to a GitHub gist.
+
+4. Set the following environment variables
+
+- DEFECTDOJO_URL (e.g http://192.168.0.228:8080);
+- DEFECTDOJO_USERNAME (e.g admin)
+- DEFECTDOJO_APIKEY= (e.g. b09c.., can be fetched from the DefectDojo Settings)
+- IS_DEV=true
+- SCAN_NAME (e.g nmap-scanme.nmap.org, must be set exactly to the name of the scan used in step 2)
+
+5. Build the jar with gradle and run it with the following CLI arguments: {Raw Result Download URL} {Findings Download URL} {Raw Result Upload URL} {Findings Upload URL}.
+See the code snippet below. You have to adjust the filename of the jar for other versions than the '0.1.0-SNAPSHOT'.
+Also you will need to change the download URLs for the Raw Result and Findings to the ones from Step 3. 
+
+```bash
+./gradlew build
+java -jar build/libs/defectdojo-persistenceprovider-0.1.0-SNAPSHOT.jar https://gist.githubusercontent.com/.../scanme-nmap-org.xml https://gist.githubusercontent.com/.../nmap-findings.json https://httpbin.org/put https://httpbin.org/put
+```

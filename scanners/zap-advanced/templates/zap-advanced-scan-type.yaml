@@ -11,13 +11,14 @@ metadata:
   labels:
     {{- include "zap.labels" . | nindent 4 }}
 data:
-  1-zap-advanced-scantype.yaml: {{ .Values.zapConfiguration | toYaml | quote }}
+  1-zap-advanced-scantype.yaml: |
+    {{- .Values.zapConfiguration | toYaml | nindent 4 -}}
 {{- end }}
 ---
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: zap-advanced-scan
+  name: "zap-advanced-scan{{ .Values.scanner.nameAppend | default ""}}"
   labels:
     {{- include "zap.labels" . | nindent 4 }}
 spec:
@@ -26,17 +27,17 @@ spec:
     location: "/home/securecodebox/results/zap-results.xml"
   jobTemplate:
     spec:
-      {{- if .Values.scannerJob.ttlSecondsAfterFinished }}
-      ttlSecondsAfterFinished: {{ .Values.scannerJob.ttlSecondsAfterFinished }}
+      {{- if .Values.scanner.ttlSecondsAfterFinished }}
+      ttlSecondsAfterFinished: {{ .Values.scanner.ttlSecondsAfterFinished }}
       {{- end }}
-      backoffLimit: {{ .Values.scannerJob.backoffLimit }}
+      backoffLimit: {{ .Values.scanner.backoffLimit }}
       template:
         spec:
           restartPolicy: Never
           containers:
             - name: zap-advanced-scan
-              image: "{{ .Values.scannerJob.image.repository }}:{{ .Values.scannerJob.image.tag | default .Chart.Version }}"
-              imagePullPolicy: {{ .Values.scannerJob.image.pullPolicy }}
+              image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.Version }}"
+              imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
               command:
                 - "python3"
                 - "-m"
@@ -52,17 +53,17 @@ spec:
                 - "--output-folder"
                 - "/home/securecodebox/results/"
               resources:
-                {{- toYaml .Values.scannerJob.resources | nindent 16 }}
+                {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:
-                {{- toYaml .Values.scannerJob.securityContext | nindent 16 }}
+                {{- toYaml .Values.scanner.securityContext | nindent 16 }}
               env:
-                {{- toYaml .Values.scannerJob.env | nindent 16 }}
+                {{- toYaml .Values.scanner.env | nindent 16 }}
               envFrom:
-                {{- toYaml .Values.scannerJob.envFrom | nindent 16 }}
+                {{- toYaml .Values.scanner.envFrom | nindent 16 }}
               volumeMounts:
-                {{- toYaml .Values.scannerJob.extraVolumeMounts | nindent 16 }}
-              {{- if .Values.scannerJob.extraContainers }}
-              {{- toYaml .Values.scannerJob.extraContainers | nindent 12 }}
+                {{- toYaml .Values.scanner.extraVolumeMounts | nindent 16 }}
+              {{- if .Values.scanner.extraContainers }}
+              {{- toYaml .Values.scanner.extraContainers | nindent 12 }}
               {{- end }}
             - name: zap-sidecar
               image: "{{ .Values.zapContainer.image.repository }}:{{ .Values.zapContainer.image.tag | default .Chart.AppVersion }}"
@@ -103,4 +104,4 @@ spec:
               ports:
                 - containerPort: 8080
           volumes:
-            {{- toYaml .Values.scannerJob.extraVolumes | nindent 12 }}
+            {{- toYaml .Values.scanner.extraVolumes | nindent 12 }}

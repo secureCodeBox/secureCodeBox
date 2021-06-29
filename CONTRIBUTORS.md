@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2021 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Contributors
 
 If you would like to make contributions to this repository, please certify to the following Developer's Certificate of Origin (DCO) in [this repository](DCO). Please confirm your certification to the DCO by adding a sign-of tag to all your commit messages and adding your author name (e.g. `gordon shumway <alf@melmak.com>`) to the following list of contributors and open a pull request.
@@ -20,5 +26,6 @@ Committing with `git commit -s` will add the sign-off at the end of the commit m
 - Sven Strittmatter <sven.strittmatter@iteratec.com>
 - Tim Walter <tim.walter@iteratec.com>
 - Yannik Fuhrmeister <yannik.fuhrmeister@iteratec.com>
+- Sebastian Franz <sebastian.franz@iteratec.com>
 - Jannik Hollenbach <jannik.hollenbach@iteratec.com>
-
+- Johannes Zahn <johannes.zahn@iteratec.com>

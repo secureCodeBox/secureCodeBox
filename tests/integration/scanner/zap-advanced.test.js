@@ -12,7 +12,7 @@ test(
     const { count } = await scan(
       "zap-advanced-scan-nginx-demo",
       "zap-advanced-scan",
-      ["-t", "http://nginx.demo-apps.svc"],
+      ["-t", "http://nginx.demo-targets.svc"],
       60 * 15
     );
 
@@ -28,7 +28,7 @@ test(
     const { count } = await scan(
       "zap-advanced-scan-bodgeit-demo",
       "zap-advanced-scan",
-      ["-t", "http://bodgeit.demo-apps.svc:8080/"],
+      ["-t", "http://bodgeit.demo-targets.svc:8080/"],
       60 * 30
     );
 
@@ -44,7 +44,7 @@ test(
     const { count } = await scan(
       "zap-advanced-scan-juiceshop-demo",
       "zap-advanced-scan",
-      ["-t", "http://juiceshop.demo-apps.svc:3000/"],
+      ["-t", "http://juiceshop.demo-targets.svc:3000/"],
       60 * 30
     );
 
@@ -60,7 +60,7 @@ test(
     const { count } = await scan(
       "zap-advanced-scan-petstore-demo",
       "zap-advanced-scan",
-      ["-t", "http://petstore.demo-apps.svc/"],
+      ["-t", "http://petstore.demo-targets.svc/"],
       60 * 30
     );
 
@@ -76,7 +76,7 @@ test(
 //     const { count } = await scan(
 //       "zap-advanced-scan-wordpress-demo",
 //       "zap-advanced-scan",
-//       ["-t", "http://old-wordpress.demo-apps.svc/"],
+//       ["-t", "http://old-wordpress.demo-targets.svc/"],
 //       60 * 5
 //     );
 

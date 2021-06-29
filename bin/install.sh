@@ -7,12 +7,12 @@
 # Official installation script for the secureCodeBox
 #
 # Creates namespace, securecodebox-system, and installs the operator.
-# Then installs all possible resources (scanners, demo-apps, hooks).
+# Then installs all possible resources (scanners, demo-targets, hooks).
 #
 # There exist different modes:
 # Call without parameters to install interactively
 # Call with --all to install all available resources automatically
-# Call with --scanners / --demo-apps / --hooks to only install the wanted resources
+# Call with --scanners / --demo-targets / --hooks to only install the wanted resources
 # Call with --help for usage information
 #
 # For more information see https://docs.securecodebox.io/
@@ -20,7 +20,7 @@
 set -euo pipefail
 shopt -s extglob
 
-USAGE="Usage: $(basename "$0") [--all] [--scanners] [--hooks] [--demo-apps] [--help|-h]"
+USAGE="Usage: $(basename "$0") [--all] [--scanners] [--hooks] [--demo-targets] [--help|-h]"
 
 COLOR_HIGHLIGHT="\e[35m"
 COLOR_OK="\e[32m"
@@ -35,7 +35,7 @@ BASE_DIR=$(dirname "${SCRIPT_DIRECTORY}")
 
 INSTALL_INTERACTIVE=''
 INSTALL_SCANNERS=''
-INSTALL_DEMO_APPS=''
+INSTALL_DEMO_TARGETS=''
 INSTALL_HOOKS=''
 
 function print() {
@@ -59,9 +59,9 @@ The installation is interactive if no arguments are provided.
 
 Options
 
-  --all          Install scanners, demo-apps and hooks
+  --all          Install scanners, demo-targets and hooks
   --scanners     Install scanners
-  --demo-apps    Install demo-apps
+  --demo-targets    Install demo-targets
   --hooks        Install hooks
   -h|--help      Show help
 
@@ -142,8 +142,7 @@ function installResources() {
 
   if [[ $unattended == True ]]; then
     for resource in "${resources[@]}"; do
-      local resource_name="${resource//+([_])/-}" # Necessary because ssh_scan is called ssh-scan
-      helm upgrade --install -n "$namespace" "$resource_name" "$resource_directory"/"$resource"/ \
+      helm upgrade --install -n "$namespace" "$resource" "$resource_directory"/"$resource"/ \
       || print "$COLOR_ERROR" "Installation of '$resource' failed"
     done
 
@@ -154,8 +153,7 @@ function installResources() {
       read -r line
 
       if [[ $line == *[Yy] ]]; then
-        local resource_name="${resource//+([_])/-}"
-        helm upgrade --install -n "$namespace" "$resource_name" "$resource_directory"/"$resource"/ \
+        helm upgrade --install -n "$namespace" "$resource" "$resource_directory"/"$resource"/ \
         || print "$COLOR_ERROR" "Installation of '$resource' failed"
       fi
     done
@@ -185,8 +183,8 @@ function interactiveInstall() {
   installResources "$BASE_DIR/scanners" "default" False
 
   print
-  print "Starting to install demo-apps..."
-  print "Do you want to install the demo apps in a separate namespace? Otherwise they will be installed into the [default] namespace [y/N]"
+  print "Starting to install demo-targets..."
+  print "Do you want to install the demo targets in a separate namespace? Otherwise they will be installed into the [default] namespace [y/N]"
   read -r line
   NAMESPACE="default"
   if [[ $line == *[Yy] ]]; then
@@ -195,7 +193,7 @@ function interactiveInstall() {
     kubectl create namespace "$NAMESPACE" || print "Namespace already exists or could not be created.. "
   fi
 
-  installResources "$BASE_DIR/demo-apps" "$NAMESPACE" False
+  installResources "$BASE_DIR/demo-targets" "$NAMESPACE" False
 
   print
   print "Starting to install hooks..."
@@ -219,9 +217,9 @@ function unattendedInstall() {
     installResources "$BASE_DIR/scanners" "default" True
   fi
 
-  if [[ -n "${INSTALL_DEMO_APPS}" ]]; then
-    print "Starting to install demo-apps..."
-    installResources "$BASE_DIR/demo-apps" "default" True
+  if [[ -n "${INSTALL_DEMO_TARGETS}" ]]; then
+    print "Starting to install demo-targets..."
+    installResources "$BASE_DIR/demo-targets" "default" True
   fi
 
   if [[ -n "${INSTALL_HOOKS}" ]]; then
@@ -244,8 +242,8 @@ function parseArguments() {
             INSTALL_SCANNERS='true'
             shift # Pop current argument from array
             ;;
-          --demo-apps)
-            INSTALL_DEMO_APPS='true'
+          --demo-targets)
+            INSTALL_DEMO_TARGETS='true'
             shift
             ;;
           --hooks)
@@ -254,7 +252,7 @@ function parseArguments() {
             ;;
           --all)
             INSTALL_SCANNERS='true'
-            INSTALL_DEMO_APPS='true'
+            INSTALL_DEMO_TARGETS='true'
             INSTALL_HOOKS='true'
             shift
             ;;

@@ -4,7 +4,7 @@ exports[`Parsing a nginx result. 1`] = `
 Array [
   Object {
     "attributes": Object {
-      "host": "nginx.demo-apps.svc",
+      "host": "nginx.demo-targets.svc",
       "port": "80",
       "zap_confidence": "2",
       "zap_count": "2",
@@ -13,12 +13,12 @@ Array [
         Object {
           "method": "GET",
           "param": "X-Frame-Options",
-          "uri": "http://nginx.demo-apps.svc",
+          "uri": "http://nginx.demo-targets.svc",
         },
         Object {
           "method": "GET",
           "param": "X-Frame-Options",
-          "uri": "http://nginx.demo-apps.svc/",
+          "uri": "http://nginx.demo-targets.svc/",
         },
       ],
       "zap_otherinfo": null,
@@ -31,14 +31,14 @@ Array [
     "category": "X-Frame-Options Header Not Set",
     "description": "X-Frame-Options header is not included in the HTTP response to protect against 'ClickJacking' attacks.",
     "hint": undefined,
-    "location": "http://nginx.demo-apps.svc",
+    "location": "http://nginx.demo-targets.svc",
     "name": "X-Frame-Options Header Not Set",
     "osi_layer": "APPLICATION",
     "severity": "MEDIUM",
   },
   Object {
     "attributes": Object {
-      "host": "nginx.demo-apps.svc",
+      "host": "nginx.demo-targets.svc",
       "port": "80",
       "zap_confidence": "3",
       "zap_count": "4",
@@ -47,22 +47,22 @@ Array [
         Object {
           "evidence": "nginx/1.19.3",
           "method": "GET",
-          "uri": "http://nginx.demo-apps.svc/",
+          "uri": "http://nginx.demo-targets.svc/",
         },
         Object {
           "evidence": "nginx/1.19.3",
           "method": "GET",
-          "uri": "http://nginx.demo-apps.svc/robots.txt",
+          "uri": "http://nginx.demo-targets.svc/robots.txt",
         },
         Object {
           "evidence": "nginx/1.19.3",
           "method": "GET",
-          "uri": "http://nginx.demo-apps.svc",
+          "uri": "http://nginx.demo-targets.svc",
         },
         Object {
           "evidence": "nginx/1.19.3",
           "method": "GET",
-          "uri": "http://nginx.demo-apps.svc/sitemap.xml",
+          "uri": "http://nginx.demo-targets.svc/sitemap.xml",
         },
       ],
       "zap_otherinfo": null,
@@ -75,14 +75,14 @@ Array [
     "category": "Server Leaks Version Information via \\"Server\\" HTTP Response Header Field",
     "description": "The web/application server is leaking version information via the \\"Server\\" HTTP response header. Access to such information may facilitate attackers identifying other vulnerabilities your web/application server is subject to.",
     "hint": undefined,
-    "location": "http://nginx.demo-apps.svc",
+    "location": "http://nginx.demo-targets.svc",
     "name": "Server Leaks Version Information via \\"Server\\" HTTP Response Header Field",
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },
   Object {
     "attributes": Object {
-      "host": "nginx.demo-apps.svc",
+      "host": "nginx.demo-targets.svc",
       "port": "80",
       "zap_confidence": "2",
       "zap_count": "2",
@@ -91,12 +91,12 @@ Array [
         Object {
           "method": "GET",
           "param": "X-Content-Type-Options",
-          "uri": "http://nginx.demo-apps.svc",
+          "uri": "http://nginx.demo-targets.svc",
         },
         Object {
           "method": "GET",
           "param": "X-Content-Type-Options",
-          "uri": "http://nginx.demo-apps.svc/",
+          "uri": "http://nginx.demo-targets.svc/",
         },
       ],
       "zap_otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.At \\"High\\" threshold this scan rule will not alert on client or server error responses.",
@@ -109,14 +109,14 @@ Array [
     "category": "X-Content-Type-Options Header Missing",
     "description": "The Anti-MIME-Sniffing header X-Content-Type-Options was not set to 'nosniff'. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.",
     "hint": undefined,
-    "location": "http://nginx.demo-apps.svc",
+    "location": "http://nginx.demo-targets.svc",
     "name": "X-Content-Type-Options Header Missing",
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },
   Object {
     "attributes": Object {
-      "host": "nginx.demo-apps.svc",
+      "host": "nginx.demo-targets.svc",
       "port": "80",
       "zap_confidence": "2",
       "zap_count": "4",
@@ -124,19 +124,19 @@ Array [
       "zap_finding_urls": Array [
         Object {
           "method": "GET",
-          "uri": "http://nginx.demo-apps.svc/robots.txt",
+          "uri": "http://nginx.demo-targets.svc/robots.txt",
         },
         Object {
           "method": "GET",
-          "uri": "http://nginx.demo-apps.svc/",
+          "uri": "http://nginx.demo-targets.svc/",
         },
         Object {
           "method": "GET",
-          "uri": "http://nginx.demo-apps.svc/sitemap.xml",
+          "uri": "http://nginx.demo-targets.svc/sitemap.xml",
         },
         Object {
           "method": "GET",
-          "uri": "http://nginx.demo-apps.svc",
+          "uri": "http://nginx.demo-targets.svc",
         },
       ],
       "zap_otherinfo": null,
@@ -149,7 +149,7 @@ Array [
     "category": "Content Security Policy (CSP) Header Not Set",
     "description": "Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of attacks, including Cross Site Scripting (XSS) and data injection attacks. These attacks are used for everything from data theft to site defacement or distribution of malware. CSP provides a set of standard HTTP headers that allow website owners to declare approved sources of content that browsers should be allowed to load on that page — covered types are JavaScript, CSS, HTML frames, fonts, images and embeddable objects such as Java applets, ActiveX, audio and video files.",
     "hint": undefined,
-    "location": "http://nginx.demo-apps.svc",
+    "location": "http://nginx.demo-targets.svc",
     "name": "Content Security Policy (CSP) Header Not Set",
     "osi_layer": "APPLICATION",
     "severity": "LOW",
