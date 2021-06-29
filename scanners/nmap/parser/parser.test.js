@@ -4,8 +4,7 @@
 
 const fs = require("fs");
 const util = require("util");
-const { validate } = require("../../../parser-sdk/nodejs/validate.js");
-
+const { validate_parser } = require("../../../parser-sdk/nodejs/parser-utils.js");
 
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 const readFile = util.promisify(fs.readFile);
@@ -16,11 +15,11 @@ test("should properly parse nmap xml file", async () => {
   const xmlContent = await readFile(
     __dirname + "/__testFiles__/localhost.xml",
     {
-      encoding: "utf8"
+      encoding: "utf8",
     }
   );
-  const findings = await parse(xmlContent)
-  await expect(validate(findings)).resolves.toBeUndefined()
+  const findings = await parse(xmlContent);
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
     Array [
       Object {
@@ -134,7 +133,7 @@ test("should properly parse nmap xml file", async () => {
 
 test("should properly parse a nmap xml without any ports", async () => {
   const xmlContent = await readFile(__dirname + "/__testFiles__/no-ports.xml", {
-    encoding: "utf8"
+    encoding: "utf8",
   });
 
   expect(await parse(xmlContent)).toMatchInlineSnapshot(`
@@ -158,7 +157,7 @@ test("should properly parse a nmap xml without any ports", async () => {
 
 test("should properly parse a nmap xml without any host", async () => {
   const xmlContent = await readFile(__dirname + "/__testFiles__/no-host.xml", {
-    encoding: "utf8"
+    encoding: "utf8",
   });
 
   expect(await parse(xmlContent)).toMatchInlineSnapshot(`Array []`);
@@ -168,7 +167,7 @@ test("should properly parse a nmap xml with missing service information", async 
   const xmlContent = await readFile(
     __dirname + "/__testFiles__/no-service.xml",
     {
-      encoding: "utf8"
+      encoding: "utf8",
     }
   );
 
@@ -218,7 +217,7 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
   const xmlContent = await readFile(
     __dirname + "/__testFiles__/localhost-smb-script.xml",
     {
-      encoding: "utf8"
+      encoding: "utf8",
     }
   );
 
