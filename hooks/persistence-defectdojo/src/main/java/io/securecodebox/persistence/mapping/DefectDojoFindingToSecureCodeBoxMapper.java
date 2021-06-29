@@ -7,7 +7,7 @@ package io.securecodebox.persistence.mapping;
 import io.securecodebox.persistence.defectdojo.config.DefectDojoConfig;
 import io.securecodebox.persistence.defectdojo.models.Endpoint;
 import io.securecodebox.persistence.defectdojo.service.EndpointService;
-import io.securecodebox.persistence.models.Finding;
+import io.securecodebox.persistence.models.SecureCodeBoxFinding;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.HashMap;
@@ -23,8 +23,8 @@ public class DefectDojoFindingToSecureCodeBoxMapper {
     this.endpointService = endpointService;
   }
 
-  public Finding fromDefectDojoFining(io.securecodebox.persistence.defectdojo.models.Finding defectDojoFinding) {
-    var finding = new Finding();
+  public SecureCodeBoxFinding fromDefectDojoFinding(io.securecodebox.persistence.defectdojo.models.Finding defectDojoFinding) {
+    var finding = new SecureCodeBoxFinding();
 
     finding.setId(UUID.randomUUID().toString());
     finding.setName(defectDojoFinding.getTitle());
@@ -45,16 +45,16 @@ public class DefectDojoFindingToSecureCodeBoxMapper {
     switch (defectDojoFinding.getSeverity()) {
       case Critical:
       case High:
-        finding.setSeverity(Finding.Severities.High);
+        finding.setSeverity(SecureCodeBoxFinding.Severities.High);
         break;
       case Medium:
-        finding.setSeverity(Finding.Severities.Medium);
+        finding.setSeverity(SecureCodeBoxFinding.Severities.Medium);
         break;
       case Low:
-        finding.setSeverity(Finding.Severities.Low);
+        finding.setSeverity(SecureCodeBoxFinding.Severities.Low);
         break;
       case Informational:
-        finding.setSeverity(Finding.Severities.Informational);
+        finding.setSeverity(SecureCodeBoxFinding.Severities.Informational);
         break;
     }
 

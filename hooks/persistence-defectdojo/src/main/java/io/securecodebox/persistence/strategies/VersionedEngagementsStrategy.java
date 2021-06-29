@@ -82,7 +82,7 @@ public class VersionedEngagementsStrategy implements Strategy {
 
     var testId = this.createTest(scan, engagementId, userId);
 
-    LOG.debug("Uploading Scan Report (RawResults) to DefectDojo");
+    LOG.debug("Uploading Scan Report to DefectDojo");
 
     ScanType scanType = ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).scanType;
     TestType testType = testTypeService.searchUnique(TestType.builder().name(scanType.getTestType()).build()).orElseThrow(() -> new DefectDojoPersistenceException("Could not find test type '" + scanType.getTestType() + "' in DefectDojo API. DefectDojo might be running in an unsupported version."));
@@ -96,7 +96,7 @@ public class VersionedEngagementsStrategy implements Strategy {
       testType.getId()
     );
 
-    LOG.info("Uploaded Scan Report (RawResults) as testID {} to DefectDojo", testId);
+    LOG.info("Uploaded Scan Report as testID {} to DefectDojo", testId);
 
     return findingService.search(Map.of("test", String.valueOf(testId)));
   }

@@ -4,6 +4,7 @@
 
 package io.securecodebox.persistence.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +20,8 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Finding {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class SecureCodeBoxFinding {
   @JsonProperty
   String id;
   @JsonProperty
@@ -35,16 +37,18 @@ public class Finding {
   @JsonProperty
   Severities severity;
   @JsonProperty
+  String timestamp;
+  @JsonProperty
   Map<String, Object> attributes;
 
   public enum Severities {
-    @JsonProperty("High")
+    @JsonProperty("HIGH")
     High,
-    @JsonProperty("Medium")
+    @JsonProperty("MEDIUM")
     Medium,
-    @JsonProperty("Low")
+    @JsonProperty("LOW")
     Low,
-    @JsonProperty("Informational")
+    @JsonProperty("INFORMATIONAL")
     Informational
     ;
   }
