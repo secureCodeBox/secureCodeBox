@@ -776,6 +776,7 @@ jobs:
       # ---- OWASP Amass Integration Tests ----
 
       - name: "amass Integration Tests"
+        working-directory: ./scanners/amass
         run: |
           make deploy IMG_TAG=$(git rev-parse --short HEAD)
           make integration-test
