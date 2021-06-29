@@ -13,31 +13,35 @@
           "type": "string"
         },
         "name": {
-          "description": "The unique identifier for a finding",
+          "description": "Name contains a short description of the finding",
           "type": "string"
         },
         "description": {
-          "description": "The unique identifier for a finding",
+          "description": "In depth description, can span multiple paragraphs",
           "type": [
             "string",
             "null"
           ]
         },
         "category": {
-          "description": "The unique identifier for a finding",
+          "description": "The category is often used to group finding based on their types",
           "type": "string"
         },
         "osi_layer": {
-          "description": "The unique identifier for a finding",
+          "description": "OSI network layer the finding fits into",
           "type": "string"
         },
         "severity": {
-          "description": "The unique identifier for a finding",
+          "description": "One of INFORMATIONAL, LOW, MEDIUM, HIGH,",
           "type": "string"
         },
         "attributes": {
-          "description": "...",
+          "description": "Attributes are not standardized. They differ from scanner to scanner",
           "type": "object"
+        },
+        "location": {
+          "description": "Full url with protocol, port, and path if existing",
+          "type": "string"
         }
       },
       "required": [
