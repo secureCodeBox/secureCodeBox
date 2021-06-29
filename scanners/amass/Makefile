@@ -76,6 +76,8 @@ deploy-test-deps:
 install-integration-test-deps:
 
 integration-tests:
+	make --version
+	which make
 	kubectl -n integration-tests delete scans --all
 	cd integration-tests && npx --yes --package jest@$(JEST_VERSION) jest
 
