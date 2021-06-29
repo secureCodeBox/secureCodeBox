@@ -777,12 +777,8 @@ jobs:
 
       - name: "amass Integration Tests"
         run: |
-          kubectl -n integration-tests delete scans --all
-          helm -n integration-tests install amass ./scanners/amass/ \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-amass" \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)"
-          cd tests/integration/
-          npx jest --ci --color scanner/amass.test.js
+          make deploy IMG_TAG=$(git rev-parse --short HEAD)
+          make integration-test
 
       # ---- gitleaks Integration Tests ----
 
