@@ -23,6 +23,12 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
   private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
   private static final ObjectWriter prettyJSONPrinter = new ObjectMapper().writerWithDefaultPrettyPrinter();
 
+  /**
+   * Converts a SecureCodeBox Findings JSON String to a DefectDojo Findings JSON String.
+   * @param scbFindingsJson SecureCodeBox Findings JSON File as String
+   * @return DefectDojo Findings JSON File as String, compatible with the DefectDojo Generic JSON Parser
+   * @throws IOException
+   */
   public static String fromSecureCodeboxFindingsJson(String scbFindingsJson) throws IOException {
     LOG.debug("Converting SecureCodeBox Findings to DefectDojo Findings");
     ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -38,6 +44,13 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
     return ddFindingJson.toString();
   }
 
+  /**
+   * Converts a SecureCodeBox Finding to a DefectDojo Finding,
+   * that can be imported by the DefectDojo Generic JSON Parser.
+   * @param secureCodeBoxFinding Finding in SecureCodeBox format.
+   * @return Finding in DefectDojo Format, compatible with the DefectDojo Generic JSON Parser
+   * @throws JsonProcessingException
+   */
   protected static DefectDojoImportFinding fromSecureCodeBoxFinding(SecureCodeBoxFinding secureCodeBoxFinding) throws JsonProcessingException {
     //set basic info
     DefectDojoImportFinding result = new DefectDojoImportFinding();
@@ -69,7 +82,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
       URI.create(secureCodeBoxFinding.getLocation());
       result.setEndpoints(Collections.singletonList(secureCodeBoxFinding.getLocation()));
     } catch (IllegalArgumentException e) {
-      LOG.info("location is not a valid uri", e);
+      LOG.warn("Couldn't parse the secureCodeBox location, because it: {} s not a vailid uri: {}", e, secureCodeBoxFinding.getLocation());
     }
     return result;
   }

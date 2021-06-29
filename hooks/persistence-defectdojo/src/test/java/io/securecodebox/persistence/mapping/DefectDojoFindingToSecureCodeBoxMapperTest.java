@@ -51,7 +51,7 @@ class DefectDojoFindingToSecureCodeBoxMapperTest {
 
     when(endpointService.get(1337L)).thenReturn(Endpoint.builder().protocol("http").host("juice-shop.securecodebox-test.svc:3000").build());
 
-    var actualFinding = this.mapper.fromDefectDojoFining(ddFinding);
+    var actualFinding = this.mapper.fromDefectDojoFinding(ddFinding);
 
     assertEquals(
       actualFinding.getName(),

@@ -23,7 +23,7 @@ public class DefectDojoFindingToSecureCodeBoxMapper {
     this.endpointService = endpointService;
   }
 
-  public SecureCodeBoxFinding fromDefectDojoFining(io.securecodebox.persistence.defectdojo.models.Finding defectDojoFinding) {
+  public SecureCodeBoxFinding fromDefectDojoFinding(io.securecodebox.persistence.defectdojo.models.Finding defectDojoFinding) {
     var finding = new SecureCodeBoxFinding();
 
     finding.setId(UUID.randomUUID().toString());

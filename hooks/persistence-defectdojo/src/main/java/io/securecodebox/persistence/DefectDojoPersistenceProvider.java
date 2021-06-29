@@ -49,7 +49,7 @@ public class DefectDojoPersistenceProvider {
       LOG.info("Overwriting secureCodeBox findings with the findings from DefectDojo.");
 
       var findings = defectDojoFindings.stream()
-        .map(mapper::fromDefectDojoFining)
+        .map(mapper::fromDefectDojoFinding)
         .collect(Collectors.toList());
 
       LOG.debug("Mapped Findings: {}", findings);
