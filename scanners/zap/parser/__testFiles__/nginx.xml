@@ -5,7 +5,7 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <?xml version="1.0"?><OWASPZAPReport version="D-2020-10-13" generated="Thu, 22 Oct 2020 09:37:04">
-<site name="http://nginx.demo-apps.svc" host="nginx.demo-apps.svc" port="80" ssl="false"><alerts><alertitem>
+<site name="http://nginx.demo-targets.svc" host="nginx.demo-targets.svc" port="80" ssl="false"><alerts><alertitem>
   <pluginid>10020</pluginid>
   <alert>X-Frame-Options Header Not Set</alert>
   <name>X-Frame-Options Header Not Set</name>
@@ -15,12 +15,12 @@ SPDX-License-Identifier: Apache-2.0
   <desc>&lt;p&gt;X-Frame-Options header is not included in the HTTP response to protect against &apos;ClickJacking&apos; attacks.&lt;/p&gt;</desc>
   <instances>
   <instance>
-  <uri>http://nginx.demo-apps.svc</uri>
+  <uri>http://nginx.demo-targets.svc</uri>
   <method>GET</method>
   <param>X-Frame-Options</param>
   </instance>
   <instance>
-  <uri>http://nginx.demo-apps.svc/</uri>
+  <uri>http://nginx.demo-targets.svc/</uri>
   <method>GET</method>
   <param>X-Frame-Options</param>
   </instance>
@@ -42,22 +42,22 @@ SPDX-License-Identifier: Apache-2.0
   <desc>&lt;p&gt;The web/application server is leaking version information via the &quot;Server&quot; HTTP response header. Access to such information may facilitate attackers identifying other vulnerabilities your web/application server is subject to.&lt;/p&gt;</desc>
   <instances>
   <instance>
-  <uri>http://nginx.demo-apps.svc/</uri>
+  <uri>http://nginx.demo-targets.svc/</uri>
   <method>GET</method>
   <evidence>nginx/1.19.3</evidence>
   </instance>
   <instance>
-  <uri>http://nginx.demo-apps.svc/robots.txt</uri>
+  <uri>http://nginx.demo-targets.svc/robots.txt</uri>
   <method>GET</method>
   <evidence>nginx/1.19.3</evidence>
   </instance>
   <instance>
-  <uri>http://nginx.demo-apps.svc</uri>
+  <uri>http://nginx.demo-targets.svc</uri>
   <method>GET</method>
   <evidence>nginx/1.19.3</evidence>
   </instance>
   <instance>
-  <uri>http://nginx.demo-apps.svc/sitemap.xml</uri>
+  <uri>http://nginx.demo-targets.svc/sitemap.xml</uri>
   <method>GET</method>
   <evidence>nginx/1.19.3</evidence>
   </instance>
@@ -79,12 +79,12 @@ SPDX-License-Identifier: Apache-2.0
   <desc>&lt;p&gt;The Anti-MIME-Sniffing header X-Content-Type-Options was not set to &apos;nosniff&apos;. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.&lt;/p&gt;</desc>
   <instances>
   <instance>
-  <uri>http://nginx.demo-apps.svc</uri>
+  <uri>http://nginx.demo-targets.svc</uri>
   <method>GET</method>
   <param>X-Content-Type-Options</param>
   </instance>
   <instance>
-  <uri>http://nginx.demo-apps.svc/</uri>
+  <uri>http://nginx.demo-targets.svc/</uri>
   <method>GET</method>
   <param>X-Content-Type-Options</param>
   </instance>
@@ -107,19 +107,19 @@ SPDX-License-Identifier: Apache-2.0
   <desc>&lt;p&gt;Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of attacks, including Cross Site Scripting (XSS) and data injection attacks. These attacks are used for everything from data theft to site defacement or distribution of malware. CSP provides a set of standard HTTP headers that allow website owners to declare approved sources of content that browsers should be allowed to load on that page — covered types are JavaScript, CSS, HTML frames, fonts, images and embeddable objects such as Java applets, ActiveX, audio and video files.&lt;/p&gt;</desc>
   <instances>
   <instance>
-  <uri>http://nginx.demo-apps.svc/robots.txt</uri>
+  <uri>http://nginx.demo-targets.svc/robots.txt</uri>
   <method>GET</method>
   </instance>
   <instance>
-  <uri>http://nginx.demo-apps.svc/</uri>
+  <uri>http://nginx.demo-targets.svc/</uri>
   <method>GET</method>
   </instance>
   <instance>
-  <uri>http://nginx.demo-apps.svc/sitemap.xml</uri>
+  <uri>http://nginx.demo-targets.svc/sitemap.xml</uri>
   <method>GET</method>
   </instance>
   <instance>
-  <uri>http://nginx.demo-apps.svc</uri>
+  <uri>http://nginx.demo-targets.svc</uri>
   <method>GET</method>
   </instance>
   </instances>

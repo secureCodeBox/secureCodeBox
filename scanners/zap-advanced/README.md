@@ -113,7 +113,7 @@ If you want to configure the `api` scan, `spider` or active 'scan` section it is
 ```
 
 ## ZAP Configuration
-The following YAMl gives you an overview about all the different configuration options you have to configure the ZAP advanced scan. Please have a look into our `./examples/...` to find some working examples. We provide a list of working examples to scan our `demo-apps` with the `zap-advanced-scan`.
+The following YAMl gives you an overview about all the different configuration options you have to configure the ZAP advanced scan. Please have a look into our `./examples/...` to find some working examples. We provide a list of working examples to scan our `demo-targets` with the `zap-advanced-scan`.
 
 :::note
 
