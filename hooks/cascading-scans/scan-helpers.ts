@@ -220,17 +220,23 @@ export async function getCascadingRulesForScan(scan: Scan) {
 export function purgeCascadedRuleFromScan(scan: Scan, cascadedRule?: CascadingRule) : Scan {
   if (cascadedRule === undefined) return scan;
 
-  scan.spec.env = scan.spec.env.filter(scanEnv =>
-    !cascadedRule.spec.scanSpec.env.some(ruleEnv => isEqual(scanEnv, ruleEnv))
-  );
+  if (scan.spec.env !== undefined && cascadedRule.spec.scanSpec.env !== undefined) {
+    scan.spec.env = scan.spec.env.filter(scanEnv =>
+      !cascadedRule.spec.scanSpec.env.some(ruleEnv => isEqual(scanEnv, ruleEnv))
+    );
+  }
 
-  scan.spec.volumes = scan.spec.volumes.filter(scanVolume =>
-    !cascadedRule.spec.scanSpec.volumes.some(ruleVolume => isEqual(scanVolume, ruleVolume))
-  );
+  if (scan.spec.volumes !== undefined && cascadedRule.spec.scanSpec.volumes !== undefined) {
+    scan.spec.volumes = scan.spec.volumes.filter(scanVolume =>
+      !cascadedRule.spec.scanSpec.volumes.some(ruleVolume => isEqual(scanVolume, ruleVolume))
+    );
+  }
 
-  scan.spec.volumeMounts = scan.spec.volumeMounts.filter(scanVolumeMount =>
-    !cascadedRule.spec.scanSpec.volumeMounts.some(ruleVolumeMount => isEqual(scanVolumeMount, ruleVolumeMount))
-  );
+  if (scan.spec.volumeMounts !== undefined && cascadedRule.spec.scanSpec.volumeMounts !== undefined) {
+    scan.spec.volumeMounts = scan.spec.volumeMounts.filter(scanVolumeMount =>
+      !cascadedRule.spec.scanSpec.volumeMounts.some(ruleVolumeMount => isEqual(scanVolumeMount, ruleVolumeMount))
+    );
+  }
 
   return scan
 }
