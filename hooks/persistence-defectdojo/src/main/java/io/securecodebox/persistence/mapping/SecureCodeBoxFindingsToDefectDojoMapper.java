@@ -14,9 +14,13 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URI;
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class SecureCodeBoxFindingsToDefectDojoMapper {
   private static final Logger LOG = LoggerFactory.getLogger(SecureCodeBoxFindingsToDefectDojoMapper.class);
@@ -25,6 +29,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
 
   /**
    * Converts a SecureCodeBox Findings JSON String to a DefectDojo Findings JSON String.
+   *
    * @param scbFindingsJson SecureCodeBox Findings JSON File as String
    * @return DefectDojo Findings JSON File as String, compatible with the DefectDojo Generic JSON Parser
    * @throws IOException
@@ -33,9 +38,10 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
     LOG.debug("Converting SecureCodeBox Findings to DefectDojo Findings");
     ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     List<DefectDojoImportFinding> DefectDojoImportFindings = new ArrayList<>();
-    List<SecureCodeBoxFinding> secureCodeBoxFindings = mapper.readValue(scbFindingsJson, new TypeReference<>() {});
-    for (SecureCodeBoxFinding secureCodeBoxFinding : secureCodeBoxFindings){
-        DefectDojoImportFindings.add(fromSecureCodeBoxFinding(secureCodeBoxFinding));
+    List<SecureCodeBoxFinding> secureCodeBoxFindings = mapper.readValue(scbFindingsJson, new TypeReference<>() {
+    });
+    for (SecureCodeBoxFinding secureCodeBoxFinding : secureCodeBoxFindings) {
+      DefectDojoImportFindings.add(fromSecureCodeBoxFinding(secureCodeBoxFinding));
     }
     // create the result where the format has to be {"findings": [finding1, findings2, ...]}
     ObjectNode ddFindingJson = mapper.createObjectNode();
@@ -47,48 +53,54 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
   /**
    * Converts a SecureCodeBox Finding to a DefectDojo Finding,
    * that can be imported by the DefectDojo Generic JSON Parser.
+   *
    * @param secureCodeBoxFinding Finding in SecureCodeBox format.
    * @return Finding in DefectDojo Format, compatible with the DefectDojo Generic JSON Parser
    * @throws JsonProcessingException
    */
   protected static DefectDojoImportFinding fromSecureCodeBoxFinding(SecureCodeBoxFinding secureCodeBoxFinding) throws JsonProcessingException {
-    //set basic info
+    //set basic Finding info
     DefectDojoImportFinding result = new DefectDojoImportFinding();
     result.setTitle(secureCodeBoxFinding.getName());
-    result.setSeverity(capitalize(secureCodeBoxFinding.getSeverity().toString()));
+    if (secureCodeBoxFinding.getSeverity() != null)
+      result.setSeverity(capitalize(secureCodeBoxFinding.getSeverity().toString()));
     result.setUniqueIdFromTool(secureCodeBoxFinding.getId());
-
-    // set Description as combination of finding description and finding attributes
+    // set DefectDojo description as combination of SecureCodeBox Finding description and Finding attributes
     String description = secureCodeBoxFinding.getDescription();
-    if (secureCodeBoxFinding.getAttributes()!=null) {
+    if (secureCodeBoxFinding.getAttributes() != null) {
       String attributesJson = prettyJSONPrinter.writeValueAsString(secureCodeBoxFinding.getAttributes());
-      description = description + "\n " +  attributesJson;
+      description = description + "\n " + attributesJson;
     }
     result.setDescription(description);
+    setFindingTimestamp(secureCodeBoxFinding, result);
+    setFindingLocation(secureCodeBoxFinding, result);
+    return result;
+  }
 
-    //set finding date
+  private static void setFindingLocation(SecureCodeBoxFinding secureCodeBoxFinding, DefectDojoImportFinding result) {
+    if (secureCodeBoxFinding.getLocation() != null && !secureCodeBoxFinding.getLocation().isEmpty()) {
+      try {
+        URI.create(secureCodeBoxFinding.getLocation());
+        result.setEndpoints(Collections.singletonList(secureCodeBoxFinding.getLocation()));
+      } catch (IllegalArgumentException e) {
+        LOG.warn("Couldn't parse the secureCodeBox location, because it: {} is not a vailid uri: {}", e, secureCodeBoxFinding.getLocation());
+      }
+    }
+  }
+
+  private static void setFindingTimestamp(SecureCodeBoxFinding secureCodeBoxFinding, DefectDojoImportFinding result) {
     Instant instant;
     if (secureCodeBoxFinding.getTimestamp() != null) {
       instant = Instant.from(DateTimeFormatter.ISO_INSTANT.parse(secureCodeBoxFinding.getTimestamp()));
-    }
-    else {
+    } else {
       instant = Instant.now();
     }
     LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     result.setDate(dtf.format(localDateTime));
-
-    //set finding location
-    try {
-      URI.create(secureCodeBoxFinding.getLocation());
-      result.setEndpoints(Collections.singletonList(secureCodeBoxFinding.getLocation()));
-    } catch (IllegalArgumentException e) {
-      LOG.warn("Couldn't parse the secureCodeBox location, because it: {} s not a vailid uri: {}", e, secureCodeBoxFinding.getLocation());
-    }
-    return result;
   }
 
   private static String capitalize(String str) {
-    if(str == null || str.isEmpty()) {
+    if (str == null || str.isEmpty()) {
       return str;
     }
 
