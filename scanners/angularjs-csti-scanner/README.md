@@ -134,6 +134,7 @@ options.scope.request_methods = [
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| parser.env | list | `[{"name":"CRASH_ON_FAILED_FINDINGS_VALIDATION","value":"false"}]` | Optional environment variables mapped into each parseJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | parser.image.repository | string | `"docker.io/securecodebox/parser-angularjs-csti-scanner"` | Parser image repository |
 | parser.image.tag | string | defaults to the charts version | Parser image tag |
 | parser.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |

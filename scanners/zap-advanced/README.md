@@ -461,6 +461,7 @@ optional arguments:
 |-----|------|---------|-------------|
 | cascadingRules | object | `{"enabled":true}` | Configurations regarding the cascading scan |
 | cascadingRules.enabled | bool | `true` | Enables or disables the installation of the default cascading rules for this scanner |
+| parser.env | list | `[{"name":"CRASH_ON_FAILED_FINDINGS_VALIDATION","value":"false"}]` | Optional environment variables mapped into each parseJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | parser.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | parser.image.repository | string | `"docker.io/securecodebox/parser-zap"` | Parser image repository |
 | parser.image.tag | string | `nil` | Parser image tag |
