@@ -1,7 +1,11 @@
 const fs = require("fs");
 const Ajv = require("ajv-draft-04");
 const ajv = new Ajv();
+const addFormats = require("ajv-formats");
+addFormats(ajv);
 const util = require("util");
+var jsonpointer = require("jsonpointer");
+
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 const readFile = util.promisify(fs.readFile);
 const { v4: uuid } = require("uuid");
@@ -26,7 +30,8 @@ async function validateAgainstJsonSchema(jsonData) {
   const validator = ajv.compile(jsonSchema);
   const valid = validator(jsonData);
   if (!valid) {
-    throw new Error(JSON.stringify(validator.errors, null, 2));
+    const errorMessage = generateErrorMessage(validator.errors, jsonData);
+    throw new Error(errorMessage);
   }
 }
 
@@ -34,6 +39,15 @@ async function validateAgainstJsonSchema(jsonData) {
 async function addSampleIdsAndDatesAndValidate(jsonData) {
   const extendedData = addIdsAndDates(jsonData);
   validateAgainstJsonSchema(extendedData);
+}
+
+function generateErrorMessage(errors, jsonData) {
+  for (let i = 0; i < errors.length; i++) {
+    errors[i] = { ...errors[i] };
+    const invalidValue = jsonpointer.get(jsonData, errors[i].instancePath);
+    errors[i].invalidValue = invalidValue;
+  }
+  return JSON.stringify(errors, null, 2);
 }
 
 module.exports.addIdsAndDates = addIdsAndDates;

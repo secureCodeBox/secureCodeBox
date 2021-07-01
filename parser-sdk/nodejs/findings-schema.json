@@ -7,10 +7,17 @@
   "$defs": {
     "finding": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "id": {
-          "description": "The unique identifier for a finding",
-          "type": "string"
+          "description": "The unique identifier for a finding according to RFC 4122",
+          "type": "string",
+          "format": "uuid"
+        },
+        "parsed_at": {
+          "description": "Date-Time when the finding was parsed according to RFC3339",
+          "type": "string",
+          "format": "date-time"
         },
         "name": {
           "description": "Name contains a short description of the finding",
@@ -18,10 +25,8 @@
         },
         "description": {
           "description": "In depth description, can span multiple paragraphs",
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": "string",
+          "nullable": true
         },
         "category": {
           "description": "The category is often used to group finding based on their types",
@@ -29,11 +34,26 @@
         },
         "osi_layer": {
           "description": "OSI network layer the finding fits into",
-          "type": "string"
+          "type": "string",
+          "enum": [
+            "PHYSICAL",
+            "DATA LINK",
+            "NETWORK",
+            "TRANSPORT",
+            "SESSION",
+            "PRESENTATION",
+            "APPLICATION"
+          ]
         },
         "severity": {
           "description": "One of INFORMATIONAL, LOW, MEDIUM, HIGH,",
-          "type": "string"
+          "type": "string",
+          "enum": [
+            "INFORMATIONAL",
+            "LOW",
+            "MEDIUM",
+            "HIGH"
+          ]
         },
         "attributes": {
           "description": "Attributes are not standardized. They differ from scanner to scanner",
@@ -41,7 +61,8 @@
         },
         "location": {
           "description": "Full url with protocol, port, and path if existing",
-          "type": "string"
+          "type": "string",
+          "format": "uri"
         }
       },
       "required": [
