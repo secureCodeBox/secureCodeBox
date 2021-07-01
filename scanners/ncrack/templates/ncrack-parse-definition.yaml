@@ -11,14 +11,3 @@ spec:
   ttlSecondsAfterFinished: {{ .Values.parser.image.ttlSecondsAfterFinished }}
   env: 
     {{- toYaml .Values.parser.env | nindent 4 }}
-  {{- if .Values.encryptPasswords.existingSecret }}
-  - name: "ENCRYPTION_KEY_LOCATION"
-    value: "/secrets/{{ .Values.encryptPasswords.key }}"
-  volumes:
-  - name: "ncrack-secret"
-    secret:
-      secretName: {{ .Values.encryptPasswords.existingSecret }}
-  volumeMounts:
-  - name: "ncrack-secret"
-    mountPath: "/secrets/"
-  {{- end }}
