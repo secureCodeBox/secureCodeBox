@@ -9,7 +9,11 @@ metadata:
 spec:
   image: "{{ .Values.parser.image.repository }}:{{ .Values.parser.image.tag | default .Chart.Version }}"
   ttlSecondsAfterFinished: {{ .Values.parser.image.ttlSecondsAfterFinished }}
+  env: 
+    {{- toYaml .Values.parser.env | nindent 4 }}
   {{- if .Values.encryptPasswords.existingSecret }}
+  - name: "ENCRYPTION_KEY_LOCATION"
+    value: "/secrets/{{ .Values.encryptPasswords.key }}"
   volumes:
   - name: "ncrack-secret"
     secret:
@@ -17,7 +21,4 @@ spec:
   volumeMounts:
   - name: "ncrack-secret"
     mountPath: "/secrets/"
-  env:
-  - name: "ENCRYPTION_KEY_LOCATION"
-    value: "/secrets/{{ .Values.encryptPasswords.key }}"
   {{- end }}
