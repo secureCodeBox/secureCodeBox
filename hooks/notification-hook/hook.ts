@@ -20,7 +20,7 @@ export async function handle({ getFindings, scan }) {
     channel.endPoint = mapToEndPoint(channel.endPoint);
     const findingsToNotify = findings.filter(finding => matches(finding, channel.rules));
 
-    if (channel.skipNotificationOnZeroFindings === true && findings.length === 0) {
+    if (channel.skipNotificationOnZeroFindings === true && findingsToNotify.length === 0) {
       continue;
     }
 
