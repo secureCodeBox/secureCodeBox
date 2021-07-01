@@ -1,5 +1,6 @@
 package io.securecodebox.persistence.mapping;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.securecodebox.persistence.models.SecureCodeBoxFinding;
@@ -36,7 +37,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
     // if whitespaces should be ignored in strings, a Custom Comperator could be used
     // then the result and expected result would not have to match exactly.
     // see https://www.baeldung.com/jackson-compare-two-json-objects
-    assertEquals(actualJSON,expectedJSON);
+    assertEquals(actualJSON, expectedJSON);
   }
 
   @Test
@@ -63,7 +64,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
     assertEquals(ddFinding.getEndpoints().get(0), location);
     assertTrue(ddFinding.getDescription().startsWith(description));
     //Description should consist of description and attributes as JSON
-    String attributesJson = ddFinding.getDescription().substring(description.length()+1);
+    String attributesJson = ddFinding.getDescription().substring(description.length() + 1);
     String expectedAttributeJson = "{\n" +
       "  \"attribute_1\" : {\n" +
       "    \"sub_attribute\" : \"1\"\n" +
@@ -75,6 +76,14 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
     var expectedJson = mapper.readTree(attributesJson);
     var actualJson = mapper.readTree(expectedAttributeJson);
     assertNotNull(actualJson);
-    assertEquals(mapper.readTree(attributesJson),mapper.readTree(expectedAttributeJson));
+    assertEquals(mapper.readTree(attributesJson), mapper.readTree(expectedAttributeJson));
+  }
+
+  @Test
+  public void doesntThrowUnexpectedExceptionOnEmptyFinding() throws JsonProcessingException {
+    var emptyScbFinding = SecureCodeBoxFinding.builder().build();
+    var ddFinding = SecureCodeBoxFindingsToDefectDojoMapper.fromSecureCodeBoxFinding(emptyScbFinding);
+    assertNull(ddFinding.getTitle());
+    assertNull(ddFinding.getDescription());
   }
 }
