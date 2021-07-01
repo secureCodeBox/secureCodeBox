@@ -17,7 +17,7 @@ function addIdsAndDates(findings) {
 }
 
 // eslint-disable-next-line
-async function validate(jsonData) {
+async function validateAgainstJsonSchema(jsonData) {
   const jsonSchemaString = await readFile(
     __dirname + "/findings-schema.json",
     "utf8"
@@ -33,9 +33,9 @@ async function validate(jsonData) {
 // eslint-disable-next-line
 async function addSampleIdsAndDatesAndValidate(jsonData) {
   const extendedData = addIdsAndDates(jsonData);
-  validate(extendedData);
+  validateAgainstJsonSchema(extendedData);
 }
 
 module.exports.addIdsAndDates = addIdsAndDates;
-module.exports.validate = validate;
+module.exports.validate = validateAgainstJsonSchema;
 module.exports.validate_parser = addSampleIdsAndDatesAndValidate;
