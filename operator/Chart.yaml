@@ -42,8 +42,8 @@ annotations:
   # artifacthub.io/images: |
   #   - name: securecodebox-operator
   #     image: docker.io/securecodebox/operator:v2.7.0-alpha1
-  #   - name: securecodebox-lurcher
-  #     image: docker.io/securecodebox/lurcher:v2.7.0-alpha1
+  #   - name: securecodebox-lurker
+  #     image: docker.io/securecodebox/lurker:v2.7.0-alpha1
   artifacthub.io/crds: |
     - kind: Scan
       version: v1

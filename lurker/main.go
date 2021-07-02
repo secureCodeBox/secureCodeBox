@@ -46,7 +46,7 @@ func main() {
 		log.Fatal("Flag 'uploadURL' is no proper URL")
 	}
 
-	log.Println("Starting lurcher")
+	log.Println("Starting lurker")
 	log.Printf("Waiting for main container '%s' to complete", mainContainer)
 	log.Printf("After scan is completed file '%s' will be uploaded to '%s'", filePath, url.Hostname())
 
@@ -99,7 +99,7 @@ func uploadFile(path, url string) error {
 	log.Println("Failed Request:")
 	log.Println(string(bytes))
 
-	return fmt.Errorf("Lurcher failed to upload scan result file. File upload returned non 2xx status code (%d)", res.StatusCode)
+	return fmt.Errorf("Lurker failed to upload scan result file. File upload returned non 2xx status code (%d)", res.StatusCode)
 }
 
 func waitForMainContainerToEnd(container, pod, namespace string) {
@@ -127,7 +127,7 @@ func waitForMainContainerToEnd(container, pod, namespace string) {
 
 			for _, status := range containerStatuses {
 				if status.Name == container && status.State.Terminated != nil {
-					log.Printf("Main Container Exited. Lurcher will end as well.")
+					log.Printf("Main Container Exited. Lurker will end as well.")
 					return
 				}
 			}

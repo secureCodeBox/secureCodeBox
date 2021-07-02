@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-module github.com/secureCodeBox/secureCodeBox/lurcher
+module github.com/secureCodeBox/secureCodeBox/lurker
 
 go 1.15
 

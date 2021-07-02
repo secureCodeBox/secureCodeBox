@@ -14,7 +14,7 @@ actor kubectl
 box "secureCodeBox"
   participant Operator <<Controller>>
   participant Scanner <<Container>>
-  participant Lurcher <<Sidecar>>
+  participant Lurker <<Sidecar>>
   participant Minio <<Deployment>>
   participant Parser <<Job>>
   collections ReadOnlyHooks <<Job>>
@@ -30,14 +30,14 @@ kubectl -\ Operator : start scan
 activate Operator
 Operator -> Scanner : run job
 activate Scanner
-activate Lurcher
+activate Lurker
 Scanner -> Target : scan
-Lurcher -\ Scanner : read data
-Lurcher -\ Minio : store raw results
+Lurker -\ Scanner : read data
+Lurker -\ Minio : store raw results
 Scanner <-- Target
 Operator <-- Scanner
 deactivate Scanner
-deactivate Lurcher
+deactivate Lurker
 
 Operator -> Parser : run job
 activate Parser
