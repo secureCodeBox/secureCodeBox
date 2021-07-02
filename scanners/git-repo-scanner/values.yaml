@@ -2,32 +2,35 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-image:
-  # image.repository -- Container Image to run the scan
-  repository: docker.io/securecodebox/scanner-git-repo-scanner
-  # image.tag -- defaults to the charts version
-  tag: null
+parser:
+  image:
+    # parser.image.tag - defaults to the charts version
+    # parser.image.repository -- Parser image repository
+    repository: docker.io/securecodebox/parser-git-repo-scanner
+    # parser.image.tag -- Parser image tag
+    # @default -- defaults to the charts version
+    tag: null
 
-parserImage:
-  # parserImage.tag - defaults to the charts version
-  # parserImage.repository -- Parser image repository
-  repository: docker.io/securecodebox/parser-git-repo-scanner
-  # parserImage.tag -- Parser image tag
-  # @default -- defaults to the charts version
-  tag: null
-
-parseJob:
-  # parseJob.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+  # parser.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
   ttlSecondsAfterFinished: null
 
-scannerJob:
-  # scannerJob.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+scanner:
+  image:
+    # scanner.image.repository -- Container Image to run the scan
+    repository: docker.io/securecodebox/scanner-git-repo-scanner
+    # scanner.image.tag -- defaults to the charts version
+    tag: null
+
+  # scanner.nameAppend -- append a string to the default scantype name.
+  nameAppend: null
+
+  # scanner.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
   ttlSecondsAfterFinished: null
-  # scannerJob.backoffLimit -- There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy)
+  # scanner.backoffLimit -- There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy)
   # @default -- 3
   backoffLimit: 3
 
-  # scannerJob.resources -- CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)
+  # scanner.resources -- CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)
   resources: {}
   #   resources:
   #     requests:
@@ -37,17 +40,17 @@ scannerJob:
   #       memory: "512Mi"
   #       cpu: "500m"
 
-  # scannerJob.env -- Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
+  # scanner.env -- Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
   env: []
 
-  # scannerJob.extraVolumes -- Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
+  # scanner.extraVolumes -- Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
   extraVolumes: []
 
-  # scannerJob.extraVolumeMounts -- Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
+  # scanner.extraVolumeMounts -- Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
   extraVolumeMounts: []
 
-  # scannerJob.extraContainers -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
+  # scanner.extraContainers -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
   extraContainers: []
 
-  # scannerJob.securityContext -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+  # scanner.securityContext -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
   securityContext: {}

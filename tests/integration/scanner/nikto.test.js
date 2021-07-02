@@ -7,14 +7,14 @@ const { scan } = require("../helpers");
 jest.retryTimes(3);
 
 test(
-  "nikto scan against bodgeit demo-app",
+  "nikto scan against bodgeit demo-target",
   async () => {
     const { categories, severities, count } = await scan(
       "nikto-bodgeit",
       "nikto",
       [
         "-h",
-        "bodgeit.demo-apps.svc",
+        "bodgeit.demo-targets.svc",
         "-port",
         "8080",
         "-Tuning",

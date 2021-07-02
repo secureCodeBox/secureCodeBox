@@ -5,7 +5,7 @@
 package io.securecodebox.persistence.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.securecodebox.persistence.models.Finding;
+import io.securecodebox.persistence.models.SecureCodeBoxFinding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,9 +18,9 @@ import java.util.List;
 public class S3Service {
   private static final Logger LOG = LoggerFactory.getLogger(S3Service.class);
 
-  public void overwriteFindings(String url, List<Finding> findings) throws IOException, InterruptedException {
+  public void overwriteFindings(String url, List<SecureCodeBoxFinding> secureCodeBoxFindings) throws IOException, InterruptedException {
     ObjectMapper mapper = new ObjectMapper();
-    var findingJson = mapper.writeValueAsString(findings);
+    var findingJson = mapper.writeValueAsString(secureCodeBoxFindings);
 
     LOG.info("Uploading Findings to S3");
 

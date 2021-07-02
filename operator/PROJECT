@@ -1,23 +1,58 @@
 domain: securecodebox.io
+layout:
+- go.kubebuilder.io/v3
 multigroup: true
+projectName: operator
 repo: github.com/secureCodeBox/secureCodeBox
 resources:
-- group: execution
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: securecodebox.io
+  group: execution
   kind: Scan
+  path: github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1
   version: v1
-- group: execution
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: securecodebox.io
+  group: execution
   kind: ScanType
+  path: github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1
   version: v1
-- group: execution
-  kind: PersistenceProvider
-  version: v1
-- group: execution
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: securecodebox.io
+  group: execution
   kind: ParseDefinition
+  path: github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1
   version: v1
-- group: execution
-  kind: ScheduledScan
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: securecodebox.io
+  group: execution
+  kind: ScanCompletionHook
+  path: github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1
   version: v1
-- group: cascading
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: securecodebox.io
+  group: cascading
   kind: CascadingRule
+  path: github.com/secureCodeBox/secureCodeBox/operator/apis/cascading/v1
   version: v1
-version: "2"
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: securecodebox.io
+  group: execution
+  kind: ScheduledScan
+  path: github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1
+  version: v1
+version: "3"

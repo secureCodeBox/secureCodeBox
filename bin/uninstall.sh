@@ -6,7 +6,7 @@
 
 # Official uninstall script for the secureCodeBox
 #
-# Removes all available resources (scanners, demo-apps, hooks, operator) and namespaces
+# Removes all available resources (scanners, demo-targets, hooks, operator) and namespaces
 #
 # For more information see https://docs.securecodebox.io/
 
@@ -20,7 +20,7 @@ shopt -s extglob
 BASE_DIR=$(dirname "${SCRIPT_DIRECTORY}")
 
 SCB_SYSTEM_NAMESPACE='securecodebox-system'
-SCB_DEMO_NAMESPACE='demo-apps'
+SCB_DEMO_NAMESPACE='demo-targets'
 SCB_NAMESPACE='default'
 
 function uninstallResources() {
@@ -36,14 +36,13 @@ function uninstallResources() {
   done
 
   for resource in "${resources[@]}"; do
-    local resource_name="${resource//+([_])/-}" # Necessary because ssh_scan is called ssh-scan
     helm uninstall "$resource_name" -n "$namespace" || true
   done
 }
 
 helm -n "$SCB_SYSTEM_NAMESPACE" uninstall securecodebox-operator || true
 
-uninstallResources "$BASE_DIR/demo-apps" "$SCB_DEMO_NAMESPACE"
+uninstallResources "$BASE_DIR/demo-targets" "$SCB_DEMO_NAMESPACE"
 uninstallResources "$BASE_DIR/scanners" "$SCB_NAMESPACE"
 uninstallResources "$BASE_DIR/hooks" "$SCB_NAMESPACE"
 

@@ -13,7 +13,7 @@ spec:
   parameters:
     # target URL including the protocol
     - "-t"
-    - "http://swagger-petstore.demo-apps.svc/v2/swagger.json"
+    - "http://swagger-petstore.demo-targets.svc/v2/swagger.json"
     # format can either 'openapi' or 'soap'
     - "-f"
     - "openapi"

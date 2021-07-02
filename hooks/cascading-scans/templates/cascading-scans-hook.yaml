@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "execution.securecodebox.io/v1"
+kind: ScanCompletionHook
+metadata:
+  name: {{ include "cascading-scans.fullname" . }}
+  labels:
+    {{- include "cascading-scans.labels" . | nindent 4 }}
+spec:
+  type: ReadOnly
+  image: "{{ .Values.hook.image.repository }}:{{ .Values.hook.image.tag | default .Chart.Version }}"
+  imagePullSecrets:
+    - name: "securecodebox"
+  ttlSecondsAfterFinished: {{ .Values.hook.ttlSecondsAfterFinished }}
+  serviceAccountName: cascading-scans

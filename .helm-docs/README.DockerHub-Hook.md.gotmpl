@@ -1,0 +1,28 @@
+{{- /*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
+{{ template "extra.hintSection" . }}
+
+{{ template "extra.badgesSection" . }}
+
+{{ template "extra.secureCodeBoxAboutSection" . }}
+
+{{ template "extra.dockerDeploymentSection" . }}
+
+## How to use this image
+This `hook` image is intended to work in combination with other `parser` images to read or manipulate `findings` results. For more informations details please take a look at the [project page][scb-docs] or [documentation page][{{ template "chart.homepage" . }}].
+
+```bash
+docker pull securecodebox/hook-{{ template "chart.name" . }}
+```
+
+{{ template "extra.chartAboutSection" . }}
+
+{{ template "extra.communitySection" . }}
+
+{{ template "extra.dockerLicenseSection" . }}
+
+{{ template "extra.generalLinksSection" . }}
+{{ template "extra.scannerLinksSection" . }}

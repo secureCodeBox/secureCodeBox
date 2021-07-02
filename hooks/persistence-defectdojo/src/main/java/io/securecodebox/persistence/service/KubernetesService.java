@@ -13,7 +13,7 @@ import io.securecodebox.models.V1ScanList;
 import io.securecodebox.models.V1ScanStatusFindings;
 import io.securecodebox.models.V1ScanStatusFindingsSeverities;
 import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
-import io.securecodebox.persistence.models.Finding;
+import io.securecodebox.persistence.models.SecureCodeBoxFinding;
 import okhttp3.Protocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,35 +78,35 @@ public class KubernetesService {
     return response.getObject();
   }
 
-  public void updateScanInKubernetes(List<Finding> findings) throws IOException {
+  public void updateScanInKubernetes(List<SecureCodeBoxFinding> secureCodeBoxFindings) throws IOException {
     LOG.debug("Refetching the scan to minimize possibility to write conflicts");
     var scan = this.getScanFromKubernetes();
 
     Objects.requireNonNull(scan.getStatus(), "Scan status field is not set, this should have been previously set by the Operator and Parser.")
-      .setFindings(recalculateFindingStats(findings));
+      .setFindings(recalculateFindingStats(secureCodeBoxFindings));
 
     LOG.info("Updating Scan metadata");
     scanApi.updateStatus(scan, V1Scan::getStatus);
     LOG.debug("Updated Scan metadata");
   }
 
-  static V1ScanStatusFindings recalculateFindingStats(List<Finding> findings) {
+  static V1ScanStatusFindings recalculateFindingStats(List<SecureCodeBoxFinding> secureCodeBoxFindings) {
     var stats = new V1ScanStatusFindings();
 
-    stats.setCount((long) findings.size());
-    stats.setCategories(recalculateFindingCategoryStats(findings));
-    stats.setSeverities(recalculateFindingSeverityStats(findings));
+    stats.setCount((long) secureCodeBoxFindings.size());
+    stats.setCategories(recalculateFindingCategoryStats(secureCodeBoxFindings));
+    stats.setSeverities(recalculateFindingSeverityStats(secureCodeBoxFindings));
 
     return stats;
   }
 
-  private static V1ScanStatusFindingsSeverities recalculateFindingSeverityStats(List<Finding> findings) {
+  private static V1ScanStatusFindingsSeverities recalculateFindingSeverityStats(List<SecureCodeBoxFinding> secureCodeBoxFindings) {
     var severities = new V1ScanStatusFindingsSeverities();
     severities.setInformational(0L);
     severities.setLow(0L);
     severities.setMedium(0L);
     severities.setHigh(0L);
-    for (var finding: findings) {
+    for (var finding: secureCodeBoxFindings) {
       switch (finding.getSeverity()) {
         case High:
           severities.setHigh(severities.getHigh() + 1L);
@@ -125,9 +125,9 @@ public class KubernetesService {
     return severities;
   }
 
-  private static HashMap<String, Long> recalculateFindingCategoryStats(List<Finding> findings) {
+  private static HashMap<String, Long> recalculateFindingCategoryStats(List<SecureCodeBoxFinding> secureCodeBoxFindings) {
     var categories = new HashMap<String, Long>();
-    for (var finding: findings) {
+    for (var finding: secureCodeBoxFindings) {
       if (categories.containsKey(finding.getCategory())) {
         categories.put(finding.getCategory(), categories.get(finding.getCategory()) + 1);
       } else {

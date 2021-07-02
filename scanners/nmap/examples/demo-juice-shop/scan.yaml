@@ -14,4 +14,4 @@ spec:
     # Service Detection enabled
     - "-sV"
     # Actual Service Address will depend on you cluster and namespace configuration. 🤷‍
-    - juice-shop.demo-apps.svc.cluster.local
+    - juice-shop.demo-targets.svc.cluster.local

@@ -1,5 +1,5 @@
 {
-  "name": "securecodebox-parser-sdk-nodejs",
+  "name": "@securecodebox/parser-sdk-nodejs",
   "version": "1.0.0",
   "description": "Handles external communication required for all secureCodeBox parsers",
   "main": "parser-wrapper.js",
