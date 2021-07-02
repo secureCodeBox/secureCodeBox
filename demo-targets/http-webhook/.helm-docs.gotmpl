@@ -1,0 +1,40 @@
+{{- /*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
+
+{{- define "extra.docsSection" -}}
+---
+title: "HTTP WebHook"
+category: "target"
+type: "service"
+state: "released"
+appVersion: "{{ template "chart.appVersion" . }}"
+usecase: "Vulnerable HTTP WebHook"
+---
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `2.9.0`, `2.8.0`, `2.7.0`
+{{- end }}
+
+{{- define "extra.chartAboutSection" -}}
+## What is HTTP WebHook?
+A Dummy webserver to echo HTTP requests in log.
+
+### Source Code
+
+* <https://github.com/mendhak/docker-http-https-echo>
+* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-targets/http-webhook>
+
+{{- end }}
+
+{{- define "extra.scannerConfigurationSection" -}}{{- end }}
+
+{{- define "extra.chartConfigurationSection" -}}{{- end }}
+
+{{- define "extra.scannerLinksSection" -}}
+{{- end }}

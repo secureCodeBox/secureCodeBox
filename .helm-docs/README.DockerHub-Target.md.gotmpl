@@ -1,0 +1,28 @@
+{{- /*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
+{{ template "extra.hintSection" . }}
+
+{{ template "extra.badgesSection" . }}
+
+{{ template "extra.secureCodeBoxAboutSection" . }}
+
+{{ template "extra.dockerDeploymentSection" . }}
+
+## How to use this image
+This image is an potentialy vulnerable service or application which is used for demo purposes, automated tests and trainings.
+
+```bash
+docker pull securecodebox/{{ template "chart.name" . }}
+```
+
+{{ template "extra.chartAboutSection" . }}
+
+{{ template "extra.communitySection" . }}
+
+{{ template "extra.dockerLicenseSection" . }}
+
+{{ template "extra.generalLinksSection" . }}
+{{ template "extra.scannerLinksSection" . }}
