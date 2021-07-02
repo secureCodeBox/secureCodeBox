@@ -1,20 +1,52 @@
-# operator
+---
+title: "secreCodeBox Operator"
+category: "core"
+type: "Operator"
+state: "released"
+appVersion: ""
+usecase: "secureCodeBox Operator is the core componente."
+---
 
-![Version: v2.7.0-alpha1](https://img.shields.io/badge/Version-v2.7.0--alpha1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![operator logo](https://docs.securecodebox.io/img/Logo_Color.svg)
 
-secureCodeBox Operator to automate the execution of security scans on kubernetes
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+<!--
+.: IMPORTANT! :.
+--------------------------
+This file is generated automaticaly with `helm-docs` based on the following template files:
+- ./.helm-docs/templates.gotmpl (general template data for all charts)
+- ./chart-folder/.helm-docs.gotmpl (chart specific template data)
+
+Please be aware of that and apply your changes only within those template files instead of this file.
+Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
+--------------------------
+-->
+
+<p align="center">
+  <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Apache-2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>
+  <a href="https://github.com/secureCodeBox/secureCodeBox/releases/latest"><img alt="GitHub release (latest SemVer)" src="https://img.shields.io/github/v/release/secureCodeBox/secureCodeBox?sort=semver"></a>
+  <a href="https://owasp.org/www-project-securecodebox/"><img alt="OWASP Incubator Project" src="https://img.shields.io/badge/OWASP-Incubator%20Project-365EAA"></a>
+  <a href="https://artifacthub.io/packages/search?repo=seccurecodebox"><img alt="Artifact HUB" src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/seccurecodebox"></a>
+  <a href="https://github.com/secureCodeBox/secureCodeBox/"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/secureCodeBox/secureCodeBox?logo=GitHub"></a>
+  <a href="https://twitter.com/securecodebox"><img alt="Twitter Follower" src="https://img.shields.io/twitter/follow/securecodebox?style=flat&color=blue&logo=twitter"></a>
+</p>
+
+## What is secureCodeBox Operator?
+The secureCodeBox operator is running on Kubernetes and is the core component of the complete secureCodeBox stack, responsible for managing all scans and resources.
 
 **Homepage:** <https://docs.securecodebox.io/docs/getting-started/installation>
 
-## Maintainers
+## Deployment
+The operator `scanType` can be deployed via helm:
 
-| Name | Email | Url |
-| ---- | ------ | --- |
-| iteratec GmbH | secureCodeBox@iteratec.com |  |
-
-## Source Code
-
-* <https://github.com/secureCodeBox/secureCodeBox>
+```bash
+# Install HelmChart (use -n to configure another namespace)
+helm upgrade --install operator secureCodeBox/operator
+```
 
 ## Requirements
 
@@ -23,6 +55,19 @@ Kubernetes: `>=v1.11.0-0`
 | Repository | Name | Version |
 |------------|------|---------|
 | https://helm.min.io/ | minio | 7.1.2 |
+
+## Deployment
+
+The secureCodeBox Operator can be deployed via helm:
+
+```bash
+# Add the secureCodeBox Helm Repo
+helm repo add secureCodeBox https://charts.securecodebox.io
+# Create a new namespace for the secureCodeBox Operator
+kubectl create namespace securecodebox-system
+# Install the Operator & CRDs
+helm install securecodebox-operator secureCodeBox/operator
+```
 
 ## Values
 
@@ -64,4 +109,17 @@ Kubernetes: `>=v1.11.0-0`
 | serviceAccount.labels | object | `{}` | Labels of the serviceAccount the operator uses to talk to the k8s api |
 | serviceAccount.name | string | `"securecodebox-operator"` | Name of the serviceAccount the operator uses to talk to the k8s api |
 | telemetryEnabled | bool | `true` | The Operator sends anonymous telemetry data, to give the team an overview how much the secureCodeBox is used. Find out more at https://www.securecodebox.io/telemetry |
+
+## License
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
+
+[scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
+[scb-docs]: https://docs.securecodebox.io/
+[scb-site]: https://www.securecodebox.io/
+[scb-github]: https://github.com/secureCodeBox/
+[scb-twitter]: https://twitter.com/secureCodeBox
+[scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
+[scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
 
