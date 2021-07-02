@@ -10,30 +10,35 @@
       "additionalProperties": false,
       "properties": {
         "id": {
-          "description": "The unique identifier for a finding according to RFC 4122",
+          "description": "The unique identifier for a Finding according to RFC4122.",
           "type": "string",
           "format": "uuid"
         },
+        "identified_at": {
+          "description": "Date-Time when the Finding was exactly identified according to ISO8601. This information will often not be present.",
+          "type": "string",
+          "format": "date-time"
+        },
         "parsed_at": {
-          "description": "Date-Time when the finding was parsed according to RFC3339",
+          "description": "Date-Time when the Finding was aarsed according to ISO8601. This information will always be present.",
           "type": "string",
           "format": "date-time"
         },
         "name": {
-          "description": "Name contains a short description of the finding",
+          "description": "Contains a short description of the Finding.",
           "type": "string"
         },
         "description": {
-          "description": "In depth description, can span multiple paragraphs",
+          "description": "In depth description, can span multiple paragraphs.",
           "type": "string",
           "nullable": true
         },
         "category": {
-          "description": "The category is often used to group finding based on their types",
+          "description": "Is often used to group finding based on their types.",
           "type": "string"
         },
         "osi_layer": {
-          "description": "OSI network layer the finding fits into",
+          "description": "OSI Layer the finding fits into.",
           "type": "string",
           "enum": [
             "PHYSICAL",
@@ -46,7 +51,7 @@
           ]
         },
         "severity": {
-          "description": "One of INFORMATIONAL, LOW, MEDIUM, HIGH,",
+          "description": "Indicates the severity of the finding.",
           "type": "string",
           "enum": [
             "INFORMATIONAL",
@@ -56,13 +61,12 @@
           ]
         },
         "attributes": {
-          "description": "Attributes are not standardized. They differ from scanner to scanner",
+          "description": "Attributes are not standardized. They differ from Scanner to Scanner.",
           "type": "object"
         },
         "location": {
-          "description": "Full url with protocol, port, and path if existing",
-          "type": "string",
-          "format": "uri"
+          "description": "Full URL with protocol, port, and path if existing.",
+          "type": "string"
         }
       },
       "required": [
@@ -73,6 +77,7 @@
         "osi_layer",
         "severity",
         "attributes",
+        "parsed_at",
         "location"
       ]
     }
