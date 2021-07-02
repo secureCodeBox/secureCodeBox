@@ -9,31 +9,78 @@ usecase: "WebApp & OpenAPI Vulnerability Scanner extend with authentication feat
 
 ![zap logo](https://raw.githubusercontent.com/wiki/zaproxy/zaproxy/images/zap32x32.png)
 
-The OWASP Zed Attack Proxy (ZAP) is one of the world’s most popular free security tools and is actively maintained by hundreds of international volunteers*.
-It can help you automatically find security vulnerabilities in your web applications while you are developing and testing your applications. It is also a great tool for experienced pentesters to use for manual security testing.
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
 
-To learn more about the OWASP ZAP scanner itself visit: [https://www.zaproxy.org/](https://www.zaproxy.org/).
+SPDX-License-Identifier: Apache-2.0
+-->
+<!--
+.: IMPORTANT! :.
+--------------------------
+This file is generated automaticaly with `helm-docs` based on the following template files:
+- ./.helm-docs/templates.gotmpl (general template data for all charts)
+- ./chart-folder/.helm-docs.gotmpl (chart specific template data)
 
-<!-- end -->
+Please be aware of that and apply your changes only within those template files instead of this file.
+Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
+--------------------------
+-->
 
-The secureCodeBox provides two different scanner charts (`zap`, `zap-advanced`) to automate ZAP WebApplication security scans. The first one `zap` comes with three scanTypes:
-- `zap-baseline-scan`
-- `zap-full-scan`
-- `zap-api-scan`
+<p align="center">
+  <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Apache-2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>
+  <a href="https://github.com/secureCodeBox/secureCodeBox/releases/latest"><img alt="GitHub release (latest SemVer)" src="https://img.shields.io/github/v/release/secureCodeBox/secureCodeBox?sort=semver"></a>
+  <a href="https://owasp.org/www-project-securecodebox/"><img alt="OWASP Incubator Project" src="https://img.shields.io/badge/OWASP-Incubator%20Project-365EAA"></a>
+  <a href="https://artifacthub.io/packages/search?repo=seccurecodebox"><img alt="Artifact HUB" src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/seccurecodebox"></a>
+  <a href="https://github.com/secureCodeBox/secureCodeBox/"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/secureCodeBox/secureCodeBox?logo=GitHub"></a>
+  <a href="https://twitter.com/securecodebox"><img alt="Twitter Follower" src="https://img.shields.io/twitter/follow/securecodebox?style=flat&color=blue&logo=twitter"></a>
+</p>
 
-All three scanTypes can be configured via CLI arguments which are somehow a bit limited for some advanced usecases, e.g. using custom zap scripts or configuring complex authentication settings.
+## What is OWASP ZAP?
 
-That's why we introduced this `zap-advanced` scanner chart, which introduces extensive YAML configuration options for ZAP. The YAML configuration can be split in multiple files and will be merged at start.
+The [OWASP Zed Attack Proxy (ZAP)][zap owasp project] is one of the world’s most popular free security tools and is actively maintained by hundreds of international volunteers*. It can help you automatically find security vulnerabilities in your web applications while you are developing and testing your applications. It's also a great tool for experienced pentesters to use for manual security testing.
+
+To learn more about the ZAP scanner itself visit [https://www.zaproxy.org/](https://www.zaproxy.org/).
 
 ## Deployment
-
 The zap-advanced `scanType` can be deployed via helm:
 
 ```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install zap-advanced secureCodeBox/zap-advanced
 ```
 
 ## Scanner Configuration
+
+Listed below are the arguments supported by the `zap-advanced-scan` script.
+
+The command line interface can be used to easily run server scans: `-t www.example.com`
+
+```bash
+usage: zap-client [-h] -z ZAP_URL [-a API_KEY] [-c CONFIG_FOLDER] -t TARGET [-o OUTPUT_FOLDER] [-r {XML,JSON,HTML,MD}]
+
+OWASP secureCodeBox OWASP ZAP Client  (can be used to automate OWASP ZAP instances based on YAML configuration files.)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -z ZAP_URL, --zap-url ZAP_URL
+                        The ZAP API Url used to call the ZAP API.
+  -a API_KEY, --api-key API_KEY
+                        The ZAP API Key used to call the ZAP API.
+  -c CONFIG_FOLDER, --config-folder CONFIG_FOLDER
+                        The path to a local folder containing the additional ZAP configuration YAMLs used to configure OWASP ZAP.
+  -t TARGET, --target TARGET
+                        The target to scan with OWASP ZAP.
+  -o OUTPUT_FOLDER, --output-folder OUTPUT_FOLDER
+                        The path to a local folder used to store the output files, eg. the ZAP Report or logfiles.
+  -r {XML,JSON,HTML,MD}, --report-type {XML,JSON,HTML,MD}
+                        The OWASP ZAP Report Type.
+```
+
+## Requirements
+
+Kubernetes: `>=v1.11.0-0`
+
+## Additional Chart Configurations
 
 By default, the secureCodeBox ZAP Helm Chart installs the scanType `zap-advanced-scan` along with a minimal _default configuration_ based on the HelmChart value `zapConfiguration`. The configuration will be stored in a dedicate scanType specific _configMap_ named `zap-advanced-scantype-config`. Feel free to use the `configMap` or even the HelmChart values to adjust the  advanced ZAP configuration settings according to your needs. Details about the different configuration options can be found below.
 
@@ -428,34 +475,7 @@ zapConfiguration:
       scripts: {}
 ```
 
-### ScanType Configurations
-
-Listed below are the arguments (scanType parameter specs) supported by the `zap-advanced-scan` script.
-
-The command line interface can be used to easily run server scans: `-t www.example.com`
-
-```bash
-usage: zap-client [-h] -z ZAP_URL [-a API_KEY] [-c CONFIG_FOLDER] -t TARGET [-o OUTPUT_FOLDER] [-r {XML,JSON,HTML,MD}]
-
-OWASP secureCodeBox OWASP ZAP Client  (can be used to automate OWASP ZAP instances based on YAML configuration files.)
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -z ZAP_URL, --zap-url ZAP_URL
-                        The ZAP API Url used to call the ZAP API.
-  -a API_KEY, --api-key API_KEY
-                        The ZAP API Key used to call the ZAP API.
-  -c CONFIG_FOLDER, --config-folder CONFIG_FOLDER
-                        The path to a local folder containing the additional ZAP configuration YAMLs used to configure OWASP ZAP.
-  -t TARGET, --target TARGET
-                        The target to scan with OWASP ZAP.
-  -o OUTPUT_FOLDER, --output-folder OUTPUT_FOLDER
-                        The path to a local folder used to store the output files, eg. the ZAP Report or logfiles.
-  -r {XML,JSON,HTML,MD}, --report-type {XML,JSON,HTML,MD}
-                        The OWASP ZAP Report Type.
-```
-
-## Chart Configuration
+## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -491,3 +511,19 @@ optional arguments:
 | zapContainer.image.tag | string | `nil` | defaults to the charts appVersion |
 | zapContainer.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | zapContainer.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
+
+## License
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
+
+[scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
+[scb-docs]: https://docs.securecodebox.io/
+[scb-site]: https://www.securecodebox.io/
+[scb-github]: https://github.com/secureCodeBox/
+[scb-twitter]: https://twitter.com/secureCodeBox
+[scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
+[scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
+[zap owasp project]: https://owasp.org/www-project-zap/
+[zap github]: https://github.com/zaproxy/zaproxy/
+[zap user guide]: https://www.zaproxy.org/docs/

@@ -12,9 +12,9 @@ is roughly every two weeks (we will usually make a new release after each review
 
 | Version | Security Fixes* | Supported** |
 | ------- | ------------------ | ------------------ |
-| 2.6.x-alpha1 | :white_check_mark: | :white_check_mark: |
-| 2.5.x | :white_check_mark: | :white_check_mark: |
-| <= 2.4.x | :x: | :x: |
+| 3.0.x-alpha1 | :white_check_mark: | :white_check_mark: |
+| 2.9.x | :white_check_mark: | :white_check_mark: |
+| <= 2.9.x | :x: | :x: |
 | < 2.0 | :x: | :x: |
 
 ### Major Release (Semver)

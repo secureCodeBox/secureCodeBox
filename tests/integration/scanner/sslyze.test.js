@@ -7,7 +7,7 @@ const { scan } = require("../helpers");
 jest.retryTimes(3);
 
 test(
-  "Sslyze scans the self-signed unsafe-https demo-app",
+  "Sslyze scans the self-signed unsafe-https demo-target",
   async () => {
     const { categories, severities, count } = await scan(
       "sslyze-unsafe-https",
