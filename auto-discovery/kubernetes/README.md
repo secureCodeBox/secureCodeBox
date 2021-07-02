@@ -1,105 +1,26 @@
----
-title: "Kubernetes AutoDiscovery"
-category: "system"
-type: "operator"
-state: "released"
-usecase: "Detects new K8S resources and schedules scans automatically"
----
+# auto-discovery-kubernetes
 
-The secureCodeBox _AutoDiscovery_ is running on kubernetes (K8S) and is an optional component of the complete secureCodeBox stack.
-The Kubernetes AutoDiscovery needs to be deployed along side the secureCodeBox Operator. It monitors security relevant resources inside a K8S environment and automatically create scans to continuously monitor security aspects of the resources.
+![Version: 3.0.0-beta1](https://img.shields.io/badge/Version-3.0.0--beta1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
-<!-- end -->
+Automatically creates secureCodeBox Scans for Resources found in the Kubernetes Cluster
 
-The AutoDiscovery controller will automatically detect these new resources (services) and start secureCodeBox _scans_ for them:
+**Homepage:** <https://docs.securecodebox.io/docs/getting-started/installation>
 
-1. A ZAP Baseline Scan to detect basic web vulnerabilities in the service. (Using OWASP ZAP)
-2. (WIP) A image scan scanning for vulnerable libraries in the docker / container image of the deployment. (Using trivy)
-3. (WIP) A TLS Scan against the certificate of the ingress for the host. (Using SSLyze)
+## Maintainers
 
-The AutoDiscovery automatically tracks the lifecycle of the kubernetes resources and will automatically start new scans for new application versions.
+| Name | Email | Url |
+| ---- | ------ | --- |
+| iteratec GmbH | secureCodeBox@iteratec.com |  |
 
-## Example
+## Source Code
 
-<p align="center">
-  <img width="950" src="./auto-discovery-demo.svg" alt="AutoDiscovery CLI Example">
-</p>
+* <https://github.com/secureCodeBox/secureCodeBox>
 
-This example deploys [JuiceShop](https://owasp.org/www-project-juice-shop/) to a new Kubernetes Namespace.
-(You can find the kubernetes manifests for the deployment [here](./demo/juice-shop.yaml))
+## Requirements
 
-The AutoDiscovery will automatically pick up this new deployment and then starts a OWASP ZAP Scan against it.
-The scan created uses our `zap-advanced` ScanType by default, this can be changed with the `config.serviceAutoDiscovery.scanConfig.scanType` config on the autoDiscovery helm release.
+Kubernetes: `>=v1.11.0-0`
 
-## Deployment
-
-### Prerequisites
-
-The secureCodeBox _AutoDiscovery_ can be deployed via helm (into the same namespace as the secureCodeBox Operator, e.g. _securecodebox-system_):
-
-```bash
-helm install securecodebox-operator secureCodeBox/auto-discovery -n securecodebox-system
-```
-
-> The _AutoDiscovery_ depends on the secureCodeBox Operator to be installed in the same cluster as the AutoDiscovery.
-
-## AutoDiscovery Configuration
-
-### In / Excluding Resources from the AutoDiscovery
-
-The AutoDiscovery allows different modes to determine if a resource is supposed to be scanned.
-These modes allow you to gradually roll out the AutoDiscovery in a cluster.
-This allows to roll it out in cluster without a "big bang" where the AutoDiscovery starts a scan for every app in the cluster which would likely exhaust the clusters compute resources.
-
-The three different modes are:
-
-1. `enabled-per-namespace` (default): [See section](#enabled-per-namespace-mode-default)
-2. `enabled-per-resource`: [See section](#enabled-per-resource-mode)
-3. `scan-all`: [See section](#scan-all-mode)
-
-#### Enabled per Namespace Mode (default)
-
-Enable this by setting `config.resourceInclusion.mode=enable-per-namespace`.
-
-This mode will start scans for resources in namespaces with the annotation `auto-discovery.securecodebox.io/enabled=true`.
-
-```bash
-# enable AutoDiscovery in namespace "juice-shop"
-kubectl annotate namespace juice-shop auto-discovery.securecodebox.io/enabled=true
-```
-
-If you want to exclude a certain resource in a otherwise AutoDiscovery enabled namespace, you can exclude it by annotating it with `auto-discovery.securecodebox.io/ignore=true`.
-
-```bash
-# disable AutoDiscovery for service "foobar"
-kubectl -n juice-shop annotate service foobar auto-discovery.securecodebox.io/ignore=true
-```
-
-#### Enabled per Resource Mode
-
-Enable this by setting `config.resourceInclusion.mode=enabled-per-resource`.
-
-This mode will start scans for every resources with the annotation `auto-discovery.securecodebox.io/enabled=true`.
-
-```bash
-# enable AutoDiscovery for service "juice-shop"
-kubectl -n juice-shop annotate service juice-shop auto-discovery.securecodebox.io/enabled=true
-```
-
-#### Scan All Mode
-
-Enable this by setting `config.resourceInclusion.mode=scan-all`.
-
-This mode will start scans for **every** resources in the cluster **unless** it has the annotation `auto-discovery.securecodebox.io/ignore=true`.
-
-> ⚠️ Using this setting in larger cluster will likely start a large number of scans in the cluster. This could block all available compute resource in your cluster and seriously affect your applications availability.
-
-```bash
-# *disable* AutoDiscovery for service "juice-shop"
-kubectl -n juice-shop annotate service juice-shop auto-discovery.securecodebox.io/ignore=true
-```
-
-### Chart Configuration
+## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -121,23 +42,5 @@ kubectl -n juice-shop annotate service juice-shop auto-discovery.securecodebox.i
 | image.repository | string | `"securecodebox/auto-discovery-kubernetes"` |  |
 | image.tag | string | `nil` |  |
 
-## Development
-
-### Run the AutoDiscovery locally
-
-To avoid having to build & deploy the AutoDiscovery every time you make a code change you can run it locally.
-It automatically connects to your current cluster configured in your kube config.
-
-```bash
-make run
-```
-
-### Running the tests
-
-```bash
-# execute the tests locally
-make test
-
-# view the test coverage
-go tool cover -html=cover.out
-```
+----------------------------------------------
+Autogenerated from chart metadata using [helm-docs v1.5.0](https://github.com/norwoodj/helm-docs/releases/v1.5.0)
