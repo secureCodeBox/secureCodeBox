@@ -15,8 +15,8 @@ spec:
   {{- else }}
   type: ReadOnly
   {{- end }}
-  image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
-  imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+  image: "{{ .Values.hook.image.repository }}:{{ .Values.hook.image.tag | default .Chart.Version }}"
+  imagePullPolicy: "{{ .Values.hook.image.pullPolicy }}"
   env:
     - name: DEFECTDOJO_URL
       value: {{ .Values.defectdojo.url | quote }}

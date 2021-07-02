@@ -8,6 +8,7 @@ import io.securecodebox.persistence.defectdojo.config.DefectDojoConfig;
 import io.securecodebox.persistence.defectdojo.models.Endpoint;
 import io.securecodebox.persistence.defectdojo.models.Finding;
 import io.securecodebox.persistence.defectdojo.service.EndpointService;
+import io.securecodebox.persistence.models.SecureCodeBoxFinding;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,7 +51,7 @@ class DefectDojoFindingToSecureCodeBoxMapperTest {
 
     when(endpointService.get(1337L)).thenReturn(Endpoint.builder().protocol("http").host("juice-shop.securecodebox-test.svc:3000").build());
 
-    var actualFinding = this.mapper.fromDefectDojoFining(ddFinding);
+    var actualFinding = this.mapper.fromDefectDojoFinding(ddFinding);
 
     assertEquals(
       actualFinding.getName(),
@@ -64,7 +65,7 @@ class DefectDojoFindingToSecureCodeBoxMapperTest {
 
     assertEquals(
       actualFinding.getSeverity(),
-      io.securecodebox.persistence.models.Finding.Severities.Medium
+      SecureCodeBoxFinding.Severities.Medium
     );
 
     assertEquals(

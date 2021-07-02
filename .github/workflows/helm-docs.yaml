@@ -31,15 +31,101 @@ jobs:
 
           curl --output helm-docs.tar.gz --location https://github.com/norwoodj/helm-docs/releases/download/v1.5.0/helm-docs_1.5.0_Linux_x86_64.tar.gz
           tar -xvf helm-docs.tar.gz
-          # Verify install
+          # Verify installation
           ./helm-docs --version
 
       - name: Generate Helm Docs
         run: |
-          ./helm-docs/helm-docs
+          # Generate README.md based on Chart.yaml and template
+          ./helm-docs/helm-docs --template-files=./.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./.helm-docs/README.md.gotmpl
+
+      - name: Generate Demo-Apps Docs
+        run: |
+          # Start in the hooks folder
+          cd demo-targets
+          # https://github.com/koalaman/shellcheck/wiki/SC2044
+          find . -type f -name Chart.yaml -print0 | while IFS= read -r -d '' chart; do
+          (
+            dir="$(dirname "${chart}")"
+            echo "Processing Helm Chart in $dir"
+            cd "${dir}" || exit
+            if [ -d "docs" ]; then
+              echo "Docs Folder found at: ${dir}/docs"
+              ./../../helm-docs/helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Target.md.gotmpl --output-file=docs/README.DockerHub-Target.md
+              ./../../helm-docs/helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
+            else
+              echo "Ignoring Docs creation process for Chart $dir, because no `docs` folder found at: ${dir}/docs"
+            fi
+          )
+          done
+
+      - name: Generate Docker Hooks Docs
+        run: |
+          # Start in the hooks folder
+          cd hooks
+          # https://github.com/koalaman/shellcheck/wiki/SC2044
+          find . -type f -name Chart.yaml -print0 | while IFS= read -r -d '' chart; do
+          (
+            dir="$(dirname "${chart}")"
+            echo "Processing Helm Chart in $dir"
+            cd "${dir}" || exit
+            if [ -d "docs" ]; then
+              echo "Docs Folder found at: ${dir}/docs"
+              ./../../helm-docs/helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Hook.md.gotmpl --output-file=docs/README.DockerHub-Hook.md
+              ./../../helm-docs/helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
+            else
+              echo "Ignoring Docs creation process for Chart $dir, because no `docs` folder found at: ${dir}/docs"
+            fi
+          )
+          done
+
+      - name: Generate Docker Scanner Docs
+        run: |
+          # Start in the scanners folder
+          cd scanners
+          # https://github.com/koalaman/shellcheck/wiki/SC2044
+          find . -type f -name Chart.yaml -print0 | while IFS= read -r -d '' chart; do
+          (
+            dir="$(dirname "${chart}")"
+            echo "Processing Helm Chart in $dir"
+            cd "${dir}" || exit
+            if [ -d "docs" ]; then
+              echo "Docs Folder found at: ${dir}/docs"
+              if [ -d "parser" ]; then
+                echo "Parser found at: ${dir}/parser"
+                ./../../helm-docs/helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Parser.md.gotmpl --output-file=docs/README.DockerHub-Parser.md
+              fi
+              if [ -d "scanner" ]; then
+                echo "Scanner found at: ${dir}/parser"
+                ./../../helm-docs/helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Scanner.md.gotmpl --output-file=docs/README.DockerHub-Scanner.md
+              fi
+              ./../../helm-docs/helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
+            else
+              echo "Ignoring Docs creation process for Chart $dir, because no `docs` folder found at: ${dir}/docs"
+            fi
+          )
+          done
+
+      - name: Generate Core Docs
+        run: |
+          # Start in the operator folder
+          cd operator
+          if [ -d "docs" ]; then
+            echo "Docs Folder found at: operator/docs"
+            ./../helm-docs/helm-docs --template-files=./../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../.helm-docs/README.DockerHub-Core.md.gotmpl --output-file=docs/README.DockerHub-Core.md
+            ./../helm-docs/helm-docs --template-files=./../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
+          else
+            echo "Ignoring Docs creation process for Chart $dir, because no `docs` folder found at: operator/docs"
+          fi
+
+      - name: Remove Helm Docs Files
+        run: |
           # Remove helm-docs download to ensure they don't get commited back
           rm -rf helm-docs
       - uses: stefanzweifel/git-auto-commit-action@v4.11.0
         with:
           commit_message: Updating Helm Docs
           commit_user_email: securecodebox@iteratec.com
+          # Optional. Used by `git-commit`.
+          # See https://git-scm.com/docs/git-commit#_options
+          commit_options: '--signoff'

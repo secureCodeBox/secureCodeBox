@@ -1,0 +1,28 @@
+{{- /*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
+{{ template "extra.hintSection" . }}
+
+{{ template "extra.badgesSection" . }}
+
+{{ template "extra.secureCodeBoxAboutSection" . }}
+
+{{ template "extra.dockerDeploymentSection" . }}
+
+## How to use this image
+This `core` image is intended to work in combination with the OWASP secureCodeBox. For more informations details please take a look at the documentation page: {{ template "chart.homepage" . }}.
+
+```bash
+docker pull securecodebox/{{ template "chart.name" . }}
+```
+
+{{ template "extra.chartAboutSection" . }}
+
+{{ template "extra.communitySection" . }}
+
+{{ template "extra.dockerLicenseSection" . }}
+
+{{ template "extra.generalLinksSection" . }}
+{{ template "extra.scannerLinksSection" . }}

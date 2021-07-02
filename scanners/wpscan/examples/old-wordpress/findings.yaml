@@ -7,7 +7,7 @@
     "name": "WordPress Service",
     "description": "WordPress Service Information",
     "category": "WordPress Service",
-    "location": "http://old-wordpress.demo-apps.svc.cluster.local/",
+    "location": "http://old-wordpress.demo-targets.svc.cluster.local/",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "reference": {},
@@ -20,14 +20,14 @@
       "wp_release_date": "2020-06-10",
       "wp_release_status": "latest",
       "wp_interesting_entries": [
-        "http://old-wordpress.demo-apps.svc.cluster.local/, Match: 'WordPress 4.0.31'"
+        "http://old-wordpress.demo-targets.svc.cluster.local/, Match: 'WordPress 4.0.31'"
       ],
       "wp_found_by": "Meta Generator (Passive Detection)",
       "wp_confirmed_by": {
         "Atom Generator (Aggressive Detection)": {
           "confidence": 80,
           "interesting_entries": [
-            "http://old-wordpress.demo-apps.svc.cluster.local/?feed=atom, <generator uri=\"https://wordpress.org/\" version=\"4.0.31\">WordPress</generator>"
+            "http://old-wordpress.demo-targets.svc.cluster.local/?feed=atom, <generator uri=\"https://wordpress.org/\" version=\"4.0.31\">WordPress</generator>"
           ]
         }
       },
@@ -39,7 +39,7 @@
     "name": "WordPress finding 'headers'",
     "description": "Headers",
     "category": "WordPress headers",
-    "location": "http://old-wordpress.demo-apps.svc.cluster.local/",
+    "location": "http://old-wordpress.demo-targets.svc.cluster.local/",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "confidence": 100,
@@ -56,9 +56,9 @@
   },
   {
     "name": "WordPress finding 'xmlrpc'",
-    "description": "XML-RPC seems to be enabled: http://old-wordpress.demo-apps.svc.cluster.local/xmlrpc.php",
+    "description": "XML-RPC seems to be enabled: http://old-wordpress.demo-targets.svc.cluster.local/xmlrpc.php",
     "category": "WordPress xmlrpc",
-    "location": "http://old-wordpress.demo-apps.svc.cluster.local/xmlrpc.php",
+    "location": "http://old-wordpress.demo-targets.svc.cluster.local/xmlrpc.php",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "confidence": 100,
@@ -72,9 +72,9 @@
   },
   {
     "name": "WordPress finding 'readme'",
-    "description": "WordPress readme found: http://old-wordpress.demo-apps.svc.cluster.local/readme.html",
+    "description": "WordPress readme found: http://old-wordpress.demo-targets.svc.cluster.local/readme.html",
     "category": "WordPress readme",
-    "location": "http://old-wordpress.demo-apps.svc.cluster.local/readme.html",
+    "location": "http://old-wordpress.demo-targets.svc.cluster.local/readme.html",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "confidence": 100,
@@ -88,9 +88,9 @@
   },
   {
     "name": "WordPress finding 'wp_cron'",
-    "description": "The external WP-Cron seems to be enabled: http://old-wordpress.demo-apps.svc.cluster.local/wp-cron.php",
+    "description": "The external WP-Cron seems to be enabled: http://old-wordpress.demo-targets.svc.cluster.local/wp-cron.php",
     "category": "WordPress wp_cron",
-    "location": "http://old-wordpress.demo-apps.svc.cluster.local/wp-cron.php",
+    "location": "http://old-wordpress.demo-targets.svc.cluster.local/wp-cron.php",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
     "confidence": 60,

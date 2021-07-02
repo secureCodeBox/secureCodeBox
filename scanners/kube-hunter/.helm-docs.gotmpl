@@ -1,0 +1,48 @@
+{{- /*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
+
+{{- define "extra.docsSection" -}}
+---
+title: "kube-hunter"
+category: "scanner"
+type: "Kubernetes"
+state: "released"
+appVersion: "{{ template "chart.appVersion" . }}"
+usecase: "Kubernetes Vulnerability Scanner"
+---
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.appVersion" . }}`
+{{- end }}
+
+{{- define "extra.chartAboutSection" -}}
+## What is kube-hunter?
+kube-hunter hunts for security weaknesses in Kubernetes clusters. The tool was developed to increase awareness and visibility for security issues in Kubernetes environments. You should NOT run kube-hunter on a Kubernetes cluster that you don't own!
+
+To learn more about the kube-hunter scanner itself visit [kube-hunter GitHub] or [kube-hunter Website].
+{{- end }}
+
+{{- define "extra.scannerConfigurationSection" -}}
+## Scanner Configuration
+
+The following security scan configuration example are based on the [kube-hunter Documentation], please take a look at the original documentation for more configuration examples.
+
+* To specify remote machines for hunting, select option 1 or use the --remote option. Example: `kube-hunter --remote some.node.com`
+* To specify interface scanning, you can use the --interface option (this will scan all the machine's network interfaces). Example: `kube-hunter --interface`
+* To specify a specific CIDR to scan, use the --cidr option. Example: `kube-hunter --cidr 192.168.0.0/24`
+{{- end }}
+
+{{- define "extra.chartConfigurationSection" -}}
+{{- end }}
+
+{{- define "extra.scannerLinksSection" -}}
+[kube-hunter Website]: https://kube-hunter.aquasec.com/
+[kube-hunter GitHub]: https://github.com/aquasecurity/kube-hunter
+[kube-hunter Documentation]: https://github.com/aquasecurity/kube-hunter#scanning-options
+{{- end }}

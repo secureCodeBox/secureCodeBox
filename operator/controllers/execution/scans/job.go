@@ -51,7 +51,7 @@ func (r *ScanReconciler) getJobsForScan(scan *executionv1.Scan, labels client.Ma
 		ctx,
 		&jobs,
 		client.InNamespace(scan.Namespace),
-		client.MatchingField(ownerKey, scan.Name),
+		client.MatchingFields{".metadata.controller": scan.Name},
 		labels,
 	); err != nil {
 		r.Log.Error(err, "Unable to list child jobs")

@@ -7,3 +7,4 @@ Dockerfile
 ./settings
 build/
 templates
+docs/

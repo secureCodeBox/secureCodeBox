@@ -16,7 +16,7 @@ public enum ScanNameMapping {
   TRIVY("trivy", ScanType.TRIVY_SCAN),
   GITLEAKS("gitleaks", ScanType.GITLEAKS_SCAN),
   NIKTO("nikto", ScanType.NIKTO_SCAN), 
-  GENERIC(null, ScanType.SECURECODEBOX_FINDINGS_IMPORT)
+  GENERIC(null, ScanType.GENERIC_FINDINGS_IMPORT)
   ;
 
   /**
@@ -42,9 +42,6 @@ public enum ScanNameMapping {
         return mapping;
       }
     }
-
-    throw new IllegalArgumentException("No Mapping found for ScanType '" + scanType + "'");
-    // use this as soon as generic parser is released (in DD or this Hook)
-    // return ScanNameMapping.GENERIC;
+    return ScanNameMapping.GENERIC;
   }
 }
