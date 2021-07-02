@@ -243,7 +243,7 @@ function unattendedInstall() {
   if [[ -n "${INSTALL_HOOKS}" ]]; then
     print "Starting to install 'hooks' into namespace '$SCB_NAMESPACE' ..."
     kubectl create namespace "$SCB_NAMESPACE" || print "Namespace '$SCB_NAMESPACE' already exists or could not be created!"
-    installResources "$BASE_DIR/hooks" "$SCB_NAMESPACE" True
+    installResources "$BASE_DIR/hooks" "$SCB_NAMESPACE" "true"
   fi
 
   print "$COLOR_OK" "Finished installation successfully!"
