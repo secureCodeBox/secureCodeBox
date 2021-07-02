@@ -4,6 +4,9 @@
 
 const fs = require("fs");
 const util = require("util");
+const {
+  validate_parser,
+} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 const readFile = util.promisify(fs.readFile);
@@ -14,50 +17,60 @@ test("Parsing the juice-shop results.", async () => {
   const fileContent = await readFile(
     __dirname + "/__testFiles__/juice-shop.xml",
     {
-      encoding: "utf8"
+      encoding: "utf8",
     }
   );
 
-  expect(await parse(fileContent)).toMatchSnapshot();
+  const findings = await parse(fileContent);
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchSnapshot();
 });
 
 test("Parsing the example.com results.", async () => {
   const fileContent = await readFile(
     __dirname + "/__testFiles__/example.com.xml",
     {
-      encoding: "utf8"
+      encoding: "utf8",
     }
   );
 
-  expect(await parse(fileContent)).toMatchSnapshot();
+  const findings = await parse(fileContent);
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchSnapshot();
 });
 
 test("Parsing the docs.securecodebox.io results.", async () => {
   const fileContent = await readFile(
     __dirname + "/__testFiles__/docs.securecodebox.io.xml",
     {
-      encoding: "utf8"
+      encoding: "utf8",
     }
   );
 
-  expect(await parse(fileContent)).toMatchSnapshot();
+  const findings = await parse(fileContent);
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchSnapshot();
 });
 
 test("Parsing an empty result.", async () => {
   const fileContent = await readFile(
     __dirname + "/__testFiles__/not-found.xml",
     {
-      encoding: "utf8"
+      encoding: "utf8",
     }
   );
 
-  expect(await parse(fileContent)).toMatchInlineSnapshot(`Array []`);
+  const findings = await parse(fileContent);
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot(`Array []`);
 });
 
 test("Parsing a nginx result.", async () => {
   const fileContent = await readFile(__dirname + "/__testFiles__/nginx.xml", {
-    encoding: "utf8"
+    encoding: "utf8",
   });
 
-  expect(await parse(fileContent)).toMatchSnapshot();
+  const findings = await parse(fileContent);
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchSnapshot();
 });

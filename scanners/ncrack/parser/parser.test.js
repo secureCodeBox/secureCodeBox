@@ -2,25 +2,34 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { parse } = require('./parser');
-const fs = require('fs');
-const crypto = require("crypto")
+const { parse } = require("./parser");
+const fs = require("fs");
+const crypto = require("crypto");
+const {
+  validate_parser,
+} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
-it('should return no findings when ncrack has not found credentials', async () => {
+it("should return no findings when ncrack has not found credentials", async () => {
   // eslint-disable-next-line security/detect-non-literal-fs-filename
-  const ncrackXML = fs.readFileSync(__dirname + '/__testFiles__/ncrack_no_results.xml', {
-    encoding: 'utf8',
-  });
+  const ncrackXML = fs.readFileSync(
+    __dirname + "/__testFiles__/ncrack_no_results.xml",
+    {
+      encoding: "utf8",
+    }
+  );
   const findings = await parse(ncrackXML);
-
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
   expect(findings.length).toBe(0);
 });
 
-it('should return findings when ncrack found credentials', async () => {
+it("should return findings when ncrack found credentials", async () => {
   // eslint-disable-next-line security/detect-non-literal-fs-filename
-  const ncrackXML = fs.readFileSync(__dirname + '/__testFiles__/ncrack_with_results.xml', {
-    encoding: 'utf8',
-  });
+  const ncrackXML = fs.readFileSync(
+    __dirname + "/__testFiles__/ncrack_with_results.xml",
+    {
+      encoding: "utf8",
+    }
+  );
   const [finding, ...otherFindings] = await parse(ncrackXML);
 
   expect(finding).toMatchInlineSnapshot(`
@@ -44,29 +53,31 @@ it('should return findings when ncrack found credentials', async () => {
   expect(otherFindings.length).toBe(0);
 });
 
-it('should return no findings when ncrack has not found credentials scanning two services', async () => {
+it("should return no findings when ncrack has not found credentials scanning two services", async () => {
   // eslint-disable-next-line security/detect-non-literal-fs-filename
   const ncrackXML = fs.readFileSync(
-    __dirname + '/__testFiles__/ncrack_two_services_no_results.xml',
+    __dirname + "/__testFiles__/ncrack_two_services_no_results.xml",
     {
-      encoding: 'utf8',
+      encoding: "utf8",
     }
   );
   const findings = await parse(ncrackXML);
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
 
   expect(findings.length).toBe(0);
 });
 
-it('should return findings when ncrack found two credentials scanning two services', async () => {
+it("should return findings when ncrack found two credentials scanning two services", async () => {
   // eslint-disable-next-line security/detect-non-literal-fs-filename
   const ncrackXML = fs.readFileSync(
-    __dirname + '/__testFiles__/ncrack_two_services_with_results.xml',
+    __dirname + "/__testFiles__/ncrack_two_services_with_results.xml",
     {
-      encoding: 'utf8',
+      encoding: "utf8",
     }
   );
-
-  expect(await parse(ncrackXML)).toMatchInlineSnapshot(`
+  const findings = await parse(ncrackXML);
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot(`
         Array [
           Object {
             "attributes": Object {
@@ -104,24 +115,34 @@ it('should return findings when ncrack found two credentials scanning two servic
     `);
 });
 
-it('should encrypt findings when a public key is set', async () => {
+it("should encrypt findings when a public key is set", async () => {
   // eslint-disable-next-line security/detect-non-literal-fs-filename
-  const ncrackXML = fs.readFileSync(__dirname + '/__testFiles__/ncrack_with_results.xml', {
-    encoding: 'utf8',
-  });
-  const [finding] = await parse(ncrackXML, null, __dirname + "/__testFiles__/public_key.pem");
+  const ncrackXML = fs.readFileSync(
+    __dirname + "/__testFiles__/ncrack_with_results.xml",
+    {
+      encoding: "utf8",
+    }
+  );
+  const [finding] = await parse(
+    ncrackXML,
+    null,
+    __dirname + "/__testFiles__/public_key.pem"
+  );
 
-  let decryptedData = crypto.privateDecrypt({
-    key: privateKey,
-    padding: crypto.constants.RSA_PKCS1_PADDING,
-  }, Buffer.from(finding.attributes.password, "base64"));
+  let decryptedData = crypto.privateDecrypt(
+    {
+      key: privateKey,
+      padding: crypto.constants.RSA_PKCS1_PADDING,
+    },
+    Buffer.from(finding.attributes.password, "base64")
+  );
 
   expect(finding.attributes.password.length).toBe(172);
-  expect(decryptedData.toString()).toBe("aaf076d4fe7cfb63fd1628df91")
-
+  expect(decryptedData.toString()).toBe("aaf076d4fe7cfb63fd1628df91");
 });
 
-const privateKey = "-----BEGIN RSA PRIVATE KEY-----\n" +
+const privateKey =
+  "-----BEGIN RSA PRIVATE KEY-----\n" +
   "MIICXQIBAAKBgQDftYgZ2MhLWumXTylT/nEhZ3Ulrk8xuf8EFA3ffMRgyW3n9mEp\n" +
   "VFHVXZCaEYz55/pZqnsffUosPnHtKDV4uGPVqPJkMi5WUj6oUE9O/BXArK8pJfnc\n" +
   "OKYqCQN45hKc/Plt7uvTCTS/oFKoowv1MyzLzbrLAI4I7JPgFA1nOp8UDQIDAQAB\n" +
@@ -136,4 +157,3 @@ const privateKey = "-----BEGIN RSA PRIVATE KEY-----\n" +
   "WAq1vCuDdr2CZ2QahifRAkBd9mv+G4WO0hOsTBypeoEnL6VECzSauDwfIP/kSdBz\n" +
   "bmkZ6DCScZa8gz1J5ZamBnP4N2dtQn/zDtNUkS+qK+s2\n" +
   "-----END RSA PRIVATE KEY-----";
-

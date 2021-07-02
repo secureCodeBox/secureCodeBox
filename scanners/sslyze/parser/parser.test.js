@@ -4,6 +4,9 @@
 
 const fs = require("fs");
 const util = require("util");
+const {
+  validate_parser,
+} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 const readFile = util.promisify(fs.readFile);
@@ -18,6 +21,7 @@ test("parses result file for www.securecodebox.io correctly", async () => {
   );
 
   const findings = await parse(fileContent);
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
 
   expect(findings).toContainEqual({
     name: "TLS Service",
@@ -58,6 +62,7 @@ test("parses result file for tls-v1-0.badssl.com:1010 correctly", async () => {
   );
 
   const findings = await parse(fileContent);
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
 
   expect(findings).toContainEqual({
     name: "TLS Service",
@@ -117,6 +122,7 @@ test("parses result file for expired.badssl.com correctly", async () => {
 
   const findings = await parse(fileContent);
 
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
   expect(findings).toContainEqual({
     name: "TLS Service",
     category: "TLS Service Info",
@@ -185,6 +191,7 @@ test("parses result file for wrong.host.badssl.com correctly", async () => {
   );
 
   const findings = await parse(fileContent);
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
 
   expect(findings).toContainEqual({
     name: "TLS Service",
@@ -259,6 +266,7 @@ test("parses result file for untrusted-root.badssl.com correctly", async () => {
 
   const findings = await parse(fileContent);
 
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
   expect(findings).toContainEqual({
     name: "TLS Service",
     category: "TLS Service Info",
@@ -327,6 +335,7 @@ test("parses result file for self-signed.badssl.com correctly", async () => {
   );
 
   const findings = await parse(fileContent);
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
 
   expect(findings).toContainEqual({
     name: "TLS Service",
@@ -396,7 +405,7 @@ test("parses an empty result file correctly", async () => {
   );
 
   const findings = await parse(fileContent);
-
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
   expect(findings).toEqual([]);
 });
 
@@ -411,6 +420,6 @@ test("parses an result file with mixed connectivity correctly", async () => {
   );
 
   const findings = await parse(fileContent);
-
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
   expect(findings).toEqual([]);
 });

@@ -4,6 +4,9 @@
 
 const fs = require("fs");
 const util = require("util");
+const {
+  validate_parser,
+} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 const readFile = util.promisify(fs.readFile);
@@ -13,7 +16,7 @@ const { parse } = require("./parser");
 test("ssh-scan parser parses errored result (no ssh server) to zero findings", async () => {
   const hosts = JSON.parse(
     await readFile(__dirname + "/__testFiles__/localhost.json", {
-      encoding: "utf8"
+      encoding: "utf8",
     })
   );
 
@@ -23,11 +26,12 @@ test("ssh-scan parser parses errored result (no ssh server) to zero findings", a
 test("ssh-scan parser parses a proper result to proper findings", async () => {
   const hosts = JSON.parse(
     await readFile(__dirname + "/__testFiles__/securecodebox.io.json", {
-      encoding: "utf8"
+      encoding: "utf8",
     })
   );
-
-  expect(await parse(hosts)).toMatchInlineSnapshot(`
+  const findings = await parse(hosts);
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot(`
     Array [
       Object {
         "attributes": Object {
@@ -132,11 +136,12 @@ test("ssh-scan parser parses a proper result to proper findings", async () => {
 test("ssh-scan parser parses a result without a hostname into proper findings", async () => {
   const hosts = JSON.parse(
     await readFile(__dirname + "/__testFiles__/192.168.42.42.json", {
-      encoding: "utf8"
+      encoding: "utf8",
     })
   );
-
-  expect(await parse(hosts)).toMatchInlineSnapshot(`
+  const findings = await parse(hosts);
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot(`
     Array [
       Object {
         "attributes": Object {
@@ -259,9 +264,10 @@ test("ssh-scan parser parses a result without a hostname into proper findings", 
 test("ssh-scan parser parses a result of a network without ssh hosts correctly", async () => {
   const hosts = JSON.parse(
     await readFile(__dirname + "/__testFiles__/local-network.json", {
-      encoding: "utf8"
+      encoding: "utf8",
     })
   );
-
-  expect(await parse(hosts)).toMatchInlineSnapshot(`Array []`);
+  const findings = await parse(hosts);
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot(`Array []`);
 });

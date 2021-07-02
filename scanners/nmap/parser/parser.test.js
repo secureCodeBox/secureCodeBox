@@ -139,6 +139,7 @@ test("should properly parse a nmap xml without any ports", async () => {
     encoding: "utf8",
   });
 
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
   expect(await parse(xmlContent)).toMatchInlineSnapshot(`
     Array [
       Object {
@@ -163,6 +164,7 @@ test("should properly parse a nmap xml without any host", async () => {
     encoding: "utf8",
   });
 
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
   expect(await parse(xmlContent)).toMatchInlineSnapshot(`Array []`);
 });
 
@@ -174,6 +176,7 @@ test("should properly parse a nmap xml with missing service information", async 
     }
   );
 
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
   expect(await parse(xmlContent)).toMatchInlineSnapshot(`
     Array [
       Object {
@@ -224,6 +227,7 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
     }
   );
 
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
   expect(await parse(xmlContent)).toMatchInlineSnapshot(`
     Array [
       Object {

@@ -4,6 +4,9 @@
 
 const fs = require("fs");
 const util = require("util");
+const {
+  validate_parser,
+} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 const readFile = util.promisify(fs.readFile);
@@ -37,7 +40,9 @@ test("should properly parse gitleaks json file", async () => {
       encoding: "utf8"
     }
   );
-  expect(await parse(JSON.parse(jsonContent))).toMatchInlineSnapshot(`
+  const findings = await parse(JSON.parse(jsonContent));
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot(`
     Array [
       Object {
         "attributes": Object {
@@ -211,7 +216,10 @@ test("should properly construct commit URL if present with -r option", async () 
       encoding: "utf8"
     }
   );
-  expect(await parse(JSON.parse(jsonContent), scan)).toMatchInlineSnapshot(`
+  const findings = await parse(JSON.parse(jsonContent),scan);
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
+
+  expect(findings).toMatchInlineSnapshot(`
     Array [
       Object {
         "attributes": Object {
@@ -253,7 +261,10 @@ test("should properly construct commit URL if present with --repo option", async
       encoding: "utf8"
     }
   );
-  expect(await parse(JSON.parse(jsonContent), scan)).toMatchInlineSnapshot(`
+
+  const findings = await parse(JSON.parse(jsonContent), scan)
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot(`
     Array [
       Object {
         "attributes": Object {

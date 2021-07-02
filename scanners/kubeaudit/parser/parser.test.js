@@ -4,6 +4,9 @@
 
 const fs = require("fs");
 const util = require("util");
+const {
+  validate_parser,
+} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 const readFile = util.promisify(fs.readFile);
@@ -17,6 +20,8 @@ test("example parser parses empty json to zero findings", async () => {
       encoding: "utf8",
     }
   );
+  const findings = await parse(fileContent);
+  await expect(validate_parser(findings)).resolves.toBeUndefined();
 
-  expect(await parse(fileContent)).toMatchSnapshot();
+  expect(findings).toMatchSnapshot();
 });
