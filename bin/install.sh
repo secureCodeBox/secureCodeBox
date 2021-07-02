@@ -37,7 +37,7 @@ INSTALL_INTERACTIVE=''
 INSTALL_SCANNERS=''
 INSTALL_DEMO_TARGETS=''
 INSTALL_HOOKS=''
-INSTALL_NAMESPACED='false'
+INSTALL_NAMESPACED=''
 
 SCB_SYSTEM_NAMESPACE='securecodebox-system'
 SCB_DEMO_NAMESPACE='demo-targets'
@@ -209,11 +209,11 @@ function interactiveInstall() {
 
   print
   print "Starting to install hooks..."
-  installResources "$BASE_DIR/hooks" "$NAMESPACE" False
+  installResources "$BASE_DIR/hooks" "$NAMESPACE" ""
 
   print
   print "Starting to install scanners..."
-  installResources "$BASE_DIR/scanners" "$NAMESPACE" False
+  installResources "$BASE_DIR/scanners" "$NAMESPACE" ""
 
   print
   print "$COLOR_OK" "Information about your cluster:"
@@ -231,13 +231,13 @@ function unattendedInstall() {
   if [[ -n "${INSTALL_DEMO_APPS}" ]]; then
     print "Starting to install 'demo-targets' into namespace '$SCB_DEMO_NAMESPACE' ..."
     kubectl create namespace "$SCB_DEMO_NAMESPACE" || print "Namespace '$SCB_DEMO_NAMESPACE' already exists or could not be created!"
-    installResources "$BASE_DIR/demo-targets" "$SCB_DEMO_NAMESPACE" True
+    installResources "$BASE_DIR/demo-targets" "$SCB_DEMO_NAMESPACE" "true"
   fi
 
   if [[ -n "${INSTALL_SCANNERS}" ]]; then
     print "Starting to install 'scanners' into namespace '$SCB_NAMESPACE' ..."
     kubectl create namespace "$SCB_NAMESPACE" || print "Namespace '$SCB_NAMESPACE' already exists or could not be created!"
-    installResources "$BASE_DIR/scanners" "$SCB_NAMESPACE" True
+    installResources "$BASE_DIR/scanners" "$SCB_NAMESPACE" "true"
   fi
 
   if [[ -n "${INSTALL_HOOKS}" ]]; then
