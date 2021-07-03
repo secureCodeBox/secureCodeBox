@@ -1,0 +1,13 @@
+## A list of steps to ensure after a new secureCodeBox release
+- Ensure and update all charts with a new release chartversion x.x.x-alpha1
+- Add the minor or major release version to the `helm-docs` template: `./.helm-docs/template.gotmpl
+- Ensure the all chart annotations specific for ArtifactHub are correct (e.g. release notes)
+- Check/update ./SECURITY.md
+- Check Service Tweet & Slack Notification
+- 
+
+::: Note
+
+In the future we should try to automate this steps also for each release!
+
+:::
