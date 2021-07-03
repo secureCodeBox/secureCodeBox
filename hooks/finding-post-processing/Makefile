@@ -88,10 +88,10 @@ deploy-prerequisites:
 	# If not exists create secureCodeBox operator namespace
 	kubectl create namespace securecodebox-system --dry-run=client -o yaml | kubectl apply -f -
 	helm -n securecodebox-system upgrade --install securecodebox-operator ./../../operator --wait \
-		# --set="image.repository=docker.io/$(IMG_NS)/operator" \
-		# --set="image.tag=sha-$(GIT_TAG)" \
-		# --set="lurcher.image.repository=docker.io/$(IMG_NS)/lurcher" \
-		# --set="lurcher.image.tag=sha-$(GIT_TAG)" \
+		--set="image.repository=docker.io/$(IMG_NS)/operator" \
+		--set="image.tag=sha-$(GIT_TAG)" \
+		--set="lurcher.image.repository=docker.io/$(IMG_NS)/lurcher" \
+		--set="lurcher.image.tag=sha-$(GIT_TAG)" \
 
 deploy:
 	@echo ".: 💾 Deploying '$(hook)' hook HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
