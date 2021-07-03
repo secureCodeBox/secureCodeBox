@@ -21,15 +21,21 @@
 # Variables you might want to override:
 #
 # IMG_NS:				Defines the namespace under which the images are build.
-#								For `securecodebox/hook-nmap` `securecodebox` is the namespace
-#								Defaults to `securecodebox`
+#						For `securecodebox/hook-nmap` `securecodebox` is the namespace
+#						Defaults to `securecodebox`
 #
-# BASE_IMG_TAG:	Defines the tag of the base image used to build this hook/hook
+# BASE_IMG_TAG:			Defines the tag of the base image used to build this hook/hook
 #
-# IMG_TAG:			Tag used to tag the newly created image. Defaults to the shortend commit hash
-#								prefixed with `sha-` e.g. `sha-ef8de4b7`
+# IMG_TAG:				Tag used to tag the newly created image. Defaults to the shortend commit hash
+#						prefixed with `sha-` e.g. `sha-ef8de4b7`
 #
-#	JEST_VERSION  Defines the jest version used for executing the tests. Defaults to latest
+# JEST_VERSION  		Defines the jest version used for executing the tests. Defaults to latest
+#
+# Examples:
+# 	make all BASE_IMG_TAG=latest
+# 	make deploy IMG_TAG=$(git rev-parse --short HEAD)
+# 	make integration-tests
+#
 
 SHELL = /bin/sh
 
@@ -44,45 +50,66 @@ hook-prefix =
 
 build: | install-deps build-images
 
-test: | unit-tests images-export kind-import deploy deploy-test-deps integration-tests
+test: | unit-tests images-export kind-import deploy-prerequisites deploy deploy-test-deps integration-tests
 
-all: | install-deps unit-tests build-images images-export kind-import deploy deploy-test-deps integration-tests
+all: | clean install-deps unit-tests build-images images-export kind-import deploy-prerequisites deploy deploy-test-deps integration-tests
 
-.PHONY: unit-tests install-deps build-images images-export kind-import deploy deploy-test-deps integration-tests all build test
+.PHONY: unit-tests install-deps build-images images-export kind-import deploy-prerequisites deploy deploy-test-deps integration-tests all build test
 
 unit-tests:
-	cd hook && npx --yes --package jest@$(JEST_VERSION) jest
+	@echo ".: 🧪 Starting unit-tests for hook '$(hook)' with 'jest@$(JEST_VERSION)'."
+	cd hook && npx --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage .
 
 install-deps:
+	@echo ".: ⚙️ Installing all hook specific dependencies."
 	cd hook && npm ci
 
 build-images:
-	@echo Build With BASE_IMG_TAG: $(BASE_IMG_TAG)
+	@echo ".: ⚙️ Build With BASE_IMG_TAG: '$(BASE_IMG_TAG)'."
 	docker build --build-arg=baseImageTag=$(BASE_IMG_TAG) --build-arg=namespace=$(IMG_NS) -t $(IMG_NS)/$(hook-prefix)$(hook):$(IMG_TAG) -f ./hook/Dockerfile ./hook
 
 images-export:
+	@echo ".: ⚙️ Saving new docker image archive to '$(hook-prefix)$(hook).tar'."
 	docker save $(IMG_NS)/$(hook-prefix)$(hook):$(IMG_TAG) -o $(hook-prefix)$(hook).tar
 
 kind-import:
+	@echo ".: 💾 Importing the image archive '$(hook-prefix)$(hook).tar' to local kind cluster."
 	kind load image-archive ./$(hook-prefix)$(hook).tar
 
+deploy-prerequisites:
+	@echo ".: 💾 Deploying prerequisite HelmChart with the docker tag '$(BASE_IMG_TAG)' into kind."
+	# If not exists create namespace where the tests will be executed
+	kubectl create namespace integration-tests --dry-run=client -o yaml | kubectl apply -f -
+	# If not exists create secureCodeBox operator namespace
+	kubectl create namespace securecodebox-system --dry-run=client -o yaml | kubectl apply -f -
+	helm -n securecodebox-system upgrade --install securecodebox-operator secureCodeBox/operator --wait \
+		# --set="image.repository=docker.io/$(IMG_NS)/operator" \
+		# --set="image.tag=$(BASE_IMG_TAG)" \
+		# --set="lurcher.image.repository=docker.io/$(IMG_NS)/lurcher" \
+		# --set="lurcher.image.tag=$(BASE_IMG_TAG)" \
+
 deploy:
-	helm -n integration-tests upgrade --install $(hook) ./ \
+	@echo ".: 💾 Deploying '$(hook)' hook HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
+	helm -n integration-tests upgrade --install $(hook) ./ --wait \
 		--values ./integration-tests/__testFiles__/values.yaml \
-		--set="image.repository=docker.io/$(IMG_NS)/$(hook-prefix)$(hook)" \
-		--set="image.tag=$(IMG_TAG)"
+		--set="hook.image.repository=docker.io/$(IMG_NS)/$(hook-prefix)$(hook)" \
+		--set="hook.image.tag=$(IMG_TAG)"
 
 deploy-test-deps:
-	helm -n integration-tests upgrade --install test-scan ../../scanners/test-scan/ \
-	  --set="image.tag=$(BASE_IMG_TAG)" \
-	  --set="parserImage.tag=$(BASE_IMG_TAG)"
+	@echo ".: 💾 Deploying test dependency HelmChart with the docker tag '$(BASE_IMG_TAG)' into kind namespace 'integration-tests'."
+	helm -n integration-tests upgrade --install test-scan ../../scanners/test-scan/ --wait \
+	  --set="scanner.image.tag=$(BASE_IMG_TAG)" \
+	  --set="parser.image.tag=$(BASE_IMG_TAG)"
 
 install-integration-test-deps:
 
 integration-tests:
+	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
 	kubectl -n integration-tests delete scans --all
-	cd integration-tests && npx --yes --package jest@$(JEST_VERSION) jest
+	cd integration-tests && npx --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage .
 
 clean:
-	rm ./$(hook-prefix)$(hook).tar
+	@echo ".: 🧹 Cleaning up all generated files."
+	rm -f ./$(hook-prefix)$(hook).tar
+	rm -rf ./hook/node_modules 
 
