@@ -64,7 +64,9 @@ all: | clean install-deps unit-tests build-images images-export kind-import depl
 
 unit-tests:
 	@echo ".: 🧪 Starting unit-tests for '$(scanner)' parser  with 'jest@$(JEST_VERSION)'."
-	cd parser && npx --ignore-existing --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage .
+	cd parser
+	ls -Ral
+	npx --ignore-existing --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage .
 
 install-deps:
 
