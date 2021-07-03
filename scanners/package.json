@@ -15,8 +15,7 @@
     "testPathIgnorePatterns": [
       "/node_modules/"
     ],
-    "projects": [
-    ]
+    "projects": []
   },
   "keywords": [
     "OWASP",
@@ -44,7 +43,9 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
-    "@types/jest": "^26.0.21",
+    "@kubernetes/client-node": "^0.15.0",
+    "prettier": "^2.3.2",
+    "@types/jest": "^26.0.23",
     "jest": "^27.0.6"
   }
 }

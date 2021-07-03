@@ -37,7 +37,7 @@ K := $(foreach exec,$(EXECUTABLES),\
 # JEST_VERSION  		Defines the jest version used for executing the tests. Defaults to latest
 #
 # Examples:
-# 	make all BASE_IMG_TAG=latest
+# 	make all IMG_TAG=main
 # 	make deploy IMG_TAG=$(git rev-parse --short HEAD)
 # 	make integration-tests
 #
@@ -90,16 +90,16 @@ deploy-prerequisites:
 	kubectl create namespace securecodebox-system --dry-run=client -o yaml | kubectl apply -f -
 	helm -n securecodebox-system upgrade --install securecodebox-operator ./../../operator --wait \
 		--set="image.repository=docker.io/$(IMG_NS)/operator" \
-		--set="image.tag=sha-$(GIT_TAG)" \
+		--set="image.tag=$(IMG_TAG)" \
 		--set="lurcher.image.repository=docker.io/$(IMG_NS)/lurcher" \
-		--set="lurcher.image.tag=sha-$(GIT_TAG)" \
+		--set="lurcher.image.tag=$(IMG_TAG)" \
 
 deploy:
 	@echo ".: 💾 Deploying '$(hook)' hook HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
 	helm -n integration-tests upgrade --install $(hook) ./ --wait \
 		--values ./integration-tests/__testFiles__/values.yaml \
 		--set="hook.image.repository=docker.io/$(IMG_NS)/$(hook-prefix)$(hook)" \
-		--set="hook.image.tag=sha-$(GIT_TAG)"
+		--set="hook.image.tag=$(IMG_TAG)"
 
 deploy-test-deps:
 	@echo ".: 💾 Deploying test dependency HelmChart with the docker tag '$(BASE_IMG_TAG)' into kind namespace 'integration-tests'."
@@ -117,5 +117,7 @@ integration-tests:
 clean:
 	@echo ".: 🧹 Cleaning up all generated files."
 	rm -f ./$(hook-prefix)$(hook).tar
-	rm -rf ./hook/node_modules 
-
+	rm -rf ./hook/node_modules
+	rm -rf ./hook/coverage
+	rm -rf ./integration-tests/node_modules
+	rm -rf ./integration-tests/coverage

@@ -8,13 +8,18 @@
     "url": "git+https://github.com/secureCodeBox/secureCodeBox.git"
   },
   "main": "index.js",
-  "directories": {
-    "example": "example"
-  },
   "scripts": {
     "test": "jest"
   },
+  "jest": {
+    "verbose": true,
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "projects": []
+  },
   "keywords": [
+    "OWASP",
     "secureCodeBox",
     "security",
     "hooks"
@@ -38,23 +43,13 @@
     "url": "https://github.com/secureCodeBox/secureCodeBox/issues"
   },
   "license": "Apache-2.0",
-  "devDependencies": {
-    "@types/jest": "^26.0.21",
-    "jest": "^27.0.3"
-  },
   "dependencies": {
     "axios": "^0.21.1"
   },
-  "jest": {
-    "projects": [
-      "<rootDir>/cascading-scans/hook",
-      "<rootDir>/finding-post-processing/hook",
-      "<rootDir>/generic-webhook/hook",
-      "<rootDir>/notification/hook",
-      "<rootDir>/persistence-defectdojo/hook",
-      "<rootDir>/persistence-elastic/hook",
-      "<rootDir>/teams-webhook/hook",
-      "<rootDir>/update-field/hook"
-    ]
+  "devDependencies": {
+    "@kubernetes/client-node": "^0.15.0",
+    "prettier": "^2.3.2",
+    "@types/jest": "^26.0.23",
+    "jest": "^27.0.6"
   }
 }
