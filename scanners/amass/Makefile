@@ -45,8 +45,9 @@ K := $(foreach exec,$(EXECUTABLES),\
 SHELL = /bin/sh
 
 IMG_NS ?= securecodebox
+GIT_TAG ?= $$(git rev-parse --short HEAD)
 BASE_IMG_TAG ?= latest
-IMG_TAG ?= "sha-$$(git rev-parse --short HEAD)"
+IMG_TAG ?= "sha-$(GIT_TAG)"
 JEST_VERSION ?= latest
 
 scanner = amass
@@ -64,11 +65,13 @@ all: | clean install-deps unit-tests build-images images-export kind-import depl
 
 unit-tests:
 	@echo ".: 🧪 Starting unit-tests for '$(scanner)' parser  with 'jest@$(JEST_VERSION)'."
-	cd parser
 	ls -Ral
-	npx --ignore-existing --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage .
+	cd parser && npx --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage .
 
 install-deps:
+	@echo ".: ⚙️ Installing all scanner specific dependencies."
+	cd parser && npm ci
+	ls -Ral
 
 build-images:
 	@echo ".: ⚙️ Build With BASE_IMG_TAG: '$(BASE_IMG_TAG)'."

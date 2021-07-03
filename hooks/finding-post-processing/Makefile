@@ -63,11 +63,13 @@ all: | clean install-deps unit-tests build-images images-export kind-import depl
 
 unit-tests:
 	@echo ".: 🧪 Starting unit-tests for hook '$(hook)' with 'jest@$(JEST_VERSION)'."
+	ls -Ral
 	cd hook && npx --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage .
 
 install-deps:
 	@echo ".: ⚙️ Installing all hook specific dependencies."
 	cd hook && npm ci
+	ls -Ral
 
 build-images:
 	@echo ".: ⚙️ Build With BASE_IMG_TAG: '$(BASE_IMG_TAG)'."
