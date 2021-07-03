@@ -18,15 +18,27 @@ env:
 
 jobs:
   # ---- New Makefile based CI Pipeline steps ----
-  makefile:
-    name: "Makefile based Tests"
+  makefile-scanner:
+    name: "Make Scanners"
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        unit: ["./scanners/amass", "./hooks/finding-post-processing"]
+        unit: ["amass"]
     steps:
-      - name: "Run makefile for ${{ matrix.unit }}"
-        working-directory: ${{ matrix.unit }}
+      - name: "Run makefile for scanner '${{ matrix.unit }}'"
+        working-directory: ./scanners/${{ matrix.unit }}/
+        run: |
+          make all IMG_TAG=$(git rev-parse --short HEAD)
+  
+  makefile-hooks:
+    name: "Make Hooks"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        unit: ["finding-post-processing"]
+    steps:
+      - name: "Run makefile for hook '${{ matrix.unit }}'"
+        working-directory: ./hooks/${{ matrix.unit }}/
         run: |
           make all IMG_TAG=$(git rev-parse --short HEAD)
 
