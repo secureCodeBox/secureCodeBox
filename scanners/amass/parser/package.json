@@ -1,0 +1,41 @@
+{
+  "name": "@securecodebox/parser-amass",
+  "version": "1.0.0",
+  "description": "secureCodeBox parser for OWASP AMASS finding results",
+  "main": "parser.js",
+  "scripts": {
+    "build": "npx typescript parser.ts --sourceMap",
+    "test": "jest ."
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/integration-tests/"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/secureCodeBox/secureCodeBox.git"
+  },
+  "keywords": [
+    "secureCodeBox",
+    "security",
+    "scanner",
+    "owasp",
+    "amass"
+  ],
+  "author": {
+    "name": "iteratec GmbH",
+    "email": "security@iteratec.com",
+    "url": "https://www.iteratec.com"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/secureCodeBox/secureCodeBox/issues"
+  },
+  "homepage": "https://www.secureCodeBox.io",
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^27.0.3"
+  }
+}

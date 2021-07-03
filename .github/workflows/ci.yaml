@@ -17,53 +17,6 @@ env:
   DOCKER_NAMESPACE: ${{ secrets.DOCKER_NAMESPACE }}
 
 jobs:
-  # ---- New Makefile based CI Pipeline steps ----
-  makefile-scanner:
-    name: "Make Scanners"
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        unit: ["amass"]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: "Start kind cluster"
-        run: |
-          kind version
-          kind create cluster --image kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6 --wait 3m
-      - name: "Inspect kind cluster"
-        run: |
-          kubectl config current-context
-          kubectl get node
-      - name: "Run makefile for scanner '${{ matrix.unit }}'"
-        working-directory: ./scanners/${{ matrix.unit }}/
-        run: |
-          ls -al
-          make all IMG_TAG=$(git rev-parse --short HEAD)
-  
-  makefile-hooks:
-    name: "Make Hooks"
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        unit: ["finding-post-processing"]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: "Start kind cluster"
-        run: |
-          kind version
-          kind create cluster --image kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6 --wait 3m
-      - name: "Inspect kind cluster"
-        run: |
-          kubectl config current-context
-          kubectl get node
-      - name: "Run makefile for hook '${{ matrix.unit }}'"
-        working-directory: ./hooks/${{ matrix.unit }}/
-        run: |
-          ls -sl
-          make all IMG_TAG=$(git rev-parse --short HEAD)
-
   # ---- Unit-Test ----
 
   # ---- Unit-Test | Java ----
@@ -329,6 +282,61 @@ jobs:
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
+
+# ---- New Makefile based CI Pipeline steps ----
+  makefile-scanner:
+    name: "Make Scanners"
+    needs: 
+      - sdk
+      - operator
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        unit: ["amass"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: "Start kind cluster"
+        run: |
+          kind version
+          kind create cluster --image kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6 --wait 3m
+      - name: "Inspect kind cluster"
+        run: |
+          kubectl config current-context
+          kubectl get node
+      - name: "Run makefile for scanner '${{ matrix.unit }}'"
+        working-directory: ./scanners/${{ matrix.unit }}/
+        run: |
+          ls -al
+          make all IMG_TAG=$(git rev-parse --short HEAD)
+  
+  makefile-hooks:
+    name: "Make Hooks"
+    needs: 
+      - sdk
+      - operator
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        unit: ["finding-post-processing"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: "Start kind cluster"
+        run: |
+          kind version
+          kind create cluster --image kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6 --wait 3m
+      - name: "Inspect kind cluster"
+        run: |
+          kubectl config current-context
+          kubectl get node
+      - name: "Run makefile for hook '${{ matrix.unit }}'"
+        working-directory: ./hooks/${{ matrix.unit }}/
+        run: |
+          ls -sl
+          make all IMG_TAG=$(git rev-parse --short HEAD)
+
+
 
   # ---- Build Stage | Matrix Hooks ----
 

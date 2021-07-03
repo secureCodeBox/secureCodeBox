@@ -64,7 +64,7 @@ all: | clean install-deps unit-tests build-images images-export kind-import depl
 
 unit-tests:
 	@echo ".: 🧪 Starting unit-tests for '$(scanner)' parser  with 'jest@$(JEST_VERSION)'."
-	cd parser && npx --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage .
+	cd parser && npx --ignore-existing --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage .
 
 install-deps:
 
@@ -81,16 +81,16 @@ kind-import:
 	kind load image-archive ./$(parser-prefix)-$(scanner).tar
 
 deploy-prerequisites:
-	@echo ".: 💾 Deploying prerequisite HelmChart with the docker tag '$(BASE_IMG_TAG)' into kind."
+	@echo ".: 💾 Deploying prerequisite HelmChart with the docker tag '$(IMG_TAG)' into kind."
 	# If not exists create namespace where the tests will be executed
 	kubectl create namespace integration-tests --dry-run=client -o yaml | kubectl apply -f -
 	# If not exists create secureCodeBox operator namespace
 	kubectl create namespace securecodebox-system --dry-run=client -o yaml | kubectl apply -f -
-	helm -n securecodebox-system upgrade --install securecodebox-operator secureCodeBox/operator --wait \
+	helm -n securecodebox-system upgrade --install securecodebox-operator ./../../operator --wait \
 		# --set="image.repository=docker.io/$(IMG_NS)/operator" \
-		# --set="image.tag=$(BASE_IMG_TAG)" \
+		# --set="image.tag=$(IMG_TAG)" \
 		# --set="lurcher.image.repository=docker.io/$(IMG_NS)/lurcher" \
-		# --set="lurcher.image.tag=$(BASE_IMG_TAG)" \
+		# --set="lurcher.image.tag=$(IMG_TAG)" \
 
 deploy:
 	@echo ".: 💾 Deploying '$(scanner)' scanner HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
