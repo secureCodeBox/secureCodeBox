@@ -13,11 +13,14 @@
   },
   "jest": {
     "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/integration-tests/"
+      "/node_modules/"
+    ],
+    "projects": [
+      "<rootDir>/*/parser"
     ]
   },
   "keywords": [
+    "OWASP",
     "secureCodeBox",
     "security",
     "scanner"
@@ -42,6 +45,7 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
+    "@types/jest": "^26.0.21",
     "jest": "^27.0.6"
   }
 }

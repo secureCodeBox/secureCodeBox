@@ -296,9 +296,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Set baseImageTag to commit hash
-        run: |
-          echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
       - name: "Start kind cluster"
         run: |
           kind version
@@ -310,8 +307,7 @@ jobs:
       - name: "Run makefile for scanner '${{ matrix.unit }}'"
         working-directory: ./scanners/${{ matrix.unit }}/
         run: |
-          ls -Ral
-          make all IMG_TAG=$(git rev-parse --short HEAD)
+          make all
   
   makefile-hooks:
     name: "Make Hooks"
@@ -336,9 +332,7 @@ jobs:
       - name: "Run makefile for hook '${{ matrix.unit }}'"
         working-directory: ./hooks/${{ matrix.unit }}/
         run: |
-          ls -Ral
-          make all IMG_TAG=$(git rev-parse --short HEAD)
-
+          make all
 
 
   # ---- Build Stage | Matrix Hooks ----

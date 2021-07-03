@@ -37,7 +37,7 @@ K := $(foreach exec,$(EXECUTABLES),\
 # JEST_VERSION  		Defines the jest version used for executing the tests. Defaults to latest
 #
 # Examples:
-# 	make all BASE_IMG_TAG=latest
+# 	make all IMG_TAG=main
 # 	make deploy IMG_TAG=$(git rev-parse --short HEAD)
 # 	make integration-tests
 #
@@ -69,7 +69,8 @@ unit-tests:
 
 install-deps:
 	@echo ".: ⚙️ Installing all scanner specific dependencies."
-	cd parser && npm ci
+	cd ./.. && npm ci
+	cd ./parser/ && npm ci
 
 build-images:
 	@echo ".: ⚙️ Build With BASE_IMG_TAG: '$(BASE_IMG_TAG)'."
@@ -113,3 +114,9 @@ integration-tests:
 clean:
 	@echo ".: 🧹 Cleaning up all generated files."
 	rm -f ./$(parser-prefix)-$(scanner).tar
+	rm -rf ./parser/node_modules
+	rm -rf ./parser/coverage
+	rm -rf ./integration-tests/node_modules
+	rm -rf ./integration-tests/coverage
+	rm -rf ../node_modules
+	rm -rf ../coverage
