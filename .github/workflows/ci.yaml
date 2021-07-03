@@ -17,6 +17,19 @@ env:
   DOCKER_NAMESPACE: ${{ secrets.DOCKER_NAMESPACE }}
 
 jobs:
+  # ---- New Makefile based CI Pipeline steps ----
+  makefile:
+    name: "Makefile based Tests"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        unit: ["./scanners/amass", "./hooks/finding-post-processing"]
+    steps:
+      - name: "Run makefile for ${{ matrix.unit }}"
+        working-directory: ${{ matrix.unit }}
+        run: |
+          make all IMG_TAG=$(git rev-parse --short HEAD)
+
   # ---- Unit-Test ----
 
   # ---- Unit-Test | Java ----
@@ -773,13 +786,13 @@ jobs:
           kubectl create deployment --image nginx:alpine nginx --namespace demo-targets
           kubectl expose deployment nginx --port 80 --namespace demo-targets
 
-      # ---- OWASP Amass Integration Tests ----
+      # # ---- OWASP Amass Integration Tests ----
 
-      - name: "amass Integration Tests"
-        working-directory: ./scanners/amass
-        run: |
-          make deploy IMG_TAG=$(git rev-parse --short HEAD)
-          make integration-tests
+      # - name: "amass Integration Tests"
+      #   working-directory: ./scanners/amass
+      #   run: |
+      #     make deploy IMG_TAG=$(git rev-parse --short HEAD)
+      #     make integration-tests
 
       # ---- gitleaks Integration Tests ----
 
