@@ -45,8 +45,9 @@ K := $(foreach exec,$(EXECUTABLES),\
 SHELL = /bin/sh
 
 IMG_NS ?= securecodebox
+GIT_TAG ?= $$(git rev-parse --short HEAD)
 BASE_IMG_TAG ?= latest
-IMG_TAG ?= "sha-$$(git rev-parse --short HEAD)"
+IMG_TAG ?= "sha-$(GIT_TAG)"
 JEST_VERSION ?= latest
 
 hook = finding-post-processing
