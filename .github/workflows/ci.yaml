@@ -120,7 +120,7 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
-          coverageCommand: npm test -- --ci --colors --coverage
+          coverageCommand: npm test -- --ci --colors --coverage --testPathIgnorePatterns=["/integration-tests/"]
 
   # ---- Build Stage ----
 
