@@ -46,7 +46,7 @@ SHELL = /bin/sh
 
 IMG_NS ?= securecodebox
 BASE_IMG_TAG ?= latest
-IMG_TAG ?= sha-$$(git rev-parse --short HEAD)
+IMG_TAG ?= "sha-$$(git rev-parse --short HEAD)"
 JEST_VERSION ?= latest
 
 scanner = amass
