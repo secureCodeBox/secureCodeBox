@@ -65,13 +65,11 @@ all: | clean install-deps unit-tests build-images images-export kind-import depl
 
 unit-tests:
 	@echo ".: 🧪 Starting unit-tests for '$(scanner)' parser  with 'jest@$(JEST_VERSION)'."
-	ls -Ral
 	cd parser && npx --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage .
 
 install-deps:
 	@echo ".: ⚙️ Installing all scanner specific dependencies."
 	cd parser && npm ci
-	ls -Ral
 
 build-images:
 	@echo ".: ⚙️ Build With BASE_IMG_TAG: '$(BASE_IMG_TAG)'."

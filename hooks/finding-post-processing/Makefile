@@ -63,13 +63,11 @@ all: | clean install-deps unit-tests build-images images-export kind-import depl
 
 unit-tests:
 	@echo ".: 🧪 Starting unit-tests for hook '$(hook)' with 'jest@$(JEST_VERSION)'."
-	ls -Ral
 	cd hook && npx --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage .
 
 install-deps:
 	@echo ".: ⚙️ Installing all hook specific dependencies."
 	cd hook && npm ci
-	ls -Ral
 
 build-images:
 	@echo ".: ⚙️ Build With BASE_IMG_TAG: '$(BASE_IMG_TAG)'."
@@ -91,16 +89,16 @@ deploy-prerequisites:
 	kubectl create namespace securecodebox-system --dry-run=client -o yaml | kubectl apply -f -
 	helm -n securecodebox-system upgrade --install securecodebox-operator ./../../operator --wait \
 		# --set="image.repository=docker.io/$(IMG_NS)/operator" \
-		# --set="image.tag=$(IMG_TAG)" \
+		# --set="image.tag=sha-$(GIT_TAG)" \
 		# --set="lurcher.image.repository=docker.io/$(IMG_NS)/lurcher" \
-		# --set="lurcher.image.tag=$(IMG_TAG)" \
+		# --set="lurcher.image.tag=sha-$(GIT_TAG)" \
 
 deploy:
 	@echo ".: 💾 Deploying '$(hook)' hook HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
 	helm -n integration-tests upgrade --install $(hook) ./ --wait \
 		--values ./integration-tests/__testFiles__/values.yaml \
 		--set="hook.image.repository=docker.io/$(IMG_NS)/$(hook-prefix)$(hook)" \
-		--set="hook.image.tag=$(IMG_TAG)"
+		--set="hook.image.tag=sha-$(GIT_TAG)"
 
 deploy-test-deps:
 	@echo ".: 💾 Deploying test dependency HelmChart with the docker tag '$(BASE_IMG_TAG)' into kind namespace 'integration-tests'."
