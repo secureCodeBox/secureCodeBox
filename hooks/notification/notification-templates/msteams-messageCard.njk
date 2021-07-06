@@ -57,10 +57,10 @@ attachments:
       actions:
       - type: Action.OpenUrl
         title: Open Dashboard
-        url: "{{ renderString(args["dashboardUrl"].toString(), { uid: scan.metadata.uid }) }}"
+        url: "{{ renderString(args["VULNMANAG_DASHBOARD_URL"].toString(), { uid: scan.metadata.uid }) }}"
       - type: Action.OpenUrl
         title: Show Results in Dashboard
-        url: "{{ renderString(args["dashboardFindingsUrl"], { uid: scan.metadata.uid }) }}"
+        url: "{{ renderString(args["VULNMANAG_DASHBOARD_FINDINGS_URL"], { uid: scan.metadata.uid }) }}"
       {% endif %}
       "$schema": http://adaptivecards.io/schemas/adaptive-card.json
       version: '1.3'

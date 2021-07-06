@@ -235,7 +235,7 @@ In `endPoint` you need to specify the MS Teams webhook.
 To use the template provided by the secureCodeBox set template to `msteams-messageCard`.
 
 The default template allows you to specify an additional set of information.
-If you you use the persistence-elastic or use some kind of dashboard, you can set the variable `VULNMANAG_ENABLED` to true, `dashboardUrl` to the URL of your dashboard.
+If you you use the persistence-elastic or use some kind of dashboard, you can set the variable `VULNMANAG_ENABLED` to true, `VULNMANAG_DASHBOARD_URL` to the URL of your dashboard.
 This will add a button in the notification that opens your dashboard.
 You can also add a button that opens your findings directly in your dashboard.
 To do this you need to specify `dashboardFingingsUrl`.
@@ -253,9 +253,9 @@ notificationChannels:
 env:
   - name: VULNMANAG_ENABLED
     value: true
-  - name: dashboardUrl
+  - name: VULNMANAG_DASHBOARD_URL
     value: "somedashboard.url"
-  - name: dashboardFindingsUrl
+  - name: VULNMANAG_DASHBOARD_FINDINGS_URL
     value: "somedashboard.url/findings/{{ `{{ uid }}` }}"
 ```
 
