@@ -4,7 +4,7 @@
 
 const { parse } = require("./parser");
 const {
-  validate_parser,
+  validateParser,
 } = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
 let scan;
@@ -27,7 +27,7 @@ beforeEach(() => {
 
 test("should create finding correctly", async () => {
   const findings = await parse("thisisabinarystringformatedimage", scan);
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
     Array [
       Object {

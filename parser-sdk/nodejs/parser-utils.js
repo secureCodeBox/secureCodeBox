@@ -37,8 +37,13 @@ async function validateAgainstJsonSchema(jsonData) {
 
 // eslint-disable-next-line
 async function addSampleIdsAndDatesAndValidate(jsonData) {
-  const extendedData = addIdsAndDates(jsonData);
-  validateAgainstJsonSchema(extendedData);
+  // add sample IDs and Dates only if the jsonData Array is not empty
+  if (jsonData.length > 0) {
+    const extendedData = addIdsAndDates(jsonData);
+    return validateAgainstJsonSchema(extendedData);
+  } else {
+    return validateAgainstJsonSchema(jsonData);
+  }
 }
 
 function generateErrorMessage(errors, jsonData) {
@@ -52,4 +57,4 @@ function generateErrorMessage(errors, jsonData) {
 
 module.exports.addIdsAndDates = addIdsAndDates;
 module.exports.validate = validateAgainstJsonSchema;
-module.exports.validate_parser = addSampleIdsAndDatesAndValidate;
+module.exports.validateParser = addSampleIdsAndDatesAndValidate;

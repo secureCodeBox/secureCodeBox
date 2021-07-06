@@ -6,7 +6,7 @@ const { parse } = require("./parser");
 const fs = require("fs");
 const crypto = require("crypto");
 const {
-  validate_parser,
+  validateParser,
 } = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
 it("should return no findings when ncrack has not found credentials", async () => {
@@ -18,7 +18,7 @@ it("should return no findings when ncrack has not found credentials", async () =
     }
   );
   const findings = await parse(ncrackXML);
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings.length).toBe(0);
 });
 
@@ -62,7 +62,7 @@ it("should return no findings when ncrack has not found credentials scanning two
     }
   );
   const findings = await parse(ncrackXML);
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
 
   expect(findings.length).toBe(0);
 });
@@ -76,7 +76,7 @@ it("should return findings when ncrack found two credentials scanning two servic
     }
   );
   const findings = await parse(ncrackXML);
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
         Array [
           Object {

@@ -5,7 +5,7 @@
 const fs = require("fs");
 const util = require("util");
 const {
-  validate_parser,
+  validateParser,
 } = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
 // eslint-disable-next-line security/detect-non-literal-fs-filename
@@ -20,7 +20,7 @@ test("parses bkimminich/juice-shop:v10.2.0 result file into findings", async () 
     })
   );
   const findings = await parse(fileContent);
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -33,7 +33,7 @@ test("parses securecodebox/amass:unstable@sha256:05954f82eaa7bbe81dfc81907113c1e
   );
 
   const findings = await parse(fileContent);
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -45,7 +45,7 @@ test("parses securecodebox/engine with implicit latest tag result file into find
   );
 
   const findings = await parse(fileContent);
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -58,7 +58,7 @@ test("parses securecodebox/ssh:unstable result file into findings", async () => 
   );
 
   const findings = await parse(fileContent);
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -70,7 +70,7 @@ test("parses mediawiki:stable result file into findings", async () => {
   );
 
   const findings = await parse(fileContent);
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -82,6 +82,6 @@ test("parses mediawiki:1.27.3 result file into findings", async () => {
   );
 
   const findings = await parse(fileContent);
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchSnapshot();
 });

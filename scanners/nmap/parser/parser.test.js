@@ -5,7 +5,7 @@
 const fs = require("fs");
 const util = require("util");
 const {
-  validate_parser,
+  validateParser,
 } = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
 // eslint-disable-next-line security/detect-non-literal-fs-filename
@@ -22,7 +22,7 @@ test("should properly parse nmap xml file", async () => {
   );
   const findings = await parse(xmlContent);
   // validate findings
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
     Array [
       Object {
@@ -140,7 +140,7 @@ test("should properly parse a nmap xml without any ports", async () => {
   });
 
   const findings = await parse(xmlContent);
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
     Array [
       Object {
@@ -166,7 +166,7 @@ test("should properly parse a nmap xml without any host", async () => {
   });
 
   const findings = await parse(xmlContent);
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`Array []`);
 });
 
@@ -179,7 +179,7 @@ test("should properly parse a nmap xml with missing service information", async 
   );
 
   const findings = await parse(xmlContent);
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
     Array [
       Object {
@@ -231,7 +231,7 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
   );
 
   const findings = await parse(xmlContent);
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(await parse(xmlContent)).toMatchInlineSnapshot(`
     Array [
       Object {

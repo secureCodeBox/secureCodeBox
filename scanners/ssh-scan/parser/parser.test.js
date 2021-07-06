@@ -5,7 +5,7 @@
 const fs = require("fs");
 const util = require("util");
 const {
-  validate_parser,
+  validateParser,
 } = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
 // eslint-disable-next-line security/detect-non-literal-fs-filename
@@ -30,7 +30,7 @@ test("ssh-scan parser parses a proper result to proper findings", async () => {
     })
   );
   const findings = await parse(hosts);
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
     Array [
       Object {
@@ -140,7 +140,7 @@ test("ssh-scan parser parses a result without a hostname into proper findings", 
     })
   );
   const findings = await parse(hosts);
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
     Array [
       Object {
@@ -268,6 +268,6 @@ test("ssh-scan parser parses a result of a network without ssh hosts correctly",
     })
   );
   const findings = await parse(hosts);
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`Array []`);
 });

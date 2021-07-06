@@ -5,7 +5,7 @@
 const fs = require("fs");
 const util = require("util");
 const {
-  validate_parser,
+  validateParser,
 } = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
 // eslint-disable-next-line security/detect-non-literal-fs-filename
@@ -22,7 +22,7 @@ test("Parsing the juice-shop results.", async () => {
   );
 
   const findings = await parse(fileContent);
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -35,7 +35,7 @@ test("Parsing the example.com results.", async () => {
   );
 
   const findings = await parse(fileContent);
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -48,7 +48,7 @@ test("Parsing the docs.securecodebox.io results.", async () => {
   );
 
   const findings = await parse(fileContent);
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
@@ -61,7 +61,7 @@ test("Parsing an empty result.", async () => {
   );
 
   const findings = await parse(fileContent);
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`Array []`);
 });
 
@@ -71,6 +71,6 @@ test("Parsing a nginx result.", async () => {
   });
 
   const findings = await parse(fileContent);
-  await expect(validate_parser(findings)).resolves.toBeUndefined();
+  await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
