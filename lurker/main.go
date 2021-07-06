@@ -9,6 +9,7 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	corev1 "k8s.io/api/core/v1"
 	"log"
 	"net/http"
 	"net/http/httputil"
@@ -123,16 +124,21 @@ func waitForMainContainerToEnd(container, pod, namespace string) {
 		} else if err != nil {
 			panic(err.Error())
 		} else {
-			containerStatuses := pod.Status.ContainerStatuses
-
-			for _, status := range containerStatuses {
-				if status.Name == container && status.State.Terminated != nil {
-					log.Printf("Main Container Exited. Lurker will end as well.")
-					return
-				}
+			if mainContainerExited(container, pod.Status.ContainerStatuses) {
+				return
 			}
 		}
 
 		time.Sleep(500 * time.Millisecond)
 	}
+}
+
+func mainContainerExited(container string, containerStatuses []corev1.ContainerStatus) bool {
+	for _, status := range containerStatuses {
+		if status.Name == container && status.State.Terminated != nil {
+			log.Printf("Main Container exited. Lurker will end as well.")
+			return true
+		}
+	}
+	return false
 }
