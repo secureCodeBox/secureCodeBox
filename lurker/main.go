@@ -123,10 +123,8 @@ func waitForMainContainerToEnd(container, pod, namespace string) {
 			log.Printf("Error getting pod %v", statusError.ErrStatus.Message)
 		} else if err != nil {
 			panic(err.Error())
-		} else {
-			if mainContainerExited(container, pod.Status.ContainerStatuses) {
-				return
-			}
+		} else if mainContainerExited(container, pod.Status.ContainerStatuses) {
+			return
 		}
 
 		time.Sleep(500 * time.Millisecond)
