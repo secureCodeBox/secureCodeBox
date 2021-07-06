@@ -2,60 +2,48 @@
 title: "Ncrack"
 category: "scanner"
 type: "Authentication"
-state: "developing"
+state: "released"
 appVersion: "0.7"
 usecase: "Network authentication bruteforcing"
 ---
 
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+<!--
+.: IMPORTANT! :.
+--------------------------
+This file is generated automaticaly with `helm-docs` based on the following template files:
+- ./.helm-docs/templates.gotmpl (general template data for all charts)
+- ./chart-folder/.helm-docs.gotmpl (chart specific template data)
+
+Please be aware of that and apply your changes only within those template files instead of this file.
+Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
+--------------------------
+-->
+
+<p align="center">
+  <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Apache-2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>
+  <a href="https://github.com/secureCodeBox/secureCodeBox/releases/latest"><img alt="GitHub release (latest SemVer)" src="https://img.shields.io/github/v/release/secureCodeBox/secureCodeBox?sort=semver"></a>
+  <a href="https://owasp.org/www-project-securecodebox/"><img alt="OWASP Incubator Project" src="https://img.shields.io/badge/OWASP-Incubator%20Project-365EAA"></a>
+  <a href="https://artifacthub.io/packages/search?repo=seccurecodebox"><img alt="Artifact HUB" src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/seccurecodebox"></a>
+  <a href="https://github.com/secureCodeBox/secureCodeBox/"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/secureCodeBox/secureCodeBox?logo=GitHub"></a>
+  <a href="https://twitter.com/securecodebox"><img alt="Twitter Follower" src="https://img.shields.io/twitter/follow/securecodebox?style=flat&color=blue&logo=twitter"></a>
+</p>
+
+## What is Ncrack?
 Ncrack is a high-speed network authentication cracking tool. It was built to help companies secure their networks by proactively testing all their hosts and networking devices for poor passwords. Security professionals also rely on Ncrack when auditing their clients. Ncrack was designed using a modular approach, a command-line syntax similar to Nmap and a dynamic engine that can adapt its behaviour based on network feedback. It allows for rapid, yet reliable large-scale auditing of multiple hosts.
 
 To learn more about the Ncrack scanner itself visit [Ncrack GitHub] or [Ncrack Website].
 
-<!-- end -->
-
-## Ncrack Deployment & Configuration
-
-#### Setup with custom files:
-If you want to use your own files within the Ncrack scan, you have to create a secret first:
+## Deployment
+The ncrack `scanType` can be deployed via helm:
 
 ```bash
-kubectl create secret generic --from-file users.txt --from-file passwords.txt ncrack-lists
-```
-
-<b> IMPORTANT: Use an extra empty line at the end of your files, otherwise the last letter of the last line will be omitted (due to a bug in k8) </b>
-
-Now we created a secret named "ncrack-lists".
-Before we can use the files, we have to install the Ncrack ScanType:
-
-```bash
-cat <<EOF | helm install ncrack ./scanners/ncrack --values -
-scanner:
-  extraVolumes:
-    - name: ncrack-lists
-      secret:
-        secretName: ncrack-lists
-  extraVolumeMounts:
-    - name: ncrack-lists
-      mountPath: "/ncrack/"
-EOF
-```
-
-This enables us now to refer to our files via `/ncrack/<file>` in the scan.yaml.
-
-For a full example on how to configure Ncrack with your custom files against a ssh service, see the "dummy-ssh" example.
-
-#### Basic setup (no files can be mounted):
-
-The Ncrack ScanType can be deployed via helm:
-
-```bash
+# Install HelmChart (use -n to configure another namespace)
 helm upgrade --install ncrack secureCodeBox/ncrack
-```
-
-#### Delete Ncrack ScanType:
-
-```bash
-helm delete ncrack
 ```
 
 ## Scanner Configuration
@@ -137,7 +125,14 @@ EXAMPLES:
 SEE THE MAN PAGE (http://nmap.org/ncrack/man.html) FOR MORE OPTIONS AND EXAMPLES
 ```
 
-## Password encryption
+## Requirements
+
+Kubernetes: `>=v1.11.0-0`
+
+## Additional Chart Configurations
+### Ncrack Deployment & Configuration
+
+#### Password encryption
 
 Because **Ncrack** findings are very sensitive, you probably don't want every *secureCodeBox* user to see them. In order
 to address this issue we provide an option that lets you encrypt found passwords with public key crypto. Just
@@ -166,7 +161,50 @@ To decrypt a password from a finding use:
 base64 encryptedPassword -d | openssl rsautl -decrypt -inkey key.pem -out decryptedPassword.txt
 ```
 
-## Chart Configuration
+#### Setup with custom files:
+If you want to use your own files within the Ncrack scan, you have to create a secret first:
+
+```bash
+kubectl create secret generic --from-file users.txt --from-file passwords.txt ncrack-lists
+```
+
+<b> IMPORTANT: Use an extra empty line at the end of your files, otherwise the last letter of the last line will be omitted (due to a bug in k8) </b>
+
+Now we created a secret named "ncrack-lists".
+Before we can use the files, we have to install the Ncrack ScanType:
+
+```bash
+cat <<EOF | helm install ncrack ./scanners/ncrack --values -
+scannerJob:
+  extraVolumes:
+    - name: ncrack-lists
+      secret:
+        secretName: ncrack-lists
+  extraVolumeMounts:
+    - name: ncrack-lists
+      mountPath: "/ncrack/"
+EOF
+```
+
+This enables us now to refer to our files via `/ncrack/<file>` in the scan.yaml.
+
+For a full example on how to configure Ncrack with your custom files against a ssh service, see the "dummy-ssh" example.
+
+#### Basic setup (no files can be mounted):
+
+The Ncrack ScanType can be deployed via helm:
+
+```bash
+helm upgrade --install ncrack secureCodeBox/ncrack
+```
+
+#### Delete Ncrack ScanType:
+
+```bash
+helm delete ncrack
+```
+
+## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -188,10 +226,18 @@ base64 encryptedPassword -d | openssl rsautl -decrypt -inkey key.pem -out decryp
 | scanner.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 
----
+## License
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-> 🔧 The implementation is currently work-in-progress and still undergoing major changes. It'll be released here once it has stabilized.
+Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 
+[scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
+[scb-docs]: https://docs.securecodebox.io/
+[scb-site]: https://www.securecodebox.io/
+[scb-github]: https://github.com/secureCodeBox/
+[scb-twitter]: https://twitter.com/secureCodeBox
+[scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
+[scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
 [Ncrack Website]: https://nmap.org/ncrack/
 [Ncrack GitHub]: https://github.com/nmap/ncrack
 [Ncrack Documentation]: https://nmap.org/ncrack/man.html

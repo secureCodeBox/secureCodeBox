@@ -19,8 +19,13 @@ shopt -s extglob
 
 BASE_DIR=$(dirname "${SCRIPT_DIRECTORY}")
 
+SCB_SYSTEM_NAMESPACE='securecodebox-system'
+SCB_DEMO_NAMESPACE='demo-targets'
+SCB_NAMESPACE='default'
+
 function uninstallResources() {
   local resource_directory="$1"
+  local namespace="$2"
 
   local resources=()
   for path in "$resource_directory"/*; do
@@ -31,14 +36,14 @@ function uninstallResources() {
   done
 
   for resource in "${resources[@]}"; do
-    helm uninstall "$resource" || true
+    helm uninstall "$resource_name" -n "$namespace" || true
   done
 }
 
-helm -n securecodebox-system uninstall securecodebox-operator || true
+helm -n "$SCB_SYSTEM_NAMESPACE" uninstall securecodebox-operator || true
 
-uninstallResources "$BASE_DIR/scanners"
-uninstallResources "$BASE_DIR/demo-targets"
-uninstallResources "$BASE_DIR/hooks"
+uninstallResources "$BASE_DIR/demo-targets" "$SCB_DEMO_NAMESPACE"
+uninstallResources "$BASE_DIR/scanners" "$SCB_NAMESPACE"
+uninstallResources "$BASE_DIR/hooks" "$SCB_NAMESPACE"
 
-kubectl delete namespaces securecodebox-system || true
+kubectl delete namespaces "$SCB_SYSTEM_NAMESPACE" || true

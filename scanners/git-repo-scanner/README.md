@@ -1,25 +1,53 @@
 ---
-title: "git-repo-scanner"
+title: "Git Repo Scanner"
 category: "scanner"
 type: "Repository"
-state: "in progress"
-appVersion: "0.1"
-usecase: "Discover git repositories"
+state: "released"
+appVersion: "1.0"
+usecase: "Discover Git repositories"
 ---
+
+<!--
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+<!--
+.: IMPORTANT! :.
+--------------------------
+This file is generated automaticaly with `helm-docs` based on the following template files:
+- ./.helm-docs/templates.gotmpl (general template data for all charts)
+- ./chart-folder/.helm-docs.gotmpl (chart specific template data)
+
+Please be aware of that and apply your changes only within those template files instead of this file.
+Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
+--------------------------
+-->
+
+<p align="center">
+  <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Apache-2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>
+  <a href="https://github.com/secureCodeBox/secureCodeBox/releases/latest"><img alt="GitHub release (latest SemVer)" src="https://img.shields.io/github/v/release/secureCodeBox/secureCodeBox?sort=semver"></a>
+  <a href="https://owasp.org/www-project-securecodebox/"><img alt="OWASP Incubator Project" src="https://img.shields.io/badge/OWASP-Incubator%20Project-365EAA"></a>
+  <a href="https://artifacthub.io/packages/search?repo=seccurecodebox"><img alt="Artifact HUB" src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/seccurecodebox"></a>
+  <a href="https://github.com/secureCodeBox/secureCodeBox/"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/secureCodeBox/secureCodeBox?logo=GitHub"></a>
+  <a href="https://twitter.com/securecodebox"><img alt="Twitter Follower" src="https://img.shields.io/twitter/follow/securecodebox?style=flat&color=blue&logo=twitter"></a>
+</p>
+
+## What is Git-Repo-Scanner?
 
 Git-Repo-Scanner is a small Python script which discovers repositories on GitHub or GitLab. The main purpose of this scanner
 is to provide a cascading input for the [gitleaks](https://github.com/secureCodeBox/secureCodeBox/tree/main/scanners/gitleaks).
  scanner.
 
 ## Deployment
-
-The  git-repo-scanner can be deployed with helm:
+The git-repo-scanner `scanType` can be deployed via helm:
 
 ```bash
-helm upgrade --install gitleaks secureCodeBox/git-repo-scanner
+# Install HelmChart (use -n to configure another namespace)
+helm upgrade --install git-repo-scanner secureCodeBox/git-repo-scanner
 ```
 
-## Scanner configuration
+## Scanner Configuration
 
 The scanner options can be divided into two groups for Gitlab and GitHub. You can choose the git
 repository type with the option:
@@ -61,7 +89,11 @@ For type GitLab you can use the following options:
 For Gitlab, the url and the access token is mandatory. If you don't provide a specific group id, all projects
 on the Gitlab server are going to be discovered.
 
-## Chart Configuration
+## Requirements
+
+Kubernetes: `>=v1.11.0-0`
+
+## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -79,3 +111,17 @@ on the Gitlab server are going to be discovered.
 | scanner.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | scanner.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+
+## License
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
+
+[scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
+[scb-docs]: https://docs.securecodebox.io/
+[scb-site]: https://www.securecodebox.io/
+[scb-github]: https://github.com/secureCodeBox/
+[scb-twitter]: https://twitter.com/secureCodeBox
+[scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
+[scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
+

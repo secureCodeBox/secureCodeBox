@@ -1,0 +1,42 @@
+{{- /*
+SPDX-FileCopyrightText: 2020 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
+
+{{- define "extra.docsSection" -}}
+---
+title: "Unsafe HTTPS"
+category: "target"
+type: "Website"
+state: "released"
+appVersion: "{{ template "chart.appVersion" . }}"
+usecase: "Modern insecure web application"
+---
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `2.9.0`, `2.8.0`, `2.7.0`
+{{- end }}
+
+{{- define "extra.chartAboutSection" -}}
+## What is "Unsafe HTTPS"?
+
+Unsafe https Server for SSL Checking.
+Can be used for scanners that check for unsafe ssl certificates, as the server uses a self-signed certificate
+which contains both private and public key and is not authorized by a third party.
+
+### Source Code
+
+* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-targets/unsafe-https>
+
+{{- end }}
+
+{{- define "extra.scannerConfigurationSection" -}}{{- end }}
+
+{{- define "extra.chartConfigurationSection" -}}{{- end }}
+
+{{- define "extra.scannerLinksSection" -}}
+{{- end }}

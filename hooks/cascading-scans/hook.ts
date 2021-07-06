@@ -28,17 +28,8 @@ export async function handle({ scan, getFindings }: HandleArgs) {
 
   const cascadingScans = getCascadingScans(scan, findings, cascadingRules);
 
-  for (const { name, scanType, parameters, generatedBy, env, scanLabels, scanAnnotations } of cascadingScans) {
-    const cascadingScanDefinition = getCascadingScanDefinition({
-      name,
-      parentScan: scan,
-      generatedBy,
-      scanType,
-      parameters,
-      env,
-      scanLabels,
-      scanAnnotations
-    });
+  for (const cascadingScan of cascadingScans) {
+    const cascadingScanDefinition = getCascadingScanDefinition(cascadingScan, scan);
     await startSubsequentSecureCodeBoxScan(cascadingScanDefinition);
   }
 }
@@ -127,13 +118,14 @@ function getCascadingScan(
     parameters: parameters.map(parameter =>
       Mustache.render(parameter, templateArgs)
     ),
-    cascades: null,
+    cascades: parentScan.spec.cascades,
     generatedBy: cascadingRule.metadata.name,
     env,
     scanLabels: cascadingRule.spec.scanLabels === undefined ? {} :
       mapValues(cascadingRule.spec.scanLabels, value => Mustache.render(value, templateArgs)),
     scanAnnotations: cascadingRule.spec.scanAnnotations === undefined ? {} :
       mapValues(cascadingRule.spec.scanAnnotations, value => Mustache.render(value, templateArgs)),
+    finding
   };
 }
 
