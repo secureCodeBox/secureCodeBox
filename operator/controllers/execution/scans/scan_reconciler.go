@@ -73,8 +73,8 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 	}
 	r.ensureServiceAccountExists(
 		scan.Namespace,
-		"lurcher",
-		"Lurcher is used to extract results from secureCodeBox Scans. It needs rights to get and watch the status of pods to see when the scans have finished.",
+		"lurker",
+		"Lurker is used to extract results from secureCodeBox Scans. It needs rights to get and watch the status of pods to see when the scans have finished.",
 		rules,
 	)
 
@@ -181,7 +181,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 	job.Spec.Template.Annotations = podAnnotations
 
 	if job.Spec.Template.Spec.ServiceAccountName == "" {
-		job.Spec.Template.Spec.ServiceAccountName = "lurcher"
+		job.Spec.Template.Spec.ServiceAccountName = "lurker"
 	}
 
 	// merging volume definition from ScanType (if existing) with standard results volume
@@ -207,33 +207,33 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 		},
 	)
 
-	// Get lurcher image config from env
-	lurcherImage := os.Getenv("LURCHER_IMAGE")
-	if lurcherImage == "" {
-		lurcherImage = "securecodebox/lurcher:latest"
+	// Get lurker image config from env
+	lurkerImage := os.Getenv("LURKER_IMAGE")
+	if lurkerImage == "" {
+		lurkerImage = "securecodebox/lurker:latest"
 	}
-	lurcherPullPolicyRaw := os.Getenv("LURCHER_PULL_POLICY")
-	var lurcherPullPolicy corev1.PullPolicy
-	switch lurcherPullPolicyRaw {
+	lurkerPullPolicyRaw := os.Getenv("LURKER_PULL_POLICY")
+	var lurkerPullPolicy corev1.PullPolicy
+	switch lurkerPullPolicyRaw {
 	case "Always":
-		lurcherPullPolicy = corev1.PullAlways
+		lurkerPullPolicy = corev1.PullAlways
 	case "IfNotPresent":
-		lurcherPullPolicy = corev1.PullIfNotPresent
+		lurkerPullPolicy = corev1.PullIfNotPresent
 	case "Never":
-		lurcherPullPolicy = corev1.PullNever
+		lurkerPullPolicy = corev1.PullNever
 	case "":
-		lurcherPullPolicy = corev1.PullAlways
+		lurkerPullPolicy = corev1.PullAlways
 	default:
-		return nil, fmt.Errorf("Unknown imagePull Policy for lurcher: %s", lurcherPullPolicyRaw)
+		return nil, fmt.Errorf("Unknown imagePull Policy for lurker: %s", lurkerPullPolicyRaw)
 	}
 
 	falsePointer := false
 	truePointer := true
 
-	lurcherSidecar := &corev1.Container{
-		Name:            "lurcher",
-		Image:           lurcherImage,
-		ImagePullPolicy: lurcherPullPolicy,
+	lurkerSidecar := &corev1.Container{
+		Name:            "lurker",
+		Image:           lurkerImage,
+		ImagePullPolicy: lurkerPullPolicy,
 		Args: []string{
 			"--container",
 			job.Spec.Template.Spec.Containers[0].Name,
@@ -281,7 +281,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 	}
 
 	customCACertificate, isConfigured := os.LookupEnv("CUSTOM_CA_CERTIFICATE_EXISTING_CERTIFICATE")
-	r.Log.Info("Configuring customCACerts for lurcher", "customCACertificate", customCACertificate, "isConfigured", isConfigured)
+	r.Log.Info("Configuring customCACerts for lurker", "customCACertificate", customCACertificate, "isConfigured", isConfigured)
 	if customCACertificate != "" {
 		job.Spec.Template.Spec.Volumes = append(job.Spec.Template.Spec.Volumes, corev1.Volume{
 			Name: "ca-certificate",
@@ -295,7 +295,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 		})
 
 		certificateName := os.Getenv("CUSTOM_CA_CERTIFICATE_NAME")
-		lurcherSidecar.VolumeMounts = append(lurcherSidecar.VolumeMounts, corev1.VolumeMount{
+		lurkerSidecar.VolumeMounts = append(lurkerSidecar.VolumeMounts, corev1.VolumeMount{
 			Name:      "ca-certificate",
 			ReadOnly:  true,
 			MountPath: "/etc/ssl/certs/" + certificateName,
@@ -303,7 +303,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 		})
 	}
 
-	job.Spec.Template.Spec.Containers = append(job.Spec.Template.Spec.Containers, *lurcherSidecar)
+	job.Spec.Template.Spec.Containers = append(job.Spec.Template.Spec.Containers, *lurkerSidecar)
 
 	if err := ctrl.SetControllerReference(scan, job, r.Scheme); err != nil {
 		return nil, err

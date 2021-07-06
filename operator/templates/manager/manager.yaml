@@ -110,10 +110,10 @@ spec:
               value: {{ .Values.s3.awsStsEndpoint | quote }}
             {{- end }}
             {{- end }}
-            - name: LURCHER_IMAGE
-              value: "{{ .Values.lurcher.image.repository }}:{{ .Values.lurcher.image.tag | default .Chart.Version }}"
-            - name: LURCHER_PULL_POLICY
-              value: {{ .Values.lurcher.image.pullPolicy }}
+            - name: LURKER_IMAGE
+              value: "{{ .Values.lurker.image.repository }}:{{ .Values.lurker.image.tag | default .Chart.Version }}"
+            - name: LURKER_PULL_POLICY
+              value: {{ .Values.lurker.image.pullPolicy }}
             {{- if .Values.customCACertificate.existingCertificate }}
             - name: CUSTOM_CA_CERTIFICATE_EXISTING_CERTIFICATE
               value: {{ .Values.customCACertificate.existingCertificate | quote }}
