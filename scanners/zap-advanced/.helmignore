@@ -9,6 +9,7 @@ scanner/*.*
 scanner/zapclient/
 scanner/tests/
 examples/
+docs/
 
 README.md.gotmpl
 *.monopic
