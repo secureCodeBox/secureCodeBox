@@ -115,20 +115,22 @@ func waitForMainContainerToEnd(container, pod, namespace string) {
 
 	log.Printf("Waiting for maincontainer to exit.")
 
-	for {
-		pod, err := clientset.CoreV1().Pods(namespace).Get(pod, metav1.GetOptions{})
-		if kerrors.IsNotFound(err) {
-			log.Printf("Pod %s not found in namespace %s", pod, namespace)
-		} else if statusError, isStatus := err.(*kerrors.StatusError); isStatus {
-			log.Printf("Error getting pod %v", statusError.ErrStatus.Message)
-		} else if err != nil {
-			panic(err.Error())
-		} else if mainContainerExited(container, pod.Status.ContainerStatuses) {
-			return
-		}
-
+	for keepWaitingForMainContainerToExit(container, pod, namespace, clientset) {
 		time.Sleep(500 * time.Millisecond)
 	}
+}
+
+func keepWaitingForMainContainerToExit(container string, podName string, namespace string, clientset *kubernetes.Clientset) bool {
+	pod, err := clientset.CoreV1().Pods(namespace).Get(podName, metav1.GetOptions{})
+	if kerrors.IsNotFound(err) {
+		log.Printf("Pod %s not found in namespace %s", pod, namespace)
+	} else if statusError, isStatus := err.(*kerrors.StatusError); isStatus {
+		log.Printf("Error getting pod %v", statusError.ErrStatus.Message)
+	} else if err != nil {
+		panic(err.Error())
+	}
+
+	return !mainContainerExited(container, pod.Status.ContainerStatuses)
 }
 
 func mainContainerExited(container string, containerStatuses []corev1.ContainerStatus) bool {
