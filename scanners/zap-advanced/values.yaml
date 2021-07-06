@@ -15,9 +15,7 @@ parser:
   # -- seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
   ttlSecondsAfterFinished: null
   # parser.env -- Optional environment variables mapped into each parseJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
-  env:
-    - name: CRASH_ON_FAILED_FINDINGS_VALIDATION
-      value: "false"
+  env: []
 
 scanner:
   image:
