@@ -12,7 +12,7 @@ metadata:
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: kubeaudit-lurcher
+  name: kubeaudit-lurker
   namespace: {{ .Release.Namespace}}
 subjects:
   - kind: ServiceAccount
@@ -21,7 +21,7 @@ subjects:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: lurcher
+  name: lurker
 ---  
 {{- if eq .Values.kubeauditScope "namespace" }}
 kind: Role
