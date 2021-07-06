@@ -62,6 +62,7 @@ Kubernetes: `>=v1.11.0-0`
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | cascadingRules.enabled | bool | `true` | Enables or disables the installation of the default cascading rules for this scanner |
+| parser.env | list | `[]` | Optional environment variables mapped into each parseJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | parser.image.repository | string | `"docker.io/securecodebox/parser-screenshooter"` | Parser image repository |
 | parser.image.tag | string | defaults to the charts appVersion | Parser image tag |
 | parser.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |

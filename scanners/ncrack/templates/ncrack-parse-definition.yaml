@@ -9,15 +9,5 @@ metadata:
 spec:
   image: "{{ .Values.parser.image.repository }}:{{ .Values.parser.image.tag | default .Chart.Version }}"
   ttlSecondsAfterFinished: {{ .Values.parser.image.ttlSecondsAfterFinished }}
-  {{- if .Values.encryptPasswords.existingSecret }}
-  volumes:
-  - name: "ncrack-secret"
-    secret:
-      secretName: {{ .Values.encryptPasswords.existingSecret }}
-  volumeMounts:
-  - name: "ncrack-secret"
-    mountPath: "/secrets/"
-  env:
-  - name: "ENCRYPTION_KEY_LOCATION"
-    value: "/secrets/{{ .Values.encryptPasswords.key }}"
-  {{- end }}
+  env: 
+    {{- toYaml .Values.parser.env | nindent 4 }}
