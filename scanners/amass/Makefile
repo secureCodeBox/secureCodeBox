@@ -112,7 +112,8 @@ integration-tests:
 	pwd
 	ls
 	npm list --depth 1
-	npx --package @kubernetes/client-node@latest --package jest@$(JEST_VERSION) jest --ci --colors --coverage ./integration-tests
+	cd ../../tests/integration/ && npm ci
+	npx --package jest@$(JEST_VERSION) jest --ci --colors --coverage ./integration-tests
 
 clean:
 	@echo ".: 🧹 Cleaning up all generated files."
