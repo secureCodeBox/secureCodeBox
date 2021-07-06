@@ -7,7 +7,7 @@
   "$defs": {
     "finding": {
       "type": "object",
-      "additionalProperties": false,
+      "additionalProperties": true,
       "properties": {
         "id": {
           "description": "The unique identifier for a Finding according to RFC4122.",
@@ -41,13 +41,12 @@
           "description": "OSI Layer the finding fits into.",
           "type": "string",
           "enum": [
-            "PHYSICAL",
-            "DATA LINK",
+            "NETWORK_INTERFACE",
             "NETWORK",
             "TRANSPORT",
-            "SESSION",
-            "PRESENTATION",
-            "APPLICATION"
+            "APPLICATION",
+            "NOT_APPLICABLE",
+            "PRESENTATION"
           ]
         },
         "severity": {
@@ -57,7 +56,9 @@
             "INFORMATIONAL",
             "LOW",
             "MEDIUM",
-            "HIGH"
+            "HIGH",
+            "CRITICAL",
+            "UNKNOWN"
           ]
         },
         "attributes": {
@@ -66,19 +67,13 @@
         },
         "location": {
           "description": "Full URL with protocol, port, and path if existing.",
-          "type": "string"
+          "type": "string",
+          "nullable": true
         }
       },
       "required": [
         "id",
-        "name",
-        "description",
-        "category",
-        "osi_layer",
-        "severity",
-        "attributes",
-        "parsed_at",
-        "location"
+        "parsed_at"
       ]
     }
   }
