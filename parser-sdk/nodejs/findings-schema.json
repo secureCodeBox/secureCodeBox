@@ -20,7 +20,7 @@
           "format": "date-time"
         },
         "parsed_at": {
-          "description": "Date-Time when the Finding was aarsed according to ISO8601. This information will always be present.",
+          "description": "Date-Time when the Finding was parsed according to ISO8601. This information will always be present.",
           "type": "string",
           "format": "date-time"
         },
