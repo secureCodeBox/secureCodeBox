@@ -126,7 +126,7 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 			"auto-discovery.securecodebox.io/target-port":    fmt.Sprintf("%d", host.Port),
 		}
 		for containerName, podDigest := range podDigests {
-			// The map should only contain one entry at this point. As the reconciler breaks if the services points at multiple version before
+			// The map should only contain one entry at this point. As the reconciler breaks (see containerDigestsAllMatch) if the services points to a list pods with different digests per container name
 			for digest := range podDigest {
 				versionedLabels[fmt.Sprintf("digest.auto-discovery.securecodebox.io/%s", containerName)] = digest[0:min(len(digest), 63)]
 				break
