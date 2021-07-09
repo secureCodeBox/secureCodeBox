@@ -19,6 +19,8 @@ spec:
         control-plane: auto-discovery
     spec:
       serviceAccountName: auto-discovery
+      securityContext:
+        {{ .Values.podSecurityContext | toYaml | nindent 8 }}
       containers:
         - command:
             - /manager
@@ -28,6 +30,10 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: auto-discovery
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
           livenessProbe:
             httpGet:
               path: /healthz
@@ -40,13 +46,6 @@ spec:
               port: 8081
             initialDelaySeconds: 5
             periodSeconds: 10
-          resources:
-            limits:
-              cpu: 100m
-              memory: 100Mi
-            requests:
-              cpu: 100m
-              memory: 20Mi
           volumeMounts:
             - name: config
               mountPath: "/etc/securecodebox/auto-discovery.yaml"
