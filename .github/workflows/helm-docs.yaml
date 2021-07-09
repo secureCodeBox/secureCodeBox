@@ -36,6 +36,8 @@ jobs:
           # Verify installation
           ./helm-docs --version
 
+          mv helm-docs /usr/bin/helm-docs
+
       - name: Generate Helm Docs
         run: |
           # Generate README.md based on Chart.yaml and template
