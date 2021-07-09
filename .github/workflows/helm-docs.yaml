@@ -37,7 +37,7 @@ jobs:
           # Verify installation
           ./helm-docs --version
 
-          sudo mv helm-docs /usr/bin/helm-docs
+          sudo mv helm-docs /usr/local/bin/helm-docs
 
       - name: Generate Helm Docs
         run: |
