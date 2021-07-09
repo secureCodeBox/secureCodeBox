@@ -52,7 +52,7 @@ BodgeIt Store is a serverside rendering based html website without any heavy jav
 * <https://github.com/psiinon/bodgeit>
 
 ## Deployment
-The bodgeit `scanType` can be deployed via helm:
+The bodgeit chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

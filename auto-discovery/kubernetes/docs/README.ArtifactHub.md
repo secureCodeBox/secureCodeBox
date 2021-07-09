@@ -53,7 +53,7 @@ The AutoDiscovery will automatically pick up this new deployment and then starts
 The scan created uses our `zap-advanced` ScanType by default, this can be changed with the `config.serviceAutoDiscovery.scanConfig.scanType` config on the autoDiscovery helm release.
 
 ## Deployment
-The auto-discovery-kubernetes `scanType` can be deployed via helm:
+The auto-discovery-kubernetes chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

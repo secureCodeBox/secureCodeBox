@@ -45,7 +45,7 @@ You can find resources to help you get started on our [documentation website](ht
 Screenshoter is a simple scanner that takes Screenshots of Websites. Therefore it's using an embeded Firefox Browser.
 
 ## Deployment
-The screenshooter `scanType` can be deployed via helm:
+The screenshooter chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

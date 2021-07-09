@@ -49,7 +49,7 @@ Insecure & Outdated WordPress Instance: Never expose it to the internet!
 * <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-targets/old-wordpress>
 
 ## Deployment
-The old-wordpress `scanType` can be deployed via helm:
+The old-wordpress chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

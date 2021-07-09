@@ -49,7 +49,7 @@ with all commits up to the initial one.
 To learn more about gitleaks visit <https://github.com/zricethezav/gitleaks>.
 
 ## Deployment
-The gitleaks `scanType` can be deployed via helm:
+The gitleaks chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

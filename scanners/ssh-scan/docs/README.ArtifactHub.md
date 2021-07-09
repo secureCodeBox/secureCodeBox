@@ -47,7 +47,7 @@ SSH_scan is an easy-to-use prototype SSH configuration and policy scanner, inspi
 To learn more about the ssh_scan scanner itself visit [ssh_scan GitHub].
 
 ## Deployment
-The ssh-scan `scanType` can be deployed via helm:
+The ssh-scan chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

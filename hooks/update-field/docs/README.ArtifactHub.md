@@ -45,7 +45,7 @@ You can find resources to help you get started on our [documentation website](ht
 > ✍ This documentation is currently work-in-progress.
 
 ## Deployment
-The update-field-hook `scanType` can be deployed via helm:
+The update-field-hook chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

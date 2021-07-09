@@ -45,7 +45,7 @@ You can find resources to help you get started on our [documentation website](ht
 The [OWASP Amass Project][owasp_amass_project] has developed a tool to help information security professionals perform network mapping of attack surfaces and perform external asset discovery using open source information gathering and active reconnaissance techniques. To learn more about the Amass scanner itself visit [OWASP Amass Project][owasp_amass_project] or [Amass GitHub].
 
 ## Deployment
-The amass `scanType` can be deployed via helm:
+The amass chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

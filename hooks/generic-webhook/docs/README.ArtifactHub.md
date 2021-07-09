@@ -44,7 +44,7 @@ You can find resources to help you get started on our [documentation website](ht
 Installing the Generic WebHook hook will add a ReadOnly Hook to your namespace which is capable of sending scan results containing `findings` to a given webhook url.
 
 ## Deployment
-The generic-webhook `scanType` can be deployed via helm:
+The generic-webhook chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

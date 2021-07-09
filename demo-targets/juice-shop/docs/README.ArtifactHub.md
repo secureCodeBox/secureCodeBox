@@ -52,7 +52,7 @@ OWASP Juice Shop: Probably the most modern and sophisticated insecure web applic
 * <https://github.com/bkimminich/juice-shop>
 
 ## Deployment
-The juice-shop `scanType` can be deployed via helm:
+The juice-shop chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

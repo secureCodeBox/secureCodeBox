@@ -46,7 +46,7 @@ The secureCodeBox operator is running on Kubernetes and is the core component of
 **Homepage:** <https://docs.securecodebox.io/docs/getting-started/installation>
 
 ## Deployment
-The operator `scanType` can be deployed via helm:
+The operator chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

@@ -46,7 +46,7 @@ Nmap ("Network Mapper") is a free and open source (license) utility for network 
 To learn more about the Nmap scanner itself visit [nmap.org].
 
 ## Deployment
-The nmap `scanType` can be deployed via helm:
+The nmap chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

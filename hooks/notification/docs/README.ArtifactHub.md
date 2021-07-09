@@ -46,7 +46,7 @@ Installing the Notification WebHook hook will add a ReadOnly Hook to your namesp
 You can customise the message templates on your behalf or use the already provided one.
 
 ## Deployment
-The notification `scanType` can be deployed via helm:
+The notification chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

@@ -49,7 +49,7 @@ A Dummy webserver to echo HTTP requests in log.
 * <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-targets/http-webhook>
 
 ## Deployment
-The http-webhook `scanType` can be deployed via helm:
+The http-webhook chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

@@ -50,7 +50,7 @@ This is the sample petstore application with a restful API.
 * <https://github.com/swagger-api/swagger-petstore>
 
 ## Deployment
-The swagger-petstore `scanType` can be deployed via helm:
+The swagger-petstore chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

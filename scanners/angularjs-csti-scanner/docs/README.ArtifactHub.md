@@ -48,7 +48,7 @@ finding possible template injection vulnerabilities on websites using AngularJS.
 For more information visit the projects [GitHub site][acstis-github].
 
 ## Deployment
-The angularjs-csti-scanner `scanType` can be deployed via helm:
+The angularjs-csti-scanner chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
