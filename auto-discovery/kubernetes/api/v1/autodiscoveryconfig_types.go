@@ -42,7 +42,7 @@ type ClusterConfig struct {
 	Name string `json:"name"`
 }
 
-// HookState Describes the State of a Hook on a Scan
+// ResourceInclusionMode Modes which can be used to trigger "ResourceInclusion" behavior which dictaes which resources are considered by the auto-discovery.
 type ResourceInclusionMode string
 
 const (
