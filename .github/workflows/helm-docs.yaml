@@ -106,7 +106,7 @@ jobs:
           )
           done
 
-      - name: Generate Core Docs
+      - name: Generate Core (Operator) Docs
         run: |
           # Start in the operator folder
           cd operator
@@ -117,6 +117,8 @@ jobs:
           else
             echo "Ignoring Docs creation process for Chart $dir, because no `docs` folder found at: operator/docs"
           fi
+      - name: Generate Core (AutoDiscovery Kubernetes) Docs
+        run: |
           cd auto-discovery/kubernetes
           if [ -d "docs" ]; then
             echo "Docs Folder found at: auto-discovery/kubernetes/docs"
