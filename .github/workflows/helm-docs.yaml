@@ -41,7 +41,7 @@ jobs:
       - name: Generate Helm Docs
         run: |
           # Generate README.md based on Chart.yaml and template
-          ./helm-docs/helm-docs --template-files=./.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./.helm-docs/README.md.gotmpl
+          helm-docs --template-files=./.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./.helm-docs/README.md.gotmpl
 
       - name: Generate Demo-Apps Docs
         run: |
@@ -55,8 +55,8 @@ jobs:
             cd "${dir}" || exit
             if [ -d "docs" ]; then
               echo "Docs Folder found at: ${dir}/docs"
-              ./../../helm-docs/helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Target.md.gotmpl --output-file=docs/README.DockerHub-Target.md
-              ./../../helm-docs/helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
+              helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Target.md.gotmpl --output-file=docs/README.DockerHub-Target.md
+              helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
             else
               echo "Ignoring Docs creation process for Chart $dir, because no `docs` folder found at: ${dir}/docs"
             fi
@@ -75,8 +75,8 @@ jobs:
             cd "${dir}" || exit
             if [ -d "docs" ]; then
               echo "Docs Folder found at: ${dir}/docs"
-              ./../../helm-docs/helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Hook.md.gotmpl --output-file=docs/README.DockerHub-Hook.md
-              ./../../helm-docs/helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
+              helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Hook.md.gotmpl --output-file=docs/README.DockerHub-Hook.md
+              helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
             else
               echo "Ignoring Docs creation process for Chart $dir, because no `docs` folder found at: ${dir}/docs"
             fi
@@ -97,13 +97,13 @@ jobs:
               echo "Docs Folder found at: ${dir}/docs"
               if [ -d "parser" ]; then
                 echo "Parser found at: ${dir}/parser"
-                ./../../helm-docs/helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Parser.md.gotmpl --output-file=docs/README.DockerHub-Parser.md
+                helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Parser.md.gotmpl --output-file=docs/README.DockerHub-Parser.md
               fi
               if [ -d "scanner" ]; then
                 echo "Scanner found at: ${dir}/parser"
-                ./../../helm-docs/helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Scanner.md.gotmpl --output-file=docs/README.DockerHub-Scanner.md
+                helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Scanner.md.gotmpl --output-file=docs/README.DockerHub-Scanner.md
               fi
-              ./../../helm-docs/helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
+              helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
             else
               echo "Ignoring Docs creation process for Chart $dir, because no `docs` folder found at: ${dir}/docs"
             fi
@@ -116,8 +116,8 @@ jobs:
           cd operator
           if [ -d "docs" ]; then
             echo "Docs Folder found at: operator/docs"
-            ./../helm-docs/helm-docs --template-files=./../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../.helm-docs/README.DockerHub-Core.md.gotmpl --output-file=docs/README.DockerHub-Core.md
-            ./../helm-docs/helm-docs --template-files=./../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
+            helm-docs --template-files=./../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../.helm-docs/README.DockerHub-Core.md.gotmpl --output-file=docs/README.DockerHub-Core.md
+            helm-docs --template-files=./../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
           else
             echo "Ignoring Docs creation process for Chart $dir, because no `docs` folder found at: operator/docs"
           fi
@@ -134,8 +134,9 @@ jobs:
 
       - name: Remove Helm Docs Files
         run: |
-          # Remove helm-docs download to ensure they don't get commited back
+          # Remove helm-docs download to ensure they don't get committed back
           rm -rf helm-docs
+
       - uses: stefanzweifel/git-auto-commit-action@v4.11.0
         with:
           commit_message: Updating Helm Docs
