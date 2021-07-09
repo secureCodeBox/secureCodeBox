@@ -18,7 +18,7 @@ image:
   # image.pullPolicy -- Image pull policy
   pullPolicy: Always
 
-# -- Setup for Custom CA certificates. These are automatically mounted into every secureCodeBox component (lurcher, parser & hooks).
+# -- Setup for Custom CA certificates. These are automatically mounted into every secureCodeBox component (lurker, parser & hooks).
 # Requires that every namespace has a configmap with the CA certificate(s)
 customCACertificate:
   # -- name of the configMap holding the ca certificate(s), needs to be the same across all namespaces
@@ -52,14 +52,14 @@ securityContext:
 # -- Sets the securityContext on the operators pod level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
 podSecurityContext: {}
 
-lurcher:
+lurker:
   image:
-    # lurcher.image.repository -- The operator image repository
-    repository: docker.io/securecodebox/lurcher
-    # lurcher.image.tag -- Parser image tag
+    # lurker.image.repository -- The operator image repository
+    repository: docker.io/securecodebox/lurker
+    # lurker.image.tag -- Parser image tag
     # @default -- defaults to the charts version
     tag: null
-    # lurcher.image.pullPolicy -- Image pull policy
+    # lurker.image.pullPolicy -- Image pull policy
     pullPolicy: Always
 
 minio:

@@ -120,7 +120,7 @@ jobs:
 
   # ---- Build Stage ----
 
-  # ---- Build Stage | Operator & Lurcher ----
+  # ---- Build Stage | Operator & Lurker ----
 
   operator:
     name: "Build | Operator"
@@ -130,7 +130,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        component: ["operator", "lurcher"]
+        component: ["operator", "lurker"]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -677,8 +677,8 @@ jobs:
           helm -n securecodebox-system install securecodebox-operator ./operator/ --wait \
             --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/operator" \
             --set="image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="lurcher.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/lurcher" \
-            --set="lurcher.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="lurker.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/lurker" \
+            --set="lurker.image.tag=sha-$(git rev-parse --short HEAD)" \
 
       # ---- Operator Health Check ----
 

@@ -24,6 +24,7 @@ export interface Finding {
   severity: string;
   osi_layer: string;
   attributes: Map<string, string | number>;
+  id: string;
 }
 
 export interface CascadingRule {
@@ -80,18 +81,22 @@ export interface ExtendedScanSpec extends ScanSpec {
   scanAnnotations: {
     [key: string]: string;
   };
+
+  // Finding that triggered the scan
+  finding: Finding
 }
 
 export function getCascadingScanDefinition({
    name,
-   parentScan,
    scanType,
    parameters,
    generatedBy,
    env,
+   cascades,
    scanLabels,
-   scanAnnotations
- }) {
+   scanAnnotations,
+   finding
+ }: ExtendedScanSpec, parentScan: Scan) {
   function mergeInherited(parentProps, ruleProps, inherit: boolean = true) {
     if (!inherit) {
       parentProps = {};
@@ -126,6 +131,7 @@ export function getCascadingScanDefinition({
       annotations: {
         "securecodebox.io/hook": "cascading-scans",
         "cascading.securecodebox.io/parent-scan": parentScan.metadata.name,
+        "cascading.securecodebox.io/matched-finding": finding.id,
         "cascading.securecodebox.io/chain": [
           ...cascadingChain,
           generatedBy
@@ -146,7 +152,7 @@ export function getCascadingScanDefinition({
     spec: {
       scanType,
       parameters,
-      cascades: parentScan.spec.cascades,
+      cascades,
       env,
     }
   };
