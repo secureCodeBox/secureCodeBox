@@ -139,6 +139,14 @@ kubectl -n juice-shop annotate service juice-shop auto-discovery.securecodebox.i
 | image.pullPolicy | string | `"Always"` |  |
 | image.repository | string | `"securecodebox/auto-discovery-kubernetes"` |  |
 | image.tag | string | `nil` |  |
+| podSecurityContext | object | `{}` | Sets the securityContext on the operators pod level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container |
+| resources | object | `{"limits":{"cpu":"100m","memory":"100Mi"},"requests":{"cpu":"100m","memory":"20Mi"}}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
+| securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"privileged":false,"readOnlyRootFilesystem":true,"runAsNonRoot":true}` | Sets the securityContext on the operators container level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod |
+| securityContext.allowPrivilegeEscalation | bool | `false` | Ensure that users privileges cannot be escalated |
+| securityContext.capabilities.drop[0] | string | `"all"` | This drops all linux privileges from the operator container. They are not required |
+| securityContext.privileged | bool | `false` | Ensures that the operator container is not run in privileged mode |
+| securityContext.readOnlyRootFilesystem | bool | `true` | Prevents write access to the containers file system |
+| securityContext.runAsNonRoot | bool | `true` | Enforces that the Operator image is run as a non root user |
 
 ## Contributing
 
