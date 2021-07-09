@@ -1,9 +1,3 @@
-<!--
-SPDX-FileCopyrightText: 2021 iteratec GmbH
-
-SPDX-License-Identifier: Apache-2.0
--->
-
 # auto-discovery-kubernetes
 
 ![Version: 3.0.0-beta1](https://img.shields.io/badge/Version-3.0.0--beta1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
