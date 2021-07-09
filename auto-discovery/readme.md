@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2021 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # secureCodeBox Auto-Discovery
 
 The Auto Discovery Services monitor security relevant resources inside a cloud environment and automatically create scans to continuously monitor security aspects of the resources. We aim to eventually support most mayor cloud providers, like AWS, GCP and Azure, but also runtime environments on top of these, primarily kubernetes.

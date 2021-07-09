@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 # This is a config you can use to run / test / debug the auto-discovery locally while developing
 
 apiVersion: config.securecodebox.io/v1
