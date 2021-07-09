@@ -40,7 +40,7 @@ is to provide a cascading input for the [gitleaks](https://github.com/secureCode
  scanner.
 
 ## Deployment
-The git-repo-scanner `scanType` can be deployed via helm:
+The git-repo-scanner chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

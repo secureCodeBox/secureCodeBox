@@ -42,7 +42,7 @@ You can find the complete list of [auditors here](https://github.com/Shopify/kub
 To learn more about the kubeaudit itself visit [kubeaudit GitHub].
 
 ## Deployment
-The kubeaudit `scanType` can be deployed via helm:
+The kubeaudit chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

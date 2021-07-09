@@ -48,7 +48,7 @@ There are also vulnerable credentials which can be identified via bruteforcing:
 * <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-targets/dummy-ssh>
 
 ## Deployment
-The dummy-ssh `scanType` can be deployed via helm:
+The dummy-ssh chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

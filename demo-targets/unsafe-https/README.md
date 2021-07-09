@@ -44,7 +44,7 @@ which contains both private and public key and is not authorized by a third part
 * <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-targets/unsafe-https>
 
 ## Deployment
-The unsafe-https `scanType` can be deployed via helm:
+The unsafe-https chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

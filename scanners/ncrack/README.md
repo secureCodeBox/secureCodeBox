@@ -39,7 +39,7 @@ Ncrack is a high-speed network authentication cracking tool. It was built to hel
 To learn more about the Ncrack scanner itself visit [Ncrack GitHub] or [Ncrack Website].
 
 ## Deployment
-The ncrack `scanType` can be deployed via helm:
+The ncrack chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

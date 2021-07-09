@@ -42,7 +42,7 @@ The [OWASP Zed Attack Proxy (ZAP)][zap owasp project] is one of the world’s mo
 To learn more about the ZAP scanner itself visit [https://www.zaproxy.org/](https://www.zaproxy.org/).
 
 ## Deployment
-The zap-advanced `scanType` can be deployed via helm:
+The zap-advanced chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

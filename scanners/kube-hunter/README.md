@@ -39,7 +39,7 @@ kube-hunter hunts for security weaknesses in Kubernetes clusters. The tool was d
 To learn more about the kube-hunter scanner itself visit [kube-hunter GitHub] or [kube-hunter Website].
 
 ## Deployment
-The kube-hunter `scanType` can be deployed via helm:
+The kube-hunter chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

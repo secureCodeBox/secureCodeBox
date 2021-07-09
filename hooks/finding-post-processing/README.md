@@ -37,7 +37,7 @@ Installing the _Finding Post Processing_ hook will add a ReadAndWrite Hook to yo
 which can be used to add or update fields from your findings meeting specified conditions.
 
 ## Deployment
-The finding-post-processing `scanType` can be deployed via helm:
+The finding-post-processing chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

@@ -38,7 +38,7 @@ The ElasticSearch persistenceProvider hook saves all findings and reports into t
 Installing the Elasticsearch persistenceProvider hook will add a _ReadOnly Hook_ to your namespace.
 
 ## Deployment
-The persistence-elastic `scanType` can be deployed via helm:
+The persistence-elastic chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

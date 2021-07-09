@@ -40,7 +40,7 @@ The so called `CascadingRules` consist of a `matches` section which contains one
 This Hook is based on the ADR https://github.com/secureCodeBox/secureCodeBox/blob/main/docs/adr/adr_0003.md
 
 ## Deployment
-The cascading-scans `scanType` can be deployed via helm:
+The cascading-scans chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

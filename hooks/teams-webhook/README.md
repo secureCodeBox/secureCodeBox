@@ -36,7 +36,7 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
 > 🔧 This chart is deprecated and will be replaced by the more general `notification-hook` soon
 
 ## Deployment
-The teams-webhook `scanType` can be deployed via helm:
+The teams-webhook chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

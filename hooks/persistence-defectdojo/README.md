@@ -87,7 +87,7 @@ java -jar build/libs/defectdojo-persistenceprovider-0.1.0-SNAPSHOT.jar https://g
 ```
 
 ## Deployment
-The persistence-defectdojo `scanType` can be deployed via helm:
+The persistence-defectdojo chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
