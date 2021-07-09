@@ -50,6 +50,7 @@ export abstract class AbstractNotifier implements Notifier {
         findings: this.findings,
         scan: this.scan,
         args: this.args,
+        renderString: nunjucks.renderString,
       }
     );
     try {
