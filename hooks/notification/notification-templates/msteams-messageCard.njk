@@ -1,0 +1,66 @@
+type: message
+attachments:
+  - contentType: application/vnd.microsoft.card.adaptive
+    contentUrl: null
+    content:
+      type: AdaptiveCard
+      body:
+      - type: TextBlock
+        size: Medium
+        weight: Bolder
+        text: "New {{ scan.spec.scanType }} security scan results are available!"
+        wrap: true
+      - type: ColumnSet
+        columns:
+        - type: Column
+          items:
+          - type: Image
+            style: Person
+            url: "https://www.securecodebox.io/favicon.png"
+            size: Small
+          width: auto
+        - type: Column
+          items:
+          - type: TextBlock
+            weight: Bolder
+            text: "Scan **'{{ scan.metadata.name }}'**"
+            wrap: true
+          - type: TextBlock
+            spacing: None
+            text: Created at {{ scan.metadata.creationTimestamp }}
+            isSubtle: true
+            wrap: true
+          width: stretch
+      - type: TextBlock
+        text: Findings Category Overview
+        wrap: true
+        weight: Bolder
+        size: Medium
+      - type: FactSet
+        facts:
+          {% for category, counter in scan.status.findings.categories -%}
+          - title: "{{ category }}:"
+            value: "{{ counter }}"
+          {% endfor %}
+      - type: TextBlock
+        text: Findings Severity Overview
+        wrap: true
+        weight: Bolder
+        size: Medium
+      - type: FactSet
+        facts:
+          {% for severity, counter in scan.status.findings.severities -%}
+          - title: "{{ severity }}:"
+            value: "{{ counter }}"
+          {% endfor %}
+      {% if args["VULNMANAG_ENABLED"] == true -%}
+      actions:
+      - type: Action.OpenUrl
+        title: Open Dashboard
+        url: "{{ renderString(args["VULNMANAG_DASHBOARD_URL"].toString(), { uid: scan.metadata.uid }) }}"
+      - type: Action.OpenUrl
+        title: Show Results in Dashboard
+        url: "{{ renderString(args["VULNMANAG_DASHBOARD_FINDINGS_URL"], { uid: scan.metadata.uid }) }}"
+      {% endif %}
+      "$schema": http://adaptivecards.io/schemas/adaptive-card.json
+      version: '1.3'

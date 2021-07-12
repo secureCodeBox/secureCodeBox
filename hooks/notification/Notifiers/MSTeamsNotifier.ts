@@ -9,9 +9,9 @@ import axios from 'axios';
 import { NotificationChannel } from "../model/NotificationChannel";
 import { Scan } from "../model/Scan";
 
-export class SlackNotifier extends AbstractWebHookNotifier {
+export class MSTeamsNotifier extends AbstractWebHookNotifier {
 
-  protected type: NotifierType = NotifierType.SLACK
+  protected type: NotifierType = NotifierType.MS_TEAMS
 
   constructor(channel: NotificationChannel, scan: Scan, findings: Finding[], args: Object) {
     super(channel, scan, findings, args);
