@@ -109,9 +109,6 @@ install-integration-test-deps:
 integration-tests:
 	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
 	kubectl -n integration-tests delete scans --all
-	pwd
-	ls
-	npm list --depth 1
 	cd ../../tests/integration/ && npm ci
 	npx --package jest@$(JEST_VERSION) jest --ci --colors --coverage ./integration-tests
 
