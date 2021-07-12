@@ -11,7 +11,7 @@ if [ -f /acstis/config/acstis-config.py ]; then
 fi
 python /acstis/acstis-script.py $@
 
-# If no finding occured generate a empty file for the lurcher
+# If no finding occurred generate a empty file for the lurker
 if [ ! -f /home/securecodebox/findings.log ]; then
     touch /home/securecodebox/findings.log
 fi
