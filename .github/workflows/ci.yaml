@@ -182,6 +182,58 @@ jobs:
           repository: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.component }}
           readme-filepath: ./${{ matrix.component }}/docs/README.DockerHub-Core.md
 
+  # ---- Build Stage | AutoDiscovery ----
+
+  auto-discovery-kubernetes:
+    name: "AutoDiscovery | Kubernetes"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Go Setup
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Lint Go Code
+        working-directory: ./auto-discovery/kubernetes
+        run: |
+          go fmt ./...
+          go vet ./...
+
+      - name: Test
+        working-directory: ./auto-discovery/kubernetes/
+        run: make test
+
+      - name: Docker Meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ${{ env.DOCKER_NAMESPACE }}/auto-discovery-kubernetes
+          tag-sha: true
+          tag-semver: |
+            {{ version }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./auto-discovery/kubernetes/
+          file: ./auto-discovery/kubernetes/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
   # ---- Build Stage | SDK Matrix ----
 
   sdk:

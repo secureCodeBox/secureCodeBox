@@ -14,12 +14,12 @@ SPDX-License-Identifier: Apache-2.0
 <!--
 .: IMPORTANT! :.
 --------------------------
-This file is generated automaticaly with `helm-docs` based on the following template files:
+This file is generated automatically with `helm-docs` based on the following template files:
 - ./.helm-docs/templates.gotmpl (general template data for all charts)
 - ./chart-folder/.helm-docs.gotmpl (chart specific template data)
 
 Please be aware of that and apply your changes only within those template files instead of this file.
-Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
+Otherwise your changes will be reverted/overwritten automatically due to the build process `./.github/workflows/helm-docs.yaml`
 --------------------------
 -->
 
@@ -40,7 +40,7 @@ The so called `CascadingRules` consist of a `matches` section which contains one
 This Hook is based on the ADR https://github.com/secureCodeBox/secureCodeBox/blob/main/docs/adr/adr_0003.md
 
 ## Deployment
-The cascading-scans `scanType` can be deployed via helm:
+The cascading-scans chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

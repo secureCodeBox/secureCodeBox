@@ -1,0 +1,13 @@
+bin/
+config/
+controller/
+hack/
+demo/
+cloudbuild.yml
+Dockerfile
+go.mod
+go.sum
+main.go
+Makefile
+PROJECT
+auto-discovery-config.yaml

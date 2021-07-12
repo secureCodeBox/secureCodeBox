@@ -1,0 +1,16 @@
+componentConfig: true
+domain: securecodebox.io
+layout:
+- go.kubebuilder.io/v3
+projectName: auto-discovery
+repo: github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: securecodebox.io
+  group: config
+  kind: AutoDiscoveryConfig
+  path: github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1
+  version: v1
+version: "3"

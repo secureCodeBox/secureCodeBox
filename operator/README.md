@@ -4,7 +4,7 @@ category: "core"
 type: "Operator"
 state: "released"
 appVersion: ""
-usecase: "secureCodeBox Operator is the core componente."
+usecase: "secureCodeBox Operator is the core component."
 ---
 
 ![operator logo](https://docs.securecodebox.io/img/Logo_Color.svg)
@@ -17,12 +17,12 @@ SPDX-License-Identifier: Apache-2.0
 <!--
 .: IMPORTANT! :.
 --------------------------
-This file is generated automaticaly with `helm-docs` based on the following template files:
+This file is generated automatically with `helm-docs` based on the following template files:
 - ./.helm-docs/templates.gotmpl (general template data for all charts)
 - ./chart-folder/.helm-docs.gotmpl (chart specific template data)
 
 Please be aware of that and apply your changes only within those template files instead of this file.
-Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
+Otherwise your changes will be reverted/overwritten automatically due to the build process `./.github/workflows/helm-docs.yaml`
 --------------------------
 -->
 
@@ -41,7 +41,7 @@ The secureCodeBox operator is running on Kubernetes and is the core component of
 **Homepage:** <https://docs.securecodebox.io/docs/getting-started/installation>
 
 ## Deployment
-The operator `scanType` can be deployed via helm:
+The operator chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
