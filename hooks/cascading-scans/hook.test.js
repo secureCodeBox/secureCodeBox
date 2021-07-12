@@ -877,6 +877,7 @@ test("should copy proper finding ID into annotations", () => {
 });
 
 test("should merge environment variables into cascaded scan", () => {
+  parentScan.spec.cascades.inheritEnv = true
   const findings = [
     {
       name: "Port 443 is open",
@@ -915,7 +916,9 @@ test("should merge environment variables into cascaded scan", () => {
   expect(cascadedScans).toMatchInlineSnapshot(`
     Array [
       Object {
-        "cascades": Object {},
+        "cascades": Object {
+          "inheritEnv": true,
+        },
         "env": Array [
           Object {
             "name": "rule_environment_variable_name",
@@ -964,6 +967,7 @@ test("should merge environment variables into cascaded scan", () => {
 });
 
 test("should merge volumeMounts into cascaded scan", () => {
+  parentScan.spec.cascades.inheritVolumes = true
   const findings = [
     {
       name: "Port 443 is open",
@@ -1006,7 +1010,9 @@ test("should merge volumeMounts into cascaded scan", () => {
   expect(cascadedScans).toMatchInlineSnapshot(`
     Array [
       Object {
-        "cascades": Object {},
+        "cascades": Object {
+          "inheritVolumes": true,
+        },
         "env": Array [],
         "finding": Object {
           "attributes": Object {
@@ -1061,6 +1067,7 @@ test("should merge volumeMounts into cascaded scan", () => {
 });
 
 test("should merge volumes into cascaded scan", () => {
+  parentScan.spec.cascades.inheritVolumes = true
   const findings = [
     {
       name: "Port 443 is open",
@@ -1103,7 +1110,9 @@ test("should merge volumes into cascaded scan", () => {
   expect(cascadedScans).toMatchInlineSnapshot(`
     Array [
       Object {
-        "cascades": Object {},
+        "cascades": Object {
+          "inheritVolumes": true,
+        },
         "env": Array [],
         "finding": Object {
           "attributes": Object {
@@ -1157,8 +1166,213 @@ test("should merge volumes into cascaded scan", () => {
   `);
 });
 
-
 test("should purge cascaded scan spec from parent scan", () => {
+  parentScan.spec.cascades.inheritEnv = true
+  parentScan.spec.cascades.inheritVolumes = true
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  parentScan.spec.volumes = [
+    {
+      "name": "ca-certificate",
+      "configMap": {
+        "name": "ca-certificate"
+      }
+    }
+  ]
+
+  sslyzeCascadingRules[0].spec.scanSpec.volumes = [
+    {
+      "name": "ca-certificate-sslyze",
+      "configMap": {
+        "name": "ca-certificate-sslyze"
+      }
+    }
+  ]
+
+  parentScan.spec.volumeMounts = [
+    {
+      "mountPath": "/etc/ssl/certs/ca-cert.cer",
+      "name": "ca-certificate",
+      "readOnly": true,
+      "subPath": "ca-cert.cer"
+    }
+  ]
+
+  sslyzeCascadingRules[0].spec.scanSpec.volumeMounts = [
+    {
+      "mountPath": "/etc/ssl/certs/ca-cert-sslyze.cer",
+      "name": "ca-certificate-sslyze",
+      "readOnly": true,
+      "subPath": "ca-cert-sslyze.cer"
+    }
+  ]
+
+  parentScan.spec.env = [
+    {
+      "name": "parent_environment_variable_name",
+      "value": "parent_environment_variable_value"
+    }
+  ]
+
+  sslyzeCascadingRules[0].spec.scanSpec.env = [
+    {
+      "name": "rule_environment_variable_name",
+      "value": "rule_environment_variable_value"
+    }
+  ]
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const cascadedScan = cascadedScans[0]
+
+  expect(cascadedScans).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "cascades": Object {
+          "inheritEnv": true,
+          "inheritVolumes": true,
+        },
+        "env": Array [
+          Object {
+            "name": "rule_environment_variable_name",
+            "value": "rule_environment_variable_value",
+          },
+        ],
+        "finding": Object {
+          "attributes": Object {
+            "hostname": "foobar.com",
+            "port": 443,
+            "service": "https",
+            "state": "open",
+          },
+          "category": "Open Port",
+          "name": "Port 443 is open",
+        },
+        "generatedBy": "tls-scans",
+        "name": "sslyze-foobar.com-tls-scans",
+        "parameters": Array [
+          "--regular",
+          "foobar.com:443",
+        ],
+        "scanAnnotations": Object {},
+        "scanLabels": Object {},
+        "scanType": "sslyze",
+        "volumeMounts": Array [
+          Object {
+            "mountPath": "/etc/ssl/certs/ca-cert-sslyze.cer",
+            "name": "ca-certificate-sslyze",
+            "readOnly": true,
+            "subPath": "ca-cert-sslyze.cer",
+          },
+        ],
+        "volumes": Array [
+          Object {
+            "configMap": Object {
+              "name": "ca-certificate-sslyze",
+            },
+            "name": "ca-certificate-sslyze",
+          },
+        ],
+      },
+    ]
+  `);
+
+  const cascadedScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan)
+
+  // Create a second cascading rule
+  sslyzeCascadingRules[1] = {
+    apiVersion: "cascading.securecodebox.io/v1",
+    kind: "CascadingRule",
+    metadata: {
+      name: "tls-scans-second"
+    },
+    spec: {
+      matches: {
+        anyOf: [
+          {
+            category: "Open Port",
+            attributes: {
+              port: 443,
+              service: "https"
+            }
+          },
+          {
+            category: "Open Port",
+            attributes: {
+              service: "https"
+            }
+          }
+        ]
+      },
+      scanSpec: {
+        scanType: "sslyze",
+        parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"]
+      }
+    }
+  }
+
+  cascadedScanDefinition.metadata.name = cascadedScanDefinition.metadata.generateName
+
+  const secondCascadedScans = getCascadingScans(
+    cascadedScanDefinition,
+    findings,
+    sslyzeCascadingRules,
+    sslyzeCascadingRules[0] // cascaded rule on parent
+  );
+
+  const secondCascadedScan = secondCascadedScans[0];
+
+  const secondCascadedScanDefinition = getCascadingScanDefinition(secondCascadedScan, cascadedScanDefinition);
+
+  expect(secondCascadedScanDefinition.spec.env).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "name": "parent_environment_variable_name",
+        "value": "parent_environment_variable_value",
+      },
+    ]
+  `)
+
+  expect(secondCascadedScanDefinition.spec.volumes).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "configMap": Object {
+          "name": "ca-certificate",
+        },
+        "name": "ca-certificate",
+      },
+    ]
+  `)
+
+  expect(secondCascadedScanDefinition.spec.volumeMounts).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "mountPath": "/etc/ssl/certs/ca-cert.cer",
+        "name": "ca-certificate",
+        "readOnly": true,
+        "subPath": "ca-cert.cer",
+      },
+    ]
+  `)
+
+});
+
+test("should not copy cascaded scan spec from parent scan if inheritance is undefined", () => {
   const findings = [
     {
       name: "Port 443 is open",
@@ -1326,35 +1540,10 @@ test("should purge cascaded scan spec from parent scan", () => {
 
   const secondCascadedScanDefinition = getCascadingScanDefinition(secondCascadedScan, cascadedScanDefinition);
 
-  expect(secondCascadedScanDefinition.spec.env).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "name": "parent_environment_variable_name",
-        "value": "parent_environment_variable_value",
-      },
-    ]
-  `)
+  expect(secondCascadedScanDefinition.spec.env).toMatchInlineSnapshot(`Array []`)
 
-  expect(secondCascadedScanDefinition.spec.volumes).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "configMap": Object {
-          "name": "ca-certificate",
-        },
-        "name": "ca-certificate",
-      },
-    ]
-  `)
+  expect(secondCascadedScanDefinition.spec.volumes).toMatchInlineSnapshot(`Array []`)
 
-  expect(secondCascadedScanDefinition.spec.volumeMounts).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "mountPath": "/etc/ssl/certs/ca-cert.cer",
-        "name": "ca-certificate",
-        "readOnly": true,
-        "subPath": "ca-cert.cer",
-      },
-    ]
-  `)
+  expect(secondCascadedScanDefinition.spec.volumeMounts).toMatchInlineSnapshot(`Array []`)
 
 });

@@ -64,7 +64,9 @@ export interface ScanSpec {
 
 export interface CascadingInheritance {
   inheritLabels: boolean,
-  inheritAnnotations: boolean
+  inheritAnnotations: boolean,
+  inheritEnv: boolean,
+  inheritVolumes: boolean
 }
 
 export interface ExtendedScanSpec extends ScanSpec {
@@ -102,7 +104,7 @@ export function getCascadingScanDefinition({
    scanAnnotations,
    finding
  }: ExtendedScanSpec, parentScan: Scan) {
-  function mergeInherited(parentProps, ruleProps, inherit: boolean = true) {
+  function mergeInheritedMap(parentProps, ruleProps, inherit: boolean = true) {
     if (!inherit) {
       parentProps = {};
     }
@@ -112,10 +114,23 @@ export function getCascadingScanDefinition({
     }
   }
 
-  let annotations = mergeInherited(
+  function mergeInheritedArray(parentArray, ruleArray, inherit: boolean = false) {
+    if (!inherit) {
+      parentArray = [];
+    }
+    return (parentArray || []).concat(ruleArray)  // CascadingRule's env overwrites scan's env
+  }
+
+  let annotations = mergeInheritedMap(
     parentScan.metadata.annotations, scanAnnotations, parentScan.spec.cascades.inheritAnnotations);
-  let labels = mergeInherited(
+  let labels = mergeInheritedMap(
     parentScan.metadata.labels, scanLabels, parentScan.spec.cascades.inheritLabels);
+  env = mergeInheritedArray(
+    parentScan.spec.env, env, parentScan.spec.cascades.inheritEnv);
+  volumes = mergeInheritedArray(
+    parentScan.spec.volumes, volumes, parentScan.spec.cascades.inheritVolumes);
+  volumeMounts = mergeInheritedArray(
+    parentScan.spec.volumeMounts, volumeMounts, parentScan.spec.cascades.inheritVolumes);
 
   let cascadingChain: Array<string> = [];
 
@@ -158,9 +173,9 @@ export function getCascadingScanDefinition({
       scanType,
       parameters,
       cascades,
-      env: (parentScan.spec.env || []).concat(env), // CascadingRule's env overwrites scan's env
-      volumes: (parentScan.spec.volumes || []).concat(volumes),
-      volumeMounts: (parentScan.spec.volumeMounts || []).concat(volumeMounts),
+      env,
+      volumes,
+      volumeMounts,
     }
   };
 }
