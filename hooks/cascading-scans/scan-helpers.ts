@@ -91,6 +91,23 @@ export interface ExtendedScanSpec extends ScanSpec {
   finding: Finding
 }
 
+function mergeInheritedMap(parentProps, ruleProps, inherit: boolean = true) {
+  if (!inherit) {
+    parentProps = {};
+  }
+  return {
+    ...parentProps,
+    ...ruleProps // ruleProps overwrites any duplicate keys from parentProps
+  }
+}
+
+function mergeInheritedArray(parentArray, ruleArray, inherit: boolean = false) {
+  if (!inherit) {
+    parentArray = [];
+  }
+  return (parentArray || []).concat(ruleArray)  // CascadingRule's env overwrites scan's env
+}
+
 export function getCascadingScanDefinition({
    name,
    scanType,
@@ -104,23 +121,6 @@ export function getCascadingScanDefinition({
    scanAnnotations,
    finding
  }: ExtendedScanSpec, parentScan: Scan) {
-  function mergeInheritedMap(parentProps, ruleProps, inherit: boolean = true) {
-    if (!inherit) {
-      parentProps = {};
-    }
-    return {
-      ...parentProps,
-      ...ruleProps // ruleProps overwrites any duplicate keys from parentProps
-    }
-  }
-
-  function mergeInheritedArray(parentArray, ruleArray, inherit: boolean = false) {
-    if (!inherit) {
-      parentArray = [];
-    }
-    return (parentArray || []).concat(ruleArray)  // CascadingRule's env overwrites scan's env
-  }
-
   let annotations = mergeInheritedMap(
     parentScan.metadata.annotations, scanAnnotations, parentScan.spec.cascades.inheritAnnotations);
   let labels = mergeInheritedMap(
