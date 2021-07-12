@@ -22,6 +22,14 @@ type CascadeSpec struct {
 	// +optional
 	InheritAnnotations bool `json:"inheritAnnotations,omitempty"`
 
+	// InheritEnv defines whether cascading scans should inherit environment variables from the parent scan
+	// +optional
+	InheritEnv bool `json:"inheritEnv,omitempty"`
+
+	// InheritVolumes defines whether cascading scans should inherit volumes and volume mounts from the parent scan
+	// +optional
+	InheritVolumes bool `json:"inheritVolumes,omitempty"`
+
 	// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
 	// map is equivalent to an element of matchExpressions, whose key field is "key", the
 	// operator is "In", and the values array contains only "value". The requirements are ANDed.
