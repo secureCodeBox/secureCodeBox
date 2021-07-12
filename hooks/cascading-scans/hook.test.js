@@ -952,12 +952,12 @@ test("should merge environment variables into cascaded scan", () => {
   expect(cascadingScanDefinition.spec.env).toMatchInlineSnapshot(`
     Array [
       Object {
-        "name": "rule_environment_variable_name",
-        "value": "rule_environment_variable_value",
-      },
-      Object {
         "name": "parent_environment_variable_name",
         "value": "parent_environment_variable_value",
+      },
+      Object {
+        "name": "rule_environment_variable_name",
+        "value": "rule_environment_variable_value",
       },
     ]
   `);
@@ -1045,16 +1045,16 @@ test("should merge volumeMounts into cascaded scan", () => {
   expect(cascadingScanDefinition.spec.volumeMounts).toMatchInlineSnapshot(`
     Array [
       Object {
-        "mountPath": "/etc/ssl/certs/ca-cert-sslyze.cer",
-        "name": "ca-certificate-sslyze",
-        "readOnly": true,
-        "subPath": "ca-cert-sslyze.cer",
-      },
-      Object {
         "mountPath": "/etc/ssl/certs/ca-cert.cer",
         "name": "ca-certificate",
         "readOnly": true,
         "subPath": "ca-cert.cer",
+      },
+      Object {
+        "mountPath": "/etc/ssl/certs/ca-cert-sslyze.cer",
+        "name": "ca-certificate-sslyze",
+        "readOnly": true,
+        "subPath": "ca-cert-sslyze.cer",
       },
     ]
   `);
@@ -1143,15 +1143,15 @@ test("should merge volumes into cascaded scan", () => {
     Array [
       Object {
         "configMap": Object {
-          "name": "ca-certificate-sslyze",
-        },
-        "name": "ca-certificate-sslyze",
-      },
-      Object {
-        "configMap": Object {
           "name": "ca-certificate",
         },
         "name": "ca-certificate",
+      },
+      Object {
+        "configMap": Object {
+          "name": "ca-certificate-sslyze",
+        },
+        "name": "ca-certificate-sslyze",
       },
     ]
   `);
