@@ -93,8 +93,8 @@ deploy-prerequisites:
 	helm -n securecodebox-system upgrade --install securecodebox-operator ./../../operator --wait \
 		--set="image.repository=docker.io/$(IMG_NS)/operator" \
 		--set="image.tag=$(IMG_TAG)" \
-		--set="lurcher.image.repository=docker.io/$(IMG_NS)/lurcher" \
-		--set="lurcher.image.tag=$(IMG_TAG)" \
+		--set="lurker.image.repository=docker.io/$(IMG_NS)/lurker" \
+		--set="lurker.image.tag=$(IMG_TAG)" \
 
 deploy:
 	@echo ".: 💾 Deploying '$(scanner)' scanner HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
