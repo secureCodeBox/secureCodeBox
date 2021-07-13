@@ -2,8 +2,17 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# Image URL to use all building/pushing image targets
-IMG ?= securecodebox/operator:latest
+IMG_NS ?= securecodebox
+
+# Image URL to use all building/pushing image targets for the operator
+OPERATOR_IMG ?= operator
+
+# Image URL to use all building/pushing image targets for the lurker
+LURKER_IMG ?= lurker
+
+# Tag used for the images
+IMG_TAG ?= sha-$$(git rev-parse --short HEAD)
+
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:trivialVersions=true,preserveUnknownFields=false"
 
@@ -67,12 +76,39 @@ run: manifests generate fmt vet ## Run a controller from your host.
 	go run ./main.go
 
 docker-build: test ## Build docker image with the manager.
-	docker build -t ${IMG} .
+	@echo ".: ⚙️ Build Container Images"
+	docker build -t $(IMG_NS)/${OPERATOR_IMG}:${IMG_TAG} .
+	cd ../lurker && docker build -t $(IMG_NS)/$(LURKER_IMG):$(IMG_TAG) .
 
 docker-push: ## Push docker image with the manager.
-	docker push ${IMG}
+	docker push $(IMG_NS)/${OPERATOR_IMG}:${IMG_TAG}
+	docker push $(IMG_NS)/$(LURKER_IMG):$(IMG_TAG)
+
+docker-export:
+	@echo ".: 💾 Export Container Images"
+	docker save $(IMG_NS)/$(OPERATOR_IMG):$(IMG_TAG) > $(OPERATOR_IMG).tar
+	docker save $(IMG_NS)/$(LURKER_IMG):$(IMG_TAG) > $(LURKER_IMG).tar
 
 ##@ Deployment
+
+kind-import:
+	@echo ".: 💾 Importing the image archive to local kind cluster."
+	kind load image-archive ./$(OPERATOR_IMG).tar
+	kind load image-archive ./$(LURKER_IMG).tar
+
+helm-deploy:
+	@echo ".: ⚙️ Deploying Operator with the Image tag '$(IMG_TAG)' into kind."
+	# If not exists create namespace where the tests will be executed
+	kubectl create namespace integration-tests --dry-run=client -o yaml | kubectl apply -f -
+	# If not exists create secureCodeBox operator namespace
+	kubectl create namespace securecodebox-system --dry-run=client -o yaml | kubectl apply -f -
+	helm -n securecodebox-system upgrade --install securecodebox-operator ./ --wait \
+    --set="image.repository=docker.io/$(IMG_NS)/$(OPERATOR_IMG)" \
+    --set="image.tag=$(IMG_TAG)" \
+		--set="image.pullPolicy=Never" \
+    --set="lurker.image.repository=docker.io/$(IMG_NS)/$(LURKER_IMG)" \
+    --set="lurker.image.tag=$(IMG_TAG)" \
+		--set="lurker.pullPolicy=Never"
 
 install: manifests kustomize ## Install CRDs into the K8s cluster specified in ~/.kube/config.
 	$(KUSTOMIZE) build config/crd | kubectl apply -f -
@@ -81,7 +117,7 @@ uninstall: manifests kustomize ## Uninstall CRDs from the K8s cluster specified 
 	$(KUSTOMIZE) build config/crd | kubectl delete -f -
 
 deploy: manifests kustomize ## Deploy controller to the K8s cluster specified in ~/.kube/config.
-	cd config/manager && $(KUSTOMIZE) edit set image controller=${IMG}
+	cd config/manager && $(KUSTOMIZE) edit set image controller=${OPERATOR_IMG}
 	$(KUSTOMIZE) build config/default | kubectl apply -f -
 
 undeploy: ## Undeploy controller from the K8s cluster specified in ~/.kube/config.
