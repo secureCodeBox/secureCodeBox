@@ -45,10 +45,10 @@ You can find resources to help you get started on our [documentation website](ht
 - tagged releases, e.g. `2.9.0`, `2.8.0`, `2.7.0`
 
 ## How to use this image
-This `lurcher` image is intended to work in combination with the OWASP secureCodeBox. For more informations details please take a look at the documentation page: https://docs.securecodebox.io/docs/getting-started/installation.
+This `lurker` image is intended to work in combination with the OWASP secureCodeBox. For more informations details please take a look at the documentation page: https://docs.securecodebox.io/docs/getting-started/installation.
 
 ```bash
-docker pull securecodebox/lurcher
+docker pull securecodebox/lurker
 ```
 
 ## What is secureCodeBox Operator?

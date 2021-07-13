@@ -6,12 +6,12 @@ SPDX-License-Identifier: Apache-2.0
 <!--
 .: IMPORTANT! :.
 --------------------------
-This file is generated automaticaly with `helm-docs` based on the following template files:
+This file is generated automatically with `helm-docs` based on the following template files:
 - ./.helm-docs/templates.gotmpl (general template data for all charts)
 - ./chart-folder/.helm-docs.gotmpl (chart specific template data)
 
 Please be aware of that and apply your changes only within those template files instead of this file.
-Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
+Otherwise your changes will be reverted/overwritten automatically due to the build process `./.github/workflows/helm-docs.yaml`
 --------------------------
 -->
 
@@ -45,7 +45,7 @@ You can find resources to help you get started on our [documentation website](ht
 - tagged releases, e.g. `2.9.0`, `2.8.0`, `2.7.0`
 
 ## How to use this image
-This image is an potentialy vulnerable service or application which is used for demo purposes, automated tests and trainings.
+This image is a potentially vulnerable service or application which is used for demo purposes, automated tests and trainings.
 
 ```bash
 docker pull securecodebox/juice-shop

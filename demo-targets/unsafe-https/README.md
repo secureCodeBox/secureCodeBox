@@ -15,12 +15,12 @@ SPDX-License-Identifier: Apache-2.0
 <!--
 .: IMPORTANT! :.
 --------------------------
-This file is generated automaticaly with `helm-docs` based on the following template files:
+This file is generated automatically with `helm-docs` based on the following template files:
 - ./.helm-docs/templates.gotmpl (general template data for all charts)
 - ./chart-folder/.helm-docs.gotmpl (chart specific template data)
 
 Please be aware of that and apply your changes only within those template files instead of this file.
-Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
+Otherwise your changes will be reverted/overwritten automatically due to the build process `./.github/workflows/helm-docs.yaml`
 --------------------------
 -->
 
@@ -44,7 +44,7 @@ which contains both private and public key and is not authorized by a third part
 * <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-targets/unsafe-https>
 
 ## Deployment
-The unsafe-https `scanType` can be deployed via helm:
+The unsafe-https chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

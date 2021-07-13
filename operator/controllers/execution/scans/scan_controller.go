@@ -50,7 +50,7 @@ const defaultPresignDuration = 12 * time.Hour
 // +kubebuilder:rbac:groups=execution.securecodebox.io,resources=parsedefinitions,verbs=get;list;watch
 // +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scancompletionhooks,verbs=get;list;watch
 // +kubebuilder:rbac:groups=batch,resources=jobs,verbs=get;list;watch;create;update;patch;delete
-// Permissions needed to create service accounts for lurcher, parser and scanCompletionHooks
+// Permissions needed to create service accounts for lurker, parser and scanCompletionHooks
 
 // Pod permission are required to grant these permission to service accounts
 // +kubebuilder:rbac:groups=core,resources=pods,verbs=get

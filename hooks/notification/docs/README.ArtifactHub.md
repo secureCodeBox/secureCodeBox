@@ -6,12 +6,12 @@ SPDX-License-Identifier: Apache-2.0
 <!--
 .: IMPORTANT! :.
 --------------------------
-This file is generated automaticaly with `helm-docs` based on the following template files:
+This file is generated automatically with `helm-docs` based on the following template files:
 - ./.helm-docs/templates.gotmpl (general template data for all charts)
 - ./chart-folder/.helm-docs.gotmpl (chart specific template data)
 
 Please be aware of that and apply your changes only within those template files instead of this file.
-Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
+Otherwise your changes will be reverted/overwritten automatically due to the build process `./.github/workflows/helm-docs.yaml`
 --------------------------
 -->
 
@@ -46,7 +46,7 @@ Installing the Notification WebHook hook will add a ReadOnly Hook to your namesp
 You can customise the message templates on your behalf or use the already provided one.
 
 ## Deployment
-The notification `scanType` can be deployed via helm:
+The notification chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
@@ -73,6 +73,7 @@ Please take a look at the documentation for each type (e.g. for slack see [Confi
 - [Slack](#configuration-of-a-slack-notification)
 - [Slack App](#configuration-of-a-slack-app-notification)
 - [Email](#configuration-of-an-email-notification)
+- [MS Teams](#configuration-of-a-ms-teams-notification)
 
 ### Configuration of a Notification
 
@@ -231,7 +232,7 @@ This configuration needs to be specified under `env` in the values yaml.
 The identifier for this config has to be `SMTP_CONFIG`.
 A basic configuration could look like this:
 
-```
+```yaml
 notificationChannels:
   - name: email
     type: email
@@ -252,6 +253,37 @@ env:
     value: "smtp://user:pass@smtp.domain.tld/"
   - name: EMAIL_FROM
     value: secureCodeBox
+```
+
+### Configuration Of A MS Teams Notification
+
+To configure a MS Teams notification you need to set the type to `ms-teams`.
+In `endPoint` you need to specify the MS Teams webhook.
+To use the template provided by the secureCodeBox set template to `msteams-messageCard`.
+
+The default template allows you to specify an additional set of information.
+If you use an external web based vulnerability management system with some kind of dashboard, you can set the variable `VULNMANAG_ENABLED` to true and point the `VULNMANAG_DASHBOARD_URL` to the URL of your vulnerability management.
+This will add a button in the notification that links directly to your dashboard.
+You can also add a button that opens your findings directly in your dashboard.
+To do this you need to specify `dashboardFingingsUrl`.
+You will have to replace the id of the scan in this url with `{{ uid }}` so that nunjucks can parse these urls.
+
+A basic configuration could look like this:
+
+```yaml
+notificationChannels:
+  - name: ms-teams
+    type: ms-teams
+    template: msteams-messageCard
+    rules: []
+    endPoint: "https://somewhere.xyz/sadf12"
+env:
+  - name: VULNMANAG_ENABLED
+    value: true
+  - name: VULNMANAG_DASHBOARD_URL
+    value: "somedashboard.url"
+  - name: VULNMANAG_DASHBOARD_FINDINGS_URL
+    value: "somedashboard.url/findings/{{ uid }}"
 ```
 
 ### Custom Message Templates

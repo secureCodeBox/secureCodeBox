@@ -4,7 +4,7 @@ category: "core"
 type: "Operator"
 state: "released"
 appVersion: ""
-usecase: "secureCodeBox Operator is the core componente."
+usecase: "secureCodeBox Operator is the core component."
 ---
 
 ![operator logo](https://docs.securecodebox.io/img/Logo_Color.svg)
@@ -17,12 +17,12 @@ SPDX-License-Identifier: Apache-2.0
 <!--
 .: IMPORTANT! :.
 --------------------------
-This file is generated automaticaly with `helm-docs` based on the following template files:
+This file is generated automatically with `helm-docs` based on the following template files:
 - ./.helm-docs/templates.gotmpl (general template data for all charts)
 - ./chart-folder/.helm-docs.gotmpl (chart specific template data)
 
 Please be aware of that and apply your changes only within those template files instead of this file.
-Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
+Otherwise your changes will be reverted/overwritten automatically due to the build process `./.github/workflows/helm-docs.yaml`
 --------------------------
 -->
 
@@ -41,7 +41,7 @@ The secureCodeBox operator is running on Kubernetes and is the core component of
 **Homepage:** <https://docs.securecodebox.io/docs/getting-started/installation>
 
 ## Deployment
-The operator `scanType` can be deployed via helm:
+The operator chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
@@ -73,15 +73,15 @@ helm install securecodebox-operator secureCodeBox/operator
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| customCACertificate | object | `{"certificate":"public.crt","existingCertificate":null}` | Setup for Custom CA certificates. These are automatically mounted into every secureCodeBox component (lurcher, parser & hooks). Requires that every namespace has a configmap with the CA certificate(s) |
+| customCACertificate | object | `{"certificate":"public.crt","existingCertificate":null}` | Setup for Custom CA certificates. These are automatically mounted into every secureCodeBox component (lurker, parser & hooks). Requires that every namespace has a configmap with the CA certificate(s) |
 | customCACertificate.certificate | string | `"public.crt"` | key in the configmap holding the certificate(s) |
 | customCACertificate.existingCertificate | string | `nil` | name of the configMap holding the ca certificate(s), needs to be the same across all namespaces |
 | image.pullPolicy | string | `"Always"` | Image pull policy |
 | image.repository | string | `"docker.io/securecodebox/operator"` | The operator image repository |
 | image.tag | string | defaults to the charts version | Parser image tag |
-| lurcher.image.pullPolicy | string | `"Always"` | Image pull policy |
-| lurcher.image.repository | string | `"docker.io/securecodebox/lurcher"` | The operator image repository |
-| lurcher.image.tag | string | defaults to the charts version | Parser image tag |
+| lurker.image.pullPolicy | string | `"Always"` | Image pull policy |
+| lurker.image.repository | string | `"docker.io/securecodebox/lurker"` | The operator image repository |
+| lurker.image.tag | string | defaults to the charts version | Parser image tag |
 | minio.defaultBucket.enabled | bool | `true` |  |
 | minio.defaultBucket.name | string | `"securecodebox"` |  |
 | minio.enabled | bool | `true` | Enable this to use minio as storage backend instead of a cloud bucket provider like AWS S3, Google Cloud Storage, DigitalOcean Spaces etc. |
