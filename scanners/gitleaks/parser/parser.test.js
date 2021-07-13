@@ -20,7 +20,9 @@ test("should properly parse empty gitleaks json file", async () => {
       encoding: "utf8",
     }
   );
-  expect(await parse(JSON.parse(jsonContent))).toMatchObject([]);
+  const findings = await parse(JSON.parse(jsonContent));
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchObject([]);
 });
 
 test("should properly parse gitleaks json file with null result", async () => {
@@ -30,7 +32,9 @@ test("should properly parse gitleaks json file with null result", async () => {
       encoding: "utf8",
     }
   );
-  expect(await parse(JSON.parse(jsonContent))).toMatchObject([]);
+  const findings = await parse(JSON.parse(jsonContent));
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchObject([]);
 });
 
 test("should properly parse gitleaks json file", async () => {
@@ -205,7 +209,7 @@ test("should properly parse gitleaks json file", async () => {
 test("should properly construct commit URL if present with -r option", async () => {
   const scan = {
     spec: {
-      scanType: "gitleaks",
+      scanType: "gitleaks", 
       parameters: [
         "-r",
         "https://github.com/iteratec/multi-juicer",

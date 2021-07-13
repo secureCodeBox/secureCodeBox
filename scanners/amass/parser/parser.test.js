@@ -17,7 +17,10 @@ test("example parser parses empty json files to zero findings", async () => {
   const fileContent = await readFile(__dirname + "/__testFiles__/empty.jsonl", {
     encoding: "utf8",
   });
-  expect(await parse(fileContent)).toEqual([]);
+
+  const findings = await parse(fileContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toEqual([]);
 });
 
 // test("example parser parses missing json files to zero findings", async () => {

@@ -30,9 +30,9 @@ it("should return findings when ncrack found credentials", async () => {
       encoding: "utf8",
     }
   );
-  const [finding, ...otherFindings] = await parse(ncrackXML);
-
-  expect(finding).toMatchInlineSnapshot(`
+  const findings = await parse(ncrackXML);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings[0]).toMatchInlineSnapshot(`
         Object {
           "attributes": Object {
             "ip_address": "192.168.0.1",

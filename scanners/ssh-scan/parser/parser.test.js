@@ -19,8 +19,9 @@ test("ssh-scan parser parses errored result (no ssh server) to zero findings", a
       encoding: "utf8",
     })
   );
-
-  expect(await parse(hosts)).toEqual([]);
+  const findings = await parse(hosts);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toEqual([]);
 });
 
 test("ssh-scan parser parses a proper result to proper findings", async () => {
