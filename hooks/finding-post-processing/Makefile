@@ -82,18 +82,6 @@ kind-import:
 	@echo ".: 💾 Importing the image archive '$(hook-prefix)$(hook).tar' to local kind cluster."
 	kind load image-archive ./$(hook-prefix)$(hook).tar
 
-deploy-prerequisites:
-	@echo ".: 💾 Deploying prerequisite HelmChart with the docker tag '$(IMG_TAG)' into kind."
-	# If not exists create namespace where the tests will be executed
-	kubectl create namespace integration-tests --dry-run=client -o yaml | kubectl apply -f -
-	# If not exists create secureCodeBox operator namespace
-	kubectl create namespace securecodebox-system --dry-run=client -o yaml | kubectl apply -f -
-	helm -n securecodebox-system upgrade --install securecodebox-operator ./../../operator --wait \
-		--set="image.repository=docker.io/$(IMG_NS)/operator" \
-		--set="image.tag=$(IMG_TAG)" \
-		--set="lurker.image.repository=docker.io/$(IMG_NS)/lurker" \
-		--set="lurker.image.tag=$(IMG_TAG)" \
-
 deploy:
 	@echo ".: 💾 Deploying '$(hook)' hook HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
 	helm -n integration-tests upgrade --install $(hook) ./ --wait \
