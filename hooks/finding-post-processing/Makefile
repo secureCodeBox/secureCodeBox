@@ -101,7 +101,8 @@ integration-tests:
 	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
 	kubectl -n integration-tests delete scans --all
 	cd ../../tests/integration && npm ci
-	npx --yes --package jest@$(JEST_VERSION) jest --ci --config=./integration-tests/jest.config.json --colors --coverage ./integration-tests
+	npm i -g jest
+	npx jest --ci --config=./integration-tests/jest.config.json --colors --coverage ./integration-tests
 
 clean:
 	@echo ".: 🧹 Cleaning up all generated files."
