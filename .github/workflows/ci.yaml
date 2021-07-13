@@ -307,9 +307,6 @@ jobs:
       - name: Install Operator
         working-directory: ./operator
         run: |
-          make docker-build
-          make docker-export
-          make kind-import
           make helm-deploy
       - name: "Run makefile for scanner '${{ matrix.unit }}'"
         working-directory: ./scanners/${{ matrix.unit }}/
@@ -339,9 +336,6 @@ jobs:
       - name: Install Operator
         working-directory: ./operator
         run: |
-          make docker-build
-          make docker-export
-          make kind-import
           make helm-deploy
       - name: "Run makefile for hook '${{ matrix.unit }}'"
         working-directory: ./hooks/${{ matrix.unit }}/
