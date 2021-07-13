@@ -75,6 +75,10 @@ You can find resources to help you get started on our [documentation website](ht
 
 ![secureCodeBox Architecture](./docs/resources/scb-architecture.svg)
 
+## Upgrading
+
+For the steps required for upgrading your secureCodeBox installation, see [Upgrading](./UPGRADING.md).
+
 ## License
 
 Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
