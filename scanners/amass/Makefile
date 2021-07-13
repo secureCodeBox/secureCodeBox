@@ -55,13 +55,13 @@ scanner-prefix = scanner
 parser-prefix = parser
 
 
-build: | install-deps build-images
+build: | install-deps docker-build
 
-test: | unit-tests images-export kind-import deploy-prerequisites deploy deploy-test-deps integration-tests
+test: | unit-tests docker-export kind-import deploy-prerequisites deploy deploy-test-deps integration-tests
 
-all: | clean install-deps unit-tests build-images images-export kind-import deploy-prerequisites deploy deploy-test-deps integration-tests
+all: | clean install-deps unit-tests docker-build docker-export kind-import deploy-prerequisites deploy deploy-test-deps integration-tests
 
-.PHONY: unit-tests install-deps build-images images-export kind-import deploy-prerequisites deploy deploy-test-deps integration-tests all build test
+.PHONY: unit-tests install-deps docker-build docker-export kind-import deploy-prerequisites deploy deploy-test-deps integration-tests all build test
 
 unit-tests:
 	@echo ".: 🧪 Starting unit-tests for '$(scanner)' parser  with 'jest@$(JEST_VERSION)'."
@@ -72,11 +72,11 @@ install-deps:
 	cd ./.. && npm ci
 	cd ./parser/ && npm ci
 
-build-images:
+docker-build:
 	@echo ".: ⚙️ Build With BASE_IMG_TAG: '$(BASE_IMG_TAG)'."
 	docker build --build-arg=baseImageTag=$(BASE_IMG_TAG) --build-arg=namespace=$(IMG_NS) -t $(IMG_NS)/$(parser-prefix)-$(scanner):$(IMG_TAG) -f ./parser/Dockerfile ./parser
 
-images-export:
+docker-export:
 	@echo ".: ⚙️ Saving new docker image archive to '$(parser-prefix)-$(scanner).tar'."
 	docker save $(IMG_NS)/$(parser-prefix)-$(scanner):$(IMG_TAG) -o $(parser-prefix)-$(scanner).tar
 

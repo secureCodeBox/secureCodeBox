@@ -54,13 +54,13 @@ hook = finding-post-processing
 hook-prefix =
 
 
-build: | install-deps build-images
+build: | install-deps docker-build
 
-test: | unit-tests images-export kind-import deploy-prerequisites deploy deploy-test-deps integration-tests
+test: | unit-tests docker-export kind-import deploy-prerequisites deploy deploy-test-deps integration-tests
 
-all: | clean install-deps unit-tests build-images images-export kind-import deploy-prerequisites deploy deploy-test-deps integration-tests
+all: | clean install-deps unit-tests docker-build docker-export kind-import deploy-prerequisites deploy deploy-test-deps integration-tests
 
-.PHONY: unit-tests install-deps build-images images-export kind-import deploy-prerequisites deploy deploy-test-deps integration-tests all build test
+.PHONY: unit-tests install-deps docker-build docker-export kind-import deploy-prerequisites deploy deploy-test-deps integration-tests all build test
 
 unit-tests:
 	@echo ".: 🧪 Starting unit-tests for hook '$(hook)' with 'jest@$(JEST_VERSION)'."
@@ -70,11 +70,11 @@ install-deps:
 	@echo ".: ⚙️ Installing all hook specific dependencies."
 	cd hook && npm ci
 
-build-images:
+docker-build:
 	@echo ".: ⚙️ Build With BASE_IMG_TAG: '$(BASE_IMG_TAG)'."
 	docker build --build-arg=baseImageTag=$(BASE_IMG_TAG) --build-arg=namespace=$(IMG_NS) -t $(IMG_NS)/$(hook-prefix)$(hook):$(IMG_TAG) -f ./hook/Dockerfile ./hook
 
-images-export:
+docker-export:
 	@echo ".: ⚙️ Saving new docker image archive to '$(hook-prefix)$(hook).tar'."
 	docker save $(IMG_NS)/$(hook-prefix)$(hook):$(IMG_TAG) -o $(hook-prefix)$(hook).tar
 
