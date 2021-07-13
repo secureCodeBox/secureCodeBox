@@ -1,0 +1,58 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auto-discovery
+  labels:
+    control-plane: auto-discovery
+spec:
+  selector:
+    matchLabels:
+      control-plane: auto-discovery
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        control-plane: auto-discovery
+    spec:
+      serviceAccountName: auto-discovery
+      securityContext:
+        {{ .Values.podSecurityContext | toYaml | nindent 8 }}
+      containers:
+        - command:
+            - /manager
+          args:
+            - --config
+            - /etc/securecodebox/auto-discovery.yaml
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          name: auto-discovery
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8081
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8081
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          volumeMounts:
+            - name: config
+              mountPath: "/etc/securecodebox/auto-discovery.yaml"
+              readOnly: true
+              subPath: auto-discovery.yaml
+      volumes:
+        - name: config
+          configMap:
+            name: auto-discovery
+      terminationGracePeriodSeconds: 10

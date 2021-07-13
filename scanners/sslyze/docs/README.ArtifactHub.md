@@ -6,12 +6,12 @@ SPDX-License-Identifier: Apache-2.0
 <!--
 .: IMPORTANT! :.
 --------------------------
-This file is generated automaticaly with `helm-docs` based on the following template files:
+This file is generated automatically with `helm-docs` based on the following template files:
 - ./.helm-docs/templates.gotmpl (general template data for all charts)
 - ./chart-folder/.helm-docs.gotmpl (chart specific template data)
 
 Please be aware of that and apply your changes only within those template files instead of this file.
-Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
+Otherwise your changes will be reverted/overwritten automatically due to the build process `./.github/workflows/helm-docs.yaml`
 --------------------------
 -->
 
@@ -45,7 +45,7 @@ You can find resources to help you get started on our [documentation website](ht
 [SSLyze][SSLyze Documentation] is a Python library and a CLI tool that can analyze the SSL configuration of a server by connecting to it. It is designed to be fast and comprehensive, and should help organizations and testers identify mis-configurations affecting their SSL/TLS servers. To learn more about the SSLyze scanner itself visit or [SSLyze GitHub].
 
 ## Deployment
-The sslyze `scanType` can be deployed via helm:
+The sslyze chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)

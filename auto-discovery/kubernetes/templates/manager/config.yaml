@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: auto-discovery
+data:
+  auto-discovery.yaml: | {{ .Values.config | toPrettyJson | nindent 4 }}
+  

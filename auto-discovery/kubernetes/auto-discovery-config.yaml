@@ -1,0 +1,44 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# This is a config you can use to run / test / debug the auto-discovery locally while developing
+
+apiVersion: config.securecodebox.io/v1
+kind: AutoDiscoveryConfig
+
+# kubebuilder config
+
+metrics:
+  bindAddress: 127.0.0.1:8081
+# webhook:
+#   port: 9443
+leaderElection:
+  leaderElect: false
+  resourceName: 80807133.tutorial.kubebuilder.io
+
+# secureCodeBox AutoDiscovery Config
+cluster:
+  name: docker-desktop
+
+resourceInclusion:
+  mode: enabled-per-namespace
+
+serviceAutoDiscovery:
+  passiveReconcileInterval: 10s
+  scanConfig:
+    scanType: zap-advanced-scan
+    # -- parameters used for the scans created by the serviceAutoDiscovery
+    parameters:
+      - "-t"
+      - "{{ .Host.Type }}://{{ .Service.Name }}.{{ .Service.Namespace }}.svc:{{ .Host.Port }}"
+    # -- interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset.
+    repeatInterval: "168h"
+    # -- labels to be added to the scans started by the auto-discovery
+    labels: {}
+    # -- annotations to be added to the scans started by the auto-discovery
+    annotations:
+      defectdojo.securecodebox.io/product-name: "{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}"
+      defectdojo.securecodebox.io/product-tags: "cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"
+      defectdojo.securecodebox.io/engagement-name: "{{ .Target.Name }}"
+      defectdojo.securecodebox.io/engagement-version: "{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}"

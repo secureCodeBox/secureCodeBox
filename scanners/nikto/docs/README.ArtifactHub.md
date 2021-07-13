@@ -6,12 +6,12 @@ SPDX-License-Identifier: Apache-2.0
 <!--
 .: IMPORTANT! :.
 --------------------------
-This file is generated automaticaly with `helm-docs` based on the following template files:
+This file is generated automatically with `helm-docs` based on the following template files:
 - ./.helm-docs/templates.gotmpl (general template data for all charts)
 - ./chart-folder/.helm-docs.gotmpl (chart specific template data)
 
 Please be aware of that and apply your changes only within those template files instead of this file.
-Otherwise your changes will be reverted/overriden automaticaly due to the build process `./.github/workflows/helm-docs.yaml`
+Otherwise your changes will be reverted/overwritten automatically due to the build process `./.github/workflows/helm-docs.yaml`
 --------------------------
 -->
 
@@ -44,7 +44,7 @@ You can find resources to help you get started on our [documentation website](ht
 Nikto is a free software command-line vulnerability scanner that scans webservers for dangerous files/CGIs, outdated server software and other problems. It performs generic and server type specific checks. It also captures and prints any cookies received. To learn more about the Nikto scanner itself visit [cirt.net] or [Nikto GitHub].
 
 ## Deployment
-The nikto `scanType` can be deployed via helm:
+The nikto chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
