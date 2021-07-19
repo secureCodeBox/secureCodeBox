@@ -37,9 +37,9 @@
   "license": "Apache-2.0",
   "dependencies": {
     "axios": "^0.21.1",
-    "lodash": "^4.17.20"
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "jest": "^27.0.3"
+    "jest": "^27.0.6"
   }
 }
