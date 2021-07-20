@@ -47,11 +47,12 @@ async function addSampleIdsAndDatesAndValidate(jsonData) {
 }
 
 function generateErrorMessage(errors, jsonData) {
-  for (let i = 0; i < errors.length; i++) {
-    errors[i] = { ...errors[i] };
-    const invalidValue = jsonpointer.get(jsonData, errors[i].instancePath);
-    errors[i].invalidValue = invalidValue;
-  }
+  errors = errors.map((error) => {
+    return { 
+      ...error,
+      invalidValue: jsonpointer.get(jsonData, error.instancePath),
+    };
+  });
   return JSON.stringify(errors, null, 2);
 }
 
