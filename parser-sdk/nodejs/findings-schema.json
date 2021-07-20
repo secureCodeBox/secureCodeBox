@@ -38,29 +38,6 @@
           "description": "Is often used to group finding based on their types.",
           "type": "string"
         },
-        "tcp_ip_stack_layer":{
-          "type": "string",
-          "description": "TCP/IP Reference Model Layer that the Finding fits into.",
-          "nullable": true,
-          "enum": [
-            "LINK",
-            "INTERNET",
-            "TRANSPORT",
-            "APPLICATION"
-          ]
-        },
-        "osi_layer": {
-          "description": "OSI Layer the finding fits into. This will be replaced by the field tcp_ip_stack_layer in secureCodeBox v3.",
-          "type": "string",
-          "enum": [
-            "NETWORK_INTERFACE",
-            "NETWORK",
-            "TRANSPORT",
-            "APPLICATION",
-            "NOT_APPLICABLE",
-            "PRESENTATION"
-          ]
-        },
         "severity": {
           "description": "Indicates the severity of the finding.",
           "type": "string",
