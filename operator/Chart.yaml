@@ -163,7 +163,7 @@ annotations:
   artifacthub.io/operatorCapabilities: Seamless Upgrades
   artifacthub.io/prerelease: "false"
   artifacthub.io/recommendations: |
-    - url: https://artifacthub.io/packages/helm/seccurecodebox/auto-discovery
-    - url: https://artifacthub.io/packages/helm/seccurecodebox/zap
-    - url: https://artifacthub.io/packages/helm/seccurecodebox/amass
-    - url: https://artifacthub.io/packages/helm/seccurecodebox/nmap
+    - url: https://artifacthub.io/packages/helm/securecodebox/auto-discovery-kubernetes
+    - url: https://artifacthub.io/packages/helm/securecodebox/zap
+    - url: https://artifacthub.io/packages/helm/securecodebox/amass
+    - url: https://artifacthub.io/packages/helm/securecodebox/nmap
