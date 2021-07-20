@@ -38,12 +38,12 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@elastic/elasticsearch": "^7.12.0",
+    "@elastic/elasticsearch": "^7.13.0",
     "lodash.chunk": "^4.2.0",
     "lodash.flatmap": "^4.5.0",
-    "luxon": "^1.27.0"
+    "luxon": "^2.0.1"
   },
   "devDependencies": {
-    "jest": "^27.0.3"
+    "jest": "^27.0.6"
   }
 }

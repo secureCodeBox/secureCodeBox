@@ -33,9 +33,9 @@
   },
   "homepage": "https://www.secureCodeBox.io",
   "dependencies": {
-    "lodash": "^4.17.20"
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "jest": "^27.0.3"
+    "jest": "^27.0.6"
   }
 }

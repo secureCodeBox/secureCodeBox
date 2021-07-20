@@ -1,7 +1,7 @@
 {
-"name": "@securecodebox/hook-cascading-scans",
+"name": "@securecodebox/hook-update-field",
   "version": "1.0.0",
-  "description": "secureCodeBox Hook to cascade scan in an declarative manner.",
+  "description": "secureCodeBox Hook for Update Field",
   "homepage": "https://www.secureCodeBox.io",
   "repository": {
     "type": "git",
@@ -9,13 +9,12 @@
   },
   "main": "hook.js",
   "scripts": {
-    "build": "npx typescript hook.ts --sourceMap",
-    "test": "jest . --verbose false"
+    "test": "jest ."
   },
   "keywords": [
     "secureCodeBox",
     "security",
-    "hook"
+    "scanner"
   ],
   "author": {
     "name": "iteratec GmbH",
@@ -37,15 +36,9 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@kubernetes/client-node": "^0.14.3",
-    "lodash": "^4.17.21",
-    "matcher": "^4.0.0",
-    "mustache": "^4.2.0"
+    "lodash.set": "^4.3.2"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.169",
-    "@types/node": "^14.0.14",
-    "jest": "^27.0.3",
-    "typescript": "^3.9.5"
+    "jest": "^27.0.6"
   }
 }
