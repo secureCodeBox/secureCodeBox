@@ -372,6 +372,17 @@ jobs:
         run: |
           make helm-deploy
 
+      - name: Deploy ${{ matrix.unit }}
+        working-directory: ./scanners/${{ matrix.unit }}/
+        run: make deploy
+
+      - name: Deploy Test Dependencies
+        working-directory: ./scanners/${{ matrix.unit }}/
+        run: make deploy-test-deps
+
+      - name: Start Integration Tests
+        working-directory: ./scanners/${{ matrix.unit }}/
+        run: make integration-tests
 
   # ---- Build Stage | Matrix Hooks ----
 
