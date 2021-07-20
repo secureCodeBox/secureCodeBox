@@ -4,6 +4,9 @@
 
 const fs = require("fs");
 const util = require("util");
+const {
+  validateParser,
+} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 const readFile = util.promisify(fs.readFile);
@@ -16,8 +19,9 @@ test("parses www.securecodebox.io result file into findings", async () => {
       encoding: "utf8",
     })
   );
-
-  expect(await parse(fileContent)).toMatchSnapshot();
+  const findings = await parse(fileContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchSnapshot();
 });
 
 test("parses OWASP Juice Shop result file into findings", async () => {
@@ -26,6 +30,7 @@ test("parses OWASP Juice Shop result file into findings", async () => {
       encoding: "utf8",
     })
   );
-
-  expect(await parse(fileContent)).toMatchSnapshot();
+  const findings = await parse(fileContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchSnapshot();
 });

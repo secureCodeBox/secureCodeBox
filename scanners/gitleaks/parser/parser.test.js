@@ -4,6 +4,9 @@
 
 const fs = require("fs");
 const util = require("util");
+const {
+  validateParser,
+} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 const readFile = util.promisify(fs.readFile);
@@ -14,30 +17,36 @@ test("should properly parse empty gitleaks json file", async () => {
   const jsonContent = await readFile(
     __dirname + "/__testFiles__/test-empty-report.json",
     {
-      encoding: "utf8"
+      encoding: "utf8",
     }
   );
-  expect(await parse(JSON.parse(jsonContent))).toMatchObject([]);
+  const findings = await parse(JSON.parse(jsonContent));
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchObject([]);
 });
 
 test("should properly parse gitleaks json file with null result", async () => {
   const jsonContent = await readFile(
     __dirname + "/__testFiles__/test-null-report.json",
     {
-      encoding: "utf8"
+      encoding: "utf8",
     }
   );
-  expect(await parse(JSON.parse(jsonContent))).toMatchObject([]);
+  const findings = await parse(JSON.parse(jsonContent));
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchObject([]);
 });
 
 test("should properly parse gitleaks json file", async () => {
   const jsonContent = await readFile(
     __dirname + "/__testFiles__/test-report.json",
     {
-      encoding: "utf8"
+      encoding: "utf8",
     }
   );
-  expect(await parse(JSON.parse(jsonContent))).toMatchInlineSnapshot(`
+  const findings = await parse(JSON.parse(jsonContent));
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot(`
     Array [
       Object {
         "attributes": Object {
@@ -200,18 +209,26 @@ test("should properly parse gitleaks json file", async () => {
 test("should properly construct commit URL if present with -r option", async () => {
   const scan = {
     spec: {
-      scanType: "gitleaks",
-      parameters: ["-r", "https://github.com/iteratec/multi-juicer", "--config", "/home/config_all.toml"]
-    }
+      scanType: "gitleaks", 
+      parameters: [
+        "-r",
+        "https://github.com/iteratec/multi-juicer",
+        "--config",
+        "/home/config_all.toml",
+      ],
+    },
   };
 
   const jsonContent = await readFile(
     __dirname + "/__testFiles__/test-report-small.json",
     {
-      encoding: "utf8"
+      encoding: "utf8",
     }
   );
-  expect(await parse(JSON.parse(jsonContent), scan)).toMatchInlineSnapshot(`
+  const findings = await parse(JSON.parse(jsonContent), scan);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+
+  expect(findings).toMatchInlineSnapshot(`
     Array [
       Object {
         "attributes": Object {
@@ -243,17 +260,25 @@ test("should properly construct commit URL if present with --repo option", async
   const scan = {
     spec: {
       scanType: "gitleaks",
-      parameters: ["--repo", "https://github.com/iteratec/multi-juicer/", "--config", "/home/config_all.toml"]
-    }
+      parameters: [
+        "--repo",
+        "https://github.com/iteratec/multi-juicer/",
+        "--config",
+        "/home/config_all.toml",
+      ],
+    },
   };
 
   const jsonContent = await readFile(
     __dirname + "/__testFiles__/test-report-small.json",
     {
-      encoding: "utf8"
+      encoding: "utf8",
     }
   );
-  expect(await parse(JSON.parse(jsonContent), scan)).toMatchInlineSnapshot(`
+
+  const findings = await parse(JSON.parse(jsonContent), scan);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot(`
     Array [
       Object {
         "attributes": Object {

@@ -3,6 +3,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 const { parse } = require("./parser");
+const {
+  validateParser,
+} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
 let scan;
 
@@ -10,20 +13,22 @@ beforeEach(() => {
   scan = {
     metadata: {
       name: "my-screenshot-scan",
-      namespace: "default"
+      namespace: "default",
     },
     spec: {
       scanType: "screenshooter",
-      parameters: ["https://www.iteratec.de"]
+      parameters: ["https://www.iteratec.de"],
     },
     status: {
-      rawResultDownloadLink: "https://s3.example.com/foobar.png"
-    }
+      rawResultDownloadLink: "https://s3.example.com/foobar.png",
+    },
   };
 });
 
 test("should create finding correctly", async () => {
-  expect(await parse("thisisabinarystringformatedimage", scan )).toMatchInlineSnapshot(`
+  const findings = await parse("thisisabinarystringformatedimage", scan);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot(`
     Array [
       Object {
         "attributes": Object {
@@ -41,6 +46,8 @@ test("should create finding correctly", async () => {
 });
 
 test("should not create finding if image is empty", async () => {
-  (scan.spec.parameters = ["https://www.iteratec.de"]),
-    expect(await parse("", scan )).toMatchInlineSnapshot(`Array []`);
+  scan.spec.parameters = ["https://www.iteratec.de"];
+  findings = await parse("", scan)
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot(`Array []`);
 });
