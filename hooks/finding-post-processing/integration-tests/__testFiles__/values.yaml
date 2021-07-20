@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2020 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# Default values for dispatcher.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  # image.tag - defaults to the charts version
+  # image.repository -- Hook image repository
+  repository: docker.io/securecodebox/finding-post-processing
+  # parserImage.tag -- Parser image tag
+  # @default -- defaults to the charts version
+  tag: null
+
+rules:
+  - matches:
+      anyOf:
+        - category: "Open Port"
+    override:
+      severity: "high"
+      category: "SomeNewCategory"
