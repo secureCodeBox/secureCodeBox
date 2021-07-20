@@ -20,7 +20,6 @@ function addIdsAndDates(findings) {
   });
 }
 
-// eslint-disable-next-line
 async function validateAgainstJsonSchema(jsonData) {
   const jsonSchemaString = await readFile(
     __dirname + "/findings-schema.json",
@@ -35,7 +34,6 @@ async function validateAgainstJsonSchema(jsonData) {
   }
 }
 
-// eslint-disable-next-line
 async function addSampleIdsAndDatesAndValidate(jsonData) {
   // add sample IDs and Dates only if the jsonData Array is not empty
   if (jsonData.length > 0) {
