@@ -57,11 +57,11 @@ parser-prefix = parser
 
 build: | install-deps docker-build
 
-test: | unit-tests docker-export kind-import deploy-prerequisites deploy deploy-test-deps integration-tests
+test: | unit-tests docker-export kind-import deploy deploy-test-deps integration-tests
 
-all: | clean install-deps unit-tests docker-build docker-export kind-import deploy-prerequisites deploy deploy-test-deps integration-tests
+all: | clean install-deps unit-tests docker-build docker-export kind-import deploy deploy-test-deps integration-tests
 
-.PHONY: unit-tests install-deps docker-build docker-export kind-import deploy-prerequisites deploy deploy-test-deps integration-tests all build test
+.PHONY: unit-tests install-deps docker-build docker-export kind-import deploy deploy-test-deps integration-tests all build test
 
 unit-tests:
 	@echo ".: 🧪 Starting unit-tests for '$(scanner)' parser  with 'jest@$(JEST_VERSION)'."
