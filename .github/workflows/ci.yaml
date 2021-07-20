@@ -345,7 +345,7 @@ jobs:
             namespace=${{ env.DOCKER_NAMESPACE }}
             baseImageTag=${{ env.baseImageTag }}
           platforms: linux/amd64
-          push: false
+          push: ${{ github.event_name == 'release' }}
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
