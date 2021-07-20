@@ -4,7 +4,7 @@ const ajv = new Ajv();
 const addFormats = require("ajv-formats");
 addFormats(ajv);
 const util = require("util");
-var jsonpointer = require("jsonpointer");
+const jsonpointer = require("jsonpointer");
 
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 const readFile = util.promisify(fs.readFile);
