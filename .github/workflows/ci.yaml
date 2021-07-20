@@ -10,6 +10,8 @@ env:
 
   GO_VERSION: "1.15"
   PYTHON_VERSION: "3.9"
+  NODE_VERSION: "14"
+  NPM_VERSION: "7"
 
   # ---- Docker Namespace ----
 
@@ -117,7 +119,7 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
-          coverageCommand: npm test -- --ci --colors --coverage
+          coverageCommand: npm test -- --ci --colors --coverage --testPathIgnorePatterns=/integration-tests/
 
   # ---- Build Stage ----
 
@@ -280,6 +282,97 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
+# ---- New Makefile based CI Pipeline steps ----
+
+  makefile-scanner:
+    name: "Make Scanners"
+    needs:
+      - sdk
+      - operator
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        unit: ["amass"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        name: Setup Node
+        with:
+          node-version: ${{ env. NODE_VERSION }}
+
+      - name: Update NPM
+        run: npm i -g npm@${{ env.NPM_VERSION }}
+
+      - name: Install Dependencies
+        working-directory: ./scanners/${{ matrix.unit }}/
+        run: make install-deps
+
+      - name: Unit Tests
+        working-directory: ./scanners/${{ matrix.unit }}/
+        run: make unit-tests
+
+      - name: Set baseImageTag To commit Hash
+        run: |
+          echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Docker Meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ${{ env.DOCKER_NAMESPACE }}/parser-${{ matrix.unit }}
+          tag-sha: true
+          tag-semver: |
+            {{ version }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build
+        uses: docker/build-push-action@v2
+        with:
+          context: ./scanners/${{ matrix.unit }}/parser/
+          file: ./scanners/${{ matrix.unit }}/parser/Dockerfile
+          load: true
+          build-args: |
+            namespace=${{ env.DOCKER_NAMESPACE }}
+            baseImageTag=${{ env.baseImageTag }}
+          platforms: linux/amd64
+          push: false
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+      - name: Export Docker Images
+        working-directory: ./scanners/${{ matrix.unit }}/
+        run: make docker-export
+
+      - name: "Start kind cluster"
+        run: |
+          kind version
+          kind create cluster --image kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6 --wait 3m
+
+      - name: "Inspect kind cluster"
+        run: |
+          kubectl config current-context
+          kubectl get node
+
+      - name: Kind Import Images
+        working-directory: ./scanners/${{ matrix.unit }}/
+        run: make kind-import
+
+      - name: Install Operator
+        working-directory: ./operator
+        run: |
+          make helm-deploy
+
+
   # ---- Build Stage | Matrix Hooks ----
 
   hooks:
@@ -353,7 +446,6 @@ jobs:
     strategy:
       matrix:
         parser:
-          - amass
           - angularjs-csti-scanner
           - git-repo-scanner
           - gitleaks
@@ -769,17 +861,6 @@ jobs:
           # Install plain nginx server
           kubectl create deployment --image nginx:alpine nginx --namespace demo-targets
           kubectl expose deployment nginx --port 80 --namespace demo-targets
-
-      # ---- OWASP Amass Integration Tests ----
-
-      - name: "amass Integration Tests"
-        run: |
-          kubectl -n integration-tests delete scans --all
-          helm -n integration-tests install amass ./scanners/amass/ \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-amass" \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)"
-          cd tests/integration/
-          npx jest --ci --color scanner/amass.test.js
 
       # ---- gitleaks Integration Tests ----
 
