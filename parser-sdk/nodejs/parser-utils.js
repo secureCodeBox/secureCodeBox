@@ -36,12 +36,8 @@ async function validateAgainstJsonSchema(jsonData) {
 
 async function addSampleIdsAndDatesAndValidate(jsonData) {
   // add sample IDs and Dates only if the jsonData Array is not empty
-  if (jsonData.length > 0) {
     const extendedData = addIdsAndDates(jsonData);
     return validateAgainstJsonSchema(extendedData);
-  } else {
-    return validateAgainstJsonSchema(jsonData);
-  }
 }
 
 function generateErrorMessage(errors, jsonData) {
