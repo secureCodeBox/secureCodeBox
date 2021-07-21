@@ -65,7 +65,7 @@ class DefectDojoFindingToSecureCodeBoxMapperTest {
 
     assertEquals(
       actualFinding.getSeverity(),
-      SecureCodeBoxFinding.Severities.Medium
+      SecureCodeBoxFinding.Severities.MEDIUM
     );
 
     assertEquals(

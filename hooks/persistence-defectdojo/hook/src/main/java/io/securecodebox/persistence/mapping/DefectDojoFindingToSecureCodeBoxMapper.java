@@ -45,16 +45,16 @@ public class DefectDojoFindingToSecureCodeBoxMapper {
     switch (defectDojoFinding.getSeverity()) {
       case Critical:
       case High:
-        finding.setSeverity(SecureCodeBoxFinding.Severities.High);
+        finding.setSeverity(SecureCodeBoxFinding.Severities.HIGH);
         break;
       case Medium:
-        finding.setSeverity(SecureCodeBoxFinding.Severities.Medium);
+        finding.setSeverity(SecureCodeBoxFinding.Severities.MEDIUM);
         break;
       case Low:
-        finding.setSeverity(SecureCodeBoxFinding.Severities.Low);
+        finding.setSeverity(SecureCodeBoxFinding.Severities.LOW);
         break;
       case Informational:
-        finding.setSeverity(SecureCodeBoxFinding.Severities.Informational);
+        finding.setSeverity(SecureCodeBoxFinding.Severities.INFORMATIONAL);
         break;
     }
 
