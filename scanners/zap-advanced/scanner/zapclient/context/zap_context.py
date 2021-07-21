@@ -17,7 +17,7 @@ from .zap_context_authentication import ZapConfigureContextAuthentication
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG,
     format='%(asctime)s %(name)-12s %(levelname)-8s: %(message)s',
     datefmt='%Y-%m-%d %H:%M')
 
@@ -98,6 +98,12 @@ class ZapConfigureContext(ZapClient):
         if self._is_not_empty("technologies", context):
             # TODO: Open a new ZAP GH Issue: Why (or) is this difference (context_id vs. context_name) here really necessary?
             self._configure_context_technologies(context["technologies"], context_name)
+
+        logging.info('Starting AlertFilter Config: ' + context_name)
+        if self._is_not_empty("alertFilters", context):
+            logging.info('AlertFilter Config not empty: ' + context_name)
+            logging.info('AlertFilter Config not empty: %s', context["alertFilters"])
+            self._configure_alert_filters(context["alertFilters"], context_id)
 
     def _configure_context_include(self, context: collections.OrderedDict):
         """Protected method to configure the ZAP 'Context / Include Settings' based on a given ZAP config.
@@ -277,3 +283,59 @@ class ZapConfigureContext(ZapClient):
                 technologies = ", ".join(technology["included"])
                 logging.debug("Exclude technologies '%s' in context with name %s", technologies, context_name)
                 self.get_zap.context.exclude_context_technologies(contextname=context_name, technologynames=technologies)
+
+    def _get_or_none(self, dict: collections.OrderedDict, key: str):
+        if key in dict:
+            return dict[key]
+        else:
+            return None
+
+    def _get_level(self, level: str):
+        # lowercase input to catch simple typos
+        level = level.lower()
+        if level == "false positive":
+            return -1
+        elif level == "info" or level == "informational":
+            return 0
+        elif level == "low":
+            return 1
+        elif level == "medium":
+            return 2
+        elif level == "high":
+            return 3
+
+        logging.warn("AlertFilter configured with unkown level: '%s'. This rule will be ignored!", level)
+        # todo better to crash, but how?
+        return None
+
+    def _configure_alert_filters(self, alert_filters: list[collections.OrderedDict], context_id: int):
+        """Protected method to configure the ZAP 'Context / Alert Filters' Settings based on a given ZAP config.
+        
+        Parameters
+        ----------
+        alert_filters : collections.OrderedDict
+            The current alert filter configuration object containing the ZAP alert filter configuration (based on the class ZapConfiguration).
+        context_id : int
+            The zap context id to configure the ZAP alert filters for (based on the class ZapConfiguration).
+        """
+
+        if(alert_filters):
+            for alert_filter in alert_filters:
+
+                matches = alert_filter["matches"] if "matches" in alert_filter else OrderedDict()
+
+                logging.info("Adding AlertFilter for rule '%d' in context with id %s", alert_filter["ruleId"], context_id)
+                self.get_zap.alertFilter.add_alert_filter(
+                    contextid = context_id,
+                    ruleid = str(alert_filter["ruleId"]),
+                    newlevel = str(self._get_level(alert_filter["newLevel"])),
+                    # optional matchers
+                    url = self._get_or_none(matches, "url"),
+                    urlisregex = str(self._get_or_none(matches, "urlIsRegex")),
+                    parameter = self._get_or_none(matches, "parameter"),
+                    parameterisregex = str(self._get_or_none(matches, "parameterIsRegex")),
+                    attack = self._get_or_none(matches, "attack"),
+                    attackisregex = str(self._get_or_none(matches, "attackIsRegex")),
+                    evidence = self._get_or_none(matches, "evidence"),
+                    evidenceisregex = str(self._get_or_none(matches, "evidenceIsRegex")),
+                )
