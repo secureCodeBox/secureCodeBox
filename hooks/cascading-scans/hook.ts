@@ -73,7 +73,7 @@ export function getCascadingScans(
   return cascadingScans;
 }
 
-function getScanChain(parentScan: Scan) {
+export function getScanChain(parentScan: Scan) {
   // Get the current Scan Chain (meaning which CascadingRules were used to start this scan and its parents) and convert it to a set, which makes it easier to query.
   if (
     parentScan.metadata.annotations &&

@@ -9,6 +9,7 @@ import {
   LabelSelector
 } from "./kubernetes-label-selector";
 import {isEqual} from "lodash";
+import {getScanChain} from "./hook";
 
 // configure k8s client
 const kc = new k8s.KubeConfig();
@@ -188,13 +189,11 @@ export function purgeCascadedRuleFromScan(scan: Scan, cascadedRuleUsedForParentS
 }
 
 export async function getCascadedRuleForScan(scan: Scan) {
-  if (typeof scan.metadata.annotations["cascading.securecodebox.io/chain"] === "undefined") return undefined;
+  const chain = getScanChain(scan)
 
-  const cascadingChain = scan.metadata.annotations["cascading.securecodebox.io/chain"].split(",")
+  if (chain.length === 0) return undefined;
 
-  if (cascadingChain.length === 0) return undefined;
-
-  return <CascadingRule> await getCascadingRule(cascadingChain[cascadingChain.length - 1]);
+  return <CascadingRule> await getCascadingRule(chain[chain.length - 1]);
 }
 
 async function getCascadingRule(ruleName) {
