@@ -91,7 +91,7 @@ export interface ExtendedScanSpec extends ScanSpec {
   finding: Finding
 }
 
-function mergeInheritedMap(parentProps, ruleProps, inherit: boolean = true) {
+export function mergeInheritedMap(parentProps, ruleProps, inherit: boolean = true) {
   if (!inherit) {
     parentProps = {};
   }
@@ -101,83 +101,11 @@ function mergeInheritedMap(parentProps, ruleProps, inherit: boolean = true) {
   }
 }
 
-function mergeInheritedArray(parentArray, ruleArray, inherit: boolean = false) {
+export function mergeInheritedArray(parentArray, ruleArray, inherit: boolean = false) {
   if (!inherit) {
     parentArray = [];
   }
   return (parentArray || []).concat(ruleArray)  // CascadingRule's env overwrites scan's env
-}
-
-export function getCascadingScanDefinition({
-   name,
-   scanType,
-   parameters,
-   generatedBy,
-   env,
-   volumes,
-   volumeMounts,
-   cascades,
-   scanLabels,
-   scanAnnotations,
-   finding
- }: ExtendedScanSpec, parentScan: Scan) {
-  let annotations = mergeInheritedMap(
-    parentScan.metadata.annotations, scanAnnotations, parentScan.spec.cascades.inheritAnnotations);
-  let labels = mergeInheritedMap(
-    parentScan.metadata.labels, scanLabels, parentScan.spec.cascades.inheritLabels);
-  env = mergeInheritedArray(
-    parentScan.spec.env, env, parentScan.spec.cascades.inheritEnv);
-  volumes = mergeInheritedArray(
-    parentScan.spec.volumes, volumes, parentScan.spec.cascades.inheritVolumes);
-  volumeMounts = mergeInheritedArray(
-    parentScan.spec.volumeMounts, volumeMounts, parentScan.spec.cascades.inheritVolumes);
-
-  let cascadingChain: Array<string> = [];
-
-  if (parentScan.metadata.annotations && parentScan.metadata.annotations["cascading.securecodebox.io/chain"]) {
-    cascadingChain = parentScan.metadata.annotations[
-      "cascading.securecodebox.io/chain"
-    ].split(",");
-  }
-
-  return {
-    apiVersion: "execution.securecodebox.io/v1",
-    kind: "Scan",
-    metadata: {
-      generateName: `${name}-`,
-      labels: {
-        ...labels
-      },
-      annotations: {
-        "securecodebox.io/hook": "cascading-scans",
-        "cascading.securecodebox.io/parent-scan": parentScan.metadata.name,
-        "cascading.securecodebox.io/matched-finding": finding.id,
-        "cascading.securecodebox.io/chain": [
-          ...cascadingChain,
-          generatedBy
-        ].join(","),
-        ...annotations,
-      },
-      ownerReferences: [
-        {
-          apiVersion: "execution.securecodebox.io/v1",
-          blockOwnerDeletion: true,
-          controller: true,
-          kind: "Scan",
-          name: parentScan.metadata.name,
-          uid: parentScan.metadata.uid
-        }
-      ]
-    },
-    spec: {
-      scanType,
-      parameters,
-      cascades,
-      env,
-      volumes,
-      volumeMounts,
-    }
-  };
 }
 
 export async function startSubsequentSecureCodeBoxScan(scan: Scan) {

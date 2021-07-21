@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { getCascadingScanDefinition } = require("./scan-helpers");
 const { getCascadingScans } = require("./hook");
 
 let parentScan = undefined;
@@ -80,29 +79,39 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", () =
   expect(cascadedScans).toMatchInlineSnapshot(`
     Array [
       Object {
-        "cascades": Object {},
-        "env": Array [],
-        "finding": Object {
-          "attributes": Object {
-            "hostname": "foobar.com",
-            "port": 443,
-            "service": "https",
-            "state": "open",
+        "apiVersion": "execution.securecodebox.io/v1",
+        "kind": "Scan",
+        "metadata": Object {
+          "annotations": Object {
+            "cascading.securecodebox.io/chain": "tls-scans",
+            "cascading.securecodebox.io/matched-finding": undefined,
+            "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
+            "securecodebox.io/hook": "cascading-scans",
           },
-          "category": "Open Port",
-          "name": "Port 443 is open",
+          "generateName": "sslyze-foobar.com-tls-scans-",
+          "labels": Object {},
+          "ownerReferences": Array [
+            Object {
+              "apiVersion": "execution.securecodebox.io/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "Scan",
+              "name": "nmap-foobar.com",
+              "uid": undefined,
+            },
+          ],
         },
-        "generatedBy": "tls-scans",
-        "name": "sslyze-foobar.com-tls-scans",
-        "parameters": Array [
-          "--regular",
-          "foobar.com:443",
-        ],
-        "scanAnnotations": Object {},
-        "scanLabels": Object {},
-        "scanType": "sslyze",
-        "volumeMounts": Array [],
-        "volumes": Array [],
+        "spec": Object {
+          "cascades": Object {},
+          "env": Array [],
+          "parameters": Array [
+            "--regular",
+            "foobar.com:443",
+          ],
+          "scanType": "sslyze",
+          "volumeMounts": Array [],
+          "volumes": Array [],
+        },
       },
     ]
   `);
@@ -152,36 +161,7 @@ test("Should not try to do magic to the scan name if its something random", () =
     sslyzeCascadingRules
   );
 
-  expect(cascadedScans).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "cascades": Object {},
-        "env": Array [],
-        "finding": Object {
-          "attributes": Object {
-            "hostname": undefined,
-            "ip_address": "10.42.42.42",
-            "port": 443,
-            "service": "https",
-            "state": "open",
-          },
-          "category": "Open Port",
-          "name": "Port 443 is open",
-        },
-        "generatedBy": "tls-scans",
-        "name": "foobar.com-tls-scans",
-        "parameters": Array [
-          "--regular",
-          "10.42.42.42:443",
-        ],
-        "scanAnnotations": Object {},
-        "scanLabels": Object {},
-        "scanType": "sslyze",
-        "volumeMounts": Array [],
-        "volumes": Array [],
-      },
-    ]
-  `);
+  expect(cascadedScans[0].metadata.generateName).toEqual("foobar.com-tls-scans-");
 });
 
 test("Should not start a new scan when the corresponding cascadingRule is already in the chain", () => {
@@ -235,29 +215,39 @@ test("Should not crash when the annotations are not set", () => {
   expect(cascadedScans).toMatchInlineSnapshot(`
     Array [
       Object {
-        "cascades": Object {},
-        "env": Array [],
-        "finding": Object {
-          "attributes": Object {
-            "hostname": "foobar.com",
-            "port": 443,
-            "service": "https",
-            "state": "open",
+        "apiVersion": "execution.securecodebox.io/v1",
+        "kind": "Scan",
+        "metadata": Object {
+          "annotations": Object {
+            "cascading.securecodebox.io/chain": "tls-scans",
+            "cascading.securecodebox.io/matched-finding": undefined,
+            "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
+            "securecodebox.io/hook": "cascading-scans",
           },
-          "category": "Open Port",
-          "name": "Port 443 is open",
+          "generateName": "sslyze-foobar.com-tls-scans-",
+          "labels": Object {},
+          "ownerReferences": Array [
+            Object {
+              "apiVersion": "execution.securecodebox.io/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "Scan",
+              "name": "nmap-foobar.com",
+              "uid": undefined,
+            },
+          ],
         },
-        "generatedBy": "tls-scans",
-        "name": "sslyze-foobar.com-tls-scans",
-        "parameters": Array [
-          "--regular",
-          "foobar.com:443",
-        ],
-        "scanAnnotations": Object {},
-        "scanLabels": Object {},
-        "scanType": "sslyze",
-        "volumeMounts": Array [],
-        "volumes": Array [],
+        "spec": Object {
+          "cascades": Object {},
+          "env": Array [],
+          "parameters": Array [
+            "--regular",
+            "foobar.com:443",
+          ],
+          "scanType": "sslyze",
+          "volumeMounts": Array [],
+          "volumes": Array [],
+        },
       },
     ]
   `);
@@ -290,42 +280,16 @@ test("Should copy ENV fields from cascadingRule to created scan", () => {
     sslyzeCascadingRules
   );
 
-  expect(cascadedScans).toMatchInlineSnapshot(`
+  expect(cascadedScans[0].spec.env).toMatchInlineSnapshot(`
     Array [
       Object {
-        "cascades": Object {},
-        "env": Array [
-          Object {
-            "name": "FOOBAR",
-            "valueFrom": Object {
-              "secretKeyRef": Object {
-                "key": "token",
-                "name": "foobar-token",
-              },
-            },
+        "name": "FOOBAR",
+        "valueFrom": Object {
+          "secretKeyRef": Object {
+            "key": "token",
+            "name": "foobar-token",
           },
-        ],
-        "finding": Object {
-          "attributes": Object {
-            "hostname": "foobar.com",
-            "port": 443,
-            "service": "https",
-            "state": "open",
-          },
-          "category": "Open Port",
-          "name": "Port 443 is open",
         },
-        "generatedBy": "tls-scans",
-        "name": "sslyze-foobar.com-tls-scans",
-        "parameters": Array [
-          "--regular",
-          "foobar.com:443",
-        ],
-        "scanAnnotations": Object {},
-        "scanLabels": Object {},
-        "scanType": "sslyze",
-        "volumeMounts": Array [],
-        "volumes": Array [],
       },
     ]
   `);
@@ -381,29 +345,39 @@ test("Should allow wildcards in cascadingRules", () => {
   expect(cascadedScans).toMatchInlineSnapshot(`
     Array [
       Object {
-        "cascades": Object {},
-        "env": Array [],
-        "finding": Object {
-          "attributes": Object {
-            "hostname": "foobar.com",
-            "port": 8443,
-            "service": "https-alt",
-            "state": "open",
+        "apiVersion": "execution.securecodebox.io/v1",
+        "kind": "Scan",
+        "metadata": Object {
+          "annotations": Object {
+            "cascading.securecodebox.io/chain": "tls-scans",
+            "cascading.securecodebox.io/matched-finding": undefined,
+            "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
+            "securecodebox.io/hook": "cascading-scans",
           },
-          "category": "Open Port",
-          "name": "Port 8443 is open",
+          "generateName": "sslyze-foobar.com-tls-scans-",
+          "labels": Object {},
+          "ownerReferences": Array [
+            Object {
+              "apiVersion": "execution.securecodebox.io/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "Scan",
+              "name": "nmap-foobar.com",
+              "uid": undefined,
+            },
+          ],
         },
-        "generatedBy": "tls-scans",
-        "name": "sslyze-foobar.com-tls-scans",
-        "parameters": Array [
-          "--regular",
-          "foobar.com:8443",
-        ],
-        "scanAnnotations": Object {},
-        "scanLabels": Object {},
-        "scanType": "sslyze",
-        "volumeMounts": Array [],
-        "volumes": Array [],
+        "spec": Object {
+          "cascades": Object {},
+          "env": Array [],
+          "parameters": Array [
+            "--regular",
+            "foobar.com:8443",
+          ],
+          "scanType": "sslyze",
+          "volumeMounts": Array [],
+          "volumes": Array [],
+        },
       },
     ]
   `);
@@ -437,10 +411,8 @@ test("should not copy labels if inheritLabels is set to false", () => {
   );
 
   for (const cascadedScan of cascadedScans) {
-    const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
-
     expect(Object.entries(parentScan.metadata.labels).every(([label, value]) =>
-      cascadingScanDefinition.metadata.labels[label] === value
+      cascadedScan.metadata.labels[label] === value
     )).toBe(false)
   }
 });
@@ -472,10 +444,8 @@ test("should copy labels if inheritLabels is not set", () => {
   );
 
   for (const cascadedScan of cascadedScans) {
-    const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
-
     expect(Object.entries(parentScan.metadata.labels).every(([label, value]) =>
-      cascadingScanDefinition.metadata.labels[label] === value
+      cascadedScan.metadata.labels[label] === value
     )).toBe(true)
   }
 });
@@ -509,10 +479,8 @@ test("should copy labels if inheritLabels is set to true", () => {
   );
 
   for (const cascadedScan of cascadedScans) {
-    const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
-
     expect(Object.entries(parentScan.metadata.labels).every(([label, value]) =>
-      cascadingScanDefinition.metadata.labels[label] === value
+      cascadedScan.metadata.labels[label] === value
     )).toBe(true)
   }
 });
@@ -544,10 +512,8 @@ test("should not copy annotations if inheritAnnotations is set to false", () => 
   );
 
   for (const cascadedScan of cascadedScans) {
-    const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
-
     expect(Object.entries(parentScan.metadata.annotations).every(([label, value]) =>
-      cascadingScanDefinition.metadata.annotations[label] === value
+      cascadedScan.metadata.annotations[label] === value
     )).toBe(false)
   }
 });
@@ -578,10 +544,8 @@ test("should copy annotations if inheritAnnotations is not set", () => {
   );
 
   for (const cascadedScan of cascadedScans) {
-    const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
-
     expect(Object.entries(parentScan.metadata.annotations).every(([label, value]) =>
-      cascadingScanDefinition.metadata.annotations[label] === value
+      cascadedScan.metadata.annotations[label] === value
     )).toBe(true)
   }
 });
@@ -613,10 +577,8 @@ test("should copy annotations if inheritAnnotations is set to true", () => {
   );
 
   for (const cascadedScan of cascadedScans) {
-    const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
-
     expect(Object.entries(parentScan.metadata.annotations).every(([label, value]) =>
-      cascadingScanDefinition.metadata.annotations[label] === value
+      cascadedScan.metadata.annotations[label] === value
     )).toBe(true)
   }
 });
@@ -647,10 +609,8 @@ test("should copy scanLabels from CascadingRule to cascading scan", () => {
   );
 
   const cascadedScan = cascadedScans[0]
-  const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
-
   expect(Object.entries(sslyzeCascadingRules[0].spec.scanLabels).every(([label, value]) =>
-    cascadingScanDefinition.metadata.labels[label] === value
+    cascadedScan.metadata.labels[label] === value
   )).toBe(true)
 });
 
@@ -680,10 +640,8 @@ test("should copy scanAnnotations from CascadingRule to cascading scan", () => {
   );
 
   const cascadedScan = cascadedScans[0]
-  const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
-
   expect(Object.entries(sslyzeCascadingRules[0].spec.scanAnnotations).every(([label, value]) =>
-    cascadingScanDefinition.metadata.annotations[label] === value
+    cascadedScan.metadata.annotations[label] === value
   )).toBe(true)
 });
 
@@ -716,21 +674,32 @@ test("should properly parse template values in scanLabels and scanAnnotations", 
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    sslyzeCascadingRules[0]
   );
 
-  const { scanLabels, scanAnnotations } = cascadedScans[0]
+  const { labels, annotations } = cascadedScans[0].metadata;
 
   // No snapshots as scanLabels/scanAnnotations can be in any order
-  const result = {
+  const labelResults = {
     "k_one": "nmap-foobar.com",
     "k_two": "",
     "k_three": "foobar.com",
   }
 
-  expect(scanLabels).toEqual(result)
+  expect(labels).toEqual(labelResults)
 
-  expect(scanAnnotations).toEqual(result)
+  const annotationsResults = {
+    "cascading.securecodebox.io/chain": "tls-scans",
+    "cascading.securecodebox.io/matched-finding": undefined,
+    "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
+    "securecodebox.io/hook": "cascading-scans",
+    "k_one": "nmap-foobar.com",
+    "k_two": "",
+    "k_three": "foobar.com",
+  };
+
+  expect(annotations).toEqual(annotationsResults)
 })
 
 test("should copy proper finding ID into annotations", () => {
@@ -766,9 +735,7 @@ test("should copy proper finding ID into annotations", () => {
   );
 
   const cascadedScan = cascadedScans[0]
-  const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
-
-  expect(Object.entries(cascadingScanDefinition.metadata.annotations).every(([label, value]) => {
+  expect(Object.entries(cascadedScan.metadata.annotations).every(([label, value]) => {
     if (label === "cascading.securecodebox.io/matched-finding") {
       return value === "f0c718bd-9987-42c8-2259-73794e61dd5a";
     } else return true;
@@ -812,9 +779,7 @@ test("should merge environment variables into cascaded scan", () => {
   );
 
   const cascadedScan = cascadedScans[0]
-  const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
-
-  expect(cascadingScanDefinition.spec.env).toMatchInlineSnapshot(`
+  expect(cascadedScan.spec.env).toMatchInlineSnapshot(`
     Array [
       Object {
         "name": "parent_environment_variable_name",
@@ -868,9 +833,7 @@ test("should merge volumeMounts into cascaded scan", () => {
   );
 
   const cascadedScan = cascadedScans[0]
-  const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
-
-  expect(cascadingScanDefinition.spec.volumeMounts).toMatchInlineSnapshot(`
+  expect(cascadedScan.spec.volumeMounts).toMatchInlineSnapshot(`
     Array [
       Object {
         "mountPath": "/etc/ssl/certs/ca-cert.cer",
@@ -927,10 +890,9 @@ test("should merge volumes into cascaded scan", () => {
     sslyzeCascadingRules
   );
 
-  const cascadedScan = cascadedScans[0]
-  const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
+  const cascadedScan = cascadedScans[0];
 
-  expect(cascadingScanDefinition.spec.volumes).toMatchInlineSnapshot(`
+  expect(cascadedScan.spec.volumes).toMatchInlineSnapshot(`
     Array [
       Object {
         "configMap": Object {
@@ -1021,7 +983,6 @@ test("should purge cascaded scan spec from parent scan", () => {
   );
 
   const cascadedScan = cascadedScans[0]
-  const cascadedScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan)
 
   // Create a second cascading rule
   sslyzeCascadingRules[1] = {
@@ -1055,10 +1016,10 @@ test("should purge cascaded scan spec from parent scan", () => {
     }
   }
 
-  cascadedScanDefinition.metadata.name = cascadedScanDefinition.metadata.generateName
+  cascadedScan.metadata.name = cascadedScan.metadata.generateName
 
   const secondCascadedScans = getCascadingScans(
-    cascadedScanDefinition,
+    cascadedScan,
     findings,
     sslyzeCascadingRules,
     sslyzeCascadingRules[0] // cascaded rule on parent
@@ -1066,9 +1027,7 @@ test("should purge cascaded scan spec from parent scan", () => {
 
   const secondCascadedScan = secondCascadedScans[0];
 
-  const secondCascadedScanDefinition = getCascadingScanDefinition(secondCascadedScan, cascadedScanDefinition);
-
-  expect(secondCascadedScanDefinition.spec.env).toMatchInlineSnapshot(`
+  expect(secondCascadedScan.spec.env).toMatchInlineSnapshot(`
     Array [
       Object {
         "name": "parent_environment_variable_name",
@@ -1077,7 +1036,7 @@ test("should purge cascaded scan spec from parent scan", () => {
     ]
   `)
 
-  expect(secondCascadedScanDefinition.spec.volumes).toMatchInlineSnapshot(`
+  expect(secondCascadedScan.spec.volumes).toMatchInlineSnapshot(`
     Array [
       Object {
         "configMap": Object {
@@ -1088,7 +1047,7 @@ test("should purge cascaded scan spec from parent scan", () => {
     ]
   `)
 
-  expect(secondCascadedScanDefinition.spec.volumeMounts).toMatchInlineSnapshot(`
+  expect(secondCascadedScan.spec.volumeMounts).toMatchInlineSnapshot(`
     Array [
       Object {
         "mountPath": "/etc/ssl/certs/ca-cert.cer",
@@ -1172,8 +1131,6 @@ test("should not copy cascaded scan spec from parent scan if inheritance is unde
   );
 
   const cascadedScan = cascadedScans[0]
-  const cascadedScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan)
-
   // Create a second cascading rule
   sslyzeCascadingRules[1] = {
     apiVersion: "cascading.securecodebox.io/v1",
@@ -1206,10 +1163,10 @@ test("should not copy cascaded scan spec from parent scan if inheritance is unde
     }
   }
 
-  cascadedScanDefinition.metadata.name = cascadedScanDefinition.metadata.generateName
+  cascadedScan.metadata.name = cascadedScan.metadata.generateName
 
   const secondCascadedScans = getCascadingScans(
-    cascadedScanDefinition,
+    cascadedScan,
     findings,
     sslyzeCascadingRules,
     sslyzeCascadingRules[0] // cascaded rule on parent
@@ -1217,12 +1174,10 @@ test("should not copy cascaded scan spec from parent scan if inheritance is unde
 
   const secondCascadedScan = secondCascadedScans[0];
 
-  const secondCascadedScanDefinition = getCascadingScanDefinition(secondCascadedScan, cascadedScanDefinition);
+  expect(secondCascadedScan.spec.env).toMatchInlineSnapshot(`Array []`)
 
-  expect(secondCascadedScanDefinition.spec.env).toMatchInlineSnapshot(`Array []`)
+  expect(secondCascadedScan.spec.volumes).toMatchInlineSnapshot(`Array []`)
 
-  expect(secondCascadedScanDefinition.spec.volumes).toMatchInlineSnapshot(`Array []`)
-
-  expect(secondCascadedScanDefinition.spec.volumeMounts).toMatchInlineSnapshot(`Array []`)
+  expect(secondCascadedScan.spec.volumeMounts).toMatchInlineSnapshot(`Array []`)
 
 });
