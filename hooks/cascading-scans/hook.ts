@@ -27,9 +27,9 @@ interface HandleArgs {
 export async function handle({ scan, getFindings }: HandleArgs) {
   const findings = await getFindings();
   const cascadingRules = await getCascadingRules(scan);
-  const cascadedRule = await getCascadedRule(scan);
+  const cascadedRuleUsedForParentScan = await getCascadedRuleForScan(scan);
 
-  const cascadingScans = getCascadingScans(scan, findings, cascadingRules, cascadedRule);
+  const cascadingScans = getCascadingScans(scan, findings, cascadingRules, cascadedRuleUsedForParentScan);
 
   for (const cascadingScan of cascadingScans) {
     const cascadingScanDefinition = getCascadingScanDefinition(cascadingScan, scan);
@@ -42,11 +42,6 @@ async function getCascadingRules(scan: Scan): Promise<Array<CascadingRule>> {
   return <Array<CascadingRule>>await getCascadingRulesForScan(scan);
 }
 
-async function getCascadedRule(scan: Scan): Promise<CascadingRule> {
-  // Explicit Cast to the proper Type
-  return <CascadingRule> await getCascadedRuleForScan(scan);
-}
-
 /**
  * Goes thought the Findings and the CascadingRules
  * and returns a List of Scans which should be started based on both.
@@ -55,12 +50,12 @@ export function getCascadingScans(
   parentScan: Scan,
   findings: Array<Finding>,
   cascadingRules: Array<CascadingRule>,
-  cascadedRule: CascadingRule
+  cascadedRuleUsedForParentScan: CascadingRule
 ): Array<ExtendedScanSpec> {
   let cascadingScans: Array<ExtendedScanSpec> = [];
   const cascadingRuleChain = getScanChain(parentScan);
 
-  parentScan = purgeCascadedRuleFromScan(parentScan, cascadedRule);
+  parentScan = purgeCascadedRuleFromScan(parentScan, cascadedRuleUsedForParentScan);
 
   for (const cascadingRule of cascadingRules) {
     // Check if the Same CascadingRule was already applied in the Cascading Chain

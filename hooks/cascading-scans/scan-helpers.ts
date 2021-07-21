@@ -232,24 +232,27 @@ export async function getCascadingRulesForScan(scan: Scan) {
   }
 }
 
-export function purgeCascadedRuleFromScan(scan: Scan, cascadedRule?: CascadingRule) : Scan {
-  if (cascadedRule === undefined) return scan;
+// To ensure that the environment variables and volumes from the cascading rule are only applied to the matched scan
+// (and not its children), this function purges the cascading rule spec from the parent scan when inheriting them.
+export function purgeCascadedRuleFromScan(scan: Scan, cascadedRuleUsedForParentScan?: CascadingRule) : Scan {
+  // If there was no cascading rule applied to the parent scan, then ignore no purging is necessary.
+  if (cascadedRuleUsedForParentScan === undefined) return scan;
 
-  if (scan.spec.env !== undefined && cascadedRule.spec.scanSpec.env !== undefined) {
+  if (scan.spec.env !== undefined && cascadedRuleUsedForParentScan.spec.scanSpec.env !== undefined) {
     scan.spec.env = scan.spec.env.filter(scanEnv =>
-      !cascadedRule.spec.scanSpec.env.some(ruleEnv => isEqual(scanEnv, ruleEnv))
+      !cascadedRuleUsedForParentScan.spec.scanSpec.env.some(ruleEnv => isEqual(scanEnv, ruleEnv))
     );
   }
 
-  if (scan.spec.volumes !== undefined && cascadedRule.spec.scanSpec.volumes !== undefined) {
+  if (scan.spec.volumes !== undefined && cascadedRuleUsedForParentScan.spec.scanSpec.volumes !== undefined) {
     scan.spec.volumes = scan.spec.volumes.filter(scanVolume =>
-      !cascadedRule.spec.scanSpec.volumes.some(ruleVolume => isEqual(scanVolume, ruleVolume))
+      !cascadedRuleUsedForParentScan.spec.scanSpec.volumes.some(ruleVolume => isEqual(scanVolume, ruleVolume))
     );
   }
 
-  if (scan.spec.volumeMounts !== undefined && cascadedRule.spec.scanSpec.volumeMounts !== undefined) {
+  if (scan.spec.volumeMounts !== undefined && cascadedRuleUsedForParentScan.spec.scanSpec.volumeMounts !== undefined) {
     scan.spec.volumeMounts = scan.spec.volumeMounts.filter(scanVolumeMount =>
-      !cascadedRule.spec.scanSpec.volumeMounts.some(ruleVolumeMount => isEqual(scanVolumeMount, ruleVolumeMount))
+      !cascadedRuleUsedForParentScan.spec.scanSpec.volumeMounts.some(ruleVolumeMount => isEqual(scanVolumeMount, ruleVolumeMount))
     );
   }
 
@@ -257,10 +260,13 @@ export function purgeCascadedRuleFromScan(scan: Scan, cascadedRule?: CascadingRu
 }
 
 export async function getCascadedRuleForScan(scan: Scan) {
-  if (scan.metadata.generation === 1) return undefined;
+  if (typeof scan.metadata.annotations["cascading.securecodebox.io/chain"] === "undefined") return undefined;
 
   const cascadingChain = scan.metadata.annotations["cascading.securecodebox.io/chain"].split(",")
-  return await getCascadingRule(cascadingChain[cascadingChain.length - 1]);
+
+  if (cascadingChain.length === 0) return undefined;
+
+  return <CascadingRule> await getCascadingRule(cascadingChain[cascadingChain.length - 1]);
 }
 
 async function getCascadingRule(ruleName) {
