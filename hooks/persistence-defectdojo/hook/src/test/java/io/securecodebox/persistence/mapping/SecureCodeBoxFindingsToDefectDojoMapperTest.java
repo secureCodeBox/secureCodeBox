@@ -44,7 +44,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
   public void correctlyParsesFindings() throws IOException {
     var name = "Name";
     var description = "Description";
-    var severity = "High";
+    var severity = "HIGH";
     var id = "123";
     var location = "ldap://[2001:db8::7]/c=GB?objectClass?one";
     var attributes = new HashMap<String, Object>();
@@ -54,7 +54,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
     attributes.put("attribute_2", "2");
     attributes.put("attribute_3", "3");
     var scbFinding = SecureCodeBoxFinding.builder().name(name).description(description)
-      .severity(SecureCodeBoxFinding.Severities.High).id(id).location(location).attributes(attributes)
+      .severity(SecureCodeBoxFinding.Severities.HIGH).id(id).location(location).attributes(attributes)
       .build();
 
     var ddFinding = SecureCodeBoxFindingsToDefectDojoMapper.fromSecureCodeBoxFinding(scbFinding);

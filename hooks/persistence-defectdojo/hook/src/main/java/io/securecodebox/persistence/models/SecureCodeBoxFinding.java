@@ -42,14 +42,10 @@ public class SecureCodeBoxFinding {
   Map<String, Object> attributes;
 
   public enum Severities {
-    @JsonProperty("HIGH")
-    High,
-    @JsonProperty("MEDIUM")
-    Medium,
-    @JsonProperty("LOW")
-    Low,
-    @JsonProperty("INFORMATIONAL")
-    Informational
+    HIGH,
+    MEDIUM,
+    LOW,
+    INFORMATIONAL
     ;
   }
 }

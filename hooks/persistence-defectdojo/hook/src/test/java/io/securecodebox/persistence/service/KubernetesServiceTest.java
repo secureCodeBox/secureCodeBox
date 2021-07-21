@@ -17,10 +17,10 @@ class KubernetesServiceTest {
   @Test
   public void calculatesFindingStatsCorrectly() throws Exception{
     var findings = List.of(
-      SecureCodeBoxFinding.builder().category("Open Port").severity(SecureCodeBoxFinding.Severities.Informational).build(),
-      SecureCodeBoxFinding.builder().category("Open Port").severity(SecureCodeBoxFinding.Severities.Informational).build(),
-      SecureCodeBoxFinding.builder().category("Open Port").severity(SecureCodeBoxFinding.Severities.Informational).build(),
-      SecureCodeBoxFinding.builder().category("Host").severity(SecureCodeBoxFinding.Severities.Informational).build()
+      SecureCodeBoxFinding.builder().category("Open Port").severity(SecureCodeBoxFinding.Severities.INFORMATIONAL).build(),
+      SecureCodeBoxFinding.builder().category("Open Port").severity(SecureCodeBoxFinding.Severities.INFORMATIONAL).build(),
+      SecureCodeBoxFinding.builder().category("Open Port").severity(SecureCodeBoxFinding.Severities.INFORMATIONAL).build(),
+      SecureCodeBoxFinding.builder().category("Host").severity(SecureCodeBoxFinding.Severities.INFORMATIONAL).build()
     );
 
     var actualStats = KubernetesService.recalculateFindingStats(findings);

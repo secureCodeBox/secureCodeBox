@@ -108,16 +108,16 @@ public class KubernetesService {
     severities.setHigh(0L);
     for (var finding: secureCodeBoxFindings) {
       switch (finding.getSeverity()) {
-        case High:
+        case HIGH:
           severities.setHigh(severities.getHigh() + 1L);
           break;
-        case Medium:
+        case MEDIUM:
           severities.setMedium(severities.getMedium() + 1L);
           break;
-        case Low:
+        case LOW:
           severities.setLow(severities.getLow() + 1L);
           break;
-        case Informational:
+        case INFORMATIONAL:
           severities.setInformational(severities.getInformational() + 1L);
           break;
       }
