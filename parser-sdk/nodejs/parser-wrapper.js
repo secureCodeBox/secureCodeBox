@@ -4,7 +4,7 @@
 
 const axios = require("axios");
 const { parse } = require("./parser/parser");
-const { v4: uuid } = require('uuid');
+const { validate, addIdsAndDates } = require("./parser-utils");
 const k8s = require("@kubernetes/client-node");
 
 const kc = new k8s.KubeConfig();
@@ -20,8 +20,36 @@ function severityCount(findings, severity) {
   ).length;
 }
 
-async function updateScanStatus(findings) {
+async function uploadResultToFileStorageService(
+  resultUploadUrl,
+  findingsWithIdsAndDates
+) {
+  return axios
+    .put(resultUploadUrl, findingsWithIdsAndDates, {
+      headers: { "content-type": "" },
+    })
+    .catch(function (error) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error(
+          `Finding Upload Failed with Response Code: ${error.response.status}`
+        );
+        console.error(`Error Response Body: ${error.response.data}`);
+      } else if (error.request) {
+        console.error(
+          "No response received from FileStorage when uploading finding"
+        );
+        console.error(error);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log("Error", error.message);
+      }
+      process.exit(1);
+    });
+}
 
+async function updateScanStatus(findings) {
   try {
     const findingCategories = new Map();
     for (const { category } of findings) {
@@ -105,41 +133,31 @@ async function main() {
   console.log(`Transformed raw result file into ${findings.length} findings`);
 
   console.log("Adding UUIDs and Dates to the findings");
-  const findingsWithIdsAndDates = findings.map((finding) => {
-    return {
-      ...finding,
-      id: uuid(),
-      parsed_at: new Date().toISOString(),
-    };
-  });
+  const findingsWithIdsAndDates = addIdsAndDates(findings);
+
+  console.log("Validating Findings");
+  try {
+    await validate(findings);
+  } catch (error) {
+    console.error("Findings Validation failed with error:");
+    console.error(error);
+    if (process.env["CRASH_ON_FAILED_VALIDATION"] === "true") {
+      process.exit(1);
+    }
+  }
 
   await updateScanStatus(findings);
 
   console.log(`Uploading results to the file storage service`);
 
-  await axios
-    .put(resultUploadUrl, findingsWithIdsAndDates, { headers: { "content-type": "" } })
-    .catch(function(error) {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.error(
-          `Finding Upload Failed with Response Code: ${error.response.status}`
-        );
-        console.error(`Error Response Body: ${error.response.data}`);
-      } else if (error.request) {
-        console.error(
-          "No response received from FileStorage when uploading finding"
-        );
-        console.error(error);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log("Error", error.message);
-      }
-      process.exit(1);
-    });
+  await uploadResultToFileStorageService(
+    resultUploadUrl,
+    findingsWithIdsAndDates
+  );
 
   console.log(`Completed parser`);
 }
 
 main();
+
+module.exports.addIdsAndDates = addIdsAndDates;
