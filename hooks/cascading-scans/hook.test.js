@@ -647,40 +647,6 @@ test("should copy scanLabels from CascadingRule to cascading scan", () => {
   );
 
   const cascadedScan = cascadedScans[0]
-
-  expect(cascadedScans).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "cascades": Object {},
-        "env": Array [],
-        "finding": Object {
-          "attributes": Object {
-            "hostname": "foobar.com",
-            "port": 443,
-            "service": "https",
-            "state": "open",
-          },
-          "category": "Open Port",
-          "name": "Port 443 is open",
-        },
-        "generatedBy": "tls-scans",
-        "name": "sslyze-foobar.com-tls-scans",
-        "parameters": Array [
-          "--regular",
-          "foobar.com:443",
-        ],
-        "scanAnnotations": Object {},
-        "scanLabels": Object {
-          "k_one": "v_one",
-          "k_two": "v_two",
-        },
-        "scanType": "sslyze",
-        "volumeMounts": Array [],
-        "volumes": Array [],
-      },
-    ]
-  `);
-
   const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
 
   expect(Object.entries(sslyzeCascadingRules[0].spec.scanLabels).every(([label, value]) =>
@@ -714,40 +680,6 @@ test("should copy scanAnnotations from CascadingRule to cascading scan", () => {
   );
 
   const cascadedScan = cascadedScans[0]
-
-  expect(cascadedScans).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "cascades": Object {},
-        "env": Array [],
-        "finding": Object {
-          "attributes": Object {
-            "hostname": "foobar.com",
-            "port": 443,
-            "service": "https",
-            "state": "open",
-          },
-          "category": "Open Port",
-          "name": "Port 443 is open",
-        },
-        "generatedBy": "tls-scans",
-        "name": "sslyze-foobar.com-tls-scans",
-        "parameters": Array [
-          "--regular",
-          "foobar.com:443",
-        ],
-        "scanAnnotations": Object {
-          "k_one": "v_one",
-          "k_two": "v_two",
-        },
-        "scanLabels": Object {},
-        "scanType": "sslyze",
-        "volumeMounts": Array [],
-        "volumes": Array [],
-      },
-    ]
-  `);
-
   const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
 
   expect(Object.entries(sslyzeCascadingRules[0].spec.scanAnnotations).every(([label, value]) =>
@@ -834,38 +766,6 @@ test("should copy proper finding ID into annotations", () => {
   );
 
   const cascadedScan = cascadedScans[0]
-
-  expect(cascadedScans).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "cascades": Object {},
-        "env": Array [],
-        "finding": Object {
-          "attributes": Object {
-            "hostname": "foobar.com",
-            "port": 443,
-            "service": "https",
-            "state": "open",
-          },
-          "category": "Open Port",
-          "id": "f0c718bd-9987-42c8-2259-73794e61dd5a",
-          "name": "Port 443 is open",
-        },
-        "generatedBy": "tls-scans",
-        "name": "sslyze-foobar.com-tls-scans",
-        "parameters": Array [
-          "--regular",
-          "foobar.com:443",
-        ],
-        "scanAnnotations": Object {},
-        "scanLabels": Object {},
-        "scanType": "sslyze",
-        "volumeMounts": Array [],
-        "volumes": Array [],
-      },
-    ]
-  `);
-
   const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
 
   expect(Object.entries(cascadingScanDefinition.metadata.annotations).every(([label, value]) => {
@@ -912,44 +812,6 @@ test("should merge environment variables into cascaded scan", () => {
   );
 
   const cascadedScan = cascadedScans[0]
-
-  expect(cascadedScans).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "cascades": Object {
-          "inheritEnv": true,
-        },
-        "env": Array [
-          Object {
-            "name": "rule_environment_variable_name",
-            "value": "rule_environment_variable_value",
-          },
-        ],
-        "finding": Object {
-          "attributes": Object {
-            "hostname": "foobar.com",
-            "port": 443,
-            "service": "https",
-            "state": "open",
-          },
-          "category": "Open Port",
-          "name": "Port 443 is open",
-        },
-        "generatedBy": "tls-scans",
-        "name": "sslyze-foobar.com-tls-scans",
-        "parameters": Array [
-          "--regular",
-          "foobar.com:443",
-        ],
-        "scanAnnotations": Object {},
-        "scanLabels": Object {},
-        "scanType": "sslyze",
-        "volumeMounts": Array [],
-        "volumes": Array [],
-      },
-    ]
-  `);
-
   const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
 
   expect(cascadingScanDefinition.spec.env).toMatchInlineSnapshot(`
@@ -1006,46 +868,6 @@ test("should merge volumeMounts into cascaded scan", () => {
   );
 
   const cascadedScan = cascadedScans[0]
-
-  expect(cascadedScans).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "cascades": Object {
-          "inheritVolumes": true,
-        },
-        "env": Array [],
-        "finding": Object {
-          "attributes": Object {
-            "hostname": "foobar.com",
-            "port": 443,
-            "service": "https",
-            "state": "open",
-          },
-          "category": "Open Port",
-          "name": "Port 443 is open",
-        },
-        "generatedBy": "tls-scans",
-        "name": "sslyze-foobar.com-tls-scans",
-        "parameters": Array [
-          "--regular",
-          "foobar.com:443",
-        ],
-        "scanAnnotations": Object {},
-        "scanLabels": Object {},
-        "scanType": "sslyze",
-        "volumeMounts": Array [
-          Object {
-            "mountPath": "/etc/ssl/certs/ca-cert-sslyze.cer",
-            "name": "ca-certificate-sslyze",
-            "readOnly": true,
-            "subPath": "ca-cert-sslyze.cer",
-          },
-        ],
-        "volumes": Array [],
-      },
-    ]
-  `);
-
   const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
 
   expect(cascadingScanDefinition.spec.volumeMounts).toMatchInlineSnapshot(`
@@ -1106,46 +928,6 @@ test("should merge volumes into cascaded scan", () => {
   );
 
   const cascadedScan = cascadedScans[0]
-
-  expect(cascadedScans).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "cascades": Object {
-          "inheritVolumes": true,
-        },
-        "env": Array [],
-        "finding": Object {
-          "attributes": Object {
-            "hostname": "foobar.com",
-            "port": 443,
-            "service": "https",
-            "state": "open",
-          },
-          "category": "Open Port",
-          "name": "Port 443 is open",
-        },
-        "generatedBy": "tls-scans",
-        "name": "sslyze-foobar.com-tls-scans",
-        "parameters": Array [
-          "--regular",
-          "foobar.com:443",
-        ],
-        "scanAnnotations": Object {},
-        "scanLabels": Object {},
-        "scanType": "sslyze",
-        "volumeMounts": Array [],
-        "volumes": Array [
-          Object {
-            "configMap": Object {
-              "name": "ca-certificate-sslyze",
-            },
-            "name": "ca-certificate-sslyze",
-          },
-        ],
-      },
-    ]
-  `);
-
   const cascadingScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan);
 
   expect(cascadingScanDefinition.spec.volumes).toMatchInlineSnapshot(`
@@ -1239,59 +1021,6 @@ test("should purge cascaded scan spec from parent scan", () => {
   );
 
   const cascadedScan = cascadedScans[0]
-
-  expect(cascadedScans).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "cascades": Object {
-          "inheritEnv": true,
-          "inheritVolumes": true,
-        },
-        "env": Array [
-          Object {
-            "name": "rule_environment_variable_name",
-            "value": "rule_environment_variable_value",
-          },
-        ],
-        "finding": Object {
-          "attributes": Object {
-            "hostname": "foobar.com",
-            "port": 443,
-            "service": "https",
-            "state": "open",
-          },
-          "category": "Open Port",
-          "name": "Port 443 is open",
-        },
-        "generatedBy": "tls-scans",
-        "name": "sslyze-foobar.com-tls-scans",
-        "parameters": Array [
-          "--regular",
-          "foobar.com:443",
-        ],
-        "scanAnnotations": Object {},
-        "scanLabels": Object {},
-        "scanType": "sslyze",
-        "volumeMounts": Array [
-          Object {
-            "mountPath": "/etc/ssl/certs/ca-cert-sslyze.cer",
-            "name": "ca-certificate-sslyze",
-            "readOnly": true,
-            "subPath": "ca-cert-sslyze.cer",
-          },
-        ],
-        "volumes": Array [
-          Object {
-            "configMap": Object {
-              "name": "ca-certificate-sslyze",
-            },
-            "name": "ca-certificate-sslyze",
-          },
-        ],
-      },
-    ]
-  `);
-
   const cascadedScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan)
 
   // Create a second cascading rule
@@ -1443,56 +1172,6 @@ test("should not copy cascaded scan spec from parent scan if inheritance is unde
   );
 
   const cascadedScan = cascadedScans[0]
-
-  expect(cascadedScans).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "cascades": Object {},
-        "env": Array [
-          Object {
-            "name": "rule_environment_variable_name",
-            "value": "rule_environment_variable_value",
-          },
-        ],
-        "finding": Object {
-          "attributes": Object {
-            "hostname": "foobar.com",
-            "port": 443,
-            "service": "https",
-            "state": "open",
-          },
-          "category": "Open Port",
-          "name": "Port 443 is open",
-        },
-        "generatedBy": "tls-scans",
-        "name": "sslyze-foobar.com-tls-scans",
-        "parameters": Array [
-          "--regular",
-          "foobar.com:443",
-        ],
-        "scanAnnotations": Object {},
-        "scanLabels": Object {},
-        "scanType": "sslyze",
-        "volumeMounts": Array [
-          Object {
-            "mountPath": "/etc/ssl/certs/ca-cert-sslyze.cer",
-            "name": "ca-certificate-sslyze",
-            "readOnly": true,
-            "subPath": "ca-cert-sslyze.cer",
-          },
-        ],
-        "volumes": Array [
-          Object {
-            "configMap": Object {
-              "name": "ca-certificate-sslyze",
-            },
-            "name": "ca-certificate-sslyze",
-          },
-        ],
-      },
-    ]
-  `);
-
   const cascadedScanDefinition = getCascadingScanDefinition(cascadedScan, parentScan)
 
   // Create a second cascading rule
