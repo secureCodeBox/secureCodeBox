@@ -70,28 +70,6 @@ export interface CascadingInheritance {
   inheritVolumes: boolean
 }
 
-export interface ExtendedScanSpec extends ScanSpec {
-  // This is the name of the scan. Its not "really" part of the scan spec
-  // But this makes the object smaller
-  name: string;
-
-  // Indicates which CascadingRule was used to generate the resulting Scan
-  generatedBy: string;
-
-  // Additional label to be added to the resulting scan
-  scanLabels: {
-    [key: string]: string;
-  };
-
-  // Additional annotations to be added to the resulting scan
-  scanAnnotations: {
-    [key: string]: string;
-  };
-
-  // Finding that triggered the scan
-  finding: Finding
-}
-
 export function mergeInheritedMap(parentProps, ruleProps, inherit: boolean = true) {
   if (!inherit) {
     parentProps = {};

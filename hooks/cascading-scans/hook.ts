@@ -13,7 +13,6 @@ import {
   Scan,
   Finding,
   CascadingRule,
-  ExtendedScanSpec,
   getCascadedRuleForScan,
   purgeCascadedRuleFromScan,
   mergeInheritedMap,
