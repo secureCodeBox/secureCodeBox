@@ -64,7 +64,8 @@
         "id",
         "parsed_at",
         "severity",
-        "category"
+        "category",
+        "name"
       ]
     }
   }
