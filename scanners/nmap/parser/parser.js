@@ -21,7 +21,7 @@ function transformToFindings(hosts) {
 
     return openPorts.map(openPort => {
       return {
-        name: openPort.service || `Open Port: ${openPort.port}`,
+        name: openPort.service ? `Open Port: ${openPort.port} (${openPort.service})`: `Open Port: ${openPort.port}`,
         description: `Port ${openPort.port} is ${openPort.state} using ${openPort.protocol} protocol.`,
         category: 'Open Port',
         location: `${openPort.protocol}://${hostInfo.ip}:${openPort.port}`,
