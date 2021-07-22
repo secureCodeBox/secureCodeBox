@@ -4,6 +4,9 @@
 
 const fs = require("fs");
 const util = require("util");
+const {
+  validateParser,
+} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 const readFile = util.promisify(fs.readFile);
@@ -16,8 +19,9 @@ test("parses bkimminich/juice-shop:v10.2.0 result file into findings", async () 
       encoding: "utf8",
     })
   );
-
-  expect(await parse(fileContent)).toMatchSnapshot();
+  const findings = await parse(fileContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchSnapshot();
 });
 
 test("parses securecodebox/amass:unstable@sha256:05954f82eaa7bbe81dfc81907113c1e8d9b2409f3d38be3f0e12bccb322bea2c result file into findings", async () => {
@@ -28,7 +32,9 @@ test("parses securecodebox/amass:unstable@sha256:05954f82eaa7bbe81dfc81907113c1e
     )
   );
 
-  expect(await parse(fileContent)).toMatchSnapshot();
+  const findings = await parse(fileContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchSnapshot();
 });
 
 test("parses securecodebox/engine with implicit latest tag result file into findings", async () => {
@@ -38,7 +44,9 @@ test("parses securecodebox/engine with implicit latest tag result file into find
     })
   );
 
-  expect(await parse(fileContent)).toMatchSnapshot();
+  const findings = await parse(fileContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchSnapshot();
 });
 
 test("parses securecodebox/ssh:unstable result file into findings", async () => {
@@ -49,7 +57,9 @@ test("parses securecodebox/ssh:unstable result file into findings", async () => 
     )
   );
 
-  expect(await parse(fileContent)).toMatchSnapshot();
+  const findings = await parse(fileContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchSnapshot();
 });
 
 test("parses mediawiki:stable result file into findings", async () => {
@@ -59,7 +69,9 @@ test("parses mediawiki:stable result file into findings", async () => {
     })
   );
 
-  expect(await parse(fileContent)).toMatchSnapshot();
+  const findings = await parse(fileContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchSnapshot();
 });
 
 test("parses mediawiki:1.27.3 result file into findings", async () => {
@@ -69,5 +81,7 @@ test("parses mediawiki:1.27.3 result file into findings", async () => {
     })
   );
 
-  expect(await parse(fileContent)).toMatchSnapshot();
+  const findings = await parse(fileContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchSnapshot();
 });

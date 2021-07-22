@@ -1,0 +1,34 @@
+{
+  "findings": [
+    {
+      "title": "Read access to pod's service account token",
+      "description": " Accessing the pod service account token gives an attacker the option to use the server API \n {\n  \"evidence\" : \"eyJhbGciOiJSUzI1NiIsImtpZCI6IkxuOE9ZaGt1SFFabmwzN3ZEYlg1R2ZqX25VVWtnWUlnU0VOdExBbWE4VFEifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6Imx1cmNoZXItdG9rZW4tdjI4cWIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoibHVyY2hlciIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjIzMTg2YTI5LTY0NDQtNGI3Ny1hZjA1LTY5YzcyYWViZWYwZCIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0Omx1cmNoZXIifQ.IeiByhB-g3W6Zzr4_cEU2sdfyAHVwgnKn-apu8YVkS9886zSeg_BB4F-KsljFApt8gZA4gzLEMuDTEubURkD-omaWw6_eHkV_SfIiD69rvLFC-wTtLLxQijrfBa1ZJ6PxI1kVnykaWMnmBUbkqaK-xsnhw8_pk536qWjwEFUyf6PUUg1wzk_IpEQAY8paDzB1Od2eoE18NbXUFZYllsqKZly59jvsjwPRRHk8yYr3eQW6AyxBezOhpY9qI3kooKY2_mzMXAiyrcmb-apucQabMuDfVaFF7zR0OQ-1wR_hwH-ZfLZXjf9S0Im8_Hf0WLPw60iWp5d9g_kdKuysPlJGg\",\n  \"kubeHunterRule\" : \"Access Secrets\"\n}",
+      "severity": "LOW",
+      "date": "2020-04-15",
+      "unique_id_from_tool": "df9afbb5-f0c4-475b-a0e5-e3635c55917a",
+      "endpoints": [
+        "tcp://10.1.0.1"
+      ]
+    },
+    {
+      "title": "CAP_NET_RAW Enabled",
+      "description": "CAP_NET_RAW is enabled by default for pods.\n    If an attacker manages to compromise a pod,\n    they could potentially take advantage of this capability to perform network\n    attacks on other pods running on the same node\n {\n  \"evidence\" : \"\",\n  \"kubeHunterRule\" : \"Pod Capabilities Hunter\"\n}",
+      "severity": "LOW",
+      "date": "2020-04-16",
+      "unique_id_from_tool": "341ad0c8-0f3b-47ff-9b89-83d4a7e121f7",
+      "endpoints": [
+        "tcp://10.1.0.1"
+      ]
+    },
+    {
+      "title": "Access to pod's secrets",
+      "description": " Accessing the pod's secrets within a compromised pod might disclose valuable data to a potential attacker\n {\n  \"evidence\" : \"['/var/run/secrets/kubernetes.io/serviceaccount/token', '/var/run/secrets/kubernetes.io/serviceaccount/namespace', '/var/run/secrets/kubernetes.io/serviceaccount/ca.crt', '/var/run/secrets/kubernetes.io/serviceaccount/..2021_05_17_21_58_54.448582170/token', '/var/run/secrets/kubernetes.io/serviceaccount/..2021_05_17_21_58_54.448582170/namespace', '/var/run/secrets/kubernetes.io/serviceaccount/..2021_05_17_21_58_54.448582170/ca.crt']\",\n  \"kubeHunterRule\" : \"Access Secrets\"\n}",
+      "severity": "LOW",
+      "date": "2020-04-17",
+      "unique_id_from_tool": "eb0c75cf-beef-4fd8-b2ed-6e46a5afa1bc",
+      "endpoints": [
+        "tcp://10.1.0.1"
+      ]
+    }
+  ]
+}

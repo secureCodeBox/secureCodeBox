@@ -4,6 +4,9 @@
 
 const fs = require("fs");
 const util = require("util");
+const {
+  validateParser,
+} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 const readFile = util.promisify(fs.readFile);
@@ -17,7 +20,9 @@ test("WPScan parser parses a successfully scan result with at least one informat
     })
   );
 
-  expect(await parse(scanResults)).toMatchInlineSnapshot(`
+  const findings = await parse(scanResults);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot(`
     Array [
       Object {
         "attributes": Object {
@@ -141,7 +146,9 @@ test("WPScan parser parses a scan result file without a detected wp version corr
     })
   );
 
-  expect(await parse(scanResults)).toMatchInlineSnapshot(`
+  const findings = await parse(scanResults);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot(`
     Array [
       Object {
         "attributes": Object {

@@ -4,6 +4,9 @@
 
 const fs = require("fs");
 const util = require("util");
+const {
+  validateParser,
+} = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 const readFile = util.promisify(fs.readFile);
@@ -14,7 +17,10 @@ test("example parser parses empty json files to zero findings", async () => {
   const fileContent = await readFile(__dirname + "/__testFiles__/empty.jsonl", {
     encoding: "utf8",
   });
-  expect(await parse(fileContent)).toEqual([]);
+
+  const findings = await parse(fileContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toEqual([]);
 });
 
 // test("example parser parses missing json files to zero findings", async () => {
@@ -32,8 +38,10 @@ test("example parser parses single line json successully", async () => {
       encoding: "utf8",
     }
   );
+  const findings = await parse(fileContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
 
-  expect(await parse(fileContent)).toMatchInlineSnapshot(`
+  expect(findings).toMatchInlineSnapshot(`
   Array [
     Object {
       "attributes": Object {
@@ -69,7 +77,9 @@ test("example parser parses large json result successfully", async () => {
     }
   );
 
-  expect(await parse(fileContent)).toMatchSnapshot();
+  const findings = await parse(fileContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchSnapshot();
 });
 
 // axios parses jsonl with a single line / entry as a json object as they are coincidentally also valid json objects.
@@ -91,5 +101,7 @@ test("handles jsonl files with a single row correctly", async () => {
     sources: ["Crtsh"],
   };
 
-  expect(await parse(fileContent)).toMatchSnapshot();
+  const findings = await parse(fileContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchSnapshot();
 });

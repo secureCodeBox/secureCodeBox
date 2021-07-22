@@ -45,4 +45,4 @@ annotations:
   artifacthub.io/operatorCapabilities: Seamless Upgrades
   artifacthub.io/prerelease: "true"
   artifacthub.io/recommendations: |
-    - url: https://artifacthub.io/packages/helm/seccurecodebox/operator
+    - url: https://artifacthub.io/packages/helm/securecodebox/operator

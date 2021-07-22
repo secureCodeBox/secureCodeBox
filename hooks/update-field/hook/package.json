@@ -1,0 +1,44 @@
+{
+"name": "@securecodebox/hook-update-field",
+  "version": "1.0.0",
+  "description": "secureCodeBox Hook for Update Field",
+  "homepage": "https://www.secureCodeBox.io",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/secureCodeBox/secureCodeBox.git"
+  },
+  "main": "hook.js",
+  "scripts": {
+    "test": "jest ."
+  },
+  "keywords": [
+    "secureCodeBox",
+    "security",
+    "scanner"
+  ],
+  "author": {
+    "name": "iteratec GmbH",
+    "email": "securecodebox@iteratec.com",
+    "url": "https://www.iteratec.com"
+  },
+  "contributors": [
+    {
+      "name": "Jannik Hollenbach",
+      "url": "https://github.com/J12934"
+    },
+    {
+      "name": "Robert Seedorff",
+      "url": "https://github.com/rseedorff"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/secureCodeBox/secureCodeBox/issues"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "lodash.set": "^4.3.2"
+  },
+  "devDependencies": {
+    "jest": "^27.0.6"
+  }
+}
