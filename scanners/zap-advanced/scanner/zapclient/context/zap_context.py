@@ -17,7 +17,7 @@ from .zap_context_authentication import ZapConfigureContextAuthentication
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     format='%(asctime)s %(name)-12s %(levelname)-8s: %(message)s',
     datefmt='%Y-%m-%d %H:%M')
 
@@ -304,8 +304,7 @@ class ZapConfigureContext(ZapClient):
         elif level == "high":
             return 3
 
-        logging.warn("AlertFilter configured with unkown level: '%s'. This rule will be ignored!", level)
-        # todo better to crash, but how?
+        logging.warn("AlertFilter configured with unknown level: '%s'. This rule will be ignored!", level)
         return None
 
     def _configure_alert_filters(self, alert_filters: list[collections.OrderedDict], context_id: int):
@@ -321,10 +320,9 @@ class ZapConfigureContext(ZapClient):
 
         if(alert_filters):
             for alert_filter in alert_filters:
+                logging.debug("Adding AlertFilter for rule '%d' in context with id %s", alert_filter["ruleId"], context_id)
 
                 matches = alert_filter["matches"] if "matches" in alert_filter else collections.OrderedDict()
-
-                logging.info("Adding AlertFilter for rule '%d' in context with id %s", alert_filter["ruleId"], context_id)
                 self.get_zap.alertFilter.add_alert_filter(
                     contextid = context_id,
                     ruleid = str(alert_filter["ruleId"]),
