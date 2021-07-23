@@ -62,7 +62,10 @@
       },
       "required": [
         "id",
-        "parsed_at"
+        "parsed_at",
+        "severity",
+        "category",
+        "name"
       ]
     }
   }
