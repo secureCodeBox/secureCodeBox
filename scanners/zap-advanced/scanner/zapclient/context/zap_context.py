@@ -322,7 +322,7 @@ class ZapConfigureContext(ZapClient):
         if(alert_filters):
             for alert_filter in alert_filters:
 
-                matches = alert_filter["matches"] if "matches" in alert_filter else OrderedDict()
+                matches = alert_filter["matches"] if "matches" in alert_filter else collections.OrderedDict()
 
                 logging.info("Adding AlertFilter for rule '%d' in context with id %s", alert_filter["ruleId"], context_id)
                 self.get_zap.alertFilter.add_alert_filter(
