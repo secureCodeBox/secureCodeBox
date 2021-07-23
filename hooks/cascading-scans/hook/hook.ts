@@ -9,12 +9,14 @@ import * as Mustache from "mustache";
 import {
   startSubsequentSecureCodeBoxScan,
   getCascadingRulesForScan,
-  getCascadingScanDefinition,
   // types
   Scan,
   Finding,
   CascadingRule,
-  ExtendedScanSpec
+  getCascadedRuleForScan,
+  purgeCascadedRuleFromScan,
+  mergeInheritedMap,
+  mergeInheritedArray
 } from "./scan-helpers";
 
 interface HandleArgs {
@@ -25,12 +27,12 @@ interface HandleArgs {
 export async function handle({ scan, getFindings }: HandleArgs) {
   const findings = await getFindings();
   const cascadingRules = await getCascadingRules(scan);
+  const cascadedRuleUsedForParentScan = await getCascadedRuleForScan(scan);
 
-  const cascadingScans = getCascadingScans(scan, findings, cascadingRules);
+  const cascadingScans = getCascadingScans(scan, findings, cascadingRules, cascadedRuleUsedForParentScan);
 
   for (const cascadingScan of cascadingScans) {
-    const cascadingScanDefinition = getCascadingScanDefinition(cascadingScan, scan);
-    await startSubsequentSecureCodeBoxScan(cascadingScanDefinition);
+    await startSubsequentSecureCodeBoxScan(cascadingScan);
   }
 }
 
@@ -46,10 +48,13 @@ async function getCascadingRules(scan: Scan): Promise<Array<CascadingRule>> {
 export function getCascadingScans(
   parentScan: Scan,
   findings: Array<Finding>,
-  cascadingRules: Array<CascadingRule>
-): Array<ExtendedScanSpec> {
-  let cascadingScans: Array<ExtendedScanSpec> = [];
+  cascadingRules: Array<CascadingRule>,
+  cascadedRuleUsedForParentScan: CascadingRule
+): Array<Scan> {
+  let cascadingScans: Array<Scan> = [];
   const cascadingRuleChain = getScanChain(parentScan);
+
+  parentScan = purgeCascadedRuleFromScan(parentScan, cascadedRuleUsedForParentScan);
 
   for (const cascadingRule of cascadingRules) {
     // Check if the Same CascadingRule was already applied in the Cascading Chain
@@ -67,7 +72,7 @@ export function getCascadingScans(
   return cascadingScans;
 }
 
-function getScanChain(parentScan: Scan) {
+export function getScanChain(parentScan: Scan) {
   // Get the current Scan Chain (meaning which CascadingRules were used to start this scan and its parents) and convert it to a set, which makes it easier to query.
   if (
     parentScan.metadata.annotations &&
@@ -81,7 +86,7 @@ function getScanChain(parentScan: Scan) {
 }
 
 function getScansMatchingRule(parentScan: Scan, findings: Array<Finding>, cascadingRule: CascadingRule) {
-  const cascadingScans: Array<ExtendedScanSpec> = [];
+  const cascadingScans: Array<Scan> = [];
   for (const finding of findings) {
     // Check if one (ore more) of the CascadingRule matchers apply to the finding
     const matches = cascadingRule.spec.matches.anyOf.some(matchesRule =>
@@ -100,8 +105,79 @@ function getCascadingScan(
   finding: Finding,
   cascadingRule: CascadingRule
 ) {
-  const { scanType, parameters, env } = cascadingRule.spec.scanSpec;
+  cascadingRule = templateCascadingRule(parentScan, finding, cascadingRule);
 
+  let { scanType, parameters } = cascadingRule.spec.scanSpec;
+
+  let { annotations, labels, env, volumes, volumeMounts } = mergeCascadingRuleWithScan(parentScan, cascadingRule);
+
+  let cascadingChain: Array<string> = [];
+  if (parentScan.metadata.annotations && parentScan.metadata.annotations["cascading.securecodebox.io/chain"]) {
+    cascadingChain = parentScan.metadata.annotations[
+      "cascading.securecodebox.io/chain"
+    ].split(",");
+  }
+
+  return {
+    apiVersion: "execution.securecodebox.io/v1",
+    kind: "Scan",
+    metadata: {
+      generateName: `${generateCascadingScanName(parentScan, cascadingRule)}-`,
+      labels,
+      annotations: {
+        "securecodebox.io/hook": "cascading-scans",
+        "cascading.securecodebox.io/parent-scan": parentScan.metadata.name,
+        "cascading.securecodebox.io/matched-finding": finding.id,
+        "cascading.securecodebox.io/chain": [
+          ...cascadingChain,
+          cascadingRule.metadata.name
+        ].join(","),
+        ...annotations,
+      },
+      ownerReferences: [
+        {
+          apiVersion: "execution.securecodebox.io/v1",
+          blockOwnerDeletion: true,
+          controller: true,
+          kind: "Scan",
+          name: parentScan.metadata.name,
+          uid: parentScan.metadata.uid
+        }
+      ]
+    },
+    spec: {
+      scanType,
+      parameters,
+      cascades: parentScan.spec.cascades,
+      env,
+      volumes,
+      volumeMounts,
+    }
+  };
+}
+
+function mergeCascadingRuleWithScan(
+  scan: Scan,
+  cascadingRule: CascadingRule
+) {
+  const { scanAnnotations, scanLabels } = cascadingRule.spec;
+  let { env = [], volumes = [], volumeMounts = [] } = cascadingRule.spec.scanSpec;
+  let { inheritAnnotations, inheritLabels, inheritEnv, inheritVolumes } = scan.spec.cascades;
+
+  return {
+    annotations: mergeInheritedMap(scan.metadata.annotations, scanAnnotations, inheritAnnotations),
+    labels: mergeInheritedMap(scan.metadata.labels, scanLabels, inheritLabels),
+    env: mergeInheritedArray(scan.spec.env, env, inheritEnv),
+    volumes: mergeInheritedArray(scan.spec.volumes, volumes, inheritVolumes),
+    volumeMounts: mergeInheritedArray(scan.spec.volumeMounts, volumeMounts, inheritVolumes)
+  }
+}
+
+function templateCascadingRule(
+  parentScan: Scan,
+  finding: Finding,
+  cascadingRule: CascadingRule
+): CascadingRule {
   const templateArgs = {
     ...finding,
     ...parentScan,
@@ -112,21 +188,19 @@ function getCascadingScan(
     }
   };
 
-  return {
-    name: generateCascadingScanName(parentScan, cascadingRule),
-    scanType: Mustache.render(scanType, templateArgs),
-    parameters: parameters.map(parameter =>
-      Mustache.render(parameter, templateArgs)
-    ),
-    cascades: parentScan.spec.cascades,
-    generatedBy: cascadingRule.metadata.name,
-    env,
-    scanLabels: cascadingRule.spec.scanLabels === undefined ? {} :
-      mapValues(cascadingRule.spec.scanLabels, value => Mustache.render(value, templateArgs)),
-    scanAnnotations: cascadingRule.spec.scanAnnotations === undefined ? {} :
-      mapValues(cascadingRule.spec.scanAnnotations, value => Mustache.render(value, templateArgs)),
-    finding
-  };
+  const { scanSpec, scanAnnotations, scanLabels } = cascadingRule.spec;
+  const { scanType, parameters } = scanSpec;
+
+  cascadingRule.spec.scanSpec.scanType =
+    Mustache.render(scanType, templateArgs);
+  cascadingRule.spec.scanSpec.parameters =
+    parameters.map(parameter => Mustache.render(parameter, templateArgs))
+  cascadingRule.spec.scanAnnotations =
+    scanAnnotations === undefined ? {} :mapValues(scanAnnotations, value => Mustache.render(value, templateArgs))
+  cascadingRule.spec.scanLabels =
+    scanLabels === undefined ? {} : mapValues(scanLabels, value => Mustache.render(value, templateArgs))
+
+  return cascadingRule;
 }
 
 function generateCascadingScanName(

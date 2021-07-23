@@ -84,9 +84,18 @@ spec:
                         description: InheritAnnotations defines whether cascading
                           scans should inherit annotations from the parent scan
                         type: boolean
+                      inheritEnv:
+                        description: InheritEnv defines whether cascading scans should
+                          inherit environment variables from the parent scan
+                        type: boolean
                       inheritLabels:
                         description: InheritLabels defines whether cascading scans
                           should inherit labels from the parent scan
+                        type: boolean
+                      inheritVolumes:
+                        description: InheritVolumes defines whether cascading scans
+                          should inherit volumes and volume mounts from the parent
+                          scan
                         type: boolean
                       matchExpressions:
                         description: matchExpressions is a list of label selector

@@ -8,6 +8,8 @@ import {
   generateSelectorString,
   LabelSelector
 } from "./kubernetes-label-selector";
+import {isEqual} from "lodash";
+import {getScanChain} from "./hook";
 
 // configure k8s client
 const kc = new k8s.KubeConfig();
@@ -57,105 +59,32 @@ export interface ScanSpec {
   parameters: Array<string>;
   cascades: LabelSelector & CascadingInheritance;
   env?: Array<k8s.V1EnvVar>;
+  volumes?: Array<k8s.V1Volume>;
+  volumeMounts?: Array<k8s.V1VolumeMount>;
 }
 
 export interface CascadingInheritance {
   inheritLabels: boolean,
-  inheritAnnotations: boolean
+  inheritAnnotations: boolean,
+  inheritEnv: boolean,
+  inheritVolumes: boolean
 }
 
-export interface ExtendedScanSpec extends ScanSpec {
-  // This is the name of the scan. Its not "really" part of the scan spec
-  // But this makes the object smaller
-  name: string;
-
-  // Indicates which CascadingRule was used to generate the resulting Scan
-  generatedBy: string;
-
-  // Additional label to be added to the resulting scan
-  scanLabels: {
-    [key: string]: string;
-  };
-
-  // Additional annotations to be added to the resulting scan
-  scanAnnotations: {
-    [key: string]: string;
-  };
-
-  // Finding that triggered the scan
-  finding: Finding
-}
-
-export function getCascadingScanDefinition({
-   name,
-   scanType,
-   parameters,
-   generatedBy,
-   env,
-   cascades,
-   scanLabels,
-   scanAnnotations,
-   finding
- }: ExtendedScanSpec, parentScan: Scan) {
-  function mergeInherited(parentProps, ruleProps, inherit: boolean = true) {
-    if (!inherit) {
-      parentProps = {};
-    }
-    return {
-      ...parentProps,
-      ...ruleProps // ruleProps overwrites any duplicate keys from parentProps
-    }
+export function mergeInheritedMap(parentProps, ruleProps, inherit: boolean = true) {
+  if (!inherit) {
+    parentProps = {};
   }
-
-  let annotations = mergeInherited(
-    parentScan.metadata.annotations, scanAnnotations, parentScan.spec.cascades.inheritAnnotations);
-  let labels = mergeInherited(
-    parentScan.metadata.labels, scanLabels, parentScan.spec.cascades.inheritLabels);
-
-  let cascadingChain: Array<string> = [];
-
-  if (parentScan.metadata.annotations && parentScan.metadata.annotations["cascading.securecodebox.io/chain"]) {
-    cascadingChain = parentScan.metadata.annotations[
-      "cascading.securecodebox.io/chain"
-    ].split(",");
-  }
-
   return {
-    apiVersion: "execution.securecodebox.io/v1",
-    kind: "Scan",
-    metadata: {
-      generateName: `${name}-`,
-      labels: {
-        ...labels
-      },
-      annotations: {
-        "securecodebox.io/hook": "cascading-scans",
-        "cascading.securecodebox.io/parent-scan": parentScan.metadata.name,
-        "cascading.securecodebox.io/matched-finding": finding.id,
-        "cascading.securecodebox.io/chain": [
-          ...cascadingChain,
-          generatedBy
-        ].join(","),
-        ...annotations,
-      },
-      ownerReferences: [
-        {
-          apiVersion: "execution.securecodebox.io/v1",
-          blockOwnerDeletion: true,
-          controller: true,
-          kind: "Scan",
-          name: parentScan.metadata.name,
-          uid: parentScan.metadata.uid
-        }
-      ]
-    },
-    spec: {
-      scanType,
-      parameters,
-      cascades,
-      env,
-    }
-  };
+    ...parentProps,
+    ...ruleProps // ruleProps overwrites any duplicate keys from parentProps
+  }
+}
+
+export function mergeInheritedArray(parentArray, ruleArray, inherit: boolean = false) {
+  if (!inherit) {
+    parentArray = [];
+  }
+  return (parentArray || []).concat(ruleArray)  // CascadingRule's env overwrites scan's env
 }
 
 export async function startSubsequentSecureCodeBoxScan(scan: Scan) {
@@ -205,6 +134,60 @@ export async function getCascadingRulesForScan(scan: Scan) {
     return response.body.items;
   } catch (err) {
     console.error("Failed to get CascadingRules from the kubernetes api");
+    console.error(err);
+    process.exit(1);
+  }
+}
+
+// To ensure that the environment variables and volumes from the cascading rule are only applied to the matched scan
+// (and not its children), this function purges the cascading rule spec from the parent scan when inheriting them.
+export function purgeCascadedRuleFromScan(scan: Scan, cascadedRuleUsedForParentScan?: CascadingRule) : Scan {
+  // If there was no cascading rule applied to the parent scan, then ignore no purging is necessary.
+  if (cascadedRuleUsedForParentScan === undefined) return scan;
+
+  if (scan.spec.env !== undefined && cascadedRuleUsedForParentScan.spec.scanSpec.env !== undefined) {
+    scan.spec.env = scan.spec.env.filter(scanEnv =>
+      !cascadedRuleUsedForParentScan.spec.scanSpec.env.some(ruleEnv => isEqual(scanEnv, ruleEnv))
+    );
+  }
+
+  if (scan.spec.volumes !== undefined && cascadedRuleUsedForParentScan.spec.scanSpec.volumes !== undefined) {
+    scan.spec.volumes = scan.spec.volumes.filter(scanVolume =>
+      !cascadedRuleUsedForParentScan.spec.scanSpec.volumes.some(ruleVolume => isEqual(scanVolume, ruleVolume))
+    );
+  }
+
+  if (scan.spec.volumeMounts !== undefined && cascadedRuleUsedForParentScan.spec.scanSpec.volumeMounts !== undefined) {
+    scan.spec.volumeMounts = scan.spec.volumeMounts.filter(scanVolumeMount =>
+      !cascadedRuleUsedForParentScan.spec.scanSpec.volumeMounts.some(ruleVolumeMount => isEqual(scanVolumeMount, ruleVolumeMount))
+    );
+  }
+
+  return scan
+}
+
+export async function getCascadedRuleForScan(scan: Scan) {
+  const chain = getScanChain(scan)
+
+  if (chain.length === 0) return undefined;
+
+  return <CascadingRule> await getCascadingRule(chain[chain.length - 1]);
+}
+
+async function getCascadingRule(ruleName) {
+  try {
+    const response: any = await k8sApiCRD.getNamespacedCustomObject(
+      "cascading.securecodebox.io",
+      "v1",
+      namespace,
+      "cascadingrules",
+      ruleName
+    );
+
+    console.log(`Fetched CascadingRule "${ruleName}" that triggered parent scan`);
+    return response.body;
+  } catch (err) {
+    console.error(`Failed to get CascadingRule "${ruleName}" from the kubernetes api`);
     console.error(err);
     process.exit(1);
   }

@@ -15,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -54,23 +55,23 @@ class DefectDojoFindingToSecureCodeBoxMapperTest {
     var actualFinding = this.mapper.fromDefectDojoFinding(ddFinding);
 
     assertEquals(
-      actualFinding.getName(),
-      "Content Security Policy (CSP) Header Not Set"
+      "Content Security Policy (CSP) Header Not Set",
+      actualFinding.getName()
     );
 
     assertEquals(
-      actualFinding.getCategory(),
-      "DefectDojo Imported Finding"
+      "DefectDojo Imported Finding",
+      actualFinding.getCategory()
     );
 
     assertEquals(
-      actualFinding.getSeverity(),
-      SecureCodeBoxFinding.Severities.MEDIUM
+      SecureCodeBoxFinding.Severities.MEDIUM,
+      actualFinding.getSeverity()
     );
 
     assertEquals(
-      actualFinding.getLocation(),
-      "http://juice-shop.securecodebox-test.svc:3000"
+      "http://juice-shop.securecodebox-test.svc:3000",
+      actualFinding.getLocation()
     );
   }
 
