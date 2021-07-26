@@ -99,10 +99,7 @@ class ZapConfigureContext(ZapClient):
             # TODO: Open a new ZAP GH Issue: Why (or) is this difference (context_id vs. context_name) here really necessary?
             self._configure_context_technologies(context["technologies"], context_name)
 
-        logging.info('Starting AlertFilter Config: ' + context_name)
         if self._is_not_empty("alertFilters", context):
-            logging.info('AlertFilter Config not empty: ' + context_name)
-            logging.info('AlertFilter Config not empty: %s', context["alertFilters"])
             self._configure_alert_filters(context["alertFilters"], context_id)
 
     def _configure_context_include(self, context: collections.OrderedDict):
