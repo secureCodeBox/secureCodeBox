@@ -51,7 +51,7 @@ IMG_TAG ?= "sha-$(GIT_TAG)"
 JEST_VERSION ?= latest
 
 hook = finding-post-processing
-hook-prefix =
+hook-prefix = hook-
 
 
 build: | install-deps docker-build
