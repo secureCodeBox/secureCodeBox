@@ -289,6 +289,14 @@ class ZapConfigureContext(ZapClient):
             return dict[key]
         else:
             return None
+    
+    def _get_or_none_stringified(self, dict: collections.OrderedDict, key: str):
+        value = self._get_or_none(dict, key)
+
+        if value == None:
+            return None
+        else:
+            return str(value)
 
     def _get_level(self, level: str):
         # lowercase input to catch simple typos
@@ -329,11 +337,11 @@ class ZapConfigureContext(ZapClient):
                     newlevel = str(self._get_level(alert_filter["newLevel"])),
                     # optional matchers
                     url = self._get_or_none(matches, "url"),
-                    urlisregex = str(self._get_or_none(matches, "urlIsRegex")) if self._get_or_none(matches, "urlIsRegex") != None else None,
+                    urlisregex = self._get_or_none_stringified(matches, "urlIsRegex"),
                     parameter = self._get_or_none(matches, "parameter"),
-                    parameterisregex = str(self._get_or_none(matches, "parameterIsRegex")) if self._get_or_none(matches, "parameterIsRegex") != None else None,
+                    parameterisregex = self._get_or_none_stringified(matches, "parameterIsRegex"),
                     attack = self._get_or_none(matches, "attack"),
-                    attackisregex = str(self._get_or_none(matches, "attackIsRegex")) if self._get_or_none(matches, "attackIsRegex") != None else None,
+                    attackisregex = self._get_or_none_stringified(matches, "attackIsRegex"),
                     evidence = self._get_or_none(matches, "evidence"),
-                    evidenceisregex = str(self._get_or_none(matches, "evidenceIsRegex")) if self._get_or_none(matches, "evidenceIsRegex") != None else None,
+                    evidenceisregex = self._get_or_none_stringified(matches, "evidenceIsRegex"),
                 )
