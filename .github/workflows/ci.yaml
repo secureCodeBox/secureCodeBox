@@ -384,6 +384,111 @@ jobs:
         working-directory: ./scanners/${{ matrix.unit }}/
         run: make integration-tests
 
+  # ---- Makefiles Hooks ----
+
+  makefile-hooks:
+    name: "Make Hooks"
+    needs:
+      - sdk
+      - operator
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        unit: ["finding-post-processing"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        name: Setup Node
+        with:
+          node-version: ${{ env. NODE_VERSION }}
+
+      - name: Update NPM
+        run: |
+          npm i -g npm@${{ env.NPM_VERSION }}
+          npm i -g jest
+
+      - name: Install Dependencies
+        working-directory: ./hooks/${{ matrix.unit }}/
+        run: make install-deps
+
+      - name: Unit Tests
+        working-directory: ./hooks/${{ matrix.unit }}/
+        run: make unit-tests
+
+      - name: Set baseImageTag To commit Hash
+        run: |
+          echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Docker Meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ${{ env.DOCKER_NAMESPACE }}/hook-${{ matrix.unit }}
+          tag-sha: true
+          tag-semver: |
+            {{ version }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build
+        uses: docker/build-push-action@v2
+        with:
+          context: ./hooks/${{ matrix.unit }}/hook/
+          file: ./hooks/${{ matrix.unit }}/hook/Dockerfile
+          load: true
+          build-args: |
+            namespace=${{ env.DOCKER_NAMESPACE }}
+            baseImageTag=${{ env.baseImageTag }}
+          platforms: linux/amd64
+          push: ${{ github.event_name == 'release' }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+      - name: Export Docker Images
+        working-directory: ./hooks/${{ matrix.unit }}/
+        run: make docker-export
+
+      - name: "Start kind cluster"
+        run: |
+          kind version
+          kind create cluster --image kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6 --wait 3m
+
+      - name: "Inspect kind cluster"
+        run: |
+          kubectl config current-context
+          kubectl get node
+
+      - name: Kind Import Images
+        working-directory: ./hooks/${{ matrix.unit }}/
+        run: make kind-import
+
+      - name: Install Operator
+        working-directory: ./operator
+        run: |
+          make helm-deploy
+
+      - name: Deploy ${{ matrix.unit }}
+        working-directory: ./hooks/${{ matrix.unit }}/
+        run: make deploy
+
+      - name: Deploy Test Dependencies
+        working-directory: ./hooks/${{ matrix.unit }}/
+        run: make deploy-test-deps
+
+      - name: Start Integration Tests
+        working-directory: ./hooks/${{ matrix.unit }}/
+        run: make integration-tests
+
+
   # ---- Build Stage | Matrix Hooks ----
 
   hooks:
