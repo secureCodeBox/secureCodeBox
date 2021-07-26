@@ -499,7 +499,6 @@ jobs:
       matrix:
         hook:
           - cascading-scans
-          - finding-post-processing
           - generic-webhook
           - notification
           - persistence-elastic
