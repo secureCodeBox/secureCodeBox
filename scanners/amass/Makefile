@@ -70,6 +70,7 @@ unit-tests:
 install-deps:
 	@echo ".: ⚙️ Installing all scanner specific dependencies."
 	cd ./.. && npm ci
+	cd ../../parser-sdk/nodejs && npm ci
 	cd ./parser/ && npm ci
 
 docker-build:
