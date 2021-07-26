@@ -282,6 +282,9 @@ class ZapConfigureContext(ZapClient):
                 self.get_zap.context.exclude_context_technologies(contextname=context_name, technologynames=technologies)
 
     def _get_or_none(self, dict: collections.OrderedDict, key: str):
+        if dict == None or not isinstance(dict, collections.OrderedDict):
+            return None
+
         if key in dict:
             return dict[key]
         else:
