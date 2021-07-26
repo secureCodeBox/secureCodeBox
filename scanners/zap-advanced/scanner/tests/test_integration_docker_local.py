@@ -203,7 +203,7 @@ def test_petstore_scan_with_alert_filters(get_petstore_url, get_zap_instance: ZA
     
     alerts = zap_automation.get_zap_scanner.get_alerts(test_target, [], [])
 
-    logging.info('Found ZAP Alerts: %s', str(len(alerts)))
+    logging.info('Found ZAP Alerts: %d', len(alerts))
 
     # should normally be 13 alerts but most of them are ignored using alertFilters in the scan config
     assert int(len(alerts)) < 10
