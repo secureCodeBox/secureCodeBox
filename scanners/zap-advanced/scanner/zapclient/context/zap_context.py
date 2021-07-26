@@ -326,11 +326,11 @@ class ZapConfigureContext(ZapClient):
                     newlevel = str(self._get_level(alert_filter["newLevel"])),
                     # optional matchers
                     url = self._get_or_none(matches, "url"),
-                    urlisregex = str(self._get_or_none(matches, "urlIsRegex")),
+                    urlisregex = str(self._get_or_none(matches, "urlIsRegex")) if self._get_or_none(matches, "urlIsRegex") != None else None,
                     parameter = self._get_or_none(matches, "parameter"),
-                    parameterisregex = str(self._get_or_none(matches, "parameterIsRegex")),
+                    parameterisregex = str(self._get_or_none(matches, "parameterIsRegex")) if self._get_or_none(matches, "parameterIsRegex") != None else None,
                     attack = self._get_or_none(matches, "attack"),
-                    attackisregex = str(self._get_or_none(matches, "attackIsRegex")),
+                    attackisregex = str(self._get_or_none(matches, "attackIsRegex")) if self._get_or_none(matches, "attackIsRegex") != None else None,
                     evidence = self._get_or_none(matches, "evidence"),
-                    evidenceisregex = str(self._get_or_none(matches, "evidenceIsRegex")),
+                    evidenceisregex = str(self._get_or_none(matches, "evidenceIsRegex")) if self._get_or_none(matches, "evidenceIsRegex") != None else None,
                 )
