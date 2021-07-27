@@ -40,7 +40,7 @@ async function parse(scanResults) {
       }
 
       findings.push({
-        name: vulnerability.Title,
+        name: vulnerability.Title || `Vulnerability in Dependency ${vulnerability.PkgName} (${vulnerability.InstalledVersion})`, 
         description: vulnerability.Description,
         category,
         location: imageId,
