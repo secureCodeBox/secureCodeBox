@@ -81,31 +81,6 @@ class ZapConfigureApi(ZapClient):
         else:
             logging.error("There is no API configuration section defined in your configuration YAML.")
 
-    def start_api_by_index(self, index: int):
-        """ Starts a ZAP Api scan with the given index for the Apis configuration, based on the given configuration and ZAP instance.
-        
-        Parameters
-        ----------
-        index: int
-            The index of the Api object in the list of Api configuration.
-        """
-        if self.get_config.get_apis.has_configurations:
-            logging.debug('Trying to start API Import by configuration index: %s', str(index))
-            self.__load_api(api_config=self.get_config.get_api_by_index(index))
-
-    def start_api_by_name(self, name: str):
-        """ Starts a ZAP Api scan with the given name for the Apis configuration, based on the given configuration and ZAP instance.
-        
-        Parameters
-        ----------
-        index: int
-            The name of the Api object in the list of Api configuration.
-        """
-
-        if self.get_config.get_apis.has_configurations:
-            logging.debug('Trying to start API Import by name: %s', str(name))
-            self.__load_api(api_config=self.get_config.get_apis.get_configuration_by_name(name))
-
     def __load_api(self, url: str, api_config: collections.OrderedDict):
         
         if (api_config is not None) and "format" in api_config and api_config["format"] == 'openapi' and "url" in api_config:

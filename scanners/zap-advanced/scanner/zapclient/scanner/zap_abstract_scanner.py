@@ -71,44 +71,6 @@ class ZapConfigureScanner(ZapClient):
             scannerId = self.start_scanner(url=url, scanner_config=None)
 
         return int(scannerId)
-
-    def start_scan_by_index(self, index: int) -> int:
-        """ Starts a ZAP ActiveScan with the given index for the scanners configuration, based on the given configuration and ZAP instance.
-        
-        Parameters
-        ----------
-        index: int
-            The index of the scanner object in the list of scanners configuration.
-        """
-        scannerId = -1
-
-        if self.get_config.get_scanners.has_configurations:
-            logging.debug('Trying to start ActiveScan by configuration index %s', str(index))
-            scannerId = self.start_scanner(url=None, scanner_config=self.get_config.get_scanners.get_configuration_by_index(index))
-        else:
-            logging.warning("There is no scanner configuration section defined in your configuration YAML to start by index: %s.", index)
-            scannerId = self.start_scanner(url=None, scanner_config=None)
-
-        return int(scannerId)
-
-    def start_scan_by_name(self, name: str) -> int:
-        """ Starts a ZAP ActiveScan with the given name for the scanners configuration, based on the given configuration and ZAP instance.
-        
-        Parameters
-        ----------
-        index: int
-            The name of the scanner object in the list of scanners configuration.
-        """
-        scannerId = -1
-
-        if self.get_config.get_scanners.has_configurations:
-            logging.debug('Trying to start ActiveScan by configuration name %s', str(name))
-            scannerId = self.start_scanner(url=None, scanner_config=self.get_config.get_scanners.get_configuration_by_name(name))
-        else:
-            logging.warning("There is no scanner configuration section defined in your configuration YAML to start by name: %s.", name)
-            scannerId = self.start_scanner(url=None, scanner_config=None)
-
-        return int(scannerId)
     
     @abstractmethod
     def start_scanner(self, url: str, scanner_config: collections.OrderedDict) -> int:

@@ -85,42 +85,6 @@ class ZapConfigureSpider(ZapClient):
         
         self.start_spider(url=url, spider_config=self.get_spider_config)
 
-    def start_spider_by_index(self, index: int):
-        """ Starts a ZAP Spider with the given index for the spiders configuration, based on the given configuration and ZAP instance.
-        
-        Parameters
-        ----------
-        index: int
-            The index of the spider object in the list of spider configuration.
-        """
-
-        if self.get_config.get_spiders.has_configurations:
-            self.__spider_config = self.get_config.get_spider_by_index(index)
-            url = self.get_spider_config["url"] if "url" in self.get_spider_config else None
-
-            logging.debug('Trying to start Spider (Ajax: %s) by configuration index: %s', str(self.is_ajax_spider_enabled()), str(index))
-            self.start_spider(url=url, spider_config=self.get_spider_config)
-        else:
-            logging.warning("No spider specific configuration section defined in your configuration YAML to start by index %s", index)
-
-    def start_spider_by_name(self, name: str) -> int:
-        """ Starts a ZAP Spider with the given name for the spiders configuration, based on the given configuration and ZAP instance.
-        
-        Parameters
-        ----------
-        index: int
-            The name of the spider object in the list of spider configuration.
-        """
-
-        if self.__config.get_spiders.has_configurations:
-            self.__spider_config = self.get_config.get_spiders.get_configuration_by_name(name)
-            url = self.get_spider_config["url"] if "url" in self.get_spider_config else None
-            
-            logging.debug('Trying to start Spider (Ajax: %s) by name: %s', str(self.is_ajax_spider_enabled()), name)
-            self.start_spider(url=url, spider_config=self.get_spider_config)
-        else:
-            logging.warning("No spider specific configuration section defined in your configuration YAML to start by name %s", name)
-    
     @abstractmethod
     def configure_spider(self, zap_spider: spider, spider_config: collections.OrderedDict):
         """ Configures a ZAP HTTP Spider with the given spider configuration, based on the running ZAP instance.

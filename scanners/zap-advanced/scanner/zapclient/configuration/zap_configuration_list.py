@@ -62,30 +62,7 @@ class ZapConfigurationList(ABC):
         """Returns a list with configuration objects."""
 
         return self.__configuration_list
-    
-    def get_configuration_by_index(self, index: int) -> collections.OrderedDict:
-        """Returns the ZAP configuration object with the given index.
-        
-        Parameters
-        ----------
-        index: int
-            The list index of the sconfiguration object to return from the list of configurations.
-        """
-        result = collections.OrderedDict()
 
-        if self.has_configurations and len(self.get_configurations) > index:
-            result = self.get_configurations[index]
-        else:
-            logging.warning("No '%s' specific configuration found (%s.[%s]: )! There is no '%s' configuration with the index: %s", 
-                self.get_type_name,
-                self.get_yaml_name,
-                index,
-                self.get_type_name,
-                index
-            )
-
-        return result
-    
     def get_configuration_by_name(self, name: str) -> collections.OrderedDict:
         """Returns the ZAP configuration object with the given name.
         

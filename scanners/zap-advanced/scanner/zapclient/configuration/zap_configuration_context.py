@@ -73,25 +73,7 @@ class ZapConfigurationContext(ZapConfigurationList):
             result = context["users"]
 
         return result
-    
-    def get_context_user_by_index(self, context: collections.OrderedDict, index: int) -> collections.OrderedDict:
-        """Returns the ZAP Context User configuration object with the given index.
-        
-        Parameters
-        ----------
-        context: collections.OrderedDict
-            The ZAP context configuration object to return the user for.
-        index: int
-            The list index of the context to return from the list of contexts.
-        """
-        result = collections.OrderedDict()
-        authentications = self.get_context_users(context)
 
-        if self.has_context_users_configurations(context) and len(authentications) > index:
-            result = authentications[index]
-
-        return result
-    
     def get_context_user_by_name(self, context: collections.OrderedDict, name: str) -> collections.OrderedDict:
         """Returns the ZAP Context Users configuration object with the given name.
         
