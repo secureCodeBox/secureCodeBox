@@ -99,6 +99,9 @@ class ZapConfigureContext(ZapClient):
             # TODO: Open a new ZAP GH Issue: Why (or) is this difference (context_id vs. context_name) here really necessary?
             self._configure_context_technologies(context["technologies"], context_name)
 
+        if self._is_not_empty("alertFilters", context):
+            self._configure_alert_filters(context["alertFilters"], context_id)
+
     def _configure_context_include(self, context: collections.OrderedDict):
         """Protected method to configure the ZAP 'Context / Include Settings' based on a given ZAP config.
         
@@ -277,3 +280,68 @@ class ZapConfigureContext(ZapClient):
                 technologies = ", ".join(technology["included"])
                 logging.debug("Exclude technologies '%s' in context with name %s", technologies, context_name)
                 self.get_zap.context.exclude_context_technologies(contextname=context_name, technologynames=technologies)
+
+    def _get_or_none(self, dict: collections.OrderedDict, key: str):
+        if dict == None or not isinstance(dict, collections.OrderedDict):
+            return None
+
+        if key in dict:
+            return dict[key]
+        else:
+            return None
+    
+    def _get_or_none_stringified(self, dict: collections.OrderedDict, key: str):
+        value = self._get_or_none(dict, key)
+
+        if value == None:
+            return None
+        else:
+            return str(value)
+
+    def _get_level(self, level: str):
+        # lowercase input to catch simple typos
+        level = level.lower()
+        if level == "false positive":
+            return -1
+        elif level == "info" or level == "informational":
+            return 0
+        elif level == "low":
+            return 1
+        elif level == "medium":
+            return 2
+        elif level == "high":
+            return 3
+
+        logging.warn("AlertFilter configured with unknown level: '%s'. This rule will be ignored!", level)
+        return None
+
+    def _configure_alert_filters(self, alert_filters: list[collections.OrderedDict], context_id: int):
+        """Protected method to configure the ZAP 'Context / Alert Filters' Settings based on a given ZAP config.
+        
+        Parameters
+        ----------
+        alert_filters : collections.OrderedDict
+            The current alert filter configuration object containing the ZAP alert filter configuration (based on the class ZapConfiguration).
+        context_id : int
+            The zap context id to configure the ZAP alert filters for (based on the class ZapConfiguration).
+        """
+
+        if(alert_filters):
+            for alert_filter in alert_filters:
+                logging.debug("Adding AlertFilter for rule '%d' in context with id %s", alert_filter["ruleId"], context_id)
+
+                matches = alert_filter["matches"] if "matches" in alert_filter else collections.OrderedDict()
+                self.get_zap.alertFilter.add_alert_filter(
+                    contextid = context_id,
+                    ruleid = str(alert_filter["ruleId"]),
+                    newlevel = str(self._get_level(alert_filter["newLevel"])),
+                    # optional matchers
+                    url = self._get_or_none(matches, "url"),
+                    urlisregex = self._get_or_none_stringified(matches, "urlIsRegex"),
+                    parameter = self._get_or_none(matches, "parameter"),
+                    parameterisregex = self._get_or_none_stringified(matches, "parameterIsRegex"),
+                    attack = self._get_or_none(matches, "attack"),
+                    attackisregex = self._get_or_none_stringified(matches, "attackIsRegex"),
+                    evidence = self._get_or_none(matches, "evidence"),
+                    evidenceisregex = self._get_or_none_stringified(matches, "evidenceIsRegex"),
+                )
