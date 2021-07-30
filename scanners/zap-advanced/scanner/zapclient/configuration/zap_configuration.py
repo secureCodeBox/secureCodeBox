@@ -11,12 +11,6 @@ import logging
 import glob
 import hiyapyco
 
-from .zap_configuration_context import ZapConfigurationContext
-from .zap_configuration_context_users import ZapConfigurationContextUsers
-from .zap_configuration_api import ZapConfigurationApi
-from .zap_configuration_spider import ZapConfigurationSpider
-from .zap_configuration_scanner import ZapConfigurationScanner
-
 # set up logging to file - see previous section for more details
 logging.basicConfig(
     level=logging.INFO,
@@ -24,10 +18,12 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M')
 
 logging = logging.getLogger('ZapClient')
+
+
 class ZapConfiguration:
     """This class represent a ZAP specific configuration based on a given YAML file."""
-    
-    def __init__(self, config_dir: str):
+
+    def __init__(self, config_dir: str, target: str):
         """Initial constructor used for this class
         
         Parameters
@@ -35,13 +31,13 @@ class ZapConfiguration:
         config_dir : str
             The relative path to the config dir containing all relevant config YAML files.
         """
-        
+
         self.config_dir = config_dir
         self.config_dir_glob = config_dir + "*.yaml"
-        
+        self.target = target
+
         self.__config = collections.OrderedDict()
         self.__read_config_files()
-        self.__parse_configurations()
 
     def __read_config_files(self):
         """Private method to read all existing config YAML files an create a new ZAP Configuration object"""
@@ -52,58 +48,35 @@ class ZapConfiguration:
         else:
             logging.warning("YAML config dir not found! This is no problem but possibly not intendend here.")
             config_files = []
-            
+
         logging.info("Importing YAML files for ZAP configuration at dir: '%s'", config_files)
         if (len(config_files) > 0):
             config_files.sort()
             self.__config = hiyapyco.load(*config_files, method=hiyapyco.METHOD_MERGE, interpolate=True, mergelists=True, failonmissingfiles=False)
             logging.debug("Finished importing YAML: %s", self.__config)
-            
-            self.__parse_configurations()
         else:
             logging.warning("No ZAP YAML Configuration files found :-/ This is no problem but possibly not intendend here.")
             self.__config = collections.OrderedDict()
-    
-    def __parse_configurations(self):
-        if self.has_configurations and ("contexts" in self.get_configurations):
-            self.__context_configuration = ZapConfigurationContext(context_configurations=self.get_configurations["contexts"])
-        else:
-            self.__context_configuration = ZapConfigurationContext(context_configurations=collections.OrderedDict())
-        
-        if self.has_configurations and ("apis" in self.get_configurations):
-            self.__api_configuration = ZapConfigurationApi(api_configurations=self.get_configurations["apis"])
-        else:
-            self.__api_configuration = ZapConfigurationApi(api_configurations=collections.OrderedDict())
-        
-        if self.has_configurations and ("spiders" in self.get_configurations):
-            self.__spider_configuration = ZapConfigurationSpider(spider_configurations=self.get_configurations["spiders"])
-        else:
-            self.__spider_configuration = ZapConfigurationSpider(spider_configurations=collections.OrderedDict())
-        
-        if self.has_configurations and ("scanners" in self.get_configurations):
-            self.__scanner_configuration = ZapConfigurationScanner(scanner_configurations=self.get_configurations["scanners"])
-        else:
-            self.__scanner_configuration = ZapConfigurationScanner(scanner_configurations=collections.OrderedDict())
 
     @property
     def has_configurations(self) -> bool:
         """Returns true if any ZAP Configuration is defined, otherwise false."""
-        
+
         return (self.__config is not None) and len(self.__config) > 0
-    
+
     @property
-    def get_configurations(self) -> collections.OrderedDict():
+    def get_configurations(self) -> collections.OrderedDict:
         """Returns the complete ZAP Configuration object"""
 
         return self.__config
 
     def has_global_configurations(self) -> bool:
         """Returns true if any ZAP Global Configuration is defined, otherwise false."""
-        
-        return (self.has_configurations and "global" in self.get_configurations)
-    
+
+        return self.has_configurations and "global" in self.get_configurations
+
     @property
-    def get_global(self) -> collections.OrderedDict():
+    def get_global(self) -> collections.OrderedDict:
         """Returns the complete ZAP Configuration object"""
         result = collections.OrderedDict()
 
@@ -113,36 +86,64 @@ class ZapConfiguration:
         return result
 
     @property
-    def get_contexts(self) -> ZapConfigurationContext:
-        return self.__context_configuration
-    
-    @property
-    def has_contexts_configurations(self) -> bool:
-        return self.has_configurations and self.__context_configuration.has_configurations
-    
-    @property
-    def get_apis(self) -> ZapConfigurationApi:
-        return self.__api_configuration
+    def get_all_contexts(self) -> list[collections.OrderedDict]:
+        return self.__config["contexts"] if "contexts" in self.__config else []
+
+    ### begin new
+    def _get_active_config_from(self, configs: collections.OrderedDict, key: str):
+        """Returns the active configuration by matching url or context
+
+        Parameters
+        ----------
+        configs: list[collections.OrderedDict]
+            All configs available for this config type. E.g. all spider configs.
+        key: str
+            The key of the config object, e.g.
+        """
+        if configs is None:
+            logging.warning(
+                "Config is not defined!",
+            )
+            return None
+        if not isinstance(configs, collections.OrderedDict):
+            logging.warning(
+                "Config should be a map!",
+            )
+            return None
+        if key not in configs:
+            logging.warning(
+                "No %s config found in the config.!",
+                key
+            )
+            return None
+
+        for configuration in configs[key]:
+            if "url" in configuration and configuration["url"].startswith(self.target):
+                return configuration
+
+        logging.warning(
+            "No %s specific configuration found using the given target url (%s)!",
+            key,
+            self.target
+        )
+        return None
 
     @property
-    def has_apis_configurations(self) -> bool:
-        return self.has_configurations and self.__api_configuration.has_configurations
+    def get_active_context_config(self) -> collections.OrderedDict:
+        return self._get_active_config_from(self.get_configurations, "contexts")
 
     @property
-    def get_spiders(self) -> ZapConfigurationSpider:
-        return self.__spider_configuration
-    
+    def get_active_api_config(self) -> collections.OrderedDict:
+        return self._get_active_config_from(self.get_configurations, "apis")
+
     @property
-    def has_spiders_configurations(self) -> bool:
-        return self.has_configurations and self.__spider_configuration.has_configurations
-    
+    def get_active_spider_config(self) -> collections.OrderedDict:
+        return self._get_active_config_from(self.get_configurations, "spiders")
+
     @property
-    def get_scanners(self) -> ZapConfigurationScanner:
-        return self.__scanner_configuration
-    
-    @property
-    def has_scanners_configurations(self) -> bool:
-        return self.has_configurations and self.__scanner_configuration.has_configurations
+    def get_active_scanner_config(self) -> collections.OrderedDict:
+        return self._get_active_config_from(self.get_configurations, "scanners")
+    ### end new
 
     def __str__(self):
         return " ZapConfiguration( " + str(self.get_configurations) + " )"

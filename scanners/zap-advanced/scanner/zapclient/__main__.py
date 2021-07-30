@@ -53,7 +53,7 @@ def process(args):
     zap = ZAPv2(proxies=zap_proxy, apikey=api_key)
 
     logging.info(':: Starting SCB ZAP Automation Framework with config %s', args.config_folder)
-    zap_automation = ZapAutomation(zap=zap, config_dir=args.config_folder)
+    zap_automation = ZapAutomation(zap=zap, config_dir=args.config_folder, target=args.target)
     
     try:
         logging.info(':: Starting SCB ZAP Scan with target %s', args.target)
