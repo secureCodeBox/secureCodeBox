@@ -89,7 +89,6 @@ class ZapConfiguration:
     def get_all_contexts(self) -> list[collections.OrderedDict]:
         return self.__config["contexts"] if "contexts" in self.__config else []
 
-    ### begin new
     def _get_active_config_from(self, configs: collections.OrderedDict, key: str):
         """Returns the active configuration by matching url or context
 
@@ -143,7 +142,6 @@ class ZapConfiguration:
     @property
     def get_active_scanner_config(self) -> collections.OrderedDict:
         return self._get_active_config_from(self.get_configurations, "scanners")
-    ### end new
 
     def __str__(self):
         return " ZapConfiguration( " + str(self.get_configurations) + " )"
