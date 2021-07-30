@@ -38,14 +38,21 @@ async function parse(scanResults) {
           source: `https://github.com/nodejs/security-wg/tree/master/vuln`,
         };
       }
+      
+      const adjustedSeverity =
+        vulnerability.Severity === "CRITICAL"
+          ? "HIGH"
+          : vulnerability.Severity === "UNKNOWN"
+          ? "INFORMATIONAL"
+          : vulnerability.Severity;
 
       findings.push({
-        name: vulnerability.Title || `Vulnerability in Dependency ${vulnerability.PkgName} (${vulnerability.InstalledVersion})`, 
+        name: vulnerability.Title || `Vulnerability in Dependency ${vulnerability.PkgName} (${vulnerability.InstalledVersion})`,
         description: vulnerability.Description,
         category,
         location: imageId,
         osi_layer: "NOT_APPLICABLE",
-        severity: vulnerability.Severity,
+        severity: adjustedSeverity,
         reference,
         attributes: {
           installedVersion: vulnerability.InstalledVersion,
