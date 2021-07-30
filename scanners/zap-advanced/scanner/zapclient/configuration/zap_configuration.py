@@ -23,7 +23,7 @@ logging = logging.getLogger('ZapClient')
 class ZapConfiguration:
     """This class represent a ZAP specific configuration based on a given YAML file."""
 
-    def __init__(self, config_dir: str, target: str):
+    def __init__(self, config_dir: str, target: str, forced_context: str = None):
         """Initial constructor used for this class
         
         Parameters
@@ -35,6 +35,8 @@ class ZapConfiguration:
         self.config_dir = config_dir
         self.config_dir_glob = config_dir + "*.yaml"
         self.target = target
+        self.forced_context = forced_context
+
 
         self.__config = collections.OrderedDict()
         self.__read_config_files()
@@ -116,15 +118,29 @@ class ZapConfiguration:
             )
             return None
 
-        for configuration in configs[key]:
-            if "url" in configuration and configuration["url"].startswith(self.target):
-                return configuration
+        if self.forced_context is not None:
+            # if this method is getting a context,
+            # search for the "name" key to match. Otherwise search for for the "context" attribute
+            look_for = "name" if key == "contexts" else "context"
+            for configuration in configs[key]:
+                if look_for in configuration and configuration[look_for] == self.forced_context:
+                    return configuration
 
-        logging.warning(
-            "No %s specific configuration found using the given target url (%s)!",
-            key,
-            self.target
-        )
+            logging.warning(
+                "No %s specific configuration found using for the configured context (%s)!",
+                key,
+                self.forced_context
+            )
+        else:
+            for configuration in configs[key]:
+                if "url" in configuration and configuration["url"].startswith(self.target):
+                    return configuration
+
+            logging.warning(
+                "No %s specific configuration found using the given target url (%s)!",
+                key,
+                self.target
+            )
         return None
 
     @property

@@ -53,7 +53,11 @@ def process(args):
     zap = ZAPv2(proxies=zap_proxy, apikey=api_key)
 
     logging.info(':: Starting SCB ZAP Automation Framework with config %s', args.config_folder)
-    zap_automation = ZapAutomation(zap=zap, config_dir=args.config_folder, target=args.target)
+    zap_automation = ZapAutomation(
+        zap=zap,
+        config_dir=args.config_folder,
+        target=args.target,
+        forced_context=args.context)
     
     try:
         logging.info(':: Starting SCB ZAP Scan with target %s', args.target)
@@ -101,6 +105,9 @@ def get_parser_args(args=None):
                         help="The target to scan with OWASP ZAP.",
                         default=None,
                         required=True),
+    parser.add_argument("--context",
+                        help="The name of the context to use. Has to be included in the config file(s).",
+                        default=None),
     parser.add_argument("-o",
                         "--output-folder",
                         help='The path to a local folder used to store the output files, eg. the ZAP Report or logfiles.',

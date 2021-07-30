@@ -36,7 +36,7 @@ class ZapAutomation:
     - https://github.com/zaproxy/zap-api-python/blob/9bab9bf1862df389a32aab15ea4a910551ba5bfc/src/examples/zap_example_api_script.py
     """
 
-    def __init__(self, zap: ZAPv2, config_dir: str, target: str):
+    def __init__(self, zap: ZAPv2, config_dir: str, target: str, forced_context: str = None):
         """Initial constructor used for this class
         
         Parameters
@@ -50,33 +50,13 @@ class ZapAutomation:
         self.__zap = zap
         self.__config_dir = config_dir
 
-        self.__config = ZapConfiguration(self.__config_dir, target)
+        self.__config = ZapConfiguration(self.__config_dir, target, forced_context = forced_context)
 
-        self.__zap_settings = None
-        self.__zap_context = None
-        self.__zap_api = None
-        self.__zap_spider = None
         self.__zap_scanner = None
     
     @property
     def get_configuration(self) -> ZapConfiguration:
         return self.__config
-
-    @property
-    def get_zap_settings(self) -> ZapConfigureSettings:
-        return self.__zap_settings
-
-    @property
-    def get_zap_context(self) -> ZapConfigureContext:
-        return self.__zap_context
-    
-    @property
-    def get_zap_api(self) -> ZapConfigureApi:
-        return self.__zap_api
-
-    @property
-    def get_zap_spider(self) -> ZapConfigureSpider:
-        return self.__zap_spider
 
     @property
     def get_zap_scanner(self) -> ZapConfigureActiveScanner:
@@ -89,19 +69,19 @@ class ZapAutomation:
         logging.info('Configuring ZAP Global')
         if self.get_configuration.has_global_configurations:
             # Starting to configure the ZAP Instance based on the given Configuration
-            self.__zap_settings = ZapConfigureSettings(self.__zap, self.__config)
-            self.__zap_settings.configure()
+            zap_settings = ZapConfigureSettings(self.__zap, self.__config)
+            zap_settings.configure()
         else:
             logging.info("No ZAP global settings specific YAML configuration found.")
         
         self.zap_tune()
-        #self.zap_access_target(target)
+        # self.zap_access_target(target)
 
         logging.info('Configuring ZAP Context')
         # Starting to configure the ZAP Instance based on the given Configuration
         if self.get_configuration.get_active_context_config is not None:
-            self.__zap_context = ZapConfigureContext(self.__zap, self.__config)
-            self.__zap_context.configure_contexts()
+            zap_context = ZapConfigureContext(self.__zap, self.__config)
+            zap_context.configure_contexts()
         else:
             logging.info("No ZAP context specific YAML configuration found.")
 
@@ -176,21 +156,21 @@ class ZapAutomation:
                 file_path,
                 "xml"
             )
-        if report_type == None or report_type == "HTML":
+        if report_type is None or report_type == "HTML":
             # Get the HTML report
             self.__write_report(
                 self.__zap.core.htmlreport(),
                 file_path,
                 "html"
             )
-        if report_type == None or report_type == "JSON":
+        if report_type is None or report_type == "JSON":
             # Get the JSON report
             self.__write_report(
                 self.__zap.core.jsonreport(),
                 file_path,
                 "json"
             )
-        if report_type == None or report_type == "MD":
+        if report_type is None or report_type == "MD":
             # Get the Markdown report
             self.__write_report(
                 self.__zap.core.mdreport(),

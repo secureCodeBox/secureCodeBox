@@ -80,3 +80,18 @@ class ZapConfigurationTests(TestCase):
         config = ZapConfiguration("./tests/mocks/scan-full-bodgeit-docker/", "http://bodgeit:8080/bodgeit/")
         self.assertIsNotNone(config.get_active_context_config)
         self.assertIsNotNone(config.get_active_spider_config)
+
+    @pytest.mark.unit
+    def test_has_scan_configurations(self):
+        config = ZapConfiguration(
+            "./tests/mocks/context-using-forced-context/",
+            "http://test.example.com",
+            forced_context="scb-test-context")
+        self.assertIsNotNone(config.get_active_context_config)
+        self.assertEqual("scb-test-context", config.get_active_context_config["name"])
+
+        self.assertIsNotNone(config.get_active_spider_config)
+        self.assertEqual("scb-test-spider", config.get_active_spider_config["name"])
+
+        self.assertIsNotNone(config.get_active_scanner_config)
+        self.assertEqual("scb-test-scanner", config.get_active_scanner_config["name"])

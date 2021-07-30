@@ -225,7 +225,7 @@ class ZapConfigureContext(ZapClient):
                 script_config = sessions_config["scriptBasedSessionManagement"]
                 self._configure_context_session_management_scriptbased(script_config=script_config, context_id=context_id)
             else:
-                    logging.warning("The 'scriptBasedSessionManagement' configuration section is missing but you have activated it (type: scriptBasedSessionManagement)! Ignoring the script configuration for session management. Please check your YAML configuration.")
+                logging.warning("The 'scriptBasedSessionManagement' configuration section is missing but you have activated it (type: scriptBasedSessionManagement)! Ignoring the script configuration for session management. Please check your YAML configuration.")
 
     def _configure_context_session_management_scriptbased(self, script_config: collections.OrderedDict, context_id: int):
         """Protected method to configure the ZAP 'Context / Session Mannagement' Settings based on script.
