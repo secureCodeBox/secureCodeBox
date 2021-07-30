@@ -354,6 +354,10 @@ zapConfiguration:
       format: openapi
       # -- Url to start importing the API from, default: first context URL
       url: http://localhost:8000/v2/swagger.json
+      # -- Optional: path to the OpenAPI spec. Mutually exclusive to apis[].url, only one can be used.
+      # Path is relative to the targets **hosts**, paths in the targets url will be ignored
+      # See example: demo-petstoreapi-scan-authenticated-no-hardcoded-urls
+      path: /v2/swagger.json
       # -- Optional: Override host setting in the API (e.g. swagger.json) if your API is using some kind of internal routing.
       hostOverride: http://localhost:8000
       # -- Optional: Assumes that the API Spec has been saved to a configmap in the namespace of the scan / this release. Should be null if not used.

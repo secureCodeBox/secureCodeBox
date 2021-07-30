@@ -7,6 +7,8 @@
 # -*- coding: utf-8 -*-
 
 import json
+import urllib
+
 import requests
 import collections
 import logging
@@ -75,17 +77,37 @@ class ZapConfigureApi(ZapClient):
             Active api_config that should be used for the api import
         """
 
-        logging.info("Trying to start API Import with target url: '%s'", url)
-
-        if (api_config is not None) and "format" in api_config and api_config["format"] == 'openapi' and "url" in api_config:
-            logging.debug('Import Api URL ' + api_config["url"])
-            result = self.get_zap.openapi.import_url(api_config["url"], api_config["hostOverride"])
-            urls = self.get_zap.core.urls()
-
-            logging.info('Number of Imported URLs: ' + str(len(urls)))
-            logging.debug('Import warnings: ' + str(result))
-        else:
-            logging.info("No complete API definition configured (format: openapi, url: xxx): %s!", api_config)
-
         logging.debug('Trying to configure the API Scan')
         self.configure_scripts(config=api_config)
+
+        logging.info("Trying to start API Import with target url: '%s'", url)
+
+        if (api_config is None) or "format" not in api_config or api_config["format"] != 'openapi':
+            logging.info("No complete API definition configured (format: openapi): %s!", api_config)
+            return
+
+        if "url" not in api_config and "path" not in api_config:
+            logging.warning(
+                "API Config section '%s' has neither a 'url' or a 'path' configured. It will be skipped",
+                api_config["name"]
+            )
+            return
+
+        api_spec_url = None
+
+        if "url" in api_config:
+            api_spec_url = api_config["url"]
+        elif "path" in api_config:
+            logging.info('Building OpenAPI Spec from path (%s) and the target url (%s)', api_config["path"], url)
+            api_spec_url = urllib.parse.urlparse(url)._replace(path=api_config["path"]).geturl()
+
+        logging.info('Import OpenAPI Spec from (%s)', api_spec_url)
+        if "hostOverride" in api_config:
+            result = self.get_zap.openapi.import_url(api_spec_url, api_config["hostOverride"])
+        else:
+            logging.warning("No 'hostOverride' configured for target %s. Defaulting for target as override.", url)
+            result = self.get_zap.openapi.import_url(api_spec_url, url)
+
+        urls = self.get_zap.core.urls()
+        logging.info('Number of Imported URLs: %d', len(urls))
+        logging.debug('Import warnings: %d', result)
