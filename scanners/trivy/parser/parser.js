@@ -38,13 +38,6 @@ async function parse(scanResults) {
           source: `https://github.com/nodejs/security-wg/tree/master/vuln`,
         };
       }
-      
-      const adjustedSeverity =
-        vulnerability.Severity === "CRITICAL"
-          ? "HIGH"
-          : vulnerability.Severity === "UNKNOWN"
-          ? "INFORMATIONAL"
-          : vulnerability.Severity;
 
       findings.push({
         name: vulnerability.Title || `Vulnerability in Dependency ${vulnerability.PkgName} (${vulnerability.InstalledVersion})`,
@@ -52,7 +45,7 @@ async function parse(scanResults) {
         category,
         location: imageId,
         osi_layer: "NOT_APPLICABLE",
-        severity: adjustedSeverity,
+        severity: getAdjustedSeverity(vulnerability.Severity),
         reference,
         attributes: {
           installedVersion: vulnerability.InstalledVersion,
@@ -66,6 +59,14 @@ async function parse(scanResults) {
   }
 
   return findings;
+}
+
+function getAdjustedSeverity(severity){
+  return severity === "CRITICAL"
+  ? "HIGH"
+  : severity === "UNKNOWN"
+  ? "INFORMATIONAL"
+  : severity;
 }
 
 module.exports.parse = parse;
