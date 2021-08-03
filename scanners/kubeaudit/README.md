@@ -1,5 +1,5 @@
 ---
-title: "kubeaudit"
+title: "Kubeaudit"
 category: "scanner"
 type: "Kubernetes"
 state: "released"

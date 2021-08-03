@@ -1,5 +1,5 @@
 ---
-title: "Notification Hook"
+title: "Notification"
 category: "hook"
 type: "integration"
 state: "released"
