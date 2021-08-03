@@ -45,9 +45,7 @@
             "INFORMATIONAL",
             "LOW",
             "MEDIUM",
-            "HIGH",
-            "CRITICAL",
-            "UNKNOWN"
+            "HIGH"
           ]
         },
         "attributes": {

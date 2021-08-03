@@ -40,12 +40,12 @@ async function parse(scanResults) {
       }
 
       findings.push({
-        name: vulnerability.Title || `Vulnerability in Dependency ${vulnerability.PkgName} (${vulnerability.InstalledVersion})`, 
+        name: vulnerability.Title || `Vulnerability in Dependency ${vulnerability.PkgName} (${vulnerability.InstalledVersion})`,
         description: vulnerability.Description,
         category,
         location: imageId,
         osi_layer: "NOT_APPLICABLE",
-        severity: vulnerability.Severity,
+        severity: getAdjustedSeverity(vulnerability.Severity),
         reference,
         attributes: {
           installedVersion: vulnerability.InstalledVersion,
@@ -59,6 +59,14 @@ async function parse(scanResults) {
   }
 
   return findings;
+}
+
+function getAdjustedSeverity(severity){
+  return severity === "CRITICAL"
+  ? "HIGH"
+  : severity === "UNKNOWN"
+  ? "INFORMATIONAL"
+  : severity;
 }
 
 module.exports.parse = parse;
