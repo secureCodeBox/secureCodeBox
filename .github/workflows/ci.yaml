@@ -400,7 +400,6 @@ jobs:
           - persistence-elastic
           - persistence-defectdojo
           - update-field
-          - teams-webhook
     steps:
       - name: Checkout
         uses: actions/checkout@v2
