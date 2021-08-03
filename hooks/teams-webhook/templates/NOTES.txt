@@ -1,9 +1,0 @@
-{{- /*
-SPDX-FileCopyrightText: 2020 iteratec GmbH
-
-SPDX-License-Identifier: Apache-2.0
-*/}}
-Micorsoft Teams Webhook deployed.
-Will send requests to:
-POST {{ .Values.notification.url }}
-on every completed scan.
