@@ -1,5 +1,5 @@
 ---
-title: "kube-hunter"
+title: "Kube Hunter"
 category: "scanner"
 type: "Kubernetes"
 state: "released"
