@@ -1,5 +1,5 @@
 ---
-title: "Notification"
+title: "Notification WebHook"
 category: "hook"
 type: "integration"
 state: "released"
