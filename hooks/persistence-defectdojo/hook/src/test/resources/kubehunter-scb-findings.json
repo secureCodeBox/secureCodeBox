@@ -2,7 +2,7 @@
   {
     "name": "Read access to pod's service account token",
     "description": " Accessing the pod service account token gives an attacker the option to use the server API ",
-    "timestamp": "2020-04-15T20:08:18.000Z",
+    "parsed_at": "2020-04-15T20:08:18.000Z",
     "location": "tcp://10.1.0.1",
     "severity": "LOW",
     "category": "Access Risk",
@@ -19,7 +19,7 @@
   {
     "name": "CAP_NET_RAW Enabled",
     "description": "CAP_NET_RAW is enabled by default for pods.\n    If an attacker manages to compromise a pod,\n    they could potentially take advantage of this capability to perform network\n    attacks on other pods running on the same node",
-    "timestamp": "2020-04-16T20:08:18Z",
+    "parsed_at": "2020-04-16T20:08:18Z",
     "location": "tcp://10.1.0.1",
     "severity": "LOW",
     "category": "Access Risk",
@@ -33,7 +33,7 @@
   {
     "name": "Access to pod's secrets",
     "description": " Accessing the pod's secrets within a compromised pod might disclose valuable data to a potential attacker",
-    "timestamp": "2020-04-17T20:08:18Z",
+    "parsed_at": "2020-04-17T20:08:18Z",
     "location": "tcp://10.1.0.1",
     "severity": "LOW",
     "category": "Access Risk",

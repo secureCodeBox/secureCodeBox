@@ -36,8 +36,10 @@ public class SecureCodeBoxFinding {
   String osiLayer;
   @JsonProperty
   Severities severity;
-  @JsonProperty
-  String timestamp;
+  @JsonProperty("parsed_at")
+  String parsedAt;
+  @JsonProperty("identified_at")
+  String identifiedAt;
   @JsonProperty
   Map<String, Object> attributes;
 
