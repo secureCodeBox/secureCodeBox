@@ -1,0 +1,52 @@
+{{- /*
+SPDX-FileCopyrightText: 2021 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
+
+{{- define "extra.docsSection" -}}
+---
+title: "PingCastle"
+category: "scanner"
+type: "Application"
+state: "template"
+appVersion: "2.9.2.1"
+usecase: "Active Directory scanning"
+---
+
+![Pingcastle logo](https://www.pingcastle.com/wp/wp-content/uploads/2018/09/pingcastle_big.png)
+
+{{- end }}
+
+{{- define "extra.communitySection" -}}
+PingCastle is a Windows application. The secureCodeBox, however, operates with linux containers only to date.
+That is why we only provide a template for the scanner implementation and the parser to convert pingcastle results to
+secureCodeBox [findings](https://docs.securecodebox.io/docs/api/finding).
+Furthermore, we also provide a tutorial (scanner/Tutorial.md) that describes one way to make it work.
+Unfortunately the resulting docker image cannot be provided due to licensing.
+
+You can find more information about our process to integrate Windows security scanners in this [blog post](TODO).
+If you have any suggestions or requests regarding the implementation of PingCastle or any other windows scanner,
+please let us know!
+
+{{- end }}
+
+{{- define "extra.chartAboutSection" -}}
+## What is PingCastle?
+PingCastle is an open-source tool to scan a company's active directory. It is able to identify potential security
+risks and anomalies, regarding password settings, account privileges and much more. It is free to use for non-commercial
+use, otherwise a commercial license has to be purchased.
+
+To learn more about the PingCastle itself visit [pingcastle.com].
+{{- end }}
+
+{{- define "extra.scannerConfigurationSection" -}}
+## Scanner Configuration
+
+At the moment we only provide support for "healthchecks" that check the security issues mentioned above.
+
+- `--healthcheck`: Basic command to run pingcastle in healthcheck mode
+- `--server` xx: Replace xx with the domain name to scan.
+{{- end }}
+
+
