@@ -464,6 +464,7 @@ jobs:
           - ncrack
           - nikto
           - nmap
+          - pingcastle
           - screenshooter
           - ssh-scan
           - sslyze
