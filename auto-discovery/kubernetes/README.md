@@ -23,7 +23,7 @@ The AutoDiscovery controller will automatically detect these new resources (serv
 The AutoDiscovery automatically tracks the lifecycle of the kubernetes resources and will automatically start new scans for new application versions.
 
 <!--
-SPDX-FileCopyrightText: 2020 iteratec GmbH
+SPDX-FileCopyrightText: 2021 iteratec GmbH
 
 SPDX-License-Identifier: Apache-2.0
 -->
