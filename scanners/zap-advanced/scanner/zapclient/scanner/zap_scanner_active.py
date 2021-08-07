@@ -12,9 +12,9 @@ import logging
 
 from zapv2 import ZAPv2, ascan
 
-from .. import ZapClient
 from ..configuration import ZapConfiguration
 from . import ZapConfigureScanner
+from ..configuration.helpers import ZapConfigurationContextUsers
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(
@@ -23,6 +23,7 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M')
 
 logging = logging.getLogger('ZapConfigureActiveScanner')
+
 
 class ZapConfigureActiveScanner(ZapConfigureScanner):
     """This class configures a scanner in a running ZAP instance, based on a ZAP Configuration.
@@ -95,22 +96,23 @@ class ZapConfigureActiveScanner(ZapConfigureScanner):
             target = str(scanner_config['url'])
         else:
             logging.warning("The active scanner configuration section has no specific 'url' target defined, trying to use scanType target instead with url: '%s'", url)
-            target=url
+            target = url
 
         # "Context" is an optional config for Scanner
         if self._is_not_empty("context", scanner_config):
         
-            context_name = str(scanner_config['context'])
-            scanner_context_config = self.get_config.get_contexts.get_configuration_by_context_name(context_name)
+            scanner_context_config = self.get_config.get_active_context_config
             context_id = int(scanner_context_config['id'])
 
             # "User" is an optional config for Scanner in addition to the context
             if self._is_not_empty("user", scanner_config):
-
                 user_name = str(scanner_config['user'])
-                # search for the current ZAP Context id for the given context name
-                user_id = int(self.get_config.get_contexts.get_context_user_by_name(scanner_context_config, user_name)['id'])
-    
+                # search for the configured user by its user name in the active context
+                user_id = ZapConfigurationContextUsers.get_context_user_by_name(
+                    scanner_context_config,
+                    user_name
+                )["id"]
+
         # Configure HTTP ActiveScan
         logging.debug("Trying to configure ActiveScan with %s", scanner_config)
         self.__configure_scanner(self.get_zap.ascan, scanner_config)
@@ -120,7 +122,7 @@ class ZapConfigureActiveScanner(ZapConfigureScanner):
             policy = scanner_config["policy"]
 
         # ActiveScan with user
-        if (not context_id is None) and context_id >= 0 and (not user_id is None) and user_id >= 0:
+        if (context_id is not None) and int(context_id) >= 0 and (user_id is not None) and int(user_id) >= 0:
             logging.info('Starting ActiveScan(url=%s, contextid=%s, userid=%s, scanpolicyname=%s)', target, context_id, user_id, policy)
             scanner_id = self.get_zap.ascan.scan_as_user(url=target, contextid=context_id, userid=user_id, scanpolicyname=policy)
         else:

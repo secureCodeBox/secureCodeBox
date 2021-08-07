@@ -1,13 +1,11 @@
-# SPDX-FileCopyrightText: 2020 iteratec GmbH
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
 #
 # SPDX-License-Identifier: Apache-2.0
 
 .DS_Store
 
 parser/
-scanner/*.*
-scanner/zapclient/
-scanner/tests/
+scanner/
 examples/
 docs/
 

@@ -22,6 +22,7 @@ logging.basicConfig(
 
 logging = logging.getLogger('ZapConfigureContextAuthentication')
 
+
 class ZapConfigureContextAuthentication(ZapClient):
     """This class configures the context in running ZAP instance, based on a given ZAP Configuration."""
 

@@ -18,8 +18,8 @@ class ZapSpiderAjaxTests(TestCase):
 
     @pytest.mark.unit
     def test_has_spider_configurations(self):
-        config = ZapConfiguration("./tests/mocks/context-with-overlay/")
-        self.assertFalse(config.get_spiders.has_configurations)
+        config = ZapConfiguration("./tests/mocks/context-with-overlay/", "https://www.secureCodeBox.io/")
+        self.assertIsNone(config.get_active_spider_config)
 
-        config = ZapConfiguration("./tests/mocks/scan-full-juiceshop-docker/")
-        self.assertTrue(config.get_spiders.has_configurations)
+        config = ZapConfiguration("./tests/mocks/scan-full-juiceshop-docker/", "http://juiceshop:3000/")
+        self.assertIsNotNone(config.get_active_spider_config)

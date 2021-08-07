@@ -10,7 +10,7 @@ usecase: "secureCodeBox Operator is the core component."
 ![operator logo](https://docs.securecodebox.io/img/Logo_Color.svg)
 
 <!--
-SPDX-FileCopyrightText: 2020 iteratec GmbH
+SPDX-FileCopyrightText: 2021 iteratec GmbH
 
 SPDX-License-Identifier: Apache-2.0
 -->

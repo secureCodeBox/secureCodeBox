@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+---
+contexts:
+  - name: scb-bodgeit-context
+    url: http://bodgeit:8080/bodgeit/
+  - name: scb-test-context
+    url: http://test.example.com
+spiders:
+  - name: scb-test-spider
+    context: scb-test-context
+  - name: should-not-take-this-spider
+    context: scb-bodgeit-context
+scanners:
+  - name: should-not-take-this-scanner
+    context: scb-bodgeit-context
+  - name: scb-test-scanner
+    context: scb-test-context
