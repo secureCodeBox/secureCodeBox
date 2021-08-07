@@ -22,6 +22,7 @@ contexts:
   - name: scb-petstore-context
     # An optional list of regexes to include
     includePaths:
+      - "https?://localhost:.*"
       - "https?://.*\\..*.svc:.*"
       - "https?://.*\\..*.svc/.*"
       - "https?://.*\\..*.svc.cluster.local/.*"
