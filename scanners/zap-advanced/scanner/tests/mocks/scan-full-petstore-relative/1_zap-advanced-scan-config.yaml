@@ -20,11 +20,12 @@ global:
 contexts:
   # Name to be used to refer to this context in other jobs, mandatory
   - name: scb-petstore-context
-    # The top level url, mandatory, everything under this will be included. IMPORTANT: must be the hostname without any subpath!
-    url: http://localhost:8000/
     # An optional list of regexes to include
     includePaths:
-      - "http://localhost:8000/v2.*"
+      - "https?://.*\\..*.svc:.*"
+      - "https?://.*\\..*.svc/.*"
+      - "https?://.*\\..*.svc.cluster.local/.*"
+      - "https?://.*\\..*.svc.cluster.local:.*"
     # An optional list of regexes to exclude
     excludePaths:
       - ".*\\.css"
@@ -32,30 +33,18 @@ contexts:
       - ".*\\.jpeg"
 
 apis:
-    # -- The name of the spider configuration
   - name: scb-petstore-api
     # -- The Name of the context (zapConfiguration.contexts[x].name) to spider, default: first context available.
     context: scb-petstore-context
     # -- format of the API ('openapi', 'grapql', 'soap')
     format: openapi
-    # -- Url to start spidering from, default: first context URL
-    url: http://localhost:8000/v2/swagger.json
-    # -- Override host setting in swagger.json
-    hostOverride: http://localhost:8000
-    # -- Assumes that the OpenAPI Spec has been saved to a configmap in the namespace of the scan / this release. Should be null if not used.
-    #configMap: null
-      # Object with two keys: "name" name of the config map, and "key" which is the key / property in the configmap which holds the openapi spec file.
-      # name: my-configmap-with-openapi-spec
-      # key: openapi.yaml
-    # -- Allows to embed the entire yaml / json OpenAPI spec in the values. Should be null if not used.
-    #spec: null
+    # -- path to the OpenAPI spec. Always relative to the targets **hosts**, paths in the targets url will be ignored
+    path: /v2/swagger.json
 
 spiders:
   - name: scb-petstore-spider
-    # String: Name of the context to spider, default: first context
+    # String: Name of the context to attack, default: first context
     context: scb-petstore-context
-    # String: Url to start spidering from, default: first context URL
-    url: http://localhost:8000/v2
     # Int: Fail if spider finds less than the specified number of URLs, default: 0
     failIfFoundUrlsLessThan: 0
     # Int: Warn if spider finds less than the specified number of URLs, default: 0
@@ -101,8 +90,6 @@ scanners:
   - name: scb-petstore-scan
     # String: Name of the context to attack, default: first context
     context: scb-petstore-context
-    # String: Url to start scaning from, default: first context URL
-    url: http://localhost:8000/v2
     # String: Name of the scan policy to be used, default: Default Policy
     policy: "Default Policy"
     # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited

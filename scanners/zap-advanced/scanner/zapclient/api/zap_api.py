@@ -110,4 +110,4 @@ class ZapConfigureApi(ZapClient):
 
         urls = self.get_zap.core.urls()
         logging.info('Number of Imported URLs: %d', len(urls))
-        logging.debug('Import warnings: %d', result)
+        logging.debug('Import warnings: %s', str(result))
