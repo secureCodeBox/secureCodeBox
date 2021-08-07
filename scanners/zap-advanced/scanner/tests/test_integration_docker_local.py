@@ -190,3 +190,20 @@ def test_petstore_scan_with_config(get_petstore_url, get_zap_instance: ZAPv2):
     logging.info('Found ZAP Alerts: %d', len(alerts))
 
     assert int(len(alerts)) >= 1
+
+@pytest.mark.integrationtest
+def test_petstore_scan_with_alert_filters(get_petstore_url, get_zap_instance: ZAPv2):
+
+    zap = get_zap_instance
+    test_config_yaml = "./tests/mocks/scan-full-petstore-alert-filter-docker/"
+    test_target = "http://petstore:8080/"
+    
+    zap_automation = ZapAutomation(zap=zap, config_dir=test_config_yaml)
+    zap_automation.scan_target(target=test_target)
+    
+    alerts = zap_automation.get_zap_scanner.get_alerts(test_target, [], [])
+
+    logging.info('Found ZAP Alerts: %d', len(alerts))
+
+    # should normally be 13 alerts but most of them are ignored using alertFilters in the scan config
+    assert int(len(alerts)) < 10
