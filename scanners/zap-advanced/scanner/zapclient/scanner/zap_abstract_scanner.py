@@ -23,6 +23,7 @@ logging.basicConfig(
 
 logging = logging.getLogger('ZapConfigureScanner')
 
+
 class ZapConfigureScanner(ZapClient):
     """This class configures a scanner in a running ZAP instance, based on a ZAP Configuration
     
@@ -53,60 +54,14 @@ class ZapConfigureScanner(ZapClient):
         """
         scannerId = -1
 
-        if self.get_config.get_scanners.has_configurations:
+        if self.get_config.get_active_scanner_config is not None:
             logging.debug("Trying to start ActiveScan by configuration target url: '%s'", str(url))
-            # Search for the corresponding context object related to the given url
-            context_config=self.get_config.get_contexts.get_configuration_by_url(url)
-            # Search for a API configuration referencing the context identified by url
-            
-            scanner_config=None
-            if not context_config == None and "name" in context_config:
-                scanner_config=self.get_config.get_scanners.get_configuration_by_context_name(str(context_config["name"]))
-            else:
-                logging.warning("No context configuration found for target: %s! Starting active scanning without any related context.", url)
 
+            scanner_config = self.get_config.get_active_scanner_config
             scannerId = self.start_scanner(url=url, scanner_config=scanner_config)
         else:
             logging.warning("There is no scanner configuration section defined in your configuration YAML to start by url: %s.", url)
             scannerId = self.start_scanner(url=url, scanner_config=None)
-
-        return int(scannerId)
-
-    def start_scan_by_index(self, index: int) -> int:
-        """ Starts a ZAP ActiveScan with the given index for the scanners configuration, based on the given configuration and ZAP instance.
-        
-        Parameters
-        ----------
-        index: int
-            The index of the scanner object in the list of scanners configuration.
-        """
-        scannerId = -1
-
-        if self.get_config.get_scanners.has_configurations:
-            logging.debug('Trying to start ActiveScan by configuration index %s', str(index))
-            scannerId = self.start_scanner(url=None, scanner_config=self.get_config.get_scanners.get_configuration_by_index(index))
-        else:
-            logging.warning("There is no scanner configuration section defined in your configuration YAML to start by index: %s.", index)
-            scannerId = self.start_scanner(url=None, scanner_config=None)
-
-        return int(scannerId)
-
-    def start_scan_by_name(self, name: str) -> int:
-        """ Starts a ZAP ActiveScan with the given name for the scanners configuration, based on the given configuration and ZAP instance.
-        
-        Parameters
-        ----------
-        index: int
-            The name of the scanner object in the list of scanners configuration.
-        """
-        scannerId = -1
-
-        if self.get_config.get_scanners.has_configurations:
-            logging.debug('Trying to start ActiveScan by configuration name %s', str(name))
-            scannerId = self.start_scanner(url=None, scanner_config=self.get_config.get_scanners.get_configuration_by_name(name))
-        else:
-            logging.warning("There is no scanner configuration section defined in your configuration YAML to start by name: %s.", name)
-            scannerId = self.start_scanner(url=None, scanner_config=None)
 
         return int(scannerId)
     

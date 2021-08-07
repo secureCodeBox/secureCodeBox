@@ -9,7 +9,7 @@ services:
     deploy:
       replicas: 1
       restart_policy:
-        condition: any
+        condition: on-failure
     ports:
       - "8080:8080"
     healthcheck:
@@ -26,7 +26,7 @@ services:
     deploy:
       replicas: 1
       restart_policy:
-        condition: any
+        condition: on-failure
     ports:
       - "3000:3000"
     healthcheck:
@@ -43,7 +43,7 @@ services:
     deploy:
       replicas: 1
       restart_policy:
-        condition: any
+        condition: on-failure
     ports:
       - "8000:8080"
     environment: 
@@ -64,7 +64,7 @@ services:
     deploy:
       replicas: 1
       restart_policy:
-        condition: any
+        condition: on-failure
     ports:
       - "8090:8090"
     links:
@@ -91,15 +91,15 @@ services:
       - 'api.addrs.addr.regex=true'
       - '-config'
       - 'api.disablekey=true'
-      - '-addonupdate'
-      - '-addoninstall'
-      - 'pscanrulesBeta'
-      - '-addoninstall'
-      - 'ascanrulesBeta'
-      - '-addoninstall'
-      - 'pscanrulesAlpha'
-      - '-addoninstall'
-      - 'ascanrulesAlpha'
+      #- '-addonupdate'
+      #- '-addoninstall'
+      #- 'pscanrulesBeta'
+      #- '-addoninstall'
+      #- 'ascanrulesBeta'
+      #- '-addoninstall'
+      #- 'pscanrulesAlpha'
+      #- '-addoninstall'
+      #- 'ascanrulesAlpha'
     healthcheck:
       interval: 1m30s
       retries: 3

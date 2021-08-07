@@ -18,8 +18,8 @@ class ZapConfigurationTests(TestCase):
 
     @pytest.mark.unit
     def test_has_scan_configurations(self):
-        config = ZapConfiguration("./tests/mocks/context-with-overlay/")
-        self.assertFalse(config.get_scanners.has_configurations)
+        config = ZapConfiguration("./tests/mocks/context-with-overlay/", "https://www.secureCodeBox.io/")
+        self.assertIsNone(config.get_active_scanner_config)
     
-        config = ZapConfiguration("./tests/mocks/scan-full-bodgeit-docker/")
-        self.assertTrue(config.get_scanners.has_configurations)
+        config = ZapConfiguration("./tests/mocks/scan-full-bodgeit-docker/", "http://bodgeit:8080/")
+        self.assertIsNotNone(config.get_active_scanner_config)

@@ -13,6 +13,7 @@
 **/*.monopic
 .s3_credentials
 **/__pycache__
+**/venv/
 
 
 ### IntelliJ IDEA ###

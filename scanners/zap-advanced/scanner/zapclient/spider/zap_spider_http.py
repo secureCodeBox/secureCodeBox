@@ -16,12 +16,15 @@ from ..configuration import ZapConfiguration
 from . import ZapConfigureSpider
 
 # set up logging to file - see previous section for more details
+from ..configuration.helpers import ZapConfigurationContextUsers
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s %(name)-12s %(levelname)-8s: %(message)s',
     datefmt='%Y-%m-%d %H:%M')
 
 logging = logging.getLogger('ZapConfigureSpiderHttp')
+
 
 class ZapConfigureSpiderHttp(ZapConfigureSpider):
     """This class configures a ZAP HTTP Spider in a running ZAP instance, based on a ZAP Configuration.
@@ -93,19 +96,23 @@ class ZapConfigureSpiderHttp(ZapConfigureSpider):
             if self._is_not_empty("context", spider_config):
             
                 context_name = str(spider_config['context'])
-                spider_context_config = self.get_config.get_contexts.get_configuration_by_context_name(context_name)
+                spider_context_config = self.get_config.get_active_context_config
                 context_id = int(spider_context_config['id'])
 
                 # "User" is an optional config for spider in addition to the context
                 if self._is_not_empty("user", spider_config):
-
                     user_name = str(spider_config['user'])
-                    # search for the current ZAP Context id for the given context name
-                    user_id = int(self.get_config.get_contexts.get_context_user_by_name(spider_context_config, user_name)['id'])
+                    # search for the configured user by its user name in the active context
+                    user_id = ZapConfigurationContextUsers.get_context_user_by_name(
+                        spider_context_config,
+                        user_name
+                    )["id"]
             else:
                 logging.warning("No context 'context: XYZ' referenced within the spider config. This is ok but maybe not intended.")
 
-            if (not context_id is None) and context_id >= 0 and (not user_id is None) and user_id >= 0:
+            logging.warning("context_id is currently: %s", context_id)
+            logging.warning("user_id is currently: %s", user_id)
+            if (context_id is not None) and int(context_id) >= 0 and (user_id is not None) and int(user_id) >= 0:
                 logging.info("Starting 'traditional' Spider(target=%s) with Context(%s) and User(%s)", target, context_id, user_id)
                 result = self.get_zap_spider.scan_as_user(url=target, contextid=context_id, userid=user_id)
             else:
@@ -132,8 +139,6 @@ class ZapConfigureSpiderHttp(ZapConfigureSpider):
         
         Parameters
         ----------
-        zap_spider: spider
-            The reference to the running ZAP spider to configure.
         spider_config: collections.OrderedDict
             The spider configuration based on ZapConfiguration.
         """
@@ -239,8 +244,8 @@ class ZapConfigureSpiderHttp(ZapConfigureSpider):
     def wait_until_spider_finished(self):
         """ Wait until the running ZAP HTTP Spider finished and log results."""
 
-        if(self.has_spider_id):
-            while (int(self.get_zap_spider.status(self.get_spider_id)) < 100):
+        if self.has_spider_id:
+            while int(self.get_zap_spider.status(self.get_spider_id)) < 100:
                 logging.info("HTTP Spider(%s) progress: %s", str(self.get_spider_id), str(self.get_zap_spider.status(self.get_spider_id)))
                 time.sleep(1)
                 

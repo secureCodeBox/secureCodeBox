@@ -9,7 +9,7 @@ services:
     deploy:
       replicas: 1
       restart_policy:
-        condition: any
+        condition: on-failure
     ports:
       - "8080:8080"
     healthcheck:
@@ -26,7 +26,7 @@ services:
     deploy:
       replicas: 1
       restart_policy:
-        condition: any
+        condition: on-failure
     ports:
       - "3000:3000"
     healthcheck:
@@ -43,7 +43,7 @@ services:
     deploy:
       replicas: 1
       restart_policy:
-        condition: any
+        condition: on-failure
     ports:
       - "8000:8080"
     environment: 
