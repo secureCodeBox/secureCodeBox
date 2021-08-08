@@ -42,7 +42,7 @@ You can find resources to help you get started on our [documentation website](ht
 
 ## Supported Tags
 - `latest`  (represents the latest stable release build)
-- tagged releases, e.g. `2.9.0`, `2.8.0`, `2.7.0`
+- tagged releases, e.g. `3.0.0`, `2.9.0`, `2.8.0`, `2.7.0`
 
 ## How to use this image
 This `hook` image is intended to work in combination with other `parser` images to read or manipulate `findings` results. For more information details please take a look at the [project page][scb-docs] or [documentation page][https://docs.securecodebox.io/docs/hooks/defectdojo].
