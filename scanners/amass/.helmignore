@@ -34,3 +34,7 @@ Dockerfile
 *.tar
 parser/*
 scanner/*
+integration-tests/*
+examples/*
+docs/*
+Makefile
