@@ -10,6 +10,9 @@ import io.securecodebox.persistence.defectdojo.service.EndpointService;
 import io.securecodebox.persistence.models.SecureCodeBoxFinding;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -30,6 +33,8 @@ public class DefectDojoFindingToSecureCodeBoxMapper {
     finding.setName(defectDojoFinding.getTitle());
     finding.setCategory("DefectDojo Imported Finding");
     finding.setDescription(defectDojoFinding.getDescription());
+    Instant createdAtInstant = defectDojoFinding.getCreatedAt().toInstant(OffsetDateTime.now().getOffset());
+    finding.setParsedAt(DateTimeFormatter.ISO_INSTANT.format(createdAtInstant));
 
     var attributes = new HashMap<String, Object>();
     attributes.put("defectdojo.org/finding-id", defectDojoFinding.getId());

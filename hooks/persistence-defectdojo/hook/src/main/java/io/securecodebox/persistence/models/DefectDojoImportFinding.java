@@ -31,6 +31,9 @@ public class DefectDojoImportFinding {
   @JsonProperty
   Boolean active;
 
+  @JsonProperty
+  String created;
+
   @JsonProperty()
   Boolean verified;
 

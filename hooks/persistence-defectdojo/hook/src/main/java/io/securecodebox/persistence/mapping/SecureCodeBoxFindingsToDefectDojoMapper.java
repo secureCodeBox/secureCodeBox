@@ -72,7 +72,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
       description = description + "\n " + attributesJson;
     }
     result.setDescription(description);
-    setFindingTimestamp(secureCodeBoxFinding, result);
+    setFindingDate(secureCodeBoxFinding, result);
     setFindingLocation(secureCodeBoxFinding, result);
     return result;
   }
@@ -88,11 +88,14 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
     }
   }
 
-  private static void setFindingTimestamp(SecureCodeBoxFinding secureCodeBoxFinding, DefectDojoImportFinding result) {
-    Instant instant;
-    if (secureCodeBoxFinding.getTimestamp() != null) {
-      instant = Instant.from(DateTimeFormatter.ISO_INSTANT.parse(secureCodeBoxFinding.getTimestamp()));
-    } else {
+  private static void setFindingDate(SecureCodeBoxFinding secureCodeBoxFinding, DefectDojoImportFinding result) {
+    Instant instant = null;
+    if (secureCodeBoxFinding.getIdentifiedAt() != null && !secureCodeBoxFinding.getIdentifiedAt().isEmpty()) {
+      instant = Instant.parse(secureCodeBoxFinding.getIdentifiedAt());
+    } else if (secureCodeBoxFinding.getParsedAt() != null && !secureCodeBoxFinding.getParsedAt().isEmpty()){
+      instant = Instant.parse(secureCodeBoxFinding.getParsedAt());
+    }
+    else {
       instant = Instant.now();
     }
     LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());

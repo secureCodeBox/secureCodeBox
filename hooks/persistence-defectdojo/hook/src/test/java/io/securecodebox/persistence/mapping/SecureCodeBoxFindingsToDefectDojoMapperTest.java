@@ -46,6 +46,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
     var description = "Description";
     var severity = "HIGH";
     var id = "123";
+    var parsedAt = "2020-04-15T12:27:28.153Z";
     var location = "ldap://[2001:db8::7]/c=GB?objectClass?one";
     var attributes = new HashMap<String, Object>();
     var subAttribute = new HashMap<>();
@@ -55,14 +56,17 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
     attributes.put("attribute_3", "3");
     var scbFinding = SecureCodeBoxFinding.builder().name(name).description(description)
       .severity(SecureCodeBoxFinding.Severities.HIGH).id(id).location(location).attributes(attributes)
-      .build();
+      .parsedAt(parsedAt).build();
 
     var ddFinding = SecureCodeBoxFindingsToDefectDojoMapper.fromSecureCodeBoxFinding(scbFinding);
+
     assertEquals(ddFinding.getTitle(), name);
     assertEquals(ddFinding.getSeverity(), severity);
     assertEquals(ddFinding.getUniqueIdFromTool(), id);
     assertEquals(ddFinding.getEndpoints().get(0), location);
+    assertEquals(ddFinding.getDate(), "2020-04-15");
     assertTrue(ddFinding.getDescription().startsWith(description));
+
     //Description should consist of description and attributes as JSON
     String attributesJson = ddFinding.getDescription().substring(description.length() + 1);
     String expectedAttributeJson = "{\n" +
@@ -73,8 +77,8 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
       "  \"attribute_3\" : \"3\"\n" +
       "}";
     ObjectMapper mapper = new ObjectMapper();
-    var expectedJson = mapper.readTree(attributesJson);
     var actualJson = mapper.readTree(expectedAttributeJson);
+
     assertNotNull(actualJson);
     assertEquals(mapper.readTree(attributesJson), mapper.readTree(expectedAttributeJson));
   }
