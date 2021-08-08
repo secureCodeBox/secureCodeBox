@@ -59,11 +59,14 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
       .parsedAt(parsedAt).build();
 
     var ddFinding = SecureCodeBoxFindingsToDefectDojoMapper.fromSecureCodeBoxFinding(scbFinding);
+
     assertEquals(ddFinding.getTitle(), name);
     assertEquals(ddFinding.getSeverity(), severity);
     assertEquals(ddFinding.getUniqueIdFromTool(), id);
     assertEquals(ddFinding.getEndpoints().get(0), location);
+    assertEquals(ddFinding.getDate(), "2020-04-15");
     assertTrue(ddFinding.getDescription().startsWith(description));
+
     //Description should consist of description and attributes as JSON
     String attributesJson = ddFinding.getDescription().substring(description.length() + 1);
     String expectedAttributeJson = "{\n" +
@@ -75,6 +78,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
       "}";
     ObjectMapper mapper = new ObjectMapper();
     var actualJson = mapper.readTree(expectedAttributeJson);
+
     assertNotNull(actualJson);
     assertEquals(mapper.readTree(attributesJson), mapper.readTree(expectedAttributeJson));
   }
