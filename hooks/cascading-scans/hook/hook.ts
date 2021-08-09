@@ -112,12 +112,7 @@ function getCascadingScan(
 
   let { annotations, labels, env, volumes, volumeMounts } = mergeCascadingRuleWithScan(parentScan, cascadingRule);
 
-  let cascadingChain: Array<string> = [];
-  if (parentScan.metadata.annotations && parentScan.metadata.annotations["cascading.securecodebox.io/chain"]) {
-    cascadingChain = parentScan.metadata.annotations[
-      "cascading.securecodebox.io/chain"
-    ].split(",");
-  }
+  let cascadingChain = getScanChain(parentScan);
 
   return {
     apiVersion: "execution.securecodebox.io/v1",
