@@ -121,6 +121,7 @@ function getCascadingScan(
       generateName: `${generateCascadingScanName(parentScan, cascadingRule)}-`,
       labels,
       annotations: {
+        ...annotations,
         "securecodebox.io/hook": "cascading-scans",
         "cascading.securecodebox.io/parent-scan": parentScan.metadata.name,
         "cascading.securecodebox.io/matched-finding": finding.id,
@@ -128,7 +129,6 @@ function getCascadingScan(
           ...cascadingChain,
           cascadingRule.metadata.name
         ].join(","),
-        ...annotations,
       },
       ownerReferences: [
         {
