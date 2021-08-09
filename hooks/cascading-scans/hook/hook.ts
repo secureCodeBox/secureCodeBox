@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import { isMatch, isMatchWith, isString, mapValues } from "lodash";
+import { isMatch, isMatchWith, isString, mapValues, cloneDeep } from "lodash";
 import { isMatch as wildcardIsMatch } from "matcher";
 import * as Mustache from "mustache";
 
@@ -105,18 +105,14 @@ function getCascadingScan(
   finding: Finding,
   cascadingRule: CascadingRule
 ) {
-  cascadingRule = templateCascadingRule(parentScan, finding, cascadingRule);
+  // Make a deep copy of the original cascading rule so that we can template it again with different findings.
+  cascadingRule = templateCascadingRule(parentScan, finding, cloneDeep(cascadingRule));
 
   let { scanType, parameters } = cascadingRule.spec.scanSpec;
 
   let { annotations, labels, env, volumes, volumeMounts } = mergeCascadingRuleWithScan(parentScan, cascadingRule);
 
-  let cascadingChain: Array<string> = [];
-  if (parentScan.metadata.annotations && parentScan.metadata.annotations["cascading.securecodebox.io/chain"]) {
-    cascadingChain = parentScan.metadata.annotations[
-      "cascading.securecodebox.io/chain"
-    ].split(",");
-  }
+  let cascadingChain = getScanChain(parentScan);
 
   return {
     apiVersion: "execution.securecodebox.io/v1",
@@ -125,6 +121,7 @@ function getCascadingScan(
       generateName: `${generateCascadingScanName(parentScan, cascadingRule)}-`,
       labels,
       annotations: {
+        ...annotations,
         "securecodebox.io/hook": "cascading-scans",
         "cascading.securecodebox.io/parent-scan": parentScan.metadata.name,
         "cascading.securecodebox.io/matched-finding": finding.id,
@@ -132,7 +129,6 @@ function getCascadingScan(
           ...cascadingChain,
           cascadingRule.metadata.name
         ].join(","),
-        ...annotations,
       },
       ownerReferences: [
         {
