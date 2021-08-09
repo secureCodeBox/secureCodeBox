@@ -8,6 +8,8 @@ parser/
 scanner/
 examples/
 docs/
+integration-tests/
+coverage/
+Makefile
 
-README.md.gotmpl
 *.monopic

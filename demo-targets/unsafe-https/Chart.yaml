@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 apiVersion: v2
-version: v2.7.0-alpha1
+version: v3.1.0-alpha1
 type: application
 appVersion: "v1.0.0"
 name: unsafe-https

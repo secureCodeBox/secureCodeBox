@@ -31,7 +31,6 @@ jobs:
             dir="$(dirname "${chart}")"
             cd "${dir}" || exit
             echo "Processing Helm Chart in $dir"
-            helm package --version $RELEASE_VERSION .
             NAME=$(yq eval '.name' - < Chart.yaml)
             if [ -d "docs" ]; then
               echo "Docs Folder found at: ${dir}/docs"
@@ -40,6 +39,7 @@ jobs:
             else
               echo "Ignoring Docs process for Chart $dir, because no `docs` folder found at: ${dir}/docs"
             fi
+            helm package --version $RELEASE_VERSION .
 
             curl --silent --show-error --http1.1 --user "${USERNAME}:${PASSWORD}" --data-binary "@${NAME}-${RELEASE_VERSION}.tgz" "${HELM_REGISTRY}/api/charts"
             sleep 5s

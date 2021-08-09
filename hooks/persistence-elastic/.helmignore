@@ -32,4 +32,10 @@ src/*
 config/*
 Dockerfile
 .dockerignore
-docs/
+docs/*
+hook/*
+integration-tests/*
+examples/*
+coverage/*
+dashboardImporter/*
+Makefile
