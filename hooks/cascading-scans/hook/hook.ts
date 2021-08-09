@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import { isMatch, isMatchWith, isString, mapValues } from "lodash";
+import { isMatch, isMatchWith, isString, mapValues, cloneDeep } from "lodash";
 import { isMatch as wildcardIsMatch } from "matcher";
 import * as Mustache from "mustache";
 
@@ -105,7 +105,8 @@ function getCascadingScan(
   finding: Finding,
   cascadingRule: CascadingRule
 ) {
-  cascadingRule = templateCascadingRule(parentScan, finding, cascadingRule);
+  // Make a deep copy of the original cascading rule so that we can template it again with different findings.
+  cascadingRule = templateCascadingRule(parentScan, finding, cloneDeep(cascadingRule));
 
   let { scanType, parameters } = cascadingRule.spec.scanSpec;
 

@@ -660,6 +660,16 @@ test("should properly parse template values in scanLabels and scanAnnotations", 
 
   const findings = [
     {
+      name: "Port 8443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 8443,
+        service: "https"
+      }
+    },
+    {
       name: "Port 443 is open",
       category: "Open Port",
       attributes: {
@@ -677,6 +687,8 @@ test("should properly parse template values in scanLabels and scanAnnotations", 
     sslyzeCascadingRules,
     sslyzeCascadingRules[0]
   );
+
+  expect(sslyzeCascadingRules[0].spec.scanSpec.parameters).toEqual(["--regular", "{{$.hostOrIP}}:{{attributes.port}}"])
 
   const { labels, annotations } = cascadedScans[0].metadata;
 
