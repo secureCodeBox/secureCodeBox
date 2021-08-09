@@ -7,7 +7,7 @@ name: kubeaudit
 description: A Helm chart for the kubeaudit security scanner that integrates with the secureCodeBox.
 
 type: application
-version: v2.7.0-alpha1
+version: v3.1.0-alpha1
 appVersion: v0.14.1
 kubeVersion: ">=v1.11.0-0"
 
