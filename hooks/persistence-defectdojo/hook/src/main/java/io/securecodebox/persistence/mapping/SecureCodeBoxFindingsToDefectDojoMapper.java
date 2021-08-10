@@ -25,7 +25,7 @@ import java.util.List;
 public class SecureCodeBoxFindingsToDefectDojoMapper {
   private static final Logger LOG = LoggerFactory.getLogger(SecureCodeBoxFindingsToDefectDojoMapper.class);
   private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-  private static final ObjectWriter prettyJSONPrinter = new ObjectMapper().writerWithDefaultPrettyPrinter();
+  private static final ObjectWriter prettyJSONPrinter = new ObjectMapper().findAndRegisterModules().writerWithDefaultPrettyPrinter();
 
   /**
    * Converts a SecureCodeBox Findings JSON String to a DefectDojo Findings JSON String.
@@ -36,7 +36,9 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
    */
   public static String fromSecureCodeboxFindingsJson(String scbFindingsJson) throws IOException {
     LOG.debug("Converting SecureCodeBox Findings to DefectDojo Findings");
-    ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    ObjectMapper mapper = new ObjectMapper()
+      .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+      .findAndRegisterModules();
     List<DefectDojoImportFinding> DefectDojoImportFindings = new ArrayList<>();
     List<SecureCodeBoxFinding> secureCodeBoxFindings = mapper.readValue(scbFindingsJson, new TypeReference<>() {
     });
