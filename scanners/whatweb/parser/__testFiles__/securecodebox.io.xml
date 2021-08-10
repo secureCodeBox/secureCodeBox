@@ -1,0 +1,87 @@
+<log>
+<target>
+	<uri>https://www.securecodebox.io</uri>
+	<http-status>200</http-status>
+	<request-config>
+		<header>
+			<header-name>User-Agent</header-name>
+			<header-value>WhatWeb/0.5.0</header-value>
+		</header>
+	</request-config>
+	<plugin>
+		<name>IP</name>
+		<string>185.199.108.153</string>
+	</plugin>
+	<plugin>
+		<name>Title</name>
+		<string>secureCodeBox %E2 Testing your Software Security</string>
+	</plugin>
+	<plugin>
+		<name>Meta-Refresh-Redirect</name>
+		<string>https://docs.securecodebox.io/</string>
+	</plugin>
+	<plugin>
+		<name>HTML5</name>
+	</plugin>
+	<plugin>
+		<name>Strict-Transport-Security</name>
+		<string>max-age=31556952</string>
+	</plugin>
+	<plugin>
+		<name>HTTPServer</name>
+		<string>GitHub.com</string>
+	</plugin>
+	<plugin>
+		<name>Via-Proxy</name>
+		<string>1.1 varnish</string>
+	</plugin>
+	<plugin>
+		<name>UncommonHeaders</name>
+		<string>access-control-allow-origin,x-proxy-cache,x-github-request-id,x-served-by,x-cache-hits,x-timer,x-fastly-request-id</string>
+	</plugin>
+</target>
+<target>
+	<uri>https://docs.securecodebox.io/</uri>
+	<http-status>200</http-status>
+	<request-config>
+		<header>
+			<header-name>User-Agent</header-name>
+			<header-value>WhatWeb/0.5.0</header-value>
+		</header>
+	</request-config>
+	<plugin>
+		<name>IP</name>
+		<string>206.189.52.23</string>
+	</plugin>
+	<plugin>
+		<name>Script</name>
+	</plugin>
+	<plugin>
+		<name>Open-Graph-Protocol</name>
+	</plugin>
+	<plugin>
+		<name>HTML5</name>
+	</plugin>
+	<plugin>
+		<name>Strict-Transport-Security</name>
+		<string>max-age=31536000</string>
+	</plugin>
+	<plugin>
+		<name>HTTPServer</name>
+		<string>Netlify</string>
+	</plugin>
+	<plugin>
+		<name>UncommonHeaders</name>
+		<string>x-nf-request-id</string>
+	</plugin>
+	<plugin>
+		<name>Country</name>
+		<string>UNITED STATES</string>
+		<module>US</module>
+	</plugin>
+	<plugin>
+		<name>MetaGenerator</name>
+		<string>Docusaurus v2.0.0-beta.3</string>
+	</plugin>
+</target>
+</log>

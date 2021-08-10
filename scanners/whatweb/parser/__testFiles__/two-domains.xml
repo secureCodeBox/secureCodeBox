@@ -1,0 +1,62 @@
+<log>
+<target>
+	<uri>http://example.com</uri>
+	<http-status>200</http-status>
+	<request-config>
+		<header>
+			<header-name>User-Agent</header-name>
+			<header-value>WhatWeb/0.5.0</header-value>
+		</header>
+	</request-config>
+	<plugin>
+		<name>IP</name>
+		<string>93.184.216.34</string>
+	</plugin>
+	<plugin>
+		<name>Title</name>
+		<string>Example Domain</string>
+	</plugin>
+	<plugin>
+		<name>HTML5</name>
+	</plugin>
+	<plugin>
+		<name>HTTPServer</name>
+		<string>ECS (dcb/7F5E)</string>
+	</plugin>
+	<plugin>
+		<name>Country</name>
+		<string>EUROPEAN UNION</string>
+		<module>EU</module>
+	</plugin>
+</target>
+<target>
+	<uri>http://example.com</uri>
+	<http-status>200</http-status>
+	<request-config>
+		<header>
+			<header-name>User-Agent</header-name>
+			<header-value>WhatWeb/0.5.0</header-value>
+		</header>
+	</request-config>
+	<plugin>
+		<name>IP</name>
+		<string>93.184.216.34</string>
+	</plugin>
+	<plugin>
+		<name>Title</name>
+		<string>Example Domain</string>
+	</plugin>
+	<plugin>
+		<name>HTML5</name>
+	</plugin>
+	<plugin>
+		<name>HTTPServer</name>
+		<string>ECS (dcb/7EEA)</string>
+	</plugin>
+	<plugin>
+		<name>Country</name>
+		<string>EUROPEAN UNION</string>
+		<module>EU</module>
+	</plugin>
+</target>
+</log>
