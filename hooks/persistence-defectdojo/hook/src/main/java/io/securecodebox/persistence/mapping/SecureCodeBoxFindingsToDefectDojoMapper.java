@@ -52,6 +52,25 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
     return ddFindingJson.toString();
   }
 
+  protected static String convertToDefectDojoSeverity(SecureCodeBoxFinding.Severities severity) {
+    if (severity == null) {
+      return "Info";
+    }
+
+    switch (severity) {
+      case HIGH:
+        return "High";
+      case MEDIUM:
+        return "Medium";
+      case LOW:
+        return "Low";
+      case INFORMATIONAL:
+        return "Info";
+    }
+
+    return "Info";
+  }
+
   /**
    * Converts a SecureCodeBox Finding to a DefectDojo Finding,
    * that can be imported by the DefectDojo Generic JSON Parser.
@@ -64,8 +83,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
     //set basic Finding info
     DefectDojoImportFinding result = new DefectDojoImportFinding();
     result.setTitle(secureCodeBoxFinding.getName());
-    if (secureCodeBoxFinding.getSeverity() != null)
-      result.setSeverity(capitalize(secureCodeBoxFinding.getSeverity().toString()));
+    result.setSeverity(convertToDefectDojoSeverity(secureCodeBoxFinding.getSeverity()));
     result.setUniqueIdFromTool(secureCodeBoxFinding.getId());
     // set DefectDojo description as combination of SecureCodeBox Finding description and Finding attributes
     String description = secureCodeBoxFinding.getDescription();
