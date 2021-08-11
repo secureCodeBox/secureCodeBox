@@ -45,7 +45,7 @@ You can find resources to help you get started on our [documentation website](ht
 - tagged releases, e.g. `v0.4.9`
 
 ## How to use this image
-This `scanner` image is intended to work in combination with the corresponding `parser` image to parse the scanner `findings` to generic secureCodeBox results. For more information details please take a look at the [project page][scb-docs] or [documentation page][https://docs.securecodebox.io/docs/scanners/whatweb].
+This `scanner` image is intended to work in combination with the corresponding `parser` image to parse the scanner `findings` to generic secureCodeBox results. For more information details please take a look at the [project page][scb-docs] or [documentation page][https://docs.securecodebox.io/docs/scanners/Whatweb].
 
 ```bash
 docker pull securecodebox/scanner-whatweb
