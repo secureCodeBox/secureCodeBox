@@ -36,7 +36,7 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
 </p>
 
 ## What is WHATWEB?
-Whatweb identifies websites. It can recognize technology used to build a website, such as content management systems (CMS), JavaScript libraries, web server and much more.
+Whatweb identifies websites. It can recognize technology used to build a website, such as content management systems (CMS), JavaScript libraries, web server and much more. This makes whatweb especially interesting to use in a cascading-rules pipeline.
 
 To learn more about the whatweb scanner itself visit [https://morningstarsecurity.com/research/whatweb].
 
