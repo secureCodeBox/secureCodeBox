@@ -17,7 +17,7 @@ keywords:
   - whatweb
   - scanner
   - secureCodeBox
-home: https://docs.securecodebox.io/docs/scanners/whatweb
+home: https://docs.securecodebox.io/docs/scanners/Whatweb
 icon: https://docs.securecodebox.io/img/integrationIcons/Whatweb.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
