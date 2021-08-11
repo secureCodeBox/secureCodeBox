@@ -44,7 +44,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
   public void correctlyParsesFindings() throws IOException {
     var name = "Name";
     var description = "Description";
-    var severity = "HIGH";
+    var severity = "High";
     var id = "123";
     var parsedAt = "2020-04-15T12:27:28.153Z";
     var location = "ldap://[2001:db8::7]/c=GB?objectClass?one";
