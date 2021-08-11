@@ -19,7 +19,7 @@ public class S3Service {
   private static final Logger LOG = LoggerFactory.getLogger(S3Service.class);
 
   public void overwriteFindings(String url, List<SecureCodeBoxFinding> secureCodeBoxFindings) throws IOException, InterruptedException {
-    ObjectMapper mapper = new ObjectMapper();
+    ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
     var findingJson = mapper.writeValueAsString(secureCodeBoxFindings);
 
     LOG.info("Uploading Findings to S3");

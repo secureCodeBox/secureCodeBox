@@ -25,7 +25,7 @@ import java.util.List;
 public class SecureCodeBoxFindingsToDefectDojoMapper {
   private static final Logger LOG = LoggerFactory.getLogger(SecureCodeBoxFindingsToDefectDojoMapper.class);
   private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-  private static final ObjectWriter prettyJSONPrinter = new ObjectMapper().writerWithDefaultPrettyPrinter();
+  private static final ObjectWriter prettyJSONPrinter = new ObjectMapper().findAndRegisterModules().writerWithDefaultPrettyPrinter();
 
   /**
    * Converts a SecureCodeBox Findings JSON String to a DefectDojo Findings JSON String.
@@ -36,7 +36,9 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
    */
   public static String fromSecureCodeboxFindingsJson(String scbFindingsJson) throws IOException {
     LOG.debug("Converting SecureCodeBox Findings to DefectDojo Findings");
-    ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    ObjectMapper mapper = new ObjectMapper()
+      .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+      .findAndRegisterModules();
     List<DefectDojoImportFinding> DefectDojoImportFindings = new ArrayList<>();
     List<SecureCodeBoxFinding> secureCodeBoxFindings = mapper.readValue(scbFindingsJson, new TypeReference<>() {
     });
@@ -48,6 +50,25 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
     ArrayNode arrayNode = mapper.valueToTree(DefectDojoImportFindings);
     ddFindingJson.putArray("findings").addAll(arrayNode);
     return ddFindingJson.toString();
+  }
+
+  protected static String convertToDefectDojoSeverity(SecureCodeBoxFinding.Severities severity) {
+    if (severity == null) {
+      return "Info";
+    }
+
+    switch (severity) {
+      case HIGH:
+        return "High";
+      case MEDIUM:
+        return "Medium";
+      case LOW:
+        return "Low";
+      case INFORMATIONAL:
+        return "Info";
+    }
+
+    return "Info";
   }
 
   /**
@@ -62,8 +83,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
     //set basic Finding info
     DefectDojoImportFinding result = new DefectDojoImportFinding();
     result.setTitle(secureCodeBoxFinding.getName());
-    if (secureCodeBoxFinding.getSeverity() != null)
-      result.setSeverity(capitalize(secureCodeBoxFinding.getSeverity().toString()));
+    result.setSeverity(convertToDefectDojoSeverity(secureCodeBoxFinding.getSeverity()));
     result.setUniqueIdFromTool(secureCodeBoxFinding.getId());
     // set DefectDojo description as combination of SecureCodeBox Finding description and Finding attributes
     String description = secureCodeBoxFinding.getDescription();
