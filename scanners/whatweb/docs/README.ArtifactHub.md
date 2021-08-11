@@ -41,7 +41,7 @@ The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To
 You can find resources to help you get started on our [documentation website](https://docs.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://docs.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://docs.securecodebox.io/docs/getting-started/first-scans) with it.
 
 ## What is WHATWEB?
-Whatweb identifies websites. It can recognize technology used to build a website, such as content management systems (CMS), JavaScript libraries, web server and much more.
+Whatweb identifies websites. It can recognize technology used to build a website, such as content management systems (CMS), JavaScript libraries, web server and much more. This makes whatweb especially interesting to use in a cascading-rules pipeline.
 
 To learn more about the whatweb scanner itself visit [https://morningstarsecurity.com/research/whatweb].
 
