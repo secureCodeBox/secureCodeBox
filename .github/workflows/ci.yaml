@@ -477,6 +477,7 @@ jobs:
           - sslyze
           - test-scan
           - trivy
+          - whatweb
           - wpscan
           - zap
 
@@ -551,6 +552,7 @@ jobs:
           - kubeaudit
           - ncrack
           - nmap
+          - whatweb
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -1000,6 +1002,17 @@ jobs:
             --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-sslyze"
           cd tests/integration/
           npx jest --ci --color scanner/sslyze.test.js
+
+      # ---- Whatweb Integration Tests ----
+
+      - name: "sslyze Integration Tests"
+        run: |
+          kubectl -n integration-tests delete scans --all
+          helm -n integration-tests install whatweb ./scanners/whatweb/  \
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-whatweb"
+          cd tests/integration/
+          npx jest --ci --color scanner/whatweb.test.js
 
       # ---- WPScan Integration Tests ----
 
