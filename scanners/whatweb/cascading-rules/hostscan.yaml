@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "cascading.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "whatweb-hostscan"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: light
+spec:
+  matches:
+    anyOf:
+      - category: "Subdomain"
+        osi_layer: "NETWORK"
+  scanSpec:
+    scanType: "whatweb"
+    parameters:
+      # Target domain name of the finding
+      - "{{attributes.hostname}}"
