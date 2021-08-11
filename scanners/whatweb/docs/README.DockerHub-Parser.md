@@ -51,10 +51,10 @@ This `parser` image is intended to work in combination with the corresponding se
 docker pull securecodebox/parser-whatweb
 ```
 
-## What is NMAP?
-Nmap ("Network Mapper") is a free and open source (license) utility for network discovery and security auditing. Many systems and network administrators also find it useful for tasks such as network inventory, managing service upgrade schedules, and monitoring host or service uptime.
+## What is WHATWEB?
+Whatweb identifies websites. It can recognize technology used to build a website, such as content management systems (CMS), JavaScript libraries, web server and much more.
 
-To learn more about the Nmap scanner itself visit [nmap.org].
+To learn more about the whatweb scanner itself visit [https://morningstarsecurity.com/research/whatweb].
 
 ## Community
 
@@ -80,4 +80,3 @@ As for any pre-built image usage, it is the image user's responsibility to ensur
 [scb-twitter]: https://twitter.com/secureCodeBox
 [scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
 [scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
-
