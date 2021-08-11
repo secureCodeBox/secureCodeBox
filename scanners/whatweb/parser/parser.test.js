@@ -96,7 +96,7 @@ Array [
 `);
 });
 
-test("should properly parse whatweb xml file", async () => {
+test("should properly parse whatweb xml file of securecodebox.io", async () => {
   const xmlContent = await readFile(
     __dirname + "/__testFiles__/securecodebox.io.xml",
     {
