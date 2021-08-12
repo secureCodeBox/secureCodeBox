@@ -4,13 +4,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.securecodebox.persistence.models.SecureCodeBoxFinding;
+import org.json.JSONException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.skyscreamer.jsonassert.JSONAssert;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,26 +21,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 public class SecureCodeBoxFindingsToDefectDojoMapperTest {
+  ClassLoader cl = getClass().getClassLoader();
 
   @Test
-  public void yieldsCorrectResult() throws IOException {
+  public void yieldsCorrectResult() throws IOException, JSONException {
     String ddFindingsPath = "kubehunter-dd-findings.json";
     String scbFindingsPath = "kubehunter-scb-findings.json";
-    ClassLoader cl = getClass().getClassLoader();
-
-    File ddFindingsFile = new File(cl.getResource(ddFindingsPath).getFile());
-    File scbFindingsFile = new File(cl.getResource(scbFindingsPath).getFile());
-    String expectedResult = new String(Files.readAllBytes(ddFindingsFile.toPath()));
-    String scbFindingsContent = new String(Files.readAllBytes(scbFindingsFile.toPath()));
-    String result = SecureCodeBoxFindingsToDefectDojoMapper.fromSecureCodeboxFindingsJson(scbFindingsContent);
-    ObjectMapper mapper = new ObjectMapper();
-    JsonNode actualJSON = mapper.readTree(result);
-    JsonNode expectedJSON = mapper.readTree(expectedResult);
-    assertNotNull(actualJSON);
-    // if whitespaces should be ignored in strings, a Custom Comperator could be used
-    // then the result and expected result would not have to match exactly.
-    // see https://www.baeldung.com/jackson-compare-two-json-objects
-    assertEquals(actualJSON, expectedJSON);
+    String expectedDefectDojoFindings = readFileAsString(ddFindingsPath);
+    String scbJsonString = readFileAsString(scbFindingsPath);
+    String actualDefectDojoFindings = SecureCodeBoxFindingsToDefectDojoMapper.fromSecureCodeboxFindingsJson(scbJsonString);
+    JSONAssert.assertEquals(expectedDefectDojoFindings, actualDefectDojoFindings,false);
   }
 
   @Test
@@ -89,5 +82,11 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
     var ddFinding = SecureCodeBoxFindingsToDefectDojoMapper.fromSecureCodeBoxFinding(emptyScbFinding);
     assertNull(ddFinding.getTitle());
     assertNull(ddFinding.getDescription());
+  }
+
+  public String readFileAsString(String fileName) throws IOException
+  {
+    Path filePath = Paths.get(cl.getResource(fileName).getPath());
+    return new String(Files.readAllBytes(filePath));
   }
 }
