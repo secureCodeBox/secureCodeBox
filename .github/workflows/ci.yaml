@@ -1005,7 +1005,7 @@ jobs:
 
       # ---- Whatweb Integration Tests ----
 
-      - name: "sslyze Integration Tests"
+      - name: "Whatweb Integration Tests"
         run: |
           kubectl -n integration-tests delete scans --all
           helm -n integration-tests install whatweb ./scanners/whatweb/  \
