@@ -75,6 +75,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      - uses: actions/setup-node@v2
+        name: Setup Node
+        with:
+          node-version: ${{ env. NODE_VERSION }}
+
+      - name: Update NPM
+        run: npm i -g npm@${{ env.NPM_VERSION }}
       - name: "list files and folders"
         run: ls
       - name: "Install npm dependencies in all parser sub projects"
@@ -108,6 +115,9 @@ jobs:
           npm ci
           cd -
           cd hooks/
+          npm ci
+          cd -
+          cd parser-sdk/nodejs
           npm ci
       - name: "Compile Typescript"
         run: |

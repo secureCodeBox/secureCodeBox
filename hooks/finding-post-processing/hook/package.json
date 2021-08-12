@@ -4,7 +4,6 @@
   "description": "secureCodeBox Finding Post Processing Hook",
   "main": "hook.js",
   "scripts": {
-    "build": "npx typescript hook.ts --sourceMap",
     "test": "jest ."
   },
   "repository": {
