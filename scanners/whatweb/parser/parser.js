@@ -76,15 +76,17 @@ function parseResultFile(fileContent) {
             additional: []
           };
 
-          target.plugin.map(plugin => {
-            if (plugin.name[0] === "IP")
+          if(target.plugin) {
+            target.plugin.map(plugin => {
+              if (plugin.name[0] === "IP")
               newTarget.ipAddress = plugin.string[0];
-            else if (plugin.name[0] === "Title")
+              else if (plugin.name[0] === "Title")
               newTarget.title = plugin.string[0];
-            else
+              else
               newTarget.additional.push(plugin)
-          });
-
+            });
+          }
+            
           return newTarget;
         });
 

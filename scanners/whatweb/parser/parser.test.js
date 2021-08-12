@@ -46,6 +46,52 @@ Array [
 `);
 });
 
+test("should properly parse xml with empty target results file", async () => {
+  const xmlContent = await readFile(
+    __dirname + "/__testFiles__/somedomain.com.xml",
+    {
+      encoding: "utf8",
+    }
+  );
+  const findings = await parse(xmlContent);
+  // validate findings
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot(`
+  Array [
+    Object {
+      "attributes": Object {
+        "Country": "INDIA IN",
+        "RedirectLocation": "https://test.somedomain.org/",
+        "requestConfig": Object {
+          "headerName": "User-Agent",
+          "headerValue": "WhatWeb/0.4.9",
+        },
+      },
+      "category": "URL",
+      "description": null,
+      "location": "222.111.000.16",
+      "name": "http://test.somedomain.org",
+      "osi_layer": "NETWORK",
+      "severity": "INFORMATIONAL",
+    },
+    Object {
+      "attributes": Object {
+        "requestConfig": Object {
+          "headerName": "User-Agent",
+          "headerValue": "WhatWeb/0.4.9",
+        },
+      },
+      "category": "URL",
+      "description": null,
+      "location": null,
+      "name": "https://test.somedomain.org/",
+      "osi_layer": "NETWORK",
+      "severity": "INFORMATIONAL",
+    },
+  ]
+`);
+});
+
 test("should properly parse two xml with two targets", async () => {
   const xmlContent = await readFile(
     __dirname + "/__testFiles__/two-domains.xml",
