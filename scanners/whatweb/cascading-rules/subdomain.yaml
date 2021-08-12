@@ -5,7 +5,7 @@
 apiVersion: "cascading.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
-  name: "whatweb-hostscan"
+  name: "whatweb-subdomain-scan"
   labels:
     securecodebox.io/invasive: non-invasive
     securecodebox.io/intensive: light
@@ -17,5 +17,5 @@ spec:
   scanSpec:
     scanType: "whatweb"
     parameters:
-      # Target domain name of the finding
-      - "{{attributes.hostname}}"
+      # Target domain name of the finding and start a whatweb scan
+      - "{{location}}"
