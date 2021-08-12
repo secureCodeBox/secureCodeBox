@@ -116,6 +116,9 @@ jobs:
           cd -
           cd hooks/
           npm ci
+          cd -
+          cd parser-sdk/nodejs
+          npm ci
       - name: "Compile Typescript"
         run: |
           cd hooks/cascading-scans/hook
