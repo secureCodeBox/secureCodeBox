@@ -7,8 +7,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.securecodebox.persistence.config.FindingMapperConfig;
 import io.securecodebox.persistence.models.DefectDojoImportFinding;
 import io.securecodebox.persistence.models.SecureCodeBoxFinding;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,10 +24,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SecureCodeBoxFindingsToDefectDojoMapper {
-  private static final Logger LOG = LoggerFactory.getLogger(SecureCodeBoxFindingsToDefectDojoMapper.class);
+@NoArgsConstructor
+public class SecureCodeBoxFindingToDefectDojoMapper {
+  private static final Logger LOG = LoggerFactory.getLogger(SecureCodeBoxFindingToDefectDojoMapper.class);
   private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
   private static final ObjectWriter prettyJSONPrinter = new ObjectMapper().findAndRegisterModules().writerWithDefaultPrettyPrinter();
+  private FindingMapperConfig mappingConfig = new FindingMapperConfig();
+
+  public SecureCodeBoxFindingToDefectDojoMapper(FindingMapperConfig config){
+    this.mappingConfig = config;
+  }
 
   /**
    * Converts a SecureCodeBox Findings JSON String to a DefectDojo Findings JSON String.
@@ -34,7 +42,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
    * @return DefectDojo Findings JSON File as String, compatible with the DefectDojo Generic JSON Parser
    * @throws IOException
    */
-  public static String fromSecureCodeboxFindingsJson(String scbFindingsJson) throws IOException {
+  public String fromSecureCodeboxFindingsJson(String scbFindingsJson) throws IOException {
     LOG.debug("Converting SecureCodeBox Findings to DefectDojo Findings");
     ObjectMapper mapper = new ObjectMapper()
       .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
@@ -52,7 +60,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
     return ddFindingJson.toString();
   }
 
-  protected static String convertToDefectDojoSeverity(SecureCodeBoxFinding.Severities severity) {
+  protected String convertToDefectDojoSeverity(SecureCodeBoxFinding.Severities severity) {
     if (severity == null) {
       return "Info";
     }
@@ -79,7 +87,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
    * @return Finding in DefectDojo Format, compatible with the DefectDojo Generic JSON Parser
    * @throws JsonProcessingException
    */
-  protected static DefectDojoImportFinding fromSecureCodeBoxFinding(SecureCodeBoxFinding secureCodeBoxFinding) throws JsonProcessingException {
+  protected DefectDojoImportFinding fromSecureCodeBoxFinding(SecureCodeBoxFinding secureCodeBoxFinding) throws JsonProcessingException {
     //set basic Finding info
     DefectDojoImportFinding result = new DefectDojoImportFinding();
     result.setTitle(secureCodeBoxFinding.getName());
@@ -97,7 +105,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
     return result;
   }
 
-  private static void setFindingLocation(SecureCodeBoxFinding secureCodeBoxFinding, DefectDojoImportFinding result) {
+  private void setFindingLocation(SecureCodeBoxFinding secureCodeBoxFinding, DefectDojoImportFinding result) {
     if (secureCodeBoxFinding.getLocation() != null && !secureCodeBoxFinding.getLocation().isEmpty()) {
       try {
         URI.create(secureCodeBoxFinding.getLocation());
@@ -108,7 +116,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
     }
   }
 
-  private static void setFindingDate(SecureCodeBoxFinding secureCodeBoxFinding, DefectDojoImportFinding result) {
+  private void setFindingDate(SecureCodeBoxFinding secureCodeBoxFinding, DefectDojoImportFinding result) {
     Instant instant = null;
     if (secureCodeBoxFinding.getIdentifiedAt() != null && !secureCodeBoxFinding.getIdentifiedAt().isEmpty()) {
       instant = Instant.parse(secureCodeBoxFinding.getIdentifiedAt());
@@ -118,7 +126,8 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
     else {
       instant = Instant.now();
     }
-    LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+    ZoneId zoneId = this.mappingConfig.getDefectDojoTimezone().toZoneId();
+    LocalDateTime localDateTime = LocalDateTime.ofInstant(instant,zoneId);
     result.setDate(dtf.format(localDateTime));
   }
 
@@ -126,7 +135,6 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
     if (str == null || str.isEmpty()) {
       return str;
     }
-
     return str.substring(0, 1).toUpperCase() + str.substring(1);
   }
 }

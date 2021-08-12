@@ -1,10 +1,11 @@
 package io.securecodebox.persistence.mapping;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.securecodebox.persistence.config.FindingMapperConfig;
 import io.securecodebox.persistence.models.SecureCodeBoxFinding;
 import org.json.JSONException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -14,14 +15,22 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.ZoneId;
 import java.util.HashMap;
+import java.util.TimeZone;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
 @ExtendWith(MockitoExtension.class)
-public class SecureCodeBoxFindingsToDefectDojoMapperTest {
+public class SecureCodeBoxFindingToDefectDojoMapperTest {
   ClassLoader cl = getClass().getClassLoader();
+  SecureCodeBoxFindingToDefectDojoMapper findingMapper;
+
+  public SecureCodeBoxFindingToDefectDojoMapperTest(){
+    FindingMapperConfig mapperConfig = new FindingMapperConfig(TimeZone.getTimeZone(ZoneId.of("+0")));
+    findingMapper = new SecureCodeBoxFindingToDefectDojoMapper(mapperConfig);
+  }
 
   @Test
   public void yieldsCorrectResult() throws IOException, JSONException {
@@ -29,7 +38,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
     String scbFindingsPath = "kubehunter-scb-findings.json";
     String expectedDefectDojoFindings = readFileAsString(ddFindingsPath);
     String scbJsonString = readFileAsString(scbFindingsPath);
-    String actualDefectDojoFindings = SecureCodeBoxFindingsToDefectDojoMapper.fromSecureCodeboxFindingsJson(scbJsonString);
+    String actualDefectDojoFindings = findingMapper.fromSecureCodeboxFindingsJson(scbJsonString);
     JSONAssert.assertEquals(expectedDefectDojoFindings, actualDefectDojoFindings,false);
   }
 
@@ -50,8 +59,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
     var scbFinding = SecureCodeBoxFinding.builder().name(name).description(description)
       .severity(SecureCodeBoxFinding.Severities.HIGH).id(id).location(location).attributes(attributes)
       .parsedAt(parsedAt).build();
-
-    var ddFinding = SecureCodeBoxFindingsToDefectDojoMapper.fromSecureCodeBoxFinding(scbFinding);
+    var ddFinding = findingMapper.fromSecureCodeBoxFinding(scbFinding);
 
     assertEquals(ddFinding.getTitle(), name);
     assertEquals(ddFinding.getSeverity(), severity);
@@ -79,7 +87,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
   @Test
   public void doesntThrowUnexpectedExceptionOnEmptyFinding() throws JsonProcessingException {
     var emptyScbFinding = SecureCodeBoxFinding.builder().build();
-    var ddFinding = SecureCodeBoxFindingsToDefectDojoMapper.fromSecureCodeBoxFinding(emptyScbFinding);
+    var ddFinding = findingMapper.fromSecureCodeBoxFinding(emptyScbFinding);
     assertNull(ddFinding.getTitle());
     assertNull(ddFinding.getDescription());
   }

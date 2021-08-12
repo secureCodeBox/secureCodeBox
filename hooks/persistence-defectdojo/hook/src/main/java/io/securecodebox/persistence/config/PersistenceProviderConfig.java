@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Reads the configured Up / Download Urls for RawResults and Findings from the command line args and determines if
@@ -22,6 +23,8 @@ public class PersistenceProviderConfig {
 
   final int RAW_RESULT_UPLOAD_ARG_POSITION = 2;
   final int FINDING_UPLOAD_ARG_POSITION = 3;
+
+  TimeZone defectDojoTimeZone = TimeZone.getDefault();
 
   // Download Urls
   @Getter

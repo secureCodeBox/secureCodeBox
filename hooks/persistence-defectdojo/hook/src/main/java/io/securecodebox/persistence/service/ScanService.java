@@ -2,7 +2,7 @@ package io.securecodebox.persistence.service;
 
 import io.securecodebox.persistence.config.PersistenceProviderConfig;
 import io.securecodebox.persistence.defectdojo.models.ScanFile;
-import io.securecodebox.persistence.mapping.SecureCodeBoxFindingsToDefectDojoMapper;
+import io.securecodebox.persistence.mapping.SecureCodeBoxFindingToDefectDojoMapper;
 import io.securecodebox.persistence.models.Scan;
 import io.securecodebox.persistence.util.ScanNameMapping;
 import org.apache.commons.io.FilenameUtils;
@@ -24,7 +24,8 @@ public class ScanService {
       LOG.debug("No explicit Parser specified for ScanType {}, using Findings JSON Scan Result", scanType);
       downloadUrl = ppConfig.getFindingDownloadUrl();
       var findingsJSON = s3Service.downloadFile(downloadUrl);
-      scanResults = SecureCodeBoxFindingsToDefectDojoMapper.fromSecureCodeboxFindingsJson(findingsJSON);
+      SecureCodeBoxFindingToDefectDojoMapper findingMapper = new SecureCodeBoxFindingToDefectDojoMapper();
+      scanResults = findingMapper.fromSecureCodeboxFindingsJson(findingsJSON);
     } else {
       LOG.debug("Explicit Parser is specified for ScanType {}, using Raw Scan Result", scanNameMapping.scanType);
       downloadUrl = ppConfig.getRawResultDownloadUrl();
