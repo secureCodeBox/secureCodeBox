@@ -18,10 +18,11 @@ spec:
       backoffLimit: {{ .Values.scanner.backoffLimit }}
       template:
         spec:
-          restartPolicy: OnFailure
+          restartPolicy: Never
           containers:
             - name: whatweb
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
               command: ["whatweb", "--log-xml=/home/securecodebox/whatweb-results.xml"]
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
