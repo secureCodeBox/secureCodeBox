@@ -11,7 +11,8 @@ scanner/zapclient/
 scanner/tests/
 scanner/venv/
 scanner/.pytest_cache/
-scanner/.idea/examples/
+scanner/.idea/
+examples/
 docs/
 integration-tests/
 coverage/
