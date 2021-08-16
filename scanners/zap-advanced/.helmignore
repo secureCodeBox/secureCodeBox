@@ -5,7 +5,13 @@
 .DS_Store
 
 parser/
-scanner/
+# this doesn't look too good but is required so that the scanners/scripts folder is included
+scanner/*.*
+scanner/zapclient/
+scanner/tests/
+scanner/venv/
+scanner/.pytest_cache/
+scanner/.idea/
 examples/
 docs/
 integration-tests/
