@@ -54,8 +54,8 @@ data:
         format: openapi
         # -- Url to start spidering from, default: first context URL
         url: http://petstore.demo-targets.svc/v2/swagger.json
-        # -- Relative path for the given targetUrl. mutually exclusiv to the URL configuration.
-        relativePath: /v2/swagger.json
+        # -- Relative path for the given targetUrl. mutually exclusive to the URL configuration.
+        path: /v2/swagger.json
         # -- Override host setting in swagger.json
         hostOverride: http://petstore.demo-targets.svc
 
