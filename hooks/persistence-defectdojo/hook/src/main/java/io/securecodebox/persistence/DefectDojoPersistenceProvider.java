@@ -33,7 +33,7 @@ public class DefectDojoPersistenceProvider {
     scan.validate();
 
     LOG.info("Downloading Scan Result");
-    var scanResultFile = ScanService.downloadScan(scan, persistenceProviderConfig, s3Service);
+    var scanResultFile = ScanService.getDefectDojoCompatibleScanResult(scan, persistenceProviderConfig, s3Service);
 
     var config = DefectDojoConfig.fromEnv();
     LOG.info("Uploading Findings to DefectDojo at: {}", config.getUrl());

@@ -1,62 +1,30 @@
 package io.securecodebox.persistence.mapping;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.securecodebox.persistence.models.DefectDojoImportFinding;
 import io.securecodebox.persistence.models.SecureCodeBoxFinding;
+import io.securecodebox.persistence.service.KubernetesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.net.URI;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class SecureCodeBoxFindingsToDefectDojoMapper {
-  private static final Logger LOG = LoggerFactory.getLogger(SecureCodeBoxFindingsToDefectDojoMapper.class);
-  private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-  private static final ObjectWriter prettyJSONPrinter = new ObjectMapper().findAndRegisterModules().writerWithDefaultPrettyPrinter();
+  private static final Logger LOG = LoggerFactory.getLogger(KubernetesService.class);
+  private final DateTimeFormatter ddDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+  private final ObjectWriter attributeJsonPrinter = new ObjectMapper().writerWithDefaultPrettyPrinter();
 
-  /**
-   * Converts a SecureCodeBox Findings JSON String to a DefectDojo Findings JSON String.
-   *
-   * @param scbFindingsJson SecureCodeBox Findings JSON File as String
-   * @return DefectDojo Findings JSON File as String, compatible with the DefectDojo Generic JSON Parser
-   * @throws IOException
-   */
-  public static String fromSecureCodeboxFindingsJson(String scbFindingsJson) throws IOException {
-    LOG.debug("Converting SecureCodeBox Findings to DefectDojo Findings");
-    ObjectMapper mapper = new ObjectMapper()
-      .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-      .findAndRegisterModules();
-    List<DefectDojoImportFinding> DefectDojoImportFindings = new ArrayList<>();
-    List<SecureCodeBoxFinding> secureCodeBoxFindings = mapper.readValue(scbFindingsJson, new TypeReference<>() {
-    });
-    for (SecureCodeBoxFinding secureCodeBoxFinding : secureCodeBoxFindings) {
-      DefectDojoImportFindings.add(fromSecureCodeBoxFinding(secureCodeBoxFinding));
-    }
-    // create the result where the format has to be {"findings": [finding1, findings2, ...]}
-    ObjectNode ddFindingJson = mapper.createObjectNode();
-    ArrayNode arrayNode = mapper.valueToTree(DefectDojoImportFindings);
-    ddFindingJson.putArray("findings").addAll(arrayNode);
-    return ddFindingJson.toString();
-  }
-
-  protected static String convertToDefectDojoSeverity(SecureCodeBoxFinding.Severities severity) {
+  protected String convertToDefectDojoSeverity(SecureCodeBoxFinding.Severities severity) {
     if (severity == null) {
       return "Info";
     }
-
     switch (severity) {
       case HIGH:
         return "High";
@@ -67,7 +35,6 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
       case INFORMATIONAL:
         return "Info";
     }
-
     return "Info";
   }
 
@@ -77,9 +44,8 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
    *
    * @param secureCodeBoxFinding Finding in SecureCodeBox format.
    * @return Finding in DefectDojo Format, compatible with the DefectDojo Generic JSON Parser
-   * @throws JsonProcessingException
    */
-  protected static DefectDojoImportFinding fromSecureCodeBoxFinding(SecureCodeBoxFinding secureCodeBoxFinding) throws JsonProcessingException {
+  public DefectDojoImportFinding fromSecureCodeBoxFinding(SecureCodeBoxFinding secureCodeBoxFinding){
     //set basic Finding info
     DefectDojoImportFinding result = new DefectDojoImportFinding();
     result.setTitle(secureCodeBoxFinding.getName());
@@ -88,8 +54,12 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
     // set DefectDojo description as combination of SecureCodeBox Finding description and Finding attributes
     String description = secureCodeBoxFinding.getDescription();
     if (secureCodeBoxFinding.getAttributes() != null) {
-      String attributesJson = prettyJSONPrinter.writeValueAsString(secureCodeBoxFinding.getAttributes());
-      description = description + "\n " + attributesJson;
+      try {
+        var attributesJson = attributeJsonPrinter.writeValueAsString(secureCodeBoxFinding.getAttributes());
+        description = description + "\n " + attributesJson;
+      } catch (JsonProcessingException e) {
+        LOG.warn("Could not write the secureCodeBox Finding Attributes as JSON: ",e);
+      }
     }
     result.setDescription(description);
     setFindingDate(secureCodeBoxFinding, result);
@@ -97,7 +67,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
     return result;
   }
 
-  private static void setFindingLocation(SecureCodeBoxFinding secureCodeBoxFinding, DefectDojoImportFinding result) {
+  private void setFindingLocation(SecureCodeBoxFinding secureCodeBoxFinding, DefectDojoImportFinding result) {
     if (secureCodeBoxFinding.getLocation() != null && !secureCodeBoxFinding.getLocation().isEmpty()) {
       try {
         URI.create(secureCodeBoxFinding.getLocation());
@@ -108,8 +78,8 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
     }
   }
 
-  private static void setFindingDate(SecureCodeBoxFinding secureCodeBoxFinding, DefectDojoImportFinding result) {
-    Instant instant = null;
+  private void setFindingDate(SecureCodeBoxFinding secureCodeBoxFinding, DefectDojoImportFinding result) {
+    Instant instant;
     if (secureCodeBoxFinding.getIdentifiedAt() != null && !secureCodeBoxFinding.getIdentifiedAt().isEmpty()) {
       instant = Instant.parse(secureCodeBoxFinding.getIdentifiedAt());
     } else if (secureCodeBoxFinding.getParsedAt() != null && !secureCodeBoxFinding.getParsedAt().isEmpty()){
@@ -119,7 +89,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
       instant = Instant.now();
     }
     LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-    result.setDate(dtf.format(localDateTime));
+    result.setDate(ddDateFormatter.format(localDateTime));
   }
 
   private static String capitalize(String str) {
