@@ -4,28 +4,28 @@ import io.securecodebox.models.V1ScanSpec;
 import io.securecodebox.persistence.config.PersistenceProviderConfig;
 import io.securecodebox.persistence.defectdojo.models.ScanFile;
 import io.securecodebox.persistence.models.Scan;
-import org.apache.log4j.LogMF;
+import io.securecodebox.persistence.service.scan.ScanResultService;
 import org.json.JSONException;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.time.ZoneId;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ScanServiceTest {
   @Mock
   S3Service s3Service;
@@ -34,12 +34,12 @@ public class ScanServiceTest {
   @Mock
   Scan scan;
 
-  private static String expectedDdFindingsString;
-  private static String givenScbFindingsString;
-  private static String rawNiktoScanString;
+  private String expectedDdFindingsString;
+  private String givenScbFindingsString;
+  private String rawNiktoScanString;
 
   @BeforeAll
-  public static void init() throws IOException{
+  public void init() throws IOException{
     expectedDdFindingsString = readResourceAsString("kubehunter-dd-findings.json");
     assertNotNull(expectedDdFindingsString);
     assertNotEquals(expectedDdFindingsString,"");
@@ -59,12 +59,13 @@ public class ScanServiceTest {
   @Test
   public void correctlyParsesGenericResults() throws IOException, InterruptedException, JSONException {
     String findingsUrl = "https://foo.com/findings.json";
-    when(ppConfig.getFindingDownloadUrl()).thenReturn(findingsUrl);
-    when(s3Service.downloadFile(findingsUrl)).thenReturn(givenScbFindingsString);
     V1ScanSpec scanSpec = new V1ScanSpec();
     scanSpec.setScanType("some-unknown-scanner-type");
     when(scan.getSpec()).thenReturn(scanSpec);
-    ScanFile result = ScanService.getDefectDojoCompatibleScanResult(scan,ppConfig,s3Service);
+    when(ppConfig.getFindingDownloadUrl()).thenReturn(findingsUrl);
+    when(ppConfig.getDefectDojoTimezoneId()).thenReturn(ZoneId.of("+0"));
+    when(s3Service.downloadFile(findingsUrl)).thenReturn(givenScbFindingsString);
+    var result = ScanResultService.build(scan,s3Service).getScanResult(ppConfig);
     JSONAssert.assertEquals(expectedDdFindingsString,result.getContent(), JSONCompareMode.NON_EXTENSIBLE);
     assertTrue(result.getName().endsWith(".json"));
   }
@@ -78,12 +79,12 @@ public class ScanServiceTest {
   @Test
   public void correctlyReturnsScannerSpecificResults() throws IOException, InterruptedException {
     String rawResultDownloadUrl = "https://foo.com/nikto-raw-results.json";
-    when(ppConfig.getRawResultDownloadUrl()).thenReturn(rawResultDownloadUrl);
     V1ScanSpec scanSpec = new V1ScanSpec();
     scanSpec.setScanType("nikto");
+    when(ppConfig.getRawResultDownloadUrl()).thenReturn(rawResultDownloadUrl);
     when(scan.getSpec()).thenReturn(scanSpec);
     when(s3Service.downloadFile(rawResultDownloadUrl)).thenReturn(rawNiktoScanString);
-    ScanFile result = ScanService.getDefectDojoCompatibleScanResult(scan,ppConfig,s3Service);
+    ScanFile result = ScanResultService.build(scan,s3Service).getScanResult(ppConfig);
     assertEquals(rawNiktoScanString,result.getContent());
     assertTrue(result.getName().endsWith(".json"));
   }

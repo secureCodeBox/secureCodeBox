@@ -8,6 +8,7 @@ import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.ZoneId;
 import java.util.List;
 
 /**
@@ -22,6 +23,12 @@ public class PersistenceProviderConfig {
 
   final int RAW_RESULT_UPLOAD_ARG_POSITION = 2;
   final int FINDING_UPLOAD_ARG_POSITION = 3;
+
+  // DefectDojo does in contrast to secureCodeBox not pay attention to time zones
+  // to guarantee consistent results when converting back and forth  a time zone
+  // has to be assumed for DefectDojo. It defaults to the Time Zone of the system clock
+  @Getter
+  ZoneId defectDojoTimezoneId = ZoneId.systemDefault();
 
   // Download Urls
   @Getter

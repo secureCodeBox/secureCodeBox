@@ -1,23 +1,33 @@
 package io.securecodebox.persistence.mapping;
 
+import io.securecodebox.persistence.config.PersistenceProviderConfig;
 import io.securecodebox.persistence.models.SecureCodeBoxFinding;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
+import java.time.ZoneId;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(MockitoExtension.class)
 public class SecureCodeBoxFindingsToDefectDojoMapperTest {
-  private static SecureCodeBoxFindingsToDefectDojoMapper scbToDdMapper = new SecureCodeBoxFindingsToDefectDojoMapper();
-  private static SecureCodeBoxFinding genericTestFinding;
+
+  private SecureCodeBoxFindingsToDefectDojoMapper scbToDdMapper;
+  private SecureCodeBoxFinding genericTestFinding;
+  private PersistenceProviderConfig ppConfig;
 
   @BeforeAll
-  public static void init(){
+  public void init(){
     var name = "Name";
     var description = "Description";
     var id = "e18cdc5e-6b49-4346-b623-28a4e878e154";
@@ -32,6 +42,11 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
     genericTestFinding = SecureCodeBoxFinding.builder().name(name).description(description)
       .severity(SecureCodeBoxFinding.Severities.HIGH).id(id).location(location).attributes(attributes)
       .parsedAt(parsedAt).build();
+    ppConfig = mock(PersistenceProviderConfig.class);
+    // usually the default TimeZone on a machine is used to create the DefectDojo Dates. To ensure that the test
+    // results are the same regardless of the machine the test runs on we assume UTC+0 for tests.
+    when(ppConfig.getDefectDojoTimezoneId()).thenReturn(ZoneId.of("+0"));
+    scbToDdMapper = new SecureCodeBoxFindingsToDefectDojoMapper(ppConfig);
   }
 
   @Test
@@ -69,7 +84,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
   public void correctlyParsesDescription() throws JSONException {
     var ddFinding = scbToDdMapper.fromSecureCodeBoxFinding(genericTestFinding);
     assertTrue(ddFinding.getDescription().startsWith(genericTestFinding.getDescription()));
-    //Description should consist of description and attributes as JSON
+    //Description should consist of the secureCodeBox description and attributes as JSON
     String attributesJson = ddFinding.getDescription().substring(genericTestFinding.getDescription().length() + 1);
     String expectedAttributeJson = "{\n" +
       "  \"attribute_1\" : {\n" +

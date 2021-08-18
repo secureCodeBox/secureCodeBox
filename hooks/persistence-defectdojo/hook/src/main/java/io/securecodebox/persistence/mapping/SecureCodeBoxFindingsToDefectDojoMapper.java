@@ -3,6 +3,7 @@ package io.securecodebox.persistence.mapping;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import io.securecodebox.persistence.config.PersistenceProviderConfig;
 import io.securecodebox.persistence.models.DefectDojoImportFinding;
 import io.securecodebox.persistence.models.SecureCodeBoxFinding;
 import io.securecodebox.persistence.service.KubernetesService;
@@ -12,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import java.net.URI;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 
@@ -20,6 +20,11 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
   private static final Logger LOG = LoggerFactory.getLogger(KubernetesService.class);
   private final DateTimeFormatter ddDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
   private final ObjectWriter attributeJsonPrinter = new ObjectMapper().writerWithDefaultPrettyPrinter();
+  private PersistenceProviderConfig ppConfig;
+
+  public SecureCodeBoxFindingsToDefectDojoMapper(PersistenceProviderConfig ppConfig){
+    this.ppConfig= ppConfig;
+  }
 
   protected String convertToDefectDojoSeverity(SecureCodeBoxFinding.Severities severity) {
     if (severity == null) {
@@ -88,7 +93,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapper {
     else {
       instant = Instant.now();
     }
-    LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+    LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ppConfig.getDefectDojoTimezoneId());
     result.setDate(ddDateFormatter.format(localDateTime));
   }
 
