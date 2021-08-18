@@ -104,8 +104,7 @@ kind-import-parser:
 
 docker-build-scanner:
 	@echo ".: ⚙️ Build custom scanner with BASE_IMG_TAG: '$(BASE_IMG_TAG)'."
-	export SCANNER_VERSION=$(yq e .appVersion ./Chart.yaml)
-	docker build --build-arg=scannerVersion=${SCANNER_VERSION} --build-arg=namespace=$(IMG_NS) -t $(IMG_NS)/$(scanner-prefix)-$(scanner):$(IMG_TAG) -f ./scanner/Dockerfile ./scanner
+	docker build --build-arg=scannerVersion=$(shell yq e .appVersion ./Chart.yaml) --build-arg=namespace=$(IMG_NS) -t $(IMG_NS)/$(scanner-prefix)-$(scanner):$(IMG_TAG) -f ./scanner/Dockerfile ./scanner
 
 docker-export-scanner:
 	@echo ".: ⚙️ Saving new docker image archive to '$(scanner-prefix)-$(scanner).tar'."; \
