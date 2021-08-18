@@ -74,11 +74,11 @@ else
 endif
 
 
-test: | unit-tests-parser docker-build docker-export kind-import deploy integration-tests
+test: | unit-tests-parser docker-build docker-export kind-import deploy deploy-test-deps integration-tests
 
-all: | clean install-deps unit-tests-parser docker-build docker-export kind-import deploy integration-tests
+all: | clean install-deps unit-tests-parser docker-build docker-export kind-import deploy deploy-test-deps integration-tests
 
-.PHONY: unit-tests-parser install-deps docker-build docker-export kind-import deploy integration-tests all build test
+.PHONY: unit-tests-parser install-deps docker-build docker-export kind-import deploy deploy-test-deps integration-tests all build test
 
 unit-tests-parser:
 	@echo ".: 🧪 Starting unit-tests for '$(scanner)' parser  with 'jest@$(JEST_VERSION)'."
@@ -168,7 +168,7 @@ deploy-test-dep-nginx:
 
 install-integration-test-deps:
 
-integration-tests: deploy-test-deps
+integration-tests:
 	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
 	kubectl -n integration-tests delete scans --all
 	cd ../../tests/integration/ && npm ci

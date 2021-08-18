@@ -327,9 +327,9 @@ jobs:
         working-directory: ./scanners/${{ matrix.unit }}/
         run: make install-deps
 
-      - name: Unit Tests
+      - name: Parser Unit Tests
         working-directory: ./scanners/${{ matrix.unit }}/
-        run: make unit-tests
+        run: make unit-tests-parser
 
       - name: Set baseImageTag To commit Hash
         run: |
