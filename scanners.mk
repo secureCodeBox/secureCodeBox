@@ -82,7 +82,7 @@ all: | clean install-deps unit-tests-parser docker-build docker-export kind-impo
 
 unit-tests-parser:
 	@echo ".: 🧪 Starting unit-tests for '$(scanner)' parser  with 'jest@$(JEST_VERSION)'."
-	npx --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage ${scanner}/parser/
+	npx --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage --passWithNoTests ${scanner}/parser/
 
 install-deps:
 	@echo ".: ⚙️ Installing all scanner specific dependencies."
@@ -172,7 +172,7 @@ integration-tests: deploy-test-deps
 	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
 	kubectl -n integration-tests delete scans --all
 	cd ../../tests/integration/ && npm ci
-	npx --yes --package jest@$(JEST_VERSION) jest --verbose --ci --colors --coverage ${scanner}/integration-tests
+	npx --yes --package jest@$(JEST_VERSION) jest --verbose --ci --colors --coverage --passWithNoTests ${scanner}/integration-tests
 
 clean:
 	@echo ".: 🧹 Cleaning up all generated files."
