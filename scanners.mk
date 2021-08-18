@@ -62,11 +62,11 @@ parser-prefix = parser
 
 build: | install-deps docker-build
 
-test: | unit-tests docker-export kind-import deploy deploy-test-deps integration-tests
+test: | unit-tests docker-export kind-import deploy integration-tests
 
-all: | clean install-deps unit-tests docker-build docker-export kind-import deploy deploy-test-deps integration-tests
+all: | clean install-deps unit-tests docker-build docker-export kind-import deploy integration-tests
 
-.PHONY: unit-tests install-deps docker-build docker-export kind-import deploy deploy-test-deps integration-tests all build test
+.PHONY: unit-tests install-deps docker-build docker-export kind-import deploy integration-tests all build test
 
 unit-tests:
 	@echo ".: 🧪 Starting unit-tests for '$(scanner)' parser  with 'jest@$(JEST_VERSION)'."
@@ -98,9 +98,45 @@ deploy:
 
 deploy-test-deps:
 
+deploy-test-dep-namespace:
+	# If not exists create namespace where the tests will be executed
+	kubectl create namespace demo-targets --dry-run=client -o yaml | kubectl apply -f -
+
+deploy-test-dep-dummy-ssh: deploy-test-dep-namespace
+	# Install dummy-ssh app
+	helm -n demo-targets upgrade --install dummy-ssh ../../demo-targets/dummy-ssh/ --set="fullnameOverride=dummy-ssh" --wait
+
+deploy-test-dep-unsafe-https: deploy-test-dep-namespace
+	# Install unsafe-https app
+	helm -n demo-targets upgrade --install unsafe-https ../../demo-targets/unsafe-https/ --set="fullnameOverride=unsafe-https" --wait
+
+deploy-test-dep-bodgeit: deploy-test-dep-namespace
+	# Install bodgeit app
+	helm -n demo-targets upgrade --install bodgeit ../../demo-targets/bodgeit/ --set="fullnameOverride=bodgeit" --wait
+
+deploy-test-dep-petstore: deploy-test-dep-namespace
+	# Install bodgeit app
+	helm -n demo-targets upgrade --install petstore ../../demo-targets/swagger-petstore/ --set="fullnameOverride=petstore" --wait
+
+deploy-test-dep-old-wordpress: deploy-test-dep-namespace
+	# Install old-wordpress app
+	helm -n demo-targets upgrade --install old-wordpress ../../demo-targets/old-wordpress/ --set="fullnameOverride=old-wordpress" --wait
+
+deploy-test-dep-juiceshop: deploy-test-dep-namespace
+	# Install juiceshop app
+	helm -n demo-targets upgrade --install juiceshop ../../demo-targets/juice-shop/ --set="fullnameOverride=juiceshop" --wait
+
+deploy-test-dep-nginx: deploy-test-dep-namespace
+	# Delete leftover nginx's. Unfortunately can't create deployment only if not exists (like namespaces)
+	kubectl delete deployment nginx --namespace demo-targets --ignore-not-found --wait
+	kubectl delete svc nginx --namespace demo-targets --ignore-not-found --wait
+	# Install plain nginx server
+	kubectl create deployment --image nginx:alpine nginx --namespace demo-targets
+	kubectl expose deployment nginx --port 80 --namespace demo-targets
+
 install-integration-test-deps:
 
-integration-tests:
+integration-tests: deploy-test-deps
 	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
 	kubectl -n integration-tests delete scans --all
 	cd ../../tests/integration/ && npm ci
