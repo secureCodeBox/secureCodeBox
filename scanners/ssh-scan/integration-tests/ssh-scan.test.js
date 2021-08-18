@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 // todo: Integrate into github ci pipeline
-const { scan } = require("../helpers");
+const { scan } = require("../../../tests/integration/helpers");
 
 jest.retryTimes(3);
 

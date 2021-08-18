@@ -1,0 +1,27 @@
+#!/usr/bin/make -f
+#
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+include_guard = set
+scanner = kubeaudit
+custom_scanner = set
+
+include ../../scanners.mk
+
+deploy-with-scanner:
+	@echo ".: 💾 Deploying custom '$(scanner)' scanner HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
+	helm -n integration-tests upgrade --install $(scanner) ./ --wait \
+		--set="parser.image.repository=docker.io/$(IMG_NS)/$(parser-prefix)-zap" \
+		--set="parser.image.tag=$(IMG_TAG)" \
+		--set="scanner.image.repository=docker.io/$(IMG_NS)/$(scanner-prefix)-$(scanner)" \
+		--set="scanner.image.tag=$(IMG_TAG)" \
+		--set="kubeauditScope=cluster"
+
+deploy-test-deps:
+	# If not exists create namespace where the tests will be executed
+	kubectl create namespace kubeaudit-tests --dry-run=client -o yaml | kubectl apply -f -
+	# Install jshop in kubeaudit-tests namespace
+	helm -n kubeaudit-tests upgrade --install juice-shop ../../demo-targets/juice-shop/ --wait
