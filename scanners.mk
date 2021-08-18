@@ -70,7 +70,7 @@ all: | clean install-deps unit-tests docker-build docker-export kind-import depl
 
 unit-tests:
 	@echo ".: 🧪 Starting unit-tests for '$(scanner)' parser  with 'jest@$(JEST_VERSION)'."
-	cd parser && npx --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage .
+	npx --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage ${scanner}/parser/
 
 install-deps:
 	@echo ".: ⚙️ Installing all scanner specific dependencies."
