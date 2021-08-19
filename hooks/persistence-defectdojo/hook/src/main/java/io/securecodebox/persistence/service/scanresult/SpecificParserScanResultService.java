@@ -1,4 +1,4 @@
-package io.securecodebox.persistence.service.scan;
+package io.securecodebox.persistence.service.scanresult;
 
 import io.securecodebox.persistence.config.PersistenceProviderConfig;
 import io.securecodebox.persistence.defectdojo.models.ScanFile;

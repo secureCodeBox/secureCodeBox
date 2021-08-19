@@ -1,4 +1,4 @@
-package io.securecodebox.persistence.service.scan;
+package io.securecodebox.persistence.service.scanresult;
 
 import io.securecodebox.persistence.config.PersistenceProviderConfig;
 import io.securecodebox.persistence.defectdojo.models.ScanFile;
@@ -11,7 +11,9 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 /**
- * Enables fetching Scan Results for uploading to DefectDojo depending on the Scan (especially it's type)
+ * Abstract class that forces children to implement a method to get the scan results from a source
+ * (e.g. download link) specified in the PersistenceProviderConfig.
+ * It also builds the correct subclass to use, depending on the Scan (especially it's type)
  */
 public abstract class ScanResultService {
   protected static final Logger LOG = LoggerFactory.getLogger(ScanResultService.class);

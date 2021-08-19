@@ -1,4 +1,4 @@
-package io.securecodebox.persistence.service.scan;
+package io.securecodebox.persistence.service.scanresult;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

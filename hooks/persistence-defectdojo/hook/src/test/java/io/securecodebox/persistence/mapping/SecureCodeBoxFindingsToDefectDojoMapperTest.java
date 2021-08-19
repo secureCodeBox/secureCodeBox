@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -18,16 +19,20 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+// Create one instance for the whole class instead for each method to reuse the genericTestFinding in all methods
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
 public class SecureCodeBoxFindingsToDefectDojoMapperTest {
 
+  // test class
   private SecureCodeBoxFindingsToDefectDojoMapper scbToDdMapper;
+  // test data
   private SecureCodeBoxFinding genericTestFinding;
+  // Mock
   private PersistenceProviderConfig ppConfig;
 
   @BeforeAll
-  public void init(){
+  public void init() {
     var name = "Name";
     var description = "Description";
     var id = "e18cdc5e-6b49-4346-b623-28a4e878e154";
@@ -50,7 +55,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
   }
 
   @Test
-  public void correctlyParsesBasicFinding() {
+  public void correctlyParsesBasicFindingProperties() {
     var ddFinding = scbToDdMapper.fromSecureCodeBoxFinding(genericTestFinding);
     assertEquals(ddFinding.getTitle(), genericTestFinding.getName());
     assertEquals(ddFinding.getUniqueIdFromTool(), genericTestFinding.getId());
@@ -58,26 +63,26 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
   }
 
   @Test
-  public void correctlyParsesSeverities(){
+  public void correctlyParsesSeverities() {
     var nullSeverityFinding = SecureCodeBoxFinding.builder().build();
     var infoSeverityFinding = SecureCodeBoxFinding.builder().severity(SecureCodeBoxFinding.Severities.INFORMATIONAL).build();
     var lowSeverityFinding = SecureCodeBoxFinding.builder().severity(SecureCodeBoxFinding.Severities.LOW).build();
     var mediumSeverityFinding = SecureCodeBoxFinding.builder().severity(SecureCodeBoxFinding.Severities.MEDIUM).build();
     var highSeverityFinding = SecureCodeBoxFinding.builder().severity((SecureCodeBoxFinding.Severities.HIGH)).build();
-    assertEquals(scbToDdMapper.fromSecureCodeBoxFinding(nullSeverityFinding).getSeverity(),"Info");
-    assertEquals(scbToDdMapper.fromSecureCodeBoxFinding(infoSeverityFinding).getSeverity(),"Info");
-    assertEquals(scbToDdMapper.fromSecureCodeBoxFinding(lowSeverityFinding).getSeverity(),"Low");
-    assertEquals(scbToDdMapper.fromSecureCodeBoxFinding(mediumSeverityFinding).getSeverity(),"Medium");
-    assertEquals(scbToDdMapper.fromSecureCodeBoxFinding(highSeverityFinding).getSeverity(),"High");
+    assertEquals(scbToDdMapper.fromSecureCodeBoxFinding(nullSeverityFinding).getSeverity(), "Info");
+    assertEquals(scbToDdMapper.fromSecureCodeBoxFinding(infoSeverityFinding).getSeverity(), "Info");
+    assertEquals(scbToDdMapper.fromSecureCodeBoxFinding(lowSeverityFinding).getSeverity(), "Low");
+    assertEquals(scbToDdMapper.fromSecureCodeBoxFinding(mediumSeverityFinding).getSeverity(), "Medium");
+    assertEquals(scbToDdMapper.fromSecureCodeBoxFinding(highSeverityFinding).getSeverity(), "High");
   }
 
   @Test
-  public void correctlyParsesDate(){
+  public void correctlyParsesDate() {
     var ddFinding = scbToDdMapper.fromSecureCodeBoxFinding(genericTestFinding);
     assertEquals(ddFinding.getDate(), "2020-04-15");
     var dateTestFinding = SecureCodeBoxFinding.builder().parsedAt("2030-12-01T14:22:28Z").build();
     var dateTestResultFinding = scbToDdMapper.fromSecureCodeBoxFinding(dateTestFinding);
-    assertEquals(dateTestResultFinding.getDate(),"2030-12-01");
+    assertEquals(dateTestResultFinding.getDate(), "2030-12-01");
   }
 
   @Test
@@ -94,11 +99,11 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
       "  \"attribute_3\" : \"3\"\n" +
       "}";
     // We do not care how exactly the JSON looks as long as it is correct.
-    JSONAssert.assertEquals(expectedAttributeJson,attributesJson, JSONCompareMode.NON_EXTENSIBLE);
+    JSONAssert.assertEquals(expectedAttributeJson, attributesJson, JSONCompareMode.NON_EXTENSIBLE);
   }
 
   @Test
-  public void doesNotThrowUnexpectedExceptionOnEmptyFinding(){
+  public void doesNotThrowUnexpectedExceptionOnEmptyFinding() {
     var emptyScbFinding = SecureCodeBoxFinding.builder().build();
     assertDoesNotThrow(() -> scbToDdMapper.fromSecureCodeBoxFinding(emptyScbFinding));
   }
