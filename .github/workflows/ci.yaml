@@ -399,9 +399,12 @@ jobs:
             namespace=${{ env.DOCKER_NAMESPACE }}
             baseImageTag=${{ env.baseImageTag }}
           platforms: linux/amd64
-          push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
+      
+      - name: "Push Parser Image"
+        run: |
+          docker push ${{ steps.docker_meta.outputs.tags }}
 
       - name: Build Scanner
         uses: docker/build-push-action@v2
@@ -416,9 +419,12 @@ jobs:
             namespace=${{ env.DOCKER_NAMESPACE }}
             baseImageTag=${{ env.baseImageTag }}
           platforms: linux/amd64
-          push: true
           tags: ${{ steps.docker_meta_scanner.outputs.tags }}
           labels: ${{ steps.docker_meta_scanner.outputs.labels }}
+      
+      - name: "Push Scanner Image"
+        run: |
+          docker push ${{ steps.docker_meta_scanner.outputs.tags }}
 
       - name: Export Docker Images
         working-directory: ./scanners/${{ matrix.unit }}/
