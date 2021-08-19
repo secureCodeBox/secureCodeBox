@@ -1,0 +1,12 @@
+{
+  "name": "typo3scan-parser",
+  "version": "1.0.0",
+  "description": "Parses result files for the type : 'typo3scan-json'",
+  "main": "",
+  "scripts": {},
+  "keywords": [],
+  "author": "iteratec GmbH",
+  "license": "Apache-2.0",
+  "dependencies": {},
+  "devDependencies": {}
+}
