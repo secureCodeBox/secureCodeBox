@@ -1,6 +1,8 @@
 package io.securecodebox.persistence.mapping;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.util.DefaultIndenter;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import io.securecodebox.persistence.config.PersistenceProviderConfig;
@@ -19,7 +21,8 @@ import java.util.Collections;
 public class SecureCodeBoxFindingsToDefectDojoMapper {
   private static final Logger LOG = LoggerFactory.getLogger(KubernetesService.class);
   private final DateTimeFormatter ddDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-  private final ObjectWriter attributeJsonPrinter = new ObjectMapper().writerWithDefaultPrettyPrinter();
+  private final ObjectWriter attributeJsonPrinter = new ObjectMapper().writer(new DefaultPrettyPrinter()
+    .withObjectIndenter(new DefaultIndenter().withLinefeed("\n")));
   private PersistenceProviderConfig ppConfig;
 
   public SecureCodeBoxFindingsToDefectDojoMapper(PersistenceProviderConfig ppConfig){
