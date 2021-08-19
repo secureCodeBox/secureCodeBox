@@ -403,6 +403,7 @@ jobs:
           labels: ${{ steps.docker_meta.outputs.labels }}
       
       - name: "Push Parser Image"
+        if: hashFiles(format('./scanners/{0}/parser/Dockerfile', matrix.unit)) != ''
         run: |
           docker push ${{ steps.docker_meta.outputs.tags }}
 
@@ -423,6 +424,7 @@ jobs:
           labels: ${{ steps.docker_meta_scanner.outputs.labels }}
       
       - name: "Push Scanner Image"
+        if: hashFiles(format('./scanners/{0}/scanner/Dockerfile', matrix.unit)) != ''
         run: |
           docker push ${{ steps.docker_meta_scanner.outputs.tags }}
 
