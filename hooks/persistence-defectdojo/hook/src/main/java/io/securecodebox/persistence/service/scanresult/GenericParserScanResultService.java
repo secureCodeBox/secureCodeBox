@@ -17,6 +17,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Responsible for returning scan results that are compatible with the DefectDojo Generic JSON Parser
+ */
 public class GenericParserScanResultService extends ScanResultService {
 
   private static final ObjectMapper jsonObjectMapper = new ObjectMapper()
@@ -26,6 +29,15 @@ public class GenericParserScanResultService extends ScanResultService {
     super(s3Service);
   }
 
+  /**
+   * Fetches the secureCodeBox Findings.json file and converts it to a json file that is compatible with
+   * the DefectDojo Generic JSON Parser. This result as a string is then returned together with a filename
+   * in a ScanFile object. The ending of the filename is essential as it is evaluated by DefectDojo
+   * @param ppConfig config where the location of the scan result is specified
+   * @return
+   * @throws IOException
+   * @throws InterruptedException
+   */
   @Override
   public ScanFile getScanResult(PersistenceProviderConfig ppConfig) throws IOException, InterruptedException {
     LOG.debug("No explicit Parser specified using Findings JSON Scan Result");
