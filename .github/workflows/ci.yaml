@@ -404,8 +404,10 @@ jobs:
       
       - name: "Push Parser Image"
         if: hashFiles(format('./scanners/{0}/parser/Dockerfile', matrix.unit)) != ''
+        env:
+          TAGS: ${{ steps.docker_meta.outputs.tags }}
         run: |
-          docker push ${{ steps.docker_meta.outputs.tags }}
+          echo "$TAGS" | xargs docker push
 
       - name: Build Scanner
         uses: docker/build-push-action@v2
@@ -425,8 +427,10 @@ jobs:
       
       - name: "Push Scanner Image"
         if: hashFiles(format('./scanners/{0}/scanner/Dockerfile', matrix.unit)) != ''
+        env:
+          TAGS: ${{ steps.docker_meta_scanner.outputs.tags }}
         run: |
-          docker push ${{ steps.docker_meta_scanner.outputs.tags }}
+          echo "$TAGS" | xargs docker push
 
       - name: Export Docker Images
         working-directory: ./scanners/${{ matrix.unit }}/
