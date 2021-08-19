@@ -35,7 +35,6 @@ dependencies {
 
   testImplementation(platform('org.junit:junit-bom:5.7.0'))
   testImplementation('org.junit.jupiter:junit-jupiter')
-  testImplementation 'org.skyscreamer:jsonassert:1.2.3'
 
   testImplementation "org.mockito:mockito-core:2.+"
   testImplementation "org.mockito:mockito-junit-jupiter:2.+"

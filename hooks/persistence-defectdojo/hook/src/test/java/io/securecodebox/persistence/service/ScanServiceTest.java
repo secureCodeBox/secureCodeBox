@@ -1,18 +1,15 @@
 package io.securecodebox.persistence.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.securecodebox.models.V1ScanSpec;
 import io.securecodebox.persistence.config.PersistenceProviderConfig;
 import io.securecodebox.persistence.defectdojo.models.ScanFile;
 import io.securecodebox.persistence.models.Scan;
 import io.securecodebox.persistence.service.scanresult.ScanResultService;
-import org.json.JSONException;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.skyscreamer.jsonassert.JSONAssert;
-import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,10 +39,9 @@ public class ScanServiceTest {
    * the correct file ending must be used so DefectDojo can choose the right parser (usually xml or json)
    * @throws IOException
    * @throws InterruptedException
-   * @throws JSONException
    */
   @Test
-  public void correctlyParsesGenericResults() throws IOException, InterruptedException, JSONException {
+  public void correctlyParsesGenericResults() throws IOException, InterruptedException {
     // read data
     String expectedDdFindingsString = readResourceAsString("kubehunter-dd-findings.json");
     String givenScbFindingsString = readResourceAsString("kubehunter-scb-findings.json");
@@ -65,8 +61,9 @@ public class ScanServiceTest {
 
     // test for correctness
     var result = ScanResultService.build(scan, s3Service).getScanResult(ppConfig);
-    // check that the produced and expected JSON are the same. Non-strict array ordering and not extensible.
-    JSONAssert.assertEquals(expectedDdFindingsString, result.getContent(), JSONCompareMode.NON_EXTENSIBLE);
+    // check that the produced and expected JSON are the same.
+    ObjectMapper mapper = new ObjectMapper();
+    assertEquals(mapper.readTree(expectedDdFindingsString), mapper.readTree(result.getContent()));
     // file name must have the right ending
     assertTrue(result.getName().endsWith(".json"));
   }

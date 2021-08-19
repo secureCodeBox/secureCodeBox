@@ -1,16 +1,14 @@
 package io.securecodebox.persistence.mapping;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.securecodebox.persistence.config.PersistenceProviderConfig;
 import io.securecodebox.persistence.models.SecureCodeBoxFinding;
-import org.json.JSONException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.skyscreamer.jsonassert.JSONAssert;
-import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.time.ZoneId;
 import java.util.HashMap;
@@ -86,7 +84,7 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
   }
 
   @Test
-  public void correctlyParsesDescription() throws JSONException {
+  public void correctlyParsesDescription() throws JsonProcessingException {
     var ddFinding = scbToDdMapper.fromSecureCodeBoxFinding(genericTestFinding);
     assertTrue(ddFinding.getDescription().startsWith(genericTestFinding.getDescription()));
     //Description should consist of the secureCodeBox description and attributes as JSON
@@ -99,7 +97,8 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
       "  \"attribute_3\" : \"3\"\n" +
       "}";
     // We do not care how exactly the JSON looks as long as it is correct.
-    JSONAssert.assertEquals(expectedAttributeJson, attributesJson, JSONCompareMode.NON_EXTENSIBLE);
+    ObjectMapper mapper = new ObjectMapper();
+    assertEquals(mapper.readTree(expectedAttributeJson), mapper.readTree(attributesJson));
   }
 
   @Test
