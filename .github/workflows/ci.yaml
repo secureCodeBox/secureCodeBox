@@ -627,7 +627,6 @@ jobs:
     needs:
       - operator
       - hooks
-      - parsers
       - makefile-scanner
       - scanner-nikto
     runs-on: ubuntu-latest
