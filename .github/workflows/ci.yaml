@@ -407,7 +407,7 @@ jobs:
         env:
           TAGS: ${{ steps.docker_meta.outputs.tags }}
         run: |
-          echo "$TAGS" | xargs docker push
+          echo "$TAGS" | xargs --max-args 1 docker push
 
       - name: Build Scanner
         uses: docker/build-push-action@v2
@@ -430,7 +430,7 @@ jobs:
         env:
           TAGS: ${{ steps.docker_meta_scanner.outputs.tags }}
         run: |
-          echo "$TAGS" | xargs docker push
+          echo "$TAGS" | xargs --max-args 1 docker push
 
       - name: Export Docker Images
         working-directory: ./scanners/${{ matrix.unit }}/
