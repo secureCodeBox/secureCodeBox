@@ -482,6 +482,7 @@ jobs:
           - ncrack
           - nikto
           - nmap
+          - nuclei
           - screenshooter
           - ssh-scan
           - sslyze
