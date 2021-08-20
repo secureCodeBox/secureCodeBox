@@ -39,13 +39,19 @@ async function parse(fileContent) {
     // Parsing Extenstions
     let extensions = parsed_findings.Extensions
     let parsed_extensions = extensions.map((ext) => {
+
+        // Check if extension has vulnerabilities : if yes severity = HIGH
+        let severity = 'INFORMATIONAL'
+        if ( ext.Vulnerabilities.length > 0) {
+            severity = 'HIGH'
+        }
         return {
             name: ext.Name,
             description: `Extension ${ext.Name} (${ext.Title}) found`,
             category: "Extension",
             location: ext.Url,
             osi_layer: "APPLICATION",
-            severity: "INFORMATIONAL",
+            severity: severity,
             attributes: {
                 Typo3_Version: parsed_findings.Version,
                 Repository: ext.Repo,
@@ -59,5 +65,4 @@ async function parse(fileContent) {
     let results = parsed_vulnerabilities.concat(parsed_extensions)
     return results
 }
-
 module.exports.parse = parse;

@@ -1,0 +1,9 @@
+apiVersion: execution.securecodebox.io/v1
+kind: ParseDefinition
+metadata:
+  name: zap-json
+spec:
+  image: docker.io/securecodebox/parser-zap
+  imagePullSecrets:
+  - name: dockerhub-token
+  ttlSecondsAfterFinished: 60
