@@ -12,8 +12,6 @@ async function parse(fileContent) {
 
   const jsonResult = readJsonLines(fileContent);
 
-  //console.log(result)
-
   return jsonResult.map(finding => {
     
     return {

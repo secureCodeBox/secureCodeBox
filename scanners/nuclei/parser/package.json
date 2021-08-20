@@ -1,9 +1,8 @@
 {
   "name": "@securecodebox/parser-nuclei",
   "version": "1.0.0",
-  "description": "Parses result files for the type: 'nuclei-json'",
-  "main": "parser.js",
-  "test": "jest",
+  "description": "Parses result files for the type: 'nuclei-jsonl'.",
+  "main": "",
   "scripts": {},
   "keywords": [],
   "author": "iteratec GmbH",
