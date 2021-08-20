@@ -28,7 +28,7 @@ public class SpecificParserScanResultService extends ScanResultService {
    */
   @Override
   public ScanFile getScanResult(PersistenceProviderConfig ppConfig) throws IOException, InterruptedException {
-    LOG.debug("Explicit Parser is specified, using Raw Scan Result");
+    LOG.debug("Explicit Parser is specified. Using Raw Scan Result");
     var downloadUrl = ppConfig.getRawResultDownloadUrl();
     var scanResult = s3Service.downloadFile(downloadUrl);
     return new ScanFile(scanResult, FilenameUtils.getName(new URL(downloadUrl).getPath()));
