@@ -1,0 +1,1 @@
+{"templateID":"ftp-default-credentials","info":{"severity":"critical","tags":"network,ftp,default-login","name":"FTP Service with default credentials","author":"pussycat0x"},"type":"network","host":"www.example.com","matched":"www.example.com:21","meta":{"password":"default","username":"anonymous"},"ip":"127.0.0.1","timestamp":"2021-08-20T22:00:48.088618+02:00"}

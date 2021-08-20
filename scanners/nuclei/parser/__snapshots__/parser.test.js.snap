@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parses a single result correctly 1`] = `
+Array [
+  Object {
+    "attributes": Object {
+      "author": undefined,
+      "ip": "127.0.0.1",
+      "matched": "www.example.com:21",
+      "matcher_name": undefined,
+      "metadata": Object {
+        "password": "default",
+        "username": "anonymous",
+      },
+      "tags": undefined,
+      "timestamp": "2021-08-20T22:00:48.088618+02:00",
+      "type": "network",
+    },
+    "category": "ftp-default-credentials",
+    "description": "The name of the nuclei rule which triggered the finding: ftp-default-credentials",
+    "location": "www.example.com",
+    "name": "FTP Service with default credentials",
+    "severity": "HIGH",
+  },
+]
+`;
+
+exports[`parses empty result correctly 1`] = `Array []`;
+
+exports[`parses ftp result correctly 1`] = `
+Array [
+  Object {
+    "attributes": Object {
+      "author": undefined,
+      "ip": "127.0.0.1",
+      "matched": "www.example.com:21",
+      "matcher_name": undefined,
+      "metadata": Object {
+        "password": "default",
+        "username": "anonymous",
+      },
+      "tags": undefined,
+      "timestamp": "2021-08-20T22:00:48.088618+02:00",
+      "type": "network",
+    },
+    "category": "ftp-default-credentials",
+    "description": "The name of the nuclei rule which triggered the finding: ftp-default-credentials",
+    "location": "www.example.com",
+    "name": "FTP Service with default credentials",
+    "severity": "HIGH",
+  },
+  Object {
+    "attributes": Object {
+      "author": undefined,
+      "ip": "127.0.0.1",
+      "matched": "www.example.com:21",
+      "matcher_name": undefined,
+      "metadata": Object {
+        "password": "stingray",
+        "username": "anonymous",
+      },
+      "tags": undefined,
+      "timestamp": "2021-08-20T22:00:48.161349+02:00",
+      "type": "network",
+    },
+    "category": "ftp-default-credentials",
+    "description": "The name of the nuclei rule which triggered the finding: ftp-default-credentials",
+    "location": "www.example.com",
+    "name": "FTP Service with default credentials",
+    "severity": "HIGH",
+  },
+]
+`;
+
+exports[`parses the dns result correctly 1`] = `
+Array [
+  Object {
+    "attributes": Object {
+      "author": undefined,
+      "ip": undefined,
+      "matched": "www.example.com",
+      "matcher_name": "github",
+      "metadata": undefined,
+      "tags": undefined,
+      "timestamp": "2021-08-21T00:18:21.754428+02:00",
+      "type": "dns",
+    },
+    "category": "cname-service-detector",
+    "description": "The name of the nuclei rule which triggered the finding: cname-service-detector",
+    "location": "www.example.com",
+    "name": "3rd party service checker",
+    "severity": "INFO",
+  },
+]
+`;
