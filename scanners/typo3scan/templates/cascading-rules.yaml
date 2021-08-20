@@ -1,0 +1,9 @@
+# We only want to import the default cascading rules if they are enabled
+{{ if .Values.cascadingRules.enabled }}
+{{ range $path, $_ :=  .Files.Glob  "cascading-rules/*" }}
+# Include File
+{{ $.Files.Get $path }}
+# Separate multiple files
+---
+{{ end }}
+{{ end }}
