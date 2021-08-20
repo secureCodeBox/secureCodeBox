@@ -124,10 +124,6 @@ async function scan(name, scanType, parameters = [], timeout = 180) {
     spec: {
       scanType,
       parameters,
-      env: [{
-        name : "CRASH_ON_FAILED_VALIDATION",
-        value : "true"
-      }]
     },
   };
 
