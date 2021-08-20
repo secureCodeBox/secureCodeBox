@@ -40,7 +40,7 @@ public class GenericParserScanResultService extends ScanResultService {
    */
   @Override
   public ScanFile getScanResult(PersistenceProviderConfig ppConfig) throws IOException, InterruptedException {
-    LOG.debug("No explicit Parser specified using Findings JSON Scan Result");
+    LOG.debug("No explicit Parser specified. Using Findings JSON Scan Result");
     var scbToDdMapper = new SecureCodeBoxFindingsToDefectDojoMapper(ppConfig);
     var downloadUrl = ppConfig.getFindingDownloadUrl();
     var findingsJSON = s3Service.downloadFile(downloadUrl);
