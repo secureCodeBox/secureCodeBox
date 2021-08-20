@@ -23,14 +23,16 @@ async function parse(fileContent) {
       severity: getAdjustedSeverity(finding.info.severity.toUpperCase()),
       category: finding.templateID,
       attributes: {
-        metadata: finding.meta,
-        ip: finding.ip,
-        timestamp: finding.timestamp,
-        matcher_name: finding.matcher_name,
-        matched: finding.matched,
-        type: finding.type,
-        tags: finding.tags,
-        author: finding.author,
+        metadata: finding.meta || null,
+        ip: finding.ip || null,
+        timestamp: finding.timestamp || null,
+        matcher_name: finding.matcher_name || null,
+        matched: finding.matched || null,
+        extracted_results:  finding.extracted_results || null,
+        type: finding.type || null,
+        tags: finding.tags || null,
+        reference: finding.reference || null,
+        author: finding.author || null,
       }
     };
   });

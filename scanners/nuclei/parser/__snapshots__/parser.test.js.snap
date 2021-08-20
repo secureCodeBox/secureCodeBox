@@ -4,23 +4,22 @@ exports[`parses a single result correctly 1`] = `
 Array [
   Object {
     "attributes": Object {
-      "author": undefined,
-      "ip": "127.0.0.1",
-      "matched": "www.example.com:21",
-      "matcher_name": undefined,
-      "metadata": Object {
-        "password": "default",
-        "username": "anonymous",
-      },
-      "tags": undefined,
-      "timestamp": "2021-08-20T22:00:48.088618+02:00",
-      "type": "network",
+      "author": null,
+      "extracted_results": Array [],
+      "ip": null,
+      "matched": "example.com",
+      "matcher_name": null,
+      "metadata": null,
+      "reference": null,
+      "tags": null,
+      "timestamp": "2021-08-20T22:53:40.4293261Z",
+      "type": "dns",
     },
-    "category": "ftp-default-credentials",
-    "description": "The name of the nuclei rule which triggered the finding: ftp-default-credentials",
-    "location": "www.example.com",
-    "name": "FTP Service with default credentials",
-    "severity": "HIGH",
+    "category": "dnssec-detection",
+    "description": "The name of the nuclei rule which triggered the finding: dnssec-detection",
+    "location": "example.com",
+    "name": "DNSSEC Detection",
+    "severity": "INFO",
   },
 ]
 `;
@@ -31,15 +30,17 @@ exports[`parses ftp result correctly 1`] = `
 Array [
   Object {
     "attributes": Object {
-      "author": undefined,
+      "author": null,
+      "extracted_results": null,
       "ip": "127.0.0.1",
       "matched": "www.example.com:21",
-      "matcher_name": undefined,
+      "matcher_name": null,
       "metadata": Object {
         "password": "default",
         "username": "anonymous",
       },
-      "tags": undefined,
+      "reference": null,
+      "tags": null,
       "timestamp": "2021-08-20T22:00:48.088618+02:00",
       "type": "network",
     },
@@ -51,15 +52,17 @@ Array [
   },
   Object {
     "attributes": Object {
-      "author": undefined,
+      "author": null,
+      "extracted_results": null,
       "ip": "127.0.0.1",
       "matched": "www.example.com:21",
-      "matcher_name": undefined,
+      "matcher_name": null,
       "metadata": Object {
         "password": "stingray",
         "username": "anonymous",
       },
-      "tags": undefined,
+      "reference": null,
+      "tags": null,
       "timestamp": "2021-08-20T22:00:48.161349+02:00",
       "type": "network",
     },
@@ -76,12 +79,14 @@ exports[`parses the dns result correctly 1`] = `
 Array [
   Object {
     "attributes": Object {
-      "author": undefined,
-      "ip": undefined,
+      "author": null,
+      "extracted_results": null,
+      "ip": null,
       "matched": "www.example.com",
       "matcher_name": "github",
-      "metadata": undefined,
-      "tags": undefined,
+      "metadata": null,
+      "reference": null,
+      "tags": null,
       "timestamp": "2021-08-21T00:18:21.754428+02:00",
       "type": "dns",
     },

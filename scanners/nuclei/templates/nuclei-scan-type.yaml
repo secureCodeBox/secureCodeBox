@@ -24,10 +24,11 @@ spec:
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
               command:
+                - 'nuclei'
                 - '-json'
-                - '-stats-json'
                 # nuclei writes json lines: https://jsonlines.org/
-                - '-o /home/securecodebox/nuclei-results.jsonl'
+                - '-output'
+                - '/home/securecodebox/nuclei-results.jsonl'
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:
