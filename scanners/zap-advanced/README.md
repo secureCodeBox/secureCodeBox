@@ -418,13 +418,13 @@ zapConfiguration:
       processForm: true
       # -- Int: The time between the requests sent to a server in milliseconds, default: 200
       requestWaitTime: 200
-      # -- Bool: Whether the spider will send the referer header, default: true
+      # -- Bool: Whether the spider will send the referrer header, default: true
       sendRefererHeader: true
       # -- Int: The number of spider threads, default: 2            
       threadCount: 2
       # -- String: The user agent to use in requests, default: '' - use the default ZAP one              
       userAgent: "secureCodeBox / ZAP Spider"
-      # -- Configures existings ZAP Scripts or add new ZAP Scripts. For example can be used if a proxy script must be loaded. Proxy scripts are executed for every request traversing ZAP
+      # -- Configures existing ZAP Scripts or add new ZAP Scripts. For example can be used if a proxy script must be loaded. Proxy scripts are executed for every request traversing ZAP
       scripts: {}
  
   # -- Optional list of ZAP Active Scanner configurations
