@@ -17,6 +17,14 @@ var HttpRequestHeader = Java.type("org.parosproxy.paros.network.HttpRequestHeade
  * This auth is based on the grand type "password" to retrieve fresh tokens:
  * https://developer.okta.com/blog/2018/06/29/what-is-the-oauth2-password-grant
  *
+ * For Authentication select/configure in your ZAP Context:
+ *
+ * - Authentication method: ScriptBased Authentication
+ * - Login FORM target URL: https://$keycloak-url/auth/realms/$app/protocol/openid-connect/token
+ * - Username Parameter: your-username-to-get-tokens
+ * - Password Parameter: your-password-to-get-tokens
+ * - Logged out regex: ".*Credentials are required to access this resource.*"
+ *
  * NOTE: Any message sent in the function should be obtained using the 'helper.prepareMessage()'
  *       method.
  *
@@ -33,7 +41,8 @@ function authenticate(helper, paramsValues, credentials) {
 
     // Prepare the login request details
     var url = paramsValues.get("URL");
-    print("Logging in to url: " + url);
+    var clientId = paramsValues.get("clientId");
+    print("Logging in to url: " + url + " clientId: " + clientId);
 
     var requestUri = new URI(url, false);
     var requestMethod = HttpRequestHeader.POST;
@@ -41,7 +50,7 @@ function authenticate(helper, paramsValues, credentials) {
     // Build the request body using the credentials values
     // This auth is based on the grand type "password" to retrieve fresh tokens
     // https://developer.okta.com/blog/2018/06/29/what-is-the-oauth2-password-grant
-    var requestBody = "grant_type=password&client_id=password&username=" + credentials.getParam("username") + "&password=" + credentials.getParam("password");
+    var requestBody = "grant_type=password&client_id=" + clientId + "&username=" + credentials.getParam("username") + "&password=" + credentials.getParam("password");
 
     // Build the actual message to be sent
     print("Sending " + requestMethod + " request to " + requestUri + " with body: " + requestBody);
@@ -72,7 +81,7 @@ function authenticate(helper, paramsValues, credentials) {
  * to input dynamic data into the script, from the user interface (e.g. a login URL, name of POST parameters etc.).
  */
 function getRequiredParamsNames() {
-    return ["URL"];
+    return ["URL", "clientId"];
 }
 
 /**
@@ -92,20 +101,4 @@ function getOptionalParamsNames() {
  */
 function getCredentialsParamsNames() {
     return ["username", "password"];
-}
-
-/**
- * This optional function is called during the script loading to obtain the logged in indicator.
- * NOTE: although optional this function must be implemented along with the function getLoggedOutIndicator().
- */
-function getLoggedInIndicator() {
-    return null;
-}
-
-/**
- * This optional function is called during the script loading to obtain the logged out indicator.
- * NOTE: although optional this function must be implemented along with the function getLoggedInIndicator().
- */
-function getLoggedOutIndicator() {
-    return null;
 }
