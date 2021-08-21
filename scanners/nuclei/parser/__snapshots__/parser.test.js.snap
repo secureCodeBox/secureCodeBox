@@ -19,7 +19,7 @@ Array [
     "description": "The name of the nuclei rule which triggered the finding: dnssec-detection",
     "location": "example.com",
     "name": "DNSSEC Detection",
-    "severity": "INFO",
+    "severity": "INFORMATIONAL",
   },
 ]
 `;
@@ -94,7 +94,7 @@ Array [
     "description": "The name of the nuclei rule which triggered the finding: cname-service-detector",
     "location": "www.example.com",
     "name": "3rd party service checker",
-    "severity": "INFO",
+    "severity": "INFORMATIONAL",
   },
 ]
 `;
