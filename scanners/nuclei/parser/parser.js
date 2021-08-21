@@ -38,6 +38,8 @@ async function parse(fileContent) {
 function getAdjustedSeverity(severity) {
   return severity === "CRITICAL"
     ? "HIGH"
+    : severity === "INFO"
+    ? "INFORMATIONAL"
     : severity === "UNKNOWN"
     ? "INFORMATIONAL"
     : severity;
