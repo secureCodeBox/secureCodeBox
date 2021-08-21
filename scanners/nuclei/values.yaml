@@ -47,10 +47,15 @@ scanner:
   env: []
 
   # scanner.extraVolumes -- Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
-  extraVolumes: []
+  extraVolumes:
+    - name: nuclei-content
+      persistentVolumeClaim:
+        claimName: nuclei-content-claim
 
   # scanner.extraVolumeMounts -- Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
-  extraVolumeMounts: []
+  extraVolumeMounts:
+    - name: nuclei-content
+      mountPath: /root
 
   # scanner.extraContainers -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
   extraContainers: []
@@ -58,7 +63,11 @@ scanner:
   # scanner.securityContext -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
   securityContext: {}
 
+nucleiTemplateCache:
+  # -- Enables or disables the use of an persistent volume to cache the always downloaded nuclei-templates for all scans.
+  enabled: true
+
 cascadingRules:
-  # cascadingRules.enabled -- Enables or disables the installation of the default cascading rules for this scanner
+  # -- Enables or disables the installation of the default cascading rules for this scanner
   enabled: true
 
