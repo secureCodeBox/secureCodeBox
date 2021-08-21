@@ -2,8 +2,6 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const readJsonLines = require('read-json-lines-sync').default;
-
 async function parse(fileContent) {
   // Only 0 when the target wasn't reachable
   if (fileContent.length === 0) {
@@ -12,11 +10,12 @@ async function parse(fileContent) {
 
   const jsonResult = readJsonLines(fileContent);
 
-  return jsonResult.map(finding => {
-    
+  return jsonResult.map((finding) => {
     return {
       name: finding.info.name,
-      description: "The name of the nuclei rule which triggered the finding: " + finding.templateID,
+      description:
+        "The name of the nuclei rule which triggered the finding: " +
+        finding.templateID,
       location: finding.host,
       severity: getAdjustedSeverity(finding.info.severity.toUpperCase()),
       category: finding.templateID,
@@ -26,22 +25,34 @@ async function parse(fileContent) {
         timestamp: finding.timestamp || null,
         matcher_name: finding.matcher_name || null,
         matched: finding.matched || null,
-        extracted_results:  finding.extracted_results || null,
+        extracted_results: finding.extracted_results || null,
         type: finding.type || null,
         tags: finding.tags || null,
         reference: finding.reference || null,
         author: finding.author || null,
-      }
+      },
     };
   });
 }
 
-function getAdjustedSeverity(severity){
+function getAdjustedSeverity(severity) {
   return severity === "CRITICAL"
-  ? "HIGH"
-  : severity === "UNKNOWN"
-  ? "INFORMATIONAL"
-  : severity;
+    ? "HIGH"
+    : severity === "UNKNOWN"
+    ? "INFORMATIONAL"
+    : severity;
+}
+
+function readJsonLines(jsonl) {
+  if (typeof jsonl === "string" || jsonl instanceof String) {
+    return jsonl
+      .split("\n")
+      .filter((line) => line)
+      .map((line) => line.trim())
+      .map((line) => JSON.parse(line));
+  } else {
+    return [];
+  }
 }
 
 module.exports.parse = parse;

@@ -7,8 +7,6 @@
   "keywords": [],
   "author": "iteratec GmbH",
   "license": "Apache-2.0",
-  "dependencies": {
-    "read-json-lines-sync": "^2.1.9"
-  },
+  "dependencies": {},
   "devDependencies": {}
 }
