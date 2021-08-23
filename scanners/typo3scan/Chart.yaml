@@ -34,7 +34,7 @@ keywords:
   - secureCodeBox
 
 home: https://docs.securecodebox.io/docs/scanners/typo3scan
-#TODO Scanner doesn't have an icon
+#icon: Scanner doesn't have an icon
 
 sources:
   - https://github.com/secureCodeBox/secureCodeBox

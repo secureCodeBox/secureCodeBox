@@ -19,10 +19,10 @@ RUN mkdir /home/securecodebox/
 RUN chown -R typo3scan:typo3scan /home/securecodebox/
 USER 1001
 
-#clone Repo
-WORKDIR /home/securecodebox/
+#Clone Repo 
+WORKDIR /home/typo3scan/
 RUN git clone https://github.com/whoot/Typo3Scan.git
-WORKDIR /home/securecodebox/Typo3Scan
+WORKDIR /home/typo3scan/Typo3Scan
 
 #Install Typo3Scan python requirements
 RUN python3 -m pip install -r requirements.txt
