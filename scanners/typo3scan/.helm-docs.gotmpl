@@ -1,0 +1,50 @@
+{{- /*
+SPDX-FileCopyrightText: 2021 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
+
+{{- define "extra.docsSection" -}}
+---
+title: "Typo3Scan"
+category: "scanner"
+type: "Network"
+state: "released"
+appVersion: "{{ template "chart.appVersion" . }}"
+usecase: "Automation of the process of detecting the Typo3 CMS, and it's installed extensions"
+---
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.appVersion" . }}`
+{{- end }}
+
+{{- define "extra.chartAboutSection" -}}
+## What is Typo3Scan?
+Typo3Scan is an open source penetration testing tool to automate the process of detecting the Typo3 CMS and it's installed extensions. It also has a database with known vulnerabilities for core and extensions.
+
+To learn more about the Typo3Scan scanner itself visit [https://github.com/whoot/Typo3Scan].
+{{- end }}
+
+{{- define "extra.scannerConfigurationSection" -}}
+## Scanner Configuration
+
+The Typo3Scan targets are specified with the `-d` parameter. The target should be a hostname, an IP address or an IP range.
+
+Additional Typo3Scan scan features can be configured via the parameter attribute.
+
+Some useful example parameters listed below:
+
+- `--vuln` : Check for extensions with known vulnerabilities only.
+- `--timeout TIMEOUT` : Request Timeout. Default: 10 seconds
+- `--auth USER:PASS`: Username and Password for HTTP Basic Authorization.
+- `--cookie NAME=VALUE`: Can be used for authenticiation based on cookies.
+- `--agent USER-AGENT`: Set custom User-Agent for requests.
+- `--threads THREADS`: The number of threads to use for enumerating extensions. Default: 5
+- `--json`: Output results to json file
+- `--force`: Force enumeration
+- `--no-interaction`: Do not ask any interactive question
+
+{{- end }}
