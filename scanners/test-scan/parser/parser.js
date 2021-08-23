@@ -3,8 +3,24 @@
 // SPDX-License-Identifier: Apache-2.0
 
 async function parse() {
-  return [
-    {
+  if (process.env.PRODUCE_INVALID_FINDINGS === "true"){
+    return [
+      {
+        //missing name and category to be a valid finding
+        description: "Found a host",
+        location: "hostname",
+        severity: "INFORMATIONAL",
+        osi_layer: "NETWORK",
+        attributes: {
+          ip_address: "ip address",
+          hostname: "hostname",
+          operating_system: "osNmap",
+        },
+      }
+    ]
+  }
+  else{
+    return [{
       name: "Test read-write-hook service",
       description: `Port is using protocol.`,
       category: "Open Port",
@@ -40,6 +56,7 @@ async function parse() {
       },
     },
   ];
+  } 
 }
 
 module.exports.parse = parse;
