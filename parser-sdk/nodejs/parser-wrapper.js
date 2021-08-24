@@ -138,7 +138,7 @@ async function main() {
   const crash_on_failed_validation = process.env["CRASH_ON_FAILED_VALIDATION"] === "true"
   console.log("Validating Findings. Environment variable CRASH_ON_FAILED_VALIDATION is set to {}", crash_on_failed_validation);
   try {
-    await validate(findings);
+    await validate(findingsWithIdsAndDates);
     console.log("The Findings were successfully validated")
   } catch (error) {
     console.error("The Findings Validation failed with error(s):");
