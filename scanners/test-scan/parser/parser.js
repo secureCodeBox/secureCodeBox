@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 async function parse() {
-  if (process.env.PRODUCE_INVALID_FINDINGS === "true")
-    return getValidFindings()  
+  if (process.env["PRODUCE_INVALID_FINDINGS"] === "true")
+    return getInvalidFindings()  
   else
-    return getInvalidFindings() 
+    return getValidFindings() 
 }
 
 function getValidFindings(){
