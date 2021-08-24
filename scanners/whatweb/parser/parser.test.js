@@ -30,14 +30,15 @@ Array [
       "Country": "EUROPEAN UNION EU",
       "HTML5": "",
       "HTTPServer": "ECS (dcb/7EEA)",
+      "ipAddress": "93.184.216.34",
       "requestConfig": Object {
         "headerName": "User-Agent",
         "headerValue": "WhatWeb/0.5.0",
       },
     },
-    "category": "URL",
+    "category": "WEB APPLICATION",
     "description": "Example Domain",
-    "location": "93.184.216.34",
+    "location": "http://example.com",
     "name": "http://example.com",
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
@@ -57,38 +58,40 @@ test("should properly parse xml with empty target results file", async () => {
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
-  Array [
-    Object {
-      "attributes": Object {
-        "Country": "INDIA IN",
-        "RedirectLocation": "https://test.somedomain.org/",
-        "requestConfig": Object {
-          "headerName": "User-Agent",
-          "headerValue": "WhatWeb/0.4.9",
-        },
+Array [
+  Object {
+    "attributes": Object {
+      "Country": "INDIA IN",
+      "RedirectLocation": "https://test.somedomain.org/",
+      "ipAddress": "222.111.000.16",
+      "requestConfig": Object {
+        "headerName": "User-Agent",
+        "headerValue": "WhatWeb/0.4.9",
       },
-      "category": "URL",
-      "description": null,
-      "location": "222.111.000.16",
-      "name": "http://test.somedomain.org",
-      "osi_layer": "NETWORK",
-      "severity": "INFORMATIONAL",
     },
-    Object {
-      "attributes": Object {
-        "requestConfig": Object {
-          "headerName": "User-Agent",
-          "headerValue": "WhatWeb/0.4.9",
-        },
+    "category": "WEB APPLICATION",
+    "description": null,
+    "location": "http://test.somedomain.org",
+    "name": "http://test.somedomain.org",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+  },
+  Object {
+    "attributes": Object {
+      "ipAddress": null,
+      "requestConfig": Object {
+        "headerName": "User-Agent",
+        "headerValue": "WhatWeb/0.4.9",
       },
-      "category": "URL",
-      "description": null,
-      "location": null,
-      "name": "https://test.somedomain.org/",
-      "osi_layer": "NETWORK",
-      "severity": "INFORMATIONAL",
     },
-  ]
+    "category": "WEB APPLICATION",
+    "description": null,
+    "location": "https://test.somedomain.org/",
+    "name": "https://test.somedomain.org/",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+  },
+]
 `);
 });
 
@@ -109,14 +112,15 @@ Array [
       "Country": "EUROPEAN UNION EU",
       "HTML5": "",
       "HTTPServer": "ECS (dcb/7F5E)",
+      "ipAddress": "93.184.216.34",
       "requestConfig": Object {
         "headerName": "User-Agent",
         "headerValue": "WhatWeb/0.5.0",
       },
     },
-    "category": "URL",
+    "category": "WEB APPLICATION",
     "description": "Example Domain",
-    "location": "93.184.216.34",
+    "location": "http://example.com",
     "name": "http://example.com",
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
@@ -126,14 +130,15 @@ Array [
       "Country": "EUROPEAN UNION EU",
       "HTML5": "",
       "HTTPServer": "ECS (dcb/7EEA)",
+      "ipAddress": "93.184.216.34",
       "requestConfig": Object {
         "headerName": "User-Agent",
         "headerValue": "WhatWeb/0.5.0",
       },
     },
-    "category": "URL",
+    "category": "WEB APPLICATION",
     "description": "Example Domain",
-    "location": "93.184.216.34",
+    "location": "http://example.com",
     "name": "http://example.com",
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
@@ -162,14 +167,15 @@ Array [
       "Strict-Transport-Security": "max-age=31556952",
       "UncommonHeaders": "access-control-allow-origin,x-proxy-cache,x-github-request-id,x-served-by,x-cache-hits,x-timer,x-fastly-request-id",
       "Via-Proxy": "1.1 varnish",
+      "ipAddress": "185.199.108.153",
       "requestConfig": Object {
         "headerName": "User-Agent",
         "headerValue": "WhatWeb/0.5.0",
       },
     },
-    "category": "URL",
+    "category": "WEB APPLICATION",
     "description": "secureCodeBox %E2 Testing your Software Security",
-    "location": "185.199.108.153",
+    "location": "https://www.securecodebox.io",
     "name": "https://www.securecodebox.io",
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
@@ -184,14 +190,15 @@ Array [
       "Script": "",
       "Strict-Transport-Security": "max-age=31536000",
       "UncommonHeaders": "x-nf-request-id",
+      "ipAddress": "206.189.52.23",
       "requestConfig": Object {
         "headerName": "User-Agent",
         "headerValue": "WhatWeb/0.5.0",
       },
     },
-    "category": "URL",
+    "category": "WEB APPLICATION",
     "description": null,
-    "location": "206.189.52.23",
+    "location": "https://docs.securecodebox.io/",
     "name": "https://docs.securecodebox.io/",
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
