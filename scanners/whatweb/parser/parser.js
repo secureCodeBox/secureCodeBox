@@ -77,14 +77,14 @@ function parseResultFile(fileContent) {
           };
 
           if(target.plugin) {
-            target.plugin.map(plugin => {
+            for(const plugin of target.plugin) {
               if (plugin.name[0] === "IP")
               newTarget.ipAddress = plugin.string[0];
               else if (plugin.name[0] === "Title")
               newTarget.title = plugin.string[0];
               else
               newTarget.additional.push(plugin)
-            });
+            }
           }
             
           return newTarget;
