@@ -16,11 +16,12 @@ function transformToFindings(targets) {
       name: target.uri,
       category: "WEB APPLICATION",
       description: target.title,
-      location: target.ipAddress,
+      location: target.uri,
       osi_layer: 'NETWORK',
       severity: 'INFORMATIONAL',
       attributes: {
-        requestConfig: target.requestConfig
+        requestConfig: target.requestConfig,
+        ipAddress: target.ipAddress
       }
     };
 
