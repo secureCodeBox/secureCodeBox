@@ -2,7 +2,7 @@
  apiVersion: "execution.securecodebox.io/v1"
  kind: Scan
  metadata:
-   name: "https://www.typo3example.com" # Placeholder website, change to the website you want to scan
+   name: typo3scan-example
    spec:
    scanType: "typo3scan"
    parameters:

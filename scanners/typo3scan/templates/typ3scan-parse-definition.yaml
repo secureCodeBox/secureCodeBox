@@ -1,9 +1,9 @@
 apiVersion: execution.securecodebox.io/v1
 kind: ParseDefinition
 metadata:
-  name: zap-json
+  name: typo3scan-json
 spec:
-  image: docker.io/securecodebox/parser-zap
+  image: "{{ .Values.parser.image.repository }}:{{ .Values.parser.image.tag | default .Chart.Version }}"
   imagePullSecrets:
   - name: dockerhub-token
   ttlSecondsAfterFinished: 60
