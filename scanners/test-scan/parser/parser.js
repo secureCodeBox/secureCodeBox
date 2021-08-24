@@ -9,7 +9,7 @@ async function parse() {
     return getValidFindings() 
 }
 
-function getValidFindings(){
+function getInvalidFindings(){
   return [
     {
       //missing name and category to be a valid finding
@@ -26,7 +26,7 @@ function getValidFindings(){
   ]
 }
 
-function getInvalidFindings(){
+function getValidFindings(){
   return [{
     name: "Test read-write-hook service",
     description: `Port is using protocol.`,
