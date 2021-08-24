@@ -14,7 +14,7 @@ function transformToFindings(targets) {
   const targetFindings = targets.map(target => {
     let tempFinding = {
       name: target.uri,
-      category: "URL", //TODO?
+      category: "WEB APPLICATION",
       description: target.title,
       location: target.ipAddress,
       osi_layer: 'NETWORK',
