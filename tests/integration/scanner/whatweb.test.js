@@ -19,7 +19,7 @@ test(
     expect(count).toBe(1);
     expect(categories).toMatchInlineSnapshot(`
       Object {
-        "URL": 1,
+        "WEB APPLICATION": 1,
       }
     `);
     expect(severities).toMatchInlineSnapshot(`
