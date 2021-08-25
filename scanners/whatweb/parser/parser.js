@@ -47,7 +47,6 @@ function transformToFindings(targets) {
  * @param {*} fileContent
  */
 function parseResultFile(fileContent) {
-    console.log(fileContent);
     let targetList = [];
     for(const rawTarget of fileContent) {
       if (rawTarget.target) { //Check for empty target
