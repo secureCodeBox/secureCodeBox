@@ -62,16 +62,13 @@ function parseResultFile(fileContent) {
         }
         if(rawTarget.plugins) {
           for(const [key, value] of Object.entries(rawTarget.plugins)) {
-            if (key === "IP")
-              newTarget.ipAddress = value.string[0];
-            else if (key === "Title")
-              newTarget.title = value.string[0];
-            else if (key === "HTML5")
-              newTarget.html5 = true;
-            else if (key === "Country")
-              newTarget.country = value.string[0] + "/" + value.module[0];
-            else
-              newTarget.additional.push([key, value])
+            switch(key) {
+              case "IP": newTarget.ipAddress = value.string[0]; break;
+              case "Title": newTarget.title = value.string[0]; break;
+              case "HTML5": newTarget.html5 = true; break;
+              case "Country": newTarget.country = value.string[0] + "/" + value.module[0]; break;
+              default: newTarget.additional.push([key, value]);
+            }
           }
         }
         targetList.push(newTarget);
