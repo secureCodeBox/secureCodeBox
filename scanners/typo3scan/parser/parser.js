@@ -3,16 +3,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 async function parse(fileContent) {
-    let findings = JSON.parse(fileContent)
+    const findings = JSON.parse(fileContent)
     let results = ''
 
     Object.keys(findings).forEach(key => {
-        let domain = key;
-        let domain_findings = findings[domain]
-        let vulns = domain_findings.Vulnerabilities
+        const domain = key;
+        const domain_findings = findings[domain]
+        const vulns = domain_findings.Vulnerabilities
 
         // Parsing Vulnerabilities
-        let parsed_vulnerabilities = vulns.map((vuln) => {
+        const parsed_vulnerabilities = vulns.map((vuln) => {
             return {
                 name: vuln.Type,
                 description: `Vulnerability of type ${vuln.Type} found`,
@@ -31,8 +31,8 @@ async function parse(fileContent) {
             };
         });
         // Parsing Extenstions
-        let extensions = domain_findings.Extensions
-        let parsed_extensions = extensions.map((ext) => {
+        const extensions = domain_findings.Extensions
+        const parsed_extensions = extensions.map((ext) => {
 
             // Check if extension has vulnerabilities : if yes severity = HIGH
             let severity = 'INFORMATIONAL'
