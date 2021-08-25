@@ -4,7 +4,7 @@ category: "scanner"
 type: "Network"
 state: "released"
 appVersion: "0.7.2"
-usecase: "Automation of the process of detecting the Typo3 CMS, and it's installed extensions"
+usecase: "Automation of the process of detecting the Typo3 CMS and its installed extensions"
 ---
 
 <!--
