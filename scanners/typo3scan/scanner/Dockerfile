@@ -2,30 +2,28 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM alpine:3.12
+#Base Image
+FROM python:3.9-alpine as base
 
-#Install Python3
-ENV PYTHONUNBUFFERED=1
-RUN apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python \
-         && python3 -m ensurepip \
-         && pip3 install --no-cache --upgrade pip setuptools
+#Install git and Clone Repo 
+RUN apk add git \
+    && git clone https://github.com/whoot/Typo3Scan.git \
+    && cd Typo3Scan \
+    && rm -r .git .github doc
+COPY wrapper.sh /Typo3Scan/wrapper.sh
 
-#Install git 
-RUN apk add git
+#Runtime Image
+FROM python:3.9-alpine as runtime
 
 #Create typo3scan user/group and give access
 RUN addgroup --system --gid 1001 typo3scan && adduser typo3scan --system --uid 1001 --ingroup typo3scan
-RUN mkdir /home/securecodebox/
-RUN chown -R typo3scan:typo3scan /home/securecodebox/
+COPY --from=base /Typo3Scan /home/typo3scan/Typo3Scan
+RUN mkdir /home/securecodebox/ \
+    && chown -R typo3scan:typo3scan /home/securecodebox/ /home/typo3scan/
 USER 1001
-
-#Clone Repo 
-WORKDIR /home/typo3scan/
-RUN git clone https://github.com/whoot/Typo3Scan.git
 WORKDIR /home/typo3scan/Typo3Scan
 
 #Install Typo3Scan python requirements
 RUN python3 -m pip install -r requirements.txt
-COPY wrapper.sh ./wrapper.sh
 
 ENTRYPOINT [ "sh", "./wrapper.sh" ]
