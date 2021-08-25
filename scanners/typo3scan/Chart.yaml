@@ -30,7 +30,7 @@ keywords:
   - secureCodeBox
 
 home: https://docs.securecodebox.io/docs/scanners/typo3scan
-#icon: Scanner doesn't have an icon
+icon: https://docs.securecodebox.io/img/integrationIcons/Default.svg
 
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
