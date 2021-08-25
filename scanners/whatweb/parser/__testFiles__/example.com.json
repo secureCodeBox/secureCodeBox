@@ -1,0 +1,4 @@
+[
+{"target":"http://example.com","http_status":200,"request_config":{"headers":{"User-Agent":"WhatWeb/0.5.0"}},"plugins":{"IP":{"string":["93.184.216.34"]},"Title":{"string":["Example Domain"]},"HTML5":{},"HTTPServer":{"string":["ECS (dcb/7EA7)"]},"Country":{"string":["EUROPEAN UNION"],"module":["EU"]}}},
+{}
+]

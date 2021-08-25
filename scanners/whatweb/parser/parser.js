@@ -2,17 +2,15 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const xml2js = require('xml2js');
-
 async function parse(fileContent) {
-  const hosts = await parseResultFile(fileContent);
-  return transformToFindings(hosts);
+  const targets = await parseResultFile(fileContent);
+  return transformToFindings(targets);
 }
 
 function transformToFindings(targets) {
 
   const targetFindings = targets.map(target => {
-    let tempFinding = {
+    let finding = {
       name: target.uri,
       category: "WEB APPLICATION",
       description: target.title,
@@ -21,80 +19,66 @@ function transformToFindings(targets) {
       severity: 'INFORMATIONAL',
       attributes: {
         requestConfig: target.requestConfig,
-        ipAddress: target.ipAddress
+        ipAddress: target.ipAddress,
+        country: target.country,
+        HTML5: target.html5
       }
     };
 
     target.additional.forEach(additional => {
-      if (!tempFinding.attributes[additional.name[0]]) {
-        tempFinding.attributes[additional.name[0]] =
-          (("string" in additional) ? additional.string[0] : "") + (("module" in additional) ? " " + additional.module[0] : "");
+      if (!finding.attributes[additional[0]]) { //Check if key already exists
+        finding.attributes[additional[0]] =
+          (("string" in additional[1]) ? additional[1].string[0] : "") +
+          (("module" in additional[1]) ? "/" + additional[1].module[0] : "");
       }
     });
 
-    return tempFinding;
+    if (!finding.attributes.HTML5) //Do not show in findings if undefined
+      delete finding.attributes.HTML5;
+
+    return finding;
   });
 
   return [...targetFindings];
 }
 
 /**
- * Parses a given NMAP XML file to a smaller JSON represenation with the following object:
- * {
- *   hostname: null,
- *   ip: null,
- *   mac: null,
- *   openPorts: null,
- *   osNmap: null,
- *   scripts: null
- * }
- * @param {*} fileContent 
+ * Parses a given Whatweb JSON file and extracts all targets
+ * @param {*} fileContent
  */
 function parseResultFile(fileContent) {
-  return new Promise((resolve, reject) => {
-    xml2js.parseString(fileContent, (err, xmlInput) => {
-      if (err) {
-        reject(new Error('Error converting XML to JSON in xml2js: ' + err));
-      } else {
-        let tempTargetList = [];
-        if (!xmlInput.log.target) {
-          resolve([]);
-          return;
+    console.log(fileContent);
+    let targetList = [];
+    for(const rawTarget of fileContent) {
+      if (rawTarget.target) { //Check for empty target
+        let newTarget = {
+          uri: rawTarget.target,
+          httpStatus: rawTarget.http_status,
+          requestConfig: rawTarget.request_config.headers["User-Agent"],
+          ipAddress: null,
+          title: null,
+          html5: null,
+          country: null,
+          additional: []
         }
-
-        xmlInput = xmlInput.log.target;
-
-        tempTargetList = xmlInput.map(target => {
-          let newTarget = {
-            uri: target.uri[0],
-            httpStatus: target['http-status'][0],
-            requestConfig: {
-                headerName: target['request-config'][0].header[0]["header-name"][0],
-                headerValue: target['request-config'][0].header[0]["header-value"][0]
-            },
-            ipAddress: null,
-            title: null,
-            additional: []
-          };
-
-          if(target.plugin) {
-            for(const plugin of target.plugin) {
-              if (plugin.name[0] === "IP")
-              newTarget.ipAddress = plugin.string[0];
-              else if (plugin.name[0] === "Title")
-              newTarget.title = plugin.string[0];
-              else
-              newTarget.additional.push(plugin)
-            }
+        if(rawTarget.plugins) {
+          for(const [key, value] of Object.entries(rawTarget.plugins)) {
+            if (key === "IP")
+              newTarget.ipAddress = value.string[0];
+            else if (key === "Title")
+              newTarget.title = value.string[0];
+            else if (key === "HTML5")
+              newTarget.html5 = true;
+            else if (key === "Country")
+              newTarget.country = value.string[0] + "/" + value.module[0];
+            else
+              newTarget.additional.push([key, value])
           }
-            
-          return newTarget;
-        });
-
-        resolve(tempTargetList);
+        }
+        targetList.push(newTarget);
       }
-    });
-  });
+    }
+    return targetList;
 }
 
 module.exports.parse = parse;

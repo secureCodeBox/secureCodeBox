@@ -1,0 +1,5 @@
+[
+{"target":"http://example.com","http_status":200,"request_config":{"headers":{"User-Agent":"WhatWeb/0.5.0"}},"plugins":{"IP":{"string":["93.184.216.34"]},"Title":{"string":["Example Domain"]},"HTML5":{},"HTTPServer":{"string":["ECS (dcb/7F14)"]},"Country":{"string":["EUROPEAN UNION"],"module":["EU"]}}},
+{"target":"http://scanme.nmap.org/","http_status":200,"request_config":{"headers":{"User-Agent":"WhatWeb/0.5.0"}},"plugins":{"IP":{"string":["45.33.32.156"]},"Script":{"string":["text/javascript"]},"Google-Analytics":{"version":["Universal"],"account":["UA-11009417-1"]},"Title":{"string":["Go ahead and ScanMe!"]},"HTTPServer":{"os":["Ubuntu Linux"],"string":["Apache/2.4.7 (Ubuntu)"]},"Country":{"string":["RESERVED"],"module":["ZZ"]},"Apache":{"version":["2.4.7"]}}},
+{}
+]
