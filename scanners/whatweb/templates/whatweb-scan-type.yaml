@@ -8,8 +8,8 @@ metadata:
   name: "whatweb{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   extractResults:
-    type: whatweb-xml
-    location: "/home/securecodebox/whatweb-results.xml"
+    type: whatweb-json
+    location: "/home/securecodebox/whatweb-results.json"
   jobTemplate:
     spec:
       {{- if .Values.scanner.ttlSecondsAfterFinished }}
@@ -23,7 +23,7 @@ spec:
             - name: whatweb
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
-              command: ["whatweb", "--log-xml=/home/securecodebox/whatweb-results.xml"]
+              command: ["whatweb", "--log-json=/home/securecodebox/whatweb-results.json"]
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:

@@ -5,7 +5,7 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: ParseDefinition
 metadata:
-  name: "whatweb-xml"
+  name: "whatweb-json"
 spec:
   image: "{{ .Values.parser.image.repository }}:{{ .Values.parser.image.tag | default .Chart.Version }}"
   imagePullPolicy: "{{ .Values.parser.image.pullPolicy }}"
