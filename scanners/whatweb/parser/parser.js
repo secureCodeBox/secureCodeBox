@@ -48,8 +48,9 @@ function transformToFindings(targets) {
  */
 function parseResultFile(fileContent) {
     let targetList = [];
+
     for(const rawTarget of fileContent) {
-      if (rawTarget.target) { //Check for empty target
+      if (Object.keys(rawTarget).length > 0) { //Check for empty target
         let newTarget = {
           uri: rawTarget.target,
           httpStatus: rawTarget.http_status,
