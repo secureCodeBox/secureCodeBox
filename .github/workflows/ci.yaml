@@ -697,6 +697,7 @@ jobs:
         with:
           repository: "sullo/nikto"
           path: nikto
+          ref: nikto-2.5.0
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -717,7 +718,7 @@ jobs:
         with:
           images: ${{ env.DOCKER_NAMESPACE }}/scanner-nikto
           tag-sha: true
-          tag-custom: 2.1.6
+          tag-custom: 2.5.0
           tag-semver: |
             {{ version }}
 
