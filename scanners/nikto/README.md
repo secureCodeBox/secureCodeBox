@@ -3,7 +3,7 @@ title: "Nikto"
 category: "scanner"
 type: "Webserver"
 state: "released"
-appVersion: "2.1.6"
+appVersion: "2.5.0"
 usecase: "Webserver Vulnerability Scanner"
 ---
 
