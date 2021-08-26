@@ -44,14 +44,16 @@ function categorize({ id }) {
 async function parse({ host, ip, port: portString, banner, vulnerabilities }) {
   const port = parseInt(portString, 10);
 
-  return vulnerabilities.filter(Boolean).map(({ id, method, url, msg }) => {
+  return vulnerabilities.filter(Boolean).map(({ id, references, method, url, msg }) => {
     const niktoId = parseInt(id, 10);
 
     const [category, severity] = categorize({ id: niktoId });
-
     // We can only guess at this point. Nikto doesn't tell use anymore :(
     const protocol = port === 443 || port === 8443 ? "https" : "http";
-
+    
+    if (typeof references == 'undefined') {
+      references = "unavailable"
+  }
     return {
       name: msg.trimRight(),
       description: null,
@@ -66,6 +68,7 @@ async function parse({ host, ip, port: portString, banner, vulnerabilities }) {
         method,
         port,
         niktoId,
+        references,
       },
     };
   });
