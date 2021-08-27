@@ -35,8 +35,9 @@ test(
     `);
     expect(severities).toMatchInlineSnapshot(`
       Object {
-        "informational": 5,
-        "low": 1,
+        "high": 28,
+        "informational": 50,
+        "low": 13,
       }
     `);
   },
