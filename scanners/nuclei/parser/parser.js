@@ -36,11 +36,15 @@ async function parse(fileContent) {
 }
 
 function getAdjustedSeverity(severity) {
-  return severity === "CRITICAL"
-    ? "HIGH"
-    : severity === "INFO" || severity === "UNKNOWN"
-    ? "INFORMATIONAL"
-    : severity;
+  switch (severity) {
+    case "CRITICAL":
+      return "HIGH";
+    case "INFO":
+    case "UNKNOWN":
+      return "INFORMATIONAL";
+    default:
+      return severity;
+  }
 }
 
 function readJsonLines(jsonl) {
