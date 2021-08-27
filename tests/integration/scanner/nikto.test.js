@@ -23,7 +23,7 @@ test(
       90
     );
 
-    expect(count).toBe(6);
+    expect(count).toBe(91);
     expect(categories).toMatchInlineSnapshot(`
       Object {
         "Identified Software": 1,
