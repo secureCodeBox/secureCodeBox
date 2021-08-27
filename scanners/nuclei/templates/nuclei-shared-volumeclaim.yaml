@@ -10,7 +10,9 @@ apiVersion: v1
 metadata:
   name: nuclei-content-claim
 spec:
-  accessModes: [ReadOnlyMany]
+  accessModes:
+    - ReadWriteOnce
+    - ReadOnlyMany
   resources:
     requests:
       storage: 1Gi

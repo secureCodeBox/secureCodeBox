@@ -2,21 +2,16 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-apiVersion: 'execution.securecodebox.io/v1'
-kind: ScanType
+# We use a persistent volume for central storing of all nuclei-templates to prevent downloading it for each scan again, enabled by default.
+{{ if .Values.nucleiTemplateCache.enabled }}
+apiVersion: batch/v1beta1
+kind: CronJob
 metadata:
-  name: 'nuclei{{ .Values.scanner.nameAppend | default ""}}'
+  name: nurclei-update-template-cache
 spec:
-  extractResults:
-    type: nuclei-json
-    location: '/home/securecodebox/nuclei-results.jsonl'
+  schedule: {{ .Values.nucleiTemplateCache.schedule | default "0 8 * * *" }}
   jobTemplate:
     spec:
-      {{- if .Values.scanner.ttlSecondsAfterFinished }}
-      ttlSecondsAfterFinished: {{ .Values.scanner.ttlSecondsAfterFinished }}
-      {{- end }}
-      backoffLimit: {{ .Values.scanner.backoffLimit }}
-      activeDeadlineSeconds: {{ .Values.scanner.activeDeadlineSeconds }}
       template:
         spec:
           restartPolicy: OnFailure
@@ -26,11 +21,7 @@ spec:
               imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
               command:
                 - 'nuclei'
-                - '-no-update-templates'
-                - '-json'
-                # nuclei writes json lines: https://jsonlines.org/
-                - '-output'
-                - '/home/securecodebox/nuclei-results.jsonl'
+                - '-update-templates'
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:
@@ -38,11 +29,9 @@ spec:
               env:
                 {{- toYaml .Values.scanner.env | nindent 16 }}
               volumeMounts:
-                {{ if .Values.nucleiTemplateCache.enabled }}
                 - name: nuclei-content
                   mountPath: /root
-                  readOnly: true
-                {{- end }}
+                  readOnly: false
                 {{- if .Values.scanner.extraVolumeMounts }}
                 {{- toYaml .Values.scanner.extraVolumeMounts | nindent 16 }}
                 {{- end }}
@@ -50,12 +39,11 @@ spec:
             {{- toYaml .Values.scanner.extraContainers | nindent 12 }}
             {{- end }}
           volumes:
-            {{ if .Values.nucleiTemplateCache.enabled }}
             - name: nuclei-content
               persistentVolumeClaim:
                 claimName: nuclei-content-claim
-                readOnly: true
-            {{- end }}
+                readOnly: false
             {{- if .Values.scanner.extraVolumes }}
             {{- toYaml .Values.scanner.extraVolumes | nindent 12 }}
             {{- end }}
+{{- end }}
