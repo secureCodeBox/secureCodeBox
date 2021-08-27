@@ -4,7 +4,7 @@
 
 # We use a persistent volume for central storing of all nuclei-templates to prevent downloading it for each scan again, enabled by default.
 {{ if .Values.nucleiTemplateCache.enabled }}
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: nurclei-update-template-cache
