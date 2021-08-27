@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
@@ -5,10 +8,13 @@ metadata:
 spec:
   extractResults:
     type: typo3scan-json
-    location: "/home/securecodebox/typo3scan-results.json"
+    location: "/home/securecodebox/typo3scan.json"
   jobTemplate:
     spec:
-      ttlSecondsAfterFinished: 10
+      {{- if .Values.scanner.ttlSecondsAfterFinished }}
+      ttlSecondsAfterFinished: {{ .Values.scanner.ttlSecondsAfterFinished }}
+      {{- end }}
+      backoffLimit: {{ .Values.scanner.backoffLimit }}
       template:
         spec:
           restartPolicy: Never
@@ -16,7 +22,20 @@ spec:
             - name: typo3scan
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
               command:
-                - "sh"
-                - "/home/typo3scan/Typo3Scan/wrapper.sh" 
+                - "python3"
+                - "/home/typo3scan/typo3scan.py"
                 - "--no-interaction"
                 - "--json"
+              resources:
+                {{- toYaml .Values.scanner.resources | nindent 16 }}
+              securityContext:
+                {{- toYaml .Values.scanner.securityContext | nindent 16 }}
+              env:
+                {{- toYaml .Values.scanner.env | nindent 16 }}
+              volumeMounts:
+                {{- toYaml .Values.scanner.extraVolumeMounts | nindent 16 }}
+            {{- if .Values.scanner.extraContainers }}
+            {{- toYaml .Values.scanner.extraContainers | nindent 12 }}
+            {{- end }}
+          volumes:
+            {{- toYaml .Values.scanner.extraVolumes | nindent 12 }}
