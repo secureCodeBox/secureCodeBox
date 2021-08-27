@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`parser parses large json result with vulnuerable extensions successfully 1`] = `
+exports[`parser parses large json result with vulnerable extensions successfully 1`] = `
 Array [
   Object {
     "attributes": Object {
@@ -867,7 +867,7 @@ Array [
 ]
 `;
 
-exports[`parser parses large json result without vulnuerable extensions successfully 1`] = `
+exports[`parser parses large json result without vulnerable extensions successfully 1`] = `
 Array [
   Object {
     "attributes": Object {

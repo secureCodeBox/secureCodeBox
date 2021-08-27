@@ -13,7 +13,7 @@ const {
   validateParser,
 } = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
-test("parser parses large json result without vulnuerable extensions successfully", async () => {
+test("parser parses large json result without vulnerable extensions successfully", async () => {
   const fileContent = await readFile(
     __dirname + "/__testFiles__/localhost.json",
     {
@@ -21,12 +21,12 @@ test("parser parses large json result without vulnuerable extensions successfull
     }
   );
 
-  const findings = await parse(fileContent);
+  const findings = await parse(JSON.parse(fileContent));
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
-test("parser parses large json result with vulnuerable extensions successfully", async () => {
+test("parser parses large json result with vulnerable extensions successfully", async () => {
   const fileContent = await readFile(
     __dirname + "/__testFiles__/localhost_vuln_extensions.json",
     {
@@ -34,7 +34,7 @@ test("parser parses large json result with vulnuerable extensions successfully",
     }
   );
 
-  const findings = await parse(fileContent);
+  const findings = await parse(JSON.parse(fileContent));
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchSnapshot();
 });

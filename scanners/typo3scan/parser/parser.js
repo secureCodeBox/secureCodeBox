@@ -2,9 +2,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-async function parse(fileContent) {
-    const findings = JSON.parse(fileContent)
-    let results = ''
+async function parse(findings) {
+    let results = []
 
     Object.keys(findings).forEach(key => {
         const domain = key;
