@@ -2,12 +2,12 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM debian:latest
+FROM ruby:latest
 
-RUN apt-get update \
-    && apt-get install whatweb -y \
-    && rm -rf /var/lib/apt/lists/*
+ARG scannerVersion=v0.5.5
+RUN git clone --depth 1 --branch $scannerVersion https://github.com/urbanadventurer/WhatWeb.git \
+    && cd WhatWeb \
+    && make install
 
 USER 1001
 CMD ["whatweb"]
-#0.4.9
