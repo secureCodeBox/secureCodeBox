@@ -9,5 +9,6 @@ RUN git clone --depth 1 --branch $scannerVersion https://github.com/urbanadventu
     && cd WhatWeb \
     && make install
 
+RUN addgroup --system --gid 1001 whatweb && adduser whatweb --system --uid 1001 --ingroup whatweb
 USER 1001
 CMD ["whatweb"]
