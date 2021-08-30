@@ -11,7 +11,8 @@ SPDX-License-Identifier: Apache-2.0
 PingCastle is an open-source tool to scan a company's active directory. It is able to identify potential security
 risks and anomalies, regarding password settings, account privileges and much more. However, as active directory
 has emerged as a tool from microsoft, PingCastle is also a tool that runs only on Windows.
-You can read more about our struggle to make it work on linux in this blog post(TODO).
+You can read more about our struggle to make it work on linux in this 
+[blog post](https://docs.securecodebox.io/blog/2021/08/09/integrating-windows-scanners).
 This tutorial is directed towards a solution that uses a virtual machine inside an ubuntu container to run
 PingCastle in this machine. Sounds like inception? It pretty much is, but it is the only solution known to date that
 enables us to run it on a linux container.
