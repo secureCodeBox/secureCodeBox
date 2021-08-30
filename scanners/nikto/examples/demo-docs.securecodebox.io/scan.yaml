@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-apiVersion: 'execution.docs.securecodebox.io/v1'
+apiVersion: 'execution.securecodebox.io/v1'
 kind: Scan
 metadata:
   name: 'nikto-docs.securecodebox.io'
