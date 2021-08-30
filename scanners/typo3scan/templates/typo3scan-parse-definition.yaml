@@ -8,6 +8,6 @@ metadata:
   name: "typo3scan-json"
 spec:
   image: "{{ .Values.parser.image.repository }}:{{ .Values.parser.image.tag | default .Chart.Version }}"
-  ttlSecondsAfterFinished: {{ .Values.parser.image.ttlSecondsAfterFinished }}
+  ttlSecondsAfterFinished: {{ .Values.parser.ttlSecondsAfterFinished }}
   env: 
     {{- toYaml .Values.parser.env | nindent 4 }}
