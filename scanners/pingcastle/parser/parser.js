@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 const xml2js = require('xml2js');
-const { get } = require('lodash');
 
 async function parse(fileContent) {
   const hosts = await parseResultFile(fileContent);
