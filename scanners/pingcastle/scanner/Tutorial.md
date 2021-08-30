@@ -218,7 +218,7 @@ automated scans.
 ```
 FROM docker.yourrepo.com/windocvm:latest
 
-CMD python3 run_pingcastle_healthcheck.py
+ENTRYPOINT ["python3", "run_pingcastle_healthcheck.py"]
 ```
 </details>
 
