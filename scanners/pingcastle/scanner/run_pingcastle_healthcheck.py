@@ -14,6 +14,7 @@ import os
 import time
 import pathlib
 import subprocess
+from shutil import copyfile
 
 # Check if Windows VM is already running
 
@@ -94,6 +95,9 @@ else:
         for file in os.listdir("PingCastleReports"):
             fname = pathlib.Path("PingCastleReports/" + file)
             assert fname.exists(), f'No such file: {fname}'  # check that the file exists
+            if "xml" in file:
+                # Copy to standard scb location
+                copyfile(fname, "/home/securecodebox/pingcastle-results.xml")
 
         print("All scan files have been successfully transferred, quitting now.")
     else:

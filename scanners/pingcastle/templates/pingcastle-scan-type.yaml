@@ -22,7 +22,7 @@ spec:
           containers:
             - name: pingcastle
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
-              command: ["python3", "run_pingcastle_healthcheck.py", "/home/securecodebox/pingcastle-results.xml"] #TODO
+              command: ["python3", "run_pingcastle_healthcheck.py"]
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:
