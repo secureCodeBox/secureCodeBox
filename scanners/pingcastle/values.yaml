@@ -17,7 +17,7 @@ parser:
 scanner:
   image:
     # scanner.image.repository -- Container Image to run the scan
-    repository: # docker.io/securecodebox/scanner-pingcastle TODO
+    repository: # your-repo/scanner-pingcastle: Use your created PingCastle Scanner Container here.
     # scanner.image.tag -- defaults to the charts version
     tag: null
 
@@ -61,6 +61,7 @@ scanner:
     # scanner.securityContext.allowPrivilegeEscalation -- Ensure that users privileges cannot be escalated
     allowPrivilegeEscalation: false
     # scanner.securityContext.privileged -- Ensures that the scanner container is not run in privileged mode
+    # VirtualBox in a docker container needs privileged mode
     privileged: true
     capabilities:
       drop:
