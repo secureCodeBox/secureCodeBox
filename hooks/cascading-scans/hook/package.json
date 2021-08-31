@@ -9,7 +9,7 @@
   },
   "main": "hook.js",
   "scripts": {
-    "build": "npx typescript hook.ts --sourceMap",
+    "build": "npx tsc hook.ts --sourceMap",
     "test": "jest . --verbose false"
   },
   "keywords": [

@@ -8,7 +8,7 @@ import io.securecodebox.persistence.defectdojo.config.DefectDojoConfig;
 import io.securecodebox.persistence.defectdojo.service.EndpointService;
 import io.securecodebox.persistence.mapping.DefectDojoFindingToSecureCodeBoxMapper;
 import io.securecodebox.persistence.models.Scan;
-import io.securecodebox.persistence.service.ScanService;
+import io.securecodebox.persistence.service.scanresult.ScanResultService;
 import io.securecodebox.persistence.service.KubernetesService;
 import io.securecodebox.persistence.service.S3Service;
 import io.securecodebox.persistence.strategies.VersionedEngagementsStrategy;
@@ -33,7 +33,7 @@ public class DefectDojoPersistenceProvider {
     scan.validate();
 
     LOG.info("Downloading Scan Result");
-    var scanResultFile = ScanService.downloadScan(scan, persistenceProviderConfig, s3Service);
+    var scanResultFile = ScanResultService.build(scan, s3Service).getScanResult(persistenceProviderConfig);
 
     var config = DefectDojoConfig.fromEnv();
     LOG.info("Uploading Findings to DefectDojo at: {}", config.getUrl());

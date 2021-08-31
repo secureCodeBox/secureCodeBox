@@ -108,6 +108,7 @@ Please have a look at [Contributing](./CONTRIBUTING.md)
 <p align="left">
   <a href="https://sda-se.com/?lang=en"><img alt="SDA SE Logo" src="./docs/resources/sponsors/Logo_sda-se.png" width="200px"></a>
   <a href="https://pagel.pro/en/"><img alt="Timo Pagel IT Consulting Logo" src="./docs/resources/sponsors/Logo_timo-pagel-it-consulting.png" width="200px"></a>
+  <a href="https://www.secura.com/en/"><img alt="Secura Logo" src="./docs/resources/sponsors/Logo_secura.svg" width="200px"></a>
 </p>
 
 ## Author Information

@@ -14,6 +14,7 @@ WORKDIR /home/app/parser-wrapper/
 COPY --from=build --chown=app:app /home/app/node_modules/ ./node_modules/
 COPY --chown=app:app ./parser-wrapper.js ./parser-wrapper.js
 COPY --chown=app:app ./parser-utils.js ./parser-utils.js
+COPY --chown=app:app ./findings-schema.json ./findings-schema.json
 USER 1001
 ENV NODE_ENV ${NODE_ENV:-production}
 ENTRYPOINT ["node", "/home/app/parser-wrapper/parser-wrapper.js"]

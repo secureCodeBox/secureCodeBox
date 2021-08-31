@@ -1,0 +1,89 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# We use a persistent volume for central storing of all nuclei-templates to prevent downloading it for each scan again, enabled by default.
+{{ if .Values.nucleiTemplateCache.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: nuclei-update-template-cache
+spec:
+  schedule: {{ .Values.nucleiTemplateCache.schedule | default "0 8 * * *" }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: nuclei
+              image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
+              command:
+                - 'nuclei'
+                - '-update-templates'
+              resources:
+                {{- toYaml .Values.scanner.resources | nindent 16 }}
+              securityContext:
+                {{- toYaml .Values.scanner.securityContext | nindent 16 }}
+              env:
+                {{- toYaml .Values.scanner.env | nindent 16 }}
+              volumeMounts:
+                - name: nuclei-content
+                  mountPath: /root
+                  readOnly: false
+                {{- if .Values.scanner.extraVolumeMounts }}
+                {{- toYaml .Values.scanner.extraVolumeMounts | nindent 16 }}
+                {{- end }}
+            {{- if .Values.scanner.extraContainers }}
+            {{- toYaml .Values.scanner.extraContainers | nindent 12 }}
+            {{- end }}
+          volumes:
+            - name: nuclei-content
+              persistentVolumeClaim:
+                claimName: nuclei-content-claim
+                readOnly: false
+            {{- if .Values.scanner.extraVolumes }}
+            {{- toYaml .Values.scanner.extraVolumes | nindent 12 }}
+            {{- end }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: nuclei-update-initial-template-cache
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: nuclei
+          image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
+          command:
+            - 'nuclei'
+            - '-update-templates'
+          resources:
+            {{- toYaml .Values.scanner.resources | nindent 16 }}
+          securityContext:
+            {{- toYaml .Values.scanner.securityContext | nindent 16 }}
+          env:
+            {{- toYaml .Values.scanner.env | nindent 16 }}
+          volumeMounts:
+            - name: nuclei-content
+              mountPath: /root
+              readOnly: false
+            {{- if .Values.scanner.extraVolumeMounts }}
+            {{- toYaml .Values.scanner.extraVolumeMounts | nindent 16 }}
+            {{- end }}
+        {{- if .Values.scanner.extraContainers }}
+        {{- toYaml .Values.scanner.extraContainers | nindent 12 }}
+        {{- end }}
+      volumes:
+        - name: nuclei-content
+          persistentVolumeClaim:
+            claimName: nuclei-content-claim
+            readOnly: false
+        {{- if .Values.scanner.extraVolumes }}
+        {{- toYaml .Values.scanner.extraVolumes | nindent 12 }}
+        {{- end }}
+{{- end }}
