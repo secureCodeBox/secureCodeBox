@@ -6,14 +6,6 @@
  * Session Management script for OIDC Authentication.
  *
  * Adapted from OWASP Juice Shop Example: https://www.zaproxy.org/blog/2020-06-04-zap-2-9-0-highlights/
- *
- * For Authentication select/configure in your ZAP Context:
- *
- * - Authentication method: ScriptBased Authentication
- * - Login FORM target URL: https://$keycloak-url/auth/realms/$app/protocol/openid-connect/token
- * - Username Parameter: your-username-to-get-tokens
- * - Password Parameter: your-password-to-get-tokens
- * - Logged out regex: ".*Credentials are required to access this resource.*"
  */
 
 function extractWebSession(sessionWrapper) {

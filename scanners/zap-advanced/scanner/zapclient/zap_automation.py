@@ -74,7 +74,7 @@ class ZapAutomation:
         else:
             logging.info("No ZAP global settings specific YAML configuration found.")
         
-        self.zap_tune()
+        self.zap_tune(target)
         # self.zap_access_target(target)
 
         logging.info('Configuring ZAP Context')
@@ -210,12 +210,16 @@ class ZapAutomation:
         if res.startswith("ZAP Error"):
             raise IOError(errno.EIO, 'ZAP failed to access: {0}'.format(target))
 
-    def zap_tune(self):
+    def zap_tune(self, target:str):
         logging.debug('Tune')
         logging.debug('Disable all tags')
         self.__zap.pscan.disable_all_tags()
         logging.debug('Set max pscan alerts')
         self.__zap.pscan.set_max_alerts_per_rule(10)
+        if self.get_configuration.get_active_context_config is not None and "includePaths" not in self.get_configuration.get_active_context_config:
+            logging.debug("Ensure the target is included in the active context by adding '%s.*' to the includePaths", target)
+            self.get_configuration.get_active_context_config["includePaths"] = []
+            self.get_configuration.get_active_context_config["includePaths"].append(target + ".*")
 
     def zap_shutdown(self):
         """ This shutdown ZAP and prints out ZAP Scanning stats before shutting down.

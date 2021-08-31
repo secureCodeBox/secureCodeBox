@@ -1,0 +1,75 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+parser:
+  image:
+    # -- Parser image repository
+    repository: docker.io/securecodebox/parser-nuclei
+    # -- Parser image tag
+    # @default -- defaults to the charts version
+    tag: null
+
+  # -- seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+  ttlSecondsAfterFinished: null
+  # -- Optional environment variables mapped into each parseJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
+  env: []
+
+scanner:
+  image:
+    # -- Container Image to run the scan
+    repository: docker.io/projectdiscovery/nuclei
+    # -- defaults to the charts version
+    tag: latest
+    # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
+    pullPolicy: IfNotPresent
+
+  # -- append a string to the default scantype name.
+  nameAppend: null
+
+  # -- seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+  ttlSecondsAfterFinished: null
+  # -- There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy)
+  # @default -- 5
+  backoffLimit: 5
+  # -- There are situations where you want to fail a scan Job after some amount of time. To do so, set activeDeadlineSeconds to define an active deadline (in seconds) when considering a scan Job as failed. By default 43.200s = 12h are defined (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#job-termination-and-cleanup)
+  # @default -- 43.200 
+  activeDeadlineSeconds: null
+
+
+  # -- CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)
+  resources: {}
+  #   resources:
+  #     requests:
+  #       memory: "256Mi"
+  #       cpu: "250m"
+  #     limits:
+  #       memory: "512Mi"
+  #       cpu: "500m"
+
+  # -- Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
+  env: []
+
+  # -- Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
+  extraVolumes: []
+
+  # -- Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
+  extraVolumeMounts: []
+
+  # -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
+  extraContainers: []
+
+  # -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+  securityContext: {}
+
+nucleiTemplateCache:
+  # -- Enables or disables the use of an persistent volume to cache the always downloaded nuclei-templates for all scans.
+  enabled: true
+  # every day at 08:00: "0 8 * * *"
+  # every full hour: "0 */1 * * *""
+  # -- The schedule indicates when and how often the nuclei template cache should be updated 
+  schedule: "0 */1 * * *"
+
+cascadingRules:
+  # -- Enables or disables the installation of the default cascading rules for this scanner
+  enabled: true

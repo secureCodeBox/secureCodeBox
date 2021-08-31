@@ -229,3 +229,20 @@ def test_petstore_scan_with_relative_config(get_petstore_url, get_zap_instance: 
     logging.info('Found ZAP Alerts: %s', str(len(alerts)))
 
     assert int(len(alerts)) >= 1
+
+@pytest.mark.integrationtest
+def test_cascading_scan_config(get_zap_instance: ZAPv2):
+
+    zap = get_zap_instance
+    test_target = "http://localhost:8080/bodgeit/"
+    test_config_yaml = "./tests/mocks/cascading-scan-full-local/"
+    test_context = "scb-test-context"
+    
+    zap_automation = ZapAutomation(zap=zap, config_dir=test_config_yaml, target=test_target, forced_context=test_context)
+    zap_automation.scan_target(target=test_target)
+    
+    alerts = zap_automation.get_zap_scanner.get_alerts(test_target, [], [])
+
+    logging.info('Found ZAP Alerts: %d', len(alerts))
+
+    assert int(len(alerts)) >= 1
