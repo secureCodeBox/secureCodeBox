@@ -488,6 +488,7 @@ jobs:
           - sslyze
           - test-scan
           - trivy
+          - whatweb
           - typo3scan
           - wpscan
           - zap
@@ -563,6 +564,7 @@ jobs:
           - kubeaudit
           - ncrack
           - nmap
+          - whatweb
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -1051,6 +1053,19 @@ jobs:
             --set-string="parser.env[0].value=true"
           cd tests/integration/
           npx jest --ci --color scanner/sslyze.test.js
+
+      # ---- Whatweb Integration Tests ----
+
+      - name: "Whatweb Integration Tests"
+        run: |
+          kubectl -n integration-tests delete scans --all
+          helm -n integration-tests install whatweb ./scanners/whatweb/  \
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-whatweb"
+            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
+            --set-string="parser.env[0].value=true"
+          cd tests/integration/
+          npx jest --ci --color scanner/whatweb.test.js
 
       # ---- WPScan Integration Tests ----
 
