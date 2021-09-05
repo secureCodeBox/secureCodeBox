@@ -26,7 +26,7 @@ ifeq ($(name),)
 endif
 
 # Thx to https://stackoverflow.com/questions/5618615/check-if-a-program-exists-from-a-makefile
-EXECUTABLES = make docker kind git node npm npx kubectl helm yq
+EXECUTABLES = make docker kind git node npm npx kubectl helm yq java python
 K := $(foreach exec,$(EXECUTABLES),\
         $(if $(shell which $(exec)),some string,$(error "ERROR: The prerequisites are not met to execute this makefile! No '$(exec)' found in your PATH")))
 
