@@ -83,6 +83,9 @@ install-deps-py:
 unit-test-py: install-deps-py
 	cd ./$(module)/ && pytest --ignore-glob='*_local.py' --ignore=tests/docker
 
+unit-test-java:
+	cd ./$(module)/ && ./gradlew test
+
 common-docker-build:
 	@echo ".: ⚙️ Build '$(name)' $(module) with BASE_IMG_TAG: '$(BASE_IMG_TAG)'."
 	docker build --build-arg=scannerVersion=$(shell yq e .appVersion ./Chart.yaml) --build-arg=baseImageTag=$(BASE_IMG_TAG) --build-arg=namespace=$(IMG_NS) -t $(IMG_NS)/$(module)-$(name):$(IMG_TAG) -f ./$(module)/Dockerfile ./$(module)

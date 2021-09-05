@@ -9,3 +9,6 @@ include_guard = set
 hook = persistence-defectdojo
 
 include ../../hooks.mk
+
+unit-tests:
+	@$(MAKE) -s unit-test-java
