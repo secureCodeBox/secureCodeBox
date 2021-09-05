@@ -61,7 +61,7 @@ parser-prefix = parser
 scanner-prefix = scanner
 hook-prefix = hook
 
-test: | unit-tests docker-build docker-export kind-import deploy deploy-test-deps integration-tests
+test: | clean-integration-tests unit-tests docker-build docker-export kind-import deploy deploy-test-deps integration-tests
 
 .PHONY: help unit-tests-hook install-deps docker-build docker-export kind-import deploy deploy-test-deps integration-tests all build test
 
@@ -147,3 +147,13 @@ clean:
 	rm -rf ./integration-tests/coverage
 	rm -rf ../node_modules
 	rm -rf ../coverage
+
+clean-integration-tests:
+	@echo ".: 🧹 Resetting 'integration-tests' namespace"
+	kubectl delete namespace integration-tests --wait || true
+	kubectl create namespace integration-tests
+
+clean-demo-targets:
+	@echo ".: 🧹 Resetting 'demo-targets' namespace"
+	kubectl delete namespace demo-targets --wait || true
+	kubectl create namespace demo-targets

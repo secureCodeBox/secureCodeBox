@@ -10,7 +10,7 @@ hook = cascading-scans
 
 include ../../hooks.mk
 
-test-2: | unit-tests docker-build docker-export kind-import deploy deploy-test-deps-2 integration-tests-2
+test-2: | clean-integration-tests unit-tests docker-build docker-export kind-import deploy deploy-test-deps-2 integration-tests-2
 
 deploy-test-dep-nmap:
 	cd ../../scanners/nmap/ && $(MAKE) -s docker-build docker-export kind-import && \
