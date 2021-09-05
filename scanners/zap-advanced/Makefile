@@ -15,19 +15,19 @@ unit-tests:
 	@$(MAKE) -s unit-test-py
 
 unit-tests-parser:
-	$(MAKE) -f ../../scanners.mk unit-tests-parser include_guard=set scanner=zap
+	$(MAKE) -s -f ../../scanners.mk unit-tests-parser include_guard=set scanner=zap
 
 install-deps:
-	cd ../zap/ && $(MAKE) install-deps
+	cd ../zap/ && $(MAKE) -s install-deps
 
 docker-build-parser:
-	cd ../zap/ && $(MAKE) docker-build-parser
+	cd ../zap/ && $(MAKE) -s docker-build-parser
 
 docker-export-parser:
-	cd ../zap/ && $(MAKE) docker-export-parser
+	cd ../zap/ && $(MAKE) -s docker-export-parser
 
 kind-import-parser:
-	cd ../zap/ && $(MAKE) kind-import-parser
+	cd ../zap/ && $(MAKE) -s kind-import-parser
 
 deploy-with-scanner:
 	@echo ".: 💾 Deploying custom '$(scanner)' scanner HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
