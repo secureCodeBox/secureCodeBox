@@ -66,7 +66,7 @@ test: | clean-integration-tests unit-tests docker-build docker-export kind-impor
 .PHONY: help unit-tests-hook install-deps docker-build docker-export kind-import deploy deploy-test-deps integration-tests all build test
 
 install-deps-js:
-	@echo ".: ⚙️ Installing all $(module) specific dependencies."
+	@echo ".: ⚙️ Installing all $(module) specific javascript dependencies."
 	cd ./.. && npm ci
 	cd ../../${module}-sdk/nodejs && npm ci
 	cd ./${module}/ && npm ci
@@ -74,6 +74,14 @@ install-deps-js:
 unit-test-js: install-deps-js
 	@echo ".: 🧪 Starting unit-tests for '$(name)' $(module) with 'jest@$(JEST_VERSION)'."
 	npx --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage --passWithNoTests ${name}/${module}/
+
+install-deps-py:
+	@echo ".: ⚙️ Installing all $(module) specific python dependencies."
+	python -m pip install --upgrade pip setuptools wheel pytest
+	cd ./$(module)/ && pip install -r requirements.txt
+
+unit-test-py: install-deps-py
+	pytest --ignore-glob='*_local.py' --ignore=tests/docker ./$(module)
 
 common-docker-build:
 	@echo ".: ⚙️ Build '$(name)' $(module) with BASE_IMG_TAG: '$(BASE_IMG_TAG)'."
