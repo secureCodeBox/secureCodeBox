@@ -33,6 +33,7 @@ config/*
 Dockerfile
 .dockerignore
 docs/*
+*.tar
 hook/*
 integration-tests/*
 examples/*
