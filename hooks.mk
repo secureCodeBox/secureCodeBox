@@ -24,12 +24,14 @@ name = ${hook}
 
 include ../../common.mk
 
+module = $(hook-prefix)
+
 docker-build: | common-docker-build
 docker-export: | common-docker-export
 kind-import: | common-kind-import
 
 unit-tests:
-	@$(MAKE) -s unit-test-js module=$(hook-prefix)
+	@$(MAKE) -s unit-test-js
 
 deploy:
 	@echo ".: 💾 Deploying '$(name)' $(hook-prefix) HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
