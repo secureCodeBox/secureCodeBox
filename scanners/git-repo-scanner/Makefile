@@ -10,3 +10,6 @@ scanner = git-repo-scanner
 custom_scanner = set
 
 include ../../scanners.mk
+
+unit-tests:
+	@$(MAKE) -s unit-test-py
