@@ -11,6 +11,9 @@ custom_scanner = set
 
 include ../../scanners.mk
 
+unit-tests:
+	@$(MAKE) -s unit-test-py
+
 unit-tests-parser:
 	$(MAKE) -f ../../scanners.mk unit-tests-parser include_guard=set scanner=zap
 
