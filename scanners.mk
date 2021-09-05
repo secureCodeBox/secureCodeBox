@@ -22,6 +22,8 @@ name = ${scanner}
 
 include ../../common.mk
 
+module = $(scanner-prefix)
+
 ifeq ($(custom_scanner),)
   docker-build: | docker-build-parser
   docker-export: | docker-export-parser
@@ -50,13 +52,13 @@ kind-import-parser:
 	@$(MAKE) -s common-kind-import module=$(parser-prefix)
 
 docker-build-scanner:
-	@$(MAKE) -s common-docker-build module=$(scanner-prefix)
+	@$(MAKE) -s common-docker-build
 
 docker-export-scanner:
-	@$(MAKE) -s common-docker-export module=$(scanner-prefix)
+	@$(MAKE) -s common-docker-export
 
 kind-import-scanner:
-	@$(MAKE) -s common-kind-import module=$(scanner-prefix)
+	@$(MAKE) -s common-kind-import
 
 deploy-without-scanner:
 	@echo ".: 💾 Deploying '$(name)' $(scanner-prefix) HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
