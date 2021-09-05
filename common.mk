@@ -81,7 +81,7 @@ install-deps-py:
 	cd ./$(module)/ && pip install -r requirements.txt
 
 unit-test-py: install-deps-py
-	pytest --ignore-glob='*_local.py' --ignore=tests/docker ./$(module)
+	cd ./$(module)/ && pytest --ignore-glob='*_local.py' --ignore=tests/docker
 
 common-docker-build:
 	@echo ".: ⚙️ Build '$(name)' $(module) with BASE_IMG_TAG: '$(BASE_IMG_TAG)'."
