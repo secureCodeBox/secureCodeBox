@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: "3.8"
+services:
+  my-http-listener:
+      image: mendhak/http-https-echo:18
+      environment: 
+          - HTTP_PORT=8888
+          - HTTPS_PORT=9999
+      ports:
+          - "8080:8888"
+          - "8443:9999"
