@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: "3.8"
+services:
+  dummy_ssh:
+    build:
+      context: .
+      dockerfile: Dockerfile
