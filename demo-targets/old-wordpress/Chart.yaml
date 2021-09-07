@@ -1,9 +1,9 @@
-# SPDX-FileCopyrightText: 2020 iteratec GmbH
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
 #
 # SPDX-License-Identifier: Apache-2.0
 
 apiVersion: v2
-version: v2.7.0-alpha1
+version: v3.1.0-alpha1
 appVersion: "4.0"
 name: old-wordpress
 description: "Insecure & Outdated Wordpress Instance: Never expose it to the internet!"

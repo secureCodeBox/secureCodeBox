@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+# We only want to import the default cascading rules if they are enabled
+{{ if .Values.cascadingRules.enabled }}
+{{ range $path, $_ :=  .Files.Glob  "cascading-rules/*" }}
+# Include File
+{{ $.Files.Get $path }}
+# Separate multiple files
+---
+{{ end }}
+{{ end }}

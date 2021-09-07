@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# We use a persistent volume for central storing of all nuclei-templates to prevent downloading it for each scan again, enabled by default.
+{{ if .Values.nucleiTemplateCache.enabled }}
+# Request a persistent volume for web content
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: nuclei-content-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 1Gi
+{{ end }}

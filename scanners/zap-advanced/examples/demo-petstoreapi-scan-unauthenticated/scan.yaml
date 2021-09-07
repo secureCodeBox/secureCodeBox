@@ -36,7 +36,10 @@ data:
         url: http://petstore.demo-targets.svc/
         # An optional list of regexes to include
         includePaths:
-          - "http://petstore.demo-targets.svc/v2.*"
+          - "https?://.*\\..*.svc:.*"
+          - "https?://.*\\..*.svc/.*"
+          - "https?://.*\\..*.svc.cluster.local/.*"
+          - "https?://.*\\..*.svc.cluster.local:.*"
         # An optional list of regexes to exclude
         excludePaths:
           - ".*\\.css"
@@ -51,6 +54,8 @@ data:
         format: openapi
         # -- Url to start spidering from, default: first context URL
         url: http://petstore.demo-targets.svc/v2/swagger.json
+        # -- Relative path for the given targetUrl. mutually exclusive to the URL configuration.
+        # path: /v2/swagger.json
         # -- Override host setting in swagger.json
         hostOverride: http://petstore.demo-targets.svc
 

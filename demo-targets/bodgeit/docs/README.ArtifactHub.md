@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2020 iteratec GmbH
+SPDX-FileCopyrightText: 2021 iteratec GmbH
 
 SPDX-License-Identifier: Apache-2.0
 -->
@@ -67,7 +67,7 @@ helm upgrade --install bodgeit secureCodeBox/bodgeit
 | annotations | object | `{}` | add annotations to the deployment, service and pods |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"docker.io/psiinon/bodgeit"` | Container Image containing the bodgeit |
+| image.repository | string | `"docker.io/securecodebox/bodgeit"` | Container Image containing the bodgeit |
 | image.tag | string | defaults to the "latest" version because the appVersion tag is not available at docker.io | The image tag |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |
@@ -113,3 +113,4 @@ Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 [scb-twitter]: https://twitter.com/secureCodeBox
 [scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
 [scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
+

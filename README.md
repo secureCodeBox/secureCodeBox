@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2020 iteratec GmbH
+SPDX-FileCopyrightText: 2021 iteratec GmbH
 
 SPDX-License-Identifier: Apache-2.0
 -->
@@ -41,9 +41,11 @@ SPDX-License-Identifier: Apache-2.0
   - [Purpose of this Project](#purpose-of-this-project)
   - [Quickstart](#quickstart)
   - [Architecture Overview](#architecture-overview)
+  - [Upgrading](#upgrading)
   - [License](#license)
   - [Community](#community)
   - [Contributing](#contributing)
+  - [Sponsors](#sponsors)
   - [Author Information](#author-information)
 
 For additional documentation aspects please have a look at our [documentation website](https://docs.securecodebox.io):
@@ -98,9 +100,20 @@ secureCodeBox is an official [OWASP][owasp] project.
 Contributions are welcome and extremely helpful 🙌
 Please have a look at [Contributing](./CONTRIBUTING.md)
 
+## Sponsors
+
+<p align="left">
+  <a href="https://www.iteratec.com/en/"><img alt="iteratec Logo" src="./docs/resources/sponsors/Logo_iteratec.svg" width="300px"></a>
+</p>
+<p align="left">
+  <a href="https://sda-se.com/?lang=en"><img alt="SDA SE Logo" src="./docs/resources/sponsors/Logo_sda-se.png" width="200px"></a>
+  <a href="https://pagel.pro/en/"><img alt="Timo Pagel IT Consulting Logo" src="./docs/resources/sponsors/Logo_timo-pagel-it-consulting.png" width="200px"></a>
+  <a href="https://www.secura.com/en/"><img alt="Secura Logo" src="./docs/resources/sponsors/Logo_secura.svg" width="200px"></a>
+</p>
+
 ## Author Information
 
-Sponsored by [iteratec GmbH](https://www.iteratec.de/) - [secureCodeBox.io](https://www.securecodebox.io/)
+Sponsored and maintained by [iteratec GmbH](https://www.iteratec.com/) - [secureCodeBox.io](https://www.securecodebox.io/)
 
 [owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
 [objspec]: https://www.sigs-datacom.de/fachzeitschriften/objektspektrum.html

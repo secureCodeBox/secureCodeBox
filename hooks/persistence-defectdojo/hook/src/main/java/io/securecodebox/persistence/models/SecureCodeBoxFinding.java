@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 iteratec GmbH
+// SPDX-FileCopyrightText: 2021 iteratec GmbH
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -36,8 +36,10 @@ public class SecureCodeBoxFinding {
   String osiLayer;
   @JsonProperty
   Severities severity;
-  @JsonProperty
-  String timestamp;
+  @JsonProperty("parsed_at")
+  String parsedAt;
+  @JsonProperty("identified_at")
+  String identifiedAt;
   @JsonProperty
   Map<String, Object> attributes;
 

@@ -1,51 +1,40 @@
 package io.securecodebox.persistence.mapping;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.securecodebox.persistence.config.PersistenceProviderConfig;
 import io.securecodebox.persistence.models.SecureCodeBoxFinding;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
+import java.time.ZoneId;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-
+// Create one instance for the whole class instead for each method to reuse the genericTestFinding in all methods
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
 public class SecureCodeBoxFindingsToDefectDojoMapperTest {
 
-  @Test
-  public void yieldsCorrectResult() throws IOException {
-    String ddFindingsPath = "kubehunter-dd-findings.json";
-    String scbFindingsPath = "kubehunter-scb-findings.json";
-    ClassLoader cl = getClass().getClassLoader();
+  // test class
+  private SecureCodeBoxFindingsToDefectDojoMapper scbToDdMapper;
+  // test data
+  private SecureCodeBoxFinding genericTestFinding;
+  // Mock
+  private PersistenceProviderConfig ppConfig;
 
-    File ddFindingsFile = new File(cl.getResource(ddFindingsPath).getFile());
-    File scbFindingsFile = new File(cl.getResource(scbFindingsPath).getFile());
-    String expectedResult = new String(Files.readAllBytes(ddFindingsFile.toPath()));
-    String scbFindingsContent = new String(Files.readAllBytes(scbFindingsFile.toPath()));
-    String result = SecureCodeBoxFindingsToDefectDojoMapper.fromSecureCodeboxFindingsJson(scbFindingsContent);
-    ObjectMapper mapper = new ObjectMapper();
-    JsonNode actualJSON = mapper.readTree(result);
-    JsonNode expectedJSON = mapper.readTree(expectedResult);
-    assertNotNull(actualJSON);
-    // if whitespaces should be ignored in strings, a Custom Comperator could be used
-    // then the result and expected result would not have to match exactly.
-    // see https://www.baeldung.com/jackson-compare-two-json-objects
-    assertEquals(actualJSON, expectedJSON);
-  }
-
-  @Test
-  public void correctlyParsesFindings() throws IOException {
+  @BeforeAll
+  public void init() {
     var name = "Name";
     var description = "Description";
-    var severity = "HIGH";
-    var id = "123";
+    var id = "e18cdc5e-6b49-4346-b623-28a4e878e154";
+    var parsedAt = "2020-04-15T12:27:28.153Z";
     var location = "ldap://[2001:db8::7]/c=GB?objectClass?one";
     var attributes = new HashMap<String, Object>();
     var subAttribute = new HashMap<>();
@@ -53,18 +42,53 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
     attributes.put("attribute_1", subAttribute);
     attributes.put("attribute_2", "2");
     attributes.put("attribute_3", "3");
-    var scbFinding = SecureCodeBoxFinding.builder().name(name).description(description)
+    genericTestFinding = SecureCodeBoxFinding.builder().name(name).description(description)
       .severity(SecureCodeBoxFinding.Severities.HIGH).id(id).location(location).attributes(attributes)
-      .build();
+      .parsedAt(parsedAt).build();
+    ppConfig = mock(PersistenceProviderConfig.class);
+    // usually the default TimeZone on a machine is used to create the DefectDojo Dates. To ensure that the test
+    // results are the same regardless of the machine the test runs on we assume UTC+0 for tests.
+    when(ppConfig.getDefectDojoTimezoneId()).thenReturn(ZoneId.of("+0"));
+    scbToDdMapper = new SecureCodeBoxFindingsToDefectDojoMapper(ppConfig);
+  }
 
-    var ddFinding = SecureCodeBoxFindingsToDefectDojoMapper.fromSecureCodeBoxFinding(scbFinding);
-    assertEquals(ddFinding.getTitle(), name);
-    assertEquals(ddFinding.getSeverity(), severity);
-    assertEquals(ddFinding.getUniqueIdFromTool(), id);
-    assertEquals(ddFinding.getEndpoints().get(0), location);
-    assertTrue(ddFinding.getDescription().startsWith(description));
-    //Description should consist of description and attributes as JSON
-    String attributesJson = ddFinding.getDescription().substring(description.length() + 1);
+  @Test
+  public void correctlyParsesBasicFindingProperties() {
+    var ddFinding = scbToDdMapper.fromSecureCodeBoxFinding(genericTestFinding);
+    assertEquals(ddFinding.getTitle(), genericTestFinding.getName());
+    assertEquals(ddFinding.getUniqueIdFromTool(), genericTestFinding.getId());
+    assertEquals(ddFinding.getEndpoints().get(0), genericTestFinding.getLocation());
+  }
+
+  @Test
+  public void correctlyParsesSeverities() {
+    var nullSeverityFinding = SecureCodeBoxFinding.builder().build();
+    var infoSeverityFinding = SecureCodeBoxFinding.builder().severity(SecureCodeBoxFinding.Severities.INFORMATIONAL).build();
+    var lowSeverityFinding = SecureCodeBoxFinding.builder().severity(SecureCodeBoxFinding.Severities.LOW).build();
+    var mediumSeverityFinding = SecureCodeBoxFinding.builder().severity(SecureCodeBoxFinding.Severities.MEDIUM).build();
+    var highSeverityFinding = SecureCodeBoxFinding.builder().severity((SecureCodeBoxFinding.Severities.HIGH)).build();
+    assertEquals(scbToDdMapper.fromSecureCodeBoxFinding(nullSeverityFinding).getSeverity(), "Info");
+    assertEquals(scbToDdMapper.fromSecureCodeBoxFinding(infoSeverityFinding).getSeverity(), "Info");
+    assertEquals(scbToDdMapper.fromSecureCodeBoxFinding(lowSeverityFinding).getSeverity(), "Low");
+    assertEquals(scbToDdMapper.fromSecureCodeBoxFinding(mediumSeverityFinding).getSeverity(), "Medium");
+    assertEquals(scbToDdMapper.fromSecureCodeBoxFinding(highSeverityFinding).getSeverity(), "High");
+  }
+
+  @Test
+  public void correctlyParsesDate() {
+    var ddFinding = scbToDdMapper.fromSecureCodeBoxFinding(genericTestFinding);
+    assertEquals(ddFinding.getDate(), "2020-04-15");
+    var dateTestFinding = SecureCodeBoxFinding.builder().parsedAt("2030-12-01T14:22:28Z").build();
+    var dateTestResultFinding = scbToDdMapper.fromSecureCodeBoxFinding(dateTestFinding);
+    assertEquals(dateTestResultFinding.getDate(), "2030-12-01");
+  }
+
+  @Test
+  public void correctlyParsesDescription() throws JsonProcessingException {
+    var ddFinding = scbToDdMapper.fromSecureCodeBoxFinding(genericTestFinding);
+    assertTrue(ddFinding.getDescription().startsWith(genericTestFinding.getDescription()));
+    //Description should consist of the secureCodeBox description and attributes as JSON
+    String attributesJson = ddFinding.getDescription().substring(genericTestFinding.getDescription().length() + 1);
     String expectedAttributeJson = "{\n" +
       "  \"attribute_1\" : {\n" +
       "    \"sub_attribute\" : \"1\"\n" +
@@ -72,18 +96,14 @@ public class SecureCodeBoxFindingsToDefectDojoMapperTest {
       "  \"attribute_2\" : \"2\",\n" +
       "  \"attribute_3\" : \"3\"\n" +
       "}";
+    // We do not care how exactly the JSON looks as long as it is correct.
     ObjectMapper mapper = new ObjectMapper();
-    var expectedJson = mapper.readTree(attributesJson);
-    var actualJson = mapper.readTree(expectedAttributeJson);
-    assertNotNull(actualJson);
-    assertEquals(mapper.readTree(attributesJson), mapper.readTree(expectedAttributeJson));
+    assertEquals(mapper.readTree(expectedAttributeJson), mapper.readTree(attributesJson));
   }
 
   @Test
-  public void doesntThrowUnexpectedExceptionOnEmptyFinding() throws JsonProcessingException {
+  public void doesNotThrowUnexpectedExceptionOnEmptyFinding() {
     var emptyScbFinding = SecureCodeBoxFinding.builder().build();
-    var ddFinding = SecureCodeBoxFindingsToDefectDojoMapper.fromSecureCodeBoxFinding(emptyScbFinding);
-    assertNull(ddFinding.getTitle());
-    assertNull(ddFinding.getDescription());
+    assertDoesNotThrow(() -> scbToDdMapper.fromSecureCodeBoxFinding(emptyScbFinding));
   }
 }

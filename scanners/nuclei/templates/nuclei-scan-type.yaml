@@ -1,0 +1,61 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: 'execution.securecodebox.io/v1'
+kind: ScanType
+metadata:
+  name: 'nuclei{{ .Values.scanner.nameAppend | default ""}}'
+spec:
+  extractResults:
+    type: nuclei-json
+    location: '/home/securecodebox/nuclei-results.jsonl'
+  jobTemplate:
+    spec:
+      {{- if .Values.scanner.ttlSecondsAfterFinished }}
+      ttlSecondsAfterFinished: {{ .Values.scanner.ttlSecondsAfterFinished }}
+      {{- end }}
+      backoffLimit: {{ .Values.scanner.backoffLimit }}
+      activeDeadlineSeconds: {{ .Values.scanner.activeDeadlineSeconds }}
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: nuclei
+              image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
+              command:
+                - 'nuclei'
+                - '-no-update-templates'
+                - '-json'
+                # nuclei writes json lines: https://jsonlines.org/
+                - '-output'
+                - '/home/securecodebox/nuclei-results.jsonl'
+              resources:
+                {{- toYaml .Values.scanner.resources | nindent 16 }}
+              securityContext:
+                {{- toYaml .Values.scanner.securityContext | nindent 16 }}
+              env:
+                {{- toYaml .Values.scanner.env | nindent 16 }}
+              volumeMounts:
+                {{ if .Values.nucleiTemplateCache.enabled }}
+                - name: nuclei-content
+                  mountPath: /root
+                  readOnly: true
+                {{- end }}
+                {{- if .Values.scanner.extraVolumeMounts }}
+                {{- toYaml .Values.scanner.extraVolumeMounts | nindent 16 }}
+                {{- end }}
+            {{- if .Values.scanner.extraContainers }}
+            {{- toYaml .Values.scanner.extraContainers | nindent 12 }}
+            {{- end }}
+          volumes:
+            {{ if .Values.nucleiTemplateCache.enabled }}
+            - name: nuclei-content
+              persistentVolumeClaim:
+                claimName: nuclei-content-claim
+                readOnly: true
+            {{- end }}
+            {{- if .Values.scanner.extraVolumes }}
+            {{- toYaml .Values.scanner.extraVolumes | nindent 12 }}
+            {{- end }}

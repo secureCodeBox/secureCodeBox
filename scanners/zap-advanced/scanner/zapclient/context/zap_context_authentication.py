@@ -22,6 +22,7 @@ logging.basicConfig(
 
 logging = logging.getLogger('ZapConfigureContextAuthentication')
 
+
 class ZapConfigureContextAuthentication(ZapClient):
     """This class configures the context in running ZAP instance, based on a given ZAP Configuration."""
 
@@ -62,7 +63,7 @@ class ZapConfigureContextAuthentication(ZapClient):
             self._configure_context_authentication_json_auth(authentication["json-based"], context_id)
 
         if self._is_not_empty("verification", authentication):
-            self._confige_auth_validation(authentication["verification"], context_id)
+            self._configure_auth_validation(authentication["verification"], context_id)
         
     def _configure_context_authentication_script(self, script_config: collections.OrderedDict, context_id: int):
         """Protected method to configure the ZAP 'Context / Authentication Settings with Script based Authentication' based on a given ZAP config.
@@ -75,8 +76,8 @@ class ZapConfigureContextAuthentication(ZapClient):
             The zap context id tot configure the ZAP authentication for (based on the class ZapConfiguration).
         """
         
-        if(not script_config == None and "scriptName" in script_config and "scriptFilePath" in script_config and "scriptEngine" in script_config):
-            self._configure_load_script(zap=self.get_zap, script_config=script_config, script_type='authentication')
+        if(not script_config == None and "name" in script_config and "filePath" in script_config and "engine" in script_config):
+            self._configure_load_script(script_config=script_config, script_type='authentication')
 
             auth_params = self.__get_script_auth_params(script_config)
 
@@ -91,7 +92,7 @@ class ZapConfigureContextAuthentication(ZapClient):
                 exception_message="Missing ZAP Authentication Script Parameters! Please check your secureCodeBox YAML configuration!"
             )
         else:
-          logging.warning("Important script authentication configs (scriptName, scriptFilePath, scriptEngine) are missing! Ignoring the authenication script configuration. Please check your YAML configuration.")
+          logging.warning("Important script authentication configs (name, filePath, engine) are missing! Ignoring the authentication script configuration. Please check your YAML configuration.")
 
     def _configure_context_authentication_basic_auth(self, basic_auth: collections.OrderedDict, context_id: int):
         """Protected method to configure the ZAP 'Context / Authentication Settings with Basic Authentication' based on a given ZAP config.
@@ -170,7 +171,7 @@ class ZapConfigureContextAuthentication(ZapClient):
                 authmethodname='jsonBasedAuthentication',
                 authmethodconfigparams=auth_method_config_params)
 
-    def _confige_auth_validation(self, validation: collections.OrderedDict, context_id: int):
+    def _configure_auth_validation(self, validation: collections.OrderedDict, context_id: int):
         """Protected method to configure the ZAP 'Context / Authentication Settings with Script based Authentication' based on a given ZAP config.
         
         Parameters
@@ -204,9 +205,9 @@ class ZapConfigureContextAuthentication(ZapClient):
         """
 
         # Create ZAP Script parameters based on given configuration object
-        auth_params = ['scriptName=' + script_config["scriptName"],]
+        auth_params = ['scriptName=' + script_config["name"],]
         # Creates a list of URL-Encoded params, based on the YAML config
-        for key, value in script_config["scriptArguments"].items():
+        for key, value in script_config["arguments"].items():
             auth_params.append(key + "=" + value)
         # Add a '&' to all elements except the last one
         auth_params = '&'.join(auth_params)

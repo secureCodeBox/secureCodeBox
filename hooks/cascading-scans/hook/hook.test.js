@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 iteratec GmbH
+// SPDX-FileCopyrightText: 2021 iteratec GmbH
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -660,6 +660,16 @@ test("should properly parse template values in scanLabels and scanAnnotations", 
 
   const findings = [
     {
+      name: "Port 8443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 8443,
+        service: "https"
+      }
+    },
+    {
       name: "Port 443 is open",
       category: "Open Port",
       attributes: {
@@ -677,6 +687,8 @@ test("should properly parse template values in scanLabels and scanAnnotations", 
     sslyzeCascadingRules,
     sslyzeCascadingRules[0]
   );
+
+  expect(sslyzeCascadingRules[0].spec.scanSpec.parameters).toEqual(["--regular", "{{$.hostOrIP}}:{{attributes.port}}"])
 
   const { labels, annotations } = cascadedScans[0].metadata;
 
@@ -1180,4 +1192,72 @@ test("should not copy cascaded scan spec from parent scan if inheritance is unde
 
   expect(secondCascadedScan.spec.volumeMounts).toMatchInlineSnapshot(`Array []`)
 
+});
+
+
+test("should append cascading rule to further cascading scan chains", () => {
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const cascadedScan = cascadedScans[0]
+  // Create a second cascading rule
+  sslyzeCascadingRules[1] = {
+    apiVersion: "cascading.securecodebox.io/v1",
+    kind: "CascadingRule",
+    metadata: {
+      name: "tls-scans-second"
+    },
+    spec: {
+      matches: {
+        anyOf: [
+          {
+            category: "Open Port",
+            attributes: {
+              port: 443,
+              service: "https"
+            }
+          },
+          {
+            category: "Open Port",
+            attributes: {
+              service: "https"
+            }
+          }
+        ]
+      },
+      scanSpec: {
+        scanType: "sslyze",
+        parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"]
+      }
+    }
+  }
+
+  cascadedScan.metadata.name = cascadedScan.metadata.generateName
+
+  const secondCascadedScans = getCascadingScans(
+    cascadedScan,
+    findings,
+    sslyzeCascadingRules,
+    sslyzeCascadingRules[0] // cascaded rule on parent
+  );
+
+  const secondCascadedScan = secondCascadedScans[0];
+
+  expect(secondCascadedScan.metadata.annotations["cascading.securecodebox.io/chain"]).toEqual("tls-scans,tls-scans-second")
 });

@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2020 iteratec GmbH
+SPDX-FileCopyrightText: 2021 iteratec GmbH
 
 SPDX-License-Identifier: Apache-2.0
 -->
@@ -42,7 +42,7 @@ You can find resources to help you get started on our [documentation website](ht
 
 ## Supported Tags
 - `latest`  (represents the latest stable release build)
-- tagged releases, e.g. `2.9.0`, `2.8.0`, `2.7.0`
+- tagged releases, e.g. `3.0.0`, `2.9.0`, `2.8.0`, `2.7.0`
 
 ## How to use this image
 This image is a potentially vulnerable service or application which is used for demo purposes, automated tests and trainings.
@@ -84,3 +84,4 @@ As for any pre-built image usage, it is the image user's responsibility to ensur
 [scb-twitter]: https://twitter.com/secureCodeBox
 [scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
 [scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
+

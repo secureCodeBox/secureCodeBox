@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 iteratec GmbH
+// SPDX-FileCopyrightText: 2021 iteratec GmbH
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -135,13 +135,15 @@ async function main() {
   console.log("Adding UUIDs and Dates to the findings");
   const findingsWithIdsAndDates = addIdsAndDates(findings);
 
-  console.log("Validating Findings");
+  const crash_on_failed_validation = process.env["CRASH_ON_FAILED_VALIDATION"] === "true"
+  console.log("Validating Findings. Environment variable CRASH_ON_FAILED_VALIDATION is set to %s", crash_on_failed_validation);
   try {
-    await validate(findings);
+    await validate(findingsWithIdsAndDates);
+    console.log("The Findings were successfully validated")
   } catch (error) {
-    console.error("Findings Validation failed with error:");
+    console.error("The Findings Validation failed with error(s):");
     console.error(error);
-    if (process.env["CRASH_ON_FAILED_VALIDATION"] === "true") {
+    if (crash_on_failed_validation) {
       process.exit(1);
     }
   }

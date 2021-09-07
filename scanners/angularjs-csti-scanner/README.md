@@ -10,7 +10,7 @@ usecase: "Find AngularJS websites vulnerable to template injections"
 ![acstis logo](https://rawgit.com/tijme/angularjs-csti-scanner/master/.github/logo.svg?pypi=png.from.svg)
 
 <!--
-SPDX-FileCopyrightText: 2020 iteratec GmbH
+SPDX-FileCopyrightText: 2021 iteratec GmbH
 
 SPDX-License-Identifier: Apache-2.0
 -->

@@ -1,0 +1,32 @@
+{{- /*
+SPDX-FileCopyrightText: 2021 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
+
+{{- define "extra.docsSection" -}}
+---
+title: "Whatweb"
+category: "scanner"
+type: "Network"
+state: "released"
+appVersion: "{{ template "chart.appVersion" . }}"
+usecase: "Website identification"
+---
+
+![Whatweb logo](https://morningstarsecurity.com/wp-content/uploads/2019/02/WhatWeb-Logo-800px.png)
+
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.appVersion" . }}`
+{{- end }}
+
+{{- define "extra.chartAboutSection" -}}
+## What is WHATWEB?
+Whatweb identifies websites. It can recognize technology used to build a website, such as content management systems (CMS), JavaScript libraries, web server and much more. This makes whatweb especially interesting to use in a cascading-rules pipeline.
+
+To learn more about the whatweb scanner itself visit [https://morningstarsecurity.com/research/whatweb].
+{{- end }}

@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2020 iteratec GmbH
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -10,7 +10,7 @@ replicaCount: 1
 
 image:
   # image.repository -- Container Image containing the bodgeit
-  repository: docker.io/psiinon/bodgeit
+  repository: docker.io/securecodebox/bodgeit
   # image.tag -- The image tag
   # @default -- defaults to the "latest" version because the appVersion tag is not available at docker.io
   tag: latest

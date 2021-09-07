@@ -23,6 +23,7 @@ logging.basicConfig(
 
 logging = logging.getLogger('ZapConfigureSettings')
 
+
 class ZapConfigureSettings(ZapClient):
     """This class configures a running ZAP instance, based on a ZAP Global Configuration
     
