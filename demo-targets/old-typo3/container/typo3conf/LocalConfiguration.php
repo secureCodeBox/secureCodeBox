@@ -3,7 +3,7 @@ return [
     'BE' => [
         'debug' => false,
         'explicitADmode' => 'explicitAllow',
-        'installToolPassword' => '$argon2i$v=19$m=65536,t=16,p=1$TkdNVXo4ei5SdlpDYnVpeA$AJd8PUriThGoUh/g3wp+z1sLv/SHJMf7r4tnn0l8I8Y',
+        'installToolPassword' => '$argon2i$v=19$m=65536,t=16,p=1$aDJWVlhSZ3Awd3FiSFJ1VA$aEN0XL3JGAPSOwsxoX2dSOy/ss1DknHsLm6IoWonQTo',
         'loginSecurityLevel' => 'normal',
         'passwordHashing' => [
             'className' => 'TYPO3\\CMS\\Core\\Crypto\\PasswordHashing\\Argon2iPasswordHash',
@@ -14,7 +14,7 @@ return [
         'Connections' => [
             'Default' => [
                 'driver' => 'pdo_sqlite',
-                'path' => '/var/www/html/typo3conf/cms-e996413d.sqlite',
+                'path' => '/var/www/html/typo3conf/cms-016d0ef9.sqlite',
             ],
         ],
     ],
@@ -81,7 +81,7 @@ return [
     'SYS' => [
         'devIPmask' => '',
         'displayErrors' => 0,
-        'encryptionKey' => 'ad2d19753ec0fc1a3d593bfb5879a9424ec152acd300ab312e2dd1cd47de13088c6851b81c937a335555dadacabb9126',
+        'encryptionKey' => 'd1b47649701ddcdb6efbbbf1b37ba2e6f06668123549abd883f939750abdbde09aa951e75ca4d6ac5e531379eebd88e5',
         'exceptionalErrors' => 4096,
         'features' => [
             'newTranslationServer' => true,
