@@ -3,7 +3,7 @@ title: "Old Typo3"
 category: "target"
 type: "Website"
 state: "released"
-appVersion: "1.0"
+appVersion: "v1.0"
 usecase: "Modern insecure web application"
 ---
 
@@ -60,6 +60,11 @@ helm upgrade --install old-typo3 secureCodeBox/old-typo3
 | image.repository | string | `"docker.io/securecodebox/old-typo3"` | Container Image |
 | image.tag | string | defaults to the appVersion | The image tag |
 | imagePullSecrets | list | `[]` |  |
+| ingress.annotations | object | `{}` |  |
+| ingress.enabled | bool | `false` |  |
+| ingress.hosts[0].host | string | `"chart-example.local"` |  |
+| ingress.hosts[0].paths | list | `[]` |  |
+| ingress.tls | list | `[]` |  |
 | labels | object | `{}` | add labels to the deployment, service and pods |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
