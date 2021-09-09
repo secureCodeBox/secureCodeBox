@@ -186,7 +186,7 @@ jobs:
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
-      
+
       - name: Update Docker Hub Description
         uses: peter-evans/dockerhub-description@v2
         with:
@@ -246,7 +246,7 @@ jobs:
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
-      
+
       - name: Update Docker Hub Description
         uses: peter-evans/dockerhub-description@v2
         with:
@@ -300,7 +300,7 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
-# ---- New Makefile based CI Pipeline steps ----
+  # ---- New Makefile based CI Pipeline steps ----
 
   makefile-scanner:
     name: "Make Scanners"
@@ -1115,15 +1115,16 @@ jobs:
 
       - name: "cascading Scans ncrack Integration Tests"
         run: |
-          kubectl -n integration-tests delete scans --all
-          # We'll run these in a separate namespace so that only the cascadingRules we want to test will be used
-          kubectl create namespace cascading-tests
+
+          # We'll recreate the namespace so that no cascadingRules of previous tests can exist in there
+          kubectl delete namespace integration-tests
+          kubectl create namespace integration-tests
           # Install cascading-scans hook
-          helm upgrade --install dssh ./hooks/cascading-scans/ -n cascading-tests \
+          helm upgrade --install dssh ./hooks/cascading-scans/ -n integration-tests \
             --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-cascading-scans" \
             --set="hook.image.tag=sha-$(git rev-parse --short HEAD)"
           # Install nmap
-          helm -n cascading-tests install nmap ./scanners/nmap/ \
+          helm -n integration-tests install nmap ./scanners/nmap/ \
             --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \
             --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nmap" \
@@ -1133,8 +1134,8 @@ jobs:
           # Install ncrack
           printf "root\nadmin\n" > users.txt
           printf "THEPASSWORDYOUCREATED\n123456\npassword\n" > passwords.txt
-          kubectl create secret generic --from-file users.txt --from-file passwords.txt ncrack-lists -n cascading-tests
-          cat <<EOF | helm -n cascading-tests install ncrack ./scanners/ncrack \
+          kubectl create secret generic --from-file users.txt --from-file passwords.txt ncrack-lists -n integration-tests
+          cat <<EOF | helm -n integration-tests install ncrack ./scanners/ncrack \
             --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-ncrack" \
             --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-ncrack" \
@@ -1155,24 +1156,25 @@ jobs:
           cd tests/integration/
           npx jest --ci --color scanner/cascade-nmap-ncrack.test.js
           # Clean up:
-          kubectl -n cascading-tests delete scans --all
-          kubectl delete namespace cascading-tests
+          kubectl -n integration-tests delete scans --all
+          kubectl delete namespace integration-tests
 
       # ---- Cascading Scans SSLyze Integration Tests ----
 
       - name: "cascading Scans sslyze Integration Tests"
         run: |
-          kubectl -n integration-tests delete scans --all
-          # We'll run these in a separate namespace so that only the cascadingRules we want to test will be used
-          kubectl create namespace cascading-tests
+          # We'll recreate the namespace so that no cascadingRules of previous tests can exist in there
+          kubectl delete namespace integration-tests
+          kubectl create namespace integration-tests
+
           # Install cascading-scans hook
-          helm upgrade --install dssh ./hooks/cascading-scans/ -n cascading-tests --wait \
+          helm upgrade --install dssh ./hooks/cascading-scans/ -n integration-tests --wait \
             --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-cascading-scans" \
             --set="hook.image.tag=sha-$(git rev-parse --short HEAD)"
           # Install unsafe-https
-          helm upgrade --install unsafe-https ./demo-targets/unsafe-https/ -n cascading-tests --wait
+          helm upgrade --install unsafe-https ./demo-targets/unsafe-https/ -n integration-tests --wait
           # Install nmap
-          helm -n cascading-tests install nmap ./scanners/nmap/ --wait \
+          helm -n integration-tests install nmap ./scanners/nmap/ --wait \
             --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \
             --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nmap" \
@@ -1180,7 +1182,7 @@ jobs:
             --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
             --set-string="parser.env[0].value=true"
           # Install sslyze
-          helm -n cascading-tests install sslyze ./scanners/sslyze/ --wait \
+          helm -n integration-tests install sslyze ./scanners/sslyze/ --wait \
             --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-sslyze" \
             --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
@@ -1189,8 +1191,8 @@ jobs:
           cd tests/integration/
           npx jest --ci --color scanner/cascade-nmap-sslyze.test.js
           # Clean up:
-          kubectl -n cascading-tests delete scans --all
-          kubectl delete namespace cascading-tests
+          kubectl -n integration-tests delete scans --all
+          kubectl delete namespace integration-tests
 
       # ---- Debuging Cluster on Failure ----
 
