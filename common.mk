@@ -68,6 +68,7 @@ test: | clean-integration-tests unit-tests docker-build docker-export kind-impor
 install-deps-js:
 	@echo ".: ⚙️ Installing all $(module) specific javascript dependencies."
 	cd ./.. && npm ci
+	cd ./../.. && npm ci
 	cd ../../${module}-sdk/nodejs && npm ci
 	cd ./${module}/ && npm ci
 
