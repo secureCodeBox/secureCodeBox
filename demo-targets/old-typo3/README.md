@@ -3,7 +3,7 @@ title: "Old Typo3"
 category: "target"
 type: "Website"
 state: "released"
-appVersion: "v1.0"
+appVersion: "v9.5.26"
 usecase: "Modern insecure web application"
 ---
 
