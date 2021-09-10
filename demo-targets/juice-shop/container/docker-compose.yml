@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: "3.8"
+services:
+  juice_shop:
+    image: bkimminich/juice-shop:v12.8.1
+    ports:
+      - 3000:3000
+# Website will be available under http://localhost:3000/     
