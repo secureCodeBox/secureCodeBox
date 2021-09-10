@@ -1,5 +1,5 @@
 {
-"name": "@securecodebox/hook-persistence-elastic",
+  "name": "@securecodebox/hook-persistence-elastic",
   "version": "1.0.0",
   "description": "secureCodeBox Hook to persist results to elasticsearch.",
   "homepage": "https://www.secureCodeBox.io",
