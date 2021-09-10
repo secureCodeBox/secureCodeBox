@@ -1117,8 +1117,11 @@ jobs:
         run: |
 
           # We'll recreate the namespace so that no cascadingRules of previous tests can exist in there
-          kubectl delete namespace integration-tests
+          if kubectl get namespace integration-tests; then
+            kubectl delete namespace integration-tests
+          fi
           kubectl create namespace integration-tests
+
           # Install cascading-scans hook
           helm upgrade --install dssh ./hooks/cascading-scans/ -n integration-tests \
             --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-cascading-scans" \
@@ -1163,8 +1166,11 @@ jobs:
 
       - name: "cascading Scans sslyze Integration Tests"
         run: |
+
           # We'll recreate the namespace so that no cascadingRules of previous tests can exist in there
-          kubectl delete namespace integration-tests
+          if kubectl get namespace integration-tests; then
+            kubectl delete namespace integration-tests
+          fi
           kubectl create namespace integration-tests
 
           # Install cascading-scans hook
