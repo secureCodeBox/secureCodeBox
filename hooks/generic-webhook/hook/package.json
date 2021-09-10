@@ -1,5 +1,5 @@
 {
-"name": "@securecodebox/hook-generic-webhook",
+  "name": "@securecodebox/hook-generic-webhook",
   "version": "1.0.0",
   "description": "secureCodeBox Generic WebHook.",
   "homepage": "https://www.secureCodeBox.io",
