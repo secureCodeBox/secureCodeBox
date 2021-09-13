@@ -16,11 +16,11 @@ COPY wrapper.sh /wrapper.sh
 RUN apk add --update --no-cache --virtual .build-deps \
      perl \
      perl-net-ssleay \
-  && addgroup nikto \
-  && adduser -G nikto -s /bin/sh -D nikto
+  && addgroup -g 1001 nikto \
+  && adduser -G nikto -s /bin/sh -D -u 1001 nikto
 
 COPY --from=build --chown=nikto:nikto /nikto/program /nikto
 
-USER nikto
+USER 1001 
 
 ENTRYPOINT [ "sh", "/wrapper.sh" ]
