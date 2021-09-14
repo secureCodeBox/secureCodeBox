@@ -565,6 +565,7 @@ jobs:
           - ncrack
           - nmap
           - whatweb
+          - nikto
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -678,89 +679,7 @@ jobs:
           repository: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
           readme-filepath: ./scanners/${{ matrix.scanner }}/docs/README.DockerHub-Scanner.md
 
-  scanner-nikto:
-    # This Scanner has to be build seperately because the official image is only on GitHub but not on DockerHub
-    name: "Build | Scanner | Nikto"
-    needs:
-      - unit-python
-      - unit-javascript
-    runs-on: ubuntu-latest
-    services:
-      registry:
-        image: registry:2
-        ports:
-          - 5000:5000
-    steps:
-      - name: Checkout secureCodeBox
-        uses: actions/checkout/@v2
-        with:
-          path: scb
-
-      - name: "Checkout Nikto"
-        uses: actions/checkout/@v2
-        with:
-          repository: "sullo/nikto"
-          path: nikto
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-        with:
-          driver-opts: network=host
-
-      - name: Build and Push Nikto to Local Registry
-        uses: docker/build-push-action@v2
-        with:
-          context: ./nikto/
-          file: ./nikto/Dockerfile
-          push: true
-          tags: localhost:5000/sullo/nikto:latest
-
-      - name: Docker Meta
-        id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v1
-        with:
-          images: ${{ env.DOCKER_NAMESPACE }}/scanner-nikto
-          tag-sha: true
-          tag-custom: 2.1.6
-          tag-semver: |
-            {{ version }}
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-        with:
-          driver-opts: network=host
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-
-      - name: Set baseImageTag to commit hash
-        run: |
-          echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-
-      - name: Build and Push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./scb/scanners/nikto/scanner
-          file: ./scb/scanners/nikto/scanner/Dockerfile
-          build-args: |
-            baseImageTag=${{ env.baseImageTag }}
-          platforms: linux/amd64
-          push: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
-
-      - name: Update Docker Hub Description
-        uses: peter-evans/dockerhub-description@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: ${{ env.DOCKER_NAMESPACE }}/scanner-nikto
-          readme-filepath: ./scb/scanners/nikto/docs/README.DockerHub-Scanner.md
-
-  # ---- Integration Tests ----
+    # ---- Integration Tests ----
 
   Integration-tests:
     name: Integration Tests | k8s ${{ matrix.k8sVersion }}
@@ -770,7 +689,6 @@ jobs:
       - parsers
       - scanners-third-party
       - scanners-custom
-      - scanner-nikto
     runs-on: ubuntu-latest
     strategy:
       matrix:
