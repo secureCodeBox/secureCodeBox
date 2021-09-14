@@ -29,7 +29,7 @@ npm-ci-all: ## Runs npm ci in all node module subfolders.
 
 .PHONY:
 npm-test-all: ## Runs all Jest based test suites.
-	npm test
+	npm test -- --testPathIgnorePatterns "/integration-tests/"
 
 test-all: ## Runs all makefile based test suites.
 	@echo ".: ⚙ Installing the operator for makefile based testing."
