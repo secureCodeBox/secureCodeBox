@@ -564,8 +564,10 @@ jobs:
           - kubeaudit
           - ncrack
           - nmap
-          - whatweb
+          - nikto
           - typo3scan
+          - whatweb
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -678,7 +680,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           repository: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
           readme-filepath: ./scanners/${{ matrix.scanner }}/docs/README.DockerHub-Scanner.md
-
+          
   scanner-nikto:
     # This Scanner has to be build seperately because the official image is only on GitHub but not on DockerHub
     name: "Build | Scanner | Nikto"
@@ -761,7 +763,7 @@ jobs:
           repository: ${{ env.DOCKER_NAMESPACE }}/scanner-nikto
           readme-filepath: ./scb/scanners/nikto/docs/README.DockerHub-Scanner.md
 
-  # ---- Integration Tests ----
+    # ---- Integration Tests ----
 
   Integration-tests:
     name: Integration Tests | k8s ${{ matrix.k8sVersion }}
