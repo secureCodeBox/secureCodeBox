@@ -30,3 +30,13 @@ test(
   },
   3 * 60 * 1000
 );
+
+test(
+  "Invalid argument should be marked as errored",
+  async () => {
+    await expect(
+      scan("typo3scan-invalidArg", "typo3scan", ["--invalidArg", "example.com"], 90)
+    ).rejects.toThrow("HTTP request failed");
+  },
+  3 * 60 * 1000
+);
