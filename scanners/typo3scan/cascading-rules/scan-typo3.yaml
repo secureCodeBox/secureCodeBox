@@ -14,15 +14,12 @@ spec:
     anyOf:
       - category: "WEB APPLICATION"
         attributes:
-          TYPO3: "" #see WhatWeb Findings
-      - category: "WEB APPLICATION"
-        attributes:
           PoweredBy: "TYPO3"
   scanSpec:
     scanType: "typo3scan"
     parameters:
       - "-d"
-      - "{{$.hostOrIP}}" # Change to the website you want to scan
+      - "{{location}}" # Change to the website you want to scan
       # Only show vulnerable extensions
       - "--vuln"
       # Set the number of threads to use for enumerating extensions at 10
