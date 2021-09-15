@@ -7,7 +7,7 @@ const { scan } = require("../helpers");
 jest.retryTimes(3);
 
 test(
-  "typo3scan scans old-typo3",
+  "typo3scan scans old-typo3 for vulnerable extensions and core only",
   async () => {
     const { categories, severities, count } = await scan(
       "typo3scan-old-typo3",
