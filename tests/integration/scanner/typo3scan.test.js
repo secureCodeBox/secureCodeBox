@@ -12,23 +12,21 @@ test(
     const { categories, severities, count } = await scan(
       "typo3scan-old-typo3",
       "typo3scan",
-      ["-d","http://old-typo3.demo-targets.svc"],
-      "--vuln",
+      ["-d", "http://old-typo3.demo-targets.svc", "--vuln"],
       90
     );
 
-    expect(count).toBe(1);
+    expect(count).toBe(53);
     expect(categories).toMatchInlineSnapshot(`
       Object {
-        "WEB APPLICATION": 1,
+        "Vulnerability": 53,
       }
     `);
     expect(severities).toMatchInlineSnapshot(`
-Object {
-  "informational": 1,
-}
-`);
+      Object {
+        "high": 53,
+      }
+    `);
   },
   3 * 60 * 1000
 );
-
