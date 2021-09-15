@@ -19,7 +19,7 @@ spec:
     scanType: "typo3scan"
     parameters:
       - "-d"
-      - "{{location}}" # Change to the website you want to scan
+      - "{{{location}}}" # Change to the website you want to scan
       # Only show vulnerable extensions
       - "--vuln"
       # Set the number of threads to use for enumerating extensions at 10
