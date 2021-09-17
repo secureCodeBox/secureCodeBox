@@ -54,7 +54,7 @@ public class VersionedEngagementsStrategyTest {
 
   @BeforeEach
   public void setup() throws Exception {
-    versionedEngagementsStrategy.config = new DefectDojoConfig("https://defectdojo.example.com", "<key>", "foobar");
+    versionedEngagementsStrategy.config = new DefectDojoConfig("https://defectdojo.example.com", "<key>", "foobar", 1000);
 
     scan = new Scan();
     scan.setApiVersion("execution.securecodebox.io/v1");
