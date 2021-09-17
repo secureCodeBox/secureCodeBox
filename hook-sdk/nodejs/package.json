@@ -13,8 +13,5 @@
     "@kubernetes/client-node": "^0.15.1",
     "axios": "^0.21.4",
     "ws": "^7.5.5"
-  },
-  "devDependencies": {
-    "jest": "^27.2.0"
   }
 }
