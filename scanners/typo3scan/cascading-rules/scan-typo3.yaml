@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "cascading.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "typo3scan-cascade"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: medium
+spec:
+  matches:
+    anyOf:
+      - category: "WEB APPLICATION"
+        attributes:
+          PoweredBy: "TYPO3"
+  scanSpec:
+    scanType: "typo3scan"
+    parameters:
+      - "-d"
+      - "{{{location}}}" # Runs a typo3scan upon the 'location' parameter in whatweb findings
+      # Only show vulnerable extensions
+      - "--vuln"
+      # Set the number of threads to use for enumerating extensions at 10
+      - "--threads"
+      - "10"
