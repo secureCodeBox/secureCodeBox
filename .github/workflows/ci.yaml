@@ -564,8 +564,10 @@ jobs:
           - kubeaudit
           - ncrack
           - nmap
-          - whatweb
           - nikto
+          - typo3scan
+          - whatweb
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -678,7 +680,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           repository: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
           readme-filepath: ./scanners/${{ matrix.scanner }}/docs/README.DockerHub-Scanner.md
-
+          
     # ---- Integration Tests ----
 
   Integration-tests:
@@ -827,6 +829,8 @@ jobs:
           helm -n demo-targets install petstore ./demo-targets/swagger-petstore/ --set="fullnameOverride=petstore" --wait
           # Install old-wordpress app
           helm -n demo-targets install old-wordpress ./demo-targets/old-wordpress/ --set="fullnameOverride=old-wordpress" --wait
+          # Install old-typo3 app
+          helm -n demo-targets install old-typo3 ./demo-targets/old-typo3/ --set="fullnameOverride=old-typo3" --wait
           # Install juiceshop app
           helm -n demo-targets install juiceshop ./demo-targets/juice-shop/ --set="fullnameOverride=juiceshop" --wait
           # Install plain nginx server
@@ -971,6 +975,19 @@ jobs:
             --set-string="parser.env[0].value=true"
           cd tests/integration/
           npx jest --ci --color scanner/sslyze.test.js
+
+      # ---- Typo3scan Integration Tests ----
+
+      - name: "typo3scan Integration Tests"
+        run: |
+          kubectl -n integration-tests delete scans --all
+          helm -n integration-tests install typo3scan ./scanners/typo3scan/  \
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-typo3scan" \
+            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
+            --set-string="parser.env[0].value=true"
+          cd tests/integration/
+          npx jest --ci --color scanner/typo3scan.test.js    
 
       # ---- Whatweb Integration Tests ----
 

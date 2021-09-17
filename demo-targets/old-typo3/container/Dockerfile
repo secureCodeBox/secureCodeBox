@@ -10,9 +10,6 @@ COPY ./typo3conf /var/www/html/typo3conf
 
 RUN chown -R www-data.www-data /var/www/html/typo3conf \
     && chmod +rxw /var/www/html/typo3conf/cms-016d0ef9.sqlite
-# Change to low-privilege user 'www-data'    
-USER 33 
-
 # Login details
   # Username: root
   # Password: supersecret
