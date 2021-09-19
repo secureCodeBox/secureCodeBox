@@ -302,7 +302,6 @@ print "$COLOR_HIGHLIGHT" " \__ \  __/ (__| |_| | | |  __/ |___| (_) | (_| |  __/
 print "$COLOR_HIGHLIGHT" " |___/\___|\___|\__,_|_|  \___|\_____\___/ \__,_|\___|____/ \___/_/\_\       "
 print "$COLOR_HIGHLIGHT" "                                                                             "
 
-parseArguments "$@"
 if [[ -n "${INSTALL_INTERACTIVE}" ]]; then
   welcomeToInteractiveInstall
 fi
