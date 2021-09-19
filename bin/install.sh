@@ -144,7 +144,7 @@ function installResources() {
     fi
   done
 
-  if [[ $unattended == True ]]; then
+  if [[ $unattended == 'true' ]]; then
     for resource in "${resources[@]}"; do
       helm upgrade --install -n "$namespace" "$resource" "$resource_directory"/"$resource"/ \
       || print "$COLOR_ERROR" "Installation of '$resource' failed"
