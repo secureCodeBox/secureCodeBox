@@ -36,7 +36,7 @@ function uninstallResources() {
   done
 
   for resource in "${resources[@]}"; do
-    helm uninstall "$resource_name" -n "$namespace" || true
+    helm uninstall "$resource" -n "$namespace" || true
   done
 }
 
