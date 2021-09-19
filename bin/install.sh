@@ -312,6 +312,6 @@ createNamespaceAndInstallOperator
 
 if [[ -n "${INSTALL_INTERACTIVE}" ]]; then
     interactiveInstall
-  else
+else
     unattendedInstall
 fi
