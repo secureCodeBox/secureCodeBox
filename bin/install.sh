@@ -250,7 +250,7 @@ function unattendedInstall() {
 
 function parseArguments() {
   if [[ $# == 0 ]]; then
-      INSTALL_INTERACTIVE=true
+      INSTALL_INTERACTIVE='true'
       return
   fi
 
