@@ -184,7 +184,7 @@ function welcomeToInteractiveInstall() {
 function interactiveInstall() {
   print
   print "Starting to install demo-targets..."
-  print "Do you want to install the demo apps in a separate namespace? Otherwise they will be installed into the [default] namespace [y/N]"
+  print "Do you want to install the demo targets in a separate namespace? Otherwise they will be installed into the [default] namespace [y/N]"
   read -r line
   NAMESPACE="default"
   if [[ $line == *[Yy] ]]; then
