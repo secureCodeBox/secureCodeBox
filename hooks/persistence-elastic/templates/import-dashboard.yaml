@@ -15,7 +15,7 @@ spec:
       containers:
         - name: dasboard-importer
           image: "{{ .Values.dashboardImporter.image.repository }}:{{ .Values.dashboardImporter.image.tag | default .Chart.Version }}"
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           env:
 {{- if .Values.externalElasticStack.enabled }}      
             - name: KIBANA_URL
