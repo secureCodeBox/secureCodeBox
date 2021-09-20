@@ -4,7 +4,7 @@
 
 # We use a persistent volume for central storing of all nuclei-templates to prevent downloading it for each scan again, enabled by default.
 {{ if .Values.nucleiTemplateCache.enabled }}
-{{- if semverCompare ">=1.21-0" .Capabilities.KubeVersion.GitVersion -}}
+{{- if .Capabilities.APIVersions.Has "batch/v1/CronJob" -}}
 apiVersion: batch/v1
 {{- else -}}
 apiVersion: batch/v1beta1
