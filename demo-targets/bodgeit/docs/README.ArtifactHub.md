@@ -66,7 +66,7 @@ helm upgrade --install bodgeit secureCodeBox/bodgeit
 | affinity | object | `{}` |  |
 | annotations | object | `{}` | add annotations to the deployment, service and pods |
 | fullnameOverride | string | `""` |  |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
+| image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | image.repository | string | `"docker.io/securecodebox/bodgeit"` | Container Image containing the bodgeit |
 | image.tag | string | defaults to the "latest" version because the appVersion tag is not available at docker.io | The image tag |
 | imagePullSecrets | list | `[]` |  |
