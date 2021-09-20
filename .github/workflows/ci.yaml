@@ -346,7 +346,9 @@ jobs:
           path: /tmp
 
       - name: Load Parser SDK Image
-        run: docker load --input /tmp/parser-sdk.tar
+        run: |
+          docker load --input /tmp/parser-sdk.tar
+          docker images | grep sdk
 
       - name: Build
         uses: docker/build-push-action@v2
@@ -446,7 +448,9 @@ jobs:
           path: /tmp
 
       - name: Load Hook SDK Image
-        run: docker load --input /tmp/hook-sdk.tar
+        run: |
+          docker load --input /tmp/hook-sdk.tar
+          docker images | grep sdk
 
       - name: Build and Push
         uses: docker/build-push-action@v2
@@ -530,7 +534,9 @@ jobs:
           path: /tmp
 
       - name: Load Parser SDK Image
-        run: docker load --input /tmp/parser-sdk.tar
+        run: |
+          docker load --input /tmp/parser-sdk.tar
+          docker images | grep sdk
 
       - name: Build and Push
         uses: docker/build-push-action@v2
