@@ -21,8 +21,8 @@ var HttpRequestHeader = Java.type("org.parosproxy.paros.network.HttpRequestHeade
  *
  * - Authentication method: ScriptBased Authentication
  * - Login FORM target URL: https://$keycloak-url/auth/realms/$app/protocol/openid-connect/token
- * - Username Parameter: your-username-to-get-tokens
- * - Password Parameter: your-password-to-get-tokens
+ * - username parameter: your-username-to-get-tokens
+ * - password parameter: your-password-to-get-tokens
  * - Logged out regex: ".*Credentials are required to access this resource.*"
  *
  * NOTE: Any message sent in the function should be obtained using the 'helper.prepareMessage()'
