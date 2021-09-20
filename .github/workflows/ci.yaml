@@ -274,7 +274,7 @@ jobs:
 
       - name: Build Image
         working-directory: ./${{ matrix.sdk }}/nodejs
-	      run: make docker-build-sdk
+        run: make docker-build-sdk
 
       - name: Export Image
         working-directory: ./${{ matrix.sdk }}/nodejs
