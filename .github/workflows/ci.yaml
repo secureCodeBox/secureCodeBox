@@ -339,6 +339,15 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
+      - name: Download Parser SDK Image
+        uses: actions/download-artifact@v2
+        with:
+          name: parser-sdk-image
+          path: /tmp
+
+      - name: Load Parser SDK Image
+        run: docker load --input /tmp/parser-sdk.tar
+
       - name: Build
         uses: docker/build-push-action@v2
         with:
@@ -430,6 +439,15 @@ jobs:
         run: |
           echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
+      - name: Download Hook SDK Image
+        uses: actions/download-artifact@v2
+        with:
+          name: hook-sdk-image
+          path: /tmp
+
+      - name: Load Hook SDK Image
+        run: docker load --input /tmp/hook-sdk.tar
+
       - name: Build and Push
         uses: docker/build-push-action@v2
         with:
@@ -504,6 +522,15 @@ jobs:
       - name: Set baseImageTag to commit hash
         run: |
           echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Download Parser SDK Image
+        uses: actions/download-artifact@v2
+        with:
+          name: parser-sdk-image
+          path: /tmp
+
+      - name: Load Parser SDK Image
+        run: docker load --input /tmp/parser-sdk.tar
 
       - name: Build and Push
         uses: docker/build-push-action@v2
