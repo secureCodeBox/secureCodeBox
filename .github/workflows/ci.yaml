@@ -273,11 +273,11 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build Image
-        working-dir: ./${{ matrix.sdk }}/nodejs
+        working-directory: ./${{ matrix.sdk }}/nodejs
 	      run: make docker-build-sdk
 
       - name: Export Image
-        working-dir: ./${{ matrix.sdk }}/nodejs
+        working-directory: ./${{ matrix.sdk }}/nodejs
         run: make docker-export-sdk
 
       - name: Upload Artifact
