@@ -47,4 +47,4 @@ uninstallResources "$BASE_DIR/scanners" "$SCB_NAMESPACE"
 uninstallResources "$BASE_DIR/hooks" "$SCB_NAMESPACE"
 
 kubectl delete namespaces "$SCB_SYSTEM_NAMESPACE" || true
-printf "Uninstall completed\n"
+echo -e "Uninstall completed"
