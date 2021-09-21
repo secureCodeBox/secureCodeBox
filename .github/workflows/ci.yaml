@@ -359,6 +359,22 @@ jobs:
           kubectl config current-context
           kubectl get node
 
+      - name: Download Operator Image
+        uses: actions/download-artifact@v2
+        with:
+          name: operator-image
+          path: ./operator
+
+      - name: Download Lurker Image
+        uses: actions/download-artifact@v2
+        with:
+          name: lurker-image
+          path: ./operator
+
+      - name: Import Operator & Lurker Image
+        working-directory: ./operator
+        run: make kind-import
+
       - name: Kind Import Images
         working-directory: ./scanners/${{ matrix.unit }}/
         run: make kind-import
