@@ -12,7 +12,7 @@ test(
     const { categories, severities, count } = await scan(
       "trivy-juice-shop",
       "trivy",
-      ["bkimminich/juice-shop:v12.9.0"],
+      ["bkimminich/juice-shop:v10.2.0"],
       90
     );
 
