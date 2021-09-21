@@ -16,19 +16,12 @@ test(
       90
     );
 
-    expect(count).toBe(32);
-    expect(categories).toMatchInlineSnapshot(`
-Object {
-  "NPM Package Vulnerability": 32,
-}
-`);
-    expect(severities).toMatchInlineSnapshot(`
-Object {
-  "high": 22,
-  "low": 1,
-  "medium": 9,
-}
-`);
+    expect(count).toBeGreaterThanOrEqual(134);
+    expect(categories["Image Vulnerability"]).toBeGreaterThanOrEqual(26);
+    expect(categories["NPM Package Vulnerability"]).toBeGreaterThanOrEqual(108);
+    expect(severities["high"]).toBeGreaterThanOrEqual(82);
+    expect(severities["medium"]).toBeGreaterThanOrEqual(47);
+    expect(severities["low"]).toBeGreaterThanOrEqual(5);
   },
   3 * 60 * 1000
 );
