@@ -179,19 +179,11 @@ class ZapConfigureContext(ZapClient):
             userid=user_id, 
             name=user_name)
 
-        # TODO: Open a new issue at ZAP GitHub: Why (or) is this difference (camelCase vs. pascalCase) here really necessary?
-        if auth_type == "script-based":
-            self.get_zap.users.set_authentication_credentials(
-                contextid=context_id,
-                userid=user_id,
-                authcredentialsconfigparams='Username=' + user_name + '&Password=' + user_password)
-            self.get_zap.users.set_user_enabled(contextid=context_id, userid=user_id, enabled=True)
-        else:
-            self.get_zap.users.set_authentication_credentials(
-                contextid=context_id,
-                userid=user_id,
-                authcredentialsconfigparams='username=' + user_name + '&password=' + user_password)
-            self.get_zap.users.set_user_enabled(contextid=context_id, userid=user_id, enabled=True)
+        self.get_zap.users.set_authentication_credentials(
+            contextid=context_id,
+            userid=user_id,
+            authcredentialsconfigparams='username=' + user_name + '&password=' + user_password)
+        self.get_zap.users.set_user_enabled(contextid=context_id, userid=user_id, enabled=True)
 
         if ("forced" in user and user["forced"]):
             logging.debug("Configuring a forced user '%s' with id, for context(%s)'", user_id, context_id)

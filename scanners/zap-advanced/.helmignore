@@ -1,10 +1,38 @@
 # SPDX-FileCopyrightText: 2021 iteratec GmbH
 #
 # SPDX-License-Identifier: Apache-2.0
-
+# Patterns to ignore when building packages.
+# This supports shell glob matching, relative path matching, and
+# negation (prefixed with !). Only one pattern per line.
 .DS_Store
-
-parser/
+# Common VCS dirs
+.git/
+.gitignore
+.bzr/
+.bzrignore
+.hg/
+.hgignore
+.svn/
+# Common backup files
+*.swp
+*.bak
+*.tmp
+*~
+# Various IDEs
+.project
+.idea/
+*.tmproj
+.vscode/
+# Node.js files
+node_modules/*
+package.json
+package-lock.json
+src/*
+config/*
+Dockerfile
+.dockerignore
+*.tar
+parser/*
 # this doesn't look too good but is required so that the scanners/scripts folder is included
 scanner/*.*
 scanner/zapclient/
@@ -12,10 +40,7 @@ scanner/tests/
 scanner/venv/
 scanner/.pytest_cache/
 scanner/.idea/
-examples/
-docs/
-integration-tests/
-coverage/
+integration-tests/*
+examples/*
+docs/*
 Makefile
-
-*.monopic

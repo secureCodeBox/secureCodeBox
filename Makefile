@@ -29,7 +29,18 @@ npm-ci-all: ## Runs npm ci in all node module subfolders.
 
 .PHONY:
 npm-test-all: ## Runs all Jest based test suites.
-	npm test
+	npm test -- --testPathIgnorePatterns "/integration-tests/"
+
+test-all: ## Runs all makefile based test suites.
+	@echo ".: ⚙ Installing the operator for makefile based testing."
+	cd ./operator && $(MAKE) -s docker-build docker-export kind-import helm-deploy
+	@echo ".: ⚙ Running make test for all scanner and hook modules."
+	for dir in scanners/*/ hooks/*/ ; do \
+  	cd $$dir; \
+		echo ".: ⚙ Running make test for '$$dir'."; \
+  	$(MAKE) -s test || exit 1 ; \
+		cd -; \
+	done;
 
 .PHONY:
 help: ## Display this help screen.

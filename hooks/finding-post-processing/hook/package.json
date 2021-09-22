@@ -1,5 +1,5 @@
 {
-"name": "@securecodebox/hook-finding-post-processing",
+  "name": "@securecodebox/hook-finding-post-processing",
   "version": "1.0.0",
   "description": "secureCodeBox Finding Post Processing Hook",
   "main": "hook.js",

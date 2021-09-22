@@ -43,7 +43,7 @@ You can find resources to help you get started on our [documentation website](ht
 ## What is WHATWEB?
 Whatweb identifies websites. It can recognize technology used to build a website, such as content management systems (CMS), JavaScript libraries, web server and much more. This makes whatweb especially interesting to use in a cascading-rules pipeline.
 
-To learn more about the whatweb scanner itself visit [https://morningstarsecurity.com/research/whatweb].
+To learn more about the whatweb scanner itself visit [https://morningstarsecurity.com/research/whatweb](https://morningstarsecurity.com/research/whatweb) or the [GitHub repository](https://github.com/urbanadventurer/WhatWeb).
 
 ## Deployment
 The whatweb chart can be deployed via helm:

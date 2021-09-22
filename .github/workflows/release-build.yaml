@@ -1,0 +1,470 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+name: "Release Build"
+on:
+  release:
+    types: [released]
+
+env:
+  # ---- Language Versions ----
+
+  GO_VERSION: "1.15"
+  PYTHON_VERSION: "3.9"
+  NODE_VERSION: "14"
+  NPM_VERSION: "7"
+
+  # ---- Docker Namespace ----
+
+  # DOCKER_USER and DOCKER_TOKEN are stored as GitHub secrets as well
+  DOCKER_NAMESPACE: ${{ secrets.DOCKER_NAMESPACE }}
+
+jobs:
+
+  # ---- Operator & Lurcher ----
+
+  operator:
+    name: "Build | Operator"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        component: ["operator", "lurker"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Docker Meta
+        id: docker_meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.component }}
+          tags: |
+            type=sha
+            type=semver,pattern={{version}}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./${{ matrix.component }}
+          file: ./${{ matrix.component }}/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+      - name: Update Docker Hub Description
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.component }}
+          readme-filepath: ./${{ matrix.component }}/docs/README.DockerHub-Core.md
+
+  # ---- AutoDiscovery ----
+
+  auto-discovery-kubernetes:
+    name: "AutoDiscovery | Kubernetes"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Docker Meta
+        id: docker_meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.DOCKER_NAMESPACE }}/auto-discovery-kubernetes
+          tags: |
+            type=sha
+            type=semver,pattern={{version}}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./auto-discovery/kubernetes/
+          file: ./auto-discovery/kubernetes/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+      - name: Update Docker Hub Description
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: ${{ env.DOCKER_NAMESPACE }}/auto-discovery-kubernetes
+          readme-filepath: ./auto-discovery/kubernetes/docs/README.DockerHub-Core.md
+
+  # ---- SDK Matrix ----
+
+  sdk:
+    name: "Build | SDKs"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        sdk:
+          - parser-sdk
+          - hook-sdk
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Docker Meta
+        id: docker_meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.sdk }}-nodejs
+          tags: |
+            type=sha
+            type=semver,pattern={{version}}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./${{ matrix.sdk }}/nodejs
+          file: ./${{ matrix.sdk }}/nodejs/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+  # ---- Matrix Hooks ----
+
+  hooks:
+    name: "Build | Hooks"
+    needs: sdk
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        hook:
+          - cascading-scans
+          - finding-post-processing
+          - generic-webhook
+          - notification
+          - persistence-elastic
+          - persistence-defectdojo
+          - update-field
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Docker Meta
+        id: docker_meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.DOCKER_NAMESPACE }}/hook-${{ matrix.hook }}
+          tags: |
+            type=sha
+            type=semver,pattern={{version}}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Set baseImageTag to commit hash
+        run: |
+          echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./hooks/${{ matrix.hook }}/hook
+          file: ./hooks/${{ matrix.hook }}/hook/Dockerfile
+          build-args: |
+            namespace=${{ env.DOCKER_NAMESPACE }}
+            baseImageTag=${{ env.baseImageTag }}
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+      - name: Update Docker Hub Description
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: ${{ env.DOCKER_NAMESPACE }}/hook-${{ matrix.hook }}
+          readme-filepath: ./hooks/${{ matrix.hook }}/docs/README.DockerHub-Hook.md
+
+
+  # ---- Dashboard Importer ----
+
+  dashboardImporter:
+    name: Dashboard Importer
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Docker Meta
+        id: docker_meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.DOCKER_NAMESPACE }}/persistence-elastic-dashboard-importer
+          tags: |
+            type=sha
+            type=semver,pattern={{version}}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./hooks/persistence-elastic/dashboardImporter
+          file: ./hooks/persistence-elastic/dashboardImporter/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+  # ---- Build Stage | Matrix Parsers ----
+
+  parsers:
+    name: "Build | Parsers"
+    needs: sdk
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        parser:
+          - amass
+          - angularjs-csti-scanner
+          - git-repo-scanner
+          - gitleaks
+          - kube-hunter
+          - kubeaudit
+          - ncrack
+          - nikto
+          - nmap
+          - nuclei
+          - screenshooter
+          - ssh-scan
+          - sslyze
+          - test-scan
+          - trivy
+          - whatweb
+          - typo3scan
+          - wpscan
+          - zap
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Docker Meta
+        id: docker_meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.DOCKER_NAMESPACE }}/parser-${{ matrix.parser }}
+          tags: |
+            type=sha
+            type=semver,pattern={{version}}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Set baseImageTag to commit hash
+        run: |
+          echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./scanners/${{ matrix.parser }}/parser
+          file: ./scanners/${{ matrix.parser }}/parser/Dockerfile
+          build-args: |
+            namespace=${{ env.DOCKER_NAMESPACE }}
+            baseImageTag=${{ env.baseImageTag }}
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+      - name: Update Docker Hub Description
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: ${{ env.DOCKER_NAMESPACE }}/parser-${{ matrix.parser }}
+          readme-filepath: ./scanners/${{ matrix.parser }}/docs/README.DockerHub-Parser.md
+
+  # ---- Build | Scanners ----
+
+  # Note we only build images for scanner that don't provider official public container images
+
+  # ---- Build | Scanners | Third Party Scanner ----
+
+  # This Matrix should contain Third Party Scanners
+  # The Tag for the Image should be the current version of the Scanner
+
+  scanners-third-party:
+    name: "Build | Third Party Scanner"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        scanner:
+          - angularjs-csti-scanner
+          - gitleaks
+          - kube-hunter
+          - kubeaudit
+          - ncrack
+          - nmap
+          - nikto
+          - typo3scan
+          - whatweb
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set ENV Var with Scanner Version
+        uses: mikefarah/yq@v4.4.1
+        # Notice: The current version of the scanner is provided via the Chart.yaml to ensure
+        # there is only one place to edit the version of a scanner
+        with:
+          cmd: echo scannerVersion=$(yq e .appVersion scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
+
+      - name: Docker Meta
+        id: docker_meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
+          tags: |
+            type=sha
+            ${{ env.scannerVersion }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./scanners/${{ matrix.scanner }}/scanner
+          file: ./scanners/${{ matrix.scanner }}/scanner/Dockerfile
+          build-args: |
+            scannerVersion=${{ env.scannerVersion }}
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+      - name: Update Docker Hub Description
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
+          readme-filepath: ./scanners/${{ matrix.scanner }}/docs/README.DockerHub-Scanner.md
+
+  # ---- Build | Scanners | Custom Scanner ----
+
+  # This Section contains Scanners that are developed by the secureCodeBox project
+  # The tag for these images will be the Semver of the release
+
+  scanners-custom:
+    name: "Build | Custom Scanner"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        scanner:
+          - git-repo-scanner
+          - screenshooter
+          - test-scan
+          - zap-advanced
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Docker Meta
+        id: docker_meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
+          tags: |
+            type=sha
+            type=semver,pattern={{version}}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Set baseImageTag to commit hash
+        run: |
+          echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./scanners/${{ matrix.scanner }}/scanner
+          file: ./scanners/${{ matrix.scanner }}/scanner/Dockerfile
+          build-args: |
+            baseImageTag=${{ env.baseImageTag }}
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+      - name: Update Docker Hub Description
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
+          readme-filepath: ./scanners/${{ matrix.scanner }}/docs/README.DockerHub-Scanner.md

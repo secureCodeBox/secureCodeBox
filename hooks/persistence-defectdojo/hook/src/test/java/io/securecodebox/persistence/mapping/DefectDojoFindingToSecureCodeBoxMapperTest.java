@@ -33,7 +33,7 @@ class DefectDojoFindingToSecureCodeBoxMapperTest {
 
   @BeforeEach
   public void setup(){
-    var config = new DefectDojoConfig("http://example.defectdojo.com", "placeholder", "placeholder");
+    var config = new DefectDojoConfig("http://example.defectdojo.com", "placeholder", "placeholder", 1000);
     this.mapper = new DefectDojoFindingToSecureCodeBoxMapper(config, endpointService);
   }
 
