@@ -161,12 +161,12 @@ jobs:
 
       - name: Docker Meta
         id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v1
+        uses: docker/metadata-action@v3
         with:
           images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.component }}
-          tag-sha: true
-          tag-semver: |
-            {{ version }}
+          tags: |
+            type=sha
+            type=semver,pattern={{version}}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -221,12 +221,12 @@ jobs:
 
       - name: Docker Meta
         id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v1
+        uses: docker/metadata-action@v3
         with:
           images: ${{ env.DOCKER_NAMESPACE }}/auto-discovery-kubernetes
-          tag-sha: true
-          tag-semver: |
-            {{ version }}
+          tags: |
+            type=sha
+            type=semver,pattern={{version}}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -274,12 +274,12 @@ jobs:
 
       - name: Docker Meta
         id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v1
+        uses: docker/metadata-action@v3
         with:
           images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.sdk }}-nodejs
-          tag-sha: true
-          tag-semver: |
-            {{ version }}
+          tags: |
+            type=sha
+            type=semver,pattern={{version}}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -337,12 +337,12 @@ jobs:
 
       - name: Docker Meta
         id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v1
+        uses: docker/metadata-action@v3
         with:
           images: ${{ env.DOCKER_NAMESPACE }}/parser-${{ matrix.unit }}
-          tag-sha: true
-          tag-semver: |
-            {{ version }}
+          tags: |
+            type=sha
+            type=semver,pattern={{version}}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -424,12 +424,12 @@ jobs:
 
       - name: Docker Meta
         id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v1
+        uses: docker/metadata-action@v3
         with:
           images: ${{ env.DOCKER_NAMESPACE }}/hook-${{ matrix.hook }}
-          tag-sha: true
-          tag-semver: |
-            {{ version }}
+          tags: |
+            type=sha
+            type=semver,pattern={{version}}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -499,12 +499,12 @@ jobs:
 
       - name: Docker Meta
         id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v1
+        uses: docker/metadata-action@v3
         with:
           images: ${{ env.DOCKER_NAMESPACE }}/parser-${{ matrix.parser }}
-          tag-sha: true
-          tag-semver: |
-            {{ version }}
+          tags: |
+            type=sha
+            type=semver,pattern={{version}}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -581,12 +581,12 @@ jobs:
 
       - name: Docker Meta
         id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v1
+        uses: docker/metadata-action@v3
         with:
           images: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
-          tag-sha: true
-          tag-custom-only: true
-          tag-custom: ${{ env.scannerVersion }}
+          tags: |
+            type=sha
+            ${{ env.scannerVersion }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -641,12 +641,12 @@ jobs:
 
       - name: Docker Meta
         id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v1
+        uses: docker/metadata-action@v3
         with:
           images: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
-          tag-sha: true
-          tag-semver: |
-            {{ version }}
+          tags: |
+            type=sha
+            type=semver,pattern={{version}}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -975,6 +975,19 @@ jobs:
             --set-string="parser.env[0].value=true"
           cd tests/integration/
           npx jest --ci --color scanner/sslyze.test.js
+
+      # ---- Trivy Integration Tests ----
+
+      - name: "trivy Integration Tests"
+        run: |
+          kubectl -n integration-tests delete scans --all
+          helm -n integration-tests install trivy ./scanners/trivy/  \
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-trivy" \
+            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
+            --set-string="parser.env[0].value=true"
+          cd tests/integration/
+          npx jest --ci --color scanner/trivy.test.js
 
       # ---- Typo3scan Integration Tests ----
 

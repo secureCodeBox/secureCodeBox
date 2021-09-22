@@ -33,7 +33,13 @@ Dockerfile
 .dockerignore
 *.tar
 parser/*
-scanner/*
+# this doesn't look too good but is required so that the scanners/scripts folder is included
+scanner/*.*
+scanner/zapclient/
+scanner/tests/
+scanner/venv/
+scanner/.pytest_cache/
+scanner/.idea/
 integration-tests/*
 examples/*
 docs/*
