@@ -10,7 +10,7 @@ async function parse(findings) {
   }
   // Check if debug mode is enabled ; if yes add finding
   let parsed_debug_mode_enabled = []
-  if (("joomla_debug_mode" in findings) && (findings.joomla_debug_mode == "enabled")) {
+  if (findings.joomla_debug_mode == "enabled") {
     parsed_debug_mode_enabled = {
       name: "Debug mode",
       description: `Debug mode is enabled on the site`,
@@ -23,7 +23,7 @@ async function parse(findings) {
 
   // Check if backup files are open; if yes add finding
   let parsed_backupFiles = []
-  if (("joomla_backup_files" in findings) && (findings.joomla_backup_files.length > 0)) {
+  if ("joomla_backup_files" in findings) {
     parsed_backupFiles = {
       name: "Backup files",
       description: `Visible Backup files found`,
@@ -55,8 +55,6 @@ async function parse(findings) {
     });
   }
   // concat all parsed results
-  results = parsed_vulnerabilities.concat(parsed_backupFiles).concat(parsed_debug_mode_enabled)
-
-  return results
+  return parsed_vulnerabilities.concat(parsed_backupFiles).concat(parsed_debug_mode_enabled)
 }
 module.exports.parse = parse;
