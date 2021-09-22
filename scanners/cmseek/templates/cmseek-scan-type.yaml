@@ -22,7 +22,7 @@ spec:
             - name: cmseek
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
               command:
-                - "/bin/sh/
+                - "/bin/sh/"
                 - "/home/cmseek/wrapper.sh"
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
