@@ -5,7 +5,8 @@
 image:
   repository: securecodebox/auto-discovery-kubernetes
   tag: null
-  pullPolicy: Always
+  # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
+  pullPolicy: IfNotPresent
 
 config:
   # config is using kubebuilder config framework, it may look like this is a crd but its not, see https://book.kubebuilder.io/component-config-tutorial/tutorial.html
