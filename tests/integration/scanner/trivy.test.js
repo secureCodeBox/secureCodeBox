@@ -16,12 +16,12 @@ test(
       90
     );
 
-    expect(count).toBeGreaterThanOrEqual(134);
-    expect(categories["Image Vulnerability"]).toBeGreaterThanOrEqual(26);
-    expect(categories["NPM Package Vulnerability"]).toBeGreaterThanOrEqual(108);
-    expect(severities["high"]).toBeGreaterThanOrEqual(82);
-    expect(severities["medium"]).toBeGreaterThanOrEqual(47);
-    expect(severities["low"]).toBeGreaterThanOrEqual(5);
+    expect(count).toBeGreaterThanOrEqual(40);
+    expect(categories["Image Vulnerability"]).toBeGreaterThanOrEqual(10);
+    expect(categories["NPM Package Vulnerability"]).toBeGreaterThanOrEqual(30);
+    expect(severities["high"]).toBeGreaterThanOrEqual(20);
+    expect(severities["medium"]).toBeGreaterThanOrEqual(10);
+    expect(severities["low"]).toBeGreaterThanOrEqual(1);
   },
   3 * 60 * 1000
 );
