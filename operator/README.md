@@ -76,10 +76,10 @@ helm install securecodebox-operator secureCodeBox/operator
 | customCACertificate | object | `{"certificate":"public.crt","existingCertificate":null}` | Setup for Custom CA certificates. These are automatically mounted into every secureCodeBox component (lurker, parser & hooks). Requires that every namespace has a configmap with the CA certificate(s) |
 | customCACertificate.certificate | string | `"public.crt"` | key in the configmap holding the certificate(s) |
 | customCACertificate.existingCertificate | string | `nil` | name of the configMap holding the ca certificate(s), needs to be the same across all namespaces |
-| image.pullPolicy | string | `"Always"` | Image pull policy |
+| image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | image.repository | string | `"docker.io/securecodebox/operator"` | The operator image repository |
 | image.tag | string | defaults to the charts version | Parser image tag |
-| lurker.image.pullPolicy | string | `"Always"` | Image pull policy |
+| lurker.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | lurker.image.repository | string | `"docker.io/securecodebox/lurker"` | The operator image repository |
 | lurker.image.tag | string | defaults to the charts version | Parser image tag |
 | minio.defaultBucket.enabled | bool | `true` |  |
