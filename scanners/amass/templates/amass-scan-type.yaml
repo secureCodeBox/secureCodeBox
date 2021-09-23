@@ -17,12 +17,16 @@ spec:
       ttlSecondsAfterFinished: {{ .Values.scanner.ttlSecondsAfterFinished }}
       {{- end }}
       backoffLimit: {{ .Values.scanner.backoffLimit }}
+      {{- if .Values.scanner.activeDeadlineSeconds }}
+      activeDeadlineSeconds: {{ .Values.scanner.activeDeadlineSeconds }}
+      {{- end }}
       template:
         spec:
           restartPolicy: OnFailure
           containers:
             - name: amass
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
               command:
                 - "amass"
                 - "enum"
