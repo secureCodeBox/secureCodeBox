@@ -8,6 +8,8 @@ metadata:
   name: "cmseek-json"
 spec:
   image: "{{ .Values.parser.image.repository }}:{{ .Values.parser.image.tag | default .Chart.Version }}"
+  imagePullPolicy: {{ .Values.parser.image.pullPolicy }}
+  
   ttlSecondsAfterFinished: {{ .Values.parser.ttlSecondsAfterFinished }}
   env: 
     {{- toYaml .Values.parser.env | nindent 4 }}

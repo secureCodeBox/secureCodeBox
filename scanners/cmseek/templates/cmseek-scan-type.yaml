@@ -15,12 +15,16 @@ spec:
       ttlSecondsAfterFinished: {{ .Values.scanner.ttlSecondsAfterFinished }}
       {{- end }}
       backoffLimit: {{ .Values.scanner.backoffLimit }}
+      {{- if .Values.scanner.activeDeadlineSeconds }}
+      activeDeadlineSeconds: {{ .Values.scanner.activeDeadlineSeconds }}
+      {{- end }}
       template:
         spec:
           restartPolicy: Never
           containers:
             - name: cmseek
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
               command:
                 - "/bin/sh/"
                 - "/home/cmseek/wrapper.sh"
