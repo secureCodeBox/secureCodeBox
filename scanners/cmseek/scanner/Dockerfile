@@ -32,4 +32,4 @@ RUN mkdir /home/cmseek/Result
 # Install Typo3Scan python requirements
 RUN python3 -m pip install -r requirements.txt
 
-ENTRYPOINT [ "/bin/sh", "/home/cmseek/wrapper.sh" ]
+ENTRYPOINT [ "sh", "/home/cmseek/wrapper.sh" ]
