@@ -14,6 +14,7 @@ image:
   # image.tag -- The image tag
   # @default -- defaults to the latest version because the appVersion tag is not available at docker.io
   tag: latest
+  # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
