@@ -110,6 +110,7 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 
 		// construct a map of labels which can be used to lookup the scheduledScan created for this service
 		versionedLabels := map[string]string{
+			"app.kubernetes.io/managed-by":                   "securecodebox-autodiscovery",
 			"auto-discovery.securecodebox.io/target-service": service.Name,
 			"auto-discovery.securecodebox.io/target-port":    fmt.Sprintf("%d", host.Port),
 		}
@@ -147,13 +148,12 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 				Spec: generateScanSpec(r.Config, r.Config.ServiceAutoDiscoveryConfig.ScanConfig, host, service, namespace),
 			}
 
+			// Ensure ScanType actually exists
 			scanTypeName := r.Config.ServiceAutoDiscoveryConfig.ScanConfig.ScanType
 			scanType := executionv1.ScanType{}
-
-			// Ensure ScanType actually exists
 			err := r.Get(ctx, types.NamespacedName{Name: scanTypeName, Namespace: service.Namespace}, &scanType)
 			if errors.IsNotFound(err) {
-				log.Info("Namespace requires ScanType '"+scanTypeName+"' to properly start automatic scans.", "namespace", service.Namespace, "service", service.Name)
+				log.Info("Namespace requires configured ScanType to properly start automatic scans.", "namespace", service.Namespace, "service", service.Name, "scanType", scanTypeName)
 				// Add event to service to communicate failure to user
 				r.Recorder.Event(&service, "Warning", "ScanTypeMissing", "Namespace requires ScanType '"+scanTypeName+"' to properly start automatic scans.")
 
@@ -168,6 +168,10 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 					RequeueAfter: requeueInterval,
 				}, err
 			}
+
+			// calculate scanType hash to be able to automatically restart the scan when it's config was changed
+			scanTypeHash := util.HashScanType(scanType)
+			scan.ObjectMeta.Annotations["checksum.auto-discovery.securecodebox.io/scantype"] = fmt.Sprint(scanTypeHash)
 
 			err = r.Create(ctx, &scan)
 			if err != nil {
@@ -191,14 +195,11 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 					Requeue: true,
 				}, err
 			}
-			// create a new faked lastScheduledTime in the past to force the scheduledScan to be repeated immediately
-			// past timestamp is calculated by subtracting the repeat Interval and 24 hours to ensure that it will work even when the auto-discovery and scheduledScan controller have a clock skew
-			fakedLastSchedule := metav1.Time{Time: time.Now().Add(-r.Config.ServiceAutoDiscoveryConfig.ScanConfig.RepeatInterval.Duration - 24*time.Hour)}
-			log.V(8).Info("Setting LastScheduledTime to the past to rescan it now", "PreviousLastScheduleTime", previousScan.Status.LastScheduleTime, "NewLastScheduleTime", fakedLastSchedule)
-			previousScan.Status.LastScheduleTime = &fakedLastSchedule
-			r.Status().Update(ctx, &previousScan)
+
+			log.V(8).Info("Restarting existing scheduledScan", "service", service.Name, "namespace", service.Namespace, "scheduledScan", previousScan.Name)
+			err = restartScheduledScan(ctx, r.Status(), previousScan)
 			if err != nil {
-				log.Error(err, "Failed to create ScheduledScan", "service", service.Name)
+				log.Error(err, "Failed restart ScheduledScan", "service", service.Name, "namespace", service.Namespace, "scheduledScan", previousScan.Name)
 				return ctrl.Result{
 					Requeue: true,
 				}, err

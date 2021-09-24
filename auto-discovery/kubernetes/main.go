@@ -78,6 +78,16 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "ScheduledScan")
 		os.Exit(1)
 	}
+	if err = (&controllers.ScanTypeReconciler{
+		Client:   mgr.GetClient(),
+		Recorder: mgr.GetEventRecorderFor("ScanTypeController"),
+		Log:      ctrl.Log.WithName("controllers").WithName("ScanTypeController"),
+		Scheme:   mgr.GetScheme(),
+		Config:   ctrlConfig,
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "ScanTypeController")
+		os.Exit(1)
+	}
 
 	//+kubebuilder:scaffold:builder
 
