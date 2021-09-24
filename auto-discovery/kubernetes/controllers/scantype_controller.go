@@ -80,6 +80,7 @@ func (r *ScanTypeReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 					RequeueAfter: r.Config.ServiceAutoDiscoveryConfig.PassiveReconcileInterval.Duration,
 				}, err
 			}
+			r.Recorder.Event(&scheduledScan, "Normal", "Retriggered", "ScheduledScan was retriggered beforehand, as the underlying scanType was updated.")
 		} else {
 			log.V(0).Info("ScanType and ScheduledScan Checksum match. No reason to restart the ScheduledScan", "checksumForScheduledScan", scheduledScanChecksum, "currentScanTypeHash", currentScanTypeHash, "scheduledScan", scheduledScan.Name, "namespace", scheduledScan.Namespace, "scanType", scanType.Name)
 		}
