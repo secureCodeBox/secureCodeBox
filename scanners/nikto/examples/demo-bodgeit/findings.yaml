@@ -7,119 +7,95 @@
     "name": "The anti-clickjacking X-Frame-Options header is not present.",
     "description": null,
     "category": "X-Frame-Options Header",
-    "location": "http://bodgeit/",
+    "location": "http://bodgeit",
     "osi_layer": "NETWORK",
     "severity": "LOW",
     "attributes": {
-      "ip_address": "10.105.36.237",
+      "ip_address": "10.100.171.235",
       "hostname": "bodgeit",
-      "banner": "Apache-Coyote/1.1",
+      "banner": "",
       "method": "GET",
       "port": 8080,
-      "niktoId": 999957
+      "niktoId": 999957,
+      "references": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options"
     },
-    "id": "9fc0b231-3a91-4976-ad59-35d59a585a38"
+    "id": "c8632fdf-0afd-45df-a71c-9eb5bf988c2b",
+    "parsed_at": "2021-08-30T15:03:12.577Z"
   },
   {
-    "name": "The X-XSS-Protection header is not defined. This header can hint to the user agent to protect against some forms of XSS",
+    "name": "The anti-clickjacking X-Frame-Options header is not present.",
     "description": null,
-    "category": "X-XSS-Protection",
-    "location": "http://bodgeit/",
+    "category": "X-Frame-Options Header",
+    "location": "http://bodgeit",
     "osi_layer": "NETWORK",
     "severity": "LOW",
     "attributes": {
-      "ip_address": "10.105.36.237",
+      "ip_address": "10.100.171.235",
       "hostname": "bodgeit",
-      "banner": "Apache-Coyote/1.1",
+      "banner": "",
       "method": "GET",
       "port": 8080,
-      "niktoId": 999102
+      "niktoId": 999957,
+      "references": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options"
     },
-    "id": "fd763ddc-beaf-4bb0-91f6-334fadfaad03"
+    "id": "428ddc0f-e852-4ae3-afaf-3107fd57e3c3",
+    "parsed_at": "2021-08-30T15:03:12.577Z"
   },
   {
-    "name": "The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type",
+    "name": "The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type.",
     "description": null,
     "category": "X-Content-Type-Options Header",
-    "location": "http://bodgeit/",
+    "location": "http://bodgeit",
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
     "attributes": {
-      "ip_address": "10.105.36.237",
+      "ip_address": "10.100.171.235",
       "hostname": "bodgeit",
-      "banner": "Apache-Coyote/1.1",
+      "banner": "",
       "method": "GET",
       "port": 8080,
-      "niktoId": 999103
+      "niktoId": 999103,
+      "references": "https://www.netsparker.com/web-vulnerability-scanner/vulnerabilities/missing-content-type-header/"
     },
-    "id": "08fc1392-6da9-4d57-beb2-dc7f72bea503"
+    "id": "49f31cc3-0a73-4460-9428-e0b85b251690",
+    "parsed_at": "2021-08-30T15:03:12.577Z"
   },
   {
-    "name": "/favicon.ico file identifies this app/server as: Apache Tomcat (possibly 5.5.26 through 8.0.15), Alfresco Community",
+    "name": "The anti-clickjacking X-Frame-Options header is not present.",
     "description": null,
-    "category": "Identified Software",
-    "location": "http://bodgeit/favicon.ico",
+    "category": "X-Frame-Options Header",
+    "location": "http://bodgeit",
     "osi_layer": "NETWORK",
-    "severity": "INFORMATIONAL",
+    "severity": "LOW",
     "attributes": {
-      "ip_address": "10.105.36.237",
+      "ip_address": "10.100.171.235",
       "hostname": "bodgeit",
-      "banner": "Apache-Coyote/1.1",
+      "banner": "",
       "method": "GET",
       "port": 8080,
-      "niktoId": 500645
+      "niktoId": 999957,
+      "references": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options"
     },
-    "id": "4a6b694c-b0ac-465e-929e-8e67cbded3a8"
+    "id": "fecf8260-fce3-4653-b9ac-89944f5a74fb",
+    "parsed_at": "2021-08-30T15:03:12.577Z"
   },
   {
-    "name": "Allowed HTTP Methods: GET, HEAD, POST, PUT, DELETE, OPTIONS",
+    "name": "The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type.",
     "description": null,
-    "category": "Nikto Finding",
-    "location": "http://bodgeit/",
+    "category": "X-Content-Type-Options Header",
+    "location": "http://bodgeit",
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
     "attributes": {
-      "ip_address": "10.105.36.237",
+      "ip_address": "10.100.171.235",
       "hostname": "bodgeit",
-      "banner": "Apache-Coyote/1.1",
-      "method": "OPTIONS",
-      "port": 8080,
-      "niktoId": 999990
-    },
-    "id": "7fe0661b-1eac-4e7c-ad02-0fa5b293700c"
-  },
-  {
-    "name": "HTTP method ('Allow' Header): 'PUT' method could allow clients to save files on the web server.",
-    "description": null,
-    "category": "Nikto Finding",
-    "location": "http://bodgeit/",
-    "osi_layer": "NETWORK",
-    "severity": "INFORMATIONAL",
-    "attributes": {
-      "ip_address": "10.105.36.237",
-      "hostname": "bodgeit",
-      "banner": "Apache-Coyote/1.1",
+      "banner": "",
       "method": "GET",
       "port": 8080,
-      "niktoId": 400001
+      "niktoId": 999103,
+      "references": "https://www.netsparker.com/web-vulnerability-scanner/vulnerabilities/missing-content-type-header/"
     },
-    "id": "f63b2cd6-cb19-43f5-a086-c5084e8b8e2b"
-  },
-  {
-    "name": "HTTP method ('Allow' Header): 'DELETE' may allow clients to remove files on the web server.",
-    "description": null,
-    "category": "Nikto Finding",
-    "location": "http://bodgeit/",
-    "osi_layer": "NETWORK",
-    "severity": "INFORMATIONAL",
-    "attributes": {
-      "ip_address": "10.105.36.237",
-      "hostname": "bodgeit",
-      "banner": "Apache-Coyote/1.1",
-      "method": "GET",
-      "port": 8080,
-      "niktoId": 400000
-    },
-    "id": "237ff776-7fc1-4509-b51e-d916b3951422"
+    "id": "6cdb06d1-0229-41d7-b6dc-dd71f203ca0e",
+    "parsed_at": "2021-08-30T15:03:12.577Z"
   }
 ]
