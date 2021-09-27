@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "cascading.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "cmseek-cascade"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: medium
+spec:
+  matches:
+    anyOf:
+      - category: "WEB APPLICATION"
+        attributes:
+         MetaGenerator: "Joomla! - Open Source Content Management" 
+  scanSpec:
+    scanType: "cmseek"
+    parameters:
+      - "-u"
+      - "{{{location}}}" # Runs a cmseek scan upon the 'location' parameter in whatweb findings
