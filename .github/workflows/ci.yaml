@@ -172,6 +172,7 @@ jobs:
         with:
           name: ${{ matrix.component }}-image
           path: ./operator/${{ matrix.component }}.tar
+          retention-days: 1
 
   # ---- Build Stage | AutoDiscovery ----
 
