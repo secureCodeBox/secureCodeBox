@@ -23,19 +23,21 @@ test(
       90
     );
 
-    expect(count).toBeGreaterThanOrEqual(6);
+    expect(count).toBe(91);
     expect(categories).toMatchInlineSnapshot(`
       Object {
-        "Identified Software": 1,
-        "Nikto Finding": 3,
-        "X-Content-Type-Options Header": 1,
-        "X-Frame-Options Header": 1,
+        "Identified Software": 11,
+        "Nikto Finding": 27,
+        "Potential Vulnerability": 28,
+        "X-Content-Type-Options Header": 12,
+        "X-Frame-Options Header": 13,
       }
     `);
     expect(severities).toMatchInlineSnapshot(`
       Object {
-        "informational": 5,
-        "low": 1,
+        "high": 28,
+        "informational": 50,
+        "low": 13,
       }
     `);
   },
