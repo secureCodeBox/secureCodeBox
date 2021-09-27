@@ -285,6 +285,7 @@ jobs:
         with:
           name: ${{ matrix.sdk }}-image
           path: ./${{ matrix.sdk }}/nodejs/${{ matrix.sdk }}.tar
+          retention-days: 1
 
   # ---- New Makefile based CI Pipeline steps ----
 
