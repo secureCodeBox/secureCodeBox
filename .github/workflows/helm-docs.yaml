@@ -39,11 +39,10 @@ jobs:
 
           sudo mv helm-docs /usr/local/bin/helm-docs
 
-      - name: Generate Helm Docs
+      - name: Generate README
         run: |
           # Generate README.md based on Chart.yaml and template
-          helm-docs --template-files=./.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./.helm-docs/README.md.gotmpl
-
+          make readme
       - name: Generate Demo-Apps Docs
         run: |
           # Start in the hooks folder
