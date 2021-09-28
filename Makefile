@@ -144,6 +144,9 @@ demo-apps-docs:
 	)
 	done
 
+.PHONY: docs
+docs: readme hook-docs scanner-docs operator-docs auto-discovery-docs demo-apps-docs
+
 .PHONY:
 help: ## Display this help screen.
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
