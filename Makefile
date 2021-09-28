@@ -110,6 +110,18 @@ operator-docs:
 		echo "Ignoring Docs creation process for Chart $$dir, because no `docs` folder found at: operator/docs"
 	fi
 
+.PHONY: auto-discovery-docs
+.ONESHELL:
+auto-discovery-docs:
+	cd auto-discovery/kubernetes
+	if [ -d "docs" ]; then
+		echo "Docs Folder found at: auto-discovery/kubernetes/docs"
+		helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Core.md.gotmpl --output-file=docs/README.DockerHub-Core.md
+		helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
+	else
+		echo "Ignoring Docs creation process for Chart $dir, because no `docs` folder found at: auto-discovery/kubernetes/docs"
+	fi
+
 .PHONY:
 help: ## Display this help screen.
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
