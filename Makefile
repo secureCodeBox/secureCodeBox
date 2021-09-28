@@ -122,6 +122,27 @@ auto-discovery-docs:
 		echo "Ignoring Docs creation process for Chart $dir, because no `docs` folder found at: auto-discovery/kubernetes/docs"
 	fi
 
+.PHONY: demo-apps-docs
+.ONESHELL:
+demo-apps-docs:
+	# Start in the hooks folder
+	cd demo-targets
+	# https://github.com/koalaman/shellcheck/wiki/SC2044
+	find . -type f -name Chart.yaml -print0 | while IFS= read -r -d '' chart; do
+	(
+		dir="$(dirname "${chart}")"
+		echo "Processing Helm Chart in $dir"
+		cd "${dir}" || exit
+		if [ -d "docs" ]; then
+				echo "Docs Folder found at: ${dir}/docs"
+				helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Target.md.gotmpl --output-file=docs/README.DockerHub-Target.md
+				helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
+		else
+				echo "Ignoring Docs creation process for Chart $dir, because no `docs` folder found at: ${dir}/docs"
+		fi
+	)
+	done
+
 .PHONY:
 help: ## Display this help screen.
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
