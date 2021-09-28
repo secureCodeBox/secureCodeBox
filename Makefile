@@ -43,6 +43,11 @@ test-all: ## Runs all makefile based test suites.
 	done;
 
 .PHONY:
+readme:
+	@echo ".: ⚙ Generate Helm Docs."
+	helm-docs --template-files=./.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./.helm-docs/README.md.gotmpl
+
+.PHONY:
 help: ## Display this help screen.
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
