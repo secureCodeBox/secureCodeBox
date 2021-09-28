@@ -473,6 +473,30 @@ jobs:
           repository: ${{ env.DOCKER_NAMESPACE }}/hook-${{ matrix.hook }}
           readme-filepath: ./hooks/${{ matrix.hook }}/docs/README.DockerHub-Hook.md
 
+  # ---- Build Dashboard Importer ----
+
+  dashboardImporter:
+    name: Dashboard Importer
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build Image
+        working-directory: ./hooks/persistence-elastic/dashboardImporter
+        run: docker build -t ${{ env.DOCKER_NAMESPACE }}/persistence-elastic-dashboard-importer:$(git rev-parse --short HEAD) .
+
+      - name: Export Image
+        working-directory: ./hooks/persistence-elastic/dashboardImporter
+        run: docker save ${{ env.DOCKER_NAMESPACE }}/persistence-elastic-dashboard-importer:$(git rev-parse --short HEAD) -o dashboardImporter.tar
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: dashboardImporter-image
+          path: ./hooks/persistence-elastic/dashboardImporter/dashboardImporter.tar
+          retention-days: 1
+
   # ---- Build Stage | Matrix Parsers ----
 
   parsers:
