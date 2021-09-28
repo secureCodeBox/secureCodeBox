@@ -43,6 +43,20 @@ test-all: ## Runs all makefile based test suites.
 	done;
 
 .PHONY:
+create-new-scanner: ## Creates templates for a new scanner, pass NAME=NEW-SCANNER
+ifdef NAME
+	@mkdir scanners/$(NAME) ; \
+	rsync -a ./.templates/new-scanner/ ./scanners/$(NAME) ; \
+	echo "Copyied template files to new directory ./scanners/$(NAME)"; \
+	cd scanners/$(NAME) ; \
+	find . -type f -exec sed -i 's/new-scanner/$(NAME)/g' {} + ; \
+	mv "./templates/new-scanner-parse-definition.yaml" "templates/$(NAME)-parse-definition.yaml" ; \
+	mv "./templates/new-scanner-scan-type.yaml" "templates/$(NAME)-scan-type.yaml" ;
+else
+	@echo "Scanner name not defined, please provide via make create-new-scanner NAME=NEW-SCANNER";
+endif
+
+.PHONY:
 help: ## Display this help screen.
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
