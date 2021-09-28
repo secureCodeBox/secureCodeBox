@@ -44,6 +44,7 @@ test-all: ## Runs all makefile based test suites.
 
 .PHONY:
 readme:
+	# Generate README.md based on Chart.yaml and template
 	@echo ".: ⚙ Generate Helm Docs."
 	helm-docs --template-files=./.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./.helm-docs/README.md.gotmpl
 

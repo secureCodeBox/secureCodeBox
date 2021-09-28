@@ -41,15 +41,14 @@ jobs:
 
       - name: Generate README
         run: |
-          # Generate README.md based on Chart.yaml and template
           make readme
       - name: Generate Demo-Apps Docs
         run: make demo-apps-docs
 
-      - name: Generate Docker Hooks Docs
+      - name: Generate Hooks Docs
         run: make hook-docs
 
-      - name: Generate Docker Scanner Docs
+      - name: Generate Scanner Docs
         run: make scanner-docs
 
       - name: Generate Operator Docs
