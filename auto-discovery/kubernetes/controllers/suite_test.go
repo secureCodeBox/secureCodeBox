@@ -99,14 +99,6 @@ var _ = BeforeSuite(func() {
 		Config:   config,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
-	err = (&ScanTypeReconciler{
-		Client:   k8sManager.GetClient(),
-		Scheme:   k8sManager.GetScheme(),
-		Recorder: k8sManager.GetEventRecorderFor("ScanTypeController"),
-		Log:      ctrl.Log.WithName("controllers").WithName("ScanTypeController"),
-		Config:   config,
-	}).SetupWithManager(k8sManager)
-	Expect(err).ToNot(HaveOccurred())
 
 	go func() {
 		err = k8sManager.Start(ctrl.SetupSignalHandler())

@@ -171,10 +171,6 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 				}, err
 			}
 
-			// calculate scanType hash to be able to automatically restart the scan when it's config was changed
-			scanTypeHash := util.HashScanType(scanType)
-			scan.ObjectMeta.Annotations["checksum.auto-discovery.securecodebox.io/scantype"] = fmt.Sprint(scanTypeHash)
-
 			err = r.Create(ctx, &scan)
 			if err != nil {
 				log.Error(err, "Failed to create ScheduledScan", "service", service.Name)
