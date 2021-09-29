@@ -112,7 +112,12 @@ Kubernetes: `>=v1.11.0-0`
 | scanner.image.tag | string | `"latest@sha256:d6f41c2c328223931b97a4ae5d35d3bb91b5c8d91871ced3d2e0cde06b1edf1f"` | defaults to the charts appVersion |
 | scanner.nameAppend | string | `nil` | append a string to the default scantype name. |
 | scanner.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
-| scanner.securityContext | object | `{}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
+| scanner.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"privileged":false,"readOnlyRootFilesystem":true,"runAsNonRoot":true}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
+| scanner.securityContext.allowPrivilegeEscalation | bool | `false` | Ensure that users privileges cannot be escalated |
+| scanner.securityContext.capabilities.drop[0] | string | `"all"` | This drops all linux privileges from the container. |
+| scanner.securityContext.privileged | bool | `false` | Ensures that the scanner container is not run in privileged mode |
+| scanner.securityContext.readOnlyRootFilesystem | bool | `true` | Prevents write access to the containers file system |
+| scanner.securityContext.runAsNonRoot | bool | `true` | Enforces that the scanner image is run as a non root user |
 | scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 
 ## License
