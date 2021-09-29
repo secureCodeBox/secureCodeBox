@@ -4,29 +4,29 @@
 
 parser:
   image:
-    # -- Parser image repository
+    # parser.image.repository -- Parser image repository
     repository: docker.io/securecodebox/parser-nuclei
-    # -- Parser image tag
+    # parser.image.tag -- Parser image tag
     # @default -- defaults to the charts version
     tag: null
     # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
     pullPolicy: IfNotPresent
 
-  # -- seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+  # parser.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
   ttlSecondsAfterFinished: null
-  # -- Optional environment variables mapped into each parseJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
+  # parser.env -- Optional environment variables mapped into each parseJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
   env: []
 
 scanner:
   image:
-    # -- Container Image to run the scan
+    # scanner.image.repository -- Container Image to run the scan
     repository: docker.io/projectdiscovery/nuclei
-    # -- defaults to the charts version
-    tag: latest
+    # scanner.image.tag -- defaults to the charts appVersion
+    tag: null
     # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
     pullPolicy: IfNotPresent
 
-  # -- append a string to the default scantype name.
+  # scanner.nameAppend -- append a string to the default scantype name.
   nameAppend: null
 
   # -- seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
@@ -37,7 +37,7 @@ scanner:
   # @default -- 3
   backoffLimit: 3
 
-  # -- CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)
+  # scanner.resources -- CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)
   resources: {}
   #   resources:
   #     requests:
@@ -47,20 +47,32 @@ scanner:
   #       memory: "512Mi"
   #       cpu: "500m"
 
-  # -- Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
+  # scanner.env -- Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
   env: []
 
-  # -- Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
+  # scanner.extraVolumes -- Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
   extraVolumes: []
 
-  # -- Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
+  # scanner.extraVolumeMounts -- Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
   extraVolumeMounts: []
 
-  # -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
+  # scanner.extraContainers -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
   extraContainers: []
 
-  # -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
-  securityContext: {}
+  # scanner.securityContext -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+  securityContext:
+    # scanner.securityContext.runAsNonRoot -- Enforces that the scanner image is run as a non root user
+    runAsNonRoot: true
+    # scanner.securityContext.readOnlyRootFilesystem -- Prevents write access to the containers file system
+    readOnlyRootFilesystem: true
+    # scanner.securityContext.allowPrivilegeEscalation -- Ensure that users privileges cannot be escalated
+    allowPrivilegeEscalation: false
+    # scanner.securityContext.privileged -- Ensures that the scanner container is not run in privileged mode
+    privileged: false
+    capabilities:
+      drop:
+        # scanner.securityContext.capabilities.drop[0] -- This drops all linux privileges from the container.
+        - all
 
 nucleiTemplateCache:
   # -- Enables or disables the use of an persistent volume to cache the always downloaded nuclei-templates for all scans.
@@ -71,5 +83,5 @@ nucleiTemplateCache:
   schedule: "0 */1 * * *"
 
 cascadingRules:
-  # -- Enables or disables the installation of the default cascading rules for this scanner
+  # cascadingRules.enabled -- Enables or disables the installation of the default cascading rules for this scanner
   enabled: true
