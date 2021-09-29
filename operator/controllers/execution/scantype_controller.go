@@ -77,7 +77,7 @@ func (r *ScanTypeReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		if scheduledScanChecksum != currentScanTypeHash {
 			log.V(4).Info("Retriggering ScheduledScan as the underlying ScanType has been updated.", "checksumForScheduledScan", scheduledScanChecksum, "currentScanTypeHash", currentScanTypeHash, "scheduledScan", scheduledScan.Name, "namespace", scheduledScan.Namespace, "scanType", scanType.Name)
 
-			err := restartScheduledScan(ctx, r.Status(), scheduledScan)
+			err := util.RetriggerScheduledScan(ctx, r.Status(), scheduledScan)
 			if err != nil {
 				return ctrl.Result{
 					Requeue:      true,
