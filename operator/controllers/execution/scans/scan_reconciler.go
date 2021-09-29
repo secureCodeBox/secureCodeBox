@@ -112,7 +112,7 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 		return err
 	}
 
-	log.V(1).Info("created Job for Scan", "job", job)
+	log.V(7).Info("created Job for Scan", "job", job)
 	return nil
 }
 
