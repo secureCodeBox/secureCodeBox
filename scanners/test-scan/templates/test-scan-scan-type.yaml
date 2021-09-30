@@ -24,9 +24,11 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: test-scan
-              image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.Version }}"
-              command: ["touch", "/home/securecodebox/hello-world.txt"]
+              image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
+              command:
+                - "touch"
+                - "/home/securecodebox/hello-world.txt"
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:

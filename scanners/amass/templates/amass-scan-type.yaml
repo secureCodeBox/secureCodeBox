@@ -1,14 +1,13 @@
 # SPDX-FileCopyrightText: 2021 iteratec GmbH
 #
 # SPDX-License-Identifier: Apache-2.0
+
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
   name: "amass{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   extractResults:
-    # amass saves it's result now in json but in "json lines" format
-    # http://jsonlines.org/
     type: amass-jsonl
     location: "/home/securecodebox/amass-results.jsonl"
   jobTemplate:

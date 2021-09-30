@@ -24,7 +24,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: git-repo-scanner
-              image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.Version }}"
+              image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
               command:
                 - "python"

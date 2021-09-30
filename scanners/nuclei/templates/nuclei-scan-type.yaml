@@ -2,14 +2,14 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-apiVersion: 'execution.securecodebox.io/v1'
+apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: 'nuclei{{ .Values.scanner.nameAppend | default ""}}'
+  name: "nuclei{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   extractResults:
     type: nuclei-json
-    location: '/home/securecodebox/nuclei-results.jsonl'
+    location: "/home/securecodebox/nuclei-results.jsonl"
   jobTemplate:
     spec:
       {{- if .Values.scanner.ttlSecondsAfterFinished }}
@@ -27,12 +27,11 @@ spec:
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
               command:
-                - 'nuclei'
-                - '-no-update-templates'
-                - '-json'
-                # nuclei writes json lines: https://jsonlines.org/
-                - '-output'
-                - '/home/securecodebox/nuclei-results.jsonl'
+                - "nuclei"
+                - "-no-update-templates"
+                - "-json"
+                - "-output"
+                - "/home/securecodebox/nuclei-results.jsonl"
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:
