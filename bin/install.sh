@@ -228,7 +228,7 @@ function interactiveInstall() {
 }
 
 function unattendedInstall() {
-  if [[ -n "${INSTALL_DEMO_APPS}" ]]; then
+  if [[ -n "${INSTALL_DEMO_TARGETS}" ]]; then
     print "Starting to install 'demo-targets' into namespace '$SCB_DEMO_NAMESPACE' ..."
     kubectl create namespace "$SCB_DEMO_NAMESPACE" || print "Namespace '$SCB_DEMO_NAMESPACE' already exists or could not be created!"
     installResources "$BASE_DIR/demo-targets" "$SCB_DEMO_NAMESPACE" "true"
