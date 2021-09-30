@@ -8,7 +8,7 @@ metadata:
   name: "new-scanner{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   extractResults:
-    type: nmap-xml
+    type: new-scanner-json
     location: "/home/securecodebox/new-scanner-results.json"
   jobTemplate:
     spec:
@@ -26,7 +26,9 @@ spec:
             - name: new-scanner
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
-              command: ["new-scanner", "/home/securecodebox/new-scanner-results.xml"] # Replace output command
+              command:
+                - "new-scanner"
+                - "/home/securecodebox/new-scanner-results.xml" # Replace output command
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:
