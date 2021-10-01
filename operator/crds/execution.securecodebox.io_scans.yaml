@@ -1782,12 +1782,43 @@ spec:
                       type: string
                     jobName:
                       type: string
+                    priority:
+                      type: integer
                     state:
                       description: HookState Describes the State of a Hook on a Scan
                       type: string
+                    type:
+                      description: HookType Defines weather the hook should be able
+                        to change the findings or is run in a read only mode.
+                      type: string
                   required:
                   - hookName
+                  - priority
                   - state
+                  - type
+                  type: object
+                type: array
+              readOnlyHookStatus:
+                items:
+                  properties:
+                    hookName:
+                      type: string
+                    jobName:
+                      type: string
+                    priority:
+                      type: integer
+                    state:
+                      description: HookState Describes the State of a Hook on a Scan
+                      type: string
+                    type:
+                      description: HookType Defines weather the hook should be able
+                        to change the findings or is run in a read only mode.
+                      type: string
+                  required:
+                  - hookName
+                  - priority
+                  - state
+                  - type
                   type: object
                 type: array
               state:

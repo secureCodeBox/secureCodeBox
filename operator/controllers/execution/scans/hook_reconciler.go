@@ -18,6 +18,7 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sort"
 )
 
 func (r *ScanReconciler) setHookStatus(scan *executionv1.Scan) error {
@@ -32,27 +33,24 @@ func (r *ScanReconciler) setHookStatus(scan *executionv1.Scan) error {
 
 	r.Log.Info("Found ScanCompletionHooks", "ScanCompletionHooks", len(scanCompletionHooks.Items))
 
-	readAndWriteHooks := []executionv1.ScanCompletionHook{}
-	// filter all ReadAndWriteHooks in the scamCompletionHooks list
 	for _, hook := range scanCompletionHooks.Items {
+		hookStatus := executionv1.HookStatus{
+			HookName: hook.Name,
+			State:    executionv1.Pending,
+			Priority: hook.Spec.Priority,
+			Type:     hook.Spec.Type,
+		}
 		if hook.Spec.Type == executionv1.ReadAndWrite {
-			readAndWriteHooks = append(readAndWriteHooks, hook)
+			scan.Status.ReadAndWriteHookStatus = append(scan.Status.ReadAndWriteHookStatus, hookStatus)
+		} else if hook.Spec.Type == executionv1.ReadOnly {
+			scan.Status.ReadOnlyHookStatus = append(scan.Status.ReadOnlyHookStatus, hookStatus)
 		}
 	}
 
-	r.Log.Info("Found ReadAndWriteHooks", "ReadAndWriteHooks", len(readAndWriteHooks))
-
-	hookStatus := []executionv1.HookStatus{}
-
-	for _, hook := range readAndWriteHooks {
-		hookStatus = append(hookStatus, executionv1.HookStatus{
-			HookName: hook.Name,
-			State:    executionv1.Pending,
-		})
-	}
+	r.Log.Info("Found ReadAndWrite Hooks", "Hooks", len(scan.Status.ReadAndWriteHookStatus))
+	r.Log.Info("Found ReadOnlyHooks", "Hooks", len(scan.Status.ReadOnlyHookStatus))
 
 	scan.Status.State = "ReadAndWriteHookProcessing"
-	scan.Status.ReadAndWriteHookStatus = hookStatus
 
 	if err := r.Status().Update(ctx, scan); err != nil {
 		r.Log.Error(err, "unable to update Scan status")
@@ -62,250 +60,266 @@ func (r *ScanReconciler) setHookStatus(scan *executionv1.Scan) error {
 	return nil
 }
 
-func (r *ScanReconciler) executeReadAndWriteHooks(scan *executionv1.Scan) error {
-	// Get the first Hook Status which is not completed.
-	ctx := context.Background()
-	var nonCompletedHook *executionv1.HookStatus
-
-	for _, hook := range scan.Status.ReadAndWriteHookStatus {
+func getNonCompletedHooks(hooks []executionv1.HookStatus) []executionv1.HookStatus {
+	var nonCompletedHooks []executionv1.HookStatus
+	for _, hook := range hooks {
 		if hook.State != executionv1.Completed {
-			nonCompletedHook = &hook
-			break
+			nonCompletedHooks = append(nonCompletedHooks, hook)
 		}
 	}
+	return nonCompletedHooks
+}
+
+func (r *ScanReconciler) executeReadAndWriteHooks(scan *executionv1.Scan) error {
+	ctx := context.Background()
+
+	nonCompletedHooks := getNonCompletedHooks(scan.Status.ReadAndWriteHookStatus)
 
 	// If nil then all hooks are done
-	if nonCompletedHook == nil {
-		scan.Status.State = "ReadAndWriteHookCompleted"
+	if len(nonCompletedHooks) == 0 {
+		r.Log.Info("All ReadAndWriteHooks have been completed", "ScanName", scan.Name)
+		scan.Status.State = "ReadOnlyHookProcessing"
 		if err := r.Status().Update(ctx, scan); err != nil {
-			r.Log.Error(err, "unable to update Scan status")
+			r.Log.Error(err, "Unable to update Scan status")
 			return err
 		}
-		return nil
+	} else if len(nonCompletedHooks) > 0 {
+		highestPriorityHooks, err := r.getHighestPriorityHooks(nonCompletedHooks, 1)
+		if err != nil {
+			return err
+		}
+
+		updatedHook, err := r.processHook(scan, highestPriorityHooks[0])
+		if err != nil {
+			return err
+		}
+
+		// Update the corresponding status in the Scan object
+		for i, hookStatus := range scan.Status.ReadAndWriteHookStatus {
+			if hookStatus.HookName == updatedHook.HookName {
+				scan.Status.ReadAndWriteHookStatus[i] = *updatedHook
+				break
+			}
+		}
+
+		if updatedHook.State == executionv1.Failed || updatedHook.State == executionv1.Cancelled {
+			scan.Status.State = "Errored"
+			scan.Status.ErrorDescription = fmt.Sprintf("Failed to execute ReadAndWrite Hook '%s' in job '%s'. Check the logs of the hook for more information.", updatedHook.HookName, updatedHook.JobName)
+		}
+
+		if err := r.Status().Update(ctx, scan); err != nil {
+			r.Log.Error(err, "Unable to update Scan status")
+			return err
+		}
 	}
+
+	return nil
+}
+
+func (r *ScanReconciler) executeReadOnlyHooks(scan *executionv1.Scan) error {
+	ctx := context.Background()
+
+	var nonCompletedHooks = getNonCompletedHooks(scan.Status.ReadOnlyHookStatus)
+
+	// If nil then all hooks are done
+	if len(nonCompletedHooks) == 0 {
+		r.Log.Info("Marked scan as done as all hooks have completed", "ScanName", scan.Name)
+		scan.Status.State = "Done"
+		var now = metav1.Now()
+		scan.Status.FinishedAt = &now
+		if err := r.Status().Update(ctx, scan); err != nil {
+			r.Log.Error(err, "Unable to update Scan status")
+			return err
+		}
+	} else if len(nonCompletedHooks) > 0 {
+		highestPriorityHooks, err := r.getHighestPriorityHooks(nonCompletedHooks, 0)
+		if err != nil {
+			return err
+		}
+
+		for _, hook := range highestPriorityHooks {
+			updatedHook, err := r.processHook(scan, hook)
+			if err != nil {
+				return err
+			}
+
+			for i, hookStatus := range scan.Status.ReadOnlyHookStatus {
+				if hookStatus.HookName == updatedHook.HookName {
+					scan.Status.ReadOnlyHookStatus[i] = *updatedHook
+					break
+				}
+			}
+
+			if updatedHook.State == executionv1.Failed || updatedHook.State == executionv1.Cancelled {
+				scan.Status.State = "Errored"
+				scan.Status.ErrorDescription = fmt.Sprintf("Failed to execute ReadOnly Hook '%s' in job '%s'. Check the logs of the hook for more information.", updatedHook.HookName, updatedHook.JobName)
+				if err := r.Status().Update(ctx, scan); err != nil {
+					r.Log.Error(err, "unable to update Scan status")
+					return err
+				}
+				return nil
+			}
+		}
+
+		r.Log.Info("All ReadOnly have been completed", "ScanName", scan.Name)
+		scan.Status.State = "ReadOnlyHookProcessing"
+		if err := r.Status().Update(ctx, scan); err != nil {
+			r.Log.Error(err, "Unable to update Scan status")
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (r *ScanReconciler) getHighestPriorityHooks(hooks []executionv1.HookStatus, maxConcurrent int) ([]executionv1.HookStatus, error) {
+	if len(hooks) == 0 {
+		return hooks, nil
+	}
+
+	// Sort from high to low priority
+	sort.Slice(hooks, func(i, j int) bool {
+		return hooks[i].Priority > hooks[j].Priority
+	})
+
+	// Find hooks with the highest priority
+	var highestPriorityHooks []executionv1.HookStatus
+	highestPriorityHooks = append(highestPriorityHooks, hooks[0])
+	if len(hooks) > 1 {
+		for _, hook := range hooks[1:] {
+			// Check if we've reached
+			if maxConcurrent == len(highestPriorityHooks) {
+				break
+			}
+			if hook.Priority == highestPriorityHooks[0].Priority {
+				highestPriorityHooks = append(highestPriorityHooks, hook)
+			} else if hook.Priority < highestPriorityHooks[0].Priority {
+				break
+			}
+		}
+	}
+
+	return highestPriorityHooks, nil
+}
+
+func (r *ScanReconciler) processHook(scan *executionv1.Scan, nonCompletedHook executionv1.HookStatus) (*executionv1.HookStatus, error) {
+	ctx := context.Background()
+
+	var jobType string
+	if nonCompletedHook.Type == executionv1.ReadOnly {
+		jobType = "read-only-hook"
+	} else if nonCompletedHook.Type == executionv1.ReadAndWrite {
+		jobType = "read-and-write-hook"
+	} else {
+		return nil, nil
+	}
+
+	r.Log.Info(fmt.Sprintf("Processing %s", jobType), "Hook", nonCompletedHook)
 
 	switch nonCompletedHook.State {
 	case executionv1.Pending:
-		rawFileURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile, defaultPresignDuration)
-		if err != nil {
-			return err
-		}
-		findingsFileURL, err := r.PresignedGetURL(scan.UID, "findings.json", defaultPresignDuration)
-		if err != nil {
-			return err
-		}
-
-		rawFileUploadURL, err := r.PresignedPutURL(scan.UID, scan.Status.RawResultFile, defaultPresignDuration)
-		if err != nil {
-			return err
-		}
-		findingsUploadURL, err := r.PresignedPutURL(scan.UID, "findings.json", defaultPresignDuration)
-		if err != nil {
-			return err
-		}
-
 		var hook executionv1.ScanCompletionHook
 		if err := r.Get(ctx, types.NamespacedName{Name: nonCompletedHook.HookName, Namespace: scan.Namespace}, &hook); err != nil {
 			r.Log.Error(err, "Failed to get ReadAndWrite Hook for HookStatus")
-			return err
+			return nil, err
 		}
 
 		jobs, err := r.getJobsForScan(scan, client.MatchingLabels{
-			"securecodebox.io/job-type":  "read-and-write-hook",
+			"securecodebox.io/job-type":  jobType,
 			"securecodebox.io/hook-name": nonCompletedHook.HookName,
 		})
 		if err != nil {
-			return err
+			return nil, err
 		}
 		if len(jobs.Items) > 0 {
 			// Job already exists
-			return nil
+			return &nonCompletedHook, nil
 		}
 
-		jobName, err := r.createJobForHook(
-			&hook,
-			scan,
-			[]string{
-				rawFileURL,
-				findingsFileURL,
-				rawFileUploadURL,
-				findingsUploadURL,
-			},
-		)
+		rawFileURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile, defaultPresignDuration)
+		if err != nil {
+			return &nonCompletedHook, err
+		}
+		findingsFileURL, err := r.PresignedGetURL(scan.UID, "findings.json", defaultPresignDuration)
+		if err != nil {
+			return &nonCompletedHook, err
+		}
 
-		// Update the currently executed hook status to "InProgress"
-		err = r.updateHookStatus(scan, executionv1.HookStatus{
-			HookName: nonCompletedHook.HookName,
-			JobName:  jobName,
-			State:    executionv1.InProgress,
-		})
-		return err
+		var jobName string
+		switch hook.Spec.Type {
+		case executionv1.ReadOnly:
+			jobName, err = r.createJobForHook(
+				&hook,
+				scan,
+				[]string{
+					rawFileURL,
+					findingsFileURL,
+				},
+			)
+			if err != nil {
+				return &nonCompletedHook, err
+			}
+			break
+		case executionv1.ReadAndWrite:
+			rawFileUploadURL, err := r.PresignedPutURL(scan.UID, scan.Status.RawResultFile, defaultPresignDuration)
+			if err != nil {
+				return &nonCompletedHook, err
+			}
+			findingsUploadURL, err := r.PresignedPutURL(scan.UID, "findings.json", defaultPresignDuration)
+			if err != nil {
+				return &nonCompletedHook, err
+			}
+
+			jobName, err = r.createJobForHook(
+				&hook,
+				scan,
+				[]string{
+					rawFileURL,
+					findingsFileURL,
+					rawFileUploadURL,
+					findingsUploadURL,
+				},
+			)
+			if err != nil {
+				return &nonCompletedHook, err
+			}
+			break
+		default:
+			return nil, nil
+		}
+		// Update the currently executed hook job name and status to "InProgress"
+		nonCompletedHook.JobName = jobName
+		nonCompletedHook.State = executionv1.InProgress
+		return &nonCompletedHook, err
 	case executionv1.InProgress:
 		jobStatus, err := r.checkIfJobIsCompleted(scan, client.MatchingLabels{
-			"securecodebox.io/job-type":  "read-and-write-hook",
+			"securecodebox.io/job-type":  jobType,
 			"securecodebox.io/hook-name": nonCompletedHook.HookName,
 		})
 		if err != nil {
-			r.Log.Error(err, "Failed to check job status for ReadAndWrite Hook")
-			return err
+			r.Log.Error(err, "Failed to check job status for Hook")
+			return &nonCompletedHook, err
 		}
 		switch jobStatus {
 		case completed:
 			// Job is completed => set current Hook to completed
-			err = r.updateHookStatus(scan, executionv1.HookStatus{
-				HookName: nonCompletedHook.HookName,
-				JobName:  nonCompletedHook.JobName,
-				State:    executionv1.Completed,
-			})
-			return err
+			nonCompletedHook.State = executionv1.Completed
+			return &nonCompletedHook, err
 		case incomplete:
 			// Still waiting for job to finish
-			return nil
+			return &nonCompletedHook, nil
 		case failed:
-			for i, hookStatus := range scan.Status.ReadAndWriteHookStatus {
-				if hookStatus.HookName == nonCompletedHook.HookName {
-					scan.Status.ReadAndWriteHookStatus[i].State = executionv1.Failed
-				} else if hookStatus.State == executionv1.Pending {
-					scan.Status.ReadAndWriteHookStatus[i].State = executionv1.Cancelled
-				}
+			if nonCompletedHook.State == executionv1.Pending {
+				nonCompletedHook.State = executionv1.Cancelled
+			} else {
+				nonCompletedHook.State = executionv1.Failed
 			}
-			scan.Status.State = "Errored"
-			scan.Status.ErrorDescription = fmt.Sprintf("Failed to execute ReadAndWrite Hook '%s' in job '%s'. Check the logs of the hook for more information.", nonCompletedHook.HookName, nonCompletedHook.JobName)
-			if err := r.Status().Update(ctx, scan); err != nil {
-				r.Log.Error(err, "unable to update Scan status")
-				return err
-			}
+
+			return &nonCompletedHook, nil
 		}
 	}
 
-	return nil
-}
-
-func containsJobForHook(jobs *batch.JobList, hook executionv1.ScanCompletionHook) bool {
-	if len(jobs.Items) == 0 {
-		return false
-	}
-
-	for _, job := range jobs.Items {
-		if job.ObjectMeta.Labels["securecodebox.io/hook-name"] == hook.Name {
-			return true
-		}
-	}
-
-	return false
-}
-
-func (r *ScanReconciler) startReadOnlyHooks(scan *executionv1.Scan) error {
-	ctx := context.Background()
-
-	var scanCompletionHooks executionv1.ScanCompletionHookList
-
-	if err := r.List(ctx, &scanCompletionHooks, client.InNamespace(scan.Namespace)); err != nil {
-		r.Log.V(7).Info("Unable to fetch ScanCompletionHooks")
-		return err
-	}
-
-	r.Log.Info("Found ScanCompletionHooks", "ScanCompletionHooks", len(scanCompletionHooks.Items))
-
-	readOnlyHooks := []executionv1.ScanCompletionHook{}
-	// filter all ReadOnlyHooks in the scamCompletionHooks list
-	for _, hook := range scanCompletionHooks.Items {
-		if hook.Spec.Type == executionv1.ReadOnly {
-			readOnlyHooks = append(readOnlyHooks, hook)
-		}
-	}
-
-	r.Log.Info("Found ReadOnlyHooks", "ReadOnlyHooks", len(readOnlyHooks))
-
-	// If the readOnlyHooks list is empty, nothing more to do
-	if len(readOnlyHooks) == 0 {
-		r.Log.Info("Marked scan as done as without running ReadOnly hooks as non were configured", "ScanName", scan.Name)
-		scan.Status.State = "Done"
-		var now metav1.Time = metav1.Now()
-		scan.Status.FinishedAt = &now
-		if err := r.Status().Update(ctx, scan); err != nil {
-			r.Log.Error(err, "Unable to update Scan status")
-			return err
-		}
-		return nil
-	}
-
-	// Get all read-only-hooks for scan to later check that they weren't already created
-	jobs, err := r.getJobsForScan(scan, client.MatchingLabels{
-		"securecodebox.io/job-type": "read-only-hook",
-	})
-	if err != nil {
-		return err
-	}
-
-	for _, hook := range readOnlyHooks {
-		// Check if hook was already executed
-		if containsJobForHook(jobs, hook) == true {
-			r.Log.V(4).Info("Skipping creation of job for hook '%s' as it already exists", hook.Name)
-			// Job was already created
-			continue
-		}
-
-		rawFileURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile, defaultPresignDuration)
-		if err != nil {
-			return err
-		}
-		findingsFileURL, err := r.PresignedGetURL(scan.UID, "findings.json", defaultPresignDuration)
-		if err != nil {
-			return err
-		}
-
-		jobName, err := r.createJobForHook(
-			&hook,
-			scan,
-			[]string{
-				rawFileURL,
-				findingsFileURL,
-			},
-		)
-		if err != nil {
-			r.Log.Error(err, "Unable to create Job for ReadOnlyHook", "job", jobName)
-			return err
-		}
-	}
-	scan.Status.State = "ReadOnlyHookProcessing"
-	if err := r.Status().Update(ctx, scan); err != nil {
-		r.Log.Error(err, "Unable to update Scan status")
-		return err
-	}
-	r.Log.Info("Started ReadOnlyHook", "ReadOnlyHookCount", len(readOnlyHooks))
-	return nil
-}
-
-func (r *ScanReconciler) checkIfReadOnlyHookIsCompleted(scan *executionv1.Scan) error {
-	ctx := context.Background()
-	readOnlyHookCompletion, err := r.checkIfJobIsCompleted(scan, client.MatchingLabels{"securecodebox.io/job-type": "read-only-hook"})
-	if err != nil {
-		return err
-	}
-
-	if readOnlyHookCompletion == completed {
-		r.Log.V(7).Info("All ReadOnlyHooks have completed")
-		scan.Status.State = "Done"
-		var now metav1.Time = metav1.Now()
-		scan.Status.FinishedAt = &now
-		if err := r.Status().Update(ctx, scan); err != nil {
-			r.Log.Error(err, "Unable to update Scan status")
-			return err
-		}
-	} else if readOnlyHookCompletion == failed {
-		r.Log.Info("At least one ReadOnlyHook failed")
-		scan.Status.State = "Errored"
-		scan.Status.ErrorDescription = "At least one ReadOnlyHook failed, check the hooks kubernetes jobs related to the scan for more details."
-		if err := r.Status().Update(ctx, scan); err != nil {
-			r.Log.Error(err, "Unable to update Scan status")
-			return err
-		}
-	}
-
-	// ReadOnlyHook(s) are still running. At least some of them are.
-	// Waiting until all are done.
-	return nil
+	return &nonCompletedHook, nil
 }
 
 func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, scan *executionv1.Scan, cliArgs []string) (string, error) {
@@ -451,18 +465,4 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 		return "", err
 	}
 	return job.Name, nil
-}
-
-func (r *ScanReconciler) updateHookStatus(scan *executionv1.Scan, hookStatus executionv1.HookStatus) error {
-	for i, hook := range scan.Status.ReadAndWriteHookStatus {
-		if hook.HookName == hookStatus.HookName {
-			scan.Status.ReadAndWriteHookStatus[i] = hookStatus
-			break
-		}
-	}
-	if err := r.Status().Update(context.Background(), scan); err != nil {
-		r.Log.Error(err, "unable to update Scan status")
-		return err
-	}
-	return nil
 }
