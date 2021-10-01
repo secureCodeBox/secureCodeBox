@@ -698,6 +698,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      
+      - name: Set ENV Var with Demo-Target Version
+        uses: mikefarah/yq@v4.4.1
+        # Notice: The current version of the demo-target is provided via the Chart.yaml to ensure
+        # there is only one place to edit the version of a scanner
+        with:
+          cmd: echo targetVersion=$(yq e .appVersion demo-targets/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
 
       - name: Docker Meta
         id: docker_meta
@@ -706,7 +713,7 @@ jobs:
           images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.target }}
           tags: |
             type=sha
-            type=semver,pattern={{version}}
+            ${{ env.targetVersion }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
