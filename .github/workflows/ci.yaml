@@ -704,7 +704,7 @@ jobs:
         # Notice: The current version of the demo-target is provided via the Chart.yaml to ensure
         # there is only one place to edit the version of a scanner
         with:
-          cmd: echo targetVersion=$(yq e .appVersion demo-targets/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
+          cmd: echo targetVersion=$(yq e .appVersion demo-targets/${{ matrix.target }}/Chart.yaml) >> $GITHUB_ENV
 
       - name: Docker Meta
         id: docker_meta
@@ -713,6 +713,7 @@ jobs:
           images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.target }}
           tags: |
             type=sha
+            latest
             ${{ env.targetVersion }}
 
       - name: Set up Docker Buildx
