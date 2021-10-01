@@ -725,7 +725,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./demo-targets/${{ matrix.target }}/container
-          file: ./demo-targets/${{ matrix.target }}/Dockerfile
+          file: ./demo-targets/${{ matrix.target }}/container/Dockerfile
           platforms: linux/amd64
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
