@@ -736,7 +736,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
+          repository: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.target }}
           readme-filepath: ./demo-targets/${{ matrix.target }}/docs/README.DockerHub-Target.md
 
   # ---- Integration Tests ----
