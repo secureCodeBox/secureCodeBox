@@ -471,13 +471,25 @@ func (in *ScanStatus) DeepCopyInto(out *ScanStatus) {
 	in.Findings.DeepCopyInto(&out.Findings)
 	if in.ReadAndWriteHookStatus != nil {
 		in, out := &in.ReadAndWriteHookStatus, &out.ReadAndWriteHookStatus
-		*out = make([]HookStatus, len(*in))
-		copy(*out, *in)
+		*out = make([]*HookStatus, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(HookStatus)
+				**out = **in
+			}
+		}
 	}
 	if in.ReadOnlyHookStatus != nil {
 		in, out := &in.ReadOnlyHookStatus, &out.ReadOnlyHookStatus
-		*out = make([]HookStatus, len(*in))
-		copy(*out, *in)
+		*out = make([]*HookStatus, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(HookStatus)
+				**out = **in
+			}
+		}
 	}
 }
 

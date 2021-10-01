@@ -83,9 +83,9 @@ type ScanStatus struct {
 
 	Findings FindingStats `json:"findings,omitempty"`
 
-	ReadAndWriteHookStatus []HookStatus `json:"readAndWriteHookStatus,omitempty"`
+	ReadAndWriteHookStatus []*HookStatus `json:"readAndWriteHookStatus,omitempty"`
 
-	ReadOnlyHookStatus []HookStatus `json:"readOnlyHookStatus,omitempty"`
+	ReadOnlyHookStatus []*HookStatus `json:"readOnlyHookStatus,omitempty"`
 }
 
 // HookState Describes the State of a Hook on a Scan
