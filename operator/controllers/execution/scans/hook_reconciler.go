@@ -281,7 +281,7 @@ func (r *ScanReconciler) processHook(scan *executionv1.Scan, nonCompletedHook *e
 		}
 	}
 
-	if err != nil {
+	if err == nil {
 		r.Log.Info(fmt.Sprintf("Processed %s", jobType), "Hook", nonCompletedHook)
 	}
 
