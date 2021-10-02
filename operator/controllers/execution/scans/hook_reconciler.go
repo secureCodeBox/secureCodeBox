@@ -61,16 +61,20 @@ func (r *ScanReconciler) setHookStatus(scan *executionv1.Scan) error {
 }
 
 func getNonCompletedHookPriorityQueue(hooks *[]*executionv1.HookStatus) util.PriorityQueue {
-	var priorityQueue = make(util.PriorityQueue, 0)
+	var priorityQueue = make(util.PriorityQueue, len(*hooks))
+	var completedHooks = 0
 	for _, hook := range *hooks {
 		if hook.State != executionv1.Completed {
 			priorityQueueItem := util.PriorityQueueItem{
 				Value:    hook,
 				Priority: hook.Priority,
 			}
-			heap.Push(&priorityQueue, &priorityQueueItem)
+			priorityQueue[completedHooks] = &priorityQueueItem
+			completedHooks++
 		}
 	}
+	priorityQueue = priorityQueue[:completedHooks]
+	heap.Init(&priorityQueue)
 	return priorityQueue
 }
 

@@ -22,10 +22,12 @@ var items = []PriorityQueueItem{
 }
 
 func TestQueue(t *testing.T) {
-	pq := make(PriorityQueue, 0)
+	pq := make(PriorityQueue, len(items) + 5) // Test overallocation
 	for i, _ := range items {
-		heap.Push(&pq, &items[i])
+		pq[i] = &items[i]
 	}
+	pq = pq[:len(items)]
+	heap.Init(&pq)
 
 	// Take the items out; they should arrive in decreasing priority order.
 	var item1peek = pq.Peek()
