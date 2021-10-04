@@ -154,46 +154,25 @@ jobs:
           go-version: ${{ env.GO_VERSION }}
 
       - name: Lint Go Code
+        working-directory: ./${{ matrix.component }}
         run: |
-          cd ${{ matrix.component }}/
           go fmt ./...
           go vet ./...
 
-      - name: Docker Meta
-        id: docker_meta
-        uses: docker/metadata-action@v3
-        with:
-          images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.component }}
-          tags: |
-            type=sha
-            type=semver,pattern={{version}}
+      - name: Build Container Image
+        working-directory: ./operator
+        run: make docker-build
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      - name: Export Container Image
+        working-directory: ./operator
+        run: make docker-export-${{ matrix.component }}
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
+      - name: Upload Image As Artifact
+        uses: actions/upload-artifact@v2
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-
-      - name: Build and Push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./${{ matrix.component }}
-          file: ./${{ matrix.component }}/Dockerfile
-          platforms: linux/amd64
-          push: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
-
-      - name: Update Docker Hub Description
-        uses: peter-evans/dockerhub-description@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.component }}
-          readme-filepath: ./${{ matrix.component }}/docs/README.DockerHub-Core.md
+          name: ${{ matrix.component }}-image
+          path: ./operator/${{ matrix.component }}.tar
+          retention-days: 1
 
   # ---- Build Stage | AutoDiscovery ----
 
@@ -272,33 +251,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Docker Meta
-        id: docker_meta
-        uses: docker/metadata-action@v3
-        with:
-          images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.sdk }}-nodejs
-          tags: |
-            type=sha
-            type=semver,pattern={{version}}
+      - name: Build Image
+        working-directory: ./${{ matrix.sdk }}/nodejs
+        run: make docker-build-sdk
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      - name: Export Image
+        working-directory: ./${{ matrix.sdk }}/nodejs
+        run: make docker-export-sdk
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-
-      - name: Build and Push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./${{ matrix.sdk }}/nodejs
-          file: ./${{ matrix.sdk }}/nodejs/Dockerfile
-          platforms: linux/amd64
-          push: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
+          name: ${{ matrix.sdk }}-image
+          path: ./${{ matrix.sdk }}/nodejs/${{ matrix.sdk }}.tar
+          retention-days: 1
 
   # ---- New Makefile based CI Pipeline steps ----
 
@@ -346,12 +312,25 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
+        with:
+          driver: docker
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Download Parser SDK Image
+        uses: actions/download-artifact@v2
+        with:
+          name: parser-sdk-image
+          path: /tmp
+
+      - name: Load Parser SDK Image
+        run: |
+          docker load --input /tmp/parser-sdk.tar
+          docker images | grep sdk
 
       - name: Build
         uses: docker/build-push-action@v2
@@ -380,6 +359,22 @@ jobs:
         run: |
           kubectl config current-context
           kubectl get node
+
+      - name: Download Operator Image
+        uses: actions/download-artifact@v2
+        with:
+          name: operator-image
+          path: ./operator
+
+      - name: Download Lurker Image
+        uses: actions/download-artifact@v2
+        with:
+          name: lurker-image
+          path: ./operator
+
+      - name: Import Operator & Lurker Image
+        working-directory: ./operator
+        run: make kind-import
 
       - name: Kind Import Images
         working-directory: ./scanners/${{ matrix.unit }}/
@@ -433,6 +428,8 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
+        with:
+          driver: docker
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -443,6 +440,17 @@ jobs:
       - name: Set baseImageTag to commit hash
         run: |
           echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Download Hook SDK Image
+        uses: actions/download-artifact@v2
+        with:
+          name: hook-sdk-image
+          path: /tmp
+
+      - name: Load Hook SDK Image
+        run: |
+          docker load --input /tmp/hook-sdk.tar
+          docker images | grep sdk
 
       - name: Build and Push
         uses: docker/build-push-action@v2
@@ -509,6 +517,8 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
+        with:
+          driver: docker
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -519,6 +529,17 @@ jobs:
       - name: Set baseImageTag to commit hash
         run: |
           echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Download Parser SDK Image
+        uses: actions/download-artifact@v2
+        with:
+          name: parser-sdk-image
+          path: /tmp
+
+      - name: Load Parser SDK Image
+        run: |
+          docker load --input /tmp/parser-sdk.tar
+          docker images | grep sdk
 
       - name: Build and Push
         uses: docker/build-push-action@v2
@@ -714,6 +735,22 @@ jobs:
 
       # ---- Install Operator & Create Namespaces ----
 
+      - name: Download Operator Image
+        uses: actions/download-artifact@v2
+        with:
+          name: operator-image
+          path: ./operator
+
+      - name: Download Lurker Image
+        uses: actions/download-artifact@v2
+        with:
+          name: lurker-image
+          path: ./operator
+
+      - name: Import Operator & Lurker Image
+        working-directory: ./operator
+        run: make kind-import
+
       - name: "Install Operator"
         run: |
           # Namespace in which the scans for the tests will be executed
@@ -726,6 +763,8 @@ jobs:
             --set="image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="lurker.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/lurker" \
             --set="lurker.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="lurker.image.pullPolicy=Never" \
+            --set="image.pullPolicy=Never"
 
       # ---- Operator Health Check ----
 

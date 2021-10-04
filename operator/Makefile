@@ -85,9 +85,17 @@ docker-push: ## Push docker image with the manager.
 	docker push $(IMG_NS)/$(LURKER_IMG):$(IMG_TAG)
 
 docker-export:
-	@echo ".: 💾 Export Container Images"
+	$(MAKE) docker-export-operator
+	$(MAKE) docker-export-lurker
+
+docker-export-operator:
+	@echo ".: 💾 Export Operator Image"
 	docker save $(IMG_NS)/$(OPERATOR_IMG):$(IMG_TAG) > $(OPERATOR_IMG).tar
+
+docker-export-lurker:
+	@echo ".: 💾 Export Lurker Image"
 	docker save $(IMG_NS)/$(LURKER_IMG):$(IMG_TAG) > $(LURKER_IMG).tar
+
 
 ##@ Deployment
 

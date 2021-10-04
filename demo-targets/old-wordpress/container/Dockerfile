@@ -16,7 +16,6 @@ COPY --from=base --chown=33:33 /wp-content/ /var/www/html/wp-content/
 COPY ./wp-config.php /var/www/html/ 
 COPY ./.ht.sqlite  /var/www/html/wp-content/database/.ht.sqlite
 
-USER 33
 # Login details
   # Username: root
   # Password: supersecret
