@@ -138,6 +138,9 @@ function transformRecommendationToFinding(
 async function parse(fileContent) {
   const hosts = fileContent;
 
+  if (typeof(hosts) === "string") // empty file
+    return [];
+
   return hosts
     .flatMap(host => {
       if (host.error) {
