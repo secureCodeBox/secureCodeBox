@@ -5,7 +5,6 @@
 async function parse(scanResults) {
   // The first scan always contains the image id a similar format to: "bkimminich/juice-shop:v10.2.0 (alpine 3.11.5)"
   const [imageScanResult] = scanResults;
-
   if (typeof(imageScanResult) === "string") // empty file
     return [];
 
