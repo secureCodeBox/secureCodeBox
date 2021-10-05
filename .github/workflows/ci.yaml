@@ -279,6 +279,7 @@ jobs:
         unit:
           - amass
           - nuclei
+          - ssh-scan
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -463,7 +464,6 @@ jobs:
           - nikto
           - nmap
           - screenshooter
-          - ssh-scan
           - sslyze
           - test-scan
           - trivy
@@ -1021,19 +1021,6 @@ jobs:
           cd tests/integration/
           npx jest --ci --color ./hooks/notification.test.js
           helm -n integration-tests uninstall test-scan http-webhook notification-hook
-
-      # ---- SSH_SCAN Integration Tests ----
-
-      - name: "ssh-scan Integration Tests"
-        run: |
-          kubectl -n integration-tests delete scans --all
-          helm -n integration-tests install ssh-scan ./scanners/ssh-scan/  \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-ssh-scan" \
-            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-            --set-string="parser.env[0].value=true"
-          cd tests/integration/
-          npx jest --ci --color scanner/ssh-scan.test.js
 
       # ---- SSLyze Integration Tests ----
 
