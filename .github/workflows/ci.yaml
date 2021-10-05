@@ -281,6 +281,7 @@ jobs:
           - nuclei
           - ssh-scan
           - sslyze
+          - trivy
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -466,7 +467,6 @@ jobs:
           - nmap
           - screenshooter
           - test-scan
-          - trivy
           - whatweb
           - typo3scan
           - wpscan
@@ -1021,19 +1021,6 @@ jobs:
           cd tests/integration/
           npx jest --ci --color ./hooks/notification.test.js
           helm -n integration-tests uninstall test-scan http-webhook notification-hook
-
-      # ---- Trivy Integration Tests ----
-
-      - name: "trivy Integration Tests"
-        run: |
-          kubectl -n integration-tests delete scans --all
-          helm -n integration-tests install trivy ./scanners/trivy/  \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-trivy" \
-            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-            --set-string="parser.env[0].value=true"
-          cd tests/integration/
-          npx jest --ci --color scanner/trivy.test.js
 
       # ---- Typo3scan Integration Tests ----
 
