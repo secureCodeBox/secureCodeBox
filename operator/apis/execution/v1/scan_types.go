@@ -83,7 +83,7 @@ type ScanStatus struct {
 
 	// FindingHeadLink link to send HEAD request to the finding json file. Valid for 7 days
 	FindingHeadLink string `json:"findingHeadLink,omitempty"`
-	// RawResultHeadLink link to send HEAD request to raw result file from. Valid for 7 days
+	// RawResultHeadLink link to send HEAD request to raw result file. Valid for 7 days
 	RawResultHeadLink string `json:"rawResultHeadLink,omitempty"`
 
 	Findings FindingStats `json:"findings,omitempty"`
