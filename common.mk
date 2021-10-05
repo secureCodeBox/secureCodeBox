@@ -89,7 +89,13 @@ unit-test-java:
 
 common-docker-build:
 	@echo ".: ⚙️ Build '$(name)' $(module) with BASE_IMG_TAG: '$(BASE_IMG_TAG)'."
-	docker build --build-arg=scannerVersion=$(shell yq e .appVersion ./Chart.yaml) --build-arg=baseImageTag=$(BASE_IMG_TAG) --build-arg=namespace=$(IMG_NS) -t $(IMG_NS)/$(module)-$(name):$(IMG_TAG) -f ./$(module)/Dockerfile ./$(module)
+	docker build \
+		--build-arg=scannerVersion=$(shell yq e .appVersion ./Chart.yaml) \
+		--build-arg=baseImageTag=$(BASE_IMG_TAG) \
+		--build-arg=namespace=$(IMG_NS) \
+		-t $(IMG_NS)/$(module)-$(name):$(IMG_TAG) \
+		-f ./$(module)/Dockerfile \
+		./$(module)
 
 common-docker-export:
 	@echo ".: ⚙️ Saving new docker image archive to '$(module)-$(name).tar'."
@@ -124,6 +130,10 @@ deploy-test-dep-petstore:
 deploy-test-dep-old-wordpress:
 	# Install old-wordpress app
 	helm -n demo-targets upgrade --install old-wordpress ../../demo-targets/old-wordpress/ --set="fullnameOverride=old-wordpress" --wait
+
+deploy-test-dep-old-typo3:
+	# Install old-typo3 app
+	helm -n demo-targets upgrade --install old-typo3 ../../demo-targets/old-typo3/ --set="fullnameOverride=old-typo3" --wait
 
 deploy-test-dep-juiceshop:
 	# Install juiceshop app

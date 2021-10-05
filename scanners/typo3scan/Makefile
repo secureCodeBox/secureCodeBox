@@ -10,3 +10,5 @@ scanner = typo3scan
 custom_scanner = set
 
 include ../../scanners.mk
+
+deploy-test-deps: deploy-test-dep-old-typo3
