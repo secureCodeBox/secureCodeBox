@@ -44,6 +44,9 @@ function categorize({ id }) {
 async function parse({ host, ip, port: portString, banner, vulnerabilities }) {
   const port = parseInt(portString, 10);
 
+  if (!vulnerabilities) // empty file
+    return [];
+
   return vulnerabilities.filter(Boolean).map(({ id, method, url, msg }) => {
     const niktoId = parseInt(id, 10);
 

@@ -4,7 +4,7 @@
 
 function parse(fileContent) {
   // Only 0 when the target wasn't reachable
-  if (fileContent.server_scan_results.length === 0) {
+  if (!fileContent.server_scan_results || fileContent.server_scan_results.length === 0) {
     return [];
   }
 
