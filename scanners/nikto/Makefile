@@ -10,3 +10,5 @@ scanner = nikto
 custom_scanner = set
 
 include ../../scanners.mk
+
+deploy-test-deps: deploy-test-dep-bodgeit
