@@ -1777,7 +1777,7 @@ spec:
                 type: string
               rawResultHeadLink:
                 description: RawResultHeadLink link to send HEAD request to raw result
-                  file from. Valid for 7 days
+                  file. Valid for 7 days
                 type: string
               rawResultType:
                 description: RawResultType determines which kind of ParseDefinition
