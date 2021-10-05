@@ -28,7 +28,7 @@ spec:
               imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
               command:
                 - "new-scanner"
-                - "/home/securecodebox/new-scanner-results.xml" # Replace output command
+                - "/home/securecodebox/new-scanner-results.json" # Replace output command
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:
