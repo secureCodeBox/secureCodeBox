@@ -935,7 +935,7 @@ jobs:
           # Install old-typo3 app
           helm -n demo-targets install old-typo3 ./demo-targets/old-typo3/ --set="fullnameOverride=old-typo3" --wait
           # Install old-joomla app
-          helm -n demo-targets install old-typo3 ./demo-targets/old-joomla/ --set="fullnameOverride=old-joomla" --wait
+          helm -n demo-targets install old-joomla ./demo-targets/old-joomla/ --set="fullnameOverride=old-joomla" --wait
           # Install juiceshop app
           helm -n demo-targets install juiceshop ./demo-targets/juice-shop/ --set="fullnameOverride=juiceshop" --wait
           # Install plain nginx server
