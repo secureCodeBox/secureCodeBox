@@ -40,6 +40,21 @@ Nmap ("Network Mapper") is a free and open source (license) utility for network 
 
 To learn more about the Nmap scanner itself visit [nmap.org].
 
+## NSE scripts
+
+Currently, the secureCodeBox Nmap parser supports the `smb-protocols`, `ftp-anon`, and `ftp-banner` script with compatibility for hostrules and portrules. If you want custom scripts to be parsed by secureCodeBox, you may contribute your script parser in `parser/parser.js` under `const scriptParser`
+
+```javascript
+const scriptParser = {
+  "ftp-anon": parseFtpAnon,
+  "banner": parseBanner,
+  "smb-protocols": parseSmbProtocols,
+  [...] // Contributed custom parsers
+}
+```
+
+Scripts without an existing parser will only generate an open port finding. Scripts with parsers will add a script output finding.
+
 ## Deployment
 The nmap chart can be deployed via helm:
 
