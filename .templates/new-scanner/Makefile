@@ -6,7 +6,7 @@
 #
 
 include_guard = set
-scanner = nmap
+scanner = new-scanner
 custom_scanner = set
 
 include ../../scanners.mk
