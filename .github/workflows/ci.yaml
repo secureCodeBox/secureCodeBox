@@ -276,7 +276,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        unit: ["amass"]
+        unit:
+          - amass
+          - nuclei
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -460,7 +462,6 @@ jobs:
           - ncrack
           - nikto
           - nmap
-          - nuclei
           - screenshooter
           - ssh-scan
           - sslyze

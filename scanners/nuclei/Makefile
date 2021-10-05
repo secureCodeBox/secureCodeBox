@@ -9,3 +9,11 @@ include_guard = set
 scanner = nuclei
 
 include ../../scanners.mk
+
+deploy-without-scanner:
+	@echo ".: 💾 Deploying '$(name)' $(scanner-prefix) HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
+	helm -n integration-tests upgrade --install $(name) ./ --wait \
+		--set="parser.image.repository=docker.io/$(IMG_NS)/$(parser-prefix)-$(name)" \
+		--set="parser.image.tag=$(IMG_TAG)" \
+		--set="nucleiTemplateCache.enabled=false"
+

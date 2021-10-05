@@ -10,3 +10,4 @@ docs/
 integration-tests/
 coverage/
 Makefile
+*.tar
