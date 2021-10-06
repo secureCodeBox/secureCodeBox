@@ -162,6 +162,18 @@ func (r *ScanReconciler) PresignedPutURL(scanID types.UID, filename string, dura
 	return rawResultDownloadURL.String(), nil
 }
 
+// PresignedHeadURL returns a presigned URL from the s3 (or compatible) serice.
+func (r *ScanReconciler) PresignedHeadURL(scanID types.UID, filename string, duration time.Duration) (string, error) {
+	bucketName := os.Getenv("S3_BUCKET")
+
+	rawResultHeadURL, err := r.MinioClient.PresignedHeadObject(context.Background(), bucketName, fmt.Sprintf("scan-%s/%s", string(scanID), filename), duration, nil)
+	if err != nil {
+		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
+		return "", err
+	}
+	return rawResultHeadURL.String(), nil
+}
+
 func (r *ScanReconciler) initS3Connection() *minio.Client {
 	endpoint := os.Getenv("S3_ENDPOINT")
 	if os.Getenv("S3_PORT") != "" {

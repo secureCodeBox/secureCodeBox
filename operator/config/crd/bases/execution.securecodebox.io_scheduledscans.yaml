@@ -87,18 +87,22 @@ spec:
                       should be generated.
                     properties:
                       inheritAnnotations:
+                        default: true
                         description: InheritAnnotations defines whether cascading
                           scans should inherit annotations from the parent scan
                         type: boolean
                       inheritEnv:
+                        default: false
                         description: InheritEnv defines whether cascading scans should
                           inherit environment variables from the parent scan
                         type: boolean
                       inheritLabels:
+                        default: true
                         description: InheritLabels defines whether cascading scans
                           should inherit labels from the parent scan
                         type: boolean
                       inheritVolumes:
+                        default: false
                         description: InheritVolumes defines whether cascading scans
                           should inherit volumes and volume mounts from the parent
                           scan
