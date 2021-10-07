@@ -9,12 +9,19 @@ jobs:
     strategy:
       matrix:
         scanner:
-          - amass 
+          - amass
+          - kube-hunter
+          - kubeaudit
+          - ncrack   
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Fetch release version
-        run: echo release=$((curl -sL https://api.github.com/repos/OWASP/Amass/releases/latest) | jq -r ".tag_name") >> $GITHUB_ENV
+        uses: mikefarah/yq@v4.4.1
+        with:
+          cmd: |
+            versionApi=$(yq e .versionApi scanners/${{ matrix.scanner }}/Chart.yaml) 
+            echo release=$((curl -sL $versionApi ) | jq -r ".tag_name") >> $GITHUB_ENV
 
       - name: Fetch local scanner version
         uses: mikefarah/yq@v4.4.1
@@ -23,4 +30,4 @@ jobs:
 
       - name: check if outdated  
         if: ${{env.release}} != ${{env.local}}           
-        run: echo '${{ matrix.scanner }} is outdated'
+        run: echo '${{ matrix.scanner }} is outdated.  scB version is ${{env.local}} and remote version is ${{env.release}}'
