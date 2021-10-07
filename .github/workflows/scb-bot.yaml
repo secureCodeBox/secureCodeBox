@@ -16,18 +16,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Fetch release version
+      - name: Fetch scanner's version API
         uses: mikefarah/yq@v4.4.1
         with:
-          cmd: |
-            versionApi=$(yq e .versionApi scanners/${{ matrix.scanner }}/Chart.yaml) 
-            echo release=$((curl -sL $versionApi ) | jq -r ".tag_name") >> $GITHUB_ENV
+          cmd: echo versionApi=$(yq e .versionApi scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV 
 
+      - name: Fetch release version
+        run: echo release=$((curl -sL ${{env.versionApi}}  ) | jq -r ".tag_name") >> $GITHUB_ENV
+            
       - name: Fetch local scanner version
         uses: mikefarah/yq@v4.4.1
         with:
           cmd: echo local=$(yq e .appVersion scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
 
-      - name: check if outdated  
+      - name: Check if outdated  
         if: ${{env.release}} != ${{env.local}}           
         run: echo '${{ matrix.scanner }} is outdated.  scB version is ${{env.local}} and remote version is ${{env.release}}'
