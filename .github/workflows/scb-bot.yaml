@@ -10,6 +10,8 @@ jobs:
       matrix:
         scanner:
           - amass
+          - angularjs-csti-scanner
+          - gitleaks
           - kube-hunter
           - kubeaudit
           - ncrack
@@ -21,7 +23,8 @@ jobs:
           - whatweb
           - wpscan
           - zap
-          - zap-advanced   
+          - zap-advanced 
+          # missing scanners are : nmap   
     steps:
       - uses: actions/checkout@v2
 
