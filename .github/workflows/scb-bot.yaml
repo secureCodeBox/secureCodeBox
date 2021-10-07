@@ -12,7 +12,15 @@ jobs:
           - amass
           - kube-hunter
           - kubeaudit
-          - ncrack   
+          - ncrack
+          - nuclei
+          - ssh-scan
+          - sslyze
+          - trivy
+          - whatweb
+          - wpscan
+          - zap
+          - zap-advanced   
     steps:
       - uses: actions/checkout@v2
 
