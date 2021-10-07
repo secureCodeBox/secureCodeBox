@@ -1,0 +1,26 @@
+name: Check outdated scanners
+on:
+  push:
+#  schedule:
+#    - cron: "0 8 * * *"
+jobs:
+  get-version:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        scanner:
+          - amass 
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Fetch release version
+        run: echo release=$((curl -sL https://api.github.com/repos/OWASP/Amass/releases/latest) | jq -r ".tag_name") >> $GITHUB_ENV
+
+      - name: Fetch local scanner version
+        uses: mikefarah/yq@v4.4.1
+        with:
+          cmd: echo local=$(yq e .appVersion scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
+
+      - name: check if outdated  
+        if: ${{env.release}} != ${{env.local}}           
+        run: echo '${{ matrix.scanner }} is outdated'
