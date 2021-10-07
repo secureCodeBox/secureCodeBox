@@ -4,7 +4,7 @@ on:
 #  schedule:
 #    - cron: "0 8 * * *"
 jobs:
-  get-version:
+  version-compare:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -17,6 +17,7 @@ jobs:
           - ssh-scan
           - sslyze
           - trivy
+          - typo3scan
           - whatweb
           - wpscan
           - zap
