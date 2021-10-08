@@ -34,23 +34,16 @@ func (r *ScanReconciler) setHookStatus(scan *executionv1.Scan) error {
 	r.Log.Info("Found ScanCompletionHooks", "ScanCompletionHooks", len(scanCompletionHooks.Items))
 
 	for _, hook := range scanCompletionHooks.Items {
-		hookStatus := executionv1.HookStatus{
+		hookStatus := &executionv1.HookStatus{
 			HookName: hook.Name,
 			State:    executionv1.Pending,
-			Priority: hook.Spec.Priority,
 			Type:     hook.Spec.Type,
+			Priority: hook.Spec.Priority,
 		}
-		if hook.Spec.Type == executionv1.ReadAndWrite {
-			scan.Status.ReadAndWriteHookStatus = append(scan.Status.ReadAndWriteHookStatus, &hookStatus)
-		} else if hook.Spec.Type == executionv1.ReadOnly {
-			scan.Status.ReadOnlyHookStatus = append(scan.Status.ReadOnlyHookStatus, &hookStatus)
-		}
+		scan.Status.HookStatuses = append(scan.Status.HookStatuses, hookStatus)
 	}
 
-	r.Log.Info("Found ReadAndWrite Hooks", "Hooks", len(scan.Status.ReadAndWriteHookStatus))
-	r.Log.Info("Found ReadOnlyHooks", "Hooks", len(scan.Status.ReadOnlyHookStatus))
-
-	scan.Status.State = "ReadAndWriteHookProcessing"
+	scan.Status.State = "HookProcessing"
 
 	if err := r.Status().Update(ctx, scan); err != nil {
 		r.Log.Error(err, "unable to update Scan status")
@@ -60,68 +53,15 @@ func (r *ScanReconciler) setHookStatus(scan *executionv1.Scan) error {
 	return nil
 }
 
-func getNonCompletedHookPriorityQueue(hooks *[]*executionv1.HookStatus) util.PriorityQueue {
-	var priorityQueue = make(util.PriorityQueue, len(*hooks))
-	var completedHooks = 0
-	for _, hook := range *hooks {
-		if hook.State != executionv1.Completed {
-			priorityQueueItem := util.PriorityQueueItem{
-				Value:    hook,
-				Priority: hook.Priority,
-			}
-			priorityQueue[completedHooks] = &priorityQueueItem
-			completedHooks++
-		}
-	}
-	priorityQueue = priorityQueue[:completedHooks]
-	heap.Init(&priorityQueue)
-	return priorityQueue
-}
-
-func (r *ScanReconciler) executeReadAndWriteHooks(scan *executionv1.Scan) error {
+func (r *ScanReconciler) executeHooks(scan *executionv1.Scan) error {
 	ctx := context.Background()
 
-	nonCompletedHooks := getNonCompletedHookPriorityQueue(&scan.Status.ReadAndWriteHookStatus)
-
-	var err error
-	// If nil then all hooks are done
-	if len(nonCompletedHooks) == 0 {
-		r.Log.Info("All ReadAndWriteHooks have been completed", "ScanName", scan.Name)
-		scan.Status.State = "ReadOnlyHookProcessing"
-	} else if len(nonCompletedHooks) > 0 {
-		priorityQueueItem := heap.Pop(&nonCompletedHooks).(*util.PriorityQueueItem)
-		hook := priorityQueueItem.Value.(*executionv1.HookStatus)
-
-		err = r.processHook(scan, hook)
-		if err != nil || hook.State == executionv1.Failed || hook.State == executionv1.Cancelled {
-			scan.Status.State = "Errored"
-			scan.Status.ErrorDescription = fmt.Sprintf("Failed to execute ReadAndWrite Hook '%s' in job '%s'. Check the logs of the hook for more information.", hook.HookName, hook.JobName)
-		}
-	}
-
-	if err == nil && scan.Status.State == "ReadAndWriteHookProcessing" {
-		// Check if there are now still incomplete hooks
-		scan.Status.State = "ReadOnlyHookProcessing"
-		for _, hook := range scan.Status.ReadAndWriteHookStatus {
-			if hook.State != executionv1.Completed {
-				scan.Status.State = "ReadAndWriteHookProcessing"
-				break
-			}
-		}
-	}
-
-	if sErr := r.Status().Update(ctx, scan); sErr != nil {
-		r.Log.Error(sErr, "Unable to update Scan status")
-		return sErr
-	}
-
-	return err
-}
-
-func (r *ScanReconciler) executeReadOnlyHooks(scan *executionv1.Scan) error {
-	ctx := context.Background()
-
-	nonCompletedHooks := getNonCompletedHookPriorityQueue(&scan.Status.ReadOnlyHookStatus)
+	nonCompletedHooks := util.PriorityQueueFromSlice(
+		&scan.Status.HookStatuses,
+		func(hook *executionv1.HookStatus) bool {
+			return hook.State != executionv1.Completed
+		},
+	)
 
 	var err error
 	// If nil then all hooks are done
@@ -132,30 +72,33 @@ func (r *ScanReconciler) executeReadOnlyHooks(scan *executionv1.Scan) error {
 		scan.Status.FinishedAt = &now
 	} else if len(nonCompletedHooks) > 0 {
 		for {
-			priorityQueueItem := heap.Pop(&nonCompletedHooks).(*util.PriorityQueueItem)
-			hook := priorityQueueItem.Value.(*executionv1.HookStatus)
+			hook := heap.Pop(&nonCompletedHooks).(*util.PriorityQueueItem).Value
 
 			err = r.processHook(scan, hook)
 			if err != nil || hook.State == executionv1.Failed || hook.State == executionv1.Cancelled {
 				scan.Status.State = "Errored"
-				scan.Status.ErrorDescription = fmt.Sprintf("Failed to execute ReadOnly Hook '%s' in job '%s'. Check the logs of the hook for more information.", hook.HookName, hook.JobName)
+				scan.Status.ErrorDescription = fmt.Sprintf("Failed to execute Hook '%s' in job '%s'. Check the logs of the hook for more information.", hook.HookName, hook.JobName)
 				break
 			}
 
-			// Only process hooks with identical priority in parallel
-			if nonCompletedHooks.Len() == 0 ||
-				nonCompletedHooks.Peek().(*util.PriorityQueueItem).Priority < priorityQueueItem.Priority {
+			// ReadAndWrite hooks may not be run in parallel
+			if nonCompletedHooks.Len() == 0 || hook.Type == executionv1.ReadAndWrite {
+				break
+			}
+
+			next := nonCompletedHooks.Peek().(*util.PriorityQueueItem).Value
+			if next.Priority < hook.Priority {
 				break
 			}
 		}
 	}
 
-	if err == nil && scan.Status.State == "ReadOnlyHookProcessing" {
+	if err == nil && scan.Status.State == "HookProcessing" {
 		// Check if there are now still incomplete hooks
 		scan.Status.State = "Completed"
-		for _, hook := range scan.Status.ReadOnlyHookStatus {
+		for _, hook := range scan.Status.HookStatuses {
 			if hook.State != executionv1.Completed {
-				scan.Status.State = "ReadOnlyHookProcessing"
+				scan.Status.State = "HookProcessing"
 				break
 			}
 		}

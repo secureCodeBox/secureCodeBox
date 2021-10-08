@@ -1756,6 +1756,29 @@ spec:
                   parser & hooks) has been marked as "Done"
                 format: date-time
                 type: string
+              hookStatuses:
+                items:
+                  properties:
+                    hookName:
+                      type: string
+                    jobName:
+                      type: string
+                    priority:
+                      type: integer
+                    state:
+                      description: HookState Describes the State of a Hook on a Scan
+                      type: string
+                    type:
+                      description: HookType Defines weather the hook should be able
+                        to change the findings or is run in a read only mode.
+                      type: string
+                  required:
+                  - hookName
+                  - priority
+                  - state
+                  - type
+                  type: object
+                type: array
               rawResultDownloadLink:
                 description: RawResultDownloadLink link to download the raw result
                   file from. Valid for 7 days
@@ -1768,52 +1791,6 @@ spec:
                 description: RawResultType determines which kind of ParseDefinition
                   will be used to turn the raw results of the scanner into findings
                 type: string
-              readAndWriteHookStatus:
-                items:
-                  properties:
-                    hookName:
-                      type: string
-                    jobName:
-                      type: string
-                    priority:
-                      type: integer
-                    state:
-                      description: HookState Describes the State of a Hook on a Scan
-                      type: string
-                    type:
-                      description: HookType Defines weather the hook should be able
-                        to change the findings or is run in a read only mode.
-                      type: string
-                  required:
-                  - hookName
-                  - priority
-                  - state
-                  - type
-                  type: object
-                type: array
-              readOnlyHookStatus:
-                items:
-                  properties:
-                    hookName:
-                      type: string
-                    jobName:
-                      type: string
-                    priority:
-                      type: integer
-                    state:
-                      description: HookState Describes the State of a Hook on a Scan
-                      type: string
-                    type:
-                      description: HookType Defines weather the hook should be able
-                        to change the findings or is run in a read only mode.
-                      type: string
-                  required:
-                  - hookName
-                  - priority
-                  - state
-                  - type
-                  type: object
-                type: array
               state:
                 type: string
             type: object

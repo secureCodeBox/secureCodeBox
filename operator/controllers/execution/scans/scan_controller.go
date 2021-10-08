@@ -99,10 +99,8 @@ func (r *ScanReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.
 		err = r.checkIfParsingIsCompleted(&scan)
 	case "ParseCompleted":
 		err = r.setHookStatus(&scan)
-	case "ReadAndWriteHookProcessing":
-		err = r.executeReadAndWriteHooks(&scan)
-	case "ReadOnlyHookProcessing":
-		err = r.executeReadOnlyHooks(&scan)
+	case "HookProcessing":
+		err = r.executeHooks(&scan)
 	}
 	if err != nil {
 		return ctrl.Result{}, err
