@@ -43,4 +43,5 @@ jobs:
 
       - name: Check if outdated  
         if: ${{ env.release != env.local }}          
-        run: echo '${{ matrix.scanner }} scanner is outdated.  scB version is ${{env.local}} and remote version is ${{env.release}}'   
+        run: echo '${{ matrix.scanner }} scanner is outdated.  scB version is ${{env.local}} and remote version is ${{env.release}}'
+        #TODO Pull request to update scanner   
