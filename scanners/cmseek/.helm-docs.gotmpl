@@ -1,0 +1,48 @@
+{{- /*
+SPDX-FileCopyrightText: 2021 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
+
+{{- define "extra.docsSection" -}}
+---
+title: "CMSeeK"
+category: "scanner"
+type: "CMS"
+state: "released"
+appVersion: "{{ template "chart.appVersion" . }}"
+usecase: "Automation of the process of detecting the Joomla CMS and its core vulnerabilities"
+---
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.appVersion" . }}`
+{{- end }}
+
+{{- define "extra.chartAboutSection" -}}
+## What is CMSeeK?
+CMSeeK is an open source penetration testing tool to automate the process of detecting various types of CMS and it's installed extensions.
+We use it to scan Joomla CMS. It also has a database with known vulnerabilities.
+
+To learn more about the CMSeeK scanner itself visit [https://github.com/Tuhinshubhra/CMSeeK].
+{{- end }}
+
+{{- define "extra.scannerConfigurationSection" -}}
+## Scanner Configuration
+
+The CMSeeK targets are specified with the `-u` parameter. The target should be a hostname or an IP address.
+
+Additional CMSeeK scan features can be configured via the parameter attribute.
+
+Some useful example parameters listed below:
+
+- `-u URL, --url URL` : Target Url.
+- `--follow-redirect` : Follows all/any redirect(s).
+- `--no-redirect` : kips all redirects and tests the input target(s)
+- `-r, --random-agent`: Use a random user agent.
+- `--googlebot`: Use Google bot user agent.
+- `--user-agent USER_AGENT`:  Specify a custom user agent
+
+{{- end }}
