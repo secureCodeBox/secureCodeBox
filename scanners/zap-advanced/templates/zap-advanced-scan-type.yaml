@@ -46,7 +46,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: zap-advanced-scan
-              image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
+              image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.Version }}"
               imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
               command:
                 - "python3"
