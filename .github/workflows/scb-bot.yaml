@@ -24,7 +24,7 @@ jobs:
           - wpscan
           - zap
           - zap-advanced 
-          # missing scanners are : nmap   
+          # missing scanners are : nmap, nikto  
     steps:
       - uses: actions/checkout@v2
 
@@ -34,12 +34,12 @@ jobs:
           cmd: echo versionApi=$(yq e .versionApi scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV 
 
       - name: Fetch release version
-        run: echo release=$((curl -sL ${{env.versionApi}}  ) | jq -r ".tag_name") >> $GITHUB_ENV
+        run: echo release=$((curl -sL ${{env.versionApi}}  ) | jq -r ".tag_name") | tr -d "v" >> $GITHUB_ENV
             
       - name: Fetch local scanner version
         uses: mikefarah/yq@v4.4.1
         with:
-          cmd: echo local=$(yq e .appVersion scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
+          cmd: echo local=$(yq e .appVersion scanners/${{ matrix.scanner }}/Chart.yaml) | tr -d "v" >> $GITHUB_ENV
 
       - name: Check if outdated  
         if: ${{ env.release != env.local }}          
