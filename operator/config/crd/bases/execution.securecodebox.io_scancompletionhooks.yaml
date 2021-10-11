@@ -180,9 +180,10 @@ spec:
                 type: array
               priority:
                 default: 0
-                description: Defines the priority of the hook. Higher priority hooks
-                  run before low priority hooks. Hooks with identical priority will
-                  be launched in parallel.
+                description: Higher priority hooks run before low priority hooks.
+                  Within a priority class ReadAndWrite hooks are started before ReadOnly
+                  hooks, ReadAndWrite hooks wil be launched in serial, and ReadOnly
+                  hooks will be launched in parallel.
                 type: integer
               serviceAccountName:
                 description: ServiceAccountName Name of the serviceAccount Name used.

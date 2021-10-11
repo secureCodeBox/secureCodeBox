@@ -30,7 +30,7 @@ type ScanCompletionHookSpec struct {
 	// Defines weather the hook should be able to change the findings or is run in a read only mode.
 	Type HookType `json:"type"`
 
-	// Defines the priority of the hook. Higher priority hooks run before low priority hooks. Hooks with identical priority will be launched in parallel.
+	// Higher priority hooks run before low priority hooks. Within a priority class ReadAndWrite hooks are started before ReadOnly hooks, ReadAndWrite hooks wil be launched in serial, and ReadOnly hooks will be launched in parallel.
 	// +kubebuilder:default=0
 	// +kubebuilder:validation:Optional
 	Priority int `json:"priority"`
