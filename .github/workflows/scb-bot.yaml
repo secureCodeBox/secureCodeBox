@@ -44,4 +44,9 @@ jobs:
       - name: Check if outdated  
         if: ${{ env.release != env.local }}          
         run: echo '${{ matrix.scanner }} scanner is outdated.  scB version is ${{env.local}} and remote version is ${{env.release}}'
-        #TODO Pull request to update scanner   
+             echo pr=[sCB-Bot] Upgrade ${{ matrix.scanner }} from ${{env.versionApi}} to ${{env.release}} >> $GITHUB_ENV
+
+      - name : Check if PR already exists
+        if: ${{ (curl -sL https://api.github.com/repos/secureCodeBox/secureCodeBox/pulls | jq '.[]' | grep "${{env.pr}}" -c) == 0 }} 
+        run: echo "launch a PR here"
+
