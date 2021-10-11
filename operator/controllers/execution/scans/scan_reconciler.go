@@ -107,12 +107,26 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 	}
 	scan.Status.RawResultDownloadLink = rawResultDownloadURL
 
+	findingsHeadURL, err := r.PresignedHeadURL(scan.UID, "findings.json", 7*24*time.Hour)
+	if err != nil {
+		r.Log.Error(err, "Could not get presigned head url from s3 or compatible storage provider")
+		return err
+	}
+	scan.Status.FindingHeadLink = findingsHeadURL
+
+	rawResultsHeadURL, err := r.PresignedHeadURL(scan.UID, scan.Status.RawResultFile, 7*24*time.Hour)
+	if err != nil {
+		r.Log.Error(err, "Could not get presigned head url from s3 or compatible storage provider")
+		return err
+	}
+	scan.Status.RawResultHeadLink = rawResultsHeadURL
+
 	if err := r.Status().Update(ctx, scan); err != nil {
 		log.Error(err, "unable to update Scan status")
 		return err
 	}
 
-	log.V(1).Info("created Job for Scan", "job", job)
+	log.V(7).Info("created Job for Scan", "job", job)
 	return nil
 }
 
