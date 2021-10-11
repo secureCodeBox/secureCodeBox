@@ -283,6 +283,7 @@ jobs:
           - kubeaudit
           - kube-hunter
           - ncrack
+          - nikto
           - nmap
           - nuclei
           - ssh-scan
@@ -466,7 +467,6 @@ jobs:
       matrix:
         parser:
           - git-repo-scanner
-          - nikto
           - screenshooter
           - test-scan
           - whatweb
@@ -550,7 +550,6 @@ jobs:
     strategy:
       matrix:
         scanner:
-          - nikto
           - typo3scan
           - whatweb
 
@@ -902,25 +901,6 @@ jobs:
           # Install plain nginx server
           kubectl create deployment --image nginx:alpine nginx --namespace demo-targets
           kubectl expose deployment nginx --port 80 --namespace demo-targets
-
-      # ---- Kubeaudit Integration Tests ----
-
-      # ---- Ncrack Integration Tests ----
-
-      # ---- Nikto Integration Tests ----
-
-      - name: "nikto Integration Tests"
-        run: |
-          kubectl -n integration-tests delete scans --all
-          helm -n integration-tests install nikto ./scanners/nikto/ \
-            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nikto" \
-            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nikto" \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-            --set-string="parser.env[0].value=true"
-          cd tests/integration/
-          npx jest --ci --color scanner/nikto.test.js
 
       # ---- Notification Hook Tests ----
 
