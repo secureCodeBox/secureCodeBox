@@ -280,6 +280,7 @@ jobs:
           - amass
           - angularjs-csti-scanner
           - gitleaks
+          - kube-hunter
           - nuclei
           - ssh-scan
           - sslyze
@@ -462,7 +463,6 @@ jobs:
       matrix:
         parser:
           - git-repo-scanner
-          - kube-hunter
           - kubeaudit
           - ncrack
           - nikto
@@ -550,7 +550,6 @@ jobs:
     strategy:
       matrix:
         scanner:
-          - kube-hunter
           - kubeaudit
           - ncrack
           - nmap
@@ -906,20 +905,6 @@ jobs:
           # Install plain nginx server
           kubectl create deployment --image nginx:alpine nginx --namespace demo-targets
           kubectl expose deployment nginx --port 80 --namespace demo-targets
-
-      # ---- Kubehunter Integration Tests ----
-
-      - name: "kube-hunter Integration Tests"
-        run: |
-          helm -n integration-tests install kube-hunter ./scanners/kube-hunter/ \
-            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-kube-hunter" \
-            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-kube-hunter" \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-            --set-string="parser.env[0].value=true"
-          cd tests/integration/
-          npx jest --ci --color scanner/kube-hunter.test.js
 
       # ---- Kubeaudit Integration Tests ----
 
