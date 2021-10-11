@@ -282,6 +282,7 @@ jobs:
           - gitleaks
           - kubeaudit
           - kube-hunter
+          - ncrack
           - nuclei
           - ssh-scan
           - sslyze
@@ -464,7 +465,6 @@ jobs:
       matrix:
         parser:
           - git-repo-scanner
-          - ncrack
           - nikto
           - nmap
           - screenshooter
@@ -550,7 +550,6 @@ jobs:
     strategy:
       matrix:
         scanner:
-          - ncrack
           - nmap
           - nikto
           - typo3scan
@@ -909,19 +908,6 @@ jobs:
 
       # ---- Ncrack Integration Tests ----
 
-      - name: "ncrack Integration Tests"
-        run: |
-          kubectl -n integration-tests delete scans --all
-          helm -n integration-tests install ncrack ./scanners/ncrack/ \
-            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-ncrack" \
-            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-ncrack" \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-            --set-string="parser.env[0].value=true"
-          cd tests/integration/
-          npx jest --ci --color scanner/ncrack.test.js
-
       # ---- Nikto Integration Tests ----
 
       - name: "nikto Integration Tests"
@@ -1016,57 +1002,6 @@ jobs:
           kubectl apply -f ./scanners/zap-advanced/examples/integration-tests/scantype-configMap.yaml -n integration-tests
           cd tests/integration/
           npx jest --ci --color scanner/zap-advanced.test.js
-
-      # ---- Cascading Scans ncrack Integration Test ----
-
-      - name: "cascading Scans ncrack Integration Tests"
-        run: |
-
-          # We'll recreate the namespace so that no cascadingRules of previous tests can exist in there
-          if kubectl get namespace integration-tests; then
-            kubectl delete namespace integration-tests
-          fi
-          kubectl create namespace integration-tests
-
-          # Install cascading-scans hook
-          helm upgrade --install dssh ./hooks/cascading-scans/ -n integration-tests \
-            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-cascading-scans" \
-            --set="hook.image.tag=sha-$(git rev-parse --short HEAD)"
-          # Install nmap
-          helm -n integration-tests install nmap ./scanners/nmap/ \
-            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \
-            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nmap" \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-            --set-string="parser.env[0].value=true"
-          # Install ncrack
-          printf "root\nadmin\n" > users.txt
-          printf "THEPASSWORDYOUCREATED\n123456\npassword\n" > passwords.txt
-          kubectl create secret generic --from-file users.txt --from-file passwords.txt ncrack-lists -n integration-tests
-          cat <<EOF | helm -n integration-tests install ncrack ./scanners/ncrack \
-            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-ncrack" \
-            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-ncrack" \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-            --set-string="parser.env[0].value=true" \
-            --values -
-          scanner:
-            extraVolumes:
-              - name: ncrack-lists
-                secret:
-                  secretName: ncrack-lists
-            extraVolumeMounts:
-              - name: ncrack-lists
-                mountPath: "/ncrack/"
-          EOF
-          # Actually run the tests
-          cd tests/integration/
-          npx jest --ci --color scanner/cascade-nmap-ncrack.test.js
-          # Clean up:
-          kubectl -n integration-tests delete scans --all
-          kubectl delete namespace integration-tests
 
       # ---- Debuging Cluster on Failure ----
 
