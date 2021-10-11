@@ -278,6 +278,7 @@ jobs:
       matrix:
         unit:
           - amass
+          - angularjs-csti-scanner
           - nuclei
           - ssh-scan
           - sslyze
@@ -459,7 +460,6 @@ jobs:
     strategy:
       matrix:
         parser:
-          - angularjs-csti-scanner
           - git-repo-scanner
           - gitleaks
           - kube-hunter
@@ -550,7 +550,6 @@ jobs:
     strategy:
       matrix:
         scanner:
-          - angularjs-csti-scanner
           - gitleaks
           - kube-hunter
           - kubeaudit
