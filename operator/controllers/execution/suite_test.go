@@ -7,7 +7,6 @@ package controllers
 import (
 	"path/filepath"
 	"testing"
-	"time"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -22,11 +21,8 @@ import (
 
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
 	//+kubebuilder:scaffold:imports
 
-	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 )
 
@@ -50,7 +46,7 @@ var _ = BeforeSuite(func() {
 
 	By("bootstrapping test environment")
 	testEnv = &envtest.Environment{
-		CRDDirectoryPaths:     []string{filepath.Join("..", "config", "crd", "bases"), filepath.Join("..", "..", "..", "operator", "config", "crd", "bases")},
+		CRDDirectoryPaths:     []string{filepath.Join("..", "..", "config", "crd", "bases")},
 		ErrorIfCRDPathMissing: false,
 	}
 
@@ -72,31 +68,16 @@ var _ = BeforeSuite(func() {
 	})
 	Expect(err).ToNot(HaveOccurred())
 
-	config := configv1.AutoDiscoveryConfig{
-		Cluster: configv1.ClusterConfig{
-			Name: "test-cluster",
-		},
-		ServiceAutoDiscoveryConfig: configv1.ServiceAutoDiscoveryConfig{
-			PassiveReconcileInterval: metav1.Duration{Duration: 1 * time.Second},
-			ScanConfig: configv1.ScanConfig{
-				RepeatInterval: metav1.Duration{Duration: time.Hour},
-				Annotations:    map[string]string{},
-				Labels:         map[string]string{},
-				Parameters:     []string{"-p", "{{ .Host.Port }}", "{{ .Service.Name }}.{{ .Service.Namespace }}.svc"},
-				ScanType:       "nmap",
-			},
-		},
-		ResourceInclusion: configv1.ResourceInclusionConfig{
-			Mode: configv1.EnabledPerResource,
-		},
-	}
-
-	err = (&ServiceScanReconciler{
+	err = (&ScanTypeReconciler{
 		Client:   k8sManager.GetClient(),
 		Scheme:   k8sManager.GetScheme(),
-		Recorder: k8sManager.GetEventRecorderFor("ServiceScanController"),
-		Log:      ctrl.Log.WithName("controllers").WithName("ServiceScanController"),
-		Config:   config,
+		Recorder: k8sManager.GetEventRecorderFor("ScanTypeController"),
+		Log:      ctrl.Log.WithName("controllers").WithName("ScanTypeController"),
+	}).SetupWithManager(k8sManager)
+	err = (&ScheduledScanReconciler{
+		Client: k8sManager.GetClient(),
+		Scheme: k8sManager.GetScheme(),
+		Log:    ctrl.Log.WithName("controllers").WithName("ScheduledScanController"),
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 

@@ -31,6 +31,11 @@ type ScheduledScanSpec struct {
 
 	// ScanSpec describes the scan which should be started regularly
 	ScanSpec *ScanSpec `json:"scanSpec"`
+
+	// RetriggerOnScanTypeChange will automatically trigger a new scan for the scheduledScan if the referenced ScanType was updated
+	// +kubebuilder:validation:Optional
+	// +kubebuilder:default=false
+	RetriggerOnScanTypeChange bool `json:"retriggerOnScanTypeChange,omitempty"`
 }
 
 // ScheduledScanStatus defines the observed state of ScheduledScan
@@ -42,6 +47,11 @@ type ScheduledScanStatus struct {
 
 	// Findings Contains the findings stats of the most recent completed scan
 	Findings FindingStats `json:"findings,omitempty"`
+
+	// Note this is stored in a string not a uint64 as OpenAPI doesn't support unsigned data types and the normal int64 format is obviously one bit too short for uint64's...
+
+	// ScanTypeHash contains a hash of the scanType used. Hash is generated after the ScheduledScan is applied to the cluster and is currently not guaranteed to be the one used by the scan controller.
+	ScanTypeHash string `json:"scanTypeHash,omitempty"`
 }
 
 // +kubebuilder:object:root=true
