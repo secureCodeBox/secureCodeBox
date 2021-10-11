@@ -113,8 +113,6 @@ func (r *ScanReconciler) executeHooks(scan *executionv1.Scan) error {
 }
 
 func (r *ScanReconciler) processHook(scan *executionv1.Scan, nonCompletedHook *executionv1.HookStatus) error {
-	ctx := context.Background()
-
 	var jobType string
 	if nonCompletedHook.Type == executionv1.ReadOnly {
 		jobType = "read-only-hook"
@@ -127,101 +125,9 @@ func (r *ScanReconciler) processHook(scan *executionv1.Scan, nonCompletedHook *e
 	var err error
 	switch nonCompletedHook.State {
 	case executionv1.Pending:
-		var hook executionv1.ScanCompletionHook
-		err = r.Get(ctx, types.NamespacedName{Name: nonCompletedHook.HookName, Namespace: scan.Namespace}, &hook)
-		if err != nil {
-			r.Log.Error(err, "Failed to get ReadAndWrite Hook for HookStatus")
-			break
-		}
-
-		var jobs *batch.JobList
-		jobs, err = r.getJobsForScan(scan, client.MatchingLabels{
-			"securecodebox.io/job-type":  jobType,
-			"securecodebox.io/hook-name": nonCompletedHook.HookName,
-		})
-		if err != nil {
-			break
-		}
-		if len(jobs.Items) > 0 {
-			break // Job already exists
-		}
-
-		var rawFileURL string
-		rawFileURL, err = r.PresignedGetURL(scan.UID, scan.Status.RawResultFile, defaultPresignDuration)
-		if err != nil {
-			break
-		}
-		var findingsFileURL string
-		findingsFileURL, err = r.PresignedGetURL(scan.UID, "findings.json", defaultPresignDuration)
-		if err != nil {
-			break
-		}
-
-		var jobName string
-		switch hook.Spec.Type {
-		case executionv1.ReadOnly:
-			jobName, err = r.createJobForHook(
-				&hook,
-				scan,
-				[]string{
-					rawFileURL,
-					findingsFileURL,
-				},
-			)
-		case executionv1.ReadAndWrite:
-			var rawFileUploadURL string
-			rawFileUploadURL, err = r.PresignedPutURL(scan.UID, scan.Status.RawResultFile, defaultPresignDuration)
-			if err != nil {
-				break
-			}
-			var findingsUploadURL string
-			findingsUploadURL, err = r.PresignedPutURL(scan.UID, "findings.json", defaultPresignDuration)
-			if err != nil {
-				break
-			}
-
-			jobName, err = r.createJobForHook(
-				&hook,
-				scan,
-				[]string{
-					rawFileURL,
-					findingsFileURL,
-					rawFileUploadURL,
-					findingsUploadURL,
-				},
-			)
-		}
-		if err != nil {
-			break
-		}
-
-		// Update the currently executed hook job name and status to "InProgress"
-		nonCompletedHook.JobName = jobName
-		nonCompletedHook.State = executionv1.InProgress
-		return err
+		err = r.processPendingHook(scan, nonCompletedHook, jobType)
 	case executionv1.InProgress:
-		var jobStatus jobCompletionType
-		jobStatus, err = r.checkIfJobIsCompleted(scan, client.MatchingLabels{
-			"securecodebox.io/job-type":  jobType,
-			"securecodebox.io/hook-name": nonCompletedHook.HookName,
-		})
-		if err != nil {
-			r.Log.Error(err, "Failed to check job status for Hook")
-			break
-		}
-		switch jobStatus {
-		case completed:
-			// Job is completed => set current Hook to completed
-			nonCompletedHook.State = executionv1.Completed
-		case incomplete:
-			// Still waiting for job to finish
-		case failed:
-			if nonCompletedHook.State == executionv1.Pending {
-				nonCompletedHook.State = executionv1.Cancelled
-			} else {
-				nonCompletedHook.State = executionv1.Failed
-			}
-		}
+		err = r.processInProgressHook(scan, nonCompletedHook, jobType)
 	}
 
 	if err == nil {
@@ -229,6 +135,96 @@ func (r *ScanReconciler) processHook(scan *executionv1.Scan, nonCompletedHook *e
 	}
 
 	return err
+}
+
+func (r *ScanReconciler) processPendingHook(scan *executionv1.Scan, pendingHook *executionv1.HookStatus, jobType string) error {
+	ctx := context.Background()
+
+	var hook executionv1.ScanCompletionHook
+	var err error
+	err = r.Get(ctx, types.NamespacedName{Name: pendingHook.HookName, Namespace: scan.Namespace}, &hook)
+	if err != nil {
+		r.Log.Error(err, "Failed to get Hook for HookStatus")
+		return err
+	}
+
+	var jobs *batch.JobList
+	jobs, err = r.getJobsForScan(scan, client.MatchingLabels{
+		"securecodebox.io/job-type":  jobType,
+		"securecodebox.io/hook-name": pendingHook.HookName,
+	})
+	if err != nil || len(jobs.Items) > 0 {
+		return err
+	}
+
+	var rawFileURL string
+	rawFileURL, err = r.PresignedGetURL(scan.UID, scan.Status.RawResultFile, defaultPresignDuration)
+	if err != nil {
+		return err
+	}
+	var findingsFileURL string
+	findingsFileURL, err = r.PresignedGetURL(scan.UID, "findings.json", defaultPresignDuration)
+	if err != nil {
+		return err
+	}
+
+	var args = []string{
+		rawFileURL,
+		findingsFileURL,
+	}
+	if hook.Spec.Type == executionv1.ReadAndWrite {
+		var rawFileUploadURL string
+		rawFileUploadURL, err = r.PresignedPutURL(scan.UID, scan.Status.RawResultFile, defaultPresignDuration)
+		if err != nil {
+			return err
+		}
+		var findingsUploadURL string
+		findingsUploadURL, err = r.PresignedPutURL(scan.UID, "findings.json", defaultPresignDuration)
+		if err != nil {
+			return err
+		}
+		args = append(args, rawFileUploadURL, findingsUploadURL)
+	}
+
+	var jobName string
+	jobName, err = r.createJobForHook(
+		&hook,
+		scan,
+		args,
+	)
+
+	if err == nil {
+		// Update the currently executed hook job name and status to "InProgress"
+		pendingHook.JobName = jobName
+		pendingHook.State = executionv1.InProgress
+	}
+
+	return err
+}
+
+func (r *ScanReconciler) processInProgressHook(scan *executionv1.Scan, inProgressHook *executionv1.HookStatus, jobType string) error {
+	jobStatus, err := r.checkIfJobIsCompleted(scan, client.MatchingLabels{
+		"securecodebox.io/job-type":  jobType,
+		"securecodebox.io/hook-name": inProgressHook.HookName,
+	})
+	if err != nil {
+		r.Log.Error(err, "Failed to check job status for Hook")
+		return err
+	}
+	switch jobStatus {
+	case completed:
+		// Job is completed => set current Hook to completed
+		inProgressHook.State = executionv1.Completed
+	case incomplete:
+		// Still waiting for job to finish
+	case failed:
+		if inProgressHook.State == executionv1.Pending {
+			inProgressHook.State = executionv1.Cancelled
+		} else {
+			inProgressHook.State = executionv1.Failed
+		}
+	}
+	return nil
 }
 
 func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, scan *executionv1.Scan, cliArgs []string) (string, error) {
