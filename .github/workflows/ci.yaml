@@ -286,6 +286,7 @@ jobs:
           - nikto
           - nmap
           - nuclei
+          - screenshooter
           - ssh-scan
           - sslyze
           - trivy
@@ -469,7 +470,6 @@ jobs:
       matrix:
         parser:
           - git-repo-scanner
-          - screenshooter
           - test-scan
 
     steps:
@@ -556,7 +556,6 @@ jobs:
       matrix:
         scanner:
           - git-repo-scanner
-          - screenshooter
           - test-scan
           - zap-advanced
     steps:
