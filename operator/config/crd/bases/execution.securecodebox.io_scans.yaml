@@ -1721,6 +1721,10 @@ spec:
                 description: FindingDownloadLink link to download the finding json
                   file from. Valid for 7 days
                 type: string
+              findingHeadLink:
+                description: FindingHeadLink link to send HEAD request to the finding
+                  json file. Valid for 7 days
+                type: string
               findings:
                 description: FindingStats contains the general stats about the results
                   of the scan
@@ -1767,6 +1771,10 @@ spec:
               rawResultFile:
                 description: RawResultFile Filename of the result file of the scanner.
                   e.g. `nmap-result.xml`
+                type: string
+              rawResultHeadLink:
+                description: RawResultHeadLink link to send HEAD request to raw result
+                  file. Valid for 7 days
                 type: string
               rawResultType:
                 description: RawResultType determines which kind of ParseDefinition

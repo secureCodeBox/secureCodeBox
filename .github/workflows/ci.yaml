@@ -483,6 +483,7 @@ jobs:
       matrix:
         parser:
           - angularjs-csti-scanner
+          - cmseek
           - git-repo-scanner
           - gitleaks
           - kube-hunter
@@ -580,6 +581,7 @@ jobs:
       matrix:
         scanner:
           - angularjs-csti-scanner
+          - cmseek
           - gitleaks
           - kube-hunter
           - kubeaudit
@@ -932,12 +934,28 @@ jobs:
           helm -n demo-targets install old-wordpress ./demo-targets/old-wordpress/ --set="fullnameOverride=old-wordpress" --wait
           # Install old-typo3 app
           helm -n demo-targets install old-typo3 ./demo-targets/old-typo3/ --set="fullnameOverride=old-typo3" --wait
+          # Install old-joomla app
+          helm -n demo-targets install old-joomla ./demo-targets/old-joomla/ --set="fullnameOverride=old-joomla" --wait
           # Install juiceshop app
           helm -n demo-targets install juiceshop ./demo-targets/juice-shop/ --set="fullnameOverride=juiceshop" --wait
           # Install plain nginx server
           kubectl create deployment --image nginx:alpine nginx --namespace demo-targets
           kubectl expose deployment nginx --port 80 --namespace demo-targets
 
+
+      # ---- CMSeeK Integration Tests ----
+
+      - name: "cmseek Integration Tests"
+        run: |
+          kubectl -n integration-tests delete scans --all
+          helm -n integration-tests install cmseek ./scanners/cmseek/  \
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-cmseek" \
+            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
+            --set-string="parser.env[0].value=true"
+          cd tests/integration/
+          npx jest --ci --color scanner/cmseek.test.js  
+          
       # ---- gitleaks Integration Tests ----
 
       - name: "gitleaks Integration Tests"

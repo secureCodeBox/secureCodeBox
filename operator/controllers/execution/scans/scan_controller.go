@@ -118,7 +118,7 @@ var errNotFound = "The specified key does not exist."
 func (r *ScanReconciler) handleFinalizer(scan *executionv1.Scan) error {
 	if containsString(scan.ObjectMeta.Finalizers, s3StorageFinalizer) {
 		bucketName := os.Getenv("S3_BUCKET")
-		r.Log.V(0).Info("Deleting External Files from FileStorage", "ScanUID", scan.UID)
+		r.Log.V(3).Info("Deleting External Files from FileStorage", "ScanUID", scan.UID)
 		err := r.MinioClient.RemoveObject(context.Background(), bucketName, fmt.Sprintf("scan-%s/%s", scan.UID, scan.Status.RawResultFile), minio.RemoveObjectOptions{})
 		if err != nil && err.Error() != errNotFound {
 			return err
@@ -160,6 +160,18 @@ func (r *ScanReconciler) PresignedPutURL(scanID types.UID, filename string, dura
 		return "", err
 	}
 	return rawResultDownloadURL.String(), nil
+}
+
+// PresignedHeadURL returns a presigned URL from the s3 (or compatible) serice.
+func (r *ScanReconciler) PresignedHeadURL(scanID types.UID, filename string, duration time.Duration) (string, error) {
+	bucketName := os.Getenv("S3_BUCKET")
+
+	rawResultHeadURL, err := r.MinioClient.PresignedHeadObject(context.Background(), bucketName, fmt.Sprintf("scan-%s/%s", string(scanID), filename), duration, nil)
+	if err != nil {
+		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
+		return "", err
+	}
+	return rawResultHeadURL.String(), nil
 }
 
 func (r *ScanReconciler) initS3Connection() *minio.Client {

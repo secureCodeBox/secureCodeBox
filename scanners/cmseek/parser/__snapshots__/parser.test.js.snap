@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parser parses result of Joomla scan with core vulnerabilities successfully 1`] = `
+Array [
+  Object {
+    "attributes": Object {
+      "joomla_version": "3.6.5",
+      "references": Array [
+        "CVE : CVE-2016-10033",
+        "https://www.rapid7.com/db/modules/exploit/multi/http/phpmailer_arg_injection",
+        "https://github.com/opsxcq/exploit-CVE-2016-10033",
+        "EDB : https://www.exploit-db.com/exploits/40969/",
+      ],
+    },
+    "category": "Vulnerability",
+    "description": "Vulnerability of type PHPMailer Remote Code Execution Vulnerability found",
+    "location": "http://172.26.0.3/",
+    "name": "PHPMailer Remote Code Execution Vulnerability",
+    "osi_layer": "APPLICATION",
+    "severity": "HIGH",
+  },
+  Object {
+    "attributes": Object {
+      "joomla_version": "3.6.5",
+      "references": Array [
+        "CVE : CVE-2016-10045",
+        "https://www.rapid7.com/db/modules/exploit/multi/http/phpmailer_arg_injection",
+        "EDB : https://www.exploit-db.com/exploits/40969/",
+      ],
+    },
+    "category": "Vulnerability",
+    "description": "Vulnerability of type PPHPMailer Incomplete Fix Remote Code Execution Vulnerability found",
+    "location": "http://172.26.0.3/",
+    "name": "PPHPMailer Incomplete Fix Remote Code Execution Vulnerability",
+    "osi_layer": "APPLICATION",
+    "severity": "HIGH",
+  },
+  Object {
+    "attributes": Object {
+      "joomla_backup_files": Array [
+        "http://172.26.0.3/1.save",
+        "http://172.26.0.3/1.tar.gz",
+        "http://172.26.0.3/1.rar",
+        "http://172.26.0.3/1.tar",
+        "http://172.26.0.3/1.zip",
+        "http://172.26.0.3/1.txt",
+        "http://172.26.0.3/1.tgz",
+        "http://172.26.0.3/1.tar.bz2",
+        "http://172.26.0.3/1.gz",
+        "http://172.26.0.3/1.tmp",
+      ],
+    },
+    "category": "Visible internal files",
+    "description": "Visible Backup files found",
+    "location": "http://172.26.0.3/",
+    "name": "Backup files",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+  },
+  Object {
+    "category": "Security Misconfiguration",
+    "description": "Debug mode is enabled on the site",
+    "location": "http://172.26.0.3/",
+    "name": "Debug mode",
+    "osi_layer": "APPLICATION",
+    "severity": "MEDIUM",
+  },
+]
+`;
+
+exports[`parser parses result of Joomla scan without core vulnerabilities successfully 1`] = `Array []`;
+
+exports[`parser parses result of non-Joomla scan successfully 1`] = `Array []`;
