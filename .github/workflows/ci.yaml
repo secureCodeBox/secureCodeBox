@@ -1130,44 +1130,6 @@ jobs:
           kubectl -n integration-tests delete scans --all
           kubectl delete namespace integration-tests
 
-      # ---- Cascading Scans SSLyze Integration Tests ----
-
-      - name: "cascading Scans sslyze Integration Tests"
-        run: |
-
-          # We'll recreate the namespace so that no cascadingRules of previous tests can exist in there
-          if kubectl get namespace integration-tests; then
-            kubectl delete namespace integration-tests
-          fi
-          kubectl create namespace integration-tests
-
-          # Install cascading-scans hook
-          helm upgrade --install dssh ./hooks/cascading-scans/ -n integration-tests --wait \
-            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-cascading-scans" \
-            --set="hook.image.tag=sha-$(git rev-parse --short HEAD)"
-          # Install unsafe-https
-          helm upgrade --install unsafe-https ./demo-targets/unsafe-https/ -n integration-tests --wait
-          # Install nmap
-          helm -n integration-tests install nmap ./scanners/nmap/ --wait \
-            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \
-            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nmap" \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-            --set-string="parser.env[0].value=true"
-          # Install sslyze
-          helm -n integration-tests install sslyze ./scanners/sslyze/ --wait \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-sslyze" \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-            --set-string="parser.env[0].value=true"
-          # Actually run the tests
-          cd tests/integration/
-          npx jest --ci --color scanner/cascade-nmap-sslyze.test.js
-          # Clean up:
-          kubectl -n integration-tests delete scans --all
-          kubectl delete namespace integration-tests
-
       # ---- Debuging Cluster on Failure ----
 
       - name: Inspect Post Failure
