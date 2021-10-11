@@ -283,6 +283,7 @@ jobs:
           - kubeaudit
           - kube-hunter
           - ncrack
+          - nmap
           - nuclei
           - ssh-scan
           - sslyze
@@ -466,7 +467,6 @@ jobs:
         parser:
           - git-repo-scanner
           - nikto
-          - nmap
           - screenshooter
           - test-scan
           - whatweb
@@ -550,7 +550,6 @@ jobs:
     strategy:
       matrix:
         scanner:
-          - nmap
           - nikto
           - typo3scan
           - whatweb
@@ -922,21 +921,6 @@ jobs:
             --set-string="parser.env[0].value=true"
           cd tests/integration/
           npx jest --ci --color scanner/nikto.test.js
-
-      # ---- Nmap Integration Tests ----
-
-      - name: "nmap Integration Tests"
-        run: |
-          kubectl -n integration-tests delete scans --all
-          helm -n integration-tests install nmap ./scanners/nmap/ \
-            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-nmap" \
-            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-nmap" \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-            --set-string="parser.env[0].value=true"
-          cd tests/integration/
-          npx jest --ci --color scanner/nmap.test.js
 
       # ---- Notification Hook Tests ----
 
