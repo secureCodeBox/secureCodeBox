@@ -1,4 +1,4 @@
-j!/usr/bin/make -f
+#!/usr/bin/make -f
 #
 # SPDX-FileCopyrightText: 2021 iteratec GmbH
 #
