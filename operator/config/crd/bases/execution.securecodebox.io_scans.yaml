@@ -67,18 +67,22 @@ spec:
                   be generated.
                 properties:
                   inheritAnnotations:
+                    default: true
                     description: InheritAnnotations defines whether cascading scans
                       should inherit annotations from the parent scan
                     type: boolean
                   inheritEnv:
+                    default: false
                     description: InheritEnv defines whether cascading scans should
                       inherit environment variables from the parent scan
                     type: boolean
                   inheritLabels:
+                    default: true
                     description: InheritLabels defines whether cascading scans should
                       inherit labels from the parent scan
                     type: boolean
                   inheritVolumes:
+                    default: false
                     description: InheritVolumes defines whether cascading scans should
                       inherit volumes and volume mounts from the parent scan
                     type: boolean
@@ -1717,6 +1721,10 @@ spec:
                 description: FindingDownloadLink link to download the finding json
                   file from. Valid for 7 days
                 type: string
+              findingHeadLink:
+                description: FindingHeadLink link to send HEAD request to the finding
+                  json file. Valid for 7 days
+                type: string
               findings:
                 description: FindingStats contains the general stats about the results
                   of the scan
@@ -1763,6 +1771,10 @@ spec:
               rawResultFile:
                 description: RawResultFile Filename of the result file of the scanner.
                   e.g. `nmap-result.xml`
+                type: string
+              rawResultHeadLink:
+                description: RawResultHeadLink link to send HEAD request to raw result
+                  file. Valid for 7 days
                 type: string
               rawResultType:
                 description: RawResultType determines which kind of ParseDefinition

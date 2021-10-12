@@ -173,8 +173,6 @@ async function scan(name, scanType, parameters = [], timeout = 180) {
  * @returns {scan.findings} returns findings { categories, severities, count }
  */
 async function cascadingScan(name, scanType, parameters = [], { nameCascade, matchLabels }, timeout = 180) {
-  namespace = "cascading-tests";
-
   const scanDefinition = {
     apiVersion: "execution.securecodebox.io/v1",
     kind: "Scan",

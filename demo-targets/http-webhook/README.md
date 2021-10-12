@@ -60,7 +60,7 @@ helm upgrade --install http-webhook secureCodeBox/http-webhook
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | fullnameOverride | string | `""` |  |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
+| image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | image.repository | string | `"docker.io/mendhak/http-https-echo"` | Container Image |
 | image.tag | string | defaults to the latest version because the appVersion tag is not available at docker.io | The image tag |
 | imagePullSecrets | list | `[]` |  |

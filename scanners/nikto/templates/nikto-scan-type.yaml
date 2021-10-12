@@ -16,12 +16,16 @@ spec:
       ttlSecondsAfterFinished: {{ .Values.scanner.ttlSecondsAfterFinished }}
       {{- end }}
       backoffLimit: {{ .Values.scanner.backoffLimit }}
+      {{- if .Values.scanner.activeDeadlineSeconds }}
+      activeDeadlineSeconds: {{ .Values.scanner.activeDeadlineSeconds }}
+      {{- end }}
       template:
         spec:
           restartPolicy: Never
           containers:
             - name: nikto
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
               command:
                 # Nikto Entrypoint Script to avoid problems nikto exiting with a non zero exit code
                 # This would cause the kubernetes job to fail no matter what

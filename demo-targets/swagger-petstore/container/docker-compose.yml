@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: "3.8"
+services:
+  swagger_petstore:
+    image: swaggerapi/petstore3:unstable
+    ports:
+      - 8080:8080
+# Website will be available under http://localhost:8080/  

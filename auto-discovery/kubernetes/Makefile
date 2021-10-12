@@ -2,8 +2,14 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+IMG_NS ?= securecodebox
+
 # Image URL to use all building/pushing image targets
-IMG ?= controller:latest
+IMG ?= auto-discovery-kubernetes
+
+# Tag used for the image
+IMG_TAG ?= sha-$$(git rev-parse --short HEAD)
+
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:trivialVersions=true,preserveUnknownFields=false"
 
@@ -73,12 +79,28 @@ run: manifests generate fmt vet ## Run a controller from your host.
 	go run ./main.go --config auto-discovery-config.yaml
 
 docker-build: test ## Build docker image with the manager.
-	docker build -t ${IMG} .
+	@echo ".: ⚙️ Build Container Images"
+	docker build -t ${IMG_NS}/${IMG}:${IMG_TAG} .
 
 docker-push: ## Push docker image with the manager.
-	docker push ${IMG}
+	docker push ${IMG_NS}/${IMG}:${IMG_TAG}
+
+docker-export:
+	@echo ".: 💾 Export Container Images"
+	docker save $(IMG_NS)/$(IMG):$(IMG_TAG) > $(IMG).tar
 
 ##@ Deployment
+
+kind-import:
+	@echo ".: 💾 Importing the image archive to local kind cluster."
+	kind load image-archive ./$(IMG).tar
+
+helm-deploy:
+	@echo ".: ⚙️ Deploying auto-discovery with the Image tag '$(IMG_TAG)' into kind."
+	helm upgrade --install auto-discovery ./ --wait \
+    --set="image.repository=docker.io/$(IMG_NS)/$(IMG)" \
+    --set="image.tag=$(IMG_TAG)" \
+		--set="image.pullPolicy=IfNotPresent" \
 
 install: manifests kustomize ## Install CRDs into the K8s cluster specified in ~/.kube/config.
 	$(KUSTOMIZE) build config/crd | kubectl apply -f -

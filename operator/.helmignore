@@ -41,3 +41,4 @@ Makefile
 PROJECT
 README.md.gotmpl
 docs/
+*.tar
