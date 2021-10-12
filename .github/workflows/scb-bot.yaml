@@ -54,7 +54,7 @@ jobs:
       - name: Check if outdated  
         if: ${{ env.release != env.local }}          
         run: |
-          gh auth login --with-token ${{ secrets.GITHUB_TOKEN }}
+          echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
           echo '${{ matrix.scanner }} scanner is outdated.  scB version is ${{env.local}} and remote version is ${{env.release}}'
           echo pr=[sCB-Bot] Upgraded ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}} >> $GITHUB_ENV
           echo prExists=$(gh pr list | grep "${{env.pr}}" -c) >> $GITHUB_ENV 
