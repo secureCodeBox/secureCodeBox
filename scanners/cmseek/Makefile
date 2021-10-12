@@ -11,6 +11,8 @@ custom_scanner = set
 
 include ../../scanners.mk
 
+deploy-test-deps: | deploy-test-dep-old-joomla
+
 integration-tests:
 	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
 	kubectl -n integration-tests delete scans --all

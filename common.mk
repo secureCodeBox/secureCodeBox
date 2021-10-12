@@ -160,6 +160,9 @@ deploy-test-dep-test-scan:
 		--set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
 		--set-string="parser.env[0].value=true"
 
+deploy-test-dep-old-joomla:
+	helm -n demo-targets install old-joomla ../../demo-targets/old-joomla/ --set="fullnameOverride=old-joomla" --wait
+
 clean:
 	@echo ".: 🧹 Cleaning up all generated files."
 	rm -f ./$(module)-$(name).tar
