@@ -1,0 +1,51 @@
+image:
+  repository: docker.io/returntocorp/semgrep
+  tag: null
+
+parserImage:
+  repository: docker.io/securecodebox/parser-semgrep
+  tag: null
+
+#### Local development
+#### See https://docs.securecodebox.io/docs/contributing/integrating-a-scanner/values.yaml#using-local-images
+# parser:
+#   image:
+#     repository: your-custom-parser
+#     pullPolicy: IfNotPresent
+# scanner:
+#   image:
+#     repository: your-custom-scanner
+#     pullPolicy: IfNotPresent
+#### End loca development
+scannerJob:
+  ttlSecondsAfterFinished: null
+
+  resources: {}
+     resources:
+       requests:
+         memory: "256Mi"
+         cpu: "250m"
+       limits:
+         memory: "512Mi"
+         cpu: "500m"
+
+  env: []
+
+  extraVolumes: []
+
+  extraVolumeMounts: []
+
+  extraContainers: []
+
+  securityContext:
+    runAsNonRoot: true
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    privileged: false
+    capabilities:
+      drop:
+        - all
+
+cascadingRules:
+  # cascadingRules.enabled -- Enables or disables the installation of the default cascading rules for this scanner
+  enabled: true
