@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2020 iteratec GmbH
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -8,6 +8,7 @@ metadata:
   name: "pingcastle-xml"
 spec:
   image: "{{ .Values.parser.image.repository }}:{{ .Values.parser.image.tag | default .Chart.Version }}"
+  imagePullPolicy: {{ .Values.parser.image.pullPolicy }}
   ttlSecondsAfterFinished: {{ .Values.parser.ttlSecondsAfterFinished }}
   env: 
     {{- toYaml .Values.parser.env | nindent 4 }}

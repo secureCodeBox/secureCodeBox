@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2020 iteratec GmbH
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -16,13 +16,18 @@ spec:
       ttlSecondsAfterFinished: {{ .Values.scanner.ttlSecondsAfterFinished }}
       {{- end }}
       backoffLimit: {{ .Values.scanner.backoffLimit }}
+      {{- if .Values.scanner.activeDeadlineSeconds }}
+      activeDeadlineSeconds: {{ .Values.scanner.activeDeadlineSeconds }}
+      {{- end }}
       template:
         spec:
           restartPolicy: OnFailure
           containers:
             - name: pingcastle
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
-              command: ["python3", "run_pingcastle_healthcheck.py"]
+              command:
+                - "python3"
+                - "run_pingcastle_healthcheck.py"
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:
