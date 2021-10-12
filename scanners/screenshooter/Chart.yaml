@@ -9,7 +9,7 @@ description: A Helm chart for the Screenshooter that integrates with the secureC
 type: application
 # version - gets automatically set to the secureCodeBox release version when the helm charts gets published
 version: v3.1.0-alpha1
-appVersion: 1.0
+appVersion: "1.0"
 kubeVersion: ">=v1.11.0-0"
 
 keywords:

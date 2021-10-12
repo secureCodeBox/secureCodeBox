@@ -73,6 +73,12 @@ spec:
                 description: 'Interval describes how often the scan should be repeated
                   Examples: ''12h'', ''30m'''
                 type: string
+              retriggerOnScanTypeChange:
+                default: false
+                description: RetriggerOnScanTypeChange will automatically trigger
+                  a new scan for the scheduledScan if the referenced ScanType was
+                  updated
+                type: boolean
               scanSpec:
                 description: ScanSpec describes the scan which should be started regularly
                 properties:
@@ -1842,6 +1848,11 @@ spec:
                 type: object
               lastScheduleTime:
                 format: date-time
+                type: string
+              scanTypeHash:
+                description: ScanTypeHash contains a hash of the scanType used. Hash
+                  is generated after the ScheduledScan is applied to the cluster and
+                  is currently not guaranteed to be the one used by the scan controller.
                 type: string
             type: object
         type: object
