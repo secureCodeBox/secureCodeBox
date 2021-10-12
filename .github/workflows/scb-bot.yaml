@@ -56,7 +56,8 @@ jobs:
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
           echo '${{ matrix.scanner }} scanner is outdated.  scB version is ${{env.local}} and remote version is ${{env.release}}'
-          echo "pullRequest=test" >> $GITHUB_ENV
+          var="pullRequest=test"
+          echo pullRequest=$var >> $GITHUB_ENV
           echo prExists=$(gh pr list | grep "${{env.release}}" -c) >> $GITHUB_ENV 
 
       - name : Upgrade Scanner
