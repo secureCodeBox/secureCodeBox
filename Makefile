@@ -152,7 +152,7 @@ create-new-scanner: ## Creates templates for a new scanner, pass NAME=NEW-SCANNE
 ifdef NAME
 	@mkdir scanners/$(NAME) ; \
 	rsync -a ./.templates/new-scanner/ ./scanners/$(NAME) ; \
-	echo "Copyied template files to new directory ./scanners/$(NAME)"; \
+	echo "Copied template files to new directory ./scanners/$(NAME)"; \
 	cd scanners/$(NAME) ; \
 	find . -type f -exec sed -i 's/new-scanner/$(NAME)/g' {} + ; \
 	mv "./templates/new-scanner-parse-definition.yaml" "templates/$(NAME)-parse-definition.yaml" ; \
