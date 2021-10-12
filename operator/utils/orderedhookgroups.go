@@ -50,7 +50,6 @@ func FromUnorderedList(hooks []executionv1.ScanCompletionHook) [][]executionv1.H
 			prioClasses = append(prioClasses, prio)
 		}
 	}
-	fmt.Printf("Prio Classes: %d \n", len(prioClasses))
 
 	// sort prio classes in decending order
 	sort.Slice(prioClasses, func(i, j int) bool {
@@ -59,7 +58,6 @@ func FromUnorderedList(hooks []executionv1.ScanCompletionHook) [][]executionv1.H
 
 	groups := [][]executionv1.HookStatus{}
 	for _, prioClass := range prioClasses {
-		fmt.Printf("Ordering hooks for prio class %d into %d ordering groups \n", prioClass, len(orderHookStatusesInsideAPrioClass(hooksByPrioClass[prioClass])))
 		groups = append(groups, orderHookStatusesInsideAPrioClass(hooksByPrioClass[prioClass])...)
 	}
 
