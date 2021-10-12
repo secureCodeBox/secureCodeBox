@@ -58,11 +58,11 @@ jobs:
           echo '${{ matrix.scanner }} scanner is outdated.  scB version is ${{env.local}} and remote version is ${{env.release}}'
           var="pullRequest=test"
           echo pullRequest=$var >> $GITHUB_ENV
-          echo prExists=$(gh pr list | grep "${{env.release}}" -c) >> $GITHUB_ENV 
+          echo prExists=$(gh pr list | grep "${{env.pullRequest}}" -c) >> $GITHUB_ENV 
 
       - name : Upgrade Scanner
         if: ${{ env.release != env.local && env.prExists == 0 }} 
         uses: mikefarah/yq@v4.4.1
         with:
-          cmd: yq e '.appVersion = ${{env.release}}' ./scanners/${{ matrix.scanner }}/Chart.yaml >> ./scanners/${{ matrix.scanner }}/Chart.yaml
+          cmd: yq e '.appVersion = "${{env.release}}"' ./scanners/${{ matrix.scanner }}/Chart.yaml >> ./scanners/${{ matrix.scanner }}/Chart.yaml
 
