@@ -315,10 +315,6 @@ jobs:
         working-directory: ./scanners/${{ matrix.unit }}/
         run: make unit-tests
 
-      - name: Set baseImageTag To commit Hash
-        run: |
-          echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-
       - name: Download Parser SDK Image
         uses: actions/download-artifact@v2
         with:
@@ -332,7 +328,7 @@ jobs:
 
       - name: Build Images
         working-directory: ./scanners/${{ matrix.unit }}/
-        run: make docker-build BASE_IMG_TAG=${{ env.baseImageTag }}
+        run: make docker-build
 
       - name: Export Docker Images
         working-directory: ./scanners/${{ matrix.unit }}/
