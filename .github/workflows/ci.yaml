@@ -385,6 +385,32 @@ jobs:
         working-directory: ./scanners/${{ matrix.unit }}/
         run: make integration-tests
 
+      # ---- Debuging Cluster on Failure ----
+
+      - name: Inspect Post Failure
+        if: failure()
+        run: |
+          echo "List all 'HelmCharts' in all namespaces"
+          helm list --all-namespaces
+          echo "List all 'Scans' in all namespaces"
+          kubectl -n integration-tests get scan -o wide --all-namespaces
+          echo "List all 'Jobs' in all namespaces"
+          kubectl -n integration-tests get jobs -o wide --all-namespaces
+          echo "List all 'Pods' in all namespaces"
+          kubectl -n integration-tests get pods -o wide --all-namespaces
+          echo "List all 'Services' in all namespaces"
+          kubectl -n integration-tests get services -o wide --all-namespaces
+
+      - name: "Inspect Operator"
+        if: failure()
+        run: |
+          echo "Deployment in namespace 'securecodebox-system'"
+          kubectl -n securecodebox-system get deployments
+          echo "Deployment in namespace 'securecodebox-system'"
+          kubectl -n securecodebox-system get pods
+          echo "Operator Startup Logs"
+          kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
+
   # ---- Build Stage | Matrix Hooks ----
 
   hooks:
