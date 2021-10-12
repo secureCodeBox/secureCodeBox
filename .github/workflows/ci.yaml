@@ -275,6 +275,7 @@ jobs:
       - operator
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         unit:
           - amass
