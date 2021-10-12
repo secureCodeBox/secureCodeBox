@@ -29,6 +29,14 @@ jobs:
           # missing scanners are : nmap, nikto, typo3scan
     steps:
       - uses: actions/checkout@v2
+   
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v3
+        with:
+          gpg-private-key: ${{ secrets.GPG_COMMITS_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_COMMITS_PASSPHRASE }}
+          git-user-signingkey: true
+          git-commit-gpgsign: true
 
       - name: Fetch scanner's version API
         uses: mikefarah/yq@v4.4.1
@@ -47,8 +55,8 @@ jobs:
         if: ${{ env.release != env.local }}          
         run: |
           echo '${{ matrix.scanner }} scanner is outdated.  scB version is ${{env.local}} and remote version is ${{env.release}}'
-          echo "pr=[sCB-Bot] Upgraded ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}" >> $GITHUB_ENV
-          echo prExists=$(curl -sL https://api.github.com/repos/secureCodeBox/secureCodeBox/pulls | jq '.[]' | grep "${{env.pr}}" -c) >> $GITHUB_ENV 
+          echo pr=[sCB-Bot] Upgraded ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}} >> $GITHUB_ENV
+          echo prExists=$(gh pr list | grep "${{env.pr}}" -c) >> $GITHUB_ENV 
 
       - name : Upgrade Scanner
         if: ${{ env.release != env.local && env.prExists == 0 }} 
