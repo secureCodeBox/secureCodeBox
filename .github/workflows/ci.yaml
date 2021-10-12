@@ -47,7 +47,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        unit: ["git-repo-scanner", "zap-advanced"]
+        unit: ["zap-advanced"]
     steps:
       - name: Checkout
         uses: actions/checkout/@v2
@@ -493,7 +493,6 @@ jobs:
     strategy:
       matrix:
         parser:
-          - git-repo-scanner
           - test-scan
 
     steps:
@@ -579,7 +578,6 @@ jobs:
     strategy:
       matrix:
         scanner:
-          - git-repo-scanner
           - test-scan
           - zap-advanced
     steps:
