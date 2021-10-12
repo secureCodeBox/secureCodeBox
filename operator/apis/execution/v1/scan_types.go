@@ -83,7 +83,7 @@ type ScanStatus struct {
 
 	Findings FindingStats `json:"findings,omitempty"`
 
-	HookStatuses []*HookStatus `json:"hookStatuses,omitempty"`
+	OrderedHookStatuses [][]HookStatus `json:"orderedHookStatuses,omitempty"`
 }
 
 // HookState Describes the State of a Hook on a Scan
