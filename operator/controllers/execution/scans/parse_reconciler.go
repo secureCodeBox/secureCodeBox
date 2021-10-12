@@ -198,7 +198,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 		return err
 	}
 
-	log.V(1).Info("created Parse Job for Scan", "job", job)
+	log.V(7).Info("created Parse Job for Scan", "job", job)
 	return nil
 }
 

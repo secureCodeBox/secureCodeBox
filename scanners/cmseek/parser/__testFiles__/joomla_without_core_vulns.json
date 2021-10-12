@@ -1,0 +1,10 @@
+{
+    "cms_id": "joom",
+    "cms_name": "joomla",
+    "cms_url": "https://joomla.org",
+    "detection_param": "header",
+    "joomla_debug_mode": "disabled",
+    "last_scanned": "2021-09-21 15:12:44.412355",
+    "url": "http://172.26.0.3/",
+    "vulnerabilities_count": "0"
+}
