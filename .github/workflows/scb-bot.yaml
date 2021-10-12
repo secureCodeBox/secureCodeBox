@@ -56,9 +56,9 @@ jobs:
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
           echo '${{ matrix.scanner }} scanner is outdated.  scB version is ${{env.local}} and remote version is ${{env.release}}'
-          var="pullRequest=test"
-          echo pullRequest=$var >> $GITHUB_ENV
-          echo prExists=$(gh pr list | grep "${{env.pullRequest}}" -c) >> $GITHUB_ENV 
+          pullRequestTitle="[sCB-Bot] Upgraded ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
+          echo pullRequest=$pullRequestTitle >> $GITHUB_ENV
+          echo prExists=$(gh pr list | grep "$pullRequestTitle" -c) >> $GITHUB_ENV 
 
       - name : Upgrade Scanner
         if: ${{ env.release != env.local && env.prExists == 0 }} 
@@ -66,3 +66,5 @@ jobs:
         with:
           cmd: yq e '.appVersion = "${{env.release}}"' ./scanners/${{ matrix.scanner }}/Chart.yaml >> ./scanners/${{ matrix.scanner }}/Chart.yaml
 
+      - name : Create Pull Request
+        run: echo ${{env.pullRequest}} to be created
