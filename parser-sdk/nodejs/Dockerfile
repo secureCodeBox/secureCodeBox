@@ -1,13 +1,13 @@
 # SPDX-FileCopyrightText: 2021 iteratec GmbH
 #
 # SPDX-License-Identifier: Apache-2.0
-
-FROM node:14-alpine as build
+ARG NODE_VERSION
+FROM node:${NODE_VERSION}-alpine as build
 WORKDIR /home/app
 COPY package.json package-lock.json ./
 RUN npm ci --production
 
-FROM node:14-alpine
+FROM node:${NODE_VERSION}-alpine
 ARG NODE_ENV
 RUN addgroup --system --gid 1001 app && adduser app --system --uid 1001 --ingroup app
 WORKDIR /home/app/parser-wrapper/

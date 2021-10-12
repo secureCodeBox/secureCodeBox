@@ -56,6 +56,7 @@ GIT_TAG ?= $$(git rev-parse --short HEAD)
 BASE_IMG_TAG ?= latest
 IMG_TAG ?= "sha-$(GIT_TAG)"
 JEST_VERSION ?= latest
+NODE_VERSION ?= 14
 
 parser-prefix = parser
 scanner-prefix = scanner
@@ -93,6 +94,7 @@ common-docker-build:
 		--build-arg=scannerVersion=$(shell yq e .appVersion ./Chart.yaml) \
 		--build-arg=baseImageTag=$(BASE_IMG_TAG) \
 		--build-arg=namespace=$(IMG_NS) \
+		--build-arg=NODE_VERSION=$(NODE_VERSION) \
 		-t $(IMG_NS)/$(module)-$(name):$(IMG_TAG) \
 		-f ./$(module)/Dockerfile \
 		./$(module)

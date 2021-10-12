@@ -25,7 +25,7 @@ include ../../common.mk
 
 docker-build-sdk:
 	@echo ".: ⚙️ Build '$(name)'."
-	docker build -t $(IMG_NS)/$(name)-nodejs:$(IMG_TAG) .
+	docker build -t $(IMG_NS)/$(name)-nodejs:$(IMG_TAG) --build-arg=NODE_VERSION=$(NODE_VERSION) .
 
 docker-export-sdk:
 	@echo ".: ⚙️ Build '$(name)'."
