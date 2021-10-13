@@ -89,17 +89,9 @@ func (r *ScanReconciler) processHook(scan *executionv1.Scan, nonCompletedHook *e
 
 	switch nonCompletedHook.State {
 	case executionv1.Pending:
-		err := r.processPendingHook(scan, nonCompletedHook, jobType)
-		if err == nil {
-			r.Log.Info("Created job for hook", "hook", nonCompletedHook, "jobType", jobType)
-		}
-		return err
+		return r.processPendingHook(scan, nonCompletedHook, jobType)
 	case executionv1.InProgress:
-		err := r.processInProgressHook(scan, nonCompletedHook, jobType)
-		if err == nil {
-			r.Log.Info("Created job for hook", "hook", nonCompletedHook, "jobType", jobType)
-		}
-		return err
+		return r.processInProgressHook(scan, nonCompletedHook, jobType)
 	}
 	return nil
 }
@@ -171,6 +163,7 @@ func (r *ScanReconciler) processPendingHook(scan *executionv1.Scan, status *exec
 		// job was already started, setting status to correct jobName and state to ensure it's not overwritten with wrong values
 		status.JobName = jobName
 		status.State = executionv1.InProgress
+		r.Log.Info("Created job for hook", "hook", status)
 		return nil
 	}
 
