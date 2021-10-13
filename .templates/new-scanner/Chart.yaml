@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: v2
+name: new-scanner
+description: A Helm chart for the new-scanner security Scanner that integrates with the secureCodeBox.
+
+type: application
+# version - gets automatically set to the secureCodeBox release version when the helm charts gets published
+version: v3.1.0-alpha1
+appVersion: "" # Set appVersion
+kubeVersion: ">=v1.11.0-0"
+
+keywords:
+  - security
+  - new-scanner
+  - scanner
+  - secureCodeBox
+home: https://docs.securecodebox.io/docs/scanners/new-scanner
+icon: https://docs.securecodebox.io/img/integrationIcons/new-scanner.svg # Upload new icon
+sources:
+  - https://github.com/secureCodeBox/secureCodeBox
+maintainers:
+  - name: iteratec GmbH
+    email: secureCodeBox@iteratec.com

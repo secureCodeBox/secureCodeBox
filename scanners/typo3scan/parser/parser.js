@@ -10,6 +10,8 @@ async function parse(findings) {
         const domain_findings = findings[domain]
         const vulns = domain_findings.Vulnerabilities
 
+        if(!vulns) // empty file
+          return [];
         // Parsing Vulnerabilities
         const parsed_vulnerabilities = vulns.map((vuln) => {
             return {
