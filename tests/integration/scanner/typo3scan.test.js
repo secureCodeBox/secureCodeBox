@@ -16,15 +16,15 @@ test(
       90
     );
 
-    expect(count).toBe(53);
+    expect(count).toBe(10);
     expect(categories).toMatchInlineSnapshot(`
       Object {
-        "Vulnerability": 53,
+        "Vulnerability": 10,
       }
     `);
     expect(severities).toMatchInlineSnapshot(`
       Object {
-        "high": 53,
+        "high": 10,
       }
     `);
   },
@@ -35,7 +35,12 @@ test(
   "Invalid argument should be marked as errored",
   async () => {
     await expect(
-      scan("typo3scan-invalidArg", "typo3scan", ["--invalidArg", "example.com"], 90)
+      scan(
+        "typo3scan-invalidArg",
+        "typo3scan",
+        ["--invalidArg", "example.com"],
+        90
+      )
     ).rejects.toThrow("HTTP request failed");
   },
   3 * 60 * 1000
