@@ -63,6 +63,8 @@ type ScanSpec struct {
 	Volumes []corev1.Volume `json:"volumes,omitempty"`
 	// VolumeMounts allows to specify volume mounts for the scan container.
 	VolumeMounts []corev1.VolumeMount `json:"volumeMounts,omitempty"`
+	// InitContainers allows to specify init containers for the scan container, to pre-load data into them.
+	InitContainers []corev1.Container `json:"initContainers,omitempty"`
 
 	Cascades *CascadeSpec `json:"cascades,omitempty"`
 }

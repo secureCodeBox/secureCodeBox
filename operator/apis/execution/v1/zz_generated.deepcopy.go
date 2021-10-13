@@ -445,6 +445,13 @@ func (in *ScanSpec) DeepCopyInto(out *ScanSpec) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.InitContainers != nil {
+		in, out := &in.InitContainers, &out.InitContainers
+		*out = make([]corev1.Container, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.Cascades != nil {
 		in, out := &in.Cascades, &out.Cascades
 		*out = new(CascadeSpec)
