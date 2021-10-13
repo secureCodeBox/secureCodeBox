@@ -58,7 +58,7 @@ func (r *ScanReconciler) executeHooks(scan *executionv1.Scan) error {
 		scan.Status.ErrorDescription = fmt.Sprintf("Hook execution failed for a unknown hook. Check the scan.status.hookStatus field for more details")
 	} else if err == nil && currentHooks == nil {
 		// No hooks left to execute
-		scan.Status.State = "Completed"
+		scan.Status.State = "Done"
 	} else {
 		for _, hook := range currentHooks {
 			err = r.processHook(scan, hook)
