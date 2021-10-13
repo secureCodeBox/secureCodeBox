@@ -1,16 +1,16 @@
 name: Check outdated scanners
 on:
   push:
-#  schedule:
-#    - cron: "0 8 * * *"
+  schedule:
+   - cron: "15 9 * * *"
 jobs:
   version-compare:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         scanner:
-          - amass
-          # - angularjs-csti-scanner
+          - amass                   # Scanner that needs to be updated
+          - angularjs-csti-scanner  # Scanner that does not need to be updated
           # - gitleaks
           # - kube-hunter
           # - kubeaudit
@@ -49,16 +49,16 @@ jobs:
         with:
           cmd: echo local=$(yq e .appVersion scanners/${{ matrix.scanner }}/Chart.yaml) | tr -d "v" >> $GITHUB_ENV
 
-      - name: Check if outdated and if PR already exists
+      - name: Check if scanner is outdated and if PR already exists
         if: ${{ env.release != env.local }}
         run: |
           echo '${{ matrix.scanner }} scanner is outdated.  scB version is ${{env.local}} and remote version is ${{env.release}}'
-          
+
           pullRequestTitle="[sCB-Bot] Upgraded ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
           echo pullRequest=$pullRequestTitle >> $GITHUB_ENV
 
           echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
-          echo prExists=$(gh pr list --state all --limit 100 | grep "$pullRequestTitle" -c) >> $GITHUB_ENV 
+          echo prExists=$(gh pr list --state open --limit 100 | grep -F "$pullRequestTitle" -c) >> $GITHUB_ENV 
 
       - name : Upgrade Scanner
         if: ${{ env.release != env.local && env.prExists == 0 }} 
@@ -75,7 +75,7 @@ jobs:
           committer: secureCodeBoxBot <securecodebox@iteratec.com>
           author: secureCodeBoxBot <securecodebox@iteratec.com>
           title: ${{ env.pullRequest }}
-          body: "This is an automated Pull Request by the sCB-Bot. It Upgrades ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
+          body: "This is an automated Pull Request by the sCB-Bot. It upgrades ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
           branch: "dependencies/upgrading-${{ matrix.scanner }}-to-${{env.release}}"
           labels: dependencies,scanner
           commit-message: "Upgrading ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
