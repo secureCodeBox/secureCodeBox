@@ -2,29 +2,32 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { scan } = require("../helpers");
+// todo: Integrate into github ci pipeline
+const { scan } = require("../../../tests/integration/helpers.js");
 
 jest.retryTimes(3);
 
 test(
-  "localhost port scan should only find a host finding",
+  "ssh-scan should find a couple of findings for a dummy ssh service",
   async () => {
     const { categories, severities, count } = await scan(
-      "nmap-localhost",
-      "nmap",
-      ["localhost"],
+      "ssh-scan-dummy-ssh",
+      "ssh-scan",
+      ["-t", "dummy-ssh.demo-targets.svc"],
       90
     );
 
-    expect(count).toBe(1);
+    expect(count).toBe(4);
     expect(categories).toMatchInlineSnapshot(`
       Object {
-        "Host": 1,
+        "SSH Policy Violation": 3,
+        "SSH Service": 1,
       }
     `);
     expect(severities).toMatchInlineSnapshot(`
       Object {
         "informational": 1,
+        "medium": 3,
       }
     `);
   },
@@ -32,10 +35,15 @@ test(
 );
 
 test(
-  "invalid port scan should be marked as errored",
+  "ssh-scan should gracefully handle a non-existing target",
   async () => {
     await expect(
-      scan("nmap-localhost", "nmap", ["-invalidFlag", "localhost"], 90)
+      scan(
+        "ssh-scan-non-existing",
+        "ssh-scan",
+        ["-t", "this-target-doesnt-exist.demo-targets.svc"],
+        180
+      )
     ).rejects.toThrow(
       'Scan failed with description "Failed to run the Scan Container, check k8s Job and its logs for more details"'
     );

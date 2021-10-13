@@ -10,3 +10,4 @@ scanner = gitleaks
 custom_scanner = set
 
 include ../../scanners.mk
+
