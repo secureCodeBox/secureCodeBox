@@ -4,7 +4,7 @@
 
 # We only want to import the default cascading rules if they are enabled
 {{ if .Values.cascadingRules.enabled }}
-# The CascadingRules are not directly in the /templates directory as their curly bracket syntax clashes with helms templates ... :( 
+# The CascadingRules are not directly in the /templates directory as their curly bracket syntax clashes with helms templates ... :(
 # We import them as raw files to avoid these clashes as escaping them is even more messy
 {{ range $path, $_ :=  .Files.Glob  "cascading-rules/*" }}
 # Include File

@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM martinhelmich/typo3:9
+FROM martinhelmich/typo3:9.4 
 RUN rm /var/www/html/FIRST_INSTALL \
     && rm -r /var/www/html/typo3conf
 
