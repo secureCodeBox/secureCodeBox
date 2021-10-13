@@ -5,24 +5,17 @@
 async function parse(scanResults) {
   // The first scan always contains the image id a similar format to: "bkimminich/juice-shop:v10.2.0 (alpine 3.11.5)"
   const [imageScanResult] = scanResults;
+
+  if (typeof(imageScanResult) === "string") // empty file
+    return [];
+
   const [imageId] = imageScanResult.Target.split(" ", 2);
 
   const findings = [];
 
   for (const { Target: target, Vulnerabilities } of scanResults) {
     const vulnerabilities = Vulnerabilities || [];
-    let category = "Image Vulnerability";
-    if (target.endsWith("package-lock.json")) {
-      category = "NPM Package Vulnerability";
-    } else if (target.endsWith("Gemfile.lock")) {
-      category = "Ruby Package Vulnerability";
-    } else if (target.endsWith("Pipfile.lock")) {
-      category = "Python Package Vulnerability";
-    } else if (target.endsWith("Cargo.lock")) {
-      category = "Python Package Vulnerability";
-    } else if (target.endsWith("Composer.lock")) {
-      category = "PHP Package Vulnerability";
-    }
+    const category = getCategory(target);
 
     for (const vulnerability of vulnerabilities) {
       let reference = null;
@@ -57,8 +50,23 @@ async function parse(scanResults) {
       });
     }
   }
-
   return findings;
+}
+
+function getCategory(target) {
+    let category = "Image Vulnerability";
+    if (target.endsWith("package-lock.json")) {
+      category = "NPM Package Vulnerability";
+    } else if (target.endsWith("Gemfile.lock")) {
+      category = "Ruby Package Vulnerability";
+    } else if (target.endsWith("Pipfile.lock")) {
+      category = "Python Package Vulnerability";
+    } else if (target.endsWith("Cargo.lock")) {
+      category = "Python Package Vulnerability";
+    } else if (target.endsWith("Composer.lock")) {
+      category = "PHP Package Vulnerability";
+    }
+    return category;
 }
 
 function getAdjustedSeverity(severity){
