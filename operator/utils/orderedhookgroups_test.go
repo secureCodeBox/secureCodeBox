@@ -82,7 +82,7 @@ var _ = Describe("HookOrderingGroup Creation", func() {
 
 			Expect(orderedHookGroups).To(HaveLen(2), "Should create two groups")
 
-			Expect(orderedHookGroups).To(Equal([][]executionv1.HookStatus{
+			Expect(orderedHookGroups).To(Equal([][]*executionv1.HookStatus{
 				{
 					{HookName: "rw-2", State: "Pending", JobName: "", Priority: 1, Type: "ReadAndWrite"},
 				},
@@ -102,7 +102,7 @@ var _ = Describe("HookOrderingGroup Creation", func() {
 
 			orderedHookGroups := FromUnorderedList(hooks)
 
-			Expect(orderedHookGroups).To(Equal([][]executionv1.HookStatus{
+			Expect(orderedHookGroups).To(Equal([][]*executionv1.HookStatus{
 				{
 					{HookName: "ro-1", State: "Pending", JobName: "", Priority: 4, Type: "ReadOnly"},
 				},
@@ -132,7 +132,7 @@ var _ = Describe("HookOrderingGroup Creation", func() {
 
 			orderedHookGroups := FromUnorderedList(hooks)
 
-			Expect(orderedHookGroups).To(Equal([][]executionv1.HookStatus{
+			Expect(orderedHookGroups).To(Equal([][]*executionv1.HookStatus{
 				{
 					{HookName: "rw-1", State: "Pending", JobName: "", Priority: 4, Type: "ReadAndWrite"},
 				},
@@ -163,7 +163,7 @@ var _ = Describe("HookOrderingGroup Creation", func() {
 var _ = Describe("HookOrderingGroup Retrival", func() {
 	Context("Current() should return the group of hooks which should be executed at the moment", func() {
 		It("Should return the first if all hooks are pending", func() {
-			err, currentHookGroup := CurrentHookGroup([][]executionv1.HookStatus{
+			err, currentHookGroup := CurrentHookGroup([][]*executionv1.HookStatus{
 				{
 					{HookName: "rw-1", State: "Pending", JobName: "", Priority: 4, Type: "ReadAndWrite"},
 				},
@@ -175,14 +175,14 @@ var _ = Describe("HookOrderingGroup Retrival", func() {
 
 			Expect(err).To(BeNil())
 			Expect(currentHookGroup).To(Equal(
-				[]executionv1.HookStatus{
+				[]*executionv1.HookStatus{
 					{HookName: "rw-1", State: "Pending", JobName: "", Priority: 4, Type: "ReadAndWrite"},
 				},
 			))
 		})
 
 		It("Should return the first group if it consists of hooks currently in progress", func() {
-			err, currentHookGroup := CurrentHookGroup([][]executionv1.HookStatus{
+			err, currentHookGroup := CurrentHookGroup([][]*executionv1.HookStatus{
 				{
 					{HookName: "rw-1", State: "InProgress", JobName: "", Priority: 4, Type: "ReadAndWrite"},
 				},
@@ -194,14 +194,14 @@ var _ = Describe("HookOrderingGroup Retrival", func() {
 
 			Expect(err).To(BeNil())
 			Expect(currentHookGroup).To(Equal(
-				[]executionv1.HookStatus{
+				[]*executionv1.HookStatus{
 					{HookName: "rw-1", State: "InProgress", JobName: "", Priority: 4, Type: "ReadAndWrite"},
 				},
 			))
 		})
 
 		It("Should return the second group if the first group is completed", func() {
-			err, currentHookGroup := CurrentHookGroup([][]executionv1.HookStatus{
+			err, currentHookGroup := CurrentHookGroup([][]*executionv1.HookStatus{
 				{
 					{HookName: "rw-1", State: "Completed", JobName: "", Priority: 4, Type: "ReadAndWrite"},
 				},
@@ -213,7 +213,7 @@ var _ = Describe("HookOrderingGroup Retrival", func() {
 
 			Expect(err).To(BeNil())
 			Expect(currentHookGroup).To(Equal(
-				[]executionv1.HookStatus{
+				[]*executionv1.HookStatus{
 					{HookName: "ro-1", State: "Pending", JobName: "", Priority: 4, Type: "ReadOnly"},
 					{HookName: "ro-2", State: "Pending", JobName: "", Priority: 4, Type: "ReadOnly"},
 				},
@@ -221,7 +221,7 @@ var _ = Describe("HookOrderingGroup Retrival", func() {
 		})
 
 		It("Should return nil if the first group failed", func() {
-			err, currentHookGroup := CurrentHookGroup([][]executionv1.HookStatus{
+			err, currentHookGroup := CurrentHookGroup([][]*executionv1.HookStatus{
 				{
 					{HookName: "rw-1", State: "Failed", JobName: "", Priority: 4, Type: "ReadAndWrite"},
 				},
@@ -236,7 +236,7 @@ var _ = Describe("HookOrderingGroup Retrival", func() {
 		})
 
 		It("Should return nil if no hooks are configured", func() {
-			err, currentHookGroup := CurrentHookGroup([][]executionv1.HookStatus{})
+			err, currentHookGroup := CurrentHookGroup([][]*executionv1.HookStatus{})
 
 			Expect(err).To(BeNil())
 			Expect(currentHookGroup).To(BeNil())

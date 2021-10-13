@@ -11,7 +11,7 @@ import (
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 )
 
-func CurrentHookGroup(orderedHookGroup [][]executionv1.HookStatus) (error, []executionv1.HookStatus) {
+func CurrentHookGroup(orderedHookGroup [][]*executionv1.HookStatus) (error, []*executionv1.HookStatus) {
 	for _, group := range orderedHookGroup {
 		for _, hookStatus := range group {
 			switch hookStatus.State {
@@ -32,12 +32,12 @@ func CurrentHookGroup(orderedHookGroup [][]executionv1.HookStatus) (error, []exe
 	return nil, nil
 }
 
-func FromUnorderedList(hooks []executionv1.ScanCompletionHook) [][]executionv1.HookStatus {
+func FromUnorderedList(hooks []executionv1.ScanCompletionHook) [][]*executionv1.HookStatus {
 	// convert ScanCompletionHook objects to HookStatus objects
 	hookStatuses := mapHookToHookStatus(hooks)
 
 	// Group hookStatuses into a map by their prio class
-	hooksByPrioClass := map[int][]executionv1.HookStatus{}
+	hooksByPrioClass := map[int][]*executionv1.HookStatus{}
 	// keep a list of existing classes
 	prioClasses := []int{}
 	for _, hookStatus := range hookStatuses {
@@ -46,7 +46,7 @@ func FromUnorderedList(hooks []executionv1.ScanCompletionHook) [][]executionv1.H
 		if _, ok := hooksByPrioClass[prio]; ok {
 			hooksByPrioClass[prio] = append(hooksByPrioClass[prio], hookStatus)
 		} else {
-			hooksByPrioClass[prio] = []executionv1.HookStatus{hookStatus}
+			hooksByPrioClass[prio] = []*executionv1.HookStatus{hookStatus}
 			prioClasses = append(prioClasses, prio)
 		}
 	}
@@ -56,7 +56,7 @@ func FromUnorderedList(hooks []executionv1.ScanCompletionHook) [][]executionv1.H
 		return prioClasses[i] > prioClasses[j]
 	})
 
-	groups := [][]executionv1.HookStatus{}
+	groups := [][]*executionv1.HookStatus{}
 	for _, prioClass := range prioClasses {
 		groups = append(groups, orderHookStatusesInsideAPrioClass(hooksByPrioClass[prioClass])...)
 	}
@@ -64,11 +64,11 @@ func FromUnorderedList(hooks []executionv1.ScanCompletionHook) [][]executionv1.H
 	return groups
 }
 
-func mapHookToHookStatus(hooks []executionv1.ScanCompletionHook) []executionv1.HookStatus {
-	hookStatuses := []executionv1.HookStatus{}
+func mapHookToHookStatus(hooks []executionv1.ScanCompletionHook) []*executionv1.HookStatus {
+	hookStatuses := []*executionv1.HookStatus{}
 
 	for _, hook := range hooks {
-		hookStatuses = append(hookStatuses, executionv1.HookStatus{
+		hookStatuses = append(hookStatuses, &executionv1.HookStatus{
 			HookName: hook.Name,
 			State:    executionv1.Pending,
 			Priority: hook.Spec.Priority,
@@ -79,13 +79,13 @@ func mapHookToHookStatus(hooks []executionv1.ScanCompletionHook) []executionv1.H
 	return hookStatuses
 }
 
-func orderHookStatusesInsideAPrioClass(hookStatuses []executionv1.HookStatus) [][]executionv1.HookStatus {
-	groups := [][]executionv1.HookStatus{}
-	readOnlyGroups := []executionv1.HookStatus{}
+func orderHookStatusesInsideAPrioClass(hookStatuses []*executionv1.HookStatus) [][]*executionv1.HookStatus {
+	groups := [][]*executionv1.HookStatus{}
+	readOnlyGroups := []*executionv1.HookStatus{}
 	for _, hookStatus := range hookStatuses {
 		switch hookStatus.Type {
 		case executionv1.ReadAndWrite:
-			groups = append(groups, []executionv1.HookStatus{
+			groups = append(groups, []*executionv1.HookStatus{
 				hookStatus,
 			})
 		case executionv1.ReadOnly:

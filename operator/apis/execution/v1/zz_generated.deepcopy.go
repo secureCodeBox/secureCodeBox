@@ -472,12 +472,18 @@ func (in *ScanStatus) DeepCopyInto(out *ScanStatus) {
 	in.Findings.DeepCopyInto(&out.Findings)
 	if in.OrderedHookStatuses != nil {
 		in, out := &in.OrderedHookStatuses, &out.OrderedHookStatuses
-		*out = make([][]HookStatus, len(*in))
+		*out = make([][]*HookStatus, len(*in))
 		for i := range *in {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
-				*out = make([]HookStatus, len(*in))
-				copy(*out, *in)
+				*out = make([]*HookStatus, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(HookStatus)
+						**out = **in
+					}
+				}
 			}
 		}
 	}
