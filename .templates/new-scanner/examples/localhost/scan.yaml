@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "new-scanner-localhost"
+spec:
+  scanType: "new-scanner"
+  parameters:
+    # Note: Localhost here isn't "your" localhost, but the scanner container.
+    # This container doesn't have any ports open...
+    - localhost

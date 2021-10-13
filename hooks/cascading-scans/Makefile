@@ -47,7 +47,7 @@ deploy-test-dep-sslyze:
 		--set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
 		--set-string="parser.env[0].value=true"
 
-deploy-test-deps: deploy-test-dep-nmap deploy-test-dep-ncrack
+deploy-test-deps: deploy-test-dep-dummy-ssh deploy-test-dep-nmap deploy-test-dep-ncrack
 
 deploy:
 	@echo ".: 💾 Deploying '$(name)' $(hook-prefix) HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'cascading-scans'."

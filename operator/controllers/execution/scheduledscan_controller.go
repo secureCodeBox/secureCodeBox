@@ -15,10 +15,12 @@ import (
 	"github.com/go-logr/logr"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
+	"github.com/secureCodeBox/secureCodeBox/operator/utils"
 )
 
 var (
@@ -48,7 +50,6 @@ func (r *ScheduledScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
-		log.V(7).Info("Unable to fetch ScheduledScan")
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
@@ -108,6 +109,25 @@ func (r *ScheduledScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 
 	// check if it is time to start the next Scan
 	if !time.Now().Before(nextSchedule) {
+		if scheduledScan.Spec.RetriggerOnScanTypeChange == true {
+			// generate hash for current state of the configured ScanType
+			var scanType executionv1.ScanType
+			if err := r.Get(ctx, types.NamespacedName{Name: scheduledScan.Spec.ScanSpec.ScanType, Namespace: scheduledScan.Namespace}, &scanType); err != nil {
+				log.V(5).Info("Unable to fetch ScanType for ScheduledScan", "scanType", scanType.Name, "namespace", scanType.Namespace)
+				return ctrl.Result{}, client.IgnoreNotFound(err)
+			}
+
+			oldScheduledScan := scheduledScan.DeepCopy()
+			hash := utils.HashScanType(scanType)
+			scheduledScan.Status.ScanTypeHash = fmt.Sprintf("%d", hash)
+			log.V(9).Info("Setting hash:", "hash", scheduledScan.Status.ScanTypeHash, "scheduledScan", scheduledScan, "namespace", req.Namespace)
+			if err := r.Status().Patch(ctx, &scheduledScan, client.MergeFrom(oldScheduledScan)); err != nil {
+				return ctrl.Result{}, fmt.Errorf("Failed to update ScheduledScan with the current ScanType hash: %w", err)
+			} else {
+				log.V(7).Info("Updated ScanType Hash", "scheduledScan", req.Name, "scanType", scanType.Name, "hash", hash)
+			}
+		}
+
 		// It's time!
 		var scan = &executionv1.Scan{
 			ObjectMeta: metav1.ObjectMeta{

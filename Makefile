@@ -147,6 +147,20 @@ demo-apps-docs:
 .PHONY: docs
 docs: readme hook-docs scanner-docs operator-docs auto-discovery-docs demo-apps-docs
 
+.PHONY: create-new-scanner
+create-new-scanner: ## Creates templates for a new scanner, pass NAME=NEW-SCANNER
+ifdef NAME
+	@mkdir scanners/$(NAME) ; \
+	rsync -a ./.templates/new-scanner/ ./scanners/$(NAME) ; \
+	echo "Copied template files to new directory ./scanners/$(NAME)"; \
+	cd scanners/$(NAME) ; \
+	find . -type f -exec sed -i 's/new-scanner/$(NAME)/g' {} + ; \
+	mv "./templates/new-scanner-parse-definition.yaml" "templates/$(NAME)-parse-definition.yaml" ; \
+	mv "./templates/new-scanner-scan-type.yaml" "templates/$(NAME)-scan-type.yaml" ;
+else
+	@echo "Scanner name not defined, please provide via make create-new-scanner NAME=NEW-SCANNER";
+endif
+
 .PHONY:
 help: ## Display this help screen.
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
