@@ -1,5 +1,5 @@
 {
-  "name": "semgrep-parser",
+  "name": "@securecodebox/semgrep-parser",
   "version": "1.0.0",
   "description": "Parses result files for the type: 'semgrep-json'",
   "main": "",
