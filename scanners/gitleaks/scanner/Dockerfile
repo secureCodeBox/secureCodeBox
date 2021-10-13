@@ -4,5 +4,8 @@
 
 ARG scannerVersion=latest
 FROM zricethezav/gitleaks:${scannerVersion}
+USER root
 COPY wrapper.sh /wrapper.sh
-ENTRYPOINT [ "sh", "./wrapper.sh" ]
+RUN chmod o+x ./wrapper.sh
+USER gitleaks
+ENTRYPOINT ["./wrapper.sh" ]
