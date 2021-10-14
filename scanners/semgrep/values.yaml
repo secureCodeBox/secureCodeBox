@@ -1,33 +1,31 @@
-image:
-  repository: docker.io/returntocorp/semgrep
-  tag: null
+parser:
+  image:
+    repository: securecodebox/parser-semgrep
+    tag: null
+    pullPolicy: IfNotPresent
+  
+  backoffLimit: 3
+  env: []
 
-parserImage:
-  repository: docker.io/securecodebox/parser-semgrep
-  tag: null
 
-#### Local development
-#### See https://docs.securecodebox.io/docs/contributing/integrating-a-scanner/values.yaml#using-local-images
-# parser:
-#   image:
-#     repository: your-custom-parser
-#     pullPolicy: IfNotPresent
-# scanner:
-#   image:
-#     repository: your-custom-scanner
-#     pullPolicy: IfNotPresent
-#### End loca development
-scannerJob:
+scanner:
+  image:
+    repository: docker.io/returntocorp/semgrep
+    tag: null
+    pullPolicy: IfNotPresent
+
   ttlSecondsAfterFinished: null
 
+  backoffLimit: 3
+
   resources: {}
-     resources:
-       requests:
-         memory: "256Mi"
-         cpu: "250m"
-       limits:
-         memory: "512Mi"
-         cpu: "500m"
+  #   resources:
+  #     requests:
+  #       memory: "256Mi"
+  #       cpu: "250m"
+  #     limits:
+  #       memory: "512Mi"
+  #       cpu: "500m"
 
   env: []
 
@@ -39,7 +37,7 @@ scannerJob:
 
   securityContext:
     runAsNonRoot: true
-    readOnlyRootFilesystem: true
+    readOnlyRootFilesystem: false
     allowPrivilegeEscalation: false
     privileged: false
     capabilities:
