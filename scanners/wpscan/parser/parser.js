@@ -6,6 +6,9 @@
  * Convert the WPScan file / json into secureCodeBox Findings
  */
 async function parse(scanResults) {
+  if (typeof(scanResults) === "string") // empty file
+    return [];
+
   const wpscanVersion = scanResults.banner.version;
   const wpscanRequestsDone = scanResults.requests_done;
 

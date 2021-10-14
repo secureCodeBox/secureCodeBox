@@ -53,7 +53,7 @@ SHELL = /bin/sh
 
 IMG_NS ?= securecodebox
 GIT_TAG ?= $$(git rev-parse --short HEAD)
-BASE_IMG_TAG ?= latest
+BASE_IMG_TAG ?= sha-$(GIT_TAG)
 IMG_TAG ?= "sha-$(GIT_TAG)"
 JEST_VERSION ?= latest
 
@@ -159,6 +159,9 @@ deploy-test-dep-test-scan:
 		--set="scanner.image.tag=$(IMG_TAG)" \
 		--set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
 		--set-string="parser.env[0].value=true"
+
+deploy-test-dep-old-joomla:
+	helm -n demo-targets install old-joomla ../../demo-targets/old-joomla/ --set="fullnameOverride=old-joomla" --wait
 
 clean:
 	@echo ".: 🧹 Cleaning up all generated files."
