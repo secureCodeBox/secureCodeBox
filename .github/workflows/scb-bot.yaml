@@ -52,9 +52,9 @@ jobs:
       - name: Check if scanner is outdated and if PR already exists
         if: ${{ env.release != env.local }}
         run: |
-          echo '${{ matrix.scanner }} scanner is outdated.  scB version is ${{env.local}} and remote version is ${{env.release}}'
+          echo 'The ${{ matrix.scanner }} scanner is outdated.  Current SCB version is ${{env.local}} and remote version is ${{env.release}}'
 
-          pullRequestTitle="[sCB-Bot] Upgraded ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
+          pullRequestTitle="[SCB-Bot] Upgraded ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
           echo pullRequest=$pullRequestTitle >> $GITHUB_ENV
 
           echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
@@ -75,7 +75,7 @@ jobs:
           committer: secureCodeBoxBot <securecodebox@iteratec.com>
           author: secureCodeBoxBot <securecodebox@iteratec.com>
           title: ${{ env.pullRequest }}
-          body: "This is an automated Pull Request by the sCB-Bot. It upgrades ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
+          body: "This is an automated Pull Request by the SCB-Bot. It upgrades ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
           branch: "dependencies/upgrading-${{ matrix.scanner }}-to-${{env.release}}"
           labels: dependencies,scanner
           commit-message: "Upgrading ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
