@@ -1,7 +1,7 @@
 name: Check outdated scanners
 on:
   schedule:
-   - cron: "15 9 * * *"
+   - cron: "15 9 * * *" # Daily at 9:15 (avoids the beginning of the hour congestion)
 jobs:
   version-compare:
     runs-on: ubuntu-latest
@@ -79,3 +79,4 @@ jobs:
           labels: dependencies,scanner
           commit-message: "Upgrading ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
           signoff: true
+          base: main
