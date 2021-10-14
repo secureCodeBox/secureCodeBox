@@ -8,7 +8,7 @@ const severityMap = new Map([
   ["error", "HIGH"]
 ])
 async function parse(fileContent) {
-  const results = JSON.parse(fileContent);
+  const results = fileContent
   return results.results.flatMap(result => {
     // Assemble location as path to file and line range
     const location = result.path + ":" + result.start.line + "-" + result.end.line;

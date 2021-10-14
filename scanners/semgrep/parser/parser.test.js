@@ -10,13 +10,13 @@ const { parse } = require("./parser");
 const readFile = util.promisify(fs.readFile);
 
 test("should properly parse file from inline semgrep usage", async () => {
-  const xmlContent = await readFile(
+  const jsonContent = await readFile(
     __dirname + "/__testFiles__/minimal-metadata.json",
     {
       encoding: "utf8",
     }
   );
-  const findings = await parse(xmlContent);
+  const findings = await parse(JSON.parse(jsonContent));
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
@@ -40,13 +40,13 @@ test("should properly parse file from inline semgrep usage", async () => {
 });
 
 test("should properly parse file with a single result", async () => {
-  const xmlContent = await readFile(
+  const jsonContent = await readFile(
     __dirname + "/__testFiles__/python-injection.json",
     {
       encoding: "utf8",
     }
   );
-  const findings = await parse(xmlContent);
+  const findings = await parse(JSON.parse(jsonContent));
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
@@ -73,13 +73,13 @@ Array [
 });
 
 test("should properly parse file with multiple results", async () => {
-  const xmlContent = await readFile(
+  const jsonContent = await readFile(
     __dirname + "/__testFiles__/python-injection-multiresult.json",
     {
       encoding: "utf8",
     }
   );
-  const findings = await parse(xmlContent);
+  const findings = await parse(JSON.parse(jsonContent));
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
