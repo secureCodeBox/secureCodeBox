@@ -344,6 +344,12 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 		scan.Spec.Volumes...,
 	)
 
+	// Merge initContainers from ScanTemplate with initContainers defined in scan
+	job.Spec.Template.Spec.InitContainers = append(
+		job.Spec.Template.Spec.InitContainers,
+		scan.Spec.InitContainers...,
+	)
+
 	// Using command over args
 	job.Spec.Template.Spec.Containers[0].Command = command
 	job.Spec.Template.Spec.Containers[0].Args = nil
