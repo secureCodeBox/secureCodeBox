@@ -1,6 +1,5 @@
 name: Check outdated scanners
 on:
-  push:
   schedule:
    - cron: "15 9 * * *"
 jobs:
