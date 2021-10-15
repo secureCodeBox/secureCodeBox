@@ -1,6 +1,13 @@
 #!/usr/bin/make -f
 
 include_guard = set                 # Always include this line (checked in the makefile framework)
-scanner = semgrep-scanner           # The name of your scanner
+scanner = semgrep
 
 include ../../scanners.mk           # Ensures that all the default makefile targets are included
+
+integration-tests: 
+	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
+	kubectl -n integration-tests delete scans --all
+	cd ../../tests/integration/ && npm ci
+	cd ../../scanners/${scanner}
+	npx --yes --package jest@$(JEST_VERSION) jest --verbose --ci --colors --coverage --passWithNoTests ${scanner}/integration-tests
