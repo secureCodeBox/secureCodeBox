@@ -272,3 +272,15 @@ test("ssh-scan parser parses a result of a network without ssh hosts correctly",
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`Array []`);
 });
+
+test("should properly parse empty json file", async () => {
+  const jsonContent = await readFile(
+    __dirname + "/__testFiles__/test-empty-report.json",
+    {
+      encoding: "utf8",
+    }
+  );
+  const findings = await parse(jsonContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot("Array []");
+});
