@@ -104,6 +104,7 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", () =
         "spec": Object {
           "cascades": Object {},
           "env": Array [],
+          "initContainers": Array [],
           "parameters": Array [
             "--regular",
             "foobar.com:443",
@@ -240,6 +241,7 @@ test("Should not crash when the annotations are not set", () => {
         "spec": Object {
           "cascades": Object {},
           "env": Array [],
+          "initContainers": Array [],
           "parameters": Array [
             "--regular",
             "foobar.com:443",
@@ -370,6 +372,7 @@ test("Should allow wildcards in cascadingRules", () => {
         "spec": Object {
           "cascades": Object {},
           "env": Array [],
+          "initContainers": Array [],
           "parameters": Array [
             "--regular",
             "foobar.com:8443",
@@ -921,6 +924,383 @@ test("should merge volumes into cascaded scan", () => {
     ]
   `);
 });
+
+test("should merge initContainers into cascaded scan", () => {
+  parentScan.spec.cascades.inheritInitContainers = true
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  parentScan.spec.initContainers = [
+    {
+      "name": "test-init",
+      "image": "bitnami/git",
+      "command": ["whoami"]
+    }
+  ]
+
+  sslyzeCascadingRules[0].spec.scanSpec.initContainers = [
+    {
+      "name": "test-init-2",
+      "image": "some/hypothetical",
+      "command": ["echo", "1"]
+    }
+  ]
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const cascadedScan = cascadedScans[0];
+
+  expect(cascadedScan.spec.initContainers).toMatchInlineSnapshot(`
+  Array [
+    Object {
+      "command": Array [
+        "whoami",
+      ],
+      "image": "bitnami/git",
+      "name": "test-init",
+    },
+    Object {
+      "command": Array [
+        "echo",
+        "1",
+      ],
+      "image": "some/hypothetical",
+      "name": "test-init-2",
+    },
+  ]
+  `);
+});
+
+test("should not merge initContainers into cascaded scan if not instructed", () => {
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  parentScan.spec.initContainers = [
+    {
+      "name": "test-init",
+      "image": "bitnami/git",
+      "command": ["whoami"]
+    }
+  ]
+
+  sslyzeCascadingRules[0].spec.scanSpec.initContainers = [
+    {
+      "name": "test-init-2",
+      "image": "some/hypothetical",
+      "command": ["echo", "1"]
+    }
+  ]
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const cascadedScan = cascadedScans[0];
+
+  expect(cascadedScan.spec.initContainers).toMatchInlineSnapshot(`
+  Array [
+    Object {
+      "command": Array [
+        "echo",
+        "1",
+      ],
+      "image": "some/hypothetical",
+      "name": "test-init-2",
+    },
+  ]
+  `);
+});
+
+test("Templating should also apply to initContainer commands", () => {
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https",
+      },
+    },
+  ];
+
+  sslyzeCascadingRules = [
+    {
+      apiVersion: "cascading.securecodebox.io/v1",
+      kind: "CascadingRule",
+      metadata: {
+        name: "tls-scans",
+      },
+      spec: {
+        matches: {
+          anyOf: [
+            {
+              category: "Open Port",
+              attributes: {
+                port: 443,
+                service: "https",
+              },
+            },
+            {
+              category: "Open Port",
+              attributes: {
+                service: "https",
+              },
+            },
+          ],
+        },
+        scanSpec: {
+          scanType: "sslyze",
+          parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"],
+          volumes: [{ name: "test-volume", emptyDir: {} }],
+          volumeMounts: [{ name: "test-volume", mountPath: "/test" }],
+          initContainers: [
+            {
+              name: "ping-it-again",
+              image: "busybox",
+              command: ["ping", "-c", "1", "{{$.hostOrIP}}"],
+              volumeMounts: [{ name: "test-volume", mountPath: "/test" }],
+            },
+          ],
+        },
+      },
+    },
+  ];
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  expect(cascadedScans).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "apiVersion": "execution.securecodebox.io/v1",
+        "kind": "Scan",
+        "metadata": Object {
+          "annotations": Object {
+            "cascading.securecodebox.io/chain": "tls-scans",
+            "cascading.securecodebox.io/matched-finding": undefined,
+            "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
+            "securecodebox.io/hook": "cascading-scans",
+          },
+          "generateName": "sslyze-foobar.com-tls-scans-",
+          "labels": Object {},
+          "ownerReferences": Array [
+            Object {
+              "apiVersion": "execution.securecodebox.io/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "Scan",
+              "name": "nmap-foobar.com",
+              "uid": undefined,
+            },
+          ],
+        },
+        "spec": Object {
+          "cascades": Object {},
+          "env": Array [],
+          "initContainers": Array [
+            Object {
+              "command": Array [
+                "ping",
+                "-c",
+                "1",
+                "foobar.com",
+              ],
+              "image": "busybox",
+              "name": "ping-it-again",
+              "volumeMounts": Array [
+                Object {
+                  "mountPath": "/test",
+                  "name": "test-volume",
+                },
+              ],
+            },
+          ],
+          "parameters": Array [
+            "--regular",
+            "foobar.com:443",
+          ],
+          "scanType": "sslyze",
+          "volumeMounts": Array [
+            Object {
+              "mountPath": "/test",
+              "name": "test-volume",
+            },
+          ],
+          "volumes": Array [
+            Object {
+              "emptyDir": Object {},
+              "name": "test-volume",
+            },
+          ],
+        },
+      },
+    ]
+  `);
+});
+
+test("Templating should not break special encoding (http://...) when using triple-mustache {{{}}}", () => {
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "https://github.com/secureCodeBox/secureCodeBox",
+        port: 443,
+        service: "https",
+      },
+    },
+  ];
+
+  sslyzeCascadingRules = [
+    {
+      apiVersion: "cascading.securecodebox.io/v1",
+      kind: "CascadingRule",
+      metadata: {
+        name: "tls-scans",
+      },
+      spec: {
+        matches: {
+          anyOf: [
+            {
+              category: "Open Port",
+              attributes: {
+                port: 443,
+                service: "https",
+              },
+            },
+            {
+              category: "Open Port",
+              attributes: {
+                service: "https",
+              },
+            },
+          ],
+        },
+        scanSpec: {
+          scanType: "sslyze",
+          parameters: ["--regular", "{{{attributes.hostname}}}"],
+          volumes: [{ name: "test-volume", emptyDir: {} }],
+          volumeMounts: [{ name: "test-volume", mountPath: "/test" }],
+          initContainers: [
+            {
+              name: "ping-it-again",
+              image: "busybox",
+              command: ["ping", "-c", "1", "{{{attributes.hostname}}}"],
+              volumeMounts: [{ name: "test-volume", mountPath: "/test" }],
+            },
+          ],
+        },
+      },
+    },
+  ];
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  expect(cascadedScans).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "apiVersion": "execution.securecodebox.io/v1",
+        "kind": "Scan",
+        "metadata": Object {
+          "annotations": Object {
+            "cascading.securecodebox.io/chain": "tls-scans",
+            "cascading.securecodebox.io/matched-finding": undefined,
+            "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
+            "securecodebox.io/hook": "cascading-scans",
+          },
+          "generateName": "sslyze-foobar.com-tls-scans-",
+          "labels": Object {},
+          "ownerReferences": Array [
+            Object {
+              "apiVersion": "execution.securecodebox.io/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "Scan",
+              "name": "nmap-foobar.com",
+              "uid": undefined,
+            },
+          ],
+        },
+        "spec": Object {
+          "cascades": Object {},
+          "env": Array [],
+          "initContainers": Array [
+            Object {
+              "command": Array [
+                "ping",
+                "-c",
+                "1",
+                "https://github.com/secureCodeBox/secureCodeBox",
+              ],
+              "image": "busybox",
+              "name": "ping-it-again",
+              "volumeMounts": Array [
+                Object {
+                  "mountPath": "/test",
+                  "name": "test-volume",
+                },
+              ],
+            },
+          ],
+          "parameters": Array [
+            "--regular",
+            "https://github.com/secureCodeBox/secureCodeBox",
+          ],
+          "scanType": "sslyze",
+          "volumeMounts": Array [
+            Object {
+              "mountPath": "/test",
+              "name": "test-volume",
+            },
+          ],
+          "volumes": Array [
+            Object {
+              "emptyDir": Object {},
+              "name": "test-volume",
+            },
+          ],
+        },
+      },
+    ]
+  `);
+});
+
 
 test("should purge cascaded scan spec from parent scan", () => {
   parentScan.spec.cascades.inheritEnv = true

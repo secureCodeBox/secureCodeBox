@@ -61,13 +61,15 @@ export interface ScanSpec {
   env?: Array<k8s.V1EnvVar>;
   volumes?: Array<k8s.V1Volume>;
   volumeMounts?: Array<k8s.V1VolumeMount>;
+  initContainers?: Array<k8s.V1Container>;
 }
 
 export interface CascadingInheritance {
   inheritLabels: boolean,
   inheritAnnotations: boolean,
   inheritEnv: boolean,
-  inheritVolumes: boolean
+  inheritVolumes: boolean,
+  inheritInitContainers: boolean,
 }
 
 export function mergeInheritedMap(parentProps, ruleProps, inherit: boolean = true) {
