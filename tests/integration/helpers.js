@@ -110,9 +110,12 @@ async function disasterRecovery(scanName) {
  * @param {string} scanType type of the scan. Must match the name of a ScanType CRD
  * @param {string[]} parameters cli argument to be passed to the scanner
  * @param {number} timeout in seconds
+ * @param {object[]} volumes definitions for kubernetes volumes that should be used. Optional, useful for initContainers (see below)
+ * @param {object[]} volumeMounts definitions for kubernetes volume mounts that should be used. Optional, useful for initContainers (see below)
+ * @param {object[]} initContainers definitions for initContainers that should be added to the scan job to provision files for the scanner. Optional.
  * @returns {scan.findings} returns findings { categories, severities, count }
  */
-async function scan(name, scanType, parameters = [], timeout = 180) {
+async function scan(name, scanType, parameters = [], timeout = 180, volumes = [], volumeMounts = [], initContainers = []) {
   namespace ="integration-tests"
   const scanDefinition = {
     apiVersion: "execution.securecodebox.io/v1",
@@ -124,6 +127,9 @@ async function scan(name, scanType, parameters = [], timeout = 180) {
     spec: {
       scanType,
       parameters,
+      volumes,
+      volumeMounts,
+      initContainers,
     },
   };
 
