@@ -1,10 +1,11 @@
 # SPDX-FileCopyrightText: 2021 iteratec GmbH
 #
 # SPDX-License-Identifier: Apache-2.0
+
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: "cmseek"
+  name: "cmseek{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   extractResults:
     type: cmseek-json
