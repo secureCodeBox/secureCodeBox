@@ -26,7 +26,10 @@ spec:
             - name: ncrack
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
-              command: ["ncrack", "-oX", "/home/securecodebox/ncrack-results.xml"]
+              command:
+                - "ncrack"
+                - "-oX"
+                - "/home/securecodebox/ncrack-results.xml"
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:

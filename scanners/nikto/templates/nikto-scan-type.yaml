@@ -2,14 +2,14 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-apiVersion: 'execution.securecodebox.io/v1'
+apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: 'nikto{{ .Values.scanner.nameAppend | default ""}}'
+  name: "nikto{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   extractResults:
     type: nikto-json
-    location: '/home/securecodebox/nikto-results.json'
+    location: "/home/securecodebox/nikto-results.json"
   jobTemplate:
     spec:
       {{- if .Values.scanner.ttlSecondsAfterFinished }}
@@ -27,12 +27,10 @@ spec:
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
               command:
-                # Nikto Entrypoint Script to avoid problems nikto exiting with a non zero exit code
-                # This would cause the kubernetes job to fail no matter what
-                - 'sh'
-                - '/wrapper.sh'
-                - '-o'
-                - '/home/securecodebox/nikto-results.json'
+                - "sh"
+                - "/wrapper.sh"
+                - "-o"
+                - "/home/securecodebox/nikto-results.json"
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:
