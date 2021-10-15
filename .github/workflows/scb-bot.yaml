@@ -1,0 +1,83 @@
+name: Check outdated scanners
+on: 
+  push:
+  schedule:
+   - cron: "15 9 * * *" # Daily at 9:15 (avoids the beginning of the hour congestion)
+jobs:
+  version-compare:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        scanner:
+          - amass                   # Scanner that needs to be updated
+          - angularjs-csti-scanner  # Scanner that does not need to be updated
+          # - gitleaks
+          # - kube-hunter
+          # - kubeaudit
+          # - ncrack
+          # - nuclei
+          # - ssh-scan
+          # - sslyze
+          # - trivy
+          # - whatweb
+          # - wpscan
+          # - zap
+          # - zap-advanced 
+          # These are commented out for the moment to avoid accidental multiple erroneous PRs
+          # missing scanners are : nmap, nikto, typo3scan
+    steps:
+      - uses: actions/checkout@v2
+   
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v3
+        with:
+          gpg-private-key: ${{ secrets.GPG_COMMITS_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_COMMITS_PASSPHRASE }}
+          git-user-signingkey: true
+          git-commit-gpgsign: true
+
+      - name: Fetch scanner's version API
+        uses: mikefarah/yq@v4.4.1
+        with:
+          cmd: echo versionApi=$(yq e .versionApi scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV 
+
+      - name: Fetch latest release scanner version
+        run: echo release=$((curl -sL ${{env.versionApi}}  ) | jq -r ".tag_name") | tr -d "v" >> $GITHUB_ENV
+            
+      - name: Fetch local scanner version
+        uses: mikefarah/yq@v4.4.1
+        with:
+          cmd: echo local=$(yq e .appVersion scanners/${{ matrix.scanner }}/Chart.yaml) | tr -d "v" >> $GITHUB_ENV
+
+      - name: Check if scanner is outdated and if PR already exists
+        if: ${{ env.release != env.local }}
+        run: |
+          echo 'The ${{ matrix.scanner }} scanner is outdated.  Current SCB version is ${{env.local}} and remote version is ${{env.release}}'
+
+          pullRequestTitle="[SCB-Bot] Upgraded ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
+          echo pullRequest=$pullRequestTitle >> $GITHUB_ENV
+
+          echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
+          echo prExists=$(gh pr list --state open --limit 100 | grep -F "$pullRequestTitle" -c) >> $GITHUB_ENV 
+
+      - name : Upgrade Scanner
+        if: ${{ env.release != env.local && env.prExists == 0 }} 
+        uses: mikefarah/yq@v4.4.1
+        with:
+        # appVersion value in chart is replaced with release value. Empty lines are deleted in the process
+          cmd: yq e --inplace '.appVersion = "v${{env.release}}"' ./scanners/${{ matrix.scanner }}/Chart.yaml
+
+      - name : Create Pull Request
+        if: ${{ env.release != env.local && env.prExists == 0 }}  
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          committer: secureCodeBoxBot <securecodebox@iteratec.com>
+          author: secureCodeBoxBot <securecodebox@iteratec.com>
+          title: ${{ env.pullRequest }}
+          body: "This is an automated Pull Request by the SCB-Bot. It upgrades ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
+          branch: "dependencies/upgrading-${{ matrix.scanner }}-to-${{env.release}}"
+          labels: dependencies,scanner
+          commit-message: "Upgrading ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
+          signoff: true
+          base: main

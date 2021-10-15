@@ -3,7 +3,7 @@ title: "Gitleaks"
 category: "scanner"
 type: "Repository"
 state: "released"
-appVersion: "v.7.6.1"
+appVersion: "v7.6.1"
 usecase: "Find potential secrets in repositories"
 ---
 
