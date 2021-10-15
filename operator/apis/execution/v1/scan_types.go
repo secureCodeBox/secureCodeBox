@@ -34,6 +34,11 @@ type CascadeSpec struct {
 	// +kubebuilder:default=false
 	InheritVolumes bool `json:"inheritVolumes"`
 
+	// InheritInitContainers defines whether cascading scans should inherit initContainers from the parent scan. Usually only useful when combined with inheritVolumes.
+	// +optional
+	// +kubebuilder:default=false
+	InheritInitContainers bool `json:"inheritInitContainers"`
+
 	// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
 	// map is equivalent to an element of matchExpressions, whose key field is "key", the
 	// operator is "In", and the values array contains only "value". The requirements are ANDed.
