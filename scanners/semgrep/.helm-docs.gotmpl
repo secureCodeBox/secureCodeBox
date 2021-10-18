@@ -1,0 +1,97 @@
+{{- /*
+SPDX-FileCopyrightText: 2021 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
+
+{{- define "extra.docsSection" -}}
+---
+title: "Nmap"
+category: "scanner"
+type: "Network"
+state: "released"
+appVersion: "{{ template "chart.appVersion" . }}"
+usecase: "Network discovery and security auditing"
+---
+
+![Semgrep logo](https://raw.githubusercontent.com/returntocorp/semgrep-docs/main/static/img/semgrep-icon-text-horizontal.svg)
+
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.appVersion" . }}`
+{{- end }}
+
+{{- define "extra.chartAboutSection" -}}
+## What is Semgrep?
+Semgrep ("semantic grep") is a static source code analyzer that can be used to search for specific patterns in code.
+It allows you to either [write your own rules](https://semgrep.dev/learn), or use one of the [many pre-defined rulesets](https://semgrep.dev/r) curated by the semgrep team.
+
+To learn more about semgrep, visit [semgrep.dev](https://semgrep.dev).
+
+{{- end }}
+
+{{- define "extra.scannerConfigurationSection" -}}
+## Scanner Configuration
+
+Semgrep requires one or more ruleset(s) to run its scans.
+Refer to the [semgrep rule database](https://semgrep.dev/r) for more details.
+A good starting point would be [p/ci](https://semgrep.dev/p/ci) (for security checks with a low false-positive rate) or [p/security-audit](https://semgrep.dev/p/security-audit) (for a more comprehensive security audit, which may include more false-positive results).
+
+
+Semgrep needs access to the source code to run its analysis.
+To use it with secureCodeBox, you thus need a way to provision the data into the scan container.
+The recommended method is to use `initContainers` to clone a VCS repository.
+The simplest example, using a public Git repository from GitHub, looks like this:
+
+```yaml
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "semgrep-vulnerable-flask-app"
+spec:
+  # Specify a Kubernetes volume that will be shared between the scanner and the initContainer
+  volumes:
+    - name: repository
+      emptyDir: {}
+  # Mount the volume in the scan container
+  volumeMounts:
+    - mountPath: "/repo/"
+      name: repository
+  # Specify an init container to clone the repository
+  initContainers:
+    - name: "provision-git"
+      # Use an image that includes git
+      image: bitnami/git
+      # Mount the same volume we also use in the main container
+      volumeMounts:
+        - mountPath: "/repo/"
+          name: repository
+      # Specify the clone command and clone into the volume, mounted at /repo/
+      command:
+        - git 
+        - clone
+        - "https://github.com/we45/Vulnerable-Flask-App"
+        - /repo/flask-app
+  # Parameterize the semgrep scan itself
+  scanType: "semgrep"
+  parameters:
+    - "-c"
+    - "p/ci"
+    - "/repo/flask-app"
+```
+
+If your repository requires authentication to clone, you will have to give the initContainer access to some method of authentication. 
+This could be a personal access token ([GitHub](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token), [GitLab](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html)), project access token ([GitLab](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html)), deploy key ([GitHub](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys) / [GitLab](https://docs.gitlab.com/ee/user/project/deploy_keys/)), deploy token ([GitLab](https://docs.gitlab.com/ee/user/project/deploy_tokens/)), or a server-to-server token ([GitHub](https://docs.github.com/en/developers/overview/managing-deploy-keys#server-to-server-tokens)). 
+Due to the large variety of options, we do not provide documentation for all of them here.
+Refer to the linked documentation for details on the different methods, and remember to use [Kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to manage keys and tokens.
+
+{{- end }}
+
+{{- define "extra.chartConfigurationSection" -}}
+{{- end }}
+
+{{- define "extra.scannerLinksSection" -}}
+{{- end }}
