@@ -4,7 +4,7 @@
 
 apiVersion: v2
 version: v3.1.0-alpha1
-appVersion: "v9.5.26"
+appVersion: "v9.4"
 name: old-typo3
 description: "Insecure & Outdated Typo3 Instance: Never expose it to the internet!"
 type: application

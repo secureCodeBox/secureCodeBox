@@ -2,14 +2,14 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-apiVersion: 'execution.securecodebox.io/v1'
+apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: 'sslyze{{ .Values.scanner.nameAppend | default ""}}'
+  name: "sslyze{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   extractResults:
     type: sslyze-json
-    location: '/home/securecodebox/sslyze-results.json'
+    location: "/home/securecodebox/sslyze-results.json"
   jobTemplate:
     spec:
       {{- if .Values.scanner.ttlSecondsAfterFinished }}
@@ -27,9 +27,9 @@ spec:
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
               command:
-                - 'sslyze'
-                - '--json_out'
-                - '/home/securecodebox/sslyze-results.json'
+                - "sslyze"
+                - "--json_out"
+                - "/home/securecodebox/sslyze-results.json"
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:

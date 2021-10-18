@@ -16,19 +16,23 @@ import (
 type CascadeSpec struct {
 	// InheritLabels defines whether cascading scans should inherit labels from the parent scan
 	// +optional
-	InheritLabels bool `json:"inheritLabels,omitempty"`
+	// +kubebuilder:default=true
+	InheritLabels bool `json:"inheritLabels"`
 
 	// InheritAnnotations defines whether cascading scans should inherit annotations from the parent scan
 	// +optional
-	InheritAnnotations bool `json:"inheritAnnotations,omitempty"`
+	// +kubebuilder:default=true
+	InheritAnnotations bool `json:"inheritAnnotations"`
 
 	// InheritEnv defines whether cascading scans should inherit environment variables from the parent scan
 	// +optional
-	InheritEnv bool `json:"inheritEnv,omitempty"`
+	// +kubebuilder:default=false
+	InheritEnv bool `json:"inheritEnv"`
 
 	// InheritVolumes defines whether cascading scans should inherit volumes and volume mounts from the parent scan
 	// +optional
-	InheritVolumes bool `json:"inheritVolumes,omitempty"`
+	// +kubebuilder:default=false
+	InheritVolumes bool `json:"inheritVolumes"`
 
 	// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
 	// map is equivalent to an element of matchExpressions, whose key field is "key", the
@@ -59,6 +63,8 @@ type ScanSpec struct {
 	Volumes []corev1.Volume `json:"volumes,omitempty"`
 	// VolumeMounts allows to specify volume mounts for the scan container.
 	VolumeMounts []corev1.VolumeMount `json:"volumeMounts,omitempty"`
+	// InitContainers allows to specify init containers for the scan container, to pre-load data into them.
+	InitContainers []corev1.Container `json:"initContainers,omitempty"`
 
 	Cascades *CascadeSpec `json:"cascades,omitempty"`
 }
@@ -80,6 +86,11 @@ type ScanStatus struct {
 	FindingDownloadLink string `json:"findingDownloadLink,omitempty"`
 	// RawResultDownloadLink link to download the raw result file from. Valid for 7 days
 	RawResultDownloadLink string `json:"rawResultDownloadLink,omitempty"`
+
+	// FindingHeadLink link to send HEAD request to the finding json file. Valid for 7 days
+	FindingHeadLink string `json:"findingHeadLink,omitempty"`
+	// RawResultHeadLink link to send HEAD request to raw result file. Valid for 7 days
+	RawResultHeadLink string `json:"rawResultHeadLink,omitempty"`
 
 	Findings FindingStats `json:"findings,omitempty"`
 

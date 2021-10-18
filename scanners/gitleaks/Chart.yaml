@@ -9,8 +9,10 @@ description: A Helm chart for the gitleaks repository scanner that integrates wi
 type: application
 # version - gets automatically set to the secureCodeBox release version when the helm charts gets published
 version: v3.1.0-alpha1
-appVersion: v.7.6.1
+appVersion: "v7.6.1"
 kubeVersion: ">=v1.11.0-0"
+
+versionApi: https://api.github.com/repos/zricethezav/gitleaks/releases/latest
 
 keywords:
   - security
@@ -24,4 +26,3 @@ sources:
 maintainers:
   - name: iteratec GmbH
     email: secureCodeBox@iteratec.com
-
