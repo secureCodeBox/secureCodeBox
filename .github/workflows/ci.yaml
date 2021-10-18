@@ -281,6 +281,7 @@ jobs:
           - amass
           - angularjs-csti-scanner
           - cmseek
+          - git-repo-scanner
           - gitleaks
           - kubeaudit
           - kube-hunter

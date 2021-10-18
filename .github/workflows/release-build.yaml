@@ -269,6 +269,7 @@ jobs:
         parser:
           - amass
           - angularjs-csti-scanner
+          - cmseek
           - git-repo-scanner
           - gitleaks
           - kube-hunter
@@ -282,8 +283,8 @@ jobs:
           - sslyze
           - test-scan
           - trivy
-          - whatweb
           - typo3scan
+          - whatweb
           - wpscan
           - zap
 
