@@ -24,7 +24,6 @@ test("should properly parse file from inline semgrep usage", async () => {
       Object {
         "attributes": Object {
           "cwe": null,
-          "matching_lines": "		actual := TruncateName(test.in)",
           "owasp_category": null,
           "references": null,
           "rule_source": null,
@@ -54,8 +53,6 @@ Array [
   Object {
     "attributes": Object {
       "cwe": "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
-      "matching_lines": "    url = request.GET['url']
-    os.system('wget ' + url)",
       "owasp_category": "A1: Injection",
       "references": Array [
         "https://owasp.org/www-community/attacks/Command_Injection",
@@ -87,8 +84,6 @@ Array [
   Object {
     "attributes": Object {
       "cwe": "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
-      "matching_lines": "    url = request.GET['url']
-    os.system('wget ' + url)",
       "owasp_category": "A1: Injection",
       "references": Array [
         "https://owasp.org/www-community/attacks/Command_Injection",
@@ -104,8 +99,6 @@ Array [
   Object {
     "attributes": Object {
       "cwe": "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
-      "matching_lines": "    image = request.POST['image']
-    os.system(\\"./face-recognize %s --N 24\\" % image)",
       "owasp_category": "A1: Injection",
       "references": Array [
         "https://owasp.org/www-community/attacks/Command_Injection",
