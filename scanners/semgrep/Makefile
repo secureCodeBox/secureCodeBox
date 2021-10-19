@@ -10,4 +10,6 @@ integration-tests:
 	kubectl -n integration-tests delete scans --all
 	cd ../../tests/integration/ && npm ci
 	cd ../../scanners/${scanner}
+	kubectl -n integration-tests create configmap semgrep-test-file --from-file=integration-tests/testfile.py
 	npx --yes --package jest@$(JEST_VERSION) jest --verbose --ci --colors --coverage --passWithNoTests ${scanner}/integration-tests
+	kubectl -n integration-tests delete configmap semgrep-test-file
