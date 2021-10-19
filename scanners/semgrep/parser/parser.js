@@ -37,7 +37,7 @@ async function parse(fileContent) {
       // Which line of code matched?
       // TODO: Do we actually want to record this? There are also secret-detector rules for semgrep, 
       // so maybe you don't actually want the plaintext match to be recorded unencrypted in some S3 bucket?
-      "matching_lines": result.extra.lines,
+      // "matching_lines": result.extra.lines,
     }
 
     return {
