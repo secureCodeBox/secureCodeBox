@@ -6,7 +6,7 @@ import argparse
 import logging
 import time
 from calendar import timegm
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional, List
 
 import github
@@ -78,6 +78,8 @@ class GitHubScanner(AbstractScanner):
                                      pushed_at: datetime,
                                      start_time: Optional[datetime] = None,
                                      end_time: Optional[datetime] = None):
+        # Explicitly set timezone of pushed_at, as it is not set by the library (but is in UTC)
+        pushed_at = pushed_at.replace(tzinfo=timezone.utc)
         if start_time:
             if pushed_at > start_time:
                 return True
