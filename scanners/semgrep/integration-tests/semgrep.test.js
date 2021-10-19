@@ -21,23 +21,13 @@ test(
       // volumes
       [{
           "name": "test-dir",
-          "emptyDir": {}
+          "configMap": {"name": "semgrep-test-file"}
       }],
       // volumeMounts
       [{
           "mountPath": "/test/",
           "name": "test-dir"
       }],
-      // initContainers
-      [{
-          "name": "init-wget",
-          "image": "busybox",
-          "command": ["wget", "https://gist.githubusercontent.com/malexmave/886028ee1a340bb7ff4bcecf459c7866/raw/934466aa0ad59f352e1bf37a8ef162e199de9a73/testfile.py", "-O", "/test/offending-file.py"],
-          "volumeMounts": [{
-              "mountPath": "/test/",
-              "name": "test-dir"
-          }]
-      }]
     );
 
     expect(count).toBe(3);
@@ -51,6 +41,7 @@ test(
   3 * 60 * 1000
 );
 
+/* Disable this rule as it requires access to the Internet and clones a public GitHub repo
 test(
   "semgrep should find 9 issues in the vulnerable flask app",
   async () => {
@@ -97,3 +88,4 @@ test(
   },
   3 * 60 * 1000
 );
+*/
