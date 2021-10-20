@@ -95,7 +95,7 @@ class GitRepoScannerTests(unittest.TestCase):
         with self.assertRaises(argparse.ArgumentError) as cm:
             GitHubScanner('url', None, 'org', [])
         # then
-        self.assertEqual(cm.exception.args[1], 'Access token required for GitHab connection.',
+        self.assertEqual(cm.exception.args[1], 'Access token required for GitHub connection.',
                          msg='Process should exit')
 
 
