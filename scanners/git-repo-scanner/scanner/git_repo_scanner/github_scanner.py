@@ -24,9 +24,9 @@ class GitHubScanner(AbstractScanner):
                  obey_rate_limit: bool = True) -> None:
         super().__init__()
         if not organization:
-            raise argparse.ArgumentError(None, 'Organization required for GitHab connection.')
+            raise argparse.ArgumentError(None, 'Organization required for GitHub connection.')
         if url and not access_token:
-            raise argparse.ArgumentError(None, 'Access token required for GitHab connection.')
+            raise argparse.ArgumentError(None, 'Access token required for GitHub connection.')
 
         self._url = url
         self._access_token = access_token
