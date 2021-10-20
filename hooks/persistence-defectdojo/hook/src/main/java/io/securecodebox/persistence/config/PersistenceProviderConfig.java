@@ -63,6 +63,14 @@ public class PersistenceProviderConfig {
     return !readOnly;
   }
 
+  public boolean isInLowPrivilegedMode() {
+    String LOW_PRIVILEGED_MODE = "DEFECTDOJO_LOW_PRIVILEGED_MODE";
+    if (System.getenv(LOW_PRIVILEGED_MODE) != null) {
+      return "true".equals(System.getenv(LOW_PRIVILEGED_MODE));
+    }
+    return false;
+  }
+
   public PersistenceProviderConfig(String[] args) {
     // Parse Hook Args passed via command line flags
     if (args == null) {

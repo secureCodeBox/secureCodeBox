@@ -38,7 +38,7 @@ public class DefectDojoPersistenceProvider {
     var config = DefectDojoConfig.fromEnv();
     LOG.info("Uploading Findings to DefectDojo at: {}", config.getUrl());
     var defectdojoImportStrategy = new VersionedEngagementsStrategy();
-    defectdojoImportStrategy.init(config);
+    defectdojoImportStrategy.init(config, persistenceProviderConfig);
     var defectDojoFindings = defectdojoImportStrategy.run(scan, scanResultFile);
     LOG.info("Identified total Number of findings in DefectDojo: {}", defectDojoFindings.size());
 
