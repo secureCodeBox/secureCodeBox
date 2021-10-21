@@ -154,7 +154,7 @@ ifdef NAME
 	rsync -a ./.templates/new-scanner/ ./scanners/$(NAME) ; \
 	echo "Copied template files to new directory ./scanners/$(NAME)"; \
 	cd scanners/$(NAME) ; \
-	find . -type f -exec sed -i 's/new-scanner/$(NAME)/g' {} + ; \
+	find . -type f -exec sed -i '' 's/new-scanner/$(NAME)/g' {} + ; \
 	mv "./templates/new-scanner-parse-definition.yaml" "templates/$(NAME)-parse-definition.yaml" ; \
 	mv "./templates/new-scanner-scan-type.yaml" "templates/$(NAME)-scan-type.yaml" ;
 else
