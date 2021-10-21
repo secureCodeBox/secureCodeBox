@@ -150,8 +150,7 @@ docs: readme hook-docs scanner-docs operator-docs auto-discovery-docs demo-apps-
 .PHONY: create-new-scanner
 create-new-scanner: ## Creates templates for a new scanner, pass NAME=NEW-SCANNER
 ifdef NAME
-	mkdir scanners/$(NAME)
-	rsync -a ./.templates/new-scanner/ ./scanners/$(NAME)
+	cp -r ./.templates/new-scanner ./scanners/$(NAME)
 	find ./scanners/$(NAME) -type f -exec sed -i '' 's/new-scanner/$(NAME)/g' {} +
 	mv ./scanners/$(NAME)/templates/new-scanner-parse-definition.yaml ./scanners/$(NAME)/templates/$(NAME)-parse-definition.yaml
 	mv ./scanners/$(NAME)/templates/new-scanner-scan-type.yaml ./scanners/$(NAME)/templates/$(NAME)-scan-type.yaml
