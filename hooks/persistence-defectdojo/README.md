@@ -46,6 +46,7 @@ These are:
 - SSLyze
 - Trivy
 - Gitleaks
+- Semgrep
 
 After uploading the results to DefectDojo, it will use the findings parsed by DefectDojo to overwrite the
 original secureCodeBox findings identified by the parser. This lets you access the finding metadata like the false
