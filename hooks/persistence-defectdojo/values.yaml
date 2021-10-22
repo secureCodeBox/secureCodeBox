@@ -19,7 +19,7 @@ hook:
 defectdojo:
   # -- Syncs back (two way sync) all imported findings from DefectDojo to SCB Findings Store. When set to false the hook will only import the findings to DefectDojo (one way sync).
   syncFindingsBack: true
-  # -- Allows the hook to run with a users token whos access rights are restricted to one / multiple product types but doesn't have global platform rights. If set to true, the DefectDojo User ID has to be configured instead of the username (`defectdojo.authentication.userId`). User needs to have at least the `Maintainer` role in the used Product Type.
+  # -- Allows the hook to run with a users token whose access rights are restricted to one / multiple product types but doesn't have global platform rights. If set to true, the DefectDojo User ID has to be configured instead of the username (`defectdojo.authentication.userId`). User needs to have at least the `Maintainer` role in the used Product Type.
   lowPrivilegedMode: false
   # -- Url to the DefectDojo Instance
   url: "http://defectdojo-django.default.svc"
