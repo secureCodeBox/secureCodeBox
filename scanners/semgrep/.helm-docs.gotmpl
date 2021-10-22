@@ -130,7 +130,7 @@ spec:
         command:
           - git
           - clone
-          - "https://$(GITHUB_TOKEN)@github.com/{{{attributes.full_name}}}"
+          - "https://$(GITHUB_TOKEN)@github.com/{{ "{{{" }}attributes.full_name{{ "}}}" }}"
           - /repo/
         volumeMounts:
           - mountPath: "/repo/"
