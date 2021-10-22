@@ -23,9 +23,17 @@ import (
 func (r *ScanReconciler) setHookStatus(scan *executionv1.Scan) error {
 	// Set (pending) Hook status on the scan
 	ctx := context.Background()
+	labelSelector, err := metav1.LabelSelectorAsSelector(scan.Spec.HookSelector)
+	if err != nil {
+		return err
+	}
+
 	var scanCompletionHooks executionv1.ScanCompletionHookList
 
-	if err := r.List(ctx, &scanCompletionHooks, client.InNamespace(scan.Namespace)); err != nil {
+	if err := r.List(ctx, &scanCompletionHooks,
+		client.InNamespace(scan.Namespace),
+		client.MatchingLabelsSelector{Selector: labelSelector},
+	); err != nil {
 		r.Log.V(7).Info("Unable to fetch ScanCompletionHooks")
 		return err
 	}
@@ -198,9 +206,17 @@ func containsJobForHook(jobs *batch.JobList, hook executionv1.ScanCompletionHook
 func (r *ScanReconciler) startReadOnlyHooks(scan *executionv1.Scan) error {
 	ctx := context.Background()
 
+	labelSelector, err := metav1.LabelSelectorAsSelector(scan.Spec.HookSelector)
+	if err != nil {
+		return err
+	}
+
 	var scanCompletionHooks executionv1.ScanCompletionHookList
 
-	if err := r.List(ctx, &scanCompletionHooks, client.InNamespace(scan.Namespace)); err != nil {
+	if err := r.List(ctx, &scanCompletionHooks,
+		client.InNamespace(scan.Namespace),
+		client.MatchingLabelsSelector{Selector: labelSelector},
+	); err != nil {
 		r.Log.V(7).Info("Unable to fetch ScanCompletionHooks")
 		return err
 	}
