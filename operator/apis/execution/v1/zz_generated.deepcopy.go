@@ -477,6 +477,11 @@ func (in *ScanStatus) DeepCopyInto(out *ScanStatus) {
 		*out = (*in).DeepCopy()
 	}
 	in.Findings.DeepCopyInto(&out.Findings)
+	if in.ReadAndWriteHookStatus != nil {
+		in, out := &in.ReadAndWriteHookStatus, &out.ReadAndWriteHookStatus
+		*out = make([]HookStatus, len(*in))
+		copy(*out, *in)
+	}
 	if in.OrderedHookStatuses != nil {
 		in, out := &in.OrderedHookStatuses, &out.OrderedHookStatuses
 		*out = make([][]*HookStatus, len(*in))

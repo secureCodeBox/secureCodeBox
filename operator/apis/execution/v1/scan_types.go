@@ -99,6 +99,8 @@ type ScanStatus struct {
 
 	Findings FindingStats `json:"findings,omitempty"`
 
+	ReadAndWriteHookStatus []HookStatus `json:"readAndWriteHookStatus,omitempty"`
+
 	OrderedHookStatuses [][]*HookStatus `json:"orderedHookStatuses,omitempty"`
 }
 

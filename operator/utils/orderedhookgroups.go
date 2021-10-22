@@ -58,7 +58,7 @@ func FromUnorderedList(hooks []executionv1.ScanCompletionHook) [][]*executionv1.
 
 	groups := [][]*executionv1.HookStatus{}
 	for _, prioClass := range prioClasses {
-		groups = append(groups, orderHookStatusesInsideAPrioClass(hooksByPrioClass[prioClass])...)
+		groups = append(groups, OrderHookStatusesInsideAPrioClass(hooksByPrioClass[prioClass])...)
 	}
 
 	return groups
@@ -79,7 +79,7 @@ func mapHookToHookStatus(hooks []executionv1.ScanCompletionHook) []*executionv1.
 	return hookStatuses
 }
 
-func orderHookStatusesInsideAPrioClass(hookStatuses []*executionv1.HookStatus) [][]*executionv1.HookStatus {
+func OrderHookStatusesInsideAPrioClass(hookStatuses []*executionv1.HookStatus) [][]*executionv1.HookStatus {
 	groups := [][]*executionv1.HookStatus{}
 	readOnlyGroups := []*executionv1.HookStatus{}
 	for _, hookStatus := range hookStatuses {

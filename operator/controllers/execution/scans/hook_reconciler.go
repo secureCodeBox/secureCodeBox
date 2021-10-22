@@ -45,6 +45,65 @@ func (r *ScanReconciler) setHookStatus(scan *executionv1.Scan) error {
 	return nil
 }
 
+func (r *ScanReconciler) migrateHookStatus(scan *executionv1.Scan) error {
+	ctx := context.Background()
+	var scanCompletionHooks executionv1.ScanCompletionHookList
+	r.Log.Info("Starting hook Status field migrations", "ReadAndWriteHookStatus", scan.Status.ReadAndWriteHookStatus)
+
+	if err := r.List(ctx, &scanCompletionHooks, client.InNamespace(scan.Namespace)); err != nil {
+		r.Log.V(7).Info("Unable to fetch ScanCompletionHooks")
+		return err
+	}
+
+	// Add new fields to old ReadAndWriteHookStatus object and convert to pointers
+	strSlice := make([]*executionv1.HookStatus, len(scan.Status.ReadAndWriteHookStatus))
+	for i := range scan.Status.ReadAndWriteHookStatus {
+		strSlice[i] = scan.Status.ReadAndWriteHookStatus[i].DeepCopy() // Keep original ReadAndWriteHookStatus field
+		strSlice[i].Priority = 0
+		strSlice[i].Type = executionv1.ReadAndWrite
+		r.Log.Info("Converted ReadAndWrite hook Status", "Original", scan.Status.ReadAndWriteHookStatus[i], "New", strSlice[i])
+	}
+
+	// Construct new ReadOnly HookStatus for OrderedHookStatuses
+	var readOnlyHooks []*executionv1.HookStatus
+	for _, hook := range scanCompletionHooks.Items {
+		if hook.Spec.Type == executionv1.ReadOnly {
+			hookStatus := &executionv1.HookStatus{
+				HookName: hook.Name,
+				Priority: 0,
+				Type:     executionv1.ReadOnly,
+			}
+
+			if scan.Status.State == "ReadAndWriteHookProcessing" || scan.Status.State == "ReadAndWriteHookCompleted" {
+				// ReadOnly hooks should not have started yet, so mark them all as pending
+				hookStatus.State = executionv1.Pending
+			} else if scan.Status.State == "ReadOnlyHookProcessing" {
+				// Had already started ReadOnly hooks and should now check status.
+				// No status for ReadOnly in old CRD, so mark everything as InProgress and let processInProgressHook update it later.
+				hookStatus.State = executionv1.InProgress
+			}
+
+			r.Log.Info("Retrieved new ReadOnly hook Status", "New", hookStatus)
+
+			readOnlyHooks = append(readOnlyHooks, hookStatus)
+		}
+	}
+
+	scan.Status.OrderedHookStatuses = util.OrderHookStatusesInsideAPrioClass(append(readOnlyHooks, strSlice...))
+	scan.Status.State = "HookProcessing"
+
+	if err := r.Status().Update(ctx, scan); err != nil {
+		r.Log.Error(err, "unable to update Scan status")
+		return err
+	}
+
+	r.Log.Info("Finished hook Status field migrations. ReadOnly hook statuses will be updated later.",
+		"ReadAndWriteHookStatus", scan.Status.ReadAndWriteHookStatus,
+		"OrderedHookStatuses", scan.Status.OrderedHookStatuses)
+
+	return nil
+}
+
 func (r *ScanReconciler) executeHooks(scan *executionv1.Scan) error {
 	ctx := context.Background()
 
