@@ -6,7 +6,7 @@ import argparse
 import logging
 import time
 from calendar import timegm
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional, List
 
 import github
@@ -24,9 +24,9 @@ class GitHubScanner(AbstractScanner):
                  obey_rate_limit: bool = True) -> None:
         super().__init__()
         if not organization:
-            raise argparse.ArgumentError(None, 'Organization required for GitHab connection.')
+            raise argparse.ArgumentError(None, 'Organization required for GitHub connection.')
         if url and not access_token:
-            raise argparse.ArgumentError(None, 'Access token required for GitHab connection.')
+            raise argparse.ArgumentError(None, 'Access token required for GitHub connection.')
 
         self._url = url
         self._access_token = access_token
@@ -78,6 +78,8 @@ class GitHubScanner(AbstractScanner):
                                      pushed_at: datetime,
                                      start_time: Optional[datetime] = None,
                                      end_time: Optional[datetime] = None):
+        # Explicitly set timezone of pushed_at, as it is not set by the library (but is in UTC)
+        pushed_at = pushed_at.replace(tzinfo=timezone.utc)
         if start_time:
             if pushed_at > start_time:
                 return True

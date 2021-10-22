@@ -114,6 +114,12 @@ spec:
                         description: InheritEnv defines whether cascading scans should
                           inherit environment variables from the parent scan
                         type: boolean
+                      inheritInitContainers:
+                        default: false
+                        description: InheritInitContainers defines whether cascading
+                          scans should inherit initContainers from the parent scan.
+                          Usually only useful when combined with inheritVolumes.
+                        type: boolean
                       inheritLabels:
                         default: true
                         description: InheritLabels defines whether cascading scans

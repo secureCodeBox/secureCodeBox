@@ -110,7 +110,7 @@ function getCascadingScan(
 
   let { scanType, parameters } = cascadingRule.spec.scanSpec;
 
-  let { annotations, labels, env, volumes, volumeMounts } = mergeCascadingRuleWithScan(parentScan, cascadingRule);
+  let { annotations, labels, env, volumes, volumeMounts, initContainers } = mergeCascadingRuleWithScan(parentScan, cascadingRule);
 
   let cascadingChain = getScanChain(parentScan);
 
@@ -148,6 +148,7 @@ function getCascadingScan(
       env,
       volumes,
       volumeMounts,
+      initContainers,
     }
   };
 }
@@ -157,15 +158,16 @@ function mergeCascadingRuleWithScan(
   cascadingRule: CascadingRule
 ) {
   const { scanAnnotations, scanLabels } = cascadingRule.spec;
-  let { env = [], volumes = [], volumeMounts = [] } = cascadingRule.spec.scanSpec;
-  let { inheritAnnotations, inheritLabels, inheritEnv, inheritVolumes } = scan.spec.cascades;
+  let { env = [], volumes = [], volumeMounts = [], initContainers = [] } = cascadingRule.spec.scanSpec;
+  let { inheritAnnotations, inheritLabels, inheritEnv, inheritVolumes, inheritInitContainers } = scan.spec.cascades;
 
   return {
     annotations: mergeInheritedMap(scan.metadata.annotations, scanAnnotations, inheritAnnotations),
     labels: mergeInheritedMap(scan.metadata.labels, scanLabels, inheritLabels),
     env: mergeInheritedArray(scan.spec.env, env, inheritEnv),
     volumes: mergeInheritedArray(scan.spec.volumes, volumes, inheritVolumes),
-    volumeMounts: mergeInheritedArray(scan.spec.volumeMounts, volumeMounts, inheritVolumes)
+    volumeMounts: mergeInheritedArray(scan.spec.volumeMounts, volumeMounts, inheritVolumes),
+    initContainers: mergeInheritedArray(scan.spec.initContainers, initContainers, inheritInitContainers),
   }
 }
 
@@ -185,12 +187,18 @@ function templateCascadingRule(
   };
 
   const { scanSpec, scanAnnotations, scanLabels } = cascadingRule.spec;
-  const { scanType, parameters } = scanSpec;
+  const { scanType, parameters, initContainers } = scanSpec;
 
   cascadingRule.spec.scanSpec.scanType =
     Mustache.render(scanType, templateArgs);
   cascadingRule.spec.scanSpec.parameters =
     parameters.map(parameter => Mustache.render(parameter, templateArgs))
+  cascadingRule.spec.scanSpec.initContainers = initContainers
+  if (cascadingRule.spec.scanSpec.initContainers !== undefined) {
+    cascadingRule.spec.scanSpec.initContainers.forEach(container => {
+      container.command = container.command.map(parameter => Mustache.render(parameter, templateArgs))
+    });
+  }
   cascadingRule.spec.scanAnnotations =
     scanAnnotations === undefined ? {} :mapValues(scanAnnotations, value => Mustache.render(value, templateArgs))
   cascadingRule.spec.scanLabels =
