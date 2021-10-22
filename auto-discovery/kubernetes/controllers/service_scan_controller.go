@@ -421,6 +421,7 @@ func generateScanSpec(autoDiscoveryConfig configv1.AutoDiscoveryConfig, scanConf
 			ScanType:   scanConfig.ScanType,
 			Parameters: params,
 		},
+		RetriggerOnScanTypeChange: true,
 	}
 
 	return scheduledScanSpec
