@@ -23,6 +23,8 @@ version: "v3.1.0-alpha1"
 # It is recommended to use it with quotes.
 appVersion: "0.70.0"
 
+versionApi: https://api.github.com/repos/returntocorp/semgrep/releases/latest
+
 kubeVersion: ">=v1.11.0-0"
 
 home: https://docs.securecodebox.io/docs/scanners/semgrep
