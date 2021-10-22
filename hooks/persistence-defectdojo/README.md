@@ -61,6 +61,17 @@ run ReadAndWrite hooks.
 ReadOnly hooks work fine with the DefectDojo hook as they are always executed after ReadAndWrite Hooks.
 :::
 
+:::caution
+
+The DefectDojo hook will send all scan results to DefectDojo, including those for which DefectDojo does not
+have native support. In this case, DefectDojo may deduplicate findings, which can in some cases [lead to incomplete imports and even data loss](https://github.com/DefectDojo/django-DefectDojo/issues/5312)
+if the hook is configured to replace the findings inside secureCodeBox with those imported into DefectDojo. We are
+working on a feature to [enable or disable specific hooks on a per-scan basis](https://github.com/secureCodeBox/secureCodeBox/issues/728).
+Until this is implemented, we recommend using the DefectDojo hook in its read-only configuration (`--set defectdojo.syncFindingsBack=false`
+during installation of the hook) if you want to rule out any issues, and to test any scanner that does not have native
+DefectDojo support with known data to see if it is affected by the deduplication issues.
+:::
+
 ### Running "Persistence DefectDojo" Hook Locally from Source
 For development purposes, it can be useful to run this hook locally. You can do so by following these steps:
 
