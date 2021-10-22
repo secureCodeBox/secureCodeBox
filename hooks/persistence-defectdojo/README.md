@@ -129,6 +129,31 @@ can add these via annotation to the scan. See examples below.
 | `defectdojo.securecodebox.io/engagement-tags`                      | Engagement Tags            | Nothing                                                              | Only used when creating the Engagement not used for updating                          |
 | `defectdojo.securecodebox.io/test-title`                           | Test Title                 | Scan Name                                                            |                                                                                       |
 
+### Low Privileged Mode
+
+By default the DefectDojo Hook requires a API Token with platform wide "Staff" access rights.
+
+With DefectDojo >2.0.0 allows / refines their user access rights, allowing you to restrict the users access rights to only view specific product types in DefectDojo.
+The secureCodeBox DefectDojo Hook can be configured to run with such a token of a "low privileged" users by setting the `defectdojo.lowPrivilegedMode=true`.
+
+#### Limitations of the Low Privileged Mode
+
+- Instead of the username, the userId **must** be configured as the low privileged can't use the users list api to look up its own userId.
+- The configured product type must exist beforehand as the low privileged user isn't permitted to create a new one
+- The hook will not create / link the engagement to the secureCodeBox orchestration engine tool type
+- The low privileged user must have at least the `Maintainer` role in the configured product type.
+
+#### Low Privileged Mode Install Example
+
+```bash
+kubectl create secret generic defectdojo-credentials --from-literal="apikey=08b7..."
+
+helm upgrade --install dd secureCodeBox/persistence-defectdojo \
+    --set="defectdojo.url=https://defectdojo-django.default.svc" \
+    --set="defectdojo.lowPrivilegedMode=true" \
+    --set="defectdojo.authentication.userId=42"
+```
+
 ### Simple Example Scans
 
 This will import the results daily into an engagements called: "zap-juiceshop-$UNIX_TIMESTAMP" (Name of the Scan created daily by the ScheduledScan), in a Product called: "zap-juiceshop" in the default DefectDojo product type.

@@ -137,6 +137,31 @@ can add these via annotation to the scan. See examples below.
 | `defectdojo.securecodebox.io/engagement-tags`                      | Engagement Tags            | Nothing                                                              | Only used when creating the Engagement not used for updating                          |
 | `defectdojo.securecodebox.io/test-title`                           | Test Title                 | Scan Name                                                            |                                                                                       |
 
+### Low Privileged Mode
+
+By default the DefectDojo Hook requires a API Token with platform wide "Staff" access rights.
+
+With DefectDojo >2.0.0 allows / refines their user access rights, allowing you to restrict the users access rights to only view specific product types in DefectDojo.
+The secureCodeBox DefectDojo Hook can be configured to run with such a token of a "low privileged" users by setting the `defectdojo.lowPrivilegedMode=true`.
+
+#### Limitations of the Low Privileged Mode
+
+- Instead of the username, the userId **must** be configured as the low privileged can't use the users list api to look up its own userId.
+- The configured product type must exist beforehand as the low privileged user isn't permitted to create a new one
+- The hook will not create / link the engagement to the secureCodeBox orchestration engine tool type
+- The low privileged user must have at least the `Maintainer` role in the configured product type.
+
+#### Low Privileged Mode Install Example
+
+```bash
+kubectl create secret generic defectdojo-credentials --from-literal="apikey=08b7..."
+
+helm upgrade --install dd secureCodeBox/persistence-defectdojo \
+    --set="defectdojo.url=https://defectdojo-django.default.svc" \
+    --set="defectdojo.lowPrivilegedMode=true" \
+    --set="defectdojo.authentication.userId=42"
+```
+
 ### Simple Example Scans
 
 This will import the results daily into an engagements called: "zap-juiceshop-$UNIX_TIMESTAMP" (Name of the Scan created daily by the ScheduledScan), in a Product called: "zap-juiceshop" in the default DefectDojo product type.
@@ -192,9 +217,11 @@ spec:
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | defectdojo.authentication.apiKeyKey | string | `"apikey"` | Name of the apikey key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |
+| defectdojo.authentication.userId | string | `nil` | Set the userId explicitly. When not set the configured username is used to look up the userId via the DefectDojo API (which is only available for privileged users.) |
 | defectdojo.authentication.userSecret | string | `"defectdojo-credentials"` | Link a pre-existing generic secret with `username` and `apikey` key / value pairs |
 | defectdojo.authentication.usernameKey | string | `"username"` | Name of the username key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |
-| defectdojo.syncFindingsBack | bool | `true` | Syncs back (two way sync) all imported findings from DefectDojo to SCB Findings Store, set to false to only import the findings to DefectDojo (one way sync). |
+| defectdojo.lowPrivilegedMode | bool | `false` | Allows the hook to run with a users token whos access rights are restricted to one / multiple product types but doesn't have global platform rights. If set to true, the DefectDojo User ID has to be configured instead of the username (`defectdojo.authentication.userId`). User needs to have at least the `Maintainer` role in the used Product Type. |
+| defectdojo.syncFindingsBack | bool | `true` | Syncs back (two way sync) all imported findings from DefectDojo to SCB Findings Store. When set to false the hook will only import the findings to DefectDojo (one way sync). |
 | defectdojo.url | string | `"http://defectdojo-django.default.svc"` | Url to the DefectDojo Instance |
 | hook.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | hook.image.repository | string | `"docker.io/securecodebox/hook-persistence-defectdojo"` | Hook image repository |
