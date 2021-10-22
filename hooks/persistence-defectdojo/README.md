@@ -68,8 +68,8 @@ have native support. In this case, DefectDojo may deduplicate findings, which ca
 if the hook is configured to replace the findings inside secureCodeBox with those imported into DefectDojo. We are
 working on a feature to [enable or disable specific hooks on a per-scan basis](https://github.com/secureCodeBox/secureCodeBox/issues/728).
 Until this is implemented, we recommend using the DefectDojo hook in its read-only configuration (`--set defectdojo.syncFindingsBack=false`
-during installation of the hook) if you want to rule out any issues, and to test any scanner that does not have native
-DefectDojo support with known data to see if it is affected by the deduplication issues.
+during installation of the hook) if you want to rule out any issues. We also recommend testing any scanner that does not have native
+DefectDojo support with known data to see if the data is imported correctly and without deduplication-based data loss.
 :::
 
 ### Running "Persistence DefectDojo" Hook Locally from Source
