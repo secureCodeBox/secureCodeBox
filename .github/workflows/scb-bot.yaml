@@ -23,6 +23,7 @@ jobs:
           # - wpscan
           # - zap
           # - zap-advanced 
+          # - semgrep
           # These are commented out for the moment to avoid accidental multiple erroneous PRs
           # missing scanners are : nmap, nikto, typo3scan
     steps:

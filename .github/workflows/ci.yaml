@@ -290,6 +290,7 @@ jobs:
           - nmap
           - nuclei
           - screenshooter
+          - semgrep
           - ssh-scan
           - sslyze
           - trivy
