@@ -42,79 +42,20 @@ You can find resources to help you get started on our [documentation website](ht
 
 ## Supported Tags
 - `latest`  (represents the latest stable release build)
-- tagged releases, e.g. `3.0.0`, `2.9.0`, `2.8.0`, `2.7.0`
+- tagged releases, e.g. `0.70.0`
 
 ## How to use this image
-This `hook` image is intended to work in combination with other `parser` images to read or manipulate `findings` results. For more information details please take a look at the [project page][scb-docs] or [documentation page][https://docs.securecodebox.io/docs/hooks/defectdojo].
+This `parser` image is intended to work in combination with the corresponding security scanner docker image to parse the `findings` results. For more information details please take a look at the documentation page: https://docs.securecodebox.io/docs/scanners/semgrep.
 
 ```bash
-docker pull securecodebox/hook-persistence-defectdojo
+docker pull securecodebox/parser-semgrep
 ```
 
-## What is "Persistence DefectDojo" Hook about?
-The DefectDojo hook imports the reports from scans automatically into [OWASP DefectDojo](https://www.defectdojo.org/).
-The hook uses the import scan [API v2 from DefectDojo](https://defectdojo.readthedocs.io/en/latest/api-v2-docs.html) to import the scan results.
+## What is Semgrep?
+Semgrep ("semantic grep") is a static source code analyzer that can be used to search for specific patterns in code.
+It allows you to either [write your own rules](https://semgrep.dev/learn), or use one of the [many pre-defined rulesets](https://semgrep.dev/r) curated by the semgrep team.
 
-This means that only scan types are supported by the hook which are both supported by the secureCodeBox and DefectDojo.
-These are:
-
-- Nmap
-- Nikto
-- ZAP (Baseline, API Scan and Full Scan)
-- ZAP Advanced
-- SSLyze
-- Trivy
-- Gitleaks
-
-After uploading the results to DefectDojo, it will use the findings parsed by DefectDojo to overwrite the
-original secureCodeBox findings identified by the parser. This lets you access the finding metadata like the false
-positive and duplicate status from DefectDojo in further ReadOnly hooks, e.g. send out Slack notification
-for non-duplicate & non-false positive findings only.
-
-:::caution
-
-Be careful when using the DefectDojo Hook in combination with other ReadAndWrite hooks. The secureCodeBox currently has
-no way to guarantee that one ReadAndWrite hook gets executed before another ReadAndWrite hook. This can lead to
-"lost update" problems as the DefectDojo hook will overwrite all findings, which disregards the results of previously
-run ReadAndWrite hooks.
-ReadOnly hooks work fine with the DefectDojo hook as they are always executed after ReadAndWrite Hooks.
-:::
-
-:::caution
-
-The DefectDojo hook will send all scan results to DefectDojo, including those for which DefectDojo does not
-have native support. In this case, DefectDojo may deduplicate findings, which can in some cases [lead to incomplete imports and even data loss](https://github.com/DefectDojo/django-DefectDojo/issues/5312)
-if the hook is configured to replace the findings inside secureCodeBox with those imported into DefectDojo. We are
-working on a feature to [enable or disable specific hooks on a per-scan basis](https://github.com/secureCodeBox/secureCodeBox/issues/728).
-Until this is implemented, we recommend using the DefectDojo hook in its read-only configuration (`--set defectdojo.syncFindingsBack=false`
-during installation of the hook) if you want to rule out any issues. We also recommend testing any scanner that does not have native
-DefectDojo support with known data to see if the data is imported correctly and without deduplication-based data loss.
-:::
-
-### Running "Persistence DefectDojo" Hook Locally from Source
-For development purposes, it can be useful to run this hook locally. You can do so by following these steps:
-
-1. Make sure you have access to a running [DefectDojo](https://github.com/DefectDojo/django-DefectDojo) instance.
-2. [Run a Scan](https://docs.securecodebox.io/docs/getting-started/first-scans) of your choice.
-3. Supply Download Links for the Scan Results (Raw Result and Findings.json). You can e.g., access them from the
-included [Minio Instance](https://docs.securecodebox.io/docs/getting-started/installation/#accessing-the-included-minio-instance)
-and upload them to a GitHub Gist.
-4. Set the following environment variables:
-
-- DEFECTDOJO_URL (e.g http://192.168.0.1:8080);
-- DEFECTDOJO_USERNAME (e.g admin)
-- DEFECTDOJO_APIKEY= (e.g. b09c.., can be fetched from the DefectDojo Settings)
-- IS_DEV=true
-- SCAN_NAME (e.g nmap-scanme.nmap.org, must be set exactly to the name of the scan used in step 2)
-
-5. Build the jar with gradle and run it with the following CLI arguments: {Raw Result Download URL} {Findings Download URL} {Raw Result Upload URL} {Findings Upload URL}.
-See the code snippet below. You have to adjust the filename of the jar for other versions than the '0.1.0-SNAPSHOT'.
-Also you will need to change the download URLs for the Raw Result and Findings to the ones from Step 3.
-
-```bash
-./gradlew build
-java -jar build/libs/defectdojo-persistenceprovider-0.1.0-SNAPSHOT.jar https://gist.githubusercontent.com/.../scanme-nmap-org.xml https://gist.githubusercontent.com/.../nmap-findings.json https://httpbin.org/put https://httpbin.org/put
-```
+To learn more about semgrep, visit [semgrep.dev](https://semgrep.dev).
 
 ## Community
 

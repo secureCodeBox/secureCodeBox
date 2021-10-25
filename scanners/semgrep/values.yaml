@@ -1,0 +1,49 @@
+parser:
+  image:
+    repository: securecodebox/parser-semgrep
+    tag: null
+    pullPolicy: IfNotPresent
+  
+  backoffLimit: 3
+  env: []
+
+
+scanner:
+  image:
+    repository: docker.io/returntocorp/semgrep
+    tag: null
+    pullPolicy: IfNotPresent
+
+  ttlSecondsAfterFinished: null
+
+  backoffLimit: 3
+
+  resources: {}
+  #   resources:
+  #     requests:
+  #       memory: "256Mi"
+  #       cpu: "250m"
+  #     limits:
+  #       memory: "512Mi"
+  #       cpu: "500m"
+
+  env: []
+
+  extraVolumes: []
+
+  extraVolumeMounts: []
+
+  extraContainers: []
+
+  securityContext:
+    runAsNonRoot: true
+    readOnlyRootFilesystem: false
+    allowPrivilegeEscalation: false
+    privileged: false
+    capabilities:
+      drop:
+        - all
+
+cascadingRules:
+  # cascadingRules.enabled -- Enables or disables the installation of the default cascading rules for this scanner
+  enabled: true

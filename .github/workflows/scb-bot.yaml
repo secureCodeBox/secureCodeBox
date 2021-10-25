@@ -9,13 +9,14 @@ jobs:
       matrix:
         scanner:
           - amass                   # Scanner that needs to be updated
-          - angularjs-csti-scanner  # Scanner that does not need to be updated
+          - angularjs-csti-scanner
           - cmseek
           - gitleaks
           - kube-hunter
           - kubeaudit
           - ncrack
           - nuclei
+          - semgrep
           - ssh-scan
           - sslyze
           - trivy
