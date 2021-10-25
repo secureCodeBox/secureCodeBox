@@ -1,6 +1,5 @@
 name: Check outdated scanners
 on: 
-  push:
   schedule:
    - cron: "15 9 * * *" # Daily at 9:15 (avoids the beginning of the hour congestion)
 jobs:
@@ -10,20 +9,21 @@ jobs:
       matrix:
         scanner:
           - amass                   # Scanner that needs to be updated
-          - angularjs-csti-scanner  # Scanner that does not need to be updated
-          # - gitleaks
-          # - kube-hunter
-          # - kubeaudit
-          # - ncrack
-          # - nuclei
-          # - ssh-scan
-          # - sslyze
-          # - trivy
-          # - whatweb
-          # - wpscan
-          # - zap
-          # - zap-advanced 
-          # - semgrep
+          - angularjs-csti-scanner
+          - cmseek
+          - gitleaks
+          - kube-hunter
+          - kubeaudit
+          - ncrack
+          - nuclei
+          - semgrep
+          - ssh-scan
+          - sslyze
+          - trivy
+          - whatweb
+          - wpscan
+          - zap
+          - zap-advanced 
           # These are commented out for the moment to avoid accidental multiple erroneous PRs
           # missing scanners are : nmap, nikto, typo3scan
     steps:
