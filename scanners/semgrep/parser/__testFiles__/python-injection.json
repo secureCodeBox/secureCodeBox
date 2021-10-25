@@ -1,0 +1,108 @@
+{
+  "errors": [],
+  "results": [
+    {
+      "check_id": "python.django.security.injection.command.command-injection-os-system.command-injection-os-system",
+      "end": {
+        "col": 29,
+        "line": 5,
+        "offset": 89
+      },
+      "extra": {
+        "is_ignored": false,
+        "lines": "    url = request.GET['url']\n    os.system('wget ' + url)",
+        "message": "Request data detected in os.system. This could be vulnerable to a command injection and should be avoided. If this must be done, use the 'subprocess' module instead and pass the arguments as a list. See https://owasp.org/www-community/attacks/Command_Injection for more information.",
+        "metadata": {
+          "category": "security",
+          "cwe": "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
+          "license": "Commons Clause License Condition v1.0[LGPL-2.1-only]",
+          "owasp": "A1: Injection",
+          "references": [
+            "https://owasp.org/www-community/attacks/Command_Injection"
+          ],
+          "source": "https://semgrep.dev/r/python.django.security.injection.command.command-injection-os-system.command-injection-os-system",
+          "technology": [
+            "django"
+          ]
+        },
+        "metavars": {
+          "$DATA": {
+            "abstract_content": "url",
+            "end": {
+              "col": 8,
+              "line": 4,
+              "offset": 39
+            },
+            "start": {
+              "col": 5,
+              "line": 4,
+              "offset": 36
+            },
+            "unique_id": {
+              "sid": 2,
+              "type": "id"
+            }
+          },
+          "$FUNC": {
+            "abstract_content": "danger",
+            "end": {
+              "col": 11,
+              "line": 3,
+              "offset": 21
+            },
+            "start": {
+              "col": 5,
+              "line": 3,
+              "offset": 15
+            },
+            "unique_id": {
+              "md5sum": "e464e589a56001f3802f41abb5379c2f",
+              "type": "AST"
+            }
+          },
+          "$STR": {
+            "abstract_content": "'wget '",
+            "end": {
+              "col": 22,
+              "line": 5,
+              "offset": 82
+            },
+            "start": {
+              "col": 15,
+              "line": 5,
+              "offset": 75
+            },
+            "unique_id": {
+              "md5sum": "59ca841b827335bd089d3c8a878a2484",
+              "type": "AST"
+            }
+          },
+          "$W": {
+            "abstract_content": "GET",
+            "end": {
+              "col": 22,
+              "line": 4,
+              "offset": 53
+            },
+            "start": {
+              "col": 19,
+              "line": 4,
+              "offset": 50
+            },
+            "unique_id": {
+              "md5sum": "9ed5273ba88f285705ba04822846d293",
+              "type": "AST"
+            }
+          }
+        },
+        "severity": "WARNING"
+      },
+      "path": "test.py",
+      "start": {
+        "col": 5,
+        "line": 4,
+        "offset": 36
+      }
+    }
+  ]
+}
