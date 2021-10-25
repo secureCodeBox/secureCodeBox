@@ -3,7 +3,7 @@ title: "Git Repo Scanner"
 category: "scanner"
 type: "Repository"
 state: "released"
-appVersion: "1.0"
+appVersion: "1.1"
 usecase: "Discover Git repositories"
 ---
 
