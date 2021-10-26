@@ -3,7 +3,7 @@ title: "Git Repo Scanner"
 category: "scanner"
 type: "Repository"
 state: "released"
-appVersion: "1.0"
+appVersion: "1.1"
 usecase: "Discover Git repositories"
 ---
 
@@ -62,13 +62,14 @@ or
 For type GitHub you can use the following options:
 - `--organization`: The name of the GitHub organization you want to scan.
 - `--url`: The url of the api for a GitHub enterprise server. Skip this option for repos on <https://github.com>.
-- `--access-token`: Your personal GitHub access token.
+- `--access-token`: Your personal GitHub access token (needs full `repo` rights if you want to also find private repositories, otherwise `repo:status` and `public_repo` is sufficient).
 - `--ignore-repos`: A list of GitHub repository ids you want to ignore
 - `--obey-rate-limit`: True to obey the rate limit of the GitHub server (default), otherwise False
 - `--activity-since-duration`: Return git repo findings with repo activity (e.g. commits) more recent than a specific date expressed by a duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each
                                with optional fraction and a unit suffix, such as '1h' or '2h45m'. Valid time units are 'm', 'h', 'd', 'w'.
 - `--activity-until-duration`: Return git repo findings with repo activity (e.g. commits) older than a specific date expressed by a duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each with
                                optional fraction and a unit suffix, such as '1h' or '2h45m'. Valid time units are 'm', 'h', 'd', 'w'.
+- `--annotate-latest-commit-id`: Set to True to annotate the results with the SHA1 of the latest commit on the main branch. Causes an extra API hit per repository. False by default.
 
 For now only organizations are supported, so the option is mandatory. We **strongly recommend** providing an access token
 for authentication. If not provided the rate limiting will kick in after about 30 repositories scanned.
@@ -76,7 +77,7 @@ for authentication. If not provided the rate limiting will kick in after about 3
 #### GitLab
 For type GitLab you can use the following options:
 - `--url`: The url of the GitLab server.
-- `--access-token`: Your personal GitLab access token.
+- `--access-token`: Your personal GitLab access token (needs at least `read_api` and `read_repository` scopes).
 - `--group`: A specific GitLab group id you want to san, including subgroups.
 - `--ignore-groups`: A list of GitLab group ids you want to ignore
 - `--ignore-repos`: A list of GitLab project ids you want to ignore
@@ -85,6 +86,7 @@ For type GitLab you can use the following options:
                                with optional fraction and a unit suffix, such as '1h' or '2h45m'. Valid time units are 'm', 'h', 'd', 'w'.
 - `--activity-until-duration`: Return git repo findings with repo activity (e.g. commits) older than a specific date expressed by a duration (now + duration). A duration string is a possibly signed sequence of decimal numbers, each with
                                optional fraction and a unit suffix, such as '1h' or '2h45m'. Valid time units are 'm', 'h', 'd', 'w'.
+- `--annotate-latest-commit-id`: Set to True to annotate the results with the SHA1 of the latest commit on the main branch. Causes an extra API hit per repository. False by default.
 
 For Gitlab, the url and the access token is mandatory. If you don't provide a specific group id, all projects
 on the Gitlab server are going to be discovered.
