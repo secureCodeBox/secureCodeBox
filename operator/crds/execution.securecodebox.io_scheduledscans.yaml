@@ -96,6 +96,11 @@ spec:
                         description: InheritEnv defines whether cascading scans should
                           inherit environment variables from the parent scan
                         type: boolean
+                      inheritHookSelector:
+                        default: true
+                        description: InheritHookSelector defines whether cascading
+                          scans should inherit hookSelector from the parent scan.
+                        type: boolean
                       inheritInitContainers:
                         default: false
                         description: InheritInitContainers defines whether cascading

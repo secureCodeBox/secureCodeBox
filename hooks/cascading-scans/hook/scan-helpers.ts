@@ -62,6 +62,7 @@ export interface ScanSpec {
   volumes?: Array<k8s.V1Volume>;
   volumeMounts?: Array<k8s.V1VolumeMount>;
   initContainers?: Array<k8s.V1Container>;
+  hookSelector?: LabelSelector;
 }
 
 export interface CascadingInheritance {
@@ -70,6 +71,7 @@ export interface CascadingInheritance {
   inheritEnv: boolean,
   inheritVolumes: boolean,
   inheritInitContainers: boolean,
+  inheritHookSelector: boolean,
 }
 
 export function mergeInheritedMap(parentProps, ruleProps, inherit: boolean = true) {
@@ -87,6 +89,17 @@ export function mergeInheritedArray(parentArray, ruleArray, inherit: boolean = f
     parentArray = [];
   }
   return (parentArray || []).concat(ruleArray)  // CascadingRule's env overwrites scan's env
+}
+
+export function mergeInheritedSelector(parentSelector: LabelSelector = {}, ruleSelector: LabelSelector = {}, inherit: boolean = true): LabelSelector {
+  let labelSelector: LabelSelector = {};
+  if (parentSelector.matchExpressions || ruleSelector.matchExpressions) {
+    labelSelector.matchExpressions = mergeInheritedArray(parentSelector.matchExpressions, ruleSelector.matchExpressions, inherit);
+  }
+  if (parentSelector.matchLabels || ruleSelector.matchLabels) {
+    labelSelector.matchLabels = mergeInheritedMap(parentSelector.matchLabels, ruleSelector.matchLabels, inherit);
+  }
+  return labelSelector
 }
 
 export async function startSubsequentSecureCodeBoxScan(scan: Scan) {

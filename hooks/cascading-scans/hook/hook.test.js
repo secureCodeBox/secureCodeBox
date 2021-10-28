@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 const { getCascadingScans } = require("./hook");
+const {LabelSelectorRequirementOperator} = require("./kubernetes-label-selector");
 
 let parentScan = undefined;
 let sslyzeCascadingRules = undefined;
@@ -104,6 +105,7 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", () =
         "spec": Object {
           "cascades": Object {},
           "env": Array [],
+          "hookSelector": Object {},
           "initContainers": Array [],
           "parameters": Array [
             "--regular",
@@ -241,6 +243,7 @@ test("Should not crash when the annotations are not set", () => {
         "spec": Object {
           "cascades": Object {},
           "env": Array [],
+          "hookSelector": Object {},
           "initContainers": Array [],
           "parameters": Array [
             "--regular",
@@ -372,6 +375,7 @@ test("Should allow wildcards in cascadingRules", () => {
         "spec": Object {
           "cascades": Object {},
           "env": Array [],
+          "hookSelector": Object {},
           "initContainers": Array [],
           "parameters": Array [
             "--regular",
@@ -1128,6 +1132,7 @@ test("Templating should also apply to initContainer commands", () => {
         "spec": Object {
           "cascades": Object {},
           "env": Array [],
+          "hookSelector": Object {},
           "initContainers": Array [
             Object {
               "command": Array [
@@ -1260,6 +1265,7 @@ test("Templating should not break special encoding (http://...) when using tripl
         "spec": Object {
           "cascades": Object {},
           "env": Array [],
+          "hookSelector": Object {},
           "initContainers": Array [
             Object {
               "command": Array [
@@ -1301,6 +1307,145 @@ test("Templating should not break special encoding (http://...) when using tripl
   `);
 });
 
+test("should merge hookSelector into cascaded scan", () => {
+  parentScan.spec.cascades.inheritHookSelector = true
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  parentScan.spec.hookSelector = {}
+  parentScan.spec.hookSelector.matchLabels = {
+    "securecodebox.io/internal": "true",
+  }
+  parentScan.spec.hookSelector.matchExpressions = [
+    {
+      key: "securecodebox.io/name",
+      operator: LabelSelectorRequirementOperator.In,
+      values: ["cascading-scans"]
+    }
+  ]
+
+  sslyzeCascadingRules[0].spec.scanSpec.hookSelector = {};
+  sslyzeCascadingRules[0].spec.scanSpec.hookSelector.matchExpressions = [
+    {
+      key: "securecodebox.io/name",
+      operator: LabelSelectorRequirementOperator.NotIn,
+      values: ["cascading-scans"]
+    }
+  ]
+
+  sslyzeCascadingRules[0].spec.scanSpec.hookSelector.matchLabels = {
+    "securecodebox.io/internal": "false",
+  }
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const cascadedScan = cascadedScans[0];
+
+  expect(cascadedScan.spec.hookSelector).toMatchInlineSnapshot(`
+  Object {
+    "matchExpressions": Array [
+      Object {
+        "key": "securecodebox.io/name",
+        "operator": "In",
+        "values": Array [
+          "cascading-scans",
+        ],
+      },
+      Object {
+        "key": "securecodebox.io/name",
+        "operator": "NotIn",
+        "values": Array [
+          "cascading-scans",
+        ],
+      },
+    ],
+    "matchLabels": Object {
+      "securecodebox.io/internal": "false",
+    },
+  }
+  `);
+});
+
+
+test("should not merge hookSelector into cascaded scan if inheritHookSelector is disabled", () => {
+  parentScan.spec.cascades.inheritHookSelector = false
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  parentScan.spec.hookSelector = {}
+  parentScan.spec.hookSelector.matchLabels = {
+    "securecodebox.io/internal": "true",
+  }
+  parentScan.spec.hookSelector.matchExpressions = [
+    {
+      key: "securecodebox.io/name",
+      operator: LabelSelectorRequirementOperator.In,
+      values: ["cascading-scans"]
+    }
+  ]
+
+  sslyzeCascadingRules[0].spec.scanSpec.hookSelector = {};
+  sslyzeCascadingRules[0].spec.scanSpec.hookSelector.matchExpressions = [
+    {
+      key: "securecodebox.io/name",
+      operator: LabelSelectorRequirementOperator.NotIn,
+      values: ["cascading-scans"]
+    }
+  ]
+
+  sslyzeCascadingRules[0].spec.scanSpec.hookSelector.matchLabels = {
+    "securecodebox.io/internal": "false",
+  }
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const cascadedScan = cascadedScans[0];
+
+  expect(cascadedScan.spec.hookSelector).toMatchInlineSnapshot(`
+  Object {
+    "matchExpressions": Array [
+      Object {
+        "key": "securecodebox.io/name",
+        "operator": "NotIn",
+        "values": Array [
+          "cascading-scans",
+        ],
+      },
+    ],
+    "matchLabels": Object {
+      "securecodebox.io/internal": "false",
+    },
+  }
+  `);
+});
 
 test("should purge cascaded scan spec from parent scan", () => {
   parentScan.spec.cascades.inheritEnv = true

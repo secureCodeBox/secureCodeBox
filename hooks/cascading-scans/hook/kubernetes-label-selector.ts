@@ -19,8 +19,8 @@ export interface LabelSelectorRequirement {
 }
 
 export interface LabelSelector {
-  matchExpressions: Array<LabelSelectorRequirement>;
-  matchLabels: Map<string, string>;
+  matchExpressions?: Array<LabelSelectorRequirement>;
+  matchLabels?: Map<string, string>;
 }
 
 // generateSelectorString transforms a kubernetes labelSelector object in to the string representation
