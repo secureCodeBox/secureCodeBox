@@ -91,7 +91,7 @@ export function mergeInheritedArray(parentArray, ruleArray, inherit: boolean = f
   return (parentArray || []).concat(ruleArray)  // CascadingRule's env overwrites scan's env
 }
 
-export function mergeInheritedSelector(parentSelector: LabelSelector = {}, ruleSelector: LabelSelector = {}, inherit: boolean = true): LabelSelector {
+export function mergeInheritedSelector(parentSelector: LabelSelector = {}, ruleSelector: LabelSelector = {}, inherit: boolean = false): LabelSelector {
   let labelSelector: LabelSelector = {};
   if (parentSelector.matchExpressions || ruleSelector.matchExpressions) {
     labelSelector.matchExpressions = mergeInheritedArray(parentSelector.matchExpressions, ruleSelector.matchExpressions, inherit);

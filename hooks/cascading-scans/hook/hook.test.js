@@ -1307,7 +1307,7 @@ test("Templating should not break special encoding (http://...) when using tripl
   `);
 });
 
-test("should merge hookSelector into cascaded scan", () => {
+test("should merge hookSelector into cascaded scan if inheritHookSelector is enabled", () => {
   parentScan.spec.cascades.inheritHookSelector = true
   const findings = [
     {

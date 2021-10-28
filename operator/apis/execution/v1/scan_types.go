@@ -41,7 +41,7 @@ type CascadeSpec struct {
 
 	// InheritHookSelector defines whether cascading scans should inherit hookSelector from the parent scan.
 	// +optional
-	// +kubebuilder:default=true
+	// +kubebuilder:default=false
 	InheritHookSelector bool `json:"inheritHookSelector"`
 
 	// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
