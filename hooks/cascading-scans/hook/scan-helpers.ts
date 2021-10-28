@@ -84,7 +84,7 @@ export function mergeInheritedMap(parentProps, ruleProps, inherit: boolean = tru
   }
 }
 
-export function mergeInheritedArray(parentArray, ruleArray, inherit: boolean = false) {
+export function mergeInheritedArray(parentArray = [], ruleArray = [], inherit: boolean = false) {
   if (!inherit) {
     parentArray = [];
   }
@@ -176,6 +176,19 @@ export function purgeCascadedRuleFromScan(scan: Scan, cascadedRuleUsedForParentS
     scan.spec.volumeMounts = scan.spec.volumeMounts.filter(scanVolumeMount =>
       !cascadedRuleUsedForParentScan.spec.scanSpec.volumeMounts.some(ruleVolumeMount => isEqual(scanVolumeMount, ruleVolumeMount))
     );
+  }
+
+  if (scan.spec.hookSelector !== undefined && cascadedRuleUsedForParentScan.spec.scanSpec.hookSelector !== undefined) {
+    if (scan.spec.hookSelector.matchExpressions !== undefined && cascadedRuleUsedForParentScan.spec.scanSpec.hookSelector.matchExpressions !== undefined) {
+      scan.spec.hookSelector.matchExpressions = scan.spec.hookSelector.matchExpressions.filter(scanHookSelector =>
+        !cascadedRuleUsedForParentScan.spec.scanSpec.hookSelector.matchExpressions.some(ruleHookSelector => isEqual(scanHookSelector, ruleHookSelector))
+      );
+    }
+    if (scan.spec.hookSelector.matchLabels !== undefined && cascadedRuleUsedForParentScan.spec.scanSpec.hookSelector.matchLabels !== undefined) {
+      for (const label in cascadedRuleUsedForParentScan.spec.scanSpec.hookSelector.matchLabels) {
+        delete scan.spec.hookSelector.matchLabels[label]
+      }
+    }
   }
 
   return scan

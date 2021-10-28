@@ -1450,6 +1450,7 @@ test("should not merge hookSelector into cascaded scan if inheritHookSelector is
 test("should purge cascaded scan spec from parent scan", () => {
   parentScan.spec.cascades.inheritEnv = true
   parentScan.spec.cascades.inheritVolumes = true
+  parentScan.spec.cascades.inheritHookSelector = true
   const findings = [
     {
       name: "Port 443 is open",
@@ -1512,6 +1513,31 @@ test("should purge cascaded scan spec from parent scan", () => {
       "value": "rule_environment_variable_value"
     }
   ]
+
+  parentScan.spec.hookSelector = {}
+  parentScan.spec.hookSelector.matchLabels = {
+    "securecodebox.io/internal": "true",
+  }
+  parentScan.spec.hookSelector.matchExpressions = [
+    {
+      key: "securecodebox.io/name",
+      operator: LabelSelectorRequirementOperator.In,
+      values: ["cascading-scans"]
+    }
+  ]
+
+  sslyzeCascadingRules[0].spec.scanSpec.hookSelector = {};
+  sslyzeCascadingRules[0].spec.scanSpec.hookSelector.matchExpressions = [
+    {
+      key: "securecodebox.io/name",
+      operator: LabelSelectorRequirementOperator.NotIn,
+      values: ["cascading-scans"]
+    }
+  ]
+
+  sslyzeCascadingRules[0].spec.scanSpec.hookSelector.matchLabels = {
+    "securecodebox.io/internal": "false",
+  }
 
   const cascadedScans = getCascadingScans(
     parentScan,
@@ -1595,6 +1621,18 @@ test("should purge cascaded scan spec from parent scan", () => {
     ]
   `)
 
+  expect(secondCascadedScan.spec.hookSelector.matchExpressions).toMatchInlineSnapshot(`
+  Array [
+    Object {
+      "key": "securecodebox.io/name",
+      "operator": "In",
+      "values": Array [
+        "cascading-scans",
+      ],
+    },
+  ]
+  `)
+  expect(secondCascadedScan.spec.hookSelector.matchLabels).toMatchInlineSnapshot(`Object {}`)
 });
 
 test("should not copy cascaded scan spec from parent scan if inheritance is undefined", () => {
