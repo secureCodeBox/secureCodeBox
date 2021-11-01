@@ -81,6 +81,9 @@ func (r *ScanReconciler) migrateHookStatus(scan *executionv1.Scan) error {
 				// Had already started ReadOnly hooks and should now check status.
 				// No status for ReadOnly in old CRD, so mark everything as InProgress and let processInProgressHook update it later.
 				hookStatus.State = executionv1.InProgress
+			} else if scan.Status.State == "Done" {
+				// Had completely finished
+				hookStatus.State = executionv1.Completed
 			}
 
 			r.Log.Info("Retrieved new ReadOnly hook Status", "New", hookStatus)
@@ -90,7 +93,9 @@ func (r *ScanReconciler) migrateHookStatus(scan *executionv1.Scan) error {
 	}
 
 	scan.Status.OrderedHookStatuses = util.OrderHookStatusesInsideAPrioClass(append(readOnlyHooks, strSlice...))
-	scan.Status.State = "HookProcessing"
+	if scan.Status.State != "Done" {
+		scan.Status.State = "HookProcessing"
+	}
 
 	if err := r.Status().Update(ctx, scan); err != nil {
 		r.Log.Error(err, "unable to update Scan status")
