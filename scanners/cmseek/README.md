@@ -3,7 +3,7 @@ title: "CMSeeK"
 category: "scanner"
 type: "CMS"
 state: "released"
-appVersion: "1.1.3"
+appVersion: "v.1.1.3"
 usecase: "Automation of the process of detecting the Joomla CMS and its core vulnerabilities"
 ---
 
