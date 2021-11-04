@@ -62,9 +62,11 @@ function getCategory(target) {
     } else if (target.endsWith("Pipfile.lock")) {
       category = "Python Package Vulnerability";
     } else if (target.endsWith("Cargo.lock")) {
-      category = "Python Package Vulnerability";
+      category = "Rust Package Vulnerability";
     } else if (target.endsWith("Composer.lock")) {
       category = "PHP Package Vulnerability";
+    } else if (target.endsWith("go.sum")) {
+      category = "Go Package Vulnerability";
     }
     return category;
 }
