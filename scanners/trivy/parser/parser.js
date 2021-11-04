@@ -55,7 +55,7 @@ async function parse(scanResults) {
 
 function getCategory(target) {
     let category = "Image Vulnerability";
-    if (target.endsWith("package-lock.json")) {
+    if (target.endsWith("package-lock.json") || target == "Node.js") {
       category = "NPM Package Vulnerability";
     } else if (target.endsWith("Gemfile.lock")) {
       category = "Ruby Package Vulnerability";
