@@ -4,16 +4,16 @@
 
 async function parse(scanResults) {
   // The first scan always contains the image id a similar format to: "bkimminich/juice-shop:v10.2.0 (alpine 3.11.5)"
-  const [imageScanResult] = scanResults;
+  const imageScanResult = scanResults;
 
   if (typeof(imageScanResult) === "string") // empty file
     return [];
 
-  const [imageId] = imageScanResult.Target.split(" ", 2);
+  const imageId = imageScanResult.ArtifactName;
 
   const findings = [];
 
-  for (const { Target: target, Vulnerabilities } of scanResults) {
+  for (const { Target: target, Vulnerabilities } of scanResults.Results) {
     const vulnerabilities = Vulnerabilities || [];
     const category = getCategory(target);
 
