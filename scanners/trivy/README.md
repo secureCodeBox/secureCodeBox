@@ -59,6 +59,36 @@ The following security scan configuration example are based on the [Trivy Docume
 - Skip update of vulnerability DB: `trivy image --skip-update python:3.4-alpine3.9`
 - Ignore unfixed vulnerabilities:`trivy image --ignore-unfixed ruby:2.4.0` By default, Trivy also detects unpatched/unfixed vulnerabilities. This means you can't fix these vulnerabilities even if you update all packages. If you would like to ignore them, use the `--ignore-unfixed` option.
 
+::: caution
+Due to [limitations in the trivy argument parser](https://github.com/secureCodeBox/secureCodeBox/issues/796), scanning anything other than docker images (e.g., Git repositories) requires some extra parameters.
+Please append the following extra arguments **after** specifying the mode (e.g., `repo`) but **before** specifying the target for the scan:
+```yaml
+- "--no-progress"
+- "--format"
+- "json"
+- "--output"
+- "/home/securecodebox/trivy-results.json"
+```
+
+A complete scan definition for the secureCodeBox repository may look something like this:
+```yaml
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "trivy-scb"
+spec:
+  scanType: "trivy"
+  parameters:
+    - "repo"
+    - "--no-progress"
+    - "--format"
+    - "json"
+    - "--output"
+    - "/home/securecodebox/trivy-results.json"
+    - "https://github.com/secureCodeBox/secureCodeBox"
+```
+:::
+
 ## Requirements
 
 Kubernetes: `>=v1.11.0-0`
