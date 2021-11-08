@@ -81,6 +81,8 @@ nucleiTemplateCache:
   # every full hour: "0 */1 * * *""
   # -- The schedule indicates when and how often the nuclei template cache should be updated 
   schedule: "0 */1 * * *"
+  failedJobsHistoryLimit: 10
+  successfulJobsHistoryLimit: 3
 
 cascadingRules:
   # cascadingRules.enabled -- Enables or disables the installation of the default cascading rules for this scanner
