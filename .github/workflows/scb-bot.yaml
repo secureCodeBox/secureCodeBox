@@ -61,6 +61,7 @@ jobs:
           echo prExists=$(gh pr list --state open --limit 100 | grep -F "$pullRequestTitle" -c) >> $GITHUB_ENV
 
       - name: Fetch new release changelog
+        if: ${{ env.release != env.local }}
         run: echo releaseChangelog=$((curl -sL ${{env.versionApi}}  ) | jq -r ".body") >> $GITHUB_ENV
 
       - name: Upgrade Scanner Helm Chart
