@@ -19,7 +19,8 @@ version: "v3.1.0-alpha1"
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 appVersion: "0.71.0"
-versionApi: https://api.github.com/repos/returntocorp/semgrep/releases/latest
+annotations:
+  versionApi: https://api.github.com/repos/returntocorp/semgrep/releases/latest
 kubeVersion: ">=v1.11.0-0"
 home: https://docs.securecodebox.io/docs/scanners/semgrep
 icon: https://docs.securecodebox.io/img/integrationIcons/semgrep.svg # TODO: Add this
