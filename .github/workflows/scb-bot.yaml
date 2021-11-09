@@ -1,5 +1,6 @@
 name: Check outdated scanners
 on:
+  push:
   schedule:
     - cron: "15 9 * * *" # Daily at 9:15 (avoids the beginning of the hour congestion)
 jobs:
@@ -60,6 +61,9 @@ jobs:
           echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
           echo prExists=$(gh pr list --state open --limit 100 | grep -F "$pullRequestTitle" -c) >> $GITHUB_ENV
 
+      - name: Fetch new release changelog
+        run: echo releaseChangelog=$((curl -sL ${{env.versionApi}}  ) | jq -r ".body") >> $GITHUB_ENV
+
       - name: Upgrade Scanner Helm Chart
         if: ${{ env.release != env.local && env.prExists == 0 }}
         uses: mikefarah/yq@v4.4.1
@@ -117,6 +121,9 @@ jobs:
           body: "This is an automated Pull Request by the SCB-Bot. It upgrades ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
           branch: "dependencies/upgrading-${{ matrix.scanner }}-to-${{env.release}}"
           labels: dependencies,scanner
-          commit-message: "Upgrading ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
+          commit-message: |
+            Upgrading ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}
+            ## Release changes :
+            ${{env.releaseChangelog}}
           signoff: true
           base: main
