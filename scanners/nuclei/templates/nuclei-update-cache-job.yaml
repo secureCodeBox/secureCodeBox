@@ -16,6 +16,7 @@ spec:
   schedule: {{ .Values.nucleiTemplateCache.schedule | default "0 8 * * *" }}
   failedJobsHistoryLimit: {{ .Values.nucleiTemplateCache.failedJobsHistoryLimit }}
   successfulJobsHistoryLimit: {{ .Values.nucleiTemplateCache.successfulJobsHistoryLimit }}
+  concurrencyPolicy: {{ .Values.nucleiTemplateCache.concurrencyPolicy }}
   jobTemplate:
     spec:
       template:
