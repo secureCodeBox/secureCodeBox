@@ -46,6 +46,7 @@ async function parse(scanResults) {
           packageName: vulnerability.PkgName,
           vulnerabilityId: vulnerability.VulnerabilityID,
           references: vulnerability.References,
+          foundIn: target,
         },
       });
     }
