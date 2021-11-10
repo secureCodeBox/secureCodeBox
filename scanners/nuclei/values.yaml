@@ -81,8 +81,11 @@ nucleiTemplateCache:
   # every full hour: "0 */1 * * *""
   # -- The schedule indicates when and how often the nuclei template cache should be updated 
   schedule: "0 */1 * * *"
-  failedJobsHistoryLimit: 10
+  # -- Determines how many successful jobs are kept until kubernetes cleans them up. See: https://kubernetes.io/docs/tasks/job/automated-tasks-with-cron-jobs/#jobs-history-limits
   successfulJobsHistoryLimit: 3
+  # -- Determines how many failed jobs are kept until kubernetes cleans them up. See: https://kubernetes.io/docs/tasks/job/automated-tasks-with-cron-jobs/#jobs-history-limits
+  failedJobsHistoryLimit: 10
+  # -- Determines how kubernetes handles cases where multiple instances of the cronjob would work if they are running at the same time. See: https://kubernetes.io/docs/tasks/job/automated-tasks-with-cron-jobs/#concurrency-policy
   concurrencyPolicy: "Replace"
 
 cascadingRules:
