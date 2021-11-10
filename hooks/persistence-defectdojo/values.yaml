@@ -19,6 +19,9 @@ hook:
   # hook.labels -- Add Kubernetes Labels to the hook definition
   labels: {}
 
+  # -- Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks.
+  priority: 0
+
 defectdojo:
   # -- Syncs back (two way sync) all imported findings from DefectDojo to SCB Findings Store. When set to false the hook will only import the findings to DefectDojo (one way sync).
   syncFindingsBack: true

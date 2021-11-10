@@ -30,6 +30,11 @@ type ScanCompletionHookSpec struct {
 	// Defines weather the hook should be able to change the findings or is run in a read only mode.
 	Type HookType `json:"type"`
 
+	// Higher priority hooks run before low priority hooks. Within a priority class ReadAndWrite hooks are started before ReadOnly hooks, ReadAndWrite hooks wil be launched in serial, and ReadOnly hooks will be launched in parallel.
+	// +kubebuilder:default=0
+	// +kubebuilder:validation:Optional
+	Priority int `json:"priority"`
+
 	// Image is the container image for the hooks kubernetes job
 	Image string `json:"image,omitempty"`
 	// ImagePullSecrets used to access private hooks images
@@ -60,6 +65,7 @@ type ScanCompletionHookStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:printcolumn:name="Type",type=string,JSONPath=`.spec.type`,description="ScanCompletionHook Type"
+// +kubebuilder:printcolumn:name="Priority",type=string,JSONPath=`.spec.priority`,description="ScanCompletionHook Priority"
 // +kubebuilder:printcolumn:name="Image",type=string,JSONPath=`.spec.image`,description="ScanCompletionHook Image"
 
 // ScanCompletionHook is the Schema for the ScanCompletionHooks API

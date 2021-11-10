@@ -24,6 +24,10 @@ spec:
       jsonPath: .spec.type
       name: Type
       type: string
+    - description: ScanCompletionHook Priority
+      jsonPath: .spec.priority
+      name: Priority
+      type: string
     - description: ScanCompletionHook Image
       jsonPath: .spec.image
       name: Image
@@ -174,6 +178,13 @@ spec:
                       type: string
                   type: object
                 type: array
+              priority:
+                default: 0
+                description: Higher priority hooks run before low priority hooks.
+                  Within a priority class ReadAndWrite hooks are started before ReadOnly
+                  hooks, ReadAndWrite hooks wil be launched in serial, and ReadOnly
+                  hooks will be launched in parallel.
+                type: integer
               serviceAccountName:
                 description: ServiceAccountName Name of the serviceAccount Name used.
                   Should only be used if your hook needs specifc RBAC Access. Otherwise

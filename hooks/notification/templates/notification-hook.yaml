@@ -12,6 +12,7 @@ metadata:
     {{ toYaml . }}
     {{- end }}
 spec:
+  priority: {{ .Values.hook.priority }}
   type: ReadOnly
   imagePullPolicy: "{{ .Values.hook.image.pullPolicy }}"
   image: "{{ .Values.hook.image.repository }}:{{ .Values.hook.image.tag | default .Chart.Version }}"

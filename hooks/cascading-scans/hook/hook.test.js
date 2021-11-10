@@ -1130,6 +1130,7 @@ test("Templating should apply to environment variables", () => {
               "value": "foobar.com",
             },
           ],
+          "hookSelector": Object {},
           "initContainers": Array [],
           "parameters": Array [
             "--regular",
@@ -1379,6 +1380,7 @@ test("Templating should apply to initContainer environment variables", () => {
         "spec": Object {
           "cascades": Object {},
           "env": Array [],
+          "hookSelector": Object {},
           "initContainers": Array [
             Object {
               "command": Array [

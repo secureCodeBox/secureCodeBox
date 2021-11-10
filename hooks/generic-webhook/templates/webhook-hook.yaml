@@ -12,6 +12,7 @@ metadata:
     {{ toYaml . }}
     {{- end }}
 spec:
+  priority: {{ .Values.hook.priority }}
   type: ReadOnly
   image: "{{ .Values.hook.image.repository }}:{{ .Values.hook.image.tag | default .Chart.Version }}"
   ttlSecondsAfterFinished: {{ .Values.hook.ttlSecondsAfterFinished }}
