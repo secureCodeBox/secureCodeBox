@@ -16,7 +16,8 @@ import {
   getCascadedRuleForScan,
   purgeCascadedRuleFromScan,
   mergeInheritedMap,
-  mergeInheritedArray
+  mergeInheritedArray,
+  mergeInheritedSelector,
 } from "./scan-helpers";
 
 interface HandleArgs {
@@ -110,7 +111,7 @@ function getCascadingScan(
 
   let { scanType, parameters } = cascadingRule.spec.scanSpec;
 
-  let { annotations, labels, env, volumes, volumeMounts, initContainers } = mergeCascadingRuleWithScan(parentScan, cascadingRule);
+  let { annotations, labels, env, volumes, volumeMounts, initContainers, hookSelector } = mergeCascadingRuleWithScan(parentScan, cascadingRule);
 
   let cascadingChain = getScanChain(parentScan);
 
@@ -142,6 +143,7 @@ function getCascadingScan(
       ]
     },
     spec: {
+      hookSelector,
       scanType,
       parameters,
       cascades: parentScan.spec.cascades,
@@ -158,8 +160,8 @@ function mergeCascadingRuleWithScan(
   cascadingRule: CascadingRule
 ) {
   const { scanAnnotations, scanLabels } = cascadingRule.spec;
-  let { env = [], volumes = [], volumeMounts = [], initContainers = [] } = cascadingRule.spec.scanSpec;
-  let { inheritAnnotations, inheritLabels, inheritEnv, inheritVolumes, inheritInitContainers } = scan.spec.cascades;
+  let { env = [], volumes = [], volumeMounts = [], initContainers = [], hookSelector = {} } = cascadingRule.spec.scanSpec;
+  let { inheritAnnotations, inheritLabels, inheritEnv, inheritVolumes, inheritInitContainers, inheritHookSelector } = scan.spec.cascades;
 
   return {
     annotations: mergeInheritedMap(scan.metadata.annotations, scanAnnotations, inheritAnnotations),
@@ -168,6 +170,7 @@ function mergeCascadingRuleWithScan(
     volumes: mergeInheritedArray(scan.spec.volumes, volumes, inheritVolumes),
     volumeMounts: mergeInheritedArray(scan.spec.volumeMounts, volumeMounts, inheritVolumes),
     initContainers: mergeInheritedArray(scan.spec.initContainers, initContainers, inheritInitContainers),
+    hookSelector: mergeInheritedSelector(scan.spec.hookSelector, hookSelector, inheritHookSelector),
   }
 }
 

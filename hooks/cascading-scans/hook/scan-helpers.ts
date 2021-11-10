@@ -62,6 +62,7 @@ export interface ScanSpec {
   volumes?: Array<k8s.V1Volume>;
   volumeMounts?: Array<k8s.V1VolumeMount>;
   initContainers?: Array<k8s.V1Container>;
+  hookSelector?: LabelSelector;
 }
 
 export interface CascadingInheritance {
@@ -70,6 +71,7 @@ export interface CascadingInheritance {
   inheritEnv: boolean,
   inheritVolumes: boolean,
   inheritInitContainers: boolean,
+  inheritHookSelector: boolean,
 }
 
 export function mergeInheritedMap(parentProps, ruleProps, inherit: boolean = true) {
@@ -82,11 +84,22 @@ export function mergeInheritedMap(parentProps, ruleProps, inherit: boolean = tru
   }
 }
 
-export function mergeInheritedArray(parentArray, ruleArray, inherit: boolean = false) {
+export function mergeInheritedArray(parentArray = [], ruleArray = [], inherit: boolean = false) {
   if (!inherit) {
     parentArray = [];
   }
   return (parentArray || []).concat(ruleArray)  // CascadingRule's env overwrites scan's env
+}
+
+export function mergeInheritedSelector(parentSelector: LabelSelector = {}, ruleSelector: LabelSelector = {}, inherit: boolean = false): LabelSelector {
+  let labelSelector: LabelSelector = {};
+  if (parentSelector.matchExpressions || ruleSelector.matchExpressions) {
+    labelSelector.matchExpressions = mergeInheritedArray(parentSelector.matchExpressions, ruleSelector.matchExpressions, inherit);
+  }
+  if (parentSelector.matchLabels || ruleSelector.matchLabels) {
+    labelSelector.matchLabels = mergeInheritedMap(parentSelector.matchLabels, ruleSelector.matchLabels, inherit);
+  }
+  return labelSelector
 }
 
 export async function startSubsequentSecureCodeBoxScan(scan: Scan) {
@@ -163,6 +176,19 @@ export function purgeCascadedRuleFromScan(scan: Scan, cascadedRuleUsedForParentS
     scan.spec.volumeMounts = scan.spec.volumeMounts.filter(scanVolumeMount =>
       !cascadedRuleUsedForParentScan.spec.scanSpec.volumeMounts.some(ruleVolumeMount => isEqual(scanVolumeMount, ruleVolumeMount))
     );
+  }
+
+  if (scan.spec.hookSelector !== undefined && cascadedRuleUsedForParentScan.spec.scanSpec.hookSelector !== undefined) {
+    if (scan.spec.hookSelector.matchExpressions !== undefined && cascadedRuleUsedForParentScan.spec.scanSpec.hookSelector.matchExpressions !== undefined) {
+      scan.spec.hookSelector.matchExpressions = scan.spec.hookSelector.matchExpressions.filter(scanHookSelector =>
+        !cascadedRuleUsedForParentScan.spec.scanSpec.hookSelector.matchExpressions.some(ruleHookSelector => isEqual(scanHookSelector, ruleHookSelector))
+      );
+    }
+    if (scan.spec.hookSelector.matchLabels !== undefined && cascadedRuleUsedForParentScan.spec.scanSpec.hookSelector.matchLabels !== undefined) {
+      for (const label in cascadedRuleUsedForParentScan.spec.scanSpec.hookSelector.matchLabels) {
+        delete scan.spec.hookSelector.matchLabels[label]
+      }
+    }
   }
 
   return scan

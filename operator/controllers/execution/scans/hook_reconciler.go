@@ -7,6 +7,7 @@ package scancontrollers
 import (
 	"context"
 	"fmt"
+	"k8s.io/apimachinery/pkg/labels"
 
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	util "github.com/secureCodeBox/secureCodeBox/operator/utils"
@@ -23,9 +24,17 @@ import (
 func (r *ScanReconciler) setHookStatus(scan *executionv1.Scan) error {
 	// Set (pending) Hook status on the scan
 	ctx := context.Background()
+	labelSelector, err := r.getLabelSelector(scan)
+	if err != nil {
+		return err
+	}
+
 	var scanCompletionHooks executionv1.ScanCompletionHookList
 
-	if err := r.List(ctx, &scanCompletionHooks, client.InNamespace(scan.Namespace)); err != nil {
+	if err := r.List(ctx, &scanCompletionHooks,
+		client.InNamespace(scan.Namespace),
+		client.MatchingLabelsSelector{Selector: labelSelector},
+	); err != nil {
 		r.Log.V(7).Info("Unable to fetch ScanCompletionHooks")
 		return err
 	}
@@ -198,9 +207,17 @@ func containsJobForHook(jobs *batch.JobList, hook executionv1.ScanCompletionHook
 func (r *ScanReconciler) startReadOnlyHooks(scan *executionv1.Scan) error {
 	ctx := context.Background()
 
+	labelSelector, err := r.getLabelSelector(scan)
+	if err != nil {
+		return err
+	}
+
 	var scanCompletionHooks executionv1.ScanCompletionHookList
 
-	if err := r.List(ctx, &scanCompletionHooks, client.InNamespace(scan.Namespace)); err != nil {
+	if err := r.List(ctx, &scanCompletionHooks,
+		client.InNamespace(scan.Namespace),
+		client.MatchingLabelsSelector{Selector: labelSelector},
+	); err != nil {
 		r.Log.V(7).Info("Unable to fetch ScanCompletionHooks")
 		return err
 	}
@@ -465,4 +482,12 @@ func (r *ScanReconciler) updateHookStatus(scan *executionv1.Scan, hookStatus exe
 		return err
 	}
 	return nil
+}
+
+func (r *ScanReconciler) getLabelSelector(scan *executionv1.Scan) (labels.Selector, error) {
+	hookSelector := scan.Spec.HookSelector
+	if hookSelector == nil {
+		hookSelector = &metav1.LabelSelector{}
+	}
+	return metav1.LabelSelectorAsSelector(hookSelector)
 }
