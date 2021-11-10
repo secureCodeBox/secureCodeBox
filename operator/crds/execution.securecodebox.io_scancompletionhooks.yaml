@@ -53,10 +53,9 @@ spec:
           spec:
             description: ScanCompletionHookSpec defines the desired state of ScanCompletionHook
             properties:
-              affinity:omitempty:
-                description: Affinity allows to specify a node affinity, to control
-                  on which nodes you want a scan to run. See k8s "affinity" documentation
-                  for details.
+              affinity:
+                description: 'Affinity allows to specify a node affinity, to control
+                  on which nodes you want a scan to run. See: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/'
                 items:
                   description: Affinity is a group of affinity scheduling rules.
                   properties:
@@ -796,9 +795,9 @@ spec:
                   The service account should have at least "get" rights on scans.execution.securecodebox.io,
                   and "get" & "patch" scans.execution.securecodebox.io/status
                 type: string
-              tolerations:omitempty:
+              tolerations:
                 description: Tolerations are a different way to control on which nodes
-                  your scan is executed. See k8s "tolerations" documentation for details.
+                  your scan is executed. See https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
                 items:
                   description: The pod this Toleration is attached to tolerates any
                     taint that matches the triple <key,value,effect> using the matching
@@ -2319,8 +2318,6 @@ spec:
                   type: object
                 type: array
             required:
-            - affinity:omitempty
-            - tolerations:omitempty
             - type
             type: object
           status:
