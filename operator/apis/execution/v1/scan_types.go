@@ -43,6 +43,11 @@ type CascadeSpec struct {
 	// +kubebuilder:default=false
 	InheritInitContainers bool `json:"inheritInitContainers"`
 
+	// InheritHookSelector defines whether cascading scans should inherit hookSelector from the parent scan.
+	// +optional
+	// +kubebuilder:default=false
+	InheritHookSelector bool `json:"inheritHookSelector"`
+
 	// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
 	// map is equivalent to an element of matchExpressions, whose key field is "key", the
 	// operator is "In", and the values array contains only "value". The requirements are ANDed.
@@ -96,6 +101,9 @@ type ScanSpec struct {
 	// All CLI parameters to configure the scan container.
 	// +kubebuilder:validation:Required
 	Parameters []string `json:"parameters,omitempty"`
+
+	// HookSelector allows to specify a LabelSelector with which the hooks are selected.
+	HookSelector *metav1.LabelSelector `json:"hookSelector,omitempty"`
 
 	// Env allows to specify environment vars for the scanner container. These will be merged will the env vars specified for the first container of the pod defined in the ScanType
 	Env []corev1.EnvVar `json:"env,omitempty"`
