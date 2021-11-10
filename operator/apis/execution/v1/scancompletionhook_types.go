@@ -49,7 +49,7 @@ type ScanCompletionHookSpec struct {
 	// VolumeMounts allows to specify volume mounts for the hooks container.
 	VolumeMounts []corev1.VolumeMount `json:"volumeMounts,omitempty"`
 	// Affinity allows to specify a node affinity, to control on which nodes you want a scan to run. See: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/
-	Affinity []corev1.Affinity `json:"affinity,omitempty"`
+	Affinity corev1.Affinity `json:"affinity,omitempty"`
 	// Tolerations are a different way to control on which nodes your scan is executed. See https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
 	Tolerations []corev1.Toleration `json:"tolerations,omitempty"`
 

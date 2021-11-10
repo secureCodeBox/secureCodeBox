@@ -79,7 +79,7 @@ type ScanSpec struct {
 	// InitContainers allows to specify init containers for the scan container, to pre-load data into them.
 	InitContainers []corev1.Container `json:"initContainers,omitempty"`
 	// Affinity allows to specify a node affinity, to control on which nodes you want a scan to run. See: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/
-	Affinity []corev1.Affinity `json:"affinity,omitempty"`
+	Affinity corev1.Affinity `json:"affinity,omitempty"`
 	// Tolerations are a different way to control on which nodes your scan is executed. See https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
 	Tolerations []corev1.Toleration `json:"tolerations,omitempty"`
 
