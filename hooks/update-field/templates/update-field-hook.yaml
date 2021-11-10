@@ -8,6 +8,9 @@ metadata:
   name: {{ include "update-field.fullname" . }}
   labels:
     {{- include "update-field.labels" . | nindent 4 }}
+    {{- with .Values.hook.labels }}
+    {{ toYaml . }}
+    {{- end }}
 spec:
   priority: {{ .Values.hook.priority }}
   type: ReadAndWrite

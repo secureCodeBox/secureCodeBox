@@ -62,9 +62,9 @@ scanner:
   # scanner.securityContext -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
   securityContext:
     # scanner.securityContext.runAsNonRoot -- Enforces that the scanner image is run as a non root user
-    runAsNonRoot: true
+    runAsNonRoot: false
     # scanner.securityContext.readOnlyRootFilesystem -- Prevents write access to the containers file system
-    readOnlyRootFilesystem: true
+    readOnlyRootFilesystem: false
     # scanner.securityContext.allowPrivilegeEscalation -- Ensure that users privileges cannot be escalated
     allowPrivilegeEscalation: false
     # scanner.securityContext.privileged -- Ensures that the scanner container is not run in privileged mode
@@ -81,6 +81,12 @@ nucleiTemplateCache:
   # every full hour: "0 */1 * * *""
   # -- The schedule indicates when and how often the nuclei template cache should be updated 
   schedule: "0 */1 * * *"
+  # -- Determines how many successful jobs are kept until kubernetes cleans them up. See: https://kubernetes.io/docs/tasks/job/automated-tasks-with-cron-jobs/#jobs-history-limits
+  successfulJobsHistoryLimit: 3
+  # -- Determines how many failed jobs are kept until kubernetes cleans them up. See: https://kubernetes.io/docs/tasks/job/automated-tasks-with-cron-jobs/#jobs-history-limits
+  failedJobsHistoryLimit: 10
+  # -- Determines how kubernetes handles cases where multiple instances of the cronjob would work if they are running at the same time. See: https://kubernetes.io/docs/tasks/job/automated-tasks-with-cron-jobs/#concurrency-policy
+  concurrencyPolicy: "Replace"
 
 cascadingRules:
   # cascadingRules.enabled -- Enables or disables the installation of the default cascading rules for this scanner

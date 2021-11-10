@@ -9,6 +9,9 @@ metadata:
   labels:
     {{- include "persistence-elastic.labels" . | nindent 4 }}
     type: Structured
+    {{- with .Values.hook.labels }}
+    {{ toYaml . }}
+    {{- end }}
 spec:
   priority: {{ .Values.hook.priority }}
   type: ReadOnly

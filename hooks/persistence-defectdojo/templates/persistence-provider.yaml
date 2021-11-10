@@ -9,6 +9,9 @@ metadata:
   labels:
     {{- include "persistence-defectdojo.labels" . | nindent 4 }}
     type: Unstructured
+    {{- with .Values.hook.labels }}
+    {{ toYaml . }}
+    {{- end }}
 spec:
   priority: {{ .Values.hook.priority }}
   {{- if .Values.defectdojo.syncFindingsBack }}

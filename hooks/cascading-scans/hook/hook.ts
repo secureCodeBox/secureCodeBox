@@ -16,7 +16,8 @@ import {
   getCascadedRuleForScan,
   purgeCascadedRuleFromScan,
   mergeInheritedMap,
-  mergeInheritedArray
+  mergeInheritedArray,
+  mergeInheritedSelector,
 } from "./scan-helpers";
 
 interface HandleArgs {
@@ -110,7 +111,7 @@ function getCascadingScan(
 
   let { scanType, parameters } = cascadingRule.spec.scanSpec;
 
-  let { annotations, labels, env, volumes, volumeMounts, initContainers } = mergeCascadingRuleWithScan(parentScan, cascadingRule);
+  let { annotations, labels, env, volumes, volumeMounts, initContainers, hookSelector } = mergeCascadingRuleWithScan(parentScan, cascadingRule);
 
   let cascadingChain = getScanChain(parentScan);
 
@@ -142,6 +143,7 @@ function getCascadingScan(
       ]
     },
     spec: {
+      hookSelector,
       scanType,
       parameters,
       cascades: parentScan.spec.cascades,
@@ -158,8 +160,8 @@ function mergeCascadingRuleWithScan(
   cascadingRule: CascadingRule
 ) {
   const { scanAnnotations, scanLabels } = cascadingRule.spec;
-  let { env = [], volumes = [], volumeMounts = [], initContainers = [] } = cascadingRule.spec.scanSpec;
-  let { inheritAnnotations, inheritLabels, inheritEnv, inheritVolumes, inheritInitContainers } = scan.spec.cascades;
+  let { env = [], volumes = [], volumeMounts = [], initContainers = [], hookSelector = {} } = cascadingRule.spec.scanSpec;
+  let { inheritAnnotations, inheritLabels, inheritEnv, inheritVolumes, inheritInitContainers, inheritHookSelector } = scan.spec.cascades;
 
   return {
     annotations: mergeInheritedMap(scan.metadata.annotations, scanAnnotations, inheritAnnotations),
@@ -168,6 +170,7 @@ function mergeCascadingRuleWithScan(
     volumes: mergeInheritedArray(scan.spec.volumes, volumes, inheritVolumes),
     volumeMounts: mergeInheritedArray(scan.spec.volumeMounts, volumeMounts, inheritVolumes),
     initContainers: mergeInheritedArray(scan.spec.initContainers, initContainers, inheritInitContainers),
+    hookSelector: mergeInheritedSelector(scan.spec.hookSelector, hookSelector, inheritHookSelector),
   }
 }
 
@@ -189,18 +192,43 @@ function templateCascadingRule(
   const { scanSpec, scanAnnotations, scanLabels } = cascadingRule.spec;
   const { scanType, parameters, initContainers } = scanSpec;
 
+  // Templating for scanType
   cascadingRule.spec.scanSpec.scanType =
     Mustache.render(scanType, templateArgs);
+  // Templating for scan parameters
   cascadingRule.spec.scanSpec.parameters =
     parameters.map(parameter => Mustache.render(parameter, templateArgs))
+  // Templating for environmental variables
+  if (cascadingRule.spec.scanSpec.env !== undefined) {
+    cascadingRule.spec.scanSpec.env.forEach(envvar => {
+      // We only want to template literal envs that have a specified value.
+      // If no value is set, we don't want to modify anything as it may break things for other types
+      // of env variable definitions.
+      if (envvar.value !== undefined) {
+        envvar.value = Mustache.render(envvar.value, templateArgs)
+      }
+    });
+  }
+  // Templating inside initContainers
   cascadingRule.spec.scanSpec.initContainers = initContainers
   if (cascadingRule.spec.scanSpec.initContainers !== undefined) {
     cascadingRule.spec.scanSpec.initContainers.forEach(container => {
-      container.command = container.command.map(parameter => Mustache.render(parameter, templateArgs))
+      // Templating for the command
+      container.command = container.command.map(parameter => Mustache.render(parameter, templateArgs));
+      // Templating for env variables, similar to above.
+      if (container.env !== undefined) {
+        container.env.forEach(envvar => {
+          if (envvar.value !== undefined) {
+            envvar.value = Mustache.render(envvar.value, templateArgs)
+          }
+        })
+      }
     });
   }
+  // Templating for scan annotations
   cascadingRule.spec.scanAnnotations =
     scanAnnotations === undefined ? {} :mapValues(scanAnnotations, value => Mustache.render(value, templateArgs))
+  // Templating for scan labels
   cascadingRule.spec.scanLabels =
     scanLabels === undefined ? {} : mapValues(scanLabels, value => Mustache.render(value, templateArgs))
 

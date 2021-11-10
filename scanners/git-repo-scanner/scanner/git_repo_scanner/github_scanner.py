@@ -21,7 +21,7 @@ class GitHubScanner(AbstractScanner):
     LOGGER = logging.getLogger('git_repo_scanner')
 
     def __init__(self, url: Optional[str], access_token: Optional[str], organization: str, ignore_repos: List[int],
-                 obey_rate_limit: bool = True) -> None:
+                 obey_rate_limit: bool = True, annotate_latest_commit_id: bool = False) -> None:
         super().__init__()
         if not organization:
             raise argparse.ArgumentError(None, 'Organization required for GitHub connection.')
@@ -33,6 +33,7 @@ class GitHubScanner(AbstractScanner):
         self._organization = organization
         self._ignore_repos = ignore_repos
         self._obey_rate_limit = obey_rate_limit
+        self._annotate_latest_commit_id = annotate_latest_commit_id
         self._gh: Optional[github.Github] = None
 
     @property
@@ -125,6 +126,13 @@ class GitHubScanner(AbstractScanner):
             raise argparse.ArgumentError(None, 'Access token required for github enterprise authentication.')
 
     def _create_finding_from_repo(self, repo: Repository) -> FINDING:
+        latest_commit: str = None
+        if self._annotate_latest_commit_id:
+            try:
+                latest_commit = repo.get_commits()[0].sha
+            except Exception:
+                self.LOGGER.warn("Could not identify the latest commit ID - repository without commits?")
+                latest_commit = ""
         return super()._create_finding(
             str(repo.id),
             repo.html_url,
@@ -134,5 +142,6 @@ class GitHubScanner(AbstractScanner):
             repo.owner.name,
             repo.created_at.strftime("%Y-%m-%dT%H:%M:%SZ"),
             repo.updated_at.strftime("%Y-%m-%dT%H:%M:%SZ"),
-            'private' if repo.private else 'public'
+            'private' if repo.private else 'public',
+            latest_commit
         )

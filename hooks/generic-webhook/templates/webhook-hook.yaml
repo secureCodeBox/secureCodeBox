@@ -8,6 +8,9 @@ metadata:
   name: {{ include "generic-webhook.fullname" . }}
   labels:
     {{- include "generic-webhook.labels" . | nindent 4 }}
+    {{- with .Values.hook.labels }}
+    {{ toYaml . }}
+    {{- end }}
 spec:
   priority: {{ .Values.hook.priority }}
   type: ReadOnly

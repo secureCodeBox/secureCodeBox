@@ -21,8 +21,9 @@ class AbstractScanner(abc.ABC):
         raise NotImplementedError()
 
     def _create_finding(self, repo_id: str, web_url: str, full_name: str, owner_type: str, owner_id: str,
-                        owner_name: str, created_at: str, last_activity_at: str, visibility: str) -> FINDING:
-        return {
+                        owner_name: str, created_at: str, last_activity_at: str, visibility: str,
+                        last_commit_id: str = None) -> FINDING:
+        finding = {
             'name': f'{self.git_type} Repo',
             'description': f'A {self.git_type} repository',
             'category': 'Git Repository',
@@ -40,3 +41,6 @@ class AbstractScanner(abc.ABC):
                 'visibility': visibility
             }
         }
+        if last_commit_id is not None:
+            finding["attributes"]["last_commit_id"] = last_commit_id
+        return finding

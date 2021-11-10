@@ -52,7 +52,8 @@ def process(args):
             group=args.group,
             ignored_groups=args.ignore_groups,
             ignore_repos=args.ignore_repos,
-            obey_rate_limit=args.obey_rate_limit
+            obey_rate_limit=args.obey_rate_limit,
+            annotate_latest_commit_id=args.annotate_latest_commit_id
         )
     elif args.git_type == 'github':
         scanner = GitHubScanner(
@@ -60,7 +61,8 @@ def process(args):
             access_token=args.access_token,
             organization=args.organization,
             ignore_repos=args.ignore_repos,
-            obey_rate_limit=args.obey_rate_limit
+            obey_rate_limit=args.obey_rate_limit,
+            annotate_latest_commit_id=args.annotate_latest_commit_id
         )
     else:
         logger.info('Argument error: Unknown git type')
@@ -145,6 +147,12 @@ def get_parser_args(args=None):
                         help='True to obey the rate limit of the GitLab or GitHub server (default), otherwise False',
                         type=bool,
                         default=True,
+                        required=False)
+    parser.add_argument('--annotate-latest-commit-id',
+                        help="Annotate the results with the latest commit hash of the main branch of the repository. "
+                             "Will result in up to two extra API hits per repository",
+                        type=bool,
+                        default=False,
                         required=False)
     parser.add_argument('--activity-since-duration',
                         help='Return git repo findings with repo activity (e.g. commits) more recent than a specific '
