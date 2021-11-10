@@ -350,11 +350,8 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 		scan.Spec.InitContainers...,
 	)
 
-	// Merge Affinity from ScanTemplate with Affinity defined in scan
-	job.Spec.Template.Spec.Affinity = append(
-		job.Spec.Template.Spec.Affinity,
-		scan.Spec.Affinity...,
-	)
+	// Set affinity from ScanTemplate
+	job.Spec.Template.Spec.Affinity = &scan.Spec.Affinity
 
 	// Merge Tolerations from ScanTemplate with Tolerations defined in scan
 	job.Spec.Template.Spec.Tolerations = append(

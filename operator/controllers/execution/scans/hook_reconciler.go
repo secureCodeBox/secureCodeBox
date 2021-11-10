@@ -402,11 +402,8 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 		hook.Spec.Volumes...,
 	)
 
-	// Merge Affinity from HookTemplate
-	job.Spec.Template.Spec.Affinity = append(
-		job.Spec.Template.Spec.Affinity,
-		hook.Spec.Affinity...,
-	)
+	// Set Affinity from HookTemplate
+	job.Spec.Template.Spec.Affinity = &hook.Spec.Affinity
 
 	// Merge Tolerations from HookTemplate
 	job.Spec.Template.Spec.Tolerations = append(
