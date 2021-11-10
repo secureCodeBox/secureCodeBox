@@ -169,6 +169,10 @@ spec:
                       type: string
                   type: object
                 type: array
+              selectorAttributeMappings:
+                additionalProperties:
+                  type: string
+                type: object
               ttlSecondsAfterFinished:
                 description: TTLSecondsAfterFinished configures the ttlSecondsAfterFinished
                   field for the created parse job

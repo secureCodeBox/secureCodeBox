@@ -13,11 +13,16 @@ import {
   Scan,
   Finding,
   CascadingRule,
+  ParseDefinition,
   getCascadedRuleForScan,
+  getParseDefinitionForScan,
   purgeCascadedRuleFromScan,
   mergeInheritedMap,
   mergeInheritedArray
 } from "./scan-helpers";
+import {
+  isReverseMatch
+} from "./reverse-matches";
 
 interface HandleArgs {
   scan: Scan;
@@ -28,8 +33,9 @@ export async function handle({ scan, getFindings }: HandleArgs) {
   const findings = await getFindings();
   const cascadingRules = await getCascadingRules(scan);
   const cascadedRuleUsedForParentScan = await getCascadedRuleForScan(scan);
+  const parseDefinition = await getParseDefinition(scan);
 
-  const cascadingScans = getCascadingScans(scan, findings, cascadingRules, cascadedRuleUsedForParentScan);
+  const cascadingScans = getCascadingScans(scan, findings, cascadingRules, cascadedRuleUsedForParentScan, parseDefinition);
 
   for (const cascadingScan of cascadingScans) {
     await startSubsequentSecureCodeBoxScan(cascadingScan);
@@ -41,6 +47,11 @@ async function getCascadingRules(scan: Scan): Promise<Array<CascadingRule>> {
   return <Array<CascadingRule>>await getCascadingRulesForScan(scan);
 }
 
+async function getParseDefinition(scan: Scan): Promise<ParseDefinition> {
+  // Explicit Cast to the proper Type
+  return <ParseDefinition>await getParseDefinitionForScan(scan);
+}
+
 /**
  * Goes thought the Findings and the CascadingRules
  * and returns a List of Scans which should be started based on both.
@@ -49,7 +60,8 @@ export function getCascadingScans(
   parentScan: Scan,
   findings: Array<Finding>,
   cascadingRules: Array<CascadingRule>,
-  cascadedRuleUsedForParentScan: CascadingRule
+  cascadedRuleUsedForParentScan: CascadingRule,
+  parseDefinition: ParseDefinition,
 ): Array<Scan> {
   let cascadingScans: Array<Scan> = [];
   const cascadingRuleChain = getScanChain(parentScan);
@@ -66,7 +78,7 @@ export function getCascadingScans(
       continue;
     }
 
-    cascadingScans = cascadingScans.concat(getScansMatchingRule(parentScan, findings, cascadingRule))
+    cascadingScans = cascadingScans.concat(getScansMatchingRule(parentScan, findings, cascadingRule, parseDefinition))
   }
 
   return cascadingScans;
@@ -85,9 +97,31 @@ export function getScanChain(parentScan: Scan) {
   return []
 }
 
-function getScansMatchingRule(parentScan: Scan, findings: Array<Finding>, cascadingRule: CascadingRule) {
+function getScansMatchingRule(
+  parentScan: Scan,
+  findings: Array<Finding>,
+  cascadingRule: CascadingRule,
+  parseDefinition: ParseDefinition,
+) {
   const cascadingScans: Array<Scan> = [];
   for (const finding of findings) {
+    // Check if the scan matches for the current finding
+    const reverseMatches = isReverseMatch(
+      parentScan.spec.cascades.scanAnnotationSelector,
+      parentScan.metadata.annotations,
+      finding,
+      parseDefinition.spec.selectorAttributeMappings,
+    );
+
+    if (!reverseMatches) {
+      console.log(`Cascading Rule ${cascadingRule.metadata.name} not triggered as scan annotation selector did not match`);
+      console.log(`Scan annotations ${parentScan.metadata.annotations}`);
+      console.log(`Scan annotation selector ${parentScan.spec.cascades.scanAnnotationSelector}`);
+      console.log(`Selector Attribute Mappings ${parseDefinition.spec.selectorAttributeMappings}`);
+      console.log(`Finding ${finding}`);
+      continue;
+    }
+
     // Check if one (ore more) of the CascadingRule matchers apply to the finding
     const matches = cascadingRule.spec.matches.anyOf.some(matchesRule =>
       isMatch(finding, matchesRule) || isMatchWith(finding, matchesRule, wildcardMatcher)

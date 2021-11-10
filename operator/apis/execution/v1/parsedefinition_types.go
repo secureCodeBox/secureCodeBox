@@ -17,6 +17,8 @@ type ParseDefinitionSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
+	SelectorAttributeMappings map[string]string `json:"selectorAttributeMappings,omitempty"`
+
 	// Image is the reference to the parser container image which ca transform the raw scan report into findings
 	Image string `json:"image,omitempty"`
 	// ImagePullSecrets used to access private parser images

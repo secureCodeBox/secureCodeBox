@@ -20,6 +20,12 @@ rules:
   - apiGroups:
       - execution.securecodebox.io
     resources:
+      - parsedefinitions
+    verbs:
+      - list
+  - apiGroups:
+      - execution.securecodebox.io
+    resources:
       - scans/status
     verbs:
       - get

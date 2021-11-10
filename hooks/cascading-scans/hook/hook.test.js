@@ -3,9 +3,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 const { getCascadingScans } = require("./hook");
+const {
+  ScanAnnotationSelectorRequirementOperator,
+} = require("./reverse-matches");
 
 let parentScan = undefined;
 let sslyzeCascadingRules = undefined;
+let parseDefinition = undefined;
 
 beforeEach(() => {
   parentScan = {
@@ -21,6 +25,12 @@ beforeEach(() => {
       cascades: {}
     }
   };
+  parseDefinition = {
+    meta: {},
+    spec: {
+      selectorAttributeMappings: {},
+    },
+  }
 
   sslyzeCascadingRules = [
     {
@@ -73,7 +83,9 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", () =
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
@@ -134,7 +146,7 @@ test("Should create no subsequent scans if there are no rules", () => {
 
   const cascadingRules = [];
 
-  const cascadedScans = getCascadingScans(parentScan, findings, cascadingRules);
+  const cascadedScans = getCascadingScans(parentScan, findings, cascadingRules, undefined, parseDefinition);
 
   expect(cascadedScans).toMatchInlineSnapshot(`Array []`);
 });
@@ -159,7 +171,9 @@ test("Should not try to do magic to the scan name if its something random", () =
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   expect(cascadedScans[0].metadata.generateName).toEqual("foobar.com-tls-scans-");
@@ -185,7 +199,9 @@ test("Should not start a new scan when the corresponding cascadingRule is alread
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`Array []`);
@@ -210,7 +226,9 @@ test("Should not crash when the annotations are not set", () => {
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
@@ -279,7 +297,9 @@ test("Should copy ENV fields from cascadingRule to created scan", () => {
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   expect(cascadedScans[0].spec.env).toMatchInlineSnapshot(`
@@ -341,7 +361,9 @@ test("Should allow wildcards in cascadingRules", () => {
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
@@ -410,7 +432,9 @@ test("should not copy labels if inheritLabels is set to false", () => {
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   for (const cascadedScan of cascadedScans) {
@@ -443,7 +467,9 @@ test("should copy labels if inheritLabels is not set", () => {
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   for (const cascadedScan of cascadedScans) {
@@ -478,7 +504,9 @@ test("should copy labels if inheritLabels is set to true", () => {
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   for (const cascadedScan of cascadedScans) {
@@ -511,7 +539,9 @@ test("should not copy annotations if inheritAnnotations is set to false", () => 
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   for (const cascadedScan of cascadedScans) {
@@ -543,7 +573,9 @@ test("should copy annotations if inheritAnnotations is not set", () => {
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   for (const cascadedScan of cascadedScans) {
@@ -576,7 +608,9 @@ test("should copy annotations if inheritAnnotations is set to true", () => {
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   for (const cascadedScan of cascadedScans) {
@@ -608,7 +642,9 @@ test("should copy scanLabels from CascadingRule to cascading scan", () => {
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0]
@@ -639,7 +675,9 @@ test("should copy scanAnnotations from CascadingRule to cascading scan", () => {
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0]
@@ -688,7 +726,8 @@ test("should properly parse template values in scanLabels and scanAnnotations", 
     parentScan,
     findings,
     sslyzeCascadingRules,
-    sslyzeCascadingRules[0]
+    sslyzeCascadingRules[0],
+    parseDefinition,
   );
 
   expect(sslyzeCascadingRules[0].spec.scanSpec.parameters).toEqual(["--regular", "{{$.hostOrIP}}:{{attributes.port}}"])
@@ -746,7 +785,9 @@ test("should copy proper finding ID into annotations", () => {
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0]
@@ -790,7 +831,9 @@ test("should merge environment variables into cascaded scan", () => {
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0]
@@ -844,7 +887,9 @@ test("should merge volumeMounts into cascaded scan", () => {
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0]
@@ -902,7 +947,9 @@ test("should merge volumes into cascaded scan", () => {
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -959,7 +1006,9 @@ test("should merge initContainers into cascaded scan", () => {
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -1018,7 +1067,9 @@ test("should not merge initContainers into cascaded scan if not instructed", () 
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -1090,7 +1141,9 @@ test("Templating should apply to environment variables", () => {
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
@@ -1210,7 +1263,9 @@ test("Templating should apply to initContainer commands", () => {
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
@@ -1343,7 +1398,9 @@ test("Templating should apply to initContainer environment variables", () => {
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
@@ -1478,7 +1535,9 @@ test("Templating should not break special encoding (http://...) when using tripl
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
@@ -1620,7 +1679,9 @@ test("should purge cascaded scan spec from parent scan", () => {
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0]
@@ -1663,7 +1724,8 @@ test("should purge cascaded scan spec from parent scan", () => {
     cascadedScan,
     findings,
     sslyzeCascadingRules,
-    sslyzeCascadingRules[0] // cascaded rule on parent
+    sslyzeCascadingRules[0], // cascaded rule on parent
+    parseDefinition,
   );
 
   const secondCascadedScan = secondCascadedScans[0];
@@ -1768,7 +1830,9 @@ test("should not copy cascaded scan spec from parent scan if inheritance is unde
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0]
@@ -1810,7 +1874,8 @@ test("should not copy cascaded scan spec from parent scan if inheritance is unde
     cascadedScan,
     findings,
     sslyzeCascadingRules,
-    sslyzeCascadingRules[0] // cascaded rule on parent
+    sslyzeCascadingRules[0], // cascaded rule on parent
+    parseDefinition,
   );
 
   const secondCascadedScan = secondCascadedScans[0];
@@ -1841,7 +1906,9 @@ test("should append cascading rule to further cascading scan chains", () => {
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0]
@@ -1883,10 +1950,111 @@ test("should append cascading rule to further cascading scan chains", () => {
     cascadedScan,
     findings,
     sslyzeCascadingRules,
-    sslyzeCascadingRules[0] // cascaded rule on parent
+    sslyzeCascadingRules[0], // cascaded rule on parent
+    parseDefinition,
   );
 
   const secondCascadedScan = secondCascadedScans[0];
 
   expect(secondCascadedScan.metadata.annotations["cascading.securecodebox.io/chain"]).toEqual("tls-scans,tls-scans-second")
+});
+
+test("should not cascade if scan annotation selector does not match", () => {
+  parentScan.metadata.annotations["scope.engagement/ports"] = "80,443";
+  parentScan.spec.cascades.scanAnnotationSelector = {
+    allOf: [
+      {
+        key: "scope.engagement/ports",
+        operator: ScanAnnotationSelectorRequirementOperator.Contains,
+        values: ["{{$.port}}"],
+      },
+    ],
+  };
+
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https",
+      },
+    },
+    {
+      name: "Port 8080 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 8080,
+        service: "https",
+      },
+    },
+  ];
+
+  parseDefinition.spec.selectorAttributeMappings["port"] = "{{attributes.port}}";
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition
+  );
+
+  expect(cascadedScans).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "apiVersion": "execution.securecodebox.io/v1",
+        "kind": "Scan",
+        "metadata": Object {
+          "annotations": Object {
+            "cascading.securecodebox.io/chain": "tls-scans",
+            "cascading.securecodebox.io/matched-finding": undefined,
+            "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
+            "scope.engagement/ports": "80,443",
+            "securecodebox.io/hook": "cascading-scans",
+          },
+          "generateName": "sslyze-foobar.com-tls-scans-",
+          "labels": Object {},
+          "ownerReferences": Array [
+            Object {
+              "apiVersion": "execution.securecodebox.io/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "Scan",
+              "name": "nmap-foobar.com",
+              "uid": undefined,
+            },
+          ],
+        },
+        "spec": Object {
+          "cascades": Object {
+            "scanAnnotationSelector": Object {
+              "allOf": Array [
+                Object {
+                  "key": "scope.engagement/ports",
+                  "operator": "Contains",
+                  "values": Array [
+                    "{{$.port}}",
+                  ],
+                },
+              ],
+            },
+          },
+          "env": Array [],
+          "initContainers": Array [],
+          "parameters": Array [
+            "--regular",
+            "foobar.com:443",
+          ],
+          "scanType": "sslyze",
+          "volumeMounts": Array [],
+          "volumes": Array [],
+        },
+      },
+    ]
+  `);
 });

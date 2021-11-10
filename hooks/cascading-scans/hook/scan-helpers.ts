@@ -6,10 +6,11 @@ import * as k8s from "@kubernetes/client-node";
 
 import {
   generateSelectorString,
-  LabelSelector
+  LabelSelector, LabelSelectorRequirement
 } from "./kubernetes-label-selector";
 import {isEqual} from "lodash";
 import {getScanChain} from "./hook";
+import {ScanAnnotationSelectorRequirement} from "./reverse-matches";
 
 // configure k8s client
 const kc = new k8s.KubeConfig();
@@ -52,6 +53,7 @@ export interface Matches {
 export interface Scan {
   metadata: k8s.V1ObjectMeta;
   spec: ScanSpec;
+  status?: ScanStatus;
 }
 
 export interface ScanSpec {
@@ -64,13 +66,36 @@ export interface ScanSpec {
   initContainers?: Array<k8s.V1Container>;
 }
 
+export interface ScanAnnotationSelector {
+  validOnMissingRender: boolean,
+  anyOf?: Array<ScanAnnotationSelectorRequirement>,
+  allOf?: Array<ScanAnnotationSelectorRequirement>,
+  noneOf?: Array<ScanAnnotationSelectorRequirement>,
+}
+
 export interface CascadingInheritance {
+  scanAnnotationSelector: ScanAnnotationSelector,
   inheritLabels: boolean,
   inheritAnnotations: boolean,
   inheritEnv: boolean,
   inheritVolumes: boolean,
   inheritInitContainers: boolean,
 }
+
+export interface ScanStatus {
+  rawResultType: string,
+}
+
+export interface ParseDefinition {
+  metadata: k8s.V1ObjectMeta;
+  spec: ParseDefinitionSpec;
+}
+
+export interface ParseDefinitionSpec {
+	selectorAttributeMappings: SelectorAttributeMappings,
+}
+
+export type SelectorAttributeMappings = { [key: string]: string; };
 
 export function mergeInheritedMap(parentProps, ruleProps, inherit: boolean = true) {
   if (!inherit) {
@@ -136,6 +161,24 @@ export async function getCascadingRulesForScan(scan: Scan) {
     return response.body.items;
   } catch (err) {
     console.error("Failed to get CascadingRules from the kubernetes api");
+    console.error(err);
+    process.exit(1);
+  }
+}
+
+export async function getParseDefinitionForScan(scan: Scan) {
+  try {
+    const response: any = await k8sApiCRD.getNamespacedCustomObject(
+      "cascading.securecodebox.io",
+      "v1",
+      namespace,
+      "cascadingrules",
+      scan.status.rawResultType,
+    );
+
+    return response.body;
+  } catch (err) {
+    console.error(`Failed to get ParseDefinition ${scan.status.rawResultType} from the kubernetes api`);
     console.error(err);
     process.exit(1);
   }
