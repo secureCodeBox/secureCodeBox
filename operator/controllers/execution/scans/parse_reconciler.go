@@ -178,6 +178,15 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 		parseDefinition.Spec.Volumes...,
 	)
 
+	// Set affinity from Scan
+	job.Spec.Template.Spec.Affinity = scan.Spec.Affinity
+
+	// Merge Tolerations from Parser with Tolerations defined in scan
+	job.Spec.Template.Spec.Tolerations = append(
+		job.Spec.Template.Spec.Tolerations,
+		scan.Spec.Tolerations...,
+	)
+
 	r.Log.V(8).Info("Configuring customCACerts for Parser")
 	injectCustomCACertsIfConfigured(job)
 
