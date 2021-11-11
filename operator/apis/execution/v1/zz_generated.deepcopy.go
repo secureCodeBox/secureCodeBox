@@ -347,6 +347,14 @@ func (in *ScanCompletionHookSpec) DeepCopyInto(out *ScanCompletionHookSpec) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	in.Affinity.DeepCopyInto(&out.Affinity)
+	if in.Tolerations != nil {
+		in, out := &in.Tolerations, &out.Tolerations
+		*out = make([]corev1.Toleration, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.ServiceAccountName != nil {
 		in, out := &in.ServiceAccountName, &out.ServiceAccountName
 		*out = new(string)
@@ -453,6 +461,14 @@ func (in *ScanSpec) DeepCopyInto(out *ScanSpec) {
 	if in.InitContainers != nil {
 		in, out := &in.InitContainers, &out.InitContainers
 		*out = make([]corev1.Container, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	in.Affinity.DeepCopyInto(&out.Affinity)
+	if in.Tolerations != nil {
+		in, out := &in.Tolerations, &out.Tolerations
+		*out = make([]corev1.Toleration, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
