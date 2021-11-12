@@ -9,7 +9,7 @@
 Vagrant.configure("2") do |config|
   base_dir = File.dirname(__FILE__)
 
-  config.vm.box = "debian/buster64"
+  config.vm.box = "debian/bullseye64"
   config.vm.hostname = "securecodebox"
 
   # We use the same defaults like Docker Desktop.
