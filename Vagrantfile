@@ -45,7 +45,8 @@ Vagrant.configure("2") do |config|
   # Redirecting STDERR to /dev/null because Minikube print download progress
   # for the images to STDERR which clutters up the Vagrant output w/ error output!
   config.vm.provision :shell, privileged: false, inline: "sudo -g docker minikube start 2>/dev/null"
-  # Install everything from secureCodeBox:
+  # Install everything from secureCodeBox via install script.
+  # Hint: The directory where the Vagrantfile lives is mapped into the box under the path /vagrant.
   config.vm.provision :shell, privileged: false, inline: "sudo -g docker /vagrant/bin/install.sh --all"
 
   # Do not automatically install VirtualBox guest additions, if available.
