@@ -61,13 +61,11 @@ export function isReverseMatch(
     return [rendered, rendered != ""];
   }
 
-  if (scanAnnotationSelector.allOf !== undefined) return scanAnnotationSelector.allOf.every(validateRequirement);
-
-  if (scanAnnotationSelector.anyOf !== undefined) return scanAnnotationSelector.anyOf.some(validateRequirement);
-
-  if (scanAnnotationSelector.noneOf !== undefined) return !scanAnnotationSelector.noneOf.some(validateRequirement);
-
-  return true;
+  return [
+    scanAnnotationSelector.allOf !== undefined ? scanAnnotationSelector.allOf.every(validateRequirement) : true,
+    scanAnnotationSelector.anyOf !== undefined ? scanAnnotationSelector.anyOf.some(validateRequirement) : true,
+    scanAnnotationSelector.noneOf !== undefined ? !scanAnnotationSelector.noneOf.some(validateRequirement) : true,
+  ].every(entry => entry === true);
 }
 
 interface operands {

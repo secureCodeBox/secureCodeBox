@@ -64,6 +64,43 @@ test("Does not match using if selector does not match", () => {
   expect(cascadedScans).toBe(false);
 });
 
+test("Does not match if one of selector types does not match", () => {
+  const annotations = {
+    "engagement.scope/domains": "example.com",
+  }
+  const scanAnnotationSelector = {
+    validOnMissingRender: false,
+    allOf: [
+      {
+        key: "engagement.scope/domains",
+        operator: "Contains",
+        values: ["{{attributes.hostname}}"],
+      }
+    ],
+    noneOf: [
+      {
+        key: "engagement.scope/domains",
+        operator: "Contains",
+        values: ["{{attributes.hostname}}"],
+      }
+    ]
+  }
+  const finding = {
+    attributes: {
+      hostname: "example.com",
+    }
+  };
+
+  const cascadedScans = isReverseMatch(
+    scanAnnotationSelector,
+    annotations,
+    finding,
+    {}
+  );
+
+  expect(cascadedScans).toBe(false);
+});
+
 test("Matches InCIDR if attributes.ip in subnet", () => {
   const annotations = {
     "engagement.scope/cidr": "10.0.0.0/16",
