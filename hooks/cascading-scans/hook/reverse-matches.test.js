@@ -245,3 +245,66 @@ test("Does not match if mapping is not available: validOnMissingRender false", (
 
   expect(cascadedScans).toBe(false);
 });
+
+test("Matches subdomainOf if is subdomain", () => {
+  const annotations = {
+    "engagement.scope/domain": "example.com",
+  }
+  const scanAnnotationSelector = {
+    validOnMissingRender: false,
+    allOf: [
+      {
+        key: "engagement.scope/domain",
+        operator: "SubdomainOf",
+        values: ["{{attributes.hostname}}"],
+      }
+    ]
+  }
+
+  const finding = {
+    attributes: {
+      hostname: "subdomain.example.com",
+    }
+  };
+
+  const cascadedScans = isReverseMatch(
+    scanAnnotationSelector,
+    annotations,
+    finding,
+    {},
+  );
+
+  expect(cascadedScans).toBe(true);
+});
+
+test("Does not match subdomainOf if is not subdomain", () => {
+  const annotations = {
+    "engagement.scope/domain": "example.com",
+  }
+  const scanAnnotationSelector = {
+    validOnMissingRender: false,
+    allOf: [
+      {
+        key: "engagement.scope/domain",
+        operator: "SubdomainOf",
+        values: ["{{attributes.hostname}}"],
+      }
+    ]
+  }
+
+  const finding = {
+    attributes: {
+      hostname: "notexample.com",
+    }
+  };
+
+  const cascadedScans = isReverseMatch(
+    scanAnnotationSelector,
+    annotations,
+    finding,
+    {},
+  );
+
+  expect(cascadedScans).toBe(false);
+});
+

@@ -8,6 +8,15 @@ import {
 } from "@kubernetes/client-node/dist/gen/model/v1ObjectMeta";
 import * as Mustache from "mustache";
 import { Address4 } from "ip-address";
+import {
+  fromUrl,
+  parseDomain,
+  ParseResultType
+} from "parse-domain";
+import {
+  isEqual,
+  takeRight
+} from "lodash";
 
 export enum ScanAnnotationSelectorRequirementOperator {
   In = "In",
@@ -18,6 +27,8 @@ export enum ScanAnnotationSelectorRequirementOperator {
   DoesNotContain = "DoesNotContain",
   InCIDR = "InCIDR",
   NotInCIDR = "NotInCIDR",
+  SubdomainOf = "SubdomainOf",
+  NotSubdomainOf = "NotSubdomainOf",
 }
 
 export interface ScanAnnotationSelectorRequirement {
@@ -82,6 +93,8 @@ const operators: { [key in ScanAnnotationSelectorRequirementOperator]:(props: op
   [ScanAnnotationSelectorRequirementOperator.DoesNotContain]: props => !operatorContains(props),
   [ScanAnnotationSelectorRequirementOperator.InCIDR]: operatorInCIDR,
   [ScanAnnotationSelectorRequirementOperator.NotInCIDR]: props => !operatorInCIDR(props),
+  [ScanAnnotationSelectorRequirementOperator.SubdomainOf]: operatorSubdomainOf,
+  [ScanAnnotationSelectorRequirementOperator.NotSubdomainOf]: props => !operatorSubdomainOf(props),
 }
 
 function operatorIn({lhs, rhs}: operands): boolean {
@@ -113,4 +126,32 @@ function operatorInCIDR({lhs, rhs}: operands): boolean {
   }
   const subnet = new Address4(lhs);
   return rhs.every(value => new Address4(value).isInSubnet(subnet));
+}
+
+function operatorSubdomainOf({lhs, rhs}: operands): boolean {
+  if (rhs === undefined) {
+    throw new Error("Values may not be undefined when using the operator 'SubdomainOf'")
+  }
+  const lhsResult = parseDomain(fromUrl(lhs));
+  if (lhsResult.type == ParseResultType.Listed) {
+    return rhs.every(value => {
+        const rhsResult = parseDomain(fromUrl(value));
+        if (rhsResult.type == ParseResultType.Listed) {
+          // Equal length domains can pass as subdomain of
+          if (lhsResult.labels.length > rhsResult.labels.length) {
+            return false;
+          }
+
+          // Check if last part of domain is equal
+          return isEqual(
+            lhsResult.labels,
+            takeRight(rhsResult.labels, lhsResult.labels.length)
+          );
+        }
+        console.log(`${rhs} is an invalid domain name`)
+        return false;
+    })
+  } else {
+    throw new Error(`${lhs} is an invalid domain name`);
+  }
 }
