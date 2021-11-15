@@ -10,7 +10,8 @@ type: application
 version: v3.1.0-alpha1
 appVersion: "0.20.2"
 kubeVersion: ">=v1.11.0-0"
-versionApi: https://api.github.com/repos/aquasecurity/trivy/releases/latest
+annotations:
+  versionApi: https://api.github.com/repos/aquasecurity/trivy/releases/latest
 keywords:
   - security
   - trivy
