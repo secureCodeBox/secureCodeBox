@@ -46,16 +46,25 @@ export function isReverseMatch(
   if (scanAnnotationSelector === undefined) return true;
 
   function validateRequirement({key, operator, values}: ScanAnnotationSelectorRequirement) {
-    const operatorFunction = operators[operator];
+    const { operator: operatorFunction, validator: validatorFunction } = operatorFunctions[operator];
     if (operatorFunction === undefined) {
-      throw new Error(`Unknown operator '${operator}'`);
+      throw new Error(`Unknown operator '${operatorFunction}'`);
     }
     const value = scanAnnotations[key];
     const renders = values.map(templateValue);
     if (renders.some(render => !render[1])) {
       return scanAnnotationSelector.validOnMissingRender;
     }
-    return operatorFunction({lhs: value, rhs: renders.map(render => render[0])});
+
+    const props = {lhs: value, rhs: renders.map(render => render[0])};
+
+    try {
+      validatorFunction(props);
+    } catch (error) {
+      throw new Error(`using operator '${operator}': ${error.message}`);
+    }
+
+    return operatorFunction(props);
   }
 
   function templateValue(value: string): [string, boolean] {
@@ -79,59 +88,88 @@ export function isReverseMatch(
   ].every(entry => entry === true);
 }
 
-interface operands {
+interface Operands {
   lhs: string,
   rhs: string[],
 }
 
-const operators: { [key in ScanAnnotationSelectorRequirementOperator]:(props: operands) => boolean; } = {
-  [ScanAnnotationSelectorRequirementOperator.In]: operatorIn,
-  [ScanAnnotationSelectorRequirementOperator.NotIn]: props => !operatorIn(props),
-  [ScanAnnotationSelectorRequirementOperator.Exists]: operatorExists,
-  [ScanAnnotationSelectorRequirementOperator.DoesNotExist]: props => !operatorExists(props),
-  [ScanAnnotationSelectorRequirementOperator.Contains]: operatorContains,
-  [ScanAnnotationSelectorRequirementOperator.DoesNotContain]: props => !operatorContains(props),
-  [ScanAnnotationSelectorRequirementOperator.InCIDR]: operatorInCIDR,
-  [ScanAnnotationSelectorRequirementOperator.NotInCIDR]: props => !operatorInCIDR(props),
-  [ScanAnnotationSelectorRequirementOperator.SubdomainOf]: operatorSubdomainOf,
-  [ScanAnnotationSelectorRequirementOperator.NotSubdomainOf]: props => !operatorSubdomainOf(props),
+interface OperatorFunctions {
+  operator: (operands: Operands) => boolean,
+  validator: (operands: Operands) => void,
 }
 
-function operatorIn({lhs, rhs}: operands): boolean {
-  if (rhs === undefined) {
-    throw new Error("Values may not be undefined when using the operator 'In'")
+const defaultValidator: OperatorFunctions["validator"] = props => validate(props, false, false);
+
+const operatorFunctions: { [key in ScanAnnotationSelectorRequirementOperator]: OperatorFunctions } = {
+  [ScanAnnotationSelectorRequirementOperator.In]: {
+    operator: operatorIn,
+    validator: defaultValidator,
+  },
+  [ScanAnnotationSelectorRequirementOperator.NotIn]: {
+    operator: props => !operatorIn(props),
+    validator: defaultValidator,
+  },
+  [ScanAnnotationSelectorRequirementOperator.Exists]: {
+    operator: operatorExists,
+    validator: props => validate(props, true, true),
+  },
+  [ScanAnnotationSelectorRequirementOperator.DoesNotExist]: {
+    operator: props => !operatorExists(props),
+    validator: props => validate(props, true, true),
+  },
+  [ScanAnnotationSelectorRequirementOperator.Contains]: {
+    operator: operatorContains,
+    validator: defaultValidator,
+  },
+  [ScanAnnotationSelectorRequirementOperator.DoesNotContain]: {
+    operator: props => !operatorContains(props),
+    validator: defaultValidator,
+  },
+  [ScanAnnotationSelectorRequirementOperator.InCIDR]: {
+    operator: operatorInCIDR,
+    validator: defaultValidator,
+  },
+  [ScanAnnotationSelectorRequirementOperator.NotInCIDR]: {
+    operator: props => !operatorInCIDR(props),
+    validator: defaultValidator,
+  },
+  [ScanAnnotationSelectorRequirementOperator.SubdomainOf]: {
+    operator: operatorSubdomainOf,
+    validator: defaultValidator,
+  },
+  [ScanAnnotationSelectorRequirementOperator.NotSubdomainOf]: {
+    operator: props => !operatorSubdomainOf(props),
+    validator: defaultValidator,
+  },
+}
+
+function validate({lhs, rhs}: Operands, lhsUndefinedAllowed, rhsUndefinedAllowed) {
+  if (!lhsUndefinedAllowed && lhs === undefined) {
+    throw new Error(`annotation may not be undefined`)
   }
+  if (!rhsUndefinedAllowed && rhs === undefined) {
+    throw new Error(`values may not be undefined`)
+  }
+}
+
+function operatorIn({lhs, rhs}: Operands): boolean {
   return rhs.includes(lhs);
 }
-function operatorExists({lhs, rhs}: operands): boolean {
-  if (rhs !== undefined) {
-    throw new Error("Values must be undefined when using the operator 'Exists'")
-  }
+function operatorExists({lhs, rhs}: Operands): boolean {
   return lhs !== undefined;
 }
 
-function operatorContains({lhs, rhs}: operands): boolean {
-  if (rhs === undefined) {
-    throw new Error("Values may not be undefined when using the operator 'Contains'")
-  }
-
+function operatorContains({lhs, rhs}: Operands): boolean {
   const valueArray = lhs.split(",");
-
   return rhs.every(value => valueArray.includes(value));
 }
 
-function operatorInCIDR({lhs, rhs}: operands): boolean {
-  if (rhs === undefined) {
-    throw new Error("Values may not be undefined when using the operator 'InCIDR'")
-  }
+function operatorInCIDR({lhs, rhs}: Operands): boolean {
   const subnet = new Address4(lhs);
   return rhs.every(value => new Address4(value).isInSubnet(subnet));
 }
 
-function operatorSubdomainOf({lhs, rhs}: operands): boolean {
-  if (rhs === undefined) {
-    throw new Error("Values may not be undefined when using the operator 'SubdomainOf'")
-  }
+function operatorSubdomainOf({lhs, rhs}: Operands): boolean {
   const lhsResult = parseDomain(fromUrl(lhs));
   if (lhsResult.type == ParseResultType.Listed) {
     return rhs.every(value => {

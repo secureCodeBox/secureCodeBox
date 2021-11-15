@@ -308,3 +308,30 @@ test("Does not match subdomainOf if is not subdomain", () => {
   expect(cascadedScans).toBe(false);
 });
 
+test("Throws errors when missing fields", () => {
+  const scanAnnotationSelector = {
+    validOnMissingRender: false,
+    allOf: [
+      {
+        key: "engagement.scope/domain",
+        operator: "In",
+        values: ["{{attributes.hostname}}"],
+      }
+    ]
+  }
+
+  const finding = {
+    attributes: {
+      hostname: "notexample.com",
+    }
+  };
+
+  const cascadedScans = () => isReverseMatch(
+    scanAnnotationSelector,
+    {},
+    finding,
+    {},
+  );
+
+  expect(cascadedScans).toThrowError("using operator 'In': annotation may not be undefined");
+});
