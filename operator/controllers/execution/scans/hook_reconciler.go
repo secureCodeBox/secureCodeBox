@@ -402,6 +402,15 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 		hook.Spec.Volumes...,
 	)
 
+	// Set affinity from Scan
+	job.Spec.Template.Spec.Affinity = scan.Spec.Affinity
+
+	// Merge tolerations from hook with tolerations defined in scan
+	job.Spec.Template.Spec.Tolerations = append(
+		job.Spec.Template.Spec.Tolerations,
+		scan.Spec.Tolerations...,
+	)
+
 	if err := ctrl.SetControllerReference(scan, job, r.Scheme); err != nil {
 		r.Log.Error(err, "Unable to set controllerReference on job", "job", job)
 		return "", err
