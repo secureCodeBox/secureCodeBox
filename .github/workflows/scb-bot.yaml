@@ -86,7 +86,7 @@ jobs:
         uses: mikefarah/yq@v4.4.1
         with:
           # appVersion value in chart is replaced with release value. Empty lines are deleted in the process
-          cmd: yq e --inplace '.appVersion = "v${{env.release}}"' ./scanners/${{ matrix.scanner }}/Chart.yaml
+          cmd: yq e --inplace '.appVersion = "${{env.release}}"' ./scanners/${{ matrix.scanner }}/Chart.yaml
 
       # Updating Helm Docs
       - name: Download Helm Docs
