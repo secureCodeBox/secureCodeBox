@@ -49,9 +49,9 @@ jobs:
 
       - name: Fetch latest release scanner version
         run: |
-          release=$(curl -sL ${{env.versionApi}}  | jq -r ".tag_name") 
-          if [[ ${env.local:0:1} != ${release:0:1} ]] ; then
-            if [[ ${env.local:0:1} == "v" ]] ; then
+          local=${{env.local}}
+          if [[ ${local:0:1} != ${release:0:1} ]] ; then
+            if [[ ${local:0:1} == "v" ]] ; then
               upgrade=v${release};
             elif [[ ${release:0:1} == "v" ]] ; then
               upgrade=$(echo $release| tr -d "v")
