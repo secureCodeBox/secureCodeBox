@@ -2256,7 +2256,6 @@ test("scope annotations should be completely immutable", () => {
   parentScan.spec.cascades.inheritAnnotations = false;
   sslyzeCascadingRules[0].spec.scanAnnotations = {
     "scope.cascading.securecodebox.io/domains": "malicious.example.com",
-    "scope.cascading.securecodebox.io/ports": "443",
     "another.not.a.scope.annotation": "really",
   };
   const findings = [
@@ -2272,7 +2271,7 @@ test("scope annotations should be completely immutable", () => {
     }
   ];
 
-  const cascadedScans = getCascadingScans(
+  const cascadedScans = () => getCascadingScans(
     parentScan,
     findings,
     sslyzeCascadingRules,
@@ -2280,7 +2279,11 @@ test("scope annotations should be completely immutable", () => {
     parseDefinition,
   );
 
-  const cascadedScan = cascadedScans[0]
+  expect(cascadedScans).toThrowError("may not add scope annotation 'scope.cascading.securecodebox.io/domains':'malicious.example.com' in Cascading Rule spec");
+
+  delete sslyzeCascadingRules[0].spec.scanAnnotations["scope.cascading.securecodebox.io/domains"]
+
+  const cascadedScan = cascadedScans()[0]
 
   expect(cascadedScan.metadata.annotations).toMatchInlineSnapshot(`
   Object {

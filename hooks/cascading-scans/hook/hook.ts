@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import { isMatch, isMatchWith, isString, mapValues, cloneDeep, pickBy } from "lodash";
+import { isMatch, isMatchWith, isString, mapValues, cloneDeep, pickBy, forEach } from "lodash";
 import { isMatch as wildcardIsMatch } from "matcher";
 import * as Mustache from "mustache";
 
@@ -80,8 +80,12 @@ export function getCascadingScans(
       continue;
     }
 
-    // Remove scope annotations from cascading rule
-    cascadingRule.spec.scanAnnotations = pickBy(cascadingRule.spec.scanAnnotations, (value, key) => !key.startsWith(scopeDomain))
+    // Check for new scope annotations
+    forEach(cascadingRule.spec.scanAnnotations, (value, key) => {
+      if (key.startsWith(scopeDomain)) {
+        throw new Error(`may not add scope annotation '${key}':'${value}' in Cascading Rule spec`)
+      }
+    });
 
     cascadingScans = cascadingScans.concat(getScansMatchingRule(parentScan, findings, cascadingRule, parseDefinition))
   }
