@@ -2248,3 +2248,48 @@ test("should not cascade if scan annotation selector does not match", () => {
     ]
   `);
 });
+
+
+test("scope annotations should be completely immutable", () => {
+  parentScan.metadata.annotations["scope.cascading.securecodebox.io/domains"] = "example.com";
+  parentScan.metadata.annotations["not.a.scope.annotation"] = "really";
+  parentScan.spec.cascades.inheritAnnotations = false;
+  sslyzeCascadingRules[0].spec.scanAnnotations = {
+    "scope.cascading.securecodebox.io/domains": "malicious.example.com",
+    "scope.cascading.securecodebox.io/ports": "443",
+    "another.not.a.scope.annotation": "really",
+  };
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
+  );
+
+  const cascadedScan = cascadedScans[0]
+
+  expect(cascadedScan.metadata.annotations).toMatchInlineSnapshot(`
+  Object {
+    "another.not.a.scope.annotation": "really",
+    "cascading.securecodebox.io/chain": "tls-scans",
+    "cascading.securecodebox.io/matched-finding": undefined,
+    "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
+    "scope.cascading.securecodebox.io/domains": "example.com",
+    "securecodebox.io/hook": "cascading-scans",
+  }
+  `)
+});

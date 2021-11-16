@@ -37,7 +37,7 @@ export interface ScanAnnotationSelectorRequirement {
   values: Array<string>;
 }
 
-const scopeDomain = "scope.cascading.securecodebox.io/"
+export const scopeDomain = "scope.cascading.securecodebox.io/"
 
 export function isReverseMatch(
   scanAnnotationSelector: ScanAnnotationSelector,

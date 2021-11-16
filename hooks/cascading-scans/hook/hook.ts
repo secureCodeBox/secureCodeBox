@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import { isMatch, isMatchWith, isString, mapValues, cloneDeep } from "lodash";
+import { isMatch, isMatchWith, isString, mapValues, cloneDeep, pickBy } from "lodash";
 import { isMatch as wildcardIsMatch } from "matcher";
 import * as Mustache from "mustache";
 
@@ -22,7 +22,8 @@ import {
   mergeInheritedSelector,
 } from "./scan-helpers";
 import {
-  isReverseMatch
+  isReverseMatch,
+  scopeDomain,
 } from "./reverse-matches";
 
 interface HandleArgs {
@@ -78,6 +79,9 @@ export function getCascadingScans(
       );
       continue;
     }
+
+    // Remove scope annotations from cascading rule
+    cascadingRule.spec.scanAnnotations = pickBy(cascadingRule.spec.scanAnnotations, (value, key) => !key.startsWith(scopeDomain))
 
     cascadingScans = cascadingScans.concat(getScansMatchingRule(parentScan, findings, cascadingRule, parseDefinition))
   }
@@ -164,6 +168,7 @@ function getCascadingScan(
           ...cascadingChain,
           cascadingRule.metadata.name
         ].join(","),
+        ...pickBy(parentScan.metadata.annotations, (value, key) => key.startsWith(scopeDomain)),
       },
       ownerReferences: [
         {
