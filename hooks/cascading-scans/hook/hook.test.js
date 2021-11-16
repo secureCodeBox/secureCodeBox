@@ -1712,8 +1712,7 @@ test("should not merge hookSelector into cascaded scan if inheritHookSelector is
   `);
 });
 
-test("should copy tolerations and affinity into cascaded scan if set", () => {
-  parentScan.spec.cascades.inheritHookSelector = true
+test("should copy tolerations and affinity into cascaded scan if one is set and label is unset", () => {
   const findings = [
     {
       name: "Port 443 is open",
@@ -1798,8 +1797,65 @@ test("should copy tolerations and affinity into cascaded scan if set", () => {
   `);
 });
 
+test("should not copy tolerations and affinity into cascaded scan if label disables it", () => {
+  parentScan.spec.cascades.inheritAffinity = false;
+  parentScan.spec.cascades.inheritTolerations = false;
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  parentScan.spec.affinity = {
+    nodeAffinity: {
+      requiredDuringSchedulingIgnoredDuringExecution: { 
+        nodeSelectorTerms: [
+          {  
+            matchExpressions: [
+              {
+                key: "disktype",
+                operator: "In",
+                values: [
+                  "ssd"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+
+  parentScan.spec.tolerations = [
+    {
+      key: "key1",
+      operator: "Equal",
+      value: "test",
+      effect: "NoSchedule"
+    }
+  ]
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const cascadedScan = cascadedScans[0];
+
+  expect(cascadedScan.spec.affinity).toMatchInlineSnapshot(`Object {}`);
+
+  expect(cascadedScan.spec.tolerations).toMatchInlineSnapshot(`Array []`);
+});
+
 test("should merge tolerations and replace affinity in cascaded scan if cascading spec sets new ones", () => {
-  parentScan.spec.cascades.inheritHookSelector = true
   const findings = [
     {
       name: "Port 443 is open",
@@ -1910,6 +1966,122 @@ test("should merge tolerations and replace affinity in cascaded scan if cascadin
       "operator": "Equal",
       "value": "test",
     },
+    Object {
+      "effect": "NoSchedule",
+      "key": "key2",
+      "operator": "Equal",
+      "value": "test-2",
+    },
+  ]
+  `);
+});
+
+test("should only use tolerations and affinity of cascaded scan if inheritance is disabled", () => {
+  parentScan.spec.cascades.inheritAffinity = false;
+  parentScan.spec.cascades.inheritTolerations = false;
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  parentScan.spec.affinity = {
+    nodeAffinity: {
+      requiredDuringSchedulingIgnoredDuringExecution: { 
+        nodeSelectorTerms: [
+          {  
+            matchExpressions: [
+              {
+                key: "disktype",
+                operator: "In",
+                values: [
+                  "ssd"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+
+  parentScan.spec.tolerations = [
+    {
+      key: "key1",
+      operator: "Equal",
+      value: "test",
+      effect: "NoSchedule"
+    }
+  ]
+
+  sslyzeCascadingRules[0].spec.scanSpec.tolerations = [
+    {
+      key: "key2",
+      operator: "Equal",
+      value: "test-2",
+      effect: "NoSchedule",
+    }
+  ];
+
+  sslyzeCascadingRules[0].spec.scanSpec.affinity = {
+    nodeAffinity: {
+      requiredDuringSchedulingIgnoredDuringExecution: { 
+        nodeSelectorTerms: [
+          {  
+            matchExpressions: [
+              {
+                key: "network",
+                operator: "In",
+                values: [
+                  "10g"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const cascadedScan = cascadedScans[0];
+
+  expect(cascadedScan.spec.affinity).toMatchInlineSnapshot(`
+  Object {
+    "nodeAffinity": Object {
+      "requiredDuringSchedulingIgnoredDuringExecution": Object {
+        "nodeSelectorTerms": Array [
+          Object {
+            "matchExpressions": Array [
+              Object {
+                "key": "network",
+                "operator": "In",
+                "values": Array [
+                  "10g",
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    },
+  }
+  `);
+
+  expect(cascadedScan.spec.tolerations).toMatchInlineSnapshot(`
+  Array [
     Object {
       "effect": "NoSchedule",
       "key": "key2",

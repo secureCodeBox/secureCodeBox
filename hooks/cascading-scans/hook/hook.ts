@@ -163,7 +163,7 @@ function mergeCascadingRuleWithScan(
 ) {
   const { scanAnnotations, scanLabels } = cascadingRule.spec;
   let { env = [], volumes = [], volumeMounts = [], initContainers = [], hookSelector = {}, affinity = {}, tolerations = [] } = cascadingRule.spec.scanSpec;
-  let { inheritAnnotations, inheritLabels, inheritEnv, inheritVolumes, inheritInitContainers, inheritHookSelector } = scan.spec.cascades;
+  let { inheritAnnotations, inheritLabels, inheritEnv, inheritVolumes, inheritInitContainers, inheritHookSelector, inheritAffinity = true, inheritTolerations = true} = scan.spec.cascades;
 
   return {
     annotations: mergeInheritedMap(scan.metadata.annotations, scanAnnotations, inheritAnnotations),
@@ -174,8 +174,8 @@ function mergeCascadingRuleWithScan(
     initContainers: mergeInheritedArray(scan.spec.initContainers, initContainers, inheritInitContainers),
     hookSelector: mergeInheritedSelector(scan.spec.hookSelector, hookSelector, inheritHookSelector),
     // Affinity and tolerations are always inherited
-    affinity: mergeInheritedMap(scan.spec.affinity, affinity, true),
-    tolerations: mergeInheritedArray(scan.spec.tolerations, tolerations, true),
+    affinity: mergeInheritedMap(scan.spec.affinity, affinity, inheritAffinity),
+    tolerations: mergeInheritedArray(scan.spec.tolerations, tolerations, inheritTolerations),
   }
 }
 

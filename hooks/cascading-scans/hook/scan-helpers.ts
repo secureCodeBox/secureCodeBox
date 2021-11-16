@@ -74,6 +74,8 @@ export interface CascadingInheritance {
   inheritVolumes: boolean,
   inheritInitContainers: boolean,
   inheritHookSelector: boolean,
+  inheritAffinity: boolean,
+  inheritTolerations: boolean,
 }
 
 export function mergeInheritedMap(parentProps, ruleProps, inherit: boolean = true) {

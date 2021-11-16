@@ -44,6 +44,16 @@ type CascadeSpec struct {
 	// +kubebuilder:default=false
 	InheritHookSelector bool `json:"inheritHookSelector"`
 
+	// InheritAffinity defines whether cascading scans should inherit affinity from the parent scan.
+	// +optional
+	// +kubebuilder:default=true
+	InheritAffinity bool `json:"inheritAffinity"`
+
+	// InheritTolerations defines whether cascading scans should inherit tolerations from the parent scan.
+	// +optional
+	// +kubebuilder:default=true
+	InheritTolerations bool `json:"inheritTolerations"`
+
 	// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
 	// map is equivalent to an element of matchExpressions, whose key field is "key", the
 	// operator is "In", and the values array contains only "value". The requirements are ANDed.
