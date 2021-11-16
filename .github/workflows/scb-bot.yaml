@@ -48,8 +48,10 @@ jobs:
           cmd: echo versionApi=$(yq e .annotations.versionApi scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
 
       - name: Fetch latest release scanner version
+        # A hacky way to solve the problem where the docker image is in the "1.0" format and the github release is in the "v1.0" format
+        # We make sure to add or remove the "v" character when necessary
         run: |
-          release=$(curl -sL ${{env.versionApi}}  | jq -r ".tag_name" )
+          upgrade=$(curl -sL ${{env.versionApi}}  | jq -r ".tag_name" )
           local=${{env.local}}
           if [[ ${local:0:1} != ${release:0:1} ]] ; then
             if [[ ${local:0:1} == "v" ]] ; then
@@ -61,16 +63,16 @@ jobs:
           echo $upgrade
           echo release=$upgrade >> $GITHUB_ENV
 
-      # - name: Check if scanner is outdated and if PR already exists
-      #   if: ${{ env.release != env.local }}
-      #   run: |
-      #     echo 'The ${{ matrix.scanner }} scanner is outdated.  Current SCB version is ${{env.local}} and remote version is ${{env.release}}'
+      - name: Check if scanner is outdated and if PR already exists
+        if: ${{ env.release != env.local }}
+        run: |
+          echo 'The ${{ matrix.scanner }} scanner is outdated.  Current SCB version is ${{env.local}} and remote version is ${{env.release}}'
 
-      #     pullRequestTitle="[SCB-Bot] Upgraded ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
-      #     echo pullRequest=$pullRequestTitle >> $GITHUB_ENV
+          pullRequestTitle="[SCB-Bot] Upgraded ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
+          echo pullRequest=$pullRequestTitle >> $GITHUB_ENV
 
-      #     echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
-      #     echo prExists=$(gh pr list --state open --limit 100 | grep -F "$pullRequestTitle" -c) >> $GITHUB_ENV
+          echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
+          echo prExists=$(gh pr list --state open --limit 100 | grep -F "$pullRequestTitle" -c) >> $GITHUB_ENV
 
       # - name: Fetch new release changelog
       #   if: ${{ env.release != env.local }}
