@@ -37,6 +37,8 @@ export interface ScanAnnotationSelectorRequirement {
   values: Array<string>;
 }
 
+const scopeDomain = "scope.cascading.securecodebox.io/"
+
 export function isReverseMatch(
   scanAnnotationSelector: ScanAnnotationSelector,
   scanAnnotations: V1ObjectMeta['annotations'],
@@ -46,6 +48,10 @@ export function isReverseMatch(
   if (scanAnnotationSelector === undefined) return true;
 
   function validateRequirement({key, operator, values}: ScanAnnotationSelectorRequirement) {
+    if (!key.startsWith(`${scopeDomain}`)) {
+      throw new Error(`key '${key}' is invalid: key does not start with '${scopeDomain}'`);
+    }
+
     const { operator: operatorFunction, validator: validatorFunction } = operatorFunctions[operator];
     if (operatorFunction === undefined) {
       throw new Error(`Unknown operator '${operatorFunction}'`);

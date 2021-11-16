@@ -2149,11 +2149,11 @@ test("should append cascading rule to further cascading scan chains", () => {
 });
 
 test("should not cascade if scan annotation selector does not match", () => {
-  parentScan.metadata.annotations["scope.engagement/ports"] = "80,443";
+  parentScan.metadata.annotations["scope.cascading.securecodebox.io/ports"] = "80,443";
   parentScan.spec.cascades.scanAnnotationSelector = {
     allOf: [
       {
-        key: "scope.engagement/ports",
+        key: "scope.cascading.securecodebox.io/ports",
         operator: ScanAnnotationSelectorRequirementOperator.Contains,
         values: ["{{$.port}}"],
       },
@@ -2203,7 +2203,7 @@ test("should not cascade if scan annotation selector does not match", () => {
             "cascading.securecodebox.io/chain": "tls-scans",
             "cascading.securecodebox.io/matched-finding": undefined,
             "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
-            "scope.engagement/ports": "80,443",
+            "scope.cascading.securecodebox.io/ports": "80,443",
             "securecodebox.io/hook": "cascading-scans",
           },
           "generateName": "sslyze-foobar.com-tls-scans-",
@@ -2224,7 +2224,7 @@ test("should not cascade if scan annotation selector does not match", () => {
             "scanAnnotationSelector": Object {
               "allOf": Array [
                 Object {
-                  "key": "scope.engagement/ports",
+                  "key": "scope.cascading.securecodebox.io/ports",
                   "operator": "Contains",
                   "values": Array [
                     "{{$.port}}",

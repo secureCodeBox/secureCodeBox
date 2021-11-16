@@ -4,15 +4,42 @@
 
 const { isReverseMatch } = require("./reverse-matches");
 
-test("Matches using templates populated with finding", () => {
-  const annotations = {
-    "engagement.scope/domains": "example.com,subdomain.example.com",
-  }
+test("Should error if selecting an invalid key", () => {
   const scanAnnotationSelector = {
     validOnMissingRender: false,
     allOf: [
       {
         key: "engagement.scope/domains",
+        operator: "Contains",
+        values: ["{{attributes.hostname}}"],
+      }
+    ]
+  }
+  const finding = {
+    attributes: {
+      hostname: "example.com",
+    }
+  };
+
+  const cascadedScans = () => isReverseMatch(
+    scanAnnotationSelector,
+    {},
+    finding,
+    {}
+  );
+
+  expect(cascadedScans).toThrowError("key 'engagement.scope/domains' is invalid: key does not start with 'scope.cascading.securecodebox.io/'");
+});
+
+test("Matches using templates populated with finding", () => {
+  const annotations = {
+    "scope.cascading.securecodebox.io/domains": "example.com,subdomain.example.com",
+  }
+  const scanAnnotationSelector = {
+    validOnMissingRender: false,
+    allOf: [
+      {
+        key: "scope.cascading.securecodebox.io/domains",
         operator: "Contains",
         values: ["{{attributes.hostname}}"],
       }
@@ -36,13 +63,13 @@ test("Matches using templates populated with finding", () => {
 
 test("Does not match using if selector does not match", () => {
   const annotations = {
-    "engagement.scope/domains": "subdomain.example.com",
+    "scope.cascading.securecodebox.io/domains": "subdomain.example.com",
   }
   const scanAnnotationSelector = {
     validOnMissingRender: false,
     allOf: [
       {
-        key: "engagement.scope/domains",
+        key: "scope.cascading.securecodebox.io/domains",
         operator: "Contains",
         values: ["{{attributes.hostname}}"],
       }
@@ -66,20 +93,20 @@ test("Does not match using if selector does not match", () => {
 
 test("Does not match if one of selector types does not match", () => {
   const annotations = {
-    "engagement.scope/domains": "example.com",
+    "scope.cascading.securecodebox.io/domains": "example.com",
   }
   const scanAnnotationSelector = {
     validOnMissingRender: false,
     allOf: [
       {
-        key: "engagement.scope/domains",
+        key: "scope.cascading.securecodebox.io/domains",
         operator: "Contains",
         values: ["{{attributes.hostname}}"],
       }
     ],
     noneOf: [
       {
-        key: "engagement.scope/domains",
+        key: "scope.cascading.securecodebox.io/domains",
         operator: "Contains",
         values: ["{{attributes.hostname}}"],
       }
@@ -103,13 +130,13 @@ test("Does not match if one of selector types does not match", () => {
 
 test("Matches InCIDR if attributes.ip in subnet", () => {
   const annotations = {
-    "engagement.scope/cidr": "10.0.0.0/16",
+    "scope.cascading.securecodebox.io/cidr": "10.0.0.0/16",
   }
   const scanAnnotationSelector = {
     validOnMissingRender: false,
     allOf: [
       {
-        key: "engagement.scope/cidr",
+        key: "scope.cascading.securecodebox.io/cidr",
         operator: "InCIDR",
         values: ["{{attributes.ip}}"],
       }
@@ -133,13 +160,13 @@ test("Matches InCIDR if attributes.ip in subnet", () => {
 
 test("Does not match InCIDR if attributes.ip not in subnet", () => {
   const annotations = {
-    "engagement.scope/cidr": "10.0.0.0/32",
+    "scope.cascading.securecodebox.io/cidr": "10.0.0.0/32",
   }
   const scanAnnotationSelector = {
     validOnMissingRender: false,
     allOf: [
       {
-        key: "engagement.scope/cidr",
+        key: "scope.cascading.securecodebox.io/cidr",
         operator: "InCIDR",
         values: ["{{attributes.ip}}"],
       }
@@ -163,14 +190,14 @@ test("Does not match InCIDR if attributes.ip not in subnet", () => {
 
 test("Matches using templates populated with finding and a mapped selector", () => {
   const annotations = {
-    "engagement.scope/domains": "example.com,subdomain.example.com",
+    "scope.cascading.securecodebox.io/domains": "example.com,subdomain.example.com",
   }
   const scanAnnotationSelector = {
     requiresMapping: false,
     validOnMissingRender: false,
     allOf: [
       {
-        key: "engagement.scope/domains",
+        key: "scope.cascading.securecodebox.io/domains",
         operator: "Contains",
         values: ["{{$.hostname}}"],
       }
@@ -198,13 +225,13 @@ test("Matches using templates populated with finding and a mapped selector", () 
 
 test("Matches if mapping is not available: validOnMissingRender true", () => {
   const annotations = {
-    "engagement.scope/domains": "example.com,subdomain.example.com",
+    "scope.cascading.securecodebox.io/domains": "example.com,subdomain.example.com",
   }
   const scanAnnotationSelector = {
     validOnMissingRender: true,
     allOf: [
       {
-        key: "engagement.scope/domains",
+        key: "scope.cascading.securecodebox.io/domains",
         operator: "Contains",
         values: ["{{$.hostname}}"],
       }
@@ -223,13 +250,13 @@ test("Matches if mapping is not available: validOnMissingRender true", () => {
 
 test("Does not match if mapping is not available: validOnMissingRender false", () => {
   const annotations = {
-    "engagement.scope/domains": "example.com,subdomain.example.com",
+    "scope.cascading.securecodebox.io/domains": "example.com,subdomain.example.com",
   }
   const scanAnnotationSelector = {
     validOnMissingRender: false,
     allOf: [
       {
-        key: "engagement.scope/domains",
+        key: "scope.cascading.securecodebox.io/domains",
         operator: "Contains",
         values: ["{{$.hostname}}"],
       }
@@ -248,13 +275,13 @@ test("Does not match if mapping is not available: validOnMissingRender false", (
 
 test("Matches subdomainOf if is subdomain", () => {
   const annotations = {
-    "engagement.scope/domain": "example.com",
+    "scope.cascading.securecodebox.io/domain": "example.com",
   }
   const scanAnnotationSelector = {
     validOnMissingRender: false,
     allOf: [
       {
-        key: "engagement.scope/domain",
+        key: "scope.cascading.securecodebox.io/domain",
         operator: "SubdomainOf",
         values: ["{{attributes.hostname}}"],
       }
@@ -279,13 +306,13 @@ test("Matches subdomainOf if is subdomain", () => {
 
 test("Does not match subdomainOf if is not subdomain", () => {
   const annotations = {
-    "engagement.scope/domain": "example.com",
+    "scope.cascading.securecodebox.io/domain": "example.com",
   }
   const scanAnnotationSelector = {
     validOnMissingRender: false,
     allOf: [
       {
-        key: "engagement.scope/domain",
+        key: "scope.cascading.securecodebox.io/domain",
         operator: "SubdomainOf",
         values: ["{{attributes.hostname}}"],
       }
@@ -313,7 +340,7 @@ test("Throws errors when missing fields", () => {
     validOnMissingRender: false,
     allOf: [
       {
-        key: "engagement.scope/domain",
+        key: "scope.cascading.securecodebox.io/domain",
         operator: "In",
         values: ["{{attributes.hostname}}"],
       }
