@@ -103,6 +103,7 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", () =
           ],
         },
         "spec": Object {
+          "affinity": Object {},
           "cascades": Object {},
           "env": Array [],
           "hookSelector": Object {},
@@ -112,6 +113,7 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", () =
             "foobar.com:443",
           ],
           "scanType": "sslyze",
+          "tolerations": Array [],
           "volumeMounts": Array [],
           "volumes": Array [],
         },
@@ -241,6 +243,7 @@ test("Should not crash when the annotations are not set", () => {
           ],
         },
         "spec": Object {
+          "affinity": Object {},
           "cascades": Object {},
           "env": Array [],
           "hookSelector": Object {},
@@ -250,6 +253,7 @@ test("Should not crash when the annotations are not set", () => {
             "foobar.com:443",
           ],
           "scanType": "sslyze",
+          "tolerations": Array [],
           "volumeMounts": Array [],
           "volumes": Array [],
         },
@@ -373,6 +377,7 @@ test("Should allow wildcards in cascadingRules", () => {
           ],
         },
         "spec": Object {
+          "affinity": Object {},
           "cascades": Object {},
           "env": Array [],
           "hookSelector": Object {},
@@ -382,6 +387,7 @@ test("Should allow wildcards in cascadingRules", () => {
             "foobar.com:8443",
           ],
           "scanType": "sslyze",
+          "tolerations": Array [],
           "volumeMounts": Array [],
           "volumes": Array [],
         },
@@ -1123,6 +1129,7 @@ test("Templating should apply to environment variables", () => {
           ],
         },
         "spec": Object {
+          "affinity": Object {},
           "cascades": Object {},
           "env": Array [
             Object {
@@ -1137,6 +1144,7 @@ test("Templating should apply to environment variables", () => {
             "foobar.com:443",
           ],
           "scanType": "sslyze",
+          "tolerations": Array [],
           "volumeMounts": Array [
             Object {
               "mountPath": "/test",
@@ -1244,6 +1252,7 @@ test("Templating should apply to initContainer commands", () => {
           ],
         },
         "spec": Object {
+          "affinity": Object {},
           "cascades": Object {},
           "env": Array [],
           "hookSelector": Object {},
@@ -1270,6 +1279,7 @@ test("Templating should apply to initContainer commands", () => {
             "foobar.com:443",
           ],
           "scanType": "sslyze",
+          "tolerations": Array [],
           "volumeMounts": Array [
             Object {
               "mountPath": "/test",
@@ -1378,6 +1388,7 @@ test("Templating should apply to initContainer environment variables", () => {
           ],
         },
         "spec": Object {
+          "affinity": Object {},
           "cascades": Object {},
           "env": Array [],
           "hookSelector": Object {},
@@ -1407,6 +1418,7 @@ test("Templating should apply to initContainer environment variables", () => {
             "foobar.com:443",
           ],
           "scanType": "sslyze",
+          "tolerations": Array [],
           "volumeMounts": Array [
             Object {
               "mountPath": "/test",
@@ -1514,6 +1526,7 @@ test("Templating should not break special encoding (http://...) when using tripl
           ],
         },
         "spec": Object {
+          "affinity": Object {},
           "cascades": Object {},
           "env": Array [],
           "hookSelector": Object {},
@@ -1540,6 +1553,7 @@ test("Templating should not break special encoding (http://...) when using tripl
             "https://github.com/secureCodeBox/secureCodeBox",
           ],
           "scanType": "sslyze",
+          "tolerations": Array [],
           "volumeMounts": Array [
             Object {
               "mountPath": "/test",
@@ -1695,6 +1709,214 @@ test("should not merge hookSelector into cascaded scan if inheritHookSelector is
       "securecodebox.io/internal": "false",
     },
   }
+  `);
+});
+
+test("should copy tolerations and affinity into cascaded scan if set", () => {
+  parentScan.spec.cascades.inheritHookSelector = true
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  parentScan.spec.affinity = {
+    nodeAffinity: {
+      requiredDuringSchedulingIgnoredDuringExecution: { 
+        nodeSelectorTerms: [
+          {  
+            matchExpressions: [
+              {
+                key: "disktype",
+                operator: "In",
+                values: [
+                  "ssd"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+
+  parentScan.spec.tolerations = [
+    {
+      key: "key1",
+      operator: "Equal",
+      value: "test",
+      effect: "NoSchedule"
+    }
+  ]
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const cascadedScan = cascadedScans[0];
+
+  expect(cascadedScan.spec.affinity).toMatchInlineSnapshot(`
+  Object {
+    "nodeAffinity": Object {
+      "requiredDuringSchedulingIgnoredDuringExecution": Object {
+        "nodeSelectorTerms": Array [
+          Object {
+            "matchExpressions": Array [
+              Object {
+                "key": "disktype",
+                "operator": "In",
+                "values": Array [
+                  "ssd",
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    },
+  }
+  `);
+
+  expect(cascadedScan.spec.tolerations).toMatchInlineSnapshot(`
+  Array [
+    Object {
+      "effect": "NoSchedule",
+      "key": "key1",
+      "operator": "Equal",
+      "value": "test",
+    },
+  ]
+  `);
+});
+
+test("should merge tolerations and replace affinity in cascaded scan if cascading spec sets new ones", () => {
+  parentScan.spec.cascades.inheritHookSelector = true
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  parentScan.spec.affinity = {
+    nodeAffinity: {
+      requiredDuringSchedulingIgnoredDuringExecution: { 
+        nodeSelectorTerms: [
+          {  
+            matchExpressions: [
+              {
+                key: "disktype",
+                operator: "In",
+                values: [
+                  "ssd"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+
+  parentScan.spec.tolerations = [
+    {
+      key: "key1",
+      operator: "Equal",
+      value: "test",
+      effect: "NoSchedule"
+    }
+  ]
+
+  sslyzeCascadingRules[0].spec.scanSpec.tolerations = [
+    {
+      key: "key2",
+      operator: "Equal",
+      value: "test-2",
+      effect: "NoSchedule",
+    }
+  ];
+
+  sslyzeCascadingRules[0].spec.scanSpec.affinity = {
+    nodeAffinity: {
+      requiredDuringSchedulingIgnoredDuringExecution: { 
+        nodeSelectorTerms: [
+          {  
+            matchExpressions: [
+              {
+                key: "network",
+                operator: "In",
+                values: [
+                  "10g"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const cascadedScan = cascadedScans[0];
+
+  // New values will completely replace the old values, not be merged
+  expect(cascadedScan.spec.affinity).toMatchInlineSnapshot(`
+  Object {
+    "nodeAffinity": Object {
+      "requiredDuringSchedulingIgnoredDuringExecution": Object {
+        "nodeSelectorTerms": Array [
+          Object {
+            "matchExpressions": Array [
+              Object {
+                "key": "network",
+                "operator": "In",
+                "values": Array [
+                  "10g",
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    },
+  }
+  `);
+
+  expect(cascadedScan.spec.tolerations).toMatchInlineSnapshot(`
+  Array [
+    Object {
+      "effect": "NoSchedule",
+      "key": "key1",
+      "operator": "Equal",
+      "value": "test",
+    },
+    Object {
+      "effect": "NoSchedule",
+      "key": "key2",
+      "operator": "Equal",
+      "value": "test-2",
+    },
+  ]
   `);
 });
 

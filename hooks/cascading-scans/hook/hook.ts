@@ -111,7 +111,7 @@ function getCascadingScan(
 
   let { scanType, parameters } = cascadingRule.spec.scanSpec;
 
-  let { annotations, labels, env, volumes, volumeMounts, initContainers, hookSelector } = mergeCascadingRuleWithScan(parentScan, cascadingRule);
+  let { annotations, labels, env, volumes, volumeMounts, initContainers, hookSelector, affinity, tolerations } = mergeCascadingRuleWithScan(parentScan, cascadingRule);
 
   let cascadingChain = getScanChain(parentScan);
 
@@ -151,6 +151,8 @@ function getCascadingScan(
       volumes,
       volumeMounts,
       initContainers,
+      tolerations,
+      affinity,
     }
   };
 }
@@ -160,7 +162,7 @@ function mergeCascadingRuleWithScan(
   cascadingRule: CascadingRule
 ) {
   const { scanAnnotations, scanLabels } = cascadingRule.spec;
-  let { env = [], volumes = [], volumeMounts = [], initContainers = [], hookSelector = {} } = cascadingRule.spec.scanSpec;
+  let { env = [], volumes = [], volumeMounts = [], initContainers = [], hookSelector = {}, affinity = {}, tolerations = [] } = cascadingRule.spec.scanSpec;
   let { inheritAnnotations, inheritLabels, inheritEnv, inheritVolumes, inheritInitContainers, inheritHookSelector } = scan.spec.cascades;
 
   return {
@@ -171,6 +173,9 @@ function mergeCascadingRuleWithScan(
     volumeMounts: mergeInheritedArray(scan.spec.volumeMounts, volumeMounts, inheritVolumes),
     initContainers: mergeInheritedArray(scan.spec.initContainers, initContainers, inheritInitContainers),
     hookSelector: mergeInheritedSelector(scan.spec.hookSelector, hookSelector, inheritHookSelector),
+    // Affinity and tolerations are always inherited
+    affinity: mergeInheritedMap(scan.spec.affinity, affinity, true),
+    tolerations: mergeInheritedArray(scan.spec.tolerations, tolerations, true),
   }
 }
 

@@ -63,6 +63,8 @@ export interface ScanSpec {
   volumeMounts?: Array<k8s.V1VolumeMount>;
   initContainers?: Array<k8s.V1Container>;
   hookSelector?: LabelSelector;
+  tolerations?: Array<k8s.V1Toleration>;
+  affinity?: k8s.V1Toleration;
 }
 
 export interface CascadingInheritance {
