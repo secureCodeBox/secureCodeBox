@@ -67,7 +67,7 @@ jobs:
           echo release=$upgrade >> $GITHUB_ENV
 
       - name: Check if scanner is outdated and if PR already exists
-        if: ${{ env.release != env.local }}
+        if: ${{ env.release != env.local && env.release != null }}
         run: |
           echo 'The ${{ matrix.scanner }} scanner is outdated.  Current SCB version is ${{env.local}} and remote version is ${{env.release}}'
 
@@ -78,11 +78,11 @@ jobs:
           echo prExists=$(gh pr list --state open --limit 100 | grep -F "$pullRequestTitle" -c) >> $GITHUB_ENV
 
       - name: Fetch new release changelog
-        if: ${{ env.release != env.local }}
+        if: ${{ env.release != env.local && env.release != null }}
         run: echo releaseChangelog=$((curl -sL ${{env.versionApi}}  ) | jq -r ".body") >> $GITHUB_ENV
 
       - name: Upgrade Scanner Helm Chart
-        if: ${{ env.release != env.local && env.prExists == 0 }}
+        if: ${{ env.release != env.local && env.prExists == 0 && env.release != null}}
         uses: mikefarah/yq@v4.4.1
         with:
           # appVersion value in chart is replaced with release value. Empty lines are deleted in the process
@@ -128,7 +128,7 @@ jobs:
           rm -rf helm-docs
 
       - name: Create Pull Request
-        if: ${{ env.release != env.local && env.prExists == 0 }}
+        if: ${{ env.release != env.local && env.prExists == 0 && env.release != null }}
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.SCB_BOT_USER_TOKEN }}
