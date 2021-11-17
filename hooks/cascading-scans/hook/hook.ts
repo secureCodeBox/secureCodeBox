@@ -124,10 +124,10 @@ function getScansMatchingRule(
 
     if (!reverseMatches) {
       console.log(`Cascading Rule ${cascadingRule.metadata.name} not triggered as scope limiter did not pass`);
-      console.log(`Scan annotations ${parentScan.metadata.annotations}`);
-      console.log(`Scope limiter ${parentScan.spec.cascades.scopeLimiter}`);
-      console.log(`Scope limiter aliases ${parseDefinition.spec.scopeLimiterAliases}`);
-      console.log(`Finding ${finding}`);
+      console.log(`Scan annotations ${JSON.stringify(parentScan.metadata.annotations)}`);
+      console.log(`Scope limiter ${JSON.stringify(parentScan.spec.cascades.scopeLimiter)}`);
+      console.log(`Scope limiter aliases ${JSON.stringify(parseDefinition.spec.scopeLimiterAliases)}`);
+      console.log(`Finding ${JSON.stringify(finding)}`);
       continue;
     }
 
