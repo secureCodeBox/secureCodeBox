@@ -351,13 +351,17 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 	)
 
 	// Set affinity from ScanTemplate
-	job.Spec.Template.Spec.Affinity = scan.Spec.Affinity
+	r.Log.Info("Affinity", "scan.Spec.Affinity", scan.Spec.Affinity, "job.Spec.Template.Spec.Affinity", job.Spec.Template.Spec.Affinity)
+	if scan.Spec.Affinity != nil {
+		job.Spec.Template.Spec.Affinity = scan.Spec.Affinity
+	}
 
-	// Merge Tolerations from ScanTemplate with Tolerations defined in scan
-	job.Spec.Template.Spec.Tolerations = append(
-		job.Spec.Template.Spec.Tolerations,
-		scan.Spec.Tolerations...,
-	)
+	// Replace (not merge!) tolerations from template with those specified in the scan job, if there are any.
+	// (otherwise keep those from the template)
+	r.Log.Info("Tolerations", "scan.Spec.Tolerations", scan.Spec.Tolerations, "job.Spec.Template.Spec.Tolerations", job.Spec.Template.Spec.Tolerations)
+	if scan.Spec.Tolerations != nil {
+		job.Spec.Template.Spec.Tolerations = scan.Spec.Tolerations
+	}
 
 	// Using command over args
 	job.Spec.Template.Spec.Containers[0].Command = command

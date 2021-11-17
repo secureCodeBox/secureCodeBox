@@ -103,7 +103,7 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", () =
           ],
         },
         "spec": Object {
-          "affinity": Object {},
+          "affinity": undefined,
           "cascades": Object {},
           "env": Array [],
           "hookSelector": Object {},
@@ -113,7 +113,7 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", () =
             "foobar.com:443",
           ],
           "scanType": "sslyze",
-          "tolerations": Array [],
+          "tolerations": undefined,
           "volumeMounts": Array [],
           "volumes": Array [],
         },
@@ -243,7 +243,7 @@ test("Should not crash when the annotations are not set", () => {
           ],
         },
         "spec": Object {
-          "affinity": Object {},
+          "affinity": undefined,
           "cascades": Object {},
           "env": Array [],
           "hookSelector": Object {},
@@ -253,7 +253,7 @@ test("Should not crash when the annotations are not set", () => {
             "foobar.com:443",
           ],
           "scanType": "sslyze",
-          "tolerations": Array [],
+          "tolerations": undefined,
           "volumeMounts": Array [],
           "volumes": Array [],
         },
@@ -377,7 +377,7 @@ test("Should allow wildcards in cascadingRules", () => {
           ],
         },
         "spec": Object {
-          "affinity": Object {},
+          "affinity": undefined,
           "cascades": Object {},
           "env": Array [],
           "hookSelector": Object {},
@@ -387,7 +387,7 @@ test("Should allow wildcards in cascadingRules", () => {
             "foobar.com:8443",
           ],
           "scanType": "sslyze",
-          "tolerations": Array [],
+          "tolerations": undefined,
           "volumeMounts": Array [],
           "volumes": Array [],
         },
@@ -1129,7 +1129,7 @@ test("Templating should apply to environment variables", () => {
           ],
         },
         "spec": Object {
-          "affinity": Object {},
+          "affinity": undefined,
           "cascades": Object {},
           "env": Array [
             Object {
@@ -1144,7 +1144,7 @@ test("Templating should apply to environment variables", () => {
             "foobar.com:443",
           ],
           "scanType": "sslyze",
-          "tolerations": Array [],
+          "tolerations": undefined,
           "volumeMounts": Array [
             Object {
               "mountPath": "/test",
@@ -1252,7 +1252,7 @@ test("Templating should apply to initContainer commands", () => {
           ],
         },
         "spec": Object {
-          "affinity": Object {},
+          "affinity": undefined,
           "cascades": Object {},
           "env": Array [],
           "hookSelector": Object {},
@@ -1279,7 +1279,7 @@ test("Templating should apply to initContainer commands", () => {
             "foobar.com:443",
           ],
           "scanType": "sslyze",
-          "tolerations": Array [],
+          "tolerations": undefined,
           "volumeMounts": Array [
             Object {
               "mountPath": "/test",
@@ -1388,7 +1388,7 @@ test("Templating should apply to initContainer environment variables", () => {
           ],
         },
         "spec": Object {
-          "affinity": Object {},
+          "affinity": undefined,
           "cascades": Object {},
           "env": Array [],
           "hookSelector": Object {},
@@ -1418,7 +1418,7 @@ test("Templating should apply to initContainer environment variables", () => {
             "foobar.com:443",
           ],
           "scanType": "sslyze",
-          "tolerations": Array [],
+          "tolerations": undefined,
           "volumeMounts": Array [
             Object {
               "mountPath": "/test",
@@ -1526,7 +1526,7 @@ test("Templating should not break special encoding (http://...) when using tripl
           ],
         },
         "spec": Object {
-          "affinity": Object {},
+          "affinity": undefined,
           "cascades": Object {},
           "env": Array [],
           "hookSelector": Object {},
@@ -1553,7 +1553,7 @@ test("Templating should not break special encoding (http://...) when using tripl
             "https://github.com/secureCodeBox/secureCodeBox",
           ],
           "scanType": "sslyze",
-          "tolerations": Array [],
+          "tolerations": undefined,
           "volumeMounts": Array [
             Object {
               "mountPath": "/test",
@@ -1850,9 +1850,9 @@ test("should not copy tolerations and affinity into cascaded scan if label disab
 
   const cascadedScan = cascadedScans[0];
 
-  expect(cascadedScan.spec.affinity).toMatchInlineSnapshot(`Object {}`);
+  expect(cascadedScan.spec.affinity).toMatchInlineSnapshot(`undefined`);
 
-  expect(cascadedScan.spec.tolerations).toMatchInlineSnapshot(`Array []`);
+  expect(cascadedScan.spec.tolerations).toMatchInlineSnapshot(`undefined`);
 });
 
 test("should merge tolerations and replace affinity in cascaded scan if cascading spec sets new ones", () => {
@@ -1974,6 +1974,70 @@ test("should merge tolerations and replace affinity in cascaded scan if cascadin
     },
   ]
   `);
+});
+
+test("should not set affinity or tolerations to undefined if they are defined to be an empty map / list in upstream scan", () => {
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  parentScan.spec.affinity = {}
+
+  parentScan.spec.tolerations = []
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const cascadedScan = cascadedScans[0];
+
+  // New values will completely replace the old values, not be merged
+  expect(cascadedScan.spec.affinity).toMatchInlineSnapshot(`Object {}`);
+
+  expect(cascadedScan.spec.tolerations).toMatchInlineSnapshot(`Array []`);
+});
+
+test("Should not set affinity or tolerations to undefined if they are defined to be an empty map / list in cascading ScanSpec", () => {
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  sslyzeCascadingRules[0].spec.scanSpec.tolerations = [];
+
+  sslyzeCascadingRules[0].spec.scanSpec.affinity = {};
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const cascadedScan = cascadedScans[0];
+
+  // New values will completely replace the old values, not be merged
+  expect(cascadedScan.spec.affinity).toMatchInlineSnapshot(`Object {}`);
+
+  expect(cascadedScan.spec.tolerations).toMatchInlineSnapshot(`Array []`);
 });
 
 test("should only use tolerations and affinity of cascaded scan if inheritance is disabled", () => {

@@ -162,9 +162,28 @@ function mergeCascadingRuleWithScan(
   cascadingRule: CascadingRule
 ) {
   const { scanAnnotations, scanLabels } = cascadingRule.spec;
-  let { env = [], volumes = [], volumeMounts = [], initContainers = [], hookSelector = {}, affinity = {}, tolerations = [] } = cascadingRule.spec.scanSpec;
+  let { env = [], volumes = [], volumeMounts = [], initContainers = [], hookSelector = {}, affinity, tolerations } = cascadingRule.spec.scanSpec;
   let { inheritAnnotations, inheritLabels, inheritEnv, inheritVolumes, inheritInitContainers, inheritHookSelector, inheritAffinity = true, inheritTolerations = true} = scan.spec.cascades;
 
+  // We have to use a slightly complicated logic for inheriting / setting the tolerations and affinity to work around some
+  // limitations in the operator. The goal is to avoid setting anything to an empty list [] or empty map {} if the keys are actually
+  // missing in the specification, as this will lead to issues in the operator when pulling in default values from the templates of the
+  // scanners. So, we are taking a bit more care to make sure that the value stays undefined (and thus nil in Go) unless someone explicitly
+  // specified an empty list or map.
+  let selectedTolerations = undefined;
+  if (tolerations !== undefined) {
+    selectedTolerations = mergeInheritedArray(scan.spec.tolerations, tolerations, inheritTolerations);
+  } else if (inheritTolerations) {
+    selectedTolerations = scan.spec.tolerations;
+  }
+
+  let selectedAffinity = undefined;
+  if (affinity !== undefined) {
+    selectedAffinity = affinity
+  } else if (inheritAffinity) {
+    selectedAffinity = scan.spec.affinity;
+  }
+  
   return {
     annotations: mergeInheritedMap(scan.metadata.annotations, scanAnnotations, inheritAnnotations),
     labels: mergeInheritedMap(scan.metadata.labels, scanLabels, inheritLabels),
@@ -173,9 +192,8 @@ function mergeCascadingRuleWithScan(
     volumeMounts: mergeInheritedArray(scan.spec.volumeMounts, volumeMounts, inheritVolumes),
     initContainers: mergeInheritedArray(scan.spec.initContainers, initContainers, inheritInitContainers),
     hookSelector: mergeInheritedSelector(scan.spec.hookSelector, hookSelector, inheritHookSelector),
-    // Affinity and tolerations are always inherited
-    affinity: mergeInheritedMap(scan.spec.affinity, affinity, inheritAffinity),
-    tolerations: mergeInheritedArray(scan.spec.tolerations, tolerations, inheritTolerations),
+    affinity: selectedAffinity,
+    tolerations: selectedTolerations
   }
 }
 

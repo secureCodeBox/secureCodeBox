@@ -82,6 +82,9 @@ export function mergeInheritedMap(parentProps, ruleProps, inherit: boolean = tru
   if (!inherit) {
     parentProps = {};
   }
+  if (ruleProps === undefined) {
+    return parentProps;
+  }
   return {
     ...parentProps,
     ...ruleProps // ruleProps overwrites any duplicate keys from parentProps

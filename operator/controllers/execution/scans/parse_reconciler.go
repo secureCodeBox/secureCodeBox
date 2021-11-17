@@ -178,14 +178,19 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 		parseDefinition.Spec.Volumes...,
 	)
 
-	// Set affinity from Scan
-	job.Spec.Template.Spec.Affinity = scan.Spec.Affinity
+	// Set affinity based on scan, if defined, or parseDefinition if not overriden by scan
+	if scan.Spec.Affinity != nil {
+		job.Spec.Template.Spec.Affinity = scan.Spec.Affinity
+	} else {
+		job.Spec.Template.Spec.Affinity = parseDefinition.Spec.Affinity
+	}
 
-	// Merge Tolerations from Parser with Tolerations defined in scan
-	job.Spec.Template.Spec.Tolerations = append(
-		job.Spec.Template.Spec.Tolerations,
-		scan.Spec.Tolerations...,
-	)
+	// Set tolerations, either from parseDefinition or from scan
+	if scan.Spec.Tolerations != nil {
+		job.Spec.Template.Spec.Tolerations = scan.Spec.Tolerations
+	} else {
+		job.Spec.Template.Spec.Tolerations = parseDefinition.Spec.Tolerations
+	}
 
 	r.Log.V(8).Info("Configuring customCACerts for Parser")
 	injectCustomCACertsIfConfigured(job)
