@@ -25,7 +25,7 @@ jobs:
           - wpscan
           - zap
           - zap-advanced
-          missing scanners are : nmap, nikto, typo3scan
+          # missing scanners are : nmap, nikto, typo3scan
     steps:
       - uses: actions/checkout@v2
 
@@ -78,7 +78,7 @@ jobs:
           echo prExists=$(gh pr list --state open --limit 100 | grep -F "$pullRequestTitle" -c) >> $GITHUB_ENV
 
       - name: Fetch new release changelog
-       if: ${{ env.release != env.local }}
+        if: ${{ env.release != env.local && env.release != null }}
         run: |
           changelog=$(curl -sL ${{env.versionApi}} | jq -r ".body" | sed -e 's/#[0-9]\+//g')
           echo $changelog
