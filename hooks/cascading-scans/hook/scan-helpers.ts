@@ -6,7 +6,7 @@ import * as k8s from "@kubernetes/client-node";
 
 import {
   generateSelectorString,
-  LabelSelector, LabelSelectorRequirement
+  LabelSelector
 } from "./kubernetes-label-selector";
 import {isEqual} from "lodash";
 import {getScanChain} from "./hook";
