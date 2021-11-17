@@ -22,7 +22,7 @@ rules:
     resources:
       - parsedefinitions
     verbs:
-      - list
+      - get
   - apiGroups:
       - execution.securecodebox.io
     resources:

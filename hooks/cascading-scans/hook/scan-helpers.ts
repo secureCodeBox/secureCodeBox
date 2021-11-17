@@ -182,10 +182,10 @@ export async function getCascadingRulesForScan(scan: Scan) {
 export async function getParseDefinitionForScan(scan: Scan) {
   try {
     const response: any = await k8sApiCRD.getNamespacedCustomObject(
-      "cascading.securecodebox.io",
+      "execution.securecodebox.io",
       "v1",
       namespace,
-      "cascadingrules",
+      "parsedefinitions",
       scan.status.rawResultType,
     );
 
