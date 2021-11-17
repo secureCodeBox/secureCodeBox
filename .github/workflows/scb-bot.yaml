@@ -36,21 +36,37 @@ jobs:
           git-user-signingkey: true
           git-commit-gpgsign: true
 
+      - name: Fetch local scanner version
+        uses: mikefarah/yq@v4.4.1
+        with:
+          cmd: echo local=$(yq e .appVersion scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
+
       - name: Fetch scanner's version API
         uses: mikefarah/yq@v4.4.1
         with:
           cmd: echo versionApi=$(yq e .annotations.versionApi scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
 
       - name: Fetch latest release scanner version
-        run: echo release=$((curl -sL ${{env.versionApi}}  ) | jq -r ".tag_name") | tr -d "v" >> $GITHUB_ENV
+        # A hacky way to solve the problem where the docker image is in the "1.0" format and the github release is in the "v1.0" format
+        # We make sure to add or remove the "v" character when necessary
+        run: |
+          local=${{env.local}}
+          release=$(curl -sL ${{env.versionApi}}  | jq -r ".tag_name" )
+          upgrade=$release
 
-      - name: Fetch local scanner version
-        uses: mikefarah/yq@v4.4.1
-        with:
-          cmd: echo local=$(yq e .appVersion scanners/${{ matrix.scanner }}/Chart.yaml) | tr -d "v" >> $GITHUB_ENV
+          if [[ ${local:0:1} != ${release:0:1} ]] ; then
+            if [[ ${local:0:1} == "v" ]] ; then
+              upgrade=v${release};
+            elif [[ ${release:0:1} == "v" ]] ; then
+              upgrade=$(echo $release| tr -d "v")
+            fi
+          fi
+          
+          echo $upgrade
+          echo release=$upgrade >> $GITHUB_ENV
 
       - name: Check if scanner is outdated and if PR already exists
-        if: ${{ env.release != env.local }}
+        if: ${{ env.release != env.local && env.release != null }}
         run: |
           echo 'The ${{ matrix.scanner }} scanner is outdated.  Current SCB version is ${{env.local}} and remote version is ${{env.release}}'
 
@@ -61,15 +77,15 @@ jobs:
           echo prExists=$(gh pr list --state open --limit 100 | grep -F "$pullRequestTitle" -c) >> $GITHUB_ENV
 
       - name: Fetch new release changelog
-        if: ${{ env.release != env.local }}
+        if: ${{ env.release != env.local && env.release != null }}
         run: echo releaseChangelog=$((curl -sL ${{env.versionApi}}  ) | jq -r ".body") >> $GITHUB_ENV
 
       - name: Upgrade Scanner Helm Chart
-        if: ${{ env.release != env.local && env.prExists == 0 }}
+        if: ${{ env.release != env.local && env.prExists == 0 && env.release != null}}
         uses: mikefarah/yq@v4.4.1
         with:
           # appVersion value in chart is replaced with release value. Empty lines are deleted in the process
-          cmd: yq e --inplace '.appVersion = "v${{env.release}}"' ./scanners/${{ matrix.scanner }}/Chart.yaml
+          cmd: yq e --inplace '.appVersion = "${{env.release}}"' ./scanners/${{ matrix.scanner }}/Chart.yaml
 
       # Updating Helm Docs
       - name: Download Helm Docs
@@ -111,7 +127,7 @@ jobs:
           rm -rf helm-docs
 
       - name: Create Pull Request
-        if: ${{ env.release != env.local && env.prExists == 0 }}
+        if: ${{ env.release != env.local && env.prExists == 0 && env.release != null }}
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.SCB_BOT_USER_TOKEN }}
