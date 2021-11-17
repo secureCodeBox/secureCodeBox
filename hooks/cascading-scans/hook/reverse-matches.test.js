@@ -5,7 +5,7 @@
 const { isReverseMatch } = require("./reverse-matches");
 
 test("Should error if selecting an invalid key", () => {
-  const scanAnnotationSelector = {
+  const scopeLimiter = {
     validOnMissingRender: false,
     allOf: [
       {
@@ -22,7 +22,7 @@ test("Should error if selecting an invalid key", () => {
   };
 
   const cascadedScans = () => isReverseMatch(
-    scanAnnotationSelector,
+    scopeLimiter,
     {},
     finding,
     {}
@@ -35,7 +35,7 @@ test("Matches using templates populated with finding", () => {
   const annotations = {
     "scope.cascading.securecodebox.io/domains": "example.com,subdomain.example.com",
   }
-  const scanAnnotationSelector = {
+  const scopeLimiter = {
     validOnMissingRender: false,
     allOf: [
       {
@@ -52,7 +52,7 @@ test("Matches using templates populated with finding", () => {
   };
 
   const cascadedScans = isReverseMatch(
-    scanAnnotationSelector,
+    scopeLimiter,
     annotations,
     finding,
     {}
@@ -65,7 +65,7 @@ test("Does not match using if selector does not match", () => {
   const annotations = {
     "scope.cascading.securecodebox.io/domains": "subdomain.example.com",
   }
-  const scanAnnotationSelector = {
+  const scopeLimiter = {
     validOnMissingRender: false,
     allOf: [
       {
@@ -82,7 +82,7 @@ test("Does not match using if selector does not match", () => {
   };
 
   const cascadedScans = isReverseMatch(
-    scanAnnotationSelector,
+    scopeLimiter,
     annotations,
     finding,
     {}
@@ -95,7 +95,7 @@ test("Does not match if one of selector types does not match", () => {
   const annotations = {
     "scope.cascading.securecodebox.io/domains": "example.com",
   }
-  const scanAnnotationSelector = {
+  const scopeLimiter = {
     validOnMissingRender: false,
     allOf: [
       {
@@ -119,7 +119,7 @@ test("Does not match if one of selector types does not match", () => {
   };
 
   const cascadedScans = isReverseMatch(
-    scanAnnotationSelector,
+    scopeLimiter,
     annotations,
     finding,
     {}
@@ -132,7 +132,7 @@ test("Matches InCIDR if attributes.ip in subnet", () => {
   const annotations = {
     "scope.cascading.securecodebox.io/cidr": "10.0.0.0/16",
   }
-  const scanAnnotationSelector = {
+  const scopeLimiter = {
     validOnMissingRender: false,
     allOf: [
       {
@@ -149,7 +149,7 @@ test("Matches InCIDR if attributes.ip in subnet", () => {
   };
 
   const cascadedScans = isReverseMatch(
-    scanAnnotationSelector,
+    scopeLimiter,
     annotations,
     finding,
     {}
@@ -162,7 +162,7 @@ test("Does not match InCIDR if attributes.ip not in subnet", () => {
   const annotations = {
     "scope.cascading.securecodebox.io/cidr": "10.0.0.0/32",
   }
-  const scanAnnotationSelector = {
+  const scopeLimiter = {
     validOnMissingRender: false,
     allOf: [
       {
@@ -179,7 +179,7 @@ test("Does not match InCIDR if attributes.ip not in subnet", () => {
   };
 
   const cascadedScans = isReverseMatch(
-    scanAnnotationSelector,
+    scopeLimiter,
     annotations,
     finding,
     {}
@@ -192,7 +192,7 @@ test("Matches using templates populated with finding and a mapped selector", () 
   const annotations = {
     "scope.cascading.securecodebox.io/domains": "example.com,subdomain.example.com",
   }
-  const scanAnnotationSelector = {
+  const scopeLimiter = {
     requiresMapping: false,
     validOnMissingRender: false,
     allOf: [
@@ -209,15 +209,15 @@ test("Matches using templates populated with finding and a mapped selector", () 
     }
   };
 
-  const selectorAttributeMappings = {
+  const scopeLimiterAliases = {
     "hostname": "{{attributes.hostname}}",
   }
 
   const cascadedScans = isReverseMatch(
-    scanAnnotationSelector,
+    scopeLimiter,
     annotations,
     finding,
-    selectorAttributeMappings
+    scopeLimiterAliases
   );
 
   expect(cascadedScans).toBe(true);
@@ -227,7 +227,7 @@ test("Matches if mapping is not available: validOnMissingRender true", () => {
   const annotations = {
     "scope.cascading.securecodebox.io/domains": "example.com,subdomain.example.com",
   }
-  const scanAnnotationSelector = {
+  const scopeLimiter = {
     validOnMissingRender: true,
     allOf: [
       {
@@ -239,7 +239,7 @@ test("Matches if mapping is not available: validOnMissingRender true", () => {
   }
 
   const cascadedScans = isReverseMatch(
-    scanAnnotationSelector,
+    scopeLimiter,
     annotations,
     {},
     {},
@@ -252,7 +252,7 @@ test("Does not match if mapping is not available: validOnMissingRender false", (
   const annotations = {
     "scope.cascading.securecodebox.io/domains": "example.com,subdomain.example.com",
   }
-  const scanAnnotationSelector = {
+  const scopeLimiter = {
     validOnMissingRender: false,
     allOf: [
       {
@@ -264,7 +264,7 @@ test("Does not match if mapping is not available: validOnMissingRender false", (
   }
 
   const cascadedScans = isReverseMatch(
-    scanAnnotationSelector,
+    scopeLimiter,
     annotations,
     {},
     {},
@@ -277,7 +277,7 @@ test("Matches subdomainOf if is subdomain", () => {
   const annotations = {
     "scope.cascading.securecodebox.io/domain": "example.com",
   }
-  const scanAnnotationSelector = {
+  const scopeLimiter = {
     validOnMissingRender: false,
     allOf: [
       {
@@ -295,7 +295,7 @@ test("Matches subdomainOf if is subdomain", () => {
   };
 
   const cascadedScans = isReverseMatch(
-    scanAnnotationSelector,
+    scopeLimiter,
     annotations,
     finding,
     {},
@@ -308,7 +308,7 @@ test("Does not match subdomainOf if is not subdomain", () => {
   const annotations = {
     "scope.cascading.securecodebox.io/domain": "example.com",
   }
-  const scanAnnotationSelector = {
+  const scopeLimiter = {
     validOnMissingRender: false,
     allOf: [
       {
@@ -326,7 +326,7 @@ test("Does not match subdomainOf if is not subdomain", () => {
   };
 
   const cascadedScans = isReverseMatch(
-    scanAnnotationSelector,
+    scopeLimiter,
     annotations,
     finding,
     {},
@@ -336,7 +336,7 @@ test("Does not match subdomainOf if is not subdomain", () => {
 });
 
 test("Throws errors when missing fields", () => {
-  const scanAnnotationSelector = {
+  const scopeLimiter = {
     validOnMissingRender: false,
     allOf: [
       {
@@ -354,7 +354,7 @@ test("Throws errors when missing fields", () => {
   };
 
   const cascadedScans = () => isReverseMatch(
-    scanAnnotationSelector,
+    scopeLimiter,
     {},
     finding,
     {},

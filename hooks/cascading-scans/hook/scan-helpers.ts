@@ -10,7 +10,7 @@ import {
 } from "./kubernetes-label-selector";
 import {isEqual} from "lodash";
 import {getScanChain} from "./hook";
-import {ScanAnnotationSelectorRequirement} from "./reverse-matches";
+import {ScopeLimiterRequirement} from "./reverse-matches";
 
 // configure k8s client
 const kc = new k8s.KubeConfig();
@@ -67,15 +67,15 @@ export interface ScanSpec {
   hookSelector?: LabelSelector;
 }
 
-export interface ScanAnnotationSelector {
+export interface ScopeLimiter {
   validOnMissingRender: boolean,
-  anyOf?: Array<ScanAnnotationSelectorRequirement>,
-  allOf?: Array<ScanAnnotationSelectorRequirement>,
-  noneOf?: Array<ScanAnnotationSelectorRequirement>,
+  anyOf?: Array<ScopeLimiterRequirement>,
+  allOf?: Array<ScopeLimiterRequirement>,
+  noneOf?: Array<ScopeLimiterRequirement>,
 }
 
 export interface CascadingInheritance {
-  scanAnnotationSelector: ScanAnnotationSelector,
+  scopeLimiter: ScopeLimiter,
   inheritLabels: boolean,
   inheritAnnotations: boolean,
   inheritEnv: boolean,
@@ -94,10 +94,10 @@ export interface ParseDefinition {
 }
 
 export interface ParseDefinitionSpec {
-	selectorAttributeMappings: SelectorAttributeMappings,
+	scopeLimiterAliases: ScopeLimiterAliases,
 }
 
-export type SelectorAttributeMappings = { [key: string]: string; };
+export type ScopeLimiterAliases = { [key: string]: string; };
 
 export function mergeInheritedMap(parentProps, ruleProps, inherit: boolean = true) {
   if (!inherit) {

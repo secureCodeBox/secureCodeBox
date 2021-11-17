@@ -1,7 +1,7 @@
 import {
   Finding,
-  ScanAnnotationSelector,
-  SelectorAttributeMappings,
+  ScopeLimiter,
+  ScopeLimiterAliases,
 } from "./scan-helpers";
 import {
   V1ObjectMeta
@@ -18,7 +18,7 @@ import {
   takeRight
 } from "lodash";
 
-export enum ScanAnnotationSelectorRequirementOperator {
+export enum ScopeLimiterRequirementOperator {
   In = "In",
   NotIn = "NotIn",
   Exists = "Exists",
@@ -31,23 +31,23 @@ export enum ScanAnnotationSelectorRequirementOperator {
   NotSubdomainOf = "NotSubdomainOf",
 }
 
-export interface ScanAnnotationSelectorRequirement {
+export interface ScopeLimiterRequirement {
   key: string;
-  operator: ScanAnnotationSelectorRequirementOperator;
+  operator: ScopeLimiterRequirementOperator;
   values: Array<string>;
 }
 
 export const scopeDomain = "scope.cascading.securecodebox.io/"
 
 export function isReverseMatch(
-  scanAnnotationSelector: ScanAnnotationSelector,
+  scopeLimiter: ScopeLimiter,
   scanAnnotations: V1ObjectMeta['annotations'],
   finding: Finding,
-  selectorAttributeMappings: SelectorAttributeMappings,
+  scopeLimiterAliases: ScopeLimiterAliases,
 ) {
-  if (scanAnnotationSelector === undefined) return true;
+  if (scopeLimiter === undefined) return true;
 
-  function validateRequirement({key, operator, values}: ScanAnnotationSelectorRequirement) {
+  function validateRequirement({key, operator, values}: ScopeLimiterRequirement) {
     if (!key.startsWith(`${scopeDomain}`)) {
       throw new Error(`key '${key}' is invalid: key does not start with '${scopeDomain}'`);
     }
@@ -59,7 +59,7 @@ export function isReverseMatch(
     const value = scanAnnotations[key];
     const renders = values.map(templateValue);
     if (renders.some(render => !render[1])) {
-      return scanAnnotationSelector.validOnMissingRender;
+      return scopeLimiter.validOnMissingRender;
     }
 
     const props = {lhs: value, rhs: renders.map(render => render[0])};
@@ -77,7 +77,7 @@ export function isReverseMatch(
     if (value === undefined) return [undefined, true];
     let mapped = Mustache.render(value, {
       $: {
-        ...selectorAttributeMappings
+        ...scopeLimiterAliases
       }
     });
     if (mapped == "") {
@@ -88,9 +88,9 @@ export function isReverseMatch(
   }
 
   return [
-    scanAnnotationSelector.allOf !== undefined ? scanAnnotationSelector.allOf.every(validateRequirement) : true,
-    scanAnnotationSelector.anyOf !== undefined ? scanAnnotationSelector.anyOf.some(validateRequirement) : true,
-    scanAnnotationSelector.noneOf !== undefined ? !scanAnnotationSelector.noneOf.some(validateRequirement) : true,
+    scopeLimiter.allOf !== undefined ? scopeLimiter.allOf.every(validateRequirement) : true,
+    scopeLimiter.anyOf !== undefined ? scopeLimiter.anyOf.some(validateRequirement) : true,
+    scopeLimiter.noneOf !== undefined ? !scopeLimiter.noneOf.some(validateRequirement) : true,
   ].every(entry => entry === true);
 }
 
@@ -106,44 +106,44 @@ interface OperatorFunctions {
 
 const defaultValidator: OperatorFunctions["validator"] = props => validate(props, false, false);
 
-const operatorFunctions: { [key in ScanAnnotationSelectorRequirementOperator]: OperatorFunctions } = {
-  [ScanAnnotationSelectorRequirementOperator.In]: {
+const operatorFunctions: { [key in ScopeLimiterRequirementOperator]: OperatorFunctions } = {
+  [ScopeLimiterRequirementOperator.In]: {
     operator: operatorIn,
     validator: defaultValidator,
   },
-  [ScanAnnotationSelectorRequirementOperator.NotIn]: {
+  [ScopeLimiterRequirementOperator.NotIn]: {
     operator: props => !operatorIn(props),
     validator: defaultValidator,
   },
-  [ScanAnnotationSelectorRequirementOperator.Exists]: {
+  [ScopeLimiterRequirementOperator.Exists]: {
     operator: operatorExists,
     validator: props => validate(props, true, true),
   },
-  [ScanAnnotationSelectorRequirementOperator.DoesNotExist]: {
+  [ScopeLimiterRequirementOperator.DoesNotExist]: {
     operator: props => !operatorExists(props),
     validator: props => validate(props, true, true),
   },
-  [ScanAnnotationSelectorRequirementOperator.Contains]: {
+  [ScopeLimiterRequirementOperator.Contains]: {
     operator: operatorContains,
     validator: defaultValidator,
   },
-  [ScanAnnotationSelectorRequirementOperator.DoesNotContain]: {
+  [ScopeLimiterRequirementOperator.DoesNotContain]: {
     operator: props => !operatorContains(props),
     validator: defaultValidator,
   },
-  [ScanAnnotationSelectorRequirementOperator.InCIDR]: {
+  [ScopeLimiterRequirementOperator.InCIDR]: {
     operator: operatorInCIDR,
     validator: defaultValidator,
   },
-  [ScanAnnotationSelectorRequirementOperator.NotInCIDR]: {
+  [ScopeLimiterRequirementOperator.NotInCIDR]: {
     operator: props => !operatorInCIDR(props),
     validator: defaultValidator,
   },
-  [ScanAnnotationSelectorRequirementOperator.SubdomainOf]: {
+  [ScopeLimiterRequirementOperator.SubdomainOf]: {
     operator: operatorSubdomainOf,
     validator: defaultValidator,
   },
-  [ScanAnnotationSelectorRequirementOperator.NotSubdomainOf]: {
+  [ScopeLimiterRequirementOperator.NotSubdomainOf]: {
     operator: props => !operatorSubdomainOf(props),
     validator: defaultValidator,
   },

@@ -158,7 +158,7 @@ spec:
                           the operator is "In", and the values array contains only
                           "value". The requirements are ANDed.
                         type: object
-                      scanAnnotationSelector:
+                      scopeLimiter:
                         description: InheritLabels defines whether cascading scans
                           should inherit labels from the parent scan
                         properties:
@@ -166,9 +166,9 @@ spec:
                             description: AllOf is a list of label selector requirements.
                               The requirements are ANDed.
                             items:
-                              description: ScanAnnotationSelectorRequirement is a
-                                selector that contains values, a key, and an operator
-                                that relates the key and values.
+                              description: ScopeLimiterRequirement is a selector that
+                                contains values, a key, and an operator that relates
+                                the key and values.
                               properties:
                                 key:
                                   description: key is the label key that the selector
@@ -192,9 +192,9 @@ spec:
                             description: AnyOf is a list of label selector requirements.
                               The requirements are ANDed.
                             items:
-                              description: ScanAnnotationSelectorRequirement is a
-                                selector that contains values, a key, and an operator
-                                that relates the key and values.
+                              description: ScopeLimiterRequirement is a selector that
+                                contains values, a key, and an operator that relates
+                                the key and values.
                               properties:
                                 key:
                                   description: key is the label key that the selector
@@ -218,9 +218,9 @@ spec:
                             description: NoneOf is a list of label selector requirements.
                               The requirements are ANDed.
                             items:
-                              description: ScanAnnotationSelectorRequirement is a
-                                selector that contains values, a key, and an operator
-                                that relates the key and values.
+                              description: ScopeLimiterRequirement is a selector that
+                                contains values, a key, and an operator that relates
+                                the key and values.
                               properties:
                                 key:
                                   description: key is the label key that the selector

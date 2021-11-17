@@ -169,7 +169,7 @@ spec:
                       type: string
                   type: object
                 type: array
-              selectorAttributeMappings:
+              scopeLimiterAliases:
                 additionalProperties:
                   type: string
                 type: object

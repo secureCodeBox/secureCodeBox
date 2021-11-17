@@ -116,17 +116,17 @@ function getScansMatchingRule(
   for (const finding of findings) {
     // Check if the scan matches for the current finding
     const reverseMatches = isReverseMatch(
-      parentScan.spec.cascades.scanAnnotationSelector,
+      parentScan.spec.cascades.scopeLimiter,
       parentScan.metadata.annotations,
       finding,
-      parseDefinition.spec.selectorAttributeMappings,
+      parseDefinition.spec.scopeLimiterAliases,
     );
 
     if (!reverseMatches) {
-      console.log(`Cascading Rule ${cascadingRule.metadata.name} not triggered as scan annotation selector did not match`);
+      console.log(`Cascading Rule ${cascadingRule.metadata.name} not triggered as scope limiter did not pass`);
       console.log(`Scan annotations ${parentScan.metadata.annotations}`);
-      console.log(`Scan annotation selector ${parentScan.spec.cascades.scanAnnotationSelector}`);
-      console.log(`Selector Attribute Mappings ${parseDefinition.spec.selectorAttributeMappings}`);
+      console.log(`Scope limiter ${parentScan.spec.cascades.scopeLimiter}`);
+      console.log(`Scope limiter aliases ${parseDefinition.spec.scopeLimiterAliases}`);
       console.log(`Finding ${finding}`);
       continue;
     }

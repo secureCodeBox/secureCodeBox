@@ -16,7 +16,7 @@ import (
 type CascadeSpec struct {
 	// InheritLabels defines whether cascading scans should inherit labels from the parent scan
 	// +optional
-	ScanAnnotationSelector ScanAnnotationSelector `json:"scanAnnotationSelector"`
+	ScopeLimiter ScopeLimiter `json:"scopeLimiter"`
 
 	// InheritLabels defines whether cascading scans should inherit labels from the parent scan
 	// +optional
@@ -58,7 +58,7 @@ type CascadeSpec struct {
 	MatchExpressions []metav1.LabelSelectorRequirement `json:"matchExpressions,omitempty" protobuf:"bytes,2,rep,name=matchExpressions"`
 }
 
-type ScanAnnotationSelector struct {
+type ScopeLimiter struct {
 	// ValidOnMissingRender defines whether if a templating variable is not present, that condition should match
 	// +optional
 	// +kubebuilder:default=false
@@ -66,20 +66,20 @@ type ScanAnnotationSelector struct {
 
 	// AnyOf is a list of label selector requirements. The requirements are ANDed.
 	// +optional
-	AnyOf []ScanAnnotationSelectorRequirement `json:"anyOf,omitempty" protobuf:"bytes,2,rep,name=anyOf"`
+	AnyOf []ScopeLimiterRequirement `json:"anyOf,omitempty" protobuf:"bytes,2,rep,name=anyOf"`
 
 	// AllOf is a list of label selector requirements. The requirements are ANDed.
 	// +optional
-	AllOf []ScanAnnotationSelectorRequirement `json:"allOf,omitempty" protobuf:"bytes,2,rep,name=allOf"`
+	AllOf []ScopeLimiterRequirement `json:"allOf,omitempty" protobuf:"bytes,2,rep,name=allOf"`
 
 	// NoneOf is a list of label selector requirements. The requirements are ANDed.
 	// +optional
-	NoneOf []ScanAnnotationSelectorRequirement `json:"noneOf,omitempty" protobuf:"bytes,2,rep,name=noneOf"`
+	NoneOf []ScopeLimiterRequirement `json:"noneOf,omitempty" protobuf:"bytes,2,rep,name=noneOf"`
 }
 
-// ScanAnnotationSelectorRequirement is a selector that contains values, a key, and an operator that
+// ScopeLimiterRequirement is a selector that contains values, a key, and an operator that
 // relates the key and values.
-type ScanAnnotationSelectorRequirement struct {
+type ScopeLimiterRequirement struct {
 	// key is the label key that the selector applies to.
 	Key string `json:"key" protobuf:"bytes,1,opt,name=key"`
 	// operator represents a key's relationship to a set of values.

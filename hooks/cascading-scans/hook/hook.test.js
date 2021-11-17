@@ -5,7 +5,7 @@
 const { getCascadingScans } = require("./hook");
 const {LabelSelectorRequirementOperator} = require("./kubernetes-label-selector");
 const {
-  ScanAnnotationSelectorRequirementOperator,
+  ScopeLimiterRequirementOperator,
 } = require("./reverse-matches");
 
 let parentScan = undefined;
@@ -29,7 +29,7 @@ beforeEach(() => {
   parseDefinition = {
     meta: {},
     spec: {
-      selectorAttributeMappings: {},
+      scopeLimiterAliases: {},
     },
   }
 
@@ -2148,13 +2148,13 @@ test("should append cascading rule to further cascading scan chains", () => {
   expect(secondCascadedScan.metadata.annotations["cascading.securecodebox.io/chain"]).toEqual("tls-scans,tls-scans-second")
 });
 
-test("should not cascade if scan annotation selector does not match", () => {
+test("should not cascade if scope limiter does not pass", () => {
   parentScan.metadata.annotations["scope.cascading.securecodebox.io/ports"] = "80,443";
-  parentScan.spec.cascades.scanAnnotationSelector = {
+  parentScan.spec.cascades.scopeLimiter = {
     allOf: [
       {
         key: "scope.cascading.securecodebox.io/ports",
-        operator: ScanAnnotationSelectorRequirementOperator.Contains,
+        operator: ScopeLimiterRequirementOperator.Contains,
         values: ["{{$.port}}"],
       },
     ],
@@ -2183,7 +2183,7 @@ test("should not cascade if scan annotation selector does not match", () => {
     },
   ];
 
-  parseDefinition.spec.selectorAttributeMappings["port"] = "{{attributes.port}}";
+  parseDefinition.spec.scopeLimiterAliases["port"] = "{{attributes.port}}";
 
   const cascadedScans = getCascadingScans(
     parentScan,
@@ -2221,7 +2221,7 @@ test("should not cascade if scan annotation selector does not match", () => {
         },
         "spec": Object {
           "cascades": Object {
-            "scanAnnotationSelector": Object {
+            "scopeLimiter": Object {
               "allOf": Array [
                 Object {
                   "key": "scope.cascading.securecodebox.io/ports",
