@@ -1,6 +1,5 @@
 name: Check outdated scanners
 on:
-  push:
   schedule:
     - cron: "15 9 * * *" # Daily at 9:15 (avoids the beginning of the hour congestion)
 jobs:
@@ -79,6 +78,7 @@ jobs:
 
       - name: Fetch new release changelog
         if: ${{ env.release != env.local && env.release != null }}
+        # Fetches changelog and filters out any issue references
         run: |
           changelog=$(curl -sL ${{env.versionApi}} | jq -r ".body" | sed -e 's/#[0-9]\+//g')
           echo $changelog
