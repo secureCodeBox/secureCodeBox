@@ -304,6 +304,99 @@ test("Matches subdomainOf if is subdomain", () => {
   expect(cascadedScans).toBe(true);
 });
 
+test("Matches subdomainOf if is the domain itself", () => {
+  const annotations = {
+    "scope.cascading.securecodebox.io/domain": "example.com",
+  }
+  const scopeLimiter = {
+    validOnMissingRender: false,
+    allOf: [
+      {
+        key: "scope.cascading.securecodebox.io/domain",
+        operator: "SubdomainOf",
+        values: ["{{attributes.hostname}}"],
+      }
+    ]
+  }
+
+  const finding = {
+    attributes: {
+      hostname: "example.com",
+    }
+  };
+
+  const cascadedScans = isReverseMatch(
+    scopeLimiter,
+    annotations,
+    finding,
+    {},
+  );
+
+  expect(cascadedScans).toBe(true);
+});
+
+test("Matches subdomainOf if providing a sub-sub domain of a sub-domain", () => {
+  const annotations = {
+    "scope.cascading.securecodebox.io/domain": "www.example.com",
+  }
+  const scopeLimiter = {
+    validOnMissingRender: false,
+    allOf: [
+      {
+        key: "scope.cascading.securecodebox.io/domain",
+        operator: "SubdomainOf",
+        values: ["{{attributes.hostname}}"],
+      }
+    ]
+  }
+
+  const finding = {
+    attributes: {
+      hostname: "test.www.example.com",
+    }
+  };
+
+  const cascadedScans = isReverseMatch(
+    scopeLimiter,
+    annotations,
+    finding,
+    {},
+  );
+
+  expect(cascadedScans).toBe(true);
+});
+
+test("Does not match subdomainOf if providing a sub domain of a different sub-domain", () => {
+  const annotations = {
+    "scope.cascading.securecodebox.io/domain": "www.example.com",
+  }
+  const scopeLimiter = {
+    validOnMissingRender: false,
+    allOf: [
+      {
+        key: "scope.cascading.securecodebox.io/domain",
+        operator: "SubdomainOf",
+        values: ["{{attributes.hostname}}"],
+      }
+    ]
+  }
+
+  const finding = {
+    attributes: {
+      hostname: "test.example.com",
+    }
+  };
+
+  const cascadedScans = isReverseMatch(
+    scopeLimiter,
+    annotations,
+    finding,
+    {},
+  );
+
+  expect(cascadedScans).toBe(false);
+});
+
 test("Does not match subdomainOf if is not subdomain", () => {
   const annotations = {
     "scope.cascading.securecodebox.io/domain": "example.com",
