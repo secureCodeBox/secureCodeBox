@@ -366,6 +366,68 @@ test("Matches subdomainOf if providing a sub-sub domain of a sub-domain", () => 
   expect(cascadedScans).toBe(true);
 });
 
+test("Matches subdomainOf if providing a deep subdomain of a deep subdomain", () => {
+  const annotations = {
+    "scope.cascading.securecodebox.io/domain": "a.b.c.d.e.example.com",
+  }
+  const scopeLimiter = {
+    validOnMissingRender: false,
+    allOf: [
+      {
+        key: "scope.cascading.securecodebox.io/domain",
+        operator: "SubdomainOf",
+        values: ["{{attributes.hostname}}"],
+      }
+    ]
+  }
+
+  const finding = {
+    attributes: {
+      hostname: "z.a.b.c.d.e.example.com",
+    }
+  };
+
+  const cascadedScans = isReverseMatch(
+    scopeLimiter,
+    annotations,
+    finding,
+    {},
+  );
+
+  expect(cascadedScans).toBe(true);
+});
+
+test("Does not match subdomainOf even if differences are deep in the subdomain tree", () => {
+  const annotations = {
+    "scope.cascading.securecodebox.io/domain": "a.b.c.d.e.example.com",
+  }
+  const scopeLimiter = {
+    validOnMissingRender: false,
+    allOf: [
+      {
+        key: "scope.cascading.securecodebox.io/domain",
+        operator: "SubdomainOf",
+        values: ["{{attributes.hostname}}"],
+      }
+    ]
+  }
+
+  const finding = {
+    attributes: {
+      hostname: "z.b.c.d.e.example.com",
+    }
+  };
+
+  const cascadedScans = isReverseMatch(
+    scopeLimiter,
+    annotations,
+    finding,
+    {},
+  );
+
+  expect(cascadedScans).toBe(false);
+});
+
 test("Does not match subdomainOf if providing a sub domain of a different sub-domain", () => {
   const annotations = {
     "scope.cascading.securecodebox.io/domain": "www.example.com",
