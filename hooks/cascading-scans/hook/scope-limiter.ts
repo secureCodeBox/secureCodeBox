@@ -62,7 +62,10 @@ export function isInScope(
       return scopeLimiter.validOnMissingRender;
     }
 
-    const props = {lhs: value, rhs: renders.map(render => render[0])};
+    const props: Operands = {
+      scopeAnnotationValue: value,
+      findingValues: renders.map(render => render[0])
+    };
 
     try {
       validatorFunction(props);
@@ -95,8 +98,8 @@ export function isInScope(
 }
 
 interface Operands {
-  lhs: string,
-  rhs: string[],
+  scopeAnnotationValue: string,
+  findingValues: string[],
 }
 
 interface OperatorFunctions {
@@ -149,53 +152,53 @@ const operatorFunctions: { [key in ScopeLimiterRequirementOperator]: OperatorFun
   },
 }
 
-function validate({lhs, rhs}: Operands, lhsUndefinedAllowed, rhsUndefinedAllowed) {
-  if (!lhsUndefinedAllowed && lhs === undefined) {
-    throw new Error(`annotation may not be undefined`)
+function validate({scopeAnnotationValue, findingValues}: Operands, scopeAnnotationValueUndefinedAllowed, findingValuesUndefinedAllowed) {
+  if (!scopeAnnotationValueUndefinedAllowed && scopeAnnotationValue === undefined) {
+    throw new Error(`the referenced annotation may not be undefined`)
   }
-  if (!rhsUndefinedAllowed && rhs === undefined) {
-    throw new Error(`values may not be undefined`)
+  if (!findingValuesUndefinedAllowed && findingValues === undefined) {
+    throw new Error(`the values field may not be undefined`)
   }
 }
 
-function operatorIn({lhs, rhs}: Operands): boolean {
-  return rhs.includes(lhs);
+function operatorIn({scopeAnnotationValue, findingValues}: Operands): boolean {
+  return findingValues.includes(scopeAnnotationValue);
 }
-function operatorExists({lhs, rhs}: Operands): boolean {
-  return lhs !== undefined;
-}
-
-function operatorContains({lhs, rhs}: Operands): boolean {
-  const valueArray = lhs.split(",");
-  return rhs.every(value => valueArray.includes(value));
+function operatorExists({scopeAnnotationValue, findingValues}: Operands): boolean {
+  return scopeAnnotationValue !== undefined;
 }
 
-function operatorInCIDR({lhs, rhs}: Operands): boolean {
-  const subnet = new Address4(lhs);
-  return rhs.every(value => new Address4(value).isInSubnet(subnet));
+function operatorContains({scopeAnnotationValue, findingValues}: Operands): boolean {
+  const scopeAnnotationValues = scopeAnnotationValue.split(",");
+  return findingValues.every(findingValue => scopeAnnotationValues.includes(findingValue));
 }
 
-function operatorSubdomainOf({lhs, rhs}: Operands): boolean {
-  const lhsResult = parseDomain(fromUrl(lhs));
-  if (lhsResult.type == ParseResultType.Listed) {
-    return rhs.every(value => {
-        const rhsResult = parseDomain(fromUrl(value));
-        if (rhsResult.type == ParseResultType.Listed) {
+function operatorInCIDR({scopeAnnotationValue, findingValues}: Operands): boolean {
+  const scopeAnnotationSubnet = new Address4(scopeAnnotationValue);
+  return findingValues.every(findingValue => new Address4(findingValue).isInSubnet(scopeAnnotationSubnet));
+}
+
+function operatorSubdomainOf({scopeAnnotationValue, findingValues}: Operands): boolean {
+  const scopeAnnotationDomain = parseDomain(fromUrl(scopeAnnotationValue));
+  if (scopeAnnotationDomain.type == ParseResultType.Listed) {
+    return findingValues.every(findingValue => {
+        const findingDomain = parseDomain(fromUrl(findingValue));
+        if (findingDomain.type == ParseResultType.Listed) {
           // Equal length domains can pass as subdomain of
-          if (lhsResult.labels.length > rhsResult.labels.length) {
+          if (scopeAnnotationDomain.labels.length > findingDomain.labels.length) {
             return false;
           }
 
           // Check if last part of domain is equal
           return isEqual(
-            lhsResult.labels,
-            takeRight(rhsResult.labels, lhsResult.labels.length)
+            scopeAnnotationDomain.labels,
+            takeRight(findingDomain.labels, scopeAnnotationDomain.labels.length)
           );
         }
-        console.log(`${rhs} is an invalid domain name`)
+        console.log(`${findingValue} is an invalid domain name`)
         return false;
     })
   } else {
-    throw new Error(`${lhs} is an invalid domain name`);
+    throw new Error(`${scopeAnnotationValue} is an invalid domain name`);
   }
 }
