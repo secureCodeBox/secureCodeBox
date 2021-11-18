@@ -6,7 +6,7 @@ const { getCascadingScans } = require("./hook");
 const {LabelSelectorRequirementOperator} = require("./kubernetes-label-selector");
 const {
   ScopeLimiterRequirementOperator,
-} = require("./reverse-matches");
+} = require("./scope-limiter");
 
 let parentScan = undefined;
 let sslyzeCascadingRules = undefined;

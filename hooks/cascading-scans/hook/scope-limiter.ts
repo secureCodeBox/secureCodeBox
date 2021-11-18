@@ -39,7 +39,7 @@ export interface ScopeLimiterRequirement {
 
 export const scopeDomain = "scope.cascading.securecodebox.io/"
 
-export function isReverseMatch(
+export function isInScope(
   scopeLimiter: ScopeLimiter,
   scanAnnotations: V1ObjectMeta['annotations'],
   finding: Finding,

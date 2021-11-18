@@ -10,7 +10,7 @@ import {
 } from "./kubernetes-label-selector";
 import {isEqual} from "lodash";
 import {getScanChain} from "./hook";
-import {ScopeLimiterRequirement} from "./reverse-matches";
+import {ScopeLimiterRequirement} from "./scope-limiter";
 
 // configure k8s client
 const kc = new k8s.KubeConfig();

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { isReverseMatch } = require("./reverse-matches");
+const { isInScope } = require("./scope-limiter");
 
 test("Should error if selecting an invalid key", () => {
   const scopeLimiter = {
@@ -21,7 +21,7 @@ test("Should error if selecting an invalid key", () => {
     }
   };
 
-  const cascadedScans = () => isReverseMatch(
+  const cascadedScans = () => isInScope(
     scopeLimiter,
     {},
     finding,
@@ -51,7 +51,7 @@ test("Matches using templates populated with finding", () => {
     }
   };
 
-  const cascadedScans = isReverseMatch(
+  const cascadedScans = isInScope(
     scopeLimiter,
     annotations,
     finding,
@@ -81,7 +81,7 @@ test("Does not match using if selector does not match", () => {
     }
   };
 
-  const cascadedScans = isReverseMatch(
+  const cascadedScans = isInScope(
     scopeLimiter,
     annotations,
     finding,
@@ -118,7 +118,7 @@ test("Does not match if one of selector types does not match", () => {
     }
   };
 
-  const cascadedScans = isReverseMatch(
+  const cascadedScans = isInScope(
     scopeLimiter,
     annotations,
     finding,
@@ -148,7 +148,7 @@ test("Matches InCIDR if attributes.ip in subnet", () => {
     }
   };
 
-  const cascadedScans = isReverseMatch(
+  const cascadedScans = isInScope(
     scopeLimiter,
     annotations,
     finding,
@@ -178,7 +178,7 @@ test("Does not match InCIDR if attributes.ip not in subnet", () => {
     }
   };
 
-  const cascadedScans = isReverseMatch(
+  const cascadedScans = isInScope(
     scopeLimiter,
     annotations,
     finding,
@@ -213,7 +213,7 @@ test("Matches using templates populated with finding and a mapped selector", () 
     "hostname": "{{attributes.hostname}}",
   }
 
-  const cascadedScans = isReverseMatch(
+  const cascadedScans = isInScope(
     scopeLimiter,
     annotations,
     finding,
@@ -238,7 +238,7 @@ test("Matches if mapping is not available: validOnMissingRender true", () => {
     ]
   }
 
-  const cascadedScans = isReverseMatch(
+  const cascadedScans = isInScope(
     scopeLimiter,
     annotations,
     {},
@@ -263,7 +263,7 @@ test("Does not match if mapping is not available: validOnMissingRender false", (
     ]
   }
 
-  const cascadedScans = isReverseMatch(
+  const cascadedScans = isInScope(
     scopeLimiter,
     annotations,
     {},
@@ -294,7 +294,7 @@ test("Matches subdomainOf if is subdomain", () => {
     }
   };
 
-  const cascadedScans = isReverseMatch(
+  const cascadedScans = isInScope(
     scopeLimiter,
     annotations,
     finding,
@@ -325,7 +325,7 @@ test("Matches subdomainOf if is the domain itself", () => {
     }
   };
 
-  const cascadedScans = isReverseMatch(
+  const cascadedScans = isInScope(
     scopeLimiter,
     annotations,
     finding,
@@ -356,7 +356,7 @@ test("Matches subdomainOf if providing a sub-sub domain of a sub-domain", () => 
     }
   };
 
-  const cascadedScans = isReverseMatch(
+  const cascadedScans = isInScope(
     scopeLimiter,
     annotations,
     finding,
@@ -449,7 +449,7 @@ test("Does not match subdomainOf if providing a sub domain of a different sub-do
     }
   };
 
-  const cascadedScans = isReverseMatch(
+  const cascadedScans = isInScope(
     scopeLimiter,
     annotations,
     finding,
@@ -480,7 +480,7 @@ test("Does not match subdomainOf if is not subdomain", () => {
     }
   };
 
-  const cascadedScans = isReverseMatch(
+  const cascadedScans = isInScope(
     scopeLimiter,
     annotations,
     finding,
@@ -508,7 +508,7 @@ test("Throws errors when missing fields", () => {
     }
   };
 
-  const cascadedScans = () => isReverseMatch(
+  const cascadedScans = () => isInScope(
     scopeLimiter,
     {},
     finding,

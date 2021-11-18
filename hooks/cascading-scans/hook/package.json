@@ -9,7 +9,7 @@
   },
   "main": "hook.js",
   "scripts": {
-    "build": "npx tsc hook.ts reverse-matches.ts --sourceMap --esModuleInterop",
+    "build": "npx tsc hook.ts scope-limiter.ts --sourceMap --esModuleInterop",
     "test": "jest . --verbose false"
   },
   "keywords": [

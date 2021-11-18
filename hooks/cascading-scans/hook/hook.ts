@@ -22,9 +22,9 @@ import {
   mergeInheritedSelector,
 } from "./scan-helpers";
 import {
-  isReverseMatch,
+  isInScope,
   scopeDomain,
-} from "./reverse-matches";
+} from "./scope-limiter";
 
 interface HandleArgs {
   scan: Scan;
@@ -115,14 +115,14 @@ function getScansMatchingRule(
   const cascadingScans: Array<Scan> = [];
   for (const finding of findings) {
     // Check if the scan matches for the current finding
-    const reverseMatches = isReverseMatch(
+    const inScope = isInScope(
       parentScan.spec.cascades.scopeLimiter,
       parentScan.metadata.annotations,
       finding,
       parseDefinition.spec.scopeLimiterAliases,
     );
 
-    if (!reverseMatches) {
+    if (!inScope) {
       console.log(`Cascading Rule ${cascadingRule.metadata.name} not triggered as scope limiter did not pass`);
       console.log(`Scan annotations ${JSON.stringify(parentScan.metadata.annotations)}`);
       console.log(`Scope limiter ${JSON.stringify(parentScan.spec.cascades.scopeLimiter)}`);
