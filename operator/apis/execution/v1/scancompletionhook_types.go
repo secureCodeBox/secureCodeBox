@@ -48,6 +48,10 @@ type ScanCompletionHookSpec struct {
 	Volumes []corev1.Volume `json:"volumes,omitempty"`
 	// VolumeMounts allows to specify volume mounts for the hooks container.
 	VolumeMounts []corev1.VolumeMount `json:"volumeMounts,omitempty"`
+	// Affinity allows to specify a node affinity, to control on which nodes you want a hook to run. See: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/
+	Affinity *corev1.Affinity `json:"affinity,omitempty"`
+	// Tolerations are a different way to control on which nodes your hook is executed. See https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
+	Tolerations []corev1.Toleration `json:"tolerations,omitempty"`
 
 	// ServiceAccountName Name of the serviceAccount Name used. Should only be used if your hook needs specifc RBAC Access. Otherwise the hook is run using a "scan-completion-hook" service account. The service account should have at least "get" rights on scans.execution.securecodebox.io, and "get" & "patch" scans.execution.securecodebox.io/status
 	ServiceAccountName *string `json:"serviceAccountName,omitempty"`
