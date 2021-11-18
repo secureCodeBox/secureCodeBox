@@ -54,7 +54,7 @@ export function isInScope(
 
     const { operator: operatorFunction, validator: validatorFunction } = operatorFunctions[operator];
     if (operatorFunction === undefined) {
-      throw new Error(`Unknown operator '${operatorFunction}'`);
+      throw new Error(`Unknown operator '${operator}'`);
     }
     const value = scanAnnotations[key];
     const renders = values.map(templateValue);
