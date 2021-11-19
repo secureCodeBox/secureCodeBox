@@ -21,8 +21,6 @@ import {
 export enum ScopeLimiterRequirementOperator {
   In = "In",
   NotIn = "NotIn",
-  Exists = "Exists",
-  DoesNotExist = "DoesNotExist",
   Contains = "Contains",
   DoesNotContain = "DoesNotContain",
   InCIDR = "InCIDR",
@@ -118,14 +116,6 @@ const operatorFunctions: { [key in ScopeLimiterRequirementOperator]: OperatorFun
     operator: props => !operatorIn(props),
     validator: defaultValidator,
   },
-  [ScopeLimiterRequirementOperator.Exists]: {
-    operator: operatorExists,
-    validator: props => validate(props, true, true),
-  },
-  [ScopeLimiterRequirementOperator.DoesNotExist]: {
-    operator: props => !operatorExists(props),
-    validator: props => validate(props, true, true),
-  },
   [ScopeLimiterRequirementOperator.Contains]: {
     operator: operatorContains,
     validator: defaultValidator,
@@ -163,9 +153,6 @@ function validate({scopeAnnotationValue, findingValues}: Operands, scopeAnnotati
 
 function operatorIn({scopeAnnotationValue, findingValues}: Operands): boolean {
   return findingValues.includes(scopeAnnotationValue);
-}
-function operatorExists({scopeAnnotationValue, findingValues}: Operands): boolean {
-  return scopeAnnotationValue !== undefined;
 }
 
 function operatorContains({scopeAnnotationValue, findingValues}: Operands): boolean {
