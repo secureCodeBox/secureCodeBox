@@ -151,20 +151,45 @@ function validate({scopeAnnotationValue, findingValues}: Operands, scopeAnnotati
   }
 }
 
+/**
+ * The scope annotation value exists in one of the finding values.
+ * Matching example:
+ * scopeAnnotationValue: "example.com"
+ * findingValues: ["example.com", "subdomain.example.com"]
+ */
 function operatorIn({scopeAnnotationValue, findingValues}: Operands): boolean {
   return findingValues.includes(scopeAnnotationValue);
 }
 
+/**
+ * The scope annotation value is considered a comma-seperated list and checks if every finding value is in that list.
+ * Matching example:
+ * scopeAnnotationValue: "example.com,subdomain.example.com,other.example.com"
+ * findingValues: ["example.com", "subdomain.example.com"]
+ */
 function operatorContains({scopeAnnotationValue, findingValues}: Operands): boolean {
   const scopeAnnotationValues = scopeAnnotationValue.split(",");
   return findingValues.every(findingValue => scopeAnnotationValues.includes(findingValue));
 }
 
+/**
+ * The scope annotation value is considered CIDR and checks if every finding value is within the subnet of that CIDR.
+ * Matching example:
+ * scopeAnnotationValue: "10.10.0.0/16"
+ * findingValues: ["10.10.1.2", "10.10.1.3"]
+ */
 function operatorInCIDR({scopeAnnotationValue, findingValues}: Operands): boolean {
   const scopeAnnotationSubnet = new Address4(scopeAnnotationValue);
   return findingValues.every(findingValue => new Address4(findingValue).isInSubnet(scopeAnnotationSubnet));
 }
 
+/**
+ * Checks if every finding value is a subdomain of the scope annotation value.
+ * Inclusive; i.e. example.com is a subdomain of example.com.
+ * Matching example:
+ * scopeAnnotationValue: "example.com"
+ * findingValues: ["subdomain.example.com", "example.com"]
+ */
 function operatorSubdomainOf({scopeAnnotationValue, findingValues}: Operands): boolean {
   const scopeAnnotationDomain = parseDomain(fromUrl(scopeAnnotationValue));
   if (scopeAnnotationDomain.type == ParseResultType.Listed) {
