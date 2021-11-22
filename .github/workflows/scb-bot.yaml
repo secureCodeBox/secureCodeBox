@@ -78,7 +78,11 @@ jobs:
 
       - name: Fetch new release changelog
         if: ${{ env.release != env.local && env.release != null }}
-        run: echo releaseChangelog=$((curl -sL ${{env.versionApi}}  ) | jq -r ".body") >> $GITHUB_ENV
+        # Fetches changelog and filters out any issue references
+        run: |
+          changelog=$(curl -sL ${{env.versionApi}} | jq -r ".body" | sed -e 's/#[0-9]\+//g')
+          echo $changelog
+          echo releaseChangelog=$changelog >> $GITHUB_ENV
 
       - name: Upgrade Scanner Helm Chart
         if: ${{ env.release != env.local && env.prExists == 0 && env.release != null}}
@@ -134,12 +138,12 @@ jobs:
           committer: secureCodeBoxBot <securecodebox@iteratec.com>
           author: secureCodeBoxBot <securecodebox@iteratec.com>
           title: ${{ env.pullRequest }}
-          body: "This is an automated Pull Request by the SCB-Bot. It upgrades ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
-          branch: "dependencies/upgrading-${{ matrix.scanner }}-to-${{env.release}}"
-          labels: dependencies,scanner
-          commit-message: |
-            Upgrading ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}
+          body: |
+            "This is an automated Pull Request by the SCB-Bot. It upgrades ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
             ## Release changes :
             ${{env.releaseChangelog}}
+          branch: "dependencies/upgrading-${{ matrix.scanner }}-to-${{env.release}}"
+          labels: dependencies,scanner
+          commit-message: "Upgrading ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
           signoff: true
           base: main
