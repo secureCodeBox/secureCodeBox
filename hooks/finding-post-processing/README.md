@@ -76,7 +76,7 @@ This rule will match all findings with an open port on 23 and override the sever
 #### matches
 
 Within the `matches` you will have to provide `anyOf` and `override`.
-In the `anyOff` contains one or more conditions to be met by the finding to match the rule.
+In the `anyOf` contains one or more conditions to be met by the finding to match the rule.
 Notice that only one of these elements needs to match the finding for the rule to match.
 
 #### override
@@ -89,6 +89,8 @@ The `override` field specifies the desired fields and values that need to be upd
 |-----|------|---------|-------------|
 | hook.image.repository | string | `"docker.io/securecodebox/hook-finding-post-processing"` | Hook image repository |
 | hook.image.tag | string | defaults to the charts version | The image Tag defaults to the charts version if not defined. |
+| hook.labels | object | `{}` | Add Kubernetes Labels to the hook definition |
+| hook.priority | int | `0` | Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks. |
 | hook.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | rules | list | `[]` |  |
 

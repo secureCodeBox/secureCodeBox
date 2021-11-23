@@ -5,14 +5,12 @@
 apiVersion: v2
 name: kubeaudit
 description: A Helm chart for the kubeaudit security scanner that integrates with the secureCodeBox.
-
 type: application
 version: v3.1.0-alpha1
-appVersion: "v0.14.2"
+appVersion: "0.15.0"
 kubeVersion: ">=v1.11.0-0"
-
-versionApi: https://api.github.com/repos/Shopify/kubeaudit/releases/latest
-
+annotations:
+  versionApi: https://api.github.com/repos/Shopify/kubeaudit/releases/latest
 keywords:
   - security
   - kubeaudit

@@ -424,6 +424,11 @@ func (in *ScanSpec) DeepCopyInto(out *ScanSpec) {
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
+	if in.HookSelector != nil {
+		in, out := &in.HookSelector, &out.HookSelector
+		*out = new(metav1.LabelSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Env != nil {
 		in, out := &in.Env, &out.Env
 		*out = make([]corev1.EnvVar, len(*in))
@@ -481,6 +486,23 @@ func (in *ScanStatus) DeepCopyInto(out *ScanStatus) {
 		in, out := &in.ReadAndWriteHookStatus, &out.ReadAndWriteHookStatus
 		*out = make([]HookStatus, len(*in))
 		copy(*out, *in)
+	}
+	if in.OrderedHookStatuses != nil {
+		in, out := &in.OrderedHookStatuses, &out.OrderedHookStatuses
+		*out = make([][]*HookStatus, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = make([]*HookStatus, len(*in))
+				for i := range *in {
+					if (*in)[i] != nil {
+						in, out := &(*in)[i], &(*out)[i]
+						*out = new(HookStatus)
+						**out = **in
+					}
+				}
+			}
+		}
 	}
 }
 

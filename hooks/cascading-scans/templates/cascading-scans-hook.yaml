@@ -8,7 +8,12 @@ metadata:
   name: {{ include "cascading-scans.fullname" . }}
   labels:
     {{- include "cascading-scans.labels" . | nindent 4 }}
+    securecodebox.io/internal: "true"
+    {{- with .Values.hook.labels }}
+    {{ toYaml . }}
+    {{- end }}
 spec:
+  priority: {{ .Values.hook.priority }}
   type: ReadOnly
   image: "{{ .Values.hook.image.repository }}:{{ .Values.hook.image.tag | default .Chart.Version }}"
   imagePullSecrets:

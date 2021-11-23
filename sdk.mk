@@ -23,6 +23,10 @@ name = ${sdk}
 module = ${sdk}
 include ../../common.mk
 
+docker-build: | docker-build-sdk
+docker-export: | docker-export-sdk
+kind-import: | kind-import-sdk
+
 docker-build-sdk:
 	@echo ".: ⚙️ Build '$(name)'."
 	docker build -t $(IMG_NS)/$(name)-nodejs:$(IMG_TAG) .
@@ -31,6 +35,6 @@ docker-export-sdk:
 	@echo ".: ⚙️ Build '$(name)'."
 	docker save $(IMG_NS)/$(name)-nodejs:$(IMG_TAG) -o $(name).tar
 
-kind-import:
+kind-import-sdk:
 	@echo ".: 💾 Importing the image archive '$(name).tar' to local kind cluster."
 	kind load image-archive ./$(name).tar

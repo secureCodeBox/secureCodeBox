@@ -2,14 +2,18 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-apiVersion: "execution.securecodebox.io/v1"
+apiVersion: execution.securecodebox.io/v1
 kind: ScanCompletionHook
 metadata:
   name: {{ include "persistence-defectdojo.fullname" . }}
   labels:
     {{- include "persistence-defectdojo.labels" . | nindent 4 }}
     type: Unstructured
+    {{- with .Values.hook.labels }}
+    {{ toYaml . }}
+    {{- end }}
 spec:
+  priority: {{ .Values.hook.priority }}
   {{- if .Values.defectdojo.syncFindingsBack }}
   type: ReadAndWrite
   {{- else }}

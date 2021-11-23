@@ -13,7 +13,8 @@ appVersion: "v.1.1.3"
 
 kubeVersion: ">=v1.11.0-0"
 
-versionApi: https://api.github.com/repos/Tuhinshubhra/CMSeeK/releases/latest
+annotations:
+  versionApi: https://api.github.com/repos/Tuhinshubhra/CMSeeK/releases/latest
 
 keywords:
   - security
