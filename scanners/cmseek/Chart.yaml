@@ -9,7 +9,8 @@ description: A Helm chart for the Joomla security scanner that integrates with t
 type: application
 # version - gets automatically set to the secureCodeBox release version when the helm charts gets published
 version: v3.1.0-alpha1
-appVersion: "1.1.3"
+appVersion: "v.1.1.3"
+
 kubeVersion: ">=v1.11.0-0"
 
 annotations:
