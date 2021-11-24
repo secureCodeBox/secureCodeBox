@@ -34,10 +34,10 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
 </p>
 
 ## What is CMSeeK?
-CMSeeK is an open source penetration testing tool to automate the process of detecting various types of CMS and it's installed extensions.
-We use it to scan Joomla CMS. It also has a database with known vulnerabilities.
+CMSeeK is an open source penetration testing tool to automate the process of detecting various types of CMS and its installed extensions.
+Only the Joomla CMS is supported by secureCodeBox. CMSeeK has a database with known vulnerabilities.
 
-To learn more about the CMSeeK scanner itself visit [https://github.com/Tuhinshubhra/CMSeeK].
+To learn more about the CMSeeK scanner itself, visit the CMSeeK GitHub repository [here](https://github.com/Tuhinshubhra/CMSeeK).
 
 ## Deployment
 The cmseek chart can be deployed via helm:
@@ -49,7 +49,7 @@ helm upgrade --install cmseek secureCodeBox/cmseek
 
 ## Scanner Configuration
 
-The CMSeeK targets are specified with the `-u` parameter. The target should be a hostname or an IP address.
+The CMSeeK targets are specified with the `-u` parameter. The target should be a URL.
 
 Additional CMSeeK scan features can be configured via the parameter attribute.
 
@@ -57,7 +57,7 @@ Some useful example parameters listed below:
 
 - `-u URL, --url URL` : Target Url.
 - `--follow-redirect` : Follows all/any redirect(s).
-- `--no-redirect` : kips all redirects and tests the input target(s)
+- `--no-redirect` : skips all redirects and tests the input target(s)
 - `-r, --random-agent`: Use a random user agent.
 - `--googlebot`: Use Google bot user agent.
 - `--user-agent USER_AGENT`:  Specify a custom user agent
