@@ -188,6 +188,127 @@ test("Does not match InCIDR if attributes.ip not in subnet", () => {
   expect(cascadedScans).toBe(false);
 });
 
+test("Matches InCIDR if attributes.ip in subnet IPv6", () => {
+  const annotations = {
+    "scope.cascading.securecodebox.io/cidr": "2001:0:ce49:7601:e866:efff:62c3:fffe/16",
+  }
+  const scopeLimiter = {
+    validOnMissingRender: false,
+    allOf: [
+      {
+        key: "scope.cascading.securecodebox.io/cidr",
+        operator: "InCIDR",
+        values: ["{{attributes.ip}}"],
+      }
+    ]
+  }
+  const finding = {
+    attributes: {
+      ip: "2001:0:ce49:7601:e866:efff:62c3:ffff",
+    }
+  };
+
+  const cascadedScans = isInScope(
+    scopeLimiter,
+    annotations,
+    finding,
+    {}
+  );
+
+  expect(cascadedScans).toBe(true);
+});
+
+test("Matches InCIDR if there is an IPv4/6 mismatch", () => {
+  const annotations = {
+    "scope.cascading.securecodebox.io/cidr": "2001:0:ce49:7601:e866:efff:62c3:fffe/16",
+  }
+  const scopeLimiter = {
+    validOnMissingRender: false,
+    allOf: [
+      {
+        key: "scope.cascading.securecodebox.io/cidr",
+        operator: "InCIDR",
+        values: ["{{attributes.ip}}"],
+      }
+    ]
+  }
+  const finding = {
+    attributes: {
+      ip: "10.0.1.0",
+    }
+  };
+
+  const cascadedScans = isInScope(
+    scopeLimiter,
+    annotations,
+    finding,
+    {}
+  );
+
+  expect(cascadedScans).toBe(true);
+});
+
+test("Throws error if IPv4 address is invalid even if scope is in IPv6", () => {
+  const annotations = {
+    "scope.cascading.securecodebox.io/cidr": "2001:0:ce49:7601:e866:efff:62c3:fffe/16",
+  }
+  const scopeLimiter = {
+    validOnMissingRender: false,
+    allOf: [
+      {
+        key: "scope.cascading.securecodebox.io/cidr",
+        operator: "InCIDR",
+        values: ["{{attributes.ip}}"],
+      }
+    ]
+  }
+  const finding = {
+    attributes: {
+      ip: "10.0.0.257", // Invalid IPv4
+    }
+  };
+
+  const cascadedScans = () => isInScope(
+    scopeLimiter,
+    annotations,
+    finding,
+    {}
+  );
+
+  expect(cascadedScans).toThrowError("Bad characters detected in address: ..");
+});
+
+
+test("Throws error if IPv6 address is invalid even if scope is in IPv4", () => {
+  const annotations = {
+    "scope.cascading.securecodebox.io/cidr": "10.0.0.0/16",
+  }
+  const scopeLimiter = {
+    validOnMissingRender: false,
+    allOf: [
+      {
+        key: "scope.cascading.securecodebox.io/cidr",
+        operator: "InCIDR",
+        values: ["{{attributes.ip}}"],
+      }
+    ]
+  }
+  const finding = {
+    attributes: {
+      ip: "2001:0:ce49:7601:e866:efff:62c3",
+    }
+  };
+
+  const cascadedScans = () => isInScope(
+    scopeLimiter,
+    annotations,
+    finding,
+    {}
+  );
+
+  expect(cascadedScans).toThrowError("Incorrect number of groups found");
+});
+
 test("Matches using templates populated with finding and a mapped selector", () => {
   const annotations = {
     "scope.cascading.securecodebox.io/domains": "example.com,subdomain.example.com",

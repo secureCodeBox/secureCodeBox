@@ -7,7 +7,7 @@ import {
   V1ObjectMeta
 } from "@kubernetes/client-node/dist/gen/model/v1ObjectMeta";
 import * as Mustache from "mustache";
-import { Address4 } from "ip-address";
+import { Address4, Address6, AddressError } from "ip-address";
 import {
   fromUrl,
   parseDomain,
@@ -174,13 +174,40 @@ function operatorContains({scopeAnnotationValue, findingValues}: Operands): bool
 
 /**
  * The scope annotation value is considered CIDR and checks if every finding value is within the subnet of that CIDR.
+ * Supports both IPv4 and IPv6. If the scope is defined in IPv4, will only validate IPv4 IPs in the finding values.
+ * Vice-versa for IPv6 defined in scope and IPv4 found in values. Note that all IPs in finding values must be valid
+ * addresses, regardless of whether IPv4 or IPv6 was used in the scope definition.
  * Matching example:
  * scopeAnnotationValue: "10.10.0.0/16"
- * findingValues: ["10.10.1.2", "10.10.1.3"]
+ * findingValues: ["10.10.1.2", "10.10.1.3", "2001:0:ce49:7601:e866:efff:62c3:fffe"]
  */
 function operatorInCIDR({scopeAnnotationValue, findingValues}: Operands): boolean {
-  const scopeAnnotationSubnet = new Address4(scopeAnnotationValue);
-  return findingValues.every(findingValue => new Address4(findingValue).isInSubnet(scopeAnnotationSubnet));
+
+  function getIPv4Or6(ipValue: string): Address4 | Address6 {
+    try {
+      return new Address4(ipValue);
+    } catch (e) {
+      if (e.name === "AddressError" && e.message === "Invalid IPv4 address.") {
+        try {
+          return new Address6(ipValue);
+        } catch (e) {
+          if (e instanceof AddressError && e.message === "Invalid IPv6 address.") {
+            throw new Error(`${ipValue} is neither a IPv4 or IPv6`);
+          } else throw e;
+        }
+      } else throw e;
+    }
+  }
+
+  let scopeAnnotationSubnet = getIPv4Or6(scopeAnnotationValue);
+
+
+  return findingValues.every(findingValue => {
+    const address = getIPv4Or6(findingValue);
+    if (address.constructor !== scopeAnnotationSubnet.constructor) return true;
+
+    return address.isInSubnet(scopeAnnotationSubnet);
+  });
 }
 
 /**
