@@ -387,7 +387,7 @@ test("Matches subdomainOf if providing a deep subdomain of a deep subdomain", ()
     }
   };
 
-  const cascadedScans = isReverseMatch(
+  const cascadedScans = isInScope(
     scopeLimiter,
     annotations,
     finding,
@@ -418,7 +418,7 @@ test("Does not match subdomainOf even if differences are deep in the subdomain t
     }
   };
 
-  const cascadedScans = isReverseMatch(
+  const cascadedScans = isInScope(
     scopeLimiter,
     annotations,
     finding,
@@ -515,5 +515,5 @@ test("Throws errors when missing fields", () => {
     {},
   );
 
-  expect(cascadedScans).toThrowError("using operator 'In': annotation may not be undefined");
+  expect(cascadedScans).toThrowError("using operator 'In': the referenced annotation may not be undefined");
 });
