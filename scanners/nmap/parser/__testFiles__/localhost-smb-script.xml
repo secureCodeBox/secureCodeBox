@@ -7,8 +7,8 @@ SPDX-License-Identifier: Apache-2.0
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE nmaprun>
 <?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
-<!-- Nmap 7.80 scan initiated Thu Jun 11 11:45:11 2020 as: nmap -oX /home/securecodebox/nmap-results.xml -Pn -p445 -&#45;script smb-protocols example.com -->
-<nmaprun scanner="nmap" args="nmap -oX /home/securecodebox/nmap-results.xml -Pn -p445 -&#45;script smb-protocols example.com" start="1591875911" startstr="Thu Jun 11 11:45:11 2020" version="7.80" xmloutputversion="1.04">
+<!-- Nmap 7.92 scan initiated Thu Jun 11 11:45:11 2020 as: nmap -oX /home/securecodebox/nmap-results.xml -Pn -p445 -&#45;script smb-protocols example.com -->
+<nmaprun scanner="nmap" args="nmap -oX /home/securecodebox/nmap-results.xml -Pn -p445 -&#45;script smb-protocols example.com" start="1591875911" startstr="Thu Jun 11 11:45:11 2020" version="7.92" xmloutputversion="1.05">
     <scaninfo type="connect" protocol="tcp" numservices="1" services="445"/>
     <verbose level="0"/>
     <debugging level="0"/>

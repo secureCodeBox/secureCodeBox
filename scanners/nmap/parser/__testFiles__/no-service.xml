@@ -7,12 +7,18 @@ SPDX-License-Identifier: Apache-2.0
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE nmaprun>
 <?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
-<!-- Nmap 7.80 scan initiated Sat Jun 27 19:40:19 2020 as: nmap -oX /home/securecodebox/nmap-results.xml &quot;-p 10250&quot; example.com -->
-<nmaprun scanner="nmap" args="nmap -oX /home/securecodebox/nmap-results.xml &quot;-p 10250&quot; example.com" start="1593286819" startstr="Sat Jun 27 19:40:19 2020" version="7.80" xmloutputversion="1.04">
-<scaninfo type="syn" protocol="tcp" numservices="1" services="10250"/>
+<!-- Nmap 7.92 scan initiated Sat Jun 27 19:40:19 2020 as: nmap -oX /home/securecodebox/nmap-results.xml &quot;-p 10250&quot; example.com -->
+<nmaprun scanner="nmap" args="nmap -oX /home/securecodebox/nmap-results.xml &quot;-p 10250&quot; example.com" start="1593286819" startstr="Sat Jun 27 19:40:19 2020" version="7.92" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="1" services="10250"/>
 <verbose level="0"/>
 <debugging level="0"/>
-<host starttime="1593286819" endtime="1593286820"><status state="up" reason="reset" reason_ttl="37"/>
+<hosthint><status state="up" reason="unknown-response" reason_ttl="0"/>
+<address addr="93.184.216.34" addrtype="ipv4"/>
+<hostnames>
+<hostname name="example.com" type="user"/>
+</hostnames>
+</hosthint>
+<host starttime="1593286819" endtime="1593286820"><status state="up" reason="syn-ack" reason_ttl="37"/>
 <address addr="93.184.216.34" addrtype="ipv4"/>
 <hostnames>
 <hostname name="example.com" type="user"/>
