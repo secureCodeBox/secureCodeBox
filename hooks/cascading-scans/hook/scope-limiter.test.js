@@ -649,8 +649,7 @@ test("Test templating into a list", () => {
       {
         key: "scope.cascading.securecodebox.io/CIDR",
         operator: "InCIDR",
-        // values: ["{{#attributes.addresses}}{{ip}},{{/attributes.addresses}}"],
-        values: ["{{#list}}attributes.addresses.ip{{/list}}"],
+        values: ["{{#list}} attributes.addresses.ip {{/list}}"],
       }
     ]
   }

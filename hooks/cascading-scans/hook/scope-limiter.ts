@@ -90,7 +90,7 @@ export function isInScope(
         ...finding,
         "list": function () {
           return function (text, render) {
-            const path = text.split(".");
+            const path = text.trim().split(".");
             const listKey = path.slice(0, path.length - 1).join(".");
             const objectKey = path.pop();
             return render(`{{#${listKey}}}{{${objectKey}}}${delimiter}{{/${listKey}}}`);
