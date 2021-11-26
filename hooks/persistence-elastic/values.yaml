@@ -89,5 +89,8 @@ hook:
   # hook.labels -- Add Kubernetes Labels to the hook definition
   labels: {}
 
+  # -- Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks.
+  priority: 0
+
   # hook.ttlSecondsAfterFinished -- Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
   ttlSecondsAfterFinished: null

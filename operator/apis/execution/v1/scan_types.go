@@ -143,6 +143,8 @@ type ScanStatus struct {
 	Findings FindingStats `json:"findings,omitempty"`
 
 	ReadAndWriteHookStatus []HookStatus `json:"readAndWriteHookStatus,omitempty"`
+
+	OrderedHookStatuses [][]*HookStatus `json:"orderedHookStatuses,omitempty"`
 }
 
 // HookState Describes the State of a Hook on a Scan
@@ -160,6 +162,8 @@ type HookStatus struct {
 	HookName string    `json:"hookName"`
 	State    HookState `json:"state"`
 	JobName  string    `json:"jobName,omitempty"`
+	Priority int       `json:"priority"`
+	Type     HookType  `json:"type"`
 }
 
 // FindingStats contains the general stats about the results of the scan

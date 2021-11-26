@@ -347,6 +347,7 @@ To fill your template with data we provide the following objects.
 | hook.image.repository | string | `"docker.io/securecodebox/hook-notification"` | Hook image repository |
 | hook.image.tag | string | defaults to the charts version | Image tag |
 | hook.labels | object | `{}` | Add Kubernetes Labels to the hook definition |
+| hook.priority | int | `0` | Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks. |
 | hook.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | notificationChannels[0].endPoint | string | `"SOME_ENV_KEY"` |  |
 | notificationChannels[0].name | string | `"slack"` |  |

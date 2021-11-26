@@ -6,8 +6,8 @@
 # This script generates the model classes from a released version of cert-manager CRDs
 # under src/main/java/io/cert/manager/models.
 
-DEFAULT_IMAGE_NAME=docker.pkg.github.com/kubernetes-client/java/crd-model-gen
-DEFAULT_IMAGE_TAG=v1.0.3
+DEFAULT_IMAGE_NAME=ghcr.io/kubernetes-client/java/crd-model-gen
+DEFAULT_IMAGE_TAG=v1.0.6
 IMAGE_NAME=${IMAGE_NAME:=$DEFAULT_IMAGE_NAME}
 IMAGE_TAG=${IMAGE_TAG:=$DEFAULT_IMAGE_TAG}
 
@@ -21,7 +21,7 @@ docker run \
   --network host \
   ${IMAGE_NAME}:${IMAGE_TAG} \
   /generate.sh \
-  -u https://gist.githubusercontent.com/J12934/67722bc1c6bf69dc5d09cb7aed341fac/raw/3fcccc0a145ee7babd64c57a707e4c997fab00ad/scan-crd.yaml \
+  -u https://raw.githubusercontent.com/secureCodeBox/secureCodeBox/main/operator/crds/execution.securecodebox.io_scans.yaml \
   -n io.securecodebox \
   -p io.securecodebox \
   -o "$(pwd)"

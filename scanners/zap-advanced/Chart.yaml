@@ -10,7 +10,8 @@ type: application
 version: v3.1.0-alpha1
 appVersion: "2.11.0"
 kubeVersion: ">=v1.11.0-0"
-versionApi: https://api.github.com/repos/zaproxy/zaproxy/releases/latest
+annotations:
+  versionApi: https://api.github.com/repos/zaproxy/zaproxy/releases/latest
 keywords:
   - security
   - ZAP

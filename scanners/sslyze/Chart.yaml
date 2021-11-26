@@ -10,7 +10,8 @@ type: application
 version: v3.1.0-alpha1
 appVersion: "v4.1.0"
 kubeVersion: ">=v1.11.0-0"
-versionApi: https://api.github.com/repos/nabla-c0d3/sslyze/releases/latest
+annotations:
+  versionApi: https://api.github.com/repos/nabla-c0d3/sslyze/releases/latest
 keywords:
   - security
   - ssl
