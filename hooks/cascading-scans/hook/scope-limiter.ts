@@ -14,6 +14,7 @@ import {
   ParseResultType
 } from "parse-domain";
 import {
+  flatten,
   isEqual,
   takeRight
 } from "lodash";
@@ -62,7 +63,7 @@ export function isInScope(
 
     const props: Operands = {
       scopeAnnotationValue: value,
-      findingValues: renders.map(render => render[0])
+      findingValues: flatten(renders.map(render => render[0]))
     };
 
     try {
@@ -74,7 +75,7 @@ export function isInScope(
     return operatorFunction(props);
   }
 
-  function templateValue(value: string): [string, boolean] {
+  function templateValue(value: string): [string[], boolean] {
     if (value === undefined) return [undefined, true];
     let mapped = Mustache.render(value, {
       $: {
@@ -84,8 +85,26 @@ export function isInScope(
     if (mapped == "") {
       mapped = value;
     }
-    let rendered = Mustache.render(mapped, finding);
-    return [rendered, rendered != ""];
+    const delimiter = ";;;;"
+    let rendered = Mustache.render(mapped, {
+        ...finding,
+        "list": function () {
+          return function (text, render) {
+            const path = text.split(".");
+            const listKey = path.slice(0, path.length - 1).join(".");
+            const objectKey = path.pop();
+            return render(`{{#${listKey}}}{{${objectKey}}}${delimiter}{{/${listKey}}}`);
+          }
+        }
+      }
+    );
+    if (rendered.includes(delimiter)) {
+      let list = rendered.split(delimiter);
+      list = list.slice(0, list.length - 1);
+      return [list, list.every(value => value != "")]
+    } else {
+      return [[rendered], rendered != ""];
+    }
   }
 
   return [

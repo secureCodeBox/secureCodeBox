@@ -638,3 +638,42 @@ test("Throws errors when missing fields", () => {
 
   expect(cascadedScans).toThrowError("using operator 'In': the referenced annotation may not be undefined");
 });
+
+test("Test templating into a list", () => {
+  const annotations = {
+    "scope.cascading.securecodebox.io/CIDR": "127.0.0.0/8",
+  }
+  const scopeLimiter = {
+    validOnMissingRender: false,
+    allOf: [
+      {
+        key: "scope.cascading.securecodebox.io/CIDR",
+        operator: "InCIDR",
+        // values: ["{{#attributes.addresses}}{{ip}},{{/attributes.addresses}}"],
+        values: ["{{#list}}attributes.addresses.ip{{/list}}"],
+      }
+    ]
+  }
+
+  const finding = {
+    attributes: {
+      addresses: [
+        {
+          "ip": "127.0.0.1"
+        },
+        {
+          "ip": "fe80::4eb3:e128:53cc:5722"
+        }
+      ]
+    }
+  };
+
+  const cascadedScans = isInScope(
+    scopeLimiter,
+    annotations,
+    finding,
+    {},
+  );
+
+  expect(cascadedScans).toBe(true);
+});
