@@ -724,5 +724,5 @@ test("Test templating list with too short key", () => {
     {},
   );
 
-  expect(cascadedScans).toThrowError("Invalid list key 'attributes.randomkey'. List key must be at least 2 levels deep. E.g. 'attributes.addresses.ip'");
+  expect(cascadedScans).toThrowError("Invalid list key 'attributes'. List key must be at least 2 levels deep. E.g. 'attributes.addresses.ip'");
 });
