@@ -639,7 +639,7 @@ test("Throws errors when missing fields", () => {
   expect(cascadedScans).toThrowError("using operator 'In': the referenced annotation may not be undefined");
 });
 
-test("Test templating into a list", () => {
+test("Test templating into a list from multiple subkeys", () => {
   const annotations = {
     "scope.cascading.securecodebox.io/CIDR": "127.0.0.0/8",
   }
@@ -675,6 +675,176 @@ test("Test templating into a list", () => {
   );
 
   expect(cascadedScans).toBe(true);
+});
+
+test("Templating into list fails if key is not present in all findings", () => {
+  const annotations = {
+    "scope.cascading.securecodebox.io/CIDR": "127.0.0.0/8",
+  }
+  const scopeLimiter = {
+    validOnMissingRender: false,
+    allOf: [
+      {
+        key: "scope.cascading.securecodebox.io/CIDR",
+        operator: "InCIDR",
+        values: ["{{#list}} attributes.addresses.ip {{/list}}"],
+      }
+    ]
+  }
+
+  const finding = {
+    attributes: {
+      addresses: [
+        {
+          "ip": "127.0.0.1"
+        },
+        {
+          "ip": "fe80::4eb3:e128:53cc:5722"
+        },
+        {
+          "other_key": "test"
+        }
+      ]
+    }
+  };
+
+  const cascadedScans = isInScope(
+    scopeLimiter,
+    annotations,
+    finding,
+    {},
+  );
+
+  expect(cascadedScans).toBe(false);
+});
+
+test("Templating into list does not fail scope if validOnMissingRender is set and templating key is not present in all findings", () => {
+  const annotations = {
+    "scope.cascading.securecodebox.io/CIDR": "127.0.0.0/8",
+  }
+  const scopeLimiter = {
+    validOnMissingRender: true,
+    allOf: [
+      {
+        key: "scope.cascading.securecodebox.io/CIDR",
+        operator: "InCIDR",
+        values: ["{{#list}} attributes.addresses.ip {{/list}}"],
+      }
+    ]
+  }
+
+  const finding = {
+    attributes: {
+      addresses: [
+        {
+          "ip": "127.0.0.1"
+        },
+        {
+          "ip": "fe80::4eb3:e128:53cc:5722"
+        },
+        {
+          "other_key": "test"
+        }
+      ]
+    }
+  };
+
+  const cascadedScans = isInScope(
+    scopeLimiter,
+    annotations,
+    finding,
+    {},
+  );
+
+  expect(cascadedScans).toBe(true);
+});
+
+test("Test matching both IPv4 and v6 addresses in CIDR", () => {
+  const annotations = {
+    "scope.cascading.securecodebox.io/CIDR4": "127.0.0.0/8",
+    "scope.cascading.securecodebox.io/CIDR6": "2001:0:ce49:7601:e866:efff:62c3:fffe/16",
+  }
+  const scopeLimiter = {
+    validOnMissingRender: false,
+    allOf: [
+      {
+        key: "scope.cascading.securecodebox.io/CIDR4",
+        operator: "InCIDR",
+        values: ["{{#list}} attributes.addresses.ip {{/list}}"],
+      },
+      {
+        key: "scope.cascading.securecodebox.io/CIDR6",
+        operator: "InCIDR",
+        values: ["{{#list}} attributes.addresses.ip {{/list}}"],
+      }
+    ]
+  }
+
+  const finding = {
+    attributes: {
+      addresses: [
+        {
+          "ip": "127.0.0.5"
+        },
+        {
+          "ip": "2001:0:ce49:7601:e866:efff:62c3:fefe"
+        },
+      ]
+    }
+  };
+
+  const cascadedScans = isInScope(
+    scopeLimiter,
+    annotations,
+    finding,
+    {},
+  );
+
+  expect(cascadedScans).toBe(true);
+});
+
+test("Test failing one of the IPv4 and v6 addresses", () => {
+  const annotations = {
+    "scope.cascading.securecodebox.io/CIDR4": "127.0.0.0/8",
+    "scope.cascading.securecodebox.io/CIDR6": "2001:0:ce49:7601:e866:efff:62c3:fffe/16",
+  }
+  const scopeLimiter = {
+    validOnMissingRender: false,
+    allOf: [
+      {
+        key: "scope.cascading.securecodebox.io/CIDR4",
+        operator: "InCIDR",
+        values: ["{{#list}} attributes.addresses.ip {{/list}}"],
+      },
+      {
+        key: "scope.cascading.securecodebox.io/CIDR6",
+        operator: "InCIDR",
+        values: ["{{#list}} attributes.addresses.ip {{/list}}"],
+      }
+    ]
+  }
+
+  const finding = {
+    attributes: {
+      addresses: [
+        {
+          "ip": "192.168.178.42"
+        },
+        {
+          "ip": "2001:0:ce49:7601:e866:efff:62c3:fefe"
+        },
+      ]
+    }
+  };
+
+  const cascadedScans = isInScope(
+    scopeLimiter,
+    annotations,
+    finding,
+    {},
+  );
+
+  expect(cascadedScans).toBe(false);
 });
 
 test("Test templating list with invalid keys", () => {
