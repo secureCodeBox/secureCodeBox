@@ -896,3 +896,34 @@ test("Test templating list with too short key", () => {
 
   expect(cascadedScans).toThrowError("Invalid list key 'attributes'. List key must be at least 2 levels deep. E.g. 'attributes.addresses.ip'");
 });
+
+test("Test templating list of strings", () => {
+  const annotations = {
+    "scope.cascading.securecodebox.io/domain": "example.com",
+  }
+  const scopeLimiter = {
+    validOnMissingRender: false,
+    allOf: [
+      {
+        key: "scope.cascading.securecodebox.io/domain",
+        operator: "SubdomainOf",
+        values: ["{{attributes.domains}}"],
+      }
+    ]
+  }
+
+  const finding = {
+    attributes: {
+      domains: ["example.com", "subdomain.example.com"],
+    }
+  };
+
+  const cascadedScans = isInScope(
+    scopeLimiter,
+    annotations,
+    finding,
+    {},
+  );
+
+  expect(cascadedScans).toBe(true);
+});
