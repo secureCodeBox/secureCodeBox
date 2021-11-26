@@ -676,3 +676,53 @@ test("Test templating into a list", () => {
 
   expect(cascadedScans).toBe(true);
 });
+
+test("Test templating list with invalid keys", () => {
+  const annotations = {
+    "scope.cascading.securecodebox.io/CIDR": "127.0.0.0/8",
+  }
+  const scopeLimiter = {
+    validOnMissingRender: false,
+    allOf: [
+      {
+        key: "scope.cascading.securecodebox.io/CIDR",
+        operator: "InCIDR",
+        values: ["{{#list}}attributes.randomkey.ip{{/list}}"],
+      }
+    ]
+  }
+
+  const cascadedScans = isInScope(
+    scopeLimiter,
+    annotations,
+    {},
+    {},
+  );
+
+  expect(cascadedScans).toBe(false);
+});
+
+test("Test templating list with too short key", () => {
+  const annotations = {
+    "scope.cascading.securecodebox.io/CIDR": "127.0.0.0/8",
+  }
+  const scopeLimiter = {
+    validOnMissingRender: false,
+    allOf: [
+      {
+        key: "scope.cascading.securecodebox.io/CIDR",
+        operator: "InCIDR",
+        values: ["{{#list}}attributes.randomkey{{/list}}"],
+      }
+    ]
+  }
+
+  const cascadedScans = () => isInScope(
+    scopeLimiter,
+    annotations,
+    {},
+    {},
+  );
+
+  expect(cascadedScans).toThrowError("Invalid list key 'attributes.randomkey'. List key must be at least 3 levels deep. E.g. 'attributes.addresses.ip'");
+});
