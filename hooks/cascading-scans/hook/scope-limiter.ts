@@ -7,7 +7,7 @@ import {
   V1ObjectMeta
 } from "@kubernetes/client-node/dist/gen/model/v1ObjectMeta";
 import * as Mustache from "mustache";
-import { Address4, Address6, AddressError } from "ip-address";
+import { Address4, Address6 } from "ip-address";
 import {
   fromUrl,
   parseDomain,
@@ -210,7 +210,7 @@ function operatorInCIDR({scopeAnnotationValue, findingValues}: Operands): boolea
         try {
           return new Address6(ipValue);
         } catch (e) {
-          if (e instanceof AddressError && e.message === "Invalid IPv6 address.") {
+          if (e.name === "AddressError" && e.message === "Invalid IPv6 address.") {
             throw new Error(`${ipValue} is neither a IPv4 or IPv6`);
           } else throw e;
         }
