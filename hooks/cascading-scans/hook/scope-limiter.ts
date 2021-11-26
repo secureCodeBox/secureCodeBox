@@ -46,24 +46,30 @@ export function isInScope(
 ) {
   if (scopeLimiter === undefined) return true;
 
-  function validateRequirement({key, operator, values}: ScopeLimiterRequirement) {
+  // Checks whether the key/operator/values pair successfully resolves
+  function validateRequirement({key, operator, values}: ScopeLimiterRequirement): boolean {
     if (!key.startsWith(`${scopeDomain}`)) {
       throw new Error(`key '${key}' is invalid: key does not start with '${scopeDomain}'`);
     }
 
+    // Retrieve operator and validator functions from user operator input
     const { operator: operatorFunction, validator: validatorFunction } = operatorFunctions[operator];
     if (operatorFunction === undefined) {
       throw new Error(`Unknown operator '${operator}'`);
     }
-    const value = scanAnnotations[key];
-    const renders = values.map(templateValue);
-    if (renders.some(render => !render[1])) {
+    const scopeAnnotationValue = scanAnnotations[key];
+
+    // Template the user values input using Mustache
+    const findingValues = values.map(templateValue);
+    // If one of the user values couldn't be rendered, fallback to user-defined behaviour
+    if (findingValues.some(render => !render.rendered)) {
       return scopeLimiter.validOnMissingRender;
     }
 
     const props: Operands = {
-      scopeAnnotationValue: value,
-      findingValues: flatten(renders.map(render => render[0]))
+      scopeAnnotationValue,
+      // flatten is the values to get rid of nested lists (caused by our custom Mustache list function)
+      findingValues: flatten(findingValues.map(render => render.values))
     };
 
     try {
@@ -75,19 +81,26 @@ export function isInScope(
     return operatorFunction(props);
   }
 
-  function templateValue(value: string): [string[], boolean] {
-    if (value === undefined) return [undefined, true];
+  function templateValue(value: string): {values: string[], rendered: boolean} {
+    if (value === undefined) return {
+      values: [],
+      rendered: true,
+    };
+    // First try to render scope limiter aliases
     let mapped = Mustache.render(value, {
       $: {
         ...scopeLimiterAliases
       }
     });
+    // If it couldn't be rendered as an alias, try render it again with finding
     if (mapped == "") {
       mapped = value;
     }
     const delimiter = ";;;;"
     let rendered = Mustache.render(mapped, {
         ...finding,
+        // Custom Mustache list function to select attributes inside a list.
+        // returns a string containing a list delimited by `delimiter` defined above.
         "list": function () {
           return function (text, render) {
             const path = text.trim().split(".");
@@ -101,15 +114,25 @@ export function isInScope(
         }
       }
     );
+    // If the final render includes a delimiter, unpack the rendered string to an actual list
     if (rendered.includes(delimiter)) {
       let list = rendered.split(delimiter);
+      // The last element is always an empty string
       list = list.slice(0, list.length - 1);
-      return [list, list.every(value => value != "")]
+      return {
+        values: list,
+        rendered: list.every(value => value != ""),
+      }
     } else {
-      return [[rendered], rendered != ""];
+      return {
+        values: [rendered],
+        rendered: rendered != "",
+      }
     }
   }
 
+  // All the different scope limiter fields must match (i.e. results of `allOf`, `anyOf`, `noneOf` are ANDed).
+  // If one of those fields is not declared, regard it as matched.
   return [
     scopeLimiter.allOf !== undefined ? scopeLimiter.allOf.every(validateRequirement) : true,
     scopeLimiter.anyOf !== undefined ? scopeLimiter.anyOf.some(validateRequirement) : true,
@@ -127,6 +150,7 @@ interface OperatorFunctions {
   validator: (operands: Operands) => void,
 }
 
+// This validator ensures that neither the scope annotation nor the finding values can be undefined
 const defaultValidator: OperatorFunctions["validator"] = props => validate(props, false, false);
 
 const operatorFunctions: { [key in ScopeLimiterRequirementOperator]: OperatorFunctions } = {
@@ -226,6 +250,7 @@ function operatorInCIDR({scopeAnnotationValue, findingValues}: Operands): boolea
 
   return findingValues.every(findingValue => {
     const address = getIPv4Or6(findingValue);
+    // Can't compare IPv4 with IPv6, so we return regard such comparison as true
     if (address.constructor !== scopeAnnotationSubnet.constructor) return true;
 
     return address.isInSubnet(scopeAnnotationSubnet);
