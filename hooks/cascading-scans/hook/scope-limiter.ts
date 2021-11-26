@@ -104,8 +104,8 @@ export function isInScope(
         "list": function () {
           return function (text, render) {
             const path = text.trim().split(".");
-            if (path.length < 3) {
-              throw new Error(`Invalid list key '${text}'. List key must be at least 3 levels deep. E.g. 'attributes.addresses.ip'`)
+            if (path.length < 2) {
+              throw new Error(`Invalid list key '${text}'. List key must be at least 2 levels deep. E.g. 'attributes.addresses.ip'`)
             }
             const listKey = path.slice(0, path.length - 1).join(".");
             const objectKey = path.pop();
