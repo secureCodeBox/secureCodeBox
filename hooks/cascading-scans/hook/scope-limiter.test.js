@@ -712,7 +712,7 @@ test("Test templating list with too short key", () => {
       {
         key: "scope.cascading.securecodebox.io/CIDR",
         operator: "InCIDR",
-        values: ["{{#list}}attributes.randomkey{{/list}}"],
+        values: ["{{#list}}attributes{{/list}}"],
       }
     ]
   }
