@@ -847,6 +847,47 @@ test("Test failing one of the IPv4 and v6 addresses", () => {
   expect(cascadedScans).toBe(false);
 });
 
+test("Test v6 constraint without v6 address present does not block the scope", () => {
+  const annotations = {
+    "scope.cascading.securecodebox.io/CIDR4": "127.0.0.0/8",
+    "scope.cascading.securecodebox.io/CIDR6": "2001:0:ce49:7601:e866:efff:62c3:fffe/16",
+  }
+  const scopeLimiter = {
+    validOnMissingRender: false,
+    allOf: [
+      {
+        key: "scope.cascading.securecodebox.io/CIDR4",
+        operator: "InCIDR",
+        values: ["{{#list}} attributes.addresses.ip {{/list}}"],
+      },
+      {
+        key: "scope.cascading.securecodebox.io/CIDR6",
+        operator: "InCIDR",
+        values: ["{{#list}} attributes.addresses.ip {{/list}}"],
+      }
+    ]
+  }
+
+  const finding = {
+    attributes: {
+      addresses: [
+        {
+          "ip": "192.168.178.42"
+        },
+      ]
+    }
+  };
+
+  const cascadedScans = isInScope(
+    scopeLimiter,
+    annotations,
+    finding,
+    {},
+  );
+
+  expect(cascadedScans).toBe(false);
+});
+
 test("Test templating list with invalid keys", () => {
   const annotations = {
     "scope.cascading.securecodebox.io/CIDR": "127.0.0.0/8",
