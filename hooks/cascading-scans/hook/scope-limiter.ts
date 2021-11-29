@@ -127,7 +127,12 @@ export function isInScope(
         "split": function () {
           // Split an existing list by comma
           return function (text, render) {
-            return render(text).trim().replace(",", delimiter);
+            const result = render(text).trim().replace(",", delimiter);
+            if (result === "") {
+              return result;
+            } else {
+              return result.concat(delimiter)
+            }
           }
         },
       }

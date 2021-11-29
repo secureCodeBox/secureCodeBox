@@ -226,6 +226,21 @@ describe("Templating", function () {
 
         expect(isInScope()).toBe(true)
       });
+
+      it("does not ignore the last entry in the split list", () => {
+        annotations = {
+          "scope.cascading.securecodebox.io/domains": "example.com",
+        }
+        scopeLimiter.allOf = [
+          {
+            key: "scope.cascading.securecodebox.io/domains",
+            operator: "SubdomainOf",
+            values: ["{{#split}}example.com,some.otherdomain.com{{/split}}"],
+          }
+        ]
+
+        expect(isInScope()).toBe(false)
+      });
     })
 
     describe("keyinobjectlist", function () {
