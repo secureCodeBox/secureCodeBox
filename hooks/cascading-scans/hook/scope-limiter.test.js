@@ -160,7 +160,7 @@ describe("Templating", function () {
           {
             key: "scope.cascading.securecodebox.io/domain",
             operator: "SubdomainOf",
-            values: ["{{#list}}attributes.domains{{/list}}"],
+            values: ["{{#asList}}attributes.domains{{/asList}}"],
           }
         ]
 
@@ -181,7 +181,7 @@ describe("Templating", function () {
           {
             key: "scope.cascading.securecodebox.io/CIDR",
             operator: "InCIDR",
-            values: ["{{#list}}attributes{{/list}}"],
+            values: ["{{#asList}}attributes{{/asList}}"],
           }
         ]
 
@@ -252,7 +252,7 @@ describe("Templating", function () {
           {
             key: "scope.cascading.securecodebox.io/CIDR",
             operator: "InCIDR",
-            values: ["{{#keyinobjectlist}}attributes.addresses.ip{{/keyinobjectlist}}"],
+            values: ["{{#pickValues}}attributes.addresses.ip{{/pickValues}}"],
           }
         ]
 
@@ -280,7 +280,7 @@ describe("Templating", function () {
           {
             key: "scope.cascading.securecodebox.io/CIDR",
             operator: "InCIDR",
-            values: ["{{#keyinobjectlist}}attributes.randomkey.ip{{/keyinobjectlist}}"],
+            values: ["{{#pickValues}}attributes.randomkey.ip{{/pickValues}}"],
           }
         ]
 
@@ -297,7 +297,7 @@ describe("Templating", function () {
           {
             key: "scope.cascading.securecodebox.io/CIDR",
             operator: "InCIDR",
-            values: ["{{#keyinobjectlist}}attributes.addresses.ip{{/keyinobjectlist}}"],
+            values: ["{{#pickValues}}attributes.addresses.ip{{/pickValues}}"],
           }
         ]
 
@@ -329,7 +329,7 @@ describe("Templating", function () {
           {
             key: "scope.cascading.securecodebox.io/CIDR",
             operator: "InCIDR",
-            values: ["{{#keyinobjectlist}}attributes.addresses.ip{{/keyinobjectlist}}"],
+            values: ["{{#pickValues}}attributes.addresses.ip{{/pickValues}}"],
           }
         ]
 
