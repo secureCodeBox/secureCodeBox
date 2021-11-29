@@ -342,6 +342,36 @@ describe("Templating", function () {
 })
 
 describe("Operator", function () {
+  describe("In", function () {
+    it("matches if annotation is in value list", () => {
+      annotations = {
+        "scope.cascading.securecodebox.io/domains": "www.example.com",
+      }
+      scopeLimiter.allOf = [
+        {
+          key: "scope.cascading.securecodebox.io/domains",
+          operator: "In",
+          values: ["subdomain.example.com", "www.example.com"],
+        }
+      ]
+      expect(isInScope()).toBe(true);
+    });
+
+    it("does not match if annotation is not in value list", () => {
+      annotations = {
+        "scope.cascading.securecodebox.io/domains": "www.example.com",
+      }
+      scopeLimiter.allOf = [
+        {
+          key: "scope.cascading.securecodebox.io/domains",
+          operator: "In",
+          values: ["subdomain.example.com", "example.com"],
+        }
+      ]
+      expect(isInScope()).toBe(false);
+    });
+  })
+
   describe("Contains", function () {
     it("matches if value is in annotation list", () => {
       annotations = {
