@@ -343,15 +343,43 @@ describe("Templating", function () {
 
 describe("Operator", function () {
   describe("Contains", function () {
-    it("does not match if selector should not match", () => {
+    it("matches if value is in annotation list", () => {
       annotations = {
-        "scope.cascading.securecodebox.io/domains": "subdomain.example.com",
+        "scope.cascading.securecodebox.io/domains": "subdomain.example.com,www.example.com",
+      }
+      scopeLimiter.allOf = [
+        {
+          key: "scope.cascading.securecodebox.io/domains",
+          operator: "Contains",
+          values: ["subdomain.example.com"],
+        }
+      ]
+      expect(isInScope()).toBe(true);
+    });
+
+    it("does not match if value is not in annotation list", () => {
+      annotations = {
+        "scope.cascading.securecodebox.io/domains": "subdomain.example.com,www.example.com",
       }
       scopeLimiter.allOf = [
         {
           key: "scope.cascading.securecodebox.io/domains",
           operator: "Contains",
           values: ["example.com"],
+        }
+      ]
+      expect(isInScope()).toBe(false);
+    });
+
+    it("does not match if one of the values is not in annotation list", () => {
+      annotations = {
+        "scope.cascading.securecodebox.io/domains": "subdomain.example.com,www.example.com",
+      }
+      scopeLimiter.allOf = [
+        {
+          key: "scope.cascading.securecodebox.io/domains",
+          operator: "Contains",
+          values: ["subdomain.example.com","example.com"],
         }
       ]
       expect(isInScope()).toBe(false);
