@@ -99,19 +99,37 @@ export function isInScope(
     const delimiter = ";;;;"
     let rendered = Mustache.render(mapped, {
         ...finding,
-        // Custom Mustache list function to select attributes inside a list.
-        // returns a string containing a list delimited by `delimiter` defined above.
-        "list": function () {
+        // These custom mustache functions all return a string containing a list delimited by `delimiter` defined above.
+        "keyinobjectlist": function () {
+          // Select attributes inside a list of objects
           return function (text, render) {
-            const path = text.trim().split(".");
-            if (path.length < 2) {
-              throw new Error(`Invalid list key '${text}'. List key must be at least 2 levels deep. E.g. 'attributes.addresses.ip'`)
+            text = text.trim();
+            const path = text.split(".");
+            if (path.length < 3) {
+              throw new Error(`Invalid list key '${text}'. List key must be at least 3 levels deep. E.g. 'attributes.addresses.ip'`)
             }
             const listKey = path.slice(0, path.length - 1).join(".");
             const objectKey = path.pop();
             return render(`{{#${listKey}}}{{${objectKey}}}${delimiter}{{/${listKey}}}`);
           }
-        }
+        },
+        "list": function () {
+          // Select a complete list
+          return function (text, render) {
+            text = text.trim();
+            const path = text.split(".");
+            if (path.length < 2) {
+              throw new Error(`Invalid list key '${text}'. List key must be at least 2 levels deep. E.g. 'attributes.addresses'`)
+            }
+            return render(`{{#${text}}}{{.}}${delimiter}{{/${text}}}`);
+          }
+        },
+        "split": function () {
+          // Split an existing list by comma
+          return function (text, render) {
+            return render(text).trim().replace(",", delimiter);
+          }
+        },
       }
     );
     // If the final render includes a delimiter, unpack the rendered string to an actual list
@@ -134,9 +152,9 @@ export function isInScope(
   // All the different scope limiter fields must match (i.e. results of `allOf`, `anyOf`, `noneOf` are ANDed).
   // If one of those fields is not declared, regard it as matched.
   return [
-    scopeLimiter.allOf !== undefined ? scopeLimiter.allOf.every(validateRequirement) : true,
-    scopeLimiter.anyOf !== undefined ? scopeLimiter.anyOf.some(validateRequirement) : true,
-    scopeLimiter.noneOf !== undefined ? !scopeLimiter.noneOf.some(validateRequirement) : true,
+    scopeLimiter.allOf !== undefined && scopeLimiter.allOf.length > 0 ? scopeLimiter.allOf.every(validateRequirement) : true,
+    scopeLimiter.anyOf !== undefined && scopeLimiter.anyOf.length > 0 ? scopeLimiter.anyOf.some(validateRequirement) : true,
+    scopeLimiter.noneOf !== undefined && scopeLimiter.noneOf.length > 0 ? !scopeLimiter.noneOf.some(validateRequirement) : true,
   ].every(entry => entry === true);
 }
 
