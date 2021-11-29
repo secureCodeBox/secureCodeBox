@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { isInScope } = require("./scope-limiter");
+const { isInScope: isInScopeInternal }  = require("./scope-limiter");
 
 let scopeLimiter = undefined
 let annotations = undefined
 let finding = undefined
 let scopeLimiterAliases = undefined
 
-const cascadedScans = () => isInScope(
+const isInScope = () => isInScopeInternal(
   scopeLimiter,
   annotations,
   finding,
@@ -43,7 +43,7 @@ it("Requirement key must start with 'scope.cascading.securecodebox.io/'", () => 
       values: ["{{attributes.hostname}}"],
     }
   ]
-  expect(cascadedScans).toThrowError("key 'engagement.scope/domains' is invalid: key does not start with 'scope.cascading.securecodebox.io/'");
+  expect(isInScope).toThrowError("key 'engagement.scope/domains' is invalid: key does not start with 'scope.cascading.securecodebox.io/'");
 });
 
 it("Requirement key must map to an annotation", () => {
@@ -61,7 +61,7 @@ it("Requirement key must map to an annotation", () => {
     }
   };
 
-  expect(cascadedScans).toThrowError("using operator 'In': the referenced annotation may not be undefined");
+  expect(isInScope).toThrowError("using operator 'In': the referenced annotation may not be undefined");
 });
 
 describe("Templating", function () {
@@ -76,7 +76,7 @@ describe("Templating", function () {
         values: ["{{attributes.hostname}}"],
       }
     ]
-    expect(cascadedScans).toThrowError("using operator 'Contains': the referenced annotation may not be undefined");
+    expect(isInScope).toThrowError("using operator 'Contains': the referenced annotation may not be undefined");
   });
 
   it("supports requirement value", () => {
@@ -90,7 +90,7 @@ describe("Templating", function () {
         values: ["{{attributes.hostname}}"],
       }
     ]
-    expect(cascadedScans()).toBe(true);
+    expect(isInScope()).toBe(true);
   });
 
   describe("validOnMissingRender", function () {
@@ -108,7 +108,7 @@ describe("Templating", function () {
 
       finding = {}
 
-      expect(cascadedScans()).toBe(false);
+      expect(isInScope()).toBe(false);
     });
   })
 
@@ -127,7 +127,7 @@ describe("Templating", function () {
       scopeLimiterAliases = {
         "hostname": "{{attributes.hostname}}",
       }
-      expect(cascadedScans()).toBe(true);
+      expect(isInScope()).toBe(true);
     });
 
     it("Matches if mapping is not available: validOnMissingRender true", () => {
@@ -145,7 +145,7 @@ describe("Templating", function () {
       ]
       finding = {}
 
-      expect(cascadedScans()).toBe(true);
+      expect(isInScope()).toBe(true);
     });
 
   })
@@ -170,7 +170,7 @@ describe("Templating", function () {
           }
         };
 
-        expect(cascadedScans()).toBe(true);
+        expect(isInScope()).toBe(true);
       });
 
       it("fails with too short key", () => {
@@ -187,7 +187,7 @@ describe("Templating", function () {
 
         finding = {}
 
-        expect(cascadedScans).toThrowError("Invalid list key 'attributes'. List key must be at least 2 levels deep. E.g. 'attributes.addresses'");
+        expect(isInScope).toThrowError("Invalid list key 'attributes'. List key must be at least 2 levels deep. E.g. 'attributes.addresses'");
       });
     })
 
@@ -203,7 +203,7 @@ describe("Templating", function () {
             values: ["{{#split}}subdomain.example.com,www.example.com{{/split}}"],
           }
         ]
-        expect(cascadedScans()).toBe(true);
+        expect(isInScope()).toBe(true);
       });
 
       it("matches on template", () => {
@@ -224,7 +224,7 @@ describe("Templating", function () {
           }
         }
 
-        expect(cascadedScans()).toBe(true)
+        expect(isInScope()).toBe(true)
       });
     })
 
@@ -254,7 +254,7 @@ describe("Templating", function () {
           }
         };
 
-        expect(cascadedScans()).toBe(true);
+        expect(isInScope()).toBe(true);
       });
 
       it("does not match if list with invalid keys", () => {
@@ -271,7 +271,7 @@ describe("Templating", function () {
 
         finding = {}
 
-        expect(cascadedScans()).toBe(false);
+        expect(isInScope()).toBe(false);
       });
 
       it("does not match if templating key is not present in all list entries", () => {
@@ -302,7 +302,7 @@ describe("Templating", function () {
           }
         };
 
-        expect(cascadedScans()).toBe(false);
+        expect(isInScope()).toBe(false);
       });
 
       it("matches if validOnMissingRender is set and templating key is not present in all list entries", () => {
@@ -334,7 +334,7 @@ describe("Templating", function () {
           }
         };
 
-        expect(cascadedScans()).toBe(true);
+        expect(isInScope()).toBe(true);
       });
     })
 
@@ -354,7 +354,7 @@ describe("Operator", function () {
           values: ["example.com"],
         }
       ]
-      expect(cascadedScans()).toBe(false);
+      expect(isInScope()).toBe(false);
     });
   });
 
@@ -370,7 +370,7 @@ describe("Operator", function () {
           values: ["10.0.1.0"],
         }
       ]
-      expect(cascadedScans()).toBe(true);
+      expect(isInScope()).toBe(true);
     });
 
     it("does not match if ip not in subnet", () => {
@@ -385,7 +385,7 @@ describe("Operator", function () {
         }
       ]
 
-      expect(cascadedScans()).toBe(false);
+      expect(isInScope()).toBe(false);
     });
 
     it("matches if ip in subnet (IPv6)", () => {
@@ -400,7 +400,7 @@ describe("Operator", function () {
         }
       ]
 
-      expect(cascadedScans()).toBe(true);
+      expect(isInScope()).toBe(true);
     });
 
     it("matches if there is an IPv4/6 mismatch", () => {
@@ -415,7 +415,7 @@ describe("Operator", function () {
         }
       ]
 
-      expect(cascadedScans()).toBe(true);
+      expect(isInScope()).toBe(true);
     });
 
     it("does not match if there is an IPv4/6 mismatch AND an out-of-scope IPv4/6 match", () => {
@@ -435,7 +435,7 @@ describe("Operator", function () {
           values: ["192.168.178.42"],
         }
       ]
-      expect(cascadedScans()).toBe(false);
+      expect(isInScope()).toBe(false);
     });
 
     it("does not match if there exist out-of-scope matched IPv4/6 entries", () => {
@@ -455,7 +455,7 @@ describe("Operator", function () {
           values: ["192.168.178.42", "2001:0:ce49:7601:e866:efff:62c3:fefe"],
         }
       ]
-      expect(cascadedScans()).toBe(false);
+      expect(isInScope()).toBe(false);
     });
 
     it("matches if there exist only in-scope matched IPv4/6 entries", () => {
@@ -475,7 +475,7 @@ describe("Operator", function () {
           values: ["127.0.0.5", "2001:0:ce49:7601:e866:efff:62c3:fefe"],
         }
       ]
-      expect(cascadedScans()).toBe(true);
+      expect(isInScope()).toBe(true);
     });
 
     it("throws error if IPv4 address is invalid even if scope is in IPv6", () => {
@@ -490,7 +490,7 @@ describe("Operator", function () {
         }
       ]
 
-      expect(cascadedScans).toThrowError("Bad characters detected in address: ..");
+      expect(isInScope).toThrowError("Bad characters detected in address: ..");
     });
 
     it("Throws error if IPv6 address is invalid even if scope is in IPv4", () => {
@@ -505,7 +505,7 @@ describe("Operator", function () {
         }
       ]
 
-      expect(cascadedScans).toThrowError("Incorrect number of groups found");
+      expect(isInScope).toThrowError("Incorrect number of groups found");
     });
   });
 
@@ -521,7 +521,7 @@ describe("Operator", function () {
           values: ["subdomain.example.com"],
         }
       ]
-      expect(cascadedScans()).toBe(true);
+      expect(isInScope()).toBe(true);
     });
 
     it("does not match if is not subdomain", () => {
@@ -535,7 +535,7 @@ describe("Operator", function () {
           values: ["notexample.com"],
         }
       ]
-      expect(cascadedScans()).toBe(false);
+      expect(isInScope()).toBe(false);
     });
 
     it("matches if is the domain itself", () => {
@@ -549,7 +549,7 @@ describe("Operator", function () {
           values: ["example.com"],
         }
       ]
-      expect(cascadedScans()).toBe(true);
+      expect(isInScope()).toBe(true);
     });
 
     it("matches if providing a sub-sub domain of a sub-domain", () => {
@@ -563,7 +563,7 @@ describe("Operator", function () {
           values: ["test.www.example.com"],
         }
       ]
-      expect(cascadedScans()).toBe(true);
+      expect(isInScope()).toBe(true);
     });
 
     it("matches if providing a deep subdomain of a deep subdomain", () => {
@@ -577,7 +577,7 @@ describe("Operator", function () {
           values: ["z.a.b.c.d.e.example.com"],
         }
       ]
-      expect(cascadedScans()).toBe(true);
+      expect(isInScope()).toBe(true);
     });
 
     it("does not match even if differences are deep in the subdomain tree", () => {
@@ -591,7 +591,7 @@ describe("Operator", function () {
           values: ["z.b.c.d.e.example.com"],
         }
       ]
-      expect(cascadedScans()).toBe(false);
+      expect(isInScope()).toBe(false);
     });
 
     it("does not match if providing a sub domain of a different sub-domain", () => {
@@ -605,7 +605,7 @@ describe("Operator", function () {
           values: ["test.example.com"],
         }
       ]
-      expect(cascadedScans()).toBe(false);
+      expect(isInScope()).toBe(false);
     });
   });
 })
@@ -629,6 +629,6 @@ describe("ScopeLimiter", function () {
         values: ["example.com"],
       }
     ]
-    expect(cascadedScans()).toBe(false);
+    expect(isInScope()).toBe(false);
   });
 })
