@@ -46,7 +46,7 @@ it("Requirement key must start with 'scope.cascading.securecodebox.io/'", () => 
   expect(cascadedScans).toThrowError("key 'engagement.scope/domains' is invalid: key does not start with 'scope.cascading.securecodebox.io/'");
 });
 
-test("Requirement key must map to an annotation", () => {
+it("Requirement key must map to an annotation", () => {
   scopeLimiter.allOf = [
     {
       key: "scope.cascading.securecodebox.io/domain",
@@ -94,7 +94,7 @@ describe("Templating", function () {
   });
 
   describe("validOnMissingRender", function () {
-    test("does not match if mapping is not available: validOnMissingRender false", () => {
+    it("does not match if mapping is not available: validOnMissingRender false", () => {
       annotations = {
         "scope.cascading.securecodebox.io/domains": "example.com,subdomain.example.com",
       }
@@ -113,7 +113,7 @@ describe("Templating", function () {
   })
 
   describe("aliases", function () {
-    test("matches using templates populated with finding and a mapped selector", () => {
+    it("matches using templates populated with finding and a mapped selector", () => {
       annotations = {
         "scope.cascading.securecodebox.io/domains": "example.com,subdomain.example.com",
       }
@@ -130,7 +130,7 @@ describe("Templating", function () {
       expect(cascadedScans()).toBe(true);
     });
 
-    test("Matches if mapping is not available: validOnMissingRender true", () => {
+    it("Matches if mapping is not available: validOnMissingRender true", () => {
       annotations = {
         "scope.cascading.securecodebox.io/domains": "example.com,subdomain.example.com",
       }
@@ -152,7 +152,7 @@ describe("Templating", function () {
 
   describe("lists", function () {
     describe("list", function () {
-      test("matches with list of strings", () => {
+      it("matches with list of strings", () => {
         annotations = {
           "scope.cascading.securecodebox.io/domain": "example.com",
         }
@@ -173,7 +173,7 @@ describe("Templating", function () {
         expect(cascadedScans()).toBe(true);
       });
 
-      test("fails with too short key", () => {
+      it("fails with too short key", () => {
         annotations = {
           "scope.cascading.securecodebox.io/CIDR": "127.0.0.0/8",
         }
@@ -192,7 +192,7 @@ describe("Templating", function () {
     })
 
     describe("split", function () {
-      test("matches on simple string", () => {
+      it("matches on simple string", () => {
         annotations = {
           "scope.cascading.securecodebox.io/domains": "example.com",
         }
@@ -206,7 +206,7 @@ describe("Templating", function () {
         expect(cascadedScans()).toBe(true);
       });
 
-      test("matches on template", () => {
+      it("matches on template", () => {
         annotations = {
           "scope.cascading.securecodebox.io/domains": "example.com",
         }
@@ -229,7 +229,7 @@ describe("Templating", function () {
     })
 
     describe("keyinobjectlist", function () {
-      test("matches if templating key is present in all list entries", () => {
+      it("matches if templating key is present in all list entries", () => {
         annotations = {
           "scope.cascading.securecodebox.io/CIDR": "127.0.0.0/8",
         }
@@ -257,7 +257,7 @@ describe("Templating", function () {
         expect(cascadedScans()).toBe(true);
       });
 
-      test("does not match if list with invalid keys", () => {
+      it("does not match if list with invalid keys", () => {
         annotations = {
           "scope.cascading.securecodebox.io/CIDR": "127.0.0.0/8",
         }
@@ -274,7 +274,7 @@ describe("Templating", function () {
         expect(cascadedScans()).toBe(false);
       });
 
-      test("does not match if templating key is not present in all list entries", () => {
+      it("does not match if templating key is not present in all list entries", () => {
         annotations = {
           "scope.cascading.securecodebox.io/CIDR": "127.0.0.0/8",
         }
@@ -305,7 +305,7 @@ describe("Templating", function () {
         expect(cascadedScans()).toBe(false);
       });
 
-      test("matches if validOnMissingRender is set and templating key is not present in all list entries", () => {
+      it("matches if validOnMissingRender is set and templating key is not present in all list entries", () => {
         annotations = {
           "scope.cascading.securecodebox.io/CIDR": "127.0.0.0/8",
         }
@@ -373,7 +373,7 @@ describe("Operator", function () {
       expect(cascadedScans()).toBe(true);
     });
 
-    test("does not match if ip not in subnet", () => {
+    it("does not match if ip not in subnet", () => {
       annotations = {
         "scope.cascading.securecodebox.io/cidr": "10.0.0.0/32",
       }
@@ -388,7 +388,7 @@ describe("Operator", function () {
       expect(cascadedScans()).toBe(false);
     });
 
-    test("matches if ip in subnet (IPv6)", () => {
+    it("matches if ip in subnet (IPv6)", () => {
       annotations = {
         "scope.cascading.securecodebox.io/cidr": "2001:0:ce49:7601:e866:efff:62c3:fffe/16",
       }
@@ -403,7 +403,7 @@ describe("Operator", function () {
       expect(cascadedScans()).toBe(true);
     });
 
-    test("matches if there is an IPv4/6 mismatch", () => {
+    it("matches if there is an IPv4/6 mismatch", () => {
       annotations = {
         "scope.cascading.securecodebox.io/cidr": "2001:0:ce49:7601:e866:efff:62c3:fffe/16",
       }
@@ -418,7 +418,7 @@ describe("Operator", function () {
       expect(cascadedScans()).toBe(true);
     });
 
-    test("does not match if there is an IPv4/6 mismatch AND an out-of-scope IPv4/6 match", () => {
+    it("does not match if there is an IPv4/6 mismatch AND an out-of-scope IPv4/6 match", () => {
       annotations = {
         "scope.cascading.securecodebox.io/CIDR4": "127.0.0.0/8",
         "scope.cascading.securecodebox.io/CIDR6": "2001:0:ce49:7601:e866:efff:62c3:fffe/16",
@@ -438,7 +438,7 @@ describe("Operator", function () {
       expect(cascadedScans()).toBe(false);
     });
 
-    test("does not match if there exist out-of-scope matched IPv4/6 entries", () => {
+    it("does not match if there exist out-of-scope matched IPv4/6 entries", () => {
       annotations = {
         "scope.cascading.securecodebox.io/CIDR4": "127.0.0.0/8",
         "scope.cascading.securecodebox.io/CIDR6": "2001:0:ce49:7601:e866:efff:62c3:fffe/16",
@@ -458,7 +458,7 @@ describe("Operator", function () {
       expect(cascadedScans()).toBe(false);
     });
 
-    test("matches if there exist only in-scope matched IPv4/6 entries", () => {
+    it("matches if there exist only in-scope matched IPv4/6 entries", () => {
       annotations = {
         "scope.cascading.securecodebox.io/CIDR4": "127.0.0.0/8",
         "scope.cascading.securecodebox.io/CIDR6": "2001:0:ce49:7601:e866:efff:62c3:fffe/16",
@@ -478,7 +478,7 @@ describe("Operator", function () {
       expect(cascadedScans()).toBe(true);
     });
 
-    test("throws error if IPv4 address is invalid even if scope is in IPv6", () => {
+    it("throws error if IPv4 address is invalid even if scope is in IPv6", () => {
       annotations = {
         "scope.cascading.securecodebox.io/cidr": "2001:0:ce49:7601:e866:efff:62c3:fffe/16",
       }
@@ -493,7 +493,7 @@ describe("Operator", function () {
       expect(cascadedScans).toThrowError("Bad characters detected in address: ..");
     });
 
-    test("Throws error if IPv6 address is invalid even if scope is in IPv4", () => {
+    it("Throws error if IPv6 address is invalid even if scope is in IPv4", () => {
       annotations = {
         "scope.cascading.securecodebox.io/cidr": "10.0.0.0/16",
       }
@@ -510,7 +510,7 @@ describe("Operator", function () {
   });
 
   describe("SubdomainOf", function () {
-    test("matches if is subdomain", () => {
+    it("matches if is subdomain", () => {
       annotations = {
         "scope.cascading.securecodebox.io/domain": "example.com",
       }
@@ -524,7 +524,7 @@ describe("Operator", function () {
       expect(cascadedScans()).toBe(true);
     });
 
-    test("does not match if is not subdomain", () => {
+    it("does not match if is not subdomain", () => {
       annotations = {
         "scope.cascading.securecodebox.io/domain": "example.com",
       }
@@ -538,7 +538,7 @@ describe("Operator", function () {
       expect(cascadedScans()).toBe(false);
     });
 
-    test("matches if is the domain itself", () => {
+    it("matches if is the domain itself", () => {
       annotations = {
         "scope.cascading.securecodebox.io/domain": "example.com",
       }
@@ -552,7 +552,7 @@ describe("Operator", function () {
       expect(cascadedScans()).toBe(true);
     });
 
-    test("matches if providing a sub-sub domain of a sub-domain", () => {
+    it("matches if providing a sub-sub domain of a sub-domain", () => {
       annotations = {
         "scope.cascading.securecodebox.io/domain": "www.example.com",
       }
@@ -566,7 +566,7 @@ describe("Operator", function () {
       expect(cascadedScans()).toBe(true);
     });
 
-    test("matches if providing a deep subdomain of a deep subdomain", () => {
+    it("matches if providing a deep subdomain of a deep subdomain", () => {
       annotations = {
         "scope.cascading.securecodebox.io/domain": "a.b.c.d.e.example.com",
       }
@@ -580,7 +580,7 @@ describe("Operator", function () {
       expect(cascadedScans()).toBe(true);
     });
 
-    test("does not match even if differences are deep in the subdomain tree", () => {
+    it("does not match even if differences are deep in the subdomain tree", () => {
       annotations = {
         "scope.cascading.securecodebox.io/domain": "a.b.c.d.e.example.com",
       }
@@ -594,7 +594,7 @@ describe("Operator", function () {
       expect(cascadedScans()).toBe(false);
     });
 
-    test("does not match if providing a sub domain of a different sub-domain", () => {
+    it("does not match if providing a sub domain of a different sub-domain", () => {
       annotations = {
         "scope.cascading.securecodebox.io/domain": "www.example.com",
       }
