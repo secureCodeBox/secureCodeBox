@@ -143,6 +143,28 @@ describe("Templating", function () {
       expect(isInScope()).toBe(true);
     });
 
+    it("templates custom list functions in aliases", () => {
+      annotations = {
+        "scope.cascading.securecodebox.io/domains": "example.com,subdomain.example.com",
+      }
+      scopeLimiter.allOf = [
+        {
+          key: "scope.cascading.securecodebox.io/domains",
+          operator: "Contains",
+          values: ["{{{$.hostname}}}"],
+        }
+      ]
+      finding = {
+         attributes: {
+          hostname: ["notexample.com", "example.com"],
+        }
+      }
+      scopeLimiterAliases = {
+        "hostname": "{{#asList}}attributes.hostname{{/asList}}",
+      }
+      expect(isInScope()).toBe(false);
+    });
+
     it("Matches if mapping is not available: validOnMissingRender true", () => {
       annotations = {
         "scope.cascading.securecodebox.io/domains": "example.com,subdomain.example.com",
