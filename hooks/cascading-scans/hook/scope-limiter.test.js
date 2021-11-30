@@ -242,7 +242,7 @@ describe("Templating", function () {
         expect(isInScope()).toBe(false)
       });
 
-      it("does not create extra empty entry for trailing comma", () => {
+      it("does not create extra empty entry for trailing comma (matching limiter)", () => {
         annotations = {
           "scope.cascading.securecodebox.io/domains": "example.com",
         }
@@ -256,7 +256,86 @@ describe("Templating", function () {
 
         expect(isInScope()).toBe(true)
       });
-    })
+
+      it("does not create extra empty entry for trailing comma (non-matching limiter)", () => {
+        annotations = {
+          "scope.cascading.securecodebox.io/domains": "example.com",
+        }
+        scopeLimiter.allOf = [
+          {
+            key: "scope.cascading.securecodebox.io/domains",
+            operator: "SubdomainOf",
+            values: ["{{#split}}example.com,notexample.com,{{/split}}"],
+          }
+        ]
+
+        expect(isInScope()).toBe(false)
+        scopeLimiter.validOnMissingRender = true
+        expect(isInScope()).toBe(false)
+      });
+
+      it("does not create extra empty entry for trailing comma (non-matching limiter from template)", () => {
+        annotations = {
+          "scope.cascading.securecodebox.io/domains": "example.com",
+        }
+        scopeLimiter.allOf = [
+          {
+            key: "scope.cascading.securecodebox.io/domains",
+            operator: "SubdomainOf",
+            values: ["{{#split}}{{#attributes.addresses}}{{domain}},{{/attributes.addresses}}{{/split}}"],
+          }
+        ]
+
+        finding = {
+          attributes: {
+            addresses: [
+              {
+                "domain": "example.com"
+              },
+              {
+                "domain": "notexample.com"
+              }
+            ]
+          }
+        };
+
+        // Fails because 'notexample.com' is not a subdomain of example.com
+        expect(isInScope()).toBe(false)
+        scopeLimiter.validOnMissingRender = true
+        expect(isInScope()).toBe(false)
+      });
+
+      it("respects validOnMissingRender", () => {
+        annotations = {
+          "scope.cascading.securecodebox.io/domains": "example.com",
+        }
+        scopeLimiter.allOf = [
+          {
+            key: "scope.cascading.securecodebox.io/domains",
+            operator: "SubdomainOf",
+            values: ["{{#split}}{{#attributes.addresses}}{{domain}},{{/attributes.addresses}}{{/split}}"],
+          }
+        ]
+
+        finding = {
+          attributes: {
+            addresses: [
+              {
+                "domain": "example.com"
+              },
+              {
+                "typo": "www.example.com"
+              }
+            ]
+          }
+        };
+
+        // Fails because 'typo' wasn't templated
+        expect(isInScope()).toBe(false)
+        scopeLimiter.validOnMissingRender = true
+        expect(isInScope()).toBe(true)
+      });
+    });
 
     describe("keyinobjectlist", function () {
       it("matches if templating key is present in all list entries", () => {
