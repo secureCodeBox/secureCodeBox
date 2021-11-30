@@ -100,7 +100,7 @@ export function isInScope(
     let rendered = Mustache.render(mapped, {
         ...finding,
         // These custom mustache functions all return a string containing a list delimited by `delimiter` defined above.
-        "pickValues": function () {
+        "getValues": function () {
           // Select attributes inside a list of objects
           return function (text, render) {
             text = text.trim();

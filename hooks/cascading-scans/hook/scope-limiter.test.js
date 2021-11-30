@@ -391,7 +391,7 @@ describe("Templating", function () {
           {
             key: "scope.cascading.securecodebox.io/CIDR",
             operator: "InCIDR",
-            values: ["{{#pickValues}}attributes.addresses.ip{{/pickValues}}"],
+            values: ["{{#getValues}}attributes.addresses.ip{{/getValues}}"],
           }
         ]
 
@@ -419,7 +419,7 @@ describe("Templating", function () {
           {
             key: "scope.cascading.securecodebox.io/CIDR",
             operator: "InCIDR",
-            values: ["{{#pickValues}}attributes.randomkey.ip{{/pickValues}}"],
+            values: ["{{#getValues}}attributes.randomkey.ip{{/getValues}}"],
           }
         ]
 
@@ -436,7 +436,7 @@ describe("Templating", function () {
           {
             key: "scope.cascading.securecodebox.io/CIDR",
             operator: "InCIDR",
-            values: ["{{#pickValues}}attributes.addresses.ip{{/pickValues}}"],
+            values: ["{{#getValues}}attributes.addresses.ip{{/getValues}}"],
           }
         ]
 
@@ -468,7 +468,7 @@ describe("Templating", function () {
           {
             key: "scope.cascading.securecodebox.io/CIDR",
             operator: "InCIDR",
-            values: ["{{#pickValues}}attributes.addresses.ip{{/pickValues}}"],
+            values: ["{{#getValues}}attributes.addresses.ip{{/getValues}}"],
           }
         ]
 
