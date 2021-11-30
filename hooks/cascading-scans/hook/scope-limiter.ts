@@ -113,7 +113,7 @@ export function isInScope(
             return render(`{{#${listKey}}}{{${objectKey}}}${delimiter}{{/${listKey}}}`);
           }
         },
-        "asList": function () {
+        "getValues": function () {
           // Select a complete list
           return function (text, render) {
             text = text.trim();
