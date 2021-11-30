@@ -242,6 +242,36 @@ describe("Templating", function () {
         expect(isInScope()).toBe(false)
       });
 
+      it("works for longer lists", () => {
+        annotations = {
+          "scope.cascading.securecodebox.io/domains": "example.com",
+        }
+        scopeLimiter.allOf = [
+          {
+            key: "scope.cascading.securecodebox.io/domains",
+            operator: "SubdomainOf",
+            values: ["{{#split}}example.com,some.example.com,some-other.example.com,yet-another.example.com{{/split}}"],
+          }
+        ]
+
+        expect(isInScope()).toBe(true)
+      });
+
+      it("also considers entries far back in the list", () => {
+        annotations = {
+          "scope.cascading.securecodebox.io/domains": "example.com",
+        }
+        scopeLimiter.allOf = [
+          {
+            key: "scope.cascading.securecodebox.io/domains",
+            operator: "SubdomainOf",
+            values: ["{{#split}}example.com,some.example.com,some-other.example.com,but.anotherwebsite.aswell.com{{/split}}"],
+          }
+        ]
+
+        expect(isInScope()).toBe(false)
+      });
+
       it("does not create extra empty entry for trailing comma (matching limiter)", () => {
         annotations = {
           "scope.cascading.securecodebox.io/domains": "example.com",

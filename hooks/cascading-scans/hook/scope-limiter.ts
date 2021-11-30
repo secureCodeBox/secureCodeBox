@@ -127,7 +127,10 @@ export function isInScope(
         "split": function () {
           // Split an existing list by comma
           return function (text, render) {
-            const result = render(text).trim().replaceAll(",", delimiter);
+            // We are using a regular expression of the comma delimiter instead of a straight comma because
+            // NodeJS 14.X only replaces the first occurence when using the latter, and the
+            // replaceAll function is only available starting with NodeJS 15.
+            const result = render(text).trim().replace(/,/g, delimiter);
             if (result === "" || result.endsWith(delimiter)) {
               return result;
             } else {
