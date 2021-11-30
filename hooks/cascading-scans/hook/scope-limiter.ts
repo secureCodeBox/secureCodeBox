@@ -59,6 +59,11 @@ export function isInScope(
     }
     const scopeAnnotationValue = scanAnnotations[key];
 
+    // Possible redundant check as the field is required by CRD
+    if (values === undefined) {
+      throw new Error("the values field may not be undefined")
+    }
+
     // Template the user values input using Mustache
     const findingValues = values.map(templateValue);
     // If one of the user values couldn't be rendered, fallback to user-defined behaviour
@@ -179,7 +184,7 @@ interface OperatorFunctions {
 }
 
 // This validator ensures that neither the scope annotation nor the finding values can be undefined
-const defaultValidator: OperatorFunctions["validator"] = props => validate(props, false, false);
+const defaultValidator: OperatorFunctions["validator"] = props => validate(props, false);
 
 const operatorFunctions: { [key in ScopeLimiterRequirementOperator]: OperatorFunctions } = {
   [ScopeLimiterRequirementOperator.In]: {
@@ -216,12 +221,9 @@ const operatorFunctions: { [key in ScopeLimiterRequirementOperator]: OperatorFun
   },
 }
 
-function validate({scopeAnnotationValue, findingValues}: Operands, scopeAnnotationValueUndefinedAllowed, findingValuesUndefinedAllowed) {
+function validate({scopeAnnotationValue, findingValues}: Operands, scopeAnnotationValueUndefinedAllowed) {
   if (!scopeAnnotationValueUndefinedAllowed && scopeAnnotationValue === undefined) {
     throw new Error(`the referenced annotation may not be undefined`)
-  }
-  if (!findingValuesUndefinedAllowed && findingValues === undefined) {
-    throw new Error(`the values field may not be undefined`)
   }
 }
 

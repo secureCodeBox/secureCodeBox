@@ -204,6 +204,7 @@ spec:
                               required:
                               - key
                               - operator
+                              - values
                               type: object
                             type: array
                           anyOf:
@@ -230,6 +231,7 @@ spec:
                               required:
                               - key
                               - operator
+                              - values
                               type: object
                             type: array
                           noneOf:
@@ -256,6 +258,7 @@ spec:
                               required:
                               - key
                               - operator
+                              - values
                               type: object
                             type: array
                           validOnMissingRender:

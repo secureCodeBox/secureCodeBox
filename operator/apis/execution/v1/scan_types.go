@@ -85,8 +85,7 @@ type ScopeLimiterRequirement struct {
 	// operator represents a key's relationship to a set of values.
 	Operator string `json:"operator" protobuf:"bytes,2,opt,name=operator"`
 	// values is an array of string values.
-	// +optional
-	Values []string `json:"values,omitempty" protobuf:"bytes,3,rep,name=values"`
+	Values []string `json:"values" protobuf:"bytes,3,rep,name=values"`
 }
 
 // ScanSpec defines the desired state of Scan

@@ -75,7 +75,7 @@ describe("Templating", function () {
         operator: "Contains",
       }
     ]
-    expect(isInScope()).toThrowError("the values field may not be undefined");
+    expect(isInScope).toThrowError("the values field may not be undefined");
   });
 
   it("does not support requirement key", () => {
