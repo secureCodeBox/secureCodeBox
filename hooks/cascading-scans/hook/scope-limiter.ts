@@ -309,8 +309,7 @@ function operatorSubdomainOf({scopeAnnotationValue, findingValues}: Operands): b
             takeRight(findingDomain.labels, scopeAnnotationDomain.labels.length)
           );
         }
-        console.log(`${findingValue} is an invalid domain name`)
-        return false;
+        throw new Error(`${findingValue} is an invalid domain name`);
     })
   } else {
     throw new Error(`${scopeAnnotationValue} is an invalid domain name`);

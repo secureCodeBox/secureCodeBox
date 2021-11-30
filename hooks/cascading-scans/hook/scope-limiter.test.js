@@ -65,6 +65,19 @@ it("Requirement key must map to an annotation", () => {
 });
 
 describe("Templating", function () {
+  it("fails if the values are undefined", () => {
+    annotations = {
+      "scope.cascading.securecodebox.io/example.com": "example.com"
+    }
+    scopeLimiter.allOf = [
+      {
+        key: "scope.cascading.securecodebox.io/{{attributes.hostname}}",
+        operator: "Contains",
+      }
+    ]
+    expect(isInScope()).toThrowError("the values field may not be undefined");
+  });
+
   it("does not support requirement key", () => {
     annotations = {
       "scope.cascading.securecodebox.io/example.com": "example.com"
@@ -151,7 +164,7 @@ describe("Templating", function () {
   })
 
   describe("lists", function () {
-    describe("list", function () {
+    describe("asList", function () {
       it("matches with list of strings", () => {
         annotations = {
           "scope.cascading.securecodebox.io/domain": "example.com",
@@ -382,7 +395,7 @@ describe("Templating", function () {
       });
     });
 
-    describe("keyinobjectlist", function () {
+    describe("getValues", function () {
       it("matches if templating key is present in all list entries", () => {
         annotations = {
           "scope.cascading.securecodebox.io/CIDR": "127.0.0.0/8",
@@ -457,6 +470,34 @@ describe("Templating", function () {
         };
 
         expect(isInScope()).toBe(false);
+      });
+
+      it("throws when the provided key is not at least 3 levels deep", () => {
+        annotations = {
+          "scope.cascading.securecodebox.io/CIDR": "127.0.0.0/8",
+        }
+        scopeLimiter.allOf = [
+          {
+            key: "scope.cascading.securecodebox.io/CIDR",
+            operator: "InCIDR",
+            values: ["{{#getValues}}attributes.addresses{{/getValues}}"],
+          }
+        ]
+
+        finding = {
+          attributes: {
+            addresses: [
+              {
+                "ip": "127.0.0.1"
+              },
+              {
+                "ip": "fe80::4eb3:e128:53cc:5722"
+              },
+            ]
+          }
+        };
+
+        expect(isInScope).toThrowError("Invalid list key 'attributes.addresses'. List key must be at least 3 levels deep. E.g. 'attributes.addresses.ip'");
       });
 
       it("matches if validOnMissingRender is set and templating key is not present in all list entries", () => {
@@ -722,6 +763,48 @@ describe("Operator", function () {
   });
 
   describe("SubdomainOf", function () {
+    it("does not match if annotation domain is not a domain", () => {
+      annotations = {
+        "scope.cascading.securecodebox.io/domain": "I am not a domain",
+      }
+      scopeLimiter.allOf = [
+        {
+          key: "scope.cascading.securecodebox.io/domain",
+          operator: "SubdomainOf",
+          values: ["subdomain.example.com"],
+        }
+      ]
+      expect(isInScope).toThrowError("I am not a domain is an invalid domain name");
+    });
+
+    it("does not match if finding domain is not a domain", () => {
+      annotations = {
+        "scope.cascading.securecodebox.io/domain": "example.com",
+      }
+      scopeLimiter.allOf = [
+        {
+          key: "scope.cascading.securecodebox.io/domain",
+          operator: "SubdomainOf",
+          values: ["I am not a domain"],
+        }
+      ]
+      expect(isInScope).toThrowError("I am not a domain is an invalid domain name");
+    });
+
+    it("does not match if target domain is deeper nested than the finding domain", () => {
+      annotations = {
+        "scope.cascading.securecodebox.io/domain": "some.subdomain.of.example.com",
+      }
+      scopeLimiter.allOf = [
+        {
+          key: "scope.cascading.securecodebox.io/domain",
+          operator: "SubdomainOf",
+          values: ["example.com"],
+        }
+      ]
+      expect(isInScope()).toBe(false);
+    });
+
     it("matches if is subdomain", () => {
       annotations = {
         "scope.cascading.securecodebox.io/domain": "example.com",
@@ -842,5 +925,61 @@ describe("ScopeLimiter", function () {
       }
     ]
     expect(isInScope()).toBe(false);
+  });
+
+  it("ANDs together results from multiple different limiter classes and fails if one fails", () => {
+    annotations = {
+      "scope.cascading.securecodebox.io/domains": "example.com",
+      "scope.cascading.securecodebox.io/cidr4": "8.8.8.8/8",
+      "scope.cascading.securecodebox.io/cidr6": "2001:0:ce49:7601:e866:efff:62c3:fffe/16",
+    }
+    scopeLimiter.allOf = [
+      {
+        key: "scope.cascading.securecodebox.io/domains",
+        operator: "SubdomainOf",
+        values: ["subdomain.example.com"],
+      }
+    ]
+    scopeLimiter.anyOf = [
+      {
+        key: "scope.cascading.securecodebox.io/cidr4",
+        operator: "InCIDR",
+        values: ["127.0.0.1", "fe80::1"],
+      },
+      {
+        key: "scope.cascading.securecodebox.io/cidr6",
+        operator: "InCIDR",
+        values: ["127.0.0.1", "fe80::1"],
+      }
+    ]
+    expect(isInScope()).toBe(false);
+  });
+
+  it("ANDs together results from multiple different limiter classes", () => {
+    annotations = {
+      "scope.cascading.securecodebox.io/domains": "example.com",
+      "scope.cascading.securecodebox.io/cidr4": "127.0.0.1/8",
+      "scope.cascading.securecodebox.io/cidr6": "2001:0:ce49:7601:e866:efff:62c3:fffe/16",
+    }
+    scopeLimiter.allOf = [
+      {
+        key: "scope.cascading.securecodebox.io/domains",
+        operator: "SubdomainOf",
+        values: ["subdomain.example.com"],
+      }
+    ]
+    scopeLimiter.anyOf = [
+      {
+        key: "scope.cascading.securecodebox.io/cidr4",
+        operator: "InCIDR",
+        values: ["127.0.0.1", "fe80::1"],
+      },
+      {
+        key: "scope.cascading.securecodebox.io/cidr6",
+        operator: "InCIDR",
+        values: ["127.0.0.1", "fe80::1"],
+      }
+    ]
+    expect(isInScope()).toBe(true);
   });
 })
