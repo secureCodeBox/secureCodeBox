@@ -241,6 +241,21 @@ describe("Templating", function () {
 
         expect(isInScope()).toBe(false)
       });
+
+      it("does not create extra empty entry for trailing comma", () => {
+        annotations = {
+          "scope.cascading.securecodebox.io/domains": "example.com",
+        }
+        scopeLimiter.allOf = [
+          {
+            key: "scope.cascading.securecodebox.io/domains",
+            operator: "SubdomainOf",
+            values: ["{{#split}}example.com,test.example.com,{{/split}}"],
+          }
+        ]
+
+        expect(isInScope()).toBe(true)
+      });
     })
 
     describe("keyinobjectlist", function () {
