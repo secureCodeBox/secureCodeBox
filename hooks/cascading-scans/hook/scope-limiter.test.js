@@ -160,7 +160,7 @@ describe("Templating", function () {
           {
             key: "scope.cascading.securecodebox.io/domain",
             operator: "SubdomainOf",
-            values: ["{{#getValues}}attributes.domains{{/getValues}}"],
+            values: ["{{#asList}}attributes.domains{{/asList}}"],
           }
         ]
 
@@ -181,7 +181,7 @@ describe("Templating", function () {
           {
             key: "scope.cascading.securecodebox.io/CIDR",
             operator: "InCIDR",
-            values: ["{{#getValues}}attributes{{/getValues}}"],
+            values: ["{{#asList}}attributes{{/asList}}"],
           }
         ]
 
