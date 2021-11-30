@@ -272,6 +272,21 @@ describe("Templating", function () {
         expect(isInScope()).toBe(false)
       });
 
+      it("can handle spaces between entries", () => {
+        annotations = {
+          "scope.cascading.securecodebox.io/domains": "example.com",
+        }
+        scopeLimiter.allOf = [
+          {
+            key: "scope.cascading.securecodebox.io/domains",
+            operator: "SubdomainOf",
+            values: ["{{#split}}example.com, some.example.com, some-other.example.com, yet-another.example.com{{/split}}"],
+          }
+        ]
+
+        expect(isInScope()).toBe(true)
+      });
+
       it("does not create extra empty entry for trailing comma (matching limiter)", () => {
         annotations = {
           "scope.cascading.securecodebox.io/domains": "example.com",

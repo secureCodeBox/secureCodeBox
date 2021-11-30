@@ -130,7 +130,9 @@ export function isInScope(
             // We are using a regular expression of the comma delimiter instead of a straight comma because
             // NodeJS 14.X only replaces the first occurence when using the latter, and the
             // replaceAll function is only available starting with NodeJS 15.
-            const result = render(text).trim().replace(/,/g, delimiter);
+            // First replace comma with trailing space in case the list is specified as "entry1, entry2".
+            // Then replace any leftover commas without a space, in case the list format is "entry1,entry2".
+            const result = render(text).trim().replace(/, /g, delimiter).replace(/,/g, delimiter);
             if (result === "" || result.endsWith(delimiter)) {
               return result;
             } else {
