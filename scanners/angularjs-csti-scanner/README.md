@@ -98,7 +98,7 @@ Then, mount it into the container:
          name: "acstis-config"
    volumeMounts:
      - name: "acstis-config"
-       mountPath: "/acstis/config/"
+       mountPath: "/home/angularjscsti/acstis/config/"
 ```
 
 #### Configuration options in *acstis-config.py*
@@ -185,11 +185,11 @@ options.scope.request_methods = [
 | scanner.image.tag | string | `nil` | defaults to the charts appVersion |
 | scanner.nameAppend | string | `nil` | append a string to the default scantype name. |
 | scanner.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
-| scanner.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"privileged":false,"readOnlyRootFilesystem":true,"runAsNonRoot":true}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
+| scanner.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"privileged":false,"readOnlyRootFilesystem":false,"runAsNonRoot":true}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | scanner.securityContext.allowPrivilegeEscalation | bool | `false` | Ensure that users privileges cannot be escalated |
 | scanner.securityContext.capabilities.drop[0] | string | `"all"` | This drops all linux privileges from the container. |
 | scanner.securityContext.privileged | bool | `false` | Ensures that the scanner container is not run in privileged mode |
-| scanner.securityContext.readOnlyRootFilesystem | bool | `true` | Prevents write access to the containers file system |
+| scanner.securityContext.readOnlyRootFilesystem | bool | `false` | Prevents write access to the containers file system |
 | scanner.securityContext.runAsNonRoot | bool | `true` | Enforces that the scanner image is run as a non root user |
 | scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 
