@@ -5,9 +5,7 @@
 FROM python:3.6-alpine
 ARG scannerVersion
 
-RUN apk add --update --no-cache g++ gcc libxslt-dev \
-    && pip install https://github.com/tijme/angularjs-csti-scanner/archive/$scannerVersion.zip
-
+RUN apk add --update --no-cache g++ gcc libxslt-dev 
 RUN adduser -S -H -u 1001 angularjscsti
 
 COPY acstis-script.py /home/angularjscsti/acstis/acstis-script.py
