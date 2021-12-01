@@ -82,7 +82,6 @@ jobs:
         # Fetches changelog and filters out any issue references
         run: |
           changelog=$(curl -sL ${{env.versionApi}} | jq -r ".body")
-          echo $changelog
           echo 'releaseChangelog=$changelog' >> $GITHUB_ENV
 
       - name: Upgrade Scanner Helm Chart
