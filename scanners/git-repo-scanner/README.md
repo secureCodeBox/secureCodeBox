@@ -36,8 +36,7 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
 ## What is Git-Repo-Scanner?
 
 Git-Repo-Scanner is a small Python script which discovers repositories on GitHub or GitLab. The main purpose of this scanner
-is to provide a cascading input for the [gitleaks](https://github.com/secureCodeBox/secureCodeBox/tree/main/scanners/gitleaks).
- scanner.
+is to provide a cascading input for the [gitleaks](/docs/scanners/gitleaks) and [semgrep](/docs/scanners/semgrep) scanners.
 
 ## Deployment
 The git-repo-scanner chart can be deployed via helm:
@@ -72,7 +71,7 @@ For type GitHub you can use the following options:
 - `--annotate-latest-commit-id`: Set to True to annotate the results with the SHA1 of the latest commit on the main branch. Causes an extra API hit per repository. False by default.
 
 For now only organizations are supported, so the option is mandatory. We **strongly recommend** providing an access token
-for authentication. If not provided the rate limiting will kick in after about 30 repositories scanned.
+for authentication, otherwise the API rate limiting will kick in after about 30 repositories scanned.
 
 #### GitLab
 For type GitLab you can use the following options:

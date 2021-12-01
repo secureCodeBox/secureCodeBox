@@ -11,7 +11,7 @@ jobs:
           - amass
           - angularjs-csti-scanner
           - cmseek
-          - gitleaks
+          # - gitleaks
           - kube-hunter
           - kubeaudit
           - ncrack
@@ -80,9 +80,8 @@ jobs:
         if: ${{ env.release != env.local && env.release != null }}
         # Fetches changelog and filters out any issue references
         run: |
-          changelog=$(curl -sL ${{env.versionApi}} | jq -r ".body" | sed -e 's/#[0-9]\+//g')
-          echo $changelog
-          echo releaseChangelog=$changelog >> $GITHUB_ENV
+          changelog=$(curl -sL ${{env.versionApi}} | jq -r ".body")
+          echo releaseChangelog="$changelog" >> $GITHUB_ENV
 
       - name: Upgrade Scanner Helm Chart
         if: ${{ env.release != env.local && env.prExists == 0 && env.release != null}}
@@ -139,9 +138,11 @@ jobs:
           author: secureCodeBoxBot <securecodebox@iteratec.com>
           title: ${{ env.pullRequest }}
           body: |
-            "This is an automated Pull Request by the SCB-Bot. It upgrades ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
+            This is an automated Pull Request by the SCB-Bot. It upgrades ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}
             ## Release changes :
+            ```
             ${{env.releaseChangelog}}
+            ```
           branch: "dependencies/upgrading-${{ matrix.scanner }}-to-${{env.release}}"
           labels: dependencies,scanner
           commit-message: "Upgrading ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
