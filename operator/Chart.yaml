@@ -9,7 +9,7 @@ description: secureCodeBox Operator to automate the execution of security scans 
 type: application
 
 # version - gets automatically set to the secureCodeBox release version when the helm charts gets published
-version: v3.1.0-alpha1
+version: latest
 kubeVersion: ">=v1.11.0-0"
 
 keywords:
@@ -41,9 +41,9 @@ annotations:
   # TODO: docker tags should be replaced during release process with the release version
   # artifacthub.io/images: |
   #   - name: securecodebox-operator
-  #     image: docker.io/securecodebox/operator:v2.7.0-alpha1
+  #     image: docker.io/securecodebox/operator:latest
   #   - name: securecodebox-lurker
-  #     image: docker.io/securecodebox/lurker:v2.7.0-alpha1
+  #     image: docker.io/securecodebox/lurker:latest
   artifacthub.io/crds: |
     - kind: Scan
       version: v1
