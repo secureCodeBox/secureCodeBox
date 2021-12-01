@@ -82,7 +82,7 @@ jobs:
         # Fetches changelog and filters out any issue references
         run: |
           changelog=$(curl -sL ${{env.versionApi}} | jq -r ".body")
-          echo releaseChangelog="$changelog" >> $GITHUB_ENV
+          echo "releaseChangelog=$changelog" >> $GITHUB_ENV
 
       - name: Upgrade Scanner Helm Chart
         if: ${{ env.release != env.local && env.prExists == 0 && env.release != null}}
