@@ -28,7 +28,7 @@ spec:
               imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
               command:
                 - "sh"
-                - "/wrapper.sh"
+                - "/home/angularjscsti/wrapper.sh"
                 - "-vrl"
                 - "/home/securecodebox/findings.log"
               resources:
