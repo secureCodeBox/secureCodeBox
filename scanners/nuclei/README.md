@@ -156,6 +156,20 @@ STATISTICS:
 
 Kubernetes: `>=v1.11.0-0`
 
+## Install Nuclei without Template Cache CronJob / PersistentVolume
+
+Nuclei uses dynamic templates as its scan rules, these determine which requests are performed and which responses are considered to be a finding.
+These templates are usually dynamically downloaded by nuclei from GitHub before each scan. When you are running dozens of parallel nuclei scans you quickly run into situations where GitHub will rate limit you causing the scans to fail.
+To avoid these errors we included a CronJob which periodically fetches the current templates and writes them into a kubernetes PersistentVolume (PV). This volume is then mounted (as a `ReadOnlyMany` mount) into every scan so that nuclei scans have the up-to-date templates without having to download them on every scan.
+
+Unfortunately not every cluster supports the required `ReadOnlyMany` volume type.
+In these cases you can disable the template cache mechanism by setting `nucleiTemplateCache.enabled=false`.
+Note thought, that this will limit the number of scans you can run in parallel as the rate limit will likely cause some of the scans to fail.
+
+```bash
+helm install nuclei secureCodeBox/nuclei --set="nucleiTemplateCache.enabled=false"
+```
+
 ## Values
 
 | Key | Type | Default | Description |
