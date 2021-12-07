@@ -67,7 +67,7 @@ scanner:
     # scanner.securityContext.runAsNonRoot -- Enforces that the scanner image is run as a non root user
     runAsNonRoot: true
     # scanner.securityContext.readOnlyRootFilesystem -- Prevents write access to the containers file system
-    readOnlyRootFilesystem: true
+    readOnlyRootFilesystem: false
     # scanner.securityContext.allowPrivilegeEscalation -- Ensure that users privileges cannot be escalated
     allowPrivilegeEscalation: false
     # scanner.securityContext.privileged -- Ensures that the scanner container is not run in privileged mode

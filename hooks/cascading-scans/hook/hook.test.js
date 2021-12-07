@@ -115,6 +115,7 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", () =
           ],
         },
         "spec": Object {
+          "affinity": undefined,
           "cascades": Object {},
           "env": Array [],
           "hookSelector": Object {},
@@ -124,6 +125,7 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", () =
             "foobar.com:443",
           ],
           "scanType": "sslyze",
+          "tolerations": undefined,
           "volumeMounts": Array [],
           "volumes": Array [],
         },
@@ -259,6 +261,7 @@ test("Should not crash when the annotations are not set", () => {
           ],
         },
         "spec": Object {
+          "affinity": undefined,
           "cascades": Object {},
           "env": Array [],
           "hookSelector": Object {},
@@ -268,6 +271,7 @@ test("Should not crash when the annotations are not set", () => {
             "foobar.com:443",
           ],
           "scanType": "sslyze",
+          "tolerations": undefined,
           "volumeMounts": Array [],
           "volumes": Array [],
         },
@@ -395,6 +399,7 @@ test("Should allow wildcards in cascadingRules", () => {
           ],
         },
         "spec": Object {
+          "affinity": undefined,
           "cascades": Object {},
           "env": Array [],
           "hookSelector": Object {},
@@ -404,6 +409,7 @@ test("Should allow wildcards in cascadingRules", () => {
             "foobar.com:8443",
           ],
           "scanType": "sslyze",
+          "tolerations": undefined,
           "volumeMounts": Array [],
           "volumes": Array [],
         },
@@ -1176,6 +1182,7 @@ test("Templating should apply to environment variables", () => {
           ],
         },
         "spec": Object {
+          "affinity": undefined,
           "cascades": Object {},
           "env": Array [
             Object {
@@ -1190,6 +1197,7 @@ test("Templating should apply to environment variables", () => {
             "foobar.com:443",
           ],
           "scanType": "sslyze",
+          "tolerations": undefined,
           "volumeMounts": Array [
             Object {
               "mountPath": "/test",
@@ -1299,6 +1307,7 @@ test("Templating should apply to initContainer commands", () => {
           ],
         },
         "spec": Object {
+          "affinity": undefined,
           "cascades": Object {},
           "env": Array [],
           "hookSelector": Object {},
@@ -1325,6 +1334,7 @@ test("Templating should apply to initContainer commands", () => {
             "foobar.com:443",
           ],
           "scanType": "sslyze",
+          "tolerations": undefined,
           "volumeMounts": Array [
             Object {
               "mountPath": "/test",
@@ -1435,6 +1445,7 @@ test("Templating should apply to initContainer environment variables", () => {
           ],
         },
         "spec": Object {
+          "affinity": undefined,
           "cascades": Object {},
           "env": Array [],
           "hookSelector": Object {},
@@ -1464,6 +1475,7 @@ test("Templating should apply to initContainer environment variables", () => {
             "foobar.com:443",
           ],
           "scanType": "sslyze",
+          "tolerations": undefined,
           "volumeMounts": Array [
             Object {
               "mountPath": "/test",
@@ -1573,6 +1585,7 @@ test("Templating should not break special encoding (http://...) when using tripl
           ],
         },
         "spec": Object {
+          "affinity": undefined,
           "cascades": Object {},
           "env": Array [],
           "hookSelector": Object {},
@@ -1599,6 +1612,7 @@ test("Templating should not break special encoding (http://...) when using tripl
             "https://github.com/secureCodeBox/secureCodeBox",
           ],
           "scanType": "sslyze",
+          "tolerations": undefined,
           "volumeMounts": Array [
             Object {
               "mountPath": "/test",
@@ -1758,6 +1772,450 @@ test("should not merge hookSelector into cascaded scan if inheritHookSelector is
       "securecodebox.io/internal": "false",
     },
   }
+  `);
+});
+
+test("should copy tolerations and affinity into cascaded scan if one is set and label is unset", () => {
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  parentScan.spec.affinity = {
+    nodeAffinity: {
+      requiredDuringSchedulingIgnoredDuringExecution: { 
+        nodeSelectorTerms: [
+          {  
+            matchExpressions: [
+              {
+                key: "disktype",
+                operator: "In",
+                values: [
+                  "ssd"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+
+  parentScan.spec.tolerations = [
+    {
+      key: "key1",
+      operator: "Equal",
+      value: "test",
+      effect: "NoSchedule"
+    }
+  ]
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const cascadedScan = cascadedScans[0];
+
+  expect(cascadedScan.spec.affinity).toMatchInlineSnapshot(`
+  Object {
+    "nodeAffinity": Object {
+      "requiredDuringSchedulingIgnoredDuringExecution": Object {
+        "nodeSelectorTerms": Array [
+          Object {
+            "matchExpressions": Array [
+              Object {
+                "key": "disktype",
+                "operator": "In",
+                "values": Array [
+                  "ssd",
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    },
+  }
+  `);
+
+  expect(cascadedScan.spec.tolerations).toMatchInlineSnapshot(`
+  Array [
+    Object {
+      "effect": "NoSchedule",
+      "key": "key1",
+      "operator": "Equal",
+      "value": "test",
+    },
+  ]
+  `);
+});
+
+test("should not copy tolerations and affinity into cascaded scan if label disables it", () => {
+  parentScan.spec.cascades.inheritAffinity = false;
+  parentScan.spec.cascades.inheritTolerations = false;
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  parentScan.spec.affinity = {
+    nodeAffinity: {
+      requiredDuringSchedulingIgnoredDuringExecution: { 
+        nodeSelectorTerms: [
+          {  
+            matchExpressions: [
+              {
+                key: "disktype",
+                operator: "In",
+                values: [
+                  "ssd"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+
+  parentScan.spec.tolerations = [
+    {
+      key: "key1",
+      operator: "Equal",
+      value: "test",
+      effect: "NoSchedule"
+    }
+  ]
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const cascadedScan = cascadedScans[0];
+
+  expect(cascadedScan.spec.affinity).toMatchInlineSnapshot(`undefined`);
+
+  expect(cascadedScan.spec.tolerations).toMatchInlineSnapshot(`undefined`);
+});
+
+test("should merge tolerations and replace affinity in cascaded scan if cascading spec sets new ones", () => {
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  parentScan.spec.affinity = {
+    nodeAffinity: {
+      requiredDuringSchedulingIgnoredDuringExecution: { 
+        nodeSelectorTerms: [
+          {  
+            matchExpressions: [
+              {
+                key: "disktype",
+                operator: "In",
+                values: [
+                  "ssd"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+
+  parentScan.spec.tolerations = [
+    {
+      key: "key1",
+      operator: "Equal",
+      value: "test",
+      effect: "NoSchedule"
+    }
+  ]
+
+  sslyzeCascadingRules[0].spec.scanSpec.tolerations = [
+    {
+      key: "key2",
+      operator: "Equal",
+      value: "test-2",
+      effect: "NoSchedule",
+    }
+  ];
+
+  sslyzeCascadingRules[0].spec.scanSpec.affinity = {
+    nodeAffinity: {
+      requiredDuringSchedulingIgnoredDuringExecution: { 
+        nodeSelectorTerms: [
+          {  
+            matchExpressions: [
+              {
+                key: "network",
+                operator: "In",
+                values: [
+                  "10g"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const cascadedScan = cascadedScans[0];
+
+  // New values will completely replace the old values, not be merged
+  expect(cascadedScan.spec.affinity).toMatchInlineSnapshot(`
+  Object {
+    "nodeAffinity": Object {
+      "requiredDuringSchedulingIgnoredDuringExecution": Object {
+        "nodeSelectorTerms": Array [
+          Object {
+            "matchExpressions": Array [
+              Object {
+                "key": "network",
+                "operator": "In",
+                "values": Array [
+                  "10g",
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    },
+  }
+  `);
+
+  expect(cascadedScan.spec.tolerations).toMatchInlineSnapshot(`
+  Array [
+    Object {
+      "effect": "NoSchedule",
+      "key": "key1",
+      "operator": "Equal",
+      "value": "test",
+    },
+    Object {
+      "effect": "NoSchedule",
+      "key": "key2",
+      "operator": "Equal",
+      "value": "test-2",
+    },
+  ]
+  `);
+});
+
+test("should not set affinity or tolerations to undefined if they are defined to be an empty map / list in upstream scan", () => {
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  parentScan.spec.affinity = {}
+
+  parentScan.spec.tolerations = []
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const cascadedScan = cascadedScans[0];
+
+  // New values will completely replace the old values, not be merged
+  expect(cascadedScan.spec.affinity).toMatchInlineSnapshot(`Object {}`);
+
+  expect(cascadedScan.spec.tolerations).toMatchInlineSnapshot(`Array []`);
+});
+
+test("Should not set affinity or tolerations to undefined if they are defined to be an empty map / list in cascading ScanSpec", () => {
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  sslyzeCascadingRules[0].spec.scanSpec.tolerations = [];
+
+  sslyzeCascadingRules[0].spec.scanSpec.affinity = {};
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const cascadedScan = cascadedScans[0];
+
+  // New values will completely replace the old values, not be merged
+  expect(cascadedScan.spec.affinity).toMatchInlineSnapshot(`Object {}`);
+
+  expect(cascadedScan.spec.tolerations).toMatchInlineSnapshot(`Array []`);
+});
+
+test("should only use tolerations and affinity of cascaded scan if inheritance is disabled", () => {
+  parentScan.spec.cascades.inheritAffinity = false;
+  parentScan.spec.cascades.inheritTolerations = false;
+  const findings = [
+    {
+      name: "Port 443 is open",
+      category: "Open Port",
+      attributes: {
+        state: "open",
+        hostname: "foobar.com",
+        port: 443,
+        service: "https"
+      }
+    }
+  ];
+
+  parentScan.spec.affinity = {
+    nodeAffinity: {
+      requiredDuringSchedulingIgnoredDuringExecution: { 
+        nodeSelectorTerms: [
+          {  
+            matchExpressions: [
+              {
+                key: "disktype",
+                operator: "In",
+                values: [
+                  "ssd"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+
+  parentScan.spec.tolerations = [
+    {
+      key: "key1",
+      operator: "Equal",
+      value: "test",
+      effect: "NoSchedule"
+    }
+  ]
+
+  sslyzeCascadingRules[0].spec.scanSpec.tolerations = [
+    {
+      key: "key2",
+      operator: "Equal",
+      value: "test-2",
+      effect: "NoSchedule",
+    }
+  ];
+
+  sslyzeCascadingRules[0].spec.scanSpec.affinity = {
+    nodeAffinity: {
+      requiredDuringSchedulingIgnoredDuringExecution: { 
+        nodeSelectorTerms: [
+          {  
+            matchExpressions: [
+              {
+                key: "network",
+                operator: "In",
+                values: [
+                  "10g"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+
+  const cascadedScans = getCascadingScans(
+    parentScan,
+    findings,
+    sslyzeCascadingRules
+  );
+
+  const cascadedScan = cascadedScans[0];
+
+  expect(cascadedScan.spec.affinity).toMatchInlineSnapshot(`
+  Object {
+    "nodeAffinity": Object {
+      "requiredDuringSchedulingIgnoredDuringExecution": Object {
+        "nodeSelectorTerms": Array [
+          Object {
+            "matchExpressions": Array [
+              Object {
+                "key": "network",
+                "operator": "In",
+                "values": Array [
+                  "10g",
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    },
+  }
+  `);
+
+  expect(cascadedScan.spec.tolerations).toMatchInlineSnapshot(`
+  Array [
+    Object {
+      "effect": "NoSchedule",
+      "key": "key2",
+      "operator": "Equal",
+      "value": "test-2",
+    },
+  ]
   `);
 });
 

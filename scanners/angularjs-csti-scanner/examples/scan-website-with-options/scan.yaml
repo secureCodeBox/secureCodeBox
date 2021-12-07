@@ -21,4 +21,4 @@ spec:
         name: "acstis-config"
   volumeMounts:
     - name: "acstis-config"
-      mountPath: "/acstis/config/"
+      mountPath: "/home/angularjscsti/acstis/config/"

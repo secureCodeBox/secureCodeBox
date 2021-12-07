@@ -48,6 +48,16 @@ type CascadeSpec struct {
 	// +kubebuilder:default=false
 	InheritHookSelector bool `json:"inheritHookSelector"`
 
+	// InheritAffinity defines whether cascading scans should inherit affinity from the parent scan.
+	// +optional
+	// +kubebuilder:default=true
+	InheritAffinity bool `json:"inheritAffinity"`
+
+	// InheritTolerations defines whether cascading scans should inherit tolerations from the parent scan.
+	// +optional
+	// +kubebuilder:default=true
+	InheritTolerations bool `json:"inheritTolerations"`
+
 	// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
 	// map is equivalent to an element of matchExpressions, whose key field is "key", the
 	// operator is "In", and the values array contains only "value". The requirements are ANDed.
@@ -112,6 +122,10 @@ type ScanSpec struct {
 	VolumeMounts []corev1.VolumeMount `json:"volumeMounts,omitempty"`
 	// InitContainers allows to specify init containers for the scan container, to pre-load data into them.
 	InitContainers []corev1.Container `json:"initContainers,omitempty"`
+	// Affinity allows to specify a node affinity, to control on which nodes you want a scan to run. See: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/
+	Affinity *corev1.Affinity `json:"affinity,omitempty"`
+	// Tolerations are a different way to control on which nodes your scan is executed. See https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
+	Tolerations []corev1.Toleration `json:"tolerations,omitempty"`
 
 	Cascades *CascadeSpec `json:"cascades,omitempty"`
 }
