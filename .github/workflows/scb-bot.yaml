@@ -63,8 +63,9 @@ jobs:
             fi
           fi
 
-          echo $upgrade
+          echo releaseGithub=$release >> $GITHUB_ENV #
           echo release=$upgrade >> $GITHUB_ENV
+        # ^ The first echo sets how the release version looks in github releases and the second sets how the release version looks in docker images
 
       - name: Check if scanner is outdated and if PR already exists
         if: ${{ env.release != env.local && env.release != null }}
@@ -82,7 +83,7 @@ jobs:
         # Reformats the versionApi to have an HTML view of the release changelog
         run: |
           changelog=$(echo ${{env.versionApi}} | sed -e 's/api.//g;s/\/repos//g;s/latest//g')
-          echo releaseChangelog=${changelog}${{env.release}} >> $GITHUB_ENV
+          echo releaseChangelog=${changelog}${{env.releaseGithub}} >> $GITHUB_ENV
 
       - name: Upgrade Scanner Helm Chart
         #if: ${{ env.release != env.local && env.prExists == 0 && env.release != null}}
