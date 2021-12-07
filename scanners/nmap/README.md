@@ -38,7 +38,7 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
 ## What is NMAP?
 Nmap ("Network Mapper") is a free and open source (license) utility for network discovery and security auditing. Many systems and network administrators also find it useful for tasks such as network inventory, managing service upgrade schedules, and monitoring host or service uptime.
 
-To learn more about the Nmap scanner itself visit [nmap.org].
+To learn more about the Nmap scanner itself visit [nmap.org](https://nmap.org/).
 
 ## NSE scripts
 
