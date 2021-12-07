@@ -80,6 +80,10 @@ jobs:
       - name: Fetch new release changelog
         if: ${{ env.release != env.local && env.release != null }}
         # Reformats the versionApi to have an HTML view of the release changelog
+        # sed command is divided into three parts s/api.//g; , s/\/repos//g; and s/latest//g
+        # "api." and "/repos" and "latest" are replaced with nothing (a.k.a removed)
+        # example: https://api.github.com/repos/OWASP/Amass/releases/latest --> https://github.com/OWASP/Amass/releases/
+        # the next command then appends the link  with the new release version as it is in Github.
         run: |
           changelog=$(echo ${{env.versionApi}} | sed -e 's/api.//g;s/\/repos//g;s/latest//g')
           echo releaseChangelog=${changelog}${{env.releaseGithub}} >> $GITHUB_ENV
