@@ -63,6 +63,8 @@ export interface ScanSpec {
   volumeMounts?: Array<k8s.V1VolumeMount>;
   initContainers?: Array<k8s.V1Container>;
   hookSelector?: LabelSelector;
+  tolerations?: Array<k8s.V1Toleration>;
+  affinity?: k8s.V1Toleration;
 }
 
 export interface CascadingInheritance {
@@ -72,11 +74,16 @@ export interface CascadingInheritance {
   inheritVolumes: boolean,
   inheritInitContainers: boolean,
   inheritHookSelector: boolean,
+  inheritAffinity: boolean,
+  inheritTolerations: boolean,
 }
 
 export function mergeInheritedMap(parentProps, ruleProps, inherit: boolean = true) {
   if (!inherit) {
     parentProps = {};
+  }
+  if (ruleProps === undefined) {
+    return parentProps;
   }
   return {
     ...parentProps,
