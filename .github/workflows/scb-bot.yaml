@@ -82,7 +82,7 @@ jobs:
         # Reformats the versionApi to have an HTML view of the release changelog
         run: |
           changelog=$(echo ${{env.versionApi}} | sed -e 's/api.//g;s/\/repos//g;s/latest//g')
-          echo releaseChangelog=$changelog${{env.release}} >> $GITHUB_ENV
+          echo releaseChangelog=${changelog}${{env.release}} >> $GITHUB_ENV
 
       - name: Upgrade Scanner Helm Chart
         #if: ${{ env.release != env.local && env.prExists == 0 && env.release != null}}
