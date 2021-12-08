@@ -16,6 +16,10 @@ import (
 type CascadeSpec struct {
 	// InheritLabels defines whether cascading scans should inherit labels from the parent scan
 	// +optional
+	ScopeLimiter ScopeLimiter `json:"scopeLimiter"`
+
+	// InheritLabels defines whether cascading scans should inherit labels from the parent scan
+	// +optional
 	// +kubebuilder:default=true
 	InheritLabels bool `json:"inheritLabels"`
 
@@ -62,6 +66,36 @@ type CascadeSpec struct {
 	// matchExpressions is a list of label selector requirements. The requirements are ANDed.
 	// +optional
 	MatchExpressions []metav1.LabelSelectorRequirement `json:"matchExpressions,omitempty" protobuf:"bytes,2,rep,name=matchExpressions"`
+}
+
+type ScopeLimiter struct {
+	// ValidOnMissingRender defines whether if a templating variable is not present, that condition should match
+	// +optional
+	// +kubebuilder:default=false
+	ValidOnMissingRender bool `json:"validOnMissingRender"`
+
+	// AnyOf is a list of label selector requirements. The requirements are ANDed.
+	// +optional
+	AnyOf []ScopeLimiterRequirement `json:"anyOf,omitempty" protobuf:"bytes,2,rep,name=anyOf"`
+
+	// AllOf is a list of label selector requirements. The requirements are ANDed.
+	// +optional
+	AllOf []ScopeLimiterRequirement `json:"allOf,omitempty" protobuf:"bytes,2,rep,name=allOf"`
+
+	// NoneOf is a list of label selector requirements. The requirements are ANDed.
+	// +optional
+	NoneOf []ScopeLimiterRequirement `json:"noneOf,omitempty" protobuf:"bytes,2,rep,name=noneOf"`
+}
+
+// ScopeLimiterRequirement is a selector that contains values, a key, and an operator that
+// relates the key and values.
+type ScopeLimiterRequirement struct {
+	// key is the label key that the selector applies to.
+	Key string `json:"key" protobuf:"bytes,1,opt,name=key"`
+	// operator represents a key's relationship to a set of values.
+	Operator string `json:"operator" protobuf:"bytes,2,opt,name=operator"`
+	// values is an array of string values.
+	Values []string `json:"values" protobuf:"bytes,3,rep,name=values"`
 }
 
 // ScanSpec defines the desired state of Scan

@@ -17,6 +17,8 @@ type ParseDefinitionSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
+	ScopeLimiterAliases map[string]string `json:"scopeLimiterAliases,omitempty"`
+
 	// Image is the reference to the parser container image which ca transform the raw scan report into findings
 	Image string `json:"image,omitempty"`
 	// ImagePullSecrets used to access private parser images
