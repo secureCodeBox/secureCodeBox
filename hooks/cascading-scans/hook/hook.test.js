@@ -1821,7 +1821,9 @@ test("should copy tolerations and affinity into cascaded scan if one is set and 
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -1908,7 +1910,9 @@ test("should not copy tolerations and affinity into cascaded scan if label disab
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -1993,7 +1997,9 @@ test("should merge tolerations and replace affinity in cascaded scan if cascadin
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -2060,7 +2066,9 @@ test("should not set affinity or tolerations to undefined if they are defined to
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -2092,7 +2100,9 @@ test("Should not set affinity or tolerations to undefined if they are defined to
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
@@ -2180,7 +2190,9 @@ test("should only use tolerations and affinity of cascaded scan if inheritance i
   const cascadedScans = getCascadingScans(
     parentScan,
     findings,
-    sslyzeCascadingRules
+    sslyzeCascadingRules,
+    undefined,
+    parseDefinition,
   );
 
   const cascadedScan = cascadedScans[0];
