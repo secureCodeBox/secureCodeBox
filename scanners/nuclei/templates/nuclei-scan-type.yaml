@@ -28,7 +28,9 @@ spec:
               imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
               command:
                 - "nuclei"
+                {{ if .Values.nucleiTemplateCache.enabled }}
                 - "-no-update-templates"
+                {{ end }}
                 - "-json"
                 - "-output"
                 - "/home/securecodebox/nuclei-results.jsonl"
