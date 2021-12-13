@@ -9,5 +9,5 @@ metadata:
 spec:
   scanType: "nmap"
   parameters:
-    # Actual IP will depend on you network config. 🤷‍
+    # Actual IP will depend on your network config. 🤷‍
     - 192.168.178.0/24

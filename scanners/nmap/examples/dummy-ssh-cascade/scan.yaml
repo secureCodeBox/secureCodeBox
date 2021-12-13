@@ -13,7 +13,7 @@ spec:
     - "-Pn"
     # Service Detection enabled
     - "-sV"
-    # Actual Service Address will depend on you cluster and namespace configuration. 🤷‍
+    # Actual Service Address will depend on your cluster and namespace configuration. 🤷‍
     - "dummy-ssh.demo-targets.svc"
   cascades:
     matchLabels:
