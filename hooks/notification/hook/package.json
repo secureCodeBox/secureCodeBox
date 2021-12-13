@@ -32,7 +32,7 @@
     "ts-jest": "^27.0.3"
   },
   "dependencies": {
-    "@kubernetes/client-node": "^0.15.0",
+    "@kubernetes/client-node": "^0.16.0",
     "@types/js-yaml": "^4.0.2",
     "@types/nunjucks": "^3.1.5",
     "axios": "^0.21.4",
