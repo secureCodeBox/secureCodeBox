@@ -5,7 +5,7 @@
   "main": "hook.js",
   "scripts": {
     "test": "jest",
-    "build": "npx tsc hook.ts --sourceMap"
+    "build": "npx tsc hook.ts --sourceMap --esModuleInterop"
   },
   "repository": {
     "type": "git",
