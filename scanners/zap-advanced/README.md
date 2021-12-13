@@ -3,7 +3,7 @@ title: "ZAP Advanced"
 category: "scanner"
 type: "WebApplication"
 state: "released"
-appVersion: "2.11.0"
+appVersion: "2.11.1"
 usecase: "WebApp & OpenAPI Vulnerability Scanner extend with authentication features"
 ---
 
