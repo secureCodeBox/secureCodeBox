@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import { isMatch, isMatchWith, isString, mapValues, cloneDeep } from "lodash";
+import { isMatch, isMatchWith, isString, mapValues, cloneDeep, pickBy, forEach } from "lodash";
 import { isMatch as wildcardIsMatch } from "matcher";
 import * as Mustache from "mustache";
 
@@ -13,12 +13,18 @@ import {
   Scan,
   Finding,
   CascadingRule,
+  ParseDefinition,
   getCascadedRuleForScan,
+  getParseDefinitionForScan,
   purgeCascadedRuleFromScan,
   mergeInheritedMap,
   mergeInheritedArray,
   mergeInheritedSelector,
 } from "./scan-helpers";
+import {
+  isInScope,
+  scopeDomain,
+} from "./scope-limiter";
 
 interface HandleArgs {
   scan: Scan;
@@ -29,8 +35,9 @@ export async function handle({ scan, getFindings }: HandleArgs) {
   const findings = await getFindings();
   const cascadingRules = await getCascadingRules(scan);
   const cascadedRuleUsedForParentScan = await getCascadedRuleForScan(scan);
+  const parseDefinition = await getParseDefinition(scan);
 
-  const cascadingScans = getCascadingScans(scan, findings, cascadingRules, cascadedRuleUsedForParentScan);
+  const cascadingScans = getCascadingScans(scan, findings, cascadingRules, cascadedRuleUsedForParentScan, parseDefinition);
 
   for (const cascadingScan of cascadingScans) {
     await startSubsequentSecureCodeBoxScan(cascadingScan);
@@ -42,6 +49,11 @@ async function getCascadingRules(scan: Scan): Promise<Array<CascadingRule>> {
   return <Array<CascadingRule>>await getCascadingRulesForScan(scan);
 }
 
+async function getParseDefinition(scan: Scan): Promise<ParseDefinition> {
+  // Explicit Cast to the proper Type
+  return <ParseDefinition>await getParseDefinitionForScan(scan);
+}
+
 /**
  * Goes thought the Findings and the CascadingRules
  * and returns a List of Scans which should be started based on both.
@@ -50,7 +62,8 @@ export function getCascadingScans(
   parentScan: Scan,
   findings: Array<Finding>,
   cascadingRules: Array<CascadingRule>,
-  cascadedRuleUsedForParentScan: CascadingRule
+  cascadedRuleUsedForParentScan: CascadingRule,
+  parseDefinition: ParseDefinition,
 ): Array<Scan> {
   let cascadingScans: Array<Scan> = [];
   const cascadingRuleChain = getScanChain(parentScan);
@@ -67,7 +80,14 @@ export function getCascadingScans(
       continue;
     }
 
-    cascadingScans = cascadingScans.concat(getScansMatchingRule(parentScan, findings, cascadingRule))
+    // Check for new scope annotations
+    forEach(cascadingRule.spec.scanAnnotations, (value, key) => {
+      if (key.startsWith(scopeDomain)) {
+        throw new Error(`may not add scope annotation '${key}':'${value}' in Cascading Rule spec`)
+      }
+    });
+
+    cascadingScans = cascadingScans.concat(getScansMatchingRule(parentScan, findings, cascadingRule, parseDefinition))
   }
 
   return cascadingScans;
@@ -86,9 +106,31 @@ export function getScanChain(parentScan: Scan) {
   return []
 }
 
-function getScansMatchingRule(parentScan: Scan, findings: Array<Finding>, cascadingRule: CascadingRule) {
+function getScansMatchingRule(
+  parentScan: Scan,
+  findings: Array<Finding>,
+  cascadingRule: CascadingRule,
+  parseDefinition: ParseDefinition,
+) {
   const cascadingScans: Array<Scan> = [];
   for (const finding of findings) {
+    // Check if the scan matches for the current finding
+    const inScope = isInScope(
+      parentScan.spec.cascades.scopeLimiter,
+      parentScan.metadata.annotations,
+      finding,
+      parseDefinition.spec.scopeLimiterAliases,
+    );
+
+    if (!inScope) {
+      console.log(`Cascading Rule ${cascadingRule.metadata.name} not triggered as scope limiter did not pass`);
+      console.log(`Scan annotations ${JSON.stringify(parentScan.metadata.annotations)}`);
+      console.log(`Scope limiter ${JSON.stringify(parentScan.spec.cascades.scopeLimiter)}`);
+      console.log(`Scope limiter aliases ${JSON.stringify(parseDefinition.spec.scopeLimiterAliases)}`);
+      console.log(`Finding ${JSON.stringify(finding)}`);
+      continue;
+    }
+
     // Check if one (ore more) of the CascadingRule matchers apply to the finding
     const matches = cascadingRule.spec.matches.anyOf.some(matchesRule =>
       isMatch(finding, matchesRule) || isMatchWith(finding, matchesRule, wildcardMatcher)
@@ -130,6 +172,7 @@ function getCascadingScan(
           ...cascadingChain,
           cascadingRule.metadata.name
         ].join(","),
+        ...pickBy(parentScan.metadata.annotations, (value, key) => key.startsWith(scopeDomain)),
       },
       ownerReferences: [
         {
