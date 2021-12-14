@@ -80,10 +80,10 @@ spec:
               mountPath: /root
               readOnly: false
             {{- if .Values.scanner.extraVolumeMounts }}
-            {{- toYaml .Values.scanner.extraVolumeMounts | nindent 16 }}
+            {{- toYaml .Values.scanner.extraVolumeMounts | nindent 12 }}
             {{- end }}
         {{- if .Values.scanner.extraContainers }}
-        {{- toYaml .Values.scanner.extraContainers | nindent 12 }}
+        {{- toYaml .Values.scanner.extraContainers | nindent 8 }}
         {{- end }}
       volumes:
         - name: nuclei-content
@@ -91,6 +91,6 @@ spec:
             claimName: nuclei-content-claim
             readOnly: false
         {{- if .Values.scanner.extraVolumes }}
-        {{- toYaml .Values.scanner.extraVolumes | nindent 12 }}
+        {{- toYaml .Values.scanner.extraVolumes | nindent 8 }}
         {{- end }}
 {{- end }}
