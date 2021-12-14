@@ -134,7 +134,7 @@ This means that you can define key-value pairs as well as providing envs via sec
 The rules can be defined in the values of the Chart.
 The syntax and semantic for these rules are quite similar to CascadingRules (See: [secureCodeBox | CascadingRules](/docs/api/crds/cascading-rule))
 To define Rules you will have to provide the `rules` field with one or more `matches` elements.
-Each `machtes` defines one Rule.
+Each `matches` defines one Rule.
 For example:
 
 ```yaml
@@ -155,13 +155,51 @@ Within the `matches` you will have to provide `anyOf`
 `anyOf` contains one or more conditions to be met by the finding to match the rule.
 Notice that only one of these elements needs to match the finding for the rule to match.
 
-#### Configuration of a Slack Notification
+#### Configuration of a Slack Notification (WebHook)
 
 To configure a Slack notification set the `type` to `slack` and the `endPoint` to point to your env containing your Webhook URL to slack.
 You can use one of the following default templates:
 
 - `slack-messageCard`: Sends a message with a summary listing the number of findings per category and severity.
 - `slack-individual-findings-with-defectdojo`: Sends a message with a list of all findings with a link to the finding in DefectDojo. Will only work correctly if the DefectDojo hook is installed in the same namespace.
+
+##### Example Config
+
+The below example shows how to create a helm values chart and load secrets for access.
+You must have `endPoint` point to a [defined environment variable](https://github.com/secureCodeBox/secureCodeBox/blob/main/hooks/notification/hook/hook.ts#L20), not a string.
+
+```
+# cat myvalues.yaml
+
+notificationChannels:
+  - name: nmapopenports
+    type: slack
+    template: slack-messageCard
+    skipNotificationOnZeroFinding: true
+    rules:
+      - matches:
+          anyOf:
+            - category: "Open Port"
+    endPoint: POINTER_TO_ENV
+env:
+    - name: POINTER_TO_ENV
+      valueFrom:
+        secretKeyRef:
+            name: myslacksecret
+            key: SLACK_WEB_HOOK
+
+# cat values_slack_secrets.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+    name: myslacksecret
+type: Opaque
+data:
+    SLACK_WEB_HOOK: NOIDONTHINKSOBASE64STUFF
+
+kubectl apply -f values_slack_secrets.yaml
+helm upgrade --install nwh secureCodeBox/notification-hook --values myvalues.yaml
+```
 
 #### Configuration of a Slack App Notification
 
@@ -255,7 +293,7 @@ env:
     value: secureCodeBox
 ```
 
-### Configuration Of A MS Teams Notification
+#### Configuration Of A MS Teams Notification
 
 To configure a MS Teams notification you need to set the type to `ms-teams`.
 In `endPoint` you need to specify the MS Teams webhook.
@@ -316,6 +354,8 @@ To fill your template with data we provide the following objects.
 | hook.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | hook.image.repository | string | `"docker.io/securecodebox/hook-notification"` | Hook image repository |
 | hook.image.tag | string | defaults to the charts version | Image tag |
+| hook.labels | object | `{}` | Add Kubernetes Labels to the hook definition |
+| hook.priority | int | `0` | Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks. |
 | hook.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | notificationChannels[0].endPoint | string | `"SOME_ENV_KEY"` |  |
 | notificationChannels[0].name | string | `"slack"` |  |

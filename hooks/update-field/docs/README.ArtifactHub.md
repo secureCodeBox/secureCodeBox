@@ -60,7 +60,7 @@ Kubernetes: `>=v1.11.0-0`
 Installing the _Update Field_ hook will add a ReadAndWrite Hook to your namespace, which can be used to add or update fields from your findings.
 
 ```bash
-helm upgrade --install ufh secureCodeBox/update-field --set attribute.name="category" --set attribute.value="my-own-category"
+helm upgrade --install ufh secureCodeBox/update-field-hook --set attribute.name="category" --set attribute.value="my-own-category"
 ```
 > ✍ This documentation is currently work-in-progress.
 
@@ -72,6 +72,8 @@ helm upgrade --install ufh secureCodeBox/update-field --set attribute.name="cate
 | attribute.value | string | `"my-own-category"` | The value of the attribute you want to add to each finding result |
 | hook.image.repository | string | `"docker.io/securecodebox/hook-update-field"` | Hook image repository |
 | hook.image.tag | string | defaults to the charts version | The image Tag defaults to the charts version if not defined. |
+| hook.labels | object | `{}` | Add Kubernetes Labels to the hook definition |
+| hook.priority | int | `0` | Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks. |
 | hook.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 
 ## Contributing
