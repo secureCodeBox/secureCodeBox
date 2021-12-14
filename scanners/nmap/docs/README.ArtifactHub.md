@@ -43,7 +43,22 @@ You can find resources to help you get started on our [documentation website](ht
 ## What is NMAP?
 Nmap ("Network Mapper") is a free and open source (license) utility for network discovery and security auditing. Many systems and network administrators also find it useful for tasks such as network inventory, managing service upgrade schedules, and monitoring host or service uptime.
 
-To learn more about the Nmap scanner itself visit [nmap.org].
+To learn more about the Nmap scanner itself visit [nmap.org](https://nmap.org/).
+
+## NSE scripts
+
+Currently, the secureCodeBox Nmap parser supports the `smb-protocols`, `ftp-anon`, and `ftp-banner` script with compatibility for hostrules and portrules. If you want custom scripts to be parsed by secureCodeBox, you may contribute your script parser in `parser/parser.js` under `const scriptParser`
+
+```javascript
+const scriptParser = {
+  "ftp-anon": parseFtpAnon,
+  "banner": parseBanner,
+  "smb-protocols": parseSmbProtocols,
+  [...] // Contributed custom parsers
+}
+```
+
+Scripts without an existing parser will only generate an open port finding. Scripts with parsers will add a script output finding.
 
 ## Deployment
 The nmap chart can be deployed via helm:
@@ -127,6 +142,7 @@ spec:
 | parser.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | parser.image.repository | string | `"docker.io/securecodebox/parser-nmap"` | Parser image repository |
 | parser.image.tag | string | defaults to the charts version | Parser image tag |
+| parser.scopeLimiterAliases | object | `{}` | Optional finding aliases to be used in the scopeLimiter. |
 | parser.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | scanner.activeDeadlineSeconds | string | `nil` | There are situations where you want to fail a scan Job after some amount of time. To do so, set activeDeadlineSeconds to define an active deadline (in seconds) when considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#job-termination-and-cleanup) |
 | scanner.backoffLimit | int | 3 | There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy) |

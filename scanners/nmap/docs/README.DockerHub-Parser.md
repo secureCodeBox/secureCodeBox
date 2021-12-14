@@ -42,7 +42,7 @@ You can find resources to help you get started on our [documentation website](ht
 
 ## Supported Tags
 - `latest`  (represents the latest stable release build)
-- tagged releases, e.g. `7.91-r0`
+- tagged releases, e.g. `7.92-r2`
 
 ## How to use this image
 This `parser` image is intended to work in combination with the corresponding security scanner docker image to parse the `findings` results. For more information details please take a look at the documentation page: https://docs.securecodebox.io/docs/scanners/Nmap.
@@ -54,7 +54,22 @@ docker pull securecodebox/parser-nmap
 ## What is NMAP?
 Nmap ("Network Mapper") is a free and open source (license) utility for network discovery and security auditing. Many systems and network administrators also find it useful for tasks such as network inventory, managing service upgrade schedules, and monitoring host or service uptime.
 
-To learn more about the Nmap scanner itself visit [nmap.org].
+To learn more about the Nmap scanner itself visit [nmap.org](https://nmap.org/).
+
+## NSE scripts
+
+Currently, the secureCodeBox Nmap parser supports the `smb-protocols`, `ftp-anon`, and `ftp-banner` script with compatibility for hostrules and portrules. If you want custom scripts to be parsed by secureCodeBox, you may contribute your script parser in `parser/parser.js` under `const scriptParser`
+
+```javascript
+const scriptParser = {
+  "ftp-anon": parseFtpAnon,
+  "banner": parseBanner,
+  "smb-protocols": parseSmbProtocols,
+  [...] // Contributed custom parsers
+}
+```
+
+Scripts without an existing parser will only generate an open port finding. Scripts with parsers will add a script output finding.
 
 ## Community
 
