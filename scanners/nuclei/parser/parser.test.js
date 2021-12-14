@@ -68,3 +68,17 @@ test("parses ftp result correctly", async () => {
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
+
+test("parses log4j result correctly", async () => {
+  const fileContent = 
+    await readFile(
+      __dirname + "/__testFiles__/log4j-test.jsonl",
+      {
+        encoding: "utf8",
+      }
+    )
+  
+  const findings = await parse(JSON.parse(fileContent));
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchSnapshot();
+});
