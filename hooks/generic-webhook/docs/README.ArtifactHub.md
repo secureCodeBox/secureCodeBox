@@ -65,6 +65,8 @@ Kubernetes: `>=v1.11.0-0`
 |-----|------|---------|-------------|
 | hook.image.repository | string | `"docker.io/securecodebox/hook-generic-webhook"` | Hook image repository |
 | hook.image.tag | string | defaults to the charts version | The image Tag defaults to the charts version if not defined. |
+| hook.labels | object | `{}` | Add Kubernetes Labels to the hook definition |
+| hook.priority | int | `0` | Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks. |
 | hook.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | webhookUrl | string | `"http://example.com"` | The URL of your WebHook endpoint |
 

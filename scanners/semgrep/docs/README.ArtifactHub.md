@@ -183,6 +183,7 @@ Kubernetes: `>=v1.11.0-0`
 | parser.image.pullPolicy | string | `"IfNotPresent"` |  |
 | parser.image.repository | string | `"securecodebox/parser-semgrep"` |  |
 | parser.image.tag | string | `nil` |  |
+| parser.scopeLimiterAliases | object | `{}` | Optional finding aliases to be used in the scopeLimiter. |
 | scanner.backoffLimit | int | `3` |  |
 | scanner.env | list | `[]` |  |
 | scanner.extraContainers | list | `[]` |  |

@@ -41,9 +41,9 @@ The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To
 You can find resources to help you get started on our [documentation website](https://docs.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://docs.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://docs.securecodebox.io/docs/getting-started/first-scans) with it.
 
 ## What is Typo3Scan?
-Typo3Scan is an open source penetration testing tool to automate the process of detecting the Typo3 CMS and it's installed extensions. It also has a database with known vulnerabilities for core and extensions.
-
-To learn more about the Typo3Scan scanner itself visit [https://github.com/whoot/Typo3Scan].
+Typo3Scan is an open source penetration testing tool, that automates the process of detecting the Typo3 CMS version and its installed extensions. It also has a database with known vulnerabilities for core and extensions.
+The vulnerabilities corresponding to the version detected are presented as findings.
+To learn more about the Typo3Scan scanner itself, visit the Typo3Scan GitHub repository [here](https://github.com/whoot/Typo3Scan).
 
 ## Deployment
 The typo3scan chart can be deployed via helm:
@@ -55,7 +55,11 @@ helm upgrade --install typo3scan secureCodeBox/typo3scan
 
 ## Scanner Configuration
 
-The Typo3Scan targets are specified with the `-d` parameter. The target should be a hostname, an IP address or an IP range.
+The Typo3Scan target is specified with the `-d` parameter. The target should be a url, hostname or an IP address.
+:::caution
+Please note that, the target url has to start with http:// or https:// when using a hostname or IP address as a target for the scan to work correctly.
+For example: `http://localhost` or `https://123.45.67.890:80`
+:::
 
 Additional Typo3Scan scan features can be configured via the parameter attribute.
 
