@@ -642,7 +642,6 @@ jobs:
           - old-joomla
           - old-typo3
           - old-wordpress
-          - vulnerable-log4j
     steps:
       - name: Checkout
         uses: actions/checkout@v2
