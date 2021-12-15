@@ -74,7 +74,7 @@ helm upgrade --install vulnerable-log4j secureCodeBox/vulnerable-log4j
 | replicaCount | int | `1` |  |
 | resources | object | `{}` |  |
 | securityContext | object | `{}` |  |
-| service.port | int | `80` |  |
+| service.port | int | `8080` |  |
 | service.type | string | `"ClusterIP"` |  |
 | tolerations | list | `[]` |  |
 
