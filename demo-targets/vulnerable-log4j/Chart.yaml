@@ -4,7 +4,7 @@
 
 apiVersion: v2
 version: v3.1.0-alpha1
-appVersion: "4.0"
+appVersion: "latest"
 name: vulnerable-log4j
 description: "Insecure & Outdated Java Instance using log4jShell: Never expose it to the internet!"
 type: application
