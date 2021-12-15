@@ -174,6 +174,7 @@ export async function getCascadingRulesForScan(scan: Scan) {
       undefined,
       undefined,
       undefined,
+      undefined,
       labelSelector
     );
 
