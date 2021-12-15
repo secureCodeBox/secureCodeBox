@@ -55,7 +55,7 @@ hook-docs:
 	# Start in the hooks folder
 	cd hooks
 	# https://github.com/koalaman/shellcheck/wiki/SC2044
-	find . -type f -name Chart.yaml -print0 | while IFS= read -r -d '' chart; do
+	find . -type f ! -name "$(printf "*\n*")" -name Chart.yaml | while IFS= read -r chart; do
 	(
 		dir="$$(dirname "$${chart}")"
 		echo "Processing Helm Chart in $$dir"
@@ -76,7 +76,7 @@ scanner-docs:
 	# Start in the scanners folder
 	cd scanners
 	# https://github.com/koalaman/shellcheck/wiki/SC2044
-	find . -type f -name Chart.yaml -print0 | while IFS= read -r -d '' chart; do
+	find . -type f ! -name "$(printf "*\n*")" -name Chart.yaml | while IFS= read -r chart; do
 	(
 		dir="$$(dirname "$${chart}")"
 		echo "Processing Helm Chart in $$dir"
@@ -129,7 +129,7 @@ demo-apps-docs:
 	# Start in the hooks folder
 	cd demo-targets
 	# https://github.com/koalaman/shellcheck/wiki/SC2044
-	find . -type f -name Chart.yaml -print0 | while IFS= read -r -d '' chart; do
+	find . -type f ! -name "$(printf "*\n*")" -name Chart.yaml | while IFS= read -r chart; do
 	(
 		dir="$$(dirname "$${chart}")"
 		echo "Processing Helm Chart in $$dir"
