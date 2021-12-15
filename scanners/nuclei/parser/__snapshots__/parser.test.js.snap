@@ -75,6 +75,32 @@ Array [
 ]
 `;
 
+exports[`parses log4j result correctly 1`] = `
+Array [
+  Object {
+    "attributes": Object {
+      "author": null,
+      "extracted_results": Array [
+        "log4j-demo-6f5db46df9-5z29w",
+      ],
+      "ip": null,
+      "matched": "http://203.0.113.0:8080/",
+      "matcher_name": null,
+      "metadata": null,
+      "reference": null,
+      "tags": null,
+      "timestamp": "2021-12-14T19:18:12.734881355Z",
+      "type": "http",
+    },
+    "category": "CVE-2021-44228",
+    "description": "The name of the nuclei rule which triggered the finding: CVE-2021-44228",
+    "location": "http://203.0.113.0:8080",
+    "name": "Remote code injection in Log4j",
+    "severity": "HIGH",
+  },
+]
+`;
+
 exports[`parses the dns result correctly 1`] = `
 Array [
   Object {

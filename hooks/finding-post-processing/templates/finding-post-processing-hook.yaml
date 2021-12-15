@@ -15,6 +15,7 @@ spec:
   priority: {{ .Values.hook.priority }}
   type: ReadAndWrite
   image: "{{ .Values.hook.image.repository }}:{{ .Values.hook.image.tag | default .Chart.Version }}"
+  ttlSecondsAfterFinished: {{ .Values.hook.ttlSecondsAfterFinished }}
   env:
     - name: RULES
       value: {{ .Values.rules | toJson | quote }}

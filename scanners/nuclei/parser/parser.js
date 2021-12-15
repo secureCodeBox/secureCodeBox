@@ -54,8 +54,11 @@ function readJsonLines(jsonl) {
       .filter((line) => line)
       .map((line) => line.trim())
       .map((line) => JSON.parse(line));
+  } else if (typeof jsonl === "object") {
+    // If nuclei identifies a single result it will be automatically parsed as a json object by the sdk & underlying http lib (axios)
+    return [jsonl];
   } else {
-    return [];
+    return []
   }
 }
 
