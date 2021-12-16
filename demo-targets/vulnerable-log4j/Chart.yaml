@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: v2
+version: v3.1.0-alpha1
+appVersion: "latest"
+name: vulnerable-log4j
+description: "Insecure & Outdated Java Instance using log4jShell: Never expose it to the internet!"
+type: application
+home: https://logging.apache.org/log4j/
+#icon:
+keywords:
+  - vulnerable
+  - log4j
+sources:
+  - https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-targets/vulnerable-log4j
+maintainers:
+  - name: iteratec GmbH
+    email: securecodebox@iteratec.com

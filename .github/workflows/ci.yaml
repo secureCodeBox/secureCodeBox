@@ -861,6 +861,8 @@ jobs:
           helm -n demo-targets install old-joomla ./demo-targets/old-joomla/ --set="fullnameOverride=old-joomla" --wait
           # Install juiceshop app
           helm -n demo-targets install juiceshop ./demo-targets/juice-shop/ --set="fullnameOverride=juiceshop" --wait
+          # Install vulnerable log4j
+          helm -n demo-targets install vulnerable-log4j ./demo-targets/vulnerable-log4j/ --set="fullnameOverride=vulnerable-log4j" --wait
           # Install plain nginx server
           kubectl create deployment --image nginx:alpine nginx --namespace demo-targets
           kubectl expose deployment nginx --port 80 --namespace demo-targets
