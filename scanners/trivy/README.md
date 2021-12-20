@@ -3,7 +3,7 @@ title: "Trivy"
 category: "scanner"
 type: "Container"
 state: "released"
-appVersion: "0.21.2"
+appVersion: "0.21.3"
 usecase: "Container Vulnerability Scanner"
 ---
 
