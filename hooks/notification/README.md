@@ -343,11 +343,13 @@ To fill your template with data we provide the following objects.
 | env[1].name | string | `"SMTP_CONFIG"` |  |
 | env[1].valueFrom.secretKeyRef.key | string | `"smtp-config-key"` |  |
 | env[1].valueFrom.secretKeyRef.name | string | `"some-secret"` |  |
+| hook.affinity | object | `{}` | Optional affinity settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
 | hook.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | hook.image.repository | string | `"docker.io/securecodebox/hook-notification"` | Hook image repository |
 | hook.image.tag | string | defaults to the charts version | Image tag |
 | hook.labels | object | `{}` | Add Kubernetes Labels to the hook definition |
 | hook.priority | int | `0` | Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks. |
+| hook.tolerations | list | `[]` | Optional tolerations settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
 | hook.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | notificationChannels[0].endPoint | string | `"SOME_ENV_KEY"` |  |
 | notificationChannels[0].name | string | `"slack"` |  |

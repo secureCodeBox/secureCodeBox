@@ -62,10 +62,12 @@ helm upgrade --install ufh secureCodeBox/update-field-hook --set attribute.name=
 |-----|------|---------|-------------|
 | attribute.name | string | `"category"` | The name of the attribute you want to add to each finding result |
 | attribute.value | string | `"my-own-category"` | The value of the attribute you want to add to each finding result |
+| hook.affinity | object | `{}` | Optional affinity settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
 | hook.image.repository | string | `"docker.io/securecodebox/hook-update-field"` | Hook image repository |
 | hook.image.tag | string | defaults to the charts version | The image Tag defaults to the charts version if not defined. |
 | hook.labels | object | `{}` | Add Kubernetes Labels to the hook definition |
 | hook.priority | int | `0` | Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks. |
+| hook.tolerations | list | `[]` | Optional tolerations settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
 | hook.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 
 ## License
