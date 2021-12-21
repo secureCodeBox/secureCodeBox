@@ -29,7 +29,7 @@ spec:
               command:
                 - "nuclei"
                 {{ if .Values.nucleiTemplateCache.enabled }}
-                - "-no-update-templates"
+                - "-disable-update-check"
                 {{ end }}
                 - "-json"
                 - "-output"
