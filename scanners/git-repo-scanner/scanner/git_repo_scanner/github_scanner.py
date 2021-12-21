@@ -144,5 +144,6 @@ class GitHubScanner(AbstractScanner):
             repo.updated_at.strftime("%Y-%m-%dT%H:%M:%SZ"),
             'private' if repo.private else 'public',
             repo.archived,
+            repo.get_topics(),
             latest_commit
         )
