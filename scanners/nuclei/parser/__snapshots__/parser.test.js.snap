@@ -1,29 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`parses a single result correctly 1`] = `
-Array [
-  Object {
-    "attributes": Object {
-      "author": null,
-      "extracted_results": Array [],
-      "ip": null,
-      "matched": "example.com",
-      "matcher_name": null,
-      "metadata": null,
-      "reference": null,
-      "tags": null,
-      "timestamp": "2021-08-20T22:53:40.4293261Z",
-      "type": "dns",
-    },
-    "category": "dnssec-detection",
-    "description": "The name of the nuclei rule which triggered the finding: dnssec-detection",
-    "location": "example.com",
-    "name": "DNSSEC Detection",
-    "severity": "INFORMATIONAL",
-  },
-]
-`;
-
 exports[`parses empty result correctly 1`] = `Array []`;
 
 exports[`parses ftp result correctly 1`] = `
@@ -75,28 +51,26 @@ Array [
 ]
 `;
 
-exports[`parses log4j result correctly 1`] = `
+exports[`parses secureCodeBox.io result correctly 1`] = `
 Array [
   Object {
     "attributes": Object {
       "author": null,
-      "extracted_results": Array [
-        "log4j-demo-6f5db46df9-5z29w",
-      ],
+      "extracted-results": null,
       "ip": null,
-      "matched": "http://203.0.113.0:8080/",
-      "matcher_name": null,
+      "matched-at": "www.secureCodeBox.io",
+      "matcher-name": "github",
       "metadata": null,
       "reference": null,
       "tags": null,
-      "timestamp": "2021-12-14T19:18:12.734881355Z",
-      "type": "http",
+      "timestamp": "2021-12-21T13:48:22.3877066Z",
+      "type": "dns",
     },
-    "category": "CVE-2021-44228",
-    "description": "The name of the nuclei rule which triggered the finding: CVE-2021-44228",
-    "location": "http://203.0.113.0:8080",
-    "name": "Remote code injection in Log4j",
-    "severity": "HIGH",
+    "category": "cname-service-detection",
+    "description": "The name of the nuclei rule which triggered the finding: cname-service-detection",
+    "location": "www.secureCodeBox.io",
+    "name": "cname service detection",
+    "severity": "INFORMATIONAL",
   },
 ]
 `;
@@ -106,20 +80,27 @@ Array [
   Object {
     "attributes": Object {
       "author": null,
-      "extracted_results": null,
+      "extracted-results": Array [
+        "31589 8 1 3490A6806D47F17A34C29E2CE80E8A999FFBE4BE",
+        "31589 8 2 CDE0D742D6998AA554A92D890F8184C698CFAC8A26FA59875A990C03E576343C",
+        "43547 8 1 B6225AB2CC613E0DCA7962BDC2342EA4F1B56083",
+        "43547 8 2 615A64233543F66F44D68933625B17497C89A70E858ED76A2145997EDF96A918",
+        "31406 8 1 189968811E6EBA862DD6C209F75623D8D9ED9142",
+        "31406 8 2 F78CF3344F72137235098ECBBD08947C2C9001C7F6A085A17F518B5D8F6B916D",
+      ],
       "ip": null,
-      "matched": "www.example.com",
-      "matcher_name": "github",
+      "matched-at": "example.com",
+      "matcher-name": null,
       "metadata": null,
       "reference": null,
       "tags": null,
-      "timestamp": "2021-08-21T00:18:21.754428+02:00",
+      "timestamp": "2021-12-21T14:14:46.5321282Z",
       "type": "dns",
     },
-    "category": "cname-service-detector",
-    "description": "The name of the nuclei rule which triggered the finding: cname-service-detector",
-    "location": "www.example.com",
-    "name": "3rd party service checker",
+    "category": "dnssec-detection",
+    "description": "The name of the nuclei rule which triggered the finding: dnssec-detection",
+    "location": "example.com",
+    "name": "DNSSEC Detection",
     "severity": "INFORMATIONAL",
   },
 ]

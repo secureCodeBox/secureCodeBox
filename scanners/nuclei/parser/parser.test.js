@@ -27,20 +27,6 @@ test("parses empty result correctly", async () => {
   expect(findings).toMatchSnapshot();
 });
 
-test("parses a single result correctly", async () => {
-  const fileContent = 
-    await readFile(
-      __dirname + "/__testFiles__/single-test.jsonl",
-      {
-        encoding: "utf8",
-      }
-    )
-  
-  const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
-  expect(findings).toMatchSnapshot();
-});
-
 test("parses the dns result correctly", async () => {
   const fileContent = 
     await readFile(
@@ -55,7 +41,7 @@ test("parses the dns result correctly", async () => {
   expect(findings).toMatchSnapshot();
 });
 
-test("parses ftp result correctly", async () => {
+test.skip("parses ftp result correctly", async () => {
   const fileContent = 
     await readFile(
       __dirname + "/__testFiles__/ftp-test.jsonl",
@@ -69,10 +55,10 @@ test("parses ftp result correctly", async () => {
   expect(findings).toMatchSnapshot();
 });
 
-test("parses log4j result correctly", async () => {
+test("parses secureCodeBox.io result correctly", async () => {
   const fileContent = 
     await readFile(
-      __dirname + "/__testFiles__/log4j-test.jsonl",
+      __dirname + "/__testFiles__/secureCodeBox-test.jsonl",
       {
         encoding: "utf8",
       }
