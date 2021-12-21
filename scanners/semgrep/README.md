@@ -3,7 +3,7 @@ title: "Semgrep"
 category: "scanner"
 type: "Repository"
 state: "released"
-appVersion: "0.76.2"
+appVersion: "0.77.0"
 usecase: "Static Code Analysis"
 ---
 
