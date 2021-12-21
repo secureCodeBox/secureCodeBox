@@ -130,5 +130,6 @@ class GitLabScanner(AbstractScanner):
             project.created_at,
             project.last_activity_at,
             project.visibility,
+            project.archived,
             latest_commit_id
         )
