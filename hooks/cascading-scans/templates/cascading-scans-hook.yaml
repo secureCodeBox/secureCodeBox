@@ -20,3 +20,7 @@ spec:
     - name: "securecodebox"
   ttlSecondsAfterFinished: {{ .Values.hook.ttlSecondsAfterFinished }}
   serviceAccountName: cascading-scans
+  affinity:
+    {{- toYaml .Values.hook.affinity | nindent 4 }}
+  tolerations:
+    {{- toYaml .Values.hook.tolerations | nindent 4 }}

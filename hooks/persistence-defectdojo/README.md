@@ -242,11 +242,13 @@ spec:
 | defectdojo.lowPrivilegedMode | bool | `false` | Allows the hook to run with a users token whose access rights are restricted to one / multiple product types but doesn't have global platform rights. If set to true, the DefectDojo User ID has to be configured instead of the username (`defectdojo.authentication.userId`). User needs to have at least the `Maintainer` role in the used Product Type. |
 | defectdojo.syncFindingsBack | bool | `true` | Syncs back (two way sync) all imported findings from DefectDojo to SCB Findings Store. When set to false the hook will only import the findings to DefectDojo (one way sync). |
 | defectdojo.url | string | `"http://defectdojo-django.default.svc"` | Url to the DefectDojo Instance |
+| hook.affinity | object | `{}` | Optional affinity settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
 | hook.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | hook.image.repository | string | `"docker.io/securecodebox/hook-persistence-defectdojo"` | Hook image repository |
 | hook.image.tag | string | `nil` | Container image tag |
 | hook.labels | object | `{}` | Add Kubernetes Labels to the hook definition |
 | hook.priority | int | `0` | Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks. |
+| hook.tolerations | list | `[]` | Optional tolerations settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
 | hook.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 
 ## License

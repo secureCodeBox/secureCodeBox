@@ -21,3 +21,7 @@ spec:
       value: {{ .Values.attribute.name | quote }}
     - name: ATTRIBUTE_VALUE
       value: {{ .Values.attribute.value | quote }}
+  affinity:
+    {{- toYaml .Values.hook.affinity | nindent 4 }}
+  tolerations:
+    {{- toYaml .Values.hook.tolerations | nindent 4 }}
