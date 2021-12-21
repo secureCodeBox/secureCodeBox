@@ -56,10 +56,10 @@ Array [
   Object {
     "attributes": Object {
       "author": null,
-      "extracted-results": null,
+      "extracted_results": null,
       "ip": null,
-      "matched-at": "www.secureCodeBox.io",
-      "matcher-name": "github",
+      "matched": "www.secureCodeBox.io",
+      "matcher_name": "github",
       "metadata": null,
       "reference": null,
       "tags": null,
@@ -80,7 +80,7 @@ Array [
   Object {
     "attributes": Object {
       "author": null,
-      "extracted-results": Array [
+      "extracted_results": Array [
         "31589 8 1 3490A6806D47F17A34C29E2CE80E8A999FFBE4BE",
         "31589 8 2 CDE0D742D6998AA554A92D890F8184C698CFAC8A26FA59875A990C03E576343C",
         "43547 8 1 B6225AB2CC613E0DCA7962BDC2342EA4F1B56083",
@@ -89,8 +89,8 @@ Array [
         "31406 8 2 F78CF3344F72137235098ECBBD08947C2C9001C7F6A085A17F518B5D8F6B916D",
       ],
       "ip": null,
-      "matched-at": "example.com",
-      "matcher-name": null,
+      "matched": "example.com",
+      "matcher_name": null,
       "metadata": null,
       "reference": null,
       "tags": null,
