@@ -21,21 +21,21 @@ test("parses empty result correctly", async () => {
         encoding: "utf8",
       }
     )
-  
+
   const findings = await parse(fileContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
 
-test("parses the dns result correctly", async () => {
+test("parses the example.com result correctly", async () => {
   const fileContent = 
     await readFile(
-      __dirname + "/__testFiles__/dns-test.jsonl",
+      __dirname + "/__testFiles__/example-com-test.jsonl",
       {
         encoding: "utf8",
       }
     )
-  
+
   const findings = await parse(fileContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchSnapshot();
@@ -49,7 +49,7 @@ test.skip("parses ftp result correctly", async () => {
         encoding: "utf8",
       }
     )
-  
+
   const findings = await parse(fileContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchSnapshot();
@@ -63,8 +63,8 @@ test("parses secureCodeBox.io result correctly", async () => {
         encoding: "utf8",
       }
     )
-  
-  const findings = await parse(JSON.parse(fileContent));
+
+  const findings = await parse(fileContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
