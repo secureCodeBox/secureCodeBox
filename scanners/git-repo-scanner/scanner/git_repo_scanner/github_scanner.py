@@ -143,5 +143,6 @@ class GitHubScanner(AbstractScanner):
             repo.created_at.strftime("%Y-%m-%dT%H:%M:%SZ"),
             repo.updated_at.strftime("%Y-%m-%dT%H:%M:%SZ"),
             'private' if repo.private else 'public',
+            repo.archived,
             latest_commit
         )
