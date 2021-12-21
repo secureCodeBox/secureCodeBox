@@ -19,6 +19,10 @@ spec:
       {{- if .Values.scanner.activeDeadlineSeconds }}
       activeDeadlineSeconds: {{ .Values.scanner.activeDeadlineSeconds }}
       {{- end }}
+      affinity:
+        {{- toYaml .Values.scanner.affinity | nindent 8 }}
+      tolerations: 
+        {{- toYaml .Values.scanner.tolerations | nindent 8 }}
       template:
         spec:
           restartPolicy: OnFailure
