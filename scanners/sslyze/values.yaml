@@ -22,7 +22,7 @@ scanner:
     # scanner.image.repository -- Container Image to run the scan
     repository: nablac0d3/sslyze
     # scanner.image.tag -- defaults to the charts appVersion
-    tag: "latest@sha256:ff2c5c626401b1961736a5b2ae6e35a41d213e8b2712102100abf5ee46dcca71"
+    tag: null
     # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
     pullPolicy: IfNotPresent
 
