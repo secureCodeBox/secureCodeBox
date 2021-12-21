@@ -68,3 +68,17 @@ test("parses secureCodeBox.io result correctly", async () => {
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
+
+test("parses log4shell result correctly", async () => {
+  const fileContent = 
+    await readFile(
+      __dirname + "/__testFiles__/log4shell.jsonl",
+      {
+        encoding: "utf8",
+      }
+    )
+
+  const findings = await parse(JSON.parse(fileContent));
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchSnapshot();
+});
