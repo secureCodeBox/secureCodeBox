@@ -14,3 +14,9 @@ spec:
   ttlSecondsAfterFinished: {{ .Values.parser.ttlSecondsAfterFinished }}
   env: 
     {{- toYaml .Values.parser.env | nindent 4 }}
+  scopeLimiterAliases:
+    {{- toYaml .Values.parser.scopeLimiterAliases | nindent 4 }}
+  affinity:
+    {{- toYaml .Values.parser.affinity | nindent 4 }}
+  tolerations: 
+    {{- toYaml .Values.parser.tolerations | nindent 4 }}

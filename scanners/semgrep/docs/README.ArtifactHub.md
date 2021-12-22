@@ -178,11 +178,15 @@ Kubernetes: `>=v1.11.0-0`
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | cascadingRules.enabled | bool | `true` | Enables or disables the installation of the default cascading rules for this scanner |
+| parser.affinity | object | `{}` | Optional affinity settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
 | parser.backoffLimit | int | `3` |  |
 | parser.env | list | `[]` |  |
 | parser.image.pullPolicy | string | `"IfNotPresent"` |  |
 | parser.image.repository | string | `"securecodebox/parser-semgrep"` |  |
 | parser.image.tag | string | `nil` |  |
+| parser.scopeLimiterAliases | object | `{}` | Optional finding aliases to be used in the scopeLimiter. |
+| parser.tolerations | list | `[]` | Optional tolerations settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
+| scanner.affinity | object | `{}` | Optional affinity settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
 | scanner.backoffLimit | int | `3` |  |
 | scanner.env | list | `[]` |  |
 | scanner.extraContainers | list | `[]` |  |
@@ -197,6 +201,7 @@ Kubernetes: `>=v1.11.0-0`
 | scanner.securityContext.privileged | bool | `false` |  |
 | scanner.securityContext.readOnlyRootFilesystem | bool | `false` |  |
 | scanner.securityContext.runAsNonRoot | bool | `true` |  |
+| scanner.tolerations | list | `[]` | Optional tolerations settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
 | scanner.ttlSecondsAfterFinished | string | `nil` |  |
 
 ## Contributing

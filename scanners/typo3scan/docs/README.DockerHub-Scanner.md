@@ -52,13 +52,17 @@ docker pull securecodebox/scanner-typo3scan
 ```
 
 ## What is Typo3Scan?
-Typo3Scan is an open source penetration testing tool to automate the process of detecting the Typo3 CMS and it's installed extensions. It also has a database with known vulnerabilities for core and extensions.
-
-To learn more about the Typo3Scan scanner itself visit [https://github.com/whoot/Typo3Scan].
+Typo3Scan is an open source penetration testing tool, that automates the process of detecting the Typo3 CMS version and its installed extensions. It also has a database with known vulnerabilities for core and extensions.
+The vulnerabilities corresponding to the version detected are presented as findings.
+To learn more about the Typo3Scan scanner itself, visit the Typo3Scan GitHub repository [here](https://github.com/whoot/Typo3Scan).
 
 ## Scanner Configuration
 
-The Typo3Scan targets are specified with the `-d` parameter. The target should be a hostname, an IP address or an IP range.
+The Typo3Scan target is specified with the `-d` parameter. The target should be a url, hostname or an IP address.
+:::caution
+Please note that, the target url has to start with http:// or https:// when using a hostname or IP address as a target for the scan to work correctly.
+For example: `http://localhost` or `https://123.45.67.890:80`
+:::
 
 Additional Typo3Scan scan features can be configured via the parameter attribute.
 
@@ -98,3 +102,4 @@ As for any pre-built image usage, it is the image user's responsibility to ensur
 [scb-twitter]: https://twitter.com/secureCodeBox
 [scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
 [scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
+

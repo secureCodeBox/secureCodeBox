@@ -15,17 +15,17 @@ async function parse(fileContent) {
       name: finding.info.name,
       description:
         "The name of the nuclei rule which triggered the finding: " +
-        finding.templateID,
+        finding['template-id'],
       location: finding.host,
       severity: getAdjustedSeverity(finding.info.severity.toUpperCase()),
-      category: finding.templateID,
+      category: finding['template-id'],
       attributes: {
         metadata: finding.meta || null,
         ip: finding.ip || null,
         timestamp: finding.timestamp || null,
-        matcher_name: finding.matcher_name || null,
-        matched: finding.matched || null,
-        extracted_results: finding.extracted_results || null,
+        matcher_name: finding['matcher-name'] || null,
+        matched: finding['matched-at'] || null,
+        extracted_results: finding['extracted-results'] || null,
         type: finding.type || null,
         tags: finding.tags || null,
         reference: finding.reference || null,
@@ -54,8 +54,11 @@ function readJsonLines(jsonl) {
       .filter((line) => line)
       .map((line) => line.trim())
       .map((line) => JSON.parse(line));
+  } else if (typeof jsonl === "object") {
+    // If nuclei identifies a single result it will be automatically parsed as a json object by the sdk & underlying http lib (axios)
+    return [jsonl];
   } else {
-    return [];
+    return []
   }
 }
 

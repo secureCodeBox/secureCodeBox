@@ -5,7 +5,7 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: "nmap-dummy-ssh"
+  name: "nmap-juice-shop-cluster-internal"
 spec:
   scanType: "nmap"
   parameters:
@@ -13,9 +13,5 @@ spec:
     - "-Pn"
     # Service Detection enabled
     - "-sV"
-    # Actual Service Address will depend on you cluster and namespace configuration. 🤷‍
-    - "dummy-ssh.demo-targets.svc"
-  cascades:
-    matchLabels:
-      securecodebox.io/invasive: invasive
-      securecodebox.io/intensive: high
+    # Actual Service Address will depend on your cluster and namespace configuration. 🤷‍
+    - juice-shop.demo-targets.svc.cluster.local

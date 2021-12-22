@@ -4,8 +4,16 @@
 
 FROM python:3.6-alpine
 ARG scannerVersion
-COPY acstis-script.py /acstis/acstis-script.py
-COPY wrapper.sh /wrapper.sh
-RUN apk add --update --no-cache g++ gcc libxslt-dev
-RUN pip install https://github.com/tijme/angularjs-csti-scanner/archive/$scannerVersion.zip
-ENTRYPOINT [ "sh", "/wrapper.sh" ]
+
+RUN apk add --update --no-cache g++ gcc libxslt-dev 
+RUN adduser -S -H -u 1001 angularjscsti
+
+COPY acstis-script.py /home/angularjscsti/acstis/acstis-script.py
+COPY wrapper.sh /home/angularjscsti/wrapper.sh
+
+RUN pip install https://github.com/tijme/angularjs-csti-scanner/archive/$scannerVersion.zip \
+    && chown -R angularjscsti /home/angularjscsti
+    
+USER 1001
+
+ENTRYPOINT [ "sh", "/home/angularjscsti/wrapper.sh" ]

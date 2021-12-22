@@ -21,6 +21,7 @@ spec:
   {{- end }}
   image: "{{ .Values.hook.image.repository }}:{{ .Values.hook.image.tag | default .Chart.Version }}"
   imagePullPolicy: "{{ .Values.hook.image.pullPolicy }}"
+  ttlSecondsAfterFinished: {{ .Values.hook.ttlSecondsAfterFinished }}
   env:
     - name: DEFECTDOJO_URL
       value: {{ .Values.defectdojo.url | quote }}

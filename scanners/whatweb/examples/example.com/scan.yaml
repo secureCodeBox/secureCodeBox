@@ -9,4 +9,4 @@ metadata:
 spec:
   scanType: "whatweb"
   parameters:
-    - example.com
+    - http://old-typo3.default.svc

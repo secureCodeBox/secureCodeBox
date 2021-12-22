@@ -3,7 +3,7 @@ title: "Trivy"
 category: "scanner"
 type: "Container"
 state: "released"
-appVersion: "0.21.0"
+appVersion: "0.21.3"
 usecase: "Container Vulnerability Scanner"
 ---
 
@@ -40,7 +40,7 @@ A software vulnerability is a glitch, flaw, or weakness present in the software 
 `Trivy` detects vulnerabilities of OS packages (Alpine, RHEL, CentOS, etc.) and application dependencies (Bundler, Composer, npm, yarn, etc.).
 `Trivy` is easy to use. Just install the binary, and you're ready to scan. All you need to do for scanning is to specify a target such as an image name of the container.
 
-To learn more about the Trivy scanner itself visit on [Trivy's GitHub Repository](https://github.com/aquasecurity/trivy).
+To learn more about the Trivy scanner itself visit [Trivy's GitHub Repository](https://github.com/aquasecurity/trivy).
 
 ## Deployment
 The trivy chart can be deployed via helm:
@@ -52,14 +52,14 @@ helm upgrade --install trivy secureCodeBox/trivy
 
 ## Scanner Configuration
 
-The following security scan configuration example are based on the [Trivy Documentation], please take a look at the original documentation for more configuration examples.
+The following security scan configuration example are based on the [Trivy Documentation](https://aquasecurity.github.io/trivy/), please take a look at the original documentation for more configuration examples.
 
 - Filter the vulnerabilities by severities `trivy image --severity HIGH,CRITICAL ruby:2.4.0`
 - Filter the vulnerabilities by type (`os` or `library`) `trivy image --vuln-type os ruby:2.4.0`
 - Skip update of vulnerability DB: `trivy image --skip-update python:3.4-alpine3.9`
 - Ignore unfixed vulnerabilities:`trivy image --ignore-unfixed ruby:2.4.0` By default, Trivy also detects unpatched/unfixed vulnerabilities. This means you can't fix these vulnerabilities even if you update all packages. If you would like to ignore them, use the `--ignore-unfixed` option.
 
-::: caution
+:::caution
 Due to [limitations in the trivy argument parser](https://github.com/secureCodeBox/secureCodeBox/issues/796), scanning anything other than docker images (e.g., Git repositories) requires some extra parameters.
 Please append the following extra arguments **after** specifying the mode (e.g., `repo`) but **before** specifying the target for the scan:
 ```yaml
@@ -189,12 +189,16 @@ Kubernetes: `>=v1.11.0-0`
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | cascadingRules.enabled | bool | `false` | Enables or disables the installation of the default cascading rules for this scanner |
+| parser.affinity | object | `{}` | Optional affinity settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
 | parser.env | list | `[]` | Optional environment variables mapped into each parseJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | parser.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | parser.image.repository | string | `"docker.io/securecodebox/parser-trivy"` | Parser image repository |
 | parser.image.tag | string | defaults to the charts version | Parser image tag |
+| parser.scopeLimiterAliases | object | `{}` | Optional finding aliases to be used in the scopeLimiter. |
+| parser.tolerations | list | `[]` | Optional tolerations settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
 | parser.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | scanner.activeDeadlineSeconds | string | `nil` | There are situations where you want to fail a scan Job after some amount of time. To do so, set activeDeadlineSeconds to define an active deadline (in seconds) when considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#job-termination-and-cleanup) |
+| scanner.affinity | object | `{}` | Optional affinity settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
 | scanner.backoffLimit | int | 3 | There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy) |
 | scanner.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | scanner.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
@@ -211,6 +215,7 @@ Kubernetes: `>=v1.11.0-0`
 | scanner.securityContext.privileged | bool | `false` | Ensures that the scanner container is not run in privileged mode |
 | scanner.securityContext.readOnlyRootFilesystem | bool | `false` | Prevents write access to the containers file system |
 | scanner.securityContext.runAsNonRoot | bool | `false` | Enforces that the scanner image is run as a non root user |
+| scanner.tolerations | list | `[]` | Optional tolerations settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
 | scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 
 ## License

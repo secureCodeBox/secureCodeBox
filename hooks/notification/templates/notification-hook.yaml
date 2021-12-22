@@ -36,3 +36,7 @@ spec:
     {{ end }}
   env:
     {{- toYaml .Values.env | nindent 4}} 
+  affinity:
+    {{- toYaml .Values.hook.affinity | nindent 4 }}
+  tolerations:
+    {{- toYaml .Values.hook.tolerations | nindent 4 }}

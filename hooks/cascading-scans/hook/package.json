@@ -9,7 +9,7 @@
   },
   "main": "hook.js",
   "scripts": {
-    "build": "npx tsc hook.ts --sourceMap",
+    "build": "npx tsc hook.ts scope-limiter.ts --sourceMap --esModuleInterop",
     "test": "jest . --verbose false"
   },
   "keywords": [
@@ -37,12 +37,15 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@kubernetes/client-node": "^0.15.0",
+    "@kubernetes/client-node": "^0.16.0",
+    "ip-address": "^8.1.0",
     "lodash": "^4.17.21",
     "matcher": "^4.0.0",
-    "mustache": "^4.2.0"
+    "mustache": "^4.2.0",
+    "parse-domain": "^4.1.0"
   },
   "devDependencies": {
+    "@types/ip-address": "^7.0.0",
     "@types/lodash": "^4.14.171",
     "@types/node": "^14.17.5",
     "jest": "^27.0.6",

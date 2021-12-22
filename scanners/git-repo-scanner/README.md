@@ -36,8 +36,7 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
 ## What is Git-Repo-Scanner?
 
 Git-Repo-Scanner is a small Python script which discovers repositories on GitHub or GitLab. The main purpose of this scanner
-is to provide a cascading input for the [gitleaks](https://github.com/secureCodeBox/secureCodeBox/tree/main/scanners/gitleaks).
- scanner.
+is to provide a cascading input for the [gitleaks](/docs/scanners/gitleaks) and [semgrep](/docs/scanners/semgrep) scanners.
 
 ## Deployment
 The git-repo-scanner chart can be deployed via helm:
@@ -72,7 +71,7 @@ For type GitHub you can use the following options:
 - `--annotate-latest-commit-id`: Set to True to annotate the results with the SHA1 of the latest commit on the main branch. Causes an extra API hit per repository. False by default.
 
 For now only organizations are supported, so the option is mandatory. We **strongly recommend** providing an access token
-for authentication. If not provided the rate limiting will kick in after about 30 repositories scanned.
+for authentication, otherwise the API rate limiting will kick in after about 30 repositories scanned.
 
 #### GitLab
 For type GitLab you can use the following options:
@@ -100,12 +99,16 @@ Kubernetes: `>=v1.11.0-0`
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | cascadingRules.enabled | bool | `false` | Enables or disables the installation of the default cascading rules for this scanner |
+| parser.affinity | object | `{}` | Optional affinity settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
 | parser.env | list | `[]` | Optional environment variables mapped into each parseJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | parser.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | parser.image.repository | string | `"docker.io/securecodebox/parser-git-repo-scanner"` | Parser image repository |
 | parser.image.tag | string | defaults to the charts version | Parser image tag |
+| parser.scopeLimiterAliases | object | `{}` | Optional finding aliases to be used in the scopeLimiter. |
+| parser.tolerations | list | `[]` | Optional tolerations settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
 | parser.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | scanner.activeDeadlineSeconds | string | `nil` | There are situations where you want to fail a scan Job after some amount of time. To do so, set activeDeadlineSeconds to define an active deadline (in seconds) when considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#job-termination-and-cleanup) |
+| scanner.affinity | object | `{}` | Optional affinity settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
 | scanner.backoffLimit | int | 3 | There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy) |
 | scanner.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | scanner.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
@@ -122,6 +125,7 @@ Kubernetes: `>=v1.11.0-0`
 | scanner.securityContext.privileged | bool | `false` | Ensures that the scanner container is not run in privileged mode |
 | scanner.securityContext.readOnlyRootFilesystem | bool | `true` | Prevents write access to the containers file system |
 | scanner.securityContext.runAsNonRoot | bool | `true` | Enforces that the scanner image is run as a non root user |
+| scanner.tolerations | list | `[]` | Optional tolerations settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
 | scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 
 ## License

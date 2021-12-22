@@ -11,4 +11,4 @@ spec:
   parameters:
     # Target domain name of the finding and start a nuclei scan
     - "-u"
-    - "www.secureCodeBox.io"
+    - "https://www.secureCodeBox.io"

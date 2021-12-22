@@ -42,7 +42,7 @@ You can find resources to help you get started on our [documentation website](ht
 
 ## Supported Tags
 - `latest`  (represents the latest stable release build)
-- tagged releases, e.g. `1.1.3`
+- tagged releases, e.g. `v.1.1.3`
 
 ## How to use this image
 This `scanner` image is intended to work in combination with the corresponding `parser` image to parse the scanner `findings` to generic secureCodeBox results. For more information details please take a look at the [project page][scb-docs] or [documentation page][https://docs.securecodebox.io/docs/scanners/cmseek].
@@ -52,14 +52,14 @@ docker pull securecodebox/scanner-cmseek
 ```
 
 ## What is CMSeeK?
-CMSeeK is an open source penetration testing tool to automate the process of detecting various types of CMS and it's installed extensions.
-We use it to scan Joomla CMS. It also has a database with known vulnerabilities.
+CMSeeK is an open source penetration testing tool to automate the process of detecting various types of CMS and its installed extensions.
+Only the Joomla CMS is supported by secureCodeBox. CMSeeK has a database with known vulnerabilities.
 
-To learn more about the CMSeeK scanner itself visit [https://github.com/Tuhinshubhra/CMSeeK].
+To learn more about the CMSeeK scanner itself, visit the CMSeeK GitHub repository [here](https://github.com/Tuhinshubhra/CMSeeK).
 
 ## Scanner Configuration
 
-The CMSeeK targets are specified with the `-u` parameter. The target should be a hostname or an IP address.
+The CMSeeK targets are specified with the `-u` parameter. The target should be a URL.
 
 Additional CMSeeK scan features can be configured via the parameter attribute.
 
@@ -67,7 +67,7 @@ Some useful example parameters listed below:
 
 - `-u URL, --url URL` : Target Url.
 - `--follow-redirect` : Follows all/any redirect(s).
-- `--no-redirect` : kips all redirects and tests the input target(s)
+- `--no-redirect` : skips all redirects and tests the input target(s)
 - `-r, --random-agent`: Use a random user agent.
 - `--googlebot`: Use Google bot user agent.
 - `--user-agent USER_AGENT`:  Specify a custom user agent
@@ -96,3 +96,4 @@ As for any pre-built image usage, it is the image user's responsibility to ensur
 [scb-twitter]: https://twitter.com/secureCodeBox
 [scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
 [scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
+

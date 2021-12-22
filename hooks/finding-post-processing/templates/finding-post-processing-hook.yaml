@@ -15,6 +15,11 @@ spec:
   priority: {{ .Values.hook.priority }}
   type: ReadAndWrite
   image: "{{ .Values.hook.image.repository }}:{{ .Values.hook.image.tag | default .Chart.Version }}"
+  ttlSecondsAfterFinished: {{ .Values.hook.ttlSecondsAfterFinished }}
   env:
     - name: RULES
       value: {{ .Values.rules | toJson | quote }}
+  affinity:
+    {{- toYaml .Values.hook.affinity | nindent 4 }}
+  tolerations:
+    {{- toYaml .Values.hook.tolerations | nindent 4 }}

@@ -7,6 +7,14 @@ parser:
   backoffLimit: 3
   env: []
 
+  # parser.scopeLimiterAliases -- Optional finding aliases to be used in the scopeLimiter.
+  scopeLimiterAliases: {}
+
+  # parser.affinity -- Optional affinity settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
+  affinity: {}
+
+  # parser.tolerations -- Optional tolerations settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+  tolerations: []
 
 scanner:
   image:
@@ -43,6 +51,12 @@ scanner:
     capabilities:
       drop:
         - all
+
+  # scanner.affinity -- Optional affinity settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
+  affinity: {}
+
+  # scanner.tolerations -- Optional tolerations settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+  tolerations: []
 
 cascadingRules:
   # cascadingRules.enabled -- Enables or disables the installation of the default cascading rules for this scanner

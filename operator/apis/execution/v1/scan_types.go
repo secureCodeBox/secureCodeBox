@@ -16,6 +16,10 @@ import (
 type CascadeSpec struct {
 	// InheritLabels defines whether cascading scans should inherit labels from the parent scan
 	// +optional
+	ScopeLimiter ScopeLimiter `json:"scopeLimiter"`
+
+	// InheritLabels defines whether cascading scans should inherit labels from the parent scan
+	// +optional
 	// +kubebuilder:default=true
 	InheritLabels bool `json:"inheritLabels"`
 
@@ -44,6 +48,16 @@ type CascadeSpec struct {
 	// +kubebuilder:default=false
 	InheritHookSelector bool `json:"inheritHookSelector"`
 
+	// InheritAffinity defines whether cascading scans should inherit affinity from the parent scan.
+	// +optional
+	// +kubebuilder:default=true
+	InheritAffinity bool `json:"inheritAffinity"`
+
+	// InheritTolerations defines whether cascading scans should inherit tolerations from the parent scan.
+	// +optional
+	// +kubebuilder:default=true
+	InheritTolerations bool `json:"inheritTolerations"`
+
 	// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
 	// map is equivalent to an element of matchExpressions, whose key field is "key", the
 	// operator is "In", and the values array contains only "value". The requirements are ANDed.
@@ -52,6 +66,36 @@ type CascadeSpec struct {
 	// matchExpressions is a list of label selector requirements. The requirements are ANDed.
 	// +optional
 	MatchExpressions []metav1.LabelSelectorRequirement `json:"matchExpressions,omitempty" protobuf:"bytes,2,rep,name=matchExpressions"`
+}
+
+type ScopeLimiter struct {
+	// ValidOnMissingRender defines whether if a templating variable is not present, that condition should match
+	// +optional
+	// +kubebuilder:default=false
+	ValidOnMissingRender bool `json:"validOnMissingRender"`
+
+	// AnyOf is a list of label selector requirements. The requirements are ANDed.
+	// +optional
+	AnyOf []ScopeLimiterRequirement `json:"anyOf,omitempty" protobuf:"bytes,2,rep,name=anyOf"`
+
+	// AllOf is a list of label selector requirements. The requirements are ANDed.
+	// +optional
+	AllOf []ScopeLimiterRequirement `json:"allOf,omitempty" protobuf:"bytes,2,rep,name=allOf"`
+
+	// NoneOf is a list of label selector requirements. The requirements are ANDed.
+	// +optional
+	NoneOf []ScopeLimiterRequirement `json:"noneOf,omitempty" protobuf:"bytes,2,rep,name=noneOf"`
+}
+
+// ScopeLimiterRequirement is a selector that contains values, a key, and an operator that
+// relates the key and values.
+type ScopeLimiterRequirement struct {
+	// key is the label key that the selector applies to.
+	Key string `json:"key" protobuf:"bytes,1,opt,name=key"`
+	// operator represents a key's relationship to a set of values.
+	Operator string `json:"operator" protobuf:"bytes,2,opt,name=operator"`
+	// values is an array of string values.
+	Values []string `json:"values" protobuf:"bytes,3,rep,name=values"`
 }
 
 // ScanSpec defines the desired state of Scan
@@ -78,6 +122,10 @@ type ScanSpec struct {
 	VolumeMounts []corev1.VolumeMount `json:"volumeMounts,omitempty"`
 	// InitContainers allows to specify init containers for the scan container, to pre-load data into them.
 	InitContainers []corev1.Container `json:"initContainers,omitempty"`
+	// Affinity allows to specify a node affinity, to control on which nodes you want a scan to run. See: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/
+	Affinity *corev1.Affinity `json:"affinity,omitempty"`
+	// Tolerations are a different way to control on which nodes your scan is executed. See https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
+	Tolerations []corev1.Toleration `json:"tolerations,omitempty"`
 
 	Cascades *CascadeSpec `json:"cascades,omitempty"`
 }

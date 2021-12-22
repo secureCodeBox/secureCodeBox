@@ -52,9 +52,9 @@ docker pull securecodebox/parser-typo3scan
 ```
 
 ## What is Typo3Scan?
-Typo3Scan is an open source penetration testing tool to automate the process of detecting the Typo3 CMS and it's installed extensions. It also has a database with known vulnerabilities for core and extensions.
-
-To learn more about the Typo3Scan scanner itself visit [https://github.com/whoot/Typo3Scan].
+Typo3Scan is an open source penetration testing tool, that automates the process of detecting the Typo3 CMS version and its installed extensions. It also has a database with known vulnerabilities for core and extensions.
+The vulnerabilities corresponding to the version detected are presented as findings.
+To learn more about the Typo3Scan scanner itself, visit the Typo3Scan GitHub repository [here](https://github.com/whoot/Typo3Scan).
 
 ## Community
 
@@ -80,3 +80,4 @@ As for any pre-built image usage, it is the image user's responsibility to ensur
 [scb-twitter]: https://twitter.com/secureCodeBox
 [scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
 [scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
+

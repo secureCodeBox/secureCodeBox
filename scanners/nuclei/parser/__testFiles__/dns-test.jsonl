@@ -1,1 +1,0 @@
-{"templateID":"cname-service-detector","info":{"severity":"info","tags":"dns","name":"3rd party service checker","author":"pdteam"},"matcher_name":"github","type":"dns","host":"www.example.com","matched":"www.example.com","timestamp":"2021-08-21T00:18:21.754428+02:00"}
