@@ -1,6 +1,3 @@
-# SPDX-FileCopyrightText: 2021 iteratec GmbH
-#
-# SPDX-License-Identifier: Apache-2.0
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -45,6 +42,16 @@ rules:
   - services/status
   verbs:
   - get
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
+  - list
+  - patch
+  - update
+  - watch
 - apiGroups:
   - execution.securecodebox.io
   resources:
