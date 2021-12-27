@@ -50,7 +50,8 @@ func (r *PodScanReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	if len(getLabelsForPod(pod)) == 0 {
+	//check if container imageIDs are present, otherwise pod is not ready yet
+	if len(getHashesForPod(pod)) == 0 {
 		log.V(1).Info("Pod not ready", "pod", pod.Name)
 		return ctrl.Result{}, nil
 	}
@@ -152,6 +153,9 @@ func checkReplicaSetOfPod(k8sclient client.Client, log logr.Logger, ctx context.
 
 }
 func deleteScans(k8sclient client.Client, log logr.Logger, ctx context.Context, scans []executionv1.ScheduledScan) {
+	for _, scan := range scans {
+		k8sclient.Delete(ctx, &scan)
+	}
 
 }
 
