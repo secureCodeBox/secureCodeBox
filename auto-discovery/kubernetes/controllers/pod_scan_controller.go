@@ -119,6 +119,7 @@ func podWillBeDeleted(k8sclient client.Client, log logr.Logger, ctx context.Cont
 	scheduledScans := getPodScans(k8sclient, log, ctx, pod)
 
 	if scansPointAtPod(pod, scheduledScans) {
+		log.V(1).Info("Scans target deleted pod", "pod", pod.Name)
 		handleTargetlessScans(k8sclient, log, ctx, pod, scheduledScans.Items)
 	}
 
@@ -154,13 +155,27 @@ func checkReplicaSetOfPod(k8sclient client.Client, log logr.Logger, ctx context.
 }
 func deleteScans(k8sclient client.Client, log logr.Logger, ctx context.Context, scans []executionv1.ScheduledScan) {
 	for _, scan := range scans {
+		log.V(1).Info("Deleting scheduled scan", "scan", scan.Name)
 		k8sclient.Delete(ctx, &scan)
 	}
-
 }
 
 func changeTargetOfScans(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod, scans []executionv1.ScheduledScan) {
+	labels := pod.Labels
+	var alternativePods corev1.PodList
+	err := k8sclient.List(ctx, &alternativePods, client.MatchingLabels(labels))
+	if err != nil {
+		log.V(1).Info("Unable to fetch replicas of pod", "pod", pod.Name, "labels", labels)
+	}
 
+	for _, scan := range scans {
+		log.V(1).Info("Updating scheduled scan target", "scan", scan.Name)
+		scan.Annotations["target"] = alternativePods.Items[0].Name
+		err := k8sclient.Update(ctx, &scan)
+		if err != nil {
+			log.V(1).Info("Unable to update scheduled scan", "scan", scan.Name)
+		}
+	}
 }
 
 func scansPointAtPod(pod corev1.Pod, scans executionv1.ScheduledScanList) bool {
