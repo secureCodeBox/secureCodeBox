@@ -12,10 +12,12 @@ import (
 	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
 
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
+	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -57,6 +59,7 @@ func (r *PodScanReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 		podIsRunning(r.Client, log, ctx, pod)
 	} else {
 		log.V(1).Info("Pod will be deleted", "pod", pod.Name, "namespace", pod.Namespace, "timestamp", pod.DeletionTimestamp)
+		podWillBeDeleted(r.Client, log, ctx, pod)
 	}
 
 	return ctrl.Result{}, nil
@@ -75,6 +78,10 @@ func podIsRunning(k8sclient client.Client, log logr.Logger, ctx context.Context,
 }
 
 func podVersionHasScan(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod) bool {
+	return len(getPodScans(k8sclient, log, ctx, pod).Items) > 0
+}
+
+func getPodScans(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod) executionv1.ScheduledScanList {
 	labels := getLabelsForPod(pod)
 
 	log.V(1).Info("Checking for labels", "labels", labels)
@@ -83,15 +90,15 @@ func podVersionHasScan(k8sclient client.Client, log logr.Logger, ctx context.Con
 		log.V(1).Info("Unable to fetch scheduledscans by labels", "labels", labels, "pod", pod.Name)
 	}
 
-	return len(scans.Items) > 0
+	return scans
 }
-
 func createScheduledScan(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod) {
 	newScheduledScan := executionv1.ScheduledScan{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      "scheduledtestscan",
-			Namespace: pod.Namespace,
-			Labels:    getLabelsForPod(pod),
+			Name:        "scheduledtestscan",
+			Namespace:   pod.Namespace,
+			Labels:      getLabelsForPod(pod),
+			Annotations: map[string]string{"target": pod.Name},
 		},
 		Spec: executionv1.ScheduledScanSpec{
 			ScanSpec: &executionv1.ScanSpec{
@@ -107,12 +114,81 @@ func createScheduledScan(k8sclient client.Client, log logr.Logger, ctx context.C
 	log.V(1).Info("Created scheduled scan", "pod", pod.Name, "namespace", pod.Namespace)
 }
 
+func podWillBeDeleted(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod) {
+	scheduledScans := getPodScans(k8sclient, log, ctx, pod)
+
+	if scansPointAtPod(pod, scheduledScans) {
+		handleTargetlessScans(k8sclient, log, ctx, pod, scheduledScans.Items)
+	}
+
+}
+
+func handleTargetlessScans(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod, scans []executionv1.ScheduledScan) {
+	replicaSetName := getReplicaSetName(log, pod)
+
+	if replicaSetName == "" {
+		//pod is not in a replicaset, so delete all scans pointing to it
+		deleteScans(k8sclient, log, ctx, scans)
+	} else {
+		//pod is in a replicaset, check if other pods exist
+		checkReplicaSetOfPod(k8sclient, log, ctx, pod, scans, replicaSetName)
+	}
+
+}
+
+func checkReplicaSetOfPod(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod, scans []executionv1.ScheduledScan, replicaSetName string) {
+	var replicaset appsv1.ReplicaSet
+	err := k8sclient.Get(ctx, types.NamespacedName{Name: replicaSetName, Namespace: pod.Namespace}, &replicaset)
+	if err != nil {
+		log.V(1).Info("Unable to fetch replicaset", "replicaset", replicaSetName, "pod", pod.Name, "err", err)
+	}
+
+	if replicaset.Status.ReadyReplicas > 0 {
+		changeTargetOfScans(k8sclient, log, ctx, pod, scans)
+	} else {
+		//only one replica exits, so delete all scans
+		deleteScans(k8sclient, log, ctx, scans)
+	}
+
+}
+func deleteScans(k8sclient client.Client, log logr.Logger, ctx context.Context, scans []executionv1.ScheduledScan) {
+
+}
+
+func changeTargetOfScans(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod, scans []executionv1.ScheduledScan) {
+
+}
+
+func scansPointAtPod(pod corev1.Pod, scans executionv1.ScheduledScanList) bool {
+	for _, scan := range scans.Items {
+		if scan.Annotations["target"] == pod.Name {
+			return true
+		}
+	}
+	return false
+}
+
+func getReplicaSetName(log logr.Logger, pod corev1.Pod) string {
+	var replicaSetName string
+	for _, owner := range pod.OwnerReferences {
+		if *owner.Controller && owner.Kind == "ReplicaSet" {
+			replicaSetName = owner.Name
+			log.V(1).Info("Found replicaset for pod", "replicaset", replicaSetName, "pod", pod.Name)
+		}
+	}
+	return replicaSetName
+}
+
 func getLabelsForPod(pod corev1.Pod) map[string]string {
 	hashes := getHashesForPod(pod)
 	result := make(map[string]string)
 	for key, value := range hashes {
 		//truncate hash to 63 chars so it can be used as a label
 		result[key] = value[:len(value)-1]
+	}
+
+	for key, value := range pod.Labels {
+		result[key] = value
 	}
 	return result
 }
