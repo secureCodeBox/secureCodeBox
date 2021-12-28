@@ -31,6 +31,8 @@ spec:
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
               command:
+                - "python"
+                - "-m"
                 - "sslyze"
                 - "--json_out"
                 - "/home/securecodebox/sslyze-results.json"
