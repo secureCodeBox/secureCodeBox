@@ -32,24 +32,31 @@ test("parses result file for www.securecodebox.io correctly", async () => {
     hint: null,
     reference: null,
     location: "www.securecodebox.io:443",
-    attributes: {
+    attributes: {       
       hostname: "www.securecodebox.io",
-      ip_address: "185.199.109.153",
+      ip_address: "185.199.110.153",
       port: 443,
-      tls_versions: ["TLS 1.2"],
-      cipher_suites: [
-        "AES256-SHA",
-        "AES128-GCM-SHA256",
-        "AES128-SHA",
-        "ECDHE-RSA-AES256-GCM-SHA384",
-        "ECDHE-RSA-AES256-SHA384",
-        "ECDHE-RSA-AES256-SHA",
-        "ECDHE-RSA-AES128-GCM-SHA256",
-        "ECDHE-RSA-AES128-SHA256",
-        "ECDHE-RSA-AES128-SHA",
-      ],
+       tls_versions: [
+          "TLS 1.2",
+          "TLS 1.3"
+       ],
+       cipher_suites: [
+          "AES256-SHA",
+          "AES128-GCM-SHA256",
+          "AES128-SHA",
+          "ECDHE-RSA-CHACHA20-POLY1305",
+          "ECDHE-RSA-AES256-GCM-SHA384",
+          "ECDHE-RSA-AES256-SHA384",
+          "ECDHE-RSA-AES256-SHA",
+          "ECDHE-RSA-AES128-GCM-SHA256",
+          "ECDHE-RSA-AES128-SHA256",
+          "ECDHE-RSA-AES128-SHA",
+          "TLS_CHACHA20_POLY1305_SHA256",
+          "TLS_AES_256_GCM_SHA384",
+          "TLS_AES_128_GCM_SHA256"
+       ],
     },
-  });
+ });
 
   expect(findings.length).toEqual(1);
 });
@@ -64,53 +71,72 @@ test("parses result file for tls-v1-0.badssl.com:1010 correctly", async () => {
   const findings = await parse(fileContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
 
-  expect(findings).toContainEqual({
-    name: "TLS Service",
+  expect(findings).toContainEqual({ 
+    name: "TLS Service",   
     category: "TLS Service Info",
     description: "",
     severity: "INFORMATIONAL",
     osi_layer: "PRESENTATION",
     hint: null,
     reference: null,
-    location: "tls-v1-0.badssl.com:1010",
-    attributes: {
+    location: "tls-v1-0.badssl.com:443",
+    attributes: {       
       hostname: "tls-v1-0.badssl.com",
       ip_address: "104.154.89.105",
-      port: 1010,
-      tls_versions: ["TLS 1.0"],
-      cipher_suites: [
-        "CAMELLIA256-SHA",
-        "CAMELLIA128-SHA",
-        "AES256-SHA",
-        "AES128-SHA",
-        "ECDHE-RSA-AES256-SHA",
-        "ECDHE-RSA-AES128-SHA",
-        "DHE-RSA-CAMELLIA256-SHA",
-        "DHE-RSA-CAMELLIA128-SHA",
-        "DHE-RSA-AES256-SHA",
-        "DHE-RSA-AES128-SHA",
+      port:443,
+      tls_versions:[
+          "TLS 1.0",
+          "TLS 1.1",
+          "TLS 1.2"
       ],
+       cipher_suites:[
+          "CAMELLIA256-SHA",
+          "CAMELLIA128-SHA",
+          "AES256-SHA",
+          "AES128-SHA",
+          "DES-CBC3-SHA",
+          "ECDHE-RSA-AES256-SHA",
+          "ECDHE-RSA-AES128-SHA",
+          "ECDHE-RSA-DES-CBC3-SHA",
+          "DHE-RSA-CAMELLIA256-SHA",
+          "DHE-RSA-CAMELLIA128-SHA",
+          "DHE-RSA-AES256-SHA",
+          "DHE-RSA-AES128-SHA",
+          "AES256-GCM-SHA384",
+          "AES256-SHA256",
+          "AES128-GCM-SHA256",
+          "AES128-SHA256",
+          "ECDHE-RSA-AES256-GCM-SHA384",
+          "ECDHE-RSA-AES256-SHA384",
+          "ECDHE-RSA-AES128-GCM-SHA256",
+          "ECDHE-RSA-AES128-SHA256",
+          "DHE-RSA-AES256-GCM-SHA384",
+          "DHE-RSA-AES256-SHA256",
+          "DHE-RSA-AES128-GCM-SHA256",
+          "DHE-RSA-AES128-SHA256"
+       ],
     },
-  });
+ },
+ );
 
-  expect(findings).toContainEqual({
-    name: "TLS Version TLS 1.0 is considered insecure",
+  expect(findings).toContainEqual({  
+    name: "TLS Version TLS 1.0 is considered insecure",    
     category: "Outdated TLS Version",
     description: "The server uses outdated or insecure tls versions.",
     severity: "MEDIUM",
     hint: "Upgrade to a higher tls version.",
     osi_layer: "PRESENTATION",
     reference: null,
-    location: "tls-v1-0.badssl.com:1010",
+    location: "tls-v1-0.badssl.com:443",
     attributes: {
-      hostname: "tls-v1-0.badssl.com",
-      ip_address: "104.154.89.105",
-      port: 1010,
-      outdated_version: "TLS 1.0",
+        hostname: "tls-v1-0.badssl.com",
+        ip_address: "104.154.89.105",
+        port: 443,
+        outdated_version: "TLS 1.0"
     },
-  });
+   });
 
-  expect(findings.length).toEqual(2);
+  expect(findings.length).toEqual(3);
 });
 
 test("parses result file for expired.badssl.com correctly", async () => {
