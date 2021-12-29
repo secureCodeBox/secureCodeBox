@@ -3,7 +3,7 @@ title: "Typo3Scan"
 category: "scanner"
 type: "CMS"
 state: "released"
-appVersion: "0.7.2"
+appVersion: "v1.0.0-final"
 usecase: "Automation of the process of detecting the Typo3 CMS and its installed extensions"
 ---
 
