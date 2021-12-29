@@ -11,7 +11,8 @@ type: application
 version: v3.1.0-alpha1
 appVersion: "v1.0.0-final"
 kubeVersion: ">=v1.11.0-0"
-
+annotations:
+  versionApi: https://api.github.com/repos/whoot/Typo3Scan/releases/latest
 keywords:  
   - security
   - typo3scan
