@@ -7,6 +7,7 @@
 
 include_guard = set
 scanner = sslyze
+custom_scanner = set
 
 include ../../scanners.mk
 
