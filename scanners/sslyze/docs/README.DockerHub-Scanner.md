@@ -62,76 +62,74 @@ The following security scan configuration example are based on the [SSLyze Docum
 The command line interface can be used to easily run server scans: `sslyze --regular www.example.com`
 
 ```bash
-Usage: sslyze [options] target1.com target2.com:443 target3.com:443{ip} etc...
+Usage: python -m sslyze [options] target1.com target2.com:443 target3.com:443{ip} etc...
 
 Options:
-  --version             show program's version number and exit
   -h, --help            show this help message and exit
-  --regular             Regular HTTPS scan; shortcut for --sslv2 --sslv3
-                        --tlsv1 --tlsv1_1 --tlsv1_2 --tlsv1_3 --reneg --resum
-                        --certinfo --hide_rejected_ciphers --compression
-                        --heartbleed --openssl_ccs --fallback --robot
+  --mozilla_config {modern,intermediate,old}
+                        Shortcut to queue various scan commands needed to check the server's TLS configurations against one of Mozilla's recommended TLS configuration. Set to
+                        "intermediate" by default.
 
-  Trust stores options:
-    --update_trust_stores
+Trust stores options:
+  --update_trust_stores
                         Update the default trust stores used by SSLyze. The
                         latest stores will be downloaded from https://github.c
                         om/nabla-c0d3/trust_stores_observatory. This option is
                         meant to be used separately, and will silence any
                         other command line option supplied to SSLyze.
 
-  Client certificate options:
-    --cert=CERT         Client certificate chain filename. The certificates
+Client certificate options:
+  --cert CERTIFICATE_FILE
+                        Client certificate chain filename. The certificates
                         must be in PEM format and must be sorted starting with
                         the subject's client certificate, followed by
                         intermediate CA certificates if applicable.
-    --key=KEY           Client private key filename.
-    --keyform=KEYFORM   Client private key format. DER or PEM (default).
-    --pass=KEYPASS      Client private key passphrase.
+  --key KEY_FILE        Client private key filename.
+  --keyform KEY_FORMAT  Client private key format. DER or PEM (default).
+  --pass PASSPHRASE     Client private key passphrase.
 
-  Input and output options:
-    --json_out=JSON_FILE
-                        Write the scan results as a JSON document to the file
-                        JSON_FILE. If JSON_FILE is set to "-", the JSON output
-                        will instead be printed to stdout. The resulting JSON
+Input and output options:
+  --json_out JSON_FILE  Write the scan results as a JSON document to the file
+                        JSON_FILE. If JSON_FILE is set to '-', the JSON output
+                         will instead be printed to stdout. The resulting JSON
                         file is a serialized version of the ScanResult objects
-                        described in SSLyze's Python API: the nodes and
+                         described in SSLyze's Python API: the nodes and
                         attributes will be the same. See https://nabla-c0d3.gi
                         thub.io/sslyze/documentation/available-scan-
                         commands.html for more details.
-    --targets_in=TARGETS_IN
+  --targets_in TARGET_FILE
                         Read the list of targets to scan from the file
-                        TARGETS_IN. It should contain one host:port per line.
-    --quiet             Do not output anything to stdout; useful when using
-                        --json_out.
+                        TARGET_FILE. It should contain one host:port per line.
+  --quiet               Do not output anything to stdout; useful when using
+                      --json_out.
 
-  Connectivity options:
-    --slow_connection   Greatly reduce the number of concurrent connections
+Connectivity options:
+  --slow_connection     Greatly reduce the number of concurrent connections
                         initiated by SSLyze. This will make the scans slower
                         but more reliable if the connection between your host
                         and the server is slow, or if the server cannot handle
                         many concurrent connections. Enable this option if you
                         are getting a lot of timeouts or errors.
-    --https_tunnel=HTTPS_TUNNEL
+  --https_tunnel PROXY_SETTINGS
                         Tunnel all traffic to the target server(s) through an
                         HTTP CONNECT proxy. HTTP_TUNNEL should be the proxy's
                         URL: 'http://USER:PW@HOST:PORT/'. For proxies
                         requiring authentication, only Basic Authentication is
                         supported.
-    --starttls=STARTTLS
-                        Perform a StartTLS handshake when connecting to the
+  --starttls PROTOCOL Perform a StartTLS handshake when connecting to the
                         target server(s). StartTLS should be one of: auto,
                         smtp, xmpp, xmpp_server, pop3, imap, ftp, ldap, rdp,
                         postgres. The 'auto' option will cause SSLyze to
                         deduce the protocol (ftp, imap, etc.) from the
                         supplied port number, for each target servers.
-    --xmpp_to=XMPP_TO   Optional setting for STARTTLS XMPP. XMPP_TO should be
+  --xmpp_to HOSTNAME   Optional setting for STARTTLS XMPP. XMPP_TO should be
                         the hostname to be put in the 'to' attribute of the
                         XMPP stream. Default is the server's hostname.
-    --sni=SNI           Use Server Name Indication to specify the hostname to
-                        connect to.  Will only affect TLS 1.0+ connections.
+  --sni SERVER_NAME_INDICATION
+                        Use Server Name Indication to specify the hostname to
+                        connect to. Will only affect TLS 1.0+ connections.
 
-  Scan commands:
+Scan commands:
     --tlsv1_1           Test a server for TLS 1.1 support.
     --tlsv1_2           Test a server for TLS 1.2 support.
     --robot             Test a server for the ROBOT vulnerability.
@@ -143,15 +141,19 @@ Options:
     --tlsv1_3           Test a server for TLS 1.3 support.
     --certinfo          Retrieve and analyze a server's certificate(s) to
                         verify its validity.
-    --certinfo_ca_file=CERTINFO_CA_FILE
-                        Path to a file containing root certificates in PEM
-                        format that will be used to verify the validity of the
-                        server's certificate.
+    --certinfo_ca_file CERTINFO_CA_FILE
+                        To be used with --certinfo. Path to a file containing
+                        root certificates in PEM format that will be used to verify
+                         the validity of the server's certificate.
+
     --heartbleed        Test a server for the OpenSSL Heartbleed
                         vulnerability.
-    --resum_rate        Measure a server's session resumption rate when
-                        attempting 100 resumptions using session IDs.
-    --resum             Test a server for session resumption support using
+    --resum             Test a server for TLS 1.2 session resumption support using
+
+    --resum_attempts RESUM_ATTEMPTS
+                        To be used with --resum. Number of session resumptions
+                        (both with Session IDs and TLS Tickets) that SSLyze should attempt. The default value is 5, but a higher
+                        value such as 100 can be used to get a more accurate measure of how often session resumption succeeds or fails with the server.
                         session IDs and TLS tickets.
     --http_headers      Test a server for the presence of security-related
                         HTTP headers.
@@ -161,7 +163,8 @@ Options:
     --compression       Test a server for TLS compression support, which can
                         be leveraged to perform a CRIME attack.
     --openssl_ccs       Test a server for the OpenSSL CCS Injection
-                        vulnerability (CVE-2014-0224).
+                        vulnerability (CVE-2014-0224).                   
+    --elliptic_curves   Test a server for supported elliptic curves.
 ```
 
 ## Community
