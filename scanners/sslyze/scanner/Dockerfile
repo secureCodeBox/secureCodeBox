@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-ARG scannerVersion=5.0.0
+ARG scannerVersion
 
 FROM nablac0d3/sslyze:$scannerVersion
 
