@@ -2,12 +2,13 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+ARG scannerVersion
 # Base Image
 FROM python:3.9-alpine as base
 
 # Install git and Clone Repo 
 RUN apk add git \
-    && git clone https://github.com/whoot/Typo3Scan.git --depth 1 --branch "v1.0.0-final" \
+    && git clone https://github.com/whoot/Typo3Scan.git --depth 1 --branch "$scannerVersion" \
     && cd Typo3Scan \
     && rm -r .git .github doc
 
