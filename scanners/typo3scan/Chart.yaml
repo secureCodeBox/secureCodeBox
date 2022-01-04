@@ -9,9 +9,10 @@ description: A Helm chart for the Typo3 security scanner that integrates with th
 type: application
 # version - gets automatically set to the secureCodeBox release version when the helm charts gets published
 version: v3.1.0-alpha1
-appVersion: "0.7.2"
+appVersion: "v1.0.0-final"
 kubeVersion: ">=v1.11.0-0"
-
+annotations:
+  versionApi: https://api.github.com/repos/whoot/Typo3Scan/releases/latest
 keywords:  
   - security
   - typo3scan
