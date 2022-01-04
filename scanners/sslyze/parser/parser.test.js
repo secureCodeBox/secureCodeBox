@@ -421,7 +421,7 @@ test("parses result file for self-signed.badssl.com correctly", async () => {
     reference: null,
   });
 });
-/*
+
 test("parses an empty result file correctly", async () => {
   const fileContent = JSON.parse(
     await readFile(__dirname + "/__testFiles__/unavailable-host.json", {
@@ -433,7 +433,6 @@ test("parses an empty result file correctly", async () => {
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toEqual([]);
 });
-*/
 
 // Commented out until I can reproduce the test files
 /*
