@@ -28,7 +28,6 @@ function parse(fileContent) {
     ...analyseCertificateDeployments(serverScanResult),
   ];
 
-  // const serverInfo = serverScanResult.server_info;
   const { ip_address, hostname, port } = serverScanResult.server_location;
   const location = `${hostname || ip_address}:${port}`;
 
