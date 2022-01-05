@@ -6,6 +6,7 @@ package controllers
 
 import (
 	"context"
+	"errors"
 	"regexp"
 
 	"github.com/go-logr/logr"
@@ -93,6 +94,7 @@ func getPodScans(k8sclient client.Client, log logr.Logger, ctx context.Context, 
 
 	return scans
 }
+
 func createScheduledScan(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod) {
 	newScheduledScan := executionv1.ScheduledScan{
 		ObjectMeta: metav1.ObjectMeta{
@@ -111,31 +113,31 @@ func createScheduledScan(k8sclient client.Client, log logr.Logger, ctx context.C
 	if err != nil {
 		//log.V(1).Info("Failed to create scheduled scan", "scan", newScheduledScan, "pod", pod)
 		log.V(1).Info("Failed to create scheduled scan", "err", err)
+	} else {
+		log.V(1).Info("Created scheduled scan", "pod", pod.Name, "namespace", pod.Namespace)
 	}
-	log.V(1).Info("Created scheduled scan", "pod", pod.Name, "namespace", pod.Namespace)
 }
 
 func podWillBeDeleted(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod) {
 	scheduledScans := getPodScans(k8sclient, log, ctx, pod)
+	scansPointingAtPod := getScansThatPointAtPod(pod, scheduledScans.Items)
 
-	if scansPointAtPod(pod, scheduledScans) {
+	if len(scansPointingAtPod) > 0 {
 		log.V(1).Info("Scans target deleted pod", "pod", pod.Name)
-		handleTargetlessScans(k8sclient, log, ctx, pod, scheduledScans.Items)
+		handleTargetlessScans(k8sclient, log, ctx, pod, scansPointingAtPod)
 	}
-
 }
 
 func handleTargetlessScans(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod, scans []executionv1.ScheduledScan) {
-	replicaSetName := getReplicaSetName(log, pod)
+	replicaSetName, err := getReplicaSetName(log, pod)
 
-	if replicaSetName == "" {
+	if err != nil {
 		//pod is not in a replicaset, so delete all scans pointing to it
 		deleteScans(k8sclient, log, ctx, scans)
 	} else {
 		//pod is in a replicaset, check if other pods exist
 		checkReplicaSetOfPod(k8sclient, log, ctx, pod, scans, replicaSetName)
 	}
-
 }
 
 func checkReplicaSetOfPod(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod, scans []executionv1.ScheduledScan, replicaSetName string) {
@@ -143,6 +145,7 @@ func checkReplicaSetOfPod(k8sclient client.Client, log logr.Logger, ctx context.
 	err := k8sclient.Get(ctx, types.NamespacedName{Name: replicaSetName, Namespace: pod.Namespace}, &replicaset)
 	if err != nil {
 		log.V(1).Info("Unable to fetch replicaset", "replicaset", replicaSetName, "pod", pod.Name, "err", err)
+		return
 	}
 
 	if replicaset.Status.ReadyReplicas > 0 {
@@ -151,8 +154,8 @@ func checkReplicaSetOfPod(k8sclient client.Client, log logr.Logger, ctx context.
 		//only one replica exits, so delete all scans
 		deleteScans(k8sclient, log, ctx, scans)
 	}
-
 }
+
 func deleteScans(k8sclient client.Client, log logr.Logger, ctx context.Context, scans []executionv1.ScheduledScan) {
 	for _, scan := range scans {
 		log.V(1).Info("Deleting scheduled scan", "scan", scan.Name)
@@ -180,16 +183,17 @@ func changeTargetOfScans(k8sclient client.Client, log logr.Logger, ctx context.C
 	}
 }
 
-func scansPointAtPod(pod corev1.Pod, scans executionv1.ScheduledScanList) bool {
-	for _, scan := range scans.Items {
+func getScansThatPointAtPod(pod corev1.Pod, scans []executionv1.ScheduledScan) []executionv1.ScheduledScan {
+	var result []executionv1.ScheduledScan
+	for _, scan := range scans {
 		if scan.Annotations["target"] == pod.Name {
-			return true
+			result = append(result, scan)
 		}
 	}
-	return false
+	return result
 }
 
-func getReplicaSetName(log logr.Logger, pod corev1.Pod) string {
+func getReplicaSetName(log logr.Logger, pod corev1.Pod) (string, error) {
 	var replicaSetName string
 	for _, owner := range pod.OwnerReferences {
 		if *owner.Controller && owner.Kind == "ReplicaSet" {
@@ -197,7 +201,12 @@ func getReplicaSetName(log logr.Logger, pod corev1.Pod) string {
 			log.V(1).Info("Found replicaset for pod", "replicaset", replicaSetName, "pod", pod.Name)
 		}
 	}
-	return replicaSetName
+
+	var err error
+	if replicaSetName == "" {
+		err = errors.New("No replicaset found")
+	}
+	return replicaSetName, err
 }
 
 func getLabelsForPod(pod corev1.Pod) map[string]string {
