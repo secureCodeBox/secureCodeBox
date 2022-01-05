@@ -96,7 +96,7 @@ func getPodScans(k8sclient client.Client, log logr.Logger, ctx context.Context, 
 func createScheduledScan(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod) {
 	newScheduledScan := executionv1.ScheduledScan{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:        "scheduledtestscan",
+			Name:        "scan-" + pod.Name,
 			Namespace:   pod.Namespace,
 			Labels:      getLabelsForPod(pod),
 			Annotations: map[string]string{"target": pod.Name},
@@ -166,6 +166,7 @@ func changeTargetOfScans(k8sclient client.Client, log logr.Logger, ctx context.C
 	err := k8sclient.List(ctx, &alternativePods, client.MatchingLabels(labels))
 	if err != nil {
 		log.V(1).Info("Unable to fetch replicas of pod", "pod", pod.Name, "labels", labels)
+		return
 	}
 
 	for _, scan := range scans {
@@ -174,6 +175,7 @@ func changeTargetOfScans(k8sclient client.Client, log logr.Logger, ctx context.C
 		err := k8sclient.Update(ctx, &scan)
 		if err != nil {
 			log.V(1).Info("Unable to update scheduled scan", "scan", scan.Name)
+
 		}
 	}
 }
