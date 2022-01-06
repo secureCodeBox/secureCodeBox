@@ -31,7 +31,7 @@ const scan = {
   },
 };
 
-const testDate = new Date("2020-11-11");
+const testDate = new Date("2020-11-11").toUTCString();
 
 test("should send findings to Azure Monitor", async () => {
   const findings = [

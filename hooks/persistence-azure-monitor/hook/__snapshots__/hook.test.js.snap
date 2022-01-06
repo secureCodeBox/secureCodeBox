@@ -7,10 +7,10 @@ Array [
     Object {
       "body": "[{\\"id\\":\\"4560b3e6-1219-4f5f-9b44-6579f5a32407\\",\\"name\\":\\"Port 5601 is open\\",\\"category\\":\\"Open Port\\",\\"scan_id\\":\\"09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc\\",\\"scan_name\\":\\"demo-scan\\",\\"scan_type\\":\\"Nmap\\",\\"scan_parameters\\":[\\"-Pn\\",\\"localhost\\"],\\"scan_labels\\":{\\"company\\":\\"iteratec\\"}},{\\"id\\":\\"4560b3e6-1219-4f5f-9b44-6579f5a32407\\",\\"name\\":\\"Port 5601 is open\\",\\"category\\":\\"Open Port\\",\\"scan_id\\":\\"09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc\\",\\"scan_name\\":\\"demo-scan\\",\\"scan_type\\":\\"Nmap\\",\\"scan_parameters\\":[\\"-Pn\\",\\"localhost\\"],\\"scan_labels\\":{\\"company\\":\\"iteratec\\"}}]",
       "headers": Object {
-        "Authorization": "SharedKey 123123:PP12yhTWBaKHpPR6yQ04E6QMxFM3ab49rw19Jje2wC0=",
+        "Authorization": "SharedKey 123123:Kbjs2pD2xj5jEP0iaLF24RiMKCHX0Oy1cJIs0YVC/04=",
         "Log-Type": "SCB_Nmap",
         "content-type": "application/json",
-        "x-ms-date": 2020-11-11T00:00:00.000Z,
+        "x-ms-date": "Wed, 11 Nov 2020 00:00:00 GMT",
       },
       "method": "POST",
     },
@@ -25,10 +25,10 @@ Array [
     Object {
       "body": "[{\\"id\\":\\"4560b3e6-1219-4f5f-9b44-6579f5a32407\\",\\"name\\":\\"Port 5601 is open\\",\\"category\\":\\"Open Port\\",\\"scan_id\\":\\"09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc\\",\\"scan_name\\":\\"demo-scan\\",\\"scan_type\\":\\"Nmap\\",\\"scan_parameters\\":[\\"-Pn\\",\\"localhost\\"],\\"scan_labels\\":{\\"company\\":\\"iteratec\\"}}]",
       "headers": Object {
-        "Authorization": "SharedKey 123123:hsZXxfrPr17mLeCRTuReMPOn9O3+HoamCzsvKBX3kiM=",
+        "Authorization": "SharedKey 123123:NGgRdMUyh3Ed5fB+qS3kJU6B3u6/dt34uP7aPYBgLXg=",
         "Log-Type": "SCB_Nmap",
         "content-type": "application/json",
-        "x-ms-date": 2020-11-11T00:00:00.000Z,
+        "x-ms-date": "Wed, 11 Nov 2020 00:00:00 GMT",
       },
       "method": "POST",
     },
@@ -43,10 +43,10 @@ Array [
     Object {
       "body": "[{\\"id\\":\\"4560b3e6-1219-4f5f-9b44-6579f5a32407\\",\\"name\\":\\"Port 5601 is open\\",\\"category\\":\\"Open Port\\",\\"scan_id\\":\\"09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc\\",\\"scan_name\\":\\"demo-scan\\",\\"scan_type\\":\\"Nmap\\",\\"scan_parameters\\":[\\"-Pn\\",\\"localhost\\"],\\"scan_labels\\":{\\"company\\":\\"iteratec\\"}}]",
       "headers": Object {
-        "Authorization": "SharedKey 123123:hsZXxfrPr17mLeCRTuReMPOn9O3+HoamCzsvKBX3kiM=",
+        "Authorization": "SharedKey 123123:NGgRdMUyh3Ed5fB+qS3kJU6B3u6/dt34uP7aPYBgLXg=",
         "Log-Type": "SCB_Nmap",
         "content-type": "application/json",
-        "x-ms-date": 2020-11-11T00:00:00.000Z,
+        "x-ms-date": "Wed, 11 Nov 2020 00:00:00 GMT",
       },
       "method": "POST",
     },
