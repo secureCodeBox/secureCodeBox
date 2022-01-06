@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 process.env["MONITOR_WORKSPACE_ID"] = "123123";
-process.env["MONITOR_SHARED_KEY"] = "ffffffffffffffffffffffffffffff";
+process.env["MONITOR_SHARED_KEY"] = "aGVsbG8taS1hbS1hLXRlc3Qta2V5";
 process.env["MONITOR_LOGTYPE_PREFIX"] = "SCB";
 
 const { handle } = require("./hook");
@@ -48,7 +48,7 @@ test("should send findings to Azure Monitor", async () => {
     getFindings,
     scan,
     workspaceId: "123123",
-    sharedKey: "ffffffffffffffffffffffffffffff",
+    sharedKey: "aGVsbG8taS1hbS1hLXRlc3Qta2V5",
     logTypePrefix: "SCB",
     processingDate: testDate,
     fetch: fetch,
@@ -78,7 +78,7 @@ test("should batch multiple findings in a single call", async () => {
     getFindings,
     scan,
     workspaceId: "123123",
-    sharedKey: "ffffffffffffffffffffffffffffff",
+    sharedKey: "aGVsbG8taS1hbS1hLXRlc3Qta2V5",
     logTypePrefix: "SCB",
     processingDate: testDate,
     fetch: fetch,
