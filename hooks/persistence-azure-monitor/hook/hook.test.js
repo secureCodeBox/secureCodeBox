@@ -9,7 +9,9 @@ process.env["MONITOR_LOGTYPE_PREFIX"] = "SCB";
 const { handle } = require("./hook");
 
 // Mock the fetch function
-const fetch = jest.fn(x => new Promise((resolve, reject) => resolve({status: 200})));
+const fetch = jest.fn(
+  (x) => new Promise((resolve, reject) => resolve({ status: 200 }))
+);
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -29,10 +31,9 @@ const scan = {
   },
 };
 
-const testDate = new Date('2020-11-11');
+const testDate = new Date("2020-11-11");
 
 test("should send findings to Azure Monitor", async () => {
-
   const findings = [
     {
       id: "4560b3e6-1219-4f5f-9b44-6579f5a32407",
@@ -43,19 +44,19 @@ test("should send findings to Azure Monitor", async () => {
 
   const getFindings = async () => findings;
 
-  await handle({getFindings,
-                scan,
-                workspaceId: "123123",
-                sharedKey: "ffffffffffffffffffffffffffffff",
-                logTypePrefix: "SCB",
-                fetch: fetch,
-                });
+  await handle({
+    getFindings,
+    scan,
+    workspaceId: "123123",
+    sharedKey: "ffffffffffffffffffffffffffffff",
+    logTypePrefix: "SCB",
+    fetch: fetch,
+  });
 
   expect(fetch).toBeCalledTimes(1);
 });
 
 test("should batch multiple findings in a single call", async () => {
-
   const findings = [
     {
       id: "4560b3e6-1219-4f5f-9b44-6579f5a32407",
@@ -71,13 +72,14 @@ test("should batch multiple findings in a single call", async () => {
 
   const getFindings = async () => findings;
 
-  await handle({getFindings,
-                scan,
-                workspaceId: "123123",
-                sharedKey: "ffffffffffffffffffffffffffffff",
-                logTypePrefix: "SCB",
-                fetch: fetch,
-                });
+  await handle({
+    getFindings,
+    scan,
+    workspaceId: "123123",
+    sharedKey: "ffffffffffffffffffffffffffffff",
+    logTypePrefix: "SCB",
+    fetch: fetch,
+  });
 
   expect(fetch).toBeCalledTimes(1);
 });
