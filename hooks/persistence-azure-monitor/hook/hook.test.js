@@ -50,10 +50,12 @@ test("should send findings to Azure Monitor", async () => {
     workspaceId: "123123",
     sharedKey: "ffffffffffffffffffffffffffffff",
     logTypePrefix: "SCB",
+    processingDate: testDate,
     fetch: fetch,
   });
 
   expect(fetch).toBeCalledTimes(1);
+  expect(fetch.mock.calls).toMatchSnapshot();
 });
 
 test("should batch multiple findings in a single call", async () => {
@@ -78,8 +80,32 @@ test("should batch multiple findings in a single call", async () => {
     workspaceId: "123123",
     sharedKey: "ffffffffffffffffffffffffffffff",
     logTypePrefix: "SCB",
+    processingDate: testDate,
     fetch: fetch,
   });
 
   expect(fetch).toBeCalledTimes(1);
+  expect(fetch.mock.calls).toMatchSnapshot();
+});
+
+test("should pull settings from env variables", async () => {
+  const findings = [
+    {
+      id: "4560b3e6-1219-4f5f-9b44-6579f5a32407",
+      name: "Port 5601 is open",
+      category: "Open Port",
+    },
+  ];
+
+  const getFindings = async () => findings;
+
+  await handle({
+    getFindings,
+    scan,
+    processingDate: testDate,
+    fetch: fetch,
+  });
+
+  expect(fetch).toBeCalledTimes(1);
+  expect(fetch.mock.calls).toMatchSnapshot();
 });

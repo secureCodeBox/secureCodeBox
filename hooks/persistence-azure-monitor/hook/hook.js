@@ -12,6 +12,7 @@ async function handle({
   workspaceId = process.env["MONITOR_WORKSPACE_ID"],
   sharedKey = process.env["MONITOR_SHARED_KEY"],
   logTypePrefix = process.env["MONITOR_LOGTYPE_PREFIX"],
+  processingDate = new Date().toUTCString(),
   crypto = require("crypto"),
   fetch = require("node-fetch"),
 }) {
