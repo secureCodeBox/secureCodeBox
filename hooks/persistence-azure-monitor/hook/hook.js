@@ -4,7 +4,6 @@
 
 // Fixed settings for the script
 const monitorApiVersion = "2016-04-01";
-const processingDate = new Date().toUTCString();
 
 async function handle({
   getFindings,
