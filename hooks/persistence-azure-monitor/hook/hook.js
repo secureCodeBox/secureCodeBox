@@ -17,7 +17,7 @@ async function handle({
 }) {
   if (!(workspaceId && sharedKey)) {
     console.error("Missing Workspace ID or shared key. Please provide them in the MONITOR_WORKSPACE_ID and MONITOR_SHARED_KEY environment variables");
-    return 1;
+    process.exit(1);
   }
 
   const findings = await getFindings();

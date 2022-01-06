@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-process.env = Object.assign(process.env, {"MONITOR_WORKSPACE_ID": '123123', 
-                                          "MONITOR_SHARED_KEY": "ffffffffffffffffffffffffffffff",
-                                          "MONITOR_LOGTYPE_PREFIX": "SCB"});
+process.env["MONITOR_WORKSPACE_ID"] = "123123";
+process.env["MONITOR_SHARED_KEY"] = "ffffffffffffffffffffffffffffff";
+process.env["MONITOR_LOGTYPE_PREFIX"] = "SCB";
 
 const { handle } = require("./hook");
 

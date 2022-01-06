@@ -64,14 +64,8 @@ The hook requires the Azure Monitor Workspace ID and its Primary Key for authent
 Create a Kubernetes secret with these values using
 
 ```bash
-# Write the secrets to a file without trailing linebreak
-# (use leading space to exclude it from the history of your shell)
- echo -n your-workspace-id > workspace
- echo -n your-shared-key > sharedkey
-# Create the secret
-kubectl create secret generic azure-monitor --from-file=workspace=./workspace --from-file=sharedkey=./sharedkey
-# Delete the files again
-rm workspace sharedkey
+# Create the secret (use a leading space to avoid having secrets in your shell history)
+ kubectl create secret generic azure-monitor --from-literal=workspace=your-workspace-id --from-literal=sharedkey=your-shared-key
 ```
 
 Then, configure the hook to use this secret when installing it:

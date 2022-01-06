@@ -11,7 +11,7 @@ type: application
 # version - gets automatically set to the secureCodeBox release version when the helm charts gets published
 version: v3.1.0-alpha1
 
-appVersion: 7.9.2
+appVersion: 1.0
 kubeVersion: ">=v1.11.0-0"
 
 keywords:

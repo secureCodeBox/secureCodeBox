@@ -35,12 +35,9 @@
     },
     "license": "Apache-2.0",
     "dependencies": {
-        "crypto": "^1.0.1",
-        "fetch": "^1.1.0",
         "node-fetch": "2.0"
     },
     "devDependencies": {
-        "jest": "^27.0.6",
-        "jest-fetch-mock": "^3.0.3"
+        "jest": "^27.0.6"
     }
 }
