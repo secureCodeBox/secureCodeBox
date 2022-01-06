@@ -1,0 +1,59 @@
+{{- /*
+SPDX-FileCopyrightText: 2021 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
+
+{{- define "extra.docsSection" -}}
+---
+title: "Azure Monitor"
+category: "hook"
+type: "persistenceProvider"
+state: "released"
+usecase: "Publishes all Scan Findings to Azure Monitor."
+---
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `3.0.0`, `2.9.0`, `2.8.0`, `2.7.0`
+{{- end }}
+
+{{- define "extra.chartAboutSection" -}}
+## What is "Persistence Azure Monitor" Hook about?
+The Azure Monitor persistenceProvider hook saves all findings and reports into the configured Azure Monitor workspace using the [Data Collector API](https://docs.microsoft.com/en-us/azure/azure-monitor/logs/data-collector-api).
+This allows working with the data in [Azure Monitor](https://azure.microsoft.com/en-us/services/monitor/) or [Microsoft Sentinel](https://docs.microsoft.com/en-us/azure/sentinel/overview) to configure alerting based on new findings.
+It will create a custom log type for every scantype titled SCB_[scantype_name].
+
+Installing the Azure Monitor persistenceProvider hook will add a _ReadOnly Hook_ to your namespace.
+{{- end }}
+
+{{- define "extra.scannerConfigurationSection" -}}{{- end }}
+
+{{- define "extra.chartConfigurationSection" -}}
+## Additional Chart Configurations
+The hook requires the Azure Monitor Workspace ID and its Primary Key for authentication. For details on how to find them, see [this page](https://docs.microsoft.com/en-us/azure/azure-monitor/logs/data-collector-api#sample-requests).
+Create a Kubernetes secret with these values using
+
+```bash
+# Write the secrets to a file without trailing linebreak
+# (use leading space to exclude it from the history of your shell)
+ echo -n your-workspace-id > workspace
+ echo -n your-shared-key > sharedkey
+# Create the secret
+kubectl create secret generic azure-monitor --from-file=workspace=./workspace --from-file=sharedkey=./sharedkey
+# Delete the files again
+rm workspace sharedkey
+```
+
+Then, configure the hook to use this secret when installing it:
+```bash
+helm upgrade --install persistence-azure-monitor . --wait \
+             --set="monitor.authentication.apiKeySecret="azure-monitor""
+```
+
+{{- end }}
+
+{{- define "extra.scannerLinksSection" -}}
+{{- end }}
