@@ -4,7 +4,7 @@
 
 apiVersion: v2
 version: v3.1.0-alpha2
-appVersion: "v12.7.0"
+appVersion: "v13.0.3"
 name: juice-shop
 description: "OWASP Juice Shop: Probably the most modern and sophisticated insecure web application"
 type: application
