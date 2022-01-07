@@ -95,7 +95,7 @@ env:
   - name: SOME_ENV
     valueFrom:
       secretKeyRef:
-        secret: some-secret
+        name: some-secret
         key: some-key
 ```
 
@@ -185,8 +185,8 @@ env:
     - name: POINTER_TO_ENV
       valueFrom:
         secretKeyRef:
-            name: myslacksecret
-            key: SLACK_WEB_HOOK
+          name: myslacksecret
+          key: SLACK_WEB_HOOK
 
 # cat values_slack_secrets.yaml
 apiVersion: v1
