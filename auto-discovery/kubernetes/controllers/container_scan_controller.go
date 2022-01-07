@@ -24,7 +24,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-type PodScanReconciler struct {
+type ContainerScanReconciler struct {
 	client.Client
 	Log      logr.Logger
 	Scheme   *runtime.Scheme
@@ -35,7 +35,7 @@ type PodScanReconciler struct {
 // +kubebuilder:rbac:groups=core,resources=pods,verbs=get;list;watch;update;patch
 
 // Reconcile compares the Pod object against the state of the cluster and updates both if needed
-func (r *PodScanReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+func (r *ContainerScanReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	log := r.Log
 
 	if req.Namespace != "default" {
@@ -238,7 +238,7 @@ func getHashesForPod(pod corev1.Pod) map[string]string {
 }
 
 // SetupWithManager sets up the controller and initializes every thing it needs
-func (r *PodScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
+func (r *ContainerScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
 
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&corev1.Pod{}).
