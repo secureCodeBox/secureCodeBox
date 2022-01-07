@@ -94,7 +94,7 @@ notificationChannels:
 env:
   - name: SOME_ENV
     valueFrom:
-      secretRefKey:
+      secretKeyRef:
         secret: some-secret
         key: some-key
 ```
