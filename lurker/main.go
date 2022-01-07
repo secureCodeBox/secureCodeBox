@@ -6,10 +6,10 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"flag"
 	"fmt"
 	"io/ioutil"
-	corev1 "k8s.io/api/core/v1"
 	"log"
 	"net/http"
 	"net/http/httputil"
@@ -18,6 +18,7 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
+	corev1 "k8s.io/api/core/v1"
 	kerrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
@@ -115,13 +116,14 @@ func waitForMainContainerToEnd(container, pod, namespace string) {
 
 	log.Printf("Waiting for maincontainer to exit.")
 
-	for keepWaitingForMainContainerToExit(container, pod, namespace, clientset) {
+	context := context.Background()
+	for keepWaitingForMainContainerToExit(context, container, pod, namespace, clientset) {
 		time.Sleep(500 * time.Millisecond)
 	}
 }
 
-func keepWaitingForMainContainerToExit(container string, podName string, namespace string, clientset *kubernetes.Clientset) bool {
-	pod, err := clientset.CoreV1().Pods(namespace).Get(podName, metav1.GetOptions{})
+func keepWaitingForMainContainerToExit(context context.Context, container string, podName string, namespace string, clientset *kubernetes.Clientset) bool {
+	pod, err := clientset.CoreV1().Pods(namespace).Get(context, podName, metav1.GetOptions{})
 	if kerrors.IsNotFound(err) {
 		log.Printf("Pod %s not found in namespace %s", pod, namespace)
 	} else if statusError, isStatus := err.(*kerrors.StatusError); isStatus {
