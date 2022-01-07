@@ -8,7 +8,7 @@ on: push
 env:
   # ---- Language Versions ----
 
-  GO_VERSION: "1.15"
+  GO_VERSION: "1.17"
   PYTHON_VERSION: "3.9"
   NODE_VERSION: "14"
   NPM_VERSION: "7"
