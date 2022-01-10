@@ -5,7 +5,7 @@
 apiVersion: "cascading.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
-  name: "zap-http"
+  name: "zap-https"
   labels:
     securecodebox.io/invasive: non-invasive
     securecodebox.io/intensive: medium
@@ -14,12 +14,8 @@ spec:
     anyOf:
       - category: "Open Port"
         attributes:
-          service: http
-          state: open
-      - category: "Open Port"
-        attributes:
-          service: http-*
+          service: "https*"
           state: open
   scanSpec:
     scanType: "zap-baseline-scan"
-    parameters: ["-t", "http://{{$.hostOrIP}}:{{attributes.port}}"]
+    parameters: ["-t", "https://{{$.hostOrIP}}:{{attributes.port}}"]
