@@ -5,21 +5,17 @@
 apiVersion: "cascading.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
-  name: "zap-advanced-http"
+  name: "screenshooter-https"
   labels:
     securecodebox.io/invasive: non-invasive
-    securecodebox.io/intensive: medium
+    securecodebox.io/intensive: light
 spec:
   matches:
     anyOf:
       - category: "Open Port"
         attributes:
-          service: http
-          state: open
-      - category: "Open Port"
-        attributes:
-          service: "http-*"
+          service: "https*"
           state: open
   scanSpec:
-    scanType: "zap-advanced-scan"
-    parameters: ["-t", "http://{{$.hostOrIP}}:{{attributes.port}}"]
+    scanType: "screenshooter"
+    parameters: ["https://{{$.hostOrIP}}:{{attributes.port}}"]
