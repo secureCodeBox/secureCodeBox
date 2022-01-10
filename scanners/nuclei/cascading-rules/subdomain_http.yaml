@@ -5,18 +5,29 @@
 apiVersion: "cascading.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
-  name: "nuclei-subdomain-scan-light"
+  name: "nuclei-subdomain-scan-light-http"
   labels:
     securecodebox.io/invasive: non-invasive
     securecodebox.io/intensive: light
 spec:
   matches:
     anyOf:
-      - category: "Subdomain"
-        osi_layer: "NETWORK"
+      - category: "Open Port"
+        attributes:
+          port: 80
+          state: open
+      - category: "Open Port"
+        attributes:
+          service: "http"
+          state: open
+      - category: "Open Port"
+        attributes:
+          service: "http-*"
+          state: open
+      
   scanSpec:
     scanType: "nuclei"
     parameters:
       # Target domain name of the finding and start a nuclei scan
       - "-u"
-      - "{{location}}"
+      - "http://{{$.hostOrIP}}:{{attributes.port}}"
