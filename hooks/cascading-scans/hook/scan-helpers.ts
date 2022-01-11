@@ -135,7 +135,7 @@ export function mergeInheritedSelector(parentSelector: LabelSelector = {}, ruleS
 }
 
 export async function startSubsequentSecureCodeBoxScan(scan: Scan) {
-  console.log(`Starting Scan ${scan.metadata.name}`);
+  console.log(`Starting Scan ${scan.metadata.generateName}`);
 
   try {
     // Submitting the Scan to the kubernetes api
@@ -148,7 +148,7 @@ export async function startSubsequentSecureCodeBoxScan(scan: Scan) {
       "false"
     );
   } catch (error) {
-    console.error(`Failed to start Scan ${scan.metadata.name}`);
+    console.error(`Failed to start Scan ${scan.metadata.generateName}`);
     console.error(error);
   }
 }
