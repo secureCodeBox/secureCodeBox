@@ -434,23 +434,6 @@ test("parses an empty result file correctly", async () => {
   expect(findings).toEqual([]);
 });
 
-// Commented out until I can reproduce the test files
-/*
-test("parses an result file with mixed connectivity correctly", async () => {
-  const fileContent = JSON.parse(
-    await readFile(
-      __dirname + "/__testFiles__/mixed-connectivity-result.json",
-      {
-        encoding: "utf8",
-      }
-    )
-  );
-
-  const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
-  expect(findings).toEqual([]);
-});
-*/
 test("should properly parse empty json file", async () => {
   const jsonContent = await readFile(
     __dirname + "/__testFiles__/test-empty-report.json", {
