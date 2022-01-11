@@ -7,95 +7,57 @@
     "name": "Retrieved access-control-allow-origin header: *.",
     "description": null,
     "category": "Nikto Finding",
-    "location": "http://juice-shop",
+    "location": "http://juice-shop.demo-targets.svc",
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
-    "attributes": {
-      "ip_address": "10.106.148.133",
-      "hostname": "juice-shop",
-      "banner": "",
-      "method": "GET",
-      "port": 3000,
-      "niktoId": 999986,
-      "references": "unavailable"
-    },
-    "id": "d820d833-8eab-4aaa-9746-2ae491609718",
-    "parsed_at": "2021-08-30T14:37:39.665Z"
-  },
-  {
-    "name": "Retrieved access-control-allow-origin header: *.",
-    "description": null,
-    "category": "Nikto Finding",
-    "location": "http://juice-shop",
-    "osi_layer": "NETWORK",
-    "severity": "INFORMATIONAL",
-    "attributes": {
-      "ip_address": "10.106.148.133",
-      "hostname": "juice-shop",
-      "banner": "",
-      "method": "GET",
-      "port": 3000,
-      "niktoId": 999986,
-      "references": "unavailable"
-    },
-    "id": "fcb4dcfe-1851-47b4-9cf4-6715ca989399",
-    "parsed_at": "2021-08-30T14:37:39.665Z"
+    "attributes":
+      {
+        "ip_address": "10.96.244.199",
+        "hostname": "juice-shop.demo-targets.svc",
+        "banner": "",
+        "method": "GET",
+        "port": 3000,
+        "niktoId": 999986,
+      },
+    "id": "ada07ba9-6bb3-4d3f-ad43-a70271364639",
+    "parsed_at": "2022-01-11T10:18:28.344Z",
   },
   {
     "name": "Entry '/ftp/' in robots.txt returned a non-forbidden or redirect HTTP code (200).",
     "description": null,
     "category": "Nikto Finding",
-    "location": "http://juice-shop",
+    "location": "http://juice-shop.demo-targets.svc",
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
-    "attributes": {
-      "ip_address": "10.106.148.133",
-      "hostname": "juice-shop",
-      "banner": "",
-      "method": "GET",
-      "port": 3000,
-      "niktoId": 999997,
-      "references": "https://portswigger.net/kb/issues/00600600_robots-txt-file"
-    },
-    "id": "83981214-fd22-4f53-bbe1-b4fb58b2fdd1",
-    "parsed_at": "2021-08-30T14:37:39.665Z"
+    "attributes":
+      {
+        "ip_address": "10.96.244.199",
+        "hostname": "juice-shop.demo-targets.svc",
+        "banner": "",
+        "method": "GET",
+        "port": 3000,
+        "niktoId": 999997,
+      },
+    "id": "0738d403-5440-4ede-ae36-47ecbf34ad9b",
+    "parsed_at": "2022-01-11T10:18:28.345Z",
   },
   {
-    "name": "Retrieved access-control-allow-origin header: *.",
+    "name": '"robots.txt" contains 1 entry which should be manually viewed.',
     "description": null,
-    "category": "Nikto Finding",
-    "location": "http://juice-shop",
+    "category": "robots.txt",
+    "location": "http://juice-shop.demo-targets.svc",
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
-    "attributes": {
-      "ip_address": "10.106.148.133",
-      "hostname": "juice-shop",
-      "banner": "",
-      "method": "GET",
-      "port": 3000,
-      "niktoId": 999986,
-      "references": "unavailable"
-    },
-    "id": "b2f6a633-53f3-43ca-becf-b21d3b7cd5f4",
-    "parsed_at": "2021-08-30T14:37:39.665Z"
+    "attributes":
+      {
+        "ip_address": "10.96.244.199",
+        "hostname": "juice-shop.demo-targets.svc",
+        "banner": "",
+        "method": "GET",
+        "port": 3000,
+        "niktoId": 999996,
+      },
+    "id": "1d4c72c8-337c-47ea-b59f-5231928e1b9c",
+    "parsed_at": "2022-01-11T10:18:28.345Z",
   },
-  {
-    "name": "Entry '/ftp/' in robots.txt returned a non-forbidden or redirect HTTP code (200).",
-    "description": null,
-    "category": "Nikto Finding",
-    "location": "http://juice-shop",
-    "osi_layer": "NETWORK",
-    "severity": "INFORMATIONAL",
-    "attributes": {
-      "ip_address": "10.106.148.133",
-      "hostname": "juice-shop",
-      "banner": "",
-      "method": "GET",
-      "port": 3000,
-      "niktoId": 999997,
-      "references": "https://portswigger.net/kb/issues/00600600_robots-txt-file"
-    },
-    "id": "bb4f7e97-a791-4ae2-8aa0-8691e5ddcb69",
-    "parsed_at": "2021-08-30T14:37:39.665Z"
-  }
 ]
