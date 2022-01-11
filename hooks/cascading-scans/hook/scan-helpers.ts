@@ -139,7 +139,7 @@ export async function startSubsequentSecureCodeBoxScan(scan: Scan) {
 
   try {
     // Submitting the Scan to the kubernetes api
-    await k8sApiCRD.createNamespacedCustomObject(
+    const createdScan = await k8sApiCRD.createNamespacedCustomObject(
       "execution.securecodebox.io",
       "v1",
       namespace,
@@ -147,6 +147,7 @@ export async function startSubsequentSecureCodeBoxScan(scan: Scan) {
       scan,
       "false"
     );
+    console.log(`-> Created scan ${createdScan.body["metadata"].name}`)
   } catch (error) {
     console.error(`Failed to start Scan ${scan.metadata.generateName}`);
     console.error(error);
