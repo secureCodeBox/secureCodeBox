@@ -22,11 +22,18 @@ spec:
       template:
         spec:
           restartPolicy: OnFailure
+          affinity:
+            {{- toYaml .Values.scanner.affinity | nindent 12 }}
+          tolerations: 
+            {{- toYaml .Values.scanner.tolerations | nindent 12 }}
           containers:
             - name: nmap
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
-              command: ["nmap", "-oX", "/home/securecodebox/nmap-results.xml"]
+              command:
+                - "nmap"
+                - "-oX"
+                - "/home/securecodebox/nmap-results.xml"
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:

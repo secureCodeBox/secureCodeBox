@@ -1,0 +1,153 @@
+name: Check outdated scanners
+on:
+  schedule:
+    - cron: "15 9 * * *" # Daily at 9:15 (avoids the beginning of the hour congestion)
+jobs:
+  version-compare:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        scanner:
+          - amass
+          - angularjs-csti-scanner
+          - cmseek
+          # - gitleaks
+          - kube-hunter
+          - kubeaudit
+          - ncrack
+          - nuclei
+          - semgrep
+          - ssh-scan
+          - sslyze
+          - trivy
+          - typo3scan
+          - whatweb
+          - wpscan
+          - zap
+          - zap-advanced
+          # missing scanners are : nmap, nikto
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v3
+        with:
+          gpg-private-key: ${{ secrets.GPG_COMMITS_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_COMMITS_PASSPHRASE }}
+          git-user-signingkey: true
+          git-commit-gpgsign: true
+
+      - name: Fetch local scanner version
+        uses: mikefarah/yq@v4.4.1
+        with:
+          cmd: echo local=$(yq e .appVersion scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
+
+      - name: Fetch scanner's version API
+        uses: mikefarah/yq@v4.4.1
+        with:
+          cmd: echo versionApi=$(yq e .annotations.versionApi scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
+
+      - name: Fetch latest release scanner version
+        # A hacky way to solve the problem where the docker image is in the "1.0" format and the github release is in the "v1.0" format
+        # We make sure to add or remove the "v" character when necessary
+        run: |
+          local=${{env.local}}
+          release=$(curl -sL ${{env.versionApi}}  | jq -r ".tag_name" )
+          upgrade=$release
+
+          if [[ ${local:0:1} != ${release:0:1} ]] ; then
+            if [[ ${local:0:1} == "v" ]] ; then
+              upgrade=v${release};
+            elif [[ ${release:0:1} == "v" ]] ; then
+              upgrade=$(echo $release| tr -d "v")
+            fi
+          fi
+
+          echo releaseGithub=$release >> $GITHUB_ENV #
+          echo release=$upgrade >> $GITHUB_ENV
+        # ^ The first echo sets how the release version looks in github releases and the second sets how the release version looks in docker images
+
+      - name: Check if scanner is outdated and if PR already exists
+        if: ${{ env.release != env.local && env.release != null }}
+        run: |
+          echo 'The ${{ matrix.scanner }} scanner is outdated.  Current SCB version is ${{env.local}} and remote version is ${{env.release}}'
+
+          pullRequestTitle="[SCB-Bot] Upgraded ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
+          echo pullRequest=$pullRequestTitle >> $GITHUB_ENV
+
+          echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
+          echo prExists=$(gh pr list --state open --limit 100 | grep -F "$pullRequestTitle" -c) >> $GITHUB_ENV
+
+      - name: Fetch new release changelog
+        if: ${{ env.release != env.local && env.release != null }}
+        # Reformats the versionApi to have an HTML view of the release changelog
+        # sed command is divided into three parts s/api.//g; , s/\/repos//g; and s/latest//g
+        # "api." and "/repos" and "latest" are replaced with nothing (a.k.a removed)
+        # example: https://api.github.com/repos/OWASP/Amass/releases/latest --> https://github.com/OWASP/Amass/releases/
+        # the next command then appends the link  with the new release version as it is in Github.
+        run: |
+          changelog=$(echo ${{env.versionApi}} | sed -e 's/api.//g;s/\/repos//g;s/latest//g')
+          echo releaseChangelog=${changelog}${{env.releaseGithub}} >> $GITHUB_ENV
+
+      - name: Upgrade Scanner Helm Chart
+        if: ${{ env.release != env.local && env.prExists == 0 && env.release != null}}
+        uses: mikefarah/yq@v4.4.1
+        with:
+          # appVersion value in chart is replaced with release value. Empty lines are deleted in the process
+          cmd: yq e --inplace '.appVersion = "${{env.release}}"' ./scanners/${{ matrix.scanner }}/Chart.yaml
+
+      # Updating Helm Docs
+      - name: Download Helm Docs
+        run: |
+          mkdir helm-docs
+          cd helm-docs
+
+          curl --output helm-docs.tar.gz --location https://github.com/norwoodj/helm-docs/releases/download/v1.5.0/helm-docs_1.5.0_Linux_x86_64.tar.gz
+          # Checksum must be extracted from the checksum file every time helm-docs gets updated.
+          echo "a352e13a8438045b8ed138b821cb757c177acd999c1af77345152d7a64b0ddb7  helm-docs.tar.gz" | shasum --check
+
+          tar -xvf helm-docs.tar.gz
+          # Verify installation
+          ./helm-docs --version
+
+          sudo mv helm-docs /usr/local/bin/helm-docs
+
+      - name: Generate README
+        run: |
+          make readme
+      - name: Generate Demo-Apps Docs
+        run: make demo-apps-docs
+
+      - name: Generate Hooks Docs
+        run: make hook-docs
+
+      - name: Generate Scanner Docs
+        run: make scanner-docs
+
+      - name: Generate Operator Docs
+        run: make operator-docs
+
+      - name: Generate AutoDiscovery Docs
+        run: make auto-discovery-docs
+
+      - name: Remove Helm Docs Files
+        run: |
+          # Remove helm-docs download to ensure they don't get committed back
+          rm -rf helm-docs
+
+      - name: Create Pull Request
+        if: ${{ env.release != env.local && env.prExists == 0 && env.release != null }}
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.SCB_BOT_USER_TOKEN }}
+          committer: secureCodeBoxBot <securecodebox@iteratec.com>
+          author: secureCodeBoxBot <securecodebox@iteratec.com>
+          title: ${{ env.pullRequest }}
+          body: |
+            This is an automated Pull Request by the SCB-Bot. It upgrades ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}
+            ### Release changes : [here](${{env.releaseChangelog}})
+          branch: "dependencies/upgrading-${{ matrix.scanner }}-to-${{env.release}}"
+          labels: dependencies,scanner
+          commit-message: "Upgrading ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
+          signoff: true
+          base: main

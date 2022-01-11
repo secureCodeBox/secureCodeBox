@@ -30,6 +30,11 @@ type ScanCompletionHookSpec struct {
 	// Defines weather the hook should be able to change the findings or is run in a read only mode.
 	Type HookType `json:"type"`
 
+	// Higher priority hooks run before low priority hooks. Within a priority class ReadAndWrite hooks are started before ReadOnly hooks, ReadAndWrite hooks wil be launched in serial, and ReadOnly hooks will be launched in parallel.
+	// +kubebuilder:default=0
+	// +kubebuilder:validation:Optional
+	Priority int `json:"priority"`
+
 	// Image is the container image for the hooks kubernetes job
 	Image string `json:"image,omitempty"`
 	// ImagePullSecrets used to access private hooks images
@@ -43,6 +48,10 @@ type ScanCompletionHookSpec struct {
 	Volumes []corev1.Volume `json:"volumes,omitempty"`
 	// VolumeMounts allows to specify volume mounts for the hooks container.
 	VolumeMounts []corev1.VolumeMount `json:"volumeMounts,omitempty"`
+	// Affinity allows to specify a node affinity, to control on which nodes you want a hook to run. See: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/
+	Affinity *corev1.Affinity `json:"affinity,omitempty"`
+	// Tolerations are a different way to control on which nodes your hook is executed. See https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
+	Tolerations []corev1.Toleration `json:"tolerations,omitempty"`
 
 	// ServiceAccountName Name of the serviceAccount Name used. Should only be used if your hook needs specifc RBAC Access. Otherwise the hook is run using a "scan-completion-hook" service account. The service account should have at least "get" rights on scans.execution.securecodebox.io, and "get" & "patch" scans.execution.securecodebox.io/status
 	ServiceAccountName *string `json:"serviceAccountName,omitempty"`
@@ -60,6 +69,7 @@ type ScanCompletionHookStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:printcolumn:name="Type",type=string,JSONPath=`.spec.type`,description="ScanCompletionHook Type"
+// +kubebuilder:printcolumn:name="Priority",type=string,JSONPath=`.spec.priority`,description="ScanCompletionHook Priority"
 // +kubebuilder:printcolumn:name="Image",type=string,JSONPath=`.spec.image`,description="ScanCompletionHook Image"
 
 // ScanCompletionHook is the Schema for the ScanCompletionHooks API

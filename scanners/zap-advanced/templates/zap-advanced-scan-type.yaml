@@ -21,6 +21,13 @@ metadata:
   name: "zap-advanced-scan{{ .Values.scanner.nameAppend | default ""}}"
   labels:
     {{- include "zap.labels" . | nindent 4 }}
+  annotations:
+    {{- range $path, $d := .Files.Glob "scanner/scripts/authentication/*" }}
+    checksum.securecodebox.io/{{ $path | base }}: {{ $d | toString | sha256sum }}
+    {{ end }}
+    {{- range $path, $d := .Files.Glob "scanner/scripts/session/*" }}
+    checksum.securecodebox.io/{{ $path | base }}: {{ $d | toString | sha256sum }}
+    {{ end }}
 spec:
   extractResults:
     type: zap-advanced-xml
@@ -37,6 +44,10 @@ spec:
       template:
         spec:
           restartPolicy: Never
+          affinity:
+            {{- toYaml .Values.scanner.affinity | nindent 12 }}
+          tolerations: 
+            {{- toYaml .Values.scanner.tolerations | nindent 12 }}
           containers:
             - name: zap-advanced-scan
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.Version }}"

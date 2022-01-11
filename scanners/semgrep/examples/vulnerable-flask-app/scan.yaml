@@ -1,0 +1,27 @@
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "semgrep-vulnerable-flask-app"
+spec:
+  volumes:
+    - name: test-dir
+      emptyDir: {}
+  volumeMounts:
+    - mountPath: "/test/"
+      name: test-dir
+  scanType: "semgrep"
+  parameters:
+    - "-c"
+    - "p/ci"
+    - "/test/flask"
+  initContainers:
+    - name: "provision-git"
+      image: bitnami/git
+      command:
+        - git 
+        - clone
+        - "https://github.com/we45/Vulnerable-Flask-App"
+        - /test/flask
+      volumeMounts:
+        - mountPath: "/test/"
+          name: test-dir

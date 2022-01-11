@@ -4,24 +4,33 @@
 
 parser:
   image:
-    # -- Parser image repository
+    # parser.image.repository -- Parser image repository
     repository: docker.io/securecodebox/parser-zap
-    # -- Parser image tag
+    # parser.image.tag -- Parser image tag
     # @default -- defaults to the charts version
     tag: null
     # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
     pullPolicy: IfNotPresent
 
-  # -- seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+  # parser.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
   ttlSecondsAfterFinished: null
   # parser.env -- Optional environment variables mapped into each parseJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
   env: []
 
+  # parser.scopeLimiterAliases -- Optional finding aliases to be used in the scopeLimiter.
+  scopeLimiterAliases: {}
+
+  # parser.affinity -- Optional affinity settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
+  affinity: {}
+
+  # parser.tolerations -- Optional tolerations settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+  tolerations: []
+
 scanner:
   image:
-    # -- Container Image to run the scan
+    # scanner.image.repository -- Container Image to run the scan
     repository: docker.io/securecodebox/scanner-zap-advanced
-    # -- defaults to the charts appVersion
+    # scanner.image.tag -- defaults to the charts version
     tag: null
     # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
     pullPolicy: IfNotPresent
@@ -37,7 +46,7 @@ scanner:
   # @default -- 3
   backoffLimit: 3
 
-  # -- CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)
+  # scanner.resources -- CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)
   resources: {}
   #   resources:
   #     requests:
@@ -47,13 +56,13 @@ scanner:
   #       memory: "512Mi"
   #       cpu: "500m"
 
-  # -- Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
+  # scanner.env -- Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
   env: []
 
-  # -- Optional mount environment variables from configMaps or secrets (see: https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/#configure-all-key-value-pairs-in-a-secret-as-container-environment-variables)
+  # scanner.envFrom -- Optional mount environment variables from configMaps or secrets (see: https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/#configure-all-key-value-pairs-in-a-secret-as-container-environment-variables)
   envFrom: []
 
-  # -- Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
+  # scanner.extraVolumes -- Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
   extraVolumes:
     - name: zap-advanced-scantype-config
       configMap:
@@ -65,18 +74,36 @@ scanner:
       configMap:
         name: zap-scripts-session
 
-  # -- Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
+  # scanner.extraVolumeMounts -- Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
   extraVolumeMounts:
     - name: zap-advanced-scantype-config
       mountPath: /home/securecodebox/configs/1-zap-advanced-scantype.yaml
       subPath: 1-zap-advanced-scantype.yaml
       readOnly: true
 
-  # -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
+  # scanner.extraContainers -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
   extraContainers: []
 
-  # -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
-  securityContext: {}
+  # scanner.securityContext -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+  securityContext:
+    # scanner.securityContext.runAsNonRoot -- Enforces that the scanner image is run as a non root user
+    runAsNonRoot: false
+    # scanner.securityContext.readOnlyRootFilesystem -- Prevents write access to the containers file system
+    readOnlyRootFilesystem: false
+    # scanner.securityContext.allowPrivilegeEscalation -- Ensure that users privileges cannot be escalated
+    allowPrivilegeEscalation: false
+    # scanner.securityContext.privileged -- Ensures that the scanner container is not run in privileged mode
+    privileged: false
+    capabilities:
+      drop:
+        # scanner.securityContext.capabilities.drop[0] -- This drops all linux privileges from the container.
+        - all
+  
+  # scanner.affinity -- Optional affinity settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
+  affinity: {}
+
+  # scanner.tolerations -- Optional tolerations settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+  tolerations: []
 
 zapContainer:
   image:
@@ -112,8 +139,20 @@ zapContainer:
       mountPath: /home/zap/.ZAP_D/scripts/scripts/session/
       readOnly: true
 
-  # -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
-  securityContext: {}
+  # scanner.securityContext -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+  securityContext:
+    # scanner.securityContext.runAsNonRoot -- Enforces that the scanner image is run as a non root user
+    runAsNonRoot: false
+    # scanner.securityContext.readOnlyRootFilesystem -- Prevents write access to the containers file system
+    readOnlyRootFilesystem: false
+    # scanner.securityContext.allowPrivilegeEscalation -- Ensure that users privileges cannot be escalated
+    allowPrivilegeEscalation: false
+    # scanner.securityContext.privileged -- Ensures that the scanner container is not run in privileged mode
+    privileged: false
+    capabilities:
+      drop:
+        # scanner.securityContext.capabilities.drop[0] -- This drops all linux privileges from the container.
+        - all
 
 # -- All `scanType` specific configuration options. Feel free to add more configuration options. All configuration options can be overriden by scan specific configurations if defined. Please have a look into the README.md to find more configuration options.
 zapConfiguration:
@@ -130,7 +169,6 @@ zapConfiguration:
       - pscanrulesAlpha
       - ascanrulesAlpha
 
-# --  Configurations regarding the cascading scan
 cascadingRules:
-  # -- Enables or disables the installation of the default cascading rules for this scanner
+  # cascadingRules.enabled -- Enables or disables the installation of the default cascading rules for this scanner
   enabled: true

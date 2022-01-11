@@ -2,14 +2,14 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-apiVersion: 'execution.securecodebox.io/v1'
+apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: 'kube-hunter{{ .Values.scanner.nameAppend | default ""}}'
+  name: "kube-hunter{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   extractResults:
     type: kube-hunter-json
-    location: '/home/securecodebox/kube-hunter-results.json'
+    location: "/home/securecodebox/kube-hunter-results.json"
   jobTemplate:
     spec:
       {{- if .Values.scanner.ttlSecondsAfterFinished }}
@@ -22,15 +22,19 @@ spec:
       template:
         spec:
           restartPolicy: Never
+          affinity:
+            {{- toYaml .Values.scanner.affinity | nindent 12 }}
+          tolerations: 
+            {{- toYaml .Values.scanner.tolerations | nindent 12 }}
           containers:
             - name: kube-hunter
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
               command:
-                - 'sh'
-                - '/wrapper.sh'
-                - '--report'
-                - 'json'
+                - "sh"
+                - "/wrapper.sh"
+                - "--report"
+                - "json"
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:

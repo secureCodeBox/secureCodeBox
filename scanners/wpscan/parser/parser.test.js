@@ -262,3 +262,15 @@ test("WPScan parser parses a scan result file without a detected wp version corr
     ]
   `);
 });
+
+test("should properly parse empty json file", async () => {
+  const jsonContent = await readFile(
+    __dirname + "/__testFiles__/empty-localhost.json",
+    {
+      encoding: "utf8",
+    }
+  );
+  const findings = await parse(jsonContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot("Array []");
+});

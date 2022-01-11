@@ -11,7 +11,6 @@ metadata:
   creationTimestamp: null
   name: scantypes.execution.securecodebox.io
 spec:
-  preserveUnknownFields: false
   group: execution.securecodebox.io
   names:
     kind: ScanType
@@ -1930,8 +1929,7 @@ spec:
                                         lifecycle, when it might take a long time
                                         to load data or warm a cache, than during
                                         steady-state operation. This cannot be updated.
-                                        This is a beta feature enabled by the StartupProbe
-                                        feature flag. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
+                                        More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
                                       properties:
                                         exec:
                                           description: One and only one of the following
@@ -4588,8 +4586,7 @@ spec:
                                         lifecycle, when it might take a long time
                                         to load data or warm a cache, than during
                                         steady-state operation. This cannot be updated.
-                                        This is a beta feature enabled by the StartupProbe
-                                        feature flag. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
+                                        More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
                                       properties:
                                         exec:
                                           description: One and only one of the following
@@ -4982,7 +4979,7 @@ spec:
                                       It will have no effect on ephemeral volume types
                                       such as: secret, configmaps and emptydir. Valid
                                       values are "OnRootMismatch" and "Always". If
-                                      not specified defaults to "Always".'
+                                      not specified, "Always" is used.'
                                     type: string
                                   runAsGroup:
                                     description: The GID to run the entrypoint of
@@ -5888,26 +5885,19 @@ spec:
                                                 dataSource:
                                                   description: 'This field can be
                                                     used to specify either: * An existing
-                                                    VolumeSnapshot object (snapshot.storage.k8s.io/VolumeSnapshot
-                                                    - Beta) * An existing PVC (PersistentVolumeClaim)
-                                                    * An existing custom resource/object
+                                                    VolumeSnapshot object (snapshot.storage.k8s.io/VolumeSnapshot)
+                                                    * An existing PVC (PersistentVolumeClaim)
+                                                    * An existing custom resource
                                                     that implements data population
-                                                    (Alpha) In order to use VolumeSnapshot
-                                                    object types, the appropriate
-                                                    feature gate must be enabled (VolumeSnapshotDataSource
-                                                    or AnyVolumeDataSource) If the
-                                                    provisioner or an external controller
-                                                    can support the specified data
-                                                    source, it will create a new volume
-                                                    based on the contents of the specified
-                                                    data source. If the specified
-                                                    data source is not supported,
-                                                    the volume will not be created
-                                                    and the failure will be reported
-                                                    as an event. In the future, we
-                                                    plan to support more data source
-                                                    types and the behavior of the
-                                                    provisioner may change.'
+                                                    (Alpha) In order to use custom
+                                                    resource types that implement
+                                                    data population, the AnyVolumeDataSource
+                                                    feature gate must be enabled.
+                                                    If the provisioner or an external
+                                                    controller can support the specified
+                                                    data source, it will create a
+                                                    new volume based on the contents
+                                                    of the specified data source.'
                                                   properties:
                                                     apiGroup:
                                                       description: APIGroup is the
@@ -6757,8 +6747,6 @@ spec:
                                                 type: object
                                             type: object
                                           type: array
-                                      required:
-                                      - sources
                                       type: object
                                     quobyte:
                                       description: Quobyte represents a Quobyte mount
@@ -7110,12 +7098,14 @@ spec:
                         description: Represents time when the job was completed. It
                           is not guaranteed to be set in happens-before order across
                           separate operations. It is represented in RFC3339 form and
-                          is in UTC.
+                          is in UTC. The completion time is only set when the job
+                          finishes successfully.
                         format: date-time
                         type: string
                       conditions:
                         description: 'The latest available observations of an object''s
-                          current state. More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/'
+                          current state. When a job fails, one of the conditions will
+                          have type == "Failed". More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/'
                         items:
                           description: JobCondition describes current state of a job.
                           properties:

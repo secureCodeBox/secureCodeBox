@@ -55,8 +55,8 @@ docker pull securecodebox/hook-persistence-defectdojo
 The DefectDojo hook imports the reports from scans automatically into [OWASP DefectDojo](https://www.defectdojo.org/).
 The hook uses the import scan [API v2 from DefectDojo](https://defectdojo.readthedocs.io/en/latest/api-v2-docs.html) to import the scan results.
 
-This means that only scan types are supported by the hook which are both supported by the secureCodeBox and DefectDojo.
-These are:
+Scan types which are both supported by the secureCodeBox and DefectDojo benefit from the full feature set of DefectDojo,
+like deduplication. These scan types are:
 
 - Nmap
 - Nikto
@@ -65,19 +65,39 @@ These are:
 - SSLyze
 - Trivy
 - Gitleaks
+- Semgrep
 
 After uploading the results to DefectDojo, it will use the findings parsed by DefectDojo to overwrite the
 original secureCodeBox findings identified by the parser. This lets you access the finding metadata like the false
 positive and duplicate status from DefectDojo in further ReadOnly hooks, e.g. send out Slack notification
 for non-duplicate & non-false positive findings only.
 
+For scan types which are not supported by DefectDojo, the generic importer is used, which will result in a less
+sophisticated display of the results and fewer features inside DefectDojo. In the worst case, it can lead to some
+findings being lost - see the note below.
+
 :::caution
 
-Be careful when using the DefectDojo Hook in combination with other ReadAndWrite hooks. The secureCodeBox currently has
-no way to guarantee that one ReadAndWrite hook gets executed before another ReadAndWrite hook. This can lead to
-"lost update" problems as the DefectDojo hook will overwrite all findings, which disregards the results of previously
-run ReadAndWrite hooks.
-ReadOnly hooks work fine with the DefectDojo hook as they are always executed after ReadAndWrite Hooks.
+Be careful when using the DefectDojo Hook in combination with other ReadAndWrite hooks. By default, the secureCodeBox
+makes no guarantees about the execution order of multiple ReadAndWrite hooks, they can be executed in any order.
+This can lead to "lost update" problems as the DefectDojo hook will overwrite all findings, which disregards the
+results of previously run ReadAndWrite hooks. ReadOnly hooks work fine with the DefectDojo hook as they are always
+executed after ReadAndWrite Hooks. If you want to control the order of execution of the different hooks, take a look
+at the [hook priority documentation](https://docs.securecodebox.io/docs/how-tos/hooks#hook-order) (supported with
+secureCodeBox 3.4.0 and later).
+:::
+
+:::caution
+
+The DefectDojo hook will send all scan results to DefectDojo, including those for which DefectDojo does not
+have native support. In this case, DefectDojo may incorrectly deduplicate findings, which can in some cases
+[lead to incomplete imports and even data loss](https://github.com/DefectDojo/django-DefectDojo/issues/5312).
+You can set the hook to read-only mode, which will prevent it from writing the results back to secureCodeBox
+(`--set defectdojo.syncFindingsBack=false` during installation of the hook) if you want to rule out any data
+loss inside secureCodeBox, but this will not prevent the incorrect deduplication from affecting the data you
+see inside DefectDojo (for this, you will need to [contribute a parser to DefectDojo](https://defectdojo.github.io/django-DefectDojo/contributing/how-to-write-a-parser/)).
+You can also selectively disable the DefectDojo hook for certain scans using the [hook selector feature](https://docs.securecodebox.io/docs/how-tos/hooks#hook-selector)
+(supported with secureCodeBox 3.4.0 and later).
 :::
 
 ### Running "Persistence DefectDojo" Hook Locally from Source
@@ -85,14 +105,14 @@ For development purposes, it can be useful to run this hook locally. You can do 
 
 1. Make sure you have access to a running [DefectDojo](https://github.com/DefectDojo/django-DefectDojo) instance.
 2. [Run a Scan](https://docs.securecodebox.io/docs/getting-started/first-scans) of your choice.
-3. Supply Download Links for the Scan Results (Raw Result and Findings.json). You can e.g., access them from the
+3. Supply Download Links for the Scan Results (Raw Result and Findings.json). You can access them from the
 included [Minio Instance](https://docs.securecodebox.io/docs/getting-started/installation/#accessing-the-included-minio-instance)
 and upload them to a GitHub Gist.
 4. Set the following environment variables:
 
 - DEFECTDOJO_URL (e.g http://192.168.0.1:8080);
 - DEFECTDOJO_USERNAME (e.g admin)
-- DEFECTDOJO_APIKEY= (e.g. b09c.., can be fetched from the DefectDojo Settings)
+- DEFECTDOJO_APIKEY= (e.g. b09c.., can be fetched from the DefectDojo API information page)
 - IS_DEV=true
 - SCAN_NAME (e.g nmap-scanme.nmap.org, must be set exactly to the name of the scan used in step 2)
 

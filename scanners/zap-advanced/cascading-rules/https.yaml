@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "cascading.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "zap-advanced-https"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: medium
+spec:
+  matches:
+    anyOf:
+      - category: "Open Port"
+        attributes:
+          service: "https*"
+          state: open
+  scanSpec:
+    scanType: "zap-advanced-scan"
+    parameters: ["-t", "https://{{$.hostOrIP}}:{{attributes.port}}"]

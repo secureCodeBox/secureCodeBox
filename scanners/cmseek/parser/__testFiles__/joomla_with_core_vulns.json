@@ -1,0 +1,43 @@
+{
+    "cms_id": "joom",
+    "cms_name": "joomla",
+    "cms_url": "https://joomla.org",
+    "detection_param": "header",
+    "joomla_backup_files": [
+        "http://172.26.0.3/1.save",
+        "http://172.26.0.3/1.tar.gz",
+        "http://172.26.0.3/1.rar",
+        "http://172.26.0.3/1.tar",
+        "http://172.26.0.3/1.zip",
+        "http://172.26.0.3/1.txt",
+        "http://172.26.0.3/1.tgz",
+        "http://172.26.0.3/1.tar.bz2",
+        "http://172.26.0.3/1.gz",
+        "http://172.26.0.3/1.tmp"
+    ],
+    "joomla_debug_mode": "enabled",
+    "joomla_readme_file": "http://172.26.0.3/README.txt",
+    "joomla_version": "3.6.5",
+    "last_scanned": "2021-09-22 10:29:01.721009",
+    "url": "http://172.26.0.3/",
+    "vulnerabilities": [
+        {
+            "name": "PHPMailer Remote Code Execution Vulnerability",
+            "references": [
+                "CVE : CVE-2016-10033",
+                "https://www.rapid7.com/db/modules/exploit/multi/http/phpmailer_arg_injection",
+                "https://github.com/opsxcq/exploit-CVE-2016-10033",
+                "EDB : https://www.exploit-db.com/exploits/40969/"
+            ]
+        },
+        {
+            "name": "PPHPMailer Incomplete Fix Remote Code Execution Vulnerability",
+            "references": [
+                "CVE : CVE-2016-10045",
+                "https://www.rapid7.com/db/modules/exploit/multi/http/phpmailer_arg_injection",
+                "EDB : https://www.exploit-db.com/exploits/40969/"
+            ]
+        }
+    ],
+    "vulnerabilities_count": "2"
+}

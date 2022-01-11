@@ -35,12 +35,14 @@ test("parses OWASP Juice Shop result file into findings", async () => {
   expect(findings).toMatchSnapshot();
 });
 
-test("parses 'no web server found' finding correctly", async () => {
-  const fileContent = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/unresolvable-host.json", {
+test("should properly parse empty json file", async () => {
+  const jsonContent = await readFile(
+    __dirname + "/__testFiles__/test-empty-report.json",
+    {
       encoding: "utf8",
-    })
+    }
   );
-  const findings = await parse(fileContent);
+  const findings = await parse(jsonContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot("Array []");
 });

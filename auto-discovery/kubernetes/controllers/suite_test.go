@@ -72,29 +72,31 @@ var _ = BeforeSuite(func() {
 	})
 	Expect(err).ToNot(HaveOccurred())
 
+	config := configv1.AutoDiscoveryConfig{
+		Cluster: configv1.ClusterConfig{
+			Name: "test-cluster",
+		},
+		ServiceAutoDiscoveryConfig: configv1.ServiceAutoDiscoveryConfig{
+			PassiveReconcileInterval: metav1.Duration{Duration: 1 * time.Second},
+			ScanConfig: configv1.ScanConfig{
+				RepeatInterval: metav1.Duration{Duration: time.Hour},
+				Annotations:    map[string]string{},
+				Labels:         map[string]string{},
+				Parameters:     []string{"-p", "{{ .Host.Port }}", "{{ .Service.Name }}.{{ .Service.Namespace }}.svc"},
+				ScanType:       "nmap",
+			},
+		},
+		ResourceInclusion: configv1.ResourceInclusionConfig{
+			Mode: configv1.EnabledPerResource,
+		},
+	}
+
 	err = (&ServiceScanReconciler{
 		Client:   k8sManager.GetClient(),
 		Scheme:   k8sManager.GetScheme(),
 		Recorder: k8sManager.GetEventRecorderFor("ServiceScanController"),
 		Log:      ctrl.Log.WithName("controllers").WithName("ServiceScanController"),
-		Config: configv1.AutoDiscoveryConfig{
-			Cluster: configv1.ClusterConfig{
-				Name: "test-cluster",
-			},
-			ServiceAutoDiscoveryConfig: configv1.ServiceAutoDiscoveryConfig{
-				PassiveReconcileInterval: metav1.Duration{Duration: 1 * time.Second},
-				ScanConfig: configv1.ScanConfig{
-					RepeatInterval: metav1.Duration{Duration: time.Hour},
-					Annotations:    map[string]string{},
-					Labels:         map[string]string{},
-					Parameters:     []string{"-p", "{{ .Host.Port }}", "{{ .Service.Name }}.{{ .Service.Namespace }}.svc"},
-					ScanType:       "nmap",
-				},
-			},
-			ResourceInclusion: configv1.ResourceInclusionConfig{
-				Mode: configv1.EnabledPerResource,
-			},
-		},
+		Config:   config,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 

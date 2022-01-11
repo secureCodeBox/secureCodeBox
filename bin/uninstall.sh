@@ -36,7 +36,7 @@ function uninstallResources() {
   done
 
   for resource in "${resources[@]}"; do
-    helm uninstall "$resource_name" -n "$namespace" || true
+    helm uninstall "$resource" -n "$namespace" || true
   done
 }
 
@@ -47,3 +47,4 @@ uninstallResources "$BASE_DIR/scanners" "$SCB_NAMESPACE"
 uninstallResources "$BASE_DIR/hooks" "$SCB_NAMESPACE"
 
 kubectl delete namespaces "$SCB_SYSTEM_NAMESPACE" || true
+echo "Uninstall completed"

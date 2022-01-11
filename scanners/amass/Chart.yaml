@@ -5,21 +5,19 @@
 apiVersion: v2
 name: amass
 description: A Helm chart for the Amass security scanner that integrates with the secureCodeBox.
-
 type: application
 # version - gets automatically set to the secureCodeBox release version when the helm charts gets published
 version: v3.1.0-alpha1
-# Latest Amass release version can be found here: https://github.com/OWASP/Amass/releases
-appVersion: "v3.13"
+appVersion: "v3.15.2"
 kubeVersion: ">=v1.11.0-0"
-
+annotations:
+  versionApi: https://api.github.com/repos/OWASP/Amass/releases/latest
 keywords:
   - security
   - amass
   - subdomain
   - scanner
   - secureCodeBox
-
 home: https://docs.securecodebox.io/docs/scanners/Amass
 icon: https://docs.securecodebox.io/img/integrationIcons/Amass.svg
 sources:

@@ -37,7 +37,7 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@types/jest": "^26.0.24",
-    "@types/node": "^14.17.5",
+    "@types/node": "^16.0.0",
     "eslint": "^7.31.0",
     "eslint-config-oclif": "^3.1.0",
     "eslint-plugin-node": "^11.1.0",

@@ -107,12 +107,26 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 	}
 	scan.Status.RawResultDownloadLink = rawResultDownloadURL
 
+	findingsHeadURL, err := r.PresignedHeadURL(scan.UID, "findings.json", 7*24*time.Hour)
+	if err != nil {
+		r.Log.Error(err, "Could not get presigned head url from s3 or compatible storage provider")
+		return err
+	}
+	scan.Status.FindingHeadLink = findingsHeadURL
+
+	rawResultsHeadURL, err := r.PresignedHeadURL(scan.UID, scan.Status.RawResultFile, 7*24*time.Hour)
+	if err != nil {
+		r.Log.Error(err, "Could not get presigned head url from s3 or compatible storage provider")
+		return err
+	}
+	scan.Status.RawResultHeadLink = rawResultsHeadURL
+
 	if err := r.Status().Update(ctx, scan); err != nil {
 		log.Error(err, "unable to update Scan status")
 		return err
 	}
 
-	log.V(1).Info("created Job for Scan", "job", job)
+	log.V(7).Info("created Job for Scan", "job", job)
 	return nil
 }
 
@@ -329,6 +343,23 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 		job.Spec.Template.Spec.Volumes,
 		scan.Spec.Volumes...,
 	)
+
+	// Merge initContainers from ScanTemplate with initContainers defined in scan
+	job.Spec.Template.Spec.InitContainers = append(
+		job.Spec.Template.Spec.InitContainers,
+		scan.Spec.InitContainers...,
+	)
+
+	// Set affinity from ScanTemplate
+	if scan.Spec.Affinity != nil {
+		job.Spec.Template.Spec.Affinity = scan.Spec.Affinity
+	}
+
+	// Replace (not merge!) tolerations from template with those specified in the scan job, if there are any.
+	// (otherwise keep those from the template)
+	if scan.Spec.Tolerations != nil {
+		job.Spec.Template.Spec.Tolerations = scan.Spec.Tolerations
+	}
 
 	// Using command over args
 	job.Spec.Template.Spec.Containers[0].Command = command

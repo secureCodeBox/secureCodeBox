@@ -18,7 +18,7 @@ deploy:
 		--values ../../tests/integration/hooks/__testFiles__/notification-values.yaml \
 		--set="hook.image.repository=docker.io/$(IMG_NS)/$(hook-prefix)-$(name)" \
 		--set="hook.image.tag=$(IMG_TAG)" \
-		--set="hook.image.pullPolicy=Never"
+		--set="hook.image.pullPolicy=IfNotPresent"
 
 integration-tests:
 	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."

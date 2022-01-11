@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: cmseek-example
+spec:
+  scanType: "cmseek"
+  parameters:
+    - "-u"
+    - "old-joomla.demo-targets.svc.cluster.local" # Change to the website you want to scan
+    - "--no-redirect"

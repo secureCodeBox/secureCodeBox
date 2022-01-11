@@ -39,99 +39,23 @@ jobs:
 
           sudo mv helm-docs /usr/local/bin/helm-docs
 
-      - name: Generate Helm Docs
+      - name: Generate README
         run: |
-          # Generate README.md based on Chart.yaml and template
-          helm-docs --template-files=./.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./.helm-docs/README.md.gotmpl
-
+          make readme
       - name: Generate Demo-Apps Docs
-        run: |
-          # Start in the hooks folder
-          cd demo-targets
-          # https://github.com/koalaman/shellcheck/wiki/SC2044
-          find . -type f -name Chart.yaml -print0 | while IFS= read -r -d '' chart; do
-          (
-            dir="$(dirname "${chart}")"
-            echo "Processing Helm Chart in $dir"
-            cd "${dir}" || exit
-            if [ -d "docs" ]; then
-              echo "Docs Folder found at: ${dir}/docs"
-              helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Target.md.gotmpl --output-file=docs/README.DockerHub-Target.md
-              helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
-            else
-              echo "Ignoring Docs creation process for Chart $dir, because no `docs` folder found at: ${dir}/docs"
-            fi
-          )
-          done
+        run: make demo-apps-docs
 
-      - name: Generate Docker Hooks Docs
-        run: |
-          # Start in the hooks folder
-          cd hooks
-          # https://github.com/koalaman/shellcheck/wiki/SC2044
-          find . -type f -name Chart.yaml -print0 | while IFS= read -r -d '' chart; do
-          (
-            dir="$(dirname "${chart}")"
-            echo "Processing Helm Chart in $dir"
-            cd "${dir}" || exit
-            if [ -d "docs" ]; then
-              echo "Docs Folder found at: ${dir}/docs"
-              helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Hook.md.gotmpl --output-file=docs/README.DockerHub-Hook.md
-              helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
-            else
-              echo "Ignoring Docs creation process for Chart $dir, because no `docs` folder found at: ${dir}/docs"
-            fi
-          )
-          done
+      - name: Generate Hooks Docs
+        run: make hook-docs
 
-      - name: Generate Docker Scanner Docs
-        run: |
-          # Start in the scanners folder
-          cd scanners
-          # https://github.com/koalaman/shellcheck/wiki/SC2044
-          find . -type f -name Chart.yaml -print0 | while IFS= read -r -d '' chart; do
-          (
-            dir="$(dirname "${chart}")"
-            echo "Processing Helm Chart in $dir"
-            cd "${dir}" || exit
-            if [ -d "docs" ]; then
-              echo "Docs Folder found at: ${dir}/docs"
-              if [ -d "parser" ]; then
-                echo "Parser found at: ${dir}/parser"
-                helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Parser.md.gotmpl --output-file=docs/README.DockerHub-Parser.md
-              fi
-              if [ -d "scanner" ]; then
-                echo "Scanner found at: ${dir}/parser"
-                helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Scanner.md.gotmpl --output-file=docs/README.DockerHub-Scanner.md
-              fi
-              helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
-            else
-              echo "Ignoring Docs creation process for Chart $dir, because no `docs` folder found at: ${dir}/docs"
-            fi
-          )
-          done
+      - name: Generate Scanner Docs
+        run: make scanner-docs
 
-      - name: Generate Core (Operator) Docs
-        run: |
-          # Start in the operator folder
-          cd operator
-          if [ -d "docs" ]; then
-            echo "Docs Folder found at: operator/docs"
-            helm-docs --template-files=./../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../.helm-docs/README.DockerHub-Core.md.gotmpl --output-file=docs/README.DockerHub-Core.md
-            helm-docs --template-files=./../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
-          else
-            echo "Ignoring Docs creation process for Chart $dir, because no `docs` folder found at: operator/docs"
-          fi
-      - name: Generate Core (AutoDiscovery Kubernetes) Docs
-        run: |
-          cd auto-discovery/kubernetes
-          if [ -d "docs" ]; then
-            echo "Docs Folder found at: auto-discovery/kubernetes/docs"
-            helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Core.md.gotmpl --output-file=docs/README.DockerHub-Core.md
-            helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
-          else
-            echo "Ignoring Docs creation process for Chart $dir, because no `docs` folder found at: auto-discovery/kubernetes/docs"
-          fi
+      - name: Generate Operator Docs
+        run: make operator-docs
+
+      - name: Generate AutoDiscovery Docs
+        run: make auto-discovery-docs
 
       - name: Remove Helm Docs Files
         run: |

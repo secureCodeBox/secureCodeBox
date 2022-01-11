@@ -2,14 +2,14 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-apiVersion: 'execution.securecodebox.io/v1'
+apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
-  name: 'nuclei{{ .Values.scanner.nameAppend | default ""}}'
+  name: "nuclei{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   extractResults:
     type: nuclei-json
-    location: '/home/securecodebox/nuclei-results.jsonl'
+    location: "/home/securecodebox/nuclei-results.jsonl"
   jobTemplate:
     spec:
       {{- if .Values.scanner.ttlSecondsAfterFinished }}
@@ -22,23 +22,30 @@ spec:
       template:
         spec:
           restartPolicy: OnFailure
+          affinity:
+            {{- toYaml .Values.scanner.affinity | nindent 12 }}
+          tolerations: 
+            {{- toYaml .Values.scanner.tolerations | nindent 12 }}
           containers:
             - name: nuclei
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
               command:
-                - 'nuclei'
-                - '-no-update-templates'
-                - '-json'
-                # nuclei writes json lines: https://jsonlines.org/
-                - '-output'
-                - '/home/securecodebox/nuclei-results.jsonl'
+                - "nuclei"
+                {{ if .Values.nucleiTemplateCache.enabled }}
+                - "-disable-update-check"
+                {{ end }}
+                - "-json"
+                - "-output"
+                - "/home/securecodebox/nuclei-results.jsonl"
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:
                 {{- toYaml .Values.scanner.securityContext | nindent 16 }}
               env:
                 {{- toYaml .Values.scanner.env | nindent 16 }}
+              {{ $length := len .Values.scanner.extraVolumes }}
+              {{ if or .Values.nucleiTemplateCache.enabled  (gt $length 0 ) }}
               volumeMounts:
                 {{ if .Values.nucleiTemplateCache.enabled }}
                 - name: nuclei-content
@@ -48,9 +55,13 @@ spec:
                 {{- if .Values.scanner.extraVolumeMounts }}
                 {{- toYaml .Values.scanner.extraVolumeMounts | nindent 16 }}
                 {{- end }}
+              {{ end }}
             {{- if .Values.scanner.extraContainers }}
             {{- toYaml .Values.scanner.extraContainers | nindent 12 }}
             {{- end }}
+
+          {{ $length := len .Values.scanner.extraVolumes }}
+          {{ if or .Values.nucleiTemplateCache.enabled  (gt $length 0 ) }}
           volumes:
             {{ if .Values.nucleiTemplateCache.enabled }}
             - name: nuclei-content
@@ -61,3 +72,4 @@ spec:
             {{- if .Values.scanner.extraVolumes }}
             {{- toYaml .Values.scanner.extraVolumes | nindent 12 }}
             {{- end }}
+         {{ end }}

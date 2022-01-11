@@ -37,7 +37,6 @@ INSTALL_INTERACTIVE=''
 INSTALL_SCANNERS=''
 INSTALL_DEMO_TARGETS=''
 INSTALL_HOOKS=''
-INSTALL_NAMESPACED=''
 
 SCB_SYSTEM_NAMESPACE='securecodebox-system'
 SCB_DEMO_NAMESPACE='demo-targets'
@@ -145,7 +144,7 @@ function installResources() {
     fi
   done
 
-  if [[ $unattended == True ]]; then
+  if [[ $unattended == 'true' ]]; then
     for resource in "${resources[@]}"; do
       helm upgrade --install -n "$namespace" "$resource" "$resource_directory"/"$resource"/ \
       || print "$COLOR_ERROR" "Installation of '$resource' failed"
@@ -185,7 +184,7 @@ function welcomeToInteractiveInstall() {
 function interactiveInstall() {
   print
   print "Starting to install demo-targets..."
-  print "Do you want to install the demo apps in a separate namespace? Otherwise they will be installed into the [default] namespace [y/N]"
+  print "Do you want to install the demo targets in a separate namespace? Otherwise they will be installed into the [default] namespace [y/N]"
   read -r line
   NAMESPACE="default"
   if [[ $line == *[Yy] ]]; then
@@ -228,7 +227,7 @@ function interactiveInstall() {
 }
 
 function unattendedInstall() {
-  if [[ -n "${INSTALL_DEMO_APPS}" ]]; then
+  if [[ -n "${INSTALL_DEMO_TARGETS}" ]]; then
     print "Starting to install 'demo-targets' into namespace '$SCB_DEMO_NAMESPACE' ..."
     kubectl create namespace "$SCB_DEMO_NAMESPACE" || print "Namespace '$SCB_DEMO_NAMESPACE' already exists or could not be created!"
     installResources "$BASE_DIR/demo-targets" "$SCB_DEMO_NAMESPACE" "true"
@@ -251,7 +250,7 @@ function unattendedInstall() {
 
 function parseArguments() {
   if [[ $# == 0 ]]; then
-      INSTALL_INTERACTIVE=true
+      INSTALL_INTERACTIVE='true'
       return
   fi
 
@@ -303,7 +302,6 @@ print "$COLOR_HIGHLIGHT" " \__ \  __/ (__| |_| | | |  __/ |___| (_) | (_| |  __/
 print "$COLOR_HIGHLIGHT" " |___/\___|\___|\__,_|_|  \___|\_____\___/ \__,_|\___|____/ \___/_/\_\       "
 print "$COLOR_HIGHLIGHT" "                                                                             "
 
-parseArguments "$@"
 if [[ -n "${INSTALL_INTERACTIVE}" ]]; then
   welcomeToInteractiveInstall
 fi
@@ -314,6 +312,6 @@ createNamespaceAndInstallOperator
 
 if [[ -n "${INSTALL_INTERACTIVE}" ]]; then
     interactiveInstall
-  else
+else
     unattendedInstall
 fi

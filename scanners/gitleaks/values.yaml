@@ -4,7 +4,6 @@
 
 parser:
   image:
-    # parser.image.tag - defaults to the charts version
     # parser.image.repository -- Parser image repository
     repository: docker.io/securecodebox/parser-gitleaks
     # parser.image.tag -- Parser image tag
@@ -18,11 +17,20 @@ parser:
   # parser.env -- Optional environment variables mapped into each parseJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
   env: []
 
+  # parser.scopeLimiterAliases -- Optional finding aliases to be used in the scopeLimiter.
+  scopeLimiterAliases: {}
+
+  # parser.affinity -- Optional affinity settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
+  affinity: {}
+
+  # parser.tolerations -- Optional tolerations settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+  tolerations: []
+
 scanner:
   image:
     # scanner.image.repository -- Container Image to run the scan
     repository: docker.io/securecodebox/scanner-gitleaks
-    # scanner.image.tag -- defaults to the app version
+    # scanner.image.tag -- defaults to the charts appVersion
     tag: null
     # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
     pullPolicy: IfNotPresent
@@ -66,7 +74,25 @@ scanner:
   extraContainers: []
 
   # scanner.securityContext -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
-  securityContext: {}
+  securityContext:
+    # scanner.securityContext.runAsNonRoot -- Enforces that the scanner image is run as a non root user
+    runAsNonRoot: false
+    # scanner.securityContext.readOnlyRootFilesystem -- Prevents write access to the containers file system
+    readOnlyRootFilesystem: true
+    # scanner.securityContext.allowPrivilegeEscalation -- Ensure that users privileges cannot be escalated
+    allowPrivilegeEscalation: false
+    # scanner.securityContext.privileged -- Ensures that the scanner container is not run in privileged mode
+    privileged: false
+    capabilities:
+      drop:
+        # scanner.securityContext.capabilities.drop[0] -- This drops all linux privileges from the container.
+        - all
+
+  # scanner.affinity -- Optional affinity settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
+  affinity: {}
+
+  # scanner.tolerations -- Optional tolerations settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+  tolerations: []
 
 cascadingRules:
   # cascadingRules.enabled -- Enables or disables the installation of the default cascading rules for this scanner

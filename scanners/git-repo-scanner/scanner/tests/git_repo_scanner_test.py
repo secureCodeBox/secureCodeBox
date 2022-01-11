@@ -23,10 +23,20 @@ class GitRepoScannerTests(unittest.TestCase):
     def wrong_output_msg(self) -> str:
         return 'Test finding output'
 
-    def test_process_gitlab_projects_with_no_ignore_list(self):
+    def prepare_gitlab_commitlist_mock(self, mock_gptp, mock_commitmanager):
+        mock_gptp.side_effect = self._mock_group_project_to_project
+        mock_commitmanager.return_value = [Mock(id="deadbeef")]
+
+    def _mock_group_project_to_project(self, project):
+        return project
+
+    @patch('gitlab.v4.objects.ProjectCommitManager.list')
+    @patch('git_repo_scanner.gitlab_scanner.GitLabScanner._group_project_to_project')
+    def test_process_gitlab_projects_with_no_ignore_list(self, mock_gptp, mock_commitmanager):
         # given
-        scanner = GitLabScanner('url', 'token', None, [], [])
+        scanner = GitLabScanner('url', 'token', None, [], [], annotate_latest_commit_id=True)
         projects = assemble_projects()
+        self.prepare_gitlab_commitlist_mock(mock_gptp, mock_commitmanager)
         # when
         findings = scanner._process_projects(projects)
         # then
@@ -35,35 +45,71 @@ class GitRepoScannerTests(unittest.TestCase):
         self.assertEqual(findings[0]['attributes']['web_url'], 'url1', msg=self.wrong_output_msg)
         self.assertEqual(findings[1]['attributes']['web_url'], 'url2', msg=self.wrong_output_msg)
         self.assertEqual(findings[2]['attributes']['web_url'], 'url3', msg=self.wrong_output_msg)
+        self.assertEqual(findings[0]['attributes']["last_commit_id"], "deadbeef")
+        self.assertEqual(findings[1]['attributes']["archived"], False)
+        self.assertEqual(findings[2]['attributes']["archived"], True)
+        mock_gptp.assert_called()
+        mock_commitmanager.assert_called()
 
-    def test_process_gitlab_projects_with_ignore_group(self):
+    @patch('gitlab.v4.objects.ProjectCommitManager.list')
+    @patch('git_repo_scanner.gitlab_scanner.GitLabScanner._group_project_to_project')
+    def test_process_gitlab_projects_without_annotating_commit_id(self, mock_gptp, mock_commitmanager):
         # given
-        scanner = GitLabScanner('url', 'token', None, [33], [])
+        scanner = GitLabScanner('url', 'token', None, [], [], annotate_latest_commit_id=False)
         projects = assemble_projects()
+        self.prepare_gitlab_commitlist_mock(mock_gptp, mock_commitmanager)
+        # when
+        findings = scanner._process_projects(projects)
+        # then
+        self.assertEqual(3, len(findings), msg='There should be exactly 3 findings')
+        self.assertEqual(findings[0]['name'], 'GitLab Repo', msg=self.wrong_output_msg)
+        self.assertEqual(findings[0]['attributes']['web_url'], 'url1', msg=self.wrong_output_msg)
+        self.assertEqual(findings[1]['attributes']['web_url'], 'url2', msg=self.wrong_output_msg)
+        self.assertEqual(findings[2]['attributes']['web_url'], 'url3', msg=self.wrong_output_msg)
+        self.assertFalse("last_commit_id" in findings[0]['attributes'])
+        mock_gptp.assert_not_called()
+        mock_commitmanager.assert_not_called()
+
+    @patch('gitlab.v4.objects.ProjectCommitManager.list')
+    @patch('git_repo_scanner.gitlab_scanner.GitLabScanner._group_project_to_project')
+    def test_process_gitlab_projects_with_ignore_group(self, mock_gptp, mock_commitmanager):
+        # given
+        scanner = GitLabScanner('url', 'token', None, [33], [], annotate_latest_commit_id=True)
+        projects = assemble_projects()
+        self.prepare_gitlab_commitlist_mock(mock_gptp, mock_commitmanager)
         # when
         findings = scanner._process_projects(projects)
         # then
         self.assertEqual(2, len(findings), msg='There should be exactly 2 findings')
         self.assertEqual(findings[0]['attributes']['web_url'], 'url1', msg=self.wrong_output_msg)
         self.assertEqual(findings[1]['attributes']['web_url'], 'url2', msg=self.wrong_output_msg)
+        self.assertEqual(findings[0]['attributes']["last_commit_id"], "deadbeef")
+        mock_gptp.assert_called()
+        mock_commitmanager.assert_called()
 
-    def test_process_gitlab_projects_with_ignore_project(self):
+    @patch('gitlab.v4.objects.ProjectCommitManager.list')
+    @patch('git_repo_scanner.gitlab_scanner.GitLabScanner._group_project_to_project')
+    def test_process_gitlab_projects_with_ignore_project(self, mock_gptp, mock_commitmanager):
         # given
-        scanner = GitLabScanner('url', 'token', None, [], [1])
+        scanner = GitLabScanner('url', 'token', None, [], [1], annotate_latest_commit_id=True)
         projects = assemble_projects()
+        self.prepare_gitlab_commitlist_mock(mock_gptp, mock_commitmanager)
         # when
         findings = scanner._process_projects(projects)
         # then
         self.assertEqual(2, len(findings), msg='There should be exactly 2 findings')
         self.assertEqual(findings[0]['attributes']['web_url'], 'url2', msg=self.wrong_output_msg)
         self.assertEqual(findings[1]['attributes']['web_url'], 'url3', msg=self.wrong_output_msg)
+        self.assertEqual(findings[0]['attributes']["last_commit_id"], "deadbeef")
+        mock_gptp.assert_called()
+        mock_commitmanager.assert_called()
 
     @patch('github.Github')
     @patch('github.Organization')
     @patch('github.PaginatedList')
     def test_process_github_repos_with_no_ignore_list(self, github_mock, org_mock, pag_mock):
         # given
-        scanner = GitHubScanner('url', 'token', 'org', [], False)
+        scanner = GitHubScanner('url', 'token', 'org', [], False, annotate_latest_commit_id=True)
         repos = assemble_repos()
         create_mocks(github_mock, org_mock, pag_mock, repos)
         scanner._gh = github_mock
@@ -74,13 +120,38 @@ class GitRepoScannerTests(unittest.TestCase):
         self.assertEqual(6, len(findings), msg='There should be exactly 6 findings')
         for finding in findings:
             self.assertEqual(finding['name'], 'GitHub Repo', msg=self.wrong_output_msg)
+            self.assertEqual(finding['attributes']["last_commit_id"], "deadbeef")
+    
+    @patch('github.Github')
+    @patch('github.Organization')
+    @patch('github.PaginatedList')
+    def test_process_github_repos_without_annotating_commit_ids(self, github_mock, org_mock, pag_mock):
+        # given
+        scanner = GitHubScanner('url', 'token', 'org', [], False, annotate_latest_commit_id=False)
+        repos = assemble_repos()
+        create_mocks(github_mock, org_mock, pag_mock, repos)
+        scanner._gh = github_mock
+        # when
+        findings = scanner._process_repos(None, None)
+        # then
+        org_mock.get_repos.assert_called_with(type='all', sort='pushed', direction='asc')
+        self.assertEqual(6, len(findings), msg='There should be exactly 6 findings')
+        self.assertFalse(findings[0]["attributes"]["archived"])
+        self.assertFalse(findings[1]["attributes"]["archived"])
+        self.assertTrue(findings[2]["attributes"]["archived"])
+        self.assertFalse(findings[3]["attributes"]["archived"])
+        self.assertFalse(findings[4]["attributes"]["archived"])
+        self.assertTrue(findings[5]["attributes"]["archived"])
+        for finding in findings:
+            self.assertEqual(finding['name'], 'GitHub Repo', msg=self.wrong_output_msg)
+            self.assertFalse("last_commit_id" in finding['attributes'])
 
     @patch('github.Github')
     @patch('github.Organization')
     @patch('github.PaginatedList')
     def test_process_github_repos_with_ignore_repos(self, github_mock, org_mock, pag_mock):
         # given
-        scanner = GitHubScanner('url', 'token', 'org', [1], False)
+        scanner = GitHubScanner('url', 'token', 'org', [1], False, annotate_latest_commit_id=True)
         repos = assemble_repos()
         create_mocks(github_mock, org_mock, pag_mock, repos)
         scanner._gh = github_mock
@@ -89,13 +160,14 @@ class GitRepoScannerTests(unittest.TestCase):
         # then
         github_mock.get_organization.assert_called_with('org')
         self.assertEqual(4, len(findings), msg='There should be exactly 4 findings')
+        self.assertEqual(findings[0]['attributes']["last_commit_id"], "deadbeef")
 
     def test_setup_github_with_url_and_no_token_should_exit(self):
         # when
         with self.assertRaises(argparse.ArgumentError) as cm:
             GitHubScanner('url', None, 'org', [])
         # then
-        self.assertEqual(cm.exception.args[1], 'Access token required for GitHab connection.',
+        self.assertEqual(cm.exception.args[1], 'Access token required for GitHub connection.',
                          msg='Process should exit')
 
 
@@ -136,11 +208,11 @@ def assemble_projects():
                                 o_name='name22')
     project3 = assemble_project(p_id=3, name='name3', url='url3', path='path3', date_created=created,
                                 date_updated=updated, visibility='private', o_id=33, o_kind='group',
-                                o_name='name33')
+                                o_name='name33', archived=True)
     return [project1, project2, project3]
 
 
-def assemble_project(p_id, name, url, path, date_created, date_updated, visibility, o_id, o_kind, o_name):
+def assemble_project(p_id, name, url, path, date_created, date_updated, visibility, o_id, o_kind, o_name, archived=False):
     project = Project(ProjectManager(gitlab), {})
     project.id = p_id
     project.name = name
@@ -154,6 +226,7 @@ def assemble_project(p_id, name, url, path, date_created, date_updated, visibili
         'id': o_id,
         'name': o_name
     }
+    project.archived = archived
     return project
 
 
@@ -168,14 +241,12 @@ def assemble_repos():
                                    o_name='name22')
     project3 = assemble_repository(p_id=3, name='name3', url='url3', path='path3', date_created=date,
                                    date_updated=date, date_pushed=date, visibility=False, o_id=33,
-                                   o_kind='organization',
-                                   o_name='name33')
+                                   o_kind='organization', o_name='name33', archived=True)
     return [project1, project2, project3]
 
 
 def assemble_repository(p_id, name, url, path, date_created: datetime, date_updated: datetime, date_pushed: datetime,
-                        visibility: bool, o_id,
-                        o_kind, o_name):
+                        visibility: bool, o_id, o_kind, o_name, archived = False):
 
     repo = Mock()
     owner = Mock()
@@ -191,6 +262,8 @@ def assemble_repository(p_id, name, url, path, date_created: datetime, date_upda
     repo.updated_at = date_updated
     repo.private = visibility
     repo.owner = owner
+    repo.get_commits = lambda: [Mock(sha="deadbeef")]
+    repo.archived = archived
     return repo
 
 

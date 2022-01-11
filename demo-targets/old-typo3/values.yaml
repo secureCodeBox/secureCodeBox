@@ -13,7 +13,7 @@ image:
   repository: docker.io/securecodebox/old-typo3
   # image.tag -- The image tag
   # @default -- defaults to the appVersion
-  tag: null
+  tag: v9.4
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []

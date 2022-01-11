@@ -4,7 +4,7 @@
 
 ARG scannerVersion=latest
 FROM zricethezav/gitleaks:${scannerVersion}
-RUN adduser -S -H -u 1001 gitleaks
+USER root
 COPY wrapper.sh /wrapper.sh
 RUN chmod o+x ./wrapper.sh
 USER gitleaks

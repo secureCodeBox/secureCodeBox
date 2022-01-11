@@ -52,9 +52,10 @@ docker pull securecodebox/parser-whatweb
 ```
 
 ## What is WHATWEB?
-Whatweb identifies websites. It can recognize technology used to build a website, such as content management systems (CMS), JavaScript libraries, web server and much more. This makes whatweb especially interesting to use in a cascading-rules pipeline.
+Whatweb identifies the technologies used to build a website, such as content management systems (CMS), JavaScript libraries, web server and much more.
+It has multiple aggression levels and depending on this level, whatweb may also report the version of specific technologies when an appropiate aggeression level was given. This makes whatweb especially interesting to use in a cascading-rules pipeline.
 
-To learn more about the whatweb scanner itself visit [https://morningstarsecurity.com/research/whatweb](https://morningstarsecurity.com/research/whatweb) or the [GitHub repository](https://github.com/urbanadventurer/WhatWeb).
+To learn more about the whatweb scanner itself visit [https://morningstarsecurity.com/research/whatweb](https://morningstarsecurity.com/research/whatweb), [GitHub repository](https://github.com/urbanadventurer/WhatWeb) or the [Wiki on Github](https://github.com/urbanadventurer/WhatWeb/wiki).
 
 ## Community
 
@@ -80,3 +81,4 @@ As for any pre-built image usage, it is the image user's responsibility to ensur
 [scb-twitter]: https://twitter.com/secureCodeBox
 [scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
 [scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
+[whatweb]: https://morningstarsecurity.com/research/whatweb

@@ -23,7 +23,8 @@ class GitLabScanner(AbstractScanner):
                  group: Optional[int],
                  ignored_groups: List[int],
                  ignore_repos: List[int],
-                 obey_rate_limit: bool = True) -> None:
+                 obey_rate_limit: bool = True,
+                 annotate_latest_commit_id: bool = False) -> None:
         super().__init__()
         if not url:
             raise argparse.ArgumentError(None, 'URL required for GitLab connection.')
@@ -36,6 +37,7 @@ class GitLabScanner(AbstractScanner):
         self._ignored_groups = ignored_groups
         self._ignore_repos = ignore_repos
         self._obey_rate_limit = obey_rate_limit
+        self._annotate_latest_commit_id = annotate_latest_commit_id
         self._gl: Optional[gitlab.Gitlab] = None
 
     @property
@@ -47,6 +49,12 @@ class GitLabScanner(AbstractScanner):
 
         projects: List[Project] = self._get_projects(start_time, end_time)
         return self._process_projects(projects)
+    
+    def _group_project_to_project(self, group_project):
+        # The GitLab API library gives us a GroupProject object, which has limited functionality.
+        # This function turns the GroupProject into a "real" project, which allows us to get the
+        # list of commits and include the SHA1 of the latest commit in the output later
+        return self._gl.projects.get(group_project.id, lazy=True)
 
     def _get_projects(self, start_time: Optional[datetime], end_time: Optional[datetime]):
         logger.info(f'Get GitLab repositories with last activity between {start_time} and {end_time}.')
@@ -103,6 +111,15 @@ class GitLabScanner(AbstractScanner):
         logger.info(
             f'({index + 1}/{total}) Add finding for repo {project.name} with last activity at '
             f'{datetime.fromisoformat(project.last_activity_at)}')
+
+        # Retrieve the latest commit ID
+        latest_commit_id: str = None
+        if self._annotate_latest_commit_id:
+            try:
+                latest_commit_id = self._group_project_to_project(project).commits.list()[0].id
+            except Exception as e:
+                logger.warn("Could not identify the latest commit ID - repository without commits?")
+                latest_commit_id = ""
         return super()._create_finding(
             project.id,
             project.web_url,
@@ -112,5 +129,7 @@ class GitLabScanner(AbstractScanner):
             project.namespace['name'],
             project.created_at,
             project.last_activity_at,
-            project.visibility
+            project.visibility,
+            project.archived,
+            latest_commit_id
         )

@@ -42,7 +42,7 @@ You can find resources to help you get started on our [documentation website](ht
 
 ## Supported Tags
 - `latest`  (represents the latest stable release build)
-- tagged releases, e.g. `0.7.2`
+- tagged releases, e.g. `v1.0.0-final`
 
 ## How to use this image
 This `parser` image is intended to work in combination with the corresponding security scanner docker image to parse the `findings` results. For more information details please take a look at the documentation page: https://docs.securecodebox.io/docs/scanners/typo3scan.
@@ -52,9 +52,9 @@ docker pull securecodebox/parser-typo3scan
 ```
 
 ## What is Typo3Scan?
-Typo3Scan is an open source penetration testing tool to automate the process of detecting the Typo3 CMS and it's installed extensions. It also has a database with known vulnerabilities for core and extensions.
-
-To learn more about the Typo3Scan scanner itself visit [https://github.com/whoot/Typo3Scan].
+Typo3Scan is an open source penetration testing tool, that automates the process of detecting the Typo3 CMS version and its installed extensions. It also has a database with known vulnerabilities for core and extensions.
+The vulnerabilities corresponding to the version detected are presented as findings.
+To learn more about the Typo3Scan scanner itself, visit the Typo3Scan GitHub repository [here](https://github.com/whoot/Typo3Scan).
 
 ## Community
 
@@ -80,3 +80,4 @@ As for any pre-built image usage, it is the image user's responsibility to ensur
 [scb-twitter]: https://twitter.com/secureCodeBox
 [scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
 [scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
+

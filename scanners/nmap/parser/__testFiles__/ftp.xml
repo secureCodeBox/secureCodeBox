@@ -1,0 +1,25 @@
+<!--
+SPDX-FileCopyrightText: 2021 Secura
+
+SPDX-License-Identifier: NOASSERTION
+-->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.91 scan initiated Mon Sep 20 09:23:51 2021 as: nmap -oX /home/securecodebox/nmap-results.xml -Pn -p21 -&#45;script banner -&#45;script ftp-anon 10.103.42.74 -->
+<nmaprun scanner="nmap" args="nmap -oX /home/securecodebox/nmap-results.xml -Pn -p21 -&#45;script banner -&#45;script ftp-anon 10.103.42.74" start="1632129831" startstr="Mon Sep 20 09:23:51 2021" version="7.91" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="1" services="21"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1632129831" endtime="1632129831"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="10.103.42.74" addrtype="ipv4"/>
+<hostnames>
+<hostname name="dummy-ftp.demo-targets.svc.cluster.local" type="PTR"/>
+</hostnames>
+<ports><port protocol="tcp" portid="21"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ftp" method="table" conf="3"/><script id="banner" output="220-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; Welcome to Pure-FTPd [privsep] [TLS] -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;\x&#xa;0D\x0A220-You are user number 2 of 30 allowed.\x0D\x0A220-Local time...&#xa;"/><script id="ftp-anon" output="Anonymous FTP login allowed (FTP code 230)&#xa;Can&apos;t get directory listing: PASV IP 127.0.0.1 is not the same as 10.103.42.74"/></port>
+</ports>
+<times srtt="105" rttvar="5000" to="100000"/>
+</host>
+<runstats><finished time="1632129831" timestr="Mon Sep 20 09:23:51 2021" summary="Nmap done at Mon Sep 20 09:23:51 2021; 1 IP address (1 host up) scanned in 0.32 seconds" elapsed="0.32" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

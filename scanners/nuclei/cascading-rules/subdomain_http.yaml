@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "cascading.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "nuclei-subdomain-scan-light-http"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: light
+spec:
+  matches:
+    anyOf:
+      - category: "Open Port"
+        attributes:
+          port: 80
+          state: open
+      - category: "Open Port"
+        attributes:
+          service: "http"
+          state: open
+      - category: "Open Port"
+        attributes:
+          service: "http-*"
+          state: open
+      
+  scanSpec:
+    scanType: "nuclei"
+    parameters:
+      # Target domain name of the finding and start a nuclei scan
+      - "-u"
+      - "http://{{$.hostOrIP}}:{{attributes.port}}"

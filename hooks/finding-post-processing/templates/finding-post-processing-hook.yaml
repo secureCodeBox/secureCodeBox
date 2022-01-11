@@ -8,9 +8,18 @@ metadata:
   name: {{ include "finding-post-processing.fullname" . }}
   labels:
     {{- include "finding-post-processing.labels" . | nindent 4 }}
+    {{- with .Values.hook.labels }}
+    {{ toYaml . }}
+    {{- end }}
 spec:
+  priority: {{ .Values.hook.priority }}
   type: ReadAndWrite
   image: "{{ .Values.hook.image.repository }}:{{ .Values.hook.image.tag | default .Chart.Version }}"
+  ttlSecondsAfterFinished: {{ .Values.hook.ttlSecondsAfterFinished }}
   env:
     - name: RULES
       value: {{ .Values.rules | toJson | quote }}
+  affinity:
+    {{- toYaml .Values.hook.affinity | nindent 4 }}
+  tolerations:
+    {{- toYaml .Values.hook.tolerations | nindent 4 }}

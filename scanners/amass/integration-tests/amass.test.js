@@ -13,9 +13,9 @@ test(
       "amass-scanner-dummy-scan",
       "amass",
       ["-passive", "-noalts", "-norecursive", "-d", "owasp.org"],
-      90
+      180
     );
     expect(count).toBeGreaterThanOrEqual(20);
   },
-  3 * 60 * 1000
+  6 * 60 * 1000
 );

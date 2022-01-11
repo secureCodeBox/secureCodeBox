@@ -5,7 +5,7 @@
   "main": "hook.js",
   "scripts": {
     "test": "jest",
-    "build": "npx tsc hook.ts --sourceMap"
+    "build": "npx tsc hook.ts --sourceMap --esModuleInterop"
   },
   "repository": {
     "type": "git",
@@ -26,13 +26,13 @@
     "@types/jest": "^26.0.24",
     "@types/lodash": "^4.14.171",
     "@types/mustache": "^4.1.2",
-    "@types/node": "^14.17.5",
+    "@types/node": "^16.0.0",
     "@types/nodemailer": "^6.4.4",
     "jest": "^27.0.6",
     "ts-jest": "^27.0.3"
   },
   "dependencies": {
-    "@kubernetes/client-node": "^0.15.0",
+    "@kubernetes/client-node": "^0.16.0",
     "@types/js-yaml": "^4.0.2",
     "@types/nunjucks": "^3.1.5",
     "axios": "^0.21.4",

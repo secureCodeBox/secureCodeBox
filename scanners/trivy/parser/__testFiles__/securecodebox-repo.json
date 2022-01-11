@@ -1,0 +1,673 @@
+{
+  "SchemaVersion": 2,
+  "ArtifactName": "https://github.com/secureCodeBox/secureCodeBox",
+  "ArtifactType": "repository",
+  "Metadata": {
+    "ImageConfig": {
+      "architecture": "",
+      "created": "0001-01-01T00:00:00Z",
+      "os": "",
+      "rootfs": {
+        "type": "",
+        "diff_ids": null
+      },
+      "config": {}
+    }
+  },
+  "Results": [
+    {
+      "Target": "auto-discovery/kubernetes/go.sum",
+      "Class": "lang-pkgs",
+      "Type": "gomod",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2020-26160",
+          "PkgName": "github.com/dgrijalva/jwt-go",
+          "InstalledVersion": "3.2.0+incompatible",
+          "Layer": {},
+          "SeveritySource": "nvd",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2020-26160",
+          "Title": "jwt-go: access restriction bypass vulnerability",
+          "Description": "jwt-go before 4.0.0-preview1 allows attackers to bypass intended access restrictions in situations with []string{} for m[\"aud\"] (which is allowed by the specification). Because the type assertion fails, \"\" is the value of aud. This is a security problem if the JWT token is presented to a service that lacks its own audience check.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-862"
+          ],
+          "CVSS": {
+            "nvd": {
+              "V2Vector": "AV:N/AC:L/Au:N/C:P/I:N/A:N",
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V2Score": 5,
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://github.com/dgrijalva/jwt-go/pull/426",
+            "https://nvd.nist.gov/vuln/detail/CVE-2020-26160",
+            "https://snyk.io/vuln/SNYK-GOLANG-GITHUBCOMDGRIJALVAJWTGO-596515"
+          ],
+          "PublishedDate": "2020-09-30T18:15:00Z",
+          "LastModifiedDate": "2021-07-21T11:39:00Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2021-3121",
+          "PkgName": "github.com/gogo/protobuf",
+          "InstalledVersion": "1.3.1",
+          "FixedVersion": "v1.3.2",
+          "Layer": {},
+          "SeveritySource": "nvd",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2021-3121",
+          "Title": "gogo/protobuf: plugin/unmarshal/unmarshal.go lacks certain index validation",
+          "Description": "An issue was discovered in GoGo Protobuf before 1.3.2. plugin/unmarshal/unmarshal.go lacks certain index validation, aka the \"skippy peanut butter\" issue.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-129"
+          ],
+          "CVSS": {
+            "nvd": {
+              "V2Vector": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H",
+              "V2Score": 7.5,
+              "V3Score": 8.6
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H",
+              "V3Score": 8.6
+            }
+          },
+          "References": [
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3121",
+            "https://discuss.hashicorp.com/t/hcsec-2021-23-consul-exposed-to-denial-of-service-in-gogo-protobuf-dependency/29025",
+            "https://github.com/gogo/protobuf/commit/b03c65ea87cdc3521ede29f62fe3ce239267c1bc",
+            "https://github.com/gogo/protobuf/compare/v1.3.1...v1.3.2",
+            "https://lists.apache.org/thread.html/r68032132c0399c29d6cdc7bd44918535da54060a10a12b1591328bff@%3Cnotifications.skywalking.apache.org%3E",
+            "https://lists.apache.org/thread.html/r88d69555cb74a129a7bf84838073b61259b4a3830190e05a3b87994e@%3Ccommits.pulsar.apache.org%3E",
+            "https://lists.apache.org/thread.html/rc1e9ff22c5641d73701ba56362fb867d40ed287cca000b131dcf4a44@%3Ccommits.pulsar.apache.org%3E",
+            "https://nvd.nist.gov/vuln/detail/CVE-2021-3121",
+            "https://security.netapp.com/advisory/ntap-20210219-0006/"
+          ],
+          "PublishedDate": "2021-01-11T06:15:00Z",
+          "LastModifiedDate": "2021-10-18T06:15:00Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2019-19794",
+          "PkgName": "github.com/miekg/dns",
+          "InstalledVersion": "1.0.14",
+          "FixedVersion": "v1.1.25-0.20191211073109-8ebf2e419df7",
+          "Layer": {},
+          "SeveritySource": "nvd",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2019-19794",
+          "Title": "golang-github-miekg-dns: predictable TXID can lead to response forgeries",
+          "Description": "The miekg Go DNS package before 1.1.25, as used in CoreDNS before 1.6.6 and other products, improperly generates random numbers because math/rand is used. The TXID becomes predictable, leading to response forgeries.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-338"
+          ],
+          "CVSS": {
+            "nvd": {
+              "V2Vector": "AV:N/AC:M/Au:N/C:N/I:P/A:N",
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N",
+              "V2Score": 4.3,
+              "V3Score": 5.9
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N",
+              "V3Score": 5.9
+            }
+          },
+          "References": [
+            "https://github.com/coredns/coredns/issues/3519",
+            "https://github.com/coredns/coredns/issues/3547",
+            "https://github.com/miekg/dns/compare/v1.1.24...v1.1.25",
+            "https://github.com/miekg/dns/issues/1043",
+            "https://github.com/miekg/dns/pull/1044"
+          ],
+          "PublishedDate": "2019-12-13T22:15:00Z",
+          "LastModifiedDate": "2020-01-02T17:36:00Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2020-29652",
+          "PkgName": "golang.org/x/crypto",
+          "InstalledVersion": "0.0.0-20201002170205-7f63de1d35b0",
+          "FixedVersion": "v0.0.0-20201216223049-8b5274cf687f",
+          "Layer": {},
+          "SeveritySource": "nvd",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2020-29652",
+          "Title": "golang: crypto/ssh: crafted authentication request can lead to nil pointer dereference",
+          "Description": "A nil pointer dereference in the golang.org/x/crypto/ssh component through v0.0.0-20201203163018-be400aefbc4c for Go allows remote attackers to cause a denial of service against SSH servers.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-476"
+          ],
+          "CVSS": {
+            "nvd": {
+              "V2Vector": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V2Score": 5,
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-29652",
+            "https://go-review.googlesource.com/c/crypto/+/278852",
+            "https://groups.google.com/g/golang-announce/c/ouZIlBimOsE?pli=1",
+            "https://lists.apache.org/thread.html/r68032132c0399c29d6cdc7bd44918535da54060a10a12b1591328bff@%3Cnotifications.skywalking.apache.org%3E",
+            "https://nvd.nist.gov/vuln/detail/CVE-2020-29652"
+          ],
+          "PublishedDate": "2020-12-17T05:15:00Z",
+          "LastModifiedDate": "2021-10-18T06:15:00Z"
+        }
+      ]
+    },
+    {
+      "Target": "hook-sdk/nodejs/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm"
+    },
+    {
+      "Target": "hooks/cascading-scans/hook/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm"
+    },
+    {
+      "Target": "hooks/finding-post-processing/hook/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm"
+    },
+    {
+      "Target": "hooks/generic-webhook/hook/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm"
+    },
+    {
+      "Target": "hooks/notification/hook/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm"
+    },
+    {
+      "Target": "hooks/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm"
+    },
+    {
+      "Target": "hooks/persistence-elastic/hook/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm"
+    },
+    {
+      "Target": "hooks/update-field/hook/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm"
+    },
+    {
+      "Target": "lurker/go.sum",
+      "Class": "lang-pkgs",
+      "Type": "gomod",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2020-26160",
+          "PkgName": "github.com/dgrijalva/jwt-go",
+          "InstalledVersion": "3.2.0+incompatible",
+          "Layer": {},
+          "SeveritySource": "nvd",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2020-26160",
+          "Title": "jwt-go: access restriction bypass vulnerability",
+          "Description": "jwt-go before 4.0.0-preview1 allows attackers to bypass intended access restrictions in situations with []string{} for m[\"aud\"] (which is allowed by the specification). Because the type assertion fails, \"\" is the value of aud. This is a security problem if the JWT token is presented to a service that lacks its own audience check.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-862"
+          ],
+          "CVSS": {
+            "nvd": {
+              "V2Vector": "AV:N/AC:L/Au:N/C:P/I:N/A:N",
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V2Score": 5,
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://github.com/dgrijalva/jwt-go/pull/426",
+            "https://nvd.nist.gov/vuln/detail/CVE-2020-26160",
+            "https://snyk.io/vuln/SNYK-GOLANG-GITHUBCOMDGRIJALVAJWTGO-596515"
+          ],
+          "PublishedDate": "2020-09-30T18:15:00Z",
+          "LastModifiedDate": "2021-07-21T11:39:00Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2021-3121",
+          "PkgName": "github.com/gogo/protobuf",
+          "InstalledVersion": "1.2.2-0.20190723190241-65acae22fc9d",
+          "FixedVersion": "v1.3.2",
+          "Layer": {},
+          "SeveritySource": "nvd",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2021-3121",
+          "Title": "gogo/protobuf: plugin/unmarshal/unmarshal.go lacks certain index validation",
+          "Description": "An issue was discovered in GoGo Protobuf before 1.3.2. plugin/unmarshal/unmarshal.go lacks certain index validation, aka the \"skippy peanut butter\" issue.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-129"
+          ],
+          "CVSS": {
+            "nvd": {
+              "V2Vector": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H",
+              "V2Score": 7.5,
+              "V3Score": 8.6
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H",
+              "V3Score": 8.6
+            }
+          },
+          "References": [
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3121",
+            "https://discuss.hashicorp.com/t/hcsec-2021-23-consul-exposed-to-denial-of-service-in-gogo-protobuf-dependency/29025",
+            "https://github.com/gogo/protobuf/commit/b03c65ea87cdc3521ede29f62fe3ce239267c1bc",
+            "https://github.com/gogo/protobuf/compare/v1.3.1...v1.3.2",
+            "https://lists.apache.org/thread.html/r68032132c0399c29d6cdc7bd44918535da54060a10a12b1591328bff@%3Cnotifications.skywalking.apache.org%3E",
+            "https://lists.apache.org/thread.html/r88d69555cb74a129a7bf84838073b61259b4a3830190e05a3b87994e@%3Ccommits.pulsar.apache.org%3E",
+            "https://lists.apache.org/thread.html/rc1e9ff22c5641d73701ba56362fb867d40ed287cca000b131dcf4a44@%3Ccommits.pulsar.apache.org%3E",
+            "https://nvd.nist.gov/vuln/detail/CVE-2021-3121",
+            "https://security.netapp.com/advisory/ntap-20210219-0006/"
+          ],
+          "PublishedDate": "2021-01-11T06:15:00Z",
+          "LastModifiedDate": "2021-10-18T06:15:00Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2020-29652",
+          "PkgName": "golang.org/x/crypto",
+          "InstalledVersion": "0.0.0-20190611184440-5c40567a22f8",
+          "FixedVersion": "v0.0.0-20201216223049-8b5274cf687f",
+          "Layer": {},
+          "SeveritySource": "nvd",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2020-29652",
+          "Title": "golang: crypto/ssh: crafted authentication request can lead to nil pointer dereference",
+          "Description": "A nil pointer dereference in the golang.org/x/crypto/ssh component through v0.0.0-20201203163018-be400aefbc4c for Go allows remote attackers to cause a denial of service against SSH servers.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-476"
+          ],
+          "CVSS": {
+            "nvd": {
+              "V2Vector": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V2Score": 5,
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-29652",
+            "https://go-review.googlesource.com/c/crypto/+/278852",
+            "https://groups.google.com/g/golang-announce/c/ouZIlBimOsE?pli=1",
+            "https://lists.apache.org/thread.html/r68032132c0399c29d6cdc7bd44918535da54060a10a12b1591328bff@%3Cnotifications.skywalking.apache.org%3E",
+            "https://nvd.nist.gov/vuln/detail/CVE-2020-29652"
+          ],
+          "PublishedDate": "2020-12-17T05:15:00Z",
+          "LastModifiedDate": "2021-10-18T06:15:00Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2020-9283",
+          "PkgName": "golang.org/x/crypto",
+          "InstalledVersion": "0.0.0-20190611184440-5c40567a22f8",
+          "FixedVersion": "v0.0.0-20200220183623-bac4c82f6975",
+          "Layer": {},
+          "SeveritySource": "nvd",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2020-9283",
+          "Title": "golang.org/x/crypto: Processing of crafted ssh-ed25519 public keys allows for panic",
+          "Description": "golang.org/x/crypto before v0.0.0-20200220183623-bac4c82f6975 for Go allows a panic during signature verification in the golang.org/x/crypto/ssh package. A client can attack an SSH server that accepts public keys. Also, a server can attack any SSH client.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-347"
+          ],
+          "CVSS": {
+            "nvd": {
+              "V2Vector": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V2Score": 5,
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "http://packetstormsecurity.com/files/156480/Go-SSH-0.0.2-Denial-Of-Service.html",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-9283",
+            "https://groups.google.com/forum/#!topic/golang-announce/3L45YRc91SY",
+            "https://lists.debian.org/debian-lts-announce/2020/10/msg00014.html",
+            "https://lists.debian.org/debian-lts-announce/2020/11/msg00027.html",
+            "https://lists.debian.org/debian-lts-announce/2020/11/msg00031.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2020-9283"
+          ],
+          "PublishedDate": "2020-02-20T20:15:00Z",
+          "LastModifiedDate": "2020-11-18T23:15:00Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2019-11254",
+          "PkgName": "gopkg.in/yaml.v2",
+          "InstalledVersion": "2.2.4",
+          "FixedVersion": "v2.2.8",
+          "Layer": {},
+          "SeveritySource": "nvd",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2019-11254",
+          "Title": "kubernetes: Denial of service in API server via crafted YAML payloads by authorized users",
+          "Description": "The Kubernetes API Server component in versions 1.1-1.14, and versions prior to 1.15.10, 1.16.7 and 1.17.3 allows an authorized user who sends malicious YAML payloads to cause the kube-apiserver to consume excessive CPU cycles while parsing YAML.",
+          "Severity": "MEDIUM",
+          "CVSS": {
+            "nvd": {
+              "V2Vector": "AV:N/AC:L/Au:S/C:N/I:N/A:P",
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
+              "V2Score": 4,
+              "V3Score": 6.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 6.5
+            }
+          },
+          "References": [
+            "https://github.com/kubernetes/kubernetes/issues/89535",
+            "https://groups.google.com/d/msg/kubernetes-announce/ALL9s73E5ck/4yHe8J-PBAAJ",
+            "https://groups.google.com/forum/#!topic/kubernetes-security-announce/wuwEwZigXBc",
+            "https://linux.oracle.com/cve/CVE-2019-11254.html",
+            "https://linux.oracle.com/errata/ELSA-2020-5653.html",
+            "https://security.netapp.com/advisory/ntap-20200413-0003/"
+          ],
+          "PublishedDate": "2020-04-01T21:15:00Z",
+          "LastModifiedDate": "2020-10-02T17:37:00Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2019-11250",
+          "PkgName": "k8s.io/client-go",
+          "InstalledVersion": "0.0.0-20191114101535-6c5935290e33",
+          "FixedVersion": "v0.17.0",
+          "Layer": {},
+          "SeveritySource": "nvd",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2019-11250",
+          "Title": "kubernetes: Bearer tokens written to logs at high verbosity levels (\u003e= 7)",
+          "Description": "The Kubernetes client-go library logs request headers at verbosity levels of 7 or higher. This can disclose credentials to unauthorized users via logs or command output. Kubernetes components (such as kube-apiserver) prior to v1.16.0, which make use of basic or bearer token authentication, and run at high verbosity levels, are affected.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-532"
+          ],
+          "CVSS": {
+            "nvd": {
+              "V2Vector": "AV:N/AC:M/Au:S/C:P/I:N/A:N",
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+              "V2Score": 3.5,
+              "V3Score": 6.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.0/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 4.4
+            }
+          },
+          "References": [
+            "http://www.openwall.com/lists/oss-security/2020/10/16/2",
+            "https://access.redhat.com/errata/RHSA-2019:4052",
+            "https://access.redhat.com/errata/RHSA-2019:4087",
+            "https://github.com/kubernetes/kubernetes/issues/81114",
+            "https://nvd.nist.gov/vuln/detail/CVE-2019-11250",
+            "https://security.netapp.com/advisory/ntap-20190919-0003/"
+          ],
+          "PublishedDate": "2019-08-29T01:15:00Z",
+          "LastModifiedDate": "2020-10-16T09:15:00Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2020-8565",
+          "PkgName": "k8s.io/client-go",
+          "InstalledVersion": "0.0.0-20191114101535-6c5935290e33",
+          "FixedVersion": "v0.20.0-alpha.2",
+          "Layer": {},
+          "SeveritySource": "nvd",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2020-8565",
+          "Title": "kubernetes: Incomplete fix for CVE-2019-11250 allows for token leak in logs when logLevel \u003e= 9",
+          "Description": "In Kubernetes, if the logging level is set to at least 9, authorization and bearer tokens will be written to log files. This can occur both in API server logs and client tool output like kubectl. This affects \u003c= v1.19.3, \u003c= v1.18.10, \u003c= v1.17.13, \u003c v1.20.0-alpha2.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-532"
+          ],
+          "CVSS": {
+            "nvd": {
+              "V2Vector": "AV:L/AC:L/Au:N/C:P/I:N/A:N",
+              "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+              "V2Score": 2.1,
+              "V3Score": 5.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 5.3
+            }
+          },
+          "References": [
+            "https://github.com/kubernetes/kubernetes/issues/95623",
+            "https://groups.google.com/g/kubernetes-announce/c/ScdmyORnPDk",
+            "https://groups.google.com/g/kubernetes-security-discuss/c/vm-HcrFUOCs/m/36utxAM5CwAJ",
+            "https://nvd.nist.gov/vuln/detail/CVE-2020-8565"
+          ],
+          "PublishedDate": "2020-12-07T22:15:00Z",
+          "LastModifiedDate": "2020-12-08T19:51:00Z"
+        }
+      ]
+    },
+    {
+      "Target": "operator/go.sum",
+      "Class": "lang-pkgs",
+      "Type": "gomod",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2020-26160",
+          "PkgName": "github.com/dgrijalva/jwt-go",
+          "InstalledVersion": "3.2.0+incompatible",
+          "Layer": {},
+          "SeveritySource": "nvd",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2020-26160",
+          "Title": "jwt-go: access restriction bypass vulnerability",
+          "Description": "jwt-go before 4.0.0-preview1 allows attackers to bypass intended access restrictions in situations with []string{} for m[\"aud\"] (which is allowed by the specification). Because the type assertion fails, \"\" is the value of aud. This is a security problem if the JWT token is presented to a service that lacks its own audience check.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-862"
+          ],
+          "CVSS": {
+            "nvd": {
+              "V2Vector": "AV:N/AC:L/Au:N/C:P/I:N/A:N",
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V2Score": 5,
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://github.com/dgrijalva/jwt-go/pull/426",
+            "https://nvd.nist.gov/vuln/detail/CVE-2020-26160",
+            "https://snyk.io/vuln/SNYK-GOLANG-GITHUBCOMDGRIJALVAJWTGO-596515"
+          ],
+          "PublishedDate": "2020-09-30T18:15:00Z",
+          "LastModifiedDate": "2021-07-21T11:39:00Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2021-3121",
+          "PkgName": "github.com/gogo/protobuf",
+          "InstalledVersion": "1.3.1",
+          "FixedVersion": "v1.3.2",
+          "Layer": {},
+          "SeveritySource": "nvd",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2021-3121",
+          "Title": "gogo/protobuf: plugin/unmarshal/unmarshal.go lacks certain index validation",
+          "Description": "An issue was discovered in GoGo Protobuf before 1.3.2. plugin/unmarshal/unmarshal.go lacks certain index validation, aka the \"skippy peanut butter\" issue.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-129"
+          ],
+          "CVSS": {
+            "nvd": {
+              "V2Vector": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H",
+              "V2Score": 7.5,
+              "V3Score": 8.6
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H",
+              "V3Score": 8.6
+            }
+          },
+          "References": [
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3121",
+            "https://discuss.hashicorp.com/t/hcsec-2021-23-consul-exposed-to-denial-of-service-in-gogo-protobuf-dependency/29025",
+            "https://github.com/gogo/protobuf/commit/b03c65ea87cdc3521ede29f62fe3ce239267c1bc",
+            "https://github.com/gogo/protobuf/compare/v1.3.1...v1.3.2",
+            "https://lists.apache.org/thread.html/r68032132c0399c29d6cdc7bd44918535da54060a10a12b1591328bff@%3Cnotifications.skywalking.apache.org%3E",
+            "https://lists.apache.org/thread.html/r88d69555cb74a129a7bf84838073b61259b4a3830190e05a3b87994e@%3Ccommits.pulsar.apache.org%3E",
+            "https://lists.apache.org/thread.html/rc1e9ff22c5641d73701ba56362fb867d40ed287cca000b131dcf4a44@%3Ccommits.pulsar.apache.org%3E",
+            "https://nvd.nist.gov/vuln/detail/CVE-2021-3121",
+            "https://security.netapp.com/advisory/ntap-20210219-0006/"
+          ],
+          "PublishedDate": "2021-01-11T06:15:00Z",
+          "LastModifiedDate": "2021-10-18T06:15:00Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2019-19794",
+          "PkgName": "github.com/miekg/dns",
+          "InstalledVersion": "1.0.14",
+          "FixedVersion": "v1.1.25-0.20191211073109-8ebf2e419df7",
+          "Layer": {},
+          "SeveritySource": "nvd",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2019-19794",
+          "Title": "golang-github-miekg-dns: predictable TXID can lead to response forgeries",
+          "Description": "The miekg Go DNS package before 1.1.25, as used in CoreDNS before 1.6.6 and other products, improperly generates random numbers because math/rand is used. The TXID becomes predictable, leading to response forgeries.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-338"
+          ],
+          "CVSS": {
+            "nvd": {
+              "V2Vector": "AV:N/AC:M/Au:N/C:N/I:P/A:N",
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N",
+              "V2Score": 4.3,
+              "V3Score": 5.9
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N",
+              "V3Score": 5.9
+            }
+          },
+          "References": [
+            "https://github.com/coredns/coredns/issues/3519",
+            "https://github.com/coredns/coredns/issues/3547",
+            "https://github.com/miekg/dns/compare/v1.1.24...v1.1.25",
+            "https://github.com/miekg/dns/issues/1043",
+            "https://github.com/miekg/dns/pull/1044"
+          ],
+          "PublishedDate": "2019-12-13T22:15:00Z",
+          "LastModifiedDate": "2020-01-02T17:36:00Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2020-29652",
+          "PkgName": "golang.org/x/crypto",
+          "InstalledVersion": "0.0.0-20201002170205-7f63de1d35b0",
+          "FixedVersion": "v0.0.0-20201216223049-8b5274cf687f",
+          "Layer": {},
+          "SeveritySource": "nvd",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2020-29652",
+          "Title": "golang: crypto/ssh: crafted authentication request can lead to nil pointer dereference",
+          "Description": "A nil pointer dereference in the golang.org/x/crypto/ssh component through v0.0.0-20201203163018-be400aefbc4c for Go allows remote attackers to cause a denial of service against SSH servers.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-476"
+          ],
+          "CVSS": {
+            "nvd": {
+              "V2Vector": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V2Score": 5,
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-29652",
+            "https://go-review.googlesource.com/c/crypto/+/278852",
+            "https://groups.google.com/g/golang-announce/c/ouZIlBimOsE?pli=1",
+            "https://lists.apache.org/thread.html/r68032132c0399c29d6cdc7bd44918535da54060a10a12b1591328bff@%3Cnotifications.skywalking.apache.org%3E",
+            "https://nvd.nist.gov/vuln/detail/CVE-2020-29652"
+          ],
+          "PublishedDate": "2020-12-17T05:15:00Z",
+          "LastModifiedDate": "2021-10-18T06:15:00Z"
+        }
+      ]
+    },
+    {
+      "Target": "parser-sdk/nodejs/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm"
+    },
+    {
+      "Target": "scanners/git-repo-scanner/scanner/requirements.txt",
+      "Class": "lang-pkgs",
+      "Type": "pip"
+    },
+    {
+      "Target": "scanners/gitleaks/parser/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm"
+    },
+    {
+      "Target": "scanners/ncrack/parser/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm"
+    },
+    {
+      "Target": "scanners/nmap/parser/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm"
+    },
+    {
+      "Target": "scanners/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm"
+    },
+    {
+      "Target": "scanners/semgrep/parser/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm"
+    },
+    {
+      "Target": "scanners/sslyze/parser/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm"
+    },
+    {
+      "Target": "scanners/zap-advanced/scanner/requirements.txt",
+      "Class": "lang-pkgs",
+      "Type": "pip"
+    },
+    {
+      "Target": "scanners/zap/parser/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm"
+    }
+  ]
+}

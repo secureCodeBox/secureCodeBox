@@ -9,7 +9,11 @@ metadata:
   labels:
     {{- include "persistence-elastic.labels" . | nindent 4 }}
     type: Structured
+    {{- with .Values.hook.labels }}
+    {{ toYaml . }}
+    {{- end }}
 spec:
+  priority: {{ .Values.hook.priority }}
   type: ReadOnly
   image: "{{ .Values.hook.image.repository }}:{{ .Values.hook.image.tag | default .Chart.Version }}"
   ttlSecondsAfterFinished: {{ .Values.hook.ttlSecondsAfterFinished }}

@@ -6,6 +6,7 @@ package io.securecodebox.persistence.strategies;
 import io.kubernetes.client.openapi.models.V1ObjectMeta;
 import io.securecodebox.models.V1ScanSpec;
 import io.securecodebox.models.V1ScanStatus;
+import io.securecodebox.persistence.config.PersistenceProviderConfig;
 import io.securecodebox.persistence.defectdojo.config.DefectDojoConfig;
 import io.securecodebox.persistence.defectdojo.models.ScanFile;
 import io.securecodebox.persistence.defectdojo.models.User;
@@ -55,6 +56,7 @@ public class VersionedEngagementsStrategyTest {
   @BeforeEach
   public void setup() throws Exception {
     versionedEngagementsStrategy.config = new DefectDojoConfig("https://defectdojo.example.com", "<key>", "foobar", 1000);
+    versionedEngagementsStrategy.persistenceProviderConfig = new PersistenceProviderConfig(new String[]{"http://example.com","http://example.com"});
 
     scan = new Scan();
     scan.setApiVersion("execution.securecodebox.io/v1");

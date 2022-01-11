@@ -67,6 +67,9 @@ test: manifests generate fmt vet ## Run tests.
 	test -f ${ENVTEST_ASSETS_DIR}/setup-envtest.sh || curl -sSLo ${ENVTEST_ASSETS_DIR}/setup-envtest.sh https://raw.githubusercontent.com/kubernetes-sigs/controller-runtime/v0.7.2/hack/setup-envtest.sh
 	source ${ENVTEST_ASSETS_DIR}/setup-envtest.sh; fetch_envtest_tools $(ENVTEST_ASSETS_DIR); setup_envtest_env $(ENVTEST_ASSETS_DIR); go test ./... -coverprofile cover.out
 
+view-coverage:
+	go tool cover -html=cover.out
+
 ##@ Build
 
 build: generate fmt vet ## Build manager binary.
@@ -85,9 +88,17 @@ docker-push: ## Push docker image with the manager.
 	docker push $(IMG_NS)/$(LURKER_IMG):$(IMG_TAG)
 
 docker-export:
-	@echo ".: 💾 Export Container Images"
+	$(MAKE) docker-export-operator
+	$(MAKE) docker-export-lurker
+
+docker-export-operator:
+	@echo ".: 💾 Export Operator Image"
 	docker save $(IMG_NS)/$(OPERATOR_IMG):$(IMG_TAG) > $(OPERATOR_IMG).tar
+
+docker-export-lurker:
+	@echo ".: 💾 Export Lurker Image"
 	docker save $(IMG_NS)/$(LURKER_IMG):$(IMG_TAG) > $(LURKER_IMG).tar
+
 
 ##@ Deployment
 

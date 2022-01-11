@@ -1,0 +1,8 @@
+{
+    "cms_id": "dru",
+    "cms_name": "Drupal",
+    "cms_url": "https://drupal.org",
+    "detection_param": "header",
+    "last_scanned": "2021-09-21 15:12:20.871380",
+    "url": "http://172.26.0.3/"
+}

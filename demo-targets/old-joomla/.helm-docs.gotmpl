@@ -1,0 +1,40 @@
+{{- /*
+SPDX-FileCopyrightText: 2021 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
+
+{{- define "extra.docsSection" -}}
+---
+title: "Old Joomla"
+category: "target"
+type: "Website"
+state: "released"
+appVersion: "{{ template "chart.appVersion" . }}"
+usecase: "Modern insecure web application"
+---
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `3.0.0`, `2.9.0`, `2.8.0`, `2.7.0`
+{{- end }}
+
+{{- define "extra.chartAboutSection" -}}
+## What is Old Joomla?
+
+Insecure & Outdated Joomla Instance: Never expose it to the internet!
+
+### Source Code
+
+* <https://github.com/secureCodeBox/secureCodeBox/tree/master/demo-targets/old-joomla>
+
+{{- end }}
+
+{{- define "extra.scannerConfigurationSection" -}}{{- end }}
+
+{{- define "extra.chartConfigurationSection" -}}{{- end }}
+
+{{- define "extra.scannerLinksSection" -}}
+{{- end }}

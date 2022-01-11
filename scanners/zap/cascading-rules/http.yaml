@@ -18,8 +18,8 @@ spec:
           state: open
       - category: "Open Port"
         attributes:
-          service: https
+          service: http-*
           state: open
   scanSpec:
     scanType: "zap-baseline-scan"
-    parameters: ["-t", "{{attributes.service}}://{{$.hostOrIP}}"]
+    parameters: ["-t", "http://{{$.hostOrIP}}:{{attributes.port}}"]

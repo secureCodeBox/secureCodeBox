@@ -1,0 +1,458 @@
+{
+  "errors": [],
+  "results": [
+    {
+      "check_id": "javascript.lang.correctness.useless-eqeq.eqeq-is-bad",
+      "end": {
+        "col": 204,
+        "line": 91,
+        "offset": 40011
+      },
+      "extra": {
+        "is_ignored": false,
+        "lines": "K.h.i.Bf=function(b,c){var d=0,e=0,f=!1;b=K.h.i.Ta(b,c).split(K.h.i.Sl);for(c=0;c<b.length;c++){var g=b[c];K.h.i.qh(g)?(d++,e++):K.h.i.Mg.test(g)?f=!0:K.h.i.rg(g)?e++:K.h.i.Zj.test(g)&&(f=!0)}return 0==e?f?K.h.i.O.Ua:K.h.i.O.sa:d/e>K.h.i.dl?K.h.i.O.Va:K.h.i.O.Ua};K.h.i.vq=function(b,c){return K.h.i.Bf(b,c)==K.h.i.O.Va};K.h.i.ht=function(b,c){b&&(c=K.h.i.Dl(c))&&(b.style.textAlign=c==K.h.i.O.Va?K.h.i.ec:K.h.i.cc,b.dir=c==K.h.i.O.Va?\"rtl\":\"ltr\")};",
+        "message": "Detected a useless comparison operation `0 == 0` or `0 != 0`. This operation is always true. If testing for floating point NaN, use `math.isnan`, or `cmath.isnan` if the number is complex.",
+        "metadata": {
+          "category": "correctness",
+          "license": "Commons Clause License Condition v1.0[LGPL-2.1-only]",
+          "source": "https://semgrep.dev/r/javascript.lang.correctness.useless-eqeq.eqeq-is-bad",
+          "technology": [
+            "javascript"
+          ]
+        },
+        "metavars": {
+          "$X": {
+            "abstract_content": "0",
+            "end": {
+              "col": 201,
+              "line": 91,
+              "offset": 40008
+            },
+            "start": {
+              "col": 200,
+              "line": 91,
+              "offset": 40007
+            },
+            "unique_id": {
+              "md5sum": "de2eee18976eddef2fddc8f55c572c38",
+              "type": "AST"
+            }
+          }
+        },
+        "severity": "ERROR"
+      },
+      "path": "/test/flask/app/static/loader.js",
+      "start": {
+        "col": 200,
+        "line": 91,
+        "offset": 40007
+      }
+    },
+    {
+      "check_id": "python.flask.security.dangerous-template-string.dangerous-template-string",
+      "end": {
+        "col": 89,
+        "line": 114,
+        "offset": 3391
+      },
+      "extra": {
+        "is_ignored": false,
+        "lines": "    template = '''<html>\n    <head>\n    <title>Error</title>\n    </head>\n    <body>\n    <h1>Oops that page doesn't exist!!</h1>\n    <h3>%s</h3>\n    </body>\n    </html>\n    ''' % request.url\n\n    return render_template_string(template, dir = dir, help = help, locals = locals),404",
+        "message": "Found a template created with string formatting. This is susceptible to server-side template injection and cross-site scripting attacks.",
+        "metadata": {
+          "category": "security",
+          "cwe": "CWE-96: Improper Neutralization of Directives in Statically Saved Code ('Static Code Injection')",
+          "license": "Commons Clause License Condition v1.0[LGPL-2.1-only]",
+          "owasp": "A1: Injection",
+          "references": [
+            "https://nvisium.com/blog/2016/03/09/exploring-ssti-in-flask-jinja2.html",
+            "https://pequalsnp-team.github.io/cheatsheet/flask-jinja2-ssti"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.dangerous-template-string.dangerous-template-string",
+          "technology": [
+            "flask"
+          ]
+        },
+        "metavars": {
+          "$MORE": {
+            "abstract_content": "404",
+            "end": {
+              "col": 89,
+              "line": 114,
+              "offset": 3391
+            },
+            "start": {
+              "col": 86,
+              "line": 114,
+              "offset": 3388
+            },
+            "unique_id": {
+              "md5sum": "98ac636d2f0eba848fbb945ae7e020d0",
+              "type": "AST"
+            }
+          },
+          "$S": {
+            "abstract_content": "request.url",
+            "end": {
+              "col": 22,
+              "line": 112,
+              "offset": 3301
+            },
+            "start": {
+              "col": 11,
+              "line": 112,
+              "offset": 3290
+            },
+            "unique_id": {
+              "md5sum": "0efad3f975cb551a7f5fa183cf36f778",
+              "type": "AST"
+            }
+          },
+          "$V": {
+            "abstract_content": "template",
+            "end": {
+              "col": 13,
+              "line": 103,
+              "offset": 3124
+            },
+            "start": {
+              "col": 5,
+              "line": 103,
+              "offset": 3116
+            },
+            "unique_id": {
+              "sid": 35,
+              "type": "id"
+            }
+          }
+        },
+        "severity": "ERROR"
+      },
+      "path": "/test/flask/app/app.py",
+      "start": {
+        "col": 5,
+        "line": 103,
+        "offset": 3116
+      }
+    },
+    {
+      "check_id": "python.flask.security.dangerous-template-string.dangerous-template-string",
+      "end": {
+        "col": 100,
+        "line": 281,
+        "offset": 10412
+      },
+      "extra": {
+        "is_ignored": false,
+        "lines": "                    template = '''<html>\n                        <head>\n                        <title>Error</title>\n                        </head>\n                        <body>\n                        <h1>Oops Error Occurred</h1>\n                        <h3>%s</h3>\n                        </body>\n                        </html>\n                        ''' % str(e)\n                    return render_template_string(template, dir=dir, help=help, locals=locals), 404",
+        "message": "Found a template created with string formatting. This is susceptible to server-side template injection and cross-site scripting attacks.",
+        "metadata": {
+          "category": "security",
+          "cwe": "CWE-96: Improper Neutralization of Directives in Statically Saved Code ('Static Code Injection')",
+          "license": "Commons Clause License Condition v1.0[LGPL-2.1-only]",
+          "owasp": "A1: Injection",
+          "references": [
+            "https://nvisium.com/blog/2016/03/09/exploring-ssti-in-flask-jinja2.html",
+            "https://pequalsnp-team.github.io/cheatsheet/flask-jinja2-ssti"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.dangerous-template-string.dangerous-template-string",
+          "technology": [
+            "flask"
+          ]
+        },
+        "metavars": {
+          "$MORE": {
+            "abstract_content": "404",
+            "end": {
+              "col": 100,
+              "line": 281,
+              "offset": 10412
+            },
+            "start": {
+              "col": 97,
+              "line": 281,
+              "offset": 10409
+            },
+            "unique_id": {
+              "md5sum": "98ac636d2f0eba848fbb945ae7e020d0",
+              "type": "AST"
+            }
+          },
+          "$S": {
+            "abstract_content": "str(e)",
+            "end": {
+              "col": 37,
+              "line": 280,
+              "offset": 10312
+            },
+            "start": {
+              "col": 31,
+              "line": 280,
+              "offset": 10306
+            },
+            "unique_id": {
+              "md5sum": "b61b86088a47df3faba836438ca4c0f1",
+              "type": "AST"
+            }
+          },
+          "$V": {
+            "abstract_content": "template",
+            "end": {
+              "col": 29,
+              "line": 271,
+              "offset": 9971
+            },
+            "start": {
+              "col": 21,
+              "line": 271,
+              "offset": 9963
+            },
+            "unique_id": {
+              "sid": 82,
+              "type": "id"
+            }
+          }
+        },
+        "severity": "ERROR"
+      },
+      "path": "/test/flask/app/app.py",
+      "start": {
+        "col": 21,
+        "line": 271,
+        "offset": 9963
+      }
+    },
+    {
+      "check_id": "python.flask.security.insecure-deserialization.insecure-deserialization",
+      "end": {
+        "col": 29,
+        "line": 329,
+        "offset": 11793
+      },
+      "extra": {
+        "is_ignored": false,
+        "lines": "        ydata = yaml.load(y)",
+        "message": "Detected the use of an insecure deserialization library in a Flask route. These libraries are prone to code execution vulnerabilities. Ensure user data does not enter this function. To fix this, try to avoid serializing whole objects. Consider instead using a serializer such as JSON.",
+        "metadata": {
+          "category": "security",
+          "cwe": "CWE-502: Deserialization of Untrusted Data",
+          "license": "Commons Clause License Condition v1.0[LGPL-2.1-only]",
+          "owasp": "A8: Insecure Deserialization",
+          "references": [
+            "https://docs.python.org/3/library/pickle.html"
+          ],
+          "source": "https://semgrep.dev/r/python.flask.security.insecure-deserialization.insecure-deserialization",
+          "technology": [
+            "flask"
+          ]
+        },
+        "metavars": {
+          "$X": {
+            "abstract_content": "yaml_hammer",
+            "end": {
+              "col": 16,
+              "line": 316,
+              "offset": 11366
+            },
+            "start": {
+              "col": 5,
+              "line": 316,
+              "offset": 11355
+            },
+            "unique_id": {
+              "md5sum": "5af53207c013e999e2656457108b67b4",
+              "type": "AST"
+            }
+          }
+        },
+        "severity": "ERROR"
+      },
+      "path": "/test/flask/app/app.py",
+      "start": {
+        "col": 17,
+        "line": 329,
+        "offset": 11781
+      }
+    },
+    {
+      "check_id": "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-md5",
+      "end": {
+        "col": 46,
+        "line": 141,
+        "offset": 4329
+      },
+      "extra": {
+        "is_ignored": false,
+        "lines": "            hash_pass = hashlib.md5(password).hexdigest()",
+        "message": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+        "metadata": {
+          "asvs": {
+            "control_id": "6.2.2 Insecure Custom Algorithm",
+            "control_url": "https://github.com/OWASP/ASVS/blob/master/4.0/en/0x14-V6-Cryptography.md#v62-algorithms",
+            "section": "V6 Stored Cryptography Verification Requirements",
+            "version": "4"
+          },
+          "bandit-code": "B303",
+          "category": "security",
+          "cwe": "CWE-327: Use of a Broken or Risky Cryptographic Algorithm",
+          "license": "Commons Clause License Condition v1.0[LGPL-2.1-only]",
+          "owasp": "A3: Sensitive Data Exposure",
+          "references": [
+            "https://tools.ietf.org/html/rfc6151",
+            "https://crypto.stackexchange.com/questions/44151/how-does-the-flame-malware-take-advantage-of-md5-collision",
+            "https://pycryptodome.readthedocs.io/en/latest/src/hash/sha3_256.html"
+          ],
+          "source": "https://semgrep.dev/r/python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-md5",
+          "source-rule-url": "https://github.com/PyCQA/bandit/blob/d5f8fa0d89d7b11442fc6ec80ca42953974354c8/bandit/blacklists/calls.py#L59",
+          "technology": [
+            "python"
+          ]
+        },
+        "metavars": {},
+        "severity": "WARNING"
+      },
+      "path": "/test/flask/app/app.py",
+      "start": {
+        "col": 25,
+        "line": 141,
+        "offset": 4308
+      }
+    },
+    {
+      "check_id": "python.requests.security.disabled-cert-validation.disabled-cert-validation",
+      "end": {
+        "col": 69,
+        "line": 18,
+        "offset": 435
+      },
+      "extra": {
+        "is_ignored": false,
+        "lines": "login = requests.post(target_url + '/login',\n                      proxies=proxies, json=auth_dict, verify=False)",
+        "message": "Certificate verification has been explicitly disabled. This permits insecure connections to insecure servers. Re-enable certification validation.",
+        "metadata": {
+          "category": "security",
+          "cwe": "CWE-295: Improper Certificate Validation",
+          "license": "Commons Clause License Condition v1.0[LGPL-2.1-only]",
+          "owasp": "A3: Sensitive Data Exposure",
+          "references": [
+            "https://stackoverflow.com/questions/41740361/is-it-safe-to-disable-ssl-certificate-verification-in-pythonss-requests-lib"
+          ],
+          "source": "https://semgrep.dev/r/python.requests.security.disabled-cert-validation.disabled-cert-validation",
+          "technology": [
+            "requests"
+          ]
+        },
+        "metavars": {},
+        "severity": "ERROR"
+      },
+      "path": "/test/flask/tests/e2e_zap.py",
+      "start": {
+        "col": 9,
+        "line": 17,
+        "offset": 330
+      }
+    },
+    {
+      "check_id": "python.requests.security.disabled-cert-validation.disabled-cert-validation",
+      "end": {
+        "col": 83,
+        "line": 29,
+        "offset": 765
+      },
+      "extra": {
+        "is_ignored": false,
+        "lines": "    get_cust_id = requests.get(\n        target_url + '/get/2', proxies=proxies, headers=auth_header, verify=False)",
+        "message": "Certificate verification has been explicitly disabled. This permits insecure connections to insecure servers. Re-enable certification validation.",
+        "metadata": {
+          "category": "security",
+          "cwe": "CWE-295: Improper Certificate Validation",
+          "license": "Commons Clause License Condition v1.0[LGPL-2.1-only]",
+          "owasp": "A3: Sensitive Data Exposure",
+          "references": [
+            "https://stackoverflow.com/questions/41740361/is-it-safe-to-disable-ssl-certificate-verification-in-pythonss-requests-lib"
+          ],
+          "source": "https://semgrep.dev/r/python.requests.security.disabled-cert-validation.disabled-cert-validation",
+          "technology": [
+            "requests"
+          ]
+        },
+        "metavars": {},
+        "severity": "ERROR"
+      },
+      "path": "/test/flask/tests/e2e_zap.py",
+      "start": {
+        "col": 19,
+        "line": 28,
+        "offset": 669
+      }
+    },
+    {
+      "check_id": "python.requests.security.disabled-cert-validation.disabled-cert-validation",
+      "end": {
+        "col": 103,
+        "line": 37,
+        "offset": 1065
+      },
+      "extra": {
+        "is_ignored": false,
+        "lines": "    fetch_customer_post = requests.post(\n        target_url + '/fetch/customer', json=post, proxies=proxies, headers=auth_header, verify=False)",
+        "message": "Certificate verification has been explicitly disabled. This permits insecure connections to insecure servers. Re-enable certification validation.",
+        "metadata": {
+          "category": "security",
+          "cwe": "CWE-295: Improper Certificate Validation",
+          "license": "Commons Clause License Condition v1.0[LGPL-2.1-only]",
+          "owasp": "A3: Sensitive Data Exposure",
+          "references": [
+            "https://stackoverflow.com/questions/41740361/is-it-safe-to-disable-ssl-certificate-verification-in-pythonss-requests-lib"
+          ],
+          "source": "https://semgrep.dev/r/python.requests.security.disabled-cert-validation.disabled-cert-validation",
+          "technology": [
+            "requests"
+          ]
+        },
+        "metavars": {},
+        "severity": "ERROR"
+      },
+      "path": "/test/flask/tests/e2e_zap.py",
+      "start": {
+        "col": 27,
+        "line": 36,
+        "offset": 948
+      }
+    },
+    {
+      "check_id": "python.requests.security.disabled-cert-validation.disabled-cert-validation",
+      "end": {
+        "col": 97,
+        "line": 45,
+        "offset": 1393
+      },
+      "extra": {
+        "is_ignored": false,
+        "lines": "    search_customer_username = requests.post(\n        target_url + '/search', json=search, proxies=proxies, headers=auth_header, verify=False)",
+        "message": "Certificate verification has been explicitly disabled. This permits insecure connections to insecure servers. Re-enable certification validation.",
+        "metadata": {
+          "category": "security",
+          "cwe": "CWE-295: Improper Certificate Validation",
+          "license": "Commons Clause License Condition v1.0[LGPL-2.1-only]",
+          "owasp": "A3: Sensitive Data Exposure",
+          "references": [
+            "https://stackoverflow.com/questions/41740361/is-it-safe-to-disable-ssl-certificate-verification-in-pythonss-requests-lib"
+          ],
+          "source": "https://semgrep.dev/r/python.requests.security.disabled-cert-validation.disabled-cert-validation",
+          "technology": [
+            "requests"
+          ]
+        },
+        "metavars": {},
+        "severity": "ERROR"
+      },
+      "path": "/test/flask/tests/e2e_zap.py",
+      "start": {
+        "col": 32,
+        "line": 44,
+        "offset": 1282
+      }
+    }
+  ]
+}

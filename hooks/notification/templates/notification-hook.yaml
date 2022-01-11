@@ -6,7 +6,13 @@ apiVersion: "execution.securecodebox.io/v1"
 kind: ScanCompletionHook
 metadata:
   name: {{ include "notification-hook.fullname" . }}
+  labels:
+    {{- include "notification-hook.labels" . | nindent 4 }}
+    {{- with .Values.hook.labels }}
+    {{ toYaml . }}
+    {{- end }}
 spec:
+  priority: {{ .Values.hook.priority }}
   type: ReadOnly
   imagePullPolicy: "{{ .Values.hook.image.pullPolicy }}"
   image: "{{ .Values.hook.image.repository }}:{{ .Values.hook.image.tag | default .Chart.Version }}"
@@ -30,3 +36,7 @@ spec:
     {{ end }}
   env:
     {{- toYaml .Values.env | nindent 4}} 
+  affinity:
+    {{- toYaml .Values.hook.affinity | nindent 4 }}
+  tolerations:
+    {{- toYaml .Values.hook.tolerations | nindent 4 }}

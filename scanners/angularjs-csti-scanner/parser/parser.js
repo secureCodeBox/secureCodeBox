@@ -43,7 +43,6 @@ function parseMethod(line) {
 }
 
 function parseUrl(line) {
-  console.log(line)
   return line.match(/http[s]?:\/\/[^\n ]+/g)[0]
 }
 

@@ -13,7 +13,7 @@ const readFile = util.promisify(fs.readFile);
 
 const { parse } = require("./parser");
 
-test("example parser parses empty json to zero findings", async () => {
+test("should properly parse kubeaudit juice-shop results", async () => {
   const fileContent = await readFile(
     __dirname + "/__testFiles__/juice-shop.jsonl",
     {
@@ -24,4 +24,16 @@ test("example parser parses empty json to zero findings", async () => {
   await expect(validateParser(findings)).resolves.toBeUndefined();
 
   expect(findings).toMatchSnapshot();
+});
+
+test("should properly parse empty kubeaudit jsonl file", async () => {
+  const jsonContent = await readFile(
+    __dirname + "/__testFiles__/test-empty-report.jsonl",
+    {
+      encoding: "utf8",
+    }
+  );
+  const findings = await parse(jsonContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot("Array []");
 });

@@ -42,3 +42,6 @@ PROJECT
 README.md.gotmpl
 docs/
 *.tar
+cover.out
+testbin/
+*.license

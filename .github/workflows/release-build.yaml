@@ -12,7 +12,7 @@ env:
 
   GO_VERSION: "1.15"
   PYTHON_VERSION: "3.9"
-  NODE_VERSION: "14"
+  NODE_VERSION: "16"
   NPM_VERSION: "7"
 
   # ---- Docker Namespace ----
@@ -269,6 +269,7 @@ jobs:
         parser:
           - amass
           - angularjs-csti-scanner
+          - cmseek
           - git-repo-scanner
           - gitleaks
           - kube-hunter
@@ -278,12 +279,13 @@ jobs:
           - nmap
           - nuclei
           - screenshooter
+          - semgrep
           - ssh-scan
           - sslyze
           - test-scan
           - trivy
-          - whatweb
           - typo3scan
+          - whatweb
           - wpscan
           - zap
 

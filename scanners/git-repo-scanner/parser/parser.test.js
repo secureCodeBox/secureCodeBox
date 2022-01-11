@@ -13,6 +13,18 @@ const readFile = util.promisify(fs.readFile);
 
 const { parse } = require("./parser");
 
+test("should properly parse empty json file", async () => {
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/empty-findings.json",
+    {
+      encoding: "utf8",
+    }
+  );
+  const findings = await parse(JSON.parse(fileContent));
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot(`Array []`);
+});
+
 test("should properly parse git-scanner json file", async () => {
   const fileContent = await readFile(
     __dirname + "/__testFiles__/git-scanner-test-findings.json",

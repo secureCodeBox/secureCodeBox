@@ -411,3 +411,82 @@ Array [
 ]
 `);
 });
+
+test("should properly parse a script finding for ftp in an xml file", async () => {
+  const xmlContent = await readFile(__dirname + "/__testFiles__/ftp.xml", {
+    encoding: "utf8",
+  });
+  const findings = await parse(xmlContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(await parse(xmlContent)).toMatchInlineSnapshot(`
+Array [
+  Object {
+    "attributes": Object {
+      "hostname": "dummy-ftp.demo-targets.svc.cluster.local",
+      "ip_address": "10.103.42.74",
+      "mac_address": null,
+      "method": "table",
+      "operating_system": null,
+      "port": 21,
+      "protocol": "tcp",
+      "scripts": Object {
+        "banner": "220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------\\\\x
+0D\\\\x0A220-You are user number 2 of 30 allowed.\\\\x0D\\\\x0A220-Local time...
+",
+        "ftp-anon": "Anonymous FTP login allowed (FTP code 230)
+Can't get directory listing: PASV IP 127.0.0.1 is not the same as 10.103.42.74",
+      },
+      "service": "ftp",
+      "serviceProduct": null,
+      "serviceVersion": null,
+      "state": "open",
+      "tunnel": null,
+    },
+    "category": "Open Port",
+    "description": "Port 21 is open using tcp protocol.",
+    "location": "tcp://10.103.42.74:21",
+    "name": "Open Port: 21 (ftp)",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+  },
+  Object {
+    "attributes": Object {
+      "hostname": "dummy-ftp.demo-targets.svc.cluster.local",
+      "ip_address": "10.103.42.74",
+      "operating_system": null,
+    },
+    "category": "Host",
+    "description": "Found a host",
+    "location": "dummy-ftp.demo-targets.svc.cluster.local",
+    "name": "Host: dummy-ftp.demo-targets.svc.cluster.local",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+  },
+  Object {
+    "attributes": Object {
+      "banner": "220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------\\\\x
+0D\\\\x0A220-You are user number 2 of 30 allowed.\\\\x0D\\\\x0A220-Local time...
+",
+      "script": "banner",
+    },
+    "category": "FTP",
+    "description": "Port 21 displays banner",
+    "location": "ftp://10.103.42.74:21",
+    "name": "Server banner found",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+  },
+  Object {
+    "attributes": Object {
+      "script": "ftp-anon",
+    },
+    "category": "FTP",
+    "description": "Port 21 allows anonymous FTP login",
+    "location": "ftp://10.103.42.74:21",
+    "name": "Anonymous FTP Login possible",
+    "osi_layer": "NETWORK",
+    "severity": "MEDIUM",
+  },
+]
+`);
+});
