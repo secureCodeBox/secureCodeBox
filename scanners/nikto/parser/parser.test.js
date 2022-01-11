@@ -46,3 +46,12 @@ test("should properly parse empty json file", async () => {
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot("Array []");
 });
+
+test("parses 'no web server found' finding correctly", async () => {
+  const fileContent = JSON.parse(
+    await readFile(__dirname + "/__testFiles__/unresolvable-host.json", {
+      encoding: "utf8",
+    })
+  );
+  const findings = await parse(fileContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();});
