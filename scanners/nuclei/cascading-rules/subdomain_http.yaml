@@ -5,21 +5,29 @@
 apiVersion: "cascading.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
-  name: "zap-advanced-http"
+  name: "nuclei-subdomain-scan-light-http"
   labels:
     securecodebox.io/invasive: non-invasive
-    securecodebox.io/intensive: medium
+    securecodebox.io/intensive: light
 spec:
   matches:
     anyOf:
       - category: "Open Port"
         attributes:
-          service: http
+          port: 80
+          state: open
+      - category: "Open Port"
+        attributes:
+          service: "http"
           state: open
       - category: "Open Port"
         attributes:
           service: "http-*"
           state: open
+      
   scanSpec:
-    scanType: "zap-advanced-scan"
-    parameters: ["-t", "http://{{$.hostOrIP}}:{{attributes.port}}"]
+    scanType: "nuclei"
+    parameters:
+      # Target domain name of the finding and start a nuclei scan
+      - "-u"
+      - "http://{{$.hostOrIP}}:{{attributes.port}}"

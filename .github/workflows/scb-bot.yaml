@@ -20,11 +20,12 @@ jobs:
           - ssh-scan
           - sslyze
           - trivy
+          - typo3scan
           - whatweb
           - wpscan
           - zap
           - zap-advanced
-          # missing scanners are : nmap, nikto, typo3scan
+          # missing scanners are : nmap, nikto
     steps:
       - uses: actions/checkout@v2
 

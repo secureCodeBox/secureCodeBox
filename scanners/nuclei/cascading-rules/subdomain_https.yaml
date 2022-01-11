@@ -5,7 +5,7 @@
 apiVersion: "cascading.securecodebox.io/v1"
 kind: CascadingRule
 metadata:
-  name: "screenshooter-http"
+  name: "nuclei-subdomain-scan-light-https"
   labels:
     securecodebox.io/invasive: non-invasive
     securecodebox.io/intensive: light
@@ -14,12 +14,19 @@ spec:
     anyOf:
       - category: "Open Port"
         attributes:
-          service: http
+          port: 443
           state: open
       - category: "Open Port"
         attributes:
-          service: "http-*"
+          service: "https"
+          state: open
+      - category: "Open Port"
+        attributes:
+          service: "https*"
           state: open
   scanSpec:
-    scanType: "screenshooter"
-    parameters: ["http://{{$.hostOrIP}}:{{attributes.port}}"]
+    scanType: "nuclei"
+    parameters:
+      # Target domain name of the finding and start a nuclei scan
+      - "-u"
+      - "https://{{$.hostOrIP}}:{{attributes.port}}"

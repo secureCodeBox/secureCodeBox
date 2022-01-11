@@ -4,10 +4,10 @@
 
 # Base Image
 FROM python:3.9-alpine as base
-
+ARG scannerVersion
 # Install git and Clone Repo 
 RUN apk add git \
-    && git clone https://github.com/whoot/Typo3Scan.git \
+    && git clone https://github.com/whoot/Typo3Scan.git --depth 1 --branch "$scannerVersion" \
     && cd Typo3Scan \
     && rm -r .git .github doc
 
