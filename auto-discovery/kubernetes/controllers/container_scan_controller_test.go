@@ -113,6 +113,9 @@ func createPodWithMultipleContainers(ctx context.Context, name string, namespace
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      name,
 			Namespace: namespace,
+			Annotations: map[string]string{
+				"auto-discovery.securecodebox.io/enabled": "true",
+			},
 		},
 		Spec: corev1.PodSpec{
 			Containers: getContainerSpec(name, images),

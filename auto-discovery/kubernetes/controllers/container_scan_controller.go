@@ -38,11 +38,6 @@ type ContainerScanReconciler struct {
 func (r *ContainerScanReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	log := r.Log
 
-	if req.Namespace != "default" {
-		log.V(10).Info("Ignoring non default namespace", "pod", req.Name)
-		return ctrl.Result{}, nil
-	}
-
 	log.V(1).Info("Something happened to a pod", "pod", req.Name, "namespace", req.Namespace)
 
 	var pod corev1.Pod
@@ -132,6 +127,10 @@ func createScheduledScans(config configv1.AutoDiscoveryConfig, k8sclient client.
 func createScheduledScan(config configv1.AutoDiscoveryConfig, k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod, imageID string) {
 	containerScanConfig := config.ContainerAutoDiscoveryConfig.ScanConfig
 	labels := containerScanConfig.Labels
+	if labels == nil {
+		labels = map[string]string{}
+	}
+
 	labels["app.kubernetes.io/managed-by"] = "securecodebox-autodiscovery"
 
 	newScheduledScan := executionv1.ScheduledScan{
@@ -232,5 +231,6 @@ func (r *ContainerScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
 
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&corev1.Pod{}).
+		WithEventFilter(getPredicates(mgr.GetClient(), r.Log, r.Config.ResourceInclusion.Mode)).
 		Complete(r)
 }
