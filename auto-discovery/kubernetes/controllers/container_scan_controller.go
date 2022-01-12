@@ -131,13 +131,15 @@ func createScheduledScans(config configv1.AutoDiscoveryConfig, k8sclient client.
 
 func createScheduledScan(config configv1.AutoDiscoveryConfig, k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod, imageID string) {
 	containerScanConfig := config.ContainerAutoDiscoveryConfig.ScanConfig
+	labels := containerScanConfig.Labels
+	labels["app.kubernetes.io/managed-by"] = "securecodebox-autodiscovery"
 
 	newScheduledScan := executionv1.ScheduledScan{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:        getScanName(imageID),
 			Namespace:   pod.Namespace,
 			Annotations: containerScanConfig.Annotations,
-			Labels:      containerScanConfig.Labels,
+			Labels:      labels,
 		},
 		Spec: executionv1.ScheduledScanSpec{
 			Interval: containerScanConfig.RepeatInterval,
