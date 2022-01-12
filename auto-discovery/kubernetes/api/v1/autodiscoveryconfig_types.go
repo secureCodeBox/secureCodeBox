@@ -16,14 +16,19 @@ type AutoDiscoveryConfig struct {
 	// ControllerManagerConfigurationSpec returns the contfigurations for controllers
 	cfg.ControllerManagerConfigurationSpec `json:",inline"`
 
-	Cluster                    ClusterConfig              `json:"cluster"`
-	ResourceInclusion          ResourceInclusionConfig    `json:"resourceInclusion"`
-	ServiceAutoDiscoveryConfig ServiceAutoDiscoveryConfig `json:"serviceAutoDiscovery"`
+	Cluster                      ClusterConfig                `json:"cluster"`
+	ResourceInclusion            ResourceInclusionConfig      `json:"resourceInclusion"`
+	ServiceAutoDiscoveryConfig   ServiceAutoDiscoveryConfig   `json:"serviceAutoDiscovery"`
+	ContainerAutoDiscoveryConfig ContainerAutoDiscoveryConfig `json:"containerAutoDiscovery"`
 }
 
 type ServiceAutoDiscoveryConfig struct {
 	PassiveReconcileInterval metav1.Duration `json:"passiveReconcileInterval"`
 	ScanConfig               ScanConfig      `json:"scanConfig"`
+}
+
+type ContainerAutoDiscoveryConfig struct {
+	ScanConfig ScanConfig `json:"scanConfig"`
 }
 
 type ClusterConfig struct {

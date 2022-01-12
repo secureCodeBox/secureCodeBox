@@ -58,7 +58,7 @@ func (r *ContainerScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	}
 
 	if pod.DeletionTimestamp == nil {
-		podIsRunning(r.Client, log, ctx, pod)
+		podIsRunning(r.Config, r.Client, log, ctx, pod)
 	} else {
 		log.V(1).Info("Pod will be deleted", "pod", pod.Name, "namespace", pod.Namespace, "timestamp", pod.DeletionTimestamp)
 		podWillBeDeleted(r.Client, log, ctx, pod)
@@ -67,10 +67,10 @@ func (r *ContainerScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	return ctrl.Result{}, nil
 }
 
-func podIsRunning(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod) {
+func podIsRunning(config configv1.AutoDiscoveryConfig, k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod) {
 	log.V(1).Info("Pod is running", "pod", pod.Name, "namespace", pod.Namespace)
 	getNonScanedImageIDs := getNonScanedImageIDs(k8sclient, log, ctx, pod)
-	createScheduledScans(k8sclient, log, ctx, pod, getNonScanedImageIDs)
+	createScheduledScans(config, k8sclient, log, ctx, pod, getNonScanedImageIDs)
 }
 
 func getNonScanedImageIDs(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod) []string {
@@ -123,22 +123,26 @@ func getScanName(imageID string) string {
 	return result[:62]
 }
 
-func createScheduledScans(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod, imageIDs []string) {
+func createScheduledScans(config configv1.AutoDiscoveryConfig, k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod, imageIDs []string) {
 	for _, imageID := range imageIDs {
-		createScheduledScan(k8sclient, log, ctx, pod, imageID)
+		createScheduledScan(config, k8sclient, log, ctx, pod, imageID)
 	}
 }
 
-func createScheduledScan(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod, imageID string) {
+func createScheduledScan(config configv1.AutoDiscoveryConfig, k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod, imageID string) {
+	containerScanConfig := config.ContainerAutoDiscoveryConfig.ScanConfig
+
 	newScheduledScan := executionv1.ScheduledScan{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:        getScanName(imageID),
 			Namespace:   pod.Namespace,
-			Annotations: map[string]string{"target_imageID": imageID},
+			Annotations: containerScanConfig.Annotations,
+			Labels:      containerScanConfig.Labels,
 		},
 		Spec: executionv1.ScheduledScanSpec{
+			Interval: containerScanConfig.RepeatInterval,
 			ScanSpec: &executionv1.ScanSpec{
-				ScanType: "nmap",
+				ScanType: containerScanConfig.ScanType,
 			},
 		},
 	}
