@@ -1,0 +1,144 @@
+// SPDX-FileCopyrightText: 2021 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
+package controllers
+
+import (
+	"context"
+	"fmt"
+	"hash/fnv"
+	"strconv"
+	"time"
+
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
+	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
+	corev1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/api/errors"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	//+kubebuilder:scaffold:imports
+)
+
+// These tests use Ginkgo (BDD-style Go testing framework). Refer to
+// http://onsi.github.io/ginkgo/ to learn more about Ginkgo.
+
+var _ = Describe("ContainerScan controller", func() {
+
+	const (
+		timeout  = time.Second * 10
+		interval = time.Millisecond * 250
+	)
+
+	Context("Container autodiscovery for deployment", func() {
+		It("Should create a single scheduledscan for every container with the same imageID in the deplyoment", func() {
+
+			ctx := context.Background()
+			namespace := "default"
+			createNamespace(ctx, namespace)
+			fake_deployment := map[string]string{"bkimminich/juice-shop": "9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2",
+				"nginx": "0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"}
+
+			createPodWithMultipleContainers(ctx, "fake-deployment-pod1", namespace, fake_deployment)
+			createPodWithMultipleContainers(ctx, "fake-deployment-pod2", namespace, fake_deployment)
+
+			var scheduledScan executionv1.ScheduledScan
+
+			Eventually(func() bool {
+
+				nginxScanName := "scan-nginx-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
+				nginxScanName = nginxScanName[:62]
+
+				err := k8sClient.Get(ctx, types.NamespacedName{Name: nginxScanName, Namespace: namespace}, &scheduledScan)
+				if errors.IsNotFound(err) {
+					return false
+				}
+				return true
+			}, timeout, interval).Should(BeTrue())
+
+			Eventually(func() bool {
+
+				var scans executionv1.ScheduledScanList
+				k8sClient.List(ctx, &scans, client.InNamespace(namespace))
+
+				juiceShopScanName := "scan-juice-shop-at-9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2"
+				juiceShopScanName = juiceShopScanName[:62]
+
+				err := k8sClient.Get(ctx, types.NamespacedName{Name: juiceShopScanName, Namespace: namespace}, &scheduledScan)
+				if errors.IsNotFound(err) {
+					return false
+				}
+				return true
+			}, timeout, interval).Should(BeTrue())
+		})
+	})
+})
+
+func createPodWithMultipleContainers(ctx context.Context, name string, namespace string, images map[string]string) {
+	pod := &corev1.Pod{
+		TypeMeta: metav1.TypeMeta{
+			APIVersion: "",
+			Kind:       "Pod",
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      name,
+			Namespace: namespace,
+		},
+		Spec: corev1.PodSpec{
+			Containers: getContainerSpec(name, images),
+		},
+	}
+
+	Expect(k8sClient.Create(ctx, pod)).Should(Succeed())
+	setPodStatus(ctx, name, namespace, images)
+}
+
+func getContainerSpec(name string, images map[string]string) []corev1.Container {
+	var result []corev1.Container
+
+	nameCounter := 0
+	for image := range images {
+		containerName := strconv.Itoa(nameCounter)
+		nameCounter++
+
+		container := corev1.Container{Name: containerName, Image: image}
+		result = append(result, container)
+	}
+	return result
+}
+
+func setPodStatus(ctx context.Context, name string, namespace string, images map[string]string) {
+	var createdPod corev1.Pod
+	Expect(k8sClient.Get(ctx, types.NamespacedName{Name: name, Namespace: namespace}, &createdPod)).Should(Succeed())
+	var fakeContainerStatuses []corev1.ContainerStatus
+
+	nameCounter := 0
+	for image, digest := range images {
+
+		imageID := fmt.Sprintf("docker.io/doesntmatter/at/all/%s@sha256:%s", image, digest)
+		containerID := fmt.Sprintf("docker://%d", hash(imageID))
+		name := strconv.Itoa(nameCounter)
+		nameCounter++
+
+		container := corev1.ContainerStatus{
+
+			Image:       image,
+			ImageID:     imageID,
+			ContainerID: containerID,
+			Name:        name,
+			Ready:       true,
+		}
+
+		fakeContainerStatuses = append(fakeContainerStatuses, container)
+	}
+	createdPod.Status.ContainerStatuses = fakeContainerStatuses
+	Expect(k8sClient.Status().Update(ctx, &createdPod)).Should(Succeed())
+}
+
+func hash(s string) uint32 {
+	h := fnv.New32a()
+	h.Write([]byte(s))
+	return h.Sum32()
+}

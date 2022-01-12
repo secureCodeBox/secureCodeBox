@@ -46,6 +46,7 @@ func TestAPIs(t *testing.T) {
 }
 
 var _ = BeforeSuite(func() {
+
 	logf.SetLogger(zap.New(zap.WriteTo(GinkgoWriter), zap.UseDevMode(true)))
 
 	By("bootstrapping test environment")
@@ -96,6 +97,15 @@ var _ = BeforeSuite(func() {
 		Scheme:   k8sManager.GetScheme(),
 		Recorder: k8sManager.GetEventRecorderFor("ServiceScanController"),
 		Log:      ctrl.Log.WithName("controllers").WithName("ServiceScanController"),
+		Config:   config,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&ContainerScanReconciler{
+		Client:   k8sManager.GetClient(),
+		Scheme:   k8sManager.GetScheme(),
+		Recorder: k8sManager.GetEventRecorderFor("ContainerScanController"),
+		Log:      ctrl.Log.WithName("controllers").WithName("ContainerScanController"),
 		Config:   config,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
