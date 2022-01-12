@@ -104,17 +104,19 @@ func getImageIDsForPod(pod corev1.Pod) []string {
 }
 
 func getScanName(imageID string) string {
-	hashRegex := regexp.MustCompile("(?P<url>.*)sha256:(?P<hash>.*)")
-	url := hashRegex.FindStringSubmatch(imageID)[1]
+	baseScanName := "scan-"
+	maxAppLength := 20 + len(baseScanName)
+
+	hashRegex := regexp.MustCompile(".*/(?P<url>.*)@sha256:(?P<hash>.*)")
+	appName := hashRegex.FindStringSubmatch(imageID)[1]
 	hash := hashRegex.FindStringSubmatch(imageID)[2]
 
-	urlLength := 20
-	result := "scan-" + url
-	if len(result) > urlLength {
-		result = result[:urlLength]
+	result := baseScanName + appName
+	if len(result) > maxAppLength {
+		result = result[:maxAppLength]
 	}
 
-	result += hash
+	result += "-at-" + hash
 
 	result = strings.ReplaceAll(result, ".", "-")
 	result = strings.ReplaceAll(result, "/", "-")
