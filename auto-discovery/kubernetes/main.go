@@ -79,6 +79,17 @@ func main() {
 		os.Exit(1)
 	}
 
+	if err = (&controllers.ContainerScanReconciler{
+		Client:   mgr.GetClient(),
+		Recorder: mgr.GetEventRecorderFor("ContainerScanController"),
+		Log:      ctrl.Log.WithName("controllers").WithName("ContainerScanController"),
+		Scheme:   mgr.GetScheme(),
+		Config:   ctrlConfig,
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "ScheduledScan")
+		os.Exit(1)
+	}
+
 	//+kubebuilder:scaffold:builder
 
 	if err := mgr.AddHealthzCheck("healthz", healthz.Ping); err != nil {
