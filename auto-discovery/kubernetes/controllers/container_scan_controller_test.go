@@ -18,7 +18,6 @@ import (
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -33,10 +32,12 @@ var _ = Describe("ContainerScan controller", func() {
 	)
 
 	Context("Container autodiscovery for deployment", func() {
+
+		namespace := "default"
+		ctx := context.Background()
+
 		It("Should create a single scheduledscan for every container with the same imageID in the deplyoment", func() {
 
-			ctx := context.Background()
-			namespace := "default"
 			createNamespace(ctx, namespace)
 			fake_deployment := map[string]string{"bkimminich/juice-shop": "9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2",
 				"nginx": "0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"}
@@ -44,33 +45,60 @@ var _ = Describe("ContainerScan controller", func() {
 			createPodWithMultipleContainers(ctx, "fake-deployment-pod1", namespace, fake_deployment)
 			createPodWithMultipleContainers(ctx, "fake-deployment-pod2", namespace, fake_deployment)
 
-			var scheduledScan executionv1.ScheduledScan
-
 			Eventually(func() bool {
-
 				nginxScanName := "scan-nginx-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
 				nginxScanName = nginxScanName[:62]
 
-				err := k8sClient.Get(ctx, types.NamespacedName{Name: nginxScanName, Namespace: namespace}, &scheduledScan)
-				if errors.IsNotFound(err) {
-					return false
-				}
-				return true
+				return checkIfScanExists(ctx, nginxScanName, namespace)
 			}, timeout, interval).Should(BeTrue())
 
 			Eventually(func() bool {
-
-				var scans executionv1.ScheduledScanList
-				k8sClient.List(ctx, &scans, client.InNamespace(namespace))
-
 				juiceShopScanName := "scan-juice-shop-at-9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2"
 				juiceShopScanName = juiceShopScanName[:62]
 
-				err := k8sClient.Get(ctx, types.NamespacedName{Name: juiceShopScanName, Namespace: namespace}, &scheduledScan)
-				if errors.IsNotFound(err) {
-					return false
-				}
-				return true
+				return checkIfScanExists(ctx, juiceShopScanName, namespace)
+			}, timeout, interval).Should(BeTrue())
+		})
+
+		It("Should not delete a scan if the container is still in use", func() {
+			var podToBeDeleted corev1.Pod
+			Expect(k8sClient.Get(ctx, types.NamespacedName{Name: "fake-deployment-pod2", Namespace: namespace}, &podToBeDeleted)).Should(Succeed())
+			Expect(k8sClient.Delete(ctx, &podToBeDeleted)).Should(Succeed())
+
+			//Scans should not be deleted, because one pod still uses the container images
+			Eventually(func() bool {
+				nginxScanName := "scan-nginx-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
+				nginxScanName = nginxScanName[:62]
+
+				return checkIfScanExists(ctx, nginxScanName, namespace)
+			}, timeout, interval).Should(BeTrue())
+
+			Eventually(func() bool {
+				juiceShopScanName := "scan-juice-shop-at-9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2"
+				juiceShopScanName = juiceShopScanName[:62]
+
+				return checkIfScanExists(ctx, juiceShopScanName, namespace)
+			}, timeout, interval).Should(BeTrue())
+		})
+
+		It("Should delete a scan if the container is not in use", func() {
+			var podToBeDeleted corev1.Pod
+			Expect(k8sClient.Get(ctx, types.NamespacedName{Name: "fake-deployment-pod1", Namespace: namespace}, &podToBeDeleted)).Should(Succeed())
+			Expect(k8sClient.Delete(ctx, &podToBeDeleted)).Should(Succeed())
+
+			//Scans should be deleted, invert checkIfScanExists
+			Eventually(func() bool {
+				nginxScanName := "scan-nginx-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
+				nginxScanName = nginxScanName[:62]
+
+				return !checkIfScanExists(ctx, nginxScanName, namespace)
+			}, timeout, interval).Should(BeTrue())
+
+			Eventually(func() bool {
+				juiceShopScanName := "scan-juice-shop-at-9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2"
+				juiceShopScanName = juiceShopScanName[:62]
+
+				return !checkIfScanExists(ctx, juiceShopScanName, namespace)
 			}, timeout, interval).Should(BeTrue())
 		})
 	})
@@ -141,4 +169,13 @@ func hash(s string) uint32 {
 	h := fnv.New32a()
 	h.Write([]byte(s))
 	return h.Sum32()
+}
+
+func checkIfScanExists(ctx context.Context, name string, namespace string) bool {
+	var scheduledScan executionv1.ScheduledScan
+	err := k8sClient.Get(ctx, types.NamespacedName{Name: name, Namespace: namespace}, &scheduledScan)
+	if errors.IsNotFound(err) {
+		return false
+	}
+	return true
 }
