@@ -127,13 +127,18 @@ func createScheduledScans(config configv1.AutoDiscoveryConfig, k8sclient client.
 }
 
 func createScheduledScan(config configv1.AutoDiscoveryConfig, k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod, imageID string) {
-	containerScanConfig := config.ContainerAutoDiscoveryConfig.ScanConfig
-	labels := containerScanConfig.Labels
-	if labels == nil {
-		labels = map[string]string{}
-	}
+	newScheduledScan := getScanSpec(config, pod, imageID)
+	err := k8sclient.Create(ctx, &newScheduledScan)
 
-	labels["app.kubernetes.io/managed-by"] = "securecodebox-autodiscovery"
+	if err != nil {
+		log.V(1).Info("Failed to create scheduled scan", "err", err)
+	} else {
+		log.V(1).Info("Created scheduled scan", "pod", pod.Name, "namespace", pod.Namespace)
+	}
+}
+
+func getScanSpec(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imageID string) executionv1.ScheduledScan {
+	containerScanConfig := config.ContainerAutoDiscoveryConfig.ScanConfig
 
 	newScheduledScan := executionv1.ScheduledScan{
 		ObjectMeta: metav1.ObjectMeta{
@@ -150,12 +155,7 @@ func createScheduledScan(config configv1.AutoDiscoveryConfig, k8sclient client.C
 			},
 		},
 	}
-	err := k8sclient.Create(ctx, &newScheduledScan)
-	if err != nil {
-		log.V(1).Info("Failed to create scheduled scan", "err", err)
-	} else {
-		log.V(1).Info("Created scheduled scan", "pod", pod.Name, "namespace", pod.Namespace)
-	}
+	return newScheduledScan
 }
 
 func podWillBeDeleted(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod) {
@@ -166,6 +166,7 @@ func podWillBeDeleted(k8sclient client.Client, log logr.Logger, ctx context.Cont
 
 func getImageIDsToBeDeleted(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod, imageIDs []string) []string {
 	var result []string
+
 	for _, imageID := range imageIDs {
 		scanName := getScanName(imageID)
 		var scan executionv1.ScheduledScan
@@ -185,6 +186,7 @@ func getImageIDsToBeDeleted(k8sclient client.Client, log logr.Logger, ctx contex
 func containerIDInUse(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod, imageID string) bool {
 	var pods corev1.PodList
 	err := k8sclient.List(ctx, &pods, client.InNamespace(pod.Namespace))
+
 	if err != nil {
 		log.V(1).Info("Unable to fetch pods", "namespace", pod.Namespace)
 		return false
@@ -195,6 +197,7 @@ func containerIDInUse(k8sclient client.Client, log logr.Logger, ctx context.Cont
 func searchForImageIDInPods(pods []corev1.Pod, targetImageID string) bool {
 	for _, pod := range pods {
 		imageIDS := getImageIDsForPod(pod)
+
 		for _, imageID := range imageIDS {
 			if pod.DeletionTimestamp == nil && imageID == targetImageID {
 				return true
@@ -262,11 +265,16 @@ func getScanLabels(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imageID 
 
 	data := labels{config, pod, imageID}
 	templates := config.ContainerAutoDiscoveryConfig.ScanConfig.Labels
-	return parseMapTemplate(data, templates)
+
+	generatedLabels := parseMapTemplate(data, templates)
+	generatedLabels["app.kubernetes.io/managed-by"] = "securecodebox-autodiscovery"
+
+	return generatedLabels
 }
 
 func parseMapTemplate(dataStruct interface{}, templates map[string]string) map[string]string {
 	result := map[string]string{}
+
 	for key, value := range templates {
 		tmpl, err := template.New(key).Parse(value)
 
@@ -282,6 +290,7 @@ func parseMapTemplate(dataStruct interface{}, templates map[string]string) map[s
 }
 func parseListTemplate(dataStruct interface{}, templates []string) []string {
 	var result []string
+
 	for _, value := range templates {
 		tmpl, err := template.New(value).Parse(value)
 
@@ -298,7 +307,6 @@ func parseListTemplate(dataStruct interface{}, templates []string) []string {
 
 // SetupWithManager sets up the controller and initializes every thing it needs
 func (r *ContainerScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
-
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&corev1.Pod{}).
 		WithEventFilter(getPredicates(mgr.GetClient(), r.Log, r.Config.ResourceInclusion.Mode)).
