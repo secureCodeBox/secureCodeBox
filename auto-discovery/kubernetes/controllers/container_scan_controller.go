@@ -140,7 +140,7 @@ func createScheduledScan(config configv1.AutoDiscoveryConfig, k8sclient client.C
 			Name:        getScanName(imageID),
 			Namespace:   pod.Namespace,
 			Annotations: getScanAnnotations(config, pod, imageID),
-			Labels:      labels,
+			Labels:      getScanLabels(config, pod, imageID),
 		},
 		Spec: executionv1.ScheduledScanSpec{
 			Interval: containerScanConfig.RepeatInterval,
@@ -251,6 +251,18 @@ func getScanParameters(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imag
 	data := parameters{config, pod, imageID}
 	templates := config.ContainerAutoDiscoveryConfig.ScanConfig.Parameters
 	return parseListTemplate(data, templates)
+}
+
+func getScanLabels(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imageID string) map[string]string {
+	type labels struct {
+		Config  configv1.AutoDiscoveryConfig
+		Pod     corev1.Pod
+		imageID string
+	}
+
+	data := labels{config, pod, imageID}
+	templates := config.ContainerAutoDiscoveryConfig.ScanConfig.Labels
+	return parseMapTemplate(data, templates)
 }
 
 func parseMapTemplate(dataStruct interface{}, templates map[string]string) map[string]string {
