@@ -5,9 +5,11 @@
 package controllers
 
 import (
+	"bytes"
 	"context"
 	"regexp"
 	"strings"
+	"text/template"
 
 	"github.com/go-logr/logr"
 	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
@@ -137,7 +139,7 @@ func createScheduledScan(config configv1.AutoDiscoveryConfig, k8sclient client.C
 		ObjectMeta: metav1.ObjectMeta{
 			Name:        getScanName(imageID),
 			Namespace:   pod.Namespace,
-			Annotations: containerScanConfig.Annotations,
+			Annotations: getScanAnnotations(config, pod, imageID),
 			Labels:      labels,
 		},
 		Spec: executionv1.ScheduledScanSpec{
@@ -224,6 +226,38 @@ func getScan(k8sclient client.Client, log logr.Logger, ctx context.Context, pod 
 	scanName := getScanName(imageID)
 	err := k8sclient.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
 	return scan, err
+}
+
+func getScanAnnotations(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imageID string) map[string]string {
+	type annotations struct {
+		Config     configv1.AutoDiscoveryConfig
+		ScanConfig configv1.ScanConfig
+		Pod        corev1.Pod
+		Namespace  string
+		imageID    string
+	}
+
+	scanConfig := config.ContainerAutoDiscoveryConfig.ScanConfig
+	data := annotations{config, scanConfig, pod, pod.Namespace, imageID}
+
+	templates := scanConfig.Annotations
+	return parseTemplate(data, templates)
+}
+
+func parseTemplate(dataStruct interface{}, templates map[string]string) map[string]string {
+	result := map[string]string{}
+	for key, value := range templates {
+		tmpl, err := template.New(key).Parse(value)
+
+		if err != nil {
+			panic(err)
+		}
+
+		var tmp bytes.Buffer
+		tmpl.Execute(&tmp, dataStruct)
+		result[key] = tmp.String()
+	}
+	return result
 }
 
 // SetupWithManager sets up the controller and initializes every thing it needs
