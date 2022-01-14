@@ -145,7 +145,8 @@ func createScheduledScan(config configv1.AutoDiscoveryConfig, k8sclient client.C
 		Spec: executionv1.ScheduledScanSpec{
 			Interval: containerScanConfig.RepeatInterval,
 			ScanSpec: &executionv1.ScanSpec{
-				ScanType: containerScanConfig.ScanType,
+				ScanType:   containerScanConfig.ScanType,
+				Parameters: getScanParameters(config, pod, imageID),
 			},
 		},
 	}
@@ -230,21 +231,29 @@ func getScan(k8sclient client.Client, log logr.Logger, ctx context.Context, pod 
 
 func getScanAnnotations(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imageID string) map[string]string {
 	type annotations struct {
-		Config     configv1.AutoDiscoveryConfig
-		ScanConfig configv1.ScanConfig
-		Pod        corev1.Pod
-		Namespace  string
-		imageID    string
+		Config  configv1.AutoDiscoveryConfig
+		Pod     corev1.Pod
+		imageID string
 	}
 
-	scanConfig := config.ContainerAutoDiscoveryConfig.ScanConfig
-	data := annotations{config, scanConfig, pod, pod.Namespace, imageID}
-
-	templates := scanConfig.Annotations
-	return parseTemplate(data, templates)
+	data := annotations{config, pod, imageID}
+	templates := config.ContainerAutoDiscoveryConfig.ScanConfig.Annotations
+	return parseMapTemplate(data, templates)
 }
 
-func parseTemplate(dataStruct interface{}, templates map[string]string) map[string]string {
+func getScanParameters(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imageID string) []string {
+	type parameters struct {
+		Config  configv1.AutoDiscoveryConfig
+		Pod     corev1.Pod
+		imageID string
+	}
+
+	data := parameters{config, pod, imageID}
+	templates := config.ContainerAutoDiscoveryConfig.ScanConfig.Parameters
+	return parseListTemplate(data, templates)
+}
+
+func parseMapTemplate(dataStruct interface{}, templates map[string]string) map[string]string {
 	result := map[string]string{}
 	for key, value := range templates {
 		tmpl, err := template.New(key).Parse(value)
@@ -256,6 +265,21 @@ func parseTemplate(dataStruct interface{}, templates map[string]string) map[stri
 		var tmp bytes.Buffer
 		tmpl.Execute(&tmp, dataStruct)
 		result[key] = tmp.String()
+	}
+	return result
+}
+func parseListTemplate(dataStruct interface{}, templates []string) []string {
+	var result []string
+	for _, value := range templates {
+		tmpl, err := template.New(value).Parse(value)
+
+		if err != nil {
+			panic(err)
+		}
+
+		var tmp bytes.Buffer
+		tmpl.Execute(&tmp, dataStruct)
+		result = append(result, tmp.String())
 	}
 	return result
 }
