@@ -43,7 +43,9 @@ func (r *ContainerScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	log.V(1).Info("Something happened to a pod", "pod", req.Name, "namespace", req.Namespace)
 
 	var pod corev1.Pod
-	if err := r.Get(ctx, req.NamespacedName, &pod); err != nil {
+	err := r.Get(ctx, req.NamespacedName, &pod)
+
+	if err != nil {
 		log.V(1).Info("Unable to fetch Pod", "pod", req.Name, "namespace", req.Namespace)
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}

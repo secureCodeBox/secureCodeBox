@@ -8,6 +8,7 @@ import (
 	"context"
 	"fmt"
 	"hash/fnv"
+	"reflect"
 	"strconv"
 	"time"
 
@@ -36,6 +37,29 @@ var _ = Describe("ContainerScan controller", func() {
 		namespace := "default"
 		ctx := context.Background()
 
+		//scanGoTemplate uses resourceinclusionmode to test the go template, as its value is constant. Doesnt make much sense, but gets the job done
+		nginxScanName := "scan-nginx-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
+		nginxScanName = nginxScanName[:62]
+		nginxScanGoTemplate := scanGoTemplate{
+			map[string]string{"testAnnotation": "enabled-per-resource"},
+			map[string]string{
+				"testLabel":                    "enabled-per-resource",
+				"app.kubernetes.io/managed-by": "securecodebox-autodiscovery",
+			},
+			[]string{"-p", "enabled-per-resource"},
+		}
+
+		juiceShopScanName := "scan-juice-shop-at-9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2"
+		juiceShopScanName = juiceShopScanName[:62]
+		juiceShopScanGoTemplate := scanGoTemplate{
+			map[string]string{"testAnnotation": "enabled-per-resource"},
+			map[string]string{
+				"testLabel":                    "enabled-per-resource",
+				"app.kubernetes.io/managed-by": "securecodebox-autodiscovery",
+			},
+			[]string{"-p", "enabled-per-resource"},
+		}
+
 		It("Should create a single scheduledscan for every container with the same imageID in the deplyoment", func() {
 
 			createNamespace(ctx, namespace)
@@ -46,17 +70,11 @@ var _ = Describe("ContainerScan controller", func() {
 			createPodWithMultipleContainers(ctx, "fake-deployment-pod2", namespace, fake_deployment)
 
 			Eventually(func() bool {
-				nginxScanName := "scan-nginx-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
-				nginxScanName = nginxScanName[:62]
-
-				return checkIfScanExists(ctx, nginxScanName, namespace)
+				return checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate)
 			}, timeout, interval).Should(BeTrue())
 
 			Eventually(func() bool {
-				juiceShopScanName := "scan-juice-shop-at-9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2"
-				juiceShopScanName = juiceShopScanName[:62]
-
-				return checkIfScanExists(ctx, juiceShopScanName, namespace)
+				return checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)
 			}, timeout, interval).Should(BeTrue())
 		})
 
@@ -67,17 +85,11 @@ var _ = Describe("ContainerScan controller", func() {
 
 			//Scans should not be deleted, because one pod still uses the container images
 			Eventually(func() bool {
-				nginxScanName := "scan-nginx-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
-				nginxScanName = nginxScanName[:62]
-
-				return checkIfScanExists(ctx, nginxScanName, namespace)
+				return checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate)
 			}, timeout, interval).Should(BeTrue())
 
 			Eventually(func() bool {
-				juiceShopScanName := "scan-juice-shop-at-9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2"
-				juiceShopScanName = juiceShopScanName[:62]
-
-				return checkIfScanExists(ctx, juiceShopScanName, namespace)
+				return checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)
 			}, timeout, interval).Should(BeTrue())
 		})
 
@@ -88,17 +100,11 @@ var _ = Describe("ContainerScan controller", func() {
 
 			//Scans should be deleted, invert checkIfScanExists
 			Eventually(func() bool {
-				nginxScanName := "scan-nginx-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
-				nginxScanName = nginxScanName[:62]
-
-				return !checkIfScanExists(ctx, nginxScanName, namespace)
+				return !checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate)
 			}, timeout, interval).Should(BeTrue())
 
 			Eventually(func() bool {
-				juiceShopScanName := "scan-juice-shop-at-9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2"
-				juiceShopScanName = juiceShopScanName[:62]
-
-				return !checkIfScanExists(ctx, juiceShopScanName, namespace)
+				return !checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)
 			}, timeout, interval).Should(BeTrue())
 		})
 	})
@@ -174,11 +180,32 @@ func hash(s string) uint32 {
 	return h.Sum32()
 }
 
-func checkIfScanExists(ctx context.Context, name string, namespace string) bool {
+func checkIfScanExists(ctx context.Context, name string, namespace string, scanSpec scanGoTemplate) bool {
 	var scheduledScan executionv1.ScheduledScan
 	err := k8sClient.Get(ctx, types.NamespacedName{Name: name, Namespace: namespace}, &scheduledScan)
 	if errors.IsNotFound(err) {
 		return false
 	}
-	return true
+	return checkScanGoTemplate(scheduledScan, scanSpec)
+}
+
+func checkScanGoTemplate(scan executionv1.ScheduledScan, scanSpec scanGoTemplate) bool {
+	annotations := scan.ObjectMeta.Annotations
+	labels := scan.ObjectMeta.Labels
+	parameters := scan.Spec.ScanSpec.Parameters
+
+	annotationsCorrect := reflect.DeepEqual(annotations, scanSpec.Annotaions)
+	labelsCorrect := reflect.DeepEqual(labels, scanSpec.Labels)
+	parametersCorrect := reflect.DeepEqual(parameters, scanSpec.Parameters)
+
+	Expect(annotationsCorrect).Should(BeTrue())
+	Expect(labelsCorrect).Should(BeTrue())
+	Expect(parametersCorrect).Should(BeTrue())
+	return annotationsCorrect && labelsCorrect && parametersCorrect
+}
+
+type scanGoTemplate struct {
+	Annotaions map[string]string
+	Labels     map[string]string
+	Parameters []string
 }

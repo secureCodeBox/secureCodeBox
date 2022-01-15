@@ -87,6 +87,15 @@ var _ = BeforeSuite(func() {
 				ScanType:       "nmap",
 			},
 		},
+		ContainerAutoDiscoveryConfig: configv1.ContainerAutoDiscoveryConfig{
+			ScanConfig: configv1.ScanConfig{
+				RepeatInterval: metav1.Duration{Duration: time.Hour},
+				Annotations:    map[string]string{"testAnnotation": "{{ .Config.ResourceInclusion.Mode }}"},
+				Labels:         map[string]string{"testLabel": "{{ .Config.ResourceInclusion.Mode }}"},
+				Parameters:     []string{"-p", "{{ .Config.ResourceInclusion.Mode }}"},
+				ScanType:       "nmap",
+			},
+		},
 		ResourceInclusion: configv1.ResourceInclusionConfig{
 			Mode: configv1.EnabledPerResource,
 		},
