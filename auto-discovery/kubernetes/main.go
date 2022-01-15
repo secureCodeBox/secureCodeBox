@@ -7,6 +7,7 @@ package main
 import (
 	"flag"
 	"os"
+	"reflect"
 
 	// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
 	// to ensure that exec-entrypoint and run can make use of them.
@@ -68,28 +69,33 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&controllers.ServiceScanReconciler{
-		Client:   mgr.GetClient(),
-		Recorder: mgr.GetEventRecorderFor("ServiceScanController"),
-		Log:      ctrl.Log.WithName("controllers").WithName("ServiceScanController"),
-		Scheme:   mgr.GetScheme(),
-		Config:   ctrlConfig,
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "ScheduledScan")
-		os.Exit(1)
+	//only enable service auto discovery when service auto discovery config is non empty
+	if !reflect.DeepEqual(ctrlConfig.ServiceAutoDiscoveryConfig, configv1.ServiceAutoDiscoveryConfig{}) {
+		if err = (&controllers.ServiceScanReconciler{
+			Client:   mgr.GetClient(),
+			Recorder: mgr.GetEventRecorderFor("ServiceScanController"),
+			Log:      ctrl.Log.WithName("controllers").WithName("ServiceScanController"),
+			Scheme:   mgr.GetScheme(),
+			Config:   ctrlConfig,
+		}).SetupWithManager(mgr); err != nil {
+			setupLog.Error(err, "unable to create controller", "controller", "ScheduledScan")
+			os.Exit(1)
+		}
 	}
 
-	if err = (&controllers.ContainerScanReconciler{
-		Client:   mgr.GetClient(),
-		Recorder: mgr.GetEventRecorderFor("ContainerScanController"),
-		Log:      ctrl.Log.WithName("controllers").WithName("ContainerScanController"),
-		Scheme:   mgr.GetScheme(),
-		Config:   ctrlConfig,
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "ScheduledScan")
-		os.Exit(1)
+	//only enable container auto discovery when container auto discovery config is non empty
+	if !reflect.DeepEqual(ctrlConfig.ContainerAutoDiscoveryConfig, configv1.ContainerAutoDiscoveryConfig{}) {
+		if err = (&controllers.ContainerScanReconciler{
+			Client:   mgr.GetClient(),
+			Recorder: mgr.GetEventRecorderFor("ContainerScanController"),
+			Log:      ctrl.Log.WithName("controllers").WithName("ContainerScanController"),
+			Scheme:   mgr.GetScheme(),
+			Config:   ctrlConfig,
+		}).SetupWithManager(mgr); err != nil {
+			setupLog.Error(err, "unable to create controller", "controller", "ScheduledScan")
+			os.Exit(1)
+		}
 	}
-
 	//+kubebuilder:scaffold:builder
 
 	if err := mgr.AddHealthzCheck("healthz", healthz.Ping); err != nil {
