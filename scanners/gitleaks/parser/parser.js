@@ -17,29 +17,29 @@ async function parse (fileContent, scan) {
   
       let severity = 'LOW';
   
-      if (containsTag(finding.tags, HIGH_TAGS)) {
+      if (containsTag(finding.Tags, HIGH_TAGS)) {
         severity = 'HIGH'
-      } else if (containsTag(finding.tags, MEDIUM_TAGS)) {
+      } else if (containsTag(finding.Tags, MEDIUM_TAGS)) {
         severity = 'MEDIUM'
       }
   
       return {
-        name: finding.rule,
-        description: 'The name of the rule which triggered the finding: ' + finding.rule,
+        name: finding.RuleID,
+        description: 'The name of the rule which triggered the finding: ' + finding.RuleID,
         osi_layer: 'APPLICATION',
         severity: severity,
         category: 'Potential Secret',
         attributes: {
-          commit: commitUrl + finding.commit,
-          repo: finding.repo,
-          offender: finding.offender,
-          author: finding.author,
-          email: finding.email,
-          date: finding.date,
-          file: finding.file,
-          line_number: finding.lineNumber,
-          tags: finding.tags.split(',').map(tag => tag.trim()),
-          line: finding.line
+          commit: commitUrl + finding.Commit,
+          description: finding.Description,
+          offender: finding.Secret,
+          author: finding.Author,
+          email: finding.Email,
+          date: finding.Date,
+          file: finding.File,
+          line_number: finding.StartLine,
+          tags: finding.Tags,
+          line: finding.Match
         }
       }
     });
@@ -50,6 +50,7 @@ async function parse (fileContent, scan) {
   }
 }
 
+// FIXME: Update this function to use init container data
 function prepareCommitUrl (scan) {
   if (!scan) {
     return '';

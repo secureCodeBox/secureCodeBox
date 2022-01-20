@@ -47,169 +47,97 @@ test("should properly parse gitleaks json file", async () => {
   const findings = await parse(JSON.parse(jsonContent));
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "attributes": Object {
-          "author": "Max Mustermann",
-          "commit": "2a42fc73f76e3fd9d015d0a98030037a8972e3d1",
-          "date": "2019-12-11T12:45:48+01:00",
-          "email": "max.mustermann@host.de",
-          "file": ".gitlab-ci.yml",
-          "line": "    - aws --profile default configure set aws_access_key_id \\"AKIAS2QBEJFO232FJDO\\"",
-          "line_number": 67,
-          "offender": "AKIAS2QBEJFO232FJDO",
-          "repo": "web-app",
-          "tags": Array [
-            "key",
-            "AWS",
-          ],
-        },
-        "category": "Potential Secret",
-        "description": "The name of the rule which triggered the finding: AWS Manager ID",
-        "name": "AWS Manager ID",
-        "osi_layer": "APPLICATION",
-        "severity": "HIGH",
-      },
-      Object {
-        "attributes": Object {
-          "author": "Max Mustermann",
-          "commit": "2a42fc73f76e3fd9d015d0a98030037a8972e3d1",
-          "date": "2019-12-11T12:45:48+01:00",
-          "email": "max.mustermann@host.de",
-          "file": ".gitlab-ci.yml",
-          "line": "    - aws --profile default configure set aws_secret_access_key \\"IccA5EboL5foAY3uUyG+zh5OA3rWdpL4C1ePuUOv\\"",
-          "line_number": 68,
-          "offender": "aws_secret_access_key \\"IccA5EboL5foAY3uUyG+zh5OA3rWdpL4C1ePuUOv\\"",
-          "repo": "paul-web",
-          "tags": Array [
-            "key",
-            "AWS",
-          ],
-        },
-        "category": "Potential Secret",
-        "description": "The name of the rule which triggered the finding: AWS Secret Key",
-        "name": "AWS Secret Key",
-        "osi_layer": "APPLICATION",
-        "severity": "HIGH",
-      },
-      Object {
-        "attributes": Object {
-          "author": "Max Mustermann",
-          "commit": "eaf6864262dbbcbf19c972cd961121b340b9968f",
-          "date": "2020-02-18T22:28:53+01:00",
-          "email": "max.mustermann@host.de",
-          "file": "helm/multi-juicer/values.yaml",
-          "line": "      password: ERzCT4pwBDxfCKRGmfrMa8KQ8sXf8GKy",
-          "line_number": 33,
-          "offender": "password: ERzCT4pwBDxfCKRGmfrMa8KQ8sXf8GKy",
-          "repo": "multi-juicer",
-          "tags": Array [
-            "key",
-            "Generic",
-          ],
-        },
-        "category": "Potential Secret",
-        "description": "The name of the rule which triggered the finding: Generic credentials",
-        "name": "Generic credentials",
-        "osi_layer": "APPLICATION",
-        "severity": "LOW",
-      },
-      Object {
-        "attributes": Object {
-          "author": "Max Mustermann",
-          "commit": "eaf6864262dbbcbf19c972cd961121b340b9968f",
-          "date": "2020-02-18T22:28:53+01:00",
-          "email": "max.mustermann@host.de",
-          "file": "juice-balancer/config/config.json",
-          "line": "      \\"password\\": \\"dRzCT4pwBDxfjfeRel23mMlKQ8sX\\"",
-          "line_number": 19,
-          "offender": "password\\": \\"dRzCT4pwBDxfjfeRel23mMlKQ8sX",
-          "repo": "multi-juicer",
-          "tags": Array [
-            "key",
-            "Generic",
-          ],
-        },
-        "category": "Potential Secret",
-        "description": "The name of the rule which triggered the finding: Generic credentials",
-        "name": "Generic credentials",
-        "osi_layer": "APPLICATION",
-        "severity": "LOW",
-      },
-      Object {
-        "attributes": Object {
-          "author": "Max Mustermann",
-          "commit": "88cf8694d4202bb7361f6779588f566e8eae2ff2",
-          "date": "2019-01-16T19:18:54+01:00",
-          "email": "max.mustermann@host.de",
-          "file": ".env",
-          "line": "N/A",
-          "line_number": -1,
-          "offender": "Filename/path offender: .env",
-          "repo": "secureCodeBox-v2",
-          "tags": Array [
-            "key",
-            "FileName",
-          ],
-        },
-        "category": "Potential Secret",
-        "description": "The name of the rule which triggered the finding: File names with potential keys and credentials",
-        "name": "File names with potential keys and credentials",
-        "osi_layer": "APPLICATION",
-        "severity": "LOW",
-      },
-      Object {
-        "attributes": Object {
-          "author": "Max Mustermann",
-          "commit": "eaf6864262dbbcbf19c972cd961121b340b9968f",
-          "date": "2019-01-16T19:18:54+01:00",
-          "email": "max.mustermann@host.de",
-          "file": ".env",
-          "line": " facebook_api_key: sj20gj2ß0kofepo2ṕf02",
-          "line_number": 30,
-          "offender": "sj20gj2ß0kofepo2ṕf02",
-          "repo": "madeuprepo",
-          "tags": Array [
-            "key",
-            "Facebook",
-          ],
-        },
-        "category": "Potential Secret",
-        "description": "The name of the rule which triggered the finding: Facebook Secret Key",
-        "name": "Facebook Secret Key",
-        "osi_layer": "APPLICATION",
-        "severity": "MEDIUM",
-      },
-      Object {
-        "attributes": Object {
-          "author": "Max Mustermann",
-          "commit": "2a42fc73f76e3fd9d015d0a98030037a8972e3d1",
-          "date": "2019-01-16T19:18:54+01:00",
-          "email": "max.mustermann@host.de",
-          "file": "key.pem",
-          "line": " -----BEGIN PRIVATE KEY-----",
-          "line_number": 1,
-          "offender": "-----BEGIN PRIVATE KEY-----",
-          "repo": "madeuprepo",
-          "tags": Array [
-            "key",
-            "PrivateKey",
-          ],
-        },
-        "category": "Potential Secret",
-        "description": "The name of the rule which triggered the finding: Asymmetric Private Key",
-        "name": "Asymmetric Private Key",
-        "osi_layer": "APPLICATION",
-        "severity": "HIGH",
-      },
-    ]
-  `);
+Array [
+  Object {
+    "attributes": Object {
+      "author": "Commit Author",
+      "commit": "20202220306db37c13792bc672e57b0598ab680c",
+      "date": "2022-01-06T15:19:51Z",
+      "description": "Generic API Key",
+      "email": "committer@some-domain.tld",
+      "end_line": "51:45",
+      "file": "hooks/persistence-azure-monitor/hook/hook.test.js",
+      "line": "Key: \\"aGVsbG8taS1hbS1hLXRlc3Qta2V5\\"",
+      "offender": "aGVsbG8taS1hbS1hLXRlc3Qta2V5",
+      "start_line": "51:11",
+      "tags": Array [],
+    },
+    "category": "Potential Secret",
+    "description": "The name of the rule which triggered the finding: generic-api-key",
+    "name": "generic-api-key",
+    "osi_layer": "APPLICATION",
+    "severity": "LOW",
+  },
+  Object {
+    "attributes": Object {
+      "author": "Commit Author",
+      "commit": "e064eb8bd2094287fdeb64474798a8fd53e77bd3",
+      "date": "2021-09-06T13:53:58Z",
+      "description": "PKCS8 private key",
+      "email": "committer@some-domain.tld",
+      "end_line": "1:27",
+      "file": "demo-targets/unsafe-https/container/site.key",
+      "line": "-----BEGIN PRIVATE KEY-----",
+      "offender": "-----BEGIN PRIVATE KEY-----",
+      "start_line": "1:1",
+      "tags": Array [
+        "PrivateKey",
+      ],
+    },
+    "category": "Potential Secret",
+    "description": "The name of the rule which triggered the finding: PKCS8-PK",
+    "name": "PKCS8-PK",
+    "osi_layer": "APPLICATION",
+    "severity": "HIGH",
+  },
+  Object {
+    "attributes": Object {
+      "author": "Commit Author",
+      "commit": "ae9e923125a0409025316a970fa16e0271e1734a",
+      "date": "2021-07-02T12:25:00Z",
+      "description": "Slack token",
+      "email": "committer@some-domain.tld",
+      "end_line": "164:297",
+      "file": "hooks/notification/README.md",
+      "line": "xoxb-",
+      "offender": "xoxb-",
+      "start_line": "164:293",
+      "tags": Array [],
+    },
+    "category": "Potential Secret",
+    "description": "The name of the rule which triggered the finding: slack-access-token",
+    "name": "slack-access-token",
+    "osi_layer": "APPLICATION",
+    "severity": "LOW",
+  },
+  Object {
+    "attributes": Object {
+      "author": "Commit Author",
+      "commit": "549b29afa8644c6385c385bed3327e6131557ecb",
+      "date": "2021-05-02T17:17:57Z",
+      "description": "Generic API Key",
+      "email": "committer@some-domain.tld",
+      "end_line": "37:47",
+      "file": "scanners/zap-extended/scanner/scbzapv2/__main__.py",
+      "line": "api_key = 'eor898q1luuq8054e0e5r9s3jh'",
+      "offender": "eor898q1luuq8054e0e5r9s3jh",
+      "start_line": "37:10",
+      "tags": Array [],
+    },
+    "category": "Potential Secret",
+    "description": "The name of the rule which triggered the finding: generic-api-key",
+    "name": "generic-api-key",
+    "osi_layer": "APPLICATION",
+    "severity": "LOW",
+  },
+]
+`);
 });
 
 test("should properly construct commit URL if present with -r option", async () => {
   const scan = {
     spec: {
-      scanType: "gitleaks", 
+      scanType: "gitleaks",
       parameters: [
         "-r",
         "https://github.com/iteratec/multi-juicer",
@@ -229,31 +157,29 @@ test("should properly construct commit URL if present with -r option", async () 
   await expect(validateParser(findings)).resolves.toBeUndefined();
 
   expect(findings).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "attributes": Object {
-          "author": "Max Mustermann",
-          "commit": "https://github.com/iteratec/multi-juicer/commit/2a42fc73f76e3fd9d015d0a98030037a8972e3d1",
-          "date": "2019-12-11T12:45:48+01:00",
-          "email": "max.mustermann@host.de",
-          "file": ".gitlab-ci.yml",
-          "line": "    - aws --profile default configure set aws_access_key_id \\"AKIAS2QBEJFO232FJDO\\"",
-          "line_number": 67,
-          "offender": "AKIAS2QBEJFO232FJDO",
-          "repo": "web-app",
-          "tags": Array [
-            "key",
-            "AWS",
-          ],
-        },
-        "category": "Potential Secret",
-        "description": "The name of the rule which triggered the finding: AWS Manager ID",
-        "name": "AWS Manager ID",
-        "osi_layer": "APPLICATION",
-        "severity": "HIGH",
-      },
-    ]
-  `);
+Array [
+  Object {
+    "attributes": Object {
+      "author": "Commit Author",
+      "commit": "https://github.com/iteratec/multi-juicer/commit/604ca16251cd6e528328605420890f2d55a5464d",
+      "date": "2020-10-15T11:35:39Z",
+      "description": "PKCS8 private key",
+      "email": "committer@some-domain.tld",
+      "end_line": "167:48",
+      "file": "scanners/gitleaks/parser/parser.test.js",
+      "line": "-----BEGIN PRIVATE KEY-----",
+      "offender": "-----BEGIN PRIVATE KEY-----",
+      "start_line": "167:22",
+      "tags": Array [],
+    },
+    "category": "Potential Secret",
+    "description": "The name of the rule which triggered the finding: PKCS8-PK",
+    "name": "PKCS8-PK",
+    "osi_layer": "APPLICATION",
+    "severity": "LOW",
+  },
+]
+`);
 });
 
 test("should properly construct commit URL if present with --repo option", async () => {
@@ -279,29 +205,27 @@ test("should properly construct commit URL if present with --repo option", async
   const findings = await parse(JSON.parse(jsonContent), scan);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "attributes": Object {
-          "author": "Max Mustermann",
-          "commit": "https://github.com/iteratec/multi-juicer/commit/2a42fc73f76e3fd9d015d0a98030037a8972e3d1",
-          "date": "2019-12-11T12:45:48+01:00",
-          "email": "max.mustermann@host.de",
-          "file": ".gitlab-ci.yml",
-          "line": "    - aws --profile default configure set aws_access_key_id \\"AKIAS2QBEJFO232FJDO\\"",
-          "line_number": 67,
-          "offender": "AKIAS2QBEJFO232FJDO",
-          "repo": "web-app",
-          "tags": Array [
-            "key",
-            "AWS",
-          ],
-        },
-        "category": "Potential Secret",
-        "description": "The name of the rule which triggered the finding: AWS Manager ID",
-        "name": "AWS Manager ID",
-        "osi_layer": "APPLICATION",
-        "severity": "HIGH",
-      },
-    ]
-  `);
+Array [
+  Object {
+    "attributes": Object {
+      "author": "Commit Author",
+      "commit": "https://github.com/iteratec/multi-juicer/commit/604ca16251cd6e528328605420890f2d55a5464d",
+      "date": "2020-10-15T11:35:39Z",
+      "description": "PKCS8 private key",
+      "email": "committer@some-domain.tld",
+      "end_line": "167:48",
+      "file": "scanners/gitleaks/parser/parser.test.js",
+      "line": "-----BEGIN PRIVATE KEY-----",
+      "offender": "-----BEGIN PRIVATE KEY-----",
+      "start_line": "167:22",
+      "tags": Array [],
+    },
+    "category": "Potential Secret",
+    "description": "The name of the rule which triggered the finding: PKCS8-PK",
+    "name": "PKCS8-PK",
+    "osi_layer": "APPLICATION",
+    "severity": "LOW",
+  },
+]
+`);
 });

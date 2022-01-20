@@ -1,17 +1,20 @@
 [
   {
-    "line": "    - aws --profile default configure set aws_access_key_id \"AKIAS2QBEJFO232FJDO\"",
-    "lineNumber": 67,
-    "offender": "AKIAS2QBEJFO232FJDO",
-    "commit": "2a42fc73f76e3fd9d015d0a98030037a8972e3d1",
-    "repo": "web-app",
-    "rule": "AWS Manager ID",
-    "commitMessage": "ci trials\n",
-    "author": "Max Mustermann",
-    "email": "max.mustermann@host.de",
-    "file": ".gitlab-ci.yml",
-    "date": "2019-12-11T12:45:48+01:00",
-    "tags": "key, AWS",
-    "operation": "addition"
+    "Description": "PKCS8 private key",
+    "StartLine": 167,
+    "EndLine": 167,
+    "StartColumn": 22,
+    "EndColumn": 48,
+    "Match": "-----BEGIN PRIVATE KEY-----",
+    "Secret": "-----BEGIN PRIVATE KEY-----",
+    "File": "scanners/gitleaks/parser/parser.test.js",
+    "Commit": "604ca16251cd6e528328605420890f2d55a5464d",
+    "Entropy": 0,
+    "Author": "Commit Author",
+    "Email": "committer@some-domain.tld",
+    "Date": "2020-10-15T11:35:39Z",
+    "Message": "feature/gitleaks-scanner",
+    "Tags": [],
+    "RuleID": "PKCS8-PK"
   }
 ]
