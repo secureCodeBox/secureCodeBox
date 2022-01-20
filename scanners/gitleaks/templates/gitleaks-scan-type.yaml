@@ -31,13 +31,15 @@ spec:
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
               command:
-                - "sh"
-                - "/wrapper.sh"
+                - "gitleaks"
                 - "--verbose"
                 - "--format"
                 - "json"
                 - "--report"
                 - "/home/securecodebox/report.json"
+                - "--exit-code"
+                - "0"
+                - "detect"
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:
