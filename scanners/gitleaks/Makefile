@@ -7,7 +7,6 @@
 
 include_guard = set
 scanner = gitleaks
-custom_scanner = set
 
 include ../../scanners.mk
 
