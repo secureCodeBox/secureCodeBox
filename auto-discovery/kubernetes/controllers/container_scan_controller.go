@@ -50,6 +50,11 @@ func (r *ContainerScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
+	if podManagedBySecureCodeBox(pod) {
+		log.V(1).Info("Pod will be ignored, as it is managed by securecodebox", "pod", pod)
+		return ctrl.Result{}, nil
+	}
+
 	//check if container imageIDs are present, otherwise pod is not ready yet
 	if len(getImageIDsForPod(pod)) == 0 {
 		log.V(1).Info("Pod not ready", "pod", pod.Name)
@@ -64,6 +69,17 @@ func (r *ContainerScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	}
 
 	return ctrl.Result{}, nil
+}
+
+func podManagedBySecureCodeBox(pod corev1.Pod) bool {
+	labels := pod.ObjectMeta.Labels
+	value, exists := labels["app.kubernetes.io/managed-by"]
+
+	if exists {
+		regexPattern := regexp.MustCompile("securecodebox.*")
+		return regexPattern.MatchString(value)
+	}
+	return false
 }
 
 func podIsRunning(config configv1.AutoDiscoveryConfig, k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod) {
