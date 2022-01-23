@@ -63,11 +63,11 @@ var _ = Describe("ContainerScan controller", func() {
 		It("Should create a single scheduledscan for every container with the same imageID in the deplyoment", func() {
 
 			createNamespace(ctx, namespace)
-			fake_deployment := map[string]string{"bkimminich/juice-shop": "9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2",
+			fakeDeployment := map[string]string{"bkimminich/juice-shop": "9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2",
 				"nginx": "0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"}
 
-			createPodWithMultipleContainers(ctx, "fake-deployment-pod1", namespace, fake_deployment)
-			createPodWithMultipleContainers(ctx, "fake-deployment-pod2", namespace, fake_deployment)
+			createPodWithMultipleContainers(ctx, "fake-deployment-pod1", namespace, fakeDeployment)
+			createPodWithMultipleContainers(ctx, "fake-deployment-pod2", namespace, fakeDeployment)
 
 			Eventually(func() bool {
 				return checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate)
