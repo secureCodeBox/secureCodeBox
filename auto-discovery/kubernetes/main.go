@@ -22,8 +22,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
 	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
-	. "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/controllers/container"
-	. "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/controllers/service"
+	"github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/controllers"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -72,7 +71,7 @@ func main() {
 
 	//only enable service auto discovery when service auto discovery config is non empty
 	if !reflect.DeepEqual(ctrlConfig.ServiceAutoDiscoveryConfig, configv1.ServiceAutoDiscoveryConfig{}) {
-		if err = (&ServiceScanReconciler{
+		if err = (&controllers.ServiceScanReconciler{
 			Client:   mgr.GetClient(),
 			Recorder: mgr.GetEventRecorderFor("ServiceScanController"),
 			Log:      ctrl.Log.WithName("controllers").WithName("ServiceScanController"),
@@ -86,7 +85,7 @@ func main() {
 
 	//only enable container auto discovery when container auto discovery config is non empty
 	if !reflect.DeepEqual(ctrlConfig.ContainerAutoDiscoveryConfig, configv1.ContainerAutoDiscoveryConfig{}) {
-		if err = (&ContainerScanReconciler{
+		if err = (&controllers.ContainerScanReconciler{
 			Client:   mgr.GetClient(),
 			Recorder: mgr.GetEventRecorderFor("ContainerScanController"),
 			Log:      ctrl.Log.WithName("controllers").WithName("ContainerScanController"),

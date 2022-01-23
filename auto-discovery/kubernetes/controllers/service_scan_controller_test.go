@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package service
+package controllers
 
 import (
 	"context"
@@ -11,7 +11,6 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	. "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/controllers/cyclicimports"
 
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -49,7 +48,7 @@ var _ = Describe("ServiceScan controller", func() {
 			var scheduledScan executionv1.ScheduledScan
 			// We'll need to retry getting this ScheduledScan, as the auto-discovery might take a couple of moment to discover the service and create the ScheduledScan for it.
 			Eventually(func() bool {
-				err := K8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-service-port-3000", Namespace: namespace}, &scheduledScan)
+				err := k8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-service-port-3000", Namespace: namespace}, &scheduledScan)
 				if errors.IsNotFound(err) {
 					return false
 				}
@@ -76,7 +75,7 @@ var _ = Describe("ServiceScan controller", func() {
 			var scheduledScan executionv1.ScheduledScan
 			// We'll need to retry getting this ScheduledScan, as the auto-discovery might take a couple of moment to discover the service and create the ScheduledScan for it.
 			Consistently(func() bool {
-				err := K8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-service-port-3000", Namespace: namespace}, &scheduledScan)
+				err := k8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-service-port-3000", Namespace: namespace}, &scheduledScan)
 				if errors.IsNotFound(err) {
 					return true
 				}
@@ -85,7 +84,7 @@ var _ = Describe("ServiceScan controller", func() {
 
 			// Change Pod Digest of juice-shop-2 to match the first pod
 			var pod corev1.Pod
-			K8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-2", Namespace: namespace}, &pod)
+			k8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-2", Namespace: namespace}, &pod)
 			pod.Status.ContainerStatuses = []corev1.ContainerStatus{
 				{
 					Image:       "bkimminich/juice-shop",
@@ -95,7 +94,7 @@ var _ = Describe("ServiceScan controller", func() {
 					Name:        "juice-shop",
 				},
 			}
-			err := K8sClient.Status().Update(ctx, &pod)
+			err := k8sClient.Status().Update(ctx, &pod)
 			if err != nil {
 				panic(err)
 			}
@@ -103,7 +102,7 @@ var _ = Describe("ServiceScan controller", func() {
 			// ScheduledScan should now get created as both pods run on the same version
 			// We'll need to retry getting this ScheduledScan, as the auto-discovery might take a couple of moment to discover the service and create the ScheduledScan for it.
 			Eventually(func() bool {
-				err := K8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-service-port-3000", Namespace: namespace}, &scheduledScan)
+				err := k8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-service-port-3000", Namespace: namespace}, &scheduledScan)
 				if errors.IsNotFound(err) {
 					return false
 				}
@@ -131,7 +130,7 @@ var _ = Describe("ServiceScan controller", func() {
 			var scheduledScan executionv1.ScheduledScan
 			// We'll need to retry getting this ScheduledScan, as the auto-discovery might take a couple of moment to discover the service and create the ScheduledScan for it.
 			Eventually(func() bool {
-				err := K8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-service-port-3000", Namespace: namespace}, &scheduledScan)
+				err := k8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-service-port-3000", Namespace: namespace}, &scheduledScan)
 				if errors.IsNotFound(err) {
 					return false
 				}
@@ -146,7 +145,7 @@ var _ = Describe("ServiceScan controller", func() {
 			By("Update Pod to be of a new image revision")
 
 			var pod corev1.Pod
-			K8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop", Namespace: namespace}, &pod)
+			k8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop", Namespace: namespace}, &pod)
 			pod.Status.ContainerStatuses = []corev1.ContainerStatus{
 				{
 					Image:       "bkimminich/juice-shop:v12.8.0",
@@ -156,14 +155,14 @@ var _ = Describe("ServiceScan controller", func() {
 					Name:        "juice-shop",
 				},
 			}
-			err := K8sClient.Status().Update(ctx, &pod)
+			err := k8sClient.Status().Update(ctx, &pod)
 			if err != nil {
 				panic(err)
 			}
 
 			By("Controller should set the lastScheduled Timestamp to the past to force a re-scan")
 			Eventually(func() bool {
-				err := K8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-service-port-3000", Namespace: namespace}, &scheduledScan)
+				err := k8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-service-port-3000", Namespace: namespace}, &scheduledScan)
 				if errors.IsNotFound(err) {
 					return false
 				}
@@ -181,7 +180,7 @@ func createNamespace(ctx context.Context, namespaceName string) {
 		},
 	}
 
-	K8sClient.Create(ctx, namespace)
+	k8sClient.Create(ctx, namespace)
 }
 
 func createPod(ctx context.Context, name string, namespace string, image string, imageDisgest string) {
@@ -214,11 +213,11 @@ func createPod(ctx context.Context, name string, namespace string, image string,
 		},
 	}
 
-	Expect(K8sClient.Create(ctx, pod)).Should(Succeed())
+	Expect(k8sClient.Create(ctx, pod)).Should(Succeed())
 
 	// Set pod status
 	var createdPod corev1.Pod
-	K8sClient.Get(ctx, types.NamespacedName{Name: name, Namespace: namespace}, &createdPod)
+	k8sClient.Get(ctx, types.NamespacedName{Name: name, Namespace: namespace}, &createdPod)
 	createdPod.Status.ContainerStatuses = []corev1.ContainerStatus{
 		{
 			Image:       image,
@@ -228,7 +227,7 @@ func createPod(ctx context.Context, name string, namespace string, image string,
 			Ready:       true,
 		},
 	}
-	Expect(K8sClient.Status().Update(ctx, &createdPod)).Should(Succeed())
+	Expect(k8sClient.Status().Update(ctx, &createdPod)).Should(Succeed())
 }
 func createService(ctx context.Context, name string, namespace string) {
 	service := &corev1.Service{
@@ -259,7 +258,7 @@ func createService(ctx context.Context, name string, namespace string) {
 			},
 		},
 	}
-	Expect(K8sClient.Create(ctx, service)).Should(Succeed())
+	Expect(k8sClient.Create(ctx, service)).Should(Succeed())
 }
 
 func createScanType(ctx context.Context, namespace string) {
@@ -294,5 +293,5 @@ func createScanType(ctx context.Context, namespace string) {
 			},
 		},
 	}
-	Expect(K8sClient.Create(ctx, scanType)).Should(Succeed())
+	Expect(k8sClient.Create(ctx, scanType)).Should(Succeed())
 }

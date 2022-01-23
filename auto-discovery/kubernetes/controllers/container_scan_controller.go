@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package container
+package controllers
 
 import (
 	"bytes"
@@ -13,7 +13,6 @@ import (
 
 	"github.com/go-logr/logr"
 	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
-	"github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/controllers/cyclicimports"
 
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -312,6 +311,6 @@ func parseListTemplate(dataStruct interface{}, templates []string) []string {
 func (r *ContainerScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&corev1.Pod{}).
-		WithEventFilter(cyclicimports.GetPredicates(mgr.GetClient(), r.Log, r.Config.ResourceInclusion.Mode)).
+		WithEventFilter(getPredicates(mgr.GetClient(), r.Log, r.Config.ResourceInclusion.Mode)).
 		Complete(r)
 }

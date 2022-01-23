@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package service
+package controllers
 
 import (
 	"bytes"
@@ -16,7 +16,6 @@ import (
 	"github.com/Masterminds/sprig"
 	"github.com/go-logr/logr"
 	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
-	"github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/controllers/cyclicimports"
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/pkg/util"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 
@@ -451,6 +450,6 @@ func (r *ServiceScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
 
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&corev1.Service{}).
-		WithEventFilter(cyclicimports.GetPredicates(mgr.GetClient(), r.Log, r.Config.ResourceInclusion.Mode)).
+		WithEventFilter(getPredicates(mgr.GetClient(), r.Log, r.Config.ResourceInclusion.Mode)).
 		Complete(r)
 }

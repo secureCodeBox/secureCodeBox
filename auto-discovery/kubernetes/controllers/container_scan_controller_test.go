@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package container
+package controllers
 
 import (
 	"context"
@@ -14,7 +14,6 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	. "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/controllers/cyclicimports"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
@@ -81,8 +80,8 @@ var _ = Describe("ContainerScan controller", func() {
 
 		It("Should not delete a scan if the container is still in use", func() {
 			var podToBeDeleted corev1.Pod
-			Expect(K8sClient.Get(ctx, types.NamespacedName{Name: "fake-deployment-pod2", Namespace: namespace}, &podToBeDeleted)).Should(Succeed())
-			Expect(K8sClient.Delete(ctx, &podToBeDeleted)).Should(Succeed())
+			Expect(k8sClient.Get(ctx, types.NamespacedName{Name: "fake-deployment-pod2", Namespace: namespace}, &podToBeDeleted)).Should(Succeed())
+			Expect(k8sClient.Delete(ctx, &podToBeDeleted)).Should(Succeed())
 
 			//Scans should not be deleted, because one pod still uses the container images
 			Eventually(func() bool {
@@ -96,8 +95,8 @@ var _ = Describe("ContainerScan controller", func() {
 
 		It("Should delete a scan if the container is not in use", func() {
 			var podToBeDeleted corev1.Pod
-			Expect(K8sClient.Get(ctx, types.NamespacedName{Name: "fake-deployment-pod1", Namespace: namespace}, &podToBeDeleted)).Should(Succeed())
-			Expect(K8sClient.Delete(ctx, &podToBeDeleted)).Should(Succeed())
+			Expect(k8sClient.Get(ctx, types.NamespacedName{Name: "fake-deployment-pod1", Namespace: namespace}, &podToBeDeleted)).Should(Succeed())
+			Expect(k8sClient.Delete(ctx, &podToBeDeleted)).Should(Succeed())
 
 			//Scans should be deleted, invert checkIfScanExists
 			Eventually(func() bool {
@@ -129,7 +128,7 @@ func createPodWithMultipleContainers(ctx context.Context, name string, namespace
 		},
 	}
 
-	Expect(K8sClient.Create(ctx, pod)).Should(Succeed())
+	Expect(k8sClient.Create(ctx, pod)).Should(Succeed())
 	setPodStatus(ctx, name, namespace, images)
 }
 
@@ -149,7 +148,7 @@ func getContainerSpec(name string, images map[string]string) []corev1.Container 
 
 func setPodStatus(ctx context.Context, name string, namespace string, images map[string]string) {
 	var createdPod corev1.Pod
-	Expect(K8sClient.Get(ctx, types.NamespacedName{Name: name, Namespace: namespace}, &createdPod)).Should(Succeed())
+	Expect(k8sClient.Get(ctx, types.NamespacedName{Name: name, Namespace: namespace}, &createdPod)).Should(Succeed())
 	var fakeContainerStatuses []corev1.ContainerStatus
 
 	nameCounter := 0
@@ -172,7 +171,7 @@ func setPodStatus(ctx context.Context, name string, namespace string, images map
 		fakeContainerStatuses = append(fakeContainerStatuses, container)
 	}
 	createdPod.Status.ContainerStatuses = fakeContainerStatuses
-	Expect(K8sClient.Status().Update(ctx, &createdPod)).Should(Succeed())
+	Expect(k8sClient.Status().Update(ctx, &createdPod)).Should(Succeed())
 }
 
 func hash(s string) uint32 {
@@ -183,7 +182,7 @@ func hash(s string) uint32 {
 
 func checkIfScanExists(ctx context.Context, name string, namespace string, scanSpec scanGoTemplate) bool {
 	var scheduledScan executionv1.ScheduledScan
-	err := K8sClient.Get(ctx, types.NamespacedName{Name: name, Namespace: namespace}, &scheduledScan)
+	err := k8sClient.Get(ctx, types.NamespacedName{Name: name, Namespace: namespace}, &scheduledScan)
 	if errors.IsNotFound(err) {
 		return false
 	}
@@ -209,14 +208,4 @@ type scanGoTemplate struct {
 	Annotaions map[string]string
 	Labels     map[string]string
 	Parameters []string
-}
-
-func createNamespace(ctx context.Context, namespaceName string) {
-	namespace := &corev1.Namespace{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: namespaceName,
-		},
-	}
-
-	K8sClient.Create(ctx, namespace)
 }

@@ -1,4 +1,4 @@
-package service
+package controllers
 
 import (
 	"context"
