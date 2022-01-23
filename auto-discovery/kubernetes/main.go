@@ -7,7 +7,6 @@ package main
 import (
 	"flag"
 	"os"
-	"reflect"
 
 	// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
 	// to ensure that exec-entrypoint and run can make use of them.
@@ -69,8 +68,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	//only enable service auto discovery when service auto discovery config is non empty
-	if !reflect.DeepEqual(ctrlConfig.ServiceAutoDiscoveryConfig, configv1.ServiceAutoDiscoveryConfig{}) {
+	if ctrlConfig.ServiceAutoDiscoveryConfig.Enabled {
 		if err = (&controllers.ServiceScanReconciler{
 			Client:   mgr.GetClient(),
 			Recorder: mgr.GetEventRecorderFor("ServiceScanController"),
@@ -83,8 +81,7 @@ func main() {
 		}
 	}
 
-	//only enable container auto discovery when container auto discovery config is non empty
-	if !reflect.DeepEqual(ctrlConfig.ContainerAutoDiscoveryConfig, configv1.ContainerAutoDiscoveryConfig{}) {
+	if ctrlConfig.ContainerAutoDiscoveryConfig.Enabled {
 		if err = (&controllers.ContainerScanReconciler{
 			Client:   mgr.GetClient(),
 			Recorder: mgr.GetEventRecorderFor("ContainerScanController"),

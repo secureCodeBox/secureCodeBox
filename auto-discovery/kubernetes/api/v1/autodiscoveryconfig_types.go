@@ -23,11 +23,13 @@ type AutoDiscoveryConfig struct {
 }
 
 type ServiceAutoDiscoveryConfig struct {
+	Enabled                  bool            `json:"enabled"`
 	PassiveReconcileInterval metav1.Duration `json:"passiveReconcileInterval"`
 	ScanConfig               ScanConfig      `json:"scanConfig"`
 }
 
 type ContainerAutoDiscoveryConfig struct {
+	Enabled    bool       `json:"enabled"`
 	ScanConfig ScanConfig `json:"scanConfig"`
 }
 

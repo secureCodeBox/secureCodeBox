@@ -25,6 +25,7 @@ resourceInclusion:
   mode: enabled-per-namespace
 
 serviceAutoDiscovery:
+  enabled: true
   passiveReconcileInterval: 10s
   scanConfig:
     scanType: zap-advanced-scan
@@ -44,6 +45,7 @@ serviceAutoDiscovery:
       defectdojo.securecodebox.io/engagement-version: "{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}"
 
 containerAutoDiscovery:
+  enabled: true
   scanConfig:
     scanType: trivy
     # -- parameters used for the scans created by the containerAutoDiscovery

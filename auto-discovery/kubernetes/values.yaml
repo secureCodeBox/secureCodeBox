@@ -19,6 +19,7 @@ config:
     mode: enabled-per-namespace
 
   serviceAutoDiscovery:
+    enabled: true
     # -- interval in which every service is re-checked for updated pods, if service object is updated directly this the service will get reconciled immediately
     passiveReconcileInterval: 1m
     scanConfig:
@@ -42,6 +43,7 @@ config:
 
 
   containerAutoDiscovery:
+    enabled: false
     scanConfig:
       scanType: trivy
       # -- parameters used for the scans created by the containerAutoDiscovery
