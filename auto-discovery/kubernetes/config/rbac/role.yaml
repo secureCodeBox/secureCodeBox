@@ -49,8 +49,6 @@ rules:
   verbs:
   - get
   - list
-  - patch
-  - update
   - watch
 - apiGroups:
   - execution.securecodebox.io

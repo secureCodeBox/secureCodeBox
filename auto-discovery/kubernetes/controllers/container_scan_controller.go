@@ -34,7 +34,7 @@ type ContainerScanReconciler struct {
 	Config   configv1.AutoDiscoveryConfig
 }
 
-// +kubebuilder:rbac:groups=core,resources=pods,verbs=get;list;watch;update;patch
+// +kubebuilder:rbac:groups=core,resources=pods,verbs=get;list;watch;
 
 // Reconcile compares the Pod object against the state of the cluster and updates both if needed
 func (r *ContainerScanReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
