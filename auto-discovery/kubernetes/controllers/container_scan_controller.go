@@ -238,7 +238,7 @@ func getScanAnnotations(config configv1.AutoDiscoveryConfig, pod corev1.Pod, ima
 	type annotations struct {
 		Config  configv1.AutoDiscoveryConfig
 		Pod     corev1.Pod
-		imageID string
+		ImageID string
 	}
 
 	data := annotations{config, pod, imageID}
@@ -262,7 +262,7 @@ func getScanLabels(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imageID 
 	type labels struct {
 		Config  configv1.AutoDiscoveryConfig
 		Pod     corev1.Pod
-		imageID string
+		ImageID string
 	}
 
 	data := labels{config, pod, imageID}
