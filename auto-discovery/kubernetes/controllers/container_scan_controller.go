@@ -250,7 +250,7 @@ func getScanParameters(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imag
 	type parameters struct {
 		Config  configv1.AutoDiscoveryConfig
 		Pod     corev1.Pod
-		imageID string
+		ImageID string
 	}
 
 	data := parameters{config, pod, imageID}
