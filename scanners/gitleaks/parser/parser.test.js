@@ -65,7 +65,7 @@ Array [
     "description": "The name of the rule which triggered the finding: generic-api-key",
     "name": "generic-api-key",
     "osi_layer": "APPLICATION",
-    "severity": "LOW",
+    "severity": "MEDIUM",
   },
   Object {
     "attributes": Object {
@@ -86,7 +86,7 @@ Array [
     "description": "The name of the rule which triggered the finding: PKCS8-PK",
     "name": "PKCS8-PK",
     "osi_layer": "APPLICATION",
-    "severity": "HIGH",
+    "severity": "MEDIUM",
   },
   Object {
     "attributes": Object {
@@ -105,7 +105,7 @@ Array [
     "description": "The name of the rule which triggered the finding: slack-access-token",
     "name": "slack-access-token",
     "osi_layer": "APPLICATION",
-    "severity": "LOW",
+    "severity": "MEDIUM",
   },
   Object {
     "attributes": Object {
@@ -123,6 +123,83 @@ Array [
     "category": "Potential Secret",
     "description": "The name of the rule which triggered the finding: generic-api-key",
     "name": "generic-api-key",
+    "osi_layer": "APPLICATION",
+    "severity": "MEDIUM",
+  },
+]
+`);
+});
+
+test("should define severity based on tags in result file", async () => {
+  const jsonContent = await readFile(
+    __dirname + "/__testFiles__/test-report-tags.json",
+    {
+      encoding: "utf8",
+    }
+  );
+  const findings = await parse(JSON.parse(jsonContent));
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+
+  expect(findings).toMatchInlineSnapshot(`
+Array [
+  Object {
+    "attributes": Object {
+      "author": "Commit Author",
+      "commit": "604ca16251cd6e528328605420890f2d55a5464d",
+      "date": "2020-10-15T11:35:39Z",
+      "description": "PKCS8 private key",
+      "email": "committer@some-domain.tld",
+      "file": "scanners/gitleaks/parser/parser.test.js",
+      "line": "-----BEGIN PRIVATE KEY-----",
+      "line_number": 167,
+      "offender": "-----BEGIN PRIVATE KEY-----",
+      "tags": Array [
+        "HIGH",
+      ],
+    },
+    "category": "Potential Secret",
+    "description": "The name of the rule which triggered the finding: PKCS8-PK",
+    "name": "PKCS8-PK",
+    "osi_layer": "APPLICATION",
+    "severity": "HIGH",
+  },
+  Object {
+    "attributes": Object {
+      "author": "Commit Author",
+      "commit": "604ca16251cd6e528328605420890f2d55a5464d",
+      "date": "2020-10-15T11:35:39Z",
+      "description": "PKCS8 private key",
+      "email": "committer@some-domain.tld",
+      "file": "scanners/gitleaks/parser/parser.test.js",
+      "line": "-----BEGIN PRIVATE KEY-----",
+      "line_number": 167,
+      "offender": "-----BEGIN PRIVATE KEY-----",
+      "tags": Array [],
+    },
+    "category": "Potential Secret",
+    "description": "The name of the rule which triggered the finding: PKCS8-PK",
+    "name": "PKCS8-PK",
+    "osi_layer": "APPLICATION",
+    "severity": "MEDIUM",
+  },
+  Object {
+    "attributes": Object {
+      "author": "Commit Author",
+      "commit": "604ca16251cd6e528328605420890f2d55a5464d",
+      "date": "2020-10-15T11:35:39Z",
+      "description": "PKCS8 private key",
+      "email": "committer@some-domain.tld",
+      "file": "scanners/gitleaks/parser/parser.test.js",
+      "line": "-----BEGIN PRIVATE KEY-----",
+      "line_number": 167,
+      "offender": "-----BEGIN PRIVATE KEY-----",
+      "tags": Array [
+        "LOW",
+      ],
+    },
+    "category": "Potential Secret",
+    "description": "The name of the rule which triggered the finding: PKCS8-PK",
+    "name": "PKCS8-PK",
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },

@@ -3,19 +3,19 @@
 // SPDX-License-Identifier: Apache-2.0
 
 const HIGH_TAGS = ["HIGH"];
-const MEDIUM_TAGS = ["MEDIUM"];
+const LOW_TAGS = ["LOW"];
 
 async function parse (fileContent, scan) {
 
   if (fileContent) {
     return fileContent.map(finding => {
   
-      let severity = 'LOW';
+      let severity = 'MEDIUM';
   
       if (containsTag(finding.Tags, HIGH_TAGS)) {
         severity = 'HIGH'
-      } else if (containsTag(finding.Tags, MEDIUM_TAGS)) {
-        severity = 'MEDIUM'
+      } else if (containsTag(finding.Tags, LOW_TAGS)) {
+        severity = 'LOW'
       }
   
       return {
