@@ -2,15 +2,10 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const arg = require("arg");
-
-const HIGH_TAGS = ['JWT', 'Artifactory', 'AWS', 'PrivateKey'];
-const MEDIUM_TAGS = ['Hash', 'Facebook', 'Twitter', 'Github', 'LinkedIn', 'Slack', 'Google', 'Heroku',
-  'Mailchimp', 'Mailgun', 'Paypal', 'Picatic', 'Teams', 'Jenkins', 'Stripe', 'Square', 'Twilio'];
+const HIGH_TAGS = ["HIGH"];
+const MEDIUM_TAGS = ["MEDIUM"];
 
 async function parse (fileContent, scan) {
-
-  const commitUrl = prepareCommitUrl(scan)
 
   if (fileContent) {
     return fileContent.map(finding => {
@@ -30,7 +25,7 @@ async function parse (fileContent, scan) {
         severity: severity,
         category: 'Potential Secret',
         attributes: {
-          commit: commitUrl + finding.Commit,
+          commit: finding.Commit,
           description: finding.Description,
           offender: finding.Secret,
           author: finding.Author,
@@ -48,31 +43,6 @@ async function parse (fileContent, scan) {
   {
     return [];
   }
-}
-
-// FIXME: Update this function to use init container data
-function prepareCommitUrl (scan) {
-  if (!scan) {
-    return '';
-  }
-
-  const args = arg(
-    {
-      '-r': String,
-      '--repo': '-r'
-    },
-    { permissive: true, argv: scan.spec.parameters }
-  );
-
-  const repositoryUrl = args['-r'];
-
-  if (!repositoryUrl) {
-    return '';
-  }
-
-  return repositoryUrl.endsWith('/') ?
-    repositoryUrl + 'commit/'
-    : repositoryUrl + '/commit/'
 }
 
 function containsTag (tag, tags) {
