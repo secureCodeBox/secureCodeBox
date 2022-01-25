@@ -5,9 +5,13 @@
 const HIGH_TAGS = ["HIGH"];
 const LOW_TAGS = ["LOW"];
 
+const repoUrlAnnotationKey = "metadata.securecodebox.io/git-repo-url"
+
 async function parse (fileContent, scan) {
 
   if (fileContent) {
+    const commitUrlBase = prepareCommitUrl(scan);
+
     return fileContent.map(finding => {
   
       let severity = 'MEDIUM';
@@ -25,7 +29,7 @@ async function parse (fileContent, scan) {
         severity: severity,
         category: 'Potential Secret',
         attributes: {
-          commit: finding.Commit,
+          commit: commitUrlBase + finding.Commit,
           description: finding.Description,
           offender: finding.Secret,
           author: finding.Author,
@@ -48,6 +52,18 @@ async function parse (fileContent, scan) {
 function containsTag (tag, tags) {
   let result = tags.filter(longTag => tag.includes(longTag));
   return result.length > 0;
+}
+
+function prepareCommitUrl (scan) {
+  if (!scan || !scan.metadata.annotations || !scan.metadata.annotations[repoUrlAnnotationKey]) {
+    return '';
+  }
+
+  var repositoryUrl = scan.metadata.annotations[repoUrlAnnotationKey];
+
+  return repositoryUrl.endsWith('/') ?
+    repositoryUrl + 'commit/'
+    : repositoryUrl + '/commit/'
 }
 
 module.exports.parse = parse;
