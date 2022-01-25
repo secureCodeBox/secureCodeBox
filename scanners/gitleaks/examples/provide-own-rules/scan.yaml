@@ -5,7 +5,9 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: "scan-multi-juicer-with-own-rules"
+  name: "scan-scb-with-own-rules"
+  annotations:
+    metadata.scan.securecodebox.io/git-repo-url: "https://github.com/secureCodeBox/secureCodeBox"
 spec:
   scanType: "gitleaks"
   parameters:

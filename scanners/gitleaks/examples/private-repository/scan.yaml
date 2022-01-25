@@ -6,6 +6,8 @@ apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
   name: "authenticated-clone.example"
+  annotations:
+    metadata.scan.securecodebox.io/git-repo-url: "https://github.com/yourOrg/yourRepo"
 spec:
   scanType: "gitleaks"
   # Define a volume and mount it at /repo in the scan container
