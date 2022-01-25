@@ -7,7 +7,7 @@ const { scan } = require("../../../tests/integration/helpers");
 jest.retryTimes(0);
 
 test(
-  "Gitleaks should find 16 secrets in a specific commit",
+  "Gitleaks should find one secret in a demo target",
   async () => {
     const { categories, severities, count } = await scan(
       "gitleaks-dummy-scan",
