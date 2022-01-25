@@ -4,7 +4,7 @@
 
 const { scan } = require("../../../tests/integration/helpers");
 
-jest.retryTimes(3);
+jest.retryTimes(0);
 
 test(
   "Gitleaks should find 16 secrets in a specific commit",
@@ -15,8 +15,7 @@ test(
       [
         "detect",
         "--source",
-        "/repo/",
-        "--log-opts=a7296dcaef571b9f1858069511f6678c1a6541ef..531d4bb6cc1189621d15b785afe34c877d4933a6"
+        "/repo/"
       ],
       90,
       // volumes
@@ -33,7 +32,16 @@ test(
       [{
           "name": "init-git",
           "image": "bitnami/git",
-          "command": ["git", "clone", "https://github.com/secureCodeBox/secureCodeBox", "/repo/"],
+          "command": ["bash", 
+                      "-c", 
+                      // Bash script to create a git repo with a demo file
+                      `cd /repo && \\
+                      git init && \\
+                      echo '-----BEGIN PRIVATE KEY-----' > secret.pem && \\
+                      git config --global user.name test && \\
+                      git config --global user.email user@example.com && \\
+                      git add secret.pem && \\
+                      git commit -m test`],
           "volumeMounts": [{
               "mountPath": "/repo/",
               "name": "test-dir"
@@ -41,12 +49,12 @@ test(
       }]
     );
 
-    expect(count).toBe(16);
+    expect(count).toBe(1);
     expect(categories).toEqual({
-      "Potential Secret": 16,
+      "Potential Secret": 1,
     });
     expect(severities).toEqual({
-      medium: 16
+      medium: 1
     });
   },
   3 * 60 * 1000
