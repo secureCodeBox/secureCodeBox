@@ -5,7 +5,7 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: "authenticated-clone.example"
+  name: "scan-scb-example"
 spec:
   scanType: "gitleaks"
   # Define a volume and mount it at /repo in the scan container
@@ -28,16 +28,8 @@ spec:
       command:
         - git
         - clone
-        # Add access token to the URL for authenticated HTTPS clone
-        - "https://$(GITHUB_TOKEN)@github.com/yourOrg/yourRepo"
+        - "https://github.com/secureCodeBox/secureCodeBox"
         - /repo/
-      # Pull the access token into an env variable
-      env:
-        - name: GITHUB_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: github-access-token
-              key: token
   parameters:
     # Run Gitleaks in "detect" mode
     - "detect"

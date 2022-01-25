@@ -20,3 +20,50 @@ spec:
   volumeMounts:
     - name: "gitleaks-config"
       mountPath: "/config/"
+
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "scan-scb-with-own-rules"
+spec:
+  scanType: "gitleaks"
+  # Define a volume and mount it at /repo in the scan container
+  volumes:
+    - name: "repo"
+      emptyDir: {}
+    - name: "gitleaks-config"
+      configMap:
+        name: "gitleaks-config"
+  volumeMounts:
+    - name: "repo"
+      mountPath: "/repo/"
+    - name: "gitleaks-config"
+      mountPath: "/config/"
+  # Define an init container to run the git clone for us
+  initContainers:
+    - name: "git-clone"
+      image: bitnami/git
+      # Specify that the "repo" volume should also be mounted on the 
+      # initContainer
+      volumeMounts:
+        - name: "repo"
+          mountPath: "/repo/"
+      # Clone to /repo in the init container
+      command:
+        - git
+        - clone
+        - "https://github.com/secureCodeBox/secureCodeBox"
+        - /repo/
+  parameters:
+    # Run Gitleaks in "detect" mode
+    - "detect"
+    # Point it at the location of the repository
+    - "--source"
+    - "/repo/"
+    # Point it at your own config file
+    - "--config"
+    - "/config/gitleaks-config.toml"
