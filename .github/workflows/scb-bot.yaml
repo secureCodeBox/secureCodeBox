@@ -11,7 +11,7 @@ jobs:
           - amass
           - angularjs-csti-scanner
           - cmseek
-          # - gitleaks
+          - gitleaks
           - kube-hunter
           - kubeaudit
           - ncrack
