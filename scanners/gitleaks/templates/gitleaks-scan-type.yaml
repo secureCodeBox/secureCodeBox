@@ -33,9 +33,9 @@ spec:
               command:
                 - "gitleaks"
                 - "--verbose"
-                - "--format"
+                - "--report-format"
                 - "json"
-                - "--report"
+                - "--report-path"
                 - "/home/securecodebox/report.json"
                 - "--exit-code"
                 - "0"
