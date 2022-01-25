@@ -5,7 +5,7 @@
 const HIGH_TAGS = ["HIGH"];
 const LOW_TAGS = ["LOW"];
 
-const repoUrlAnnotationKey = "metadata.securecodebox.io/git-repo-url"
+const repoUrlAnnotationKey = "metadata.scan.securecodebox.io/git-repo-url"
 
 async function parse (fileContent, scan) {
 

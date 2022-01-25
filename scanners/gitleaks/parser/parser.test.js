@@ -215,7 +215,7 @@ test("should properly construct commit URL if given in scan annotation without t
     },
     metadata: {
       annotations: {
-        "metadata.securecodebox.io/git-repo-url":
+        "metadata.scan.securecodebox.io/git-repo-url":
           "https://github.com/secureCodeBox/secureCodeBox",
       },
     },
@@ -322,7 +322,7 @@ test("should properly construct commit URL if given in scan annotation with trai
     },
     metadata: {
       annotations: {
-        "metadata.securecodebox.io/git-repo-url":
+        "metadata.scan.securecodebox.io/git-repo-url":
           "https://github.com/secureCodeBox/secureCodeBox/",
       },
     },
