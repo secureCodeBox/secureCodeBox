@@ -30,6 +30,19 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
+          env:
+          {{- if or .Values.containerEnv .Values.customConfig }}
+            {{- range .Values.containerEnv }}
+            - name: {{ .name }}
+              value: {{ .value }}
+            {{- end }}
+            {{- if .Values.customConfig }}
+            - name: NODE_ENV
+              value: customConfig
+            {{- end }}
+          {{- else }}
+            []
+          {{- end }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -48,6 +61,14 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            {{- if .Values.customConfig }}
+            - name: custom-config
+              mountPath: /juice-shop/config
+              readOnly: true
+            {{- else }}
+            []
+            {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -60,3 +81,11 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+      volumes:
+        {{- if .Values.customConfig }}
+        - name: custom-config
+          configMap:
+            name: {{ include "juice-shop.fullname" . }}
+        {{- else }}
+        []
+        {{- end }}
