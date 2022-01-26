@@ -61,9 +61,9 @@ func (r *ContainerScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	}
 
 	if pod.DeletionTimestamp == nil {
-		podIsRunning(r.Config, r.Client, log, ctx, pod)
+		r.podIsRunning(ctx, pod)
 	} else {
-		podWillBeDeleted(r.Client, log, ctx, pod)
+		r.podWillBeDeleted(ctx, pod)
 	}
 
 	return ctrl.Result{}, nil
@@ -85,25 +85,25 @@ func podNotReady(pod corev1.Pod) bool {
 	return len(getImageIDsForPod(pod)) == 0
 }
 
-func podIsRunning(config configv1.AutoDiscoveryConfig, k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod) {
-	log.V(1).Info("Pod is running", "pod", pod.Name, "namespace", pod.Namespace)
-	nonScannedImageIDs := getNonScannedImageIDs(k8sclient, log, ctx, pod)
-	createScheduledScans(config, k8sclient, log, ctx, pod, nonScannedImageIDs)
+func (r *ContainerScanReconciler) podIsRunning(ctx context.Context, pod corev1.Pod) {
+	r.Log.V(1).Info("Pod is running", "pod", pod.Name, "namespace", pod.Namespace)
+	nonScannedImageIDs := r.getNonScannedImageIDs(ctx, pod)
+	r.createScheduledScans(ctx, pod, nonScannedImageIDs)
 }
 
-func getNonScannedImageIDs(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod) []string {
+func (r *ContainerScanReconciler) getNonScannedImageIDs(ctx context.Context, pod corev1.Pod) []string {
 	var result []string
 	allImageIDs := getImageIDsForPod(pod)
 
 	for _, imageID := range allImageIDs {
 		scanName := getScanName(imageID)
 		var scan executionv1.ScheduledScan
-		err := k8sclient.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
+		err := r.Client.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
 
 		if apierrors.IsNotFound(err) {
 			result = append(result, imageID)
 		} else if err != nil {
-			log.V(1).Info("Unable to fetch scan", "name", scanName, "namespace", pod.Namespace)
+			r.Log.V(1).Info("Unable to fetch scan", "name", scanName, "namespace", pod.Namespace)
 		}
 	}
 	return result
@@ -141,20 +141,20 @@ func getScanName(imageID string) string {
 	return result[:62]
 }
 
-func createScheduledScans(config configv1.AutoDiscoveryConfig, k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod, imageIDs []string) {
+func (r *ContainerScanReconciler) createScheduledScans(ctx context.Context, pod corev1.Pod, imageIDs []string) {
 	for _, imageID := range imageIDs {
-		createScheduledScan(config, k8sclient, log, ctx, pod, imageID)
+		r.createScheduledScan(ctx, pod, imageID)
 	}
 }
 
-func createScheduledScan(config configv1.AutoDiscoveryConfig, k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod, imageID string) {
-	newScheduledScan := getScanSpec(config, pod, imageID)
-	err := k8sclient.Create(ctx, &newScheduledScan)
+func (r *ContainerScanReconciler) createScheduledScan(ctx context.Context, pod corev1.Pod, imageID string) {
+	newScheduledScan := getScanSpec(r.Config, pod, imageID)
+	err := r.Client.Create(ctx, &newScheduledScan)
 
 	if err != nil {
-		log.V(1).Info("Failed to create scheduled scan", "err", err)
+		r.Log.V(1).Info("Failed to create scheduled scan", "err", err)
 	} else {
-		log.V(1).Info("Created scheduled scan", "pod", pod.Name, "namespace", pod.Namespace)
+		r.Log.V(1).Info("Created scheduled scan", "pod", pod.Name, "namespace", pod.Namespace)
 	}
 }
 
@@ -179,38 +179,38 @@ func getScanSpec(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imageID st
 	return newScheduledScan
 }
 
-func podWillBeDeleted(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod) {
-	log.V(1).Info("Pod will be deleted", "pod", pod.Name, "namespace", pod.Namespace, "timestamp", pod.DeletionTimestamp)
+func (r *ContainerScanReconciler) podWillBeDeleted(ctx context.Context, pod corev1.Pod) {
+	r.Log.V(1).Info("Pod will be deleted", "pod", pod.Name, "namespace", pod.Namespace, "timestamp", pod.DeletionTimestamp)
 	allImageIDs := getImageIDsForPod(pod)
-	imageIDsToBeDeleted := getOrphanedScanImageIDs(k8sclient, log, ctx, pod, allImageIDs)
-	deleteScans(k8sclient, log, ctx, pod, imageIDsToBeDeleted)
+	imageIDsToBeDeleted := r.getOrphanedScanImageIDs(ctx, pod, allImageIDs)
+	r.deleteScans(ctx, pod, imageIDsToBeDeleted)
 }
 
-func getOrphanedScanImageIDs(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod, imageIDs []string) []string {
+func (r *ContainerScanReconciler) getOrphanedScanImageIDs(ctx context.Context, pod corev1.Pod, imageIDs []string) []string {
 	var result []string
 
 	for _, imageID := range imageIDs {
 		scanName := getScanName(imageID)
 		var scan executionv1.ScheduledScan
-		err := k8sclient.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
+		err := r.Client.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
 		if err != nil {
-			log.V(1).Info("Unable to fetch scan", "name", scanName)
+			r.Log.V(1).Info("Unable to fetch scan", "name", scanName)
 			continue
 		}
 
-		if !containerIDInUse(k8sclient, log, ctx, pod, imageID) {
+		if !r.containerIDInUse(ctx, pod, imageID) {
 			result = append(result, imageID)
 		}
 	}
 	return result
 }
 
-func containerIDInUse(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod, imageID string) bool {
+func (r *ContainerScanReconciler) containerIDInUse(ctx context.Context, pod corev1.Pod, imageID string) bool {
 	var pods corev1.PodList
-	err := k8sclient.List(ctx, &pods, client.InNamespace(pod.Namespace))
+	err := r.Client.List(ctx, &pods, client.InNamespace(pod.Namespace))
 
 	if err != nil {
-		log.V(1).Info("Unable to fetch pods", "namespace", pod.Namespace)
+		r.Log.V(1).Info("Unable to fetch pods", "namespace", pod.Namespace)
 		return false
 	}
 	return searchForImageIDInPods(pods.Items, imageID)
@@ -229,28 +229,28 @@ func searchForImageIDInPods(pods []corev1.Pod, targetImageID string) bool {
 	return false
 }
 
-func deleteScans(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod, imageIDs []string) {
+func (r *ContainerScanReconciler) deleteScans(ctx context.Context, pod corev1.Pod, imageIDs []string) {
 	for _, imageID := range imageIDs {
-		scan, err := getScan(k8sclient, log, ctx, pod, imageID)
+		scan, err := r.getScan(ctx, pod, imageID)
 
 		if err != nil {
-			log.V(1).Info("Unable to fetch scan", "err", err)
+			r.Log.V(1).Info("Unable to fetch scan", "err", err)
 			continue
 		}
 
-		err = k8sclient.Delete(ctx, &scan)
+		err = r.Client.Delete(ctx, &scan)
 		if err != nil {
-			log.V(1).Info("Unable to delete scheduled scan", "scan", scan.Name)
+			r.Log.V(1).Info("Unable to delete scheduled scan", "scan", scan.Name)
 		} else {
-			log.V(1).Info("Deleting scheduled scan", "scan", scan.Name)
+			r.Log.V(1).Info("Deleting scheduled scan", "scan", scan.Name)
 		}
 	}
 }
 
-func getScan(k8sclient client.Client, log logr.Logger, ctx context.Context, pod corev1.Pod, imageID string) (executionv1.ScheduledScan, error) {
+func (r *ContainerScanReconciler) getScan(ctx context.Context, pod corev1.Pod, imageID string) (executionv1.ScheduledScan, error) {
 	var scan executionv1.ScheduledScan
 	scanName := getScanName(imageID)
-	err := k8sclient.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
+	err := r.Client.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
 	return scan, err
 }
 
