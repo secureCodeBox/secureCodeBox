@@ -14,6 +14,7 @@ import (
 	"github.com/go-logr/logr"
 	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
 
+	"github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/pkg/util"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	corev1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -330,6 +331,6 @@ func parseListTemplate(dataStruct interface{}, templates []string) []string {
 func (r *ContainerScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&corev1.Pod{}).
-		WithEventFilter(getPredicates(mgr.GetClient(), r.Log, r.Config.ResourceInclusion.Mode)).
+		WithEventFilter(util.GetPredicates(mgr.GetClient(), r.Log, r.Config.ResourceInclusion.Mode)).
 		Complete(r)
 }

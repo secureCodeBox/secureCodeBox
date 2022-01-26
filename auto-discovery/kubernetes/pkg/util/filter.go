@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package controllers
+package util
 
 import (
 	"context"
@@ -38,7 +38,7 @@ func getNamespaceName(object client.Object) string {
 	return object.GetNamespace()
 }
 
-func getPredicates(client client.Client, log logr.Logger, resourceInclusionMode configv1.ResourceInclusionMode) predicate.Predicate {
+func GetPredicates(client client.Client, log logr.Logger, resourceInclusionMode configv1.ResourceInclusionMode) predicate.Predicate {
 	log.Info("Setting up Predicate Filter", "resourceInclusionMode", resourceInclusionMode)
 
 	if resourceInclusionMode == configv1.EnabledPerResource {
