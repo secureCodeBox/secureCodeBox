@@ -16,21 +16,21 @@ jest.mock("nodemailer", () => {
       return {
         sendMail,
         close,
-      }
-    }
+      };
+    },
   };
 });
 
 test("Should Send Mail", async () => {
   const from = "secureCodeBox";
-  const smtp = "smtp://user:pass@smtp.ethereal.email/"
+  const smtp = "smtp://user:pass@smtp.ethereal.email/";
   process.env[EMailNotifier.SMTP_CONFIG] = smtp;
   const channel: NotificationChannel = {
     name: "Channel Name",
     type: NotifierType.EMAIL,
     template: "email",
     rules: [],
-    endPoint: "mail@some.email"
+    endPoint: "mail@some.email",
   };
   const scan: Scan = {
     metadata: {
@@ -82,5 +82,4 @@ test("Should Send Mail", async () => {
 
   expect(sendMail).toBeCalled();
   expect(close).toBeCalled();
-
-})
+});
