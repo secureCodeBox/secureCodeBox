@@ -35,7 +35,7 @@ export class EMailNotifier extends AbstractNotifier {
 
   private prepareMessage(): any {
     const message = JSON.parse(this.renderMessage());
-    message.to = this.channel.endPoint;
+    message.to = this.resolveEndPoint();
     message.from = this.args[EMailNotifier.EMAIL_FROM];
     return message;
   }
