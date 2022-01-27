@@ -80,6 +80,40 @@ test("Should Send Mail", async () => {
 
   await notifier.sendMessage();
 
-  expect(sendMail).toBeCalled();
+  expect(sendMail).toBeCalledWith({
+    from: "secureCodeBox",
+    html: `<strong>Scan demo-scan-1601086432</strong><br>
+Created at Fri Jan 01 2021 15:29:25 GMT+0100 (Central European Standard Time)
+<br>
+<br>
+<strong>Findings Severity Overview:</strong><br>
+high: 10<br>
+medium: 5<br>
+low: 2<br>
+informational: 1<br>
+
+<br>
+<strong>Findings Category Overview:</strong><br>
+A Client Error response code was returned by the server: 1<br>
+Information Disclosure - Sensitive Information in URL: 1<br>
+Strict-Transport-Security Header Not Set: 1<br>
+`,
+    subject: "New nmap security scan resulsts are available!",
+    text: `*Scan demo-scan-1601086432*
+Created at Fri Jan 01 2021 15:29:25 GMT+0100 (Central European Standard Time)
+
+*Findings Severity Overview*:
+high: 10
+medium: 5
+low: 2
+informational: 1
+
+*Findings Category Overview*:
+A Client Error response code was returned by the server: 1
+Information Disclosure - Sensitive Information in URL: 1
+Strict-Transport-Security Header Not Set: 1
+`,
+    to: "mail@some.email",
+  });
   expect(close).toBeCalled();
 });
