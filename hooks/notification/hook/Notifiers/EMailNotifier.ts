@@ -11,6 +11,13 @@ export class EMailNotifier extends AbstractNotifier {
   public static readonly EMAIL_FROM = 'EMAIL_FROM';
   protected type: NotifierType.EMAIL;
 
+  /**
+   * Emails endPoints are not considered sensitive as they are just the receiver of the email.
+   */
+  public resolveEndPoint(): string {
+    return this.channel.endPoint;
+  }
+
   public async sendMessage(): Promise<void> {
     const message = this.prepareMessage();
     const smtpConfig = this.getSMTPConfig();
