@@ -42,7 +42,7 @@ You can find resources to help you get started on our [documentation website](ht
 
 ## Supported Tags
 - `latest`  (represents the latest stable release build)
-- tagged releases, e.g. `0.79.0`
+- tagged releases, e.g. `0.80.0`
 
 ## How to use this image
 This `parser` image is intended to work in combination with the corresponding security scanner docker image to parse the `findings` results. For more information details please take a look at the documentation page: https://docs.securecodebox.io/docs/scanners/semgrep.
