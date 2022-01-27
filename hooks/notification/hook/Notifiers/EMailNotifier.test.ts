@@ -21,6 +21,8 @@ jest.mock("nodemailer", () => {
   };
 });
 
+const creationTimestamp = new Date("2021-01-01T14:29:25Z")
+
 test("Should Send Mail", async () => {
   const from = "secureCodeBox";
   const smtp = "smtp://user:pass@smtp.ethereal.email/";
@@ -37,7 +39,7 @@ test("Should Send Mail", async () => {
       uid: "09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
       name: "demo-scan-1601086432",
       namespace: "my-scans",
-      creationTimestamp: new Date("2021-01-01T14:29:25Z"),
+      creationTimestamp,
       labels: {
         company: "iteratec",
         "attack-surface": "external",
@@ -83,7 +85,7 @@ test("Should Send Mail", async () => {
   expect(sendMail).toBeCalledWith({
     from: "secureCodeBox",
     html: `<strong>Scan demo-scan-1601086432</strong><br>
-Created at Fri Jan 01 2021 15:29:25 GMT+0100 (Central European Standard Time)
+Created at ${creationTimestamp.toString()}
 <br>
 <br>
 <strong>Findings Severity Overview:</strong><br>
@@ -100,7 +102,7 @@ Strict-Transport-Security Header Not Set: 1<br>
 `,
     subject: "New nmap security scan resulsts are available!",
     text: `*Scan demo-scan-1601086432*
-Created at Fri Jan 01 2021 15:29:25 GMT+0100 (Central European Standard Time)
+Created at ${creationTimestamp.toString()}
 
 *Findings Severity Overview*:
 high: 10
