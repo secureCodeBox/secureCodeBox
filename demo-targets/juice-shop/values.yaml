@@ -21,7 +21,7 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-# add custom environment variables to the juice-shop container
+# -- add custom environment variables to the juice-shop container
 # ref: https://pwning.owasp-juice.shop/part1/customization.html
 containerEnv: []
   # - name: NODE_ENV
