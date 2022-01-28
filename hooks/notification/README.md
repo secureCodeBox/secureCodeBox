@@ -271,7 +271,7 @@ notificationChannels:
     endPoint: "someone@somewhere.xyz"
 env:
   - name: SMTP_CONFIG
-    # you can create the secret via: kubectl create secret generic email-credentials-token --from-literal="smtp-config=smtp://user:pass@smtp.domain.tld/"
+    # you can create the secret via: kubectl create secret generic email-credentials --from-literal="smtp-config=smtp://user:pass@smtp.domain.tld/"
     valueFrom:
       secretKeyRef:
         name: email-credentials
