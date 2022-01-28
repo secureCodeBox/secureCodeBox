@@ -100,7 +100,7 @@ A Client Error response code was returned by the server: 1<br>
 Information Disclosure - Sensitive Information in URL: 1<br>
 Strict-Transport-Security Header Not Set: 1<br>
 `,
-    subject: "New nmap security scan resulsts are available!",
+    subject: "New nmap security scan results are available!",
     text: `*Scan demo-scan-1601086432*
 Created at ${creationTimestamp.toString()}
 
