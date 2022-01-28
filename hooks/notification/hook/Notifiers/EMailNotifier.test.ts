@@ -16,28 +16,30 @@ jest.mock("nodemailer", () => {
       return {
         sendMail,
         close,
-      }
-    }
+      };
+    },
   };
 });
 
+const creationTimestamp = new Date("2021-01-01T14:29:25Z")
+
 test("Should Send Mail", async () => {
   const from = "secureCodeBox";
-  const smtp = "smtp://user:pass@smtp.ethereal.email/"
+  const smtp = "smtp://user:pass@smtp.ethereal.email/";
   process.env[EMailNotifier.SMTP_CONFIG] = smtp;
   const channel: NotificationChannel = {
     name: "Channel Name",
     type: NotifierType.EMAIL,
     template: "email",
     rules: [],
-    endPoint: "mail@some.email"
+    endPoint: "mail@some.email",
   };
   const scan: Scan = {
     metadata: {
       uid: "09988cdf-1fc7-4f85-95ee-1b1d65dbc7cc",
       name: "demo-scan-1601086432",
       namespace: "my-scans",
-      creationTimestamp: new Date("2021-01-01T14:29:25Z"),
+      creationTimestamp,
       labels: {
         company: "iteratec",
         "attack-surface": "external",
@@ -80,7 +82,40 @@ test("Should Send Mail", async () => {
 
   await notifier.sendMessage();
 
-  expect(sendMail).toBeCalled();
-  expect(close).toBeCalled();
+  expect(sendMail).toBeCalledWith({
+    from: "secureCodeBox",
+    html: `<strong>Scan demo-scan-1601086432</strong><br>
+Created at ${creationTimestamp.toString()}
+<br>
+<br>
+<strong>Findings Severity Overview:</strong><br>
+high: 10<br>
+medium: 5<br>
+low: 2<br>
+informational: 1<br>
 
-})
+<br>
+<strong>Findings Category Overview:</strong><br>
+A Client Error response code was returned by the server: 1<br>
+Information Disclosure - Sensitive Information in URL: 1<br>
+Strict-Transport-Security Header Not Set: 1<br>
+`,
+    subject: "New nmap security scan results are available!",
+    text: `*Scan demo-scan-1601086432*
+Created at ${creationTimestamp.toString()}
+
+*Findings Severity Overview*:
+high: 10
+medium: 5
+low: 2
+informational: 1
+
+*Findings Category Overview*:
+A Client Error response code was returned by the server: 1
+Information Disclosure - Sensitive Information in URL: 1
+Strict-Transport-Security Header Not Set: 1
+`,
+    to: "mail@some.email",
+  });
+  expect(close).toBeCalled();
+});

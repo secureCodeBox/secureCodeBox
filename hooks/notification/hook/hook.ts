@@ -17,7 +17,6 @@ export async function handle({ getFindings, scan }) {
   let notificationChannels: NotificationChannel[] = getNotificationChannels(CHANNEL_FILE);
   let args: Object = getArgs();
   for (const channel of notificationChannels) {
-    channel.endPoint = mapToEndPoint(channel.endPoint);
     const findingsToNotify = findings.filter(finding => matches(finding, channel.rules));
 
     if (channel.skipNotificationOnZeroFindings === true && findingsToNotify.length === 0) {

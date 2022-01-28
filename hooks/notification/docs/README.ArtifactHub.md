@@ -279,7 +279,11 @@ notificationChannels:
     endPoint: "someone@somewhere.xyz"
 env:
   - name: SMTP_CONFIG
-    value: "smtp://user:pass@smtp.domain.tld/"
+    # you can create the secret via: kubectl create secret generic email-credentials --from-literal="smtp-config=smtp://user:pass@smtp.domain.tld/"
+    valueFrom:
+      secretKeyRef:
+        name: email-credentials
+        key: smtp-config
 ```
 
 To provide a custom `from` field for your email you can specify `EMAIL_FROM` under env.
@@ -288,7 +292,10 @@ For example:
 ```
 env:
   - name: SMTP_CONFIG
-    value: "smtp://user:pass@smtp.domain.tld/"
+    valueFrom:
+      secretKeyRef:
+        name: email-credentials
+        key: smtp-config
   - name: EMAIL_FROM
     value: secureCodeBox
 ```

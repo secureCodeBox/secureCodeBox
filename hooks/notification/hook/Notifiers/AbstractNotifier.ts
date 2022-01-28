@@ -42,6 +42,18 @@ export abstract class AbstractNotifier implements Notifier {
     return JSON.stringify(this.renderYamlTemplate());
   }
 
+
+  /**
+   * By default the value of the endpoint channel config is mapped to a environment variable to be able to store these values securely
+   * This behavior can be overwritten for hooks where it doesn't make sense as the endpoint is not considered sensitive.
+   * 
+   * @param envName value of the channels endpoint
+   * @returns string actual EndPoint value
+   */
+  public resolveEndPoint(): string {
+    return process.env[this.channel.endPoint];
+  }
+
   protected renderYamlTemplate(): any {
     nunjucks.configure(AbstractNotifier.TEMPLATE_DIR);
     const renderedTemplate = nunjucks.render(
