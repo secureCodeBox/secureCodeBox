@@ -52,7 +52,10 @@ function normalizeXmlObject(rawAlert = {}) {
 }
 
 function createFindingFromAlert(alert, { location, host, port }) {
-  const findingUrls = alert.instances.instance.map(normalizeXmlObject);
+  let findingUrls = []
+  if(Array.isArray(alert.instances.instance)) {
+    findingUrls = alert.instances.instance.map(normalizeXmlObject);
+  }
 
   return {
     name: stripHtmlTags(alert.name),
