@@ -84,24 +84,23 @@ scanner-docs:
 		docs_dir="$${dir}/docs"; \
 		parser_dir="$${dir}/parser"; \
 		scanner_dir="$${dir}/scanner"; \
-		cd "$${dir}" || exit; \
 		if [ -d "$${docs_dir}" ]; then \
 			echo "Docs Folder found at: $${docs_dir}"; \
 			if [ -d "$${parser_dir}" ]; then \
 				echo "Parser found at: $${parser_dir}"; \
-				helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl \
+				cd "$${dir}" && helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl \
 					--template-files=.helm-docs.gotmpl \
 					--template-files=$(HELM_DOCS_DIR)/README.DockerHub-Parser.md.gotmpl \
 					--output-file=$${docs_dir}/README.DockerHub-Parser.md; \
 			fi; \
 			if [ -d "$${scanner_dir}" ]; then \
 				echo "Scanner found at: $${scanner_dir}"; \
-				helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl \
+				cd "$${dir}" && helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl \
 					--template-files=.helm-docs.gotmpl \
 					--template-files=$(HELM_DOCS_DIR)/README.DockerHub-Scanner.md.gotmpl \
 					--output-file=$${docs_dir}/README.DockerHub-Scanner.md; \
 			fi; \
-			helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl \
+			cd "$${dir}" && helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl \
 				--template-files=.helm-docs.gotmpl \
 				--template-files=$(HELM_DOCS_DIR)/README.ArtifactHub.md.gotmpl \
 				--output-file=$${docs_dir}/README.ArtifactHub.md; \
