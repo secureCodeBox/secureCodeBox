@@ -21,13 +21,13 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-# add custom environment variables to the juice-shop container
+# -- add custom environment variables to the juice-shop container
 # ref: https://pwning.owasp-juice.shop/part1/customization.html
 containerEnv: []
   # - name: NODE_ENV
   #   value: bodgeit
 
-# When set, passes in the custom configuration specfied below and sets NODE_ENV accordingly
+# -- When set, passes in the custom configuration specified below and sets NODE_ENV accordingly
 # ref: https://pwning.owasp-juice.shop/part1/customization.html
 customConfig:
   # NOTE: Ensure that all required keys are passed, otherwise startup will fail
