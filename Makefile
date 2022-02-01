@@ -2,6 +2,11 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+PROJECT_DIR		= $(shell pwd)
+SCANNERS_DIR	= $(PROJECT_DIR)/scanners
+
+SCANNERS_CHART_LIST		:= $(sort $(wildcard $(SCANNERS_DIR)/*/Chart.yaml))
+
 all: help
 
 .PHONY:
