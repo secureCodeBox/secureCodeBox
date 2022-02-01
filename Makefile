@@ -82,11 +82,12 @@ scanner-docs:
 		echo "Generating docs for $$chart..."; \
 		dir="$$(dirname "$${chart}")"; \
 		docs_dir="$${dir}/docs"; \
+		parser_dir="$${dir}/parser"; \
 		cd "$${dir}" || exit; \
 		if [ -d "$${docs_dir}" ]; then \
 			echo "Docs Folder found at: $${docs_dir}"; \
-			if [ -d "parser" ]; then \
-				echo "Parser found at: $${dir}/parser"; \
+			if [ -d "$${parser_dir}" ]; then \
+				echo "Parser found at: $${parser_dir}"; \
 				helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl \
 					--template-files=.helm-docs.gotmpl \
 					--template-files=$(HELM_DOCS_DIR)/README.DockerHub-Parser.md.gotmpl \
