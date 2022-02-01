@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 PROJECT_DIR		= $(shell pwd)
+BIN_DIR				= $(PROJECT_DIR)/bin
 SCANNERS_DIR	= $(PROJECT_DIR)/scanners
 HELM_DOCS_DIR	= $(PROJECT_DIR)/.helm-docs
 
@@ -80,33 +81,7 @@ hook-docs:
 scanner-docs:
 	@for chart in $(SCANNERS_CHART_LIST); do \
 		echo "Generating docs for $$chart..."; \
-		dir="$$(dirname "$${chart}")"; \
-		docs_dir="$${dir}/docs"; \
-		parser_dir="$${dir}/parser"; \
-		scanner_dir="$${dir}/scanner"; \
-		if [ -d "$${docs_dir}" ]; then \
-			echo "Docs Folder found at: $${docs_dir}"; \
-			if [ -d "$${parser_dir}" ]; then \
-				echo "Parser found at: $${parser_dir}"; \
-				cd "$${dir}" && helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl \
-					--template-files=.helm-docs.gotmpl \
-					--template-files=$(HELM_DOCS_DIR)/README.DockerHub-Parser.md.gotmpl \
-					--output-file=$${docs_dir}/README.DockerHub-Parser.md; \
-			fi; \
-			if [ -d "$${scanner_dir}" ]; then \
-				echo "Scanner found at: $${scanner_dir}"; \
-				cd "$${dir}" && helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl \
-					--template-files=.helm-docs.gotmpl \
-					--template-files=$(HELM_DOCS_DIR)/README.DockerHub-Scanner.md.gotmpl \
-					--output-file=$${docs_dir}/README.DockerHub-Scanner.md; \
-			fi; \
-			cd "$${dir}" && helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl \
-				--template-files=.helm-docs.gotmpl \
-				--template-files=$(HELM_DOCS_DIR)/README.ArtifactHub.md.gotmpl \
-				--output-file=$${docs_dir}/README.ArtifactHub.md; \
-		else \
-			echo "Ignoring docs creation process for chart $$dir because docs folder found at: $${docs_dir}"; \
-		fi; \
+		$(BIN_DIR)/generate-scanner-docs.sh "$${chart}" $(HELM_DOCS_DIR); \
 	done
 
 .PHONY: operator-docs
