@@ -21,6 +21,25 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+# -- add custom environment variables to the juice-shop container
+# ref: https://pwning.owasp-juice.shop/part1/customization.html
+containerEnv: []
+  # - name: NODE_ENV
+  #   value: bodgeit
+
+# -- When set, passes in the custom configuration specified below and sets NODE_ENV accordingly
+# ref: https://pwning.owasp-juice.shop/part1/customization.html
+customConfig:
+  # NOTE: Ensure that all required keys are passed, otherwise startup will fail
+  # for example `Error: Configuration property "application.chatBot.trainingData" is not defined`
+  # ref: https://github.com/juice-shop/juice-shop/blob/master/config/default.yml
+  # server:
+  #   port: 3000
+  #   basePath: ''
+  # application:
+  #   domain: juice-sh.op
+  #   name: 'OWASP Juice Shop'
+
 # -- add labels to the deployment, service and pods
 labels: {}
 
