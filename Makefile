@@ -81,30 +81,30 @@ scanner-docs:
 	@for chart in $(SCANNERS_CHART_LIST); do \
 		echo "Generating docs for $$chart..."; \
 		dir="$$(dirname "$${chart}")"; \
-		echo "Processing Helm Chart in $$dir"; \
+		docs_dir="$${dir}/docs"; \
 		cd "$${dir}" || exit; \
-		if [ -d "docs" ]; then \
-			echo "Docs Folder found at: $${dir}/docs"; \
+		if [ -d "$${docs_dir}" ]; then \
+			echo "Docs Folder found at: $${docs_dir}"; \
 			if [ -d "parser" ]; then \
 				echo "Parser found at: $${dir}/parser"; \
 				helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl \
 					--template-files=.helm-docs.gotmpl \
 					--template-files=$(HELM_DOCS_DIR)/README.DockerHub-Parser.md.gotmpl \
-					--output-file=docs/README.DockerHub-Parser.md; \
+					--output-file=$${docs_dir}/README.DockerHub-Parser.md; \
 			fi; \
 			if [ -d "scanner" ]; then \
 				echo "Scanner found at: $${dir}/parser"; \
 				helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl \
 					--template-files=.helm-docs.gotmpl \
 					--template-files=$(HELM_DOCS_DIR)/README.DockerHub-Scanner.md.gotmpl \
-					--output-file=docs/README.DockerHub-Scanner.md; \
+					--output-file=$${docs_dir}/README.DockerHub-Scanner.md; \
 			fi; \
 			helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl \
 				--template-files=.helm-docs.gotmpl \
 				--template-files=$(HELM_DOCS_DIR)/README.ArtifactHub.md.gotmpl \
-				--output-file=docs/README.ArtifactHub.md; \
+				--output-file=$${docs_dir}/README.ArtifactHub.md; \
 		else \
-			echo "Ignoring Docs creation process for Chart $$dir, because no `docs` folder found at: $${dir}/docs"; \
+			echo "Ignoring docs creation process for chart $$dir because docs folder found at: $${docs_dir}"; \
 		fi; \
 	done
 
