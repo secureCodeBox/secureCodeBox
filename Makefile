@@ -76,31 +76,26 @@ hook-docs:
 	done
 
 .PHONY: scanner-docs
-.ONESHELL:
 scanner-docs:
-	# Start in the scanners folder
-	cd scanners
-	# https://github.com/koalaman/shellcheck/wiki/SC2044
-	find . -type f ! -name "$(printf "*\n*")" -name Chart.yaml | while IFS= read -r chart; do
-	(
-		dir="$$(dirname "$${chart}")"
-		echo "Processing Helm Chart in $$dir"
-		cd "$${dir}" || exit
-		if [ -d "docs" ]; then
-			echo "Docs Folder found at: $${dir}/docs"
-			if [ -d "parser" ]; then
-				echo "Parser found at: $${dir}/parser"
-				helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Parser.md.gotmpl --output-file=docs/README.DockerHub-Parser.md
-			fi
-			if [ -d "scanner" ]; then
-				echo "Scanner found at: $${dir}/parser"
-				helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Scanner.md.gotmpl --output-file=docs/README.DockerHub-Scanner.md
-			fi
-			helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
-		else
-			echo "Ignoring Docs creation process for Chart $$dir, because no `docs` folder found at: $${dir}/docs"
-		fi
-	)
+	@for chart in $(SCANNERS_CHART_LIST); do \
+		echo "Generating docs for $$chart..."; \
+		dir="$$(dirname "$${chart}")"; \
+		echo "Processing Helm Chart in $$dir"; \
+		cd "$${dir}" || exit; \
+		if [ -d "docs" ]; then \
+			echo "Docs Folder found at: $${dir}/docs"; \
+			if [ -d "parser" ]; then \
+				echo "Parser found at: $${dir}/parser"; \
+				helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Parser.md.gotmpl --output-file=docs/README.DockerHub-Parser.md; \
+			fi; \
+			if [ -d "scanner" ]; then \
+				echo "Scanner found at: $${dir}/parser"; \
+				helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Scanner.md.gotmpl --output-file=docs/README.DockerHub-Scanner.md; \
+			fi; \
+			helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md; \
+		else \
+			echo "Ignoring Docs creation process for Chart $$dir, because no `docs` folder found at: $${dir}/docs"; \
+		fi; \
 	done
 
 .PHONY: operator-docs
