@@ -53,7 +53,7 @@ test-all: ## Runs all makefile based test suites.
 readme:
 	# Generate README.md based on Chart.yaml and template
 	@echo ".: ⚙ Generate Helm Docs."
-	helm-docs --template-files=./.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./.helm-docs/README.md.gotmpl
+	helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=$(HELM_DOCS_DIR)/README.md.gotmpl
 
 .PHONY: hook-docs
 .ONESHELL:
@@ -69,8 +69,8 @@ hook-docs:
 		cd "$${dir}" || exit
 		if [ -d "docs" ]; then
 			echo "Docs Folder found at: $${dir}/docs"
-			helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Hook.md.gotmpl --output-file=docs/README.DockerHub-Hook.md
-			helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
+			helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=$(HELM_DOCS_DIR)/README.DockerHub-Hook.md.gotmpl --output-file=docs/README.DockerHub-Hook.md
+			helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=$(HELM_DOCS_DIR)/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
 		else
 			echo "Ignoring Docs creation process for Chart $$dir, because no `docs` folder found at: $${dir}/docs"
 		fi
@@ -91,8 +91,8 @@ operator-docs:
 	cd operator
 	if [ -d "docs" ]; then
 		echo "Docs Folder found at: operator/docs"
-		helm-docs --template-files=./../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../.helm-docs/README.DockerHub-Core.md.gotmpl --output-file=docs/README.DockerHub-Core.md
-		helm-docs --template-files=./../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
+		helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=$(HELM_DOCS_DIR)/README.DockerHub-Core.md.gotmpl --output-file=docs/README.DockerHub-Core.md
+		helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=$(HELM_DOCS_DIR)/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
 	else
 		echo "Ignoring Docs creation process for Chart $$dir, because no `docs` folder found at: operator/docs"
 	fi
@@ -103,8 +103,8 @@ auto-discovery-docs:
 	cd auto-discovery/kubernetes
 	if [ -d "docs" ]; then
 		echo "Docs Folder found at: auto-discovery/kubernetes/docs"
-		helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Core.md.gotmpl --output-file=docs/README.DockerHub-Core.md
-		helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
+		helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=$(HELM_DOCS_DIR)/README.DockerHub-Core.md.gotmpl --output-file=docs/README.DockerHub-Core.md
+		helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=$(HELM_DOCS_DIR)/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
 	else
 		echo "Ignoring Docs creation process for Chart $$dir, because no `docs` folder found at: auto-discovery/kubernetes/docs"
 	fi
@@ -122,8 +122,8 @@ demo-apps-docs:
 		cd "$${dir}" || exit
 		if [ -d "docs" ]; then
 				echo "Docs Folder found at: $${dir}/docs"
-				helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.DockerHub-Target.md.gotmpl --output-file=docs/README.DockerHub-Target.md
-				helm-docs --template-files=./../../.helm-docs/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=./../../.helm-docs/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
+				helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=$(HELM_DOCS_DIR)/README.DockerHub-Target.md.gotmpl --output-file=docs/README.DockerHub-Target.md
+				helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=$(HELM_DOCS_DIR)/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
 		else
 				echo "Ignoring Docs creation process for Chart $$dir, because no `docs` folder found at: $${dir}/docs"
 		fi
