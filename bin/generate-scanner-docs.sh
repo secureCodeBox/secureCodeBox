@@ -59,25 +59,25 @@ function main() {
   fi
 
   if [ -d "${parser_dir}" ]; then
-    log "Parser found at: '${parser_dir}'..."
+    log "Parser found at: '${parser_dir}'. Generating parser doc..."
 
     cd "${dir}" && generate_docs "${docs_dir}/README.DockerHub-Parser.md" \
       "${HELM_DOCS_DIR}/templates.gotmpl" \
       "${scanner_dir}/.helm-docs.gotmpl" \
       "${HELM_DOCS_DIR}/README.DockerHub-Parser.md.gotmpl"
   else
-    log "No parser found '${parser_dir}'!"
+    log "No parser found '${parser_dir}'! Skipping parser doc."
   fi
 
   if [ -d "${sub_scanner_dir}" ]; then
-    log "Scanner found at: '${sub_scanner_dir}'..."
+    log "Scanner found at: '${sub_scanner_dir}'. Generating scanner doc..."
 
     cd "${dir}" && generate_docs "${docs_dir}/README.DockerHub-Scanner.md" \
       "${HELM_DOCS_DIR}/templates.gotmpl" \
       "${scanner_dir}/.helm-docs.gotmpl" \
       "${HELM_DOCS_DIR}/README.DockerHub-Scanner.md.gotmpl"
   else
-    log "No scanner found at '${sub_scanner_dir}'!"
+    log "No scanner found at '${sub_scanner_dir}'! Skipping scanner doc."
   fi
 
   cd "${dir}" && generate_docs "${docs_dir}/README.ArtifactHub.md" \
