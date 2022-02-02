@@ -378,16 +378,15 @@ func generateScanAnnotations(scanConfig configv1.ScanConfig, clusterConfig confi
 
 }
 
-type TemplateArgs struct {
-	Config     configv1.AutoDiscoveryConfig
-	ScanConfig configv1.ScanConfig
-	Service    corev1.Service
-	Namespace  corev1.Namespace
-	Host       HostPort
-}
-
 // Takes in both autoDiscoveryConfig and scanConfig as this function might be used by other controllers in the future, which can then pass in the their relevant scanConfig into this function
 func generateScanSpec(autoDiscoveryConfig configv1.AutoDiscoveryConfig, scanConfig configv1.ScanConfig, host HostPort, service corev1.Service, namespace corev1.Namespace) executionv1.ScheduledScanSpec {
+	type TemplateArgs struct {
+		Config     configv1.AutoDiscoveryConfig
+		ScanConfig configv1.ScanConfig
+		Service    corev1.Service
+		Namespace  corev1.Namespace
+		Host       HostPort
+	}
 	parameters := scanConfig.Parameters
 
 	templateArgs := TemplateArgs{

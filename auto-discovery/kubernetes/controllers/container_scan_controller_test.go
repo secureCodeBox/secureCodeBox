@@ -37,27 +37,26 @@ var _ = Describe("ContainerScan controller", func() {
 		namespace := "default"
 		ctx := context.Background()
 
-		//scanGoTemplate uses resourceinclusionmode to test the go template, as its value is constant. Doesnt make much sense, but gets the job done
 		nginxScanName := "scan-nginx-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
 		nginxScanName = nginxScanName[:62]
 		nginxScanGoTemplate := scanGoTemplate{
-			map[string]string{"testAnnotation": "enabled-per-resource"},
+			map[string]string{"testAnnotation": "default"},
 			map[string]string{
-				"testLabel":                    "enabled-per-resource",
+				"testLabel":                    "default",
 				"app.kubernetes.io/managed-by": "securecodebox-autodiscovery",
 			},
-			[]string{"-p", "enabled-per-resource"},
+			[]string{"-p", "default"},
 		}
 
 		juiceShopScanName := "scan-juice-shop-at-9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2"
 		juiceShopScanName = juiceShopScanName[:62]
 		juiceShopScanGoTemplate := scanGoTemplate{
-			map[string]string{"testAnnotation": "enabled-per-resource"},
+			map[string]string{"testAnnotation": "default"},
 			map[string]string{
-				"testLabel":                    "enabled-per-resource",
+				"testLabel":                    "default",
 				"app.kubernetes.io/managed-by": "securecodebox-autodiscovery",
 			},
-			[]string{"-p", "enabled-per-resource"},
+			[]string{"-p", "default"},
 		}
 
 		It("Should create a single scheduledscan for every container with the same imageID in the deplyoment", func() {

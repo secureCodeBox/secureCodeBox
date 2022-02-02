@@ -13,16 +13,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-type Cluster struct {
-	Name string
-}
-
-type TemplateArgs struct {
-	Target    metav1.ObjectMeta
-	Namespace metav1.ObjectMeta
-	Cluster   Cluster
-}
-
 func RenderAnnotations(annotationsTemplates map[string]string, targetMeta metav1.ObjectMeta, namespaceMeta metav1.ObjectMeta, clusterName string) map[string]string {
 	annotations := map[string]string{}
 

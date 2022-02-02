@@ -5,11 +5,9 @@
 package controllers
 
 import (
-	"bytes"
 	"context"
 	"regexp"
 	"strings"
-	"text/template"
 
 	"github.com/go-logr/logr"
 	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
@@ -148,7 +146,9 @@ func (r *ContainerScanReconciler) createScheduledScans(ctx context.Context, pod 
 }
 
 func (r *ContainerScanReconciler) createScheduledScan(ctx context.Context, pod corev1.Pod, imageID string) {
-	newScheduledScan := getScanSpec(r.Config, pod, imageID)
+	namespace := r.getNamespace(ctx, pod)
+
+	newScheduledScan := getScanSpec(r.Config, pod, imageID, namespace)
 	err := r.Client.Create(ctx, &newScheduledScan)
 
 	if err != nil {
@@ -157,22 +157,31 @@ func (r *ContainerScanReconciler) createScheduledScan(ctx context.Context, pod c
 		r.Log.V(1).Info("Created scheduled scan", "pod", pod.Name, "namespace", pod.Namespace)
 	}
 }
+func (r *ContainerScanReconciler) getNamespace(ctx context.Context, pod corev1.Pod) corev1.Namespace {
+	var result corev1.Namespace
+	err := r.Client.Get(ctx, types.NamespacedName{Name: pod.Namespace, Namespace: ""}, &result)
 
-func getScanSpec(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imageID string) executionv1.ScheduledScan {
+	if err != nil {
+		r.Log.V(1).Info("Could not retrieve namespace of pod", "pod", pod)
+	}
+	return result
+}
+
+func getScanSpec(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imageID string, namespace corev1.Namespace) executionv1.ScheduledScan {
 	containerScanConfig := config.ContainerAutoDiscoveryConfig.ScanConfig
 
 	newScheduledScan := executionv1.ScheduledScan{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:        getScanName(imageID),
 			Namespace:   pod.Namespace,
-			Annotations: getScanAnnotations(config, pod, imageID),
-			Labels:      getScanLabels(config, pod, imageID),
+			Annotations: getScanAnnotations(config, pod, imageID, namespace),
+			Labels:      getScanLabels(config, pod, imageID, namespace),
 		},
 		Spec: executionv1.ScheduledScanSpec{
 			Interval: containerScanConfig.RepeatInterval,
 			ScanSpec: &executionv1.ScanSpec{
 				ScanType:   containerScanConfig.ScanType,
-				Parameters: getScanParameters(config, pod, imageID),
+				Parameters: getScanParameters(config, pod, imageID, namespace),
 			},
 		},
 	}
@@ -254,77 +263,26 @@ func (r *ContainerScanReconciler) getScan(ctx context.Context, pod corev1.Pod, i
 	return scan, err
 }
 
-func getScanAnnotations(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imageID string) map[string]string {
-	type annotations struct {
-		Config  configv1.AutoDiscoveryConfig
-		Pod     corev1.Pod
-		ImageID string
-	}
-
-	data := annotations{config, pod, imageID}
+func getScanAnnotations(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imageID string, namespace corev1.Namespace) map[string]string {
+	data := util.TemplateArgs{Target: pod.ObjectMeta, Namespace: namespace.ObjectMeta, Cluster: util.Cluster(config.Cluster)}
 	templates := config.ContainerAutoDiscoveryConfig.ScanConfig.Annotations
-	return parseMapTemplate(data, templates)
+	return util.ParseMapTemplate(data, templates)
 }
 
-func getScanParameters(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imageID string) []string {
-	type parameters struct {
-		Config  configv1.AutoDiscoveryConfig
-		Pod     corev1.Pod
-		ImageID string
-	}
-
-	data := parameters{config, pod, imageID}
+func getScanParameters(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imageID string, namespace corev1.Namespace) []string {
+	data := util.TemplateArgs{Target: pod.ObjectMeta, Namespace: namespace.ObjectMeta, Cluster: util.Cluster(config.Cluster)}
 	templates := config.ContainerAutoDiscoveryConfig.ScanConfig.Parameters
-	return parseListTemplate(data, templates)
+	return util.ParseListTemplate(data, templates)
 }
 
-func getScanLabels(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imageID string) map[string]string {
-	type labels struct {
-		Config  configv1.AutoDiscoveryConfig
-		Pod     corev1.Pod
-		ImageID string
-	}
-
-	data := labels{config, pod, imageID}
+func getScanLabels(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imageID string, namespace corev1.Namespace) map[string]string {
+	data := util.TemplateArgs{Target: pod.ObjectMeta, Namespace: namespace.ObjectMeta, Cluster: util.Cluster(config.Cluster)}
 	templates := config.ContainerAutoDiscoveryConfig.ScanConfig.Labels
 
-	generatedLabels := parseMapTemplate(data, templates)
+	generatedLabels := util.ParseMapTemplate(data, templates)
 	generatedLabels["app.kubernetes.io/managed-by"] = "securecodebox-autodiscovery"
 
 	return generatedLabels
-}
-
-func parseMapTemplate(dataStruct interface{}, templates map[string]string) map[string]string {
-	result := map[string]string{}
-
-	for key, value := range templates {
-		tmpl, err := template.New(key).Parse(value)
-
-		if err != nil {
-			panic(err)
-		}
-
-		var tmp bytes.Buffer
-		tmpl.Execute(&tmp, dataStruct)
-		result[key] = tmp.String()
-	}
-	return result
-}
-func parseListTemplate(dataStruct interface{}, templates []string) []string {
-	var result []string
-
-	for _, value := range templates {
-		tmpl, err := template.New(value).Parse(value)
-
-		if err != nil {
-			panic(err)
-		}
-
-		var tmp bytes.Buffer
-		tmpl.Execute(&tmp, dataStruct)
-		result = append(result, tmp.String())
-	}
-	return result
 }
 
 // SetupWithManager sets up the controller and initializes every thing it needs
