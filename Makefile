@@ -50,14 +50,13 @@ test-all: ## Runs all makefile based test suites.
 	done;
 
 .PHONY:
-readme:
-	# Generate README.md based on Chart.yaml and template
+readme:	## Generate README.md based on Chart.yaml and template.
 	@echo ".: ⚙ Generate Helm Docs."
 	helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=$(HELM_DOCS_DIR)/README.md.gotmpl
 
 .PHONY: hook-docs
 .ONESHELL:
-hook-docs:
+hook-docs: ## Generate documentation for hooks.
 	@echo ".: ⚙ Generate Helm Docs."
 	# Start in the hooks folder
 	cd hooks
@@ -78,7 +77,7 @@ hook-docs:
 	done
 
 .PHONY: scanner-docs
-scanner-docs:
+scanner-docs: ## Generate documentation for scanners.
 	@for chart in $(SCANNERS_CHART_LIST); do \
 		echo "Generating docs for $$chart..."; \
 		$(BIN_DIR)/generate-scanner-docs.sh "$${chart}" $(HELM_DOCS_DIR); \
@@ -86,7 +85,7 @@ scanner-docs:
 
 .PHONY: operator-docs
 .ONESHELL:
-operator-docs:
+operator-docs: ## Generate documentation for the operator.
 	# Start in the operator folder
 	cd operator
 	if [ -d "docs" ]; then
@@ -99,7 +98,7 @@ operator-docs:
 
 .PHONY: auto-discovery-docs
 .ONESHELL:
-auto-discovery-docs:
+auto-discovery-docs: ## Generate documentation for the auto-discovery.
 	cd auto-discovery/kubernetes
 	if [ -d "docs" ]; then
 		echo "Docs Folder found at: auto-discovery/kubernetes/docs"
@@ -111,7 +110,7 @@ auto-discovery-docs:
 
 .PHONY: demo-apps-docs
 .ONESHELL:
-demo-apps-docs:
+demo-apps-docs: ## Generate documentation for demo apps.
 	# Start in the hooks folder
 	cd demo-targets
 	# https://github.com/koalaman/shellcheck/wiki/SC2044
@@ -131,7 +130,7 @@ demo-apps-docs:
 	done
 
 .PHONY: docs
-docs: readme hook-docs scanner-docs operator-docs auto-discovery-docs demo-apps-docs
+docs: readme hook-docs scanner-docs operator-docs auto-discovery-docs demo-apps-docs ## Generate all documentation.
 
 .PHONY: create-new-scanner
 create-new-scanner: ## Creates templates for a new scanner, pass NAME=NEW-SCANNER
