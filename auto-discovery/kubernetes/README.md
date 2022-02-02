@@ -132,12 +132,19 @@ kubectl -n juice-shop annotate service juice-shop auto-discovery.securecodebox.i
 |-----|------|---------|-------------|
 | config.apiVersion | string | `"config.securecodebox.io/v1"` |  |
 | config.cluster.name | string | `"docker-desktop"` |  |
+| config.containerAutoDiscovery.enabled | bool | `false` |  |
+| config.containerAutoDiscovery.scanConfig.annotations | object | `{}` | annotations to be added to the scans started by the auto-discovery |
+| config.containerAutoDiscovery.scanConfig.labels | object | `{}` | labels to be added to the scans started by the auto-discovery |
+| config.containerAutoDiscovery.scanConfig.parameters | list | `["image","{{ .ImageID }}"]` | parameters used for the scans created by the containerAutoDiscovery |
+| config.containerAutoDiscovery.scanConfig.repeatInterval | string | `"168h"` | interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset. |
+| config.containerAutoDiscovery.scanConfig.scanType | string | `"trivy"` |  |
 | config.health.healthProbeBindAddress | string | `":8081"` |  |
 | config.kind | string | `"AutoDiscoveryConfig"` |  |
 | config.leaderElection.leaderElect | bool | `true` |  |
 | config.leaderElection.resourceName | string | `"0e41a1f4.securecodebox.io"` |  |
 | config.metrics.bindAddress | string | `"127.0.0.1:8080"` |  |
 | config.resourceInclusion.mode | string | `"enabled-per-namespace"` |  |
+| config.serviceAutoDiscovery.enabled | bool | `true` |  |
 | config.serviceAutoDiscovery.passiveReconcileInterval | string | `"1m"` | interval in which every service is re-checked for updated pods, if service object is updated directly this the service will get reconciled immediately |
 | config.serviceAutoDiscovery.scanConfig.annotations | object | `{"defectdojo.securecodebox.io/engagement-name":"{{ .Target.Name }}","defectdojo.securecodebox.io/engagement-version":"{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}","defectdojo.securecodebox.io/product-name":"{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}","defectdojo.securecodebox.io/product-tags":"cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"}` | annotations to be added to the scans started by the auto-discovery |
 | config.serviceAutoDiscovery.scanConfig.labels | object | `{}` | labels to be added to the scans started by the auto-discovery |
