@@ -40,39 +40,37 @@ function main() {
   parser_dir="${dir}/parser"
   scanner_dir="${dir}/scanner"
 
-  if [ -d "${docs_dir}" ]; then
-    echo "Docs Folder found at: ${docs_dir}"
+  if [ ! -d "${docs_dir}" ]; then
+    echo "Ignoring docs creation process for ${CHART_FILE} because docs folder found at: ${docs_dir}"
+    exit 0
+  fi
 
-    if [ -d "${parser_dir}" ]; then
-      echo "Parser found at: ${parser_dir}"
+  if [ -d "${parser_dir}" ]; then
+    echo "Parser found at: ${parser_dir}"
 
-      cd "${dir}" && generate_docs "${docs_dir}/README.DockerHub-Parser.md" \
-        "${HELM_DOCS_DIR}/templates.gotmpl" \
-        "${dir}/.helm-docs.gotmpl" \
-        "${HELM_DOCS_DIR}/README.DockerHub-Parser.md.gotmpl"
-    else
-      echo "No parser found!"
-    fi
-
-    if [ -d "${scanner_dir}" ]; then
-      echo "Scanner found at: ${scanner_dir}"
-
-      cd "${dir}" && generate_docs "${docs_dir}/README.DockerHub-Scanner.md" \
-        "${HELM_DOCS_DIR}/templates.gotmpl" \
-        "${dir}/.helm-docs.gotmpl" \
-        "${HELM_DOCS_DIR}/README.DockerHub-Scanner.md.gotmpl"
-    else
-      echo "No scanner found!"
-    fi
-
-    cd "${dir}" && generate_docs "${docs_dir}/README.ArtifactHub.md" \
+    cd "${dir}" && generate_docs "${docs_dir}/README.DockerHub-Parser.md" \
       "${HELM_DOCS_DIR}/templates.gotmpl" \
       "${dir}/.helm-docs.gotmpl" \
-      "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl" \
-
+      "${HELM_DOCS_DIR}/README.DockerHub-Parser.md.gotmpl"
   else
-    echo "Ignoring docs creation process for ${CHART_FILE} because docs folder found at: ${docs_dir}"
+    echo "No parser found!"
   fi
+
+  if [ -d "${scanner_dir}" ]; then
+    echo "Scanner found at: ${scanner_dir}"
+
+    cd "${dir}" && generate_docs "${docs_dir}/README.DockerHub-Scanner.md" \
+      "${HELM_DOCS_DIR}/templates.gotmpl" \
+      "${dir}/.helm-docs.gotmpl" \
+      "${HELM_DOCS_DIR}/README.DockerHub-Scanner.md.gotmpl"
+  else
+    echo "No scanner found!"
+  fi
+
+  cd "${dir}" && generate_docs "${docs_dir}/README.ArtifactHub.md" \
+    "${HELM_DOCS_DIR}/templates.gotmpl" \
+    "${dir}/.helm-docs.gotmpl" \
+    "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl" \
 }
 
 main
