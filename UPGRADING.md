@@ -66,7 +66,7 @@ scanner:
 
   # scanner.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
   ttlSecondsAfterFinished: null
-  # scannerJob.backoffLimit -- There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy)
+  # scanner.backoffLimit -- There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy)
   # @default -- 3
   backoffLimit: 3
 ```
@@ -82,7 +82,7 @@ The nmap exception was originally introduced to make it possible configure yours
 This idea for extending the name of a scanType is now in Version 3 general available for all HelmCharts.
 
 The solution was to add a new HelmChart Value `scanner.appendName` for appending a suffix to the already defined scanType name. 
-Example: the `scannerJob.nameAppend: -privileged` for the ZAP scanner will create `zap-baseline-scan-privileged`, `zap-api-scan-privileged`, `zap-full-scan-privileged` as new scanTypes instead of `zap-baseline-scan`, `zap-api-scan`, `zap-full-scan`.
+Example: the `scanner.nameAppend: -privileged` for the ZAP scanner will create `zap-baseline-scan-privileged`, `zap-api-scan-privileged`, `zap-full-scan-privileged` as new scanTypes instead of `zap-baseline-scan`, `zap-api-scan`, `zap-full-scan`.
 
 ➡️  [Reference: #469](https://github.com/secureCodeBox/secureCodeBox/pull/469)
 
