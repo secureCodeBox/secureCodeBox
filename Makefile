@@ -79,7 +79,6 @@ hook-docs: ## Generate documentation for hooks.
 .PHONY: scanner-docs
 scanner-docs: ## Generate documentation for scanners.
 	@for chart in $(SCANNERS_CHART_LIST); do \
-		echo "Generating docs for $$chart..."; \
 		$(BIN_DIR)/generate-scanner-docs.sh "$${chart}" $(HELM_DOCS_DIR); \
 	done
 
