@@ -2,19 +2,32 @@
 
 set -euo pipefail
 
+COLOR_PREFIX="\e[32m"
+COLOR_ERROR="\e[31m"
+COLOR_RESET="\e[0m"
+
 USAGE="$(basename "${0}") path/to/scanner/Chart.yaml path/to/.helm-docs"
+
 CHART_FILE="${1:-}"
 HELM_DOCS_DIR="${2:-}"
 
+function log() {
+  echo -e "${COLOR_PREFIX}SCB${COLOR_RESET} ${1}"
+}
+
+function error() {
+  log >&2 "${COLOR_ERROR}ERROR${COLOR_RESET}: ${1}"
+}
+
 if [[ -z "${CHART_FILE}" ]]; then
-  echo >&2 "No chart file file given as first parameter!"
-  echo >&2 "${USAGE}"
+  error "No chart file file given as first parameter!"
+  error "${USAGE}"
   exit 1
 fi
 
 if [[ -z "${HELM_DOCS_DIR}" ]]; then
-  echo >&2 "No helm docs dir given as second parameter!"
-  echo >&2 "${USAGE}"
+  error "No helm docs dir given as second parameter!"
+  error "${USAGE}"
   exit 1
 fi
 
@@ -31,7 +44,7 @@ function generate_docs() {
 }
 
 function main() {
-  echo "Generating docs for ${CHART_FILE}..."
+  log "Generating docs for ${CHART_FILE}..."
 
   local scanner_dir docs_dir parser_dir sub_scanner_dir
 
@@ -41,30 +54,30 @@ function main() {
   sub_scanner_dir="${scanner_dir}/scanner"
 
   if [ ! -d "${docs_dir}" ]; then
-    echo "Ignoring docs creation process for '${CHART_FILE}' because docs folder found at: '${docs_dir}'!"
+    log "Ignoring docs creation process for '${CHART_FILE}' because docs folder found at: '${docs_dir}'!"
     exit 0
   fi
 
   if [ -d "${parser_dir}" ]; then
-    echo "Parser found at: '${parser_dir}'..."
+    log "Parser found at: '${parser_dir}'..."
 
     cd "${dir}" && generate_docs "${docs_dir}/README.DockerHub-Parser.md" \
       "${HELM_DOCS_DIR}/templates.gotmpl" \
       "${scanner_dir}/.helm-docs.gotmpl" \
       "${HELM_DOCS_DIR}/README.DockerHub-Parser.md.gotmpl"
   else
-    echo "No parser found '${parser_dir}'!"
+    log "No parser found '${parser_dir}'!"
   fi
 
   if [ -d "${sub_scanner_dir}" ]; then
-    echo "Scanner found at: '${sub_scanner_dir}'..."
+    log "Scanner found at: '${sub_scanner_dir}'..."
 
     cd "${dir}" && generate_docs "${docs_dir}/README.DockerHub-Scanner.md" \
       "${HELM_DOCS_DIR}/templates.gotmpl" \
       "${scanner_dir}/.helm-docs.gotmpl" \
       "${HELM_DOCS_DIR}/README.DockerHub-Scanner.md.gotmpl"
   else
-    echo "No scanner found at '${sub_scanner_dir}'!"
+    log "No scanner found at '${sub_scanner_dir}'!"
   fi
 
   cd "${dir}" && generate_docs "${docs_dir}/README.ArtifactHub.md" \
