@@ -3,8 +3,8 @@
 set -euo pipefail
 
 USAGE="$(basename "${0}") path/to/scanner/Chart.yaml path/to/.helm-docs"
-CHART_FILE="${1}"
-HELM_DOCS_DIR="${2}"
+CHART_FILE="${1:-}"
+HELM_DOCS_DIR="${2:-}"
 
 if [[ -z "${CHART_FILE}" ]]; then
   echo >&2 "No chart file file given as first parameter!"
