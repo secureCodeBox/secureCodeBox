@@ -51,12 +51,12 @@ function generate_docs() {
 function main() {
   log "Generating docs for ${CHART_FILE}..."
 
-  local scanner_dir docs_dir parser_dir sub_scanner_dir
+  local scanner_dir docs_dir parser_dir scanner_image_dir
 
   scanner_dir="$(dirname "${CHART_FILE}")"
   docs_dir="${scanner_dir}/docs"
   parser_dir="${scanner_dir}/parser"
-  sub_scanner_dir="${scanner_dir}/scanner"
+  scanner_image_dir="${scanner_dir}/scanner"
 
   if [ ! -d "${docs_dir}" ]; then
     log "Ignoring docs creation process for '${CHART_FILE}' because docs folder found at: '${docs_dir}'!"
@@ -75,8 +75,8 @@ function main() {
     log "No parser found '${parser_dir}'! Skipping parser doc."
   fi
 
-  if [ -d "${sub_scanner_dir}" ]; then
-    log "Scanner found at: '${sub_scanner_dir}'. Generating scanner doc..."
+  if [ -d "${scanner_image_dir}" ]; then
+    log "Scanner found at: '${scanner_image_dir}'. Generating scanner doc..."
 
     generate_docs "${scanner_dir}" \
       "docs/README.DockerHub-Scanner.md" \
@@ -84,7 +84,7 @@ function main() {
       "${scanner_dir}/.helm-docs.gotmpl" \
       "${HELM_DOCS_DIR}/README.DockerHub-Scanner.md.gotmpl"
   else
-    log "No scanner found at '${sub_scanner_dir}'! Skipping scanner doc."
+    log "No scanner found at '${scanner_image_dir}'! Skipping scanner doc."
   fi
 
   log "Generating main doc..."
