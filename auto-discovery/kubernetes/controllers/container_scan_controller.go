@@ -264,19 +264,19 @@ func (r *ContainerScanReconciler) getScan(ctx context.Context, pod corev1.Pod, i
 }
 
 func getScanAnnotations(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imageID string, namespace corev1.Namespace) map[string]string {
-	data := util.TemplateArgs{Target: pod.ObjectMeta, Namespace: namespace.ObjectMeta, Cluster: util.Cluster(config.Cluster)}
+	data := util.TemplateArgs{Target: pod.ObjectMeta, Namespace: namespace.ObjectMeta, Cluster: util.Cluster(config.Cluster), ImageID: imageID}
 	templates := config.ContainerAutoDiscoveryConfig.ScanConfig.Annotations
 	return util.ParseMapTemplate(data, templates)
 }
 
 func getScanParameters(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imageID string, namespace corev1.Namespace) []string {
-	data := util.TemplateArgs{Target: pod.ObjectMeta, Namespace: namespace.ObjectMeta, Cluster: util.Cluster(config.Cluster)}
+	data := util.TemplateArgs{Target: pod.ObjectMeta, Namespace: namespace.ObjectMeta, Cluster: util.Cluster(config.Cluster), ImageID: imageID}
 	templates := config.ContainerAutoDiscoveryConfig.ScanConfig.Parameters
 	return util.ParseListTemplate(data, templates)
 }
 
 func getScanLabels(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imageID string, namespace corev1.Namespace) map[string]string {
-	data := util.TemplateArgs{Target: pod.ObjectMeta, Namespace: namespace.ObjectMeta, Cluster: util.Cluster(config.Cluster)}
+	data := util.TemplateArgs{Target: pod.ObjectMeta, Namespace: namespace.ObjectMeta, Cluster: util.Cluster(config.Cluster), ImageID: imageID}
 	templates := config.ContainerAutoDiscoveryConfig.ScanConfig.Labels
 
 	generatedLabels := util.ParseMapTemplate(data, templates)

@@ -16,6 +16,7 @@ type TemplateArgs struct {
 	Target    metav1.ObjectMeta
 	Namespace metav1.ObjectMeta
 	Cluster   Cluster
+	ImageID   string
 }
 
 func ParseMapTemplate(dataStruct interface{}, templates map[string]string) map[string]string {
