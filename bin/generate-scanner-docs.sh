@@ -67,7 +67,7 @@ function main() {
     log "Parser found at: '${parser_dir}'. Generating parser doc..."
 
     generate_docs "${scanner_dir}" \
-      "${docs_dir}/README.DockerHub-Parser.md" \
+      "docs/README.DockerHub-Parser.md" \
       "${HELM_DOCS_DIR}/templates.gotmpl" \
       "${scanner_dir}/.helm-docs.gotmpl" \
       "${HELM_DOCS_DIR}/README.DockerHub-Parser.md.gotmpl"
@@ -79,7 +79,7 @@ function main() {
     log "Scanner found at: '${sub_scanner_dir}'. Generating scanner doc..."
 
     generate_docs "${scanner_dir}" \
-      "${docs_dir}/README.DockerHub-Scanner.md" \
+      "docs/README.DockerHub-Scanner.md" \
       "${HELM_DOCS_DIR}/templates.gotmpl" \
       "${scanner_dir}/.helm-docs.gotmpl" \
       "${HELM_DOCS_DIR}/README.DockerHub-Scanner.md.gotmpl"
@@ -89,7 +89,7 @@ function main() {
 
   log "Generating main doc..."
   generate_docs "${scanner_dir}" \
-    "${docs_dir}/README.ArtifactHub.md" \
+    "docs/README.ArtifactHub.md" \
     "${HELM_DOCS_DIR}/templates.gotmpl" \
     "${scanner_dir}/.helm-docs.gotmpl" \
     "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl"
