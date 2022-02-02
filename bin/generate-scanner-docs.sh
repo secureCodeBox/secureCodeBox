@@ -41,19 +41,19 @@ function main() {
   sub_scanner_dir="${scanner_dir}/scanner"
 
   if [ ! -d "${docs_dir}" ]; then
-    echo "Ignoring docs creation process for ${CHART_FILE} because docs folder found at: ${docs_dir}"
+    echo "Ignoring docs creation process for '${CHART_FILE}' because docs folder found at: '${docs_dir}'!"
     exit 0
   fi
 
   if [ -d "${parser_dir}" ]; then
-    echo "Parser found at: ${parser_dir}"
+    echo "Parser found at: '${parser_dir}'..."
 
     cd "${dir}" && generate_docs "${docs_dir}/README.DockerHub-Parser.md" \
       "${HELM_DOCS_DIR}/templates.gotmpl" \
       "${scanner_dir}/.helm-docs.gotmpl" \
       "${HELM_DOCS_DIR}/README.DockerHub-Parser.md.gotmpl"
   else
-    echo "No parser found!"
+    echo "No parser found '${parser_dir}'!"
   fi
 
   if [ -d "${sub_scanner_dir}" ]; then
@@ -64,7 +64,7 @@ function main() {
       "${scanner_dir}/.helm-docs.gotmpl" \
       "${HELM_DOCS_DIR}/README.DockerHub-Scanner.md.gotmpl"
   else
-    echo "No scanner found!"
+    echo "No scanner found at '${sub_scanner_dir}'!"
   fi
 
   cd "${dir}" && generate_docs "${docs_dir}/README.ArtifactHub.md" \
