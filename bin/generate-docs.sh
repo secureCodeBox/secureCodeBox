@@ -10,7 +10,7 @@ COLOR_PREFIX="\e[32m"
 COLOR_ERROR="\e[31m"
 COLOR_RESET="\e[0m"
 
-USAGE="$(basename "${0}") --scanner|--hook|--demo-target path/to/scanner/Chart.yaml path/to/.helm-docs"
+USAGE="$(basename "${0}") --scanner|--hook|--demo-target|--operator|--auto-discovery path/to/scanner/Chart.yaml path/to/.helm-docs"
 
 DOC_TYPE="${1:-}"
 CHART_FILE="${2:-}"
@@ -159,6 +159,16 @@ function generate_demo_target_docs() {
     "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl"
 }
 
+function generate_operator_docs() {
+  error "Not implemented yet!"
+  exit 1
+}
+
+function generate_auto_discovery_docs() {
+  error "Not implemented yet!"
+  exit 1
+}
+
 function main() {
   validate_args
 
@@ -171,6 +181,12 @@ function main() {
     ;;
   "--demo-target")
     generate_demo_target_docs
+    ;;
+  "--operator")
+    generate_operator_docs
+    ;;
+  "--auto-discovery")
+    generate_auto_discovery_docs
     ;;
   *)
     error "Unsupported doc type: ${DOC_TYPE}!"
