@@ -2,14 +2,16 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-PROJECT_DIR		= $(shell pwd)
-BIN_DIR				= $(PROJECT_DIR)/bin
-SCANNERS_DIR	= $(PROJECT_DIR)/scanners
-HOOKS_DIR			= $(PROJECT_DIR)/hooks
-HELM_DOCS_DIR	= $(PROJECT_DIR)/.helm-docs
+PROJECT_DIR				= $(shell pwd)
+BIN_DIR						= $(PROJECT_DIR)/bin
+SCANNERS_DIR			= $(PROJECT_DIR)/scanners
+HOOKS_DIR					= $(PROJECT_DIR)/hooks
+DEMO_TARGETS_DIR	= $(PROJECT_DIR)/demo-targets
+HELM_DOCS_DIR			= $(PROJECT_DIR)/.helm-docs
 
-SCANNERS_CHART_LIST	:= $(sort $(wildcard $(SCANNERS_DIR)/*/Chart.yaml))
-HOOKS_CHART_LIST		:= $(sort $(wildcard $(HOOKS_DIR)/*/Chart.yaml))
+SCANNERS_CHART_LIST			:= $(sort $(wildcard $(SCANNERS_DIR)/*/Chart.yaml))
+HOOKS_CHART_LIST				:= $(sort $(wildcard $(HOOKS_DIR)/*/Chart.yaml))
+DEMO_TARGETS_CHART_LIST	:= $(sort $(wildcard $(DEMO_TARGETS_DIR)/*/Chart.yaml))
 
 all: help
 
