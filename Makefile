@@ -59,33 +59,27 @@ readme:	## Generate README.md based on Chart.yaml and template.
 
 # FIXME: #754 Remove .ONESHELL which is unsupported on some systems
 .PHONY: hook-docs
-.ONESHELL:
 hook-docs: ## Generate documentation for hooks.
-	@echo ".: ⚙ Generate Helm Docs."
-	# Start in the hooks folder
-	cd hooks
-	# https://github.com/koalaman/shellcheck/wiki/SC2044
-	find . -type f ! -name "$(printf "*\n*")" -name Chart.yaml | while IFS= read -r chart; do
-	(
-		dir="$$(dirname "$${chart}")"
-		echo "Processing Helm Chart in $$dir"
-		cd "$${dir}" || exit
-		if [ -d "docs" ]; then
-			echo "Docs Folder found at: $${dir}/docs"
+	cd hooks; \
+	find . -type f ! -name "$(printf "*\n*")" -name Chart.yaml | while IFS= read -r chart; do \
+	(dir="$$(dirname "$${chart}")"; \
+		echo "Processing Helm Chart in $$dir"; \
+		cd "$${dir}" || exit; \
+		if [ -d "docs" ]; then \
+			echo "Docs Folder found at: $${dir}/docs"; \
 			helm-docs \
 				--template-files="$(HELM_DOCS_DIR)/templates.gotmpl" \
 				--template-files=".helm-docs.gotmpl" \
 				--template-files="$(HELM_DOCS_DIR)/README.DockerHub-Hook.md.gotmpl" \
-				--output-file="docs/README.DockerHub-Hook.md"
+				--output-file="docs/README.DockerHub-Hook.md"; \
 			helm-docs \
 				--template-files="$(HELM_DOCS_DIR)/templates.gotmpl" \
 				--template-files=".helm-docs.gotmpl" \
 				--template-files="$(HELM_DOCS_DIR)/README.ArtifactHub.md.gotmpl" \
-				--output-file="docs/README.ArtifactHub.md"
-		else
-			echo "Ignoring Docs creation process for Chart $$dir, because no docs folder found at: $${dir}/docs"
-		fi
-	)
+				--output-file="docs/README.ArtifactHub.md"; \
+		else \
+			echo "Ignoring Docs creation process for Chart $$dir, because no docs folder found at: $${dir}/docs"; \
+		fi) \
 	done
 
 .PHONY: scanner-docs
