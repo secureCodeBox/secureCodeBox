@@ -98,8 +98,8 @@ auto-discovery-docs: ## Generate documentation for the auto-discovery.
 		echo "Ignoring Docs creation process for Chart $$dir, because no `docs` folder found at: auto-discovery/kubernetes/docs"
 	fi
 
-.PHONY: demo-targets-docs
-demo-targets-docs: ## Generate documentation for demo targets.
+.PHONY: demo-target-docs
+demo-target-docs: ## Generate documentation for demo targets.
 	@for chart in $(DEMO_TARGETS_CHART_LIST); do \
 		$(BIN_DIR)/generate-docs.sh --demo-target "$${chart}" $(HELM_DOCS_DIR); \
 	done
