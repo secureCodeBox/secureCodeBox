@@ -133,7 +133,7 @@ function generate_hook_docs() {
     "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl"
 }
 
-function generate_demo_target() {
+function generate_demo_target_docs() {
   log "Generating demo target docs for ${CHART_FILE}..."
 
   local demo_target_dir docs_dir
@@ -170,7 +170,7 @@ function main() {
     generate_hook_docs
     ;;
   "--demo-target")
-    generate_demo_target
+    generate_demo_target_docs
     ;;
   *)
     error "Unsupported doc type: ${DOC_TYPE}!"
