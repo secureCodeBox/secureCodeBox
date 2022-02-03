@@ -98,25 +98,10 @@ auto-discovery-docs: ## Generate documentation for the auto-discovery.
 		echo "Ignoring Docs creation process for Chart $$dir, because no `docs` folder found at: auto-discovery/kubernetes/docs"
 	fi
 
-# FIXME: #754 Remove .ONESHELL which is unsupported on some systems
-.ONESHELL:
 .PHONY: demo-targets-docs
 demo-targets-docs: ## Generate documentation for demo targets.
-	cd demo-targets
-	# https://github.com/koalaman/shellcheck/wiki/SC2044
-	find . -type f ! -name "$(printf "*\n*")" -name Chart.yaml | while IFS= read -r chart; do
-	(
-		dir="$$(dirname "$${chart}")"
-		echo "Processing Helm Chart in $$dir"
-		cd "$${dir}" || exit
-		if [ -d "docs" ]; then
-				echo "Docs Folder found at: $${dir}/docs"
-				helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=$(HELM_DOCS_DIR)/README.DockerHub-Target.md.gotmpl --output-file=docs/README.DockerHub-Target.md
-				helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=$(HELM_DOCS_DIR)/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
-		else
-				echo "Ignoring Docs creation process for Chart $$dir, because no `docs` folder found at: $${dir}/docs"
-		fi
-	)
+	@for chart in $(DEMO_TARGETS_CHART_LIST); do \
+		$(BIN_DIR)/generate-docs.sh --demo-target "$${chart}" $(HELM_DOCS_DIR); \
 	done
 
 .PHONY: docs

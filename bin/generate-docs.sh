@@ -133,8 +133,30 @@ function generate_hook_docs() {
     "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl"
 }
 
-function generate_demo_apps() {
-  log "Generating demo app docs for ${CHART_FILE}..."
+function generate_demo_target() {
+  log "Generating demo target docs for ${CHART_FILE}..."
+
+  local demo_target_dir docs_dir
+
+  demo_target_dir="$(dirname "${CHART_FILE}")"
+  docs_dir="${demo_target_dir}/docs"
+
+  if [ ! -d "${docs_dir}" ]; then
+    log "Ignoring docs creation process for '${CHART_FILE}' because docs folder found at: '${docs_dir}'!"
+    exit 0
+  fi
+
+  generate_docs "${demo_target_dir}" \
+    "docs/README.DockerHub-Target.md" \
+    "${HELM_DOCS_DIR}/templates.gotmpl" \
+    "${demo_target_dir}/.helm-docs.gotmpl" \
+    "${HELM_DOCS_DIR}/README.DockerHub-Target.md.gotmpl"
+
+  generate_docs "${demo_target_dir}" \
+    "docs/README.ArtifactHub.md" \
+    "${HELM_DOCS_DIR}/templates.gotmpl" \
+    "${demo_target_dir}/.helm-docs.gotmpl" \
+    "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl"
 }
 
 function main() {
@@ -148,7 +170,7 @@ function main() {
     generate_hook_docs
     ;;
   "--demo-target")
-    generate_demo_apps
+    generate_demo_target
     ;;
   *)
     error "Unsupported doc type: ${DOC_TYPE}!"
