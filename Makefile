@@ -55,6 +55,7 @@ readme:	## Generate README.md based on Chart.yaml and template.
 	@echo ".: ⚙ Generate Helm Docs."
 	helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=$(HELM_DOCS_DIR)/README.md.gotmpl
 
+# FIXME: #754 Remove .ONESHELL which is unsupported on some systems
 .PHONY: hook-docs
 .ONESHELL:
 hook-docs: ## Generate documentation for hooks.
@@ -83,6 +84,7 @@ scanner-docs: ## Generate documentation for scanners.
 		$(BIN_DIR)/generate-scanner-docs.sh "$${chart}" $(HELM_DOCS_DIR); \
 	done
 
+# FIXME: #754 Remove .ONESHELL which is unsupported on some systems
 .PHONY: operator-docs
 .ONESHELL:
 operator-docs: ## Generate documentation for the operator.
@@ -96,6 +98,7 @@ operator-docs: ## Generate documentation for the operator.
 		echo "Ignoring Docs creation process for Chart $$dir, because no `docs` folder found at: operator/docs"
 	fi
 
+# FIXME: #754 Remove .ONESHELL which is unsupported on some systems
 .PHONY: auto-discovery-docs
 .ONESHELL:
 auto-discovery-docs: ## Generate documentation for the auto-discovery.
@@ -108,6 +111,7 @@ auto-discovery-docs: ## Generate documentation for the auto-discovery.
 		echo "Ignoring Docs creation process for Chart $$dir, because no `docs` folder found at: auto-discovery/kubernetes/docs"
 	fi
 
+# FIXME: #754 Remove .ONESHELL which is unsupported on some systems
 .PHONY: demo-apps-docs
 .ONESHELL:
 demo-apps-docs: ## Generate documentation for demo apps.
