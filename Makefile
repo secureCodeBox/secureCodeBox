@@ -83,7 +83,7 @@ hook-docs: ## Generate documentation for hooks.
 				--template-files="$(HELM_DOCS_DIR)/README.ArtifactHub.md.gotmpl" \
 				--output-file="docs/README.ArtifactHub.md"
 		else
-			echo "Ignoring Docs creation process for Chart $$dir, because no `docs` folder found at: $${dir}/docs"
+			echo "Ignoring Docs creation process for Chart $$dir, because no docs folder found at: $${dir}/docs"
 		fi
 	)
 	done
