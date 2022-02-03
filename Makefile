@@ -105,7 +105,7 @@ demo-target-docs: ## Generate documentation for demo targets.
 	done
 
 .PHONY: docs
-docs: readme hook-docs scanner-docs operator-docs auto-discovery-docs demo-apps-docs ## Generate all documentation.
+docs: readme hook-docs scanner-docs operator-docs auto-discovery-docs demo-target-docs ## Generate all documentation.
 
 .PHONY: create-new-scanner
 create-new-scanner: ## Creates templates for a new scanner, pass NAME=NEW-SCANNER

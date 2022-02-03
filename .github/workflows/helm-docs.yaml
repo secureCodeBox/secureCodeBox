@@ -42,8 +42,8 @@ jobs:
       - name: Generate README
         run: |
           make readme
-      - name: Generate Demo-Apps Docs
-        run: make demo-apps-docs
+      - name: Generate Demo Target Docs
+        run: make demo-target-docs
 
       - name: Generate Hooks Docs
         run: make hook-docs

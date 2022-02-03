@@ -113,10 +113,10 @@ jobs:
           sudo mv helm-docs /usr/local/bin/helm-docs
 
       - name: Generate README
-        run: |
-          make readme
-      - name: Generate Demo-Apps Docs
-        run: make demo-apps-docs
+        run: make readme
+
+      - name: Generate Demo Target Docs
+        run: make demo-target-docs
 
       - name: Generate Hooks Docs
         run: make hook-docs
