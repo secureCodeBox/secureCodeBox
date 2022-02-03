@@ -29,9 +29,9 @@ jobs:
           mkdir helm-docs
           cd helm-docs
 
-          curl --output helm-docs.tar.gz --location https://github.com/norwoodj/helm-docs/releases/download/v1.5.0/helm-docs_1.5.0_Linux_x86_64.tar.gz
+          curl --output helm-docs.tar.gz --location https://github.com/norwoodj/helm-docs/releases/download/v1.6.0/helm-docs_1.6.0_Linux_x86_64.tar.gz
           # Checksum must be extracted from the checksum file every time helm-docs gets updated.
-          echo "a352e13a8438045b8ed138b821cb757c177acd999c1af77345152d7a64b0ddb7  helm-docs.tar.gz" | shasum --check
+          echo "286723d931c18581fc324985cb96e9cce639e521fa63b57ac04ebe9d497e60fb  helm-docs.tar.gz" | shasum --check
 
           tar -xvf helm-docs.tar.gz
           # Verify installation
