@@ -97,8 +97,10 @@ ifdef NAME
 	find ./scanners/$(NAME) -type f ! -name 'tmp' \
 		-exec sed -n 's/new-scanner/$(NAME)/g;w ./scanners/$(NAME)/tmp' {} \; \
 		-exec mv ./scanners/$(NAME)/tmp {} \;
-	mv ./scanners/$(NAME)/templates/new-scanner-parse-definition.yaml ./scanners/$(NAME)/templates/$(NAME)-parse-definition.yaml
-	mv ./scanners/$(NAME)/templates/new-scanner-scan-type.yaml ./scanners/$(NAME)/templates/$(NAME)-scan-type.yaml
+	mv ./scanners/$(NAME)/templates/new-scanner-parse-definition.yaml \
+		./scanners/$(NAME)/templates/$(NAME)-parse-definition.yaml
+	mv ./scanners/$(NAME)/templates/new-scanner-scan-type.yaml \
+		./scanners/$(NAME)/templates/$(NAME)-scan-type.yaml
 else
 	@echo "Scanner name not defined, please provide via make create-new-scanner NAME=NEW-SCANNER"
 endif
