@@ -77,18 +77,9 @@ scanner-docs: ## Generate documentation for scanners.
 operator-docs: ## Generate documentation for the operator.
 	$(BIN_DIR)/generate-docs.sh --operator $(OPERATOR_DIR)/Chart.yaml $(HELM_DOCS_DIR)
 
-# FIXME: #754 Remove .ONESHELL which is unsupported on some systems
 .PHONY: auto-discovery-docs
-.ONESHELL:
 auto-discovery-docs: ## Generate documentation for the auto-discovery.
-	cd auto-discovery/kubernetes
-	if [ -d "docs" ]; then
-		echo "Docs Folder found at: auto-discovery/kubernetes/docs"
-		helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=$(HELM_DOCS_DIR)/README.DockerHub-Core.md.gotmpl --output-file=docs/README.DockerHub-Core.md
-		helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=$(HELM_DOCS_DIR)/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
-	else
-		echo "Ignoring Docs creation process for Chart $$dir, because no `docs` folder found at: auto-discovery/kubernetes/docs"
-	fi
+	$(BIN_DIR)/generate-docs.sh --operator $(AUTO_DISCOVERY_DIR)/kubernetes/Chart.yaml $(HELM_DOCS_DIR)
 
 .PHONY: demo-target-docs
 demo-target-docs: ## Generate documentation for demo targets.

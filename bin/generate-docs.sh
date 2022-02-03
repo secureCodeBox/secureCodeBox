@@ -185,8 +185,28 @@ function generate_operator_docs() {
 }
 
 function generate_auto_discovery_docs() {
-  error "Not implemented yet!"
-  exit 1
+  log "Generating auto discovery docs for ${CHART_FILE}..."
+
+  local auto_discovery_dir docs_dir
+
+  auto_discovery_dir="$(dirname "${CHART_FILE}")"
+  docs_dir="${auto_discovery_dir}/docs"
+
+  if [ ! -d "${docs_dir}" ]; then
+    log "Ignoring docs creation process for '${CHART_FILE}' because docs folder found at: '${docs_dir}'!"
+    exit 0
+  fi
+
+  generate_docs "${auto_discovery_dir}" \
+    "docs/README.DockerHub-Core.md" \
+    "${HELM_DOCS_DIR}/templates.gotmpl" \
+    "${auto_discovery_dir}.helm-docs.gotmpl" \
+    "${HELM_DOCS_DIR}/README.DockerHub-Core.md.gotmpl"
+  generate_docs "${auto_discovery_dir}" \
+    "docs/README.ArtifactHub.md" \
+    "${HELM_DOCS_DIR}/templates.gotmpl" \
+    "${auto_discovery_dir}.helm-docs.gotmpl" \
+    "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl"
 }
 
 function main() {
