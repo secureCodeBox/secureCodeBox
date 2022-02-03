@@ -24,23 +24,25 @@ function error() {
   log >&2 "${COLOR_ERROR}ERROR${COLOR_RESET}: ${1}"
 }
 
-if [[ -z "${DOC_TYPE}" ]]; then
-  error "No doc type  given as first parameter!"
-  error "${USAGE}"
-  exit 1
-fi
+function validate_args() {
+  if [[ -z "${DOC_TYPE}" ]]; then
+    error "No doc type  given as first argument!"
+    error "${USAGE}"
+    exit 1
+  fi
 
-if [[ -z "${CHART_FILE}" ]]; then
-  error "No chart file given as second parameter!"
-  error "${USAGE}"
-  exit 1
-fi
+  if [[ -z "${CHART_FILE}" ]]; then
+    error "No chart file given as second argument!"
+    error "${USAGE}"
+    exit 1
+  fi
 
-if [[ -z "${HELM_DOCS_DIR}" ]]; then
-  error "No helm docs dir given as third parameter!"
-  error "${USAGE}"
-  exit 1
-fi
+  if [[ -z "${HELM_DOCS_DIR}" ]]; then
+    error "No helm docs dir given as third argument!"
+    error "${USAGE}"
+    exit 1
+  fi
+}
 
 function generate_docs() {
   local chart_search_root output_file base_template docs_template dockerhub_template
@@ -132,6 +134,8 @@ function generate_hook_docs() {
 }
 
 function main() {
+  validate_args
+
   case "${DOC_TYPE}" in
   "--scanner")
     generate_scanner_docs
