@@ -48,9 +48,7 @@ npm-test-all: ## Runs all Jest based test suites.
 	npm test -- --testPathIgnorePatterns "/integration-tests/"
 
 .PHONY: test-all
-test-all: ## Runs all makefile based test suites.
-	@echo ".: ⚙ Installing the operator for makefile based testing."
-	cd ./operator && $(MAKE) -s docker-build docker-export kind-import helm-deploy
+test-all: install-operator ## Runs all makefile based test suites.
 	@echo ".: ⚙ Running make test for all scanner and hook modules."
 	for dir in scanners/*/ hooks/*/ ; do \
   	cd $$dir; \
@@ -58,6 +56,11 @@ test-all: ## Runs all makefile based test suites.
   	$(MAKE) -s test || exit 1 ; \
 		cd -; \
 	done;
+
+.PHONY: install-operator
+install-operator: ## Install the operator for makefile based testing.
+	@echo "Installing the operator for makefile based testing..."
+	cd $(OPERATOR_DIR) && $(MAKE) -s docker-build docker-export kind-import helm-deploy
 
 .PHONY: readme
 readme:	## Generate README.md based on Chart.yaml and template.
