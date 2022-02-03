@@ -11,7 +11,7 @@ SCANNERS_CHART_LIST		:= $(sort $(wildcard $(SCANNERS_DIR)/*/Chart.yaml))
 
 all: help
 
-.PHONY:
+.PHONY: npm-ci-all
 npm-ci-all: ## Runs npm ci in all node module subfolders.
 # This find construct is based on https://stackoverflow.com/questions/4210042/how-to-exclude-a-directory-in-find-command/4210072#4210072
 	find . \( \
@@ -34,10 +34,11 @@ npm-ci-all: ## Runs npm ci in all node module subfolders.
 		-iname package.json \
 		-execdir npm ci \;
 
-.PHONY:
+.PHONY: npm-test-all
 npm-test-all: ## Runs all Jest based test suites.
 	npm test -- --testPathIgnorePatterns "/integration-tests/"
 
+.PHONY: test-all
 test-all: ## Runs all makefile based test suites.
 	@echo ".: ⚙ Installing the operator for makefile based testing."
 	cd ./operator && $(MAKE) -s docker-build docker-export kind-import helm-deploy
@@ -49,7 +50,7 @@ test-all: ## Runs all makefile based test suites.
 		cd -; \
 	done;
 
-.PHONY:
+.PHONY: readme
 readme:	## Generate README.md based on Chart.yaml and template.
 	@echo ".: ⚙ Generate Helm Docs."
 	helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=$(HELM_DOCS_DIR)/README.md.gotmpl
@@ -144,7 +145,7 @@ else
 	@echo "Scanner name not defined, please provide via make create-new-scanner NAME=NEW-SCANNER"
 endif
 
-.PHONY:
+.PHONY: help
 help: ## Display this help screen.
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
