@@ -15,31 +15,33 @@ TEMPLATES_DIR				= $(PROJECT_DIR)/.templates
 SCANNERS_CHART_LIST			:= $(sort $(wildcard $(SCANNERS_DIR)/*/Chart.yaml))
 HOOKS_CHART_LIST				:= $(sort $(wildcard $(HOOKS_DIR)/*/Chart.yaml))
 DEMO_TARGETS_CHART_LIST	:= $(sort $(wildcard $(DEMO_TARGETS_DIR)/*/Chart.yaml))
+# This find construct is based on https://stackoverflow.com/questions/4210042/how-to-exclude-a-directory-in-find-command/4210072#4210072
+PACKAGE_JSON_LIST				:= $(shell find $(PROJECT_DIR) \( \
+                                   		-name '.git' -o \
+                                   		-name '.github' -o \
+                                   		-name '.idea' -o \
+                                   		-name '.reuse' -o \
+                                   		-name '.vagrant' -o \
+                                   		-name '.vscode' -o \
+                                   		-name 'bin' -o \
+                                   		-name 'docs' -o \
+                                   		-name 'LICENSES' -o \
+                                   		-name 'coverage' -o \
+                                   		-name 'dist' -o \
+                                   		-name 'node_modules' -o \
+                                   		-name target \) \
+                                   		-prune \
+                                   		-false \
+                                   		-o -type f \
+                                   		-iname package.json)
 
 all: help
 
 .PHONY: npm-ci-all
 npm-ci-all: ## Runs npm ci in all node module subfolders.
-# This find construct is based on https://stackoverflow.com/questions/4210042/how-to-exclude-a-directory-in-find-command/4210072#4210072
-	find . \( \
-		-name '.git' -o \
-		-name '.github' -o \
-		-name '.idea' -o \
-		-name '.reuse' -o \
-		-name '.vagrant' -o \
-		-name '.vscode' -o \
-		-name 'bin' -o \
-		-name 'docs' -o \
-		-name 'LICENSES' -o \
-		-name 'coverage' -o \
-		-name 'dist' -o \
-		-name 'node_modules' -o \
-		-name target \) \
-		-prune \
-		-false \
-		-o -type f \
-		-iname package.json \
-		-execdir npm ci \;
+	@for package in $(PACKAGE_JSON_LIST); do \
+		cd "$$(dirname "$${package}")" && npm ci; \
+	done
 
 .PHONY: npm-test-all
 npm-test-all: ## Runs all Jest based test suites.
