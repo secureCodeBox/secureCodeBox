@@ -73,15 +73,15 @@ hook-docs: ## Generate documentation for hooks.
 		if [ -d "docs" ]; then
 			echo "Docs Folder found at: $${dir}/docs"
 			helm-docs \
-				--template-files=$(HELM_DOCS_DIR)/templates.gotmpl \
-				--template-files=.helm-docs.gotmpl \
-				--template-files=$(HELM_DOCS_DIR)/README.DockerHub-Hook.md.gotmpl \
-				--output-file=docs/README.DockerHub-Hook.md
+				--template-files="$(HELM_DOCS_DIR)/templates.gotmpl" \
+				--template-files=".helm-docs.gotmpl" \
+				--template-files="$(HELM_DOCS_DIR)/README.DockerHub-Hook.md.gotmpl" \
+				--output-file="docs/README.DockerHub-Hook.md"
 			helm-docs \
-				--template-files=$(HELM_DOCS_DIR)/templates.gotmpl \
-				--template-files=.helm-docs.gotmpl \
-				--template-files=$(HELM_DOCS_DIR)/README.ArtifactHub.md.gotmpl \
-				--output-file=docs/README.ArtifactHub.md
+				--template-files="$(HELM_DOCS_DIR)/templates.gotmpl" \
+				--template-files=".helm-docs.gotmpl" \
+				--template-files="$(HELM_DOCS_DIR)/README.ArtifactHub.md.gotmpl" \
+				--output-file="docs/README.ArtifactHub.md"
 		else
 			echo "Ignoring Docs creation process for Chart $$dir, because no `docs` folder found at: $${dir}/docs"
 		fi
