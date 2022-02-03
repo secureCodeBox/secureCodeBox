@@ -10,7 +10,7 @@ COLOR_PREFIX="\e[32m"
 COLOR_ERROR="\e[31m"
 COLOR_RESET="\e[0m"
 
-USAGE="$(basename "${0}") --scanner|--hook path/to/scanner/Chart.yaml path/to/.helm-docs"
+USAGE="$(basename "${0}") --scanner|--hook|--demo-target path/to/scanner/Chart.yaml path/to/.helm-docs"
 
 DOC_TYPE="${1:-}"
 CHART_FILE="${2:-}"
@@ -133,6 +133,10 @@ function generate_hook_docs() {
     "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl"
 }
 
+function generate_demo_apps() {
+  log "Generating demo app docs for ${CHART_FILE}..."
+}
+
 function main() {
   validate_args
 
@@ -142,6 +146,9 @@ function main() {
     ;;
   "--hook")
     generate_hook_docs
+    ;;
+  "--demo-target")
+    generate_demo_apps
     ;;
   *)
     error "Unsupported doc type: ${DOC_TYPE}!"
