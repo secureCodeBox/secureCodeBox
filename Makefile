@@ -2,12 +2,14 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-PROJECT_DIR				= $(shell pwd)
-BIN_DIR						= $(PROJECT_DIR)/bin
-SCANNERS_DIR			= $(PROJECT_DIR)/scanners
-HOOKS_DIR					= $(PROJECT_DIR)/hooks
-DEMO_TARGETS_DIR	= $(PROJECT_DIR)/demo-targets
-HELM_DOCS_DIR			= $(PROJECT_DIR)/.helm-docs
+PROJECT_DIR					= $(shell pwd)
+BIN_DIR							= $(PROJECT_DIR)/bin
+SCANNERS_DIR				= $(PROJECT_DIR)/scanners
+HOOKS_DIR						= $(PROJECT_DIR)/hooks
+DEMO_TARGETS_DIR		= $(PROJECT_DIR)/demo-targets
+OPERATOR_DIR				= $(PROJECT_DIR)/operator
+AUTO_DISCOVERY_DIR	= $(PROJECT_DIR)/auto-discovery
+HELM_DOCS_DIR				= $(PROJECT_DIR)/.helm-docs
 
 SCANNERS_CHART_LIST			:= $(sort $(wildcard $(SCANNERS_DIR)/*/Chart.yaml))
 HOOKS_CHART_LIST				:= $(sort $(wildcard $(HOOKS_DIR)/*/Chart.yaml))
@@ -71,19 +73,9 @@ scanner-docs: ## Generate documentation for scanners.
 		$(BIN_DIR)/generate-docs.sh --scanner "$${chart}" $(HELM_DOCS_DIR); \
 	done
 
-# FIXME: #754 Remove .ONESHELL which is unsupported on some systems
 .PHONY: operator-docs
-.ONESHELL:
 operator-docs: ## Generate documentation for the operator.
-	# Start in the operator folder
-	cd operator
-	if [ -d "docs" ]; then
-		echo "Docs Folder found at: operator/docs"
-		helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=$(HELM_DOCS_DIR)/README.DockerHub-Core.md.gotmpl --output-file=docs/README.DockerHub-Core.md
-		helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=$(HELM_DOCS_DIR)/README.ArtifactHub.md.gotmpl --output-file=docs/README.ArtifactHub.md
-	else
-		echo "Ignoring Docs creation process for Chart $$dir, because no `docs` folder found at: operator/docs"
-	fi
+	$(BIN_DIR)/generate-docs.sh --operator $(OPERATOR_DIR)/Chart.yaml $(HELM_DOCS_DIR)
 
 # FIXME: #754 Remove .ONESHELL which is unsupported on some systems
 .PHONY: auto-discovery-docs
