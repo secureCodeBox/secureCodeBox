@@ -10,7 +10,7 @@ COLOR_PREFIX="\e[32m"
 COLOR_ERROR="\e[31m"
 COLOR_RESET="\e[0m"
 
-USAGE="$(basename "${0}") --scanner path/to/scanner/Chart.yaml path/to/.helm-docs"
+USAGE="$(basename "${0}") --scanner|--hook path/to/scanner/Chart.yaml path/to/.helm-docs"
 
 DOC_TYPE="${1:-}"
 CHART_FILE="${2:-}"
@@ -106,10 +106,38 @@ function generate_scanner_docs() {
     "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl"
 }
 
+function generate_hook_docs() {
+  log "Generating hook docs for ${CHART_FILE}..."
+
+  local hook_dir docs_dir
+
+  hook_dir="$(dirname "${CHART_FILE}")"
+  docs_dir="${hook_dir}/docs"
+
+  if [ ! -d "${docs_dir}" ]; then
+    log "Ignoring docs creation process for '${CHART_FILE}' because docs folder found at: '${docs_dir}'!"
+    exit 0
+  fi
+
+  generate_docs "${hook_dir}" \
+    "docs/README.DockerHub-Hook.md" \
+    "${HELM_DOCS_DIR}/templates.gotmpl" \
+    "${hook_dir}/.helm-docs.gotmpl" \
+    "${HELM_DOCS_DIR}/README.DockerHub-Hook.md.gotmpl"
+  generate_docs "${hook_dir}" \
+    "docs/README.ArtifactHub.md" \
+    "${HELM_DOCS_DIR}/templates.gotmpl" \
+    "${hook_dir}/.helm-docs.gotmpl" \
+    "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl"
+}
+
 function main() {
   case "${DOC_TYPE}" in
   "--scanner")
     generate_scanner_docs
+    ;;
+  "--hook")
+    generate_hook_docs
     ;;
   *)
     error "Unsupported doc type: ${DOC_TYPE}!"
