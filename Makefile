@@ -97,10 +97,9 @@ auto-discovery-docs: ## Generate documentation for the auto-discovery.
 	fi
 
 # FIXME: #754 Remove .ONESHELL which is unsupported on some systems
-.PHONY: demo-apps-docs
 .ONESHELL:
-demo-apps-docs: ## Generate documentation for demo apps.
-	# Start in the hooks folder
+.PHONY: demo-targets-docs
+demo-targets-docs: ## Generate documentation for demo targets.
 	cd demo-targets
 	# https://github.com/koalaman/shellcheck/wiki/SC2044
 	find . -type f ! -name "$(printf "*\n*")" -name Chart.yaml | while IFS= read -r chart; do
