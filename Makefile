@@ -10,6 +10,7 @@ DEMO_TARGETS_DIR		= $(PROJECT_DIR)/demo-targets
 OPERATOR_DIR				= $(PROJECT_DIR)/operator
 AUTO_DISCOVERY_DIR	= $(PROJECT_DIR)/auto-discovery
 HELM_DOCS_DIR				= $(PROJECT_DIR)/.helm-docs
+TEMPLATES_DIR				= $(PROJECT_DIR)/.templates
 
 SCANNERS_CHART_LIST			:= $(sort $(wildcard $(SCANNERS_DIR)/*/Chart.yaml))
 HOOKS_CHART_LIST				:= $(sort $(wildcard $(HOOKS_DIR)/*/Chart.yaml))
@@ -91,16 +92,17 @@ demo-target-docs: ## Generate documentation for demo targets.
 docs: readme hook-docs scanner-docs operator-docs auto-discovery-docs demo-target-docs ## Generate all documentation.
 
 .PHONY: create-new-scanner
-create-new-scanner: ## Creates templates for a new scanner, pass NAME=NEW-SCANNER
+create-new-scanner: ## Creates templates for a new scanner, pass NAME=NEW-SCANNER to this target.
 ifdef NAME
-	cp -r ./.templates/new-scanner ./scanners/$(NAME)
-	find ./scanners/$(NAME) -type f ! -name 'tmp' \
-		-exec sed -n 's/new-scanner/$(NAME)/g;w ./scanners/$(NAME)/tmp' {} \; \
-		-exec mv ./scanners/$(NAME)/tmp {} \;
-	mv ./scanners/$(NAME)/templates/new-scanner-parse-definition.yaml \
-		./scanners/$(NAME)/templates/$(NAME)-parse-definition.yaml
-	mv ./scanners/$(NAME)/templates/new-scanner-scan-type.yaml \
-		./scanners/$(NAME)/templates/$(NAME)-scan-type.yaml
+	rm -rf "$(SCANNERS_DIR)/$(NAME)"
+	cp -r "$(TEMPLATES_DIR)/new-scanner/" "$(SCANNERS_DIR)/$(NAME)"
+	find $(SCANNERS_DIR)/$(NAME) -type f ! -name 'tmp' \
+		-exec sed -n "s/new-scanner/$(NAME)/g;w $(SCANNERS_DIR)/$(NAME)/tmp" {} \; \
+		-exec mv "$(SCANNERS_DIR)/$(NAME)/tmp" {} \;
+	mv "$(SCANNERS_DIR)/$(NAME)/templates/new-scanner-parse-definition.yaml" \
+		"$(SCANNERS_DIR)/$(NAME)/templates/$(NAME)-parse-definition.yaml"
+	mv "$(SCANNERS_DIR)/$(NAME)/templates/new-scanner-scan-type.yaml" \
+		"$(SCANNERS_DIR)/$(NAME)/templates/$(NAME)-scan-type.yaml"
 else
 	@echo "Scanner name not defined, please provide via make create-new-scanner NAME=NEW-SCANNER"
 endif
