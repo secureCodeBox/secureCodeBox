@@ -85,7 +85,7 @@ hook-docs: ## Generate documentation for hooks.
 .PHONY: scanner-docs
 scanner-docs: ## Generate documentation for scanners.
 	@for chart in $(SCANNERS_CHART_LIST); do \
-		$(BIN_DIR)/generate-docs.sh "$${chart}" $(HELM_DOCS_DIR); \
+		$(BIN_DIR)/generate-docs.sh --scanner "$${chart}" $(HELM_DOCS_DIR); \
 	done
 
 # FIXME: #754 Remove .ONESHELL which is unsupported on some systems

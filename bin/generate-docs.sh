@@ -10,10 +10,11 @@ COLOR_PREFIX="\e[32m"
 COLOR_ERROR="\e[31m"
 COLOR_RESET="\e[0m"
 
-USAGE="$(basename "${0}") path/to/scanner/Chart.yaml path/to/.helm-docs"
+USAGE="$(basename "${0}") --scanner path/to/scanner/Chart.yaml path/to/.helm-docs"
 
-CHART_FILE="${1:-}"
-HELM_DOCS_DIR="${2:-}"
+DOC_TYPE="${1:-}"
+CHART_FILE="${2:-}"
+HELM_DOCS_DIR="${3:-}"
 
 function log() {
   echo -e "${COLOR_PREFIX}SCB${COLOR_RESET} ${1}"
@@ -23,14 +24,20 @@ function error() {
   log >&2 "${COLOR_ERROR}ERROR${COLOR_RESET}: ${1}"
 }
 
+if [[ -z "${DOC_TYPE}" ]]; then
+  error "No doc type  given as first parameter!"
+  error "${USAGE}"
+  exit 1
+fi
+
 if [[ -z "${CHART_FILE}" ]]; then
-  error "No chart file file given as first parameter!"
+  error "No chart file given as second parameter!"
   error "${USAGE}"
   exit 1
 fi
 
 if [[ -z "${HELM_DOCS_DIR}" ]]; then
-  error "No helm docs dir given as second parameter!"
+  error "No helm docs dir given as third parameter!"
   error "${USAGE}"
   exit 1
 fi
@@ -52,8 +59,8 @@ function generate_docs() {
     --template-files="${dockerhub_template}"
 }
 
-function main() {
-  log "Generating docs for ${CHART_FILE}..."
+function generate_scanner_docs() {
+  log "Generating scanner docs for ${CHART_FILE}..."
 
   local scanner_dir docs_dir parser_dir scanner_image_dir
 
@@ -97,6 +104,18 @@ function main() {
     "${HELM_DOCS_DIR}/templates.gotmpl" \
     "${scanner_dir}/.helm-docs.gotmpl" \
     "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl"
+}
+
+function main() {
+  case "${DOC_TYPE}" in
+  "--scanner")
+    generate_scanner_docs
+    ;;
+  *)
+    error "Unsupported doc type: ${DOC_TYPE}!"
+    error "${USAGE}"
+    ;;
+  esac
 }
 
 main
