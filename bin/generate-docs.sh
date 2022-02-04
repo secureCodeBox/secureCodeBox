@@ -45,18 +45,17 @@ function validate_args() {
 }
 
 function generate_docs() {
-  local chart_search_root output_file base_template docs_template dockerhub_template
+  local chart_search_root output_file docs_template dockerhub_template
 
   chart_search_root="${1}"
   output_file="${2}"
-  base_template="${3}"
-  docs_template="${4}"
-  dockerhub_template="${5}"
+  docs_template="${3}"
+  dockerhub_template="${4}"
 
   helm-docs --log-level debug \
     --chart-search-root="${chart_search_root}" \
     --output-file="${output_file}" \
-    --template-files="${base_template}" \
+    --template-files="${HELM_DOCS_DIR}/templates.gotmpl" \
     --template-files="${docs_template}" \
     --template-files="${dockerhub_template}"
 }
@@ -81,7 +80,6 @@ function generate_scanner_docs() {
 
     generate_docs "${scanner_dir}" \
       "docs/README.DockerHub-Parser.md" \
-      "${HELM_DOCS_DIR}/templates.gotmpl" \
       "${scanner_dir}/.helm-docs.gotmpl" \
       "${HELM_DOCS_DIR}/README.DockerHub-Parser.md.gotmpl"
   else
@@ -93,7 +91,6 @@ function generate_scanner_docs() {
 
     generate_docs "${scanner_dir}" \
       "docs/README.DockerHub-Scanner.md" \
-      "${HELM_DOCS_DIR}/templates.gotmpl" \
       "${scanner_dir}/.helm-docs.gotmpl" \
       "${HELM_DOCS_DIR}/README.DockerHub-Scanner.md.gotmpl"
   else
@@ -103,7 +100,6 @@ function generate_scanner_docs() {
   log "Generating main doc..."
   generate_docs "${scanner_dir}" \
     "docs/README.ArtifactHub.md" \
-    "${HELM_DOCS_DIR}/templates.gotmpl" \
     "${scanner_dir}/.helm-docs.gotmpl" \
     "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl"
 }
@@ -123,12 +119,10 @@ function generate_hook_docs() {
 
   generate_docs "${hook_dir}" \
     "docs/README.DockerHub-Hook.md" \
-    "${HELM_DOCS_DIR}/templates.gotmpl" \
     "${hook_dir}/.helm-docs.gotmpl" \
     "${HELM_DOCS_DIR}/README.DockerHub-Hook.md.gotmpl"
   generate_docs "${hook_dir}" \
     "docs/README.ArtifactHub.md" \
-    "${HELM_DOCS_DIR}/templates.gotmpl" \
     "${hook_dir}/.helm-docs.gotmpl" \
     "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl"
 }
@@ -148,13 +142,11 @@ function generate_demo_target_docs() {
 
   generate_docs "${demo_target_dir}" \
     "docs/README.DockerHub-Target.md" \
-    "${HELM_DOCS_DIR}/templates.gotmpl" \
     "${demo_target_dir}/.helm-docs.gotmpl" \
     "${HELM_DOCS_DIR}/README.DockerHub-Target.md.gotmpl"
 
   generate_docs "${demo_target_dir}" \
     "docs/README.ArtifactHub.md" \
-    "${HELM_DOCS_DIR}/templates.gotmpl" \
     "${demo_target_dir}/.helm-docs.gotmpl" \
     "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl"
 }
@@ -174,12 +166,10 @@ function generate_operator_docs() {
 
   generate_docs "${operator_dir}" \
     "docs/README.DockerHub-Core.md" \
-    "${HELM_DOCS_DIR}/templates.gotmpl" \
     "${operator_dir}/.helm-docs.gotmpl" \
     "${HELM_DOCS_DIR}/README.DockerHub-Core.md.gotmpl"
   generate_docs "${operator_dir}" \
     "docs/README.ArtifactHub.md" \
-    "${HELM_DOCS_DIR}/templates.gotmpl" \
     "${operator_dir}/.helm-docs.gotmpl" \
     "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl"
 }
@@ -199,12 +189,10 @@ function generate_auto_discovery_docs() {
 
   generate_docs "${auto_discovery_dir}" \
     "docs/README.DockerHub-Core.md" \
-    "${HELM_DOCS_DIR}/templates.gotmpl" \
     "${auto_discovery_dir}.helm-docs.gotmpl" \
     "${HELM_DOCS_DIR}/README.DockerHub-Core.md.gotmpl"
   generate_docs "${auto_discovery_dir}" \
     "docs/README.ArtifactHub.md" \
-    "${HELM_DOCS_DIR}/templates.gotmpl" \
     "${auto_discovery_dir}.helm-docs.gotmpl" \
     "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl"
 }
