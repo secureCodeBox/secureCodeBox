@@ -61,19 +61,11 @@ function generate_docs() {
 }
 
 function generate_scanner_docs() {
-  log "Generating scanner docs for ${CHART_FILE}..."
+  local scanner_dir parser_dir scanner_image_dir
 
-  local scanner_dir docs_dir parser_dir scanner_image_dir
-
-  scanner_dir="$(dirname "${CHART_FILE}")"
-  docs_dir="${scanner_dir}/docs"
+  scanner_dir="${1}"
   parser_dir="${scanner_dir}/parser"
   scanner_image_dir="${scanner_dir}/scanner"
-
-  if [ ! -d "${docs_dir}" ]; then
-    log "Ignoring docs creation process for '${CHART_FILE}' because docs folder found at: '${docs_dir}'!"
-    exit 0
-  fi
 
   if [ -d "${parser_dir}" ]; then
     log "Parser found at: '${parser_dir}'. Generating parser doc..."
@@ -105,17 +97,9 @@ function generate_scanner_docs() {
 }
 
 function generate_hook_docs() {
-  log "Generating hook docs for ${CHART_FILE}..."
+  local hook_dir
 
-  local hook_dir docs_dir
-
-  hook_dir="$(dirname "${CHART_FILE}")"
-  docs_dir="${hook_dir}/docs"
-
-  if [ ! -d "${docs_dir}" ]; then
-    log "Ignoring docs creation process for '${CHART_FILE}' because docs folder found at: '${docs_dir}'!"
-    exit 0
-  fi
+  hook_dir="${1}"
 
   generate_docs "${hook_dir}" \
     "docs/README.DockerHub-Hook.md" \
@@ -128,17 +112,9 @@ function generate_hook_docs() {
 }
 
 function generate_demo_target_docs() {
-  log "Generating demo target docs for ${CHART_FILE}..."
+  local demo_target_dir
 
-  local demo_target_dir docs_dir
-
-  demo_target_dir="$(dirname "${CHART_FILE}")"
-  docs_dir="${demo_target_dir}/docs"
-
-  if [ ! -d "${docs_dir}" ]; then
-    log "Ignoring docs creation process for '${CHART_FILE}' because docs folder found at: '${docs_dir}'!"
-    exit 0
-  fi
+  demo_target_dir="${1}"
 
   generate_docs "${demo_target_dir}" \
     "docs/README.DockerHub-Target.md" \
@@ -152,17 +128,9 @@ function generate_demo_target_docs() {
 }
 
 function generate_operator_docs() {
-  log "Generating operator docs for ${CHART_FILE}..."
+  local operator_dir
 
-  local operator_dir docs_dir
-
-  operator_dir="$(dirname "${CHART_FILE}")"
-  docs_dir="${operator_dir}/docs"
-
-  if [ ! -d "${docs_dir}" ]; then
-    log "Ignoring docs creation process for '${CHART_FILE}' because docs folder found at: '${docs_dir}'!"
-    exit 0
-  fi
+  operator_dir="${1}"
 
   generate_docs "${operator_dir}" \
     "docs/README.DockerHub-Core.md" \
@@ -175,17 +143,9 @@ function generate_operator_docs() {
 }
 
 function generate_auto_discovery_docs() {
-  log "Generating auto discovery docs for ${CHART_FILE}..."
+  local auto_discovery_dir
 
-  local auto_discovery_dir docs_dir
-
-  auto_discovery_dir="$(dirname "${CHART_FILE}")"
-  docs_dir="${auto_discovery_dir}/docs"
-
-  if [ ! -d "${docs_dir}" ]; then
-    log "Ignoring docs creation process for '${CHART_FILE}' because docs folder found at: '${docs_dir}'!"
-    exit 0
-  fi
+  auto_discovery_dir="${1}"
 
   generate_docs "${auto_discovery_dir}" \
     "docs/README.DockerHub-Core.md" \
@@ -200,21 +160,33 @@ function generate_auto_discovery_docs() {
 function main() {
   validate_args
 
+  log "Generating docs for ${CHART_FILE}..."
+
+  local work_dir docs_dir
+
+  work_dir="$(dirname "${CHART_FILE}")"
+  docs_dir="${work_dir}/docs"
+
+  if [ ! -d "${docs_dir}" ]; then
+    log "Ignoring docs creation process for '${CHART_FILE}' because docs folder found at: '${docs_dir}'!"
+    exit 0
+  fi
+
   case "${DOC_TYPE}" in
   "--scanner")
-    generate_scanner_docs
+    generate_scanner_docs "${work_dir}"
     ;;
   "--hook")
-    generate_hook_docs
+    generate_hook_docs "${work_dir}"
     ;;
   "--demo-target")
-    generate_demo_target_docs
+    generate_demo_target_docs "${work_dir}"
     ;;
   "--operator")
-    generate_operator_docs
+    generate_operator_docs "${work_dir}"
     ;;
   "--auto-discovery")
-    generate_auto_discovery_docs
+    generate_auto_discovery_docs "${work_dir}"
     ;;
   *)
     error "Unsupported doc type: ${DOC_TYPE}!"
