@@ -13,7 +13,9 @@ HELM_DOCS_DIR				= $(PROJECT_DIR)/.helm-docs
 TEMPLATES_DIR				= $(PROJECT_DIR)/.templates
 
 SCANNERS_CHART_LIST			:= $(sort $(wildcard $(SCANNERS_DIR)/*/Chart.yaml))
+SCANNERS_TEST_LIST			:= $(sort $(wildcard $(SCANNERS_DIR)/*/Makefile))
 HOOKS_CHART_LIST				:= $(sort $(wildcard $(HOOKS_DIR)/*/Chart.yaml))
+HOOKS_TEST_LIST					:= $(sort $(wildcard $(HOOKS_DIR)/*/Makefile))
 DEMO_TARGETS_CHART_LIST	:= $(sort $(wildcard $(DEMO_TARGETS_DIR)/*/Chart.yaml))
 # This find construct is based on https://stackoverflow.com/questions/4210042/how-to-exclude-a-directory-in-find-command/4210072#4210072
 PACKAGE_JSON_LIST				:= $(shell find $(PROJECT_DIR) \( \
@@ -49,13 +51,10 @@ npm-test-all: ## Runs all Jest based test suites.
 
 .PHONY: test-all
 test-all: install-operator ## Runs all makefile based test suites.
-	@echo ".: ⚙ Running make test for all scanner and hook modules."
-	for dir in scanners/*/ hooks/*/ ; do \
-  	cd $$dir; \
-		echo ".: ⚙ Running make test for '$$dir'."; \
-  	$(MAKE) -s test || exit 1 ; \
-		cd -; \
-	done;
+	@echo "Running make test for all scanner and hook modules..."
+	@for dir in $(SCANNERS_TEST_LIST) $(HOOKS_TEST_LIST); do \
+    	cd  "$$(dirname "$$dir")" && 	$(MAKE) -s test || exit 1; \
+	done
 
 .PHONY: install-operator
 install-operator: ## Install the operator for makefile based testing.
