@@ -74,3 +74,13 @@ test("Parsing a nginx result.", async () => {
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
+
+test("Parsing a bodgeit result.", async () => {
+  const fileContent = await readFile(__dirname + "/__testFiles__/bodgeit.xml", {
+    encoding: "utf8",
+  });
+
+  const findings = await parse(fileContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchSnapshot();
+});
