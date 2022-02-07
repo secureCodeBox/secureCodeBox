@@ -74,6 +74,7 @@ function generate_scanner_docs() {
       "docs/README.DockerHub-Parser.md" \
       "${scanner_dir}/.helm-docs.gotmpl" \
       "${HELM_DOCS_DIR}/README.DockerHub-Parser.md.gotmpl"
+    # XXX: #754 Why is here no generation for ArtifactHub?
   else
     log "No parser found '${parser_dir}'! Skipping parser doc."
   fi
@@ -85,11 +86,13 @@ function generate_scanner_docs() {
       "docs/README.DockerHub-Scanner.md" \
       "${scanner_dir}/.helm-docs.gotmpl" \
       "${HELM_DOCS_DIR}/README.DockerHub-Scanner.md.gotmpl"
+      # XXX: #754 Why is here no generation for ArtifactHub?
   else
     log "No scanner found at '${scanner_image_dir}'! Skipping scanner doc."
   fi
 
   log "Generating main doc..."
+  # XXX: #754 Why is here no generation for DockerHub?
   generate_docs "${scanner_dir}" \
     "docs/README.ArtifactHub.md" \
     "${scanner_dir}/.helm-docs.gotmpl" \
