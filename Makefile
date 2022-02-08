@@ -63,8 +63,7 @@ install-operator: ## Install the operator for makefile based testing.
 
 .PHONY: readme
 readme:	## Generate README.md based on Chart.yaml and template.
-	@echo ".: ⚙ Generate Helm Docs."
-	helm-docs --template-files=$(HELM_DOCS_DIR)/templates.gotmpl --template-files=.helm-docs.gotmpl --template-files=$(HELM_DOCS_DIR)/README.md.gotmpl
+	$(BIN_DIR)/generate-helm-docs.sh --readme $(PROJECT_DIR) $(HELM_DOCS_DIR)
 
 .PHONY: hook-docs
 hook-docs: ## Generate documentation for hooks.
