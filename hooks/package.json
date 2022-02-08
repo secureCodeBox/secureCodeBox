@@ -43,7 +43,7 @@
     "jest": "^27.0.6"
   },
   "dependencies": {
-    "axios": "^0.22.0"
+    "axios": "^0.25.0"
   },
   "jest": {
     "projects": [
