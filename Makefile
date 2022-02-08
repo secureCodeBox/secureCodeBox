@@ -69,27 +69,27 @@ readme:	## Generate README.md based on Chart.yaml and template.
 .PHONY: hook-docs
 hook-docs: ## Generate documentation for hooks.
 	@for chart in $(HOOKS_CHART_LIST); do \
-		$(BIN_DIR)/generate-docs.sh --hook "$${chart}" $(HELM_DOCS_DIR); \
+		$(BIN_DIR)/generate-helm-docs.sh --hook "$${chart}" $(HELM_DOCS_DIR); \
 	done
 
 .PHONY: scanner-docs
 scanner-docs: ## Generate documentation for scanners.
 	@for chart in $(SCANNERS_CHART_LIST); do \
-		$(BIN_DIR)/generate-docs.sh --scanner "$${chart}" $(HELM_DOCS_DIR); \
+		$(BIN_DIR)/generate-helm-docs.sh --scanner "$${chart}" $(HELM_DOCS_DIR); \
 	done
 
 .PHONY: operator-docs
 operator-docs: ## Generate documentation for the operator.
-	$(BIN_DIR)/generate-docs.sh --operator $(OPERATOR_DIR)/Chart.yaml $(HELM_DOCS_DIR)
+	$(BIN_DIR)/generate-helm-docs.sh --operator $(OPERATOR_DIR)/Chart.yaml $(HELM_DOCS_DIR)
 
 .PHONY: auto-discovery-docs
 auto-discovery-docs: ## Generate documentation for the auto-discovery.
-	$(BIN_DIR)/generate-docs.sh --operator $(AUTO_DISCOVERY_DIR)/kubernetes/Chart.yaml $(HELM_DOCS_DIR)
+	$(BIN_DIR)/generate-helm-docs.sh --operator $(AUTO_DISCOVERY_DIR)/kubernetes/Chart.yaml $(HELM_DOCS_DIR)
 
 .PHONY: demo-target-docs
 demo-target-docs: ## Generate documentation for demo targets.
 	@for chart in $(DEMO_TARGETS_CHART_LIST); do \
-		$(BIN_DIR)/generate-docs.sh --demo-target "$${chart}" $(HELM_DOCS_DIR); \
+		$(BIN_DIR)/generate-helm-docs.sh --demo-target "$${chart}" $(HELM_DOCS_DIR); \
 	done
 
 .PHONY: docs
