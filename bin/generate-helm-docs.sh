@@ -88,30 +88,33 @@ function generate_scanner_docs() {
 
   if [ -d "${parser_dir}" ]; then
     log "Parser found at: '${parser_dir}'. Generating parser doc..."
-
+    # Since parsers do not have an own Helm chart, but are included in
+    # the Helm chart of the related scanner, we do not generate a doc file
+    # for ArtifactHub.
     generate_docs "${scanner_dir}" \
       "${DOCS_DIR_NAME}/README.DockerHub-Parser.md" \
       "${scanner_dir}/.helm-docs.gotmpl" \
       "${HELM_DOCS_DIR}/README.DockerHub-Parser.md.gotmpl"
-    # XXX: #754 Why is here no generation for ArtifactHub?
   else
     log "No parser found '${parser_dir}'! Skipping parser doc."
   fi
 
   if [ -d "${scanner_image_dir}" ]; then
     log "Scanner found at: '${scanner_image_dir}'. Generating scanner doc..."
-
+    # For own custom scanners (e.g. Nmap which does not provide an official image)
+    # we generate docs for DockerHub, but not for ArtifactHub because the scanner
+    # image does not have its own Helm chart. It belongs to the main chart which
+    # is generated separately.
     generate_docs "${scanner_dir}" \
       "${DOCS_DIR_NAME}/README.DockerHub-Scanner.md" \
       "${scanner_dir}/.helm-docs.gotmpl" \
       "${HELM_DOCS_DIR}/README.DockerHub-Scanner.md.gotmpl"
-      # XXX: #754 Why is here no generation for ArtifactHub?
   else
     log "No scanner found at '${scanner_image_dir}'! Skipping scanner doc."
   fi
 
   log "Generating main doc..."
-  # XXX: #754 Why is here no generation for DockerHub?
+  # Here we generate the main doc of the Helm chart for artifact hub.
   generate_docs "${scanner_dir}" \
     "${DOCS_DIR_NAME}/README.ArtifactHub.md" \
     "${scanner_dir}/.helm-docs.gotmpl" \
