@@ -175,7 +175,7 @@ function generate_auto_discovery_docs() {
     "${HELM_DOCS_DIR}/README.DockerHub-Core.md.gotmpl"
   generate_docs "${auto_discovery_dir}" \
     "${DOCS_DIR_NAME}/README.ArtifactHub.md" \
-    "${auto_discovery_dir}.helm-docs.gotmpl" \
+    "${auto_discovery_dir}/.helm-docs.gotmpl" \
     "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl"
 }
 
