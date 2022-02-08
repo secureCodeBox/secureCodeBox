@@ -16,6 +16,8 @@ DOC_TYPE="${1:-}"
 CHART_FILE="${2:-}"
 HELM_DOCS_DIR="${3:-}"
 
+DOCS_DIR_NAME="docs"
+
 function log() {
   echo -e "${COLOR_PREFIX}SCB${COLOR_RESET} ${1}"
 }
@@ -71,7 +73,7 @@ function generate_scanner_docs() {
     log "Parser found at: '${parser_dir}'. Generating parser doc..."
 
     generate_docs "${scanner_dir}" \
-      "docs/README.DockerHub-Parser.md" \
+      "${DOCS_DIR_NAME}/README.DockerHub-Parser.md" \
       "${scanner_dir}/.helm-docs.gotmpl" \
       "${HELM_DOCS_DIR}/README.DockerHub-Parser.md.gotmpl"
     # XXX: #754 Why is here no generation for ArtifactHub?
@@ -83,7 +85,7 @@ function generate_scanner_docs() {
     log "Scanner found at: '${scanner_image_dir}'. Generating scanner doc..."
 
     generate_docs "${scanner_dir}" \
-      "docs/README.DockerHub-Scanner.md" \
+      "${DOCS_DIR_NAME}/README.DockerHub-Scanner.md" \
       "${scanner_dir}/.helm-docs.gotmpl" \
       "${HELM_DOCS_DIR}/README.DockerHub-Scanner.md.gotmpl"
       # XXX: #754 Why is here no generation for ArtifactHub?
@@ -94,7 +96,7 @@ function generate_scanner_docs() {
   log "Generating main doc..."
   # XXX: #754 Why is here no generation for DockerHub?
   generate_docs "${scanner_dir}" \
-    "docs/README.ArtifactHub.md" \
+    "${DOCS_DIR_NAME}/README.ArtifactHub.md" \
     "${scanner_dir}/.helm-docs.gotmpl" \
     "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl"
 }
@@ -105,11 +107,11 @@ function generate_hook_docs() {
   hook_dir="${1}"
 
   generate_docs "${hook_dir}" \
-    "docs/README.DockerHub-Hook.md" \
+    "${DOCS_DIR_NAME}/README.DockerHub-Hook.md" \
     "${hook_dir}/.helm-docs.gotmpl" \
     "${HELM_DOCS_DIR}/README.DockerHub-Hook.md.gotmpl"
   generate_docs "${hook_dir}" \
-    "docs/README.ArtifactHub.md" \
+    "${DOCS_DIR_NAME}/README.ArtifactHub.md" \
     "${hook_dir}/.helm-docs.gotmpl" \
     "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl"
 }
@@ -120,12 +122,12 @@ function generate_demo_target_docs() {
   demo_target_dir="${1}"
 
   generate_docs "${demo_target_dir}" \
-    "docs/README.DockerHub-Target.md" \
+    "${DOCS_DIR_NAME}/README.DockerHub-Target.md" \
     "${demo_target_dir}/.helm-docs.gotmpl" \
     "${HELM_DOCS_DIR}/README.DockerHub-Target.md.gotmpl"
 
   generate_docs "${demo_target_dir}" \
-    "docs/README.ArtifactHub.md" \
+    "${DOCS_DIR_NAME}/README.ArtifactHub.md" \
     "${demo_target_dir}/.helm-docs.gotmpl" \
     "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl"
 }
@@ -136,11 +138,11 @@ function generate_operator_docs() {
   operator_dir="${1}"
 
   generate_docs "${operator_dir}" \
-    "docs/README.DockerHub-Core.md" \
+    "${DOCS_DIR_NAME}/README.DockerHub-Core.md" \
     "${operator_dir}/.helm-docs.gotmpl" \
     "${HELM_DOCS_DIR}/README.DockerHub-Core.md.gotmpl"
   generate_docs "${operator_dir}" \
-    "docs/README.ArtifactHub.md" \
+    "${DOCS_DIR_NAME}/README.ArtifactHub.md" \
     "${operator_dir}/.helm-docs.gotmpl" \
     "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl"
 }
@@ -151,11 +153,11 @@ function generate_auto_discovery_docs() {
   auto_discovery_dir="${1}"
 
   generate_docs "${auto_discovery_dir}" \
-    "docs/README.DockerHub-Core.md" \
+    "${DOCS_DIR_NAME}/README.DockerHub-Core.md" \
     "${auto_discovery_dir}.helm-docs.gotmpl" \
     "${HELM_DOCS_DIR}/README.DockerHub-Core.md.gotmpl"
   generate_docs "${auto_discovery_dir}" \
-    "docs/README.ArtifactHub.md" \
+    "${DOCS_DIR_NAME}/README.ArtifactHub.md" \
     "${auto_discovery_dir}.helm-docs.gotmpl" \
     "${HELM_DOCS_DIR}/README.ArtifactHub.md.gotmpl"
 }
@@ -168,7 +170,7 @@ function main() {
   local work_dir docs_dir
 
   work_dir="$(dirname "${CHART_FILE}")"
-  docs_dir="${work_dir}/docs"
+  docs_dir="${work_dir}/${DOCS_DIR_NAME}"
 
   if [ ! -d "${docs_dir}" ]; then
     log "Ignoring docs creation process for '${CHART_FILE}' because docs folder found at: '${docs_dir}'!"
