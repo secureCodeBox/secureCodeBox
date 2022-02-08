@@ -29,7 +29,8 @@ COLOR_RESET="\e[0m"
 USAGE="$(basename "${0}") --scanner|--hook|--demo-target|--operator|--auto-discovery|--readme path/to/Chart.yaml|dir/with/charts path/to/.helm-docs"
 
 DOC_TYPE="${1:-}"
-CHART_FILE="${2:-}"
+# This is either path to a Chart.yml or a directory containing some of them.
+CHART_FILE_OR_DIR="${2:-}"
 HELM_DOCS_DIR="${3:-}"
 
 DOCS_DIR_NAME="docs"
@@ -49,7 +50,7 @@ function validate_args() {
     exit 1
   fi
 
-  if [[ -z "${CHART_FILE}" ]]; then
+  if [[ -z "${CHART_FILE_OR_DIR}" ]]; then
     error "No chart file given as second argument!"
     error "${USAGE}"
     exit 1
@@ -192,7 +193,7 @@ function generate_readme() {
 function main() {
   validate_args
 
-  log "Generating docs for ${CHART_FILE}..."
+  log "Generating docs for ${CHART_FILE_OR_DIR}..."
 
   local work_dir docs_dir
 
@@ -202,14 +203,14 @@ function main() {
   #    that there is a ${DOCS_DIR_NAME} directory where we store the generated files.
   # 2. For generating the top level READMEs. Here we expect a base directory as working dir
   #    from where helm-docs collect all Chart.yml by itself.
-  if [[ -d "${CHART_FILE}" ]]; then
-    work_dir="${CHART_FILE}"
+  if [[ -d "${CHART_FILE_OR_DIR}" ]]; then
+    work_dir="${CHART_FILE_OR_DIR}"
   else
-    work_dir="$(dirname "${CHART_FILE}")"
+    work_dir="$(dirname "${CHART_FILE_OR_DIR}")"
     docs_dir="${work_dir}/${DOCS_DIR_NAME}"
 
     if [ ! -d "${docs_dir}" ]; then
-      log "Ignoring docs creation process for '${CHART_FILE}' because docs folder found at: '${docs_dir}'!"
+      log "Ignoring docs creation process for '${CHART_FILE_OR_DIR}' because docs folder found at: '${docs_dir}'!"
       exit 0
     fi
   fi
