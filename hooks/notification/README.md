@@ -7,7 +7,7 @@ usecase: "Publishes Scan Summary to MS Teams, Slack and others."
 ---
 
 <!--
-SPDX-FileCopyrightText: 2021 iteratec GmbH
+SPDX-FileCopyrightText: the secureCodeBox authors
 
 SPDX-License-Identifier: Apache-2.0
 -->

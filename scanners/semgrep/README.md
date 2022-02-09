@@ -10,7 +10,7 @@ usecase: "Static Code Analysis"
 ![Semgrep logo](https://raw.githubusercontent.com/returntocorp/semgrep-docs/main/static/img/semgrep-icon-text-horizontal.svg)
 
 <!--
-SPDX-FileCopyrightText: 2021 iteratec GmbH
+SPDX-FileCopyrightText: the secureCodeBox authors
 
 SPDX-License-Identifier: Apache-2.0
 -->
