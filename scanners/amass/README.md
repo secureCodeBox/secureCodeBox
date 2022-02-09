@@ -10,7 +10,7 @@ usecase: "Subdomain Enumeration Scanner"
 ![owasp logo](https://owasp.org/assets/images/logo.png)
 
 <!--
-SPDX-FileCopyrightText: 2021 iteratec GmbH
+SPDX-FileCopyrightText: the secureCodeBox authors
 
 SPDX-License-Identifier: Apache-2.0
 -->
