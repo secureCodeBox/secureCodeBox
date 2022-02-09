@@ -14,10 +14,10 @@ The Kubernetes AutoDiscovery needs to be deployed along side the secureCodeBox O
 
 <!-- end -->
 
-The AutoDiscovery controller will automatically detect these new resources (services) and start secureCodeBox _scans_ for them:
+The AutoDiscovery controller will automatically detect these new resources (services and containers) and start secureCodeBox _scans_ for them:
 
 1. A ZAP Baseline Scan to detect basic web vulnerabilities in the service. (Using OWASP ZAP)
-2. (WIP) A image scan scanning for vulnerable libraries in the docker / container image of the deployment. (Using trivy)
+2. An image scan scanning for vulnerable libraries in the docker / container image of the deployment. (Using trivy)
 3. (WIP) A TLS Scan against the certificate of the ingress for the host. (Using SSLyze)
 
 The AutoDiscovery automatically tracks the lifecycle of the kubernetes resources and will automatically start new scans for new application versions.
@@ -59,6 +59,8 @@ This example deploys [JuiceShop](https://owasp.org/www-project-juice-shop/) to a
 
 The AutoDiscovery will automatically pick up this new deployment and then starts a OWASP ZAP Scan against it.
 The scan created uses our `zap-advanced` ScanType by default, this can be changed with the `config.serviceAutoDiscovery.scanConfig.scanType` config on the autoDiscovery helm release.
+
+When the ContainerAutoDiscovery is enabled, the AutoDiscovery can also create a trivy scan for each unique container image (having multiple pods with the same container will only create one scan). The scan type can be defined with `config.containerAutoDiscovery.scanConfig.scanType`.
 
 ## Deployment
 The auto-discovery-kubernetes chart can be deployed via helm:
