@@ -63,7 +63,7 @@ func createScanType(ctx context.Context, namespace string) {
 	Expect(k8sClient.Create(ctx, scanType)).Should(Succeed())
 }
 
-func createScheduledScan(ctx context.Context, namespace string) executionv1.ScheduledScan {
+func createScheduledScan(ctx context.Context, namespace string, retriggerOnScanTypeChange bool) executionv1.ScheduledScan {
 	scheduledScan := executionv1.ScheduledScan{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "test-scan",
@@ -71,7 +71,7 @@ func createScheduledScan(ctx context.Context, namespace string) executionv1.Sche
 		},
 		Spec: executionv1.ScheduledScanSpec{
 			Interval:                  metav1.Duration{Duration: 42 * time.Hour},
-			RetriggerOnScanTypeChange: true,
+			RetriggerOnScanTypeChange: retriggerOnScanTypeChange,
 			ScanSpec: &executionv1.ScanSpec{
 				ScanType:   "nmap",
 				Parameters: []string{"scanme.nmap.org"},
