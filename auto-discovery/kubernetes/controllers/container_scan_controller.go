@@ -44,6 +44,7 @@ func (r *ContainerScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	var pod corev1.Pod
 	err := r.Get(ctx, req.NamespacedName, &pod)
 	if err != nil {
+		//dont log an error, as a deleted pod cant be fetched and would spam the logs
 		log.V(1).Info("Unable to fetch Pod", "pod", req.Name, "namespace", req.Namespace)
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
@@ -103,7 +104,7 @@ func (r *ContainerScanReconciler) getNonScannedImageIDs(ctx context.Context, pod
 		if apierrors.IsNotFound(err) {
 			result = append(result, cleanedImageID)
 		} else if err != nil {
-			r.Log.V(1).Info("Unable to fetch scan", "name", scanName, "namespace", pod.Namespace)
+			r.Log.Error(err, "Unable to fetch scan", "name", scanName, "namespace", pod.Namespace)
 		}
 	}
 	return result
@@ -162,7 +163,7 @@ func (r *ContainerScanReconciler) createScheduledScan(ctx context.Context, pod c
 	err := r.Client.Create(ctx, &newScheduledScan)
 
 	if err != nil {
-		r.Log.V(1).Info("Failed to create scheduled scan", "err", err)
+		r.Log.Error(err, "Failed to create scheduled scan", "scan", newScheduledScan, "namespace", namespace)
 	} else {
 		r.Log.V(1).Info("Created scheduled scan", "pod", pod.Name, "namespace", pod.Namespace)
 	}
@@ -172,7 +173,7 @@ func (r *ContainerScanReconciler) getNamespace(ctx context.Context, pod corev1.P
 	err := r.Client.Get(ctx, types.NamespacedName{Name: pod.Namespace, Namespace: ""}, &result)
 
 	if err != nil {
-		r.Log.V(1).Info("Could not retrieve namespace of pod", "pod", pod)
+		r.Log.Error(err, "Could not retrieve namespace of pod", "pod", pod)
 	}
 	return result
 }
@@ -215,11 +216,8 @@ func (r *ContainerScanReconciler) getOrphanedScanImageIDs(ctx context.Context, p
 		var scan executionv1.ScheduledScan
 		err := r.Client.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
 		if err != nil {
-			r.Log.V(1).Info("Unable to fetch scan", "name", scanName)
-			continue
-		}
-
-		if !r.containerIDInUse(ctx, pod, cleanedImageID) {
+			r.Log.Error(err, "Unable to fetch scan", "name", scanName)
+		} else if !r.containerIDInUse(ctx, pod, cleanedImageID) {
 			result = append(result, cleanedImageID)
 		}
 	}
@@ -231,7 +229,7 @@ func (r *ContainerScanReconciler) containerIDInUse(ctx context.Context, pod core
 	err := r.Client.List(ctx, &pods, client.InNamespace(pod.Namespace))
 
 	if err != nil {
-		r.Log.V(1).Info("Unable to fetch pods", "namespace", pod.Namespace)
+		r.Log.Error(err, "Unable to fetch pods from namespace", "namespace", pod.Namespace)
 		return false
 	}
 	return searchForImageIDInPods(pods.Items, imageID)
@@ -255,13 +253,13 @@ func (r *ContainerScanReconciler) deleteScans(ctx context.Context, pod corev1.Po
 		scan, err := r.getScan(ctx, pod, imageID)
 
 		if err != nil {
-			r.Log.V(1).Info("Unable to fetch scan", "err", err)
+			r.Log.Error(err, "Unable to fetch scan", "pod", pod, "imageID", imageID)
 			continue
 		}
 
 		err = r.Client.Delete(ctx, &scan)
 		if err != nil {
-			r.Log.V(1).Info("Unable to delete scheduled scan", "scan", scan.Name)
+			r.Log.Error(err, "Unable to delete scheduled scan", "scan", scan.Name)
 		} else {
 			r.Log.V(1).Info("Deleting scheduled scan", "scan", scan.Name)
 		}
