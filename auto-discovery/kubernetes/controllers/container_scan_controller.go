@@ -39,23 +39,23 @@ type ContainerScanReconciler struct {
 func (r *ContainerScanReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	log := r.Log
 
-	log.V(1).Info("Something happened to a pod", "pod", req.Name, "namespace", req.Namespace)
+	log.V(8).Info("Something happened to a pod", "pod", req.Name, "namespace", req.Namespace)
 
 	var pod corev1.Pod
 	err := r.Get(ctx, req.NamespacedName, &pod)
 	if err != nil {
 		//dont log an error, as a deleted pod cant be fetched and would spam the logs
-		log.V(1).Info("Unable to fetch Pod", "pod", req.Name, "namespace", req.Namespace)
+		log.V(7).Info("Unable to fetch Pod", "pod", req.Name, "namespace", req.Namespace)
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
 	if podManagedBySecureCodeBox(pod) {
-		log.V(1).Info("Pod will be ignored, as it is managed by securecodebox", "pod", pod)
+		log.V(7).Info("Pod will be ignored, as it is managed by securecodebox", "pod", pod)
 		return ctrl.Result{}, nil
 	}
 
 	if podNotReady(pod) {
-		log.V(1).Info("Pod not ready", "pod", pod.Name)
+		log.V(6).Info("Pod not ready", "pod", pod.Name)
 		return ctrl.Result{}, nil
 	}
 
@@ -85,7 +85,7 @@ func podNotReady(pod corev1.Pod) bool {
 }
 
 func (r *ContainerScanReconciler) checkIfNewScansNeedToBeCreated(ctx context.Context, pod corev1.Pod) {
-	r.Log.V(1).Info("Pod is running", "pod", pod.Name, "namespace", pod.Namespace)
+	r.Log.V(8).Info("Pod is running", "pod", pod.Name, "namespace", pod.Namespace)
 	nonScannedImageIDs := r.getNonScannedImageIDs(ctx, pod)
 	r.createScheduledScans(ctx, pod, nonScannedImageIDs)
 }
@@ -165,7 +165,7 @@ func (r *ContainerScanReconciler) createScheduledScan(ctx context.Context, pod c
 	if err != nil {
 		r.Log.Error(err, "Failed to create scheduled scan", "scan", newScheduledScan, "namespace", namespace)
 	} else {
-		r.Log.V(1).Info("Created scheduled scan", "pod", pod.Name, "namespace", pod.Namespace)
+		r.Log.V(6).Info("Created scheduled scan", "pod", pod.Name, "namespace", pod.Namespace)
 	}
 }
 func (r *ContainerScanReconciler) getNamespace(ctx context.Context, pod corev1.Pod) corev1.Namespace {
@@ -200,7 +200,7 @@ func getScanSpec(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imageID st
 }
 
 func (r *ContainerScanReconciler) checkIfScansNeedToBeDeleted(ctx context.Context, pod corev1.Pod) {
-	r.Log.V(1).Info("Pod will be deleted", "pod", pod.Name, "namespace", pod.Namespace, "timestamp", pod.DeletionTimestamp)
+	r.Log.V(8).Info("Pod will be deleted", "pod", pod.Name, "namespace", pod.Namespace, "timestamp", pod.DeletionTimestamp)
 	allImageIDs := getImageIDsForPod(pod)
 	imageIDsToBeDeleted := r.getOrphanedScanImageIDs(ctx, pod, allImageIDs)
 	r.deleteScans(ctx, pod, imageIDsToBeDeleted)
@@ -261,7 +261,7 @@ func (r *ContainerScanReconciler) deleteScans(ctx context.Context, pod corev1.Po
 		if err != nil {
 			r.Log.Error(err, "Unable to delete scheduled scan", "scan", scan.Name)
 		} else {
-			r.Log.V(1).Info("Deleting scheduled scan", "scan", scan.Name)
+			r.Log.V(6).Info("Deleting scheduled scan", "scan", scan.Name)
 		}
 	}
 }
