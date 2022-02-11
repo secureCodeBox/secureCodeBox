@@ -59,9 +59,9 @@ func (r *ContainerScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	}
 
 	if pod.DeletionTimestamp == nil {
-		r.podIsRunning(ctx, pod)
+		r.checkIfNewScansNeedToBeCreated(ctx, pod)
 	} else {
-		r.podWillBeDeleted(ctx, pod)
+		r.checkIfScansNeedToBeDeleted(ctx, pod)
 	}
 
 	return ctrl.Result{}, nil
@@ -83,7 +83,7 @@ func podNotReady(pod corev1.Pod) bool {
 	return len(getImageIDsForPod(pod)) == 0
 }
 
-func (r *ContainerScanReconciler) podIsRunning(ctx context.Context, pod corev1.Pod) {
+func (r *ContainerScanReconciler) checkIfNewScansNeedToBeCreated(ctx context.Context, pod corev1.Pod) {
 	r.Log.V(1).Info("Pod is running", "pod", pod.Name, "namespace", pod.Namespace)
 	nonScannedImageIDs := r.getNonScannedImageIDs(ctx, pod)
 	r.createScheduledScans(ctx, pod, nonScannedImageIDs)
@@ -188,7 +188,7 @@ func getScanSpec(config configv1.AutoDiscoveryConfig, pod corev1.Pod, imageID st
 	return newScheduledScan
 }
 
-func (r *ContainerScanReconciler) podWillBeDeleted(ctx context.Context, pod corev1.Pod) {
+func (r *ContainerScanReconciler) checkIfScansNeedToBeDeleted(ctx context.Context, pod corev1.Pod) {
 	r.Log.V(1).Info("Pod will be deleted", "pod", pod.Name, "namespace", pod.Namespace, "timestamp", pod.DeletionTimestamp)
 	allImageIDs := getImageIDsForPod(pod)
 	imageIDsToBeDeleted := r.getOrphanedScanImageIDs(ctx, pod, allImageIDs)
