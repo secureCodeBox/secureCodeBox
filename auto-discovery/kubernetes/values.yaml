@@ -48,7 +48,6 @@ config:
       scanType: trivy
       # -- parameters used for the scans created by the containerAutoDiscovery
       parameters:
-        - "image"
         - "{{ .ImageID }}"
       # -- interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset.
       repeatInterval: "168h"
