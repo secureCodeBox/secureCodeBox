@@ -94,12 +94,14 @@ func (r *ContainerScanReconciler) getNonScannedImageIDs(ctx context.Context, pod
 	allImageIDs := getImageIDsForPod(pod)
 
 	for _, imageID := range allImageIDs {
-		scanName := getScanName(imageID)
+		cleanedImageID := cleanupImageID(imageID, r.Log)
+		scanName := getScanName(cleanedImageID)
+
 		var scan executionv1.ScheduledScan
 		err := r.Client.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
 
 		if apierrors.IsNotFound(err) {
-			result = append(result, imageID)
+			result = append(result, cleanedImageID)
 		} else if err != nil {
 			r.Log.V(1).Info("Unable to fetch scan", "name", scanName, "namespace", pod.Namespace)
 		}
@@ -117,6 +119,14 @@ func getImageIDsForPod(pod corev1.Pod) []string {
 		}
 	}
 	return result
+}
+
+func cleanupImageID(imageID string, log logr.Logger) string {
+	//some setups will add a protocol to the imageID like "docker-pullable://some/image:sha256@0123456789"
+	//this function removes the protocol as it interferes with trivy
+	//the imageid above will be transformed to "some/image:sha256@0123456789"
+	imageRegex := regexp.MustCompile("(.*://)?(.*)")
+	return imageRegex.FindStringSubmatch(imageID)[2]
 }
 
 func getScanName(imageID string) string {
@@ -199,7 +209,9 @@ func (r *ContainerScanReconciler) getOrphanedScanImageIDs(ctx context.Context, p
 	var result []string
 
 	for _, imageID := range imageIDs {
-		scanName := getScanName(imageID)
+		cleanedImageID := cleanupImageID(imageID, r.Log)
+		scanName := getScanName(cleanedImageID)
+
 		var scan executionv1.ScheduledScan
 		err := r.Client.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
 		if err != nil {
@@ -207,8 +219,8 @@ func (r *ContainerScanReconciler) getOrphanedScanImageIDs(ctx context.Context, p
 			continue
 		}
 
-		if !r.containerIDInUse(ctx, pod, imageID) {
-			result = append(result, imageID)
+		if !r.containerIDInUse(ctx, pod, cleanedImageID) {
+			result = append(result, cleanedImageID)
 		}
 	}
 	return result

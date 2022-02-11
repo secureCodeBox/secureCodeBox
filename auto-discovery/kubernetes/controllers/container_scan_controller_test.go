@@ -153,7 +153,7 @@ func setPodStatus(ctx context.Context, name string, namespace string, images map
 	nameCounter := 0
 	for image, digest := range images {
 
-		imageID := fmt.Sprintf("docker.io/doesntmatter/at/all/%s@sha256:%s", image, digest)
+		imageID := fmt.Sprintf("some-useless-protocoll://docker.io/doesntmatter/at/all/%s@sha256:%s", image, digest)
 		containerID := fmt.Sprintf("docker://%d", hash(imageID))
 		name := strconv.Itoa(nameCounter)
 		nameCounter++
