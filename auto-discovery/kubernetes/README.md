@@ -137,7 +137,7 @@ kubectl -n juice-shop annotate service juice-shop auto-discovery.securecodebox.i
 | config.containerAutoDiscovery.enabled | bool | `false` |  |
 | config.containerAutoDiscovery.scanConfig.annotations | object | `{}` | annotations to be added to the scans started by the auto-discovery |
 | config.containerAutoDiscovery.scanConfig.labels | object | `{}` | labels to be added to the scans started by the auto-discovery |
-| config.containerAutoDiscovery.scanConfig.parameters | list | `["image","{{ .ImageID }}"]` | parameters used for the scans created by the containerAutoDiscovery |
+| config.containerAutoDiscovery.scanConfig.parameters | list | `["{{ .ImageID }}"]` | parameters used for the scans created by the containerAutoDiscovery |
 | config.containerAutoDiscovery.scanConfig.repeatInterval | string | `"168h"` | interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset. |
 | config.containerAutoDiscovery.scanConfig.scanType | string | `"trivy"` |  |
 | config.health.healthProbeBindAddress | string | `":8081"` |  |
