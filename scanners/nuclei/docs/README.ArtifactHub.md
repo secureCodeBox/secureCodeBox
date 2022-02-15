@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2021 iteratec GmbH
+SPDX-FileCopyrightText: the secureCodeBox authors
 
 SPDX-License-Identifier: Apache-2.0
 -->
@@ -185,7 +185,7 @@ helm install nuclei secureCodeBox/nuclei --set="nucleiTemplateCache.enabled=fals
 | nucleiTemplateCache.concurrencyPolicy | string | `"Replace"` | Determines how kubernetes handles cases where multiple instances of the cronjob would work if they are running at the same time. See: https://kubernetes.io/docs/tasks/job/automated-tasks-with-cron-jobs/#concurrency-policy |
 | nucleiTemplateCache.enabled | bool | `true` | Enables or disables the use of an persistent volume to cache the always downloaded nuclei-templates for all scans. |
 | nucleiTemplateCache.failedJobsHistoryLimit | int | `10` | Determines how many failed jobs are kept until kubernetes cleans them up. See: https://kubernetes.io/docs/tasks/job/automated-tasks-with-cron-jobs/#jobs-history-limits |
-| nucleiTemplateCache.schedule | string | `"0 */1 * * *"` |  |
+| nucleiTemplateCache.schedule | string | `"0 */1 * * *"` | The schedule indicates when and how often the nuclei template cache should be updated  |
 | nucleiTemplateCache.successfulJobsHistoryLimit | int | `3` | Determines how many successful jobs are kept until kubernetes cleans them up. See: https://kubernetes.io/docs/tasks/job/automated-tasks-with-cron-jobs/#jobs-history-limits |
 | parser.affinity | object | `{}` | Optional affinity settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
 | parser.env | list | `[]` | Optional environment variables mapped into each parseJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |

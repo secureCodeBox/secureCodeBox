@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2021 iteratec GmbH
+// SPDX-FileCopyrightText: the secureCodeBox authors
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -58,7 +58,7 @@ func TestScanTypeHashing(t *testing.T) {
 	assert.Equal(
 		t,
 		hashValues,
-		uint64(5325045708601790156),
+		uint64(7985604367088222621),
 		"Should hash scantype consistently",
 	)
 }

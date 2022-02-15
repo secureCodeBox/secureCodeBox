@@ -8,7 +8,7 @@ usecase: "Automation of the process of detecting the Typo3 CMS and its installed
 ---
 
 <!--
-SPDX-FileCopyrightText: 2021 iteratec GmbH
+SPDX-FileCopyrightText: the secureCodeBox authors
 
 SPDX-License-Identifier: Apache-2.0
 -->

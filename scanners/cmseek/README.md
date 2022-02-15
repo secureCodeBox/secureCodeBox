@@ -8,7 +8,7 @@ usecase: "Automation of the process of detecting the Joomla CMS and its core vul
 ---
 
 <!--
-SPDX-FileCopyrightText: 2021 iteratec GmbH
+SPDX-FileCopyrightText: the secureCodeBox authors
 
 SPDX-License-Identifier: Apache-2.0
 -->
