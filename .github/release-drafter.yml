@@ -42,6 +42,6 @@ template: |
   [![Artifact HUB](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/secureCodeBox)](https://artifacthub.io/packages/search?repo=securecodebox)
   [![Docker Hub](https://img.shields.io/badge/Docker%20Hub-secureCodeBox-blue?style=flat&logo=docker&color=lightblue&labelColor=blue&logoColor=white)](https://hub.docker.com/u/securecodebox) 
   
-  ## Contributers
-  Thx to all our contributers supporting this project 🤗
+  ## Contributors
+  Thx to all our contributors supporting this project 🤗
   $CONTRIBUTORS
