@@ -3,7 +3,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 name: "CI"
-on: push
+on: 
+  push:
+  schedule:
+    - cron: "15 2 * * *" # Nightly-Build at 2:15 AM UTC
 
 env:
   # ---- Language Versions ----
@@ -892,7 +895,7 @@ jobs:
 
       - name: "ZAP Extended Integration Tests"
         # disable zap extended test temporarily as they slow down the pipeline too much
-        if: ${{ false }}
+        if: ${{ github.event_name == 'schedule' }}
         run: |
           kubectl -n integration-tests delete scans --all
           helm -n integration-tests install zap-advanced ./scanners/zap-advanced/  \
