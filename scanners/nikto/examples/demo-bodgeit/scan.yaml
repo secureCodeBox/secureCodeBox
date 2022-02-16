@@ -12,7 +12,7 @@ spec:
   scanType: 'nikto'
   parameters:
     - '-h'
-    - 'bodgeit'
+    - 'bodgeit.demo-targets.svc'
     - '-port 8080'
     - '-Tuning'
     # Only enable fast (ish) Scan Options, remove attack option like SQLi and RCE. We will leave those to ZAP
