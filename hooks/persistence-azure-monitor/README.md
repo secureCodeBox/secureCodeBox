@@ -57,6 +57,8 @@ Create a Kubernetes secret with these values using
 
 ```bash
 # Create the secret (use a leading space to avoid having secrets in your shell history)
+# Replace "workspace=your-workspace-id" with your Workspace ID
+# Replace "sharedkey=your-shared-key" with your Primary Key
  kubectl create secret generic azure-monitor --from-literal=workspace=your-workspace-id --from-literal=sharedkey=your-shared-key
 ```
 

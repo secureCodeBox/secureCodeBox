@@ -10,15 +10,14 @@ type: application
 
 # version - gets automatically set to the secureCodeBox release version when the helm charts gets published
 version: v3.1.0-alpha1
-
-appVersion: 1.0
 kubeVersion: ">=v1.11.0-0"
 
 keywords:
   - security
   - secureCodeBox
   - hook
-  - elasticsearch
+  - azure
+  - sentinel
 home: https://docs.securecodebox.io/docs/hooks/azure-monitor
 icon: https://docs.securecodebox.io/img/integrationIcons/AzureMonitor.svg
 sources:
@@ -26,3 +25,5 @@ sources:
 maintainers:
   - name: iteratec GmbH
     email: secureCodeBox@iteratec.com
+
+dependencies: []
