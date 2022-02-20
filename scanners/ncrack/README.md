@@ -8,7 +8,7 @@ usecase: "Network authentication bruteforcing"
 ---
 
 <!--
-SPDX-FileCopyrightText: 2021 iteratec GmbH
+SPDX-FileCopyrightText: the secureCodeBox authors
 
 SPDX-License-Identifier: Apache-2.0
 -->
@@ -175,7 +175,7 @@ Before we can use the files, we have to install the Ncrack ScanType:
 
 ```bash
 cat <<EOF | helm install ncrack ./scanners/ncrack --values -
-scannerJob:
+scanner:
   extraVolumes:
     - name: ncrack-lists
       secret:

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2021 iteratec GmbH
+// SPDX-FileCopyrightText: the secureCodeBox authors
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -23,7 +23,7 @@ export abstract class AbstractWebHookNotifier extends AbstractNotifier {
 
   protected async sendPostRequest(message: string) {
     try {
-      await axios.post(this.channel.endPoint, message)
+      await axios.post(this.resolveEndPoint(), message)
     } catch (e) {
       console.log(`There was an Error sending the Message for the "${this.type}": "${this.channel.name}"`);
       console.log(e);

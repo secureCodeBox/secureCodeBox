@@ -3,12 +3,12 @@ title: "Kube Hunter"
 category: "scanner"
 type: "Kubernetes"
 state: "released"
-appVersion: "0.6.3"
+appVersion: "0.6.5"
 usecase: "Kubernetes Vulnerability Scanner"
 ---
 
 <!--
-SPDX-FileCopyrightText: 2021 iteratec GmbH
+SPDX-FileCopyrightText: the secureCodeBox authors
 
 SPDX-License-Identifier: Apache-2.0
 -->

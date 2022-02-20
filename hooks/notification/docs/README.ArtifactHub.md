@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2021 iteratec GmbH
+SPDX-FileCopyrightText: the secureCodeBox authors
 
 SPDX-License-Identifier: Apache-2.0
 -->
@@ -94,8 +94,8 @@ notificationChannels:
 env:
   - name: SOME_ENV
     valueFrom:
-      secretRefKey:
-        secret: some-secret
+      secretKeyRef:
+        name: some-secret
         key: some-key
 ```
 
@@ -185,8 +185,8 @@ env:
     - name: POINTER_TO_ENV
       valueFrom:
         secretKeyRef:
-            name: myslacksecret
-            key: SLACK_WEB_HOOK
+          name: myslacksecret
+          key: SLACK_WEB_HOOK
 
 # cat values_slack_secrets.yaml
 apiVersion: v1
@@ -279,7 +279,11 @@ notificationChannels:
     endPoint: "someone@somewhere.xyz"
 env:
   - name: SMTP_CONFIG
-    value: "smtp://user:pass@smtp.domain.tld/"
+    # you can create the secret via: kubectl create secret generic email-credentials --from-literal="smtp-config=smtp://user:pass@smtp.domain.tld/"
+    valueFrom:
+      secretKeyRef:
+        name: email-credentials
+        key: smtp-config
 ```
 
 To provide a custom `from` field for your email you can specify `EMAIL_FROM` under env.
@@ -288,7 +292,10 @@ For example:
 ```
 env:
   - name: SMTP_CONFIG
-    value: "smtp://user:pass@smtp.domain.tld/"
+    valueFrom:
+      secretKeyRef:
+        name: email-credentials
+        key: smtp-config
   - name: EMAIL_FROM
     value: secureCodeBox
 ```

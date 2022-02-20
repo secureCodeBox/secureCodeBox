@@ -1,10 +1,10 @@
-# SPDX-FileCopyrightText: 2021 iteratec GmbH
+# SPDX-FileCopyrightText: the secureCodeBox authors
 #
 # SPDX-License-Identifier: Apache-2.0
 
 apiVersion: v2
-version: v3.1.0-alpha2
-appVersion: "v12.7.0"
+version: v3.1.0-alpha3
+appVersion: "v13.0.3"
 name: juice-shop
 description: "OWASP Juice Shop: Probably the most modern and sophisticated insecure web application"
 type: application

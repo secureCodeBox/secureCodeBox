@@ -1,16 +1,16 @@
-# SPDX-FileCopyrightText: 2021 iteratec GmbH
+# SPDX-FileCopyrightText: the secureCodeBox authors
 #
 # SPDX-License-Identifier: Apache-2.0
 
 ARG namespace
 ARG baseImageTag
-FROM node:14-alpine as install
+FROM node:16-alpine as install
 RUN mkdir -p /home/app
 WORKDIR /home/app
 COPY package.json package-lock.json ./
 RUN npm ci --production
 
-FROM node:14-alpine as build
+FROM node:16-alpine as build
 RUN mkdir -p /home/app
 WORKDIR /home/app
 COPY package.json package-lock.json ./

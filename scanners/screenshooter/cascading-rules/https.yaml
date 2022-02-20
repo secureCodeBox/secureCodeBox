@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "cascading.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "screenshooter-https"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: light
+spec:
+  matches:
+    anyOf:
+      - category: "Open Port"
+        attributes:
+          service: "https*"
+          state: open
+  scanSpec:
+    scanType: "screenshooter"
+    parameters: ["https://{{$.hostOrIP}}:{{attributes.port}}"]

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2021 iteratec GmbH
+// SPDX-FileCopyrightText: the secureCodeBox authors
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -67,6 +67,16 @@ test("Parsing an empty result.", async () => {
 
 test("Parsing a nginx result.", async () => {
   const fileContent = await readFile(__dirname + "/__testFiles__/nginx.xml", {
+    encoding: "utf8",
+  });
+
+  const findings = await parse(fileContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchSnapshot();
+});
+
+test("Parsing a bodgeit result.", async () => {
+  const fileContent = await readFile(__dirname + "/__testFiles__/bodgeit.xml", {
     encoding: "utf8",
   });
 
