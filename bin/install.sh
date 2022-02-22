@@ -310,6 +310,10 @@ exitIfKubectlIsNotInstalled
 exitIfHelmIsNotInstalled
 createNamespaceAndInstallOperator
 
+# Since this script installs from the local Helm charts the repo is not necessary beforehand.
+# But add the Helm reposiotry so the docuemtned installation instructions work as described.
+helm repo add secureCodeBox https://charts.securecodebox.io
+
 if [[ -n "${INSTALL_INTERACTIVE}" ]]; then
     interactiveInstall
 else
