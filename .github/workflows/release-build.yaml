@@ -352,6 +352,7 @@ jobs:
       matrix:
         scanner:
           - angularjs-csti-scanner
+          - cmseek
           - gitleaks
           - kube-hunter
           - kubeaudit
