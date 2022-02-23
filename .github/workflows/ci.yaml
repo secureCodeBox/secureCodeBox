@@ -426,6 +426,7 @@ jobs:
           - finding-post-processing
           - generic-webhook
           - notification
+          - persistence-azure-monitor
           - persistence-elastic
           - persistence-defectdojo
           - update-field
