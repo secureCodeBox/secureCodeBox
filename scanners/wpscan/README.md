@@ -3,7 +3,7 @@ title: 'WPScan'
 category: 'scanner'
 type: "CMS"
 state: "released"
-appVersion: "v3.8.20"
+appVersion: "v3.8.21"
 usecase: "Wordpress Vulnerability Scanner"
 ---
 
