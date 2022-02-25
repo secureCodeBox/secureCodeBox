@@ -8,6 +8,7 @@
 
 import collections
 import logging
+import time
 
 from abc import abstractmethod
 from zapv2 import ZAPv2, spider
@@ -104,8 +105,25 @@ class ZapConfigureSpider(ZapClient):
             The spider configuration based on ZapConfiguration.
         """
         raise NotImplementedError
-    
+
     @abstractmethod
-    def wait_until_spider_finished(self):
-        """ Wait until the running ZAP Spider finished and log results."""
+    def check_if_spider_completed(self):
+        """Method to ask ZAP Api if the Spider has completed.
+
+        Returns
+        -------
+        true: if spider has completed
+        false: if spider is still working
+        """
         raise NotImplementedError
+
+    @abstractmethod
+    def print_spider_summary(self):
+        """Method to print out a summary of the spider results"""
+        raise NotImplementedError
+
+    def wait_until_spider_finished(self):
+        while self.check_if_spider_completed() is not True:
+            time.sleep(1)
+
+        self.print_spider_summary()
