@@ -42,20 +42,21 @@ You can find resources to help you get started on our [documentation website](ht
 
 ## Supported Tags
 - `latest`  (represents the latest stable release build)
-- tagged releases, e.g. `0.83.0`
+- tagged releases, e.g. `3.0.0`, `2.9.0`, `2.8.0`, `2.7.0`
 
 ## How to use this image
-This `parser` image is intended to work in combination with the corresponding security scanner docker image to parse the `findings` results. For more information details please take a look at the documentation page: https://docs.securecodebox.io/docs/scanners/semgrep.
+This `hook` image is intended to work in combination with other `parser` images to read or manipulate `findings` results. For more information details please take a look at the [project page][scb-docs] or [documentation page][https://docs.securecodebox.io/docs/hooks/azure-monitor].
 
 ```bash
-docker pull securecodebox/parser-semgrep
+docker pull securecodebox/hook-persistence-azure-monitor
 ```
 
-## What is Semgrep?
-Semgrep ("semantic grep") is a static source code analyzer that can be used to search for specific patterns in code.
-It allows you to either [write your own rules](https://semgrep.dev/learn), or use one of the [many pre-defined rulesets](https://semgrep.dev/r) curated by the semgrep team.
+## What is "Persistence Azure Monitor" Hook about?
+The Azure Monitor persistenceProvider hook saves all findings and reports into the configured Azure Monitor workspace using the [Data Collector API](https://docs.microsoft.com/en-us/azure/azure-monitor/logs/data-collector-api).
+This allows working with the data in [Azure Monitor](https://azure.microsoft.com/en-us/services/monitor/) or [Microsoft Sentinel](https://docs.microsoft.com/en-us/azure/sentinel/overview) to configure alerting based on new findings.
+It will create a custom log type for every scantype titled SCB_[scantype_name].
 
-To learn more about semgrep, visit [semgrep.dev](https://semgrep.dev).
+Installing the Azure Monitor persistenceProvider hook will add a _ReadOnly Hook_ to your namespace.
 
 ## Community
 

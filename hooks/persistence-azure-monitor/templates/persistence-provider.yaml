@@ -1,0 +1,32 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "execution.securecodebox.io/v1"
+kind: ScanCompletionHook
+metadata:
+  name: {{ include "persistence-azure-monitor.fullname" . }}
+  labels:
+    {{- include "persistence-azure-monitor.labels" . | nindent 4 }}
+    type: Structured
+    {{- with .Values.hook.labels }}
+    {{ toYaml . }}
+    {{- end }}
+spec:
+  priority: {{ .Values.hook.priority }}
+  type: ReadOnly
+  image: "{{ .Values.hook.image.repository }}:{{ .Values.hook.image.tag | default .Chart.Version }}"
+  ttlSecondsAfterFinished: {{ .Values.hook.ttlSecondsAfterFinished }}
+  env:
+    - name: MONITOR_LOGTYPE_PREFIX
+      value: {{ .Values.monitor.logtypePrefix | quote }}
+    - name: MONITOR_WORKSPACE_ID
+      valueFrom:
+        secretKeyRef:
+          name: {{ .Values.monitor.authentication.apiKeySecret }}
+          key: workspace
+    - name: MONITOR_SHARED_KEY
+      valueFrom:
+        secretKeyRef:
+          name: {{ .Values.monitor.authentication.apiKeySecret }}
+          key: sharedkey

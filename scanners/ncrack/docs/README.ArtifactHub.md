@@ -182,7 +182,7 @@ Before we can use the files, we have to install the Ncrack ScanType:
 
 ```bash
 cat <<EOF | helm install ncrack ./scanners/ncrack --values -
-scannerJob:
+scanner:
   extraVolumes:
     - name: ncrack-lists
       secret:
