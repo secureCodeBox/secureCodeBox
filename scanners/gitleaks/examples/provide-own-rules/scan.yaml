@@ -58,6 +58,9 @@ spec:
       command:
         - git
         - clone
+        # Use the --mirror clone to get the complete repository, otherwise findings may be
+        # incomplete. See https://wwws.nightwatchcybersecurity.com/2022/02/11/gitbleed/
+        - "--mirror"
         - "https://github.com/secureCodeBox/secureCodeBox"
         - /repo/
   parameters:

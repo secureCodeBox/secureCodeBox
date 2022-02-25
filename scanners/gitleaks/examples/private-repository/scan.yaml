@@ -30,6 +30,9 @@ spec:
       command:
         - git
         - clone
+        # Use the --mirror clone to get the complete repository, otherwise findings may be
+        # incomplete. See https://wwws.nightwatchcybersecurity.com/2022/02/11/gitbleed/
+        - "--mirror"
         # Add access token to the URL for authenticated HTTPS clone
         - "https://$(GITHUB_TOKEN)@github.com/yourOrg/yourRepo"
         - /repo/
