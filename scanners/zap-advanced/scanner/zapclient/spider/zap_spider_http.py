@@ -241,20 +241,15 @@ class ZapConfigureSpiderHttp(ZapConfigureSpider):
                 method_name="set_option_user_agent"
             )
 
-    def wait_until_spider_finished(self):
-        """ Wait until the running ZAP HTTP Spider finished and log results."""
+    def check_if_spider_completed(self):
+        progress = int(self.get_zap_spider.status(self.get_spider_id))
+        logging.info("HTTP Spider(%d) progress: %d", self.get_spider_id, progress)
+        return progress >= 100
 
-        if self.has_spider_id:
-            while int(self.get_zap_spider.status(self.get_spider_id)) < 100:
-                logging.info("HTTP Spider(%s) progress: %s", str(self.get_spider_id), str(self.get_zap_spider.status(self.get_spider_id)))
-                time.sleep(1)
-                
-            logging.info("HTTP Spider(%s) completed", str(self.get_spider_id))
+    def print_spider_summary(self):
+        """Method to print out a summary of the spider results"""
+        logging.info("HTTP Spider(%s) completed", str(self.get_spider_id))
 
-            self.__log_statistics()
-
-    def __log_statistics(self):
-        # Print out a count of the number of urls
         num_urls = len(self.get_zap.core.urls())
         if num_urls == 0:
             logging.error("No URLs found - is the target URL accessible? Local services may not be accessible from the Docker container.")
@@ -263,3 +258,6 @@ class ZapConfigureSpiderHttp(ZapConfigureSpider):
             for url in self.get_zap_spider.results(scanid=self.get_spider_id):
                 logging.info("Spidered URL: %s", url)
             logging.info("Spider(%s) found total: %s URLs", str(self.get_spider_id), str(num_urls))
+
+    def stop_spider(self):
+        self.get_zap_spider.stop()
