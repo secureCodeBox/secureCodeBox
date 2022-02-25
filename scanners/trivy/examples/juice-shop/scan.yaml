@@ -11,4 +11,5 @@ metadata:
 spec:
   scanType: "trivy"
   parameters:
+    - "image"
     - "bkimminich/juice-shop:v10.2.0"

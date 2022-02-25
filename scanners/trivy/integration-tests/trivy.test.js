@@ -12,6 +12,7 @@ test(
     const { categories, severities, count } = await scan(
       "trivy-juice-shop",
       "trivy",
+      "image",
       ["bkimminich/juice-shop:v10.2.0"],
       90
     );
