@@ -1,57 +1,77 @@
 {
-  "host": "bodgeit",
-  "ip": "10.105.36.237",
+  "host": "bodgeit.demo-targets.svc",
+  "ip": "10.96.46.204",
   "port": "8080",
-  "banner": "Apache-Coyote/1.1",
-  "vulnerabilities": [
-    {
-      "id": "999957",
-      "OSVDB": "0",
-      "method": "GET",
-      "url": "/",
-      "msg": "The anti-clickjacking X-Frame-Options header is not present."
-    },
-    {
-      "id": "999102",
-      "OSVDB": "0",
-      "method": "GET",
-      "url": "/",
-      "msg": "The X-XSS-Protection header is not defined. This header can hint to the user agent to protect against some forms of XSS"
-    },
-    {
-      "id": "999103",
-      "OSVDB": "0",
-      "method": "GET",
-      "url": "/",
-      "msg": "The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type"
-    },
-    {
-      "id": "500645",
-      "OSVDB": "39272",
-      "method": "GET",
-      "url": "/favicon.ico",
-      "msg": "/favicon.ico file identifies this app/server as: Apache Tomcat (possibly 5.5.26 through 8.0.15), Alfresco Community"
-    },
-    {
-      "id": "999990",
-      "OSVDB": "0",
-      "method": "OPTIONS",
-      "url": "/",
-      "msg": "Allowed HTTP Methods: GET, HEAD, POST, PUT, DELETE, OPTIONS "
-    },
-    {
-      "id": "400001",
-      "OSVDB": "397",
-      "method": "GET",
-      "url": "/",
-      "msg": "HTTP method ('Allow' Header): 'PUT' method could allow clients to save files on the web server."
-    },
-    {
-      "id": "400000",
-      "OSVDB": "5646",
-      "method": "GET",
-      "url": "/",
-      "msg": "HTTP method ('Allow' Header): 'DELETE' may allow clients to remove files on the web server."
-    }
-  ]
+  "banner": "",
+  "vulnerabilities": [{
+    "id": "999957",
+    "references": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options",
+    "method": "GET",
+    "url": "",
+    "msg": "The anti-clickjacking X-Frame-Options header is not present."
+  }, {
+    "id": "999103",
+    "references": "https://www.netsparker.com/web-vulnerability-scanner/vulnerabilities/missing-content-type-header/",
+    "method": "GET",
+    "url": "",
+    "msg": "The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type."
+  }, {
+    "id": "500645",
+    "references": "https://en.wikipedia.org/wiki/Favicon",
+    "method": "GET",
+    "url": "",
+    "msg": "/favicon.ico file identifies this app/server as: Apache Tomcat (possibly 5.5.26 through 8.0.15), Alfresco Community."
+  }, {
+    "id": "999990",
+    "method": "OPTIONS",
+    "url": "",
+    "msg": "Allowed HTTP Methods: GET, HEAD, POST, PUT, DELETE, OPTIONS ."
+  }, {
+    "id": "400001",
+    "method": "GET",
+    "url": "",
+    "msg": "HTTP method ('Allow' Header): 'PUT' method could allow clients to save files on the web server."
+  }, {
+    "id": "400000",
+    "method": "GET",
+    "url": "",
+    "msg": "HTTP method ('Allow' Header): 'DELETE' may allow clients to remove files on the web server."
+  }, {
+    "id": "000366",
+    "method": "GET",
+    "url": "",
+    "msg": "/examples/servlets/index.html: Apache Tomcat default JSP pages present."
+  }, {
+    "id": "001355",
+    "references": "CVE-2004-2104",
+    "method": "GET",
+    "url": "",
+    "msg": "/examples/jsp/snp/snoop.jsp: Displays information about page retrievals, including other users."
+  }, {
+    "id": "003399",
+    "references": "CWE-552",
+    "method": "GET",
+    "url": "",
+    "msg": "/manager/manager-howto.html: Tomcat documentation found."
+  }, {
+    "id": "006525",
+    "method": "GET",
+    "url": "",
+    "msg": "/manager/html: Default Tomcat Manager / Host Manager interface found."
+  }, {
+    "id": "006525",
+    "method": "GET",
+    "url": "",
+    "msg": "/host-manager/html: Default Tomcat Manager / Host Manager interface found."
+  }, {
+    "id": "007015",
+    "method": "GET",
+    "url": "",
+    "msg": "/manager/status: Default Tomcat Server Status interface found."
+  }, {
+    "id": "007015",
+    "method": "GET",
+    "url": "",
+    "msg": "/host-manager/status: Default Tomcat Server Status interface found."
+  }]
 }
