@@ -180,3 +180,6 @@ class ZapConfigureSpiderAjax(ZapConfigureSpider):
             logging.info("Ajax Spider found total: %s URLs", str(num_urls))
             for url in self.get_zap_spider.results():
                 logging.debug("URL: %s", url['requestHeader'])
+
+    def stop_spider(self):
+        self.get_zap_spider.stop()

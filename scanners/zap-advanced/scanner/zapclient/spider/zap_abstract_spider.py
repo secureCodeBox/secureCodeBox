@@ -122,8 +122,34 @@ class ZapConfigureSpider(ZapClient):
         """Method to print out a summary of the spider results"""
         raise NotImplementedError
 
+    @abstractmethod
+    def stop_spider(self):
+        """Method to stop the spider"""
+        raise NotImplementedError
+
     def wait_until_spider_finished(self):
+        """
+        Waits for the ZAP Spider to complete.
+
+        This method also enforces the "maxDuration" limit of the spider, ZAP normally enforces it on its own,
+        but there are cases where the spider has stalled and ZAP was unable to enforce it on its own.
+        """
+        if "maxDuration" in self.get_config.get_active_spider_config:
+            # convert to seconds
+            max_duration = self.get_config.get_active_spider_config["maxDuration"] * 60
+        else:
+            max_duration = None
+
+        wait_time = 0
+        # time to wait above the configured max duration, to give ZAP time to enforce the maxDuration itself if possible
+        tolerance_duration = 60
+
         while self.check_if_spider_completed() is not True:
             time.sleep(1)
+            wait_time += 1
+            if max_duration is not None and wait_time > (max_duration + tolerance_duration):
+                logging.info("Spider has run over its configured maxDuration. Stopping Spider.")
+                self.stop_spider()
+                break
 
         self.print_spider_summary()

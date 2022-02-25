@@ -258,3 +258,6 @@ class ZapConfigureSpiderHttp(ZapConfigureSpider):
             for url in self.get_zap_spider.results(scanid=self.get_spider_id):
                 logging.info("Spidered URL: %s", url)
             logging.info("Spider(%s) found total: %s URLs", str(self.get_spider_id), str(num_urls))
+
+    def stop_spider(self):
+        self.get_zap_spider.stop()
