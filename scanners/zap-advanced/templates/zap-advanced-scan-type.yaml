@@ -112,10 +112,10 @@ spec:
                 {{- toYaml .Values.zapContainer.envFrom | nindent 16 }}
               volumeMounts:
                 {{- toYaml .Values.zapContainer.extraVolumeMounts | nindent 16 }}
-              {{- if .Values.zapContainer.extraContainers }}
-              {{- toYaml .Values.zapContainer.extraContainers | nindent 12 }}
-              {{- end }}
               ports:
                 - containerPort: 8080
+            {{- if .Values.zapContainer.extraContainers }}
+            {{- toYaml .Values.zapContainer.extraContainers | nindent 12 }}
+            {{- end }}
           volumes:
             {{- toYaml .Values.scanner.extraVolumes | nindent 12 }}
