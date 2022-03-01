@@ -1,7 +1,6 @@
 // SPDX-FileCopyrightText: the secureCodeBox authors
 //
 // SPDX-License-Identifier: Apache-2.0
-
 package controllers
 
 import (
@@ -12,14 +11,62 @@ import (
 	. "github.com/onsi/gomega"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	//+kubebuilder:scaffold:imports
 )
 
-var _ = Describe("Scheduledscan controller", func() {
-	Context("If multiple scheduled scans triggers", func() {
-		It("Update Finding Summary of scan with the results of the latest successful Scan", func() {
+type testData struct {
+	in                   map[string]string
+	expectedMapKeyLength int
+}
+
+var _ = Describe("ScheduledScan controller", func() {
+	Context("Should get annotations for Scan", func() {
+		tests := []testData{
+			{
+				in: map[string]string{
+					"foobar": "bar",
+				},
+				expectedMapKeyLength: 0,
+			},
+			{
+				in: map[string]string{
+					"foobar.securecodebox.io/bar": "bar",
+				},
+				expectedMapKeyLength: 1,
+			},
+			{
+				in: map[string]string{
+					"barfoo.securecodebox.io/bar": "bar",
+					"foo":                         "bar",
+				},
+				expectedMapKeyLength: 1,
+			},
+			{
+				in: map[string]string{
+					"barfoo.securecodebox.io/bar": "bar",
+					"barfoo.securecodebox.io/foo": "bar",
+				},
+				expectedMapKeyLength: 2,
+			},
+		}
+		It("Should drop all annotations not prefixed with \"*.securecodebox.io/*\"", func() {
+			for _, test := range tests {
+				scheduledScan := executionv1.ScheduledScan{
+					ObjectMeta: metav1.ObjectMeta{
+						Name:        "foobar",
+						Annotations: test.in,
+					},
+				}
+				actual := getAnnotationsForScan(scheduledScan)
+				Expect(len(actual)).Should(Equal(test.expectedMapKeyLength))
+			}
+		})
+	})
+	Context("A Scan is triggred due to a Scheduled Scan", func() {
+		It("The ScheduledScan's Finding Summary shoud be updated of with the results of the successful Scan", func() {
 			ctx := context.Background()
 			namespace := "scantype-multiple-scheduled-scan-triggerd-test"
 
@@ -54,7 +101,6 @@ var _ = Describe("Scheduledscan controller", func() {
 					scheduledScan.Status.Findings.FindingSeverities == executionv1.FindingSeverities{High: 42} &&
 					reflect.DeepEqual(scheduledScan.Status.Findings.FindingCategories, map[string]uint64{"Open Port": 42}))
 			}, timeout, interval).Should(BeTrue())
-
 		})
 	})
 })
