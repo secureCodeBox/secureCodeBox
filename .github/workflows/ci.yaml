@@ -896,7 +896,7 @@ jobs:
 
       - name: "ZAP Extended Integration Tests"
         # disable zap extended test temporarily as they slow down the pipeline too much
-        if: ${{ github.event_name == 'schedule' }}
+        #if: ${{ github.event_name == 'schedule' }}
         run: |
           kubectl -n integration-tests delete scans --all
           helm -n integration-tests install zap-advanced ./scanners/zap-advanced/  \
