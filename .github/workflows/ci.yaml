@@ -1,16 +1,19 @@
-# SPDX-FileCopyrightText: 2021 iteratec GmbH
+# SPDX-FileCopyrightText: the secureCodeBox authors
 #
 # SPDX-License-Identifier: Apache-2.0
 
 name: "CI"
-on: push
+on: 
+  push:
+  schedule:
+    - cron: "15 2 * * *" # Nightly-Build at 2:15 AM UTC
 
 env:
   # ---- Language Versions ----
 
-  GO_VERSION: "1.15"
+  GO_VERSION: "1.17"
   PYTHON_VERSION: "3.9"
-  NODE_VERSION: "14"
+  NODE_VERSION: "16"
   NPM_VERSION: "7"
 
   # ---- Docker Namespace ----
@@ -423,6 +426,7 @@ jobs:
           - finding-post-processing
           - generic-webhook
           - notification
+          - persistence-azure-monitor
           - persistence-elastic
           - persistence-defectdojo
           - update-field
@@ -861,6 +865,8 @@ jobs:
           helm -n demo-targets install old-joomla ./demo-targets/old-joomla/ --set="fullnameOverride=old-joomla" --wait
           # Install juiceshop app
           helm -n demo-targets install juiceshop ./demo-targets/juice-shop/ --set="fullnameOverride=juiceshop" --wait
+          # Install vulnerable log4j
+          helm -n demo-targets install vulnerable-log4j ./demo-targets/vulnerable-log4j/ --set="fullnameOverride=vulnerable-log4j" --wait
           # Install plain nginx server
           kubectl create deployment --image nginx:alpine nginx --namespace demo-targets
           kubectl expose deployment nginx --port 80 --namespace demo-targets
@@ -890,7 +896,7 @@ jobs:
 
       - name: "ZAP Extended Integration Tests"
         # disable zap extended test temporarily as they slow down the pipeline too much
-        if: ${{ false }}
+        if: ${{ github.event_name == 'schedule' }}
         run: |
           kubectl -n integration-tests delete scans --all
           helm -n integration-tests install zap-advanced ./scanners/zap-advanced/  \
@@ -900,7 +906,7 @@ jobs:
             --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
             --set-string="parser.env[0].value=true"
-          kubectl apply -f ./scanners/zap-advanced/examples/integration-tests/scantype-configMap.yaml -n integration-tests
+          kubectl apply -f ./scanners/zap-advanced/integration-tests/scantype-configMap.yaml -n integration-tests
           cd tests/integration/
           npx jest --ci --color scanner/zap-advanced.test.js
 

@@ -1,0 +1,9 @@
+{{- /*
+SPDX-FileCopyrightText: the secureCodeBox authors
+
+SPDX-License-Identifier: Apache-2.0
+*/}}
+Vulnerable log4j Instance deployed.
+
+Note this should used for demo and test purposes.
+Do not expose this to the Internet!

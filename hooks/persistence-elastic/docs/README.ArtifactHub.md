@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2021 iteratec GmbH
+SPDX-FileCopyrightText: the secureCodeBox authors
 
 SPDX-License-Identifier: Apache-2.0
 -->
@@ -88,10 +88,12 @@ the [Luxon documentation](https://moment.github.io/luxon/docs/manual/formatting.
 | externalElasticStack.enabled | bool | `false` | Enable this when you already have an Elastic Stack running to which you want to send your results |
 | externalElasticStack.kibanaAddress | string | `"https://kibana.example.com"` | The URL of the kibana service used to visualize all findings. |
 | fullnameOverride | string | `""` |  |
+| hook.affinity | object | `{}` | Optional affinity settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
 | hook.image.repository | string | `"docker.io/securecodebox/hook-persistence-elastic"` | Hook image repository |
 | hook.image.tag | string | defaults to the charts version | The image Tag defaults to the charts version if not defined. |
 | hook.labels | object | `{}` | Add Kubernetes Labels to the hook definition |
 | hook.priority | int | `0` | Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks. |
+| hook.tolerations | list | `[]` | Optional tolerations settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
 | hook.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | imagePullSecrets | list | `[]` |  |
 | indexAppendNamespace | bool | `true` | Define if the name of the namespace where this hook is deployed to must be added to the index name. The namespace can be used to separate index by tenants (namespaces). |

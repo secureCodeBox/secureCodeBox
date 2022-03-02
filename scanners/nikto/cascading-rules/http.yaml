@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2021 iteratec GmbH
+# SPDX-FileCopyrightText: the secureCodeBox authors
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -14,11 +14,8 @@ spec:
     anyOf:
       - category: "Open Port"
         attributes:
-          service: http
-          state: open
-      - category: "Open Port"
-        attributes:
-          service: https
+          # Also matches https, but also alternative HTTP ports
+          service: "http*"
           state: open
   scanSpec:
     scanType: "nikto"

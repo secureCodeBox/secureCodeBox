@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2021 iteratec GmbH
+# SPDX-FileCopyrightText: the secureCodeBox authors
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -19,3 +19,7 @@ spec:
   env:
     - name: WEBHOOK_URL
       value: {{ .Values.webhookUrl | quote }}
+  affinity:
+    {{- toYaml .Values.hook.affinity | nindent 4 }}
+  tolerations:
+    {{- toYaml .Values.hook.tolerations | nindent 4 }}

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# SPDX-FileCopyrightText: 2021 iteratec GmbH
+# SPDX-FileCopyrightText: the secureCodeBox authors
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -309,6 +309,10 @@ fi
 exitIfKubectlIsNotInstalled
 exitIfHelmIsNotInstalled
 createNamespaceAndInstallOperator
+
+# Since this script installs from the local Helm charts the repo is not necessary beforehand.
+# But add the Helm reposiotry so the docuemtned installation instructions work as described.
+helm repo add secureCodeBox https://charts.securecodebox.io
 
 if [[ -n "${INSTALL_INTERACTIVE}" ]]; then
     interactiveInstall

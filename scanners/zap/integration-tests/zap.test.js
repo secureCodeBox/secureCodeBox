@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2021 iteratec GmbH
+// SPDX-FileCopyrightText: the secureCodeBox authors
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -17,9 +17,9 @@ test(
     expect(categories).toMatchInlineSnapshot(`
       Object {
         "Content Security Policy (CSP) Header Not Set": 1,
+        "Missing Anti-clickjacking Header": 1,
         "Server Leaks Version Information via \\"Server\\" HTTP Response Header Field": 1,
         "X-Content-Type-Options Header Missing": 1,
-        "X-Frame-Options Header Not Set": 1,
       }
     `);
     expect(severities).toMatchInlineSnapshot(`

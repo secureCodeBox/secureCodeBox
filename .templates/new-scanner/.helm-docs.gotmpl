@@ -1,5 +1,5 @@
 {{- /*
-SPDX-FileCopyrightText: 2021 iteratec GmbH
+SPDX-FileCopyrightText: the secureCodeBox authors
 
 SPDX-License-Identifier: Apache-2.0
 */ -}}
@@ -29,3 +29,22 @@ ADD A [LOGO]() HERE!
 
 Please write some information about the new scanner.
 {{- end }}
+
+{{- define "extra.scannerConfigurationSection" -}}
+
+Please write how to configure the scanner
+
+{{- end }}
+
+{{- define "extra.chartConfigurationSection" -}}
+
+Please include any extra Helm chart configurations that can be useful.
+
+{{- end }}
+
+{{- define "extra.scannerLinksSection" -}}
+
+Please include any links that can be used as a reference for the scanner.
+
+{{- end }}
+

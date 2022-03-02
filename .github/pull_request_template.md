@@ -18,4 +18,3 @@ Before submitting your Pull Request, please take the time to check the points be
 
 * [ ] Test your changes as thoroughly as possible before you commit them. Preferably, automate your test by unit/integration tests.
 * [ ] Make sure `npm test` runs for the whole project.
-* [ ] Make codeclimate checks happy

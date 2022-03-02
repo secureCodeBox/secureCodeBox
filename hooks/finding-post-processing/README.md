@@ -7,7 +7,7 @@ usecase: "Updates fields for findings meeting specified conditions."
 ---
 
 <!--
-SPDX-FileCopyrightText: 2021 iteratec GmbH
+SPDX-FileCopyrightText: the secureCodeBox authors
 
 SPDX-License-Identifier: Apache-2.0
 -->
@@ -87,10 +87,12 @@ The `override` field specifies the desired fields and values that need to be upd
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| hook.affinity | object | `{}` | Optional affinity settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
 | hook.image.repository | string | `"docker.io/securecodebox/hook-finding-post-processing"` | Hook image repository |
 | hook.image.tag | string | defaults to the charts version | The image Tag defaults to the charts version if not defined. |
 | hook.labels | object | `{}` | Add Kubernetes Labels to the hook definition |
 | hook.priority | int | `0` | Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks. |
+| hook.tolerations | list | `[]` | Optional tolerations settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
 | hook.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | rules | list | `[]` |  |
 

@@ -7,7 +7,7 @@ usecase: "Publishes Scan Summary to MS Teams, Slack and others."
 ---
 
 <!--
-SPDX-FileCopyrightText: 2021 iteratec GmbH
+SPDX-FileCopyrightText: the secureCodeBox authors
 
 SPDX-License-Identifier: Apache-2.0
 -->
@@ -86,8 +86,8 @@ notificationChannels:
 env:
   - name: SOME_ENV
     valueFrom:
-      secretRefKey:
-        secret: some-secret
+      secretKeyRef:
+        name: some-secret
         key: some-key
 ```
 
@@ -177,8 +177,8 @@ env:
     - name: POINTER_TO_ENV
       valueFrom:
         secretKeyRef:
-            name: myslacksecret
-            key: SLACK_WEB_HOOK
+          name: myslacksecret
+          key: SLACK_WEB_HOOK
 
 # cat values_slack_secrets.yaml
 apiVersion: v1
@@ -271,7 +271,11 @@ notificationChannels:
     endPoint: "someone@somewhere.xyz"
 env:
   - name: SMTP_CONFIG
-    value: "smtp://user:pass@smtp.domain.tld/"
+    # you can create the secret via: kubectl create secret generic email-credentials --from-literal="smtp-config=smtp://user:pass@smtp.domain.tld/"
+    valueFrom:
+      secretKeyRef:
+        name: email-credentials
+        key: smtp-config
 ```
 
 To provide a custom `from` field for your email you can specify `EMAIL_FROM` under env.
@@ -280,7 +284,10 @@ For example:
 ```
 env:
   - name: SMTP_CONFIG
-    value: "smtp://user:pass@smtp.domain.tld/"
+    valueFrom:
+      secretKeyRef:
+        name: email-credentials
+        key: smtp-config
   - name: EMAIL_FROM
     value: secureCodeBox
 ```
@@ -343,11 +350,13 @@ To fill your template with data we provide the following objects.
 | env[1].name | string | `"SMTP_CONFIG"` |  |
 | env[1].valueFrom.secretKeyRef.key | string | `"smtp-config-key"` |  |
 | env[1].valueFrom.secretKeyRef.name | string | `"some-secret"` |  |
+| hook.affinity | object | `{}` | Optional affinity settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
 | hook.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | hook.image.repository | string | `"docker.io/securecodebox/hook-notification"` | Hook image repository |
 | hook.image.tag | string | defaults to the charts version | Image tag |
 | hook.labels | object | `{}` | Add Kubernetes Labels to the hook definition |
 | hook.priority | int | `0` | Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks. |
+| hook.tolerations | list | `[]` | Optional tolerations settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
 | hook.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | notificationChannels[0].endPoint | string | `"SOME_ENV_KEY"` |  |
 | notificationChannels[0].name | string | `"slack"` |  |

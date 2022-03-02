@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: 'execution.securecodebox.io/v1'
+kind: Scan
+metadata:
+  name: 'nikto-docs.securecodebox.io'
+  labels:
+    organization: 'secureCodeBox'
+spec:
+  scanType: 'nikto'
+  parameters:
+    - '-h'
+    - 'https://docs.securecodebox.io/'
+    - '-Tuning'
+    # Only enable fast (ish) Scan Options, remove attack option like SQLi and RCE. We will leave those to ZAP
+    - '1,2,3,5,7,b'

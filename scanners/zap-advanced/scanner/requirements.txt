@@ -1,6 +1,7 @@
-# SPDX-FileCopyrightText: 2021 iteratec GmbH
+# SPDX-FileCopyrightText: the secureCodeBox authors
 #
 # SPDX-License-Identifier: Apache-2.0
 
 python-owasp-zap-v2.4==0.0.18
 HiYaPyCo==0.4.16
+MarkupSafe==2.0.1

@@ -1,5 +1,5 @@
 {{- /*
-SPDX-FileCopyrightText: 2021 iteratec GmbH
+SPDX-FileCopyrightText: the secureCodeBox authors
 
 SPDX-License-Identifier: Apache-2.0
 */ -}}
@@ -169,3 +169,10 @@ EXAMPLE USAGE:
   --url-suffix /crossdomain.xml -p crossdomain_xml
 ```
 {{end}}
+
+{{- define "extra.chartConfigurationSection" -}}
+{{- end }}
+
+{{- define "extra.scannerLinksSection" -}}
+[whatweb]: https://morningstarsecurity.com/research/whatweb
+{{- end }}

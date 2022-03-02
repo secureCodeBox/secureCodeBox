@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2021 iteratec GmbH
+# SPDX-FileCopyrightText: the secureCodeBox authors
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -19,6 +19,12 @@ parser:
 
   # parser.scopeLimiterAliases -- Optional finding aliases to be used in the scopeLimiter.
   scopeLimiterAliases: {}
+
+  # parser.affinity -- Optional affinity settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
+  affinity: {}
+
+  # parser.tolerations -- Optional tolerations settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+  tolerations: []
 
 scanner:
   image:
@@ -76,6 +82,12 @@ scanner:
       drop:
         # scanner.securityContext.capabilities.drop[0] -- This drops all linux privileges from the container.
         - all
+
+  # scanner.affinity -- Optional affinity settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
+  affinity: {}
+
+  # scanner.tolerations -- Optional tolerations settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+  tolerations: []
 
 cascadingRules:
   # cascadingRules.enabled -- Enables or disables the installation of the default cascading rules for this scanner

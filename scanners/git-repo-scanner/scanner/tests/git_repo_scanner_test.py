@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2021 iteratec GmbH
+# SPDX-FileCopyrightText: the secureCodeBox authors
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -46,6 +46,10 @@ class GitRepoScannerTests(unittest.TestCase):
         self.assertEqual(findings[1]['attributes']['web_url'], 'url2', msg=self.wrong_output_msg)
         self.assertEqual(findings[2]['attributes']['web_url'], 'url3', msg=self.wrong_output_msg)
         self.assertEqual(findings[0]['attributes']["last_commit_id"], "deadbeef")
+        self.assertEqual(findings[1]['attributes']["archived"], False)
+        self.assertEqual(findings[2]['attributes']["archived"], True)
+        self.assertEqual(findings[0]['attributes']["topics"], [])
+        self.assertEqual(findings[2]['attributes']["topics"], ["outdated"])
         mock_gptp.assert_called()
         mock_commitmanager.assert_called()
 
@@ -134,6 +138,14 @@ class GitRepoScannerTests(unittest.TestCase):
         # then
         org_mock.get_repos.assert_called_with(type='all', sort='pushed', direction='asc')
         self.assertEqual(6, len(findings), msg='There should be exactly 6 findings')
+        self.assertFalse(findings[0]["attributes"]["archived"])
+        self.assertFalse(findings[1]["attributes"]["archived"])
+        self.assertTrue(findings[2]["attributes"]["archived"])
+        self.assertFalse(findings[3]["attributes"]["archived"])
+        self.assertFalse(findings[4]["attributes"]["archived"])
+        self.assertTrue(findings[5]["attributes"]["archived"])
+        self.assertEqual(findings[0]["attributes"]["topics"], [])
+        self.assertEqual(findings[2]["attributes"]["topics"], ["outdated"])
         for finding in findings:
             self.assertEqual(finding['name'], 'GitHub Repo', msg=self.wrong_output_msg)
             self.assertFalse("last_commit_id" in finding['attributes'])
@@ -200,11 +212,11 @@ def assemble_projects():
                                 o_name='name22')
     project3 = assemble_project(p_id=3, name='name3', url='url3', path='path3', date_created=created,
                                 date_updated=updated, visibility='private', o_id=33, o_kind='group',
-                                o_name='name33')
+                                o_name='name33', archived=True, topics=["outdated"])
     return [project1, project2, project3]
 
 
-def assemble_project(p_id, name, url, path, date_created, date_updated, visibility, o_id, o_kind, o_name):
+def assemble_project(p_id, name, url, path, date_created, date_updated, visibility, o_id, o_kind, o_name, archived=False, topics=[]):
     project = Project(ProjectManager(gitlab), {})
     project.id = p_id
     project.name = name
@@ -218,6 +230,8 @@ def assemble_project(p_id, name, url, path, date_created, date_updated, visibili
         'id': o_id,
         'name': o_name
     }
+    project.archived = archived
+    project.topics = topics
     return project
 
 
@@ -232,14 +246,12 @@ def assemble_repos():
                                    o_name='name22')
     project3 = assemble_repository(p_id=3, name='name3', url='url3', path='path3', date_created=date,
                                    date_updated=date, date_pushed=date, visibility=False, o_id=33,
-                                   o_kind='organization',
-                                   o_name='name33')
+                                   o_kind='organization', o_name='name33', archived=True, topics=["outdated"])
     return [project1, project2, project3]
 
 
 def assemble_repository(p_id, name, url, path, date_created: datetime, date_updated: datetime, date_pushed: datetime,
-                        visibility: bool, o_id,
-                        o_kind, o_name):
+                        visibility: bool, o_id, o_kind, o_name, archived = False, topics=[]):
 
     repo = Mock()
     owner = Mock()
@@ -256,6 +268,8 @@ def assemble_repository(p_id, name, url, path, date_created: datetime, date_upda
     repo.private = visibility
     repo.owner = owner
     repo.get_commits = lambda: [Mock(sha="deadbeef")]
+    repo.get_topics = lambda: topics
+    repo.archived = archived
     return repo
 
 

@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2021 iteratec GmbH
+# SPDX-FileCopyrightText: the secureCodeBox authors
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -11,4 +11,4 @@ spec:
   parameters:
     # Target domain name of the finding and start a nuclei scan
     - "-u"
-    - "example.com"
+    - "https://example.com"

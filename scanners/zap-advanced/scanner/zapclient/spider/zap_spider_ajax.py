@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# SPDX-FileCopyrightText: 2021 iteratec GmbH
+# SPDX-FileCopyrightText: the secureCodeBox authors
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -159,22 +159,27 @@ class ZapConfigureSpiderAjax(ZapConfigureSpider):
                 method_name="set_option_random_inputs"
             )
 
-    def wait_until_spider_finished(self):
-        """ Wait until the running ZAP Spider finished and log results."""
+    def check_if_spider_completed(self):
+        finished = self.get_zap_spider.status != 'running'
+        logging.info('Ajax Spider running, found urls: %s', self.get_zap_spider.number_of_results)
+        return finished
 
-        if(self.get_zap_spider.status == 'running'):
-            while (self.get_zap_spider.status == 'running'):
-                logging.info('Ajax Spider running, found urls: %s', self.get_zap_spider.number_of_results)
-                time.sleep(1)
+    def print_spider_summary(self):
+        """Method to print out a summary of the spider results"""
 
-            logging.info('Ajax Spider complete')
+        logging.info('Ajax Spider complete')
 
         # Print out a count of the number of urls
         num_urls = len(self.get_zap.core.urls())
         if num_urls == 0:
-            logging.error("No URLs found - is the target URL accessible? Local services may not be accessible from the Docker container")
-            raise RuntimeError('No URLs found by ZAP Spider :-( - is the target URL accessible? Local services may not be accessible from the Docker container')
+            logging.error(
+                "No URLs found - is the target URL accessible? Local services may not be accessible from the Docker container")
+            raise RuntimeError(
+                'No URLs found by ZAP Spider :-( - is the target URL accessible? Local services may not be accessible from the Docker container')
         else:
             logging.info("Ajax Spider found total: %s URLs", str(num_urls))
             for url in self.get_zap_spider.results():
                 logging.debug("URL: %s", url['requestHeader'])
+
+    def stop_spider(self):
+        self.get_zap_spider.stop()

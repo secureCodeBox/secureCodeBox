@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2021 iteratec GmbH
+# SPDX-FileCopyrightText: the secureCodeBox authors
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -143,5 +143,7 @@ class GitHubScanner(AbstractScanner):
             repo.created_at.strftime("%Y-%m-%dT%H:%M:%SZ"),
             repo.updated_at.strftime("%Y-%m-%dT%H:%M:%SZ"),
             'private' if repo.private else 'public',
+            repo.archived,
+            repo.get_topics(),
             latest_commit
         )

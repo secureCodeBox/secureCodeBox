@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 #
-# SPDX-FileCopyrightText: 2021 iteratec GmbH
+# SPDX-FileCopyrightText: the secureCodeBox authors
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -138,6 +138,10 @@ deploy-test-dep-old-typo3:
 deploy-test-dep-juiceshop:
 	# Install juiceshop app
 	helm -n demo-targets upgrade --install juiceshop ../../demo-targets/juice-shop/ --set="fullnameOverride=juiceshop" --wait
+
+deploy-test-dep-vulnerable-log4j:
+	# Install vulnerable-log4j app
+	helm -n demo-targets upgrade --install vulnerable-log4j ../../demo-targets/vulnerable-log4j/ --set="fullnameOverride=vulnerable-log4j" --wait	
 
 deploy-test-dep-nginx:
 	# Delete leftover nginx's. Unfortunately can't create deployment only if not exists (like namespaces)
