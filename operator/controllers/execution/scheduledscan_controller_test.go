@@ -5,7 +5,6 @@ package controllers
 
 import (
 	"context"
-	"reflect"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -97,10 +96,12 @@ var _ = Describe("ScheduledScan controller", func() {
 				if errors.IsNotFound(err) {
 					panic("ScheduledScan should be present for this check!")
 				}
-				return (scheduledScan.Status.Findings.Count == 42 &&
-					scheduledScan.Status.Findings.FindingSeverities == executionv1.FindingSeverities{High: 42} &&
-					reflect.DeepEqual(scheduledScan.Status.Findings.FindingCategories, map[string]uint64{"Open Port": 42}))
+				return scheduledScan.Status.Findings.Count != 0
 			}, timeout, interval).Should(BeTrue())
+
+			Expect(scheduledScan.Status.Findings.Count).Should(Equal(uint64(42)))
+			Expect(scheduledScan.Status.Findings.FindingSeverities).Should(Equal(executionv1.FindingSeverities{High: 42}))
+			Expect(scheduledScan.Status.Findings.FindingCategories).Should(Equal(map[string]uint64{"Open Port": 42}))
 		})
 	})
 })
