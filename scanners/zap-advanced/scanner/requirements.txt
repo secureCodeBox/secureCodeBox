@@ -2,6 +2,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-python-owasp-zap-v2.4==0.0.18
+python-owasp-zap-v2.4==0.0.20
 HiYaPyCo==0.4.16
 MarkupSafe==2.0.1
