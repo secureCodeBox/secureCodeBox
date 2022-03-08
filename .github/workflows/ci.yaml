@@ -935,7 +935,7 @@ jobs:
       - name: Test-scan integration-tests
         working-directory: ./scanners/test-scan/
         run: |
-          helm -n integration-tests upgrade --install test-scan ./scanners/test-scan/ \
+          helm -n integration-tests upgrade --install test-scan . \
             --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
             --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
             --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
