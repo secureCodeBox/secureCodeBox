@@ -836,7 +836,7 @@ jobs:
             --set="attribute.value=high"
           cd tests/integration/
           npx jest --ci --color generic/read-write-hook.test.js
-          helm -n integration-tests uninstall test-scan update-category update-severity
+          helm -n integration-tests uninstall update-category update-severity
 
       # ---- Gerneral Testing | ReadOnly Hook ----
 
@@ -849,7 +849,7 @@ jobs:
             --set="hook.image.tag=sha-$(git rev-parse --short HEAD)"
           cd tests/integration/
           npx jest --ci --color generic/read-only-hook.test.js
-          helm -n integration-tests uninstall test-scan http-webhook ro-hook
+          helm -n integration-tests uninstall http-webhook ro-hook
 
       # ---- Install Demo Apps for Specific Tetest-scants ----
 
@@ -889,7 +889,7 @@ jobs:
 
           cd tests/integration/
           npx jest --ci --color ./hooks/notification.test.js
-          helm -n integration-tests uninstall test-scan http-webhook notification-hook
+          helm -n integration-tests uninstall http-webhook notification-hook
 
       # ---- Zap Extended Integration Tests ----
 
