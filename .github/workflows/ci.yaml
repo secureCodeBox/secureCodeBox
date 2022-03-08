@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 name: "CI"
-on: 
+on:
   push:
   schedule:
     - cron: "15 2 * * *" # Nightly-Build at 2:15 AM UTC
@@ -575,8 +575,6 @@ jobs:
   # This Section contains Scanners that are developed by the secureCodeBox project
   # The tag for these images will be the Semver of the release
 
-
-
   scanners-custom:
     name: "Build | Custom Scanner"
     needs:
@@ -770,14 +768,12 @@ jobs:
         run: "kubectl create namespace demo-targets"
 
       # ---- Install Test Dependencies ----
-
       - name: "Install Test Dependencies"
         run: |
           cd tests/integration/
           npm ci
 
-       # ----- Build Test-Scan ScanType Image ----
-
+        # ----- Build Test-Scan ScanType Image ----
 
       - name: Build Image
         working-directory: ./parser-sdk/nodejs/
@@ -789,7 +785,7 @@ jobs:
 
       - name: Kind import
         working-directory: ./parser-sdk/nodejs/
-        run: make kind-import  
+        run: make kind-import
 
       # ----- Build Parser SDK Image ----
 
@@ -803,7 +799,7 @@ jobs:
 
       - name: Kind import
         working-directory: ./scanners/test-scan/
-        run: make kind-import  
+        run: make kind-import
 
       - name: Test-scan deploy
         working-directory: ./scanners/test-scan/
@@ -811,7 +807,7 @@ jobs:
 
       - name: Test-scan integration-tests
         working-directory: ./scanners/test-scan/
-        run: make integration-tests              
+        run: make integration-tests
 
       # ---- General Testing ----
 
@@ -819,20 +815,6 @@ jobs:
 
       # ---- Gerneral Testing | Findings Validation ----
 
-      # - name: "Parser should fail on invalid Findings"
-      #   run: |
-      #     helm -n integration-tests install test-scan ./scanners/test-scan/ \
-      #       --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
-      #       --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
-      #       --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
-      #       --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
-      #       --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-      #       --set-string="parser.env[0].value=true"  \
-      #       --set="parser.env[1].name=PRODUCE_INVALID_FINDINGS" \
-      #       --set-string="parser.env[1].value=true"
-      #     cd tests/integration/
-      #     npx jest --ci --color generic/findings-validation.test.js
-      #     helm -n integration-tests uninstall test-scan
 
       # ---- General Testing | ReadAndWrite Hook ----
 
@@ -852,13 +834,6 @@ jobs:
             --set="hook.image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="attribute.name=severity" \
             --set="attribute.value=high"
-          helm -n integration-tests install test-scan ./scanners/test-scan/ \
-            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-            --set-string="parser.env[0].value=true"
           cd tests/integration/
           npx jest --ci --color generic/read-write-hook.test.js
           helm -n integration-tests uninstall test-scan update-category update-severity
@@ -867,13 +842,6 @@ jobs:
 
       - name: "Hooks (ReadOnly) Integration Tests"
         run: |
-          helm -n integration-tests install test-scan ./scanners/test-scan/ \
-            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-            --set-string="parser.env[0].value=true"
           helm -n integration-tests install http-webhook ./demo-targets/http-webhook
           helm -n integration-tests install ro-hook ./hooks/generic-webhook/ \
             --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-generic-webhook" \
@@ -913,13 +881,6 @@ jobs:
 
       - name: "Notification Hook Tests"
         run: |
-          helm -n integration-tests install test-scan ./scanners/test-scan/ \
-            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-            --set-string="parser.env[0].value=true"
           helm -n integration-tests install http-webhook ./demo-targets/http-webhook --wait
 
           helm -n integration-tests install notification-hook ./hooks/notification --values tests/integration/hooks/__testFiles__/notification-values.yaml \
