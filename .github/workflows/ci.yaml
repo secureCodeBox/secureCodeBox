@@ -791,7 +791,7 @@ jobs:
         working-directory: ./parser-sdk/nodejs/
         run: make kind-import  
 
-      # ----- Build Test-Scan ScanType Image ----
+      # ----- Build Parser SDK Image ----
 
       - name: Build Images
         working-directory: ./scanners/test-scan/
@@ -804,27 +804,35 @@ jobs:
       - name: Kind import
         working-directory: ./scanners/test-scan/
         run: make kind-import  
-        
+
+      - name: Test-scan deploy
+        working-directory: ./scanners/test-scan/
+        run: make deploy
+
+      - name: Test-scan integration-tests
+        working-directory: ./scanners/test-scan/
+        run: make integration-tests              
+
       # ---- General Testing ----
 
       # This steps should include Integration tests which are not related to a Specific Scanner
 
       # ---- Gerneral Testing | Findings Validation ----
 
-      - name: "Parser should fail on invalid Findings"
-        run: |
-          helm -n integration-tests install test-scan ./scanners/test-scan/ \
-            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-            --set-string="parser.env[0].value=true"  \
-            --set="parser.env[1].name=PRODUCE_INVALID_FINDINGS" \
-            --set-string="parser.env[1].value=true"
-          cd tests/integration/
-          npx jest --ci --color generic/findings-validation.test.js
-          helm -n integration-tests uninstall test-scan
+      # - name: "Parser should fail on invalid Findings"
+      #   run: |
+      #     helm -n integration-tests install test-scan ./scanners/test-scan/ \
+      #       --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
+      #       --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
+      #       --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
+      #       --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
+      #       --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
+      #       --set-string="parser.env[0].value=true"  \
+      #       --set="parser.env[1].name=PRODUCE_INVALID_FINDINGS" \
+      #       --set-string="parser.env[1].value=true"
+      #     cd tests/integration/
+      #     npx jest --ci --color generic/findings-validation.test.js
+      #     helm -n integration-tests uninstall test-scan
 
       # ---- General Testing | ReadAndWrite Hook ----
 
