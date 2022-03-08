@@ -1,0 +1,43 @@
+{
+    "name": "@securecodebox/hook-persistence-azure-monitor",
+    "version": "1.0.0",
+    "description": "secureCodeBox Hook to persist results to Azure Monitor.",
+    "homepage": "https://www.secureCodeBox.io",
+    "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/secureCodeBox/secureCodeBox.git"
+    },
+    "main": "hook.js",
+    "scripts": {
+        "test": "jest ."
+    },
+    "keywords": [
+        "secureCodeBox",
+        "security",
+        "hook",
+        "azure-monitor",
+        "persistence"
+    ],
+    "author": {
+        "name": "iteratec GmbH",
+        "email": "securecodebox@iteratec.com",
+        "url": "https://www.iteratec.com"
+    },
+    "contributors": [
+        {
+            "name": "Max Maass",
+            "url": "https://github.com/malexmave"
+        }
+    ],
+    "bugs": {
+        "url": "https://github.com/secureCodeBox/secureCodeBox/issues"
+    },
+    "license": "Apache-2.0",
+    "dependencies": {
+        "node-fetch": "2.6"
+    },
+    "devDependencies": {
+        "jest": "^27.0.6"
+    }
+}

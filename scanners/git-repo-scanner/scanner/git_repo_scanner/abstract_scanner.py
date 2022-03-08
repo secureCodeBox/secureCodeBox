@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2021 iteratec GmbH
+# SPDX-FileCopyrightText: the secureCodeBox authors
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -22,7 +22,7 @@ class AbstractScanner(abc.ABC):
 
     def _create_finding(self, repo_id: str, web_url: str, full_name: str, owner_type: str, owner_id: str,
                         owner_name: str, created_at: str, last_activity_at: str, visibility: str,
-                        archived: bool, last_commit_id: str = None) -> FINDING:
+                        archived: bool, topics: list, last_commit_id: str = None) -> FINDING:
         finding = {
             'name': f'{self.git_type} Repo',
             'description': f'A {self.git_type} repository',
@@ -35,6 +35,7 @@ class AbstractScanner(abc.ABC):
                 'full_name': full_name,
                 'owner_type': owner_type,
                 'owner_id': owner_id,
+                'topics': topics,
                 'owner_name': owner_name,
                 'created_at': created_at,
                 'last_activity_at': last_activity_at,

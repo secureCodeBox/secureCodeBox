@@ -1,1 +1,892 @@
-{"host":"juice-shop.demo.securecodebox.io","ip":"35.246.195.112","port":"443","banner":"nginx/1.17.8","vulnerabilities":[{"id": "999986","OSVDB": "0","method":"GET","url":"/","msg":"Retrieved access-control-allow-origin header: *"},{"id": "999102","OSVDB": "0","method":"GET","url":"/","msg":"The X-XSS-Protection header is not defined. This header can hint to the user agent to protect against some forms of XSS"},{"id": "999100","OSVDB": "0","method":"GET","url":"/","msg":"Uncommon header 'feature-policy' found, with contents: payment 'self'"},{"id": "999955","OSVDB": "0","method":"GET","url":"/","msg":"The site uses SSL and Expect-CT header is not present."},{"id": "999997","OSVDB": "0","method":"GET","url":"/ftp/","msg":"Entry '/ftp/' in robots.txt returned a non-forbidden or redirect HTTP code (200)"},{"id": "999996","OSVDB": "0","method":"GET","url":"/robots.txt","msg":"\"robots.txt\" contains 1 entry which should be manually viewed."},{"id": "999966","OSVDB": "0","method":"GET","url":"/","msg":"The Content-Encoding header is set to \"deflate\" this may mean that the server is vulnerable to the BREACH attack."},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop_demo_securecodebox_io.tar.bz2","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodebox.sql","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/demo.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodeboxio.tar.lzma","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodeboxio.egg","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/dump.cer","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/demo.tar","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemo.tar","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/securecodebox.tar.bz2","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.io.cer","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/35.246.195.112.egg","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemo.tgz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/backup.cer","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/backup.sql","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/database.war","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/demo.alz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/dump.zip","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemo.tar.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/io.jks","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/archive.egg","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop_demo_securecodebox_io.tgz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/35.246.195.112.alz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.war","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/securecodebox.tar","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.io.jks","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodebox.zip","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.tgz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/backup.tar.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.pem","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/securecodebox.cer","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/securecodebox.zip","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/database.tar.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/backup.tgz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/backup.egg","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodebox.tar.lzma","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.sql","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodeboxio.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemo.jks","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/dump.jks","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop_demo_securecodebox_io.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.io.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.io.tar.bz2","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/site.sql","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.egg","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/site.tgz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.io.sql","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/archive.sql","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemo.tar.lzma","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/dump.pem","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/site.tar.bz2","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodeboxio.sql","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.io.tar.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop_demo_securecodebox_io.egg","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemo.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/database.egg","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/archive.tar.lzma","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.war","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodeboxio.tar","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/io.tar.lzma","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodeboxio.tar.bz2","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/io.tgz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemo.cer","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodeboxio.zip","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.io.tgz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/demo.jks","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/io.alz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/35.246.195.112.pem","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodebox.alz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodebox.war","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.alz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/site.egg","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.io.pem","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.tar","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodebox.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/io.zip","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/securecodebox.alz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.zip","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/database.alz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodebox.jks","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/site.tar.lzma","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/database.cer","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.jks","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/securecodebox.sql","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.alz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/io.tar.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.tar.bz2","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop_demo_securecodebox_io.tar.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemo.sql","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/backup.tar.lzma","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.io.tar","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/io.tar.bz2","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/35.246.195.112.war","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemo.tar.bz2","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.egg","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/demo.pem","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/securecodebox.jks","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodebox.tar.bz2","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/site.war","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/site.tar.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.cer","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/archive.tgz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.io.war","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.io.zip","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.zip","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodebox.tgz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.tar","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodeboxio.pem","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodeboxio.war","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/archive.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/dump.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemo.zip","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.egg","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.war","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/dump.tar","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/demo.cer","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/archive.tar","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.cer","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/archive.tar.bz2","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.alz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.zip","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/database.tar.bz2","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/dump.alz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/demo.zip","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/database.sql","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/archive.cer","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop_demo_securecodebox_io.jks","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/backup.alz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.tar.bz2","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.pem","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/securecodebox.tar.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop_demo_securecodebox_io.zip","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodebox.pem","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodebox.egg","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/io.sql","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/backup.zip","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/archive.jks","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/dump.sql","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/35.246.195.112.jks","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/backup.jks","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/dump.tgz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/demo.egg","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/securecodebox.tar.lzma","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodebox.tar","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/site.jks","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/securecodebox.egg","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/35.246.195.112.cer","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/site.pem","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/dump.tar.bz2","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/demo.tar.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop_demo_securecodebox_io.cer","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/demo.war","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/backup.tar","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop_demo_securecodebox_io.war","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.tgz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop_demo_securecodebox_io.pem","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/database.zip","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/35.246.195.112.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.tgz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.io.egg","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodebox.tar.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/io.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/demo.tar.lzma","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/35.246.195.112.tar.lzma","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.jks","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/site.cer","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/securecodebox.tgz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/securecodebox.pem","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemo.egg","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/35.246.195.112.tgz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/35.246.195.112.tar","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/database.tar.lzma","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.tar.lzma","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/io.pem","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/backup.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.tar.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.sql","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/database.jks","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/site.zip","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.io.alz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.cer","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodebox.cer","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemo.alz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop_demo_securecodebox_io.alz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/35.246.195.112.tar.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodeboxio.jks","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/35.246.195.112.zip","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.io.tar.lzma","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop_demo_securecodebox_io.tar.lzma","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/database.tgz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodeboxio.tar.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop_demo_securecodebox_io.sql","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/site.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.tar.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.tar.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/backup.war","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/database.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/archive.tar.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/site.tar","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/database.tar","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.jks","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodeboxio.tgz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/io.cer","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.tar.lzma","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/archive.alz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/database.pem","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodeboxio.cer","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/securecodebox.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/io.tar","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/backup.tar.bz2","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/site.alz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/archive.pem","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/demo.sql","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/backup.pem","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/demo.tgz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/dump.egg","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.sql","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/archive.zip","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/archive.war","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop_demo_securecodebox_io.tar","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemo.pem","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.tar","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/securecodebox.war","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/io.war","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/io.egg","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.tar.bz2","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/35.246.195.112.tar.bz2","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemo.war","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/dump.tar.lzma","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/35.246.195.112.sql","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.pem","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/demo.tar.bz2","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shopdemosecurecodeboxio.alz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/dump.war","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.tar.lzma","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/juice-shop.demo.securecodebox.gz","msg":"Potentially interesting backup/cert file found. "},{"id": "740001","OSVDB": "0","method":"HEAD","url":"/dump.tar.gz","msg":"Potentially interesting backup/cert file found. "}]}
+{
+  "host": "juice-shop.demo-targets.svc",
+  "ip": "10.96.244.199",
+  "port": "3000",
+  "banner": "",
+  "vulnerabilities": [{
+    "id": "999986",
+    "method": "GET",
+    "url": "",
+    "msg": "Retrieved access-control-allow-origin header: *."
+  }, {
+    "id": "999997",
+    "references": "https://portswigger.net/kb/issues/00600600_robots-txt-file",
+    "method": "GET",
+    "url": "",
+    "msg": "Entry '/ftp/' in robots.txt returned a non-forbidden or redirect HTTP code (200)."
+  }, {
+    "id": "999996",
+    "references": "https://developer.mozilla.org/en-US/docs/Glossary/Robots.txt",
+    "method": "GET",
+    "url": "",
+    "msg": "\"robots.txt\" contains 1 entry which should be manually viewed."
+  }, {
+    "id": "999103",
+    "references": "https://www.netsparker.com/web-vulnerability-scanner/vulnerabilities/missing-content-type-header/",
+    "method": "GET",
+    "url": "",
+    "msg": "The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/backup.pem: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/backup.tgz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.tar: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.demo-targets.war: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.demo-targets.tar: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/10.96.244.199.egg: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/archive.tar.lzma: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/svc.egg: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.demo-targets.tgz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/dump.war: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.cer: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.demo-targets.pem: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/10.96.244.199.tar.bz2: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shopdemo-targets.war: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shopdemo-targets.tar.lzma: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/site.cer: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/database.tgz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/10.96.244.199.cer: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.alz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/archive.tgz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/demo-targets.tar: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/svc.pem: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/backup.tar: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/site.pem: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/10.96.244.199.alz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/archive.tar.bz2: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shopdemo-targetssvc.tgz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/demo-targets.jks: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/demo-targets.war: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/site.jks: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/svc.tar.lzma: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/dump.tar.lzma: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/dump.tgz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.pem: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop_demo-targets_svc.tar: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop_demo-targets_svc.tar.lzma: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/dump.tar: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/site.egg: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.tar.lzma: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.demo-targets.alz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shopdemo-targets.jks: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shopdemo-targetssvc.cer: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shopdemo-targetssvc.egg: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/archive.war: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/archive.jks: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.war: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/backup.cer: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/10.96.244.199.war: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/dump.tar.bz2: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/database.cer: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shopdemo-targetssvc.jks: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/database.pem: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shopdemo-targets.tar.bz2: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/demo-targets.tar.lzma: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/backup.tar.lzma: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/archive.cer: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/database.tar.lzma: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/archive.pem: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.tar.bz2: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop_demo-targets_svc.pem: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop_demo-targets_svc.war: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shopdemo-targetssvc.war: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/site.alz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/10.96.244.199.pem: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.egg: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shopdemo-targetssvc.alz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/archive.tar: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shopdemo-targets.tgz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/database.war: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.demo-targets.svc.jks: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/dump.pem: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shopdemo-targetssvc.tar.bz2: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.jks: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/site.tgz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.demo-targets.svc.tar: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/site.tar.lzma: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/dump.jks: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shopdemo-targets.cer: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/demo-targets.tar.bz2: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop_demo-targets_svc.tgz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/site.war: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shopdemo-targets.egg: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/svc.jks: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/demo-targets.pem: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/demo-targets.tgz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/backup.egg: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.demo-targets.svc.pem: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/backup.war: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/dump.cer: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.demo-targets.svc.war: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/svc.tgz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.demo-targets.svc.cer: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.demo-targets.tar.lzma: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/backup.alz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/database.tar.bz2: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.demo-targets.svc.egg: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/backup.jks: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/demo-targets.cer: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shopdemo-targetssvc.tar.lzma: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/demo-targets.egg: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.demo-targets.egg: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.demo-targets.svc.tgz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.demo-targets.svc.tar.lzma: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shopdemo-targetssvc.pem: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/svc.war: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/demo-targets.alz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/10.96.244.199.tar: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.demo-targets.svc.tar.bz2: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/dump.alz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.tgz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/svc.alz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/svc.tar.bz2: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shopdemo-targets.alz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/svc.cer: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop_demo-targets_svc.jks: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/database.tar: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/archive.egg: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.demo-targets.cer: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/database.jks: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/10.96.244.199.tar.lzma: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/dump.egg: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/site.tar: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop_demo-targets_svc.tar.bz2: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.demo-targets.tar.bz2: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.demo-targets.svc.alz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop_demo-targets_svc.egg: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/10.96.244.199.jks: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop_demo-targets_svc.cer: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/10.96.244.199.tgz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/svc.tar: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shopdemo-targets.pem: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shopdemo-targetssvc.tar: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shopdemo-targets.tar: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/archive.alz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop_demo-targets_svc.alz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/site.tar.bz2: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/juice-shop.demo-targets.jks: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/backup.tar.bz2: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/database.egg: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "740001",
+    "references": "https://cwe.mitre.org/data/definitions/530.html",
+    "method": "HEAD",
+    "url": "",
+    "msg": "/database.alz: Potentially interesting backup/cert file found. ."
+  }, {
+    "id": "001675",
+    "method": "GET",
+    "url": "",
+    "msg": "/ftp/: This might be interesting."
+  }, {
+    "id": "001811",
+    "method": "GET",
+    "url": "",
+    "msg": "/public/: This might be interesting."
+  }, {
+    "id": "006737",
+    "references": "https://seclists.org/fulldisclosure/2014/Feb/171",
+    "method": "POST",
+    "url": "",
+    "msg": "/wp-content/plugins/nextgen-gallery/products/photocrati_nextgen/modules/nextgen_addgallery_page/static/jquery.filetree/connectors/jqueryFileTree.php: NextGEN Gallery LFI."
+  }, {
+    "id": "006737",
+    "references": "https://seclists.org/fulldisclosure/2014/Feb/171",
+    "method": "POST",
+    "url": "",
+    "msg": "/wordpress/wp-content/plugins/nextgen-gallery/products/photocrati_nextgen/modules/nextgen_addgallery_page/static/jquery.filetree/connectors/jqueryFileTree.php: NextGEN Gallery LFI."
+  }]
+}

@@ -3,14 +3,14 @@ title: "Nikto"
 category: "scanner"
 type: "Webserver"
 state: "released"
-appVersion: "2.1.6"
+appVersion: "2.5.0"
 usecase: "Webserver Vulnerability Scanner"
 ---
 
 ![nikto logo](https://cirt.net/files/alienlogo_3.gif)
 
 <!--
-SPDX-FileCopyrightText: 2021 iteratec GmbH
+SPDX-FileCopyrightText: the secureCodeBox authors
 
 SPDX-License-Identifier: Apache-2.0
 -->

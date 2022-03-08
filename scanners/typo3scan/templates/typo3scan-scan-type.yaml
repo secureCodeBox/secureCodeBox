@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2021 iteratec GmbH
+# SPDX-FileCopyrightText: the secureCodeBox authors
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -34,7 +34,6 @@ spec:
                 - "python3"
                 - "/home/typo3scan/typo3scan.py"
                 - "--no-interaction"
-                - "--json"
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:

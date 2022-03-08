@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2021 iteratec GmbH
+# SPDX-FileCopyrightText: the secureCodeBox authors
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -9,7 +9,8 @@ description: A Helm chart for the Nikto security scanner that integrates with th
 type: application
 # version - gets automatically set to the secureCodeBox release version when the helm charts gets published
 version: v3.1.0-alpha1
-appVersion: "2.1.6"
+# appVersion - Nikto doesn't really version its releases
+appVersion: 2.5.0
 kubeVersion: ">=v1.11.0-0"
 
 keywords:
