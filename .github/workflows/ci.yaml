@@ -703,7 +703,6 @@ jobs:
     needs:
       - operator
       - hooks
-      - parsers
       - scanners-custom
     runs-on: ubuntu-latest
     strategy:
