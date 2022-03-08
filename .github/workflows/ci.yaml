@@ -778,7 +778,7 @@ jobs:
           npx jest --ci --color generic/read-only-hook.test.js
           helm -n integration-tests uninstall http-webhook ro-hook
 
-      # ---- Install Demo Apps for Specific Tetest-scants ----
+      # ---- Install Demo Apps for Specific Tests ----
 
       - name: "Install Demo Apps"
         run: |
@@ -786,7 +786,7 @@ jobs:
           helm -n demo-targets install dummy-ssh ./demo-targets/dummy-ssh/ --set="fullnameOverride=dummy-ssh" --wait
           # Install unsafe-https app
           helm -n demo-targets install unsafe-https ./demo-targets/unsafe-https/ --set="fullnameOverride=unsafe-https" --wait
-          # Install bodgeit apptest-scan
+          # Install bodgeit app
           helm -n demo-targets install bodgeit ./demo-targets/bodgeit/ --set="fullnameOverride=bodgeit" --wait
           # Install bodgeit app
           helm -n demo-targets install petstore ./demo-targets/swagger-petstore/ --set="fullnameOverride=petstore" --wait
