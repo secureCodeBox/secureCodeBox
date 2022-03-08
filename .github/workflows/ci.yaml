@@ -492,74 +492,74 @@ jobs:
 
   # ---- Build Stage | Matrix Parsers ----
 
-  parsers:
-    name: "Build | Parsers"
-    needs: sdk
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        parser:
-          - test-scan
+  # parsers:
+  #   name: "Build | Parsers"
+  #   needs: sdk
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       parser:
+  #         - test-scan
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
 
-      - name: Docker Meta
-        id: docker_meta
-        uses: docker/metadata-action@v3
-        with:
-          images: ${{ env.DOCKER_NAMESPACE }}/parser-${{ matrix.parser }}
-          tags: |
-            type=sha
-            type=semver,pattern={{version}}
+  #     - name: Docker Meta
+  #       id: docker_meta
+  #       uses: docker/metadata-action@v3
+  #       with:
+  #         images: ${{ env.DOCKER_NAMESPACE }}/parser-${{ matrix.parser }}
+  #         tags: |
+  #           type=sha
+  #           type=semver,pattern={{version}}
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-        with:
-          driver: docker
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v1
+  #       with:
+  #         driver: docker
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
+  #     - name: Login to DockerHub
+  #       uses: docker/login-action@v1
+  #       with:
+  #         username: ${{ secrets.DOCKER_USERNAME }}
+  #         password: ${{ secrets.DOCKER_TOKEN }}
 
-      - name: Set baseImageTag to commit hash
-        run: |
-          echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+  #     - name: Set baseImageTag to commit hash
+  #       run: |
+  #         echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
-      - name: Download Parser SDK Image
-        uses: actions/download-artifact@v2
-        with:
-          name: parser-sdk-image
-          path: /tmp
+  #     - name: Download Parser SDK Image
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: parser-sdk-image
+  #         path: /tmp
 
-      - name: Load Parser SDK Image
-        run: |
-          docker load --input /tmp/parser-sdk.tar
-          docker images | grep sdk
+  #     - name: Load Parser SDK Image
+  #       run: |
+  #         docker load --input /tmp/parser-sdk.tar
+  #         docker images | grep sdk
 
-      - name: Build and Push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./scanners/${{ matrix.parser }}/parser
-          file: ./scanners/${{ matrix.parser }}/parser/Dockerfile
-          build-args: |
-            namespace=${{ env.DOCKER_NAMESPACE }}
-            baseImageTag=${{ env.baseImageTag }}
-          platforms: linux/amd64
-          push: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
+  #     - name: Build and Push
+  #       uses: docker/build-push-action@v2
+  #       with:
+  #         context: ./scanners/${{ matrix.parser }}/parser
+  #         file: ./scanners/${{ matrix.parser }}/parser/Dockerfile
+  #         build-args: |
+  #           namespace=${{ env.DOCKER_NAMESPACE }}
+  #           baseImageTag=${{ env.baseImageTag }}
+  #         platforms: linux/amd64
+  #         push: true
+  #         tags: ${{ steps.docker_meta.outputs.tags }}
+  #         labels: ${{ steps.docker_meta.outputs.labels }}
 
-      - name: Update Docker Hub Description
-        uses: peter-evans/dockerhub-description@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: ${{ env.DOCKER_NAMESPACE }}/parser-${{ matrix.parser }}
-          readme-filepath: ./scanners/${{ matrix.parser }}/docs/README.DockerHub-Parser.md
+  #     - name: Update Docker Hub Description
+  #       uses: peter-evans/dockerhub-description@v2
+  #       with:
+  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_PASSWORD }}
+  #         repository: ${{ env.DOCKER_NAMESPACE }}/parser-${{ matrix.parser }}
+  #         readme-filepath: ./scanners/${{ matrix.parser }}/docs/README.DockerHub-Parser.md
 
   # ---- Build | Scanners ----
 
@@ -575,6 +575,8 @@ jobs:
   # This Section contains Scanners that are developed by the secureCodeBox project
   # The tag for these images will be the Semver of the release
 
+
+
   scanners-custom:
     name: "Build | Custom Scanner"
     needs:
@@ -584,7 +586,7 @@ jobs:
     strategy:
       matrix:
         scanner:
-          - test-scan
+          #- test-scan
           - zap-advanced
     steps:
       - name: Checkout
@@ -775,6 +777,18 @@ jobs:
           cd tests/integration/
           npm ci
 
+
+      # ----- Build Test-Scan ScanType Image ----
+
+      - name: Build Images
+        working-directory: ./scanners/test-scan/
+        run: make docker-build
+
+      - name: Export Docker Images
+        working-directory: ./scanners/test-scan/
+        run: make docker-export
+
+
       # ---- General Testing ----
 
       # This steps should include Integration tests which are not related to a Specific Scanner
@@ -845,7 +859,7 @@ jobs:
           npx jest --ci --color generic/read-only-hook.test.js
           helm -n integration-tests uninstall test-scan http-webhook ro-hook
 
-      # ---- Install Demo Apps for Specific Tests ----
+      # ---- Install Demo Apps for Specific Tetest-scants ----
 
       - name: "Install Demo Apps"
         run: |
@@ -853,7 +867,7 @@ jobs:
           helm -n demo-targets install dummy-ssh ./demo-targets/dummy-ssh/ --set="fullnameOverride=dummy-ssh" --wait
           # Install unsafe-https app
           helm -n demo-targets install unsafe-https ./demo-targets/unsafe-https/ --set="fullnameOverride=unsafe-https" --wait
-          # Install bodgeit app
+          # Install bodgeit apptest-scan
           helm -n demo-targets install bodgeit ./demo-targets/bodgeit/ --set="fullnameOverride=bodgeit" --wait
           # Install bodgeit app
           helm -n demo-targets install petstore ./demo-targets/swagger-petstore/ --set="fullnameOverride=petstore" --wait
