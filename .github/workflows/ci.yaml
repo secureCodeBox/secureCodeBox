@@ -935,11 +935,11 @@ jobs:
       - name: Test-scan integration-tests
         working-directory: ./scanners/test-scan/
         run: |
-          helm -n integration-tests upgrade --install test-scan . \
-            --set="scanner.image.repository=docker.io/$(IMG_NS)/$(scanner-prefix)-$(name)" \
-            --set="parser.image.repository=docker.io/$(IMG_NS)/$(parser-prefix)-$(name)" \
-            --set="parser.image.tag=$(IMG_TAG)" \
-            --set="scanner.image.tag=$(IMG_TAG)" \
+          helm -n integration-tests upgrade --install test-scan ./scanners/test-scan/ \
+            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
+            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
+            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
+            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
             --set-string="parser.env[0].value=true"  \
             --set="parser.env[1].name=PRODUCE_INVALID_FINDINGS" \
