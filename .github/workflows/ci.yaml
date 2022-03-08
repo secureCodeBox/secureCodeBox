@@ -776,6 +776,20 @@ jobs:
           cd tests/integration/
           npm ci
 
+       # ----- Build Test-Scan ScanType Image ----
+
+
+      - name: Build Image
+        working-directory: ./parser-sdk/nodejs/
+        run: make docker-build-sdk
+
+      - name: Export Docker Images
+        working-directory: ./parser-sdk/nodejs/
+        run: make docker-export
+
+      - name: Kind import
+        working-directory: ./parser-sdk/nodejs/
+        run: make kind-import  
 
       # ----- Build Test-Scan ScanType Image ----
 
@@ -787,7 +801,10 @@ jobs:
         working-directory: ./scanners/test-scan/
         run: make docker-export
 
-
+      - name: Kind import
+        working-directory: ./scanners/test-scan/
+        run: make kind-import  
+        
       # ---- General Testing ----
 
       # This steps should include Integration tests which are not related to a Specific Scanner
