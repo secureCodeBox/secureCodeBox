@@ -10,7 +10,7 @@ parser:
     # @default -- defaults to the charts version
     tag: null
     # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
-    pullPolicy: Never
+    pullPolicy: IfNotPresent
 
   # parser.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
   ttlSecondsAfterFinished: null
@@ -33,7 +33,7 @@ scanner:
     # scanner.image.tag -- defaults to the charts version
     tag: null
     # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
-    pullPolicy: Never
+    pullPolicy: IfNotPresent
 
   # scanner.nameAppend -- append a string to the default scantype name.
   nameAppend: null
