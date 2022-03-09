@@ -8,6 +8,8 @@
 include_guard = set
 hook = cascading-scans
 
+test_files = [hook.test.js, kube.test.js]
+
 include ../../hooks.mk
 
 test-2: | clean-integration-tests unit-tests docker-build docker-export kind-import deploy deploy-test-deps-2 integration-tests-2
@@ -54,15 +56,5 @@ deploy:
 	helm -n integration-tests upgrade --install dssh . --wait \
 		--set="hook.image.repository=docker.io/$(IMG_NS)/$(hook-prefix)-$(name)" \
 		--set="hook.image.tag=$(IMG_TAG)"
-
-integration-tests:
-	@echo ".: 🩺 Starting integration test in kind namespace 'cascading-scans'."
-	kubectl -n integration-tests delete scans --all
-	cd ../../tests/integration/ && npm ci &&	npx --yes --package jest@$(JEST_VERSION) jest --verbose --ci --colors --coverage --passWithNoTests scanner/cascade-nmap-ncrack.test.js
-
+		
 deploy-test-deps-2: deploy-test-dep-unsafe-https deploy-test-dep-nmap deploy-test-dep-sslyze
-
-integration-tests-2:
-	@echo ".: 🩺 Starting integration test in kind namespace 'cascading-scans'."
-	kubectl -n integration-tests delete scans --all
-	cd ../../tests/integration/ && npm ci &&	npx --yes --package jest@$(JEST_VERSION) jest --verbose --ci --colors --coverage --passWithNoTests scanner/cascade-nmap-sslyze.test.js
