@@ -8,7 +8,7 @@ usecase: "Modern insecure web application"
 ---
 
 <!--
-SPDX-FileCopyrightText: 2021 iteratec GmbH
+SPDX-FileCopyrightText: the secureCodeBox authors
 
 SPDX-License-Identifier: Apache-2.0
 -->
@@ -58,6 +58,8 @@ helm upgrade --install juice-shop secureCodeBox/juice-shop
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
 | annotations | object | `{}` | add annotations to the deployment, service and pods |
+| containerEnv | list | `[]` | add custom environment variables to the juice-shop container ref: https://pwning.owasp-juice.shop/part1/customization.html |
+| customConfig | string | `nil` | When set, passes in the custom configuration specified below and sets NODE_ENV accordingly ref: https://pwning.owasp-juice.shop/part1/customization.html |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | image.repository | string | `"docker.io/bkimminich/juice-shop"` | Container Image containing the juice-shop |

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2021 iteratec GmbH
+// SPDX-FileCopyrightText: the secureCodeBox authors
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -23,21 +23,23 @@ test(
       90
     );
 
-    expect(count).toBe(6);
+    expect(count).toBe(13);
     expect(categories).toMatchInlineSnapshot(`
-      Object {
-        "Identified Software": 1,
-        "Nikto Finding": 3,
-        "X-Content-Type-Options Header": 1,
-        "X-Frame-Options Header": 1,
-      }
-    `);
+Object {
+  "Identified Software": 1,
+  "Nikto Finding": 3,
+  "Potential Vulnerability": 7,
+  "X-Content-Type-Options Header": 1,
+  "X-Frame-Options Header": 1,
+}
+`);
     expect(severities).toMatchInlineSnapshot(`
-      Object {
-        "informational": 5,
-        "low": 1,
-      }
-    `);
+Object {
+  "high": 7,
+  "informational": 5,
+  "low": 1,
+}
+`);
   },
   3 * 60 * 1000
 );

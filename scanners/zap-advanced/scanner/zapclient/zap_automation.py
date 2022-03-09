@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# SPDX-FileCopyrightText: 2021 iteratec GmbH
+# SPDX-FileCopyrightText: the secureCodeBox authors
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -143,45 +143,34 @@ class ZapAutomation:
         # Search for the corresponding context based on the given targetUrl which should correspond to defined the spider url
         self.__zap_scanner.start_scan_by_url(target)
 
+    def get_report_template_for_file_type(self, file_type: str):
+        if file_type == "XML":
+            return "traditional-xml"
+        elif file_type == "JSON":
+            return "traditional-json"
+        elif file_type == "HTML":
+            return "traditional-html"
+        elif file_type == "MD":
+            return "traditional-md"
+        else:
+            raise RuntimeError(
+                "Report file type: '" + file_type + "' hasn't been implemented. Available: XML, JSON, HTML or MD")
+
     def generate_report_file(self, file_path: str, report_type: str):
         # To retrieve ZAP report in XML or HTML format
         logging.info("Creating a new ZAP Report file with type '%s' at location: '%s'", report_type, file_path)
         
-        # To retrieve ZAP report in XML or HTML format
-        logging.info('Creating a new ZAP Report with type %s', report_type)
-        if report_type is None or report_type == "XML":
-            # Save the XML report (default)
-            self.__write_report(
-                self.__zap.core.xmlreport(),
-                file_path,
-                "xml"
-            )
-        if report_type is None or report_type == "HTML":
-            # Get the HTML report
-            self.__write_report(
-                self.__zap.core.htmlreport(),
-                file_path,
-                "html"
-            )
-        if report_type is None or report_type == "JSON":
-            # Get the JSON report
-            self.__write_report(
-                self.__zap.core.jsonreport(),
-                file_path,
-                "json"
-            )
-        if report_type is None or report_type == "MD":
-            # Get the Markdown report
-            self.__write_report(
-                self.__zap.core.mdreport(),
-                file_path,
-                "md"
-            )
-    
-    def __write_report(self, report, file_path:str, filetype:str):
-        Path(file_path).mkdir(parents=True, exist_ok=True)
-        with open(f'{file_path}/zap-results.{filetype}', mode='w') as f:
-            f.write(report)
+        if report_type is None:
+            report_type = "XML"
+
+        report_file = "zap-results." + report_type.lower()
+        self.__zap.reports.generate(
+            title="ZAP Report",
+            template=self.get_report_template_for_file_type(report_type),
+            reportdir=file_path,
+            contexts=self.__config.get_active_context_config["name"],
+            reportfilename=report_file
+        )
     
     def wait_for_zap_start(self, timeout_in_secs = 600):
         version = None

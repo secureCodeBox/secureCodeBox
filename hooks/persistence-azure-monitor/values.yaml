@@ -1,0 +1,41 @@
+# SPDX-FileCopyrightText: 2022 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# Default values for dispatcher.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+hook:
+  image:
+    # hook.image.repository -- Hook image repository
+    repository: docker.io/securecodebox/hook-persistence-azure-monitor
+    # -- Container image tag
+    # @default -- defaults to the charts version
+    tag: null
+    # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
+    pullPolicy: IfNotPresent
+
+  # hook.labels -- Add Kubernetes Labels to the hook definition
+  labels: {}
+
+  # -- Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks.
+  priority: 0
+
+  # -- Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+  ttlSecondsAfterFinished: null
+
+  # hook.affinity -- Optional affinity settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
+  affinity: {}
+
+  # hook.tolerations -- Optional tolerations settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+  tolerations: []
+
+monitor:
+  # monitor.logtype -- Configure the Logtype that the hook should use in Azure Monitor
+  logtypePrefix: "SCB"
+
+  # monitor.authentication -- Configure authentication schema and credentials the persistence provider should use to connect to Azure Monitor
+  authentication:
+    # monitor.authentication.apiKeySecret -- Link a pre-existing generic secret with `workspace` and `sharedkey` key / value pairs
+    apiKeySecret: null

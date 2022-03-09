@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2021 iteratec GmbH
+# SPDX-FileCopyrightText: the secureCodeBox authors
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -31,7 +31,7 @@ metadata:
 spec:
   extractResults:
     type: zap-advanced-xml
-    location: "/home/securecodebox/results/zap-results.xml"
+    location: "/home/securecodebox/zap-results.xml"
   jobTemplate:
     spec:
       {{- if .Values.scanner.ttlSecondsAfterFinished }}
@@ -65,7 +65,7 @@ spec:
                 - "--config-folder"
                 - "/home/securecodebox/configs/"
                 - "--output-folder"
-                - "/home/securecodebox/results/"
+                - "/home/securecodebox/"
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:
@@ -111,11 +111,16 @@ spec:
               envFrom:
                 {{- toYaml .Values.zapContainer.envFrom | nindent 16 }}
               volumeMounts:
+                - mountPath: /home/securecodebox/
+                  name: scan-results
+                  readOnly: false
+                {{ if .Values.zapContainer.extraVolumeMounts }}
                 {{- toYaml .Values.zapContainer.extraVolumeMounts | nindent 16 }}
-              {{- if .Values.zapContainer.extraContainers }}
-              {{- toYaml .Values.zapContainer.extraContainers | nindent 12 }}
-              {{- end }}
+                {{- end }}
               ports:
                 - containerPort: 8080
+            {{- if .Values.zapContainer.extraContainers }}
+            {{- toYaml .Values.zapContainer.extraContainers | nindent 12 }}
+            {{- end }}
           volumes:
             {{- toYaml .Values.scanner.extraVolumes | nindent 12 }}
