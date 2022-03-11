@@ -17,7 +17,7 @@
             "type": "go",
             "request": "launch",
             "mode": "test",
-            "program": "${workspaceFolder}/controllers/service",
+            "program": "${workspaceFolder}/controllers",
             "args": ["-test.v"],
             //"preLaunchTask": "makefileMagic",
             "env": {"KUBEBUILDER_ASSETS": "${workspaceFolder}/testbin/bin"}
