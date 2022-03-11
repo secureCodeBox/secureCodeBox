@@ -42,4 +42,4 @@ deploy:
 integration-tests:
 	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
 	kubectl -n integration-tests delete scans --all
-	cd .. && npm ci && cd $(name)/${hook-prefix} && npm run test --package jest@$(JEST_VERSION)
+	cd $(hook-prefix) && npm ci && npm run test --package jest@$(JEST_VERSION)
