@@ -78,21 +78,23 @@ var _ = Describe("ContainerScan controller", func() {
 		})
 
 		It("Should not delete a scan if the container is still in use", func() {
+			Expect(checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate)).To(BeTrue())
+			Expect(checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)).To(BeTrue())
+
 			var podToBeDeleted corev1.Pod
 			Expect(k8sClient.Get(ctx, types.NamespacedName{Name: "fake-deployment-pod2", Namespace: namespace}, &podToBeDeleted)).Should(Succeed())
 			Expect(k8sClient.Delete(ctx, &podToBeDeleted)).Should(Succeed())
 
 			//Scans should not be deleted, because one pod still uses the container images
-			Eventually(func() bool {
-				return checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate)
-			}, timeout, interval).Should(BeTrue())
-
-			Eventually(func() bool {
-				return checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)
+			Consistently(func() bool {
+				return checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate) && checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)
 			}, timeout, interval).Should(BeTrue())
 		})
 
 		It("Should delete a scan if the container is not in use", func() {
+			Expect(checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate)).To(BeTrue())
+			Expect(checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)).To(BeTrue())
+
 			var podToBeDeleted corev1.Pod
 			Expect(k8sClient.Get(ctx, types.NamespacedName{Name: "fake-deployment-pod1", Namespace: namespace}, &podToBeDeleted)).Should(Succeed())
 			Expect(k8sClient.Delete(ctx, &podToBeDeleted)).Should(Succeed())
