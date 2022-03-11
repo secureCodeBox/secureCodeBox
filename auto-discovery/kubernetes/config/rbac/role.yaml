@@ -46,6 +46,14 @@ rules:
   verbs:
   - get
 - apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
   - execution.securecodebox.io
   resources:
   - scantypes
