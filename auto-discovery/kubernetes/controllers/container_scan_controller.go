@@ -217,7 +217,7 @@ func (r *ContainerScanReconciler) getOrphanedScanImageIDs(ctx context.Context, p
 		err := r.Client.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
 		if err != nil {
 			r.Log.Error(err, "Unable to fetch scan", "name", scanName)
-		} else if !r.containerIDInUse(ctx, pod, cleanedImageID) {
+		} else if !r.containerIDInUse(ctx, pod, imageID) {
 			result = append(result, cleanedImageID)
 		}
 	}
