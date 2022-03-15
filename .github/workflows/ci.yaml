@@ -703,21 +703,13 @@ jobs:
           cd tests/integration/
           npm ci
 
-        # ----- Build Test-Scan ScanType Image ----
+      # ----- Build Parser SDK Image ----
 
       - name: Build Image
         working-directory: ./parser-sdk/nodejs/
         run: make docker-build-sdk
 
-      - name: Export Docker Images
-        working-directory: ./parser-sdk/nodejs/
-        run: make docker-export
-
-      - name: Kind import
-        working-directory: ./parser-sdk/nodejs/
-        run: make kind-import
-
-      # ----- Build Parser SDK Image ----
+      # ----- Build Test-Scan ScanType Image ----
 
       - name: Build Images
         working-directory: ./scanners/test-scan/
