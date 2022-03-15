@@ -696,7 +696,7 @@ jobs:
 
   # ---- Integration Tests ----
 
-  Integration-tests:
+  Integration-tests-hooks:
     name: Integration Tests | k8s ${{ matrix.k8sVersion }}
     needs:
       - operator
@@ -711,6 +711,16 @@ jobs:
           - v1.22.4@sha256:ca3587e6e545a96c07bf82e2c46503d9ef86fc704f44c17577fca7bcabf5f978
           - v1.21.2@sha256:9d07ff05e4afefbba983fac311807b3c17a5f36e7061f6cb7e2ba756255b2be4
           - v1.20.7@sha256:cbeaf907fc78ac97ce7b625e4bf0de16e3ea725daf6b04f930bd14c67c671ff9
+        hook:
+          - cascading-scans
+          - generic-webhook
+          - persistence-azure-monitor
+          - persistence-elastic 
+          - update-field
+          - finding-post-processing
+          - notification
+          - persistence-defectdojo
+          - persistence-static-report
     steps:
       - uses: actions/checkout@master
       - name: "Start kind cluster"
@@ -771,144 +781,14 @@ jobs:
       # ---- Install Test Dependencies ----
 
       - name: "Install Test Dependencies"
-        run: |
-          cd tests/integration/
-          npm ci
+        working-directory: ./hooks
+        run: npm ci
 
-      # ---- General Testing ----
-
-      # This steps should include Integration tests which are not related to a Specific Scanner
-
-      # ---- Gerneral Testing | Findings Validation ----
-
-      - name: "Parser should fail on invalid Findings"
-        run: |
-          helm -n integration-tests install test-scan ./scanners/test-scan/ \
-            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-            --set-string="parser.env[0].value=true"  \
-            --set="parser.env[1].name=PRODUCE_INVALID_FINDINGS" \
-            --set-string="parser.env[1].value=true"
-          cd tests/integration/
-          npx jest --ci --color generic/findings-validation.test.js
-          helm -n integration-tests uninstall test-scan
-
-      # ---- General Testing | ReadAndWrite Hook ----
-
-      - name: "Throws NoScanDefinition Error Integration Tests"
-        run: |
-          cd tests/integration/
-          npx jest --ci --color generic/no-scan-definition-error.test.js
-      - name: "Hooks (ReadAndWrite) Integration Tests"
-        run: |
-          helm -n integration-tests install update-category ./hooks/update-field/ \
-            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-update-field" \
-            --set="hook.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="attribute.name=category" \
-            --set="attribute.value=fancy-category"
-          helm -n integration-tests install update-severity ./hooks/update-field/ \
-            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-update-field" \
-            --set="hook.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="attribute.name=severity" \
-            --set="attribute.value=high"
-          helm -n integration-tests install test-scan ./scanners/test-scan/ \
-            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-            --set-string="parser.env[0].value=true"
-          cd tests/integration/
-          npx jest --ci --color generic/read-write-hook.test.js
-          helm -n integration-tests uninstall test-scan update-category update-severity
-
-      # ---- Gerneral Testing | ReadOnly Hook ----
-
-      - name: "Hooks (ReadOnly) Integration Tests"
-        run: |
-          helm -n integration-tests install test-scan ./scanners/test-scan/ \
-            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-            --set-string="parser.env[0].value=true"
-          helm -n integration-tests install http-webhook ./demo-targets/http-webhook
-          helm -n integration-tests install ro-hook ./hooks/generic-webhook/ \
-            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-generic-webhook" \
-            --set="webhookUrl=http://http-webhook/hallo-welt" \
-            --set="hook.image.tag=sha-$(git rev-parse --short HEAD)"
-          cd tests/integration/
-          npx jest --ci --color generic/read-only-hook.test.js
-          helm -n integration-tests uninstall test-scan http-webhook ro-hook
-
-      # ---- Install Demo Apps for Specific Tests ----
-
-      - name: "Install Demo Apps"
-        run: |
-          # Install dummy-ssh app
-          helm -n demo-targets install dummy-ssh ./demo-targets/dummy-ssh/ --set="fullnameOverride=dummy-ssh" --wait
-          # Install unsafe-https app
-          helm -n demo-targets install unsafe-https ./demo-targets/unsafe-https/ --set="fullnameOverride=unsafe-https" --wait
-          # Install bodgeit app
-          helm -n demo-targets install bodgeit ./demo-targets/bodgeit/ --set="fullnameOverride=bodgeit" --wait
-          # Install bodgeit app
-          helm -n demo-targets install petstore ./demo-targets/swagger-petstore/ --set="fullnameOverride=petstore" --wait
-          # Install old-wordpress app
-          helm -n demo-targets install old-wordpress ./demo-targets/old-wordpress/ --set="fullnameOverride=old-wordpress" --wait
-          # Install old-typo3 app
-          helm -n demo-targets install old-typo3 ./demo-targets/old-typo3/ --set="fullnameOverride=old-typo3" --wait
-          # Install old-joomla app
-          helm -n demo-targets install old-joomla ./demo-targets/old-joomla/ --set="fullnameOverride=old-joomla" --wait
-          # Install juiceshop app
-          helm -n demo-targets install juiceshop ./demo-targets/juice-shop/ --set="fullnameOverride=juiceshop" --wait
-          # Install vulnerable log4j
-          helm -n demo-targets install vulnerable-log4j ./demo-targets/vulnerable-log4j/ --set="fullnameOverride=vulnerable-log4j" --wait
-          # Install plain nginx server
-          kubectl create deployment --image nginx:alpine nginx --namespace demo-targets
-          kubectl expose deployment nginx --port 80 --namespace demo-targets
-
-      # ---- Notification Hook Tests ----
-
-      - name: "Notification Hook Tests"
-        run: |
-          helm -n integration-tests install test-scan ./scanners/test-scan/ \
-            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-            --set-string="parser.env[0].value=true"
-          helm -n integration-tests install http-webhook ./demo-targets/http-webhook --wait
-
-          helm -n integration-tests install notification-hook ./hooks/notification --values tests/integration/hooks/__testFiles__/notification-values.yaml \
-            --set="hook.image.repository=docker.io/${{env.DOCKER_NAMESPACE }}/hook-notification" \
-            --set="hook.image.tag=sha-$(git rev-parse --short HEAD)"
-
-          cd tests/integration/
-          npx jest --ci --color ./hooks/notification.test.js
-          helm -n integration-tests uninstall test-scan http-webhook notification-hook
-
-      # ---- Zap Extended Integration Tests ----
-
-      - name: "ZAP Extended Integration Tests"
-        # disable zap extended test temporarily as they slow down the pipeline too much
-        if: ${{ github.event_name == 'schedule' }}
-        run: |
-          kubectl -n integration-tests delete scans --all
-          helm -n integration-tests install zap-advanced ./scanners/zap-advanced/  \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-zap" \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-zap-advanced" \
-            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-            --set-string="parser.env[0].value=true"
-          kubectl apply -f ./scanners/zap-advanced/integration-tests/scantype-configMap.yaml -n integration-tests
-          cd tests/integration/
-          npx jest --ci --color scanner/zap-advanced.test.js
+      # ---- Integration-Test ----
+      
+      - name: "Run Integration Test"
+        working-directory: ./hooks/${{ matrix.hook }}
+        run: make integration-tests 
 
       # ---- Debuging Cluster on Failure ----
 
