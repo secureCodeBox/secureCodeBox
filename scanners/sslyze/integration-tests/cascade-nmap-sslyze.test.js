@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { cascadingScan } = require("../helpers");
+const { cascadingScan } = require("../../helpers");
 
 jest.retryTimes(3);
 
