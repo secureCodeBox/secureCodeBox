@@ -5,15 +5,12 @@
 package controllers
 
 import (
-	"bytes"
 	"context"
 	"fmt"
 	"regexp"
 	"strings"
-	"text/template"
 	"time"
 
-	"github.com/Masterminds/sprig"
 	"github.com/go-logr/logr"
 	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/pkg/util"
@@ -138,6 +135,7 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 
 			// label is added after the initial query as it was added later and isn't garanteed to be on every auto-discovery managed scan.
 			versionedLabels["app.kubernetes.io/managed-by"] = "securecodebox-autodiscovery"
+			versionedLabels = addLabels(versionedLabels, r.Config, service, namespace)
 
 			// No scan for this pod digest yet. Scanning now
 			scan := executionv1.ScheduledScan{
@@ -183,6 +181,7 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 
 			// label is added after the initial query as it was added later and isn't garanteed to be on every auto-discovery managed scan.
 			versionedLabels["app.kubernetes.io/managed-by"] = "securecodebox-autodiscovery"
+			versionedLabels = addLabels(versionedLabels, r.Config, service, namespace)
 
 			previousScan.ObjectMeta.Labels = versionedLabels
 			previousScan.ObjectMeta.Annotations = generateScanAnnotations(r.Config.ServiceAutoDiscoveryConfig.ScanConfig, r.Config.Cluster, service, namespace)
@@ -365,7 +364,14 @@ podLoop:
 }
 
 func generateScanAnnotations(scanConfig configv1.ScanConfig, clusterConfig configv1.ClusterConfig, service corev1.Service, namespace corev1.Namespace) map[string]string {
-	annotations := util.RenderAnnotations(scanConfig.Annotations, service.ObjectMeta, namespace.ObjectMeta, clusterConfig.Name)
+	templateArgs := util.TemplateArgs{
+		Target:    service.ObjectMeta,
+		Namespace: namespace.ObjectMeta,
+		Cluster: util.Cluster{
+			Name: clusterConfig.Name,
+		},
+	}
+	annotations := util.ParseMapTemplate(templateArgs, scanConfig.Annotations)
 
 	// Copy over securecodebox.io annotations to the created scan
 	re := regexp.MustCompile(`.*securecodebox\.io/.*`)
@@ -378,16 +384,15 @@ func generateScanAnnotations(scanConfig configv1.ScanConfig, clusterConfig confi
 
 }
 
-type TemplateArgs struct {
-	Config     configv1.AutoDiscoveryConfig
-	ScanConfig configv1.ScanConfig
-	Service    corev1.Service
-	Namespace  corev1.Namespace
-	Host       HostPort
-}
-
 // Takes in both autoDiscoveryConfig and scanConfig as this function might be used by other controllers in the future, which can then pass in the their relevant scanConfig into this function
 func generateScanSpec(autoDiscoveryConfig configv1.AutoDiscoveryConfig, scanConfig configv1.ScanConfig, host HostPort, service corev1.Service, namespace corev1.Namespace) executionv1.ScheduledScanSpec {
+	type TemplateArgs struct {
+		Config     configv1.AutoDiscoveryConfig
+		ScanConfig configv1.ScanConfig
+		Service    corev1.Service
+		Namespace  corev1.Namespace
+		Host       HostPort
+	}
 	parameters := scanConfig.Parameters
 
 	templateArgs := TemplateArgs{
@@ -397,23 +402,7 @@ func generateScanSpec(autoDiscoveryConfig configv1.AutoDiscoveryConfig, scanConf
 		Host:      host,
 	}
 
-	params := []string{}
-
-	for i, parameterTemplate := range parameters {
-		tmpl, err := template.New(fmt.Sprintf("Annotation Template scan parameter '%d'", i)).Funcs(sprig.TxtFuncMap()).Parse(parameterTemplate)
-		if err != nil {
-			panic(err)
-		}
-
-		var rawOutput bytes.Buffer
-		err = tmpl.Execute(&rawOutput, templateArgs)
-		output := rawOutput.String()
-
-		// skip empty string values to allow users to skip annotations
-		if output != "" {
-			params = append(params, output)
-		}
-	}
+	params := util.ParseListTemplate(templateArgs, parameters)
 
 	scheduledScanSpec := executionv1.ScheduledScanSpec{
 		Interval: scanConfig.RepeatInterval,
@@ -425,6 +414,20 @@ func generateScanSpec(autoDiscoveryConfig configv1.AutoDiscoveryConfig, scanConf
 	}
 
 	return scheduledScanSpec
+}
+
+func addLabels(currentLabels map[string]string, config configv1.AutoDiscoveryConfig, service corev1.Service, namespace corev1.Namespace) map[string]string {
+	data := util.TemplateArgs{
+		Target:    service.ObjectMeta,
+		Namespace: namespace.ObjectMeta,
+		Cluster:   util.Cluster(config.Cluster),
+	}
+	newLabels := util.ParseMapTemplate(data, config.ServiceAutoDiscoveryConfig.ScanConfig.Labels)
+
+	for key, value := range newLabels {
+		currentLabels[key] = value
+	}
+	return currentLabels
 }
 
 // SetupWithManager sets up the controller and initializes every thing it needs
@@ -450,6 +453,6 @@ func (r *ServiceScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
 
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&corev1.Service{}).
-		WithEventFilter(getPredicates(mgr.GetClient(), r.Log, r.Config.ResourceInclusion.Mode)).
+		WithEventFilter(util.GetPredicates(mgr.GetClient(), r.Log, r.Config.ResourceInclusion.Mode)).
 		Complete(r)
 }

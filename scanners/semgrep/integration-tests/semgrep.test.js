@@ -35,7 +35,7 @@ test(
       "security": 3,
     });
     expect(severities).toEqual({
-      medium: 3,
+      high: 3,
     });
   },
   3 * 60 * 1000

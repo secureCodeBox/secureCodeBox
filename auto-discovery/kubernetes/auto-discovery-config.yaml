@@ -25,6 +25,7 @@ resourceInclusion:
   mode: enabled-per-namespace
 
 serviceAutoDiscovery:
+  enabled: true
   passiveReconcileInterval: 10s
   scanConfig:
     scanType: zap-advanced-scan
@@ -42,3 +43,17 @@ serviceAutoDiscovery:
       defectdojo.securecodebox.io/product-tags: "cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"
       defectdojo.securecodebox.io/engagement-name: "{{ .Target.Name }}"
       defectdojo.securecodebox.io/engagement-version: "{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}"
+
+containerAutoDiscovery:
+  enabled: true
+  scanConfig:
+    scanType: trivy
+    # -- parameters used for the scans created by the containerAutoDiscovery
+    parameters:
+      - "{{ .ImageID }}"
+    # -- interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset.
+    repeatInterval: "168h"
+    # -- labels to be added to the scans started by the auto-discovery
+    labels: {}
+    # -- annotations to be added to the scans started by the auto-discovery
+    annotations: {}
