@@ -788,7 +788,9 @@ jobs:
       
       - name: "Run Integration Test"
         working-directory: ./hooks/${{ matrix.hook }}
-        run: make integration-tests 
+        run: |
+          make deploy-test-deps
+          make integration-tests 
 
       # ---- Debuging Cluster on Failure ----
 
