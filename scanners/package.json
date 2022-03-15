@@ -9,7 +9,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --verbose --ci --colors --coverage --passWithNoTests"
   },
   "keywords": [
     "secureCodeBox",

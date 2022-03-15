@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { scan } = require("../helpers");
+const {scan} = require("../../helpers");
 
 test(
   "zap baseline scan against a plain nginx container should only find couple findings",
