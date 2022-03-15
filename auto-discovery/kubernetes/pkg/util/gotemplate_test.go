@@ -67,5 +67,7 @@ func render(annotationTemplates map[string]string) map[string]string {
 		// "scm.securecodebox.io/branch": "v12.2.2",
 	}}
 	namespaceMeta := metav1.ObjectMeta{Name: "foobar", Labels: map[string]string{"foo": "bar"}}
-	return RenderAnnotations(annotationTemplates, targetMeta, namespaceMeta, "test-cluster")
+
+	data := TemplateArgs{Target: targetMeta, Namespace: namespaceMeta, Cluster: Cluster{"test-cluster"}}
+	return ParseMapTemplate(data, annotationTemplates)
 }
