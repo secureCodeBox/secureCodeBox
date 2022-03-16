@@ -12,8 +12,10 @@ test_files = [hook.test.js, kube.test.js]
 
 include ../../hooks.mk
 
+.PHONY: test-2
 test-2: | clean-integration-tests unit-tests docker-build docker-export kind-import deploy deploy-test-deps-2 integration-tests-2
 
+.PHONY: deploy-test-dep-nmap
 deploy-test-dep-nmap:
 	cd ../../scanners/nmap/ && $(MAKE) -s docker-build docker-export kind-import && \
 	helm -n integration-tests upgrade --install nmap . \
@@ -24,6 +26,7 @@ deploy-test-dep-nmap:
 		--set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
 		--set-string="parser.env[0].value=true"
 
+.PHONY: deploy-test-dep-ncrack
 deploy-test-dep-ncrack:
 	printf "root\nadmin\n" > users.txt
 	printf "THEPASSWORDYOUCREATED\n123456\npassword\n" > passwords.txt
@@ -41,6 +44,7 @@ deploy-test-dep-ncrack:
 		--set="scanner.extraVolumeMounts[0].name=ncrack-lists" \
 		--set="scanner.extraVolumeMounts[0].mountPath=/ncrack/"
 
+.PHONY: deploy-test-dep-sslyze
 deploy-test-dep-sslyze:
 	cd ../../scanners/sslyze/ && $(MAKE) -s docker-build docker-export kind-import && \
 	helm -n integration-tests upgrade --install sslyze . --wait \
@@ -49,12 +53,15 @@ deploy-test-dep-sslyze:
 		--set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
 		--set-string="parser.env[0].value=true"
 
+.PHONY: deploy-test-deps
 deploy-test-deps: deploy-test-dep-dummy-ssh deploy-test-dep-nmap deploy-test-dep-ncrack
 
+.PHONY: deploy
 deploy:
 	@echo ".: 💾 Deploying '$(name)' $(hook-prefix) HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'cascading-scans'."
 	helm -n integration-tests upgrade --install dssh . --wait \
 		--set="hook.image.repository=docker.io/$(IMG_NS)/$(hook-prefix)-$(name)" \
 		--set="hook.image.tag=$(IMG_TAG)"
-		
+
+.PHONY: deploy-test-deps-2		
 deploy-test-deps-2: deploy-test-dep-unsafe-https deploy-test-dep-nmap deploy-test-dep-sslyze

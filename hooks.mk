@@ -26,19 +26,27 @@ include ../../common.mk
 
 module = $(hook-prefix)
 
+.PHONY: docker-build
 docker-build: | common-docker-build
+
+.PHONY: docker-export
 docker-export: | common-docker-export
+
+.PHONY: kind-import
 kind-import: | common-kind-import
 
+.PHONY: unit-tests
 unit-tests:
 	@$(MAKE) -s unit-test-js
 
+.PHONY: deploy
 deploy:
 	@echo ".: 💾 Deploying '$(name)' $(hook-prefix) HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
 	helm -n integration-tests upgrade --install $(name) . --wait \
 		--set="hook.image.repository=docker.io/$(IMG_NS)/$(hook-prefix)-$(name)" \
 		--set="hook.image.tag=$(IMG_TAG)"
 
+.PHONY: integration-tests
 integration-tests:
 	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
 	kubectl -n integration-tests delete scans --all

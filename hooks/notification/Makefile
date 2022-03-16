@@ -10,8 +10,10 @@ hook = notification
 
 include ../../hooks.mk
 
+.PHONY: deploy-test-deps
 deploy-test-deps: deploy-test-dep-test-scan deploy-test-dep-http-webhook
 
+.PHONY: deploy
 deploy:
 	@echo ".: 💾 Deploying '$(name)' $(hook-prefix) HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
 	helm -n integration-tests upgrade --install notification-hook . \
