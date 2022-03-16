@@ -5,19 +5,9 @@ import (
 	"text/template"
 
 	"github.com/Masterminds/sprig"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
+	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 )
-
-type Cluster struct {
-	Name string
-}
-
-type TemplateArgs struct {
-	Target    metav1.ObjectMeta
-	Namespace metav1.ObjectMeta
-	Cluster   Cluster
-	ImageID   string
-}
 
 func ParseMapTemplate(dataStruct interface{}, templates map[string]string) map[string]string {
 	result := map[string]string{}
@@ -59,4 +49,22 @@ func ParseListTemplate(dataStruct interface{}, templates []string) []string {
 		}
 	}
 	return result
+}
+
+// Takes in both autoDiscoveryConfig and scanConfig as this function might be used by other controllers in the future, which can then pass in the their relevant scanConfig into this function
+func GenerateScanSpec(scanConfig configv1.ScanConfig, templateArgs interface{}) executionv1.ScheduledScanSpec {
+	parameters := scanConfig.Parameters
+
+	params := ParseListTemplate(templateArgs, parameters)
+
+	scheduledScanSpec := executionv1.ScheduledScanSpec{
+		Interval: scanConfig.RepeatInterval,
+		ScanSpec: &executionv1.ScanSpec{
+			ScanType:   scanConfig.ScanType,
+			Parameters: params,
+		},
+		RetriggerOnScanTypeChange: true,
+	}
+
+	return scheduledScanSpec
 }

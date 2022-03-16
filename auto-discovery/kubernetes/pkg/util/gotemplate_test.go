@@ -7,7 +7,9 @@ package util
 import (
 	"testing"
 
+	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
 	"github.com/stretchr/testify/assert"
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -66,8 +68,20 @@ func render(annotationTemplates map[string]string) map[string]string {
 		"app.kubernetes.io/name": "juice-shop",
 		// "scm.securecodebox.io/branch": "v12.2.2",
 	}}
-	namespaceMeta := metav1.ObjectMeta{Name: "foobar", Labels: map[string]string{"foo": "bar"}}
+	namespace := corev1.Namespace{
+		ObjectMeta: metav1.ObjectMeta{Name: "foobar", Labels: map[string]string{"foo": "bar"}},
+		Spec:       corev1.NamespaceSpec{},
+	}
 
-	data := TemplateArgs{Target: targetMeta, Namespace: namespaceMeta, Cluster: Cluster{"test-cluster"}}
-	return ParseMapTemplate(data, annotationTemplates)
+	type TestTemplateArgs struct {
+		Target    metav1.ObjectMeta
+		Namespace corev1.Namespace
+		Cluster   configv1.ClusterConfig
+	}
+	templateArgs := TestTemplateArgs{
+		Target:    targetMeta,
+		Namespace: namespace,
+		Cluster:   configv1.ClusterConfig{Name: "test-cluster"},
+	}
+	return ParseMapTemplate(templateArgs, annotationTemplates)
 }
