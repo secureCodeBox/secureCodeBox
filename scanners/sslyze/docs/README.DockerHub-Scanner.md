@@ -1,33 +1,60 @@
-{{- /*
+<!--
 SPDX-FileCopyrightText: the secureCodeBox authors
 
 SPDX-License-Identifier: Apache-2.0
-*/ -}}
+-->
+<!--
+.: IMPORTANT! :.
+--------------------------
+This file is generated automatically with `helm-docs` based on the following template files:
+- ./.helm-docs/templates.gotmpl (general template data for all charts)
+- ./chart-folder/.helm-docs.gotmpl (chart specific template data)
 
-{{- define "extra.docsSection" -}}
----
-title: "SSLyze"
-category: "scanner"
-type: "SSL"
-state: "released"
-appVersion: "{{ template "chart.appVersion" . }}"
-usecase: "SSL/TLS Configuration Scanner"
----
-{{- end }}
+Please be aware of that and apply your changes only within those template files instead of this file.
+Otherwise your changes will be reverted/overwritten automatically due to the build process `./.github/workflows/helm-docs.yaml`
+--------------------------
+-->
 
-{{- define "extra.dockerDeploymentSection" -}}
+<p align="center">
+  <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License Apache-2.0" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/></a>
+  <a href="https://github.com/secureCodeBox/secureCodeBox/releases/latest"><img alt="GitHub release (latest SemVer)" src="https://img.shields.io/github/v/release/secureCodeBox/secureCodeBox?sort=semver"/></a>
+  <a href="https://owasp.org/www-project-securecodebox/"><img alt="OWASP Incubator Project" src="https://img.shields.io/badge/OWASP-Incubator%20Project-365EAA"/></a>
+  <a href="https://artifacthub.io/packages/search?repo=securecodebox"><img alt="Artifact HUB" src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/securecodebox"/></a>
+  <a href="https://github.com/secureCodeBox/secureCodeBox/"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/secureCodeBox/secureCodeBox?logo=GitHub"/></a>
+  <a href="https://twitter.com/securecodebox"><img alt="Twitter Follower" src="https://img.shields.io/twitter/follow/securecodebox?style=flat&color=blue&logo=twitter"/></a>
+</p>
+
+## What is OWASP secureCodeBox?
+
+<p align="center">
+  <img alt="secureCodeBox Logo" src="https://docs.securecodebox.io/img/Logo_Color.svg" width="250px"/>
+</p>
+
+_[OWASP secureCodeBox][scb-github]_ is an automated and scalable open source solution that can be used to integrate various *security vulnerability scanners* with a simple and lightweight interface. The _secureCodeBox_ mission is to support *DevSecOps* Teams to make it easy to automate security vulnerability testing in different scenarios.
+
+With the _secureCodeBox_ we provide a toolchain for continuous scanning of applications to find the low-hanging fruit issues early in the development process and free the resources of the penetration tester to concentrate on the major security issues.
+
+The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To install it you need [Helm](https://helm.sh), a package manager for Kubernetes. It is also possible to start the different integrated security vulnerability scanners based on a docker infrastructure.
+
+### Quickstart with secureCodeBox on kubernetes
+
+You can find resources to help you get started on our [documentation website](https://docs.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://docs.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://docs.securecodebox.io/docs/getting-started/first-scans) with it.
+
 ## Supported Tags
 - `latest`  (represents the latest stable release build)
 - tagged releases, e.g. `3.0.0`, `2.9.0`, `2.8.0`, `2.7.0`
-{{- end }}
 
-{{- define "extra.chartAboutSection" -}}
+## How to use this image
+This `scanner` image is intended to work in combination with the corresponding `parser` image to parse the scanner `findings` to generic secureCodeBox results. For more information details please take a look at the [project page][scb-docs] or [documentation page][https://docs.securecodebox.io/docs/scanners/SSLyze].
+
+```bash
+docker pull securecodebox/scanner-sslyze
+```
+
 ## What is SSLyze?
 
 [SSLyze][SSLyze Documentation] is a Python library and a CLI tool that can analyze the SSL configuration of a server by connecting to it. It is designed to be fast and comprehensive, and should help organizations and testers identify mis-configurations affecting their SSL/TLS servers. To learn more about the SSLyze scanner itself visit or [SSLyze GitHub].
-{{- end }}
 
-{{- define "extra.scannerConfigurationSection" -}}
 ## Scanner Configuration
 
 The following security scan configuration example are based on the [SSLyze Documentation], please take a look at the original documentation for more configuration examples.
@@ -53,8 +80,8 @@ Trust stores options:
 
 Client certificate options:
   --cert CERTIFICATE_FILE
-                        Client certificate chain filename. The certificates 
-                        must be in PEM format and must be sorted starting with 
+                        Client certificate chain filename. The certificates
+                        must be in PEM format and must be sorted starting with
                         the subject's client certificate, followed by
                         intermediate CA certificates if applicable.
   --key KEY_FILE        Client private key filename.
@@ -73,7 +100,7 @@ Input and output options:
   --targets_in TARGET_FILE
                         Read the list of targets to scan from the file
                         TARGET_FILE. It should contain one host:port per line.
-  --quiet               Do not output anything to stdout; useful when using 
+  --quiet               Do not output anything to stdout; useful when using
                       --json_out.
 
 Connectivity options:
@@ -84,22 +111,22 @@ Connectivity options:
                         many concurrent connections. Enable this option if you
                         are getting a lot of timeouts or errors.
   --https_tunnel PROXY_SETTINGS
-                        Tunnel all traffic to the target server(s) through an 
-                        HTTP CONNECT proxy. HTTP_TUNNEL should be the proxy's 
-                        URL: 'http://USER:PW@HOST:PORT/'. For proxies 
+                        Tunnel all traffic to the target server(s) through an
+                        HTTP CONNECT proxy. HTTP_TUNNEL should be the proxy's
+                        URL: 'http://USER:PW@HOST:PORT/'. For proxies
                         requiring authentication, only Basic Authentication is
                         supported.
-  --starttls PROTOCOL Perform a StartTLS handshake when connecting to the 
-                        target server(s). StartTLS should be one of: auto, 
+  --starttls PROTOCOL Perform a StartTLS handshake when connecting to the
+                        target server(s). StartTLS should be one of: auto,
                         smtp, xmpp, xmpp_server, pop3, imap, ftp, ldap, rdp,
-                        postgres. The 'auto' option will cause SSLyze to 
-                        deduce the protocol (ftp, imap, etc.) from the 
+                        postgres. The 'auto' option will cause SSLyze to
+                        deduce the protocol (ftp, imap, etc.) from the
                         supplied port number, for each target servers.
   --xmpp_to HOSTNAME   Optional setting for STARTTLS XMPP. XMPP_TO should be
-                        the hostname to be put in the 'to' attribute of the 
+                        the hostname to be put in the 'to' attribute of the
                         XMPP stream. Default is the server's hostname.
   --sni SERVER_NAME_INDICATION
-                        Use Server Name Indication to specify the hostname to 
+                        Use Server Name Indication to specify the hostname to
                         connect to. Will only affect TLS 1.0+ connections.
 
 Scan commands:
@@ -115,16 +142,16 @@ Scan commands:
     --certinfo          Retrieve and analyze a server's certificate(s) to
                         verify its validity.
     --certinfo_ca_file CERTINFO_CA_FILE
-                        To be used with --certinfo. Path to a file containing 
+                        To be used with --certinfo. Path to a file containing
                         root certificates in PEM format that will be used to verify
                          the validity of the server's certificate.
 
-    --heartbleed        Test a server for the OpenSSL Heartbleed 
+    --heartbleed        Test a server for the OpenSSL Heartbleed
                         vulnerability.
     --resum             Test a server for TLS 1.2 session resumption support using
 
     --resum_attempts RESUM_ATTEMPTS
-                        To be used with --resum. Number of session resumptions 
+                        To be used with --resum. Number of session resumptions
                         (both with Session IDs and TLS Tickets) that SSLyze should attempt. The default value is 5, but a higher
                         value such as 100 can be used to get a more accurate measure of how often session resumption succeeds or fails with the server.
                         session IDs and TLS tickets.
@@ -136,15 +163,33 @@ Scan commands:
     --compression       Test a server for TLS compression support, which can
                         be leveraged to perform a CRIME attack.
     --openssl_ccs       Test a server for the OpenSSL CCS Injection
-                        vulnerability (CVE-2014-0224).                    
+                        vulnerability (CVE-2014-0224).                   
     --elliptic_curves   Test a server for supported elliptic curves.
 ```
-{{- end }}
 
-{{- define "extra.chartConfigurationSection" -}}
-{{- end }}
+## Community
 
-{{- define "extra.scannerLinksSection" -}}
+You are welcome, please join us on... 👋
+
+- [GitHub][scb-github]
+- [Slack][scb-slack]
+- [Twitter][scb-twitter]
+
+secureCodeBox is an official [OWASP][scb-owasp] project.
+
+## License
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+As with all Docker images, these likely also contain other software which may be under other licenses (such as Bash, etc from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
+
+As for any pre-built image usage, it is the image user's responsibility to ensure that any use of this image complies with any relevant licenses for all software contained within.
+
+[scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
+[scb-docs]: https://docs.securecodebox.io/
+[scb-site]: https://www.securecodebox.io/
+[scb-github]: https://github.com/secureCodeBox/
+[scb-twitter]: https://twitter.com/secureCodeBox
+[scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
+[scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
 [SSLyze GitHub]: https://github.com/nabla-c0d3/sslyze
 [SSLyze Documentation]: https://nabla-c0d3.github.io/sslyze/documentation/
-{{- end }}

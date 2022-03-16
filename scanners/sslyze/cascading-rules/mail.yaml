@@ -27,7 +27,7 @@ spec:
           state: open
   scanSpec:
     scanType: "sslyze"
-    parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"]
+    parameters: ["--mozilla_config=intermediate", "{{$.hostOrIP}}:{{attributes.port}}"]
 ---
 apiVersion: "cascading.securecodebox.io/v1"
 kind: CascadingRule
@@ -54,7 +54,7 @@ spec:
           state: open
   scanSpec:
     scanType: "sslyze"
-    parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"]
+    parameters: ["--mozilla_config=intermediate", "{{$.hostOrIP}}:{{attributes.port}}"]
 ---
 apiVersion: "cascading.securecodebox.io/v1"
 kind: CascadingRule
@@ -81,4 +81,4 @@ spec:
           state: open
   scanSpec:
     scanType: "sslyze"
-    parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"]
+    parameters: ["--mozilla_config=intermediate", "{{$.hostOrIP}}:{{attributes.port}}"]

@@ -12,7 +12,7 @@ test(
     const { categories, severities, count } = await scan(
       "sslyze-unsafe-https",
       "sslyze",
-      ["--regular", "unsafe-https.demo-targets.svc"],
+      ["--mozilla_config=intermediate", "unsafe-https.demo-targets.svc"],
       90
     );
 
