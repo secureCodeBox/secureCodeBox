@@ -2,6 +2,7 @@ package util
 
 import (
 	"bytes"
+	"fmt"
 	"text/template"
 
 	"github.com/Masterminds/sprig"
@@ -9,40 +10,44 @@ import (
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 )
 
-func ParseMapTemplate(dataStruct interface{}, templates map[string]string) map[string]string {
+func templateOrPanic(templateString string, templateArgs interface{}) string {
+	if templateString == "" {
+		return ""
+	}
+
+	tmpl, err := template.New(fmt.Sprintf("Template parameter '%s'", templateString)).Funcs(sprig.TxtFuncMap()).Parse(templateString)
+	if err != nil {
+		panic(err)
+	}
+
+	var rawOutput bytes.Buffer
+	err = tmpl.Execute(&rawOutput, templateArgs)
+	output := rawOutput.String()
+
+	if output != "" {
+		return output
+	}
+	return ""
+}
+
+func ParseMapTemplate(templateArgs interface{}, templates map[string]string) map[string]string {
 	result := map[string]string{}
 
 	for key, value := range templates {
-		tmpl, err := template.New(key).Funcs(sprig.TxtFuncMap()).Parse(value)
-
-		if err != nil {
-			panic(err)
-		}
-
-		var tmp bytes.Buffer
-		tmpl.Execute(&tmp, dataStruct)
-		data := tmp.String()
+		data := templateOrPanic(value, templateArgs)
 
 		if data != "" {
-			result[key] = tmp.String()
+			result[key] = data
 		}
 	}
 	return result
 }
 
-func ParseListTemplate(dataStruct interface{}, templates []string) []string {
+func ParseListTemplate(templateArgs interface{}, templates []string) []string {
 	var result []string
 
 	for _, value := range templates {
-		tmpl, err := template.New(value).Parse(value)
-
-		if err != nil {
-			panic(err)
-		}
-
-		var tmp bytes.Buffer
-		tmpl.Execute(&tmp, dataStruct)
-		data := tmp.String()
+		data := templateOrPanic(value, templateArgs)
 
 		if data != "" {
 			result = append(result, data)
