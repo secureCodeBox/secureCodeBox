@@ -46,6 +46,7 @@ func TestAPIs(t *testing.T) {
 }
 
 var _ = BeforeSuite(func() {
+
 	logf.SetLogger(zap.New(zap.WriteTo(GinkgoWriter), zap.UseDevMode(true)))
 
 	By("bootstrapping test environment")
@@ -86,6 +87,15 @@ var _ = BeforeSuite(func() {
 				ScanType:       "nmap",
 			},
 		},
+		ContainerAutoDiscoveryConfig: configv1.ContainerAutoDiscoveryConfig{
+			ScanConfig: configv1.ScanConfig{
+				RepeatInterval: metav1.Duration{Duration: time.Hour},
+				Annotations:    map[string]string{"testAnnotation": "{{ .Namespace.Name }}"},
+				Labels:         map[string]string{"testLabel": "{{ .Namespace.Name }}"},
+				Parameters:     []string{"-p", "{{ .Namespace.Name }}"},
+				ScanType:       "nmap",
+			},
+		},
 		ResourceInclusion: configv1.ResourceInclusionConfig{
 			Mode: configv1.EnabledPerResource,
 		},
@@ -96,6 +106,15 @@ var _ = BeforeSuite(func() {
 		Scheme:   k8sManager.GetScheme(),
 		Recorder: k8sManager.GetEventRecorderFor("ServiceScanController"),
 		Log:      ctrl.Log.WithName("controllers").WithName("ServiceScanController"),
+		Config:   config,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&ContainerScanReconciler{
+		Client:   k8sManager.GetClient(),
+		Scheme:   k8sManager.GetScheme(),
+		Recorder: k8sManager.GetEventRecorderFor("ContainerScanController"),
+		Log:      ctrl.Log.WithName("controllers").WithName("ContainerScanController"),
 		Config:   config,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
