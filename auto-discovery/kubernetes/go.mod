@@ -16,7 +16,6 @@ require (
 	github.com/onsi/ginkgo v1.14.1
 	github.com/onsi/gomega v1.10.2
 	github.com/secureCodeBox/secureCodeBox/operator v0.0.0-20211020071729-60497d02f10d
-	github.com/stretchr/testify v1.6.1
 	k8s.io/api v0.20.2
 	k8s.io/apimachinery v0.20.2
 	k8s.io/client-go v0.20.2
