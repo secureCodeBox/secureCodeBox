@@ -44,20 +44,19 @@ func TestGetAnnotationsForScan(t *testing.T) {
 
 	assert.Equal(
 		t,
+		render(map[string]string{
+			"defectdojo.securecodebox.io/product-name":    "{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}",
+			"defectdojo.securecodebox.io/product-tags":    "cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}",
+			"defectdojo.securecodebox.io/engagement-name": "{{ .Target.Name }}",
+			// Need to use "index" function here to be able to access the `app.kubernetes.io/name` as the special chars ('.' & '/') mess with golang templates
+			// Should be dropped as the template renders to a empty string as the service doesn't have the version label included
+			"defectdojo.securecodebox.io/engagement-version": "{{ default \"\" (index .Target.Labels `scm.securecodebox.io/branch`) }}",
+		}),
 		map[string]string{
 			"defectdojo.securecodebox.io/product-name":    "test-cluster | foobar | service-foobar",
 			"defectdojo.securecodebox.io/product-tags":    "cluster/test-cluster,namespace/foobar",
 			"defectdojo.securecodebox.io/engagement-name": "service-foobar",
 		},
-		render(
-			map[string]string{
-				"defectdojo.securecodebox.io/product-name":    "{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}",
-				"defectdojo.securecodebox.io/product-tags":    "cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}",
-				"defectdojo.securecodebox.io/engagement-name": "{{ .Target.Name }}",
-				// Need to use "index" function here to be able to access the `app.kubernetes.io/name` as the special chars ('.' & '/') mess with golang templates
-				// Should be dropped as the template renders to a empty string as the service doesn't have the version label included
-				"defectdojo.securecodebox.io/engagement-version": "{{ default \"\" (index .Target.Labels `scm.securecodebox.io/branch`) }}",
-			}),
 		"Should be able to render out actual DefectDojo usage",
 	)
 }
