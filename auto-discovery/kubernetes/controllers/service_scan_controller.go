@@ -39,6 +39,8 @@ type ServiceScanReconciler struct {
 type ServiceAutoDiscoveryTemplateArgs struct {
 	Config     configv1.AutoDiscoveryConfig
 	ScanConfig configv1.ScanConfig
+	Cluster    configv1.ClusterConfig
+	Target     metav1.ObjectMeta
 	Service    corev1.Service
 	Namespace  corev1.Namespace
 	Host       HostPort
@@ -141,6 +143,8 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 		templateArgs := ServiceAutoDiscoveryTemplateArgs{
 			Config:     r.Config,
 			ScanConfig: r.Config.ServiceAutoDiscoveryConfig.ScanConfig,
+			Cluster:    r.Config.Cluster,
+			Target:     service.ObjectMeta,
 			Service:    service,
 			Namespace:  namespace,
 			Host:       host,

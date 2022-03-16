@@ -39,6 +39,7 @@ type Cluster struct {
 type ContainerAutoDiscoveryTemplateArgs struct {
 	Config     configv1.AutoDiscoveryConfig
 	ScanConfig configv1.ScanConfig
+	Cluster    configv1.ClusterConfig
 	Target     metav1.ObjectMeta
 	Namespace  corev1.Namespace
 	ImageID    string
@@ -194,6 +195,7 @@ func (r *ContainerScanReconciler) generateScan(pod corev1.Pod, imageID string, n
 	templateArgs := ContainerAutoDiscoveryTemplateArgs{
 		Config:     r.Config,
 		ScanConfig: scanConfig,
+		Cluster:    r.Config.Cluster,
 		Target:     pod.ObjectMeta,
 		Namespace:  namespace,
 		ImageID:    imageID,
