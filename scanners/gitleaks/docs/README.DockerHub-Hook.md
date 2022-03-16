@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: the secureCodeBox authors
+SPDX-FileCopyrightText: 2021 iteratec GmbH
 
 SPDX-License-Identifier: Apache-2.0
 -->
@@ -42,13 +42,13 @@ You can find resources to help you get started on our [documentation website](ht
 
 ## Supported Tags
 - `latest`  (represents the latest stable release build)
-- tagged releases, e.g. `v8.3.0`
+- tagged releases, e.g. `v8.2.7`
 
 ## How to use this image
-This `parser` image is intended to work in combination with the corresponding security scanner docker image to parse the `findings` results. For more information details please take a look at the documentation page: https://docs.securecodebox.io/docs/scanners/gitleaks.
+This `hook` image is intended to work in combination with other `parser` images to read or manipulate `findings` results. For more information details please take a look at the [project page][scb-docs] or [documentation page][https://docs.securecodebox.io/docs/scanners/gitleaks].
 
 ```bash
-docker pull securecodebox/parser-gitleaks
+docker pull securecodebox/hook-gitleaks
 ```
 
 ## What is Gitleaks?

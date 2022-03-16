@@ -4,22 +4,49 @@
 
 const { scan } = require("../../../tests/integration/helpers");
 
-jest.retryTimes(3);
+jest.retryTimes(0);
 
 test(
-  "gitleaks should find 1 credential in the testfiles",
+  "Gitleaks should find one secret in a demo target",
   async () => {
     const { categories, severities, count } = await scan(
       "gitleaks-dummy-scan",
       "gitleaks",
       [
-        "-r",
-        "https://github.com/secureCodeBox/secureCodeBox",
-        "--commit=ec0fe179ccf178b56fcd51d1730448bc64bb9ab5",
-        "--config-path",
-        "/home/config_all.toml",
+        "detect",
+        "--source",
+        "/repo/"
       ],
-      90
+      90,
+      // volumes
+      [{
+          "name": "test-dir",
+          "emptyDir": {}
+      }],
+      // volumeMounts
+      [{
+          "mountPath": "/repo/",
+          "name": "test-dir"
+      }],
+      // initContainers
+      [{
+          "name": "init-git",
+          "image": "bitnami/git",
+          "command": ["bash", 
+                      "-c", 
+                      // Bash script to create a git repo with a demo file
+                      `cd /repo && \\
+                      git init && \\
+                      echo '-----BEGIN PRIVATE KEY-----' > secret.pem && \\
+                      git config --global user.name test && \\
+                      git config --global user.email user@example.com && \\
+                      git add secret.pem && \\
+                      git commit -m test`],
+          "volumeMounts": [{
+              "mountPath": "/repo/",
+              "name": "test-dir"
+          }]
+      }]
     );
 
     expect(count).toBe(1);
@@ -27,7 +54,7 @@ test(
       "Potential Secret": 1,
     });
     expect(severities).toEqual({
-      high: 1,
+      medium: 1
     });
   },
   3 * 60 * 1000
