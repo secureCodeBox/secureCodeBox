@@ -5,6 +5,8 @@
 package util
 
 import (
+	"time"
+
 	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -12,6 +14,12 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
+
+type TestTemplateArgs struct {
+	Target    metav1.ObjectMeta
+	Namespace corev1.Namespace
+	Cluster   configv1.ClusterConfig
+}
 
 var _ = Describe("gotemplate helper util", func() {
 
@@ -53,6 +61,78 @@ var _ = Describe("gotemplate helper util", func() {
 			))
 		})
 	})
+
+	Context("Template Scanner Parameter", func() {
+		It("Should template Volume & VolumeMounts", func() {
+
+			templateArgs := TestTemplateArgs{
+				Target: metav1.ObjectMeta{
+					Name:      "foobar",
+					Namespace: "barfoo",
+				},
+				Namespace: corev1.Namespace{
+					ObjectMeta: metav1.ObjectMeta{
+						Name: "barfoo",
+					},
+				},
+				Cluster: configv1.ClusterConfig{
+					Name: "test-cluster",
+				},
+			}
+
+			scanConfig := configv1.ScanConfig{
+				RepeatInterval: metav1.Duration{Duration: time.Hour},
+				Annotations:    map[string]string{},
+				Labels:         map[string]string{},
+				Parameters:     []string{"-p", "3000", "{{ .Target.Name }}.{{ .Namespace.Name }}.svc"},
+				ScanType:       "nmap",
+				Volumes: []corev1.Volume{
+					{
+						Name: "{{ .Target.Name | upper }}",
+						VolumeSource: corev1.VolumeSource{
+							Secret: &corev1.SecretVolumeSource{
+								SecretName: "scan-overwrite-{{ .Target.Name }}",
+							},
+						},
+					},
+				},
+				VolumeMounts: []corev1.VolumeMount{
+					{
+						Name:      "{{ .Target.Name | upper }}",
+						MountPath: "/tmp/foobar/test.txt",
+						SubPath:   "test.txt",
+					},
+					{
+						Name:      "{{ .Target.Name | upper }}",
+						MountPath: "/tmp/barfoo/test.txt",
+						SubPath:   "test.txt",
+					},
+				},
+			}
+
+			scanSpec := GenerateScanSpec(scanConfig, templateArgs)
+
+			Expect(scanSpec.ScanSpec.ScanType).To(Equal("nmap"))
+			Expect(scanSpec.ScanSpec.Volumes).To(ContainElement(corev1.Volume{
+				Name: "FOOBAR",
+				VolumeSource: corev1.VolumeSource{
+					Secret: &corev1.SecretVolumeSource{
+						SecretName: "scan-overwrite-foobar",
+					},
+				},
+			}))
+			Expect(scanSpec.ScanSpec.VolumeMounts).To(ContainElement(corev1.VolumeMount{
+				Name:      "FOOBAR",
+				MountPath: "/tmp/foobar/test.txt",
+				SubPath:   "test.txt",
+			}))
+			Expect(scanSpec.ScanSpec.VolumeMounts).To(ContainElement(corev1.VolumeMount{
+				Name:      "FOOBAR",
+				MountPath: "/tmp/barfoo/test.txt",
+				SubPath:   "test.txt",
+			}))
+		})
+	})
 })
 
 func render(annotationTemplates map[string]string) map[string]string {
@@ -66,11 +146,6 @@ func render(annotationTemplates map[string]string) map[string]string {
 		Spec:       corev1.NamespaceSpec{},
 	}
 
-	type TestTemplateArgs struct {
-		Target    metav1.ObjectMeta
-		Namespace corev1.Namespace
-		Cluster   configv1.ClusterConfig
-	}
 	templateArgs := TestTemplateArgs{
 		Target:    targetMeta,
 		Namespace: namespace,
