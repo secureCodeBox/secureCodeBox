@@ -42,10 +42,10 @@ config:
         defectdojo.securecodebox.io/product-tags: "cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"
         defectdojo.securecodebox.io/engagement-name: "{{ .Target.Name }}"
         defectdojo.securecodebox.io/engagement-version: "{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}"
-      # -- volumes to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1
+      # -- volumes to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes
       # the fields: `name`, `secret.secretName`, `configMap.name` of each volume support templating
       volumes: []
-      # -- volumes to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1
+      # -- volumeMounts to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1
       # the fields: `name`, `mountPath`, `subPath`, `subPathExpr` of each volumeMount support templating
       volumeMounts: []
 
@@ -64,10 +64,10 @@ config:
       # -- annotations to be added to the scans started by the auto-discovery
       # all annotation values support templating
       annotations: {}
-      # -- volumes to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1
+      # -- volumes to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes
       # the fields: `name`, `secret.secretName`, `configMap.name` of each volume support templating
       volumes: []
-      # -- volumes to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1
+      # -- volumeMounts to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1
       # the fields: `name`, `mountPath`, `subPath`, `subPathExpr` of each volumeMount support templating
       volumeMounts: []
 
