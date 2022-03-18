@@ -57,6 +57,8 @@ BASE_IMG_TAG ?= sha-$(GIT_TAG)
 IMG_TAG ?= "sha-$(GIT_TAG)"
 JEST_VERSION ?= latest
 
+KIND_CLUSTER_NAME=$(shell kubectl config current-context | cut -c 6-) # Cut off kind- prefix
+
 parser-prefix = parser
 scanner-prefix = scanner
 hook-prefix = hook
@@ -103,7 +105,7 @@ common-docker-export:
 
 common-kind-import:
 	@echo ".: 💾 Importing the image archive '$(module)-$(name).tar' to local kind cluster."
-	kind load image-archive ./$(module)-$(name).tar
+	kind load image-archive ./$(module)-$(name).tar --name $(KIND_CLUSTER_NAME)
 
 deploy-test-deps: deploy-test-dep-namespace
 
