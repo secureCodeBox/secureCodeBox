@@ -15,6 +15,14 @@ test(
       [
         "-c",
         "p/ci",
+        // Exclude subfolders beginning with .. to work around a strange
+        // interaction between Kubernetes and Semgrep: Kubernetes stores
+        // ConfigMap files in a hidden subdirectory and links to them.
+        // This leads to the file being found twice by semgrep. We thus
+        // exclude the relevant subdirectory from the integration test
+        // scans to avoid getting double the number of matches.
+        "--exclude",
+        "..*",
         "/test/",
       ],
       90,
