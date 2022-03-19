@@ -11,5 +11,5 @@ metadata:
 spec:
   scanType: "sslyze"
   parameters:
-    - "--regular"
+    - "--mozilla_config=intermediate"
     - "unsafe-https"

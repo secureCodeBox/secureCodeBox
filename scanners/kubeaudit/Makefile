@@ -25,10 +25,3 @@ deploy-test-deps:
 	kubectl create namespace kubeaudit-tests --dry-run=client -o yaml | kubectl apply -f -
 	# Install jshop in kubeaudit-tests namespace
 	helm -n kubeaudit-tests upgrade --install juice-shop ../../demo-targets/juice-shop/ --wait
-
-integration-tests:
-	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
-	kubectl -n integration-tests delete scans --all
-	cd ../../tests/integration/ && npm ci
-	cd ../../scanners/${scanner}
-	npx --yes --package jest@$(JEST_VERSION) jest --verbose --ci --colors --coverage --passWithNoTests ${scanner}/integration-tests

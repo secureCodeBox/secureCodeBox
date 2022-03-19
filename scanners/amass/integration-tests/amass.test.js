@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { scan } = require("../../../tests/integration/helpers.js");
-
+const {scan} = require("../../helpers");
 jest.retryTimes(3);
 
 test(

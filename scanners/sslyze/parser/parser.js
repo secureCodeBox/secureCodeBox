@@ -9,8 +9,8 @@ function parse(fileContent) {
   }
 
   const serverScanResult = fileContent.server_scan_results[0];
-
-  if (Object.keys(serverScanResult.scan_commands_errors).length >= 1) {
+  
+  if (serverScanResult.connectivity_status == "ERROR"){
     console.error(
       "Cannot parse the result file, as some of the scan parts failed."
     );
@@ -28,8 +28,7 @@ function parse(fileContent) {
     ...analyseCertificateDeployments(serverScanResult),
   ];
 
-  const serverInfo = serverScanResult.server_info;
-  const { ip_address, hostname, port } = serverInfo.server_location;
+  const { ip_address, hostname, port } = serverScanResult.server_location;
   const location = `${hostname || ip_address}:${port}`;
 
   // Enhance partialFindings with common properties shared across all SSLyze findings
@@ -55,15 +54,14 @@ module.exports.parse = parse;
 
 // Returns the Scan Result for the individual TLS Versions as array
 function getTlsScanResultsAsArray(serverScanResult) {
-  const commandResult = serverScanResult.scan_commands_results;
-
+  const commandResult = serverScanResult.scan_result;
   return [
-    { name: "SSL 2.0", ...commandResult.ssl_2_0_cipher_suites },
-    { name: "SSL 3.0", ...commandResult.ssl_3_0_cipher_suites },
-    { name: "TLS 1.0", ...commandResult.tls_1_0_cipher_suites },
-    { name: "TLS 1.1", ...commandResult.tls_1_1_cipher_suites },
-    { name: "TLS 1.2", ...commandResult.tls_1_2_cipher_suites },
-    { name: "TLS 1.3", ...commandResult.tls_1_3_cipher_suites },
+    { name: "SSL 2.0", ...commandResult.ssl_2_0_cipher_suites.result },
+    { name: "SSL 3.0", ...commandResult.ssl_3_0_cipher_suites.result },
+    { name: "TLS 1.0", ...commandResult.tls_1_0_cipher_suites.result },
+    { name: "TLS 1.1", ...commandResult.tls_1_1_cipher_suites.result },
+    { name: "TLS 1.2", ...commandResult.tls_1_2_cipher_suites.result },
+    { name: "TLS 1.3", ...commandResult.tls_1_3_cipher_suites.result },
   ];
 }
 
@@ -142,7 +140,7 @@ function generateVulnerableTLSVersionFindings(serverScanResult) {
 }
 
 function analyseCertificateDeployments(serverScanResult) {
-  const certificateInfos = serverScanResult.scan_commands_results.certificate_info.certificate_deployments.map(
+  const certificateInfos = serverScanResult.scan_result.certificate_info.result.certificate_deployments.map(
     analyseCertificateDeployment
   );
 
