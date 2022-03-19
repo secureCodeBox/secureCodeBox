@@ -627,7 +627,7 @@ jobs:
   # ---- Integration Tests ----
 
   Integration-tests-hooks:
-    name: Integration Tests | k8s ${{ matrix.k8sVersion }}
+    name: Integration Tests Hook ${{ matrix.hook }} | k8s ${{ matrix.k8sVersion }}
     needs:
       - operator
       - hooks
@@ -680,19 +680,8 @@ jobs:
         run: make kind-import
 
       - name: "Install Operator"
-        run: |
-          # Namespace in which the scans for the tests will be executed
-          kubectl create namespace integration-tests
-          # Operator Namespace
-          kubectl create namespace securecodebox-system
-          # Install Operator using the images of the current commit
-          helm -n securecodebox-system install securecodebox-operator ./operator/ --wait \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/operator" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="lurker.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/lurker" \
-            --set="lurker.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="lurker.image.pullPolicy=Never" \
-            --set="image.pullPolicy=Never"
+        working-directory: ./operator
+        run: make helm-deploy
 
       # ---- Operator Health Check ----
 
@@ -704,6 +693,7 @@ jobs:
           kubectl -n securecodebox-system get pods
           echo "Operator Startup Logs"
           kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
+
       - name: "Create 'demo-targets' namespace"
         run: "kubectl create namespace demo-targets"
 
