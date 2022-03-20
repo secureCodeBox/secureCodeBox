@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: the secureCodeBox authors
+SPDX-FileCopyrightText: 2021 iteratec GmbH
 
 SPDX-License-Identifier: Apache-2.0
 -->
@@ -42,13 +42,13 @@ You can find resources to help you get started on our [documentation website](ht
 
 ## Supported Tags
 - `latest`  (represents the latest stable release build)
-- tagged releases, e.g. `v8.0.0`
+- tagged releases, e.g. `v8.2.7`
 
 ## How to use this image
-This `scanner` image is intended to work in combination with the corresponding `parser` image to parse the scanner `findings` to generic secureCodeBox results. For more information details please take a look at the [project page][scb-docs] or [documentation page][https://docs.securecodebox.io/docs/scanners/gitleaks].
+This `hook` image is intended to work in combination with other `parser` images to read or manipulate `findings` results. For more information details please take a look at the [project page][scb-docs] or [documentation page][https://docs.securecodebox.io/docs/scanners/gitleaks].
 
 ```bash
-docker pull securecodebox/scanner-gitleaks
+docker pull securecodebox/hook-gitleaks
 ```
 
 ## What is Gitleaks?
@@ -58,29 +58,6 @@ file extensions like *id_rsa*, *.pem*, *htpasswd*. Furthermore, gitleaks can sca
 with all commits up to the initial one.
 
 To learn more about gitleaks visit <https://github.com/zricethezav/gitleaks>.
-
-## Scanner Configuration
-
-For a complete overview of the configuration options checkout the
-[Gitleaks documentation](https://github.com/zricethezav/gitleaks/wiki/Options).
-
-The only mandatory parameters are:
-- `-r`: The link to the repository you want to scan.
-- `--access-token`: Only for non-public repositories.
-- `--username` and `--password`: Only for non-public repositories.
-- `--config-path`: The ruleset you want to use.
-
-#### Ruleset
-
-At this point we provide three rulesets which you can pass to the `--config-path` oprtion:
-
-- `/home/config_all.toml`: Includes every rule.
-- `/home/config_filenames_only.toml`: Gitleaks scans only file names and extensions.
-- `/home/config_no_generics.toml`: No generic rules like searching for the word *password*. With this option you won't
-find something like **password = Ej2ifDk2jfeo2**, but it will reduce resulting false positives.
-
-If you like to provide your custom ruleset, you can create a configMap and mount it into
-the scan. Checkout the examples for more information about providing your own gitleaks rules config.
 
 ## Community
 

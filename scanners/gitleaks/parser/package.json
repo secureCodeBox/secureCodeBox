@@ -6,9 +6,5 @@
   "scripts": {},
   "keywords": [],
   "author": "iteratec GmbH",
-  "license": "Apache-2.0",
-  "dependencies": {
-    "arg": "^5.0.0"
-  },
-  "devDependencies": {}
+  "license": "Apache-2.0"
 }
