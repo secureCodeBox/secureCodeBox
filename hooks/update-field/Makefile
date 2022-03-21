@@ -10,8 +10,10 @@ hook = update-field
 
 include ../../hooks.mk
 
+.PHONY: deploy-test-deps
 deploy-test-deps: deploy-test-dep-test-scan
 
+.PHONY: deploy
 deploy:
 	@echo ".: 💾 Deploying '$(name)' $(hook-prefix) HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
 	helm -n integration-tests upgrade --install update-category . --wait \
@@ -24,8 +26,3 @@ deploy:
 		--set="hook.image.tag=$(IMG_TAG)" \
 		--set="attribute.name=severity" \
 		--set="attribute.value=high"
-
-integration-tests:
-	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
-	kubectl -n integration-tests delete scans --all
-	cd ../../tests/integration/ && npm ci &&	npx --yes --package jest@$(JEST_VERSION) jest --verbose --ci --colors --coverage --passWithNoTests generic/read-write-hook.test.js
