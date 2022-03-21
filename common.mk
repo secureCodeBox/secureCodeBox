@@ -61,7 +61,9 @@ parser-prefix = parser
 scanner-prefix = scanner
 hook-prefix = hook
 
-test: | clean-integration-tests unit-tests docker-build docker-export kind-import deploy deploy-test-deps integration-tests
+all: help
+
+test: | clean-integration-tests clean-demo-targets unit-tests docker-build docker-export kind-import deploy deploy-test-deps integration-tests ## 🧪 Complete clean Test for this module.
 
 .PHONY: help unit-tests-hook install-deps docker-build docker-export kind-import deploy deploy-test-deps integration-tests all build test
 
@@ -167,7 +169,7 @@ deploy-test-dep-test-scan:
 deploy-test-dep-old-joomla:
 	helm -n demo-targets install old-joomla ../../demo-targets/old-joomla/ --set="fullnameOverride=old-joomla" --wait
 
-clean:
+clean:  ## 🧹 Cleaning up all generated files for this module.
 	@echo ".: 🧹 Cleaning up all generated files."
 	rm -f ./$(module)-$(name).tar
 	rm -rf ./$(module)/node_modules
@@ -186,3 +188,8 @@ clean-demo-targets:
 	@echo ".: 🧹 Resetting 'demo-targets' namespace"
 	kubectl delete namespace demo-targets --wait || true
 	kubectl create namespace demo-targets
+
+.PHONY: help
+help: ## 🔮 Display this help screen.
+	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
+		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
