@@ -43,9 +43,12 @@ K := $(foreach exec,$(EXECUTABLES),\
 #
 # JEST_VERSION  		Defines the jest version used for executing the tests. Defaults to latest
 #
+# KIND_CLUSTER_NAME:	Defines the name of the kind cluster (created by kind create cluster --name cluster-name)
+#
 # Examples:
 # 	make all IMG_TAG=main
 # 	make deploy IMG_TAG=$(git rev-parse --short HEAD)
+#   make kind-import KIND_CLUSTER_NAME=your-cluster-name
 # 	make integration-tests
 #
 
@@ -56,6 +59,7 @@ GIT_TAG ?= $$(git rev-parse --short HEAD)
 BASE_IMG_TAG ?= sha-$(GIT_TAG)
 IMG_TAG ?= "sha-$(GIT_TAG)"
 JEST_VERSION ?= latest
+KIND_CLUSTER_NAME ?= kind
 
 parser-prefix = parser
 scanner-prefix = scanner
@@ -103,7 +107,7 @@ common-docker-export:
 
 common-kind-import:
 	@echo ".: 💾 Importing the image archive '$(module)-$(name).tar' to local kind cluster."
-	kind load image-archive ./$(module)-$(name).tar
+	kind load image-archive ./$(module)-$(name).tar --name $(KIND_CLUSTER_NAME)
 
 deploy-test-deps: deploy-test-dep-namespace
 
