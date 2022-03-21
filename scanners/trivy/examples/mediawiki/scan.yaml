@@ -7,7 +7,6 @@ kind: Scan
 metadata:
   name: "trivy-mediawiki"
 spec:
-  scanType: "trivy"
+  scanType: "trivy-image"
   parameters:
-    - "image"
     - "mediawiki:stable"

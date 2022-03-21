@@ -9,7 +9,6 @@ metadata:
   labels:
     organization: "OWASP"
 spec:
-  scanType: "trivy"
+  scanType: "trivy-image"
   parameters:
-    - "image"
     - "bkimminich/juice-shop:v10.2.0"
