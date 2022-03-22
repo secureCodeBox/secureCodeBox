@@ -553,7 +553,6 @@ jobs:
     name: Integration Tests Hook ${{ matrix.hook }} | k8s ${{ matrix.k8sVersion }}
     needs:
       - operator
-      - hooks
       - scanners-custom
     runs-on: ubuntu-latest
     strategy:
