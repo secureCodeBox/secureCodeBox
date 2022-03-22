@@ -670,11 +670,18 @@ jobs:
       - name: "Create 'demo-targets' namespace"
         run: "kubectl create namespace demo-targets"
 
-      # ---- Build Parser SDk
+      # ---- Import Parser SDK Artifact
 
-      - name: "Build Parser SDK"
-        working-directory: ./parser-sdk/nodejs
-        run: "make docker-build-sdk"
+      - name: Download Parser SDK Image
+        uses: actions/download-artifact@v2
+        with:
+          name: parser-sdk-image
+          path: /tmp
+
+      - name: Load Parser SDK Image
+        run: |
+          docker load --input /tmp/parser-sdk.tar
+          docker images | grep sdk    
 
       # ----- Build Test-Scan ScanType Image ---- 
 
