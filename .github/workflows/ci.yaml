@@ -271,7 +271,7 @@ jobs:
 
   # ---- New Makefile based CI Pipeline steps ----
 
-  makefile-scanner:
+  Integration-test-scanner:
     name: "Make Scanners"
     needs:
       - sdk
@@ -412,83 +412,6 @@ jobs:
           kubectl -n securecodebox-system get pods
           echo "Operator Startup Logs"
           kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
-
-  # ---- Build Stage | Matrix Hooks ----
-
-  hooks:
-    name: "Build | Hooks"
-    needs: sdk
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        hook:
-          - cascading-scans
-          - finding-post-processing
-          - generic-webhook
-          - notification
-          - persistence-azure-monitor
-          - persistence-elastic
-          - persistence-defectdojo
-          - update-field
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Docker Meta
-        id: docker_meta
-        uses: docker/metadata-action@v3
-        with:
-          images: ${{ env.DOCKER_NAMESPACE }}/hook-${{ matrix.hook }}
-          tags: |
-            type=sha
-            type=semver,pattern={{version}}
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-        with:
-          driver: docker
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-
-      - name: Set baseImageTag to commit hash
-        run: |
-          echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-
-      - name: Download Hook SDK Image
-        uses: actions/download-artifact@v2
-        with:
-          name: hook-sdk-image
-          path: /tmp
-
-      - name: Load Hook SDK Image
-        run: |
-          docker load --input /tmp/hook-sdk.tar
-          docker images | grep sdk
-
-      - name: Build and Push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./hooks/${{ matrix.hook }}/hook
-          file: ./hooks/${{ matrix.hook }}/hook/Dockerfile
-          build-args: |
-            namespace=${{ env.DOCKER_NAMESPACE }}
-            baseImageTag=${{ env.baseImageTag }}
-          platforms: linux/amd64
-          push: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
-
-      - name: Update Docker Hub Description
-        uses: peter-evans/dockerhub-description@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: ${{ env.DOCKER_NAMESPACE }}/hook-${{ matrix.hook }}
-          readme-filepath: ./hooks/${{ matrix.hook }}/docs/README.DockerHub-Hook.md
 
   # ---- Build Stage | Matrix Parsers ----
 
