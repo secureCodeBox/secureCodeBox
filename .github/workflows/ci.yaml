@@ -697,7 +697,14 @@ jobs:
       - name: "Create 'demo-targets' namespace"
         run: "kubectl create namespace demo-targets"
 
+      # ---- Build Parser SDk
+
+      - name: "Build Parser SDK"
+        working-directory: ./parser-sdk/nodejs
+        run: "make docker-build-sdk"
+      
       # ---- Install Test Dependencies ----
+
       - name: "Install Test Dependencies"
         working-directory: ./hooks
         run: npm ci
