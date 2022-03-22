@@ -648,7 +648,6 @@ jobs:
           - update-field
           - finding-post-processing
           - notification
-          - persistence-defectdojo
           # - persistence-static-report (WIP)
     steps:
       - uses: actions/checkout@master
