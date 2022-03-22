@@ -6,7 +6,7 @@
 #
 
 
-.PHONY: integration-tests
+.PHONY: integration-tests 
 integration-tests:
 	for dir in $(wildcard */.); do \
 	$(MAKE) integration-tests -C $$dir;\
