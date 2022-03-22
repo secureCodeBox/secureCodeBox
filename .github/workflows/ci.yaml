@@ -702,7 +702,7 @@ jobs:
         working-directory: ./parser-sdk/nodejs
         run: "make docker-build-sdk"
 
-      # ----- Build Test-Scan ScanType Image ----
+      # ----- Build Test-Scan ScanType Image ---- 
 
       - name: Build Images
         working-directory: ./scanners/test-scan/
