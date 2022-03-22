@@ -36,6 +36,16 @@ type ServiceScanReconciler struct {
 	Config   configv1.AutoDiscoveryConfig
 }
 
+type ServiceAutoDiscoveryTemplateArgs struct {
+	Config     configv1.AutoDiscoveryConfig
+	ScanConfig configv1.ScanConfig
+	Cluster    configv1.ClusterConfig
+	Target     metav1.ObjectMeta
+	Service    corev1.Service
+	Namespace  corev1.Namespace
+	Host       HostPort
+}
+
 const requeueInterval = 5 * time.Second
 
 // +kubebuilder:rbac:groups="execution.securecodebox.io",resources=scantypes,verbs=get;list;watch
@@ -129,13 +139,25 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 		var previousScan executionv1.ScheduledScan
 		err := r.Client.Get(ctx, types.NamespacedName{Name: fmt.Sprintf("%s-service-port-%d", service.Name, host.Port), Namespace: service.Namespace}, &previousScan)
 
+		// generate the scan spec for the current state of the service
+		templateArgs := ServiceAutoDiscoveryTemplateArgs{
+			Config:     r.Config,
+			ScanConfig: r.Config.ServiceAutoDiscoveryConfig.ScanConfig,
+			Cluster:    r.Config.Cluster,
+			Target:     service.ObjectMeta,
+			Service:    service,
+			Namespace:  namespace,
+			Host:       host,
+		}
+		scanSpec := util.GenerateScanSpec(r.Config.ServiceAutoDiscoveryConfig.ScanConfig, templateArgs)
+
 		if apierrors.IsNotFound(err) {
 			// service was never scanned
 			log.Info("Discovered new unscanned service, scanning it now", "service", service.Name, "namespace", service.Namespace)
 
 			// label is added after the initial query as it was added later and isn't garanteed to be on every auto-discovery managed scan.
 			versionedLabels["app.kubernetes.io/managed-by"] = "securecodebox-autodiscovery"
-			versionedLabels = addLabels(versionedLabels, r.Config, service, namespace)
+			versionedLabels = generateScanLabels(versionedLabels, r.Config.ServiceAutoDiscoveryConfig.ScanConfig, templateArgs)
 
 			// No scan for this pod digest yet. Scanning now
 			scan := executionv1.ScheduledScan{
@@ -143,9 +165,9 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 					Name:        fmt.Sprintf("%s-service-port-%d", service.Name, host.Port),
 					Namespace:   service.Namespace,
 					Labels:      versionedLabels,
-					Annotations: generateScanAnnotations(r.Config.ServiceAutoDiscoveryConfig.ScanConfig, r.Config.Cluster, service, namespace),
+					Annotations: generateScanAnnotations(service.Annotations, r.Config.ServiceAutoDiscoveryConfig.ScanConfig, templateArgs),
 				},
-				Spec: generateScanSpec(r.Config, r.Config.ServiceAutoDiscoveryConfig.ScanConfig, host, service, namespace),
+				Spec: scanSpec,
 			}
 
 			// Ensure ScanType actually exists
@@ -181,11 +203,11 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 
 			// label is added after the initial query as it was added later and isn't garanteed to be on every auto-discovery managed scan.
 			versionedLabels["app.kubernetes.io/managed-by"] = "securecodebox-autodiscovery"
-			versionedLabels = addLabels(versionedLabels, r.Config, service, namespace)
+			versionedLabels = generateScanLabels(versionedLabels, r.Config.ServiceAutoDiscoveryConfig.ScanConfig, templateArgs)
 
 			previousScan.ObjectMeta.Labels = versionedLabels
-			previousScan.ObjectMeta.Annotations = generateScanAnnotations(r.Config.ServiceAutoDiscoveryConfig.ScanConfig, r.Config.Cluster, service, namespace)
-			previousScan.Spec = generateScanSpec(r.Config, r.Config.ServiceAutoDiscoveryConfig.ScanConfig, host, service, namespace)
+			previousScan.ObjectMeta.Annotations = generateScanAnnotations(service.Annotations, r.Config.ServiceAutoDiscoveryConfig.ScanConfig, templateArgs)
+			previousScan.Spec = scanSpec
 
 			log.V(8).Info("Updating previousScan Spec")
 			err := r.Update(ctx, &previousScan)
@@ -363,19 +385,12 @@ podLoop:
 	return false
 }
 
-func generateScanAnnotations(scanConfig configv1.ScanConfig, clusterConfig configv1.ClusterConfig, service corev1.Service, namespace corev1.Namespace) map[string]string {
-	templateArgs := util.TemplateArgs{
-		Target:    service.ObjectMeta,
-		Namespace: namespace.ObjectMeta,
-		Cluster: util.Cluster{
-			Name: clusterConfig.Name,
-		},
-	}
+func generateScanAnnotations(currentAnnotations map[string]string, scanConfig configv1.ScanConfig, templateArgs ServiceAutoDiscoveryTemplateArgs) map[string]string {
 	annotations := util.ParseMapTemplate(templateArgs, scanConfig.Annotations)
 
 	// Copy over securecodebox.io annotations to the created scan
 	re := regexp.MustCompile(`.*securecodebox\.io/.*`)
-	for key, value := range service.Annotations {
+	for key, value := range currentAnnotations {
 		if matches := re.MatchString(key); matches {
 			annotations[key] = value
 		}
@@ -384,45 +399,8 @@ func generateScanAnnotations(scanConfig configv1.ScanConfig, clusterConfig confi
 
 }
 
-// Takes in both autoDiscoveryConfig and scanConfig as this function might be used by other controllers in the future, which can then pass in the their relevant scanConfig into this function
-func generateScanSpec(autoDiscoveryConfig configv1.AutoDiscoveryConfig, scanConfig configv1.ScanConfig, host HostPort, service corev1.Service, namespace corev1.Namespace) executionv1.ScheduledScanSpec {
-	type TemplateArgs struct {
-		Config     configv1.AutoDiscoveryConfig
-		ScanConfig configv1.ScanConfig
-		Service    corev1.Service
-		Namespace  corev1.Namespace
-		Host       HostPort
-	}
-	parameters := scanConfig.Parameters
-
-	templateArgs := TemplateArgs{
-		Config:    autoDiscoveryConfig,
-		Service:   service,
-		Namespace: namespace,
-		Host:      host,
-	}
-
-	params := util.ParseListTemplate(templateArgs, parameters)
-
-	scheduledScanSpec := executionv1.ScheduledScanSpec{
-		Interval: scanConfig.RepeatInterval,
-		ScanSpec: &executionv1.ScanSpec{
-			ScanType:   scanConfig.ScanType,
-			Parameters: params,
-		},
-		RetriggerOnScanTypeChange: true,
-	}
-
-	return scheduledScanSpec
-}
-
-func addLabels(currentLabels map[string]string, config configv1.AutoDiscoveryConfig, service corev1.Service, namespace corev1.Namespace) map[string]string {
-	data := util.TemplateArgs{
-		Target:    service.ObjectMeta,
-		Namespace: namespace.ObjectMeta,
-		Cluster:   util.Cluster(config.Cluster),
-	}
-	newLabels := util.ParseMapTemplate(data, config.ServiceAutoDiscoveryConfig.ScanConfig.Labels)
+func generateScanLabels(currentLabels map[string]string, scanConfig configv1.ScanConfig, templateArgs ServiceAutoDiscoveryTemplateArgs) map[string]string {
+	newLabels := util.ParseMapTemplate(templateArgs, scanConfig.Labels)
 
 	for key, value := range newLabels {
 		currentLabels[key] = value

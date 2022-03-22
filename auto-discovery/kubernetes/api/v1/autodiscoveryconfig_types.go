@@ -5,6 +5,7 @@
 package v1
 
 import (
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	cfg "sigs.k8s.io/controller-runtime/pkg/config/v1alpha1"
 )
@@ -51,11 +52,13 @@ type ResourceInclusionConfig struct {
 }
 
 type ScanConfig struct {
-	RepeatInterval metav1.Duration   `json:"repeatInterval"`
-	Annotations    map[string]string `json:"annotations"`
-	Labels         map[string]string `json:"labels"`
-	ScanType       string            `json:"scanType"`
-	Parameters     []string          `json:"parameters"`
+	RepeatInterval metav1.Duration      `json:"repeatInterval"`
+	Annotations    map[string]string    `json:"annotations"`
+	Labels         map[string]string    `json:"labels"`
+	ScanType       string               `json:"scanType"`
+	Parameters     []string             `json:"parameters"`
+	Volumes        []corev1.Volume      `json:"volumes"`
+	VolumeMounts   []corev1.VolumeMount `json:"volumeMounts"`
 }
 
 func init() {

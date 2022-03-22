@@ -39,6 +39,7 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
+    "@kubernetes/client-node": "^0.16.2",
     "@types/jest": "^26.0.24",
     "jest": "^27.0.6"
   },

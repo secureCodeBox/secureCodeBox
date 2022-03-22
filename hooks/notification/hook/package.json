@@ -4,8 +4,8 @@
   "description": "secureCodeBox Hook for Notification",
   "main": "hook.js",
   "scripts": {
-    "test": "jest",
-    "build": "npx tsc hook.ts --sourceMap --esModuleInterop"
+    "build": "npx tsc hook.ts --sourceMap --esModuleInterop",
+    "test": "npm run build && npx ts-jest config:init && jest --verbose --ci --colors --coverage --passWithNoTests"
   },
   "repository": {
     "type": "git",
