@@ -649,7 +649,7 @@ jobs:
           - finding-post-processing
           - notification
           - persistence-defectdojo
-          - persistence-static-report
+          # - persistence-static-report (WIP)
     steps:
       - uses: actions/checkout@master
       - name: "Start kind cluster"
