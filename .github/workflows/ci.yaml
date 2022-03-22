@@ -413,77 +413,130 @@ jobs:
           echo "Operator Startup Logs"
           kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
 
-  # ---- Build Stage | Matrix Parsers ----
 
-  # ---- Build | Scanners ----
+  # ---- Build | Scanners | Custom Scanner | Nightly Build ----
 
-  # Note we only build images for scanner that don't provider official public container images
-
-  # ---- Build | Scanners | Third Party Scanner ----
-
-  # This Matrix should contain Third Party Scanners
-  # The Tag for the Image should be the current version of the Scanner
-
-  # ---- Build | Scanners | Custom Scanner ----
-
-  # This Section contains Scanners that are developed by the secureCodeBox project
+  # This Section contains Scanners that are developed by the secureCodeBox project or require a nightly build
   # The tag for these images will be the Semver of the release
 
-  scanners-custom:
-    name: "Build | Custom Scanner"
+  zap-advanced:
+    name: "Zap-advanced integration-test"
+    if: ${{ github.event_name == 'schedule' }}
     needs:
-      - unit-python
-      - unit-javascript
+      - sdk
+      - operator
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        scanner:
-          - zap-advanced
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Docker Meta
-        id: docker_meta
-        uses: docker/metadata-action@v3
+      - uses: actions/setup-node@v2
+        name: Setup Node
         with:
-          images: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
-          tags: |
-            type=sha
-            type=semver,pattern={{version}}
+          node-version: ${{ env. NODE_VERSION }}
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      - name: Update NPM
+        run: npm i -g npm@${{ env.NPM_VERSION }}
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
+      - name: Install Dependencies
+        working-directory: ./scanners/zap-advanced/
+        run: make install-deps
+
+      - name: Unit Tests
+        working-directory: ./scanners/zap-advanced/
+        run: make unit-tests
+
+      - name: Download Parser SDK Image
+        uses: actions/download-artifact@v2
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
+          name: parser-sdk-image
+          path: /tmp
 
-      - name: Set baseImageTag to commit hash
+      - name: Load Parser SDK Image
         run: |
-          echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+          docker load --input /tmp/parser-sdk.tar
+          docker images | grep sdk
 
-      - name: Build and Push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./scanners/${{ matrix.scanner }}/scanner
-          file: ./scanners/${{ matrix.scanner }}/scanner/Dockerfile
-          build-args: |
-            baseImageTag=${{ env.baseImageTag }}
-          platforms: linux/amd64
-          push: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
+      - name: Build Images
+        working-directory: ./scanners/zap-advanced/
+        run: make docker-build
 
-      - name: Update Docker Hub Description
-        uses: peter-evans/dockerhub-description@v2
+      - name: Export Docker Images
+        working-directory: ./scanners/zap-advanced/
+        run: make docker-export
+
+      - name: "Start kind cluster"
+        run: |
+          kind version
+          kind create cluster --wait 3m --image kindest/node:v1.22.0@sha256:b8bda84bb3a190e6e028b1760d277454a72267a5454b57db34437c34a588d047
+
+      - name: "Inspect kind cluster"
+        run: |
+          kubectl config current-context
+          kubectl get node
+
+      - name: Download Operator Image
+        uses: actions/download-artifact@v2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
-          readme-filepath: ./scanners/${{ matrix.scanner }}/docs/README.DockerHub-Scanner.md
+          name: operator-image
+          path: ./operator
+
+      - name: Download Lurker Image
+        uses: actions/download-artifact@v2
+        with:
+          name: lurker-image
+          path: ./operator
+
+      - name: Import Operator & Lurker Image
+        working-directory: ./operator
+        run: make kind-import
+
+      - name: Kind Import Images
+        working-directory: ./scanners/zap-advanced/
+        run: make kind-import
+
+      - name: Install Operator
+        working-directory: ./operator
+        run: |
+          make helm-deploy
+
+      - name: Deploy zap-advanced
+        working-directory: ./scanners/zap-advanced/
+        run: make deploy
+
+      - name: Deploy Test Dependencies
+        working-directory: ./scanners/zap-advanced/
+        run: make deploy-test-deps
+
+      - name: Start Integration Tests
+        working-directory: ./scanners/zap-advanced/
+        run: make integration-tests
+
+      # ---- Debuging Cluster on Failure ----
+
+      - name: Inspect Post Failure
+        if: failure()
+        run: |
+          echo "List all 'HelmCharts' in all namespaces"
+          helm list --all-namespaces
+          echo "List all 'Scans' in all namespaces"
+          kubectl -n integration-tests get scan -o wide --all-namespaces
+          echo "List all 'Jobs' in all namespaces"
+          kubectl -n integration-tests get jobs -o wide --all-namespaces
+          echo "List all 'Pods' in all namespaces"
+          kubectl -n integration-tests get pods -o wide --all-namespaces
+          echo "List all 'Services' in all namespaces"
+          kubectl -n integration-tests get services -o wide --all-namespaces
+
+      - name: "Inspect Operator"
+        if: failure()
+        run: |
+          echo "Deployment in namespace 'securecodebox-system'"
+          kubectl -n securecodebox-system get deployments
+          echo "Deployment in namespace 'securecodebox-system'"
+          kubectl -n securecodebox-system get pods
+          echo "Operator Startup Logs"
+          kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
 
   # ---- Build | Demo-Targets | Custom ----
 
@@ -553,7 +606,6 @@ jobs:
     name: Integration Tests Hook ${{ matrix.hook }} | k8s ${{ matrix.k8sVersion }}
     needs:
       - operator
-      - scanners-custom
     runs-on: ubuntu-latest
     strategy:
       matrix:
