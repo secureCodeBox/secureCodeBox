@@ -701,6 +701,24 @@ jobs:
       - name: "Build Parser SDK"
         working-directory: ./parser-sdk/nodejs
         run: "make docker-build-sdk"
+
+      # ----- Build Test-Scan ScanType Image ----
+
+      - name: Build Images
+        working-directory: ./scanners/test-scan/
+        run: make docker-build
+
+      - name: Export Docker Images
+        working-directory: ./scanners/test-scan/
+        run: make docker-export
+
+      - name: Kind import
+        working-directory: ./scanners/test-scan/
+        run: make kind-import
+
+      - name: Test-scan deploy
+        working-directory: ./scanners/test-scan/
+        run: make deploy
       
       # ---- Install Test Dependencies ----
 
