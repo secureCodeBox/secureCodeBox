@@ -10,5 +10,6 @@ hook = persistence-defectdojo
 
 include ../../hooks.mk
 
+.PHONY: unit-tests
 unit-tests:
 	@$(MAKE) -s unit-test-java

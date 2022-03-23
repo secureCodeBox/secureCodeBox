@@ -5,8 +5,8 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: "trivy-mediawiki"
+  name: "trivy-repo-github"
 spec:
-  scanType: "trivy"
+  scanType: "trivy-repo"
   parameters:
-    - "mediawiki:stable"
+    - "https://github.com/knqyf263/trivy-ci-test"

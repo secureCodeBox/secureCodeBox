@@ -10,5 +10,6 @@ hook = persistence-azure-monitor
 
 include ../../hooks.mk
 
+.PHONY: unit-tests
 unit-tests:
 	@$(MAKE) -s unit-test-js
