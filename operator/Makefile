@@ -116,10 +116,10 @@ helm-deploy:
 	helm -n securecodebox-system upgrade --install securecodebox-operator ./ --wait \
     --set="image.repository=docker.io/$(IMG_NS)/$(OPERATOR_IMG)" \
     --set="image.tag=$(IMG_TAG)" \
-		--set="image.pullPolicy=IfNotPresent" \
+	--set="image.pullPolicy=IfNotPresent" \
     --set="lurker.image.repository=docker.io/$(IMG_NS)/$(LURKER_IMG)" \
     --set="lurker.image.tag=$(IMG_TAG)" \
-		--set="lurker.image.pullPolicy=IfNotPresent"
+	--set="lurker.image.pullPolicy=IfNotPresent"
 
 install: manifests kustomize ## Install CRDs into the K8s cluster specified in ~/.kube/config.
 	$(KUSTOMIZE) build config/crd | kubectl apply -f -

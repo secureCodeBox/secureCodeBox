@@ -201,41 +201,20 @@ jobs:
         working-directory: ./auto-discovery/kubernetes/
         run: make test
 
-      - name: Docker Meta
-        id: docker_meta
-        uses: docker/metadata-action@v3
-        with:
-          images: ${{ env.DOCKER_NAMESPACE }}/auto-discovery-kubernetes
-          tags: |
-            type=sha
-            type=semver,pattern={{version}}
+      - name: Build Container Image
+        working-directory: ./auto-discovery/kubernetes/
+        run: make docker-build
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      - name: Export Container Image
+        working-directory: ./auto-discovery/kubernetes/
+        run: make docker-export
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
+      - name: Upload Image As Artifact
+        uses: actions/upload-artifact@v2
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-
-      - name: Build and Push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./auto-discovery/kubernetes/
-          file: ./auto-discovery/kubernetes/Dockerfile
-          platforms: linux/amd64
-          push: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
-
-      - name: Update Docker Hub Description
-        uses: peter-evans/dockerhub-description@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: ${{ env.DOCKER_NAMESPACE }}/auto-discovery-kubernetes
-          readme-filepath: ./auto-discovery/kubernetes/docs/README.DockerHub-Core.md
+          name: auto-discovery-image
+          path: ./auto-discovery/kubernetes/auto-discovery-kubernetes.tar
+          retention-days: 1      
 
   # ---- Build Stage | SDK Matrix ----
 
@@ -271,7 +250,7 @@ jobs:
 
   # ---- New Makefile based CI Pipeline steps ----
 
-  makefile-scanner:
+  Integration-test-scanner:
     name: "Make Scanners"
     needs:
       - sdk
@@ -413,225 +392,137 @@ jobs:
           echo "Operator Startup Logs"
           kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
 
-  # ---- Build Stage | Matrix Hooks ----
 
-  hooks:
-    name: "Build | Hooks"
-    needs: sdk
+  # ---- Build | Scanners | Custom Scanner | Nightly Build ----
+
+  # This Section contains Scanners that are developed by the secureCodeBox project or require a nightly build
+  # The tag for these images will be the Semver of the release
+
+  zap-advanced:
+    name: "Zap-advanced integration-test"
+    if: ${{ github.event_name == 'schedule' }}
+    needs:
+      - sdk
+      - operator
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        hook:
-          - cascading-scans
-          - finding-post-processing
-          - generic-webhook
-          - notification
-          - persistence-azure-monitor
-          - persistence-elastic
-          - persistence-defectdojo
-          - update-field
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Docker Meta
-        id: docker_meta
-        uses: docker/metadata-action@v3
+      - uses: actions/setup-node@v2
+        name: Setup Node
         with:
-          images: ${{ env.DOCKER_NAMESPACE }}/hook-${{ matrix.hook }}
-          tags: |
-            type=sha
-            type=semver,pattern={{version}}
+          node-version: ${{ env. NODE_VERSION }}
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-        with:
-          driver: docker
+      - name: Update NPM
+        run: npm i -g npm@${{ env.NPM_VERSION }}
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
+      - name: Install Dependencies
+        working-directory: ./scanners/zap-advanced/
+        run: make install-deps
 
-      - name: Set baseImageTag to commit hash
-        run: |
-          echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+      - name: Unit Tests
+        working-directory: ./scanners/zap-advanced/
+        run: make unit-tests
 
-      - name: Download Hook SDK Image
+      - name: Download Parser SDK Image
         uses: actions/download-artifact@v2
         with:
-          name: hook-sdk-image
+          name: parser-sdk-image
           path: /tmp
 
-      - name: Load Hook SDK Image
+      - name: Load Parser SDK Image
         run: |
-          docker load --input /tmp/hook-sdk.tar
+          docker load --input /tmp/parser-sdk.tar
           docker images | grep sdk
 
-      - name: Build and Push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./hooks/${{ matrix.hook }}/hook
-          file: ./hooks/${{ matrix.hook }}/hook/Dockerfile
-          build-args: |
-            namespace=${{ env.DOCKER_NAMESPACE }}
-            baseImageTag=${{ env.baseImageTag }}
-          platforms: linux/amd64
-          push: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
+      - name: Build Images
+        working-directory: ./scanners/zap-advanced/
+        run: make docker-build
 
-      - name: Update Docker Hub Description
-        uses: peter-evans/dockerhub-description@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: ${{ env.DOCKER_NAMESPACE }}/hook-${{ matrix.hook }}
-          readme-filepath: ./hooks/${{ matrix.hook }}/docs/README.DockerHub-Hook.md
+      - name: Export Docker Images
+        working-directory: ./scanners/zap-advanced/
+        run: make docker-export
 
-  # ---- Build Stage | Matrix Parsers ----
-
-  # ---- Build | Scanners ----
-
-  # Note we only build images for scanner that don't provider official public container images
-
-  # ---- Build | Scanners | Third Party Scanner ----
-
-  # This Matrix should contain Third Party Scanners
-  # The Tag for the Image should be the current version of the Scanner
-
-  # ---- Build | Scanners | Custom Scanner ----
-
-  # This Section contains Scanners that are developed by the secureCodeBox project
-  # The tag for these images will be the Semver of the release
-
-  scanners-custom:
-    name: "Build | Custom Scanner"
-    needs:
-      - unit-python
-      - unit-javascript
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        scanner:
-          - zap-advanced
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Docker Meta
-        id: docker_meta
-        uses: docker/metadata-action@v3
-        with:
-          images: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
-          tags: |
-            type=sha
-            type=semver,pattern={{version}}
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-
-      - name: Set baseImageTag to commit hash
+      - name: "Start kind cluster"
         run: |
-          echo "baseImageTag=sha-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+          kind version
+          kind create cluster --wait 3m --image kindest/node:v1.22.0@sha256:b8bda84bb3a190e6e028b1760d277454a72267a5454b57db34437c34a588d047
 
-      - name: Build and Push
-        uses: docker/build-push-action@v2
+      - name: "Inspect kind cluster"
+        run: |
+          kubectl config current-context
+          kubectl get node
+
+      - name: Download Operator Image
+        uses: actions/download-artifact@v2
         with:
-          context: ./scanners/${{ matrix.scanner }}/scanner
-          file: ./scanners/${{ matrix.scanner }}/scanner/Dockerfile
-          build-args: |
-            baseImageTag=${{ env.baseImageTag }}
-          platforms: linux/amd64
-          push: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
+          name: operator-image
+          path: ./operator
 
-      - name: Update Docker Hub Description
-        uses: peter-evans/dockerhub-description@v2
+      - name: Download Lurker Image
+        uses: actions/download-artifact@v2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: ${{ env.DOCKER_NAMESPACE }}/scanner-${{ matrix.scanner }}
-          readme-filepath: ./scanners/${{ matrix.scanner }}/docs/README.DockerHub-Scanner.md
+          name: lurker-image
+          path: ./operator
 
-  # ---- Build | Demo-Targets | Custom ----
+      - name: Import Operator & Lurker Image
+        working-directory: ./operator
+        run: make kind-import
 
-  # This Section contains Demo-Targets that are developed by the secureCodeBox project
-  # The tag for these images will be the Semver of the release
+      - name: Kind Import Images
+        working-directory: ./scanners/zap-advanced/
+        run: make kind-import
 
-  demo-targets:
-    name: "Build | Custom Demo-Targets"
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        target:
-          - old-joomla
-          - old-typo3
-          - old-wordpress
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: Install Operator
+        working-directory: ./operator
+        run: |
+          make helm-deploy
 
-      - name: Set ENV Var with Demo-Target Version
-        uses: mikefarah/yq@v4.4.1
-        # Notice: The current version of the demo-target is provided via the Chart.yaml to ensure
-        # there is only one place to edit the version of a scanner
-        with:
-          cmd: echo targetVersion=$(yq e .appVersion demo-targets/${{ matrix.target }}/Chart.yaml) >> $GITHUB_ENV
+      - name: Deploy zap-advanced
+        working-directory: ./scanners/zap-advanced/
+        run: make deploy
 
-      - name: Docker Meta
-        id: docker_meta
-        uses: docker/metadata-action@v3
-        with:
-          images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.target }}
-          tags: |
-            type=sha
-            latest
-            ${{ env.targetVersion }}
+      - name: Deploy Test Dependencies
+        working-directory: ./scanners/zap-advanced/
+        run: make deploy-test-deps
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      - name: Start Integration Tests
+        working-directory: ./scanners/zap-advanced/
+        run: make integration-tests
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
+      # ---- Debuging Cluster on Failure ----
 
-      - name: Build and Push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./demo-targets/${{ matrix.target }}/container
-          file: ./demo-targets/${{ matrix.target }}/container/Dockerfile
-          platforms: linux/amd64
-          push: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
+      - name: Inspect Post Failure
+        if: failure()
+        run: |
+          echo "List all 'HelmCharts' in all namespaces"
+          helm list --all-namespaces
+          echo "List all 'Scans' in all namespaces"
+          kubectl -n integration-tests get scan -o wide --all-namespaces
+          echo "List all 'Jobs' in all namespaces"
+          kubectl -n integration-tests get jobs -o wide --all-namespaces
+          echo "List all 'Pods' in all namespaces"
+          kubectl -n integration-tests get pods -o wide --all-namespaces
+          echo "List all 'Services' in all namespaces"
+          kubectl -n integration-tests get services -o wide --all-namespaces
 
-      - name: Update Docker Hub Description
-        uses: peter-evans/dockerhub-description@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.target }}
-          readme-filepath: ./demo-targets/${{ matrix.target }}/docs/README.DockerHub-Target.md
+      - name: "Inspect Operator"
+        if: failure()
+        run: |
+          echo "Deployment in namespace 'securecodebox-system'"
+          kubectl -n securecodebox-system get deployments
+          echo "Deployment in namespace 'securecodebox-system'"
+          kubectl -n securecodebox-system get pods
+          echo "Operator Startup Logs"
+          kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
 
   # ---- Integration Tests ----
 
-  Integration-tests:
-    name: Integration Tests | k8s ${{ matrix.k8sVersion }}
+  Integration-tests-hooks:
+    name: Integration Tests Hook ${{ matrix.hook }} | k8s ${{ matrix.k8sVersion }}
     needs:
       - operator
-      - hooks
-      - scanners-custom
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -640,6 +531,15 @@ jobs:
           - v1.22.4@sha256:ca3587e6e545a96c07bf82e2c46503d9ef86fc704f44c17577fca7bcabf5f978
           - v1.21.2@sha256:9d07ff05e4afefbba983fac311807b3c17a5f36e7061f6cb7e2ba756255b2be4
           - v1.20.7@sha256:cbeaf907fc78ac97ce7b625e4bf0de16e3ea725daf6b04f930bd14c67c671ff9
+        hook:
+          - cascading-scans
+          - generic-webhook
+          - persistence-azure-monitor
+          - persistence-elastic 
+          - update-field
+          - finding-post-processing
+          - notification
+          # - persistence-static-report (WIP)
     steps:
       - uses: actions/checkout@master
       - name: "Start kind cluster"
@@ -670,19 +570,8 @@ jobs:
         run: make kind-import
 
       - name: "Install Operator"
-        run: |
-          # Namespace in which the scans for the tests will be executed
-          kubectl create namespace integration-tests
-          # Operator Namespace
-          kubectl create namespace securecodebox-system
-          # Install Operator using the images of the current commit
-          helm -n securecodebox-system install securecodebox-operator ./operator/ --wait \
-            --set="image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/operator" \
-            --set="image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="lurker.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/lurker" \
-            --set="lurker.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="lurker.image.pullPolicy=Never" \
-            --set="image.pullPolicy=Never"
+        working-directory: ./operator
+        run: make helm-deploy
 
       # ---- Operator Health Check ----
 
@@ -694,22 +583,24 @@ jobs:
           kubectl -n securecodebox-system get pods
           echo "Operator Startup Logs"
           kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
+
       - name: "Create 'demo-targets' namespace"
         run: "kubectl create namespace demo-targets"
 
-      # ---- Install Test Dependencies ----
-      - name: "Install Test Dependencies"
+      # ---- Import Parser SDK Artifact
+
+      - name: Download Parser SDK Image
+        uses: actions/download-artifact@v2
+        with:
+          name: parser-sdk-image
+          path: /tmp
+
+      - name: Load Parser SDK Image
         run: |
-          cd tests/integration/
-          npm ci
+          docker load --input /tmp/parser-sdk.tar
+          docker images | grep sdk    
 
-      # ----- Build Parser SDK Image ----
-
-      - name: Build Image
-        working-directory: ./parser-sdk/nodejs/
-        run: make docker-build-sdk
-
-      # ----- Build Test-Scan ScanType Image ----
+      # ----- Build Test-Scan ScanType Image ---- 
 
       - name: Build Images
         working-directory: ./scanners/test-scan/
@@ -726,106 +617,20 @@ jobs:
       - name: Test-scan deploy
         working-directory: ./scanners/test-scan/
         run: make deploy
+      
+      # ---- Install Test Dependencies ----
 
+      - name: "Install Test Dependencies"
+        working-directory: ./hooks
+        run: npm ci
 
-      # ---- General Testing ----
-
-      # This steps should include Integration tests which are not related to a Specific Scanner
-
-      # ---- Gerneral Testing | Findings Validation ----
-
-
-      # ---- General Testing | ReadAndWrite Hook ----
-
-      - name: "Throws NoScanDefinition Error Integration Tests"
+      # ---- Integration-Test ----
+      
+      - name: "Run Integration Test"
+        working-directory: ./hooks/${{ matrix.hook }}
         run: |
-          cd tests/integration/
-          npx jest --ci --color generic/no-scan-definition-error.test.js
-      - name: "Hooks (ReadAndWrite) Integration Tests"
-        run: |
-          helm -n integration-tests install update-category ./hooks/update-field/ \
-            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-update-field" \
-            --set="hook.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="attribute.name=category" \
-            --set="attribute.value=fancy-category"
-          helm -n integration-tests install update-severity ./hooks/update-field/ \
-            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-update-field" \
-            --set="hook.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="attribute.name=severity" \
-            --set="attribute.value=high"
-          cd tests/integration/
-          npx jest --ci --color generic/read-write-hook.test.js
-          helm -n integration-tests uninstall update-category update-severity
-
-      # ---- Gerneral Testing | ReadOnly Hook ----
-
-      - name: "Hooks (ReadOnly) Integration Tests"
-        run: |
-          helm -n integration-tests install http-webhook ./demo-targets/http-webhook
-          helm -n integration-tests install ro-hook ./hooks/generic-webhook/ \
-            --set="hook.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/hook-generic-webhook" \
-            --set="webhookUrl=http://http-webhook/hallo-welt" \
-            --set="hook.image.tag=sha-$(git rev-parse --short HEAD)"
-          cd tests/integration/
-          npx jest --ci --color generic/read-only-hook.test.js
-          helm -n integration-tests uninstall http-webhook ro-hook
-
-      # ---- Install Demo Apps for Specific Tests ----
-
-      - name: "Install Demo Apps"
-        run: |
-          # Install dummy-ssh app
-          helm -n demo-targets install dummy-ssh ./demo-targets/dummy-ssh/ --set="fullnameOverride=dummy-ssh" --wait
-          # Install unsafe-https app
-          helm -n demo-targets install unsafe-https ./demo-targets/unsafe-https/ --set="fullnameOverride=unsafe-https" --wait
-          # Install bodgeit app
-          helm -n demo-targets install bodgeit ./demo-targets/bodgeit/ --set="fullnameOverride=bodgeit" --wait
-          # Install bodgeit app
-          helm -n demo-targets install petstore ./demo-targets/swagger-petstore/ --set="fullnameOverride=petstore" --wait
-          # Install old-wordpress app
-          helm -n demo-targets install old-wordpress ./demo-targets/old-wordpress/ --set="fullnameOverride=old-wordpress" --wait
-          # Install old-typo3 app
-          helm -n demo-targets install old-typo3 ./demo-targets/old-typo3/ --set="fullnameOverride=old-typo3" --wait
-          # Install old-joomla app
-          helm -n demo-targets install old-joomla ./demo-targets/old-joomla/ --set="fullnameOverride=old-joomla" --wait
-          # Install juiceshop app
-          helm -n demo-targets install juiceshop ./demo-targets/juice-shop/ --set="fullnameOverride=juiceshop" --wait
-          # Install vulnerable log4j
-          helm -n demo-targets install vulnerable-log4j ./demo-targets/vulnerable-log4j/ --set="fullnameOverride=vulnerable-log4j" --wait
-          # Install plain nginx server
-          kubectl create deployment --image nginx:alpine nginx --namespace demo-targets
-          kubectl expose deployment nginx --port 80 --namespace demo-targets
-
-      # ---- Notification Hook Tests ----
-
-      - name: "Notification Hook Tests"
-        run: |
-          helm -n integration-tests install http-webhook ./demo-targets/http-webhook --wait
-
-          helm -n integration-tests install notification-hook ./hooks/notification --values tests/integration/hooks/__testFiles__/notification-values.yaml \
-            --set="hook.image.repository=docker.io/${{env.DOCKER_NAMESPACE }}/hook-notification" \
-            --set="hook.image.tag=sha-$(git rev-parse --short HEAD)"
-
-          cd tests/integration/
-          npx jest --ci --color ./hooks/notification.test.js
-          helm -n integration-tests uninstall http-webhook notification-hook
-
-      # ---- Zap Extended Integration Tests ----
-
-      - name: "ZAP Extended Integration Tests"
-        # disable zap extended test temporarily as they slow down the pipeline too much
-        if: ${{ github.event_name == 'schedule' }}
-        run: |
-          kubectl -n integration-tests delete scans --all
-          helm -n integration-tests install zap-advanced ./scanners/zap-advanced/  \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-zap" \
-            --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-zap-advanced" \
-            --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
-            --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-            --set-string="parser.env[0].value=true"
-          kubectl apply -f ./scanners/zap-advanced/integration-tests/scantype-configMap.yaml -n integration-tests
-          npx jest --ci --color ./scanners/zap-advanced/integration-tests/zap-advanced.test.js
+          make deploy-test-deps
+          make integration-tests 
 
       # ---- Debuging Cluster on Failure ----
 
