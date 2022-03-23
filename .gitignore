@@ -42,6 +42,8 @@ Sessionx.vim
 # Temporary
 .netrwhist
 *~
+*.tar
+
 # Auto-generated tag files
 tags
 # Persistent undo
