@@ -201,41 +201,20 @@ jobs:
         working-directory: ./auto-discovery/kubernetes/
         run: make test
 
-      - name: Docker Meta
-        id: docker_meta
-        uses: docker/metadata-action@v3
-        with:
-          images: ${{ env.DOCKER_NAMESPACE }}/auto-discovery-kubernetes
-          tags: |
-            type=sha
-            type=semver,pattern={{version}}
+      - name: Build Container Image
+        working-directory: ./auto-discovery/kubernetes/
+        run: make docker-build
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      - name: Export Container Image
+        working-directory: ./auto-discovery/kubernetes/
+        run: make docker-export
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
+      - name: Upload Image As Artifact
+        uses: actions/upload-artifact@v2
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-
-      - name: Build and Push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./auto-discovery/kubernetes/
-          file: ./auto-discovery/kubernetes/Dockerfile
-          platforms: linux/amd64
-          push: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
-
-      - name: Update Docker Hub Description
-        uses: peter-evans/dockerhub-description@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: ${{ env.DOCKER_NAMESPACE }}/auto-discovery-kubernetes
-          readme-filepath: ./auto-discovery/kubernetes/docs/README.DockerHub-Core.md
+          name: auto-discovery-image
+          path: ./auto-discovery/kubernetes/auto-discovery.tar
+          retention-days: 1      
 
   # ---- Build Stage | SDK Matrix ----
 
