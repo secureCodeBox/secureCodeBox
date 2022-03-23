@@ -213,7 +213,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: auto-discovery-image
-          path: ./auto-discovery/kubernetes/auto-discovery.tar
+          path: ./auto-discovery/kubernetes/auto-discovery-kubernetes.tar
           retention-days: 1      
 
   # ---- Build Stage | SDK Matrix ----
