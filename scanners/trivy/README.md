@@ -54,21 +54,23 @@ helm upgrade --install trivy secureCodeBox/trivy
 
 The following security scan configuration example are based on the [Trivy Documentation](https://aquasecurity.github.io/trivy/), please take a look at the original documentation for more configuration examples.
 
-- Filter the vulnerabilities by severities `trivy image --severity HIGH,CRITICAL ruby:2.4.0`
-- Filter the vulnerabilities by type (`os` or `library`) `trivy image --vuln-type os ruby:2.4.0`
-- Skip update of vulnerability DB: `trivy image --skip-update python:3.4-alpine3.9`
-- Ignore unfixed vulnerabilities:`trivy image --ignore-unfixed ruby:2.4.0` By default, Trivy also detects unpatched/unfixed vulnerabilities. This means you can't fix these vulnerabilities even if you update all packages. If you would like to ignore them, use the `--ignore-unfixed` option.
+### Trivy Container Image Scan
 
-:::caution
-Due to [limitations in the trivy argument parser](https://github.com/secureCodeBox/secureCodeBox/issues/796), scanning anything other than docker images (e.g., Git repositories) requires some extra parameters.
-Please append the following extra arguments **after** specifying the mode (e.g., `repo`) but **before** specifying the target for the scan:
-```yaml
-- "--no-progress"
-- "--format"
-- "json"
-- "--output"
-- "/home/securecodebox/trivy-results.json"
-```
+Currently we support the follwing 3 scanTypes, corresponding to the trivy scanning modes:
+- scanType: "trivy-image"
+   - parameters: `[YOUR_IMAGE_NAME]`
+- scanType: "trivy-filesystem"
+   - parameters: `[YOUR_PATH_TO_FILES]`
+- scanType: "trivy-repo"
+   - parameters: `[YOUR_GITHUB_REPO]`
+
+A complete example of each scanType are listed below in our [example docs section](https://www.securecodebox.io/docs/scanners/trivy/#examples).
+
+Simply specify an image name (and a tag) when you use the scanType `trivy-image`. But there are also some additional configuration options e.g:
+- Filter the vulnerabilities by severities `--severity HIGH,CRITICAL ruby:2.4.0`
+- Filter the vulnerabilities by type (`os` or `library`) `--vuln-type os ruby:2.4.0`
+- Skip update of vulnerability DB: `--skip-update python:3.4-alpine3.9`
+- Ignore unfixed vulnerabilities:`--ignore-unfixed ruby:2.4.0` By default, Trivy also detects unpatched/unfixed vulnerabilities. This means you can't fix these vulnerabilities even if you update all packages. If you would like to ignore them, use the `--ignore-unfixed` option.
 
 A complete scan definition for the secureCodeBox repository may look something like this:
 ```yaml
@@ -77,22 +79,15 @@ kind: Scan
 metadata:
   name: "trivy-scb"
 spec:
-  scanType: "trivy"
+  scanType: "trivy-image"
   parameters:
-    - "repo"
-    - "--no-progress"
-    - "--format"
-    - "json"
-    - "--output"
-    - "/home/securecodebox/trivy-results.json"
-    - "https://github.com/secureCodeBox/secureCodeBox"
+    - bkimminich/juice-shop:v10.2.0
 ```
-:::
 
 ### Scanning Many Targets
 By default, the docker container of trivy will download new rulesets when starting the process.
 As this download is performed directly from GitHub, you will run into API rate limiting issues after roughly 50 requests.
-Trivy [supports a client-server mode](https://aquasecurity.github.io/trivy/v0.20.2/advanced/modes/client-server/) where one process downloads a copy of the rule database and provides it to the others.
+Trivy [supports a client-server mode](https://aquasecurity.github.io/trivy/latest/advanced/modes/client-server/) where one process downloads a copy of the rule database and provides it to the others.
 Due to [limitations in trivy](https://github.com/aquasecurity/trivy/issues/634), this mode currently only supports scanning container images.
 If this fits your use case, you can deploy a rule service with the following template:
 ```yaml
@@ -157,7 +152,7 @@ metadata:
   # Don't forget to update the namespace if necessary
   namespace: default
 spec:
-  scanType: "trivy"
+  scanType: "trivy-image"
   parameters:
     - "client"
     # Again, add the extra parameters here (required to make the parser work)
@@ -175,10 +170,10 @@ spec:
 ```
 
 If you want to scan anything other than docker images, you currently [cannot use the client-server mode](https://github.com/aquasecurity/trivy/issues/634) described above.
-Instead, you have to [manually download the ruleset and provide it to trivy](https://aquasecurity.github.io/trivy/v0.20.2/advanced/air-gap/).
+Instead, you have to [manually download the ruleset and provide it to trivy](https://aquasecurity.github.io/trivy/latest/advanced/air-gap/).
 In practice, this is a difficult problem because the most natural method for providing these files in kubernetes, ConfigMaps, has a size limit of 1 MB, while the vulnerability database is over 200 MB in size (28 MB after compression).
 Your best bet would thus be to serve the files from your own servers and load them into the scanner [using an initContainer](https://docs.securecodebox.io/docs/api/crds/scan#initcontainers-optional), taking care to keep the databases on your server up to date.
-Consult the [trivy documentation](https://aquasecurity.github.io/trivy/v0.20.2/advanced/air-gap/) for additional details on the required steps.
+Consult the [trivy documentation](https://aquasecurity.github.io/trivy/latest/advanced/air-gap/) for additional details on the required steps.
 
 ## Requirements
 
