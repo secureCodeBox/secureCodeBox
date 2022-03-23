@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { scan } = require("../../../tests/integration/helpers");
+const {scan} = require("../../helpers");
 
 jest.retryTimes(3);
 
@@ -12,7 +12,7 @@ test(
     const { categories, severities, count } = await scan(
       "sslyze-unsafe-https",
       "sslyze",
-      ["--regular", "unsafe-https.demo-targets.svc"],
+      ["--mozilla_config=intermediate", "unsafe-https.demo-targets.svc"],
       90
     );
 

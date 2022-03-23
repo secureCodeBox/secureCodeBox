@@ -1,0 +1,43 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "scan-scb-example"
+  annotations:
+    metadata.scan.securecodebox.io/git-repo-url: "https://github.com/secureCodeBox/secureCodeBox"
+spec:
+  scanType: "gitleaks"
+  # Define a volume and mount it at /repo in the scan container
+  volumes:
+    - name: repo
+      emptyDir: {}
+  volumeMounts:
+    - name: repo
+      mountPath: "/repo/"
+  # Define an init container to run the git clone for us
+  initContainers:
+    - name: "git-clone"
+      image: bitnami/git
+      # Specify that the "repo" volume should also be mounted on the 
+      # initContainer
+      volumeMounts:
+        - name: repo
+          mountPath: "/repo/"
+      # Clone to /repo in the init container
+      command:
+        - git
+        - clone
+        # Use the --mirror clone to get the complete repository, otherwise findings may be
+        # incomplete. See https://wwws.nightwatchcybersecurity.com/2022/02/11/gitbleed/
+        - "--mirror"
+        - "https://github.com/secureCodeBox/secureCodeBox"
+        - /repo/
+  parameters:
+    # Run Gitleaks in "detect" mode
+    - "detect"
+    # Point it at the location of the repository
+    - "--source"
+    - "/repo/"

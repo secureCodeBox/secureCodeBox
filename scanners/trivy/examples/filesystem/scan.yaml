@@ -1,0 +1,35 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "trivy-filesystem"
+spec:
+  scanType: "trivy-filesystem"
+  # Define a volume and mount it at /repo in the scan container to have a filesystem in place
+  volumes:
+    - name: repo
+      emptyDir: {}
+  volumeMounts:
+    - name: repo
+      mountPath: "/repo/"
+  # Define an init container to run the git clone for us
+  initContainers:
+    - name: "git-clone"
+      image: bitnami/git
+      # Specify that the "repo" volume should also be mounted on the 
+      # initContainer
+      volumeMounts:
+        - name: repo
+          mountPath: "/repo/"
+      # Clone to /repo in the init container
+      command:
+        - git
+        - clone
+        # Add access token to the URL for authenticated HTTPS clone
+        - "https://github.com/yourOrg/yourRepo"
+        - /repo/
+  parameters:
+    - "/repo"

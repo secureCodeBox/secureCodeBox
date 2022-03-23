@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "trivy-repo-github"
+spec:
+  scanType: "trivy-repo"
+  parameters:
+    - "https://github.com/knqyf263/trivy-ci-test"

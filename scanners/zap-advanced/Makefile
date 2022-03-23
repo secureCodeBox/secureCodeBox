@@ -38,3 +38,9 @@ deploy-with-scanner:
 		--set="scanner.image.tag=$(IMG_TAG)"
 
 deploy-test-deps: deploy-test-dep-nginx deploy-test-dep-bodgeit deploy-test-dep-juiceshop deploy-test-dep-petstore
+
+integration-tests:
+	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
+	kubectl -n integration-tests delete scans --all
+	kubectl apply -f ./integration-tests/scantype-configMap.yaml -n integration-tests
+	cd .. && npm ci && cd $(scanner)/integration-tests && npm run test --yes --package jest@$(JEST_VERSION) $(scanner)/integration-tests

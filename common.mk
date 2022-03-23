@@ -43,9 +43,12 @@ K := $(foreach exec,$(EXECUTABLES),\
 #
 # JEST_VERSION  		Defines the jest version used for executing the tests. Defaults to latest
 #
+# KIND_CLUSTER_NAME:	Defines the name of the kind cluster (created by kind create cluster --name cluster-name)
+#
 # Examples:
 # 	make all IMG_TAG=main
 # 	make deploy IMG_TAG=$(git rev-parse --short HEAD)
+#   make kind-import KIND_CLUSTER_NAME=your-cluster-name
 # 	make integration-tests
 #
 
@@ -56,12 +59,15 @@ GIT_TAG ?= $$(git rev-parse --short HEAD)
 BASE_IMG_TAG ?= sha-$(GIT_TAG)
 IMG_TAG ?= "sha-$(GIT_TAG)"
 JEST_VERSION ?= latest
+KIND_CLUSTER_NAME ?= kind
 
 parser-prefix = parser
 scanner-prefix = scanner
 hook-prefix = hook
 
-test: | clean-integration-tests unit-tests docker-build docker-export kind-import deploy deploy-test-deps integration-tests
+all: help
+
+test: | clean-integration-tests clean-demo-targets unit-tests docker-build docker-export kind-import deploy deploy-test-deps integration-tests ## 🧪 Complete clean Test for this module.
 
 .PHONY: help unit-tests-hook install-deps docker-build docker-export kind-import deploy deploy-test-deps integration-tests all build test
 
@@ -103,7 +109,7 @@ common-docker-export:
 
 common-kind-import:
 	@echo ".: 💾 Importing the image archive '$(module)-$(name).tar' to local kind cluster."
-	kind load image-archive ./$(module)-$(name).tar
+	kind load image-archive ./$(module)-$(name).tar --name $(KIND_CLUSTER_NAME)
 
 deploy-test-deps: deploy-test-dep-namespace
 
@@ -167,7 +173,7 @@ deploy-test-dep-test-scan:
 deploy-test-dep-old-joomla:
 	helm -n demo-targets install old-joomla ../../demo-targets/old-joomla/ --set="fullnameOverride=old-joomla" --wait
 
-clean:
+clean:  ## 🧹 Cleaning up all generated files for this module.
 	@echo ".: 🧹 Cleaning up all generated files."
 	rm -f ./$(module)-$(name).tar
 	rm -rf ./$(module)/node_modules
@@ -186,3 +192,8 @@ clean-demo-targets:
 	@echo ".: 🧹 Resetting 'demo-targets' namespace"
 	kubectl delete namespace demo-targets --wait || true
 	kubectl create namespace demo-targets
+
+.PHONY: help
+help: ## 🔮 Display this help screen.
+	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
+		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'

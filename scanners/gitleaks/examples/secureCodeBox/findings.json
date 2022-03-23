@@ -1,0 +1,47 @@
+[
+  {
+    "name": "PKCS8-PK",
+    "description": "The name of the rule which triggered the finding: PKCS8-PK",
+    "osi_layer": "APPLICATION",
+    "severity": "MEDIUM",
+    "category": "Potential Secret",
+    "attributes": {
+      "commit": "https://github.com/secureCodeBox/secureCodeBox/commit/a674a178e0b7eb2975718e31ac2fb80f4f39f110",
+      "description": "PKCS8 private key",
+      "offender": "-----BEGIN PRIVATE KEY-----",
+      "author": "Max Maass",
+      "email": "max.maass@iteratec.com",
+      "date": "2022-01-25T12:30:04Z",
+      "file": "scanners/gitleaks/integration-tests/gitleaks.test.js",
+      "line_number": 40,
+      "tags": [],
+      "line": "-----BEGIN PRIVATE KEY-----"
+    },
+    "id": "fd1914a4-5a3e-4656-a532-ab1a0f645515",
+    "parsed_at": "2022-01-25T13:31:05.257Z"
+  },
+  {
+    "name": "PKCS8-PK",
+    "description": "The name of the rule which triggered the finding: PKCS8-PK",
+    "osi_layer": "APPLICATION",
+    "severity": "MEDIUM",
+    "category": "Potential Secret",
+    "attributes": {
+      "commit": "https://github.com/secureCodeBox/secureCodeBox/commit/1020a6520656922355d84eb6f3560650e40c722e",
+      "description": "PKCS8 private key",
+      "offender": "-----BEGIN PRIVATE KEY-----",
+      "author": "Max Maass",
+      "email": "max.maass@iteratec.com",
+      "date": "2022-01-24T08:24:50Z",
+      "file": "scanners/gitleaks/parser/__testFiles__/test-report-tags.json",
+      "line_number": 8,
+      "tags": [],
+      "line": "-----BEGIN PRIVATE KEY-----"
+    },
+    "id": "9b767656-48a8-45b3-aabd-c0a788ddec03",
+    "parsed_at": "2022-01-25T13:31:05.257Z"
+  },
+  {
+    "note": "Results truncated for space reasons"
+  }
+]

@@ -9,8 +9,8 @@
   },
   "main": "hook.js",
   "scripts": {
-    "build": "npx tsc hook.ts scope-limiter.ts --sourceMap --esModuleInterop",
-    "test": "jest . --verbose false"
+    "build": "npx tsc hook.ts --sourceMap --esModuleInterop",
+    "test": "npm run build && jest --verbose --ci --colors --coverage --passWithNoTests"
   },
   "keywords": [
     "secureCodeBox",

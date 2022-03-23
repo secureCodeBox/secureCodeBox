@@ -5,15 +5,47 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: "scan-private-repository-example"
+  name: "authenticated-clone-example"
+  annotations:
+    metadata.scan.securecodebox.io/git-repo-url: "https://github.com/yourOrg/yourRepo"
 spec:
   scanType: "gitleaks"
+  # Define a volume and mount it at /repo in the scan container
+  volumes:
+    - name: repo
+      emptyDir: {}
+  volumeMounts:
+    - name: repo
+      mountPath: "/repo/"
+  # Define an init container to run the git clone for us
+  initContainers:
+    - name: "git-clone"
+      image: bitnami/git
+      # Specify that the "repo" volume should also be mounted on the 
+      # initContainer
+      volumeMounts:
+        - name: repo
+          mountPath: "/repo/"
+      # Clone to /repo in the init container
+      command:
+        - git
+        - clone
+        # Use the --mirror clone to get the complete repository, otherwise findings may be
+        # incomplete. See https://wwws.nightwatchcybersecurity.com/2022/02/11/gitbleed/
+        - "--mirror"
+        # Add access token to the URL for authenticated HTTPS clone
+        - "https://$(GITHUB_TOKEN)@github.com/yourOrg/yourRepo"
+        - /repo/
+      # Pull the access token into an env variable
+      env:
+        - name: GITHUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: github-access-token
+              key: token
   parameters:
-    - "-r"
-    - "https://gitlab.yourcompany.com/group/project"
-    - "--access-token"
-    - "<YOUR-GITLAB-TOKEN>"
-    - "--config"
-    - "/home/config_filenames_only.toml"
-    - "--commit-since"
-    - "2020-04-20"
+    # Run Gitleaks in "detect" mode
+    - "detect"
+    # Point it at the location of the repository
+    - "--source"
+    - "/repo/"

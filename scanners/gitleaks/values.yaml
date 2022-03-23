@@ -29,7 +29,7 @@ parser:
 scanner:
   image:
     # scanner.image.repository -- Container Image to run the scan
-    repository: docker.io/securecodebox/scanner-gitleaks
+    repository: docker.io/zricethezav/gitleaks
     # scanner.image.tag -- defaults to the charts appVersion
     tag: null
     # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
@@ -60,15 +60,10 @@ scanner:
   env: []
 
   # scanner.extraVolumes -- Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
-  extraVolumes:
-    - name: "gitleaks-config"
-      configMap:
-        name: "gitleaks-config"
+  extraVolumes: []
 
   # scanner.extraVolumeMounts -- Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
-  extraVolumeMounts:
-    - name: "gitleaks-config"
-      mountPath: "/home/"
+  extraVolumeMounts: []
 
   # scanner.extraContainers -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
   extraContainers: []

@@ -1,0 +1,11 @@
+{
+  "name": "@securecodebox/parser-screenshooter",
+  "version": "1.0.0",
+  "description": "Parses result files for the type: 'screenshot-png'.",
+  "main": "",
+  "scripts": {},
+  "keywords": [],
+  "author": "iteratec GmbH",
+  "license": "Apache-2.0",
+  "devDependencies": {}
+}
