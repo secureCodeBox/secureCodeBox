@@ -15,9 +15,8 @@ deploy-without-scanner:
 	helm -n integration-tests upgrade --install $(name) ./ --wait \
 		--set="parser.image.repository=docker.io/$(IMG_NS)/$(parser-prefix)-$(name)" \
 		--set="parser.image.tag=$(IMG_TAG)" \
-    --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-    --set-string="parser.env[0].value=true" \
-		--set="scanner.image.repository=docker.io/$(IMG_NS)/$(scanner-prefix)-$(name)" \
-		--set="scanner.image.tag=$(IMG_TAG)" \
+    	--set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
+    	--set-string="parser.env[0].value=true" \
 		--set="nucleiTemplateCache.enabled=false"
 
+deploy-test-deps: deploy-test-dep-bodgeit
