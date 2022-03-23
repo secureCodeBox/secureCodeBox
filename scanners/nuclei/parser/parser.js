@@ -40,8 +40,9 @@ function getAdjustedSeverity(severity) {
     case "CRITICAL":
       return "HIGH";
     case "INFO":
-    case "UNKNOWN":
       return "INFORMATIONAL";
+    case "UNKNOWN":
+      return "LOW";
     default:
       return severity;
   }
