@@ -517,68 +517,6 @@ jobs:
           echo "Operator Startup Logs"
           kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
 
-  # ---- Build | Demo-Targets | Custom ----
-
-  # This Section contains Demo-Targets that are developed by the secureCodeBox project
-  # The tag for these images will be the Semver of the release
-
-  demo-targets:
-    name: "Build | Custom Demo-Targets"
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        target:
-          - old-joomla
-          - old-typo3
-          - old-wordpress
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set ENV Var with Demo-Target Version
-        uses: mikefarah/yq@v4.4.1
-        # Notice: The current version of the demo-target is provided via the Chart.yaml to ensure
-        # there is only one place to edit the version of a scanner
-        with:
-          cmd: echo targetVersion=$(yq e .appVersion demo-targets/${{ matrix.target }}/Chart.yaml) >> $GITHUB_ENV
-
-      - name: Docker Meta
-        id: docker_meta
-        uses: docker/metadata-action@v3
-        with:
-          images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.target }}
-          tags: |
-            type=sha
-            latest
-            ${{ env.targetVersion }}
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-
-      - name: Build and Push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./demo-targets/${{ matrix.target }}/container
-          file: ./demo-targets/${{ matrix.target }}/container/Dockerfile
-          platforms: linux/amd64
-          push: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
-
-      - name: Update Docker Hub Description
-        uses: peter-evans/dockerhub-description@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.target }}
-          readme-filepath: ./demo-targets/${{ matrix.target }}/docs/README.DockerHub-Target.md
-
   # ---- Integration Tests ----
 
   Integration-tests-hooks:
