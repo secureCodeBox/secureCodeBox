@@ -351,7 +351,6 @@ jobs:
         scanner:
           - angularjs-csti-scanner
           - cmseek
-          - gitleaks
           - kube-hunter
           - kubeaudit
           - ncrack
