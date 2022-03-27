@@ -70,6 +70,11 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
+	if service.DeletionTimestamp != nil {
+		r.deleteScan(ctx, service, service.Namespace)
+		return ctrl.Result{}, nil
+	}
+
 	// fetch namespace
 	var namespace corev1.Namespace
 	if err := r.Get(ctx, types.NamespacedName{Name: service.Namespace, Namespace: ""}, &namespace); err != nil {
@@ -406,6 +411,24 @@ func generateScanLabels(currentLabels map[string]string, scanConfig configv1.Sca
 		currentLabels[key] = value
 	}
 	return currentLabels
+}
+
+func (r *ServiceScanReconciler) deleteScan(ctx context.Context, service corev1.Service, namespace string) {
+	for _, host := range getHostPorts(service) {
+		scanName := fmt.Sprintf("%s-service-port-%d", service.Name, host.Port)
+
+		var scan executionv1.ScheduledScan
+		err := r.Client.Get(ctx, types.NamespacedName{Namespace: namespace, Name: scanName}, &scan)
+		if err != nil {
+			r.Log.V(7).Info("Unable to fetch scan for deleted service", "service", service)
+			return
+		}
+
+		err = r.Client.Delete(ctx, &scan)
+		if err != nil {
+			r.Log.Error(err, "Unable to delete scan for deleted service", "service", service, "scan", scan)
+		}
+	}
 }
 
 // SetupWithManager sets up the controller and initializes every thing it needs
