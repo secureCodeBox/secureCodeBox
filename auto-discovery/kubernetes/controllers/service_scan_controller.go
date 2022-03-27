@@ -51,7 +51,7 @@ const requeueInterval = 5 * time.Second
 // +kubebuilder:rbac:groups="execution.securecodebox.io",resources=scantypes,verbs=get;list;watch
 // +kubebuilder:rbac:groups="execution.securecodebox.io",resources=scheduledscans,verbs=get;list;watch;create;update;patch
 // +kubebuilder:rbac:groups="execution.securecodebox.io/status",resources=scheduledscans,verbs=get;update;patch
-// +kubebuilder:rbac:groups="",resources=services,verbs=get;list;watch
+// +kubebuilder:rbac:groups="",resources=services,verbs=get;list;watch;update
 // +kubebuilder:rbac:groups="",resources=services/status,verbs=get
 // +kubebuilder:rbac:groups="",resources=pods,verbs=get;list;watch
 // +kubebuilder:rbac:groups="",resources=namespaces,verbs=get;list;watch
@@ -200,6 +200,10 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 			if err != nil {
 				log.Error(err, "Failed to create ScheduledScan", "service", service.Name)
 			}
+
+			//add finalizer to trigger reconsile function on service deletion, to delete the scan for the service
+			r.addFinalizerToService(ctx, service)
+
 		} else if err != nil {
 			log.Error(err, "Failed to lookup ScheduledScan", "service", service.Name, "namespace", service.Namespace)
 		} else {
@@ -413,7 +417,17 @@ func generateScanLabels(currentLabels map[string]string, scanConfig configv1.Sca
 	return currentLabels
 }
 
+func (r *ServiceScanReconciler) addFinalizerToService(ctx context.Context, service corev1.Service) {
+	service.ObjectMeta.Finalizers = append(service.ObjectMeta.Finalizers, "securecodebox.io/autodiscovery-delete-scan")
+	err := r.Client.Update(ctx, &service)
+	if err != nil {
+		r.Log.Error(err, "Unable to update service", "service", service)
+	}
+}
+
 func (r *ServiceScanReconciler) deleteScan(ctx context.Context, service corev1.Service, namespace string) {
+	r.removeFinalizerFromService(ctx, service)
+
 	for _, host := range getHostPorts(service) {
 		scanName := fmt.Sprintf("%s-service-port-%d", service.Name, host.Port)
 
@@ -428,6 +442,21 @@ func (r *ServiceScanReconciler) deleteScan(ctx context.Context, service corev1.S
 		if err != nil {
 			r.Log.Error(err, "Unable to delete scan for deleted service", "service", service, "scan", scan)
 		}
+	}
+}
+
+func (r *ServiceScanReconciler) removeFinalizerFromService(ctx context.Context, service corev1.Service) {
+	var newFinalizers []string
+	for _, finalizer := range service.ObjectMeta.Finalizers {
+		if finalizer != "securecodebox.io/autodiscovery-delete-scan" {
+			newFinalizers = append(newFinalizers, finalizer)
+		}
+	}
+	service.ObjectMeta.Finalizers = newFinalizers
+
+	err := r.Client.Update(ctx, &service)
+	if err != nil {
+		r.Log.Error(err, "Unable to update service", "service", service)
 	}
 }
 
