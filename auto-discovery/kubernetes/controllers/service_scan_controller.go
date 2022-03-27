@@ -426,29 +426,34 @@ func (r *ServiceScanReconciler) addFinalizerToService(ctx context.Context, servi
 }
 
 func (r *ServiceScanReconciler) deleteScan(ctx context.Context, service corev1.Service, namespace string) {
-	r.removeFinalizerFromService(ctx, service)
+	if r.checkAndRemoveFinalizerFromService(ctx, service) {
 
-	for _, host := range getHostPorts(service) {
-		scanName := fmt.Sprintf("%s-service-port-%d", service.Name, host.Port)
+		for _, host := range getHostPorts(service) {
+			scanName := fmt.Sprintf("%s-service-port-%d", service.Name, host.Port)
 
-		var scan executionv1.ScheduledScan
-		err := r.Client.Get(ctx, types.NamespacedName{Namespace: namespace, Name: scanName}, &scan)
-		if err != nil {
-			r.Log.V(7).Info("Unable to fetch scan for deleted service", "service", service)
-			return
-		}
+			var scan executionv1.ScheduledScan
+			err := r.Client.Get(ctx, types.NamespacedName{Namespace: namespace, Name: scanName}, &scan)
+			if err != nil {
+				r.Log.V(7).Info("Unable to fetch scan for deleted service", "service", service)
+				return
+			}
 
-		err = r.Client.Delete(ctx, &scan)
-		if err != nil {
-			r.Log.Error(err, "Unable to delete scan for deleted service", "service", service, "scan", scan)
+			err = r.Client.Delete(ctx, &scan)
+			if err != nil {
+				r.Log.Error(err, "Unable to delete scan for deleted service", "service", service, "scan", scan)
+			}
 		}
 	}
 }
 
-func (r *ServiceScanReconciler) removeFinalizerFromService(ctx context.Context, service corev1.Service) {
+func (r *ServiceScanReconciler) checkAndRemoveFinalizerFromService(ctx context.Context, service corev1.Service) bool {
 	var newFinalizers []string
+	result := false
 	for _, finalizer := range service.ObjectMeta.Finalizers {
-		if finalizer != "securecodebox.io/autodiscovery-delete-scan" {
+		if finalizer == "securecodebox.io/autodiscovery-delete-scan" {
+			//return true when finilazer is present and remove (by ignoring) that finalizer
+			result = true
+		} else {
 			newFinalizers = append(newFinalizers, finalizer)
 		}
 	}
@@ -458,6 +463,7 @@ func (r *ServiceScanReconciler) removeFinalizerFromService(ctx context.Context, 
 	if err != nil {
 		r.Log.Error(err, "Unable to update service", "service", service)
 	}
+	return result
 }
 
 // SetupWithManager sets up the controller and initializes every thing it needs
