@@ -25,8 +25,23 @@ ifeq ($(name),)
   $(error name ENV is not set)
 endif
 
+PYTHON = $(shell which python3)
+ifeq ($(PYTHON),)
+  PYTHON = $(shell which python)
+  ifeq ($(PYTHON),)
+  	$(error "PYTHON=$(PYTHON) not found in $(PATH)")
+  endif
+endif
+PYTHON_VERSION_MIN=3.0
+PYTHON_VERSION=$(shell $(PYTHON) -c \
+'import sys; print(float(str(sys.version_info[0]) + "." + str(sys.version_info[1])))')
+PYTHON_VERSION_OK=$(shell $(PYTHON) -c 'print(int($(PYTHON_VERSION) >= $(PYTHON_VERSION_MIN)))' )
+ifeq ($(PYTHON_VERSION_OK), 0) # True == 1
+   $(error "Need python version >= $(PYTHON_VERSION_MIN) (current: $(PYTHON_VERSION))")
+endif
+
 # Thx to https://stackoverflow.com/questions/5618615/check-if-a-program-exists-from-a-makefile
-EXECUTABLES = make docker kind git node npm npx kubectl helm yq java python
+EXECUTABLES = make docker kind git node npm npx kubectl helm yq java $(PYTHON)
 K := $(foreach exec,$(EXECUTABLES),\
         $(if $(shell which $(exec)),some string,$(error "ERROR: The prerequisites are not met to execute this makefile! No '$(exec)' found in your PATH")))
 
@@ -84,11 +99,11 @@ unit-test-js: install-deps-js
 
 install-deps-py:
 	@echo ".: ⚙️ Installing all $(module) specific python dependencies."
-	python -m pip install --upgrade pip setuptools wheel pytest
-	cd ./$(module)/ && pip install -r requirements.txt
+	$(PYTHON) -m pip install --upgrade pip setuptools wheel pytest
+	cd ./$(module)/ && $(PYTHON) -m pip install -r requirements.txt
 
 unit-test-py: install-deps-py
-	cd ./$(module)/ && pytest --ignore-glob='*_local.py' --ignore=tests/docker
+	cd ./$(module)/ && $(PYTHON) -m pytest --ignore-glob='*_local.py' --ignore=tests/docker
 
 unit-test-java:
 	cd ./$(module)/ && ./gradlew test
@@ -147,7 +162,7 @@ deploy-test-dep-juiceshop:
 
 deploy-test-dep-vulnerable-log4j:
 	# Install vulnerable-log4j app
-	helm -n demo-targets upgrade --install vulnerable-log4j ../../demo-targets/vulnerable-log4j/ --set="fullnameOverride=vulnerable-log4j" --wait	
+	helm -n demo-targets upgrade --install vulnerable-log4j ../../demo-targets/vulnerable-log4j/ --set="fullnameOverride=vulnerable-log4j" --wait
 
 deploy-test-dep-nginx:
 	# Delete leftover nginx's. Unfortunately can't create deployment only if not exists (like namespaces)
