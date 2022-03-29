@@ -625,12 +625,18 @@ jobs:
         run: npm ci
 
       # ---- Integration-Test ----
+
+      - name: Deploy ${{ matrix.unit }}
+        working-directory: ./hooks/${{ matrix.hook }}
+        run: make deploy
       
+      - name: Deploy Test Dependencies
+        working-directory: ./hooks/${{ matrix.hook }}
+        run: make deploy-test-deps
+
       - name: "Run Integration Test"
         working-directory: ./hooks/${{ matrix.hook }}
-        run: |
-          make deploy-test-deps
-          make integration-tests 
+        run: make integration-tests 
 
       # ---- Debuging Cluster on Failure ----
 
