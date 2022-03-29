@@ -12,8 +12,7 @@ custom_scanner = set
 include ../../scanners.mk
 
 unit-tests:
-	@echo "Disabled due to errors."
-	#@$(MAKE) -s unit-test-py
+	@$(MAKE) -s unit-test-py
 
 integration-tests:
 	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
