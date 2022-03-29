@@ -12,6 +12,10 @@ test_files = [hook.test.js, kube.test.js]
 
 include ../../hooks.mk
 
+# Deploys dependencies for both the nmap-ncrack test and the nmap-sslyze test
+.PHONY: deploy-test-deps 
+deploy-test-deps: deploy-test-deps-1 deploy-test-deps-2
+
 .PHONY: test-2
 test-2: | clean-integration-tests unit-tests docker-build docker-export kind-import deploy deploy-test-deps-2 integration-tests-2
 
@@ -53,7 +57,7 @@ deploy-test-dep-sslyze:
 		--set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
 		--set-string="parser.env[0].value=true"
 
-.PHONY: deploy-test-deps
+.PHONY: deploy-test-deps-1 # Deploys dependencies for the nmap-ncrack test
 deploy-test-deps: deploy-test-dep-dummy-ssh deploy-test-dep-nmap deploy-test-dep-ncrack
 
 .PHONY: deploy
@@ -63,5 +67,5 @@ deploy:
 		--set="hook.image.repository=docker.io/$(IMG_NS)/$(hook-prefix)-$(name)" \
 		--set="hook.image.tag=$(IMG_TAG)"
 
-.PHONY: deploy-test-deps-2		
+.PHONY: deploy-test-deps-2	# Deploys dependencies for the nmap-sslyze test	
 deploy-test-deps-2: deploy-test-dep-unsafe-https deploy-test-dep-nmap deploy-test-dep-sslyze
