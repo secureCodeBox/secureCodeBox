@@ -341,20 +341,20 @@ jobs:
           name: lurker-image
           path: ./operator
 
-      - name: Import Operator & Lurker Image
+      - name: Import Operator & Lurker Image to kind cluster
         working-directory: ./operator
         run: make kind-import
 
-      - name: Kind Import Images
+      - name: Kind Import ${{ matrix.unit }} Image to kind cluster
         working-directory: ./scanners/${{ matrix.unit }}/
         run: make kind-import
 
-      - name: Install Operator
+      - name: Deploy Operator Chart to kind cluster
         working-directory: ./operator
         run: |
           make helm-deploy
 
-      - name: Deploy ${{ matrix.unit }}
+      - name: Deploy ${{ matrix.unit }} Chart to kind cluster
         working-directory: ./scanners/${{ matrix.unit }}/
         run: make deploy
 
