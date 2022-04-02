@@ -49,7 +49,7 @@ config:
   containerAutoDiscovery:
     enabled: false
     scanConfig:
-      scanType: trivy
+      scanType: trivy-image
       # -- parameters used for the scans created by the containerAutoDiscovery, all parameters support templating
       parameters:
         - "{{ .ImageID }}"
