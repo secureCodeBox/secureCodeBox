@@ -16,11 +16,6 @@ env:
   NODE_VERSION: "16"
   NPM_VERSION: "7"
 
-  # ---- Docker Namespace ----
-
-  # DOCKER_USER and DOCKER_TOKEN are stored as GitHub secrets as well
-  DOCKER_NAMESPACE: ${{ secrets.DOCKER_NAMESPACE }}
-
 jobs:
   # ---- Unit-Test ----
 
@@ -70,69 +65,6 @@ jobs:
         run: |
           pip install pytest
           pytest --ignore-glob='*_local.py' --ignore=tests/docker
-
-  # ---- Unit-Test | JavaScript ----
-
-  unit-javascript:
-    name: "Unit-Test | JavaScript"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@v2
-        name: Setup Node
-        with:
-          node-version: ${{ env. NODE_VERSION }}
-
-      - name: Update NPM
-        run: npm i -g npm@${{ env.NPM_VERSION }}
-      - name: "list files and folders"
-        run: ls
-      - name: "Install npm dependencies in all parser sub projects"
-        run: |
-          for dir in scanners/*/parser/
-          do
-              cd $dir
-              if [ -f package.json ] && [ -f package-lock.json ]; then
-                  echo "Installing dependencies for $dir"
-                  npm ci
-              fi
-              # cd back
-              cd -
-          done
-      - name: "Install npm dependencies in all hook sub projects"
-        run: |
-          for dir in hooks/*/hook
-          do
-              cd $dir
-              if [ -f package.json ] && [ -f package-lock.json ]; then
-                  echo "Installing dependencies for $dir"
-                  npm ci
-              fi
-              # cd back
-              cd -
-          done
-      - name: "Install npm test dependencies"
-        run: |
-          npm ci
-          cd scanners/
-          npm ci
-          cd -
-          cd hooks/
-          npm ci
-          cd -
-          cd parser-sdk/nodejs
-          npm ci
-      - name: "Compile Typescript"
-        run: |
-          cd hooks/cascading-scans/hook
-          npm ci
-          npm run build
-      - name: "Run tests & publish code coverage"
-        uses: paambaati/codeclimate-action@v2.6.0
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-        with:
-          coverageCommand: npm test -- --ci --colors --coverage --testPathIgnorePatterns=/integration-tests/
 
   # ---- Build Stage ----
 
