@@ -44,6 +44,8 @@ public class DefectDojoFindingToSecureCodeBoxMapper {
 
     attributes.put("duplicate", defectDojoFinding.getDuplicate());
     attributes.put("falsePositive", defectDojoFinding.getFalsePositive());
+    attributes.put("riskAccepted", defectDojoFinding.getRiskAccepted());
+    attributes.put("outOfScope", defectDojoFinding.getOutOfScope());
     finding.setAttributes(attributes);
 
     // Map DefectDojo Severities to secureCodeBox Severities
