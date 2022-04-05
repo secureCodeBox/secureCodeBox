@@ -2,10 +2,6 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-// This test is currently disabled by changing its extension to something different to ´.test.js´
-// This is done since the sslyze release has not yet been published and the test will result into ImagePullBackOff
-// Should reenabled once the SCB 3.9.0 Release build pipeline is successful 
-
 const { cascadingScan } = require("../../../../tests/integration/helpers");
 
 jest.retryTimes(3);
