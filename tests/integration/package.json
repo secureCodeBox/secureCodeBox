@@ -2,6 +2,8 @@
   "name": "@securecodebox/integration-tests",
   "version": "1.0.0",
   "description": "Integration Tests running on a real k8s cluster",
+  "type": "module",
+  "main": "helpers",
   "scripts": {
     "test": "jest"
   },

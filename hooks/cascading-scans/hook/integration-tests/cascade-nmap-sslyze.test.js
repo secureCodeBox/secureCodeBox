@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { cascadingScan } = require("@securecodebox/integration-tests/helpers");
+import { cascadingScan } from "@securecodebox/integration-tests/helpers";
 
 jest.retryTimes(3);
 
