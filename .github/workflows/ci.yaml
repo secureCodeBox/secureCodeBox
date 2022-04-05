@@ -523,8 +523,8 @@ jobs:
         run: npm ci
 
       - name: "Install Test Dependencies"
-      working-directory: ./tests/integration
-      run: npm ci
+        working-directory: ./tests/integration
+        run: npm ci
 
       # ---- Integration-Test ----
 
