@@ -74,7 +74,6 @@ jobs:
     name: "Build | Operator"
     needs:
       - unit-python
-      - unit-javascript
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -154,7 +153,6 @@ jobs:
     name: "Build | SDKs"
     needs:
       - unit-python
-      - unit-javascript
     runs-on: ubuntu-latest
     strategy:
       matrix:
