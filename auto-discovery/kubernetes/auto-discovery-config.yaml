@@ -47,7 +47,7 @@ serviceAutoDiscovery:
 containerAutoDiscovery:
   enabled: true
   scanConfig:
-    scanType: trivy
+    scanType: trivy-image
     # -- parameters used for the scans created by the containerAutoDiscovery
     parameters:
       - "{{ .ImageID }}"
