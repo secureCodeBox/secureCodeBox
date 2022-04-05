@@ -522,6 +522,10 @@ jobs:
         working-directory: ./hooks
         run: npm ci
 
+      - name: "Install Test Dependencies"
+      working-directory: ./tests/integration
+      run: npm ci
+
       # ---- Integration-Test ----
 
       - name: Deploy ${{ matrix.unit }}
