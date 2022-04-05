@@ -560,8 +560,8 @@ jobs:
         working-directory: ./scanners/test-scan/
         run: |
           helm -n integration-tests upgrade --install test-scan . \
-            --set="scanner.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/scanner-test-scan" \
-            --set="parser.image.repository=docker.io/${{ env.DOCKER_NAMESPACE }}/parser-test-scan" \
+            --set="scanner.image.repository=docker.io/securecodebox/scanner-test-scan" \
+            --set="parser.image.repository=docker.io/securecodebox/parser-test-scan" \
             --set="parser.image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="scanner.image.tag=sha-$(git rev-parse --short HEAD)" \
             --set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
