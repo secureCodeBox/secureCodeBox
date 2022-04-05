@@ -69,3 +69,10 @@ deploy:
 
 .PHONY: deploy-test-deps-2	# Deploys dependencies for the nmap-sslyze test	
 deploy-test-deps-2: deploy-test-dep-unsafe-https deploy-test-dep-nmap deploy-test-dep-sslyze
+
+.PHONY: integration-tests
+integration-tests: ## 🩺 Start integration test for this module in the namespace "integration-tests"
+	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
+	kubectl -n integration-tests delete scans --all
+	npm --prefix ../../tests/integration/ ci
+	cd $(hook-prefix) && npm ci && npm run test --package jest@$(JEST_VERSION)
