@@ -195,11 +195,13 @@ Attributes like if a finding has been marked as accepted or has been marked as a
         "defectdojo.org/test-id": 3,
         "falsePositive": false,
         "defectdojo.org/test-url": "https://defectdojo.example.com/test/3",
+        "defectdojo.org/original-finding-id": null,
         # highlight-start
         "duplicate": false,
         "riskAccepted": true,
-        "outOfScope": false
+        "outOfScope": false,
         # highlight-end
+        "defectdojo.org/original-finding": null
       },
       "osi_layer": null,
       "parsed_at": "2022-04-05T12:29:24.760758Z",
