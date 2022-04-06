@@ -2,6 +2,9 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
+// Does not run in the CI correctly. Issue is yet to be diagnosed.
+
+
 const { cascadingScan } = require("../../../../tests/integration/helpers");
 var { jest } = require('@jest/globals')
 
