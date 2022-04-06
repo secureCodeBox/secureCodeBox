@@ -1,8 +1,10 @@
 // SPDX-FileCopyrightText: the secureCodeBox authors
 //
 // SPDX-License-Identifier: Apache-2.0
-var { cascadingScan } = require("@securecodebox/integration-tests");
- var { jest } = require('@jest/globals')
+
+const { cascadingScan } = require("../../../../tests/integration/helpers");
+var { jest } = require('@jest/globals')
+
 jest.retryTimes(3);
 
 test(
