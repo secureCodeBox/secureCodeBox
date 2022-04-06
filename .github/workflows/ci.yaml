@@ -515,7 +515,21 @@ jobs:
       - name: Test-scan deploy
         working-directory: ./scanners/test-scan/
         run: make deploy
-      
+
+      # ----- Build Hook Image ---- 
+
+      - name: Build Images
+        working-directory: ./hooks/${{ matrix.hook }}
+        run: make docker-build
+
+      - name: Export Docker Images
+        working-directory: ./hooks/${{ matrix.hook }}
+        run: make docker-export
+
+      - name: Kind import
+        working-directory: ./hooks/${{ matrix.hook }}
+        run: make kind-import
+        
       # ---- Install Test Dependencies ----
 
       - name: "Install Test Dependencies"
