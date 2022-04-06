@@ -498,6 +498,19 @@ jobs:
           docker load --input /tmp/parser-sdk.tar
           docker images | grep sdk    
 
+      # ---- Import Hook SDK Artifact
+
+      - name: Download Hook SDK Image
+        uses: actions/download-artifact@v2
+        with:
+          name: hook-sdk-image
+          path: /tmp
+
+      - name: Load Parser SDK Image
+        run: |
+          docker load --input /tmp/hook-sdk.tar
+          docker images | grep sdk    
+
       # ----- Build Test-Scan ScanType Image ---- 
 
       - name: Build Images
