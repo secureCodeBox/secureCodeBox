@@ -51,7 +51,7 @@ dashboardImporter:
     repository: securecodebox/persistence-elastic-dashboard-importer
     # image.tag -- Image tag for the dashboard importer job
     # @default -- defaults to the charts version
-    tag: null
+    tag: 3.9.1
 
 imagePullSecrets: []
 nameOverride: ""
