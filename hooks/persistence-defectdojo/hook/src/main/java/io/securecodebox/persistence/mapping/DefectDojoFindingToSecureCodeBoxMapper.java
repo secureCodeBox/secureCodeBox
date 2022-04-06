@@ -62,6 +62,9 @@ public class DefectDojoFindingToSecureCodeBoxMapper {
 
       attributes.put("defectdojo.org/original-finding-id", defectDojoFinding.getDuplicateFinding());
       attributes.put("defectdojo.org/original-finding", this.fromDefectDojoFinding(originalFinding, false));
+    } else {
+      attributes.put("defectdojo.org/original-finding-id", null);
+      attributes.put("defectdojo.org/original-finding", null);
     }
 
     finding.setAttributes(attributes);
