@@ -159,10 +159,68 @@ can add these via annotation to the scan. See examples below.
 | `defectdojo.securecodebox.io/test-title`                           | Test Title                 | Scan Name                                                            |                                                                                       |
 
 ### Read-only Mode
+
 By default, the DefectDojo hook will pull the imported results from DefectDojo and use them to replace the results inside secureCodeBox.
 This allows you to benefit from DefectDojo's deduplication logic and only trigger follow-up scans or notifications for new findings.
 If you want to disable this feature, you can install the hook in read-only mode using `--set defectdojo.syncFindingsBack=false` while
 installing the hook using Helm.
+
+### Notes on `syncFindingBack` Mode & Duplicate Findings
+
+Attributes like if a finding has been marked as accepted or has been marked as a false positive in DefectDojo are only attached to the original finding. The duplicated findings will always have the `falsePositive`, `riskAccepted` and `outOfScope` attributes set to false as they have just been imported. To enable users to access this meta information on the original the `syncFindingBack` mode automatically embeds the orignal finding in the attributes of synced back duplicate findings. The following example shows a finding produced by the `syncFindingBack` mode, in which the original finding has been marked as accepted.
+
+```yaml
+# example synced back duplicate finding
+{
+  "id": "69f891e7-3876-4506-84f2-7e4e2b33923e",
+  "name": "Open Port: 80/TCP",
+  "location": "tcp://scanme.nmap.org:80",
+  "description": "### Host\n\n**IP Address:** 45.33.32.156\n**FQDN:** scanme.nmap.org\n\n\n**Port/Protocol:** 80/tcp\n\n\n\n\n",
+  "category": "DefectDojo Imported Finding",
+  "severity": "INFORMATIONAL",
+  "attributes": {
+    "defectdojo.org/finding-id": 42,
+    "defectdojo.org/finding-url": "https://defectdojo.example.com/finding/42",
+    "defectdojo.org/test-id": 7,
+    "falsePositive": false,
+    "defectdojo.org/test-url": "https://defectdojo.example.com/test/7",
+    "defectdojo.org/original-finding-id": 1607206,
+    # highlight-start
+    "duplicate": true,
+    "riskAccepted": false,
+    "outOfScope": false,
+    # highlight-end
+    "defectdojo.org/original-finding": {
+      "id": "7c2d64d0-3f41-42b6-84a4-0beeab746d1b",
+      "name": "Open Port: 80/TCP",
+      "location": "tcp://scanme.nmap.org:80",
+      "description": "### Host\n\n**IP Address:** 45.33.32.156\n**FQDN:** scanme.nmap.org\n\n\n**Port/Protocol:** 80/tcp\n\n\n\n\n",
+      "category": "DefectDojo Imported Finding",
+      "severity": "INFORMATIONAL",
+      "attributes": {
+        "defectdojo.org/finding-id": 38,
+        "defectdojo.org/finding-url": "https://defectdojo.example.com/finding/38",
+        "defectdojo.org/test-id": 3,
+        "falsePositive": false,
+        "defectdojo.org/test-url": "https://defectdojo.example.com/test/3",
+        "defectdojo.org/original-finding-id": null,
+        # highlight-start
+        "duplicate": false,
+        "riskAccepted": true,
+        "outOfScope": false,
+        # highlight-end
+        "defectdojo.org/original-finding": null
+      },
+      "osi_layer": null,
+      "parsed_at": "2022-04-05T12:29:24.760758Z",
+      "identified_at": null
+    }
+  },
+  "osi_layer": null,
+  "parsed_at": "2022-04-05T13:22:46.230736Z",
+  "identified_at": null
+}
+```
 
 ### Low Privileged Mode
 

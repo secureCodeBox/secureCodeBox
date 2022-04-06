@@ -6,6 +6,7 @@ package io.securecodebox.persistence;
 import io.securecodebox.persistence.config.PersistenceProviderConfig;
 import io.securecodebox.persistence.defectdojo.config.DefectDojoConfig;
 import io.securecodebox.persistence.defectdojo.service.EndpointService;
+import io.securecodebox.persistence.defectdojo.service.FindingService;
 import io.securecodebox.persistence.mapping.DefectDojoFindingToSecureCodeBoxMapper;
 import io.securecodebox.persistence.models.Scan;
 import io.securecodebox.persistence.service.scanresult.ScanResultService;
@@ -44,7 +45,8 @@ public class DefectDojoPersistenceProvider {
 
     if (persistenceProviderConfig.isReadAndWrite()) {
       var endpointService = new EndpointService(config);
-      var mapper = new DefectDojoFindingToSecureCodeBoxMapper(config, endpointService);
+      var findingService = new FindingService(config);
+      var mapper = new DefectDojoFindingToSecureCodeBoxMapper(config, endpointService, findingService);
 
       LOG.info("Overwriting secureCodeBox findings with the findings from DefectDojo.");
 
