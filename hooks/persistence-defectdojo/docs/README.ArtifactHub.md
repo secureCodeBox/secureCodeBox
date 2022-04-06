@@ -167,7 +167,7 @@ installing the hook using Helm.
 
 ### Notes on `syncFindingBack` Mode & Duplicate Findings
 
-Attributes like if a finding has been marked as accepted or has been marked as a false positive in DefectDojo are only attached to the original finding. The duplicated findings will always have the `falsePositive`, `riskAccepted` and `outOfScope` attributes set to true as they have just been imported. To enable users to access this meta information on the original the `syncFindingBack` mode automatically embeds the orignal finding in the attributes of synced back duplicate findings. The following example shows a finding produced by the `syncFindingBack` mode, in which the original finding has been marked as accepted.
+Attributes like if a finding has been marked as accepted or has been marked as a false positive in DefectDojo are only attached to the original finding. The duplicated findings will always have the `falsePositive`, `riskAccepted` and `outOfScope` attributes set to false as they have just been imported. To enable users to access this meta information on the original the `syncFindingBack` mode automatically embeds the orignal finding in the attributes of synced back duplicate findings. The following example shows a finding produced by the `syncFindingBack` mode, in which the original finding has been marked as accepted.
 
 ```yaml
 # example synced back duplicate finding
@@ -185,9 +185,11 @@ Attributes like if a finding has been marked as accepted or has been marked as a
     "falsePositive": false,
     "defectdojo.org/test-url": "https://defectdojo.example.com/test/7",
     "defectdojo.org/original-finding-id": 1607206,
+    # highlight-start
     "duplicate": true,
     "riskAccepted": false,
     "outOfScope": false,
+    # highlight-end
     "defectdojo.org/original-finding": {
       "id": "7c2d64d0-3f41-42b6-84a4-0beeab746d1b",
       "name": "Open Port: 80/TCP",
@@ -201,9 +203,11 @@ Attributes like if a finding has been marked as accepted or has been marked as a
         "defectdojo.org/test-id": 3,
         "falsePositive": false,
         "defectdojo.org/test-url": "https://defectdojo.example.com/test/3",
+        # highlight-start
         "duplicate": false,
         "riskAccepted": true,
         "outOfScope": false
+        # highlight-end
       },
       "osi_layer": null,
       "parsed_at": "2022-04-05T12:29:24.760758Z",
