@@ -100,7 +100,7 @@ Additionally, there will be some ZAP Scripts included, these are stored in the c
 
 ```
 
-The following picture outlines the reference concept of the ZAP YAML configuration `zapConfiguration`. If you want to configure an `api` scan, `spider` or active 'scan` you must at least add one `context` item with a `name` and `url` configured. The context `url` must match the target url used in the `Scan` execution:
+The following picture outlines the reference concept of the ZAP YAML configuration `zapConfiguration`. If you want to configure an `api` scan, `spider` or active `scan` you must at least add one `context` item with a `name` and `url` configured. The context `url` must match the target url used in the `Scan` execution:
 
 ```yaml
 spec:
@@ -111,7 +111,7 @@ spec:
     - "http://bodgeit.default.svc:8080/bodgeit/"
 ```
 
-If you want to configure the `api` scan, `spider` or active 'scan` section it is mandatory to add the `context: ` reference the section. Otherwise it is not possible to identify which configuration must be used for a scan. The `url` in the `api` , `spider` or active 'scan` section can be different to the context.url (and scan target url).
+If you want to configure the `api` scan, `spider` or active `scan` section it is mandatory to add the `context: ` reference the section. Otherwise it is not possible to identify which configuration must be used for a scan. The `url` in the `api` , `spider` or active 'scan` section can be different to the context.url (and scan target url).
 
 ```bash
 ┌────────────────────────────────────────────────────────────────┐
