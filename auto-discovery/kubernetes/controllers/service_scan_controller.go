@@ -191,10 +191,16 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 				}, err
 			}
 
+			err = ctrl.SetControllerReference(&service, &scan, r.Scheme)
+			if err != nil {
+				log.Error(err, "Unable to set owner of scan", "scan", scan, "service", service)
+			}
+
 			err = r.Create(ctx, &scan)
 			if err != nil {
 				log.Error(err, "Failed to create ScheduledScan", "service", service.Name)
 			}
+
 		} else if err != nil {
 			log.Error(err, "Failed to lookup ScheduledScan", "service", service.Name, "namespace", service.Namespace)
 		} else {
