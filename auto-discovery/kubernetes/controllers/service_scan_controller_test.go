@@ -171,41 +171,6 @@ var _ = Describe("ServiceScan controller", func() {
 			}, timeout, interval).Should(BeTrue())
 		})
 	})
-
-	Context("Service gets deleted", func() {
-		It("Should delete a scheduled scan when the tested service gets deleted", func() {
-			ctx := context.Background()
-			namespace := "deletion-test"
-
-			// set up pod and service for auto-discovery
-			createNamespace(ctx, namespace)
-			createPod(ctx, "juice-shop", namespace, "bkimminich/juice-shop", "9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2")
-			createService(ctx, "juice-shop", namespace)
-			createScanType(ctx, namespace)
-
-			var scheduledScan executionv1.ScheduledScan
-			Eventually(func() bool {
-				err := k8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-service-port-3000", Namespace: namespace}, &scheduledScan)
-				if errors.IsNotFound(err) {
-					return false
-				}
-				return true
-			}, timeout, interval).Should(BeTrue())
-
-			var service corev1.Service
-			Expect(k8sClient.Get(ctx, types.NamespacedName{Namespace: namespace, Name: "juice-shop"}, &service)).Should(Succeed())
-
-			Expect(k8sClient.Delete(ctx, &service)).Should(Succeed())
-
-			Eventually(func() bool {
-				err := k8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-service-port-3000", Namespace: namespace}, &scheduledScan)
-				if errors.IsNotFound(err) {
-					return true
-				}
-				return false
-			}, timeout, interval).Should(BeTrue())
-		})
-	})
 })
 
 func createNamespace(ctx context.Context, namespaceName string) {
