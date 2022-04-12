@@ -67,8 +67,7 @@ hook-prefix = hook
 
 all: help
 
-test: | clean-integration-tests clean-demo-targets unit-tests docker-build docker-export kind-import deploy deploy-test-deps integration-tests ## 🧪 Complete clean Test for this module.
-
+test: | reset-integration-tests-namespace reset-demo-targets-namespace clean-operator clean-parser-sdk clean-hook-sdk unit-tests docker-build docker-export kind-import deploy deploy-test-deps integration-tests ## 🧪 Complete clean Test for this module.
 .PHONY: help unit-tests-hook install-deps docker-build docker-export kind-import deploy deploy-test-deps integration-tests all build test
 
 install-deps-js:
@@ -173,8 +172,8 @@ deploy-test-dep-test-scan:
 deploy-test-dep-old-joomla:
 	helm -n demo-targets install old-joomla ../../demo-targets/old-joomla/ --set="fullnameOverride=old-joomla" --wait
 
-clean:  ## 🧹 Cleaning up all generated files for this module.
-	@echo ".: 🧹 Cleaning up all generated files."
+reset:  ## 🧹 removing all generated files for this module.
+	@echo ".: 🧹 removing all generated files."
 	rm -f ./$(module)-$(name).tar
 	rm -rf ./$(module)/node_modules
 	rm -rf ./$(module)/coverage
@@ -183,15 +182,28 @@ clean:  ## 🧹 Cleaning up all generated files for this module.
 	rm -rf ../node_modules
 	rm -rf ../coverage
 
-clean-integration-tests:
+reset-integration-tests-namespace:
 	@echo ".: 🧹 Resetting 'integration-tests' namespace"
 	kubectl delete namespace integration-tests --wait || true
 	kubectl create namespace integration-tests
 
-clean-demo-targets:
+reset-demo-targets-namespace:
 	@echo ".: 🧹 Resetting 'demo-targets' namespace"
 	kubectl delete namespace demo-targets --wait || true
 	kubectl create namespace demo-targets
+
+clean-operator:
+	make -C $(OPERATOR_DIR) docker-build
+	make -C $(OPERATOR_DIR) docker-export
+	make -C $(OPERATOR_DIR) kind-import
+	rm $(OPERATOR_DIR)/operator.tar $(OPERATOR_DIR)/lurker.tar
+	make -C $(OPERATOR_DIR) helm-deploy
+
+clean-parser-sdk:
+	make -C $(PARSER_SDK_DIR) docker-build-sdk
+
+clean-hook-sdk:
+	make -C $(HOOK_SDK_DIR) docker-build-sdk
 
 .PHONY: help
 help: ## 🔮 Display this help screen.
