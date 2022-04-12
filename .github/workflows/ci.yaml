@@ -433,7 +433,7 @@ jobs:
           - cascading-scans
           - generic-webhook
           - persistence-azure-monitor
-          - persistence-elastic 
+          #- persistence-elastic Deployment step is successful locally, but fails on the CI
           - update-field
           - finding-post-processing
           - notification
@@ -498,6 +498,19 @@ jobs:
           docker load --input /tmp/parser-sdk.tar
           docker images | grep sdk    
 
+      # ---- Import Hook SDK Artifact
+
+      - name: Download Hook SDK Image
+        uses: actions/download-artifact@v2
+        with:
+          name: hook-sdk-image
+          path: /tmp
+
+      - name: Load Parser SDK Image
+        run: |
+          docker load --input /tmp/hook-sdk.tar
+          docker images | grep sdk    
+
       # ----- Build Test-Scan ScanType Image ---- 
 
       - name: Build Images
@@ -515,20 +528,44 @@ jobs:
       - name: Test-scan deploy
         working-directory: ./scanners/test-scan/
         run: make deploy
-      
+
+      # ----- Build Hook Image ---- 
+
+      - name: Build Images
+        working-directory: ./hooks/${{ matrix.hook }}
+        run: make docker-build
+
+      - name: Export Docker Images
+        working-directory: ./hooks/${{ matrix.hook }}
+        run: make docker-export
+
+      - name: Kind import
+        working-directory: ./hooks/${{ matrix.hook }}
+        run: make kind-import
+        
       # ---- Install Test Dependencies ----
 
       - name: "Install Test Dependencies"
         working-directory: ./hooks
         run: npm ci
 
+      - name: "Install Test Dependencies"
+        working-directory: ./tests/integration
+        run: npm ci
+
       # ---- Integration-Test ----
+
+      - name: Deploy ${{ matrix.unit }}
+        working-directory: ./hooks/${{ matrix.hook }}
+        run: make deploy
       
+      - name: Deploy Test Dependencies
+        working-directory: ./hooks/${{ matrix.hook }}
+        run: make deploy-test-deps
+
       - name: "Run Integration Test"
         working-directory: ./hooks/${{ matrix.hook }}
-        run: |
-          make deploy-test-deps
-          make integration-tests 
+        run: make integration-tests 
 
       # ---- Debuging Cluster on Failure ----
 

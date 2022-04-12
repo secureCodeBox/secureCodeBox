@@ -2,6 +2,7 @@
   "name": "@securecodebox/integration-tests",
   "version": "1.0.0",
   "description": "Integration Tests running on a real k8s cluster",
+  "main": "helpers",
   "scripts": {
     "test": "jest"
   },
@@ -9,8 +10,10 @@
   "author": "iteratec GmbH",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@kubernetes/client-node": "^0.16.2",
     "jest": "^27.0.3",
     "prettier": "^2.2.1"
+  },
+  "dependencies": {
+    "@kubernetes/client-node": "^0.16.2"
   }
 }
