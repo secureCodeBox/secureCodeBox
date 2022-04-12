@@ -34,7 +34,7 @@ hook:
 
   # hook.authentication -- Optional basic authentication credentials 
   authentication:
-    # -- Link a pre-existing generic secret with `username` and `password` key / value pairs
+    # -- Link a pre-existing generic secret with `usernameKey` and `passwordKey` key / value pairs
     userSecret: generic-webhook-credentials
     # -- Name of the username key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs
     usernameKey: username
