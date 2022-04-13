@@ -2,6 +2,10 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+include ../env-paths.mk
+## Telling the env-paths file where the root project dir is. This is done to allow to generate the relative
+PROJECT_DIR =../
+
 IMG_NS ?= securecodebox
 
 # Image URL to use all building/pushing image targets for the operator
