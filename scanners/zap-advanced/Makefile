@@ -18,16 +18,16 @@ unit-tests-parser:
 	$(MAKE) -s -f ../../scanners.mk unit-tests-parser include_guard=set scanner=zap
 
 install-deps:
-	cd ../zap/ && $(MAKE) -s install-deps
+	cd $(SCANNERS_DIR)/zap/ && $(MAKE) -s install-deps
 
 docker-build-parser:
-	cd ../zap/ && $(MAKE) -s docker-build-parser
+	cd $(SCANNERS_DIR)/zap/ && $(MAKE) -s docker-build-parser
 
 docker-export-parser:
-	cd ../zap/ && $(MAKE) -s docker-export-parser
+	cd $(SCANNERS_DIR)/zap/ && $(MAKE) -s docker-export-parser
 
 kind-import-parser:
-	cd ../zap/ && $(MAKE) -s kind-import-parser
+	cd $(SCANNERS_DIR)/zap/ && $(MAKE) -s kind-import-parser
 
 deploy-with-scanner:
 	@echo ".: 💾 Deploying custom '$(scanner)' scanner HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
@@ -43,4 +43,4 @@ integration-tests:
 	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
 	kubectl -n integration-tests delete scans --all
 	kubectl apply -f ./integration-tests/scantype-configMap.yaml -n integration-tests
-	cd .. && npm ci && cd $(scanner)/integration-tests && npm run test --yes --package jest@$(JEST_VERSION) $(scanner)/integration-tests
+	cd $(SCANNERS_DIR) && npm ci && cd $(scanner)/integration-tests && npm run test --yes --package jest@$(JEST_VERSION) $(scanner)/integration-tests

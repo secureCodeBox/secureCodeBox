@@ -99,13 +99,13 @@ unit-test-js: install-deps-js
 install-deps-py:
 	@echo ".: ⚙️ Installing all $(module) specific python dependencies."
 	$(PYTHON) -m pip install --upgrade pip setuptools wheel pytest
-	cd ./$(module)/ && $(PYTHON) -m pip install -r requirements.txt
+	cd $(module)/ && $(PYTHON) -m pip install -r requirements.txt
 
 unit-test-py: install-deps-py
-	cd ./$(module)/ && $(PYTHON) -m pytest --ignore-glob='*_local.py' --ignore=tests/docker
+	cd $(module)/ && $(PYTHON) -m pytest --ignore-glob='*_local.py' --ignore=tests/docker
 
 unit-test-java:
-	cd ./$(module)/ && ./gradlew test
+	cd $(module)/ && ./gradlew test
 
 common-docker-build:
 	@echo ".: ⚙️ Build '$(name)' $(module) with BASE_IMG_TAG: '$(BASE_IMG_TAG)'."
