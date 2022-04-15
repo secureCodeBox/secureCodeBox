@@ -22,14 +22,14 @@ spec:
     - name: WEBHOOK_USER
       valueFrom:
         secretKeyRef:
-          name: {{ .Values.hook.authentication.userSecret }}
-          key: {{ .Values.hook.authentication.usernameKey }}
+          name: {{ .Values.hook.authentication.basic.userSecret }}
+          key: {{ .Values.hook.authentication.basic.usernameKey }}
           optional: true
     - name: WEBHOOK_PASSWORD
       valueFrom:
         secretKeyRef:
-          name: {{ .Values.hook.authentication.userSecret }}
-          key: {{ .Values.hook.authentication.passwordKey }}
+          name: {{ .Values.hook.authentication.basic.userSecret }}
+          key: {{ .Values.hook.authentication.basic.passwordKey }}
           optional: true
   affinity:
     {{- toYaml .Values.hook.affinity | nindent 4 }}
