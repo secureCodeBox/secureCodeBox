@@ -148,11 +148,12 @@ kustomize: ## Download kustomize locally if necessary.
 	$(call go-install-tool,$(KUSTOMIZE),sigs.k8s.io/kustomize/kustomize/v3@v3.8.7)
 
 # go-install-tool will 'go install' any package $2 and install it to $1.
-PROJECT_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
+# GOBIN needs to be an absolute path so an additional absolute path project dir variable is used
+ABS_PROJECT_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
 define go-install-tool
 @[ -f $(1) ] || { \
 set -e ;\
 echo "Downloading $(2)" ;\
-GOBIN=$(PROJECT_DIR)/operator/bin go install $(2) ;\
+GOBIN=$(ABS_PROJECT_DIR)/operator/bin go install $(2) ;\
 }
 endef
