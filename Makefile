@@ -93,3 +93,8 @@ test-scanner:
 	make test -C $(SCANNERS_DIR)/$(target)
 test-hook:
 	make test -C $(HOOKS_DIR)/$(target)		
+
+
+.PHONY:
+megalint:
+	npx mega-linter-runner
