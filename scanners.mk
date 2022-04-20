@@ -22,7 +22,9 @@ name = ${scanner}
 
 include ../../common.mk
 include ../../env-paths.mk
-PROJECT_DIR = ../../ ## Telling the env-paths file where the root project dir is. This is done to allow to generate the relative
+## Telling the env-paths file where the root project dir is. This is done to allow the generation of the paths of the different project folders relative to where the makefile is being run from.
+## So BIN_DIR= $(PROJECT_DIR)/bin will be BIN_DIR=../../bin
+PROJECT_DIR=../..
 
 module = $(scanner-prefix)
 
@@ -83,4 +85,4 @@ deploy-with-scanner:
 integration-tests:
 	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
 	kubectl -n integration-tests delete scans --all
-	cd .. && npm ci && cd $(scanner)/integration-tests && npm run test --yes --package jest@$(JEST_VERSION) $(scanner)/integration-tests
+	cd $(SCANNERS_DIR) && npm ci && cd $(scanner)/integration-tests && npm run test --yes --package jest@$(JEST_VERSION) $(scanner)/integration-tests

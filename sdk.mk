@@ -23,7 +23,9 @@ name = ${sdk}
 module = ${sdk}
 include ../../common.mk
 include ../../env-paths.mk
-PROJECT_DIR = ../../ ## Telling the env-paths file where the root project dir is. This is done to allow to generate the relative
+## Telling the env-paths file where the root project dir is. This is done to allow the generation of the paths of the different project folders relative to where the makefile is being run from.
+## So BIN_DIR= $(PROJECT_DIR)/bin will be BIN_DIR=../../bin
+PROJECT_DIR=../..
 
 docker-build: | docker-build-sdk
 docker-export: | docker-export-sdk

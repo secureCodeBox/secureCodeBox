@@ -21,7 +21,7 @@ test-2: | clean-integration-tests unit-tests docker-build docker-export kind-imp
 
 .PHONY: deploy-test-dep-nmap
 deploy-test-dep-nmap:
-	cd ../../scanners/nmap/ && $(MAKE) -s docker-build docker-export kind-import && \
+	cd 	$(SCANNERS_DIR)/nmap/ && $(MAKE) -s docker-build docker-export kind-import && \
 	helm -n integration-tests upgrade --install nmap . \
 		--set="scanner.image.repository=docker.io/$(IMG_NS)/$(scanner-prefix)-nmap" \
 		--set="parser.image.repository=docker.io/$(IMG_NS)/$(parser-prefix)-nmap" \
@@ -35,7 +35,7 @@ deploy-test-dep-ncrack:
 	printf "root\nadmin\n" > users.txt
 	printf "THEPASSWORDYOUCREATED\n123456\npassword\n" > passwords.txt
 	kubectl create secret generic --from-file users.txt --from-file passwords.txt ncrack-lists -n integration-tests --dry-run=client -o yaml | kubectl apply -f -
-	cd ../../scanners/ncrack/ && $(MAKE) -s docker-build docker-export kind-import && \
+	cd $(SCANNERS_DIR)/ncrack/ && $(MAKE) -s docker-build docker-export kind-import && \
 	helm -n integration-tests upgrade --install ncrack . \
 		--set="scanner.image.repository=docker.io/$(IMG_NS)/$(scanner-prefix)-ncrack" \
 		--set="parser.image.repository=docker.io/$(IMG_NS)/$(parser-prefix)-ncrack" \
@@ -50,7 +50,7 @@ deploy-test-dep-ncrack:
 
 .PHONY: deploy-test-dep-sslyze
 deploy-test-dep-sslyze:
-	cd ../../scanners/sslyze/ && $(MAKE) -s docker-build docker-export kind-import && \
+	cd $(SCANNERS_DIR)/sslyze/ && $(MAKE) -s docker-build docker-export kind-import && \
 	helm -n integration-tests upgrade --install sslyze . --wait \
 		--set="parser.image.repository=docker.io/$(IMG_NS)/$(parser-prefix)-sslyze" \
 		--set="parser.image.tag=$(IMG_TAG)" \

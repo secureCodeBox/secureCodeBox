@@ -72,10 +72,10 @@ test: | reset-integration-tests-namespace reset-demo-targets-namespace clean-ope
 
 install-deps-js:
 	@echo ".: ⚙️ Installing all $(module) specific javascript dependencies."
-	cd ./.. && npm ci
-	cd ./../.. && npm ci
+	cd .. && npm ci
+	cd ../.. && npm ci
 	cd ../../${module}-sdk/nodejs && npm ci
-	cd ./${module}/ && npm ci
+	cd ${module}/ && npm ci
 
 unit-test-js: install-deps-js
 	@echo ".: 🧪 Starting unit-tests for '$(name)' $(module) with 'jest@$(JEST_VERSION)'."
@@ -84,13 +84,13 @@ unit-test-js: install-deps-js
 install-deps-py:
 	@echo ".: ⚙️ Installing all $(module) specific python dependencies."
 	python -m pip install --upgrade pip setuptools wheel pytest
-	cd ./$(module)/ && pip install -r requirements.txt
+	cd $(module)/ && pip install -r requirements.txt
 
 unit-test-py: install-deps-py
-	cd ./$(module)/ && pytest --ignore-glob='*_local.py' --ignore=tests/docker
+	cd $(module)/ && pytest --ignore-glob='*_local.py' --ignore=tests/docker
 
 unit-test-java:
-	cd ./$(module)/ && ./gradlew test
+	cd $(module)/ && ./gradlew test
 
 common-docker-build:
 	@echo ".: ⚙️ Build '$(name)' $(module) with BASE_IMG_TAG: '$(BASE_IMG_TAG)'."

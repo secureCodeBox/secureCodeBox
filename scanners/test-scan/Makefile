@@ -24,4 +24,4 @@ deploy-with-scanner:
 integration-tests:
 	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
 	kubectl -n integration-tests delete scans --all
-	cd ../../tests/integration/ && npm ci &&	npx --yes --package jest@$(JEST_VERSION) jest --verbose --ci --colors --coverage --passWithNoTests generic/findings-validation.test.js
+	cd $(PROJECT_DIR)/tests/integration/ && npm ci &&	npx --yes --package jest@$(JEST_VERSION) jest --verbose --ci --colors --coverage --passWithNoTests generic/findings-validation.test.js
