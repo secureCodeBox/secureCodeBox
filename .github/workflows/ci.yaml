@@ -5,6 +5,7 @@
 name: "CI"
 on:
   push:
+  pull_request:
   schedule:
     - cron: "15 2 * * *" # Nightly-Build at 2:15 AM UTC
 
