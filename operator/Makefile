@@ -150,7 +150,7 @@ kustomize: ## Download kustomize locally if necessary.
 
 # go-install-tool will 'go install' any package $2 and install it to $1.
 # GOBIN needs to be an absolute path so an additional absolute path project dir variable is used
-ABS_PROJECT_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
+ABS_PROJECT_DIR=$(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
 define go-install-tool
 @[ -f $(1) ] || { \
 set -e ;\
