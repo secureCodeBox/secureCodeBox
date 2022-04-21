@@ -200,7 +200,7 @@ Kubernetes: `>=v1.11.0-0`
 | scanner.securityContext.capabilities.drop[0] | string | `"all"` |  |
 | scanner.securityContext.privileged | bool | `false` |  |
 | scanner.securityContext.readOnlyRootFilesystem | bool | `false` |  |
-| scanner.securityContext.runAsNonRoot | bool | `true` |  |
+| scanner.securityContext.runAsNonRoot | bool | `false` |  |
 | scanner.tolerations | list | `[]` | Optional tolerations settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
 | scanner.ttlSecondsAfterFinished | string | `nil` |  |
 

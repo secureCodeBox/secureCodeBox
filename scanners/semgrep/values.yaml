@@ -44,7 +44,7 @@ scanner:
   extraContainers: []
 
   securityContext:
-    runAsNonRoot: true
+    runAsNonRoot: false
     readOnlyRootFilesystem: false
     allowPrivilegeEscalation: false
     privileged: false
