@@ -10,6 +10,6 @@
   ],
   "language": "en",
   "noConfigSearch": true,
-  "words": [],
+  "words": ["secureCodeBox", "kubernetes"],
   "version": "0.2"
 }
