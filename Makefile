@@ -95,6 +95,12 @@ test-hook:
 	make test -C $(HOOKS_DIR)/$(target)		
 
 
+# only lints changed files
 .PHONY:
-megalint:
+lint:
+	npx mega-linter-runner --env VALIDATE_ALL_CODEBASE=false
+
+# lints every file in the repo
+.PHONY:
+lintall:
 	npx mega-linter-runner
