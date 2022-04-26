@@ -8,5 +8,6 @@ DISABLE:
   - COPYPASTE # Comment to enable checks of excessive copy-pastes
   # - SPELL # Uncomment to disable checks of spelling mistakes
 SHOW_ELAPSED_TIME: true
-FILEIO_REPORTER: false
 DISABLE_ERRORS: true # Uncomment if you want MegaLinter to detect errors but not block CI to pass
+FILTER_REGEX_EXCLUDE: (.*\.md)
+VALIDATE_ALL_CODEBASE: false

@@ -98,9 +98,9 @@ test-hook:
 # only lints changed files
 .PHONY:
 lint:
-	npx mega-linter-runner --env VALIDATE_ALL_CODEBASE=false
+	npx mega-linter-runner 
 
 # lints every file in the repo
 .PHONY:
 lintall:
-	npx mega-linter-runner
+	npx mega-linter-runner --env VALIDATE_ALL_CODEBASE=true
