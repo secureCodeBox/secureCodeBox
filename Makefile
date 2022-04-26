@@ -98,7 +98,9 @@ test-hook:
 .PHONY:
 lint: ## Lint only changed files with respect to main branch
 	npx mega-linter-runner 
+	@printf "\033[36m\n\n\nThe generated reports can be found under ./report/linters_logs/ \n\n\033[0m"
 
 .PHONY:
 lintall: ## Lint complete repo
 	npx mega-linter-runner --env VALIDATE_ALL_CODEBASE=true
+	@printf "\033[36m\n\n\nThe generated reports can be found under ./report/linters_logs/ \n\n\033[0m"
