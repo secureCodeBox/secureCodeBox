@@ -37,7 +37,7 @@ dashboard-importer-kind-import:
 
 deploy: ## 💾 Deploy this module via HelmChart into namespace "integration-tests"
 	@echo ".: 💾 Deploying '$(name)' $(hook-prefix) HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
-	helm -n integration-tests upgrade --install $(name) . --wait \
+	helm -n integration-tests upgrade --install $(name) . --timeout 10m --wait  \
 		--set="hook.image.repository=docker.io/$(IMG_NS)/$(hook-prefix)-$(name)" \
 		--set="hook.image.tag=$(IMG_TAG)" \
 		--set="dashboardImporter.image.tag=$(IMG_TAG)"
