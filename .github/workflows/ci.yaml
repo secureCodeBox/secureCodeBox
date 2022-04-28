@@ -434,7 +434,7 @@ jobs:
           - cascading-scans
           - generic-webhook
           - persistence-azure-monitor
-          #- persistence-elastic Deployment step is successful locally, but fails on the CI
+          - persistence-elastic
           - update-field
           - finding-post-processing
           - notification
