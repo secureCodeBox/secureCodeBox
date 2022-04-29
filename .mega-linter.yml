@@ -7,7 +7,7 @@ APPLY_FIXES: none # all, none, or list of linter keys
 DISABLE:
   - COPYPASTE # Comment to enable checks of excessive copy-pastes
   - MARKDOWN # Disable markdown as the readmes are generated automatically
-  # - SPELL # Uncomment to disable checks of spelling mistakes
+  - CREDENTIALS # Disable checks for credentials, as there are some false positives in the repo for documentation purposes (e.g demo-targets)
 DISABLE_LINTERS:
   - JAVASCRIPT_STANDARD # standard is a javascript linter that by design can not be configured in any way. This project uses eslint anyways.
   - SPELL_CSPELL # disable cspell because if finds way to many false positives and it would be way to much work to exclude all false positives
