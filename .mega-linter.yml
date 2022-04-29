@@ -12,6 +12,7 @@ DISABLE_LINTERS:
   - JAVASCRIPT_STANDARD # standard is a javascript linter that by design can not be configured in any way. This project uses eslint anyways.
   - SPELL_CSPELL # disable cspell because if finds way to many false positives and it would be way to much work to exclude all false positives
   - EDITORCONFIG_EDITORCONFIG # this linter complains about non important stuff like tabs instead of spaces etc. Disabled because its annoying
+  - PYTHON_MYPY # fails because missing cache file "error: --install-types failed (no mypy cache directory)". See https://github.com/python/mypy/issues/10600#issuecomment-857351152
 
 SHOW_ELAPSED_TIME: true
 DISABLE_ERRORS: true # Uncomment if you want MegaLinter to detect errors but not block CI to pass
