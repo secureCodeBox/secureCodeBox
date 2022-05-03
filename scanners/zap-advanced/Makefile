@@ -30,6 +30,7 @@ kind-import-parser:
 	cd $(SCANNERS_DIR)/zap/ && $(MAKE) -s kind-import-parser
 
 deploy-with-scanner:
+	rm -rf venv # delete venv. Otherwise it would be deployed with zap
 	@echo ".: 💾 Deploying custom '$(scanner)' scanner HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
 	helm -n integration-tests upgrade --install $(scanner) ./ --wait \
 		--set="parser.image.repository=docker.io/$(IMG_NS)/$(parser-prefix)-zap" \
