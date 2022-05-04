@@ -273,13 +273,15 @@ jobs:
           echo "List all 'HelmCharts' in all namespaces"
           helm list --all-namespaces
           echo "List all 'Scans' in all namespaces"
-          kubectl -n integration-tests get scan -o wide --all-namespaces
+          kubectl get scans -o wide --all-namespaces
           echo "List all 'Jobs' in all namespaces"
-          kubectl -n integration-tests get jobs -o wide --all-namespaces
+          kubectl get jobs -o wide --all-namespaces
           echo "List all 'Pods' in all namespaces"
-          kubectl -n integration-tests get pods -o wide --all-namespaces
+          kubectl get pods -o wide --all-namespaces
           echo "List all 'Services' in all namespaces"
-          kubectl -n integration-tests get services -o wide --all-namespaces
+          kubectl get services -o wide --all-namespaces
+          echo "Describe Pods in 'integration-tests' namespace"
+          kubectl describe pod -n integration-tests
 
       - name: "Inspect Operator"
         if: failure()
@@ -578,13 +580,15 @@ jobs:
           echo "List all 'HelmCharts' in all namespaces"
           helm list --all-namespaces
           echo "List all 'Scans' in all namespaces"
-          kubectl get scan -o wide --all-namespaces
+          kubectl get scans -o wide --all-namespaces
           echo "List all 'Jobs' in all namespaces"
           kubectl get jobs -o wide --all-namespaces
           echo "List all 'Pods' in all namespaces"
           kubectl get pods -o wide --all-namespaces
           echo "List all 'Services' in all namespaces"
           kubectl get services -o wide --all-namespaces
+          echo "Describe Pods in 'integration-tests' namespace"
+          kubectl describe pod -n integration-tests
 
       - name: "Inspect Operator"
         if: failure()
