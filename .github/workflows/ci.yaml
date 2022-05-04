@@ -405,6 +405,8 @@ jobs:
           kubectl get pods -o wide --all-namespaces
           echo "List all 'Services' in all namespaces"
           kubectl get services -o wide --all-namespaces
+          echo "Describe Pods in 'integration-tests' namespace"
+          kubectl describe pod -n integration-tests
 
       - name: "Inspect Operator"
         if: failure()
