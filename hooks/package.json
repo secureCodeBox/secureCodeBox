@@ -2,7 +2,6 @@
   "name": "@securecodebox/hooks",
   "version": "1.0.0",
   "description": "NPM library to easily set up new hooks for the secureCodeBox",
-  "type": "module",
   "homepage": "https://www.secureCodeBox.io",
   "repository": {
     "type": "git",
