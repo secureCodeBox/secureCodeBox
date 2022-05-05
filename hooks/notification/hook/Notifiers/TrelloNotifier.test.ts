@@ -14,6 +14,16 @@ beforeEach(() => {
   jest.clearAllMocks();
 })
 
+const finding: Finding = {
+  name: "test finding",
+  description: "test finding description",
+  location: "hostname",
+  category: "Open Port",
+  severity: "high",
+  osi_layer: "asdf",
+  attributes: new Map(),
+};
+
 const channel: NotificationChannel = {
   name: "Channel Name",
   type: NotifierType.TRELLO,
@@ -65,7 +75,10 @@ test("Should Create Cards With Findings And Severities", async () => {
     },
   };
 
-  const trelloNotifier = new TrelloNotifier(channel, scan, [], []);
+  const findings: Finding[] = []
+  findings.push(finding)
+
+  const trelloNotifier = new TrelloNotifier(channel, scan, findings, []);
   trelloNotifier.sendMessage();
   expect(axios.post).toBeCalled();
 });
@@ -99,7 +112,10 @@ test("Should Send Minimal Template For Empty Findings", async () => {
     },
   };
 
-  const n = new TrelloNotifier(channel, scan, [], []);
-  n.sendMessage();
+  const findings: Finding[] = []
+  findings.push(finding)
+
+  const trelloNotifier = new TrelloNotifier(channel, scan, findings, []);
+  trelloNotifier.sendMessage();
   expect(axios.post).toBeCalled();
 })
