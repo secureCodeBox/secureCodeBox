@@ -4,6 +4,7 @@
 
 import { TrelloNotifier } from "./TrelloNotifier";
 import axios from 'axios'
+import { Finding } from "../model/Finding";
 import { NotificationChannel } from "../model/NotificationChannel";
 import { NotifierType } from "../NotifierType";
 import { Scan } from "../model/Scan";
