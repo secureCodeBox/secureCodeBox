@@ -13,6 +13,7 @@ import { NotifierType } from "./NotifierType";
 
 const finding: Finding = {
   name: "test finding",
+  description: "test finding description",
   location: "hostname",
   category: "Open Port",
   severity: "high",
