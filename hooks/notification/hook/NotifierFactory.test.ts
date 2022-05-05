@@ -8,6 +8,7 @@ import { Scan } from "./model/Scan";
 import { NotifierFactory } from "./NotifierFactory"
 import { SlackNotifier } from "./Notifiers/SlackNotifier";
 import { MSTeamsNotifier } from "./Notifiers/MSTeamsNotifier";
+import { TrelloNotifier } from "./Notifiers/TrelloNotifier";
 import { NotifierType } from "./NotifierType";
 
 const finding: Finding = {
@@ -89,4 +90,20 @@ test("Should Create MS Teams Notifier", async () => {
   const s = NotifierFactory.create(chan, scan, findings, []);
 
   expect(s instanceof MSTeamsNotifier).toBe(true);
+})
+
+test("Should Create Trello Notifier", async () => {
+  const chan: NotificationChannel = {
+    name: "trello",
+    type: NotifierType.TRELLO,
+    template: "template",
+    rules: [],
+    endPoint: "some.endpoint"
+  }
+  const findings: Finding[] = []
+  findings.push(finding)
+
+  const s = NotifierFactory.create(chan, scan, findings, []);
+
+  expect(s instanceof TrelloNotifier).toBe(true);
 })

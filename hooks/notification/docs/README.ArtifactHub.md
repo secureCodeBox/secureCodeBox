@@ -74,6 +74,7 @@ Please take a look at the documentation for each type (e.g. for slack see [Confi
 - [Slack App](#configuration-of-a-slack-app-notification)
 - [Email](#configuration-of-an-email-notification)
 - [MS Teams](#configuration-of-a-ms-teams-notification)
+- [Trello](#configuration-of-a-trello-notification)
 
 ### Configuration of a Notification
 
@@ -329,6 +330,78 @@ env:
     value: "somedashboard.url"
   - name: VULNMANAG_DASHBOARD_FINDINGS_URL
     value: "somedashboard.url/findings/{{ uid }}"
+```
+
+#### Configuration of a Trello Notification
+A Trello notification is used to create Trello cards for each finding that matches the defined rules. This allows integrating SecureCodeBox into your development workflow. Each finding will be created as a card with the following information:
+```
+Card Name: <severity>: <name>
+Card Body: <location> <category> <description> <attributes>
+```
+
+##### Requirements: 
+- Please read the [Trello API documentation](https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction/) for a description on how to setup your Trello key and token. You 
+- Identify your target card list where the new cards will be created and get the list ID. To find the card list and label ids use the Trello JSON hack as described here https://stackoverflow.com/questions/26552278/trello-api-getting-boards-lists-cards-information
+
+##### Configuration
+To configure a Trello notification set the `type` to `trello` and the `endPoint` to point to your env containing the Trello cards API endpoint. You also need to define the following env vars (if an env var is not defined it will take the default value, if required and not set the notification won't be sent):
+- TRELLO_CARDS_ENDPOINT: The Trello cards API endpoint. Default: https://api.trello.com/1/cards.
+- TRELLO_KEY: Your Trello API key. Reade the requirements above. Required.
+- TRELLO_TOKEN: Your Trello API token. Reade the requirements above. Required.
+- TRELLO_LIST: Id if the list where the cards will be placed. Required.
+- TRELLO_LABELS: Comma separated list of label IDs to apply to the card. If empty no labels will be applied. Default: "")
+- TRELLO_POS: The position in the list where the new card will be placed as defined by the Trello cards API. Default: top.
+
+
+##### Example Config
+
+The below example shows how to create a helm values chart and load secrets for access.
+You must have `endPoint` point to a [defined environment variable](https://github.com/secureCodeBox/secureCodeBox/blob/main/hooks/notification/hook/hook.ts#L20), not a string.
+
+```
+# cat myvalues.yaml
+
+notificationChannels:
+  - name: nmapopenports
+    type: trello
+    skipNotificationOnZeroFinding: true
+    rules:
+      - matches:
+          anyOf:
+            - category: "Open Port"
+    endPoint: TRELLO_CARDS_ENDPOINT
+env:
+    - name: TRELLO_CARDS_ENDPOINT
+      value: https://api.trello.com/1/cards
+    - name: TRELLO_KEY
+      valueFrom:
+        secretKeyRef:
+          name: trello
+          key: key
+    - name: TRELLO_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: trello
+          key: token
+    - name: TRELLO_LIST
+      value: 123a456b789c013d
+    - name: TRELLO_LABELS
+      value: "111a111b222c333f,555a666b777c888d"
+    - name: TRELLO_POS
+      value: top
+
+# cat values_trello_secrets.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+    name: trello
+type: Opaque
+data:
+    key: <MYTRELLOAPIKEY>
+    token: <MYTRELLOAPITOKEN>
+
+kubectl apply -f values_trello_secrets.yaml
+helm upgrade --install nwh secureCodeBox/notification-hook --values myvalues.yaml
 ```
 
 ### Custom Message Templates

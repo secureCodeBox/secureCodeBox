@@ -4,6 +4,7 @@
 
 export interface Finding {
   name: string;
+  description: string;
   location: string;
   category: string;
   severity: string;
