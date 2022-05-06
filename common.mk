@@ -75,6 +75,7 @@ BASE_IMG_TAG ?= sha-$(GIT_TAG)
 IMG_TAG ?= "sha-$(GIT_TAG)"
 JEST_VERSION ?= latest
 KIND_CLUSTER_NAME ?= kind
+PYTHON_VENV_NAME ?= venv
 
 parser-prefix = parser
 scanner-prefix = scanner
@@ -96,10 +97,12 @@ unit-test-js: install-deps-js
 	@echo ".: 🧪 Starting unit-tests for '$(name)' $(module) with 'jest@$(JEST_VERSION)'."
 	npx --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage --passWithNoTests ${name}/${module}/
 
-install-deps-py:
-	@echo ".: ⚙️ Installing all $(module) specific python dependencies."
+$(PYTHON_VENV_NAME):
 	@echo "Creating venv to avoid installing deps system wide"
-	$(PYTHON) -m venv venv
+	$(PYTHON) -m venv $(PYTHON_VENV_NAME)
+
+install-deps-py: | $(PYTHON_VENV_NAME)
+	@echo ".: ⚙️ Installing all $(module) specific python dependencies."
 	./venv/bin/pip install --upgrade pip setuptools wheel pytest
 	./venv/bin/pip install -r $(module)/requirements.txt
 
