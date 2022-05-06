@@ -103,11 +103,11 @@ $(PYTHON_VENV_NAME):
 
 install-deps-py: | $(PYTHON_VENV_NAME)
 	@echo ".: ⚙️ Installing all $(module) specific python dependencies."
-	./venv/bin/pip install --upgrade pip setuptools wheel pytest
-	./venv/bin/pip install -r $(module)/requirements.txt
+	./$(PYTHON_VENV_NAME)/bin/pip install --upgrade pip setuptools wheel pytest
+	./$(PYTHON_VENV_NAME)/bin/pip install -r $(module)/requirements.txt
 
 unit-test-py: install-deps-py
-	cd $(module)/ && ../venv/bin/python -m pytest --ignore-glob='*_local.py' --ignore=tests/docker
+	cd $(module)/ && ../$(PYTHON_VENV_NAME)/bin/python -m pytest --ignore-glob='*_local.py' --ignore=tests/docker
 
 unit-test-java:
 	cd $(module)/ && ./gradlew test
