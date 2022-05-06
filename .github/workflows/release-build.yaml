@@ -424,6 +424,7 @@ jobs:
           - screenshooter
           - test-scan
           - zap-advanced
+          - sslyze
     steps:
       - name: Checkout
         uses: actions/checkout@v2
