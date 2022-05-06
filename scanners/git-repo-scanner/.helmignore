@@ -38,3 +38,4 @@ integration-tests/*
 examples/*
 docs/*
 Makefile
+venv # venv folder name is specified in common.mk
