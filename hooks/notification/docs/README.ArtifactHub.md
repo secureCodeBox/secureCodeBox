@@ -347,7 +347,7 @@ Card Body: <location> <category> <description> <attributes>
 ##### Configuration
 To configure a Trello notification set the `type` to `trello` and the `endPoint` to point to your env containing the Trello cards API endpoint. You also need to define the following env vars (if an env var is not defined it will take the default value, if required and not set the notification won't be sent):
 - TRELLO_CARDS_ENDPOINT: The Trello cards API endpoint. Default: https://api.trello.com/1/cards.
-- TRELLO_KEY: Your Trello API key. Reade the requirements above. Required.
+- TRELLO_KEY: Your Trello API key. Read the requirements above. Required.
 - TRELLO_TOKEN: Your Trello API token. Read the requirements above. Required.
 - TRELLO_LIST: Trello unique Id if the list where the cards will be placed. Required.
 - TRELLO_LABELS: Comma separated list of Trello label IDs to apply to the card. If empty no labels will be applied. Default: ""
