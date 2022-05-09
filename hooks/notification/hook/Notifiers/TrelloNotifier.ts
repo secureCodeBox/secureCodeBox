@@ -34,7 +34,7 @@ export class TrelloNotifier extends AbstractWebHookNotifier {
     if(TrelloNotifier.TRELLO_CARDS_ENDPOINT in process.env) { 
       return super.resolveEndPoint(); 
     }
-    return "https://api.trello.com/1/cards"
+    return "https://api.trello.com/1/cards";
   }
 
   // The Trello hook will create a card for each finding
@@ -83,7 +83,7 @@ export class TrelloNotifier extends AbstractWebHookNotifier {
     if(TrelloNotifier.TRELLO_LABELS in process.env) { 
       return process.env[TrelloNotifier.TRELLO_LABELS];
     }
-    return ""
+    return "";
   }
 
   // If card pos env not defined return top
@@ -91,7 +91,7 @@ export class TrelloNotifier extends AbstractWebHookNotifier {
     if(TrelloNotifier.TRELLO_POS in process.env) { 
       return process.env[TrelloNotifier.TRELLO_POS];
     }
-    return "top"
+    return "top";
   }
 
   // Any user defined prefix to add to the card title
@@ -99,7 +99,7 @@ export class TrelloNotifier extends AbstractWebHookNotifier {
     if(TrelloNotifier.TRELLO_TITLE_PREFIX in process.env) { 
       return process.env[TrelloNotifier.TRELLO_TITLE_PREFIX];
     }
-    return ""
+    return "";
   }
 
   // Constructs the card name from the finding
@@ -108,7 +108,9 @@ export class TrelloNotifier extends AbstractWebHookNotifier {
   }
 
   private getCardDescription(finding: Finding): string {
-    let res = "Location: " + finding.location + "\n" +
+
+    let res = "Scan Type: " + this.scan.spec.scanType + "\n" +
+          "Location: " + finding.location + "\n" +
           "Description: " + finding.description + "\n";
 
     // Add Zap specific information if available

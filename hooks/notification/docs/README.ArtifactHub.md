@@ -349,7 +349,7 @@ To configure a Trello notification set the `type` to `trello` and the `endPoint`
 - TRELLO_CARDS_ENDPOINT: The Trello cards API endpoint. Default: https://api.trello.com/1/cards.
 - TRELLO_KEY: Your Trello API key. Read the requirements above. Required.
 - TRELLO_TOKEN: Your Trello API token. Read the requirements above. Required.
-- TRELLO_LIST: Trello unique Id if the list where the cards will be placed. Required.
+- TRELLO_LIST: Trello unique Id of the list where the cards will be placed. Required.
 - TRELLO_LABELS: Comma separated list of Trello label IDs to apply to the card. If empty no labels will be applied. Default: ""
 - TRELLO_POS: The position of the card in the list as defined by the Trello cards API. Options: top, bottom, or a positive float. Default: top.
 - TRELLO_TITLE_PREFIX: An optional  arbitrary text to add to the title of the card. Default "".
