@@ -340,17 +340,19 @@ Card Body: <location> <category> <description> <attributes>
 ```
 
 ##### Requirements: 
-- Please read the [Trello API documentation](https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction/) for a description on how to setup your Trello key and token. You 
+- Please read the [Trello API documentation](https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction/) for a description on how to setup your Trello key and token.
 - Identify your target card list where the new cards will be created and get the list ID. To find the card list and label ids use the Trello JSON hack as described here https://stackoverflow.com/questions/26552278/trello-api-getting-boards-lists-cards-information
+- Read the [Trello Cards API](https://developer.atlassian.com/cloud/trello/rest/api-group-cards) for more information on the card creation options.
 
 ##### Configuration
 To configure a Trello notification set the `type` to `trello` and the `endPoint` to point to your env containing the Trello cards API endpoint. You also need to define the following env vars (if an env var is not defined it will take the default value, if required and not set the notification won't be sent):
 - TRELLO_CARDS_ENDPOINT: The Trello cards API endpoint. Default: https://api.trello.com/1/cards.
 - TRELLO_KEY: Your Trello API key. Reade the requirements above. Required.
-- TRELLO_TOKEN: Your Trello API token. Reade the requirements above. Required.
-- TRELLO_LIST: Id if the list where the cards will be placed. Required.
-- TRELLO_LABELS: Comma separated list of label IDs to apply to the card. If empty no labels will be applied. Default: "")
-- TRELLO_POS: The position in the list where the new card will be placed as defined by the Trello cards API. Default: top.
+- TRELLO_TOKEN: Your Trello API token. Read the requirements above. Required.
+- TRELLO_LIST: Trello unique Id if the list where the cards will be placed. Required.
+- TRELLO_LABELS: Comma separated list of Trello label IDs to apply to the card. If empty no labels will be applied. Default: ""
+- TRELLO_POS: The position of the card in the list as defined by the Trello cards API. Options: top, bottom, or a positive float. Default: top.
+- TRELLO_TITLE_PREFIX: An optional  arbitrary text to add to the title of the card. Default "".
 
 
 ##### Example Config
@@ -359,7 +361,7 @@ The below example shows how to create a helm values chart and load secrets for a
 You must have `endPoint` point to a [defined environment variable](https://github.com/secureCodeBox/secureCodeBox/blob/main/hooks/notification/hook/hook.ts#L20), not a string.
 
 ```
-# cat myvalues.yaml
+# cat trello_values.yaml
 
 notificationChannels:
   - name: nmapopenports
@@ -389,19 +391,21 @@ env:
       value: "111a111b222c333f,555a666b777c888d"
     - name: TRELLO_POS
       value: top
+    - name: TRELLO_TITLE_PREFIX
+      value: "Alert! "
 
-# cat values_trello_secrets.yaml
+# cat trello_secrets.yaml
 apiVersion: v1
 kind: Secret
 metadata:
     name: trello
 type: Opaque
 data:
-    key: <MYTRELLOAPIKEY>
-    token: <MYTRELLOAPITOKEN>
+    key: YOURSECRETTRELLOAPIKEY
+    token: YOURSECRETTRELLOAPITOKEN
 
-kubectl apply -f values_trello_secrets.yaml
-helm upgrade --install nwh secureCodeBox/notification-hook --values myvalues.yaml
+kubectl apply -f trello_secrets.yaml
+helm upgrade --install nwh secureCodeBox/notification-hook --values trello_values.yaml
 ```
 
 ### Custom Message Templates

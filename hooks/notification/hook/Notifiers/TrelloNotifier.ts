@@ -18,6 +18,7 @@ export class TrelloNotifier extends AbstractWebHookNotifier {
   public static readonly TRELLO_LIST = 'TRELLO_LIST';
   public static readonly TRELLO_LABELS = 'TRELLO_LABELS';
   public static readonly TRELLO_POS = 'TRELLO_POS';
+  public static readonly TRELLO_TITLE_PREFIX = 'TRELLO_TITLE_PREFIX';
 
   protected type: NotifierType = NotifierType.TRELLO
 
@@ -93,16 +94,32 @@ export class TrelloNotifier extends AbstractWebHookNotifier {
     return "top"
   }
 
+  // Any user defined prefix to add to the card title
+  private getTrelloTitlePrefix(): string {
+    if(TrelloNotifier.TRELLO_TITLE_PREFIX in process.env) { 
+      return process.env[TrelloNotifier.TRELLO_TITLE_PREFIX];
+    }
+    return ""
+  }
+
   // Constructs the card name from the finding
   private getCardName(finding: Finding): string {
-    return "ZAP: " + finding.name + "(" + finding.severity + ")";
+    return this.getTrelloTitlePrefix() + finding.name + "(" + finding.severity + ")";
   }
 
   private getCardDescription(finding: Finding): string {
-    return  "Location: " + finding.location + "\n" +
-            "Description: " + finding.description + "\n" +
-            "Solution: " + finding.attributes["zap_solution"] + "\n" +
-            "Reference: " + finding.attributes["zap_reference"];
+    let res = "Location: " + finding.location + "\n" +
+          "Description: " + finding.description + "\n";
+
+    // Add Zap specific information if available
+    if(finding.attributes.size > 0) {
+      if("zap_solution" in finding.attributes)
+        res += "Solution: " + finding.attributes["zap_solution"] + "\n";
+      if("zap_reference" in finding.attributes)
+        res += "Reference: " + finding.attributes["zap_reference"] + "\n";
+    }
+
+    return res;
   }
 
 
