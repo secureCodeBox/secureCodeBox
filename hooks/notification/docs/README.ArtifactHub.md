@@ -400,7 +400,7 @@ kind: Secret
 metadata:
     name: trello
 type: Opaque
-data:
+stringData:
     key: YOURSECRETTRELLOAPIKEY
     token: YOURSECRETTRELLOAPITOKEN
 
