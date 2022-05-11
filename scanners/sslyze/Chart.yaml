@@ -12,7 +12,7 @@ appVersion: "5.0.4"
 kubeVersion: ">=v1.11.0-0"
 annotations:
   versionApi: https://api.github.com/repos/nabla-c0d3/sslyze/releases/latest
-  supportedPlatforms: linux/amd64
+  supported-platforms: linux/amd64
 keywords:
   - security
   - ssl
