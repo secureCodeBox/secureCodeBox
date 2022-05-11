@@ -13,7 +13,7 @@ appVersion: "7.92-r2"
 kubeVersion: ">=v1.11.0-0"
 annotations:
   # supported cpu architectures for which docker images for the scanner should be build
-  supported-platforms: linux/amd64
+  supported-platforms: linux/amd64,linux/arm64
 keywords:
   - security
   - nmap
