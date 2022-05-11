@@ -8,6 +8,7 @@ import { SlackNotifier } from "./Notifiers/SlackNotifier";
 import { SlackAppNotifier } from "./Notifiers/SlackAppNotifier";
 import { EMailNotifier } from "./Notifiers/EMailNotifier";
 import { MSTeamsNotifier } from "./Notifiers/MSTeamsNotifier";
+import { TrelloNotifier } from "./Notifiers/TrelloNotifier";
 import { NotificationChannel } from "./model/NotificationChannel";
 import { Scan } from "./model/Scan";
 import { Finding } from "./model/Finding";
@@ -28,6 +29,8 @@ export class NotifierFactory {
         return new SlackAppNotifier(channel, scan, findings, args);
       case NotifierType.MS_TEAMS:
         return new MSTeamsNotifier(channel, scan, findings, args);
+      case NotifierType.TRELLO:
+        return new TrelloNotifier(channel, scan, findings, args);
       default:
         throw new Error("This Type is not Implemented :(");
     }

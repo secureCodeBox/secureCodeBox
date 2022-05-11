@@ -11,6 +11,7 @@ import { NotifierType } from "./NotifierType";
 test("Should Match for High Severity Findings", async () => {
   const finding: Finding = {
     name: "test finding",
+    description: "test finding description",
     location: "hostname",
     category: "Open Port",
     severity: "high",
@@ -33,6 +34,7 @@ test("Should Match for High Severity Findings", async () => {
 test("Should Not Match for High Severity Findings", async () => {
   const finding: Finding = {
     name: "test finding",
+    description: "test finding description",
     location: "hostname",
     category: "Open Port",
     severity: "high",
@@ -56,6 +58,7 @@ test("Should Not Match for High Severity Findings", async () => {
 test("Should Match for Multiple 'anyOf' Rules", async () => {
   const finding: Finding = {
     name: "test finding",
+    description: "test finding description",
     location: "hostname",
     category: "Open Port",
     severity: "high",
@@ -81,6 +84,7 @@ test("Should Match for Multiple 'anyOf' Rules", async () => {
 test("Should NOT Match Multiple 'anyOf' Rules", async () => {
   const finding: Finding = {
     name: "test finding",
+    description: "test finding description",
     location: "hostname",
     category: "Open Port",
     severity: "high",
@@ -107,6 +111,7 @@ test("Should NOT Match Multiple 'anyOf' Rules", async () => {
 test("Should Match Multiple 'and' Rules", async () => {
   const finding: Finding = {
     name: "test finding",
+    description: "test finding description",
     location: "hostname",
     category: "Open Port",
     severity: "high",
@@ -141,6 +146,7 @@ test("Should Match Multiple 'and' Rules", async () => {
 test("Should Not Match Multiple 'and' Rules", async () => {
   const finding: Finding = {
     name: "test finding",
+    description: "test finding description",
     location: "hostname",
     category: "Open Port",
     severity: "high",
@@ -175,6 +181,7 @@ test("Should Not Match Multiple 'and' Rules", async () => {
 test("Should Match If No Rules Provided", async () => {
   const finding: Finding = {
     name: "test finding",
+    description: "test finding description",
     location: "hostname",
     category: "Open Port",
     severity: "high",
