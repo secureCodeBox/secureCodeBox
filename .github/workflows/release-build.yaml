@@ -367,6 +367,7 @@ jobs:
           - ncrack
           - nmap
           - nikto
+          - sslyze
           - typo3scan
           - whatweb
 
@@ -440,7 +441,6 @@ jobs:
           - screenshooter
           - test-scan
           - zap-advanced
-          - sslyze
     steps:
       - name: Checkout
         uses: actions/checkout@v2
