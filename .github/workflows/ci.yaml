@@ -438,7 +438,7 @@ jobs:
           - cascading-scans
           - generic-webhook
           - persistence-azure-monitor
-          - persistence-elastic
+          #- persistence-elastic # Fails on the CI due to insufficient cpu as mentioned in issue #1165
           - update-field
           - finding-post-processing
           - notification
