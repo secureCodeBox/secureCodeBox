@@ -381,6 +381,12 @@ jobs:
         with:
           cmd: echo scannerVersion=$(yq e .appVersion scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
 
+      # extract the supported cpu architectures from the Chart.yaml
+      - name: Set ENV Var with Supported Platforms
+        uses: mikefarah/yq@v4.4.1
+        with:
+          cmd: echo supportedPlatforms=$(yq e .annotations.supported-platforms scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
+
       - name: Docker Meta
         id: docker_meta
         uses: docker/metadata-action@v3
@@ -406,7 +412,7 @@ jobs:
           file: ./scanners/${{ matrix.scanner }}/scanner/Dockerfile
           build-args: |
             scannerVersion=${{ env.scannerVersion }}
-          platforms: linux/amd64
+          platforms: ${{ env.supportedPlatforms }}
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}

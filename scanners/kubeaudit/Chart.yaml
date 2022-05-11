@@ -11,6 +11,8 @@ appVersion: "0.16.0"
 kubeVersion: ">=v1.11.0-0"
 annotations:
   versionApi: https://api.github.com/repos/Shopify/kubeaudit/releases/latest
+  # supported cpu architectures for which docker images for the scanner should be build
+  supported-platforms: linux/amd64
 keywords:
   - security
   - kubeaudit

@@ -13,6 +13,10 @@ version: v3.1.0-alpha1
 appVersion: 2.5.0
 kubeVersion: ">=v1.11.0-0"
 
+annotations:
+  # supported cpu architectures for which docker images for the scanner should be build
+  supported-platforms: linux/amd64
+
 keywords:
   - security
   - nikto
