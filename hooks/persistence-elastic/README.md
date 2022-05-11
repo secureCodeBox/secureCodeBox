@@ -72,7 +72,7 @@ the [Luxon documentation](https://moment.github.io/luxon/docs/manual/formatting.
 | authentication.userSecret | string | `nil` | Link a pre-existing generic secret with `username` and `password` key / value pairs |
 | dashboardImporter.image.repository | string | `"securecodebox/persistence-elastic-dashboard-importer"` |  |
 | dashboardImporter.image.tag | string | `nil` |  |
-| elasticsearch | object | `{"enabled":true,"minimumMasterNodes":1,"replicas":1,"resources":{"limits":{"cpu":"1"},"requests":{"cpu":"0.5"}}}` | Configures the included elasticsearch subchart (see: https://github.com/elastic/helm-charts/tree/elasticsearch) |
+| elasticsearch | object | `{"enabled":true,"minimumMasterNodes":1,"replicas":1}` | Configures the included elasticsearch subchart (see: https://github.com/elastic/helm-charts/tree/elasticsearch) |
 | elasticsearch.enabled | bool | `true` | Enable if you want to deploy an elasticsearch service. |
 | elasticsearch.minimumMasterNodes | int | `1` | The value for discovery.zen.minimum_master_nodes. Should be set to (master_eligible_nodes / 2) + 1. Ignored in Elasticsearch versions >= 7 |
 | elasticsearch.replicas | int | `1` | Kubernetes replica count for the StatefulSet (i.e. how many pods) |
