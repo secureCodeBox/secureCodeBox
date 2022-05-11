@@ -1,4 +1,5 @@
 ARG baseImageTag
+ARG namespace
 FROM node:16-alpine as build
 RUN mkdir -p /home/app
 WORKDIR /home/app
