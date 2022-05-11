@@ -38,6 +38,11 @@ elasticsearch:
   # elasticsearch.minimumMasterNodes -- The value for discovery.zen.minimum_master_nodes. Should be set to (master_eligible_nodes / 2) + 1. Ignored in Elasticsearch versions >= 7
   minimumMasterNodes: 1
   # image: docker.elastic.co/elasticsearch/elasticsearch-oss
+  resources:
+    limits:
+      cpu: "1"
+    requests:
+      cpu: "0.5"
 
 # kibana -- Configures included Elasticsearch subchart
 kibana:
