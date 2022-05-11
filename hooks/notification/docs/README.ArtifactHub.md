@@ -332,21 +332,6 @@ env:
     value: "somedashboard.url/findings/{{ uid }}"
 ```
 
-### Custom Message Templates
-
-CAUTION: Nunjucks templates allow code to be injected! Use templates from trusted sources only!
-
-The Notification Hook enables you to write your own message templates if the templates provided by default are not sufficient.
-Templates for this hook are written using the [Nunjucks](https://mozilla.github.io/nunjucks/) templating engine.
-
-To fill your template with data we provide the following objects.
-
-| object   | Details                                                                                    |
-| -------- | ------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
-| findings | An array of the findings matching your rules (See [Finding                                 | secureCodeBox](https://docs.securecodebox.io/docs/api/finding)                                                                          |
-| scan     | An Object containing information about the scan that triggered the notification (See [Scan | secureCodeBox](https://docs.securecodebox.io/docs/api/crds/scan)                                                                        |
-| args     | contains `process.env` (See: [process.env                                                  | nodejs](https://nodejs.org/api/process.html#process_process_env)) you can use this to access data defined in `env` of the `values.yaml` |
-
 #### Configuration of a Trello Notification
 
 A Trello notification is used to create Trello cards for each finding that matches the defined rules. This allows integrating SecureCodeBox into your development workflow. Each finding will be created as a card with the following information:
@@ -424,6 +409,21 @@ stringData:
 kubectl apply -f trello_secrets.yaml
 helm upgrade --install nwh secureCodeBox/notification-hook --values trello_values.yaml
 ```
+
+### Custom Message Templates
+
+CAUTION: Nunjucks templates allow code to be injected! Use templates from trusted sources only!
+
+The Notification Hook enables you to write your own message templates if the templates provided by default are not sufficient.
+Templates for this hook are written using the [Nunjucks](https://mozilla.github.io/nunjucks/) templating engine.
+
+To fill your template with data we provide the following objects.
+
+| object   | Details                                                                                                                                                                           |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| findings | An array of the findings matching your rules (See [Finding secureCodeBox API Specification](https://docs.securecodebox.io/docs/api/finding)                                       |
+| scan     | An Object containing information about the scan that triggered the notification (See [Scan secureCodeBox API Specification](https://docs.securecodebox.io/docs/api/crds/scan)     |
+| args     | contains `process.env` (See: [process.env nodejs](https://nodejs.org/api/process.html#process_process_env)) you can use this to access data defined in `env` of the `values.yaml` |
 
 ## Values
 
