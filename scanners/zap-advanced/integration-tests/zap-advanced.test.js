@@ -5,7 +5,7 @@
 const {scan} = require("../../helpers");
 
 jest.retryTimes(3);
-
+/*
 test(
   "ZAP-advanced scan without config YAML against a plain 'nginx container' should only find couple findings",
   async () => {
@@ -21,7 +21,7 @@ test(
   },
   60 * 16 * 1000
 );
-
+*/
 test(
   "ZAP-advanced scan without config YAML against 'bodgeit' container should only find couple findings",
   async () => {
