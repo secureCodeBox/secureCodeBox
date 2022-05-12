@@ -37,7 +37,7 @@ deploy-with-scanner:
 		--set="scanner.image.repository=docker.io/$(IMG_NS)/$(scanner-prefix)-$(scanner)" \
 		--set="scanner.image.tag=$(IMG_TAG)"
 
-deploy-test-deps: deploy-test-dep-nginx deploy-test-dep-bodgeit deploy-test-dep-juiceshop deploy-test-dep-petstore
+deploy-test-deps: deploy-test-dep-bodgeit deploy-test-dep-juiceshop deploy-test-dep-petstore
 
 integration-tests:
 	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
