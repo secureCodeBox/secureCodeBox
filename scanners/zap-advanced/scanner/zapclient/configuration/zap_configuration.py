@@ -11,6 +11,8 @@ import logging
 import glob
 import hiyapyco
 
+from typing import List
+
 # set up logging to file - see previous section for more details
 logging.basicConfig(
     level=logging.INFO,
@@ -88,7 +90,7 @@ class ZapConfiguration:
         return result
 
     @property
-    def get_all_contexts(self) -> list[collections.OrderedDict]:
+    def get_all_contexts(self) -> List[collections.OrderedDict]:
         return self.__config["contexts"] if "contexts" in self.__config else []
 
     def _get_active_config_from(self, configs: collections.OrderedDict, key: str):
