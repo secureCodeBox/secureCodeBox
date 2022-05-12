@@ -9,11 +9,14 @@ on:
   schedule:
     - cron: "15 2 * * *" # Nightly-Build at 2:15 AM UTC
 
+# The CI runs on ubuntu-20.04; More info about the installed software is found here:
+# https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-Readme.md
+
 env:
   # ---- Language Versions ----
 
   GO_VERSION: "1.17"
-  PYTHON_VERSION: "3.9"
+  PYTHON_VERSION: "3.8.10"
   NODE_VERSION: "16"
   NPM_VERSION: "7"
 
@@ -24,7 +27,7 @@ jobs:
 
   unit-java:
     name: "Unit-Test | Java"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         unit: ["persistence-defectdojo"]
@@ -45,7 +48,7 @@ jobs:
 
   operator:
     name: "Build | Operator"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         component: ["operator", "lurker"]
@@ -83,7 +86,7 @@ jobs:
 
   auto-discovery-kubernetes:
     name: "AutoDiscovery | Kubernetes"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -122,7 +125,7 @@ jobs:
 
   sdk:
     name: "Build | SDKs"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         sdk:
@@ -154,7 +157,7 @@ jobs:
     needs:
       - sdk
       - operator
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
@@ -305,7 +308,7 @@ jobs:
     needs:
       - sdk
       - operator
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -426,7 +429,7 @@ jobs:
     name: Integration Tests Hook ${{ matrix.hook }} | k8s ${{ matrix.k8sVersion }}
     needs:
       - operator
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         k8sVersion:
