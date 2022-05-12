@@ -563,7 +563,7 @@ jobs:
 
       # ---- Integration-Test ----
 
-      - name: Deploy ${{ matrix.unit }}
+      - name: Deploy ${{ matrix.hook }}
         working-directory: ./hooks/${{ matrix.hook }}
         run: make deploy
       
