@@ -333,19 +333,24 @@ env:
 ```
 
 #### Configuration of a Trello Notification
+
 A Trello notification is used to create Trello cards for each finding that matches the defined rules. This allows integrating SecureCodeBox into your development workflow. Each finding will be created as a card with the following information:
+
 ```
 Card Name: <severity>: <name>
 Card Body: <location> <category> <description> <attributes>
 ```
 
-##### Requirements: 
+##### Requirements
+
 - Please read the [Trello API documentation](https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction/) for a description on how to setup your Trello key and token.
 - Identify your target card list where the new cards will be created and get the list ID. To find the card list and label ids use the Trello JSON hack as described here https://stackoverflow.com/questions/26552278/trello-api-getting-boards-lists-cards-information
 - Read the [Trello Cards API](https://developer.atlassian.com/cloud/trello/rest/api-group-cards) for more information on the card creation options.
 
 ##### Configuration
+
 To configure a Trello notification set the `type` to `trello` and the `endPoint` to point to your env containing the Trello cards API endpoint. You also need to define the following env vars (if an env var is not defined it will take the default value, if required and not set the notification won't be sent):
+
 - TRELLO_CARDS_ENDPOINT: The Trello cards API endpoint. Default: https://api.trello.com/1/cards.
 - TRELLO_KEY: Your Trello API key. Read the requirements above. Required.
 - TRELLO_TOKEN: Your Trello API token. Read the requirements above. Required.
@@ -354,15 +359,13 @@ To configure a Trello notification set the `type` to `trello` and the `endPoint`
 - TRELLO_POS: The position of the card in the list as defined by the Trello cards API. Options: top, bottom, or a positive float. Default: top.
 - TRELLO_TITLE_PREFIX: An optional  arbitrary text to add to the title of the card. Default "".
 
-
 ##### Example Config
 
 The below example shows how to create a helm values chart and load secrets for access.
 You must have `endPoint` point to a [defined environment variable](https://github.com/secureCodeBox/secureCodeBox/blob/main/hooks/notification/hook/hook.ts#L20), not a string.
 
-```
+```yaml
 # cat trello_values.yaml
-
 notificationChannels:
   - name: nmapopenports
     type: trello
@@ -393,7 +396,7 @@ env:
       value: top
     - name: TRELLO_TITLE_PREFIX
       value: "Alert! "
-
+---
 # cat trello_secrets.yaml
 apiVersion: v1
 kind: Secret
@@ -403,7 +406,6 @@ type: Opaque
 stringData:
     key: YOURSECRETTRELLOAPIKEY
     token: YOURSECRETTRELLOAPITOKEN
-
 kubectl apply -f trello_secrets.yaml
 helm upgrade --install nwh secureCodeBox/notification-hook --values trello_values.yaml
 ```
@@ -417,11 +419,11 @@ Templates for this hook are written using the [Nunjucks](https://mozilla.github.
 
 To fill your template with data we provide the following objects.
 
-| object   | Details                                                                                    |
-| -------- | ------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
-| findings | An array of the findings matching your rules (See [Finding                                 | secureCodeBox](https://docs.securecodebox.io/docs/api/finding)                                                                          |
-| scan     | An Object containing information about the scan that triggered the notification (See [Scan | secureCodeBox](https://docs.securecodebox.io/docs/api/crds/scan)                                                                        |
-| args     | contains `process.env` (See: [process.env                                                  | nodejs](https://nodejs.org/api/process.html#process_process_env)) you can use this to access data defined in `env` of the `values.yaml` |
+| object   | Details                                                                                                                                                                           |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| findings | An array of the findings matching your rules (See [Finding secureCodeBox API Specification](https://docs.securecodebox.io/docs/api/finding)                                       |
+| scan     | An Object containing information about the scan that triggered the notification (See [Scan secureCodeBox API Specification](https://docs.securecodebox.io/docs/api/crds/scan)     |
+| args     | contains `process.env` (See: [process.env nodejs](https://nodejs.org/api/process.html#process_process_env)) you can use this to access data defined in `env` of the `values.yaml` |
 
 ## Values
 
