@@ -42,6 +42,8 @@ jobs:
             type=sha
             type=semver,pattern={{version}}
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
@@ -56,7 +58,7 @@ jobs:
         with:
           context: ./${{ matrix.component }}
           file: ./${{ matrix.component }}/Dockerfile
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
@@ -87,6 +89,8 @@ jobs:
             type=sha
             type=semver,pattern={{version}}
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
@@ -101,7 +105,7 @@ jobs:
         with:
           context: ./auto-discovery/kubernetes/
           file: ./auto-discovery/kubernetes/Dockerfile
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
@@ -137,6 +141,8 @@ jobs:
             type=sha
             type=semver,pattern={{version}}
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
@@ -151,7 +157,7 @@ jobs:
         with:
           context: ./${{ matrix.sdk }}/nodejs
           file: ./${{ matrix.sdk }}/nodejs/Dockerfile
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
@@ -186,6 +192,8 @@ jobs:
             type=sha
             type=semver,pattern={{version}}
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
@@ -207,7 +215,7 @@ jobs:
           build-args: |
             namespace=${{ env.DOCKER_NAMESPACE }}
             baseImageTag=${{ env.baseImageTag }}
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
@@ -301,6 +309,8 @@ jobs:
             type=sha
             type=semver,pattern={{version}}
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
@@ -322,7 +332,7 @@ jobs:
           build-args: |
             namespace=${{ env.DOCKER_NAMESPACE }}
             baseImageTag=${{ env.baseImageTag }}
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
@@ -357,6 +367,7 @@ jobs:
           - ncrack
           - nmap
           - nikto
+          - sslyze
           - typo3scan
           - whatweb
 
@@ -370,6 +381,12 @@ jobs:
         # there is only one place to edit the version of a scanner
         with:
           cmd: echo scannerVersion=$(yq e .appVersion scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
+
+      # extract the supported cpu architectures from the Chart.yaml
+      - name: Set ENV Var with Supported Platforms
+        uses: mikefarah/yq@v4.4.1
+        with:
+          cmd: echo supportedPlatforms=$(yq e .annotations.supported-platforms scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
 
       - name: Docker Meta
         id: docker_meta
@@ -396,7 +413,7 @@ jobs:
           file: ./scanners/${{ matrix.scanner }}/scanner/Dockerfile
           build-args: |
             scannerVersion=${{ env.scannerVersion }}
-          platforms: linux/amd64
+          platforms: ${{ env.supportedPlatforms }}
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
@@ -424,7 +441,6 @@ jobs:
           - screenshooter
           - test-scan
           - zap-advanced
-          - sslyze
     steps:
       - name: Checkout
         uses: actions/checkout@v2
