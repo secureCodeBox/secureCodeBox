@@ -57,8 +57,8 @@ func TestScanTypeHashing(t *testing.T) {
 
 	assert.Equal(
 		t,
+		uint64(0x2e78bbefed51ff8),
 		hashValues,
-		uint64(7985604367088222621),
 		"Should hash scantype consistently",
 	)
 }
