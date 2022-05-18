@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM golang:1.16.4 AS builder
+FROM golang:1.17 AS builder
 
 ARG scannerVersion=latest
 
