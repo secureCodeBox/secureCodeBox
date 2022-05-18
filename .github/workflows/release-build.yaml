@@ -258,8 +258,8 @@ jobs:
       - name: Build and Push
         uses: docker/build-push-action@v2
         with:
-          context: ./hooks/persistence-elastic/dashboardImporter
-          file: ./hooks/persistence-elastic/dashboardImporter/Dockerfile
+          context: ./hooks/persistence-elastic/dashboard-importer/
+          file: ./hooks/persistence-elastic/dashboard-importer/Dockerfile
           platforms: linux/amd64
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
