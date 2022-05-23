@@ -63,7 +63,7 @@ The three different modes are:
 
 1. `enabled-per-namespace` (default): [See section](#enabled-per-namespace-mode-default)
 2. `enabled-per-resource`: [See section](#enabled-per-resource-mode)
-3. `scan-all`: [See section](#scan-all-mode)
+3. `all`: [See section](#all-mode)
 
 #### Enabled per Namespace Mode (default)
 
@@ -94,9 +94,9 @@ This mode will start scans for every resources with the annotation `auto-discove
 kubectl -n juice-shop annotate service juice-shop auto-discovery.securecodebox.io/enabled=true
 ```
 
-#### Scan All Mode
+#### All Mode
 
-Enable this by setting `config.resourceInclusion.mode=scan-all`.
+Enable this by setting `config.resourceInclusion.mode=all`.
 
 This mode will start scans for **every** resources in the cluster **unless** it has the annotation `auto-discovery.securecodebox.io/ignore=true`.
 
