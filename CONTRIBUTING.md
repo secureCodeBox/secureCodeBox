@@ -16,6 +16,10 @@ SPDX-License-Identifier: Apache-2.0
   - [Code of Conduct](#code-of-conduct)
   - [Developer Certificate of Origin and Licensing](#developer-certificate-of-origin-and-licensing)
 
+For general information about the acceptance criteria for a community contribution, 
+please make sure to visit our [doc page](https://www.securecodebox.io/docs/contributing/contribution-criteria) 
+before you start your very much appreciated work!
+
 ## GitHub Flow
 
 For more information see [GitHub Flow](https://githubflow.github.io/)
