@@ -8,6 +8,9 @@ Before submitting your Pull Request, please take the time to check the points be
 * [ ] Create Draft pull requests if you need clarification or an explicit review before you can continue your work item.
 * [ ] Make sure that your PR is not introducing _unnecessary_ reformatting (e.g., introduced by on-save hooks in your IDE)
 * [ ] Make sure each new source file you add has a correct license header.
+
+For more information on content related and formal acceptance criteria for PRs, please have a look at our 
+[docs](https://www.securecodebox.io/docs/contributing/contribution-criteria). 
 -->
 
 ## Description
