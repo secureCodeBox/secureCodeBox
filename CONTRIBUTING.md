@@ -112,7 +112,7 @@ We decided to use [DCO](https://en.wikipedia.org/wiki/Developer_Certificate_of_O
 
 1. Read carefully our [contributors file][contributors-file].
 2. Open a pull request which adds you to the [contributors file][contributors-file] to agree the DCO.
-3. Always add a signed-of tag to all your commits as described in the [contributors file][contributors-file].
+3. Always add a signed-off tag to all your commits as described in the [contributors file][contributors-file].
 4. Add a SPDX license header to all files your contribution will create. You can use the [reuse tool](https://reuse.software) with our [helper script](./bin/add-license-header.sh).
 
 [contributors-file]: ./CONTRIBUTORS.md
