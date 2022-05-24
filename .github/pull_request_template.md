@@ -14,7 +14,7 @@ For more information on content related and formal acceptance criteria for PRs, 
 -->
 
 ## Description
-<!-- Please be brief in describing which issue is solved by your PR or which enhancement it brings -->
+<!-- Please describe briefly which issue is solved by your PR or which enhancement it brings -->
 
 
 ### Checklist
