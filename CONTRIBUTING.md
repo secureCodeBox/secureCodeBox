@@ -45,11 +45,7 @@ TL;DR
 5. merge only after pull request review
 6. deploy immediately after review
 
-**_Please make sure to sign all your commits (See: [git-scm](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work))._**
-
 ## Working with Forks and Pull Requests
-
-**_Please make sure to sign all your commits (See: [git-scm](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work))._**
 
 If you want to contribute you will need to fork the project.
 To enable the use of our CI Pipeline you will need to add these GitHub secrets:
@@ -66,8 +62,6 @@ When you are done, you can convert it to a standard *Pull Request* (or create on
 
 Generally the _secureCodeBox_ project follows the standard [GitHub Pull request process](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests).
 
-**_Please make sure to sign all your commits (See: [git-scm](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work))._**
-
 ## Bugfixing and Security Fixing Released Features
 
 For bugfixes and security fixes of the current release please follow the following workflow:
@@ -81,6 +75,9 @@ For bugfixes and security fixes of the current release please follow the followi
   - Create a bugfix branch from `main` branch
   - Cherry-Pick Bugfix and commit to bugfix branch
   - Create PR to `main` branch
+
+**_It is also a good idea to always sign all of your commits 
+(See: [git-scm](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work))._**
 
 ## Working with Issues - How to Contribute in Issues
 
