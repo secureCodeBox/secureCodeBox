@@ -20,4 +20,6 @@ For more information on content related and formal acceptance criteria for PRs, 
 ### Checklist
 
 * [ ] Test your changes as thoroughly as possible before you commit them. Preferably, automate your test by unit/integration tests.
-* [ ] Make sure `npm test` runs for the whole project.
+* [ ] Make sure that all your commits are signed-off and that you are added to the [Contributors](https://github.com/secureCodeBox/secureCodeBox/blob/main/CONTRIBUTORS.md) file.
+* [ ] Make sure that all CI finish successfully.
+* [ ] Plus: Make sure that all commits are [Verified](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits).
