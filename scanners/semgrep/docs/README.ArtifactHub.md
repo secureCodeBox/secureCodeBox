@@ -178,6 +178,7 @@ Kubernetes: `>=v1.11.0-0`
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | cascadingRules.enabled | bool | `true` | Enables or disables the installation of the default cascading rules for this scanner |
+| imagePullSecrets | list | `[]` |  |
 | parser.affinity | object | `{}` | Optional affinity settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
 | parser.backoffLimit | int | `3` |  |
 | parser.env | list | `[]` |  |
