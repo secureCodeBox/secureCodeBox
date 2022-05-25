@@ -134,7 +134,7 @@ class ZapConfigureSpider(ZapClient):
         This method also enforces the "maxDuration" limit of the spider, ZAP normally enforces it on its own,
         but there are cases where the spider has stalled and ZAP was unable to enforce it on its own.
         """
-        if "maxDuration" in self.get_config.get_active_spider_config:
+        if self.get_config.get_active_spider_config is not None and "maxDuration" in self.get_config.get_active_spider_config:
             # convert to seconds
             max_duration = self.get_config.get_active_spider_config["maxDuration"] * 60
         else:
