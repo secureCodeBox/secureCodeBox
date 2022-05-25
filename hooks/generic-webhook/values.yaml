@@ -9,6 +9,8 @@
 # webhookUrl -- The URL of your WebHook endpoint
 webhookUrl: "http://example.com"
 
+imagePullSecrets: []
+
 hook:
   image:
     # hook.image.repository -- Hook image repository

@@ -6,6 +6,8 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+imagePullSecrets: []
+
 hook:
   image:
     # hook.image.repository -- Hook image repository

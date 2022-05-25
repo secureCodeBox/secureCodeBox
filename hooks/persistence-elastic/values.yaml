@@ -6,6 +6,8 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+imagePullSecrets: []
+
 # indexPrefix -- Define a specific index prefix used for all elasticsearch indices.
 indexPrefix: "scbv2"
 # indexSuffix -- Define a specific index suffix based on date pattern (YEAR (yyyy), MONTH (yyyy-MM), WEEK (yyyy-'W'W), DATE (yyyy-MM-dd)). We use Luxon for date formatting (https://moment.github.io/luxon/docs/manual/formatting.html#table-of-tokens)

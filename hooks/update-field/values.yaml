@@ -6,6 +6,8 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+imagePullSecrets: []
+
 attribute:
   # attribute.name -- The name of the attribute you want to add to each finding result
   name: "category"

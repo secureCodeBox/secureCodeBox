@@ -30,3 +30,7 @@ spec:
         secretKeyRef:
           name: {{ .Values.monitor.authentication.apiKeySecret }}
           key: sharedkey
+  {{- with .Values.imagePullSecrets }}
+  imagePullSecrets:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
