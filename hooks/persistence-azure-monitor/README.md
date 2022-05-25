@@ -80,6 +80,7 @@ helm upgrade --install persistence-azure-monitor . --wait \
 | hook.priority | int | `0` | Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks. |
 | hook.tolerations | list | `[]` | Optional tolerations settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
 | hook.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+| imagePullSecrets | list | `[]` |  |
 | monitor.authentication | object | `{"apiKeySecret":null}` | Configure authentication schema and credentials the persistence provider should use to connect to Azure Monitor |
 | monitor.authentication.apiKeySecret | string | `nil` | Link a pre-existing generic secret with `workspace` and `sharedkey` key / value pairs |
 | monitor.logtypePrefix | string | `"SCB"` |  |
