@@ -1,3 +1,5 @@
+imagePullSecrets: []
+
 parser:
   image:
     repository: securecodebox/parser-semgrep
