@@ -28,6 +28,10 @@ spec:
       serviceAccountName: {{ .Values.serviceAccount.name }}
       securityContext:
         {{ .Values.podSecurityContext | toYaml | nindent 8 }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - command:
             - /manager

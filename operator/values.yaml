@@ -9,6 +9,8 @@
 # telemetryEnabled -- The Operator sends anonymous telemetry data, to give the team an overview how much the secureCodeBox is used. Find out more at https://www.securecodebox.io/telemetry
 telemetryEnabled: true
 
+imagePullSecrets: []
+
 image:
   # image.repository -- The operator image repository
   repository: docker.io/securecodebox/operator
