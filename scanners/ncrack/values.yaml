@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: the secureCodeBox authors
 #
 # SPDX-License-Identifier: Apache-2.0
+imagePullSecrets: []
 
 encryptPasswords:
   # encryptPasswords.existingSecret -- secret name with a pem encoded rsa public key to encrypt identified passwords
