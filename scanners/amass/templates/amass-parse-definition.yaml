@@ -18,6 +18,7 @@ spec:
     {{- toYaml .Values.parser.affinity | nindent 4 }}
   tolerations: 
     {{- toYaml .Values.parser.tolerations | nindent 4 }}
+  {{- with .Values.imagePullSecrets }}
   imagePullSecrets:
     {{- toYaml . | nindent 4 }}
   {{- end }}
