@@ -98,6 +98,8 @@ spec:
                 - "-addoninstall"
                 - {{ . | quote }}
                 {{- end }}
+                - "-config"
+                - "api.disablekey=true" # Disble API Key because not required. Only pod local access allowed (localhost binding).
               resources:
                 {{- toYaml .Values.zapContainer.resources | nindent 16 }}
               securityContext:
