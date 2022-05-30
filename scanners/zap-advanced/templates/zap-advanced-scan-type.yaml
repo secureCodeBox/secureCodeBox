@@ -60,8 +60,6 @@ spec:
                 - "XML"
                 - "--zap-url"
                 - "localhost:8080"
-                # - "--api-key"
-                # - "ertzukndtzuikbvcfjkmnbvcfghjklmnbvc"
                 - "--config-folder"
                 - "/home/securecodebox/configs/"
                 - "--output-folder"
@@ -100,8 +98,6 @@ spec:
                 - "-addoninstall"
                 - {{ . | quote }}
                 {{- end }}
-                - "-config"
-                - "api.disablekey=true" # Disble API Key. TODO: change with helm random value? -config api.key=change-me-9203935709
               resources:
                 {{- toYaml .Values.zapContainer.resources | nindent 16 }}
               securityContext:
