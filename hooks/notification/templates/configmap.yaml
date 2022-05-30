@@ -2,9 +2,15 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+---
+{{- if not (empty .Values.notificationChannels) }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: "{{ .Release.Name }}-config"
+  labels:
+    {{- include "notification-hook.labels" . | nindent 4 }}
 data:
-  notification-channel.yaml: {{ .Values.notificationChannels | toYaml | quote }}
+  notification-channel.yaml: |
+    {{ .Values.notificationChannels | toYaml | nindent 4 }}
+{{- end }}
