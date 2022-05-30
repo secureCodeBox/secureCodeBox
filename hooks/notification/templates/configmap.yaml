@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
-{{- if not (empty .Values.notificationChannels) }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -13,4 +12,3 @@ metadata:
 data:
   notification-channel.yaml: |
     {{ .Values.notificationChannels | toYaml | nindent 4 }}
-{{- end }}
