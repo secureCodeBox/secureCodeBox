@@ -15,6 +15,7 @@ SPDX-License-Identifier: Apache-2.0
   - [How to Write Commit Messages](#how-to-write-commit-messages)
   - [Code of Conduct](#code-of-conduct)
   - [Developer Certificate of Origin and Licensing](#developer-certificate-of-origin-and-licensing)
+  - [Verified commits](#verified-commits)
 
 For general information about the acceptance criteria for a community contribution, 
 please make sure to visit our [doc page](https://www.securecodebox.io/docs/contributing/contribution-criteria) 
@@ -80,9 +81,6 @@ For bugfixes and security fixes of the current release please follow the followi
   - Cherry-Pick Bugfix and commit to bugfix branch
   - Create PR to `main` branch
 
-**_It is also a good idea to always sign all of your commits 
-(See: [git-scm](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work))._**
-
 ## Working with Issues - How to Contribute in Issues
 
 It is mandatory to open an issue, if the task takes longer than one hour.
@@ -120,3 +118,10 @@ We decided to use [DCO](https://en.wikipedia.org/wiki/Developer_Certificate_of_O
 4. Add a SPDX license header to all files your contribution will create. You can use the [reuse tool](https://reuse.software) with our [helper script](./bin/add-license-header.sh).
 
 [contributors-file]: ./CONTRIBUTORS.md
+
+## Verified commits
+
+It is also a good idea to always cryptographically sign all of your commits 
+(See: [git-scm](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work)).
+You can check if your commits were successfully signed by looking for the `Verified` tag on your commits on GitHub.
+This is optional for community contributions, but strongly encouraged.
