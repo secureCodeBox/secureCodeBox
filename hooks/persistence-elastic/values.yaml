@@ -56,8 +56,6 @@ dashboardImporter:
     # @default -- defaults to the charts version
     tag: null
 
-# Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
-imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
