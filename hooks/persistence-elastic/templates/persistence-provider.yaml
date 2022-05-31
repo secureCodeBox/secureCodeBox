@@ -54,3 +54,7 @@ spec:
           name: {{ .Values.authentication.apiKeySecret }}
           key: id
 {{- end }}
+  {{- with .Values.imagePullSecrets }}
+  imagePullSecrets:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}

@@ -16,6 +16,7 @@ image:
   tag: null
   pullPolicy: IfNotPresent
 
+# -- Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""

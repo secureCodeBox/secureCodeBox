@@ -16,11 +16,13 @@ spec:
   priority: {{ .Values.hook.priority }}
   type: ReadOnly
   image: "{{ .Values.hook.image.repository }}:{{ .Values.hook.image.tag | default .Chart.Version }}"
-  imagePullSecrets:
-    - name: "securecodebox"
   ttlSecondsAfterFinished: {{ .Values.hook.ttlSecondsAfterFinished }}
   serviceAccountName: cascading-scans
   affinity:
     {{- toYaml .Values.hook.affinity | nindent 4 }}
   tolerations:
     {{- toYaml .Values.hook.tolerations | nindent 4 }}
+  {{- with .Values.imagePullSecrets }}
+  imagePullSecrets:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}

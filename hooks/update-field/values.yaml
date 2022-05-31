@@ -6,6 +6,9 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# -- Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
+imagePullSecrets: []
+
 attribute:
   # attribute.name -- The name of the attribute you want to add to each finding result
   name: "category"

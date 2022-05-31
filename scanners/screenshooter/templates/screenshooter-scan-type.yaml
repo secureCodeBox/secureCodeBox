@@ -26,6 +26,10 @@ spec:
             {{- toYaml .Values.scanner.affinity | nindent 12 }}
           tolerations: 
             {{- toYaml .Values.scanner.tolerations | nindent 12 }}
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           containers:
             - name: screenshooter
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.Version }}"

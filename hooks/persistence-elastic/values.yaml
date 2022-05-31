@@ -6,6 +6,9 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# -- Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
+imagePullSecrets: []
+
 # indexPrefix -- Define a specific index prefix used for all elasticsearch indices.
 indexPrefix: "scbv2"
 # indexSuffix -- Define a specific index suffix based on date pattern (YEAR (yyyy), MONTH (yyyy-MM), WEEK (yyyy-'W'W), DATE (yyyy-MM-dd)). We use Luxon for date formatting (https://moment.github.io/luxon/docs/manual/formatting.html#table-of-tokens)
@@ -53,7 +56,6 @@ dashboardImporter:
     # @default -- defaults to the charts version
     tag: null
 
-imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 

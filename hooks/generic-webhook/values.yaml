@@ -9,6 +9,9 @@
 # webhookUrl -- The URL of your WebHook endpoint
 webhookUrl: "http://example.com"
 
+# -- Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
+imagePullSecrets: []
+
 hook:
   image:
     # hook.image.repository -- Hook image repository
