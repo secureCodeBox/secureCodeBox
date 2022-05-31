@@ -15,6 +15,11 @@ SPDX-License-Identifier: Apache-2.0
   - [How to Write Commit Messages](#how-to-write-commit-messages)
   - [Code of Conduct](#code-of-conduct)
   - [Developer Certificate of Origin and Licensing](#developer-certificate-of-origin-and-licensing)
+  - [Verified commits](#verified-commits)
+
+For general information about the acceptance criteria for a community contribution, 
+please make sure to visit our [doc page](https://www.securecodebox.io/docs/contributing/contribution-criteria) 
+before you start your very much appreciated work!
 
 ## GitHub Flow
 
@@ -45,11 +50,7 @@ TL;DR
 5. merge only after pull request review
 6. deploy immediately after review
 
-**_Please make sure to sign all your commits (See: [git-scm](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work))._**
-
 ## Working with Forks and Pull Requests
-
-**_Please make sure to sign all your commits (See: [git-scm](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work))._**
 
 If you want to contribute you will need to fork the project.
 To enable the use of our CI Pipeline you will need to add these GitHub secrets:
@@ -65,8 +66,6 @@ If you want early feedback feel free to open a *Draft Pull Request*.
 When you are done, you can convert it to a standard *Pull Request* (or create one if you did not create a *Draft Pull Request*).
 
 Generally the _secureCodeBox_ project follows the standard [GitHub Pull request process](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests).
-
-**_Please make sure to sign all your commits (See: [git-scm](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work))._**
 
 ## Bugfixing and Security Fixing Released Features
 
@@ -115,7 +114,14 @@ We decided to use [DCO](https://en.wikipedia.org/wiki/Developer_Certificate_of_O
 
 1. Read carefully our [contributors file][contributors-file].
 2. Open a pull request which adds you to the [contributors file][contributors-file] to agree the DCO.
-3. Always add a signed-of tag to all your commits as described in the [contributors file][contributors-file].
+3. Always add a signed-off tag to all your commits as described in the [contributors file][contributors-file].
 4. Add a SPDX license header to all files your contribution will create. You can use the [reuse tool](https://reuse.software) with our [helper script](./bin/add-license-header.sh).
 
 [contributors-file]: ./CONTRIBUTORS.md
+
+## Verified commits
+
+It is also a good idea to always cryptographically sign all of your commits 
+(See: [git-scm](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work)).
+You can check if your commits were successfully signed by looking for the `Verified` tag on your commits on GitHub.
+This is optional for community contributions, but strongly encouraged.

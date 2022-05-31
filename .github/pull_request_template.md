@@ -8,13 +8,18 @@ Before submitting your Pull Request, please take the time to check the points be
 * [ ] Create Draft pull requests if you need clarification or an explicit review before you can continue your work item.
 * [ ] Make sure that your PR is not introducing _unnecessary_ reformatting (e.g., introduced by on-save hooks in your IDE)
 * [ ] Make sure each new source file you add has a correct license header.
+
+For more information on content related and formal acceptance criteria for PRs, please have a look at our 
+[docs](https://www.securecodebox.io/docs/contributing/contribution-criteria). 
 -->
 
 ## Description
-<!-- Please be brief in describing which issue is solved by your PR or which enhancement it brings -->
+<!-- Please describe briefly which issue is solved by your PR or which enhancement it brings -->
 
 
 ### Checklist
 
 * [ ] Test your changes as thoroughly as possible before you commit them. Preferably, automate your test by unit/integration tests.
-* [ ] Make sure `npm test` runs for the whole project.
+* [ ] Make sure that all your commits are signed-off and that you are added to the [Contributors](https://github.com/secureCodeBox/secureCodeBox/blob/main/CONTRIBUTORS.md) file.
+* [ ] Make sure that all CI finish successfully.
+* [ ] Optional (but appreciated): Make sure that all commits are [Verified](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits).
