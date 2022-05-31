@@ -72,7 +72,7 @@ helm upgrade --install dummy-ssh secureCodeBox/dummy-ssh
 | image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | image.repository | string | `"docker.io/securecodebox/dummy-ssh"` | Container Image |
 | image.tag | string | defaults to the appVersion | The image tag |
-| imagePullSecrets | list | `[]` |  |
+| imagePullSecrets | list | `[]` | Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
 | labels | object | `{}` | add labels to the deployment, service and pods |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |

@@ -211,7 +211,7 @@ helm delete ncrack
 | cascadingRules.enabled | bool | `true` | Enables or disables the installation of the default cascading rules for this scanner |
 | encryptPasswords.existingSecret | string | `nil` | secret name with a pem encoded rsa public key to encrypt identified passwords |
 | encryptPasswords.key | string | `"public.key"` | name of the property in the secret with the pem encoded rsa public key |
-| imagePullSecrets | list | `[]` |  |
+| imagePullSecrets | list | `[]` | Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
 | parser.affinity | object | `{}` | Optional affinity settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
 | parser.env | list | `[]` | Optional environment variables mapped into each parseJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | parser.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |

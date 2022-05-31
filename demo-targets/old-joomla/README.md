@@ -59,7 +59,7 @@ helm upgrade --install old-joomla secureCodeBox/old-joomla
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"docker.io/securecodebox/old-joomla"` | Container Image |
 | image.tag | string | defaults to the appVersion | The image tag |
-| imagePullSecrets | list | `[]` |  |
+| imagePullSecrets | list | `[]` | Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
 | ingress.annotations | object | `{}` |  |
 | ingress.enabled | bool | `false` |  |
 | ingress.hosts[0].host | string | `"chart-example.local"` |  |

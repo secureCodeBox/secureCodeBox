@@ -175,7 +175,7 @@ helm install nuclei secureCodeBox/nuclei --set="nucleiTemplateCache.enabled=fals
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | cascadingRules.enabled | bool | `true` | Enables or disables the installation of the default cascading rules for this scanner |
-| imagePullSecrets | list | `[]` |  |
+| imagePullSecrets | list | `[]` | Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
 | nucleiTemplateCache.concurrencyPolicy | string | `"Replace"` | Determines how kubernetes handles cases where multiple instances of the cronjob would work if they are running at the same time. See: https://kubernetes.io/docs/tasks/job/automated-tasks-with-cron-jobs/#concurrency-policy |
 | nucleiTemplateCache.enabled | bool | `true` | Enables or disables the use of an persistent volume to cache the always downloaded nuclei-templates for all scans. |
 | nucleiTemplateCache.failedJobsHistoryLimit | int | `10` | Determines how many failed jobs are kept until kubernetes cleans them up. See: https://kubernetes.io/docs/tasks/job/automated-tasks-with-cron-jobs/#jobs-history-limits |

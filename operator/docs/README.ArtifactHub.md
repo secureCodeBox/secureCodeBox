@@ -84,7 +84,7 @@ helm install securecodebox-operator secureCodeBox/operator
 | image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | image.repository | string | `"docker.io/securecodebox/operator"` | The operator image repository |
 | image.tag | string | defaults to the charts version | Parser image tag |
-| imagePullSecrets | list | `[]` |  |
+| imagePullSecrets | list | `[]` | Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
 | lurker.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | lurker.image.repository | string | `"docker.io/securecodebox/lurker"` | The operator image repository |
 | lurker.image.tag | string | defaults to the charts version | Parser image tag |
