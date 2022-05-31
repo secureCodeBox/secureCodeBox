@@ -155,19 +155,19 @@ zapContainer:
         - all
 
 # -- All `scanType` specific configuration options. Feel free to add more configuration options. All configuration options can be overriden by scan specific configurations if defined. Please have a look into the README.md to find more configuration options.
-zapConfiguration:
-  # -- Optional general ZAP Configurations settings.
-  global:
-    # -- The ZAP internal Session name. Default: secureCodeBox
-    sessionName: secureCodeBox
-    # -- Updates all installed ZAP AddOns on startup if true, otherwise false.
-    addonUpdate: true
-    # -- Installs additional ZAP AddOns on startup, listed by their name:
-    addonInstall:
-      - pscanrulesBeta
-      - ascanrulesBeta
-      - pscanrulesAlpha
-      - ascanrulesAlpha
+zapConfiguration: {}
+  # # -- Optional general ZAP Configurations settings.
+  # global:
+  #   # -- The ZAP internal Session name. Default: secureCodeBox
+  #   sessionName: secureCodeBox
+  #   # -- Updates all installed ZAP AddOns on startup if true, otherwise false.
+  #   addonUpdate: true
+  #   # -- Installs additional ZAP AddOns on startup, listed by their name:
+  #   addonInstall:
+  #     - pscanrulesBeta
+  #     - ascanrulesBeta
+  #     - pscanrulesAlpha
+  #     - ascanrulesAlpha
 
 cascadingRules:
   # cascadingRules.enabled -- Enables or disables the installation of the default cascading rules for this scanner
