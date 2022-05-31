@@ -21,6 +21,7 @@ image:
 #swaggerHostOverride: "https://petstore.example.com"
 swaggerHostOverride: "http://swagger-petstore.demo-targets.svc"
 
+# Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
