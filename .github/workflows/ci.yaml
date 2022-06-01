@@ -561,6 +561,12 @@ jobs:
         working-directory: ./tests/integration
         run: npm ci
 
+      # ---- Unit-Test ----
+
+      - name: "Run Unit Tests"
+        working-directory: ./hooks/${{ matrix.hook }}
+        run: make unit-tests
+
       # ---- Integration-Test ----
 
       - name: Deploy ${{ matrix.hook }}
