@@ -7,6 +7,7 @@ package scancontrollers
 import (
 	"context"
 	"fmt"
+
 	"k8s.io/apimachinery/pkg/labels"
 
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
@@ -340,9 +341,13 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 			BackoffLimit:            &backOffLimit,
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
+					Labels: map[string]string{
+						"app.kubernetes.io/managed-by=securecodebox": "securecodebox",
+					},
 					Annotations: map[string]string{
 						"auto-discovery.securecodebox.io/ignore": "true",
 						"sidecar.istio.io/inject":                "false",
+						"securecodebox.io/job-type":              "hook",
 					},
 				},
 				Spec: corev1.PodSpec{
