@@ -94,7 +94,7 @@ install-deps-js:
 
 unit-test-js: install-deps-js
 	@echo ".: 🧪 Starting unit-tests for '$(name)' $(module) with 'jest@$(JEST_VERSION)'."
-	npx --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage --passWithNoTests ${name}/${module}/
+	npx --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage --passWithNoTests ${name}/${module}/ --testPathIgnorePatterns /integration-tests/
 
 install-deps-py:
 	@echo ".: ⚙️ Installing all $(module) specific python dependencies."

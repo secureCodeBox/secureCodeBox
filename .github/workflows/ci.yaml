@@ -150,10 +150,10 @@ jobs:
           path: ./${{ matrix.sdk }}/nodejs/${{ matrix.sdk }}.tar
           retention-days: 1
 
-  # ---- New Makefile based CI Pipeline steps ----
+  # ---- Test | Scanners ----
 
-  Integration-test-scanner:
-    name: "Make Scanners"
+  test-scanners:
+    name: "Test |  Scanner ${{ matrix.unit }}" 
     needs:
       - sdk
       - operator
@@ -422,10 +422,10 @@ jobs:
           echo "Operator Startup Logs"
           kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
 
-  # ---- Integration Tests ----
+  # ---- Test | Hooks ----
 
-  Integration-tests-hooks:
-    name: Integration Tests Hook ${{ matrix.hook }} | k8s ${{ matrix.k8sVersion }}
+  test-hooks:
+    name: Test |  Hook ${{ matrix.hook }} | k8s ${{ matrix.k8sVersion }}
     needs:
       - operator
     runs-on: ubuntu-20.04
@@ -559,6 +559,12 @@ jobs:
       - name: "Install Test Dependencies"
         working-directory: ./tests/integration
         run: npm ci
+
+      # ---- Unit-Test ----
+
+      - name: "Run Unit Tests"
+        working-directory: ./hooks/${{ matrix.hook }}
+        run: make unit-tests
 
       # ---- Integration-Test ----
 
