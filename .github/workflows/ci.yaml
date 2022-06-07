@@ -119,7 +119,7 @@ jobs:
         with:
           name: auto-discovery-image
           path: ./auto-discovery/kubernetes/auto-discovery-kubernetes.tar
-          retention-days: 1      
+          retention-days: 1
 
   # ---- Build Stage | SDK Matrix ----
 
@@ -295,7 +295,6 @@ jobs:
           kubectl -n securecodebox-system get pods
           echo "Operator Startup Logs"
           kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
-
 
   # ---- Build | Scanners | Custom Scanner | Nightly Build ----
 
@@ -504,7 +503,7 @@ jobs:
       - name: Load Parser SDK Image
         run: |
           docker load --input /tmp/parser-sdk.tar
-          docker images | grep sdk    
+          docker images | grep sdk
 
       # ---- Import Hook SDK Artifact
 
@@ -517,9 +516,9 @@ jobs:
       - name: Load Parser SDK Image
         run: |
           docker load --input /tmp/hook-sdk.tar
-          docker images | grep sdk    
+          docker images | grep sdk
 
-      # ----- Build Test-Scan ScanType Image ---- 
+      # ----- Build Test-Scan ScanType Image ----
 
       - name: Build Images
         working-directory: ./scanners/test-scan/
@@ -537,7 +536,7 @@ jobs:
         working-directory: ./scanners/test-scan/
         run: make deploy
 
-      # ----- Build Hook Image ---- 
+      # ----- Build Hook Image ----
 
       - name: Build Images
         working-directory: ./hooks/${{ matrix.hook }}
@@ -550,7 +549,7 @@ jobs:
       - name: Kind import
         working-directory: ./hooks/${{ matrix.hook }}
         run: make kind-import
-        
+
       # ---- Install Test Dependencies ----
 
       - name: "Install Test Dependencies"
@@ -566,14 +565,14 @@ jobs:
       - name: Deploy ${{ matrix.hook }}
         working-directory: ./hooks/${{ matrix.hook }}
         run: make deploy
-      
+
       - name: Deploy Test Dependencies
         working-directory: ./hooks/${{ matrix.hook }}
         run: make deploy-test-deps
 
       - name: "Run Integration Test"
         working-directory: ./hooks/${{ matrix.hook }}
-        run: make integration-tests 
+        run: make integration-tests
 
       # ---- Debuging Cluster on Failure ----
 
