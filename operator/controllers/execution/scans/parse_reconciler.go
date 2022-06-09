@@ -104,7 +104,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
 					Labels: map[string]string{
-						"app.kubernetes.io/managed-by=securecodebox": "securecodebox",
+						"app.kubernetes.io/managed-by": "securecodebox",
 					},
 					Annotations: map[string]string{
 						"auto-discovery.securecodebox.io/ignore": "true",
