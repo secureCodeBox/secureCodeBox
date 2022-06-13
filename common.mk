@@ -110,7 +110,7 @@ unit-test-java:
 common-docker-build:
 	@echo ".: ⚙️ Build '$(name)' $(module) with BASE_IMG_TAG: '$(BASE_IMG_TAG)'."
 	docker build \
-		--build-arg=scannerVersion=$(shell yq e .appVersion ./Chart.yaml) \
+		--build-arg=scannerVersion=$(shell yq -e .appVersion ./Chart.yaml) \
 		--build-arg=baseImageTag=$(BASE_IMG_TAG) \
 		--build-arg=namespace=$(IMG_NS) \
 		-t $(IMG_NS)/$(module)-$(name):$(IMG_TAG) \
