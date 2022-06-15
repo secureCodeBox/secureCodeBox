@@ -80,7 +80,7 @@ function getTestData() {
   return { scan, findings };
 }
 
-test.only("Should Send Message With Findings And Severities", async () => {
+test("Should Send Message With Findings And Severities", async () => {
   const { scan, findings } = getTestData();
 
   const rocketChatNotifier = new RocketChatNotifier(channel, scan, findings, {
@@ -103,7 +103,7 @@ test.only("Should Send Message With Findings And Severities", async () => {
   );
 });
 
-test.only("Should use channel overwrite from annotation if set", async () => {
+test("Should use channel overwrite from annotation if set", async () => {
   const { scan, findings } = getTestData();
   scan.metadata.annotations = {
     "notification.securecodebox.io/rocket-chat-channel": "#team-42-channel",
@@ -129,7 +129,7 @@ test.only("Should use channel overwrite from annotation if set", async () => {
   );
 });
 
-test.only("Should include link back to defectdojo if set in finding", async () => {
+test("Should include link back to defectdojo if set in finding", async () => {
   const { scan, findings } = getTestData();
 
   findings[0].attributes = {
