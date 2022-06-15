@@ -13,6 +13,7 @@ HOOK_SDK_DIR				= $(PROJECT_DIR)/hook-sdk/nodejs
 AUTO_DISCOVERY_DIR			= $(PROJECT_DIR)/auto-discovery
 HELM_DOCS_DIR				= $(PROJECT_DIR)/.helm-docs
 TEMPLATES_DIR				= $(PROJECT_DIR)/.templates
+TESTS_HELPERS_DIR			= $(PROJECT_DIR)/tests/integration
 
 SCANNERS_CHART_LIST			:= $(sort $(wildcard $(SCANNERS_DIR)/*/Chart.yaml))
 SCANNERS_TEST_LIST			:= $(sort $(wildcard $(SCANNERS_DIR)/*/Makefile))
