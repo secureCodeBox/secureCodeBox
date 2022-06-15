@@ -17,8 +17,16 @@ export async function handle({ getFindings, scan }) {
   let notificationChannels: NotificationChannel[] =
     getNotificationChannels(CHANNEL_FILE);
   let args: Object = getArgs();
+
+  console.log("Starting notification hook");
+  console.log(
+    "Configured notification channels: " + notificationChannels.join(", ")
+  );
+  console.log(notificationChannels);
   for (const channel of notificationChannels) {
-    const findingsToNotify = findings.filter(finding => matches(finding, channel.rules));
+    console.log(
+      `Starting notifier "${channel.name}" of type "${channel.type}"`
+    );
 
     const findingsToNotify = findings.filter((finding) =>
       matches(finding, channel.rules)
@@ -28,6 +36,9 @@ export async function handle({ getFindings, scan }) {
       channel.skipNotificationOnZeroFindings === true &&
       findingsToNotify.length === 0
     ) {
+      console.log(
+        `Skipping notifier "${channel.name}" as there are no findings to send the notification out for.`
+      );
       continue;
     }
 

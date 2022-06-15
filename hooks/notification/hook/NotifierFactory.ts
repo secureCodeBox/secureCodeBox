@@ -32,7 +32,7 @@ export class NotifierFactory {
       case NotifierType.TRELLO:
         return new TrelloNotifier(channel, scan, findings, args);
       default:
-        throw new Error("This Type is not Implemented :(");
+        throw new Error(`Notifier of Type: "${channel.type}"  is not implemented :( Check with the notification hooks documentation for a list of available notifiers.`);
     }
   }
 }
