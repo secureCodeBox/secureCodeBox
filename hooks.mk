@@ -54,4 +54,5 @@ deploy: ## 💾 Deploy this module via HelmChart into namespace "integration-tes
 integration-tests: ## 🩺 Start integration test for this module in the namespace "integration-tests"
 	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
 	kubectl -n integration-tests delete scans --all
+	npm ci --prefix $(TESTS_HELPERS_DIR)
 	cd $(hook-prefix) && npm ci && npm run test --package jest@$(JEST_VERSION)
