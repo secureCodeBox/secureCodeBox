@@ -9,5 +9,5 @@ export interface Finding {
   category: string;
   severity: string;
   osi_layer: string;
-  attributes: Map<string, string | number>;
+  attributes: Object;
 }
