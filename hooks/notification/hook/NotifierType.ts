@@ -8,4 +8,5 @@ export enum NotifierType {
   MS_TEAMS = "ms-teams",
   EMAIL = "email",
   TRELLO = "trello",
+  ROCKET_CHAT = "rocket-chat",
 }

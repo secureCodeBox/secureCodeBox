@@ -12,6 +12,7 @@ import { TrelloNotifier } from "./Notifiers/TrelloNotifier";
 import { NotificationChannel } from "./model/NotificationChannel";
 import { Scan } from "./model/Scan";
 import { Finding } from "./model/Finding";
+import { RocketChatNotifier } from "./Notifiers/RocketChat";
 
 export class NotifierFactory {
   static create(
@@ -31,6 +32,8 @@ export class NotifierFactory {
         return new MSTeamsNotifier(channel, scan, findings, args);
       case NotifierType.TRELLO:
         return new TrelloNotifier(channel, scan, findings, args);
+      case NotifierType.ROCKET_CHAT:
+        return new RocketChatNotifier(channel, scan, findings, args);
       default:
         throw new Error(`Notifier of Type: "${channel.type}"  is not implemented :( Check with the notification hooks documentation for a list of available notifiers.`);
     }

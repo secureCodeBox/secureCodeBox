@@ -1,13 +1,13 @@
 // SPDX-FileCopyrightText: the secureCodeBox authors
 //
 // SPDX-License-Identifier: Apache-2.0
-
-import { NotifierType } from "../NotifierType"
-import { AbstractNotifier } from "./AbstractNotifier"
-import { Finding } from "../model/Finding"
 import axios from 'axios';
-import { NotificationChannel } from "../model/NotificationChannel";
 import { Scan } from "../model/Scan";
+import { Finding } from "../model/Finding"
+import { NotifierType } from "../NotifierType"
+import type { AxiosRequestConfig } from 'axios';
+import { AbstractNotifier } from "./AbstractNotifier"
+import { NotificationChannel } from "../model/NotificationChannel";
 
 export abstract class AbstractWebHookNotifier extends AbstractNotifier {
 
@@ -21,11 +21,12 @@ export abstract class AbstractWebHookNotifier extends AbstractNotifier {
     await this.sendPostRequest(this.renderMessage());
   }
 
-  protected async sendPostRequest(message: string) {
+  protected async sendPostRequest(message: string, options?: AxiosRequestConfig) {
     try {
-      await axios.post(this.resolveEndPoint(), message)
+      const response = await axios.post(this.resolveEndPoint(), message, options)
+      console.log(`Notifier sent out request for notification, got response code: ${response.status}`)
     } catch (e) {
-      console.log(`There was an Error sending the Message for the "${this.type}": "${this.channel.name}"`);
+      console.log(`There was an error sending the message for notifier  "${this.channel.name}" of type "${this.type}":`);
       console.log(e);
     }
   }
