@@ -33,11 +33,11 @@ test(
       "nuclei-scb",
       "nuclei",
       ["-no-interactsh", "-u", "http://www.secureCodeBox.io"],
-      180
+      300
     );
 
     expect(count).toBeGreaterThanOrEqual(1);
     expect(severities["informational"]).toBeGreaterThanOrEqual(1);
   },
-  3 * 60 * 1000
+  5 * 60 * 1000
 );
