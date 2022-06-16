@@ -18,7 +18,7 @@ beforeEach(() => {
 const channel: NotificationChannel = {
   name: "Channel Name",
   type: NotifierType.ROCKET_CHAT,
-  template: "rocketchat",
+  template: "rocket-chat",
   rules: [],
   endPoint: "https://rocketchat.example.com/api/v1/chat.postMessage",
 };
