@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM gradle:jdk11 as build
+FROM gradle:jdk17 as build
 COPY . /home/gradle/src
 WORKDIR /home/gradle/src
 RUN ./gradlew build -x test
