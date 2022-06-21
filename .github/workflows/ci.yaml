@@ -5,7 +5,7 @@
 name: "CI"
 on:
   push:
-    branches:    
+    branches:
       - main
   pull_request:
   schedule:
@@ -155,7 +155,7 @@ jobs:
   # ---- Test | Scanners ----
 
   test-scanners:
-    name: "Test |  Scanner ${{ matrix.unit }}" 
+    name: "Test |  Scanner ${{ matrix.unit }}"
     needs:
       - sdk
       - operator
@@ -442,7 +442,7 @@ jobs:
           - cascading-scans
           - generic-webhook
           - persistence-azure-monitor
-          #- persistence-elastic # Fails on the CI due to insufficient cpu as mentioned in issue #1165
+          # - persistence-elastic # Fails on the CI due to insufficient cpu as mentioned in issue #1165
           - update-field
           - finding-post-processing
           - notification
