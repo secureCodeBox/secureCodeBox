@@ -57,7 +57,7 @@ type telemetryData struct {
 
 // Loop Submits Telemetry Data in a regular interval
 func Loop(apiClient client.Client, log logr.Logger) {
-	log.Info("The Operator sends anonymous telemetry data, to give the team an overview how much the secureCodeBox is used. Find out more at https://docs.securecodebox.io/docs/telemetry")
+	log.Info("The Operator sends anonymous telemetry data, to give the team an overview how much the secureCodeBox is used. Find out more at https://www.securecodebox.io/docs/telemetry")
 
 	// Wait 1hour to give users time to uninstall / disable telemetry
 	time.Sleep(1 * time.Hour)

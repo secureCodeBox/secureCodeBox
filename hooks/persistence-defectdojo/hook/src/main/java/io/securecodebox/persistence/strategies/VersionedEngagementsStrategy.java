@@ -76,7 +76,7 @@ public class VersionedEngagementsStrategy implements Strategy {
       userId = this.config.getUserId();
     } else {
       if (this.persistenceProviderConfig.isInLowPrivilegedMode()) {
-        throw new DefectDojoPersistenceException("You need to configure the id of the DefectDojo user when running the DefectDojo Hook in low privileged mode. See: https://docs.securecodebox.io/docs/hooks/defectdojo#low-privileged-mode");
+        throw new DefectDojoPersistenceException("You need to configure the id of the DefectDojo user when running the DefectDojo Hook in low privileged mode. See: https://www.securecodebox.io/docs/hooks/defectdojo#low-privileged-mode");
       }
       LOG.debug("Getting DefectDojo User Id via Username from the API");
       userId = userService.searchUnique(User.builder().username(this.config.getUsername()).build())
