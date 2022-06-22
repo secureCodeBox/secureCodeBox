@@ -29,16 +29,16 @@ Before opening a new issue, please make sure that we do not have any duplicates 
 <!-- Add any other context or screenshots about the feature request here. -->
 
 ## Steps to implement a new scanner
-Hint: A general guide how to implement a new SCB scanner is documented [here](https://docs.securecodebox.io/docs/contributing/integrating-a-scanner)
+Hint: A general guide how to implement a new SCB scanner is documented [here](https://www.securecodebox.io/docs/contributing/integrating-a-scanner)
 
 - [ ] Create a new folder with the name of the [scanner here](https://github.com/secureCodeBox/secureCodeBox/tree/master/scanners)
-- [ ] Add a `README.gotmpl` and give a [brief overview](https://docs.securecodebox.io/docs/contributing/integrating-a-scanner/readme) of the scanner and its configuration options.
+- [ ] Add a `README.gotmpl` and give a [brief overview](https://www.securecodebox.io/docs/contributing/integrating-a-scanner/readme) of the scanner and its configuration options.
 - [ ] Add a HelmChart and document all configuration options.
 - [ ] Implement a new scanner specific `scan-type.yaml`
 - [ ] Implement a new scanner specific `parse-definition.yaml`
-- [ ] Add (optional) some `cascading-rules.yaml` like documented [here](https://docs.securecodebox.io/docs/api/crds/cascading-rule)
+- [ ] Add (optional) some `cascading-rules.yaml` like documented [here](https://www.securecodebox.io/docs/api/crds/cascading-rule)
 - [ ] Add (optional) a `Dockerfile` for the scanner if there is no existing one publicly available on dockerHub
 - [ ] Use the [parser-SDK](https://github.com/secureCodeBox/secureCodeBox/tree/master/parser-sdk) to implement a new findings parser (currently based on NodeJS)
 - [ ] Add unit tests with at minimum 80% test coverage
-- [ ] Add some example `scan.yaml` and `finding.yaml` files in the [example folder](https://docs.securecodebox.io/docs/contributing/integrating-a-scanner/examples-dir)
-- [ ] Implement a [new integration or E2E test](https://docs.securecodebox.io/docs/contributing/integrating-a-scanner/integration-tests) for the hook [here](https://github.com/secureCodeBox/secureCodeBox/tree/master/tests/integration)
+- [ ] Add some example `scan.yaml` and `finding.yaml` files in the [example folder](https://www.securecodebox.io/docs/contributing/integrating-a-scanner/examples-dir)
+- [ ] Implement a [new integration or E2E test](https://www.securecodebox.io/docs/contributing/integrating-a-scanner/integration-tests) for the hook [here](https://github.com/secureCodeBox/secureCodeBox/tree/master/tests/integration)
