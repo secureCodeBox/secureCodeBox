@@ -53,7 +53,7 @@ makes no guarantees about the execution order of multiple ReadAndWrite hooks, th
 This can lead to "lost update" problems as the DefectDojo hook will overwrite all findings, which disregards the 
 results of previously run ReadAndWrite hooks. ReadOnly hooks work fine with the DefectDojo hook as they are always 
 executed after ReadAndWrite Hooks. If you want to control the order of execution of the different hooks, take a look
-at the [hook priority documentation](https://docs.securecodebox.io/docs/how-tos/hooks#hook-order) (supported with
+at the [hook priority documentation](https://www.securecodebox.io/docs/how-tos/hooks#hook-order) (supported with
 secureCodeBox 3.4.0 and later).
 :::
 
@@ -66,7 +66,7 @@ You can set the hook to read-only mode, which will prevent it from writing the r
 (`--set defectdojo.syncFindingsBack=false` during installation of the hook) if you want to rule out any data
 loss inside secureCodeBox, but this will not prevent the incorrect deduplication from affecting the data you
 see inside DefectDojo (for this, you will need to [contribute a parser to DefectDojo](https://defectdojo.github.io/django-DefectDojo/contributing/how-to-write-a-parser/)).
-You can also selectively disable the DefectDojo hook for certain scans using the [hook selector feature](https://docs.securecodebox.io/docs/how-tos/hooks#hook-selector)
+You can also selectively disable the DefectDojo hook for certain scans using the [hook selector feature](https://www.securecodebox.io/docs/how-tos/hooks#hook-selector)
 (supported with secureCodeBox 3.4.0 and later). 
 :::
 
@@ -74,9 +74,9 @@ You can also selectively disable the DefectDojo hook for certain scans using the
 For development purposes, it can be useful to run this hook locally. You can do so by following these steps:
 
 1. Make sure you have access to a running [DefectDojo](https://github.com/DefectDojo/django-DefectDojo) instance.
-2. [Run a Scan](https://docs.securecodebox.io/docs/getting-started/first-scans) of your choice.
+2. [Run a Scan](https://www.securecodebox.io/docs/getting-started/first-scans) of your choice.
 3. Supply Download Links for the Scan Results (Raw Result and Findings.json). You can access them from the
-included [Minio Instance](https://docs.securecodebox.io/docs/getting-started/installation/#accessing-the-included-minio-instance)
+included [Minio Instance](https://www.securecodebox.io/docs/getting-started/installation/#accessing-the-included-minio-instance)
 and upload them to a GitHub Gist.
 4. Set the following environment variables:
 
