@@ -7,7 +7,7 @@
 #
 # This Makefile is intended to be used for developement and testing only.
 # For using this scanner/hook in production please use the helm chart.
-# See: <https://docs.securecodebox.io/docs/getting-started/installation>
+# See: <https://www.securecodebox.io/docs/getting-started/installation>
 #
 # This Makefile expects some additional software to be installed:
 # - git
