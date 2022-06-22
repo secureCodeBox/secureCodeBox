@@ -18,8 +18,8 @@ keywords:
   - kubeaudit
   - scanner
   - secureCodeBox
-home: https://docs.securecodebox.io/docs/scanners/kubeaudit
-icon: https://docs.securecodebox.io/img/integrationIcons/kubeaudit.svg
+home: https://www.securecodebox.io/docs/scanners/kubeaudit
+icon: https://www.securecodebox.io/img/integrationIcons/kubeaudit.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
   - https://github.com/Shopify/kubeaudit/

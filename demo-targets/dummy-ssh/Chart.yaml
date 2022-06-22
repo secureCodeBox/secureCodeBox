@@ -8,8 +8,8 @@ type: application
 appVersion: "v1.0.0"
 name: dummy-ssh
 description: "SSH Server for scan testing."
-home: https://docs.securecodebox.io
-icon: https://docs.securecodebox.io/img/integrationIcons/SSH.svg
+home: https://www.securecodebox.io
+icon: https://www.securecodebox.io/img/integrationIcons/SSH.svg
 keywords:
   - vulnerable
   - ssh

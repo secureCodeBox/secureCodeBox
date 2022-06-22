@@ -21,8 +21,8 @@ keywords:
   - ncrack
   - scanner
   - secureCodeBox
-home: https://docs.securecodebox.io/docs/scanners/Ncrack
-icon: https://docs.securecodebox.io/img/integrationIcons/Ncrack.svg
+home: https://www.securecodebox.io/docs/scanners/Ncrack
+icon: https://www.securecodebox.io/img/integrationIcons/Ncrack.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:

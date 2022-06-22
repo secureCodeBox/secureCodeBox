@@ -18,8 +18,8 @@ keywords:
   - image-scanning
   - scanner
   - secureCodeBox
-home: https://docs.securecodebox.io/docs/scanners/Trivy
-icon: https://docs.securecodebox.io/img/integrationIcons/Trivy.svg
+home: https://www.securecodebox.io/docs/scanners/Trivy
+icon: https://www.securecodebox.io/img/integrationIcons/Trivy.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:

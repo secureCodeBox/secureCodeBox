@@ -16,8 +16,8 @@ keywords:
   - security
   - secureCodeBox
   - auto-discovery
-home: https://docs.securecodebox.io/docs/getting-started/installation
-icon: https://docs.securecodebox.io/img/Icon_Blue.svg
+home: https://www.securecodebox.io/docs/getting-started/installation
+icon: https://www.securecodebox.io/img/Icon_Blue.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:
@@ -36,7 +36,7 @@ annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/links: |
     - name: Documentation
-      url: https://docs.securecodebox.io/docs/getting-started/installation
+      url: https://www.securecodebox.io/docs/getting-started/installation
     - name: Homepage
       url: https://www.securecodebox.io
     - name: iteratec GmbH

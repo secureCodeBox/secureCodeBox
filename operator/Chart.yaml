@@ -16,8 +16,8 @@ keywords:
   - security
   - secureCodeBox
   - operator
-home: https://docs.securecodebox.io/docs/getting-started/installation
-icon: https://docs.securecodebox.io/img/Logo_Color.svg
+home: https://www.securecodebox.io/docs/getting-started/installation
+icon: https://www.securecodebox.io/img/Logo_Color.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:
@@ -51,14 +51,14 @@ annotations:
       displayName: secureCodeBox Scan
       description: |
         The Scan Custom Resource Definition (CRD) lets you define how a specific security scan should be configured.
-        More details about this CRD are documented here: https://docs.securecodebox.io/docs/api/crds/scan
+        More details about this CRD are documented here: https://www.securecodebox.io/docs/api/crds/scan
     - kind: ScheduledScan
       version: v1
       name: ScheduledScan
       displayName: secureCodeBox Scheduled Scan
       description: |
         The ScheduledScan Custom Resource Definition (CRD) lets you define a Scan which gets repeated in a specific time interval, 
-        e.g. every 24 hours or every 7 days. More details about this CRD are documented here: https://docs.securecodebox.io/docs/api/crds/scheduled-scan
+        e.g. every 24 hours or every 7 days. More details about this CRD are documented here: https://www.securecodebox.io/docs/api/crds/scheduled-scan
     - kind: CascadingRule
       version: v1
       name: Scan
@@ -66,7 +66,7 @@ annotations:
       description:  |
         CascadingRules are Custom Resource Definitions (CRD's) used to define how scans can be started automatically based on the results of previous scans. 
         This lets you run large exploratory scans and automatically start more in depth scans on the targets found by the initial scans.
-        More details about this CRD are documented here: https://docs.securecodebox.io/docs/api/crds/cascading-rule
+        More details about this CRD are documented here: https://www.securecodebox.io/docs/api/crds/cascading-rule
     - kind: ScanType
       version: v1
       name: Scan
@@ -74,7 +74,7 @@ annotations:
       description:  |
         The ScanType Custom Resource Definition (CRD) is used to define to the secureCodeBox how a specific scanner can be executed in Kubernetes. 
         The main part of the ScanType is the JobTemplate, which contains a Kubernetes Job definition which will be used to construct the scans Job.
-        More details about this CRD are documented here: https://docs.securecodebox.io/docs/api/crds/scan-type
+        More details about this CRD are documented here: https://www.securecodebox.io/docs/api/crds/scan-type
     - kind: ParseDefinition
       version: v1
       name: Scan
@@ -82,14 +82,14 @@ annotations:
       description:  |
         ParseDefinitions are Custom Resource Definitions (CRD's) used to describe to the secureCodeBox 
         how it can convert a raw finding report (e.g. XML report from nmap) into the generic secureCodeBox finding format.
-        More details about this CRD are documented here: https://docs.securecodebox.io/docs/api/crds/parse-definition
+        More details about this CRD are documented here: https://www.securecodebox.io/docs/api/crds/parse-definition
     - kind: ScanCompletionHook
       version: v1
       name: ScanCompletionHook
       displayName: secureCodeBox Scan Completion Hook
       description:  |
         ScanCompletionHooks are Custom Resource Definitions (CRD's) used to define custom behavior which should be run after a scan has been completed.
-        More details about this CRD are documented here: https://docs.securecodebox.io/docs/api/crds/parse-definition
+        More details about this CRD are documented here: https://www.securecodebox.io/docs/api/crds/parse-definition
   artifacthub.io/crdsExamples: |
     - apiVersion: "execution.securecodebox.io/v1"
       kind: Scan
@@ -154,7 +154,7 @@ annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/links: |
     - name: Documentation
-      url: https://docs.securecodebox.io/docs/getting-started/installation
+      url: https://www.securecodebox.io/docs/getting-started/installation
     - name: Homepage
       url: https://www.securecodebox.io
     - name: iteratec GmbH

@@ -19,8 +19,8 @@ keywords:
   - secureCodeBox
   - hook
   - elasticsearch
-home: https://docs.securecodebox.io/docs/hooks/elasticsearch
-icon: https://docs.securecodebox.io/img/integrationIcons/Elasticsearch.svg
+home: https://www.securecodebox.io/docs/hooks/elasticsearch
+icon: https://www.securecodebox.io/img/integrationIcons/Elasticsearch.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:

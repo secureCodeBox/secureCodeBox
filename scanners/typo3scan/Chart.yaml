@@ -20,8 +20,8 @@ keywords:
   - typo3
   - scanner
   - secureCodeBox
-home: https://docs.securecodebox.io/docs/scanners/typo3scan
-icon: https://docs.securecodebox.io/img/integrationIcons/Default.svg
+home: https://www.securecodebox.io/docs/scanners/typo3scan
+icon: https://www.securecodebox.io/img/integrationIcons/Default.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:

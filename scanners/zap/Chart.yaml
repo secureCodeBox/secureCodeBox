@@ -18,8 +18,8 @@ keywords:
   - OWASP
   - scanner
   - secureCodeBox
-home: https://docs.securecodebox.io/docs/scanners/ZAP
-icon: https://docs.securecodebox.io/img/integrationIcons/ZAP.svg
+home: https://www.securecodebox.io/docs/scanners/ZAP
+icon: https://www.securecodebox.io/img/integrationIcons/ZAP.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:

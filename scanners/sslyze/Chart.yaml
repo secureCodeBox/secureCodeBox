@@ -18,8 +18,8 @@ keywords:
   - ssl
   - scanner
   - secureCodeBox
-home: https://docs.securecodebox.io/docs/scanners/SSLyze
-icon: https://docs.securecodebox.io/img/integrationIcons/SSLyze.svg
+home: https://www.securecodebox.io/docs/scanners/SSLyze
+icon: https://www.securecodebox.io/img/integrationIcons/SSLyze.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:

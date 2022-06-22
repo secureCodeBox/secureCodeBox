@@ -18,8 +18,8 @@ keywords:
   - wordpress
   - scanner
   - secureCodeBox
-home: https://docs.securecodebox.io/docs/scanners/WPScan
-icon: https://docs.securecodebox.io/img/integrationIcons/WPScan.svg
+home: https://www.securecodebox.io/docs/scanners/WPScan
+icon: https://www.securecodebox.io/img/integrationIcons/WPScan.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:

@@ -22,8 +22,8 @@ appVersion: "0.98.0"
 annotations:
   versionApi: https://api.github.com/repos/returntocorp/semgrep/releases/latest
 kubeVersion: ">=v1.11.0-0"
-home: https://docs.securecodebox.io/docs/scanners/semgrep
-icon: https://docs.securecodebox.io/img/integrationIcons/semgrep.svg # TODO: Add this
+home: https://www.securecodebox.io/docs/scanners/semgrep
+icon: https://www.securecodebox.io/img/integrationIcons/semgrep.svg # TODO: Add this
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:

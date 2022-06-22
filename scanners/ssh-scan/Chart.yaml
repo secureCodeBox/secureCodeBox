@@ -20,8 +20,8 @@ keywords:
   - ssh
   - scanner
   - secureCodeBox
-home: https://docs.securecodebox.io/docs/scanners/SSH
-icon: https://docs.securecodebox.io/img/integrationIcons/SSH.svg
+home: https://www.securecodebox.io/docs/scanners/SSH
+icon: https://www.securecodebox.io/img/integrationIcons/SSH.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:

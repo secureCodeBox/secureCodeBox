@@ -19,8 +19,8 @@ keywords:
   - kube-hunter
   - scanner
   - secureCodeBox
-home: https://docs.securecodebox.io/docs/scanners/kube-hunter
-icon: https://docs.securecodebox.io/img/integrationIcons/kube-hunter.svg
+home: https://www.securecodebox.io/docs/scanners/kube-hunter
+icon: https://www.securecodebox.io/img/integrationIcons/kube-hunter.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:

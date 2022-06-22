@@ -18,8 +18,8 @@ keywords:
   - hook
   - azure
   - sentinel
-home: https://docs.securecodebox.io/docs/hooks/azure-monitor
-icon: https://docs.securecodebox.io/img/integrationIcons/AzureMonitor.svg
+home: https://www.securecodebox.io/docs/hooks/azure-monitor
+icon: https://www.securecodebox.io/img/integrationIcons/AzureMonitor.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:

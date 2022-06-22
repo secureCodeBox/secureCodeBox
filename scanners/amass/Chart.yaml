@@ -18,8 +18,8 @@ keywords:
   - subdomain
   - scanner
   - secureCodeBox
-home: https://docs.securecodebox.io/docs/scanners/Amass
-icon: https://docs.securecodebox.io/img/integrationIcons/Amass.svg
+home: https://www.securecodebox.io/docs/scanners/Amass
+icon: https://www.securecodebox.io/img/integrationIcons/Amass.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:
