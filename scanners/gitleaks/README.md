@@ -57,10 +57,10 @@ For a complete overview of the configuration options, see the
 
 Starting with version 8.0, gitleaks no longer supports cloning the repository directly.
 Instead, you will have to use an init container to do so.
-[We provide example scan definitions below](https://docs.securecodebox.io/docs/scanners/gitleaks/#examples) that you can build on.
+[We provide example scan definitions below](https://www.securecodebox.io/docs/scanners/gitleaks/#examples) that you can build on.
 
 ### Scanning Specific Timeframes
-When running gitleaks as a [scheduled scan](https://docs.securecodebox.io/docs/how-tos/automatically-repeating-scans), you may not want to go through the entire repository history every time.
+When running gitleaks as a [scheduled scan](https://www.securecodebox.io/docs/how-tos/automatically-repeating-scans), you may not want to go through the entire repository history every time.
 Gitleaks allows you to limit the commits it will scan using the `--log-opts` parameter, which accepts all parameters supported by `git log -p`.
 For example, if you want to scan only commits made in the last 7 days, on all branches of the repository, use the following parameters:
 ```yaml
@@ -84,14 +84,14 @@ However, you can provide this information manually using a scan annotation calle
 See the examples below on how to use it.
 
 ### Cascading Scans
-Gitleaks works well in conjunction with [git-repo-scanner](https://docs.securecodebox.io/docs/scanners/git-repo-scanner) to enumerate Git repositories and scan them using cascading rules.
+Gitleaks works well in conjunction with [git-repo-scanner](https://www.securecodebox.io/docs/scanners/git-repo-scanner) to enumerate Git repositories and scan them using cascading rules.
 We do not ship default cascading rules for this purpose.
-However, you can find instructions on running such cascading scans in [this article](https://docs.securecodebox.io/blog/2021/10/27/sast-scanning) - simply adapt it to use gitleaks instead of semgrep and you are good to go.
+However, you can find instructions on running such cascading scans in [this article](https://www.securecodebox.io/blog/2021/10/27/sast-scanning) - simply adapt it to use gitleaks instead of semgrep and you are good to go.
 
 ### Providing Your Own Ruleset
 SecureCodeBox used to ship a number of default rulesets.
 We have stopped doing this, as the official ruleset of gitleaks is much more up-to-date and well-maintained.
-However, if you still want to write and use your own rulesets, we [provide an example below](https://docs.securecodebox.io/docs/scanners/gitleaks#provide-own-rules).
+However, if you still want to write and use your own rulesets, we [provide an example below](https://www.securecodebox.io/docs/scanners/gitleaks#provide-own-rules).
 The parser will set all found issues to `medium` severity by default.
 To override the severity in your own rulesets, include the result tag "HIGH" or "LOW" in your gitleaks rule.
 
@@ -142,7 +142,7 @@ Kubernetes: `>=v1.11.0-0`
 Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 
 [scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
-[scb-docs]: https://docs.securecodebox.io/
+[scb-docs]: https://www.securecodebox.io/
 [scb-site]: https://www.securecodebox.io/
 [scb-github]: https://github.com/secureCodeBox/
 [scb-twitter]: https://twitter.com/secureCodeBox

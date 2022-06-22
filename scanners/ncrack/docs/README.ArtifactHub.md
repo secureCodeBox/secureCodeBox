@@ -27,7 +27,7 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
 ## What is OWASP secureCodeBox?
 
 <p align="center">
-  <img alt="secureCodeBox Logo" src="https://docs.securecodebox.io/img/Logo_Color.svg" width="250px"/>
+  <img alt="secureCodeBox Logo" src="https://www.securecodebox.io/img/Logo_Color.svg" width="250px"/>
 </p>
 
 _[OWASP secureCodeBox][scb-github]_ is an automated and scalable open source solution that can be used to integrate various *security vulnerability scanners* with a simple and lightweight interface. The _secureCodeBox_ mission is to support *DevSecOps* Teams to make it easy to automate security vulnerability testing in different scenarios.
@@ -38,7 +38,7 @@ The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To
 
 ### Quickstart with secureCodeBox on kubernetes
 
-You can find resources to help you get started on our [documentation website](https://docs.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://docs.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://docs.securecodebox.io/docs/getting-started/first-scans) with it.
+You can find resources to help you get started on our [documentation website](https://www.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://www.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://www.securecodebox.io/docs/getting-started/first-scans) with it.
 
 ## What is Ncrack?
 Ncrack is a high-speed network authentication cracking tool. It was built to help companies secure their networks by proactively testing all their hosts and networking devices for poor passwords. Security professionals also rely on Ncrack when auditing their clients. Ncrack was designed using a modular approach, a command-line syntax similar to Nmap and a dynamic engine that can adapt its behaviour based on network feedback. It allows for rapid, yet reliable large-scale auditing of multiple hosts.
@@ -269,7 +269,7 @@ secureCodeBox is an official [OWASP][scb-owasp] project.
 Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 
 [scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
-[scb-docs]: https://docs.securecodebox.io/
+[scb-docs]: https://www.securecodebox.io/
 [scb-site]: https://www.securecodebox.io/
 [scb-github]: https://github.com/secureCodeBox/
 [scb-twitter]: https://twitter.com/secureCodeBox

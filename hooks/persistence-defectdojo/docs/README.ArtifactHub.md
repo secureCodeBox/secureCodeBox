@@ -27,7 +27,7 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
 ## What is OWASP secureCodeBox?
 
 <p align="center">
-  <img alt="secureCodeBox Logo" src="https://docs.securecodebox.io/img/Logo_Color.svg" width="250px"/>
+  <img alt="secureCodeBox Logo" src="https://www.securecodebox.io/img/Logo_Color.svg" width="250px"/>
 </p>
 
 _[OWASP secureCodeBox][scb-github]_ is an automated and scalable open source solution that can be used to integrate various *security vulnerability scanners* with a simple and lightweight interface. The _secureCodeBox_ mission is to support *DevSecOps* Teams to make it easy to automate security vulnerability testing in different scenarios.
@@ -38,7 +38,7 @@ The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To
 
 ### Quickstart with secureCodeBox on kubernetes
 
-You can find resources to help you get started on our [documentation website](https://docs.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://docs.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://docs.securecodebox.io/docs/getting-started/first-scans) with it.
+You can find resources to help you get started on our [documentation website](https://www.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://www.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://www.securecodebox.io/docs/getting-started/first-scans) with it.
 
 ## What is "Persistence DefectDojo" Hook about?
 The DefectDojo hook imports the reports from scans automatically into [OWASP DefectDojo](https://www.defectdojo.org/).
@@ -72,7 +72,7 @@ makes no guarantees about the execution order of multiple ReadAndWrite hooks, th
 This can lead to "lost update" problems as the DefectDojo hook will overwrite all findings, which disregards the
 results of previously run ReadAndWrite hooks. ReadOnly hooks work fine with the DefectDojo hook as they are always
 executed after ReadAndWrite Hooks. If you want to control the order of execution of the different hooks, take a look
-at the [hook priority documentation](https://docs.securecodebox.io/docs/how-tos/hooks#hook-order) (supported with
+at the [hook priority documentation](https://www.securecodebox.io/docs/how-tos/hooks#hook-order) (supported with
 secureCodeBox 3.4.0 and later).
 :::
 
@@ -85,7 +85,7 @@ You can set the hook to read-only mode, which will prevent it from writing the r
 (`--set defectdojo.syncFindingsBack=false` during installation of the hook) if you want to rule out any data
 loss inside secureCodeBox, but this will not prevent the incorrect deduplication from affecting the data you
 see inside DefectDojo (for this, you will need to [contribute a parser to DefectDojo](https://defectdojo.github.io/django-DefectDojo/contributing/how-to-write-a-parser/)).
-You can also selectively disable the DefectDojo hook for certain scans using the [hook selector feature](https://docs.securecodebox.io/docs/how-tos/hooks#hook-selector)
+You can also selectively disable the DefectDojo hook for certain scans using the [hook selector feature](https://www.securecodebox.io/docs/how-tos/hooks#hook-selector)
 (supported with secureCodeBox 3.4.0 and later).
 :::
 
@@ -93,9 +93,9 @@ You can also selectively disable the DefectDojo hook for certain scans using the
 For development purposes, it can be useful to run this hook locally. You can do so by following these steps:
 
 1. Make sure you have access to a running [DefectDojo](https://github.com/DefectDojo/django-DefectDojo) instance.
-2. [Run a Scan](https://docs.securecodebox.io/docs/getting-started/first-scans) of your choice.
+2. [Run a Scan](https://www.securecodebox.io/docs/getting-started/first-scans) of your choice.
 3. Supply Download Links for the Scan Results (Raw Result and Findings.json). You can access them from the
-included [Minio Instance](https://docs.securecodebox.io/docs/getting-started/installation/#accessing-the-included-minio-instance)
+included [Minio Instance](https://www.securecodebox.io/docs/getting-started/installation/#accessing-the-included-minio-instance)
 and upload them to a GitHub Gist.
 4. Set the following environment variables:
 
@@ -339,7 +339,7 @@ secureCodeBox is an official [OWASP][scb-owasp] project.
 Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 
 [scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
-[scb-docs]: https://docs.securecodebox.io/
+[scb-docs]: https://www.securecodebox.io/
 [scb-site]: https://www.securecodebox.io/
 [scb-github]: https://github.com/secureCodeBox/
 [scb-twitter]: https://twitter.com/secureCodeBox

@@ -172,7 +172,7 @@ spec:
 If you want to scan anything other than docker images, you currently [cannot use the client-server mode](https://github.com/aquasecurity/trivy/issues/634) described above.
 Instead, you have to [manually download the ruleset and provide it to trivy](https://aquasecurity.github.io/trivy/latest/advanced/air-gap/).
 In practice, this is a difficult problem because the most natural method for providing these files in kubernetes, ConfigMaps, has a size limit of 1 MB, while the vulnerability database is over 200 MB in size (28 MB after compression).
-Your best bet would thus be to serve the files from your own servers and load them into the scanner [using an initContainer](https://docs.securecodebox.io/docs/api/crds/scan#initcontainers-optional), taking care to keep the databases on your server up to date.
+Your best bet would thus be to serve the files from your own servers and load them into the scanner [using an initContainer](https://www.securecodebox.io/docs/api/crds/scan#initcontainers-optional), taking care to keep the databases on your server up to date.
 Consult the [trivy documentation](https://aquasecurity.github.io/trivy/latest/advanced/air-gap/) for additional details on the required steps.
 
 ## Requirements
@@ -220,7 +220,7 @@ Kubernetes: `>=v1.11.0-0`
 Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 
 [scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
-[scb-docs]: https://docs.securecodebox.io/
+[scb-docs]: https://www.securecodebox.io/
 [scb-site]: https://www.securecodebox.io/
 [scb-github]: https://github.com/secureCodeBox/
 [scb-twitter]: https://twitter.com/secureCodeBox
