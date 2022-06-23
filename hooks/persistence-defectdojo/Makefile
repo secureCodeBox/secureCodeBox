@@ -13,3 +13,7 @@ include ../../hooks.mk
 .PHONY: unit-tests
 unit-tests:
 	@$(MAKE) -s unit-test-java
+
+.PHONY: integration-tests
+integration-tests: ## 🩺 Start integration test for this module in the namespace "integration-tests"
+	@echo "No integration tests for $(hook) defined!"
