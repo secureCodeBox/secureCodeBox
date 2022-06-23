@@ -48,7 +48,7 @@ SPDX-License-Identifier: Apache-2.0
   - [Sponsors](#sponsors)
   - [Author Information](#author-information)
 
-For additional documentation aspects please have a look at our [documentation website](https://docs.securecodebox.io):
+For additional documentation aspects please have a look at our [documentation website](https://www.securecodebox.io):
 
 <!-- tocstop -->
 
@@ -71,7 +71,7 @@ There is a German article about [Security DevOps – Angreifern (immer) einen Sc
 
 ## Quickstart
 
-You can find resources to help you get started on our [documentation website](https://docs.securecodebox.io) including instruction on how to [install the secureCodeBox](https://docs.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://docs.securecodebox.io/docs/getting-started/first-scans) with it.
+You can find resources to help you get started on our [documentation website](https://www.securecodebox.io) including instruction on how to [install the secureCodeBox](https://www.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://www.securecodebox.io/docs/getting-started/first-scans) with it.
 
 ## Architecture Overview
 

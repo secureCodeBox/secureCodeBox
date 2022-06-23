@@ -17,8 +17,8 @@ keywords:
   - gitleaks
   - scanner
   - secureCodeBox
-home: https://docs.securecodebox.io/docs/scanners/gitleaks
-icon: https://docs.securecodebox.io/img/integrationIcons/Gitleaks.svg
+home: https://www.securecodebox.io/docs/scanners/gitleaks
+icon: https://www.securecodebox.io/img/integrationIcons/Gitleaks.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:

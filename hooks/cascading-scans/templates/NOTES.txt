@@ -17,5 +17,5 @@ You can do that by setting a label selector which matches all rules you want to 
 
 Find out more, on the secureCodeBox docs:
 
-- HowTo Scanning Networks: https://docs.securecodebox.io/docs/how-tos/scanning-networks
-- CascadingRule API Docs: https://docs.securecodebox.io/docs/api/crds/cascading-rule
+- HowTo Scanning Networks: https://www.securecodebox.io/docs/how-tos/scanning-networks
+- CascadingRule API Docs: https://www.securecodebox.io/docs/api/crds/cascading-rule

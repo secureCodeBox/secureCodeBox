@@ -17,8 +17,8 @@ keywords:
   - new-scanner
   - scanner
   - secureCodeBox
-home: https://docs.securecodebox.io/docs/scanners/new-scanner
-icon: https://docs.securecodebox.io/img/integrationIcons/new-scanner.svg # Upload new icon
+home: https://www.securecodebox.io/docs/scanners/new-scanner
+icon: https://www.securecodebox.io/img/integrationIcons/new-scanner.svg # Upload new icon
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:

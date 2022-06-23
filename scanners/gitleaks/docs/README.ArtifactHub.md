@@ -27,7 +27,7 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
 ## What is OWASP secureCodeBox?
 
 <p align="center">
-  <img alt="secureCodeBox Logo" src="https://docs.securecodebox.io/img/Logo_Color.svg" width="250px"/>
+  <img alt="secureCodeBox Logo" src="https://www.securecodebox.io/img/Logo_Color.svg" width="250px"/>
 </p>
 
 _[OWASP secureCodeBox][scb-github]_ is an automated and scalable open source solution that can be used to integrate various *security vulnerability scanners* with a simple and lightweight interface. The _secureCodeBox_ mission is to support *DevSecOps* Teams to make it easy to automate security vulnerability testing in different scenarios.
@@ -38,7 +38,7 @@ The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To
 
 ### Quickstart with secureCodeBox on kubernetes
 
-You can find resources to help you get started on our [documentation website](https://docs.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://docs.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://docs.securecodebox.io/docs/getting-started/first-scans) with it.
+You can find resources to help you get started on our [documentation website](https://www.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://www.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://www.securecodebox.io/docs/getting-started/first-scans) with it.
 
 ## What is Gitleaks?
 Gitleaks is a free and open source tool for finding secrets in git repositories.
@@ -62,10 +62,10 @@ For a complete overview of the configuration options, see the
 
 Starting with version 8.0, gitleaks no longer supports cloning the repository directly.
 Instead, you will have to use an init container to do so.
-[We provide example scan definitions below](https://docs.securecodebox.io/docs/scanners/gitleaks/#examples) that you can build on.
+[We provide example scan definitions below](https://www.securecodebox.io/docs/scanners/gitleaks/#examples) that you can build on.
 
 ### Scanning Specific Timeframes
-When running gitleaks as a [scheduled scan](https://docs.securecodebox.io/docs/how-tos/automatically-repeating-scans), you may not want to go through the entire repository history every time.
+When running gitleaks as a [scheduled scan](https://www.securecodebox.io/docs/how-tos/automatically-repeating-scans), you may not want to go through the entire repository history every time.
 Gitleaks allows you to limit the commits it will scan using the `--log-opts` parameter, which accepts all parameters supported by `git log -p`.
 For example, if you want to scan only commits made in the last 7 days, on all branches of the repository, use the following parameters:
 ```yaml
@@ -89,14 +89,14 @@ However, you can provide this information manually using a scan annotation calle
 See the examples below on how to use it.
 
 ### Cascading Scans
-Gitleaks works well in conjunction with [git-repo-scanner](https://docs.securecodebox.io/docs/scanners/git-repo-scanner) to enumerate Git repositories and scan them using cascading rules.
+Gitleaks works well in conjunction with [git-repo-scanner](https://www.securecodebox.io/docs/scanners/git-repo-scanner) to enumerate Git repositories and scan them using cascading rules.
 We do not ship default cascading rules for this purpose.
-However, you can find instructions on running such cascading scans in [this article](https://docs.securecodebox.io/blog/2021/10/27/sast-scanning) - simply adapt it to use gitleaks instead of semgrep and you are good to go.
+However, you can find instructions on running such cascading scans in [this article](https://www.securecodebox.io/blog/2021/10/27/sast-scanning) - simply adapt it to use gitleaks instead of semgrep and you are good to go.
 
 ### Providing Your Own Ruleset
 SecureCodeBox used to ship a number of default rulesets.
 We have stopped doing this, as the official ruleset of gitleaks is much more up-to-date and well-maintained.
-However, if you still want to write and use your own rulesets, we [provide an example below](https://docs.securecodebox.io/docs/scanners/gitleaks#provide-own-rules).
+However, if you still want to write and use your own rulesets, we [provide an example below](https://www.securecodebox.io/docs/scanners/gitleaks#provide-own-rules).
 The parser will set all found issues to `medium` severity by default.
 To override the severity in your own rulesets, include the result tag "HIGH" or "LOW" in your gitleaks rule.
 
@@ -162,7 +162,7 @@ secureCodeBox is an official [OWASP][scb-owasp] project.
 Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 
 [scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
-[scb-docs]: https://docs.securecodebox.io/
+[scb-docs]: https://www.securecodebox.io/
 [scb-site]: https://www.securecodebox.io/
 [scb-github]: https://github.com/secureCodeBox/
 [scb-twitter]: https://twitter.com/secureCodeBox

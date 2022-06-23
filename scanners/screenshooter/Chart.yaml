@@ -18,8 +18,8 @@ keywords:
   - webpages
   - scanner
   - secureCodeBox
-home: https://docs.securecodebox.io/docs/scanners/Screenshooter
-icon: https://docs.securecodebox.io/img/integrationIcons/Screenshooter.svg
+home: https://www.securecodebox.io/docs/scanners/Screenshooter
+icon: https://www.securecodebox.io/img/integrationIcons/Screenshooter.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:

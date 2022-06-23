@@ -77,7 +77,7 @@ scanner:
 ### Added scanner.appendName to chart values
 Using {{ .Release.name }} in the `nmap` HelmChart Name for `scanTypes` causes issues when using this chart as a dependency of another chart. All scanners HelmCharts already used a fixed name for the `scanType` they introduce, with one exception: the `nmap` scanner HelmChart. 
 
-The nmap exception was originally introduced to make it possible configure yourself an `nmap-privilidged` scanType, which is capable of running operating system scans which requires some higher privileges: https://docs.securecodebox.io/docs/scanners/nmap#operating-system-scans
+The nmap exception was originally introduced to make it possible configure yourself an `nmap-privilidged` scanType, which is capable of running operating system scans which requires some higher privileges: https://www.securecodebox.io/docs/scanners/nmap#operating-system-scans
 
 This idea for extending the name of a scanType is now in Version 3 general available for all HelmCharts.
 
@@ -121,6 +121,6 @@ kubectl --namespace <NAMESPACE> delete role lurcher
 ➡️  [Reference: #537](https://github.com/secureCodeBox/secureCodeBox/pull/537)
 
 ### Removed Hook Teams Webhook
-We implemented a more general *[notification hook](https://docs.securecodebox.io/docs/hooks/notification-hook)* which can be used to notify different systems like *[MS Teams](https://docs.securecodebox.io/docs/hooks/notification-hook#configuration-of-a-ms-teams-notification)* and *[Slack](https://docs.securecodebox.io/docs/hooks/notification-hook#configuration-of-a-slack-notification)* and also [Email](https://docs.securecodebox.io/docs/hooks/notification-hook#configuration-of-an-email-notification) based in a more flexible way with [custom message templates](https://docs.securecodebox.io/docs/hooks/notification-hook#custom-message-templates). With this new hook in place it is not nessesary to maintain the preexisting MS Teams Hook any longer and therefore we removed it.
+We implemented a more general *[notification hook](https://www.securecodebox.io/docs/hooks/notification-hook)* which can be used to notify different systems like *[MS Teams](https://www.securecodebox.io/docs/hooks/notification-hook#configuration-of-a-ms-teams-notification)* and *[Slack](https://www.securecodebox.io/docs/hooks/notification-hook#configuration-of-a-slack-notification)* and also [Email](https://www.securecodebox.io/docs/hooks/notification-hook#configuration-of-an-email-notification) based in a more flexible way with [custom message templates](https://www.securecodebox.io/docs/hooks/notification-hook#custom-message-templates). With this new hook in place it is not nessesary to maintain the preexisting MS Teams Hook any longer and therefore we removed it.
 
 ➡️  [Reference: #570](https://github.com/secureCodeBox/secureCodeBox/pull/570)

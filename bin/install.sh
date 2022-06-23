@@ -15,7 +15,7 @@
 # Call with --scanners / --demo-targets / --hooks to only install the wanted resources
 # Call with --help for usage information
 #
-# For more information see https://docs.securecodebox.io/
+# For more information see https://www.securecodebox.io/
 
 set -euo pipefail
 shopt -s extglob

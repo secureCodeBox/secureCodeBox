@@ -17,8 +17,8 @@ keywords:
   - repositories
   - scanner
   - secureCodeBox
-home: https://docs.securecodebox.io/docs/scanners/git-repo-scanner
-icon: https://docs.securecodebox.io/img/integrationIcons/GitRepoScanner.svg
+home: https://www.securecodebox.io/docs/scanners/git-repo-scanner
+icon: https://www.securecodebox.io/img/integrationIcons/GitRepoScanner.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:

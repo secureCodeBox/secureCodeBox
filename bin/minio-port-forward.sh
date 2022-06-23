@@ -14,7 +14,7 @@
 # Will also print your access key and secret key.
 #
 # For more information see
-# https://docs.securecodebox.io/docs/getting-started/installation/#accessing-the-included-minio-instance
+# https://www.securecodebox.io/docs/getting-started/installation/#accessing-the-included-minio-instance
 
 set -euo pipefail
 shopt -s extglob

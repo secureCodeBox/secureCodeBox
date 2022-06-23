@@ -19,8 +19,8 @@ keywords:
   - nmap
   - scanner
   - secureCodeBox
-home: https://docs.securecodebox.io/docs/scanners/Nmap
-icon: https://docs.securecodebox.io/img/integrationIcons/Nmap.svg
+home: https://www.securecodebox.io/docs/scanners/Nmap
+icon: https://www.securecodebox.io/img/integrationIcons/Nmap.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:

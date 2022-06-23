@@ -7,7 +7,7 @@ appVersion: ""
 usecase: "secureCodeBox AutoDiscovery for Kubernetes discovers and starts scans for apps running in the cluster."
 ---
 
-![auto-discovery logo](https://docs.securecodebox.io/img/Logo_Color.svg)
+![auto-discovery logo](https://www.securecodebox.io/img/Logo_Color.svg)
 
 The secureCodeBox _AutoDiscovery_ is running on kubernetes (K8S) and is an optional component of the complete secureCodeBox stack.
 The Kubernetes AutoDiscovery needs to be deployed along side the secureCodeBox Operator. It monitors security relevant resources inside a K8S environment and automatically create scans to continuously monitor security aspects of the resources.
@@ -176,7 +176,7 @@ kubectl -n juice-shop annotate service juice-shop auto-discovery.securecodebox.i
 Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 
 [scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
-[scb-docs]: https://docs.securecodebox.io/
+[scb-docs]: https://www.securecodebox.io/
 [scb-site]: https://www.securecodebox.io/
 [scb-github]: https://github.com/secureCodeBox/
 [scb-twitter]: https://twitter.com/secureCodeBox

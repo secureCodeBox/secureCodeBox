@@ -446,8 +446,8 @@ To fill your template with data we provide the following objects.
 
 | object   | Details                                                                                                                                                                           |
 | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| findings | An array of the findings matching your rules (See [Finding secureCodeBox API Specification](https://docs.securecodebox.io/docs/api/finding)                                       |
-| scan     | An Object containing information about the scan that triggered the notification (See [Scan secureCodeBox API Specification](https://docs.securecodebox.io/docs/api/crds/scan)     |
+| findings | An array of the findings matching your rules (See [Finding secureCodeBox API Specification](https://www.securecodebox.io/docs/api/finding)                                       |
+| scan     | An Object containing information about the scan that triggered the notification (See [Scan secureCodeBox API Specification](https://www.securecodebox.io/docs/api/crds/scan)     |
 | args     | contains `process.env` (See: [process.env nodejs](https://nodejs.org/api/process.html#process_process_env)) you can use this to access data defined in `env` of the `values.yaml` |
 
 ## Values
@@ -483,7 +483,7 @@ To fill your template with data we provide the following objects.
 Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 
 [scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
-[scb-docs]: https://docs.securecodebox.io/
+[scb-docs]: https://www.securecodebox.io/
 [scb-site]: https://www.securecodebox.io/
 [scb-github]: https://github.com/secureCodeBox/
 [scb-twitter]: https://twitter.com/secureCodeBox

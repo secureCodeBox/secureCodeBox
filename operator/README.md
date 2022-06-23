@@ -7,7 +7,7 @@ appVersion: ""
 usecase: "secureCodeBox Operator is the core component."
 ---
 
-![operator logo](https://docs.securecodebox.io/img/Logo_Color.svg)
+![operator logo](https://www.securecodebox.io/img/Logo_Color.svg)
 
 <!--
 SPDX-FileCopyrightText: the secureCodeBox authors
@@ -38,7 +38,7 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
 ## What is secureCodeBox Operator?
 The secureCodeBox operator is running on Kubernetes and is the core component of the complete secureCodeBox stack, responsible for managing all scans and resources.
 
-**Homepage:** <https://docs.securecodebox.io/docs/getting-started/installation>
+**Homepage:** <https://www.securecodebox.io/docs/getting-started/installation>
 
 ## Deployment
 The operator chart can be deployed via helm:
@@ -117,7 +117,7 @@ helm install securecodebox-operator secureCodeBox/operator
 Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 
 [scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
-[scb-docs]: https://docs.securecodebox.io/
+[scb-docs]: https://www.securecodebox.io/
 [scb-site]: https://www.securecodebox.io/
 [scb-github]: https://github.com/secureCodeBox/
 [scb-twitter]: https://twitter.com/secureCodeBox

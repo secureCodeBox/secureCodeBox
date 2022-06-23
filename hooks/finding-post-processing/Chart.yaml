@@ -16,8 +16,8 @@ keywords:
   - security
   - secureCodeBox
   - hook
-home: https://docs.securecodebox.io/docs/hooks/finding-post-processing
-icon: https://docs.securecodebox.io/img/integrationIcons/Default.svg
+home: https://www.securecodebox.io/docs/hooks/finding-post-processing
+icon: https://www.securecodebox.io/img/integrationIcons/Default.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:

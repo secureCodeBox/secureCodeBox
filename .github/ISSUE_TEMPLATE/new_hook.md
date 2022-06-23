@@ -29,7 +29,7 @@ Before opening a new issue, please make sure that we do not have any duplicates 
 <!-- Add any other context or screenshots about the feature request here. -->
 
 ## Steps to implement a new hook
-Hint: A general guide how to implement a new SCB Hook is documented [here](https://docs.securecodebox.io/docs/contributing/integrating-a-hook)
+Hint: A general guide how to implement a new SCB Hook is documented [here](https://www.securecodebox.io/docs/contributing/integrating-a-hook)
 
 - [ ] Create a new folder with the name of the [hook here](https://github.com/secureCodeBox/secureCodeBox/tree/master/hooks)
 - [ ] Add a `README.md` and give a brief overview of the scanner and its configuration options.
@@ -38,4 +38,4 @@ Hint: A general guide how to implement a new SCB Hook is documented [here](https
 - [ ] Use the [Hook-SDK](https://github.com/secureCodeBox/secureCodeBox/tree/master/hook-sdk) to implement a new hook (currently based on NodeJS)
 - [ ] Add unit tests with at minimum 80% test coverage
 - [ ] Add some example `scan.yaml` and `finding.yaml` files in the example folder
-- [ ] Implement a [new integration or E2E test](https://docs.securecodebox.io/docs/contributing/integrating-a-hook/integration-tests) for the hook [here](https://github.com/secureCodeBox/secureCodeBox/tree/master/tests/integration)
+- [ ] Implement a [new integration or E2E test](https://www.securecodebox.io/docs/contributing/integrating-a-hook/integration-tests) for the hook [here](https://github.com/secureCodeBox/secureCodeBox/tree/master/tests/integration)

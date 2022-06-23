@@ -8,8 +8,8 @@ type: application
 appVersion: "v1.0.0"
 name: unsafe-https
 description: "Self-signed https Server for scan testing."
-home: https://docs.securecodebox.io
-icon: https://docs.securecodebox.io/img/integrationIcons/SSLyze.svg
+home: https://www.securecodebox.io
+icon: https://www.securecodebox.io/img/integrationIcons/SSLyze.svg
 keywords:
   - unsafe
   - https

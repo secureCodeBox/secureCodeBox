@@ -27,7 +27,7 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
 ## What is OWASP secureCodeBox?
 
 <p align="center">
-  <img alt="secureCodeBox Logo" src="https://docs.securecodebox.io/img/Logo_Color.svg" width="250px"/>
+  <img alt="secureCodeBox Logo" src="https://www.securecodebox.io/img/Logo_Color.svg" width="250px"/>
 </p>
 
 _[OWASP secureCodeBox][scb-github]_ is an automated and scalable open source solution that can be used to integrate various *security vulnerability scanners* with a simple and lightweight interface. The _secureCodeBox_ mission is to support *DevSecOps* Teams to make it easy to automate security vulnerability testing in different scenarios.
@@ -38,17 +38,17 @@ The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To
 
 ### Quickstart with secureCodeBox on kubernetes
 
-You can find resources to help you get started on our [documentation website](https://docs.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://docs.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://docs.securecodebox.io/docs/getting-started/first-scans) with it.
+You can find resources to help you get started on our [documentation website](https://www.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://www.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://www.securecodebox.io/docs/getting-started/first-scans) with it.
 
 ## What is "Cascading Scans" Hook about?
 The Cascading Scans Hook can be used to orchestrate security scanners based on defined rule sets.
 The so called `CascadingRules` consist of a `matches` section which contains one or multiple rules which are compared against `findings`. When a `finding` matches a `rule` the `scanSpec` section will then be used to create a new scan. To customize the scan to match the finding, the [mustache](https://github.com/janl/mustache.js) templating language can be used to reference fields of the finding.
 
-This Hook is based on the ADR https://docs.securecodebox.io/docs/architecture/adr/adr_0003
+This Hook is based on the ADR https://www.securecodebox.io/docs/architecture/adr/adr_0003
 
 More information about how to use cascading scans can be found here:
-* Custom Resource Definition: https://docs.securecodebox.io/docs/api/crds/cascading-rule/
-* How-To Network Scanning: https://docs.securecodebox.io/docs/how-tos/scanning-networks/
+* Custom Resource Definition: https://www.securecodebox.io/docs/api/crds/cascading-rule/
+* How-To Network Scanning: https://www.securecodebox.io/docs/how-tos/scanning-networks/
 
 ## Deployment
 The cascading-scans chart can be deployed via helm:
@@ -198,7 +198,7 @@ secureCodeBox is an official [OWASP][scb-owasp] project.
 Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 
 [scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
-[scb-docs]: https://docs.securecodebox.io/
+[scb-docs]: https://www.securecodebox.io/
 [scb-site]: https://www.securecodebox.io/
 [scb-github]: https://github.com/secureCodeBox/
 [scb-twitter]: https://twitter.com/secureCodeBox

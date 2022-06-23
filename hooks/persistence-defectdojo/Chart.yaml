@@ -20,8 +20,8 @@ keywords:
   - hook
   - defectdojo
   - owasp
-home: https://docs.securecodebox.io/docs/hooks/defectdojo
-icon: https://docs.securecodebox.io/img/integrationIcons/DefectDojo.svg
+home: https://www.securecodebox.io/docs/hooks/defectdojo
+icon: https://www.securecodebox.io/img/integrationIcons/DefectDojo.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:

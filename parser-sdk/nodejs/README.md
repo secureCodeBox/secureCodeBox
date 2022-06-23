@@ -24,7 +24,7 @@ docker build ./scanners/nikto/parser -t securecodebox/parser-nikto:local-dev --b
 helm upgrade nikto scanners/nikto --install --set parserImage.repository=securecodebox/parser-nikto,parserImage.tag=local-dev
 ```
 
-If you add a scan configuration called "scan-config.yaml" to the current directory (nikto examples [here](https://docs.securecodebox.io/docs/scanners/nikto#demo-juice-shop)) you can run the Scan with:
+If you add a scan configuration called "scan-config.yaml" to the current directory (nikto examples [here](https://www.securecodebox.io/docs/scanners/nikto#demo-juice-shop)) you can run the Scan with:
 
 ```bash
 kubectl apply -f scan-config.yaml

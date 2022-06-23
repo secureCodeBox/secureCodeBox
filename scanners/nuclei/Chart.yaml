@@ -17,8 +17,8 @@ keywords:
   - nuclei
   - scanner
   - secureCodeBox
-home: https://docs.securecodebox.io/docs/scanners/nuclei
-icon: https://docs.securecodebox.io/img/integrationIcons/nuclei.svg
+home: https://www.securecodebox.io/docs/scanners/nuclei
+icon: https://www.securecodebox.io/img/integrationIcons/nuclei.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:

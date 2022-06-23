@@ -8,7 +8,7 @@
 #
 # Removes all available resources (scanners, demo-targets, hooks, operator) and namespaces
 #
-# For more information see https://docs.securecodebox.io/
+# For more information see https://www.securecodebox.io/
 
 set -eu
 shopt -s extglob

@@ -8,13 +8,13 @@ contexts:
   # Name to be used to refer to this context in other jobs, mandatory
   - name: secureCodeBoxScanType-NoAuth
     # The top level url, mandatory, everything under this will be included
-    url: https://docs.secureCodeBox.io/
+    url: https://www.securecodebox.io/
     # An optional list of regexes to include
     includePaths:
-      - "https://docs.secureCodeBox.io.*"
+      - "https://www.securecodebox.io.*"
     # An optional list of regexes to exclude
     excludePaths:
-      - "https://docs.secureCodeBox.io/authserver/v1/.*"
+      - "https://www.securecodebox.io/authserver/v1/.*"
       - ".*\\.js"
       - ".*\\.css"
       - ".*\\.png"
@@ -25,7 +25,7 @@ spiders:
     # String: Name of the context to spider, default: first context
     context: secureCodeBoxScanType-NoAuth
     # String: Url to start spidering from, default: first context URL
-    url: https://docs.secureCodeBox.io/
+    url: https://www.securecodebox.io/
     # Int: Fail if spider finds less than the specified number of URLs, default: 0
     failIfFoundUrlsLessThan: 0
     # Int: Warn if spider finds less than the specified number of URLs, default: 0
@@ -72,7 +72,7 @@ scanners:
     # String: Name of the context to attack, default: first context
     context: secureCodeBoxScanType-NoAuth
     # String: Url to start scaning from, default: first context URL
-    url: https://docs.secureCodeBox.io/
+    url: https://www.securecodebox.io/
     # String: Name of the scan policy to be used, default: Default Policy
     policy: "Default Policy"
     # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
