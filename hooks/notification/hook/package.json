@@ -35,7 +35,7 @@
     "@kubernetes/client-node": "^0.16.2",
     "@types/js-yaml": "^4.0.2",
     "@types/nunjucks": "^3.1.5",
-    "axios": "^0.21.4",
+    "axios": "^0.27.2",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "nodemailer": "^6.6.3",
