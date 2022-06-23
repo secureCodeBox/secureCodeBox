@@ -390,6 +390,9 @@ In `endPoint` you need to specify url to your rocket.chat instances `post.messag
 To use the template provided by the secureCodeBox set template to `rocket-chat`.
 The rocket.chat notifier requires a rocket chat api token to work correctly, see example below on how this is configured.
 
+You can configure the channel the hook sends the message to by setting the `notification.securecodebox.io/rocket-chat-channel=#my-channel` on the scan.
+If the channel is not set the hook wil send the notification to the default channel configured, see config example below.
+
 A basic configuration could look like this:
 
 ```yaml
