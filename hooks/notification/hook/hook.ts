@@ -6,24 +6,48 @@ import { Finding } from "./model/Finding";
 import { NotificationChannel } from "./model/NotificationChannel";
 import { Notifier } from "./Notifier";
 import { NotifierFactory } from "./NotifierFactory";
-import { readFileSync } from 'fs';
-import * as jsyaml from 'js-yaml';
+import { readFileSync } from "fs";
+import * as jsyaml from "js-yaml";
 
-const BASE_PATH = "/home/app/config"
+const BASE_PATH = "/home/app/config";
 const CHANNEL_FILE = `${BASE_PATH}/notification-channel.yaml`;
 
 export async function handle({ getFindings, scan }) {
   let findings: Finding[] = await getFindings();
-  let notificationChannels: NotificationChannel[] = getNotificationChannels(CHANNEL_FILE);
+  let notificationChannels: NotificationChannel[] =
+    getNotificationChannels(CHANNEL_FILE);
   let args: Object = getArgs();
-  for (const channel of notificationChannels) {
-    const findingsToNotify = findings.filter(finding => matches(finding, channel.rules));
 
-    if (channel.skipNotificationOnZeroFindings === true && findingsToNotify.length === 0) {
+  console.log("Starting notification hook");
+  console.log(
+    "Configured notification channels: " + notificationChannels.join(", ")
+  );
+  console.log(notificationChannels);
+  for (const channel of notificationChannels) {
+    console.log(
+      `Starting notifier "${channel.name}" of type "${channel.type}"`
+    );
+
+    const findingsToNotify = findings.filter((finding) =>
+      matches(finding, channel.rules)
+    );
+
+    if (
+      channel.skipNotificationOnZeroFindings === true &&
+      findingsToNotify.length === 0
+    ) {
+      console.log(
+        `Skipping notifier "${channel.name}" as there are no findings to send the notification out for.`
+      );
       continue;
     }
 
-    const notifier: Notifier = NotifierFactory.create(channel, scan, findingsToNotify, args);
+    const notifier: Notifier = NotifierFactory.create(
+      channel,
+      scan,
+      findingsToNotify,
+      args
+    );
     await notifier.sendMessage();
   }
 }
@@ -44,12 +68,14 @@ export function matches(finding: Finding, rules: any[]): boolean {
 
 export function getNotificationChannels(channelFile: string): any[] {
   const yaml = readFileSync(channelFile);
-  const notificationChannels = jsyaml.load(yaml.toString())
+  const notificationChannels = jsyaml.load(yaml.toString());
   return notificationChannels as any[];
 }
 
 function doesNotMatch(rule: any, finding: Finding): boolean {
-  return !rule.matches.anyOf.some((condition: object) => isMatch(finding, condition));
+  return !rule.matches.anyOf.some((condition: object) =>
+    isMatch(finding, condition)
+  );
 }
 
 function getArgs(): Object {

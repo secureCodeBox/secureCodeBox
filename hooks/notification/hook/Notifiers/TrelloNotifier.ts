@@ -114,7 +114,7 @@ export class TrelloNotifier extends AbstractWebHookNotifier {
           "Description: " + finding.description + "\n";
 
     // Add Zap specific information if available
-    if(finding.attributes.size > 0) {
+    if(Object.keys(finding.attributes).length > 0) {
       if("zap_solution" in finding.attributes)
         res += "Solution: " + finding.attributes["zap_solution"] + "\n";
       if("zap_reference" in finding.attributes)

@@ -383,6 +383,39 @@ kubectl apply -f trello_secrets.yaml
 helm upgrade --install nwh secureCodeBox/notification-hook --values trello_values.yaml
 ```
 
+#### Configuration Of A rocket.chat Notification
+
+To configure a [rocket.chat](https://rocket.chat/) notification you need to set the type to `rocket-chat`.
+In `endPoint` you need to specify url to your rocket.chat instances `post.message` endpoint. E.g. `https://rocketchat.example.com/api/v1/chat.postMessage`
+To use the template provided by the secureCodeBox set template to `rocket-chat`.
+The rocket.chat notifier requires a rocket chat api token to work correctly, see example below on how this is configured.
+
+You can configure the channel the hook sends the message to by setting the `notification.securecodebox.io/rocket-chat-channel=#my-channel` on the scan.
+If the channel is not set the hook wil send the notification to the default channel configured, see config example below.
+
+A basic configuration could look like this:
+
+```yaml
+notificationChannels:
+  - name: rocket-chat
+    type: rocket-chat
+    template: rocket-chat
+    rules: []
+    endPoint: "https://rocketchat.example.com/api/v1/chat.postMessage"
+env:
+  - name: ROCKET_CHAT_AUTH_TOKEN
+    # you can create the secret via: kubectl create secret generic rocket-chat --from-literal="token=token-goes-here"
+    valueFrom:
+      secretKeyRef:
+        name: rocket-chat
+        key: token
+  - name: ROCKET_CHAT_USER_ID
+    value: "XcNTAqEhyBD14aqcZ"
+  - name: ROCKET_CHAT_DEFAULT_CHANNEL
+    # channel used to send in notifications if no channel is set for the individual scan.
+    value: "#securecodebox"
+```
+
 ### Custom Message Templates
 
 CAUTION: Nunjucks templates allow code to be injected! Use templates from trusted sources only!

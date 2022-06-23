@@ -1,0 +1,10 @@
+channel: "{{ scan.metadata.annotations["notification.securecodebox.io/rocket-chat-channel"] | default(args["ROCKET_CHAT_DEFAULT_CHANNEL"], true) | safe}}"
+text: "New Scan Results for {{ scan.metadata.name }}"
+attachments: 
+    - fields:
+{% for finding in findings %}
+        - title: "- {{ finding.name }}"
+          value: |-
+            {{ finding.description | replace("\n", " ") | truncate(150) }}{% if finding.attributes["defectdojo.org/finding-url"] %} [Open in DefectDojo]({{ finding.attributes["defectdojo.org/finding-url"] | safe }}){% endif %}
+          short: false
+{% endfor %}
