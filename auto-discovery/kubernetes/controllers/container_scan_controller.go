@@ -143,13 +143,17 @@ func cleanupImageID(imageID string, log logr.Logger) string {
 }
 
 func getScanName(imageID string) string {
+	//function builds string like: scan-_appName_-at-_imageID_HASH_ eg: scan-nginx-at-0123456789
 	baseScanName := "scan-"
+
+	//define appname cutoff limit to 20 chars
 	maxAppLength := 20 + len(baseScanName)
 
-	hashRegex := regexp.MustCompile(".*/(?P<url>.*)@sha256:(?P<hash>.*)")
+	hashRegex := regexp.MustCompile(".*/(?P<appName>.*)@sha256:(?P<hash>.*)")
 	appName := hashRegex.FindStringSubmatch(imageID)[1]
 	hash := hashRegex.FindStringSubmatch(imageID)[2]
 
+	//cutoff appname if it is longer than 20 chars
 	result := baseScanName + appName
 	if len(result) > maxAppLength {
 		result = result[:maxAppLength]
@@ -159,6 +163,8 @@ func getScanName(imageID string) string {
 
 	result = strings.ReplaceAll(result, ".", "-")
 	result = strings.ReplaceAll(result, "/", "-")
+
+	//limit scan name length to kubernetes limits
 	return result[:62]
 }
 
