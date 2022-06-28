@@ -147,7 +147,7 @@ jobs:
             This is an automated Pull Request by the SCB-Bot. It upgrades ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}
             ### Release changes : [here](${{env.releaseChangelog}})
           branch: "dependencies/upgrading-${{ matrix.scanner }}-to-${{env.release}}"
-          labels: dependencies,scanner
+          labels: scanner
           commit-message: "Upgrading ${{ matrix.scanner }} from ${{env.local}} to ${{env.release}}"
           signoff: true
           base: main
