@@ -7,6 +7,7 @@
 
 include_guard = set
 scanner = wpscan
+custom_scanner = set
 
 include ../../scanners.mk
 
