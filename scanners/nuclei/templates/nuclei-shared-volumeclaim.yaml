@@ -11,8 +11,7 @@ metadata:
   name: nuclei-content-claim
 spec:
   accessModes:
-    - ReadWriteOnce
-    - ReadOnlyMany
+    {{- toYaml .Values.nucleiTemplateCache.accessMode | nindent 4 }}
   resources:
     requests:
       storage: 1Gi

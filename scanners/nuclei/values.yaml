@@ -93,7 +93,10 @@ scanner:
 
 nucleiTemplateCache:
   # -- Enables or disables the use of an persistent volume to cache the always downloaded nuclei-templates for all scans.
-  enabled: true
+  enabled: false
+  # -- Depending on your setup you can define the pvc access mode for one `ReadWriteOnce` or multiple node clusters `ReadWriteMany`
+  accessMode: 
+    - ReadWriteMany
   # every day at 08:00: "0 8 * * *"
   # every full hour: "0 */1 * * *""
   # -- The schedule indicates when and how often the nuclei template cache should be updated 
