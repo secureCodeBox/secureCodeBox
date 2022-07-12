@@ -370,6 +370,7 @@ jobs:
           - sslyze
           - typo3scan
           - whatweb
+          - wpscan
 
     steps:
       - name: Checkout
