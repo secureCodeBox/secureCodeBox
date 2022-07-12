@@ -9,6 +9,7 @@ import (
 	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	corev1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 func templateOrPanic(templateString string, templateArgs interface{}) string {
@@ -86,6 +87,37 @@ func GenerateScanSpec(scanConfig configv1.ScanConfig, templateArgs interface{}) 
 		volumeMounts[i] = *templatedVolumeMount
 	}
 
+	var hookSelector *metav1.LabelSelector = nil
+	if scanConfig.HookSelector.MatchExpressions != nil {
+		templatedMatchExpression := make([]metav1.LabelSelectorRequirement, len(scanConfig.HookSelector.MatchExpressions))
+
+		for i, matchExpression := range scanConfig.HookSelector.MatchExpressions {
+
+			templatedExpression := matchExpression.DeepCopy()
+			templatedExpression.Key = templateOrPanic(matchExpression.Key, templateArgs)
+			if matchExpression.Values != nil {
+				values := []string{}
+				for _, value := range matchExpression.Values {
+					templatedValue := templateOrPanic(value, templateArgs)
+					if templatedValue != "" {
+						values = append(values, templatedValue)
+					}
+				}
+				templatedExpression.Values = values
+			}
+			templatedMatchExpression[i] = *templatedExpression
+		}
+
+		hookSelector = &metav1.LabelSelector{
+			MatchExpressions: templatedMatchExpression,
+		}
+	}
+	if scanConfig.HookSelector.MatchLabels != nil {
+		hookSelector = &metav1.LabelSelector{
+			MatchLabels: ParseMapTemplate(templateArgs, scanConfig.HookSelector.MatchLabels),
+		}
+	}
+
 	scheduledScanSpec := executionv1.ScheduledScanSpec{
 		Interval: scanConfig.RepeatInterval,
 		ScanSpec: &executionv1.ScanSpec{
@@ -93,6 +125,7 @@ func GenerateScanSpec(scanConfig configv1.ScanConfig, templateArgs interface{}) 
 			Parameters:   params,
 			Volumes:      volumes,
 			VolumeMounts: volumeMounts,
+			HookSelector: hookSelector,
 		},
 		RetriggerOnScanTypeChange: true,
 	}

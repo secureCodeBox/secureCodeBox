@@ -202,6 +202,20 @@ func checkScanGoTemplate(scan executionv1.ScheduledScan, scanSpec scanGoTemplate
 	Expect(annotationsCorrect).Should(BeTrue())
 	Expect(labelsCorrect).Should(BeTrue())
 	Expect(parametersCorrect).Should(BeTrue())
+	Expect(scan.Spec.ScanSpec.HookSelector.MatchExpressions).To(ContainElement(
+		metav1.LabelSelectorRequirement{
+			Operator: metav1.LabelSelectorOpIn,
+			Key:      "foo",
+			Values:   []string{"bar", "baz"},
+		},
+	))
+	Expect(scan.Spec.ScanSpec.HookSelector.MatchExpressions).To(ContainElement(
+		metav1.LabelSelectorRequirement{
+
+			Operator: metav1.LabelSelectorOpDoesNotExist,
+			Key:      "foo",
+		},
+	))
 	return annotationsCorrect && labelsCorrect && parametersCorrect
 }
 

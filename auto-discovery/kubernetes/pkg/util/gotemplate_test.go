@@ -132,6 +132,108 @@ var _ = Describe("gotemplate helper util", func() {
 				SubPath:   "test.txt",
 			}))
 		})
+
+		Context("HookSelectors", func() {
+			templateArgs := TestTemplateArgs{
+				Target: metav1.ObjectMeta{
+					Name:      "foobar",
+					Namespace: "barfoo",
+				},
+				Namespace: corev1.Namespace{
+					ObjectMeta: metav1.ObjectMeta{
+						Name: "barfoo",
+					},
+				},
+				Cluster: configv1.ClusterConfig{
+					Name: "test-cluster",
+				},
+			}
+
+			It("should work with empty list of matchExpression", func() {
+				scanConfig := configv1.ScanConfig{
+					RepeatInterval: metav1.Duration{Duration: time.Hour},
+					Annotations:    map[string]string{},
+					Labels:         map[string]string{},
+					Parameters:     []string{"-p", "3000", "{{ .Target.Name }}.{{ .Namespace.Name }}.svc"},
+					ScanType:       "nmap",
+					HookSelector: metav1.LabelSelector{
+						MatchExpressions: []metav1.LabelSelectorRequirement{
+							{
+								Key:      "{{ .Target.Name }}",
+								Operator: metav1.LabelSelectorOpIn,
+								Values: []string{
+									"defectdojo",
+									"{{ if eq .Target.Namespace `foobar` }}notification-email{{ end }}",
+									"{{ if eq .Target.Namespace `barfoo` }}notification-slack{{ end }}",
+								},
+							},
+							{
+								Key:      "ignore-{{ `this` }}",
+								Operator: metav1.LabelSelectorOpDoesNotExist,
+							},
+						},
+					},
+				}
+
+				scanSpec := GenerateScanSpec(scanConfig, templateArgs)
+
+				Expect(scanSpec.ScanSpec.ScanType).To(Equal("nmap"))
+				Expect(scanSpec.ScanSpec.HookSelector.MatchExpressions).To(ContainElement(metav1.LabelSelectorRequirement{
+					Key:      "foobar",
+					Operator: metav1.LabelSelectorOpIn,
+					Values: []string{
+						"defectdojo",
+						"notification-slack",
+					},
+				}))
+				Expect(scanSpec.ScanSpec.HookSelector.MatchExpressions).To(ContainElement(metav1.LabelSelectorRequirement{
+					Key:      "ignore-this",
+					Operator: metav1.LabelSelectorOpDoesNotExist,
+				}))
+			})
+
+			It("should work a a list of multiple matchExpressions", func() {
+				scanConfig := configv1.ScanConfig{
+					RepeatInterval: metav1.Duration{Duration: time.Hour},
+					Annotations:    map[string]string{},
+					Labels:         map[string]string{},
+					Parameters:     []string{"-p", "3000", "{{ .Target.Name }}.{{ .Namespace.Name }}.svc"},
+					ScanType:       "nmap",
+					HookSelector: metav1.LabelSelector{
+						MatchExpressions: []metav1.LabelSelectorRequirement{},
+					},
+				}
+
+				scanSpec := GenerateScanSpec(scanConfig, templateArgs)
+
+				Expect(scanSpec.ScanSpec.ScanType).To(Equal("nmap"))
+				Expect(scanSpec.ScanSpec.HookSelector.MatchExpressions).To(BeEmpty())
+			})
+
+			It("should template with matchLabels", func() {
+				scanConfig := configv1.ScanConfig{
+					RepeatInterval: metav1.Duration{Duration: time.Hour},
+					Annotations:    map[string]string{},
+					Labels:         map[string]string{},
+					Parameters:     []string{"-p", "3000", "{{ .Target.Name }}.{{ .Namespace.Name }}.svc"},
+					ScanType:       "nmap",
+					HookSelector: metav1.LabelSelector{
+						MatchLabels: map[string]string{
+							"foo": "bar",
+							"bar": "{{ .Target.Name }}",
+						},
+					},
+				}
+
+				scanSpec := GenerateScanSpec(scanConfig, templateArgs)
+
+				Expect(scanSpec.ScanSpec.ScanType).To(Equal("nmap"))
+				Expect(scanSpec.ScanSpec.HookSelector.MatchLabels).To(BeEquivalentTo(map[string]string{
+					"foo": "bar",
+					"bar": "foobar",
+				}))
+			})
+		})
 	})
 })
 
