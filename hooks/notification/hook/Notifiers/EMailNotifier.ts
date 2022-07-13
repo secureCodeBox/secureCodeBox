@@ -42,7 +42,10 @@ export class EMailNotifier extends AbstractNotifier {
 
   private prepareMessage(): any {
     const message = JSON.parse(this.renderMessage());
-    message.to = this.resolveEndPoint();
+    if(!message.to) {
+      // only use fixed endpoint / mail address if it isn't already defined by the template
+      message.to = this.resolveEndPoint();
+    }
     message.from = this.args[EMailNotifier.EMAIL_FROM];
     return message;
   }

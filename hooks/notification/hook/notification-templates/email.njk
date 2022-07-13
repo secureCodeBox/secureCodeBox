@@ -3,6 +3,7 @@ SPDX-FileCopyrightText: the secureCodeBox authors
 
 SPDX-License-Identifier: Apache-2.0
 #}
+to: {{ scan.metadata.annotations["notification.securecodebox.io/email-recipient"] | default(null, true) | safe}}
 subject: New {{ scan.spec.scanType }} security scan results are available!
 text: |
   *Scan {{ scan.metadata.name }}*
