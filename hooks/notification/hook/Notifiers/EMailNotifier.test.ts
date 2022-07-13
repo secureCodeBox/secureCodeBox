@@ -68,14 +68,14 @@ function createExampleScan(): Scan {
 
 test("Should Send Mail", async () => {
   const from = "secureCodeBox";
-  const smtp = "smtp://user:pass@smtp.ethereal.email/";
+  const smtp = "smtp://user:pass@smtp.example.com/";
   process.env[EMailNotifier.SMTP_CONFIG] = smtp;
   const channel: NotificationChannel = {
     name: "Channel Name",
     type: NotifierType.EMAIL,
     template: "email",
     rules: [],
-    endPoint: "mail@some.email",
+    endPoint: "mail@example.com",
   };
   const scan: Scan = createExampleScan();
 
@@ -119,21 +119,21 @@ A Client Error response code was returned by the server: 1
 Information Disclosure - Sensitive Information in URL: 1
 Strict-Transport-Security Header Not Set: 1
 `,
-    to: "mail@some.email",
+    to: "mail@example.com",
   });
   expect(close).toBeCalled();
 });
 
 test("should send mail to recipient overwritten in scan annotation", async () => {
   const from = "secureCodeBox";
-  const smtp = "smtp://user:pass@smtp.ethereal.email/";
+  const smtp = "smtp://user:pass@smtp.example.com/";
   process.env[EMailNotifier.SMTP_CONFIG] = smtp;
   const channel: NotificationChannel = {
     name: "Channel Name",
     type: NotifierType.EMAIL,
     template: "email",
     rules: [],
-    endPoint: "mail@some.email",
+    endPoint: "mail@example.com",
   };
   const scan: Scan = createExampleScan();
   scan.metadata.annotations = {

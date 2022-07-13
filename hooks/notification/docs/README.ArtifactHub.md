@@ -277,7 +277,7 @@ notificationChannels:
     type: email
     template: email
     rules: []
-    endPoint: "someone@somewhere.xyz"
+    endPoint: "someone@example.com"
 env:
   - name: SMTP_CONFIG
     # you can create the secret via: kubectl create secret generic email-credentials --from-literal="smtp-config=smtp://user:pass@smtp.domain.tld/"
@@ -337,7 +337,7 @@ notificationChannels:
     type: ms-teams
     template: msteams-messageCard
     rules: []
-    endPoint: "https://somewhere.xyz/sadf12"
+    endPoint: "https://example/sadf12"
 env:
   - name: VULNMANAG_ENABLED
     value: true
