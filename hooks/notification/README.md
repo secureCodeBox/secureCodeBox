@@ -269,7 +269,7 @@ notificationChannels:
     type: email
     template: email
     rules: []
-    endPoint: "someone@somewhere.xyz"
+    endPoint: "someone@example.com"
 env:
   - name: SMTP_CONFIG
     # you can create the secret via: kubectl create secret generic email-credentials --from-literal="smtp-config=smtp://user:pass@smtp.domain.tld/"
@@ -293,6 +293,21 @@ env:
     value: secureCodeBox
 ```
 
+You can overwrite the default email recipient of the notification mail for every scan by setting a `notification.securecodebox.io/email-recipient` annotation on the scan to another email address:
+
+```yaml
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "nmap-juice-shop"
+  annotations:
+    notification.securecodebox.io/email-recipient: "foo@example.com"
+spec:
+  scanType: "nmap"
+  parameters:
+    - juice-shop.default.svc
+```
+
 #### Configuration Of A MS Teams Notification
 
 To configure a MS Teams notification you need to set the type to `ms-teams`.
@@ -314,7 +329,7 @@ notificationChannels:
     type: ms-teams
     template: msteams-messageCard
     rules: []
-    endPoint: "https://somewhere.xyz/sadf12"
+    endPoint: "https://example/sadf12"
 env:
   - name: VULNMANAG_ENABLED
     value: true
