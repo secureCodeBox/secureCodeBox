@@ -32,6 +32,7 @@ func templateOrPanic(templateString string, templateArgs interface{}) string {
 	return ""
 }
 
+// ParseMapTemplate templates our all the values of the map with the given template args
 func ParseMapTemplate(templateArgs interface{}, templates map[string]string) map[string]string {
 	result := map[string]string{}
 
@@ -45,6 +46,7 @@ func ParseMapTemplate(templateArgs interface{}, templates map[string]string) map
 	return result
 }
 
+// ParseListTemplate templates our all the values of the list with the given template args
 func ParseListTemplate(templateArgs interface{}, templates []string) []string {
 	var result []string
 
@@ -58,12 +60,7 @@ func ParseListTemplate(templateArgs interface{}, templates []string) []string {
 	return result
 }
 
-// Takes in both autoDiscoveryConfig and scanConfig as this function might be used by other controllers in the future, which can then pass in the their relevant scanConfig into this function
-func GenerateScanSpec(scanConfig configv1.ScanConfig, templateArgs interface{}) executionv1.ScheduledScanSpec {
-	parameters := scanConfig.Parameters
-
-	params := ParseListTemplate(templateArgs, parameters)
-
+func generateVolumes(scanConfig configv1.ScanConfig, templateArgs interface{}) []corev1.Volume {
 	volumes := make([]corev1.Volume, len(scanConfig.Volumes))
 	for i, volume := range scanConfig.Volumes {
 		templatedVolume := volume.DeepCopy()
@@ -76,6 +73,10 @@ func GenerateScanSpec(scanConfig configv1.ScanConfig, templateArgs interface{}) 
 		}
 		volumes[i] = *templatedVolume
 	}
+	return volumes
+}
+
+func generateVolumeMounts(scanConfig configv1.ScanConfig, templateArgs interface{}) []corev1.VolumeMount {
 	volumeMounts := make([]corev1.VolumeMount, len(scanConfig.VolumeMounts))
 	for i, volumeMount := range scanConfig.VolumeMounts {
 		templatedVolumeMount := volumeMount.DeepCopy()
@@ -86,7 +87,10 @@ func GenerateScanSpec(scanConfig configv1.ScanConfig, templateArgs interface{}) 
 
 		volumeMounts[i] = *templatedVolumeMount
 	}
+	return volumeMounts
+}
 
+func generateHookSelectors(scanConfig configv1.ScanConfig, templateArgs interface{}) *metav1.LabelSelector {
 	var hookSelector *metav1.LabelSelector = nil
 	if scanConfig.HookSelector.MatchExpressions != nil {
 		templatedMatchExpression := make([]metav1.LabelSelectorRequirement, len(scanConfig.HookSelector.MatchExpressions))
@@ -117,6 +121,18 @@ func GenerateScanSpec(scanConfig configv1.ScanConfig, templateArgs interface{}) 
 			MatchLabels: ParseMapTemplate(templateArgs, scanConfig.HookSelector.MatchLabels),
 		}
 	}
+	return hookSelector
+}
+
+// GenerateScanSpec takes in both autoDiscoveryConfig and scanConfig as this function might be used by other controllers in the future, which can then pass in the their relevant scanConfig into this function
+func GenerateScanSpec(scanConfig configv1.ScanConfig, templateArgs interface{}) executionv1.ScheduledScanSpec {
+	parameters := scanConfig.Parameters
+
+	params := ParseListTemplate(templateArgs, parameters)
+
+	volumes := generateVolumes(scanConfig, templateArgs)
+	volumeMounts := generateVolumeMounts(scanConfig, templateArgs)
+	hookSelector := generateHookSelectors(scanConfig, templateArgs)
 
 	scheduledScanSpec := executionv1.ScheduledScanSpec{
 		Interval: scanConfig.RepeatInterval,
