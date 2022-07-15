@@ -49,9 +49,9 @@ config:
       # the fields: `name`, `mountPath`, `subPath`, `subPathExpr` of each volumeMount support templating
       volumeMounts: []
       # -- HookSelector allows to specify a LabelSelector with which the hooks are selected, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors
-      # both matchLabels and matchExpressions are supported.
-      # all values in the matchLabels map support templating.
-      # matchExpressions support templating in the `key` field and in every entry in the `values` list. if a value in the list renders to an empty string it is removed from the list.
+      # Both matchLabels and matchExpressions are supported.
+      # All values in the matchLabels map support templating.
+      # MatchExpressions support templating in the `key` field and in every entry in the `values` list. If a value in the list renders to an empty string it is removed from the list.
       hookSelector: {}
 
   containerAutoDiscovery:
@@ -74,9 +74,9 @@ config:
       # the fields: `name`, `mountPath`, `subPath`, `subPathExpr` of each volumeMount support templating
       volumeMounts: []
       # -- hookSelector allows to specify a LabelSelector with which the hooks are selected, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors
-      # both matchLabels and matchExpressions are supported.
-      # all values in the matchLabels map support templating.
-      # matchExpressions support templating in the `key` field and in every entry in the `values` list. if a value in the list renders to an empty string it is removed from the list.
+      # Both matchLabels and matchExpressions are supported.
+      # All values in the matchLabels map support templating.
+      # MatchExpressions support templating in the `key` field and in every entry in the `values` list. If a value in the list renders to an empty string it is removed from the list.
       hookSelector: {}
 
   health:
