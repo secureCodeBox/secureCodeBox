@@ -85,6 +85,11 @@ var _ = BeforeSuite(func() {
 				Labels:         map[string]string{},
 				Parameters:     []string{"-p", "{{ .Host.Port }}", "{{ .Service.Name }}.{{ .Service.Namespace }}.svc"},
 				ScanType:       "nmap",
+				HookSelector: metav1.LabelSelector{
+					MatchLabels: map[string]string{
+						"foo": "bar",
+					},
+				},
 			},
 		},
 		ContainerAutoDiscoveryConfig: configv1.ContainerAutoDiscoveryConfig{
@@ -94,6 +99,19 @@ var _ = BeforeSuite(func() {
 				Labels:         map[string]string{"testLabel": "{{ .Namespace.Name }}"},
 				Parameters:     []string{"-p", "{{ .Namespace.Name }}"},
 				ScanType:       "nmap",
+				HookSelector: metav1.LabelSelector{
+					MatchExpressions: []metav1.LabelSelectorRequirement{
+						{
+							Operator: metav1.LabelSelectorOpIn,
+							Key:      "foo",
+							Values:   []string{"bar", "baz"},
+						},
+						{
+							Operator: metav1.LabelSelectorOpDoesNotExist,
+							Key:      "foo",
+						},
+					},
+				},
 			},
 		},
 		ResourceInclusion: configv1.ResourceInclusionConfig{

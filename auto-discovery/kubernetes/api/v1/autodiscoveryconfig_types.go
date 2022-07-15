@@ -59,6 +59,7 @@ type ScanConfig struct {
 	Parameters     []string             `json:"parameters"`
 	Volumes        []corev1.Volume      `json:"volumes"`
 	VolumeMounts   []corev1.VolumeMount `json:"volumeMounts"`
+	HookSelector   metav1.LabelSelector `json:"hookSelector"`
 }
 
 func init() {

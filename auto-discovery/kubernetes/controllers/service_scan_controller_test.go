@@ -58,7 +58,11 @@ var _ = Describe("ServiceScan controller", func() {
 			Expect(scheduledScan.ObjectMeta.Name).Should(Equal("juice-shop-service-port-3000"))
 			Expect(scheduledScan.Spec.ScanSpec.ScanType).Should(Equal("nmap"))
 			Expect(scheduledScan.Spec.ScanSpec.Parameters).Should(BeEquivalentTo([]string{"-p", "3000", "juice-shop.scan-creation.svc"}))
+			Expect(scheduledScan.Spec.ScanSpec.HookSelector.MatchLabels).Should(BeEquivalentTo(map[string]string{
+				"foo": "bar",
+			}))
 			Expect(scheduledScan.Status.LastScheduleTime).Should(BeNil())
+
 		})
 
 		It("Should hold ScanCreation until all pod digests for the container backing the service match", func() {
