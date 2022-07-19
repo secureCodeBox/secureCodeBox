@@ -5,7 +5,7 @@
 const {scan} = require("../../helpers");
 
 test(
-  "make screenshot of ngnix demo target",
+  "make screenshot of nginx demo target",
   async () => {
     const { categories } = await scan(
       "demo-target-screenshot",
