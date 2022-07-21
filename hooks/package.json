@@ -54,7 +54,7 @@
       "<rootDir>/notification/src",
       "<rootDir>/persistence-defectdojo",
       "<rootDir>/persistence-elastic",
-      "<rootDir>/update-field"
+      "<rootDir>/update-field-hook"
     ]
   }
 }
