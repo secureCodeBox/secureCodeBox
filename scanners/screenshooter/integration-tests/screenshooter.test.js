@@ -14,6 +14,7 @@ test(
       60 * 4
     );
 
-    expect(categories).toBeDefined();
+    expect(categories).toEqual({"Screenshot":1});
   }, 60*1000
 );
+2
