@@ -117,7 +117,7 @@ function createNamespaceAndInstallOperator() {
 
   print "Installing the operator in the '$SCB_SYSTEM_NAMESPACE' namespace"
 
-  if [[ $(helm -n "$SCB_SYSTEM_NAMESPACE" upgrade --install securecodebox-operator "$BASE_DIR/operator/") ]]; then
+  if [[ $(helm -n "$SCB_SYSTEM_NAMESPACE" upgrade --install securecodebox-operator secureCodeBox/operator) ]]; then
     print "$COLOR_OK" "Successfully installed the operator in namespace '$SCB_SYSTEM_NAMESPACE'!"
   else
     print "$COLOR_ERROR" "Operator installation failed in namespace '$SCB_SYSTEM_NAMESPACE', cancelling installation!" && exit 1
@@ -146,7 +146,7 @@ function installResources() {
 
   if [[ $unattended == 'true' ]]; then
     for resource in "${resources[@]}"; do
-      helm upgrade --install -n "$namespace" "$resource" "$resource_directory"/"$resource"/ \
+      helm upgrade --install -n "$namespace" "$resource" secureCodeBox/"$resource" \
       || print "$COLOR_ERROR" "Installation of '$resource' failed"
     done
 
@@ -157,14 +157,14 @@ function installResources() {
       read -r line
 
       if [[ $line == *[Yy] ]]; then
-        helm upgrade --install -n "$namespace" "$resource" "$resource_directory"/"$resource"/ \
+        helm upgrade --install -n "$namespace" "$resource" secureCodeBox/"$resource" \
         || print "$COLOR_ERROR" "Installation of '$resource' failed"
       fi
     done
   fi
 
   print
-  print "$COLOR_OK" "Completed to install '$resource_directory'!"
+  print "$COLOR_OK" "Completed to install '$resource'!"
 }
 
 function welcomeToInteractiveInstall() {
@@ -308,11 +308,11 @@ fi
 
 exitIfKubectlIsNotInstalled
 exitIfHelmIsNotInstalled
-createNamespaceAndInstallOperator
 
-# Since this script installs from the local Helm charts the repo is not necessary beforehand.
-# But add the Helm reposiotry so the docuemtned installation instructions work as described.
+# Add the Helm repository
 helm repo add secureCodeBox https://charts.securecodebox.io
+
+createNamespaceAndInstallOperator
 
 if [[ -n "${INSTALL_INTERACTIVE}" ]]; then
     interactiveInstall
