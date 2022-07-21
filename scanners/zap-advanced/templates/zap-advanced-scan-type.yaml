@@ -95,13 +95,15 @@ spec:
                 - "database.recoverylog=false" # Tune ZAP, DB recovery is not needed here
                 - "-config"
                 - "connection.timeoutInSecs=120" # Tune ZAP timeout by default to be 2minutes
-                {{ if and .Values.zapConfiguration.global .Values.zapConfiguration.global.addonUpdate }}
+                {{ if .Values.zapConfiguration.global}}
+                {{ if .Values.zapConfiguration.global.addonUpdate }}
                 - "-addonupdate"    # Enable AddOn Updates on startup if possible
                 {{- end }}
-                {{- if and .Values.zapConfiguration.global .Values.zapConfiguration.global.addonInstall }}
+                {{- if .Values.zapConfiguration.global.addonInstall }}
                 {{- range .Values.zapConfiguration.global.addonInstall }}
                 - "-addoninstall"
                 - {{ . | quote }}
+                {{- end }}
                 {{- end }}
                 {{- end }}
                 - "-config"
