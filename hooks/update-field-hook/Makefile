@@ -6,7 +6,7 @@
 #
 
 include_guard = set
-hook = update-field
+hook = update-field-hook
 
 include ../../hooks.mk
 

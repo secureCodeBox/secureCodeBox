@@ -178,7 +178,7 @@ jobs:
           - persistence-elastic
           - persistence-defectdojo
           - persistence-azure-monitor
-          - update-field
+          - update-field-hook
     steps:
       - name: Checkout
         uses: actions/checkout@v2
