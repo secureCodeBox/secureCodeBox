@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
-{{- if not (empty .Values.zapConfiguration) }}
 kind: ConfigMap
 apiVersion: v1
 metadata:
@@ -12,8 +11,12 @@ metadata:
     {{- include "zap.labels" . | nindent 4 }}
 data:
   1-zap-advanced-scantype.yaml: |
-    {{- .Values.zapConfiguration | toYaml | nindent 4 -}}
-{{- end }}
+    {{- if not (empty .Values.zapConfiguration) }}
+      {{- .Values.zapConfiguration | toYaml | nindent 4 -}}
+    {{- end }}
+    {{- if (empty .Values.zapConfiguration) }}
+      {}
+    {{- end }}
 ---
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
