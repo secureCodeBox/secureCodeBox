@@ -5,7 +5,7 @@
 name: "Update Helm Docs"
 
 on:
-  push:
+  pull_request_target:
 
 jobs:
   helm-docs:
@@ -17,7 +17,6 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Import GPG key
-        if: ${{ false }}
         uses: crazy-max/ghaction-import-gpg@v3
         with:
           gpg-private-key: ${{ secrets.GPG_COMMITS_PRIVATE_KEY }}
