@@ -36,6 +36,7 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
 ## What is Nuclei
 Nuclei is used to send requests across targets based on a template leading to zero false positives and providing fast scanning on large number of hosts. Nuclei offers scanning for a variety of protocols including TCP, DNS, HTTP, File, etc. With powerful and flexible templating, all kinds of security checks can be modelled with Nuclei.
 
+"" A change that will trigger HELM DOCS ""
 To learn more about the Nuclei scanner itself visit [Nuclei GitHub] or [Nuclei Website].
 
 ## Deployment
