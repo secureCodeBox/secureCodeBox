@@ -390,9 +390,7 @@
       "updated_at": "2020-10-07T06:56:04.257Z",
       "version": "WzEwOCwxXQ==",
       "attributes": {
-        "columns": [
-          "_source"
-        ],
+        "columns": ["_source"],
         "description": "",
         "hits": 0,
         "kibanaSavedObjectMeta": {

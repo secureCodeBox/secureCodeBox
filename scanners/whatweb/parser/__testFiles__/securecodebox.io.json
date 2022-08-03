@@ -1,7 +1,54 @@
 [
-{"target":"http://securecodebox.io","http_status":301,"request_config":{"headers":{"User-Agent":"WhatWeb/0.5.5"}},"plugins":{"HTTPServer":{"string":["GitHub.com"]},"IP":{"string":["185.199.109.153"]},"RedirectLocation":{"string":["https://www.securecodebox.io/"]},"Title":{"string":["301 Moved Permanently"]},"UncommonHeaders":{"string":["x-github-request-id,x-served-by,x-cache-hits,x-timer,x-fastly-request-id"]},"Via-Proxy":{"string":["1.1 varnish"]}}}
-,
-{"target":"https://www.securecodebox.io/","http_status":200,"request_config":{"headers":{"User-Agent":"WhatWeb/0.5.5"}},"plugins":{"HTML5":{},"HTTPServer":{"string":["GitHub.com"]},"IP":{"string":["185.199.110.153"]},"Meta-Refresh-Redirect":{"string":["https://docs.securecodebox.io/"]},"Strict-Transport-Security":{"string":["max-age=31556952"]},"Title":{"string":["secureCodeBox – Testing your Software Security"]},"UncommonHeaders":{"string":["access-control-allow-origin,x-proxy-cache,x-github-request-id,x-served-by,x-cache-hits,x-timer,x-fastly-request-id"]},"Via-Proxy":{"string":["1.1 varnish"]}}}
-,
-{"target":"https://docs.securecodebox.io/","http_status":200,"request_config":{"headers":{"User-Agent":"WhatWeb/0.5.5"}},"plugins":{"Country":{"string":["UNITED STATES"],"module":["US"]},"HTML5":{},"HTTPServer":{"string":["Netlify"]},"IP":{"string":["3.64.200.242"]},"MetaGenerator":{"string":["Docusaurus v2.0.0-beta.3"]},"Open-Graph-Protocol":{},"Script":{},"Strict-Transport-Security":{"string":["max-age=31536000"]},"UncommonHeaders":{"string":["x-nf-request-id"]}}}
+  {
+    "target": "http://securecodebox.io",
+    "http_status": 301,
+    "request_config": { "headers": { "User-Agent": "WhatWeb/0.5.5" } },
+    "plugins": {
+      "HTTPServer": { "string": ["GitHub.com"] },
+      "IP": { "string": ["185.199.109.153"] },
+      "RedirectLocation": { "string": ["https://www.securecodebox.io/"] },
+      "Title": { "string": ["301 Moved Permanently"] },
+      "UncommonHeaders": {
+        "string": [
+          "x-github-request-id,x-served-by,x-cache-hits,x-timer,x-fastly-request-id"
+        ]
+      },
+      "Via-Proxy": { "string": ["1.1 varnish"] }
+    }
+  },
+  {
+    "target": "https://www.securecodebox.io/",
+    "http_status": 200,
+    "request_config": { "headers": { "User-Agent": "WhatWeb/0.5.5" } },
+    "plugins": {
+      "HTML5": {},
+      "HTTPServer": { "string": ["GitHub.com"] },
+      "IP": { "string": ["185.199.110.153"] },
+      "Meta-Refresh-Redirect": { "string": ["https://docs.securecodebox.io/"] },
+      "Strict-Transport-Security": { "string": ["max-age=31556952"] },
+      "Title": { "string": ["secureCodeBox – Testing your Software Security"] },
+      "UncommonHeaders": {
+        "string": [
+          "access-control-allow-origin,x-proxy-cache,x-github-request-id,x-served-by,x-cache-hits,x-timer,x-fastly-request-id"
+        ]
+      },
+      "Via-Proxy": { "string": ["1.1 varnish"] }
+    }
+  },
+  {
+    "target": "https://docs.securecodebox.io/",
+    "http_status": 200,
+    "request_config": { "headers": { "User-Agent": "WhatWeb/0.5.5" } },
+    "plugins": {
+      "Country": { "string": ["UNITED STATES"], "module": ["US"] },
+      "HTML5": {},
+      "HTTPServer": { "string": ["Netlify"] },
+      "IP": { "string": ["3.64.200.242"] },
+      "MetaGenerator": { "string": ["Docusaurus v2.0.0-beta.3"] },
+      "Open-Graph-Protocol": {},
+      "Script": {},
+      "Strict-Transport-Security": { "string": ["max-age=31536000"] },
+      "UncommonHeaders": { "string": ["x-nf-request-id"] }
+    }
+  }
 ]

@@ -1,212 +1,212 @@
 {
-    "server_connectivity_errors": [],
-    "server_scan_results": [
-        {
-            "scan_commands": [
-                "tls_fallback_scsv",
-                "heartbleed",
-                "certificate_info",
-                "tls_1_1_cipher_suites",
-                "ssl_2_0_cipher_suites",
-                "tls_1_0_cipher_suites",
-                "tls_1_2_cipher_suites",
-                "session_resumption",
-                "session_renegotiation",
-                "tls_compression",
-                "ssl_3_0_cipher_suites",
-                "robot",
-                "openssl_ccs_injection",
-                "tls_1_3_cipher_suites"
-            ],
-            "scan_commands_errors": {
-                "certificate_info": {
-                    "exception_trace": "Traceback (most recent call last):\n File \"/usr/local/lib/python3.7/site-packages/sslyze/scanner.py\", line 224, in get_results\n server_info, server_and_scan_cmd_to_completed_futures[server_and_scan_cmd]\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/certificate_info/implementation.py\", line 100, in result_for_completed_scan_jobs\n received_chain_as_pem, ocsp_response, custom_ca_file = completed_job.result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 428, in result\n return self.__get_result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 384, in __get_result\n raise self._exception\n File \"/usr/local/lib/python3.7/concurrent/futures/thread.py\", line 57, in run\n result = self.fn(*self.args, **self.kwargs)\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/certificate_info/_get_cert_chain.py\", line 26, in get_certificate_chain\n ssl_connection.connect()\n File \"/usr/local/lib/python3.7/site-packages/sslyze/connection_helpers/tls_connection.py\", line 292, in connect\n error_message=\"Connection to server timed out\",\nsslyze.errors.ConnectionToServerTimedOut\n",
-                    "reason": "CONNECTIVITY_ISSUE"
-                },
-                "openssl_ccs_injection": {
-                    "exception_trace": "Traceback (most recent call last):\n File \"/usr/local/lib/python3.7/site-packages/sslyze/scanner.py\", line 224, in get_results\n server_info, server_and_scan_cmd_to_completed_futures[server_and_scan_cmd]\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/openssl_ccs_injection_plugin.py\", line 78, in result_for_completed_scan_jobs\n return OpenSslCcsInjectionScanResult(is_vulnerable_to_ccs_injection=completed_scan_jobs[0].result())\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 428, in result\n return self.__get_result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 384, in __get_result\n raise self._exception\n File \"/usr/local/lib/python3.7/concurrent/futures/thread.py\", line 57, in run\n result = self.fn(*self.args, **self.kwargs)\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/openssl_ccs_injection_plugin.py\", line 96, in _test_for_ccs_injection\n ssl_connection.connect()\n File \"/usr/local/lib/python3.7/site-packages/sslyze/connection_helpers/tls_connection.py\", line 292, in connect\n error_message=\"Connection to server timed out\",\nsslyze.errors.ConnectionToServerTimedOut\n",
-                    "reason": "CONNECTIVITY_ISSUE"
-                },
-                "session_renegotiation": {
-                    "exception_trace": "Traceback (most recent call last):\n File \"/usr/local/lib/python3.7/site-packages/sslyze/scanner.py\", line 224, in get_results\n server_info, server_and_scan_cmd_to_completed_futures[server_and_scan_cmd]\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/session_renegotiation_plugin.py\", line 100, in result_for_completed_scan_jobs\n result_enum, value = job.result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 428, in result\n return self.__get_result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 384, in __get_result\n raise self._exception\n File \"/usr/local/lib/python3.7/concurrent/futures/thread.py\", line 57, in run\n result = self.fn(*self.args, **self.kwargs)\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/session_renegotiation_plugin.py\", line 122, in _test_secure_renegotiation\n ssl_connection.connect()\n File \"/usr/local/lib/python3.7/site-packages/sslyze/connection_helpers/tls_connection.py\", line 292, in connect\n error_message=\"Connection to server timed out\",\nsslyze.errors.ConnectionToServerTimedOut\n",
-                    "reason": "CONNECTIVITY_ISSUE"
-                },
-                "session_resumption": {
-                    "exception_trace": "Traceback (most recent call last):\n File \"/usr/local/lib/python3.7/site-packages/sslyze/scanner.py\", line 224, in get_results\n server_info, server_and_scan_cmd_to_completed_futures[server_and_scan_cmd]\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/session_resumption/implementation.py\", line 230, in result_for_completed_scan_jobs\n result_enum, value = job.result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 428, in result\n return self.__get_result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 384, in __get_result\n raise self._exception\n File \"/usr/local/lib/python3.7/concurrent/futures/thread.py\", line 57, in run\n result = self.fn(*self.args, **self.kwargs)\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/session_resumption/_resumption_with_id.py\", line 56, in resume_with_session_id\n session1 = resume_tls_session(server_info, tls_version_to_use)\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/session_resumption/_resumption_with_id.py\", line 35, in resume_tls_session\n ssl_connection.connect()\n File \"/usr/local/lib/python3.7/site-packages/sslyze/connection_helpers/tls_connection.py\", line 292, in connect\n error_message=\"Connection to server timed out\",\nsslyze.errors.ConnectionToServerTimedOut\n",
-                    "reason": "CONNECTIVITY_ISSUE"
-                },
-                "ssl_3_0_cipher_suites": {
-                    "exception_trace": "Traceback (most recent call last):\n File \"/usr/local/lib/python3.7/site-packages/sslyze/scanner.py\", line 224, in get_results\n server_info, server_and_scan_cmd_to_completed_futures[server_and_scan_cmd]\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/openssl_cipher_suites/implementation.py\", line 137, in result_for_completed_scan_jobs\n cipher_suite_result = completed_job.result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 428, in result\n return self.__get_result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 384, in __get_result\n raise self._exception\n File \"/usr/local/lib/python3.7/concurrent/futures/thread.py\", line 57, in run\n result = self.fn(*self.args, **self.kwargs)\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/openssl_cipher_suites/_test_cipher_suite.py\", line 78, in connect_with_cipher_suite\n ssl_connection.connect()\n File \"/usr/local/lib/python3.7/site-packages/sslyze/connection_helpers/tls_connection.py\", line 292, in connect\n error_message=\"Connection to server timed out\",\nsslyze.errors.ConnectionToServerTimedOut\n",
-                    "reason": "CONNECTIVITY_ISSUE"
-                },
-                "tls_1_0_cipher_suites": {
-                    "exception_trace": "Traceback (most recent call last):\n File \"/usr/local/lib/python3.7/site-packages/sslyze/scanner.py\", line 224, in get_results\n server_info, server_and_scan_cmd_to_completed_futures[server_and_scan_cmd]\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/openssl_cipher_suites/implementation.py\", line 137, in result_for_completed_scan_jobs\n cipher_suite_result = completed_job.result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 428, in result\n return self.__get_result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 384, in __get_result\n raise self._exception\n File \"/usr/local/lib/python3.7/concurrent/futures/thread.py\", line 57, in run\n result = self.fn(*self.args, **self.kwargs)\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/openssl_cipher_suites/_test_cipher_suite.py\", line 78, in connect_with_cipher_suite\n ssl_connection.connect()\n File \"/usr/local/lib/python3.7/site-packages/sslyze/connection_helpers/tls_connection.py\", line 292, in connect\n error_message=\"Connection to server timed out\",\nsslyze.errors.ConnectionToServerTimedOut\n",
-                    "reason": "CONNECTIVITY_ISSUE"
-                },
-                "tls_1_1_cipher_suites": {
-                    "exception_trace": "Traceback (most recent call last):\n File \"/usr/local/lib/python3.7/site-packages/sslyze/scanner.py\", line 224, in get_results\n server_info, server_and_scan_cmd_to_completed_futures[server_and_scan_cmd]\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/openssl_cipher_suites/implementation.py\", line 137, in result_for_completed_scan_jobs\n cipher_suite_result = completed_job.result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 428, in result\n return self.__get_result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 384, in __get_result\n raise self._exception\n File \"/usr/local/lib/python3.7/concurrent/futures/thread.py\", line 57, in run\n result = self.fn(*self.args, **self.kwargs)\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/openssl_cipher_suites/_test_cipher_suite.py\", line 78, in connect_with_cipher_suite\n ssl_connection.connect()\n File \"/usr/local/lib/python3.7/site-packages/sslyze/connection_helpers/tls_connection.py\", line 292, in connect\n error_message=\"Connection to server timed out\",\nsslyze.errors.ConnectionToServerTimedOut\n",
-                    "reason": "CONNECTIVITY_ISSUE"
-                },
-                "tls_1_2_cipher_suites": {
-                    "exception_trace": "Traceback (most recent call last):\n File \"/usr/local/lib/python3.7/site-packages/sslyze/scanner.py\", line 224, in get_results\n server_info, server_and_scan_cmd_to_completed_futures[server_and_scan_cmd]\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/openssl_cipher_suites/implementation.py\", line 137, in result_for_completed_scan_jobs\n cipher_suite_result = completed_job.result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 428, in result\n return self.__get_result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 384, in __get_result\n raise self._exception\n File \"/usr/local/lib/python3.7/concurrent/futures/thread.py\", line 57, in run\n result = self.fn(*self.args, **self.kwargs)\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/openssl_cipher_suites/_test_cipher_suite.py\", line 78, in connect_with_cipher_suite\n ssl_connection.connect()\n File \"/usr/local/lib/python3.7/site-packages/sslyze/connection_helpers/tls_connection.py\", line 292, in connect\n error_message=\"Connection to server timed out\",\nsslyze.errors.ConnectionToServerTimedOut\n",
-                    "reason": "CONNECTIVITY_ISSUE"
-                },
-                "tls_compression": {
-                    "exception_trace": "Traceback (most recent call last):\n File \"/usr/local/lib/python3.7/site-packages/sslyze/scanner.py\", line 224, in get_results\n server_info, server_and_scan_cmd_to_completed_futures[server_and_scan_cmd]\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/compression_plugin.py\", line 68, in result_for_completed_scan_jobs\n return CompressionScanResult(supports_compression=completed_scan_jobs[0].result())\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 428, in result\n return self.__get_result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 384, in __get_result\n raise self._exception\n File \"/usr/local/lib/python3.7/concurrent/futures/thread.py\", line 57, in run\n result = self.fn(*self.args, **self.kwargs)\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/compression_plugin.py\", line 91, in _test_compression_support\n ssl_connection.connect()\n File \"/usr/local/lib/python3.7/site-packages/sslyze/connection_helpers/tls_connection.py\", line 292, in connect\n error_message=\"Connection to server timed out\",\nsslyze.errors.ConnectionToServerTimedOut\n",
-                    "reason": "CONNECTIVITY_ISSUE"
-                }
-            },
-            "scan_commands_extra_arguments": {},
-            "scan_commands_results": {
-                "heartbleed": { "is_vulnerable_to_heartbleed": false },
-                "robot": { "robot_result": "NOT_VULNERABLE_NO_ORACLE" },
-                "ssl_2_0_cipher_suites": {
-                    "accepted_cipher_suites": [],
-                    "cipher_suite_preferred_by_server": null,
-                    "rejected_cipher_suites": [
-                        {
-                            "cipher_suite": {
-                                "is_anonymous": false,
-                                "key_size": 128,
-                                "name": "SSL_CK_RC4_128_WITH_MD5",
-                                "openssl_name": "RC4-MD5"
-                            },
-                            "error_message": "Server closed the connection: unexpected EOF"
-                        },
-                        {
-                            "cipher_suite": {
-                                "is_anonymous": false,
-                                "key_size": 40,
-                                "name": "SSL_CK_RC4_128_EXPORT40_WITH_MD5",
-                                "openssl_name": "EXP-RC4-MD5"
-                            },
-                            "error_message": "Server closed the connection: unexpected EOF"
-                        },
-                        {
-                            "cipher_suite": {
-                                "is_anonymous": false,
-                                "key_size": 128,
-                                "name": "SSL_CK_RC2_128_CBC_WITH_MD5",
-                                "openssl_name": "RC2-CBC-MD5"
-                            },
-                            "error_message": "Server closed the connection: unexpected EOF"
-                        },
-                        {
-                            "cipher_suite": {
-                                "is_anonymous": false,
-                                "key_size": 40,
-                                "name": "SSL_CK_RC2_128_CBC_EXPORT40_WITH_MD5",
-                                "openssl_name": "EXP-RC2-CBC-MD5"
-                            },
-                            "error_message": "Server closed the connection: unexpected EOF"
-                        },
-                        {
-                            "cipher_suite": {
-                                "is_anonymous": false,
-                                "key_size": 128,
-                                "name": "SSL_CK_IDEA_128_CBC_WITH_MD5",
-                                "openssl_name": "IDEA-CBC-MD5"
-                            },
-                            "error_message": "Server closed the connection: unexpected EOF"
-                        },
-                        {
-                            "cipher_suite": {
-                                "is_anonymous": false,
-                                "key_size": 56,
-                                "name": "SSL_CK_DES_64_CBC_WITH_MD5",
-                                "openssl_name": "DES-CBC-MD5"
-                            },
-                            "error_message": "Server closed the connection: unexpected EOF"
-                        },
-                        {
-                            "cipher_suite": {
-                                "is_anonymous": false,
-                                "key_size": 168,
-                                "name": "SSL_CK_DES_192_EDE3_CBC_WITH_MD5",
-                                "openssl_name": "DES-CBC3-MD5"
-                            },
-                            "error_message": "Server closed the connection: unexpected EOF"
-                        }
-                    ],
-                    "tls_version_used": "SSL_2_0"
-                },
-                "tls_1_3_cipher_suites": {
-                    "accepted_cipher_suites": [],
-                    "cipher_suite_preferred_by_server": null,
-                    "rejected_cipher_suites": [
-                        {
-                            "cipher_suite": {
-                                "is_anonymous": false,
-                                "key_size": 256,
-                                "name": "TLS_CHACHA20_POLY1305_SHA256",
-                                "openssl_name": "TLS_CHACHA20_POLY1305_SHA256"
-                            },
-                            "error_message": "TLS alert: handshake failure"
-                        },
-                        {
-                            "cipher_suite": {
-                                "is_anonymous": false,
-                                "key_size": 256,
-                                "name": "TLS_AES_256_GCM_SHA384",
-                                "openssl_name": "TLS_AES_256_GCM_SHA384"
-                            },
-                            "error_message": "TLS alert: handshake failure"
-                        },
-                        {
-                            "cipher_suite": {
-                                "is_anonymous": false,
-                                "key_size": 128,
-                                "name": "TLS_AES_128_GCM_SHA256",
-                                "openssl_name": "TLS_AES_128_GCM_SHA256"
-                            },
-                            "error_message": "TLS alert: handshake failure"
-                        },
-                        {
-                            "cipher_suite": {
-                                "is_anonymous": false,
-                                "key_size": 128,
-                                "name": "TLS_AES_128_CCM_SHA256",
-                                "openssl_name": "TLS_AES_128_CCM_SHA256"
-                            },
-                            "error_message": "TLS alert: handshake failure"
-                        },
-                        {
-                            "cipher_suite": {
-                                "is_anonymous": false,
-                                "key_size": 128,
-                                "name": "TLS_AES_128_CCM_8_SHA256",
-                                "openssl_name": "TLS_AES_128_CCM_8_SHA256"
-                            },
-                            "error_message": "TLS alert: handshake failure"
-                        }
-                    ],
-                    "tls_version_used": "TLS_1_3"
-                },
-                "tls_fallback_scsv": { "supports_fallback_scsv": true }
-            },
-            "server_info": {
-                "network_configuration": {
-                    "network_max_retries": 3,
-                    "network_timeout": 5,
-                    "tls_client_auth_credentials": null,
-                    "tls_opportunistic_encryption": null,
-                    "tls_server_name_indication": "192.168.0.48",
-                    "xmpp_to_hostname": null
-                },
-                "server_location": {
-                    "hostname": "192.168.0.48",
-                    "ip_address": "192.168.0.48",
-                    "port": 443
-                },
-                "tls_probing_result": {
-                    "cipher_suite_supported": "DHE-RSA-AES256-GCM-SHA384",
-                    "client_auth_requirement": "DISABLED",
-                    "highest_tls_version_supported": "TLS_1_2"
-                }
-            }
+  "server_connectivity_errors": [],
+  "server_scan_results": [
+    {
+      "scan_commands": [
+        "tls_fallback_scsv",
+        "heartbleed",
+        "certificate_info",
+        "tls_1_1_cipher_suites",
+        "ssl_2_0_cipher_suites",
+        "tls_1_0_cipher_suites",
+        "tls_1_2_cipher_suites",
+        "session_resumption",
+        "session_renegotiation",
+        "tls_compression",
+        "ssl_3_0_cipher_suites",
+        "robot",
+        "openssl_ccs_injection",
+        "tls_1_3_cipher_suites"
+      ],
+      "scan_commands_errors": {
+        "certificate_info": {
+          "exception_trace": "Traceback (most recent call last):\n File \"/usr/local/lib/python3.7/site-packages/sslyze/scanner.py\", line 224, in get_results\n server_info, server_and_scan_cmd_to_completed_futures[server_and_scan_cmd]\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/certificate_info/implementation.py\", line 100, in result_for_completed_scan_jobs\n received_chain_as_pem, ocsp_response, custom_ca_file = completed_job.result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 428, in result\n return self.__get_result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 384, in __get_result\n raise self._exception\n File \"/usr/local/lib/python3.7/concurrent/futures/thread.py\", line 57, in run\n result = self.fn(*self.args, **self.kwargs)\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/certificate_info/_get_cert_chain.py\", line 26, in get_certificate_chain\n ssl_connection.connect()\n File \"/usr/local/lib/python3.7/site-packages/sslyze/connection_helpers/tls_connection.py\", line 292, in connect\n error_message=\"Connection to server timed out\",\nsslyze.errors.ConnectionToServerTimedOut\n",
+          "reason": "CONNECTIVITY_ISSUE"
+        },
+        "openssl_ccs_injection": {
+          "exception_trace": "Traceback (most recent call last):\n File \"/usr/local/lib/python3.7/site-packages/sslyze/scanner.py\", line 224, in get_results\n server_info, server_and_scan_cmd_to_completed_futures[server_and_scan_cmd]\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/openssl_ccs_injection_plugin.py\", line 78, in result_for_completed_scan_jobs\n return OpenSslCcsInjectionScanResult(is_vulnerable_to_ccs_injection=completed_scan_jobs[0].result())\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 428, in result\n return self.__get_result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 384, in __get_result\n raise self._exception\n File \"/usr/local/lib/python3.7/concurrent/futures/thread.py\", line 57, in run\n result = self.fn(*self.args, **self.kwargs)\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/openssl_ccs_injection_plugin.py\", line 96, in _test_for_ccs_injection\n ssl_connection.connect()\n File \"/usr/local/lib/python3.7/site-packages/sslyze/connection_helpers/tls_connection.py\", line 292, in connect\n error_message=\"Connection to server timed out\",\nsslyze.errors.ConnectionToServerTimedOut\n",
+          "reason": "CONNECTIVITY_ISSUE"
+        },
+        "session_renegotiation": {
+          "exception_trace": "Traceback (most recent call last):\n File \"/usr/local/lib/python3.7/site-packages/sslyze/scanner.py\", line 224, in get_results\n server_info, server_and_scan_cmd_to_completed_futures[server_and_scan_cmd]\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/session_renegotiation_plugin.py\", line 100, in result_for_completed_scan_jobs\n result_enum, value = job.result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 428, in result\n return self.__get_result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 384, in __get_result\n raise self._exception\n File \"/usr/local/lib/python3.7/concurrent/futures/thread.py\", line 57, in run\n result = self.fn(*self.args, **self.kwargs)\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/session_renegotiation_plugin.py\", line 122, in _test_secure_renegotiation\n ssl_connection.connect()\n File \"/usr/local/lib/python3.7/site-packages/sslyze/connection_helpers/tls_connection.py\", line 292, in connect\n error_message=\"Connection to server timed out\",\nsslyze.errors.ConnectionToServerTimedOut\n",
+          "reason": "CONNECTIVITY_ISSUE"
+        },
+        "session_resumption": {
+          "exception_trace": "Traceback (most recent call last):\n File \"/usr/local/lib/python3.7/site-packages/sslyze/scanner.py\", line 224, in get_results\n server_info, server_and_scan_cmd_to_completed_futures[server_and_scan_cmd]\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/session_resumption/implementation.py\", line 230, in result_for_completed_scan_jobs\n result_enum, value = job.result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 428, in result\n return self.__get_result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 384, in __get_result\n raise self._exception\n File \"/usr/local/lib/python3.7/concurrent/futures/thread.py\", line 57, in run\n result = self.fn(*self.args, **self.kwargs)\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/session_resumption/_resumption_with_id.py\", line 56, in resume_with_session_id\n session1 = resume_tls_session(server_info, tls_version_to_use)\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/session_resumption/_resumption_with_id.py\", line 35, in resume_tls_session\n ssl_connection.connect()\n File \"/usr/local/lib/python3.7/site-packages/sslyze/connection_helpers/tls_connection.py\", line 292, in connect\n error_message=\"Connection to server timed out\",\nsslyze.errors.ConnectionToServerTimedOut\n",
+          "reason": "CONNECTIVITY_ISSUE"
+        },
+        "ssl_3_0_cipher_suites": {
+          "exception_trace": "Traceback (most recent call last):\n File \"/usr/local/lib/python3.7/site-packages/sslyze/scanner.py\", line 224, in get_results\n server_info, server_and_scan_cmd_to_completed_futures[server_and_scan_cmd]\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/openssl_cipher_suites/implementation.py\", line 137, in result_for_completed_scan_jobs\n cipher_suite_result = completed_job.result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 428, in result\n return self.__get_result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 384, in __get_result\n raise self._exception\n File \"/usr/local/lib/python3.7/concurrent/futures/thread.py\", line 57, in run\n result = self.fn(*self.args, **self.kwargs)\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/openssl_cipher_suites/_test_cipher_suite.py\", line 78, in connect_with_cipher_suite\n ssl_connection.connect()\n File \"/usr/local/lib/python3.7/site-packages/sslyze/connection_helpers/tls_connection.py\", line 292, in connect\n error_message=\"Connection to server timed out\",\nsslyze.errors.ConnectionToServerTimedOut\n",
+          "reason": "CONNECTIVITY_ISSUE"
+        },
+        "tls_1_0_cipher_suites": {
+          "exception_trace": "Traceback (most recent call last):\n File \"/usr/local/lib/python3.7/site-packages/sslyze/scanner.py\", line 224, in get_results\n server_info, server_and_scan_cmd_to_completed_futures[server_and_scan_cmd]\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/openssl_cipher_suites/implementation.py\", line 137, in result_for_completed_scan_jobs\n cipher_suite_result = completed_job.result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 428, in result\n return self.__get_result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 384, in __get_result\n raise self._exception\n File \"/usr/local/lib/python3.7/concurrent/futures/thread.py\", line 57, in run\n result = self.fn(*self.args, **self.kwargs)\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/openssl_cipher_suites/_test_cipher_suite.py\", line 78, in connect_with_cipher_suite\n ssl_connection.connect()\n File \"/usr/local/lib/python3.7/site-packages/sslyze/connection_helpers/tls_connection.py\", line 292, in connect\n error_message=\"Connection to server timed out\",\nsslyze.errors.ConnectionToServerTimedOut\n",
+          "reason": "CONNECTIVITY_ISSUE"
+        },
+        "tls_1_1_cipher_suites": {
+          "exception_trace": "Traceback (most recent call last):\n File \"/usr/local/lib/python3.7/site-packages/sslyze/scanner.py\", line 224, in get_results\n server_info, server_and_scan_cmd_to_completed_futures[server_and_scan_cmd]\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/openssl_cipher_suites/implementation.py\", line 137, in result_for_completed_scan_jobs\n cipher_suite_result = completed_job.result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 428, in result\n return self.__get_result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 384, in __get_result\n raise self._exception\n File \"/usr/local/lib/python3.7/concurrent/futures/thread.py\", line 57, in run\n result = self.fn(*self.args, **self.kwargs)\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/openssl_cipher_suites/_test_cipher_suite.py\", line 78, in connect_with_cipher_suite\n ssl_connection.connect()\n File \"/usr/local/lib/python3.7/site-packages/sslyze/connection_helpers/tls_connection.py\", line 292, in connect\n error_message=\"Connection to server timed out\",\nsslyze.errors.ConnectionToServerTimedOut\n",
+          "reason": "CONNECTIVITY_ISSUE"
+        },
+        "tls_1_2_cipher_suites": {
+          "exception_trace": "Traceback (most recent call last):\n File \"/usr/local/lib/python3.7/site-packages/sslyze/scanner.py\", line 224, in get_results\n server_info, server_and_scan_cmd_to_completed_futures[server_and_scan_cmd]\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/openssl_cipher_suites/implementation.py\", line 137, in result_for_completed_scan_jobs\n cipher_suite_result = completed_job.result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 428, in result\n return self.__get_result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 384, in __get_result\n raise self._exception\n File \"/usr/local/lib/python3.7/concurrent/futures/thread.py\", line 57, in run\n result = self.fn(*self.args, **self.kwargs)\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/openssl_cipher_suites/_test_cipher_suite.py\", line 78, in connect_with_cipher_suite\n ssl_connection.connect()\n File \"/usr/local/lib/python3.7/site-packages/sslyze/connection_helpers/tls_connection.py\", line 292, in connect\n error_message=\"Connection to server timed out\",\nsslyze.errors.ConnectionToServerTimedOut\n",
+          "reason": "CONNECTIVITY_ISSUE"
+        },
+        "tls_compression": {
+          "exception_trace": "Traceback (most recent call last):\n File \"/usr/local/lib/python3.7/site-packages/sslyze/scanner.py\", line 224, in get_results\n server_info, server_and_scan_cmd_to_completed_futures[server_and_scan_cmd]\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/compression_plugin.py\", line 68, in result_for_completed_scan_jobs\n return CompressionScanResult(supports_compression=completed_scan_jobs[0].result())\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 428, in result\n return self.__get_result()\n File \"/usr/local/lib/python3.7/concurrent/futures/_base.py\", line 384, in __get_result\n raise self._exception\n File \"/usr/local/lib/python3.7/concurrent/futures/thread.py\", line 57, in run\n result = self.fn(*self.args, **self.kwargs)\n File \"/usr/local/lib/python3.7/site-packages/sslyze/plugins/compression_plugin.py\", line 91, in _test_compression_support\n ssl_connection.connect()\n File \"/usr/local/lib/python3.7/site-packages/sslyze/connection_helpers/tls_connection.py\", line 292, in connect\n error_message=\"Connection to server timed out\",\nsslyze.errors.ConnectionToServerTimedOut\n",
+          "reason": "CONNECTIVITY_ISSUE"
         }
-    ],
-    "sslyze_url": "https://github.com/nabla-c0d3/sslyze",
-    "sslyze_version": "3.0.0",
-    "total_scan_time": 89.70373797416687
+      },
+      "scan_commands_extra_arguments": {},
+      "scan_commands_results": {
+        "heartbleed": { "is_vulnerable_to_heartbleed": false },
+        "robot": { "robot_result": "NOT_VULNERABLE_NO_ORACLE" },
+        "ssl_2_0_cipher_suites": {
+          "accepted_cipher_suites": [],
+          "cipher_suite_preferred_by_server": null,
+          "rejected_cipher_suites": [
+            {
+              "cipher_suite": {
+                "is_anonymous": false,
+                "key_size": 128,
+                "name": "SSL_CK_RC4_128_WITH_MD5",
+                "openssl_name": "RC4-MD5"
+              },
+              "error_message": "Server closed the connection: unexpected EOF"
+            },
+            {
+              "cipher_suite": {
+                "is_anonymous": false,
+                "key_size": 40,
+                "name": "SSL_CK_RC4_128_EXPORT40_WITH_MD5",
+                "openssl_name": "EXP-RC4-MD5"
+              },
+              "error_message": "Server closed the connection: unexpected EOF"
+            },
+            {
+              "cipher_suite": {
+                "is_anonymous": false,
+                "key_size": 128,
+                "name": "SSL_CK_RC2_128_CBC_WITH_MD5",
+                "openssl_name": "RC2-CBC-MD5"
+              },
+              "error_message": "Server closed the connection: unexpected EOF"
+            },
+            {
+              "cipher_suite": {
+                "is_anonymous": false,
+                "key_size": 40,
+                "name": "SSL_CK_RC2_128_CBC_EXPORT40_WITH_MD5",
+                "openssl_name": "EXP-RC2-CBC-MD5"
+              },
+              "error_message": "Server closed the connection: unexpected EOF"
+            },
+            {
+              "cipher_suite": {
+                "is_anonymous": false,
+                "key_size": 128,
+                "name": "SSL_CK_IDEA_128_CBC_WITH_MD5",
+                "openssl_name": "IDEA-CBC-MD5"
+              },
+              "error_message": "Server closed the connection: unexpected EOF"
+            },
+            {
+              "cipher_suite": {
+                "is_anonymous": false,
+                "key_size": 56,
+                "name": "SSL_CK_DES_64_CBC_WITH_MD5",
+                "openssl_name": "DES-CBC-MD5"
+              },
+              "error_message": "Server closed the connection: unexpected EOF"
+            },
+            {
+              "cipher_suite": {
+                "is_anonymous": false,
+                "key_size": 168,
+                "name": "SSL_CK_DES_192_EDE3_CBC_WITH_MD5",
+                "openssl_name": "DES-CBC3-MD5"
+              },
+              "error_message": "Server closed the connection: unexpected EOF"
+            }
+          ],
+          "tls_version_used": "SSL_2_0"
+        },
+        "tls_1_3_cipher_suites": {
+          "accepted_cipher_suites": [],
+          "cipher_suite_preferred_by_server": null,
+          "rejected_cipher_suites": [
+            {
+              "cipher_suite": {
+                "is_anonymous": false,
+                "key_size": 256,
+                "name": "TLS_CHACHA20_POLY1305_SHA256",
+                "openssl_name": "TLS_CHACHA20_POLY1305_SHA256"
+              },
+              "error_message": "TLS alert: handshake failure"
+            },
+            {
+              "cipher_suite": {
+                "is_anonymous": false,
+                "key_size": 256,
+                "name": "TLS_AES_256_GCM_SHA384",
+                "openssl_name": "TLS_AES_256_GCM_SHA384"
+              },
+              "error_message": "TLS alert: handshake failure"
+            },
+            {
+              "cipher_suite": {
+                "is_anonymous": false,
+                "key_size": 128,
+                "name": "TLS_AES_128_GCM_SHA256",
+                "openssl_name": "TLS_AES_128_GCM_SHA256"
+              },
+              "error_message": "TLS alert: handshake failure"
+            },
+            {
+              "cipher_suite": {
+                "is_anonymous": false,
+                "key_size": 128,
+                "name": "TLS_AES_128_CCM_SHA256",
+                "openssl_name": "TLS_AES_128_CCM_SHA256"
+              },
+              "error_message": "TLS alert: handshake failure"
+            },
+            {
+              "cipher_suite": {
+                "is_anonymous": false,
+                "key_size": 128,
+                "name": "TLS_AES_128_CCM_8_SHA256",
+                "openssl_name": "TLS_AES_128_CCM_8_SHA256"
+              },
+              "error_message": "TLS alert: handshake failure"
+            }
+          ],
+          "tls_version_used": "TLS_1_3"
+        },
+        "tls_fallback_scsv": { "supports_fallback_scsv": true }
+      },
+      "server_info": {
+        "network_configuration": {
+          "network_max_retries": 3,
+          "network_timeout": 5,
+          "tls_client_auth_credentials": null,
+          "tls_opportunistic_encryption": null,
+          "tls_server_name_indication": "192.168.0.48",
+          "xmpp_to_hostname": null
+        },
+        "server_location": {
+          "hostname": "192.168.0.48",
+          "ip_address": "192.168.0.48",
+          "port": 443
+        },
+        "tls_probing_result": {
+          "cipher_suite_supported": "DHE-RSA-AES256-GCM-SHA384",
+          "client_auth_requirement": "DISABLED",
+          "highest_tls_version_supported": "TLS_1_2"
+        }
+      }
+    }
+  ],
+  "sslyze_url": "https://github.com/nabla-c0d3/sslyze",
+  "sslyze_version": "3.0.0",
+  "total_scan_time": 89.70373797416687
 }

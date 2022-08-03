@@ -6,7 +6,7 @@ parser:
     repository: securecodebox/parser-semgrep
     tag: null
     pullPolicy: IfNotPresent
-  
+
   backoffLimit: 3
   env: []
 

@@ -280,7 +280,7 @@ public class VersionedEngagementsStrategy implements Strategy {
    * @return The productName related to the given scan.
    */
   protected String getProductName(Scan scan) {
-    String result = "unkown";
+    String result = "unknown";
 
     if (scan.getProductName().isPresent()) {
       result = scan.getProductName().get();

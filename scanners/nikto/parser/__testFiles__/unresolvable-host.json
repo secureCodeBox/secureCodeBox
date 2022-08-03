@@ -1,1 +1,14 @@
-{"host":"","ip":"","port":"80","banner":"","vulnerabilities":[{"id": "0","method":"GET","url":"","msg":"ERROR: Cannot resolve hostname 'www.unresolvablehost.com' because 'Name or service not known'."}]}
+{
+  "host": "",
+  "ip": "",
+  "port": "80",
+  "banner": "",
+  "vulnerabilities": [
+    {
+      "id": "0",
+      "method": "GET",
+      "url": "",
+      "msg": "ERROR: Cannot resolve hostname 'www.unresolvablehost.com' because 'Name or service not known'."
+    }
+  ]
+}

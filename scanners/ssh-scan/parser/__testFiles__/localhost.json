@@ -10,46 +10,20 @@
     "os_cpe": "o:unknown",
     "ssh_lib": "unknown",
     "ssh_lib_cpe": "a:unknown",
-    "key_algorithms": [
-
-    ],
-    "encryption_algorithms_client_to_server": [
-
-    ],
-    "encryption_algorithms_server_to_client": [
-
-    ],
-    "mac_algorithms_client_to_server": [
-
-    ],
-    "mac_algorithms_server_to_client": [
-
-    ],
-    "compression_algorithms_client_to_server": [
-
-    ],
-    "compression_algorithms_server_to_client": [
-
-    ],
-    "languages_client_to_server": [
-
-    ],
-    "languages_server_to_client": [
-
-    ],
-    "auth_methods": [
-
-    ],
-    "keys": {
-    },
-    "dns_keys": [
-
-    ],
-    "duplicate_host_key_ips": [
-
-    ],
-    "compliance": {
-    },
+    "key_algorithms": [],
+    "encryption_algorithms_client_to_server": [],
+    "encryption_algorithms_server_to_client": [],
+    "mac_algorithms_client_to_server": [],
+    "mac_algorithms_server_to_client": [],
+    "compression_algorithms_client_to_server": [],
+    "compression_algorithms_server_to_client": [],
+    "languages_client_to_server": [],
+    "languages_server_to_client": [],
+    "auth_methods": [],
+    "keys": {},
+    "dns_keys": [],
+    "duplicate_host_key_ips": [],
+    "compliance": {},
     "start_time": "2019-10-03 18:27:45 +0200",
     "end_time": "2019-10-03 18:27:45 +0200",
     "scan_duration_seconds": 0.025856,

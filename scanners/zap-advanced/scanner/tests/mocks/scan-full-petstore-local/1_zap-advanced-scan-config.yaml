@@ -32,7 +32,7 @@ contexts:
       - ".*\\.jpeg"
 
 apis:
-    # -- The name of the spider configuration
+  # -- The name of the spider configuration
   - name: scb-petstore-api
     # -- The Name of the context (zapConfiguration.contexts[x].name) to spider, default: first context available.
     context: scb-petstore-context
@@ -44,9 +44,9 @@ apis:
     hostOverride: http://localhost:8000
     # -- Assumes that the OpenAPI Spec has been saved to a configmap in the namespace of the scan / this release. Should be null if not used.
     #configMap: null
-      # Object with two keys: "name" name of the config map, and "key" which is the key / property in the configmap which holds the openapi spec file.
-      # name: my-configmap-with-openapi-spec
-      # key: openapi.yaml
+    # Object with two keys: "name" name of the config map, and "key" which is the key / property in the configmap which holds the openapi spec file.
+    # name: my-configmap-with-openapi-spec
+    # key: openapi.yaml
     # -- Allows to embed the entire yaml / json OpenAPI spec in the values. Should be null if not used.
     #spec: null
 
@@ -64,7 +64,7 @@ spiders:
     maxDuration: 1
     # Int: The maximum tree depth to explore, default 5
     maxDepth: 5
-    # Int: The maximum number of children to add to each node in the tree                     
+    # Int: The maximum number of children to add to each node in the tree
     maxChildren: 10
     # # Int: The max size of a response that will be parsed, default: 2621440 - 2.5 Mb
     # maxParseSizeBytes: 2621440
@@ -92,9 +92,9 @@ spiders:
     requestWaitTime: 200
     # Bool: Whether the spider will send the referer header, default: true
     sendRefererHeader: true
-    # Int: The number of spider threads, default: 2             
+    # Int: The number of spider threads, default: 2
     threadCount: 5
-    # String: The user agent to use in requests, default: '' - use the default ZAP one               
+    # String: The user agent to use in requests, default: '' - use the default ZAP one
     userAgent: "secureCodeBox / ZAP Spider"
 
 scanners:
@@ -107,7 +107,7 @@ scanners:
     policy: "Default Policy"
     # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
     maxRuleDurationInMins: 1
-    # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited          
+    # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited
     maxScanDurationInMins: 5
     # Int: The max number of threads per host, default: 2
     threadPerHost: 5
@@ -117,7 +117,7 @@ scanners:
     addQueryParam: false
     # Bool: If set then automatically handle anti CSRF tokens, default: false
     handleAntiCSRFTokens: false
-    # Bool: If set then the relevant rule Id will be injected into the X-ZAP-Scan-ID header of each request, default: false           
+    # Bool: If set then the relevant rule Id will be injected into the X-ZAP-Scan-ID header of each request, default: false
     injectPluginIdInHeader: false
     # Bool: If set then the headers of requests that do not include any parameters will be scanned, default: false
     scanHeadersAllRequests: false

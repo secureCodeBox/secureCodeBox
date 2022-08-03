@@ -1,1 +1,76 @@
-{"nodes": [{"type": "Node/Master", "location": "10.244.0.1"}, {"type": "Node/Master", "location": "10.96.0.1"}], "services": [{"service": "Kubelet API", "location": "10.244.0.1:10250", "description": "The Kubelet is the main component in every Node, all pod operations goes through the kubelet"}, {"service": "Metrics Server", "location": "10.244.0.1:6443", "description": "The Metrics server is in charge of providing resource usage metrics for pods and nodes to the API server."}, {"service": "API Server", "location": "10.96.0.1:443", "description": "The API server is in charge of all operations on the cluster."}], "vulnerabilities": [{"location": "Local to Pod(scan-kube-hunter-in-cluster-4rfff)", "vid": "KHV050", "category": "Access Risk", "severity": "low", "vulnerability": "Read access to pod's service account token", "description": " Accessing the pod service account token gives an attacker the option to use the server API ", "evidence": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkNabmY2NVgxUmR1ZnQzbHJVQVAzZFFUNjBiR0hUVE9SRDNPcURyenlkODgifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6Imx1cmNoZXItdG9rZW4tcGpmNGIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoibHVyY2hlciIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjUzOGVhYjdmLTY1YjAtNDE4Yy04MGI2LTI1NGQxNDQ4ODU3NiIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0Omx1cmNoZXIifQ.cGtQHagQ2xxlAFnWwFRNgGJIkaeZIKnqoYYb8GmxN94ry0wwxCbgBm4Kg33A903wDBxd8iuITTk-r8UPZyYJHoxlVu0pHt-3SAc4NT0ob50R2acVXQ2qj_yJOOQHurCWeOJMkGqtCyUoZ8Xcnc6z32Ao-NWzKD-0wV7ndpKm-ytHP0YpHb9bLUPcQGvFoh_UF132yjeJqzwLPRX6hStMYOa8LNhJGyhdejW3BIOylzVPNkKE5lEjWv9f853qnTKG-TzXHBbth7qV8UHwSoY8YFoMezK3zazQt4dN1VG_wYmZ0ujikTC7TRTGr500kFxfpACKwdQ1M1fXgKJhNv9UgA", "hunter": "Access Secrets"}, {"location": "Local to Pod(scan-kube-hunter-in-cluster-4rfff)", "vid": "None", "category": "Access Risk", "severity": "low", "vulnerability": "CAP_NET_RAW Enabled", "description": "CAP_NET_RAW is enabled by default for pods. If an attacker manages to compromise a pod, they could potentially take advantage of this capability to perform network attacks on other pods running on the same node", "evidence": "", "hunter": "Pod Capabilities Hunter"}, {"location": "Local to Pod(scan-kube-hunter-in-cluster-4rfff)", "vid": "None", "category": "Access Risk", "severity": "low", "vulnerability": "Access to pod's secrets", "description": " Accessing the pod's secrets within a compromised pod might disclose valuable data to a potential attacker", "evidence": "['/var/run/secrets/kubernetes.io/serviceaccount/namespace', '/var/run/secrets/kubernetes.io/serviceaccount/ca.crt', '/var/run/secrets/kubernetes.io/serviceaccount/token', '/var/run/secrets/kubernetes.io/serviceaccount/..2020_04_03_14_52_24.460746409/ca.crt', '/var/run/secrets/kubernetes.io/serviceaccount/..2020_04_03_14_52_24.460746409/token', '/var/run/secrets/kubernetes.io/serviceaccount/..2020_04_03_14_52_24.460746409/namespace']", "hunter": "Access Secrets"}, {"location": "10.96.0.1:443", "vid": "KHV002", "category": "Information Disclosure", "severity": "medium", "vulnerability": "K8s Version Disclosure", "description": "The kubernetes version could be obtained from the /version endpoint ", "evidence": "v1.18.0", "hunter": "Api Version Hunter"}, {"location": "10.96.0.1:443", "vid": "KHV005", "category": "Information Disclosure", "severity": "medium", "vulnerability": "Access to API using service account token", "description": " The API Server port is accessible. Depending on your RBAC settings this could expose access to or control of your cluster. ", "evidence": "b'{\"kind\":\"APIVersions\",\"versions\":[\"v1\"],\"serverAddressByClientCIDRs\":[{\"clientCIDR\":\"0.0.0.0/0\",\"serverAddress\":\"172.17.0.2:6443\"}]}\\n'", "hunter": "API Server Hunter"}], "kburl": "https://aquasecurity.github.io/kube-hunter/kb/{vid}"}
+{
+  "nodes": [
+    { "type": "Node/Master", "location": "10.244.0.1" },
+    { "type": "Node/Master", "location": "10.96.0.1" }
+  ],
+  "services": [
+    {
+      "service": "Kubelet API",
+      "location": "10.244.0.1:10250",
+      "description": "The Kubelet is the main component in every Node, all pod operations goes through the kubelet"
+    },
+    {
+      "service": "Metrics Server",
+      "location": "10.244.0.1:6443",
+      "description": "The Metrics server is in charge of providing resource usage metrics for pods and nodes to the API server."
+    },
+    {
+      "service": "API Server",
+      "location": "10.96.0.1:443",
+      "description": "The API server is in charge of all operations on the cluster."
+    }
+  ],
+  "vulnerabilities": [
+    {
+      "location": "Local to Pod(scan-kube-hunter-in-cluster-4rfff)",
+      "vid": "KHV050",
+      "category": "Access Risk",
+      "severity": "low",
+      "vulnerability": "Read access to pod's service account token",
+      "description": " Accessing the pod service account token gives an attacker the option to use the server API ",
+      "evidence": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkNabmY2NVgxUmR1ZnQzbHJVQVAzZFFUNjBiR0hUVE9SRDNPcURyenlkODgifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6Imx1cmNoZXItdG9rZW4tcGpmNGIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoibHVyY2hlciIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjUzOGVhYjdmLTY1YjAtNDE4Yy04MGI2LTI1NGQxNDQ4ODU3NiIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0Omx1cmNoZXIifQ.cGtQHagQ2xxlAFnWwFRNgGJIkaeZIKnqoYYb8GmxN94ry0wwxCbgBm4Kg33A903wDBxd8iuITTk-r8UPZyYJHoxlVu0pHt-3SAc4NT0ob50R2acVXQ2qj_yJOOQHurCWeOJMkGqtCyUoZ8Xcnc6z32Ao-NWzKD-0wV7ndpKm-ytHP0YpHb9bLUPcQGvFoh_UF132yjeJqzwLPRX6hStMYOa8LNhJGyhdejW3BIOylzVPNkKE5lEjWv9f853qnTKG-TzXHBbth7qV8UHwSoY8YFoMezK3zazQt4dN1VG_wYmZ0ujikTC7TRTGr500kFxfpACKwdQ1M1fXgKJhNv9UgA",
+      "hunter": "Access Secrets"
+    },
+    {
+      "location": "Local to Pod(scan-kube-hunter-in-cluster-4rfff)",
+      "vid": "None",
+      "category": "Access Risk",
+      "severity": "low",
+      "vulnerability": "CAP_NET_RAW Enabled",
+      "description": "CAP_NET_RAW is enabled by default for pods. If an attacker manages to compromise a pod, they could potentially take advantage of this capability to perform network attacks on other pods running on the same node",
+      "evidence": "",
+      "hunter": "Pod Capabilities Hunter"
+    },
+    {
+      "location": "Local to Pod(scan-kube-hunter-in-cluster-4rfff)",
+      "vid": "None",
+      "category": "Access Risk",
+      "severity": "low",
+      "vulnerability": "Access to pod's secrets",
+      "description": " Accessing the pod's secrets within a compromised pod might disclose valuable data to a potential attacker",
+      "evidence": "['/var/run/secrets/kubernetes.io/serviceaccount/namespace', '/var/run/secrets/kubernetes.io/serviceaccount/ca.crt', '/var/run/secrets/kubernetes.io/serviceaccount/token', '/var/run/secrets/kubernetes.io/serviceaccount/..2020_04_03_14_52_24.460746409/ca.crt', '/var/run/secrets/kubernetes.io/serviceaccount/..2020_04_03_14_52_24.460746409/token', '/var/run/secrets/kubernetes.io/serviceaccount/..2020_04_03_14_52_24.460746409/namespace']",
+      "hunter": "Access Secrets"
+    },
+    {
+      "location": "10.96.0.1:443",
+      "vid": "KHV002",
+      "category": "Information Disclosure",
+      "severity": "medium",
+      "vulnerability": "K8s Version Disclosure",
+      "description": "The kubernetes version could be obtained from the /version endpoint ",
+      "evidence": "v1.18.0",
+      "hunter": "Api Version Hunter"
+    },
+    {
+      "location": "10.96.0.1:443",
+      "vid": "KHV005",
+      "category": "Information Disclosure",
+      "severity": "medium",
+      "vulnerability": "Access to API using service account token",
+      "description": " The API Server port is accessible. Depending on your RBAC settings this could expose access to or control of your cluster. ",
+      "evidence": "b'{\"kind\":\"APIVersions\",\"versions\":[\"v1\"],\"serverAddressByClientCIDRs\":[{\"clientCIDR\":\"0.0.0.0/0\",\"serverAddress\":\"172.17.0.2:6443\"}]}\\n'",
+      "hunter": "API Server Hunter"
+    }
+  ],
+  "kburl": "https://aquasecurity.github.io/kube-hunter/kb/{vid}"
+}

@@ -133,7 +133,7 @@ export function isInScope(
           // Split an existing list by comma
           return function (text, render) {
             // We are using a regular expression of the comma delimiter instead of a straight comma because
-            // NodeJS 14.X only replaces the first occurence when using the latter, and the
+            // NodeJS 14.X only replaces the first occurrence when using the latter, and the
             // replaceAll function is only available starting with NodeJS 15.
             // First replace comma with trailing space in case the list is specified as "entry1, entry2".
             // Then replace any leftover commas without a space, in case the list format is "entry1,entry2".
@@ -238,7 +238,7 @@ function operatorIn({scopeAnnotationValue, findingValues}: Operands): boolean {
 }
 
 /**
- * The scope annotation value is considered a comma-seperated list and checks if every finding value is in that list.
+ * The scope annotation value is considered a comma-separated list and checks if every finding value is in that list.
  * Matching example:
  * scopeAnnotationValue: "example.com,subdomain.example.com,other.example.com"
  * findingValues: ["example.com", "subdomain.example.com"]

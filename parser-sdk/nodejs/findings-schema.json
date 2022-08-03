@@ -41,12 +41,7 @@
         "severity": {
           "description": "Indicates the severity of the finding.",
           "type": "string",
-          "enum": [
-            "INFORMATIONAL",
-            "LOW",
-            "MEDIUM",
-            "HIGH"
-          ]
+          "enum": ["INFORMATIONAL", "LOW", "MEDIUM", "HIGH"]
         },
         "attributes": {
           "description": "Attributes are not standardized. They differ from Scanner to Scanner.",
@@ -58,13 +53,7 @@
           "nullable": true
         }
       },
-      "required": [
-        "id",
-        "parsed_at",
-        "severity",
-        "category",
-        "name"
-      ]
+      "required": ["id", "parsed_at", "severity", "category", "name"]
     }
   }
 }

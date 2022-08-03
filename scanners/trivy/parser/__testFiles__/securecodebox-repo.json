@@ -30,9 +30,7 @@
           "Title": "jwt-go: access restriction bypass vulnerability",
           "Description": "jwt-go before 4.0.0-preview1 allows attackers to bypass intended access restrictions in situations with []string{} for m[\"aud\"] (which is allowed by the specification). Because the type assertion fails, \"\" is the value of aud. This is a security problem if the JWT token is presented to a service that lacks its own audience check.",
           "Severity": "HIGH",
-          "CweIDs": [
-            "CWE-862"
-          ],
+          "CweIDs": ["CWE-862"],
           "CVSS": {
             "nvd": {
               "V2Vector": "AV:N/AC:L/Au:N/C:P/I:N/A:N",
@@ -64,9 +62,7 @@
           "Title": "gogo/protobuf: plugin/unmarshal/unmarshal.go lacks certain index validation",
           "Description": "An issue was discovered in GoGo Protobuf before 1.3.2. plugin/unmarshal/unmarshal.go lacks certain index validation, aka the \"skippy peanut butter\" issue.",
           "Severity": "HIGH",
-          "CweIDs": [
-            "CWE-129"
-          ],
+          "CweIDs": ["CWE-129"],
           "CVSS": {
             "nvd": {
               "V2Vector": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
@@ -104,9 +100,7 @@
           "Title": "golang-github-miekg-dns: predictable TXID can lead to response forgeries",
           "Description": "The miekg Go DNS package before 1.1.25, as used in CoreDNS before 1.6.6 and other products, improperly generates random numbers because math/rand is used. The TXID becomes predictable, leading to response forgeries.",
           "Severity": "MEDIUM",
-          "CweIDs": [
-            "CWE-338"
-          ],
+          "CweIDs": ["CWE-338"],
           "CVSS": {
             "nvd": {
               "V2Vector": "AV:N/AC:M/Au:N/C:N/I:P/A:N",
@@ -140,9 +134,7 @@
           "Title": "golang: crypto/ssh: crafted authentication request can lead to nil pointer dereference",
           "Description": "A nil pointer dereference in the golang.org/x/crypto/ssh component through v0.0.0-20201203163018-be400aefbc4c for Go allows remote attackers to cause a denial of service against SSH servers.",
           "Severity": "HIGH",
-          "CweIDs": [
-            "CWE-476"
-          ],
+          "CweIDs": ["CWE-476"],
           "CVSS": {
             "nvd": {
               "V2Vector": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
@@ -222,9 +214,7 @@
           "Title": "jwt-go: access restriction bypass vulnerability",
           "Description": "jwt-go before 4.0.0-preview1 allows attackers to bypass intended access restrictions in situations with []string{} for m[\"aud\"] (which is allowed by the specification). Because the type assertion fails, \"\" is the value of aud. This is a security problem if the JWT token is presented to a service that lacks its own audience check.",
           "Severity": "HIGH",
-          "CweIDs": [
-            "CWE-862"
-          ],
+          "CweIDs": ["CWE-862"],
           "CVSS": {
             "nvd": {
               "V2Vector": "AV:N/AC:L/Au:N/C:P/I:N/A:N",
@@ -256,9 +246,7 @@
           "Title": "gogo/protobuf: plugin/unmarshal/unmarshal.go lacks certain index validation",
           "Description": "An issue was discovered in GoGo Protobuf before 1.3.2. plugin/unmarshal/unmarshal.go lacks certain index validation, aka the \"skippy peanut butter\" issue.",
           "Severity": "HIGH",
-          "CweIDs": [
-            "CWE-129"
-          ],
+          "CweIDs": ["CWE-129"],
           "CVSS": {
             "nvd": {
               "V2Vector": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
@@ -296,9 +284,7 @@
           "Title": "golang: crypto/ssh: crafted authentication request can lead to nil pointer dereference",
           "Description": "A nil pointer dereference in the golang.org/x/crypto/ssh component through v0.0.0-20201203163018-be400aefbc4c for Go allows remote attackers to cause a denial of service against SSH servers.",
           "Severity": "HIGH",
-          "CweIDs": [
-            "CWE-476"
-          ],
+          "CweIDs": ["CWE-476"],
           "CVSS": {
             "nvd": {
               "V2Vector": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
@@ -332,9 +318,7 @@
           "Title": "golang.org/x/crypto: Processing of crafted ssh-ed25519 public keys allows for panic",
           "Description": "golang.org/x/crypto before v0.0.0-20200220183623-bac4c82f6975 for Go allows a panic during signature verification in the golang.org/x/crypto/ssh package. A client can attack an SSH server that accepts public keys. Also, a server can attack any SSH client.",
           "Severity": "HIGH",
-          "CweIDs": [
-            "CWE-347"
-          ],
+          "CweIDs": ["CWE-347"],
           "CVSS": {
             "nvd": {
               "V2Vector": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
@@ -404,9 +388,7 @@
           "Title": "kubernetes: Bearer tokens written to logs at high verbosity levels (\u003e= 7)",
           "Description": "The Kubernetes client-go library logs request headers at verbosity levels of 7 or higher. This can disclose credentials to unauthorized users via logs or command output. Kubernetes components (such as kube-apiserver) prior to v1.16.0, which make use of basic or bearer token authentication, and run at high verbosity levels, are affected.",
           "Severity": "MEDIUM",
-          "CweIDs": [
-            "CWE-532"
-          ],
+          "CweIDs": ["CWE-532"],
           "CVSS": {
             "nvd": {
               "V2Vector": "AV:N/AC:M/Au:S/C:P/I:N/A:N",
@@ -441,9 +423,7 @@
           "Title": "kubernetes: Incomplete fix for CVE-2019-11250 allows for token leak in logs when logLevel \u003e= 9",
           "Description": "In Kubernetes, if the logging level is set to at least 9, authorization and bearer tokens will be written to log files. This can occur both in API server logs and client tool output like kubectl. This affects \u003c= v1.19.3, \u003c= v1.18.10, \u003c= v1.17.13, \u003c v1.20.0-alpha2.",
           "Severity": "MEDIUM",
-          "CweIDs": [
-            "CWE-532"
-          ],
+          "CweIDs": ["CWE-532"],
           "CVSS": {
             "nvd": {
               "V2Vector": "AV:L/AC:L/Au:N/C:P/I:N/A:N",
@@ -482,9 +462,7 @@
           "Title": "jwt-go: access restriction bypass vulnerability",
           "Description": "jwt-go before 4.0.0-preview1 allows attackers to bypass intended access restrictions in situations with []string{} for m[\"aud\"] (which is allowed by the specification). Because the type assertion fails, \"\" is the value of aud. This is a security problem if the JWT token is presented to a service that lacks its own audience check.",
           "Severity": "HIGH",
-          "CweIDs": [
-            "CWE-862"
-          ],
+          "CweIDs": ["CWE-862"],
           "CVSS": {
             "nvd": {
               "V2Vector": "AV:N/AC:L/Au:N/C:P/I:N/A:N",
@@ -516,9 +494,7 @@
           "Title": "gogo/protobuf: plugin/unmarshal/unmarshal.go lacks certain index validation",
           "Description": "An issue was discovered in GoGo Protobuf before 1.3.2. plugin/unmarshal/unmarshal.go lacks certain index validation, aka the \"skippy peanut butter\" issue.",
           "Severity": "HIGH",
-          "CweIDs": [
-            "CWE-129"
-          ],
+          "CweIDs": ["CWE-129"],
           "CVSS": {
             "nvd": {
               "V2Vector": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
@@ -556,9 +532,7 @@
           "Title": "golang-github-miekg-dns: predictable TXID can lead to response forgeries",
           "Description": "The miekg Go DNS package before 1.1.25, as used in CoreDNS before 1.6.6 and other products, improperly generates random numbers because math/rand is used. The TXID becomes predictable, leading to response forgeries.",
           "Severity": "MEDIUM",
-          "CweIDs": [
-            "CWE-338"
-          ],
+          "CweIDs": ["CWE-338"],
           "CVSS": {
             "nvd": {
               "V2Vector": "AV:N/AC:M/Au:N/C:N/I:P/A:N",
@@ -592,9 +566,7 @@
           "Title": "golang: crypto/ssh: crafted authentication request can lead to nil pointer dereference",
           "Description": "A nil pointer dereference in the golang.org/x/crypto/ssh component through v0.0.0-20201203163018-be400aefbc4c for Go allows remote attackers to cause a denial of service against SSH servers.",
           "Severity": "HIGH",
-          "CweIDs": [
-            "CWE-476"
-          ],
+          "CweIDs": ["CWE-476"],
           "CVSS": {
             "nvd": {
               "V2Vector": "AV:N/AC:L/Au:N/C:N/I:N/A:P",

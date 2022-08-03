@@ -1,5 +1,34 @@
 [
-{"target":"http://example.com","http_status":200,"request_config":{"headers":{"User-Agent":"WhatWeb/0.5.5"}},"plugins":{"Country":{"string":["EUROPEAN UNION"],"module":["EU"]},"HTML5":{},"HTTPServer":{"string":["ECS (dcb/7F39)"]},"IP":{"string":["93.184.216.34"]},"Title":{"string":["Example Domain"]}}}
-,
-{"target":"http://scanme.nmap.org","http_status":200,"request_config":{"headers":{"User-Agent":"WhatWeb/0.5.5"}},"plugins":{"Apache":{"version":["2.4.7"]},"Country":{"string":["RESERVED"],"module":["ZZ"]},"Google-Analytics":{"version":["Universal"],"account":["UA-11009417-1"]},"HTTPServer":{"os":["Ubuntu Linux"],"string":["Apache/2.4.7 (Ubuntu)"]},"IP":{"string":["45.33.32.156"]},"Script":{"string":["text/javascript"]},"Title":{"string":["Go ahead and ScanMe!"]}}}
+  {
+    "target": "http://example.com",
+    "http_status": 200,
+    "request_config": { "headers": { "User-Agent": "WhatWeb/0.5.5" } },
+    "plugins": {
+      "Country": { "string": ["EUROPEAN UNION"], "module": ["EU"] },
+      "HTML5": {},
+      "HTTPServer": { "string": ["ECS (dcb/7F39)"] },
+      "IP": { "string": ["93.184.216.34"] },
+      "Title": { "string": ["Example Domain"] }
+    }
+  },
+  {
+    "target": "http://scanme.nmap.org",
+    "http_status": 200,
+    "request_config": { "headers": { "User-Agent": "WhatWeb/0.5.5" } },
+    "plugins": {
+      "Apache": { "version": ["2.4.7"] },
+      "Country": { "string": ["RESERVED"], "module": ["ZZ"] },
+      "Google-Analytics": {
+        "version": ["Universal"],
+        "account": ["UA-11009417-1"]
+      },
+      "HTTPServer": {
+        "os": ["Ubuntu Linux"],
+        "string": ["Apache/2.4.7 (Ubuntu)"]
+      },
+      "IP": { "string": ["45.33.32.156"] },
+      "Script": { "string": ["text/javascript"] },
+      "Title": { "string": ["Go ahead and ScanMe!"] }
+    }
+  }
 ]

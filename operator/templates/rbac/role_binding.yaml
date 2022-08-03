@@ -11,6 +11,6 @@ roleRef:
   kind: ClusterRole
   name: manager-role
 subjects:
-- kind: ServiceAccount
-  name: {{ .Values.serviceAccount.name }}
-  namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: { { .Values.serviceAccount.name } }
+    namespace: { { .Release.Namespace } }

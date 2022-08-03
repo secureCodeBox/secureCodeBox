@@ -14,7 +14,7 @@ spec:
     anyOf:
       - category: "WEB APPLICATION"
         attributes:
-         MetaGenerator: "Joomla! - Open Source Content Management" 
+          MetaGenerator: "Joomla! - Open Source Content Management"
   scanSpec:
     scanType: "cmseek"
     parameters:

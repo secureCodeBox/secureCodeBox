@@ -28,8 +28,8 @@ COLOR_ERROR="\e[31m"
 COLOR_RESET="\e[0m"
 
 # @see: http://wiki.bash-hackers.org/syntax/shellvars
-[ -z "${SCRIPT_DIRECTORY:-}" ] \
-  && SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+[ -z "${SCRIPT_DIRECTORY:-}" ] &&
+  SCRIPT_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null && pwd)"
 
 BASE_DIR=$(dirname "${SCRIPT_DIRECTORY}")
 
@@ -57,7 +57,8 @@ function print() {
 
 function printHelp() {
   local help
-  help=$(cat <<- EOT
+  help=$(
+    cat <<-EOT
 $USAGE
 The installation is interactive if no arguments are provided.
 
@@ -146,8 +147,8 @@ function installResources() {
 
   if [[ $unattended == 'true' ]]; then
     for resource in "${resources[@]}"; do
-      helm upgrade --install -n "$namespace" "$resource" secureCodeBox/"$resource" \
-      || print "$COLOR_ERROR" "Installation of '$resource' failed"
+      helm upgrade --install -n "$namespace" "$resource" secureCodeBox/"$resource" ||
+        print "$COLOR_ERROR" "Installation of '$resource' failed"
     done
 
   else
@@ -157,8 +158,8 @@ function installResources() {
       read -r line
 
       if [[ $line == *[Yy] ]]; then
-        helm upgrade --install -n "$namespace" "$resource" secureCodeBox/"$resource" \
-        || print "$COLOR_ERROR" "Installation of '$resource' failed"
+        helm upgrade --install -n "$namespace" "$resource" secureCodeBox/"$resource" ||
+          print "$COLOR_ERROR" "Installation of '$resource' failed"
       fi
     done
   fi
@@ -250,43 +251,43 @@ function unattendedInstall() {
 
 function parseArguments() {
   if [[ $# == 0 ]]; then
-      INSTALL_INTERACTIVE='true'
-      return
+    INSTALL_INTERACTIVE='true'
+    return
   fi
 
-  while (( "$#" )); do
-        case "$1" in
-          --scanners)
-            INSTALL_SCANNERS='true'
-            shift # Pop current argument from array
-            ;;
-          --demo-targets)
-            INSTALL_DEMO_TARGETS='true'
-            shift
-            ;;
-          --hooks)
-            INSTALL_HOOKS='true'
-            shift
-            ;;
-          --all)
-            INSTALL_SCANNERS='true'
-            INSTALL_DEMO_TARGETS='true'
-            INSTALL_HOOKS='true'
-            shift
-            ;;
-          -h|--help)
-            printHelp
-            exit
-            ;;
-          --*) # unsupported flags
-            print "Error: Unsupported flag $1" >&2
-            print "$USAGE"
-            exit 1
-            ;;
-          *) # preserve positional arguments
-            shift
-            ;;
-        esac
+  while (("$#")); do
+    case "$1" in
+    --scanners)
+      INSTALL_SCANNERS='true'
+      shift # Pop current argument from array
+      ;;
+    --demo-targets)
+      INSTALL_DEMO_TARGETS='true'
+      shift
+      ;;
+    --hooks)
+      INSTALL_HOOKS='true'
+      shift
+      ;;
+    --all)
+      INSTALL_SCANNERS='true'
+      INSTALL_DEMO_TARGETS='true'
+      INSTALL_HOOKS='true'
+      shift
+      ;;
+    -h | --help)
+      printHelp
+      exit
+      ;;
+    --*) # unsupported flags
+      print "Error: Unsupported flag $1" >&2
+      print "$USAGE"
+      exit 1
+      ;;
+    *) # preserve positional arguments
+      shift
+      ;;
+    esac
   done
 }
 
@@ -315,7 +316,7 @@ helm repo add secureCodeBox https://charts.securecodebox.io
 createNamespaceAndInstallOperator
 
 if [[ -n "${INSTALL_INTERACTIVE}" ]]; then
-    interactiveInstall
+  interactiveInstall
 else
-    unattendedInstall
+  unattendedInstall
 fi

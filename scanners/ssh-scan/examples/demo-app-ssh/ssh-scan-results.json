@@ -58,24 +58,11 @@
       "hmac-sha2-512",
       "hmac-sha1"
     ],
-    "compression_algorithms_client_to_server": [
-      "none",
-      "zlib@openssh.com"
-    ],
-    "compression_algorithms_server_to_client": [
-      "none",
-      "zlib@openssh.com"
-    ],
-    "languages_client_to_server": [
-
-    ],
-    "languages_server_to_client": [
-
-    ],
-    "auth_methods": [
-      "publickey",
-      "password"
-    ],
+    "compression_algorithms_client_to_server": ["none", "zlib@openssh.com"],
+    "compression_algorithms_server_to_client": ["none", "zlib@openssh.com"],
+    "languages_client_to_server": [],
+    "languages_server_to_client": [],
+    "auth_methods": ["publickey", "password"],
     "keys": {
       "rsa": {
         "raw": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDm2L8IYocSd9gmOCacv/W8rYTloYr3xqOiP65rdu1pqoRkhgdIe4KluDj3dor/cuPwl0W/E3v9eI5HJTJ0WfbPVUzNTDCoX+Fj4g2kdwGQdhePlYjfEBeLxze2cNK5bVP2ngjRAkhgDl9w0oQoFVAi4rpzvyu5xOO/YcmE0hMboQmAL5ckWxZNP3XPrEbxqUUzb1B5QU7oq2D8oh9o8WaLvTplssBH3ut/i7e4Tva2Y6d+lwlB4lep1Tat0sNyn8P5l5acprjA6CM4Dd2bd1mz/1L4hhX4bAx5fhuDGbM1OJvsLiDQx3Eic5q5iCrBFpjTs/4m4W3aLAo1jgXziMGv",
@@ -105,12 +92,8 @@
         }
       }
     },
-    "dns_keys": [
-
-    ],
-    "duplicate_host_key_ips": [
-
-    ],
+    "dns_keys": [],
+    "duplicate_host_key_ips": [],
     "compliance": {
       "policy": "Mozilla Modern",
       "compliant": false,
@@ -119,9 +102,7 @@
         "Remove these MAC algorithms: umac-64-etm@openssh.com, hmac-sha1-etm@openssh.com, umac-64@openssh.com, hmac-sha1",
         "Remove these authentication methods: password"
       ],
-      "references": [
-        "https://wiki.mozilla.org/Security/Guidelines/OpenSSH"
-      ],
+      "references": ["https://wiki.mozilla.org/Security/Guidelines/OpenSSH"],
       "grade": "D"
     },
     "start_time": "2020-06-28 17:55:43 +0000",

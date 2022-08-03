@@ -1,211 +1,207 @@
 {
-    "errors": [],
-    "results": [
-      {
-        "check_id": "python.django.security.injection.command.command-injection-os-system.command-injection-os-system",
-        "end": {
-          "col": 29,
-          "line": 6,
-          "offset": 131
-        },
-        "extra": {
-          "is_ignored": false,
-          "lines": "    url = request.GET['url']\n    os.system('wget ' + url)",
-          "message": "Request data detected in os.system. This could be vulnerable to a command injection and should be avoided. If this must be done, use the 'subprocess' module instead and pass the arguments as a list. See https://owasp.org/www-community/attacks/Command_Injection for more information.",
-          "metadata": {
-            "category": "security",
-            "cwe": "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
-            "license": "Commons Clause License Condition v1.0[LGPL-2.1-only]",
-            "owasp": "A1: Injection",
-            "references": [
-              "https://owasp.org/www-community/attacks/Command_Injection"
-            ],
-            "source": "https://semgrep.dev/r/python.django.security.injection.command.command-injection-os-system.command-injection-os-system",
-            "technology": [
-              "django"
-            ]
-          },
-          "metavars": {
-            "$DATA": {
-              "abstract_content": "url",
-              "end": {
-                "col": 8,
-                "line": 5,
-                "offset": 81
-              },
-              "start": {
-                "col": 5,
-                "line": 5,
-                "offset": 78
-              },
-              "unique_id": {
-                "sid": 2,
-                "type": "id"
-              }
-            },
-            "$FUNC": {
-              "abstract_content": "danger",
-              "end": {
-                "col": 11,
-                "line": 3,
-                "offset": 21
-              },
-              "start": {
-                "col": 5,
-                "line": 3,
-                "offset": 15
-              },
-              "unique_id": {
-                "md5sum": "e464e589a56001f3802f41abb5379c2f",
-                "type": "AST"
-              }
-            },
-            "$STR": {
-              "abstract_content": "'wget '",
-              "end": {
-                "col": 22,
-                "line": 6,
-                "offset": 124
-              },
-              "start": {
-                "col": 15,
-                "line": 6,
-                "offset": 117
-              },
-              "unique_id": {
-                "md5sum": "59ca841b827335bd089d3c8a878a2484",
-                "type": "AST"
-              }
-            },
-            "$W": {
-              "abstract_content": "GET",
-              "end": {
-                "col": 22,
-                "line": 5,
-                "offset": 95
-              },
-              "start": {
-                "col": 19,
-                "line": 5,
-                "offset": 92
-              },
-              "unique_id": {
-                "md5sum": "9ed5273ba88f285705ba04822846d293",
-                "type": "AST"
-              }
-            }
-          },
-          "severity": "WARNING"
-        },
-        "path": "test.py",
-        "start": {
-          "col": 5,
-          "line": 5,
-          "offset": 78
-        }
+  "errors": [],
+  "results": [
+    {
+      "check_id": "python.django.security.injection.command.command-injection-os-system.command-injection-os-system",
+      "end": {
+        "col": 29,
+        "line": 6,
+        "offset": 131
       },
-      {
-        "check_id": "python.django.security.injection.command.command-injection-os-system.command-injection-os-system",
-        "end": {
-          "col": 52,
-          "line": 11,
-          "offset": 282
+      "extra": {
+        "is_ignored": false,
+        "lines": "    url = request.GET['url']\n    os.system('wget ' + url)",
+        "message": "Request data detected in os.system. This could be vulnerable to a command injection and should be avoided. If this must be done, use the 'subprocess' module instead and pass the arguments as a list. See https://owasp.org/www-community/attacks/Command_Injection for more information.",
+        "metadata": {
+          "category": "security",
+          "cwe": "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
+          "license": "Commons Clause License Condition v1.0[LGPL-2.1-only]",
+          "owasp": "A1: Injection",
+          "references": [
+            "https://owasp.org/www-community/attacks/Command_Injection"
+          ],
+          "source": "https://semgrep.dev/r/python.django.security.injection.command.command-injection-os-system.command-injection-os-system",
+          "technology": ["django"]
         },
-        "extra": {
-          "is_ignored": false,
-          "lines": "    image = request.POST['image']\n    os.system(\"./face-recognize %s --N 24\" % image)",
-          "message": "Request data detected in os.system. This could be vulnerable to a command injection and should be avoided. If this must be done, use the 'subprocess' module instead and pass the arguments as a list. See https://owasp.org/www-community/attacks/Command_Injection for more information.",
-          "metadata": {
-            "category": "security",
-            "cwe": "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
-            "license": "Commons Clause License Condition v1.0[LGPL-2.1-only]",
-            "owasp": "A1: Injection",
-            "references": [
-              "https://owasp.org/www-community/attacks/Command_Injection"
-            ],
-            "source": "https://semgrep.dev/r/python.django.security.injection.command.command-injection-os-system.command-injection-os-system",
-            "technology": [
-              "django"
-            ]
-          },
-          "metavars": {
-            "$DATA": {
-              "abstract_content": "image",
-              "end": {
-                "col": 10,
-                "line": 10,
-                "offset": 206
-              },
-              "start": {
-                "col": 5,
-                "line": 10,
-                "offset": 201
-              },
-              "unique_id": {
-                "sid": 4,
-                "type": "id"
-              }
+        "metavars": {
+          "$DATA": {
+            "abstract_content": "url",
+            "end": {
+              "col": 8,
+              "line": 5,
+              "offset": 81
             },
-            "$FUNC": {
-              "abstract_content": "danger2",
-              "end": {
-                "col": 12,
-                "line": 8,
-                "offset": 144
-              },
-              "start": {
-                "col": 5,
-                "line": 8,
-                "offset": 137
-              },
-              "unique_id": {
-                "md5sum": "f96ed4f1b3cc6e9796774e5f8b825527",
-                "type": "AST"
-              }
+            "start": {
+              "col": 5,
+              "line": 5,
+              "offset": 78
             },
-            "$STR": {
-              "abstract_content": "\"./face-recognize %s --N 24\"",
-              "end": {
-                "col": 43,
-                "line": 11,
-                "offset": 273
-              },
-              "start": {
-                "col": 15,
-                "line": 11,
-                "offset": 245
-              },
-              "unique_id": {
-                "md5sum": "c0d11430e9dd2fdc70d5fa03bcf2cc46",
-                "type": "AST"
-              }
-            },
-            "$W": {
-              "abstract_content": "POST",
-              "end": {
-                "col": 25,
-                "line": 10,
-                "offset": 221
-              },
-              "start": {
-                "col": 21,
-                "line": 10,
-                "offset": 217
-              },
-              "unique_id": {
-                "md5sum": "2976ab2fedc9ac86ab8ba5a7e10329ac",
-                "type": "AST"
-              }
+            "unique_id": {
+              "sid": 2,
+              "type": "id"
             }
           },
-          "severity": "WARNING"
+          "$FUNC": {
+            "abstract_content": "danger",
+            "end": {
+              "col": 11,
+              "line": 3,
+              "offset": 21
+            },
+            "start": {
+              "col": 5,
+              "line": 3,
+              "offset": 15
+            },
+            "unique_id": {
+              "md5sum": "e464e589a56001f3802f41abb5379c2f",
+              "type": "AST"
+            }
+          },
+          "$STR": {
+            "abstract_content": "'wget '",
+            "end": {
+              "col": 22,
+              "line": 6,
+              "offset": 124
+            },
+            "start": {
+              "col": 15,
+              "line": 6,
+              "offset": 117
+            },
+            "unique_id": {
+              "md5sum": "59ca841b827335bd089d3c8a878a2484",
+              "type": "AST"
+            }
+          },
+          "$W": {
+            "abstract_content": "GET",
+            "end": {
+              "col": 22,
+              "line": 5,
+              "offset": 95
+            },
+            "start": {
+              "col": 19,
+              "line": 5,
+              "offset": 92
+            },
+            "unique_id": {
+              "md5sum": "9ed5273ba88f285705ba04822846d293",
+              "type": "AST"
+            }
+          }
         },
-        "path": "test.py",
-        "start": {
-          "col": 5,
-          "line": 10,
-          "offset": 201
-        }
+        "severity": "WARNING"
+      },
+      "path": "test.py",
+      "start": {
+        "col": 5,
+        "line": 5,
+        "offset": 78
       }
-    ]
-  }
+    },
+    {
+      "check_id": "python.django.security.injection.command.command-injection-os-system.command-injection-os-system",
+      "end": {
+        "col": 52,
+        "line": 11,
+        "offset": 282
+      },
+      "extra": {
+        "is_ignored": false,
+        "lines": "    image = request.POST['image']\n    os.system(\"./face-recognize %s --N 24\" % image)",
+        "message": "Request data detected in os.system. This could be vulnerable to a command injection and should be avoided. If this must be done, use the 'subprocess' module instead and pass the arguments as a list. See https://owasp.org/www-community/attacks/Command_Injection for more information.",
+        "metadata": {
+          "category": "security",
+          "cwe": "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
+          "license": "Commons Clause License Condition v1.0[LGPL-2.1-only]",
+          "owasp": "A1: Injection",
+          "references": [
+            "https://owasp.org/www-community/attacks/Command_Injection"
+          ],
+          "source": "https://semgrep.dev/r/python.django.security.injection.command.command-injection-os-system.command-injection-os-system",
+          "technology": ["django"]
+        },
+        "metavars": {
+          "$DATA": {
+            "abstract_content": "image",
+            "end": {
+              "col": 10,
+              "line": 10,
+              "offset": 206
+            },
+            "start": {
+              "col": 5,
+              "line": 10,
+              "offset": 201
+            },
+            "unique_id": {
+              "sid": 4,
+              "type": "id"
+            }
+          },
+          "$FUNC": {
+            "abstract_content": "danger2",
+            "end": {
+              "col": 12,
+              "line": 8,
+              "offset": 144
+            },
+            "start": {
+              "col": 5,
+              "line": 8,
+              "offset": 137
+            },
+            "unique_id": {
+              "md5sum": "f96ed4f1b3cc6e9796774e5f8b825527",
+              "type": "AST"
+            }
+          },
+          "$STR": {
+            "abstract_content": "\"./face-recognize %s --N 24\"",
+            "end": {
+              "col": 43,
+              "line": 11,
+              "offset": 273
+            },
+            "start": {
+              "col": 15,
+              "line": 11,
+              "offset": 245
+            },
+            "unique_id": {
+              "md5sum": "c0d11430e9dd2fdc70d5fa03bcf2cc46",
+              "type": "AST"
+            }
+          },
+          "$W": {
+            "abstract_content": "POST",
+            "end": {
+              "col": 25,
+              "line": 10,
+              "offset": 221
+            },
+            "start": {
+              "col": 21,
+              "line": 10,
+              "offset": 217
+            },
+            "unique_id": {
+              "md5sum": "2976ab2fedc9ac86ab8ba5a7e10329ac",
+              "type": "AST"
+            }
+          }
+        },
+        "severity": "WARNING"
+      },
+      "path": "test.py",
+      "start": {
+        "col": 5,
+        "line": 10,
+        "offset": 201
+      }
+    }
+  ]
+}

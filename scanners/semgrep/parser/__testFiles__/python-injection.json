@@ -21,9 +21,7 @@
             "https://owasp.org/www-community/attacks/Command_Injection"
           ],
           "source": "https://semgrep.dev/r/python.django.security.injection.command.command-injection-os-system.command-injection-os-system",
-          "technology": [
-            "django"
-          ]
+          "technology": ["django"]
         },
         "metavars": {
           "$DATA": {

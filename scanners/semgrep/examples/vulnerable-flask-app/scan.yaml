@@ -18,7 +18,7 @@ spec:
     - name: "provision-git"
       image: bitnami/git
       command:
-        - git 
+        - git
         - clone
         - "https://github.com/we45/Vulnerable-Flask-App"
         - /test/flask

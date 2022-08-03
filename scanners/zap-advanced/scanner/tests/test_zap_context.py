@@ -6,18 +6,16 @@
 
 # -*- coding: utf-8 -*-
 
-import pytest
-
-from unittest.mock import MagicMock, Mock, patch
 from unittest import TestCase
+from unittest.mock import MagicMock, Mock, patch
 
-from zapv2 import ZAPv2
-
+import pytest
 from zapclient.configuration import ZapConfiguration
 from zapclient.context.zap_context import ZapConfigureContext
+from zapv2 import ZAPv2
+
 
 class ZapScannerTests(TestCase):
-
     @pytest.mark.unit
     def test_context_empty(self):
         pass
@@ -28,4 +26,3 @@ class ZapScannerTests(TestCase):
 
         # testobject = ZapConfigureContext(mock_zap, mock_config)
         # testobject.configure_contexts()
-

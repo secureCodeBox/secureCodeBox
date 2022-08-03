@@ -8,7 +8,7 @@ metadata:
   annotations:
     description: DeclarativeCombinedScansHooks needs to have the rights to create new scans and the usual patch rules to update the scan status
   name: cascading-scans
-  namespace: {{ .Release.Namespace }}
+  namespace: { { .Release.Namespace } }
 rules:
   - apiGroups:
       - execution.securecodebox.io

@@ -58,32 +58,16 @@
       "hmac-sha2-512",
       "hmac-sha1"
     ],
-    "compression_algorithms_client_to_server": [
-      "none",
-      "zlib@openssh.com"
-    ],
-    "compression_algorithms_server_to_client": [
-      "none",
-      "zlib@openssh.com"
-    ],
-    "languages_client_to_server": [
-
-    ],
-    "languages_server_to_client": [
-
-    ],
-    "auth_methods": [
-      "publickey"
-    ],
+    "compression_algorithms_client_to_server": ["none", "zlib@openssh.com"],
+    "compression_algorithms_server_to_client": ["none", "zlib@openssh.com"],
+    "languages_client_to_server": [],
+    "languages_server_to_client": [],
+    "auth_methods": ["publickey"],
     "keys": {
       "removed_in_this_mock_file_for_space_reasons": true
     },
-    "dns_keys": [
-
-    ],
-    "duplicate_host_key_ips": [
-
-    ],
+    "dns_keys": [],
+    "duplicate_host_key_ips": [],
     "compliance": {
       "policy": "Mozilla Modern",
       "compliant": false,
@@ -91,9 +75,7 @@
         "Remove these key exchange algorithms: diffie-hellman-group14-sha1",
         "Remove these MAC algorithms: umac-64-etm@openssh.com, hmac-sha1-etm@openssh.com, umac-64@openssh.com, hmac-sha1"
       ],
-      "references": [
-        "https://wiki.mozilla.org/Security/Guidelines/OpenSSH"
-      ],
+      "references": ["https://wiki.mozilla.org/Security/Guidelines/OpenSSH"],
       "grade": "C"
     },
     "start_time": "2019-10-03 18:28:08 +0200",

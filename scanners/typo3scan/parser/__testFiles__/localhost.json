@@ -1,437 +1,423 @@
 {
-   "http://localhost:80":{
-      "Backend":"http://localhost:80/typo3/index.php",
-      "Version":"8.7",
-      "Vulnerabilities":[
-         {
-            "Advisory":"TYPO3-CORE-SA-2019-026",
-            "Type":"Insecure Deserialization",
-            "Subcomponent":"Query Generator & Query View (ext:lowlevel, ext:core)",
-            "Affected":"8.7.29 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2019-026"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2019-025",
-            "Type":"SQL Injection",
-            "Subcomponent":"Query Generator (ext:lowlevel)",
-            "Affected":"8.7.29 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2019-025"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2019-024",
-            "Type":"Directory Traversal",
-            "Subcomponent":"Extension Manager (ext:extensionmanger)",
-            "Affected":"8.7.29 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2019-024"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2019-023",
-            "Type":"Cross-Site Scripting",
-            "Subcomponent":"Filelist Module (ext:filelist)",
-            "Affected":"8.7.29 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2019-023"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2019-022",
-            "Type":"Cross-Site Scripting",
-            "Subcomponent":"Link Handling (ext:core, ext:frontend)",
-            "Affected":"8.7.29 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2019-022"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2019-021",
-            "Type":"Cross-Site Scripting",
-            "Subcomponent":"Form Framework (ext:form)",
-            "Affected":"8.7.29 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2019-021"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2019-020",
-            "Type":"Insecure Deserialization",
-            "Subcomponent":"Backend & Core API (ext:backend, ext:core)",
-            "Affected":"8.7.26 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2019-020"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2019-019",
-            "Type":"Arbitrary Code Execution, Cross-Site Scripting",
-            "Subcomponent":"Backend API (ext:backend)",
-            "Affected":"8.7.26 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2019-019"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2019-018",
-            "Type":"Security Misconfiguration",
-            "Subcomponent":"Frontend Session Handling (ext:frontend)",
-            "Affected":"8.7.26 - 8.5.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2019-018"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2019-015",
-            "Type":"Cross-Site Scripting",
-            "Subcomponent":"Link Handling (ext:core)",
-            "Affected":"8.7.26 - 8.3.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2019-015"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2019-014",
-            "Type":"Information Disclosure",
-            "Subcomponent":"Backend User Interface (ext:backend)",
-            "Affected":"8.7.26 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2019-014"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2019-013",
-            "Type":"Cross-Site Scripting",
-            "Subcomponent":"Fluid Engine (package typo3fluid/fluid)",
-            "Affected":"8.7.24 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2019-013"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2019-012",
-            "Type":"Arbitrary Code Execution",
-            "Subcomponent":"Image Processing via ImageMagick (ext:core)",
-            "Affected":"8.7.24 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2019-012"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2019-011",
-            "Type":"Security Misconfiguration",
-            "Subcomponent":"User Session Handling (ext:core)",
-            "Affected":"8.7.24 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2019-011"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2019-008",
-            "Type":"Arbitrary Code Execution",
-            "Subcomponent":"File List (ext:filelist)",
-            "Affected":"8.7.22 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2019-008"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2019-007",
-            "Type":"Cross-Site Scripting",
-            "Subcomponent":"Form Framework (ext:form)",
-            "Affected":"8.7.22 - 8.5.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2019-007"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2019-006",
-            "Type":"Cross-Site Scripting",
-            "Subcomponent":"3rd party library Bootstrap CSS toolkit",
-            "Affected":"8.7.22 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2019-006"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2019-005",
-            "Type":"Cross-Site Scripting",
-            "Subcomponent":"Fluid (ext:fluid)",
-            "Affected":"8.7.22 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2019-005"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2019-003",
-            "Type":"Broken Access Control",
-            "Subcomponent":"Localization Handling",
-            "Affected":"8.7.22 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2019-003"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2019-002",
-            "Type":"Security Misconfiguration",
-            "Subcomponent":"Backend User Account Model (ext:core)",
-            "Affected":"8.7.22 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2019-002"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2019-001",
-            "Type":"Information Disclosure",
-            "Subcomponent":"RequireJS package configuration",
-            "Affected":"8.7.22 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2019-001"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2018-012",
-            "Type":"Denial of Service",
-            "Subcomponent":"Frontend Session Handling",
-            "Affected":"8.7.20 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2018-012"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2018-011",
-            "Type":"Denial of Service",
-            "Subcomponent":"Online media asset handling",
-            "Affected":"8.7.20 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2018-011"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2018-010",
-            "Type":"Information Disclosure",
-            "Subcomponent":"Install Tool",
-            "Affected":"8.7.20 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2018-010"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2018-009",
-            "Type":"Security Misconfiguration",
-            "Subcomponent":"Install Tool Session Handling",
-            "Affected":"8.7.20 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2018-009"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2018-008",
-            "Type":"Cross-Site Scripting",
-            "Subcomponent":"Frontend user login",
-            "Affected":"8.7.20 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2018-008"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2018-007",
-            "Type":"Cross-Site Scripting",
-            "Subcomponent":"Backend modal component",
-            "Affected":"8.7.20 - 8.5.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2018-007"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2018-006",
-            "Type":"Cross-Site Scripting",
-            "Subcomponent":"Online media asset rendering",
-            "Affected":"8.7.20 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2018-006"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2018-005",
-            "Type":"Cross-Site Scripting",
-            "Subcomponent":"3rd party JavaScript library CKEditor",
-            "Affected":"8.7.20 - 8.5.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2018-005"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2018-004",
-            "Type":"Insecure Deserialization",
-            "Subcomponent":"Form Framework (ext:form)",
-            "Affected":"8.7.16 - 8.5.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2018-004"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2018-003",
-            "Type":"Privilege Escalation & SQL Injection",
-            "Subcomponent":"Form Framework (ext:form)",
-            "Affected":"8.7.16 - 8.5.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2018-003"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2018-002",
-            "Type":"Insecure Deserialization & Arbitrary Code Execution",
-            "Subcomponent":"TYPO3 CMS",
-            "Affected":"8.7.16 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2018-002"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2018-001",
-            "Type":"Authentication Bypass",
-            "Subcomponent":"Salted Passwords (ext:saltedpasswords)",
-            "Affected":"8.7.16 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2018-001"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2017-007",
-            "Type":"Arbitrary Code Execution",
-            "Subcomponent":"TYPO3 CMS",
-            "Affected":"8.7.4 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2017-007"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2017-005",
-            "Type":"Information Disclosure",
-            "Subcomponent":"TYPO3 CMS",
-            "Affected":"8.7.4 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2017-005"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2017-006",
-            "Type":"Information Disclosure",
-            "Subcomponent":"TYPO3 CMS",
-            "Affected":"8.7.4 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2017-006"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2017-004",
-            "Type":"Cross-Site Scripting",
-            "Subcomponent":"TYPO3 CMS",
-            "Affected":"8.7.4 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2017-004"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2020-011",
-            "Type":"Sensitive Data Exposure",
-            "Subcomponent":"Session Storage (ext:core)",
-            "Affected":"8.7.37 - 8.7.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2020-011"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2020-010",
-            "Type":"Cross-Site Scripting",
-            "Subcomponent":"Fluid (ext:fluid)",
-            "Affected":"8.7.37 - 8.7.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2020-010"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2020-009",
-            "Type":"Cross-Site Scripting",
-            "Subcomponent":"Fluid Engine (package typo3fluid/fluid)",
-            "Affected":"8.7.37 - 8.7.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2020-009"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2021-008",
-            "Type":"Cross-Site Scripting",
-            "Subcomponent":"Content Preview Renderer (ext:backend)",
-            "Affected":"8.7.39 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2021-008"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2021-006",
-            "Type":"Sensitive Data Exposure",
-            "Subcomponent":"Session Storage (ext:core)",
-            "Affected":"8.7.39 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2021-006"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2021-003",
-            "Type":"Broken Access Control",
-            "Subcomponent":"Form Framework (ext:form)",
-            "Affected":"8.7.39 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2021-003"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2021-002",
-            "Type":"Unrestricted File Upload",
-            "Subcomponent":"Form Framework (ext:form)",
-            "Affected":"8.7.39 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2021-002"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2021-001",
-            "Type":"Open Redirection",
-            "Subcomponent":"Login Handling (ext:core)",
-            "Affected":"8.7.39 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2021-001"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2021-013",
-            "Type":"Cross-Site-Scripting",
-            "Subcomponent":"Content Rendering, HTML Parser (ext:frontend, ext:core)",
-            "Affected":"8.7.41 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2021-013"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2021-012",
-            "Type":"Information Disclosure",
-            "Subcomponent":"User Authentication (ext:core)",
-            "Affected":"8.7.40 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2021-012"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2021-011",
-            "Type":"Cross-Site Scripting",
-            "Subcomponent":"Backend Grid View (ext:backend)",
-            "Affected":"8.7.40 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2021-011"
-         },
-         {
-            "Advisory":"TYPO3-CORE-SA-2021-010",
-            "Type":"Cross-Site Scripting",
-            "Subcomponent":"Query Generator & Query View (ext:lowlevel, ext:core)",
-            "Affected":"8.7.40 - 8.0.0",
-            "Advisory URL":"https://typo3.org/security/advisory/typo3-core-sa-2021-010"
-         }
-      ],
-      "Extensions":[
-         {
-            "Name":"extbase",
-            "Title":"Log4Php",
-            "Repo":"https://extensions.typo3.org/extension/extbase",
-            "Current":"1.1.1 (alpha)",
-            "Url":"http://localhost:80/typo3/sysext/extbase/",
-            "Version":"unknown",
-            "Version File":"not found",
-            "Vulnerabilities":[
-               
-            ]
-         },
-         {
-            "Name":"feedit",
-            "Title":"Frontend Editing",
-            "Repo":"https://extensions.typo3.org/extension/feedit",
-            "Current":"10.0.2 (stable)",
-            "Url":"http://localhost:80/typo3/sysext/feedit/",
-            "Version":"unknown",
-            "Version File":"not found",
-            "Vulnerabilities":[
-               
-            ]
-         },
-         {
-            "Name":"func",
-            "Title":"WebFunc",
-            "Repo":"https://extensions.typo3.org/extension/func",
-            "Current":"9.0.1 (stable)",
-            "Url":"http://localhost:80/typo3/sysext/func/",
-            "Version":"unknown",
-            "Version File":"not found",
-            "Vulnerabilities":[
-               
-            ]
-         },
-         {
-            "Name":"rsaauth",
-            "Title":"RSA authentication for TYPO3",
-            "Repo":"https://extensions.typo3.org/extension/rsaauth",
-            "Current":"10.0.1 (deprecated)",
-            "Url":"http://localhost:80/typo3/sysext/rsaauth/",
-            "Version":"unknown",
-            "Version File":"not found",
-            "Vulnerabilities":[
-               
-            ]
-         },
-         {
-            "Name":"sys_action",
-            "Title":"UserTask Center, Actions",
-            "Repo":"https://extensions.typo3.org/extension/sys_action",
-            "Current":"10.0.0 (stable)",
-            "Url":"http://localhost:80/typo3/sysext/sys_action/",
-            "Version":"unknown",
-            "Version File":"not found",
-            "Vulnerabilities":[
-               
-            ]
-         },
-         {
-            "Name":"taskcenter",
-            "Title":"UserTask Center",
-            "Repo":"https://extensions.typo3.org/extension/taskcenter",
-            "Current":"10.0.0 (stable)",
-            "Url":"http://localhost:80/typo3/sysext/taskcenter/",
-            "Version":"unknown",
-            "Version File":"not found",
-            "Vulnerabilities":[
-               
-            ]
-         },
-         {
-            "Name":"tstemplate",
-            "Title":"WebTemplate",
-            "Repo":"https://extensions.typo3.org/extension/tstemplate",
-            "Current":"0.0.5 (stable)",
-            "Url":"http://localhost:80/typo3/sysext/tstemplate/",
-            "Version":"unknown",
-            "Version File":"not found",
-            "Vulnerabilities":[
-               
-            ]
-         }
-      ]
-   }
+  "http://localhost:80": {
+    "Backend": "http://localhost:80/typo3/index.php",
+    "Version": "8.7",
+    "Vulnerabilities": [
+      {
+        "Advisory": "TYPO3-CORE-SA-2019-026",
+        "Type": "Insecure Deserialization",
+        "Subcomponent": "Query Generator & Query View (ext:lowlevel, ext:core)",
+        "Affected": "8.7.29 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2019-026"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2019-025",
+        "Type": "SQL Injection",
+        "Subcomponent": "Query Generator (ext:lowlevel)",
+        "Affected": "8.7.29 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2019-025"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2019-024",
+        "Type": "Directory Traversal",
+        "Subcomponent": "Extension Manager (ext:extensionmanger)",
+        "Affected": "8.7.29 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2019-024"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2019-023",
+        "Type": "Cross-Site Scripting",
+        "Subcomponent": "Filelist Module (ext:filelist)",
+        "Affected": "8.7.29 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2019-023"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2019-022",
+        "Type": "Cross-Site Scripting",
+        "Subcomponent": "Link Handling (ext:core, ext:frontend)",
+        "Affected": "8.7.29 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2019-022"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2019-021",
+        "Type": "Cross-Site Scripting",
+        "Subcomponent": "Form Framework (ext:form)",
+        "Affected": "8.7.29 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2019-021"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2019-020",
+        "Type": "Insecure Deserialization",
+        "Subcomponent": "Backend & Core API (ext:backend, ext:core)",
+        "Affected": "8.7.26 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2019-020"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2019-019",
+        "Type": "Arbitrary Code Execution, Cross-Site Scripting",
+        "Subcomponent": "Backend API (ext:backend)",
+        "Affected": "8.7.26 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2019-019"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2019-018",
+        "Type": "Security Misconfiguration",
+        "Subcomponent": "Frontend Session Handling (ext:frontend)",
+        "Affected": "8.7.26 - 8.5.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2019-018"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2019-015",
+        "Type": "Cross-Site Scripting",
+        "Subcomponent": "Link Handling (ext:core)",
+        "Affected": "8.7.26 - 8.3.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2019-015"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2019-014",
+        "Type": "Information Disclosure",
+        "Subcomponent": "Backend User Interface (ext:backend)",
+        "Affected": "8.7.26 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2019-014"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2019-013",
+        "Type": "Cross-Site Scripting",
+        "Subcomponent": "Fluid Engine (package typo3fluid/fluid)",
+        "Affected": "8.7.24 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2019-013"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2019-012",
+        "Type": "Arbitrary Code Execution",
+        "Subcomponent": "Image Processing via ImageMagick (ext:core)",
+        "Affected": "8.7.24 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2019-012"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2019-011",
+        "Type": "Security Misconfiguration",
+        "Subcomponent": "User Session Handling (ext:core)",
+        "Affected": "8.7.24 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2019-011"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2019-008",
+        "Type": "Arbitrary Code Execution",
+        "Subcomponent": "File List (ext:filelist)",
+        "Affected": "8.7.22 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2019-008"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2019-007",
+        "Type": "Cross-Site Scripting",
+        "Subcomponent": "Form Framework (ext:form)",
+        "Affected": "8.7.22 - 8.5.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2019-007"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2019-006",
+        "Type": "Cross-Site Scripting",
+        "Subcomponent": "3rd party library Bootstrap CSS toolkit",
+        "Affected": "8.7.22 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2019-006"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2019-005",
+        "Type": "Cross-Site Scripting",
+        "Subcomponent": "Fluid (ext:fluid)",
+        "Affected": "8.7.22 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2019-005"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2019-003",
+        "Type": "Broken Access Control",
+        "Subcomponent": "Localization Handling",
+        "Affected": "8.7.22 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2019-003"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2019-002",
+        "Type": "Security Misconfiguration",
+        "Subcomponent": "Backend User Account Model (ext:core)",
+        "Affected": "8.7.22 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2019-002"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2019-001",
+        "Type": "Information Disclosure",
+        "Subcomponent": "RequireJS package configuration",
+        "Affected": "8.7.22 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2019-001"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2018-012",
+        "Type": "Denial of Service",
+        "Subcomponent": "Frontend Session Handling",
+        "Affected": "8.7.20 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2018-012"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2018-011",
+        "Type": "Denial of Service",
+        "Subcomponent": "Online media asset handling",
+        "Affected": "8.7.20 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2018-011"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2018-010",
+        "Type": "Information Disclosure",
+        "Subcomponent": "Install Tool",
+        "Affected": "8.7.20 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2018-010"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2018-009",
+        "Type": "Security Misconfiguration",
+        "Subcomponent": "Install Tool Session Handling",
+        "Affected": "8.7.20 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2018-009"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2018-008",
+        "Type": "Cross-Site Scripting",
+        "Subcomponent": "Frontend user login",
+        "Affected": "8.7.20 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2018-008"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2018-007",
+        "Type": "Cross-Site Scripting",
+        "Subcomponent": "Backend modal component",
+        "Affected": "8.7.20 - 8.5.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2018-007"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2018-006",
+        "Type": "Cross-Site Scripting",
+        "Subcomponent": "Online media asset rendering",
+        "Affected": "8.7.20 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2018-006"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2018-005",
+        "Type": "Cross-Site Scripting",
+        "Subcomponent": "3rd party JavaScript library CKEditor",
+        "Affected": "8.7.20 - 8.5.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2018-005"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2018-004",
+        "Type": "Insecure Deserialization",
+        "Subcomponent": "Form Framework (ext:form)",
+        "Affected": "8.7.16 - 8.5.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2018-004"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2018-003",
+        "Type": "Privilege Escalation & SQL Injection",
+        "Subcomponent": "Form Framework (ext:form)",
+        "Affected": "8.7.16 - 8.5.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2018-003"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2018-002",
+        "Type": "Insecure Deserialization & Arbitrary Code Execution",
+        "Subcomponent": "TYPO3 CMS",
+        "Affected": "8.7.16 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2018-002"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2018-001",
+        "Type": "Authentication Bypass",
+        "Subcomponent": "Salted Passwords (ext:saltedpasswords)",
+        "Affected": "8.7.16 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2018-001"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2017-007",
+        "Type": "Arbitrary Code Execution",
+        "Subcomponent": "TYPO3 CMS",
+        "Affected": "8.7.4 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2017-007"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2017-005",
+        "Type": "Information Disclosure",
+        "Subcomponent": "TYPO3 CMS",
+        "Affected": "8.7.4 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2017-005"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2017-006",
+        "Type": "Information Disclosure",
+        "Subcomponent": "TYPO3 CMS",
+        "Affected": "8.7.4 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2017-006"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2017-004",
+        "Type": "Cross-Site Scripting",
+        "Subcomponent": "TYPO3 CMS",
+        "Affected": "8.7.4 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2017-004"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2020-011",
+        "Type": "Sensitive Data Exposure",
+        "Subcomponent": "Session Storage (ext:core)",
+        "Affected": "8.7.37 - 8.7.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2020-011"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2020-010",
+        "Type": "Cross-Site Scripting",
+        "Subcomponent": "Fluid (ext:fluid)",
+        "Affected": "8.7.37 - 8.7.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2020-010"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2020-009",
+        "Type": "Cross-Site Scripting",
+        "Subcomponent": "Fluid Engine (package typo3fluid/fluid)",
+        "Affected": "8.7.37 - 8.7.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2020-009"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2021-008",
+        "Type": "Cross-Site Scripting",
+        "Subcomponent": "Content Preview Renderer (ext:backend)",
+        "Affected": "8.7.39 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2021-008"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2021-006",
+        "Type": "Sensitive Data Exposure",
+        "Subcomponent": "Session Storage (ext:core)",
+        "Affected": "8.7.39 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2021-006"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2021-003",
+        "Type": "Broken Access Control",
+        "Subcomponent": "Form Framework (ext:form)",
+        "Affected": "8.7.39 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2021-003"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2021-002",
+        "Type": "Unrestricted File Upload",
+        "Subcomponent": "Form Framework (ext:form)",
+        "Affected": "8.7.39 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2021-002"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2021-001",
+        "Type": "Open Redirection",
+        "Subcomponent": "Login Handling (ext:core)",
+        "Affected": "8.7.39 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2021-001"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2021-013",
+        "Type": "Cross-Site-Scripting",
+        "Subcomponent": "Content Rendering, HTML Parser (ext:frontend, ext:core)",
+        "Affected": "8.7.41 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2021-013"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2021-012",
+        "Type": "Information Disclosure",
+        "Subcomponent": "User Authentication (ext:core)",
+        "Affected": "8.7.40 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2021-012"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2021-011",
+        "Type": "Cross-Site Scripting",
+        "Subcomponent": "Backend Grid View (ext:backend)",
+        "Affected": "8.7.40 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2021-011"
+      },
+      {
+        "Advisory": "TYPO3-CORE-SA-2021-010",
+        "Type": "Cross-Site Scripting",
+        "Subcomponent": "Query Generator & Query View (ext:lowlevel, ext:core)",
+        "Affected": "8.7.40 - 8.0.0",
+        "Advisory URL": "https://typo3.org/security/advisory/typo3-core-sa-2021-010"
+      }
+    ],
+    "Extensions": [
+      {
+        "Name": "extbase",
+        "Title": "Log4Php",
+        "Repo": "https://extensions.typo3.org/extension/extbase",
+        "Current": "1.1.1 (alpha)",
+        "Url": "http://localhost:80/typo3/sysext/extbase/",
+        "Version": "unknown",
+        "Version File": "not found",
+        "Vulnerabilities": []
+      },
+      {
+        "Name": "feedit",
+        "Title": "Frontend Editing",
+        "Repo": "https://extensions.typo3.org/extension/feedit",
+        "Current": "10.0.2 (stable)",
+        "Url": "http://localhost:80/typo3/sysext/feedit/",
+        "Version": "unknown",
+        "Version File": "not found",
+        "Vulnerabilities": []
+      },
+      {
+        "Name": "func",
+        "Title": "WebFunc",
+        "Repo": "https://extensions.typo3.org/extension/func",
+        "Current": "9.0.1 (stable)",
+        "Url": "http://localhost:80/typo3/sysext/func/",
+        "Version": "unknown",
+        "Version File": "not found",
+        "Vulnerabilities": []
+      },
+      {
+        "Name": "rsaauth",
+        "Title": "RSA authentication for TYPO3",
+        "Repo": "https://extensions.typo3.org/extension/rsaauth",
+        "Current": "10.0.1 (deprecated)",
+        "Url": "http://localhost:80/typo3/sysext/rsaauth/",
+        "Version": "unknown",
+        "Version File": "not found",
+        "Vulnerabilities": []
+      },
+      {
+        "Name": "sys_action",
+        "Title": "UserTask Center, Actions",
+        "Repo": "https://extensions.typo3.org/extension/sys_action",
+        "Current": "10.0.0 (stable)",
+        "Url": "http://localhost:80/typo3/sysext/sys_action/",
+        "Version": "unknown",
+        "Version File": "not found",
+        "Vulnerabilities": []
+      },
+      {
+        "Name": "taskcenter",
+        "Title": "UserTask Center",
+        "Repo": "https://extensions.typo3.org/extension/taskcenter",
+        "Current": "10.0.0 (stable)",
+        "Url": "http://localhost:80/typo3/sysext/taskcenter/",
+        "Version": "unknown",
+        "Version File": "not found",
+        "Vulnerabilities": []
+      },
+      {
+        "Name": "tstemplate",
+        "Title": "WebTemplate",
+        "Repo": "https://extensions.typo3.org/extension/tstemplate",
+        "Current": "0.0.5 (stable)",
+        "Url": "http://localhost:80/typo3/sysext/tstemplate/",
+        "Version": "unknown",
+        "Version File": "not found",
+        "Vulnerabilities": []
+      }
+    ]
+  }
 }

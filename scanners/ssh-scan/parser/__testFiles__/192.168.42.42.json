@@ -58,31 +58,16 @@
       "hmac-sha2-512",
       "hmac-sha1"
     ],
-    "compression_algorithms_client_to_server": [
-      "none",
-      "zlib@openssh.com"
-    ],
-    "compression_algorithms_server_to_client": [
-      "none",
-      "zlib@openssh.com"
-    ],
-    "languages_client_to_server": [
-
-    ],
-    "languages_server_to_client": [
-
-    ],
-    "auth_methods": [
-      "publickey",
-      "password"
-    ],
+    "compression_algorithms_client_to_server": ["none", "zlib@openssh.com"],
+    "compression_algorithms_server_to_client": ["none", "zlib@openssh.com"],
+    "languages_client_to_server": [],
+    "languages_server_to_client": [],
+    "auth_methods": ["publickey", "password"],
     "keys": {
       "removed_in_this_mock_file_for_space_reasons": true
     },
     "dns_keys": null,
-    "duplicate_host_key_ips": [
-
-    ],
+    "duplicate_host_key_ips": [],
     "compliance": {
       "policy": "Mozilla Modern",
       "compliant": false,
@@ -91,9 +76,7 @@
         "Remove these MAC algorithms: umac-64-etm@openssh.com, hmac-sha1-etm@openssh.com, umac-64@openssh.com, hmac-sha1",
         "Remove these authentication methods: password"
       ],
-      "references": [
-        "https://wiki.mozilla.org/Security/Guidelines/OpenSSH"
-      ],
+      "references": ["https://wiki.mozilla.org/Security/Guidelines/OpenSSH"],
       "grade": "D"
     },
     "start_time": "2019-10-03 18:37:10 +0200",

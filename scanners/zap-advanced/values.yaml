@@ -100,7 +100,7 @@ scanner:
       drop:
         # scanner.securityContext.capabilities.drop[0] -- This drops all linux privileges from the container.
         - all
-  
+
   # scanner.affinity -- Optional affinity settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
   affinity: {}
 
@@ -156,8 +156,9 @@ zapContainer:
         # scanner.securityContext.capabilities.drop[0] -- This drops all linux privileges from the container.
         - all
 
-# -- All `scanType` specific configuration options. Feel free to add more configuration options. All configuration options can be overriden by scan specific configurations if defined. Please have a look into the README.md to find more configuration options.
-zapConfiguration: {}
+# -- All `scanType` specific configuration options. Feel free to add more configuration options. All configuration options can be overridden by scan specific configurations if defined. Please have a look into the README.md to find more configuration options.
+zapConfiguration:
+  {}
   # # -- Optional general ZAP Configurations settings.
   # global:
   #   # -- The ZAP internal Session name. Default: secureCodeBox

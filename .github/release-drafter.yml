@@ -2,34 +2,34 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-name-template: 'v$NEXT_PATCH_VERSION'
-tag-template: 'v$NEXT_PATCH_VERSION'
+name-template: "v$NEXT_PATCH_VERSION"
+tag-template: "v$NEXT_PATCH_VERSION"
 categories:
-  - title: '💣 Breaking'
-    label: 'breaking'
-  - title: '🚀 Features'
-    label: 'enhancement'
-  - title: '🚓 Security Scanner'
-    label: 'scanner'
-  - title: '⚓️ Hooks'
-    label: 'hook'
-  - title: '🐛 Bug Fixes'
-    label: 'bug'
-  - title: '🧪 Test'
-    labels: 
-      - 'test'
-      - 'testing' 
-  - title: '📚 Documentation'
-    labels: 
-      - 'docs'
-      - 'documentation'
-  - title: '🔧 Maintenance'
-    label: 'maintenance'
-  - title: '📌 Dependencies'
-    label: 'dependencies'
-change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+  - title: "💣 Breaking"
+    label: "breaking"
+  - title: "🚀 Features"
+    label: "enhancement"
+  - title: "🚓 Security Scanner"
+    label: "scanner"
+  - title: "⚓️ Hooks"
+    label: "hook"
+  - title: "🐛 Bug Fixes"
+    label: "bug"
+  - title: "🧪 Test"
+    labels:
+      - "test"
+      - "testing"
+  - title: "📚 Documentation"
+    labels:
+      - "docs"
+      - "documentation"
+  - title: "🔧 Maintenance"
+    label: "maintenance"
+  - title: "📌 Dependencies"
+    label: "dependencies"
+change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
 exclude-labels:
-  - 'skip-changelog'
+  - "skip-changelog"
 template: |
   ## Changes
   This release contains the following changes 🎉. Help spread the word or leave a GitHub star if you like it 😉
@@ -37,11 +37,11 @@ template: |
   ![GitHub commits since tagged version](https://img.shields.io/github/commits-since/secureCodeBox/secureCodeBox/$PREVIOUS_TAG) ![GitHub Repo stars](https://img.shields.io/github/stars/secureCodeBox/secureCodeBox?style=social) ![Twitter URL](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2FsecureCodeBox%2FsecureCodeBox%2Freleases%2Ftag%2Flatest)
 
   $CHANGES
-  
+
   ## Distribution
   [![Artifact HUB](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/secureCodeBox)](https://artifacthub.io/packages/search?repo=securecodebox)
   [![Docker Hub](https://img.shields.io/badge/Docker%20Hub-secureCodeBox-blue?style=flat&logo=docker&color=lightblue&labelColor=blue&logoColor=white)](https://hub.docker.com/u/securecodebox) 
-  
+
   ## Contributors
   Thanks to all our contributors supporting this project 🤗
   $CONTRIBUTORS

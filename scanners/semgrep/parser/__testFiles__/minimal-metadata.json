@@ -1,62 +1,62 @@
 {
-    "errors": [],
-    "results": [
-      {
-        "check_id": "-",
-        "end": {
-          "col": 34,
-          "line": 44,
-          "offset": 1046
-        },
-        "extra": {
-          "is_ignored": false,
-          "lines": "\t\tactual := TruncateName(test.in)",
-          "message": "actual := TruncateName(test.in)",
-          "metadata": {},
-          "metavars": {
-            "$A": {
-              "abstract_content": "actual",
-              "end": {
-                "col": 9,
-                "line": 44,
-                "offset": 1021
-              },
-              "start": {
-                "col": 3,
-                "line": 44,
-                "offset": 1015
-              },
-              "unique_id": {
-                "sid": 7,
-                "type": "id"
-              }
+  "errors": [],
+  "results": [
+    {
+      "check_id": "-",
+      "end": {
+        "col": 34,
+        "line": 44,
+        "offset": 1046
+      },
+      "extra": {
+        "is_ignored": false,
+        "lines": "\t\tactual := TruncateName(test.in)",
+        "message": "actual := TruncateName(test.in)",
+        "metadata": {},
+        "metavars": {
+          "$A": {
+            "abstract_content": "actual",
+            "end": {
+              "col": 9,
+              "line": 44,
+              "offset": 1021
             },
-            "$B": {
-              "abstract_content": "TruncateName(test.in)",
-              "end": {
-                "col": 34,
-                "line": 44,
-                "offset": 1046
-              },
-              "start": {
-                "col": 13,
-                "line": 44,
-                "offset": 1025
-              },
-              "unique_id": {
-                "md5sum": "e3c6a62c3186d28aad5948e55d4e8a2f",
-                "type": "AST"
-              }
+            "start": {
+              "col": 3,
+              "line": 44,
+              "offset": 1015
+            },
+            "unique_id": {
+              "sid": 7,
+              "type": "id"
             }
           },
-          "severity": "ERROR"
+          "$B": {
+            "abstract_content": "TruncateName(test.in)",
+            "end": {
+              "col": 34,
+              "line": 44,
+              "offset": 1046
+            },
+            "start": {
+              "col": 13,
+              "line": 44,
+              "offset": 1025
+            },
+            "unique_id": {
+              "md5sum": "e3c6a62c3186d28aad5948e55d4e8a2f",
+              "type": "AST"
+            }
+          }
         },
-        "path": "truncatedname_test.go",
-        "start": {
-          "col": 3,
-          "line": 44,
-          "offset": 1015
-        }
+        "severity": "ERROR"
+      },
+      "path": "truncatedname_test.go",
+      "start": {
+        "col": 3,
+        "line": 44,
+        "offset": 1015
       }
-    ]
-  }
+    }
+  ]
+}

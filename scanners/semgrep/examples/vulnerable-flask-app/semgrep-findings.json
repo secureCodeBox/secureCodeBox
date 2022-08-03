@@ -16,9 +16,7 @@
           "category": "correctness",
           "license": "Commons Clause License Condition v1.0[LGPL-2.1-only]",
           "source": "https://semgrep.dev/r/javascript.lang.correctness.useless-eqeq.eqeq-is-bad",
-          "technology": [
-            "javascript"
-          ]
+          "technology": ["javascript"]
         },
         "metavars": {
           "$X": {
@@ -69,9 +67,7 @@
             "https://pequalsnp-team.github.io/cheatsheet/flask-jinja2-ssti"
           ],
           "source": "https://semgrep.dev/r/python.flask.security.dangerous-template-string.dangerous-template-string",
-          "technology": [
-            "flask"
-          ]
+          "technology": ["flask"]
         },
         "metavars": {
           "$MORE": {
@@ -156,9 +152,7 @@
             "https://pequalsnp-team.github.io/cheatsheet/flask-jinja2-ssti"
           ],
           "source": "https://semgrep.dev/r/python.flask.security.dangerous-template-string.dangerous-template-string",
-          "technology": [
-            "flask"
-          ]
+          "technology": ["flask"]
         },
         "metavars": {
           "$MORE": {
@@ -238,13 +232,9 @@
           "cwe": "CWE-502: Deserialization of Untrusted Data",
           "license": "Commons Clause License Condition v1.0[LGPL-2.1-only]",
           "owasp": "A8: Insecure Deserialization",
-          "references": [
-            "https://docs.python.org/3/library/pickle.html"
-          ],
+          "references": ["https://docs.python.org/3/library/pickle.html"],
           "source": "https://semgrep.dev/r/python.flask.security.insecure-deserialization.insecure-deserialization",
-          "technology": [
-            "flask"
-          ]
+          "technology": ["flask"]
         },
         "metavars": {
           "$X": {
@@ -304,9 +294,7 @@
           ],
           "source": "https://semgrep.dev/r/python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-md5",
           "source-rule-url": "https://github.com/PyCQA/bandit/blob/d5f8fa0d89d7b11442fc6ec80ca42953974354c8/bandit/blacklists/calls.py#L59",
-          "technology": [
-            "python"
-          ]
+          "technology": ["python"]
         },
         "metavars": {},
         "severity": "WARNING"
@@ -338,9 +326,7 @@
             "https://stackoverflow.com/questions/41740361/is-it-safe-to-disable-ssl-certificate-verification-in-pythonss-requests-lib"
           ],
           "source": "https://semgrep.dev/r/python.requests.security.disabled-cert-validation.disabled-cert-validation",
-          "technology": [
-            "requests"
-          ]
+          "technology": ["requests"]
         },
         "metavars": {},
         "severity": "ERROR"
@@ -372,9 +358,7 @@
             "https://stackoverflow.com/questions/41740361/is-it-safe-to-disable-ssl-certificate-verification-in-pythonss-requests-lib"
           ],
           "source": "https://semgrep.dev/r/python.requests.security.disabled-cert-validation.disabled-cert-validation",
-          "technology": [
-            "requests"
-          ]
+          "technology": ["requests"]
         },
         "metavars": {},
         "severity": "ERROR"
@@ -406,9 +390,7 @@
             "https://stackoverflow.com/questions/41740361/is-it-safe-to-disable-ssl-certificate-verification-in-pythonss-requests-lib"
           ],
           "source": "https://semgrep.dev/r/python.requests.security.disabled-cert-validation.disabled-cert-validation",
-          "technology": [
-            "requests"
-          ]
+          "technology": ["requests"]
         },
         "metavars": {},
         "severity": "ERROR"
@@ -440,9 +422,7 @@
             "https://stackoverflow.com/questions/41740361/is-it-safe-to-disable-ssl-certificate-verification-in-pythonss-requests-lib"
           ],
           "source": "https://semgrep.dev/r/python.requests.security.disabled-cert-validation.disabled-cert-validation",
-          "technology": [
-            "requests"
-          ]
+          "technology": ["requests"]
         },
         "metavars": {},
         "severity": "ERROR"

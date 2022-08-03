@@ -8,17 +8,17 @@ kind: ClusterRole
 metadata:
   name: scan-viewer-role
 rules:
-- apiGroups:
-  - execution.securecodebox.io
-  resources:
-  - scans
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - execution.securecodebox.io
-  resources:
-  - scans/status
-  verbs:
-  - get
+  - apiGroups:
+      - execution.securecodebox.io
+    resources:
+      - scans
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - execution.securecodebox.io
+    resources:
+      - scans/status
+    verbs:
+      - get

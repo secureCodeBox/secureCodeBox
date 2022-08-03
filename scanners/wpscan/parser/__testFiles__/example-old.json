@@ -1,243 +1,192 @@
 {
-    "banner": {
-      "description": "WordPress Security Scanner by the WPScan Team",
-      "version": "3.8.1",
-      "authors": [
-        "@_WPScan_",
-        "@ethicalhack3r",
-        "@erwan_lr",
-        "@firefart"
-      ],
-      "sponsor": "Sponsored by Automattic - https://automattic.com/"
-    },
-    "start_time": 1591480670,
-    "start_memory": 41410560,
-    "target_url": "https://www.example.com/",
-    "target_ip": "192.168.0.123",
-    "effective_url": "https://www.example.com/",
-    "interesting_findings": [
-      {
-        "url": "https://www.example.com/",
-        "to_s": "Headers",
-        "type": "headers",
-        "found_by": "Headers (Passive Detection)",
-        "confidence": 100,
-        "confirmed_by": {
-  
-        },
-        "references": {
-  
-        },
-        "interesting_entries": [
-          "server: Apache",
-          "x-cache-handler: php"
-        ]
-      },
-      {
-        "url": "https://www.example.com/robots.txt",
-        "to_s": "https://www.example.com/robots.txt",
-        "type": "robots_txt",
-        "found_by": "Robots Txt (Aggressive Detection)",
-        "confidence": 100,
-        "confirmed_by": {
-  
-        },
-        "references": {
-  
-        },
-        "interesting_entries": [
-          "/wp-admin/",
-          "/wp-admin/admin-ajax.php"
-        ]
-      },
-      {
-        "url": "https://www.example.com/xmlrpc.php",
-        "to_s": "XML-RPC seems to be enabled: https://www.example.com/xmlrpc.php",
-        "type": "xmlrpc",
-        "found_by": "Headers (Passive Detection)",
-        "confidence": 100,
-        "confirmed_by": {
-          "Direct Access (Aggressive Detection)": {
-            "confidence": 100
-          }
-        },
-        "references": {
-          "url": [
-            "http://codex.wordpress.org/XML-RPC_Pingback_API"
-          ],
-          "metasploit": [
-            "auxiliary/scanner/http/wordpress_ghost_scanner",
-            "auxiliary/dos/http/wordpress_xmlrpc_dos",
-            "auxiliary/scanner/http/wordpress_xmlrpc_login",
-            "auxiliary/scanner/http/wordpress_pingback_access"
-          ]
-        },
-        "interesting_entries": [
-  
-        ]
-      },
-      {
-        "url": "https://www.example.com/liesmich.html",
-        "to_s": "https://www.example.com/liesmich.html",
-        "type": "readme",
-        "found_by": "Direct Access (Aggressive Detection)",
-        "confidence": 100,
-        "confirmed_by": {
-  
-        },
-        "references": {
-  
-        },
-        "interesting_entries": [
-  
-        ]
-      },
-      {
-        "url": "https://www.example.com/wp-cron.php",
-        "to_s": "The external WP-Cron seems to be enabled: https://www.example.com/wp-cron.php",
-        "type": "wp_cron",
-        "found_by": "Direct Access (Aggressive Detection)",
-        "confidence": 60,
-        "confirmed_by": {
-  
-        },
-        "references": {
-          "url": [
-            "https://www.iplocation.net/defend-wordpress-from-ddos",
-            "https://github.com/wpscanteam/wpscan/issues/1299"
-          ]
-        },
-        "interesting_entries": [
-  
-        ]
-      }
-    ],
-    "version": {
-      "number": "4.8.13",
-      "release_date": "2020-04-29",
-      "status": "latest",
-      "found_by": "Style Etag (Aggressive Detection)",
+  "banner": {
+    "description": "WordPress Security Scanner by the WPScan Team",
+    "version": "3.8.1",
+    "authors": ["@_WPScan_", "@ethicalhack3r", "@erwan_lr", "@firefart"],
+    "sponsor": "Sponsored by Automattic - https://automattic.com/"
+  },
+  "start_time": 1591480670,
+  "start_memory": 41410560,
+  "target_url": "https://www.example.com/",
+  "target_ip": "192.168.0.123",
+  "effective_url": "https://www.example.com/",
+  "interesting_findings": [
+    {
+      "url": "https://www.example.com/",
+      "to_s": "Headers",
+      "type": "headers",
+      "found_by": "Headers (Passive Detection)",
       "confidence": 100,
-      "interesting_entries": [
-        "https://www.example.com/wp-admin/load-styles.php, Match: '4.8.13'"
-      ],
+      "confirmed_by": {},
+      "references": {},
+      "interesting_entries": ["server: Apache", "x-cache-handler: php"]
+    },
+    {
+      "url": "https://www.example.com/robots.txt",
+      "to_s": "https://www.example.com/robots.txt",
+      "type": "robots_txt",
+      "found_by": "Robots Txt (Aggressive Detection)",
+      "confidence": 100,
+      "confirmed_by": {},
+      "references": {},
+      "interesting_entries": ["/wp-admin/", "/wp-admin/admin-ajax.php"]
+    },
+    {
+      "url": "https://www.example.com/xmlrpc.php",
+      "to_s": "XML-RPC seems to be enabled: https://www.example.com/xmlrpc.php",
+      "type": "xmlrpc",
+      "found_by": "Headers (Passive Detection)",
+      "confidence": 100,
       "confirmed_by": {
-        "Query Parameter In Install Page (Aggressive Detection)": {
-          "confidence": 90,
-          "interesting_entries": [
-            "https://www.example.com/wp-includes/css/buttons.min.css?ver=4.8.13",
-            "https://www.example.com/wp-admin/css/install.min.css?ver=4.8.13",
-            "https://www.example.com/wp-includes/css/dashicons.min.css?ver=4.8.13"
-          ]
+        "Direct Access (Aggressive Detection)": {
+          "confidence": 100
         }
       },
-      "vulnerabilities": [
-  
-      ]
+      "references": {
+        "url": ["http://codex.wordpress.org/XML-RPC_Pingback_API"],
+        "metasploit": [
+          "auxiliary/scanner/http/wordpress_ghost_scanner",
+          "auxiliary/dos/http/wordpress_xmlrpc_dos",
+          "auxiliary/scanner/http/wordpress_xmlrpc_login",
+          "auxiliary/scanner/http/wordpress_pingback_access"
+        ]
+      },
+      "interesting_entries": []
     },
-    "main_theme": {
-      "slug": "jupiter",
-      "location": "https://www.example.com/wp-content/themes/jupiter/",
-      "latest_version": null,
-      "last_updated": null,
+    {
+      "url": "https://www.example.com/liesmich.html",
+      "to_s": "https://www.example.com/liesmich.html",
+      "type": "readme",
+      "found_by": "Direct Access (Aggressive Detection)",
+      "confidence": 100,
+      "confirmed_by": {},
+      "references": {},
+      "interesting_entries": []
+    },
+    {
+      "url": "https://www.example.com/wp-cron.php",
+      "to_s": "The external WP-Cron seems to be enabled: https://www.example.com/wp-cron.php",
+      "type": "wp_cron",
+      "found_by": "Direct Access (Aggressive Detection)",
+      "confidence": 60,
+      "confirmed_by": {},
+      "references": {
+        "url": [
+          "https://www.iplocation.net/defend-wordpress-from-ddos",
+          "https://github.com/wpscanteam/wpscan/issues/1299"
+        ]
+      },
+      "interesting_entries": []
+    }
+  ],
+  "version": {
+    "number": "4.8.13",
+    "release_date": "2020-04-29",
+    "status": "latest",
+    "found_by": "Style Etag (Aggressive Detection)",
+    "confidence": 100,
+    "interesting_entries": [
+      "https://www.example.com/wp-admin/load-styles.php, Match: '4.8.13'"
+    ],
+    "confirmed_by": {
+      "Query Parameter In Install Page (Aggressive Detection)": {
+        "confidence": 90,
+        "interesting_entries": [
+          "https://www.example.com/wp-includes/css/buttons.min.css?ver=4.8.13",
+          "https://www.example.com/wp-admin/css/install.min.css?ver=4.8.13",
+          "https://www.example.com/wp-includes/css/dashicons.min.css?ver=4.8.13"
+        ]
+      }
+    },
+    "vulnerabilities": []
+  },
+  "main_theme": {
+    "slug": "jupiter",
+    "location": "https://www.example.com/wp-content/themes/jupiter/",
+    "latest_version": null,
+    "last_updated": null,
+    "outdated": false,
+    "readme_url": false,
+    "directory_listing": false,
+    "error_log_url": null,
+    "style_url": "https://www.example.com/wp-content/themes/jupiter/style.css",
+    "style_name": "Jupiter",
+    "style_uri": "http://demos.artbees.net/jupiter5",
+    "description": "A Beautiful, Professional and Ultimate Wordpress Theme Made by Artbees. Jupiter is a Clean, Flexible, fully responsive and retina ready Wordpress theme. Its smart and hand crafted environment allows you to Build outstanding websites easy and fast.",
+    "author": "Artbees",
+    "author_uri": "http://themeforest.net/user/artbees",
+    "template": null,
+    "license": "GNU General Public License v2.0",
+    "license_uri": "http://www.gnu.org/licenses/gpl-2.0.html",
+    "tags": null,
+    "text_domain": "mk_framework",
+    "found_by": "Urls In Homepage (Passive Detection)",
+    "confidence": 22,
+    "interesting_entries": [],
+    "confirmed_by": {
+      "Urls In 404 Page (Passive Detection)": {
+        "confidence": 10,
+        "interesting_entries": []
+      }
+    },
+    "vulnerabilities": [],
+    "version": {
+      "number": "5.9.5",
+      "confidence": 80,
+      "found_by": "Style (Passive Detection)",
+      "interesting_entries": [
+        "https://www.example.com/wp-content/themes/jupiter/style.css, Match: 'Version: 5.9.5'"
+      ],
+      "confirmed_by": {}
+    },
+    "parents": []
+  },
+  "plugins": {
+    "akismet": {
+      "slug": "akismet",
+      "location": "https://www.example.com/wp-content/plugins/akismet/",
+      "latest_version": "4.1.6",
+      "last_updated": "2020-06-04T17:21:00.000Z",
       "outdated": false,
       "readme_url": false,
       "directory_listing": false,
       "error_log_url": null,
-      "style_url": "https://www.example.com/wp-content/themes/jupiter/style.css",
-      "style_name": "Jupiter",
-      "style_uri": "http://demos.artbees.net/jupiter5",
-      "description": "A Beautiful, Professional and Ultimate Wordpress Theme Made by Artbees. Jupiter is a Clean, Flexible, fully responsive and retina ready Wordpress theme. Its smart and hand crafted environment allows you to Build outstanding websites easy and fast.",
-      "author": "Artbees",
-      "author_uri": "http://themeforest.net/user/artbees",
-      "template": null,
-      "license": "GNU General Public License v2.0",
-      "license_uri": "http://www.gnu.org/licenses/gpl-2.0.html",
-      "tags": null,
-      "text_domain": "mk_framework",
-      "found_by": "Urls In Homepage (Passive Detection)",
-      "confidence": 22,
+      "found_by": "Known Locations (Aggressive Detection)",
+      "confidence": 80,
       "interesting_entries": [
-  
+        "https://www.example.com/wp-content/plugins/akismet/, status: 403"
       ],
-      "confirmed_by": {
-        "Urls In 404 Page (Passive Detection)": {
-          "confidence": 10,
-          "interesting_entries": [
-  
-          ]
-        }
-      },
+      "confirmed_by": {},
       "vulnerabilities": [
-  
-      ],
-      "version": {
-        "number": "5.9.5",
-        "confidence": 80,
-        "found_by": "Style (Passive Detection)",
-        "interesting_entries": [
-          "https://www.example.com/wp-content/themes/jupiter/style.css, Match: 'Version: 5.9.5'"
-        ],
-        "confirmed_by": {
-  
-        }
-      },
-      "parents": [
-  
-      ]
-    },
-    "plugins": {
-      "akismet": {
-        "slug": "akismet",
-        "location": "https://www.example.com/wp-content/plugins/akismet/",
-        "latest_version": "4.1.6",
-        "last_updated": "2020-06-04T17:21:00.000Z",
-        "outdated": false,
-        "readme_url": false,
-        "directory_listing": false,
-        "error_log_url": null,
-        "found_by": "Known Locations (Aggressive Detection)",
-        "confidence": 80,
-        "interesting_entries": [
-          "https://www.example.com/wp-content/plugins/akismet/, status: 403"
-        ],
-        "confirmed_by": {
-  
-        },
-        "vulnerabilities": [
-          {
-            "title": "Akismet 2.5.0-3.1.4 - Unauthenticated Stored Cross-Site Scripting (XSS)",
-            "fixed_in": "3.1.5",
-            "references": {
-              "cve": [
-                "2015-9357"
-              ],
-              "url": [
-                "http://blog.akismet.com/2015/10/13/akismet-3-1-5-wordpress/",
-                "https://blog.sucuri.net/2015/10/security-advisory-stored-xss-in-akismet-wordpress-plugin.html"
-              ],
-              "wpvulndb": [
-                "8215"
-              ]
-            }
+        {
+          "title": "Akismet 2.5.0-3.1.4 - Unauthenticated Stored Cross-Site Scripting (XSS)",
+          "fixed_in": "3.1.5",
+          "references": {
+            "cve": ["2015-9357"],
+            "url": [
+              "http://blog.akismet.com/2015/10/13/akismet-3-1-5-wordpress/",
+              "https://blog.sucuri.net/2015/10/security-advisory-stored-xss-in-akismet-wordpress-plugin.html"
+            ],
+            "wpvulndb": ["8215"]
           }
-        ],
-        "version": null
-      }
-    },
-    "vuln_api": {
-      "plan": "free",
-      "requests_done_during_scan": 26,
-      "requests_remaining": 0
-    },
-    "stop_time": 1591481357,
-    "elapsed": 687,
-    "requests_done": 2442,
-    "cached_requests": 33,
-    "data_sent": 621290,
-    "data_sent_humanised": "606.729 KB",
-    "data_received": 2969029,
-    "data_received_humanised": "2.831 MB",
-    "used_memory": 265818112,
-    "used_memory_humanised": "253.504 MB"
-  }
+        }
+      ],
+      "version": null
+    }
+  },
+  "vuln_api": {
+    "plan": "free",
+    "requests_done_during_scan": 26,
+    "requests_remaining": 0
+  },
+  "stop_time": 1591481357,
+  "elapsed": 687,
+  "requests_done": 2442,
+  "cached_requests": 33,
+  "data_sent": 621290,
+  "data_sent_humanised": "606.729 KB",
+  "data_received": 2969029,
+  "data_received_humanised": "2.831 MB",
+  "used_memory": 265818112,
+  "used_memory_humanised": "253.504 MB"
+}

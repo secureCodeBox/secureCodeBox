@@ -34,7 +34,6 @@ hook:
   # hook.tolerations -- Optional tolerations settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
   tolerations: []
 
-
 notificationChannels:
   - name: slack
     type: slack

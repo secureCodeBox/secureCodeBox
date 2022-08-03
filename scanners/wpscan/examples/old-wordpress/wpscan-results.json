@@ -2,12 +2,7 @@
   "banner": {
     "description": "WordPress Security Scanner by the WPScan Team",
     "version": "3.8.7",
-    "authors": [
-      "@_WPScan_",
-      "@ethicalhack3r",
-      "@erwan_lr",
-      "@firefart"
-    ],
+    "authors": ["@_WPScan_", "@ethicalhack3r", "@erwan_lr", "@firefart"],
     "sponsor": "Sponsored by Automattic - https://automattic.com/"
   },
   "start_time": 1600682567,
@@ -22,12 +17,8 @@
       "type": "headers",
       "found_by": "Headers (Passive Detection)",
       "confidence": 100,
-      "confirmed_by": {
-
-      },
-      "references": {
-
-      },
+      "confirmed_by": {},
+      "references": {},
       "interesting_entries": [
         "Server: nginx/1.7.7",
         "X-Powered-By: PHP/5.4.34-0+deb7u1"
@@ -39,13 +30,9 @@
       "type": "xmlrpc",
       "found_by": "Direct Access (Aggressive Detection)",
       "confidence": 100,
-      "confirmed_by": {
-
-      },
+      "confirmed_by": {},
       "references": {
-        "url": [
-          "http://codex.wordpress.org/XML-RPC_Pingback_API"
-        ],
+        "url": ["http://codex.wordpress.org/XML-RPC_Pingback_API"],
         "metasploit": [
           "auxiliary/scanner/http/wordpress_ghost_scanner",
           "auxiliary/dos/http/wordpress_xmlrpc_dos",
@@ -53,9 +40,7 @@
           "auxiliary/scanner/http/wordpress_pingback_access"
         ]
       },
-      "interesting_entries": [
-
-      ]
+      "interesting_entries": []
     },
     {
       "url": "http://old-wordpress.demo-targets.svc.cluster.local/readme.html",
@@ -63,15 +48,9 @@
       "type": "readme",
       "found_by": "Direct Access (Aggressive Detection)",
       "confidence": 100,
-      "confirmed_by": {
-
-      },
-      "references": {
-
-      },
-      "interesting_entries": [
-
-      ]
+      "confirmed_by": {},
+      "references": {},
+      "interesting_entries": []
     },
     {
       "url": "http://old-wordpress.demo-targets.svc.cluster.local/wp-cron.php",
@@ -79,18 +58,14 @@
       "type": "wp_cron",
       "found_by": "Direct Access (Aggressive Detection)",
       "confidence": 60,
-      "confirmed_by": {
-
-      },
+      "confirmed_by": {},
       "references": {
         "url": [
           "https://www.iplocation.net/defend-wordpress-from-ddos",
           "https://github.com/wpscanteam/wpscan/issues/1299"
         ]
       },
-      "interesting_entries": [
-
-      ]
+      "interesting_entries": []
     }
   ],
   "version": {
@@ -110,14 +85,10 @@
         ]
       }
     },
-    "vulnerabilities": [
-
-    ]
+    "vulnerabilities": []
   },
   "main_theme": null,
-  "plugins": {
-
-  },
+  "plugins": {},
   "vuln_api": {
     "error": "No WPVulnDB API Token given, as a result vulnerability data has not been output.\nYou can get a free API token with 50 daily requests by registering at https://wpvulndb.com/users/sign_up"
   },

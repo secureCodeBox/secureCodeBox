@@ -31,7 +31,7 @@ test("example parser parses empty json files to zero findings", async () => {
 //   expect(await parse(0)).toEqual([]);
 // });
 
-test("example parser parses single line json successully", async () => {
+test("example parser parses single line json successfully", async () => {
   const fileContent = await readFile(
     __dirname + "/__testFiles__/example.com.jsonl",
     {

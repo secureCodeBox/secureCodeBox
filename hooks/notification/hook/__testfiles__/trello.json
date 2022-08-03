@@ -1,9 +1,9 @@
 {
-    "key": "my_trello__key",
-    "token": "my_trello_token",
-    "idList": "109a221b30b4f8a5a4b679a7",
-    "name": "Test",
-    "desc": "TestRawData",
-    "pos": "top",
-    "idLabels": "11178a222bf5333c6e444804,1113f2222c3233308d444fc1"
+  "key": "my_trello__key",
+  "token": "my_trello_token",
+  "idList": "109a221b30b4f8a5a4b679a7",
+  "name": "Test",
+  "desc": "TestRawData",
+  "pos": "top",
+  "idLabels": "11178a222bf5333c6e444804,1113f2222c3233308d444fc1"
 }

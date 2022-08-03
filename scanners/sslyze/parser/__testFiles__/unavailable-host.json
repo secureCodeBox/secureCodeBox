@@ -1,31 +1,31 @@
 {
-    "date_scans_completed": "2021-12-22T13:01:32.278576",
-    "date_scans_started": "2021-12-22T13:01:32.266801",
-    "server_scan_results": [
-        {
-            "connectivity_error_trace": "Traceback (most recent call last):\n  File \"/home/ilyesbd/Projects/secureCodeBox/sslyze_versions/sslyze-5.0.0/sslyze/scanner/_mass_connectivity_tester.py\", line 106, in run\n    tls_probing_result = check_connectivity_to_server(\n  File \"/home/ilyesbd/Projects/secureCodeBox/sslyze_versions/sslyze-5.0.0/sslyze/server_connectivity.py\", line 76, in check_connectivity_to_server\n    tls_detection_result = _detect_support_for_tls_1_3(\n  File \"/home/ilyesbd/Projects/secureCodeBox/sslyze_versions/sslyze-5.0.0/sslyze/server_connectivity.py\", line 232, in _detect_support_for_tls_1_3\n    ssl_connection.connect(should_retry_connection=False)\n  File \"/home/ilyesbd/Projects/secureCodeBox/sslyze_versions/sslyze-5.0.0/sslyze/connection_helpers/tls_connection.py\", line 272, in connect\n    raise ServerRejectedConnection(\nsslyze.errors.ServerRejectedConnection: 192.168.0.107:443 -> \"Server rejected the connection\".\n",
-            "connectivity_result": null,
-            "connectivity_status": "ERROR",
-            "network_configuration": {
-                "network_max_retries": 3,
-                "network_timeout": 5,
-                "tls_client_auth_credentials": null,
-                "tls_opportunistic_encryption": null,
-                "tls_server_name_indication": "192.168.0.107",
-                "xmpp_to_hostname": null
-            },
-            "scan_result": null,
-            "scan_status": "ERROR_NO_CONNECTIVITY",
-            "server_location": {
-                "connection_type": "DIRECT",
-                "hostname": "192.168.0.107",
-                "http_proxy_settings": null,
-                "ip_address": "192.168.0.107",
-                "port": 443
-            },
-            "uuid": "69e91554-cc92-4c4d-924a-63a747935e92"
-        }
-    ],
-    "sslyze_url": "https://github.com/nabla-c0d3/sslyze",
-    "sslyze_version": "5.0.0"
+  "date_scans_completed": "2021-12-22T13:01:32.278576",
+  "date_scans_started": "2021-12-22T13:01:32.266801",
+  "server_scan_results": [
+    {
+      "connectivity_error_trace": "Traceback (most recent call last):\n  File \"/home/ilyesbd/Projects/secureCodeBox/sslyze_versions/sslyze-5.0.0/sslyze/scanner/_mass_connectivity_tester.py\", line 106, in run\n    tls_probing_result = check_connectivity_to_server(\n  File \"/home/ilyesbd/Projects/secureCodeBox/sslyze_versions/sslyze-5.0.0/sslyze/server_connectivity.py\", line 76, in check_connectivity_to_server\n    tls_detection_result = _detect_support_for_tls_1_3(\n  File \"/home/ilyesbd/Projects/secureCodeBox/sslyze_versions/sslyze-5.0.0/sslyze/server_connectivity.py\", line 232, in _detect_support_for_tls_1_3\n    ssl_connection.connect(should_retry_connection=False)\n  File \"/home/ilyesbd/Projects/secureCodeBox/sslyze_versions/sslyze-5.0.0/sslyze/connection_helpers/tls_connection.py\", line 272, in connect\n    raise ServerRejectedConnection(\nsslyze.errors.ServerRejectedConnection: 192.168.0.107:443 -> \"Server rejected the connection\".\n",
+      "connectivity_result": null,
+      "connectivity_status": "ERROR",
+      "network_configuration": {
+        "network_max_retries": 3,
+        "network_timeout": 5,
+        "tls_client_auth_credentials": null,
+        "tls_opportunistic_encryption": null,
+        "tls_server_name_indication": "192.168.0.107",
+        "xmpp_to_hostname": null
+      },
+      "scan_result": null,
+      "scan_status": "ERROR_NO_CONNECTIVITY",
+      "server_location": {
+        "connection_type": "DIRECT",
+        "hostname": "192.168.0.107",
+        "http_proxy_settings": null,
+        "ip_address": "192.168.0.107",
+        "port": 443
+      },
+      "uuid": "69e91554-cc92-4c4d-924a-63a747935e92"
+    }
+  ],
+  "sslyze_url": "https://github.com/nabla-c0d3/sslyze",
+  "sslyze_version": "5.0.0"
 }

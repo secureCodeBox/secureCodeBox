@@ -1,25 +1,26 @@
 [
-    {
-       "name":"http://old-typo3.default.svc/",
-       "category":"WEB APPLICATION",
-       "description":"New TYPO3 site: Home",
-       "location":"http://old-typo3.default.svc/",
-       "osi_layer":"NETWORK",
-       "severity":"INFORMATIONAL",
-       "attributes":{
-          "requestConfig":"WhatWeb/0.5.5",
-          "ipAddress":"10.96.137.239",
-          "country":"RESERVED/ZZ",
-          "HTML5":true,
-          "Apache":"",
-          "Content-Language":"en",
-          "HTTPServer":"Apache/2.4.25 (Debian)",
-          "MetaGenerator":"TYPO3 CMS",
-          "PHP":"",
-          "PoweredBy":"TYPO3",
-          "X-Powered-By":"PHP/7.2.34"
-       },
-       "id":"78b495dd-a073-40b2-81e5-1a487b334fbe",
-       "parsed_at":"2021-12-08T10:13:54.735Z"
-    }
- ]
+  {
+    "name": "http://old-typo3.default.svc/",
+    "category": "WEB APPLICATION",
+    "description": "New TYPO3 site: Home",
+    "location": "http://old-typo3.default.svc/",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+    "attributes":
+      {
+        "requestConfig": "WhatWeb/0.5.5",
+        "ipAddress": "10.96.137.239",
+        "country": "RESERVED/ZZ",
+        "HTML5": true,
+        "Apache": "",
+        "Content-Language": "en",
+        "HTTPServer": "Apache/2.4.25 (Debian)",
+        "MetaGenerator": "TYPO3 CMS",
+        "PHP": "",
+        "PoweredBy": "TYPO3",
+        "X-Powered-By": "PHP/7.2.34",
+      },
+    "id": "78b495dd-a073-40b2-81e5-1a487b334fbe",
+    "parsed_at": "2021-12-08T10:13:54.735Z",
+  },
+]
