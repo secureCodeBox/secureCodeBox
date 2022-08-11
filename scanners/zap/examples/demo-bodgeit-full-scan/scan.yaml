@@ -15,7 +15,7 @@ spec:
     - "-t"
     - "http://bodgeit.demo-targets.svc:8080"
     # include the alpha active and passive scan rules as well
-    - "-a"                
+    - "-a"
     # show debug messages
     - "-d"
     # the number of minutes to spider for (default 1)

@@ -35,7 +35,7 @@ hook:
   # hook.tolerations -- Optional tolerations settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
   tolerations: []
 
-  # hook.authentication -- Optional basic authentication credentials 
+  # hook.authentication -- Optional basic authentication credentials
   authentication:
     basic:
       # -- Link a pre-existing generic secret with `usernameKey` and `passwordKey` key / value pairs
@@ -43,4 +43,4 @@ hook:
       # -- Name of the username key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs
       usernameKey: username
       # -- Name of the password key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs
-      passwordKey: password 
+      passwordKey: password

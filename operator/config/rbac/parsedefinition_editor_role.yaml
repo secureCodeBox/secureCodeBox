@@ -8,21 +8,21 @@ kind: ClusterRole
 metadata:
   name: parsedefinition-editor-role
 rules:
-- apiGroups:
-  - execution.securecodebox.io
-  resources:
-  - parsedefinitions
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - execution.securecodebox.io
-  resources:
-  - parsedefinitions/status
-  verbs:
-  - get
+  - apiGroups:
+      - execution.securecodebox.io
+    resources:
+      - parsedefinitions
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - execution.securecodebox.io
+    resources:
+      - parsedefinitions/status
+    verbs:
+      - get

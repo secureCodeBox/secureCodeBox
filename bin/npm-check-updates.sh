@@ -5,10 +5,9 @@
 # the `package-lock.json` using `npm i`
 
 pkgs=$(find . -type f -name package-lock.json)
-for pkg in $pkgs
-do
-  dir=$(dirname $pkg);
-  cd $dir;
-  ncu -u -t minor;
-  npm i;
+for pkg in $pkgs; do
+  dir=$(dirname $pkg)
+  cd $dir
+  ncu -u -t minor
+  npm i
 done

@@ -8,17 +8,17 @@ kind: ClusterRole
 metadata:
   name: scancompletionhook-viewer-role
 rules:
-- apiGroups:
-  - execution.securecodebox.io
-  resources:
-  - scancompletionhooks
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - execution.securecodebox.io
-  resources:
-  - scancompletionhooks/status
-  verbs:
-  - get
+  - apiGroups:
+      - execution.securecodebox.io
+    resources:
+      - scancompletionhooks
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - execution.securecodebox.io
+    resources:
+      - scancompletionhooks/status
+    verbs:
+      - get

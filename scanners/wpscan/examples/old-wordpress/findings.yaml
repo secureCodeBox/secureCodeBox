@@ -12,28 +12,33 @@
     "severity": "INFORMATIONAL",
     "reference": {},
     "confidence": 100,
-    "attributes": {
-      "ip_address": "10.99.82.140",
-      "wpscan_version": "3.8.7",
-      "wpscan_requests": 4777,
-      "wp_version": "4.0.31",
-      "wp_release_date": "2020-06-10",
-      "wp_release_status": "latest",
-      "wp_interesting_entries": [
-        "http://old-wordpress.demo-targets.svc.cluster.local/, Match: 'WordPress 4.0.31'"
-      ],
-      "wp_found_by": "Meta Generator (Passive Detection)",
-      "wp_confirmed_by": {
-        "Atom Generator (Aggressive Detection)": {
-          "confidence": 80,
-          "interesting_entries": [
-            "http://old-wordpress.demo-targets.svc.cluster.local/?feed=atom, <generator uri=\"https://wordpress.org/\" version=\"4.0.31\">WordPress</generator>"
-          ]
-        }
+    "attributes":
+      {
+        "ip_address": "10.99.82.140",
+        "wpscan_version": "3.8.7",
+        "wpscan_requests": 4777,
+        "wp_version": "4.0.31",
+        "wp_release_date": "2020-06-10",
+        "wp_release_status": "latest",
+        "wp_interesting_entries":
+          [
+            "http://old-wordpress.demo-targets.svc.cluster.local/, Match: 'WordPress 4.0.31'",
+          ],
+        "wp_found_by": "Meta Generator (Passive Detection)",
+        "wp_confirmed_by":
+          {
+            "Atom Generator (Aggressive Detection)":
+              {
+                "confidence": 80,
+                "interesting_entries":
+                  [
+                    'http://old-wordpress.demo-targets.svc.cluster.local/?feed=atom, <generator uri="https://wordpress.org/" version="4.0.31">WordPress</generator>',
+                  ],
+              },
+          },
+        "wp_vulnerabilities": [],
       },
-      "wp_vulnerabilities": []
-    },
-    "id": "35e61c23-d525-4509-a024-d1aef37a1623"
+    "id": "35e61c23-d525-4509-a024-d1aef37a1623",
   },
   {
     "name": "WordPress finding 'headers'",
@@ -44,15 +49,14 @@
     "severity": "INFORMATIONAL",
     "confidence": 100,
     "reference": {},
-    "attributes": {
-      "wp_interesting_entries": [
-        "Server: nginx/1.7.7",
-        "X-Powered-By: PHP/5.4.34-0+deb7u1"
-      ],
-      "wp_found_by": "Headers (Passive Detection)",
-      "wp_confirmed_by": {}
-    },
-    "id": "ca074030-2e55-4a10-bf8f-039c1b8978d9"
+    "attributes":
+      {
+        "wp_interesting_entries":
+          ["Server: nginx/1.7.7", "X-Powered-By: PHP/5.4.34-0+deb7u1"],
+        "wp_found_by": "Headers (Passive Detection)",
+        "wp_confirmed_by": {},
+      },
+    "id": "ca074030-2e55-4a10-bf8f-039c1b8978d9",
   },
   {
     "name": "WordPress finding 'xmlrpc'",
@@ -63,12 +67,13 @@
     "severity": "INFORMATIONAL",
     "confidence": 100,
     "reference": {},
-    "attributes": {
-      "wp_interesting_entries": [],
-      "wp_found_by": "Direct Access (Aggressive Detection)",
-      "wp_confirmed_by": {}
-    },
-    "id": "9b521d88-4018-4069-971d-7a020eebab51"
+    "attributes":
+      {
+        "wp_interesting_entries": [],
+        "wp_found_by": "Direct Access (Aggressive Detection)",
+        "wp_confirmed_by": {},
+      },
+    "id": "9b521d88-4018-4069-971d-7a020eebab51",
   },
   {
     "name": "WordPress finding 'readme'",
@@ -79,12 +84,13 @@
     "severity": "INFORMATIONAL",
     "confidence": 100,
     "reference": {},
-    "attributes": {
-      "wp_interesting_entries": [],
-      "wp_found_by": "Direct Access (Aggressive Detection)",
-      "wp_confirmed_by": {}
-    },
-    "id": "7160e807-b6bb-4994-9477-22cac8e2f549"
+    "attributes":
+      {
+        "wp_interesting_entries": [],
+        "wp_found_by": "Direct Access (Aggressive Detection)",
+        "wp_confirmed_by": {},
+      },
+    "id": "7160e807-b6bb-4994-9477-22cac8e2f549",
   },
   {
     "name": "WordPress finding 'wp_cron'",
@@ -95,11 +101,12 @@
     "severity": "INFORMATIONAL",
     "confidence": 60,
     "reference": {},
-    "attributes": {
-      "wp_interesting_entries": [],
-      "wp_found_by": "Direct Access (Aggressive Detection)",
-      "wp_confirmed_by": {}
-    },
-    "id": "828bf907-da73-4076-994b-a46652b1f972"
-  }
+    "attributes":
+      {
+        "wp_interesting_entries": [],
+        "wp_found_by": "Direct Access (Aggressive Detection)",
+        "wp_confirmed_by": {},
+      },
+    "id": "828bf907-da73-4076-994b-a46652b1f972",
+  },
 ]

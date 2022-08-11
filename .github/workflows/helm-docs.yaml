@@ -68,4 +68,4 @@ jobs:
           commit_user_email: securecodebox@iteratec.com
           # Optional. Used by `git-commit`.
           # See https://git-scm.com/docs/git-commit#_options
-          commit_options: '--signoff'
+          commit_options: "--signoff"

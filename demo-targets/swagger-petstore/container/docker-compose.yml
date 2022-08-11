@@ -8,4 +8,4 @@ services:
     image: swaggerapi/petstore3:unstable
     ports:
       - 8080:8080
-# Website will be available under http://localhost:8080/  
+# Website will be available under http://localhost:8080/

@@ -8,7 +8,7 @@
 timeout 30 firefox $@
 timeout 30 firefox $@
 if [ ! -f /home/securecodebox/screenshot.png ]; then
-    touch /home/securecodebox/screenshot.png
+  touch /home/securecodebox/screenshot.png
 fi
 chmod a=r /home/securecodebox/screenshot.png
 exit 0

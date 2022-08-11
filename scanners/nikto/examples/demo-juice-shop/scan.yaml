@@ -2,18 +2,18 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-apiVersion: 'execution.securecodebox.io/v1'
+apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: 'nikto-juice-shop'
+  name: "nikto-juice-shop"
   labels:
-    organization: 'secureCodeBox'
+    organization: "secureCodeBox"
 spec:
-  scanType: 'nikto'
+  scanType: "nikto"
   parameters:
-    - '-h'
-    - 'juice-shop.demo-targets.svc'
-    - '-port 3000'
-    - '-Tuning'
+    - "-h"
+    - "juice-shop.demo-targets.svc"
+    - "-port 3000"
+    - "-Tuning"
     # Only enable fast (ish) Scan Options, remove attack option like SQLi and RCE. We will leave those to ZAP
-    - '1,2,3,5,7,b'
+    - "1,2,3,5,7,b"

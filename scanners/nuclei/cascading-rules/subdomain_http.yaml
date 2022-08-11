@@ -24,7 +24,7 @@ spec:
         attributes:
           service: "http-*"
           state: open
-      
+
   scanSpec:
     scanType: "nuclei"
     parameters:

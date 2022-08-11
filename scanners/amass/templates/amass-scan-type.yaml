@@ -192,7 +192,7 @@ data:
     #[Spyse]
     #apikey =
 
-    # Provide your Twitter App Consumer API key and Consumer API secrety key
+    # Provide your Twitter App Consumer API key and Consumer API secretly key
     #[Twitter]
     #apikey =
     #secret =

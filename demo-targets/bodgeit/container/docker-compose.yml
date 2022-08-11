@@ -5,7 +5,7 @@
 version: "3.8"
 services:
   bodgeit:
-    image: psiinon/bodgeit:latest 
+    image: psiinon/bodgeit:latest
     ports:
       - 8080:8080
 # Website will be available under http://localhost:8080/bodgeit

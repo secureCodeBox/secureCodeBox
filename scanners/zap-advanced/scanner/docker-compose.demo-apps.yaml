@@ -46,10 +46,10 @@ services:
         condition: on-failure
     ports:
       - "8000:8080"
-    environment: 
-       - SWAGGER_BASE_PATH=/v2
-       - SWAGGER_HOST=http://localhost:8000
-       - SWAGGER_URL=http://localhost:8000
+    environment:
+      - SWAGGER_BASE_PATH=/v2
+      - SWAGGER_HOST=http://localhost:8000
+      - SWAGGER_URL=http://localhost:8000
     # healthcheck:
     #   interval: 1m
     #   retries: 3

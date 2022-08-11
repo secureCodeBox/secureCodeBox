@@ -46,10 +46,10 @@ services:
         condition: on-failure
     ports:
       - "8000:8080"
-    environment: 
-       - SWAGGER_BASE_PATH=/v2
-       - SWAGGER_HOST=http://localhost:8000
-       - SWAGGER_URL=http://localhost:8000
+    environment:
+      - SWAGGER_BASE_PATH=/v2
+      - SWAGGER_HOST=http://localhost:8000
+      - SWAGGER_URL=http://localhost:8000
     # healthcheck:
     #   interval: 1m
     #   retries: 3
@@ -71,26 +71,26 @@ services:
       - "bodgeit:bodgeit"
       - "juiceshop:juiceshop"
       - "petstore:petstore"
-    depends_on: 
+    depends_on:
       - "bodgeit"
       - "juiceshop"
       - "petstore"
-    volumes: 
+    volumes:
       - ./scripts/authentication:/home/zap/.ZAP_D/scripts/scripts/authentication
       - ./scripts/session:/home/zap/.ZAP_D/scripts/scripts/session
     entrypoint:
-      - 'zap.sh'
-      - '-daemon'
-      - '-port'
-      - '8090'
-      - '-host'
-      - '0.0.0.0'
-      - '-config'
-      - 'api.addrs.addr.name=.*'
-      - '-config'
-      - 'api.addrs.addr.regex=true'
-      - '-config'
-      - 'api.disablekey=true'
+      - "zap.sh"
+      - "-daemon"
+      - "-port"
+      - "8090"
+      - "-host"
+      - "0.0.0.0"
+      - "-config"
+      - "api.addrs.addr.name=.*"
+      - "-config"
+      - "api.addrs.addr.regex=true"
+      - "-config"
+      - "api.disablekey=true"
       #- '-addonupdate'
       #- '-addoninstall'
       #- 'pscanrulesBeta'
@@ -118,24 +118,31 @@ services:
         condition: none
     links:
       - "zap:zap"
-    depends_on: 
+    depends_on:
       - "bodgeit"
       - "juiceshop"
       - "zap"
-    # environment: 
+    # environment:
     #   - SCB_ZAP_CONFIG_DIR="/zap/secureCodeBox-extensions/configs/"
-    volumes: 
+    volumes:
       - ./tests/mocks/scan-full-petstore-docker/:/home/securecodebox/configs/
       - ./tests/results/:/home/securecodebox/results/
-    entrypoint: ['python3', 
-                 '-m', 'zapclient', 
-                 '--report-type', 'XML', 
-                 '--zap-url', 'zap:8090',
-                 '--output-folder',
-                 '/home/securecodebox/results/',
-                 '--config-folder',
-                 '/home/securecodebox/configs/',
-                 '-t', 'http://petstore:8080/']
+    entrypoint:
+      [
+        "python3",
+        "-m",
+        "zapclient",
+        "--report-type",
+        "XML",
+        "--zap-url",
+        "zap:8090",
+        "--output-folder",
+        "/home/securecodebox/results/",
+        "--config-folder",
+        "/home/securecodebox/configs/",
+        "-t",
+        "http://petstore:8080/",
+      ]
     # healthcheck:
     #   interval: 1m30s
     #   retries: 3

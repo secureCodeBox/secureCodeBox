@@ -15,11 +15,11 @@ spec:
     - "-t"
     - "http://juice-shop.demo-targets.svc:3000"
     # include the alpha active and passive scan rules as well
-    - "-a"                
+    - "-a"
     # show debug messages
     - "-d"
     # use the Ajax spider in addition to the traditional one
-    - "-j"                
+    - "-j"
     # the number of minutes to spider for (default 1)
     - "-m"
     - "3"

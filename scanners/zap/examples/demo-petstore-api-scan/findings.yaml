@@ -3,597 +3,611 @@
 # SPDX-License-Identifier: Apache-2.0
 
 [
-    {
-        "name": "X-Content-Type-Options Header Missing",
-        "description": "The Anti-MIME-Sniffing header X-Content-Type-Options was not set to 'nosniff'. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.",
-        "category": "X-Content-Type-Options Header Missing",
-        "location": "http://swagger-petstore.demo-targets.svc",
-        "osi_layer": "APPLICATION",
-        "severity": "LOW",
-        "attributes": {
-            "host": "swagger-petstore.demo-targets.svc",
-            "zap_confidence": "2",
-            "zap_count": "10",
-            "zap_solution": "Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to 'nosniff' for all web pages.If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.",
-            "zap_otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.At \"High\" threshold this scanner will not alert on client or server error responses.",
-            "zap_reference": "http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspxhttps://owasp.org/www-community/Security_Headers",
-            "zap_cweid": "16",
-            "zap_wascid": "15",
-            "zap_riskcode": "1",
-            "zap_pluginid": "10021",
-            "zap_finding_urls": [
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/store/inventory",
-                    "method": "GET",
-                    "param": "X-Content-Type-Options"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order/10",
-                    "method": "GET",
-                    "param": "X-Content-Type-Options"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/swagger.json",
-                    "method": "GET",
-                    "param": "X-Content-Type-Options"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order",
-                    "method": "POST",
-                    "param": "X-Content-Type-Options"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/login?username=username&password=ZAP",
-                    "method": "GET",
-                    "param": "X-Content-Type-Options"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet",
-                    "method": "PUT",
-                    "param": "X-Content-Type-Options"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/findByTags?tags=tags",
-                    "method": "GET",
-                    "param": "X-Content-Type-Options"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet",
-                    "method": "POST",
-                    "param": "X-Content-Type-Options"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10",
-                    "method": "GET",
-                    "param": "X-Content-Type-Options"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/findByStatus?status=available",
-                    "method": "GET",
-                    "param": "X-Content-Type-Options"
-                }
-            ]
-        },
-        "id": "dea30acd-f3cb-43b4-97a2-9fd40c434792"
-    },
-    {
-        "name": "Cross-Domain Misconfiguration",
-        "description": "Web browser data loading may be possible, due to a Cross Origin Resource Sharing (CORS) misconfiguration on the web server",
-        "category": "Cross-Domain Misconfiguration",
-        "location": "http://swagger-petstore.demo-targets.svc",
-        "osi_layer": "APPLICATION",
-        "severity": "MEDIUM",
-        "attributes": {
-            "host": "swagger-petstore.demo-targets.svc",
-            "zap_confidence": "2",
-            "zap_count": "21",
-            "zap_solution": "Ensure that sensitive data is not available in an unauthenticated manner (using IP address white-listing, for instance).Configure the \"Access-Control-Allow-Origin\" HTTP header to a more restrictive set of domains, or remove all CORS headers entirely, to allow the web browser to enforce the Same Origin Policy (SOP) in a more restrictive manner.",
-            "zap_otherinfo": "The CORS misconfiguration on the web server permits cross-domain read requests from arbitrary third party domains, using unauthenticated APIs on this domain. Web browser implementations do not permit arbitrary third parties to read the response from authenticated APIs, however. This reduces the risk somewhat. This misconfiguration could be used by an attacker to access data that is available in an unauthenticated manner, but which uses some other form of security, such as IP address white-listing.",
-            "zap_reference": "http://www.hpenterprisesecurity.com/vulncat/en/vulncat/vb/html5_overly_permissive_cors_policy.html",
-            "zap_cweid": "264",
-            "zap_wascid": "14",
-            "zap_riskcode": "2",
-            "zap_pluginid": "10098",
-            "zap_finding_urls": [
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/login?username=username&password=ZAP",
-                    "method": "GET",
-                    "evidence": "Access-Control-Allow-Origin: *"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/username",
-                    "method": "GET",
-                    "evidence": "Access-Control-Allow-Origin: *"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet",
-                    "method": "PUT",
-                    "evidence": "Access-Control-Allow-Origin: *"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet",
-                    "method": "POST",
-                    "evidence": "Access-Control-Allow-Origin: *"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10",
-                    "method": "DELETE",
-                    "evidence": "Access-Control-Allow-Origin: *"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order",
-                    "method": "POST",
-                    "evidence": "Access-Control-Allow-Origin: *"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/username",
-                    "method": "PUT",
-                    "evidence": "Access-Control-Allow-Origin: *"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10",
-                    "method": "GET",
-                    "evidence": "Access-Control-Allow-Origin: *"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10",
-                    "method": "POST",
-                    "evidence": "Access-Control-Allow-Origin: *"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user",
-                    "method": "POST",
-                    "evidence": "Access-Control-Allow-Origin: *"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/findByStatus?status=available",
-                    "method": "GET",
-                    "evidence": "Access-Control-Allow-Origin: *"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/store/inventory",
-                    "method": "GET",
-                    "evidence": "Access-Control-Allow-Origin: *"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10/uploadImage",
-                    "method": "POST",
-                    "evidence": "Access-Control-Allow-Origin: *"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order/10",
-                    "method": "GET",
-                    "evidence": "Access-Control-Allow-Origin: *"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/logout",
-                    "method": "GET",
-                    "evidence": "Access-Control-Allow-Origin: *"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/createWithArray",
-                    "method": "POST",
-                    "evidence": "Access-Control-Allow-Origin: *"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/swagger.json",
-                    "method": "GET",
-                    "evidence": "Access-Control-Allow-Origin: *"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/createWithList",
-                    "method": "POST",
-                    "evidence": "Access-Control-Allow-Origin: *"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order/10",
-                    "method": "DELETE",
-                    "evidence": "Access-Control-Allow-Origin: *"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/username",
-                    "method": "DELETE",
-                    "evidence": "Access-Control-Allow-Origin: *"
-                }
-            ]
-        },
-        "id": "58d17ff9-ff1e-4dc7-b576-95cad3b99cf2"
-    },
-    {
-        "name": "A Client Error response code was returned by the server",
-        "description": "A response code of 404 was returned by the server.This may indicate that the application is failing to handle unexpected input correctly.Raised by the 'Alert on HTTP Response Code Error' script",
-        "category": "A Client Error response code was returned by the server",
-        "location": "http://swagger-petstore.demo-targets.svc",
-        "osi_layer": "APPLICATION",
-        "severity": "INFORMATIONAL",
-        "attributes": {
-            "host": "swagger-petstore.demo-targets.svc",
-            "zap_confidence": "3",
-            "zap_count": "41",
-            "zap_solution": null,
-            "zap_otherinfo": null,
-            "zap_reference": null,
-            "zap_cweid": "388",
-            "zap_wascid": "20",
-            "zap_riskcode": "0",
-            "zap_pluginid": "100000",
-            "zap_finding_urls": [
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2",
-                    "method": "GET",
-                    "evidence": "HTTP/1.1 404"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/2826924580843642668",
-                    "method": "GET",
-                    "evidence": "HTTP/1.1 404"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10/uploadImage/",
-                    "method": "POST",
-                    "evidence": "HTTP/1.1 415"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/username/",
-                    "method": "DELETE",
-                    "evidence": "HTTP/1.1 404"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order/10/",
-                    "method": "GET",
-                    "evidence": "HTTP/1.1 404"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order",
-                    "method": "GET",
-                    "evidence": "HTTP/1.1 405"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/",
-                    "method": "GET",
-                    "evidence": "HTTP/1.1 404"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/username",
-                    "method": "DELETE",
-                    "evidence": "HTTP/1.1 404"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/trace.axd",
-                    "method": "GET",
-                    "evidence": "HTTP/1.1 404"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10/.htaccess",
-                    "method": "GET",
-                    "evidence": "HTTP/1.1 404"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/trace.axd",
-                    "method": "GET",
-                    "evidence": "HTTP/1.1 404"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/username/",
-                    "method": "GET",
-                    "evidence": "HTTP/1.1 404"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/",
-                    "method": "GET",
-                    "evidence": "HTTP/1.1 405"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet",
-                    "method": "GET",
-                    "evidence": "HTTP/1.1 405"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/.htaccess",
-                    "method": "GET",
-                    "evidence": "HTTP/1.1 404"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/.htaccess",
-                    "method": "GET",
-                    "evidence": "HTTP/1.1 404"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/7748677433108351032",
-                    "method": "GET",
-                    "evidence": "HTTP/1.1 404"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10/trace.axd",
-                    "method": "GET",
-                    "evidence": "HTTP/1.1 404"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order/",
-                    "method": "GET",
-                    "evidence": "HTTP/1.1 405"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10/3673112191056276290",
-                    "method": "GET",
-                    "evidence": "HTTP/1.1 404"
-                }
-            ]
-        },
-        "id": "86067e76-745d-4ef6-b30e-2424068fa84e"
-    },
-    {
-        "name": "Server Leaks Version Information via \"Server\" HTTP Response Header Field",
-        "description": "The web/application server is leaking version information via the \"Server\" HTTP response header. Access to such information may facilitate attackers identifying other vulnerabilities your web/application server is subject to.",
-        "category": "Server Leaks Version Information via \"Server\" HTTP Response Header Field",
-        "location": "http://swagger-petstore.demo-targets.svc",
-        "osi_layer": "APPLICATION",
-        "severity": "LOW",
-        "attributes": {
-            "host": "swagger-petstore.demo-targets.svc",
-            "zap_confidence": "3",
-            "zap_count": "21",
-            "zap_solution": "Ensure that your web server, application server, load balancer, etc. is configured to suppress the \"Server\" header or provide generic details.",
-            "zap_otherinfo": null,
-            "zap_reference": "http://httpd.apache.org/docs/current/mod/core.html#servertokenshttp://msdn.microsoft.com/en-us/library/ff648552.aspx#ht_urlscan_007http://blogs.msdn.com/b/varunm/archive/2013/04/23/remove-unwanted-http-response-headers.aspxhttp://www.troyhunt.com/2012/02/shhh-dont-let-your-response-headers.html",
-            "zap_cweid": "200",
-            "zap_wascid": "13",
-            "zap_riskcode": "1",
-            "zap_pluginid": "10036",
-            "zap_finding_urls": [
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10/uploadImage",
-                    "method": "POST",
-                    "evidence": "Jetty(9.2.9.v20150224)"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user",
-                    "method": "POST",
-                    "evidence": "Jetty(9.2.9.v20150224)"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order/10",
-                    "method": "DELETE",
-                    "evidence": "Jetty(9.2.9.v20150224)"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/store/inventory",
-                    "method": "GET",
-                    "evidence": "Jetty(9.2.9.v20150224)"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order/10",
-                    "method": "GET",
-                    "evidence": "Jetty(9.2.9.v20150224)"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/createWithArray",
-                    "method": "POST",
-                    "evidence": "Jetty(9.2.9.v20150224)"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/findByTags?tags=tags",
-                    "method": "GET",
-                    "evidence": "Jetty(9.2.9.v20150224)"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10",
-                    "method": "DELETE",
-                    "evidence": "Jetty(9.2.9.v20150224)"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order",
-                    "method": "POST",
-                    "evidence": "Jetty(9.2.9.v20150224)"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/username",
-                    "method": "GET",
-                    "evidence": "Jetty(9.2.9.v20150224)"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/username",
-                    "method": "PUT",
-                    "evidence": "Jetty(9.2.9.v20150224)"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/findByStatus?status=available",
-                    "method": "GET",
-                    "evidence": "Jetty(9.2.9.v20150224)"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet",
-                    "method": "PUT",
-                    "evidence": "Jetty(9.2.9.v20150224)"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10",
-                    "method": "POST",
-                    "evidence": "Jetty(9.2.9.v20150224)"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/createWithList",
-                    "method": "POST",
-                    "evidence": "Jetty(9.2.9.v20150224)"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/logout",
-                    "method": "GET",
-                    "evidence": "Jetty(9.2.9.v20150224)"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10",
-                    "method": "GET",
-                    "evidence": "Jetty(9.2.9.v20150224)"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/username",
-                    "method": "DELETE",
-                    "evidence": "Jetty(9.2.9.v20150224)"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/swagger.json",
-                    "method": "GET",
-                    "evidence": "Jetty(9.2.9.v20150224)"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/login?username=username&password=ZAP",
-                    "method": "GET",
-                    "evidence": "Jetty(9.2.9.v20150224)"
-                }
-            ]
-        },
-        "id": "e54a548f-1c41-4baa-9614-42be2f5eeeb8"
-    },
-    {
-        "name": "Unexpected Content-Type was returned",
-        "description": "A Content-Type of text/html was returned by the server.This is not one of the types expected to be returned by an API.Raised by the 'Alert on Unexpected Content Types' script",
-        "category": "Unexpected Content-Type was returned",
-        "location": "http://swagger-petstore.demo-targets.svc",
-        "osi_layer": "APPLICATION",
-        "severity": "LOW",
-        "attributes": {
-            "host": "swagger-petstore.demo-targets.svc",
-            "zap_confidence": "3",
-            "zap_count": "7",
-            "zap_solution": null,
-            "zap_otherinfo": null,
-            "zap_reference": null,
-            "zap_cweid": null,
-            "zap_wascid": null,
-            "zap_riskcode": "1",
-            "zap_pluginid": "100001",
-            "zap_finding_urls": [
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/.htaccess",
-                    "method": "GET",
-                    "evidence": "text/html"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc",
-                    "method": "GET",
-                    "evidence": "text/html"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/",
-                    "method": "GET",
-                    "evidence": "text/html"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/elmah.axd",
-                    "method": "GET",
-                    "evidence": "text/html"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/trace.axd",
-                    "method": "GET",
-                    "evidence": "text/html"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/2826924580843642668",
-                    "method": "GET",
-                    "evidence": "text/html"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10/",
-                    "method": "POST",
-                    "evidence": "text/html"
-                }
-            ]
-        },
-        "id": "75540c90-04c8-45a4-bc86-9b8e5a97e46e"
-    },
-    {
-        "name": "Information Disclosure - Sensitive Information in URL",
-        "description": "The request appeared to contain sensitive information leaked in the URL. This can violate PCI and most organizational compliance policies. You can configure the list of strings for this check to add or remove values specific to your environment.",
-        "category": "Information Disclosure - Sensitive Information in URL",
-        "location": "http://swagger-petstore.demo-targets.svc",
-        "osi_layer": "APPLICATION",
-        "severity": "INFORMATIONAL",
-        "attributes": {
-            "host": "swagger-petstore.demo-targets.svc",
-            "zap_confidence": "2",
-            "zap_count": "2",
-            "zap_solution": "Do not pass sensitive information in URIs.",
-            "zap_otherinfo": "The URL contains potentially sensitive information. The following string was found via the pattern: passpassword",
-            "zap_reference": null,
-            "zap_cweid": "200",
-            "zap_wascid": "13",
-            "zap_riskcode": "0",
-            "zap_pluginid": "10024",
-            "zap_finding_urls": [
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/login?username=username&password=ZAP",
-                    "method": "GET",
-                    "param": "password",
-                    "evidence": "password"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/login?username=username&password=ZAP",
-                    "method": "GET",
-                    "param": "username",
-                    "evidence": "username"
-                }
-            ]
-        },
-        "id": "b69167f7-ee9a-4606-a55f-0733ba094525"
-    },
-    {
-        "name": "A Server Error response code was returned by the server",
-        "description": "A response code of 500 was returned by the server.This may indicate that the application is failing to handle unexpected input correctly.Raised by the 'Alert on HTTP Response Code Error' script",
-        "category": "A Server Error response code was returned by the server",
-        "location": "http://swagger-petstore.demo-targets.svc",
-        "osi_layer": "APPLICATION",
-        "severity": "LOW",
-        "attributes": {
-            "host": "swagger-petstore.demo-targets.svc",
-            "zap_confidence": "3",
-            "zap_count": "7",
-            "zap_solution": null,
-            "zap_otherinfo": null,
-            "zap_reference": null,
-            "zap_cweid": "388",
-            "zap_wascid": "20",
-            "zap_riskcode": "1",
-            "zap_pluginid": "100000",
-            "zap_finding_urls": [
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order",
-                    "method": "POST",
-                    "evidence": "HTTP/1.1 500"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/createWithList",
-                    "method": "POST",
-                    "evidence": "HTTP/1.1 500"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet",
-                    "method": "POST",
-                    "evidence": "HTTP/1.1 500"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/pet",
-                    "method": "PUT",
-                    "evidence": "HTTP/1.1 500"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user",
-                    "method": "POST",
-                    "evidence": "HTTP/1.1 500"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/createWithArray",
-                    "method": "POST",
-                    "evidence": "HTTP/1.1 500"
-                },
-                {
-                    "uri": "http://swagger-petstore.demo-targets.svc/v2/user/username",
-                    "method": "PUT",
-                    "evidence": "HTTP/1.1 500"
-                }
-            ]
-        },
-        "id": "dc81e191-d6c7-4893-9acf-597b8befa7e7"
-    }
+  {
+    "name": "X-Content-Type-Options Header Missing",
+    "description": "The Anti-MIME-Sniffing header X-Content-Type-Options was not set to 'nosniff'. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.",
+    "category": "X-Content-Type-Options Header Missing",
+    "location": "http://swagger-petstore.demo-targets.svc",
+    "osi_layer": "APPLICATION",
+    "severity": "LOW",
+    "attributes":
+      {
+        "host": "swagger-petstore.demo-targets.svc",
+        "zap_confidence": "2",
+        "zap_count": "10",
+        "zap_solution": "Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to 'nosniff' for all web pages.If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.",
+        "zap_otherinfo": 'This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.At "High" threshold this scanner will not alert on client or server error responses.',
+        "zap_reference": "http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspxhttps://owasp.org/www-community/Security_Headers",
+        "zap_cweid": "16",
+        "zap_wascid": "15",
+        "zap_riskcode": "1",
+        "zap_pluginid": "10021",
+        "zap_finding_urls":
+          [
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/store/inventory",
+              "method": "GET",
+              "param": "X-Content-Type-Options",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order/10",
+              "method": "GET",
+              "param": "X-Content-Type-Options",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/swagger.json",
+              "method": "GET",
+              "param": "X-Content-Type-Options",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order",
+              "method": "POST",
+              "param": "X-Content-Type-Options",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/login?username=username&password=ZAP",
+              "method": "GET",
+              "param": "X-Content-Type-Options",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet",
+              "method": "PUT",
+              "param": "X-Content-Type-Options",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/findByTags?tags=tags",
+              "method": "GET",
+              "param": "X-Content-Type-Options",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet",
+              "method": "POST",
+              "param": "X-Content-Type-Options",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10",
+              "method": "GET",
+              "param": "X-Content-Type-Options",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/findByStatus?status=available",
+              "method": "GET",
+              "param": "X-Content-Type-Options",
+            },
+          ],
+      },
+    "id": "dea30acd-f3cb-43b4-97a2-9fd40c434792",
+  },
+  {
+    "name": "Cross-Domain Misconfiguration",
+    "description": "Web browser data loading may be possible, due to a Cross Origin Resource Sharing (CORS) misconfiguration on the web server",
+    "category": "Cross-Domain Misconfiguration",
+    "location": "http://swagger-petstore.demo-targets.svc",
+    "osi_layer": "APPLICATION",
+    "severity": "MEDIUM",
+    "attributes":
+      {
+        "host": "swagger-petstore.demo-targets.svc",
+        "zap_confidence": "2",
+        "zap_count": "21",
+        "zap_solution": 'Ensure that sensitive data is not available in an unauthenticated manner (using IP address white-listing, for instance).Configure the "Access-Control-Allow-Origin" HTTP header to a more restrictive set of domains, or remove all CORS headers entirely, to allow the web browser to enforce the Same Origin Policy (SOP) in a more restrictive manner.',
+        "zap_otherinfo": "The CORS misconfiguration on the web server permits cross-domain read requests from arbitrary third party domains, using unauthenticated APIs on this domain. Web browser implementations do not permit arbitrary third parties to read the response from authenticated APIs, however. This reduces the risk somewhat. This misconfiguration could be used by an attacker to access data that is available in an unauthenticated manner, but which uses some other form of security, such as IP address white-listing.",
+        "zap_reference": "http://www.hpenterprisesecurity.com/vulncat/en/vulncat/vb/html5_overly_permissive_cors_policy.html",
+        "zap_cweid": "264",
+        "zap_wascid": "14",
+        "zap_riskcode": "2",
+        "zap_pluginid": "10098",
+        "zap_finding_urls":
+          [
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/login?username=username&password=ZAP",
+              "method": "GET",
+              "evidence": "Access-Control-Allow-Origin: *",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/username",
+              "method": "GET",
+              "evidence": "Access-Control-Allow-Origin: *",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet",
+              "method": "PUT",
+              "evidence": "Access-Control-Allow-Origin: *",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet",
+              "method": "POST",
+              "evidence": "Access-Control-Allow-Origin: *",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10",
+              "method": "DELETE",
+              "evidence": "Access-Control-Allow-Origin: *",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order",
+              "method": "POST",
+              "evidence": "Access-Control-Allow-Origin: *",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/username",
+              "method": "PUT",
+              "evidence": "Access-Control-Allow-Origin: *",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10",
+              "method": "GET",
+              "evidence": "Access-Control-Allow-Origin: *",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10",
+              "method": "POST",
+              "evidence": "Access-Control-Allow-Origin: *",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user",
+              "method": "POST",
+              "evidence": "Access-Control-Allow-Origin: *",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/findByStatus?status=available",
+              "method": "GET",
+              "evidence": "Access-Control-Allow-Origin: *",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/store/inventory",
+              "method": "GET",
+              "evidence": "Access-Control-Allow-Origin: *",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10/uploadImage",
+              "method": "POST",
+              "evidence": "Access-Control-Allow-Origin: *",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order/10",
+              "method": "GET",
+              "evidence": "Access-Control-Allow-Origin: *",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/logout",
+              "method": "GET",
+              "evidence": "Access-Control-Allow-Origin: *",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/createWithArray",
+              "method": "POST",
+              "evidence": "Access-Control-Allow-Origin: *",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/swagger.json",
+              "method": "GET",
+              "evidence": "Access-Control-Allow-Origin: *",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/createWithList",
+              "method": "POST",
+              "evidence": "Access-Control-Allow-Origin: *",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order/10",
+              "method": "DELETE",
+              "evidence": "Access-Control-Allow-Origin: *",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/username",
+              "method": "DELETE",
+              "evidence": "Access-Control-Allow-Origin: *",
+            },
+          ],
+      },
+    "id": "58d17ff9-ff1e-4dc7-b576-95cad3b99cf2",
+  },
+  {
+    "name": "A Client Error response code was returned by the server",
+    "description": "A response code of 404 was returned by the server.This may indicate that the application is failing to handle unexpected input correctly.Raised by the 'Alert on HTTP Response Code Error' script",
+    "category": "A Client Error response code was returned by the server",
+    "location": "http://swagger-petstore.demo-targets.svc",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes":
+      {
+        "host": "swagger-petstore.demo-targets.svc",
+        "zap_confidence": "3",
+        "zap_count": "41",
+        "zap_solution": null,
+        "zap_otherinfo": null,
+        "zap_reference": null,
+        "zap_cweid": "388",
+        "zap_wascid": "20",
+        "zap_riskcode": "0",
+        "zap_pluginid": "100000",
+        "zap_finding_urls":
+          [
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2",
+              "method": "GET",
+              "evidence": "HTTP/1.1 404",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/2826924580843642668",
+              "method": "GET",
+              "evidence": "HTTP/1.1 404",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10/uploadImage/",
+              "method": "POST",
+              "evidence": "HTTP/1.1 415",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/username/",
+              "method": "DELETE",
+              "evidence": "HTTP/1.1 404",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order/10/",
+              "method": "GET",
+              "evidence": "HTTP/1.1 404",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order",
+              "method": "GET",
+              "evidence": "HTTP/1.1 405",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/",
+              "method": "GET",
+              "evidence": "HTTP/1.1 404",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/username",
+              "method": "DELETE",
+              "evidence": "HTTP/1.1 404",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/trace.axd",
+              "method": "GET",
+              "evidence": "HTTP/1.1 404",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10/.htaccess",
+              "method": "GET",
+              "evidence": "HTTP/1.1 404",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/trace.axd",
+              "method": "GET",
+              "evidence": "HTTP/1.1 404",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/username/",
+              "method": "GET",
+              "evidence": "HTTP/1.1 404",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/",
+              "method": "GET",
+              "evidence": "HTTP/1.1 405",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet",
+              "method": "GET",
+              "evidence": "HTTP/1.1 405",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/.htaccess",
+              "method": "GET",
+              "evidence": "HTTP/1.1 404",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/.htaccess",
+              "method": "GET",
+              "evidence": "HTTP/1.1 404",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/7748677433108351032",
+              "method": "GET",
+              "evidence": "HTTP/1.1 404",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10/trace.axd",
+              "method": "GET",
+              "evidence": "HTTP/1.1 404",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order/",
+              "method": "GET",
+              "evidence": "HTTP/1.1 405",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10/3673112191056276290",
+              "method": "GET",
+              "evidence": "HTTP/1.1 404",
+            },
+          ],
+      },
+    "id": "86067e76-745d-4ef6-b30e-2424068fa84e",
+  },
+  {
+    "name": 'Server Leaks Version Information via "Server" HTTP Response Header Field',
+    "description": 'The web/application server is leaking version information via the "Server" HTTP response header. Access to such information may facilitate attackers identifying other vulnerabilities your web/application server is subject to.',
+    "category": 'Server Leaks Version Information via "Server" HTTP Response Header Field',
+    "location": "http://swagger-petstore.demo-targets.svc",
+    "osi_layer": "APPLICATION",
+    "severity": "LOW",
+    "attributes":
+      {
+        "host": "swagger-petstore.demo-targets.svc",
+        "zap_confidence": "3",
+        "zap_count": "21",
+        "zap_solution": 'Ensure that your web server, application server, load balancer, etc. is configured to suppress the "Server" header or provide generic details.',
+        "zap_otherinfo": null,
+        "zap_reference": "http://httpd.apache.org/docs/current/mod/core.html#servertokenshttp://msdn.microsoft.com/en-us/library/ff648552.aspx#ht_urlscan_007http://blogs.msdn.com/b/varunm/archive/2013/04/23/remove-unwanted-http-response-headers.aspxhttp://www.troyhunt.com/2012/02/shhh-dont-let-your-response-headers.html",
+        "zap_cweid": "200",
+        "zap_wascid": "13",
+        "zap_riskcode": "1",
+        "zap_pluginid": "10036",
+        "zap_finding_urls":
+          [
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10/uploadImage",
+              "method": "POST",
+              "evidence": "Jetty(9.2.9.v20150224)",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user",
+              "method": "POST",
+              "evidence": "Jetty(9.2.9.v20150224)",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order/10",
+              "method": "DELETE",
+              "evidence": "Jetty(9.2.9.v20150224)",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/store/inventory",
+              "method": "GET",
+              "evidence": "Jetty(9.2.9.v20150224)",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order/10",
+              "method": "GET",
+              "evidence": "Jetty(9.2.9.v20150224)",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/createWithArray",
+              "method": "POST",
+              "evidence": "Jetty(9.2.9.v20150224)",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/findByTags?tags=tags",
+              "method": "GET",
+              "evidence": "Jetty(9.2.9.v20150224)",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10",
+              "method": "DELETE",
+              "evidence": "Jetty(9.2.9.v20150224)",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order",
+              "method": "POST",
+              "evidence": "Jetty(9.2.9.v20150224)",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/username",
+              "method": "GET",
+              "evidence": "Jetty(9.2.9.v20150224)",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/username",
+              "method": "PUT",
+              "evidence": "Jetty(9.2.9.v20150224)",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/findByStatus?status=available",
+              "method": "GET",
+              "evidence": "Jetty(9.2.9.v20150224)",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet",
+              "method": "PUT",
+              "evidence": "Jetty(9.2.9.v20150224)",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10",
+              "method": "POST",
+              "evidence": "Jetty(9.2.9.v20150224)",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/createWithList",
+              "method": "POST",
+              "evidence": "Jetty(9.2.9.v20150224)",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/logout",
+              "method": "GET",
+              "evidence": "Jetty(9.2.9.v20150224)",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10",
+              "method": "GET",
+              "evidence": "Jetty(9.2.9.v20150224)",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/username",
+              "method": "DELETE",
+              "evidence": "Jetty(9.2.9.v20150224)",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/swagger.json",
+              "method": "GET",
+              "evidence": "Jetty(9.2.9.v20150224)",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/login?username=username&password=ZAP",
+              "method": "GET",
+              "evidence": "Jetty(9.2.9.v20150224)",
+            },
+          ],
+      },
+    "id": "e54a548f-1c41-4baa-9614-42be2f5eeeb8",
+  },
+  {
+    "name": "Unexpected Content-Type was returned",
+    "description": "A Content-Type of text/html was returned by the server.This is not one of the types expected to be returned by an API.Raised by the 'Alert on Unexpected Content Types' script",
+    "category": "Unexpected Content-Type was returned",
+    "location": "http://swagger-petstore.demo-targets.svc",
+    "osi_layer": "APPLICATION",
+    "severity": "LOW",
+    "attributes":
+      {
+        "host": "swagger-petstore.demo-targets.svc",
+        "zap_confidence": "3",
+        "zap_count": "7",
+        "zap_solution": null,
+        "zap_otherinfo": null,
+        "zap_reference": null,
+        "zap_cweid": null,
+        "zap_wascid": null,
+        "zap_riskcode": "1",
+        "zap_pluginid": "100001",
+        "zap_finding_urls":
+          [
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/.htaccess",
+              "method": "GET",
+              "evidence": "text/html",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc",
+              "method": "GET",
+              "evidence": "text/html",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/",
+              "method": "GET",
+              "evidence": "text/html",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/elmah.axd",
+              "method": "GET",
+              "evidence": "text/html",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/trace.axd",
+              "method": "GET",
+              "evidence": "text/html",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/2826924580843642668",
+              "method": "GET",
+              "evidence": "text/html",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet/10/",
+              "method": "POST",
+              "evidence": "text/html",
+            },
+          ],
+      },
+    "id": "75540c90-04c8-45a4-bc86-9b8e5a97e46e",
+  },
+  {
+    "name": "Information Disclosure - Sensitive Information in URL",
+    "description": "The request appeared to contain sensitive information leaked in the URL. This can violate PCI and most organizational compliance policies. You can configure the list of strings for this check to add or remove values specific to your environment.",
+    "category": "Information Disclosure - Sensitive Information in URL",
+    "location": "http://swagger-petstore.demo-targets.svc",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+    "attributes":
+      {
+        "host": "swagger-petstore.demo-targets.svc",
+        "zap_confidence": "2",
+        "zap_count": "2",
+        "zap_solution": "Do not pass sensitive information in URIs.",
+        "zap_otherinfo": "The URL contains potentially sensitive information. The following string was found via the pattern: passpassword",
+        "zap_reference": null,
+        "zap_cweid": "200",
+        "zap_wascid": "13",
+        "zap_riskcode": "0",
+        "zap_pluginid": "10024",
+        "zap_finding_urls":
+          [
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/login?username=username&password=ZAP",
+              "method": "GET",
+              "param": "password",
+              "evidence": "password",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/login?username=username&password=ZAP",
+              "method": "GET",
+              "param": "username",
+              "evidence": "username",
+            },
+          ],
+      },
+    "id": "b69167f7-ee9a-4606-a55f-0733ba094525",
+  },
+  {
+    "name": "A Server Error response code was returned by the server",
+    "description": "A response code of 500 was returned by the server.This may indicate that the application is failing to handle unexpected input correctly.Raised by the 'Alert on HTTP Response Code Error' script",
+    "category": "A Server Error response code was returned by the server",
+    "location": "http://swagger-petstore.demo-targets.svc",
+    "osi_layer": "APPLICATION",
+    "severity": "LOW",
+    "attributes":
+      {
+        "host": "swagger-petstore.demo-targets.svc",
+        "zap_confidence": "3",
+        "zap_count": "7",
+        "zap_solution": null,
+        "zap_otherinfo": null,
+        "zap_reference": null,
+        "zap_cweid": "388",
+        "zap_wascid": "20",
+        "zap_riskcode": "1",
+        "zap_pluginid": "100000",
+        "zap_finding_urls":
+          [
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/store/order",
+              "method": "POST",
+              "evidence": "HTTP/1.1 500",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/createWithList",
+              "method": "POST",
+              "evidence": "HTTP/1.1 500",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet",
+              "method": "POST",
+              "evidence": "HTTP/1.1 500",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/pet",
+              "method": "PUT",
+              "evidence": "HTTP/1.1 500",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user",
+              "method": "POST",
+              "evidence": "HTTP/1.1 500",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/createWithArray",
+              "method": "POST",
+              "evidence": "HTTP/1.1 500",
+            },
+            {
+              "uri": "http://swagger-petstore.demo-targets.svc/v2/user/username",
+              "method": "PUT",
+              "evidence": "HTTP/1.1 500",
+            },
+          ],
+      },
+    "id": "dc81e191-d6c7-4893-9acf-597b8befa7e7",
+  },
 ]

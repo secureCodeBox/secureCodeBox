@@ -8,11 +8,11 @@ metadata:
   labels:
     control-plane: controller-manager
   name: controller-manager-metrics-service
-  namespace: {{ .Release.Namespace }}
+  namespace: {{.Release.Namespace}}
 spec:
   ports:
-  - name: https
-    port: 8443
-    targetPort: https
+    - name: https
+      port: 8443
+      targetPort: https
   selector:
     control-plane: controller-manager

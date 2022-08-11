@@ -47,7 +47,6 @@ data:
         # Int: The max number of threads per host, default: 2
         threadPerHost: 5
 
-
 ---
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan

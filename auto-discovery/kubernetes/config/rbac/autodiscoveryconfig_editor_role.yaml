@@ -8,21 +8,21 @@ kind: ClusterRole
 metadata:
   name: autodiscoveryconfig-editor-role
 rules:
-- apiGroups:
-  - config.securecodebox.io
-  resources:
-  - autodiscoveryconfigs
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - config.securecodebox.io
-  resources:
-  - autodiscoveryconfigs/status
-  verbs:
-  - get
+  - apiGroups:
+      - config.securecodebox.io
+    resources:
+      - autodiscoveryconfigs
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - config.securecodebox.io
+    resources:
+      - autodiscoveryconfigs/status
+    verbs:
+      - get
