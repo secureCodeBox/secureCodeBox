@@ -168,7 +168,7 @@ class ZapAutomation:
             title="ZAP Report",
             template=self.get_report_template_for_file_type(report_type),
             reportdir=file_path,
-            contexts=self.__config.get_active_context_config["name"],
+            contexts=self.__config.get_active_context_config["name"] if self.__config is not None and self.__config.get_active_context_config is not None else None,
             reportfilename=report_file
         )
     
