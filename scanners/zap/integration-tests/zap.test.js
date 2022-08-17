@@ -38,7 +38,7 @@ test(
   60 * 32 * 1000
 );
 
-/*test(
+test(
   "authenticated zap automation scan against a juice shop container should find a significant amount of findings",
   async () => {
     const { count } = await scan(
@@ -62,9 +62,9 @@ test(
     expect(count).toBeGreaterThanOrEqual(6);
   },
   60 * 32 * 1000
-);*/
+);
 
-/*test(
+test(
   "zap baseline scan against a plain nginx container should only find couple findings",
   async () => {
     const { categories, severities } = await scan(
@@ -90,4 +90,4 @@ test(
     `);
   },
   5 * 60 * 1000
-);*/
+);

@@ -13,7 +13,7 @@ const readFile = util.promisify(fs.readFile);
 
 const { parse } = require("./parser");
 
-/*test("Parsing the juice-shop results.", async () => {
+test("Parsing the juice-shop results.", async () => {
   const fileContent = await readFile(
     __dirname + "/__testFiles__/juice-shop.xml",
     {
@@ -77,16 +77,6 @@ test("Parsing a nginx result.", async () => {
 
 test("Parsing a bodgeit result.", async () => {
   const fileContent = await readFile(__dirname + "/__testFiles__/bodgeit.xml", {
-    encoding: "utf8",
-  });
-
-  const findings = await parse(fileContent);
-  await expect(validateParser(findings)).resolves.toBeUndefined();
-  expect(findings).toMatchSnapshot();
-});*/
-
-test("Parsing an nginx automation result.", async () => {
-  const fileContent = await readFile(__dirname + "/__testFiles__/nginx-automation.xml", {
     encoding: "utf8",
   });
 
