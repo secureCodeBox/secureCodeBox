@@ -56,6 +56,8 @@ config:
 
   containerAutoDiscovery:
     enabled: false
+    # -- interval in which every pod is re-checked for updates, currently used to periodically check if the configured scantype is installed in the namespace of the pod
+    passiveReconcileInterval: 1m
     scanConfig:
       scanType: trivy-image
       # -- parameters used for the scans created by the containerAutoDiscovery, all parameters support templating

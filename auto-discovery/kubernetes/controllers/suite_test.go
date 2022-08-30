@@ -93,6 +93,7 @@ var _ = BeforeSuite(func() {
 			},
 		},
 		ContainerAutoDiscoveryConfig: configv1.ContainerAutoDiscoveryConfig{
+			PassiveReconcileInterval: metav1.Duration{Duration: 1 * time.Second},
 			ScanConfig: configv1.ScanConfig{
 				RepeatInterval: metav1.Duration{Duration: time.Hour},
 				Annotations:    map[string]string{"testAnnotation": "{{ .Namespace.Name }}"},

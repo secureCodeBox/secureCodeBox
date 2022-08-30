@@ -78,7 +78,8 @@ func (r *ContainerScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 		if scanTypeInstalled {
 			r.checkIfNewScansNeedToBeCreated(ctx, pod)
 		} else {
-			return ctrl.Result{Requeue: true, RequeueAfter: 10}, nil
+			requeueDuration := r.Config.ContainerAutoDiscoveryConfig.PassiveReconcileInterval.Duration
+			return ctrl.Result{Requeue: true, RequeueAfter: requeueDuration}, nil
 		}
 
 	} else {

@@ -48,6 +48,7 @@ serviceAutoDiscovery:
 
 containerAutoDiscovery:
   enabled: true
+  passiveReconcileInterval: 10s
   scanConfig:
     scanType: trivy-image
     # -- parameters used for the scans created by the containerAutoDiscovery
