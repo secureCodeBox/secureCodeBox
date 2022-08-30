@@ -135,6 +135,7 @@ kubectl -n juice-shop annotate service juice-shop auto-discovery.securecodebox.i
 | config.apiVersion | string | `"config.securecodebox.io/v1"` |  |
 | config.cluster.name | string | `"docker-desktop"` |  |
 | config.containerAutoDiscovery.enabled | bool | `false` |  |
+| config.containerAutoDiscovery.passiveReconcileInterval | string | `"1m"` | interval in which every pod is re-checked for updates, currently used to periodically check if the configured scantype is installed in the namespace of the pod |
 | config.containerAutoDiscovery.scanConfig.annotations | object | `{}` | annotations to be added to the scans started by the auto-discovery, all annotation values support templating |
 | config.containerAutoDiscovery.scanConfig.hookSelector | object | `{}` | hookSelector allows to specify a LabelSelector with which the hooks are selected, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors Both matchLabels and matchExpressions are supported. All values in the matchLabels map support templating. MatchExpressions support templating in the `key` field and in every entry in the `values` list. If a value in the list renders to an empty string it is removed from the list. |
 | config.containerAutoDiscovery.scanConfig.labels | object | `{}` | labels to be added to the scans started by the auto-discovery, all label values support templating |
