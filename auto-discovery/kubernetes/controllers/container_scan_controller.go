@@ -143,18 +143,17 @@ func cleanupImageID(imageID string, log logr.Logger) string {
 }
 
 func getScanName(imageID string) string {
-	//function builds string like: scan-_appName_-at-_imageID_HASH_ eg: scan-nginx-at-0123456789
-	baseScanName := "scan-"
+	//function builds string like: _appName_-at-_imageID_HASH_ eg: nginx-at-0123456789
 
 	//define appname cutoff limit to 20 chars
-	maxAppLength := 20 + len(baseScanName)
+	maxAppLength := 20
 
 	hashRegex := regexp.MustCompile(".*/(?P<appName>.*)@sha256:(?P<hash>.*)")
 	appName := hashRegex.FindStringSubmatch(imageID)[1]
 	hash := hashRegex.FindStringSubmatch(imageID)[2]
 
 	//cutoff appname if it is longer than 20 chars
-	result := baseScanName + appName
+	result := appName
 	if len(result) > maxAppLength {
 		result = result[:maxAppLength]
 	}

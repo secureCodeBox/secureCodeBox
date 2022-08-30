@@ -37,7 +37,7 @@ var _ = Describe("ContainerScan controller", func() {
 		namespace := "default"
 		ctx := context.Background()
 
-		nginxScanName := "scan-nginx-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
+		nginxScanName := "nginx-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
 		nginxScanName = nginxScanName[:62]
 		nginxScanGoTemplate := scanGoTemplate{
 			map[string]string{"testAnnotation": "default"},
@@ -48,7 +48,7 @@ var _ = Describe("ContainerScan controller", func() {
 			[]string{"-p", "default"},
 		}
 
-		juiceShopScanName := "scan-juice-shop-at-9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2"
+		juiceShopScanName := "juice-shop-at-9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2"
 		juiceShopScanName = juiceShopScanName[:62]
 		juiceShopScanGoTemplate := scanGoTemplate{
 			map[string]string{"testAnnotation": "default"},
@@ -155,7 +155,7 @@ func setPodStatus(ctx context.Context, name string, namespace string, images map
 	nameCounter := 0
 	for image, digest := range images {
 
-		imageID := fmt.Sprintf("some-useless-protocoll://docker.io/doesntmatter/at/all/%s@sha256:%s", image, digest)
+		imageID := fmt.Sprintf("some-useless-protocol://docker.io/doesntmatter/at/all/%s@sha256:%s", image, digest)
 		containerID := fmt.Sprintf("docker://%d", hash(imageID))
 		name := strconv.Itoa(nameCounter)
 		nameCounter++
