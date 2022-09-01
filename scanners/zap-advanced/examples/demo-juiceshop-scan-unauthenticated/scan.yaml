@@ -10,7 +10,7 @@ metadata:
 data:
   2-zap-advanced-scan.yaml: |-
 
-    # ZAP Contexts Configuration 
+    # ZAP Contexts Configuration
     contexts:
       # Name to be used to refer to this context in other jobs, mandatory
       - name: scb-juiceshop-context
@@ -30,7 +30,7 @@ data:
           - ".*\\.ttf"
           - ".*\\.ico"
 
-    # ZAP Spiders Configuration 
+    # ZAP Spiders Configuration
     spiders:
       - name: scb-juiceshop-spider
         # String: Name of the context to spider, default: first context
@@ -48,7 +48,7 @@ data:
         # Int: The maximum tree depth to explore, default 5
         maxDepth: 10
 
-    # ZAP ActiveScans Configuration 
+    # ZAP ActiveScans Configuration
     scanners:
       - name: scb-juiceshop-scan
         # String: Name of the context to attack, default: first context
