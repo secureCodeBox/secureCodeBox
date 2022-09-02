@@ -6,7 +6,8 @@ name: "Update Helm Docs"
 
 on:
   push:
-
+    branches:
+      - main
 jobs:
   helm-docs:
     runs-on: ubuntu-latest
@@ -15,6 +16,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
+          token: ${{ secrets.PAT_WITH_ADMIN }} ## Placeholder for PAT with Admin Access.
 
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v3
