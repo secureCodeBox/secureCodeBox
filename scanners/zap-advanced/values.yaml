@@ -69,6 +69,7 @@ scanner:
     - name: zap-advanced-scantype-config
       configMap:
         name: zap-advanced-scantype-config
+        optional: true
     - name: zap-scripts-authentication
       configMap:
         name: zap-scripts-authentication

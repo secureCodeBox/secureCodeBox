@@ -27,6 +27,7 @@ async function uploadResultToFileStorageService(
   return axios
     .put(resultUploadUrl, findingsWithIdsAndDates, {
       headers: { "content-type": "" },
+      maxBodyLength: Infinity,
     })
     .catch(function (error) {
       if (error.response) {

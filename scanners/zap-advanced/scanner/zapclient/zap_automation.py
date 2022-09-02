@@ -159,17 +159,23 @@ class ZapAutomation:
     def get_report_template_for_file_type(self, file_type: str):
         if file_type == "XML":
             return "traditional-xml"
+        elif file_type == "XML-plus":
+            return "traditional-xml-plus"
         elif file_type == "JSON":
             return "traditional-json"
+        elif file_type == "JSON-plus":
+            return "traditional-json-plus"
         elif file_type == "HTML":
             return "traditional-html"
+        elif file_type == "HTML-plus":
+            return "traditional-html-plus"
         elif file_type == "MD":
             return "traditional-md"
         else:
             raise RuntimeError(
                 "Report file type: '"
                 + file_type
-                + "' hasn't been implemented. Available: XML, JSON, HTML or MD"
+                + "' hasn't been implemented. Available: XML, XML-plus, JSON, JSON-plus, HTML, HTML-plus, or MD"
             )
 
     def generate_report_file(self, file_path: str, report_type: str):
@@ -183,13 +189,15 @@ class ZapAutomation:
         if report_type is None:
             report_type = "XML"
 
-        report_file = "zap-results." + report_type.lower()
+        # Remove any trailing "-plus" from the file ending, as this is an artifact of the
+        # XML-plus / JSON-plus / HTML-plus report format selector.
+        report_file = "zap-results." + report_type.lower().replace('-plus', '')
         self.__zap.reports.generate(
             title="ZAP Report",
             template=self.get_report_template_for_file_type(report_type),
             reportdir=file_path,
-            contexts=self.__config.get_active_context_config["name"],
-            reportfilename=report_file,
+            contexts=self.__config.get_active_context_config["name"] if self.__config is not None and self.__config.get_active_context_config is not None else None,
+            reportfilename=report_file
         )
 
     def wait_for_zap_start(self, timeout_in_secs=600):

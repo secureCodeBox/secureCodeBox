@@ -56,7 +56,7 @@ Listed below are the arguments supported by the `zap-advanced-scan` script.
 The command line interface can be used to easily run server scans: `-t www.example.com`
 
 ```bash
-usage: zap-client [-h] -z ZAP_URL [-a API_KEY] [-c CONFIG_FOLDER] -t TARGET [-o OUTPUT_FOLDER] [-r {XML,JSON,HTML,MD}]
+usage: zap-client [-h] -z ZAP_URL [-a API_KEY] [-c CONFIG_FOLDER] -t TARGET [-o OUTPUT_FOLDER] [-r {XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD}]
 
 OWASP secureCodeBox OWASP ZAP Client  (can be used to automate OWASP ZAP instances based on YAML configuration files.)
 
@@ -72,7 +72,7 @@ optional arguments:
                         The target to scan with OWASP ZAP.
   -o OUTPUT_FOLDER, --output-folder OUTPUT_FOLDER
                         The path to a local folder used to store the output files, eg. the ZAP Report or logfiles.
-  -r {XML,JSON,HTML,MD}, --report-type {XML,JSON,HTML,MD}
+  -r {XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD}, --report-type {XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD}
                         The OWASP ZAP Report Type.
 ```
 
@@ -496,7 +496,7 @@ zapConfiguration:
 | scanner.envFrom | list | `[]` | Optional mount environment variables from configMaps or secrets (see: https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/#configure-all-key-value-pairs-in-a-secret-as-container-environment-variables) |
 | scanner.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
 | scanner.extraVolumeMounts | list | `[{"mountPath":"/home/securecodebox/configs/1-zap-advanced-scantype.yaml","name":"zap-advanced-scantype-config","readOnly":true,"subPath":"1-zap-advanced-scantype.yaml"}]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
-| scanner.extraVolumes | list | `[{"configMap":{"name":"zap-advanced-scantype-config"},"name":"zap-advanced-scantype-config"},{"configMap":{"name":"zap-scripts-authentication"},"name":"zap-scripts-authentication"},{"configMap":{"name":"zap-scripts-session"},"name":"zap-scripts-session"}]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| scanner.extraVolumes | list | `[{"configMap":{"name":"zap-advanced-scantype-config","optional":true},"name":"zap-advanced-scantype-config"},{"configMap":{"name":"zap-scripts-authentication"},"name":"zap-scripts-authentication"},{"configMap":{"name":"zap-scripts-session"},"name":"zap-scripts-session"}]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
 | scanner.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | scanner.image.repository | string | `"docker.io/securecodebox/scanner-zap-advanced"` | Container Image to run the scan |
 | scanner.image.tag | string | `nil` | defaults to the charts version |

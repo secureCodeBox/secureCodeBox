@@ -7,13 +7,13 @@
   "author": "iteratec GmbH",
   "license": "Apache-2.0",
   "dependencies": {
-    "@kubernetes/client-node": "^0.16.2",
+    "@kubernetes/client-node": "^0.17.0",
     "ajv": "^8.11.0",
     "ajv-draft-04": "^1.0.0",
     "ajv-formats": "^2.1.0",
     "axios": "^0.27.2",
-    "jsonpointer": "^5.0.0",
+    "jsonpointer": "^5.0.1",
     "uuid": "^8.3.2",
-    "ws": "^8.7.0"
+    "ws": "^8.8.1"
   }
 }

@@ -137,7 +137,7 @@ def get_parser_args(args=None):
         "-r",
         "--report-type",
         help="The OWASP ZAP Report Type.",
-        choices=["XML", "JSON", "HTML", "MD"],
+        choices=["XML", "XML-plus", "JSON", "JSON-plus", "HTML", "HTML-plus", "MD"],
         default=None,
         required=False,
     )
