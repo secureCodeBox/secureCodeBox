@@ -75,14 +75,14 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: "{{ .Release.Name }}-minio"
-                  key: accesskey
+                  key: root-user
             - name: MINIO_SECRET_KEY
               valueFrom:
                 secretKeyRef:
                   name: "{{ .Release.Name }}-minio"
-                  key: secretkey
+                  key: root-password
             - name: S3_BUCKET
-              value: {{ .Values.minio.defaultBucket.name }}
+              value: {{ .Values.minio.defaultBuckets }}
             {{- else }}
             - name: S3_USE_SSL
               # Always use tls when connecting to outside the cluster.

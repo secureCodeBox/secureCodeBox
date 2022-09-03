@@ -26,8 +26,8 @@ maintainers:
 
 dependencies:
   - name: minio
-    version: 7.1.2
-    repository: https://helm.min.io/
+    version: 11.9.4
+    repository: https://charts.bitnami.com/bitnami
     condition: minio.enabled
 
 # Artifacthub.io specific annotations
