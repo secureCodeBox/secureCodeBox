@@ -63,7 +63,7 @@ class ZapClient(ABC):
         method_name: str
             The name of the method used (to call ZAP) used to log a warning, if the given result is not "OK".
         exception_message: str
-            The exception message that mus be thrown with an Exception, if the given result is not "OK".
+            The exception message that must be thrown with an Exception, if the given result is not "OK".
         """
 
         __result = False

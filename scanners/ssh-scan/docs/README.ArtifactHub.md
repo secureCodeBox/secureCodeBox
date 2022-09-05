@@ -123,6 +123,7 @@ Kubernetes: `>=v1.11.0-0`
 | scanner.image.repository | string | `"mozilla/ssh_scan"` | Container Image to run the scan |
 | scanner.image.tag | string | `"latest@sha256:d6f41c2c328223931b97a4ae5d35d3bb91b5c8d91871ced3d2e0cde06b1edf1f"` | defaults to the charts appVersion |
 | scanner.nameAppend | string | `nil` | append a string to the default scantype name. |
+| scanner.podSecurityContext | object | `{}` | Optional securityContext set on scanner pod (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | scanner.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | scanner.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"privileged":false,"readOnlyRootFilesystem":false,"runAsNonRoot":false}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | scanner.securityContext.allowPrivilegeEscalation | bool | `false` | Ensure that users privileges cannot be escalated |
