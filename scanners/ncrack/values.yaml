@@ -76,6 +76,11 @@ scanner:
   # scanner.extraContainers -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
   extraContainers: []
 
+  # scanner.podSecurityContext -- Optional securityContext set on scanner pod (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+  podSecurityContext:
+    {}
+    # fsGroup: 2000
+
   # scanner.securityContext -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
   securityContext:
     # scanner.securityContext.runAsNonRoot -- Enforces that the scanner image is run as a non root user
