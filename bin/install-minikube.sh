@@ -61,11 +61,11 @@ add_apt_key() {
 add_apt_source() {
   local src="${1}"
   local destination="${2}"
-  echo "${src}" > "/etc/apt/sources.list.d/${destination}.list"
+  echo "${src}" >"/etc/apt/sources.list.d/${destination}.list"
 }
 
 # Install minikube (https://minikube.sigs.k8s.io/docs/start/)
-donwload_and_install_minikube() {
+download_and_install_minikube() {
   curl -sSLo "${MINIKUBE_DEB_PATH}" "https://storage.googleapis.com/minikube/releases/latest/${MINIKUBE_DEB_FILE}"
   dpkg -i "${MINIKUBE_DEB_PATH}"
 }
@@ -81,7 +81,7 @@ apt-get install -y \
   kubectl \
   helm
 
-donwload_and_install_minikube
+download_and_install_minikube
 
 systemctl start docker
 usermod -a -G docker vagrant

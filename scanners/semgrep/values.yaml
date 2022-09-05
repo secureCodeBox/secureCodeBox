@@ -14,7 +14,7 @@ parser:
     tag: null
     # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
     pullPolicy: IfNotPresent
-  
+
   backoffLimit: 3
   env: []
 

@@ -8,21 +8,21 @@ kind: ClusterRole
 metadata:
   name: scan-editor-role
 rules:
-- apiGroups:
-  - execution.securecodebox.io
-  resources:
-  - scans
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - execution.securecodebox.io
-  resources:
-  - scans/status
-  verbs:
-  - get
+  - apiGroups:
+      - execution.securecodebox.io
+    resources:
+      - scans
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - execution.securecodebox.io
+    resources:
+      - scans/status
+    verbs:
+      - get

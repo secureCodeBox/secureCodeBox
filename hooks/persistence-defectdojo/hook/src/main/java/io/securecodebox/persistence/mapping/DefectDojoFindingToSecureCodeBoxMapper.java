@@ -87,7 +87,7 @@ public class DefectDojoFindingToSecureCodeBoxMapper {
     }
 
     if (defectDojoFinding.getEndpoints() == null || defectDojoFinding.getEndpoints().isEmpty()){
-      finding.setLocation("unkown");
+      finding.setLocation("unknown");
     } else {
       var endpoint = endpointService.get(defectDojoFinding.getEndpoints().get(0));
       finding.setLocation(stringifyEndpoint(endpoint));

@@ -5,15 +5,16 @@
     "description": "Detected a useless comparison operation `0 == 0` or `0 != 0`. This operation is always true. If testing for floating point NaN, use `math.isnan`, or `cmath.isnan` if the number is complex.",
     "category": "correctness",
     "severity": "HIGH",
-    "attributes": {
-      "cwe": null,
-      "owasp_category": null,
-      "references": null,
-      "rule_source": "https://semgrep.dev/r/javascript.lang.correctness.useless-eqeq.eqeq-is-bad",
-      "matching_lines": "K.h.i.Bf=function(b,c){var d=0,e=0,f=!1;b=K.h.i.Ta(b,c).split(K.h.i.Sl);for(c=0;c<b.length;c++){var g=b[c];K.h.i.qh(g)?(d++,e++):K.h.i.Mg.test(g)?f=!0:K.h.i.rg(g)?e++:K.h.i.Zj.test(g)&&(f=!0)}return 0==e?f?K.h.i.O.Ua:K.h.i.O.sa:d/e>K.h.i.dl?K.h.i.O.Va:K.h.i.O.Ua};K.h.i.vq=function(b,c){return K.h.i.Bf(b,c)==K.h.i.O.Va};K.h.i.ht=function(b,c){b&&(c=K.h.i.Dl(c))&&(b.style.textAlign=c==K.h.i.O.Va?K.h.i.ec:K.h.i.cc,b.dir=c==K.h.i.O.Va?\"rtl\":\"ltr\")};"
-    },
+    "attributes":
+      {
+        "cwe": null,
+        "owasp_category": null,
+        "references": null,
+        "rule_source": "https://semgrep.dev/r/javascript.lang.correctness.useless-eqeq.eqeq-is-bad",
+        "matching_lines": 'K.h.i.Bf=function(b,c){var d=0,e=0,f=!1;b=K.h.i.Ta(b,c).split(K.h.i.Sl);for(c=0;c<b.length;c++){var g=b[c];K.h.i.qh(g)?(d++,e++):K.h.i.Mg.test(g)?f=!0:K.h.i.rg(g)?e++:K.h.i.Zj.test(g)&&(f=!0)}return 0==e?f?K.h.i.O.Ua:K.h.i.O.sa:d/e>K.h.i.dl?K.h.i.O.Va:K.h.i.O.Ua};K.h.i.vq=function(b,c){return K.h.i.Bf(b,c)==K.h.i.O.Va};K.h.i.ht=function(b,c){b&&(c=K.h.i.Dl(c))&&(b.style.textAlign=c==K.h.i.O.Va?K.h.i.ec:K.h.i.cc,b.dir=c==K.h.i.O.Va?"rtl":"ltr")};',
+      },
     "id": "ee0afb67-a248-4bee-9863-68573bc900a9",
-    "parsed_at": "2021-10-15T09:05:12.769Z"
+    "parsed_at": "2021-10-15T09:05:12.769Z",
   },
   {
     "name": "python.flask.security.dangerous-template-string.dangerous-template-string",
@@ -21,18 +22,20 @@
     "description": "Found a template created with string formatting. This is susceptible to server-side template injection and cross-site scripting attacks.",
     "category": "security",
     "severity": "HIGH",
-    "attributes": {
-      "cwe": "CWE-96: Improper Neutralization of Directives in Statically Saved Code ('Static Code Injection')",
-      "owasp_category": "A1: Injection",
-      "references": [
-        "https://nvisium.com/blog/2016/03/09/exploring-ssti-in-flask-jinja2.html",
-        "https://pequalsnp-team.github.io/cheatsheet/flask-jinja2-ssti"
-      ],
-      "rule_source": "https://semgrep.dev/r/python.flask.security.dangerous-template-string.dangerous-template-string",
-      "matching_lines": "    template = '''<html>\n    <head>\n    <title>Error</title>\n    </head>\n    <body>\n    <h1>Oops that page doesn't exist!!</h1>\n    <h3>%s</h3>\n    </body>\n    </html>\n    ''' % request.url\n\n    return render_template_string(template, dir = dir, help = help, locals = locals),404"
-    },
+    "attributes":
+      {
+        "cwe": "CWE-96: Improper Neutralization of Directives in Statically Saved Code ('Static Code Injection')",
+        "owasp_category": "A1: Injection",
+        "references":
+          [
+            "https://nvisium.com/blog/2016/03/09/exploring-ssti-in-flask-jinja2.html",
+            "https://pequalsnp-team.github.io/cheatsheet/flask-jinja2-ssti",
+          ],
+        "rule_source": "https://semgrep.dev/r/python.flask.security.dangerous-template-string.dangerous-template-string",
+        "matching_lines": "    template = '''<html>\n    <head>\n    <title>Error</title>\n    </head>\n    <body>\n    <h1>Oops that page doesn't exist!!</h1>\n    <h3>%s</h3>\n    </body>\n    </html>\n    ''' % request.url\n\n    return render_template_string(template, dir = dir, help = help, locals = locals),404",
+      },
     "id": "496862b3-6f61-4119-a5d7-f3ddec8ddc7e",
-    "parsed_at": "2021-10-15T09:05:12.769Z"
+    "parsed_at": "2021-10-15T09:05:12.769Z",
   },
   {
     "name": "python.flask.security.dangerous-template-string.dangerous-template-string",
@@ -40,18 +43,20 @@
     "description": "Found a template created with string formatting. This is susceptible to server-side template injection and cross-site scripting attacks.",
     "category": "security",
     "severity": "HIGH",
-    "attributes": {
-      "cwe": "CWE-96: Improper Neutralization of Directives in Statically Saved Code ('Static Code Injection')",
-      "owasp_category": "A1: Injection",
-      "references": [
-        "https://nvisium.com/blog/2016/03/09/exploring-ssti-in-flask-jinja2.html",
-        "https://pequalsnp-team.github.io/cheatsheet/flask-jinja2-ssti"
-      ],
-      "rule_source": "https://semgrep.dev/r/python.flask.security.dangerous-template-string.dangerous-template-string",
-      "matching_lines": "                    template = '''<html>\n                        <head>\n                        <title>Error</title>\n                        </head>\n                        <body>\n                        <h1>Oops Error Occurred</h1>\n                        <h3>%s</h3>\n                        </body>\n                        </html>\n                        ''' % str(e)\n                    return render_template_string(template, dir=dir, help=help, locals=locals), 404"
-    },
+    "attributes":
+      {
+        "cwe": "CWE-96: Improper Neutralization of Directives in Statically Saved Code ('Static Code Injection')",
+        "owasp_category": "A1: Injection",
+        "references":
+          [
+            "https://nvisium.com/blog/2016/03/09/exploring-ssti-in-flask-jinja2.html",
+            "https://pequalsnp-team.github.io/cheatsheet/flask-jinja2-ssti",
+          ],
+        "rule_source": "https://semgrep.dev/r/python.flask.security.dangerous-template-string.dangerous-template-string",
+        "matching_lines": "                    template = '''<html>\n                        <head>\n                        <title>Error</title>\n                        </head>\n                        <body>\n                        <h1>Oops Error Occurred</h1>\n                        <h3>%s</h3>\n                        </body>\n                        </html>\n                        ''' % str(e)\n                    return render_template_string(template, dir=dir, help=help, locals=locals), 404",
+      },
     "id": "ded6aac2-e6bf-411a-9696-f6d70e3f9750",
-    "parsed_at": "2021-10-15T09:05:12.769Z"
+    "parsed_at": "2021-10-15T09:05:12.769Z",
   },
   {
     "name": "python.flask.security.insecure-deserialization.insecure-deserialization",
@@ -59,17 +64,16 @@
     "description": "Detected the use of an insecure deserialization library in a Flask route. These libraries are prone to code execution vulnerabilities. Ensure user data does not enter this function. To fix this, try to avoid serializing whole objects. Consider instead using a serializer such as JSON.",
     "category": "security",
     "severity": "HIGH",
-    "attributes": {
-      "cwe": "CWE-502: Deserialization of Untrusted Data",
-      "owasp_category": "A8: Insecure Deserialization",
-      "references": [
-        "https://docs.python.org/3/library/pickle.html"
-      ],
-      "rule_source": "https://semgrep.dev/r/python.flask.security.insecure-deserialization.insecure-deserialization",
-      "matching_lines": "        ydata = yaml.load(y)"
-    },
+    "attributes":
+      {
+        "cwe": "CWE-502: Deserialization of Untrusted Data",
+        "owasp_category": "A8: Insecure Deserialization",
+        "references": ["https://docs.python.org/3/library/pickle.html"],
+        "rule_source": "https://semgrep.dev/r/python.flask.security.insecure-deserialization.insecure-deserialization",
+        "matching_lines": "        ydata = yaml.load(y)",
+      },
     "id": "dfdf9a67-1ec3-40d8-8b5f-862ca5ebe3db",
-    "parsed_at": "2021-10-15T09:05:12.769Z"
+    "parsed_at": "2021-10-15T09:05:12.769Z",
   },
   {
     "name": "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-md5",
@@ -77,19 +81,21 @@
     "description": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
     "category": "security",
     "severity": "MEDIUM",
-    "attributes": {
-      "cwe": "CWE-327: Use of a Broken or Risky Cryptographic Algorithm",
-      "owasp_category": "A3: Sensitive Data Exposure",
-      "references": [
-        "https://tools.ietf.org/html/rfc6151",
-        "https://crypto.stackexchange.com/questions/44151/how-does-the-flame-malware-take-advantage-of-md5-collision",
-        "https://pycryptodome.readthedocs.io/en/latest/src/hash/sha3_256.html"
-      ],
-      "rule_source": "https://semgrep.dev/r/python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-md5",
-      "matching_lines": "            hash_pass = hashlib.md5(password).hexdigest()"
-    },
+    "attributes":
+      {
+        "cwe": "CWE-327: Use of a Broken or Risky Cryptographic Algorithm",
+        "owasp_category": "A3: Sensitive Data Exposure",
+        "references":
+          [
+            "https://tools.ietf.org/html/rfc6151",
+            "https://crypto.stackexchange.com/questions/44151/how-does-the-flame-malware-take-advantage-of-md5-collision",
+            "https://pycryptodome.readthedocs.io/en/latest/src/hash/sha3_256.html",
+          ],
+        "rule_source": "https://semgrep.dev/r/python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-md5",
+        "matching_lines": "            hash_pass = hashlib.md5(password).hexdigest()",
+      },
     "id": "4524f52b-7cb8-4a5b-8a89-12c188efc92e",
-    "parsed_at": "2021-10-15T09:05:12.769Z"
+    "parsed_at": "2021-10-15T09:05:12.769Z",
   },
   {
     "name": "python.requests.security.disabled-cert-validation.disabled-cert-validation",
@@ -97,17 +103,19 @@
     "description": "Certificate verification has been explicitly disabled. This permits insecure connections to insecure servers. Re-enable certification validation.",
     "category": "security",
     "severity": "HIGH",
-    "attributes": {
-      "cwe": "CWE-295: Improper Certificate Validation",
-      "owasp_category": "A3: Sensitive Data Exposure",
-      "references": [
-        "https://stackoverflow.com/questions/41740361/is-it-safe-to-disable-ssl-certificate-verification-in-pythonss-requests-lib"
-      ],
-      "rule_source": "https://semgrep.dev/r/python.requests.security.disabled-cert-validation.disabled-cert-validation",
-      "matching_lines": "login = requests.post(target_url + '/login',\n                      proxies=proxies, json=auth_dict, verify=False)"
-    },
+    "attributes":
+      {
+        "cwe": "CWE-295: Improper Certificate Validation",
+        "owasp_category": "A3: Sensitive Data Exposure",
+        "references":
+          [
+            "https://stackoverflow.com/questions/41740361/is-it-safe-to-disable-ssl-certificate-verification-in-pythonss-requests-lib",
+          ],
+        "rule_source": "https://semgrep.dev/r/python.requests.security.disabled-cert-validation.disabled-cert-validation",
+        "matching_lines": "login = requests.post(target_url + '/login',\n                      proxies=proxies, json=auth_dict, verify=False)",
+      },
     "id": "18a0cd4b-4b43-4017-8d90-1e6de5dfde76",
-    "parsed_at": "2021-10-15T09:05:12.769Z"
+    "parsed_at": "2021-10-15T09:05:12.769Z",
   },
   {
     "name": "python.requests.security.disabled-cert-validation.disabled-cert-validation",
@@ -115,17 +123,19 @@
     "description": "Certificate verification has been explicitly disabled. This permits insecure connections to insecure servers. Re-enable certification validation.",
     "category": "security",
     "severity": "HIGH",
-    "attributes": {
-      "cwe": "CWE-295: Improper Certificate Validation",
-      "owasp_category": "A3: Sensitive Data Exposure",
-      "references": [
-        "https://stackoverflow.com/questions/41740361/is-it-safe-to-disable-ssl-certificate-verification-in-pythonss-requests-lib"
-      ],
-      "rule_source": "https://semgrep.dev/r/python.requests.security.disabled-cert-validation.disabled-cert-validation",
-      "matching_lines": "    get_cust_id = requests.get(\n        target_url + '/get/2', proxies=proxies, headers=auth_header, verify=False)"
-    },
+    "attributes":
+      {
+        "cwe": "CWE-295: Improper Certificate Validation",
+        "owasp_category": "A3: Sensitive Data Exposure",
+        "references":
+          [
+            "https://stackoverflow.com/questions/41740361/is-it-safe-to-disable-ssl-certificate-verification-in-pythonss-requests-lib",
+          ],
+        "rule_source": "https://semgrep.dev/r/python.requests.security.disabled-cert-validation.disabled-cert-validation",
+        "matching_lines": "    get_cust_id = requests.get(\n        target_url + '/get/2', proxies=proxies, headers=auth_header, verify=False)",
+      },
     "id": "6ffd9ab4-f736-473b-88b3-24f1e1103ec6",
-    "parsed_at": "2021-10-15T09:05:12.769Z"
+    "parsed_at": "2021-10-15T09:05:12.769Z",
   },
   {
     "name": "python.requests.security.disabled-cert-validation.disabled-cert-validation",
@@ -133,17 +143,19 @@
     "description": "Certificate verification has been explicitly disabled. This permits insecure connections to insecure servers. Re-enable certification validation.",
     "category": "security",
     "severity": "HIGH",
-    "attributes": {
-      "cwe": "CWE-295: Improper Certificate Validation",
-      "owasp_category": "A3: Sensitive Data Exposure",
-      "references": [
-        "https://stackoverflow.com/questions/41740361/is-it-safe-to-disable-ssl-certificate-verification-in-pythonss-requests-lib"
-      ],
-      "rule_source": "https://semgrep.dev/r/python.requests.security.disabled-cert-validation.disabled-cert-validation",
-      "matching_lines": "    fetch_customer_post = requests.post(\n        target_url + '/fetch/customer', json=post, proxies=proxies, headers=auth_header, verify=False)"
-    },
+    "attributes":
+      {
+        "cwe": "CWE-295: Improper Certificate Validation",
+        "owasp_category": "A3: Sensitive Data Exposure",
+        "references":
+          [
+            "https://stackoverflow.com/questions/41740361/is-it-safe-to-disable-ssl-certificate-verification-in-pythonss-requests-lib",
+          ],
+        "rule_source": "https://semgrep.dev/r/python.requests.security.disabled-cert-validation.disabled-cert-validation",
+        "matching_lines": "    fetch_customer_post = requests.post(\n        target_url + '/fetch/customer', json=post, proxies=proxies, headers=auth_header, verify=False)",
+      },
     "id": "b9d7d55c-d314-440d-a3dc-e41a5dd2ec0f",
-    "parsed_at": "2021-10-15T09:05:12.769Z"
+    "parsed_at": "2021-10-15T09:05:12.769Z",
   },
   {
     "name": "python.requests.security.disabled-cert-validation.disabled-cert-validation",
@@ -151,16 +163,18 @@
     "description": "Certificate verification has been explicitly disabled. This permits insecure connections to insecure servers. Re-enable certification validation.",
     "category": "security",
     "severity": "HIGH",
-    "attributes": {
-      "cwe": "CWE-295: Improper Certificate Validation",
-      "owasp_category": "A3: Sensitive Data Exposure",
-      "references": [
-        "https://stackoverflow.com/questions/41740361/is-it-safe-to-disable-ssl-certificate-verification-in-pythonss-requests-lib"
-      ],
-      "rule_source": "https://semgrep.dev/r/python.requests.security.disabled-cert-validation.disabled-cert-validation",
-      "matching_lines": "    search_customer_username = requests.post(\n        target_url + '/search', json=search, proxies=proxies, headers=auth_header, verify=False)"
-    },
+    "attributes":
+      {
+        "cwe": "CWE-295: Improper Certificate Validation",
+        "owasp_category": "A3: Sensitive Data Exposure",
+        "references":
+          [
+            "https://stackoverflow.com/questions/41740361/is-it-safe-to-disable-ssl-certificate-verification-in-pythonss-requests-lib",
+          ],
+        "rule_source": "https://semgrep.dev/r/python.requests.security.disabled-cert-validation.disabled-cert-validation",
+        "matching_lines": "    search_customer_username = requests.post(\n        target_url + '/search', json=search, proxies=proxies, headers=auth_header, verify=False)",
+      },
     "id": "f82d51de-8ce7-43fb-a225-6b7662418ea9",
-    "parsed_at": "2021-10-15T09:05:12.769Z"
-  }
+    "parsed_at": "2021-10-15T09:05:12.769Z",
+  },
 ]

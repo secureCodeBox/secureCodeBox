@@ -5,7 +5,7 @@
 name: "Tweet about release"
 on:
   release:
-    types: [ released ]
+    types: [released]
 jobs:
   build:
     runs-on: ubuntu-latest

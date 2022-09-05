@@ -100,12 +100,12 @@ nucleiTemplateCache:
   # -- Enables or disables the use of an persistent volume to cache the always downloaded nuclei-templates for all scans.
   enabled: true
   # -- Depending on your setup you can define the pvc access mode for one `ReadWriteOnce` or multiple node clusters `ReadWriteMany`
-  accessMode: 
+  accessMode:
     - ReadWriteOnce
     - ReadOnlyMany
   # every day at 08:00: "0 8 * * *"
   # every full hour: "0 */1 * * *""
-  # -- The schedule indicates when and how often the nuclei template cache should be updated 
+  # -- The schedule indicates when and how often the nuclei template cache should be updated
   schedule: "0 */1 * * *"
   # -- Determines how many successful jobs are kept until kubernetes cleans them up. See: https://kubernetes.io/docs/tasks/job/automated-tasks-with-cron-jobs/#jobs-history-limits
   successfulJobsHistoryLimit: 3

@@ -185,7 +185,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 		Spec: *scanType.Spec.JobTemplate.Spec.DeepCopy(),
 	}
 
-	//add recommened kubernetes "managed by" label, to tell the SCB container autodiscovery to ignore the scan pod
+	//add recommend kubernetes "managed by" label, to tell the SCB container autodiscovery to ignore the scan pod
 	podLabels := job.Spec.Template.Labels
 	if podLabels == nil {
 		podLabels = make(map[string]string)

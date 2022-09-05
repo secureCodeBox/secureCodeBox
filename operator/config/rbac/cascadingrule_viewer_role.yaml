@@ -8,17 +8,17 @@ kind: ClusterRole
 metadata:
   name: cascadingrule-viewer-role
 rules:
-- apiGroups:
-  - cascading.securecodebox.io
-  resources:
-  - cascadingrules
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - cascading.securecodebox.io
-  resources:
-  - cascadingrules/status
-  verbs:
-  - get
+  - apiGroups:
+      - cascading.securecodebox.io
+    resources:
+      - cascadingrules
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - cascading.securecodebox.io
+    resources:
+      - cascadingrules/status
+    verbs:
+      - get

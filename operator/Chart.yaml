@@ -158,7 +158,7 @@ annotations:
     - name: Homepage
       url: https://www.securecodebox.io
     - name: iteratec GmbH
-      url: https://www.iteratec.com  
+      url: https://www.iteratec.com
   artifacthub.io/operator: "true"
   artifacthub.io/operatorCapabilities: Seamless Upgrades
   artifacthub.io/prerelease: "false"

@@ -59,7 +59,7 @@ var _ = Describe("ContainerScan controller", func() {
 			[]string{"-p", "default"},
 		}
 
-		It("Should create a single scheduledscan for every container with the same imageID in the deplyoment", func() {
+		It("Should create a single scheduledscan for every container with the same imageID in the deployment", func() {
 
 			createNamespace(ctx, namespace)
 			fakeDeployment := map[string]string{"bkimminich/juice-shop": "9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2",

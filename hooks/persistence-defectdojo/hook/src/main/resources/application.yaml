@@ -3,13 +3,13 @@
 # SPDX-License-Identifier: Apache-2.0
 
 spring:
-    main:
-        web-application-type: none
+  main:
+    web-application-type: none
 
 securecodebox:
-    persistence:
-        defectdojo:
-            url: "http://defectdojo-django.default.svc:8082"
-            auth:
-                key: "ca267cf37a368b8ae02a184164b196a25fca77de"
-                name: "admin"
+  persistence:
+    defectdojo:
+      url: "http://defectdojo-django.default.svc:8082"
+      auth:
+        key: "ca267cf37a368b8ae02a184164b196a25fca77de"
+        name: "admin"

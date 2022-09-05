@@ -188,4 +188,3 @@ contexts:
         username: "json-based-user-2"
         password: "json-based-password-2"
         forced: true
-      

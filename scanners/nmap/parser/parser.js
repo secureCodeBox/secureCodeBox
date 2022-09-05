@@ -221,7 +221,7 @@ function parseSmbProtocols(host, script) {
 }
 
 /**
- * Parses a given NMAP XML file to a smaller JSON represenation with the following object:
+ * Parses a given NMAP XML file to a smaller JSON representation with the following object:
  * {
  *   hostname: null,
  *   ip: null,

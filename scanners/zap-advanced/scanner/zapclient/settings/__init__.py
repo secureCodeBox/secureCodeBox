@@ -7,6 +7,6 @@ zapclient
 A Python package containing secureCodeBox specific ZAPv2 Client extensions to configure global ZAP settings.
 """
 
-__all__ = ['zap_global']
+__all__ = ["zap_global"]
 
 from .zap_settings import ZapConfigureSettings

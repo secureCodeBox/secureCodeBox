@@ -8,7 +8,7 @@ global:
   # Sets the ZAP Session name
   sessionName: SCB
   # Sets the connection time out, in seconds.
-  timeoutInSeconds: 
+  timeoutInSeconds:
   # Sets the mode, which may be one of [safe, protect, standard, attack]
   mode: attack
   # Sets the user agent that ZAP should use when creating HTTP messages (for example, spider messages or CONNECT requests to outgoing proxy).
@@ -29,15 +29,15 @@ global:
       - localhost
     # MANDATORY only if proxy.enabled is True. Ignored otherwise. Define if proxy server needs authentication
     authentication:
-        # Define if an outgoing proxy server is used with special authentication credentials.
-        enabled: false
-        username: "proxy-username"
-        password: "proxy-password"
-        realm: "proxy-realm"
+      # Define if an outgoing proxy server is used with special authentication credentials.
+      enabled: false
+      username: "proxy-username"
+      password: "proxy-password"
+      realm: "proxy-realm"
     socks:
       # Define whether or not the SOCKS proxy should be used.
       enabled: false
-    
+
       # Determine if a proxy script must be loaded. Proxy scripts are executed for every request traversing ZAP
   scripts:
     - name: "Alert on HTTP Response Code Errors.js"

@@ -30,7 +30,6 @@ spec:
       - /ncrack/users.txt
       - -P
       - /ncrack/passwords.txt
-      - -p 
+      - -p
       - ftp:{{attributes.port}}
       - "{{$.hostOrIP}}"
-

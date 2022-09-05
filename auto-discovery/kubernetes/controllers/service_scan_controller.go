@@ -155,7 +155,7 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 			// service was never scanned
 			log.Info("Discovered new unscanned service, scanning it now", "service", service.Name, "namespace", service.Namespace)
 
-			// label is added after the initial query as it was added later and isn't garanteed to be on every auto-discovery managed scan.
+			// label is added after the initial query as it was added later and isn't guaranteed to be on every auto-discovery managed scan.
 			versionedLabels["app.kubernetes.io/managed-by"] = "securecodebox-autodiscovery"
 			versionedLabels = generateScanLabels(versionedLabels, r.Config.ServiceAutoDiscoveryConfig.ScanConfig, templateArgs)
 
@@ -207,7 +207,7 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 			// Service was scanned before, but for a different version
 			log.Info("Previously scanned service was updated. Repeating scan now.", "service", service.Name, "scheduledScan", previousScan.Name, "namespace", service.Namespace)
 
-			// label is added after the initial query as it was added later and isn't garanteed to be on every auto-discovery managed scan.
+			// label is added after the initial query as it was added later and isn't guaranteed to be on every auto-discovery managed scan.
 			versionedLabels["app.kubernetes.io/managed-by"] = "securecodebox-autodiscovery"
 			versionedLabels = generateScanLabels(versionedLabels, r.Config.ServiceAutoDiscoveryConfig.ScanConfig, templateArgs)
 

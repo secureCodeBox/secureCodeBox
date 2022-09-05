@@ -8,21 +8,21 @@ kind: ClusterRole
 metadata:
   name: scheduledscan-editor-role
 rules:
-- apiGroups:
-  - execution.securecodebox.io
-  resources:
-  - scheduledscans
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - execution.securecodebox.io
-  resources:
-  - scheduledscans/status
-  verbs:
-  - get
+  - apiGroups:
+      - execution.securecodebox.io
+    resources:
+      - scheduledscans
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - execution.securecodebox.io
+    resources:
+      - scheduledscans/status
+    verbs:
+      - get

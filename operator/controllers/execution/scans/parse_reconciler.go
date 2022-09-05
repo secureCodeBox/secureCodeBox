@@ -182,7 +182,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 		parseDefinition.Spec.Volumes...,
 	)
 
-	// Set affinity based on scan, if defined, or parseDefinition if not overriden by scan
+	// Set affinity based on scan, if defined, or parseDefinition if not overridden by scan
 	if scan.Spec.Affinity != nil {
 		job.Spec.Template.Spec.Affinity = scan.Spec.Affinity
 	} else {

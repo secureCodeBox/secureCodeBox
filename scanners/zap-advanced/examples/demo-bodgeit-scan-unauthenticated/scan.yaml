@@ -68,4 +68,3 @@ spec:
     - name: zap-advanced-scan-config
       configMap:
         name: zap-advanced-scan-config
-

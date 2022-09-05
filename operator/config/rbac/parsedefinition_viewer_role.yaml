@@ -8,17 +8,17 @@ kind: ClusterRole
 metadata:
   name: parsedefinition-viewer-role
 rules:
-- apiGroups:
-  - execution.securecodebox.io
-  resources:
-  - parsedefinitions
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - execution.securecodebox.io
-  resources:
-  - parsedefinitions/status
-  verbs:
-  - get
+  - apiGroups:
+      - execution.securecodebox.io
+    resources:
+      - parsedefinitions
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - execution.securecodebox.io
+    resources:
+      - parsedefinitions/status
+    verbs:
+      - get

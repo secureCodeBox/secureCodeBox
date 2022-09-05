@@ -16,8 +16,8 @@ from zapv2 import ZAPv2
 from zapclient.configuration import ZapConfiguration
 from zapclient.context.zap_context import ZapConfigureContext
 
-class ZapScannerTests(TestCase):
 
+class ZapScannerTests(TestCase):
     @pytest.mark.unit
     def test_context_empty(self):
         pass
@@ -28,4 +28,3 @@ class ZapScannerTests(TestCase):
 
         # testobject = ZapConfigureContext(mock_zap, mock_config)
         # testobject.configure_contexts()
-

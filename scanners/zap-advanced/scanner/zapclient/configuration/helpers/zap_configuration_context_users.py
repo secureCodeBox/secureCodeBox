@@ -13,7 +13,9 @@ class ZapConfigurationContextUsers:
     """Helper class to grab user related configs from a context"""
 
     @staticmethod
-    def get_context_user_by_name(context: collections.OrderedDict, name: str) -> collections.OrderedDict:
+    def get_context_user_by_name(
+        context: collections.OrderedDict, name: str
+    ) -> collections.OrderedDict:
         """Returns the ZAP Context Users configuration object with the given name.
 
         Parameters
@@ -24,4 +26,4 @@ class ZapConfigurationContextUsers:
             The name of the context to return from the list of contexts.
         """
         users = context["users"] if "users" in context else []
-        return next((user for user in users if user['name'] == name), None)
+        return next((user for user in users if user["name"] == name), None)

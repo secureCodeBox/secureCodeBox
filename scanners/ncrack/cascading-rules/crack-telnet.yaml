@@ -30,6 +30,6 @@ spec:
       - /ncrack/users.txt
       - -P
       - /ncrack/passwords.txt
-      - -p 
+      - -p
       - telnet:{{attributes.port}}
       - "{{$.hostOrIP}}"

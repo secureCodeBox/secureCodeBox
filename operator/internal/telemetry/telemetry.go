@@ -67,7 +67,7 @@ func Loop(apiClient client.Client, log logr.Logger) {
 		if envVersion, ok := os.LookupEnv("VERSION"); ok {
 			version = envVersion
 		} else {
-			version = "unkown"
+			version = "unknown"
 		}
 
 		ctx := context.Background()

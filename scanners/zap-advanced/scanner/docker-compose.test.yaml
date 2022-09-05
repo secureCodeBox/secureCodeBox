@@ -46,10 +46,10 @@ services:
         condition: on-failure
     ports:
       - "8000:8080"
-    environment: 
-       - SWAGGER_BASE_PATH=/v2
-       - SWAGGER_HOST=http://localhost:8000
-       - SWAGGER_URL=http://localhost:8000
+    environment:
+      - SWAGGER_BASE_PATH=/v2
+      - SWAGGER_HOST=http://localhost:8000
+      - SWAGGER_URL=http://localhost:8000
     # healthcheck:
     #   interval: 1m
     #   retries: 3
@@ -71,26 +71,26 @@ services:
       - "bodgeit:bodgeit"
       - "juiceshop:juiceshop"
       - "petstore:petstore"
-    depends_on: 
+    depends_on:
       - "bodgeit"
       - "juiceshop"
       - "petstore"
-    volumes: 
+    volumes:
       - ./scripts/authentication:/home/zap/.ZAP_D/scripts/scripts/authentication
       - ./scripts/session:/home/zap/.ZAP_D/scripts/scripts/session
     entrypoint:
-      - 'zap.sh'
-      - '-daemon'
-      - '-port'
-      - '8090'
-      - '-host'
-      - '0.0.0.0'
-      - '-config'
-      - 'api.addrs.addr.name=.*'
-      - '-config'
-      - 'api.addrs.addr.regex=true'
-      - '-config'
-      - 'api.disablekey=true'
+      - "zap.sh"
+      - "-daemon"
+      - "-port"
+      - "8090"
+      - "-host"
+      - "0.0.0.0"
+      - "-config"
+      - "api.addrs.addr.name=.*"
+      - "-config"
+      - "api.addrs.addr.regex=true"
+      - "-config"
+      - "api.disablekey=true"
       #- '-addonupdate'
       #- '-addoninstall'
       #- 'pscanrulesBeta'
