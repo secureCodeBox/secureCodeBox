@@ -41,6 +41,9 @@ type ParseDefinitionSpec struct {
 	Affinity *corev1.Affinity `json:"affinity,omitempty"`
 	// Tolerations are a different way to control on which nodes your parser is executed. See https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
 	Tolerations []corev1.Toleration `json:"tolerations,omitempty"`
+
+	// Resources lets you control resource limits and requests for the parser container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+	Resources corev1.ResourceRequirements `json:"resources,omitempty"`
 }
 
 // ParseDefinitionStatus defines the observed state of ParseDefinition

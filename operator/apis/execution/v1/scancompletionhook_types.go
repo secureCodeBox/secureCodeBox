@@ -59,6 +59,9 @@ type ScanCompletionHookSpec struct {
 	// TTLSecondsAfterFinished configures the ttlSecondsAfterFinished field for the created hook job
 	// +nullable
 	TTLSecondsAfterFinished *int32 `json:"ttlSecondsAfterFinished,omitempty"`
+
+	// Resources lets you control resource limits and requests for the parser container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+	Resources corev1.ResourceRequirements `json:"resources,omitempty"`
 }
 
 // ScanCompletionHookStatus defines the observed state of ScanCompletionHook
