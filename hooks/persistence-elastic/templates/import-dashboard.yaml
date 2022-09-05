@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+# We only want to import the example kibana dashboards if they are enabled
+{{ if .Values.dashboardImporter.enabled }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -24,3 +26,4 @@ spec:
             - name: KIBANA_URL
               value: "http://{{ .Release.Name }}-kibana.{{ .Release.Namespace }}.svc.cluster.local:5601"
 {{- end }}
+{{ end }}
