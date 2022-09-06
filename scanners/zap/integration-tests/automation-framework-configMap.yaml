@@ -31,15 +31,18 @@ data:
             parameters:
               loginPageUrl: "http://juiceshop.demo-targets.svc:3000/rest/user"
               loginRequestUrl: "http://juiceshop.demo-targets.svc:3000/rest/user/login"
-              loginRequestBody: '{"email":"admin@juice-sh.op","password":"admin123"}'
+              loginRequestBody: '{"email":${uname},"password":${pword}}'
             verification:
               method: "response"
               loggedOutRegex: '\Q{"user":{}}\E'
           users:
           - name: "juiceshop-user-1"
             credentials:
-              username: "admin123"
-              password: "admin@juice-sh.op"
+              username: ${uname}
+              password: ${pword}
+      vars:
+        uname: "admin@juice-sh.op"
+        pword: "admin123"
       parameters:
         failOnError: true                  # If set exit on an error         
         failOnWarning: false               # If set exit on a warning

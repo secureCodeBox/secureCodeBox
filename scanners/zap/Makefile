@@ -10,9 +10,7 @@ scanner = zap
 
 include ../../scanners.mk
 
-deploy-test-deps: 
-	deploy-test-dep-juiceshop
-	deploy-test-dep-nginx
+deploy-test-deps: deploy-test-dep-juiceshop deploy-test-dep-nginx
 
 #Run integration tests for the ZAP Automation Framework Scanner.
 integration-tests:
