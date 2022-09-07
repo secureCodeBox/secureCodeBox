@@ -103,4 +103,4 @@ scanner:
 
 cascadingRules:
   # cascadingRules.enabled -- Enables or disables the installation of the default cascading rules for this scanner
-  enabled: true
+  enabled: false
