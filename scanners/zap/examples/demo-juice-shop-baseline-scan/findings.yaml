@@ -12,7 +12,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "101",
         "zap_solution": 'Ensure that sensitive data is not available in an unauthenticated manner (using IP address white-listing, for instance).Configure the "Access-Control-Allow-Origin" HTTP header to a more restrictive set of domains, or remove all CORS headers entirely, to allow the web browser to enforce the Same Origin Policy (SOP) in a more restrictive manner.',
@@ -137,7 +137,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "39",
         "zap_solution": "Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to 'nosniff' for all web pages.If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.",
@@ -262,7 +262,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "2",
         "zap_solution": "Most modern Web browsers support the X-Frame-Options HTTP header. Ensure it's set on all web pages returned by your site (if you expect the page to be framed only by pages on your server (e.g. it's part of a FRAMESET) then you'll want to use SAMEORIGIN, otherwise if you never expect the page to be framed, you should use DENY. ALLOW-FROM allows specific websites to frame the web page in supported web browsers).",
@@ -297,7 +297,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "39",
         "zap_solution": "Ensure that the SameSite attribute is set to either 'lax' or ideally 'strict' for all cookies.",
@@ -442,7 +442,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "64",
         "zap_solution": 'Ensure that your web server, application server, load balancer, etc. is configured to suppress "X-Powered-By" headers.',
@@ -567,7 +567,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "6",
         "zap_solution": "This is an informational alert and so no changes are required.",
@@ -622,7 +622,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "1",
         "zap_count": "25",
         "zap_solution": "Manually confirm that the timestamp data is not sensitive, and that the data cannot be aggregated to disclose exploitable patterns.",
@@ -747,7 +747,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "6",
         "zap_solution": "Ensure JavaScript source files are loaded from only trusted sources, and the sources can't be controlled by end users of the application.",
@@ -808,7 +808,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "1",
         "zap_count": "21",
         "zap_solution": "Do not allow user input to control cookie names and values. If some query string parameters must be set in cookie values, be sure to filter out semicolon's that can serve as name/value pair delimiters.",
@@ -933,7 +933,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "3",
         "zap_count": "39",
         "zap_solution": "For secure content, put session ID in a cookie. To be even more secure consider using a combination of cookie and URL rewrite.",
@@ -1078,7 +1078,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "1",
         "zap_count": "7",
         "zap_solution": "Remove all comments that return information that may help an attacker and fix any underlying problems they refer to.",
@@ -1131,7 +1131,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "15",
         "zap_solution": 'Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: "Content-Security-Policy" for Chrome 25+, Firefox 23+ and Safari 7+, "X-Content-Security-Policy" for Firefox 4.0+ and Internet Explorer 10+, and "X-WebKit-CSP" for Chrome 14+ and Safari 6+.',
@@ -1213,7 +1213,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "1",
         "zap_solution": "Remove the private IP address from the HTTP response body.  For comments, use JSP/ASP/PHP comment instead of HTML/JavaScript comment which can be seen by client browsers.",
