@@ -197,7 +197,6 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 	if podAnnotations == nil {
 		podAnnotations = make(map[string]string)
 	}
-	podAnnotations["securecodebox.io/job-type"] = "scanner"
 	podAnnotations["auto-discovery.securecodebox.io/ignore"] = "true"
 	// Ensuring that istio doesn't inject a sidecar proxy.
 	podAnnotations["sidecar.istio.io/inject"] = "false"
