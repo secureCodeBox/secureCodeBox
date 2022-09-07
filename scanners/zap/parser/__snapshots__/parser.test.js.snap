@@ -4,7 +4,7 @@ exports[`Parsing a bodgeit result. 1`] = `
 Array [
   Object {
     "attributes": Object {
-      "host": "cwiki.apache.org",
+      "hostname": "cwiki.apache.org",
       "port": "443",
       "zap_confidence": "3",
       "zap_count": "2",
@@ -42,7 +42,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "wiki.apache.org",
+      "hostname": "wiki.apache.org",
       "port": "80",
       "zap_confidence": "3",
       "zap_count": "1",
@@ -73,7 +73,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "content-signature-2.cdn.mozilla.net",
+      "hostname": "content-signature-2.cdn.mozilla.net",
       "port": "443",
       "zap_confidence": "3",
       "zap_count": "1",
@@ -104,7 +104,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "bodgeit.securecodebox-demo.svc",
+      "hostname": "bodgeit.securecodebox-demo.svc",
       "port": "8080",
       "zap_confidence": "3",
       "zap_count": "4",
@@ -156,7 +156,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "bodgeit.securecodebox-demo.svc",
+      "hostname": "bodgeit.securecodebox-demo.svc",
       "port": "8080",
       "zap_confidence": "2",
       "zap_count": "4",
@@ -208,7 +208,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "bodgeit.securecodebox-demo.svc",
+      "hostname": "bodgeit.securecodebox-demo.svc",
       "port": "8080",
       "zap_confidence": "2",
       "zap_count": "1",
@@ -239,7 +239,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "bodgeit.securecodebox-demo.svc",
+      "hostname": "bodgeit.securecodebox-demo.svc",
       "port": "8080",
       "zap_confidence": "3",
       "zap_count": "5",
@@ -298,7 +298,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "bodgeit.securecodebox-demo.svc",
+      "hostname": "bodgeit.securecodebox-demo.svc",
       "port": "8080",
       "zap_confidence": "3",
       "zap_count": "4",
@@ -350,7 +350,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "bodgeit.securecodebox-demo.svc",
+      "hostname": "bodgeit.securecodebox-demo.svc",
       "port": "8080",
       "zap_confidence": "3",
       "zap_count": "105",
@@ -1109,7 +1109,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "bodgeit.securecodebox-demo.svc",
+      "hostname": "bodgeit.securecodebox-demo.svc",
       "port": "8080",
       "zap_confidence": "2",
       "zap_count": "1",
@@ -1140,7 +1140,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "bodgeit.securecodebox-demo.svc",
+      "hostname": "bodgeit.securecodebox-demo.svc",
       "port": "8080",
       "zap_confidence": "3",
       "zap_count": "81",
@@ -1731,7 +1731,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "bodgeit.securecodebox-demo.svc",
+      "hostname": "bodgeit.securecodebox-demo.svc",
       "port": "8080",
       "zap_confidence": "0",
       "zap_count": "0",
@@ -1759,7 +1759,7 @@ exports[`Parsing a nginx result. 1`] = `
 Array [
   Object {
     "attributes": Object {
-      "host": "nginx.demo-targets.svc",
+      "hostname": "nginx.demo-targets.svc",
       "port": "80",
       "zap_confidence": "2",
       "zap_count": "2",
@@ -1793,7 +1793,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "nginx.demo-targets.svc",
+      "hostname": "nginx.demo-targets.svc",
       "port": "80",
       "zap_confidence": "3",
       "zap_count": "4",
@@ -1837,7 +1837,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "nginx.demo-targets.svc",
+      "hostname": "nginx.demo-targets.svc",
       "port": "80",
       "zap_confidence": "2",
       "zap_count": "2",
@@ -1871,7 +1871,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "nginx.demo-targets.svc",
+      "hostname": "nginx.demo-targets.svc",
       "port": "80",
       "zap_confidence": "2",
       "zap_count": "4",
@@ -1916,7 +1916,7 @@ exports[`Parsing the docs.securecodebox.io results. 1`] = `
 Array [
   Object {
     "attributes": Object {
-      "host": "docs.securecodebox.io",
+      "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "1",
       "zap_count": "490",
@@ -2040,7 +2040,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "docs.securecodebox.io",
+      "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "2",
       "zap_count": "170",
@@ -2164,7 +2164,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "docs.securecodebox.io",
+      "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "2",
       "zap_count": "63",
@@ -2268,7 +2268,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "docs.securecodebox.io",
+      "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "2",
       "zap_count": "235",
@@ -2392,7 +2392,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "docs.securecodebox.io",
+      "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "2",
       "zap_count": "90",
@@ -2536,7 +2536,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "docs.securecodebox.io",
+      "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "2",
       "zap_count": "19",
@@ -2655,7 +2655,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "docs.securecodebox.io",
+      "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "2",
       "zap_count": "83",
@@ -2779,7 +2779,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "docs.securecodebox.io",
+      "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "2",
       "zap_count": "58",
@@ -2883,7 +2883,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "docs.securecodebox.io",
+      "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "1",
       "zap_count": "33",
@@ -2987,7 +2987,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "docs.securecodebox.io",
+      "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "2",
       "zap_count": "57",
@@ -3111,7 +3111,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "docs.securecodebox.io",
+      "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "2",
       "zap_count": "2",
@@ -3145,7 +3145,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "docs.securecodebox.io",
+      "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "3",
       "zap_count": "6",
@@ -3198,7 +3198,7 @@ exports[`Parsing the example.com results. 1`] = `
 Array [
   Object {
     "attributes": Object {
-      "host": "example.com",
+      "hostname": "example.com",
       "port": "80",
       "zap_confidence": "3",
       "zap_count": "4",
@@ -3242,7 +3242,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "example.com",
+      "hostname": "example.com",
       "port": "80",
       "zap_confidence": "2",
       "zap_count": "4",
@@ -3286,7 +3286,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "example.com",
+      "hostname": "example.com",
       "port": "80",
       "zap_confidence": "2",
       "zap_count": "4",
@@ -3326,7 +3326,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "example.com",
+      "hostname": "example.com",
       "port": "80",
       "zap_confidence": "2",
       "zap_count": "2",
@@ -3360,7 +3360,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "example.com",
+      "hostname": "example.com",
       "port": "80",
       "zap_confidence": "2",
       "zap_count": "2",
@@ -3399,7 +3399,7 @@ exports[`Parsing the juice-shop results. 1`] = `
 Array [
   Object {
     "attributes": Object {
-      "host": "juice-shop",
+      "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "2",
       "zap_count": "99",
@@ -3523,7 +3523,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "juice-shop",
+      "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "1",
       "zap_count": "19",
@@ -3642,7 +3642,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "juice-shop",
+      "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "1",
       "zap_count": "29",
@@ -3766,7 +3766,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "juice-shop",
+      "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "3",
       "zap_count": "35",
@@ -3910,7 +3910,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "juice-shop",
+      "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "2",
       "zap_count": "7",
@@ -3969,7 +3969,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "juice-shop",
+      "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "1",
       "zap_count": "35",
@@ -4073,7 +4073,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "juice-shop",
+      "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "2",
       "zap_count": "35",
@@ -4197,7 +4197,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "juice-shop",
+      "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "1",
       "zap_count": "7",
@@ -4249,7 +4249,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "juice-shop",
+      "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "2",
       "zap_count": "13",
@@ -4325,7 +4325,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "juice-shop",
+      "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "2",
       "zap_count": "6",
@@ -4385,7 +4385,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "juice-shop",
+      "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "2",
       "zap_count": "2",
@@ -4419,7 +4419,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "host": "juice-shop",
+      "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "2",
       "zap_count": "1",

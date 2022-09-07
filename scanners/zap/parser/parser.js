@@ -66,7 +66,7 @@ function createFindingFromAlert(alert, { location, host, port }) {
     osi_layer: "APPLICATION",
     severity: riskToSeverity(alert.riskcode),
     attributes: {
-      host,
+      hostname: host,
       port,
       zap_confidence: alert.confidence || null,
       zap_count: alert.count || null,
