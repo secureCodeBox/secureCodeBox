@@ -12,7 +12,7 @@ data:
   1-automation.yaml: |-
 
     env:                                   # The environment, mandatory
-      contexts :                           # List of 1 or more contexts, mandatory
+      contexts:                           # List of 1 or more contexts, mandatory
         - name: test-config                  # Name to be used to refer to this context in other jobs, mandatory
           urls: ["http://juiceshop.demo-targets.svc:3000"]                           # A mandatory list of top level urls, everything under each url will be included
           includePaths: 
@@ -31,18 +31,16 @@ data:
             parameters:
               loginPageUrl: "http://juiceshop.demo-targets.svc:3000/rest/user"
               loginRequestUrl: "http://juiceshop.demo-targets.svc:3000/rest/user/login"
-              loginRequestBody: '{"email":${uname},"password":${pword}}'
+              loginRequestBody: '{"email":"admin@juice-sh.op","password":"admin123"}'
             verification:
               method: "response"
               loggedOutRegex: '\Q{"user":{}}\E'
+              loggedInRegex: '\Q<a href="password.jsp">\E'
           users:
           - name: "juiceshop-user-1"
             credentials:
-              username: ${uname}
-              password: ${pword}
-      vars:
-        uname: "admin@juice-sh.op"
-        pword: "admin123"
+              username: "admin@juice-sh.op"
+              password: "admin123"
       parameters:
         failOnError: true                  # If set exit on an error         
         failOnWarning: false               # If set exit on a warning

@@ -4,7 +4,7 @@
 
 const {scan} = require("../../helpers");
 
-test(
+/*test(
   "zap automation scan against a plain nginx container should only find a couple of findings",
   async () => {
     const { count } = await scan(
@@ -28,7 +28,7 @@ test(
     expect(count).toBeGreaterThanOrEqual(5);
   },
   60 * 32 * 1000
-);
+);*/
 
 test(
   "authenticated zap automation scan with little spider time against a juice shop container should find some findings",
