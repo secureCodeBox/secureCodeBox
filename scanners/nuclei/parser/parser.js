@@ -11,28 +11,58 @@ async function parse(fileContent) {
   const jsonResult = readJsonLines(fileContent);
 
   return jsonResult.map((finding) => {
+    const hostname = parseHostname(finding.host);
+
     return {
       name: finding.info.name,
       description:
-        "The name of the nuclei rule which triggered the finding: " +
-        finding['template-id'],
+        finding.info?.description ??
+        `The name of the nuclei rule which triggered the finding: ${finding["template-id"]}`,
       location: finding.host,
-      severity: getAdjustedSeverity(finding.info.severity.toUpperCase()),
-      category: finding['template-id'],
+      severity: getAdjustedSeverity(finding?.info?.severity.toUpperCase()),
+      category: finding["template-id"],
       attributes: {
-        metadata: finding.meta || null,
         ip: finding.ip || null,
-        timestamp: finding.timestamp || null,
-        matcher_name: finding['matcher-name'] || null,
-        matched: finding['matched-at'] || null,
-        extracted_results: finding['extracted-results'] || null,
         type: finding.type || null,
-        tags: finding.tags || null,
-        reference: finding.reference || null,
-        author: finding.author || null,
+        hostname,
+        path: finding.path || null,
+
+        tags: finding.info?.tags || null,
+        reference: finding.info?.reference || null,
+        author: finding.info?.author || null,
+        metadata: finding.info?.metadata || null,
+        timestamp: finding.timestamp || null,
+
+        matcher_status: finding["matcher-status"] || null,
+        matcher_name: finding["matcher-name"] || null,
+        matched_at: finding["matched-at"] || null,
+        matched_line: finding["matched-line"] || null,
+        extracted_results: finding["extracted-results"] || null,
+
+        template: finding["template"],
+        template_url: finding["template-url"],
+        template_id: finding["template-id"],
+
+        // request & responses are included when nuclei is run with `-include-rr` / `-irr`
+        request: finding.request || null,
+        response: finding.response || null,
+        curl_command: finding["curl-command"] || null,
       },
     };
   });
+}
+
+function parseHostname(host) {
+  if (!host) {
+    return null;
+  }
+
+  try {
+    const url = new URL(host);
+    return url.hostname;
+  } catch (err) {
+    console.warn(`Failed to parse hostname from host: "${host}"`);
+  }
 }
 
 function getAdjustedSeverity(severity) {
@@ -59,7 +89,7 @@ function readJsonLines(jsonl) {
     // If nuclei identifies a single result it will be automatically parsed as a json object by the sdk & underlying http lib (axios)
     return [jsonl];
   } else {
-    return []
+    return [];
   }
 }
 

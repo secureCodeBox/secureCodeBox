@@ -82,3 +82,17 @@ test("parses log4shell result correctly", async () => {
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchSnapshot();
 });
+
+test("parses results with requests & responses correctly", async () => {
+  const fileContent = 
+    await readFile(
+      __dirname + "/__testFiles__/example-com-only-misc-tags-with-incluce-rr.jsonl",
+      {
+        encoding: "utf8",
+      }
+    )
+
+  const findings = await parse(JSON.parse(fileContent));
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchSnapshot();
+});
