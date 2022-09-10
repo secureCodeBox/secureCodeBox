@@ -10,9 +10,6 @@ IMG ?= auto-discovery-kubernetes
 # Tag used for the image
 IMG_TAG ?= sha-$$(git rev-parse --short HEAD)
 
-# Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
-CRD_OPTIONS ?= "crd:trivialVersions=true,preserveUnknownFields=false"
-
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
 ifeq (,$(shell go env GOBIN))
 GOBIN=$(shell go env GOPATH)/bin
