@@ -4,7 +4,7 @@
 
 module github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes
 
-go 1.17
+go 1.19
 
 require (
 	github.com/Masterminds/sprig v2.22.0+incompatible
