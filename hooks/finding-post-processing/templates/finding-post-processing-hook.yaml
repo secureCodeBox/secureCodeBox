@@ -27,3 +27,7 @@ spec:
   imagePullSecrets:
     {{- toYaml . | nindent 4 }}
   {{- end }}
+  {{- with .Values.hook.resources }}
+  resources:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
