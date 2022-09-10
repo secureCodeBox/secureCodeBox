@@ -61,6 +61,7 @@ type ScanCompletionHookSpec struct {
 	TTLSecondsAfterFinished *int32 `json:"ttlSecondsAfterFinished,omitempty"`
 
 	// Resources lets you control resource limits and requests for the parser container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+	// +kubebuilder:default={requests:{cpu:"200m",memory:"100Mi"},limits:{cpu:"400m",memory:"200Mi"}}
 	Resources corev1.ResourceRequirements `json:"resources,omitempty"`
 }
 
