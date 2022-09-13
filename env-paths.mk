@@ -21,7 +21,7 @@ HOOKS_CHART_LIST			:= $(sort $(wildcard $(HOOKS_DIR)/*/Chart.yaml))
 HOOKS_TEST_LIST				:= $(sort $(wildcard $(HOOKS_DIR)/*/Makefile))
 DEMO_TARGETS_CHART_LIST		:= $(sort $(wildcard $(DEMO_TARGETS_DIR)/*/Chart.yaml))
 # This find construct is based on https://stackoverflow.com/questions/4210042/how-to-exclude-a-directory-in-find-command/4210072#4210072
-PACKAGE_JSON_LIST				:= $(shell find $(PROJECT_DIR) \( \
+PACKAGE_JSON_LIST				:= $(shell find "$(PROJECT_DIR)" \( \
                                    		-name .git -o \
                                    		-name .github -o \
                                    		-name .idea -o \
