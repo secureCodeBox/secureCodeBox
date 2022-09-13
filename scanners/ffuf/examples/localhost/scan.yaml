@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "ffuf-localhost"
+spec:
+  scanType: "ffuf"
+  parameters:
+    # Note: Localhost here isn't "your" localhost, but the scanner container.
+    # This container doesn't have any ports open...
+    - localhost
