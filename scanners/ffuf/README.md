@@ -1,13 +1,13 @@
 ---
 title: "ffuf"
 category: "scanner"
-type: "Network"
+type: "Webserver"
 state: "released"
 appVersion: ""
-usecase: "NEW SCANNER USECASE"
+usecase: "Webserver and WebApplication Elements and Content Discovery"
 ---
 
-ADD A [LOGO]() HERE!
+ADD A [ffuf logo](https://raw.githubusercontent.com/ffuf/ffuf/master/_img/ffuf_run_logo_600.png) HERE!
 
 <!--
 SPDX-FileCopyrightText: the secureCodeBox authors
@@ -36,8 +36,7 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
 </p>
 
 ## What is ffuf?
-
-Please write some information about the new scanner.
+FFuf is a fuzzing tool to detect content and elements on webservers and web applications. 
 
 ## Deployment
 The ffuf chart can be deployed via helm:
@@ -47,13 +46,14 @@ The ffuf chart can be deployed via helm:
 helm upgrade --install ffuf secureCodeBox/ffuf
 ```
 
-Please write how to configure the scanner
+## Scanner Configuration
+
 
 ## Requirements
 
 Kubernetes: `>=v1.11.0-0`
 
-Please include any extra Helm chart configurations that can be useful.
+todo rn: Please include any extra Helm chart configurations that can be useful.
 
 ## Values
 
@@ -101,4 +101,4 @@ Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 [scb-twitter]: https://twitter.com/secureCodeBox
 [scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
 [scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
-Please include any links that can be used as a reference for the scanner.
+[ffuf github]: https://github.com/ffuf/ffuf
