@@ -74,7 +74,7 @@ ifdef NAME
 	rm -rf $(SCANNERS_DIR)/$(NAME)
 	cp -r $(TEMPLATES_DIR)/new-scanner/ $(SCANNERS_DIR)/$(NAME)
 	find $(SCANNERS_DIR)/$(NAME) -type f ! -name tmp \
-		-exec sed -n s/new-scanner/$(NAME)/g;w $(SCANNERS_DIR)/$(NAME)/tmp {} \; \
+		-exec sed -n "s/new-scanner/$(NAME)/g;w $(SCANNERS_DIR)/$(NAME)/tmp" {} \; \
 		-exec mv $(SCANNERS_DIR)/$(NAME)/tmp {} \;
 	mv $(SCANNERS_DIR)/$(NAME)/templates/new-scanner-parse-definition.yaml \
 		$(SCANNERS_DIR)/$(NAME)/templates/$(NAME)-parse-definition.yaml
