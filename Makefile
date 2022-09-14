@@ -9,9 +9,7 @@ all: help
 .PHONY: npm-ci-all
 npm-ci-all: ## Runs npm ci in all node module subfolders.
 	@echo "Installing all NPM dependencies"
-	@for package in $(PACKAGE_JSON_LIST); do \
-		echo "🧱 Installing dependencies for $${package}" && cd $$(dirname $${package}) && npm ci; \
-	done
+	@"$(BIN_DIR)/npm-ci-all.sh"
 
 .PHONY: npm-test-all
 npm-test-all: ## Runs all Jest based test suites.
