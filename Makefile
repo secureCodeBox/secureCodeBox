@@ -18,6 +18,7 @@ npm-test-all: ## Runs all Jest based test suites.
 .PHONY: test-all
 test-all: install-operator install-sdks ## Runs all makefile based test suites (unit + integration Tests).
 	@echo "Running make test for all scanner and hook modules..."
+#1353 This will break if one has spaces in the path from $(PROJECT_DIR)
 	@for dir in $(SCANNERS_TEST_LIST) $(HOOKS_TEST_LIST); do \
     	echo "🧪 Test Suite for $${dir}" && cd  $$(dirname $$dir) && 	$(MAKE) -s test || exit 1; \
 	done
@@ -39,12 +40,14 @@ readme:	## Generate README.md based on Chart.yaml and template.
 
 .PHONY: hook-docs
 hook-docs: ## Generate documentation for hooks.
+#1353 This will break if one has spaces in the path from $(PROJECT_DIR)
 	@for chart in $(HOOKS_CHART_LIST); do \
 		$(BIN_DIR)/generate-helm-docs.sh --hook $${chart} $(HELM_DOCS_DIR); \
 	done
 
 .PHONY: scanner-docs
 scanner-docs: ## Generate documentation for scanners.
+#1353 This will break if one has spaces in the path from $(PROJECT_DIR)
 	@for chart in $(SCANNERS_CHART_LIST); do \
 		$(BIN_DIR)/generate-helm-docs.sh --scanner $${chart} $(HELM_DOCS_DIR); \
 	done
@@ -59,6 +62,7 @@ auto-discovery-docs: ## Generate documentation for the auto-discovery.
 
 .PHONY: demo-target-docs
 demo-target-docs: ## Generate documentation for demo targets.
+#1353 This will break if one has spaces in the path from $(PROJECT_DIR)
 	@for chart in $(DEMO_TARGETS_CHART_LIST); do \
 		$(BIN_DIR)/generate-helm-docs.sh --demo-target $${chart} $(HELM_DOCS_DIR); \
 	done
