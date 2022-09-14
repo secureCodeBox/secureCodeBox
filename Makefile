@@ -84,11 +84,6 @@ else
 	@echo "Scanner name not defined, please provide via make create-new-scanner NAME=NEW-SCANNER"
 endif
 
-.PHONY: help
-help: ## Display this help screen.
-	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
-		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'	
-
 test-scanner:
 	make test -C $(SCANNERS_DIR)/$(target)
 test-hook:
@@ -109,3 +104,8 @@ lintfix: ## Lint only changed files with respect to main branch and apply automa
 lintall: ## Lint complete repo
 	npx mega-linter-runner --env VALIDATE_ALL_CODEBASE=true
 	@printf "\033[36m\n\n\nThe generated reports can be found under ./report/linters_logs/ \n\n\033[0m"
+
+.PHONY: help
+help: ## Display this help screen.
+	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
+		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
