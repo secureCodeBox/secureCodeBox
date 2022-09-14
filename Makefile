@@ -27,17 +27,17 @@ test-all: install-operator install-sdks ## Runs all makefile based test suites (
 .PHONY: install-operator
 install-operator: ## Install the operator for makefile based testing.
 	@echo "Installing the operator for makefile based testing..."
-	cd $(OPERATOR_DIR) && $(MAKE) -s docker-build docker-export kind-import helm-deploy
+	cd "$(OPERATOR_DIR)" && $(MAKE) -s docker-build docker-export kind-import helm-deploy
 
 .PHONY: install-sdks
 install-sdks: ## Install the SDKs for makefile based testing.
 	@echo "Installing the SDKs (parser, hooks) for makefile based testing..."
-	cd $(PARSER_SDK_DIR) && $(MAKE) -s docker-build
-	cd $(HOOK_SDK_DIR) && $(MAKE) -s docker-build
+	cd "$(PARSER_SDK_DIR)" && $(MAKE) -s docker-build
+	cd "$(HOOK_SDK_DIR)" && $(MAKE) -s docker-build
 
 .PHONY: readme
 readme:	## Generate README.md based on Chart.yaml and template.
-	$(BIN_DIR)/generate-helm-docs.sh --readme $(PROJECT_DIR) $(HELM_DOCS_DIR)
+	"$(BIN_DIR)/generate-helm-docs.sh" --readme $(PROJECT_DIR) $(HELM_DOCS_DIR)
 
 .PHONY: hook-docs
 hook-docs: ## Generate documentation for hooks.
@@ -53,11 +53,11 @@ scanner-docs: ## Generate documentation for scanners.
 
 .PHONY: operator-docs
 operator-docs: ## Generate documentation for the operator.
-	$(BIN_DIR)/generate-helm-docs.sh --operator $(OPERATOR_DIR)/Chart.yaml $(HELM_DOCS_DIR)
+	"$(BIN_DIR)/generate-helm-docs.sh" --operator $(OPERATOR_DIR)/Chart.yaml $(HELM_DOCS_DIR)
 
 .PHONY: auto-discovery-docs
 auto-discovery-docs: ## Generate documentation for the auto-discovery.
-	$(BIN_DIR)/generate-helm-docs.sh --operator $(AUTO_DISCOVERY_DIR)/kubernetes/Chart.yaml $(HELM_DOCS_DIR)
+	"$(BIN_DIR)/generate-helm-docs.sh" --operator $(AUTO_DISCOVERY_DIR)/kubernetes/Chart.yaml $(HELM_DOCS_DIR)
 
 .PHONY: demo-target-docs
 demo-target-docs: ## Generate documentation for demo targets.
