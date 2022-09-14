@@ -86,11 +86,21 @@ else
 	@echo "Scanner name not defined, please provide via make create-new-scanner NAME=NEW-SCANNER"
 endif
 
-test-scanner:
-	make test -C $(SCANNERS_DIR)/$(target)
-test-hook:
-	make test -C $(HOOKS_DIR)/$(target)		
+.PHONY: test-scanner
+test-scanner: ## Shorthand to test a scanner w/o changing in its subdirectory.
+ifdef NAME
+	$(MAKE) test -C $(SCANNERS_DIR)/$(NAME)
+else
+	@echo "Scanner name not defined, please provide via make test-scanner NAME=SCANNER_NAME"
+endif
 
+.PHONY: test-hook
+test-hook: ## Shorthand to test a hook w/o changing in its subdirectory.
+ifdef NAME
+	$(MAKE) test -C $(HOOKS_DIR)/$(NAME)
+else
+	@echo "Hook name not defined, please provide via make test-hook NAME=HOOK_NAME"
+endif
 
 .PHONY: lint
 lint: ## Lint only changed files with respect to main branch
