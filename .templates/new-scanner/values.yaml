@@ -8,7 +8,7 @@ imagePullSecrets: []
 parser:
   image:
     # parser.image.repository -- Parser image repository
-    repository: docker.io/securecodebox/scanner-new-scanner
+    repository: docker.io/securecodebox/parser-new-scanner
     # parser.image.tag -- Parser image tag
     # @default -- defaults to the charts version
     tag: null
