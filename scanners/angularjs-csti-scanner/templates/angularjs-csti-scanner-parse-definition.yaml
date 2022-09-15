@@ -22,3 +22,8 @@ spec:
   imagePullSecrets:
     {{- toYaml . | nindent 4 }}
   {{- end }}
+  {{- with .Values.parser.resources }}
+  resources:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+

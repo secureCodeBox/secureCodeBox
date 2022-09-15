@@ -91,6 +91,21 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 	var backOffLimit int32 = 3
 	truePointer := true
 	falsePointer := false
+
+	resources := corev1.ResourceRequirements{
+		Requests: corev1.ResourceList{
+			corev1.ResourceCPU:    resource.MustParse("200m"),
+			corev1.ResourceMemory: resource.MustParse("100Mi"),
+		},
+		Limits: corev1.ResourceList{
+			corev1.ResourceCPU:    resource.MustParse("400m"),
+			corev1.ResourceMemory: resource.MustParse("200Mi"),
+		},
+	}
+	if len(parseDefinition.Spec.Resources.Requests) != 0 || len(parseDefinition.Spec.Resources.Limits) != 0 {
+		resources = parseDefinition.Spec.Resources
+	}
+
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
 			Annotations:  make(map[string]string),
@@ -139,16 +154,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 								findingsUploadURL,
 							},
 							ImagePullPolicy: parseDefinition.Spec.ImagePullPolicy,
-							Resources: corev1.ResourceRequirements{
-								Requests: corev1.ResourceList{
-									corev1.ResourceCPU:    resource.MustParse("200m"),
-									corev1.ResourceMemory: resource.MustParse("100Mi"),
-								},
-								Limits: corev1.ResourceList{
-									corev1.ResourceCPU:    resource.MustParse("400m"),
-									corev1.ResourceMemory: resource.MustParse("200Mi"),
-								},
-							},
+							Resources:       resources,
 							SecurityContext: &corev1.SecurityContext{
 								RunAsNonRoot:             &truePointer,
 								AllowPrivilegeEscalation: &falsePointer,

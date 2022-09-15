@@ -359,6 +359,10 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 		scan.Spec.InitContainers...,
 	)
 
+	if len(scan.Spec.Resources.Requests) != 0 || len(scan.Spec.Resources.Limits) != 0 {
+		job.Spec.Template.Spec.Containers[0].Resources = scan.Spec.Resources
+	}
+
 	// Set affinity from ScanTemplate
 	if scan.Spec.Affinity != nil {
 		job.Spec.Template.Spec.Affinity = scan.Spec.Affinity

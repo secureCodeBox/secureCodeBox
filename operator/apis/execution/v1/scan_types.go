@@ -128,6 +128,9 @@ type ScanSpec struct {
 	Tolerations []corev1.Toleration `json:"tolerations,omitempty"`
 
 	Cascades *CascadeSpec `json:"cascades,omitempty"`
+
+	// Resources lets you control resource limits and requests for the parser container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+	Resources corev1.ResourceRequirements `json:"resources,omitempty"`
 }
 
 // ScanStatus defines the observed state of Scan

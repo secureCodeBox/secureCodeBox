@@ -15,3 +15,11 @@ spec:
     {{- toYaml .Values.parser.scopeLimiterAliases | nindent 4}}
   affinity: {{- toYaml .Values.parser.affinity | nindent 4}}
   tolerations: {{- toYaml .Values.parser.tolerations | nindent 4}}
+  {{- with .Values.imagePullSecrets }}
+  imagePullSecrets:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.parser.resources }}
+  resources:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}

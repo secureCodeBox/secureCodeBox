@@ -44,3 +44,7 @@ hook:
       usernameKey: username
       # -- Name of the password key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs
       passwordKey: password
+
+  # -- Optional resources lets you control resource limits and requests for the hook container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+  # @default -- { requests: { cpu: "200m", memory: "100Mi" }, limits: { cpu: "400m", memory: "200Mi" } }
+  resources: {}
