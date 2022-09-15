@@ -1,4 +1,4 @@
-#!/usr/bin/make -f
+#!/usr/bin/make -fq
 #
 # SPDX-FileCopyrightText: the secureCodeBox authors
 #
