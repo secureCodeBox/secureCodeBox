@@ -5,10 +5,14 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: Scan
 metadata:
-  name: "ffuf-localhost"
+  name: "ffuf-securecodebox.io"
 spec:
   scanType: "ffuf"
   parameters:
-    # Note: Localhost here isn't "your" localhost, but the scanner container.
-    # This container doesn't have any ports open...
-    - localhost
+    # the target
+    - "-u"
+    - https://securecodebox.io/FUZZ
+    # wordlist
+    - "-w"
+    - /SecLists/Discovery/Web-Content/combined_directories.txt
+

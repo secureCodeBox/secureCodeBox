@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "cascading.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "ffuf-http"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: medium
+spec:
+  matches:
+    anyOf:
+      - category: "Open Port"
+        attributes:
+          # Also matches https, but also alternative HTTP ports
+          service: "http*"
+          state: open
+  scanSpec:
+    scanType: "ffuf"
+    parameters:
+      - "-u"
+      # Use Hostname if defined, fall back to ip if not defined
+      - "{{$.hostOrIP}}/FUZZ"
+      # todo rn: add -w as soon as you know where wordlist comes from
