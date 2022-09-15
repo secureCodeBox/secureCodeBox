@@ -27,6 +27,8 @@ spec:
             {{- toYaml .Values.scanner.affinity | nindent 12 }}
           tolerations: 
             {{- toYaml .Values.scanner.tolerations | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.scanner.podSecurityContext | nindent 12 }}
           containers:
             - name: new-scanner
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
