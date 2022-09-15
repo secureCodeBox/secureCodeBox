@@ -10,7 +10,7 @@ replicaCount: 1
 
 image:
   # image.repository -- Container Image
-  repository: docker.io/securecodebox/old-wordpress
+  repository: docker.io/securecodebox/demo-target-old-wordpress
   # image.tag -- The image tag
   # @default -- defaults to the appVersion
   tag: null

@@ -10,7 +10,7 @@ replicaCount: 1
 
 image:
   # image.repository -- Container Image
-  repository: docker.io/securecodebox/old-typo3
+  repository: docker.io/securecodebox/demo-target-old-typo3
   # image.tag -- The image tag
   # @default -- defaults to the appVersion
   tag: v9.4

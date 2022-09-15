@@ -516,7 +516,7 @@ jobs:
         id: docker_meta
         uses: docker/metadata-action@v3
         with:
-          images: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.target }}
+          images: ${{ env.DOCKER_NAMESPACE }}/demo-target-${{ matrix.target }}
           tags: |
             type=sha
             latest
@@ -546,5 +546,5 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: ${{ env.DOCKER_NAMESPACE }}/${{ matrix.target }}
+          repository: ${{ env.DOCKER_NAMESPACE }}/demo-target-${{ matrix.target }}
           readme-filepath: ./demo-targets/${{ matrix.target }}/docs/README.DockerHub-Target.md
