@@ -18,13 +18,14 @@ npm-test-all: ## Runs all Jest based test suites.
 .PHONY: test-all
 test-all: install-operator install-sdks ## Runs all makefile based test suites (unit + integration Tests).
 	@echo "Running make test for all scanner and hook modules..."
-#1353 This will break if one has spaces in the path from $(PROJECT_DIR)
+# FIXME: #1353 This will break if one has spaces in the path from $(PROJECT_DIR)
 	@for dir in $(SCANNERS_TEST_LIST) $(HOOKS_TEST_LIST); do \
     	echo "🧪 Test Suite for $${dir}" && cd  $$(dirname $$dir) && 	$(MAKE) -s test || exit 1; \
 	done
 
 .PHONY: install-operator
 install-operator: ## Install the operator for makefile based testing.
+# FIXME: #1353 This will break if one has spaces in the path from $(PROJECT_DIR)
 	@echo "Installing the operator for makefile based testing..."
 	cd "$(OPERATOR_DIR)" && $(MAKE) -s docker-build docker-export kind-import helm-deploy
 
@@ -36,33 +37,36 @@ install-sdks: ## Install the SDKs for makefile based testing.
 
 .PHONY: readme
 readme:	## Generate README.md based on Chart.yaml and template.
+# FIXME: #1353 This will break if one has spaces in the path from $(PROJECT_DIR)
 	"$(BIN_DIR)/generate-helm-docs.sh" --readme $(PROJECT_DIR) $(HELM_DOCS_DIR)
 
 .PHONY: hook-docs
 hook-docs: ## Generate documentation for hooks.
-#1353 This will break if one has spaces in the path from $(PROJECT_DIR)
+# FIXME: #1353 This will break if one has spaces in the path from $(PROJECT_DIR)
 	@for chart in $(HOOKS_CHART_LIST); do \
 		$(BIN_DIR)/generate-helm-docs.sh --hook $${chart} $(HELM_DOCS_DIR); \
 	done
 
 .PHONY: scanner-docs
 scanner-docs: ## Generate documentation for scanners.
-#1353 This will break if one has spaces in the path from $(PROJECT_DIR)
+# FIXME: #1353 This will break if one has spaces in the path from $(PROJECT_DIR)
 	@for chart in $(SCANNERS_CHART_LIST); do \
 		$(BIN_DIR)/generate-helm-docs.sh --scanner $${chart} $(HELM_DOCS_DIR); \
 	done
 
 .PHONY: operator-docs
 operator-docs: ## Generate documentation for the operator.
+# FIXME: #1353 This will break if one has spaces in the path from $(PROJECT_DIR)
 	"$(BIN_DIR)/generate-helm-docs.sh" --operator $(OPERATOR_DIR)/Chart.yaml $(HELM_DOCS_DIR)
 
 .PHONY: auto-discovery-docs
 auto-discovery-docs: ## Generate documentation for the auto-discovery.
+# FIXME: #1353 This will break if one has spaces in the path from $(PROJECT_DIR)
 	"$(BIN_DIR)/generate-helm-docs.sh" --operator $(AUTO_DISCOVERY_DIR)/kubernetes/Chart.yaml $(HELM_DOCS_DIR)
 
 .PHONY: demo-target-docs
 demo-target-docs: ## Generate documentation for demo targets.
-#1353 This will break if one has spaces in the path from $(PROJECT_DIR)
+# FIXME: #1353 This will break if one has spaces in the path from $(PROJECT_DIR)
 	@for chart in $(DEMO_TARGETS_CHART_LIST); do \
 		$(BIN_DIR)/generate-helm-docs.sh --demo-target $${chart} $(HELM_DOCS_DIR); \
 	done
@@ -88,6 +92,7 @@ endif
 
 .PHONY: test-scanner
 test-scanner: ## Shorthand to test a scanner w/o changing in its subdirectory.
+# FIXME: #1353 This will break if one has spaces in the path from $(PROJECT_DIR)
 ifdef NAME
 	$(MAKE) test -C $(SCANNERS_DIR)/$(NAME)
 else
@@ -96,6 +101,7 @@ endif
 
 .PHONY: test-hook
 test-hook: ## Shorthand to test a hook w/o changing in its subdirectory.
+# FIXME: #1353 This will break if one has spaces in the path from $(PROJECT_DIR)
 ifdef NAME
 	$(MAKE) test -C $(HOOKS_DIR)/$(NAME)
 else
