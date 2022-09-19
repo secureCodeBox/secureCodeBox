@@ -52,7 +52,7 @@ helm upgrade --install ffuf secureCodeBox/ffuf
 ## Scanner Configuration
 The mandatory parameters are `-u` and either `-w` or `--input-cmd` (normally `-w` is used):
 - `-u`: The url to scan (e.g. https://securecodebox.io/FUZZ), which may also contain the FUZZ keyword.
-- `-w`: The path to the wordlist.txt file.
+- `-w`: The path to the wordlist.txt file. How to get your wordlist into the scanner? -> See below at section [Wordlist Configmap](#wordlist-configmap).
 
 To define the test case for ffuf, use the keyword FUZZ anywhere in the URL (-u), headers (-H), or POST data (-d).
 
@@ -144,6 +144,25 @@ ffuf -w params.txt:PARAM -w values.txt:VAL -u https://example.org/?PARAM=VAL -mr
 
 More information and examples: https://github.com/ffuf/ffuf
 ````
+
+
+### Wordlist Configmap
+
+
+ffuf needs a wordlist file. To introduce your wordlist file to your scanner pod, you have to create a `configMap`:
+```bash
+kubectl create configmap --from-file /path/to/my/wordlist.txt ffuf-config
+```
+Or you can use the secureCodeBox predefined (simple stupid) wordlist:
+```bash
+kubectl create configmap --from-file examples/wordlist-config-map/wordlist.txt ffuf-config
+```
+If you are in a namespace:
+```bash
+kubectl create configmap --from-file examples/wordlist-config-map/wordlist.txt ffuf-config -n integration-tests
+```
+
+Now just mount that config in your scan and select the mounted path for your ffuf `-w` option.
 
 ## Requirements
 

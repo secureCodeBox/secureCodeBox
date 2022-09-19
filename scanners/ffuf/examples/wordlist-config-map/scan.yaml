@@ -11,8 +11,15 @@ spec:
   parameters:
     # the target
     - "-u"
-    - https://securecodebox.io/FUZZ
+    - https://www.securecodebox.io/FUZZ
     # wordlist
     - "-w"
-    - /SecLists/Discovery/Web-Content/combined_directories.txt
+    - /config/wordlist.txt
+  volumes:
+    - name: "ffuf-config"
+      configMap:
+        name: "ffuf-config"
+  volumeMounts:
+    - name: "ffuf-config"
+      mountPath: "/config/"
 

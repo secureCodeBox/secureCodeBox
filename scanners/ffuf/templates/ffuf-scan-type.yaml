@@ -33,6 +33,7 @@ spec:
               imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
               command:
                 - "ffuf"
+                - "-o"
                 - "/home/securecodebox/ffuf-results.json" # Replace output command
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
