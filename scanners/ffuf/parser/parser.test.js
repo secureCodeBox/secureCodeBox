@@ -12,18 +12,43 @@ const {
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 const readFile = util.promisify(fs.readFile);
 
-const { parse } = require("./parser");
+const {parse} = require("./parser");
 
 test("should properly parse ffuf json file", async () => {
   const fileContent = JSON.parse(
-    await readFile(__dirname + "/__testFiles__/example.com.json", {
+    await readFile(__dirname + "/__testFiles__/ffuf-results.json", {
       encoding: "utf8",
     })
   );
   const findings = await parse(fileContent);
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
-  expect(findings).toMatchInlineSnapshot();
+  expect(findings).toMatchInlineSnapshot(`
+    [
+      {
+        "attributes": {
+          "httpStatus": 301,
+        },
+        "category": "Webserver Content",
+        "description": "Content blog was found on the webserver www.securecodebox.io.",
+        "location": "https://www.securecodebox.io/blog",
+        "name": "todo rn - what to put here??",
+        "osi_layer": "APPLICATION",
+        "severity": "LOW",
+      },
+      {
+        "attributes": {
+          "httpStatus": 200,
+        },
+        "category": "Webserver Content",
+        "description": "Content 404 was found on the webserver www.securecodebox.io.",
+        "location": "https://www.securecodebox.io/404",
+        "name": "todo rn - what to put here??",
+        "osi_layer": "APPLICATION",
+        "severity": "LOW",
+      },
+    ]
+  `);
 });
 
 test("should properly parse empty json file", async () => {
@@ -35,5 +60,5 @@ test("should properly parse empty json file", async () => {
   const findings = await parse(fileContent);
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
-  expect(findings).toMatchInlineSnapshot();
+  expect(findings).toMatchInlineSnapshot(`[]`);
 });

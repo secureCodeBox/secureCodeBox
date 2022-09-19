@@ -1,0 +1,107 @@
+{
+  "commandline": "ffuf -u https://www.securecodebox.io/FUZZ -w examples/wordlist-config-map/wordlist.txt -o ffuf-results.json",
+  "time": "2022-09-19T12:43:30+02:00",
+  "results": [
+    {
+      "input": {
+        "FUZZ": "blog"
+      },
+      "position": 1,
+      "status": 301,
+      "length": 7253,
+      "words": 31,
+      "lines": 32,
+      "content-type": "text/html; charset=UTF-8",
+      "redirectlocation": "/blog/",
+      "duration": 14335592,
+      "resultfile": "",
+      "url": "https://www.securecodebox.io/blog",
+      "host": "www.securecodebox.io"
+    },
+    {
+      "input": {
+        "FUZZ": "404"
+      },
+      "position": 2,
+      "status": 200,
+      "length": 9152,
+      "words": 503,
+      "lines": 23,
+      "content-type": "text/html; charset=UTF-8",
+      "redirectlocation": "",
+      "duration": 17386127,
+      "resultfile": "",
+      "url": "https://www.securecodebox.io/404",
+      "host": "www.securecodebox.io"
+    }
+  ],
+  "config": {
+    "autocalibration": false,
+    "autocalibration_keyword": "FUZZ",
+    "autocalibration_perhost": false,
+    "autocalibration_strategy": "basic",
+    "autocalibration_strings": [],
+    "colors": false,
+    "cmdline": "ffuf -u https://www.securecodebox.io/FUZZ -w examples/wordlist-config-map/wordlist.txt -o ffuf-results.json",
+    "configfile": "",
+    "postdata": "",
+    "delay": {
+      "value": "0.00"
+    },
+    "dirsearch_compatibility": false,
+    "extensions": [],
+    "fmode": "or",
+    "follow_redirects": false,
+    "headers": {},
+    "ignorebody": false,
+    "ignore_wordlist_comments": false,
+    "inputmode": "clusterbomb",
+    "cmd_inputnum": 100,
+    "inputproviders": [
+      {
+        "name": "wordlist",
+        "keyword": "FUZZ",
+        "value": "examples/wordlist-config-map/wordlist.txt",
+        "template": ""
+      }
+    ],
+    "inputshell": "",
+    "json": false,
+    "matchers": {
+      "IsCalibrated": false,
+      "Mutex": {},
+      "Matchers": {
+        "status": {
+          "value": "200,204,301,302,307,401,403,405,500"
+        }
+      },
+      "Filters": {},
+      "PerDomainFilters": {}
+    },
+    "mmode": "or",
+    "maxtime": 0,
+    "maxtime_job": 0,
+    "method": "GET",
+    "noninteractive": false,
+    "outputdirectory": "",
+    "outputfile": "ffuf-results.json",
+    "outputformat": "json",
+    "OutputSkipEmptyFile": false,
+    "proxyurl": "",
+    "quiet": false,
+    "rate": 0,
+    "recursion": false,
+    "recursion_depth": 0,
+    "recursion_strategy": "default",
+    "replayproxyurl": "",
+    "sni": "",
+    "stop_403": false,
+    "stop_all": false,
+    "stop_errors": false,
+    "threads": 40,
+    "timeout": 10,
+    "url": "https://www.securecodebox.io/FUZZ",
+    "verbose": false,
+    "http2": false
+  }
+}
