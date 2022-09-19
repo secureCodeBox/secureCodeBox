@@ -50,10 +50,8 @@ helm upgrade --install ffuf secureCodeBox/ffuf
 ```
 
 ## Scanner Configuration
-The only mandatory parameter is:
+The mandatory parameters are `-u` and either `-w` or `--input-cmd` (normally `-w` is used):
 - `-u`: The url to scan (e.g. https://securecodebox.io/FUZZ), which may also contain the FUZZ keyword.
-
-Normally you'll also need to specify the wordlist parameter (alternative is `-input-cmd`):
 - `-w`: The path to the wordlist.txt file.
 
 To define the test case for ffuf, use the keyword FUZZ anywhere in the URL (-u), headers (-H), or POST data (-d).
