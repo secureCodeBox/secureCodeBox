@@ -10,7 +10,7 @@ async function parse(fileContent) {
   return fileContent.results.map(result => {
     return {
       name: 'Webserver Content',
-      description: `Content ${result.input?.FUZZ} was found on the webserver ${result.host}.`, // todo rn: what if no FUZZ keyword is used??
+      description: `Content [${result.input ? Object.values(result.input) : ""}] was found on the webserver ${result.host}.`, // todo rn: what if no FUZZ keyword is used??
       osi_layer: 'APPLICATION',
       severity: 'INFORMATIONAL',
       category: 'Webserver Content',
@@ -24,6 +24,7 @@ async function parse(fileContent) {
         duration: result.duration,
         resultFile: result.resultfile,
         hostname: result.host,
+        input: result.input
       },
       location: result.url,
     }
