@@ -29,6 +29,7 @@ test("should properly parse ffuf json file", async () => {
         "attributes": {
           "contentType": "text/html; charset=UTF-8",
           "duration": 14335592,
+          "headers": {},
           "hostname": "www.securecodebox.io",
           "httpStatus": 301,
           "input": {
@@ -36,6 +37,7 @@ test("should properly parse ffuf json file", async () => {
           },
           "length": 7253,
           "lines": 32,
+          "postdata": "",
           "redirectlocation": "/blog/",
           "resultFile": "",
           "words": 31,
@@ -51,6 +53,7 @@ test("should properly parse ffuf json file", async () => {
         "attributes": {
           "contentType": "text/html; charset=UTF-8",
           "duration": 17386127,
+          "headers": {},
           "hostname": "www.securecodebox.io",
           "httpStatus": 200,
           "input": {
@@ -58,6 +61,7 @@ test("should properly parse ffuf json file", async () => {
           },
           "length": 9152,
           "lines": 23,
+          "postdata": "",
           "redirectlocation": "",
           "resultFile": "",
           "words": 503,
@@ -91,6 +95,7 @@ test("should properly parse ffuf json file wih multiple fuzz keyword inputs", as
         "attributes": {
           "contentType": "text/html; charset=UTF-8",
           "duration": 501741303,
+          "headers": {},
           "hostname": "www.securecodebox.io",
           "httpStatus": 301,
           "input": {
@@ -99,6 +104,7 @@ test("should properly parse ffuf json file wih multiple fuzz keyword inputs", as
           },
           "length": 7612,
           "lines": 34,
+          "postdata": "",
           "redirectlocation": "/docs/architecture/",
           "resultFile": "",
           "words": 28,
@@ -114,9 +120,63 @@ test("should properly parse ffuf json file wih multiple fuzz keyword inputs", as
   `);
 });
 
+test("should properly parse ffuf json file wih postdata", async () => {
+  const fileContent = JSON.parse(
+    await readFile(__dirname + "/__testFiles__/ffuf-results-postdata.json", {
+      encoding: "utf8",
+    })
+  );
+  const findings = await parse(fileContent);
+  // validate findings
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot(`
+    [
+      {
+        "attributes": {
+          "contentType": "application/json; charset=utf-8",
+          "duration": 248886400,
+          "headers": {
+            "Content-Type": "application/json",
+          },
+          "hostname": "localhost:3000",
+          "httpStatus": 200,
+          "input": {
+            "PASSWORD": "password",
+            "USERNAME": "user@example.com",
+          },
+          "length": 855,
+          "lines": 1,
+          "postdata": "{"email":"USERNAME","password":"PASSWORD"}",
+          "redirectlocation": "",
+          "resultFile": "",
+          "words": 1,
+        },
+        "category": "Webserver Content",
+        "description": "Content [password,user@example.com] was found on the webserver localhost:3000.",
+        "location": "http://localhost:3000/rest/user/login",
+        "name": "Webserver Content",
+        "osi_layer": "APPLICATION",
+        "severity": "INFORMATIONAL",
+      },
+    ]
+  `);
+});
+
 test("should properly parse empty json file", async () => {
   const fileContent = JSON.parse(
     await readFile(__dirname + "/__testFiles__/empty.json", {
+      encoding: "utf8",
+    })
+  );
+  const findings = await parse(fileContent);
+  // validate findings
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot(`[]`);
+});
+
+test("should properly parse zero findings json file", async () => {
+  const fileContent = JSON.parse(
+    await readFile(__dirname + "/__testFiles__/zeroFindings.json", {
       encoding: "utf8",
     })
   );

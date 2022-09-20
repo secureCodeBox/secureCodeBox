@@ -24,7 +24,11 @@ async function parse(fileContent) {
         duration: result.duration,
         resultFile: result.resultfile,
         hostname: result.host,
-        input: result.input
+        input: result.input,
+        // FUZZ keywords can also be in headers -> we should see that within the result
+        postdata: fileContent?.config?.postdata,
+        // FUZZ keywords can also be in headers -> we should see that within the result
+        headers: fileContent?.config?.headers,
       },
       location: result.url,
     }

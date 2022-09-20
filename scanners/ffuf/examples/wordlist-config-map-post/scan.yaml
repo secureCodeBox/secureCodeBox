@@ -1,0 +1,34 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "ffuf-securecodebox.io"
+spec:
+  scanType: "ffuf"
+  parameters:
+    # the target (local instance of owasp juice shop)
+    - "-u"
+    - http://localhost:3000/rest/user/login
+    # wordlist
+    - "-w"
+    - /config/wordlistPasswords.txt:PASSWORD
+    - "-w"
+    - /config/wordlistUsernames.txt:USERNAME
+    - "-X"
+    - POST
+    - "-H"
+    - "Content-Type: application/json"
+    - "-d"
+    - "{\"email\":\"USERNAME\",\"password\":\"PASSWORD\"}"
+    - "-fc"
+    - 500,401,403
+  volumes:
+    - name: "ffuf-config"
+      configMap:
+        name: "ffuf-config"
+  volumeMounts:
+    - name: "ffuf-config"
+      mountPath: "/config/"
