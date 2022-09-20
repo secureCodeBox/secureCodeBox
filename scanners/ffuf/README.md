@@ -168,8 +168,6 @@ Now just mount that config in your scan and select the mounted path for your ffu
 
 Kubernetes: `>=v1.11.0-0`
 
-todo rn: Please include any extra Helm chart configurations that can be useful.
-
 ## Values
 
 | Key | Type | Default | Description |

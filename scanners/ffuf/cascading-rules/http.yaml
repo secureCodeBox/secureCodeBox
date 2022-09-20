@@ -23,4 +23,13 @@ spec:
       - "-u"
       # Use Hostname if defined, fall back to ip if not defined
       - "{{$.hostOrIP}}/FUZZ"
-      # todo rn: add -w as soon as you know where wordlist comes from
+      # wordlist
+      - "-w"
+      - /config/wordlist.txt
+    volumes:
+      - name: "ffuf-config"
+        configMap:
+          name: "ffuf-config"
+    volumeMounts:
+      - name: "ffuf-config"
+        mountPath: "/config/"
