@@ -12,7 +12,7 @@ async function parse(fileContent) {
       name: 'Webserver Content',
       description: `Content ${result.input?.FUZZ} was found on the webserver ${result.host}.`, // todo rn: what if no FUZZ keyword is used??
       osi_layer: 'APPLICATION',
-      severity: 'LOW', // todo rn: how to determine if the finding contains a HIGH, e.g. Spring Actuator endpoints?
+      severity: 'INFORMATIONAL',
       category: 'Webserver Content',
       attributes: {
         httpStatus: result.status,
