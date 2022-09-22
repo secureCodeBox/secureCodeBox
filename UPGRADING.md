@@ -124,3 +124,14 @@ kubectl --namespace <NAMESPACE> delete role lurcher
 We implemented a more general *[notification hook](https://www.securecodebox.io/docs/hooks/notification-hook)* which can be used to notify different systems like *[MS Teams](https://www.securecodebox.io/docs/hooks/notification-hook#configuration-of-a-ms-teams-notification)* and *[Slack](https://www.securecodebox.io/docs/hooks/notification-hook#configuration-of-a-slack-notification)* and also [Email](https://www.securecodebox.io/docs/hooks/notification-hook#configuration-of-an-email-notification) based in a more flexible way with [custom message templates](https://www.securecodebox.io/docs/hooks/notification-hook#custom-message-templates). With this new hook in place it is not nessesary to maintain the preexisting MS Teams Hook any longer and therefore we removed it.
 
 ➡️  [Reference: #570](https://github.com/secureCodeBox/secureCodeBox/pull/570)
+
+## From 3.X to 4.X
+### Renamed the docker images of demo-targets to include a "demo-target-" prefix
+The docker images for the custom demo targets built by secureCodeBox to include a "demo-target-" prefix i.e:
+  * securecodebox/old-typo3 --> securecodebox/**demo-target**-old-typo3
+  * securecodebox/old-joomla --> securecodebox/**demo-target**-old-joomla
+  * securecodebox/old-wordpress --> securecodebox/**demo-target**-old-wordpress
+
+These images are usually used for testing and demo purposes. If you use these images, you would have to rename them appropriately.
+
+➡️  [Reference: #1360](https://github.com/secureCodeBox/secureCodeBox/pull/1360)
