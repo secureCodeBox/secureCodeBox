@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 #
-# This Makefile is intended to be used for developement and testing only.
+# This Makefile is intended to be used for development and testing only.
 # For using this scanner/hook in production please use the helm chart.
 # See: <https://www.securecodebox.io/docs/getting-started/installation>
 #
@@ -57,7 +57,7 @@ ALL_EXECUTABLES_OK := $(foreach exec,$(EXECUTABLES),\
 #
 # BASE_IMG_TAG:		Defines the tag of the base image used to build this scanner/hook
 #
-# IMG_TAG:	Tag used to tag the newly created image. Defaults to the shortend commit hash
+# IMG_TAG:	Tag used to tag the newly created image. Defaults to the shortened commit hash
 #						prefixed with `sha-` e.g. `sha-ef8de4b7`
 #
 # JEST_VERSION:		Defines the jest version used for executing the tests. Defaults to latest
