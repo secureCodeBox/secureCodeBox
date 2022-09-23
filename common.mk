@@ -19,52 +19,56 @@
 # - yq
 
 ifeq ($(include_guard),)
-  $(error you should never run this makefile directly!)
+	$(error you should never run this makefile directly!)
 endif
+
 ifeq ($(name),)
-  $(error name ENV is not set)
+	$(error name ENV is not set)
 endif
 
 PYTHON = $(shell which python3)
+
 ifeq ($(PYTHON),)
-  PYTHON = $(shell which python)
-  ifeq ($(PYTHON),)
-  	$(error "PYTHON=$(PYTHON) not found in $(PATH)")
-  endif
+	PYTHON = $(shell which python)
+	ifeq ($(PYTHON),)
+		$(error "PYTHON=$(PYTHON) not found in $(PATH)")
+	endif
 endif
+
 PYTHON_VERSION_MIN=3.0
 PYTHON_VERSION=$(shell $(PYTHON) -c \
 'import sys; print(float(str(sys.version_info[0]) + "." + str(sys.version_info[1])))')
 PYTHON_VERSION_OK=$(shell $(PYTHON) -c 'print(int($(PYTHON_VERSION) >= $(PYTHON_VERSION_MIN)))' )
+
 ifeq ($(PYTHON_VERSION_OK), 0) # True == 1
-   $(error "Need python version >= $(PYTHON_VERSION_MIN) (current: $(PYTHON_VERSION))")
+	$(error "Need python version >= $(PYTHON_VERSION_MIN) (current: $(PYTHON_VERSION))")
 endif
 
 # Thx to https://stackoverflow.com/questions/5618615/check-if-a-program-exists-from-a-makefile
 EXECUTABLES = make docker kind git node npm npx kubectl helm yq java $(PYTHON)
 ALL_EXECUTABLES_OK := $(foreach exec,$(EXECUTABLES),\
-        $(if $(shell which $(exec)),some string,$(error "ERROR: The prerequisites are not met to execute this makefile! No '$(exec)' found in your PATH")))
+	$(if $(shell which $(exec)),some string,$(error "ERROR: The prerequisites are not met to execute this makefile! No '$(exec)' found in your PATH")))
 
 # Variables you might want to override:
 #
-# IMG_NS:				Defines the namespace under which the images are build.
-#						For `securecodebox/scanner-nmap` `securecodebox` is the namespace
-#						Defaults to `securecodebox`
+# IMG_NS:					Defines the namespace under which the images are build.
+#									For `securecodebox/scanner-nmap` `securecodebox` is the namespace
+#									Defaults to `securecodebox`
 #
-# BASE_IMG_TAG:			Defines the tag of the base image used to build this scanner/hook
+# BASE_IMG_TAG:		Defines the tag of the base image used to build this scanner/hook
 #
-# IMG_TAG:				Tag used to tag the newly created image. Defaults to the shortend commit hash
+# IMG_TAG:	Tag used to tag the newly created image. Defaults to the shortend commit hash
 #						prefixed with `sha-` e.g. `sha-ef8de4b7`
 #
-# JEST_VERSION  		Defines the jest version used for executing the tests. Defaults to latest
+# JEST_VERSION:		Defines the jest version used for executing the tests. Defaults to latest
 #
 # KIND_CLUSTER_NAME:	Defines the name of the kind cluster (created by kind create cluster --name cluster-name)
 #
 # Examples:
-# 	make all IMG_TAG=main
-# 	make deploy IMG_TAG=$(git rev-parse --short HEAD)
-#   make kind-import KIND_CLUSTER_NAME=your-cluster-name
-# 	make integration-tests
+#		make all IMG_TAG=main
+#		make deploy IMG_TAG=$(git rev-parse --short HEAD)
+#		make kind-import KIND_CLUSTER_NAME=your-cluster-name
+#		make integration-tests
 #
 
 SHELL = /bin/sh
