@@ -26,7 +26,6 @@ PACKAGE_JSON_LIST=$(find "$PROJECT_DIR" \( \
 
 IFS=':'
 for package in $PACKAGE_JSON_LIST; do
-  # echo "$IFS" | cat -et
   echo "- ${package}"
   echo "🧱 Installing dependencies for ${package}"
   dir=$(dirname "${package}")
