@@ -2,6 +2,9 @@
 
 set -euo pipefail
 
+# Found directives are delimited  by : to make this script failsafe,
+# if the repository working copy is cloned into a directory which
+# contains white spaces in the file name.
 # This find construct is based on https://stackoverflow.com/questions/4210042/how-to-exclude-a-directory-in-find-command/4210072#4210072
 PACKAGE_JSON_LIST=$(find "$PROJECT_DIR" \( \
   -name .git -o \
@@ -24,6 +27,7 @@ PACKAGE_JSON_LIST=$(find "$PROJECT_DIR" \( \
   -exec printf '%s:' {} + | sed '$s/:$/\n/')
   # Print each path w/o newline but w/ : appended  and then remove the last : with sed.
 
+# We split on colon instead of any white space in the for loop.
 IFS=':'
 for package in $PACKAGE_JSON_LIST; do
   echo "- ${package}"
