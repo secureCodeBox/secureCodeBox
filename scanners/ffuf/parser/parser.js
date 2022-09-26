@@ -22,7 +22,9 @@ async function parse(fileContent) {
         contentType: result["content-type"],
         redirectlocation: result.redirectlocation,
         duration: result.duration,
-        resultFile: result.resultfile,
+        // resultFile = the name of the file containing the full request and response,
+        // SCB does currently not implement saving the file (because data might be large)
+        // resultFile: result.resultfile,
         hostname: result.host,
         input: result.input,
         // FUZZ keywords can also be in headers -> we should see that within the result
