@@ -120,7 +120,7 @@ test("should properly parse ffuf json file wih multiple fuzz keyword inputs", as
   `);
 });
 
-test("should properly parse ffuf json file wih postdata", async () => {
+test("should properly parse ffuf json file with postdata", async () => {
   const fileContent = JSON.parse(
     await readFile(__dirname + "/__testFiles__/ffuf-results-postdata.json", {
       encoding: "utf8",
