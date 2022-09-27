@@ -29,9 +29,13 @@ func (e ControllerType) String() string {
 
 func GetUrlExpirationDuration(controller ControllerType) (time.Duration, error) {
 	urlExpirationTimeString, envOk := os.LookupEnv("URL_EXPIRATION_" + controller.String())
-	urlExpirationDuration, durationOk := time.ParseDuration(urlExpirationTimeString)
+	if !envOk {
+		// env varible not set, use an hour as default
+		return time.Hour, nil
+	}
 
-	if !(envOk && durationOk == nil) {
+	urlExpirationDuration, durationOk := time.ParseDuration(urlExpirationTimeString)
+	if durationOk != nil {
 		return time.Hour, errors.New("Cannot parse env variable: URL_EXPIRATION_" + controller.String())
 	}
 	return urlExpirationDuration, nil
