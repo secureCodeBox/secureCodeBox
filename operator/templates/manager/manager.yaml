@@ -128,6 +128,12 @@ spec:
             - name: S3_URL_TEMPLATE
               value: {{ .Values.s3UrlTemplate }}
             {{ end }}
+            - name: URL_EXPIRATION_SCAN
+              value: {{ .Values.presignedUrlExpirationTimes.scans | quote }}
+            - name: URL_EXPIRATION_PARSER
+              value: {{ .Values.presignedUrlExpirationTimes.parsers | quote }}
+            - name: URL_EXPIRATION_HOOK
+              value: {{ .Values.presignedUrlExpirationTimes.hooks | quote }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           securityContext:

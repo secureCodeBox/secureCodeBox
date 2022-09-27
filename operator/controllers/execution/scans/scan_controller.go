@@ -43,8 +43,6 @@ var (
 // https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definitions/#finalizers
 var s3StorageFinalizer = "s3.storage.securecodebox.io"
 
-const defaultPresignDuration = 12 * time.Hour
-
 // +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scans,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scans/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scantypes,verbs=get;list;watch
