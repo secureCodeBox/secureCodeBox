@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# Default values for old-joomla.
+# Default values for demo-target-old-joomla.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
