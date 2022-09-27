@@ -5,11 +5,13 @@
 package scancontrollers
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"net/url"
 	"os"
 	"strings"
+	"text/template"
 	"time"
 
 	"github.com/go-logr/logr"
@@ -278,5 +280,33 @@ func containsString(slice []string, s string) bool {
 }
 
 func getPresignedUrlPath(scan executionv1.Scan, filename string) string {
-	return fmt.Sprintf("scan-%s/%s", scan.UID, filename)
+	urlTemplate, ok := os.LookupEnv("S3_URL_TEMPLATE")
+	if ok {
+		return executeUrlTemplate(urlTemplate, scan, filename)
+	} else {
+		// use default when env variable is not defined
+		return fmt.Sprintf("scan-%s/%s", scan.UID, filename)
+	}
+}
+
+func executeUrlTemplate(urlTemplate string, scan executionv1.Scan, filename string) string {
+	type Template struct {
+		Scan     executionv1.Scan
+		Filename string
+	}
+
+	tmpl, err := template.New(urlTemplate).Parse(urlTemplate)
+	if err != nil {
+		panic(err)
+	} else {
+		var rawOutput bytes.Buffer
+		templateArgs := Template{
+			Scan:     scan,
+			Filename: filename,
+		}
+
+		err = tmpl.Execute(&rawOutput, templateArgs)
+		output := rawOutput.String()
+		return output
+	}
 }
