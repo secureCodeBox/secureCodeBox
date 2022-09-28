@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# Default values for old-wordpress.
+# Default values for demo-target-old-typo3.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -10,7 +10,7 @@ replicaCount: 1
 
 image:
   # image.repository -- Container Image
-  repository: docker.io/securecodebox/old-typo3
+  repository: docker.io/securecodebox/demo-target-old-typo3
   # image.tag -- The image tag
   # @default -- defaults to the appVersion
   tag: v9.4

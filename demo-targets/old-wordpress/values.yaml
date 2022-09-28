@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# Default values for old-wordpress.
+# Default values for demo-target-old-wordpress.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -10,7 +10,7 @@ replicaCount: 1
 
 image:
   # image.repository -- Container Image
-  repository: docker.io/securecodebox/old-wordpress
+  repository: docker.io/securecodebox/demo-target-old-wordpress
   # image.tag -- The image tag
   # @default -- defaults to the appVersion
   tag: null
