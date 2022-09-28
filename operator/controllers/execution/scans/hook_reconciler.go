@@ -200,6 +200,7 @@ func (r *ScanReconciler) processPendingHook(scan *executionv1.Scan, status *exec
 	urlExpirationDuration, err := util.GetUrlExpirationDuration(util.HookController)
 	if err != nil {
 		r.Log.Error(err, "Failed to parse hook url expiration")
+		panic(err)
 	}
 
 	var rawFileURL string

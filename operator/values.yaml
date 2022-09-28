@@ -113,6 +113,6 @@ s3UrlTemplate: null
 
 # presignedUrlExpirationTimes -- Duration how long presigned urls are valid
 presignedUrlExpirationTimes:
-    scans: "24h"
+    scanners: "12h"
     parsers: "1h"
     hooks: "1h"

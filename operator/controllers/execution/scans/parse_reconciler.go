@@ -56,6 +56,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 	urlExpirationDuration, err := util.GetUrlExpirationDuration(util.ParserController)
 	if err != nil {
 		r.Log.Error(err, "Failed to parse parser url expiration")
+		panic(err)
 	}
 
 	findingsUploadURL, err := r.PresignedPutURL(scan.UID, "findings.json", urlExpirationDuration)

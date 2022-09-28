@@ -11,6 +11,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	util "github.com/secureCodeBox/secureCodeBox/operator/utils"
@@ -97,9 +98,11 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 	urlExpirationDuration, err := util.GetUrlExpirationDuration(util.ScanController)
 	if err != nil {
 		r.Log.Error(err, "Failed to parse scan url expiration")
+		panic(err)
 	}
 
-	findingsDownloadURL, err := r.PresignedGetURL(scan.UID, "findings.json", urlExpirationDuration)
+	// this time is hardcoded as its not used internally by the scb so it should be longer lasting
+	findingsDownloadURL, err := r.PresignedGetURL(scan.UID, "findings.json", 7*24*time.Hour)
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
 		return err
@@ -168,6 +171,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 	urlExpirationDuration, err := util.GetUrlExpirationDuration(util.ScanController)
 	if err != nil {
 		r.Log.Error(err, "Failed to parse scan url expiration")
+		panic(err)
 	}
 
 	resultUploadURL, err := r.PresignedPutURL(scan.UID, filename, urlExpirationDuration)
