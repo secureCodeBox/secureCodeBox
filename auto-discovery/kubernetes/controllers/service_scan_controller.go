@@ -337,19 +337,20 @@ func getShaHashesForPod(pod corev1.Pod) map[string]string {
 
 // Takes a list of pods and returns a two tiered map to lookup pod digests per container
 // The map returned look like this:
-// {
-// 	// container name
-// 	container1: {
-// 		// digest
-// 		ab2dkbsjdha3kshdasjdbalsjdbaljsbd: true
-// 		iuzaksbd2kabsdk4abksdbaksjbdak12a: true
-// 	},
-// 	container2: {
-// 		// digest
-// 		sjdha3kshdasjdbalsjdbaljsbdab2dkb: true
-// 		d2kabsdk4abksdbaksjbdak12aiuzaksb: true
-// 	},
-// }
+//
+//	{
+//		// container name
+//		container1: {
+//			// digest
+//			ab2dkbsjdha3kshdasjdbalsjdbaljsbd: true
+//			iuzaksbd2kabsdk4abksdbaksjbdak12a: true
+//		},
+//		container2: {
+//			// digest
+//			sjdha3kshdasjdbalsjdbaljsbdab2dkb: true
+//			d2kabsdk4abksdbaksjbdak12aiuzaksb: true
+//		},
+//	}
 func gatherPodDigests(pods *corev1.PodList) map[string]map[string]bool {
 	podDigests := map[string]map[string]bool{}
 
