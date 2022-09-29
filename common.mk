@@ -56,9 +56,14 @@ $(error "Need python version >= $(PYTHON_VERSION_MIN) (current: $(PYTHON_VERSION
 endif
 
 # Thx to https://stackoverflow.com/questions/5618615/check-if-a-program-exists-from-a-makefile
-EXECUTABLES = make docker kind git node npm npx kubectl helm yq java $(PYTHON)
-ALL_EXECUTABLES_OK := $(foreach exec,$(EXECUTABLES),\
-	$(if $(shell which $(exec)),some string,$(error "ERROR: The prerequisites are not met to execute this makefile! No '$(exec)' found in your PATH")))
+PREREQUISITES = make docker kind git node npm npx kubectl helm yq java
+EXECUTABLES = $(PREREQUISITES) $(PYTHON)
+ALL_EXECUTABLES_OK := $(foreach exec,\
+	$(EXECUTABLES),\
+	$(if $(shell which $(exec)),\
+		some string,\
+		$(error "The prerequisites are not met to execute this makefile! No '$(exec)' found in your PATH. Install all these tools: $(PREREQUISITES)"))\
+)
 
 # Variables you might want to override:
 #
