@@ -72,7 +72,9 @@ docs: readme hook-docs scanner-docs operator-docs auto-discovery-docs demo-targe
 
 .PHONY: create-new-scanner
 create-new-scanner: ## Creates templates for a new scanner, pass NAME=NEW-SCANNER to this target.
-ifdef NAME
+ifndef NAME
+	$(error Scanner name not defined, please provide via make create-new-scanner NAME=NEW-SCANNER)
+endif
 	rm -rf "$(SCANNERS_DIR)/$(NAME)"
 	cp -r "$(TEMPLATES_DIR)/new-scanner/" "$(SCANNERS_DIR)/$(NAME)"
 	find "$(SCANNERS_DIR)/$(NAME)" -type f ! -name tmp \
@@ -82,25 +84,20 @@ ifdef NAME
 		"$(SCANNERS_DIR)/$(NAME)/templates/$(NAME)-parse-definition.yaml"
 	mv "$(SCANNERS_DIR)/$(NAME)/templates/new-scanner-scan-type.yaml" \
 		"$(SCANNERS_DIR)/$(NAME)/templates/$(NAME)-scan-type.yaml"
-else
-	@echo "Scanner name not defined, please provide via make create-new-scanner NAME=NEW-SCANNER"
-endif
 
 .PHONY: test-scanner
 test-scanner: ## Shorthand to test a scanner w/o changing in its subdirectory.
-ifdef NAME
-	$(MAKE) test -C $(SCANNERS_DIR)/$(NAME)
-else
-	@echo "Scanner name not defined, please provide via make test-scanner NAME=SCANNER_NAME"
+ifndef NAME
+	$(error Scanner name not defined, please provide via make test-scanner NAME=SCANNER_NAME)
 endif
+	$(MAKE) test -C $(SCANNERS_DIR)/$(NAME)
 
 .PHONY: test-hook
 test-hook: ## Shorthand to test a hook w/o changing in its subdirectory.
-ifdef NAME
-	$(MAKE) test -C $(HOOKS_DIR)/$(NAME)
-else
-	@echo "Hook name not defined, please provide via make test-hook NAME=HOOK_NAME"
+ifndef NAME
+	$(error Hook name not defined, please provide via make test-hook NAME=HOOK_NAME)
 endif
+	$(MAKE) test -C $(HOOKS_DIR)/$(NAME)
 
 .PHONY: lint
 lint: ## Lint only changed files with respect to main branch
