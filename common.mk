@@ -158,42 +158,34 @@ deploy-test-dep-namespace:
 
 .PHONY: deploy-test-dep-dummy-ssh
 deploy-test-dep-dummy-ssh:
-	# Install dummy-ssh app
 	helm -n demo-targets upgrade --install dummy-ssh ../../demo-targets/dummy-ssh/ --set="fullnameOverride=dummy-ssh" --wait
 
 .PHONY: deploy-test-dep-unsafe-https
 deploy-test-dep-unsafe-https:
-	# Install unsafe-https app
 	helm -n demo-targets upgrade --install unsafe-https ../../demo-targets/unsafe-https/ --set="fullnameOverride=unsafe-https" --wait
 
 .PHONY: deploy-test-dep-bodgeit
 deploy-test-dep-bodgeit:
-	# Install bodgeit app
 	helm -n demo-targets upgrade --install bodgeit ../../demo-targets/bodgeit/ --set="fullnameOverride=bodgeit" --wait
 
 .PHONY: deploy-test-dep-petstore
 deploy-test-dep-petstore:
-	# Install bodgeit app
 	helm -n demo-targets upgrade --install petstore ../../demo-targets/swagger-petstore/ --set="fullnameOverride=petstore" --wait
 
 .PHONY: deploy-test-dep-old-wordpress
 deploy-test-dep-old-wordpress:
-	# Install old-wordpress app
 	helm -n demo-targets upgrade --install old-wordpress ../../demo-targets/old-wordpress/ --set="fullnameOverride=old-wordpress" --wait
 
 .PHONY: deploy-test-dep-old-typo3
 deploy-test-dep-old-typo3:
-	# Install old-typo3 app
 	helm -n demo-targets upgrade --install old-typo3 ../../demo-targets/old-typo3/ --set="fullnameOverride=old-typo3" --wait
 
 .PHONY: deploy-test-dep-juiceshop
 deploy-test-dep-juiceshop:
-	# Install juiceshop app
 	helm -n demo-targets upgrade --install juiceshop ../../demo-targets/juice-shop/ --set="fullnameOverride=juiceshop" --wait
 
 .PHONY: deploy-test-dep-vulnerable-log4j
 deploy-test-dep-vulnerable-log4j:
-	# Install vulnerable-log4j app
 	helm -n demo-targets upgrade --install vulnerable-log4j ../../demo-targets/vulnerable-log4j/ --set="fullnameOverride=vulnerable-log4j" --wait
 
 .PHONY: deploy-test-dep-nginx
