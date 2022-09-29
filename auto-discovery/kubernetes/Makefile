@@ -111,8 +111,8 @@ kind-import:
 helm-deploy:
 	@echo ".: ⚙️ Deploying auto-discovery with the Image tag '$(IMG_TAG)' into kind."
 	helm upgrade --install auto-discovery ./ --wait \
-	--set="image.repository=docker.io/$(IMG_NS)/$(IMG)" \
-	--set="image.tag=$(IMG_TAG)" \
+		--set="image.repository=docker.io/$(IMG_NS)/$(IMG)" \
+		--set="image.tag=$(IMG_TAG)" \
 		--set="image.pullPolicy=IfNotPresent" \
 
 ifndef ignore-not-found

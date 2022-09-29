@@ -132,12 +132,12 @@ helm-deploy:
 	# If not exists create secureCodeBox operator namespace
 	kubectl create namespace securecodebox-system --dry-run=client -o yaml | kubectl apply -f -
 	helm -n securecodebox-system upgrade --install securecodebox-operator ./ --wait \
-    --set="image.repository=docker.io/$(IMG_NS)/$(OPERATOR_IMG)" \
-    --set="image.tag=$(IMG_TAG)" \
+		--set="image.repository=docker.io/$(IMG_NS)/$(OPERATOR_IMG)" \
+		--set="image.tag=$(IMG_TAG)" \
 	--set="image.pullPolicy=IfNotPresent" \
-    --set="lurker.image.repository=docker.io/$(IMG_NS)/$(LURKER_IMG)" \
-    --set="lurker.image.tag=$(IMG_TAG)" \
-	--set="lurker.image.pullPolicy=IfNotPresent"
+		--set="lurker.image.repository=docker.io/$(IMG_NS)/$(LURKER_IMG)" \
+		--set="lurker.image.tag=$(IMG_TAG)" \
+		--set="lurker.image.pullPolicy=IfNotPresent"
 
 .PHONY: install
 install: manifests kustomize ## Install CRDs into the K8s cluster specified in ~/.kube/config.

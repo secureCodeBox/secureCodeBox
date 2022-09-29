@@ -19,7 +19,7 @@ npm-test-all: ## Runs all Jest based test suites.
 test-all: install-operator install-sdks ## Runs all makefile based test suites (unit + integration Tests).
 	@echo "Running make test for all scanner and hook modules..."
 	@for dir in $(SCANNERS_TEST_LIST) $(HOOKS_TEST_LIST); do \
-    	echo "🧪 Test Suite for $${dir}" && cd  $$(dirname $$dir) && 	$(MAKE) -s test || exit 1; \
+		echo "🧪 Test Suite for $${dir}" && cd  $$(dirname $$dir) && 	$(MAKE) -s test || exit 1; \
 	done
 
 .PHONY: install-operator
