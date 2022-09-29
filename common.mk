@@ -97,9 +97,10 @@ hook-prefix = hook
 
 all: help
 
+.PHONY: test
 test: | reset-integration-tests-namespace reset-demo-targets-namespace clean-operator clean-parser-sdk clean-hook-sdk unit-tests docker-build docker-export kind-import deploy deploy-test-deps integration-tests ## 🧪 Complete clean Test for this module.
-.PHONY: help unit-tests-hook install-deps docker-build docker-export kind-import deploy deploy-test-deps integration-tests all build test
 
+.PHONY: install-deps-js
 install-deps-js:
 	@echo ".: ⚙️ Installing all $(module) specific javascript dependencies."
 	cd .. && npm ci
@@ -107,21 +108,26 @@ install-deps-js:
 	cd ../../${module}-sdk/nodejs && npm ci
 	cd ${module}/ && npm ci
 
+.PHONY: unit-test-js
 unit-test-js: install-deps-js
 	@echo ".: 🧪 Starting unit-tests for '$(name)' $(module) with 'jest@$(JEST_VERSION)'."
 	npx --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage --passWithNoTests ${name}/${module}/ --testPathIgnorePatterns /integration-tests/
 
+.PHONY: install-deps-py
 install-deps-py:
 	@echo ".: ⚙️ Installing all $(module) specific python dependencies."
 	$(PYTHON) -m pip install --upgrade pip setuptools wheel pytest
 	cd $(module)/ && $(PYTHON) -m pip install -r requirements.txt
 
+.PHONY: unit-test-py
 unit-test-py: install-deps-py
 	cd $(module)/ && $(PYTHON) -m pytest --ignore-glob='*_local.py' --ignore=tests/docker
 
+.PHONY: unit-test-java
 unit-test-java:
 	cd $(module)/ && ./gradlew test
 
+.PHONY: common-docker-build
 common-docker-build:
 	@echo ".: ⚙️ Build '$(name)' $(module) with BASE_IMG_TAG: '$(BASE_IMG_TAG)'."
 	docker build \
@@ -132,52 +138,65 @@ common-docker-build:
 		-f ./$(module)/Dockerfile \
 		./$(module)
 
+.PHONY: common-docker-export
 common-docker-export:
 	@echo ".: ⚙️ Saving new docker image archive to '$(module)-$(name).tar'."
 	docker save $(IMG_NS)/$(module)-$(name):$(IMG_TAG) -o $(module)-$(name).tar
 
+.PHONY: common-kind-import
 common-kind-import:
 	@echo ".: 💾 Importing the image archive '$(module)-$(name).tar' to local kind cluster."
 	kind load image-archive ./$(module)-$(name).tar --name $(KIND_CLUSTER_NAME)
 
+.PHONY: deploy-test-deps
 deploy-test-deps: deploy-test-dep-namespace
 
+.PHONY: deploy-test-dep-namespace
 deploy-test-dep-namespace:
 	# If not exists create namespace where the tests will be executed
 	kubectl create namespace demo-targets --dry-run=client -o yaml | kubectl apply -f -
 
+.PHONY: deploy-test-dep-dummy-ssh
 deploy-test-dep-dummy-ssh:
 	# Install dummy-ssh app
 	helm -n demo-targets upgrade --install dummy-ssh ../../demo-targets/dummy-ssh/ --set="fullnameOverride=dummy-ssh" --wait
 
+.PHONY: deploy-test-dep-unsafe-https
 deploy-test-dep-unsafe-https:
 	# Install unsafe-https app
 	helm -n demo-targets upgrade --install unsafe-https ../../demo-targets/unsafe-https/ --set="fullnameOverride=unsafe-https" --wait
 
+.PHONY: deploy-test-dep-bodgeit
 deploy-test-dep-bodgeit:
 	# Install bodgeit app
 	helm -n demo-targets upgrade --install bodgeit ../../demo-targets/bodgeit/ --set="fullnameOverride=bodgeit" --wait
 
+.PHONY: deploy-test-dep-petstore
 deploy-test-dep-petstore:
 	# Install bodgeit app
 	helm -n demo-targets upgrade --install petstore ../../demo-targets/swagger-petstore/ --set="fullnameOverride=petstore" --wait
 
+.PHONY: deploy-test-dep-old-wordpress
 deploy-test-dep-old-wordpress:
 	# Install old-wordpress app
 	helm -n demo-targets upgrade --install old-wordpress ../../demo-targets/old-wordpress/ --set="fullnameOverride=old-wordpress" --wait
 
+.PHONY: deploy-test-dep-old-typo3
 deploy-test-dep-old-typo3:
 	# Install old-typo3 app
 	helm -n demo-targets upgrade --install old-typo3 ../../demo-targets/old-typo3/ --set="fullnameOverride=old-typo3" --wait
 
+.PHONY: deploy-test-dep-juiceshop
 deploy-test-dep-juiceshop:
 	# Install juiceshop app
 	helm -n demo-targets upgrade --install juiceshop ../../demo-targets/juice-shop/ --set="fullnameOverride=juiceshop" --wait
 
+.PHONY: deploy-test-dep-vulnerable-log4j
 deploy-test-dep-vulnerable-log4j:
 	# Install vulnerable-log4j app
 	helm -n demo-targets upgrade --install vulnerable-log4j ../../demo-targets/vulnerable-log4j/ --set="fullnameOverride=vulnerable-log4j" --wait
 
+.PHONY: deploy-test-dep-nginx
 deploy-test-dep-nginx:
 	# Delete leftover nginx's. Unfortunately can't create deployment only if not exists (like namespaces)
 	kubectl delete deployment nginx --namespace demo-targets --ignore-not-found --wait
@@ -186,9 +205,11 @@ deploy-test-dep-nginx:
 	kubectl create deployment --image nginx:alpine nginx --namespace demo-targets
 	kubectl expose deployment nginx --port 80 --namespace demo-targets
 
+.PHONY: deploy-test-dep-http-webhook
 deploy-test-dep-http-webhook:
 	helm -n integration-tests upgrade --install http-webhook ../../demo-targets/http-webhook/
 
+.PHONY: deploy-test-dep-test-scan
 deploy-test-dep-test-scan:
 	cd ../../scanners/test-scan/ && $(MAKE) docker-build docker-export kind-import && \
 	helm -n integration-tests upgrade --install test-scan . \
@@ -199,9 +220,11 @@ deploy-test-dep-test-scan:
 		--set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
 		--set-string="parser.env[0].value=true"
 
+.PHONY: deploy-test-dep-old-joomla
 deploy-test-dep-old-joomla:
 	helm -n demo-targets install old-joomla ../../demo-targets/old-joomla/ --set="fullnameOverride=old-joomla" --wait
 
+.PHONY: reset
 reset:  ## 🧹 removing all generated files for this module.
 	@echo ".: 🧹 removing all generated files."
 	rm -f ./$(module)-$(name).tar
@@ -212,16 +235,19 @@ reset:  ## 🧹 removing all generated files for this module.
 	rm -rf ../node_modules
 	rm -rf ../coverage
 
+.PHONY: reset-integration-tests-namespace
 reset-integration-tests-namespace:
 	@echo ".: 🧹 Resetting 'integration-tests' namespace"
 	kubectl delete namespace integration-tests --wait || true
 	kubectl create namespace integration-tests
 
+.PHONY: reset-demo-targets-namespace
 reset-demo-targets-namespace:
 	@echo ".: 🧹 Resetting 'demo-targets' namespace"
 	kubectl delete namespace demo-targets --wait || true
 	kubectl create namespace demo-targets
 
+.PHONY: clean-operator
 clean-operator:
 	make -C $(OPERATOR_DIR) docker-build
 	make -C $(OPERATOR_DIR) docker-export
@@ -229,9 +255,11 @@ clean-operator:
 	rm $(OPERATOR_DIR)/operator.tar $(OPERATOR_DIR)/lurker.tar
 	make -C $(OPERATOR_DIR) helm-deploy
 
+.PHONY: clean-parser-sdk
 clean-parser-sdk:
 	make -C $(PARSER_SDK_DIR) docker-build-sdk
 
+.PHONY: clean-hook-sdk
 clean-hook-sdk:
 	make -C $(HOOK_SDK_DIR) docker-build-sdk
 

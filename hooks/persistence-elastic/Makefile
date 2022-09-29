@@ -10,8 +10,13 @@ hook = persistence-elastic
 
 include ../../hooks.mk
 
+.PHONY: docker-build
 docker-build: dashboard-importer-docker-build
+
+.PHONY: docker-export
 docker-export: dashboard-importer-docker-export
+
+.PHONY: kind-import
 kind-import: dashboard-importer-kind-import
 
 .PHONY: dashboard-importer-docker-build
@@ -35,6 +40,7 @@ dashboard-importer-kind-import:
 	@echo ".: 💾 Importing the image archive '$(name)-dashboard-importer.tar' to local kind cluster."
 	kind load image-archive ./$(name)-dashboard-importer.tar --name $(KIND_CLUSTER_NAME)
 
+.PHONY: deploy
 deploy: ## 💾 Deploy this module via HelmChart into namespace "integration-tests"
 	@echo ".: 💾 Deploying '$(name)' $(hook-prefix) HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
 	helm -n integration-tests upgrade --install $(name) . --debug --timeout 5m --wait  \

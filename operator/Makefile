@@ -118,7 +118,6 @@ docker-export-lurker:
 	@echo ".: 💾 Export Lurker Image"
 	docker save $(IMG_NS)/$(LURKER_IMG):$(IMG_TAG) > $(LURKER_IMG).tar
 
-
 ##@ Deployment
 
 .PHONY: kind-import

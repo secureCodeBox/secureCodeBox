@@ -10,4 +10,5 @@ scanner = ssh-scan
 
 include ../../scanners.mk
 
+.PHONY: deploy-test-deps
 deploy-test-deps: deploy-test-dep-dummy-ssh
