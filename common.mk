@@ -18,21 +18,29 @@
 # - helm
 # - yq
 
+# IMPORTANT: The body of conditionals MUST not be indented! Indentation result in
+# errors on macOS/FreeBSD because the line wil be interpreted as command which must
+# inside a recipe (target). (see https://github.com/secureCodeBox/secureCodeBox/issues/1353)
 ifeq ($(include_guard),)
-	$(error you should never run this makefile directly!)
+$(error you should never run this makefile directly!)
 endif
 
+# IMPORTANT: The body of conditionals MUST not be indented! Indentation result in
+# errors on macOS/FreeBSD because the line wil be interpreted as command which must
+# inside a recipe (target). (see https://github.com/secureCodeBox/secureCodeBox/issues/1353)
 ifeq ($(name),)
-	$(error name ENV is not set)
+$(error name ENV is not set)
 endif
 
 PYTHON = $(shell which python3)
-
+# IMPORTANT: The body of conditionals MUST not be indented! Indentation result in
+# errors on macOS/FreeBSD because the line wil be interpreted as command which must
+# inside a recipe (target). (see https://github.com/secureCodeBox/secureCodeBox/issues/1353)
 ifeq ($(PYTHON),)
-	PYTHON = $(shell which python)
-	ifeq ($(PYTHON),)
-		$(error "PYTHON=$(PYTHON) not found in $(PATH)")
-	endif
+PYTHON = $(shell which python)
+ifeq ($(PYTHON),)
+$(error "PYTHON=$(PYTHON) not found in $(PATH)")
+endif
 endif
 
 PYTHON_VERSION_MIN=3.0
@@ -40,8 +48,11 @@ PYTHON_VERSION=$(shell $(PYTHON) -c \
 'import sys; print(float(str(sys.version_info[0]) + "." + str(sys.version_info[1])))')
 PYTHON_VERSION_OK=$(shell $(PYTHON) -c 'print(int($(PYTHON_VERSION) >= $(PYTHON_VERSION_MIN)))' )
 
+# IMPORTANT: The body of conditionals MUST not be indented! Indentation result in
+# errors on macOS/FreeBSD because the line wil be interpreted as command which must
+# inside a recipe (target). (see https://github.com/secureCodeBox/secureCodeBox/issues/1353)
 ifeq ($(PYTHON_VERSION_OK), 0) # True == 1
-	$(error "Need python version >= $(PYTHON_VERSION_MIN) (current: $(PYTHON_VERSION))")
+$(error "Need python version >= $(PYTHON_VERSION_MIN) (current: $(PYTHON_VERSION))")
 endif
 
 # Thx to https://stackoverflow.com/questions/5618615/check-if-a-program-exists-from-a-makefile

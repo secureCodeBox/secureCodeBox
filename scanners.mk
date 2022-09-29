@@ -28,16 +28,19 @@ PROJECT_DIR=../..
 
 module = $(scanner-prefix)
 
+# IMPORTANT: The body of conditionals MUST not be indented! Indentation result in
+# errors on macOS/FreeBSD because the line wil be interpreted as command which must
+# inside a recipe (target). (see https://github.com/secureCodeBox/secureCodeBox/issues/1353)
 ifeq ($(custom_scanner),)
-  docker-build: | docker-build-parser
-  docker-export: | docker-export-parser
-  kind-import: | kind-import-parser
-  deploy: deploy-without-scanner
+docker-build: | docker-build-parser
+docker-export: | docker-export-parser
+kind-import: | kind-import-parser
+deploy: deploy-without-scanner
 else
-  docker-build: | docker-build-parser docker-build-scanner
-  docker-export: | docker-export-parser docker-export-scanner
-  kind-import: | kind-import-parser kind-import-scanner
-  deploy: deploy-with-scanner
+docker-build: | docker-build-parser docker-build-scanner
+docker-export: | docker-export-parser docker-export-scanner
+kind-import: | kind-import-parser kind-import-scanner
+deploy: deploy-with-scanner
 endif
 
 unit-tests:
