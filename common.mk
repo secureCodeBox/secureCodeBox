@@ -39,7 +39,7 @@ PYTHON = $(shell which python3)
 ifeq ($(PYTHON),)
 PYTHON = $(shell which python)
 ifeq ($(PYTHON),)
-$(error "PYTHON=$(PYTHON) not found in $(PATH)")
+$(error PYTHON=$(PYTHON) not found in $(PATH))
 endif
 endif
 
@@ -52,7 +52,7 @@ PYTHON_VERSION_OK=$(shell $(PYTHON) -c 'print(int($(PYTHON_VERSION) >= $(PYTHON_
 # errors on macOS/FreeBSD because the line wil be interpreted as command which must
 # inside a recipe (target). (see https://github.com/secureCodeBox/secureCodeBox/issues/1353)
 ifeq ($(PYTHON_VERSION_OK), 0) # True == 1
-$(error "Need python version >= $(PYTHON_VERSION_MIN) (current: $(PYTHON_VERSION))")
+$(error Need python version >= $(PYTHON_VERSION_MIN) (current: $(PYTHON_VERSION)))
 endif
 
 # Thx to https://stackoverflow.com/questions/5618615/check-if-a-program-exists-from-a-makefile
