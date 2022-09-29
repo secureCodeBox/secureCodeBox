@@ -28,7 +28,8 @@ deploy-test-dep-nmap:
 		--set="parser.image.tag=$(IMG_TAG)" \
 		--set="scanner.image.tag=$(IMG_TAG)" \
 		--set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-		--set-string="parser.env[0].value=true"
+		--set-string="parser.env[0].value=true" \
+		--set="cascadingRules.enabled=true"
 
 .PHONY: deploy-test-dep-ncrack
 deploy-test-dep-ncrack:
@@ -46,7 +47,8 @@ deploy-test-dep-ncrack:
 		--set="scanner.extraVolumes[0].name=ncrack-lists" \
 		--set="scanner.extraVolumes[0].secret.secretName=ncrack-lists" \
 		--set="scanner.extraVolumeMounts[0].name=ncrack-lists" \
-		--set="scanner.extraVolumeMounts[0].mountPath=/ncrack/"
+		--set="scanner.extraVolumeMounts[0].mountPath=/ncrack/" \
+		--set="cascadingRules.enabled=true"
 
 .PHONY: deploy-test-dep-sslyze
 deploy-test-dep-sslyze:
@@ -55,7 +57,8 @@ deploy-test-dep-sslyze:
 		--set="parser.image.repository=docker.io/$(IMG_NS)/$(parser-prefix)-sslyze" \
 		--set="parser.image.tag=$(IMG_TAG)" \
 		--set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
-		--set-string="parser.env[0].value=true"
+		--set-string="parser.env[0].value=true" \
+		--set="cascadingRules.enabled=true"
 
 .PHONY: deploy-test-deps-1 # Deploys dependencies for the nmap-ncrack test
 deploy-test-deps: deploy-test-dep-dummy-ssh deploy-test-dep-nmap deploy-test-dep-ncrack
