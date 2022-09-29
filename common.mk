@@ -32,6 +32,15 @@ ifeq ($(name),)
 $(error name ENV is not set)
 endif
 
+PROJECT_PATH_CONTAINS_WHITESPACES=$(shell if [[ "$(PROJECT_DIR)" = *" "* ]]; then echo 1; else echo 0; fi)
+# IMPORTANT: The body of conditionals MUST not be indented! Indentation result in
+# errors on macOS/FreeBSD because the line wil be interpreted as command which must
+# inside a recipe (target). (see https://github.com/secureCodeBox/secureCodeBox/issues/1353)
+ifeq ($(PROJECT_PATH_CONTAINS_WHITESPACES),1)
+$(error The path to this repo contains white spaces and make can't deal with this! \
+Move or checkout this project to a location w/o spaces in the direcotry path)
+endif
+
 PYTHON = $(shell which python3)
 # IMPORTANT: The body of conditionals MUST not be indented! Indentation result in
 # errors on macOS/FreeBSD because the line wil be interpreted as command which must
