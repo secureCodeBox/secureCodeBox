@@ -2,6 +2,16 @@
 
 set -euo pipefail
 
+if [ -z "${PROJECT_DIR:-}" ]; then
+  echo >&2 "Waring: Env var PROJECT_DIR is not set! Maybe direnv is not installed/enabled."
+  echo >&2 "Determine PROJECT_DIR by myself..."
+  # @see: http://wiki.bash-hackers.org/syntax/shellvars
+  [ -z "${SCRIPT_DIRECTORY:-}" ] && SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+  # Assuming we are in ./bin and need one level up.
+  PROJECT_DIR="$(dirname "${SCRIPT_DIRECTORY}")"
+  echo >&2 "Determined PROJECT_DIR is ${PROJECT_DIR}"
+fi
+
 # Found directives are delimited  by : to make this script failsafe,
 # if the repository working copy is cloned into a directory which
 # contains white spaces in the file name.
