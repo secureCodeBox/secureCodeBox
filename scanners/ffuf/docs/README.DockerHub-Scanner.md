@@ -1,14 +1,3 @@
----
-title: "ffuf"
-category: "scanner"
-type: "Webserver"
-state: "released"
-appVersion: "v1.5.0"
-usecase: "Webserver and WebApplication Elements and Content Discovery"
----
-
-![ffuf logo](https://raw.githubusercontent.com/ffuf/ffuf/master/_img/ffuf_run_logo_600.png)
-
 <!--
 SPDX-FileCopyrightText: the secureCodeBox authors
 
@@ -35,19 +24,39 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
   <a href="https://twitter.com/securecodebox"><img alt="Twitter Follower" src="https://img.shields.io/twitter/follow/securecodebox?style=flat&color=blue&logo=twitter"/></a>
 </p>
 
+## What is OWASP secureCodeBox?
+
+<p align="center">
+  <img alt="secureCodeBox Logo" src="https://www.securecodebox.io/img/Logo_Color.svg" width="250px"/>
+</p>
+
+_[OWASP secureCodeBox][scb-github]_ is an automated and scalable open source solution that can be used to integrate various *security vulnerability scanners* with a simple and lightweight interface. The _secureCodeBox_ mission is to support *DevSecOps* Teams to make it easy to automate security vulnerability testing in different scenarios.
+
+With the _secureCodeBox_ we provide a toolchain for continuous scanning of applications to find the low-hanging fruit issues early in the development process and free the resources of the penetration tester to concentrate on the major security issues.
+
+
+The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To install it you need [Helm](https://helm.sh), a package manager for Kubernetes. It is also possible to start the different integrated security vulnerability scanners based on a docker infrastructure.
+
+### Quickstart with secureCodeBox on kubernetes
+
+You can find resources to help you get started on our [documentation website](https://www.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://www.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://www.securecodebox.io/docs/getting-started/first-scans) with it.
+
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `v1.5.0`
+
+## How to use this image
+This `scanner` image is intended to work in combination with the corresponding `parser` image to parse the scanner `findings` to generic secureCodeBox results. For more information details please take a look at the [project page][scb-docs] or [documentation page][https://www.securecodebox.io/docs/scanners/ffuf].
+
+```bash
+docker pull securecodebox/scanner-ffuf
+```
+
 ## What is ffuf?
 FFuf is an open source (MIT license) fuzzing tool to detect content and elements on webservers and web applications.
 People often use it as a web directory bruteforcer, but it is also capable of fuzzing much more than that (e.g. XSS, SQLi,...).
 
 With this scanner the secure code box also installs SecLists wordlists.
-
-## Deployment
-The ffuf chart can be deployed via helm:
-
-```bash
-# Install HelmChart (use -n to configure another namespace)
-helm upgrade --install ffuf secureCodeBox/ffuf
-```
 
 ## Scanner Configuration
 The mandatory parameters are `-u` and either `-w` or `--input-cmd` (normally `-w` is used):
@@ -145,68 +154,22 @@ ffuf -w params.txt:PARAM -w values.txt:VAL -u https://example.org/?PARAM=VAL -mr
 More information and examples: https://github.com/ffuf/ffuf
 ````
 
-## Requirements
+## Community
 
-Kubernetes: `>=v1.11.0-0`
+You are welcome, please join us on... 👋
 
+- [GitHub][scb-github]
+- [Slack][scb-slack]
+- [Twitter][scb-twitter]
 
-
-## Additional Chart Configurations
-### Wordlist Configmap
-
-ffuf needs a wordlist file. To introduce your wordlist file to your scanner pod, you have to create a `configMap`:
-```bash
-kubectl create configmap --from-file /path/to/my/wordlist.txt ffuf-config
-```
-Or you can use the secureCodeBox predefined (simple stupid) wordlist:
-```bash
-kubectl create configmap --from-file examples/wordlist-config-map/wordlist.txt ffuf-config
-```
-If you are in a namespace:
-```bash
-kubectl create configmap --from-file examples/wordlist-config-map/wordlist.txt ffuf-config -n integration-tests
-```
-
-Now just mount that config in your scan and select the mounted path for your ffuf `-w` option.
-
-## Values
-
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| cascadingRules.enabled | bool | `true` | Enables or disables the installation of the default cascading rules for this scanner |
-| parser.affinity | object | `{}` | Optional affinity settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
-| parser.env | list | `[]` | Optional environment variables mapped into each parseJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
-| parser.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
-| parser.image.repository | string | `"docker.io/securecodebox/scanner-ffuf"` | Parser image repository |
-| parser.image.tag | string | defaults to the charts version | Parser image tag |
-| parser.scopeLimiterAliases | object | `{}` | Optional finding aliases to be used in the scopeLimiter. |
-| parser.tolerations | list | `[]` | Optional tolerations settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
-| parser.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
-| scanner.activeDeadlineSeconds | string | `nil` | There are situations where you want to fail a scan Job after some amount of time. To do so, set activeDeadlineSeconds to define an active deadline (in seconds) when considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#job-termination-and-cleanup) |
-| scanner.affinity | object | `{}` | Optional affinity settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
-| scanner.backoffLimit | int | 3 | There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy) |
-| scanner.env | list | `[]` | Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
-| scanner.extraContainers | list | `[]` | Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) |
-| scanner.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
-| scanner.extraVolumes | list | `[]` | Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
-| scanner.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
-| scanner.image.repository | string | `"docker.io/securecodebox/scanner-ffuf"` | Container Image to run the scan |
-| scanner.image.tag | string | `nil` | defaults to the charts appVersion |
-| scanner.nameAppend | string | `nil` | append a string to the default scantype name. |
-| scanner.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
-| scanner.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"privileged":false,"readOnlyRootFilesystem":true,"runAsNonRoot":true}` | Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
-| scanner.securityContext.allowPrivilegeEscalation | bool | `false` | Ensure that users privileges cannot be escalated |
-| scanner.securityContext.capabilities.drop[0] | string | `"all"` | This drops all linux privileges from the container. |
-| scanner.securityContext.privileged | bool | `false` | Ensures that the scanner container is not run in privileged mode |
-| scanner.securityContext.readOnlyRootFilesystem | bool | `true` | Prevents write access to the containers file system |
-| scanner.securityContext.runAsNonRoot | bool | `true` | Enforces that the scanner image is run as a non root user |
-| scanner.tolerations | list | `[]` | Optional tolerations settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
-| scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
+As with all Docker images, these likely also contain other software which may be under other licenses (such as Bash, etc from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
+
+As for any pre-built image usage, it is the image user's responsibility to ensure that any use of this image complies with any relevant licenses for all software contained within.
 
 [scb-owasp]: https://www.owasp.org/index.php/OWASP_secureCodeBox
 [scb-docs]: https://www.securecodebox.io/
