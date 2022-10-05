@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "execution.securecodebox.io/v1"
+kind: ParseDefinition
+metadata:
+  name: "ffuf-json"
+spec:
+  image: "{{ .Values.parser.image.repository }}:{{ .Values.parser.image.tag | default .Chart.Version }}"
+  imagePullPolicy: {{.Values.parser.image.pullPolicy}}
+  ttlSecondsAfterFinished: {{.Values.parser.ttlSecondsAfterFinished}}
+  env: {{- toYaml .Values.parser.env | nindent 4}}
+  scopeLimiterAliases:
+    {{- toYaml .Values.parser.scopeLimiterAliases | nindent 4}}
+  affinity: {{- toYaml .Values.parser.affinity | nindent 4}}
+  tolerations: {{- toYaml .Values.parser.tolerations | nindent 4}}

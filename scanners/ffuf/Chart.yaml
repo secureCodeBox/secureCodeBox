@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: v2
+name: ffuf
+description: A Helm chart for the ffuf security Scanner that integrates with the secureCodeBox.
+
+type: application
+# version - gets automatically set to the secureCodeBox release version when the helm charts gets published
+version: v3.1.0-alpha1
+appVersion: "v1.5.0"
+kubeVersion: ">=v1.11.0-0"
+
+keywords:
+  - security
+  - ffuf
+  - scanner
+  - secureCodeBox
+  - webfuzzer
+home: https://www.securecodebox.io/docs/scanners/ffuf
+icon: https://www.securecodebox.io/img/integrationIcons/ffuf.svg # Upload new icon
+sources:
+  - https://github.com/secureCodeBox/secureCodeBox
+maintainers:
+  - name: iteratec GmbH
+    email: secureCodeBox@iteratec.com

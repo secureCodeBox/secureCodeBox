@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "execution.securecodebox.io/v1"
+kind: ScanType
+metadata:
+  name: "ffuf{{ .Values.scanner.nameAppend | default ""}}"
+spec:
+  extractResults:
+    type: ffuf-json
+    location: "/home/securecodebox/ffuf-results.json"
+  jobTemplate:
+    spec:
+      {{- if .Values.scanner.ttlSecondsAfterFinished }}
+      ttlSecondsAfterFinished: {{ .Values.scanner.ttlSecondsAfterFinished }}
+      {{- end }}
+      backoffLimit: {{ .Values.scanner.backoffLimit }}
+      {{- if .Values.scanner.activeDeadlineSeconds }}
+      activeDeadlineSeconds: {{ .Values.scanner.activeDeadlineSeconds }}
+      {{- end }}
+
+      template:
+        spec:
+          restartPolicy: OnFailure
+          affinity:
+            {{- toYaml .Values.scanner.affinity | nindent 12 }}
+          tolerations: 
+            {{- toYaml .Values.scanner.tolerations | nindent 12 }}
+          containers:
+            - name: ffuf
+              image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
+              command:
+                - "ffuf"
+                - "-o"
+                - "/home/securecodebox/ffuf-results.json" # Replace output command
+              resources:
+                {{- toYaml .Values.scanner.resources | nindent 16 }}
+              securityContext:
+                {{- toYaml .Values.scanner.securityContext | nindent 16 }}
+              env:
+                {{- toYaml .Values.scanner.env | nindent 16 }}
+              volumeMounts:
+                {{- toYaml .Values.scanner.extraVolumeMounts | nindent 16 }}
+            {{- if .Values.scanner.extraContainers }}
+            {{- toYaml .Values.scanner.extraContainers | nindent 12 }}
+            {{- end }}
+          volumes:
+            {{- toYaml .Values.scanner.extraVolumes | nindent 12 }}

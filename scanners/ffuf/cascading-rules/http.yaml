@@ -1,0 +1,35 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "cascading.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "ffuf-http"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: medium
+spec:
+  matches:
+    anyOf:
+      - category: "Open Port"
+        attributes:
+          # Also matches https, but also alternative HTTP ports
+          service: "http*"
+          state: open
+  scanSpec:
+    scanType: "ffuf"
+    parameters:
+      - "-u"
+      # Use Hostname if defined, fall back to ip if not defined
+      - "{{$.hostOrIP}}/FUZZ"
+      # wordlist
+      - "-w"
+      - /config/wordlist.txt
+    volumes:
+      - name: "ffuf-config"
+        configMap:
+          name: "ffuf-config"
+    volumeMounts:
+      - name: "ffuf-config"
+        mountPath: "/config/"

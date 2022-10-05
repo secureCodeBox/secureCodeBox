@@ -1,0 +1,17 @@
+{
+  "name": "@securecodebox/ffuf-parser",
+  "version": "1.0.0",
+  "description": "Parses result files for the type 'ffuf-json'",
+  "main": "parser.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "iteratec GmbH",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "lodash": "^4.17.20",
+    "xml2js": "^0.4.23"
+  },
+  "devDependencies": {"jest": "^29.0.3"}
+}
