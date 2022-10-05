@@ -65,15 +65,13 @@ lurker:
     # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
     pullPolicy: IfNotPresent
 
+# -- Minio default config. More config options an info: https://github.com/minio/minio/blob/master/helm/minio/values.yaml
 minio:
   # -- Enable this to use minio as storage backend instead of a cloud bucket provider like AWS S3, Google Cloud Storage, DigitalOcean Spaces etc.
   enabled: true
   tls:
     enabled: false
-    certSecret: minio-tls
-  defaultBucket:
-    enabled: true
-    name: "securecodebox"
+  defaultBuckets: "securecodebox"
   # Overwrite Minio's default 4Gi memory request
   resources:
     requests:

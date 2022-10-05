@@ -1,6 +1,6 @@
 dependencies:
 - name: minio
-  repository: https://helm.min.io/
-  version: 7.1.2
-digest: sha256:6fee974baf705caae258636dbd7b2b89f14230b9ae28aa20da4643d8292c399b
-generated: "2020-10-07T11:26:59.229968+02:00"
+  repository: https://charts.bitnami.com/bitnami
+  version: 11.9.4
+digest: sha256:dcd5c66891556818e8955c7aabd358ca8c87928291b1918611cb333184dd5109
+generated: "2022-09-03T17:30:31.769197+02:00"
