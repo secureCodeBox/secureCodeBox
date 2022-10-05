@@ -281,12 +281,11 @@ func containsString(slice []string, s string) bool {
 
 func getPresignedUrlPath(scan executionv1.Scan, filename string) string {
 	urlTemplate, ok := os.LookupEnv("S3_URL_TEMPLATE")
-	if ok {
-		return executeUrlTemplate(urlTemplate, scan, filename)
-	} else {
-		// use default when env variable is not defined
-		return fmt.Sprintf("scan-%s/%s", scan.UID, filename)
+	if !ok {
+		// use default when environment variable is not set
+		urlTemplate = "scan-{{ .Scan.UID }}/{{ .Filename }}"
 	}
+	return executeUrlTemplate(urlTemplate, scan, filename)
 }
 
 func executeUrlTemplate(urlTemplate string, scan executionv1.Scan, filename string) string {
