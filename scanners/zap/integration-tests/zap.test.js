@@ -18,6 +18,7 @@ test(
       Object {
         "Content Security Policy (CSP) Header Not Set": 1,
         "Missing Anti-clickjacking Header": 1,
+        "Server Leaks Version Information via \"Server\" HTTP Response Header Field": 1,
         "X-Content-Type-Options Header Missing": 1,
       }
     `);
