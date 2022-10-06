@@ -2,6 +2,10 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+include_guard = set
+# common.mk fails if name is not set, so we use a placeholder w/o any further meaning.
+name = _operator_
+include ../common.mk
 include ../env-paths.mk
 ## Telling the env-paths file where the root project dir is. This is done to allow the generation of the paths of the different project folders relative to where the makefile is being run from.
 ## So BIN_DIR= $(PROJECT_DIR)/bin will be BIN_DIR=../bin
