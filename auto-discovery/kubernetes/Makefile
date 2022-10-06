@@ -2,6 +2,11 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+include_guard = set
+# common.mk fails if name is not set, so we use a placeholder w/o any further meaning.
+name = _auto-discovery_
+include ../../common.mk
+
 IMG_NS ?= securecodebox
 
 # Image URL to use all building/pushing image targets
