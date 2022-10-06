@@ -7,7 +7,7 @@ const {scan} = require("../../helpers");
 test(
   "zap baseline scan against a plain nginx container should only find couple findings",
   async () => {
-    const { categories, severities } = await scan(
+    const {categories, severities} = await scan(
       "zap-nginx-baseline",
       "zap-baseline-scan",
       ["-t", "http://nginx.demo-targets.svc"],
@@ -18,12 +18,13 @@ test(
       Object {
         "Content Security Policy (CSP) Header Not Set": 1,
         "Missing Anti-clickjacking Header": 1,
+        "Server Leaks Version Information via \\"Server\\" HTTP Response Header Field": 1,
         "X-Content-Type-Options Header Missing": 1,
       }
     `);
     expect(severities).toMatchInlineSnapshot(`
       Object {
-        "low": 1,
+        "low": 2,
         "medium": 2,
       }
     `);
