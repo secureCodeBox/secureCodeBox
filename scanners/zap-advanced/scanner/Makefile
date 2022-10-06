@@ -6,6 +6,11 @@
 # make        # generate all
 # make clean  # remove ALL binaries and objects
 
+include_guard = set
+# common.mk fails if name is not set, so we use a placeholder w/o any further meaning.
+name = zap-advanced-scanner
+include ../../../common.mk
+
 .DEFAULT_GOAL:= generate
 
 .PHONY: all:
