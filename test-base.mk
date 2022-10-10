@@ -5,20 +5,11 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 #
-# This Makefile is intended to be used for development and testing only.
-# For using this scanner/hook in production please use the helm chart.
-# See: <https://www.securecodebox.io/docs/getting-started/installation>
+# This include is a base test setup used for hooks, scanners, and SDKs.
 #
-# This Makefile expects some additional software to be installed:
-# - git
-# - node + npm
-# - docker
-# - kind
-# - kubectl
-# - helm
-# - yq
 
-include ./prerequisites.mk
+# include must be two levels up because this file is included effectivity two levels deeper in the modules hierarchy.
+include ../../prerequisites.mk
 
 # IMPORTANT: The body of conditionals MUST not be indented! Indentation result in
 # errors on macOS/FreeBSD because the line wil be interpreted as command which must

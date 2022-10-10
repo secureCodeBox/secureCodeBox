@@ -22,7 +22,7 @@ module = hook
 prefix = hook
 name = ${hook}
 
-include ../../common.mk
+include ../../test-base.mk
 include ../../env-paths.mk
 ## Telling the env-paths file where the root project dir is. This is done to allow the generation of the paths of the different project folders relative to where the makefile is being run from.
 ## So BIN_DIR= $(PROJECT_DIR)/bin will be BIN_DIR=../../bin
