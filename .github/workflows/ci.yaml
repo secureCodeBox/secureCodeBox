@@ -423,7 +423,7 @@ jobs:
           kubectl -n securecodebox-system get pods
           echo "Operator Startup Logs"
           kubectl -n securecodebox-system logs deployment/securecodebox-controller-manager
-      
+
       - name: Notify Slack Dev Channel
         if: failure()
         uses: slackapi/slack-github-action@v1.18.0
