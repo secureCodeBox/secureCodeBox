@@ -50,10 +50,12 @@ endif
 # Here wecheck that all necessary 3rd party tools are present.
 # Thx to https://stackoverflow.com/questions/5618615/check-if-a-program-exists-from-a-makefile
 PREREQUISITES = make docker kind git node npm npx kubectl helm yq java
+# Python is separated here (and added hardcoded in the error message) because it will lead to clunky python binary
+# paths in the error message if one uses PyEnv, instead of simply the tool name to install.
 EXECUTABLES = $(PREREQUISITES) $(PYTHON)
 ALL_EXECUTABLES_OK := $(foreach exec,\
 	$(EXECUTABLES),\
 	$(if $(shell which $(exec)),\
 		some string,\
-		$(error "The prerequisites are not met to execute this makefile! No '$(exec)' found in your PATH. Install all these tools: $(PREREQUISITES)"))\
+		$(error "The prerequisites are not met to execute this makefile! No '$(exec)' found in your PATH. Install all these tools: $(PREREQUISITES) python"))\
 )
