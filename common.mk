@@ -40,7 +40,7 @@ PROJECT_PATH_CONTAINS_WHITESPACES=$(shell if [ "$(PROJECT_DIR)" = "$(PROJECT_DIR
 # errors on macOS/FreeBSD because the line wil be interpreted as command which must
 # inside a recipe (target). (see https://github.com/secureCodeBox/secureCodeBox/issues/1353)
 ifeq ($(PROJECT_PATH_CONTAINS_WHITESPACES),1)
-$(error The path to this repo contains white spaces and make can't deal with this! \
+$(error The path to this repo ($(PROJECT_DIR)) contains white spaces and make can't deal with this! \
 Move or checkout this project to a location w/o spaces in the direcotry path)
 endif
 
