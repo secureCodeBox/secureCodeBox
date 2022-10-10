@@ -2,10 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-include_guard = set
-# common.mk fails if name is not set, so we use a placeholder w/o any further meaning.
-name = _main_
-include ./common.mk
+include ./prerequisites.mk
 include ./env-paths.mk
 
 all: help
