@@ -32,7 +32,10 @@ ifeq ($(name),)
 $(error name ENV is not set)
 endif
 
-PROJECT_PATH_CONTAINS_WHITESPACES=$(shell if [[ "$(PROJECT_DIR)" = *" "* ]]; then echo 1; else echo 0; fi)
+# This is an implementation which should work in any shell: It removes spaces from the tested var and compares it with
+# the original string. If they're same there are no spaces in string.
+PROJECT_DIR_CLEANSED=$(shell printf "%s" $(PROJECT_DIR))
+PROJECT_PATH_CONTAINS_WHITESPACES=$(shell if [ "$(PROJECT_DIR)" = "$(PROJECT_DIR_CLEANSED)" ]; then echo 0; else echo 1; fi)
 # IMPORTANT: The body of conditionals MUST not be indented! Indentation result in
 # errors on macOS/FreeBSD because the line wil be interpreted as command which must
 # inside a recipe (target). (see https://github.com/secureCodeBox/secureCodeBox/issues/1353)
