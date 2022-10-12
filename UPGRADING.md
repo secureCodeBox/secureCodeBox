@@ -151,3 +151,7 @@ helm upgrade --install nmap secureCodeBox/nmap --set=cascadingRules.enabled=true
 
 ➡️  [Reference: #1347](https://github.com/secureCodeBox/secureCodeBox/pull/1347)
 
+
+### Service Autodiscovery - Managed-by label assumed to be presented for all scans
+Old versions of the operator did not set `app.kubernetes.io/managed-by` label. Starting with V4 the service autodiscovery will assume every scheduled scan created by the autodiscovery will have this label. This means that older scheduled scans without the label will not be detected by the service autodiscovery and new duplicate scheduled scans will be created. Old scheduled scans without the `app.kubernetes.io/managed-by` label must be deleted manually.  
+➡️  [Reference: #1349](https://github.com/secureCodeBox/secureCodeBox/pull/1349)

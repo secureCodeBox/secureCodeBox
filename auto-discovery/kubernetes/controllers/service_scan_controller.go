@@ -119,6 +119,7 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 		versionedLabels := map[string]string{
 			"auto-discovery.securecodebox.io/target-service": service.Name,
 			"auto-discovery.securecodebox.io/target-port":    fmt.Sprintf("%d", host.Port),
+			"app.kubernetes.io/managed-by":                   "securecodebox-autodiscovery",
 		}
 		for containerName, podDigest := range podDigests {
 			// The map should only contain one entry at this point. As the reconciler breaks (see containerDigestsAllMatch) if the services points to a list pods with different digests per container name
@@ -155,8 +156,6 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 			// service was never scanned
 			log.Info("Discovered new unscanned service, scanning it now", "service", service.Name, "namespace", service.Namespace)
 
-			// label is added after the initial query as it was added later and isn't guaranteed to be on every auto-discovery managed scan.
-			versionedLabels["app.kubernetes.io/managed-by"] = "securecodebox-autodiscovery"
 			versionedLabels = generateScanLabels(versionedLabels, r.Config.ServiceAutoDiscoveryConfig.ScanConfig, templateArgs)
 
 			// No scan for this pod digest yet. Scanning now
