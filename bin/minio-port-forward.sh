@@ -48,13 +48,13 @@ fi
 print "$COLOR_EMPHASIS" "Starting minio instance on localhost:9000..\n"
 
 print "Your access key: "
-ACCESS_KEY=$(kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.accesskey}' |
+ACCESS_KEY=$(kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.root-user}' |
   base64 --decode)
 print "$COLOR_EMPHASIS" "$ACCESS_KEY"
 
 print "Your secret key: "
-SECRET_KEY=$(kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.secretkey}' |
+SECRET_KEY=$(kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.root-password}' |
   base64 --decode)
 print "$COLOR_EMPHASIS" "$SECRET_KEY"
 
-kubectl port-forward -n securecodebox-system service/securecodebox-operator-minio "$HOST_PORT":9000
+kubectl port-forward -n securecodebox-system service/securecodebox-operator-minio "$HOST_PORT":9001
