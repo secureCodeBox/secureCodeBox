@@ -198,12 +198,12 @@ func (r *ScanReconciler) processPendingHook(scan *executionv1.Scan, status *exec
 	}
 
 	var rawFileURL string
-	rawFileURL, err = r.PresignedGetURL(scan.UID, scan.Status.RawResultFile, defaultPresignDuration)
+	rawFileURL, err = r.PresignedGetURL(*scan, scan.Status.RawResultFile, defaultPresignDuration)
 	if err != nil {
 		return err
 	}
 	var findingsFileURL string
-	findingsFileURL, err = r.PresignedGetURL(scan.UID, "findings.json", defaultPresignDuration)
+	findingsFileURL, err = r.PresignedGetURL(*scan, "findings.json", defaultPresignDuration)
 	if err != nil {
 		return err
 	}
@@ -214,12 +214,12 @@ func (r *ScanReconciler) processPendingHook(scan *executionv1.Scan, status *exec
 	}
 	if hook.Spec.Type == executionv1.ReadAndWrite {
 		var rawFileUploadURL string
-		rawFileUploadURL, err = r.PresignedPutURL(scan.UID, scan.Status.RawResultFile, defaultPresignDuration)
+		rawFileUploadURL, err = r.PresignedPutURL(*scan, scan.Status.RawResultFile, defaultPresignDuration)
 		if err != nil {
 			return err
 		}
 		var findingsUploadURL string
-		findingsUploadURL, err = r.PresignedPutURL(scan.UID, "findings.json", defaultPresignDuration)
+		findingsUploadURL, err = r.PresignedPutURL(*scan, "findings.json", defaultPresignDuration)
 		if err != nil {
 			return err
 		}

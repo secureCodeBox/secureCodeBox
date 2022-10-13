@@ -124,6 +124,10 @@ spec:
             - name: CUSTOM_CA_CERTIFICATE_NAME
               value: {{ .Values.customCACertificate.certificate | quote }}
             {{ end }}
+            {{- if .Values.s3UrlTemplate }}
+            - name: S3_URL_TEMPLATE
+              value: {{ .Values.s3UrlTemplate }}
+            {{ end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           securityContext:

@@ -107,3 +107,6 @@ resources:
   requests:
     cpu: 100m
     memory: 20Mi
+# s3FileUrlTemplate -- Template that generates the url to access the result files of a scan
+# @default -- scan-{{ .Scan.UID }}/{{ .Filename }}
+s3UrlTemplate: null
