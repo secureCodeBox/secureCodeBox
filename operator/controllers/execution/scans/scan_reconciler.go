@@ -108,7 +108,7 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 		return err
 	}
 	scan.Status.FindingDownloadLink = findingsDownloadURL
-	rawResultDownloadURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile, urlExpirationDuration)
+	rawResultDownloadURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile, 7*24*time.Hour)
 	if err != nil {
 		return err
 	}
