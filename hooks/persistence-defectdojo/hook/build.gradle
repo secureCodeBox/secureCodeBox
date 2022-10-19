@@ -21,7 +21,7 @@ repositories {
 dependencies {
   implementation 'io.kubernetes:client-java:12.0.0'
 
-  implementation 'io.securecodebox:defectdojo-client:0.0.35-SNAPSHOT'
+  implementation 'io.securecodebox:defectdojo-client:0.0.38-SNAPSHOT'
 
   implementation group: 'org.springframework', name: 'spring-web', version: '5.3.9'
   implementation 'com.fasterxml.jackson.core:jackson-core:2.12.4'
