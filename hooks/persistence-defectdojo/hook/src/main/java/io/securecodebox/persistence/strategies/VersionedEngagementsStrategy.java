@@ -37,6 +37,7 @@ public class VersionedEngagementsStrategy implements Strategy {
   ProductService productService;
   ProductTypeService productTypeService;
   UserService userService;
+  UserProfileService userProfileService;
   ToolTypeService toolTypeService;
   ToolConfigService toolConfigService;
   EngagementService engagementService;
@@ -55,6 +56,7 @@ public class VersionedEngagementsStrategy implements Strategy {
     this.productService = new ProductService(defectDojoConfig);
     this.productTypeService = new ProductTypeService(defectDojoConfig);
     this.userService = new UserService(defectDojoConfig);
+    this.userProfileService = new UserProfileService(defectDojoConfig);
     this.toolTypeService = new ToolTypeService(defectDojoConfig);
     this.toolConfigService = new ToolConfigService(defectDojoConfig);
     this.engagementService = new EngagementService(defectDojoConfig);
@@ -75,13 +77,8 @@ public class VersionedEngagementsStrategy implements Strategy {
       LOG.debug("Using configured User Id");
       userId = this.config.getUserId();
     } else {
-      if (this.persistenceProviderConfig.isInLowPrivilegedMode()) {
-        throw new DefectDojoPersistenceException("You need to configure the id of the DefectDojo user when running the DefectDojo Hook in low privileged mode. See: https://www.securecodebox.io/docs/hooks/defectdojo#low-privileged-mode");
-      }
-      LOG.debug("Getting DefectDojo User Id via Username from the API");
-      userId = userService.searchUnique(User.builder().username(this.config.getUsername()).build())
-        .orElseThrow(() -> new DefectDojoPersistenceException("Failed to find user with name: '" + this.config.getUsername() + "'"))
-        .getId();
+      LOG.debug("Getting DefectDojo User Id via user profile API");
+      userId = userProfileService.search().get(0).getUser().getId();
     }
 
     LOG.info("Running with DefectDojo User Id: {}", userId);
