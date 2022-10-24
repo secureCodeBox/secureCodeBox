@@ -45,16 +45,5 @@
   "dependencies": {
     "@kubernetes/client-node": "^0.17.0",
     "axios": "^0.27.2"
-  },
-  "jest": {
-    "projects": [
-      "<rootDir>/cascading-scans",
-      "<rootDir>/finding-post-processing",
-      "<rootDir>/generic-webhook",
-      "<rootDir>/notification/src",
-      "<rootDir>/persistence-defectdojo",
-      "<rootDir>/persistence-elastic",
-      "<rootDir>/update-field-hook"
-    ]
   }
 }
