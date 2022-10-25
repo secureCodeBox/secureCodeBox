@@ -10,7 +10,7 @@
   "author": "iteratec GmbH",
   "license": "Apache-2.0",
   "devDependencies": {
-    "jest": "^27.0.3",
+    "jest": "^27.0.6",
     "prettier": "^2.2.1"
   },
   "dependencies": {
