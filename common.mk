@@ -73,7 +73,7 @@ IMG_NS ?= securecodebox
 GIT_TAG ?= $$(git rev-parse --short HEAD)
 BASE_IMG_TAG ?= sha-$(GIT_TAG)
 IMG_TAG ?= "sha-$(GIT_TAG)"
-JEST_VERSION ?= latest
+JEST_VERSION ?= 27.0.6
 KIND_CLUSTER_NAME ?= kind
 
 parser-prefix = parser
