@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "@kubernetes/client-node": "^0.17.1",
-    "axios": "^0.27.2",
+    "axios": "^1.0.0",
     "jest": "^27.0.6"
   }
 }
