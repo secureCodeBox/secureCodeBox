@@ -12,6 +12,7 @@ include ../../hooks.mk
 
 deploy-test-deps: deploy-test-dep-test-scan
 
+.PHONY:  deploy
 deploy:
 	@echo ".: 💾 Deploying '$(name)' $(hook-prefix) HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
 	helm -n integration-tests upgrade --install finding-post-processing . \

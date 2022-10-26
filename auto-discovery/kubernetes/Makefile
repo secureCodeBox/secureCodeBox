@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+include ../../prerequisites.mk
+
 IMG_NS ?= securecodebox
 
 # Image URL to use all building/pushing image targets
@@ -10,7 +12,10 @@ IMG ?= auto-discovery-kubernetes
 # Tag used for the image
 IMG_TAG ?= sha-$$(git rev-parse --short HEAD)
 
-# Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
+# Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set).
+# IMPORTANT: The body of conditionals MUST not be indented! Indentation result in
+# errors on macOS/FreeBSD because the line wil be interpreted as command which must
+# inside a recipe (target). (see https://github.com/secureCodeBox/secureCodeBox/issues/1353)
 ifeq (,$(shell go env GOBIN))
 GOBIN=$(shell go env GOPATH)/bin
 else
@@ -71,7 +76,7 @@ test-setup: manifests generate fmt vet ## Run tests.
 .PHONY: test
 test: test-setup
 	source ${ENVTEST_ASSETS_DIR}/setup-envtest.sh; fetch_envtest_tools $(ENVTEST_ASSETS_DIR); setup_envtest_env $(ENVTEST_ASSETS_DIR); go test ./... -coverprofile cover.out
-	
+
 .PHONY: ginko
 ginkgo:
 	source ${ENVTEST_ASSETS_DIR}/setup-envtest.sh; fetch_envtest_tools $(ENVTEST_ASSETS_DIR); setup_envtest_env $(ENVTEST_ASSETS_DIR); ginkgo test ./... -coverprofile cover.out -v --progress
@@ -111,17 +116,21 @@ kind-import:
 helm-deploy:
 	@echo ".: ⚙️ Deploying auto-discovery with the Image tag '$(IMG_TAG)' into kind."
 	helm upgrade --install auto-discovery ./ --wait \
-	--set="image.repository=docker.io/$(IMG_NS)/$(IMG)" \
-	--set="image.tag=$(IMG_TAG)" \
+		--set="image.repository=docker.io/$(IMG_NS)/$(IMG)" \
+		--set="image.tag=$(IMG_TAG)" \
 		--set="image.pullPolicy=IfNotPresent" \
 
+# IMPORTANT: The body of conditionals MUST not be indented! Indentation result in
+# errors on macOS/FreeBSD because the line wil be interpreted as command which must
+# inside a recipe (target). (see https://github.com/secureCodeBox/secureCodeBox/issues/1353)
 ifndef ignore-not-found
-  ignore-not-found = false
+ignore-not-found = false
 endif
 
 .PHONY: install
 install: manifests kustomize ## Install CRDs into the K8s cluster specified in ~/.kube/config.
 	$(KUSTOMIZE) build config/crd | kubectl apply -f -
+
 
 .PHONY: uninstall
 uninstall: manifests kustomize ## Uninstall CRDs from the K8s cluster specified in ~/.kube/config. Call with ignore-not-found=true to ignore resource not found errors during deletion.
