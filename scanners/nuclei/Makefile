@@ -10,6 +10,7 @@ scanner = nuclei
 
 include ../../scanners.mk
 
+.PHONY: deploy-without-scanner
 deploy-without-scanner:
 	@echo ".: 💾 Deploying '$(name)' $(scanner-prefix) HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
 	helm -n integration-tests upgrade --install $(name) ./ --wait \
@@ -19,4 +20,5 @@ deploy-without-scanner:
     	--set-string="parser.env[0].value=true" \
 		--set="nucleiTemplateCache.enabled=false"
 
+.PHONY: deploy-test-deps
 deploy-test-deps: deploy-test-dep-bodgeit

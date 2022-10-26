@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+include ../prerequisites.mk
 include ../env-paths.mk
 ## Telling the env-paths file where the root project dir is. This is done to allow the generation of the paths of the different project folders relative to where the makefile is being run from.
 ## So BIN_DIR= $(PROJECT_DIR)/bin will be BIN_DIR=../bin
@@ -22,6 +23,9 @@ LURKER_IMG ?= lurker
 IMG_TAG ?= sha-$$(git rev-parse --short HEAD)
 
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
+# IMPORTANT: The body of conditionals MUST not be indented! Indentation result in
+# errors on macOS/FreeBSD because the line wil be interpreted as command which must
+# inside a recipe (target). (see https://github.com/secureCodeBox/secureCodeBox/issues/1353)
 ifeq (,$(shell go env GOBIN))
 GOBIN=$(shell go env GOPATH)/bin
 else
@@ -71,7 +75,6 @@ fmt: ## Run go fmt against code.
 vet: ## Run go vet against code.
 	go vet ./...
 
-ENVTEST_ASSETS_DIR=$(shell pwd)/testbin
 .PHONY: test
 test: manifests generate fmt vet envtest ## Run tests.
 	KUBEBUILDER_ASSETS="$(shell $(ENVTEST) use $(ENVTEST_K8S_VERSION) -p path)" go test ./... -coverprofile cover.out
@@ -116,7 +119,6 @@ docker-export-lurker:
 	@echo ".: 💾 Export Lurker Image"
 	docker save $(IMG_NS)/$(LURKER_IMG):$(IMG_TAG) > $(LURKER_IMG).tar
 
-
 ##@ Deployment
 
 .PHONY: kind-import
@@ -133,12 +135,12 @@ helm-deploy:
 	# If not exists create secureCodeBox operator namespace
 	kubectl create namespace securecodebox-system --dry-run=client -o yaml | kubectl apply -f -
 	helm -n securecodebox-system upgrade --install securecodebox-operator ./ --wait \
-    --set="image.repository=docker.io/$(IMG_NS)/$(OPERATOR_IMG)" \
-    --set="image.tag=$(IMG_TAG)" \
+		--set="image.repository=docker.io/$(IMG_NS)/$(OPERATOR_IMG)" \
+		--set="image.tag=$(IMG_TAG)" \
 	--set="image.pullPolicy=IfNotPresent" \
-    --set="lurker.image.repository=docker.io/$(IMG_NS)/$(LURKER_IMG)" \
-    --set="lurker.image.tag=$(IMG_TAG)" \
-	--set="lurker.image.pullPolicy=IfNotPresent"
+		--set="lurker.image.repository=docker.io/$(IMG_NS)/$(LURKER_IMG)" \
+		--set="lurker.image.tag=$(IMG_TAG)" \
+		--set="lurker.image.pullPolicy=IfNotPresent"
 
 .PHONY: install
 install: manifests kustomize ## Install CRDs into the K8s cluster specified in ~/.kube/config.

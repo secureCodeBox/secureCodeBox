@@ -5,6 +5,7 @@ scanner = semgrep
 
 include ../../scanners.mk           # Ensures that all the default makefile targets are included
 
+.PHONY: integration-tests
 integration-tests: 
 	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
 	kubectl -n integration-tests delete scans --all

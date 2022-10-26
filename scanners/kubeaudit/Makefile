@@ -11,6 +11,7 @@ custom_scanner = set
 
 include ../../scanners.mk
 
+.PHONY: deploy-with-scanner
 deploy-with-scanner:
 	@echo ".: 💾 Deploying custom '$(scanner)' scanner HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
 	helm -n integration-tests upgrade --install $(scanner) ./ --wait \
@@ -20,6 +21,7 @@ deploy-with-scanner:
 		--set="scanner.image.tag=$(IMG_TAG)" \
 		--set="kubeauditScope=cluster"
 
+.PHONY: deploy-test-deps
 deploy-test-deps:
 	# If not exists create namespace where the tests will be executed
 	kubectl create namespace kubeaudit-tests --dry-run=client -o yaml | kubectl apply -f -
