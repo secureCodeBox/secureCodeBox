@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "nuclei-bodgeit-scan"
+spec:
+  scanType: "nuclei"
+  parameters:
+    - "-no-interactsh"
+    - "-v"
+    - "-debug"
+    - "-target"
+    - "http://bodgeit.demo-targets.svc.cluster.local:8080"
