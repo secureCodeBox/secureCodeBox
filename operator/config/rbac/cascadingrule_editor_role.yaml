@@ -8,21 +8,21 @@ kind: ClusterRole
 metadata:
   name: cascadingrule-editor-role
 rules:
-- apiGroups:
-  - cascading.securecodebox.io
-  resources:
-  - cascadingrules
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - cascading.securecodebox.io
-  resources:
-  - cascadingrules/status
-  verbs:
-  - get
+  - apiGroups:
+      - cascading.securecodebox.io
+    resources:
+      - cascadingrules
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - cascading.securecodebox.io
+    resources:
+      - cascadingrules/status
+    verbs:
+      - get

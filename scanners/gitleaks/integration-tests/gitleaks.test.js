@@ -37,7 +37,7 @@ test(
                       // Bash script to create a git repo with a demo file
                       `cd /repo && \\
                       git init && \\
-                      echo '-----BEGIN PRIVATE KEY-----' > secret.pem && \\
+                      echo '-----BEGIN PRIVATE KEY----------END PRIVATE KEY-----' > secret.pem && \\
                       git config --global user.name test && \\
                       git config --global user.email user@example.com && \\
                       git add secret.pem && \\

@@ -119,6 +119,7 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 		versionedLabels := map[string]string{
 			"auto-discovery.securecodebox.io/target-service": service.Name,
 			"auto-discovery.securecodebox.io/target-port":    fmt.Sprintf("%d", host.Port),
+			"app.kubernetes.io/managed-by":                   "securecodebox-autodiscovery",
 		}
 		for containerName, podDigest := range podDigests {
 			// The map should only contain one entry at this point. As the reconciler breaks (see containerDigestsAllMatch) if the services points to a list pods with different digests per container name
@@ -155,8 +156,6 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 			// service was never scanned
 			log.Info("Discovered new unscanned service, scanning it now", "service", service.Name, "namespace", service.Namespace)
 
-			// label is added after the initial query as it was added later and isn't garanteed to be on every auto-discovery managed scan.
-			versionedLabels["app.kubernetes.io/managed-by"] = "securecodebox-autodiscovery"
 			versionedLabels = generateScanLabels(versionedLabels, r.Config.ServiceAutoDiscoveryConfig.ScanConfig, templateArgs)
 
 			// No scan for this pod digest yet. Scanning now
@@ -207,7 +206,7 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 			// Service was scanned before, but for a different version
 			log.Info("Previously scanned service was updated. Repeating scan now.", "service", service.Name, "scheduledScan", previousScan.Name, "namespace", service.Namespace)
 
-			// label is added after the initial query as it was added later and isn't garanteed to be on every auto-discovery managed scan.
+			// label is added after the initial query as it was added later and isn't guaranteed to be on every auto-discovery managed scan.
 			versionedLabels["app.kubernetes.io/managed-by"] = "securecodebox-autodiscovery"
 			versionedLabels = generateScanLabels(versionedLabels, r.Config.ServiceAutoDiscoveryConfig.ScanConfig, templateArgs)
 
@@ -337,19 +336,20 @@ func getShaHashesForPod(pod corev1.Pod) map[string]string {
 
 // Takes a list of pods and returns a two tiered map to lookup pod digests per container
 // The map returned look like this:
-// {
-// 	// container name
-// 	container1: {
-// 		// digest
-// 		ab2dkbsjdha3kshdasjdbalsjdbaljsbd: true
-// 		iuzaksbd2kabsdk4abksdbaksjbdak12a: true
-// 	},
-// 	container2: {
-// 		// digest
-// 		sjdha3kshdasjdbalsjdbaljsbdab2dkb: true
-// 		d2kabsdk4abksdbaksjbdak12aiuzaksb: true
-// 	},
-// }
+//
+//	{
+//		// container name
+//		container1: {
+//			// digest
+//			ab2dkbsjdha3kshdasjdbalsjdbaljsbd: true
+//			iuzaksbd2kabsdk4abksdbaksjbdak12a: true
+//		},
+//		container2: {
+//			// digest
+//			sjdha3kshdasjdbalsjdbaljsbdab2dkb: true
+//			d2kabsdk4abksdbaksjbdak12aiuzaksb: true
+//		},
+//	}
 func gatherPodDigests(pods *corev1.PodList) map[string]map[string]bool {
 	podDigests := map[string]map[string]bool{}
 

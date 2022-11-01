@@ -42,6 +42,6 @@ spec:
       - /ncrack/users.txt
       - -P
       - /ncrack/passwords.txt
-      - -p 
+      - -p
       - vnc:{{attributes.port}}
       - "{{$.hostOrIP}}"

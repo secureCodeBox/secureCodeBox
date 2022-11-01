@@ -14,7 +14,7 @@ global:
     - pscanrulesBeta
     - ascanrulesBeta
   # Sets the mode, which may be one of [safe, protect, standard, attack]
-  mode: standard 
+  mode: standard
   # Sets the user agent that ZAP should use when creating HTTP messages (for example, spider messages or CONNECT requests to outgoing proxy).
   defaultUserAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/92.0.4515.159 secureCodeBox/3.1.0"
 
@@ -25,44 +25,44 @@ contexts:
     # The top level url, mandatory, everything under this will be included
     # An optional list of regexes to exclude
     excludePaths:
-    - ".*socket\\.io.*"
-    - ".*\\.png"
-    - ".*\\.jpeg"
-    - ".*\\.jpg"
-    - ".*\\.woff"
-    - ".*\\.woff2"
-    - ".*\\.ttf"
-    - ".*\\.ico"
+      - ".*socket\\.io.*"
+      - ".*\\.png"
+      - ".*\\.jpeg"
+      - ".*\\.jpg"
+      - ".*\\.woff"
+      - ".*\\.woff2"
+      - ".*\\.ttf"
+      - ".*\\.ico"
 
 apis: []
 
 # ZAP Spiders Configuration
 spiders:
-- name: scb-test-spider
-  # String: Name of the context to spider, default: first context
-  context: scb-test-context
-  # Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
-  maxDuration: 10
-  # Int: The maximum tree depth to explore, default 5
-  maxDepth: 5
-  # Int: The maximum number of children to add to each node in the tree                     
-  maxChildren: 10
-  # -- Bool: Whether to use the ZAP ajax spider, default: false
-  ajax: true
-  # -- Int: Fail if spider finds less than the specified number of URLs, default: 0
-  failIfFoundUrlsLessThan: 0
-  # -- Int: Warn if spider finds less than the specified number of URLs, default: 0
-  warnIfFoundUrlsLessThan: 0
-  # -- Bool: Whether the spider will accept cookies, default: true
-  acceptCookies: true
-  # -- Bool: Whether the spider will handle OData responses, default: false
-  handleODataParametersVisited: false
-  # -- Enum [ignore_completely, ignore_value, use_all]: How query string parameters are used when checking if a URI has already been visited, default: use_all
-  handleParameters: use_all
-  # -- Int: The max size of a response that will be parsed, default: 2621440 - 2.5 Mb
-  maxParseSizeBytes: 2621440
-  # -- Bool: Whether the spider will parse HTML comments in order to find URLs, default: true
-  parseComments: true
+  - name: scb-test-spider
+    # String: Name of the context to spider, default: first context
+    context: scb-test-context
+    # Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
+    maxDuration: 10
+    # Int: The maximum tree depth to explore, default 5
+    maxDepth: 5
+    # Int: The maximum number of children to add to each node in the tree
+    maxChildren: 10
+    # -- Bool: Whether to use the ZAP ajax spider, default: false
+    ajax: true
+    # -- Int: Fail if spider finds less than the specified number of URLs, default: 0
+    failIfFoundUrlsLessThan: 0
+    # -- Int: Warn if spider finds less than the specified number of URLs, default: 0
+    warnIfFoundUrlsLessThan: 0
+    # -- Bool: Whether the spider will accept cookies, default: true
+    acceptCookies: true
+    # -- Bool: Whether the spider will handle OData responses, default: false
+    handleODataParametersVisited: false
+    # -- Enum [ignore_completely, ignore_value, use_all]: How query string parameters are used when checking if a URI has already been visited, default: use_all
+    handleParameters: use_all
+    # -- Int: The max size of a response that will be parsed, default: 2621440 - 2.5 Mb
+    maxParseSizeBytes: 2621440
+    # -- Bool: Whether the spider will parse HTML comments in order to find URLs, default: true
+    parseComments: true
 
 # ZAP ActiveScans Configuration
 scanners:
@@ -71,7 +71,7 @@ scanners:
     context: scb-test-context
     # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
     maxRuleDurationInMins: 5
-    # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited          
+    # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited
     maxScanDurationInMins: 120
     # Int: The max number of threads per host, default: 2
     threadPerHost: 2
@@ -81,7 +81,7 @@ scanners:
     addQueryParam: false
     # Bool: If set then automatically handle anti CSRF tokens, default: false
     handleAntiCSRFTokens: false
-    # Bool: If set then the relevant rule Id will be injected into the X-ZAP-Scan-ID header of each request, default: false           
+    # Bool: If set then the relevant rule Id will be injected into the X-ZAP-Scan-ID header of each request, default: false
     injectPluginIdInHeader: false
     # Bool: If set then the headers of requests that do not include any parameters will be scanned, default: false
     scanHeadersAllRequests: false

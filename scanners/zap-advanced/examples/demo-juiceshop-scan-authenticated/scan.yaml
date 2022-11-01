@@ -10,15 +10,15 @@ metadata:
 data:
   2-zap-advanced-scan.yaml: |-
 
-    # ZAP Contexts Configuration 
+    # ZAP Contexts Configuration
     contexts:
       # Name to be used to refer to this context in other jobs, mandatory
       - name: scb-juiceshop-context
         # The top level url, mandatory, everything under this will be included
-        url: http://juiceshop.default.svc:3000/
+        url: http://juice-shop.default.svc:3000/
         # An optional list of regexes to include
         includePaths:
-          - "http://juiceshop.default.svc:3000.*"
+          - "http://juice-shop.default.svc:3000.*"
         # An optional list of regexes to exclude
         excludePaths:
           - ".*socket\\.io.*"
@@ -38,7 +38,7 @@ data:
           # json-based requires no further configuration
           # zapConfiguration.contexts[0].authentication.json-based -- Configure `type: json-based` authentication (more: https://www.zaproxy.org/docs/api/#json-based-authentication).
           json-based:
-            loginUrl: "http://juiceshop.default.svc:3000/rest/user/login"
+            loginUrl: "http://juice-shop.default.svc:3000/rest/user/login"
             # must be escaped already to prevent yaml parser colidations '{"user":{"id":1,"email":"test@test.com"}}''
             loginRequestData: '{"email":"admin@juice-sh.op","password":"admin123"}'
           # Indicates if the current Zap User Session is based on a valid authentication (loggedIn) or not (loggedOut)
@@ -65,7 +65,7 @@ data:
             # A short description for the script.
             description: "This is a JuiceShop specific SessionManagement Script used to handle JWT."
 
-    # ZAP Spiders Configuration 
+    # ZAP Spiders Configuration
     spiders:
       - name: scb-juiceshop-spider
         # String: Name of the context to spider, default: first context
@@ -73,7 +73,7 @@ data:
         # String: Name of the user to authenticate with and used to spider
         user: juiceshop-user-1
         # String: Url to start spidering from, default: first context URL
-        url: http://juiceshop.default.svc:3000/
+        url: http://juice-shop.default.svc:3000/
         # zapConfiguration.spiders[0].ajax -- Bool: Whether to use the ZAP ajax spider, default: false
         ajax: true
         # Int: Fail if spider finds less than the specified number of URLs, default: 0
@@ -85,7 +85,7 @@ data:
         # Int: The maximum tree depth to explore, default 5
         maxDepth: 10
 
-    # ZAP ActiveScans Configuration 
+    # ZAP ActiveScans Configuration
     scanners:
       - name: scb-juiceshop-scan
         # String: Name of the context to attack, default: first context
@@ -93,7 +93,7 @@ data:
         # String: Name of the user to authenticate with and used to spider
         user: juiceshop-user-1
         # String: Url to start scaning from, default: first context URL
-        url: http://juiceshop.default.svc:3000/
+        url: http://juice-shop.default.svc:3000/
         # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
         maxRuleDurationInMins: 1
         # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited
@@ -123,7 +123,7 @@ spec:
   parameters:
     # target URL including the protocol
     - "-t"
-    - "http://juiceshop.default.svc:3000/"
+    - "http://juice-shop.default.svc:3000/"
   volumeMounts:
     - name: zap-advanced-scan-config
       mountPath: /home/securecodebox/configs/2-zap-advanced-scan.yaml

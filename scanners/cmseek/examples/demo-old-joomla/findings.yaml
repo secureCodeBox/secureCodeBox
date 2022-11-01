@@ -10,17 +10,19 @@
     "location": "http://old-joomla.demo-targets.svc.cluster.local",
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
-    "attributes": {
-      "joomla_version": "3.6.5",
-      "references": [
-        "CVE : CVE-2016-10033",
-        "https://www.rapid7.com/db/modules/exploit/multi/http/phpmailer_arg_injection",
-        "https://github.com/opsxcq/exploit-CVE-2016-10033",
-        "EDB : https://www.exploit-db.com/exploits/40969/"
-      ]
-    },
+    "attributes":
+      {
+        "joomla_version": "3.6.5",
+        "references":
+          [
+            "CVE : CVE-2016-10033",
+            "https://www.rapid7.com/db/modules/exploit/multi/http/phpmailer_arg_injection",
+            "https://github.com/opsxcq/exploit-CVE-2016-10033",
+            "EDB : https://www.exploit-db.com/exploits/40969/",
+          ],
+      },
     "id": "f41eeb1c-142e-46f2-96ae-01c9f7ca1aa7",
-    "parsed_at": "2021-09-28T15:06:29.225Z"
+    "parsed_at": "2021-09-28T15:06:29.225Z",
   },
   {
     "name": "PPHPMailer Incomplete Fix Remote Code Execution Vulnerability",
@@ -29,16 +31,18 @@
     "location": "http://old-joomla.demo-targets.svc.cluster.local",
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
-    "attributes": {
-      "joomla_version": "3.6.5",
-      "references": [
-        "CVE : CVE-2016-10045",
-        "https://www.rapid7.com/db/modules/exploit/multi/http/phpmailer_arg_injection",
-        "EDB : https://www.exploit-db.com/exploits/40969/"
-      ]
-    },
+    "attributes":
+      {
+        "joomla_version": "3.6.5",
+        "references":
+          [
+            "CVE : CVE-2016-10045",
+            "https://www.rapid7.com/db/modules/exploit/multi/http/phpmailer_arg_injection",
+            "EDB : https://www.exploit-db.com/exploits/40969/",
+          ],
+      },
     "id": "ef8852d1-719b-4a4d-8cd6-d818fffb6fd2",
-    "parsed_at": "2021-09-28T15:06:29.225Z"
+    "parsed_at": "2021-09-28T15:06:29.225Z",
   },
   {
     "name": "Backup files",
@@ -47,10 +51,11 @@
     "location": "http://old-joomla.demo-targets.svc.cluster.local",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
-    "attributes": {
-      "joomla_backup_files": "http://old-joomla.demo-targets.svc.cluster.local/administrator,"
-    },
+    "attributes":
+      {
+        "joomla_backup_files": "http://old-joomla.demo-targets.svc.cluster.local/administrator,",
+      },
     "id": "021b92a7-0c24-4f3c-b4b9-217e3a2e1ce9",
-    "parsed_at": "2021-09-28T15:06:29.225Z"
-  }
+    "parsed_at": "2021-09-28T15:06:29.225Z",
+  },
 ]

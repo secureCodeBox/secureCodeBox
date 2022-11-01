@@ -34,6 +34,10 @@ parser:
   # parser.tolerations -- Optional tolerations settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
   tolerations: []
 
+  # -- Optional resources lets you control resource limits and requests for the parser container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+  # @default -- { requests: { cpu: "200m", memory: "100Mi" }, limits: { cpu: "400m", memory: "200Mi" } }
+  resources: {}
+
 scanner:
   image:
     # scanner.image.repository -- Container Image to run the scan
@@ -76,6 +80,11 @@ scanner:
   # scanner.extraContainers -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
   extraContainers: []
 
+  # scanner.podSecurityContext -- Optional securityContext set on scanner pod (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+  podSecurityContext:
+    {}
+    # fsGroup: 2000
+
   # scanner.securityContext -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
   securityContext:
     # scanner.securityContext.runAsNonRoot -- Enforces that the scanner image is run as a non root user
@@ -99,4 +108,4 @@ scanner:
 
 cascadingRules:
   # cascadingRules.enabled -- Enables or disables the installation of the default cascading rules for this scanner
-  enabled: true
+  enabled: false

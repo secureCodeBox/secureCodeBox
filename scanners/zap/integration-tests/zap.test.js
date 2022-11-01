@@ -59,7 +59,7 @@ test(
 /*test(
   "zap baseline scan against a plain nginx container should only find couple findings",
   async () => {
-    const { categories, severities } = await scan(
+    const {categories, severities} = await scan(
       "zap-nginx-baseline",
       "zap-baseline-scan",
       ["-t", "http://nginx.demo-targets.svc"],

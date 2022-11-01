@@ -11,6 +11,6 @@ roleRef:
   kind: Role
   name: auto-discovery-leader-election-role
 subjects:
-- kind: ServiceAccount
-  name: auto-discovery
-  namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: auto-discovery
+    namespace: {{.Release.Namespace}}

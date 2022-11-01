@@ -64,7 +64,7 @@ helm upgrade --install old-typo3 secureCodeBox/old-typo3
 | annotations | object | `{}` | add annotations to the deployment, service and pods |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"docker.io/securecodebox/old-typo3"` | Container Image |
+| image.repository | string | `"docker.io/securecodebox/demo-target-old-typo3"` | Container Image |
 | image.tag | string | defaults to the appVersion | The image tag |
 | imagePullSecrets | list | `[]` | Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
 | ingress.annotations | object | `{}` |  |

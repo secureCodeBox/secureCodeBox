@@ -101,7 +101,7 @@ async function handle({
       }
       const { Error: errorCode, Message: errorMsg } = response.json();
       console.error(
-        `An error occured. Status Code: ${response.status}, status text: ${response.statusText}, Error: ${errorCode}, ErrorMsg: ${errorMsg}`
+        `An error occurred. Status Code: ${response.status}, status text: ${response.statusText}, Error: ${errorCode}, ErrorMsg: ${errorMsg}`
       );
     }
   );

@@ -42,13 +42,15 @@ elasticsearch:
   minimumMasterNodes: 1
   # image: docker.elastic.co/elasticsearch/elasticsearch-oss
 
-# kibana -- Configures included Elasticsearch subchart
+# -- Configures included Elasticsearch subchart
 kibana:
-  # kibana.enabled -- Enable if you want to deploy an kibana service (see: https://github.com/elastic/helm-charts/tree/master/kibana)
+  # -- Enable if you want to deploy an kibana service (see: https://github.com/elastic/helm-charts/tree/master/kibana)
   enabled: true
   # image: docker.elastic.co/kibana/kibana-oss
 
 dashboardImporter:
+  # -- Enable if you want to import some example kibana dashboards for secureCodeBox findings analytics.
+  enabled: true
   image:
     # image.repository -- Image repository for the dashboard importer job
     repository: securecodebox/persistence-elastic-dashboard-importer
@@ -102,3 +104,7 @@ hook:
 
   # hook.tolerations -- Optional tolerations settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
   tolerations: []
+
+  # -- Optional resources lets you control resource limits and requests for the hook container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+  # @default -- { requests: { cpu: "200m", memory: "100Mi" }, limits: { cpu: "400m", memory: "200Mi" } }
+  resources: {}

@@ -1,0 +1,863 @@
+[
+  {
+    "name": "DOM EventListener detection",
+    "description": "The name of the nuclei rule which triggered the finding: addeventlistener-detect",
+    "location": "https://www.securecodebox.io",
+    "severity": "INFORMATIONAL",
+    "category": "addeventlistener-detect",
+    "attributes": {
+      "ip": "34.159.58.69",
+      "type": "http",
+      "hostname": "www.securecodebox.io",
+      "path": null,
+      "tags": [
+        "xss",
+        "misc"
+      ],
+      "reference": [
+        "https://portswigger.net/web-security/dom-based/controlling-the-web-message-source"
+      ],
+      "author": [
+        "yavolo",
+        "dwisiswant0"
+      ],
+      "metadata": null,
+      "timestamp": "2022-09-09T21:26:27.762236+02:00",
+      "matcher_status": true,
+      "matcher_name": null,
+      "matched_at": "https://www.securecodebox.io",
+      "matched_line": null,
+      "extracted_results": null,
+      "template": "miscellaneous/addeventlistener-detect.yaml",
+      "template_url": "https://github.com/projectdiscovery/nuclei-templates/blob/master/miscellaneous/addeventlistener-detect.yaml",
+      "template_id": "addeventlistener-detect",
+      "request": null,
+      "response": null,
+      "curl_command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36' 'https://www.securecodebox.io'"
+    }
+  },
+  {
+    "name": "Email Extractor",
+    "description": "The name of the nuclei rule which triggered the finding: email-extractor",
+    "location": "https://www.securecodebox.io",
+    "severity": "INFORMATIONAL",
+    "category": "email-extractor",
+    "attributes": {
+      "ip": "34.159.58.69",
+      "type": "http",
+      "hostname": "www.securecodebox.io",
+      "path": null,
+      "tags": [
+        "misc",
+        "email"
+      ],
+      "reference": null,
+      "author": [
+        "panch0r3d"
+      ],
+      "metadata": null,
+      "timestamp": "2022-09-09T21:26:27.777226+02:00",
+      "matcher_status": true,
+      "matcher_name": null,
+      "matched_at": "https://www.securecodebox.io",
+      "matched_line": null,
+      "extracted_results": [
+        "securecodebox@iteratec.com"
+      ],
+      "template": "miscellaneous/email-extractor.yaml",
+      "template_url": "https://github.com/projectdiscovery/nuclei-templates/blob/master/miscellaneous/email-extractor.yaml",
+      "template_id": "email-extractor",
+      "request": null,
+      "response": null,
+      "curl_command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36' 'https://www.securecodebox.io'"
+    }
+  },
+  {
+    "name": "Metatag CMS Detection",
+    "description": "Generic CMS Detection using html meta generator tag",
+    "location": "https://www.securecodebox.io",
+    "severity": "INFORMATIONAL",
+    "category": "metatag-cms",
+    "attributes": {
+      "ip": "34.159.58.69",
+      "type": "http",
+      "hostname": "www.securecodebox.io",
+      "path": null,
+      "tags": [
+        "tech",
+        "cms"
+      ],
+      "reference": [
+        "https://www.w3schools.com/tags/att_meta_name.asp"
+      ],
+      "author": [
+        "dadevel"
+      ],
+      "metadata": null,
+      "timestamp": "2022-09-09T21:26:28.511351+02:00",
+      "matcher_status": true,
+      "matcher_name": null,
+      "matched_at": "https://www.securecodebox.io",
+      "matched_line": null,
+      "extracted_results": [
+        "Docusaurus v2.0.1"
+      ],
+      "template": "technologies/metatag-cms.yaml",
+      "template_url": "https://github.com/projectdiscovery/nuclei-templates/blob/master/technologies/metatag-cms.yaml",
+      "template_id": "metatag-cms",
+      "request": null,
+      "response": null,
+      "curl_command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML like Gecko) Chrome/44.0.2403.155 Safari/537.36' 'https://www.securecodebox.io'"
+    }
+  },
+  {
+    "name": "HTTP Missing Security Headers",
+    "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.\n",
+    "location": "https://www.securecodebox.io",
+    "severity": "INFORMATIONAL",
+    "category": "http-missing-security-headers",
+    "attributes": {
+      "ip": "34.159.58.69",
+      "type": "http",
+      "hostname": "www.securecodebox.io",
+      "path": null,
+      "tags": [
+        "misconfig",
+        "generic"
+      ],
+      "reference": null,
+      "author": [
+        "socketz",
+        "geeknik",
+        "g4l1t0",
+        "convisoappsec",
+        "kurohost",
+        "dawid-czarnecki",
+        "forgedhallpass"
+      ],
+      "metadata": null,
+      "timestamp": "2022-09-09T21:27:13.644349+02:00",
+      "matcher_status": true,
+      "matcher_name": "referrer-policy",
+      "matched_at": "https://www.securecodebox.io",
+      "matched_line": null,
+      "extracted_results": null,
+      "template": "misconfiguration/http-missing-security-headers.yaml",
+      "template_url": "https://github.com/projectdiscovery/nuclei-templates/blob/master/misconfiguration/http-missing-security-headers.yaml",
+      "template_id": "http-missing-security-headers",
+      "request": null,
+      "response": null,
+      "curl_command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36' 'https://www.securecodebox.io'"
+    }
+  },
+  {
+    "name": "HTTP Missing Security Headers",
+    "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.\n",
+    "location": "https://www.securecodebox.io",
+    "severity": "INFORMATIONAL",
+    "category": "http-missing-security-headers",
+    "attributes": {
+      "ip": "34.159.58.69",
+      "type": "http",
+      "hostname": "www.securecodebox.io",
+      "path": null,
+      "tags": [
+        "misconfig",
+        "generic"
+      ],
+      "reference": null,
+      "author": [
+        "socketz",
+        "geeknik",
+        "g4l1t0",
+        "convisoappsec",
+        "kurohost",
+        "dawid-czarnecki",
+        "forgedhallpass"
+      ],
+      "metadata": null,
+      "timestamp": "2022-09-09T21:27:13.644671+02:00",
+      "matcher_status": true,
+      "matcher_name": "access-control-allow-origin",
+      "matched_at": "https://www.securecodebox.io",
+      "matched_line": null,
+      "extracted_results": null,
+      "template": "misconfiguration/http-missing-security-headers.yaml",
+      "template_url": "https://github.com/projectdiscovery/nuclei-templates/blob/master/misconfiguration/http-missing-security-headers.yaml",
+      "template_id": "http-missing-security-headers",
+      "request": null,
+      "response": null,
+      "curl_command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36' 'https://www.securecodebox.io'"
+    }
+  },
+  {
+    "name": "HTTP Missing Security Headers",
+    "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.\n",
+    "location": "https://www.securecodebox.io",
+    "severity": "INFORMATIONAL",
+    "category": "http-missing-security-headers",
+    "attributes": {
+      "ip": "34.159.58.69",
+      "type": "http",
+      "hostname": "www.securecodebox.io",
+      "path": null,
+      "tags": [
+        "misconfig",
+        "generic"
+      ],
+      "reference": null,
+      "author": [
+        "socketz",
+        "geeknik",
+        "g4l1t0",
+        "convisoappsec",
+        "kurohost",
+        "dawid-czarnecki",
+        "forgedhallpass"
+      ],
+      "metadata": null,
+      "timestamp": "2022-09-09T21:27:13.644884+02:00",
+      "matcher_status": true,
+      "matcher_name": "access-control-allow-credentials",
+      "matched_at": "https://www.securecodebox.io",
+      "matched_line": null,
+      "extracted_results": null,
+      "template": "misconfiguration/http-missing-security-headers.yaml",
+      "template_url": "https://github.com/projectdiscovery/nuclei-templates/blob/master/misconfiguration/http-missing-security-headers.yaml",
+      "template_id": "http-missing-security-headers",
+      "request": null,
+      "response": null,
+      "curl_command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36' 'https://www.securecodebox.io'"
+    }
+  },
+  {
+    "name": "HTTP Missing Security Headers",
+    "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.\n",
+    "location": "https://www.securecodebox.io",
+    "severity": "INFORMATIONAL",
+    "category": "http-missing-security-headers",
+    "attributes": {
+      "ip": "34.159.58.69",
+      "type": "http",
+      "hostname": "www.securecodebox.io",
+      "path": null,
+      "tags": [
+        "misconfig",
+        "generic"
+      ],
+      "reference": null,
+      "author": [
+        "socketz",
+        "geeknik",
+        "g4l1t0",
+        "convisoappsec",
+        "kurohost",
+        "dawid-czarnecki",
+        "forgedhallpass"
+      ],
+      "metadata": null,
+      "timestamp": "2022-09-09T21:27:13.644952+02:00",
+      "matcher_status": true,
+      "matcher_name": "access-control-expose-headers",
+      "matched_at": "https://www.securecodebox.io",
+      "matched_line": null,
+      "extracted_results": null,
+      "template": "misconfiguration/http-missing-security-headers.yaml",
+      "template_url": "https://github.com/projectdiscovery/nuclei-templates/blob/master/misconfiguration/http-missing-security-headers.yaml",
+      "template_id": "http-missing-security-headers",
+      "request": null,
+      "response": null,
+      "curl_command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36' 'https://www.securecodebox.io'"
+    }
+  },
+  {
+    "name": "HTTP Missing Security Headers",
+    "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.\n",
+    "location": "https://www.securecodebox.io",
+    "severity": "INFORMATIONAL",
+    "category": "http-missing-security-headers",
+    "attributes": {
+      "ip": "34.159.58.69",
+      "type": "http",
+      "hostname": "www.securecodebox.io",
+      "path": null,
+      "tags": [
+        "misconfig",
+        "generic"
+      ],
+      "reference": null,
+      "author": [
+        "socketz",
+        "geeknik",
+        "g4l1t0",
+        "convisoappsec",
+        "kurohost",
+        "dawid-czarnecki",
+        "forgedhallpass"
+      ],
+      "metadata": null,
+      "timestamp": "2022-09-09T21:27:13.645129+02:00",
+      "matcher_status": true,
+      "matcher_name": "access-control-allow-methods",
+      "matched_at": "https://www.securecodebox.io",
+      "matched_line": null,
+      "extracted_results": null,
+      "template": "misconfiguration/http-missing-security-headers.yaml",
+      "template_url": "https://github.com/projectdiscovery/nuclei-templates/blob/master/misconfiguration/http-missing-security-headers.yaml",
+      "template_id": "http-missing-security-headers",
+      "request": null,
+      "response": null,
+      "curl_command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36' 'https://www.securecodebox.io'"
+    }
+  },
+  {
+    "name": "HTTP Missing Security Headers",
+    "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.\n",
+    "location": "https://www.securecodebox.io",
+    "severity": "INFORMATIONAL",
+    "category": "http-missing-security-headers",
+    "attributes": {
+      "ip": "34.159.58.69",
+      "type": "http",
+      "hostname": "www.securecodebox.io",
+      "path": null,
+      "tags": [
+        "misconfig",
+        "generic"
+      ],
+      "reference": null,
+      "author": [
+        "socketz",
+        "geeknik",
+        "g4l1t0",
+        "convisoappsec",
+        "kurohost",
+        "dawid-czarnecki",
+        "forgedhallpass"
+      ],
+      "metadata": null,
+      "timestamp": "2022-09-09T21:27:13.645183+02:00",
+      "matcher_status": true,
+      "matcher_name": "x-content-type-options",
+      "matched_at": "https://www.securecodebox.io",
+      "matched_line": null,
+      "extracted_results": null,
+      "template": "misconfiguration/http-missing-security-headers.yaml",
+      "template_url": "https://github.com/projectdiscovery/nuclei-templates/blob/master/misconfiguration/http-missing-security-headers.yaml",
+      "template_id": "http-missing-security-headers",
+      "request": null,
+      "response": null,
+      "curl_command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36' 'https://www.securecodebox.io'"
+    }
+  },
+  {
+    "name": "HTTP Missing Security Headers",
+    "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.\n",
+    "location": "https://www.securecodebox.io",
+    "severity": "INFORMATIONAL",
+    "category": "http-missing-security-headers",
+    "attributes": {
+      "ip": "34.159.58.69",
+      "type": "http",
+      "hostname": "www.securecodebox.io",
+      "path": null,
+      "tags": [
+        "misconfig",
+        "generic"
+      ],
+      "reference": null,
+      "author": [
+        "socketz",
+        "geeknik",
+        "g4l1t0",
+        "convisoappsec",
+        "kurohost",
+        "dawid-czarnecki",
+        "forgedhallpass"
+      ],
+      "metadata": null,
+      "timestamp": "2022-09-09T21:27:13.655101+02:00",
+      "matcher_status": true,
+      "matcher_name": "x-permitted-cross-domain-policies",
+      "matched_at": "https://www.securecodebox.io",
+      "matched_line": null,
+      "extracted_results": null,
+      "template": "misconfiguration/http-missing-security-headers.yaml",
+      "template_url": "https://github.com/projectdiscovery/nuclei-templates/blob/master/misconfiguration/http-missing-security-headers.yaml",
+      "template_id": "http-missing-security-headers",
+      "request": null,
+      "response": null,
+      "curl_command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36' 'https://www.securecodebox.io'"
+    }
+  },
+  {
+    "name": "HTTP Missing Security Headers",
+    "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.\n",
+    "location": "https://www.securecodebox.io",
+    "severity": "INFORMATIONAL",
+    "category": "http-missing-security-headers",
+    "attributes": {
+      "ip": "34.159.58.69",
+      "type": "http",
+      "hostname": "www.securecodebox.io",
+      "path": null,
+      "tags": [
+        "misconfig",
+        "generic"
+      ],
+      "reference": null,
+      "author": [
+        "socketz",
+        "geeknik",
+        "g4l1t0",
+        "convisoappsec",
+        "kurohost",
+        "dawid-czarnecki",
+        "forgedhallpass"
+      ],
+      "metadata": null,
+      "timestamp": "2022-09-09T21:27:13.659602+02:00",
+      "matcher_status": true,
+      "matcher_name": "access-control-max-age",
+      "matched_at": "https://www.securecodebox.io",
+      "matched_line": null,
+      "extracted_results": null,
+      "template": "misconfiguration/http-missing-security-headers.yaml",
+      "template_url": "https://github.com/projectdiscovery/nuclei-templates/blob/master/misconfiguration/http-missing-security-headers.yaml",
+      "template_id": "http-missing-security-headers",
+      "request": null,
+      "response": null,
+      "curl_command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36' 'https://www.securecodebox.io'"
+    }
+  },
+  {
+    "name": "HTTP Missing Security Headers",
+    "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.\n",
+    "location": "https://www.securecodebox.io",
+    "severity": "INFORMATIONAL",
+    "category": "http-missing-security-headers",
+    "attributes": {
+      "ip": "34.159.58.69",
+      "type": "http",
+      "hostname": "www.securecodebox.io",
+      "path": null,
+      "tags": [
+        "misconfig",
+        "generic"
+      ],
+      "reference": null,
+      "author": [
+        "socketz",
+        "geeknik",
+        "g4l1t0",
+        "convisoappsec",
+        "kurohost",
+        "dawid-czarnecki",
+        "forgedhallpass"
+      ],
+      "metadata": null,
+      "timestamp": "2022-09-09T21:27:13.65974+02:00",
+      "matcher_status": true,
+      "matcher_name": "content-security-policy",
+      "matched_at": "https://www.securecodebox.io",
+      "matched_line": null,
+      "extracted_results": null,
+      "template": "misconfiguration/http-missing-security-headers.yaml",
+      "template_url": "https://github.com/projectdiscovery/nuclei-templates/blob/master/misconfiguration/http-missing-security-headers.yaml",
+      "template_id": "http-missing-security-headers",
+      "request": null,
+      "response": null,
+      "curl_command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36' 'https://www.securecodebox.io'"
+    }
+  },
+  {
+    "name": "HTTP Missing Security Headers",
+    "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.\n",
+    "location": "https://www.securecodebox.io",
+    "severity": "INFORMATIONAL",
+    "category": "http-missing-security-headers",
+    "attributes": {
+      "ip": "34.159.58.69",
+      "type": "http",
+      "hostname": "www.securecodebox.io",
+      "path": null,
+      "tags": [
+        "misconfig",
+        "generic"
+      ],
+      "reference": null,
+      "author": [
+        "socketz",
+        "geeknik",
+        "g4l1t0",
+        "convisoappsec",
+        "kurohost",
+        "dawid-czarnecki",
+        "forgedhallpass"
+      ],
+      "metadata": null,
+      "timestamp": "2022-09-09T21:27:13.659816+02:00",
+      "matcher_status": true,
+      "matcher_name": "cross-origin-opener-policy",
+      "matched_at": "https://www.securecodebox.io",
+      "matched_line": null,
+      "extracted_results": null,
+      "template": "misconfiguration/http-missing-security-headers.yaml",
+      "template_url": "https://github.com/projectdiscovery/nuclei-templates/blob/master/misconfiguration/http-missing-security-headers.yaml",
+      "template_id": "http-missing-security-headers",
+      "request": null,
+      "response": null,
+      "curl_command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36' 'https://www.securecodebox.io'"
+    }
+  },
+  {
+    "name": "HTTP Missing Security Headers",
+    "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.\n",
+    "location": "https://www.securecodebox.io",
+    "severity": "INFORMATIONAL",
+    "category": "http-missing-security-headers",
+    "attributes": {
+      "ip": "34.159.58.69",
+      "type": "http",
+      "hostname": "www.securecodebox.io",
+      "path": null,
+      "tags": [
+        "misconfig",
+        "generic"
+      ],
+      "reference": null,
+      "author": [
+        "socketz",
+        "geeknik",
+        "g4l1t0",
+        "convisoappsec",
+        "kurohost",
+        "dawid-czarnecki",
+        "forgedhallpass"
+      ],
+      "metadata": null,
+      "timestamp": "2022-09-09T21:27:13.659934+02:00",
+      "matcher_status": true,
+      "matcher_name": "x-frame-options",
+      "matched_at": "https://www.securecodebox.io",
+      "matched_line": null,
+      "extracted_results": null,
+      "template": "misconfiguration/http-missing-security-headers.yaml",
+      "template_url": "https://github.com/projectdiscovery/nuclei-templates/blob/master/misconfiguration/http-missing-security-headers.yaml",
+      "template_id": "http-missing-security-headers",
+      "request": null,
+      "response": null,
+      "curl_command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36' 'https://www.securecodebox.io'"
+    }
+  },
+  {
+    "name": "HTTP Missing Security Headers",
+    "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.\n",
+    "location": "https://www.securecodebox.io",
+    "severity": "INFORMATIONAL",
+    "category": "http-missing-security-headers",
+    "attributes": {
+      "ip": "34.159.58.69",
+      "type": "http",
+      "hostname": "www.securecodebox.io",
+      "path": null,
+      "tags": [
+        "misconfig",
+        "generic"
+      ],
+      "reference": null,
+      "author": [
+        "socketz",
+        "geeknik",
+        "g4l1t0",
+        "convisoappsec",
+        "kurohost",
+        "dawid-czarnecki",
+        "forgedhallpass"
+      ],
+      "metadata": null,
+      "timestamp": "2022-09-09T21:27:13.660006+02:00",
+      "matcher_status": true,
+      "matcher_name": "cross-origin-resource-policy",
+      "matched_at": "https://www.securecodebox.io",
+      "matched_line": null,
+      "extracted_results": null,
+      "template": "misconfiguration/http-missing-security-headers.yaml",
+      "template_url": "https://github.com/projectdiscovery/nuclei-templates/blob/master/misconfiguration/http-missing-security-headers.yaml",
+      "template_id": "http-missing-security-headers",
+      "request": null,
+      "response": null,
+      "curl_command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36' 'https://www.securecodebox.io'"
+    }
+  },
+  {
+    "name": "HTTP Missing Security Headers",
+    "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.\n",
+    "location": "https://www.securecodebox.io",
+    "severity": "INFORMATIONAL",
+    "category": "http-missing-security-headers",
+    "attributes": {
+      "ip": "34.159.58.69",
+      "type": "http",
+      "hostname": "www.securecodebox.io",
+      "path": null,
+      "tags": [
+        "misconfig",
+        "generic"
+      ],
+      "reference": null,
+      "author": [
+        "socketz",
+        "geeknik",
+        "g4l1t0",
+        "convisoappsec",
+        "kurohost",
+        "dawid-czarnecki",
+        "forgedhallpass"
+      ],
+      "metadata": null,
+      "timestamp": "2022-09-09T21:27:13.660065+02:00",
+      "matcher_status": true,
+      "matcher_name": "cross-origin-embedder-policy",
+      "matched_at": "https://www.securecodebox.io",
+      "matched_line": null,
+      "extracted_results": null,
+      "template": "misconfiguration/http-missing-security-headers.yaml",
+      "template_url": "https://github.com/projectdiscovery/nuclei-templates/blob/master/misconfiguration/http-missing-security-headers.yaml",
+      "template_id": "http-missing-security-headers",
+      "request": null,
+      "response": null,
+      "curl_command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36' 'https://www.securecodebox.io'"
+    }
+  },
+  {
+    "name": "HTTP Missing Security Headers",
+    "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.\n",
+    "location": "https://www.securecodebox.io",
+    "severity": "INFORMATIONAL",
+    "category": "http-missing-security-headers",
+    "attributes": {
+      "ip": "34.159.58.69",
+      "type": "http",
+      "hostname": "www.securecodebox.io",
+      "path": null,
+      "tags": [
+        "misconfig",
+        "generic"
+      ],
+      "reference": null,
+      "author": [
+        "socketz",
+        "geeknik",
+        "g4l1t0",
+        "convisoappsec",
+        "kurohost",
+        "dawid-czarnecki",
+        "forgedhallpass"
+      ],
+      "metadata": null,
+      "timestamp": "2022-09-09T21:27:13.6601+02:00",
+      "matcher_status": true,
+      "matcher_name": "access-control-allow-headers",
+      "matched_at": "https://www.securecodebox.io",
+      "matched_line": null,
+      "extracted_results": null,
+      "template": "misconfiguration/http-missing-security-headers.yaml",
+      "template_url": "https://github.com/projectdiscovery/nuclei-templates/blob/master/misconfiguration/http-missing-security-headers.yaml",
+      "template_id": "http-missing-security-headers",
+      "request": null,
+      "response": null,
+      "curl_command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36' 'https://www.securecodebox.io'"
+    }
+  },
+  {
+    "name": "HTTP Missing Security Headers",
+    "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.\n",
+    "location": "https://www.securecodebox.io",
+    "severity": "INFORMATIONAL",
+    "category": "http-missing-security-headers",
+    "attributes": {
+      "ip": "34.159.58.69",
+      "type": "http",
+      "hostname": "www.securecodebox.io",
+      "path": null,
+      "tags": [
+        "misconfig",
+        "generic"
+      ],
+      "reference": null,
+      "author": [
+        "socketz",
+        "geeknik",
+        "g4l1t0",
+        "convisoappsec",
+        "kurohost",
+        "dawid-czarnecki",
+        "forgedhallpass"
+      ],
+      "metadata": null,
+      "timestamp": "2022-09-09T21:27:13.660161+02:00",
+      "matcher_status": true,
+      "matcher_name": "permission-policy",
+      "matched_at": "https://www.securecodebox.io",
+      "matched_line": null,
+      "extracted_results": null,
+      "template": "misconfiguration/http-missing-security-headers.yaml",
+      "template_url": "https://github.com/projectdiscovery/nuclei-templates/blob/master/misconfiguration/http-missing-security-headers.yaml",
+      "template_id": "http-missing-security-headers",
+      "request": null,
+      "response": null,
+      "curl_command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36' 'https://www.securecodebox.io'"
+    }
+  },
+  {
+    "name": "HTTP Missing Security Headers",
+    "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.\n",
+    "location": "https://www.securecodebox.io",
+    "severity": "INFORMATIONAL",
+    "category": "http-missing-security-headers",
+    "attributes": {
+      "ip": "34.159.58.69",
+      "type": "http",
+      "hostname": "www.securecodebox.io",
+      "path": null,
+      "tags": [
+        "misconfig",
+        "generic"
+      ],
+      "reference": null,
+      "author": [
+        "socketz",
+        "geeknik",
+        "g4l1t0",
+        "convisoappsec",
+        "kurohost",
+        "dawid-czarnecki",
+        "forgedhallpass"
+      ],
+      "metadata": null,
+      "timestamp": "2022-09-09T21:27:13.660239+02:00",
+      "matcher_status": true,
+      "matcher_name": "clear-site-data",
+      "matched_at": "https://www.securecodebox.io",
+      "matched_line": null,
+      "extracted_results": null,
+      "template": "misconfiguration/http-missing-security-headers.yaml",
+      "template_url": "https://github.com/projectdiscovery/nuclei-templates/blob/master/misconfiguration/http-missing-security-headers.yaml",
+      "template_id": "http-missing-security-headers",
+      "request": null,
+      "response": null,
+      "curl_command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36' 'https://www.securecodebox.io'"
+    }
+  },
+  {
+    "name": "CNAME Fingerprint",
+    "description": "A CNAME DNS record was discovered.",
+    "location": "https://www.securecodebox.io",
+    "severity": "INFORMATIONAL",
+    "category": "cname-fingerprint",
+    "attributes": {
+      "ip": null,
+      "type": "dns",
+      "hostname": "www.securecodebox.io",
+      "path": null,
+      "tags": [
+        "dns",
+        "cname"
+      ],
+      "reference": [
+        "https://www.theregister.com/2021/02/24/dns_cname_tracking/",
+        "https://www.ionos.com/digitalguide/hosting/technical-matters/cname-record/"
+      ],
+      "author": [
+        "pdteam"
+      ],
+      "metadata": null,
+      "timestamp": "2022-09-09T21:27:25.325591+02:00",
+      "matcher_status": true,
+      "matcher_name": null,
+      "matched_at": "https://www.securecodebox.io",
+      "matched_line": null,
+      "extracted_results": [
+        "docs-securecodebox.netlify.app."
+      ],
+      "template": "dns/cname-fingerprint.yaml",
+      "template_url": "https://github.com/projectdiscovery/nuclei-templates/blob/master/dns/cname-fingerprint.yaml",
+      "template_id": "cname-fingerprint",
+      "request": null,
+      "response": null,
+      "curl_command": null
+    }
+  },
+  {
+    "name": "TLS Version",
+    "description": "The name of the nuclei rule which triggered the finding: tls-version",
+    "location": "https://www.securecodebox.io",
+    "severity": "INFORMATIONAL",
+    "category": "tls-version",
+    "attributes": {
+      "ip": "34.159.58.69",
+      "type": "ssl",
+      "hostname": "www.securecodebox.io",
+      "path": null,
+      "tags": [
+        "ssl"
+      ],
+      "reference": null,
+      "author": [
+        "pdteam"
+      ],
+      "metadata": null,
+      "timestamp": "2022-09-09T21:27:53.046678+02:00",
+      "matcher_status": true,
+      "matcher_name": null,
+      "matched_at": "https://www.securecodebox.io",
+      "matched_line": null,
+      "extracted_results": [
+        "TLS13"
+      ],
+      "template": "ssl/tls-version.yaml",
+      "template_url": "https://github.com/projectdiscovery/nuclei-templates/blob/master/ssl/tls-version.yaml",
+      "template_id": "tls-version",
+      "request": null,
+      "response": null,
+      "curl_command": null
+    }
+  },
+  {
+    "name": "SSL DNS Names",
+    "description": "The name of the nuclei rule which triggered the finding: ssl-dns-names",
+    "location": "https://www.securecodebox.io",
+    "severity": "INFORMATIONAL",
+    "category": "ssl-dns-names",
+    "attributes": {
+      "ip": "34.159.58.69",
+      "type": "ssl",
+      "hostname": "www.securecodebox.io",
+      "path": null,
+      "tags": [
+        "ssl"
+      ],
+      "reference": null,
+      "author": [
+        "pdteam"
+      ],
+      "metadata": null,
+      "timestamp": "2022-09-09T21:28:02.187683+02:00",
+      "matcher_status": true,
+      "matcher_name": null,
+      "matched_at": "https://www.securecodebox.io",
+      "matched_line": null,
+      "extracted_results": [
+        "docs.securecodebox.io",
+        "www.securecodebox.io"
+      ],
+      "template": "ssl/ssl-dns-names.yaml",
+      "template_url": "https://github.com/projectdiscovery/nuclei-templates/blob/master/ssl/ssl-dns-names.yaml",
+      "template_id": "ssl-dns-names",
+      "request": null,
+      "response": null,
+      "curl_command": null
+    }
+  }
+]

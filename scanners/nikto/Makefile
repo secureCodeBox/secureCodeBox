@@ -11,4 +11,5 @@ custom_scanner = set
 
 include ../../scanners.mk
 
+.PHONY: deploy-test-deps
 deploy-test-deps: deploy-test-dep-bodgeit

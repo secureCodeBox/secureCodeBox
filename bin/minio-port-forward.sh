@@ -36,25 +36,25 @@ function print() {
   fi
 }
 
-if  [[ "$#" -eq 2 ]]; then
-  if  [[ $1 = "-p" || $1 = "--port" ]]; then
-  HOST_PORT=$2
-  print "Using host port $HOST_PORT"
+if [[ "$#" -eq 2 ]]; then
+  if [[ $1 = "-p" || $1 = "--port" ]]; then
+    HOST_PORT=$2
+    print "Using host port $HOST_PORT"
   fi
 else
-    print "No port with option -p set. Using default host port 9000"
+  print "No port with option -p set. Using default host port 9000"
 fi
 
 print "$COLOR_EMPHASIS" "Starting minio instance on localhost:9000..\n"
 
 print "Your access key: "
-ACCESS_KEY=$(kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.accesskey}' \
-| base64 --decode;)
+ACCESS_KEY=$(kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.root-user}' |
+  base64 --decode)
 print "$COLOR_EMPHASIS" "$ACCESS_KEY"
 
 print "Your secret key: "
-SECRET_KEY=$(kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.secretkey}' \
-| base64 --decode;)
+SECRET_KEY=$(kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.root-password}' |
+  base64 --decode)
 print "$COLOR_EMPHASIS" "$SECRET_KEY"
 
-kubectl port-forward -n securecodebox-system service/securecodebox-operator-minio "$HOST_PORT":9000
+kubectl port-forward -n securecodebox-system service/securecodebox-operator-minio "$HOST_PORT":9001

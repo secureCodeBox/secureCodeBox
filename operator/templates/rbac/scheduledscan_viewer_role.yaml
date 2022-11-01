@@ -8,17 +8,17 @@ kind: ClusterRole
 metadata:
   name: scheduledscan-viewer-role
 rules:
-- apiGroups:
-  - execution.securecodebox.io
-  resources:
-  - scheduledscans
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - execution.securecodebox.io
-  resources:
-  - scheduledscans/status
-  verbs:
-  - get
+  - apiGroups:
+      - execution.securecodebox.io
+    resources:
+      - scheduledscans
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - execution.securecodebox.io
+    resources:
+      - scheduledscans/status
+    verbs:
+      - get

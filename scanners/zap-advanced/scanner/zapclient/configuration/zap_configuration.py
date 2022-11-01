@@ -16,10 +16,11 @@ from typing import List
 # set up logging to file - see previous section for more details
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s %(name)-12s %(levelname)-8s: %(message)s',
-    datefmt='%Y-%m-%d %H:%M')
+    format="%(asctime)s %(name)-12s %(levelname)-8s: %(message)s",
+    datefmt="%Y-%m-%d %H:%M",
+)
 
-logging = logging.getLogger('ZapClient')
+logging = logging.getLogger("ZapClient")
 
 
 class ZapConfiguration:
@@ -27,7 +28,7 @@ class ZapConfiguration:
 
     def __init__(self, config_dir: str, target: str, forced_context: str = None):
         """Initial constructor used for this class
-        
+
         Parameters
         ----------
         config_dir : str
@@ -39,7 +40,6 @@ class ZapConfiguration:
         self.target = target
         self.forced_context = forced_context
 
-
         self.__config = collections.OrderedDict()
         self.__read_config_files()
 
@@ -50,16 +50,28 @@ class ZapConfiguration:
             logging.debug("ZAP YAML config dir: '%s'", self.config_dir)
             config_files = glob.glob(self.config_dir_glob)
         else:
-            logging.warning("YAML config dir not found! This is no problem but possibly not intendend here.")
+            logging.warning(
+                "YAML config dir not found! This is no problem but possibly not intendend here."
+            )
             config_files = []
 
-        logging.info("Importing YAML files for ZAP configuration at dir: '%s'", config_files)
-        if (len(config_files) > 0):
+        logging.info(
+            "Importing YAML files for ZAP configuration at dir: '%s'", config_files
+        )
+        if len(config_files) > 0:
             config_files.sort()
-            self.__config = hiyapyco.load(*config_files, method=hiyapyco.METHOD_MERGE, interpolate=True, mergelists=True, failonmissingfiles=False)
+            self.__config = hiyapyco.load(
+                *config_files,
+                method=hiyapyco.METHOD_MERGE,
+                interpolate=True,
+                mergelists=True,
+                failonmissingfiles=False
+            )
             logging.debug("Finished importing YAML: %s", self.__config)
         else:
-            logging.warning("No ZAP YAML Configuration files found :-/ This is no problem but possibly not intendend here.")
+            logging.warning(
+                "No ZAP YAML Configuration files found :-/ This is no problem but possibly not intendend here."
+            )
             self.__config = collections.OrderedDict()
 
     @property
@@ -114,10 +126,7 @@ class ZapConfiguration:
             )
             return None
         if key not in configs:
-            logging.warning(
-                "No %s config found in the config.!",
-                key
-            )
+            logging.warning("No %s config found in the config.!", key)
             return None
 
         if self.forced_context is not None:
@@ -125,23 +134,28 @@ class ZapConfiguration:
             # search for the "name" key to match. Otherwise search for for the "context" attribute
             look_for = "name" if key == "contexts" else "context"
             for configuration in configs[key]:
-                if look_for in configuration and configuration[look_for] == self.forced_context:
+                if (
+                    look_for in configuration
+                    and configuration[look_for] == self.forced_context
+                ):
                     return configuration
 
             logging.warning(
                 "No %s specific configuration found using for the configured context (%s)!",
                 key,
-                self.forced_context
+                self.forced_context,
             )
         else:
             for configuration in configs[key]:
-                if "url" in configuration and configuration["url"].startswith(self.target):
+                if "url" in configuration and configuration["url"].startswith(
+                    self.target
+                ):
                     return configuration
 
             logging.warning(
                 "No %s specific configuration found using the given target url (%s)!",
                 key,
-                self.target
+                self.target,
             )
         return None
 

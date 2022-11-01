@@ -30,6 +30,8 @@ spec:
           imagePullSecrets:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          securityContext:
+            {{- toYaml .Values.scanner.podSecurityContext | nindent 12 }}
           containers:
             - name: zap-baseline-scan
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
@@ -78,6 +80,8 @@ spec:
             {{- toYaml .Values.scanner.affinity | nindent 12 }}
           tolerations: 
             {{- toYaml .Values.scanner.tolerations | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.scanner.podSecurityContext | nindent 12 }}
           containers:
             - name: zap-api-scan
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
@@ -125,6 +129,8 @@ spec:
             {{- toYaml .Values.scanner.affinity | nindent 12 }}
           tolerations: 
             {{- toYaml .Values.scanner.tolerations | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.scanner.podSecurityContext | nindent 12 }}
           containers:
             - name: zap-full-scan
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"

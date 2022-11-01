@@ -8,21 +8,21 @@ kind: ClusterRole
 metadata:
   name: scancompletionhook-editor-role
 rules:
-- apiGroups:
-  - execution.securecodebox.io
-  resources:
-  - scancompletionhooks
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - execution.securecodebox.io
-  resources:
-  - scancompletionhooks/status
-  verbs:
-  - get
+  - apiGroups:
+      - execution.securecodebox.io
+    resources:
+      - scancompletionhooks
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - execution.securecodebox.io
+    resources:
+      - scancompletionhooks/status
+    verbs:
+      - get

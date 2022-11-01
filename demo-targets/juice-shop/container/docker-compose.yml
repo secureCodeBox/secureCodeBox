@@ -8,4 +8,4 @@ services:
     image: bkimminich/juice-shop:v12.8.1
     ports:
       - 3000:3000
-# Website will be available under http://localhost:3000/     
+# Website will be available under http://localhost:3000/

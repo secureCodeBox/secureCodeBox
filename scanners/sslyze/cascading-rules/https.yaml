@@ -31,4 +31,5 @@ spec:
           state: open
   scanSpec:
     scanType: "sslyze"
-    parameters: ["--mozilla_config=intermediate", "{{$.hostOrIP}}:{{attributes.port}}"]
+    parameters:
+      ["--mozilla_config=intermediate", "{{$.hostOrIP}}:{{attributes.port}}"]

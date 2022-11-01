@@ -5,27 +5,17 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 #
-# This Makefile is intended to be used for developement and testing only.
-# For using this scanner/hook in production please use the helm chart.
-# See: <https://www.securecodebox.io/docs/getting-started/installation>
-#
-# This Makefile expects some additional software to be installed:
-# - git
-# - node + npm
-# - docker
-# - kind
-# - kubectl
-# - helm
-# - yq
+# This include is a base for all hooks make files.
 
 module = hook
 prefix = hook
 name = ${hook}
 
-include ../../common.mk
+include ../../test-base.mk
 include ../../env-paths.mk
-## Telling the env-paths file where the root project dir is. This is done to allow the generation of the paths of the different project folders relative to where the makefile is being run from.
-## So BIN_DIR= $(PROJECT_DIR)/bin will be BIN_DIR=../../bin
+# Telling the env-paths file where the root project dir is. This is done to allow the generation of the paths of the
+# different project folders relative to where the makefile is being run from.  So BIN_DIR= $(PROJECT_DIR)/bin will be
+# BIN_DIR=../../bin
 PROJECT_DIR=../..
 
 module = $(hook-prefix)

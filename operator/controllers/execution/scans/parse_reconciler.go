@@ -53,12 +53,12 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 	}
 	log.Info("Matching ParseDefinition Found", "ParseDefinition", parseType)
 
-	findingsUploadURL, err := r.PresignedPutURL(scan.UID, "findings.json", defaultPresignDuration)
+	findingsUploadURL, err := r.PresignedPutURL(*scan, "findings.json", defaultPresignDuration)
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
 		return err
 	}
-	rawResultDownloadURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile, defaultPresignDuration)
+	rawResultDownloadURL, err := r.PresignedGetURL(*scan, scan.Status.RawResultFile, defaultPresignDuration)
 	if err != nil {
 		return err
 	}
@@ -91,6 +91,21 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 	var backOffLimit int32 = 3
 	truePointer := true
 	falsePointer := false
+
+	resources := corev1.ResourceRequirements{
+		Requests: corev1.ResourceList{
+			corev1.ResourceCPU:    resource.MustParse("200m"),
+			corev1.ResourceMemory: resource.MustParse("100Mi"),
+		},
+		Limits: corev1.ResourceList{
+			corev1.ResourceCPU:    resource.MustParse("400m"),
+			corev1.ResourceMemory: resource.MustParse("200Mi"),
+		},
+	}
+	if len(parseDefinition.Spec.Resources.Requests) != 0 || len(parseDefinition.Spec.Resources.Limits) != 0 {
+		resources = parseDefinition.Spec.Resources
+	}
+
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
 			Annotations:  make(map[string]string),
@@ -109,7 +124,6 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 					Annotations: map[string]string{
 						"auto-discovery.securecodebox.io/ignore": "true",
 						"sidecar.istio.io/inject":                "false",
-						"securecodebox.io/job-type":              "parser",
 					},
 				},
 				Spec: corev1.PodSpec{
@@ -139,16 +153,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 								findingsUploadURL,
 							},
 							ImagePullPolicy: parseDefinition.Spec.ImagePullPolicy,
-							Resources: corev1.ResourceRequirements{
-								Requests: corev1.ResourceList{
-									corev1.ResourceCPU:    resource.MustParse("200m"),
-									corev1.ResourceMemory: resource.MustParse("100Mi"),
-								},
-								Limits: corev1.ResourceList{
-									corev1.ResourceCPU:    resource.MustParse("400m"),
-									corev1.ResourceMemory: resource.MustParse("200Mi"),
-								},
-							},
+							Resources:       resources,
 							SecurityContext: &corev1.SecurityContext{
 								RunAsNonRoot:             &truePointer,
 								AllowPrivilegeEscalation: &falsePointer,
@@ -182,7 +187,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 		parseDefinition.Spec.Volumes...,
 	)
 
-	// Set affinity based on scan, if defined, or parseDefinition if not overriden by scan
+	// Set affinity based on scan, if defined, or parseDefinition if not overridden by scan
 	if scan.Spec.Affinity != nil {
 		job.Spec.Template.Spec.Affinity = scan.Spec.Affinity
 	} else {

@@ -19,7 +19,7 @@ spec:
   initContainers:
     - name: "git-clone"
       image: bitnami/git
-      # Specify that the "repo" volume should also be mounted on the 
+      # Specify that the "repo" volume should also be mounted on the
       # initContainer
       volumeMounts:
         - name: repo

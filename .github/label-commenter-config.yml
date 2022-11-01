@@ -1,0 +1,7 @@
+labels:
+  - name: breaking
+    labeled:
+      pr:
+        body: |
+          This pull request includes breaking changes. **Please make sure that you included the breaking changes and the steps required to upgrade in [UPGRADING.md](https://github.com/secureCodeBox/secureCodeBox/blob/main/UPGRADING.md)**. 
+          :sparkles: Thank you for your contribution! :sparkles:

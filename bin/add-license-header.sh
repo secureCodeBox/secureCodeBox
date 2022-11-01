@@ -35,11 +35,11 @@ else
 fi
 
 for file in $FILES; do
-    echo "Adding HEADER to file: $file"
-    docker run --rm --volume $(pwd):/data fsfe/reuse addheader \
-      --copyright "iteratec GmbH" \
-      --year 2021 \
-      --license "Apache-2.0" \
-      --skip-unrecognised \
-      "$file"
+  echo "Adding HEADER to file: $file"
+  docker run --rm --volume $(pwd):/data fsfe/reuse addheader \
+    --copyright "iteratec GmbH" \
+    --year 2021 \
+    --license "Apache-2.0" \
+    --skip-unrecognised \
+    "$file"
 done

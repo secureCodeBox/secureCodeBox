@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 // Package v1 contains API Schema definitions for the config v1 API group
-//+kubebuilder:object:generate=true
-//+groupName=config.securecodebox.io
+// +kubebuilder:object:generate=true
+// +groupName=config.securecodebox.io
 package v1
 
 import (

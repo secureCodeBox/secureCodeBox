@@ -14,8 +14,8 @@ set -eu
 shopt -s extglob
 
 # @see: http://wiki.bash-hackers.org/syntax/shellvars
-[ -z "${SCRIPT_DIRECTORY:-}" ] \
-  && SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+[ -z "${SCRIPT_DIRECTORY:-}" ] &&
+  SCRIPT_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null && pwd)"
 
 BASE_DIR=$(dirname "${SCRIPT_DIRECTORY}")
 

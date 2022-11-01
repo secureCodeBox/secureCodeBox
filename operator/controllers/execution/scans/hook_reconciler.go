@@ -198,12 +198,12 @@ func (r *ScanReconciler) processPendingHook(scan *executionv1.Scan, status *exec
 	}
 
 	var rawFileURL string
-	rawFileURL, err = r.PresignedGetURL(scan.UID, scan.Status.RawResultFile, defaultPresignDuration)
+	rawFileURL, err = r.PresignedGetURL(*scan, scan.Status.RawResultFile, defaultPresignDuration)
 	if err != nil {
 		return err
 	}
 	var findingsFileURL string
-	findingsFileURL, err = r.PresignedGetURL(scan.UID, "findings.json", defaultPresignDuration)
+	findingsFileURL, err = r.PresignedGetURL(*scan, "findings.json", defaultPresignDuration)
 	if err != nil {
 		return err
 	}
@@ -214,12 +214,12 @@ func (r *ScanReconciler) processPendingHook(scan *executionv1.Scan, status *exec
 	}
 	if hook.Spec.Type == executionv1.ReadAndWrite {
 		var rawFileUploadURL string
-		rawFileUploadURL, err = r.PresignedPutURL(scan.UID, scan.Status.RawResultFile, defaultPresignDuration)
+		rawFileUploadURL, err = r.PresignedPutURL(*scan, scan.Status.RawResultFile, defaultPresignDuration)
 		if err != nil {
 			return err
 		}
 		var findingsUploadURL string
-		findingsUploadURL, err = r.PresignedPutURL(scan.UID, "findings.json", defaultPresignDuration)
+		findingsUploadURL, err = r.PresignedPutURL(*scan, "findings.json", defaultPresignDuration)
 		if err != nil {
 			return err
 		}
@@ -329,6 +329,19 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 	var backOffLimit int32 = 3
 	truePointer := true
 	falsePointer := false
+	resources := corev1.ResourceRequirements{
+		Requests: corev1.ResourceList{
+			corev1.ResourceCPU:    resource.MustParse("200m"),
+			corev1.ResourceMemory: resource.MustParse("100Mi"),
+		},
+		Limits: corev1.ResourceList{
+			corev1.ResourceCPU:    resource.MustParse("400m"),
+			corev1.ResourceMemory: resource.MustParse("200Mi"),
+		},
+	}
+	if len(hook.Spec.Resources.Requests) != 0 || len(hook.Spec.Resources.Limits) != 0 {
+		resources = hook.Spec.Resources
+	}
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
 			Annotations:  make(map[string]string),
@@ -347,7 +360,6 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 					Annotations: map[string]string{
 						"auto-discovery.securecodebox.io/ignore": "true",
 						"sidecar.istio.io/inject":                "false",
-						"securecodebox.io/job-type":              "hook",
 					},
 				},
 				Spec: corev1.PodSpec{
@@ -361,16 +373,7 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 							Args:            cliArgs,
 							Env:             append(hook.Spec.Env, standardEnvVars...),
 							ImagePullPolicy: hook.Spec.ImagePullPolicy,
-							Resources: corev1.ResourceRequirements{
-								Requests: corev1.ResourceList{
-									corev1.ResourceCPU:    resource.MustParse("200m"),
-									corev1.ResourceMemory: resource.MustParse("100Mi"),
-								},
-								Limits: corev1.ResourceList{
-									corev1.ResourceCPU:    resource.MustParse("400m"),
-									corev1.ResourceMemory: resource.MustParse("200Mi"),
-								},
-							},
+							Resources:       resources,
 							SecurityContext: &corev1.SecurityContext{
 								RunAsNonRoot:             &truePointer,
 								AllowPrivilegeEscalation: &falsePointer,

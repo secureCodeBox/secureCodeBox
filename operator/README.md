@@ -54,7 +54,7 @@ Kubernetes: `>=v1.11.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://helm.min.io/ | minio | 7.1.2 |
+| https://charts.bitnami.com/bitnami | minio | 11.9.4 |
 
 ## Deployment
 
@@ -83,12 +83,8 @@ helm install securecodebox-operator secureCodeBox/operator
 | lurker.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | lurker.image.repository | string | `"docker.io/securecodebox/lurker"` | The operator image repository |
 | lurker.image.tag | string | defaults to the charts version | Parser image tag |
-| minio.defaultBucket.enabled | bool | `true` |  |
-| minio.defaultBucket.name | string | `"securecodebox"` |  |
+| minio | object | `{"defaultBuckets":"securecodebox","enabled":true,"resources":{"requests":{"memory":"256Mi"}},"tls":{"enabled":false}}` | Minio default config. More config options an info: https://github.com/minio/minio/blob/master/helm/minio/values.yaml |
 | minio.enabled | bool | `true` | Enable this to use minio as storage backend instead of a cloud bucket provider like AWS S3, Google Cloud Storage, DigitalOcean Spaces etc. |
-| minio.resources.requests.memory | string | `"256Mi"` |  |
-| minio.tls.certSecret | string | `"minio-tls"` |  |
-| minio.tls.enabled | bool | `false` |  |
 | podSecurityContext | object | `{}` | Sets the securityContext on the operators pod level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container |
 | resources | object | `{"limits":{"cpu":"100m","memory":"30Mi"},"requests":{"cpu":"100m","memory":"20Mi"}}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | s3.authType | string | `"access-secret-key"` | Authentication method. Supports access-secret-key (used by most s3 endpoint) and aws-irsa (Used by AWS EKS IAM Role to Kubenetes Service Account Binding. Support for AWS IRSA is considered experimental in the secureCodeBox) |
@@ -100,6 +96,7 @@ helm install securecodebox-operator secureCodeBox/operator
 | s3.port | string | `nil` |  |
 | s3.secretAttributeNames.accesskey | string | `"accesskey"` |  |
 | s3.secretAttributeNames.secretkey | string | `"secretkey"` |  |
+| s3UrlTemplate | string | `nil` |  |
 | securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"privileged":false,"readOnlyRootFilesystem":true,"runAsNonRoot":true}` | Sets the securityContext on the operators container level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod |
 | securityContext.allowPrivilegeEscalation | bool | `false` | Ensure that users privileges cannot be escalated |
 | securityContext.capabilities.drop[0] | string | `"all"` | This drops all linux privileges from the operator container. They are not required |

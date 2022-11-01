@@ -5,7 +5,7 @@
 ---
 # List of 1 or more contexts, mandatory
 contexts:
-# Name to be used to refer to this context in other jobs, mandatory
+  # Name to be used to refer to this context in other jobs, mandatory
   - name: secureCodeBoxScan-Script-Based
     # The top level url, mandatory, everything under this will be included
     url: https://www.secureCodeBox.io/

@@ -14,7 +14,7 @@ test(
       "semgrep",
       [
         "-c",
-        "p/ci",
+        "r/python.django.security.injection.command.command-injection-os-system.command-injection-os-system",
         "/test/",
       ],
       90,
