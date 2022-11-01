@@ -15,19 +15,23 @@ test(
     );
 
     expect(categories).toMatchInlineSnapshot(`
-      Object {
-        "Content Security Policy (CSP) Header Not Set": 1,
-        "Missing Anti-clickjacking Header": 1,
-        "Server Leaks Version Information via \\"Server\\" HTTP Response Header Field": 1,
-        "X-Content-Type-Options Header Missing": 1,
-      }
-    `);
+Object {
+  "Content Security Policy (CSP) Header Not Set": 1,
+  "In Page Banner Information Leak": 1,
+  "Missing Anti-clickjacking Header": 1,
+  "Permissions Policy Header Not Set": 1,
+  "Server Leaks Version Information via \\"Server\\" HTTP Response Header Field": 1,
+  "Storable and Cacheable Content": 1,
+  "X-Content-Type-Options Header Missing": 1,
+}
+`);
     expect(severities).toMatchInlineSnapshot(`
-      Object {
-        "low": 2,
-        "medium": 2,
-      }
-    `);
+Object {
+  "informational": 1,
+  "low": 4,
+  "medium": 2,
+}
+`);
   },
   5 * 60 * 1000
 );
