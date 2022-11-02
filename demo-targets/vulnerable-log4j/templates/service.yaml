@@ -6,8 +6,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{include "vulnerable-log4j.fullname" .}}
-  labels: {{- include "vulnerable-log4j.labels" . | nindent 4}}
-  annotations: {{- include "vulnerable-log4j.annotations" . | nindent 4}}
+  labels: 
+    {{- include "vulnerable-log4j.labels" . | nindent 4}}
+  annotations: 
+    {{- include "vulnerable-log4j.annotations" . | nindent 4}}
 spec:
   type: {{.Values.service.type}}
   ports:
@@ -15,4 +17,5 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
-  selector: {{- include "vulnerable-log4j.selectorLabels" . | nindent 4}}
+  selector: 
+    {{- include "vulnerable-log4j.selectorLabels" . | nindent 4}}

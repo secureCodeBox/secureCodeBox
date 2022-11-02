@@ -6,8 +6,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{include "swagger-petstore.fullname" .}}
-  labels: {{- include "swagger-petstore.labels" . | nindent 4}}
-  annotations: {{- include "swagger-petstore.annotations" . | nindent 4}}
+  labels: 
+    {{- include "swagger-petstore.labels" . | nindent 4}}
+  annotations: 
+    {{- include "swagger-petstore.annotations" . | nindent 4}}
 spec:
   type: {{.Values.service.type}}
   ports:
@@ -15,4 +17,5 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
-  selector: {{- include "swagger-petstore.selectorLabels" . | nindent 4}}
+  selector: 
+    {{- include "swagger-petstore.selectorLabels" . | nindent 4}}
