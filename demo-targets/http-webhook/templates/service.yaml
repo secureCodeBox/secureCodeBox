@@ -6,8 +6,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{include "http-webhook.fullname" .}}
-  labels: {{- include "http-webhook.labels" . | nindent 4}}
-  annotations: {{- include "http-webhook.annotations" . | nindent 4}}
+  labels: 
+    {{- include "http-webhook.labels" . | nindent 4}}
+  annotations: 
+    {{- include "http-webhook.annotations" . | nindent 4}}
 spec:
   type: {{.Values.service.type}}
   ports:
@@ -15,4 +17,5 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
-  selector: {{- include "http-webhook.selectorLabels" . | nindent 4}}
+  selector: 
+    {{- include "http-webhook.selectorLabels" . | nindent 4}}
