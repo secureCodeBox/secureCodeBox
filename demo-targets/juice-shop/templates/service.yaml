@@ -6,8 +6,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{include "juice-shop.fullname" .}}
-  labels: {{- include "juice-shop.labels" . | nindent 4}}
-  annotations: {{- include "juice-shop.annotations" . | nindent 4}}
+  labels: 
+    {{- include "juice-shop.labels" . | nindent 4}}
+  annotations: 
+    {{- include "juice-shop.annotations" . | nindent 4}}
 spec:
   type: {{.Values.service.type}}
   ports:
@@ -15,4 +17,5 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
-  selector: {{- include "juice-shop.selectorLabels" . | nindent 4}}
+  selector: 
+    {{- include "juice-shop.selectorLabels" . | nindent 4}}

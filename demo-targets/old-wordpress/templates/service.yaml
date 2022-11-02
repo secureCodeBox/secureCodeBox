@@ -6,8 +6,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{include "old-wordpress.fullname" .}}
-  labels: {{- include "old-wordpress.labels" . | nindent 4}}
-  annotations: {{- include "old-wordpress.annotations" . | nindent 4}}
+  labels: 
+    {{- include "old-wordpress.labels" . | nindent 4}}
+  annotations: 
+    {{- include "old-wordpress.annotations" . | nindent 4}}
 spec:
   type: {{.Values.service.type}}
   ports:
@@ -15,4 +17,5 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
-  selector: {{- include "old-wordpress.selectorLabels" . | nindent 4}}
+  selector: 
+    {{- include "old-wordpress.selectorLabels" . | nindent 4}}
