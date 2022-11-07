@@ -18,6 +18,7 @@ async function parse(fileContent) {
   return identifiedDomains.map((domain) => {
     return {
       name: domain.name,
+      identified_at: domain.Timestamp,
       description: `Found subdomain ${domain.name}`,
       category: "Subdomain",
       location: domain.name,
