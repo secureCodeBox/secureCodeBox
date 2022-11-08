@@ -11,7 +11,7 @@ on:
 jobs:
   helm-docs:
     runs-on: ubuntu-latest
-
+    if: github.repository == 'secureCodeBox/secureCodeBox'
     steps:
       - uses: actions/checkout@v2
         with:
