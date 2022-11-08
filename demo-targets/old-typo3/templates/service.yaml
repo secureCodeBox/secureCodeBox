@@ -2,7 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{include "old-typo3.fullname" .}}
-  labels: {{- include "old-typo3.labels" . | nindent 4}}
+  labels: 
+    {{- include "old-typo3.labels" . | nindent 4}}
 spec:
   type: {{.Values.service.type}}
   ports:
@@ -10,4 +11,5 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
-  selector: {{- include "old-typo3.selectorLabels" . | nindent 4}}
+  selector: 
+   {{- include "old-typo3.selectorLabels" . | nindent 4}}

@@ -5,6 +5,7 @@ on:
 jobs:
   version-compare:
     runs-on: ubuntu-latest
+    if: github.repository == 'secureCodeBox/secureCodeBox'
     strategy:
       matrix:
         scanner:

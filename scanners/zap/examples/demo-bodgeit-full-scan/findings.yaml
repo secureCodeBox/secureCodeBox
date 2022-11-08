@@ -12,7 +12,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "1",
         "zap_solution": "Configure your web or application server to use SSL (https).",
@@ -36,7 +36,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "323",
         "zap_solution": "TBA",
@@ -161,7 +161,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "455",
         "zap_solution": null,
@@ -306,7 +306,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "3",
         "zap_count": "337",
         "zap_solution": 'Ensure that your web server, application server, load balancer, etc. is configured to suppress the "Server" header or provide generic details.',
@@ -431,7 +431,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "280",
         "zap_solution": "Most modern Web browsers support the X-Frame-Options HTTP header. Ensure it's set on all web pages returned by your site (if you expect the page to be framed only by pages on your server (e.g. it's part of a FRAMESET) then you'll want to use SAMEORIGIN, otherwise if you never expect the page to be framed, you should use DENY. ALLOW-FROM allows specific websites to frame the web page in supported web browsers).",
@@ -556,7 +556,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "298",
         "zap_solution": "Ensure that your web server, application server, load balancer, etc. is configured to set the Feature-Policy header.",
@@ -661,7 +661,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "1",
         "zap_count": "186",
         "zap_solution": null,
@@ -766,7 +766,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "329",
         "zap_solution": "Validate that the response does not contain sensitive, personal or user-specific information.  If it does, consider the use of the following HTTP response headers, to limit, or prevent the content being stored and retrieved from the cache by another user:Cache-Control: no-cache, no-store, must-revalidate, privatePragma: no-cacheExpires: 0This configuration directs both HTTP 1.0 and HTTP 1.1 compliant caching servers to not store the response, and to not retrieve the response (without validation) from the cache, in response to a similar request. ",
@@ -871,7 +871,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "1",
         "zap_count": "51",
         "zap_solution": "Manually confirm that the timestamp data is not sensitive, and that the data cannot be aggregated to disclose exploitable patterns.",
@@ -996,7 +996,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "316",
         "zap_solution": "Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to 'nosniff' for all web pages.If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.",
@@ -1121,7 +1121,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "25",
         "zap_solution": "Manually confirm that the Base64 data does not leak sensitive information, and that the data cannot be aggregated/used to exploit other vulnerabilities.",
@@ -1246,7 +1246,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "298",
         "zap_solution": 'Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: "Content-Security-Policy" for Chrome 25+, Firefox 23+ and Safari 7+, "X-Content-Security-Policy" for Firefox 4.0+ and Internet Explorer 10+, and "X-WebKit-CSP" for Chrome 14+ and Safari 6+.',
@@ -1348,7 +1348,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "102",
         "zap_solution": 'Do not use a target attribute, or if you have to then also add the attribute: rel="noopener noreferrer".',
@@ -1473,7 +1473,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "2",
         "zap_solution": "Ensure that application Source Code is not available with alternative extensions, and ensure that source code is not present within other files or data deployed to the web server, or served by the web server. ",
@@ -1508,7 +1508,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "8",
         "zap_solution": 'The content may be marked as storable by ensuring that the following conditions are satisfied:The request method must be understood by the cache and defined as being cacheable ("GET", "HEAD", and "POST" are currently defined as cacheable)The response status code must be understood by the cache (one of the 1XX, 2XX, 3XX, 4XX, or 5XX response classes are generally understood)The "no-store" cache directive must not appear in the request or response header fieldsFor caching by "shared" caches such as "proxy" caches, the "private" response directive must not appear in the responseFor caching by "shared" caches such as "proxy" caches, the "Authorization" header field must not appear in the request, unless the response explicitly allows it (using one of the "must-revalidate", "public", or "s-maxage" Cache-Control response directives)In addition to the conditions above, at least one of the following conditions must also be satisfied by the response:It must contain an "Expires" header fieldIt must contain a "max-age" response directiveFor "shared" caches such as "proxy" caches, it must contain a "s-maxage" response directiveIt must contain a "Cache Control Extension" that allows it to be cachedIt must have a status code that is defined as cacheable by default (200, 203, 204, 206, 300, 301, 404, 405, 410, 414, 501).   ',
@@ -1573,7 +1573,7 @@
     "severity": "HIGH",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "26",
         "zap_solution": "Phase: Architecture and DesignUse a vetted library or framework that does not allow this weakness to occur or provides constructs that make this weakness easier to avoid.For example, use anti-CSRF packages such as the OWASP CSRFGuard.Phase: ImplementationEnsure that your application is free of cross-site scripting issues, because most CSRF defenses can be bypassed using attacker-controlled script.Phase: Architecture and DesignGenerate a unique nonce for each form, place the nonce into the form, and verify the nonce upon receipt of the form. Be sure that the nonce is not predictable (CWE-330).Note that this can be bypassed using XSS.Identify especially dangerous operations. When the user performs a dangerous operation, send a separate confirmation request to ensure that the user intended to perform that operation.Note that this can be bypassed using XSS.Use the ESAPI Session Management control.This control includes a component for CSRF.Do not use the GET method for any request that triggers a state change.Phase: ImplementationCheck the HTTP Referer header to see if the request originated from an expected page. This could break legitimate functionality, because users or proxies may have disabled sending the Referer for privacy reasons.",
@@ -1698,7 +1698,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "1",
         "zap_solution": "Ensure that application Source Code is not available with alternative extensions, and ensure that source code is not present within other files or data deployed to the web server, or served by the web server. ",
@@ -1728,7 +1728,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "30",
         "zap_solution": "Do not edit files in-situ on the web server, and ensure that un-necessary files (including hidden files) are removed from the web server.",
@@ -1873,7 +1873,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "1",
         "zap_count": "2",
         "zap_solution": "Do not allow user input to control cookie names and values. If some query string parameters must be set in cookie values, be sure to filter out semicolon's that can serve as name/value pair delimiters.",
@@ -1908,7 +1908,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "9",
         "zap_solution": "Ensure that application Source Code is not available with alternative extensions, and ensure that source code is not present within other files or data deployed to the web server, or served by the web server. ",
@@ -1978,7 +1978,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "4",
         "zap_solution": "Ensure that the SameSite attribute is set to either 'lax' or ideally 'strict' for all cookies.",
@@ -2027,7 +2027,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "1",
         "zap_solution": "Review the source code of this page. Implement custom error pages. Consider implementing a mechanism to provide a unique error reference/identifier to the client (browser) while logging the details on the server side and not exposing them to the user.",
@@ -2057,7 +2057,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "2",
         "zap_solution": "Remove all comments that return information that may help an attacker and fix any underlying problems they refer to.",
@@ -2090,7 +2090,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "2",
         "zap_solution": 'Web servers and frameworks should be updated to be configured to not serve responses to ambiguous URLs in such a way that the relative path of such URLs could be mis-interpreted by components on either the client side, or server side.Within the application, the correct use of the "" HTML tag in the HTTP response will unambiguously specify the base URL for all relative URLs in the document.Use the "Content-Type" HTTP response header to make it harder for the attacker to force the web browser to mis-interpret the content type of the response.Use the "X-Content-Type-Options: nosniff" HTTP response header to prevent the web browser from "sniffing" the content type of the response.Use a modern DOCTYPE such as "" to prevent the page from being rendered in the web browser using "Quirks Mode", since this results in the content type being ignored by the web browser.Specify the "X-Frame-Options" HTTP response header to prevent Quirks Mode from being enabled in the web browser using framing attacks. ',
@@ -2127,7 +2127,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "29",
         "zap_solution": "Phase: Architecture and DesignUse a vetted library or framework that does not allow this weakness to occur or provides constructs that make this weakness easier to avoid.For example, use anti-CSRF packages such as the OWASP CSRFGuard.Phase: ImplementationEnsure that your application is free of cross-site scripting issues, because most CSRF defenses can be bypassed using attacker-controlled script.Phase: Architecture and DesignGenerate a unique nonce for each form, place the nonce into the form, and verify the nonce upon receipt of the form. Be sure that the nonce is not predictable (CWE-330).Note that this can be bypassed using XSS.Identify especially dangerous operations. When the user performs a dangerous operation, send a separate confirmation request to ensure that the user intended to perform that operation.Note that this can be bypassed using XSS.Use the ESAPI Session Management control.This control includes a component for CSRF.Do not use the GET method for any request that triggers a state change.Phase: ImplementationCheck the HTTP Referer header to see if the request originated from an expected page. This could break legitimate functionality, because users or proxies may have disabled sending the Referer for privacy reasons.",
@@ -2252,7 +2252,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "1",
         "zap_count": "7",
         "zap_solution": null,
@@ -2305,7 +2305,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "1",
         "zap_count": "5",
         "zap_solution": "Remove all comments that return information that may help an attacker and fix any underlying problems they refer to.",
@@ -2350,7 +2350,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "1",
         "zap_count": "7",
         "zap_solution": "Validate all input and sanitize output it before writing to any HTML attributes.",
@@ -2410,7 +2410,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "3",
         "zap_count": "14",
         "zap_solution": 'Configure the server to prevent such information leaks. For example:Under Tomcat this is done via the "server" directive and implementation of custom error pages.Under Apache this is done via the "ServerSignature" and "ServerTokens" directives.',
@@ -2505,7 +2505,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "5",
         "zap_solution": "Review the source code of this page. Implement custom error pages. Consider implementing a mechanism to provide a unique error reference/identifier to the client (browser) while logging the details on the server side and not exposing them to the user.",
@@ -2555,7 +2555,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "3",
         "zap_count": "1",
         "zap_solution": "Ensure the .env file is not accessible.",
@@ -2585,7 +2585,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "2",
         "zap_solution": "Ensure each page is setting the specific and appropriate content-type value for the content being delivered.",
@@ -2618,7 +2618,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "3",
         "zap_count": "2",
         "zap_solution": "Ensure that only POST is accepted where POST is expected.",
@@ -2653,7 +2653,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "4",
         "zap_solution": "This is an informational alert and so no changes are required.",
@@ -2698,7 +2698,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "3",
         "zap_count": "1",
         "zap_solution": "Consider whether or not Trace Viewer is actually required in production, if it isn't then disable it. If it is then ensure access to it requires authentication and authorization.",
@@ -2728,7 +2728,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "1",
         "zap_solution": "Ensure that the HttpOnly flag is set for all cookies.",
@@ -2759,7 +2759,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "3",
         "zap_count": "3",
         "zap_solution": "For secure content, put session ID in a cookie. To be even more secure consider using a combination of cookie and URL rewrite.",
@@ -2799,7 +2799,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "1",
         "zap_solution": "Do not pass sensitive information in URIs.",
@@ -2830,7 +2830,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "1",
         "zap_solution": "Sanitize and analyze every user input coming from any client-side.",
@@ -2862,7 +2862,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "4",
         "zap_solution": "Remove the private IP address from the HTTP response body.  For comments, use JSP/ASP/PHP comment instead of HTML/JavaScript comment which can be seen by client browsers.",
@@ -2907,7 +2907,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "2",
         "zap_solution": "Rewrite the background program using proper deletion of bad character strings.  This will require a recompile of the background executable.",
@@ -2944,7 +2944,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "1",
         "zap_solution": "Disable debugging messages before pushing to production.",
@@ -2974,7 +2974,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "3",
         "zap_solution": "Protect the connection using HTTPS or use a stronger authentication mechanism",
@@ -3014,7 +3014,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "bodgeit.demo-targets.svc",
+        "hostname": "bodgeit.demo-targets.svc",
         "zap_confidence": "1",
         "zap_count": "1",
         "zap_solution": "See the references for security advice on the use of these functions.",
