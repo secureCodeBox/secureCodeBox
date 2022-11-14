@@ -31,8 +31,6 @@ data:
         progressToStdout: true             # If set will write job progress to stdout
 
     jobs:
-      - type: addOns                       # Add-on management
-        install: [pscanrulesAlpha, pscanrulesBeta]                           # A list of non standard add-ons to install from the ZAP Marketplace
       - type: passiveScan-config           # Passive scan configuration
         parameters:
           maxAlertsPerRule: 10             # Int: Maximum number of alerts to raise per rule
@@ -67,9 +65,6 @@ metadata:
 spec:
   scanType: "zap-automation-scan"
   parameters:
-    # target URL including the protocol
-    - "-host"
-    - "http://nginx.demo-targets.svc" 
     - "-autorun" 
     - "/home/securecodebox/scb-automation/2-automation.yaml"
   volumeMounts:
