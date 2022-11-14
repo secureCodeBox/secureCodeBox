@@ -10,7 +10,7 @@ test(
     const { count } = await scan(
       "zap-automation-nginx",
       "zap-automation-scan",
-      ["-host", "http://nginx.demo-targets.svc", "-autorun", "/home/securecodebox/scb-automation/2-automation.yaml"],
+      ["-autorun", "/home/securecodebox/scb-automation/2-automation.yaml"],
       60 * 31 * 1000,
       // volumes
       [{
@@ -25,9 +25,9 @@ test(
       }],
     );
 
-    expect(count).toBeGreaterThanOrEqual(5);
+    expect(count).toBeGreaterThanOrEqual(4);
   },
-  60 * 32 * 1000
+  60 * 5 * 1000
 );
 
 test(
@@ -36,7 +36,7 @@ test(
     const { count } = await scan(
       "zap-automation-juiceshop",
       "zap-automation-scan",
-      ["-host", "http://juiceshop.demo-targets.svc", "-autorun", "/home/securecodebox/scb-automation/1-automation.yaml"],
+      ["-autorun", "/home/securecodebox/scb-automation/1-automation.yaml"],
       60 * 31 * 1000,
       // volumes
       [{
@@ -51,9 +51,9 @@ test(
       }],
     );
 
-    expect(count).toBeGreaterThanOrEqual(6);
+    expect(count).toBeGreaterThanOrEqual(5);
   },
-  60 * 32 * 1000
+  60 * 5 * 1000
 );
 
 /*test(

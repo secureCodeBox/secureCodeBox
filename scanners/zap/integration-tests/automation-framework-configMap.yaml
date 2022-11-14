@@ -47,8 +47,6 @@ data:
         progressToStdout: true             # If set will write job progress to stdout
 
     jobs:
-      - type: addOns                       # Add-on management
-        install: [pscanrulesAlpha, pscanrulesBeta]                           # A list of non standard add-ons to install from the ZAP Marketplace
       - type: passiveScan-config           # Passive scan configuration
         parameters:
           maxAlertsPerRule: 10             # Int: Maximum number of alerts to raise per rule
@@ -103,8 +101,6 @@ data:
         progressToStdout: true             # If set will write job progress to stdout
 
     jobs:
-      - type: addOns                       # Add-on management
-        install: [pscanrulesAlpha, pscanrulesBeta]                           # A list of non standard add-ons to install from the ZAP Marketplace
       - type: passiveScan-config           # Passive scan configuration
         parameters:
           maxAlertsPerRule: 10             # Int: Maximum number of alerts to raise per rule
