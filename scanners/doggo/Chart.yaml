@@ -1,0 +1,29 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: v2
+name: doggo
+description: A Helm chart for the doggo based DNS Client that integrates with the secureCodeBox.
+
+type: application
+# version - gets automatically set to the secureCodeBox release version when the helm charts gets published
+version: v3.1.0-alpha1
+appVersion: "v0.5.4"
+kubeVersion: ">=v1.11.0-0"
+annotations:
+  versionApi: https://api.github.com/repos/mr-karan/doggo/releases/latest
+  # supported cpu architectures for which docker images for the scanner should be build
+  supported-platforms: linux/amd64
+keywords:
+  - security
+  - doggo
+  - scanner
+  - secureCodeBox
+home: https://www.securecodebox.io/docs/scanners/doggo
+icon: https://www.securecodebox.io/img/integrationIcons/doggo.svg # Upload new icon
+sources:
+  - https://github.com/secureCodeBox/secureCodeBox
+maintainers:
+  - name: iteratec GmbH
+    email: secureCodeBox@iteratec.com

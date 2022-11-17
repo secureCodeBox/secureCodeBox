@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should properly parse doggo json file 1`] = `
+Array [
+  Object {
+    "attributes": Object {
+      "doggy_dns_address": "192.168.0.100",
+      "doggy_dns_nameserver": "192.168.0.1:53",
+      "doggy_dns_rtt": "23ms",
+      "doggy_dns_status": "",
+      "doggy_dns_type": "A",
+    },
+    "category": "DNS Information",
+    "description": "DNS record type A found for zone example.com. with address \\"192.168.0.100\\".",
+    "location": "example.com",
+    "name": "DNS Zone: example.com. | Type: A",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+  },
+  Object {
+    "attributes": Object {
+      "doggy_dns_address": "2606:2800:220:1:248:1893:25c8:1946",
+      "doggy_dns_nameserver": "192.168.0.1:53",
+      "doggy_dns_rtt": "23ms",
+      "doggy_dns_status": "",
+      "doggy_dns_type": "AAAA",
+    },
+    "category": "DNS Information",
+    "description": "DNS record type AAAA found for zone example.com. with address \\"2606:2800:220:1:248:1893:25c8:1946\\".",
+    "location": "example.com",
+    "name": "DNS Zone: example.com. | Type: AAAA",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+  },
+  Object {
+    "attributes": Object {
+      "doggy_dns_address": "\\"v=spf1 -all\\"",
+      "doggy_dns_nameserver": "192.168.0.1:53",
+      "doggy_dns_rtt": "260ms",
+      "doggy_dns_status": "",
+      "doggy_dns_type": "TXT",
+    },
+    "category": "DNS Information",
+    "description": "DNS record type TXT found for zone example.com. with address \\"\\"v=spf1 -all\\"\\".",
+    "location": "example.com",
+    "name": "DNS Zone: example.com. | Type: TXT",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+  },
+  Object {
+    "attributes": Object {
+      "doggy_dns_address": "\\"wgyf8z8cgvm2qmxpnbnldrcltvk4xqfn\\"",
+      "doggy_dns_nameserver": "192.168.0.1:53",
+      "doggy_dns_rtt": "260ms",
+      "doggy_dns_status": "",
+      "doggy_dns_type": "TXT",
+    },
+    "category": "DNS Information",
+    "description": "DNS record type TXT found for zone example.com. with address \\"\\"wgyf8z8cgvm2qmxpnbnldrcltvk4xqfn\\"\\".",
+    "location": "example.com",
+    "name": "DNS Zone: example.com. | Type: TXT",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+  },
+  Object {
+    "attributes": Object {
+      "doggy_dns_address": "0 .",
+      "doggy_dns_nameserver": "192.168.0.1:53",
+      "doggy_dns_rtt": "106ms",
+      "doggy_dns_status": "",
+      "doggy_dns_type": "MX",
+    },
+    "category": "DNS Information",
+    "description": "DNS record type MX found for zone example.com. with address \\"0 .\\".",
+    "location": "example.com",
+    "name": "DNS Zone: example.com. | Type: MX",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+  },
+]
+`;
+
+exports[`should properly parse empty json file 1`] = `Array []`;

@@ -1,0 +1,144 @@
+[
+    {
+        "answers": [
+            {
+                "name": "example.com.",
+                "type": "A",
+                "class": "IN",
+                "ttl": "4502s",
+                "address": "192.168.0.100",
+                "status": "",
+                "rtt": "23ms",
+                "nameserver": "192.168.0.1:53"
+            }
+        ],
+        "authorities": null,
+        "questions": [
+            {
+                "name": "example.com.",
+                "type": "A",
+                "class": "IN"
+            }
+        ]
+    },
+    {
+        "answers": [
+            {
+                "name": "example.com.",
+                "type": "AAAA",
+                "class": "IN",
+                "ttl": "4502s",
+                "address": "2606:2800:220:1:248:1893:25c8:1946",
+                "status": "",
+                "rtt": "23ms",
+                "nameserver": "192.168.0.1:53"
+            }
+        ],
+        "authorities": null,
+        "questions": [
+            {
+                "name": "example.com.",
+                "type": "AAAA",
+                "class": "IN"
+            }
+        ]
+    },
+    {
+        "answers": null,
+        "authorities": [
+            {
+                "name": "example.com.",
+                "type": "SOA",
+                "class": "IN",
+                "ttl": "4502s",
+                "mname": "ns.icann.org. noc.dns.icann.org. 2022091101 7200 3600 1209600 3600",
+                "status": "NOERROR",
+                "rtt": "222ms",
+                "nameserver": "192.168.0.1:53"
+            }
+        ],
+        "questions": [
+            {
+                "name": "example.com.",
+                "type": "CNAME",
+                "class": "IN"
+            }
+        ]
+    },
+    {
+        "answers": [
+            {
+                "name": "example.com.",
+                "type": "TXT",
+                "class": "IN",
+                "ttl": "4502s",
+                "address": "\"v=spf1 -all\"",
+                "status": "",
+                "rtt": "260ms",
+                "nameserver": "192.168.0.1:53"
+            },
+            {
+                "name": "example.com.",
+                "type": "TXT",
+                "class": "IN",
+                "ttl": "4502s",
+                "address": "\"wgyf8z8cgvm2qmxpnbnldrcltvk4xqfn\"",
+                "status": "",
+                "rtt": "260ms",
+                "nameserver": "192.168.0.1:53"
+            }
+        ],
+        "authorities": null,
+        "questions": [
+            {
+                "name": "example.com.",
+                "type": "TXT",
+                "class": "IN"
+            }
+        ]
+    },
+    {
+        "answers": [
+            {
+                "name": "example.com.",
+                "type": "MX",
+                "class": "IN",
+                "ttl": "4502s",
+                "address": "0 .",
+                "status": "",
+                "rtt": "106ms",
+                "nameserver": "192.168.0.1:53"
+            }
+        ],
+        "authorities": null,
+        "questions": [
+            {
+                "name": "example.com.",
+                "type": "MX",
+                "class": "IN"
+            }
+        ]
+    },
+    {
+        "answers": null,
+        "authorities": [
+            {
+                "name": "example.com.",
+                "type": "SOA",
+                "class": "IN",
+                "ttl": "4502s",
+                "mname": "ns.icann.org. noc.dns.icann.org. 2022091101 7200 3600 1209600 3600",
+                "status": "NOERROR",
+                "rtt": "121ms",
+                "nameserver": "192.168.0.1:53"
+            }
+        ],
+        "questions": [
+            {
+                "name": "example.com.",
+                "type": "SRV",
+                "class": "IN"
+            }
+        ]
+    }
+]

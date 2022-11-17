@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "doggo-localhost"
+spec:
+  scanType: "doggo"
+  parameters:
+    - "-invalidFlag"
+    - example.com
+

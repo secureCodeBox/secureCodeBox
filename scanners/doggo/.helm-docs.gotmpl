@@ -1,0 +1,50 @@
+{{- /*
+SPDX-FileCopyrightText: the secureCodeBox authors
+
+SPDX-License-Identifier: Apache-2.0
+*/ -}}
+
+{{- define "extra.docsSection" -}}
+---
+title: "doggo"
+category: "scanner"
+type: "Network"
+state: "released"
+appVersion: "{{ template "chart.appVersion" . }}"
+usecase: "NEW SCANNER USECASE"
+---
+
+ADD A [LOGO]() HERE!
+
+{{- end }}
+
+{{- define "extra.dockerDeploymentSection" -}}
+## Supported Tags
+- `latest`  (represents the latest stable release build)
+- tagged releases, e.g. `{{ template "chart.appVersion" . }}`
+{{- end }}
+
+{{- define "extra.chartAboutSection" -}}
+## What is doggo?
+
+Please write some information about the new scanner.
+{{- end }}
+
+{{- define "extra.scannerConfigurationSection" -}}
+
+Please write how to configure the scanner
+
+{{- end }}
+
+{{- define "extra.chartConfigurationSection" -}}
+
+Please include any extra Helm chart configurations that can be useful.
+
+{{- end }}
+
+{{- define "extra.scannerLinksSection" -}}
+
+Please include any links that can be used as a reference for the scanner.
+
+{{- end }}
+
