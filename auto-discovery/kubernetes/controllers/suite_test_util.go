@@ -15,7 +15,20 @@ var Config = configv1.AutoDiscoveryConfig{
 		PassiveReconcileInterval: metav1.Duration{Duration: 1 * time.Second},
 		ScanConfigs: []configv1.ScanConfig{
 			{
-				Name:           "test-scan",
+				Name:           "test-scan-0",
+				RepeatInterval: metav1.Duration{Duration: time.Hour},
+				Annotations:    map[string]string{},
+				Labels:         map[string]string{},
+				Parameters:     []string{"-p", "{{ .Host.Port }}", "{{ .Service.Name }}.{{ .Service.Namespace }}.svc"},
+				ScanType:       "nmap",
+				HookSelector: metav1.LabelSelector{
+					MatchLabels: map[string]string{
+						"foo": "bar",
+					},
+				},
+			},
+			{
+				Name:           "test-scan-1",
 				RepeatInterval: metav1.Duration{Duration: time.Hour},
 				Annotations:    map[string]string{},
 				Labels:         map[string]string{},
