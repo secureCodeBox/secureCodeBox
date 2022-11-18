@@ -417,6 +417,11 @@ func generateScanLabels(currentLabels map[string]string, scanConfig configv1.Sca
 
 // SetupWithManager sets up the controller and initializes every thing it needs
 func (r *ServiceScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	err := util.CheckUniquenessOfScanNames(r.Config.ContainerAutoDiscoveryConfig.ScanConfigs)
+	if err != nil {
+		r.Log.Error(err, "Scan names are not unique")
+	}
+
 	ctx := context.Background()
 	if err := mgr.GetFieldIndexer().IndexField(ctx, &executionv1.ScheduledScan{}, ".metadata.service-controller", func(rawObj client.Object) []string {
 		// grab the job object, extract the owner...
