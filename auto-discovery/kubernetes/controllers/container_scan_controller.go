@@ -6,6 +6,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"regexp"
 	"strings"
 
@@ -74,8 +75,8 @@ func (r *ContainerScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 
 	if pod.DeletionTimestamp == nil {
 
-		scanTypeInstalled := r.checkForScanType(ctx, pod)
-		if scanTypeInstalled {
+		scanTypesInstalled := r.checkForScanTypes(ctx, pod)
+		if scanTypesInstalled {
 			r.checkIfNewScansNeedToBeCreated(ctx, pod)
 		} else {
 			requeueDuration := r.Config.ContainerAutoDiscoveryConfig.PassiveReconcileInterval.Duration
@@ -111,21 +112,24 @@ func (r *ContainerScanReconciler) checkIfNewScansNeedToBeCreated(ctx context.Con
 	r.createScheduledScans(ctx, pod, nonScannedImageIDs)
 }
 
-func (r *ContainerScanReconciler) getNonScannedImageIDs(ctx context.Context, pod corev1.Pod) []string {
-	var result []string
+func (r *ContainerScanReconciler) getNonScannedImageIDs(ctx context.Context, pod corev1.Pod) map[string]configv1.ScanConfig {
+	result := make(map[string]configv1.ScanConfig)
 	allImageIDs := getImageIDsForPod(pod)
 
 	for _, imageID := range allImageIDs {
 		cleanedImageID := cleanupImageID(imageID, r.Log)
-		scanName := getScanName(cleanedImageID)
 
-		var scan executionv1.ScheduledScan
-		err := r.Client.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
+		for _, scanConfig := range r.Config.ContainerAutoDiscoveryConfig.ScanConfigs {
+			scanName := getScanName(cleanedImageID, scanConfig.ScanType)
 
-		if apierrors.IsNotFound(err) {
-			result = append(result, cleanedImageID)
-		} else if err != nil {
-			r.Log.Error(err, "Unable to fetch scan", "name", scanName, "namespace", pod.Namespace)
+			var scan executionv1.ScheduledScan
+			err := r.Client.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
+
+			if apierrors.IsNotFound(err) {
+				result[cleanedImageID] = scanConfig
+			} else if err != nil {
+				r.Log.Error(err, "Unable to fetch scan", "name", scanName, "namespace", pod.Namespace)
+			}
 		}
 	}
 	return result
@@ -151,7 +155,7 @@ func cleanupImageID(imageID string, log logr.Logger) string {
 	return imageRegex.FindStringSubmatch(imageID)[2]
 }
 
-func getScanName(imageID string) string {
+func getScanName(imageID string, scanType string) string {
 	//function builds string like: _appName_-at-_imageID_HASH_ eg: nginx-at-0123456789
 
 	//define appname cutoff limit to 20 chars
@@ -162,12 +166,11 @@ func getScanName(imageID string) string {
 	hash := hashRegex.FindStringSubmatch(imageID)[2]
 
 	//cutoff appname if it is longer than 20 chars
-	result := appName
-	if len(result) > maxAppLength {
-		result = result[:maxAppLength]
+	if len(appName) > maxAppLength {
+		appName = appName[:maxAppLength]
 	}
 
-	result += "-at-" + hash
+	result := fmt.Sprintf("%s-%s-at-%s", scanType, appName, hash)
 
 	result = strings.ReplaceAll(result, ".", "-")
 	result = strings.ReplaceAll(result, "/", "-")
@@ -176,17 +179,17 @@ func getScanName(imageID string) string {
 	return result[:62]
 }
 
-func (r *ContainerScanReconciler) createScheduledScans(ctx context.Context, pod corev1.Pod, imageIDs []string) {
+func (r *ContainerScanReconciler) createScheduledScans(ctx context.Context, pod corev1.Pod, scansToBeCreated map[string]configv1.ScanConfig) {
 	secretsDefined, secrets := checkForImagePullSecrets(pod)
 	mapSecretsToEnv := r.Config.ContainerAutoDiscoveryConfig.ImagePullSecretConfig.MapImagePullSecretsToEnvironmentVariables
 
-	for _, imageID := range imageIDs {
+	for imageID, scan := range scansToBeCreated {
 		if secretsDefined {
 			if mapSecretsToEnv {
-				r.createScheduledScanWithImagePullSecrets(ctx, pod, imageID, secrets)
+				r.createScheduledScanWithImagePullSecrets(ctx, pod, imageID, scan, secrets)
 			}
 		} else {
-			r.createScheduledScan(ctx, pod, imageID)
+			r.createScheduledScan(ctx, pod, imageID, scan)
 		}
 	}
 }
@@ -197,10 +200,10 @@ func checkForImagePullSecrets(pod corev1.Pod) (bool, []corev1.LocalObjectReferen
 	return secretsDefined, imagePullSecrets
 }
 
-func (r *ContainerScanReconciler) createScheduledScan(ctx context.Context, pod corev1.Pod, imageID string) {
+func (r *ContainerScanReconciler) createScheduledScan(ctx context.Context, pod corev1.Pod, imageID string, scanConfig configv1.ScanConfig) {
 	namespace := r.getNamespace(ctx, pod)
 
-	newScheduledScan := r.generateScan(pod, imageID, namespace)
+	newScheduledScan := r.generateScan(pod, imageID, scanConfig, namespace)
 	err := r.Client.Create(ctx, &newScheduledScan)
 
 	if err != nil {
@@ -210,10 +213,10 @@ func (r *ContainerScanReconciler) createScheduledScan(ctx context.Context, pod c
 	}
 }
 
-func (r *ContainerScanReconciler) createScheduledScanWithImagePullSecrets(ctx context.Context, pod corev1.Pod, imageID string, secrets []corev1.LocalObjectReference) {
+func (r *ContainerScanReconciler) createScheduledScanWithImagePullSecrets(ctx context.Context, pod corev1.Pod, imageID string, scanConfig configv1.ScanConfig, secrets []corev1.LocalObjectReference) {
 	namespace := r.getNamespace(ctx, pod)
 
-	newScheduledScan := r.generateScanWithVolumeMounts(pod, imageID, namespace, secrets)
+	newScheduledScan := r.generateScanWithVolumeMounts(pod, imageID, scanConfig, namespace, secrets)
 	err := r.Client.Create(ctx, &newScheduledScan)
 
 	if err != nil {
@@ -233,8 +236,7 @@ func (r *ContainerScanReconciler) getNamespace(ctx context.Context, pod corev1.P
 	return result
 }
 
-func (r *ContainerScanReconciler) generateScan(pod corev1.Pod, imageID string, namespace corev1.Namespace) executionv1.ScheduledScan {
-	scanConfig := r.Config.ContainerAutoDiscoveryConfig.ScanConfig
+func (r *ContainerScanReconciler) generateScan(pod corev1.Pod, imageID string, scanConfig configv1.ScanConfig, namespace corev1.Namespace) executionv1.ScheduledScan {
 	templateArgs := ContainerAutoDiscoveryTemplateArgs{
 		Config:     r.Config,
 		ScanConfig: scanConfig,
@@ -247,7 +249,7 @@ func (r *ContainerScanReconciler) generateScan(pod corev1.Pod, imageID string, n
 
 	newScheduledScan := executionv1.ScheduledScan{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:        getScanName(imageID),
+			Name:        getScanName(imageID, scanConfig.ScanType),
 			Namespace:   pod.Namespace,
 			Annotations: getScanAnnotations(scanConfig, templateArgs),
 			Labels:      getScanLabels(scanConfig, templateArgs),
@@ -257,8 +259,7 @@ func (r *ContainerScanReconciler) generateScan(pod corev1.Pod, imageID string, n
 	return newScheduledScan
 }
 
-func (r *ContainerScanReconciler) generateScanWithVolumeMounts(pod corev1.Pod, imageID string, namespace corev1.Namespace, secrets []corev1.LocalObjectReference) executionv1.ScheduledScan {
-	scanConfig := r.Config.ContainerAutoDiscoveryConfig.ScanConfig
+func (r *ContainerScanReconciler) generateScanWithVolumeMounts(pod corev1.Pod, imageID string, scanConfig configv1.ScanConfig, namespace corev1.Namespace, secrets []corev1.LocalObjectReference) executionv1.ScheduledScan {
 	templateArgs := ContainerAutoDiscoveryTemplateArgs{
 		Config:     r.Config,
 		ScanConfig: scanConfig,
@@ -380,19 +381,23 @@ func getTemporarySecretEnvironmentVariableMount(imageID string, usernameEnvVarNa
 	}
 }
 
-func (r *ContainerScanReconciler) checkForScanType(ctx context.Context, pod corev1.Pod) bool {
+func (r *ContainerScanReconciler) checkForScanTypes(ctx context.Context, pod corev1.Pod) bool {
+	result := true
 	namespace := r.getNamespace(ctx, pod)
 
-	scanTypeName := r.Config.ContainerAutoDiscoveryConfig.ScanConfig.ScanType
-	scanType := executionv1.ScanType{}
-	err := r.Get(ctx, types.NamespacedName{Name: scanTypeName, Namespace: namespace.Name}, &scanType)
-	if errors.IsNotFound(err) {
-		r.Log.Info("Namespace requires configured ScanType to properly start automatic scans.", "namespace", namespace.Name, "service", pod.Name, "scanType", scanTypeName)
-		// Add event to pod to communicate failure to user
-		r.Recorder.Event(&pod, "Warning", "ScanTypeMissing", "Namespace requires ScanType '"+scanTypeName+"' to properly start automatic scans.")
-		return false
+	scanConfigs := r.Config.ContainerAutoDiscoveryConfig.ScanConfigs
+	for _, scanConfig := range scanConfigs {
+		scanTypeName := scanConfig.ScanType
+		scanType := executionv1.ScanType{}
+		err := r.Get(ctx, types.NamespacedName{Name: scanTypeName, Namespace: namespace.Name}, &scanType)
+		if errors.IsNotFound(err) {
+			r.Log.Info("Namespace requires configured ScanType to properly start automatic scans.", "namespace", namespace.Name, "service", pod.Name, "scanType", scanTypeName)
+			// Add event to pod to communicate failure to user
+			r.Recorder.Event(&pod, "Warning", "ScanTypeMissing", "Namespace requires ScanType '"+scanTypeName+"' to properly start automatic scans.")
+			result = false
+		}
 	}
-	return true
+	return result
 }
 
 func (r *ContainerScanReconciler) checkIfScansNeedToBeDeleted(ctx context.Context, pod corev1.Pod) {
@@ -402,19 +407,22 @@ func (r *ContainerScanReconciler) checkIfScansNeedToBeDeleted(ctx context.Contex
 	r.deleteScans(ctx, pod, imageIDsToBeDeleted)
 }
 
-func (r *ContainerScanReconciler) getOrphanedScanImageIDs(ctx context.Context, pod corev1.Pod, imageIDs []string) []string {
-	var result []string
+func (r *ContainerScanReconciler) getOrphanedScanImageIDs(ctx context.Context, pod corev1.Pod, imageIDs []string) map[string]configv1.ScanConfig {
+	result := make(map[string]configv1.ScanConfig)
 
 	for _, imageID := range imageIDs {
 		cleanedImageID := cleanupImageID(imageID, r.Log)
-		scanName := getScanName(cleanedImageID)
 
-		var scan executionv1.ScheduledScan
-		err := r.Client.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
-		if err != nil {
-			r.Log.Error(err, "Unable to fetch scan", "name", scanName)
-		} else if !r.containerIDInUse(ctx, pod, imageID) {
-			result = append(result, cleanedImageID)
+		for _, scanConfig := range r.Config.ContainerAutoDiscoveryConfig.ScanConfigs {
+			scanName := getScanName(cleanedImageID, scanConfig.ScanType)
+
+			var scan executionv1.ScheduledScan
+			err := r.Client.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
+			if err != nil {
+				r.Log.Error(err, "Unable to fetch scan", "name", scanName)
+			} else if !r.containerIDInUse(ctx, pod, imageID) {
+				result[cleanedImageID] = scanConfig
+			}
 		}
 	}
 	return result
@@ -444,9 +452,9 @@ func searchForImageIDInPods(pods []corev1.Pod, targetImageID string) bool {
 	return false
 }
 
-func (r *ContainerScanReconciler) deleteScans(ctx context.Context, pod corev1.Pod, imageIDs []string) {
-	for _, imageID := range imageIDs {
-		scan, err := r.getScan(ctx, pod, imageID)
+func (r *ContainerScanReconciler) deleteScans(ctx context.Context, pod corev1.Pod, scansToBeDeleted map[string]configv1.ScanConfig) {
+	for imageID, scanConfig := range scansToBeDeleted {
+		scan, err := r.getScan(ctx, pod, imageID, scanConfig)
 
 		if err != nil {
 			r.Log.Error(err, "Unable to fetch scan", "pod", pod, "imageID", imageID)
@@ -462,9 +470,9 @@ func (r *ContainerScanReconciler) deleteScans(ctx context.Context, pod corev1.Po
 	}
 }
 
-func (r *ContainerScanReconciler) getScan(ctx context.Context, pod corev1.Pod, imageID string) (executionv1.ScheduledScan, error) {
+func (r *ContainerScanReconciler) getScan(ctx context.Context, pod corev1.Pod, imageID string, scanConfig configv1.ScanConfig) (executionv1.ScheduledScan, error) {
 	var scan executionv1.ScheduledScan
-	scanName := getScanName(imageID)
+	scanName := getScanName(imageID, scanConfig.ScanType)
 	err := r.Client.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
 	return scan, err
 }

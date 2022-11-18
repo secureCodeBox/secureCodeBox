@@ -110,133 +110,131 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 			RequeueAfter: requeueInterval,
 		}, nil
 	}
-	for _, scanConfig,  in range r.Config.ServiceAutoDiscoveryConfig.ScanConfigs {
+	for _, scanConfig := range r.Config.ServiceAutoDiscoveryConfig.ScanConfigs {
 		for _, host := range getHostPorts(service) {
-		// Checking if we already have run a scan against this version
-		var scans executionv1.ScheduledScanList
+			// Checking if we already have run a scan against this version
+			var scans executionv1.ScheduledScanList
 
-		// construct a map of labels which can be used to lookup the scheduledScan created for this service
-		versionedLabels := map[string]string{
-			"auto-discovery.securecodebox.io/target-service": service.Name,
-			"auto-discovery.securecodebox.io/target-port":    fmt.Sprintf("%d", host.Port),
-			"auto-discovery.securecodebox.io/scan-type":      scanConfig.ScanType,
-			"app.kubernetes.io/managed-by":                   "securecodebox-autodiscovery",
-
-		}
-		for containerName, podDigest := range podDigests {
-			// The map should only contain one entry at this point. As the reconciler breaks (see containerDigestsAllMatch) if the services points to a list pods with different digests per container name
-			for digest := range podDigest {
-				versionedLabels[fmt.Sprintf("digest.auto-discovery.securecodebox.io/%s", containerName)] = digest[0:min(len(digest), 63)]
-				break
+			// construct a map of labels which can be used to lookup the scheduledScan created for this service
+			versionedLabels := map[string]string{
+				"auto-discovery.securecodebox.io/target-service": service.Name,
+				"auto-discovery.securecodebox.io/target-port":    fmt.Sprintf("%d", host.Port),
+				"auto-discovery.securecodebox.io/scan-type":      scanConfig.ScanType,
+				"app.kubernetes.io/managed-by":                   "securecodebox-autodiscovery",
 			}
-		}
-
-		r.Client.List(ctx, &scans, client.MatchingLabels(versionedLabels), client.InNamespace(service.Namespace))
-		log.V(8).Info("Got ScheduledScans for Service in the exact same version", "scheduledScans", len(scans.Items), "service", service.Name, "namespace", service.Namespace)
-
-		if len(scans.Items) != 0 {
-			log.V(8).Info("Service Version was already scanned. Skipping.", "service", service.Name, "namespace", service.Namespace)
-			continue
-		}
-
-		var previousScan executionv1.ScheduledScan
-		err := r.Client.Get(ctx, types.NamespacedName{Name: fmt.Sprintf("%s-service-port-%d", service.Name, host.Port), Namespace: service.Namespace}, &previousScan)
-
-		// generate the scan spec for the current state of the service
-		templateArgs := ServiceAutoDiscoveryTemplateArgs{
-			Config:     r.Config,
-			ScanConfig: scanConfig,
-			Cluster:    r.Config.Cluster,
-			Target:     service.ObjectMeta,
-			Service:    service,
-			Namespace:  namespace,
-			Host:       host,
-		}
-		scanSpec := util.GenerateScanSpec(scanConfig, templateArgs)
-
-		if apierrors.IsNotFound(err) {
-			// service was never scanned
-			log.Info("Discovered new unscanned service, scanning it now", "service", service.Name, "namespace", service.Namespace)
-
-			versionedLabels = generateScanLabels(versionedLabels, scanConfig, templateArgs)
-
-			// No scan for this pod digest yet. Scanning now
-			scan := executionv1.ScheduledScan{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:        fmt.Sprintf("%s-service-port-%s-%d", service.Name, scanConfig.ScanType, host.Port),
-					Namespace:   service.Namespace,
-					Labels:      versionedLabels,
-					Annotations: generateScanAnnotations(service.Annotations, scanConfig, templateArgs),
-				},
-				Spec: scanSpec,
+			for containerName, podDigest := range podDigests {
+				// The map should only contain one entry at this point. As the reconciler breaks (see containerDigestsAllMatch) if the services points to a list pods with different digests per container name
+				for digest := range podDigest {
+					versionedLabels[fmt.Sprintf("digest.auto-discovery.securecodebox.io/%s", containerName)] = digest[0:min(len(digest), 63)]
+					break
+				}
 			}
 
+			r.Client.List(ctx, &scans, client.MatchingLabels(versionedLabels), client.InNamespace(service.Namespace))
+			log.V(8).Info("Got ScheduledScans for Service in the exact same version", "scheduledScans", len(scans.Items), "service", service.Name, "namespace", service.Namespace)
 
-			// Ensure ScanType actually exists
-			scanTypeName := scanConfig.ScanType
-			scanType := executionv1.ScanType{}
-			err := r.Get(ctx, types.NamespacedName{Name: scanTypeName, Namespace: service.Namespace}, &scanType)
-			if errors.IsNotFound(err) {
-				log.Info("Namespace requires configured ScanType to properly start automatic scans.", "namespace", service.Namespace, "service", service.Name, "scanType", scanTypeName)
-				// Add event to service to communicate failure to user
-				r.Recorder.Event(&service, "Warning", "ScanTypeMissing", "Namespace requires ScanType '"+scanTypeName+"' to properly start automatic scans.")
+			if len(scans.Items) != 0 {
+				log.V(8).Info("Service Version was already scanned. Skipping.", "service", service.Name, "namespace", service.Namespace)
+				continue
+			}
 
-				// Requeue to allow scan to be created when the user installs the scanType
-				return ctrl.Result{
-					Requeue:      true,
-					RequeueAfter: r.Config.ServiceAutoDiscoveryConfig.PassiveReconcileInterval.Duration,
-				}, nil
+			var previousScan executionv1.ScheduledScan
+			err := r.Client.Get(ctx, types.NamespacedName{Name: fmt.Sprintf("%s-service-port-%d", service.Name, host.Port), Namespace: service.Namespace}, &previousScan)
+
+			// generate the scan spec for the current state of the service
+			templateArgs := ServiceAutoDiscoveryTemplateArgs{
+				Config:     r.Config,
+				ScanConfig: scanConfig,
+				Cluster:    r.Config.Cluster,
+				Target:     service.ObjectMeta,
+				Service:    service,
+				Namespace:  namespace,
+				Host:       host,
+			}
+			scanSpec := util.GenerateScanSpec(scanConfig, templateArgs)
+
+			if apierrors.IsNotFound(err) {
+				// service was never scanned
+				log.Info("Discovered new unscanned service, scanning it now", "service", service.Name, "namespace", service.Namespace)
+
+				versionedLabels = generateScanLabels(versionedLabels, scanConfig, templateArgs)
+
+				// No scan for this pod digest yet. Scanning now
+				scan := executionv1.ScheduledScan{
+					ObjectMeta: metav1.ObjectMeta{
+						Name:        fmt.Sprintf("%s-service-port-%s-%d", service.Name, scanConfig.ScanType, host.Port),
+						Namespace:   service.Namespace,
+						Labels:      versionedLabels,
+						Annotations: generateScanAnnotations(service.Annotations, scanConfig, templateArgs),
+					},
+					Spec: scanSpec,
+				}
+
+				// Ensure ScanType actually exists
+				scanTypeName := scanConfig.ScanType
+				scanType := executionv1.ScanType{}
+				err := r.Get(ctx, types.NamespacedName{Name: scanTypeName, Namespace: service.Namespace}, &scanType)
+				if errors.IsNotFound(err) {
+					log.Info("Namespace requires configured ScanType to properly start automatic scans.", "namespace", service.Namespace, "service", service.Name, "scanType", scanTypeName)
+					// Add event to service to communicate failure to user
+					r.Recorder.Event(&service, "Warning", "ScanTypeMissing", "Namespace requires ScanType '"+scanTypeName+"' to properly start automatic scans.")
+
+					// Requeue to allow scan to be created when the user installs the scanType
+					return ctrl.Result{
+						Requeue:      true,
+						RequeueAfter: r.Config.ServiceAutoDiscoveryConfig.PassiveReconcileInterval.Duration,
+					}, nil
+				} else if err != nil {
+					return ctrl.Result{
+						Requeue:      true,
+						RequeueAfter: requeueInterval,
+					}, err
+				}
+
+				err = ctrl.SetControllerReference(&service, &scan, r.Scheme)
+				if err != nil {
+					log.Error(err, "Unable to set owner of scan", "scan", scan, "service", service)
+				}
+
+				err = r.Create(ctx, &scan)
+				if err != nil {
+					log.Error(err, "Failed to create ScheduledScan", "service", service.Name)
+				}
+
 			} else if err != nil {
-				return ctrl.Result{
-					Requeue:      true,
-					RequeueAfter: requeueInterval,
-				}, err
-			}
+				log.Error(err, "Failed to lookup ScheduledScan", "service", service.Name, "namespace", service.Namespace)
+			} else {
+				// Service was scanned before, but for a different version
+				log.Info("Previously scanned service was updated. Repeating scan now.", "service", service.Name, "scheduledScan", previousScan.Name, "namespace", service.Namespace)
 
-			err = ctrl.SetControllerReference(&service, &scan, r.Scheme)
-			if err != nil {
-				log.Error(err, "Unable to set owner of scan", "scan", scan, "service", service)
-			}
+				// label is added after the initial query as it was added later and isn't guaranteed to be on every auto-discovery managed scan.
+				versionedLabels["app.kubernetes.io/managed-by"] = "securecodebox-autodiscovery"
+				versionedLabels = generateScanLabels(versionedLabels, scanConfig, templateArgs)
 
-			err = r.Create(ctx, &scan)
-			if err != nil {
-				log.Error(err, "Failed to create ScheduledScan", "service", service.Name)
-			}
+				previousScan.ObjectMeta.Labels = versionedLabels
+				previousScan.ObjectMeta.Annotations = generateScanAnnotations(service.Annotations, scanConfig, templateArgs)
+				previousScan.Spec = scanSpec
 
-		} else if err != nil {
-			log.Error(err, "Failed to lookup ScheduledScan", "service", service.Name, "namespace", service.Namespace)
-		} else {
-			// Service was scanned before, but for a different version
-			log.Info("Previously scanned service was updated. Repeating scan now.", "service", service.Name, "scheduledScan", previousScan.Name, "namespace", service.Namespace)
+				log.V(8).Info("Updating previousScan Spec")
+				err := r.Update(ctx, &previousScan)
+				if err != nil {
+					log.Error(err, "Failed to update ScheduledScan", "service", service.Name, "namespace", service.Namespace)
+					return ctrl.Result{
+						Requeue: true,
+					}, err
+				}
 
-			// label is added after the initial query as it was added later and isn't guaranteed to be on every auto-discovery managed scan.
-			versionedLabels["app.kubernetes.io/managed-by"] = "securecodebox-autodiscovery"
-			versionedLabels = generateScanLabels(versionedLabels, scanConfig, templateArgs)
-
-			previousScan.ObjectMeta.Labels = versionedLabels
-			previousScan.ObjectMeta.Annotations = generateScanAnnotations(service.Annotations, scanConfig, templateArgs)
-			previousScan.Spec = scanSpec
-
-			log.V(8).Info("Updating previousScan Spec")
-			err := r.Update(ctx, &previousScan)
-			if err != nil {
-				log.Error(err, "Failed to update ScheduledScan", "service", service.Name, "namespace", service.Namespace)
-				return ctrl.Result{
-					Requeue: true,
-				}, err
-			}
-
-			log.V(8).Info("Restarting existing scheduledScan", "service", service.Name, "namespace", service.Namespace, "scheduledScan", previousScan.Name)
-			err = restartScheduledScan(ctx, r.Status(), previousScan)
-			if err != nil {
-				log.Error(err, "Failed restart ScheduledScan", "service", service.Name, "namespace", service.Namespace, "scheduledScan", previousScan.Name)
-				return ctrl.Result{
-					Requeue: true,
-				}, err
+				log.V(8).Info("Restarting existing scheduledScan", "service", service.Name, "namespace", service.Namespace, "scheduledScan", previousScan.Name)
+				err = restartScheduledScan(ctx, r.Status(), previousScan)
+				if err != nil {
+					log.Error(err, "Failed restart ScheduledScan", "service", service.Name, "namespace", service.Namespace, "scheduledScan", previousScan.Name)
+					return ctrl.Result{
+						Requeue: true,
+					}, err
+				}
 			}
 		}
 	}
-}
 	return ctrl.Result{
 		Requeue:      true,
 		RequeueAfter: r.Config.ServiceAutoDiscoveryConfig.PassiveReconcileInterval.Duration,

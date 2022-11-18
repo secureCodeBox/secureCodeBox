@@ -37,7 +37,7 @@ var _ = Describe("ContainerScan controller", func() {
 		namespace := "container-auto-discovery"
 		ctx := context.Background()
 
-		nginxScanName := "nginx-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
+		nginxScanName := "nmap-nginx-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
 		nginxScanName = nginxScanName[:62]
 		nginxScanGoTemplate := scanGoTemplate{
 			map[string]string{"testAnnotation": namespace},
@@ -51,7 +51,7 @@ var _ = Describe("ContainerScan controller", func() {
 			nil,
 		}
 
-		juiceShopScanName := "juice-shop-at-9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2"
+		juiceShopScanName := "nmap-juice-shop-at-9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2"
 		juiceShopScanName = juiceShopScanName[:62]
 		juiceShopScanGoTemplate := scanGoTemplate{
 			map[string]string{"testAnnotation": namespace},
