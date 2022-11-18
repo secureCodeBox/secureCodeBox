@@ -120,7 +120,7 @@ func (r *ContainerScanReconciler) getNonScannedImageIDs(ctx context.Context, pod
 		cleanedImageID := cleanupImageID(imageID, r.Log)
 
 		for _, scanConfig := range r.Config.ContainerAutoDiscoveryConfig.ScanConfigs {
-			scanName := getScanName(cleanedImageID, scanConfig.ScanType)
+			scanName := getScanName(cleanedImageID, scanConfig)
 
 			var scan executionv1.ScheduledScan
 			err := r.Client.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
@@ -155,8 +155,8 @@ func cleanupImageID(imageID string, log logr.Logger) string {
 	return imageRegex.FindStringSubmatch(imageID)[2]
 }
 
-func getScanName(imageID string, scanType string) string {
-	//function builds string like: _appName_-at-_imageID_HASH_ eg: nginx-at-0123456789
+func getScanName(imageID string, scanConfig configv1.ScanConfig) string {
+	//function builds string like: _appName_-_customScanName_-at-_imageID_HASH_ eg: nginx-myTrivyScan-at-0123456789
 
 	//define appname cutoff limit to 20 chars
 	maxAppLength := 20
@@ -170,7 +170,7 @@ func getScanName(imageID string, scanType string) string {
 		appName = appName[:maxAppLength]
 	}
 
-	result := fmt.Sprintf("%s-%s-at-%s", scanType, appName, hash)
+	result := fmt.Sprintf("%s-%s-at-%s", appName, scanConfig.Name, hash)
 
 	result = strings.ReplaceAll(result, ".", "-")
 	result = strings.ReplaceAll(result, "/", "-")
@@ -249,7 +249,7 @@ func (r *ContainerScanReconciler) generateScan(pod corev1.Pod, imageID string, s
 
 	newScheduledScan := executionv1.ScheduledScan{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:        getScanName(imageID, scanConfig.ScanType),
+			Name:        getScanName(imageID, scanConfig),
 			Namespace:   pod.Namespace,
 			Annotations: getScanAnnotations(scanConfig, templateArgs),
 			Labels:      getScanLabels(scanConfig, templateArgs),
@@ -414,7 +414,7 @@ func (r *ContainerScanReconciler) getOrphanedScanImageIDs(ctx context.Context, p
 		cleanedImageID := cleanupImageID(imageID, r.Log)
 
 		for _, scanConfig := range r.Config.ContainerAutoDiscoveryConfig.ScanConfigs {
-			scanName := getScanName(cleanedImageID, scanConfig.ScanType)
+			scanName := getScanName(cleanedImageID, scanConfig)
 
 			var scan executionv1.ScheduledScan
 			err := r.Client.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
@@ -472,7 +472,7 @@ func (r *ContainerScanReconciler) deleteScans(ctx context.Context, pod corev1.Po
 
 func (r *ContainerScanReconciler) getScan(ctx context.Context, pod corev1.Pod, imageID string, scanConfig configv1.ScanConfig) (executionv1.ScheduledScan, error) {
 	var scan executionv1.ScheduledScan
-	scanName := getScanName(imageID, scanConfig.ScanType)
+	scanName := getScanName(imageID, scanConfig)
 	err := r.Client.Get(ctx, types.NamespacedName{Name: scanName, Namespace: pod.Namespace}, &scan)
 	return scan, err
 }
