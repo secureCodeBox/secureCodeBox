@@ -27,63 +27,63 @@ config:
     passiveReconcileInterval: 1m
     scanConfig:
       # -- scanType used for the scans created by the serviceAutoDiscovery
-      scanType: zap-advanced-scan
-      # -- parameters used for the scans created by the serviceAutoDiscovery, all parameters support templating
-      parameters:
-        - "-t"
-        - "{{ .Host.Type }}://{{ .Service.Name }}.{{ .Service.Namespace }}.svc:{{ .Host.Port }}"
-      # -- interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset.
-      repeatInterval: "168h"
-      # -- labels to be added to the scans started by the auto-discovery, all label values support templating
-      labels: {}
-      # -- annotations to be added to the scans started by the auto-discovery, all annotation values support templating
-      annotations:
-        defectdojo.securecodebox.io/product-name: "{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}"
-        defectdojo.securecodebox.io/product-tags: "cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"
-        defectdojo.securecodebox.io/engagement-name: "{{ .Target.Name }}"
-        defectdojo.securecodebox.io/engagement-version: "{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}"
-      # -- volumes to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes
-      # the fields: `name`, `secret.secretName`, `configMap.name` of each volume support templating
-      volumes: []
-      # -- volumeMounts to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1
-      # the fields: `name`, `mountPath`, `subPath`, `subPathExpr` of each volumeMount support templating
-      volumeMounts: []
-      # -- HookSelector allows to specify a LabelSelector with which the hooks are selected, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors
-      # Both matchLabels and matchExpressions are supported.
-      # All values in the matchLabels map support templating.
-      # MatchExpressions support templating in the `key` field and in every entry in the `values` list. If a value in the list renders to an empty string it is removed from the list.
-      hookSelector: {}
+      - scanType: zap-advanced-scan
+        # -- parameters used for the scans created by the serviceAutoDiscovery, all parameters support templating
+        parameters:
+          - "-t"
+          - "{{ .Host.Type }}://{{ .Service.Name }}.{{ .Service.Namespace }}.svc:{{ .Host.Port }}"
+        # -- interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset.
+        repeatInterval: "168h"
+        # -- labels to be added to the scans started by the auto-discovery, all label values support templating
+        labels: {}
+        # -- annotations to be added to the scans started by the auto-discovery, all annotation values support templating
+        annotations:
+          defectdojo.securecodebox.io/product-name: "{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}"
+          defectdojo.securecodebox.io/product-tags: "cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"
+          defectdojo.securecodebox.io/engagement-name: "{{ .Target.Name }}"
+          defectdojo.securecodebox.io/engagement-version: "{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}"
+        # -- volumes to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes
+        # the fields: `name`, `secret.secretName`, `configMap.name` of each volume support templating
+        volumes: []
+        # -- volumeMounts to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1
+        # the fields: `name`, `mountPath`, `subPath`, `subPathExpr` of each volumeMount support templating
+        volumeMounts: []
+        # -- HookSelector allows to specify a LabelSelector with which the hooks are selected, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors
+        # Both matchLabels and matchExpressions are supported.
+        # All values in the matchLabels map support templating.
+        # MatchExpressions support templating in the `key` field and in every entry in the `values` list. If a value in the list renders to an empty string it is removed from the list.
+        hookSelector: {}
 
   containerAutoDiscovery:
     enabled: false
     # -- interval in which every pod is re-checked for updates, currently used to periodically check if the configured scantype is installed in the namespace of the pod
     passiveReconcileInterval: 1m
     scanConfig:
-      scanType: trivy-image-autodiscovery
-      # -- parameters used for the scans created by the containerAutoDiscovery, all parameters support templating
-      parameters:
-        - "{{ .ImageID }}"
-      # -- interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset.
-      repeatInterval: "168h"
-      # -- labels to be added to the scans started by the auto-discovery, all label values support templating
-      labels: {}
-      # -- annotations to be added to the scans started by the auto-discovery, all annotation values support templating
-      annotations:
-        defectdojo.securecodebox.io/product-name: "{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}"
-        defectdojo.securecodebox.io/product-tags: "cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"
-        defectdojo.securecodebox.io/engagement-name: "{{ .Target.Name }}"
-        defectdojo.securecodebox.io/engagement-version: "{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}"
-      # -- volumes to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes
-      # the fields: `name`, `secret.secretName`, `configMap.name` of each volume support templating
-      volumes: []
-      # -- volumeMounts to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1
-      # the fields: `name`, `mountPath`, `subPath`, `subPathExpr` of each volumeMount support templating
-      volumeMounts: []
-      # -- hookSelector allows to specify a LabelSelector with which the hooks are selected, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors
-      # Both matchLabels and matchExpressions are supported.
-      # All values in the matchLabels map support templating.
-      # MatchExpressions support templating in the `key` field and in every entry in the `values` list. If a value in the list renders to an empty string it is removed from the list.
-      hookSelector: {}
+      - scanType: trivy-image
+        # -- parameters used for the scans created by the containerAutoDiscovery, all parameters support templating
+        parameters:
+          - "{{ .ImageID }}"
+        # -- interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset.
+        repeatInterval: "168h"
+        # -- labels to be added to the scans started by the auto-discovery, all label values support templating
+        labels: {}
+        # -- annotations to be added to the scans started by the auto-discovery, all annotation values support templating
+        annotations:
+          defectdojo.securecodebox.io/product-name: "{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}"
+          defectdojo.securecodebox.io/product-tags: "cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"
+          defectdojo.securecodebox.io/engagement-name: "{{ .Target.Name }}"
+          defectdojo.securecodebox.io/engagement-version: "{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}"
+        # -- volumes to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes
+        # the fields: `name`, `secret.secretName`, `configMap.name` of each volume support templating
+        volumes: []
+        # -- volumeMounts to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1
+        # the fields: `name`, `mountPath`, `subPath`, `subPathExpr` of each volumeMount support templating
+        volumeMounts: []
+        # -- hookSelector allows to specify a LabelSelector with which the hooks are selected, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors
+        # Both matchLabels and matchExpressions are supported.
+        # All values in the matchLabels map support templating.
+        # MatchExpressions support templating in the `key` field and in every entry in the `values` list. If a value in the list renders to an empty string it is removed from the list.
+        hookSelector: {}
   imagePullSecretConfig:
       mapImagePullSecretsToEnvironmentVariables: true
       usernameEnvironmentVariableName: "TRIVY_USERNAME"
