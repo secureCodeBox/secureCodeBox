@@ -37,8 +37,12 @@ var _ = Describe("ContainerScan controller", func() {
 		namespace := "container-auto-discovery"
 		ctx := context.Background()
 
-		nginxScanName := "nginx-test-scan-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
-		nginxScanName = nginxScanName[:62]
+		nginxScanName1 := "nginx-test-scan-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
+		nginxScanName1 = nginxScanName1[:62]
+
+		nginxScanName2 := "nginx-test-scan-two-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
+		nginxScanName2 = nginxScanName1[:62]
+
 		nginxScanGoTemplate := scanGoTemplate{
 			map[string]string{"testAnnotation": namespace},
 			map[string]string{
@@ -51,8 +55,12 @@ var _ = Describe("ContainerScan controller", func() {
 			nil,
 		}
 
-		juiceShopScanName := "juice-shop-test-scan-at-9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2"
-		juiceShopScanName = juiceShopScanName[:62]
+		juiceShopScanName1 := "juice-shop-test-scan-at-9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2"
+		juiceShopScanName1 = juiceShopScanName1[:62]
+
+		juiceShopScanName2 := "juice-shop-test-scan-two-at-9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2"
+		juiceShopScanName2 = juiceShopScanName1[:62]
+
 		juiceShopScanGoTemplate := scanGoTemplate{
 			map[string]string{"testAnnotation": namespace},
 			map[string]string{
@@ -75,8 +83,10 @@ var _ = Describe("ContainerScan controller", func() {
 
 			// scans should not be created because of the missing scan type
 			Consistently(func() bool {
-				return !checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate) &&
-					!checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)
+				return !checkIfScanExists(ctx, nginxScanName1, namespace, nginxScanGoTemplate) &&
+					!checkIfScanExists(ctx, nginxScanName2, namespace, nginxScanGoTemplate) &&
+					!checkIfScanExists(ctx, juiceShopScanName1, namespace, juiceShopScanGoTemplate) &&
+					!checkIfScanExists(ctx, juiceShopScanName2, namespace, juiceShopScanGoTemplate)
 			}, timeout, interval).Should(BeTrue())
 
 		})
@@ -86,15 +96,17 @@ var _ = Describe("ContainerScan controller", func() {
 			createScanType(ctx, namespace)
 
 			Eventually(func() bool {
-				return checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate) &&
-					checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)
+				return checkIfScanExists(ctx, nginxScanName1, namespace, nginxScanGoTemplate) &&
+					checkIfScanExists(ctx, nginxScanName2, namespace, nginxScanGoTemplate) &&
+					checkIfScanExists(ctx, juiceShopScanName1, namespace, juiceShopScanGoTemplate) &&
+					checkIfScanExists(ctx, juiceShopScanName2, namespace, juiceShopScanGoTemplate)
 			}, timeout, interval).Should(BeTrue())
 
 		})
 
 		It("Should not delete a scan if the container is still in use", func() {
-			Expect(checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate)).To(BeTrue())
-			Expect(checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)).To(BeTrue())
+			Expect(checkIfScanExists(ctx, nginxScanName1, namespace, nginxScanGoTemplate)).To(BeTrue())
+			Expect(checkIfScanExists(ctx, juiceShopScanName1, namespace, juiceShopScanGoTemplate)).To(BeTrue())
 
 			var podToBeDeleted corev1.Pod
 			Expect(k8sClient.Get(ctx, types.NamespacedName{Name: "fake-deployment-pod2", Namespace: namespace}, &podToBeDeleted)).Should(Succeed())
@@ -102,14 +114,18 @@ var _ = Describe("ContainerScan controller", func() {
 
 			//Scans should not be deleted, because one pod still uses the container images
 			Consistently(func() bool {
-				return checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate) &&
-					checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)
+				return checkIfScanExists(ctx, nginxScanName1, namespace, nginxScanGoTemplate) &&
+					checkIfScanExists(ctx, nginxScanName2, namespace, nginxScanGoTemplate) &&
+					checkIfScanExists(ctx, juiceShopScanName1, namespace, juiceShopScanGoTemplate) &&
+					checkIfScanExists(ctx, juiceShopScanName2, namespace, juiceShopScanGoTemplate)
 			}, timeout, interval).Should(BeTrue())
 		})
 
 		It("Should delete a scan if the container is not in use", func() {
-			Expect(checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate)).To(BeTrue())
-			Expect(checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)).To(BeTrue())
+			Expect(checkIfScanExists(ctx, nginxScanName1, namespace, nginxScanGoTemplate)).To(BeTrue())
+			Expect(checkIfScanExists(ctx, nginxScanName2, namespace, nginxScanGoTemplate)).To(BeTrue())
+			Expect(checkIfScanExists(ctx, juiceShopScanName1, namespace, juiceShopScanGoTemplate)).To(BeTrue())
+			Expect(checkIfScanExists(ctx, juiceShopScanName2, namespace, juiceShopScanGoTemplate)).To(BeTrue())
 
 			var podToBeDeleted corev1.Pod
 			Expect(k8sClient.Get(ctx, types.NamespacedName{Name: "fake-deployment-pod1", Namespace: namespace}, &podToBeDeleted)).Should(Succeed())
@@ -117,8 +133,10 @@ var _ = Describe("ContainerScan controller", func() {
 
 			//Scans should be deleted, invert checkIfScanExists
 			Eventually(func() bool {
-				return !checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate) &&
-					!checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)
+				return !checkIfScanExists(ctx, nginxScanName1, namespace, nginxScanGoTemplate) &&
+					!checkIfScanExists(ctx, nginxScanName2, namespace, nginxScanGoTemplate) &&
+					!checkIfScanExists(ctx, juiceShopScanName1, namespace, juiceShopScanGoTemplate) &&
+					!checkIfScanExists(ctx, juiceShopScanName2, namespace, juiceShopScanGoTemplate)
 			}, timeout, interval).Should(BeTrue())
 		})
 	})
