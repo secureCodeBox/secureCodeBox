@@ -12,6 +12,8 @@ resources:
   - bases/execution.securecodebox.io_scancompletionhooks.yaml
   - bases/cascading.securecodebox.io_cascadingrules.yaml
   - bases/execution.securecodebox.io_scheduledscans.yaml
+  - bases/execution.securecodebox.io_clusterscantypes.yaml
+  - bases/execution.securecodebox.io_clusterparsedefinitions.yaml
 #+kubebuilder:scaffold:crdkustomizeresource
 
 patchesStrategicMerge:
