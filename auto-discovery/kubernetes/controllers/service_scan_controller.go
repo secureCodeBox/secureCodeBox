@@ -420,6 +420,7 @@ func (r *ServiceScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	err := util.CheckUniquenessOfScanNames(r.Config.ContainerAutoDiscoveryConfig.ScanConfigs)
 	if err != nil {
 		r.Log.Error(err, "Scan names are not unique")
+		return err
 	}
 
 	ctx := context.Background()

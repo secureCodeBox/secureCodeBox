@@ -493,6 +493,7 @@ func (r *ContainerScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	err := util.CheckUniquenessOfScanNames(r.Config.ContainerAutoDiscoveryConfig.ScanConfigs)
 	if err != nil {
 		r.Log.Error(err, "Scan names are not unique")
+		return err
 	}
 
 	return ctrl.NewControllerManagedBy(mgr).
