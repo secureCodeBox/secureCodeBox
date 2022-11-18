@@ -48,14 +48,14 @@ var _ = Describe("ServiceScan controller", func() {
 			var scheduledScan executionv1.ScheduledScan
 			// We'll need to retry getting this ScheduledScan, as the auto-discovery might take a couple of moment to discover the service and create the ScheduledScan for it.
 			Eventually(func() bool {
-				err := k8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-service-nmap-port-3000", Namespace: namespace}, &scheduledScan)
+				err := k8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-service-test-scan-port-3000", Namespace: namespace}, &scheduledScan)
 				if errors.IsNotFound(err) {
 					return false
 				}
 				return true
 			}, timeout, interval).Should(BeTrue())
 
-			Expect(scheduledScan.ObjectMeta.Name).Should(Equal("juice-shop-service-nmap-port-3000"))
+			Expect(scheduledScan.ObjectMeta.Name).Should(Equal("juice-shop-service-test-scan-port-3000"))
 			Expect(scheduledScan.Spec.ScanSpec.ScanType).Should(Equal("nmap"))
 			Expect(scheduledScan.Spec.ScanSpec.Parameters).Should(BeEquivalentTo([]string{"-p", "3000", "juice-shop.scan-creation.svc"}))
 			Expect(scheduledScan.Spec.ScanSpec.HookSelector.MatchLabels).Should(BeEquivalentTo(map[string]string{
@@ -79,7 +79,7 @@ var _ = Describe("ServiceScan controller", func() {
 			var scheduledScan executionv1.ScheduledScan
 			// We'll need to retry getting this ScheduledScan, as the auto-discovery might take a couple of moment to discover the service and create the ScheduledScan for it.
 			Consistently(func() bool {
-				err := k8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-service-nmap-port-3000", Namespace: namespace}, &scheduledScan)
+				err := k8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-service-test-scan-port-3000", Namespace: namespace}, &scheduledScan)
 				if errors.IsNotFound(err) {
 					return true
 				}
@@ -106,14 +106,14 @@ var _ = Describe("ServiceScan controller", func() {
 			// ScheduledScan should now get created as both pods run on the same version
 			// We'll need to retry getting this ScheduledScan, as the auto-discovery might take a couple of moment to discover the service and create the ScheduledScan for it.
 			Eventually(func() bool {
-				err := k8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-service-nmap-port-3000", Namespace: namespace}, &scheduledScan)
+				err := k8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-service-test-scan-port-3000", Namespace: namespace}, &scheduledScan)
 				if errors.IsNotFound(err) {
 					return false
 				}
 				return true
 			}, timeout, interval).Should(BeTrue())
 
-			Expect(scheduledScan.ObjectMeta.Name).Should(Equal("juice-shop-service-nmap-port-3000"))
+			Expect(scheduledScan.ObjectMeta.Name).Should(Equal("juice-shop-service-test-scan-port-3000"))
 			Expect(scheduledScan.Spec.ScanSpec.ScanType).Should(Equal("nmap"))
 			Expect(scheduledScan.Spec.ScanSpec.Parameters).Should(BeEquivalentTo([]string{"-p", "3000", "juice-shop.differing-digests.svc"}))
 			Expect(scheduledScan.Status.LastScheduleTime).Should(BeNil())
@@ -134,14 +134,14 @@ var _ = Describe("ServiceScan controller", func() {
 			var scheduledScan executionv1.ScheduledScan
 			// We'll need to retry getting this ScheduledScan, as the auto-discovery might take a couple of moment to discover the service and create the ScheduledScan for it.
 			Eventually(func() bool {
-				err := k8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-service-nmap-port-3000", Namespace: namespace}, &scheduledScan)
+				err := k8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-service-test-scan-port-3000", Namespace: namespace}, &scheduledScan)
 				if errors.IsNotFound(err) {
 					return false
 				}
 				return true
 			}, timeout, interval).Should(BeTrue())
 
-			Expect(scheduledScan.ObjectMeta.Name).Should(Equal("juice-shop-service-nmap-port-3000"))
+			Expect(scheduledScan.ObjectMeta.Name).Should(Equal("juice-shop-service-test-scan-port-3000"))
 			Expect(scheduledScan.Spec.ScanSpec.ScanType).Should(Equal("nmap"))
 			Expect(scheduledScan.Spec.ScanSpec.Parameters).Should(BeEquivalentTo([]string{"-p", "3000", "juice-shop.update-test.svc"}))
 			Expect(scheduledScan.Status.LastScheduleTime).Should(BeNil())
@@ -166,7 +166,7 @@ var _ = Describe("ServiceScan controller", func() {
 
 			By("Controller should set the lastScheduled Timestamp to the past to force a re-scan")
 			Eventually(func() bool {
-				err := k8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-service-nmap-port-3000", Namespace: namespace}, &scheduledScan)
+				err := k8sClient.Get(ctx, types.NamespacedName{Name: "juice-shop-service-test-scan-port-3000", Namespace: namespace}, &scheduledScan)
 				if errors.IsNotFound(err) {
 					return false
 				}

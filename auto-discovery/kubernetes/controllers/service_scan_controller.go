@@ -139,7 +139,7 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 			}
 
 			var previousScan executionv1.ScheduledScan
-			err := r.Client.Get(ctx, types.NamespacedName{Name: fmt.Sprintf("%s-service-%s-port-%d", service.Name, scanConfig.ScanType, host.Port), Namespace: service.Namespace}, &previousScan)
+			err := r.Client.Get(ctx, types.NamespacedName{Name: fmt.Sprintf("%s-service-%s-port-%d", service.Name, scanConfig.Name, host.Port), Namespace: service.Namespace}, &previousScan)
 
 			// generate the scan spec for the current state of the service
 			templateArgs := ServiceAutoDiscoveryTemplateArgs{
@@ -162,7 +162,7 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 				// No scan for this pod digest yet. Scanning now
 				scan := executionv1.ScheduledScan{
 					ObjectMeta: metav1.ObjectMeta{
-						Name:        fmt.Sprintf("%s-service-%s-port-%d", service.Name, scanConfig.ScanType, host.Port),
+						Name:        fmt.Sprintf("%s-service-%s-port-%d", service.Name, scanConfig.Name, host.Port),
 						Namespace:   service.Namespace,
 						Labels:      versionedLabels,
 						Annotations: generateScanAnnotations(service.Annotations, scanConfig, templateArgs),

@@ -28,6 +28,7 @@ config:
     scanConfig:
       # -- scanType used for the scans created by the serviceAutoDiscovery
       - scanType: zap-advanced-scan
+        name: "ZAP-Scan"
         # -- parameters used for the scans created by the serviceAutoDiscovery, all parameters support templating
         parameters:
           - "-t"
