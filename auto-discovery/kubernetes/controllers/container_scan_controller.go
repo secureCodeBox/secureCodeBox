@@ -15,6 +15,7 @@ import (
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/pkg/util"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	corev1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/api/errors"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
@@ -72,7 +73,15 @@ func (r *ContainerScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	}
 
 	if pod.DeletionTimestamp == nil {
-		r.checkIfNewScansNeedToBeCreated(ctx, pod)
+
+		scanTypeInstalled := r.checkForScanType(ctx, pod)
+		if scanTypeInstalled {
+			r.checkIfNewScansNeedToBeCreated(ctx, pod)
+		} else {
+			requeueDuration := r.Config.ContainerAutoDiscoveryConfig.PassiveReconcileInterval.Duration
+			return ctrl.Result{Requeue: true, RequeueAfter: requeueDuration}, nil
+		}
+
 	} else {
 		r.checkIfScansNeedToBeDeleted(ctx, pod)
 	}
@@ -217,6 +226,21 @@ func (r *ContainerScanReconciler) generateScan(pod corev1.Pod, imageID string, n
 		Spec: scanSpec,
 	}
 	return newScheduledScan
+}
+
+func (r *ContainerScanReconciler) checkForScanType(ctx context.Context, pod corev1.Pod) bool {
+	namespace := r.getNamespace(ctx, pod)
+
+	scanTypeName := r.Config.ContainerAutoDiscoveryConfig.ScanConfig.ScanType
+	scanType := executionv1.ScanType{}
+	err := r.Get(ctx, types.NamespacedName{Name: scanTypeName, Namespace: namespace.Name}, &scanType)
+	if errors.IsNotFound(err) {
+		r.Log.Info("Namespace requires configured ScanType to properly start automatic scans.", "namespace", namespace.Name, "service", pod.Name, "scanType", scanTypeName)
+		// Add event to pod to communicate failure to user
+		r.Recorder.Event(&pod, "Warning", "ScanTypeMissing", "Namespace requires ScanType '"+scanTypeName+"' to properly start automatic scans.")
+		return false
+	}
+	return true
 }
 
 func (r *ContainerScanReconciler) checkIfScansNeedToBeDeleted(ctx context.Context, pod corev1.Pod) {

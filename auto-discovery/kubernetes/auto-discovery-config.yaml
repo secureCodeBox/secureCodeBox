@@ -48,6 +48,7 @@ serviceAutoDiscovery:
 
 containerAutoDiscovery:
   enabled: true
+  passiveReconcileInterval: 10s
   scanConfig:
     scanType: trivy-image
     # -- parameters used for the scans created by the containerAutoDiscovery
@@ -58,6 +59,10 @@ containerAutoDiscovery:
     # -- labels to be added to the scans started by the auto-discovery
     labels: {}
     # -- annotations to be added to the scans started by the auto-discovery
-    annotations: {}
+    annotations:
+      defectdojo.securecodebox.io/product-name: "{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}"
+      defectdojo.securecodebox.io/product-tags: "cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"
+      defectdojo.securecodebox.io/engagement-name: "{{ .Target.Name }}"
+      defectdojo.securecodebox.io/engagement-version: "{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}"
     # -- hookSelector allows to specify a LabelSelector with which the hooks are selected
     hookSelector: {}
