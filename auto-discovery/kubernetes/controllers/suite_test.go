@@ -8,7 +8,6 @@ import (
 	"context"
 	"path/filepath"
 	"testing"
-	"time"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -23,11 +22,8 @@ import (
 
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
 	//+kubebuilder:scaffold:imports
 
-	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 )
 
@@ -77,6 +73,7 @@ var _ = BeforeSuite(func() {
 	})
 	Expect(err).ToNot(HaveOccurred())
 
+	// use broken config with non unique scans name to trigger error
 	config := configv1.AutoDiscoveryConfig{
 		Cluster: configv1.ClusterConfig{
 			Name: "test-cluster",
@@ -140,16 +137,37 @@ var _ = BeforeSuite(func() {
 		Scheme:   k8sManager.GetScheme(),
 		Recorder: k8sManager.GetEventRecorderFor("ServiceScanController"),
 		Log:      ctrl.Log.WithName("controllers").WithName("ServiceScanController"),
-		Config:   config,
+		Config:   BrokenConfig,
 	}).SetupWithManager(k8sManager)
-	Expect(err).ToNot(HaveOccurred())
+	Expect(err).To(HaveOccurred())
 
+	// use broken config with non unique scans name to trigger error
 	err = (&ContainerScanReconciler{
 		Client:   k8sManager.GetClient(),
 		Scheme:   k8sManager.GetScheme(),
 		Recorder: k8sManager.GetEventRecorderFor("ContainerScanController"),
 		Log:      ctrl.Log.WithName("controllers").WithName("ContainerScanController"),
-		Config:   config,
+		Config:   BrokenConfig,
+	}).SetupWithManager(k8sManager)
+	Expect(err).To(HaveOccurred())
+
+	// working config
+	err = (&ServiceScanReconciler{
+		Client:   k8sManager.GetClient(),
+		Scheme:   k8sManager.GetScheme(),
+		Recorder: k8sManager.GetEventRecorderFor("ServiceScanController"),
+		Log:      ctrl.Log.WithName("controllers").WithName("ServiceScanController"),
+		Config:   Config,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	// working config
+	err = (&ContainerScanReconciler{
+		Client:   k8sManager.GetClient(),
+		Scheme:   k8sManager.GetScheme(),
+		Recorder: k8sManager.GetEventRecorderFor("ContainerScanController"),
+		Log:      ctrl.Log.WithName("controllers").WithName("ContainerScanController"),
+		Config:   Config,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
