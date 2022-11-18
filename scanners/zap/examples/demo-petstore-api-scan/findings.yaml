@@ -12,7 +12,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "swagger-petstore.demo-targets.svc",
+        "hostname": "swagger-petstore.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "10",
         "zap_solution": "Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to 'nosniff' for all web pages.If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.",
@@ -87,7 +87,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "swagger-petstore.demo-targets.svc",
+        "hostname": "swagger-petstore.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "21",
         "zap_solution": 'Ensure that sensitive data is not available in an unauthenticated manner (using IP address white-listing, for instance).Configure the "Access-Control-Allow-Origin" HTTP header to a more restrictive set of domains, or remove all CORS headers entirely, to allow the web browser to enforce the Same Origin Policy (SOP) in a more restrictive manner.',
@@ -212,7 +212,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "swagger-petstore.demo-targets.svc",
+        "hostname": "swagger-petstore.demo-targets.svc",
         "zap_confidence": "3",
         "zap_count": "41",
         "zap_solution": null,
@@ -337,7 +337,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "swagger-petstore.demo-targets.svc",
+        "hostname": "swagger-petstore.demo-targets.svc",
         "zap_confidence": "3",
         "zap_count": "21",
         "zap_solution": 'Ensure that your web server, application server, load balancer, etc. is configured to suppress the "Server" header or provide generic details.',
@@ -462,7 +462,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "swagger-petstore.demo-targets.svc",
+        "hostname": "swagger-petstore.demo-targets.svc",
         "zap_confidence": "3",
         "zap_count": "7",
         "zap_solution": null,
@@ -522,7 +522,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "swagger-petstore.demo-targets.svc",
+        "hostname": "swagger-petstore.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "2",
         "zap_solution": "Do not pass sensitive information in URIs.",
@@ -559,7 +559,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "swagger-petstore.demo-targets.svc",
+        "hostname": "swagger-petstore.demo-targets.svc",
         "zap_confidence": "3",
         "zap_count": "7",
         "zap_solution": null,

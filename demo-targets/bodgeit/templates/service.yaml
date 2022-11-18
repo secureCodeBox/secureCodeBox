@@ -6,8 +6,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{include "bodgeit.fullname" .}}
-  labels: {{- include "bodgeit.labels" . | nindent 4}}
-  annotations: {{- include "bodgeit.annotations" . | nindent 4}}
+  labels: 
+    {{- include "bodgeit.labels" . | nindent 4}}
+  annotations: 
+    {{- include "bodgeit.annotations" . | nindent 4}}
 spec:
   type: {{.Values.service.type}}
   ports:
@@ -15,4 +17,5 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
-  selector: {{- include "bodgeit.selectorLabels" . | nindent 4}}
+  selector: 
+    {{- include "bodgeit.selectorLabels" . | nindent 4}}

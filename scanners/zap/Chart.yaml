@@ -8,7 +8,7 @@ description: A Helm chart for the OWASP ZAP security scanner that integrates wit
 type: application
 # version - gets automatically set to the secureCodeBox release version when the helm charts gets published
 version: v3.1.0-alpha1
-appVersion: "2.11.1"
+appVersion: "2.12.0"
 kubeVersion: ">=v1.11.0-0"
 annotations:
   versionApi: https://api.github.com/repos/zaproxy/zaproxy/releases/latest

@@ -12,7 +12,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "1",
         "zap_solution": "Configure your web or application server to use SSL (https).",
@@ -41,7 +41,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "35",
         "zap_solution": null,
@@ -166,7 +166,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "70",
         "zap_solution": null,
@@ -311,7 +311,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "80",
         "zap_solution": 'Ensure that sensitive data is not available in an unauthenticated manner (using IP address white-listing, for instance).Configure the "Access-Control-Allow-Origin" HTTP header to a more restrictive set of domains, or remove all CORS headers entirely, to allow the web browser to enforce the Same Origin Policy (SOP) in a more restrictive manner.',
@@ -436,7 +436,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "14",
         "zap_solution": "Manually confirm that the Base64 data does not leak sensitive information, and that the data cannot be aggregated/used to exploit other vulnerabilities.",
@@ -531,7 +531,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "1",
         "zap_count": "33",
         "zap_solution": "Consider whether or not the component is actually required in production, if it isn't then disable it. If it is then ensure access to it requires appropriate authentication and authorization, or limit exposure to internal systems or specific source IPs, etc.",
@@ -656,7 +656,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "22",
         "zap_solution": "Ensure that your web server, application server, load balancer, etc. is configured to set the Feature-Policy header.",
@@ -758,7 +758,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "1",
         "zap_count": "35",
         "zap_solution": null,
@@ -863,7 +863,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "26",
         "zap_solution": "Ensure that the SameSite attribute is set to either 'lax' or ideally 'strict' for all cookies.",
@@ -1008,7 +1008,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "67",
         "zap_solution": "Do not edit files in-situ on the web server, and ensure that un-necessary files (including hidden files) are removed from the web server.",
@@ -1153,7 +1153,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "1",
         "zap_count": "25",
         "zap_solution": "Manually confirm that the timestamp data is not sensitive, and that the data cannot be aggregated to disclose exploitable patterns.",
@@ -1278,7 +1278,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "3",
         "zap_count": "26",
         "zap_solution": "For secure content, put session ID in a cookie. To be even more secure consider using a combination of cookie and URL rewrite.",
@@ -1423,7 +1423,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "6",
         "zap_solution": "Ensure JavaScript source files are loaded from only trusted sources, and the sources can't be controlled by end users of the application.",
@@ -1484,7 +1484,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "54",
         "zap_solution": 'Ensure that your web server, application server, load balancer, etc. is configured to suppress "X-Powered-By" headers.',
@@ -1609,7 +1609,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "37",
         "zap_solution": "Validate that the response does not contain sensitive, personal or user-specific information.  If it does, consider the use of the following HTTP response headers, to limit, or prevent the content being stored and retrieved from the cache by another user:Cache-Control: no-cache, no-store, must-revalidate, privatePragma: no-cacheExpires: 0This configuration directs both HTTP 1.0 and HTTP 1.1 compliant caching servers to not store the response, and to not retrieve the response (without validation) from the cache, in response to a similar request. ",
@@ -1714,7 +1714,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "27",
         "zap_solution": 'The content may be marked as storable by ensuring that the following conditions are satisfied:The request method must be understood by the cache and defined as being cacheable ("GET", "HEAD", and "POST" are currently defined as cacheable)The response status code must be understood by the cache (one of the 1XX, 2XX, 3XX, 4XX, or 5XX response classes are generally understood)The "no-store" cache directive must not appear in the request or response header fieldsFor caching by "shared" caches such as "proxy" caches, the "private" response directive must not appear in the responseFor caching by "shared" caches such as "proxy" caches, the "Authorization" header field must not appear in the request, unless the response explicitly allows it (using one of the "must-revalidate", "public", or "s-maxage" Cache-Control response directives)In addition to the conditions above, at least one of the following conditions must also be satisfied by the response:It must contain an "Expires" header fieldIt must contain a "max-age" response directiveFor "shared" caches such as "proxy" caches, it must contain a "s-maxage" response directiveIt must contain a "Cache Control Extension" that allows it to be cachedIt must have a status code that is defined as cacheable by default (200, 203, 204, 206, 300, 301, 404, 405, 410, 414, 501).   ',
@@ -1839,7 +1839,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "1",
         "zap_count": "6",
         "zap_solution": "See the references for security advice on the use of these functions.",
@@ -1894,7 +1894,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "3",
         "zap_count": "6",
         "zap_solution": "Consider whether or not Trace Viewer is actually required in production, if it isn't then disable it. If it is then ensure access to it requires authentication and authorization.",
@@ -1949,7 +1949,7 @@
     "severity": "HIGH",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "2",
         "zap_solution": "Phase: Architecture and DesignUse a vetted library or framework that does not allow this weakness to occur or provides constructs that make this weakness easier to avoid.For example, use anti-CSRF packages such as the OWASP CSRFGuard.Phase: ImplementationEnsure that your application is free of cross-site scripting issues, because most CSRF defenses can be bypassed using attacker-controlled script.Phase: Architecture and DesignGenerate a unique nonce for each form, place the nonce into the form, and verify the nonce upon receipt of the form. Be sure that the nonce is not predictable (CWE-330).Note that this can be bypassed using XSS.Identify especially dangerous operations. When the user performs a dangerous operation, send a separate confirmation request to ensure that the user intended to perform that operation.Note that this can be bypassed using XSS.Use the ESAPI Session Management control.This control includes a component for CSRF.Do not use the GET method for any request that triggers a state change.Phase: ImplementationCheck the HTTP Referer header to see if the request originated from an expected page. This could break legitimate functionality, because users or proxies may have disabled sending the Referer for privacy reasons.",
@@ -1984,7 +1984,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "34",
         "zap_solution": "Upgrade your Apache server to a currently stable version. Alternative solutions or workarounds are outlined in the references. ",
@@ -2109,7 +2109,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "26",
         "zap_solution": "Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to 'nosniff' for all web pages.If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.",
@@ -2234,7 +2234,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "3",
         "zap_count": "6",
         "zap_solution": "Ensure the .env file is not accessible.",
@@ -2289,7 +2289,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "3",
         "zap_count": "3",
         "zap_solution": "Ensure the .env file is not accessible.",
@@ -2329,7 +2329,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "1",
         "zap_count": "13",
         "zap_solution": "Do not allow user input to control cookie names and values. If some query string parameters must be set in cookie values, be sure to filter out semicolon's that can serve as name/value pair delimiters.",
@@ -2419,7 +2419,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "6",
         "zap_solution": "This is an informational alert and so no changes are required.",
@@ -2474,7 +2474,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "13",
         "zap_solution": 'Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: "Content-Security-Policy" for Chrome 25+, Firefox 23+ and Safari 7+, "X-Content-Security-Policy" for Firefox 4.0+ and Internet Explorer 10+, and "X-WebKit-CSP" for Chrome 14+ and Safari 6+.',
@@ -2548,7 +2548,7 @@
     "severity": "LOW",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "1",
         "zap_solution": "Remove the private IP address from the HTTP response body.  For comments, use JSP/ASP/PHP comment instead of HTML/JavaScript comment which can be seen by client browsers.",
@@ -2578,7 +2578,7 @@
     "severity": "HIGH",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "1",
         "zap_solution": "Do not trust client side input, even if there is client side validation in place. In general, type check all data on the server side.If the application uses JDBC, use PreparedStatement or CallableStatement, with parameters passed by '?'If the application uses ASP, use ADO Command Objects with strong type checking and parameterized queries.If database Stored Procedures can be used, use them.Do *not* concatenate strings into queries in the stored procedure, or use 'exec', 'exec immediate', or equivalent functionality!Do not create dynamic SQL queries using simple string concatenation.Escape all data received from the client.Apply a 'whitelist' of allowed characters, or a 'blacklist' of disallowed characters in user input.Apply the privilege of least privilege by using the least privileged database user possible.In particular, avoid using the 'sa' or 'db-owner' database users. This does not eliminate SQL injection, but minimizes its impact.Grant the minimum database access that is necessary for the application.",
@@ -2610,7 +2610,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "3",
         "zap_count": "1",
         "zap_solution": "Consider whether or not the component is actually required in production, if it isn't then disable it. If it is then ensure access to it requires appropriate authentication and authorization, or limit exposure to internal systems or specific source IPs, etc.",
@@ -2640,7 +2640,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "1",
         "zap_count": "7",
         "zap_solution": "Remove all comments that return information that may help an attacker and fix any underlying problems they refer to.",
@@ -2693,7 +2693,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "3",
         "zap_solution": "Ensure that application Source Code is not available with alternative extensions, and ensure that source code is not present within other files or data deployed to the web server, or served by the web server. ",
@@ -2733,7 +2733,7 @@
     "severity": "INFORMATIONAL",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "3",
         "zap_count": "3",
         "zap_solution": "Consider whether or not Trace Viewer is actually required in production, if it isn't then disable it. If it is then ensure access to it requires authentication and authorization.",
@@ -2773,7 +2773,7 @@
     "severity": "MEDIUM",
     "attributes":
       {
-        "host": "juice-shop.demo-targets.svc",
+        "hostname": "juice-shop.demo-targets.svc",
         "zap_confidence": "2",
         "zap_count": "1",
         "zap_solution": "Consider whether or not ELMAH is actually required in production, if it isn't then disable it. If it is then ensure access to it requires authentication and authorization. See also: https://elmah.github.io/a/securing-error-log-pages/",
