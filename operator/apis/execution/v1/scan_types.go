@@ -98,6 +98,13 @@ type ScopeLimiterRequirement struct {
 	Values []string `json:"values" protobuf:"bytes,3,rep,name=values"`
 }
 
+type ResourceMode string
+
+const (
+	ClusterWide    ResourceMode = "clusterWide"
+	NamespaceLocal ResourceMode = "namespaceLocal"
+)
+
 // ScanSpec defines the desired state of Scan
 type ScanSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
@@ -106,6 +113,11 @@ type ScanSpec struct {
 	// The name of the scanType which should be started.
 	// +kubebuilder:validation:Required
 	ScanType string `json:"scanType,omitempty"`
+
+	// The Resource Mode of the scan: Should it use namespace-local or cluster-wide resources (ScanType vs. ClusterScanType)
+	// +kubebuilder:default:=namespaceLocal
+	// +kubebuilder:validation:Enum="namespaceLocal";"clusterWide"
+	ResourceMode ResourceMode `json:"resourceMode"`
 
 	// All CLI parameters to configure the scan container.
 	// +kubebuilder:validation:Required
