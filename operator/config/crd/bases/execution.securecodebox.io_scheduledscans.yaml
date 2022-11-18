@@ -2545,6 +2545,14 @@ spec:
                     items:
                       type: string
                     type: array
+                  resourceMode:
+                    default: namespaceLocal
+                    description: 'The Resource Mode of the scan: Should it use namespace-local
+                      or cluster-wide resources (ScanType vs. ClusterScanType)'
+                    enum:
+                    - namespaceLocal
+                    - clusterWide
+                    type: string
                   resources:
                     description: Resources lets you control resource limits and requests
                       for the parser container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
@@ -4231,6 +4239,8 @@ spec:
                       - name
                       type: object
                     type: array
+                required:
+                - resourceMode
                 type: object
               successfulJobsHistoryLimit:
                 description: SuccessfulJobsHistoryLimit determines how many past Scans

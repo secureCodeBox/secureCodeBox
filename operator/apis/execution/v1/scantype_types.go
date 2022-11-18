@@ -39,6 +39,7 @@ type ScanTypeStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:singular=ScanType
 // +kubebuilder:printcolumn:name="Image",type=string,JSONPath=`.spec.jobTemplate.spec.template.spec.containers[0].image`,description="Scanner Container Image"
 
 // ScanType is the Schema for the scantypes API

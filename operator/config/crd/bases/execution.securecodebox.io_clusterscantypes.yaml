@@ -5,14 +5,14 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.9.2
   creationTimestamp: null
-  name: scantypes.execution.securecodebox.io
+  name: clusterscantypes.execution.securecodebox.io
 spec:
   group: execution.securecodebox.io
   names:
-    kind: ScanType
-    listKind: ScanTypeList
-    plural: scantypes
-    singular: ScanType
+    kind: ClusterScanType
+    listKind: ClusterScanTypeList
+    plural: clusterscantypes
+    singular: ClusterScanType
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -23,7 +23,7 @@ spec:
     name: v1
     schema:
       openAPIV3Schema:
-        description: ScanType is the Schema for the scantypes API
+        description: ClusterScanType is the Schema for the ClusterScanTypes API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -8273,7 +8273,7 @@ spec:
                 type: object
             type: object
           status:
-            description: ScanTypeStatus defines the observed state of ScanType
+            description: ClusterScanTypeStatus defines the observed state of ClusterScanType
             type: object
         type: object
     served: true

@@ -5,14 +5,14 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.9.2
   creationTimestamp: null
-  name: parsedefinitions.execution.securecodebox.io
+  name: clusterparsedefinitions.execution.securecodebox.io
 spec:
   group: execution.securecodebox.io
   names:
-    kind: ParseDefinition
-    listKind: ParseDefinitionList
-    plural: parsedefinitions
-    singular: ParseDefinition
+    kind: ClusterParseDefinition
+    listKind: ClusterParseDefinitionList
+    plural: clusterparsedefinitions
+    singular: ClusterParseDefinition
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -23,7 +23,8 @@ spec:
     name: v1
     schema:
       openAPIV3Schema:
-        description: ParseDefinition is the Schema for the parsedefinitions API
+        description: ClusterParseDefinition is the Schema for the clusterparsedefinitions
+          API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation

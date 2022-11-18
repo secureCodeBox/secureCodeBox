@@ -54,6 +54,7 @@ type ParseDefinitionStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:singular=ParseDefinition
 // +kubebuilder:printcolumn:name="Image",type=string,JSONPath=`.spec.image`,description="Scanner Container Image"
 
 // ParseDefinition is the Schema for the parsedefinitions API
