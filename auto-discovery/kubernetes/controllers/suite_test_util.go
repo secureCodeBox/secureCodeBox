@@ -53,6 +53,27 @@ var Config = configv1.AutoDiscoveryConfig{
 					},
 				},
 			},
+			{
+				Name:           "test-scan-two",
+				RepeatInterval: metav1.Duration{Duration: time.Hour},
+				Annotations:    map[string]string{"testAnnotation": "{{ .Namespace.Name }}"},
+				Labels:         map[string]string{"testLabel": "{{ .Namespace.Name }}"},
+				Parameters:     []string{"-p", "{{ .Namespace.Name }}"},
+				ScanType:       "nmap",
+				HookSelector: metav1.LabelSelector{
+					MatchExpressions: []metav1.LabelSelectorRequirement{
+						{
+							Operator: metav1.LabelSelectorOpIn,
+							Key:      "foo",
+							Values:   []string{"bar", "baz"},
+						},
+						{
+							Operator: metav1.LabelSelectorOpDoesNotExist,
+							Key:      "foo",
+						},
+					},
+				},
+			},
 		},
 	},
 	ResourceInclusion: configv1.ResourceInclusionConfig{
