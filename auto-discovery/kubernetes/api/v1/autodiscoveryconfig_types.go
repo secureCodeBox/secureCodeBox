@@ -60,6 +60,7 @@ type ResourceInclusionConfig struct {
 }
 
 type ScanConfig struct {
+	Name           string               `json:"name"`
 	RepeatInterval metav1.Duration      `json:"repeatInterval"`
 	Annotations    map[string]string    `json:"annotations"`
 	Labels         map[string]string    `json:"labels"`
