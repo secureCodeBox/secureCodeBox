@@ -110,8 +110,8 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 			RequeueAfter: requeueInterval,
 		}, nil
 	}
-
-	for _, host := range getHostPorts(service) {
+	for _, scanConfig,  in range r.Config.ServiceAutoDiscoveryConfig.ScanConfigs {
+		for _, host := range getHostPorts(service) {
 		// Checking if we already have run a scan against this version
 		var scans executionv1.ScheduledScanList
 
@@ -119,7 +119,9 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 		versionedLabels := map[string]string{
 			"auto-discovery.securecodebox.io/target-service": service.Name,
 			"auto-discovery.securecodebox.io/target-port":    fmt.Sprintf("%d", host.Port),
+			"auto-discovery.securecodebox.io/scan-type":      scanConfig.ScanType,
 			"app.kubernetes.io/managed-by":                   "securecodebox-autodiscovery",
+
 		}
 		for containerName, podDigest := range podDigests {
 			// The map should only contain one entry at this point. As the reconciler breaks (see containerDigestsAllMatch) if the services points to a list pods with different digests per container name
@@ -143,34 +145,35 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 		// generate the scan spec for the current state of the service
 		templateArgs := ServiceAutoDiscoveryTemplateArgs{
 			Config:     r.Config,
-			ScanConfig: r.Config.ServiceAutoDiscoveryConfig.ScanConfig,
+			ScanConfig: scanConfig,
 			Cluster:    r.Config.Cluster,
 			Target:     service.ObjectMeta,
 			Service:    service,
 			Namespace:  namespace,
 			Host:       host,
 		}
-		scanSpec := util.GenerateScanSpec(r.Config.ServiceAutoDiscoveryConfig.ScanConfig, templateArgs)
+		scanSpec := util.GenerateScanSpec(scanConfig, templateArgs)
 
 		if apierrors.IsNotFound(err) {
 			// service was never scanned
 			log.Info("Discovered new unscanned service, scanning it now", "service", service.Name, "namespace", service.Namespace)
 
-			versionedLabels = generateScanLabels(versionedLabels, r.Config.ServiceAutoDiscoveryConfig.ScanConfig, templateArgs)
+			versionedLabels = generateScanLabels(versionedLabels, scanConfig, templateArgs)
 
 			// No scan for this pod digest yet. Scanning now
 			scan := executionv1.ScheduledScan{
 				ObjectMeta: metav1.ObjectMeta{
-					Name:        fmt.Sprintf("%s-service-port-%d", service.Name, host.Port),
+					Name:        fmt.Sprintf("%s-service-port-%s-%d", service.Name, scanConfig.ScanType, host.Port),
 					Namespace:   service.Namespace,
 					Labels:      versionedLabels,
-					Annotations: generateScanAnnotations(service.Annotations, r.Config.ServiceAutoDiscoveryConfig.ScanConfig, templateArgs),
+					Annotations: generateScanAnnotations(service.Annotations, scanConfig, templateArgs),
 				},
 				Spec: scanSpec,
 			}
 
+
 			// Ensure ScanType actually exists
-			scanTypeName := r.Config.ServiceAutoDiscoveryConfig.ScanConfig.ScanType
+			scanTypeName := scanConfig.ScanType
 			scanType := executionv1.ScanType{}
 			err := r.Get(ctx, types.NamespacedName{Name: scanTypeName, Namespace: service.Namespace}, &scanType)
 			if errors.IsNotFound(err) {
@@ -208,10 +211,10 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 
 			// label is added after the initial query as it was added later and isn't guaranteed to be on every auto-discovery managed scan.
 			versionedLabels["app.kubernetes.io/managed-by"] = "securecodebox-autodiscovery"
-			versionedLabels = generateScanLabels(versionedLabels, r.Config.ServiceAutoDiscoveryConfig.ScanConfig, templateArgs)
+			versionedLabels = generateScanLabels(versionedLabels, scanConfig, templateArgs)
 
 			previousScan.ObjectMeta.Labels = versionedLabels
-			previousScan.ObjectMeta.Annotations = generateScanAnnotations(service.Annotations, r.Config.ServiceAutoDiscoveryConfig.ScanConfig, templateArgs)
+			previousScan.ObjectMeta.Annotations = generateScanAnnotations(service.Annotations, scanConfig, templateArgs)
 			previousScan.Spec = scanSpec
 
 			log.V(8).Info("Updating previousScan Spec")
@@ -233,7 +236,7 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 			}
 		}
 	}
-
+}
 	return ctrl.Result{
 		Requeue:      true,
 		RequeueAfter: r.Config.ServiceAutoDiscoveryConfig.PassiveReconcileInterval.Duration,

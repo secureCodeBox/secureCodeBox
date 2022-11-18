@@ -26,14 +26,14 @@ type AutoDiscoveryConfig struct {
 type ServiceAutoDiscoveryConfig struct {
 	Enabled                  bool            `json:"enabled"`
 	PassiveReconcileInterval metav1.Duration `json:"passiveReconcileInterval"`
-	ScanConfig               ScanConfig      `json:"scanConfig"`
+	ScanConfigs              []ScanConfig    `json:"scanConfigs"`
 }
 
 type ContainerAutoDiscoveryConfig struct {
 	Enabled                  bool                  `json:"enabled"`
 	ImagePullSecretConfig    ImagePullSecretConfig `json:"imagePullSecretConfig"`
 	PassiveReconcileInterval metav1.Duration       `json:"passiveReconcileInterval"`
-	ScanConfig               ScanConfig            `json:"scanConfig"`
+	ScanConfigs              []ScanConfig          `json:"scanConfigs"`
 }
 
 type ImagePullSecretConfig struct {
