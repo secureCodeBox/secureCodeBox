@@ -16,8 +16,8 @@ import (
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/pkg/util"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	corev1 "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/api/errors"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
+	k8sErrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	"k8s.io/apimachinery/pkg/runtime"
@@ -390,7 +390,7 @@ func (r *ContainerScanReconciler) checkForScanTypes(ctx context.Context, pod cor
 		scanTypeName := scanConfig.ScanType
 		scanType := executionv1.ScanType{}
 		err := r.Get(ctx, types.NamespacedName{Name: scanTypeName, Namespace: namespace.Name}, &scanType)
-		if errors.IsNotFound(err) {
+		if k8sErrors.IsNotFound(err) {
 			r.Log.Info("Namespace requires configured ScanType to properly start automatic scans.", "namespace", namespace.Name, "service", pod.Name, "scanType", scanTypeName)
 			// Add event to pod to communicate failure to user
 			r.Recorder.Event(&pod, "Warning", "ScanTypeMissing", "Namespace requires ScanType '"+scanTypeName+"' to properly start automatic scans.")
@@ -490,6 +490,11 @@ func getScanLabels(scanConfig configv1.ScanConfig, templateArgs ContainerAutoDis
 
 // SetupWithManager sets up the controller and initializes every thing it needs
 func (r *ContainerScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	err := util.CheckUniquenessOfScanNames(r.Config.ContainerAutoDiscoveryConfig.ScanConfigs)
+	if err != nil {
+		r.Log.Error(err, "Scan names are not unique")
+	}
+
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&corev1.Pod{}).
 		WithEventFilter(util.GetPredicates(mgr.GetClient(), r.Log, r.Config.ResourceInclusion.Mode)).
