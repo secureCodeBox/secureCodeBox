@@ -49,20 +49,43 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 	}
 
 	// get the ScanType for the scan
-	var scanType executionv1.ScanType
-	if err := r.Get(ctx, types.NamespacedName{Name: scan.Spec.ScanType, Namespace: scan.Namespace}, &scanType); err != nil {
-		log.V(7).Info("Unable to fetch ScanType")
+	var scanTypeSpec executionv1.ScanTypeSpec
+	if scan.Spec.ResourceMode == executionv1.NamespaceLocal {
+		var scanType executionv1.ScanType
+		if err := r.Get(ctx, types.NamespacedName{Name: scan.Spec.ScanType, Namespace: scan.Namespace}, &scanType); err != nil {
 
-		scan.Status.State = "Errored"
-		scan.Status.ErrorDescription = fmt.Sprintf("Configured ScanType '%s' not found in '%s' namespace. You'll likely need to deploy the ScanType.", scan.Spec.ScanType, scan.Namespace)
-		if err := r.Status().Update(ctx, scan); err != nil {
-			r.Log.Error(err, "unable to update Scan status")
-			return err
+			log.V(7).Info("Unable to fetch ScanType")
+
+			scan.Status.State = "Errored"
+			scan.Status.ErrorDescription = fmt.Sprintf("Configured ScanType '%s' not found in '%s' namespace. You'll likely need to deploy the ScanType.", scan.Spec.ScanType, scan.Namespace)
+			if err := r.Status().Update(ctx, scan); err != nil {
+				r.Log.Error(err, "unable to update Scan status")
+				return err
+			}
+
+			return fmt.Errorf("No ScanType of type '%s' found", scan.Spec.ScanType)
 		}
+		log.Info("Matching ScanType Found", "ScanType", scanType.Name)
+		scanTypeSpec = scanType.Spec
+	} else if scan.Spec.ResourceMode == executionv1.ClusterWide {
+		var clusterScanType executionv1.ClusterScanType
 
-		return fmt.Errorf("No ScanType of type '%s' found", scan.Spec.ScanType)
+		if err := r.Get(ctx, types.NamespacedName{Name: scan.Spec.ScanType}, &clusterScanType); err != nil {
+			r.Log.Error(err, "Failing around")
+			log.V(7).Info("Unable to fetch ClusterScanType")
+
+			scan.Status.State = "Errored"
+			scan.Status.ErrorDescription = fmt.Sprintf("Configured ClusterScanType '%s' not found in global ClusterScanTypes. You'll likely need to deploy the ScanType.", scan.Spec.ScanType)
+			if err := r.Status().Update(ctx, scan); err != nil {
+				r.Log.Error(err, "unable to update Scan status")
+				return err
+			}
+
+			return fmt.Errorf("No ClusterScanType of type '%s' found", scan.Spec.ScanType)
+		}
+		log.Info("Matching ClusterScanType Found", "ClusterScanType", clusterScanType.Name)
+		scanTypeSpec = clusterScanType.Spec
 	}
-	log.Info("Matching ScanType Found", "ScanType", scanType.Name)
 
 	rules := []rbacv1.PolicyRule{
 		{
@@ -78,9 +101,9 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 		rules,
 	)
 
-	job, err := r.constructJobForScan(scan, &scanType)
+	job, err := r.constructJobForScan(scan, &scanTypeSpec)
 	if err != nil {
-		log.Error(err, "unable to create job object ScanType")
+		log.Error(err, "unable to create job object from ScanType / ClusterScanType")
 		return err
 	}
 
@@ -92,8 +115,8 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 	}
 
 	scan.Status.State = "Scanning"
-	scan.Status.RawResultType = scanType.Spec.ExtractResults.Type
-	scan.Status.RawResultFile = filepath.Base(scanType.Spec.ExtractResults.Location)
+	scan.Status.RawResultType = scanTypeSpec.ExtractResults.Type
+	scan.Status.RawResultFile = filepath.Base(scanTypeSpec.ExtractResults.Location)
 
 	urlExpirationDuration, err := util.GetUrlExpirationDuration(util.ScanController)
 	if err != nil {
@@ -166,21 +189,20 @@ func (r *ScanReconciler) checkIfScanIsCompleted(scan *executionv1.Scan) error {
 	return nil
 }
 
-func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *executionv1.ScanType) (*batch.Job, error) {
-	filename := filepath.Base(scanType.Spec.ExtractResults.Location)
+func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanTypeSpec *executionv1.ScanTypeSpec) (*batch.Job, error) {
+	filename := filepath.Base(scanTypeSpec.ExtractResults.Location)
 	urlExpirationDuration, err := util.GetUrlExpirationDuration(util.ScanController)
 	if err != nil {
 		r.Log.Error(err, "Failed to parse scan url expiration")
 		panic(err)
 	}
-
 	resultUploadURL, err := r.PresignedPutURL(*scan, filename, urlExpirationDuration)
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
 		return nil, err
 	}
 
-	if len(scanType.Spec.JobTemplate.Spec.Template.Spec.Containers) < 1 {
+	if len(scanTypeSpec.JobTemplate.Spec.Template.Spec.Containers) < 1 {
 		return nil, errors.New("ScanType must at least contain one container in which the scanner is running")
 	}
 
@@ -195,7 +217,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 			GenerateName: util.TruncateName(fmt.Sprintf("scan-%s", scan.Name)),
 			Namespace:    scan.Namespace,
 		},
-		Spec: *scanType.Spec.JobTemplate.Spec.DeepCopy(),
+		Spec: *scanTypeSpec.JobTemplate.Spec.DeepCopy(),
 	}
 
 	//add recommend kubernetes "managed by" label, to tell the SCB container autodiscovery to ignore the scan pod
@@ -206,7 +228,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 	podLabels["app.kubernetes.io/managed-by"] = "securecodebox"
 	job.Spec.Template.Labels = podLabels
 
-	podAnnotations := scanType.Spec.JobTemplate.DeepCopy().Annotations
+	podAnnotations := scanTypeSpec.JobTemplate.DeepCopy().Annotations
 	if podAnnotations == nil {
 		podAnnotations = make(map[string]string)
 	}
@@ -273,7 +295,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 			"--container",
 			job.Spec.Template.Spec.Containers[0].Name,
 			"--file",
-			scanType.Spec.ExtractResults.Location,
+			scanTypeSpec.ExtractResults.Location,
 			"--url",
 			resultUploadURL,
 		},
@@ -345,7 +367,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 	}
 
 	command := append(
-		scanType.Spec.JobTemplate.Spec.Template.Spec.Containers[0].Command,
+		scanTypeSpec.JobTemplate.Spec.Template.Spec.Containers[0].Command,
 		scan.Spec.Parameters...,
 	)
 
