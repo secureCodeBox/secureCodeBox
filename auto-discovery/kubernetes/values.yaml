@@ -56,6 +56,8 @@ config:
 
   containerAutoDiscovery:
     enabled: false
+    # -- interval in which every pod is re-checked for updates, currently used to periodically check if the configured scantype is installed in the namespace of the pod
+    passiveReconcileInterval: 1m
     scanConfig:
       scanType: trivy-image
       # -- parameters used for the scans created by the containerAutoDiscovery, all parameters support templating
@@ -66,7 +68,11 @@ config:
       # -- labels to be added to the scans started by the auto-discovery, all label values support templating
       labels: {}
       # -- annotations to be added to the scans started by the auto-discovery, all annotation values support templating
-      annotations: {}
+      annotations:
+        defectdojo.securecodebox.io/product-name: "{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}"
+        defectdojo.securecodebox.io/product-tags: "cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"
+        defectdojo.securecodebox.io/engagement-name: "{{ .Target.Name }}"
+        defectdojo.securecodebox.io/engagement-version: "{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}"
       # -- volumes to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes
       # the fields: `name`, `secret.secretName`, `configMap.name` of each volume support templating
       volumes: []

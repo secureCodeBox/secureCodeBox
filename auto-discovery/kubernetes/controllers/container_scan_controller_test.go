@@ -59,8 +59,7 @@ var _ = Describe("ContainerScan controller", func() {
 			[]string{"-p", "default"},
 		}
 
-		It("Should create a single scheduledscan for every container with the same imageID in the deployment", func() {
-
+		It("Should not create scans while the scan type is not installed", func() {
 			createNamespace(ctx, namespace)
 			fakeDeployment := map[string]string{"bkimminich/juice-shop": "9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2",
 				"nginx": "0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"}
@@ -68,13 +67,23 @@ var _ = Describe("ContainerScan controller", func() {
 			createPodWithMultipleContainers(ctx, "fake-deployment-pod1", namespace, fakeDeployment)
 			createPodWithMultipleContainers(ctx, "fake-deployment-pod2", namespace, fakeDeployment)
 
-			Eventually(func() bool {
-				return checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate)
+			// scans should not be created because of the missing scan type
+			Consistently(func() bool {
+				return !checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate) &&
+					!checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)
 			}, timeout, interval).Should(BeTrue())
 
+		})
+
+		It("Should create a single scheduledscan for every container with the same imageID in the deplyoment", func() {
+			//install scantype, scans should be created now
+			createScanType(ctx, namespace)
+
 			Eventually(func() bool {
-				return checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)
+				return checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate) &&
+					checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)
 			}, timeout, interval).Should(BeTrue())
+
 		})
 
 		It("Should not delete a scan if the container is still in use", func() {
@@ -87,7 +96,8 @@ var _ = Describe("ContainerScan controller", func() {
 
 			//Scans should not be deleted, because one pod still uses the container images
 			Consistently(func() bool {
-				return checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate) && checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)
+				return checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate) &&
+					checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)
 			}, timeout, interval).Should(BeTrue())
 		})
 
@@ -101,11 +111,8 @@ var _ = Describe("ContainerScan controller", func() {
 
 			//Scans should be deleted, invert checkIfScanExists
 			Eventually(func() bool {
-				return !checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate)
-			}, timeout, interval).Should(BeTrue())
-
-			Eventually(func() bool {
-				return !checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)
+				return !checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate) &&
+					!checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)
 			}, timeout, interval).Should(BeTrue())
 		})
 	})
