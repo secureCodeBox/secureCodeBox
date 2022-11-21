@@ -17,11 +17,7 @@ SPDX-License-Identifier: Apache-2.0
   <a href="https://owasp.org/www-project-securecodebox/"><img alt="OWASP Lab Project" src="https://img.shields.io/badge/OWASP-Lab%20Project-yellow"></a>
   <a href="https://artifacthub.io/packages/search?repo=securecodebox"><img alt="Artifact HUB" src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/secureCodeBox"></a>
   <a href="https://twitter.com/securecodebox"><img alt="Twitter Follower" src="https://img.shields.io/twitter/follow/securecodebox?style=flat&color=blue&logo=twitter"></a>
-</p>
-<p align="center">
   <a href="https://github.com/secureCodeBox/secureCodeBox/actions?query=workflow%3ACI"><img alt="Build" src="https://github.com/secureCodeBox/secureCodeBox/workflows/CI/badge.svg"></a>
-  <a href="https://codeclimate.com/github/secureCodeBox/secureCodeBox/maintainability"><img alt="Maintainability"  src="https://api.codeclimate.com/v1/badges/0c41659fde992429bfed/maintainability" /></a>
-  <a href="https://codeclimate.com/github/secureCodeBox/secureCodeBox/test_coverage"><img alt="Test Coverage" src="https://api.codeclimate.com/v1/badges/0c41659fde992429bfed/test_coverage" /></a>
   <a href="https://snyk.io/test/github/secureCodeBox/secureCodeBox/"><img alt="Known Vulnerabilities" src="https://snyk.io/test/github/secureCodeBox/secureCodeBox/badge.svg"></a>
   <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FsecureCodeBox%2FsecureCodeBox?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FsecureCodeBox%2FsecureCodeBox.svg?type=shield"/></a>
 </p>
