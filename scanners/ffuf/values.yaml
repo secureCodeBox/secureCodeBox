@@ -5,7 +5,7 @@
 parser:
   image:
     # parser.image.repository -- Parser image repository
-    repository: docker.io/securecodebox/scanner-ffuf
+    repository: docker.io/securecodebox/parser-ffuf
     # parser.image.tag -- Parser image tag
     # @default -- defaults to the charts version
     tag: null
