@@ -277,6 +277,7 @@ jobs:
           - amass
           - angularjs-csti-scanner
           - cmseek
+          - ffuf
           - git-repo-scanner
           - gitleaks
           - kube-hunter
@@ -362,6 +363,7 @@ jobs:
         scanner:
           - angularjs-csti-scanner
           - cmseek
+          - ffuf
           - kube-hunter
           - kubeaudit
           - ncrack
