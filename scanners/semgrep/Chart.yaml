@@ -28,7 +28,7 @@ sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:
   - name: iteratec GmbH
-  - email: secureCodeBox@iteratec.com
+    email: secureCodeBox@iteratec.com
 keywords:
   - security
   - semgrep
