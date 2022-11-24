@@ -55,12 +55,11 @@ TL;DR
 If you want to contribute you will need to fork the project.
 To enable the use of our CI Pipeline you will need to add these GitHub secrets:
 
-| Secret           | Usage |
-|------------------|--------|
+| Secret           | Usage                                                                                                                                       |
+|------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | DOCKER_NAMESPACE | This is the namespace for the docker images. For the main repository this is *securecodebox*. On you fork this is probably your Docker user |
-| DOCKER_USERNAME  | This is the username that is used to push the Docker images |
-| DOCKER_TOKEN     | This is the Token that enables the CI to push |
-| CC_TEST_REPORTER_ID | Your Codeclimate ID (optional) |
+| DOCKER_USERNAME  | This is the username that is used to push the Docker images                                                                                 |
+| DOCKER_TOKEN     | This is the Token that enables the CI to push                                                                                               |
 
 If you want early feedback feel free to open a *Draft Pull Request*.
 When you are done, you can convert it to a standard *Pull Request* (or create one if you did not create a *Draft Pull Request*).
