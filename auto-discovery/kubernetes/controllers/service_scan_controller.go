@@ -111,16 +111,18 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 		}, nil
 	}
 	for _, scanConfig := range r.Config.ServiceAutoDiscoveryConfig.ScanConfigs {
+		log.V(8).Info("Started Loop of ScanConfig", "ScanConfig Name", scanConfig.Name)
 		for _, host := range getHostPorts(service) {
 			// Checking if we already have run a scan against this version
 			var scans executionv1.ScheduledScanList
 
 			// construct a map of labels which can be used to lookup the scheduledScan created for this service
 			versionedLabels := map[string]string{
-				"auto-discovery.securecodebox.io/target-service": service.Name,
-				"auto-discovery.securecodebox.io/target-port":    fmt.Sprintf("%d", host.Port),
-				"auto-discovery.securecodebox.io/scan-type":      scanConfig.ScanType,
-				"app.kubernetes.io/managed-by":                   "securecodebox-autodiscovery",
+				"auto-discovery.securecodebox.io/target-service":   service.Name,
+				"auto-discovery.securecodebox.io/target-port":      fmt.Sprintf("%d", host.Port),
+				"auto-discovery.securecodebox.io/scan-type":        scanConfig.ScanType,
+				"auto-discovery.securecodebox.io/scan-config-name": scanConfig.Name,
+				"app.kubernetes.io/managed-by":                     "securecodebox-autodiscovery",
 			}
 			for containerName, podDigest := range podDigests {
 				// The map should only contain one entry at this point. As the reconciler breaks (see containerDigestsAllMatch) if the services points to a list pods with different digests per container name
