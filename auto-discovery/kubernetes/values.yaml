@@ -28,7 +28,8 @@ config:
     scanConfig:
       # -- scanType used for the scans created by the serviceAutoDiscovery
       - scanType: zap-advanced-scan
-        name: "ZAP-Scan"
+        # -- unique name to distinguish scans
+        name: "zap"
         # -- parameters used for the scans created by the serviceAutoDiscovery, all parameters support templating
         parameters:
           - "-t"
@@ -61,6 +62,8 @@ config:
     passiveReconcileInterval: 1m
     scanConfig:
       - scanType: trivy-image
+        # -- unique name to distinguish scans
+        name: "trivy"
         # -- parameters used for the scans created by the containerAutoDiscovery, all parameters support templating
         parameters:
           - "{{ .ImageID }}"
