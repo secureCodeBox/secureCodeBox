@@ -29,6 +29,8 @@ serviceAutoDiscovery:
   passiveReconcileInterval: 10s
   scanConfig:
     - scanType: zap-advanced-scan
+      # -- unique name to distinguish scans
+      name: "zap"
       # -- parameters used for the scans created by the serviceAutoDiscovery
       parameters:
         - "-t"
@@ -51,6 +53,8 @@ containerAutoDiscovery:
   passiveReconcileInterval: 10s
   scanConfig:
     - scanType: trivy-image
+      # -- unique name to distinguish scans
+      name: "trivy"
       # -- parameters used for the scans created by the containerAutoDiscovery
       parameters:
         - "{{ .ImageID }}"
