@@ -73,16 +73,14 @@ func (r *ContainerScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 		return ctrl.Result{}, nil
 	}
 
+	scanTypesInstalled := r.checkForScanTypes(ctx, pod)
+	if !scanTypesInstalled {
+		requeueDuration := r.Config.ContainerAutoDiscoveryConfig.PassiveReconcileInterval.Duration
+		return ctrl.Result{Requeue: true, RequeueAfter: requeueDuration}, nil
+	}
+
 	if pod.DeletionTimestamp == nil {
-
-		scanTypesInstalled := r.checkForScanTypes(ctx, pod)
-		if scanTypesInstalled {
-			r.checkIfNewScansNeedToBeCreated(ctx, pod)
-		} else {
-			requeueDuration := r.Config.ContainerAutoDiscoveryConfig.PassiveReconcileInterval.Duration
-			return ctrl.Result{Requeue: true, RequeueAfter: requeueDuration}, nil
-		}
-
+		r.checkIfNewScansNeedToBeCreated(ctx, pod)
 	} else {
 		r.checkIfScansNeedToBeDeleted(ctx, pod)
 	}
@@ -158,14 +156,12 @@ func cleanupImageID(imageID string, log logr.Logger) string {
 func getScanName(imageID string, scanConfig configv1.ScanConfig) string {
 	//function builds string like: _appName_-_customScanName_-at-_imageID_HASH_ eg: nginx-myTrivyScan-at-0123456789
 
-	//define appname cutoff limit to 20 chars
-	maxAppLength := 20
-
 	hashRegex := regexp.MustCompile(".*/(?P<appName>.*)@sha256:(?P<hash>.*)")
 	appName := hashRegex.FindStringSubmatch(imageID)[1]
 	hash := hashRegex.FindStringSubmatch(imageID)[2]
 
 	//cutoff appname if it is longer than 20 chars
+	maxAppLength := 20
 	if len(appName) > maxAppLength {
 		appName = appName[:maxAppLength]
 	}
