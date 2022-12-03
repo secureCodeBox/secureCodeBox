@@ -3,7 +3,7 @@ title: "Angularjs CSTI Scanner"
 category: "scanner"
 type: "WebApplication"
 state: "released"
-appVersion: "3.0.6"
+appVersion: "null"
 usecase: "Find AngularJS websites vulnerable to template injections"
 ---
 
