@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ffuf-wordlist-config-map
+data:
+  wordlist.txt: |-
+    metrics
+    ftp
+    ftp/somenonexisting.md

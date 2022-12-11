@@ -1,0 +1,94 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+parser:
+  image:
+    # parser.image.repository -- Parser image repository
+    repository: docker.io/securecodebox/parser-ffuf
+    # parser.image.tag -- Parser image tag
+    # @default -- defaults to the charts version
+    tag: null
+    # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
+    pullPolicy: IfNotPresent
+
+  # parser.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+  ttlSecondsAfterFinished: null
+  # parser.env -- Optional environment variables mapped into each parseJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
+  env: []
+
+  # parser.scopeLimiterAliases -- Optional finding aliases to be used in the scopeLimiter.
+  scopeLimiterAliases: {}
+
+  # parser.affinity -- Optional affinity settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
+  affinity: {}
+
+  # parser.tolerations -- Optional tolerations settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+  tolerations: []
+
+scanner:
+  image:
+    # scanner.image.repository -- Container Image to run the scan
+    repository: docker.io/securecodebox/scanner-ffuf
+    # scanner.image.tag -- defaults to the charts appVersion
+    tag: null
+    # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
+    pullPolicy: IfNotPresent
+
+  # scanner.nameAppend -- append a string to the default scantype name.
+  nameAppend: null
+
+  # -- seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+  ttlSecondsAfterFinished: null
+  # -- There are situations where you want to fail a scan Job after some amount of time. To do so, set activeDeadlineSeconds to define an active deadline (in seconds) when considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#job-termination-and-cleanup)
+  activeDeadlineSeconds: null
+  # -- There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy)
+  # @default -- 3
+  backoffLimit: 3
+
+  # scanner.resources -- CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)
+  resources: {}
+  #   resources:
+  #     requests:
+  #       memory: "256Mi"
+  #       cpu: "250m"
+  #     limits:
+  #       memory: "512Mi"
+  #       cpu: "500m"
+
+  # scanner.env -- Optional environment variables mapped into each scanJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
+  env: []
+
+  # scanner.extraVolumes -- Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
+  extraVolumes: []
+
+  # scanner.extraVolumeMounts -- Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
+  extraVolumeMounts: []
+
+  # scanner.extraContainers -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
+  extraContainers: []
+
+  # scanner.securityContext -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+  securityContext:
+    # scanner.securityContext.runAsNonRoot -- Enforces that the scanner image is run as a non root user
+    runAsNonRoot: true
+    # scanner.securityContext.readOnlyRootFilesystem -- Prevents write access to the containers file system
+    readOnlyRootFilesystem: true
+    # scanner.securityContext.allowPrivilegeEscalation -- Ensure that users privileges cannot be escalated
+    allowPrivilegeEscalation: false
+    # scanner.securityContext.privileged -- Ensures that the scanner container is not run in privileged mode
+    privileged: false
+    capabilities:
+      drop:
+        # scanner.securityContext.capabilities.drop[0] -- This drops all linux privileges from the container.
+        - all
+
+  # scanner.affinity -- Optional affinity settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
+  affinity: {}
+
+  # scanner.tolerations -- Optional tolerations settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+  tolerations: []
+
+cascadingRules:
+  # cascadingRules.enabled -- Enables or disables the installation of the default cascading rules for this scanner
+  enabled: true
