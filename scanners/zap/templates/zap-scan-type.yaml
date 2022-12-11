@@ -158,3 +158,49 @@ spec:
             {{- end }}
           volumes:
             {{- toYaml .Values.scanner.extraVolumes | nindent 12 }}
+---
+apiVersion: "execution.securecodebox.io/v1"
+kind: ScanType
+metadata:
+  name: "zap-automation-scan{{ .Values.scanner.nameAppend | default ""}}"
+spec:
+  extractResults:
+    type: zap-xml
+    location: "/home/securecodebox/zap-results.xml"
+  jobTemplate:
+    spec:
+      {{- if .Values.scanner.ttlSecondsAfterFinished }}
+      ttlSecondsAfterFinished: {{ .Values.scanner.ttlSecondsAfterFinished }}
+      {{- end }}
+      template:
+        spec:
+          restartPolicy: Never
+          affinity:
+            {{- toYaml .Values.scanner.affinity | nindent 12 }}
+          tolerations: 
+            {{- toYaml .Values.scanner.tolerations | nindent 12 }}
+          containers:
+            - name: zap-automation-scan
+              image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.scanner.image.pullPolicy }}
+              command:
+                - "zap.sh"
+                - "-cmd"
+              resources:
+                {{- toYaml .Values.scanner.resources | nindent 16 }}
+              securityContext:
+                {{- toYaml .Values.scanner.securityContext | nindent 16 }}
+              env:
+                {{- toYaml .Values.scanner.env | nindent 16 }}
+              envFrom:
+                {{- toYaml .Values.scanner.envFrom | nindent 16 }}
+              securityContext: {}
+              env: []
+              envFrom: []
+              volumeMounts:
+                {{- toYaml .Values.scanner.extraVolumeMounts | nindent 16 }}
+            {{- if .Values.scanner.extraContainers }}
+            {{- toYaml .Values.scanner.extraContainers | nindent 12 }}
+            {{- end }}
+          volumes:
+            {{- toYaml .Values.scanner.extraVolumes | nindent 12 }}

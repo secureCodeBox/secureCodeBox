@@ -1,0 +1,77 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "zap-automation-nginx"
+data:
+  2-automation.yaml: |-
+
+    env:                                   # The environment, mandatory
+      contexts :                           # List of 1 or more contexts, mandatory
+        - name: test-config                  # Name to be used to refer to this context in other jobs, mandatory
+          urls: ["http://nginx.demo-targets.svc"]                           # A mandatory list of top level urls, everything under each url will be included
+          includePaths: 
+            - "http://nginx.demo-targets.svc/.*"                   # An optional list of regexes to include
+          excludePaths:
+            - ".*socket\\.io.*"
+            - ".*\\.png"
+            - ".*\\.jpeg"
+            - ".*\\.jpg"
+            - ".*\\.woff"
+            - ".*\\.woff2"
+            - ".*\\.ttf"
+            - ".*\\.ico"                   # An optional list of regexes to exclude
+      parameters:
+        failOnError: true                  # If set exit on an error         
+        failOnWarning: false               # If set exit on a warning
+        progressToStdout: true             # If set will write job progress to stdout
+
+    jobs:
+      - type: passiveScan-config           # Passive scan configuration
+        parameters:
+          maxAlertsPerRule: 10             # Int: Maximum number of alerts to raise per rule
+          scanOnlyInScope: true            # Bool: Only scan URLs in scope (recommended)
+      - type: spider                       # The traditional spider - fast but doesnt handle modern apps so well
+        parameters:
+          context: test-config                        # String: Name of the context to spider, default: first context
+          maxDuration: 1                     # Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
+      - type: spiderAjax                   # The ajax spider - slower than the spider but handles modern apps well
+        parameters:
+          context: test-config                         # String: Name of the context to spider, default: first context
+          maxDuration: 1                     # Int: The max time in minutes the ajax spider will be allowed to run for, default: 0 unlimited
+      - type: passiveScan-wait             # Passive scan wait for the passive scanner to finish
+        parameters:
+          maxDuration: 10                   # Int: The max time to wait for the passive scanner, default: 0 unlimited
+      - type: report                       # Report generation
+        parameters:
+          template: traditional-xml                        # String: The template id, default : modern
+          reportDir: /home/securecodebox/               # String: The directory into which the report will be written
+          reportFile: zap-results                     # String: The report file name pattern, default: {{yyyy-MM-dd}}-ZAP-Report-[[site]]
+        risks:                             # List: The risks to include in this report, default all
+          - high
+          - medium
+          - low
+---
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "zap-automation-scan-juice-shop"
+  labels:
+    organization: "OWASP"
+spec:
+  scanType: "zap-automation-scan"
+  parameters:
+    - "-autorun" 
+    - "/home/securecodebox/scb-automation/2-automation.yaml"
+  volumeMounts:
+    - name: zap-automation-scan-config
+      mountPath: /home/securecodebox/scb-automation/2-automation.yaml
+      subPath: 2-automation.yaml
+  volumes:
+    - name: zap-automation-scan-config
+      configMap:
+        name: zap-automation-scan-config

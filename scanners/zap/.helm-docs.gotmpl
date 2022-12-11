@@ -30,12 +30,13 @@ usecase: "WebApp & OpenAPI Vulnerability Scanner"
 The [OWASP Zed Attack Proxy (ZAP)][zap owasp project] is one of the world’s most popular free security tools and is actively maintained by hundreds of international volunteers*. It can help you automatically find security vulnerabilities in your web applications while you are developing and testing your applications. It's also a great tool for experienced pentesters to use for manual security testing.
 
 To learn more about the ZAP scanner itself visit [https://www.zaproxy.org/](https://www.zaproxy.org/).
+To learn more about the ZAP Automation Framework itself visit [https://www.zaproxy.org/docs/desktop/addons/automation-framework/](https://www.zaproxy.org/docs/desktop/addons/automation-framework/).
 {{- end }}
 
 {{- define "extra.scannerConfigurationSection" -}}
 ## Scanner Configuration
 
-The following security scan configuration example are based on the ZAP Docker Scan Scripts. By default, the secureCodeBox ZAP Helm Chart installs all three ZAP scripts: `zap-baseline`, `zap-full-scan` & `zap-api-scan`. Listed below are the arguments supported by the `zap-baseline` script, which are mostly interchangeable with the other ZAP scripts. For a more complete reference check out the [ZAP Documentation](https://www.zaproxy.org/docs/docker/) and the secureCodeBox based ZAP examples listed below.
+The following security scan configuration example are based on the ZAP Docker Scan Scripts. By default, the secureCodeBox ZAP Helm Chart installs all four ZAP scripts: `zap-baseline`, `zap-full-scan` , `zap-api-scan` & `zap-automation-scan`. Listed below are the arguments supported by the `zap-baseline` script, which are mostly interchangeable with the other ZAP scripts (except for `zap-automation-scan`). For a more complete reference check out the [ZAP Documentation](https://www.zaproxy.org/docs/docker/) and the secureCodeBox based ZAP examples listed below.
 
 The command line interface can be used to easily run server scans: `-t www.example.com`
 
@@ -67,21 +68,185 @@ Options:
     -z zap_options    ZAP command line options e.g. -z "-config aaa=bbb -config ccc=ddd"
     --hook            path to python file that define your custom hooks
 ```
+
+## ZAP Automation Scanner Configuration
+
+The Automation Framework allows for higher flexibility in configuring ZAP scans. Its goal is the automation of the full functionality of ZAP's GUI. The configuration of the Automation Framework differs from the other three ZAP scan types. The following security scan configuration example highlights the differences for running a `zap-automation-scan`.
+Of particular interest for us will be the -autorun option. `zap-automation-scan` allows for providing an automation file as a ConfigMap that defines the details of the scan. See the secureCodeBox based ZAP Automation example listed below for what such a ConfigMap would look like.
+
+```bash
+Usage: zap.sh -cmd -host <target> [options]
+    -t target         target URL including the protocol, eg https://www.example.com
+Add-on options:
+    -script <script>          Run the specified script from commandline or load in GUI
+    -addoninstall <addOnId>   Installs the add-on with specified ID from the ZAP Marketplace
+    -addoninstallall          Install all available add-ons from the ZAP Marketplace
+    -addonuninstall <addOnId> Uninstalls the Add-on with specified ID
+    -addonupdate              Update all changed add-ons from the ZAP Marketplace
+    -addonlist                List all of the installed add-ons
+    -certload <path>          Loads the Root CA certificate from the specified file name
+    -certpubdump <path>       Dumps the Root CA public certificate into the specified file name, this is suitable for importing into browsers
+    -certfulldump <path>      Dumps the Root CA full certificate (including the private key) into the specified file name, this is suitable for importing into ZAP
+    -notel                    Turns off telemetry calls
+    -hud                      Launches a browser configured to proxy through ZAP with the HUD enabled, for use in daemon mode
+    -hudurl <url>             Launches a browser as per the -hud option with the specified URL
+    -hudbrowser <browser>     Launches a browser as per the -hud option with the specified browser, supported options: Chrome, Firefox by default 'Firefox'
+    -openapifile <path>       Imports an OpenAPI definition from the specified file name
+    -openapiurl <url>         Imports an OpenAPI definition from the specified URL
+    -openapitargeturl <url>   The Target URL, to override the server URL present in the OpenAPI definition. Refer to the help for supported format.
+    -quickurl <target url>    The URL to attack, e.g. http://www.example.com
+    -quickout <filename>      The file to write the HTML/JSON/MD/XML results to (based on the file extension)
+    -autorun <filename>       Run the automation jobs specified in the file.
+    -autogenmin <filename>    Generate template automation file with the key parameters.
+    -autogenmax <filename>    Generate template automation file with all parameters.
+    -autogenconf <filename>   Generate template automation file using the current configuration.
+    -graphqlfile <path>       Imports a GraphQL Schema from a File
+    -graphqlurl <url>         Imports a GraphQL Schema from a URL
+    -graphqlendurl <url>      Sets the Endpoint URL
+```
+
 {{- end }}
 
 {{- define "extra.chartConfigurationSection" -}}
-The secureCodeBox provides two different scanner charts (`zap`, `zap-advanced`) to automate ZAP WebApplication security scans. The first one `zap` comes with three scanTypes:
+The secureCodeBox provides two different scanner charts (`zap`, `zap-advanced`) to automate ZAP WebApplication security scans. The first one `zap` comes with four scanTypes:
 - `zap-baseline-scan`
 - `zap-full-scan`
 - `zap-api-scan`
+- `zap-automation-scan`
 
-All three scanTypes can be configured via CLI arguments which are somehow a bit limited for some advanced usecases, e.g. using custom zap scripts or configuring complex authentication settings.
+The scanTypes `zap-baseline-scan`, `zap-full-scan` & `zap-api-scan` can be configured via CLI arguments which are somehow a bit limited for some advanced usecases, e.g. using custom zap scripts or configuring complex authentication settings.
 
 That's why we introduced this `zap-advanced` scanner chart, which introduces extensive YAML configuration options for ZAP. The YAML configuration can be split in multiple files and will be merged at start.
+ZAP's own Automation Framework provides similar functionality to the `zap-advanced` scanner chart and is set to displace it in the future.
+
+##ZAP Automation Configuration
+
+The ZAP Automation Scanner supports the use of secrets, as to not have hardcoded credentials in the scan definition.
+Generate secrets using the credentials that will later be used in the scan for authentication. Supported authentication methods for the ZAP Authentication scanner are Manual, HTTP / NTLM, Form-based, JSON-based, and Script-based.
+
+
+```bash 
+kubectl create secret generic unamesecret --from-literal='username=<USERNAME>'
+kubectl create secret generic pwordsecret --from-literal='password=<PASSWORD>'
+```
+
+You can now include the secrets in the scan definition and reference them in the ConfigMap that defines the scan options.
+A ZAP Automation scan using JSON-based authentication may look like this:
+
+```yaml 
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "zap-automation-scan-config"
+data:
+  1-automation.yaml: |-
+
+    env:                                   # The environment, mandatory
+      contexts:                           # List of 1 or more contexts, mandatory
+        - name: test-config                  # Name to be used to refer to this context in other jobs, mandatory
+          urls: ["http://juiceshop.demo-targets.svc:3000"]                           # A mandatory list of top level urls, everything under each url will be included
+          includePaths: 
+            - "http://juiceshop.demo-targets.svc:3000/.*"                   # An optional list of regexes to include
+          excludePaths:
+            - ".*socket\\.io.*"
+            - ".*\\.png"
+            - ".*\\.jpeg"
+            - ".*\\.jpg"
+            - ".*\\.woff"
+            - ".*\\.woff2"
+            - ".*\\.ttf"
+            - ".*\\.ico"                   
+          authentication:
+            method: "json"
+            parameters:
+              loginPageUrl: "http://juiceshop.demo-targets.svc:3000/rest/user"
+              loginRequestUrl: "http://juiceshop.demo-targets.svc:3000/rest/user/login"
+              loginRequestBody: '{"email":"${EMAIL}","password":"${PASS}"}'
+            verification:
+              method: "response"
+              loggedOutRegex: '\Q{"user":{}}\E'
+              loggedInRegex: '\Q<a href="password.jsp">\E'
+          users:
+          - name: "juiceshop-user-1"
+            credentials:
+              username: "${EMAIL}"
+              password: "${PASS}"
+      parameters:
+        failOnError: true                  # If set exit on an error         
+        failOnWarning: false               # If set exit on a warning
+        progressToStdout: true             # If set will write job progress to stdout
+
+    jobs:
+      - type: passiveScan-config           # Passive scan configuration
+        parameters:
+          maxAlertsPerRule: 10             # Int: Maximum number of alerts to raise per rule
+          scanOnlyInScope: true            # Bool: Only scan URLs in scope (recommended)
+      - type: spider                       # The traditional spider - fast but doesnt handle modern apps so well
+        parameters:
+          context: test-config                        # String: Name of the context to spider, default: first context
+          user: juiceshop-user-1                           # String: An optional user to use for authentication, must be defined in the env
+          maxDuration: 2                     # Int: The max time in minutes the spider will be allowed to run for, default: 0 unlimited
+      - type: spiderAjax                   # The ajax spider - slower than the spider but handles modern apps well
+        parameters:
+          context: test-config                         # String: Name of the context to spider, default: first context
+          maxDuration: 2                     # Int: The max time in minutes the ajax spider will be allowed to run for, default: 0 unlimited
+      - type: passiveScan-wait             # Passive scan wait for the passive scanner to finish
+        parameters:
+          maxDuration: 10                   # Int: The max time to wait for the passive scanner, default: 0 unlimited
+      - type: report                       # Report generation
+        parameters:
+          template: traditional-xml                        # String: The template id, default : modern
+          reportDir: /home/securecodebox/               # String: The directory into which the report will be written
+          reportFile: zap-results                     # String: The report file name pattern, default: {{yyyy-MM-dd}}-ZAP-Report-[[site]]
+        risks:                             # List: The risks to include in this report, default all
+          - high
+          - medium
+          - low
+---
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "zap-example-scan"
+spec:
+  scanType: "zap-automation-scan"
+  parameters:
+    - "-autorun"
+    - "/home/securecodebox/scb-automation/1-automation.yaml"
+  volumeMounts:
+    - mountPath: /home/securecodebox/scb-automation/1-automation.yaml
+      name: zap-automation
+      subPath: 1-automation.yaml
+  volumes:
+    - name: zap-automation
+      configMap:
+        name: zap-automation-scan-config
+  env:
+    - name: EMAIL
+      valueFrom:
+        secretKeyRef:
+          name: unamesecret
+          key: username
+    - name: PASS
+      valueFrom:
+        secretKeyRef:
+          name: pwordsecret
+          key: password
+```
+
+For a complete overview of all the possible options you have for configuring a ZAP Automation scan, run 
+```bash 
+./zap.sh -cmd -autogenmax zap.yaml 
+```
+For an overview of all required configuration options, run 
+```
+bash ./zap.sh -cmd -autogenmin zap.yaml 
+```
+Alternatively, have a look at the [official documentation](https://www.zaproxy.org/docs/desktop/addons/automation-framework/).
 {{- end }}
 
 {{- define "extra.scannerLinksSection" -}}
 [zap owasp project]: https://owasp.org/www-project-zap/
 [zap github]: https://github.com/zaproxy/zaproxy/
 [zap user guide]: https://www.zaproxy.org/docs/
+[zap automation framework]: https://www.zaproxy.org/docs/desktop/addons/automation-framework/
 {{- end }}
