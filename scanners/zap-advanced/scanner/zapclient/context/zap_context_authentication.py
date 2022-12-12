@@ -190,7 +190,7 @@ class ZapConfigureContextAuthentication(ZapClient):
             The zap context id tot configure the ZAP authentication for (based on the class ZapConfiguration).
         """
 
-        logging.debug("Enabling ZAP HTTP Form based Authentication")
+        logging.debug("Enabling ZAP HTTP JSON based Authentication")
 
         if "loginUrl" in json_auth:
             auth_method_config_params = "loginUrl=" + json_auth["loginUrl"]
@@ -199,7 +199,7 @@ class ZapConfigureContextAuthentication(ZapClient):
                     "&loginRequestData=" + json_auth["loginRequestData"]
                 )
 
-            logging.info("HTTP ZAP HTTP JSON Params: '%s'", auth_method_config_params)
+            logging.debug("HTTP ZAP HTTP JSON Params: '%s'", auth_method_config_params)
 
             self.get_zap.authentication.set_authentication_method(
                 contextid=context_id,
