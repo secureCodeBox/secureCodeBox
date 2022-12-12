@@ -248,18 +248,26 @@ type HostPort struct {
 	Port int32
 }
 
+// getHostPorts returns a slice of HostPort objects for the given service.
+// The function uses the getLikelyHTTPPorts function to get a slice of ports that are likely to be used
+// for HTTP or HTTPS traffic, and then it adds each port to the httpIshPorts slice as a HostPort object
+// with the appropriate "http" or "https" type.
 func getHostPorts(service corev1.Service) []HostPort {
+	// Get a slice of ports that are likely to be used for HTTP or HTTPS traffic
 	servicePorts := getLikelyHTTPPorts(service)
 
 	httpIshPorts := []HostPort{}
 
 	for _, port := range servicePorts {
+		// Check if the port uses HTTPS
 		if port.Port == 443 || port.Port == 8443 || port.Name == "https" {
+			// If the port uses HTTPS, add it to the httpIshPorts slice as a HostPort with the "https" type
 			httpIshPorts = append(httpIshPorts, HostPort{
 				Port: port.Port,
 				Type: "https",
 			})
 		} else {
+			// If the port does not use HTTPS, add it to the httpIshPorts slice as a HostPort with the "http" type
 			httpIshPorts = append(httpIshPorts, HostPort{
 				Port: port.Port,
 				Type: "http",
@@ -270,10 +278,15 @@ func getHostPorts(service corev1.Service) []HostPort {
 	return httpIshPorts
 }
 
+// getLikelyHTTPPorts returns a slice of ports that are likely to be used for HTTP or HTTPS traffic.
+// The function searches the given service object for ports with certain numbers or names, and adds any
+// ports that match to the slice of httpIshPorts.
 func getLikelyHTTPPorts(service corev1.Service) []corev1.ServicePort {
 	httpIshPorts := []corev1.ServicePort{}
 
+	// Iterate over all the ports in the service.Spec.Ports slice
 	for _, port := range service.Spec.Ports {
+		// Check if the port matches any of the specified port numbers or names
 		if port.Port == 80 ||
 			port.Port == 8080 ||
 			port.Port == 443 ||
@@ -287,13 +300,15 @@ func getLikelyHTTPPorts(service corev1.Service) []corev1.ServicePort {
 			// Named Ports
 			port.Name == "http" ||
 			port.Name == "https" {
+
+			// If the port matches, add it to the httpIshPorts slice
 			httpIshPorts = append(httpIshPorts, port)
 		}
 	}
-
 	return httpIshPorts
 }
 
+// min returns the smaller of two integers
 func min(x, y int) int {
 	if x < y {
 		return x
@@ -305,7 +320,6 @@ func getShaHashesForPod(pod corev1.Pod) map[string]string {
 	if len(pod.Status.ContainerStatuses) == 0 {
 		return nil
 	}
-
 	hashes := map[string]string{}
 
 	for _, containerStatus := range pod.Status.ContainerStatuses {
@@ -313,17 +327,21 @@ func getShaHashesForPod(pod corev1.Pod) map[string]string {
 			continue
 		}
 
+		// Extract the full image name from the ImageID field
 		var fullImageName string
 		if strings.HasPrefix(containerStatus.ImageID, "docker-pullable://") {
-			// Extract the fullImageName from the following format "docker-pullable://scbexperimental/parser-nmap@sha256:f953..."
+			// Example: "docker-pullable://scbexperimental/parser-nmap@sha256:f953..."
+			// Extract from the 18th character: "scbexperimental/parser-nmap@sha256:f953..."
 			fullImageName = containerStatus.ImageID[18:]
 		} else {
 			continue
 		}
 
+		// Split the full image name on "@" to separate the image name from the digest
 		imageSegments := strings.Split(fullImageName, "@")
 		prefixedDigest := imageSegments[1]
 
+		// Truncate the digest to keep only the actual hash value
 		var truncatedDigest string
 		if strings.HasPrefix(prefixedDigest, "sha256:") {
 			// Only keep actual digest
@@ -337,55 +355,64 @@ func getShaHashesForPod(pod corev1.Pod) map[string]string {
 	return hashes
 }
 
-// Takes a list of pods and returns a two tiered map to lookup pod digests per container
-// The map returned look like this:
+// gatherPodDigests takes a list of pods and returns a two-tiered map that can be used
+// to lookup the digests for the containers in each pod.
+// The map returned looks like this:
 //
 //	{
-//		// container name
-//		container1: {
-//			// digest
-//			ab2dkbsjdha3kshdasjdbalsjdbaljsbd: true
-//			iuzaksbd2kabsdk4abksdbaksjbdak12a: true
-//		},
-//		container2: {
-//			// digest
-//			sjdha3kshdasjdbalsjdbaljsbdab2dkb: true
-//			d2kabsdk4abksdbaksjbdak12aiuzaksb: true
-//		},
+//	    container name
+//	    container1: {
+//	        // digest
+//	        ab2dkbsjdha3kshdasjdbalsjdbaljsbd: true
+//	        iuzaksbd2kabsdk4abksdbaksjbdak12a: true
+//	    },
+//	    container2: {
+//	        // digest
+//	        sjdha3kshdasjdbalsjdbaljsbdab2dkb: true
+//	        d2kabsdk4abksdbaksjbdak12aiuzaksb: true
+//	    },
 //	}
 func gatherPodDigests(pods *corev1.PodList) map[string]map[string]bool {
 	podDigests := map[string]map[string]bool{}
 
 	for _, pod := range pods.Items {
 		hashes := getShaHashesForPod(pod)
-
 		for containerName, hash := range hashes {
+			// Check if the container already exists in the podDigests map
 			if _, ok := podDigests[containerName]; ok {
+				// If the container already exists, add the hash to the map of digests for that container
 				podDigests[containerName][hash] = true
 			} else {
+				// If the container does not exist, create a new map containing the hash for that container
 				podDigests[containerName] = map[string]bool{hash: true}
 			}
 		}
 	}
-
 	return podDigests
 }
 
+// containerDigestsAllMatch returns true if the given map of pod digests contains exactly
+// one digest for each pod (i.e they all match).
 func containerDigestsAllMatch(podDigests map[string]map[string]bool) bool {
 	for _, digests := range podDigests {
+		// Check if the pod has exactly one digest
 		if len(digests) != 1 {
 			return false
 		}
 	}
-
+	// If all of the pods have exactly one digest i.e they all match, return true
 	return true
 }
 
+// serviceHasReadyPods returns true if the given list of pods contains at least one pod
+// that is ready and has all of its containers ready.
 func serviceHasReadyPods(pods corev1.PodList) bool {
 podLoop:
 	for _, pod := range pods.Items {
+		// Check if all of the pod's containers are ready
 		for _, containerStatus := range pod.Status.ContainerStatuses {
-			if containerStatus.Ready == false {
+			if !containerStatus.Ready {
+				// If any of the containers are not ready, skip this pod and continue with the next one
 				continue podLoop
 			}
 		}
@@ -394,21 +421,22 @@ podLoop:
 	return false
 }
 
+// generateScanAnnotations generates annotations for a scan based on the given configuration and template arguments.
+// It also copies over certain annotations from the current annotations to the generated annotations.
 func generateScanAnnotations(currentAnnotations map[string]string, scanConfig configv1.ScanConfig, templateArgs ServiceAutoDiscoveryTemplateArgs) map[string]string {
 	annotations := util.ParseMapTemplate(templateArgs, scanConfig.Annotations)
-
-	// Copy over securecodebox.io annotations to the created scan
 	re := regexp.MustCompile(`.*securecodebox\.io/.*`)
+
 	for key, value := range currentAnnotations {
 		if matches := re.MatchString(key); matches {
 			annotations[key] = value
 		}
 	}
 	return annotations
-
 }
 
 func generateScanLabels(currentLabels map[string]string, scanConfig configv1.ScanConfig, templateArgs ServiceAutoDiscoveryTemplateArgs) map[string]string {
+	// Parse the scan labels template and return the resulting map
 	newLabels := util.ParseMapTemplate(templateArgs, scanConfig.Labels)
 
 	for key, value := range newLabels {
@@ -419,31 +447,33 @@ func generateScanLabels(currentLabels map[string]string, scanConfig configv1.Sca
 
 // SetupWithManager sets up the controller and initializes every thing it needs
 func (r *ServiceScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
-	err := util.CheckUniquenessOfScanNames(r.Config.ContainerAutoDiscoveryConfig.ScanConfigs)
-	if err != nil {
+	// Check if scan names are unique
+	if err := util.CheckUniquenessOfScanNames(r.Config.ContainerAutoDiscoveryConfig.ScanConfigs); err != nil {
 		r.Log.Error(err, "Scan names are not unique")
 		return err
 	}
 
-	ctx := context.Background()
-	if err := mgr.GetFieldIndexer().IndexField(ctx, &executionv1.ScheduledScan{}, ".metadata.service-controller", func(rawObj client.Object) []string {
-		// grab the job object, extract the owner...
+	// Index the field ".metadata.service-controller" in the ScheduledScan resource
+	if err := mgr.GetFieldIndexer().IndexField(context.Background(), &executionv1.ScheduledScan{}, ".metadata.service-controller", func(rawObj client.Object) []string {
+		// Grab the ScheduledScan object and its owner
 		scan := rawObj.(*executionv1.ScheduledScan)
 		owner := metav1.GetControllerOf(scan)
 		if owner == nil {
 			return nil
 		}
-		// ...make sure it's a Service...
+
+		// Make sure the owner is a Service resource
 		if owner.APIVersion != "v1" || owner.Kind != "Service" {
 			return nil
 		}
 
-		// ...and if so, return it
+		// Return the owner's name
 		return []string{owner.Name}
 	}); err != nil {
 		return err
 	}
 
+	// Complete the setup by returning a new controller managed by the given manager
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&corev1.Service{}).
 		WithEventFilter(util.GetPredicates(mgr.GetClient(), r.Log, r.Config.ResourceInclusion.Mode)).
