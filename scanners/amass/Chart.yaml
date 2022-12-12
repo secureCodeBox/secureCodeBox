@@ -8,7 +8,7 @@ description: A Helm chart for the Amass security scanner that integrates with th
 type: application
 # version - gets automatically set to the secureCodeBox release version when the helm charts gets published
 version: v3.1.0-alpha1
-appVersion: "v3.21.1"
+appVersion: "v3.21.2"
 kubeVersion: ">=v1.11.0-0"
 annotations:
   versionApi: https://api.github.com/repos/OWASP/Amass/releases/latest
