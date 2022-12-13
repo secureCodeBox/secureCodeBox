@@ -41,6 +41,11 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+
+  	testLogging {
+		events "failed"
+		exceptionFormat "full"
+	}
 }
 
 def mainClassName = "io.securecodebox.persistence.DefectDojoPersistenceProvider"
