@@ -102,26 +102,26 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 	}
 
 	// this time is hardcoded as its not used internally by the scb so it should be longer lasting
-	findingsDownloadURL, err := r.PresignedGetURL(scan.UID, "findings.json", 7*24*time.Hour)
+	findingsDownloadURL, err := r.PresignedGetURL(*scan, "findings.json", 7*24*time.Hour)
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
 		return err
 	}
 	scan.Status.FindingDownloadLink = findingsDownloadURL
-	rawResultDownloadURL, err := r.PresignedGetURL(scan.UID, scan.Status.RawResultFile, 7*24*time.Hour)
+	rawResultDownloadURL, err := r.PresignedGetURL(*scan, scan.Status.RawResultFile, 7*24*time.Hour)
 	if err != nil {
 		return err
 	}
 	scan.Status.RawResultDownloadLink = rawResultDownloadURL
 
-	findingsHeadURL, err := r.PresignedHeadURL(scan.UID, "findings.json", urlExpirationDuration)
+	findingsHeadURL, err := r.PresignedHeadURL(*scan, "findings.json", urlExpirationDuration)
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned head url from s3 or compatible storage provider")
 		return err
 	}
 	scan.Status.FindingHeadLink = findingsHeadURL
 
-	rawResultsHeadURL, err := r.PresignedHeadURL(scan.UID, scan.Status.RawResultFile, urlExpirationDuration)
+	rawResultsHeadURL, err := r.PresignedHeadURL(*scan, scan.Status.RawResultFile, urlExpirationDuration)
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned head url from s3 or compatible storage provider")
 		return err
@@ -174,7 +174,7 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *e
 		panic(err)
 	}
 
-	resultUploadURL, err := r.PresignedPutURL(scan.UID, filename, urlExpirationDuration)
+	resultUploadURL, err := r.PresignedPutURL(*scan, filename, urlExpirationDuration)
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
 		return nil, err
