@@ -95,6 +95,13 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 	scan.Status.RawResultType = scanType.Spec.ExtractResults.Type
 	scan.Status.RawResultFile = filepath.Base(scanType.Spec.ExtractResults.Location)
 
+	urlExpirationDuration, err := util.GetUrlExpirationDuration(util.ScanController)
+	if err != nil {
+		r.Log.Error(err, "Failed to parse scan url expiration")
+		panic(err)
+	}
+
+	// this time is hardcoded as its not used internally by the scb so it should be longer lasting
 	findingsDownloadURL, err := r.PresignedGetURL(*scan, "findings.json", 7*24*time.Hour)
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
@@ -107,14 +114,14 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 	}
 	scan.Status.RawResultDownloadLink = rawResultDownloadURL
 
-	findingsHeadURL, err := r.PresignedHeadURL(*scan, "findings.json", 7*24*time.Hour)
+	findingsHeadURL, err := r.PresignedHeadURL(*scan, "findings.json", urlExpirationDuration)
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned head url from s3 or compatible storage provider")
 		return err
 	}
 	scan.Status.FindingHeadLink = findingsHeadURL
 
-	rawResultsHeadURL, err := r.PresignedHeadURL(*scan, scan.Status.RawResultFile, 7*24*time.Hour)
+	rawResultsHeadURL, err := r.PresignedHeadURL(*scan, scan.Status.RawResultFile, urlExpirationDuration)
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned head url from s3 or compatible storage provider")
 		return err
@@ -161,7 +168,13 @@ func (r *ScanReconciler) checkIfScanIsCompleted(scan *executionv1.Scan) error {
 
 func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanType *executionv1.ScanType) (*batch.Job, error) {
 	filename := filepath.Base(scanType.Spec.ExtractResults.Location)
-	resultUploadURL, err := r.PresignedPutURL(*scan, filename, defaultPresignDuration)
+	urlExpirationDuration, err := util.GetUrlExpirationDuration(util.ScanController)
+	if err != nil {
+		r.Log.Error(err, "Failed to parse scan url expiration")
+		panic(err)
+	}
+
+	resultUploadURL, err := r.PresignedPutURL(*scan, filename, urlExpirationDuration)
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
 		return nil, err

@@ -53,12 +53,18 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 	}
 	log.Info("Matching ParseDefinition Found", "ParseDefinition", parseType)
 
-	findingsUploadURL, err := r.PresignedPutURL(*scan, "findings.json", defaultPresignDuration)
+	urlExpirationDuration, err := util.GetUrlExpirationDuration(util.ParserController)
+	if err != nil {
+		r.Log.Error(err, "Failed to parse parser url expiration")
+		panic(err)
+	}
+
+	findingsUploadURL, err := r.PresignedPutURL(*scan, "findings.json", urlExpirationDuration)
 	if err != nil {
 		r.Log.Error(err, "Could not get presigned url from s3 or compatible storage provider")
 		return err
 	}
-	rawResultDownloadURL, err := r.PresignedGetURL(*scan, scan.Status.RawResultFile, defaultPresignDuration)
+	rawResultDownloadURL, err := r.PresignedGetURL(*scan, scan.Status.RawResultFile, urlExpirationDuration)
 	if err != nil {
 		return err
 	}

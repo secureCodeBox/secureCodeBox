@@ -110,3 +110,9 @@ resources:
 # s3FileUrlTemplate -- Template that generates the url to access the result files of a scan
 # @default -- scan-{{ .Scan.UID }}/{{ .Filename }}
 s3UrlTemplate: null
+
+# presignedUrlExpirationTimes -- Duration how long presigned urls are valid
+presignedUrlExpirationTimes:
+    scanners: "12h"
+    parsers: "1h"
+    hooks: "1h"
