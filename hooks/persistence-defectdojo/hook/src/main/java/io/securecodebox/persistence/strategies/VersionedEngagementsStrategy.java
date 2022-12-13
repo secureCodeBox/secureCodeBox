@@ -78,7 +78,12 @@ public class VersionedEngagementsStrategy implements Strategy {
       userId = this.config.getUserId();
     } else {
       LOG.debug("Getting DefectDojo User Id via user profile API");
-      userId = userProfileService.search().get(0).getUser().getId();
+      List<UserProfile> userProfiles = userProfileService.search();
+      if (userProfiles.isEmpty()) {
+        throw new DefectDojoPersistenceException("UserProfileService did return empty list. Expected current user to be in list");
+      } else {
+        userId = userProfiles.get(0).getUser().getId();
+      }
     }
 
     LOG.info("Running with DefectDojo User Id: {}", userId);
