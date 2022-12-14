@@ -83,15 +83,27 @@ jobs:
               exit 1
             fi
 
-            # Check if the local and release versions are different
-            if [[ ${local:0:1} != ${release:0:1} ]] ; then
-              # Remove the "v" character from the local and release versions, if it exists
-              local=${local//v/}
-              release=${release//v/}
+            # We check if the first characters of local and release are different i.e whether it's "v1.0.0" or "1.0.0"
+            # This is to make sure that we don't compare "v1.0.0" to "1.0.0" which would result in an upgrade
+            # And also we want to keep the version format the same in the helm chart so that it will still correspond the the docker image tag.
+            # Therefore We make sure to add or remove the "v" character when necessary
 
-              # Set the upgrade variable to the release version with a "v" prefix
-              upgrade=v$release
+            if [[ ${local:0:1} != ${release:0:1} ]] ; then
+              # Check if the first character of local is "v"
+              # In this case docker/local format is "v1.0.0" and github format is "1.0.1"
+              # We want the upgrade to be "v1.0.1" 
+              if [[ ${local:0:1} == "v" ]] ; then
+                # set upgrade to "v" followed by the value of release.
+                upgrade=v${release};
+              # Check if the first character of release is "v"  
+              # in this case docker/local format is "1.0.0" and github format is "v1.0.1"
+              # We want the upgrade to be "1.0.1"
+              elif [[ ${release:0:1} == "v" ]] ; then
+                # set upgrade to the value of release without the "v" character
+                upgrade=$(echo $release| tr -d "v")
+              fi
             fi
+
 
             # Save how the latest release version looks in github releases to an environment variable
             echo releaseGithub=$release >> $GITHUB_ENV
