@@ -63,9 +63,7 @@ jobs:
         with:
           cmd: echo versionApi=$(yq e .annotations.versionApi scanners/${{ matrix.scanner }}/Chart.yaml) >> $GITHUB_ENV
 
-      # A hacky way to solve the problem where the docker image is in the "1.0" format and the github release is in the "v1.0" format
-      # We make sure to add or remove the "v" character when necessary
-      # example: local=1.0.0, release=v1.0.1, upgrade=1.0.1
+      # Fetching scanner version from remote API and making sure it's in the same format as the local version
       - name: Fetch latest release scanner version
         run: |
             # Set the -e and -o pipefail options to cause the script to exit immediately
