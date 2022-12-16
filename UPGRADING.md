@@ -166,3 +166,9 @@ The `zap` and `zap-advanced` parsers where changed to increase the consistency b
 The container autodiscovery will now be enabled by default. Additionally the container autodiscovery will now check if the configured scantype is installed in the namespace before it creates a scheduled scan (just like the service autodiscovery). 
 
 ➡️  [Reference: #1112](https://github.com/secureCodeBox/secureCodeBox/pull/1112)
+
+### Update Nuclei Finding Format
+
+The format for [Nuclei](https://www.securecodebox.io/docs/scanners/nuclei) have been updated. With it some attributes have been moved / renamed to more closely match the nuclei format and to be able to support most / all information contained from the findings.
+
+➡️  [Reference: #1350](https://github.com/secureCodeBox/secureCodeBox/pull/1350)
