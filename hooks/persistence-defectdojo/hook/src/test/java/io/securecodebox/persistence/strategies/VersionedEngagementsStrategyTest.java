@@ -9,7 +9,7 @@ import io.securecodebox.models.V1ScanStatus;
 import io.securecodebox.persistence.config.PersistenceProviderConfig;
 import io.securecodebox.persistence.defectdojo.config.DefectDojoConfig;
 import io.securecodebox.persistence.defectdojo.models.ScanFile;
-import io.securecodebox.persistence.defectdojo.models.User;
+import io.securecodebox.persistence.defectdojo.models.UserProfile;
 import io.securecodebox.persistence.defectdojo.service.*;
 import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import io.securecodebox.persistence.models.Scan;
@@ -22,6 +22,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +40,7 @@ public class VersionedEngagementsStrategyTest {
   @Mock
   ProductTypeService productTypeService;
   @Mock
-  UserService userService;
+  UserProfileService userProfileService;
   @Mock
   ToolTypeService toolTypeService;
   @Mock
@@ -73,7 +74,7 @@ public class VersionedEngagementsStrategyTest {
   @Test
   @DisplayName("Fails when Configured User can not be looked up in the DefectDojo API")
   void requiresUserToBeFound() throws Exception {
-    when(userService.searchUnique(any(User.class))).thenReturn(Optional.empty());
+    when(userProfileService.search()).thenReturn(new ArrayList<UserProfile>());
 
     Assertions.assertThrows(DefectDojoPersistenceException.class, () -> {
       versionedEngagementsStrategy.run(scan, new ScanFile("nmap.xml","<!-- Nmap Report -->"));
