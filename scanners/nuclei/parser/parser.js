@@ -18,6 +18,7 @@ async function parse(fileContent) {
       description:
         finding.info?.description ??
         `The name of the nuclei rule which triggered the finding: ${finding["template-id"]}`,
+      identified_at: finding.timestamp,
       location: finding.host,
       severity: getAdjustedSeverity(finding?.info?.severity.toUpperCase()),
       category: finding["template-id"],
