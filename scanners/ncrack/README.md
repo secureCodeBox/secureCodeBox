@@ -3,7 +3,7 @@ title: "Ncrack"
 category: "scanner"
 type: "Authentication"
 state: "released"
-appVersion: "0.7"
+appVersion: "null"
 usecase: "Network authentication bruteforcing"
 ---
 
