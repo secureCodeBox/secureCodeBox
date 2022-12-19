@@ -3,7 +3,7 @@ title: "SSH"
 category: "scanner"
 type: "SSH"
 state: "released"
-appVersion: "0.0.44"
+appVersion: "null"
 usecase: "SSH Configuration and Policy Scanner"
 ---
 
