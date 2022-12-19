@@ -3,7 +3,7 @@ title: "Kube Hunter"
 category: "scanner"
 type: "Kubernetes"
 state: "released"
-appVersion: "0.6.8"
+appVersion: "null"
 usecase: "Kubernetes Vulnerability Scanner"
 ---
 
