@@ -11,6 +11,7 @@ async function parse(fileContent) {
     return {
       name: 'Webserver Content',
       description: `Content [${result.input ? Object.values(result.input) : ""}] was found on the webserver ${result.host}.`, // todo rn: what if no FUZZ keyword is used??
+      identified_at: fileContent.time,
       osi_layer: 'APPLICATION',
       severity: 'INFORMATIONAL',
       category: 'Webserver Content',
