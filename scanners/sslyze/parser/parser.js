@@ -22,6 +22,8 @@ function parse(fileContent) {
     console.log(JSON.stringify(fileContent));
   }
 
+  serverScanResult.identified_at = fileContent.date_scans_completed;
+
   const partialFindings = [
     generateInformationalServiceFinding(serverScanResult),
     ...generateVulnerableTLSVersionFindings(serverScanResult),
@@ -106,6 +108,7 @@ function generateInformationalServiceFinding(serverScanResult) {
   return {
     name: "TLS Service",
     description: "",
+    identified_at: serverScanResult.identified_at,
     category: "TLS Service Info",
     severity: "INFORMATIONAL",
     hint: null,
@@ -128,6 +131,7 @@ function generateVulnerableTLSVersionFindings(serverScanResult) {
         name: `TLS Version ${tlsVersion} is considered insecure`,
         category: "Outdated TLS Version",
         description: "The server uses outdated or insecure tls versions.",
+        identified_at: serverScanResult.identified_at,
         severity: "MEDIUM",
         hint: "Upgrade to a higher tls version.",
         attributes: {
@@ -183,6 +187,7 @@ function analyseCertificateDeployments(serverScanResult) {
       name: findingTemplate.name,
       category: "Invalid Certificate",
       description: findingTemplate.description,
+      identified_at: serverScanResult.identified_at,
       severity: "MEDIUM",
       hint: null,
       attributes: {},
