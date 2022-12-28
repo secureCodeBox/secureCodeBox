@@ -118,13 +118,15 @@ function createPolicyViolationFinding({
  */
 function transformRecommendationToFinding(
   recommendation,
-  { hostname, ipAddress }
-) {
+  { hostname, ipAddress },
+   identified_at
+) { 
   for (const rule of policyViolationFindingRules) {
     if (rule.policyViolationPrefix.test(recommendation)) {
       return createPolicyViolationFinding({
         name: rule.findingTemplate.name,
         description: rule.findingTemplate.description,
+        identified_at: identified_at,
         recommendation,
         host: { hostname, ipAddress }
       });
@@ -150,11 +152,14 @@ async function parse(fileContent) {
       const hostname = host.hostname || null;
       const ipAddress = host.ip;
 
+      var identified_at = new Date (host.end_time).toISOString();
+
       const recommendations = host.compliance.recommendations || [];
       const policyViolationFindings = recommendations.map(recommendation =>
         transformRecommendationToFinding(recommendation, {
           hostname,
-          ipAddress
+          ipAddress,
+          identified_at
         })
       );
 
@@ -164,6 +169,7 @@ async function parse(fileContent) {
       const serviceFinding = {
         name: "SSH Service",
         description: "SSH Service Information",
+        identified_at: identified_at,
         category: "SSH Service",
         osi_layer: "APPLICATION",
         severity: "INFORMATIONAL",
