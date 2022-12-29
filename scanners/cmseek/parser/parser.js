@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
+const { addHostnameOrIpToFindingObject } = require("@securecodebox/parser-sdk-nodejs/parser-utils");
+
 async function parse(findings) {
   let results = []
   // Making sure the CMS is Joomla
@@ -15,10 +17,11 @@ async function parse(findings) {
       name: "Debug mode",
       description: `Debug mode is enabled on the site`,
       category: "Security Misconfiguration",
-      location: findings.url,
       osi_layer: "APPLICATION",
       severity: "MEDIUM",
     }
+
+    parsed_debug_mode_enabled = addHostnameOrIpToFindingObject(parsed_debug_mode_enabled, findings.url);
   }
 
   // Check if backup files are open; if yes add finding
@@ -28,23 +31,23 @@ async function parse(findings) {
       name: "Backup files",
       description: `Visible Backup files found`,
       category: "Visible internal files",
-      location: findings.url,
       osi_layer: "APPLICATION",
       severity: "INFORMATIONAL",
       attributes: {
         joomla_backup_files: findings.joomla_backup_files
       }
     }
+
+    parsed_backupFiles = addHostnameOrIpToFindingObject(parsed_backupFiles, findings.url);
   }
   // Check if any core vulnerabilities exist; if yes list findings
   let parsed_vulnerabilities = []
   if (findings.vulnerabilities_count > 0) {
     parsed_vulnerabilities = findings.vulnerabilities.map((vuln) => {
-      return {
+      parsed_vulnerabilities = {
         name: vuln.name,
         description: `Vulnerability of type ${vuln.name} found`,
         category: "Vulnerability",
-        location: findings.url,
         osi_layer: "APPLICATION",
         severity: "HIGH",
         attributes: {
@@ -52,6 +55,8 @@ async function parse(findings) {
           references: vuln.references,
         }
       };
+
+      return addHostnameOrIpToFindingObject(parsed_vulnerabilities, findings.url);
     });
   }
   // concat all parsed results
