@@ -11,7 +11,7 @@ const {
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 const readFile = util.promisify(fs.readFile);
 
-const { parse } = require("./parser");
+const {parse} = require("./parser");
 
 test("example parser parses empty json files to zero findings", async () => {
   const fileContent = await readFile(__dirname + "/__testFiles__/empty.jsonl", {
@@ -42,30 +42,30 @@ test("example parser parses single line json successfully", async () => {
   await expect(validateParser(findings)).resolves.toBeUndefined();
 
   expect(findings).toMatchInlineSnapshot(`
-  Array [
-    Object {
-      "attributes": Object {
-        "addresses": Array [
-          Object {
-            "asn": 34011,
-            "cidr": "10.110.224.0/21",
-            "desc": "GD-EMEA-DC-CGN1",
-            "ip": "10.110.225.135",
-          },
-        ],
-        "domain": "example.de",
+    Array [
+      Object {
+        "attributes": Object {
+          "addresses": Array [
+            Object {
+              "asn": 34011,
+              "cidr": "10.110.224.0/21",
+              "desc": "GD-EMEA-DC-CGN1",
+              "ip": "10.110.225.135",
+            },
+          ],
+          "domain": "example.de",
+          "name": "www.example.de",
+          "source": undefined,
+          "tag": "cert",
+        },
+        "category": "Subdomain",
+        "description": "Found subdomain www.example.de",
+        "hostname": "www.example.de",
         "name": "www.example.de",
-        "source": undefined,
-        "tag": "cert",
+        "osi_layer": "NETWORK",
+        "severity": "INFORMATIONAL",
       },
-      "category": "Subdomain",
-      "description": "Found subdomain www.example.de",
-      "location": "www.example.de",
-      "name": "www.example.de",
-      "osi_layer": "NETWORK",
-      "severity": "INFORMATIONAL",
-    },
-  ]
+    ]
   `);
 });
 

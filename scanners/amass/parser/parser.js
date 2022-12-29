@@ -20,7 +20,7 @@ async function parse(fileContent) {
       name: domain.name,
       description: `Found subdomain ${domain.name}`,
       category: "Subdomain",
-      location: domain.name,
+      hostname: domain.name,
       osi_layer: "NETWORK",
       severity: "INFORMATIONAL",
       attributes: {
