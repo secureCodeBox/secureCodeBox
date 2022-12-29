@@ -50,6 +50,26 @@ function generateErrorMessage(errors, jsonData) {
   return JSON.stringify(errors, null, 2);
 }
 
+function addHostnameOrIpToFindingObject(finding, unidentifiedString) {
+  // this function assumes that unidentifiedString is either an ip or an url/hostname 
+  // checking if a string is a valid url is pretty complicated, so it is only checked if the string is an ip.
+
+  // first capture group is a potential protocol, the second capture group is the ip/hostname, the third capture group is a potential port
+  // example: (ssh://)(1.1.1.1)(:20) or (http://)(google.de)(:80) or just 1.1.1.1 or just google.de
+  let regex = /([a-zA-Z]+:\/\/*)?([^\/:]*)(:\d+)?/;
+  let strippedString = regex.exec(unidentifiedString)[2];
+
+  let isIp = require('net').isIP(strippedString);
+  if (isIp) {
+    finding.ip_address = strippedString;
+  }
+  else {
+    finding.hostname = strippedString;
+  }
+  return finding;
+}
+
 module.exports.addIdsAndDates = addIdsAndDates;
 module.exports.validate = validateAgainstJsonSchema;
 module.exports.validateParser = addSampleIdsAndDatesAndValidate;
+module.exports.addHostnameOrIpToFindingObject = addHostnameOrIpToFindingObject;
