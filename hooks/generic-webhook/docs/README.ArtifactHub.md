@@ -68,6 +68,9 @@ Kubernetes: `>=v1.11.0-0`
 | hook.authentication.basic.passwordKey | string | `"password"` | Name of the password key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |
 | hook.authentication.basic.userSecret | string | `"generic-webhook-credentials"` | Link a pre-existing generic secret with `usernameKey` and `passwordKey` key / value pairs |
 | hook.authentication.basic.usernameKey | string | `"username"` | Name of the username key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |
+| hook.authentication.apikey.userSecret | string | `"generic-webhook-credentials"` | Link a pre-existing generic secret with `usernameKey` and `passwordKey` key / value pairs |
+| hook.authentication.apikey.key | string | `"X-api-key"` |  Customize header name as per your needs |
+| hook.authentication.apikey.secret | string | `"26ea529e517748baa6d87ebfe5781475"` | Use your API key |
 | hook.image.repository | string | `"docker.io/securecodebox/hook-generic-webhook"` | Hook image repository |
 | hook.image.tag | string | defaults to the charts version | The image Tag defaults to the charts version if not defined. |
 | hook.labels | object | `{}` | Add Kubernetes Labels to the hook definition |
