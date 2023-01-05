@@ -35,7 +35,7 @@ spec:
       valueFrom:
         secretKeyRef:
           name: {{ .Values.hook.authentication.apikey.userSecret }}
-          key: {{ .Values.hook.authentication.apikey.key }}
+          key: header-name
           optional: true
     - name: WEBHOOK_APIKEY_SECRET
       valueFrom:
