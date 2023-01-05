@@ -43,3 +43,4 @@ Committing with `git commit -s` will add the sign-off at the end of the commit m
 - Felix Hörsting <felix.hoersting@iteratec.com>
 - Matthew Cascio <cascio@cybercapsicum.com>
 - Patryk Miłek <patrykmilek96@gmail.com>
+- Renato Burton <renatoburton96@gmail.com>
