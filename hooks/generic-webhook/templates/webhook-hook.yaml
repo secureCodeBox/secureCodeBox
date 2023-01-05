@@ -41,7 +41,7 @@ spec:
       valueFrom:
         secretKeyRef:
           name: {{ .Values.hook.authentication.apikey.userSecret }}
-          key: {{ .Values.hook.authentication.apikey.secret }}
+          key: header-value
           optional: true
   affinity:
     {{- toYaml .Values.hook.affinity | nindent 4 }}
