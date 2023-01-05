@@ -40,9 +40,9 @@ hook:
     apikey:
       # -- Link a pre-existing generic secret with `usernameKey` and `passwordKey` key / value pairs
       userSecret: generic-webhook-credentials
-      # -- Customize header name as per your needs
-      key: X-api-key
-      secret: 26ea529e517748baa6d87ebfe5781475
+      # -- Customize header name as per your needs ex: X-Api-Key
+      headerName: X-Example-Header
+      headerValue: example
     basic:
       # -- Link a pre-existing generic secret with `usernameKey` and `passwordKey` key / value pairs
       userSecret: generic-webhook-credentials

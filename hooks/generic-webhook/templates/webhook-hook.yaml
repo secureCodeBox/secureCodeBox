@@ -35,13 +35,13 @@ spec:
       valueFrom:
         secretKeyRef:
           name: {{ .Values.hook.authentication.apikey.userSecret }}
-          key: header-name
+          key: {{ .Values.hook.authentication.apikey.headerName }}
           optional: true
     - name: WEBHOOK_APIKEY_SECRET
       valueFrom:
         secretKeyRef:
           name: {{ .Values.hook.authentication.apikey.userSecret }}
-          key: header-value
+          key: {{ .Values.hook.authentication.apikey.headerValue }}
           optional: true
   affinity:
     {{- toYaml .Values.hook.affinity | nindent 4 }}
