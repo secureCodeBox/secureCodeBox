@@ -17,7 +17,7 @@ async function handle({
   console.log(`Sending ${findings.length} findings to ${webhookUrl}`);
 
   if (webhookApikey && webhookApikeySecret){
-    await axios.post(webhookUrl, {scan, findings }, {headers: { webhookApikey: webhookApikeySecret}});
+    await axios.post(webhookUrl, {scan, findings }, {headers: { [webhookApikey]: webhookApikeySecret}});
   }else if (webhookUser && webhookPassword){
     await axios.post(webhookUrl, {scan, findings }, {auth: {username: webhookUser, password: webhookPassword}});
   }else{
