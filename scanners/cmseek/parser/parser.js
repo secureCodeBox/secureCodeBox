@@ -61,6 +61,7 @@ async function parse(findings) {
   return parsed_vulnerabilities.concat(parsed_backupFiles).concat(parsed_debug_mode_enabled)
 }
 
+// findings.url can also be an IP depending on the parameters of the scan
 function addHostnameOrIpToFindingObject(finding, unidentifiedString) {
   // this function assumes that unidentifiedString is either an ip or an url/hostname 
   // checking if a string is a valid url is pretty complicated, so it is only checked if the string is an ip.
