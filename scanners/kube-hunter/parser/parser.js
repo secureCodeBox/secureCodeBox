@@ -28,7 +28,7 @@ async function parse({ vulnerabilities = [], nodes = [] }) {
     return {
       name: vulnerability.vulnerability,
       description: vulnerability.description,
-      location: toValidUrl(location),
+      ip_address: location,
       severity: vulnerability.severity.toUpperCase(),
       category: vulnerability.category,
       reference,
@@ -38,10 +38,6 @@ async function parse({ vulnerabilities = [], nodes = [] }) {
       }
     };
   });
-}
-
-function toValidUrl(location){
-  return "tcp://"+location
 }
 
 module.exports.parse = parse;
