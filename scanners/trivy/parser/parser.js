@@ -36,7 +36,7 @@ async function parse(scanResults) {
         name: vulnerability.Title || `Vulnerability in Dependency ${vulnerability.PkgName} (${vulnerability.InstalledVersion})`,
         description: vulnerability.Description,
         category,
-        location: imageId,
+        imageId: imageId,
         osi_layer: "NOT_APPLICABLE",
         severity: getAdjustedSeverity(vulnerability.Severity),
         reference,
