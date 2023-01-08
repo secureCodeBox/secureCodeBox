@@ -13,12 +13,11 @@ async function parse(fileContent) {
   return jsonResult.map((finding) => {
     const hostname = parseHostname(finding.host);
 
-    return {
+    let result = {
       name: finding.info.name,
       description:
         finding.info?.description ??
         `The name of the nuclei rule which triggered the finding: ${finding["template-id"]}`,
-      location: finding.host,
       severity: getAdjustedSeverity(finding?.info?.severity.toUpperCase()),
       category: finding["template-id"],
       attributes: {
@@ -49,6 +48,15 @@ async function parse(fileContent) {
         curl_command: finding["curl-command"] || null,
       },
     };
+
+    if (hostname) {
+      result.hostname = hostname;
+    }
+    if (finding.ip) {
+      result.ip_address = finding.ip;
+    }
+
+    return result;
   });
 }
 
