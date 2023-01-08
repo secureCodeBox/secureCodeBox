@@ -59,7 +59,8 @@ async function parse({ host, ip, port: portString, banner, vulnerabilities }) {
       name: msg.trimRight(),
       description: null,
       category,
-      location: `${protocol}://${host}${url}`,
+      hostname: host,
+      ip_address: ip,
       osi_layer: "NETWORK",
       severity,
       attributes: {
@@ -69,6 +70,7 @@ async function parse({ host, ip, port: portString, banner, vulnerabilities }) {
         method,
         port,
         niktoId,
+        protocol
       },
     };
   });
