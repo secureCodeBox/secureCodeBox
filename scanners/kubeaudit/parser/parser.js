@@ -7,7 +7,7 @@ function createDropCapabilityFinding({ Capability, Container, msg }) {
     name: `Capability '${Capability}' Not Dropped`,
     description: msg,
     category: "Capability Not Dropped",
-    location: `container://${Container}`,
+    container: `container://${Container}`,
     osi_layer: "NOT_APPLICABLE",
     severity: "LOW",
     attributes: {
@@ -22,7 +22,7 @@ function createNonReadOnlyRootFsFinding({ Container, msg }) {
     name: `Container Uses a non ReadOnly Root Filesystem`,
     description: msg,
     category: "Non ReadOnly Root Filesystem",
-    location: `container://${Container}`,
+    container: `container://${Container}`,
     osi_layer: "NOT_APPLICABLE",
     severity: "LOW",
     attributes: {
@@ -36,7 +36,7 @@ function createPrivilegedContainerFinding({ Container, msg }) {
     name: `Container using Privileged Flag`,
     description: msg,
     category: "Privileged Container",
-    location: `container://${Container}`,
+    container: `container://${Container}`,
     osi_layer: "NOT_APPLICABLE",
     severity: "HIGH",
     attributes: {
@@ -62,7 +62,7 @@ function createNonRootUserNotEnforcedFinding({ msg, Container }) {
     name: `NonRoot User not enforced for Container`,
     description: msg,
     category: "Non Root User Not Enforced",
-    location: `container://${Container}`,
+    container: `container://${Container}`,
     osi_layer: "NOT_APPLICABLE",
     severity: "MEDIUM",
     attributes: {
@@ -76,7 +76,7 @@ function createMissingNetworkPolicyFinding({ msg, Namespace }) {
     name: `Namespace "${Namespace}" is missing a Default Deny NetworkPolicy`,
     description: msg,
     category: "No Default Deny NetworkPolicy",
-    location: `namespace://${Namespace}`,
+    namespace: `namespace://${Namespace}`,
     osi_layer: "NOT_APPLICABLE",
     severity: "MEDIUM",
     attributes: {
