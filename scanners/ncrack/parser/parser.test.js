@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { parse } = require("./parser");
+const {parse} = require("./parser");
 const fs = require("fs");
 const crypto = require("crypto");
 const {
@@ -34,23 +34,23 @@ it("should return findings when ncrack found credentials", async () => {
   await expect(validateParser(findings)).resolves.toBeUndefined();
   const [finding, ...otherFindings] = findings;
   expect(finding).toMatchInlineSnapshot(`
-        Object {
-          "attributes": Object {
-            "ip_address": "192.168.0.1",
-            "password": "aaf076d4fe7cfb63fd1628df91",
-            "port": "22",
-            "protocol": "tcp",
-            "service": "ssh",
-            "username": "root",
-          },
-          "category": "Discovered Credentials",
-          "description": "",
-          "location": "ssh://192.168.0.1:22",
-          "name": "Credentials for Service ssh://192.168.0.1:22 discovered via bruteforce.",
-          "osi_layer": "APPLICATION",
-          "severity": "HIGH",
-        }
-    `);
+    Object {
+      "attributes": Object {
+        "ip_address": "192.168.0.1",
+        "password": "aaf076d4fe7cfb63fd1628df91",
+        "port": "22",
+        "protocol": "tcp",
+        "service": "ssh",
+        "username": "root",
+      },
+      "category": "Discovered Credentials",
+      "description": "",
+      "ip_address": "192.168.0.1",
+      "name": "Credentials for Service ssh://192.168.0.1:22 discovered via bruteforce.",
+      "osi_layer": "APPLICATION",
+      "severity": "HIGH",
+    }
+  `);
   expect(otherFindings.length).toBe(0);
 });
 
@@ -79,41 +79,41 @@ it("should return findings when ncrack found two credentials scanning two servic
   const findings = await parse(ncrackXML);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
-        Array [
-          Object {
-            "attributes": Object {
-              "ip_address": "192.168.0.2",
-              "password": "55994bcdabd8b0b69d4cb32919",
-              "port": "22",
-              "protocol": "tcp",
-              "service": "ssh",
-              "username": "root",
-            },
-            "category": "Discovered Credentials",
-            "description": "",
-            "location": "ssh://192.168.0.2:22",
-            "name": "Credentials for Service ssh://192.168.0.2:22 discovered via bruteforce.",
-            "osi_layer": "APPLICATION",
-            "severity": "HIGH",
-          },
-          Object {
-            "attributes": Object {
-              "ip_address": "192.168.0.1",
-              "password": "2a4707625af87d8d4302ad226d",
-              "port": "22",
-              "protocol": "tcp",
-              "service": "ssh",
-              "username": "root",
-            },
-            "category": "Discovered Credentials",
-            "description": "",
-            "location": "ssh://192.168.0.1:22",
-            "name": "Credentials for Service ssh://192.168.0.1:22 discovered via bruteforce.",
-            "osi_layer": "APPLICATION",
-            "severity": "HIGH",
-          },
-        ]
-    `);
+    Array [
+      Object {
+        "attributes": Object {
+          "ip_address": "192.168.0.2",
+          "password": "55994bcdabd8b0b69d4cb32919",
+          "port": "22",
+          "protocol": "tcp",
+          "service": "ssh",
+          "username": "root",
+        },
+        "category": "Discovered Credentials",
+        "description": "",
+        "ip_address": "192.168.0.2",
+        "name": "Credentials for Service ssh://192.168.0.2:22 discovered via bruteforce.",
+        "osi_layer": "APPLICATION",
+        "severity": "HIGH",
+      },
+      Object {
+        "attributes": Object {
+          "ip_address": "192.168.0.1",
+          "password": "2a4707625af87d8d4302ad226d",
+          "port": "22",
+          "protocol": "tcp",
+          "service": "ssh",
+          "username": "root",
+        },
+        "category": "Discovered Credentials",
+        "description": "",
+        "ip_address": "192.168.0.1",
+        "name": "Credentials for Service ssh://192.168.0.1:22 discovered via bruteforce.",
+        "osi_layer": "APPLICATION",
+        "severity": "HIGH",
+      },
+    ]
+  `);
 });
 
 it("should encrypt findings when a public key is set", async () => {

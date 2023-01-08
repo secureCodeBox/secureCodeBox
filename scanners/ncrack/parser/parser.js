@@ -41,7 +41,7 @@ function transformToFindings (ncrackrun, publicKey) {
         name: `Credentials for Service ${portName}://${ipAddress}:${portid} discovered via bruteforce.`,
         description: '',
         category: 'Discovered Credentials',
-        location: `${portName}://${ipAddress}:${portid}`,
+        ip_address: ipAddress,
         osi_layer: 'APPLICATION',
         severity: 'HIGH',
         attributes: {
