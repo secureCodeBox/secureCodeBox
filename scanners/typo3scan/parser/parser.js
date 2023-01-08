@@ -14,14 +14,14 @@ async function parse(findings) {
           return [];
         // Parsing Vulnerabilities
         const parsed_vulnerabilities = vulns.map((vuln) => {
-            return {
+            let result = {
                 name: vuln.Type,
                 description: `Vulnerability of type ${vuln.Type} found`,
                 category: "Vulnerability",
-                location: domain,
                 osi_layer: "APPLICATION",
                 severity: "HIGH",
                 attributes: {
+                    location: domain,
                     typo3_version: domain_findings.Version,
                     advisory: vuln.Advisory,
                     subcomponent: vuln.Subcomponent,
@@ -30,6 +30,7 @@ async function parse(findings) {
 
                 }
             };
+            return addHostnameOrIpToFindingObject(result, domain);
         });
         // Parsing Extenstions
         const extensions = domain_findings.Extensions
@@ -40,14 +41,14 @@ async function parse(findings) {
             if (ext.Vulnerabilities.length > 0) {
                 severity = 'HIGH'
             }
-            return {
+            let result = {
                 name: ext.Name,
                 description: `Extension ${ext.Name} (${ext.Title}) found`,
                 category: "Extension",
-                location: ext.Url,
                 osi_layer: "APPLICATION",
                 severity: severity,
                 attributes: {
+                    location: ext.Url,
                     typo3_version: domain_findings.Version,
                     repository: ext.Repo,
                     extension_Version: ext.Version,
@@ -55,6 +56,7 @@ async function parse(findings) {
                     vulnerabilities: ext.Vulnerabilities
                 }
             };
+            return addHostnameOrIpToFindingObject(result, ext.Url);
         });
 
         results = parsed_vulnerabilities.concat(parsed_extensions)
@@ -62,4 +64,25 @@ async function parse(findings) {
     });
     return results
 }
+
+// findings.url can also be an IP depending on the parameters of the scan
+function addHostnameOrIpToFindingObject(finding, unidentifiedString) {
+  // this function assumes that unidentifiedString is either an ip or an url/hostname 
+  // checking if a string is a valid url is pretty complicated, so it is only checked if the string is an ip.
+
+  // first capture group is a potential protocol, the second capture group is the ip/hostname, the third capture group is a potential port
+  // example: (ssh://)(1.1.1.1)(:20) or (http://)(google.de)(:80) or just 1.1.1.1 or just google.de
+  let regex = /([a-zA-Z]+:\/\/*)?([^\/:]*)(:\d+)?/;
+  let strippedString = regex.exec(unidentifiedString)[2];
+
+  let isIp = require('net').isIP(strippedString);
+  if (isIp) {
+    finding.ip_address = strippedString;
+  }
+  else {
+    finding.hostname = strippedString;
+  }
+  return finding;
+}
+
 module.exports.parse = parse;
