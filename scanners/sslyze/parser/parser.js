@@ -29,14 +29,12 @@ function parse(fileContent) {
   ];
 
   const { ip_address, hostname, port } = serverScanResult.server_location;
-  const location = `${hostname || ip_address}:${port}`;
 
   // Enhance partialFindings with common properties shared across all SSLyze findings
   const findings = partialFindings.map((partialFinding) => {
-    return {
+    let result = {
       osi_layer: "PRESENTATION",
       reference: null,
-      location,
       ...partialFinding,
       attributes: {
         hostname,
@@ -45,6 +43,14 @@ function parse(fileContent) {
         ...(partialFinding.attributes || {}),
       },
     };
+
+    if (hostname) {
+      result.hostname = hostname;
+    }
+    if (ip_address) {
+      result.ip_address = ip_address;
+    }
+    return result;
   });
 
   return findings;

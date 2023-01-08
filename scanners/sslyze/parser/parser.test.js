@@ -33,7 +33,8 @@ test("parses result file for www.securecodebox.io correctly", async () => {
     osi_layer: "PRESENTATION",
     hint: null,
     reference: null,
-    location: "www.securecodebox.io:443",
+    hostname: "www.securecodebox.io",
+    ip_address: "185.199.110.153",
     attributes: {
       hostname: "www.securecodebox.io",
       ip_address: "185.199.110.153",
@@ -81,7 +82,8 @@ test("parses result file for tls-v1-0.badssl.com:1010 correctly", async () => {
     osi_layer: "PRESENTATION",
     hint: null,
     reference: null,
-    location: "tls-v1-0.badssl.com:443",
+    hostname: "tls-v1-0.badssl.com",
+    ip_address: "104.154.89.105",
     attributes: {
       hostname: "tls-v1-0.badssl.com",
       ip_address: "104.154.89.105",
@@ -128,7 +130,8 @@ test("parses result file for tls-v1-0.badssl.com:1010 correctly", async () => {
     hint: "Upgrade to a higher tls version.",
     osi_layer: "PRESENTATION",
     reference: null,
-    location: "tls-v1-0.badssl.com:443",
+    hostname: "tls-v1-0.badssl.com",
+    ip_address: "104.154.89.105",
     attributes: {
       hostname: "tls-v1-0.badssl.com",
       ip_address: "104.154.89.105",
@@ -158,7 +161,8 @@ test("parses result file for expired.badssl.com correctly", async () => {
     osi_layer: "PRESENTATION",
     hint: null,
     reference: null,
-    location: "expired.badssl.com:443",
+    hostname: "expired.badssl.com",
+    ip_address: "104.154.89.105",
     attributes: {
       hostname: "expired.badssl.com",
       ip_address: "104.154.89.105",
@@ -198,7 +202,8 @@ test("parses result file for expired.badssl.com correctly", async () => {
     description: "Certificate has expired",
     category: "Invalid Certificate",
     severity: "MEDIUM",
-    location: "expired.badssl.com:443",
+    hostname: "expired.badssl.com",
+    ip_address: "104.154.89.105",
     attributes: {
       hostname: "expired.badssl.com",
       ip_address: "104.154.89.105",
@@ -228,7 +233,8 @@ test("parses result file for wrong.host.badssl.com correctly", async () => {
     osi_layer: "PRESENTATION",
     hint: null,
     reference: null,
-    location: "wrong.host.badssl.com:443",
+    hostname: "wrong.host.badssl.com",
+    ip_address: "104.154.89.105",
     attributes: {
       hostname: "wrong.host.badssl.com",
       ip_address: "104.154.89.105",
@@ -268,7 +274,8 @@ test("parses result file for wrong.host.badssl.com correctly", async () => {
     description: "Hostname of Server didn't match the certificates subject names",
     category: "Invalid Certificate",
     severity: "MEDIUM",
-    location: "wrong.host.badssl.com:443",
+    hostname: "wrong.host.badssl.com",
+    ip_address: "104.154.89.105",
     attributes: {
       hostname: "wrong.host.badssl.com",
       ip_address: "104.154.89.105",
@@ -300,7 +307,8 @@ test("parses result file for untrusted-root.badssl.com correctly", async () => {
     osi_layer: "PRESENTATION",
     hint: null,
     reference: null,
-    location: "untrusted-root.badssl.com:443",
+    hostname: "untrusted-root.badssl.com",
+    ip_address: "104.154.89.105",
     attributes: {
       hostname: "untrusted-root.badssl.com",
       ip_address: "104.154.89.105",
@@ -340,7 +348,8 @@ test("parses result file for untrusted-root.badssl.com correctly", async () => {
     description: "The certificate chain contains a certificate not trusted ",
     category: "Invalid Certificate",
     severity: "MEDIUM",
-    location: "untrusted-root.badssl.com:443",
+    hostname: "untrusted-root.badssl.com",
+    ip_address: "104.154.89.105",
     attributes: {
       hostname: "untrusted-root.badssl.com",
       ip_address: "104.154.89.105",
@@ -370,7 +379,8 @@ test("parses result file for self-signed.badssl.com correctly", async () => {
     osi_layer: "PRESENTATION",
     hint: null,
     reference: null,
-    location: "self-signed.badssl.com:443",
+    hostname: "self-signed.badssl.com",
+    ip_address: "104.154.89.105",
     attributes: {
       hostname: "self-signed.badssl.com",
       ip_address: "104.154.89.105",
@@ -410,7 +420,8 @@ test("parses result file for self-signed.badssl.com correctly", async () => {
     description: "Certificate is self-signed",
     category: "Invalid Certificate",
     severity: "MEDIUM",
-    location: "self-signed.badssl.com:443",
+    hostname: "self-signed.badssl.com",
+    ip_address: "104.154.89.105",
     attributes: {
       hostname: "self-signed.badssl.com",
       ip_address: "104.154.89.105",
