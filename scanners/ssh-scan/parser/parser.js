@@ -94,7 +94,7 @@ function createPolicyViolationFinding({
 }) {
   const payload = recommendation.split(": ")[1].split(", ");
 
-  return {
+  let result = {
     name,
     description,
     category: "SSH Policy Violation",
@@ -102,13 +102,20 @@ function createPolicyViolationFinding({
     severity: "MEDIUM",
     reference: {},
     hint: recommendation,
-    location: hostname || ipAddress,
     attributes: {
       hostname: hostname,
       ip_address: ipAddress,
       payload: payload
     }
   };
+
+  if (hostname) {
+    result.hostname = hostname;
+  }
+  if (ipAddress) {
+    result.ip_address = ipAddress;
+  }
+  return result;
 }
 
 /**

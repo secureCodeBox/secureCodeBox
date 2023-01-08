@@ -11,7 +11,7 @@ const {
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 const readFile = util.promisify(fs.readFile);
 
-const { parse } = require("./parser");
+const {parse} = require("./parser");
 
 test("ssh-scan parser parses errored result (no ssh server) to zero findings", async () => {
   const hosts = JSON.parse(
@@ -104,7 +104,8 @@ test("ssh-scan parser parses a proper result to proper findings", async () => {
         "category": "SSH Policy Violation",
         "description": "Deprecated / discouraged SSH key algorithms are used",
         "hint": "Remove these key exchange algorithms: diffie-hellman-group14-sha1",
-        "location": "securecodebox.io",
+        "hostname": "securecodebox.io",
+        "ip_address": "138.201.126.99",
         "name": "Insecure SSH Key Algorithms",
         "osi_layer": "NETWORK",
         "reference": Object {},
@@ -124,7 +125,8 @@ test("ssh-scan parser parses a proper result to proper findings", async () => {
         "category": "SSH Policy Violation",
         "description": "Deprecated / discouraged SSH MAC algorithms are used",
         "hint": "Remove these MAC algorithms: umac-64-etm@openssh.com, hmac-sha1-etm@openssh.com, umac-64@openssh.com, hmac-sha1",
-        "location": "securecodebox.io",
+        "hostname": "securecodebox.io",
+        "ip_address": "138.201.126.99",
         "name": "Insecure SSH MAC Algorithms",
         "osi_layer": "NETWORK",
         "reference": Object {},
@@ -215,7 +217,7 @@ test("ssh-scan parser parses a result without a hostname into proper findings", 
         "category": "SSH Policy Violation",
         "description": "Deprecated / discouraged SSH key algorithms are used",
         "hint": "Remove these key exchange algorithms: diffie-hellman-group14-sha1",
-        "location": "192.168.42.42",
+        "ip_address": "192.168.42.42",
         "name": "Insecure SSH Key Algorithms",
         "osi_layer": "NETWORK",
         "reference": Object {},
@@ -235,7 +237,7 @@ test("ssh-scan parser parses a result without a hostname into proper findings", 
         "category": "SSH Policy Violation",
         "description": "Deprecated / discouraged SSH MAC algorithms are used",
         "hint": "Remove these MAC algorithms: umac-64-etm@openssh.com, hmac-sha1-etm@openssh.com, umac-64@openssh.com, hmac-sha1",
-        "location": "192.168.42.42",
+        "ip_address": "192.168.42.42",
         "name": "Insecure SSH MAC Algorithms",
         "osi_layer": "NETWORK",
         "reference": Object {},
@@ -252,7 +254,7 @@ test("ssh-scan parser parses a result without a hostname into proper findings", 
         "category": "SSH Policy Violation",
         "description": "Discouraged SSH authentication methods are used",
         "hint": "Remove these authentication methods: password",
-        "location": "192.168.42.42",
+        "ip_address": "192.168.42.42",
         "name": "Discouraged SSH authentication methods",
         "osi_layer": "NETWORK",
         "reference": Object {},
