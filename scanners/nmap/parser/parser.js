@@ -25,7 +25,8 @@ function transformToFindings(hosts) {
         name: openPort.service ? `Open Port: ${openPort.port} (${openPort.service})`: `Open Port: ${openPort.port}`,
         description: `Port ${openPort.port} is ${openPort.state} using ${openPort.protocol} protocol.`,
         category: 'Open Port',
-        location: `${openPort.protocol}://${hostInfo.ip}:${openPort.port}`,
+        ip_address: hostInfo.ip,
+        hostname: hostInfo.hostname,
         osi_layer: 'NETWORK',
         severity: 'INFORMATIONAL',
         attributes: {
@@ -52,7 +53,8 @@ function transformToFindings(hosts) {
       name: `Host: ${hostname}`,
       category: 'Host',
       description: 'Found a host',
-      location: hostname,
+      hostname: hostname,
+      ip_address: ip,
       severity: 'INFORMATIONAL',
       osi_layer: 'NETWORK',
       attributes: {
@@ -119,10 +121,12 @@ function parseBanner(host, script) {
 function parseFtpCommon(host, script) {
   return {
     category: 'FTP',
-    location: `ftp://${host.ip}:${host.openPorts[0].port}`,
+    ip_address: host.ip,
     osi_layer: 'NETWORK',
     attributes: {
       script: script.$.id || null,
+      protocol: 'ftp',
+      port: host.openPorts[0].port
     },
   }
 }
@@ -130,10 +134,12 @@ function parseFtpCommon(host, script) {
 function parseCommon(host, script) {
   return {
     category: 'TCP',
-    location: `tcp://${host.ip}:${host.openPorts[0].port}`,
+    ip_address: host.ip,
     osi_layer: 'NETWORK',
     attributes: {
       script: script.$.id || null,
+      protocol: 'tcp',
+      port: host.openPorts[0].port
     },
   }
 }
@@ -174,7 +180,7 @@ function parseSmbProtocols(host, script) {
           name: "SMB Dangerous Protocol Version Finding SMBv1",
           description: `Port ${host.openPorts[0].port} is ${host.openPorts[0].state} using SMB protocol with an old version: SMBv1`,
           category: 'SMB',
-          location: `${host.openPorts[0].protocol}://${host.ip}:${host.openPorts[0].port}`,
+          ip_address: host.ip,
           osi_layer: 'NETWORK',
           severity: 'HIGH',
           attributes: attributes
@@ -186,7 +192,7 @@ function parseSmbProtocols(host, script) {
             name: "SMB Dangerous Protocol Version Finding v"+smbVersion,
             description: `Port ${host.openPorts[0].port} is ${host.openPorts[0].state} using SMB protocol with an old version: ` + smbVersion,
             category: 'SMB',
-            location: `${host.openPorts[0].protocol}://${host.ip}:${host.openPorts[0].port}`,
+            ip_address: host.ip,
             osi_layer: 'NETWORK',
             severity: 'MEDIUM',
             attributes: attributes
@@ -197,7 +203,7 @@ function parseSmbProtocols(host, script) {
             name: "SMB Protocol Version Finding v"+smbVersion,
             description: `Port ${host.openPorts[0].port} is ${host.openPorts[0].state} using SMB protocol with an old version: `+ smbVersion,
             category: 'SMB',
-            location: `${host.openPorts[0].protocol}://${host.ip}:${host.openPorts[0].port}`,
+            ip_address: host.ip,
             osi_layer: 'NETWORK',
             severity: 'LOW',
             attributes: attributes
@@ -208,7 +214,7 @@ function parseSmbProtocols(host, script) {
             name: "SMB Protocol Version Finding v"+smbVersion,
             description: `Port ${host.openPorts[0].port} is ${host.openPorts[0].state} using SMB protocol with version: ` + smbVersion,
             category: 'SMB',
-            location: `${host.openPorts[0].protocol}://${host.ip}:${host.openPorts[0].port}`,
+            ip_address: host.ip,
             osi_layer: 'NETWORK',
             severity: 'INFORMATIONAL',
             attributes: attributes
