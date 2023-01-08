@@ -32,7 +32,7 @@ async function parse(fileContent) {
         // FUZZ keywords can also be in headers -> we should see that within the result
         headers: fileContent?.config?.headers,
       },
-      location: result.url,
+      hostname: result.url,
     }
   });
 }
