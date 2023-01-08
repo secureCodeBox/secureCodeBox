@@ -14,7 +14,7 @@ function transformToFindings(targets) {
       name: target.uri,
       category: "WEB APPLICATION",
       description: target.title,
-      location: target.uri,
+      hostname: target.uri,
       osi_layer: 'NETWORK',
       severity: 'INFORMATIONAL',
       attributes: {
