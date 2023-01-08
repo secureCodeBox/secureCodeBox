@@ -16,7 +16,7 @@ async function parse(image, scan) {
       name: `Screenshot for ${websiteUrl}`,
       description: `Took a Screenshot for website: '${websiteUrl}'`,
       category: "Screenshot",
-      location: websiteUrl,
+      hostname: websiteUrl,
       osi_layer: "APPLICATION",
       severity: "INFORMATIONAL",
       attributes: {

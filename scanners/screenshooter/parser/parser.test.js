@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { parse } = require("./parser");
+const {parse} = require("./parser");
 const {
   validateParser,
 } = require("@securecodebox/parser-sdk-nodejs/parser-utils");
@@ -36,7 +36,7 @@ test("should create finding correctly", async () => {
         },
         "category": "Screenshot",
         "description": "Took a Screenshot for website: 'https://www.iteratec.de'",
-        "location": "https://www.iteratec.de",
+        "hostname": "https://www.iteratec.de",
         "name": "Screenshot for https://www.iteratec.de",
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
@@ -47,7 +47,7 @@ test("should create finding correctly", async () => {
 
 test("should not create finding if image is empty", async () => {
   scan.spec.parameters = ["https://www.iteratec.de"];
-  const findings = await parse("", scan)
+  const findings = await parse("", scan);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`Array []`);
 });
