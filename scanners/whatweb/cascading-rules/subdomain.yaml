@@ -18,4 +18,4 @@ spec:
     scanType: "whatweb"
     parameters:
       # Target domain name of the finding and start a whatweb scan
-      - "{{location}}"
+      - "{{hostname}}"

@@ -19,7 +19,7 @@ spec:
     scanType: "typo3scan"
     parameters:
       - "-d"
-      - "{{{location}}}" # Runs a typo3scan upon the 'location' parameter in whatweb findings
+      - "{{{hostname}}}" # Runs a typo3scan upon the 'hostname' parameter in whatweb findings
       # Only show vulnerable extensions
       - "--vuln"
       # Set the number of threads to use for enumerating extensions at 10

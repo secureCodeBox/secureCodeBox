@@ -19,4 +19,4 @@ spec:
     scanType: "cmseek"
     parameters:
       - "-u"
-      - "{{{location}}}" # Runs a cmseek scan upon the 'location' parameter in whatweb findings
+      - "{{{hostname}}}" # Runs a cmseek scan upon the 'hostname' parameter in whatweb findings
