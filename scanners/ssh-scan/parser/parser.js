@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const policyViolationFindingRules = [
-  {
+const policyViolationFindingRules = [{
     policyViolationPrefix: /^Add these key exchange algorithms/,
     findingTemplate: {
       description: "Good / encouraged SSH key algorithms are missing",
@@ -62,8 +61,7 @@ const policyViolationFindingRules = [
   {
     policyViolationPrefix: /^Remove these compression algorithms/,
     findingTemplate: {
-      description:
-        "Deprecated / discouraged SSH compression algorithms are used",
+      description: "Deprecated / discouraged SSH compression algorithms are used",
       name: "Insecure SSH compression algorithms"
     }
   },
@@ -90,7 +88,10 @@ function createPolicyViolationFinding({
   name,
   description,
   recommendation,
-  host: { hostname, ipAddress }
+  host: {
+    hostname,
+    ipAddress
+  }
 }) {
   const payload = recommendation.split(": ")[1].split(", ");
 
@@ -117,10 +118,12 @@ function createPolicyViolationFinding({
  * @param {string} recommendation
  */
 function transformRecommendationToFinding(
-  recommendation,
-  { hostname, ipAddress },
-   identified_at
-) { 
+  recommendation, {
+    hostname,
+    ipAddress
+  },
+  identified_at
+) {
   for (const rule of policyViolationFindingRules) {
     if (rule.policyViolationPrefix.test(recommendation)) {
       return createPolicyViolationFinding({
@@ -128,7 +131,10 @@ function transformRecommendationToFinding(
         description: rule.findingTemplate.description,
         identified_at: identified_at,
         recommendation,
-        host: { hostname, ipAddress }
+        host: {
+          hostname,
+          ipAddress
+        }
       });
     }
   }
@@ -140,7 +146,7 @@ function transformRecommendationToFinding(
 async function parse(fileContent) {
   const hosts = fileContent;
 
-  if (typeof(hosts) === "string") // empty file
+  if (typeof (hosts) === "string") // empty file
     return [];
 
   return hosts
@@ -152,7 +158,7 @@ async function parse(fileContent) {
       const hostname = host.hostname || null;
       const ipAddress = host.ip;
 
-      var identified_at = new Date (host.end_time).toISOString();
+      const identified_at = new Date(host.end_time).toISOString();
 
       const recommendations = host.compliance.recommendations || [];
       const policyViolationFindings = recommendations.map(recommendation =>
