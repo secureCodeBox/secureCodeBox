@@ -43,7 +43,7 @@
     "ts-jest": "^27.1.3"
   },
   "dependencies": {
-    "@kubernetes/client-node": "^0.17.1",
+    "@kubernetes/client-node": "^0.18.0",
     "axios": "^1.2.0",
     "jest": "^27.0.6"
   }
