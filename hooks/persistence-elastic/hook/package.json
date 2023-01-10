@@ -41,7 +41,7 @@
     "@elastic/elasticsearch": "^7.13.0",
     "lodash.chunk": "^4.2.0",
     "lodash.flatmap": "^4.5.0",
-    "luxon": "^2.0.1"
+    "luxon": "^2.5.2"
   },
   "devDependencies": {
     "jest": "^27.0.6"
