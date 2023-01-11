@@ -22,7 +22,9 @@ function parse(fileContent) {
     console.log(JSON.stringify(fileContent));
   }
 
-  serverScanResult.identified_at = fileContent.date_scans_completed;
+  if (fileContent.date_scans_completed) {
+    serverScanResult.identified_at = new Date(fileContent.date_scans_completed).toISOString();
+  }
 
   const partialFindings = [
     generateInformationalServiceFinding(serverScanResult),
