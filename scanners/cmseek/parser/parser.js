@@ -10,10 +10,11 @@ async function parse(findings) {
   }
   // Check if debug mode is enabled ; if yes add finding
   let parsed_debug_mode_enabled = []
+  const last_scanned = new Date(findings.last_scanned).toISOString();
   if (findings.joomla_debug_mode == "enabled") {
     parsed_debug_mode_enabled = {
       name: "Debug mode",
-      identified_at: findings.last_scanned,
+      identified_at: last_scanned,
       description: `Debug mode is enabled on the site`,
       category: "Security Misconfiguration",
       location: findings.url,
@@ -27,7 +28,7 @@ async function parse(findings) {
   if ("joomla_backup_files" in findings) {
     parsed_backupFiles = {
       name: "Backup files",
-      identified_at: findings.last_scanned,
+      identified_at: last_scanned,
       description: `Visible Backup files found`,
       category: "Visible internal files",
       location: findings.url,
@@ -44,7 +45,7 @@ async function parse(findings) {
     parsed_vulnerabilities = findings.vulnerabilities.map((vuln) => {
       return {
         name: vuln.name,
-        identified_at: findings.last_scanned,
+        identified_at: last_scanned,
         description: `Vulnerability of type ${vuln.name} found`,
         category: "Vulnerability",
         location: findings.url,
