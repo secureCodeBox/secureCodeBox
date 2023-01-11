@@ -16,9 +16,13 @@ async function parse(fileContent) {
   }
 
   return identifiedDomains.map((domain) => {
+    let timestamp;
+    if (domain.Timestamp) {
+        timestamp = new Date(domain.Timestamp).toISOString();
+    }
     return {
       name: domain.name,
-      identified_at: domain.Timestamp,
+      identified_at: timestamp,
       description: `Found subdomain ${domain.name}`,
       category: "Subdomain",
       location: domain.name,
