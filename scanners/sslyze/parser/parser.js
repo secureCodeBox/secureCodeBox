@@ -23,7 +23,13 @@ function parse(fileContent) {
   }
 
   if (fileContent.date_scans_completed) {
-    serverScanResult.identified_at = new Date(fileContent.date_scans_completed).toISOString();
+    // I ran into an issue where the time coverted to ISO String was dependant from the timezone of the machine running the test. 
+    // This means that if GitHub Actions CI time and local time are different the test will fail.
+    // To fix this we need to enforce the timezone in the date string. 
+    // sslyze uses UTC time internally for the date_scans_completed field.
+    // https://github.com/nabla-c0d3/sslyze/blob/8ad73ec3d698c826bf3682aacbee2d91e4a2cdbc/sslyze/__main__.py#L83
+    // To enforce UTC time, we can just add a Z to the end of the date string.
+    serverScanResult.identified_at = new Date(fileContent.date_scans_completed+ "Z").toISOString();
   }
 
   const partialFindings = [

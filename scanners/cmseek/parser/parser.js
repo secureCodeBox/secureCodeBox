@@ -10,7 +10,14 @@ async function parse(findings) {
   }
   // Check if debug mode is enabled ; if yes add finding
   let parsed_debug_mode_enabled = []
-  const last_scanned = new Date(findings.last_scanned).toISOString();
+
+  // I ran into an issue where the time coverted to ISO String was dependant from the timezone of the machine running the test. 
+  // This means that if GitHub Actions CI time and local time are different the test will fail.
+  // To fix this we need to enforce the timezone in the date string. 
+  // cmseek uses the timezone of the machine running the scan, so it will be different machine to machine (or cloud service).
+  // https://github.com/Tuhinshubhra/CMSeeK/blob/ce085fee1b5f48db7412911e399bb2c771e73a0f/cmseekdb/basic.py#L296
+  // For simplicity UTC time is enforced, and that is by adding a Z to the end of the date string.
+  const last_scanned = new Date(findings.last_scanned + "Z").toISOString();
   if (findings.joomla_debug_mode == "enabled") {
     parsed_debug_mode_enabled = {
       name: "Debug mode",
