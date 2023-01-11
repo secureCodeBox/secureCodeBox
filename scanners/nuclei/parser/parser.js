@@ -12,13 +12,16 @@ async function parse(fileContent) {
 
   return jsonResult.map((finding) => {
     const hostname = parseHostname(finding.host);
-
+    let timestamp;
+    if (finding.timestamp) {
+        timestamp = new Date(finding.timestamp).toISOString();
+    }
     return {
       name: finding.info.name,
       description:
         finding.info?.description ??
         `The name of the nuclei rule which triggered the finding: ${finding["template-id"]}`,
-      identified_at: finding.timestamp,
+      identified_at: timestamp,
       location: finding.host,
       severity: getAdjustedSeverity(finding?.info?.severity.toUpperCase()),
       category: finding["template-id"],
