@@ -9,12 +9,11 @@ from kubernetes import client, config
 def main():
     image_id = sys.argv[1]
     temporary_secret_name = sys.argv[2]
-    namespace = sys.argv[3]
 
     raw_secrets = get_raw_secrets('/secrets')
     correct_secret = get_correct_secret(image_id, raw_secrets)
     username, password = get_user_and_password(correct_secret)
-    create_temporary_secret(username, password, temporary_secret_name, namespace)
+    create_temporary_secret(username, password, temporary_secret_name)
 
 
 def get_raw_secrets(base_path: str):
@@ -77,20 +76,38 @@ def encode_base64(string: str) -> str:
     return base64.b64encode(string.encode('utf-8')).decode('utf-8')
 
 
-def create_temporary_secret(username: str, password: str, secret_name: str, namespace: str):
+def create_temporary_secret(username: str, password: str, secret_name: str):
     """Creates a secret with name 'secret_name' with 'username' and 'password' as data in given namespace
     @:param: username: base64 encoded string representing the desired value of the 'username' field in the secret
     @:param: password: base64 encoded string representing the desired value of the 'password' field in the secret
     @:param: secret_name: Name of the newly created secret
-    @:param: namespace: Name of the namespace in which the new secret will be created
     """
     config.load_incluster_config()
     v1 = client.CoreV1Api()
 
+    namespace = get_namespace()
+
+    pod_name = get_pod_name()
+    pod = v1.read_namespaced_pod(name=pod_name, namespace=namespace)
+
     secret_data = {'username': username, 'password': password}
-    metadata = client.V1ObjectMeta(name=secret_name, namespace=namespace)
+    owner_references = client.V1OwnerReference(api_version='v1', name=pod_name, uid=pod.metadata.uid, kind='Pod')
+    metadata = client.V1ObjectMeta(name=secret_name, namespace=namespace, owner_references=[owner_references])
     secret_body = client.V1Secret(api_version='v1', kind='Secret', metadata=metadata, data=secret_data, type='Opaque')
     v1.create_namespaced_secret(namespace=namespace, body=secret_body)
+
+
+def get_pod_name() -> str:
+    """Reads pod name from /etc/hostname"""
+    with open('/etc/hostname') as file:
+        return file.readline().strip()
+
+
+def get_namespace() -> str:
+    """Reads namespace of pod in which this container runs from
+    /var/run/secrets/kubernetes.io/serviceaccount/namespace"""
+    with open('/var/run/secrets/kubernetes.io/serviceaccount/namespace') as file:
+        return file.readline().strip()
 
 
 if __name__ == '__main__':
