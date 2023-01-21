@@ -19,7 +19,7 @@ env:
   # ---- Language Versions ----
 
   GO_VERSION: "1.19"
-  PYTHON_VERSION: "3.8.10"
+  PYTHON_VERSION: "3.9.16"
   NODE_VERSION: "16"
   NPM_VERSION: "8.19.2"
 
