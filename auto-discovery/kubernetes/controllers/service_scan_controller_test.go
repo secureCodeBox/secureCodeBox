@@ -184,7 +184,10 @@ func createNamespace(ctx context.Context, namespaceName string) {
 		},
 	}
 
-	k8sClient.Create(ctx, namespace)
+	err := k8sClient.Create(ctx, namespace)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func createPod(ctx context.Context, name string, namespace string, image string, imageDisgest string) {
