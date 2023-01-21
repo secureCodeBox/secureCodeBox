@@ -153,7 +153,8 @@ var _ = Describe("ContainerScan controller", func() {
 			},
 			[]corev1.VolumeMount{
 				{
-					Name: "test-pull-secret-volume",
+					Name:      "test-pull-secret-volume",
+					MountPath: "/secrets/test-pull-secret",
 				},
 			},
 		}

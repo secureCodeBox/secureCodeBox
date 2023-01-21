@@ -177,9 +177,20 @@ func getScanName(imageID string) string {
 }
 
 func (r *ContainerScanReconciler) createScheduledScans(ctx context.Context, pod corev1.Pod, imageIDs []string) {
+	secretsDefined, secrets := checkForImagePullSecrets(pod)
 	for _, imageID := range imageIDs {
-		r.createScheduledScan(ctx, pod, imageID)
+		if secretsDefined {
+			r.createScheduledScanWithImagePullSecrets(ctx, pod, imageID, secrets)
+		} else {
+			r.createScheduledScan(ctx, pod, imageID)
+		}
 	}
+}
+
+func checkForImagePullSecrets(pod corev1.Pod) (bool, []corev1.LocalObjectReference) {
+	imagePullSecrets := pod.Spec.ImagePullSecrets
+	secretsDefined := len(imagePullSecrets) > 0
+	return secretsDefined, imagePullSecrets
 }
 
 func (r *ContainerScanReconciler) createScheduledScan(ctx context.Context, pod corev1.Pod, imageID string) {
@@ -194,6 +205,20 @@ func (r *ContainerScanReconciler) createScheduledScan(ctx context.Context, pod c
 		r.Log.V(6).Info("Created scheduled scan", "pod", pod.Name, "namespace", pod.Namespace)
 	}
 }
+
+func (r *ContainerScanReconciler) createScheduledScanWithImagePullSecrets(ctx context.Context, pod corev1.Pod, imageID string, secrets []corev1.LocalObjectReference) {
+	namespace := r.getNamespace(ctx, pod)
+
+	newScheduledScan := r.generateScanWithVolumeMounts(pod, imageID, namespace, secrets)
+	err := r.Client.Create(ctx, &newScheduledScan)
+
+	if err != nil {
+		r.Log.Error(err, "Failed to create scheduled scan", "scan", newScheduledScan, "namespace", namespace)
+	} else {
+		r.Log.V(6).Info("Created scheduled scan", "pod", pod.Name, "namespace", pod.Namespace)
+	}
+}
+
 func (r *ContainerScanReconciler) getNamespace(ctx context.Context, pod corev1.Pod) corev1.Namespace {
 	var result corev1.Namespace
 	err := r.Client.Get(ctx, types.NamespacedName{Name: pod.Namespace, Namespace: ""}, &result)
@@ -226,6 +251,68 @@ func (r *ContainerScanReconciler) generateScan(pod corev1.Pod, imageID string, n
 		Spec: scanSpec,
 	}
 	return newScheduledScan
+}
+
+func (r *ContainerScanReconciler) generateScanWithVolumeMounts(pod corev1.Pod, imageID string, namespace corev1.Namespace, secrets []corev1.LocalObjectReference) executionv1.ScheduledScan {
+	scanConfig := r.Config.ContainerAutoDiscoveryConfig.ScanConfig
+	templateArgs := ContainerAutoDiscoveryTemplateArgs{
+		Config:     r.Config,
+		ScanConfig: scanConfig,
+		Cluster:    r.Config.Cluster,
+		Target:     pod.ObjectMeta,
+		Namespace:  namespace,
+		ImageID:    imageID,
+	}
+
+	scanConfig.Volumes = append(scanConfig.Volumes)
+	extraVolumes, extraMounts := getVolumesForSecrets(secrets)
+	scanConfig.Volumes = append(scanConfig.Volumes, extraVolumes...)
+	scanConfig.VolumeMounts = append(scanConfig.VolumeMounts, extraMounts...)
+
+	scanSpec := util.GenerateScanSpec(scanConfig, templateArgs)
+	scanSpec.ScanSpec.InitContainers = append(scanSpec.ScanSpec.InitContainers, getSecretExtractionInitContainer())
+
+	newScheduledScan := executionv1.ScheduledScan{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:        getScanName(imageID),
+			Namespace:   pod.Namespace,
+			Annotations: getScanAnnotations(scanConfig, templateArgs),
+			Labels:      getScanLabels(scanConfig, templateArgs),
+		},
+		Spec: scanSpec,
+	}
+	return newScheduledScan
+}
+
+func getVolumesForSecrets(secrets []corev1.LocalObjectReference) ([]corev1.Volume, []corev1.VolumeMount) {
+	var volumes []corev1.Volume
+	var mounts []corev1.VolumeMount
+	for _, secret := range secrets {
+		volume := corev1.Volume{
+			Name: secret.Name + "-volume",
+			VolumeSource: corev1.VolumeSource{
+				Secret: &corev1.SecretVolumeSource{
+					SecretName: secret.Name,
+				},
+			},
+		}
+
+		mount := corev1.VolumeMount{
+			Name:      secret.Name + "-volume",
+			MountPath: "/secrets/" + secret.Name,
+		}
+
+		volumes = append(volumes, volume)
+		mounts = append(mounts, mount)
+	}
+	return volumes, mounts
+}
+
+func getSecretExtractionInitContainer() corev1.Container {
+	return corev1.Container{
+		Name:  "secret-extraction-to-env",
+		Image: "docker.io/securecodebox/auto-discovery-secret-extraction-container",
+	}
 }
 
 func (r *ContainerScanReconciler) checkForScanType(ctx context.Context, pod corev1.Pod) bool {
