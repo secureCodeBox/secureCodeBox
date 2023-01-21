@@ -18,8 +18,8 @@ def main():
 
 def get_raw_secrets(base_path: str):
     """Reads in files called '.dockerconfigjson' in the path given and return the content of all files called so
-    @:param base_path: Directory to search for dockerconfigjson files
-    @:returns List of secrets found in base_path
+    :param base_path: Directory to search for dockerconfigjson files
+    :returns: List of secrets found in base_path
     """
     raw_secrets = []
     for file_name in glob.glob(f'{base_path}/**/.dockerconfigjson', recursive=True):
@@ -29,11 +29,11 @@ def get_raw_secrets(base_path: str):
     return raw_secrets
 
 
-def get_correct_secret(image_id, secrets) -> dict[str, str]:
+def get_correct_secret(image_id: str, secrets) -> dict[str, str]:
     """Iterates over given list of secrets to find the secret that machtes the URL in the given imageID
-    @:param: image_id: The imageID of which the correct secret needs to be identified
-    @:param: secrets: List of secrets
-    @:returns: Dict containing the secret matching the given imageID
+    :param image_id: The imageID of which the correct secret needs to be identified
+    :param secrets: List of secrets
+    :returns: Dict containing the secret matching the given imageID
     """
     for secret in secrets:
         for url, data in secret['auths'].items():
@@ -43,10 +43,11 @@ def get_correct_secret(image_id, secrets) -> dict[str, str]:
 
 def get_user_and_password(raw_secret: dict[str, str]) -> tuple[str, str]:
     """Extracts username and password from a given secret
-    @:param: raw_secret: Dict containing the secret. Should contain key 'auth' (where username and password are
+    :param raw_secret: Dict containing the secret. Should contain key 'auth' (where username and password are
              base64 encoded in a single line like: username:password), or 'username' and 'password' as a separate key
              (also base64)
-    @:returns: tuple containing username and password both base64 encoded
+    :returns: tuple containing username and password both base64 encoded
+    :raises KeyError: Structure of given secret does not contain expected structure.
     """
     if 'auth' in raw_secret:
         # secret is in form "username:password" (base64 encoded)
@@ -65,7 +66,7 @@ def get_user_and_password(raw_secret: dict[str, str]) -> tuple[str, str]:
         return username, password
 
     else:
-        raise KeyError('dockerconfigjson secret does not contain known structure!')
+        raise KeyError('dockerconfigjson secret does not contain expected structure!')
 
 
 def decode_base64(raw_string: str) -> str:
@@ -77,10 +78,10 @@ def encode_base64(string: str) -> str:
 
 
 def create_temporary_secret(username: str, password: str, secret_name: str):
-    """Creates a secret with name 'secret_name' with 'username' and 'password' as data in given namespace
-    @:param: username: base64 encoded string representing the desired value of the 'username' field in the secret
-    @:param: password: base64 encoded string representing the desired value of the 'password' field in the secret
-    @:param: secret_name: Name of the newly created secret
+    """Creates a secret with name 'secret_name' with 'username' and 'password' as data in given namespace. The secret has an ownerreference to the pod this container is running in.
+    :param username: base64 encoded string representing the desired value of the 'username' field in the secret
+    :param password: base64 encoded string representing the desired value of the 'password' field in the secret
+    :param secret_name: Name of the newly created secret
     """
     config.load_incluster_config()
     v1 = client.CoreV1Api()
