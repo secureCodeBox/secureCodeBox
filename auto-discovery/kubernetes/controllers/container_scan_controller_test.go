@@ -157,10 +157,11 @@ var _ = Describe("ContainerScan controller", func() {
 				},
 			},
 		}
-		createNamespace(ctx, namespace)
-		createScanType(ctx, namespace)
 
 		It("Should create a trivy scan with the secretExtractionInitContainer", func() {
+			createNamespace(ctx, namespace)
+			createScanType(ctx, namespace)
+
 			fakeDeployment := map[string]string{"nginx": "0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"}
 			imagePullSecrets := []corev1.LocalObjectReference{
 				{
