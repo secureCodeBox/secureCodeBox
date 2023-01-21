@@ -1,9 +1,15 @@
+import sys
 import unittest
 
+from unittest.mock import MagicMock
+
+# mock kubernetes import so it doesnt need to be installed to run these tests
+sys.modules['kubernetes'] = MagicMock()
 from secret_extraction import *
 
 
 class MyTestCase(unittest.TestCase):
+
     def test_get_raw_secrets(self):
         actual = get_raw_secrets('test_secrets')
 
