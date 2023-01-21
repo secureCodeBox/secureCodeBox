@@ -123,6 +123,29 @@ jobs:
           name: auto-discovery-image
           path: ./auto-discovery/kubernetes/auto-discovery-kubernetes.tar
           retention-days: 1
+  
+  auto-discovery-kubernetes-secret-extraction-container:
+    name: "Autodiscovery | Kubernetes | SecretExtractionInitContainer"
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Test
+        working-directory: ./autodiscovery/kubernetes/secretExtractionInitContainer
+      - name: Build Container Image
+        working-directory: ./auto-discovery/kubernetes/secretExtractionInitContainer
+        run: make docker-build
+
+      - name: Export Container Image
+        working-directory: ./auto-discovery/kubernetes/secretExtractionInitContainer
+        run: make docker-export
+
+      - name: Upload Image As Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: auto-discovery-image
+          path: ./auto-discovery/kubernetes/secretExtractionInitContainer/auto-discovery-secret-extraction-container.tar
+          retention-days: 1
 
   # ---- Build Stage | SDK Matrix ----
 
