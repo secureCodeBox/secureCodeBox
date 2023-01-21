@@ -202,7 +202,7 @@ func checkScanGoTemplate(scan executionv1.ScheduledScan, scanSpec scanGoTemplate
 	labels := scan.ObjectMeta.Labels
 	parameters := scan.Spec.ScanSpec.Parameters
 
-	annotationsCorrect := reflect.DeepEqual(annotations, scanSpec.Annotaions)
+	annotationsCorrect := reflect.DeepEqual(annotations, scanSpec.Annotations)
 	labelsCorrect := reflect.DeepEqual(labels, scanSpec.Labels)
 	parametersCorrect := reflect.DeepEqual(parameters, scanSpec.Parameters)
 
@@ -227,7 +227,7 @@ func checkScanGoTemplate(scan executionv1.ScheduledScan, scanSpec scanGoTemplate
 }
 
 type scanGoTemplate struct {
-	Annotaions map[string]string
-	Labels     map[string]string
-	Parameters []string
+	Annotations map[string]string
+	Labels      map[string]string
+	Parameters  []string
 }
