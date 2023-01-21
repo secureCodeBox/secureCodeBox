@@ -34,7 +34,7 @@ var _ = Describe("ContainerScan controller", func() {
 
 	Context("Container autodiscovery for deployment", func() {
 
-		namespace := "default"
+		namespace := "container-auto-discovery"
 		ctx := context.Background()
 
 		nginxScanName := "nginx-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
@@ -46,6 +46,9 @@ var _ = Describe("ContainerScan controller", func() {
 				"app.kubernetes.io/managed-by": "securecodebox-autodiscovery",
 			},
 			[]string{"-p", "default"},
+			[]corev1.Container{},
+			[]corev1.Volume{},
+			[]corev1.VolumeMount{},
 		}
 
 		juiceShopScanName := "juice-shop-at-9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2"
@@ -57,6 +60,9 @@ var _ = Describe("ContainerScan controller", func() {
 				"app.kubernetes.io/managed-by": "securecodebox-autodiscovery",
 			},
 			[]string{"-p", "default"},
+			[]corev1.Container{},
+			[]corev1.Volume{},
+			[]corev1.VolumeMount{},
 		}
 
 		It("Should not create scans while the scan type is not installed", func() {
@@ -116,9 +122,64 @@ var _ = Describe("ContainerScan controller", func() {
 			}, timeout, interval).Should(BeTrue())
 		})
 	})
+	Context("Container autodiscovery with imagePullSecrets", func() {
+		namespace := "container-autodiscovery-imagepullsecrets"
+		ctx := context.Background()
+
+		nginxScanName := "nginx-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
+		nginxScanName = nginxScanName[:62]
+		nginxScanGoTemplate := scanGoTemplate{
+			map[string]string{"testAnnotation": "default"},
+			map[string]string{
+				"testLabel":                    "default",
+				"app.kubernetes.io/managed-by": "securecodebox-autodiscovery",
+			},
+			[]string{"-p", "default"},
+			[]corev1.Container{
+				{
+					Name:  "secret-extraction-to-env",
+					Image: "docker.io/securecodebox/auto-discovery-secret-extraction-container",
+				},
+			},
+			[]corev1.Volume{
+				{
+					Name: "test-pull-secret-volume",
+					VolumeSource: corev1.VolumeSource{
+						Secret: &corev1.SecretVolumeSource{
+							SecretName: "test-pull-secret",
+						},
+					},
+				},
+			},
+			[]corev1.VolumeMount{
+				{
+					Name: "test-pull-secret-volume",
+				},
+			},
+		}
+		createNamespace(ctx, namespace)
+		createScanType(ctx, namespace)
+
+		It("Should create a trivy scan with the secretExtractionInitContainer", func() {
+			fakeDeployment := map[string]string{"nginx": "0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"}
+			imagePullSecrets := []corev1.LocalObjectReference{
+				{
+					Name: "test-pull-secret",
+				},
+			}
+			createPodWithMultipleContainersAndImagePullSecrets(ctx, "fake-deployment-pod1", namespace, fakeDeployment, imagePullSecrets)
+
+			Eventually(func() bool {
+				return checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate)
+			}, timeout, interval).Should(BeTrue())
+		})
+	})
 })
 
 func createPodWithMultipleContainers(ctx context.Context, name string, namespace string, images map[string]string) {
+	createPodWithMultipleContainersAndImagePullSecrets(ctx, name, namespace, images, make([]corev1.LocalObjectReference, 0))
+}
+func createPodWithMultipleContainersAndImagePullSecrets(ctx context.Context, name string, namespace string, images map[string]string, imagePullSecrets []corev1.LocalObjectReference) {
 	pod := &corev1.Pod{
 		TypeMeta: metav1.TypeMeta{
 			APIVersion: "",
@@ -132,7 +193,8 @@ func createPodWithMultipleContainers(ctx context.Context, name string, namespace
 			},
 		},
 		Spec: corev1.PodSpec{
-			Containers: getContainerSpec(name, images),
+			Containers:       getContainerSpec(name, images),
+			ImagePullSecrets: imagePullSecrets,
 		},
 	}
 
@@ -205,10 +267,14 @@ func checkScanGoTemplate(scan executionv1.ScheduledScan, scanSpec scanGoTemplate
 	annotationsCorrect := reflect.DeepEqual(annotations, scanSpec.Annotations)
 	labelsCorrect := reflect.DeepEqual(labels, scanSpec.Labels)
 	parametersCorrect := reflect.DeepEqual(parameters, scanSpec.Parameters)
+	volumesCorrect := reflect.DeepEqual(scan.Spec.ScanSpec.Volumes, scanSpec.Volumes)
+	volumeMountsCorrect := reflect.DeepEqual(scan.Spec.ScanSpec.VolumeMounts, scanSpec.VolumeMounts)
 
 	Expect(annotationsCorrect).Should(BeTrue())
 	Expect(labelsCorrect).Should(BeTrue())
 	Expect(parametersCorrect).Should(BeTrue())
+	Expect(volumesCorrect).Should(BeTrue())
+	Expect(volumeMountsCorrect).Should(BeTrue())
 	Expect(scan.Spec.ScanSpec.HookSelector.MatchExpressions).To(ContainElement(
 		metav1.LabelSelectorRequirement{
 			Operator: metav1.LabelSelectorOpIn,
@@ -227,7 +293,10 @@ func checkScanGoTemplate(scan executionv1.ScheduledScan, scanSpec scanGoTemplate
 }
 
 type scanGoTemplate struct {
-	Annotations map[string]string
-	Labels      map[string]string
-	Parameters  []string
+	Annotations    map[string]string
+	Labels         map[string]string
+	Parameters     []string
+	InitContainers []corev1.Container
+	Volumes        []corev1.Volume
+	VolumeMounts   []corev1.VolumeMount
 }
