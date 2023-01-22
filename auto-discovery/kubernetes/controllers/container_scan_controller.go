@@ -267,10 +267,9 @@ func (r *ContainerScanReconciler) generateScanWithVolumeMounts(pod corev1.Pod, i
 	scanConfig.Volumes = append(scanConfig.Volumes)
 	extraVolumes, extraMounts := getVolumesForSecrets(secrets, imageID)
 	scanConfig.Volumes = append(scanConfig.Volumes, extraVolumes...)
-	scanConfig.VolumeMounts = append(scanConfig.VolumeMounts, extraMounts...)
 
 	scanSpec := util.GenerateScanSpec(scanConfig, templateArgs)
-	scanSpec.ScanSpec.InitContainers = append(scanSpec.ScanSpec.InitContainers, getSecretExtractionInitContainer(imageID))
+	scanSpec.ScanSpec.InitContainers = append(scanSpec.ScanSpec.InitContainers, getSecretExtractionInitContainer(imageID, extraMounts))
 
 	newScheduledScan := executionv1.ScheduledScan{
 		ObjectMeta: metav1.ObjectMeta{
@@ -308,15 +307,16 @@ func getVolumesForSecrets(secrets []corev1.LocalObjectReference, imageID string)
 	return volumes, mounts
 }
 
-func getSecretExtractionInitContainer(imageID string) corev1.Container {
+func getSecretExtractionInitContainer(imageID string, volumeMounts []corev1.VolumeMount) corev1.Container {
 	temporarySecretName := "trivy-secret-" + getScanName(imageID)
 	//limit name to kubernetes max length
 	temporarySecretName = temporarySecretName[:62]
 
 	return corev1.Container{
-		Name:  "secret-extraction-to-env",
-		Image: "docker.io/securecodebox/auto-discovery-secret-extraction-container",
-		Args:  []string{imageID, temporarySecretName},
+		Name:         "secret-extraction-to-env",
+		Image:        "docker.io/securecodebox/auto-discovery-secret-extraction-container",
+		Args:         []string{imageID, temporarySecretName},
+		VolumeMounts: volumeMounts,
 	}
 }
 
