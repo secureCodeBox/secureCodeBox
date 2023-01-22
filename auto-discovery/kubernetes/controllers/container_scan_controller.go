@@ -271,6 +271,8 @@ func (r *ContainerScanReconciler) generateScanWithVolumeMounts(pod corev1.Pod, i
 	scanSpec := util.GenerateScanSpec(scanConfig, templateArgs)
 	scanSpec.ScanSpec.InitContainers = append(scanSpec.ScanSpec.InitContainers, getSecretExtractionInitContainer(imageID, extraMounts))
 
+	scanSpec.ScanSpec.Env = append(scanSpec.ScanSpec.Env, getTemporarySecretEnvironmentVariableMount(imageID)...)
+
 	newScheduledScan := executionv1.ScheduledScan{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:        getScanName(imageID),
@@ -308,15 +310,45 @@ func getVolumesForSecrets(secrets []corev1.LocalObjectReference, imageID string)
 }
 
 func getSecretExtractionInitContainer(imageID string, volumeMounts []corev1.VolumeMount) corev1.Container {
-	temporarySecretName := "trivy-secret-" + getScanName(imageID)
-	//limit name to kubernetes max length
-	temporarySecretName = temporarySecretName[:62]
+	temporarySecretName := getTemporarySecretName(imageID)
 
 	return corev1.Container{
 		Name:         "secret-extraction-to-env",
 		Image:        "docker.io/securecodebox/auto-discovery-secret-extraction-container",
 		Args:         []string{imageID, temporarySecretName},
 		VolumeMounts: volumeMounts,
+	}
+}
+
+func getTemporarySecretName(imageID string) string {
+	//limit name to kubernetes max length
+	return ("trivy-secret-" + getScanName(imageID))[:62]
+}
+
+func getTemporarySecretEnvironmentVariableMount(imageID string) []corev1.EnvVar {
+	return []corev1.EnvVar{
+		{
+			Name: "username",
+			ValueFrom: &corev1.EnvVarSource{
+				SecretKeyRef: &corev1.SecretKeySelector{
+					LocalObjectReference: corev1.LocalObjectReference{
+						Name: getTemporarySecretName(imageID),
+					},
+					Key: "username",
+				},
+			},
+		},
+		{
+			Name: "password",
+			ValueFrom: &corev1.EnvVarSource{
+				SecretKeyRef: &corev1.SecretKeySelector{
+					LocalObjectReference: corev1.LocalObjectReference{
+						Name: getTemporarySecretName(imageID),
+					},
+					Key: "password",
+				},
+			},
+		},
 	}
 }
 
