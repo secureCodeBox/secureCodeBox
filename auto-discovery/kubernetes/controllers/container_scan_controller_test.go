@@ -126,6 +126,7 @@ var _ = Describe("ContainerScan controller", func() {
 		namespace := "container-autodiscovery-imagepullsecrets"
 		ctx := context.Background()
 
+		fakeDeployment := map[string]string{"nginx": "0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"}
 		nginxScanName := "nginx-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
 		nginxScanName = nginxScanName[:62]
 		nginxScanGoTemplate := scanGoTemplate{
@@ -139,6 +140,7 @@ var _ = Describe("ContainerScan controller", func() {
 				{
 					Name:  "secret-extraction-to-env",
 					Image: "docker.io/securecodebox/auto-discovery-secret-extraction-container",
+					Args:  []string{"nginx@" + fakeDeployment["nginx"], ("trivy-secret" + nginxScanName)[:62]},
 				},
 			},
 			[]corev1.Volume{
@@ -163,7 +165,6 @@ var _ = Describe("ContainerScan controller", func() {
 			createNamespace(ctx, namespace)
 			createScanType(ctx, namespace)
 
-			fakeDeployment := map[string]string{"nginx": "0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"}
 			imagePullSecrets := []corev1.LocalObjectReference{
 				{
 					Name: "test-pull-secret",
