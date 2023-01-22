@@ -140,7 +140,7 @@ var _ = Describe("ContainerScan controller", func() {
 				{
 					Name:  "secret-extraction-to-env",
 					Image: "docker.io/securecodebox/auto-discovery-secret-extraction-container",
-					Args:  []string{"nginx@" + fakeDeployment["nginx"], ("trivy-secret" + nginxScanName)[:62]},
+					Args:  []string{"nginx@" + fakeDeployment["nginx"], ("trivy-secret-" + nginxScanName)[:62]},
 					VolumeMounts: []corev1.VolumeMount{
 						{
 							Name:      "test-pull-secret-volume",
@@ -159,7 +159,30 @@ var _ = Describe("ContainerScan controller", func() {
 					},
 				},
 			},
-			nil,
+			[]corev1.EnvVar{
+				{
+					Name: "username",
+					ValueFrom: &corev1.EnvVarSource{
+						SecretKeyRef: &corev1.SecretKeySelector{
+							LocalObjectReference: corev1.LocalObjectReference{
+								Name: ("trivy-secret-" + nginxScanName)[:62],
+							},
+							Key: "username",
+						},
+					},
+				},
+				{
+					Name: "password",
+					ValueFrom: &corev1.EnvVarSource{
+						SecretKeyRef: &corev1.SecretKeySelector{
+							LocalObjectReference: corev1.LocalObjectReference{
+								Name: ("trivy-secret-" + nginxScanName)[:62],
+							},
+							Key: "password",
+						},
+					},
+				},
+			},
 		}
 
 		It("Should create a trivy scan with the secretExtractionInitContainer", func() {
@@ -268,19 +291,19 @@ func checkScanGoTemplate(scan executionv1.ScheduledScan, scanSpec scanGoTemplate
 	labels := scan.ObjectMeta.Labels
 	parameters := scan.Spec.ScanSpec.Parameters
 	volumes := scan.Spec.ScanSpec.Volumes
-	volumeMounts := scan.Spec.ScanSpec.VolumeMounts
+	envVars := scan.Spec.ScanSpec.Env
 
 	annotationsCorrect := reflect.DeepEqual(annotations, scanSpec.Annotations)
 	labelsCorrect := reflect.DeepEqual(labels, scanSpec.Labels)
 	parametersCorrect := reflect.DeepEqual(parameters, scanSpec.Parameters)
 	volumesCorrect := reflect.DeepEqual(volumes, scanSpec.Volumes)
-	volumeMountsCorrect := reflect.DeepEqual(volumeMounts, scanSpec.VolumeMounts)
+	envVarsCorrect := reflect.DeepEqual(envVars, scanSpec.EnvVars)
 
 	Expect(annotationsCorrect).Should(BeTrue())
 	Expect(labelsCorrect).Should(BeTrue())
 	Expect(parametersCorrect).Should(BeTrue())
 	Expect(volumesCorrect).Should(BeTrue())
-	Expect(volumeMountsCorrect).Should(BeTrue())
+	Expect(envVarsCorrect).Should(BeTrue())
 	Expect(scan.Spec.ScanSpec.HookSelector.MatchExpressions).To(ContainElement(
 		metav1.LabelSelectorRequirement{
 			Operator: metav1.LabelSelectorOpIn,
@@ -304,5 +327,5 @@ type scanGoTemplate struct {
 	Parameters     []string
 	InitContainers []corev1.Container
 	Volumes        []corev1.Volume
-	VolumeMounts   []corev1.VolumeMount
+	EnvVars        []corev1.EnvVar
 }
