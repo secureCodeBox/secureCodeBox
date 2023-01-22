@@ -266,7 +266,6 @@ func (r *ContainerScanReconciler) generateScanWithVolumeMounts(pod corev1.Pod, i
 		ImageID:    imageID,
 	}
 
-	scanConfig.Volumes = append(scanConfig.Volumes)
 	extraVolumes, extraMounts := getVolumesForSecrets(secrets, imageID)
 	scanConfig.Volumes = append(scanConfig.Volumes, extraVolumes...)
 
