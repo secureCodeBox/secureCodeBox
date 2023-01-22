@@ -322,7 +322,7 @@ func getSecretExtractionInitContainer(imageID string, volumeMounts []corev1.Volu
 
 func getTemporarySecretName(imageID string) string {
 	//limit name to kubernetes max length
-	return ("trivy-secret-" + getScanName(imageID))[:62]
+	return ("temporary-secret-" + getScanName(imageID))[:62]
 }
 
 func getTemporarySecretEnvironmentVariableMount(imageID string) []corev1.EnvVar {
