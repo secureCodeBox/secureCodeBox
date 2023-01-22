@@ -141,6 +141,12 @@ var _ = Describe("ContainerScan controller", func() {
 					Name:  "secret-extraction-to-env",
 					Image: "docker.io/securecodebox/auto-discovery-secret-extraction-container",
 					Args:  []string{"nginx@" + fakeDeployment["nginx"], ("trivy-secret" + nginxScanName)[:62]},
+					VolumeMounts: []corev1.VolumeMount{
+						{
+							Name:      "test-pull-secret-volume",
+							MountPath: "/secrets/test-pull-secret",
+						},
+					},
 				},
 			},
 			[]corev1.Volume{
@@ -153,12 +159,7 @@ var _ = Describe("ContainerScan controller", func() {
 					},
 				},
 			},
-			[]corev1.VolumeMount{
-				{
-					Name:      "test-pull-secret-volume",
-					MountPath: "/secrets/test-pull-secret",
-				},
-			},
+			nil,
 		}
 
 		It("Should create a trivy scan with the secretExtractionInitContainer", func() {
