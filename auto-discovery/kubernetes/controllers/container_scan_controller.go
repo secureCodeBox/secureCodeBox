@@ -178,8 +178,10 @@ func getScanName(imageID string) string {
 
 func (r *ContainerScanReconciler) createScheduledScans(ctx context.Context, pod corev1.Pod, imageIDs []string) {
 	secretsDefined, secrets := checkForImagePullSecrets(pod)
+	mapSecretsToEnv := r.Config.ContainerAutoDiscoveryConfig.MapImagePullSecretsToEnvironmentVariables
+
 	for _, imageID := range imageIDs {
-		if secretsDefined {
+		if secretsDefined && mapSecretsToEnv {
 			r.createScheduledScanWithImagePullSecrets(ctx, pod, imageID, secrets)
 		} else {
 			r.createScheduledScan(ctx, pod, imageID)
