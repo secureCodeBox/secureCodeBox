@@ -30,10 +30,16 @@ type ServiceAutoDiscoveryConfig struct {
 }
 
 type ContainerAutoDiscoveryConfig struct {
-	Enabled                                   bool            `json:"enabled"`
-	MapImagePullSecretsToEnvironmentVariables bool            `json:"mapImagePullSecretsToEnvironmentVariables"`
-	PassiveReconcileInterval                  metav1.Duration `json:"passiveReconcileInterval"`
-	ScanConfig                                ScanConfig      `json:"scanConfig"`
+	Enabled                  bool                  `json:"enabled"`
+	ImagePullSecretConfig    ImagePullSecretConfig `json:"imagePullSecretConfig"`
+	PassiveReconcileInterval metav1.Duration       `json:"passiveReconcileInterval"`
+	ScanConfig               ScanConfig            `json:"scanConfig"`
+}
+
+type ImagePullSecretConfig struct {
+	MapImagePullSecretsToEnvironmentVariables bool   `json:"mapImagePullSecretsToEnvironmentVariables"`
+	UsernameEnvironmentVariableName           string `json:"usernameEnvironmentVariableName"`
+	PasswordNameEnvironmentVariableName       string `json:"passwordEnvironmentVariableName"`
 }
 
 type ClusterConfig struct {
