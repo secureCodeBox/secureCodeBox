@@ -2,6 +2,7 @@ import glob
 import json
 import sys
 import base64
+import os
 
 from kubernetes import client, config
 
@@ -99,16 +100,15 @@ def create_temporary_secret(username: str, password: str, secret_name: str):
 
 
 def get_pod_name() -> str:
-    """Reads pod name from /etc/hostname"""
-    with open('/etc/hostname') as file:
-        return file.readline().strip()
+    """Read pod name from environment variable called 'POD_NAME'.
+    Should be set like this: https://kubernetes.io/docs/tasks/inject-data-application/environment-variable-expose-pod-information/"""
+    return os.environ['POD_NAME']
 
 
 def get_namespace() -> str:
-    """Reads namespace of pod in which this container runs from
-    /var/run/secrets/kubernetes.io/serviceaccount/namespace"""
-    with open('/var/run/secrets/kubernetes.io/serviceaccount/namespace') as file:
-        return file.readline().strip()
+    """Read pod name from environment variable called 'NAMESPACE'.
+    Should be set like this: https://kubernetes.io/docs/tasks/inject-data-application/environment-variable-expose-pod-information/"""
+    return os.environ['NAMESPACE']
 
 
 if __name__ == '__main__':
