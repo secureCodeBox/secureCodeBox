@@ -143,8 +143,8 @@ jobs:
       - name: Upload Image As Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: auto-discovery-secret-extraction-container-image
-          path: ./auto-discovery/kubernetes/secretExtractionInitContainer/auto-discovery-secret-extraction-container.tar
+          name: auto-discovery-pull-secret-extractor
+          path: ./auto-discovery/kubernetes/secretExtractionInitContainer/auto-discovery-pull-secret-extractor.tar
           retention-days: 1
 
   # ---- Build Stage | SDK Matrix ----
