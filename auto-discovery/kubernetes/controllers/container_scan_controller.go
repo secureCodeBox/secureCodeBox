@@ -181,8 +181,10 @@ func (r *ContainerScanReconciler) createScheduledScans(ctx context.Context, pod 
 	mapSecretsToEnv := r.Config.ContainerAutoDiscoveryConfig.ImagePullSecretConfig.MapImagePullSecretsToEnvironmentVariables
 
 	for _, imageID := range imageIDs {
-		if secretsDefined && mapSecretsToEnv {
-			r.createScheduledScanWithImagePullSecrets(ctx, pod, imageID, secrets)
+		if secretsDefined {
+			if mapSecretsToEnv {
+				r.createScheduledScanWithImagePullSecrets(ctx, pod, imageID, secrets)
+			}
 		} else {
 			r.createScheduledScan(ctx, pod, imageID)
 		}
