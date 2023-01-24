@@ -25,7 +25,7 @@ resourceInclusion:
   mode: enabled-per-namespace
 
 serviceAutoDiscovery:
-  enabled: false
+  enabled: true
   passiveReconcileInterval: 10s
   scanConfig:
     scanType: zap-advanced-scan
