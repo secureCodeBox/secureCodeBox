@@ -323,6 +323,24 @@ func getSecretExtractionInitContainer(imageID string, volumeMounts []corev1.Volu
 		Image:        "docker.io/securecodebox/auto-discovery-pull-secret-extractor",
 		Args:         []string{imageID, temporarySecretName},
 		VolumeMounts: volumeMounts,
+		Env: []corev1.EnvVar{
+			{
+				Name: "POD_NAME",
+				ValueFrom: &corev1.EnvVarSource{
+					FieldRef: &corev1.ObjectFieldSelector{
+						FieldPath: "metadata.name",
+					},
+				},
+			},
+			{
+				Name: "NAMESPACE",
+				ValueFrom: &corev1.EnvVarSource{
+					FieldRef: &corev1.ObjectFieldSelector{
+						FieldPath: "metadata.namespace",
+					},
+				},
+			},
+		},
 	}
 }
 
@@ -352,22 +370,6 @@ func getTemporarySecretEnvironmentVariableMount(imageID string, usernameEnvVarNa
 						Name: getTemporarySecretName(imageID),
 					},
 					Key: "password",
-				},
-			},
-		},
-		{
-			Name: "POD_NAME",
-			ValueFrom: &corev1.EnvVarSource{
-				FieldRef: &corev1.ObjectFieldSelector{
-					FieldPath: "metadata.name",
-				},
-			},
-		},
-		{
-			Name: "NAMESPACE",
-			ValueFrom: &corev1.EnvVarSource{
-				FieldRef: &corev1.ObjectFieldSelector{
-					FieldPath: "metadata.namespace",
 				},
 			},
 		},
