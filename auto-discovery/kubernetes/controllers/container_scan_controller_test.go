@@ -139,7 +139,7 @@ var _ = Describe("ContainerScan controller", func() {
 			[]corev1.Container{
 				{
 					Name:  "secret-extraction-to-env",
-					Image: "docker.io/securecodebox/auto-discovery-secret-extraction-container",
+					Image: "docker.io/securecodebox/auto-discovery-pull-secret-extractor",
 					Args:  []string{"nginx@" + fakeDeployment["nginx"], ("temporary-secret-" + nginxScanName)[:62]},
 					VolumeMounts: []corev1.VolumeMount{
 						{
