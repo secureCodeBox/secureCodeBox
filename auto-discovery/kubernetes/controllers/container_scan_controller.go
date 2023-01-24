@@ -178,7 +178,7 @@ func getScanName(imageID string) string {
 
 func (r *ContainerScanReconciler) createScheduledScans(ctx context.Context, pod corev1.Pod, imageIDs []string) {
 	secretsDefined, secrets := checkForImagePullSecrets(pod)
-	mapSecretsToEnv := r.Config.ContainerAutoDiscoveryConfig.MapImagePullSecretsToEnvironmentVariables
+	mapSecretsToEnv := r.Config.ContainerAutoDiscoveryConfig.ImagePullSecretConfig.MapImagePullSecretsToEnvironmentVariables
 
 	for _, imageID := range imageIDs {
 		if secretsDefined && mapSecretsToEnv {
@@ -272,7 +272,10 @@ func (r *ContainerScanReconciler) generateScanWithVolumeMounts(pod corev1.Pod, i
 	scanSpec := util.GenerateScanSpec(scanConfig, templateArgs)
 	scanSpec.ScanSpec.InitContainers = append(scanSpec.ScanSpec.InitContainers, getSecretExtractionInitContainer(imageID, extraMounts))
 
-	scanSpec.ScanSpec.Env = append(scanSpec.ScanSpec.Env, getTemporarySecretEnvironmentVariableMount(imageID)...)
+	pullSecretConfig := r.Config.ContainerAutoDiscoveryConfig.ImagePullSecretConfig
+	usernameEnvVarName := pullSecretConfig.UsernameEnvironmentVariableName
+	passwordEnvVarName := pullSecretConfig.PasswordNameEnvironmentVariableName
+	scanSpec.ScanSpec.Env = append(scanSpec.ScanSpec.Env, getTemporarySecretEnvironmentVariableMount(imageID, usernameEnvVarName, passwordEnvVarName)...)
 
 	newScheduledScan := executionv1.ScheduledScan{
 		ObjectMeta: metav1.ObjectMeta{
@@ -326,10 +329,10 @@ func getTemporarySecretName(imageID string) string {
 	return ("temporary-secret-" + getScanName(imageID))[:62]
 }
 
-func getTemporarySecretEnvironmentVariableMount(imageID string) []corev1.EnvVar {
+func getTemporarySecretEnvironmentVariableMount(imageID string, usernameEnvVarName string, passwordEnvVarName string) []corev1.EnvVar {
 	return []corev1.EnvVar{
 		{
-			Name: "username",
+			Name: usernameEnvVarName,
 			ValueFrom: &corev1.EnvVarSource{
 				SecretKeyRef: &corev1.SecretKeySelector{
 					LocalObjectReference: corev1.LocalObjectReference{
@@ -340,7 +343,7 @@ func getTemporarySecretEnvironmentVariableMount(imageID string) []corev1.EnvVar 
 			},
 		},
 		{
-			Name: "password",
+			Name: passwordEnvVarName,
 			ValueFrom: &corev1.EnvVarSource{
 				SecretKeyRef: &corev1.SecretKeySelector{
 					LocalObjectReference: corev1.LocalObjectReference{
