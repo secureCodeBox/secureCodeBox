@@ -321,7 +321,8 @@ func getSecretExtractionInitContainer(imageID string, volumeMounts []corev1.Volu
 	return corev1.Container{
 		Name:         "secret-extraction-to-env",
 		Image:        "docker.io/securecodebox/auto-discovery-pull-secret-extractor",
-		Args:         []string{imageID, temporarySecretName},
+		Command:      []string{"python"},
+		Args:         []string{"secret_extraction.py", imageID, temporarySecretName},
 		VolumeMounts: volumeMounts,
 		Env: []corev1.EnvVar{
 			{
