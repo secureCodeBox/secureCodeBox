@@ -13,6 +13,8 @@ IMG ?= auto-discovery-secret-extraction-container
 # Tag used for the image
 IMG_TAG ?= sha-$$(git rev-parse --short HEAD)
 
+JEST_VERSION ?= 27.0.6
+
 
 ##@ General
 
@@ -35,14 +37,28 @@ help: ## Display this help.
 ##@ Development
 
 .PHONY: test
-test: 
+test: unit-test integration-test
+
+.PHONY: unit-test
+unit-test:
 	$(PYTHON) -m unittest discover
+
+.PHONY: integration-test
+integration-test: docker-build docker-export kind-import
+	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
+	kubectl delete namespace integration-test --wait || true
+	kubectl create namespace integration-test
+	
+	./integration-test/test-pod.sh ${IMG_NS}/${IMG}:${IMG_TAG}
+	kubectl wait --for=condition=ready --timeout=60s -n integration-test pod/init-container-test
+
+	cd integration-test && npx --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage --passWithNoTests
 
 ##@ Build
 
 
 .PHONY: docker-build
-docker-build: test ## Build docker image with the manager.
+docker-build: ## Build docker image with the manager.
 	@echo ".: ⚙️ Build Container Images"
 	docker build -t ${IMG_NS}/${IMG}:${IMG_TAG} .
 
