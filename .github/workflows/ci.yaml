@@ -124,6 +124,7 @@ jobs:
           path: ./auto-discovery/kubernetes/auto-discovery-kubernetes.tar
           retention-days: 1
   
+  # ---- Build Stage | AutoDiscovery | PullSecretExtractor ----
   auto-discovery-kubernetes-secret-extraction-container:
     name: "Autodiscovery | Kubernetes | SecretExtractionInitContainer"
     runs-on: ubuntu-20.04
