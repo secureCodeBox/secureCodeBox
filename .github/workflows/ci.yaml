@@ -148,6 +148,20 @@ jobs:
           path: ./auto-discovery/kubernetes/secretExtractionInitContainer/auto-discovery-pull-secret-extractor.tar
           retention-days: 1
 
+      - name: "Start kind cluster"
+        run: |
+          kind version
+          kind create cluster --wait 3m --image kindest/node:v1.24.0@sha256:0866296e693efe1fed79d5e6c7af8df71fc73ae45e3679af05342239cdc5bc8e
+
+      - name: "Inspect kind cluster"
+        run: |
+          kubectl config current-context
+          kubectl get node
+      
+      - name: "Run integration tests"
+        run: |
+          make integration-test
+
   # ---- Build Stage | SDK Matrix ----
 
   sdk:
