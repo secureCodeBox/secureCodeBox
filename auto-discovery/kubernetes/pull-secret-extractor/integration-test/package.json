@@ -1,0 +1,13 @@
+{
+  "name": "securecodebox-pull-secret-extractor-test",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "pull-secret-extraction.test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@kubernetes/client-node": "^0.18.1"
+  }
+}
