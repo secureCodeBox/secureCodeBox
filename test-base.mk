@@ -76,7 +76,7 @@ install-deps-js:
 .PHONY: unit-test-js
 unit-test-js: install-deps-js
 	@echo ".: 🧪 Starting unit-tests for '$(name)' $(module) with 'jest@$(JEST_VERSION)'."
-	npx --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage --passWithNoTests ${name}/${module}/ --testPathIgnorePatterns /integration-tests/ --updateSnapshot
+	npx --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage --passWithNoTests ${name}/${module}/ --testPathIgnorePatterns /integration-tests/
 
 .PHONY: install-deps-py
 install-deps-py:
