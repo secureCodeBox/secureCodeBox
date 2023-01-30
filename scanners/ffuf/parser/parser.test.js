@@ -24,15 +24,15 @@ test("should properly parse ffuf json file", async () => {
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "contentType": "text/html; charset=UTF-8",
       "duration": 14335592,
-      "headers": Object {},
+      "headers": {},
       "hostname": "www.securecodebox.io",
       "httpStatus": 301,
-      "input": Object {
+      "input": {
         "FUZZ": "blog",
       },
       "length": 7253,
@@ -48,14 +48,14 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "contentType": "text/html; charset=UTF-8",
       "duration": 17386127,
-      "headers": Object {},
+      "headers": {},
       "hostname": "www.securecodebox.io",
       "httpStatus": 200,
-      "input": Object {
+      "input": {
         "FUZZ": "404",
       },
       "length": 9152,
@@ -88,15 +88,15 @@ test("should properly parse ffuf json file wih multiple fuzz keyword inputs", as
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "contentType": "text/html; charset=UTF-8",
       "duration": 501741303,
-      "headers": Object {},
+      "headers": {},
       "hostname": "www.securecodebox.io",
       "httpStatus": 301,
-      "input": Object {
+      "input": {
         "FUZZ1": "docs",
         "FUZZ2": "architecture",
       },
@@ -127,23 +127,23 @@ test("should properly parse ffuf json file with postdata", async () => {
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "contentType": "application/json; charset=utf-8",
       "duration": 248886400,
-      "headers": Object {
+      "headers": {
         "Content-Type": "application/json",
       },
       "hostname": "localhost:3000",
       "httpStatus": 200,
-      "input": Object {
+      "input": {
         "PASSWORD": "password",
         "USERNAME": "user@example.com",
       },
       "length": 855,
       "lines": 1,
-      "postdata": "{\\"email\\":\\"USERNAME\\",\\"password\\":\\"PASSWORD\\"}",
+      "postdata": "{"email":"USERNAME","password":"PASSWORD"}",
       "redirectlocation": "",
       "words": 1,
     },
@@ -167,7 +167,7 @@ test("should properly parse empty json file", async () => {
   const findings = await parse(fileContent);
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
-  expect(findings).toMatchInlineSnapshot(`Array []`);
+  expect(findings).toMatchInlineSnapshot(`[]`);
 });
 
 test("should properly parse zero findings json file", async () => {
@@ -179,26 +179,26 @@ test("should properly parse zero findings json file", async () => {
   const findings = await parse(fileContent);
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
-  expect(findings).toMatchInlineSnapshot(`Array []`);
+  expect(findings).toMatchInlineSnapshot(`[]`);
 });
 
 test("should properly parse empty string", async () => {
   const findings = await parse("");
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
-  expect(findings).toMatchInlineSnapshot(`Array []`);
+  expect(findings).toMatchInlineSnapshot(`[]`);
 });
 
 test("should properly parse null", async () => {
   const findings = await parse(null);
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
-  expect(findings).toMatchInlineSnapshot(`Array []`);
+  expect(findings).toMatchInlineSnapshot(`[]`);
 });
 
 test("should properly parse undefined", async () => {
   const findings = await parse(undefined);
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
-  expect(findings).toMatchInlineSnapshot(`Array []`);
+  expect(findings).toMatchInlineSnapshot(`[]`);
 });

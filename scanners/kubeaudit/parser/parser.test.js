@@ -35,5 +35,5 @@ test("should properly parse empty kubeaudit jsonl file", async () => {
   );
   const findings = await parse(jsonContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
-  expect(findings).toMatchInlineSnapshot("Array []");
+  expect(findings).toMatchInlineSnapshot(`[]`);
 });

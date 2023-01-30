@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`parses OWASP Juice Shop result file into findings 1`] = `
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -18,8 +18,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -34,8 +34,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -46,12 +46,12 @@ Array [
     "category": "robots.txt",
     "description": null,
     "location": "http://juice-shop.demo-targets.svc",
-    "name": "\\"robots.txt\\" contains 1 entry which should be manually viewed.",
+    "name": ""robots.txt" contains 1 entry which should be manually viewed.",
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -66,8 +66,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -82,8 +82,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -98,8 +98,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -114,8 +114,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -130,8 +130,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -146,8 +146,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -162,8 +162,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -178,8 +178,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -194,8 +194,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -210,8 +210,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -226,8 +226,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -242,8 +242,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -258,8 +258,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -274,8 +274,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -290,8 +290,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -306,8 +306,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -322,8 +322,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -338,8 +338,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -354,8 +354,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -370,8 +370,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -386,8 +386,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -402,8 +402,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -418,8 +418,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -434,8 +434,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -450,8 +450,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -466,8 +466,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -482,8 +482,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -498,8 +498,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -514,8 +514,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -530,8 +530,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -546,8 +546,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -562,8 +562,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -578,8 +578,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -594,8 +594,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -610,8 +610,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -626,8 +626,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -642,8 +642,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -658,8 +658,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -674,8 +674,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -690,8 +690,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -706,8 +706,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -722,8 +722,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -738,8 +738,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -754,8 +754,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -770,8 +770,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -786,8 +786,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -802,8 +802,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -818,8 +818,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -834,8 +834,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -850,8 +850,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -866,8 +866,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -882,8 +882,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -898,8 +898,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -914,8 +914,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -930,8 +930,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -946,8 +946,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -962,8 +962,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -978,8 +978,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -994,8 +994,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1010,8 +1010,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1026,8 +1026,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1042,8 +1042,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1058,8 +1058,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1074,8 +1074,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1090,8 +1090,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1106,8 +1106,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1122,8 +1122,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1138,8 +1138,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1154,8 +1154,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1170,8 +1170,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1186,8 +1186,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1202,8 +1202,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1218,8 +1218,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1234,8 +1234,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1250,8 +1250,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1266,8 +1266,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1282,8 +1282,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1298,8 +1298,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1314,8 +1314,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1330,8 +1330,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1346,8 +1346,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1362,8 +1362,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1378,8 +1378,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1394,8 +1394,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1410,8 +1410,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1426,8 +1426,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1442,8 +1442,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1458,8 +1458,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1474,8 +1474,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1490,8 +1490,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1506,8 +1506,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1522,8 +1522,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1538,8 +1538,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1554,8 +1554,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1570,8 +1570,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1586,8 +1586,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1602,8 +1602,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1618,8 +1618,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1634,8 +1634,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1650,8 +1650,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1666,8 +1666,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1682,8 +1682,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1698,8 +1698,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1714,8 +1714,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1730,8 +1730,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1746,8 +1746,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1762,8 +1762,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1778,8 +1778,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1794,8 +1794,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1810,8 +1810,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1826,8 +1826,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1842,8 +1842,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1858,8 +1858,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1874,8 +1874,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1890,8 +1890,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1906,8 +1906,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1922,8 +1922,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1938,8 +1938,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1954,8 +1954,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1970,8 +1970,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -1986,8 +1986,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2002,8 +2002,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2018,8 +2018,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2034,8 +2034,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2050,8 +2050,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2066,8 +2066,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2082,8 +2082,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2098,8 +2098,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2114,8 +2114,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2130,8 +2130,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2146,8 +2146,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2162,8 +2162,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2178,8 +2178,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2194,8 +2194,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2210,8 +2210,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2226,8 +2226,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2242,8 +2242,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2258,8 +2258,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2274,8 +2274,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2290,8 +2290,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2306,8 +2306,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2322,8 +2322,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2338,8 +2338,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2354,8 +2354,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
       "ip_address": "10.96.244.199",
@@ -2374,9 +2374,9 @@ Array [
 `;
 
 exports[`parses www.securecodebox.io result file into findings 1`] = `
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "banner": "Netlify",
       "hostname": "docs.securecodebox.io",
       "ip_address": "46.101.121.244",
@@ -2391,8 +2391,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "Netlify",
       "hostname": "docs.securecodebox.io",
       "ip_address": "46.101.121.244",
@@ -2407,8 +2407,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "banner": "Netlify",
       "hostname": "docs.securecodebox.io",
       "ip_address": "46.101.121.244",
