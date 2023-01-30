@@ -53,7 +53,7 @@ IMG_NS ?= securecodebox
 GIT_TAG ?= $$(git rev-parse --short HEAD)
 BASE_IMG_TAG ?= sha-$(GIT_TAG)
 IMG_TAG ?= "sha-$(GIT_TAG)"
-JEST_VERSION ?= 27.0.6
+JEST_VERSION ?= 29.3.1
 KIND_CLUSTER_NAME ?= kind
 
 parser-prefix = parser
@@ -76,7 +76,7 @@ install-deps-js:
 .PHONY: unit-test-js
 unit-test-js: install-deps-js
 	@echo ".: 🧪 Starting unit-tests for '$(name)' $(module) with 'jest@$(JEST_VERSION)'."
-	npx --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage --passWithNoTests ${name}/${module}/ --testPathIgnorePatterns /integration-tests/
+	npx --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage --passWithNoTests ${name}/${module}/ --testPathIgnorePatterns /integration-tests/ --updateSnapshot
 
 .PHONY: install-deps-py
 install-deps-py:
