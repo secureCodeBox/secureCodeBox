@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`parser parses result of Joomla scan with core vulnerabilities successfully 1`] = `
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "joomla_version": "3.6.5",
-      "references": Array [
+      "references": [
         "CVE : CVE-2016-10033",
         "https://www.rapid7.com/db/modules/exploit/multi/http/phpmailer_arg_injection",
         "https://github.com/opsxcq/exploit-CVE-2016-10033",
@@ -19,10 +19,10 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "joomla_version": "3.6.5",
-      "references": Array [
+      "references": [
         "CVE : CVE-2016-10045",
         "https://www.rapid7.com/db/modules/exploit/multi/http/phpmailer_arg_injection",
         "EDB : https://www.exploit-db.com/exploits/40969/",
@@ -35,9 +35,9 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
-      "joomla_backup_files": Array [
+  {
+    "attributes": {
+      "joomla_backup_files": [
         "http://172.26.0.3/1.save",
         "http://172.26.0.3/1.tar.gz",
         "http://172.26.0.3/1.rar",
@@ -57,7 +57,7 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
+  {
     "category": "Security Misconfiguration",
     "description": "Debug mode is enabled on the site",
     "location": "http://172.26.0.3/",
@@ -68,6 +68,6 @@ Array [
 ]
 `;
 
-exports[`parser parses result of Joomla scan without core vulnerabilities successfully 1`] = `Array []`;
+exports[`parser parses result of Joomla scan without core vulnerabilities successfully 1`] = `[]`;
 
-exports[`parser parses result of non-Joomla scan successfully 1`] = `Array []`;
+exports[`parser parses result of non-Joomla scan successfully 1`] = `[]`;

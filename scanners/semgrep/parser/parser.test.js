@@ -20,22 +20,22 @@ test("should properly parse file from inline semgrep usage", async () => {
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "attributes": Object {
-          "cwe": null,
-          "owasp_category": null,
-          "references": null,
-          "rule_source": null,
-        },
-        "category": "semgrep-result",
-        "description": "actual := TruncateName(test.in)",
-        "location": "truncatedname_test.go:44-44",
-        "name": "-",
-        "severity": "HIGH",
-      },
-    ]
-  `);
+[
+  {
+    "attributes": {
+      "cwe": null,
+      "owasp_category": null,
+      "references": null,
+      "rule_source": null,
+    },
+    "category": "semgrep-result",
+    "description": "actual := TruncateName(test.in)",
+    "location": "truncatedname_test.go:44-44",
+    "name": "-",
+    "severity": "HIGH",
+  },
+]
+`);
 });
 
 test("should properly parse file with a single result", async () => {
@@ -49,12 +49,12 @@ test("should properly parse file with a single result", async () => {
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "cwe": "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
       "owasp_category": "A1: Injection",
-      "references": Array [
+      "references": [
         "https://owasp.org/www-community/attacks/Command_Injection",
       ],
       "rule_source": "https://semgrep.dev/r/python.django.security.injection.command.command-injection-os-system.command-injection-os-system",
@@ -80,12 +80,12 @@ test("should properly parse file with multiple results", async () => {
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "cwe": "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
       "owasp_category": "A1: Injection",
-      "references": Array [
+      "references": [
         "https://owasp.org/www-community/attacks/Command_Injection",
       ],
       "rule_source": "https://semgrep.dev/r/python.django.security.injection.command.command-injection-os-system.command-injection-os-system",
@@ -96,11 +96,11 @@ Array [
     "name": "python.django.security.injection.command.command-injection-os-system.command-injection-os-system",
     "severity": "MEDIUM",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "cwe": "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
       "owasp_category": "A1: Injection",
-      "references": Array [
+      "references": [
         "https://owasp.org/www-community/attacks/Command_Injection",
       ],
       "rule_source": "https://semgrep.dev/r/python.django.security.injection.command.command-injection-os-system.command-injection-os-system",

@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`example parser parses large json result successfully 1`] = `
-Array [
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+[
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -24,10 +24,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -46,10 +46,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -68,10 +68,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -90,10 +90,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -112,10 +112,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -134,10 +134,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -156,10 +156,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -178,10 +178,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -200,10 +200,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -222,10 +222,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -244,10 +244,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -266,10 +266,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -288,10 +288,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -310,10 +310,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -332,10 +332,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -354,10 +354,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -376,10 +376,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -398,10 +398,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -420,10 +420,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -442,10 +442,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -464,10 +464,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -486,10 +486,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -508,10 +508,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -530,10 +530,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -552,10 +552,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -574,10 +574,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -596,10 +596,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -618,10 +618,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -640,10 +640,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -662,10 +662,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -684,10 +684,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -706,10 +706,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -728,10 +728,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -750,10 +750,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -772,10 +772,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -794,10 +794,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -816,10 +816,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -838,10 +838,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -860,10 +860,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -882,10 +882,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -904,10 +904,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -926,10 +926,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -948,10 +948,10 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 24940,
           "cidr": "138.201.0.0/16",
           "desc": "HETZNER-AS ",
@@ -974,11 +974,11 @@ Array [
 `;
 
 exports[`handles jsonl files with a single row correctly 1`] = `
-Array [
-  Object {
-    "attributes": Object {
-      "addresses": Array [
-        Object {
+[
+  {
+    "attributes": {
+      "addresses": [
+        {
           "asn": 54113,
           "cidr": "185.199.108.0/22",
           "desc": "FASTLY - Fastly",
