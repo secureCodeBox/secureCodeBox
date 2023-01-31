@@ -12,8 +12,8 @@ spec:
     kind: ClusterParseDefinition
     listKind: ClusterParseDefinitionList
     plural: clusterparsedefinitions
-    singular: ClusterParseDefinition
-  scope: Namespaced
+    singular: clusterparsedefinition
+  scope: Cluster
   versions:
   - additionalPrinterColumns:
     - description: Scanner Container Image

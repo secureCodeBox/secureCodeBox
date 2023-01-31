@@ -13,7 +13,6 @@ import (
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:scope=Cluster
-// +kubebuilder:resource:singular=ClusterParseDefinition
 // +kubebuilder:printcolumn:name="Image",type=string,JSONPath=`.spec.image`,description="Scanner Container Image"
 
 // ClusterParseDefinition is the Schema for the clusterparsedefinitions API
