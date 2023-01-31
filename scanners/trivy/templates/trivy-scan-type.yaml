@@ -32,6 +32,7 @@ spec:
           {{- end }}
           securityContext:
             {{- toYaml .Values.scanner.podSecurityContext | nindent 12 }}
+          serviceAccountName: trivy-autodiscovery
           containers:
             - name: trivy
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
