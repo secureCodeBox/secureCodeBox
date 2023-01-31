@@ -138,7 +138,7 @@ func (in *ClusterScanTypeList) DeepCopyInto(out *ClusterScanTypeList) {
 	in.ListMeta.DeepCopyInto(&out.ListMeta)
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
-		*out = make([]ScanType, len(*in))
+		*out = make([]ClusterScanType, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}

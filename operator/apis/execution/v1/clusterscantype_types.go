@@ -36,7 +36,7 @@ type ClusterScanType struct {
 type ClusterScanTypeList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []ScanType `json:"items"`
+	Items           []ClusterScanType `json:"items"`
 }
 
 func init() {
