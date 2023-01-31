@@ -576,6 +576,8 @@ jobs:
         run: make kind-import
 
       # ---- Install Test Dependencies ----
+      - name: Update NPM
+        run: npm i -g npm@${{ env.NPM_VERSION }}
 
       - name: "Install Test Dependencies"
         working-directory: ./hooks
