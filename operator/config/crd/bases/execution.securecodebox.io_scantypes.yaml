@@ -12,7 +12,7 @@ spec:
     kind: ScanType
     listKind: ScanTypeList
     plural: scantypes
-    singular: ScanType
+    singular: scantype
   scope: Namespaced
   versions:
   - additionalPrinterColumns:

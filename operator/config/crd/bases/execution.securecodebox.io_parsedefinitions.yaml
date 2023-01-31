@@ -12,7 +12,7 @@ spec:
     kind: ParseDefinition
     listKind: ParseDefinitionList
     plural: parsedefinitions
-    singular: ParseDefinition
+    singular: parsedefinition
   scope: Namespaced
   versions:
   - additionalPrinterColumns:

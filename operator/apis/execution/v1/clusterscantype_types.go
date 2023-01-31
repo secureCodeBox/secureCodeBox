@@ -19,7 +19,6 @@ type ClusterScanTypeStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:scope=Cluster
-// +kubebuilder:resource:singular=ClusterScanType
 // +kubebuilder:printcolumn:name="Image",type=string,JSONPath=`.spec.jobTemplate.spec.template.spec.containers[0].image`,description="Scanner Container Image"
 
 // ClusterScanType is the Schema for the ClusterScanTypes API

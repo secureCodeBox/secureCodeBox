@@ -12,8 +12,8 @@ spec:
     kind: ClusterScanType
     listKind: ClusterScanTypeList
     plural: clusterscantypes
-    singular: ClusterScanType
-  scope: Namespaced
+    singular: clusterscantype
+  scope: Cluster
   versions:
   - additionalPrinterColumns:
     - description: Scanner Container Image
