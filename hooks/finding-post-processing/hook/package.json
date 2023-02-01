@@ -32,9 +32,11 @@
   },
   "homepage": "https://www.secureCodeBox.io",
   "dependencies": {
-    "lodash": "^4.17.21"
+    "@types/jest": "^29.4.0",
+    "lodash": "^4.17.21",
+    "ts-jest": "^29.0.5"
   },
   "devDependencies": {
-    "jest": "^27.0.6"
+    "jest": "^29.3.1"
   }
 }
