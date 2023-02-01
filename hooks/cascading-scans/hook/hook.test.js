@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { getCascadingScans } = require("./hook");
+const {getCascadingScans} = require("./hook");
 const {
   LabelSelectorRequirementOperator,
 } = require("./kubernetes-label-selector");
-const { ScopeLimiterRequirementOperator } = require("./scope-limiter");
+const {ScopeLimiterRequirementOperator} = require("./scope-limiter");
 
 let parentScan = undefined;
 let sslyzeCascadingRules = undefined;
@@ -90,21 +90,21 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", () =
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "apiVersion": "execution.securecodebox.io/v1",
         "kind": "Scan",
-        "metadata": Object {
-          "annotations": Object {
+        "metadata": {
+          "annotations": {
             "cascading.securecodebox.io/chain": "tls-scans",
             "cascading.securecodebox.io/matched-finding": undefined,
             "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
             "securecodebox.io/hook": "cascading-scans",
           },
           "generateName": "sslyze-foobar.com-tls-scans-",
-          "labels": Object {},
-          "ownerReferences": Array [
-            Object {
+          "labels": {},
+          "ownerReferences": [
+            {
               "apiVersion": "execution.securecodebox.io/v1",
               "blockOwnerDeletion": true,
               "controller": true,
@@ -114,20 +114,20 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", () =
             },
           ],
         },
-        "spec": Object {
+        "spec": {
           "affinity": undefined,
-          "cascades": Object {},
-          "env": Array [],
-          "hookSelector": Object {},
-          "initContainers": Array [],
-          "parameters": Array [
+          "cascades": {},
+          "env": [],
+          "hookSelector": {},
+          "initContainers": [],
+          "parameters": [
             "--regular",
             "foobar.com:443",
           ],
           "scanType": "sslyze",
           "tolerations": undefined,
-          "volumeMounts": Array [],
-          "volumes": Array [],
+          "volumeMounts": [],
+          "volumes": [],
         },
       },
     ]
@@ -158,7 +158,7 @@ test("Should create no subsequent scans if there are no rules", () => {
     parseDefinition
   );
 
-  expect(cascadedScans).toMatchInlineSnapshot(`Array []`);
+  expect(cascadedScans).toMatchInlineSnapshot(`[]`);
 });
 
 test("Should not try to do magic to the scan name if its something random", () => {
@@ -216,7 +216,7 @@ test("Should not start a new scan when the corresponding cascadingRule is alread
     parseDefinition
   );
 
-  expect(cascadedScans).toMatchInlineSnapshot(`Array []`);
+  expect(cascadedScans).toMatchInlineSnapshot(`[]`);
 });
 
 test("Should not crash when the annotations are not set", () => {
@@ -244,21 +244,21 @@ test("Should not crash when the annotations are not set", () => {
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "apiVersion": "execution.securecodebox.io/v1",
         "kind": "Scan",
-        "metadata": Object {
-          "annotations": Object {
+        "metadata": {
+          "annotations": {
             "cascading.securecodebox.io/chain": "tls-scans",
             "cascading.securecodebox.io/matched-finding": undefined,
             "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
             "securecodebox.io/hook": "cascading-scans",
           },
           "generateName": "sslyze-foobar.com-tls-scans-",
-          "labels": Object {},
-          "ownerReferences": Array [
-            Object {
+          "labels": {},
+          "ownerReferences": [
+            {
               "apiVersion": "execution.securecodebox.io/v1",
               "blockOwnerDeletion": true,
               "controller": true,
@@ -268,20 +268,20 @@ test("Should not crash when the annotations are not set", () => {
             },
           ],
         },
-        "spec": Object {
+        "spec": {
           "affinity": undefined,
-          "cascades": Object {},
-          "env": Array [],
-          "hookSelector": Object {},
-          "initContainers": Array [],
-          "parameters": Array [
+          "cascades": {},
+          "env": [],
+          "hookSelector": {},
+          "initContainers": [],
+          "parameters": [
             "--regular",
             "foobar.com:443",
           ],
           "scanType": "sslyze",
           "tolerations": undefined,
-          "volumeMounts": Array [],
-          "volumes": Array [],
+          "volumeMounts": [],
+          "volumes": [],
         },
       },
     ]
@@ -292,7 +292,7 @@ test("Should copy ENV fields from cascadingRule to created scan", () => {
   sslyzeCascadingRules[0].spec.scanSpec.env = [
     {
       name: "FOOBAR",
-      valueFrom: { secretKeyRef: { name: "foobar-token", key: "token" } },
+      valueFrom: {secretKeyRef: {name: "foobar-token", key: "token"}},
     },
   ];
 
@@ -318,11 +318,11 @@ test("Should copy ENV fields from cascadingRule to created scan", () => {
   );
 
   expect(cascadedScans[0].spec.env).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "name": "FOOBAR",
-        "valueFrom": Object {
-          "secretKeyRef": Object {
+        "valueFrom": {
+          "secretKeyRef": {
             "key": "token",
             "name": "foobar-token",
           },
@@ -382,21 +382,21 @@ test("Should allow wildcards in cascadingRules", () => {
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "apiVersion": "execution.securecodebox.io/v1",
         "kind": "Scan",
-        "metadata": Object {
-          "annotations": Object {
+        "metadata": {
+          "annotations": {
             "cascading.securecodebox.io/chain": "tls-scans",
             "cascading.securecodebox.io/matched-finding": undefined,
             "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
             "securecodebox.io/hook": "cascading-scans",
           },
           "generateName": "sslyze-foobar.com-tls-scans-",
-          "labels": Object {},
-          "ownerReferences": Array [
-            Object {
+          "labels": {},
+          "ownerReferences": [
+            {
               "apiVersion": "execution.securecodebox.io/v1",
               "blockOwnerDeletion": true,
               "controller": true,
@@ -406,20 +406,20 @@ test("Should allow wildcards in cascadingRules", () => {
             },
           ],
         },
-        "spec": Object {
+        "spec": {
           "affinity": undefined,
-          "cascades": Object {},
-          "env": Array [],
-          "hookSelector": Object {},
-          "initContainers": Array [],
-          "parameters": Array [
+          "cascades": {},
+          "env": [],
+          "hookSelector": {},
+          "initContainers": [],
+          "parameters": [
             "--regular",
             "foobar.com:8443",
           ],
           "scanType": "sslyze",
           "tolerations": undefined,
-          "volumeMounts": Array [],
-          "volumes": Array [],
+          "volumeMounts": [],
+          "volumes": [],
         },
       },
     ]
@@ -769,7 +769,7 @@ test("should properly parse template values in scanLabels and scanAnnotations", 
     "{{$.hostOrIP}}:{{attributes.port}}",
   ]);
 
-  const { labels, annotations } = cascadedScans[0].metadata;
+  const {labels, annotations} = cascadedScans[0].metadata;
 
   // No snapshots as scanLabels/scanAnnotations can be in any order
   const labelResults = {
@@ -878,12 +878,12 @@ test("should merge environment variables into cascaded scan", () => {
 
   const cascadedScan = cascadedScans[0];
   expect(cascadedScan.spec.env).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "name": "parent_environment_variable_name",
         "value": "parent_environment_variable_value",
       },
-      Object {
+      {
         "name": "rule_environment_variable_name",
         "value": "rule_environment_variable_value",
       },
@@ -934,14 +934,14 @@ test("should merge volumeMounts into cascaded scan", () => {
 
   const cascadedScan = cascadedScans[0];
   expect(cascadedScan.spec.volumeMounts).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "mountPath": "/etc/ssl/certs/ca-cert.cer",
         "name": "ca-certificate",
         "readOnly": true,
         "subPath": "ca-cert.cer",
       },
-      Object {
+      {
         "mountPath": "/etc/ssl/certs/ca-cert-sslyze.cer",
         "name": "ca-certificate-sslyze",
         "readOnly": true,
@@ -995,15 +995,15 @@ test("should merge volumes into cascaded scan", () => {
   const cascadedScan = cascadedScans[0];
 
   expect(cascadedScan.spec.volumes).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "configMap": Object {
+    [
+      {
+        "configMap": {
           "name": "ca-certificate",
         },
         "name": "ca-certificate",
       },
-      Object {
-        "configMap": Object {
+      {
+        "configMap": {
           "name": "ca-certificate-sslyze",
         },
         "name": "ca-certificate-sslyze",
@@ -1054,24 +1054,24 @@ test("should merge initContainers into cascaded scan", () => {
   const cascadedScan = cascadedScans[0];
 
   expect(cascadedScan.spec.initContainers).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "command": Array [
-            "whoami",
-          ],
-          "image": "bitnami/git",
-          "name": "test-init",
-        },
-        Object {
-          "command": Array [
-            "echo",
-            "1",
-          ],
-          "image": "some/hypothetical",
-          "name": "test-init-2",
-        },
-      ]
-    `);
+    [
+      {
+        "command": [
+          "whoami",
+        ],
+        "image": "bitnami/git",
+        "name": "test-init",
+      },
+      {
+        "command": [
+          "echo",
+          "1",
+        ],
+        "image": "some/hypothetical",
+        "name": "test-init-2",
+      },
+    ]
+  `);
 });
 
 test("should not merge initContainers into cascaded scan if not instructed", () => {
@@ -1115,17 +1115,17 @@ test("should not merge initContainers into cascaded scan if not instructed", () 
   const cascadedScan = cascadedScans[0];
 
   expect(cascadedScan.spec.initContainers).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "command": Array [
-            "echo",
-            "1",
-          ],
-          "image": "some/hypothetical",
-          "name": "test-init-2",
-        },
-      ]
-    `);
+    [
+      {
+        "command": [
+          "echo",
+          "1",
+        ],
+        "image": "some/hypothetical",
+        "name": "test-init-2",
+      },
+    ]
+  `);
 });
 
 test("Templating should apply to environment variables", () => {
@@ -1170,9 +1170,9 @@ test("Templating should apply to environment variables", () => {
         scanSpec: {
           scanType: "sslyze",
           parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"],
-          volumes: [{ name: "test-volume", emptyDir: {} }],
-          volumeMounts: [{ name: "test-volume", mountPath: "/test" }],
-          env: [{ name: "HostOrIp", value: "{{$.hostOrIP}}" }],
+          volumes: [{name: "test-volume", emptyDir: {}}],
+          volumeMounts: [{name: "test-volume", mountPath: "/test"}],
+          env: [{name: "HostOrIp", value: "{{$.hostOrIP}}"}],
         },
       },
     },
@@ -1187,21 +1187,21 @@ test("Templating should apply to environment variables", () => {
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "apiVersion": "execution.securecodebox.io/v1",
         "kind": "Scan",
-        "metadata": Object {
-          "annotations": Object {
+        "metadata": {
+          "annotations": {
             "cascading.securecodebox.io/chain": "tls-scans",
             "cascading.securecodebox.io/matched-finding": undefined,
             "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
             "securecodebox.io/hook": "cascading-scans",
           },
           "generateName": "sslyze-foobar.com-tls-scans-",
-          "labels": Object {},
-          "ownerReferences": Array [
-            Object {
+          "labels": {},
+          "ownerReferences": [
+            {
               "apiVersion": "execution.securecodebox.io/v1",
               "blockOwnerDeletion": true,
               "controller": true,
@@ -1211,32 +1211,32 @@ test("Templating should apply to environment variables", () => {
             },
           ],
         },
-        "spec": Object {
+        "spec": {
           "affinity": undefined,
-          "cascades": Object {},
-          "env": Array [
-            Object {
+          "cascades": {},
+          "env": [
+            {
               "name": "HostOrIp",
               "value": "foobar.com",
             },
           ],
-          "hookSelector": Object {},
-          "initContainers": Array [],
-          "parameters": Array [
+          "hookSelector": {},
+          "initContainers": [],
+          "parameters": [
             "--regular",
             "foobar.com:443",
           ],
           "scanType": "sslyze",
           "tolerations": undefined,
-          "volumeMounts": Array [
-            Object {
+          "volumeMounts": [
+            {
               "mountPath": "/test",
               "name": "test-volume",
             },
           ],
-          "volumes": Array [
-            Object {
-              "emptyDir": Object {},
+          "volumes": [
+            {
+              "emptyDir": {},
               "name": "test-volume",
             },
           ],
@@ -1288,14 +1288,14 @@ test("Templating should apply to initContainer commands", () => {
         scanSpec: {
           scanType: "sslyze",
           parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"],
-          volumes: [{ name: "test-volume", emptyDir: {} }],
-          volumeMounts: [{ name: "test-volume", mountPath: "/test" }],
+          volumes: [{name: "test-volume", emptyDir: {}}],
+          volumeMounts: [{name: "test-volume", mountPath: "/test"}],
           initContainers: [
             {
               name: "ping-it-again",
               image: "busybox",
               command: ["ping", "-c", "1", "{{$.hostOrIP}}"],
-              volumeMounts: [{ name: "test-volume", mountPath: "/test" }],
+              volumeMounts: [{name: "test-volume", mountPath: "/test"}],
             },
           ],
         },
@@ -1312,21 +1312,21 @@ test("Templating should apply to initContainer commands", () => {
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "apiVersion": "execution.securecodebox.io/v1",
         "kind": "Scan",
-        "metadata": Object {
-          "annotations": Object {
+        "metadata": {
+          "annotations": {
             "cascading.securecodebox.io/chain": "tls-scans",
             "cascading.securecodebox.io/matched-finding": undefined,
             "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
             "securecodebox.io/hook": "cascading-scans",
           },
           "generateName": "sslyze-foobar.com-tls-scans-",
-          "labels": Object {},
-          "ownerReferences": Array [
-            Object {
+          "labels": {},
+          "ownerReferences": [
+            {
               "apiVersion": "execution.securecodebox.io/v1",
               "blockOwnerDeletion": true,
               "controller": true,
@@ -1336,14 +1336,14 @@ test("Templating should apply to initContainer commands", () => {
             },
           ],
         },
-        "spec": Object {
+        "spec": {
           "affinity": undefined,
-          "cascades": Object {},
-          "env": Array [],
-          "hookSelector": Object {},
-          "initContainers": Array [
-            Object {
-              "command": Array [
+          "cascades": {},
+          "env": [],
+          "hookSelector": {},
+          "initContainers": [
+            {
+              "command": [
                 "ping",
                 "-c",
                 "1",
@@ -1351,29 +1351,29 @@ test("Templating should apply to initContainer commands", () => {
               ],
               "image": "busybox",
               "name": "ping-it-again",
-              "volumeMounts": Array [
-                Object {
+              "volumeMounts": [
+                {
                   "mountPath": "/test",
                   "name": "test-volume",
                 },
               ],
             },
           ],
-          "parameters": Array [
+          "parameters": [
             "--regular",
             "foobar.com:443",
           ],
           "scanType": "sslyze",
           "tolerations": undefined,
-          "volumeMounts": Array [
-            Object {
+          "volumeMounts": [
+            {
               "mountPath": "/test",
               "name": "test-volume",
             },
           ],
-          "volumes": Array [
-            Object {
-              "emptyDir": Object {},
+          "volumes": [
+            {
+              "emptyDir": {},
               "name": "test-volume",
             },
           ],
@@ -1425,15 +1425,15 @@ test("Templating should apply to initContainer environment variables", () => {
         scanSpec: {
           scanType: "sslyze",
           parameters: ["--regular", "{{$.hostOrIP}}:{{attributes.port}}"],
-          volumes: [{ name: "test-volume", emptyDir: {} }],
-          volumeMounts: [{ name: "test-volume", mountPath: "/test" }],
+          volumes: [{name: "test-volume", emptyDir: {}}],
+          volumeMounts: [{name: "test-volume", mountPath: "/test"}],
           initContainers: [
             {
               name: "ping-it-again",
               image: "busybox",
               command: ["whoami"],
-              volumeMounts: [{ name: "test-volume", mountPath: "/test" }],
-              env: [{ name: "HostOrIp", value: "{{$.hostOrIP}}" }],
+              volumeMounts: [{name: "test-volume", mountPath: "/test"}],
+              env: [{name: "HostOrIp", value: "{{$.hostOrIP}}"}],
             },
           ],
         },
@@ -1450,21 +1450,21 @@ test("Templating should apply to initContainer environment variables", () => {
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "apiVersion": "execution.securecodebox.io/v1",
         "kind": "Scan",
-        "metadata": Object {
-          "annotations": Object {
+        "metadata": {
+          "annotations": {
             "cascading.securecodebox.io/chain": "tls-scans",
             "cascading.securecodebox.io/matched-finding": undefined,
             "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
             "securecodebox.io/hook": "cascading-scans",
           },
           "generateName": "sslyze-foobar.com-tls-scans-",
-          "labels": Object {},
-          "ownerReferences": Array [
-            Object {
+          "labels": {},
+          "ownerReferences": [
+            {
               "apiVersion": "execution.securecodebox.io/v1",
               "blockOwnerDeletion": true,
               "controller": true,
@@ -1474,47 +1474,47 @@ test("Templating should apply to initContainer environment variables", () => {
             },
           ],
         },
-        "spec": Object {
+        "spec": {
           "affinity": undefined,
-          "cascades": Object {},
-          "env": Array [],
-          "hookSelector": Object {},
-          "initContainers": Array [
-            Object {
-              "command": Array [
+          "cascades": {},
+          "env": [],
+          "hookSelector": {},
+          "initContainers": [
+            {
+              "command": [
                 "whoami",
               ],
-              "env": Array [
-                Object {
+              "env": [
+                {
                   "name": "HostOrIp",
                   "value": "foobar.com",
                 },
               ],
               "image": "busybox",
               "name": "ping-it-again",
-              "volumeMounts": Array [
-                Object {
+              "volumeMounts": [
+                {
                   "mountPath": "/test",
                   "name": "test-volume",
                 },
               ],
             },
           ],
-          "parameters": Array [
+          "parameters": [
             "--regular",
             "foobar.com:443",
           ],
           "scanType": "sslyze",
           "tolerations": undefined,
-          "volumeMounts": Array [
-            Object {
+          "volumeMounts": [
+            {
               "mountPath": "/test",
               "name": "test-volume",
             },
           ],
-          "volumes": Array [
-            Object {
-              "emptyDir": Object {},
+          "volumes": [
+            {
+              "emptyDir": {},
               "name": "test-volume",
             },
           ],
@@ -1566,14 +1566,14 @@ test("Templating should not break special encoding (http://...) when using tripl
         scanSpec: {
           scanType: "sslyze",
           parameters: ["--regular", "{{{attributes.hostname}}}"],
-          volumes: [{ name: "test-volume", emptyDir: {} }],
-          volumeMounts: [{ name: "test-volume", mountPath: "/test" }],
+          volumes: [{name: "test-volume", emptyDir: {}}],
+          volumeMounts: [{name: "test-volume", mountPath: "/test"}],
           initContainers: [
             {
               name: "ping-it-again",
               image: "busybox",
               command: ["ping", "-c", "1", "{{{attributes.hostname}}}"],
-              volumeMounts: [{ name: "test-volume", mountPath: "/test" }],
+              volumeMounts: [{name: "test-volume", mountPath: "/test"}],
             },
           ],
         },
@@ -1590,21 +1590,21 @@ test("Templating should not break special encoding (http://...) when using tripl
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "apiVersion": "execution.securecodebox.io/v1",
         "kind": "Scan",
-        "metadata": Object {
-          "annotations": Object {
+        "metadata": {
+          "annotations": {
             "cascading.securecodebox.io/chain": "tls-scans",
             "cascading.securecodebox.io/matched-finding": undefined,
             "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
             "securecodebox.io/hook": "cascading-scans",
           },
           "generateName": "sslyze-foobar.com-tls-scans-",
-          "labels": Object {},
-          "ownerReferences": Array [
-            Object {
+          "labels": {},
+          "ownerReferences": [
+            {
               "apiVersion": "execution.securecodebox.io/v1",
               "blockOwnerDeletion": true,
               "controller": true,
@@ -1614,14 +1614,14 @@ test("Templating should not break special encoding (http://...) when using tripl
             },
           ],
         },
-        "spec": Object {
+        "spec": {
           "affinity": undefined,
-          "cascades": Object {},
-          "env": Array [],
-          "hookSelector": Object {},
-          "initContainers": Array [
-            Object {
-              "command": Array [
+          "cascades": {},
+          "env": [],
+          "hookSelector": {},
+          "initContainers": [
+            {
+              "command": [
                 "ping",
                 "-c",
                 "1",
@@ -1629,29 +1629,29 @@ test("Templating should not break special encoding (http://...) when using tripl
               ],
               "image": "busybox",
               "name": "ping-it-again",
-              "volumeMounts": Array [
-                Object {
+              "volumeMounts": [
+                {
                   "mountPath": "/test",
                   "name": "test-volume",
                 },
               ],
             },
           ],
-          "parameters": Array [
+          "parameters": [
             "--regular",
             "https://github.com/secureCodeBox/secureCodeBox",
           ],
           "scanType": "sslyze",
           "tolerations": undefined,
-          "volumeMounts": Array [
-            Object {
+          "volumeMounts": [
+            {
               "mountPath": "/test",
               "name": "test-volume",
             },
           ],
-          "volumes": Array [
-            Object {
-              "emptyDir": Object {},
+          "volumes": [
+            {
+              "emptyDir": {},
               "name": "test-volume",
             },
           ],
@@ -1712,28 +1712,28 @@ test("should merge hookSelector into cascaded scan if inheritHookSelector is ena
   const cascadedScan = cascadedScans[0];
 
   expect(cascadedScan.spec.hookSelector).toMatchInlineSnapshot(`
-      Object {
-        "matchExpressions": Array [
-          Object {
-            "key": "securecodebox.io/name",
-            "operator": "In",
-            "values": Array [
-              "cascading-scans",
-            ],
-          },
-          Object {
-            "key": "securecodebox.io/name",
-            "operator": "NotIn",
-            "values": Array [
-              "cascading-scans",
-            ],
-          },
-        ],
-        "matchLabels": Object {
-          "securecodebox.io/internal": "false",
+    {
+      "matchExpressions": [
+        {
+          "key": "securecodebox.io/name",
+          "operator": "In",
+          "values": [
+            "cascading-scans",
+          ],
         },
-      }
-    `);
+        {
+          "key": "securecodebox.io/name",
+          "operator": "NotIn",
+          "values": [
+            "cascading-scans",
+          ],
+        },
+      ],
+      "matchLabels": {
+        "securecodebox.io/internal": "false",
+      },
+    }
+  `);
 });
 
 test("should not merge hookSelector into cascaded scan if inheritHookSelector is disabled", () => {
@@ -1787,21 +1787,21 @@ test("should not merge hookSelector into cascaded scan if inheritHookSelector is
   const cascadedScan = cascadedScans[0];
 
   expect(cascadedScan.spec.hookSelector).toMatchInlineSnapshot(`
-      Object {
-        "matchExpressions": Array [
-          Object {
-            "key": "securecodebox.io/name",
-            "operator": "NotIn",
-            "values": Array [
-              "cascading-scans",
-            ],
-          },
-        ],
-        "matchLabels": Object {
-          "securecodebox.io/internal": "false",
+    {
+      "matchExpressions": [
+        {
+          "key": "securecodebox.io/name",
+          "operator": "NotIn",
+          "values": [
+            "cascading-scans",
+          ],
         },
-      }
-    `);
+      ],
+      "matchLabels": {
+        "securecodebox.io/internal": "false",
+      },
+    }
+  `);
 });
 
 test("should copy tolerations and affinity into cascaded scan if one is set and label is unset", () => {
@@ -1856,37 +1856,37 @@ test("should copy tolerations and affinity into cascaded scan if one is set and 
   const cascadedScan = cascadedScans[0];
 
   expect(cascadedScan.spec.affinity).toMatchInlineSnapshot(`
-      Object {
-        "nodeAffinity": Object {
-          "requiredDuringSchedulingIgnoredDuringExecution": Object {
-            "nodeSelectorTerms": Array [
-              Object {
-                "matchExpressions": Array [
-                  Object {
-                    "key": "disktype",
-                    "operator": "In",
-                    "values": Array [
-                      "ssd",
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
+    {
+      "nodeAffinity": {
+        "requiredDuringSchedulingIgnoredDuringExecution": {
+          "nodeSelectorTerms": [
+            {
+              "matchExpressions": [
+                {
+                  "key": "disktype",
+                  "operator": "In",
+                  "values": [
+                    "ssd",
+                  ],
+                },
+              ],
+            },
+          ],
         },
-      }
-    `);
+      },
+    }
+  `);
 
   expect(cascadedScan.spec.tolerations).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "effect": "NoSchedule",
-          "key": "key1",
-          "operator": "Equal",
-          "value": "test",
-        },
-      ]
-    `);
+    [
+      {
+        "effect": "NoSchedule",
+        "key": "key1",
+        "operator": "Equal",
+        "value": "test",
+      },
+    ]
+  `);
 });
 
 test("should not copy tolerations and affinity into cascaded scan if label disables it", () => {
@@ -2027,43 +2027,43 @@ test("should merge tolerations and replace affinity in cascaded scan if cascadin
 
   // New values will completely replace the old values, not be merged
   expect(cascadedScan.spec.affinity).toMatchInlineSnapshot(`
-      Object {
-        "nodeAffinity": Object {
-          "requiredDuringSchedulingIgnoredDuringExecution": Object {
-            "nodeSelectorTerms": Array [
-              Object {
-                "matchExpressions": Array [
-                  Object {
-                    "key": "network",
-                    "operator": "In",
-                    "values": Array [
-                      "10g",
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
+    {
+      "nodeAffinity": {
+        "requiredDuringSchedulingIgnoredDuringExecution": {
+          "nodeSelectorTerms": [
+            {
+              "matchExpressions": [
+                {
+                  "key": "network",
+                  "operator": "In",
+                  "values": [
+                    "10g",
+                  ],
+                },
+              ],
+            },
+          ],
         },
-      }
-    `);
+      },
+    }
+  `);
 
   expect(cascadedScan.spec.tolerations).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "effect": "NoSchedule",
-          "key": "key1",
-          "operator": "Equal",
-          "value": "test",
-        },
-        Object {
-          "effect": "NoSchedule",
-          "key": "key2",
-          "operator": "Equal",
-          "value": "test-2",
-        },
-      ]
-    `);
+    [
+      {
+        "effect": "NoSchedule",
+        "key": "key1",
+        "operator": "Equal",
+        "value": "test",
+      },
+      {
+        "effect": "NoSchedule",
+        "key": "key2",
+        "operator": "Equal",
+        "value": "test-2",
+      },
+    ]
+  `);
 });
 
 test("should not set affinity or tolerations to undefined if they are defined to be an empty map / list in upstream scan", () => {
@@ -2095,9 +2095,9 @@ test("should not set affinity or tolerations to undefined if they are defined to
   const cascadedScan = cascadedScans[0];
 
   // New values will completely replace the old values, not be merged
-  expect(cascadedScan.spec.affinity).toMatchInlineSnapshot(`Object {}`);
+  expect(cascadedScan.spec.affinity).toMatchInlineSnapshot(`{}`);
 
-  expect(cascadedScan.spec.tolerations).toMatchInlineSnapshot(`Array []`);
+  expect(cascadedScan.spec.tolerations).toMatchInlineSnapshot(`[]`);
 });
 
 test("Should not set affinity or tolerations to undefined if they are defined to be an empty map / list in cascading ScanSpec", () => {
@@ -2129,9 +2129,9 @@ test("Should not set affinity or tolerations to undefined if they are defined to
   const cascadedScan = cascadedScans[0];
 
   // New values will completely replace the old values, not be merged
-  expect(cascadedScan.spec.affinity).toMatchInlineSnapshot(`Object {}`);
+  expect(cascadedScan.spec.affinity).toMatchInlineSnapshot(`{}`);
 
-  expect(cascadedScan.spec.tolerations).toMatchInlineSnapshot(`Array []`);
+  expect(cascadedScan.spec.tolerations).toMatchInlineSnapshot(`[]`);
 });
 
 test("should only use tolerations and affinity of cascaded scan if inheritance is disabled", () => {
@@ -2215,37 +2215,37 @@ test("should only use tolerations and affinity of cascaded scan if inheritance i
   const cascadedScan = cascadedScans[0];
 
   expect(cascadedScan.spec.affinity).toMatchInlineSnapshot(`
-      Object {
-        "nodeAffinity": Object {
-          "requiredDuringSchedulingIgnoredDuringExecution": Object {
-            "nodeSelectorTerms": Array [
-              Object {
-                "matchExpressions": Array [
-                  Object {
-                    "key": "network",
-                    "operator": "In",
-                    "values": Array [
-                      "10g",
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
+    {
+      "nodeAffinity": {
+        "requiredDuringSchedulingIgnoredDuringExecution": {
+          "nodeSelectorTerms": [
+            {
+              "matchExpressions": [
+                {
+                  "key": "network",
+                  "operator": "In",
+                  "values": [
+                    "10g",
+                  ],
+                },
+              ],
+            },
+          ],
         },
-      }
-    `);
+      },
+    }
+  `);
 
   expect(cascadedScan.spec.tolerations).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "effect": "NoSchedule",
-          "key": "key2",
-          "operator": "Equal",
-          "value": "test-2",
-        },
-      ]
-    `);
+    [
+      {
+        "effect": "NoSchedule",
+        "key": "key2",
+        "operator": "Equal",
+        "value": "test-2",
+      },
+    ]
+  `);
 });
 
 test("should purge cascaded scan spec from parent scan", () => {
@@ -2395,8 +2395,8 @@ test("should purge cascaded scan spec from parent scan", () => {
   const secondCascadedScan = secondCascadedScans[0];
 
   expect(secondCascadedScan.spec.env).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "name": "parent_environment_variable_name",
         "value": "parent_environment_variable_value",
       },
@@ -2404,9 +2404,9 @@ test("should purge cascaded scan spec from parent scan", () => {
   `);
 
   expect(secondCascadedScan.spec.volumes).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "configMap": Object {
+    [
+      {
+        "configMap": {
           "name": "ca-certificate",
         },
         "name": "ca-certificate",
@@ -2415,8 +2415,8 @@ test("should purge cascaded scan spec from parent scan", () => {
   `);
 
   expect(secondCascadedScan.spec.volumeMounts).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "mountPath": "/etc/ssl/certs/ca-cert.cer",
         "name": "ca-certificate",
         "readOnly": true,
@@ -2427,19 +2427,19 @@ test("should purge cascaded scan spec from parent scan", () => {
 
   expect(secondCascadedScan.spec.hookSelector.matchExpressions)
     .toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "key": "securecodebox.io/name",
-          "operator": "In",
-          "values": Array [
-            "cascading-scans",
-          ],
-        },
-      ]
-    `);
+    [
+      {
+        "key": "securecodebox.io/name",
+        "operator": "In",
+        "values": [
+          "cascading-scans",
+        ],
+      },
+    ]
+  `);
   expect(
     secondCascadedScan.spec.hookSelector.matchLabels
-  ).toMatchInlineSnapshot(`Object {}`);
+  ).toMatchInlineSnapshot(`{}`);
 });
 
 test("should not copy cascaded scan spec from parent scan if inheritance is undefined", () => {
@@ -2559,13 +2559,11 @@ test("should not copy cascaded scan spec from parent scan if inheritance is unde
 
   const secondCascadedScan = secondCascadedScans[0];
 
-  expect(secondCascadedScan.spec.env).toMatchInlineSnapshot(`Array []`);
+  expect(secondCascadedScan.spec.env).toMatchInlineSnapshot(`[]`);
 
-  expect(secondCascadedScan.spec.volumes).toMatchInlineSnapshot(`Array []`);
+  expect(secondCascadedScan.spec.volumes).toMatchInlineSnapshot(`[]`);
 
-  expect(secondCascadedScan.spec.volumeMounts).toMatchInlineSnapshot(
-    `Array []`
-  );
+  expect(secondCascadedScan.spec.volumeMounts).toMatchInlineSnapshot(`[]`);
 });
 
 test("should append cascading rule to further cascading scan chains", () => {
@@ -2687,12 +2685,12 @@ test("should not cascade if scope limiter does not pass", () => {
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "apiVersion": "execution.securecodebox.io/v1",
         "kind": "Scan",
-        "metadata": Object {
-          "annotations": Object {
+        "metadata": {
+          "annotations": {
             "cascading.securecodebox.io/chain": "tls-scans",
             "cascading.securecodebox.io/matched-finding": undefined,
             "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
@@ -2700,9 +2698,9 @@ test("should not cascade if scope limiter does not pass", () => {
             "securecodebox.io/hook": "cascading-scans",
           },
           "generateName": "sslyze-foobar.com-tls-scans-",
-          "labels": Object {},
-          "ownerReferences": Array [
-            Object {
+          "labels": {},
+          "ownerReferences": [
+            {
               "apiVersion": "execution.securecodebox.io/v1",
               "blockOwnerDeletion": true,
               "controller": true,
@@ -2712,32 +2710,32 @@ test("should not cascade if scope limiter does not pass", () => {
             },
           ],
         },
-        "spec": Object {
+        "spec": {
           "affinity": undefined,
-          "cascades": Object {
-            "scopeLimiter": Object {
-              "allOf": Array [
-                Object {
+          "cascades": {
+            "scopeLimiter": {
+              "allOf": [
+                {
                   "key": "scope.cascading.securecodebox.io/ports",
                   "operator": "Contains",
-                  "values": Array [
+                  "values": [
                     "{{$.port}}",
                   ],
                 },
               ],
             },
           },
-          "env": Array [],
-          "hookSelector": Object {},
-          "initContainers": Array [],
-          "parameters": Array [
+          "env": [],
+          "hookSelector": {},
+          "initContainers": [],
+          "parameters": [
             "--regular",
             "foobar.com:443",
           ],
           "scanType": "sslyze",
           "tolerations": undefined,
-          "volumeMounts": Array [],
-          "volumes": Array [],
+          "volumeMounts": [],
+          "volumes": [],
         },
       },
     ]
@@ -2786,13 +2784,13 @@ test("scope annotations should be completely immutable", () => {
   const cascadedScan = cascadedScans()[0];
 
   expect(cascadedScan.metadata.annotations).toMatchInlineSnapshot(`
-      Object {
-        "another.not.a.scope.annotation": "really",
-        "cascading.securecodebox.io/chain": "tls-scans",
-        "cascading.securecodebox.io/matched-finding": undefined,
-        "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
-        "scope.cascading.securecodebox.io/domains": "example.com",
-        "securecodebox.io/hook": "cascading-scans",
-      }
-    `);
+    {
+      "another.not.a.scope.annotation": "really",
+      "cascading.securecodebox.io/chain": "tls-scans",
+      "cascading.securecodebox.io/matched-finding": undefined,
+      "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
+      "scope.cascading.securecodebox.io/domains": "example.com",
+      "securecodebox.io/hook": "cascading-scans",
+    }
+  `);
 });
