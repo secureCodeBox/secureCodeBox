@@ -9,7 +9,7 @@ jest.retryTimes(3);
 test(
   "localhost port scan should only find a host finding",
   async () => {
-    const { categories, severities, count } = await scan(
+    const {categories, severities, count} = await scan(
       "nmap-localhost",
       "nmap",
       ["localhost"],
@@ -18,12 +18,12 @@ test(
 
     expect(count).toBe(1);
     expect(categories).toMatchInlineSnapshot(`
-      Object {
+      {
         "Host": 1,
       }
     `);
     expect(severities).toMatchInlineSnapshot(`
-      Object {
+      {
         "informational": 1,
       }
     `);

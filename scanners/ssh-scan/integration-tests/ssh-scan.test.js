@@ -10,7 +10,7 @@ jest.retryTimes(3);
 test(
   "ssh-scan should find a couple of findings for a dummy ssh service",
   async () => {
-    const { categories, severities, count } = await scan(
+    const {categories, severities, count} = await scan(
       "ssh-scan-dummy-ssh",
       "ssh-scan",
       ["-t", "dummy-ssh.demo-targets.svc"],
@@ -19,13 +19,13 @@ test(
 
     expect(count).toBe(4);
     expect(categories).toMatchInlineSnapshot(`
-      Object {
+      {
         "SSH Policy Violation": 3,
         "SSH Service": 1,
       }
     `);
     expect(severities).toMatchInlineSnapshot(`
-      Object {
+      {
         "informational": 1,
         "medium": 3,
       }
