@@ -134,13 +134,19 @@ helm-deploy:
 	kubectl create namespace integration-tests --dry-run=client -o yaml | kubectl apply -f -
 	# If not exists create secureCodeBox operator namespace
 	kubectl create namespace securecodebox-system --dry-run=client -o yaml | kubectl apply -f -
+
+	MINIO_ROOT_USER=$(kubectl get secret securecodebox-operator-minio -n securecodebox-system -o=jsonpath='{.data.root-user}' | base64 --decode)
+	MINIO_ROOT_PASSWORD=$(kubectl get secret --namespace "securecodebox-system" securecodebox-operator-minio -o jsonpath="{.data.root-password}" | base64 -d)
+
 	helm -n securecodebox-system upgrade --install securecodebox-operator ./ --wait \
 		--set="image.repository=docker.io/$(IMG_NS)/$(OPERATOR_IMG)" \
 		--set="image.tag=$(IMG_TAG)" \
-	--set="image.pullPolicy=IfNotPresent" \
+		--set="image.pullPolicy=IfNotPresent" \
 		--set="lurker.image.repository=docker.io/$(IMG_NS)/$(LURKER_IMG)" \
 		--set="lurker.image.tag=$(IMG_TAG)" \
 		--set="lurker.image.pullPolicy=IfNotPresent"
+		--set="minio.auth.rootUser = $(MINIO_ROOT_USER)" \
+		--set="minio.auth.rootPassword = $(MINIO_ROOT_PASSWORD)"
 
 .PHONY: install
 install: manifests kustomize ## Install CRDs into the K8s cluster specified in ~/.kube/config.
