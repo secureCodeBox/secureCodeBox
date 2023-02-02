@@ -76,6 +76,10 @@ minio:
   resources:
     requests:
       memory: "256Mi"
+  auth:
+    rootUser: "admin" # placeholder user
+    rootPassword: "password" # placeholder password
+
 
 # Config for external s3 systems
 s3:
