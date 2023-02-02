@@ -80,7 +80,6 @@ minio:
     rootUser: "admin" # placeholder user
     rootPassword: "password" # placeholder password
 
-
 # Config for external s3 systems
 s3:
   # s3.enabled Enable this and disable minio if you want to directly connect against AWS S3, Google Cloud Storage, DigitalOcean Spaces etc.
@@ -117,6 +116,6 @@ s3UrlTemplate: null
 
 # presignedUrlExpirationTimes -- Duration how long presigned urls are valid
 presignedUrlExpirationTimes:
-    scanners: "12h"
-    parsers: "1h"
-    hooks: "1h"
+  scanners: "12h"
+  parsers: "1h"
+  hooks: "1h"
