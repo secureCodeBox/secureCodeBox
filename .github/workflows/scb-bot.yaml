@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     if: github.repository == 'secureCodeBox/secureCodeBox'
     strategy:
+      # Keep running other jobs even if one fails
+      fail-fast: false
       matrix:
         scanner:
           - amass
