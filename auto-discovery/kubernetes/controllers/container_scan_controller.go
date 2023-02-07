@@ -351,11 +351,13 @@ func getTemporarySecretName(imageID string) string {
 }
 
 func getTemporarySecretEnvironmentVariableMount(imageID string, usernameEnvVarName string, passwordEnvVarName string) []corev1.EnvVar {
+	trueBool := true
 	return []corev1.EnvVar{
 		{
 			Name: usernameEnvVarName,
 			ValueFrom: &corev1.EnvVarSource{
 				SecretKeyRef: &corev1.SecretKeySelector{
+					Optional: &trueBool,
 					LocalObjectReference: corev1.LocalObjectReference{
 						Name: getTemporarySecretName(imageID),
 					},
@@ -367,6 +369,7 @@ func getTemporarySecretEnvironmentVariableMount(imageID string, usernameEnvVarNa
 			Name: passwordEnvVarName,
 			ValueFrom: &corev1.EnvVarSource{
 				SecretKeyRef: &corev1.SecretKeySelector{
+					Optional: &trueBool,
 					LocalObjectReference: corev1.LocalObjectReference{
 						Name: getTemporarySecretName(imageID),
 					},
