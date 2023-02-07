@@ -129,6 +129,8 @@ var _ = Describe("ContainerScan controller", func() {
 		fakeDeployment := map[string]string{"nginx": "0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"}
 		nginxScanName := "nginx-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
 		nginxScanName = nginxScanName[:62]
+
+		trueBool := true
 		nginxScanGoTemplate := scanGoTemplate{
 			map[string]string{"testAnnotation": namespace},
 			map[string]string{
@@ -182,6 +184,7 @@ var _ = Describe("ContainerScan controller", func() {
 					Name: "username",
 					ValueFrom: &corev1.EnvVarSource{
 						SecretKeyRef: &corev1.SecretKeySelector{
+							Optional: &trueBool,
 							LocalObjectReference: corev1.LocalObjectReference{
 								Name: ("temporary-secret-" + nginxScanName)[:62],
 							},
@@ -193,6 +196,7 @@ var _ = Describe("ContainerScan controller", func() {
 					Name: "password",
 					ValueFrom: &corev1.EnvVarSource{
 						SecretKeyRef: &corev1.SecretKeySelector{
+							Optional: &trueBool,
 							LocalObjectReference: corev1.LocalObjectReference{
 								Name: ("temporary-secret-" + nginxScanName)[:62],
 							},

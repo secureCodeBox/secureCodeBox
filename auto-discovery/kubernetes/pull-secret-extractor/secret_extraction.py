@@ -17,8 +17,12 @@ def main():
 
     raw_secrets = get_raw_secrets('/secrets')
     correct_secret = get_correct_secret(domain, raw_secrets)
-    username, password = get_user_and_password(correct_secret)
-    create_temporary_secret(username, password, temporary_secret_name)
+
+    if correct_secret:
+        username, password = get_user_and_password(correct_secret)
+        create_temporary_secret(username, password, temporary_secret_name)
+    else:
+        print(f"No secrets found for domain 'f{domain}'")
 
 
 def get_raw_secrets(base_path: str):
