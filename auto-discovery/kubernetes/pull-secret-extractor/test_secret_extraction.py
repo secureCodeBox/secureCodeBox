@@ -28,7 +28,7 @@ class MyTestCase(unittest.TestCase):
         with open('test_secrets/secret_2/.dockerconfigjson') as file:
             secret_list.append(json.load(file))
 
-        actual = get_correct_secret('localhost:5000:12345/some/image@654654', secret_list)
+        actual = get_correct_secret('localhost:5000', secret_list)
 
         # testuser:testpassword base64 encoded
         expected = {'auth': 'dGVzdHVzZXI6dGVzdHBhc3N3b3Jk'}

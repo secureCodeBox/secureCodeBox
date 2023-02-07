@@ -6,13 +6,17 @@ import os
 
 from kubernetes import client, config
 
+from docker_image import get_domain_from_docker_image
+
 
 def main():
     image_id = sys.argv[1]
     temporary_secret_name = sys.argv[2]
 
+    domain = get_domain_from_docker_image(image_id)
+
     raw_secrets = get_raw_secrets('/secrets')
-    correct_secret = get_correct_secret(image_id, raw_secrets)
+    correct_secret = get_correct_secret(domain, raw_secrets)
     username, password = get_user_and_password(correct_secret)
     create_temporary_secret(username, password, temporary_secret_name)
 
@@ -30,15 +34,15 @@ def get_raw_secrets(base_path: str):
     return raw_secrets
 
 
-def get_correct_secret(image_id: str, secrets) -> dict[str, str]:
+def get_correct_secret(domain: str, secrets) -> dict[str, str]:
     """Iterates over given list of secrets to find the secret that machtes the URL in the given imageID
-    :param image_id: The imageID of which the correct secret needs to be identified
+    :param domain: The domain of the imageID of which the correct secret needs to be identified
     :param secrets: List of secrets
     :returns: Dict containing the secret matching the given imageID
     """
     for secret in secrets:
         for url, data in secret['auths'].items():
-            if url in image_id:
+            if url == domain:
                 return data
 
 
