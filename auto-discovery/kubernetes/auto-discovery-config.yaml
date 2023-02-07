@@ -50,7 +50,7 @@ containerAutoDiscovery:
   enabled: true
   passiveReconcileInterval: 10s
   scanConfig:
-    scanType: trivy-image
+    scanType: trivy-image-autodiscovery
     # -- parameters used for the scans created by the containerAutoDiscovery
     parameters:
       - "{{ .ImageID }}"
