@@ -1,3 +1,6 @@
+## Usage
+The auto-discovery-secret-extraction container should be used as an initContainer to enable Trivy (or other container scan tools) to scan images from private docker registries. The container expects the imageID for which it should find the corresponding secret and the name of the temporary secret as commandline arguments. The initContainer will then read secrets mounted as a volume under `/secrets` and check which secret belongs to the domain of the provided imageID. After the correct secret is identified it will create a temporary secret which will contain the credentials of the private registry of the provided imageID. The temporary secret will have an `ownerReference` to the pod in which this container is running in. This means that the temporary secret will be automatically removed when the scan of the pod is finished.
+
 ## Running a local docker registry
 The easiest way to test the initContainer locally is to deploy a local registry using docker outside of the k8s cluster to be able to delete the cluster without recreating the registry every time.
 ### Creating a local registry with authentication 
