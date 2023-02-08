@@ -131,7 +131,7 @@ jobs:
         id: docker_meta
         uses: docker/metadata-action@v3
         with:
-          images: ${{ env.DOCKER_NAMESPACE }}/auto-discovery/kubernetes/pull-secret-extractor
+          images: ${{ env.DOCKER_NAMESPACE }}/auto-discovery-pull-secret-extractor
           tags: |
             type=sha
             type=semver,pattern={{version}}
@@ -162,7 +162,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: ${{ env.DOCKER_NAMESPACE }}/auto-discovery-secret-extraction-container
+          repository: ${{ env.DOCKER_NAMESPACE }}/auto-discovery-pull-secret-extractor
           readme-filepath: ./auto-discovery/kubernetes/pull-secret-extractor/readme.md
 
   # ---- SDK Matrix ----
