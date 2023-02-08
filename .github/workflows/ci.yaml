@@ -132,10 +132,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Unit Test
+      - name: Setup Python Version
         uses: actions/setup-python@v4
         with:
           python-version: '${{ env.PYTHON_VERSION }}'
+      - name: Unit Tests
         working-directory: ./auto-discovery/kubernetes/pull-secret-extractor
         run: make unit-test
 
