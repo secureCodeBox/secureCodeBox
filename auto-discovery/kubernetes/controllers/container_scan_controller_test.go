@@ -81,7 +81,7 @@ var _ = Describe("ContainerScan controller", func() {
 
 		})
 
-		It("Should create a single scheduledscan for every container with the same imageID in the deplyoment", func() {
+		It("Should create a single scheduledscan for every container with the same imageID in the deployment", func() {
 			//install scantype, scans should be created now
 			createScanType(ctx, namespace)
 
