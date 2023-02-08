@@ -8,7 +8,7 @@ include ../../../prerequisites.mk
 IMG_NS ?= securecodebox
 
 # Image URL to use all building/pushing image targets
-IMG ?= auto-discovery-secret-extraction-container
+IMG ?= auto-discovery-secret-extractor
 
 # Tag used for the image
 IMG_TAG ?= sha-$$(git rev-parse --short HEAD)

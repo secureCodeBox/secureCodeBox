@@ -152,7 +152,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: auto-discovery-pull-secret-extractor
-          path: ./auto-discovery/kubernetes/pull-secret-extractor/auto-discovery-secret-extraction-container.tar
+          path: ./auto-discovery/kubernetes/pull-secret-extractor/auto-discovery-secret-extractor.tar
           retention-days: 1
 
       - name: "Start kind cluster"
