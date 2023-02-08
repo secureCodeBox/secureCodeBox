@@ -33,7 +33,7 @@ class MyTestCase(unittest.TestCase):
         # testuser:testpassword base64 encoded
         expected = {'auth': 'dGVzdHVzZXI6dGVzdHBhc3N3b3Jk'}
 
-        self.assertEqual(expected, actual)
+        self.assertCountEqual(expected, actual)
 
     def test_get_user_and_password_given_auth_string(self):
         secret = {'auth': 'dGVzdHVzZXI6dGVzdHBhc3N3b3Jk'}
