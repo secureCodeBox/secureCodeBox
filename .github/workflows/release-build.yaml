@@ -121,7 +121,7 @@ jobs:
   # ---- AutoDiscovery | PullSecretExtractor ----
 
   auto-discovery-kubernetes-pull-secret-extractor:
-    name: "AutoDiscovery | Kubernetes"
+    name: "AutoDiscovery | Kubernetes | Pull Secret Extractor"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
