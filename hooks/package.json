@@ -45,6 +45,6 @@
   },
   "dependencies": {
     "@kubernetes/client-node": "^0.18.0",
-    "axios": "^1.2.2"
+    "axios": "^1.2.3"
   }
 }
