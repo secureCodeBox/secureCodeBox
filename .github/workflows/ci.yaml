@@ -166,6 +166,7 @@ jobs:
           kubectl get node
       
       - name: "Run integration tests"
+        working-directory: ./auto-discovery/kubernetes/pull-secret-extractor
         run: |
           make integration-test
 
