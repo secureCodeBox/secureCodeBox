@@ -5,7 +5,7 @@
 name: "Release Build"
 on:
   release:
-    types: [released]
+    types: [released, prereleased]
 
 env:
   # ---- Language Versions ----
