@@ -131,21 +131,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
       - name: Test
-        working-directory: ./autodiscovery/kubernetes/secretExtractionInitContainer
+        working-directory: ./auto-discovery/kubernetes/pull-secret-extractor
+        run: make unit-test
+
       - name: Build Container Image
-        working-directory: ./auto-discovery/kubernetes/secretExtractionInitContainer
+        working-directory: ./auto-discovery/kubernetes/pull-secret-extractor
         run: make docker-build
 
       - name: Export Container Image
-        working-directory: ./auto-discovery/kubernetes/secretExtractionInitContainer
+        working-directory: ./auto-discovery/kubernetes/pull-secret-extractor
         run: make docker-export
 
       - name: Upload Image As Artifact
         uses: actions/upload-artifact@v2
         with:
           name: auto-discovery-pull-secret-extractor
-          path: ./auto-discovery/kubernetes/secretExtractionInitContainer/auto-discovery-pull-secret-extractor.tar
+          path: ./auto-discovery/kubernetes/pull-secret-extractor/auto-discovery-secret-extraction-container.tar
           retention-days: 1
 
       - name: "Start kind cluster"
