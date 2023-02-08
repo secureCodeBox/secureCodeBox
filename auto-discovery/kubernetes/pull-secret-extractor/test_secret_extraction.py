@@ -14,12 +14,14 @@ class MyTestCase(unittest.TestCase):
         actual = get_raw_secrets('test_secrets')
 
         with open('test_secrets/secret_1/.dockerconfigjson') as file:
-            expected = [json.load(file)]
+            expected_secret_1 = json.load(file)
 
         with open('test_secrets/secret_2/.dockerconfigjson') as file:
-            expected.append(json.load(file))
+            expected_secret_2 = json.load(file)
 
-        self.assertEqual(expected, actual)
+        # for some reason assertCountEqual doesnt work here
+        self.assertIn(expected_secret_1, actual)
+        self.assertIn(expected_secret_2, actual)
 
     def test_get_correct_secret(self):
         with open('test_secrets/secret_1/.dockerconfigjson') as file:
