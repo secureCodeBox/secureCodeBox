@@ -76,6 +76,9 @@ minio:
   resources:
     requests:
       memory: "256Mi"
+  auth:
+    rootUser: "admin" # placeholder user
+    rootPassword: "password" # placeholder password
 
 # Config for external s3 systems
 s3:
@@ -113,6 +116,6 @@ s3UrlTemplate: null
 
 # presignedUrlExpirationTimes -- Duration how long presigned urls are valid
 presignedUrlExpirationTimes:
-    scanners: "12h"
-    parsers: "1h"
-    hooks: "1h"
+  scanners: "12h"
+  parsers: "1h"
+  hooks: "1h"
