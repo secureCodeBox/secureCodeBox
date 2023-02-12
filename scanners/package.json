@@ -36,7 +36,7 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
-    "@kubernetes/client-node": "^0.16.2",
+    "@kubernetes/client-node": "^0.18.1",
     "@securecodebox/parser-sdk-nodejs": "file:../parser-sdk/nodejs",
     "jest": "^29.3.1",
     "prettier": "^2.2.1"
