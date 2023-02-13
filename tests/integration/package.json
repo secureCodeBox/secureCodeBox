@@ -14,7 +14,7 @@
     "prettier": "^2.2.1"
   },
   "dependencies": {
-    "@kubernetes/client-node": "^0.16.2",
+    "@kubernetes/client-node": "^0.18.1",
     "@types/jest": "^29.4.0",
     "ts-jest": "^29.0.5"
   }
