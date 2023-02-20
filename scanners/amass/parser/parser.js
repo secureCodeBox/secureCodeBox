@@ -30,7 +30,7 @@ async function parse(fileContent) {
       severity: "INFORMATIONAL",
       attributes: {
         tag: domain.tag,
-        name: domain.name,
+        hostname: domain.name,
         source: domain.source,
         domain: domain.domain,
         addresses: domain.addresses,
