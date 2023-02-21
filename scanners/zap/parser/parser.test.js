@@ -62,7 +62,7 @@ test("Parsing an empty result.", async () => {
 
   const findings = await parse(fileContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
-  expect(findings).toMatchInlineSnapshot(`Array []`);
+  expect(findings).toMatchInlineSnapshot(`[]`);
 });
 
 test("Parsing a nginx result.", async () => {

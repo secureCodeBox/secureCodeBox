@@ -29,25 +29,25 @@ test("should create finding correctly", async () => {
   const findings = await parse("thisisabinarystringformatedimage", scan);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "attributes": Object {
-          "downloadLink": "https://s3.example.com/foobar.png",
-        },
-        "category": "Screenshot",
-        "description": "Took a Screenshot for website: 'https://www.iteratec.de'",
-        "location": "https://www.iteratec.de",
-        "name": "Screenshot for https://www.iteratec.de",
-        "osi_layer": "APPLICATION",
-        "severity": "INFORMATIONAL",
-      },
-    ]
-  `);
+[
+  {
+    "attributes": {
+      "downloadLink": "https://s3.example.com/foobar.png",
+    },
+    "category": "Screenshot",
+    "description": "Took a Screenshot for website: 'https://www.iteratec.de'",
+    "location": "https://www.iteratec.de",
+    "name": "Screenshot for https://www.iteratec.de",
+    "osi_layer": "APPLICATION",
+    "severity": "INFORMATIONAL",
+  },
+]
+`);
 });
 
 test("should not create finding if image is empty", async () => {
   scan.spec.parameters = ["https://www.iteratec.de"];
   const findings = await parse("", scan)
   await expect(validateParser(findings)).resolves.toBeUndefined();
-  expect(findings).toMatchInlineSnapshot(`Array []`);
+  expect(findings).toMatchInlineSnapshot(`[]`);
 });

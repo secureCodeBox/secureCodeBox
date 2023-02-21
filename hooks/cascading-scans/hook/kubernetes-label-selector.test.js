@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { generateSelectorString } = require("./kubernetes-label-selector");
+const {generateSelectorString} = require("./kubernetes-label-selector");
 
 test("should generate a empty string if passed an empty object", () => {
   expect(generateSelectorString({})).toBe("");
@@ -11,13 +11,13 @@ test("should generate a empty string if passed an empty object", () => {
 test("should generate basic label string for key values selector", () => {
   expect(
     generateSelectorString({
-      matchLabels: { environment: "production" }
+      matchLabels: {environment: "production"},
     })
   ).toBe("environment=production");
 
   expect(
     generateSelectorString({
-      matchLabels: { environment: "testing" }
+      matchLabels: {environment: "testing"},
     })
   ).toBe("environment=testing");
 });
@@ -27,8 +27,8 @@ test("should generate basic label string for multiple key values selector", () =
     generateSelectorString({
       matchLabels: {
         environment: "production",
-        team: "search"
-      }
+        team: "search",
+      },
     })
   ).toBe("environment=production,team=search");
 
@@ -36,8 +36,8 @@ test("should generate basic label string for multiple key values selector", () =
     generateSelectorString({
       matchLabels: {
         environment: "testing",
-        team: "payment"
-      }
+        team: "payment",
+      },
     })
   ).toBe("environment=testing,team=payment");
 });
@@ -49,9 +49,9 @@ test("should generate label string for set based expressions", () => {
         {
           key: "environment",
           operator: "In",
-          values: ["testing", "development"]
-        }
-      ]
+          values: ["testing", "development"],
+        },
+      ],
     })
   ).toBe("environment in (testing,development)");
 
@@ -61,9 +61,9 @@ test("should generate label string for set based expressions", () => {
         {
           key: "environment",
           operator: "In",
-          values: ["development"]
-        }
-      ]
+          values: ["development"],
+        },
+      ],
     })
   ).toBe("environment in (development)");
 });
@@ -75,14 +75,14 @@ test("should generate label string for set based expressions with multiple entri
         {
           key: "environment",
           operator: "NotIn",
-          values: ["production"]
+          values: ["production"],
         },
         {
           key: "team",
           operator: "In",
-          values: ["search", "payment"]
-        }
-      ]
+          values: ["search", "payment"],
+        },
+      ],
     })
   ).toBe("environment notin (production),team in (search,payment)");
 });
@@ -93,13 +93,13 @@ test("should generate label string for set based Exists and DoesNotExist operato
       matchExpressions: [
         {
           key: "environment",
-          operator: "Exists"
+          operator: "Exists",
         },
         {
           key: "team",
-          operator: "DoesNotExist"
-        }
-      ]
+          operator: "DoesNotExist",
+        },
+      ],
     })
   ).toBe("environment,!team");
 });
@@ -111,25 +111,25 @@ test("should generate selectors with both expression and labelMatching", () => {
         {
           key: "environment",
           operator: "NotIn",
-          values: ["production"]
+          values: ["production"],
         },
         {
           key: "team",
           operator: "In",
-          values: ["search", "payment"]
+          values: ["search", "payment"],
         },
         {
           key: "foobar",
-          operator: "Exists"
+          operator: "Exists",
         },
         {
           key: "barfoo",
-          operator: "DoesNotExist"
-        }
+          operator: "DoesNotExist",
+        },
       ],
       matchLabels: {
-        critical: "true"
-      }
+        critical: "true",
+      },
     })
   ).toBe(
     "critical=true,environment notin (production),team in (search,payment),foobar,!barfoo"
@@ -143,11 +143,11 @@ test("should throw a exception when passed a unknown operator", () => {
         {
           key: "environment",
           operator: "FooBar",
-          values: ["production"]
-        }
-      ]
+          values: ["production"],
+        },
+      ],
     })
   ).toThrowErrorMatchingInlineSnapshot(
-    `"Unknown LabelSelector Operator \\"FooBar\\". Supported are (In, NotIn, Exists, DoesNotExist). If this is an official label selector operator in kubernetes please open up a issue in the secureCodeBox Repo."`
+    `"Unknown LabelSelector Operator "FooBar". Supported are (In, NotIn, Exists, DoesNotExist). If this is an official label selector operator in kubernetes please open up a issue in the secureCodeBox Repo."`
   );
 });

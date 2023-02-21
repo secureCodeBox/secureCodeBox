@@ -42,31 +42,31 @@ test("example parser parses single line json successfully", async () => {
   await expect(validateParser(findings)).resolves.toBeUndefined();
 
   expect(findings).toMatchInlineSnapshot(`
-  Array [
-    Object {
-      "attributes": Object {
-        "addresses": Array [
-          Object {
-            "asn": 34011,
-            "cidr": "10.110.224.0/21",
-            "desc": "GD-EMEA-DC-CGN1",
-            "ip": "10.110.225.135",
-          },
-        ],
-        "domain": "example.de",
-        "name": "www.example.de",
-        "source": undefined,
-        "tag": "cert",
-      },
-      "category": "Subdomain",
-      "description": "Found subdomain www.example.de",
-      "location": "www.example.de",
+[
+  {
+    "attributes": {
+      "addresses": [
+        {
+          "asn": 34011,
+          "cidr": "10.110.224.0/21",
+          "desc": "GD-EMEA-DC-CGN1",
+          "ip": "10.110.225.135",
+        },
+      ],
+      "domain": "example.de",
       "name": "www.example.de",
-      "osi_layer": "NETWORK",
-      "severity": "INFORMATIONAL",
+      "source": undefined,
+      "tag": "cert",
     },
-  ]
-  `);
+    "category": "Subdomain",
+    "description": "Found subdomain www.example.de",
+    "location": "www.example.de",
+    "name": "www.example.de",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+  },
+]
+`);
 });
 
 test("example parser parses large json result successfully", async () => {

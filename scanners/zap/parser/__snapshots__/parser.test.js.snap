@@ -1,23 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Parsing a bodgeit result. 1`] = `
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "hostname": "cwiki.apache.org",
       "port": "443",
       "zap_confidence": "3",
       "zap_count": "2",
       "zap_cweid": "-1",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "https://cwiki.apache.org/confluence/display/tomcat/FrontPage",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
@@ -40,15 +40,15 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "wiki.apache.org",
       "port": "80",
       "zap_confidence": "3",
       "zap_count": "1",
       "zap_cweid": "-1",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
@@ -71,15 +71,15 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "content-signature-2.cdn.mozilla.net",
       "port": "443",
       "zap_confidence": "3",
       "zap_count": "1",
       "zap_cweid": "-1",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "attack": "",
           "evidence": "binary/octet-stream",
           "method": "GET",
@@ -102,36 +102,36 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "bodgeit.securecodebox-demo.svc",
       "port": "8080",
       "zap_confidence": "3",
       "zap_count": "4",
       "zap_cweid": "693",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "attack": "",
           "evidence": "",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/swagger.yaml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/robots.txt",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "",
           "method": "GET",
@@ -143,7 +143,7 @@ Array [
       "zap_pluginid": "10038",
       "zap_reference": "https://developer.mozilla.org/en-US/docs/Web/Security/CSP/Introducing_Content_Security_Policyhttps://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.htmlhttp://www.w3.org/TR/CSP/http://w3c.github.io/webappsec/specs/content-security-policy/csp-specification.dev.htmlhttp://www.html5rocks.com/en/tutorials/security/content-security-policy/http://caniuse.com/#feat=contentsecuritypolicyhttp://content-security-policy.com/",
       "zap_riskcode": "2",
-      "zap_solution": "Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: \\"Content-Security-Policy\\" for Chrome 25+, Firefox 23+ and Safari 7+, \\"X-Content-Security-Policy\\" for Firefox 4.0+ and Internet Explorer 10+, and \\"X-WebKit-CSP\\" for Chrome 14+ and Safari 6+.",
+      "zap_solution": "Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: "Content-Security-Policy" for Chrome 25+, Firefox 23+ and Safari 7+, "X-Content-Security-Policy" for Firefox 4.0+ and Internet Explorer 10+, and "X-WebKit-CSP" for Chrome 14+ and Safari 6+.",
       "zap_wascid": "15",
     },
     "category": "Content Security Policy (CSP) Header Not Set",
@@ -154,36 +154,36 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "MEDIUM",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "bodgeit.securecodebox-demo.svc",
       "port": "8080",
       "zap_confidence": "2",
       "zap_count": "4",
       "zap_cweid": "200",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "attack": "",
           "evidence": "response code 403 for potentially insecure HTTP METHOD",
           "method": "PUT",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/m3icel4qks",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "response code 403 for potentially insecure HTTP METHOD",
           "method": "PUT",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/swagger.yaml/v95p352358",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "response code 403 for potentially insecure HTTP METHOD",
           "method": "PUT",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/robots.txt/1cpka1vqho",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "response code 403 for potentially insecure HTTP METHOD",
           "method": "PUT",
@@ -206,15 +206,15 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "MEDIUM",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "bodgeit.securecodebox-demo.svc",
       "port": "8080",
       "zap_confidence": "2",
       "zap_count": "1",
       "zap_cweid": "1021",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "attack": "",
           "evidence": "",
           "method": "GET",
@@ -226,7 +226,7 @@ Array [
       "zap_pluginid": "10020",
       "zap_reference": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options",
       "zap_riskcode": "2",
-      "zap_solution": "Modern Web browsers support the Content-Security-Policy and X-Frame-Options HTTP headers. Ensure one of them is set on all web pages returned by your site/app.If you expect the page to be framed only by pages on your server (e.g. it's part of a FRAMESET) then you'll want to use SAMEORIGIN, otherwise if you never expect the page to be framed, you should use DENY. Alternatively consider implementing Content Security Policy's \\"frame-ancestors\\" directive.",
+      "zap_solution": "Modern Web browsers support the Content-Security-Policy and X-Frame-Options HTTP headers. Ensure one of them is set on all web pages returned by your site/app.If you expect the page to be framed only by pages on your server (e.g. it's part of a FRAMESET) then you'll want to use SAMEORIGIN, otherwise if you never expect the page to be framed, you should use DENY. Alternatively consider implementing Content Security Policy's "frame-ancestors" directive.",
       "zap_wascid": "15",
     },
     "category": "Missing Anti-clickjacking Header",
@@ -237,43 +237,43 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "MEDIUM",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "bodgeit.securecodebox-demo.svc",
       "port": "8080",
       "zap_confidence": "3",
       "zap_count": "5",
       "zap_cweid": "388",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "attack": "",
           "evidence": "HTTP/1.1 501",
           "method": "TRACK",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/9WZL9",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 501",
           "method": "TRACK",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/swagger.yaml5DV53",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 501",
           "method": "TRACK",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/apiR65NV",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 501",
           "method": "TRACK",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/robots.txt13S8Q",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 501",
           "method": "TRACK",
@@ -296,36 +296,36 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "bodgeit.securecodebox-demo.svc",
       "port": "8080",
       "zap_confidence": "3",
       "zap_count": "4",
       "zap_cweid": "200",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "attack": "",
           "evidence": "Apache-Coyote/1.1",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "Apache-Coyote/1.1",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/swagger.yaml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "Apache-Coyote/1.1",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/robots.txt",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "Apache-Coyote/1.1",
           "method": "GET",
@@ -337,754 +337,754 @@ Array [
       "zap_pluginid": "10036",
       "zap_reference": "http://httpd.apache.org/docs/current/mod/core.html#servertokenshttp://msdn.microsoft.com/en-us/library/ff648552.aspx#ht_urlscan_007http://blogs.msdn.com/b/varunm/archive/2013/04/23/remove-unwanted-http-response-headers.aspxhttp://www.troyhunt.com/2012/02/shhh-dont-let-your-response-headers.html",
       "zap_riskcode": "1",
-      "zap_solution": "Ensure that your web server, application server, load balancer, etc. is configured to suppress the \\"Server\\" header or provide generic details.",
+      "zap_solution": "Ensure that your web server, application server, load balancer, etc. is configured to suppress the "Server" header or provide generic details.",
       "zap_wascid": "13",
     },
-    "category": "Server Leaks Version Information via \\"Server\\" HTTP Response Header Field",
-    "description": "The web/application server is leaking version information via the \\"Server\\" HTTP response header. Access to such information may facilitate attackers identifying other vulnerabilities your web/application server is subject to.",
+    "category": "Server Leaks Version Information via "Server" HTTP Response Header Field",
+    "description": "The web/application server is leaking version information via the "Server" HTTP response header. Access to such information may facilitate attackers identifying other vulnerabilities your web/application server is subject to.",
     "hint": undefined,
     "location": "http://bodgeit.securecodebox-demo.svc:8080",
-    "name": "Server Leaks Version Information via \\"Server\\" HTTP Response Header Field",
+    "name": "Server Leaks Version Information via "Server" HTTP Response Header Field",
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "bodgeit.securecodebox-demo.svc",
       "port": "8080",
       "zap_confidence": "3",
       "zap_count": "105",
       "zap_cweid": "-1",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/.DS_Store",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/.env",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/.git/config",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/.htaccess",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/.idea/WebServers.xml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/.php_cs.cache",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/.ssh/id_dsa",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/.ssh/id_rsa",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/.svn/entries",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/8732990967634790318",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/?-s",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/?name=abc",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/adminer.php",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/.env",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/.htaccess",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/8756109290027926951",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/swagger.yaml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/swagger.yaml/",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/swagger.yaml/8co5j/bl2sm",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/swagger.yaml?name=abc",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/trace.axd",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api?name=abc",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/app/etc/local.xml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "image/png",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/asf-logo.png",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "image/png",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/bg-button.png",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "image/png",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/bg-middle.png",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "image/png",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/bg-nav.png",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "image/png",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/bg-upper.png",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/CHANGELOG.txt",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/clientaccesspolicy.xml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/composer.json",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/composer.lock",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/config/database.yml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/config/databases.yml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/core",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/crossdomain.xml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/CVS/root",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/DEADJOE",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/docs/appdev/",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "image/png",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/docs/images/asf-feather.png",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/css",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/docs/images/docs-stylesheet.css",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/css",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/docs/images/fonts/fonts.css",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "application/x-font-woff",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/docs/images/fonts/OpenSans400.woff",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "application/x-font-woff",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/docs/images/fonts/OpenSans400italic.woff",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "application/x-font-woff",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/docs/images/fonts/OpenSans600.woff",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "application/x-font-woff",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/docs/images/fonts/OpenSans700.woff",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "image/png",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/docs/images/tomcat.png",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/docs/jndi-datasource-examples-howto.html",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/elmah.axd",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/examples/",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "image/x-icon",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/favicon.ico",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/filezilla.xml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/host-manager/html",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/id_dsa",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/id_rsa",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/key.pem",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/lfm.php",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/manager/html",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/manager/status",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/myserver.key",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/privatekey.key",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/robots.txt",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/robots.txt/",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/robots.txt/8co5j/bl2sm",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/robots.txt?name=abc",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/server-info",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/server-status",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/server.key",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/sftp-config.json",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/sitemanager.xml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/sitemap.xml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/sitemap.xml/",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/sitemap.xml/8co5j/bl2sm",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/sitemap.xml?name=abc",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/sites/default/files/.ht.sqlite",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/sites/default/private/files/backup_migrate/scheduled/test.txt",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/css",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/tomcat.css",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "image/png",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/tomcat.png",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/trace.axd",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/vim_settings.xml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/WEB-INF/applicationContext.xml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/WEB-INF/classes/8/0/37.class",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/WEB-INF/classes/A/name.class",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/WEB-INF/web.xml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/winscp.ini",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/WS_FTP.ini",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "OPTIONS",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "POST",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "POST",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/swagger.yaml?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "POST",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "POST",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/robots.txt?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "POST",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/sitemap.xml?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "PUT",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/m3icel4qks",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "PUT",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/swagger.yaml/v95p352358",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "PUT",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/robots.txt/1cpka1vqho",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "PUT",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/sitemap.xml/othk2m9rl0",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "TRACK",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/9WZL9",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "TRACK",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/swagger.yaml5DV53",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "TRACK",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/apiR65NV",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "TRACK",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/robots.txt13S8Q",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "text/html",
           "method": "TRACK",
@@ -1107,15 +1107,15 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "bodgeit.securecodebox-demo.svc",
       "port": "8080",
       "zap_confidence": "2",
       "zap_count": "1",
       "zap_cweid": "693",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "attack": "",
           "evidence": "",
           "method": "GET",
@@ -1123,7 +1123,7 @@ Array [
           "uri": "http://bodgeit.securecodebox-demo.svc:8080",
         },
       ],
-      "zap_otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.At \\"High\\" threshold this scan rule will not alert on client or server error responses.",
+      "zap_otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.At "High" threshold this scan rule will not alert on client or server error responses.",
       "zap_pluginid": "10021",
       "zap_reference": "http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspxhttps://owasp.org/www-community/Security_Headers",
       "zap_riskcode": "1",
@@ -1138,575 +1138,575 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "bodgeit.securecodebox-demo.svc",
       "port": "8080",
       "zap_confidence": "3",
       "zap_count": "81",
       "zap_cweid": "388",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/.DS_Store",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/.env",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/.git/config",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/.htaccess",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/.idea/WebServers.xml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/.php_cs.cache",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/.ssh/id_dsa",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/.ssh/id_rsa",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/.svn/entries",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/8732990967634790318",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/adminer.php",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/.env",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/.htaccess",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/8756109290027926951",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/swagger.yaml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/swagger.yaml/",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/swagger.yaml/8co5j/bl2sm",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/swagger.yaml?name=abc",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/trace.axd",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api?name=abc",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/app/etc/local.xml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/CHANGELOG.txt",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/clientaccesspolicy.xml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/composer.json",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/composer.lock",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/config/database.yml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/config/databases.yml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/core",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/crossdomain.xml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/CVS/root",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/DEADJOE",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/elmah.axd",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/filezilla.xml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 401",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/host-manager/html",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/id_dsa",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/id_rsa",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/key.pem",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/lfm.php",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 401",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/manager/html",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 401",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/manager/status",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/myserver.key",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/privatekey.key",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/robots.txt",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/robots.txt/",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/robots.txt/8co5j/bl2sm",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/robots.txt?name=abc",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/server-info",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/server-status",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/server.key",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/sftp-config.json",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/sitemanager.xml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/sitemap.xml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/sitemap.xml/",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/sitemap.xml/8co5j/bl2sm",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/sitemap.xml?name=abc",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/sites/default/files/.ht.sqlite",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/sites/default/private/files/backup_migrate/scheduled/test.txt",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/trace.axd",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/vim_settings.xml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/WEB-INF/applicationContext.xml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/WEB-INF/classes/8/0/37.class",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/WEB-INF/classes/A/name.class",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/WEB-INF/web.xml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/winscp.ini",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "GET",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/WS_FTP.ini",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 405",
           "method": "OPTIONS",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "POST",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/swagger.yaml?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "POST",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "POST",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/robots.txt?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 404",
           "method": "POST",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/sitemap.xml?-d+allow_url_include%3d1+-d+auto_prepend_file%3dphp://input",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 403",
           "method": "PUT",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/m3icel4qks",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 403",
           "method": "PUT",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/swagger.yaml/v95p352358",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 403",
           "method": "PUT",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/robots.txt/1cpka1vqho",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 403",
           "method": "PUT",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/sitemap.xml/othk2m9rl0",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 405",
           "method": "TRACE",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 405",
           "method": "TRACE",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 405",
           "method": "TRACE",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/api/swagger.yaml",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 405",
           "method": "TRACE",
           "param": "",
           "uri": "http://bodgeit.securecodebox-demo.svc:8080/robots.txt",
         },
-        Object {
+        {
           "attack": "",
           "evidence": "HTTP/1.1 405",
           "method": "TRACE",
@@ -1729,14 +1729,14 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "bodgeit.securecodebox-demo.svc",
       "port": "8080",
       "zap_confidence": "0",
       "zap_count": "0",
       "zap_cweid": "311",
-      "zap_finding_urls": Array [],
+      "zap_finding_urls": [],
       "zap_otherinfo": "Failed to connect.ZAP attempted to connect via: https://bodgeit.securecodebox-demo.svc:443",
       "zap_pluginid": "10106",
       "zap_reference": "https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Protection_Cheat_Sheet.htmlhttps://letsencrypt.org/",
@@ -1756,21 +1756,21 @@ Array [
 `;
 
 exports[`Parsing a nginx result. 1`] = `
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "hostname": "nginx.demo-targets.svc",
       "port": "80",
       "zap_confidence": "2",
       "zap_count": "2",
       "zap_cweid": "16",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "http://nginx.demo-targets.svc",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "http://nginx.demo-targets.svc/",
@@ -1791,30 +1791,30 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "MEDIUM",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "nginx.demo-targets.svc",
       "port": "80",
       "zap_confidence": "3",
       "zap_count": "4",
       "zap_cweid": "200",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "evidence": "nginx/1.19.3",
           "method": "GET",
           "uri": "http://nginx.demo-targets.svc/",
         },
-        Object {
+        {
           "evidence": "nginx/1.19.3",
           "method": "GET",
           "uri": "http://nginx.demo-targets.svc/robots.txt",
         },
-        Object {
+        {
           "evidence": "nginx/1.19.3",
           "method": "GET",
           "uri": "http://nginx.demo-targets.svc",
         },
-        Object {
+        {
           "evidence": "nginx/1.19.3",
           "method": "GET",
           "uri": "http://nginx.demo-targets.svc/sitemap.xml",
@@ -1824,37 +1824,37 @@ Array [
       "zap_pluginid": "10036",
       "zap_reference": "http://httpd.apache.org/docs/current/mod/core.html#servertokenshttp://msdn.microsoft.com/en-us/library/ff648552.aspx#ht_urlscan_007http://blogs.msdn.com/b/varunm/archive/2013/04/23/remove-unwanted-http-response-headers.aspxhttp://www.troyhunt.com/2012/02/shhh-dont-let-your-response-headers.html",
       "zap_riskcode": "1",
-      "zap_solution": "Ensure that your web server, application server, load balancer, etc. is configured to suppress the \\"Server\\" header or provide generic details.",
+      "zap_solution": "Ensure that your web server, application server, load balancer, etc. is configured to suppress the "Server" header or provide generic details.",
       "zap_wascid": "13",
     },
-    "category": "Server Leaks Version Information via \\"Server\\" HTTP Response Header Field",
-    "description": "The web/application server is leaking version information via the \\"Server\\" HTTP response header. Access to such information may facilitate attackers identifying other vulnerabilities your web/application server is subject to.",
+    "category": "Server Leaks Version Information via "Server" HTTP Response Header Field",
+    "description": "The web/application server is leaking version information via the "Server" HTTP response header. Access to such information may facilitate attackers identifying other vulnerabilities your web/application server is subject to.",
     "hint": undefined,
     "location": "http://nginx.demo-targets.svc",
-    "name": "Server Leaks Version Information via \\"Server\\" HTTP Response Header Field",
+    "name": "Server Leaks Version Information via "Server" HTTP Response Header Field",
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "nginx.demo-targets.svc",
       "port": "80",
       "zap_confidence": "2",
       "zap_count": "2",
       "zap_cweid": "16",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://nginx.demo-targets.svc",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://nginx.demo-targets.svc/",
         },
       ],
-      "zap_otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.At \\"High\\" threshold this scan rule will not alert on client or server error responses.",
+      "zap_otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.At "High" threshold this scan rule will not alert on client or server error responses.",
       "zap_pluginid": "10021",
       "zap_reference": "http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspxhttps://owasp.org/www-community/Security_Headers",
       "zap_riskcode": "1",
@@ -1869,27 +1869,27 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "nginx.demo-targets.svc",
       "port": "80",
       "zap_confidence": "2",
       "zap_count": "4",
       "zap_cweid": "16",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "method": "GET",
           "uri": "http://nginx.demo-targets.svc/robots.txt",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://nginx.demo-targets.svc/",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://nginx.demo-targets.svc/sitemap.xml",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://nginx.demo-targets.svc",
         },
@@ -1898,7 +1898,7 @@ Array [
       "zap_pluginid": "10038",
       "zap_reference": "https://developer.mozilla.org/en-US/docs/Web/Security/CSP/Introducing_Content_Security_Policyhttps://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.htmlhttp://www.w3.org/TR/CSP/http://w3c.github.io/webappsec/specs/content-security-policy/csp-specification.dev.htmlhttp://www.html5rocks.com/en/tutorials/security/content-security-policy/http://caniuse.com/#feat=contentsecuritypolicyhttp://content-security-policy.com/",
       "zap_riskcode": "1",
-      "zap_solution": "Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: \\"Content-Security-Policy\\" for Chrome 25+, Firefox 23+ and Safari 7+, \\"X-Content-Security-Policy\\" for Firefox 4.0+ and Internet Explorer 10+, and \\"X-WebKit-CSP\\" for Chrome 14+ and Safari 6+.",
+      "zap_solution": "Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: "Content-Security-Policy" for Chrome 25+, Firefox 23+ and Safari 7+, "X-Content-Security-Policy" for Firefox 4.0+ and Internet Explorer 10+, and "X-WebKit-CSP" for Chrome 14+ and Safari 6+.",
       "zap_wascid": "15",
     },
     "category": "Content Security Policy (CSP) Header Not Set",
@@ -1913,111 +1913,111 @@ Array [
 `;
 
 exports[`Parsing the docs.securecodebox.io results. 1`] = `
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "1",
       "zap_count": "490",
       "zap_cweid": "200",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "evidence": "14356247",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/zap/",
         },
-        Object {
+        {
           "evidence": "17896441",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/getting-started/uninstallation",
         },
-        Object {
+        {
           "evidence": "24710355",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/4465cfb6.2dca36b4.js",
         },
-        Object {
+        {
           "evidence": "24656292",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/kubeaudit",
         },
-        Object {
+        {
           "evidence": "2147483647",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/3.f6078885.js",
         },
-        Object {
+        {
           "evidence": "24709778",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/696e17eb.6646ccf1.js",
         },
-        Object {
+        {
           "evidence": "24711273",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/26fdb175.030b75d8.js",
         },
-        Object {
+        {
           "evidence": "17700762",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/img/integrationIcons/DefectDojo.svg",
         },
-        Object {
+        {
           "evidence": "24692760",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/api/crds/cascading-rule/",
         },
-        Object {
+        {
           "evidence": "14356247",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/getting-started/first-scans/",
         },
-        Object {
+        {
           "evidence": "24721247",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/cd9a430b.0a5f1ff9.js",
         },
-        Object {
+        {
           "evidence": "17896441",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/gitleaks/",
         },
-        Object {
+        {
           "evidence": "14356247",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/how-tos/automatically-repeating-scans",
         },
-        Object {
+        {
           "evidence": "14356247",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/hooks/cascading-scans",
         },
-        Object {
+        {
           "evidence": "14356247",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/api/crds/scan-type/",
         },
-        Object {
+        {
           "evidence": "24668827",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/img/integrationIcons/kubeaudit.svg",
         },
-        Object {
+        {
           "evidence": "14356247",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/wpscan",
         },
-        Object {
+        {
           "evidence": "17896441",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/contributing/integrating-a-hook",
         },
-        Object {
+        {
           "evidence": "14356247",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/hooks/slack-webhook",
         },
-        Object {
+        {
           "evidence": "14356247",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/api/crds/scan-type",
@@ -2038,116 +2038,116 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "2",
       "zap_count": "170",
       "zap_cweid": "16",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://docs.securecodebox.io/docs/contributing/integrating-a-hook/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://docs.securecodebox.io/docs/api/crds/scan-completion-hook/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://docs.securecodebox.io/styles.c9559d75.js",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://docs.securecodebox.io/01805dbd.a35506a4.js",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://docs.securecodebox.io/docs/scanners/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://docs.securecodebox.io/6ac6c269.eb766bcf.js",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://docs.securecodebox.io/blog/tags/release/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://docs.securecodebox.io/a41edef1.361c2485.js",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://docs.securecodebox.io/docs/scanners/kube-hunter/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://docs.securecodebox.io/img/integrationIcons/Cascading%20Scans.svg",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://docs.securecodebox.io/docs/getting-started/first-scans/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://docs.securecodebox.io/b4010e28.2d695275.js",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://docs.securecodebox.io/runtime~main.0510559a.js",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://docs.securecodebox.io/fc4fa29a.f8b0651d.js",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://docs.securecodebox.io/2.f9d04a90.js",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://docs.securecodebox.io/54f44165.3b7dc2c3.js",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://docs.securecodebox.io/98701709.a7141487.js",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://docs.securecodebox.io/696e17eb.6646ccf1.js",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://docs.securecodebox.io/17896441.dfdf4284.js",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "https://docs.securecodebox.io/blog/2020/09/08/blinmaker/",
         },
       ],
-      "zap_otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.At \\"High\\" threshold this scan rule will not alert on client or server error responses.",
+      "zap_otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.At "High" threshold this scan rule will not alert on client or server error responses.",
       "zap_pluginid": "10021",
       "zap_reference": "http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspxhttps://owasp.org/www-community/Security_Headers",
       "zap_riskcode": "1",
@@ -2162,91 +2162,91 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "2",
       "zap_count": "63",
       "zap_cweid": "16",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/api/crds/scan/",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/hooks/generic-webhook/",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/ncrack/",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/api/finding/",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/blog/tags/v-1/",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/nmap/",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/api/crds/scan-type/",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/kube-hunter/",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/zap/",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/how-tos/",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/contributing/conventions/",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/api/crds/scan-completion-hook/",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/api/crds/docs/contributing/integrating-a-scanner",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/contributing/operator/",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/wpscan/",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/getting-started/first-scans/",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/trivy/",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/blog/tags/",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/",
         },
@@ -2255,7 +2255,7 @@ Array [
       "zap_pluginid": "10038",
       "zap_reference": "https://developer.mozilla.org/en-US/docs/Web/Security/CSP/Introducing_Content_Security_Policyhttps://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.htmlhttp://www.w3.org/TR/CSP/http://w3c.github.io/webappsec/specs/content-security-policy/csp-specification.dev.htmlhttp://www.html5rocks.com/en/tutorials/security/content-security-policy/http://caniuse.com/#feat=contentsecuritypolicyhttp://content-security-policy.com/",
       "zap_riskcode": "1",
-      "zap_solution": "Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: \\"Content-Security-Policy\\" for Chrome 25+, Firefox 23+ and Safari 7+, \\"X-Content-Security-Policy\\" for Firefox 4.0+ and Internet Explorer 10+, and \\"X-WebKit-CSP\\" for Chrome 14+ and Safari 6+.",
+      "zap_solution": "Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: "Content-Security-Policy" for Chrome 25+, Firefox 23+ and Safari 7+, "X-Content-Security-Policy" for Firefox 4.0+ and Internet Explorer 10+, and "X-WebKit-CSP" for Chrome 14+ and Safari 6+.",
       "zap_wascid": "15",
     },
     "category": "Content Security Policy (CSP) Header Not Set",
@@ -2266,110 +2266,110 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "2",
       "zap_count": "235",
       "zap_cweid": null,
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "evidence": "Age: 0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/ncrack",
         },
-        Object {
+        {
           "evidence": "Age: 0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/0e7bd4ca.21f2ccd7.js",
         },
-        Object {
+        {
           "evidence": "Age: 0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/assets/images/2020-10-12-Fingerpost-a006af5f911eecef723e462db8d2a89a.jpg",
         },
-        Object {
+        {
           "evidence": "Age: 0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/a73ad625.daca9aec.js",
         },
-        Object {
+        {
           "evidence": "Age: 0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/api/crds/parse-definition",
         },
-        Object {
+        {
           "evidence": "Age: 0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/ssh",
         },
-        Object {
+        {
           "evidence": "Age: 0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/api/finding",
         },
-        Object {
+        {
           "evidence": "Age: 4301",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/b2b675dd.a26036da.js",
         },
-        Object {
+        {
           "evidence": "Age: 0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/26fdb175.030b75d8.js",
         },
-        Object {
+        {
           "evidence": "Age: 2",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/img/features/code.svg",
         },
-        Object {
+        {
           "evidence": "Age: 0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/1e6c7aa9.edd847c5.js",
         },
-        Object {
+        {
           "evidence": "Age: 0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/how-tos/scanning-networks",
         },
-        Object {
+        {
           "evidence": "Age: 1",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/6eda5a75.150d84a1.js",
         },
-        Object {
+        {
           "evidence": "Age: 0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/fbbb2bf9.2bd5d8a5.js",
         },
-        Object {
+        {
           "evidence": "Age: 3",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/",
         },
-        Object {
+        {
           "evidence": "Age: 0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/6875c492.64f73903.js",
         },
-        Object {
+        {
           "evidence": "Age: 0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/api/crds/cascading-rule/",
         },
-        Object {
+        {
           "evidence": "Age: 2",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/93523fe8.14f093cb.js",
         },
-        Object {
+        {
           "evidence": "Age: 0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/30ea1053.cba2edd8.js",
         },
-        Object {
+        {
           "evidence": "Age: 1",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/blog/2020/10/12/whats-going-on",
@@ -2383,136 +2383,136 @@ Array [
       "zap_wascid": null,
     },
     "category": "Retrieved from Cache",
-    "description": "The content was retrieved from a shared cache. If the response data is sensitive, personal or user-specific, this may result in sensitive information being leaked. In some cases, this may even result in a user gaining complete control of the session of another user, depending on the configuration of the caching components in use in their environment. This is primarily an issue where caching servers such as \\"proxy\\" caches are configured on the local network. This configuration is typically found in corporate or educational environments, for instance. ",
+    "description": "The content was retrieved from a shared cache. If the response data is sensitive, personal or user-specific, this may result in sensitive information being leaked. In some cases, this may even result in a user gaining complete control of the session of another user, depending on the configuration of the caching components in use in their environment. This is primarily an issue where caching servers such as "proxy" caches are configured on the local network. This configuration is typically found in corporate or educational environments, for instance. ",
     "hint": undefined,
     "location": "https://docs.securecodebox.io",
     "name": "Retrieved from Cache",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "2",
       "zap_count": "90",
       "zap_cweid": "525",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "evidence": "public, max-age=0, must-revalidate",
           "method": "GET",
           "param": "Cache-Control",
           "uri": "https://docs.securecodebox.io/img/integrationIcons/Trivy.svg",
         },
-        Object {
+        {
           "evidence": "public, max-age=0, must-revalidate",
           "method": "GET",
           "param": "Cache-Control",
           "uri": "https://docs.securecodebox.io/sitemap.xml",
         },
-        Object {
+        {
           "evidence": "public, max-age=0, must-revalidate",
           "method": "GET",
           "param": "Cache-Control",
           "uri": "https://docs.securecodebox.io/docs/contributing/integrating-a-hook/",
         },
-        Object {
+        {
           "evidence": "public, max-age=0, must-revalidate",
           "method": "GET",
           "param": "Cache-Control",
           "uri": "https://docs.securecodebox.io/docs/api/crds/scan-completion-hook/",
         },
-        Object {
+        {
           "evidence": "public, max-age=0, must-revalidate",
           "method": "GET",
           "param": "Cache-Control",
           "uri": "https://docs.securecodebox.io/docs/scanners/",
         },
-        Object {
+        {
           "evidence": "public, max-age=0, must-revalidate",
           "method": "GET",
           "param": "Cache-Control",
           "uri": "https://docs.securecodebox.io/blog/tags/release/",
         },
-        Object {
+        {
           "evidence": "public, max-age=0, must-revalidate",
           "method": "GET",
           "param": "Cache-Control",
           "uri": "https://docs.securecodebox.io/docs/how-tos/automatically-repeating-scans/",
         },
-        Object {
+        {
           "evidence": "public, max-age=0, must-revalidate",
           "method": "GET",
           "param": "Cache-Control",
           "uri": "https://docs.securecodebox.io/docs/scanners/kube-hunter/",
         },
-        Object {
+        {
           "evidence": "public, max-age=0, must-revalidate",
           "method": "GET",
           "param": "Cache-Control",
           "uri": "https://docs.securecodebox.io/blog/atom.xml",
         },
-        Object {
+        {
           "evidence": "public, max-age=0, must-revalidate",
           "method": "GET",
           "param": "Cache-Control",
           "uri": "https://docs.securecodebox.io/docs/hooks/elasticsearch/",
         },
-        Object {
+        {
           "evidence": "public, max-age=0, must-revalidate",
           "method": "GET",
           "param": "Cache-Control",
           "uri": "https://docs.securecodebox.io/img/integrationIcons/Slack%20WebHook.svg",
         },
-        Object {
+        {
           "evidence": "public, max-age=0, must-revalidate",
           "method": "GET",
           "param": "Cache-Control",
           "uri": "https://docs.securecodebox.io/docs/api/crds/scheduled-scan/",
         },
-        Object {
+        {
           "evidence": "public, max-age=0, must-revalidate",
           "method": "GET",
           "param": "Cache-Control",
           "uri": "https://docs.securecodebox.io/img/integrationIcons/ZAP.svg",
         },
-        Object {
+        {
           "evidence": "public, max-age=0, must-revalidate",
           "method": "GET",
           "param": "Cache-Control",
           "uri": "https://docs.securecodebox.io/docs/hooks/generic-webhook/",
         },
-        Object {
+        {
           "evidence": "public, max-age=0, must-revalidate",
           "method": "GET",
           "param": "Cache-Control",
           "uri": "https://docs.securecodebox.io/img/features/close.svg",
         },
-        Object {
+        {
           "evidence": "public, max-age=0, must-revalidate",
           "method": "GET",
           "param": "Cache-Control",
           "uri": "https://docs.securecodebox.io/docs/scanners/zap/",
         },
-        Object {
+        {
           "evidence": "public, max-age=0, must-revalidate",
           "method": "GET",
           "param": "Cache-Control",
           "uri": "https://docs.securecodebox.io/img/features/code.svg",
         },
-        Object {
+        {
           "evidence": "public, max-age=0, must-revalidate",
           "method": "GET",
           "param": "Cache-Control",
           "uri": "https://docs.securecodebox.io/docs/api/crds/scan-type/",
         },
-        Object {
+        {
           "evidence": "public, max-age=0, must-revalidate",
           "method": "GET",
           "param": "Cache-Control",
           "uri": "https://docs.securecodebox.io/docs/scanners/ncrack/",
         },
-        Object {
+        {
           "evidence": "public, max-age=0, must-revalidate",
           "method": "GET",
           "param": "Cache-Control",
@@ -2534,105 +2534,105 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "2",
       "zap_count": "19",
       "zap_cweid": "200",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "evidence": "192.168.178.0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/nmap/",
         },
-        Object {
+        {
           "evidence": "192.168.0.1",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/98701709.a7141487.js",
         },
-        Object {
+        {
           "evidence": "192.168.0.1",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/ncrack/",
         },
-        Object {
+        {
           "evidence": "192.168.200.100",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/123d7b49.c7ac3740.js",
         },
-        Object {
+        {
           "evidence": "10.102.131.102:22",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/b650ae8f.1ac2f5e8.js",
         },
-        Object {
+        {
           "evidence": "192.168.0.0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/kube-hunter/",
         },
-        Object {
+        {
           "evidence": "192.168.0.1",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/b92f2143.b5302d92.js",
         },
-        Object {
+        {
           "evidence": "192.168.0.0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/kube-hunter",
         },
-        Object {
+        {
           "evidence": "192.168.0.0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/edd86307.afcc49d0.js",
         },
-        Object {
+        {
           "evidence": "192.168.178.0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/nmap",
         },
-        Object {
+        {
           "evidence": "ip-10-0-56-78",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/1e6c7aa9.edd847c5.js",
         },
-        Object {
+        {
           "evidence": "192.168.0.1",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/nikto/",
         },
-        Object {
+        {
           "evidence": "192.168.178.0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/how-tos/scanning-networks",
         },
-        Object {
+        {
           "evidence": "192.168.178.0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/a3ff696f.8750fdc6.js",
         },
-        Object {
+        {
           "evidence": "192.168.178.0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/how-tos/scanning-networks/",
         },
-        Object {
+        {
           "evidence": "192.168.178.0",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/Nmap",
         },
-        Object {
+        {
           "evidence": "192.168.0.1",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/nikto",
         },
-        Object {
+        {
           "evidence": "192.168.1.1",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/71aa2dad.6919055f.js",
         },
-        Object {
+        {
           "evidence": "192.168.0.1",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/ncrack",
@@ -2653,111 +2653,111 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "2",
       "zap_count": "83",
       "zap_cweid": null,
-      "zap_finding_urls": Array [
-        Object {
-          "evidence": "<a aria-hidden=\\"true\\" tabindex=\\"-1\\" class=\\"anchor enhancedAnchor_2cZh\\" id=\\"specification-spec\\"></a>",
+      "zap_finding_urls": [
+        {
+          "evidence": "<a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="specification-spec"></a>",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/api/crds/scheduled-scan",
         },
-        Object {
+        {
           "evidence": "<script>",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/main.f8a1453c.js",
         },
-        Object {
-          "evidence": "<a aria-hidden=\\"true\\" tabindex=\\"-1\\" class=\\"anchor enhancedAnchor_2cZh\\" id=\\"about\\"></a>",
+        {
+          "evidence": "<a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="about"></a>",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/hooks/DefectDojo",
         },
-        Object {
-          "evidence": "<a aria-hidden=\\"true\\" tabindex=\\"-1\\" class=\\"anchor enhancedAnchor_2cZh\\" id=\\"deployment\\"></a>",
+        {
+          "evidence": "<a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="deployment"></a>",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/gitleaks/",
         },
-        Object {
-          "evidence": "<a aria-hidden=\\"true\\" tabindex=\\"-1\\" class=\\"anchor enhancedAnchor_2cZh\\" id=\\"the-state-of-the-union\\"></a>",
+        {
+          "evidence": "<a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="the-state-of-the-union"></a>",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/blog/2020/10/12/whats-going-on",
         },
-        Object {
-          "evidence": "<a aria-hidden=\\"true\\" tabindex=\\"-1\\" class=\\"anchor enhancedAnchor_2cZh\\" id=\\"datapoints-collected\\"></a>",
+        {
+          "evidence": "<a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="datapoints-collected"></a>",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/telemetry",
         },
-        Object {
-          "evidence": "<a aria-hidden=\\"true\\" tabindex=\\"-1\\" class=\\"anchor enhancedAnchor_2cZh\\" id=\\"specification-spec\\"></a>",
+        {
+          "evidence": "<a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="specification-spec"></a>",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/api/crds/parse-definition/",
         },
-        Object {
-          "evidence": "<a aria-hidden=\\"true\\" tabindex=\\"-1\\" class=\\"anchor enhancedAnchor_2cZh\\" id=\\"deployment\\"></a>",
+        {
+          "evidence": "<a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="deployment"></a>",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/nikto/",
         },
-        Object {
-          "evidence": "<a aria-hidden=\\"true\\" tabindex=\\"-1\\" class=\\"anchor enhancedAnchor_2cZh\\" id=\\"prerequisites\\"></a>",
+        {
+          "evidence": "<a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="prerequisites"></a>",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/contributing/operator",
         },
-        Object {
-          "evidence": "<a aria-hidden=\\"true\\" tabindex=\\"-1\\" class=\\"anchor enhancedAnchor_2cZh\\" id=\\"making-the-blin\\"></a>",
+        {
+          "evidence": "<a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="making-the-blin"></a>",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/blog/2020/09/08/blinmaker/",
         },
-        Object {
-          "evidence": "<a aria-hidden=\\"true\\" tabindex=\\"-1\\" class=\\"anchor enhancedAnchor_2cZh\\" id=\\"deployment\\"></a>",
+        {
+          "evidence": "<a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="deployment"></a>",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/hooks/update-field/",
         },
-        Object {
-          "evidence": "<a aria-hidden=\\"true\\" tabindex=\\"-1\\" class=\\"anchor enhancedAnchor_2cZh\\" id=\\"ncrack-deployment--configuration\\"></a>",
+        {
+          "evidence": "<a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="ncrack-deployment--configuration"></a>",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/ncrack",
         },
-        Object {
-          "evidence": "<a aria-hidden=\\"true\\" tabindex=\\"-1\\" class=\\"anchor enhancedAnchor_2cZh\\" id=\\"sundown\\"></a>",
+        {
+          "evidence": "<a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="sundown"></a>",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/blog/2020/10/15/sundown-and-eol-of-version-1/",
         },
-        Object {
-          "evidence": "<a aria-hidden=\\"true\\" tabindex=\\"-1\\" class=\\"anchor enhancedAnchor_2cZh\\" id=\\"how-to-integrate-a-new-hook\\"></a>",
+        {
+          "evidence": "<a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="how-to-integrate-a-new-hook"></a>",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/contributing/integrating-a-hook/",
         },
-        Object {
-          "evidence": "<a aria-hidden=\\"true\\" tabindex=\\"-1\\" class=\\"anchor enhancedAnchor_2cZh\\" id=\\"whats-new-in-securecodebox-v2\\"></a>",
+        {
+          "evidence": "<a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="whats-new-in-securecodebox-v2"></a>",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/blog/2020/10/16/release-of-securecodebox-version-2",
         },
-        Object {
-          "evidence": "<a aria-hidden=\\"true\\" tabindex=\\"-1\\" class=\\"anchor enhancedAnchor_2cZh\\" id=\\"extending-securecodebox\\"></a>",
+        {
+          "evidence": "<a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="extending-securecodebox"></a>",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/contributing/integrating-a-scanner",
         },
-        Object {
-          "evidence": "<a aria-hidden=\\"true\\" tabindex=\\"-1\\" class=\\"anchor enhancedAnchor_2cZh\\" id=\\"deployment\\"></a>",
+        {
+          "evidence": "<a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="deployment"></a>",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/hooks/ms-teams-webhook",
         },
-        Object {
-          "evidence": "<a aria-hidden=\\"true\\" tabindex=\\"-1\\" class=\\"anchor enhancedAnchor_2cZh\\" id=\\"specification-spec\\"></a>",
+        {
+          "evidence": "<a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="specification-spec"></a>",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/api/crds/scan",
         },
-        Object {
-          "evidence": "<a aria-hidden=\\"true\\" tabindex=\\"-1\\" class=\\"anchor enhancedAnchor_2cZh\\" id=\\"uninstall-scanner--hook\\"></a>",
+        {
+          "evidence": "<a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="uninstall-scanner--hook"></a>",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/getting-started/uninstallation/",
         },
-        Object {
-          "evidence": "<a aria-hidden=\\"true\\" tabindex=\\"-1\\" class=\\"anchor enhancedAnchor_2cZh\\" id=\\"about\\"></a>",
+        {
+          "evidence": "<a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_2cZh" id="about"></a>",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/hooks/elasticsearch/",
         },
@@ -2777,91 +2777,91 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "2",
       "zap_count": "58",
       "zap_cweid": "201",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/zap",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/blog/tags/sundown",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/api/crds/scan-completion-hook",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/Nmap",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/getting-started/uninstallation",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/api/finding",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/blog/tags/v-2",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/ncrack",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/blog/tags/cooking",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/how-tos/automatically-repeating-scans",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/how-tos/scanning-web-applications",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/nmap",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/blog/tags/v-1",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/scanners/trivy",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/hooks/elasticsearch",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/telemetry",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/hooks/Elasticsearch",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/api/crds/scan",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/api/crds/parse-definition",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/how-tos/scanning-networks",
         },
@@ -2881,96 +2881,96 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "1",
       "zap_count": "33",
       "zap_cweid": "200",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/26fdb175.030b75d8.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/b4010e28.2d695275.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/71aa2dad.6919055f.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/6eda5a75.150d84a1.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/a3ff696f.8750fdc6.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/4465cfb6.2dca36b4.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/main.f8a1453c.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/0e7bd4ca.21f2ccd7.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/93523fe8.14f093cb.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/aefcdaa8.445ec0f9.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/fc67adc7.2ae0c034.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/98701709.a7141487.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/06e66d46.e643e8e1.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/b650ae8f.1ac2f5e8.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/123d7b49.c7ac3740.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/edd86307.afcc49d0.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/96aff01a.23389d2b.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/a41edef1.361c2485.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/cb73d7b3.13965292.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/3.f6078885.js",
         },
       ],
-      "zap_otherinfo": "The following comment/snippet was identified via the pattern: \\\\bBUG\\\\b(window.webpackJsonp=window.webpackJsonp||[]).push([[14],{132:function(e,t,n){\\"use strict\\";n.d(t,\\"a\\",(function(){return d})),n.d(t,\\"b\\",(function(){return f}));var o=n(0),r=n.n(o);function a(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function i(e,t){var n=Object.keys(e);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);t&&(o=o.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),n.push.apply(n,o)}return n}function s(e){for(var t=1;t=0||(r[n]=e[n]);return r}(e,t);if(Object.getOwnPropertySymbols){var a=Object.getOwnPropertySymbols(e);for(o=0;o=0||Object.prototype.propertyIsEnumerable.call(e,n)&&(r[n]=e[n])}return r}var u=r.a.createContext({}),l=function(e){var t=r.a.useContext(u),n=t;return e&&(n=\\"function\\"==typeof e?e(t):s(s({},t),e)),n},d=function(e){var t=l(e.components);return r.a.createElement(u.Provider,{value:t},e.children)},p={inlineCode:\\"code\\",wrapper:function(e){var t=e.children;return r.a.createElement(r.a.Fragment,{},t)}},b=r.a.forwardRef((function(e,t){var n=e.components,o=e.mdxType,a=e.originalType,i=e.parentName,u=c(e,[\\"components\\",\\"mdxType\\",\\"originalType\\",\\"parentName\\"]),d=l(n),b=o,f=d[\\"\\".concat(i,\\".\\").concat(b)]||d[b]||p[b]||a;return n?r.a.createElement(f,s(s({ref:t},u),{},{components:n})):r.a.createElement(f,s({ref:t},u))}));function f(e,t){var n=arguments,o=t&&t.mdxType;if(\\"string\\"==typeof e||o){var a=n.length,i=new Array(a);i[0]=b;var s={};for(var c in t)hasOwnProperty.call(t,c)&&(s[c]=t[c]);s.originalType=e,s.mdxType=\\"string\\"==typeof e?e:o,i[1]=s;for(var u=2;u",
+      "zap_otherinfo": "The following comment/snippet was identified via the pattern: \\bBUG\\b(window.webpackJsonp=window.webpackJsonp||[]).push([[14],{132:function(e,t,n){"use strict";n.d(t,"a",(function(){return d})),n.d(t,"b",(function(){return f}));var o=n(0),r=n.n(o);function a(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function i(e,t){var n=Object.keys(e);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);t&&(o=o.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),n.push.apply(n,o)}return n}function s(e){for(var t=1;t=0||(r[n]=e[n]);return r}(e,t);if(Object.getOwnPropertySymbols){var a=Object.getOwnPropertySymbols(e);for(o=0;o=0||Object.prototype.propertyIsEnumerable.call(e,n)&&(r[n]=e[n])}return r}var u=r.a.createContext({}),l=function(e){var t=r.a.useContext(u),n=t;return e&&(n="function"==typeof e?e(t):s(s({},t),e)),n},d=function(e){var t=l(e.components);return r.a.createElement(u.Provider,{value:t},e.children)},p={inlineCode:"code",wrapper:function(e){var t=e.children;return r.a.createElement(r.a.Fragment,{},t)}},b=r.a.forwardRef((function(e,t){var n=e.components,o=e.mdxType,a=e.originalType,i=e.parentName,u=c(e,["components","mdxType","originalType","parentName"]),d=l(n),b=o,f=d["".concat(i,".").concat(b)]||d[b]||p[b]||a;return n?r.a.createElement(f,s(s({ref:t},u),{},{components:n})):r.a.createElement(f,s({ref:t},u))}));function f(e,t){var n=arguments,o=t&&t.mdxType;if("string"==typeof e||o){var a=n.length,i=new Array(a);i[0]=b;var s={};for(var c in t)hasOwnProperty.call(t,c)&&(s[c]=t[c]);s.originalType=e,s.mdxType="string"==typeof e?e:o,i[1]=s;for(var u=2;u",
       "zap_pluginid": "10027",
       "zap_reference": null,
       "zap_riskcode": "0",
@@ -2985,110 +2985,110 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "2",
       "zap_count": "57",
       "zap_cweid": "16",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "https://docs.securecodebox.io/blog/tags/release/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "https://docs.securecodebox.io/docs/scanners/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "https://docs.securecodebox.io/docs/how-tos/automatically-repeating-scans/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "https://docs.securecodebox.io/docs/contributing/integrating-a-hook/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "https://docs.securecodebox.io/docs/hooks/elasticsearch/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "https://docs.securecodebox.io/blog/2020/09/08/blinmaker/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "https://docs.securecodebox.io/docs/api/finding/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "https://docs.securecodebox.io/blog/2020/10/16/release-of-securecodebox-version-2/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "https://docs.securecodebox.io/docs/scanners/nmap/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "https://docs.securecodebox.io/docs/scanners/wpscan/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "https://docs.securecodebox.io/blog/tags/v-2/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "https://docs.securecodebox.io/docs/how-tos/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "https://docs.securecodebox.io/docs/api/crds/cascading-rule/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "https://docs.securecodebox.io/docs/scanners/gitleaks/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "https://docs.securecodebox.io/blog/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "https://docs.securecodebox.io/docs/scanners/kubeaudit/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "https://docs.securecodebox.io/docs/hooks/defectdojo/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "https://docs.securecodebox.io/docs/scanners/nikto/",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "https://docs.securecodebox.io",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "https://docs.securecodebox.io/docs/scanners/kube-hunter/",
@@ -3109,20 +3109,20 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "MEDIUM",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "2",
       "zap_count": "2",
       "zap_cweid": "200",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "evidence": "java.lang.NumberFormatException: For input string:",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/1e6c7aa9.edd847c5.js",
         },
-        Object {
+        {
           "evidence": "Unterminated string constant",
           "method": "GET",
           "uri": "https://docs.securecodebox.io/3.f6078885.js",
@@ -3143,35 +3143,35 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "MEDIUM",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "docs.securecodebox.io",
       "port": "443",
       "zap_confidence": "3",
       "zap_count": "6",
       "zap_cweid": "16",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/robots.txt",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/hooks/Cascading%20Scans",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/api/crds/docs/contributing/integrating-a-scanner",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/crds/cascading-rule",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/crds/scan",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "https://docs.securecodebox.io/docs/crds/scan-type",
         },
@@ -3195,31 +3195,31 @@ Array [
 `;
 
 exports[`Parsing the example.com results. 1`] = `
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "hostname": "example.com",
       "port": "80",
       "zap_confidence": "3",
       "zap_count": "4",
       "zap_cweid": "200",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "evidence": "ECS (mic/9B13)",
           "method": "GET",
           "uri": "http://example.com/robots.txt",
         },
-        Object {
+        {
           "evidence": "ECS (mic/9A9C)",
           "method": "GET",
           "uri": "http://example.com",
         },
-        Object {
+        {
           "evidence": "ECS (dab/4AD5)",
           "method": "GET",
           "uri": "http://example.com/sitemap.xml",
         },
-        Object {
+        {
           "evidence": "ECS (dab/DC46)",
           "method": "GET",
           "uri": "http://example.com/",
@@ -3229,41 +3229,41 @@ Array [
       "zap_pluginid": "10036",
       "zap_reference": "http://httpd.apache.org/docs/current/mod/core.html#servertokenshttp://msdn.microsoft.com/en-us/library/ff648552.aspx#ht_urlscan_007http://blogs.msdn.com/b/varunm/archive/2013/04/23/remove-unwanted-http-response-headers.aspxhttp://www.troyhunt.com/2012/02/shhh-dont-let-your-response-headers.html",
       "zap_riskcode": "1",
-      "zap_solution": "Ensure that your web server, application server, load balancer, etc. is configured to suppress the \\"Server\\" header or provide generic details.",
+      "zap_solution": "Ensure that your web server, application server, load balancer, etc. is configured to suppress the "Server" header or provide generic details.",
       "zap_wascid": "13",
     },
-    "category": "Server Leaks Version Information via \\"Server\\" HTTP Response Header Field",
-    "description": "The web/application server is leaking version information via the \\"Server\\" HTTP response header. Access to such information may facilitate attackers identifying other vulnerabilities your web/application server is subject to.",
+    "category": "Server Leaks Version Information via "Server" HTTP Response Header Field",
+    "description": "The web/application server is leaking version information via the "Server" HTTP response header. Access to such information may facilitate attackers identifying other vulnerabilities your web/application server is subject to.",
     "hint": undefined,
     "location": "http://example.com",
-    "name": "Server Leaks Version Information via \\"Server\\" HTTP Response Header Field",
+    "name": "Server Leaks Version Information via "Server" HTTP Response Header Field",
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "example.com",
       "port": "80",
       "zap_confidence": "2",
       "zap_count": "4",
       "zap_cweid": null,
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "evidence": "Age: 214571",
           "method": "GET",
           "uri": "http://example.com/robots.txt",
         },
-        Object {
+        {
           "evidence": "HIT",
           "method": "GET",
           "uri": "http://example.com",
         },
-        Object {
+        {
           "evidence": "Age: 447454",
           "method": "GET",
           "uri": "http://example.com/sitemap.xml",
         },
-        Object {
+        {
           "evidence": "HIT",
           "method": "GET",
           "uri": "http://example.com/",
@@ -3277,34 +3277,34 @@ Array [
       "zap_wascid": null,
     },
     "category": "Retrieved from Cache",
-    "description": "The content was retrieved from a shared cache. If the response data is sensitive, personal or user-specific, this may result in sensitive information being leaked. In some cases, this may even result in a user gaining complete control of the session of another user, depending on the configuration of the caching components in use in their environment. This is primarily an issue where caching servers such as \\"proxy\\" caches are configured on the local network. This configuration is typically found in corporate or educational environments, for instance. ",
+    "description": "The content was retrieved from a shared cache. If the response data is sensitive, personal or user-specific, this may result in sensitive information being leaked. In some cases, this may even result in a user gaining complete control of the session of another user, depending on the configuration of the caching components in use in their environment. This is primarily an issue where caching servers such as "proxy" caches are configured on the local network. This configuration is typically found in corporate or educational environments, for instance. ",
     "hint": undefined,
     "location": "http://example.com",
     "name": "Retrieved from Cache",
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "example.com",
       "port": "80",
       "zap_confidence": "2",
       "zap_count": "4",
       "zap_cweid": "16",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "method": "GET",
           "uri": "http://example.com/sitemap.xml",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://example.com/robots.txt",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://example.com/",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://example.com",
         },
@@ -3313,7 +3313,7 @@ Array [
       "zap_pluginid": "10038",
       "zap_reference": "https://developer.mozilla.org/en-US/docs/Web/Security/CSP/Introducing_Content_Security_Policyhttps://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.htmlhttp://www.w3.org/TR/CSP/http://w3c.github.io/webappsec/specs/content-security-policy/csp-specification.dev.htmlhttp://www.html5rocks.com/en/tutorials/security/content-security-policy/http://caniuse.com/#feat=contentsecuritypolicyhttp://content-security-policy.com/",
       "zap_riskcode": "1",
-      "zap_solution": "Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: \\"Content-Security-Policy\\" for Chrome 25+, Firefox 23+ and Safari 7+, \\"X-Content-Security-Policy\\" for Firefox 4.0+ and Internet Explorer 10+, and \\"X-WebKit-CSP\\" for Chrome 14+ and Safari 6+.",
+      "zap_solution": "Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: "Content-Security-Policy" for Chrome 25+, Firefox 23+ and Safari 7+, "X-Content-Security-Policy" for Firefox 4.0+ and Internet Explorer 10+, and "X-WebKit-CSP" for Chrome 14+ and Safari 6+.",
       "zap_wascid": "15",
     },
     "category": "Content Security Policy (CSP) Header Not Set",
@@ -3324,26 +3324,26 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "example.com",
       "port": "80",
       "zap_confidence": "2",
       "zap_count": "2",
       "zap_cweid": "16",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://example.com",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://example.com/",
         },
       ],
-      "zap_otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.At \\"High\\" threshold this scan rule will not alert on client or server error responses.",
+      "zap_otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.At "High" threshold this scan rule will not alert on client or server error responses.",
       "zap_pluginid": "10021",
       "zap_reference": "http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspxhttps://owasp.org/www-community/Security_Headers",
       "zap_riskcode": "1",
@@ -3358,20 +3358,20 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "example.com",
       "port": "80",
       "zap_confidence": "2",
       "zap_count": "2",
       "zap_cweid": "16",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "http://example.com",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Frame-Options",
           "uri": "http://example.com/",
@@ -3396,111 +3396,111 @@ Array [
 `;
 
 exports[`Parsing the juice-shop results. 1`] = `
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "2",
       "zap_count": "99",
       "zap_cweid": "264",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "evidence": "Access-Control-Allow-Origin: *",
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFK7mu&sid=0b5CIcRfebjeUP6IAAAN",
         },
-        Object {
+        {
           "evidence": "Access-Control-Allow-Origin: *",
           "method": "GET",
           "uri": "http://juice-shop:3000/polyfills-es5.js",
         },
-        Object {
+        {
           "evidence": "Access-Control-Allow-Origin: *",
           "method": "GET",
           "uri": "http://juice-shop:3000/ftp/quarantine/juicy_malware_windows_64.exe.url",
         },
-        Object {
+        {
           "evidence": "Access-Control-Allow-Origin: *",
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJzM-",
         },
-        Object {
+        {
           "evidence": "Access-Control-Allow-Origin: *",
           "method": "GET",
           "uri": "http://juice-shop:3000/ftp",
         },
-        Object {
+        {
           "evidence": "Access-Control-Allow-Origin: *",
           "method": "GET",
           "uri": "http://juice-shop:3000/rest/admin/application-configuration",
         },
-        Object {
+        {
           "evidence": "Access-Control-Allow-Origin: *",
           "method": "GET",
           "uri": "http://juice-shop:3000/rest/products/search?q=",
         },
-        Object {
+        {
           "evidence": "Access-Control-Allow-Origin: *",
           "method": "GET",
           "uri": "http://juice-shop:3000/ftp/eastere.gg",
         },
-        Object {
+        {
           "evidence": "Access-Control-Allow-Origin: *",
           "method": "GET",
           "uri": "http://juice-shop:3000/assets/public/images/carousel/4.jpg",
         },
-        Object {
+        {
           "evidence": "Access-Control-Allow-Origin: *",
           "method": "GET",
           "uri": "http://juice-shop:3000/ftp/suspicious_errors.yml",
         },
-        Object {
+        {
           "evidence": "Access-Control-Allow-Origin: *",
           "method": "GET",
           "uri": "http://juice-shop:3000/ftp/coupons_2013.md.bak",
         },
-        Object {
+        {
           "evidence": "Access-Control-Allow-Origin: *",
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJzWy&sid=NHcMgUohTH8k9p2zAAAL",
         },
-        Object {
+        {
           "evidence": "Access-Control-Allow-Origin: *",
           "method": "GET",
           "uri": "http://juice-shop:3000/main-es5.js",
         },
-        Object {
+        {
           "evidence": "Access-Control-Allow-Origin: *",
           "method": "GET",
           "uri": "http://juice-shop:3000/assets/public/images/products/permafrost.jpg",
         },
-        Object {
+        {
           "evidence": "Access-Control-Allow-Origin: *",
           "method": "GET",
           "uri": "http://juice-shop:3000/rest/continue-code",
         },
-        Object {
+        {
           "evidence": "Access-Control-Allow-Origin: *",
           "method": "GET",
           "uri": "http://juice-shop:3000/main-es2018.js",
         },
-        Object {
+        {
           "evidence": "Access-Control-Allow-Origin: *",
           "method": "GET",
           "uri": "http://juice-shop:3000/ftp/quarantine/juicy_malware_linux_amd_64.url",
         },
-        Object {
+        {
           "evidence": "Access-Control-Allow-Origin: *",
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJwR_",
         },
-        Object {
+        {
           "evidence": "Access-Control-Allow-Origin: *",
           "method": "GET",
           "uri": "http://juice-shop:3000/sitemap.xml",
         },
-        Object {
+        {
           "evidence": "Access-Control-Allow-Origin: *",
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJkNZ",
@@ -3510,7 +3510,7 @@ Array [
       "zap_pluginid": "10098",
       "zap_reference": "http://www.hpenterprisesecurity.com/vulncat/en/vulncat/vb/html5_overly_permissive_cors_policy.html",
       "zap_riskcode": "2",
-      "zap_solution": "Ensure that sensitive data is not available in an unauthenticated manner (using IP address white-listing, for instance).Configure the \\"Access-Control-Allow-Origin\\" HTTP header to a more restrictive set of domains, or remove all CORS headers entirely, to allow the web browser to enforce the Same Origin Policy (SOP) in a more restrictive manner.",
+      "zap_solution": "Ensure that sensitive data is not available in an unauthenticated manner (using IP address white-listing, for instance).Configure the "Access-Control-Allow-Origin" HTTP header to a more restrictive set of domains, or remove all CORS headers entirely, to allow the web browser to enforce the Same Origin Policy (SOP) in a more restrictive manner.",
       "zap_wascid": "14",
     },
     "category": "Cross-Domain Misconfiguration",
@@ -3521,105 +3521,105 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "MEDIUM",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "1",
       "zap_count": "19",
       "zap_cweid": "20",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJiBX&sid=i44E23_d7HysXmYyAAAF",
         },
-        Object {
+        {
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJZAS&sid=xm0oUZMe5lefHrYkAAAB",
         },
-        Object {
+        {
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJkP3&sid=L5sTGQm7gTPIvgamAAAG",
         },
-        Object {
+        {
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJwTQ&sid=m1nJpf-U7x4l9EdgAAAK",
         },
-        Object {
+        {
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJv2N&sid=PktdCTeisMU99B0XAAAJ",
         },
-        Object {
+        {
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJec3&sid=N2BAvk-LoI6ydM_fAAAD",
         },
-        Object {
+        {
           "method": "POST",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJYaS&sid=r2xfyQoKfs1Qc7gKAAAA",
         },
-        Object {
+        {
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJc38&sid=RwTg5sM3urRvTowDAAAC",
         },
-        Object {
+        {
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFKABn&sid=OP1vxyAS7ESoZCFeAAAO",
         },
-        Object {
+        {
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJzWy&sid=NHcMgUohTH8k9p2zAAAL",
         },
-        Object {
+        {
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJfF2&sid=QfhYpBR7a8XY6KopAAAE",
         },
-        Object {
+        {
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJqEu&sid=Qno6lcSl69M4txIfAAAI",
         },
-        Object {
+        {
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJmDG&sid=5CB4rI51v9EBwoLaAAAH",
         },
-        Object {
+        {
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJYaU&sid=r2xfyQoKfs1Qc7gKAAAA",
         },
-        Object {
+        {
           "method": "POST",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJYh4&sid=r2xfyQoKfs1Qc7gKAAAA",
         },
-        Object {
+        {
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJYKz&sid=r2xfyQoKfs1Qc7gKAAAA",
         },
-        Object {
+        {
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFK7mu&sid=0b5CIcRfebjeUP6IAAAN",
         },
-        Object {
+        {
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFK4S_&sid=Snz1P_3VBpE70slrAAAM",
         },
-        Object {
+        {
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFKC2m&sid=wTbs-39HN_Hq77_nAAAP",
@@ -3640,110 +3640,110 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "1",
       "zap_count": "29",
       "zap_cweid": "200",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "evidence": "1970691216",
           "method": "GET",
           "uri": "http://juice-shop:3000/rest/admin/application-configuration",
         },
-        Object {
+        {
           "evidence": "1970691216",
           "method": "GET",
           "uri": "http://juice-shop:3000/rest/products/search?q=",
         },
-        Object {
+        {
           "evidence": "179464974",
           "method": "GET",
           "uri": "http://juice-shop:3000/vendor-es5.js",
         },
-        Object {
+        {
           "evidence": "0000039834",
           "method": "GET",
           "uri": "http://juice-shop:3000/vendor-es5.js",
         },
-        Object {
+        {
           "evidence": "597720130",
           "method": "GET",
           "uri": "http://juice-shop:3000/vendor-es2018.js",
         },
-        Object {
+        {
           "evidence": "1801948466",
           "method": "GET",
           "uri": "http://juice-shop:3000/vendor-es2018.js",
         },
-        Object {
+        {
           "evidence": "1803700518",
           "method": "GET",
           "uri": "http://juice-shop:3000/vendor-es5.js",
         },
-        Object {
+        {
           "evidence": "33335333",
           "method": "GET",
           "uri": "http://juice-shop:3000/styles.css",
         },
-        Object {
+        {
           "evidence": "0000051215",
           "method": "GET",
           "uri": "http://juice-shop:3000/vendor-es5.js",
         },
-        Object {
+        {
           "evidence": "33333333",
           "method": "GET",
           "uri": "http://juice-shop:3000/styles.css",
         },
-        Object {
+        {
           "evidence": "0000000005",
           "method": "GET",
           "uri": "http://juice-shop:3000/vendor-es2018.js",
         },
-        Object {
+        {
           "evidence": "0000000005",
           "method": "GET",
           "uri": "http://juice-shop:3000/vendor-es5.js",
         },
-        Object {
+        {
           "evidence": "33334333",
           "method": "GET",
           "uri": "http://juice-shop:3000/styles.css",
         },
-        Object {
+        {
           "evidence": "94906265",
           "method": "GET",
           "uri": "http://juice-shop:3000/polyfills-es5.js",
         },
-        Object {
+        {
           "evidence": "1801949248",
           "method": "GET",
           "uri": "http://juice-shop:3000/vendor-es2018.js",
         },
-        Object {
+        {
           "evidence": "1801948466",
           "method": "GET",
           "uri": "http://juice-shop:3000/vendor-es5.js",
         },
-        Object {
+        {
           "evidence": "1803700518",
           "method": "GET",
           "uri": "http://juice-shop:3000/vendor-es2018.js",
         },
-        Object {
+        {
           "evidence": "1969196030",
           "method": "GET",
           "uri": "http://juice-shop:3000/rest/admin/application-configuration",
         },
-        Object {
+        {
           "evidence": "62425156",
           "method": "GET",
           "uri": "http://juice-shop:3000/polyfills-es5.js",
         },
-        Object {
+        {
           "evidence": "597720130",
           "method": "GET",
           "uri": "http://juice-shop:3000/vendor-es5.js",
@@ -3764,129 +3764,129 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "3",
       "zap_count": "35",
       "zap_cweid": "200",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "evidence": "m1nJpf-U7x4l9EdgAAAK",
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJwTQ&sid=m1nJpf-U7x4l9EdgAAAK",
         },
-        Object {
+        {
           "evidence": "N2BAvk-LoI6ydM_fAAAD",
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=websocket&sid=N2BAvk-LoI6ydM_fAAAD",
         },
-        Object {
+        {
           "evidence": "OP1vxyAS7ESoZCFeAAAO",
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFKABn&sid=OP1vxyAS7ESoZCFeAAAO",
         },
-        Object {
+        {
           "evidence": "N2BAvk-LoI6ydM_fAAAD",
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJec3&sid=N2BAvk-LoI6ydM_fAAAD",
         },
-        Object {
+        {
           "evidence": "PktdCTeisMU99B0XAAAJ",
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=websocket&sid=PktdCTeisMU99B0XAAAJ",
         },
-        Object {
+        {
           "evidence": "r2xfyQoKfs1Qc7gKAAAA",
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJYaU&sid=r2xfyQoKfs1Qc7gKAAAA",
         },
-        Object {
+        {
           "evidence": "RwTg5sM3urRvTowDAAAC",
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=websocket&sid=RwTg5sM3urRvTowDAAAC",
         },
-        Object {
+        {
           "evidence": "NHcMgUohTH8k9p2zAAAL",
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=websocket&sid=NHcMgUohTH8k9p2zAAAL",
         },
-        Object {
+        {
           "evidence": "PktdCTeisMU99B0XAAAJ",
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJv2N&sid=PktdCTeisMU99B0XAAAJ",
         },
-        Object {
+        {
           "evidence": "m1nJpf-U7x4l9EdgAAAK",
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=websocket&sid=m1nJpf-U7x4l9EdgAAAK",
         },
-        Object {
+        {
           "evidence": "r2xfyQoKfs1Qc7gKAAAA",
           "method": "POST",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJYh4&sid=r2xfyQoKfs1Qc7gKAAAA",
         },
-        Object {
+        {
           "evidence": "wTbs-39HN_Hq77_nAAAP",
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=websocket&sid=wTbs-39HN_Hq77_nAAAP",
         },
-        Object {
+        {
           "evidence": "Snz1P_3VBpE70slrAAAM",
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=websocket&sid=Snz1P_3VBpE70slrAAAM",
         },
-        Object {
+        {
           "evidence": "r2xfyQoKfs1Qc7gKAAAA",
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=websocket&sid=r2xfyQoKfs1Qc7gKAAAA",
         },
-        Object {
+        {
           "evidence": "Qno6lcSl69M4txIfAAAI",
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJqEu&sid=Qno6lcSl69M4txIfAAAI",
         },
-        Object {
+        {
           "evidence": "5CB4rI51v9EBwoLaAAAH",
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJmDG&sid=5CB4rI51v9EBwoLaAAAH",
         },
-        Object {
+        {
           "evidence": "0b5CIcRfebjeUP6IAAAN",
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=websocket&sid=0b5CIcRfebjeUP6IAAAN",
         },
-        Object {
+        {
           "evidence": "wTbs-39HN_Hq77_nAAAP",
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFKC2m&sid=wTbs-39HN_Hq77_nAAAP",
         },
-        Object {
+        {
           "evidence": "QfhYpBR7a8XY6KopAAAE",
           "method": "GET",
           "param": "sid",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=websocket&sid=QfhYpBR7a8XY6KopAAAE",
         },
-        Object {
+        {
           "evidence": "L5sTGQm7gTPIvgamAAAG",
           "method": "GET",
           "param": "sid",
@@ -3908,46 +3908,46 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "MEDIUM",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "2",
       "zap_count": "7",
       "zap_cweid": null,
-      "zap_finding_urls": Array [
-        Object {
-          "evidence": "<script src=\\"//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js\\"></script>",
+      "zap_finding_urls": [
+        {
+          "evidence": "<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>",
           "method": "GET",
           "uri": "http://juice-shop:3000",
         },
-        Object {
+        {
           "evidence": "<script>",
           "method": "GET",
           "uri": "http://juice-shop:3000/polyfills-es2018.js",
         },
-        Object {
-          "evidence": "<script src=\\"//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js\\"></script>",
+        {
+          "evidence": "<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>",
           "method": "GET",
           "uri": "http://juice-shop:3000/sitemap.xml",
         },
-        Object {
-          "evidence": "<a>\\",'",
+        {
+          "evidence": "<a>",'",
           "method": "GET",
           "uri": "http://juice-shop:3000/tutorial-es2018.js",
         },
-        Object {
-          "evidence": "<script src=\\"//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js\\"></script>",
+        {
+          "evidence": "<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>",
           "method": "GET",
           "uri": "http://juice-shop:3000/",
         },
-        Object {
+        {
           "evidence": "<a>",
           "method": "GET",
           "uri": "http://juice-shop:3000/polyfills-es5.js",
         },
-        Object {
-          "evidence": "<a href=\\"\\">ftp</a>",
+        {
+          "evidence": "<a href="">ftp</a>",
           "method": "GET",
           "uri": "http://juice-shop:3000/ftp/",
         },
@@ -3967,91 +3967,91 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "1",
       "zap_count": "35",
       "zap_cweid": "565",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJiBX&sid=i44E23_d7HysXmYyAAAF",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJf4l",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJmAk",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJv2N&sid=PktdCTeisMU99B0XAAAJ",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJkNZ",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFKC1F",
         },
-        Object {
+        {
           "method": "POST",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJYaS&sid=r2xfyQoKfs1Qc7gKAAAA",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJq6f",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJc38&sid=RwTg5sM3urRvTowDAAAC",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFKAAX",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJeSU",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJec3&sid=N2BAvk-LoI6ydM_fAAAD",
         },
-        Object {
+        {
           "method": "POST",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJYh4&sid=r2xfyQoKfs1Qc7gKAAAA",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFK4Is",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJY_O",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJwTQ&sid=m1nJpf-U7x4l9EdgAAAK",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJfF2&sid=QfhYpBR7a8XY6KopAAAE",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJZAS&sid=xm0oUZMe5lefHrYkAAAB",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFK7mu&sid=0b5CIcRfebjeUP6IAAAN",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJwR_",
         },
@@ -4071,116 +4071,116 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "2",
       "zap_count": "35",
       "zap_cweid": "16",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJzM-",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJYKz&sid=r2xfyQoKfs1Qc7gKAAAA",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJc38&sid=RwTg5sM3urRvTowDAAAC",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFK7mu&sid=0b5CIcRfebjeUP6IAAAN",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJwR_",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJv0-",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFKABn&sid=OP1vxyAS7ESoZCFeAAAO",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJmAk",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJkNZ",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJeSU",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJYaU&sid=r2xfyQoKfs1Qc7gKAAAA",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJY_O",
         },
-        Object {
+        {
           "method": "POST",
           "param": "X-Content-Type-Options",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJYaS&sid=r2xfyQoKfs1Qc7gKAAAA",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJfF2&sid=QfhYpBR7a8XY6KopAAAE",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJq6f",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJZAS&sid=xm0oUZMe5lefHrYkAAAB",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJh_q",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFK7eA",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFKC1F",
         },
-        Object {
+        {
           "method": "GET",
           "param": "X-Content-Type-Options",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFK4Is",
         },
       ],
-      "zap_otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.At \\"High\\" threshold this scan rule will not alert on client or server error responses.",
+      "zap_otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.At "High" threshold this scan rule will not alert on client or server error responses.",
       "zap_pluginid": "10021",
       "zap_reference": "http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspxhttps://owasp.org/www-community/Security_Headers",
       "zap_riskcode": "1",
@@ -4195,44 +4195,44 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "1",
       "zap_count": "7",
       "zap_cweid": "200",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/tutorial-es2018.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/main-es5.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/vendor-es2018.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/main-es2018.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/polyfills-es2018.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/vendor-es5.js",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/polyfills-es5.js",
         },
       ],
-      "zap_otherinfo": "The following comment/snippet was identified via the pattern: \\\\bQUERY\\\\b(window.webpackJsonp=window.webpackJsonp||[]).push([[5],{s2oO:function(e,t,o){\\"use strict\\";o.r(t),o.d(t,\\"hasInstructions\\",(function(){return q})),o.d(t,\\"startHackingInstructorFor\\",(function(){return M}));var a={\\"\\":[\\"\\",\\"\\"],_:[\\"\\",\\"\\"],\\"\\\\n\\":[\\"\\"],\\" \\":[\\"\\"],\\"-\\":[\\"\\"]};function r(e){return e.replace(RegExp(\\"^\\"+(e.match(/^(\\\\t| )+/)||\\"\\")[0],\\"gm\\"),\\"\\")}function n(e){return(e+\\"\\").replace(/\\"/g,\\"&quot;\\").replace(//g,\\"&gt;\\")}function i(e){return new Promise(t=>{setTimeout(t,e)})}function s(e,t,o={ignoreCase:!0}){return async()=>{const a=document.querySelector(e);for(;a.value!==t&&(!o.ignoreCase||a.value.toLowerCase()!==t.toLowerCase());)await i(100)}}function l(e,t,o={ignoreCase:!0}){return async()=>{const a=document.querySelector(e);for(;a.value===t&&(!o.ignoreCase||a.value.toLowerCase()!==t.toLowerCase());)await i(100)}}function u(e){return async()=>{const t=document.querySelector(e);for(;!t.value||\\"\\"===t.value;)await i(100)}}function p(e){return async()=>{const t=document.querySelector(e);t||console.warn(\`Could not find Element with selector \\"\${e}\\"\`),await new Promise(e=>{t.addEventListener(\\"click\\",()=>e())})}}function d(e,t){return async()=>{for(;;){const o=document.querySelector(e);if(o&&o.innerHTML===t)break;await i(100)}}}function c(e){return()=>i(e)}function h(e){return async()=>{for(;window.location.hash!==\\"#/\\"+e;)await i(100)}}function f(){return async()=>{for(;null===localStorage.getItem(\\"token\\");)await i(100)}}function m(){return async()=>{for(;null!==localStorage.getItem(\\"token\\");)await i(100)}}function g(){let e=!1;const t=new Image;return Object.defineProperty(t,\\"id\\",{get:function(){e=!0}}),async()=>{for(;console.dir(t),!e;)await i(100)}}const b={name:\\"Login Admin\\",hints:[{text:\\"To start this challenge, you'll have to log out first.\\",fixture:\\"#navbarAccount\\",unskippable:!0,resolved:m()},{text:\\"Let's try if we find a way to log in with the administrator's user account. To begin, go to the _Login_ page via the _Account_ menu.\\",fixture:\\"app-navbar\\"...",
+      "zap_otherinfo": "The following comment/snippet was identified via the pattern: \\bQUERY\\b(window.webpackJsonp=window.webpackJsonp||[]).push([[5],{s2oO:function(e,t,o){"use strict";o.r(t),o.d(t,"hasInstructions",(function(){return q})),o.d(t,"startHackingInstructorFor",(function(){return M}));var a={"":["",""],_:["",""],"\\n":[""]," ":[""],"-":[""]};function r(e){return e.replace(RegExp("^"+(e.match(/^(\\t| )+/)||"")[0],"gm"),"")}function n(e){return(e+"").replace(/"/g,"&quot;").replace(//g,"&gt;")}function i(e){return new Promise(t=>{setTimeout(t,e)})}function s(e,t,o={ignoreCase:!0}){return async()=>{const a=document.querySelector(e);for(;a.value!==t&&(!o.ignoreCase||a.value.toLowerCase()!==t.toLowerCase());)await i(100)}}function l(e,t,o={ignoreCase:!0}){return async()=>{const a=document.querySelector(e);for(;a.value===t&&(!o.ignoreCase||a.value.toLowerCase()!==t.toLowerCase());)await i(100)}}function u(e){return async()=>{const t=document.querySelector(e);for(;!t.value||""===t.value;)await i(100)}}function p(e){return async()=>{const t=document.querySelector(e);t||console.warn(\`Could not find Element with selector "\${e}"\`),await new Promise(e=>{t.addEventListener("click",()=>e())})}}function d(e,t){return async()=>{for(;;){const o=document.querySelector(e);if(o&&o.innerHTML===t)break;await i(100)}}}function c(e){return()=>i(e)}function h(e){return async()=>{for(;window.location.hash!=="#/"+e;)await i(100)}}function f(){return async()=>{for(;null===localStorage.getItem("token");)await i(100)}}function m(){return async()=>{for(;null!==localStorage.getItem("token");)await i(100)}}function g(){let e=!1;const t=new Image;return Object.defineProperty(t,"id",{get:function(){e=!0}}),async()=>{for(;console.dir(t),!e;)await i(100)}}const b={name:"Login Admin",hints:[{text:"To start this challenge, you'll have to log out first.",fixture:"#navbarAccount",unskippable:!0,resolved:m()},{text:"Let's try if we find a way to log in with the administrator's user account. To begin, go to the _Login_ page via the _Account_ menu.",fixture:"app-navbar"...",
       "zap_pluginid": "10027",
       "zap_reference": null,
       "zap_riskcode": "0",
@@ -4247,63 +4247,63 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "2",
       "zap_count": "13",
       "zap_cweid": "16",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/ftp/coupons_2013.md.bak",
         },
-        Object {
+        {
           "method": "POST",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJYh4&sid=r2xfyQoKfs1Qc7gKAAAA",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/ftp/",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/sitemap.xml",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/ftp/package.json.bak",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/ftp/suspicious_errors.yml",
         },
-        Object {
+        {
           "method": "POST",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJYaS&sid=r2xfyQoKfs1Qc7gKAAAA",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/ftp/eastere.gg",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/ftp/quarantine",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/ftp",
         },
-        Object {
+        {
           "method": "GET",
           "uri": "http://juice-shop:3000/ftp/encrypt.pyc",
         },
@@ -4312,7 +4312,7 @@ Array [
       "zap_pluginid": "10038",
       "zap_reference": "https://developer.mozilla.org/en-US/docs/Web/Security/CSP/Introducing_Content_Security_Policyhttps://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.htmlhttp://www.w3.org/TR/CSP/http://w3c.github.io/webappsec/specs/content-security-policy/csp-specification.dev.htmlhttp://www.html5rocks.com/en/tutorials/security/content-security-policy/http://caniuse.com/#feat=contentsecuritypolicyhttp://content-security-policy.com/",
       "zap_riskcode": "1",
-      "zap_solution": "Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: \\"Content-Security-Policy\\" for Chrome 25+, Firefox 23+ and Safari 7+, \\"X-Content-Security-Policy\\" for Firefox 4.0+ and Internet Explorer 10+, and \\"X-WebKit-CSP\\" for Chrome 14+ and Safari 6+.",
+      "zap_solution": "Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: "Content-Security-Policy" for Chrome 25+, Firefox 23+ and Safari 7+, "X-Content-Security-Policy" for Firefox 4.0+ and Internet Explorer 10+, and "X-WebKit-CSP" for Chrome 14+ and Safari 6+.",
       "zap_wascid": "15",
     },
     "category": "Content Security Policy (CSP) Header Not Set",
@@ -4323,46 +4323,46 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "2",
       "zap_count": "6",
       "zap_cweid": "829",
-      "zap_finding_urls": Array [
-        Object {
-          "evidence": "<script src=\\"//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js\\"></script>",
+      "zap_finding_urls": [
+        {
+          "evidence": "<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>",
           "method": "GET",
           "param": "//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js",
           "uri": "http://juice-shop:3000",
         },
-        Object {
-          "evidence": "<script src=\\"//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js\\"></script>",
+        {
+          "evidence": "<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>",
           "method": "GET",
           "param": "//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js",
           "uri": "http://juice-shop:3000/sitemap.xml",
         },
-        Object {
-          "evidence": "<script src=\\"//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js\\"></script>",
+        {
+          "evidence": "<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>",
           "method": "GET",
           "param": "//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js",
           "uri": "http://juice-shop:3000/",
         },
-        Object {
-          "evidence": "<script src=\\"//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js\\"></script>",
+        {
+          "evidence": "<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>",
           "method": "GET",
           "param": "//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js",
           "uri": "http://juice-shop:3000/",
         },
-        Object {
-          "evidence": "<script src=\\"//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js\\"></script>",
+        {
+          "evidence": "<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>",
           "method": "GET",
           "param": "//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js",
           "uri": "http://juice-shop:3000/sitemap.xml",
         },
-        Object {
-          "evidence": "<script src=\\"//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js\\"></script>",
+        {
+          "evidence": "<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>",
           "method": "GET",
           "param": "//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js",
           "uri": "http://juice-shop:3000",
@@ -4383,20 +4383,20 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "2",
       "zap_count": "2",
       "zap_cweid": "16",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "method": "POST",
           "param": "X-Frame-Options",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJYh4&sid=r2xfyQoKfs1Qc7gKAAAA",
         },
-        Object {
+        {
           "method": "POST",
           "param": "X-Frame-Options",
           "uri": "http://juice-shop:3000/socket.io/?EIO=3&transport=polling&t=NLFJYaS&sid=r2xfyQoKfs1Qc7gKAAAA",
@@ -4417,15 +4417,15 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "MEDIUM",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "juice-shop",
       "port": "3000",
       "zap_confidence": "2",
       "zap_count": "1",
       "zap_cweid": "200",
-      "zap_finding_urls": Array [
-        Object {
+      "zap_finding_urls": [
+        {
           "evidence": "192.168.99.100:3000",
           "method": "GET",
           "uri": "http://juice-shop:3000/rest/admin/application-configuration",

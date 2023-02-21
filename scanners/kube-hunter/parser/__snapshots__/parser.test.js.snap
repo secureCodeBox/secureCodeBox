@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`parses result from kind-1.18-in-cluster-scan correctly 1`] = `
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "evidence": "eyJhbGciOiJSUzI1NiIsImtpZCI6IkNabmY2NVgxUmR1ZnQzbHJVQVAzZFFUNjBiR0hUVE9SRDNPcURyenlkODgifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6Imx1cmNoZXItdG9rZW4tcGpmNGIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoibHVyY2hlciIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjUzOGVhYjdmLTY1YjAtNDE4Yy04MGI2LTI1NGQxNDQ4ODU3NiIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0Omx1cmNoZXIifQ.cGtQHagQ2xxlAFnWwFRNgGJIkaeZIKnqoYYb8GmxN94ry0wwxCbgBm4Kg33A903wDBxd8iuITTk-r8UPZyYJHoxlVu0pHt-3SAc4NT0ob50R2acVXQ2qj_yJOOQHurCWeOJMkGqtCyUoZ8Xcnc6z32Ao-NWzKD-0wV7ndpKm-ytHP0YpHb9bLUPcQGvFoh_UF132yjeJqzwLPRX6hStMYOa8LNhJGyhdejW3BIOylzVPNkKE5lEjWv9f853qnTKG-TzXHBbth7qV8UHwSoY8YFoMezK3zazQt4dN1VG_wYmZ0ujikTC7TRTGr500kFxfpACKwdQ1M1fXgKJhNv9UgA",
       "kubeHunterRule": "Access Secrets",
     },
@@ -11,14 +11,14 @@ Array [
     "description": " Accessing the pod service account token gives an attacker the option to use the server API ",
     "location": "tcp://10.244.0.1",
     "name": "Read access to pod's service account token",
-    "reference": Object {
+    "reference": {
       "id": "KHV050",
       "source": "https://aquasecurity.github.io/kube-hunter/kb/KHV050",
     },
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "evidence": "",
       "kubeHunterRule": "Pod Capabilities Hunter",
     },
@@ -26,11 +26,11 @@ Array [
     "description": "CAP_NET_RAW is enabled by default for pods. If an attacker manages to compromise a pod, they could potentially take advantage of this capability to perform network attacks on other pods running on the same node",
     "location": "tcp://10.244.0.1",
     "name": "CAP_NET_RAW Enabled",
-    "reference": Object {},
+    "reference": {},
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "evidence": "['/var/run/secrets/kubernetes.io/serviceaccount/namespace', '/var/run/secrets/kubernetes.io/serviceaccount/ca.crt', '/var/run/secrets/kubernetes.io/serviceaccount/token', '/var/run/secrets/kubernetes.io/serviceaccount/..2020_04_03_14_52_24.460746409/ca.crt', '/var/run/secrets/kubernetes.io/serviceaccount/..2020_04_03_14_52_24.460746409/token', '/var/run/secrets/kubernetes.io/serviceaccount/..2020_04_03_14_52_24.460746409/namespace']",
       "kubeHunterRule": "Access Secrets",
     },
@@ -38,11 +38,11 @@ Array [
     "description": " Accessing the pod's secrets within a compromised pod might disclose valuable data to a potential attacker",
     "location": "tcp://10.244.0.1",
     "name": "Access to pod's secrets",
-    "reference": Object {},
+    "reference": {},
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "evidence": "v1.18.0",
       "kubeHunterRule": "Api Version Hunter",
     },
@@ -50,22 +50,22 @@ Array [
     "description": "The kubernetes version could be obtained from the /version endpoint ",
     "location": "tcp://10.96.0.1:443",
     "name": "K8s Version Disclosure",
-    "reference": Object {
+    "reference": {
       "id": "KHV002",
       "source": "https://aquasecurity.github.io/kube-hunter/kb/KHV002",
     },
     "severity": "MEDIUM",
   },
-  Object {
-    "attributes": Object {
-      "evidence": "b'{\\"kind\\":\\"APIVersions\\",\\"versions\\":[\\"v1\\"],\\"serverAddressByClientCIDRs\\":[{\\"clientCIDR\\":\\"0.0.0.0/0\\",\\"serverAddress\\":\\"172.17.0.2:6443\\"}]}\\\\n'",
+  {
+    "attributes": {
+      "evidence": "b'{"kind":"APIVersions","versions":["v1"],"serverAddressByClientCIDRs":[{"clientCIDR":"0.0.0.0/0","serverAddress":"172.17.0.2:6443"}]}\\n'",
       "kubeHunterRule": "API Server Hunter",
     },
     "category": "Information Disclosure",
     "description": " The API Server port is accessible. Depending on your RBAC settings this could expose access to or control of your cluster. ",
     "location": "tcp://10.96.0.1:443",
     "name": "Access to API using service account token",
-    "reference": Object {
+    "reference": {
       "id": "KHV005",
       "source": "https://aquasecurity.github.io/kube-hunter/kb/KHV005",
     },

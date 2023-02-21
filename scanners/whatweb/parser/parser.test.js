@@ -24,9 +24,9 @@ test("should properly parse whatweb json file", async () => {
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "HTML5": true,
       "HTTPServer": "ECS (dcb/7FA5)",
       "country": "EUROPEAN UNION/EU",
@@ -53,7 +53,7 @@ test("should properly parse empty whatweb json file", async () => {
   const findings = await parse(fileContent);
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
-  expect(findings).toMatchInlineSnapshot(`Array []`);
+  expect(findings).toMatchInlineSnapshot(`[]`);
 });
 
 test("should properly parse securecodebox.io whatweb json file with higher aggression level(3)", async () => {
@@ -66,9 +66,9 @@ test("should properly parse securecodebox.io whatweb json file with higher aggre
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "HTTPServer": "GitHub.com",
       "RedirectLocation": "https://www.securecodebox.io/",
       "UncommonHeaders": "x-github-request-id,x-served-by,x-cache-hits,x-timer,x-fastly-request-id",
@@ -84,8 +84,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "HTML5": true,
       "HTTPServer": "GitHub.com",
       "Meta-Refresh-Redirect": "https://docs.securecodebox.io/",
@@ -103,8 +103,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "HTML5": true,
       "HTTPServer": "Netlify",
       "MetaGenerator": "Docusaurus v2.0.0-beta.3",
@@ -137,9 +137,9 @@ test("should properly parse whatweb json file with two domains", async () => {
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "HTML5": true,
       "HTTPServer": "ECS (dcb/7F39)",
       "country": "EUROPEAN UNION/EU",
@@ -153,8 +153,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "Apache": "",
       "Google-Analytics": "",
       "HTTPServer": "Apache/2.4.7 (Ubuntu)",

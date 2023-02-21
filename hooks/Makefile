@@ -12,3 +12,9 @@ integration-tests:
 	for dir in $(wildcard */.); do \
 		$(MAKE) integration-tests -C $$dir;\
 	done
+	
+.PHONY: unit-tests 
+unit-tests:
+	for dir in $(wildcard */.); do \
+		$(MAKE) unit-tests -C $$dir;\
+	done
