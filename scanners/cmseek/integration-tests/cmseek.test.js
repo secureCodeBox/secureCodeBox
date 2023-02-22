@@ -9,7 +9,7 @@ jest.retryTimes(3);
 test(
   "cmseek scans old-joomla for vulnerabilities without redirection",
   async () => {
-    const { categories, severities, count } = await scan(
+    const {categories, severities, count} = await scan(
       "cmseek-old-joomla",
       "cmseek",
       ["-u", "old-joomla.demo-targets.svc", "--no-redirect"],
@@ -18,13 +18,13 @@ test(
 
     expect(count).toBe(3);
     expect(categories).toMatchInlineSnapshot(`
-      Object {
+      {
         "Visible internal files": 1,
         "Vulnerability": 2,
       }
     `);
     expect(severities).toMatchInlineSnapshot(`
-      Object {
+      {
         "high": 2,
         "informational": 1,
       }
@@ -36,7 +36,7 @@ test(
 test(
   "cmseek scans old-joomla for vulnerabilities with redirection",
   async () => {
-    const { categories, severities, count } = await scan(
+    const {categories, severities, count} = await scan(
       "cmseek-old-joomla",
       "cmseek",
       ["-u", "old-joomla.demo-targets.svc", "--follow-redirect"],
@@ -45,12 +45,12 @@ test(
 
     expect(count).toBe(1);
     expect(categories).toMatchInlineSnapshot(`
-      Object {
+      {
         "Visible internal files": 1,
       }
     `);
     expect(severities).toMatchInlineSnapshot(`
-      Object {
+      {
         "informational": 1,
       }
     `);

@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`parser parses large json result with vulnerable extensions successfully 1`] = `
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-026",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-026",
       "subcomponent": "Query Generator & Query View (ext:lowlevel, ext:core)",
@@ -17,8 +17,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-025",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-025",
       "subcomponent": "Query Generator (ext:lowlevel)",
@@ -32,8 +32,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-024",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-024",
       "subcomponent": "Extension Manager (ext:extensionmanger)",
@@ -47,8 +47,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-023",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-023",
       "subcomponent": "Filelist Module (ext:filelist)",
@@ -62,8 +62,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-022",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-022",
       "subcomponent": "Link Handling (ext:core, ext:frontend)",
@@ -77,8 +77,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-021",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-021",
       "subcomponent": "Form Framework (ext:form)",
@@ -92,8 +92,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-020",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-020",
       "subcomponent": "Backend & Core API (ext:backend, ext:core)",
@@ -107,8 +107,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-019",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-019",
       "subcomponent": "Backend API (ext:backend)",
@@ -122,8 +122,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-018",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-018",
       "subcomponent": "Frontend Session Handling (ext:frontend)",
@@ -137,8 +137,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-015",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-015",
       "subcomponent": "Link Handling (ext:core)",
@@ -152,8 +152,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-014",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-014",
       "subcomponent": "Backend User Interface (ext:backend)",
@@ -167,8 +167,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-013",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-013",
       "subcomponent": "Fluid Engine (package typo3fluid/fluid)",
@@ -182,8 +182,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-012",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-012",
       "subcomponent": "Image Processing via ImageMagick (ext:core)",
@@ -197,8 +197,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-011",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-011",
       "subcomponent": "User Session Handling (ext:core)",
@@ -212,8 +212,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-008",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-008",
       "subcomponent": "File List (ext:filelist)",
@@ -227,8 +227,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-007",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-007",
       "subcomponent": "Form Framework (ext:form)",
@@ -242,8 +242,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-006",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-006",
       "subcomponent": "3rd party library Bootstrap CSS toolkit",
@@ -257,8 +257,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-005",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-005",
       "subcomponent": "Fluid (ext:fluid)",
@@ -272,8 +272,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-003",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-003",
       "subcomponent": "Localization Handling",
@@ -287,8 +287,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-002",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-002",
       "subcomponent": "Backend User Account Model (ext:core)",
@@ -302,8 +302,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-001",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-001",
       "subcomponent": "RequireJS package configuration",
@@ -317,8 +317,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-012",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-012",
       "subcomponent": "Frontend Session Handling",
@@ -332,8 +332,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-011",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-011",
       "subcomponent": "Online media asset handling",
@@ -347,8 +347,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-010",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-010",
       "subcomponent": "Install Tool",
@@ -362,8 +362,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-009",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-009",
       "subcomponent": "Install Tool Session Handling",
@@ -377,8 +377,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-008",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-008",
       "subcomponent": "Frontend user login",
@@ -392,8 +392,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-007",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-007",
       "subcomponent": "Backend modal component",
@@ -407,8 +407,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-006",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-006",
       "subcomponent": "Online media asset rendering",
@@ -422,8 +422,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-005",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-005",
       "subcomponent": "3rd party JavaScript library CKEditor",
@@ -437,8 +437,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-004",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-004",
       "subcomponent": "Form Framework (ext:form)",
@@ -452,8 +452,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-003",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-003",
       "subcomponent": "Form Framework (ext:form)",
@@ -467,8 +467,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-002",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-002",
       "subcomponent": "TYPO3 CMS",
@@ -482,8 +482,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-001",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-001",
       "subcomponent": "Salted Passwords (ext:saltedpasswords)",
@@ -497,8 +497,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2017-007",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2017-007",
       "subcomponent": "TYPO3 CMS",
@@ -512,8 +512,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2017-005",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2017-005",
       "subcomponent": "TYPO3 CMS",
@@ -527,8 +527,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2017-006",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2017-006",
       "subcomponent": "TYPO3 CMS",
@@ -542,8 +542,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2017-004",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2017-004",
       "subcomponent": "TYPO3 CMS",
@@ -557,8 +557,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2020-011",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2020-011",
       "subcomponent": "Session Storage (ext:core)",
@@ -572,8 +572,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2020-010",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2020-010",
       "subcomponent": "Fluid (ext:fluid)",
@@ -587,8 +587,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2020-009",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2020-009",
       "subcomponent": "Fluid Engine (package typo3fluid/fluid)",
@@ -602,8 +602,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2021-008",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2021-008",
       "subcomponent": "Content Preview Renderer (ext:backend)",
@@ -617,8 +617,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2021-006",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2021-006",
       "subcomponent": "Session Storage (ext:core)",
@@ -632,8 +632,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2021-003",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2021-003",
       "subcomponent": "Form Framework (ext:form)",
@@ -647,8 +647,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2021-002",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2021-002",
       "subcomponent": "Form Framework (ext:form)",
@@ -662,8 +662,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2021-001",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2021-001",
       "subcomponent": "Login Handling (ext:core)",
@@ -677,8 +677,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2021-013",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2021-013",
       "subcomponent": "Content Rendering, HTML Parser (ext:frontend, ext:core)",
@@ -692,8 +692,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2021-012",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2021-012",
       "subcomponent": "User Authentication (ext:core)",
@@ -707,8 +707,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2021-011",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2021-011",
       "subcomponent": "Backend Grid View (ext:backend)",
@@ -722,8 +722,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2021-010",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2021-010",
       "subcomponent": "Query Generator & Query View (ext:lowlevel, ext:core)",
@@ -737,13 +737,13 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "extension_Version": "unknown",
       "repository": "https://extensions.typo3.org/extension/extbase",
       "typo3_version": "8.7",
       "version_file": "not found",
-      "vulnerabilities": Array [],
+      "vulnerabilities": [],
     },
     "category": "Extension",
     "description": "Extension extbase (Log4Php) found",
@@ -752,13 +752,13 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "extension_Version": "unknown",
       "repository": "https://extensions.typo3.org/extension/feedit",
       "typo3_version": "8.7",
       "version_file": "not found",
-      "vulnerabilities": Array [],
+      "vulnerabilities": [],
     },
     "category": "Extension",
     "description": "Extension feedit (Frontend Editing) found",
@@ -767,13 +767,13 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "extension_Version": "unknown",
       "repository": "https://extensions.typo3.org/extension/func",
       "typo3_version": "8.7",
       "version_file": "not found",
-      "vulnerabilities": Array [],
+      "vulnerabilities": [],
     },
     "category": "Extension",
     "description": "Extension func (WebFunc) found",
@@ -782,13 +782,13 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "extension_Version": "unknown",
       "repository": "https://extensions.typo3.org/extension/rsaauth",
       "typo3_version": "8.7",
       "version_file": "not found",
-      "vulnerabilities": Array [],
+      "vulnerabilities": [],
     },
     "category": "Extension",
     "description": "Extension rsaauth (RSA authentication for TYPO3) found",
@@ -797,13 +797,13 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "extension_Version": "unknown",
       "repository": "https://extensions.typo3.org/extension/sys_action",
       "typo3_version": "8.7",
       "version_file": "not found",
-      "vulnerabilities": Array [],
+      "vulnerabilities": [],
     },
     "category": "Extension",
     "description": "Extension sys_action (UserTask Center, Actions) found",
@@ -812,13 +812,13 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "extension_Version": "unknown",
       "repository": "https://extensions.typo3.org/extension/taskcenter",
       "typo3_version": "8.7",
       "version_file": "not found",
-      "vulnerabilities": Array [],
+      "vulnerabilities": [],
     },
     "category": "Extension",
     "description": "Extension taskcenter (UserTask Center) found",
@@ -827,14 +827,14 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "extension_Version": "unknown",
       "repository": "https://extensions.typo3.org/extension/tstemplate",
       "typo3_version": "8.7",
       "version_file": "not found",
-      "vulnerabilities": Array [
-        Object {
+      "vulnerabilities": [
+        {
           "Current": "stable",
           "Name": "news",
           "Repo": "https://extensions.typo3.org/extension/news",
@@ -842,13 +842,13 @@ Array [
           "Url": "http://localhost:80/typo3/sysext/news/",
           "Version": "3.1.0",
           "Version File": "http://localhost:80/typo3conf/ext/news/Documentation/Settings.yml",
-          "Vulnerabilities": Array [
-            Object {
+          "Vulnerabilities": [
+            {
               "Advisory": "TYPO3-EXT-SA-2017-001",
               "Affected": "3.2.6 - 0.0.0",
               "Vulnerability Type": "SQL Injection",
             },
-            Object {
+            {
               "Advisory": "TYPO3-EXT-SA-2015-017",
               "Affected": "3.2.1 - 0.0.0",
               "Vulnerability Type": "Cross-Site Scripting",
@@ -868,9 +868,9 @@ Array [
 `;
 
 exports[`parser parses large json result without vulnerable extensions successfully 1`] = `
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-026",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-026",
       "subcomponent": "Query Generator & Query View (ext:lowlevel, ext:core)",
@@ -884,8 +884,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-025",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-025",
       "subcomponent": "Query Generator (ext:lowlevel)",
@@ -899,8 +899,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-024",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-024",
       "subcomponent": "Extension Manager (ext:extensionmanger)",
@@ -914,8 +914,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-023",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-023",
       "subcomponent": "Filelist Module (ext:filelist)",
@@ -929,8 +929,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-022",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-022",
       "subcomponent": "Link Handling (ext:core, ext:frontend)",
@@ -944,8 +944,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-021",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-021",
       "subcomponent": "Form Framework (ext:form)",
@@ -959,8 +959,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-020",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-020",
       "subcomponent": "Backend & Core API (ext:backend, ext:core)",
@@ -974,8 +974,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-019",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-019",
       "subcomponent": "Backend API (ext:backend)",
@@ -989,8 +989,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-018",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-018",
       "subcomponent": "Frontend Session Handling (ext:frontend)",
@@ -1004,8 +1004,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-015",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-015",
       "subcomponent": "Link Handling (ext:core)",
@@ -1019,8 +1019,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-014",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-014",
       "subcomponent": "Backend User Interface (ext:backend)",
@@ -1034,8 +1034,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-013",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-013",
       "subcomponent": "Fluid Engine (package typo3fluid/fluid)",
@@ -1049,8 +1049,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-012",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-012",
       "subcomponent": "Image Processing via ImageMagick (ext:core)",
@@ -1064,8 +1064,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-011",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-011",
       "subcomponent": "User Session Handling (ext:core)",
@@ -1079,8 +1079,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-008",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-008",
       "subcomponent": "File List (ext:filelist)",
@@ -1094,8 +1094,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-007",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-007",
       "subcomponent": "Form Framework (ext:form)",
@@ -1109,8 +1109,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-006",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-006",
       "subcomponent": "3rd party library Bootstrap CSS toolkit",
@@ -1124,8 +1124,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-005",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-005",
       "subcomponent": "Fluid (ext:fluid)",
@@ -1139,8 +1139,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-003",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-003",
       "subcomponent": "Localization Handling",
@@ -1154,8 +1154,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-002",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-002",
       "subcomponent": "Backend User Account Model (ext:core)",
@@ -1169,8 +1169,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2019-001",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2019-001",
       "subcomponent": "RequireJS package configuration",
@@ -1184,8 +1184,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-012",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-012",
       "subcomponent": "Frontend Session Handling",
@@ -1199,8 +1199,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-011",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-011",
       "subcomponent": "Online media asset handling",
@@ -1214,8 +1214,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-010",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-010",
       "subcomponent": "Install Tool",
@@ -1229,8 +1229,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-009",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-009",
       "subcomponent": "Install Tool Session Handling",
@@ -1244,8 +1244,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-008",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-008",
       "subcomponent": "Frontend user login",
@@ -1259,8 +1259,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-007",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-007",
       "subcomponent": "Backend modal component",
@@ -1274,8 +1274,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-006",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-006",
       "subcomponent": "Online media asset rendering",
@@ -1289,8 +1289,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-005",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-005",
       "subcomponent": "3rd party JavaScript library CKEditor",
@@ -1304,8 +1304,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-004",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-004",
       "subcomponent": "Form Framework (ext:form)",
@@ -1319,8 +1319,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-003",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-003",
       "subcomponent": "Form Framework (ext:form)",
@@ -1334,8 +1334,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-002",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-002",
       "subcomponent": "TYPO3 CMS",
@@ -1349,8 +1349,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2018-001",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2018-001",
       "subcomponent": "Salted Passwords (ext:saltedpasswords)",
@@ -1364,8 +1364,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2017-007",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2017-007",
       "subcomponent": "TYPO3 CMS",
@@ -1379,8 +1379,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2017-005",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2017-005",
       "subcomponent": "TYPO3 CMS",
@@ -1394,8 +1394,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2017-006",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2017-006",
       "subcomponent": "TYPO3 CMS",
@@ -1409,8 +1409,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2017-004",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2017-004",
       "subcomponent": "TYPO3 CMS",
@@ -1424,8 +1424,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2020-011",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2020-011",
       "subcomponent": "Session Storage (ext:core)",
@@ -1439,8 +1439,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2020-010",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2020-010",
       "subcomponent": "Fluid (ext:fluid)",
@@ -1454,8 +1454,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2020-009",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2020-009",
       "subcomponent": "Fluid Engine (package typo3fluid/fluid)",
@@ -1469,8 +1469,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2021-008",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2021-008",
       "subcomponent": "Content Preview Renderer (ext:backend)",
@@ -1484,8 +1484,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2021-006",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2021-006",
       "subcomponent": "Session Storage (ext:core)",
@@ -1499,8 +1499,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2021-003",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2021-003",
       "subcomponent": "Form Framework (ext:form)",
@@ -1514,8 +1514,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2021-002",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2021-002",
       "subcomponent": "Form Framework (ext:form)",
@@ -1529,8 +1529,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2021-001",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2021-001",
       "subcomponent": "Login Handling (ext:core)",
@@ -1544,8 +1544,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2021-013",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2021-013",
       "subcomponent": "Content Rendering, HTML Parser (ext:frontend, ext:core)",
@@ -1559,8 +1559,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2021-012",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2021-012",
       "subcomponent": "User Authentication (ext:core)",
@@ -1574,8 +1574,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2021-011",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2021-011",
       "subcomponent": "Backend Grid View (ext:backend)",
@@ -1589,8 +1589,8 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "advisory": "TYPO3-CORE-SA-2021-010",
       "advisory_url": "https://typo3.org/security/advisory/typo3-core-sa-2021-010",
       "subcomponent": "Query Generator & Query View (ext:lowlevel, ext:core)",
@@ -1604,13 +1604,13 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "extension_Version": "unknown",
       "repository": "https://extensions.typo3.org/extension/extbase",
       "typo3_version": "8.7",
       "version_file": "not found",
-      "vulnerabilities": Array [],
+      "vulnerabilities": [],
     },
     "category": "Extension",
     "description": "Extension extbase (Log4Php) found",
@@ -1619,13 +1619,13 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "extension_Version": "unknown",
       "repository": "https://extensions.typo3.org/extension/feedit",
       "typo3_version": "8.7",
       "version_file": "not found",
-      "vulnerabilities": Array [],
+      "vulnerabilities": [],
     },
     "category": "Extension",
     "description": "Extension feedit (Frontend Editing) found",
@@ -1634,13 +1634,13 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "extension_Version": "unknown",
       "repository": "https://extensions.typo3.org/extension/func",
       "typo3_version": "8.7",
       "version_file": "not found",
-      "vulnerabilities": Array [],
+      "vulnerabilities": [],
     },
     "category": "Extension",
     "description": "Extension func (WebFunc) found",
@@ -1649,13 +1649,13 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "extension_Version": "unknown",
       "repository": "https://extensions.typo3.org/extension/rsaauth",
       "typo3_version": "8.7",
       "version_file": "not found",
-      "vulnerabilities": Array [],
+      "vulnerabilities": [],
     },
     "category": "Extension",
     "description": "Extension rsaauth (RSA authentication for TYPO3) found",
@@ -1664,13 +1664,13 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "extension_Version": "unknown",
       "repository": "https://extensions.typo3.org/extension/sys_action",
       "typo3_version": "8.7",
       "version_file": "not found",
-      "vulnerabilities": Array [],
+      "vulnerabilities": [],
     },
     "category": "Extension",
     "description": "Extension sys_action (UserTask Center, Actions) found",
@@ -1679,13 +1679,13 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "extension_Version": "unknown",
       "repository": "https://extensions.typo3.org/extension/taskcenter",
       "typo3_version": "8.7",
       "version_file": "not found",
-      "vulnerabilities": Array [],
+      "vulnerabilities": [],
     },
     "category": "Extension",
     "description": "Extension taskcenter (UserTask Center) found",
@@ -1694,13 +1694,13 @@ Array [
     "osi_layer": "APPLICATION",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "extension_Version": "unknown",
       "repository": "https://extensions.typo3.org/extension/tstemplate",
       "typo3_version": "8.7",
       "version_file": "not found",
-      "vulnerabilities": Array [],
+      "vulnerabilities": [],
     },
     "category": "Extension",
     "description": "Extension tstemplate (WebTemplate) found",

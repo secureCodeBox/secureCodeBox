@@ -9,7 +9,7 @@ jest.retryTimes(3);
 test(
   "Whatweb scans example.com",
   async () => {
-    const { categories, severities, count } = await scan(
+    const {categories, severities, count} = await scan(
       "whatweb-example",
       "whatweb",
       ["example.com"],
@@ -18,15 +18,15 @@ test(
 
     expect(count).toBe(1);
     expect(categories).toMatchInlineSnapshot(`
-      Object {
+      {
         "WEB APPLICATION": 1,
       }
     `);
     expect(severities).toMatchInlineSnapshot(`
-Object {
-  "informational": 1,
-}
-`);
+      {
+        "informational": 1,
+      }
+    `);
   },
   3 * 60 * 1000
 );

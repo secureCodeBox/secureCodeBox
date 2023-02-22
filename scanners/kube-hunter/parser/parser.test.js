@@ -36,5 +36,5 @@ test("should properly parse empty kube-hunter json file", async () => {
   );
   const findings = await parse(jsonContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
-  expect(findings).toMatchInlineSnapshot("Array []");
+  expect(findings).toMatchInlineSnapshot(`[]`);
 });

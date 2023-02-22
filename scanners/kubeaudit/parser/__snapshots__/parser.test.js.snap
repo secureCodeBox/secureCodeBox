@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should properly parse kubeaudit juice-shop results 1`] = `
-Array [
-  Object {
-    "attributes": Object {},
+[
+  {
+    "attributes": {},
     "category": "Automounted ServiceAccount Token",
     "description": "Default service account with token mounted. automountServiceAccountToken should be set to 'false' on either the ServiceAccount or on the PodSpec or a non-default service account should be used.",
     "location": null,
@@ -11,8 +11,8 @@ Array [
     "osi_layer": "NOT_APPLICABLE",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "capability": "AUDIT_WRITE",
       "container": "juice-shop",
     },
@@ -23,8 +23,8 @@ Array [
     "osi_layer": "NOT_APPLICABLE",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "capability": "CHOWN",
       "container": "juice-shop",
     },
@@ -35,8 +35,8 @@ Array [
     "osi_layer": "NOT_APPLICABLE",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "capability": "DAC_OVERRIDE",
       "container": "juice-shop",
     },
@@ -47,8 +47,8 @@ Array [
     "osi_layer": "NOT_APPLICABLE",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "capability": "FOWNER",
       "container": "juice-shop",
     },
@@ -59,8 +59,8 @@ Array [
     "osi_layer": "NOT_APPLICABLE",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "capability": "FSETID",
       "container": "juice-shop",
     },
@@ -71,8 +71,8 @@ Array [
     "osi_layer": "NOT_APPLICABLE",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "capability": "KILL",
       "container": "juice-shop",
     },
@@ -83,8 +83,8 @@ Array [
     "osi_layer": "NOT_APPLICABLE",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "capability": "MKNOD",
       "container": "juice-shop",
     },
@@ -95,8 +95,8 @@ Array [
     "osi_layer": "NOT_APPLICABLE",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "capability": "NET_BIND_SERVICE",
       "container": "juice-shop",
     },
@@ -107,8 +107,8 @@ Array [
     "osi_layer": "NOT_APPLICABLE",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "capability": "NET_RAW",
       "container": "juice-shop",
     },
@@ -119,8 +119,8 @@ Array [
     "osi_layer": "NOT_APPLICABLE",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "capability": "SETFCAP",
       "container": "juice-shop",
     },
@@ -131,8 +131,8 @@ Array [
     "osi_layer": "NOT_APPLICABLE",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "capability": "SETGID",
       "container": "juice-shop",
     },
@@ -143,8 +143,8 @@ Array [
     "osi_layer": "NOT_APPLICABLE",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "capability": "SETPCAP",
       "container": "juice-shop",
     },
@@ -155,8 +155,8 @@ Array [
     "osi_layer": "NOT_APPLICABLE",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "capability": "SETUID",
       "container": "juice-shop",
     },
@@ -167,8 +167,8 @@ Array [
     "osi_layer": "NOT_APPLICABLE",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "capability": "SYS_CHROOT",
       "container": "juice-shop",
     },
@@ -179,8 +179,8 @@ Array [
     "osi_layer": "NOT_APPLICABLE",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "container": "juice-shop",
     },
     "category": "Non Root User Not Enforced",
@@ -190,8 +190,8 @@ Array [
     "osi_layer": "NOT_APPLICABLE",
     "severity": "MEDIUM",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "container": "juice-shop",
     },
     "category": "Non ReadOnly Root Filesystem",
@@ -201,14 +201,14 @@ Array [
     "osi_layer": "NOT_APPLICABLE",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "Namespace": "default",
     },
     "category": "No Default Deny NetworkPolicy",
     "description": "Namespace is missing a default deny ingress and egress NetworkPolicy.",
     "location": "namespace://default",
-    "name": "Namespace \\"default\\" is missing a Default Deny NetworkPolicy",
+    "name": "Namespace "default" is missing a Default Deny NetworkPolicy",
     "osi_layer": "NOT_APPLICABLE",
     "severity": "MEDIUM",
   },

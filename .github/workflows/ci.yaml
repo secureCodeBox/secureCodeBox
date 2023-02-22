@@ -21,7 +21,7 @@ env:
   GO_VERSION: "1.19"
   PYTHON_VERSION: "3.8.10"
   NODE_VERSION: "16"
-  NPM_VERSION: "7"
+  NPM_VERSION: "8.19.2"
 
 jobs:
   # ---- Unit-Test ----
@@ -576,6 +576,8 @@ jobs:
         run: make kind-import
 
       # ---- Install Test Dependencies ----
+      - name: Update NPM
+        run: npm i -g npm@${{ env.NPM_VERSION }}
 
       - name: "Install Test Dependencies"
         working-directory: ./hooks

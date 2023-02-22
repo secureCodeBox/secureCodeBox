@@ -24,9 +24,9 @@ test("should properly parse nmap xml file", async () => {
   // validate findings
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "hostname": "localhost",
       "ip_address": "127.0.0.1",
       "mac_address": null,
@@ -48,8 +48,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "localhost",
       "ip_address": "127.0.0.1",
       "mac_address": null,
@@ -71,8 +71,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "localhost",
       "ip_address": "127.0.0.1",
       "mac_address": null,
@@ -94,8 +94,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "localhost",
       "ip_address": "127.0.0.1",
       "mac_address": null,
@@ -117,8 +117,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "localhost",
       "ip_address": "127.0.0.1",
       "operating_system": null,
@@ -142,22 +142,22 @@ test("should properly parse a nmap xml without any ports", async () => {
   const findings = await parse(xmlContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "attributes": Object {
-          "hostname": "localhost",
-          "ip_address": "127.0.0.1",
-          "operating_system": null,
-        },
-        "category": "Host",
-        "description": "Found a host",
-        "location": "localhost",
-        "name": "Host: localhost",
-        "osi_layer": "NETWORK",
-        "severity": "INFORMATIONAL",
-      },
-    ]
-  `);
+[
+  {
+    "attributes": {
+      "hostname": "localhost",
+      "ip_address": "127.0.0.1",
+      "operating_system": null,
+    },
+    "category": "Host",
+    "description": "Found a host",
+    "location": "localhost",
+    "name": "Host: localhost",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+  },
+]
+`);
 });
 
 test("should properly parse a nmap xml without any host", async () => {
@@ -167,7 +167,7 @@ test("should properly parse a nmap xml without any host", async () => {
 
   const findings = await parse(xmlContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
-  expect(findings).toMatchInlineSnapshot(`Array []`);
+  expect(findings).toMatchInlineSnapshot(`[]`);
 });
 
 test("should properly parse a nmap xml with missing service information", async () => {
@@ -181,9 +181,9 @@ test("should properly parse a nmap xml with missing service information", async 
   const findings = await parse(xmlContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "hostname": "example.com",
       "ip_address": "93.184.216.34",
       "mac_address": null,
@@ -205,8 +205,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "example.com",
       "ip_address": "93.184.216.34",
       "operating_system": null,
@@ -233,9 +233,9 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
   const findings = await parse(xmlContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(await parse(xmlContent)).toMatchInlineSnapshot(`
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "hostname": "example.com",
       "ip_address": "10.50.0.2",
       "mac_address": null,
@@ -257,8 +257,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "example.com",
       "ip_address": "10.50.0.2",
       "operating_system": null,
@@ -270,8 +270,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "example.com",
       "ip_address": "10.50.0.2",
       "mac_address": null,
@@ -293,8 +293,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "HIGH",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "example.com",
       "ip_address": "10.50.0.2",
       "mac_address": null,
@@ -316,8 +316,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "example.com",
       "ip_address": "10.50.0.2",
       "mac_address": null,
@@ -339,8 +339,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "LOW",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "example.com",
       "ip_address": "10.50.0.2",
       "mac_address": null,
@@ -362,8 +362,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "example.com",
       "ip_address": "10.50.0.2",
       "mac_address": null,
@@ -385,8 +385,8 @@ Array [
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "example.com",
       "ip_address": "10.50.0.2",
       "mac_address": null,
@@ -419,9 +419,9 @@ test("should properly parse a script finding for ftp in an xml file", async () =
   const findings = await parse(xmlContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(await parse(xmlContent)).toMatchInlineSnapshot(`
-Array [
-  Object {
-    "attributes": Object {
+[
+  {
+    "attributes": {
       "hostname": "dummy-ftp.demo-targets.svc.cluster.local",
       "ip_address": "10.103.42.74",
       "mac_address": null,
@@ -429,9 +429,9 @@ Array [
       "operating_system": null,
       "port": 21,
       "protocol": "tcp",
-      "scripts": Object {
-        "banner": "220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------\\\\x
-0D\\\\x0A220-You are user number 2 of 30 allowed.\\\\x0D\\\\x0A220-Local time...
+      "scripts": {
+        "banner": "220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------\\x
+0D\\x0A220-You are user number 2 of 30 allowed.\\x0D\\x0A220-Local time...
 ",
         "ftp-anon": "Anonymous FTP login allowed (FTP code 230)
 Can't get directory listing: PASV IP 127.0.0.1 is not the same as 10.103.42.74",
@@ -449,8 +449,8 @@ Can't get directory listing: PASV IP 127.0.0.1 is not the same as 10.103.42.74",
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "hostname": "dummy-ftp.demo-targets.svc.cluster.local",
       "ip_address": "10.103.42.74",
       "operating_system": null,
@@ -462,10 +462,10 @@ Can't get directory listing: PASV IP 127.0.0.1 is not the same as 10.103.42.74",
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
-      "banner": "220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------\\\\x
-0D\\\\x0A220-You are user number 2 of 30 allowed.\\\\x0D\\\\x0A220-Local time...
+  {
+    "attributes": {
+      "banner": "220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------\\x
+0D\\x0A220-You are user number 2 of 30 allowed.\\x0D\\x0A220-Local time...
 ",
       "script": "banner",
     },
@@ -476,8 +476,8 @@ Can't get directory listing: PASV IP 127.0.0.1 is not the same as 10.103.42.74",
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
   },
-  Object {
-    "attributes": Object {
+  {
+    "attributes": {
       "script": "ftp-anon",
     },
     "category": "FTP",
