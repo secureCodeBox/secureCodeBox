@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-function createDropCapabilityFinding({ Capability, Container, msg }) {
+function createDropCapabilityFinding({ Capability, Container, msg, time }) {
   return {
     name: `Capability '${Capability}' Not Dropped`,
+    identified_at: time,
     description: msg,
     category: "Capability Not Dropped",
     location: `container://${Container}`,
@@ -17,9 +18,10 @@ function createDropCapabilityFinding({ Capability, Container, msg }) {
   };
 }
 
-function createNonReadOnlyRootFsFinding({ Container, msg }) {
+function createNonReadOnlyRootFsFinding({ Container, msg, time }) {
   return {
     name: `Container Uses a non ReadOnly Root Filesystem`,
+    identified_at: time,
     description: msg,
     category: "Non ReadOnly Root Filesystem",
     location: `container://${Container}`,
@@ -31,9 +33,10 @@ function createNonReadOnlyRootFsFinding({ Container, msg }) {
   };
 }
 
-function createPrivilegedContainerFinding({ Container, msg }) {
+function createPrivilegedContainerFinding({ Container, msg, time }) {
   return {
     name: `Container using Privileged Flag`,
+    identified_at: time,
     description: msg,
     category: "Privileged Container",
     location: `container://${Container}`,
@@ -45,9 +48,10 @@ function createPrivilegedContainerFinding({ Container, msg }) {
   };
 }
 
-function createAutomountedServiceAccountTokenFinding({ msg }) {
+function createAutomountedServiceAccountTokenFinding({ msg, time }) {
   return {
     name: `Default ServiceAccount uses Automounted Service Account Token`,
+    identified_at: time,
     description: msg,
     category: "Automounted ServiceAccount Token",
     location: null,
@@ -57,9 +61,10 @@ function createAutomountedServiceAccountTokenFinding({ msg }) {
   };
 }
 
-function createNonRootUserNotEnforcedFinding({ msg, Container }) {
+function createNonRootUserNotEnforcedFinding({ msg, Container, time }) {
   return {
     name: `NonRoot User not enforced for Container`,
+    identified_at: time,
     description: msg,
     category: "Non Root User Not Enforced",
     location: `container://${Container}`,
@@ -71,9 +76,10 @@ function createNonRootUserNotEnforcedFinding({ msg, Container }) {
   };
 }
 
-function createMissingNetworkPolicyFinding({ msg, Namespace }) {
+function createMissingNetworkPolicyFinding({ msg, Namespace, time }) {
   return {
     name: `Namespace "${Namespace}" is missing a Default Deny NetworkPolicy`,
+    identified_at: time,
     description: msg,
     category: "No Default Deny NetworkPolicy",
     location: `namespace://${Namespace}`,

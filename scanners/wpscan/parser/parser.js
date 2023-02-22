@@ -14,6 +14,8 @@ async function parse(scanResults) {
 
   const targetUrl = scanResults.target_url;
   const targetIp = scanResults.target_ip;
+  // convert unix timestamp to ISO date string, multiply by 1000 because JS uses milliseconds
+  const identified_at = new Date(scanResults.stop_time * 1000).toISOString();  
 
   const findings = [];
 
@@ -21,6 +23,7 @@ async function parse(scanResults) {
   findings.push({
     name: "WordPress Service",
     description: "WordPress Service Information",
+    identified_at: identified_at,
     category: "WordPress Service",
     location: targetUrl,
     osi_layer: "APPLICATION",

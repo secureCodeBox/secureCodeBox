@@ -95,6 +95,7 @@ exports[`parses log4shell result correctly 1`] = `
     },
     "category": "CVE-2021-44228",
     "description": "Apache Log4j2 <=2.14.1 JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints. An attacker who can control log messages or log message parameters can execute arbitrary code loaded from LDAP servers when message lookup substitution is enabled.",
+    "identified_at": "2021-12-21T15:36:21.962Z",
     "location": "http://10.1.6.107:8080",
     "name": "Remote code injection in Log4j",
     "severity": "HIGH",
@@ -154,6 +155,7 @@ Content-Length: 0
     },
     "category": "options-method",
     "description": "The name of the nuclei rule which triggered the finding: options-method",
+    "identified_at": "2022-09-09T19:56:16.141Z",
     "location": "https://example.com",
     "name": "Allowed Options Method",
     "severity": "INFORMATIONAL",
@@ -196,6 +198,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     },
     "category": "addeventlistener-detect",
     "description": "The name of the nuclei rule which triggered the finding: addeventlistener-detect",
+    "identified_at": "2022-09-09T19:26:27.762Z",
     "location": "https://www.securecodebox.io",
     "name": "DOM EventListener detection",
     "severity": "INFORMATIONAL",
@@ -232,6 +235,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     },
     "category": "email-extractor",
     "description": "The name of the nuclei rule which triggered the finding: email-extractor",
+    "identified_at": "2022-09-09T19:26:27.777Z",
     "location": "https://www.securecodebox.io",
     "name": "Email Extractor",
     "severity": "INFORMATIONAL",
@@ -270,6 +274,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     },
     "category": "metatag-cms",
     "description": "Generic CMS Detection using html meta generator tag",
+    "identified_at": "2022-09-09T19:26:28.511Z",
     "location": "https://www.securecodebox.io",
     "name": "Metatag CMS Detection",
     "severity": "INFORMATIONAL",
@@ -311,6 +316,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:27:13.644Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -352,6 +358,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:27:13.644Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -393,6 +400,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:27:13.644Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -434,6 +442,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:27:13.644Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -475,6 +484,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:27:13.645Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -516,6 +526,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:27:13.645Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -557,6 +568,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:27:13.655Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -598,6 +610,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:27:13.659Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -639,6 +652,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:27:13.659Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -680,6 +694,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:27:13.659Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -721,6 +736,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:27:13.659Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -762,6 +778,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:27:13.660Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -803,6 +820,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:27:13.660Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -844,6 +862,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:27:13.660Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -885,6 +904,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:27:13.660Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -926,6 +946,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:27:13.660Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -965,6 +986,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     },
     "category": "cname-fingerprint",
     "description": "A CNAME DNS record was discovered.",
+    "identified_at": "2022-09-09T19:27:25.325Z",
     "location": "https://www.securecodebox.io",
     "name": "CNAME Fingerprint",
     "severity": "INFORMATIONAL",
@@ -1000,6 +1022,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     },
     "category": "tls-version",
     "description": "The name of the nuclei rule which triggered the finding: tls-version",
+    "identified_at": "2022-09-09T19:27:53.046Z",
     "location": "https://www.securecodebox.io",
     "name": "TLS Version",
     "severity": "INFORMATIONAL",
@@ -1036,6 +1059,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     },
     "category": "ssl-dns-names",
     "description": "The name of the nuclei rule which triggered the finding: ssl-dns-names",
+    "identified_at": "2022-09-09T19:28:02.187Z",
     "location": "https://www.securecodebox.io",
     "name": "SSL DNS Names",
     "severity": "INFORMATIONAL",
@@ -1082,6 +1106,7 @@ exports[`parses the example.com result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:18:55.271Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -1123,6 +1148,7 @@ exports[`parses the example.com result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:18:55.272Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -1164,6 +1190,7 @@ exports[`parses the example.com result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:18:55.272Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -1205,6 +1232,7 @@ exports[`parses the example.com result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:18:55.272Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -1246,6 +1274,7 @@ exports[`parses the example.com result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:18:55.272Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -1287,6 +1316,7 @@ exports[`parses the example.com result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:18:55.272Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -1328,6 +1358,7 @@ exports[`parses the example.com result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:18:55.292Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -1369,6 +1400,7 @@ exports[`parses the example.com result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:18:55.293Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -1410,6 +1442,7 @@ exports[`parses the example.com result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:18:55.293Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -1451,6 +1484,7 @@ exports[`parses the example.com result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:18:55.293Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -1492,6 +1526,7 @@ exports[`parses the example.com result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:18:55.293Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -1533,6 +1568,7 @@ exports[`parses the example.com result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:18:55.293Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -1574,6 +1610,7 @@ exports[`parses the example.com result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:18:55.293Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -1615,6 +1652,7 @@ exports[`parses the example.com result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:18:55.293Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -1656,6 +1694,7 @@ exports[`parses the example.com result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:18:55.293Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -1697,6 +1736,7 @@ exports[`parses the example.com result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:18:55.293Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -1738,6 +1778,7 @@ exports[`parses the example.com result correctly 1`] = `
     "category": "http-missing-security-headers",
     "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.
 ",
+    "identified_at": "2022-09-09T19:18:55.294Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
     "severity": "INFORMATIONAL",
@@ -1780,6 +1821,7 @@ exports[`parses the example.com result correctly 1`] = `
     },
     "category": "ssl-dns-names",
     "description": "The name of the nuclei rule which triggered the finding: ssl-dns-names",
+    "identified_at": "2022-09-09T19:18:55.401Z",
     "location": "https://example.com",
     "name": "SSL DNS Names",
     "severity": "INFORMATIONAL",
@@ -1816,6 +1858,7 @@ exports[`parses the example.com result correctly 1`] = `
     },
     "category": "options-method",
     "description": "The name of the nuclei rule which triggered the finding: options-method",
+    "identified_at": "2022-09-09T19:19:38.295Z",
     "location": "https://example.com",
     "name": "Allowed Options Method",
     "severity": "INFORMATIONAL",
@@ -1857,6 +1900,7 @@ exports[`parses the example.com result correctly 1`] = `
     "category": "deprecated-tls",
     "description": "Both TLS 1.1 and SSLv3 are deprecated in favor of stronger encryption.
 ",
+    "identified_at": "2022-09-09T19:20:23.432Z",
     "location": "https://example.com",
     "name": "Deprecated TLS Detection (TLS 1.1 or SSLv3)",
     "severity": "INFORMATIONAL",
@@ -1898,6 +1942,7 @@ exports[`parses the example.com result correctly 1`] = `
     "category": "deprecated-tls",
     "description": "Both TLS 1.1 and SSLv3 are deprecated in favor of stronger encryption.
 ",
+    "identified_at": "2022-09-09T19:20:23.731Z",
     "location": "https://example.com",
     "name": "Deprecated TLS Detection (TLS 1.1 or SSLv3)",
     "severity": "INFORMATIONAL",
@@ -1935,6 +1980,7 @@ exports[`parses the example.com result correctly 1`] = `
     },
     "category": "nameserver-fingerprint",
     "description": "An NS record was detected. An NS record delegates a subdomain to a set of name servers.",
+    "identified_at": "2022-09-09T19:20:29.548Z",
     "location": "https://example.com",
     "name": "NS Record Detection",
     "severity": "INFORMATIONAL",
@@ -1979,6 +2025,7 @@ exports[`parses the example.com result correctly 1`] = `
     },
     "category": "dnssec-detection",
     "description": "Domain Name System Security Extensions (DNSSEC) are enabled. The Delegation of Signing (DS) record provides information about a signed zone file when DNSSEC enabled.",
+    "identified_at": "2022-09-09T19:20:38.059Z",
     "location": "https://example.com",
     "name": "DNSSEC Detection",
     "severity": "INFORMATIONAL",
@@ -2018,6 +2065,7 @@ exports[`parses the example.com result correctly 1`] = `
     },
     "category": "txt-fingerprint",
     "description": "A DNS TXT record was detected. The TXT record lets a domain admin leave notes on a DNS server.",
+    "identified_at": "2022-09-09T19:20:45.095Z",
     "location": "https://example.com",
     "name": "DNS TXT Record Detected",
     "severity": "INFORMATIONAL",
@@ -2057,6 +2105,7 @@ exports[`parses the example.com result correctly 1`] = `
     },
     "category": "mx-fingerprint",
     "description": "An MX record was detected. MX records direct emails to a mail exchange server.",
+    "identified_at": "2022-09-09T19:20:54.419Z",
     "location": "https://example.com",
     "name": "MX Record Detection",
     "severity": "INFORMATIONAL",
@@ -2092,6 +2141,7 @@ exports[`parses the example.com result correctly 1`] = `
     },
     "category": "tls-version",
     "description": "The name of the nuclei rule which triggered the finding: tls-version",
+    "identified_at": "2022-09-09T19:21:04.604Z",
     "location": "https://example.com",
     "name": "TLS Version",
     "severity": "INFORMATIONAL",
@@ -2129,6 +2179,7 @@ exports[`parses the example.com result correctly 1`] = `
     },
     "category": "azure-domain-tenant",
     "description": "Checks if the domain is part of an Azure tenant and finds the ID using Azure's OpenID discovery page.",
+    "identified_at": "2022-09-09T19:21:17.696Z",
     "location": "https://example.com",
     "name": "Microsoft Azure - Domain Tenant ID",
     "severity": "INFORMATIONAL",
