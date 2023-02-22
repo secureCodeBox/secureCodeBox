@@ -31,6 +31,18 @@ spec:
           name: {{ .Values.hook.authentication.basic.userSecret }}
           key: {{ .Values.hook.authentication.basic.passwordKey }}
           optional: true
+    - name: WEBHOOK_APIKEY
+      valueFrom:
+        secretKeyRef:
+          name: {{ .Values.hook.authentication.apikey.userSecret }}
+          key: {{ .Values.hook.authentication.apikey.headerName }}
+          optional: true
+    - name: WEBHOOK_APIKEY_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: {{ .Values.hook.authentication.apikey.userSecret }}
+          key: {{ .Values.hook.authentication.apikey.headerValue }}
+          optional: true
   affinity:
     {{- toYaml .Values.hook.affinity | nindent 4 }}
   tolerations:

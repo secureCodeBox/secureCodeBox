@@ -35,8 +35,14 @@ hook:
   # hook.tolerations -- Optional tolerations settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
   tolerations: []
 
-  # hook.authentication -- Optional basic authentication credentials
+  # hook.authentication -- Optional basic authentication credentials or apikey
   authentication:
+    apikey:
+      # -- Link a pre-existing generic secret with `usernameKey` and `passwordKey` key / value pairs
+      userSecret: generic-webhook-credentials
+      # -- Customize header name as per your needs ex: X-Api-Key
+      headerName: X-Example-Header
+      headerValue: example
     basic:
       # -- Link a pre-existing generic secret with `usernameKey` and `passwordKey` key / value pairs
       userSecret: generic-webhook-credentials
