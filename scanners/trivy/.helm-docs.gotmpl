@@ -39,13 +39,15 @@ The following security scan configuration example are based on the [Trivy Docume
 
 ### Trivy Container Image Scan
 
-Currently we support the follwing 3 scanTypes, corresponding to the trivy scanning modes:
+Currently we support the follwing 4 scanTypes, corresponding to the trivy scanning modes:
 - scanType: "trivy-image"
    - parameters: `[YOUR_IMAGE_NAME]`
 - scanType: "trivy-filesystem"
    - parameters: `[YOUR_PATH_TO_FILES]`
 - scanType: "trivy-repo"
    - parameters: `[YOUR_GITHUB_REPO]`
+- scanType: "trivy-k8s"
+   - parameters: `[KUBERNETES_RESOURCE]`
 
 A complete example of each scanType are listed below in our [example docs section](https://www.securecodebox.io/docs/scanners/trivy/#examples).
 

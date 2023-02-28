@@ -11,7 +11,7 @@ const {
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 const readFile = util.promisify(fs.readFile);
 
-const { parse } = require("./parser");
+const {parse} = require("./parser");
 
 test("parses bkimminich/juice-shop:v10.2.0 result file into findings", async () => {
   const fileContent = JSON.parse(
@@ -56,6 +56,40 @@ test("should properly parse a json file with no .Results", async () => {
   const findings = await parse(fileContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
+
+});
+
+test("should parse a trivy-k8s scan result of a cluster running secureCodeBox itself", async () => {
+  const jsonContent = JSON.parse(
+    await readFile(__dirname + "/__testFiles__/local-k8s-scan-result.json", {
+      encoding: "utf8",
+    })
+  );
+  const findings = await parse(jsonContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchSnapshot();
+});
+
+test("should report an error in case of unexpected attributes in a trivy-k8s scan result", async () => {
+  const jsonContent = JSON.parse(
+    await readFile(__dirname + "/__testFiles__/k8s-results_unexpected-attribute.json", {
+      encoding: "utf8",
+    })
+  );
+  await expect(parse(jsonContent)).rejects.toThrow(
+    "Unexpected attribute 'Secrets' on resource-item"
+  );
+});
+
+test("should parse a trivy-k8s scan result", async () => {
+  const jsonContent = JSON.parse(
+    await readFile(__dirname + "/__testFiles__/trivy--k8s-scan-results.json", {
+      encoding: "utf8",
+    })
+  );
+  const findings = await parse(jsonContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchSnapshot();
 });
 
 
