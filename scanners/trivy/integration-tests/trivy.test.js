@@ -98,3 +98,31 @@ test(
   },
   3 * 60 * 1000
 );
+
+test(
+  "trivy k8s scan should not fail",
+  async () => {
+    const { categories, severities, count } = await scan(
+      "trivy-k8s-test",
+      "trivy-k8s",
+      ["cluster"],
+      10 * 60 * 1000
+    );
+
+    // since the state of the k8s cluster in the test environment cannot be predicted, only the structure of the result is assured here
+    expect(count).toBeGreaterThanOrEqual(1);
+
+    const categoryNames = Object.keys(categories);
+    expect(categoryNames).toHaveLength(2);
+    expect(categoryNames.includes("Misconfiguration")).toBeTruthy();
+    expect(categoryNames.includes("Vulnerability")).toBeTruthy();
+
+    const severityNames = Object.keys(severities);
+    expect(severityNames).toHaveLength(4);
+    expect(severityNames.includes("high")).toBeTruthy();
+    expect(severityNames.includes("informational")).toBeTruthy();
+    expect(severityNames.includes("low")).toBeTruthy();
+    expect(severityNames.includes("medium")).toBeTruthy();
+  },
+  10 * 60 * 1000
+);

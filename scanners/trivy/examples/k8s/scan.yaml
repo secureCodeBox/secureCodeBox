@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "trivy-k8s"
+spec:  
+  scanType: "trivy-k8s"
+  parameters:
+    - "cluster"
