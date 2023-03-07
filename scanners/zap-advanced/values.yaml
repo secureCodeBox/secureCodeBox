@@ -117,6 +117,10 @@ scanner:
   # scanner.tolerations -- Optional tolerations settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
   tolerations: []
 
+  # -- Optional to configure the reportType of the scan ZAP Scan. Must be one of the supported formats: {XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD}
+  # @default -- "XML"
+  reportType: "XML"
+
 zapContainer:
   image:
     # -- Container Image to run the scan
