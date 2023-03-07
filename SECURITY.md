@@ -12,9 +12,8 @@ is roughly every two weeks (we will usually make a new release after each review
 
 | Version | Security Fixes* | Supported** |
 | ------- | ------------------ | ------------------ |
-| 3.1.x-alpha1 | :white_check_mark: | :white_check_mark: |
-| 3.0.x | :white_check_mark: | :white_check_mark: |
-| 2.9.x | :white_check_mark: | :white_check_mark: |
+| 4.x.x | :white_check_mark: | :white_check_mark: |
+| 3.15.x | :white_check_mark: | :white_check_mark: |
 | <= 2.9.x | :x: | :x: |
 | < 2.0 | :x: | :x: |
 
