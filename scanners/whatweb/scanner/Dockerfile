@@ -4,7 +4,7 @@
 
 FROM ruby:latest
 
-ARG scannerVersion=v0.5.5
+ARG scannerVersion
 RUN git clone --depth 1 --branch $scannerVersion https://github.com/urbanadventurer/WhatWeb.git \
     && cd WhatWeb \
     && make install
