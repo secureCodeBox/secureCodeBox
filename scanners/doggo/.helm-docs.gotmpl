@@ -11,10 +11,8 @@ category: "scanner"
 type: "Network"
 state: "released"
 appVersion: "{{ template "chart.appVersion" . }}"
-usecase: "NEW SCANNER USECASE"
+usecase: "DNS client (like dig)"
 ---
-
-ADD A [LOGO]() HERE!
 
 {{- end }}
 
@@ -27,24 +25,27 @@ ADD A [LOGO]() HERE!
 {{- define "extra.chartAboutSection" -}}
 ## What is doggo?
 
-Please write some information about the new scanner.
+doggo is a modern command-line DNS client (like dig) written in Golang. It outputs information in a neat concise manner and supports protocols like DoH, DoT, DoQ, and DNSCrypt as well.
+To learn more about the doggo scanner itself visit [doggo GitHub].
+
 {{- end }}
 
 {{- define "extra.scannerConfigurationSection" -}}
+## Scanner Configuration
 
-Please write how to configure the scanner
-
-{{- end }}
-
-{{- define "extra.chartConfigurationSection" -}}
-
-Please include any extra Helm chart configurations that can be useful.
+The following security scan configuration example are based on the [doggo User Guide], please take a look at the original documentation for more configuration examples.
+- Do a simple DNS Lookup: `doggo example.com`
+- Query MX records for github.com using 9.9.9.9 resolver: `doggo MX github.com @9.9.9.9`
 
 {{- end }}
+
+{{- define "extra.chartConfigurationSection" -}}{{- end }}
 
 {{- define "extra.scannerLinksSection" -}}
 
-Please include any links that can be used as a reference for the scanner.
-
+[doggo GitHub]: https://github.com/mr-karan/doggo
+[doggo Demo]: https://doggo.mrkaran.dev/
+[doggo CLI Documentation]: https://github.com/mr-karan/doggo#command-line-arguments
+[doggo User Guide]: https://github.com/mr-karan/doggo#usage-examples
 {{- end }}
 

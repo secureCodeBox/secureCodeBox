@@ -11,7 +11,7 @@ parser:
     repository: docker.io/securecodebox/parser-doggo
     # parser.image.tag -- Parser image tag
     # @default -- defaults to the charts version
-    tag: develop
+    tag: null
     # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
     pullPolicy: IfNotPresent
 
@@ -39,7 +39,7 @@ scanner:
     # scanner.image.repository -- Container Image to run the scan
     repository: docker.io/securecodebox/scanner-doggo
     # scanner.image.tag -- defaults to the charts appVersion
-    tag: develop
+    tag: null
     # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
     pullPolicy: IfNotPresent
 
