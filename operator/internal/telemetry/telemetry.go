@@ -102,7 +102,7 @@ func Loop(apiClient client.Client, log logr.Logger) {
 		if err != nil {
 			log.Error(err, "Failed to encode telemetry data to json")
 		}
-		response, err := http.Post("https://telemetry.chase.securecodebox.io/v1/submit", "application/json", bytes.NewBuffer(reqBody))
+		response, err := http.Post("https://telemetry.securecodebox.io/v1/submit", "application/json", bytes.NewBuffer(reqBody))
 		if err != nil {
 			log.Error(err, "Failed to send telemetry data")
 		}
