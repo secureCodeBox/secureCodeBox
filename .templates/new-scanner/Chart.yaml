@@ -11,7 +11,10 @@ type: application
 version: v3.1.0-alpha1
 appVersion: "" # Set appVersion
 kubeVersion: ">=v1.11.0-0"
-
+annotations:
+  #versionApi: https://api.github.com/repos/REPONAME/REPO/releases/latest
+  # supported cpu architectures for which docker images for the scanner should be build, e.g. "linux/amd64,linux/arm64"
+  supported-platforms: linux/amd64
 keywords:
   - security
   - new-scanner
