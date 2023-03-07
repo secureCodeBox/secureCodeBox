@@ -27,6 +27,7 @@ var officialScanTypes map[string]bool = map[string]bool{
 	"amass":                  true,
 	"angularjs-csti-scanner": true,
 	"cmseek":                 true,
+	"doggo":                  true,
 	"git-repo-scanner":       true,
 	"gitleaks":               true,
 	"kube-hunter":            true,
