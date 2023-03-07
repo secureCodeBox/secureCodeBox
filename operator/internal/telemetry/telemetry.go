@@ -27,6 +27,7 @@ var officialScanTypes map[string]bool = map[string]bool{
 	"amass":                  true,
 	"angularjs-csti-scanner": true,
 	"cmseek":                 true,
+	"ffuf":                   true,
 	"git-repo-scanner":       true,
 	"gitleaks":               true,
 	"kube-hunter":            true,
@@ -39,13 +40,16 @@ var officialScanTypes map[string]bool = map[string]bool{
 	"semgrep":                true,
 	"ssh-scan":               true,
 	"sslyze":                 true,
-	"trivy":                  true,
+	"trivy-image":            true,
+	"trivy-filesystem":       true,
+	"trivy-repo":             true,
 	"typo3scan":              true,
 	"whatweb":                true,
 	"wpscan":                 true,
 	"zap-baseline-scan":      true,
 	"zap-api-scan":           true,
 	"zap-full-scan":          true,
+	"zap-automation-scan":    true,
 	"zap-advanced-scan":      true,
 }
 
@@ -102,7 +106,7 @@ func Loop(apiClient client.Client, log logr.Logger) {
 		if err != nil {
 			log.Error(err, "Failed to encode telemetry data to json")
 		}
-		response, err := http.Post("https://telemetry.chase.securecodebox.io/v1/submit", "application/json", bytes.NewBuffer(reqBody))
+		response, err := http.Post("https://telemetry.securecodebox.io/v1/submit", "application/json", bytes.NewBuffer(reqBody))
 		if err != nil {
 			log.Error(err, "Failed to send telemetry data")
 		}
