@@ -57,3 +57,15 @@ test("should properly parse empty json file", async () => {
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
 });
+
+test("should properly parse a json file with empty .Results", async () => {
+  const jsonContent = await readFile(
+    __dirname + "/__testFiles__/juice-shop-v12.10.2-empty-results.json",
+    {
+      encoding: "utf8",
+    }
+  );
+  const findings = await parse(jsonContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot(`[]`);
+});
