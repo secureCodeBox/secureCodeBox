@@ -1,0 +1,180 @@
+{
+  "SchemaVersion": 2,
+  "ArtifactName": "bkimminich/juice-shop:v12.10.2",
+  "ArtifactType": "container_image",
+  "Metadata": {
+    "OS": {
+      "Family": "alpine",
+      "Name": "3.11.12",
+      "EOSL": true
+    },
+    "ImageID": "sha256:be30ca1df4be08840f6ca53885a1d371d35f54eae326161a2a40aa3c535fe703",
+    "DiffIDs": [
+      "sha256:39982b2a789afc156fff00c707d0ff1c6ab4af8f1666a8df4787714059ce24e7",
+      "sha256:f8700d3a252fffe60e30bc672e8a6560f30a3ce8816f2ad396020553fe4d9210",
+      "sha256:b8f0e895f5208b04d533d013ddec6f12642fdd679ef70bc1497ffe733c97428b",
+      "sha256:446ec7c50f08cfba388bcebe29f54b2a46a5ddccdabd6b4caac21cbdb7c60b4b",
+      "sha256:14bfcbbb53f34ede6cd7b031e162c5943a738eb21543ca1fdfdc0cc1ab578c07",
+      "sha256:96fd22f85d18e17255224d3bf9a75ea7da9985ecad19780e762815410c64a780",
+      "sha256:882c984cafed0fa20487f0b4f95474af7d46cff44d735d266633ebcea37e2bd1",
+      "sha256:873323b172036f6876ecc04895b0f8832ccecef9601ae723633fe08b9886ea83"
+    ],
+    "RepoTags": [
+      "bkimminich/juice-shop:v12.10.2"
+    ],
+    "RepoDigests": [
+      "bkimminich/juice-shop@sha256:33238f8c6291415c499265629b1b82ef791f5a33dff09f25c07264204a26f89b"
+    ],
+    "ImageConfig": {
+      "architecture": "amd64",
+      "created": "2021-10-12T21:23:22.113753293Z",
+      "history": [{
+          "created": "2021-08-31T23:18:31.206789071Z",
+          "created_by": "/bin/sh -c #(nop) ADD file:9d14b11183983923090d9e6d15cc51ee210466296e913bfefbfd580b3de59c95 in / "
+        },
+        {
+          "created": "2021-08-31T23:18:31.468221118Z",
+          "created_by": "/bin/sh -c #(nop)  CMD [\"/bin/sh\"]",
+          "empty_layer": true
+        },
+        {
+          "created": "2021-08-31T23:43:22.542236428Z",
+          "created_by": "/bin/sh -c #(nop)  ENV NODE_VERSION=12.22.6",
+          "empty_layer": true
+        },
+        {
+          "created": "2021-08-31T23:43:28.741308375Z",
+          "created_by": "/bin/sh -c addgroup -g 1000 node     \u0026\u0026 adduser -u 1000 -G node -s /bin/sh -D node     \u0026\u0026 apk add --no-cache         libstdc++     \u0026\u0026 apk add --no-cache --virtual .build-deps         curl     \u0026\u0026 ARCH= \u0026\u0026 alpineArch=\"$(apk --print-arch)\"       \u0026\u0026 case \"${alpineArch##*-}\" in         x86_64)           ARCH='x64'           CHECKSUM=\"0ce2b97ecbbd84f1a5ed13278ed6845d93c6454d8550730b247a990438dba322\"           ;;         *) ;;       esac   \u0026\u0026 if [ -n \"${CHECKSUM}\" ]; then     set -eu;     curl -fsSLO --compressed \"https://unofficial-builds.nodejs.org/download/release/v$NODE_VERSION/node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\";     echo \"$CHECKSUM  node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\" | sha256sum -c -       \u0026\u0026 tar -xJf \"node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\" -C /usr/local --strip-components=1 --no-same-owner       \u0026\u0026 ln -s /usr/local/bin/node /usr/local/bin/nodejs;   else     echo \"Building from source\"     \u0026\u0026 apk add --no-cache --virtual .build-deps-full         binutils-gold         g++         gcc         gnupg         libgcc         linux-headers         make         python2     \u0026\u0026 for key in       4ED778F539E3634C779C87C6D7062848A1AB005C       94AE36675C464D64BAFA68DD7434390BDBE9B9C5       74F12602B6F1C4E913FAA37AD3A89613643B6201       71DCFD284A79C3B38668286BC97EC7A07EDE3FC1       8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600       C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8       C82FA3AE1CBEDC6BE46B9360C43CEC45C17AB93C       DD8F2338BAE7501E3DD5AC78C273792F7D83545D       A48C2BEE680E841632CD4E44F07496B3EB3C1762       108F52B48DB57BB0CC439B2997B01419BD92F80A       B9E2F5981AA6E0CD28160D9FF13993A75599653C     ; do       gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys \"$key\" ||       gpg --batch --keyserver keyserver.ubuntu.com --recv-keys \"$key\" ;     done     \u0026\u0026 curl -fsSLO --compressed \"https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION.tar.xz\"     \u0026\u0026 curl -fsSLO --compressed \"https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc\"     \u0026\u0026 gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc     \u0026\u0026 grep \" node-v$NODE_VERSION.tar.xz\\$\" SHASUMS256.txt | sha256sum -c -     \u0026\u0026 tar -xf \"node-v$NODE_VERSION.tar.xz\"     \u0026\u0026 cd \"node-v$NODE_VERSION\"     \u0026\u0026 ./configure     \u0026\u0026 make -j$(getconf _NPROCESSORS_ONLN) V=     \u0026\u0026 make install     \u0026\u0026 apk del .build-deps-full     \u0026\u0026 cd ..     \u0026\u0026 rm -Rf \"node-v$NODE_VERSION\"     \u0026\u0026 rm \"node-v$NODE_VERSION.tar.xz\" SHASUMS256.txt.asc SHASUMS256.txt;   fi   \u0026\u0026 rm -f \"node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\"   \u0026\u0026 apk del .build-deps   \u0026\u0026 node --version   \u0026\u0026 npm --version"
+        },
+        {
+          "created": "2021-08-31T23:43:29.259986126Z",
+          "created_by": "/bin/sh -c #(nop)  ENV YARN_VERSION=1.22.5",
+          "empty_layer": true
+        },
+        {
+          "created": "2021-08-31T23:43:33.528239211Z",
+          "created_by": "/bin/sh -c apk add --no-cache --virtual .build-deps-yarn curl gnupg tar   \u0026\u0026 for key in     6A010C5166006599AA17F08146C2130DFD2497F5   ; do     gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys \"$key\" ||     gpg --batch --keyserver keyserver.ubuntu.com --recv-keys \"$key\" ;   done   \u0026\u0026 curl -fsSLO --compressed \"https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz\"   \u0026\u0026 curl -fsSLO --compressed \"https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz.asc\"   \u0026\u0026 gpg --batch --verify yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz   \u0026\u0026 mkdir -p /opt   \u0026\u0026 tar -xzf yarn-v$YARN_VERSION.tar.gz -C /opt/   \u0026\u0026 ln -s /opt/yarn-v$YARN_VERSION/bin/yarn /usr/local/bin/yarn   \u0026\u0026 ln -s /opt/yarn-v$YARN_VERSION/bin/yarnpkg /usr/local/bin/yarnpkg   \u0026\u0026 rm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz   \u0026\u0026 apk del .build-deps-yarn   \u0026\u0026 yarn --version"
+        },
+        {
+          "created": "2021-08-31T23:43:33.764167946Z",
+          "created_by": "/bin/sh -c #(nop) COPY file:238737301d47304174e4d24f4def935b29b3069c03c72ae8de97d94624382fce in /usr/local/bin/ "
+        },
+        {
+          "created": "2021-08-31T23:43:33.939059836Z",
+          "created_by": "/bin/sh -c #(nop)  ENTRYPOINT [\"docker-entrypoint.sh\"]",
+          "empty_layer": true
+        },
+        {
+          "created": "2021-08-31T23:43:34.123121758Z",
+          "created_by": "/bin/sh -c #(nop)  CMD [\"node\"]",
+          "empty_layer": true
+        },
+        {
+          "created": "2021-10-12T21:09:44.406187677Z",
+          "created_by": "ARG BUILD_DATE",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2021-10-12T21:09:44.406187677Z",
+          "created_by": "ARG VCS_REF",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2021-10-12T21:09:44.406187677Z",
+          "created_by": "LABEL maintainer=Bjoern Kimminich \u003cbjoern.kimminich@owasp.org\u003e org.opencontainers.image.title=OWASP Juice Shop org.opencontainers.image.description=Probably the most modern and sophisticated insecure web application org.opencontainers.image.authors=Bjoern Kimminich \u003cbjoern.kimminich@owasp.org\u003e org.opencontainers.image.vendor=Open Web Application Security Project org.opencontainers.image.documentation=https://help.owasp-juice.shop org.opencontainers.image.licenses=MIT org.opencontainers.image.version=12.10.2 org.opencontainers.image.url=https://owasp-juice.shop org.opencontainers.image.source=https://github.com/juice-shop/juice-shop org.opencontainers.image.revision=3d8a93e org.opencontainers.image.created=”2021-10-12T21:09:21Z”",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2021-10-12T21:09:44.406187677Z",
+          "created_by": "WORKDIR /juice-shop",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2021-10-12T21:09:45.159386817Z",
+          "created_by": "RUN |2 BUILD_DATE=”2021-10-12T21:09:21Z” VCS_REF=3d8a93e /bin/sh -c addgroup --system --gid 1001 juicer \u0026\u0026     adduser juicer --system --uid 1001 --ingroup juicer # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2021-10-12T21:23:20.754238724Z",
+          "created_by": "COPY /juice-shop . # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2021-10-12T21:23:22.113753293Z",
+          "created_by": "RUN |2 BUILD_DATE=”2021-10-12T21:09:21Z” VCS_REF=3d8a93e /bin/sh -c mkdir logs \u0026\u0026     chown -R juicer logs \u0026\u0026     chgrp -R 0 ftp/ frontend/dist/ logs/ data/ i18n/ \u0026\u0026     chmod -R g=u ftp/ frontend/dist/ logs/ data/ i18n/ # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2021-10-12T21:23:22.113753293Z",
+          "created_by": "USER 1001",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2021-10-12T21:23:22.113753293Z",
+          "created_by": "EXPOSE map[3000/tcp:{}]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2021-10-12T21:23:22.113753293Z",
+          "created_by": "CMD [\"npm\" \"start\"]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        }
+      ],
+      "os": "linux",
+      "rootfs": {
+        "type": "layers",
+        "diff_ids": [
+          "sha256:39982b2a789afc156fff00c707d0ff1c6ab4af8f1666a8df4787714059ce24e7",
+          "sha256:f8700d3a252fffe60e30bc672e8a6560f30a3ce8816f2ad396020553fe4d9210",
+          "sha256:b8f0e895f5208b04d533d013ddec6f12642fdd679ef70bc1497ffe733c97428b",
+          "sha256:446ec7c50f08cfba388bcebe29f54b2a46a5ddccdabd6b4caac21cbdb7c60b4b",
+          "sha256:14bfcbbb53f34ede6cd7b031e162c5943a738eb21543ca1fdfdc0cc1ab578c07",
+          "sha256:96fd22f85d18e17255224d3bf9a75ea7da9985ecad19780e762815410c64a780",
+          "sha256:882c984cafed0fa20487f0b4f95474af7d46cff44d735d266633ebcea37e2bd1",
+          "sha256:873323b172036f6876ecc04895b0f8832ccecef9601ae723633fe08b9886ea83"
+        ]
+      },
+      "config": {
+        "Cmd": [
+          "npm",
+          "start"
+        ],
+        "Entrypoint": [
+          "docker-entrypoint.sh"
+        ],
+        "Env": [
+          "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+          "NODE_VERSION=12.22.6",
+          "YARN_VERSION=1.22.5"
+        ],
+        "Labels": {
+          "maintainer": "Bjoern Kimminich \u003cbjoern.kimminich@owasp.org\u003e",
+          "org.opencontainers.image.authors": "Bjoern Kimminich \u003cbjoern.kimminich@owasp.org\u003e",
+          "org.opencontainers.image.created": "”2021-10-12T21:09:21Z”",
+          "org.opencontainers.image.description": "Probably the most modern and sophisticated insecure web application",
+          "org.opencontainers.image.documentation": "https://help.owasp-juice.shop",
+          "org.opencontainers.image.licenses": "MIT",
+          "org.opencontainers.image.revision": "3d8a93e",
+          "org.opencontainers.image.source": "https://github.com/juice-shop/juice-shop",
+          "org.opencontainers.image.title": "OWASP Juice Shop",
+          "org.opencontainers.image.url": "https://owasp-juice.shop",
+          "org.opencontainers.image.vendor": "Open Web Application Security Project",
+          "org.opencontainers.image.version": "12.10.2"
+        },
+        "User": "1001",
+        "WorkingDir": "/juice-shop",
+        "ExposedPorts": {
+          "3000/tcp": {}
+        },
+        "ArgsEscaped": true
+      }
+    }
+  },
+  "Results": []
+}

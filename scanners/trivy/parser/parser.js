@@ -13,6 +13,11 @@ async function parse(scanResults) {
 
   const findings = [];
 
+  // check if scanResults.Results is an array
+  if (!Array.isArray(scanResults.Results)) {
+    return findings;
+  }
+
   for (const { Target: target, Vulnerabilities } of scanResults.Results) {
     const vulnerabilities = Vulnerabilities || [];
     const category = getCategory(target);
