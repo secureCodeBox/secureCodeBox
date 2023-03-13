@@ -102,7 +102,7 @@ function createPolicyViolationFinding({
     osi_layer: "NETWORK",
     severity: "MEDIUM",
     reference: {},
-    hint: recommendation,
+    mitigation: recommendation,
     location: hostname || ipAddress,
     attributes: {
       hostname: hostname,
@@ -180,7 +180,7 @@ async function parse(fileContent) {
         osi_layer: "APPLICATION",
         severity: "INFORMATIONAL",
         reference: {},
-        hint: "",
+        mitigation: "",
         location: location,
         attributes: {
           hostname: host.hostname || null,
