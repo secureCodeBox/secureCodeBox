@@ -119,7 +119,7 @@ function generateInformationalServiceFinding(serverScanResult) {
     identified_at: serverScanResult.identified_at,
     category: "TLS Service Info",
     severity: "INFORMATIONAL",
-    hint: null,
+    mitigation: null,
     attributes: {
       tls_versions: getAllSupportedTlsVersions(serverScanResult),
       cipher_suites: getAllAcceptedCipherSuites(serverScanResult),
@@ -141,7 +141,7 @@ function generateVulnerableTLSVersionFindings(serverScanResult) {
         description: "The server uses outdated or insecure tls versions.",
         identified_at: serverScanResult.identified_at,
         severity: "MEDIUM",
-        hint: "Upgrade to a higher tls version.",
+        mitigation: "Upgrade to a higher tls version.",
         attributes: {
           outdated_version: tlsVersion,
         },
@@ -197,7 +197,7 @@ function analyseCertificateDeployments(serverScanResult) {
       description: findingTemplate.description,
       identified_at: serverScanResult.identified_at,
       severity: "MEDIUM",
-      hint: null,
+      mitigation: null,
       attributes: {},
     };
   });
