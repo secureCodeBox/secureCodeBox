@@ -21,6 +21,7 @@ async function parse(findings) {
                 location: domain,
                 osi_layer: "APPLICATION",
                 severity: "HIGH",
+                mitigation: "Follow the instructions in the advisory " + vuln['Advisory URL'] + " to fix the vulnerability.",
                 attributes: {
                     typo3_version: domain_findings.Version,
                     advisory: vuln.Advisory,
