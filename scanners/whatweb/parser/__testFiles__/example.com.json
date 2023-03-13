@@ -1,3 +1,37 @@
 [
-{"target":"http://example.com","http_status":200,"request_config":{"headers":{"User-Agent":"WhatWeb/0.5.5"}},"plugins":{"Country":{"string":["EUROPEAN UNION"],"module":["EU"]},"HTML5":{},"HTTPServer":{"string":["ECS (dcb/7FA5)"]},"IP":{"string":["93.184.216.34"]},"Title":{"string":["Example Domain"]}}}
+    {
+        "target": "http://example.com",
+        "http_status": 200,
+        "request_config": {
+            "headers": {
+                "User-Agent": "WhatWeb/0.5.5"
+            }
+        },
+        "plugins": {
+            "Country": {
+                "string": [
+                    "EUROPEAN UNION"
+                ],
+                "module": [
+                    "EU"
+                ]
+            },
+            "HTML5": {},
+            "HTTPServer": {
+                "string": [
+                    "ECS (dcb/7FA5)"
+                ]
+            },
+            "IP": {
+                "string": [
+                    "93.184.216.34"
+                ]
+            },
+            "Title": {
+                "string": [
+                    "Example Domain"
+                ]
+            }
+        }
+    }
 ]

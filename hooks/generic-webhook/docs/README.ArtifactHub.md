@@ -64,7 +64,9 @@ Kubernetes: `>=v1.11.0-0`
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | hook.affinity | object | `{}` | Optional affinity settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
-| hook.authentication | object | `{"basic":{"passwordKey":"password","userSecret":"generic-webhook-credentials","usernameKey":"username"}}` | Optional basic authentication credentials |
+| hook.authentication | object | `{"apikey":{"headerName":"X-Example-Header","headerValue":"example","userSecret":"generic-webhook-credentials"},"basic":{"passwordKey":"password","userSecret":"generic-webhook-credentials","usernameKey":"username"}}` | Optional basic authentication credentials or apikey |
+| hook.authentication.apikey.headerName | string | `"X-Example-Header"` | Customize header name as per your needs ex: X-Api-Key |
+| hook.authentication.apikey.userSecret | string | `"generic-webhook-credentials"` | Link a pre-existing generic secret with `usernameKey` and `passwordKey` key / value pairs |
 | hook.authentication.basic.passwordKey | string | `"password"` | Name of the password key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |
 | hook.authentication.basic.userSecret | string | `"generic-webhook-credentials"` | Link a pre-existing generic secret with `usernameKey` and `passwordKey` key / value pairs |
 | hook.authentication.basic.usernameKey | string | `"username"` | Name of the username key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |

@@ -63,7 +63,7 @@ spec:
                 - "-m"
                 - "zapclient"
                 - "--report-type"
-                - "XML"
+                - {{ .Values.scanner.reportType | default "XML" }}
                 - "--zap-url"
                 - "localhost:8080"
                 - "--config-folder"

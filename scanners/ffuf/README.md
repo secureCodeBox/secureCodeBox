@@ -3,7 +3,7 @@ title: "ffuf"
 category: "scanner"
 type: "Webserver"
 state: "released"
-appVersion: "v1.5.0"
+appVersion: "v2.0.0"
 usecase: "Webserver and WebApplication Elements and Content Discovery"
 ---
 

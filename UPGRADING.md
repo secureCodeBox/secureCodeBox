@@ -172,3 +172,10 @@ The container autodiscovery will now be enabled by default. Additionally the con
 The format for [Nuclei](https://www.securecodebox.io/docs/scanners/nuclei) have been updated. With it some attributes have been moved / renamed to more closely match the nuclei format and to be able to support most / all information contained from the findings.
 
 ➡️  [Reference: #1350](https://github.com/secureCodeBox/secureCodeBox/pull/1350)
+
+### Renamed Amass `attributes.name` to `attributes.hostname`
+One of the optional attributes in the finding format of Amass has been renamed from Amass attributes.name to attributes.hostname. If you are parsing this attribute in your application. Renaming it on your end is required
+
+➡️  [Reference: #1605](https://github.com/secureCodeBox/secureCodeBox/pull/1605)
+
+

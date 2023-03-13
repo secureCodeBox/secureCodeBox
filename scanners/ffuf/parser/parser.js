@@ -8,9 +8,11 @@ async function parse(fileContent) {
     return [];
   }
   return fileContent.results.map(result => {
+    const time = new Date(fileContent.time).toISOString();
     return {
       name: 'Webserver Content',
       description: `Content [${result.input ? Object.values(result.input) : ""}] was found on the webserver ${result.host}.`, // todo rn: what if no FUZZ keyword is used??
+      identified_at: time,
       osi_layer: 'APPLICATION',
       severity: 'INFORMATIONAL',
       category: 'Webserver Content',

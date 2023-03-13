@@ -22,6 +22,16 @@ function parse(fileContent) {
     console.log(JSON.stringify(fileContent));
   }
 
+  if (fileContent.date_scans_completed) {
+    // I ran into an issue where the time coverted to ISO String was dependant from the timezone of the machine running the test. 
+    // This means that if GitHub Actions CI time and local time are different the test will fail.
+    // To fix this we need to enforce the timezone in the date string. 
+    // sslyze uses UTC time internally for the date_scans_completed field.
+    // https://github.com/nabla-c0d3/sslyze/blob/8ad73ec3d698c826bf3682aacbee2d91e4a2cdbc/sslyze/__main__.py#L83
+    // To enforce UTC time, we can just add a Z to the end of the date string.
+    serverScanResult.identified_at = new Date(fileContent.date_scans_completed+ "Z").toISOString();
+  }
+
   const partialFindings = [
     generateInformationalServiceFinding(serverScanResult),
     ...generateVulnerableTLSVersionFindings(serverScanResult),
@@ -106,6 +116,7 @@ function generateInformationalServiceFinding(serverScanResult) {
   return {
     name: "TLS Service",
     description: "",
+    identified_at: serverScanResult.identified_at,
     category: "TLS Service Info",
     severity: "INFORMATIONAL",
     hint: null,
@@ -128,6 +139,7 @@ function generateVulnerableTLSVersionFindings(serverScanResult) {
         name: `TLS Version ${tlsVersion} is considered insecure`,
         category: "Outdated TLS Version",
         description: "The server uses outdated or insecure tls versions.",
+        identified_at: serverScanResult.identified_at,
         severity: "MEDIUM",
         hint: "Upgrade to a higher tls version.",
         attributes: {
@@ -183,6 +195,7 @@ function analyseCertificateDeployments(serverScanResult) {
       name: findingTemplate.name,
       category: "Invalid Certificate",
       description: findingTemplate.description,
+      identified_at: serverScanResult.identified_at,
       severity: "MEDIUM",
       hint: null,
       attributes: {},
