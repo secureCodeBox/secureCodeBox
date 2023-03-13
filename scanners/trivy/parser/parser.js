@@ -44,6 +44,7 @@ async function parse(scanResults) {
         location: imageId,
         osi_layer: "NOT_APPLICABLE",
         severity: getAdjustedSeverity(vulnerability.Severity),
+        mitigation: "Update the affected package " + vulnerability.PkgName + " to the fixed version: " + vulnerability.FixedVersion + " or remove the package from the image.",
         reference,
         attributes: {
           installedVersion: vulnerability.InstalledVersion,
