@@ -44,6 +44,7 @@ function transformToFindings (ncrackrun, publicKey) {
         location: `${portName}://${ipAddress}:${portid}`,
         osi_layer: 'APPLICATION',
         severity: 'HIGH',
+        mitigation: 'Use a more secure password or disable the service at ' + `${portName}://${ipAddress}:${portid}`,
         attributes: {
           port: portid,
           ip_address: ipAddress,
