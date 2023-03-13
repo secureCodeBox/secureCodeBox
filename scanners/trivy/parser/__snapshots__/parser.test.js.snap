@@ -21,6 +21,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "libfetch before 2021-07-26, as used in apk-tools, xbps, and other products, mishandles numeric strings for the FTP and HTTP protocols. The FTP passive mode implementation allows an out-of-bounds read because strtol is used to parse the relevant numbers into address bytes. It does not check if the line ends prematurely. If it does, the for-loop condition checks for the '\\0' terminator one byte too late.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package apk-tools to the fixed version: 2.10.7-r0 or remove the package from the image.",
     "name": "Vulnerability in Dependency apk-tools (2.10.4-r3)",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -44,6 +45,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "In Alpine Linux apk-tools before 2.12.5, the tarball parser allows a buffer overflow and crash.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package apk-tools to the fixed version: 2.10.6-r0 or remove the package from the image.",
     "name": "Vulnerability in Dependency apk-tools (2.10.4-r3)",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -72,6 +74,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "decompress_gunzip.c in BusyBox through 1.32.1 mishandles the error bit on the huft_build result pointer, with a resultant invalid free or segmentation fault, via malformed gzip data.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package busybox to the fixed version: 1.31.1-r10 or remove the package from the image.",
     "name": "busybox: invalid free or segmentation fault via malformed gzip data",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -105,6 +108,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "In order to decrypt SM2 encrypted data an application is expected to call the API function EVP_PKEY_decrypt(). Typically an application will call this function twice. The first time, on entry, the "out" parameter can be NULL and, on exit, the "outlen" parameter is populated with the buffer size required to hold the decrypted plaintext. The application can then allocate a sufficiently sized buffer and call EVP_PKEY_decrypt() again, but this time passing a non-NULL value for the "out" parameter. A bug in the implementation of the SM2 decryption code means that the calculation of the buffer size required to hold the plaintext returned by the first call to EVP_PKEY_decrypt() can be smaller than the actual size required by the second call. This can lead to a buffer overflow when EVP_PKEY_decrypt() is called by the application a second time with a buffer that is too small. A malicious attacker who is able present SM2 content for decryption to an application could cause attacker chosen data to overflow the buffer by up to a maximum of 62 bytes altering the contents of other data held after the buffer, possibly changing application behaviour or causing the application to crash. The location of the buffer is application dependent but is typically heap allocated. Fixed in OpenSSL 1.1.1l (Affected 1.1.1-1.1.1k).",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package libcrypto1.1 to the fixed version: 1.1.1l-r0 or remove the package from the image.",
     "name": "openssl: SM2 Decryption Buffer Overflow",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -160,6 +164,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "Server or client applications that call the SSL_check_chain() function during or after a TLS 1.3 handshake may crash due to a NULL pointer dereference as a result of incorrect handling of the "signature_algorithms_cert" TLS extension. The crash occurs if an invalid or unrecognised signature algorithm is received from the peer. This could be exploited by a malicious peer in a Denial of Service attack. OpenSSL version 1.1.1d, 1.1.1e, and 1.1.1f are affected by this issue. This issue did not affect OpenSSL versions prior to 1.1.1d. Fixed in OpenSSL 1.1.1g (Affected 1.1.1d-1.1.1f).",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package libcrypto1.1 to the fixed version: 1.1.1g-r0 or remove the package from the image.",
     "name": "openssl: Segmentation fault in SSL_check_chain causes denial of service",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -202,6 +207,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "Calls to EVP_CipherUpdate, EVP_EncryptUpdate and EVP_DecryptUpdate may overflow the output length argument in some cases where the input length is close to the maximum permissible length for an integer on the platform. In such cases the return value from the function call will be 1 (indicating success), but the output length value will be negative. This could cause applications to behave incorrectly or crash. OpenSSL versions 1.1.1i and below are affected by this issue. Users of these versions should upgrade to OpenSSL 1.1.1j. OpenSSL versions 1.0.2x and below are affected by this issue. However OpenSSL 1.0.2 is out of support and no longer receiving public updates. Premium support customers of OpenSSL 1.0.2 should upgrade to 1.0.2y. Other users should upgrade to 1.1.1j. Fixed in OpenSSL 1.1.1j (Affected 1.1.1-1.1.1i). Fixed in OpenSSL 1.0.2y (Affected 1.0.2-1.0.2x).",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package libcrypto1.1 to the fixed version: 1.1.1j-r0 or remove the package from the image.",
     "name": "openssl: integer overflow in CipherUpdate",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -246,6 +252,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "The X509_V_FLAG_X509_STRICT flag enables additional security checks of the certificates present in a certificate chain. It is not set by default. Starting from OpenSSL version 1.1.1h a check to disallow certificates in the chain that have explicitly encoded elliptic curve parameters was added as an additional strict check. An error in the implementation of this check meant that the result of a previous check to confirm that certificates in the chain are valid CA certificates was overwritten. This effectively bypasses the check that non-CA certificates must not be able to issue other certificates. If a "purpose" has been configured then there is a subsequent opportunity for checks that the certificate is a valid CA. All of the named "purpose" values implemented in libcrypto perform this check. Therefore, where a purpose is set the certificate chain will still be rejected even when the strict flag has been used. A purpose is set by default in libssl client and server certificate verification routines, but it can be overridden or removed by an application. In order to be affected, an application must explicitly set the X509_V_FLAG_X509_STRICT verification flag and either not set a purpose for the certificate verification or, in the case of TLS client or server applications, override the default purpose. OpenSSL versions 1.1.1h and newer are affected by this issue. Users of these versions should upgrade to OpenSSL 1.1.1k. OpenSSL 1.0.2 is not impacted by this issue. Fixed in OpenSSL 1.1.1k (Affected 1.1.1h-1.1.1j).",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package libcrypto1.1 to the fixed version: 1.1.1k-r0 or remove the package from the image.",
     "name": "openssl: CA certificate check bypass with X509_V_FLAG_X509_STRICT",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -286,6 +293,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "ASN.1 strings are represented internally within OpenSSL as an ASN1_STRING structure which contains a buffer holding the string data and a field holding the buffer length. This contrasts with normal C strings which are repesented as a buffer for the string data which is terminated with a NUL (0) byte. Although not a strict requirement, ASN.1 strings that are parsed using OpenSSL's own "d2i" functions (and other similar parsing functions) as well as any string whose value has been set with the ASN1_STRING_set() function will additionally NUL terminate the byte array in the ASN1_STRING structure. However, it is possible for applications to directly construct valid ASN1_STRING structures which do not NUL terminate the byte array by directly setting the "data" and "length" fields in the ASN1_STRING array. This can also happen by using the ASN1_STRING_set0() function. Numerous OpenSSL functions that print ASN.1 data have been found to assume that the ASN1_STRING byte array will be NUL terminated, even though this is not guaranteed for strings that have been directly constructed. Where an application requests an ASN.1 structure to be printed, and where that ASN.1 structure contains ASN1_STRINGs that have been directly constructed by the application without NUL terminating the "data" field, then a read buffer overrun can occur. The same thing can also occur during name constraints processing of certificates (for example if a certificate has been directly constructed by the application instead of loading it via the OpenSSL parsing functions, and the certificate contains non NUL terminated ASN1_STRING structures). It can also occur in the X509_get1_email(), X509_REQ_get1_email() and X509_get1_ocsp() functions. If a malicious actor can cause an application to directly construct an ASN1_STRING and then process it through one of the affected OpenSSL functions then this issue could be hit. This might result in a crash (causing a Denial of Service attack). It could also result in the disclosure of private memory contents (such as private keys, or sensitive plaintext). Fixed in OpenSSL 1.1.1l (Affected 1.1.1-1.1.1k). Fixed in OpenSSL 1.0.2za (Affected 1.0.2-1.0.2y).",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package libcrypto1.1 to the fixed version: 1.1.1l-r0 or remove the package from the image.",
     "name": "openssl: Read buffer overruns processing ASN.1 strings",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -335,6 +343,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "The X.509 GeneralName type is a generic type for representing different types of names. One of those name types is known as EDIPartyName. OpenSSL provides a function GENERAL_NAME_cmp which compares different instances of a GENERAL_NAME to see if they are equal or not. This function behaves incorrectly when both GENERAL_NAMEs contain an EDIPARTYNAME. A NULL pointer dereference and a crash may occur leading to a possible denial of service attack. OpenSSL itself uses the GENERAL_NAME_cmp function for two purposes: 1) Comparing CRL distribution point names between an available CRL and a CRL distribution point embedded in an X509 certificate 2) When verifying that a timestamp response token signer matches the timestamp authority name (exposed via the API functions TS_RESP_verify_response and TS_RESP_verify_token) If an attacker can control both items being compared then that attacker could trigger a crash. For example if the attacker can trick a client or server into checking a malicious certificate against a malicious CRL then this may occur. Note that some applications automatically download CRLs based on a URL embedded in a certificate. This checking happens prior to the signatures on the certificate and CRL being verified. OpenSSL's s_server, s_client and verify tools have support for the "-crl_download" option which implements automatic CRL downloading and this attack has been demonstrated to work against those tools. Note that an unrelated bug means that affected versions of OpenSSL cannot parse or construct correct encodings of EDIPARTYNAME. However it is possible to construct a malformed EDIPARTYNAME that OpenSSL's parser will accept and hence trigger this attack. All OpenSSL 1.1.1 and 1.0.2 versions are affected by this issue. Other OpenSSL releases are out of support and have not been checked. Fixed in OpenSSL 1.1.1i (Affected 1.1.1-1.1.1h). Fixed in OpenSSL 1.0.2x (Affected 1.0.2-1.0.2w).",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package libcrypto1.1 to the fixed version: 1.1.1i-r0 or remove the package from the image.",
     "name": "openssl: EDIPARTYNAME NULL pointer de-reference",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -380,6 +389,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "The OpenSSL public API function X509_issuer_and_serial_hash() attempts to create a unique hash value based on the issuer and serial number data contained within an X509 certificate. However it fails to correctly handle any errors that may occur while parsing the issuer field (which might occur if the issuer field is maliciously constructed). This may subsequently result in a NULL pointer deref and a crash leading to a potential denial of service attack. The function X509_issuer_and_serial_hash() is never directly called by OpenSSL itself so applications are only vulnerable if they use this function directly and they use it on certificates that may have been obtained from untrusted sources. OpenSSL versions 1.1.1i and below are affected by this issue. Users of these versions should upgrade to OpenSSL 1.1.1j. OpenSSL versions 1.0.2x and below are affected by this issue. However OpenSSL 1.0.2 is out of support and no longer receiving public updates. Premium support customers of OpenSSL 1.0.2 should upgrade to 1.0.2y. Other users should upgrade to 1.1.1j. Fixed in OpenSSL 1.1.1j (Affected 1.1.1-1.1.1i). Fixed in OpenSSL 1.0.2y (Affected 1.0.2-1.0.2x).",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package libcrypto1.1 to the fixed version: 1.1.1j-r0 or remove the package from the image.",
     "name": "openssl: NULL pointer dereference in X509_issuer_and_serial_hash()",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -431,6 +441,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "An OpenSSL TLS server may crash if sent a maliciously crafted renegotiation ClientHello message from a client. If a TLSv1.2 renegotiation ClientHello omits the signature_algorithms extension (where it was present in the initial ClientHello), but includes a signature_algorithms_cert extension then a NULL pointer dereference will result, leading to a crash and a denial of service attack. A server is only vulnerable if it has TLSv1.2 and renegotiation enabled (which is the default configuration). OpenSSL TLS clients are not impacted by this issue. All OpenSSL 1.1.1 versions are affected by this issue. Users of these versions should upgrade to OpenSSL 1.1.1k. OpenSSL 1.0.2 is not impacted by this issue. Fixed in OpenSSL 1.1.1k (Affected 1.1.1-1.1.1j).",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package libcrypto1.1 to the fixed version: 1.1.1k-r0 or remove the package from the image.",
     "name": "openssl: NULL pointer dereference in signature_algorithms processing",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -459,6 +470,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "OpenSSL 1.0.2 supports SSLv2. If a client attempts to negotiate SSLv2 with a server that is configured to support both SSLv2 and more recent SSL and TLS versions then a check is made for a version rollback attack when unpadding an RSA signature. Clients that support SSL or TLS versions greater than SSLv2 are supposed to use a special form of padding. A server that supports greater than SSLv2 is supposed to reject connection attempts from a client where this special form of padding is present, because this indicates that a version rollback has occurred (i.e. both client and server support greater than SSLv2, and yet this is the version that is being requested). The implementation of this padding check inverted the logic so that the connection attempt is accepted if the padding is present, and rejected if it is absent. This means that such as server will accept a connection if a version rollback attack has occurred. Further the server will erroneously reject a connection if a normal SSLv2 connection attempt is made. Only OpenSSL 1.0.2 servers from version 1.0.2s to 1.0.2x are affected by this issue. In order to be vulnerable a 1.0.2 server must: 1) have configured SSLv2 support at compile time (this is off by default), 2) have configured SSLv2 support at runtime (this is off by default), 3) have configured SSLv2 ciphersuites (these are not in the default ciphersuite list) OpenSSL 1.1.1 does not have SSLv2 support and therefore is not vulnerable to this issue. The underlying error is in the implementation of the RSA_padding_check_SSLv23() function. This also affects the RSA_SSLV23_PADDING padding mode used by various other functions. Although 1.1.1 does not support SSLv2 the RSA_padding_check_SSLv23() function still exists, as does the RSA_SSLV23_PADDING padding mode. Applications that directly call that function or use that padding mode will encounter this issue. However since there is no support for the SSLv2 protocol in 1.1.1 this is considered a bug and not a security issue in that version. OpenSSL 1.0.2 is out of support and no longer receiving public updates. Premium support customers of OpenSSL 1.0.2 should upgrade to 1.0.2y. Other users should upgrade to 1.1.1j. Fixed in OpenSSL 1.0.2y (Affected 1.0.2s-1.0.2x).",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package libcrypto1.1 to the fixed version: 1.1.1j-r0 or remove the package from the image.",
     "name": "openssl: incorrect SSLv2 rollback protection",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -486,6 +498,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "The POWER9 backend in GNU Compiler Collection (GCC) before version 10 could optimize multiple calls of the __builtin_darn intrinsic into a single call, thus reducing the entropy of the random number generator. This occurred because a volatile operation was not specified. For example, within a single execution of a program, the output of every __builtin_darn() call may be the same.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package libgcc to the fixed version: 9.3.0-r0 or remove the package from the image.",
     "name": "gcc: POWER9 "DARN" RNG intrinsic produces repeated output",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -519,6 +532,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "In order to decrypt SM2 encrypted data an application is expected to call the API function EVP_PKEY_decrypt(). Typically an application will call this function twice. The first time, on entry, the "out" parameter can be NULL and, on exit, the "outlen" parameter is populated with the buffer size required to hold the decrypted plaintext. The application can then allocate a sufficiently sized buffer and call EVP_PKEY_decrypt() again, but this time passing a non-NULL value for the "out" parameter. A bug in the implementation of the SM2 decryption code means that the calculation of the buffer size required to hold the plaintext returned by the first call to EVP_PKEY_decrypt() can be smaller than the actual size required by the second call. This can lead to a buffer overflow when EVP_PKEY_decrypt() is called by the application a second time with a buffer that is too small. A malicious attacker who is able present SM2 content for decryption to an application could cause attacker chosen data to overflow the buffer by up to a maximum of 62 bytes altering the contents of other data held after the buffer, possibly changing application behaviour or causing the application to crash. The location of the buffer is application dependent but is typically heap allocated. Fixed in OpenSSL 1.1.1l (Affected 1.1.1-1.1.1k).",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package libssl1.1 to the fixed version: 1.1.1l-r0 or remove the package from the image.",
     "name": "openssl: SM2 Decryption Buffer Overflow",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -574,6 +588,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "Server or client applications that call the SSL_check_chain() function during or after a TLS 1.3 handshake may crash due to a NULL pointer dereference as a result of incorrect handling of the "signature_algorithms_cert" TLS extension. The crash occurs if an invalid or unrecognised signature algorithm is received from the peer. This could be exploited by a malicious peer in a Denial of Service attack. OpenSSL version 1.1.1d, 1.1.1e, and 1.1.1f are affected by this issue. This issue did not affect OpenSSL versions prior to 1.1.1d. Fixed in OpenSSL 1.1.1g (Affected 1.1.1d-1.1.1f).",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package libssl1.1 to the fixed version: 1.1.1g-r0 or remove the package from the image.",
     "name": "openssl: Segmentation fault in SSL_check_chain causes denial of service",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -616,6 +631,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "Calls to EVP_CipherUpdate, EVP_EncryptUpdate and EVP_DecryptUpdate may overflow the output length argument in some cases where the input length is close to the maximum permissible length for an integer on the platform. In such cases the return value from the function call will be 1 (indicating success), but the output length value will be negative. This could cause applications to behave incorrectly or crash. OpenSSL versions 1.1.1i and below are affected by this issue. Users of these versions should upgrade to OpenSSL 1.1.1j. OpenSSL versions 1.0.2x and below are affected by this issue. However OpenSSL 1.0.2 is out of support and no longer receiving public updates. Premium support customers of OpenSSL 1.0.2 should upgrade to 1.0.2y. Other users should upgrade to 1.1.1j. Fixed in OpenSSL 1.1.1j (Affected 1.1.1-1.1.1i). Fixed in OpenSSL 1.0.2y (Affected 1.0.2-1.0.2x).",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package libssl1.1 to the fixed version: 1.1.1j-r0 or remove the package from the image.",
     "name": "openssl: integer overflow in CipherUpdate",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -660,6 +676,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "The X509_V_FLAG_X509_STRICT flag enables additional security checks of the certificates present in a certificate chain. It is not set by default. Starting from OpenSSL version 1.1.1h a check to disallow certificates in the chain that have explicitly encoded elliptic curve parameters was added as an additional strict check. An error in the implementation of this check meant that the result of a previous check to confirm that certificates in the chain are valid CA certificates was overwritten. This effectively bypasses the check that non-CA certificates must not be able to issue other certificates. If a "purpose" has been configured then there is a subsequent opportunity for checks that the certificate is a valid CA. All of the named "purpose" values implemented in libcrypto perform this check. Therefore, where a purpose is set the certificate chain will still be rejected even when the strict flag has been used. A purpose is set by default in libssl client and server certificate verification routines, but it can be overridden or removed by an application. In order to be affected, an application must explicitly set the X509_V_FLAG_X509_STRICT verification flag and either not set a purpose for the certificate verification or, in the case of TLS client or server applications, override the default purpose. OpenSSL versions 1.1.1h and newer are affected by this issue. Users of these versions should upgrade to OpenSSL 1.1.1k. OpenSSL 1.0.2 is not impacted by this issue. Fixed in OpenSSL 1.1.1k (Affected 1.1.1h-1.1.1j).",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package libssl1.1 to the fixed version: 1.1.1k-r0 or remove the package from the image.",
     "name": "openssl: CA certificate check bypass with X509_V_FLAG_X509_STRICT",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -700,6 +717,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "ASN.1 strings are represented internally within OpenSSL as an ASN1_STRING structure which contains a buffer holding the string data and a field holding the buffer length. This contrasts with normal C strings which are repesented as a buffer for the string data which is terminated with a NUL (0) byte. Although not a strict requirement, ASN.1 strings that are parsed using OpenSSL's own "d2i" functions (and other similar parsing functions) as well as any string whose value has been set with the ASN1_STRING_set() function will additionally NUL terminate the byte array in the ASN1_STRING structure. However, it is possible for applications to directly construct valid ASN1_STRING structures which do not NUL terminate the byte array by directly setting the "data" and "length" fields in the ASN1_STRING array. This can also happen by using the ASN1_STRING_set0() function. Numerous OpenSSL functions that print ASN.1 data have been found to assume that the ASN1_STRING byte array will be NUL terminated, even though this is not guaranteed for strings that have been directly constructed. Where an application requests an ASN.1 structure to be printed, and where that ASN.1 structure contains ASN1_STRINGs that have been directly constructed by the application without NUL terminating the "data" field, then a read buffer overrun can occur. The same thing can also occur during name constraints processing of certificates (for example if a certificate has been directly constructed by the application instead of loading it via the OpenSSL parsing functions, and the certificate contains non NUL terminated ASN1_STRING structures). It can also occur in the X509_get1_email(), X509_REQ_get1_email() and X509_get1_ocsp() functions. If a malicious actor can cause an application to directly construct an ASN1_STRING and then process it through one of the affected OpenSSL functions then this issue could be hit. This might result in a crash (causing a Denial of Service attack). It could also result in the disclosure of private memory contents (such as private keys, or sensitive plaintext). Fixed in OpenSSL 1.1.1l (Affected 1.1.1-1.1.1k). Fixed in OpenSSL 1.0.2za (Affected 1.0.2-1.0.2y).",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package libssl1.1 to the fixed version: 1.1.1l-r0 or remove the package from the image.",
     "name": "openssl: Read buffer overruns processing ASN.1 strings",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -749,6 +767,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "The X.509 GeneralName type is a generic type for representing different types of names. One of those name types is known as EDIPartyName. OpenSSL provides a function GENERAL_NAME_cmp which compares different instances of a GENERAL_NAME to see if they are equal or not. This function behaves incorrectly when both GENERAL_NAMEs contain an EDIPARTYNAME. A NULL pointer dereference and a crash may occur leading to a possible denial of service attack. OpenSSL itself uses the GENERAL_NAME_cmp function for two purposes: 1) Comparing CRL distribution point names between an available CRL and a CRL distribution point embedded in an X509 certificate 2) When verifying that a timestamp response token signer matches the timestamp authority name (exposed via the API functions TS_RESP_verify_response and TS_RESP_verify_token) If an attacker can control both items being compared then that attacker could trigger a crash. For example if the attacker can trick a client or server into checking a malicious certificate against a malicious CRL then this may occur. Note that some applications automatically download CRLs based on a URL embedded in a certificate. This checking happens prior to the signatures on the certificate and CRL being verified. OpenSSL's s_server, s_client and verify tools have support for the "-crl_download" option which implements automatic CRL downloading and this attack has been demonstrated to work against those tools. Note that an unrelated bug means that affected versions of OpenSSL cannot parse or construct correct encodings of EDIPARTYNAME. However it is possible to construct a malformed EDIPARTYNAME that OpenSSL's parser will accept and hence trigger this attack. All OpenSSL 1.1.1 and 1.0.2 versions are affected by this issue. Other OpenSSL releases are out of support and have not been checked. Fixed in OpenSSL 1.1.1i (Affected 1.1.1-1.1.1h). Fixed in OpenSSL 1.0.2x (Affected 1.0.2-1.0.2w).",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package libssl1.1 to the fixed version: 1.1.1i-r0 or remove the package from the image.",
     "name": "openssl: EDIPARTYNAME NULL pointer de-reference",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -794,6 +813,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "The OpenSSL public API function X509_issuer_and_serial_hash() attempts to create a unique hash value based on the issuer and serial number data contained within an X509 certificate. However it fails to correctly handle any errors that may occur while parsing the issuer field (which might occur if the issuer field is maliciously constructed). This may subsequently result in a NULL pointer deref and a crash leading to a potential denial of service attack. The function X509_issuer_and_serial_hash() is never directly called by OpenSSL itself so applications are only vulnerable if they use this function directly and they use it on certificates that may have been obtained from untrusted sources. OpenSSL versions 1.1.1i and below are affected by this issue. Users of these versions should upgrade to OpenSSL 1.1.1j. OpenSSL versions 1.0.2x and below are affected by this issue. However OpenSSL 1.0.2 is out of support and no longer receiving public updates. Premium support customers of OpenSSL 1.0.2 should upgrade to 1.0.2y. Other users should upgrade to 1.1.1j. Fixed in OpenSSL 1.1.1j (Affected 1.1.1-1.1.1i). Fixed in OpenSSL 1.0.2y (Affected 1.0.2-1.0.2x).",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package libssl1.1 to the fixed version: 1.1.1j-r0 or remove the package from the image.",
     "name": "openssl: NULL pointer dereference in X509_issuer_and_serial_hash()",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -845,6 +865,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "An OpenSSL TLS server may crash if sent a maliciously crafted renegotiation ClientHello message from a client. If a TLSv1.2 renegotiation ClientHello omits the signature_algorithms extension (where it was present in the initial ClientHello), but includes a signature_algorithms_cert extension then a NULL pointer dereference will result, leading to a crash and a denial of service attack. A server is only vulnerable if it has TLSv1.2 and renegotiation enabled (which is the default configuration). OpenSSL TLS clients are not impacted by this issue. All OpenSSL 1.1.1 versions are affected by this issue. Users of these versions should upgrade to OpenSSL 1.1.1k. OpenSSL 1.0.2 is not impacted by this issue. Fixed in OpenSSL 1.1.1k (Affected 1.1.1-1.1.1j).",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package libssl1.1 to the fixed version: 1.1.1k-r0 or remove the package from the image.",
     "name": "openssl: NULL pointer dereference in signature_algorithms processing",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -873,6 +894,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "OpenSSL 1.0.2 supports SSLv2. If a client attempts to negotiate SSLv2 with a server that is configured to support both SSLv2 and more recent SSL and TLS versions then a check is made for a version rollback attack when unpadding an RSA signature. Clients that support SSL or TLS versions greater than SSLv2 are supposed to use a special form of padding. A server that supports greater than SSLv2 is supposed to reject connection attempts from a client where this special form of padding is present, because this indicates that a version rollback has occurred (i.e. both client and server support greater than SSLv2, and yet this is the version that is being requested). The implementation of this padding check inverted the logic so that the connection attempt is accepted if the padding is present, and rejected if it is absent. This means that such as server will accept a connection if a version rollback attack has occurred. Further the server will erroneously reject a connection if a normal SSLv2 connection attempt is made. Only OpenSSL 1.0.2 servers from version 1.0.2s to 1.0.2x are affected by this issue. In order to be vulnerable a 1.0.2 server must: 1) have configured SSLv2 support at compile time (this is off by default), 2) have configured SSLv2 support at runtime (this is off by default), 3) have configured SSLv2 ciphersuites (these are not in the default ciphersuite list) OpenSSL 1.1.1 does not have SSLv2 support and therefore is not vulnerable to this issue. The underlying error is in the implementation of the RSA_padding_check_SSLv23() function. This also affects the RSA_SSLV23_PADDING padding mode used by various other functions. Although 1.1.1 does not support SSLv2 the RSA_padding_check_SSLv23() function still exists, as does the RSA_SSLV23_PADDING padding mode. Applications that directly call that function or use that padding mode will encounter this issue. However since there is no support for the SSLv2 protocol in 1.1.1 this is considered a bug and not a security issue in that version. OpenSSL 1.0.2 is out of support and no longer receiving public updates. Premium support customers of OpenSSL 1.0.2 should upgrade to 1.0.2y. Other users should upgrade to 1.1.1j. Fixed in OpenSSL 1.0.2y (Affected 1.0.2s-1.0.2x).",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package libssl1.1 to the fixed version: 1.1.1j-r0 or remove the package from the image.",
     "name": "openssl: incorrect SSLv2 rollback protection",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -900,6 +922,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "The POWER9 backend in GNU Compiler Collection (GCC) before version 10 could optimize multiple calls of the __builtin_darn intrinsic into a single call, thus reducing the entropy of the random number generator. This occurred because a volatile operation was not specified. For example, within a single execution of a program, the output of every __builtin_darn() call may be the same.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package libstdc++ to the fixed version: 9.3.0-r0 or remove the package from the image.",
     "name": "gcc: POWER9 "DARN" RNG intrinsic produces repeated output",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -931,6 +954,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "In musl libc through 1.2.1, wcsnrtombs mishandles particular combinations of destination buffer size and source character limit, as demonstrated by an invalid write access (buffer overflow).",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package musl to the fixed version: 1.1.24-r3 or remove the package from the image.",
     "name": "Vulnerability in Dependency musl (1.1.24-r2)",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -962,6 +986,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "In musl libc through 1.2.1, wcsnrtombs mishandles particular combinations of destination buffer size and source character limit, as demonstrated by an invalid write access (buffer overflow).",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package musl-utils to the fixed version: 1.1.24-r3 or remove the package from the image.",
     "name": "Vulnerability in Dependency musl-utils (1.1.24-r2)",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -990,6 +1015,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "Image Vulnerability",
     "description": "decompress_gunzip.c in BusyBox through 1.32.1 mishandles the error bit on the huft_build result pointer, with a resultant invalid free or segmentation fault, via malformed gzip data.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package ssl_client to the fixed version: 1.31.1-r10 or remove the package from the image.",
     "name": "busybox: invalid free or segmentation fault via malformed gzip data",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1015,6 +1041,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "NPM Package Vulnerability",
     "description": "ansi-regex is vulnerable to Inefficient Regular Expression Complexity",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package ansi-regex to the fixed version: 5.0.1, 6.0.1 or remove the package from the image.",
     "name": "nodejs-ansi-regex: Regular expression denial of service (ReDoS) matching ANSI escape codes",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1040,6 +1067,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "NPM Package Vulnerability",
     "description": "ansi-regex is vulnerable to Inefficient Regular Expression Complexity",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package ansi-regex to the fixed version: 5.0.1, 6.0.1 or remove the package from the image.",
     "name": "nodejs-ansi-regex: Regular expression denial of service (ReDoS) matching ANSI escape codes",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1063,6 +1091,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
     "category": "NPM Package Vulnerability",
     "description": "\`base64url\` allocates uninitialized Buffers when number is passed in input on Node.js 4.x and below",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package base64url to the fixed version: >=3.0.0 or remove the package from the image.",
     "name": "Out-of-bounds Read",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1091,6 +1120,7 @@ exports[`parses bkimminich/juice-shop:v10.2.0 result file into findings 1`] = `
 
 Update to version 3.0.0 or later.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package base64url to the fixed version: 3.0.0 or remove the package from the image.",
     "name": "Out-of-bounds Read in base64url",
     "osi_layer": "NOT_APPLICABLE",
     "reference": null,
@@ -1115,6 +1145,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "A buffer over-read vulnerability exists in bl <4.0.3, <3.0.1, <2.2.1, and <1.2.3 which could allow an attacker to supply user input (even typed) that if it ends up in consume() argument and can become negative, the BufferList state can be corrupted, tricking it into exposing uninitialized memory via regular .slice() calls.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package bl to the fixed version: 2.2.1, 1.2.3, 4.0.3, 3.0.1 or remove the package from the image.",
     "name": "nodejs-bl: buffer over-read vulnerability leads to corrupted BufferList which can result in uninitialized memory being leaked",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1142,6 +1173,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "A buffer over-read vulnerability exists in bl <4.0.3, <3.0.1, <2.2.1, and <1.2.3 which could allow an attacker to supply user input (even typed) that if it ends up in consume() argument and can become negative, the BufferList state can be corrupted, tricking it into exposing uninitialized memory via regular .slice() calls.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package bl to the fixed version: 2.2.1, 1.2.3, 4.0.3, 3.0.1 or remove the package from the image.",
     "name": "nodejs-bl: buffer over-read vulnerability leads to corrupted BufferList which can result in uninitialized memory being leaked",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1170,6 +1202,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "A Regular Expression Denial of Service (ReDOS) vulnerability was discovered in Color-String version 1.5.5 and below which occurs when the application is provided and checks a crafted invalid HWB string.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package color-string to the fixed version: 1.5.5 or remove the package from the image.",
     "name": "nodejs-color-string: Regular expression denial of service when the application is provided and checks a crafted invalid HWB string",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1193,6 +1226,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "A vulnerability was found in diff before v3.5.0, the affected versions of this package are vulnerable to Regular Expression Denial of Service (ReDoS) attacks.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package diff to the fixed version: 3.5.0 or remove the package from the image.",
     "name": "Regular Expression Denial of Service (ReDoS)",
     "osi_layer": "NOT_APPLICABLE",
     "reference": null,
@@ -1218,6 +1252,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "Prototype pollution vulnerability in dot-prop npm package versions before 4.2.1 and versions 5.x before 5.1.1 allows an attacker to add arbitrary properties to JavaScript language constructs such as objects.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package dot-prop to the fixed version: 5.1.1, 4.2.1 or remove the package from the image.",
     "name": "nodejs-dot-prop: prototype pollution",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1243,6 +1278,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "In express-jwt (NPM package) up and including version 5.3.3, the algorithms entry to be specified in the configuration is not being enforced. When algorithms is not specified in the configuration, with the combination of jwks-rsa, it may lead to authorization bypass. You are affected by this vulnerability if all of the following conditions apply: - You are using express-jwt - You do not have **algorithms** configured in your express-jwt configuration. - You are using libraries such as jwks-rsa as the **secret**. You can fix this by specifying **algorithms** in the express-jwt configuration. See linked GHSA for example. This is also fixed in version 6.0.0.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package express-jwt to the fixed version: 6.0.0 or remove the package from the image.",
     "name": "Authorization bypass in express-jwt",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1268,6 +1304,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "Prototype pollution vulnerability in 'getobject' version 0.1.0 allows an attacker to cause a denial of service and may lead to remote code execution.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package getobject to the fixed version: 1.0.0 or remove the package from the image.",
     "name": "nodejs-getobject: Prototype pollution could result in DoS and RCE",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1295,6 +1332,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "Growl adds growl notification support to nodejs. Growl before 1.10.2 does not properly sanitize input before passing it to exec, allowing for arbitrary command execution.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package growl to the fixed version: 1.10.0 or remove the package from the image.",
     "name": "nodejs-growl: Does not properly sanitize input before passing it to exec",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1326,6 +1364,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "The package grunt before 1.3.0 are vulnerable to Arbitrary Code Execution due to the default usage of the function load() instead of its secure replacement safeLoad() of the package js-yaml inside grunt.file.readYAML.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package grunt to the fixed version: 1.3.0 or remove the package from the image.",
     "name": "Arbitrary Code Execution in grunt",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1357,6 +1396,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "The package hosted-git-info before 3.0.8 are vulnerable to Regular Expression Denial of Service (ReDoS) via regular expression shortcutMatch in the fromUrl function in index.js. The affected regular expression exhibits polynomial worst-case time complexity.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package hosted-git-info to the fixed version: 2.8.9, 3.0.8 or remove the package from the image.",
     "name": "nodejs-hosted-git-info: Regular Expression denial of service via shortcutMatch in fromUrl()",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1387,6 +1427,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "This affects the package ini before 1.3.6. If an attacker submits a malicious INI file to an application that parses it with ini.parse, they will pollute the prototype on the application. This can be exploited further depending on the context.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package ini to the fixed version: 1.3.6 or remove the package from the image.",
     "name": "nodejs-ini: Prototype pollution via malicious INI file",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1414,6 +1455,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "In jsonwebtoken node module before 4.2.2 it is possible for an attacker to bypass verification when a token digitally signed with an asymmetric key (RS/ES family) of algorithms but instead the attacker send a token digitally signed with a symmetric algorithm (HS* family).",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package jsonwebtoken to the fixed version: 4.2.2 or remove the package from the image.",
     "name": "nodejs-jsonwebtoken: verification step bypass with an altered token",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1438,6 +1480,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "It is possible for an attacker to bypass verification when "a token digitally signed with an asymetric key (RS/ES family) of algorithms but instead the attacker send a token digitally signed with a symmetric algorithm (HS* family)" [1]",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package jsonwebtoken to the fixed version: >=4.2.2 or remove the package from the image.",
     "name": "Verification Bypass",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1465,6 +1508,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "In jsonwebtoken node module before 4.2.2 it is possible for an attacker to bypass verification when a token digitally signed with an asymmetric key (RS/ES family) of algorithms but instead the attacker send a token digitally signed with a symmetric algorithm (HS* family).",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package jsonwebtoken to the fixed version: 4.2.2 or remove the package from the image.",
     "name": "nodejs-jsonwebtoken: verification step bypass with an altered token",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1489,6 +1533,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "It is possible for an attacker to bypass verification when "a token digitally signed with an asymetric key (RS/ES family) of algorithms but instead the attacker send a token digitally signed with a symmetric algorithm (HS* family)" [1]",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package jsonwebtoken to the fixed version: >=4.2.2 or remove the package from the image.",
     "name": "Verification Bypass",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1518,6 +1563,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
 
 *Edit ( 7/29/16 ): A previous version of this advisory incorrectly stated that the vulnerability was patched in version 2.0.0 instead of 3.0.0. The advisory has been updated to reflect this new information. Thanks to Fabien Catteau for reporting the error.*",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package jws to the fixed version: 3.0.0 or remove the package from the image.",
     "name": "Forgeable Public/Private Tokens",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1547,6 +1593,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
     "category": "NPM Package Vulnerability",
     "description": "Versions of lodash lower than 4.17.12 are vulnerable to Prototype Pollution. The function defaultsDeep could be tricked into adding or modifying properties of Object.prototype using a constructor payload.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package lodash to the fixed version: 4.17.12 or remove the package from the image.",
     "name": "nodejs-lodash: prototype pollution in defaultsDeep function leading to modifying properties",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1577,6 +1624,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
     "category": "NPM Package Vulnerability",
     "description": "Prototype pollution attack when using _.zipObjectDeep in lodash before 4.17.20.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package lodash to the fixed version: 4.17.19 or remove the package from the image.",
     "name": "nodejs-lodash: prototype pollution in zipObjectDeep function",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1611,6 +1659,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
     "category": "NPM Package Vulnerability",
     "description": "Lodash versions prior to 4.17.21 are vulnerable to Command Injection via the template function.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package lodash to the fixed version: 4.17.21 or remove the package from the image.",
     "name": "nodejs-lodash: command injection via template",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1637,6 +1686,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
     "category": "NPM Package Vulnerability",
     "description": "A prototype pollution vulnerability was found in lodash <4.17.11 where the functions merge, mergeWith, and defaultsDeep can be tricked into adding or modifying properties of Object.prototype.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package lodash to the fixed version: 4.17.11 or remove the package from the image.",
     "name": "lodash: Prototype pollution in utilities function",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1666,6 +1716,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
     "category": "NPM Package Vulnerability",
     "description": "lodash node module before 4.17.5 suffers from a Modification of Assumed-Immutable Data (MAID) vulnerability via defaultsDeep, merge, and mergeWith functions, which allows a malicious user to modify the prototype of "Object" via __proto__, causing the addition or modification of an existing property that will exist on all objects.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package lodash to the fixed version: 4.17.5 or remove the package from the image.",
     "name": "lodash: Prototype pollution in utilities function",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1694,6 +1745,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
     "category": "NPM Package Vulnerability",
     "description": "lodash prior to 4.17.11 is affected by: CWE-400: Uncontrolled Resource Consumption. The impact is: Denial of service. The component is: Date handler. The attack vector is: Attacker provides very long strings, which the library attempts to match using a regular expression. The fixed version is: 4.17.11.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package lodash to the fixed version: 4.17.11 or remove the package from the image.",
     "name": "lodash: uncontrolled resource consumption in Data handler causing denial of service",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1723,6 +1775,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
     "category": "NPM Package Vulnerability",
     "description": "Versions of lodash lower than 4.17.12 are vulnerable to Prototype Pollution. The function defaultsDeep could be tricked into adding or modifying properties of Object.prototype using a constructor payload.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package lodash to the fixed version: 4.17.12 or remove the package from the image.",
     "name": "nodejs-lodash: prototype pollution in defaultsDeep function leading to modifying properties",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1753,6 +1806,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
     "category": "NPM Package Vulnerability",
     "description": "Prototype pollution attack when using _.zipObjectDeep in lodash before 4.17.20.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package lodash to the fixed version: 4.17.19 or remove the package from the image.",
     "name": "nodejs-lodash: prototype pollution in zipObjectDeep function",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1787,6 +1841,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
     "category": "NPM Package Vulnerability",
     "description": "Lodash versions prior to 4.17.21 are vulnerable to Command Injection via the template function.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package lodash to the fixed version: 4.17.21 or remove the package from the image.",
     "name": "nodejs-lodash: command injection via template",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1817,6 +1872,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
     "category": "NPM Package Vulnerability",
     "description": "Prototype pollution attack when using _.zipObjectDeep in lodash before 4.17.20.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package lodash to the fixed version: 4.17.19 or remove the package from the image.",
     "name": "nodejs-lodash: prototype pollution in zipObjectDeep function",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1851,6 +1907,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
     "category": "NPM Package Vulnerability",
     "description": "Lodash versions prior to 4.17.21 are vulnerable to Command Injection via the template function.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package lodash to the fixed version: 4.17.21 or remove the package from the image.",
     "name": "nodejs-lodash: command injection via template",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1875,6 +1932,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
     "category": "NPM Package Vulnerability",
     "description": "Prototype pollution attack (lodash)",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package lodash to the fixed version: >=4.17.19 or remove the package from the image.",
     "name": "Allocation of Resources Without Limits or Throttling",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1903,6 +1961,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
 
 No fix is currently available. Consider using an alternative package until a fix is made available.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package marsdb to the fixed version: undefined or remove the package from the image.",
     "name": "Command Injection in marsdb",
     "osi_layer": "NOT_APPLICABLE",
     "reference": null,
@@ -1927,6 +1986,7 @@ No fix is currently available. Consider using an alternative package until a fix
     "category": "NPM Package Vulnerability",
     "description": "minimist before 1.2.2 could be tricked into adding or modifying properties of Object.prototype using a "constructor" or "__proto__" payload.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package minimist to the fixed version: 1.2.3, 0.2.1 or remove the package from the image.",
     "name": "nodejs-minimist: prototype pollution allows adding or modifying properties of Object.prototype using a constructor or __proto__ payload",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1953,6 +2013,7 @@ No fix is currently available. Consider using an alternative package until a fix
     "category": "NPM Package Vulnerability",
     "description": "The moment module before 2.19.3 for Node.js is prone to a regular expression denial of service via a crafted date string, a different vulnerability than CVE-2016-4055.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package moment to the fixed version: 2.19.3 or remove the package from the image.",
     "name": "nodejs-moment: Regular expression denial of service",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -1986,6 +2047,7 @@ No fix is currently available. Consider using an alternative package until a fix
     "category": "NPM Package Vulnerability",
     "description": "The duration function in the moment package before 2.11.2 for Node.js allows remote attackers to cause a denial of service (CPU consumption) via a long string, aka a "regular expression Denial of Service (ReDoS)."",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package moment to the fixed version: 2.11.2 or remove the package from the image.",
     "name": "moment.js: regular expression denial of service",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2019,6 +2081,7 @@ No fix is currently available. Consider using an alternative package until a fix
     "category": "NPM Package Vulnerability",
     "description": "Versions of the npm CLI prior to 6.14.6 are vulnerable to an information exposure vulnerability through log files. The CLI supports URLs like "<protocol>://[<user>[:<password>]@]<hostname>[:<port>][:][/]<path>". The password value is not redacted and is printed to stdout and also to any generated log files.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package npm to the fixed version: 6.14.6 or remove the package from the image.",
     "name": "npm: sensitive information exposure through logs",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2042,6 +2105,7 @@ No fix is currently available. Consider using an alternative package until a fix
     "category": "NPM Package Vulnerability",
     "description": "Affected versions of \`npm-registry-fetch\` are vulnerable to an information exposure vulnerability through log files. The cli supports URLs like \`<protocol>://[<user>[:<password>]@]<hostname>[:<port>][:][/]<path>\`. The password value is not redacted and is printed to stdout and also to any generated log files.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package npm-registry-fetch to the fixed version: 8.1.1, 4.0.5 or remove the package from the image.",
     "name": "Sensitive information exposure through logs in npm-registry-fetch",
     "osi_layer": "NOT_APPLICABLE",
     "reference": null,
@@ -2068,6 +2132,7 @@ No fix is currently available. Consider using an alternative package until a fix
     "category": "NPM Package Vulnerability",
     "description": "This affects the package npm-user-validate before 1.0.1. The regex that validates user emails took exponentially longer to process long input strings beginning with @ characters.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package npm-user-validate to the fixed version: 1.0.1 or remove the package from the image.",
     "name": "nodejs-npm-user-validate: improper input validation when validating user emails leads to ReDoS",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2100,6 +2165,7 @@ The issue is patched in version 1.0.1 by improving the regular expression used a
 ### Workarounds
 Restrict the character length to a reasonable degree before passing a value to \`.emal()\`; Also, consider doing a more rigorous sanitizing/validation beforehand.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package npm-user-validate to the fixed version: 1.0.1 or remove the package from the image.",
     "name": "Regular Expression Denial of Service in npm-user-validate",
     "osi_layer": "NOT_APPLICABLE",
     "reference": null,
@@ -2126,6 +2192,7 @@ Restrict the character length to a reasonable degree before passing a value to \
     "category": "NPM Package Vulnerability",
     "description": "All versions of package path-parse are vulnerable to Regular Expression Denial of Service (ReDoS) via splitDeviceRe, splitTailRe, and splitPathRe regular expressions. ReDoS exhibits polynomial worst-case time complexity.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package path-parse to the fixed version: 1.0.7 or remove the package from the image.",
     "name": "nodejs-path-parse: ReDoS via splitDeviceRe, splitTailRe and splitPathRe",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2156,6 +2223,7 @@ Restrict the character length to a reasonable degree before passing a value to \
     "category": "NPM Package Vulnerability",
     "description": "Pug is an npm package which is a high-performance template engine. In pug before version 3.0.1, if a remote attacker was able to control the \`pretty\` option of the pug compiler, e.g. if you spread a user provided object such as the query parameters of a request into the pug template inputs, it was possible for them to achieve remote code execution on the node.js backend. This is fixed in version 3.0.1. This advisory applies to multiple pug packages including "pug", "pug-code-gen". pug-code-gen has a backported fix at version 2.0.3. This advisory is not exploitable if there is no way for un-trusted input to be passed to pug as the \`pretty\` option, e.g. if you compile templates in advance before applying user input to them, you do not need to upgrade.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package pug to the fixed version: 3.0.1 or remove the package from the image.",
     "name": "Remote code execution via the \`pretty\` option.",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2186,6 +2254,7 @@ Restrict the character length to a reasonable degree before passing a value to \
     "category": "NPM Package Vulnerability",
     "description": "Pug is an npm package which is a high-performance template engine. In pug before version 3.0.1, if a remote attacker was able to control the \`pretty\` option of the pug compiler, e.g. if you spread a user provided object such as the query parameters of a request into the pug template inputs, it was possible for them to achieve remote code execution on the node.js backend. This is fixed in version 3.0.1. This advisory applies to multiple pug packages including "pug", "pug-code-gen". pug-code-gen has a backported fix at version 2.0.3. This advisory is not exploitable if there is no way for un-trusted input to be passed to pug as the \`pretty\` option, e.g. if you compile templates in advance before applying user input to them, you do not need to upgrade.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package pug-code-gen to the fixed version: 3.0.2, 2.0.3 or remove the package from the image.",
     "name": "Remote code execution via the \`pretty\` option.",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2212,6 +2281,7 @@ Restrict the character length to a reasonable degree before passing a value to \
     "category": "NPM Package Vulnerability",
     "description": "sanitize-html before 1.4.3 has XSS.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package sanitize-html to the fixed version: 1.4.3 or remove the package from the image.",
     "name": "XSS - Sanitization not applied recursively",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2238,6 +2308,7 @@ Restrict the character length to a reasonable degree before passing a value to \
     "category": "NPM Package Vulnerability",
     "description": "Sanitize-html is a library for scrubbing html input of malicious values. Versions 1.11.1 and below are vulnerable to cross site scripting (XSS) in certain scenarios: If allowed at least one nonTextTags, the result is a potential XSS vulnerability.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package sanitize-html to the fixed version: 1.11.4 or remove the package from the image.",
     "name": "Cross-Site Scripting in sanitize-html",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2264,6 +2335,7 @@ Restrict the character length to a reasonable degree before passing a value to \
     "category": "NPM Package Vulnerability",
     "description": "Apostrophe Technologies sanitize-html before 2.3.1 does not properly handle internationalized domain name (IDN) which could allow an attacker to bypass hostname whitelist validation set by the "allowedIframeHostnames" option.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package sanitize-html to the fixed version: 2.3.1 or remove the package from the image.",
     "name": "sanitize-html: improper handling of internationalized domain name (IDN) can lead to bypass hostname whitelist validation",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2290,6 +2362,7 @@ Restrict the character length to a reasonable degree before passing a value to \
     "category": "NPM Package Vulnerability",
     "description": "Apostrophe Technologies sanitize-html before 2.3.2 does not properly validate the hostnames set by the "allowedIframeHostnames" option when the "allowIframeRelativeUrls" is set to true, which allows attackers to bypass hostname whitelist for iframe element, related using an src value that starts with "/\\\\example.com".",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package sanitize-html to the fixed version: 2.3.2 or remove the package from the image.",
     "name": "sanitize-html: improper validation of hostnames set by the "allowedIframeHostnames" option can lead to bypass hostname whitelist for iframe element",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2331,6 +2404,7 @@ console.log(clean);
 // !<textarea></textarea><svg/onload=prompt\`xs\`></textarea>!
 \`\`\`",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package sanitize-html to the fixed version: >=1.11.4 or remove the package from the image.",
     "name": "Cross Site Scripting",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2359,6 +2433,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "This affects the package set-value before <2.0.1, >=3.0.0 <4.0.1. A type confusion vulnerability can lead to a bypass of CVE-2019-10747 when the user-provided keys used in the path parameter are arrays.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package set-value to the fixed version: 4.0.1 or remove the package from the image.",
     "name": "nodejs-set-value: type confusion allows bypass of CVE-2019-10747",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2386,6 +2461,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "The package socket.io before 2.4.0 are vulnerable to Insecure Defaults due to CORS Misconfiguration. All domains are whitelisted by default.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package socket.io to the fixed version: 2.4.0 or remove the package from the image.",
     "name": "Insecure defaults due to CORS misconfiguration in socket.io",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2413,6 +2489,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "socket.io-parser before 3.4.1 allows attackers to cause a denial of service (memory consumption) via a large packet because a concatenation approach is used.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package socket.io-parser to the fixed version: 3.4.1, 3.3.2 or remove the package from the image.",
     "name": "yarnpkg-socket.io-parser: a denial of service (memory consumption) via a large packet because a concatenation approach is used",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2440,6 +2517,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "socket.io-parser before 3.4.1 allows attackers to cause a denial of service (memory consumption) via a large packet because a concatenation approach is used.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package socket.io-parser to the fixed version: 3.4.1, 3.3.2 or remove the package from the image.",
     "name": "yarnpkg-socket.io-parser: a denial of service (memory consumption) via a large packet because a concatenation approach is used",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2470,6 +2548,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "ssri 5.2.2-8.0.0, fixed in 8.0.1, processes SRIs using a regular expression which is vulnerable to a denial of service. Malicious SRIs could take an extremely long time to process, leading to denial of service. This issue only affects consumers using the strict option.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package ssri to the fixed version: 8.0.1, 7.1.1, 6.0.2 or remove the package from the image.",
     "name": "nodejs-ssri: Regular expression DoS (ReDoS) when parsing malicious SRI in strict mode",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2500,6 +2579,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "The npm package "tar" (aka node-tar) before versions 6.1.2, 5.0.7, 4.4.15, and 3.2.3 has an arbitrary File Creation/Overwrite vulnerability via insufficient symlink protection. \`node-tar\` aims to guarantee that any file whose location would be modified by a symbolic link is not extracted. This is, in part, achieved by ensuring that extracted directories are not symlinks. Additionally, in order to prevent unnecessary \`stat\` calls to determine whether a given path is a directory, paths are cached when directories are created. This logic was insufficient when extracting tar files that contained both a directory and a symlink with the same name as the directory. This order of operations resulted in the directory being created and added to the \`node-tar\` directory cache. When a directory is present in the directory cache, subsequent calls to mkdir for that directory are skipped. However, this is also where \`node-tar\` checks for symlinks occur. By first creating a directory, and then replacing that directory with a symlink, it was thus possible to bypass \`node-tar\` symlink checks on directories, essentially allowing an untrusted tar file to symlink into an arbitrary location and subsequently extracting arbitrary files into that location, thus allowing arbitrary file creation and overwrite. This issue was addressed in releases 3.2.3, 4.4.15, 5.0.7 and 6.1.2.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package tar to the fixed version: 6.1.2, 5.0.7, 4.4.15, 3.2.3 or remove the package from the image.",
     "name": "nodejs-tar: Insufficient symlink protection allowing arbitrary file creation and overwrite",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2530,6 +2610,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "The npm package "tar" (aka node-tar) before versions 6.1.1, 5.0.6, 4.4.14, and 3.3.2 has a arbitrary File Creation/Overwrite vulnerability due to insufficient absolute path sanitization. node-tar aims to prevent extraction of absolute file paths by turning absolute paths into relative paths when the \`preservePaths\` flag is not set to \`true\`. This is achieved by stripping the absolute path root from any absolute file paths contained in a tar file. For example \`/home/user/.bashrc\` would turn into \`home/user/.bashrc\`. This logic was insufficient when file paths contained repeated path roots such as \`////home/user/.bashrc\`. \`node-tar\` would only strip a single path root from such paths. When given an absolute file path with repeating path roots, the resulting path (e.g. \`///home/user/.bashrc\`) would still resolve to an absolute path, thus allowing arbitrary file creation and overwrite. This issue was addressed in releases 3.2.2, 4.4.14, 5.0.6 and 6.1.1. Users may work around this vulnerability without upgrading by creating a custom \`onentry\` method which sanitizes the \`entry.path\` or a \`filter\` method which removes entries with absolute paths. See referenced GitHub Advisory for details. Be aware of CVE-2021-32803 which fixes a similar bug in later versions of tar.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package tar to the fixed version: 6.1.1, 5.0.6, 4.4.14, 3.2.2 or remove the package from the image.",
     "name": "nodejs-tar: Insufficient absolute path sanitization allowing arbitrary file creation and overwrite",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2557,6 +2638,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "The npm package "tar" (aka node-tar) before versions 4.4.16, 5.0.8, and 6.1.7 has an arbitrary file creation/overwrite and arbitrary code execution vulnerability. node-tar aims to guarantee that any file whose location would be modified by a symbolic link is not extracted. This is, in part, achieved by ensuring that extracted directories are not symlinks. Additionally, in order to prevent unnecessary stat calls to determine whether a given path is a directory, paths are cached when directories are created. This logic was insufficient when extracting tar files that contained both a directory and a symlink with the same name as the directory, where the symlink and directory names in the archive entry used backslashes as a path separator on posix systems. The cache checking logic used both \`\\\` and \`/\` characters as path separators, however \`\\\` is a valid filename character on posix systems. By first creating a directory, and then replacing that directory with a symlink, it was thus possible to bypass node-tar symlink checks on directories, essentially allowing an untrusted tar file to symlink into an arbitrary location and subsequently extracting arbitrary files into that location, thus allowing arbitrary file creation and overwrite. Additionally, a similar confusion could arise on case-insensitive filesystems. If a tar archive contained a directory at \`FOO\`, followed by a symbolic link named \`foo\`, then on case-insensitive file systems, the creation of the symbolic link would remove the directory from the filesystem, but _not_ from the internal directory cache, as it would not be treated as a cache hit. A subsequent file entry within the \`FOO\` directory would then be placed in the target of the symbolic link, thinking that the directory had already been created. These issues were addressed in releases 4.4.16, 5.0.8 and 6.1.7. The v3 branch of node-tar has been deprecated and did not receive patches for these issues. If you are still using a v3 release we recommend you update to a more recent version of node-tar. If this is not possible, a workaround is available in the referenced GHSA-9r2w-394v-53qc.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package tar to the fixed version: 6.1.7, 5.0.8, 4.4.16 or remove the package from the image.",
     "name": "nodejs-tar: insufficient symlink protection due to directory cache poisoning using symbolic links allowing arbitrary file creation and overwrite",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2584,6 +2666,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "The npm package "tar" (aka node-tar) before versions 4.4.18, 5.0.10, and 6.1.9 has an arbitrary file creation/overwrite and arbitrary code execution vulnerability. node-tar aims to guarantee that any file whose location would be modified by a symbolic link is not extracted. This is, in part, achieved by ensuring that extracted directories are not symlinks. Additionally, in order to prevent unnecessary stat calls to determine whether a given path is a directory, paths are cached when directories are created. This logic was insufficient when extracting tar files that contained both a directory and a symlink with names containing unicode values that normalized to the same value. Additionally, on Windows systems, long path portions would resolve to the same file system entities as their 8.3 "short path" counterparts. A specially crafted tar archive could thus include a directory with one form of the path, followed by a symbolic link with a different string that resolves to the same file system entity, followed by a file using the first form. By first creating a directory, and then replacing that directory with a symlink that had a different apparent name that resolved to the same entry in the filesystem, it was thus possible to bypass node-tar symlink checks on directories, essentially allowing an untrusted tar file to symlink into an arbitrary location and subsequently extracting arbitrary files into that location, thus allowing arbitrary file creation and overwrite. These issues were addressed in releases 4.4.18, 5.0.10 and 6.1.9. The v3 branch of node-tar has been deprecated and did not receive patches for these issues. If you are still using a v3 release we recommend you update to a more recent version of node-tar. If this is not possible, a workaround is available in the referenced GHSA-qq89-hq3f-393p.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package tar to the fixed version: 6.1.9, 5.0.10, 4.4.18 or remove the package from the image.",
     "name": "nodejs-tar: insufficient symlink protection due to directory cache poisoning using symbolic links allowing arbitrary file creation and overwrite",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2610,6 +2693,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "The npm package "tar" (aka node-tar) before versions 4.4.18, 5.0.10, and 6.1.9 has an arbitrary file creation/overwrite and arbitrary code execution vulnerability. node-tar aims to guarantee that any file whose location would be outside of the extraction target directory is not extracted. This is, in part, accomplished by sanitizing absolute paths of entries within the archive, skipping archive entries that contain \`..\` path portions, and resolving the sanitized paths against the extraction target directory. This logic was insufficient on Windows systems when extracting tar files that contained a path that was not an absolute path, but specified a drive letter different from the extraction target, such as \`C:some\\path\`. If the drive letter does not match the extraction target, for example \`D:\\extraction\\dir\`, then the result of \`path.resolve(extractionDirectory, entryPath)\` would resolve against the current working directory on the \`C:\` drive, rather than the extraction target directory. Additionally, a \`..\` portion of the path could occur immediately after the drive letter, such as \`C:../foo\`, and was not properly sanitized by the logic that checked for \`..\` within the normalized and split portions of the path. This only affects users of \`node-tar\` on Windows systems. These issues were addressed in releases 4.4.18, 5.0.10 and 6.1.9. The v3 branch of node-tar has been deprecated and did not receive patches for these issues. If you are still using a v3 release we recommend you update to a more recent version of node-tar. There is no reasonable way to work around this issue without performing the same path normalization procedures that node-tar now does. Users are encouraged to upgrade to the latest patched versions of node-tar, rather than attempt to sanitize paths themselves.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package tar to the fixed version: 6.1.9, 5.0.10, 4.4.18 or remove the package from the image.",
     "name": "Arbitrary File Creation/Overwrite on Windows via insufficient relative path sanitization",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2635,6 +2719,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "The trim-newlines package before 3.0.1 and 4.x before 4.0.1 for Node.js has an issue related to regular expression denial-of-service (ReDoS) for the .end() method.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package trim-newlines to the fixed version: 4.0.1, 3.0.1 or remove the package from the image.",
     "name": "nodejs-trim-newlines: ReDoS in .end() method",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2660,6 +2745,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "validator.js is vulnerable to Inefficient Regular Expression Complexity",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package validator to the fixed version: 13.7.0 or remove the package from the image.",
     "name": "Inefficient Regular Expression Complexity in validator.js",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2686,6 +2772,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "ws is an open source WebSocket client and server library for Node.js. A specially crafted value of the \`Sec-Websocket-Protocol\` header can be used to significantly slow down a ws server. The vulnerability has been fixed in ws@7.4.6 (https://github.com/websockets/ws/commit/00c425ec77993773d823f018f64a5c44e17023ff). In vulnerable versions of ws, the issue can be mitigated by reducing the maximum allowed length of the request headers using the [\`--max-http-header-size=size\`](https://nodejs.org/api/cli.html#cli_max_http_header_size_size) and/or the [\`maxHeaderSize\`](https://nodejs.org/api/http.html#http_http_createserver_options_requestlistener) options.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package ws to the fixed version: 5.2.3, 6.2.2, 7.4.6 or remove the package from the image.",
     "name": "nodejs-ws: Specially crafted value of the \`Sec-Websocket-Protocol\` header can be used to significantly slow down a ws server",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2712,6 +2799,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "ws is an open source WebSocket client and server library for Node.js. A specially crafted value of the \`Sec-Websocket-Protocol\` header can be used to significantly slow down a ws server. The vulnerability has been fixed in ws@7.4.6 (https://github.com/websockets/ws/commit/00c425ec77993773d823f018f64a5c44e17023ff). In vulnerable versions of ws, the issue can be mitigated by reducing the maximum allowed length of the request headers using the [\`--max-http-header-size=size\`](https://nodejs.org/api/cli.html#cli_max_http_header_size_size) and/or the [\`maxHeaderSize\`](https://nodejs.org/api/http.html#http_http_createserver_options_requestlistener) options.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package ws to the fixed version: 5.2.3, 6.2.2, 7.4.6 or remove the package from the image.",
     "name": "nodejs-ws: Specially crafted value of the \`Sec-Websocket-Protocol\` header can be used to significantly slow down a ws server",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2739,6 +2827,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "The xmlhttprequest-ssl package before 1.6.1 for Node.js disables SSL certificate validation by default, because rejectUnauthorized (when the property exists but is undefined) is considered to be false within the https.request function of Node.js. In other words, no certificate is ever rejected.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package xmlhttprequest-ssl to the fixed version: 1.6.1 or remove the package from the image.",
     "name": "xmlhttprequest-ssl: SSL certificate validation disabled by default",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2767,6 +2856,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "This affects the package xmlhttprequest before 1.7.0; all versions of package xmlhttprequest-ssl. Provided requests are sent synchronously (async=False on xhr.open), malicious user input flowing into xhr.send could result in arbitrary code being injected and run.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package xmlhttprequest-ssl to the fixed version: 1.6.2 or remove the package from the image.",
     "name": "nodejs-xmlhttprequest: Code injection through user input to xhr.send",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2797,6 +2887,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "This affects the package y18n before 3.2.2, 4.0.1 and 5.0.5. PoC by po6ix: const y18n = require('y18n')(); y18n.setLocale('__proto__'); y18n.updateLocale({polluted: true}); console.log(polluted); // true",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package y18n to the fixed version: 5.0.5, 4.0.1, 3.2.2 or remove the package from the image.",
     "name": "nodejs-y18n: prototype pollution vulnerability",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2827,6 +2918,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "This affects the package y18n before 3.2.2, 4.0.1 and 5.0.5. PoC by po6ix: const y18n = require('y18n')(); y18n.setLocale('__proto__'); y18n.updateLocale({polluted: true}); console.log(polluted); // true",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package y18n to the fixed version: 5.0.5, 4.0.1, 3.2.2 or remove the package from the image.",
     "name": "nodejs-y18n: prototype pollution vulnerability",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2853,6 +2945,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "yargs-parser could be tricked into adding or modifying properties of Object.prototype using a "__proto__" payload.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package yargs-parser to the fixed version: 5.0.1, 13.1.2, 18.1.2, 15.0.1 or remove the package from the image.",
     "name": "nodejs-yargs-parser: prototype pollution vulnerability",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2879,6 +2972,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "yargs-parser could be tricked into adding or modifying properties of Object.prototype using a "__proto__" payload.",
     "location": "bkimminich/juice-shop:v10.2.0",
+    "mitigation": "Update the affected package yargs-parser to the fixed version: 5.0.1, 13.1.2, 18.1.2, 15.0.1 or remove the package from the image.",
     "name": "nodejs-yargs-parser: prototype pollution vulnerability",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2909,6 +3003,7 @@ exports[`parses bkimminich/juice-shop:v12.10.2 result file into findings 1`] = `
     "category": "NPM Package Vulnerability",
     "description": "ansi-regex is vulnerable to Inefficient Regular Expression Complexity",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package ansi-regex to the fixed version: 5.0.1, 6.0.1 or remove the package from the image.",
     "name": "nodejs-ansi-regex: Regular expression denial of service (ReDoS) matching ANSI escape codes",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2934,6 +3029,7 @@ exports[`parses bkimminich/juice-shop:v12.10.2 result file into findings 1`] = `
     "category": "NPM Package Vulnerability",
     "description": "ansi-regex is vulnerable to Inefficient Regular Expression Complexity",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package ansi-regex to the fixed version: 5.0.1, 6.0.1 or remove the package from the image.",
     "name": "nodejs-ansi-regex: Regular expression denial of service (ReDoS) matching ANSI escape codes",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2957,6 +3053,7 @@ exports[`parses bkimminich/juice-shop:v12.10.2 result file into findings 1`] = `
     "category": "NPM Package Vulnerability",
     "description": "\`base64url\` allocates uninitialized Buffers when number is passed in input on Node.js 4.x and below",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package base64url to the fixed version: >=3.0.0 or remove the package from the image.",
     "name": "Out-of-bounds Read",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -2985,6 +3082,7 @@ exports[`parses bkimminich/juice-shop:v12.10.2 result file into findings 1`] = `
 
 Update to version 3.0.0 or later.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package base64url to the fixed version: 3.0.0 or remove the package from the image.",
     "name": "Out-of-bounds Read in base64url",
     "osi_layer": "NOT_APPLICABLE",
     "reference": null,
@@ -3005,6 +3103,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "A vulnerability was found in diff before v3.5.0, the affected versions of this package are vulnerable to Regular Expression Denial of Service (ReDoS) attacks.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package diff to the fixed version: 3.5.0 or remove the package from the image.",
     "name": "Regular Expression Denial of Service (ReDoS)",
     "osi_layer": "NOT_APPLICABLE",
     "reference": null,
@@ -3027,6 +3126,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "In express-jwt (NPM package) up and including version 5.3.3, the algorithms entry to be specified in the configuration is not being enforced. When algorithms is not specified in the configuration, with the combination of jwks-rsa, it may lead to authorization bypass. You are affected by this vulnerability if all of the following conditions apply: - You are using express-jwt - You do not have **algorithms** configured in your express-jwt configuration. - You are using libraries such as jwks-rsa as the **secret**. You can fix this by specifying **algorithms** in the express-jwt configuration. See linked GHSA for example. This is also fixed in version 6.0.0.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package express-jwt to the fixed version: 6.0.0 or remove the package from the image.",
     "name": "Authorization bypass in express-jwt",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3054,6 +3154,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "Growl adds growl notification support to nodejs. Growl before 1.10.2 does not properly sanitize input before passing it to exec, allowing for arbitrary command execution.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package growl to the fixed version: 1.10.0 or remove the package from the image.",
     "name": "nodejs-growl: Does not properly sanitize input before passing it to exec",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3078,6 +3179,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "The npm hbs package is an Express view engine wrapper for Handlebars. Depending on usage, users of hbs may be vulnerable to a file disclosure vulnerability. There is currently no patch for this vulnerability. hbs mixes pure template data with engine configuration options through the Express render API. By overwriting internal configuration options a file disclosure vulnerability may be triggered in downstream applications. For an example PoC see the referenced GHSL-2021-020.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package hbs to the fixed version: undefined or remove the package from the image.",
     "name": "Insertion of Sensitive Information into Externally-Accessible File or Directory and Exposure of Sensitive Information to an Unauthorized Actor in hbs",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3105,6 +3207,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "In jsonwebtoken node module before 4.2.2 it is possible for an attacker to bypass verification when a token digitally signed with an asymmetric key (RS/ES family) of algorithms but instead the attacker send a token digitally signed with a symmetric algorithm (HS* family).",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package jsonwebtoken to the fixed version: 4.2.2 or remove the package from the image.",
     "name": "nodejs-jsonwebtoken: verification step bypass with an altered token",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3129,6 +3232,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "It is possible for an attacker to bypass verification when "a token digitally signed with an asymetric key (RS/ES family) of algorithms but instead the attacker send a token digitally signed with a symmetric algorithm (HS* family)" [1]",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package jsonwebtoken to the fixed version: >=4.2.2 or remove the package from the image.",
     "name": "Verification Bypass",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3156,6 +3260,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "In jsonwebtoken node module before 4.2.2 it is possible for an attacker to bypass verification when a token digitally signed with an asymmetric key (RS/ES family) of algorithms but instead the attacker send a token digitally signed with a symmetric algorithm (HS* family).",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package jsonwebtoken to the fixed version: 4.2.2 or remove the package from the image.",
     "name": "nodejs-jsonwebtoken: verification step bypass with an altered token",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3180,6 +3285,7 @@ Update to version 3.0.0 or later.",
     "category": "NPM Package Vulnerability",
     "description": "It is possible for an attacker to bypass verification when "a token digitally signed with an asymetric key (RS/ES family) of algorithms but instead the attacker send a token digitally signed with a symmetric algorithm (HS* family)" [1]",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package jsonwebtoken to the fixed version: >=4.2.2 or remove the package from the image.",
     "name": "Verification Bypass",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3209,6 +3315,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
 
 *Edit ( 7/29/16 ): A previous version of this advisory incorrectly stated that the vulnerability was patched in version 2.0.0 instead of 3.0.0. The advisory has been updated to reflect this new information. Thanks to Fabien Catteau for reporting the error.*",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package jws to the fixed version: 3.0.0 or remove the package from the image.",
     "name": "Forgeable Public/Private Tokens",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3238,6 +3345,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
     "category": "NPM Package Vulnerability",
     "description": "Versions of lodash lower than 4.17.12 are vulnerable to Prototype Pollution. The function defaultsDeep could be tricked into adding or modifying properties of Object.prototype using a constructor payload.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package lodash to the fixed version: 4.17.12 or remove the package from the image.",
     "name": "nodejs-lodash: prototype pollution in defaultsDeep function leading to modifying properties",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3268,6 +3376,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
     "category": "NPM Package Vulnerability",
     "description": "Prototype pollution attack when using _.zipObjectDeep in lodash before 4.17.20.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package lodash to the fixed version: 4.17.19 or remove the package from the image.",
     "name": "nodejs-lodash: prototype pollution in zipObjectDeep function",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3302,6 +3411,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
     "category": "NPM Package Vulnerability",
     "description": "Lodash versions prior to 4.17.21 are vulnerable to Command Injection via the template function.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package lodash to the fixed version: 4.17.21 or remove the package from the image.",
     "name": "nodejs-lodash: command injection via template",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3328,6 +3438,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
     "category": "NPM Package Vulnerability",
     "description": "A prototype pollution vulnerability was found in lodash <4.17.11 where the functions merge, mergeWith, and defaultsDeep can be tricked into adding or modifying properties of Object.prototype.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package lodash to the fixed version: 4.17.11 or remove the package from the image.",
     "name": "lodash: Prototype pollution in utilities function",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3357,6 +3468,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
     "category": "NPM Package Vulnerability",
     "description": "lodash node module before 4.17.5 suffers from a Modification of Assumed-Immutable Data (MAID) vulnerability via defaultsDeep, merge, and mergeWith functions, which allows a malicious user to modify the prototype of "Object" via __proto__, causing the addition or modification of an existing property that will exist on all objects.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package lodash to the fixed version: 4.17.5 or remove the package from the image.",
     "name": "lodash: Prototype pollution in utilities function",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3385,6 +3497,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
     "category": "NPM Package Vulnerability",
     "description": "lodash prior to 4.17.11 is affected by: CWE-400: Uncontrolled Resource Consumption. The impact is: Denial of service. The component is: Date handler. The attack vector is: Attacker provides very long strings, which the library attempts to match using a regular expression. The fixed version is: 4.17.11.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package lodash to the fixed version: 4.17.11 or remove the package from the image.",
     "name": "lodash: uncontrolled resource consumption in Data handler causing denial of service",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3414,6 +3527,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
     "category": "NPM Package Vulnerability",
     "description": "Versions of lodash lower than 4.17.12 are vulnerable to Prototype Pollution. The function defaultsDeep could be tricked into adding or modifying properties of Object.prototype using a constructor payload.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package lodash to the fixed version: 4.17.12 or remove the package from the image.",
     "name": "nodejs-lodash: prototype pollution in defaultsDeep function leading to modifying properties",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3444,6 +3558,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
     "category": "NPM Package Vulnerability",
     "description": "Prototype pollution attack when using _.zipObjectDeep in lodash before 4.17.20.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package lodash to the fixed version: 4.17.19 or remove the package from the image.",
     "name": "nodejs-lodash: prototype pollution in zipObjectDeep function",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3478,6 +3593,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
     "category": "NPM Package Vulnerability",
     "description": "Lodash versions prior to 4.17.21 are vulnerable to Command Injection via the template function.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package lodash to the fixed version: 4.17.21 or remove the package from the image.",
     "name": "nodejs-lodash: command injection via template",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3506,6 +3622,7 @@ In addition, there is the \`none\` algorithm to be concerned about.  In versions
 
 No fix is currently available. Consider using an alternative package until a fix is made available.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package marsdb to the fixed version: undefined or remove the package from the image.",
     "name": "Command Injection in marsdb",
     "osi_layer": "NOT_APPLICABLE",
     "reference": null,
@@ -3529,6 +3646,7 @@ No fix is currently available. Consider using an alternative package until a fix
     "category": "NPM Package Vulnerability",
     "description": "The moment module before 2.19.3 for Node.js is prone to a regular expression denial of service via a crafted date string, a different vulnerability than CVE-2016-4055.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package moment to the fixed version: 2.19.3 or remove the package from the image.",
     "name": "nodejs-moment: Regular expression denial of service",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3562,6 +3680,7 @@ No fix is currently available. Consider using an alternative package until a fix
     "category": "NPM Package Vulnerability",
     "description": "The duration function in the moment package before 2.11.2 for Node.js allows remote attackers to cause a denial of service (CPU consumption) via a long string, aka a "regular expression Denial of Service (ReDoS)."",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package moment to the fixed version: 2.11.2 or remove the package from the image.",
     "name": "moment.js: regular expression denial of service",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3588,6 +3707,7 @@ No fix is currently available. Consider using an alternative package until a fix
     "category": "NPM Package Vulnerability",
     "description": "sanitize-html before 1.4.3 has XSS.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package sanitize-html to the fixed version: 1.4.3 or remove the package from the image.",
     "name": "XSS - Sanitization not applied recursively",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3614,6 +3734,7 @@ No fix is currently available. Consider using an alternative package until a fix
     "category": "NPM Package Vulnerability",
     "description": "Sanitize-html is a library for scrubbing html input of malicious values. Versions 1.11.1 and below are vulnerable to cross site scripting (XSS) in certain scenarios: If allowed at least one nonTextTags, the result is a potential XSS vulnerability.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package sanitize-html to the fixed version: 1.11.4 or remove the package from the image.",
     "name": "Cross-Site Scripting in sanitize-html",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3640,6 +3761,7 @@ No fix is currently available. Consider using an alternative package until a fix
     "category": "NPM Package Vulnerability",
     "description": "Apostrophe Technologies sanitize-html before 2.3.1 does not properly handle internationalized domain name (IDN) which could allow an attacker to bypass hostname whitelist validation set by the "allowedIframeHostnames" option.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package sanitize-html to the fixed version: 2.3.1 or remove the package from the image.",
     "name": "sanitize-html: improper handling of internationalized domain name (IDN) can lead to bypass hostname whitelist validation",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3666,6 +3788,7 @@ No fix is currently available. Consider using an alternative package until a fix
     "category": "NPM Package Vulnerability",
     "description": "Apostrophe Technologies sanitize-html before 2.3.2 does not properly validate the hostnames set by the "allowedIframeHostnames" option when the "allowIframeRelativeUrls" is set to true, which allows attackers to bypass hostname whitelist for iframe element, related using an src value that starts with "/\\\\example.com".",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package sanitize-html to the fixed version: 2.3.2 or remove the package from the image.",
     "name": "sanitize-html: improper validation of hostnames set by the "allowedIframeHostnames" option can lead to bypass hostname whitelist for iframe element",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3707,6 +3830,7 @@ console.log(clean);
 // !<textarea></textarea><svg/onload=prompt\`xs\`></textarea>!
 \`\`\`",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package sanitize-html to the fixed version: >=1.11.4 or remove the package from the image.",
     "name": "Cross Site Scripting",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3735,6 +3859,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "This affects the package set-value before <2.0.1, >=3.0.0 <4.0.1. A type confusion vulnerability can lead to a bypass of CVE-2019-10747 when the user-provided keys used in the path parameter are arrays.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package set-value to the fixed version: 4.0.1 or remove the package from the image.",
     "name": "nodejs-set-value: type confusion allows bypass of CVE-2019-10747",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3765,6 +3890,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "The npm package "tar" (aka node-tar) before versions 6.1.2, 5.0.7, 4.4.15, and 3.2.3 has an arbitrary File Creation/Overwrite vulnerability via insufficient symlink protection. \`node-tar\` aims to guarantee that any file whose location would be modified by a symbolic link is not extracted. This is, in part, achieved by ensuring that extracted directories are not symlinks. Additionally, in order to prevent unnecessary \`stat\` calls to determine whether a given path is a directory, paths are cached when directories are created. This logic was insufficient when extracting tar files that contained both a directory and a symlink with the same name as the directory. This order of operations resulted in the directory being created and added to the \`node-tar\` directory cache. When a directory is present in the directory cache, subsequent calls to mkdir for that directory are skipped. However, this is also where \`node-tar\` checks for symlinks occur. By first creating a directory, and then replacing that directory with a symlink, it was thus possible to bypass \`node-tar\` symlink checks on directories, essentially allowing an untrusted tar file to symlink into an arbitrary location and subsequently extracting arbitrary files into that location, thus allowing arbitrary file creation and overwrite. This issue was addressed in releases 3.2.3, 4.4.15, 5.0.7 and 6.1.2.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package tar to the fixed version: 6.1.2, 5.0.7, 4.4.15, 3.2.3 or remove the package from the image.",
     "name": "nodejs-tar: Insufficient symlink protection allowing arbitrary file creation and overwrite",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3795,6 +3921,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "The npm package "tar" (aka node-tar) before versions 6.1.1, 5.0.6, 4.4.14, and 3.3.2 has a arbitrary File Creation/Overwrite vulnerability due to insufficient absolute path sanitization. node-tar aims to prevent extraction of absolute file paths by turning absolute paths into relative paths when the \`preservePaths\` flag is not set to \`true\`. This is achieved by stripping the absolute path root from any absolute file paths contained in a tar file. For example \`/home/user/.bashrc\` would turn into \`home/user/.bashrc\`. This logic was insufficient when file paths contained repeated path roots such as \`////home/user/.bashrc\`. \`node-tar\` would only strip a single path root from such paths. When given an absolute file path with repeating path roots, the resulting path (e.g. \`///home/user/.bashrc\`) would still resolve to an absolute path, thus allowing arbitrary file creation and overwrite. This issue was addressed in releases 3.2.2, 4.4.14, 5.0.6 and 6.1.1. Users may work around this vulnerability without upgrading by creating a custom \`onentry\` method which sanitizes the \`entry.path\` or a \`filter\` method which removes entries with absolute paths. See referenced GitHub Advisory for details. Be aware of CVE-2021-32803 which fixes a similar bug in later versions of tar.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package tar to the fixed version: 6.1.1, 5.0.6, 4.4.14, 3.2.2 or remove the package from the image.",
     "name": "nodejs-tar: Insufficient absolute path sanitization allowing arbitrary file creation and overwrite",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3822,6 +3949,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "The npm package "tar" (aka node-tar) before versions 4.4.16, 5.0.8, and 6.1.7 has an arbitrary file creation/overwrite and arbitrary code execution vulnerability. node-tar aims to guarantee that any file whose location would be modified by a symbolic link is not extracted. This is, in part, achieved by ensuring that extracted directories are not symlinks. Additionally, in order to prevent unnecessary stat calls to determine whether a given path is a directory, paths are cached when directories are created. This logic was insufficient when extracting tar files that contained both a directory and a symlink with the same name as the directory, where the symlink and directory names in the archive entry used backslashes as a path separator on posix systems. The cache checking logic used both \`\\\` and \`/\` characters as path separators, however \`\\\` is a valid filename character on posix systems. By first creating a directory, and then replacing that directory with a symlink, it was thus possible to bypass node-tar symlink checks on directories, essentially allowing an untrusted tar file to symlink into an arbitrary location and subsequently extracting arbitrary files into that location, thus allowing arbitrary file creation and overwrite. Additionally, a similar confusion could arise on case-insensitive filesystems. If a tar archive contained a directory at \`FOO\`, followed by a symbolic link named \`foo\`, then on case-insensitive file systems, the creation of the symbolic link would remove the directory from the filesystem, but _not_ from the internal directory cache, as it would not be treated as a cache hit. A subsequent file entry within the \`FOO\` directory would then be placed in the target of the symbolic link, thinking that the directory had already been created. These issues were addressed in releases 4.4.16, 5.0.8 and 6.1.7. The v3 branch of node-tar has been deprecated and did not receive patches for these issues. If you are still using a v3 release we recommend you update to a more recent version of node-tar. If this is not possible, a workaround is available in the referenced GHSA-9r2w-394v-53qc.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package tar to the fixed version: 6.1.7, 5.0.8, 4.4.16 or remove the package from the image.",
     "name": "nodejs-tar: insufficient symlink protection due to directory cache poisoning using symbolic links allowing arbitrary file creation and overwrite",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3849,6 +3977,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "The npm package "tar" (aka node-tar) before versions 4.4.18, 5.0.10, and 6.1.9 has an arbitrary file creation/overwrite and arbitrary code execution vulnerability. node-tar aims to guarantee that any file whose location would be modified by a symbolic link is not extracted. This is, in part, achieved by ensuring that extracted directories are not symlinks. Additionally, in order to prevent unnecessary stat calls to determine whether a given path is a directory, paths are cached when directories are created. This logic was insufficient when extracting tar files that contained both a directory and a symlink with names containing unicode values that normalized to the same value. Additionally, on Windows systems, long path portions would resolve to the same file system entities as their 8.3 "short path" counterparts. A specially crafted tar archive could thus include a directory with one form of the path, followed by a symbolic link with a different string that resolves to the same file system entity, followed by a file using the first form. By first creating a directory, and then replacing that directory with a symlink that had a different apparent name that resolved to the same entry in the filesystem, it was thus possible to bypass node-tar symlink checks on directories, essentially allowing an untrusted tar file to symlink into an arbitrary location and subsequently extracting arbitrary files into that location, thus allowing arbitrary file creation and overwrite. These issues were addressed in releases 4.4.18, 5.0.10 and 6.1.9. The v3 branch of node-tar has been deprecated and did not receive patches for these issues. If you are still using a v3 release we recommend you update to a more recent version of node-tar. If this is not possible, a workaround is available in the referenced GHSA-qq89-hq3f-393p.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package tar to the fixed version: 6.1.9, 5.0.10, 4.4.18 or remove the package from the image.",
     "name": "nodejs-tar: insufficient symlink protection due to directory cache poisoning using symbolic links allowing arbitrary file creation and overwrite",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3875,6 +4004,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "The npm package "tar" (aka node-tar) before versions 4.4.18, 5.0.10, and 6.1.9 has an arbitrary file creation/overwrite and arbitrary code execution vulnerability. node-tar aims to guarantee that any file whose location would be outside of the extraction target directory is not extracted. This is, in part, accomplished by sanitizing absolute paths of entries within the archive, skipping archive entries that contain \`..\` path portions, and resolving the sanitized paths against the extraction target directory. This logic was insufficient on Windows systems when extracting tar files that contained a path that was not an absolute path, but specified a drive letter different from the extraction target, such as \`C:some\\path\`. If the drive letter does not match the extraction target, for example \`D:\\extraction\\dir\`, then the result of \`path.resolve(extractionDirectory, entryPath)\` would resolve against the current working directory on the \`C:\` drive, rather than the extraction target directory. Additionally, a \`..\` portion of the path could occur immediately after the drive letter, such as \`C:../foo\`, and was not properly sanitized by the logic that checked for \`..\` within the normalized and split portions of the path. This only affects users of \`node-tar\` on Windows systems. These issues were addressed in releases 4.4.18, 5.0.10 and 6.1.9. The v3 branch of node-tar has been deprecated and did not receive patches for these issues. If you are still using a v3 release we recommend you update to a more recent version of node-tar. There is no reasonable way to work around this issue without performing the same path normalization procedures that node-tar now does. Users are encouraged to upgrade to the latest patched versions of node-tar, rather than attempt to sanitize paths themselves.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package tar to the fixed version: 6.1.9, 5.0.10, 4.4.18 or remove the package from the image.",
     "name": "Arbitrary File Creation/Overwrite on Windows via insufficient relative path sanitization",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3900,6 +4030,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "validator.js is vulnerable to Inefficient Regular Expression Complexity",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package validator to the fixed version: 13.7.0 or remove the package from the image.",
     "name": "Inefficient Regular Expression Complexity in validator.js",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3928,6 +4059,7 @@ console.log(clean);
     "category": "NPM Package Vulnerability",
     "description": "This affects the package vm2 before 3.9.4 via a Prototype Pollution attack vector, which can lead to execution of arbitrary code on the host machine.",
     "location": "bkimminich/juice-shop:v12.10.2",
+    "mitigation": "Update the affected package vm2 to the fixed version: 3.9.4 or remove the package from the image.",
     "name": "Prototype Pollution in vm2",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3957,6 +4089,7 @@ exports[`parses securecodebox:master result file into findings 1`] = `
     "category": "Go Package Vulnerability",
     "description": "jwt-go before 4.0.0-preview1 allows attackers to bypass intended access restrictions in situations with []string{} for m["aud"] (which is allowed by the specification). Because the type assertion fails, "" is the value of aud. This is a security problem if the JWT token is presented to a service that lacks its own audience check.",
     "location": "https://github.com/secureCodeBox/secureCodeBox",
+    "mitigation": "Update the affected package github.com/dgrijalva/jwt-go to the fixed version: undefined or remove the package from the image.",
     "name": "jwt-go: access restriction bypass vulnerability",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -3987,6 +4120,7 @@ exports[`parses securecodebox:master result file into findings 1`] = `
     "category": "Go Package Vulnerability",
     "description": "An issue was discovered in GoGo Protobuf before 1.3.2. plugin/unmarshal/unmarshal.go lacks certain index validation, aka the "skippy peanut butter" issue.",
     "location": "https://github.com/secureCodeBox/secureCodeBox",
+    "mitigation": "Update the affected package github.com/gogo/protobuf to the fixed version: v1.3.2 or remove the package from the image.",
     "name": "gogo/protobuf: plugin/unmarshal/unmarshal.go lacks certain index validation",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -4013,6 +4147,7 @@ exports[`parses securecodebox:master result file into findings 1`] = `
     "category": "Go Package Vulnerability",
     "description": "The miekg Go DNS package before 1.1.25, as used in CoreDNS before 1.6.6 and other products, improperly generates random numbers because math/rand is used. The TXID becomes predictable, leading to response forgeries.",
     "location": "https://github.com/secureCodeBox/secureCodeBox",
+    "mitigation": "Update the affected package github.com/miekg/dns to the fixed version: v1.1.25-0.20191211073109-8ebf2e419df7 or remove the package from the image.",
     "name": "golang-github-miekg-dns: predictable TXID can lead to response forgeries",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -4039,6 +4174,7 @@ exports[`parses securecodebox:master result file into findings 1`] = `
     "category": "Go Package Vulnerability",
     "description": "A nil pointer dereference in the golang.org/x/crypto/ssh component through v0.0.0-20201203163018-be400aefbc4c for Go allows remote attackers to cause a denial of service against SSH servers.",
     "location": "https://github.com/secureCodeBox/secureCodeBox",
+    "mitigation": "Update the affected package golang.org/x/crypto to the fixed version: v0.0.0-20201216223049-8b5274cf687f or remove the package from the image.",
     "name": "golang: crypto/ssh: crafted authentication request can lead to nil pointer dereference",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -4063,6 +4199,7 @@ exports[`parses securecodebox:master result file into findings 1`] = `
     "category": "Go Package Vulnerability",
     "description": "jwt-go before 4.0.0-preview1 allows attackers to bypass intended access restrictions in situations with []string{} for m["aud"] (which is allowed by the specification). Because the type assertion fails, "" is the value of aud. This is a security problem if the JWT token is presented to a service that lacks its own audience check.",
     "location": "https://github.com/secureCodeBox/secureCodeBox",
+    "mitigation": "Update the affected package github.com/dgrijalva/jwt-go to the fixed version: undefined or remove the package from the image.",
     "name": "jwt-go: access restriction bypass vulnerability",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -4093,6 +4230,7 @@ exports[`parses securecodebox:master result file into findings 1`] = `
     "category": "Go Package Vulnerability",
     "description": "An issue was discovered in GoGo Protobuf before 1.3.2. plugin/unmarshal/unmarshal.go lacks certain index validation, aka the "skippy peanut butter" issue.",
     "location": "https://github.com/secureCodeBox/secureCodeBox",
+    "mitigation": "Update the affected package github.com/gogo/protobuf to the fixed version: v1.3.2 or remove the package from the image.",
     "name": "gogo/protobuf: plugin/unmarshal/unmarshal.go lacks certain index validation",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -4119,6 +4257,7 @@ exports[`parses securecodebox:master result file into findings 1`] = `
     "category": "Go Package Vulnerability",
     "description": "A nil pointer dereference in the golang.org/x/crypto/ssh component through v0.0.0-20201203163018-be400aefbc4c for Go allows remote attackers to cause a denial of service against SSH servers.",
     "location": "https://github.com/secureCodeBox/secureCodeBox",
+    "mitigation": "Update the affected package golang.org/x/crypto to the fixed version: v0.0.0-20201216223049-8b5274cf687f or remove the package from the image.",
     "name": "golang: crypto/ssh: crafted authentication request can lead to nil pointer dereference",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -4147,6 +4286,7 @@ exports[`parses securecodebox:master result file into findings 1`] = `
     "category": "Go Package Vulnerability",
     "description": "golang.org/x/crypto before v0.0.0-20200220183623-bac4c82f6975 for Go allows a panic during signature verification in the golang.org/x/crypto/ssh package. A client can attack an SSH server that accepts public keys. Also, a server can attack any SSH client.",
     "location": "https://github.com/secureCodeBox/secureCodeBox",
+    "mitigation": "Update the affected package golang.org/x/crypto to the fixed version: v0.0.0-20200220183623-bac4c82f6975 or remove the package from the image.",
     "name": "golang.org/x/crypto: Processing of crafted ssh-ed25519 public keys allows for panic",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -4174,6 +4314,7 @@ exports[`parses securecodebox:master result file into findings 1`] = `
     "category": "Go Package Vulnerability",
     "description": "The Kubernetes API Server component in versions 1.1-1.14, and versions prior to 1.15.10, 1.16.7 and 1.17.3 allows an authorized user who sends malicious YAML payloads to cause the kube-apiserver to consume excessive CPU cycles while parsing YAML.",
     "location": "https://github.com/secureCodeBox/secureCodeBox",
+    "mitigation": "Update the affected package gopkg.in/yaml.v2 to the fixed version: v2.2.8 or remove the package from the image.",
     "name": "kubernetes: Denial of service in API server via crafted YAML payloads by authorized users",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -4201,6 +4342,7 @@ exports[`parses securecodebox:master result file into findings 1`] = `
     "category": "Go Package Vulnerability",
     "description": "The Kubernetes client-go library logs request headers at verbosity levels of 7 or higher. This can disclose credentials to unauthorized users via logs or command output. Kubernetes components (such as kube-apiserver) prior to v1.16.0, which make use of basic or bearer token authentication, and run at high verbosity levels, are affected.",
     "location": "https://github.com/secureCodeBox/secureCodeBox",
+    "mitigation": "Update the affected package k8s.io/client-go to the fixed version: v0.17.0 or remove the package from the image.",
     "name": "kubernetes: Bearer tokens written to logs at high verbosity levels (>= 7)",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -4226,6 +4368,7 @@ exports[`parses securecodebox:master result file into findings 1`] = `
     "category": "Go Package Vulnerability",
     "description": "In Kubernetes, if the logging level is set to at least 9, authorization and bearer tokens will be written to log files. This can occur both in API server logs and client tool output like kubectl. This affects <= v1.19.3, <= v1.18.10, <= v1.17.13, < v1.20.0-alpha2.",
     "location": "https://github.com/secureCodeBox/secureCodeBox",
+    "mitigation": "Update the affected package k8s.io/client-go to the fixed version: v0.20.0-alpha.2 or remove the package from the image.",
     "name": "kubernetes: Incomplete fix for CVE-2019-11250 allows for token leak in logs when logLevel >= 9",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -4250,6 +4393,7 @@ exports[`parses securecodebox:master result file into findings 1`] = `
     "category": "Go Package Vulnerability",
     "description": "jwt-go before 4.0.0-preview1 allows attackers to bypass intended access restrictions in situations with []string{} for m["aud"] (which is allowed by the specification). Because the type assertion fails, "" is the value of aud. This is a security problem if the JWT token is presented to a service that lacks its own audience check.",
     "location": "https://github.com/secureCodeBox/secureCodeBox",
+    "mitigation": "Update the affected package github.com/dgrijalva/jwt-go to the fixed version: undefined or remove the package from the image.",
     "name": "jwt-go: access restriction bypass vulnerability",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -4280,6 +4424,7 @@ exports[`parses securecodebox:master result file into findings 1`] = `
     "category": "Go Package Vulnerability",
     "description": "An issue was discovered in GoGo Protobuf before 1.3.2. plugin/unmarshal/unmarshal.go lacks certain index validation, aka the "skippy peanut butter" issue.",
     "location": "https://github.com/secureCodeBox/secureCodeBox",
+    "mitigation": "Update the affected package github.com/gogo/protobuf to the fixed version: v1.3.2 or remove the package from the image.",
     "name": "gogo/protobuf: plugin/unmarshal/unmarshal.go lacks certain index validation",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -4306,6 +4451,7 @@ exports[`parses securecodebox:master result file into findings 1`] = `
     "category": "Go Package Vulnerability",
     "description": "The miekg Go DNS package before 1.1.25, as used in CoreDNS before 1.6.6 and other products, improperly generates random numbers because math/rand is used. The TXID becomes predictable, leading to response forgeries.",
     "location": "https://github.com/secureCodeBox/secureCodeBox",
+    "mitigation": "Update the affected package github.com/miekg/dns to the fixed version: v1.1.25-0.20191211073109-8ebf2e419df7 or remove the package from the image.",
     "name": "golang-github-miekg-dns: predictable TXID can lead to response forgeries",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
@@ -4332,6 +4478,7 @@ exports[`parses securecodebox:master result file into findings 1`] = `
     "category": "Go Package Vulnerability",
     "description": "A nil pointer dereference in the golang.org/x/crypto/ssh component through v0.0.0-20201203163018-be400aefbc4c for Go allows remote attackers to cause a denial of service against SSH servers.",
     "location": "https://github.com/secureCodeBox/secureCodeBox",
+    "mitigation": "Update the affected package golang.org/x/crypto to the fixed version: v0.0.0-20201216223049-8b5274cf687f or remove the package from the image.",
     "name": "golang: crypto/ssh: crafted authentication request can lead to nil pointer dereference",
     "osi_layer": "NOT_APPLICABLE",
     "reference": {
