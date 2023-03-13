@@ -48,6 +48,11 @@
             "HIGH"
           ]
         },
+        "mitigation": {
+          "description": "Contains a short description of how to mitigate the issue.",
+          "type": "string",
+          "nullable": true
+        },
         "attributes": {
           "description": "Attributes are not standardized. They differ from Scanner to Scanner.",
           "type": "object"
