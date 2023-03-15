@@ -45,8 +45,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: nvm-node
-          path: nvm-node.tar.gz      
-  
+          path: ./nvm-node.tar.gz    
+          retention-days: 1  
+
   # ---- Unit-Test ----
 
   # ---- Unit-Test | Java ----
@@ -263,11 +264,11 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: nvm-node
-          path: nvm-node.tar.gz
+          path: nvm-node
 
       - name: Extract nvm and Node.js
         run: |
-          tar xzf nvm-node.tar.gz -C $HOME
+          tar xzf nvm-node/nvm-node.tar.gz -C $HOME
           export NVM_DIR="$HOME/.nvm"
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
           nvm use
@@ -396,11 +397,11 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: nvm-node
-          path: nvm-node.tar.gz
+          path: ./nvm-node
 
       - name: Extract nvm and Node.js
         run: |
-          tar xzf nvm-node.tar.gz -C $HOME
+          tar xzf nvm-node/nvm-node.tar.gz -C $HOME
           export NVM_DIR="$HOME/.nvm"
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
           nvm use
@@ -661,11 +662,11 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: nvm-node
-          path: nvm-node.tar.gz
+          path: ./nvm-node
 
       - name: Extract nvm and Node.js
         run: |
-          tar xzf nvm-node.tar.gz -C $HOME
+          tar xzf nvm-node/nvm-node.tar.gz -C $HOME
           export NVM_DIR="$HOME/.nvm"
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
           nvm use
