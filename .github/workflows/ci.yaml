@@ -20,6 +20,7 @@ env:
 
   GO_VERSION: "1.19"
   PYTHON_VERSION: "3.8.10"
+  NVM_VERSION: "0.39.3" # Does not need to be updated as often as the Node.js version or the NPM version
 
 jobs:
 
@@ -32,7 +33,7 @@ jobs:
 
       - name: Install nvm and Node.js
         run: |
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${{ env.NVM_VERSION }}/install.sh | bash
           export NVM_DIR="$HOME/.nvm"
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
           nvm install "$(cat .nvmrc)"
@@ -272,7 +273,6 @@ jobs:
           export NVM_DIR="$HOME/.nvm"
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
           nvm use
-
 
       - name: Install Dependencies
         working-directory: ./scanners/${{ matrix.unit }}/
