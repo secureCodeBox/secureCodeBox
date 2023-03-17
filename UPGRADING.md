@@ -178,4 +178,10 @@ One of the optional attributes in the finding format of Amass has been renamed f
 
 ➡️  [Reference: #1605](https://github.com/secureCodeBox/secureCodeBox/pull/1605)
 
+### Removed AngularCSTI Scanner Integration
+
+The integration for the AngularCSTI scanner has been removed and will no longer be officially supported.
+Demand for the scanner was low and AngularJS (1.x) has been officially [deprecated in 2022](https://blog.angular.io/discontinued-long-term-support-for-angularjs-cc066b82e65a). Using AngularJS in 2023 is therefore a security liability, even when the specific site is not vulnerable to CSTI.
+
+➡️  [Reference: #1649](https://github.com/secureCodeBox/secureCodeBox/pull/1649)
 
