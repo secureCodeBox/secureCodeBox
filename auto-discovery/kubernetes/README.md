@@ -141,10 +141,13 @@ kubectl -n juice-shop annotate service juice-shop auto-discovery.securecodebox.i
 | config.containerAutoDiscovery.scanConfig.labels | object | `{}` | labels to be added to the scans started by the auto-discovery, all label values support templating |
 | config.containerAutoDiscovery.scanConfig.parameters | list | `["{{ .ImageID }}"]` | parameters used for the scans created by the containerAutoDiscovery, all parameters support templating |
 | config.containerAutoDiscovery.scanConfig.repeatInterval | string | `"168h"` | interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset. |
-| config.containerAutoDiscovery.scanConfig.scanType | string | `"trivy-image"` |  |
+| config.containerAutoDiscovery.scanConfig.scanType | string | `"trivy-image-autodiscovery"` |  |
 | config.containerAutoDiscovery.scanConfig.volumeMounts | list | `[]` | volumeMounts to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1 the fields: `name`, `mountPath`, `subPath`, `subPathExpr` of each volumeMount support templating |
 | config.containerAutoDiscovery.scanConfig.volumes | list | `[]` | volumes to add to the scan job, see: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes the fields: `name`, `secret.secretName`, `configMap.name` of each volume support templating |
 | config.health.healthProbeBindAddress | string | `":8081"` |  |
+| config.imagePullSecretConfig.mapImagePullSecretsToEnvironmentVariables | bool | `true` |  |
+| config.imagePullSecretConfig.passwordEnvironmentVariableName | string | `"TRIVY_PASSWORD"` |  |
+| config.imagePullSecretConfig.usernameEnvironmentVariableName | string | `"TRIVY_USERNAME"` |  |
 | config.kind | string | `"AutoDiscoveryConfig"` |  |
 | config.leaderElection.leaderElect | bool | `true` |  |
 | config.leaderElection.resourceName | string | `"0e41a1f4.securecodebox.io"` |  |
