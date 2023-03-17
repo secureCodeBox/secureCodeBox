@@ -22,8 +22,8 @@ async function parse(fileContent) {
 
 function transformToFindings(targets) {
   // Code to transform the scanner results to scb findings
-  const targetFindings = targets.map((target) => {
-    let finding = {
+  return targets.map((target) => {
+    return {
       name: `DNS Zone: ${target.name} | Type: ${target.type}`,
       description: `DNS record type ${target.type} found for zone ${target.name} with address "${target.address}".`,
       category: "DNS Information",
@@ -38,10 +38,7 @@ function transformToFindings(targets) {
         doggy_dns_nameserver: target.nameserver,
       },
     };
-    return finding;
   });
-
-  return [...targetFindings];
 }
 
 /**
@@ -49,30 +46,25 @@ function transformToFindings(targets) {
  * @param {*} fileContent
  */
 function parseResultFile(fileContent) {
-  let targetList = [];
-
-  for (const rawTarget of fileContent) {
-    // Code to transform raw target findings to usable js format
-    if (
-      Object.keys(rawTarget).length > 0 &&
-      rawTarget.answers !== null &&
-      rawTarget.answers !== undefined &&
-      rawTarget.answers.length > 0
-    ) {
-      //Check for empty target
-      for (const rawAnswers of rawTarget.answers) {
-        if (
-          Object.keys(rawAnswers).length > 0 &&
-          rawAnswers.name !== null &&
-          rawAnswers.name !== undefined
-        ) {
-          //Check for empty answers
-          targetList.push(rawAnswers);
-        }
-      }
-    }
-  }
-  return targetList;
+  return fileContent
+    .filter((rawTarget) => {
+      // filter out empty targets (domain names which could not be resolved at all)
+      return (
+        Object.keys(rawTarget).length > 0 &&
+        rawTarget.answers !== null &&
+        rawTarget.answers !== undefined &&
+        rawTarget.answers.length > 0
+      );
+    })
+    .flatMap((rawTarget) => rawTarget.answers) // flatten the answers into one big array
+    .filter((rawAnswers) => {
+      // filter out empty answers (records which did not exists for individual domains)
+      return (
+        Object.keys(rawAnswers).length > 0 &&
+        rawAnswers.name !== null &&
+        rawAnswers.name !== undefined
+      );
+    });
 }
 
 module.exports.parse = parse;
