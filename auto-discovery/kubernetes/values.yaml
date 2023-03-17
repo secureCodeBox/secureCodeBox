@@ -86,8 +86,8 @@ config:
       hookSelector: {}
   imagePullSecretConfig:
       mapImagePullSecretsToEnvironmentVariables: true
-      usernameEnvironmentVariableName: "TRIVY-USERNAME"
-      passwordEnvironmentVariableName: "TRIVY-PASSWORD"
+      usernameEnvironmentVariableName: "TRIVY_USERNAME"
+      passwordEnvironmentVariableName: "TRIVY_PASSWORD"
 
   health:
     healthProbeBindAddress: :8081

@@ -67,6 +67,6 @@ containerAutoDiscovery:
     # -- hookSelector allows to specify a LabelSelector with which the hooks are selected
     hookSelector: {}
   imagePullSecretConfig:
-      mapImagePullSecretsToEnvironmentVariables: true
-      usernameEnvironmentVariableName: "TRIVY-USERNAME"
-      passwordEnvironmentVariableName: "TRIVY-PASSWORD"
+    mapImagePullSecretsToEnvironmentVariables: true
+    usernameEnvironmentVariableName: "TRIVY_USERNAME"
+    passwordEnvironmentVariableName: "TRIVY_PASSWORD"
