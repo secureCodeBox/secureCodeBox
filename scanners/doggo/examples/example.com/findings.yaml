@@ -1,0 +1,121 @@
+[
+  {
+    "name": "DNS Zone: example.com. | Type: A",
+    "description": "DNS record type A found for zone example.com. with address \"93.184.216.34\".",
+    "category": "DNS Information",
+    "location": "example.com",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "doggy_dns_type": "A",
+      "doggy_dns_address": "93.184.216.34",
+      "doggy_dns_status": "",
+      "doggy_dns_rtt": "33ms",
+      "doggy_dns_nameserver": "10.96.0.10:53"
+    },
+    "id": "3ad05381-3320-49ef-82d9-30f96c1455cd",
+    "parsed_at": "2023-03-17T12:53:18.805Z"
+  },
+  {
+    "name": "DNS Zone: example.com. | Type: AAAA",
+    "description": "DNS record type AAAA found for zone example.com. with address \"2606:2800:220:1:248:1893:25c8:1946\".",
+    "category": "DNS Information",
+    "location": "example.com",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "doggy_dns_type": "AAAA",
+      "doggy_dns_address": "2606:2800:220:1:248:1893:25c8:1946",
+      "doggy_dns_status": "",
+      "doggy_dns_rtt": "41ms",
+      "doggy_dns_nameserver": "10.96.0.10:53"
+    },
+    "id": "7b99197b-1688-4444-ad2d-4f845aaffa95",
+    "parsed_at": "2023-03-17T12:53:18.805Z"
+  },
+  {
+    "name": "DNS Zone: example.com. | Type: NS",
+    "description": "DNS record type NS found for zone example.com. with address \"a.iana-servers.net.\".",
+    "category": "DNS Information",
+    "location": "example.com",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "doggy_dns_type": "NS",
+      "doggy_dns_address": "a.iana-servers.net.",
+      "doggy_dns_status": "",
+      "doggy_dns_rtt": "38ms",
+      "doggy_dns_nameserver": "10.96.0.10:53"
+    },
+    "id": "e60b8566-527e-4000-8cde-9ab4889af072",
+    "parsed_at": "2023-03-17T12:53:18.805Z"
+  },
+  {
+    "name": "DNS Zone: example.com. | Type: NS",
+    "description": "DNS record type NS found for zone example.com. with address \"b.iana-servers.net.\".",
+    "category": "DNS Information",
+    "location": "example.com",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "doggy_dns_type": "NS",
+      "doggy_dns_address": "b.iana-servers.net.",
+      "doggy_dns_status": "",
+      "doggy_dns_rtt": "38ms",
+      "doggy_dns_nameserver": "10.96.0.10:53"
+    },
+    "id": "a4d0dd2d-b8d9-4045-a140-595f910fe89b",
+    "parsed_at": "2023-03-17T12:53:18.805Z"
+  },
+  {
+    "name": "DNS Zone: example.com. | Type: TXT",
+    "description": "DNS record type TXT found for zone example.com. with address \"\"v=spf1 -all\"\".",
+    "category": "DNS Information",
+    "location": "example.com",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "doggy_dns_type": "TXT",
+      "doggy_dns_address": "\"v=spf1 -all\"",
+      "doggy_dns_status": "",
+      "doggy_dns_rtt": "128ms",
+      "doggy_dns_nameserver": "10.96.0.10:53"
+    },
+    "id": "774b974c-147e-4c45-a547-a91ca0dff38f",
+    "parsed_at": "2023-03-17T12:53:18.805Z"
+  },
+  {
+    "name": "DNS Zone: example.com. | Type: TXT",
+    "description": "DNS record type TXT found for zone example.com. with address \"\"wgyf8z8cgvm2qmxpnbnldrcltvk4xqfn\"\".",
+    "category": "DNS Information",
+    "location": "example.com",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "doggy_dns_type": "TXT",
+      "doggy_dns_address": "\"wgyf8z8cgvm2qmxpnbnldrcltvk4xqfn\"",
+      "doggy_dns_status": "",
+      "doggy_dns_rtt": "128ms",
+      "doggy_dns_nameserver": "10.96.0.10:53"
+    },
+    "id": "62ec8af2-e719-4dc4-a724-c5906a5a34c0",
+    "parsed_at": "2023-03-17T12:53:18.805Z"
+  },
+  {
+    "name": "DNS Zone: example.com. | Type: MX",
+    "description": "DNS record type MX found for zone example.com. with address \"0 .\".",
+    "category": "DNS Information",
+    "location": "example.com",
+    "osi_layer": "NETWORK",
+    "severity": "INFORMATIONAL",
+    "attributes": {
+      "doggy_dns_type": "MX",
+      "doggy_dns_address": "0 .",
+      "doggy_dns_status": "",
+      "doggy_dns_rtt": "129ms",
+      "doggy_dns_nameserver": "10.96.0.10:53"
+    },
+    "id": "b2357556-fc4f-449d-95d9-2ad89b52f313",
+    "parsed_at": "2023-03-17T12:53:18.805Z"
+  }
+]
