@@ -322,7 +322,6 @@ jobs:
       matrix:
         parser:
           - amass
-          - angularjs-csti-scanner
           - cmseek
           - ffuf
           - git-repo-scanner
@@ -408,7 +407,6 @@ jobs:
     strategy:
       matrix:
         scanner:
-          - angularjs-csti-scanner
           - cmseek
           - ffuf
           - kube-hunter
