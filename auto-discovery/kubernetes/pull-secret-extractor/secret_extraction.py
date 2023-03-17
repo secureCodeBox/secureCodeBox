@@ -21,8 +21,9 @@ def main():
     if correct_secret:
         username, password = get_user_and_password(correct_secret)
         create_temporary_secret(username, password, temporary_secret_name)
+        print(f"Created temporary pull secret for domain: '{domain}'")
     else:
-        print(f"No secrets found for domain 'f{domain}'")
+        print(f"No secrets found for domain: '{domain}'")
 
 
 def get_raw_secrets(base_path: str):
@@ -39,7 +40,7 @@ def get_raw_secrets(base_path: str):
 
 
 def get_correct_secret(domain: str, secrets) -> dict[str, str]:
-    """Iterates over given list of secrets to find the secret that machtes the URL in the given imageID
+    """Iterates over given list of secrets to find the secret that matches the URL in the given imageID
     :param domain: The domain of the imageID of which the correct secret needs to be identified
     :param secrets: List of secrets
     :returns: Dict containing the secret matching the given imageID
@@ -87,7 +88,7 @@ def encode_base64(string: str) -> str:
 
 
 def create_temporary_secret(username: str, password: str, secret_name: str):
-    """Creates a secret with name 'secret_name' with 'username' and 'password' as data in given namespace. The secret has an ownerreference to the pod this container is running in.
+    """Creates a secret with name 'secret_name' with 'username' and 'password' as data in given namespace. The secret has an ownerReference to the pod this container is running in.
     :param username: base64 encoded string representing the desired value of the 'username' field in the secret
     :param password: base64 encoded string representing the desired value of the 'password' field in the secret
     :param secret_name: Name of the newly created secret
