@@ -58,6 +58,7 @@ spec:
             {{- end }}
           volumes:
             {{- toYaml .Values.scanner.extraVolumes | nindent 12 }}
+{{ if .Values.createAutoDiscoveryScanType }}
 ---
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
@@ -116,6 +117,7 @@ spec:
             {{- end }}
           volumes:
             {{- toYaml .Values.scanner.extraVolumes | nindent 12 }}
+{{ end }}
 ---
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType

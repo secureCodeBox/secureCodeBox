@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: the secureCodeBox authors
 #
 # SPDX-License-Identifier: Apache-2.0
-
+{{ if .Values.createAutoDiscoveryScanType }}
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -47,3 +47,4 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: trivy-autodiscovery
+{{ end }}
