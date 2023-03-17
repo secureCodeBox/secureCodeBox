@@ -103,3 +103,7 @@ scanner:
 cascadingRules:
   # cascadingRules.enabled -- Enables or disables the installation of the default cascading rules for this scanner
   enabled: false
+
+
+# -- Creates a `trivy-image-autodiscovery` scanType with its own ServiceAccount for the SCB AutoDiscovery, enabled to scan images from both public & private registries.
+createAutoDiscoveryScanType: false
