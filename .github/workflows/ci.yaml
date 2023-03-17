@@ -212,7 +212,6 @@ jobs:
       matrix:
         unit:
           - amass
-          - angularjs-csti-scanner
           - cmseek
           - ffuf
           - git-repo-scanner
