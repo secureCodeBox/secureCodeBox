@@ -117,6 +117,9 @@ func (r *ContainerScanReconciler) getNonScannedImageIDs(ctx context.Context, pod
 	for _, imageID := range allImageIDs {
 		cleanedImageID := cleanupImageID(imageID, r.Log)
 
+	if len(r.Config.ContainerAutoDiscoveryConfig.ScanConfigs) == 0 {
+		log.Info("Warning: You have the Container AutoDiscovery enabled but don't have any `scanConfigs` in your AutoDiscovery configuration. No scans will be started!")
+	  }
 		for _, scanConfig := range r.Config.ContainerAutoDiscoveryConfig.ScanConfigs {
 			scanName := getScanName(cleanedImageID, scanConfig)
 
