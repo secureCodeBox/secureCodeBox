@@ -27,7 +27,7 @@ resourceInclusion:
 serviceAutoDiscovery:
   enabled: true
   passiveReconcileInterval: 10s
-  scanConfig:
+  scanConfigs:
     - scanType: zap-advanced-scan
       # -- unique name to distinguish scans
       name: "zap"
@@ -51,7 +51,7 @@ serviceAutoDiscovery:
 containerAutoDiscovery:
   enabled: true
   passiveReconcileInterval: 10s
-  scanConfig:
+  scanConfigs:
     - scanType: trivy-image
       # -- unique name to distinguish scans
       name: "trivy"

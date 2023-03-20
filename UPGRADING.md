@@ -194,7 +194,7 @@ The autodiscovery now takes a list of scans in its configuration. Each configure
 
 Example config:
 ```yaml
-    scanConfig:
+    scanConfigs:
       - scanType: trivy-image
         name: "my-trivy-scan"
         parameters:
