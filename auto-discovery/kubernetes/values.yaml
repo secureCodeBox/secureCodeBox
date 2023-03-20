@@ -25,7 +25,7 @@ config:
     enabled: true
     # -- interval in which every service is re-checked for updated pods, if service object is updated directly this the service will get reconciled immediately
     passiveReconcileInterval: 1m
-    scanConfig:
+    scanConfigs:
       # -- scanType used for the scans created by the serviceAutoDiscovery
       - scanType: zap-advanced-scan
         # -- unique name to distinguish scans
@@ -60,7 +60,7 @@ config:
     enabled: false
     # -- interval in which every pod is re-checked for updates, currently used to periodically check if the configured scantype is installed in the namespace of the pod
     passiveReconcileInterval: 1m
-    scanConfig:
+    scanConfigs:
       - scanType: trivy-image
         # -- unique name to distinguish scans
         name: "trivy"
