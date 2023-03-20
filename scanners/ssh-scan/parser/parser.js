@@ -180,7 +180,7 @@ async function parse(fileContent) {
         osi_layer: "APPLICATION",
         severity: "INFORMATIONAL",
         reference: {},
-        mitigation: "",
+        mitigation: null,
         location: location,
         attributes: {
           hostname: host.hostname || null,
