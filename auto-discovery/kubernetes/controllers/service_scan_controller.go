@@ -110,6 +110,9 @@ func (r *ServiceScanReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 			RequeueAfter: requeueInterval,
 		}, nil
 	}
+	if len(r.Config.ServiceAutoDiscoveryConfig.ScanConfigs) == 0 {
+		log.Info("Warning: You have the Service AutoDiscovery enabled but don't have any `scanConfigs` in your AutoDiscovery configuration. No scans will be started!")
+	}
 	for _, scanConfig := range r.Config.ServiceAutoDiscoveryConfig.ScanConfigs {
 		log.V(8).Info("Started Loop of ScanConfig", "ScanConfig Name", scanConfig.Name)
 		for _, host := range getHostPorts(service) {
