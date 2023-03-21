@@ -117,9 +117,9 @@ func (r *ContainerScanReconciler) getNonScannedImageIDs(ctx context.Context, pod
 	for _, imageID := range allImageIDs {
 		cleanedImageID := cleanupImageID(imageID, r.Log)
 
-	if len(r.Config.ContainerAutoDiscoveryConfig.ScanConfigs) == 0 {
-		log.Info("Warning: You have the Container AutoDiscovery enabled but don't have any `scanConfigs` in your AutoDiscovery configuration. No scans will be started!")
-	  }
+		if len(r.Config.ContainerAutoDiscoveryConfig.ScanConfigs) == 0 {
+			r.Log.Info("Warning: You have the Container AutoDiscovery enabled but don't have any `scanConfigs` in your AutoDiscovery configuration. No scans will be started!")
+		}
 		for _, scanConfig := range r.Config.ContainerAutoDiscoveryConfig.ScanConfigs {
 			scanName := getScanName(cleanedImageID, scanConfig)
 
@@ -274,16 +274,16 @@ func (r *ContainerScanReconciler) generateScanWithVolumeMounts(pod corev1.Pod, i
 	scanConfig.Volumes = append(scanConfig.Volumes, extraVolumes...)
 
 	scanSpec := util.GenerateScanSpec(scanConfig, templateArgs)
-	scanSpec.ScanSpec.InitContainers = append(scanSpec.ScanSpec.InitContainers, getSecretExtractionInitContainer(imageID, extraMounts))
+	scanSpec.ScanSpec.InitContainers = append(scanSpec.ScanSpec.InitContainers, getSecretExtractionInitContainer(imageID, scanConfig, extraMounts))
 
 	pullSecretConfig := r.Config.ContainerAutoDiscoveryConfig.ImagePullSecretConfig
 	usernameEnvVarName := pullSecretConfig.UsernameEnvironmentVariableName
 	passwordEnvVarName := pullSecretConfig.PasswordNameEnvironmentVariableName
-	scanSpec.ScanSpec.Env = append(scanSpec.ScanSpec.Env, getTemporarySecretEnvironmentVariableMount(imageID, usernameEnvVarName, passwordEnvVarName)...)
+	scanSpec.ScanSpec.Env = append(scanSpec.ScanSpec.Env, getTemporarySecretEnvironmentVariableMount(imageID, scanConfig, usernameEnvVarName, passwordEnvVarName)...)
 
 	newScheduledScan := executionv1.ScheduledScan{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:        getScanName(imageID),
+			Name:        getScanName(imageID, scanConfig),
 			Namespace:   pod.Namespace,
 			Annotations: getScanAnnotations(scanConfig, templateArgs),
 			Labels:      getScanLabels(scanConfig, templateArgs),
@@ -317,8 +317,8 @@ func getVolumesForSecrets(secrets []corev1.LocalObjectReference, imageID string)
 	return volumes, mounts
 }
 
-func getSecretExtractionInitContainer(imageID string, volumeMounts []corev1.VolumeMount) corev1.Container {
-	temporarySecretName := getTemporarySecretName(imageID)
+func getSecretExtractionInitContainer(imageID string, scanConfig configv1.ScanConfig, volumeMounts []corev1.VolumeMount) corev1.Container {
+	temporarySecretName := getTemporarySecretName(imageID, scanConfig)
 
 	return corev1.Container{
 		Name:         "secret-extraction-to-env",
@@ -347,12 +347,12 @@ func getSecretExtractionInitContainer(imageID string, volumeMounts []corev1.Volu
 	}
 }
 
-func getTemporarySecretName(imageID string) string {
+func getTemporarySecretName(imageID string, scanConfig configv1.ScanConfig) string {
 	//limit name to kubernetes max length
-	return ("temporary-secret-" + getScanName(imageID))[:62]
+	return ("temporary-secret-" + getScanName(imageID, scanConfig))[:62]
 }
 
-func getTemporarySecretEnvironmentVariableMount(imageID string, usernameEnvVarName string, passwordEnvVarName string) []corev1.EnvVar {
+func getTemporarySecretEnvironmentVariableMount(imageID string, scanConfig configv1.ScanConfig, usernameEnvVarName string, passwordEnvVarName string) []corev1.EnvVar {
 	trueBool := true
 	return []corev1.EnvVar{
 		{
@@ -361,7 +361,7 @@ func getTemporarySecretEnvironmentVariableMount(imageID string, usernameEnvVarNa
 				SecretKeyRef: &corev1.SecretKeySelector{
 					Optional: &trueBool,
 					LocalObjectReference: corev1.LocalObjectReference{
-						Name: getTemporarySecretName(imageID),
+						Name: getTemporarySecretName(imageID, scanConfig),
 					},
 					Key: "username",
 				},
@@ -373,7 +373,7 @@ func getTemporarySecretEnvironmentVariableMount(imageID string, usernameEnvVarNa
 				SecretKeyRef: &corev1.SecretKeySelector{
 					Optional: &trueBool,
 					LocalObjectReference: corev1.LocalObjectReference{
-						Name: getTemporarySecretName(imageID),
+						Name: getTemporarySecretName(imageID, scanConfig),
 					},
 					Key: "password",
 				},

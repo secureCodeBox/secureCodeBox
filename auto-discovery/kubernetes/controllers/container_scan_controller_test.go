@@ -147,7 +147,7 @@ var _ = Describe("ContainerScan controller", func() {
 		ctx := context.Background()
 
 		fakeDeployment := map[string]string{"nginx": "0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"}
-		nginxScanName := "nginx-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
+		nginxScanName := "nginx-test-scan-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
 		nginxScanName = nginxScanName[:62]
 
 		trueBool := true
