@@ -19,7 +19,7 @@ env:
   # ---- Language Versions ----
 
   GO_VERSION: "1.19"
-  PYTHON_VERSION: "3.8.10"
+  PYTHON_VERSION: "3.9.16"
   NVM_VERSION: "0.39.3" # Does not need to be updated as often as the Node.js version or the NPM version
 
 jobs:
