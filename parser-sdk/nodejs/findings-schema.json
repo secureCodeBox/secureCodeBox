@@ -53,6 +53,22 @@
           "type": "string",
           "nullable": true
         },
+        "references": {
+          "nullable": true,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "required": ["type", "value"]
+          }
+        },
         "attributes": {
           "description": "Attributes are not standardized. They differ from Scanner to Scanner.",
           "type": "object"
