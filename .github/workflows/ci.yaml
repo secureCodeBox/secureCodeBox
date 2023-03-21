@@ -25,7 +25,7 @@ env:
 jobs:
 
   # ---- Configuration ----
-  config:
+  nvm-setup:
     name: "Configuration"
     runs-on: ubuntu-20.04
     steps:
@@ -231,7 +231,7 @@ jobs:
     needs:
       - sdk
       - operator
-      - config
+      - nvm-setup
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
@@ -387,7 +387,7 @@ jobs:
     needs:
       - sdk
       - operator
-      - config
+      - nvm-setup
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
@@ -535,7 +535,7 @@ jobs:
     name: Test |  Hook ${{ matrix.hook }} | k8s ${{ matrix.k8sVersion }}
     needs:
       - operator
-      - config
+      - nvm-setup
     runs-on: ubuntu-20.04
     strategy:
       matrix:
