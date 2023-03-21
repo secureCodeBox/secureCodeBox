@@ -23,8 +23,10 @@ env:
   NVM_VERSION: "0.39.3" # Does not need to be updated as often as the Node.js version or the NPM version
 
 jobs:
-
-  # ---- Configuration ----
+  # ---- NVM Setup ----
+  # It is more efficient to do the installation process of nvm only once and upload it as an archive.
+  # This can later be imported and extracted quickly in the hooks/scanners testing containers.
+  # It also ensures that we pull from an external source to install nvm only once, instead of x number of hooks + y number of scanners
   nvm-setup:
     name: "Configuration"
     runs-on: ubuntu-20.04
