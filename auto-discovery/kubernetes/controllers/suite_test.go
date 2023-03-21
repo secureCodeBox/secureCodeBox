@@ -8,6 +8,7 @@ import (
 	"context"
 	"path/filepath"
 	"testing"
+	"time"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -22,8 +23,11 @@ import (
 
 	ctrl "sigs.k8s.io/controller-runtime"
 
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
 	//+kubebuilder:scaffold:imports
 
+	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 )
 
@@ -73,7 +77,6 @@ var _ = BeforeSuite(func() {
 	})
 	Expect(err).ToNot(HaveOccurred())
 
-	// use broken config with non unique scans name to trigger error
 	config := configv1.AutoDiscoveryConfig{
 		Cluster: configv1.ClusterConfig{
 			Name: "test-cluster",
@@ -82,7 +85,20 @@ var _ = BeforeSuite(func() {
 			PassiveReconcileInterval: metav1.Duration{Duration: 1 * time.Second},
 			ScanConfigs: []configv1.ScanConfig{
 				{
-					Name:           "test-scan",
+					Name:           "test-scan-0",
+					RepeatInterval: metav1.Duration{Duration: time.Hour},
+					Annotations:    map[string]string{},
+					Labels:         map[string]string{},
+					Parameters:     []string{"-p", "{{ .Host.Port }}", "{{ .Service.Name }}.{{ .Service.Namespace }}.svc"},
+					ScanType:       "nmap",
+					HookSelector: metav1.LabelSelector{
+						MatchLabels: map[string]string{
+							"foo": "bar",
+						},
+					},
+				},
+				{
+					Name:           "test-scan-1",
 					RepeatInterval: metav1.Duration{Duration: time.Hour},
 					Annotations:    map[string]string{},
 					Labels:         map[string]string{},
@@ -125,6 +141,27 @@ var _ = BeforeSuite(func() {
 						},
 					},
 				},
+				{
+					Name:           "test-scan-two",
+					RepeatInterval: metav1.Duration{Duration: time.Hour},
+					Annotations:    map[string]string{"testAnnotation": "{{ .Namespace.Name }}"},
+					Labels:         map[string]string{"testLabel": "{{ .Namespace.Name }}"},
+					Parameters:     []string{"-p", "{{ .Namespace.Name }}"},
+					ScanType:       "nmap",
+					HookSelector: metav1.LabelSelector{
+						MatchExpressions: []metav1.LabelSelectorRequirement{
+							{
+								Operator: metav1.LabelSelectorOpIn,
+								Key:      "foo",
+								Values:   []string{"bar", "baz"},
+							},
+							{
+								Operator: metav1.LabelSelectorOpDoesNotExist,
+								Key:      "foo",
+							},
+						},
+					},
+				},
 			},
 		},
 		ResourceInclusion: configv1.ResourceInclusionConfig{
@@ -132,32 +169,13 @@ var _ = BeforeSuite(func() {
 		},
 	}
 
-	err = (&ServiceScanReconciler{
-		Client:   k8sManager.GetClient(),
-		Scheme:   k8sManager.GetScheme(),
-		Recorder: k8sManager.GetEventRecorderFor("ServiceScanController"),
-		Log:      ctrl.Log.WithName("controllers").WithName("ServiceScanController"),
-		Config:   BrokenConfig,
-	}).SetupWithManager(k8sManager)
-	Expect(err).To(HaveOccurred())
-
-	// use broken config with non unique scans name to trigger error
-	err = (&ContainerScanReconciler{
-		Client:   k8sManager.GetClient(),
-		Scheme:   k8sManager.GetScheme(),
-		Recorder: k8sManager.GetEventRecorderFor("ContainerScanController"),
-		Log:      ctrl.Log.WithName("controllers").WithName("ContainerScanController"),
-		Config:   BrokenConfig,
-	}).SetupWithManager(k8sManager)
-	Expect(err).To(HaveOccurred())
-
 	// working config
 	err = (&ServiceScanReconciler{
 		Client:   k8sManager.GetClient(),
 		Scheme:   k8sManager.GetScheme(),
 		Recorder: k8sManager.GetEventRecorderFor("ServiceScanController"),
 		Log:      ctrl.Log.WithName("controllers").WithName("ServiceScanController"),
-		Config:   Config,
+		Config:   config,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -167,7 +185,7 @@ var _ = BeforeSuite(func() {
 		Scheme:   k8sManager.GetScheme(),
 		Recorder: k8sManager.GetEventRecorderFor("ContainerScanController"),
 		Log:      ctrl.Log.WithName("controllers").WithName("ContainerScanController"),
-		Config:   Config,
+		Config:   config,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
