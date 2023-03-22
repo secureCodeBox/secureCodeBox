@@ -51,20 +51,36 @@ async function parse(findings) {
   if (findings.vulnerabilities_count > 0) {
     parsed_vulnerabilities = findings.vulnerabilities.map((vuln) => {
       const cve = fetchCVE(vuln.references);
-      let references = null
-      if (cve) {
-        references =  [
-          {
-            "type": "cve",
-            "value": cve
-          },
-          {
-            "type": "url",
-            "value": `https://www.cve.org/CVERecord?id=${cve}`
-          }
-        ]
-      }
-    
+
+      const cve_reference = cve ? [
+        {
+          "type": "cve",
+          "value": cve
+        },
+        {
+          "type": "url",
+          "value": `https://www.cve.org/CVERecord?id=${cve}`
+        }
+      ] : []
+
+      const urls = vuln.references.filter((ref) => ref.includes("http")).map((ref) => {
+        const separator = " : ";
+        if (ref.includes(separator)) {
+              return ref.split(separator)[1].trim();
+        } else {
+              return ref
+        }
+      });
+
+      const urls_references = urls.map((url) => {
+        return {
+          "type": "url",
+          "value": url
+        };
+      });
+
+      const references = urls_references.length > 0 ? urls_references.concat(cve_reference) : cve_reference;
+     
       return {
         name: vuln.name,
         identified_at: last_scanned,
@@ -73,7 +89,7 @@ async function parse(findings) {
         location: findings.url,
         osi_layer: "APPLICATION",
         severity: "HIGH",
-        references,
+        references: references.length > 0 ? references : null, 
         attributes: {
           joomla_version: findings.joomla_version,
           references: vuln.references,
