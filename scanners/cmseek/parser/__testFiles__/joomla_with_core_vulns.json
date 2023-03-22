@@ -37,7 +37,15 @@
                 "https://www.rapid7.com/db/modules/exploit/multi/http/phpmailer_arg_injection",
                 "EDB : https://www.exploit-db.com/exploits/40969/"
             ]
+        },
+        {
+            "name": "PPHPMailer Incomplete Fix Remote Code Execution Vulnerability **without CVE**",
+            "references": [
+                "https://www.rapid7.com/db/modules/exploit/multi/http/phpmailer_arg_injection",
+                "EDB : https://www.exploit-db.com/exploits/40969/"
+            ]
         }
+
     ],
     "vulnerabilities_count": "2"
 }

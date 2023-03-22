@@ -50,6 +50,21 @@ async function parse(findings) {
   let parsed_vulnerabilities = []
   if (findings.vulnerabilities_count > 0) {
     parsed_vulnerabilities = findings.vulnerabilities.map((vuln) => {
+      const cve = fetchCVE(vuln.references);
+      let references = null
+      if (cve) {
+        references =  [
+          {
+            "type": "cve",
+            "value": cve
+          },
+          {
+            "type": "url",
+            "value": `https://www.cve.org/CVERecord?id=${cve}`
+          }
+        ]
+      }
+    
       return {
         name: vuln.name,
         identified_at: last_scanned,
@@ -58,6 +73,7 @@ async function parse(findings) {
         location: findings.url,
         osi_layer: "APPLICATION",
         severity: "HIGH",
+        references,
         attributes: {
           joomla_version: findings.joomla_version,
           references: vuln.references,
@@ -68,4 +84,16 @@ async function parse(findings) {
   // concat all parsed results
   return parsed_vulnerabilities.concat(parsed_backupFiles).concat(parsed_debug_mode_enabled)
 }
+// Helper function to fetch CVE from references
+// it is assumed that the reference is in the format "CVE : CVE-XXXX-XXXX"
+function fetchCVE(references) {
+  for (const reference of references) {
+    if (reference.includes("CVE :")) {
+      const cve = reference.split("CVE : ")[1].trim();
+      return cve;
+    }
+  }
+  return null;
+}
+
 module.exports.parse = parse;
