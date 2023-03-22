@@ -189,8 +189,9 @@ Demand for the scanner was low and AngularJS (1.x) has been officially [deprecat
 We added a new attribute to the finding format called `mitigation` which is used to store information about how to mitigate the finding/issue. The `hint` attribute of the findings of the scanners `ssh-scan` and `sslyze` has been renamed to `mitigation` to be more consistent with the other scanners.
 
 ➡️  [Reference: #1639](https://github.com/secureCodeBox/secureCodeBox/pull/1639)
-### Autodiscovery takes a list of scans in config file
-The autodiscovery now takes a list of scans in its configuration. Each configured scan needs a unique name so that the autodiscovery is able to distinguish between scans. Because of this it is possible to configure multiple scans with the same scan type.
+### AutoDiscovery takes a list of scans in config file
+The AutoDiscovery now takes a list of scans in its configuration. Each configured scan needs a unique name so that the AutoDiscovery is able to distinguish between scans. Because of this it is possible to configure multiple scans with the same scan type.
+To upgrade wrap your existing scanConfig into a list and rename `scanConfig` to `scanConfigs`, see the default [values.yaml of the AutoDiscovery](https://github.com/secureCodeBox/secureCodeBox/blob/main/auto-discovery/kubernetes/values.yaml) as reference.
 
 Example config:
 ```yaml
