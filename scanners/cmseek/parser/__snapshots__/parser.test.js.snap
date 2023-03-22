@@ -18,6 +18,16 @@ exports[`parser parses result of Joomla scan with core vulnerabilities successfu
     "location": "http://172.26.0.3/",
     "name": "PHPMailer Remote Code Execution Vulnerability",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "cve",
+        "value": "CVE-2016-10033",
+      },
+      {
+        "type": "url",
+        "value": "https://www.cve.org/CVERecord?id=CVE-2016-10033",
+      },
+    ],
     "severity": "HIGH",
   },
   {
@@ -35,6 +45,33 @@ exports[`parser parses result of Joomla scan with core vulnerabilities successfu
     "location": "http://172.26.0.3/",
     "name": "PPHPMailer Incomplete Fix Remote Code Execution Vulnerability",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "cve",
+        "value": "CVE-2016-10045",
+      },
+      {
+        "type": "url",
+        "value": "https://www.cve.org/CVERecord?id=CVE-2016-10045",
+      },
+    ],
+    "severity": "HIGH",
+  },
+  {
+    "attributes": {
+      "joomla_version": "3.6.5",
+      "references": [
+        "https://www.rapid7.com/db/modules/exploit/multi/http/phpmailer_arg_injection",
+        "EDB : https://www.exploit-db.com/exploits/40969/",
+      ],
+    },
+    "category": "Vulnerability",
+    "description": "Vulnerability of type PPHPMailer Incomplete Fix Remote Code Execution Vulnerability found",
+    "identified_at": "2021-09-22T10:29:01.721Z",
+    "location": "http://172.26.0.3/",
+    "name": "PPHPMailer Incomplete Fix Remote Code Execution Vulnerability",
+    "osi_layer": "APPLICATION",
+    "references": null,
     "severity": "HIGH",
   },
   {
