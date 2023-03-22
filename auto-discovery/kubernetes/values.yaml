@@ -61,7 +61,7 @@ config:
     # -- interval in which every pod is re-checked for updates, currently used to periodically check if the configured scantype is installed in the namespace of the pod
     passiveReconcileInterval: 1m
     scanConfigs:
-      - scanType: trivy-image
+      - scanType: trivy-image-autodiscovery
         # -- unique name to distinguish scans
         name: "trivy"
         # -- parameters used for the scans created by the containerAutoDiscovery, all parameters support templating
