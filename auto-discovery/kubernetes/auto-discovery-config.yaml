@@ -52,7 +52,7 @@ containerAutoDiscovery:
   enabled: true
   passiveReconcileInterval: 10s
   scanConfigs:
-    - scanType: trivy-image
+    - scanType: trivy-image-autodiscovery
       # -- unique name to distinguish scans
       name: "trivy"
       # -- parameters used for the scans created by the containerAutoDiscovery
