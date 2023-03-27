@@ -27,42 +27,50 @@ resourceInclusion:
 serviceAutoDiscovery:
   enabled: true
   passiveReconcileInterval: 10s
-  scanConfig:
-    scanType: zap-advanced-scan
-    # -- parameters used for the scans created by the serviceAutoDiscovery
-    parameters:
-      - "-t"
-      - "{{ .Host.Type }}://{{ .Service.Name }}.{{ .Service.Namespace }}.svc:{{ .Host.Port }}"
-    # -- interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset.
-    repeatInterval: "168h"
-    # -- labels to be added to the scans started by the auto-discovery
-    labels: {}
-    # -- hookSelector allows to specify a LabelSelector with which the hooks are selected
-    hookSelector: {}
-    # -- annotations to be added to the scans started by the auto-discovery
-    annotations:
-      defectdojo.securecodebox.io/product-name: "{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}"
-      defectdojo.securecodebox.io/product-tags: "cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"
-      defectdojo.securecodebox.io/engagement-name: "{{ .Target.Name }}"
-      defectdojo.securecodebox.io/engagement-version: "{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}"
+  scanConfigs:
+    - scanType: zap-advanced-scan
+      # -- unique name to distinguish scans
+      name: "zap"
+      # -- parameters used for the scans created by the serviceAutoDiscovery
+      parameters:
+        - "-t"
+        - "{{ .Host.Type }}://{{ .Service.Name }}.{{ .Service.Namespace }}.svc:{{ .Host.Port }}"
+      # -- interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset.
+      repeatInterval: "168h"
+      # -- labels to be added to the scans started by the auto-discovery
+      labels: {}
+      # -- hookSelector allows to specify a LabelSelector with which the hooks are selected
+      hookSelector: {}
+      # -- annotations to be added to the scans started by the auto-discovery
+      annotations:
+        defectdojo.securecodebox.io/product-name: "{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}"
+        defectdojo.securecodebox.io/product-tags: "cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"
+        defectdojo.securecodebox.io/engagement-name: "{{ .Target.Name }}"
+        defectdojo.securecodebox.io/engagement-version: "{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}"
 
 containerAutoDiscovery:
   enabled: true
   passiveReconcileInterval: 10s
-  scanConfig:
-    scanType: trivy-image
-    # -- parameters used for the scans created by the containerAutoDiscovery
-    parameters:
-      - "{{ .ImageID }}"
-    # -- interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset.
-    repeatInterval: "168h"
-    # -- labels to be added to the scans started by the auto-discovery
-    labels: {}
-    # -- annotations to be added to the scans started by the auto-discovery
-    annotations:
-      defectdojo.securecodebox.io/product-name: "{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}"
-      defectdojo.securecodebox.io/product-tags: "cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"
-      defectdojo.securecodebox.io/engagement-name: "{{ .Target.Name }}"
-      defectdojo.securecodebox.io/engagement-version: "{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}"
-    # -- hookSelector allows to specify a LabelSelector with which the hooks are selected
-    hookSelector: {}
+  scanConfigs:
+    - scanType: trivy-image-autodiscovery
+      # -- unique name to distinguish scans
+      name: "trivy"
+      # -- parameters used for the scans created by the containerAutoDiscovery
+      parameters:
+        - "{{ .ImageID }}"
+      # -- interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset.
+      repeatInterval: "168h"
+      # -- labels to be added to the scans started by the auto-discovery
+      labels: {}
+      # -- annotations to be added to the scans started by the auto-discovery
+      annotations:
+        defectdojo.securecodebox.io/product-name: "{{ .Cluster.Name }} | {{ .Namespace.Name }} | {{ .Target.Name }}"
+        defectdojo.securecodebox.io/product-tags: "cluster/{{ .Cluster.Name }},namespace/{{ .Namespace.Name }}"
+        defectdojo.securecodebox.io/engagement-name: "{{ .Target.Name }}"
+        defectdojo.securecodebox.io/engagement-version: "{{if (index .Target.Labels `app.kubernetes.io/version`) }}{{ index .Target.Labels `app.kubernetes.io/version` }}{{end}}"
+      # -- hookSelector allows to specify a LabelSelector with which the hooks are selected
+      hookSelector: {}
+  imagePullSecretConfig:
+    mapImagePullSecretsToEnvironmentVariables: true
+    usernameEnvironmentVariableName: "TRIVY_USERNAME"
+    passwordEnvironmentVariableName: "TRIVY_PASSWORD"

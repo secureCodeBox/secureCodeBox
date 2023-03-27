@@ -178,4 +178,33 @@ One of the optional attributes in the finding format of Amass has been renamed f
 
 ➡️  [Reference: #1605](https://github.com/secureCodeBox/secureCodeBox/pull/1605)
 
+### Removed AngularCSTI Scanner Integration
 
+The integration for the AngularCSTI scanner has been removed and will no longer be officially supported.
+Demand for the scanner was low and AngularJS (1.x) has been officially [deprecated in 2022](https://blog.angular.io/discontinued-long-term-support-for-angularjs-cc066b82e65a). Using AngularJS in 2023 is therefore a security liability, even when the specific site is not vulnerable to CSTI.
+
+➡️  [Reference: #1649](https://github.com/secureCodeBox/secureCodeBox/pull/1649)
+
+### Renamed the scanners ssh-scan and sslyze  `hint` to `mitigation`
+We added a new attribute to the finding format called `mitigation` which is used to store information about how to mitigate the finding/issue. The `hint` attribute of the findings of the scanners `ssh-scan` and `sslyze` has been renamed to `mitigation` to be more consistent with the other scanners.
+
+➡️  [Reference: #1639](https://github.com/secureCodeBox/secureCodeBox/pull/1639)
+### AutoDiscovery takes a list of scans in config file
+The AutoDiscovery now takes a list of scans in its configuration. Each configured scan needs a unique name so that the AutoDiscovery is able to distinguish between scans. Because of this it is possible to configure multiple scans with the same scan type.
+To upgrade wrap your existing scanConfig into a list and rename `scanConfig` to `scanConfigs`, see the default [values.yaml of the AutoDiscovery](https://github.com/secureCodeBox/secureCodeBox/blob/main/auto-discovery/kubernetes/values.yaml) as reference.
+
+Example config:
+```yaml
+    scanConfigs:
+      - scanType: trivy-image
+        name: "my-trivy-scan"
+        parameters:
+          - "{{ .ImageID }}"
+        repeatInterval: "168h"
+      - scanType: trivy-image
+        name: "second-trivy-scan"
+        parameters:
+          - "{{ .ImageID }}"
+        repeatInterval: "168h"
+```
+➡️  [Reference: #1447](https://github.com/secureCodeBox/secureCodeBox/pull/1447)

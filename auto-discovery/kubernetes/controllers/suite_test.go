@@ -83,37 +83,82 @@ var _ = BeforeSuite(func() {
 		},
 		ServiceAutoDiscoveryConfig: configv1.ServiceAutoDiscoveryConfig{
 			PassiveReconcileInterval: metav1.Duration{Duration: 1 * time.Second},
-			ScanConfig: configv1.ScanConfig{
-				RepeatInterval: metav1.Duration{Duration: time.Hour},
-				Annotations:    map[string]string{},
-				Labels:         map[string]string{},
-				Parameters:     []string{"-p", "{{ .Host.Port }}", "{{ .Service.Name }}.{{ .Service.Namespace }}.svc"},
-				ScanType:       "nmap",
-				HookSelector: metav1.LabelSelector{
-					MatchLabels: map[string]string{
-						"foo": "bar",
+			ScanConfigs: []configv1.ScanConfig{
+				{
+					Name:           "test-scan-0",
+					RepeatInterval: metav1.Duration{Duration: time.Hour},
+					Annotations:    map[string]string{},
+					Labels:         map[string]string{},
+					Parameters:     []string{"-p", "{{ .Host.Port }}", "{{ .Service.Name }}.{{ .Service.Namespace }}.svc"},
+					ScanType:       "nmap",
+					HookSelector: metav1.LabelSelector{
+						MatchLabels: map[string]string{
+							"foo": "bar",
+						},
+					},
+				},
+				{
+					Name:           "test-scan-1",
+					RepeatInterval: metav1.Duration{Duration: time.Hour},
+					Annotations:    map[string]string{},
+					Labels:         map[string]string{},
+					Parameters:     []string{"-p", "{{ .Host.Port }}", "{{ .Service.Name }}.{{ .Service.Namespace }}.svc"},
+					ScanType:       "nmap",
+					HookSelector: metav1.LabelSelector{
+						MatchLabels: map[string]string{
+							"foo": "bar",
+						},
 					},
 				},
 			},
 		},
 		ContainerAutoDiscoveryConfig: configv1.ContainerAutoDiscoveryConfig{
 			PassiveReconcileInterval: metav1.Duration{Duration: 1 * time.Second},
-			ScanConfig: configv1.ScanConfig{
-				RepeatInterval: metav1.Duration{Duration: time.Hour},
-				Annotations:    map[string]string{"testAnnotation": "{{ .Namespace.Name }}"},
-				Labels:         map[string]string{"testLabel": "{{ .Namespace.Name }}"},
-				Parameters:     []string{"-p", "{{ .Namespace.Name }}"},
-				ScanType:       "nmap",
-				HookSelector: metav1.LabelSelector{
-					MatchExpressions: []metav1.LabelSelectorRequirement{
-						{
-							Operator: metav1.LabelSelectorOpIn,
-							Key:      "foo",
-							Values:   []string{"bar", "baz"},
+			ImagePullSecretConfig: configv1.ImagePullSecretConfig{
+				MapImagePullSecretsToEnvironmentVariables: true,
+				UsernameEnvironmentVariableName:           "username",
+				PasswordNameEnvironmentVariableName:       "password",
+			},
+			ScanConfigs: []configv1.ScanConfig{
+				{
+					Name:           "test-scan",
+					RepeatInterval: metav1.Duration{Duration: time.Hour},
+					Annotations:    map[string]string{"testAnnotation": "{{ .Namespace.Name }}"},
+					Labels:         map[string]string{"testLabel": "{{ .Namespace.Name }}"},
+					Parameters:     []string{"-p", "{{ .Namespace.Name }}"},
+					ScanType:       "nmap",
+					HookSelector: metav1.LabelSelector{
+						MatchExpressions: []metav1.LabelSelectorRequirement{
+							{
+								Operator: metav1.LabelSelectorOpIn,
+								Key:      "foo",
+								Values:   []string{"bar", "baz"},
+							},
+							{
+								Operator: metav1.LabelSelectorOpDoesNotExist,
+								Key:      "foo",
+							},
 						},
-						{
-							Operator: metav1.LabelSelectorOpDoesNotExist,
-							Key:      "foo",
+					},
+				},
+				{
+					Name:           "test-scan-two",
+					RepeatInterval: metav1.Duration{Duration: time.Hour},
+					Annotations:    map[string]string{"testAnnotation": "{{ .Namespace.Name }}"},
+					Labels:         map[string]string{"testLabel": "{{ .Namespace.Name }}"},
+					Parameters:     []string{"-p", "{{ .Namespace.Name }}"},
+					ScanType:       "nmap",
+					HookSelector: metav1.LabelSelector{
+						MatchExpressions: []metav1.LabelSelectorRequirement{
+							{
+								Operator: metav1.LabelSelectorOpIn,
+								Key:      "foo",
+								Values:   []string{"bar", "baz"},
+							},
+							{
+								Operator: metav1.LabelSelectorOpDoesNotExist,
+								Key:      "foo",
+							},
 						},
 					},
 				},
@@ -124,6 +169,7 @@ var _ = BeforeSuite(func() {
 		},
 	}
 
+	// working config
 	err = (&ServiceScanReconciler{
 		Client:   k8sManager.GetClient(),
 		Scheme:   k8sManager.GetScheme(),
@@ -133,6 +179,7 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
+	// working config
 	err = (&ContainerScanReconciler{
 		Client:   k8sManager.GetClient(),
 		Scheme:   k8sManager.GetScheme(),

@@ -25,7 +25,6 @@ var telemetryInterval = 24 * time.Hour
 // Unofficial Scan Types should be reported as "other" to avoid leakage of confidential data via the scan-types name
 var officialScanTypes map[string]bool = map[string]bool{
 	"amass":                  true,
-	"angularjs-csti-scanner": true,
 	"cmseek":                 true,
 	"doggo":                  true,
 	"ffuf":                   true,

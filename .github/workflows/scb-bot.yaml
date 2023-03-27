@@ -21,7 +21,6 @@ jobs:
       matrix:
         scanner:
           - amass
-          - angularjs-csti-scanner
           - cmseek
           - ffuf
           - gitleaks

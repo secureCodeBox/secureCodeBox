@@ -34,29 +34,43 @@ var _ = Describe("ContainerScan controller", func() {
 
 	Context("Container autodiscovery for deployment", func() {
 
-		namespace := "default"
+		namespace := "container-auto-discovery"
 		ctx := context.Background()
 
-		nginxScanName := "nginx-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
-		nginxScanName = nginxScanName[:62]
+		nginxScanName1 := "nginx-test-scan-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
+		nginxScanName1 = nginxScanName1[:62]
+
+		nginxScanName2 := "nginx-test-scan-two-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
+		nginxScanName2 = nginxScanName2[:62]
+
 		nginxScanGoTemplate := scanGoTemplate{
-			map[string]string{"testAnnotation": "default"},
+			map[string]string{"testAnnotation": namespace},
 			map[string]string{
-				"testLabel":                    "default",
+				"testLabel":                    namespace,
 				"app.kubernetes.io/managed-by": "securecodebox-autodiscovery",
 			},
-			[]string{"-p", "default"},
+			[]string{"-p", namespace},
+			nil,
+			nil,
+			nil,
 		}
 
-		juiceShopScanName := "juice-shop-at-9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2"
-		juiceShopScanName = juiceShopScanName[:62]
+		juiceShopScanName1 := "juice-shop-test-scan-at-9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2"
+		juiceShopScanName1 = juiceShopScanName1[:62]
+
+		juiceShopScanName2 := "juice-shop-test-scan-two-at-9342db143db5804dee3e64ff789be6ad8dd94f0491b2f50fa67c78be204081e2"
+		juiceShopScanName2 = juiceShopScanName2[:62]
+
 		juiceShopScanGoTemplate := scanGoTemplate{
-			map[string]string{"testAnnotation": "default"},
+			map[string]string{"testAnnotation": namespace},
 			map[string]string{
-				"testLabel":                    "default",
+				"testLabel":                    namespace,
 				"app.kubernetes.io/managed-by": "securecodebox-autodiscovery",
 			},
-			[]string{"-p", "default"},
+			[]string{"-p", namespace},
+			nil,
+			nil,
+			nil,
 		}
 
 		It("Should not create scans while the scan type is not installed", func() {
@@ -69,26 +83,32 @@ var _ = Describe("ContainerScan controller", func() {
 
 			// scans should not be created because of the missing scan type
 			Consistently(func() bool {
-				return !checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate) &&
-					!checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)
+				return !checkIfScanExists(ctx, nginxScanName1, namespace, nginxScanGoTemplate) &&
+					!checkIfScanExists(ctx, nginxScanName2, namespace, nginxScanGoTemplate) &&
+					!checkIfScanExists(ctx, juiceShopScanName1, namespace, juiceShopScanGoTemplate) &&
+					!checkIfScanExists(ctx, juiceShopScanName2, namespace, juiceShopScanGoTemplate)
 			}, timeout, interval).Should(BeTrue())
 
 		})
 
-		It("Should create a single scheduledscan for every container with the same imageID in the deplyoment", func() {
+		It("Should create a single scheduledscan for every container with the same imageID in the deployment", func() {
 			//install scantype, scans should be created now
 			createScanType(ctx, namespace)
 
 			Eventually(func() bool {
-				return checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate) &&
-					checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)
+				return checkIfScanExists(ctx, nginxScanName1, namespace, nginxScanGoTemplate) &&
+					checkIfScanExists(ctx, nginxScanName2, namespace, nginxScanGoTemplate) &&
+					checkIfScanExists(ctx, juiceShopScanName1, namespace, juiceShopScanGoTemplate) &&
+					checkIfScanExists(ctx, juiceShopScanName2, namespace, juiceShopScanGoTemplate)
 			}, timeout, interval).Should(BeTrue())
 
 		})
 
 		It("Should not delete a scan if the container is still in use", func() {
-			Expect(checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate)).To(BeTrue())
-			Expect(checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)).To(BeTrue())
+			Expect(checkIfScanExists(ctx, nginxScanName1, namespace, nginxScanGoTemplate)).To(BeTrue())
+			Expect(checkIfScanExists(ctx, nginxScanName2, namespace, nginxScanGoTemplate)).To(BeTrue())
+			Expect(checkIfScanExists(ctx, juiceShopScanName1, namespace, juiceShopScanGoTemplate)).To(BeTrue())
+			Expect(checkIfScanExists(ctx, juiceShopScanName2, namespace, juiceShopScanGoTemplate)).To(BeTrue())
 
 			var podToBeDeleted corev1.Pod
 			Expect(k8sClient.Get(ctx, types.NamespacedName{Name: "fake-deployment-pod2", Namespace: namespace}, &podToBeDeleted)).Should(Succeed())
@@ -96,14 +116,18 @@ var _ = Describe("ContainerScan controller", func() {
 
 			//Scans should not be deleted, because one pod still uses the container images
 			Consistently(func() bool {
-				return checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate) &&
-					checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)
+				return checkIfScanExists(ctx, nginxScanName1, namespace, nginxScanGoTemplate) &&
+					checkIfScanExists(ctx, nginxScanName2, namespace, nginxScanGoTemplate) &&
+					checkIfScanExists(ctx, juiceShopScanName1, namespace, juiceShopScanGoTemplate) &&
+					checkIfScanExists(ctx, juiceShopScanName2, namespace, juiceShopScanGoTemplate)
 			}, timeout, interval).Should(BeTrue())
 		})
 
 		It("Should delete a scan if the container is not in use", func() {
-			Expect(checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate)).To(BeTrue())
-			Expect(checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)).To(BeTrue())
+			Expect(checkIfScanExists(ctx, nginxScanName1, namespace, nginxScanGoTemplate)).To(BeTrue())
+			Expect(checkIfScanExists(ctx, nginxScanName2, namespace, nginxScanGoTemplate)).To(BeTrue())
+			Expect(checkIfScanExists(ctx, juiceShopScanName1, namespace, juiceShopScanGoTemplate)).To(BeTrue())
+			Expect(checkIfScanExists(ctx, juiceShopScanName2, namespace, juiceShopScanGoTemplate)).To(BeTrue())
 
 			var podToBeDeleted corev1.Pod
 			Expect(k8sClient.Get(ctx, types.NamespacedName{Name: "fake-deployment-pod1", Namespace: namespace}, &podToBeDeleted)).Should(Succeed())
@@ -111,14 +135,120 @@ var _ = Describe("ContainerScan controller", func() {
 
 			//Scans should be deleted, invert checkIfScanExists
 			Eventually(func() bool {
-				return !checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate) &&
-					!checkIfScanExists(ctx, juiceShopScanName, namespace, juiceShopScanGoTemplate)
+				return !checkIfScanExists(ctx, nginxScanName1, namespace, nginxScanGoTemplate) &&
+					!checkIfScanExists(ctx, nginxScanName2, namespace, nginxScanGoTemplate) &&
+					!checkIfScanExists(ctx, juiceShopScanName1, namespace, juiceShopScanGoTemplate) &&
+					!checkIfScanExists(ctx, juiceShopScanName2, namespace, juiceShopScanGoTemplate)
+			}, timeout, interval).Should(BeTrue())
+		})
+	})
+	Context("Container autodiscovery with imagePullSecrets", func() {
+		namespace := "container-autodiscovery-imagepullsecrets"
+		ctx := context.Background()
+
+		fakeDeployment := map[string]string{"nginx": "0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"}
+		nginxScanName := "nginx-test-scan-at-0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31"
+		nginxScanName = nginxScanName[:62]
+
+		trueBool := true
+		nginxScanGoTemplate := scanGoTemplate{
+			map[string]string{"testAnnotation": namespace},
+			map[string]string{
+				"testLabel":                    namespace,
+				"app.kubernetes.io/managed-by": "securecodebox-autodiscovery",
+			},
+			[]string{"-p", namespace},
+			[]corev1.Container{
+				{
+					Name:  "secret-extraction-to-env",
+					Image: "docker.io/securecodebox/auto-discovery-pull-secret-extractor",
+					Args:  []string{"nginx@" + fakeDeployment["nginx"], ("temporary-secret-" + nginxScanName)[:62]},
+					VolumeMounts: []corev1.VolumeMount{
+						{
+							Name:      "test-pull-secret-volume",
+							MountPath: "/secrets/test-pull-secret",
+						},
+					},
+					Env: []corev1.EnvVar{
+						{
+							Name: "POD_NAME",
+							ValueFrom: &corev1.EnvVarSource{
+								FieldRef: &corev1.ObjectFieldSelector{
+									FieldPath: "metadata.name",
+								},
+							},
+						},
+						{
+							Name: "NAMESPACE",
+							ValueFrom: &corev1.EnvVarSource{
+								FieldRef: &corev1.ObjectFieldSelector{
+									FieldPath: "metadata.namespace",
+								},
+							},
+						},
+					},
+				},
+			},
+			[]corev1.Volume{
+				{
+					Name: "test-pull-secret-volume",
+					VolumeSource: corev1.VolumeSource{
+						Secret: &corev1.SecretVolumeSource{
+							SecretName: "test-pull-secret",
+						},
+					},
+				},
+			},
+			[]corev1.EnvVar{
+				{
+					Name: "username",
+					ValueFrom: &corev1.EnvVarSource{
+						SecretKeyRef: &corev1.SecretKeySelector{
+							Optional: &trueBool,
+							LocalObjectReference: corev1.LocalObjectReference{
+								Name: ("temporary-secret-" + nginxScanName)[:62],
+							},
+							Key: "username",
+						},
+					},
+				},
+				{
+					Name: "password",
+					ValueFrom: &corev1.EnvVarSource{
+						SecretKeyRef: &corev1.SecretKeySelector{
+							Optional: &trueBool,
+							LocalObjectReference: corev1.LocalObjectReference{
+								Name: ("temporary-secret-" + nginxScanName)[:62],
+							},
+							Key: "password",
+						},
+					},
+				},
+			},
+		}
+
+		It("Should create a trivy scan with the secretExtractionInitContainer", func() {
+			createNamespace(ctx, namespace)
+			createScanType(ctx, namespace)
+
+			imagePullSecrets := []corev1.LocalObjectReference{
+				{
+					Name: "test-pull-secret",
+				},
+			}
+			createPodWithMultipleContainersAndImagePullSecrets(ctx, "fake-deployment-pod1", namespace, fakeDeployment, imagePullSecrets)
+
+			Eventually(func() bool {
+				return checkIfScanExists(ctx, nginxScanName, namespace, nginxScanGoTemplate)
 			}, timeout, interval).Should(BeTrue())
 		})
 	})
 })
 
 func createPodWithMultipleContainers(ctx context.Context, name string, namespace string, images map[string]string) {
+	createPodWithMultipleContainersAndImagePullSecrets(ctx, name, namespace, images, []corev1.LocalObjectReference{})
+}
+func createPodWithMultipleContainersAndImagePullSecrets(ctx context.Context, name string, namespace string, images map[string]string, imagePullSecrets []corev1.LocalObjectReference) {
 	pod := &corev1.Pod{
 		TypeMeta: metav1.TypeMeta{
 			APIVersion: "",
@@ -132,7 +262,8 @@ func createPodWithMultipleContainers(ctx context.Context, name string, namespace
 			},
 		},
 		Spec: corev1.PodSpec{
-			Containers: getContainerSpec(name, images),
+			Containers:       getContainerSpec(name, images),
+			ImagePullSecrets: imagePullSecrets,
 		},
 	}
 
@@ -201,14 +332,20 @@ func checkScanGoTemplate(scan executionv1.ScheduledScan, scanSpec scanGoTemplate
 	annotations := scan.ObjectMeta.Annotations
 	labels := scan.ObjectMeta.Labels
 	parameters := scan.Spec.ScanSpec.Parameters
+	volumes := scan.Spec.ScanSpec.Volumes
+	envVars := scan.Spec.ScanSpec.Env
 
-	annotationsCorrect := reflect.DeepEqual(annotations, scanSpec.Annotaions)
+	annotationsCorrect := reflect.DeepEqual(annotations, scanSpec.Annotations)
 	labelsCorrect := reflect.DeepEqual(labels, scanSpec.Labels)
 	parametersCorrect := reflect.DeepEqual(parameters, scanSpec.Parameters)
+	volumesCorrect := reflect.DeepEqual(volumes, scanSpec.Volumes)
+	envVarsCorrect := reflect.DeepEqual(envVars, scanSpec.EnvVars)
 
 	Expect(annotationsCorrect).Should(BeTrue())
 	Expect(labelsCorrect).Should(BeTrue())
 	Expect(parametersCorrect).Should(BeTrue())
+	Expect(volumesCorrect).Should(BeTrue())
+	Expect(envVarsCorrect).Should(BeTrue())
 	Expect(scan.Spec.ScanSpec.HookSelector.MatchExpressions).To(ContainElement(
 		metav1.LabelSelectorRequirement{
 			Operator: metav1.LabelSelectorOpIn,
@@ -227,7 +364,10 @@ func checkScanGoTemplate(scan executionv1.ScheduledScan, scanSpec scanGoTemplate
 }
 
 type scanGoTemplate struct {
-	Annotaions map[string]string
-	Labels     map[string]string
-	Parameters []string
+	Annotations    map[string]string
+	Labels         map[string]string
+	Parameters     []string
+	InitContainers []corev1.Container
+	Volumes        []corev1.Volume
+	EnvVars        []corev1.EnvVar
 }

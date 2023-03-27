@@ -18,7 +18,7 @@ func restartScheduledScan(ctx context.Context, statusWriter client.StatusWriter,
 	scheduledScan.Status.LastScheduleTime = &fakedLastSchedule
 	err := statusWriter.Update(ctx, &scheduledScan)
 	if err != nil {
-		return fmt.Errorf("Failed to restart ScheduledScan: %w", err)
+		return fmt.Errorf("failed to restart ScheduledScan: %w", err)
 	}
 
 	return nil
