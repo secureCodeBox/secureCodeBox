@@ -24,8 +24,8 @@ function transformToFindings(targets) {
   // Code to transform the scanner results to scb findings
   return targets.map((target) => {
     return {
-      name: `DNS Zone: ${target.name} | Type: ${target.type}`,
-      description: `DNS record type "${target.type}" found for zone "${target.name}" with address "${target.address}".`,
+      name: `DNS Record: ${target.name} | Type: ${target.type}`,
+      description: `DNS record type "${target.type}" found for "${target.name}" with address "${target.address}".`,
       category: "DNS Information",
       location: target.name.slice(0, target.name.length - 1),
       osi_layer: "NETWORK",
