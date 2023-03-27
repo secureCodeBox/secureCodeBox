@@ -26,6 +26,7 @@ var telemetryInterval = 24 * time.Hour
 var officialScanTypes map[string]bool = map[string]bool{
 	"amass":                  true,
 	"cmseek":                 true,
+	"doggo":                  true,
 	"ffuf":                   true,
 	"git-repo-scanner":       true,
 	"gitleaks":               true,

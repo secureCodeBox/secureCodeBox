@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "doggo-example.com"
+spec:
+  scanType: "doggo"
+  parameters:
+    # Target domain of the finding
+    - "example.com"
+    # Check domain/zone for typical dns records
+    - "A"
+    - "AAAA"
+    - "NS"
+    - "CNAME"
+    - "TXT"
+    - "MX"
+    - "SRV"

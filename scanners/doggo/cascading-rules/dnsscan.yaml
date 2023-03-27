@@ -1,0 +1,30 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "cascading.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "doggo-dnsscan"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: light
+spec:
+  matches:
+    anyOf:
+      - category: "Subdomain"
+        osi_layer: "NETWORK"
+  scanSpec:
+    scanType: "doggo"
+    parameters:
+      # Target domain of the finding
+      - "{{location}}"
+      # Check domain/zone for typical dns records
+      - "A"
+      - "AAAA"
+      - "NS"
+      - "CNAME"
+      - "TXT"
+      - "MX"
+      - "SRV"
+
