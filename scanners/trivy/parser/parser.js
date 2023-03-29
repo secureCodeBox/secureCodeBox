@@ -21,21 +21,47 @@ async function parse(scanResults) {
   for (const { Target: target, Vulnerabilities } of scanResults.Results) {
     const vulnerabilities = Vulnerabilities || [];
     const category = getCategory(target);
-
     for (const vulnerability of vulnerabilities) {
-      let reference = null;
-
+      let references = null;
+      // Add CVE and NSWG references as CVE/NSWG and URL
       if (vulnerability.VulnerabilityID.startsWith("CVE-")) {
-        reference = {
-          id: vulnerability.VulnerabilityID,
-          source: `https://nvd.nist.gov/vuln/detail/${vulnerability.VulnerabilityID}`,
-        };
-      } else if (vulnerability.VulnerabilityID.startsWith("NSWG-")) {
-        reference = {
-          id: vulnerability.VulnerabilityID,
-          source: `https://github.com/nodejs/security-wg/tree/master/vuln`,
-        };
+      references = [
+        {
+          "type": "CVE",
+          "value": vulnerability.VulnerabilityID
+        },
+        {
+          "type": "url",
+          "value": `https://nvd.nist.gov/vuln/detail/${vulnerability.VulnerabilityID}`
+        }
+      ];
+    } else if (vulnerability.VulnerabilityID.startsWith("NSWG-")) {
+      references = [
+        {
+          "type": "NSWG",
+          "value": vulnerability.VulnerabilityID
+        },
+        {
+          "type": "url",
+          "value": `https://github.com/nodejs/security-wg/tree/master/vuln`
+        }
+      ];
+    }
+    // Add all other references as URLs
+    if (vulnerability.References) {
+      for (const reference of vulnerability.References) {
+        if (reference.startsWith("http")) {
+          if (references === null) {
+            references = [];
+          }
+          references.push({
+            "type": "url",
+            "value": reference
+          });
+        }
       }
+    }
+ 
 
       findings.push({
         name: vulnerability.Title || `Vulnerability in Dependency ${vulnerability.PkgName} (${vulnerability.InstalledVersion})`,
@@ -45,7 +71,7 @@ async function parse(scanResults) {
         osi_layer: "NOT_APPLICABLE",
         severity: getAdjustedSeverity(vulnerability.Severity),
         mitigation: "Update the affected package " + vulnerability.PkgName + " to the fixed version: " + vulnerability.FixedVersion + " or remove the package from the image.",
-        reference,
+        references,
         attributes: {
           installedVersion: vulnerability.InstalledVersion,
           fixedVersion: vulnerability.FixedVersion,
