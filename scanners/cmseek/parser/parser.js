@@ -54,7 +54,7 @@ async function parse(findings) {
 
       const cve_reference = cve ? [
         {
-          "type": "cve",
+          "type": "CVE",
           "value": cve
         },
         {
