@@ -14,6 +14,7 @@ resources:
   - bases/execution.securecodebox.io_scheduledscans.yaml
   - bases/execution.securecodebox.io_clusterscantypes.yaml
   - bases/execution.securecodebox.io_clusterparsedefinitions.yaml
+  - bases/execution.securecodebox.io_clusterscancompletionhooks.yaml
 #+kubebuilder:scaffold:crdkustomizeresource
 
 patchesStrategicMerge:
