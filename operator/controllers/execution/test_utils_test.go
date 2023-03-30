@@ -73,8 +73,9 @@ func createScheduledScan(ctx context.Context, namespace string, retriggerOnScanT
 			Interval:                  metav1.Duration{Duration: 42 * time.Hour},
 			RetriggerOnScanTypeChange: retriggerOnScanTypeChange,
 			ScanSpec: &executionv1.ScanSpec{
-				ScanType:   "nmap",
-				Parameters: []string{"scanme.nmap.org"},
+				ScanType:     "nmap",
+				ResourceMode: executionv1.NamespaceLocal,
+				Parameters:   []string{"scanme.nmap.org"},
 			},
 		},
 	}
