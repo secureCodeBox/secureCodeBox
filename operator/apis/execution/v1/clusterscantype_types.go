@@ -11,12 +11,6 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// ClusterScanTypeStatus defines the observed state of ClusterScanType
-type ClusterScanTypeStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-}
-
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:scope=Cluster
 // +kubebuilder:printcolumn:name="Image",type=string,JSONPath=`.spec.jobTemplate.spec.template.spec.containers[0].image`,description="Scanner Container Image"
@@ -26,8 +20,8 @@ type ClusterScanType struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   ScanTypeSpec          `json:"spec,omitempty"`
-	Status ClusterScanTypeStatus `json:"status,omitempty"`
+	Spec   ScanTypeSpec   `json:"spec,omitempty"`
+	Status ScanTypeStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
