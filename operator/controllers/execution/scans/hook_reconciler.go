@@ -31,19 +31,34 @@ func (r *ScanReconciler) setHookStatus(scan *executionv1.Scan) error {
 		return err
 	}
 
-	var scanCompletionHooks executionv1.ScanCompletionHookList
+	var hookStatuses []*executionv1.HookStatus
 
-	if err := r.List(ctx, &scanCompletionHooks,
-		client.InNamespace(scan.Namespace),
-		client.MatchingLabelsSelector{Selector: labelSelector},
-	); err != nil {
-		r.Log.V(7).Info("Unable to fetch ScanCompletionHooks")
-		return err
+	if scan.Spec.ResourceMode == executionv1.NamespaceLocal {
+		var scanCompletionHooks executionv1.ScanCompletionHookList
+		if err := r.List(ctx, &scanCompletionHooks,
+			client.InNamespace(scan.Namespace),
+			client.MatchingLabelsSelector{Selector: labelSelector},
+		); err != nil {
+			r.Log.V(7).Info(fmt.Sprintf("Unable to fetch ScanCompletionHooks for scan '%s' which is located in namespace '%s'", scan.Name, scan.Namespace))
+			return err
+		}
+
+		hookStatuses = util.MapHooksToHookStatus(scanCompletionHooks.Items)
+	} else {
+		var clusterScanCompletionHooks executionv1.ClusterScanCompletionHookList
+		if err := r.List(ctx, &clusterScanCompletionHooks,
+			client.MatchingLabelsSelector{Selector: labelSelector},
+		); err != nil {
+			r.Log.V(7).Info(fmt.Sprintf("Unable to fetch ClusterScanCompletionHooks for scan '%s' which is located in namespace '%s'", scan.Name, scan.Namespace))
+			return err
+		}
+
+		hookStatuses = util.MapClusterHooksToHookStatus(clusterScanCompletionHooks.Items)
 	}
 
-	r.Log.Info("Found ScanCompletionHooks", "ScanCompletionHooks", len(scanCompletionHooks.Items))
+	r.Log.Info("Found ScanCompletionHooks", "ScanCompletionHooks", len(hookStatuses))
 
-	orderedHookStatus := util.FromUnorderedList(scanCompletionHooks.Items)
+	orderedHookStatus := util.FromUnorderedList(hookStatuses)
 	scan.Status.OrderedHookStatuses = orderedHookStatus
 	scan.Status.State = "HookProcessing"
 
@@ -172,14 +187,29 @@ func (r *ScanReconciler) processHook(scan *executionv1.Scan, nonCompletedHook *e
 
 func (r *ScanReconciler) processPendingHook(scan *executionv1.Scan, status *executionv1.HookStatus, jobType string) error {
 	ctx := context.Background()
-
-	var hook executionv1.ScanCompletionHook
-
 	var err error
-	err = r.Get(ctx, types.NamespacedName{Name: status.HookName, Namespace: scan.Namespace}, &hook)
-	if err != nil {
-		r.Log.Error(err, "Failed to get Hook for HookStatus")
-		return err
+
+	var hookName string
+	var hookSpec executionv1.ScanCompletionHookSpec
+
+	if scan.Spec.ResourceMode == executionv1.NamespaceLocal {
+		var hook executionv1.ScanCompletionHook
+		err = r.Get(ctx, types.NamespacedName{Name: status.HookName, Namespace: scan.Namespace}, &hook)
+		if err != nil {
+			r.Log.Error(err, fmt.Sprintf("Failed to get ScanCompletionHook '%s' configured for scan '%s' which is located in namespace '%s'", status.HookName, scan.Name, scan.Namespace))
+			return err
+		}
+		hookName = hook.Name
+		hookSpec = hook.Spec
+	} else if scan.Spec.ResourceMode == executionv1.ClusterWide {
+		var clusterHook executionv1.ClusterScanCompletionHook
+		err = r.Get(ctx, types.NamespacedName{Name: status.HookName}, &clusterHook)
+		if err != nil {
+			r.Log.Error(err, fmt.Sprintf("Failed to get ClusterScanCompletionHook '%s' configured for scan '%s' which is located in namespace '%s'", status.HookName, scan.Name, scan.Namespace))
+			return err
+		}
+		hookName = clusterHook.Name
+		hookSpec = clusterHook.Spec
 	}
 
 	var jobs *batch.JobList
@@ -218,7 +248,7 @@ func (r *ScanReconciler) processPendingHook(scan *executionv1.Scan, status *exec
 		rawFileURL,
 		findingsFileURL,
 	}
-	if hook.Spec.Type == executionv1.ReadAndWrite {
+	if hookSpec.Type == executionv1.ReadAndWrite {
 		var rawFileUploadURL string
 		rawFileUploadURL, err = r.PresignedPutURL(*scan, scan.Status.RawResultFile, urlExpirationDuration)
 		if err != nil {
@@ -234,7 +264,8 @@ func (r *ScanReconciler) processPendingHook(scan *executionv1.Scan, status *exec
 
 	var jobName string
 	jobName, err = r.createJobForHook(
-		&hook,
+		hookName,
+		&hookSpec,
 		scan,
 		args,
 	)
@@ -275,13 +306,13 @@ func (r *ScanReconciler) processInProgressHook(scan *executionv1.Scan, status *e
 	return nil
 }
 
-func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, scan *executionv1.Scan, cliArgs []string) (string, error) {
+func (r *ScanReconciler) createJobForHook(hookName string, hookSpec *executionv1.ScanCompletionHookSpec, scan *executionv1.Scan, cliArgs []string) (string, error) {
 	ctx := context.Background()
 
 	serviceAccountName := "scan-completion-hook"
-	if hook.Spec.ServiceAccountName != nil {
+	if hookSpec.ServiceAccountName != nil {
 		// Hook uses a custom ServiceAccount
-		serviceAccountName = *hook.Spec.ServiceAccountName
+		serviceAccountName = *hookSpec.ServiceAccountName
 	} else {
 		// Check and create a serviceAccount for the hook in its namespace, if it doesn't already exist.
 		rules := []rbacv1.PolicyRule{
@@ -298,7 +329,7 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 		}
 
 		r.ensureServiceAccountExists(
-			hook.Namespace,
+			scan.Namespace,
 			serviceAccountName,
 			"ScanCompletionHooks need to access the current scan to view where its results are stored",
 			rules,
@@ -325,12 +356,12 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 	if labels == nil {
 		labels = make(map[string]string)
 	}
-	if hook.Spec.Type == executionv1.ReadAndWrite {
+	if hookSpec.Type == executionv1.ReadAndWrite {
 		labels["securecodebox.io/job-type"] = "read-and-write-hook"
-	} else if hook.Spec.Type == executionv1.ReadOnly {
+	} else if hookSpec.Type == executionv1.ReadOnly {
 		labels["securecodebox.io/job-type"] = "read-only-hook"
 	}
-	labels["securecodebox.io/hook-name"] = hook.Name
+	labels["securecodebox.io/hook-name"] = hookName
 
 	var backOffLimit int32 = 3
 	truePointer := true
@@ -345,18 +376,18 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 			corev1.ResourceMemory: resource.MustParse("200Mi"),
 		},
 	}
-	if len(hook.Spec.Resources.Requests) != 0 || len(hook.Spec.Resources.Limits) != 0 {
-		resources = hook.Spec.Resources
+	if len(hookSpec.Resources.Requests) != 0 || len(hookSpec.Resources.Limits) != 0 {
+		resources = hookSpec.Resources
 	}
 	job := &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
 			Annotations:  make(map[string]string),
-			GenerateName: util.TruncateName(fmt.Sprintf("%s-%s", hook.Name, scan.Name)),
+			GenerateName: util.TruncateName(fmt.Sprintf("%s-%s", hookName, scan.Name)),
 			Namespace:    scan.Namespace,
 			Labels:       labels,
 		},
 		Spec: batch.JobSpec{
-			TTLSecondsAfterFinished: hook.Spec.TTLSecondsAfterFinished,
+			TTLSecondsAfterFinished: hookSpec.TTLSecondsAfterFinished,
 			BackoffLimit:            &backOffLimit,
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
@@ -371,14 +402,14 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 				Spec: corev1.PodSpec{
 					ServiceAccountName: serviceAccountName,
 					RestartPolicy:      corev1.RestartPolicyNever,
-					ImagePullSecrets:   hook.Spec.ImagePullSecrets,
+					ImagePullSecrets:   hookSpec.ImagePullSecrets,
 					Containers: []corev1.Container{
 						{
 							Name:            "hook",
-							Image:           hook.Spec.Image,
+							Image:           hookSpec.Image,
 							Args:            cliArgs,
-							Env:             append(hook.Spec.Env, standardEnvVars...),
-							ImagePullPolicy: hook.Spec.ImagePullPolicy,
+							Env:             append(hookSpec.Env, standardEnvVars...),
+							ImagePullPolicy: hookSpec.ImagePullPolicy,
 							Resources:       resources,
 							SecurityContext: &corev1.SecurityContext{
 								RunAsNonRoot:             &truePointer,
@@ -403,24 +434,24 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 	job.Spec.Template.Spec.Containers[0].Env = append(
 		job.Spec.Template.Spec.Containers[0].Env,
 
-		hook.Spec.Env...,
+		hookSpec.Env...,
 	)
 	// Merge VolumeMounts from HookTemplate
 	job.Spec.Template.Spec.Containers[0].VolumeMounts = append(
 		job.Spec.Template.Spec.Containers[0].VolumeMounts,
-		hook.Spec.VolumeMounts...,
+		hookSpec.VolumeMounts...,
 	)
 	// Merge Volumes from HookTemplate
 	job.Spec.Template.Spec.Volumes = append(
 		job.Spec.Template.Spec.Volumes,
-		hook.Spec.Volumes...,
+		hookSpec.Volumes...,
 	)
 
 	// Set affinity from Scan, if one is set. Otherwise keep value from template
 	if scan.Spec.Affinity != nil {
 		job.Spec.Template.Spec.Affinity = scan.Spec.Affinity
 	} else {
-		job.Spec.Template.Spec.Affinity = hook.Spec.Affinity
+		job.Spec.Template.Spec.Affinity = hookSpec.Affinity
 	}
 
 	// Replace tolerations from template with those from the scan, if specified.
@@ -428,7 +459,7 @@ func (r *ScanReconciler) createJobForHook(hook *executionv1.ScanCompletionHook, 
 	if scan.Spec.Tolerations != nil {
 		job.Spec.Template.Spec.Tolerations = scan.Spec.Tolerations
 	} else {
-		job.Spec.Template.Spec.Tolerations = hook.Spec.Tolerations
+		job.Spec.Template.Spec.Tolerations = hookSpec.Tolerations
 	}
 
 	if err := ctrl.SetControllerReference(scan, job, r.Scheme); err != nil {
