@@ -3,7 +3,7 @@ title: "SSLyze"
 category: "scanner"
 type: "SSL"
 state: "released"
-appVersion: "5.1.2"
+appVersion: "5.1.3"
 usecase: "SSL/TLS Configuration Scanner"
 ---
 
