@@ -31,17 +31,17 @@ spec:
           name: {{ .Values.hook.authentication.basic.userSecret }}
           key: {{ .Values.hook.authentication.basic.passwordKey }}
           optional: true
-    - name: WEBHOOK_APIKEY
+    - name: WEBHOOK_APIKEY_HEADER_NAME
       valueFrom:
         secretKeyRef:
           name: {{ .Values.hook.authentication.apikey.userSecret }}
-          key: {{ .Values.hook.authentication.apikey.headerName }}
+          key: {{ .Values.hook.authentication.apikey.headerNameKey }}
           optional: true
-    - name: WEBHOOK_APIKEY_SECRET
+    - name: WEBHOOK_APIKEY_HEADER_VALUE
       valueFrom:
         secretKeyRef:
           name: {{ .Values.hook.authentication.apikey.userSecret }}
-          key: {{ .Values.hook.authentication.apikey.headerValue }}
+          key: {{ .Values.hook.authentication.apikey.headerValueKey }}
           optional: true
   affinity:
     {{- toYaml .Values.hook.affinity | nindent 4 }}
