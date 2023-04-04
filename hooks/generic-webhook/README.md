@@ -48,17 +48,50 @@ helm upgrade --install generic-webhook secureCodeBox/generic-webhook
 Kubernetes: `>=v1.11.0-0`
 
 ## Additional Chart Configurations
+The webhook URL is set as follows:
 
-> ✍ This documentation is currently work-in-progress.
+```bash
+helm upgrade --install generic-webhook secureCodeBox/generic-webhook \
+    --set="webhookUrl=http://http-webhook/hello-world"
+```
+Two authentication methods exist for the Generic WebHook Hook. You can either use  Basic authentication or API authentication.
+The authentication method is set by creating the corresponding secret as follows:
+
+##### Basic authentication:
+   
+```bash
+kubectl create secret generic generic-webhook-credentials \
+--from-literal=username='admin' \
+--from-literal=password='ThisIsAPassword'
+```
+##### API authentication:
+
+```bash
+kubectl create secret generic generic-webhook-credentials \
+--from-literal=headerName='X-Example-Header' \
+--from-literal=headerValue='ThisIsAnAPIkeyValue'
+```
+
+Only one authentication method can be used at a time.
+
+The keys for your secret mapping can also be renamed if necessary, for example `headerName` and `headerValue` can be renamed to `name` and `value` respectively.
+
+This is usually done to reuse existing secrets.
+```bash
+helm upgrade --install generic-webhook secureCodeBox/generic-webhook \
+--set="hook.authentication.apikey.headerNameKey=name"  \
+--set="hook.authentication.apikey.headerValueKey=value"
+```
 
 ## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | hook.affinity | object | `{}` | Optional affinity settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
-| hook.authentication | object | `{"apikey":{"headerName":"X-Example-Header","headerValue":"example","userSecret":"generic-webhook-credentials"},"basic":{"passwordKey":"password","userSecret":"generic-webhook-credentials","usernameKey":"username"}}` | Optional basic authentication credentials or apikey |
-| hook.authentication.apikey.headerName | string | `"X-Example-Header"` | Customize header name as per your needs ex: X-Api-Key |
-| hook.authentication.apikey.userSecret | string | `"generic-webhook-credentials"` | Link a pre-existing generic secret with `usernameKey` and `passwordKey` key / value pairs |
+| hook.authentication | object | `{"apikey":{"headerNameKey":"headerName","headerValueKey":"headerValue","userSecret":"generic-webhook-credentials"},"basic":{"passwordKey":"password","userSecret":"generic-webhook-credentials","usernameKey":"username"}}` | Optional basic authentication credentials or apikey |
+| hook.authentication.apikey.headerNameKey | string | `"headerName"` | Name of the header name key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |
+| hook.authentication.apikey.headerValueKey | string | `"headerValue"` | Name of the header value key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |
+| hook.authentication.apikey.userSecret | string | `"generic-webhook-credentials"` | Link a pre-existing generic secret with `headerNameKey` and `headerValueKey` key / value pairs |
 | hook.authentication.basic.passwordKey | string | `"password"` | Name of the password key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |
 | hook.authentication.basic.userSecret | string | `"generic-webhook-credentials"` | Link a pre-existing generic secret with `usernameKey` and `passwordKey` key / value pairs |
 | hook.authentication.basic.usernameKey | string | `"username"` | Name of the username key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |

@@ -30,8 +30,40 @@ Installing the Generic WebHook hook will add a ReadOnly Hook to your namespace w
 
 {{- define "extra.chartConfigurationSection" -}}
 ## Additional Chart Configurations
+The webhook URL is set as follows:
 
-> ✍ This documentation is currently work-in-progress.
+```bash
+helm upgrade --install generic-webhook secureCodeBox/generic-webhook \
+    --set="webhookUrl=http://http-webhook/hello-world"
+```
+Two authentication methods exist for the Generic WebHook Hook. You can either use  Basic authentication or API authentication.
+The authentication method is set by creating the corresponding secret as follows:
+
+##### Basic authentication:
+    
+```bash
+kubectl create secret generic generic-webhook-credentials \
+--from-literal=username='admin' \
+--from-literal=password='ThisIsAPassword'
+```
+##### API authentication:
+
+```bash
+kubectl create secret generic generic-webhook-credentials \
+--from-literal=headerName='X-Example-Header' \
+--from-literal=headerValue='ThisIsAnAPIkeyValue'
+```
+
+Only one authentication method can be used at a time.
+
+The keys for your secret mapping can also be renamed if necessary, for example `headerName` and `headerValue` can be renamed to `name` and `value` respectively.
+
+This is usually done to reuse existing secrets.
+```bash
+helm upgrade --install generic-webhook secureCodeBox/generic-webhook \
+--set="hook.authentication.apikey.headerNameKey=name"  \
+--set="hook.authentication.apikey.headerValueKey=value"
+```
 {{- end }}
 
 {{- define "extra.scannerLinksSection" -}}
