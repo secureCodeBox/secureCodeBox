@@ -595,11 +595,6 @@ jobs:
         working-directory: ./operator
         run: make kind-import
 
-      - name: Install CRDs
-        working-directory: ./operator
-        run: |
-          make install
-          
       - name: "Install Operator"
         working-directory: ./operator
         run: make helm-deploy
