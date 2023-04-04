@@ -349,6 +349,11 @@ jobs:
         working-directory: ./scanners/${{ matrix.unit }}/
         run: make kind-import
 
+      - name: Install CRDs
+        working-directory: ./operator
+        run: |
+          make install
+
       - name: Deploy Operator Chart to kind cluster
         working-directory: ./operator
         run: |
@@ -480,6 +485,11 @@ jobs:
       - name: Kind Import Images
         working-directory: ./scanners/zap-advanced/
         run: make kind-import
+
+      - name: Install CRDs
+        working-directory: ./operator
+        run: |
+          make install
 
       - name: Install Operator
         working-directory: ./operator
