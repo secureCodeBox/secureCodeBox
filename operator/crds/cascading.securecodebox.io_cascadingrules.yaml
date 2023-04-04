@@ -2896,6 +2896,15 @@ spec:
                       items:
                         type: string
                       type: array
+                    resourceMode:
+                      default: namespaceLocal
+                      description:
+                        "The Resource Mode of the scan: Should it use namespace-local
+                        or cluster-wide resources (ScanType vs. ClusterScanType)"
+                      enum:
+                        - namespaceLocal
+                        - clusterWide
+                      type: string
                     resources:
                       description:
                         Resources lets you control resource limits and requests
@@ -4823,6 +4832,8 @@ spec:
                           - name
                         type: object
                       type: array
+                  required:
+                    - resourceMode
                   type: object
               required:
                 - matches
