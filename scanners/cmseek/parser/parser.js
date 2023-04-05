@@ -58,7 +58,7 @@ async function parse(findings) {
           "value": cve
         },
         {
-          "type": "url",
+          "type": "URL",
           "value": `https://www.cve.org/CVERecord?id=${cve}`
         }
       ] : []
@@ -74,7 +74,7 @@ async function parse(findings) {
 
       const urls_references = urls.map((url) => {
         return {
-          "type": "url",
+          "type": "URL",
           "value": url
         };
       });

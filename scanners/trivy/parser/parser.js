@@ -31,7 +31,7 @@ async function parse(scanResults) {
           "value": vulnerability.VulnerabilityID
         },
         {
-          "type": "url",
+          "type": "URL",
           "value": `https://nvd.nist.gov/vuln/detail/${vulnerability.VulnerabilityID}`
         }
       ];
@@ -42,7 +42,7 @@ async function parse(scanResults) {
           "value": vulnerability.VulnerabilityID
         },
         {
-          "type": "url",
+          "type": "URL",
           "value": `https://github.com/nodejs/security-wg/tree/master/vuln`
         }
       ];
@@ -55,7 +55,7 @@ async function parse(scanResults) {
             references = [];
           }
           references.push({
-            "type": "url",
+            "type": "URL",
             "value": reference
           });
         }
