@@ -98,6 +98,20 @@ exports[`parses log4shell result correctly 1`] = `
     "identified_at": "2021-12-21T15:36:21.962Z",
     "location": "http://10.1.6.107:8080",
     "name": "Remote code injection in Log4j",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://github.com/advisories/ghsa-jfh8-c2jp-5v3q",
+      },
+      {
+        "type": "URL",
+        "value": "https://www.lunasec.io/docs/blog/log4j-zero-day/",
+      },
+      {
+        "type": "URL",
+        "value": "https://gist.github.com/bugbountynights/dde69038573db1c12705edb39f9a704a",
+      },
+    ],
     "severity": "HIGH",
   },
 ]
@@ -158,6 +172,7 @@ Content-Length: 0
     "identified_at": "2022-09-09T19:56:16.141Z",
     "location": "https://example.com",
     "name": "Allowed Options Method",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
 ]
@@ -201,6 +216,12 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "identified_at": "2022-09-09T19:26:27.762Z",
     "location": "https://www.securecodebox.io",
     "name": "DOM EventListener detection",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://portswigger.net/web-security/dom-based/controlling-the-web-message-source",
+      },
+    ],
     "severity": "INFORMATIONAL",
   },
   {
@@ -238,6 +259,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "identified_at": "2022-09-09T19:26:27.777Z",
     "location": "https://www.securecodebox.io",
     "name": "Email Extractor",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -277,6 +299,12 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "identified_at": "2022-09-09T19:26:28.511Z",
     "location": "https://www.securecodebox.io",
     "name": "Metatag CMS Detection",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://www.w3schools.com/tags/att_meta_name.asp",
+      },
+    ],
     "severity": "INFORMATIONAL",
   },
   {
@@ -319,6 +347,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "identified_at": "2022-09-09T19:27:13.644Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -361,6 +390,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "identified_at": "2022-09-09T19:27:13.644Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -403,6 +433,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "identified_at": "2022-09-09T19:27:13.644Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -445,6 +476,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "identified_at": "2022-09-09T19:27:13.644Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -487,6 +519,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "identified_at": "2022-09-09T19:27:13.645Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -529,6 +562,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "identified_at": "2022-09-09T19:27:13.645Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -571,6 +605,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "identified_at": "2022-09-09T19:27:13.655Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -613,6 +648,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "identified_at": "2022-09-09T19:27:13.659Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -655,6 +691,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "identified_at": "2022-09-09T19:27:13.659Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -697,6 +734,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "identified_at": "2022-09-09T19:27:13.659Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -739,6 +777,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "identified_at": "2022-09-09T19:27:13.659Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -781,6 +820,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "identified_at": "2022-09-09T19:27:13.660Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -823,6 +863,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "identified_at": "2022-09-09T19:27:13.660Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -865,6 +906,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "identified_at": "2022-09-09T19:27:13.660Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -907,6 +949,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "identified_at": "2022-09-09T19:27:13.660Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -949,6 +992,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "identified_at": "2022-09-09T19:27:13.660Z",
     "location": "https://www.securecodebox.io",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -989,6 +1033,24 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "identified_at": "2022-09-09T19:27:25.325Z",
     "location": "https://www.securecodebox.io",
     "name": "CNAME Fingerprint",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://www.theregister.com/2021/02/24/dns_cname_tracking/",
+      },
+      {
+        "type": "URL",
+        "value": "https://www.ionos.com/digitalguide/hosting/technical-matters/cname-record/",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-200",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/cwe-200.html",
+      },
+    ],
     "severity": "INFORMATIONAL",
   },
   {
@@ -1025,6 +1087,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "identified_at": "2022-09-09T19:27:53.046Z",
     "location": "https://www.securecodebox.io",
     "name": "TLS Version",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -1062,6 +1125,7 @@ exports[`parses secureCodeBox.io result correctly 1`] = `
     "identified_at": "2022-09-09T19:28:02.187Z",
     "location": "https://www.securecodebox.io",
     "name": "SSL DNS Names",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
 ]
@@ -1109,6 +1173,7 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:18:55.271Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -1151,6 +1216,7 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:18:55.272Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -1193,6 +1259,7 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:18:55.272Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -1235,6 +1302,7 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:18:55.272Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -1277,6 +1345,7 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:18:55.272Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -1319,6 +1388,7 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:18:55.272Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -1361,6 +1431,7 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:18:55.292Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -1403,6 +1474,7 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:18:55.293Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -1445,6 +1517,7 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:18:55.293Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -1487,6 +1560,7 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:18:55.293Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -1529,6 +1603,7 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:18:55.293Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -1571,6 +1646,7 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:18:55.293Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -1613,6 +1689,7 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:18:55.293Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -1655,6 +1732,7 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:18:55.293Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -1697,6 +1775,7 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:18:55.293Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -1739,6 +1818,7 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:18:55.293Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -1781,6 +1861,7 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:18:55.294Z",
     "location": "https://example.com",
     "name": "HTTP Missing Security Headers",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -1824,6 +1905,7 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:18:55.401Z",
     "location": "https://example.com",
     "name": "SSL DNS Names",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -1861,6 +1943,7 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:19:38.295Z",
     "location": "https://example.com",
     "name": "Allowed Options Method",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -1903,6 +1986,12 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:20:23.432Z",
     "location": "https://example.com",
     "name": "Deprecated TLS Detection (TLS 1.1 or SSLv3)",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://ssl-config.mozilla.org/#config=intermediate",
+      },
+    ],
     "severity": "INFORMATIONAL",
   },
   {
@@ -1945,6 +2034,12 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:20:23.731Z",
     "location": "https://example.com",
     "name": "Deprecated TLS Detection (TLS 1.1 or SSLv3)",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://ssl-config.mozilla.org/#config=intermediate",
+      },
+    ],
     "severity": "INFORMATIONAL",
   },
   {
@@ -1983,6 +2078,16 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:20:29.548Z",
     "location": "https://example.com",
     "name": "NS Record Detection",
+    "references": [
+      {
+        "type": "CWE",
+        "value": "CWE-200",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/cwe-200.html",
+      },
+    ],
     "severity": "INFORMATIONAL",
   },
   {
@@ -2028,6 +2133,24 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:20:38.059Z",
     "location": "https://example.com",
     "name": "DNSSEC Detection",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://www.icann.org/resources/pages/dnssec-what-is-it-why-important-2019-03-05-en",
+      },
+      {
+        "type": "URL",
+        "value": "https://www.cyberciti.biz/faq/unix-linux-test-and-validate-dnssec-using-dig-command-line/",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-200",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/cwe-200.html",
+      },
+    ],
     "severity": "INFORMATIONAL",
   },
   {
@@ -2068,6 +2191,20 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:20:45.095Z",
     "location": "https://example.com",
     "name": "DNS TXT Record Detected",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://www.netspi.com/blog/technical/network-penetration-testing/analyzing-dns-txt-records-to-fingerprint-service-providers/",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-200",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/cwe-200.html",
+      },
+    ],
     "severity": "INFORMATIONAL",
   },
   {
@@ -2108,6 +2245,24 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:20:54.419Z",
     "location": "https://example.com",
     "name": "MX Record Detection",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://www.cloudflare.com/learning/dns/dns-records/dns-mx-record/",
+      },
+      {
+        "type": "URL",
+        "value": "https://mxtoolbox.com/",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-200",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/cwe-200.html",
+      },
+    ],
     "severity": "INFORMATIONAL",
   },
   {
@@ -2144,6 +2299,7 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:21:04.604Z",
     "location": "https://example.com",
     "name": "TLS Version",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
   {
@@ -2182,6 +2338,7 @@ exports[`parses the example.com result correctly 1`] = `
     "identified_at": "2022-09-09T19:21:17.696Z",
     "location": "https://example.com",
     "name": "Microsoft Azure - Domain Tenant ID",
+    "references": null,
     "severity": "INFORMATIONAL",
   },
 ]

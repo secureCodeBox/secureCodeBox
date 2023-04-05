@@ -13,9 +13,50 @@ async function parse(fileContent) {
   return jsonResult.map((finding) => {
     const hostname = parseHostname(finding.host);
     let timestamp;
+    let references = [];
+    finding.info?.reference?.forEach(element => {
+      references.push(
+        {
+          "type": "URL",
+          "value": element
+        }
+      );
+    });
+
+    const cweId = finding?.info?.classification?.["cwe-id"]?.[0] ?? null; 
+    if(cweId !== null) {
+      references.push(
+          {
+            "type": "CWE",
+            "value": cweId.toUpperCase()
+          },
+          {
+            "type": "URL",
+            "value": `https://cwe.mitre.org/data/definitions/${cweId}.html`
+          }
+      );
+    }
+
+    const cveId = finding?.info?.classification?.["cve-id"]?.[0] ?? null;
+    if(cveId !== null) {
+      references.push(
+        {
+          "type": "CVE",
+          "value": cveId.toUpperCase()
+        },
+
+        {
+          "type": "URL",
+          "value": `https://nvd.nist.gov/vuln/detail/${cveId}`
+        }
+      );
+    }
+
+
     if (finding.timestamp) {
         timestamp = new Date(finding.timestamp).toISOString();
     }
+
     return {
       name: finding.info.name,
       description:
@@ -25,6 +66,7 @@ async function parse(fileContent) {
       location: finding.host,
       severity: getAdjustedSeverity(finding?.info?.severity.toUpperCase()),
       category: finding["template-id"],
+      references: references.length > 0 ? references : null, 
       attributes: {
         ip: finding.ip || null,
         type: finding.type || null,
