@@ -34,7 +34,7 @@ async function parse(fileContent) {
     });
 
     if(result.extra.metadata.cwe != null) {
-      const cweReference = result.extra.metadata.cwe.substring(4,6); 
+      const cweReference = String(result.extra.metadata.cwe).substring(4,6); 
       references.push(
         {
           "type": "CWE",
