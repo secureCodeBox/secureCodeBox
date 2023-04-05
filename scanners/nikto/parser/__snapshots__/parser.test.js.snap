@@ -10,6 +10,7 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "GET",
       "niktoId": 999986,
       "port": 3000,
+      "references": null,
     },
     "category": "Nikto Finding",
     "description": null,
@@ -26,6 +27,12 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "GET",
       "niktoId": 999997,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://portswigger.net/kb/issues/00600600_robots-txt-file",
+        },
+      ],
     },
     "category": "Nikto Finding",
     "description": null,
@@ -42,6 +49,12 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "GET",
       "niktoId": 999996,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://developer.mozilla.org/en-US/docs/Glossary/Robots.txt",
+        },
+      ],
     },
     "category": "robots.txt",
     "description": null,
@@ -58,6 +71,12 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "GET",
       "niktoId": 999103,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://www.netsparker.com/web-vulnerability-scanner/vulnerabilities/missing-content-type-header/",
+        },
+      ],
     },
     "category": "X-Content-Type-Options Header",
     "description": null,
@@ -74,6 +93,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -90,6 +119,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -106,6 +145,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -122,6 +171,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -138,6 +197,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -154,6 +223,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -170,6 +249,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -186,6 +275,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -202,6 +301,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -218,6 +327,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -234,6 +353,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -250,6 +379,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -266,6 +405,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -282,6 +431,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -298,6 +457,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -314,6 +483,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -330,6 +509,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -346,6 +535,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -362,6 +561,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -378,6 +587,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -394,6 +613,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -410,6 +639,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -426,6 +665,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -442,6 +691,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -458,6 +717,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -474,6 +743,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -490,6 +769,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -506,6 +795,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -522,6 +821,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -538,6 +847,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -554,6 +873,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -570,6 +899,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -586,6 +925,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -602,6 +951,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -618,6 +977,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -634,6 +1003,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -650,6 +1029,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -666,6 +1055,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -682,6 +1081,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -698,6 +1107,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -714,6 +1133,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -730,6 +1159,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -746,6 +1185,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -762,6 +1211,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -778,6 +1237,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -794,6 +1263,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -810,6 +1289,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -826,6 +1315,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -842,6 +1341,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -858,6 +1367,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -874,6 +1393,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -890,6 +1419,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -906,6 +1445,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -922,6 +1471,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -938,6 +1497,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -954,6 +1523,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -970,6 +1549,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -986,6 +1575,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1002,6 +1601,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1018,6 +1627,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1034,6 +1653,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1050,6 +1679,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1066,6 +1705,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1082,6 +1731,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1098,6 +1757,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1114,6 +1783,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1130,6 +1809,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1146,6 +1835,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1162,6 +1861,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1178,6 +1887,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1194,6 +1913,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1210,6 +1939,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1226,6 +1965,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1242,6 +1991,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1258,6 +2017,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1274,6 +2043,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1290,6 +2069,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1306,6 +2095,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1322,6 +2121,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1338,6 +2147,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1354,6 +2173,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1370,6 +2199,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1386,6 +2225,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1402,6 +2251,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1418,6 +2277,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1434,6 +2303,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1450,6 +2329,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1466,6 +2355,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1482,6 +2381,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1498,6 +2407,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1514,6 +2433,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1530,6 +2459,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1546,6 +2485,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1562,6 +2511,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1578,6 +2537,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1594,6 +2563,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1610,6 +2589,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1626,6 +2615,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1642,6 +2641,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1658,6 +2667,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1674,6 +2693,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1690,6 +2719,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1706,6 +2745,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1722,6 +2771,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1738,6 +2797,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1754,6 +2823,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1770,6 +2849,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1786,6 +2875,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1802,6 +2901,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1818,6 +2927,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1834,6 +2953,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1850,6 +2979,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1866,6 +3005,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1882,6 +3031,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1898,6 +3057,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1914,6 +3083,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1930,6 +3109,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1946,6 +3135,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1962,6 +3161,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1978,6 +3187,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -1994,6 +3213,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -2010,6 +3239,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -2026,6 +3265,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -2042,6 +3291,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -2058,6 +3317,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -2074,6 +3343,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -2090,6 +3369,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -2106,6 +3395,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -2122,6 +3421,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -2138,6 +3447,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -2154,6 +3473,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -2170,6 +3499,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -2186,6 +3525,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -2202,6 +3551,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -2218,6 +3577,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -2234,6 +3603,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -2250,6 +3629,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -2266,6 +3655,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -2282,6 +3681,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -2298,6 +3707,16 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/530.html",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-530",
+        },
+      ],
     },
     "category": "Potential Backup File",
     "description": null,
@@ -2314,6 +3733,7 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "GET",
       "niktoId": 1675,
       "port": 3000,
+      "references": null,
     },
     "category": "Potential Vulnerability",
     "description": null,
@@ -2330,6 +3750,7 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "GET",
       "niktoId": 1811,
       "port": 3000,
+      "references": null,
     },
     "category": "Potential Vulnerability",
     "description": null,
@@ -2346,6 +3767,12 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "POST",
       "niktoId": 6737,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://seclists.org/fulldisclosure/2014/Feb/171",
+        },
+      ],
     },
     "category": "Potential Vulnerability",
     "description": null,
@@ -2362,6 +3789,12 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
       "method": "POST",
       "niktoId": 6737,
       "port": 3000,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://seclists.org/fulldisclosure/2014/Feb/171",
+        },
+      ],
     },
     "category": "Potential Vulnerability",
     "description": null,
@@ -2383,6 +3816,12 @@ exports[`parses www.securecodebox.io result file into findings 1`] = `
       "method": "GET",
       "niktoId": 999957,
       "port": 80,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options",
+        },
+      ],
     },
     "category": "X-Frame-Options Header",
     "description": null,
@@ -2399,6 +3838,12 @@ exports[`parses www.securecodebox.io result file into findings 1`] = `
       "method": "GET",
       "niktoId": 287,
       "port": 80,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://www.netlify.com/",
+        },
+      ],
     },
     "category": "Potential Vulnerability",
     "description": null,
@@ -2415,6 +3860,12 @@ exports[`parses www.securecodebox.io result file into findings 1`] = `
       "method": "GET",
       "niktoId": 999103,
       "port": 80,
+      "references": [
+        {
+          "type": "URL",
+          "value": "https://www.netsparker.com/web-vulnerability-scanner/vulnerabilities/missing-content-type-header/",
+        },
+      ],
     },
     "category": "X-Content-Type-Options Header",
     "description": null,

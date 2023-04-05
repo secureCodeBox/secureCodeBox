@@ -47,13 +47,31 @@ async function parse({ host, ip, port: portString, banner, vulnerabilities }) {
   if (!vulnerabilities) // empty file
     return [];
 
-  return vulnerabilities.filter(Boolean).map(({ id, method, url, msg }) => {
+  return vulnerabilities.filter(Boolean).map(({ id, method, url, msg, references }) => {
     const niktoId = parseInt(id, 10);
 
     const [category, severity] = categorize({ id: niktoId });
 
     // We can only guess at this point. Nikto doesn't tell use anymore :(
     const protocol = port === 443 || port === 8443 ? "https" : "http";
+
+    const refs = references ? [
+      {
+        "type": "URL",
+        "value": references,
+      }
+    ] : null;
+
+    if(references?.startsWith("https://cwe.mitre.org")){
+      // Extract CWE id from URL
+      const regex = new RegExp("\\d*(?=\\.html)");
+      const cweRef = references.match(regex)[0];
+
+      refs.push({
+        "type": "CWE",
+        "value": `CWE-${cweRef}`
+      })
+    }
 
     return {
       name: msg.trimRight(),
@@ -69,6 +87,7 @@ async function parse({ host, ip, port: portString, banner, vulnerabilities }) {
         method,
         port,
         niktoId,
+        references: refs || null,
       },
     };
   });
