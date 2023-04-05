@@ -25,13 +25,33 @@ async function parse(fileContent) {
     // severity of the issue: translate semgrep severity levels (INFO, WARNING, ERROR) to those of SCB (INFORMATIONAL, LOW, MEDIUM, HIGH)
     const severity = severityMap.has(result.extra.severity.toLowerCase()) ? severityMap.get(result.extra.severity.toLowerCase()) : "INFORMATIONAL"
 
+
+    const references = result.extra.metadata?.references?.map((link) => {
+      return {
+        "type": "URL",
+        "value": link,
+      }
+    });
+
+    if(result.extra.metadata.cwe != null) {
+      const cweReference = result.extra.metadata.cwe.substring(4,6); 
+      references.push(
+        {
+          "type": "CWE",
+          "value": `CWE-${cweReference}`
+        },
+        {
+          "type": "URL",
+          "value": `https://cwe.mitre.org/data/definitions/${cweReference}.html`
+        });
+    }
     const attributes = {
       // Common weakness enumeration, if available
       "cwe": result.extra.metadata.cwe || null,
       // OWASP category, if available
       "owasp_category": result.extra.metadata.owasp || null,
       // References given in the rule
-      "references": result.extra.metadata.references || null,
+      "references": references || null,
       // Link to the semgrep rule
       "rule_source": result.extra.metadata.source || null,
       // Which line of code matched?

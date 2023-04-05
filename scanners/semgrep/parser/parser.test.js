@@ -55,7 +55,18 @@ test("should properly parse file with a single result", async () => {
       "cwe": "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
       "owasp_category": "A1: Injection",
       "references": [
-        "https://owasp.org/www-community/attacks/Command_Injection",
+        {
+          "type": "URL",
+          "value": "https://owasp.org/www-community/attacks/Command_Injection",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-78",
+        },
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/78.html",
+        },
       ],
       "rule_source": "https://semgrep.dev/r/python.django.security.injection.command.command-injection-os-system.command-injection-os-system",
     },
@@ -86,7 +97,18 @@ test("should properly parse file with multiple results", async () => {
       "cwe": "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
       "owasp_category": "A1: Injection",
       "references": [
-        "https://owasp.org/www-community/attacks/Command_Injection",
+        {
+          "type": "URL",
+          "value": "https://owasp.org/www-community/attacks/Command_Injection",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-78",
+        },
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/78.html",
+        },
       ],
       "rule_source": "https://semgrep.dev/r/python.django.security.injection.command.command-injection-os-system.command-injection-os-system",
     },
@@ -101,7 +123,18 @@ test("should properly parse file with multiple results", async () => {
       "cwe": "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
       "owasp_category": "A1: Injection",
       "references": [
-        "https://owasp.org/www-community/attacks/Command_Injection",
+        {
+          "type": "URL",
+          "value": "https://owasp.org/www-community/attacks/Command_Injection",
+        },
+        {
+          "type": "CWE",
+          "value": "CWE-78",
+        },
+        {
+          "type": "URL",
+          "value": "https://cwe.mitre.org/data/definitions/78.html",
+        },
       ],
       "rule_source": "https://semgrep.dev/r/python.django.security.injection.command.command-injection-os-system.command-injection-os-system",
     },
