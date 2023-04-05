@@ -6,7 +6,7 @@
  * Convert the WPScan file / json into secureCodeBox Findings
  */
 async function parse(scanResults) {
-  if (typeof(scanResults) === "string") // empty file
+  if (typeof (scanResults) === "string") // empty file
     return [];
 
   const wpscanVersion = scanResults.banner.version;
@@ -15,7 +15,7 @@ async function parse(scanResults) {
   const targetUrl = scanResults.target_url;
   const targetIp = scanResults.target_ip;
   // convert unix timestamp to ISO date string, multiply by 1000 because JS uses milliseconds
-  const identified_at = new Date(scanResults.stop_time * 1000).toISOString();  
+  const identified_at = new Date(scanResults.stop_time * 1000).toISOString();
 
   const findings = [];
 
@@ -28,7 +28,7 @@ async function parse(scanResults) {
     location: targetUrl,
     osi_layer: "APPLICATION",
     severity: "INFORMATIONAL",
-    reference: {},
+    references: null,
     confidence: scanResults.version?.confidence,
     attributes: {
       hostname: targetUrl,
@@ -47,7 +47,17 @@ async function parse(scanResults) {
 
   // add all interesting findings as INFORMATIONAL
   for (const interestingFinding of scanResults.interesting_findings) {
-    //console.log(interestingFinding);
+    let references = [];
+    if (Object.keys(interestingFinding.references).length > 0) {
+      for (const key in interestingFinding.references) {
+        for (const element of interestingFinding.references[key]) {
+          references.push({
+            "type": key.toUpperCase(),
+            "value": element
+          });
+        }
+      }
+    }
     findings.push({
       name: "WordPress finding '" + interestingFinding.type + "'",
       description: interestingFinding.to_s,
@@ -56,7 +66,7 @@ async function parse(scanResults) {
       osi_layer: "APPLICATION",
       severity: "INFORMATIONAL",
       confidence: interestingFinding.confidence,
-      reference: {},
+      references: references.length > 0 ? references : null,
       attributes: {
         hostname: targetUrl,
         wp_interesting_entries: interestingFinding.interesting_entries,
@@ -65,6 +75,40 @@ async function parse(scanResults) {
       },
     });
   }
+
+  // add plugin vulnerabilities as HIGH
+  Object.values(scanResults.plugins).forEach(plugin => {
+    plugin.vulnerabilities.forEach(vulnerability => {
+      let references = [];
+      // check if references are available
+      if (Object.keys(vulnerability.references).length > 0){
+        for (const key in vulnerability.references) {
+          for (const element of vulnerability.references[key]) {
+            references.push({
+              "type": key.toUpperCase(),
+              "value": element
+            });
+          }
+        }
+      }
+      findings.push({
+        name: "WordPress finding: vulnerability in '" + plugin['slug'] + "'",
+        description: vulnerability['title'],
+        category: "WordPress Plugin",
+        location: plugin['location'],
+        osi_layer: "APPLICATION",
+        severity: "HIGH",
+        references: references.length > 0 ? references : null,
+        attributes: {
+          hostname: targetUrl,
+          confidence: plugin['confidence'],
+          wp_interesting_entries: plugin['interesting_entries'],
+          wp_found_by: plugin['found_by'],
+          wp_confirmed_by: plugin['confirmed_by'],
+        },
+      });
+    })
+  });
 
   return findings;
 }
