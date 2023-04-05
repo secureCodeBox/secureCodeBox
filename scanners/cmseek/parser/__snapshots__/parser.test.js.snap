@@ -20,23 +20,23 @@ exports[`parser parses result of Joomla scan with core vulnerabilities successfu
     "osi_layer": "APPLICATION",
     "references": [
       {
-        "type": "url",
+        "type": "URL",
         "value": "https://www.rapid7.com/db/modules/exploit/multi/http/phpmailer_arg_injection",
       },
       {
-        "type": "url",
+        "type": "URL",
         "value": "https://github.com/opsxcq/exploit-CVE-2016-10033",
       },
       {
-        "type": "url",
+        "type": "URL",
         "value": "https://www.exploit-db.com/exploits/40969/",
       },
       {
-        "type": "cve",
+        "type": "CVE",
         "value": "CVE-2016-10033",
       },
       {
-        "type": "url",
+        "type": "URL",
         "value": "https://www.cve.org/CVERecord?id=CVE-2016-10033",
       },
     ],
@@ -59,19 +59,19 @@ exports[`parser parses result of Joomla scan with core vulnerabilities successfu
     "osi_layer": "APPLICATION",
     "references": [
       {
-        "type": "url",
+        "type": "URL",
         "value": "https://www.rapid7.com/db/modules/exploit/multi/http/phpmailer_arg_injection",
       },
       {
-        "type": "url",
+        "type": "URL",
         "value": "https://www.exploit-db.com/exploits/40969/",
       },
       {
-        "type": "cve",
+        "type": "CVE",
         "value": "CVE-2016-10045",
       },
       {
-        "type": "url",
+        "type": "URL",
         "value": "https://www.cve.org/CVERecord?id=CVE-2016-10045",
       },
     ],
@@ -93,11 +93,11 @@ exports[`parser parses result of Joomla scan with core vulnerabilities successfu
     "osi_layer": "APPLICATION",
     "references": [
       {
-        "type": "url",
+        "type": "URL",
         "value": "https://www.rapid7.com/db/modules/exploit/multi/http/phpmailer_arg_injection",
       },
       {
-        "type": "url",
+        "type": "URL",
         "value": "https://www.exploit-db.com/exploits/40969/",
       },
     ],
