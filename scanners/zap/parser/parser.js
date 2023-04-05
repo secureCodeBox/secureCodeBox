@@ -1,7 +1,6 @@
 // SPDX-FileCopyrightText: the secureCodeBox authors
 //
 // SPDX-License-Identifier: Apache-2.0
-
 const xml2js = require("xml2js");
 
 function riskToSeverity(risk) {
@@ -57,14 +56,39 @@ function createFindingFromAlert(alert, { location, host, port }) {
     findingUrls = alert.instances.instance.map(normalizeXmlObject);
   }
 
+  const urlList = alert.reference.split('<p>').filter(item => item !== '').map(item => stripHtmlTags(item));
+  let references = []
+  urlList.forEach(element => {
+    references.push(
+    {
+      "type": "URL",
+      "value": element
+    });
+  });
+
+  if(alert.cweid !== '-1' && alert.cweid !== undefined){
+    references.push(
+      {
+        "type": "CWE",
+        "value": "CWE-" + alert.cweid
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/" + alert.cweid + ".html"
+      });
+  }
+ 
+  console.log(references);
+
   return {
     name: stripHtmlTags(alert.name),
     description: stripHtmlTags(alert.desc),
-    hint: alert.hint,
+    hint: alert.hint || null,
     category: alert.alert || stripHtmlTags(alert.name),
     location,
     osi_layer: "APPLICATION",
     severity: riskToSeverity(alert.riskcode),
+    references: references.length > 0 ? references : null,
     mitigation: stripHtmlTags(alert.solution) || null,
     attributes: {
       hostname: host,

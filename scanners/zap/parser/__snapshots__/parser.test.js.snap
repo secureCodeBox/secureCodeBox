@@ -34,11 +34,12 @@ exports[`Parsing a bodgeit result. 1`] = `
     },
     "category": "Unexpected Content-Type was returned",
     "description": "A Content-Type of text/html was returned by the server.This is not one of the types expected to be returned by an API.Raised by the 'Alert on Unexpected Content Types' script",
-    "hint": undefined,
+    "hint": null,
     "location": "https://cwiki.apache.org",
     "mitigation": null,
     "name": "Unexpected Content-Type was returned",
     "osi_layer": "APPLICATION",
+    "references": null,
     "severity": "LOW",
   },
   {
@@ -66,11 +67,12 @@ exports[`Parsing a bodgeit result. 1`] = `
     },
     "category": "Unexpected Content-Type was returned",
     "description": "A Content-Type of text/html was returned by the server.This is not one of the types expected to be returned by an API.Raised by the 'Alert on Unexpected Content Types' script",
-    "hint": undefined,
+    "hint": null,
     "location": "http://wiki.apache.org",
     "mitigation": null,
     "name": "Unexpected Content-Type was returned",
     "osi_layer": "APPLICATION",
+    "references": null,
     "severity": "LOW",
   },
   {
@@ -98,11 +100,12 @@ exports[`Parsing a bodgeit result. 1`] = `
     },
     "category": "Unexpected Content-Type was returned",
     "description": "A Content-Type of binary/octet-stream was returned by the server.This is not one of the types expected to be returned by an API.Raised by the 'Alert on Unexpected Content Types' script",
-    "hint": undefined,
+    "hint": null,
     "location": "https://content-signature-2.cdn.mozilla.net",
     "mitigation": null,
     "name": "Unexpected Content-Type was returned",
     "osi_layer": "APPLICATION",
+    "references": null,
     "severity": "LOW",
   },
   {
@@ -151,11 +154,49 @@ exports[`Parsing a bodgeit result. 1`] = `
     },
     "category": "Content Security Policy (CSP) Header Not Set",
     "description": "Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of attacks, including Cross Site Scripting (XSS) and data injection attacks. These attacks are used for everything from data theft to site defacement or distribution of malware. CSP provides a set of standard HTTP headers that allow website owners to declare approved sources of content that browsers should be allowed to load on that page — covered types are JavaScript, CSS, HTML frames, fonts, images and embeddable objects such as Java applets, ActiveX, audio and video files.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://bodgeit.securecodebox-demo.svc:8080",
     "mitigation": "Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: "Content-Security-Policy" for Chrome 25+, Firefox 23+ and Safari 7+, "X-Content-Security-Policy" for Firefox 4.0+ and Internet Explorer 10+, and "X-WebKit-CSP" for Chrome 14+ and Safari 6+.",
     "name": "Content Security Policy (CSP) Header Not Set",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://developer.mozilla.org/en-US/docs/Web/Security/CSP/Introducing_Content_Security_Policy",
+      },
+      {
+        "type": "URL",
+        "value": "https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html",
+      },
+      {
+        "type": "URL",
+        "value": "http://www.w3.org/TR/CSP/",
+      },
+      {
+        "type": "URL",
+        "value": "http://w3c.github.io/webappsec/specs/content-security-policy/csp-specification.dev.html",
+      },
+      {
+        "type": "URL",
+        "value": "http://www.html5rocks.com/en/tutorials/security/content-security-policy/",
+      },
+      {
+        "type": "URL",
+        "value": "http://caniuse.com/#feat=contentsecuritypolicy",
+      },
+      {
+        "type": "URL",
+        "value": "http://content-security-policy.com/",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-693",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/693.html",
+      },
+    ],
     "severity": "MEDIUM",
   },
   {
@@ -204,11 +245,29 @@ exports[`Parsing a bodgeit result. 1`] = `
     },
     "category": "Insecure HTTP Method - PUT",
     "description": "This method was originally intended for file managemant operations. It is now most commonly used in REST services, PUT is most-often utilized for **update** capabilities, PUT-ing to a known resource URI with the request body containing the newly-updated representation of the original resource..",
-    "hint": undefined,
+    "hint": null,
     "location": "http://bodgeit.securecodebox-demo.svc:8080",
     "mitigation": "TBA",
     "name": "Insecure HTTP Method - PUT",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "http://projects.webappsec.org/Fingerprinting",
+      },
+      {
+        "type": "URL",
+        "value": "",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-200",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/200.html",
+      },
+    ],
     "severity": "MEDIUM",
   },
   {
@@ -236,11 +295,25 @@ exports[`Parsing a bodgeit result. 1`] = `
     },
     "category": "Missing Anti-clickjacking Header",
     "description": "The response does not include either Content-Security-Policy with 'frame-ancestors' directive or X-Frame-Options to protect against 'ClickJacking' attacks.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://bodgeit.securecodebox-demo.svc:8080",
     "mitigation": "Modern Web browsers support the Content-Security-Policy and X-Frame-Options HTTP headers. Ensure one of them is set on all web pages returned by your site/app.If you expect the page to be framed only by pages on your server (e.g. it's part of a FRAMESET) then you'll want to use SAMEORIGIN, otherwise if you never expect the page to be framed, you should use DENY. Alternatively consider implementing Content Security Policy's "frame-ancestors" directive.",
     "name": "Missing Anti-clickjacking Header",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-1021",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/1021.html",
+      },
+    ],
     "severity": "MEDIUM",
   },
   {
@@ -296,11 +369,21 @@ exports[`Parsing a bodgeit result. 1`] = `
     },
     "category": "A Server Error response code was returned by the server",
     "description": "A response code of 501 was returned by the server.This may indicate that the application is failing to handle unexpected input correctly.Raised by the 'Alert on HTTP Response Code Error' script",
-    "hint": undefined,
+    "hint": null,
     "location": "http://bodgeit.securecodebox-demo.svc:8080",
     "mitigation": null,
     "name": "A Server Error response code was returned by the server",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "CWE",
+        "value": "CWE-388",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/388.html",
+      },
+    ],
     "severity": "LOW",
   },
   {
@@ -349,11 +432,37 @@ exports[`Parsing a bodgeit result. 1`] = `
     },
     "category": "Server Leaks Version Information via "Server" HTTP Response Header Field",
     "description": "The web/application server is leaking version information via the "Server" HTTP response header. Access to such information may facilitate attackers identifying other vulnerabilities your web/application server is subject to.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://bodgeit.securecodebox-demo.svc:8080",
     "mitigation": "Ensure that your web server, application server, load balancer, etc. is configured to suppress the "Server" header or provide generic details.",
     "name": "Server Leaks Version Information via "Server" HTTP Response Header Field",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "http://httpd.apache.org/docs/current/mod/core.html#servertokens",
+      },
+      {
+        "type": "URL",
+        "value": "http://msdn.microsoft.com/en-us/library/ff648552.aspx#ht_urlscan_007",
+      },
+      {
+        "type": "URL",
+        "value": "http://blogs.msdn.com/b/varunm/archive/2013/04/23/remove-unwanted-http-response-headers.aspx",
+      },
+      {
+        "type": "URL",
+        "value": "http://www.troyhunt.com/2012/02/shhh-dont-let-your-response-headers.html",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-200",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/200.html",
+      },
+    ],
     "severity": "LOW",
   },
   {
@@ -1109,11 +1218,12 @@ exports[`Parsing a bodgeit result. 1`] = `
     },
     "category": "Unexpected Content-Type was returned",
     "description": "A Content-Type of text/html was returned by the server.This is not one of the types expected to be returned by an API.Raised by the 'Alert on Unexpected Content Types' script",
-    "hint": undefined,
+    "hint": null,
     "location": "http://bodgeit.securecodebox-demo.svc:8080",
     "mitigation": null,
     "name": "Unexpected Content-Type was returned",
     "osi_layer": "APPLICATION",
+    "references": null,
     "severity": "LOW",
   },
   {
@@ -1141,11 +1251,29 @@ exports[`Parsing a bodgeit result. 1`] = `
     },
     "category": "X-Content-Type-Options Header Missing",
     "description": "The Anti-MIME-Sniffing header X-Content-Type-Options was not set to 'nosniff'. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://bodgeit.securecodebox-demo.svc:8080",
     "mitigation": "Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to 'nosniff' for all web pages.If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.",
     "name": "X-Content-Type-Options Header Missing",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspx",
+      },
+      {
+        "type": "URL",
+        "value": "https://owasp.org/www-community/Security_Headers",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-693",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/693.html",
+      },
+    ],
     "severity": "LOW",
   },
   {
@@ -1733,11 +1861,21 @@ exports[`Parsing a bodgeit result. 1`] = `
     },
     "category": "A Client Error response code was returned by the server",
     "description": "A response code of 404 was returned by the server.This may indicate that the application is failing to handle unexpected input correctly.Raised by the 'Alert on HTTP Response Code Error' script",
-    "hint": undefined,
+    "hint": null,
     "location": "http://bodgeit.securecodebox-demo.svc:8080",
     "mitigation": null,
     "name": "A Client Error response code was returned by the server",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "CWE",
+        "value": "CWE-388",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/388.html",
+      },
+    ],
     "severity": "INFORMATIONAL",
   },
   {
@@ -1757,11 +1895,29 @@ exports[`Parsing a bodgeit result. 1`] = `
     },
     "category": "HTTP Only Site",
     "description": "The site is only served under HTTP and not HTTPS.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://bodgeit.securecodebox-demo.svc:8080",
     "mitigation": "Configure your web or application server to use SSL (https).",
     "name": "HTTP Only Site",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Protection_Cheat_Sheet.html",
+      },
+      {
+        "type": "URL",
+        "value": "https://letsencrypt.org/",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-311",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/311.html",
+      },
+    ],
     "severity": "MEDIUM",
   },
 ]
@@ -1797,11 +1953,25 @@ exports[`Parsing a nginx result. 1`] = `
     },
     "category": "X-Frame-Options Header Not Set",
     "description": "X-Frame-Options header is not included in the HTTP response to protect against 'ClickJacking' attacks.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://nginx.demo-targets.svc",
     "mitigation": "Most modern Web browsers support the X-Frame-Options HTTP header. Ensure it's set on all web pages returned by your site (if you expect the page to be framed only by pages on your server (e.g. it's part of a FRAMESET) then you'll want to use SAMEORIGIN, otherwise if you never expect the page to be framed, you should use DENY. ALLOW-FROM allows specific websites to frame the web page in supported web browsers).",
     "name": "X-Frame-Options Header Not Set",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-16",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/16.html",
+      },
+    ],
     "severity": "MEDIUM",
   },
   {
@@ -1842,11 +2012,37 @@ exports[`Parsing a nginx result. 1`] = `
     },
     "category": "Server Leaks Version Information via "Server" HTTP Response Header Field",
     "description": "The web/application server is leaking version information via the "Server" HTTP response header. Access to such information may facilitate attackers identifying other vulnerabilities your web/application server is subject to.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://nginx.demo-targets.svc",
     "mitigation": "Ensure that your web server, application server, load balancer, etc. is configured to suppress the "Server" header or provide generic details.",
     "name": "Server Leaks Version Information via "Server" HTTP Response Header Field",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "http://httpd.apache.org/docs/current/mod/core.html#servertokens",
+      },
+      {
+        "type": "URL",
+        "value": "http://msdn.microsoft.com/en-us/library/ff648552.aspx#ht_urlscan_007",
+      },
+      {
+        "type": "URL",
+        "value": "http://blogs.msdn.com/b/varunm/archive/2013/04/23/remove-unwanted-http-response-headers.aspx",
+      },
+      {
+        "type": "URL",
+        "value": "http://www.troyhunt.com/2012/02/shhh-dont-let-your-response-headers.html",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-200",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/200.html",
+      },
+    ],
     "severity": "LOW",
   },
   {
@@ -1877,11 +2073,29 @@ exports[`Parsing a nginx result. 1`] = `
     },
     "category": "X-Content-Type-Options Header Missing",
     "description": "The Anti-MIME-Sniffing header X-Content-Type-Options was not set to 'nosniff'. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://nginx.demo-targets.svc",
     "mitigation": "Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to 'nosniff' for all web pages.If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.",
     "name": "X-Content-Type-Options Header Missing",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspx",
+      },
+      {
+        "type": "URL",
+        "value": "https://owasp.org/www-community/Security_Headers",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-16",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/16.html",
+      },
+    ],
     "severity": "LOW",
   },
   {
@@ -1918,11 +2132,49 @@ exports[`Parsing a nginx result. 1`] = `
     },
     "category": "Content Security Policy (CSP) Header Not Set",
     "description": "Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of attacks, including Cross Site Scripting (XSS) and data injection attacks. These attacks are used for everything from data theft to site defacement or distribution of malware. CSP provides a set of standard HTTP headers that allow website owners to declare approved sources of content that browsers should be allowed to load on that page — covered types are JavaScript, CSS, HTML frames, fonts, images and embeddable objects such as Java applets, ActiveX, audio and video files.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://nginx.demo-targets.svc",
     "mitigation": "Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: "Content-Security-Policy" for Chrome 25+, Firefox 23+ and Safari 7+, "X-Content-Security-Policy" for Firefox 4.0+ and Internet Explorer 10+, and "X-WebKit-CSP" for Chrome 14+ and Safari 6+.",
     "name": "Content Security Policy (CSP) Header Not Set",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://developer.mozilla.org/en-US/docs/Web/Security/CSP/Introducing_Content_Security_Policy",
+      },
+      {
+        "type": "URL",
+        "value": "https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html",
+      },
+      {
+        "type": "URL",
+        "value": "http://www.w3.org/TR/CSP/",
+      },
+      {
+        "type": "URL",
+        "value": "http://w3c.github.io/webappsec/specs/content-security-policy/csp-specification.dev.html",
+      },
+      {
+        "type": "URL",
+        "value": "http://www.html5rocks.com/en/tutorials/security/content-security-policy/",
+      },
+      {
+        "type": "URL",
+        "value": "http://caniuse.com/#feat=contentsecuritypolicy",
+      },
+      {
+        "type": "URL",
+        "value": "http://content-security-policy.com/",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-16",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/16.html",
+      },
+    ],
     "severity": "LOW",
   },
 ]
@@ -2048,11 +2300,25 @@ exports[`Parsing the docs.securecodebox.io results. 1`] = `
     },
     "category": "Timestamp Disclosure - Unix",
     "description": "A timestamp was disclosed by the application/web server - Unix",
-    "hint": undefined,
+    "hint": null,
     "location": "https://docs.securecodebox.io",
     "mitigation": "Manually confirm that the timestamp data is not sensitive, and that the data cannot be aggregated to disclose exploitable patterns.",
     "name": "Timestamp Disclosure - Unix",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "http://projects.webappsec.org/w/page/13246936/Information%20Leakage",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-200",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/200.html",
+      },
+    ],
     "severity": "INFORMATIONAL",
   },
   {
@@ -2173,11 +2439,29 @@ exports[`Parsing the docs.securecodebox.io results. 1`] = `
     },
     "category": "X-Content-Type-Options Header Missing",
     "description": "The Anti-MIME-Sniffing header X-Content-Type-Options was not set to 'nosniff'. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.",
-    "hint": undefined,
+    "hint": null,
     "location": "https://docs.securecodebox.io",
     "mitigation": "Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to 'nosniff' for all web pages.If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.",
     "name": "X-Content-Type-Options Header Missing",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspx",
+      },
+      {
+        "type": "URL",
+        "value": "https://owasp.org/www-community/Security_Headers",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-16",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/16.html",
+      },
+    ],
     "severity": "LOW",
   },
   {
@@ -2278,11 +2562,49 @@ exports[`Parsing the docs.securecodebox.io results. 1`] = `
     },
     "category": "Content Security Policy (CSP) Header Not Set",
     "description": "Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of attacks, including Cross Site Scripting (XSS) and data injection attacks. These attacks are used for everything from data theft to site defacement or distribution of malware. CSP provides a set of standard HTTP headers that allow website owners to declare approved sources of content that browsers should be allowed to load on that page — covered types are JavaScript, CSS, HTML frames, fonts, images and embeddable objects such as Java applets, ActiveX, audio and video files.",
-    "hint": undefined,
+    "hint": null,
     "location": "https://docs.securecodebox.io",
     "mitigation": "Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: "Content-Security-Policy" for Chrome 25+, Firefox 23+ and Safari 7+, "X-Content-Security-Policy" for Firefox 4.0+ and Internet Explorer 10+, and "X-WebKit-CSP" for Chrome 14+ and Safari 6+.",
     "name": "Content Security Policy (CSP) Header Not Set",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://developer.mozilla.org/en-US/docs/Web/Security/CSP/Introducing_Content_Security_Policy",
+      },
+      {
+        "type": "URL",
+        "value": "https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html",
+      },
+      {
+        "type": "URL",
+        "value": "http://www.w3.org/TR/CSP/",
+      },
+      {
+        "type": "URL",
+        "value": "http://w3c.github.io/webappsec/specs/content-security-policy/csp-specification.dev.html",
+      },
+      {
+        "type": "URL",
+        "value": "http://www.html5rocks.com/en/tutorials/security/content-security-policy/",
+      },
+      {
+        "type": "URL",
+        "value": "http://caniuse.com/#feat=contentsecuritypolicy",
+      },
+      {
+        "type": "URL",
+        "value": "http://content-security-policy.com/",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-16",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/16.html",
+      },
+    ],
     "severity": "LOW",
   },
   {
@@ -2403,11 +2725,25 @@ exports[`Parsing the docs.securecodebox.io results. 1`] = `
     },
     "category": "Retrieved from Cache",
     "description": "The content was retrieved from a shared cache. If the response data is sensitive, personal or user-specific, this may result in sensitive information being leaked. In some cases, this may even result in a user gaining complete control of the session of another user, depending on the configuration of the caching components in use in their environment. This is primarily an issue where caching servers such as "proxy" caches are configured on the local network. This configuration is typically found in corporate or educational environments, for instance. ",
-    "hint": undefined,
+    "hint": null,
     "location": "https://docs.securecodebox.io",
     "mitigation": "Validate that the response does not contain sensitive, personal or user-specific information.  If it does, consider the use of the following HTTP response headers, to limit, or prevent the content being stored and retrieved from the cache by another user:Cache-Control: no-cache, no-store, must-revalidate, privatePragma: no-cacheExpires: 0This configuration directs both HTTP 1.0 and HTTP 1.1 compliant caching servers to not store the response, and to not retrieve the response (without validation) from the cache, in response to a similar request.",
     "name": "Retrieved from Cache",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://tools.ietf.org/html/rfc7234",
+      },
+      {
+        "type": "URL",
+        "value": "https://tools.ietf.org/html/rfc7231",
+      },
+      {
+        "type": "URL",
+        "value": "http://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html (obsoleted by rfc7234)",
+      },
+    ],
     "severity": "INFORMATIONAL",
   },
   {
@@ -2548,11 +2884,25 @@ exports[`Parsing the docs.securecodebox.io results. 1`] = `
     },
     "category": "Incomplete or No Cache-control and Pragma HTTP Header Set",
     "description": "The cache-control and pragma HTTP header have not been set properly or are missing allowing the browser and proxies to cache content.",
-    "hint": undefined,
+    "hint": null,
     "location": "https://docs.securecodebox.io",
     "mitigation": "Whenever possible ensure the cache-control HTTP header is set with no-cache, no-store, must-revalidate; and that the pragma HTTP header is set with no-cache.",
     "name": "Incomplete or No Cache-control and Pragma HTTP Header Set",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#web-content-caching",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-525",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/525.html",
+      },
+    ],
     "severity": "LOW",
   },
   {
@@ -2668,11 +3018,25 @@ exports[`Parsing the docs.securecodebox.io results. 1`] = `
     },
     "category": "Private IP Disclosure",
     "description": "A private IP (such as 10.x.x.x, 172.x.x.x, 192.168.x.x) or an Amazon EC2 private hostname (for example, ip-10-0-56-78) has been found in the HTTP response body. This information might be helpful for further attacks targeting internal systems.",
-    "hint": undefined,
+    "hint": null,
     "location": "https://docs.securecodebox.io",
     "mitigation": "Remove the private IP address from the HTTP response body.  For comments, use JSP/ASP/PHP comment instead of HTML/JavaScript comment which can be seen by client browsers.",
     "name": "Private IP Disclosure",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://tools.ietf.org/html/rfc1918",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-200",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/200.html",
+      },
+    ],
     "severity": "LOW",
   },
   {
@@ -2793,11 +3157,17 @@ exports[`Parsing the docs.securecodebox.io results. 1`] = `
     },
     "category": "Modern Web Application",
     "description": "The application appears to be a modern web application. If you need to explore it automatically then the Ajax Spider may well be more effective than the standard one.",
-    "hint": undefined,
+    "hint": null,
     "location": "https://docs.securecodebox.io",
     "mitigation": "This is an informational alert and so no changes are required.",
     "name": "Modern Web Application",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "",
+      },
+    ],
     "severity": "INFORMATIONAL",
   },
   {
@@ -2898,11 +3268,25 @@ exports[`Parsing the docs.securecodebox.io results. 1`] = `
     },
     "category": "Big Redirect Detected (Potential Sensitive Information Leak)",
     "description": "The server has responded with a redirect that seems to provide a large response. This may indicate that although the server sent a redirect it also responded with body content (which may include sensitive details, PII, etc.).",
-    "hint": undefined,
+    "hint": null,
     "location": "https://docs.securecodebox.io",
     "mitigation": "Ensure that no sensitive information is leaked via redirect responses. Redirect responses should have almost no content.",
     "name": "Big Redirect Detected (Potential Sensitive Information Leak)",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-201",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/201.html",
+      },
+    ],
     "severity": "LOW",
   },
   {
@@ -3003,11 +3387,25 @@ exports[`Parsing the docs.securecodebox.io results. 1`] = `
     },
     "category": "Information Disclosure - Suspicious Comments",
     "description": "The response appears to contain suspicious comments which may help an attacker. Note: Matches made within script blocks or files are against the entire content not only comments.",
-    "hint": undefined,
+    "hint": null,
     "location": "https://docs.securecodebox.io",
     "mitigation": "Remove all comments that return information that may help an attacker and fix any underlying problems they refer to.",
     "name": "Information Disclosure - Suspicious Comments",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-200",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/200.html",
+      },
+    ],
     "severity": "INFORMATIONAL",
   },
   {
@@ -3128,11 +3526,25 @@ exports[`Parsing the docs.securecodebox.io results. 1`] = `
     },
     "category": "X-Frame-Options Header Not Set",
     "description": "X-Frame-Options header is not included in the HTTP response to protect against 'ClickJacking' attacks.",
-    "hint": undefined,
+    "hint": null,
     "location": "https://docs.securecodebox.io",
     "mitigation": "Most modern Web browsers support the X-Frame-Options HTTP header. Ensure it's set on all web pages returned by your site (if you expect the page to be framed only by pages on your server (e.g. it's part of a FRAMESET) then you'll want to use SAMEORIGIN, otherwise if you never expect the page to be framed, you should use DENY. ALLOW-FROM allows specific websites to frame the web page in supported web browsers).",
     "name": "X-Frame-Options Header Not Set",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-16",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/16.html",
+      },
+    ],
     "severity": "MEDIUM",
   },
   {
@@ -3163,11 +3575,25 @@ exports[`Parsing the docs.securecodebox.io results. 1`] = `
     },
     "category": "Application Error Disclosure",
     "description": "This page contains an error/warning message that may disclose sensitive information like the location of the file that produced the unhandled exception. This information can be used to launch further attacks against the web application. The alert could be a false positive if the error message is found inside a documentation page.",
-    "hint": undefined,
+    "hint": null,
     "location": "https://docs.securecodebox.io",
     "mitigation": "Review the source code of this page. Implement custom error pages. Consider implementing a mechanism to provide a unique error reference/identifier to the client (browser) while logging the details on the server side and not exposing them to the user.",
     "name": "Application Error Disclosure",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-200",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/200.html",
+      },
+    ],
     "severity": "MEDIUM",
   },
   {
@@ -3212,11 +3638,41 @@ exports[`Parsing the docs.securecodebox.io results. 1`] = `
     },
     "category": "Strict-Transport-Security Header Not Set",
     "description": "HTTP Strict Transport Security (HSTS) is a web security policy mechanism whereby a web server declares that complying user agents (such as a web browser) are to interact with it using only secure HTTPS connections (i.e. HTTP layered over TLS/SSL). HSTS is an IETF standards track protocol and is specified in RFC 6797.",
-    "hint": undefined,
+    "hint": null,
     "location": "https://docs.securecodebox.io",
     "mitigation": "Ensure that your web server, application server, load balancer, etc. is configured to enforce Strict-Transport-Security.",
     "name": "Strict-Transport-Security Header Not Set",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Strict_Transport_Security_Cheat_Sheet.html",
+      },
+      {
+        "type": "URL",
+        "value": "https://owasp.org/www-community/Security_Headers",
+      },
+      {
+        "type": "URL",
+        "value": "http://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security",
+      },
+      {
+        "type": "URL",
+        "value": "http://caniuse.com/stricttransportsecurity",
+      },
+      {
+        "type": "URL",
+        "value": "http://tools.ietf.org/html/rfc6797",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-16",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/16.html",
+      },
+    ],
     "severity": "LOW",
   },
 ]
@@ -3262,11 +3718,37 @@ exports[`Parsing the example.com results. 1`] = `
     },
     "category": "Server Leaks Version Information via "Server" HTTP Response Header Field",
     "description": "The web/application server is leaking version information via the "Server" HTTP response header. Access to such information may facilitate attackers identifying other vulnerabilities your web/application server is subject to.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://example.com",
     "mitigation": "Ensure that your web server, application server, load balancer, etc. is configured to suppress the "Server" header or provide generic details.",
     "name": "Server Leaks Version Information via "Server" HTTP Response Header Field",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "http://httpd.apache.org/docs/current/mod/core.html#servertokens",
+      },
+      {
+        "type": "URL",
+        "value": "http://msdn.microsoft.com/en-us/library/ff648552.aspx#ht_urlscan_007",
+      },
+      {
+        "type": "URL",
+        "value": "http://blogs.msdn.com/b/varunm/archive/2013/04/23/remove-unwanted-http-response-headers.aspx",
+      },
+      {
+        "type": "URL",
+        "value": "http://www.troyhunt.com/2012/02/shhh-dont-let-your-response-headers.html",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-200",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/200.html",
+      },
+    ],
     "severity": "LOW",
   },
   {
@@ -3307,11 +3789,25 @@ exports[`Parsing the example.com results. 1`] = `
     },
     "category": "Retrieved from Cache",
     "description": "The content was retrieved from a shared cache. If the response data is sensitive, personal or user-specific, this may result in sensitive information being leaked. In some cases, this may even result in a user gaining complete control of the session of another user, depending on the configuration of the caching components in use in their environment. This is primarily an issue where caching servers such as "proxy" caches are configured on the local network. This configuration is typically found in corporate or educational environments, for instance. ",
-    "hint": undefined,
+    "hint": null,
     "location": "http://example.com",
     "mitigation": "Validate that the response does not contain sensitive, personal or user-specific information.  If it does, consider the use of the following HTTP response headers, to limit, or prevent the content being stored and retrieved from the cache by another user:Cache-Control: no-cache, no-store, must-revalidate, privatePragma: no-cacheExpires: 0This configuration directs both HTTP 1.0 and HTTP 1.1 compliant caching servers to not store the response, and to not retrieve the response (without validation) from the cache, in response to a similar request.",
     "name": "Retrieved from Cache",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://tools.ietf.org/html/rfc7234",
+      },
+      {
+        "type": "URL",
+        "value": "https://tools.ietf.org/html/rfc7231",
+      },
+      {
+        "type": "URL",
+        "value": "http://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html (obsoleted by rfc7234)",
+      },
+    ],
     "severity": "INFORMATIONAL",
   },
   {
@@ -3348,11 +3844,49 @@ exports[`Parsing the example.com results. 1`] = `
     },
     "category": "Content Security Policy (CSP) Header Not Set",
     "description": "Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of attacks, including Cross Site Scripting (XSS) and data injection attacks. These attacks are used for everything from data theft to site defacement or distribution of malware. CSP provides a set of standard HTTP headers that allow website owners to declare approved sources of content that browsers should be allowed to load on that page — covered types are JavaScript, CSS, HTML frames, fonts, images and embeddable objects such as Java applets, ActiveX, audio and video files.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://example.com",
     "mitigation": "Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: "Content-Security-Policy" for Chrome 25+, Firefox 23+ and Safari 7+, "X-Content-Security-Policy" for Firefox 4.0+ and Internet Explorer 10+, and "X-WebKit-CSP" for Chrome 14+ and Safari 6+.",
     "name": "Content Security Policy (CSP) Header Not Set",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://developer.mozilla.org/en-US/docs/Web/Security/CSP/Introducing_Content_Security_Policy",
+      },
+      {
+        "type": "URL",
+        "value": "https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html",
+      },
+      {
+        "type": "URL",
+        "value": "http://www.w3.org/TR/CSP/",
+      },
+      {
+        "type": "URL",
+        "value": "http://w3c.github.io/webappsec/specs/content-security-policy/csp-specification.dev.html",
+      },
+      {
+        "type": "URL",
+        "value": "http://www.html5rocks.com/en/tutorials/security/content-security-policy/",
+      },
+      {
+        "type": "URL",
+        "value": "http://caniuse.com/#feat=contentsecuritypolicy",
+      },
+      {
+        "type": "URL",
+        "value": "http://content-security-policy.com/",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-16",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/16.html",
+      },
+    ],
     "severity": "LOW",
   },
   {
@@ -3383,11 +3917,29 @@ exports[`Parsing the example.com results. 1`] = `
     },
     "category": "X-Content-Type-Options Header Missing",
     "description": "The Anti-MIME-Sniffing header X-Content-Type-Options was not set to 'nosniff'. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://example.com",
     "mitigation": "Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to 'nosniff' for all web pages.If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.",
     "name": "X-Content-Type-Options Header Missing",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspx",
+      },
+      {
+        "type": "URL",
+        "value": "https://owasp.org/www-community/Security_Headers",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-16",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/16.html",
+      },
+    ],
     "severity": "LOW",
   },
   {
@@ -3418,11 +3970,25 @@ exports[`Parsing the example.com results. 1`] = `
     },
     "category": "X-Frame-Options Header Not Set",
     "description": "X-Frame-Options header is not included in the HTTP response to protect against 'ClickJacking' attacks.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://example.com",
     "mitigation": "Most modern Web browsers support the X-Frame-Options HTTP header. Ensure it's set on all web pages returned by your site (if you expect the page to be framed only by pages on your server (e.g. it's part of a FRAMESET) then you'll want to use SAMEORIGIN, otherwise if you never expect the page to be framed, you should use DENY. ALLOW-FROM allows specific websites to frame the web page in supported web browsers).",
     "name": "X-Frame-Options Header Not Set",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-16",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/16.html",
+      },
+    ],
     "severity": "MEDIUM",
   },
 ]
@@ -3548,11 +4114,25 @@ exports[`Parsing the juice-shop results. 1`] = `
     },
     "category": "Cross-Domain Misconfiguration",
     "description": "Web browser data loading may be possible, due to a Cross Origin Resource Sharing (CORS) misconfiguration on the web server",
-    "hint": undefined,
+    "hint": null,
     "location": "http://juice-shop:3000",
     "mitigation": "Ensure that sensitive data is not available in an unauthenticated manner (using IP address white-listing, for instance).Configure the "Access-Control-Allow-Origin" HTTP header to a more restrictive set of domains, or remove all CORS headers entirely, to allow the web browser to enforce the Same Origin Policy (SOP) in a more restrictive manner.",
     "name": "Cross-Domain Misconfiguration",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "http://www.hpenterprisesecurity.com/vulncat/en/vulncat/vb/html5_overly_permissive_cors_policy.html",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-264",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/264.html",
+      },
+    ],
     "severity": "MEDIUM",
   },
   {
@@ -3668,11 +4248,25 @@ exports[`Parsing the juice-shop results. 1`] = `
     },
     "category": "Cookie Poisoning",
     "description": "This check looks at user-supplied input in query string parameters and POST data to identify where cookie parameters might be controlled. This is called a cookie poisoning attack, and becomes exploitable when an attacker can manipulate the cookie in various ways. In some cases this will not be exploitable, however, allowing URL parameters to set cookie values is generally considered a bug.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://juice-shop:3000",
     "mitigation": "Do not allow user input to control cookie names and values. If some query string parameters must be set in cookie values, be sure to filter out semicolon's that can serve as name/value pair delimiters.",
     "name": "Cookie Poisoning",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "http://websecuritytool.codeplex.com/wikipage?title=Checks#user-controlled-cookie",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-20",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/20.html",
+      },
+    ],
     "severity": "INFORMATIONAL",
   },
   {
@@ -3793,11 +4387,25 @@ exports[`Parsing the juice-shop results. 1`] = `
     },
     "category": "Timestamp Disclosure - Unix",
     "description": "A timestamp was disclosed by the application/web server - Unix",
-    "hint": undefined,
+    "hint": null,
     "location": "http://juice-shop:3000",
     "mitigation": "Manually confirm that the timestamp data is not sensitive, and that the data cannot be aggregated to disclose exploitable patterns.",
     "name": "Timestamp Disclosure - Unix",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "http://projects.webappsec.org/w/page/13246936/Information%20Leakage",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-200",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/200.html",
+      },
+    ],
     "severity": "INFORMATIONAL",
   },
   {
@@ -3938,11 +4546,25 @@ exports[`Parsing the juice-shop results. 1`] = `
     },
     "category": "Session ID in URL Rewrite",
     "description": "URL rewrite is used to track user session ID. The session ID may be disclosed via cross-site referer header. In addition, the session ID might be stored in browser history or server logs.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://juice-shop:3000",
     "mitigation": "For secure content, put session ID in a cookie. To be even more secure consider using a combination of cookie and URL rewrite.",
     "name": "Session ID in URL Rewrite",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "http://seclists.org/lists/webappsec/2002/Oct-Dec/0111.html",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-200",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/200.html",
+      },
+    ],
     "severity": "MEDIUM",
   },
   {
@@ -3998,11 +4620,17 @@ exports[`Parsing the juice-shop results. 1`] = `
     },
     "category": "Modern Web Application",
     "description": "The application appears to be a modern web application. If you need to explore it automatically then the Ajax Spider may well be more effective than the standard one.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://juice-shop:3000",
     "mitigation": "This is an informational alert and so no changes are required.",
     "name": "Modern Web Application",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "",
+      },
+    ],
     "severity": "INFORMATIONAL",
   },
   {
@@ -4103,11 +4731,33 @@ exports[`Parsing the juice-shop results. 1`] = `
     },
     "category": "Loosely Scoped Cookie",
     "description": "Cookies can be scoped by domain or path. This check is only concerned with domain scope.The domain scope applied to a cookie determines which domains can access it. For example, a cookie can be scoped strictly to a subdomain e.g. www.nottrusted.com, or loosely scoped to a parent domain e.g. nottrusted.com. In the latter case, any subdomain of nottrusted.com can access the cookie. Loosely scoped cookies are common in mega-applications like google.com and live.com. Cookies set from a subdomain like app.foo.bar are transmitted only to that domain by the browser. However, cookies scoped to a parent-level domain may be transmitted to the parent, or any subdomain of the parent.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://juice-shop:3000",
     "mitigation": "Always scope cookies to a FQDN (Fully Qualified Domain Name).",
     "name": "Loosely Scoped Cookie",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://tools.ietf.org/html/rfc6265#section-4.1",
+      },
+      {
+        "type": "URL",
+        "value": "https://owasp.org/www-project-web-security-testing-guide/v41/4-Web_Application_Security_Testing/06-Session_Management_Testing/02-Testing_for_Cookies_Attributes.html",
+      },
+      {
+        "type": "URL",
+        "value": "http://code.google.com/p/browsersec/wiki/Part2#Same-origin_policy_for_cookies",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-565",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/565.html",
+      },
+    ],
     "severity": "INFORMATIONAL",
   },
   {
@@ -4228,11 +4878,29 @@ exports[`Parsing the juice-shop results. 1`] = `
     },
     "category": "X-Content-Type-Options Header Missing",
     "description": "The Anti-MIME-Sniffing header X-Content-Type-Options was not set to 'nosniff'. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://juice-shop:3000",
     "mitigation": "Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to 'nosniff' for all web pages.If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.",
     "name": "X-Content-Type-Options Header Missing",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspx",
+      },
+      {
+        "type": "URL",
+        "value": "https://owasp.org/www-community/Security_Headers",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-16",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/16.html",
+      },
+    ],
     "severity": "LOW",
   },
   {
@@ -4281,11 +4949,25 @@ exports[`Parsing the juice-shop results. 1`] = `
     },
     "category": "Information Disclosure - Suspicious Comments",
     "description": "The response appears to contain suspicious comments which may help an attacker. Note: Matches made within script blocks or files are against the entire content not only comments.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://juice-shop:3000",
     "mitigation": "Remove all comments that return information that may help an attacker and fix any underlying problems they refer to.",
     "name": "Information Disclosure - Suspicious Comments",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-200",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/200.html",
+      },
+    ],
     "severity": "INFORMATIONAL",
   },
   {
@@ -4358,11 +5040,49 @@ exports[`Parsing the juice-shop results. 1`] = `
     },
     "category": "Content Security Policy (CSP) Header Not Set",
     "description": "Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of attacks, including Cross Site Scripting (XSS) and data injection attacks. These attacks are used for everything from data theft to site defacement or distribution of malware. CSP provides a set of standard HTTP headers that allow website owners to declare approved sources of content that browsers should be allowed to load on that page — covered types are JavaScript, CSS, HTML frames, fonts, images and embeddable objects such as Java applets, ActiveX, audio and video files.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://juice-shop:3000",
     "mitigation": "Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: "Content-Security-Policy" for Chrome 25+, Firefox 23+ and Safari 7+, "X-Content-Security-Policy" for Firefox 4.0+ and Internet Explorer 10+, and "X-WebKit-CSP" for Chrome 14+ and Safari 6+.",
     "name": "Content Security Policy (CSP) Header Not Set",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://developer.mozilla.org/en-US/docs/Web/Security/CSP/Introducing_Content_Security_Policy",
+      },
+      {
+        "type": "URL",
+        "value": "https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html",
+      },
+      {
+        "type": "URL",
+        "value": "http://www.w3.org/TR/CSP/",
+      },
+      {
+        "type": "URL",
+        "value": "http://w3c.github.io/webappsec/specs/content-security-policy/csp-specification.dev.html",
+      },
+      {
+        "type": "URL",
+        "value": "http://www.html5rocks.com/en/tutorials/security/content-security-policy/",
+      },
+      {
+        "type": "URL",
+        "value": "http://caniuse.com/#feat=contentsecuritypolicy",
+      },
+      {
+        "type": "URL",
+        "value": "http://content-security-policy.com/",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-16",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/16.html",
+      },
+    ],
     "severity": "LOW",
   },
   {
@@ -4419,11 +5139,25 @@ exports[`Parsing the juice-shop results. 1`] = `
     },
     "category": "Cross-Domain JavaScript Source File Inclusion",
     "description": "The page includes one or more script files from a third-party domain.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://juice-shop:3000",
     "mitigation": "Ensure JavaScript source files are loaded from only trusted sources, and the sources can't be controlled by end users of the application.",
     "name": "Cross-Domain JavaScript Source File Inclusion",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-829",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/829.html",
+      },
+    ],
     "severity": "LOW",
   },
   {
@@ -4454,11 +5188,25 @@ exports[`Parsing the juice-shop results. 1`] = `
     },
     "category": "X-Frame-Options Header Not Set",
     "description": "X-Frame-Options header is not included in the HTTP response to protect against 'ClickJacking' attacks.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://juice-shop:3000",
     "mitigation": "Most modern Web browsers support the X-Frame-Options HTTP header. Ensure it's set on all web pages returned by your site (if you expect the page to be framed only by pages on your server (e.g. it's part of a FRAMESET) then you'll want to use SAMEORIGIN, otherwise if you never expect the page to be framed, you should use DENY. ALLOW-FROM allows specific websites to frame the web page in supported web browsers).",
     "name": "X-Frame-Options Header Not Set",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-16",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/16.html",
+      },
+    ],
     "severity": "MEDIUM",
   },
   {
@@ -4484,11 +5232,25 @@ exports[`Parsing the juice-shop results. 1`] = `
     },
     "category": "Private IP Disclosure",
     "description": "A private IP (such as 10.x.x.x, 172.x.x.x, 192.168.x.x) or an Amazon EC2 private hostname (for example, ip-10-0-56-78) has been found in the HTTP response body. This information might be helpful for further attacks targeting internal systems.",
-    "hint": undefined,
+    "hint": null,
     "location": "http://juice-shop:3000",
     "mitigation": "Remove the private IP address from the HTTP response body.  For comments, use JSP/ASP/PHP comment instead of HTML/JavaScript comment which can be seen by client browsers.",
     "name": "Private IP Disclosure",
     "osi_layer": "APPLICATION",
+    "references": [
+      {
+        "type": "URL",
+        "value": "https://tools.ietf.org/html/rfc1918",
+      },
+      {
+        "type": "CWE",
+        "value": "CWE-200",
+      },
+      {
+        "type": "URL",
+        "value": "https://cwe.mitre.org/data/definitions/200.html",
+      },
+    ],
     "severity": "LOW",
   },
 ]
