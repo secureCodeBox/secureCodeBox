@@ -208,3 +208,25 @@ Example config:
         repeatInterval: "168h"
 ```
 ➡️  [Reference: #1447](https://github.com/secureCodeBox/secureCodeBox/pull/1447)
+
+### Nmap Findings: ip_address field removed, replaced with ip_addresses
+
+The nmap findings previously only included a ip_address field containing a single ip address.
+As host can have multiple ip addresses (both in ipv4 & ipv6) this has been replaced by an ip_addresses array.
+
+```yaml
+{
+  "name": "Host: juice-shop.demo-targets.svc.cluster.local",
+  "category": "Host",
+  "description": "Found a host",
+  "location": "juice-shop.demo-targets.svc.cluster.local",
+  "severity": "INFORMATIONAL",
+  "osi_layer": "NETWORK",
+  "attributes": {
+-    "ip_address": "10.102.186.25",
++    "ip_addresses": ["10.102.186.25"],
+    "hostname": "juice-shop.demo-targets.svc.cluster.local",
+    "operating_system": null
+  }
+}
+```
