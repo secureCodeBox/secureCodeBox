@@ -24,7 +24,9 @@
       "serviceVersion": null,
       "scripts": null,
       "tunnel": null
-    }
+    },
+    "id": "f5c84b36-33db-45a0-9651-1b80e1191716",
+    "parsed_at": "2023-04-09T11:36:47.116Z"
   },
   {
     "name": "Host: juice-shop.demo-targets.svc.cluster.local",
@@ -37,6 +39,8 @@
       "ip_addresses": ["10.102.186.25"],
       "hostname": "juice-shop.demo-targets.svc.cluster.local",
       "operating_system": null
-    }
+    },
+    "id": "6fb0cc59-d8e9-4872-9aff-659f6899eafb",
+    "parsed_at": "2023-04-09T11:36:47.116Z"
   }
 ]
