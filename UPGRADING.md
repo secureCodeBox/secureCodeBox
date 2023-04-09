@@ -214,7 +214,7 @@ Example config:
 The nmap findings previously only included a ip_address field containing a single ip address.
 As host can have multiple ip addresses (both in ipv4 & ipv6) this has been replaced by an ip_addresses array.
 
-```yaml
+```diff
 {
   "name": "Host: juice-shop.demo-targets.svc.cluster.local",
   "category": "Host",
