@@ -70,7 +70,7 @@ function getHostOrIp(hostInfo) {
   if (hostInfo.hostname) {
     return hostInfo.hostname;
   }
-  if (hostInfo.ips && hostInfo.length > 0) {
+  if (hostInfo.ips && hostInfo.ips.length > 0) {
     return hostInfo.ips[0];
   }
   return "unknown-address";
