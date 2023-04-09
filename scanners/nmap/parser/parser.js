@@ -266,6 +266,10 @@ function parseResultFile(fileContent) {
             scripts: null
           };
 
+          if (host.status && host.status?.[0]?.$?.state === 'down') {
+            return null;
+          }
+
           // Get hostname
           if (
             host.hostnames &&
@@ -360,7 +364,7 @@ function parseResultFile(fileContent) {
             newHost.osNmap = host.os[0].osmatch[0].$.name;
           }
           return newHost;
-        });
+        }).filter(Boolean);
 
         resolve(tempHostList);
       }
