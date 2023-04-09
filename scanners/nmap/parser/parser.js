@@ -25,14 +25,14 @@ function transformToFindings(hosts) {
         name: openPort.service ? `Open Port: ${openPort.port} (${openPort.service})`: `Open Port: ${openPort.port}`,
         description: `Port ${openPort.port} is ${openPort.state} using ${openPort.protocol} protocol.`,
         category: 'Open Port',
-        location: `${openPort.protocol}://${hostInfo.ip}:${openPort.port}`,
+        location: `${openPort.protocol}://${getHostOrIp(hostInfo)}:${openPort.port}`,
         osi_layer: 'NETWORK',
         severity: 'INFORMATIONAL',
         attributes: {
           port: openPort.port,
           state: openPort.state,
-          ip_address: hostInfo.ip,
-          mac_address: hostInfo.mac,
+          ip_addresses: hostInfo.ips,
+          mac_address: hostInfo.mac || null,
           protocol: openPort.protocol,
           hostname: hostInfo.hostname,
           method: openPort.method,
@@ -47,16 +47,16 @@ function transformToFindings(hosts) {
     });
   });
 
-  const hostFindings = hosts.map(({ hostname, ip, osNmap }) => {
+  const hostFindings = hosts.map(({ hostname, ips, osNmap }) => {
     return {
-      name: `Host: ${hostname}`,
+      name: `Host: ${getHostOrIp({ hostname, ips})}`,
       category: 'Host',
       description: 'Found a host',
       location: hostname,
       severity: 'INFORMATIONAL',
       osi_layer: 'NETWORK',
       attributes: {
-        ip_address: ip,
+        ip_addresses: ips,
         hostname: hostname,
         operating_system: osNmap,
       },
@@ -64,6 +64,16 @@ function transformToFindings(hosts) {
   });
 
   return [...portFindings, ...hostFindings, ...scriptFindings];
+}
+
+function getHostOrIp(hostInfo) {
+  if (hostInfo.hostname) {
+    return hostInfo.hostname;
+  }
+  if (hostInfo.ips && hostInfo.length > 0) {
+    return hostInfo.ips[0];
+  }
+  return "unknown-address";
 }
 
 function transformNMAPScripts(hosts) {
@@ -119,7 +129,7 @@ function parseBanner(host, script) {
 function parseFtpCommon(host, script) {
   return {
     category: 'FTP',
-    location: `ftp://${host.ip}:${host.openPorts[0].port}`,
+    location: `ftp://${getHostOrIp(host)}:${host.openPorts[0].port}`,
     osi_layer: 'NETWORK',
     attributes: {
       script: script.$.id || null,
@@ -130,7 +140,7 @@ function parseFtpCommon(host, script) {
 function parseCommon(host, script) {
   return {
     category: 'TCP',
-    location: `tcp://${host.ip}:${host.openPorts[0].port}`,
+    location: `tcp://${getHostOrIp(host)}:${host.openPorts[0].port}`,
     osi_layer: 'NETWORK',
     attributes: {
       script: script.$.id || null,
@@ -156,7 +166,7 @@ function parseSmbProtocols(host, script) {
       const attributes = {
               hostname: host.hostname,
               mac_address: host.mac || null,
-              ip_address: host.ip,
+              ip_addresses: host.ips,
               port: host.openPorts[0].port,
               state: host.openPorts[0].state,
               protocol: host.openPorts[0].protocol,
@@ -174,7 +184,7 @@ function parseSmbProtocols(host, script) {
           name: "SMB Dangerous Protocol Version Finding SMBv1",
           description: `Port ${host.openPorts[0].port} is ${host.openPorts[0].state} using SMB protocol with an old version: SMBv1`,
           category: 'SMB',
-          location: `${host.openPorts[0].protocol}://${host.ip}:${host.openPorts[0].port}`,
+          location: `${host.openPorts[0].protocol}://${getHostOrIp(host)}:${host.openPorts[0].port}`,
           osi_layer: 'NETWORK',
           severity: 'HIGH',
           attributes: attributes
@@ -186,7 +196,7 @@ function parseSmbProtocols(host, script) {
             name: "SMB Dangerous Protocol Version Finding v"+smbVersion,
             description: `Port ${host.openPorts[0].port} is ${host.openPorts[0].state} using SMB protocol with an old version: ` + smbVersion,
             category: 'SMB',
-            location: `${host.openPorts[0].protocol}://${host.ip}:${host.openPorts[0].port}`,
+            location: `${host.openPorts[0].protocol}://${getHostOrIp(host)}:${host.openPorts[0].port}`,
             osi_layer: 'NETWORK',
             severity: 'MEDIUM',
             attributes: attributes
@@ -197,7 +207,7 @@ function parseSmbProtocols(host, script) {
             name: "SMB Protocol Version Finding v"+smbVersion,
             description: `Port ${host.openPorts[0].port} is ${host.openPorts[0].state} using SMB protocol with an old version: `+ smbVersion,
             category: 'SMB',
-            location: `${host.openPorts[0].protocol}://${host.ip}:${host.openPorts[0].port}`,
+            location: `${host.openPorts[0].protocol}://${getHostOrIp(host)}:${host.openPorts[0].port}`,
             osi_layer: 'NETWORK',
             severity: 'LOW',
             attributes: attributes
@@ -208,7 +218,7 @@ function parseSmbProtocols(host, script) {
             name: "SMB Protocol Version Finding v"+smbVersion,
             description: `Port ${host.openPorts[0].port} is ${host.openPorts[0].state} using SMB protocol with version: ` + smbVersion,
             category: 'SMB',
-            location: `${host.openPorts[0].protocol}://${host.ip}:${host.openPorts[0].port}`,
+            location: `${host.openPorts[0].protocol}://${getHostOrIp(host)}:${host.openPorts[0].port}`,
             osi_layer: 'NETWORK',
             severity: 'INFORMATIONAL',
             attributes: attributes
@@ -265,19 +275,19 @@ function parseResultFile(fileContent) {
             newHost.hostname = host.hostnames[0].hostname[0].$.name;
           }
 
-          // Get addresses
-          host.address.forEach(address => {
-            const addressType = address.$.addrtype;
-            const addressAdress = address.$.addr;
-            const addressVendor = address.$.vendor;
-
-            if (addressType === 'ipv4') {
-              newHost.ip = addressAdress;
-            } else if (addressType === 'mac') {
-              newHost.mac = addressAdress;
-              newHost.vendor = addressVendor;
-            }
+          const cleanAddresses = host.address.map(address => {
+            return {
+              type: address.$.addrtype,
+              address: address.$.addr,
+              vendor: address.$.vendor
+            };
           });
+
+          newHost.mac = cleanAddresses.find((address) => address.type === "mac")?.address;
+
+          newHost.ips = cleanAddresses
+            .filter((address) => address.type.startsWith("ip"))
+            .map((address) => address.address);
 
           // Get ports
           if (host.ports && host.ports[0].port) {

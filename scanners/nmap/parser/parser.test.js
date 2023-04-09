@@ -28,7 +28,9 @@ test("should properly parse nmap xml file", async () => {
       {
         "attributes": {
           "hostname": "localhost",
-          "ip_address": "127.0.0.1",
+          "ip_addresses": [
+            "127.0.0.1",
+          ],
           "mac_address": null,
           "method": "table",
           "operating_system": null,
@@ -43,7 +45,7 @@ test("should properly parse nmap xml file", async () => {
         },
         "category": "Open Port",
         "description": "Port 53 is open using tcp protocol.",
-        "location": "tcp://127.0.0.1:53",
+        "location": "tcp://localhost:53",
         "name": "Open Port: 53 (domain)",
         "osi_layer": "NETWORK",
         "severity": "INFORMATIONAL",
@@ -51,7 +53,9 @@ test("should properly parse nmap xml file", async () => {
       {
         "attributes": {
           "hostname": "localhost",
-          "ip_address": "127.0.0.1",
+          "ip_addresses": [
+            "127.0.0.1",
+          ],
           "mac_address": null,
           "method": "table",
           "operating_system": null,
@@ -66,7 +70,7 @@ test("should properly parse nmap xml file", async () => {
         },
         "category": "Open Port",
         "description": "Port 8021 is open using tcp protocol.",
-        "location": "tcp://127.0.0.1:8021",
+        "location": "tcp://localhost:8021",
         "name": "Open Port: 8021 (ftp-proxy)",
         "osi_layer": "NETWORK",
         "severity": "INFORMATIONAL",
@@ -74,7 +78,9 @@ test("should properly parse nmap xml file", async () => {
       {
         "attributes": {
           "hostname": "localhost",
-          "ip_address": "127.0.0.1",
+          "ip_addresses": [
+            "127.0.0.1",
+          ],
           "mac_address": null,
           "method": "table",
           "operating_system": null,
@@ -89,7 +95,7 @@ test("should properly parse nmap xml file", async () => {
         },
         "category": "Open Port",
         "description": "Port 8080 is open using tcp protocol.",
-        "location": "tcp://127.0.0.1:8080",
+        "location": "tcp://localhost:8080",
         "name": "Open Port: 8080 (http-proxy)",
         "osi_layer": "NETWORK",
         "severity": "INFORMATIONAL",
@@ -97,7 +103,9 @@ test("should properly parse nmap xml file", async () => {
       {
         "attributes": {
           "hostname": "localhost",
-          "ip_address": "127.0.0.1",
+          "ip_addresses": [
+            "127.0.0.1",
+          ],
           "mac_address": null,
           "method": "table",
           "operating_system": null,
@@ -112,7 +120,7 @@ test("should properly parse nmap xml file", async () => {
         },
         "category": "Open Port",
         "description": "Port 9200 is open using tcp protocol.",
-        "location": "tcp://127.0.0.1:9200",
+        "location": "tcp://localhost:9200",
         "name": "Open Port: 9200 (wap-wsp)",
         "osi_layer": "NETWORK",
         "severity": "INFORMATIONAL",
@@ -120,7 +128,9 @@ test("should properly parse nmap xml file", async () => {
       {
         "attributes": {
           "hostname": "localhost",
-          "ip_address": "127.0.0.1",
+          "ip_addresses": [
+            "127.0.0.1",
+          ],
           "operating_system": null,
         },
         "category": "Host",
@@ -146,7 +156,9 @@ test("should properly parse a nmap xml without any ports", async () => {
       {
         "attributes": {
           "hostname": "localhost",
-          "ip_address": "127.0.0.1",
+          "ip_addresses": [
+            "127.0.0.1",
+          ],
           "operating_system": null,
         },
         "category": "Host",
@@ -185,7 +197,9 @@ test("should properly parse a nmap xml with missing service information", async 
       {
         "attributes": {
           "hostname": "example.com",
-          "ip_address": "93.184.216.34",
+          "ip_addresses": [
+            "93.184.216.34",
+          ],
           "mac_address": null,
           "method": undefined,
           "operating_system": null,
@@ -200,7 +214,7 @@ test("should properly parse a nmap xml with missing service information", async 
         },
         "category": "Open Port",
         "description": "Port 10250 is filtered using tcp protocol.",
-        "location": "tcp://93.184.216.34:10250",
+        "location": "tcp://example.com:10250",
         "name": "Open Port: 10250",
         "osi_layer": "NETWORK",
         "severity": "INFORMATIONAL",
@@ -208,7 +222,9 @@ test("should properly parse a nmap xml with missing service information", async 
       {
         "attributes": {
           "hostname": "example.com",
-          "ip_address": "93.184.216.34",
+          "ip_addresses": [
+            "93.184.216.34",
+          ],
           "operating_system": null,
         },
         "category": "Host",
@@ -237,7 +253,9 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
       {
         "attributes": {
           "hostname": "example.com",
-          "ip_address": "10.50.0.2",
+          "ip_addresses": [
+            "10.50.0.2",
+          ],
           "mac_address": null,
           "method": "table",
           "operating_system": null,
@@ -252,7 +270,7 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
         },
         "category": "Open Port",
         "description": "Port 445 is open using tcp protocol.",
-        "location": "tcp://10.50.0.2:445",
+        "location": "tcp://example.com:445",
         "name": "Open Port: 445 (microsoft-ds)",
         "osi_layer": "NETWORK",
         "severity": "INFORMATIONAL",
@@ -260,7 +278,9 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
       {
         "attributes": {
           "hostname": "example.com",
-          "ip_address": "10.50.0.2",
+          "ip_addresses": [
+            "10.50.0.2",
+          ],
           "operating_system": null,
         },
         "category": "Host",
@@ -273,7 +293,9 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
       {
         "attributes": {
           "hostname": "example.com",
-          "ip_address": "10.50.0.2",
+          "ip_addresses": [
+            "10.50.0.2",
+          ],
           "mac_address": null,
           "method": "table",
           "operating_system": null,
@@ -288,7 +310,7 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
         },
         "category": "SMB",
         "description": "Port 445 is open using SMB protocol with an old version: SMBv1",
-        "location": "tcp://10.50.0.2:445",
+        "location": "tcp://example.com:445",
         "name": "SMB Dangerous Protocol Version Finding SMBv1",
         "osi_layer": "NETWORK",
         "severity": "HIGH",
@@ -296,7 +318,9 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
       {
         "attributes": {
           "hostname": "example.com",
-          "ip_address": "10.50.0.2",
+          "ip_addresses": [
+            "10.50.0.2",
+          ],
           "mac_address": null,
           "method": "table",
           "operating_system": null,
@@ -311,7 +335,7 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
         },
         "category": "SMB",
         "description": "Port 445 is open using SMB protocol with an old version: 2.02",
-        "location": "tcp://10.50.0.2:445",
+        "location": "tcp://example.com:445",
         "name": "SMB Protocol Version Finding v2.02",
         "osi_layer": "NETWORK",
         "severity": "LOW",
@@ -319,7 +343,9 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
       {
         "attributes": {
           "hostname": "example.com",
-          "ip_address": "10.50.0.2",
+          "ip_addresses": [
+            "10.50.0.2",
+          ],
           "mac_address": null,
           "method": "table",
           "operating_system": null,
@@ -334,7 +360,7 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
         },
         "category": "SMB",
         "description": "Port 445 is open using SMB protocol with an old version: 2.1",
-        "location": "tcp://10.50.0.2:445",
+        "location": "tcp://example.com:445",
         "name": "SMB Protocol Version Finding v2.1",
         "osi_layer": "NETWORK",
         "severity": "LOW",
@@ -342,7 +368,9 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
       {
         "attributes": {
           "hostname": "example.com",
-          "ip_address": "10.50.0.2",
+          "ip_addresses": [
+            "10.50.0.2",
+          ],
           "mac_address": null,
           "method": "table",
           "operating_system": null,
@@ -357,7 +385,7 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
         },
         "category": "SMB",
         "description": "Port 445 is open using SMB protocol with version: 3",
-        "location": "tcp://10.50.0.2:445",
+        "location": "tcp://example.com:445",
         "name": "SMB Protocol Version Finding v3",
         "osi_layer": "NETWORK",
         "severity": "INFORMATIONAL",
@@ -365,7 +393,9 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
       {
         "attributes": {
           "hostname": "example.com",
-          "ip_address": "10.50.0.2",
+          "ip_addresses": [
+            "10.50.0.2",
+          ],
           "mac_address": null,
           "method": "table",
           "operating_system": null,
@@ -380,7 +410,7 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
         },
         "category": "SMB",
         "description": "Port 445 is open using SMB protocol with version: 3.02",
-        "location": "tcp://10.50.0.2:445",
+        "location": "tcp://example.com:445",
         "name": "SMB Protocol Version Finding v3.02",
         "osi_layer": "NETWORK",
         "severity": "INFORMATIONAL",
@@ -388,7 +418,9 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
       {
         "attributes": {
           "hostname": "example.com",
-          "ip_address": "10.50.0.2",
+          "ip_addresses": [
+            "10.50.0.2",
+          ],
           "mac_address": null,
           "method": "table",
           "operating_system": null,
@@ -403,7 +435,7 @@ test("Should properly parse a nmap xml with script specific SMB findings", async
         },
         "category": "SMB",
         "description": "Port 445 is open using SMB protocol with version: 3.11",
-        "location": "tcp://10.50.0.2:445",
+        "location": "tcp://example.com:445",
         "name": "SMB Protocol Version Finding v3.11",
         "osi_layer": "NETWORK",
         "severity": "INFORMATIONAL",
@@ -423,7 +455,9 @@ test("should properly parse a script finding for ftp in an xml file", async () =
       {
         "attributes": {
           "hostname": "dummy-ftp.demo-targets.svc.cluster.local",
-          "ip_address": "10.103.42.74",
+          "ip_addresses": [
+            "10.103.42.74",
+          ],
           "mac_address": null,
           "method": "table",
           "operating_system": null,
@@ -444,7 +478,7 @@ test("should properly parse a script finding for ftp in an xml file", async () =
         },
         "category": "Open Port",
         "description": "Port 21 is open using tcp protocol.",
-        "location": "tcp://10.103.42.74:21",
+        "location": "tcp://dummy-ftp.demo-targets.svc.cluster.local:21",
         "name": "Open Port: 21 (ftp)",
         "osi_layer": "NETWORK",
         "severity": "INFORMATIONAL",
@@ -452,7 +486,9 @@ test("should properly parse a script finding for ftp in an xml file", async () =
       {
         "attributes": {
           "hostname": "dummy-ftp.demo-targets.svc.cluster.local",
-          "ip_address": "10.103.42.74",
+          "ip_addresses": [
+            "10.103.42.74",
+          ],
           "operating_system": null,
         },
         "category": "Host",
@@ -471,7 +507,7 @@ test("should properly parse a script finding for ftp in an xml file", async () =
         },
         "category": "FTP",
         "description": "Port 21 displays banner",
-        "location": "ftp://10.103.42.74:21",
+        "location": "ftp://dummy-ftp.demo-targets.svc.cluster.local:21",
         "name": "Server banner found",
         "osi_layer": "NETWORK",
         "severity": "INFORMATIONAL",
@@ -482,7 +518,7 @@ test("should properly parse a script finding for ftp in an xml file", async () =
         },
         "category": "FTP",
         "description": "Port 21 allows anonymous FTP login",
-        "location": "ftp://10.103.42.74:21",
+        "location": "ftp://dummy-ftp.demo-targets.svc.cluster.local:21",
         "name": "Anonymous FTP Login possible",
         "osi_layer": "NETWORK",
         "severity": "MEDIUM",
@@ -505,7 +541,9 @@ test("should parse scanme.nmap.org results properly", async () => {
       {
         "attributes": {
           "hostname": "scanme.nmap.org",
-          "ip_address": null,
+          "ip_addresses": [
+            "2600:3c01::f03c:91ff:fe18:bb2f",
+          ],
           "mac_address": null,
           "method": "table",
           "operating_system": null,
@@ -520,7 +558,7 @@ test("should parse scanme.nmap.org results properly", async () => {
         },
         "category": "Open Port",
         "description": "Port 22 is open using tcp protocol.",
-        "location": "tcp://null:22",
+        "location": "tcp://scanme.nmap.org:22",
         "name": "Open Port: 22 (ssh)",
         "osi_layer": "NETWORK",
         "severity": "INFORMATIONAL",
@@ -528,7 +566,9 @@ test("should parse scanme.nmap.org results properly", async () => {
       {
         "attributes": {
           "hostname": "scanme.nmap.org",
-          "ip_address": null,
+          "ip_addresses": [
+            "2600:3c01::f03c:91ff:fe18:bb2f",
+          ],
           "mac_address": null,
           "method": "table",
           "operating_system": null,
@@ -543,7 +583,7 @@ test("should parse scanme.nmap.org results properly", async () => {
         },
         "category": "Open Port",
         "description": "Port 80 is open using tcp protocol.",
-        "location": "tcp://null:80",
+        "location": "tcp://scanme.nmap.org:80",
         "name": "Open Port: 80 (http)",
         "osi_layer": "NETWORK",
         "severity": "INFORMATIONAL",
@@ -551,7 +591,9 @@ test("should parse scanme.nmap.org results properly", async () => {
       {
         "attributes": {
           "hostname": "scanme.nmap.org",
-          "ip_address": null,
+          "ip_addresses": [
+            "2600:3c01::f03c:91ff:fe18:bb2f",
+          ],
           "mac_address": null,
           "method": "table",
           "operating_system": null,
@@ -566,7 +608,7 @@ test("should parse scanme.nmap.org results properly", async () => {
         },
         "category": "Open Port",
         "description": "Port 31337 is open using tcp protocol.",
-        "location": "tcp://null:31337",
+        "location": "tcp://scanme.nmap.org:31337",
         "name": "Open Port: 31337 (Elite)",
         "osi_layer": "NETWORK",
         "severity": "INFORMATIONAL",
@@ -574,7 +616,9 @@ test("should parse scanme.nmap.org results properly", async () => {
       {
         "attributes": {
           "hostname": "scanme.nmap.org",
-          "ip_address": null,
+          "ip_addresses": [
+            "2600:3c01::f03c:91ff:fe18:bb2f",
+          ],
           "operating_system": null,
         },
         "category": "Host",
