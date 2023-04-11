@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "lodash": "^4.17.20",
-    "xml2js": "^0.4.23"
+    "xml2js": "^0.5.0"
   },
   "devDependencies": {"jest": "^29.0.3"}
 }
