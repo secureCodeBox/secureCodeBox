@@ -90,48 +90,49 @@ test("Should create subsequent scans for open HTTPS ports (NMAP findings)", () =
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
-    [
-      {
-        "apiVersion": "execution.securecodebox.io/v1",
-        "kind": "Scan",
-        "metadata": {
-          "annotations": {
-            "cascading.securecodebox.io/chain": "tls-scans",
-            "cascading.securecodebox.io/matched-finding": undefined,
-            "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
-            "securecodebox.io/hook": "cascading-scans",
-          },
-          "generateName": "sslyze-foobar.com-tls-scans-",
-          "labels": {},
-          "ownerReferences": [
-            {
-              "apiVersion": "execution.securecodebox.io/v1",
-              "blockOwnerDeletion": true,
-              "controller": true,
-              "kind": "Scan",
-              "name": "nmap-foobar.com",
-              "uid": undefined,
-            },
-          ],
-        },
-        "spec": {
-          "affinity": undefined,
-          "cascades": {},
-          "env": [],
-          "hookSelector": {},
-          "initContainers": [],
-          "parameters": [
-            "--regular",
-            "foobar.com:443",
-          ],
-          "scanType": "sslyze",
-          "tolerations": undefined,
-          "volumeMounts": [],
-          "volumes": [],
-        },
+[
+  {
+    "apiVersion": "execution.securecodebox.io/v1",
+    "kind": "Scan",
+    "metadata": {
+      "annotations": {
+        "cascading.securecodebox.io/chain": "tls-scans",
+        "cascading.securecodebox.io/matched-finding": undefined,
+        "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
+        "securecodebox.io/hook": "cascading-scans",
       },
-    ]
-  `);
+      "generateName": "sslyze-foobar.com-tls-scans-",
+      "labels": {},
+      "ownerReferences": [
+        {
+          "apiVersion": "execution.securecodebox.io/v1",
+          "blockOwnerDeletion": true,
+          "controller": true,
+          "kind": "Scan",
+          "name": "nmap-foobar.com",
+          "uid": undefined,
+        },
+      ],
+    },
+    "spec": {
+      "affinity": undefined,
+      "cascades": {},
+      "env": [],
+      "hookSelector": {},
+      "initContainers": [],
+      "parameters": [
+        "--regular",
+        "foobar.com:443",
+      ],
+      "resourceMode": "namespaceLocal",
+      "scanType": "sslyze",
+      "tolerations": undefined,
+      "volumeMounts": [],
+      "volumes": [],
+    },
+  },
+]
+`);
 });
 
 test("Should create no subsequent scans if there are no rules", () => {
@@ -244,48 +245,49 @@ test("Should not crash when the annotations are not set", () => {
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
-    [
-      {
-        "apiVersion": "execution.securecodebox.io/v1",
-        "kind": "Scan",
-        "metadata": {
-          "annotations": {
-            "cascading.securecodebox.io/chain": "tls-scans",
-            "cascading.securecodebox.io/matched-finding": undefined,
-            "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
-            "securecodebox.io/hook": "cascading-scans",
-          },
-          "generateName": "sslyze-foobar.com-tls-scans-",
-          "labels": {},
-          "ownerReferences": [
-            {
-              "apiVersion": "execution.securecodebox.io/v1",
-              "blockOwnerDeletion": true,
-              "controller": true,
-              "kind": "Scan",
-              "name": "nmap-foobar.com",
-              "uid": undefined,
-            },
-          ],
-        },
-        "spec": {
-          "affinity": undefined,
-          "cascades": {},
-          "env": [],
-          "hookSelector": {},
-          "initContainers": [],
-          "parameters": [
-            "--regular",
-            "foobar.com:443",
-          ],
-          "scanType": "sslyze",
-          "tolerations": undefined,
-          "volumeMounts": [],
-          "volumes": [],
-        },
+[
+  {
+    "apiVersion": "execution.securecodebox.io/v1",
+    "kind": "Scan",
+    "metadata": {
+      "annotations": {
+        "cascading.securecodebox.io/chain": "tls-scans",
+        "cascading.securecodebox.io/matched-finding": undefined,
+        "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
+        "securecodebox.io/hook": "cascading-scans",
       },
-    ]
-  `);
+      "generateName": "sslyze-foobar.com-tls-scans-",
+      "labels": {},
+      "ownerReferences": [
+        {
+          "apiVersion": "execution.securecodebox.io/v1",
+          "blockOwnerDeletion": true,
+          "controller": true,
+          "kind": "Scan",
+          "name": "nmap-foobar.com",
+          "uid": undefined,
+        },
+      ],
+    },
+    "spec": {
+      "affinity": undefined,
+      "cascades": {},
+      "env": [],
+      "hookSelector": {},
+      "initContainers": [],
+      "parameters": [
+        "--regular",
+        "foobar.com:443",
+      ],
+      "resourceMode": "namespaceLocal",
+      "scanType": "sslyze",
+      "tolerations": undefined,
+      "volumeMounts": [],
+      "volumes": [],
+    },
+  },
+]
+`);
 });
 
 test("Should copy ENV fields from cascadingRule to created scan", () => {
@@ -382,48 +384,49 @@ test("Should allow wildcards in cascadingRules", () => {
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
-    [
-      {
-        "apiVersion": "execution.securecodebox.io/v1",
-        "kind": "Scan",
-        "metadata": {
-          "annotations": {
-            "cascading.securecodebox.io/chain": "tls-scans",
-            "cascading.securecodebox.io/matched-finding": undefined,
-            "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
-            "securecodebox.io/hook": "cascading-scans",
-          },
-          "generateName": "sslyze-foobar.com-tls-scans-",
-          "labels": {},
-          "ownerReferences": [
-            {
-              "apiVersion": "execution.securecodebox.io/v1",
-              "blockOwnerDeletion": true,
-              "controller": true,
-              "kind": "Scan",
-              "name": "nmap-foobar.com",
-              "uid": undefined,
-            },
-          ],
-        },
-        "spec": {
-          "affinity": undefined,
-          "cascades": {},
-          "env": [],
-          "hookSelector": {},
-          "initContainers": [],
-          "parameters": [
-            "--regular",
-            "foobar.com:8443",
-          ],
-          "scanType": "sslyze",
-          "tolerations": undefined,
-          "volumeMounts": [],
-          "volumes": [],
-        },
+[
+  {
+    "apiVersion": "execution.securecodebox.io/v1",
+    "kind": "Scan",
+    "metadata": {
+      "annotations": {
+        "cascading.securecodebox.io/chain": "tls-scans",
+        "cascading.securecodebox.io/matched-finding": undefined,
+        "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
+        "securecodebox.io/hook": "cascading-scans",
       },
-    ]
-  `);
+      "generateName": "sslyze-foobar.com-tls-scans-",
+      "labels": {},
+      "ownerReferences": [
+        {
+          "apiVersion": "execution.securecodebox.io/v1",
+          "blockOwnerDeletion": true,
+          "controller": true,
+          "kind": "Scan",
+          "name": "nmap-foobar.com",
+          "uid": undefined,
+        },
+      ],
+    },
+    "spec": {
+      "affinity": undefined,
+      "cascades": {},
+      "env": [],
+      "hookSelector": {},
+      "initContainers": [],
+      "parameters": [
+        "--regular",
+        "foobar.com:8443",
+      ],
+      "resourceMode": "namespaceLocal",
+      "scanType": "sslyze",
+      "tolerations": undefined,
+      "volumeMounts": [],
+      "volumes": [],
+    },
+  },
+]
+`);
 });
 
 test("should not copy labels if inheritLabels is set to false", () => {
@@ -1187,63 +1190,64 @@ test("Templating should apply to environment variables", () => {
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
-    [
-      {
-        "apiVersion": "execution.securecodebox.io/v1",
-        "kind": "Scan",
-        "metadata": {
-          "annotations": {
-            "cascading.securecodebox.io/chain": "tls-scans",
-            "cascading.securecodebox.io/matched-finding": undefined,
-            "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
-            "securecodebox.io/hook": "cascading-scans",
-          },
-          "generateName": "sslyze-foobar.com-tls-scans-",
-          "labels": {},
-          "ownerReferences": [
-            {
-              "apiVersion": "execution.securecodebox.io/v1",
-              "blockOwnerDeletion": true,
-              "controller": true,
-              "kind": "Scan",
-              "name": "nmap-foobar.com",
-              "uid": undefined,
-            },
-          ],
-        },
-        "spec": {
-          "affinity": undefined,
-          "cascades": {},
-          "env": [
-            {
-              "name": "HostOrIp",
-              "value": "foobar.com",
-            },
-          ],
-          "hookSelector": {},
-          "initContainers": [],
-          "parameters": [
-            "--regular",
-            "foobar.com:443",
-          ],
-          "scanType": "sslyze",
-          "tolerations": undefined,
-          "volumeMounts": [
-            {
-              "mountPath": "/test",
-              "name": "test-volume",
-            },
-          ],
-          "volumes": [
-            {
-              "emptyDir": {},
-              "name": "test-volume",
-            },
-          ],
-        },
+[
+  {
+    "apiVersion": "execution.securecodebox.io/v1",
+    "kind": "Scan",
+    "metadata": {
+      "annotations": {
+        "cascading.securecodebox.io/chain": "tls-scans",
+        "cascading.securecodebox.io/matched-finding": undefined,
+        "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
+        "securecodebox.io/hook": "cascading-scans",
       },
-    ]
-  `);
+      "generateName": "sslyze-foobar.com-tls-scans-",
+      "labels": {},
+      "ownerReferences": [
+        {
+          "apiVersion": "execution.securecodebox.io/v1",
+          "blockOwnerDeletion": true,
+          "controller": true,
+          "kind": "Scan",
+          "name": "nmap-foobar.com",
+          "uid": undefined,
+        },
+      ],
+    },
+    "spec": {
+      "affinity": undefined,
+      "cascades": {},
+      "env": [
+        {
+          "name": "HostOrIp",
+          "value": "foobar.com",
+        },
+      ],
+      "hookSelector": {},
+      "initContainers": [],
+      "parameters": [
+        "--regular",
+        "foobar.com:443",
+      ],
+      "resourceMode": "namespaceLocal",
+      "scanType": "sslyze",
+      "tolerations": undefined,
+      "volumeMounts": [
+        {
+          "mountPath": "/test",
+          "name": "test-volume",
+        },
+      ],
+      "volumes": [
+        {
+          "emptyDir": {},
+          "name": "test-volume",
+        },
+      ],
+    },
+  },
+]
+`);
 });
 
 test("Templating should apply to initContainer commands", () => {
@@ -1312,75 +1316,76 @@ test("Templating should apply to initContainer commands", () => {
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
-    [
-      {
-        "apiVersion": "execution.securecodebox.io/v1",
-        "kind": "Scan",
-        "metadata": {
-          "annotations": {
-            "cascading.securecodebox.io/chain": "tls-scans",
-            "cascading.securecodebox.io/matched-finding": undefined,
-            "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
-            "securecodebox.io/hook": "cascading-scans",
-          },
-          "generateName": "sslyze-foobar.com-tls-scans-",
-          "labels": {},
-          "ownerReferences": [
-            {
-              "apiVersion": "execution.securecodebox.io/v1",
-              "blockOwnerDeletion": true,
-              "controller": true,
-              "kind": "Scan",
-              "name": "nmap-foobar.com",
-              "uid": undefined,
-            },
-          ],
+[
+  {
+    "apiVersion": "execution.securecodebox.io/v1",
+    "kind": "Scan",
+    "metadata": {
+      "annotations": {
+        "cascading.securecodebox.io/chain": "tls-scans",
+        "cascading.securecodebox.io/matched-finding": undefined,
+        "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
+        "securecodebox.io/hook": "cascading-scans",
+      },
+      "generateName": "sslyze-foobar.com-tls-scans-",
+      "labels": {},
+      "ownerReferences": [
+        {
+          "apiVersion": "execution.securecodebox.io/v1",
+          "blockOwnerDeletion": true,
+          "controller": true,
+          "kind": "Scan",
+          "name": "nmap-foobar.com",
+          "uid": undefined,
         },
-        "spec": {
-          "affinity": undefined,
-          "cascades": {},
-          "env": [],
-          "hookSelector": {},
-          "initContainers": [
-            {
-              "command": [
-                "ping",
-                "-c",
-                "1",
-                "foobar.com",
-              ],
-              "image": "busybox",
-              "name": "ping-it-again",
-              "volumeMounts": [
-                {
-                  "mountPath": "/test",
-                  "name": "test-volume",
-                },
-              ],
-            },
+      ],
+    },
+    "spec": {
+      "affinity": undefined,
+      "cascades": {},
+      "env": [],
+      "hookSelector": {},
+      "initContainers": [
+        {
+          "command": [
+            "ping",
+            "-c",
+            "1",
+            "foobar.com",
           ],
-          "parameters": [
-            "--regular",
-            "foobar.com:443",
-          ],
-          "scanType": "sslyze",
-          "tolerations": undefined,
+          "image": "busybox",
+          "name": "ping-it-again",
           "volumeMounts": [
             {
               "mountPath": "/test",
               "name": "test-volume",
             },
           ],
-          "volumes": [
-            {
-              "emptyDir": {},
-              "name": "test-volume",
-            },
-          ],
         },
-      },
-    ]
-  `);
+      ],
+      "parameters": [
+        "--regular",
+        "foobar.com:443",
+      ],
+      "resourceMode": "namespaceLocal",
+      "scanType": "sslyze",
+      "tolerations": undefined,
+      "volumeMounts": [
+        {
+          "mountPath": "/test",
+          "name": "test-volume",
+        },
+      ],
+      "volumes": [
+        {
+          "emptyDir": {},
+          "name": "test-volume",
+        },
+      ],
+    },
+  },
+]
+`);
 });
 
 test("Templating should apply to initContainer environment variables", () => {
@@ -1450,78 +1455,79 @@ test("Templating should apply to initContainer environment variables", () => {
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
-    [
-      {
-        "apiVersion": "execution.securecodebox.io/v1",
-        "kind": "Scan",
-        "metadata": {
-          "annotations": {
-            "cascading.securecodebox.io/chain": "tls-scans",
-            "cascading.securecodebox.io/matched-finding": undefined,
-            "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
-            "securecodebox.io/hook": "cascading-scans",
-          },
-          "generateName": "sslyze-foobar.com-tls-scans-",
-          "labels": {},
-          "ownerReferences": [
-            {
-              "apiVersion": "execution.securecodebox.io/v1",
-              "blockOwnerDeletion": true,
-              "controller": true,
-              "kind": "Scan",
-              "name": "nmap-foobar.com",
-              "uid": undefined,
-            },
-          ],
+[
+  {
+    "apiVersion": "execution.securecodebox.io/v1",
+    "kind": "Scan",
+    "metadata": {
+      "annotations": {
+        "cascading.securecodebox.io/chain": "tls-scans",
+        "cascading.securecodebox.io/matched-finding": undefined,
+        "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
+        "securecodebox.io/hook": "cascading-scans",
+      },
+      "generateName": "sslyze-foobar.com-tls-scans-",
+      "labels": {},
+      "ownerReferences": [
+        {
+          "apiVersion": "execution.securecodebox.io/v1",
+          "blockOwnerDeletion": true,
+          "controller": true,
+          "kind": "Scan",
+          "name": "nmap-foobar.com",
+          "uid": undefined,
         },
-        "spec": {
-          "affinity": undefined,
-          "cascades": {},
-          "env": [],
-          "hookSelector": {},
-          "initContainers": [
+      ],
+    },
+    "spec": {
+      "affinity": undefined,
+      "cascades": {},
+      "env": [],
+      "hookSelector": {},
+      "initContainers": [
+        {
+          "command": [
+            "whoami",
+          ],
+          "env": [
             {
-              "command": [
-                "whoami",
-              ],
-              "env": [
-                {
-                  "name": "HostOrIp",
-                  "value": "foobar.com",
-                },
-              ],
-              "image": "busybox",
-              "name": "ping-it-again",
-              "volumeMounts": [
-                {
-                  "mountPath": "/test",
-                  "name": "test-volume",
-                },
-              ],
+              "name": "HostOrIp",
+              "value": "foobar.com",
             },
           ],
-          "parameters": [
-            "--regular",
-            "foobar.com:443",
-          ],
-          "scanType": "sslyze",
-          "tolerations": undefined,
+          "image": "busybox",
+          "name": "ping-it-again",
           "volumeMounts": [
             {
               "mountPath": "/test",
               "name": "test-volume",
             },
           ],
-          "volumes": [
-            {
-              "emptyDir": {},
-              "name": "test-volume",
-            },
-          ],
         },
-      },
-    ]
-  `);
+      ],
+      "parameters": [
+        "--regular",
+        "foobar.com:443",
+      ],
+      "resourceMode": "namespaceLocal",
+      "scanType": "sslyze",
+      "tolerations": undefined,
+      "volumeMounts": [
+        {
+          "mountPath": "/test",
+          "name": "test-volume",
+        },
+      ],
+      "volumes": [
+        {
+          "emptyDir": {},
+          "name": "test-volume",
+        },
+      ],
+    },
+  },
+]
+`);
 });
 
 test("Templating should not break special encoding (http://...) when using triple-mustache {{{}}}", () => {
@@ -1590,75 +1596,76 @@ test("Templating should not break special encoding (http://...) when using tripl
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
-    [
-      {
-        "apiVersion": "execution.securecodebox.io/v1",
-        "kind": "Scan",
-        "metadata": {
-          "annotations": {
-            "cascading.securecodebox.io/chain": "tls-scans",
-            "cascading.securecodebox.io/matched-finding": undefined,
-            "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
-            "securecodebox.io/hook": "cascading-scans",
-          },
-          "generateName": "sslyze-foobar.com-tls-scans-",
-          "labels": {},
-          "ownerReferences": [
-            {
-              "apiVersion": "execution.securecodebox.io/v1",
-              "blockOwnerDeletion": true,
-              "controller": true,
-              "kind": "Scan",
-              "name": "nmap-foobar.com",
-              "uid": undefined,
-            },
-          ],
+[
+  {
+    "apiVersion": "execution.securecodebox.io/v1",
+    "kind": "Scan",
+    "metadata": {
+      "annotations": {
+        "cascading.securecodebox.io/chain": "tls-scans",
+        "cascading.securecodebox.io/matched-finding": undefined,
+        "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
+        "securecodebox.io/hook": "cascading-scans",
+      },
+      "generateName": "sslyze-foobar.com-tls-scans-",
+      "labels": {},
+      "ownerReferences": [
+        {
+          "apiVersion": "execution.securecodebox.io/v1",
+          "blockOwnerDeletion": true,
+          "controller": true,
+          "kind": "Scan",
+          "name": "nmap-foobar.com",
+          "uid": undefined,
         },
-        "spec": {
-          "affinity": undefined,
-          "cascades": {},
-          "env": [],
-          "hookSelector": {},
-          "initContainers": [
-            {
-              "command": [
-                "ping",
-                "-c",
-                "1",
-                "https://github.com/secureCodeBox/secureCodeBox",
-              ],
-              "image": "busybox",
-              "name": "ping-it-again",
-              "volumeMounts": [
-                {
-                  "mountPath": "/test",
-                  "name": "test-volume",
-                },
-              ],
-            },
-          ],
-          "parameters": [
-            "--regular",
+      ],
+    },
+    "spec": {
+      "affinity": undefined,
+      "cascades": {},
+      "env": [],
+      "hookSelector": {},
+      "initContainers": [
+        {
+          "command": [
+            "ping",
+            "-c",
+            "1",
             "https://github.com/secureCodeBox/secureCodeBox",
           ],
-          "scanType": "sslyze",
-          "tolerations": undefined,
+          "image": "busybox",
+          "name": "ping-it-again",
           "volumeMounts": [
             {
               "mountPath": "/test",
               "name": "test-volume",
             },
           ],
-          "volumes": [
-            {
-              "emptyDir": {},
-              "name": "test-volume",
-            },
-          ],
         },
-      },
-    ]
-  `);
+      ],
+      "parameters": [
+        "--regular",
+        "https://github.com/secureCodeBox/secureCodeBox",
+      ],
+      "resourceMode": "namespaceLocal",
+      "scanType": "sslyze",
+      "tolerations": undefined,
+      "volumeMounts": [
+        {
+          "mountPath": "/test",
+          "name": "test-volume",
+        },
+      ],
+      "volumes": [
+        {
+          "emptyDir": {},
+          "name": "test-volume",
+        },
+      ],
+    },
+  },
+]
+`);
 });
 
 test("should merge hookSelector into cascaded scan if inheritHookSelector is enabled", () => {
@@ -2685,61 +2692,62 @@ test("should not cascade if scope limiter does not pass", () => {
   );
 
   expect(cascadedScans).toMatchInlineSnapshot(`
-    [
-      {
-        "apiVersion": "execution.securecodebox.io/v1",
-        "kind": "Scan",
-        "metadata": {
-          "annotations": {
-            "cascading.securecodebox.io/chain": "tls-scans",
-            "cascading.securecodebox.io/matched-finding": undefined,
-            "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
-            "scope.cascading.securecodebox.io/ports": "80,443",
-            "securecodebox.io/hook": "cascading-scans",
-          },
-          "generateName": "sslyze-foobar.com-tls-scans-",
-          "labels": {},
-          "ownerReferences": [
-            {
-              "apiVersion": "execution.securecodebox.io/v1",
-              "blockOwnerDeletion": true,
-              "controller": true,
-              "kind": "Scan",
-              "name": "nmap-foobar.com",
-              "uid": undefined,
-            },
-          ],
+[
+  {
+    "apiVersion": "execution.securecodebox.io/v1",
+    "kind": "Scan",
+    "metadata": {
+      "annotations": {
+        "cascading.securecodebox.io/chain": "tls-scans",
+        "cascading.securecodebox.io/matched-finding": undefined,
+        "cascading.securecodebox.io/parent-scan": "nmap-foobar.com",
+        "scope.cascading.securecodebox.io/ports": "80,443",
+        "securecodebox.io/hook": "cascading-scans",
+      },
+      "generateName": "sslyze-foobar.com-tls-scans-",
+      "labels": {},
+      "ownerReferences": [
+        {
+          "apiVersion": "execution.securecodebox.io/v1",
+          "blockOwnerDeletion": true,
+          "controller": true,
+          "kind": "Scan",
+          "name": "nmap-foobar.com",
+          "uid": undefined,
         },
-        "spec": {
-          "affinity": undefined,
-          "cascades": {
-            "scopeLimiter": {
-              "allOf": [
-                {
-                  "key": "scope.cascading.securecodebox.io/ports",
-                  "operator": "Contains",
-                  "values": [
-                    "{{$.port}}",
-                  ],
-                },
+      ],
+    },
+    "spec": {
+      "affinity": undefined,
+      "cascades": {
+        "scopeLimiter": {
+          "allOf": [
+            {
+              "key": "scope.cascading.securecodebox.io/ports",
+              "operator": "Contains",
+              "values": [
+                "{{$.port}}",
               ],
             },
-          },
-          "env": [],
-          "hookSelector": {},
-          "initContainers": [],
-          "parameters": [
-            "--regular",
-            "foobar.com:443",
           ],
-          "scanType": "sslyze",
-          "tolerations": undefined,
-          "volumeMounts": [],
-          "volumes": [],
         },
       },
-    ]
-  `);
+      "env": [],
+      "hookSelector": {},
+      "initContainers": [],
+      "parameters": [
+        "--regular",
+        "foobar.com:443",
+      ],
+      "resourceMode": "namespaceLocal",
+      "scanType": "sslyze",
+      "tolerations": undefined,
+      "volumeMounts": [],
+      "volumes": [],
+    },
+  },
+]
+`);
 });
 
 test("scope annotations should be completely immutable", () => {
