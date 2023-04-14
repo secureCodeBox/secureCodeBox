@@ -4812,8 +4812,6 @@ spec:
                           - name
                         type: object
                       type: array
-                  required:
-                    - resourceMode
                   type: object
                 successfulJobsHistoryLimit:
                   description:

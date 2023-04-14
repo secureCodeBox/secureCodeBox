@@ -4239,8 +4239,6 @@ spec:
                       - name
                       type: object
                     type: array
-                required:
-                - resourceMode
                 type: object
               successfulJobsHistoryLimit:
                 description: SuccessfulJobsHistoryLimit determines how many past Scans

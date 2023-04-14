@@ -33,7 +33,7 @@ func (r *ScanReconciler) setHookStatus(scan *executionv1.Scan) error {
 
 	var hookStatuses []*executionv1.HookStatus
 
-	if scan.Spec.ResourceMode == executionv1.NamespaceLocal {
+	if scan.Spec.ResourceMode == nil || *scan.Spec.ResourceMode == executionv1.NamespaceLocal {
 		var scanCompletionHooks executionv1.ScanCompletionHookList
 		if err := r.List(ctx, &scanCompletionHooks,
 			client.InNamespace(scan.Namespace),
@@ -192,7 +192,7 @@ func (r *ScanReconciler) processPendingHook(scan *executionv1.Scan, status *exec
 	var hookName string
 	var hookSpec executionv1.ScanCompletionHookSpec
 
-	if scan.Spec.ResourceMode == executionv1.NamespaceLocal {
+	if scan.Spec.ResourceMode == nil || *scan.Spec.ResourceMode == executionv1.NamespaceLocal {
 		var hook executionv1.ScanCompletionHook
 		err = r.Get(ctx, types.NamespacedName{Name: status.HookName, Namespace: scan.Namespace}, &hook)
 		if err != nil {
@@ -201,7 +201,7 @@ func (r *ScanReconciler) processPendingHook(scan *executionv1.Scan, status *exec
 		}
 		hookName = hook.Name
 		hookSpec = hook.Spec
-	} else if scan.Spec.ResourceMode == executionv1.ClusterWide {
+	} else if *scan.Spec.ResourceMode == executionv1.ClusterWide {
 		var clusterHook executionv1.ClusterScanCompletionHook
 		err = r.Get(ctx, types.NamespacedName{Name: status.HookName}, &clusterHook)
 		if err != nil {
