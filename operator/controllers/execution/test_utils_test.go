@@ -64,6 +64,8 @@ func createScanType(ctx context.Context, namespace string) {
 }
 
 func createScheduledScan(ctx context.Context, namespace string, retriggerOnScanTypeChange bool) executionv1.ScheduledScan {
+	namespaceLocalResourceMode := executionv1.NamespaceLocal
+
 	scheduledScan := executionv1.ScheduledScan{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "test-scan",
@@ -74,7 +76,7 @@ func createScheduledScan(ctx context.Context, namespace string, retriggerOnScanT
 			RetriggerOnScanTypeChange: retriggerOnScanTypeChange,
 			ScanSpec: &executionv1.ScanSpec{
 				ScanType:     "nmap",
-				ResourceMode: executionv1.NamespaceLocal,
+				ResourceMode: &namespaceLocalResourceMode,
 				Parameters:   []string{"scanme.nmap.org"},
 			},
 		},

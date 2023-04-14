@@ -4642,8 +4642,6 @@ spec:
                       - name
                     type: object
                   type: array
-              required:
-                - resourceMode
               type: object
             status:
               description: ScanStatus defines the observed state of Scan

@@ -115,9 +115,10 @@ type ScanSpec struct {
 	ScanType string `json:"scanType,omitempty"`
 
 	// The Resource Mode of the scan: Should it use namespace-local or cluster-wide resources (ScanType vs. ClusterScanType)
+	// +kubebuilder:validation:Optional
 	// +kubebuilder:default:=namespaceLocal
 	// +kubebuilder:validation:Enum="namespaceLocal";"clusterWide"
-	ResourceMode ResourceMode `json:"resourceMode"`
+	ResourceMode *ResourceMode `json:"resourceMode"`
 
 	// All CLI parameters to configure the scan container.
 	// +kubebuilder:validation:Required

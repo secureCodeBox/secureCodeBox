@@ -39,7 +39,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 
 	// get the parse definition matching the parseType of the scan result
 	var parseDefinitionSpec executionv1.ParseDefinitionSpec
-	if scan.Spec.ResourceMode == executionv1.NamespaceLocal {
+	if scan.Spec.ResourceMode == nil || *scan.Spec.ResourceMode == executionv1.NamespaceLocal {
 		var parseDefinition executionv1.ParseDefinition
 		if err := r.Get(ctx, types.NamespacedName{Name: parseType, Namespace: scan.Namespace}, &parseDefinition); err != nil {
 			log.V(7).Info("Unable to fetch ParseDefinition")
@@ -55,7 +55,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 		}
 		log.Info("Matching ParseDefinition Found", "ParseDefinition", parseType)
 		parseDefinitionSpec = parseDefinition.Spec
-	} else if scan.Spec.ResourceMode == executionv1.ClusterWide {
+	} else if *scan.Spec.ResourceMode == executionv1.ClusterWide {
 		var clusterParseDefinition executionv1.ClusterParseDefinition
 		if err := r.Get(ctx, types.NamespacedName{Name: parseType}, &clusterParseDefinition); err != nil {
 			log.V(7).Info("Unable to fetch ClusterParseDefinition")

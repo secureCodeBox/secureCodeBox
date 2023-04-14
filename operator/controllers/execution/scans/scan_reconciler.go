@@ -50,7 +50,7 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 
 	// get the ScanType for the scan
 	var scanTypeSpec executionv1.ScanTypeSpec
-	if scan.Spec.ResourceMode == executionv1.NamespaceLocal {
+	if scan.Spec.ResourceMode == nil || *scan.Spec.ResourceMode == executionv1.NamespaceLocal {
 		var scanType executionv1.ScanType
 		if err := r.Get(ctx, types.NamespacedName{Name: scan.Spec.ScanType, Namespace: scan.Namespace}, &scanType); err != nil {
 
@@ -67,7 +67,7 @@ func (r *ScanReconciler) startScan(scan *executionv1.Scan) error {
 		}
 		log.Info("Matching ScanType Found", "ScanType", scanType.Name)
 		scanTypeSpec = scanType.Spec
-	} else if scan.Spec.ResourceMode == executionv1.ClusterWide {
+	} else if *scan.Spec.ResourceMode == executionv1.ClusterWide {
 		var clusterScanType executionv1.ClusterScanType
 
 		if err := r.Get(ctx, types.NamespacedName{Name: scan.Spec.ScanType}, &clusterScanType); err != nil {
