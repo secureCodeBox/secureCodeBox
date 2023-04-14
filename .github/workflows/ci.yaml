@@ -21,6 +21,7 @@ env:
   GO_VERSION: "1.19"
   PYTHON_VERSION: "3.9.16"
   NVM_VERSION: "0.39.3" # Does not need to be updated as often as the Node.js version or the NPM version
+  KIND_NODE_IMAGE: "kindest/node:v1.27.0@sha256:c6b22e613523b1af67d4bc8a0c38a4c3ea3a2b8fbc5b367ae36345c9cb844518"
 
 jobs:
   # ---- NVM Setup ----
@@ -39,17 +40,17 @@ jobs:
           export NVM_DIR="$HOME/.nvm"
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
           nvm install "$(cat .nvmrc)"
-          
+
       - name: Archive nvm and Node.js
         run: |
           tar czf nvm-node.tar.gz -C $HOME .nvm
-          
+
       - name: Upload nvm and Node.js
         uses: actions/upload-artifact@v2
         with:
           name: nvm-node
-          path: ./nvm-node.tar.gz    
-          retention-days: 1  
+          path: ./nvm-node.tar.gz
+          retention-days: 1
 
   # ---- Unit-Test ----
 
@@ -150,7 +151,7 @@ jobs:
           name: auto-discovery-image
           path: ./auto-discovery/kubernetes/auto-discovery-kubernetes.tar
           retention-days: 1
-  
+
   # ---- Build Stage | AutoDiscovery | PullSecretExtractor ----
   auto-discovery-kubernetes-secret-extraction-container:
     name: "Autodiscovery | Kubernetes | SecretExtractionInitContainer"
@@ -163,7 +164,7 @@ jobs:
       - name: Setup Python Version
         uses: actions/setup-python@v4
         with:
-          python-version: '${{ env.PYTHON_VERSION }}'
+          python-version: "${{ env.PYTHON_VERSION }}"
 
       - name: Download nvm and Node.js
         uses: actions/download-artifact@v2
@@ -176,8 +177,8 @@ jobs:
           tar xzf nvm-node/nvm-node.tar.gz -C $HOME
           export NVM_DIR="$HOME/.nvm"
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-          nvm use      
-          
+          nvm use
+
       - name: Unit Tests
         working-directory: ./auto-discovery/kubernetes/pull-secret-extractor
         run: make unit-test
@@ -200,13 +201,13 @@ jobs:
       - name: "Start kind cluster"
         run: |
           kind version
-          kind create cluster --wait 3m --image kindest/node:v1.24.0@sha256:0866296e693efe1fed79d5e6c7af8df71fc73ae45e3679af05342239cdc5bc8e
+          kind create cluster --wait 3m --image "$KIND_NODE_IMAGE"
 
       - name: "Inspect kind cluster"
         run: |
           kubectl config current-context
           kubectl get node
-      
+
       - name: "Run integration tests"
         working-directory: ./auto-discovery/kubernetes/pull-secret-extractor
         run: |
@@ -321,7 +322,7 @@ jobs:
       - name: "Start kind cluster"
         run: |
           kind version
-          kind create cluster --wait 3m --image kindest/node:v1.24.0@sha256:0866296e693efe1fed79d5e6c7af8df71fc73ae45e3679af05342239cdc5bc8e
+          kind create cluster --wait 3m --image "$KIND_NODE_IMAGE"
 
       - name: "Inspect kind cluster"
         run: |
@@ -549,18 +550,13 @@ jobs:
   # ---- Test | Hooks ----
 
   test-hooks:
-    name: Test |  Hook ${{ matrix.hook }} | k8s ${{ matrix.k8sVersion }}
+    name: Test |  Hook ${{ matrix.hook }}
     needs:
       - operator
       - nvm-setup
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        k8sVersion:
-          - v1.24.0@sha256:0866296e693efe1fed79d5e6c7af8df71fc73ae45e3679af05342239cdc5bc8e
-          - v1.23.6@sha256:b1fa224cc6c7ff32455e0b1fd9cbfd3d3bc87ecaa8fcb06961ed1afb3db0f9ae
-          - v1.22.9@sha256:8135260b959dfe320206eb36b3aeda9cffcb262f4b44cda6b33f7bb73f453105
-          - v1.21.12@sha256:f316b33dd88f8196379f38feb80545ef3ed44d9197dca1bfd48bcb1583210207
         hook:
           - cascading-scans
           - generic-webhook
@@ -575,7 +571,7 @@ jobs:
       - name: "Start kind cluster"
         run: |
           kind version
-          kind create cluster --image kindest/node:${{ matrix.k8sVersion }} --wait 3m
+          kind create cluster --wait 3m --image "$KIND_NODE_IMAGE"
       - name: "Inspect kind cluster"
         run: |
           kubectl config current-context
@@ -687,7 +683,6 @@ jobs:
           export NVM_DIR="$HOME/.nvm"
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
           nvm use
-
 
       - name: "Install Test Dependencies"
         working-directory: ./hooks
