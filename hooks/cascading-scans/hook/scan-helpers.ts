@@ -67,6 +67,7 @@ export interface ScanSpec {
   hookSelector?: LabelSelector;
   tolerations?: Array<k8s.V1Toleration>;
   affinity?: k8s.V1Toleration;
+  resourceMode: 'clusterWide' | 'namespaceLocal',
 }
 
 export interface ScopeLimiter {
