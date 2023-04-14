@@ -196,6 +196,7 @@ function getCascadingScan(
       initContainers,
       tolerations,
       affinity,
+      resourceMode: parentScan.spec.resourceMode ?? 'namespaceLocal',
     }
   };
 }
