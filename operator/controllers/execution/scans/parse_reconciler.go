@@ -37,21 +37,41 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 
 	parseType := scan.Status.RawResultType
 
-	// get the scan template for the scan
-	var parseDefinition executionv1.ParseDefinition
-	if err := r.Get(ctx, types.NamespacedName{Name: parseType, Namespace: scan.Namespace}, &parseDefinition); err != nil {
-		log.V(7).Info("Unable to fetch ParseDefinition")
+	// get the parse definition matching the parseType of the scan result
+	var parseDefinitionSpec executionv1.ParseDefinitionSpec
+	if scan.Spec.ResourceMode == nil || *scan.Spec.ResourceMode == executionv1.NamespaceLocal {
+		var parseDefinition executionv1.ParseDefinition
+		if err := r.Get(ctx, types.NamespacedName{Name: parseType, Namespace: scan.Namespace}, &parseDefinition); err != nil {
+			log.V(7).Info("Unable to fetch ParseDefinition")
 
-		scan.Status.State = "Errored"
-		scan.Status.ErrorDescription = fmt.Sprintf("No ParseDefinition for ResultType '%s' found in Scans Namespace.", parseType)
-		if err := r.Status().Update(ctx, scan); err != nil {
-			r.Log.Error(err, "unable to update Scan status")
-			return err
+			scan.Status.State = "Errored"
+			scan.Status.ErrorDescription = fmt.Sprintf("No ParseDefinition for ResultType '%s' found in Scans Namespace.", parseType)
+			if err := r.Status().Update(ctx, scan); err != nil {
+				r.Log.Error(err, "unable to update Scan status")
+				return err
+			}
+
+			return fmt.Errorf("No ParseDefinition of type '%s' found", parseType)
 		}
+		log.Info("Matching ParseDefinition Found", "ParseDefinition", parseType)
+		parseDefinitionSpec = parseDefinition.Spec
+	} else if *scan.Spec.ResourceMode == executionv1.ClusterWide {
+		var clusterParseDefinition executionv1.ClusterParseDefinition
+		if err := r.Get(ctx, types.NamespacedName{Name: parseType}, &clusterParseDefinition); err != nil {
+			log.V(7).Info("Unable to fetch ClusterParseDefinition")
 
-		return fmt.Errorf("No ParseDefinition of type '%s' found", parseType)
+			scan.Status.State = "Errored"
+			scan.Status.ErrorDescription = fmt.Sprintf("No ClusterParseDefinition for ResultType '%s' found.", parseType)
+			if err := r.Status().Update(ctx, scan); err != nil {
+				r.Log.Error(err, "unable to update Scan status")
+				return err
+			}
+
+			return fmt.Errorf("No ClusterParseDefinition of type '%s' found", parseType)
+		}
+		log.Info("Matching ClusterParseDefinition Found", "ClusterParseDefinition", parseType)
+		parseDefinitionSpec = clusterParseDefinition.Spec
 	}
-	log.Info("Matching ParseDefinition Found", "ParseDefinition", parseType)
 
 	urlExpirationDuration, err := util.GetUrlExpirationDuration(util.ParserController)
 	if err != nil {
@@ -108,8 +128,8 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 			corev1.ResourceMemory: resource.MustParse("200Mi"),
 		},
 	}
-	if len(parseDefinition.Spec.Resources.Requests) != 0 || len(parseDefinition.Spec.Resources.Limits) != 0 {
-		resources = parseDefinition.Spec.Resources
+	if len(parseDefinitionSpec.Resources.Requests) != 0 || len(parseDefinitionSpec.Resources.Limits) != 0 {
+		resources = parseDefinitionSpec.Resources
 	}
 
 	job := &batch.Job{
@@ -120,7 +140,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 			Labels:       labels,
 		},
 		Spec: batch.JobSpec{
-			TTLSecondsAfterFinished: parseDefinition.Spec.TTLSecondsAfterFinished,
+			TTLSecondsAfterFinished: parseDefinitionSpec.TTLSecondsAfterFinished,
 			BackoffLimit:            &backOffLimit,
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
@@ -135,11 +155,11 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 				Spec: corev1.PodSpec{
 					RestartPolicy:      corev1.RestartPolicyNever,
 					ServiceAccountName: "parser",
-					ImagePullSecrets:   parseDefinition.Spec.ImagePullSecrets,
+					ImagePullSecrets:   parseDefinitionSpec.ImagePullSecrets,
 					Containers: []corev1.Container{
 						{
 							Name:  "parser",
-							Image: parseDefinition.Spec.Image,
+							Image: parseDefinitionSpec.Image,
 							Env: []corev1.EnvVar{
 								{
 									Name: "NAMESPACE",
@@ -158,7 +178,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 								rawResultDownloadURL,
 								findingsUploadURL,
 							},
-							ImagePullPolicy: parseDefinition.Spec.ImagePullPolicy,
+							ImagePullPolicy: parseDefinitionSpec.ImagePullPolicy,
 							Resources:       resources,
 							SecurityContext: &corev1.SecurityContext{
 								RunAsNonRoot:             &truePointer,
@@ -180,31 +200,31 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 	// Merge Env from ParserTemplate
 	job.Spec.Template.Spec.Containers[0].Env = append(
 		job.Spec.Template.Spec.Containers[0].Env,
-		parseDefinition.Spec.Env...,
+		parseDefinitionSpec.Env...,
 	)
 	// Merge VolumeMounts from ParserTemplate
 	job.Spec.Template.Spec.Containers[0].VolumeMounts = append(
 		job.Spec.Template.Spec.Containers[0].VolumeMounts,
-		parseDefinition.Spec.VolumeMounts...,
+		parseDefinitionSpec.VolumeMounts...,
 	)
 	// Merge Volumes from ParserTemplate
 	job.Spec.Template.Spec.Volumes = append(
 		job.Spec.Template.Spec.Volumes,
-		parseDefinition.Spec.Volumes...,
+		parseDefinitionSpec.Volumes...,
 	)
 
 	// Set affinity based on scan, if defined, or parseDefinition if not overridden by scan
 	if scan.Spec.Affinity != nil {
 		job.Spec.Template.Spec.Affinity = scan.Spec.Affinity
 	} else {
-		job.Spec.Template.Spec.Affinity = parseDefinition.Spec.Affinity
+		job.Spec.Template.Spec.Affinity = parseDefinitionSpec.Affinity
 	}
 
 	// Set tolerations, either from parseDefinition or from scan
 	if scan.Spec.Tolerations != nil {
 		job.Spec.Template.Spec.Tolerations = scan.Spec.Tolerations
 	} else {
-		job.Spec.Template.Spec.Tolerations = parseDefinition.Spec.Tolerations
+		job.Spec.Template.Spec.Tolerations = parseDefinitionSpec.Tolerations
 	}
 
 	r.Log.V(8).Info("Configuring customCACerts for Parser")

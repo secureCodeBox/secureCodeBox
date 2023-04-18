@@ -25,6 +25,18 @@ func createHook(name string, hookType executionv1.HookType, prio int) executionv
 	}
 }
 
+func createClusterHook(name string, hookType executionv1.HookType, prio int) executionv1.ClusterScanCompletionHook {
+	return executionv1.ClusterScanCompletionHook{
+		ObjectMeta: corev1.ObjectMeta{
+			Name: name,
+		},
+		Spec: executionv1.ScanCompletionHookSpec{
+			Type:     hookType,
+			Priority: prio,
+		},
+	}
+}
+
 var _ = Describe("HookOrderingGroup Creation", func() {
 	Context("HookOrderingGroup Creation / Sorting (Single Prio)", func() {
 		It("Should always place ReadAndWrite Hooks into different Groups", func() {
@@ -33,7 +45,21 @@ var _ = Describe("HookOrderingGroup Creation", func() {
 				createHook("rw-2", executionv1.ReadAndWrite, 0),
 			}
 
-			orderedHookGroups := FromUnorderedList(hooks)
+			orderedHookGroups := FromUnorderedList(MapHooksToHookStatus(hooks))
+
+			Expect(orderedHookGroups).To(HaveLen(2), "Should create two groups")
+
+			Expect(orderedHookGroups[0]).To(HaveLen(1), "groups should contain one entry")
+			Expect(orderedHookGroups[1]).To(HaveLen(1), "groups should contain one entry")
+		})
+
+		It("Should behave the same with ClusterScanCompletionHooks", func() {
+			hooks := []executionv1.ClusterScanCompletionHook{
+				createClusterHook("rw-1", executionv1.ReadAndWrite, 0),
+				createClusterHook("rw-2", executionv1.ReadAndWrite, 0),
+			}
+
+			orderedHookGroups := FromUnorderedList(MapClusterHooksToHookStatus(hooks))
 
 			Expect(orderedHookGroups).To(HaveLen(2), "Should create two groups")
 
@@ -47,7 +73,7 @@ var _ = Describe("HookOrderingGroup Creation", func() {
 				createHook("ro-2", executionv1.ReadOnly, 0),
 			}
 
-			orderedHookGroups := FromUnorderedList(hooks)
+			orderedHookGroups := FromUnorderedList(MapHooksToHookStatus(hooks))
 
 			Expect(orderedHookGroups).To(HaveLen(1))
 			Expect(orderedHookGroups[0]).To(HaveLen(2))
@@ -61,7 +87,7 @@ var _ = Describe("HookOrderingGroup Creation", func() {
 				createHook("ro-2", executionv1.ReadOnly, 0),
 			}
 
-			orderedHookGroups := FromUnorderedList(hooks)
+			orderedHookGroups := FromUnorderedList(MapHooksToHookStatus(hooks))
 
 			Expect(len(orderedHookGroups)).To(Equal(3))
 
@@ -78,7 +104,7 @@ var _ = Describe("HookOrderingGroup Creation", func() {
 				createHook("rw-2", executionv1.ReadAndWrite, 1),
 			}
 
-			orderedHookGroups := FromUnorderedList(hooks)
+			orderedHookGroups := FromUnorderedList(MapHooksToHookStatus(hooks))
 
 			Expect(orderedHookGroups).To(HaveLen(2), "Should create two groups")
 
@@ -100,7 +126,7 @@ var _ = Describe("HookOrderingGroup Creation", func() {
 				createHook("ro-4", executionv1.ReadOnly, 1),
 			}
 
-			orderedHookGroups := FromUnorderedList(hooks)
+			orderedHookGroups := FromUnorderedList(MapHooksToHookStatus(hooks))
 
 			Expect(orderedHookGroups).To(Equal([][]*executionv1.HookStatus{
 				{
@@ -130,7 +156,7 @@ var _ = Describe("HookOrderingGroup Creation", func() {
 				createHook("ro-5", executionv1.ReadOnly, 1),
 			}
 
-			orderedHookGroups := FromUnorderedList(hooks)
+			orderedHookGroups := FromUnorderedList(MapHooksToHookStatus(hooks))
 
 			Expect(orderedHookGroups).To(Equal([][]*executionv1.HookStatus{
 				{

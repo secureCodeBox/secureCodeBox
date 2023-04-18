@@ -32,10 +32,7 @@ func CurrentHookGroup(orderedHookGroup [][]*executionv1.HookStatus) (error, []*e
 	return nil, nil
 }
 
-func FromUnorderedList(hooks []executionv1.ScanCompletionHook) [][]*executionv1.HookStatus {
-	// convert ScanCompletionHook objects to HookStatus objects
-	hookStatuses := mapHookToHookStatus(hooks)
-
+func FromUnorderedList(hookStatuses []*executionv1.HookStatus) [][]*executionv1.HookStatus {
 	// Group hookStatuses into a map by their prio class
 	hooksByPrioClass := map[int][]*executionv1.HookStatus{}
 	// keep a list of existing classes
@@ -64,7 +61,22 @@ func FromUnorderedList(hooks []executionv1.ScanCompletionHook) [][]*executionv1.
 	return groups
 }
 
-func mapHookToHookStatus(hooks []executionv1.ScanCompletionHook) []*executionv1.HookStatus {
+func MapHooksToHookStatus(hooks []executionv1.ScanCompletionHook) []*executionv1.HookStatus {
+	hookStatuses := []*executionv1.HookStatus{}
+
+	for _, hook := range hooks {
+		hookStatuses = append(hookStatuses, &executionv1.HookStatus{
+			HookName: hook.Name,
+			State:    executionv1.Pending,
+			Priority: hook.Spec.Priority,
+			Type:     hook.Spec.Type,
+		})
+	}
+
+	return hookStatuses
+}
+
+func MapClusterHooksToHookStatus(hooks []executionv1.ClusterScanCompletionHook) []*executionv1.HookStatus {
 	hookStatuses := []*executionv1.HookStatus{}
 
 	for _, hook := range hooks {
