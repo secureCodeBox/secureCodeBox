@@ -11,79 +11,60 @@ async function parse(scanResults) {
 
   const imageId = imageScanResult.ArtifactName;
 
-  const findings = [];
-
   // check if scanResults.Results is an array
   if (!Array.isArray(scanResults.Results)) {
     return findings;
   }
 
-  for (const { Target: target, Vulnerabilities } of scanResults.Results) {
-    const vulnerabilities = Vulnerabilities || [];
-    const category = getCategory(target);
-    for (const vulnerability of vulnerabilities) {
-      let references = null;
-      // Add CVE and NSWG references as CVE/NSWG and URL
-      if (vulnerability.VulnerabilityID.startsWith("CVE-")) {
-      references = [
-        {
-          "type": "CVE",
-          "value": vulnerability.VulnerabilityID
-        },
-        {
-          "type": "URL",
-          "value": `https://nvd.nist.gov/vuln/detail/${vulnerability.VulnerabilityID}`
-        }
-      ];
-    } else if (vulnerability.VulnerabilityID.startsWith("NSWG-")) {
-      references = [
-        {
-          "type": "NSWG",
-          "value": vulnerability.VulnerabilityID
-        },
-        {
-          "type": "URL",
-          "value": `https://github.com/nodejs/security-wg/tree/master/vuln`
-        }
-      ];
-    }
-    // Add all other references as URLs
-    if (vulnerability.References) {
-      for (const reference of vulnerability.References) {
-        if (reference.startsWith("http")) {
-          if (references === null) {
-            references = [];
-          }
-          references.push({
-            "type": "URL",
-            "value": reference
-          });
-        }
-      }
-    }
- 
+  // Use flatMap to iterate through scanResults.Results and flatten the resulting findings array
+const findings = scanResults.Results.flatMap(({ Target: target, Vulnerabilities }) => {
+  const vulnerabilities = Vulnerabilities || [];
+  const category = getCategory(target);
 
-      findings.push({
-        name: vulnerability.Title || `Vulnerability in Dependency ${vulnerability.PkgName} (${vulnerability.InstalledVersion})`,
-        description: vulnerability.Description,
-        category,
-        location: imageId,
-        osi_layer: "NOT_APPLICABLE",
-        severity: getAdjustedSeverity(vulnerability.Severity),
-        mitigation: "Update the affected package " + vulnerability.PkgName + " to the fixed version: " + vulnerability.FixedVersion + " or remove the package from the image.",
-        references,
-        attributes: {
-          installedVersion: vulnerability.InstalledVersion,
-          fixedVersion: vulnerability.FixedVersion,
-          packageName: vulnerability.PkgName,
-          vulnerabilityId: vulnerability.VulnerabilityID,
-          references: vulnerability.References,
-          foundIn: target,
-        },
-      });
-    }
-  }
-  return findings;
+  // Map each vulnerability to a finding object
+  return vulnerabilities.map(vulnerability => {
+    const { VulnerabilityID, References } = vulnerability;
+
+    // Create CVE/NSWG references and their URLs if applicable
+    const cve_nswg_references = VulnerabilityID.startsWith("CVE-") ? [
+      { type: "CVE", value: VulnerabilityID },
+      { type: "URL", value: `https://nvd.nist.gov/vuln/detail/${VulnerabilityID}` }
+    ] : VulnerabilityID.startsWith("NSWG-") ? [
+      { type: "NSWG", value: VulnerabilityID },
+      { type: "URL", value: `https://github.com/nodejs/security-wg/tree/master/vuln` }
+    ] : [];
+
+    // Create URL references from the vulnerability references
+    const url_references = References ? References.filter(ref => ref.startsWith("http")).map(ref => ({ type: "URL", value: ref })) : [];
+
+    // Combine CVE/NSWG and URL references
+    const references = [...cve_nswg_references, ...url_references];
+
+    // Return the findings object for the current vulnerability
+    return {
+      name: vulnerability.Title || `Vulnerability in Dependency ${vulnerability.PkgName} (${vulnerability.InstalledVersion})`,
+      description: vulnerability.Description,
+      category,
+      location: imageId,
+      osi_layer: "NOT_APPLICABLE",
+      severity: getAdjustedSeverity(vulnerability.Severity),
+      mitigation: `Update the affected package ${vulnerability.PkgName} to the fixed version: ${vulnerability.FixedVersion} or remove the package from the image.`,
+      references,
+      attributes: {
+        installedVersion: vulnerability.InstalledVersion,
+        fixedVersion: vulnerability.FixedVersion,
+        packageName: vulnerability.PkgName,
+        vulnerabilityId: VulnerabilityID,
+        references: References,
+        foundIn: target,
+      },
+    };
+  });
+});
+
+return findings;
+
+  
 }
 
 function getCategory(target) {

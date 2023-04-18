@@ -55,23 +55,27 @@ async function parse({ host, ip, port: portString, banner, vulnerabilities }) {
     // We can only guess at this point. Nikto doesn't tell use anymore :(
     const protocol = port === 443 || port === 8443 ? "https" : "http";
 
-    const refs = references ? [
-      {
-        "type": "URL",
-        "value": references,
-      }
-    ] : null;
+    // Create a regular expression to extract the CWE reference number
+    const regex = new RegExp("\\d*(?=\\.html)");
 
-    if(references?.startsWith("https://cwe.mitre.org")){
-      // Extract CWE id from URL
-      const regex = new RegExp("\\d*(?=\\.html)");
-      const cweRef = references.match(regex)[0];
-
-      refs.push({
-        "type": "CWE",
-        "value": `CWE-${cweRef}`
-      })
-    }
+    const refs = references
+      ? [
+          {
+            type: "URL",
+            value: references,
+          },
+          // If the references string starts with a CWE URL, add a CWE reference object
+          ...(references.startsWith("https://cwe.mitre.org")
+            ? [
+                {
+                  type: "CWE",
+                  value: `CWE-${references.match(regex)[0]}`,
+                },
+              ]
+            : []),
+        ]
+      : null;
+    
 
     return {
       name: msg.trimRight(),
@@ -87,7 +91,7 @@ async function parse({ host, ip, port: portString, banner, vulnerabilities }) {
         method,
         port,
         niktoId,
-        references: refs || null,
+        references: refs.length > 0 ? refs : null,
       },
     };
   });
