@@ -91,7 +91,7 @@ async function parse({ host, ip, port: portString, banner, vulnerabilities }) {
         method,
         port,
         niktoId,
-        references: refs.length > 0 ? refs : null,
+        references: refs
       },
     };
   });
