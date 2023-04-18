@@ -12,50 +12,43 @@ async function parse(fileContent) {
 
   return jsonResult.map((finding) => {
     const hostname = parseHostname(finding.host);
-    let timestamp;
-    let references = [];
-    finding.info?.reference?.forEach(element => {
-      references.push(
-        {
-          "type": "URL",
-          "value": element
-        }
-      );
-    });
+   // Add reference URLs to the references array
+    const urlReferences = finding.info.reference ? finding.info.reference.flatMap(url => ({
+      type: "URL",
+      value: url
+    })) : [];
 
-    const cweId = finding?.info?.classification?.["cwe-id"]?.[0] ?? null; 
-    if(cweId !== null) {
-      references.push(
-          {
-            "type": "CWE",
-            "value": cweId.toUpperCase()
-          },
-          {
-            "type": "URL",
-            "value": `https://cwe.mitre.org/data/definitions/${cweId}.html`
-          }
-      );
-    }
+    // Add CWE reference to the references array
+    const cweIds = finding?.info?.classification?.["cwe-id"] ?? [];
+    const cweReferences = cweIds.flatMap(cweId => [
+      {
+        type: "CWE",
+        value: cweId.toUpperCase()
+      },
+      {
+        type: "URL",
+        value: `https://cwe.mitre.org/data/definitions/${cweId}.html`
+      }
+    ]);
+    
+    // Add CVE reference to the references array
+    const cveIds = finding?.info?.classification?.["cve-id"] ?? [];
+    const cveReferences = cveIds.flatMap(cveId => [
+      {
+        type: "CVE",
+        value: cveId.toUpperCase()
+      },
+      {
+        type: "URL",
+        value: `https://nvd.nist.gov/vuln/detail/${cveId}`
+      }
+    ]);
+  
+      
+  
+    const references = [...urlReferences, ...cweReferences, ...cveReferences];
 
-    const cveId = finding?.info?.classification?.["cve-id"]?.[0] ?? null;
-    if(cveId !== null) {
-      references.push(
-        {
-          "type": "CVE",
-          "value": cveId.toUpperCase()
-        },
-
-        {
-          "type": "URL",
-          "value": `https://nvd.nist.gov/vuln/detail/${cveId}`
-        }
-      );
-    }
-
-
-    if (finding.timestamp) {
-        timestamp = new Date(finding.timestamp).toISOString();
-    }
+    const timestamp = finding.timestamp ? new Date(finding.timestamp).toISOString() : null;
 
     return {
       name: finding.info.name,
