@@ -57,28 +57,24 @@ function createFindingFromAlert(alert, { location, host, port }) {
   }
 
   const urlList = alert.reference.split('<p>').filter(item => item !== '').map(item => stripHtmlTags(item));
-  let references = []
-  urlList.forEach(element => {
-    references.push(
+  const urlReferences = urlList.map(element => ({
+    type: "URL",
+    value: element,
+  }));
+  
+  const cweReferences = (alert.cweid !== '-1' && alert.cweid !== undefined) ? [
     {
-      "type": "URL",
-      "value": element
-    });
-  });
-
-  if(alert.cweid !== '-1' && alert.cweid !== undefined){
-    references.push(
-      {
-        "type": "CWE",
-        "value": "CWE-" + alert.cweid
-      },
-      {
-        "type": "URL",
-        "value": "https://cwe.mitre.org/data/definitions/" + alert.cweid + ".html"
-      });
-  }
- 
-  console.log(references);
+      type: "CWE",
+      value: "CWE-" + alert.cweid,
+    },
+    {
+      type: "URL",
+      value: "https://cwe.mitre.org/data/definitions/" + alert.cweid + ".html",
+    },
+  ] : [];
+  
+  const references = [...urlReferences, ...cweReferences];
+  
 
   return {
     name: stripHtmlTags(alert.name),

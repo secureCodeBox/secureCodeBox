@@ -26,32 +26,37 @@ async function parse(fileContent) {
     const severity = severityMap.has(result.extra.severity.toLowerCase()) ? severityMap.get(result.extra.severity.toLowerCase()) : "INFORMATIONAL"
 
 
-    const references = result.extra.metadata?.references?.map((link) => {
-      return {
-        "type": "URL",
-        "value": link,
-      }
-    });
-
-    if(result.extra.metadata.cwe != null) {
-      const cweReference = String(result.extra.metadata.cwe).substring(4,6); 
-      references.push(
-        {
-          "type": "CWE",
-          "value": `CWE-${cweReference}`
-        },
-        {
-          "type": "URL",
-          "value": `https://cwe.mitre.org/data/definitions/${cweReference}.html`
-        });
-    }
+    const cwe = result.extra.metadata?.cwe;
+    const cweReference = cwe ? String(cwe).substring(4, 6) : null;
+    
+    const references = [
+      // Map metadata references to an array of URL reference objects
+      ...(result.extra.metadata?.references?.map(link => ({
+        type: "URL",
+        value: link,
+      })) || []),
+      // If a CWE reference exists, add CWE and URL reference objects for it
+      ...(cweReference
+        ? [
+            {
+              type: "CWE",
+              value: `CWE-${cweReference}`,
+            },
+            {
+              type: "URL",
+              value: `https://cwe.mitre.org/data/definitions/${cweReference}.html`,
+            },
+          ]
+        : []),
+    ];
+    
     const attributes = {
       // Common weakness enumeration, if available
       "cwe": result.extra.metadata.cwe || null,
       // OWASP category, if available
       "owasp_category": result.extra.metadata.owasp || null,
       // References given in the rule
-      "references": references || null,
+      "references": references.length > 0 ? references : null,
       // Link to the semgrep rule
       "rule_source": result.extra.metadata.source || null,
       // Which line of code matched?

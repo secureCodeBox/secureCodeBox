@@ -49,38 +49,30 @@ async function parse(findings) {
   // Check if any core vulnerabilities exist; if yes list findings
   let parsed_vulnerabilities = []
   if (findings.vulnerabilities_count > 0) {
-    parsed_vulnerabilities = findings.vulnerabilities.map((vuln) => {
+    parsed_vulnerabilities = findings.vulnerabilities.map(vuln => {
+      // Fetch CVE from vulnerability references
       const cve = fetchCVE(vuln.references);
-
+      const separator = " : ";
+      
+      // Create CVE reference object if CVE exists
       const cve_reference = cve ? [
-        {
-          "type": "CVE",
-          "value": cve
-        },
-        {
-          "type": "URL",
-          "value": `https://www.cve.org/CVERecord?id=${cve}`
-        }
-      ] : []
-
-      const urls = vuln.references.filter((ref) => ref.includes("http")).map((ref) => {
-        const separator = " : ";
-        if (ref.includes(separator)) {
-              return ref.split(separator)[1].trim();
-        } else {
-              return ref
-        }
-      });
-
-      const urls_references = urls.map((url) => {
-        return {
-          "type": "URL",
-          "value": url
-        };
-      });
-
-      const references = urls_references.length > 0 ? urls_references.concat(cve_reference) : cve_reference;
-     
+        { type: "CVE", value: cve },
+        { type: "URL", value: `https://www.cve.org/CVERecord?id=${cve}` }
+      ] : []; // Empty array if no CVE exists
+  
+      // Create URL reference objects from the vulnerability references
+      const urls_references = vuln.references
+        .filter(ref => ref.includes("http"))
+        .map(ref => ({
+          type: "URL",
+          // Extract the URL if the reference includes the separator, otherwise use the whole reference
+          value: ref.includes(separator) ? ref.split(separator)[1].trim() : ref
+        }));
+  
+      // Combine URL and CVE references, and filter out any empty reference
+      const references = [...urls_references, ...cve_reference].filter(r => r);
+  
+      // Return the parsed vulnerability object
       return {
         name: vuln.name,
         identified_at: last_scanned,
@@ -89,14 +81,14 @@ async function parse(findings) {
         location: findings.url,
         osi_layer: "APPLICATION",
         severity: "HIGH",
-        references: references.length > 0 ? references : null, 
+        references: references.length > 0 ? references : null,
         attributes: {
           joomla_version: findings.joomla_version,
-          references: vuln.references,
+          references: vuln.references
         }
       };
     });
-  }
+  }   
   // concat all parsed results
   return parsed_vulnerabilities.concat(parsed_backupFiles).concat(parsed_debug_mode_enabled)
 }
