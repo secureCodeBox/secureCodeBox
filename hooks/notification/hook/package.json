@@ -39,7 +39,7 @@
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "nodemailer": "^6.6.3",
-    "nunjucks": "^3.2.3",
+    "nunjucks": "^3.2.4",
     "typescript": "^4.3.5"
   }
 }
