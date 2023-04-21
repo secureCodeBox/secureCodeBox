@@ -10,6 +10,7 @@ import {
   cloneDeep,
   pickBy,
   forEach,
+  isArray,
 } from "lodash";
 import {isMatch as wildcardIsMatch} from "matcher";
 import * as Mustache from "mustache";
@@ -321,6 +322,31 @@ function mergeCascadingRuleWithScan(scan: Scan, cascadingRule: CascadingRule) {
   };
 }
 
+function hostOrIP(finding: Finding): string {
+  if (finding.attributes["hostname"]) {
+    return finding.attributes["hostname"];
+  }
+  if (finding.attributes["ip_address"]) {
+    return finding.attributes["ip_address"];
+  }
+  if (finding.attributes["ip"]) {
+    return finding.attributes["ip"];
+  }
+  if (
+    finding.attributes["ip_addresses"] &&
+    isArray(
+      finding.attributes["ip_addresses"] &&
+        finding.attributes["ip_addresses"].length > 0
+    )
+  ) {
+    return finding.attributes["ip_addresses"][0];
+  }
+  if (finding.attributes["doggy_dns_address"]) {
+    return finding.attributes["doggy_dns_address"];
+  }
+  return "";
+}
+
 function templateCascadingRule(
   parentScan: Scan,
   finding: Finding,
@@ -331,8 +357,7 @@ function templateCascadingRule(
     ...parentScan,
     // Attribute "$" hold special non finding helper attributes
     $: {
-      hostOrIP:
-        finding.attributes["hostname"] || finding.attributes["ip_address"],
+      hostOrIP: hostOrIP(finding),
     },
   };
 
