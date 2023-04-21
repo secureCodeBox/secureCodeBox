@@ -2,8 +2,16 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import { isMatch, isMatchWith, isString, mapValues, cloneDeep, pickBy, forEach } from "lodash";
-import { isMatch as wildcardIsMatch } from "matcher";
+import {
+  isMatch,
+  isMatchWith,
+  isString,
+  mapValues,
+  cloneDeep,
+  pickBy,
+  forEach,
+} from "lodash";
+import {isMatch as wildcardIsMatch} from "matcher";
 import * as Mustache from "mustache";
 
 import {
@@ -21,23 +29,26 @@ import {
   mergeInheritedArray,
   mergeInheritedSelector,
 } from "./scan-helpers";
-import {
-  isInScope,
-  scopeDomain,
-} from "./scope-limiter";
+import {isInScope, scopeDomain} from "./scope-limiter";
 
 interface HandleArgs {
   scan: Scan;
   getFindings: () => Array<Finding>;
 }
 
-export async function handle({ scan, getFindings }: HandleArgs) {
+export async function handle({scan, getFindings}: HandleArgs) {
   const findings = await getFindings();
   const cascadingRules = await getCascadingRules(scan);
   const cascadedRuleUsedForParentScan = await getCascadedRuleForScan(scan);
   const parseDefinition = await getParseDefinition(scan);
 
-  const cascadingScans = getCascadingScans(scan, findings, cascadingRules, cascadedRuleUsedForParentScan, parseDefinition);
+  const cascadingScans = getCascadingScans(
+    scan,
+    findings,
+    cascadingRules,
+    cascadedRuleUsedForParentScan,
+    parseDefinition
+  );
 
   for (const cascadingScan of cascadingScans) {
     await startSubsequentSecureCodeBoxScan(cascadingScan);
@@ -63,12 +74,15 @@ export function getCascadingScans(
   findings: Array<Finding>,
   cascadingRules: Array<CascadingRule>,
   cascadedRuleUsedForParentScan: CascadingRule,
-  parseDefinition: ParseDefinition,
+  parseDefinition: ParseDefinition
 ): Array<Scan> {
   let cascadingScans: Array<Scan> = [];
   const cascadingRuleChain = getScanChain(parentScan);
 
-  parentScan = purgeCascadedRuleFromScan(parentScan, cascadedRuleUsedForParentScan);
+  parentScan = purgeCascadedRuleFromScan(
+    parentScan,
+    cascadedRuleUsedForParentScan
+  );
 
   for (const cascadingRule of cascadingRules) {
     // Check if the Same CascadingRule was already applied in the Cascading Chain
@@ -83,11 +97,15 @@ export function getCascadingScans(
     // Check for new scope annotations
     forEach(cascadingRule.spec.scanAnnotations, (value, key) => {
       if (key.startsWith(scopeDomain)) {
-        throw new Error(`may not add scope annotation '${key}':'${value}' in Cascading Rule spec`)
+        throw new Error(
+          `may not add scope annotation '${key}':'${value}' in Cascading Rule spec`
+        );
       }
     });
 
-    cascadingScans = cascadingScans.concat(getScansMatchingRule(parentScan, findings, cascadingRule, parseDefinition))
+    cascadingScans = cascadingScans.concat(
+      getScansMatchingRule(parentScan, findings, cascadingRule, parseDefinition)
+    );
   }
 
   return cascadingScans;
@@ -103,14 +121,14 @@ export function getScanChain(parentScan: Scan) {
       "cascading.securecodebox.io/chain"
     ].split(",");
   }
-  return []
+  return [];
 }
 
 function getScansMatchingRule(
   parentScan: Scan,
   findings: Array<Finding>,
   cascadingRule: CascadingRule,
-  parseDefinition: ParseDefinition,
+  parseDefinition: ParseDefinition
 ) {
   const cascadingScans: Array<Scan> = [];
   for (const finding of findings) {
@@ -119,25 +137,37 @@ function getScansMatchingRule(
       parentScan.spec.cascades.scopeLimiter,
       parentScan.metadata.annotations,
       finding,
-      parseDefinition.spec.scopeLimiterAliases,
+      parseDefinition.spec.scopeLimiterAliases
     );
 
     if (!inScope) {
-      console.log(`Cascading Rule ${cascadingRule.metadata.name} not triggered as scope limiter did not pass`);
-      console.log(`Scan annotations ${JSON.stringify(parentScan.metadata.annotations)}`);
-      console.log(`Scope limiter ${JSON.stringify(parentScan.spec.cascades.scopeLimiter)}`);
-      console.log(`Scope limiter aliases ${JSON.stringify(parseDefinition.spec.scopeLimiterAliases)}`);
+      console.log(
+        `Cascading Rule ${cascadingRule.metadata.name} not triggered as scope limiter did not pass`
+      );
+      console.log(
+        `Scan annotations ${JSON.stringify(parentScan.metadata.annotations)}`
+      );
+      console.log(
+        `Scope limiter ${JSON.stringify(parentScan.spec.cascades.scopeLimiter)}`
+      );
+      console.log(
+        `Scope limiter aliases ${JSON.stringify(
+          parseDefinition.spec.scopeLimiterAliases
+        )}`
+      );
       console.log(`Finding ${JSON.stringify(finding)}`);
       continue;
     }
 
     // Check if one (ore more) of the CascadingRule matchers apply to the finding
-    const matches = cascadingRule.spec.matches.anyOf.some(matchesRule =>
-      isMatch(finding, matchesRule) || isMatchWith(finding, matchesRule, wildcardMatcher)
+    const matches = cascadingRule.spec.matches.anyOf.some(
+      (matchesRule) =>
+        isMatch(finding, matchesRule) ||
+        isMatchWith(finding, matchesRule, wildcardMatcher)
     );
 
     if (matches) {
-      cascadingScans.push(getCascadingScan(parentScan, finding, cascadingRule))
+      cascadingScans.push(getCascadingScan(parentScan, finding, cascadingRule));
     }
   }
   return cascadingScans;
@@ -149,11 +179,25 @@ function getCascadingScan(
   cascadingRule: CascadingRule
 ) {
   // Make a deep copy of the original cascading rule so that we can template it again with different findings.
-  cascadingRule = templateCascadingRule(parentScan, finding, cloneDeep(cascadingRule));
+  cascadingRule = templateCascadingRule(
+    parentScan,
+    finding,
+    cloneDeep(cascadingRule)
+  );
 
-  let { scanType, parameters } = cascadingRule.spec.scanSpec;
+  let {scanType, parameters} = cascadingRule.spec.scanSpec;
 
-  let { annotations, labels, env, volumes, volumeMounts, initContainers, hookSelector, affinity, tolerations } = mergeCascadingRuleWithScan(parentScan, cascadingRule);
+  let {
+    annotations,
+    labels,
+    env,
+    volumes,
+    volumeMounts,
+    initContainers,
+    hookSelector,
+    affinity,
+    tolerations,
+  } = mergeCascadingRuleWithScan(parentScan, cascadingRule);
 
   let cascadingChain = getScanChain(parentScan);
 
@@ -170,9 +214,11 @@ function getCascadingScan(
         "cascading.securecodebox.io/matched-finding": finding.id,
         "cascading.securecodebox.io/chain": [
           ...cascadingChain,
-          cascadingRule.metadata.name
+          cascadingRule.metadata.name,
         ].join(","),
-        ...pickBy(parentScan.metadata.annotations, (value, key) => key.startsWith(scopeDomain)),
+        ...pickBy(parentScan.metadata.annotations, (value, key) =>
+          key.startsWith(scopeDomain)
+        ),
       },
       ownerReferences: [
         {
@@ -181,9 +227,9 @@ function getCascadingScan(
           controller: true,
           kind: "Scan",
           name: parentScan.metadata.name,
-          uid: parentScan.metadata.uid
-        }
-      ]
+          uid: parentScan.metadata.uid,
+        },
+      ],
     },
     spec: {
       hookSelector,
@@ -196,18 +242,32 @@ function getCascadingScan(
       initContainers,
       tolerations,
       affinity,
-      resourceMode: parentScan.spec.resourceMode ?? 'namespaceLocal',
-    }
+      resourceMode: parentScan.spec.resourceMode ?? "namespaceLocal",
+    },
   };
 }
 
-function mergeCascadingRuleWithScan(
-  scan: Scan,
-  cascadingRule: CascadingRule
-) {
-  const { scanAnnotations, scanLabels } = cascadingRule.spec;
-  let { env = [], volumes = [], volumeMounts = [], initContainers = [], hookSelector = {}, affinity, tolerations } = cascadingRule.spec.scanSpec;
-  let { inheritAnnotations, inheritLabels, inheritEnv, inheritVolumes, inheritInitContainers, inheritHookSelector, inheritAffinity = true, inheritTolerations = true} = scan.spec.cascades;
+function mergeCascadingRuleWithScan(scan: Scan, cascadingRule: CascadingRule) {
+  const {scanAnnotations, scanLabels} = cascadingRule.spec;
+  let {
+    env = [],
+    volumes = [],
+    volumeMounts = [],
+    initContainers = [],
+    hookSelector = {},
+    affinity,
+    tolerations,
+  } = cascadingRule.spec.scanSpec;
+  let {
+    inheritAnnotations,
+    inheritLabels,
+    inheritEnv,
+    inheritVolumes,
+    inheritInitContainers,
+    inheritHookSelector,
+    inheritAffinity = true,
+    inheritTolerations = true,
+  } = scan.spec.cascades;
 
   // We have to use a slightly complicated logic for inheriting / setting the tolerations and affinity to work around some
   // limitations in the operator. The goal is to avoid setting anything to an empty list [] or empty map {} if the keys are actually
@@ -216,29 +276,49 @@ function mergeCascadingRuleWithScan(
   // specified an empty list or map.
   let selectedTolerations = undefined;
   if (tolerations !== undefined) {
-    selectedTolerations = mergeInheritedArray(scan.spec.tolerations, tolerations, inheritTolerations);
+    selectedTolerations = mergeInheritedArray(
+      scan.spec.tolerations,
+      tolerations,
+      inheritTolerations
+    );
   } else if (inheritTolerations) {
     selectedTolerations = scan.spec.tolerations;
   }
 
   let selectedAffinity = undefined;
   if (affinity !== undefined) {
-    selectedAffinity = affinity
+    selectedAffinity = affinity;
   } else if (inheritAffinity) {
     selectedAffinity = scan.spec.affinity;
   }
-  
+
   return {
-    annotations: mergeInheritedMap(scan.metadata.annotations, scanAnnotations, inheritAnnotations),
+    annotations: mergeInheritedMap(
+      scan.metadata.annotations,
+      scanAnnotations,
+      inheritAnnotations
+    ),
     labels: mergeInheritedMap(scan.metadata.labels, scanLabels, inheritLabels),
     env: mergeInheritedArray(scan.spec.env, env, inheritEnv),
     volumes: mergeInheritedArray(scan.spec.volumes, volumes, inheritVolumes),
-    volumeMounts: mergeInheritedArray(scan.spec.volumeMounts, volumeMounts, inheritVolumes),
-    initContainers: mergeInheritedArray(scan.spec.initContainers, initContainers, inheritInitContainers),
-    hookSelector: mergeInheritedSelector(scan.spec.hookSelector, hookSelector, inheritHookSelector),
+    volumeMounts: mergeInheritedArray(
+      scan.spec.volumeMounts,
+      volumeMounts,
+      inheritVolumes
+    ),
+    initContainers: mergeInheritedArray(
+      scan.spec.initContainers,
+      initContainers,
+      inheritInitContainers
+    ),
+    hookSelector: mergeInheritedSelector(
+      scan.spec.hookSelector,
+      hookSelector,
+      inheritHookSelector
+    ),
     affinity: selectedAffinity,
-    tolerations: selectedTolerations
-  }
+    tolerations: selectedTolerations,
+  };
 }
 
 function templateCascadingRule(
@@ -252,52 +332,63 @@ function templateCascadingRule(
     // Attribute "$" hold special non finding helper attributes
     $: {
       hostOrIP:
-        finding.attributes["hostname"] || finding.attributes["ip_address"]
-    }
+        finding.attributes["hostname"] || finding.attributes["ip_address"],
+    },
   };
 
-  const { scanSpec, scanAnnotations, scanLabels } = cascadingRule.spec;
-  const { scanType, parameters, initContainers } = scanSpec;
+  const {scanSpec, scanAnnotations, scanLabels} = cascadingRule.spec;
+  const {scanType, parameters, initContainers} = scanSpec;
 
   // Templating for scanType
-  cascadingRule.spec.scanSpec.scanType =
-    Mustache.render(scanType, templateArgs);
+  cascadingRule.spec.scanSpec.scanType = Mustache.render(
+    scanType,
+    templateArgs
+  );
   // Templating for scan parameters
-  cascadingRule.spec.scanSpec.parameters =
-    parameters.map(parameter => Mustache.render(parameter, templateArgs))
+  cascadingRule.spec.scanSpec.parameters = parameters.map((parameter) =>
+    Mustache.render(parameter, templateArgs)
+  );
   // Templating for environmental variables
   if (cascadingRule.spec.scanSpec.env !== undefined) {
-    cascadingRule.spec.scanSpec.env.forEach(envvar => {
+    cascadingRule.spec.scanSpec.env.forEach((envvar) => {
       // We only want to template literal envs that have a specified value.
       // If no value is set, we don't want to modify anything as it may break things for other types
       // of env variable definitions.
       if (envvar.value !== undefined) {
-        envvar.value = Mustache.render(envvar.value, templateArgs)
+        envvar.value = Mustache.render(envvar.value, templateArgs);
       }
     });
   }
   // Templating inside initContainers
-  cascadingRule.spec.scanSpec.initContainers = initContainers
+  cascadingRule.spec.scanSpec.initContainers = initContainers;
   if (cascadingRule.spec.scanSpec.initContainers !== undefined) {
-    cascadingRule.spec.scanSpec.initContainers.forEach(container => {
+    cascadingRule.spec.scanSpec.initContainers.forEach((container) => {
       // Templating for the command
-      container.command = container.command.map(parameter => Mustache.render(parameter, templateArgs));
+      container.command = container.command.map((parameter) =>
+        Mustache.render(parameter, templateArgs)
+      );
       // Templating for env variables, similar to above.
       if (container.env !== undefined) {
-        container.env.forEach(envvar => {
+        container.env.forEach((envvar) => {
           if (envvar.value !== undefined) {
-            envvar.value = Mustache.render(envvar.value, templateArgs)
+            envvar.value = Mustache.render(envvar.value, templateArgs);
           }
-        })
+        });
       }
     });
   }
   // Templating for scan annotations
   cascadingRule.spec.scanAnnotations =
-    scanAnnotations === undefined ? {} :mapValues(scanAnnotations, value => Mustache.render(value, templateArgs))
+    scanAnnotations === undefined
+      ? {}
+      : mapValues(scanAnnotations, (value) =>
+          Mustache.render(value, templateArgs)
+        );
   // Templating for scan labels
   cascadingRule.spec.scanLabels =
-    scanLabels === undefined ? {} : mapValues(scanLabels, value => Mustache.render(value, templateArgs))
+    scanLabels === undefined
+      ? {}
+      : mapValues(scanLabels, (value) => Mustache.render(value, templateArgs));
 
   return cascadingRule;
 }
@@ -319,15 +410,16 @@ function generateCascadingScanName(
   return `${namePrefix}-${cascadingRule.metadata.name}`;
 }
 
-function wildcardMatcher(
-  findingValue: any,
-  matchesRuleValue: any
-) : boolean {
-  if(isString(findingValue) && isString(matchesRuleValue)){
-    try{
-      return wildcardIsMatch(findingValue.toString(), matchesRuleValue.toString(), {caseSensitive: true});
+function wildcardMatcher(findingValue: any, matchesRuleValue: any): boolean {
+  if (isString(findingValue) && isString(matchesRuleValue)) {
+    try {
+      return wildcardIsMatch(
+        findingValue.toString(),
+        matchesRuleValue.toString(),
+        {caseSensitive: true}
+      );
       // return new RegExp('^' + new String(matchesRuleValue).replace(/\*/g, '.*') + '$').test(findingValue);
-    } catch(error) {
+    } catch (error) {
       return false;
     }
   }

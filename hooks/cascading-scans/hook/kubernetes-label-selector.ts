@@ -6,7 +6,7 @@ export enum LabelSelectorRequirementOperator {
   In = "In",
   NotIn = "NotIn",
   Exists = "Exists",
-  DoesNotExist = "DoesNotExist"
+  DoesNotExist = "DoesNotExist",
 }
 
 // See: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#labelselectorrequirement-v1-meta
@@ -26,20 +26,28 @@ export interface LabelSelector {
 // generateSelectorString transforms a kubernetes labelSelector object in to the string representation
 export function generateSelectorString({
   matchExpressions = [],
-  matchLabels = new Map()
+  matchLabels = new Map(),
 }: LabelSelector): string {
-  const matchLabelsSelector = Array.from(Object.entries(matchLabels)).map(generateLabelsSelectorString);
+  const matchLabelsSelector = Array.from(Object.entries(matchLabels)).map(
+    generateLabelsSelectorString
+  );
 
-  const matchExpressionsSelector = matchExpressions.map(generateExpressionsSelectorString);
+  const matchExpressionsSelector = matchExpressions.map(
+    generateExpressionsSelectorString
+  );
 
   return [...matchLabelsSelector, ...matchExpressionsSelector].join(",");
 }
 
 function generateLabelsSelectorString([key, values]) {
-  return `${key}=${values}`
+  return `${key}=${values}`;
 }
 
-function generateExpressionsSelectorString({key, values, operator}: LabelSelectorRequirement) {
+function generateExpressionsSelectorString({
+  key,
+  values,
+  operator,
+}: LabelSelectorRequirement) {
   switch (operator) {
     case LabelSelectorRequirementOperator.In:
     case LabelSelectorRequirementOperator.NotIn:
