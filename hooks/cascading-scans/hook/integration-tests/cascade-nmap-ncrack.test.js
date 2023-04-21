@@ -2,15 +2,15 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const { cascadingScan } = require("../../../../tests/integration/helpers");
-var { jest } = require('@jest/globals')
+const {cascadingScan} = require("../../../../tests/integration/helpers");
+var {jest} = require("@jest/globals");
 
 jest.retryTimes(3);
 
 test(
   "Cascading Scan nmap -> ncrack on dummy-ssh",
   async () => {
-    const { categories, severities, count } = await cascadingScan(
+    const {categories, severities, count} = await cascadingScan(
       "nmap-dummy-ssh",
       "nmap",
       ["-Pn", "-sV", "dummy-ssh.demo-targets.svc"],
