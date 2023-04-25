@@ -10,7 +10,7 @@ ARG scannerVersion
 RUN apk add git \
     && git clone https://github.com/jtesta/ssh-audit.git \
     && cd ssh-audit \
-    && rm -r .git .github doc
+    && rm -r .git .github
 
 # Runtime Image
 FROM python:3.9-alpine as runtime
@@ -30,4 +30,4 @@ WORKDIR /home/securecodebox/
 
 USER 1001
 
-ENTRYPOINT [ "python3", "/home/ssh-audit/ssh-audit.py" ]
+ENTRYPOINT [ "sh" "/wrapper.sh" ]
