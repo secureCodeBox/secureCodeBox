@@ -97,8 +97,8 @@ s3:
   keySecret: my-secret
   # Names to the attributes in the s3 secret
   secretAttributeNames:
-    accesskey: accesskey
-    secretkey: secretkey
+    accesskey: accessKey
+    secretkey: secretKey
   # s3.awsStsEndpoint -- STS Endpoint used in AWS IRSA Authentication. Change this to the sts endpoint of your aws region. Only used when s3.authType is set to "aws-irsa"
   awsStsEndpoint: "https://sts.amazonaws.com"
 
