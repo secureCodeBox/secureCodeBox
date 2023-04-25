@@ -19,14 +19,14 @@ spec:
             - name: ssh-audit
               image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
               command:
-                #- "sh"
-                #- "/wrapper.sh"
-                - "python3"
-                - "/home/ssh-audit/ssh-audit.py"
+                - "sh"
+                - "/wrapper.sh"
+                #- "python3"
+                #- "ssh-audit/ssh-audit.py"
                 # Remove any user-interation
                 #- "--no-interaction"
                 # Output in json format
-                - "-j"
+                #- "-j"
 
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
