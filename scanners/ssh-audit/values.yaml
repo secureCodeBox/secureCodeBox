@@ -1,0 +1,47 @@
+parser:
+  image:
+    repository: 
+    tag: null
+  
+  ttlSecondsAfterFinished: null
+  backoffLimit: 3
+  env: []
+  scopeLimiterAliases: {}
+
+scanner:
+  image: 
+    repository: docker.io/sofialohr/ssh-audit
+    tag: latest
+
+  ttlSecondsAfterFinished: null
+  backoffLimit: 3
+
+
+  # scanner.resources -- CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)
+  resources: {}
+  #   resources:
+  #     requests:
+  #       memory: "256Mi"
+  #       cpu: "250m"
+  #     limits:
+  #       memory: "512Mi"
+  #       cpu: "500m" 
+
+env: []
+
+  # scanner.extraVolumes -- Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
+extraVolumes: []
+
+  # scanner.extraVolumeMounts -- Optional VolumeMounts mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
+extraVolumeMounts: []
+# scanner.extraContainers -- Optional additional Containers started with each scanJob (see: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
+extraContainers: []
+# scanner.securityContext -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+securityContext:
+  runAsNonRoot: true
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  privileged: false
+  capabilities:
+    drop:
+      - all
