@@ -10,8 +10,8 @@ parser:
 
 scanner:
   image: 
-    repository: docker.io/sofialohr/ssh-audit
-    tag: latest
+    repository:  docker.io/sam/ssh
+    tag: "0.1"
 
   ttlSecondsAfterFinished: null
   backoffLimit: 3
