@@ -1,0 +1,8 @@
+apiVersion: execution.securecodebox.io/v1
+kind: ParseDefinition
+metadata:
+  name: ssh-audit-json
+spec:
+  image: "{{ .Values.parser.image.repository }}:{{ .Values.parser.image.tag | default .Chart.Version }}"
+  ttlSecondsAfterFinished: {{ .Values.parser.ttlSecondsAfterFinished }}
+  env: {{ toYaml .Values.parser.env | nindent 4 }}
