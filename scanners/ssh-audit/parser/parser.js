@@ -2,21 +2,25 @@ const templates = {
     del: {
         kex: {
             description: "Good / encouraged SSH compression algorithms are missing",
-            name: "Missing SSH compression algorithms"
+            name: "Insecure SSH Kex Algorithms",
+            hint: "Remove this Kex Algorithm"
         },
         key: {
             description: "Good / encouraged SSH compression algorithms are missing",
-            name: "Missing SSH compression algorithms"
+            name: "Insecure SSH Key Algorithms",
+            hint: "Remove this Key Algorithm"
         },
         mac: {
             description: "Good / encouraged SSH compression algorithms are missing",
-            name: "Missing SSH compression algorithms"
+            name: "Insecure SSH MAC Algorithms",
+            hint: "Remove this MAC Algorithm"
         }
     },
     chg: {
         kex: {
             description: "Change Keks",
-            name: "Change Keks"
+            name: "Change Kex Algorithm",
+            hint: "Change this kex Algorthm"
         }
     }
 }
@@ -60,20 +64,23 @@ async function parse({ target, banner, enc, kex, key, mac, compression, fingerpr
         if (recommendationSeverityLevel == "critical") severity = 'HIGH'
         if (recommendationSeverityLevel == "warning") severity = 'MEDIUM'
 
+        // recommendationAction = del
         Object.entries(value).map(([recommendationAction, algorithms]) => {
+            //algorithmType = kex/ key/ mac, , algorithmNames = {name+note}
             Object.entries(algorithms).map(([algorithmType, algorithmNames]) => {
                 const findingTemplate = templates[recommendationAction][algorithmType] || null;
                 if (findingTemplate != null) {
                     findingTemplate['severity'] = severity
                     findingTemplate['category'] = "SSH Policy Violation"
                     policyViolationFindings.push(findingTemplate)
-                    console.log(findingTemplate)
+                    //console.log("algorithmType\n\n\n",algorithmType)
+                    //console.log("algorithmNames\n\n\n",algorithmNames)
                 }
             })
         })
     })
 
-
+    const destination = target.split(":")
     const serviceFinding = {
         name: "SSH Service",
         description: "SSH Service Information",
@@ -83,9 +90,9 @@ async function parse({ target, banner, enc, kex, key, mac, compression, fingerpr
         severity: "INFORMATIONAL",
         reference: {},
         mitigation: null,
-        location: target,
+        location: destination[0],
         attributes: {
-            hostname: target || null,
+            hostname: destination[0] || null,
             ip_address: "todo",
             server_banner: banner?.raw || null,
             ssh_version: banner?.protocol[0] || null,
@@ -358,5 +365,5 @@ const test = {
     "target": "iteratec.com:22"
 }
 
-parse(test)
+console.log(parse(test))
 module.exports.parse = parse;
