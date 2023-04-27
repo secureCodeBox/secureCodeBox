@@ -51,8 +51,8 @@ SHELL = /bin/sh
 
 IMG_NS ?= securecodebox
 GIT_TAG ?= $$(git rev-parse --short HEAD)
-BASE_IMG_TAG ?= sha-$(GIT_TAG)
-IMG_TAG ?= "sha-$(GIT_TAG)"
+BASE_IMG_TAG ?= latest
+IMG_TAG ?= latest
 JEST_VERSION ?= 29.3.1
 KIND_CLUSTER_NAME ?= kind
 
