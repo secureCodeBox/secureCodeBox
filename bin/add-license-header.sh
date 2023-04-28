@@ -12,7 +12,7 @@
 #
 # Usage:
 #   add-license-header.sh file1 file2 file3
-#   cat file_list.txt | add-license-header.sh
+#   cat spdx-report.md | ./add-license-header.sh
 #
 # To generate the file list use `reuse lint`. This produces a Markdown report:
 #   docker run --rm --volume $(pwd):/data fsfe/reuse lint > files.txt > spdx-report.md
