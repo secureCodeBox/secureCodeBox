@@ -36,7 +36,7 @@ fi
 
 for file in $FILES; do
   echo "Adding HEADER to file: $file"
-  docker run --rm --volume $(pwd):/data fsfe/reuse addheader \
+  docker run --rm --volume $(pwd):/data fsfe/reuse annotate \
     --copyright "iteratec GmbH" \
     --year 2021 \
     --license "Apache-2.0" \
