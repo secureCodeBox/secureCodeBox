@@ -15,7 +15,7 @@
 #   cat file_list.txt | add-license-header.sh
 #
 # To generate the file list use `reuse lint`. This produces a Markdown report:
-#   reuse lint > spdx-report.md
+#   docker run --rm --volume $(pwd):/data fsfe/reuse lint > files.txt > spdx-report.md
 #
 # See also:
 # - https://spdx.org
