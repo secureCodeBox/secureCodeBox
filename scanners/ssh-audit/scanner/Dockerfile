@@ -8,7 +8,7 @@ ARG scannerVersion
 
 # Install git and Clone Repo 
 RUN apk add git \
-    && git clone https://github.com/jtesta/ssh-audit.git \
+    && git clone https://github.com/jtesta/ssh-audit.git --depth 1 --branch $scannerVersion \
     && cd ssh-audit \
     && rm -r .git .github
 
@@ -21,9 +21,6 @@ COPY --from=base --chown=1001:1001 /ssh-audit /home/sshaudit/
 COPY wrapper.sh /wrapper.sh
 
 WORKDIR /home/sshaudit/
-
-# Install Typo3Scan python requirements
-#RUN python3 -m pip install -r requirements.txt
 
 # Switch work dir to scb folder so that the results get written there, and its available for local docker runs.
 WORKDIR /home/securecodebox/
