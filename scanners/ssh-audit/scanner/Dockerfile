@@ -8,10 +8,10 @@ ARG scannerVersion
 
 # Install git and Clone Repo 
 RUN apk add git \
-    && git clone https://github.com/jtesta/ssh-audit.git --depth 1 --branch $scannerVersion \
+    && git clone https://github.com/jtesta/ssh-audit.git  \
     && cd ssh-audit \
     && rm -r .git .github
-
+# --depth 1 --branch ${scannerVersion}
 # Runtime Image
 FROM python:3.9-alpine as runtime
 

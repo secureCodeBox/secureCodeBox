@@ -5,7 +5,7 @@ description: A Helm chart for Kubernetes
 type: application
 version: v3.1.0-alpha1
 
-appVersion: v2.9.0
+appVersion: "v2.9.0"
 kubeVersion: ">=v1.11.0-0"
 
 annotations:
