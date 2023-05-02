@@ -64,6 +64,7 @@ async function parse({ target, banner, enc, kex, key, mac, compression, fingerpr
         policyViolationFindings.push(transformRecommendationToFinding(recommendationSeverityLevel, value))
         
     })
+    const policyViolationFinding = policyViolationFindings.flat()
 
     const destination = target.split(":")
     const serviceFinding = {
@@ -91,8 +92,8 @@ async function parse({ target, banner, enc, kex, key, mac, compression, fingerpr
             fingerprints: fingerprints //ask
         }
     };
-    //return [serviceFinding, ...policyViolationFindings];
-    return [serviceFinding];
+    return [serviceFinding, ...policyViolationFinding];
+    //return [serviceFinding];
     
 }
 const test = {
