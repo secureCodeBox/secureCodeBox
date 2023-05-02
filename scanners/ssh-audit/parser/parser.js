@@ -30,27 +30,30 @@ const templates = {
  * Transforms a recommendation string from thessh-audit Tools into a SSH Policy Violation Findings
  * 
  */
-function transformRecommendationToFinding(
-    recommendation, {
-        hostname,
-        ipAddress
-    },
-    identified_at
-) {
-    for (const rule of policyViolationFindingRules) {
-        if (rule.policyViolationPrefix.test(recommendation)) {
-            return createPolicyViolationFinding({
-                name: rule.findingTemplate.name,
-                description: rule.findingTemplate.description,
-                identified_at: identified_at,
-                recommendation,
-                host: {
-                    hostname,
-                    ipAddress
+function transformRecommendationToFinding( recommendationSeverityLevel, value) {
+     // SSH audit has critical and warnings as recommendations. 
+        // These are HIGH and MEDIUM severities, respectively
+        const policyViolationFindings = [];
+        var severity = "low";
+        if (recommendationSeverityLevel == "critical") severity = 'HIGH'
+        if (recommendationSeverityLevel == "warning") severity = 'MEDIUM'
+        const findingTemplate = null;
+        // recommendationAction = del
+        Object.entries(value).map(([recommendationAction, algorithms]) => {
+            //algorithmType = kex/ key/ mac, , algorithmNames = {name+note}
+            Object.entries(algorithms).map(([algorithmType, algorithmData]) => {
+                const findingTemplate = templates[recommendationAction][algorithmType] || null;
+                if (findingTemplate != null && typeof(findingTemplate) != "undefined") {
+                    findingTemplate['severity'] = severity
+                    findingTemplate['category'] = "SSH Policy Violation"
+                    //console.log("algorithmType\n\n\n",algorithmType)
+                    //console.log("algorithmNames\n\n\n",algorithmNames)
+                    policyViolationFindings.push(findingTemplate)
                 }
-            });
-        }
-    }
+            })
+        })
+
+        return policyViolationFindings;
 }
 
 async function parse({ target, banner, enc, kex, key, mac, compression, fingerprints, recommendations }) {
@@ -58,26 +61,8 @@ async function parse({ target, banner, enc, kex, key, mac, compression, fingerpr
     const recommendationsArray = Object.entries(recommendations)
     const policyViolationFindings = [];
     recommendationsArray.map(([recommendationSeverityLevel, value]) => {
-        // SSH audit has critical and warnings as recommendations. 
-        // These are HIGH and MEDIUM severities, respectively
-        var severity = null;
-        if (recommendationSeverityLevel == "critical") severity = 'HIGH'
-        if (recommendationSeverityLevel == "warning") severity = 'MEDIUM'
-
-        // recommendationAction = del
-        Object.entries(value).map(([recommendationAction, algorithms]) => {
-            //algorithmType = kex/ key/ mac, , algorithmNames = {name+note}
-            Object.entries(algorithms).map(([algorithmType, algorithmNames]) => {
-                const findingTemplate = templates[recommendationAction][algorithmType] || null;
-                if (findingTemplate != null) {
-                    findingTemplate['severity'] = severity
-                    findingTemplate['category'] = "SSH Policy Violation"
-                    policyViolationFindings.push(findingTemplate)
-                    //console.log("algorithmType\n\n\n",algorithmType)
-                    //console.log("algorithmNames\n\n\n",algorithmNames)
-                }
-            })
-        })
+        policyViolationFindings.push(transformRecommendationToFinding(recommendationSeverityLevel, value))
+        
     })
 
     const destination = target.split(":")
@@ -106,7 +91,9 @@ async function parse({ target, banner, enc, kex, key, mac, compression, fingerpr
             fingerprints: fingerprints //ask
         }
     };
-    return [serviceFinding, ...policyViolationFindings];
+    //return [serviceFinding, ...policyViolationFindings];
+    return [serviceFinding];
+    
 }
 const test = {
     "banner": {
