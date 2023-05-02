@@ -39,15 +39,52 @@ const templates = {
         },
         enc: {
             name: "Insecure SSH Encryption Algorithms",
-            description: "Discouraged SSH Encryption algorithms are in use",
-            hint: "Remove these MAC Algorithms"
+            description: "Discouraged SSH Encryption algorithms in use",
+            hint: "Remove these Encryption Algorithms"
         }
     },
-    chg: {
+    chgCritical: {
         kex: {
-            name: "Change Kex Algorithms",
-            description: "Weak Kex Algorithms in use",
-            hint: "Change these Kex Algorthms"
+            name: "SSH Kex Algorithms must be changed",
+            description: "Weak Key Exchange Algorithms in use",
+            hint: "Change these Algorithms"
+        },
+        key: {
+            name: "SSH Key Algorithms must be changed",
+            description: "Weak Key Algorithms in use",
+            hint: "Change these Algorithms"
+        },
+        mac: {
+            name: "SSH MAC Algorithms must be changed",
+            description: "Weak MAC Algorithms in use",
+            hint: "Change these Algorithms"
+        },
+        enc: {
+            name: "SSH Encryption Algorithms must be changed",
+            description: "Weak Encryption Algorithms in use",
+            hint: "Change these Algorithms"
+        }
+    },
+    chgWarning: {
+        kex: {
+            name: "SSH Kex Algorithms must be changed",
+            description: "Weak Key Exchange Algorithms in use",
+            hint: "Change these Algorithms"
+        },
+        key: {
+            name: "SSH Key Algorithms must be changed",
+            description: "Weak Key Algorithms in use",
+            hint: "Change these Algorithms"
+        },
+        mac: {
+            name: "SSH MAC Algorithms must be changed",
+            description: "Weak MAC Algorithms in use",
+            hint: "Change these Algorithms"
+        },
+        enc: {
+            name: "SSH Encryption Algorithms must be changed",
+            description: "Weak Encryption Algorithms in use",
+            hint: "Change these Algorithms"
         }
     }
 }
@@ -70,25 +107,28 @@ function transformRecommendationToFinding(recommendationSeverityLevel, value) {
         //algorithmType = kex/ key/ mac, , algorithmNames = {name+note}
         Object.entries(algorithms).map(([algorithmType, algorithmData]) => {
             const algorithmNames = []
-            Object.entries(algorithmData).flatMap(([namee, notes]) => { algorithmNames.push(Object.values(notes)) })
-            //console.log(algorithmNames.flat())
-            var action = "test";
+            Object.entries(algorithmData).flatMap(([keyNames, content]) => { algorithmNames.push(Object.values(content)) })
+            //console.log(algorithmNames)
+            //console.log(algorithmData)
+            var action = "";
             if (recommendationAction == "del" && recommendationSeverityLevel == "critical") action = "delCritical"
-            else action = "delWarning"
+            else if (recommendationAction == "del" && recommendationSeverityLevel == "warning") action = "delWarning"
+            else if (recommendationAction == "chg" && recommendationSeverityLevel == "critical") action = "chgCritical"
+            else if (recommendationAction == "chg" && recommendationSeverityLevel == "warning") action = "chgWarning"
             const findingTemplate = templates[action][algorithmType] || null;
 
             if (findingTemplate != null && typeof (findingTemplate) != "undefined") {
                 findingTemplate['severity'] = severity
                 findingTemplate['category'] = "SSH Policy Violation"
                 
-                testArray = []
-                algorithmNames.map(([la, le]) => {
-                    if (le == "") testArray.push(la)
-                    else testArray.push((la + " (Note: " + le + ")"))
+                combinedAlgorithmNames = []
+                algorithmNames.map(([algName, note]) => {
+                    if (note == "") combinedAlgorithmNames.push(algName)
+                    else combinedAlgorithmNames.push((algName + " (Note: " + note + ")"))
                 })
 
-                //console.log(testArray)
-                findingTemplate['algorithms'] = testArray.flat()
+                //console.log(combinedAlgorithmNames)
+                findingTemplate['algorithms'] = combinedAlgorithmNames.flat()
                 //console.log("algorithmType\n\n\n",algorithmType)
                 //console.log("algorithmNames\n\n\n",algorithmNames)
                 policyViolationFindings.push(findingTemplate)
@@ -106,7 +146,6 @@ async function parse({ target, banner, enc, kex, key, mac, compression, fingerpr
     const policyViolationFindings = [];
     recommendationsArray.map(([recommendationSeverityLevel, value]) => {
         policyViolationFindings.push(transformRecommendationToFinding(recommendationSeverityLevel, value))
-
     })
     const policyViolationFinding = policyViolationFindings.flat()
 
