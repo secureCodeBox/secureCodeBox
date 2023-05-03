@@ -45,3 +45,6 @@ securityContext:
   capabilities:
     drop:
       - all
+
+cascadingRules: 
+  enabled: true

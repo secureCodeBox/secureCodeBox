@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "cascading.securecodebox.io/v1"
+kind: CascadingRule
+metadata:
+  name: "ssh-audit"
+  labels:
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/intensive: light
+spec:
+  matches:
+    anyOf:
+      - category: "Open Port"
+        attributes:
+          port: 22
+          state: open
+      - category: "Open Port"
+        attributes:
+          service: "ssh"
+          state: open
+  scanSpec:
+    scanType: "ssh-audit"
+    parameters:
+      - "{{$.hostOrIP}}"
+      - "--port={{attributes.port}}"
