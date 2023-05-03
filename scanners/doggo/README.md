@@ -3,7 +3,7 @@ title: "doggo"
 category: "scanner"
 type: "Network"
 state: "released"
-appVersion: "v0.5.4"
+appVersion: "v0.5.5"
 usecase: "DNS client (like dig)"
 ---
 
