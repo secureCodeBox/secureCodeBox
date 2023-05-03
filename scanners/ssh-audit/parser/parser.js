@@ -144,13 +144,21 @@ function transformCVEtoFinding(cves) {
     //console.log(Object.values(cves))
     const cvesArray = Object.values(cves)
     const cvesFindings = []
+    var severity = ''
     Object.values(cvesArray).flatMap(({cvssv2, description, name}) => {
         //console.log(cvssv2, description, name )
         const findingTemplate = {}
+        if (cvssv2 < 4) severity = "LOW"
+        else if (cvssv2 < 7) severity = "MEDIUM"
+        else severity = "HIGH"
         findingTemplate['name'] = name
         findingTemplate['description'] = description
+        findingTemplate['category'] = "SSH Violation"
+        findingTemplate['severity'] = severity
         findingTemplate['cvssv2'] = cvssv2
-        findingTemplate['URL'] = `https://nvd.nist.gov/vuln/detail/${name}`
+        findingTemplate['references'] = {}
+        findingTemplate['references']['type'] = `URL`
+        findingTemplate['references']['value'] = `https://nvd.nist.gov/vuln/detail/${name}`
         cvesFindings.push(findingTemplate)
     })
     return cvesFindings;
@@ -171,27 +179,23 @@ async function parse({ target, banner, enc, kex, key, mac, compression, fingerpr
     const destination = target.split(":")
     const serviceFinding = {
         name: "SSH Service",
-        description: "SSH Service Information",
+        description: "Information about Used SSH Algorithms",
         identified_at: identified_at,
         category: "SSH Service",
         osi_layer: "APPLICATION",
         severity: "INFORMATIONAL",
-        reference: {},
-        mitigation: null,
         location: destination[0],
         attributes: {
             hostname: destination[0] || null,
-            ip_address: "todo",
             server_banner: banner?.raw || null,
             ssh_version: banner?.protocol[0] || null,
-            os_cpe: "todo",
             ssh_lib_cpe: banner?.software,
             key_algorithms: key,
             encryption_algorithms: enc,
             mac_algorithms: mac,
             compression_algorithms: compression,
             key_exchange_algorithms: kex,
-            fingerprints: fingerprints //ask
+            fingerprints: fingerprints 
         }
     };
     return [serviceFinding, ...policyViolationFinding, ...cvesFindings];
