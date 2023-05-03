@@ -140,7 +140,23 @@ function transformRecommendationToFinding(recommendationSeverityLevel, value) {
     return policyViolationFindings;
 }
 
-async function parse({ target, banner, enc, kex, key, mac, compression, fingerprints, recommendations }) {
+function transformCVEtoFinding(cves) {
+    //console.log(Object.values(cves))
+    const cvesArray = Object.values(cves)
+    const cvesFindings = []
+    Object.values(cvesArray).flatMap(({cvssv2, description, name}) => {
+        //console.log(cvssv2, description, name )
+        const findingTemplate = {}
+        findingTemplate['name'] = name
+        findingTemplate['description'] = description
+        findingTemplate['cvssv2'] = cvssv2
+        findingTemplate['URL'] = `https://nvd.nist.gov/vuln/detail/${name}`
+        cvesFindings.push(findingTemplate)
+    })
+    return cvesFindings;
+}
+
+async function parse({ target, banner, enc, kex, key, mac, compression, fingerprints, recommendations, cves}) {
     const identified_at = new Date().toISOString();
     const recommendationsArray = Object.entries(recommendations)
     const policyViolationFindings = [];
@@ -148,6 +164,9 @@ async function parse({ target, banner, enc, kex, key, mac, compression, fingerpr
         policyViolationFindings.push(transformRecommendationToFinding(recommendationSeverityLevel, value))
     })
     const policyViolationFinding = policyViolationFindings.flat()
+
+    const cvesFindings = transformCVEtoFinding(cves)
+
 
     const destination = target.split(":")
     const serviceFinding = {
@@ -175,7 +194,7 @@ async function parse({ target, banner, enc, kex, key, mac, compression, fingerpr
             fingerprints: fingerprints //ask
         }
     };
-    return [serviceFinding, ...policyViolationFinding];
+    return [serviceFinding, ...policyViolationFinding, ...cvesFindings];
     //return [serviceFinding];
 
 }
