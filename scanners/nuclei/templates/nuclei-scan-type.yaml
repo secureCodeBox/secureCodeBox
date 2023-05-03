@@ -41,7 +41,7 @@ spec:
                 {{ if .Values.nucleiTemplateCache.enabled }}
                 - "-disable-update-check"
                 {{ end }}
-                - "-jsonl"
+                - "-json"
                 - "-output"
                 - "/home/securecodebox/nuclei-results.jsonl"
               resources:
