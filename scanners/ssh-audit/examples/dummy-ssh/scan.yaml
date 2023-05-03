@@ -1,0 +1,8 @@
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "ssh-ssh-demo-cluster-internal"
+spec:
+  scanType: "ssh-audit"
+  parameters:
+    - "dummy-ssh.default.svc"
