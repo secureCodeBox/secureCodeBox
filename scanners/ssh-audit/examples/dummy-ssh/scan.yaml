@@ -5,4 +5,4 @@ metadata:
 spec:
   scanType: "ssh-audit"
   parameters:
-    - "dummy-ssh.default.svc"
+    - "dummy-ssh.demo-targets.svc"
