@@ -269,6 +269,7 @@ jobs:
           - nuclei
           - screenshooter
           - semgrep
+          - ssh-audit
           - ssh-scan
           - sslyze
           - trivy

@@ -415,6 +415,7 @@ jobs:
           - ncrack
           - nmap
           - nikto
+          - ssh-audit
           - sslyze
           - typo3scan
           - whatweb
