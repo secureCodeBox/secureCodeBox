@@ -29,6 +29,7 @@ jobs:
           - ncrack
           - nuclei
           - semgrep
+          - ssh-audit
           - ssh-scan
           - sslyze
           - trivy
