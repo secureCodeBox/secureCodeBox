@@ -2,13 +2,12 @@
     {
         "name": "SSH Service",
         "description": "Information about Used SSH Algorithms",
-        "identified_at": "2023-05-03T12:55:27.295Z",
         "category": "SSH Service",
         "osi_layer": "APPLICATION",
         "severity": "INFORMATIONAL",
         "location": "dummy-ssh.demo-targets.svc",
         "attributes": {
-            "hostname": "dummy-ssh.demo-targets.svc",
+            "host": "dummy-ssh.demo-targets.svc",
             "server_banner": "SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu2.8",
             "ssh_version": 2,
             "ssh_lib_cpe": "OpenSSH_7.2p2",
@@ -100,13 +99,13 @@
                 }
             ]
         },
-        "id": "9c5e7f4c-c1b6-428b-8d33-040cfa7806b3",
-        "parsed_at": "2023-05-03T12:55:27.295Z"
+        "id": "25883c4f-4b6f-4a6f-9ee8-8a55f17f7658",
+        "parsed_at": "2023-05-05T13:40:29.167Z"
     },
     {
-        "name": "Insecure SSH Kex Algorithms",
+        "name": "Insecure SSH KEX Algorithms",
         "description": "Discouraged SSH key exchange algorithms in use",
-        "hint": "Remove these Kex Algorithms",
+        "hint": "Remove these KEX algorithms",
         "severity": "HIGH",
         "category": "SSH Policy Violation",
         "algorithms": [
@@ -115,52 +114,52 @@
             "ecdh-sha2-nistp384",
             "ecdh-sha2-nistp521"
         ],
-        "id": "b31655e3-5480-4fb1-ab3f-ef8154eee008",
-        "parsed_at": "2023-05-03T12:55:27.295Z"
+        "id": "50c857c4-b6fc-4277-9164-f697d009e08d",
+        "parsed_at": "2023-05-05T13:40:29.167Z"
     },
     {
         "name": "Insecure SSH Key Algorithms",
-        "description": "Discouraged SSH Key Algorithms in use",
-        "hint": "Remove these Key Algorithms",
+        "description": "Discouraged SSH key algorithms in use",
+        "hint": "Remove these key algorithms",
         "severity": "HIGH",
         "category": "SSH Policy Violation",
         "algorithms": [
             "ecdsa-sha2-nistp256",
             "ssh-rsa"
         ],
-        "id": "ad1b8257-5f53-47e2-a373-7a2d58256e5d",
-        "parsed_at": "2023-05-03T12:55:27.295Z"
+        "id": "973fa149-a41c-4ba4-96bb-2a7aed09dd17",
+        "parsed_at": "2023-05-05T13:40:29.167Z"
     },
     {
         "name": "Insecure SSH MAC Algorithms",
-        "description": "Discouraged SSH MAC algorithms in use",
-        "hint": "Remove these MAC Algorithms",
+        "description": "Discouraged SSH message authentication code algorithms in use",
+        "hint": "Remove these MAC algorithms",
         "severity": "HIGH",
         "category": "SSH Policy Violation",
         "algorithms": [
             "hmac-sha1",
             "hmac-sha1-etm@openssh.com"
         ],
-        "id": "32da653f-c8a0-4274-a940-f4d7cdf1034e",
-        "parsed_at": "2023-05-03T12:55:27.295Z"
+        "id": "c1b185f0-3f3c-4244-bc57-aefd86e1c1e9",
+        "parsed_at": "2023-05-05T13:40:29.167Z"
     },
     {
         "name": "SSH Key Algorithms must be changed",
-        "description": "Weak Key Algorithms in use",
-        "hint": "Change these Algorithms",
+        "description": "Weak SSH key algorithms in use",
+        "hint": "Change these key algorithms",
         "severity": "MEDIUM",
         "category": "SSH Policy Violation",
         "algorithms": [
             "rsa-sha2-256 (Note: increase modulus size to 3072 bits or larger)",
             "rsa-sha2-512 (Note: increase modulus size to 3072 bits or larger)"
         ],
-        "id": "14fdb922-56f6-49c9-aeb6-305cd643ea40",
-        "parsed_at": "2023-05-03T12:55:27.295Z"
+        "id": "f90bd7d5-fdf1-41ad-a289-614c06b26774",
+        "parsed_at": "2023-05-05T13:40:29.167Z"
     },
     {
         "name": "Insecure SSH MAC Algorithms",
-        "description": "Discouraged SSH MAC algorithms in use",
-        "hint": "Remove these MAC Algorithms",
+        "description": "Discouraged SSH message authentication code algorithms in use",
+        "hint": "Remove these MAC algorithms",
         "severity": "MEDIUM",
         "category": "SSH Policy Violation",
         "algorithms": [
@@ -170,8 +169,8 @@
             "umac-64-etm@openssh.com",
             "umac-64@openssh.com"
         ],
-        "id": "27fe8715-367e-48be-aa99-f11835254bf9",
-        "parsed_at": "2023-05-03T12:55:27.295Z"
+        "id": "be99060d-8d08-4333-abbe-47b5fe86ce70",
+        "parsed_at": "2023-05-05T13:40:29.167Z"
     },
     {
         "name": "CVE-2021-41617",
@@ -179,12 +178,18 @@
         "category": "SSH Violation",
         "severity": "HIGH",
         "cvssv2": 7,
-        "references": {
-            "type": "URL",
-            "value": "https://nvd.nist.gov/vuln/detail/CVE-2021-41617"
-        },
-        "id": "261cd576-0f29-4231-8434-42ea6a1bd9a4",
-        "parsed_at": "2023-05-03T12:55:27.295Z"
+        "references": [
+            {
+                "type": "CVE",
+                "value": "CVE-2021-41617"
+            },
+            {
+                "type": "URL",
+                "value": "https://nvd.nist.gov/vuln/detail/CVE-2021-41617"
+            }
+        ],
+        "id": "628b18fc-2616-4139-b236-89820fe8ea06",
+        "parsed_at": "2023-05-05T13:40:29.167Z"
     },
     {
         "name": "CVE-2020-15778",
@@ -192,12 +197,18 @@
         "category": "SSH Violation",
         "severity": "HIGH",
         "cvssv2": 7.8,
-        "references": {
-            "type": "URL",
-            "value": "https://nvd.nist.gov/vuln/detail/CVE-2020-15778"
-        },
-        "id": "0625731a-840a-4599-91c7-791ca59629cb",
-        "parsed_at": "2023-05-03T12:55:27.295Z"
+        "references": [
+            {
+                "type": "CVE",
+                "value": "CVE-2020-15778"
+            },
+            {
+                "type": "URL",
+                "value": "https://nvd.nist.gov/vuln/detail/CVE-2020-15778"
+            }
+        ],
+        "id": "a0d18e47-34c3-4dc3-9f15-9409315c421e",
+        "parsed_at": "2023-05-05T13:40:29.167Z"
     },
     {
         "name": "CVE-2018-15919",
@@ -205,12 +216,18 @@
         "category": "SSH Violation",
         "severity": "MEDIUM",
         "cvssv2": 5.3,
-        "references": {
-            "type": "URL",
-            "value": "https://nvd.nist.gov/vuln/detail/CVE-2018-15919"
-        },
-        "id": "33495e1f-ebee-4b30-8c02-ed073809ddbe",
-        "parsed_at": "2023-05-03T12:55:27.296Z"
+        "references": [
+            {
+                "type": "CVE",
+                "value": "CVE-2018-15919"
+            },
+            {
+                "type": "URL",
+                "value": "https://nvd.nist.gov/vuln/detail/CVE-2018-15919"
+            }
+        ],
+        "id": "8ce576e9-ecd6-4d3d-b188-68412ca02acf",
+        "parsed_at": "2023-05-05T13:40:29.167Z"
     },
     {
         "name": "CVE-2018-15473",
@@ -218,12 +235,18 @@
         "category": "SSH Violation",
         "severity": "MEDIUM",
         "cvssv2": 5.3,
-        "references": {
-            "type": "URL",
-            "value": "https://nvd.nist.gov/vuln/detail/CVE-2018-15473"
-        },
-        "id": "f938f9f7-3755-433e-937a-a7785a2566b9",
-        "parsed_at": "2023-05-03T12:55:27.296Z"
+        "references": [
+            {
+                "type": "CVE",
+                "value": "CVE-2018-15473"
+            },
+            {
+                "type": "URL",
+                "value": "https://nvd.nist.gov/vuln/detail/CVE-2018-15473"
+            }
+        ],
+        "id": "4e47b995-a599-4dc1-b257-5420578d0694",
+        "parsed_at": "2023-05-05T13:40:29.167Z"
     },
     {
         "name": "CVE-2016-20012",
@@ -231,12 +254,18 @@
         "category": "SSH Violation",
         "severity": "MEDIUM",
         "cvssv2": 5.3,
-        "references": {
-            "type": "URL",
-            "value": "https://nvd.nist.gov/vuln/detail/CVE-2016-20012"
-        },
-        "id": "28d675ee-a335-4ca6-84ca-00521e96188e",
-        "parsed_at": "2023-05-03T12:55:27.296Z"
+        "references": [
+            {
+                "type": "CVE",
+                "value": "CVE-2016-20012"
+            },
+            {
+                "type": "URL",
+                "value": "https://nvd.nist.gov/vuln/detail/CVE-2016-20012"
+            }
+        ],
+        "id": "2e5808dd-5f20-4cce-848d-820adbffd42b",
+        "parsed_at": "2023-05-05T13:40:29.167Z"
     },
     {
         "name": "CVE-2016-6515",
@@ -244,12 +273,18 @@
         "category": "SSH Violation",
         "severity": "HIGH",
         "cvssv2": 7.8,
-        "references": {
-            "type": "URL",
-            "value": "https://nvd.nist.gov/vuln/detail/CVE-2016-6515"
-        },
-        "id": "fcf224cb-cb1f-4802-9f87-a200041208e7",
-        "parsed_at": "2023-05-03T12:55:27.296Z"
+        "references": [
+            {
+                "type": "CVE",
+                "value": "CVE-2016-6515"
+            },
+            {
+                "type": "URL",
+                "value": "https://nvd.nist.gov/vuln/detail/CVE-2016-6515"
+            }
+        ],
+        "id": "602c561a-a03c-415d-8f06-19303a36707b",
+        "parsed_at": "2023-05-05T13:40:29.168Z"
     },
     {
         "name": "CVE-2015-8325",
@@ -257,11 +292,17 @@
         "category": "SSH Violation",
         "severity": "HIGH",
         "cvssv2": 7.2,
-        "references": {
-            "type": "URL",
-            "value": "https://nvd.nist.gov/vuln/detail/CVE-2015-8325"
-        },
-        "id": "3827e534-cdaa-4500-a265-712e83363a4c",
-        "parsed_at": "2023-05-03T12:55:27.296Z"
+        "references": [
+            {
+                "type": "CVE",
+                "value": "CVE-2015-8325"
+            },
+            {
+                "type": "URL",
+                "value": "https://nvd.nist.gov/vuln/detail/CVE-2015-8325"
+            }
+        ],
+        "id": "65a5222e-e6c4-4b14-a7bf-963926bb7cdf",
+        "parsed_at": "2023-05-05T13:40:29.168Z"
     }
 ]
