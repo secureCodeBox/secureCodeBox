@@ -1,90 +1,90 @@
 const templates = {
     delCritical: {
         kex: {
-            name: "Insecure SSH Kex Algorithms",
+            name: "Insecure SSH KEX Algorithms",
             description: "Discouraged SSH key exchange algorithms in use",
-            hint: "Remove these Kex Algorithms"
+            hint: "Remove these KEX algorithms"
         },
         key: {
             name: "Insecure SSH Key Algorithms",
-            description: "Discouraged SSH Key Algorithms in use",
-            hint: "Remove these Key Algorithms"
+            description: "Discouraged SSH key algorithms in use",
+            hint: "Remove these key algorithms"
         },
         mac: {
             name: "Insecure SSH MAC Algorithms",
-            description: "Discouraged SSH MAC algorithms in use",
-            hint: "Remove these MAC Algorithms"
+            description: "Discouraged SSH message authentication code algorithms in use",
+            hint: "Remove these MAC algorithms"
         },
         enc: {
             name: "Insecure SSH Encryption Algorithms",
             description: "Discouraged SSH Encryption algorithms are in use",
-            hint: "Remove these MAC Algorithms"
+            hint: "Remove these encryption algorithms"
         }
     },
     delWarning: {
         kex: {
-            name: "Insecure SSH Kex Algorithms",
+            name: "Insecure SSH KEX Algorithms",
             description: "Discouraged SSH key exchange algorithms in use",
-            hint: "Remove these Kex Algorithms"
+            hint: "Remove these KEX algorithms"
         },
         key: {
             name: "Insecure SSH Key Algorithms",
-            description: "Discouraged SSH Key Algorithms in use",
-            hint: "Remove these Key Algorithms"
+            description: "Discouraged SSH key algorithms in use",
+            hint: "Remove these key algorithms"
         },
         mac: {
             name: "Insecure SSH MAC Algorithms",
-            description: "Discouraged SSH MAC algorithms in use",
-            hint: "Remove these MAC Algorithms"
+            description: "Discouraged SSH message authentication code algorithms in use",
+            hint: "Remove these MAC algorithms"
         },
         enc: {
             name: "Insecure SSH Encryption Algorithms",
-            description: "Discouraged SSH Encryption algorithms in use",
-            hint: "Remove these Encryption Algorithms"
+            description: "Discouraged SSH Encryption algorithms are in use",
+            hint: "Remove these encryption algorithms"
         }
     },
     chgCritical: {
         kex: {
-            name: "SSH Kex Algorithms must be changed",
-            description: "Weak Key Exchange Algorithms in use",
-            hint: "Change these Algorithms"
+            name: "SSH KEX Algorithms must be changed",
+            description: "Weak SSH key exchange algorithms in use",
+            hint: "Change these KEX algorithms"
         },
         key: {
             name: "SSH Key Algorithms must be changed",
-            description: "Weak Key Algorithms in use",
-            hint: "Change these Algorithms"
+            description: "Weak SSH key algorithms in use",
+            hint: "Change these key algorithms"
         },
         mac: {
             name: "SSH MAC Algorithms must be changed",
-            description: "Weak MAC Algorithms in use",
-            hint: "Change these Algorithms"
+            description: "Weak SSH message authentication code algorithms in use",
+            hint: "Change these MAC algorithms"
         },
         enc: {
             name: "SSH Encryption Algorithms must be changed",
-            description: "Weak Encryption Algorithms in use",
-            hint: "Change these Algorithms"
+            description: "Weak SSH encryption algorithms in use",
+            hint: "Change these encryption algorithms"
         }
     },
     chgWarning: {
         kex: {
-            name: "SSH Kex Algorithms must be changed",
-            description: "Weak Key Exchange Algorithms in use",
-            hint: "Change these Algorithms"
+            name: "SSH KEX Algorithms must be changed",
+            description: "Weak SSH key exchange algorithms in use",
+            hint: "Change these KEX algorithms"
         },
         key: {
             name: "SSH Key Algorithms must be changed",
-            description: "Weak Key Algorithms in use",
-            hint: "Change these Algorithms"
+            description: "Weak SSH key algorithms in use",
+            hint: "Change these key algorithms"
         },
         mac: {
             name: "SSH MAC Algorithms must be changed",
-            description: "Weak MAC Algorithms in use",
-            hint: "Change these Algorithms"
+            description: "Weak SSH message authentication code algorithms in use",
+            hint: "Change these MAC algorithms"
         },
         enc: {
             name: "SSH Encryption Algorithms must be changed",
-            description: "Weak Encryption Algorithms in use",
-            hint: "Change these Algorithms"
+            description: "Weak SSH encryption algorithms in use",
+            hint: "Change these encryption algorithms"
         }
     }
 }
@@ -157,6 +157,7 @@ function transformCVEtoFinding(cves) {
         findingTemplate['severity'] = severity
         findingTemplate['cvssv2'] = cvssv2
         findingTemplate['references'] = []
+        findingTemplate['references'].push({'type':'CVE', 'value':`${name}`})
         findingTemplate['references'].push({'type':'URL', 'value':`https://nvd.nist.gov/vuln/detail/${name}`})
         //findingTemplate['references']['type'] = `URL`
         //findingTemplate['references']['value'] = `https://nvd.nist.gov/vuln/detail/${name}`
@@ -169,7 +170,6 @@ async function parse(fileContent) {
     //{ target, banner, enc, kex, key, mac, compression, fingerprints, recommendations, cves}
     const host = fileContent;
     if (typeof(host) === "string") return []
-    const identified_at = new Date().toISOString();
     const recommendationsArray = Object.entries(host.recommendations)
     const policyViolationFindings = [];
     recommendationsArray.map(([recommendationSeverityLevel, value]) => {
@@ -184,13 +184,12 @@ async function parse(fileContent) {
     const serviceFinding = {
         name: "SSH Service",
         description: "Information about Used SSH Algorithms",
-        identified_at: identified_at,
         category: "SSH Service",
         osi_layer: "APPLICATION",
         severity: "INFORMATIONAL",
         location: destination[0],
         attributes: {
-            hostname: destination[0] || null,
+            host: destination[0] || null,
             server_banner: host.banner?.raw || null,
             ssh_version: host.banner?.protocol[0] || null,
             ssh_lib_cpe: host.banner?.software,
