@@ -1,12 +1,12 @@
 {
     "banner": {
-        "comments": "Ubuntu-4ubuntu2.8",
+        "comments": "Raspbian-10+deb10u2+rpt1",
         "protocol": [
             2,
             0
         ],
-        "raw": "SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu2.8",
-        "software": "OpenSSH_7.2p2"
+        "raw": "SSH-2.0-OpenSSH_7.9p1 Raspbian-10+deb10u2+rpt1",
+        "software": "OpenSSH_7.9p1"
     },
     "compression": [
         "none",
@@ -24,29 +24,14 @@
             "name": "CVE-2020-15778"
         },
         {
-            "cvssv2": 5.3,
-            "description": "username enumeration via GS2",
-            "name": "CVE-2018-15919"
-        },
-        {
-            "cvssv2": 5.3,
-            "description": "enumerate usernames due to timing discrepancies",
-            "name": "CVE-2018-15473"
+            "cvssv2": 7.8,
+            "description": "memory corruption and local code execution via pre-authentication integer overflow",
+            "name": "CVE-2019-16905"
         },
         {
             "cvssv2": 5.3,
             "description": "enumerate usernames via challenge response",
             "name": "CVE-2016-20012"
-        },
-        {
-            "cvssv2": 7.8,
-            "description": "cause DoS via long password string (crypt CPU consumption)",
-            "name": "CVE-2016-6515"
-        },
-        {
-            "cvssv2": 7.2,
-            "description": "privilege escalation via triggering crafted environment",
-            "name": "CVE-2015-8325"
         }
     ],
     "enc": [
@@ -59,27 +44,30 @@
     ],
     "fingerprints": [
         {
-            "hash": "eLwgzyjvrpwDbDr+pDbIfUhlNANB4DPH9/0w1vGa87E",
+            "hash": "Qljt15P0hpcQdSrAZVME1Vj5fsX/LgKBDtfT7k6T66Q",
             "hash_alg": "SHA256",
             "hostkey": "ssh-ed25519"
         },
         {
-            "hash": "c8:65:6b:d1:59:03:56:21:d9:0f:84:83:ce:ac:40:86",
+            "hash": "d7:0b:7f:bb:5c:2b:1d:44:1d:63:5a:1d:3c:18:a2:e6",
             "hash_alg": "MD5",
             "hostkey": "ssh-ed25519"
         },
         {
-            "hash": "MbRX/CgQyN6/p8/ZjORurfaJqDhu4VEIWfXo0BnxaCE",
+            "hash": "rn+kjXUflGJzrCx7tIGGiJWMFS8gjwy5vFJzxXqK6Nk",
             "hash_alg": "SHA256",
             "hostkey": "ssh-rsa"
         },
         {
-            "hash": "a5:6f:62:26:81:03:b7:5e:06:48:10:04:79:4b:ac:32",
+            "hash": "49:bd:b5:a9:3b:6e:cc:4a:59:69:e6:06:e9:d7:13:4a",
             "hash_alg": "MD5",
             "hostkey": "ssh-rsa"
         }
     ],
     "kex": [
+        {
+            "algorithm": "curve25519-sha256"
+        },
         {
             "algorithm": "curve25519-sha256@libssh.org"
         },
@@ -97,20 +85,29 @@
             "keysize": 2048
         },
         {
+            "algorithm": "diffie-hellman-group16-sha512"
+        },
+        {
+            "algorithm": "diffie-hellman-group18-sha512"
+        },
+        {
+            "algorithm": "diffie-hellman-group14-sha256"
+        },
+        {
             "algorithm": "diffie-hellman-group14-sha1"
         }
     ],
     "key": [
-        {
-            "algorithm": "ssh-rsa",
-            "keysize": 2048
-        },
         {
             "algorithm": "rsa-sha2-512",
             "keysize": 2048
         },
         {
             "algorithm": "rsa-sha2-256",
+            "keysize": 2048
+        },
+        {
+            "algorithm": "ssh-rsa",
             "keysize": 2048
         },
         {
@@ -189,6 +186,12 @@
                 ]
             },
             "del": {
+                "kex": [
+                    {
+                        "name": "diffie-hellman-group14-sha256",
+                        "notes": ""
+                    }
+                ],
                 "mac": [
                     {
                         "name": "hmac-sha2-256",
@@ -214,5 +217,5 @@
             }
         }
     },
-    "target": "dummy-ssh.demo-targets.svc:22"
+    "target": "example.com"
 }
