@@ -1,7 +1,15 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
 parser:
   image:
-    repository: 
+    repository: docker.io/securecodebox/parser-ssh-audit
+    # parser.image.tag -- Parser image tag
+    # @default -- defaults to the charts version
     tag: null
+    # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
+    pullPolicy: IfNotPresent
   
   ttlSecondsAfterFinished: null
   backoffLimit: 3
@@ -10,8 +18,8 @@ parser:
 
 scanner:
   image: 
-    repository:  docker.io/sam/ssh
-    tag: "0.1"
+    repository:  docker.io/securecodebox/scanner-ssh-audit
+    tag: null
 
   ttlSecondsAfterFinished: null
   backoffLimit: 3
@@ -19,14 +27,6 @@ scanner:
 
   # scanner.resources -- CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)
   resources: {}
-  #   resources:
-  #     requests:
-  #       memory: "256Mi"
-  #       cpu: "250m"
-  #     limits:
-  #       memory: "512Mi"
-  #       cpu: "500m" 
-
 env: []
 
   # scanner.extraVolumes -- Optional Volumes mapped into each scanJob (see: https://kubernetes.io/docs/concepts/storage/volumes/)
@@ -47,4 +47,4 @@ securityContext:
       - all
 
 cascadingRules: 
-  enabled: true
+  enabled: false
