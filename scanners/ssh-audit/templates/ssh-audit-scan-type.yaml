@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
 apiVersion: "execution.securecodebox.io/v1"
 kind: ScanType
 metadata:
@@ -21,12 +25,6 @@ spec:
               command:
                 - "sh"
                 - "/wrapper.sh"
-                #- "python3"
-                #- "ssh-audit/ssh-audit.py"
-                # Remove any user-interation
-                #- "--no-interaction"
-                # Output in json format
-                #- "-j"
 
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
