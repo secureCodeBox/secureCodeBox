@@ -8,12 +8,12 @@ const {
   validateParser,
 } = require("@securecodebox/parser-sdk-nodejs/parser-utils");
 
-// eslint-disable-next-line security/detect-non-literal-fs-filename
+
 const readFile = util.promisify(fs.readFile);
 
 const {parse} = require("./parser");
 
-test("ssh-audit parser parses a result into proper findings", async () => {
+test("ssh-audit parser parses a result into proper findings for dummy-ssh", async () => {
     const hosts = JSON.parse(
         await readFile(__dirname + "/__testFiles__/dummy-ssh.json", {
           encoding: "utf8",
@@ -321,7 +321,7 @@ test("should properly parse empty json file", async () => {
 
 
 
-test("ssh-audit parser parses a result into proper findings dfdg", async () => {
+test("ssh-audit parser parses a result into proper findings for an example", async () => {
   const hosts = JSON.parse(
       await readFile(__dirname + "/__testFiles__/example.json", {
         encoding: "utf8",
