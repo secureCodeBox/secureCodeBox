@@ -59,7 +59,8 @@ test("ssh-audit parser parses a result into proper findings for dummy-ssh", asyn
               "hostkey": "ssh-rsa",
             },
           ],
-          "host": "dummy-ssh.demo-targets.svc",
+          "hostname": "dummy-ssh.demo-targets.svc",
+          "ip_address": null,
           "key_algorithms": [
             {
               "algorithm": "ssh-rsa",
@@ -119,9 +120,10 @@ test("ssh-audit parser parses a result into proper findings for dummy-ssh", asyn
         },
         "category": "SSH Service",
         "description": "Information about Used SSH Algorithms",
-        "location": "dummy-ssh.demo-targets.svc",
+        "location": "ssh://dummy-ssh.demo-targets.svc",
         "name": "SSH Service",
         "osi_layer": "APPLICATION",
+        "port": "22",
         "severity": "INFORMATIONAL",
       },
       {
@@ -134,6 +136,7 @@ test("ssh-audit parser parses a result into proper findings for dummy-ssh", asyn
         "category": "SSH Policy Violation",
         "description": "Discouraged SSH key exchange algorithms in use",
         "hint": "Remove these KEX algorithms",
+        "location": "ssh://dummy-ssh.demo-targets.svc",
         "name": "Insecure SSH KEX Algorithms",
         "severity": "HIGH",
       },
@@ -145,6 +148,7 @@ test("ssh-audit parser parses a result into proper findings for dummy-ssh", asyn
         "category": "SSH Policy Violation",
         "description": "Discouraged SSH key algorithms in use",
         "hint": "Remove these key algorithms",
+        "location": "ssh://dummy-ssh.demo-targets.svc",
         "name": "Insecure SSH Key Algorithms",
         "severity": "HIGH",
       },
@@ -156,6 +160,7 @@ test("ssh-audit parser parses a result into proper findings for dummy-ssh", asyn
         "category": "SSH Policy Violation",
         "description": "Discouraged SSH message authentication code algorithms in use",
         "hint": "Remove these MAC algorithms",
+        "location": "ssh://dummy-ssh.demo-targets.svc",
         "name": "Insecure SSH MAC Algorithms",
         "severity": "HIGH",
       },
@@ -167,6 +172,7 @@ test("ssh-audit parser parses a result into proper findings for dummy-ssh", asyn
         "category": "SSH Policy Violation",
         "description": "Weak SSH key algorithms in use",
         "hint": "Change these key algorithms",
+        "location": "ssh://dummy-ssh.demo-targets.svc",
         "name": "SSH Key Algorithms must be changed",
         "severity": "MEDIUM",
       },
@@ -181,6 +187,7 @@ test("ssh-audit parser parses a result into proper findings for dummy-ssh", asyn
         "category": "SSH Policy Violation",
         "description": "Discouraged SSH message authentication code algorithms in use",
         "hint": "Remove these MAC algorithms",
+        "location": "ssh://dummy-ssh.demo-targets.svc",
         "name": "Insecure SSH MAC Algorithms",
         "severity": "MEDIUM",
       },
@@ -188,6 +195,7 @@ test("ssh-audit parser parses a result into proper findings for dummy-ssh", asyn
         "category": "SSH Violation",
         "cvssv2": 7,
         "description": "privilege escalation via supplemental groups",
+        "location": "ssh://dummy-ssh.demo-targets.svc",
         "name": "CVE-2021-41617",
         "references": [
           {
@@ -205,6 +213,7 @@ test("ssh-audit parser parses a result into proper findings for dummy-ssh", asyn
         "category": "SSH Violation",
         "cvssv2": 7.8,
         "description": "command injection via anomalous argument transfers",
+        "location": "ssh://dummy-ssh.demo-targets.svc",
         "name": "CVE-2020-15778",
         "references": [
           {
@@ -222,6 +231,7 @@ test("ssh-audit parser parses a result into proper findings for dummy-ssh", asyn
         "category": "SSH Violation",
         "cvssv2": 5.3,
         "description": "username enumeration via GS2",
+        "location": "ssh://dummy-ssh.demo-targets.svc",
         "name": "CVE-2018-15919",
         "references": [
           {
@@ -239,6 +249,7 @@ test("ssh-audit parser parses a result into proper findings for dummy-ssh", asyn
         "category": "SSH Violation",
         "cvssv2": 5.3,
         "description": "enumerate usernames due to timing discrepancies",
+        "location": "ssh://dummy-ssh.demo-targets.svc",
         "name": "CVE-2018-15473",
         "references": [
           {
@@ -256,6 +267,7 @@ test("ssh-audit parser parses a result into proper findings for dummy-ssh", asyn
         "category": "SSH Violation",
         "cvssv2": 5.3,
         "description": "enumerate usernames via challenge response",
+        "location": "ssh://dummy-ssh.demo-targets.svc",
         "name": "CVE-2016-20012",
         "references": [
           {
@@ -273,6 +285,7 @@ test("ssh-audit parser parses a result into proper findings for dummy-ssh", asyn
         "category": "SSH Violation",
         "cvssv2": 7.8,
         "description": "cause DoS via long password string (crypt CPU consumption)",
+        "location": "ssh://dummy-ssh.demo-targets.svc",
         "name": "CVE-2016-6515",
         "references": [
           {
@@ -290,6 +303,7 @@ test("ssh-audit parser parses a result into proper findings for dummy-ssh", asyn
         "category": "SSH Violation",
         "cvssv2": 7.2,
         "description": "privilege escalation via triggering crafted environment",
+        "location": "ssh://dummy-ssh.demo-targets.svc",
         "name": "CVE-2015-8325",
         "references": [
           {
@@ -367,7 +381,8 @@ test("ssh-audit parser parses a result into proper findings for an example", asy
             "hostkey": "ssh-rsa",
           },
         ],
-        "host": "example.com",
+        "hostname": "example.com",
+        "ip_address": null,
         "key_algorithms": [
           {
             "algorithm": "rsa-sha2-512",
@@ -439,9 +454,10 @@ test("ssh-audit parser parses a result into proper findings for an example", asy
       },
       "category": "SSH Service",
       "description": "Information about Used SSH Algorithms",
-      "location": "example.com",
+      "location": "ssh://example.com",
       "name": "SSH Service",
       "osi_layer": "APPLICATION",
+      "port": "22",
       "severity": "INFORMATIONAL",
     },
     {
@@ -454,6 +470,7 @@ test("ssh-audit parser parses a result into proper findings for an example", asy
       "category": "SSH Policy Violation",
       "description": "Discouraged SSH key exchange algorithms in use",
       "hint": "Remove these KEX algorithms",
+      "location": "ssh://example.com",
       "name": "Insecure SSH KEX Algorithms",
       "severity": "HIGH",
     },
@@ -465,6 +482,7 @@ test("ssh-audit parser parses a result into proper findings for an example", asy
       "category": "SSH Policy Violation",
       "description": "Discouraged SSH key algorithms in use",
       "hint": "Remove these key algorithms",
+      "location": "ssh://example.com",
       "name": "Insecure SSH Key Algorithms",
       "severity": "HIGH",
     },
@@ -476,6 +494,7 @@ test("ssh-audit parser parses a result into proper findings for an example", asy
       "category": "SSH Policy Violation",
       "description": "Discouraged SSH message authentication code algorithms in use",
       "hint": "Remove these MAC algorithms",
+      "location": "ssh://example.com",
       "name": "Insecure SSH MAC Algorithms",
       "severity": "HIGH",
     },
@@ -487,6 +506,7 @@ test("ssh-audit parser parses a result into proper findings for an example", asy
       "category": "SSH Policy Violation",
       "description": "Weak SSH key algorithms in use",
       "hint": "Change these key algorithms",
+      "location": "ssh://example.com",
       "name": "SSH Key Algorithms must be changed",
       "severity": "MEDIUM",
     },
@@ -497,6 +517,7 @@ test("ssh-audit parser parses a result into proper findings for an example", asy
       "category": "SSH Policy Violation",
       "description": "Discouraged SSH key exchange algorithms in use",
       "hint": "Remove these KEX algorithms",
+      "location": "ssh://example.com",
       "name": "Insecure SSH KEX Algorithms",
       "severity": "MEDIUM",
     },
@@ -511,6 +532,7 @@ test("ssh-audit parser parses a result into proper findings for an example", asy
       "category": "SSH Policy Violation",
       "description": "Discouraged SSH message authentication code algorithms in use",
       "hint": "Remove these MAC algorithms",
+      "location": "ssh://example.com",
       "name": "Insecure SSH MAC Algorithms",
       "severity": "MEDIUM",
     },
@@ -518,6 +540,7 @@ test("ssh-audit parser parses a result into proper findings for an example", asy
       "category": "SSH Violation",
       "cvssv2": 7,
       "description": "privilege escalation via supplemental groups",
+      "location": "ssh://example.com",
       "name": "CVE-2021-41617",
       "references": [
         {
@@ -535,6 +558,7 @@ test("ssh-audit parser parses a result into proper findings for an example", asy
       "category": "SSH Violation",
       "cvssv2": 7.8,
       "description": "command injection via anomalous argument transfers",
+      "location": "ssh://example.com",
       "name": "CVE-2020-15778",
       "references": [
         {
@@ -552,6 +576,7 @@ test("ssh-audit parser parses a result into proper findings for an example", asy
       "category": "SSH Violation",
       "cvssv2": 7.8,
       "description": "memory corruption and local code execution via pre-authentication integer overflow",
+      "location": "ssh://example.com",
       "name": "CVE-2019-16905",
       "references": [
         {
@@ -569,6 +594,7 @@ test("ssh-audit parser parses a result into proper findings for an example", asy
       "category": "SSH Violation",
       "cvssv2": 5.3,
       "description": "enumerate usernames via challenge response",
+      "location": "ssh://example.com",
       "name": "CVE-2016-20012",
       "references": [
         {
