@@ -205,6 +205,12 @@ function transformCVEtoFinding(cves, destination) {
     });
 }
 
+function isIPaddress(target){
+    if ( /^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/.test(target))
+    return true
+    else return false
+}
+
 /**
  * 
  * Parses the raw results from the ssh-audit scanner into Findings
@@ -215,7 +221,11 @@ async function parse(fileContent) {
   if (typeof (host) === 'string') return []
 
   const destination = host.target.split(':')
-  const location = 'ssh://'+destination[0]
+  const location = 'ssh://' + destination[0]
+  let ipAdderss = null
+  let hostname = null
+  isIPaddress(destination[0]) ? ipAdderss = destination[0] : hostname = destination[0]
+  
   const recommendationsArray = Object.entries(host.recommendations)
   const policyViolationFindings = recommendationsArray.flatMap(
     ([recommendationSeverityLevel, value]) => transformRecommendationToFinding(recommendationSeverityLevel, value, location)
@@ -233,7 +243,8 @@ async function parse(fileContent) {
     location : location,
     port: destination[1] || null,
     attributes: {
-      hostname: destination[0] || null,
+      hostname: hostname || null,
+      ip_address: ipAdderss || null,
       server_banner: host.banner ?.raw || null,
       ssh_version: host.banner ?.protocol[0] || null,
       ssh_lib_cpe: host.banner ?.software,
@@ -248,7 +259,5 @@ async function parse(fileContent) {
   return [serviceFinding, ...policyViolationFindings, ...cvesFindings];
 
 }
-
-
 
 module.exports.parse = parse;
