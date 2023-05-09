@@ -217,5 +217,5 @@
             }
         }
     },
-    "target": "example.com"
+    "target": "example.com:22"
 }
