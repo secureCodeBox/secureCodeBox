@@ -89,55 +89,58 @@ const templates = {
             name: "SSH Encryption Algorithms must be changed",
             description: "Weak SSH encryption algorithms in use",
             hint: "Change these encryption algorithms"
+        }
+    },
+    addCritical: {
+        kex: {
+            name: "SSH KEX Algorithms must be added",
+            description: "SSH key exchange algorithms missing",
+            hint: "Add these KEX algorithms"
         },
-
-        addCritical: {
-            kex: {
-                name: "SSH KEX Algorithms must be added",
-                description: "SSH key exchange algorithms missing",
-                hint: "Add these KEX algorithms"
-            },
-            key: {
-                name: "SSH Key Algorithms must be added",
-                description: "SSH key algorithms missing",
-                hint: "Add these key algorithms"
-            },
-            mac: {
-                name: "SSH MAC Algorithms must be added",
-                description: "SSH message authentication code algorithms missing",
-                hint: "Add these MAC algorithms"
-            },
-            enc: {
-                name: "SSH Encryption Algorithms must be added",
-                description: "SSH encryption algorithms missing",
-                hint: "Add these encryption algorithms"
-            }
+        key: {
+            name: "SSH Key Algorithms must be added",
+            description: "SSH key algorithms missing",
+            hint: "Add these key algorithms"
         },
-        addWarning: {
-            kex: {
-                name: "SSH KEX Algorithms must be added",
-                description: "SSH key exchange algorithms missing",
-                hint: "Add these KEX algorithms"
-            },
-            key: {
-                name: "SSH Key Algorithms must be added",
-                description: "SSH key algorithms missing",
-                hint: "Add these key algorithms"
-            },
-            mac: {
-                name: "SSH MAC Algorithms must be added",
-                description: "SSH message authentication code algorithms missing",
-                hint: "Add these MAC algorithms"
-            },
-            enc: {
-                name: "SSH Encryption Algorithms must be added",
-                description: "SSH encryption algorithms missing",
-                hint: "Add these encryption algorithms"
-            }
+        mac: {
+            name: "SSH MAC Algorithms must be added",
+            description: "SSH message authentication code algorithms missing",
+            hint: "Add these MAC algorithms"
+        },
+        enc: {
+            name: "SSH Encryption Algorithms must be added",
+            description: "SSH encryption algorithms missing",
+            hint: "Add these encryption algorithms"
+        }
+    },
+    addWarning: {
+        kex: {
+            name: "SSH KEX Algorithms must be added",
+            description: "SSH key exchange algorithms missing",
+            hint: "Add these KEX algorithms"
+        },
+        key: {
+            name: "SSH Key Algorithms must be added",
+            description: "SSH key algorithms missing",
+            hint: "Add these key algorithms"
+        },
+        mac: {
+            name: "SSH MAC Algorithms must be added",
+            description: "SSH message authentication code algorithms missing",
+            hint: "Add these MAC algorithms"
+        },
+        enc: {
+            name: "SSH Encryption Algorithms must be added",
+            description: "SSH encryption algorithms missing",
+            hint: "Add these encryption algorithms"
         }
     }
 }
 
+function foo2(algorithmData) {
+    const algorithmNames = Object.entries(algorithmData).flatMap(([keyNames, content]) => (Object.values(content)) )
+    return algorithmNames
+};
 
 /**
  * Transforms recommendations from the ssh-audit scanner into SSH Policy Violation Findings
@@ -148,33 +151,35 @@ function transformRecommendationToFinding(recommendationSeverityLevel, value) {
     // SSH audit has critical and warnings as recommendations. 
     // These are HIGH and MEDIUM severities, respectively
     const policyViolationFindings = [];
-    var severity = "low";
-    if (recommendationSeverityLevel == "critical") severity = 'HIGH'
-    if (recommendationSeverityLevel == "warning") severity = 'MEDIUM'
+    let severity = 'LOW';
+    if (recommendationSeverityLevel == 'critical') severity = 'HIGH'
+    if (recommendationSeverityLevel == 'warning') severity = 'MEDIUM'
     const findingTemplate = null;
     // recommendationAction = del/chg/add
     Object.entries(value).map(([recommendationAction, algorithms]) => {
         //algorithmType = kex/ key/ mac, , algorithmNames = {name+note}
         Object.entries(algorithms).map(([algorithmType, algorithmData]) => {
-            const algorithmNames = []
-            Object.entries(algorithmData).flatMap(([keyNames, content]) => { algorithmNames.push(Object.values(content)) })
-            var action = "";
-            if (recommendationAction == "del" && recommendationSeverityLevel == "critical") action = "delCritical"
-            else if (recommendationAction == "del" && recommendationSeverityLevel == "warning") action = "delWarning"
-            else if (recommendationAction == "chg" && recommendationSeverityLevel == "critical") action = "chgCritical"
-            else if (recommendationAction == "chg" && recommendationSeverityLevel == "warning") action = "chgWarning"
-            else if (recommendationAction == "add" && recommendationSeverityLevel == "critical") action = "addCritical"
-            else if (recommendationAction == "add" && recommendationSeverityLevel == "warning") action = "addWarning"
+            const algorithmNames = Object.entries(algorithmData).map(([keyNames, content]) => (Object.values(content)) )
+            //console.log(algorithmData)
+            //console.log(algorithmNames)
+            //console.log(lala)
+            let action = '';
+            if (recommendationAction == 'del' && recommendationSeverityLevel == 'critical') action = 'delCritical'
+            else if (recommendationAction == 'del' && recommendationSeverityLevel == 'warning') action = 'delWarning'
+            else if (recommendationAction == 'chg' && recommendationSeverityLevel == 'critical') action = 'chgCritical'
+            else if (recommendationAction == 'chg' && recommendationSeverityLevel == 'warning') action = 'chgWarning'
+            else if (recommendationAction == 'add' && recommendationSeverityLevel == 'critical') action = 'addCritical'
+            else if (recommendationAction == 'add' && recommendationSeverityLevel == 'warning') action = 'addWarning'
             const findingTemplate = templates[action][algorithmType] || null;
 
-            if (findingTemplate != null && typeof (findingTemplate) != "undefined") {
+            if (findingTemplate != null && typeof (findingTemplate) != 'undefined') {
                 findingTemplate['severity'] = severity
-                findingTemplate['category'] = "SSH Policy Violation"
+                findingTemplate['category'] = 'SSH Policy Violation'
                 
                 combinedAlgorithmNames = []
                 algorithmNames.map(([algName, note]) => {
-                    if (note == "") combinedAlgorithmNames.push(algName)
-                    else combinedAlgorithmNames.push((algName + " (Note: " + note + ")"))
+                    if (note == '') combinedAlgorithmNames.push(algName)
+                    else combinedAlgorithmNames.push((algName + ' (Note: ' + note + ')'))
                 })
 
                 findingTemplate['algorithms'] = combinedAlgorithmNames.flat()
@@ -194,15 +199,15 @@ function transformCVEtoFinding(cves) {
 
     const cvesArray = Object.values(cves)
     const cvesFindings = []
-    var severity = ''
+    let severity = ''
     Object.values(cvesArray).flatMap(({cvssv2, description, name}) => {
         const findingTemplate = {}
-        if (cvssv2 < 4) severity = "LOW"
-        else if (cvssv2 < 7) severity = "MEDIUM"
-        else severity = "HIGH"
+        if (cvssv2 < 4) severity = 'LOW'
+        else if (cvssv2 < 7) severity = 'MEDIUM'
+        else severity = 'HIGH'
         findingTemplate['name'] = name
         findingTemplate['description'] = description
-        findingTemplate['category'] = "SSH Violation"
+        findingTemplate['category'] = 'SSH Violation'
         findingTemplate['severity'] = severity
         findingTemplate['cvssv2'] = cvssv2
 
@@ -221,26 +226,22 @@ function transformCVEtoFinding(cves) {
 async function parse(fileContent) {
 
     const host = fileContent;
-    if (typeof(host) === "string") return []
+    if (typeof(host) === 'string') return []
 
     const recommendationsArray = Object.entries(host.recommendations)
-    const policyViolationFindings = [];
-
-    recommendationsArray.map(([recommendationSeverityLevel, value]) => {
-        policyViolationFindings.push(transformRecommendationToFinding(recommendationSeverityLevel, value))
-    })
-    
-    const policyViolationFinding = policyViolationFindings.flat()
+    const policyViolationFindings = recommendationsArray.flatMap(
+        ([recommendationSeverityLevel, value]) => transformRecommendationToFinding(recommendationSeverityLevel, value)
+    )
     const cvesFindings = transformCVEtoFinding(host.cves)
 
     // informational findings
-    const destination = host.target.split(":")
+    const destination = host.target.split(':')
     const serviceFinding = {
-        name: "SSH Service",
-        description: "Information about Used SSH Algorithms",
-        category: "SSH Service",
-        osi_layer: "APPLICATION",
-        severity: "INFORMATIONAL",
+        name: 'SSH Service',
+        description: 'Information about Used SSH Algorithms',
+        category: 'SSH Service',
+        osi_layer: 'APPLICATION',
+        severity: 'INFORMATIONAL',
         location: destination[0],
         attributes: {
             host: destination[0] || null,
@@ -255,8 +256,10 @@ async function parse(fileContent) {
             fingerprints: host.fingerprints 
         }
     };
-    return [serviceFinding, ...policyViolationFinding, ...cvesFindings];
+    return [serviceFinding, ...policyViolationFindings, ...cvesFindings];
 
 }
+
+
 
 module.exports.parse = parse;
