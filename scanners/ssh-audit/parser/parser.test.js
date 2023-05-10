@@ -611,3 +611,217 @@ test("ssh-audit parser parses a result into proper findings for an example", asy
   ]
   `);
 });
+
+test("ssh-audit parser parses a result into proper findings for an example with given port", async () => {
+  const hosts = JSON.parse(
+      await readFile(__dirname + "/__testFiles__/portExample.json", {
+        encoding: "utf8",
+      })
+    );
+  const findings = await parse(hosts);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot(`
+  [
+    {
+      "attributes": {
+        "compression_algorithms": [
+          "none",
+        ],
+        "encryption_algorithms": [
+          "chacha20-poly1305@openssh.com",
+          "aes256-gcm@openssh.com",
+          "aes128-gcm@openssh.com",
+          "aes256-ctr",
+          "aes192-ctr",
+          "aes128-ctr",
+        ],
+        "fingerprints": [
+          {
+            "hash": "zDyiQDFSdBbKGL0vFgMWa0cdEI1R4QGtkEMHY/BlqT0",
+            "hash_alg": "SHA256",
+            "hostkey": "ssh-ed25519",
+          },
+          {
+            "hash": "c8:2c:ee:3b:bc:ae:0e:8b:0d:6f:f2:b6:77:25:69:aa",
+            "hash_alg": "MD5",
+            "hostkey": "ssh-ed25519",
+          },
+          {
+            "hash": "khLYpAPy+wFXAh+p6PBgNrmO4Qjs0KIDBuyb83m/1j4",
+            "hash_alg": "SHA256",
+            "hostkey": "ssh-rsa",
+          },
+          {
+            "hash": "62:b4:fe:be:11:54:61:6b:c3:b8:e4:98:f3:41:84:73",
+            "hash_alg": "MD5",
+            "hostkey": "ssh-rsa",
+          },
+        ],
+        "hostname": null,
+        "ip_address": "127.0.0.1",
+        "key_algorithms": [
+          {
+            "algorithm": "rsa-sha2-512",
+            "keysize": 3072,
+          },
+          {
+            "algorithm": "rsa-sha2-256",
+            "keysize": 3072,
+          },
+          {
+            "algorithm": "ssh-rsa",
+            "keysize": 3072,
+          },
+          {
+            "algorithm": "ecdsa-sha2-nistp256",
+          },
+          {
+            "algorithm": "ssh-ed25519",
+          },
+        ],
+        "key_exchange_algorithms": [
+          {
+            "algorithm": "curve25519-sha256@libssh.org",
+          },
+          {
+            "algorithm": "diffie-hellman-group-exchange-sha256",
+            "keysize": 2048,
+          },
+          {
+            "algorithm": "ecdh-sha2-nistp521",
+          },
+          {
+            "algorithm": "ecdh-sha2-nistp384",
+          },
+          {
+            "algorithm": "ecdh-sha2-nistp256",
+          },
+        ],
+        "mac_algorithms": [
+          "hmac-sha2-512-etm@openssh.com",
+          "hmac-sha2-256-etm@openssh.com",
+          "umac-128-etm@openssh.com",
+          "umac-128@openssh.com",
+          "hmac-sha2-512",
+          "hmac-sha2-256",
+        ],
+        "server_banner": "SSH-2.0-OpenSSH_8.2p1",
+        "ssh_lib_cpe": "OpenSSH_8.2p1",
+        "ssh_version": 2,
+      },
+      "category": "SSH Service",
+      "description": "Information about Used SSH Algorithms",
+      "location": "ssh://127.0.0.1",
+      "name": "SSH Service",
+      "osi_layer": "APPLICATION",
+      "port": "29683",
+      "severity": "INFORMATIONAL",
+    },
+    {
+      "algorithms": [
+        "ecdh-sha2-nistp256",
+        "ecdh-sha2-nistp384",
+        "ecdh-sha2-nistp521",
+      ],
+      "category": "SSH Policy Violation",
+      "description": "Discouraged SSH key exchange algorithms in use",
+      "hint": "Remove these KEX algorithms",
+      "location": "ssh://127.0.0.1",
+      "name": "Insecure SSH KEX Algorithms",
+      "severity": "HIGH",
+    },
+    {
+      "algorithms": [
+        "ecdsa-sha2-nistp256",
+        "ssh-rsa",
+      ],
+      "category": "SSH Policy Violation",
+      "description": "Discouraged SSH key algorithms in use",
+      "hint": "Remove these key algorithms",
+      "location": "ssh://127.0.0.1",
+      "name": "Insecure SSH Key Algorithms",
+      "severity": "HIGH",
+    },
+    {
+      "algorithms": [
+        "curve25519-sha256",
+        "diffie-hellman-group16-sha512",
+        "diffie-hellman-group18-sha512",
+      ],
+      "category": "SSH Policy Violation",
+      "description": "SSH key exchange algorithms missing",
+      "hint": "Add these KEX algorithms",
+      "location": "ssh://127.0.0.1",
+      "name": "SSH KEX Algorithms must be added",
+      "severity": "LOW",
+    },
+    {
+      "algorithms": [
+        "hmac-sha2-256",
+        "hmac-sha2-512",
+        "umac-128@openssh.com",
+      ],
+      "category": "SSH Policy Violation",
+      "description": "Discouraged SSH message authentication code algorithms in use",
+      "hint": "Remove these MAC algorithms",
+      "location": "ssh://127.0.0.1",
+      "name": "Insecure SSH MAC Algorithms",
+      "severity": "MEDIUM",
+    },
+    {
+      "category": "SSH Violation",
+      "cvssv2": 7,
+      "description": "privilege escalation via supplemental groups",
+      "location": "ssh://127.0.0.1",
+      "name": "CVE-2021-41617",
+      "references": [
+        {
+          "type": "CVE",
+          "value": "CVE-2021-41617",
+        },
+        {
+          "type": "URL",
+          "value": "https://nvd.nist.gov/vuln/detail/CVE-2021-41617",
+        },
+      ],
+      "severity": "HIGH",
+    },
+    {
+      "category": "SSH Violation",
+      "cvssv2": 7.8,
+      "description": "command injection via anomalous argument transfers",
+      "location": "ssh://127.0.0.1",
+      "name": "CVE-2020-15778",
+      "references": [
+        {
+          "type": "CVE",
+          "value": "CVE-2020-15778",
+        },
+        {
+          "type": "URL",
+          "value": "https://nvd.nist.gov/vuln/detail/CVE-2020-15778",
+        },
+      ],
+      "severity": "HIGH",
+    },
+    {
+      "category": "SSH Violation",
+      "cvssv2": 5.3,
+      "description": "enumerate usernames via challenge response",
+      "location": "ssh://127.0.0.1",
+      "name": "CVE-2016-20012",
+      "references": [
+        {
+          "type": "CVE",
+          "value": "CVE-2016-20012",
+        },
+        {
+          "type": "URL",
+          "value": "https://nvd.nist.gov/vuln/detail/CVE-2016-20012",
+        },
+      ],
+      "severity": "MEDIUM",
+    },
+  ]
+  `);
+});
