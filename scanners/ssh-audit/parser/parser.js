@@ -95,6 +95,28 @@ const templates = {
     }
   },
   add: {
+    informational: {
+      kex: {
+        name: "SSH KEX Algorithms must be added",
+        description: "SSH key exchange algorithms missing",
+        hint: "Add these KEX algorithms"
+      },
+      key: {
+        name: "SSH Key Algorithms must be added",
+        description: "SSH key algorithms missing",
+        hint: "Add these key algorithms"
+      },
+      mac: {
+        name: "SSH MAC Algorithms must be added",
+        description: "SSH message authentication code algorithms missing",
+        hint: "Add these MAC algorithms"
+      },
+      enc: {
+        name: "SSH Encryption Algorithms must be added",
+        description: "SSH encryption algorithms missing",
+        hint: "Add these encryption algorithms"
+      }
+    },
     critical: {
       kex: {
         name: "SSH KEX Algorithms must be added",
