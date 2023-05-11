@@ -20,8 +20,6 @@ RUN addgroup --system --gid 1001 sshaudit && adduser sshaudit --system --uid 100
 COPY --from=base --chown=1001:1001 /ssh-audit /home/sshaudit/
 COPY wrapper.sh /wrapper.sh
 
-WORKDIR /home/sshaudit/
-
 # Switch work dir to scb folder so that the results get written there, and its available for local docker runs.
 WORKDIR /home/securecodebox/
 
