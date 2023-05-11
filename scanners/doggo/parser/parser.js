@@ -46,7 +46,8 @@ function transformToFindings(targets) {
  * @param {*} fileContent
  */
 function parseResultFile(fileContent) {
-  return fileContent
+  return Array.isArray(fileContent) ?
+    fileContent
     .filter((rawTarget) => {
       // filter out empty targets (domain names which could not be resolved at all)
       return (
@@ -64,7 +65,8 @@ function parseResultFile(fileContent) {
         rawAnswers.name !== null &&
         rawAnswers.name !== undefined
       );
-    });
+    }) : [];
+
 }
 
 module.exports.parse = parse;

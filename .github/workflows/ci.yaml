@@ -257,6 +257,7 @@ jobs:
         unit:
           - amass
           - cmseek
+          - doggo
           - ffuf
           - git-repo-scanner
           - gitleaks

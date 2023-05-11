@@ -323,6 +323,7 @@ jobs:
         parser:
           - amass
           - cmseek
+          - doggo
           - ffuf
           - git-repo-scanner
           - gitleaks
