@@ -1,5 +1,5 @@
 ---
-title: "SSH"
+title: "SSH-audit"
 category: "scanner"
 type: "SSH"
 state: "released"
@@ -98,20 +98,21 @@ Kubernetes: `>=v1.11.0-0`
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| cascadingRules.enabled | bool | `true` |  |
+| cascadingRules.enabled | bool | `false` |  |
 | env | list | `[]` |  |
 | extraContainers | list | `[]` |  |
 | extraVolumeMounts | list | `[]` |  |
 | extraVolumes | list | `[]` |  |
 | parser.backoffLimit | int | `3` |  |
 | parser.env | list | `[]` |  |
-| parser.image.repository | string | `nil` |  |
-| parser.image.tag | string | `nil` |  |
+| parser.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
+| parser.image.repository | string | `"docker.io/securecodebox/parser-ssh-audit"` |  |
+| parser.image.tag | string | defaults to the charts version | Parser image tag |
 | parser.scopeLimiterAliases | object | `{}` |  |
 | parser.ttlSecondsAfterFinished | string | `nil` |  |
 | scanner.backoffLimit | int | `3` |  |
-| scanner.image.repository | string | `"docker.io/sam/ssh"` |  |
-| scanner.image.tag | string | `"0.1"` |  |
+| scanner.image.repository | string | `"docker.io/securecodebox/scanner-ssh-audit"` |  |
+| scanner.image.tag | string | `nil` |  |
 | scanner.resources | object | `{}` | CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/) |
 | scanner.ttlSecondsAfterFinished | string | `nil` |  |
 | securityContext.allowPrivilegeEscalation | bool | `false` |  |
