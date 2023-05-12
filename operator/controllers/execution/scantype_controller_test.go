@@ -33,7 +33,7 @@ var _ = Describe("ScanType controller", func() {
 
 			createNamespace(ctx, namespace)
 			createScanType(ctx, namespace)
-			scheduledScan := createScheduledScan(ctx, namespace, true)
+			scheduledScan := createScheduledScanWithInterval(ctx, namespace, true)
 
 			// ensure that the ScheduledScan has been triggered
 			waitForScheduledScanToBeTriggered(ctx, namespace)
@@ -74,7 +74,7 @@ var _ = Describe("ScanType controller", func() {
 
 			createNamespace(ctx, namespace)
 			createScanType(ctx, namespace)
-			scheduledScan := createScheduledScan(ctx, namespace, true)
+			scheduledScan := createScheduledScanWithInterval(ctx, namespace, true)
 
 			// ensure that the ScheduledScan has been triggered
 			waitForScheduledScanToBeTriggered(ctx, namespace)
@@ -104,7 +104,7 @@ var _ = Describe("ScanType controller", func() {
 
 			createNamespace(ctx, namespace)
 			createScanType(ctx, namespace)
-			scheduledScan := createScheduledScan(ctx, namespace, false)
+			scheduledScan := createScheduledScanWithInterval(ctx, namespace, false)
 
 			// ensure that the ScheduledScan has been triggered
 			waitForScheduledScanToBeTriggered(ctx, namespace)

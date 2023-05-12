@@ -63,7 +63,7 @@ func createScanType(ctx context.Context, namespace string) {
 	Expect(k8sClient.Create(ctx, scanType)).Should(Succeed())
 }
 
-func createScheduledScan(ctx context.Context, namespace string, retriggerOnScanTypeChange bool) executionv1.ScheduledScan {
+func createScheduledScanWithInterval(ctx context.Context, namespace string, retriggerOnScanTypeChange bool) executionv1.ScheduledScan {
 	namespaceLocalResourceMode := executionv1.NamespaceLocal
 
 	scheduledScan := executionv1.ScheduledScan{
@@ -73,6 +73,31 @@ func createScheduledScan(ctx context.Context, namespace string, retriggerOnScanT
 		},
 		Spec: executionv1.ScheduledScanSpec{
 			Interval:                  metav1.Duration{Duration: 42 * time.Hour},
+			RetriggerOnScanTypeChange: retriggerOnScanTypeChange,
+			ScanSpec: &executionv1.ScanSpec{
+				ScanType:     "nmap",
+				ResourceMode: &namespaceLocalResourceMode,
+				Parameters:   []string{"scanme.nmap.org"},
+			},
+		},
+	}
+	Expect(k8sClient.Create(ctx, &scheduledScan)).Should(Succeed())
+
+	Expect(k8sClient.Get(ctx, types.NamespacedName{Name: "test-scan", Namespace: namespace}, &scheduledScan)).Should(Succeed())
+
+	return scheduledScan
+}
+
+func createScheduledScanWithSchedule(ctx context.Context, namespace string, retriggerOnScanTypeChange bool) executionv1.ScheduledScan {
+	namespaceLocalResourceMode := executionv1.NamespaceLocal
+
+	scheduledScan := executionv1.ScheduledScan{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "test-scan",
+			Namespace: namespace,
+		},
+		Spec: executionv1.ScheduledScanSpec{
+			Schedule:                  "* * * * *",
 			RetriggerOnScanTypeChange: retriggerOnScanTypeChange,
 			ScanSpec: &executionv1.ScanSpec{
 				ScanType:     "nmap",
