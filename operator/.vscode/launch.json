@@ -8,7 +8,7 @@
             "name": "Start Operator (minio)",
             "type": "go",
             "request": "launch",
-            "mode": "auto",
+            "mode": "debug",
             "program": "main.go",
             "env": {
                 "MINIO_ACCESS_KEY": "minioadmin",
@@ -26,6 +26,16 @@
             "request": "launch",
             "mode": "auto",
             "program": "main.go"
+        },
+        {
+            "name": "Debug Unit Tests",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/controllers/execution",
+            "args": ["-test.v"],
+            //"preLaunchTask": "makefileMagic",
+            "env": {"KUBEBUILDER_ASSETS": "${workspaceFolder}/testbin/bin"}
         }
     ]
 }
