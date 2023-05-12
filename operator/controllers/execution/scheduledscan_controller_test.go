@@ -64,20 +64,62 @@ var _ = Describe("ScheduledScan controller", func() {
 			}
 		})
 	})
-	Context("A Scan is triggred due to a Scheduled Scan", func() {
+	Context("A Scan is triggred due to a Scheduled Scan with Interval in Spec", func() {
 		It("The ScheduledScan's Finding Summary shoud be updated of with the results of the successful Scan", func() {
 			ctx := context.Background()
 			namespace := "scantype-multiple-scheduled-scan-triggerd-test"
 
 			createNamespace(ctx, namespace)
 			createScanType(ctx, namespace)
-			scheduledScan := createScheduledScan(ctx, namespace, true)
+			scheduledScan := createScheduledScanWithInterval(ctx, namespace, true)
 
 			var scanlist executionv1.ScanList
 			// ensure that the ScheduledScan has been triggered
 			waitForScheduledScanToBeTriggered(ctx, namespace)
 			k8sClient.List(ctx, &scanlist, client.InNamespace(namespace))
 
+			Expect(scanlist.Items).Should(HaveLen(1))
+
+			scan := scanlist.Items[0]
+			scan.Status.State = "Done"
+
+			scan.Status.Findings = executionv1.FindingStats{
+				Count:             42,
+				FindingSeverities: executionv1.FindingSeverities{High: 42},
+				FindingCategories: map[string]uint64{"Open Port": 42},
+			}
+
+			k8sClient.Status().Update(ctx, &scan)
+
+			Eventually(func() bool {
+				err := k8sClient.Get(ctx, types.NamespacedName{Name: "test-scan", Namespace: namespace}, &scheduledScan)
+				if errors.IsNotFound(err) {
+					panic("ScheduledScan should be present for this check!")
+				}
+				return scheduledScan.Status.Findings.Count != 0
+			}, timeout, interval).Should(BeTrue())
+
+			Expect(scheduledScan.Status.Findings.Count).Should(Equal(uint64(42)))
+			Expect(scheduledScan.Status.Findings.FindingSeverities).Should(Equal(executionv1.FindingSeverities{High: 42}))
+			Expect(scheduledScan.Status.Findings.FindingCategories).Should(Equal(map[string]uint64{"Open Port": 42}))
+		})
+	})
+
+	Context("A Scan is triggred due to a Scheduled Scan with Schedule in Spec", func() {
+		It("The ScheduledScan's Finding Summary shoud be updated of with the results of the successful Scan", func() {
+			ctx := context.Background()
+			namespace := "scantype-multiple-scheduled-scan-triggerd-test-schedule"
+
+			createNamespace(ctx, namespace)
+			createScanType(ctx, namespace)
+			scheduledScan := createScheduledScanWithSchedule(ctx, namespace, true)
+
+			var scanlist executionv1.ScanList
+			// ensure that the ScheduledScan has been triggered
+			waitForScheduledScanToBeTriggered(ctx, namespace)
+			k8sClient.List(ctx, &scanlist, client.InNamespace(namespace))
+
+			Expect(scheduledScan.Spec.Schedule).Should(Equal("* * * * *"))
 			Expect(scanlist.Items).Should(HaveLen(1))
 
 			scan := scanlist.Items[0]
