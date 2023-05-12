@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/go-logr/logr"
+	"github.com/robfig/cron"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -100,11 +101,10 @@ func (r *ScheduledScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	}
 
 	// Calculate the next schedule
-	var nextSchedule time.Time
-	if scheduledScan.Status.LastScheduleTime != nil {
-		nextSchedule = scheduledScan.Status.LastScheduleTime.Add(scheduledScan.Spec.Interval.Duration)
-	} else {
-		nextSchedule = time.Now().Add(-1 * time.Second)
+	nextSchedule, err := getNextSchedule(scheduledScan, time.Now())
+	if err != nil {
+		log.Error(err, "Unable to calculate next schedule")
+		return ctrl.Result{}, err
 	}
 
 	// check if it is time to start the next Scan
@@ -160,6 +160,40 @@ func (r *ScheduledScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	}
 
 	return ctrl.Result{RequeueAfter: nextSchedule.Sub(time.Now())}, nil
+}
+
+func getNextSchedule(scheduledScan executionv1.ScheduledScan, now time.Time) (next time.Time, err error) {
+	// check if the Cron schedule is set
+	if scheduledScan.Spec.Schedule != "" {
+		sched, err := cron.ParseStandard(scheduledScan.Spec.Schedule)
+		if err != nil {
+			return time.Time{}, fmt.Errorf("Unparseable schedule %q: %v", scheduledScan.Spec.Schedule, err)
+		}
+
+		// for optimization purposes, cheat a bit and start from our last observed run time
+		// we could reconstitute this here, but there's not much point, since we've
+		// just updated it.
+		var earliestTime time.Time
+		if scheduledScan.Status.LastScheduleTime != nil {
+			earliestTime = scheduledScan.Status.LastScheduleTime.Time
+		} else {
+			earliestTime = scheduledScan.ObjectMeta.CreationTimestamp.Time
+		}
+		if earliestTime.After(now) {
+			tmp := sched.Next(now)
+			return tmp, nil
+		}
+	}
+	if scheduledScan.Spec.Interval.Duration > 0 {
+		var nextSchedule time.Time
+		if scheduledScan.Status.LastScheduleTime != nil {
+			nextSchedule = scheduledScan.Status.LastScheduleTime.Add(scheduledScan.Spec.Interval.Duration)
+		} else {
+			nextSchedule = time.Now().Add(-1 * time.Second)
+		}
+		return nextSchedule, nil
+	}
+	return time.Time{}, fmt.Errorf("No schedule or interval found")
 }
 
 // Copy over securecodebox.io annotations from the scheduledScan to the created scan
