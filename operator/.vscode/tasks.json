@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+        "label": "makefileMagic",
+        "command": "bash", 
+        "args": ["-c", "source ${workspaceFolder}/testbin/setup-envtest.sh && fetch_envtest_tools ${workspaceFolder}/testbin && setup_envtest_env ${workspaceFolder}/testbin"],
+        "type": "shell"
+    },
+]
+}
