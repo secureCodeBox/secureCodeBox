@@ -18,7 +18,13 @@ type ScheduledScanSpec struct {
 
 	// Interval describes how often the scan should be repeated
 	// Examples: '12h', '30m'
+	// +kubebuilder:validation:Optional
 	Interval metav1.Duration `json:"interval"`
+
+	// +kubebuilder:validation:MinLength=0
+	// +kubebuilder:validation:Optional
+	// The schedule in Cron format, see https://en.wikipedia.org/wiki/Cron.
+	Schedule string `json:"schedule"`
 
 	// SuccessfulJobsHistoryLimit determines how many past Scans will be kept until the oldest one will be deleted, defaults to 3. When set to 0, Scans will be deleted directly after completion
 	// +kubebuilder:validation:Optional
