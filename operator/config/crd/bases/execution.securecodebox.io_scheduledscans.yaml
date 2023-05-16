@@ -4242,7 +4242,6 @@ spec:
                 type: object
               schedule:
                 description: The schedule in Cron format, see https://en.wikipedia.org/wiki/Cron.
-                minLength: 0
                 type: string
               successfulJobsHistoryLimit:
                 description: SuccessfulJobsHistoryLimit determines how many past Scans
