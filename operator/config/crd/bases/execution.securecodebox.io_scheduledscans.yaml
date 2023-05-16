@@ -29,6 +29,10 @@ spec:
       jsonPath: .spec.interval
       name: Interval
       type: string
+    - description: Schedule
+      jsonPath: .spec.schedule
+      name: Schedule
+      type: string
     - description: Total Finding Count
       jsonPath: .status.findings.count
       name: Findings
