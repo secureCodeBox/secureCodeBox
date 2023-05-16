@@ -180,9 +180,9 @@ func getNextSchedule(scheduledScan executionv1.ScheduledScan, now time.Time) (ne
 			earliestTime = scheduledScan.ObjectMeta.CreationTimestamp.Time
 		}
 		if earliestTime.After(now) {
-			tmp := sched.Next(now)
-			return tmp, nil
+			return sched.Next(now), nil
 		}
+		return sched.Next(earliestTime), nil
 	}
 	if scheduledScan.Spec.Interval.Duration > 0 {
 		var nextSchedule time.Time
