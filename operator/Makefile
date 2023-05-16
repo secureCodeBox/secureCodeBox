@@ -144,7 +144,7 @@ helm-deploy:
 		--set="image.pullPolicy=IfNotPresent" \
 		--set="lurker.image.repository=docker.io/$(IMG_NS)/$(LURKER_IMG)" \
 		--set="lurker.image.tag=$(IMG_TAG)" \
-		--set="lurker.image.pullPolicy=IfNotPresent"
+		--set="lurker.image.pullPolicy=IfNotPresent" \
 		--set="minio.auth.rootUser = $(MINIO_ROOT_USER)" \
 		--set="minio.auth.rootPassword = $(MINIO_ROOT_PASSWORD)"
 
