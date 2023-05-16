@@ -4813,6 +4813,9 @@ spec:
                         type: object
                       type: array
                   type: object
+                schedule:
+                  description: The schedule in Cron format, see https://en.wikipedia.org/wiki/Cron.
+                  type: string                 
                 successfulJobsHistoryLimit:
                   description:
                     SuccessfulJobsHistoryLimit determines how many past Scans
