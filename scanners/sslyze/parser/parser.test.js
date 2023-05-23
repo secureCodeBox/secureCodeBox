@@ -43,7 +43,9 @@ test("parses result file for www.securecodebox.io correctly", async () => {
             "TLS_AES_128_GCM_SHA256",
           ],
           "hostname": "www.securecodebox.io",
-          "ip_address": "185.199.110.153",
+          "ip_addresses": [
+            "185.199.110.153",
+          ],
           "port": 443,
           "tls_versions": [
             "TLS 1.2",
@@ -106,7 +108,9 @@ test("parses result file for tls-v1-0.badssl.com:1010 correctly", async () => {
             "DHE-RSA-AES128-SHA256",
           ],
           "hostname": "tls-v1-0.badssl.com",
-          "ip_address": "104.154.89.105",
+          "ip_addresses": [
+            "104.154.89.105",
+          ],
           "port": 443,
           "tls_versions": [
             "TLS 1.0",
@@ -127,7 +131,9 @@ test("parses result file for tls-v1-0.badssl.com:1010 correctly", async () => {
       {
         "attributes": {
           "hostname": "tls-v1-0.badssl.com",
-          "ip_address": "104.154.89.105",
+          "ip_addresses": [
+            "104.154.89.105",
+          ],
           "outdated_version": "TLS 1.0",
           "port": 443,
         },
@@ -144,7 +150,9 @@ test("parses result file for tls-v1-0.badssl.com:1010 correctly", async () => {
       {
         "attributes": {
           "hostname": "tls-v1-0.badssl.com",
-          "ip_address": "104.154.89.105",
+          "ip_addresses": [
+            "104.154.89.105",
+          ],
           "outdated_version": "TLS 1.1",
           "port": 443,
         },
@@ -206,7 +214,9 @@ test("parses result file for expired.badssl.com correctly", async () => {
             "DHE-RSA-AES128-SHA256",
           ],
           "hostname": "expired.badssl.com",
-          "ip_address": "104.154.89.105",
+          "ip_addresses": [
+            "104.154.89.105",
+          ],
           "port": 443,
           "tls_versions": [
             "TLS 1.0",
@@ -227,7 +237,9 @@ test("parses result file for expired.badssl.com correctly", async () => {
       {
         "attributes": {
           "hostname": "expired.badssl.com",
-          "ip_address": "104.154.89.105",
+          "ip_addresses": [
+            "104.154.89.105",
+          ],
           "outdated_version": "TLS 1.0",
           "port": 443,
         },
@@ -244,7 +256,9 @@ test("parses result file for expired.badssl.com correctly", async () => {
       {
         "attributes": {
           "hostname": "expired.badssl.com",
-          "ip_address": "104.154.89.105",
+          "ip_addresses": [
+            "104.154.89.105",
+          ],
           "outdated_version": "TLS 1.1",
           "port": 443,
         },
@@ -261,7 +275,9 @@ test("parses result file for expired.badssl.com correctly", async () => {
       {
         "attributes": {
           "hostname": "expired.badssl.com",
-          "ip_address": "104.154.89.105",
+          "ip_addresses": [
+            "104.154.89.105",
+          ],
           "port": 443,
         },
         "category": "Invalid Certificate",
@@ -319,7 +335,9 @@ test("parses result file for wrong.host.badssl.com correctly", async () => {
             "DHE-RSA-AES128-SHA256",
           ],
           "hostname": "wrong.host.badssl.com",
-          "ip_address": "104.154.89.105",
+          "ip_addresses": [
+            "104.154.89.105",
+          ],
           "port": 443,
           "tls_versions": [
             "TLS 1.0",
@@ -340,7 +358,9 @@ test("parses result file for wrong.host.badssl.com correctly", async () => {
       {
         "attributes": {
           "hostname": "wrong.host.badssl.com",
-          "ip_address": "104.154.89.105",
+          "ip_addresses": [
+            "104.154.89.105",
+          ],
           "outdated_version": "TLS 1.0",
           "port": 443,
         },
@@ -357,7 +377,9 @@ test("parses result file for wrong.host.badssl.com correctly", async () => {
       {
         "attributes": {
           "hostname": "wrong.host.badssl.com",
-          "ip_address": "104.154.89.105",
+          "ip_addresses": [
+            "104.154.89.105",
+          ],
           "outdated_version": "TLS 1.1",
           "port": 443,
         },
@@ -374,7 +396,9 @@ test("parses result file for wrong.host.badssl.com correctly", async () => {
       {
         "attributes": {
           "hostname": "wrong.host.badssl.com",
-          "ip_address": "104.154.89.105",
+          "ip_addresses": [
+            "104.154.89.105",
+          ],
           "port": 443,
         },
         "category": "Invalid Certificate",
@@ -435,7 +459,9 @@ test("parses result file for untrusted-root.badssl.com correctly", async () => {
             "DHE-RSA-AES128-SHA256",
           ],
           "hostname": "untrusted-root.badssl.com",
-          "ip_address": "104.154.89.105",
+          "ip_addresses": [
+            "104.154.89.105",
+          ],
           "port": 443,
           "tls_versions": [
             "TLS 1.0",
@@ -456,7 +482,9 @@ test("parses result file for untrusted-root.badssl.com correctly", async () => {
       {
         "attributes": {
           "hostname": "untrusted-root.badssl.com",
-          "ip_address": "104.154.89.105",
+          "ip_addresses": [
+            "104.154.89.105",
+          ],
           "outdated_version": "TLS 1.0",
           "port": 443,
         },
@@ -473,7 +501,9 @@ test("parses result file for untrusted-root.badssl.com correctly", async () => {
       {
         "attributes": {
           "hostname": "untrusted-root.badssl.com",
-          "ip_address": "104.154.89.105",
+          "ip_addresses": [
+            "104.154.89.105",
+          ],
           "outdated_version": "TLS 1.1",
           "port": 443,
         },
@@ -490,7 +520,9 @@ test("parses result file for untrusted-root.badssl.com correctly", async () => {
       {
         "attributes": {
           "hostname": "untrusted-root.badssl.com",
-          "ip_address": "104.154.89.105",
+          "ip_addresses": [
+            "104.154.89.105",
+          ],
           "port": 443,
         },
         "category": "Invalid Certificate",
@@ -548,7 +580,9 @@ test("parses result file for self-signed.badssl.com correctly", async () => {
             "DHE-RSA-AES128-SHA256",
           ],
           "hostname": "self-signed.badssl.com",
-          "ip_address": "104.154.89.105",
+          "ip_addresses": [
+            "104.154.89.105",
+          ],
           "port": 443,
           "tls_versions": [
             "TLS 1.0",
@@ -569,7 +603,9 @@ test("parses result file for self-signed.badssl.com correctly", async () => {
       {
         "attributes": {
           "hostname": "self-signed.badssl.com",
-          "ip_address": "104.154.89.105",
+          "ip_addresses": [
+            "104.154.89.105",
+          ],
           "outdated_version": "TLS 1.0",
           "port": 443,
         },
@@ -586,7 +622,9 @@ test("parses result file for self-signed.badssl.com correctly", async () => {
       {
         "attributes": {
           "hostname": "self-signed.badssl.com",
-          "ip_address": "104.154.89.105",
+          "ip_addresses": [
+            "104.154.89.105",
+          ],
           "outdated_version": "TLS 1.1",
           "port": 443,
         },
@@ -603,7 +641,9 @@ test("parses result file for self-signed.badssl.com correctly", async () => {
       {
         "attributes": {
           "hostname": "self-signed.badssl.com",
-          "ip_address": "104.154.89.105",
+          "ip_addresses": [
+            "104.154.89.105",
+          ],
           "port": 443,
         },
         "category": "Invalid Certificate",
