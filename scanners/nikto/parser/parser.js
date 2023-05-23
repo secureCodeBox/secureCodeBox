@@ -87,7 +87,7 @@ async function parse({host, ip, port: portString, banner, vulnerabilities}) {
         osi_layer: "NETWORK",
         severity,
         attributes: {
-          ip_address: ip,
+          ip_addresses: [ip],
           hostname: host,
           banner,
           method,

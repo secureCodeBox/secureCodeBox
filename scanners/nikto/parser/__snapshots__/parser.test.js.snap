@@ -6,7 +6,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "GET",
       "niktoId": 999986,
       "port": 3000,
@@ -23,7 +25,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "GET",
       "niktoId": 999997,
       "port": 3000,
@@ -45,7 +49,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "GET",
       "niktoId": 999996,
       "port": 3000,
@@ -67,7 +73,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "GET",
       "niktoId": 999103,
       "port": 3000,
@@ -89,7 +97,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -115,7 +125,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -141,7 +153,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -167,7 +181,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -193,7 +209,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -219,7 +237,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -245,7 +265,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -271,7 +293,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -297,7 +321,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -323,7 +349,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -349,7 +377,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -375,7 +405,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -401,7 +433,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -427,7 +461,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -453,7 +489,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -479,7 +517,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -505,7 +545,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -531,7 +573,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -557,7 +601,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -583,7 +629,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -609,7 +657,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -635,7 +685,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -661,7 +713,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -687,7 +741,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -713,7 +769,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -739,7 +797,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -765,7 +825,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -791,7 +853,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -817,7 +881,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -843,7 +909,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -869,7 +937,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -895,7 +965,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -921,7 +993,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -947,7 +1021,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -973,7 +1049,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -999,7 +1077,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1025,7 +1105,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1051,7 +1133,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1077,7 +1161,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1103,7 +1189,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1129,7 +1217,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1155,7 +1245,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1181,7 +1273,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1207,7 +1301,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1233,7 +1329,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1259,7 +1357,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1285,7 +1385,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1311,7 +1413,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1337,7 +1441,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1363,7 +1469,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1389,7 +1497,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1415,7 +1525,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1441,7 +1553,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1467,7 +1581,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1493,7 +1609,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1519,7 +1637,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1545,7 +1665,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1571,7 +1693,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1597,7 +1721,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1623,7 +1749,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1649,7 +1777,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1675,7 +1805,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1701,7 +1833,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1727,7 +1861,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1753,7 +1889,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1779,7 +1917,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1805,7 +1945,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1831,7 +1973,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1857,7 +2001,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1883,7 +2029,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1909,7 +2057,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1935,7 +2085,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1961,7 +2113,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -1987,7 +2141,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2013,7 +2169,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2039,7 +2197,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2065,7 +2225,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2091,7 +2253,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2117,7 +2281,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2143,7 +2309,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2169,7 +2337,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2195,7 +2365,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2221,7 +2393,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2247,7 +2421,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2273,7 +2449,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2299,7 +2477,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2325,7 +2505,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2351,7 +2533,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2377,7 +2561,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2403,7 +2589,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2429,7 +2617,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2455,7 +2645,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2481,7 +2673,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2507,7 +2701,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2533,7 +2729,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2559,7 +2757,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2585,7 +2785,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2611,7 +2813,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2637,7 +2841,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2663,7 +2869,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2689,7 +2897,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2715,7 +2925,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2741,7 +2953,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2767,7 +2981,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2793,7 +3009,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2819,7 +3037,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2845,7 +3065,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2871,7 +3093,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2897,7 +3121,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2923,7 +3149,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2949,7 +3177,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -2975,7 +3205,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3001,7 +3233,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3027,7 +3261,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3053,7 +3289,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3079,7 +3317,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3105,7 +3345,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3131,7 +3373,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3157,7 +3401,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3183,7 +3429,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3209,7 +3457,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3235,7 +3485,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3261,7 +3513,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3287,7 +3541,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3313,7 +3569,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3339,7 +3597,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3365,7 +3625,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3391,7 +3653,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3417,7 +3681,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3443,7 +3709,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3469,7 +3737,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3495,7 +3765,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3521,7 +3793,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3547,7 +3821,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3573,7 +3849,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3599,7 +3877,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3625,7 +3905,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3651,7 +3933,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3677,7 +3961,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3703,7 +3989,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "HEAD",
       "niktoId": 740001,
       "port": 3000,
@@ -3729,7 +4017,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "GET",
       "niktoId": 1675,
       "port": 3000,
@@ -3746,7 +4036,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "GET",
       "niktoId": 1811,
       "port": 3000,
@@ -3763,7 +4055,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "POST",
       "niktoId": 6737,
       "port": 3000,
@@ -3785,7 +4079,9 @@ exports[`parses OWASP Juice Shop result file into findings 1`] = `
     "attributes": {
       "banner": "",
       "hostname": "juice-shop.demo-targets.svc",
-      "ip_address": "10.96.244.199",
+      "ip_addresses": [
+        "10.96.244.199",
+      ],
       "method": "POST",
       "niktoId": 6737,
       "port": 3000,
@@ -3812,7 +4108,9 @@ exports[`parses www.securecodebox.io result file into findings 1`] = `
     "attributes": {
       "banner": "Netlify",
       "hostname": "docs.securecodebox.io",
-      "ip_address": "46.101.121.244",
+      "ip_addresses": [
+        "46.101.121.244",
+      ],
       "method": "GET",
       "niktoId": 999957,
       "port": 80,
@@ -3834,7 +4132,9 @@ exports[`parses www.securecodebox.io result file into findings 1`] = `
     "attributes": {
       "banner": "Netlify",
       "hostname": "docs.securecodebox.io",
-      "ip_address": "46.101.121.244",
+      "ip_addresses": [
+        "46.101.121.244",
+      ],
       "method": "GET",
       "niktoId": 287,
       "port": 80,
@@ -3856,7 +4156,9 @@ exports[`parses www.securecodebox.io result file into findings 1`] = `
     "attributes": {
       "banner": "Netlify",
       "hostname": "docs.securecodebox.io",
-      "ip_address": "46.101.121.244",
+      "ip_addresses": [
+        "46.101.121.244",
+      ],
       "method": "GET",
       "niktoId": 999103,
       "port": 80,
