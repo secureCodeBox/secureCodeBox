@@ -34,6 +34,21 @@ type ScheduledScanReconciler struct {
 	client.Client
 	Log    logr.Logger
 	Scheme *runtime.Scheme
+	Clock
+}
+
+/*
+We'll mock out the clock to make it easier to jump around in time while testing,
+the "real" clock just calls `time.Now`.
+*/
+type realClock struct{}
+
+func (_ realClock) Now() time.Time { return time.Now() }
+
+// clock knows how to get the current time.
+// It can be used to fake out timing for testing.
+type Clock interface {
+	Now() time.Time
 }
 
 // +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scheduledscans,verbs=get;list;watch;create;update;patch;delete
@@ -101,14 +116,14 @@ func (r *ScheduledScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	}
 
 	// Calculate the next schedule
-	nextSchedule, err := getNextSchedule(scheduledScan, time.Now())
+	nextSchedule, err := getNextSchedule(r, scheduledScan, r.Clock.Now())
 	if err != nil {
 		log.Error(err, "Unable to calculate next schedule")
 		return ctrl.Result{}, err
 	}
 
 	// check if it is time to start the next Scan
-	if !time.Now().Before(nextSchedule) {
+	if !r.Clock.Now().Before(nextSchedule) {
 		if scheduledScan.Spec.RetriggerOnScanTypeChange == true {
 			// generate hash for current state of the configured ScanType
 			var scanType executionv1.ScanType
@@ -156,13 +171,13 @@ func (r *ScheduledScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 		}
 
 		// Recalculate next schedule
-		nextSchedule = time.Now().Add(scheduledScan.Spec.Interval.Duration)
+		nextSchedule = r.Clock.Now().Add(scheduledScan.Spec.Interval.Duration)
 	}
 
-	return ctrl.Result{RequeueAfter: nextSchedule.Sub(time.Now())}, nil
+	return ctrl.Result{RequeueAfter: nextSchedule.Sub(r.Clock.Now())}, nil
 }
 
-func getNextSchedule(scheduledScan executionv1.ScheduledScan, now time.Time) (next time.Time, err error) {
+func getNextSchedule(r *ScheduledScanReconciler, scheduledScan executionv1.ScheduledScan, now time.Time) (next time.Time, err error) {
 	// check if the Cron schedule is set
 	if scheduledScan.Spec.Schedule != "" {
 		sched, err := cron.ParseStandard(scheduledScan.Spec.Schedule)
@@ -189,7 +204,7 @@ func getNextSchedule(scheduledScan executionv1.ScheduledScan, now time.Time) (ne
 		if scheduledScan.Status.LastScheduleTime != nil {
 			nextSchedule = scheduledScan.Status.LastScheduleTime.Add(scheduledScan.Spec.Interval.Duration)
 		} else {
-			nextSchedule = time.Now().Add(-1 * time.Second)
+			nextSchedule = r.Clock.Now().Add(-1 * time.Second)
 		}
 		return nextSchedule, nil
 	}
@@ -246,6 +261,10 @@ func (r *ScheduledScanReconciler) deleteOldScans(scans []executionv1.Scan, maxCo
 
 // SetupWithManager sets up the controller and initializes every thing it needs
 func (r *ScheduledScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	// set up a real clock, since we're not in a test
+	if r.Clock == nil {
+		r.Clock = realClock{}
+	}
 	ctx := context.Background()
 	if err := mgr.GetFieldIndexer().IndexField(ctx, &executionv1.Scan{}, ownerKey, func(rawObj client.Object) []string {
 		// grab the job object, extract the owner...
