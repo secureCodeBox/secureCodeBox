@@ -59,7 +59,7 @@ function transformToFindings(ncrackrun, publicKey) {
           `${portName}://${ipAddress}:${portid}`,
         attributes: {
           port: portid,
-          ip_address: ipAddress,
+          ip_addresses: [ipAddress],
           protocol: protocol,
           service: portName,
           username,
