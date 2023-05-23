@@ -14,6 +14,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "grafana.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -37,6 +40,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "kibana.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -60,6 +66,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "build.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -83,6 +92,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "monitoring.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -106,6 +118,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "ui.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -129,6 +144,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "juiceshop.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -152,6 +170,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "wpscan.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -175,6 +196,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "hack.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -198,6 +222,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "spider.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -221,6 +248,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "www.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -244,6 +274,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "rancher.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -267,6 +300,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "backend.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -290,6 +326,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "zap.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -313,6 +352,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "bodgeit.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -336,6 +378,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "api-management.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -359,6 +404,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "dvwa.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -382,6 +430,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "prometheus.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -405,6 +456,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "engine.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -428,6 +482,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "logging.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -451,6 +508,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "petstoreapi.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -474,6 +534,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "jenkins.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -497,6 +560,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "bridge.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -520,6 +586,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "petstore.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -543,6 +612,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "sslyze.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -566,6 +638,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "scanner.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -589,6 +664,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "sieve.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -612,6 +690,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Forward DNS",
       "tag": "dns",
     },
@@ -635,6 +716,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "gateway.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -658,6 +742,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "sso.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -681,6 +768,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "test.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -704,6 +794,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "elasticsearch.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -727,6 +820,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "arachni.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -750,6 +846,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "ctf.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -773,6 +872,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "nmap.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -796,6 +898,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "discovery.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -819,6 +924,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "demo.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -842,6 +950,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "dashboard.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -865,6 +976,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "consul.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -888,6 +1002,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "target.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -911,6 +1028,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "vault.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -934,6 +1054,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "docs.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -957,6 +1080,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "nikto.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -980,6 +1106,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "api-backend.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -1003,6 +1132,9 @@ exports[`example parser parses large json result successfully 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "api.securecodebox.io",
+      "ip_addresses": [
+        "138.201.126.99",
+      ],
       "source": "Entrust",
       "tag": "cert",
     },
@@ -1031,6 +1163,9 @@ exports[`handles jsonl files with a single row correctly 1`] = `
       ],
       "domain": "securecodebox.io",
       "hostname": "www.securecodebox.io",
+      "ip_addresses": [
+        "185.199.109.153",
+      ],
       "source": undefined,
       "tag": "cert",
     },
