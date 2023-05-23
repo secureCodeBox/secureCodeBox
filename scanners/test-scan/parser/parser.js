@@ -18,7 +18,7 @@ function getInvalidFindings(){
       severity: "INFORMATIONAL",
       osi_layer: "NETWORK",
       attributes: {
-        ip_address: "ip address",
+        ip_addresses: ["10.0.0.1"],
         hostname: "hostname",
         operating_system: "osNmap",
       },
@@ -37,7 +37,7 @@ function getValidFindings(){
     attributes: {
       port: 80,
       state: "Open",
-      ip_address: "host ip address",
+      ip_addresses: ["10.0.0.1"],
       mac_address: "hostInfo.mac",
       protocol: "openPort.protocol",
       hostname: "hostInfo.hostname",
@@ -57,7 +57,7 @@ function getValidFindings(){
     severity: "INFORMATIONAL",
     osi_layer: "NETWORK",
     attributes: {
-      ip_address: "ip address",
+      ip_addresses: ["10.0.0.1"],
       hostname: "hostname",
       operating_system: "osNmap",
     },
