@@ -50,7 +50,7 @@ function parse(fileContent) {
       ...partialFinding,
       attributes: {
         hostname,
-        ip_address,
+        ip_addresses: [ip_address],
         port,
         ...(partialFinding.attributes || {}),
       },
