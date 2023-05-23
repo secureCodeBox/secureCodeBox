@@ -61,7 +61,7 @@ async function parse(fileContent) {
       category: finding["template-id"],
       references: references.length > 0 ? references : null, 
       attributes: {
-        ip: finding.ip || null,
+        ip_addresses: finding.ip ? [finding.ip] : null,
         type: finding.type || null,
         hostname,
         path: finding.path || null,
