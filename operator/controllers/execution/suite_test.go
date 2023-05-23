@@ -8,6 +8,7 @@ import (
 	"context"
 	"path/filepath"
 	"testing"
+	"time"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -35,6 +36,16 @@ var k8sClient client.Client
 var testEnv *envtest.Environment
 var ctx context.Context
 var cancel context.CancelFunc
+
+type fakeClock struct {
+	timeToAdd time.Duration
+}
+
+func (f fakeClock) Now() time.Time             { return time.Now().Add(f.timeToAdd) }
+func (f fakeClock) TimeTravel(d time.Duration) { f.timeToAdd += d }
+func (f fakeClock) Reset()                     { f.timeToAdd = 0 }
+
+var FakeClock = &fakeClock{timeToAdd: 0}
 
 func TestAPIs(t *testing.T) {
 	RegisterFailHandler(Fail)
@@ -83,6 +94,7 @@ var _ = BeforeSuite(func() {
 		Client: k8sManager.GetClient(),
 		Scheme: k8sManager.GetScheme(),
 		Log:    ctrl.Log.WithName("controllers").WithName("ScheduledScanController"),
+		Clock:  FakeClock,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
