@@ -55,6 +55,9 @@ test("example parser parses single line json successfully", async () => {
           ],
           "domain": "example.de",
           "hostname": "www.example.de",
+          "ip_addresses": [
+            "10.110.225.135",
+          ],
           "source": undefined,
           "tag": "cert",
         },
