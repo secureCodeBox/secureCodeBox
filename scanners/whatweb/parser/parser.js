@@ -19,7 +19,7 @@ function transformToFindings(targets) {
       severity: 'INFORMATIONAL',
       attributes: {
         requestConfig: target.requestConfig,
-        ipAddress: target.ipAddress,
+        ip_addresses: [target.ipAddress],
         country: target.country,
         HTML5: target.html5
       }
