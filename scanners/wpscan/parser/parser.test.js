@@ -27,7 +27,9 @@ test("WPScan parser parses a successfully scan result with at least one informat
       {
         "attributes": {
           "hostname": "https://www.example.com/",
-          "ip_address": "192.168.200.100",
+          "ip_addresses": [
+            "192.168.200.100",
+          ],
           "wp_confirmed_by": {},
           "wp_found_by": "Rss Generator (Passive Detection)",
           "wp_interesting_entries": [
@@ -203,7 +205,9 @@ test("WPScan parser parses a scan result file without a detected wp version corr
       {
         "attributes": {
           "hostname": "https://wp.example.com/",
-          "ip_address": "203.0.113.42",
+          "ip_addresses": [
+            "203.0.113.42",
+          ],
           "wp_confirmed_by": undefined,
           "wp_found_by": undefined,
           "wp_interesting_entries": undefined,

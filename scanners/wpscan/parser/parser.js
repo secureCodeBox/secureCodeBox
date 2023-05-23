@@ -30,7 +30,7 @@ const summaryFinding = {
   confidence: scanResults.version?.confidence,
   attributes: {
     hostname: targetUrl,
-    ip_address: targetIp,
+    ip_addresses: [targetIp],
     wpscan_version: wpscanVersion,
     wpscan_requests: wpscanRequestsDone,
     wp_version: scanResults.version?.number,
