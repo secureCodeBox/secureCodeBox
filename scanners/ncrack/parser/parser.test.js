@@ -36,7 +36,9 @@ it("should return findings when ncrack found credentials", async () => {
   expect(finding).toMatchInlineSnapshot(`
     {
       "attributes": {
-        "ip_address": "192.168.0.1",
+        "ip_addresses": [
+          "192.168.0.1",
+        ],
         "password": "aaf076d4fe7cfb63fd1628df91",
         "port": "22",
         "protocol": "tcp",
@@ -83,7 +85,9 @@ it("should return findings when ncrack found two credentials scanning two servic
     [
       {
         "attributes": {
-          "ip_address": "192.168.0.2",
+          "ip_addresses": [
+            "192.168.0.2",
+          ],
           "password": "55994bcdabd8b0b69d4cb32919",
           "port": "22",
           "protocol": "tcp",
@@ -100,7 +104,9 @@ it("should return findings when ncrack found two credentials scanning two servic
       },
       {
         "attributes": {
-          "ip_address": "192.168.0.1",
+          "ip_addresses": [
+            "192.168.0.1",
+          ],
           "password": "2a4707625af87d8d4302ad226d",
           "port": "22",
           "protocol": "tcp",
