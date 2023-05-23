@@ -106,7 +106,7 @@ function createPolicyViolationFinding({
     location: hostname || ipAddress,
     attributes: {
       hostname: hostname,
-      ip_address: ipAddress,
+      ip_addresses: [ipAddress],
       payload: payload
     }
   };
@@ -184,7 +184,7 @@ async function parse(fileContent) {
         location: location,
         attributes: {
           hostname: host.hostname || null,
-          ip_address: host.ip,
+          ip_addresses: [host.ip],
           server_banner: host.server_banner || null,
           ssh_version: host.ssh_version || null,
           os_cpe: host.os_cpe,

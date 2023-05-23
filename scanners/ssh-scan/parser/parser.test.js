@@ -55,7 +55,9 @@ test("ssh-scan parser parses a proper result to proper findings", async () => {
           ],
           "grade": "C",
           "hostname": "securecodebox.io",
-          "ip_address": "138.201.126.99",
+          "ip_addresses": [
+            "138.201.126.99",
+          ],
           "key_algorithms": [
             "curve25519-sha256@libssh.org",
             "ecdh-sha2-nistp256",
@@ -97,7 +99,9 @@ test("ssh-scan parser parses a proper result to proper findings", async () => {
       {
         "attributes": {
           "hostname": "securecodebox.io",
-          "ip_address": "138.201.126.99",
+          "ip_addresses": [
+            "138.201.126.99",
+          ],
           "payload": [
             "diffie-hellman-group14-sha1",
           ],
@@ -114,7 +118,9 @@ test("ssh-scan parser parses a proper result to proper findings", async () => {
       {
         "attributes": {
           "hostname": "securecodebox.io",
-          "ip_address": "138.201.126.99",
+          "ip_addresses": [
+            "138.201.126.99",
+          ],
           "payload": [
             "umac-64-etm@openssh.com",
             "hmac-sha1-etm@openssh.com",
@@ -167,7 +173,9 @@ test("ssh-scan parser parses a result without a hostname into proper findings", 
           ],
           "grade": "D",
           "hostname": null,
-          "ip_address": "192.168.42.42",
+          "ip_addresses": [
+            "192.168.42.42",
+          ],
           "key_algorithms": [
             "curve25519-sha256@libssh.org",
             "ecdh-sha2-nistp256",
@@ -209,7 +217,9 @@ test("ssh-scan parser parses a result without a hostname into proper findings", 
       {
         "attributes": {
           "hostname": null,
-          "ip_address": "192.168.42.42",
+          "ip_addresses": [
+            "192.168.42.42",
+          ],
           "payload": [
             "diffie-hellman-group14-sha1",
           ],
@@ -226,7 +236,9 @@ test("ssh-scan parser parses a result without a hostname into proper findings", 
       {
         "attributes": {
           "hostname": null,
-          "ip_address": "192.168.42.42",
+          "ip_addresses": [
+            "192.168.42.42",
+          ],
           "payload": [
             "umac-64-etm@openssh.com",
             "hmac-sha1-etm@openssh.com",
@@ -246,7 +258,9 @@ test("ssh-scan parser parses a result without a hostname into proper findings", 
       {
         "attributes": {
           "hostname": null,
-          "ip_address": "192.168.42.42",
+          "ip_addresses": [
+            "192.168.42.42",
+          ],
           "payload": [
             "password",
           ],
