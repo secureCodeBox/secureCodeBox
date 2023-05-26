@@ -209,10 +209,25 @@ Example config:
 ```
 ➡️  [Reference: #1447](https://github.com/secureCodeBox/secureCodeBox/pull/1447)
 
-### Nmap Findings: ip_address field removed, replaced with ip_addresses
+### Findings Format: inconsistent ip address fields removed, replaced with standardized `ip_addresses`
 
-The nmap findings previously only included a ip_address field containing a single ip address.
-As host can have multiple ip addresses (both in ipv4 & ipv6) this has been replaced by an ip_addresses array.
+In v3 and previous version there was no standardized format for ip address. Depending on the scanner the in attribute fields with different names and generally was only limited to a single address and to ipv4 only.
+The `hostOrIP` helper for CascadingRule has been updated to use the new standardized field. If a finding has multiple ip addresses and no hostname the `hostOrIP` helper sorts the list of ips alphabetically and picks the first one.
+
+With v4 the following changes were made to scanner formats to standardize the ip addresses information:
+
+- amass: added `ip_addresses` field to attributes. The addresses still remains as is contains additional information like the CIDR & ASN
+- doggo: added `ip_addresses` field to attributes. Only set for A & AAAA records
+- ncrack: renamed `ip_address` field to `ip_addresses` and changed format to a list to support multiple addresses
+- nikto: renamed `ip_address` field to `ip_addresses` and changed format to a list to support multiple addresses
+- nuclei: renamed `ip` field to `ip_addresses` and changed format to a list to support multiple addresses
+- ssh-audit: renamed `ip_address` field to `ip_addresses` and changed format to a list to support multiple addresses
+- sslyze: renamed `ip_address` field to `ip_addresses` and changed format to a list to support multiple addresses
+- test-scan: renamed `ip_address` field to `ip_addresses` and changed format to a list to support multiple addresses
+- whatweb: renamed `ipAddress` field to `ip_addresses` and changed format to a list to support multiple addresses
+- wpscan: renamed `ip_address` field to `ip_addresses` and changed format to a list to support multiple addresses
+
+As a example the findings for nmap has been changed like the following:
 
 ```diff
 {
