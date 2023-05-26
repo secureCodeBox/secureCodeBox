@@ -102,7 +102,7 @@ helm install securecodebox-operator secureCodeBox/operator
 | s3.port | string | `nil` |  |
 | s3.secretAttributeNames.accesskey | string | `"accesskey"` |  |
 | s3.secretAttributeNames.secretkey | string | `"secretkey"` |  |
-| s3UrlTemplate | string | `nil` |  |
+| s3.urlTemplate | string | scan-{{ .Scan.UID }}/{{ .Filename }} | Go Template that generates the path used to store raw result file and findings.json file in the s3 bucket. Can be used to store the files in a subfolder of the s3 bucket |
 | securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"privileged":false,"readOnlyRootFilesystem":true,"runAsNonRoot":true}` | Sets the securityContext on the operators container level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod |
 | securityContext.allowPrivilegeEscalation | bool | `false` | Ensure that users privileges cannot be escalated |
 | securityContext.capabilities.drop[0] | string | `"all"` | This drops all linux privileges from the operator container. They are not required |
