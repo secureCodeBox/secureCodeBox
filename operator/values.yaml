@@ -102,6 +102,9 @@ s3:
   # s3.awsStsEndpoint -- STS Endpoint used in AWS IRSA Authentication. Change this to the sts endpoint of your aws region. Only used when s3.authType is set to "aws-irsa"
   awsStsEndpoint: "https://sts.amazonaws.com"
 
+  # -- Go Template that generates the path used to store raw result file and findings.json file in the s3 bucket. Can be used to store the files in a subfolder of the s3 bucket
+  # @default -- scan-{{ .Scan.UID }}/{{ .Filename }}
+  urlTemplate: null
 # resources -- CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)
 resources:
   limits:
@@ -110,10 +113,6 @@ resources:
   requests:
     cpu: 100m
     memory: 20Mi
-# s3FileUrlTemplate -- Template that generates the url to access the result files of a scan
-# @default -- scan-{{ .Scan.UID }}/{{ .Filename }}
-s3UrlTemplate: null
-
 # presignedUrlExpirationTimes -- Duration how long presigned urls are valid
 presignedUrlExpirationTimes:
   scanners: "12h"
