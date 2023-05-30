@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-/home/sshaudit/ssh-audit.py -j "$@" >> /home/securecodebox/ssh-audit.json
+/ssh-audit.py -j "$@" >> /home/securecodebox/ssh-audit.json
 exit_code=$?
 
 # Exit Code 1 describes an error with the connection to the target
