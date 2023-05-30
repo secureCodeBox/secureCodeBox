@@ -14,7 +14,7 @@ kubeVersion: ">=v1.11.0-0"
 
 annotations:
   versionApi: https://api.github.com/repos/mozilla/ssh_scan/releases/latest
-
+  supported-platforms: linux/amd64
 keywords:
   - security
   - ssh

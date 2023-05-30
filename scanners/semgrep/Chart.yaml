@@ -21,6 +21,7 @@ version: "v3.1.0-alpha1"
 appVersion: "1.23.0"
 annotations:
   versionApi: https://api.github.com/repos/returntocorp/semgrep/releases/latest
+  supported-platforms: linux/amd64
 kubeVersion: ">=v1.11.0-0"
 home: https://www.securecodebox.io/docs/scanners/semgrep
 icon: https://www.securecodebox.io/img/integrationIcons/semgrep.svg # TODO: Add this
