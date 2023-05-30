@@ -12,6 +12,7 @@ appVersion: "v3.23.1"
 kubeVersion: ">=v1.11.0-0"
 annotations:
   versionApi: https://api.github.com/repos/OWASP/Amass/releases/latest
+  supported-platforms: linux/amd64,linux/arm64
 keywords:
   - security
   - amass

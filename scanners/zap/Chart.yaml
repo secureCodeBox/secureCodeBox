@@ -12,6 +12,7 @@ appVersion: "2.12.0"
 kubeVersion: ">=v1.11.0-0"
 annotations:
   versionApi: https://api.github.com/repos/zaproxy/zaproxy/releases/latest
+  supported-platforms: linux/amd64,linux/arm64
 keywords:
   - security
   - Zap
