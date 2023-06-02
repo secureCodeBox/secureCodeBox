@@ -117,6 +117,9 @@ scanner:
   # scanner.tolerations -- Optional tolerations settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
   tolerations: []
 
+  # -- if set to true the scan job will be suspended after creation. You can then resume the job using `kubectl resume <jobname>` or using a job scheduler like kueue
+  suspend: false
+
   # -- Optional to configure the reportType of the scan ZAP Scan. Must be one of the supported formats: {XML,XML-plus,JSON,JSON-plus,HTML,HTML-plus,MD}
   # @default -- "XML"
   reportType: "XML"

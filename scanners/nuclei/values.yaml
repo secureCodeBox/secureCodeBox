@@ -100,6 +100,9 @@ scanner:
   # scanner.tolerations -- Optional tolerations settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
   tolerations: []
 
+  # -- if set to true the scan job will be suspended after creation. You can then resume the job using `kubectl resume <jobname>` or using a job scheduler like kueue
+  suspend: false
+
 nucleiTemplateCache:
   # -- Enables or disables the use of an persistent volume to cache the always downloaded nuclei-templates for all scans.
   enabled: true

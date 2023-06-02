@@ -12,6 +12,7 @@ spec:
     location: "/home/securecodebox/kube-hunter-results.json"
   jobTemplate:
     spec:
+      suspend: {{ .Values.scanner.suspend | default false }}
       {{- if .Values.scanner.ttlSecondsAfterFinished }}
       ttlSecondsAfterFinished: {{ .Values.scanner.ttlSecondsAfterFinished }}
       {{- end }}

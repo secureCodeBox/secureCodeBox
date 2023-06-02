@@ -516,6 +516,7 @@ zapConfiguration:
 | scanner.securityContext.privileged | bool | `false` | Ensures that the scanner container is not run in privileged mode |
 | scanner.securityContext.readOnlyRootFilesystem | bool | `false` | Prevents write access to the containers file system |
 | scanner.securityContext.runAsNonRoot | bool | `false` | Enforces that the scanner image is run as a non root user |
+| scanner.suspend | bool | `false` | if set to true the scan job will be suspended after creation. You can then resume the job using `kubectl resume <jobname>` or using a job scheduler like kueue |
 | scanner.tolerations | list | `[]` | Optional tolerations settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
 | scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | zapConfiguration | object | `{}` | All `scanType` specific configuration options. Feel free to add more configuration options. All configuration options can be overridden by scan specific configurations if defined. Please have a look into the README.md to find more configuration options. |

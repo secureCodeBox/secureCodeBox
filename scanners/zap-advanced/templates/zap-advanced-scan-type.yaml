@@ -34,6 +34,7 @@ spec:
     location: "/home/securecodebox/zap-results.xml"
   jobTemplate:
     spec:
+      suspend: {{ .Values.scanner.suspend | default false }}
       {{- if .Values.scanner.ttlSecondsAfterFinished }}
       ttlSecondsAfterFinished: {{ .Values.scanner.ttlSecondsAfterFinished }}
       {{- end }}
