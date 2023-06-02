@@ -12,6 +12,7 @@ spec:
     location: "/home/securecodebox/kubeaudit.jsonl"
   jobTemplate:
     spec:
+      suspend: {{ .Values.scanner.suspend | default false }}
       {{- if .Values.scanner.ttlSecondsAfterFinished }}
       ttlSecondsAfterFinished: {{ .Values.scanner.ttlSecondsAfterFinished }}
       {{- end }}
