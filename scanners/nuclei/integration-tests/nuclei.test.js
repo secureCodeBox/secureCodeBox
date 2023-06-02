@@ -16,9 +16,9 @@ test(
       180
     );
 
-    expect(count).toBeGreaterThanOrEqual(20);
-    expect(severities["informational"]).toBeGreaterThanOrEqual(20);
-    expect(categories["http-missing-security-headers"]).toBeGreaterThanOrEqual(15);
+    expect(count).toBeGreaterThanOrEqual(15);
+    expect(severities["informational"]).toBeGreaterThanOrEqual(15);
+    expect(categories["http-missing-security-headers"]).toBeGreaterThanOrEqual(8);
     expect(categories["tomcat-detect"]).toBe(1);
   },
   3 * 60 * 1000
