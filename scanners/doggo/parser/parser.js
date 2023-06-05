@@ -32,7 +32,7 @@ function transformToFindings(targets) {
       severity: "INFORMATIONAL",
       attributes: {
         doggy_dns_type: target.type,
-        ip_addresses: target.type === "A" || target.type === "AAAA" ? [target.address] : undefined,
+        ip_addresses: target.type === "A" || target.type === "AAAA" ? [target.address] : [],
         doggy_dns_address: target.address,
         doggy_dns_status: target.status,
         doggy_dns_rtt: target.rtt,
