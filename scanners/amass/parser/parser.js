@@ -34,7 +34,7 @@ async function parse(fileContent) {
         source: domain.source,
         domain: domain.domain,
         addresses: domain.addresses,
-        ip_addresses: domain.addresses?.map((address) => address.ip),
+        ip_addresses: domain.addresses?.map((address) => address.ip) ?? [],
       },
     };
   });
