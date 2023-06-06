@@ -97,7 +97,7 @@ func createScheduledScanWithSchedule(ctx context.Context, namespace string, retr
 			Namespace: namespace,
 		},
 		Spec: executionv1.ScheduledScanSpec{
-			Schedule:                  "*/1 * * * *",
+			Schedule:                  "*/2 * * * *",
 			Interval:                  metav1.Duration{Duration: 42 * time.Hour},
 			RetriggerOnScanTypeChange: retriggerOnScanTypeChange,
 			ScanSpec: &executionv1.ScanSpec{

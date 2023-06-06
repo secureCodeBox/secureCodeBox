@@ -171,7 +171,7 @@ func (r *ScheduledScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 		}
 
 		// Recalculate next schedule
-		nextSchedule = r.Clock.Now().Add(scheduledScan.Spec.Interval.Duration)
+		nextSchedule, err = getNextSchedule(r, scheduledScan, r.Clock.Now())
 	}
 
 	return ctrl.Result{RequeueAfter: nextSchedule.Sub(r.Clock.Now())}, nil
@@ -263,7 +263,7 @@ func (r *ScheduledScanReconciler) deleteOldScans(scans []executionv1.Scan, maxCo
 func (r *ScheduledScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	// set up a real clock, since we're not in a test
 	if r.Clock == nil {
-		r.Clock = realClock{}
+		r.Clock = &realClock{}
 	}
 	ctx := context.Background()
 	if err := mgr.GetFieldIndexer().IndexField(ctx, &executionv1.Scan{}, ownerKey, func(rawObj client.Object) []string {

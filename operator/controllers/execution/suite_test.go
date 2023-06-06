@@ -41,11 +41,12 @@ type fakeClock struct {
 	timeToAdd time.Duration
 }
 
-func (f fakeClock) Now() time.Time             { return time.Now().Add(f.timeToAdd) }
-func (f fakeClock) TimeTravel(d time.Duration) { f.timeToAdd += d }
-func (f fakeClock) Reset()                     { f.timeToAdd = 0 }
-
+var FakeTime = time.Date(2023, 1, 1, 15, 0, 0, 0, time.UTC)
 var FakeClock = &fakeClock{timeToAdd: 0}
+
+func (f *fakeClock) Now() time.Time             { return FakeTime.Add(f.timeToAdd) }
+func (f *fakeClock) TimeTravel(d time.Duration) { f.timeToAdd += d }
+func (f *fakeClock) Reset()                     { f.timeToAdd = 0 }
 
 func TestAPIs(t *testing.T) {
 	RegisterFailHandler(Fail)
