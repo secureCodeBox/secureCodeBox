@@ -112,8 +112,27 @@ func (r *ScheduledScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 		return ctrl.Result{}, err
 	}
 
+	InProgressScans := getScansInProgress(childScans.Items)
+
 	// check if it is time to start the next Scan
 	if !time.Now().Before(nextSchedule) {
+		// check concurrency policy
+		if scheduledScan.Spec.ConcurrencyPolicy == executionv1.ForbidConcurrent && len(InProgressScans) > 0 {
+			log.V(8).Info("concurrency policy blocks concurrent runs, skipping", "num active", len(InProgressScans))
+			return ctrl.Result{RequeueAfter: 5 * time.Minute}, nil
+		}
+
+		// ...or instruct us to replace existing ones...
+		if scheduledScan.Spec.ConcurrencyPolicy == executionv1.ReplaceConcurrent {
+			for _, scan := range InProgressScans {
+				// we don't care if the job was already deleted
+				if err := r.Delete(context.Background(), &scan, client.PropagationPolicy(metav1.DeletePropagationBackground)); (err) != nil {
+					log.Error(err, "unable to delete active job", "job", scan)
+					return ctrl.Result{}, err
+				}
+			}
+		}
+
 		if scheduledScan.Spec.RetriggerOnScanTypeChange == true {
 			// generate hash for current state of the configured ScanType
 			var scanType executionv1.ScanType
@@ -227,6 +246,22 @@ func getScansWithState(scans []executionv1.Scan, state string) []executionv1.Sca
 	var newScans []executionv1.Scan
 	for _, scan := range scans {
 		if scan.Status.State == state {
+			newScans = append(newScans, scan)
+		}
+	}
+	sort.Slice(newScans, func(i, j int) bool {
+		return newScans[i].ObjectMeta.CreationTimestamp.Before(&newScans[j].ObjectMeta.CreationTimestamp)
+	})
+
+	return newScans
+}
+
+// Returns a sorted list of scans in progress
+func getScansInProgress(scans []executionv1.Scan) []executionv1.Scan {
+	// Get a sorted list of scans.
+	var newScans []executionv1.Scan
+	for _, scan := range scans {
+		if scan.Status.State != "Done" && scan.Status.State != "Errored" {
 			newScans = append(newScans, scan)
 		}
 	}
