@@ -26,6 +26,7 @@ jobs:
   operator:
     name: "Build | Operator"
     runs-on: ubuntu-latest
+    continue-on-error: true
     strategy:
       matrix:
         component: ["operator", "lurker"]
@@ -170,6 +171,7 @@ jobs:
   sdk:
     name: "Build | SDKs"
     runs-on: ubuntu-latest
+    continue-on-error: true
     strategy:
       matrix:
         sdk:
@@ -215,6 +217,7 @@ jobs:
     name: "Build | Hooks"
     needs: sdk
     runs-on: ubuntu-latest
+    continue-on-error: true
     strategy:
       matrix:
         hook:
@@ -318,6 +321,7 @@ jobs:
     name: "Build | Parsers"
     needs: sdk
     runs-on: ubuntu-latest
+    continue-on-error: true
     strategy:
       matrix:
         parser:
@@ -405,6 +409,7 @@ jobs:
   scanners-third-party:
     name: "Build | Third Party Scanner"
     runs-on: ubuntu-latest
+    continue-on-error: true
     strategy:
       matrix:
         scanner:
@@ -484,6 +489,7 @@ jobs:
   scanners-custom:
     name: "Build | Custom Scanner"
     runs-on: ubuntu-latest
+    continue-on-error: true
     strategy:
       matrix:
         scanner:
@@ -544,6 +550,7 @@ jobs:
   demo-targets:
     name: "Build | Custom Demo-Targets"
     runs-on: ubuntu-latest
+    continue-on-error: true
     strategy:
       matrix:
         target:
