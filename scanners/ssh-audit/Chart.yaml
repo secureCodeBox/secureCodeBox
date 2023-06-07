@@ -15,7 +15,7 @@ kubeVersion: ">=v1.11.0-0"
 annotations:
   versionApi: https://api.github.com/repos/jtesta/ssh-audit/releases/latest
   # supported cpu architectures for which docker images for the scanner should be build
-  # supported-platforms: linux/amd64
+  supported-platforms: linux/amd64
 
 keywords:
   - security
@@ -28,4 +28,4 @@ sources:
 
 maintainers:
   - name: iteratec GmbH
-  - email: secureCodeBox@iteratec.com
+    email: secureCodeBox@iteratec.com
