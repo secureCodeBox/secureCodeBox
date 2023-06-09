@@ -103,6 +103,10 @@ scanner:
   # -- if set to true the scan job will be suspended after creation. You can then resume the job using `kubectl resume <jobname>` or using a job scheduler like kueue
   suspend: false
 
+trivyDatabaseCache:
+  # -- Enables or disables the use of trivy server in another pod to cache the vulnerability database for all scans.
+  enabled: true
+
 cascadingRules:
   # cascadingRules.enabled -- Enables or disables the installation of the default cascading rules for this scanner
   enabled: false

@@ -1,0 +1,51 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+{{ if .Values.trivyDatabaseCache.enabled }}
+# We use trivy in client/server mode for central storing of the trivy vulnerability database to prevent downloading it for each scan again, enabled by default.
+# First declare a service that will serve requests to the database cache pod
+kind: Service
+apiVersion: v1
+metadata:
+  name: trivy-database
+  labels:
+    app: trivy-database
+spec:
+  selector:
+    app: trivy-database
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  type: ClusterIP
+---
+# Now declare the actual deployment of the database cache server
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trivy-database
+  labels:
+    app: trivy-database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trivy-database
+  template:
+    metadata:
+      labels:
+        app: trivy-database
+    spec:
+      containers:
+      - name: trivy-database
+        image: "{{ .Values.scanner.image.repository }}:{{ .Values.scanner.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: IfNotPresent
+        args:
+        - "server"
+        - "--listen"
+        - "0.0.0.0:8080"
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+{{- end }}
