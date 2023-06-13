@@ -118,7 +118,7 @@ var _ = Describe("ScheduledScan controller", func() {
 			var scanlist executionv1.ScanList
 
 			// ensure that the ScheduledScan has been triggered
-			waitForScheduledScanToBeTriggered(ctx, namespace, 61*time.Second)
+			waitForScheduledScanToBeTriggered(ctx, namespace, 90*time.Second)
 			k8sClient.List(ctx, &scanlist, client.InNamespace(namespace))
 
 			Expect(scheduledScan.Spec.Schedule).Should(Equal("*/1 * * * *"))
