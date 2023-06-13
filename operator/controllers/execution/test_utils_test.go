@@ -66,7 +66,7 @@ func createScanType(ctx context.Context, namespace string) {
 	Expect(k8sClient.Create(ctx, scanType)).Should(Succeed())
 }
 
-func createScheduledScanWithInterval(ctx context.Context, namespace string, retriggerOnScanTypeChange bool) executionv1.ScheduledScan {
+func createScheduledScanWithInterval(ctx context.Context, namespace string, retriggerOnScanTypeChange bool, interval time.Duration, concurrencyPolicy executionv1.ConcurrencyPolicy) executionv1.ScheduledScan {
 	namespaceLocalResourceMode := executionv1.NamespaceLocal
 
 	scheduledScan := executionv1.ScheduledScan{
@@ -75,8 +75,9 @@ func createScheduledScanWithInterval(ctx context.Context, namespace string, retr
 			Namespace: namespace,
 		},
 		Spec: executionv1.ScheduledScanSpec{
-			Interval:                  metav1.Duration{Duration: 42 * time.Hour},
+			Interval:                  metav1.Duration{Duration: interval},
 			RetriggerOnScanTypeChange: retriggerOnScanTypeChange,
+			ConcurrencyPolicy:         concurrencyPolicy,
 			ScanSpec: &executionv1.ScanSpec{
 				ScanType:     "nmap",
 				ResourceMode: &namespaceLocalResourceMode,
