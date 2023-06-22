@@ -87,6 +87,11 @@ public class Scan extends V1Scan {
     return this.getKey(SecureCodeBoxScanAnnotations.TEST_TITLE);
   }
 
+
+  public Optional<String> getMinimumSeverity() {
+    return this.getKey(SecureCodeBoxScanAnnotations.MINIMUM_SEVERITY);
+  }
+
   @AllArgsConstructor
   public enum SecureCodeBoxScanAnnotations {
     PRODUCT_TYPE("defectdojo.securecodebox.io/product-type-name"),
@@ -98,6 +103,7 @@ public class Scan extends V1Scan {
     ENGAGEMENT_DEDUPLICATE_ON_ENGAGEMENT("defectdojo.securecodebox.io/engagement-deduplicate-on-engagement"),
     ENGAGEMENT_TAGS("defectdojo.securecodebox.io/engagement-tags"),
     TEST_TITLE("defectdojo.securecodebox.io/test-title"),
+    MINIMUM_SEVERITY("defectdojo.securecodebox.io/minimum_severity")
     ;
 
     @Getter
