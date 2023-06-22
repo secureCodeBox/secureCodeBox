@@ -24,6 +24,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import org.springframework.util.LinkedMultiValueMap;
 
 /**
  * VersionedEngagementsStrategy creates a new Engagement for every new version of the software.
@@ -87,7 +88,6 @@ public class VersionedEngagementsStrategy implements Strategy {
     }
 
     LOG.info("Running with DefectDojo User Id: {}", userId);
-
     long productTypeId = this.ensureProductTypeExistsForScan(scan);
     long productId = this.ensureProductExistsForScan(scan, productTypeId).getId();
 
@@ -101,14 +101,20 @@ public class VersionedEngagementsStrategy implements Strategy {
 
     ScanType scanType = ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).scanType;
     TestType testType = testTypeService.searchUnique(TestType.builder().name(scanType.getTestType()).build()).orElseThrow(() -> new DefectDojoPersistenceException("Could not find test type '" + scanType.getTestType() + "' in DefectDojo API. DefectDojo might be running in an unsupported version."));
-    
+
+    var additionalValues = new LinkedMultiValueMap<String, Object>();
+    if (scan.getMinimumSeverity().isPresent()) {
+      additionalValues.add("minimum_severity", scan.getMinimumSeverity().get());
+    }
+
     importScanService.reimportScan(
       scanResultFile,
       testId,
       userId,
       this.descriptionGenerator.currentDate(),
       scanType,
-      testType.getId()
+      testType.getId(),
+      additionalValues
     );
 
     LOG.info("Uploaded Scan Report as testID {} to DefectDojo", testId);
