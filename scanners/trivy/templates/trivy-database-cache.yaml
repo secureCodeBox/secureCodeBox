@@ -28,7 +28,7 @@ metadata:
   labels:
     app: trivy-database
 spec:
-  replicas: 1
+  replicas: {{ .Values.trivyDatabaseCache.replicas }}
   selector:
     matchLabels:
       app: trivy-database

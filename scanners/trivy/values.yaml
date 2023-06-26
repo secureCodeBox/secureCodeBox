@@ -106,6 +106,8 @@ scanner:
 trivyDatabaseCache:
   # -- Enables or disables the use of trivy server in another pod to cache the vulnerability database for all scans.
   enabled: true
+  # -- amount of replicas to configure for the Deployment
+  replicas: 1
 
 cascadingRules:
   # cascadingRules.enabled -- Enables or disables the installation of the default cascading rules for this scanner
