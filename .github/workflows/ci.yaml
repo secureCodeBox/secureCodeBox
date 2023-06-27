@@ -21,7 +21,7 @@ env:
   GO_VERSION: "1.19"
   PYTHON_VERSION: "3.9.16"
   NVM_VERSION: "0.39.3" # Does not need to be updated as often as the Node.js version or the NPM version
-  KIND_NODE_IMAGE: "kindest/node:v1.27.0@sha256:c6b22e613523b1af67d4bc8a0c38a4c3ea3a2b8fbc5b367ae36345c9cb844518"
+  KIND_NODE_IMAGE: "kindest/node:v1.27.3@sha256:9dd3392d79af1b084671b05bcf65b21de476256ad1dcc853d9f3b10b4ac52dde"
 
 jobs:
   # ---- NVM Setup ----
