@@ -103,7 +103,7 @@ public class Scan extends V1Scan {
     ENGAGEMENT_DEDUPLICATE_ON_ENGAGEMENT("defectdojo.securecodebox.io/engagement-deduplicate-on-engagement"),
     ENGAGEMENT_TAGS("defectdojo.securecodebox.io/engagement-tags"),
     TEST_TITLE("defectdojo.securecodebox.io/test-title"),
-    MINIMUM_SEVERITY("defectdojo.securecodebox.io/minimum_severity")
+    MINIMUM_SEVERITY("defectdojo.securecodebox.io/minimum-severity")
     ;
 
     @Getter

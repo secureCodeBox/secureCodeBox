@@ -104,7 +104,7 @@ public class VersionedEngagementsStrategy implements Strategy {
 
     var additionalValues = new LinkedMultiValueMap<String, Object>();
     if (scan.getMinimumSeverity().isPresent()) {
-      additionalValues.add("minimum_severity", scan.getMinimumSeverity().get());
+      additionalValues.add("minimum-severity", scan.getMinimumSeverity().get());
     }
 
     importScanService.reimportScan(
