@@ -224,7 +224,7 @@ helm upgrade --install dd secureCodeBox/persistence-defectdojo \
 
 It has come to our attention, that DefectDojo become slow when handling a lot of data. A lot of data in DefectDojo can be informational findings one likes to ignore.
 Therefore Defectdojo provides the option to only create findings for scan finding from a certain severity level and above, thus lowering the amount of data stored.
-We integrate this option in out scans by providing the "defectdojo.securecodebox.io/minimum_severity" annotation for scans.
+We integrate this option in our scans by providing the "defectdojo.securecodebox.io/minimum_severity" annotation for scans.
 This is an example of how the minimum severity for findings of a scan can be set:
 ```yaml
 apiVersion: "execution.securecodebox.io/v1"
