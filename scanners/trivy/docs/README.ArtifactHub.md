@@ -143,6 +143,8 @@ Kubernetes: `>=v1.11.0-0`
 | scanner.suspend | bool | `false` | if set to true the scan job will be suspended after creation. You can then resume the job using `kubectl resume <jobname>` or using a job scheduler like kueue |
 | scanner.tolerations | list | `[]` | Optional tolerations settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
 | scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+| trivyDatabaseCache.enabled | bool | `true` | Enables or disables the use of trivy server in another pod to cache the vulnerability database for all scans. |
+| trivyDatabaseCache.replicas | int | `1` | amount of replicas to configure for the Deployment |
 
 ## Contributing
 
