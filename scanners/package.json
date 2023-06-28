@@ -42,7 +42,7 @@
     "prettier": "^2.2.1"
   },
   "dependencies": {
-    "@types/jest": "^29.4.0",
+    "@types/jest": "^29.5.2",
     "ts-jest": "^29.0.5"
   }
 }
