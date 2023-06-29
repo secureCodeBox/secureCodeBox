@@ -41,6 +41,11 @@ spec:
                 - "image"
                 # Suppress progress bar, as it pollutes non interactive terminal logs
                 - "--no-progress"
+                {{- if .Values.trivyDatabaseCache.enabled }}
+                # Connect to trivy database cache to avoid downloading the vulnerability DB for each scan
+                - "--server"
+                - "http://trivy-database.{{ .Release.Namespace }}.svc:8080"
+                {{- end }}
                 - "--format"
                 - "json"
                 - "--output"
@@ -101,6 +106,11 @@ spec:
                 - "image"
                 # Suppress progress bar, as it pollutes non interactive terminal logs
                 - "--no-progress"
+                {{- if .Values.trivyDatabaseCache.enabled }}
+                # Connect to trivy database cache to avoid downloading the vulnerability DB for each scan
+                - "--server"
+                - "http://trivy-database.{{ .Release.Namespace }}.svc:8080"
+                {{- end }}
                 - "--format"
                 - "json"
                 - "--output"
@@ -154,6 +164,11 @@ spec:
                 - "filesystem"
                 # Suppress progress bar, as it pollutes non interactive terminal logs
                 - "--no-progress"
+                {{- if .Values.trivyDatabaseCache.enabled }}
+                # Connect to trivy database cache to avoid downloading the vulnerability DB for each scan
+                - "--server"
+                - "http://trivy-database.{{ .Release.Namespace }}.svc:8080"
+                {{- end }}
                 - "--format"
                 - "json"
                 - "--output"
@@ -206,6 +221,11 @@ spec:
                 - "repo"
                 # Suppress progress bar, as it pollutes non interactive terminal logs
                 - "--no-progress"
+                {{- if .Values.trivyDatabaseCache.enabled }}
+                # Connect to trivy database cache to avoid downloading the vulnerability DB for each scan
+                - "--server"
+                - "http://trivy-database.{{ .Release.Namespace }}.svc:8080"
+                {{- end }}
                 - "--format"
                 - "json"
                 - "--output"
