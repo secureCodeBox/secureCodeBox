@@ -9,13 +9,13 @@ async function parse(scanResults) {
   if (typeof(imageScanResult) === "string") // empty file
     return [];
 
-  const imageId = imageScanResult.ArtifactName;
-
-  // check if scanResults.Results is an array
-  if (!Array.isArray(scanResults.Results)) {
-    return findings;
+  // check if scanResults.Results is an array and non empty
+  if (!Array.isArray(scanResults.Results) || scanResults.Results.length === 0) {
+    return [];
   }
 
+  const imageId = imageScanResult.ArtifactName;
+  
   // Use flatMap to iterate through scanResults.Results and flatten the resulting findings array
 const findings = scanResults.Results.flatMap(({ Target: target, Vulnerabilities }) => {
   const vulnerabilities = Vulnerabilities || [];

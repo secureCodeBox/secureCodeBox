@@ -46,21 +46,33 @@ test("parses securecodebox:master result file into findings", async () => {
   expect(findings).toMatchSnapshot();
 });
 
-test("should properly parse empty json file", async () => {
-  const jsonContent = await readFile(
-    __dirname + "/__testFiles__/test-empty-report.json",
-    {
+
+test("should properly parse a json file with no .Results", async () => {
+  const fileContent = JSON.parse(
+    await readFile(__dirname + "/__testFiles__/juice-shop-v12.10.2-no-results.json", {
       encoding: "utf8",
-    }
+    })
   );
-  const findings = await parse(jsonContent);
+  const findings = await parse(fileContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toMatchInlineSnapshot(`[]`);
 });
 
+
 test("should properly parse a json file with empty .Results", async () => {
+  const fileContent = JSON.parse(
+    await readFile(__dirname + "/__testFiles__/juice-shop-v12.10.2-empty-results.json", {
+      encoding: "utf8",
+    })
+  );
+  const findings = await parse(fileContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchInlineSnapshot(`[]`);
+});
+
+test("should properly parse empty json file", async () => {
   const jsonContent = await readFile(
-    __dirname + "/__testFiles__/juice-shop-v12.10.2-empty-results.json",
+    __dirname + "/__testFiles__/test-empty-report.json",
     {
       encoding: "utf8",
     }
