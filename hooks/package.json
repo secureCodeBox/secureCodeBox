@@ -12,7 +12,8 @@
     "example": "example"
   },
   "scripts": {
-    "test": "jest --verbose --ci --colors --coverage --passWithNoTests"
+    "test:unit": "jest --verbose --testPathIgnorePatterns /integration-tests/ --ci --colors --coverage --passWithNoTests",
+    "test:integration": "jest --verbose --ci --colors --coverage --passWithNoTests"
   },
   "keywords": [
     "secureCodeBox",

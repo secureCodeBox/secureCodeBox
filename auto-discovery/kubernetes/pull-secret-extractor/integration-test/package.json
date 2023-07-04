@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "pull-secret-extraction.test.js"
+    "test": "pull-secret-extraction.test.js",
+    "test:integration": "jest --verbose --ci --colors --coverage --passWithNoTests"
   },
   "author": "iteratec GmbH",
   "license": "Apache-2.0",
