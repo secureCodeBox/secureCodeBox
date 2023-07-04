@@ -46,7 +46,7 @@ integration-tests: ## 🩺 Start integration test for this module in the namespa
 	@if [ -d "$(hook-prefix)/integration-tests" ]; then \
 			kubectl -n integration-tests delete scans --all; \
 			npm ci --prefix $(TESTS_HELPERS_DIR); \
-			cd $(hook-prefix)/integration-tests && npm ci && npm run test --package jest@$(JEST_VERSION); \
+			cd $(hook-prefix)/integration-tests && npm ci && npm run test:integration \
 	else \
 			echo ".: 🚫 Integration tests folder for $(name) does not exist, skipped."; \
 	fi
