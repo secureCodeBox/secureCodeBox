@@ -71,7 +71,7 @@ install-deps-js:
 	cd ${module}/ && npm ci
 
 .PHONY: unit-test-js
-unit-test-js:
+unit-test-js: install-deps-js
 	@echo ".: 🧪 Starting unit-tests for '$(name)' $(module)."
 	npm run test:unit -- ${name}/${module}/ 
 
