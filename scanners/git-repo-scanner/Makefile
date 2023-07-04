@@ -22,4 +22,4 @@ integration-tests:
 	#kubectl -n integration-tests delete scans --all
 	#cd ../../tests/integration/ && npm ci
 	#cd ../../scanners/${scanner}
-	#npx --yes --package jest@$(JEST_VERSION) jest --verbose --ci --colors --coverage --passWithNoTests ${scanner}/integration-tests
+	#npm run test:integration -- ${scanner}/integration-tests

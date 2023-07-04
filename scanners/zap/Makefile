@@ -21,4 +21,4 @@ integration-tests:
 		--set="parser.image.repository=docker.io/$(IMG_NS)/$(parser-prefix)-zap" \
 		--set="parser.image.tag=$(IMG_TAG)"
 	kubectl apply -f ./integration-tests/automation-framework-configMap.yaml -n integration-tests
-	cd $(SCANNERS_DIR) && npm ci && cd $(scanner)/integration-tests && npm run test --yes --package jest@$(JEST_VERSION) $(scanner)/integration-tests
+	cd $(SCANNERS_DIR) && npm ci && cd $(scanner)/integration-tests && npm run test:integration -- $(scanner)/integration-tests

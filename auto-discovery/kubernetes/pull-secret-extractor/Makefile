@@ -13,8 +13,6 @@ IMG ?= auto-discovery-secret-extractor
 # Tag used for the image
 IMG_TAG ?= sha-$$(git rev-parse --short HEAD)
 
-JEST_VERSION ?= 27.0.6
-
 
 ##@ General
 
@@ -52,7 +50,7 @@ integration-test: docker-build docker-export kind-import
 	./integration-test/test-pod.sh ${IMG_NS}/${IMG}:${IMG_TAG}
 	kubectl wait --for=condition=ready --timeout=60s -n integration-test pod/init-container-test
 
-	cd integration-test &&  npm ci && npx --yes --package jest@$(JEST_VERSION) jest --ci --colors --coverage --passWithNoTests
+	cd integration-test &&  npm ci && npm run test:integration
 
 ##@ Build
 
