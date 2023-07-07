@@ -194,6 +194,16 @@ class ZapConfigureSpiderAjax(ZapConfigureSpider):
                 method_name="set_option_random_inputs",
             )
 
+        if self._is_not_empty_integer("failIfFoundUrlsLessThan", spider_config):
+            self.failIfFoundUrlsLessThan = spider_config["failIfFoundUrlsLessThan"]
+        else:
+            self.failIfFoundUrlsLessThan = 0  # Default value
+        
+        if self._is_not_empty_integer("failIfFoundUrlsLessThan", spider_config):   
+            self.warnIfFoundUrlsLessThan = spider_config["warnIfFoundUrlsLessThan"]
+        else:
+            self.warnIfFoundUrlsLessThan = 0  # Default value   
+  
     def check_if_spider_completed(self):
         finished = self.get_zap_spider.status != "running"
         logging.info(
@@ -215,6 +225,19 @@ class ZapConfigureSpiderAjax(ZapConfigureSpider):
             raise RuntimeError(
                 "No URLs found by ZAP Spider :-( - is the target URL accessible? Local services may not be accessible from the Docker container"
             )
+        elif num_urls < self.failIfFoundUrlsLessThan:
+            logging.error(
+                "Found URLs are less than {failIfFoundUrlsLessThan}, failing process."
+            )
+            raise RuntimeError(
+                "Found URLs are less than {failIfFoundUrlsLessThan} by ZAP Spider, failing process."
+            )
+        
+        elif num_urls < self.warnIfFoundUrlsLessThan:
+            logging.warning(
+                "Found URLs are less than {warnIfFoundUrlsLessThan}, continuing process."
+            )
+
         else:
             logging.info("Ajax Spider found total: %s URLs", str(num_urls))
             for url in self.get_zap_spider.results():
