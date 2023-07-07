@@ -301,6 +301,16 @@ class ZapConfigureSpiderHttp(ZapConfigureSpider):
                 method_name="set_option_user_agent",
             )
 
+        if self._is_not_empty_integer("failIfFoundUrlsLessThan", spider_config):
+            self.failIfFoundUrlsLessThan = spider_config["failIfFoundUrlsLessThan"]
+        else:
+            self.failIfFoundUrlsLessThan = 0  # Default value
+        
+        if self._is_not_empty_integer("failIfFoundUrlsLessThan", spider_config):   
+            self.warnIfFoundUrlsLessThan = spider_config["warnIfFoundUrlsLessThan"]
+        else:
+            self.warnIfFoundUrlsLessThan = 0  # Default value   
+
     def check_if_spider_completed(self):
         progress = int(self.get_zap_spider.status(self.get_spider_id))
         logging.info("HTTP Spider(%d) progress: %d", self.get_spider_id, progress)
@@ -317,6 +327,19 @@ class ZapConfigureSpiderHttp(ZapConfigureSpider):
             )
             raise RuntimeError(
                 "No URLs found by ZAP Spider :-( - is the target URL accessible? Local services may not be accessible from the Docker container."
+            )
+        
+        elif num_urls < self.failIfFoundUrlsLessThan:
+            logging.error(
+                "Found URLs are less than {self.failIfFoundUrlsLessThan}, failing process."
+            )
+            raise RuntimeError(
+                "Found URLs are less than {self.failIfFoundUrlsLessThan} by ZAP Spider, failing process."
+            )
+        
+        elif num_urls < self.warnIfFoundUrlsLessThan:
+            logging.warning(
+                "Found URLs are less than {self.warnIfFoundUrlsLessThan}, continuing process."
             )
         else:
             for url in self.get_zap_spider.results(scanid=self.get_spider_id):
