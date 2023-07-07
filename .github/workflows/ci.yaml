@@ -456,7 +456,7 @@ jobs:
       - name: "Start kind cluster"
         run: |
           kind version
-          kind create cluster --wait 3m --image kindest/node:v1.24.0@sha256:0866296e693efe1fed79d5e6c7af8df71fc73ae45e3679af05342239cdc5bc8e
+          kind create cluster --wait 3m --image "$KIND_NODE_IMAGE"
 
       - name: "Inspect kind cluster"
         run: |
