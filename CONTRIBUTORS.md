@@ -49,3 +49,4 @@ Committing with `git commit -s` will add the sign-off at the end of the commit m
 - Sofia Lohr <sofia.lohr@iteratec.com>
 - Vanessa Hermann <vanessa.hermann@iteratec.com>
 - Lukas Fischer <lukas.fischer@iteratec.com>
+- Heiko Kiesel <heiko.kiesel@iteratec.com>
