@@ -31,7 +31,6 @@ jobs:
           - nuclei
           - semgrep
           - ssh-audit
-          - ssh-scan
           - sslyze
           - trivy
           - typo3scan

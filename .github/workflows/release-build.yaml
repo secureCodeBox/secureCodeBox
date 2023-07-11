@@ -339,7 +339,7 @@ jobs:
           - nuclei
           - screenshooter
           - semgrep
-          - ssh-scan
+          - ssh-audit
           - sslyze
           - test-scan
           - trivy
