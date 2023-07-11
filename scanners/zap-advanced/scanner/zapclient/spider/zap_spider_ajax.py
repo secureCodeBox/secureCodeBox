@@ -199,7 +199,7 @@ class ZapConfigureSpiderAjax(ZapConfigureSpider):
         else:
             self.failIfFoundUrlsLessThan = 0  # Default value
         
-        if self._is_not_empty_integer("failIfFoundUrlsLessThan", spider_config):   
+        if self._is_not_empty_integer("warnIfFoundUrlsLessThan", spider_config):   
             self.warnIfFoundUrlsLessThan = spider_config["warnIfFoundUrlsLessThan"]
         else:
             self.warnIfFoundUrlsLessThan = 0  # Default value   
