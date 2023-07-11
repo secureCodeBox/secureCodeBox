@@ -41,7 +41,7 @@ jobs:
           - zap-advanced
           # missing scanners are : nmap, nikto
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v5
