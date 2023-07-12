@@ -39,6 +39,7 @@ var officialScanTypes map[string]bool = map[string]bool{
 	"screenshooter":       true,
 	"semgrep":             true,
 	"ssh-audit":           true,
+	"ssh-scan":            true,
 	"sslyze":              true,
 	"trivy-image":         true,
 	"trivy-filesystem":    true,
