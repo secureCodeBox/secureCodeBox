@@ -4,43 +4,43 @@
 
 package io.securecodebox.persistence.mapping;
 
-import io.securecodebox.persistence.defectdojo.config.DefectDojoConfig;
-import io.securecodebox.persistence.defectdojo.models.Endpoint;
+import io.securecodebox.persistence.defectdojo.config.Config;
+import io.securecodebox.persistence.defectdojo.model.Endpoint;
+import io.securecodebox.persistence.defectdojo.model.Finding;
 import io.securecodebox.persistence.defectdojo.service.EndpointService;
 import io.securecodebox.persistence.defectdojo.service.FindingService;
 import io.securecodebox.persistence.models.SecureCodeBoxFinding;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.Instant;
-import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.UUID;
 
 public class DefectDojoFindingToSecureCodeBoxMapper {
 
-  DefectDojoConfig config;
+  Config config;
   EndpointService endpointService;
   FindingService findingService;
 
-  public DefectDojoFindingToSecureCodeBoxMapper(DefectDojoConfig config, EndpointService endpointService, FindingService findingService){
+  public DefectDojoFindingToSecureCodeBoxMapper(Config config, EndpointService endpointService, FindingService findingService){
     this.config = config;
     this.endpointService = endpointService;
     this.findingService = findingService;
   }
 
-  public SecureCodeBoxFinding fromDefectDojoFinding(io.securecodebox.persistence.defectdojo.models.Finding defectDojoFinding) {
+  public SecureCodeBoxFinding fromDefectDojoFinding(Finding defectDojoFinding) {
     return fromDefectDojoFinding(defectDojoFinding, true);
   }
 
-  public SecureCodeBoxFinding fromDefectDojoFinding(io.securecodebox.persistence.defectdojo.models.Finding defectDojoFinding, boolean recurse) {
+  public SecureCodeBoxFinding fromDefectDojoFinding(Finding defectDojoFinding, boolean recurse) {
     var finding = new SecureCodeBoxFinding();
 
     finding.setId(UUID.randomUUID().toString());
     finding.setName(defectDojoFinding.getTitle());
     finding.setCategory("DefectDojo Imported Finding");
     finding.setDescription(defectDojoFinding.getDescription());
-    Instant createdAtInstant = defectDojoFinding.getCreatedAt().toInstant(OffsetDateTime.now().getOffset());
+    Instant createdAtInstant = defectDojoFinding.getCreatedAt().toInstant();
     finding.setParsedAt(DateTimeFormatter.ISO_INSTANT.format(createdAtInstant));
 
     var attributes = new HashMap<String, Object>();
