@@ -8,13 +8,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import io.kubernetes.client.openapi.models.V1OwnerReference;
 import io.securecodebox.persistence.config.PersistenceProviderConfig;
 import io.securecodebox.persistence.defectdojo.ScanType;
-import io.securecodebox.persistence.defectdojo.config.DefectDojoConfig;
-import io.securecodebox.persistence.defectdojo.models.*;
+import io.securecodebox.persistence.defectdojo.config.Config;
+import io.securecodebox.persistence.defectdojo.model.*;
 import io.securecodebox.persistence.defectdojo.service.*;
 import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import io.securecodebox.persistence.models.Scan;
 import io.securecodebox.persistence.util.DescriptionGenerator;
 import io.securecodebox.persistence.util.ScanNameMapping;
+import org.apache.commons.collections4.map.LinkedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +25,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import org.springframework.util.LinkedMultiValueMap;
 
 /**
  * VersionedEngagementsStrategy creates a new Engagement for every new version of the software.
@@ -47,13 +47,13 @@ public class VersionedEngagementsStrategy implements Strategy {
   ImportScanService importScanService;
   FindingService findingService;
 
-  DefectDojoConfig config;
+  Config config;
   PersistenceProviderConfig persistenceProviderConfig;
 
   public VersionedEngagementsStrategy() {}
 
   @Override
-  public void init(DefectDojoConfig defectDojoConfig, PersistenceProviderConfig persistenceProviderConfig) {
+  public void init(Config defectDojoConfig, PersistenceProviderConfig persistenceProviderConfig) {
     this.productService = new ProductService(defectDojoConfig);
     this.productTypeService = new ProductTypeService(defectDojoConfig);
     this.userService = new UserService(defectDojoConfig);
@@ -63,7 +63,7 @@ public class VersionedEngagementsStrategy implements Strategy {
     this.engagementService = new EngagementService(defectDojoConfig);
     this.testService = new TestService(defectDojoConfig);
     this.testTypeService = new TestTypeService(defectDojoConfig);
-    this.importScanService = new ImportScanService(defectDojoConfig);
+    this.importScanService = new DefaultImportScanService(defectDojoConfig);
     this.findingService = new FindingService(defectDojoConfig);
 
     this.config = defectDojoConfig;
@@ -102,9 +102,9 @@ public class VersionedEngagementsStrategy implements Strategy {
     ScanType scanType = ScanNameMapping.bySecureCodeBoxScanType(scan.getSpec().getScanType()).scanType;
     TestType testType = testTypeService.searchUnique(TestType.builder().name(scanType.getTestType()).build()).orElseThrow(() -> new DefectDojoPersistenceException("Could not find test type '" + scanType.getTestType() + "' in DefectDojo API. DefectDojo might be running in an unsupported version."));
 
-    var additionalValues = new LinkedMultiValueMap<String, Object>();
+    var additionalValues = new LinkedMap<String, String>();
     if (scan.getMinimumSeverity().isPresent()) {
-      additionalValues.add("minimum-severity", scan.getMinimumSeverity().get());
+      additionalValues.put("minimum-severity", scan.getMinimumSeverity().get());
     }
 
     importScanService.reimportScan(
