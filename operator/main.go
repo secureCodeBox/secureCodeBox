@@ -79,9 +79,10 @@ func main() {
 		os.Exit(1)
 	}
 	if err = (&executioncontrollers.ScheduledScanReconciler{
-		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("execution").WithName("ScheduledScan"),
-		Scheme: mgr.GetScheme(),
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("execution").WithName("ScheduledScan"),
+		Recorder: mgr.GetEventRecorderFor("ScheduledScanController"),
+		Scheme:   mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "ScheduledScan")
 		os.Exit(1)

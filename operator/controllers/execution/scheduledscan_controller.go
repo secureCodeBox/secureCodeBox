@@ -17,6 +17,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
+	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -32,8 +33,9 @@ var (
 // ScheduledScanReconciler reconciles a ScheduledScan object
 type ScheduledScanReconciler struct {
 	client.Client
-	Log    logr.Logger
-	Scheme *runtime.Scheme
+	Log      logr.Logger
+	Scheme   *runtime.Scheme
+	Recorder record.EventRecorder
 }
 
 // +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scheduledscans,verbs=get;list;watch;create;update;patch;delete
@@ -167,6 +169,7 @@ func getNextSchedule(r *ScheduledScanReconciler, scheduledScan executionv1.Sched
 	if scheduledScan.Spec.Schedule != "" {
 		sched, err := cron.ParseStandard(scheduledScan.Spec.Schedule)
 		if err != nil {
+			r.Recorder.Event(&scheduledScan, "Warning", "ScheduleParseError", fmt.Sprintf("Unparseable schedule %q: %v", scheduledScan.Spec.Schedule, err))
 			return time.Time{}, fmt.Errorf("Unparseable schedule %q: %v", scheduledScan.Spec.Schedule, err)
 		}
 
@@ -193,6 +196,7 @@ func getNextSchedule(r *ScheduledScanReconciler, scheduledScan executionv1.Sched
 		}
 		return nextSchedule, nil
 	}
+	r.Recorder.Event(&scheduledScan, "Warning", "NoScheduleOrInterval", "No valid schedule or interval found")
 	return time.Time{}, fmt.Errorf("No schedule or interval found")
 }
 
