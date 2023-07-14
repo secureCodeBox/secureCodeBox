@@ -31,6 +31,9 @@ type ScanTypeReconciler struct {
 // +kubebuilder:rbac:groups="execution.securecodebox.io",resources=scheduledscans,verbs=get;list;watch;create;update;patch
 // +kubebuilder:rbac:groups="execution.securecodebox.io/status",resources=scheduledscans,verbs=get;update;patch
 
+// Allows the ScanType Controller to create and patch Events
+// +kubebuilder:rbac:groups="",resources=events,verbs=create;patch
+
 // Reconcile compares the Service object against the state of the cluster and updates both if needed
 func (r *ScanTypeReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	log := r.Log
