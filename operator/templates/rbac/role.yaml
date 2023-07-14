@@ -1,7 +1,3 @@
-# SPDX-FileCopyrightText: the secureCodeBox authors
-#
-# SPDX-License-Identifier: Apache-2.0
-
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -101,6 +97,14 @@ rules:
   - patch
   - update
 - apiGroups:
+  - execution.securecodebox.io/status
+  resources:
+  - scheduledscans
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
   - rbac.authorization.k8s.io
   resources:
   - rolebindings
@@ -116,6 +120,5 @@ rules:
   verbs:
   - create
   - get
-  - update
   - list
   - watch

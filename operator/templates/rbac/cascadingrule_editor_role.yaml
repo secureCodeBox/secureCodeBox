@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# permissions for end users to edit cascadingrules.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cascadingrule-editor-role
+rules:
+  - apiGroups:
+      - cascading.securecodebox.io
+    resources:
+      - cascadingrules
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - cascading.securecodebox.io
+    resources:
+      - cascadingrules/status
+    verbs:
+      - get
