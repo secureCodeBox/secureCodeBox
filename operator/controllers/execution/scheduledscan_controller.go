@@ -119,6 +119,7 @@ func (r *ScheduledScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 		// check concurrency policy
 		if scheduledScan.Spec.ConcurrencyPolicy == executionv1.ForbidConcurrent && len(InProgressScans) > 0 {
 			log.V(8).Info("concurrency policy blocks concurrent runs, skipping", "num active", len(InProgressScans))
+			r.Recorder.Event(&scheduledScan, "Normal", "ConcurrencyPolicyBlocks", "Concurrency policy blocks concurrent runs, skipping")
 			return ctrl.Result{RequeueAfter: 5 * time.Minute}, nil
 		}
 
@@ -128,8 +129,10 @@ func (r *ScheduledScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 				// we don't care if the job was already deleted
 				if err := r.Delete(context.Background(), &scan, client.PropagationPolicy(metav1.DeletePropagationBackground)); (err) != nil {
 					log.Error(err, "unable to delete active job", "job", scan)
+					r.Recorder.Event(&scheduledScan, "Warning", "JobDeletionFailed", fmt.Sprintf("Unable to delete active job: %s, error: %v", scan.Name, err))
 					return ctrl.Result{}, err
 				}
+				r.Recorder.Event(&scheduledScan, "Normal", "JobReplaced", fmt.Sprintf("Active job %s replaced", scan.Name))
 			}
 		}
 
