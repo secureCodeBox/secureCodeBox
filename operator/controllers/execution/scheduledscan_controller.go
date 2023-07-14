@@ -43,6 +43,9 @@ type ScheduledScanReconciler struct {
 // +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scans,verbs=get;list;create
 // +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scans/status,verbs=get
 
+// Allows the ScheduledScan Controller to create and patch Events
+// +kubebuilder:rbac:groups="",resources=events,verbs=create;patch
+
 // Reconcile comapares the ScheduledScan Resource with the State of the Cluster and updates both accordingly
 func (r *ScheduledScanReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	log := r.Log.WithValues("scheduledscan", req.NamespacedName)
