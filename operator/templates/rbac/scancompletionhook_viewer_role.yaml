@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# permissions for end users to view scancompletionhooks.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: scancompletionhook-viewer-role
+rules:
+  - apiGroups:
+      - execution.securecodebox.io
+    resources:
+      - scancompletionhooks
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - execution.securecodebox.io
+    resources:
+      - scancompletionhooks/status
+    verbs:
+      - get
