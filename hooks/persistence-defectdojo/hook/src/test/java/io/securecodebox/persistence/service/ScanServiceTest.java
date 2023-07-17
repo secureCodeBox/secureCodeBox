@@ -3,7 +3,7 @@ package io.securecodebox.persistence.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.securecodebox.models.V1ScanSpec;
 import io.securecodebox.persistence.config.PersistenceProviderConfig;
-import io.securecodebox.persistence.defectdojo.models.ScanFile;
+import io.securecodebox.persistence.defectdojo.model.ScanFile;
 import io.securecodebox.persistence.models.Scan;
 import io.securecodebox.persistence.service.scanresult.ScanResultService;
 import org.junit.jupiter.api.Test;
@@ -13,6 +13,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.time.ZoneId;
 
@@ -28,9 +30,10 @@ public class ScanServiceTest {
   @Mock
   Scan scan;
 
-  public static String readResourceAsString(String resourceName) throws IOException {
+  public static String readResourceAsString(String resourceName) throws IOException, URISyntaxException {
     ClassLoader cl = ScanServiceTest.class.getClassLoader();
-    File resourceFile = new File(cl.getResource(resourceName).getFile());
+    URI resourceURI = cl.getResource(resourceName).toURI();
+    File resourceFile = new File(resourceURI);
     return Files.readString(resourceFile.toPath());
   }
 
@@ -41,7 +44,7 @@ public class ScanServiceTest {
    * @throws InterruptedException
    */
   @Test
-  public void correctlyParsesGenericResults() throws IOException, InterruptedException {
+  public void correctlyParsesGenericResults() throws IOException, InterruptedException, URISyntaxException {
     // read data
     String expectedDdFindingsString = readResourceAsString("kubehunter-dd-findings.json");
     String givenScbFindingsString = readResourceAsString("kubehunter-scb-findings.json");
@@ -75,7 +78,7 @@ public class ScanServiceTest {
    * @throws InterruptedException
    */
   @Test
-  public void correctlyReturnsScannerSpecificResults() throws IOException, InterruptedException {
+  public void correctlyReturnsScannerSpecificResults() throws IOException, InterruptedException, URISyntaxException {
     var rawNiktoScanString = readResourceAsString("nikto-raw-result.json");
     String rawResultDownloadUrl = "https://foo.com/nikto-raw-results.json";
     V1ScanSpec scanSpec = new V1ScanSpec();
