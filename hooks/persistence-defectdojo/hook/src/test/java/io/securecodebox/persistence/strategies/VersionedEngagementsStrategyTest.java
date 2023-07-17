@@ -7,9 +7,9 @@ import io.kubernetes.client.openapi.models.V1ObjectMeta;
 import io.securecodebox.models.V1ScanSpec;
 import io.securecodebox.models.V1ScanStatus;
 import io.securecodebox.persistence.config.PersistenceProviderConfig;
-import io.securecodebox.persistence.defectdojo.config.DefectDojoConfig;
-import io.securecodebox.persistence.defectdojo.models.ScanFile;
-import io.securecodebox.persistence.defectdojo.models.UserProfile;
+import io.securecodebox.persistence.defectdojo.config.Config;
+import io.securecodebox.persistence.defectdojo.model.ScanFile;
+import io.securecodebox.persistence.defectdojo.model.UserProfile;
 import io.securecodebox.persistence.defectdojo.service.*;
 import io.securecodebox.persistence.exceptions.DefectDojoPersistenceException;
 import io.securecodebox.persistence.models.Scan;
@@ -56,7 +56,7 @@ public class VersionedEngagementsStrategyTest {
 
   @BeforeEach
   public void setup() throws Exception {
-    versionedEngagementsStrategy.config = new DefectDojoConfig("https://defectdojo.example.com", "<key>", "foobar", 1000);
+    versionedEngagementsStrategy.config = new Config("https://defectdojo.example.com", "<key>", "foobar", 1000);
     versionedEngagementsStrategy.persistenceProviderConfig = new PersistenceProviderConfig(new String[]{"http://example.com","http://example.com"});
 
     scan = new Scan();
