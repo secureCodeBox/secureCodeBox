@@ -29,6 +29,10 @@ spec:
       jsonPath: .spec.interval
       name: Interval
       type: string
+    - description: Schedule
+      jsonPath: .spec.schedule
+      name: Schedule
+      type: string
     - description: Total Finding Count
       jsonPath: .status.findings.count
       name: Findings
@@ -4240,6 +4244,9 @@ spec:
                       type: object
                     type: array
                 type: object
+              schedule:
+                description: The schedule in Cron format, see https://en.wikipedia.org/wiki/Cron.
+                type: string
               successfulJobsHistoryLimit:
                 description: SuccessfulJobsHistoryLimit determines how many past Scans
                   will be kept until the oldest one will be deleted, defaults to 3.
@@ -4248,7 +4255,6 @@ spec:
                 minimum: 0
                 type: integer
             required:
-            - interval
             - scanSpec
             type: object
           status:

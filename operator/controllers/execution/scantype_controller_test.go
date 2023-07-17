@@ -2,6 +2,9 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
+//go:build fast
+// +build fast
+
 package controllers
 
 import (
@@ -33,10 +36,10 @@ var _ = Describe("ScanType controller", func() {
 
 			createNamespace(ctx, namespace)
 			createScanType(ctx, namespace)
-			scheduledScan := createScheduledScan(ctx, namespace, true)
+			scheduledScan := createScheduledScanWithInterval(ctx, namespace, true)
 
 			// ensure that the ScheduledScan has been triggered
-			waitForScheduledScanToBeTriggered(ctx, namespace)
+			waitForScheduledScanToBeTriggered(ctx, namespace, timeout)
 			k8sClient.Get(ctx, types.NamespacedName{Name: "test-scan", Namespace: namespace}, &scheduledScan)
 			initialExecutionTime := *scheduledScan.Status.LastScheduleTime
 
@@ -74,10 +77,10 @@ var _ = Describe("ScanType controller", func() {
 
 			createNamespace(ctx, namespace)
 			createScanType(ctx, namespace)
-			scheduledScan := createScheduledScan(ctx, namespace, true)
+			scheduledScan := createScheduledScanWithInterval(ctx, namespace, true)
 
 			// ensure that the ScheduledScan has been triggered
-			waitForScheduledScanToBeTriggered(ctx, namespace)
+			waitForScheduledScanToBeTriggered(ctx, namespace, timeout)
 			k8sClient.Get(ctx, types.NamespacedName{Name: "test-scan", Namespace: namespace}, &scheduledScan)
 			initialExecutionTime := *scheduledScan.Status.LastScheduleTime
 
@@ -104,10 +107,10 @@ var _ = Describe("ScanType controller", func() {
 
 			createNamespace(ctx, namespace)
 			createScanType(ctx, namespace)
-			scheduledScan := createScheduledScan(ctx, namespace, false)
+			scheduledScan := createScheduledScanWithInterval(ctx, namespace, false)
 
 			// ensure that the ScheduledScan has been triggered
-			waitForScheduledScanToBeTriggered(ctx, namespace)
+			waitForScheduledScanToBeTriggered(ctx, namespace, timeout)
 			k8sClient.Get(ctx, types.NamespacedName{Name: "test-scan", Namespace: namespace}, &scheduledScan)
 			initialExecutionTime := *scheduledScan.Status.LastScheduleTime
 
@@ -139,7 +142,7 @@ var _ = Describe("ScanType controller", func() {
 	})
 })
 
-func waitForScheduledScanToBeTriggered(ctx context.Context, namespace string) {
+func waitForScheduledScanToBeTriggered(ctx context.Context, namespace string, timeout time.Duration) {
 	var scheduledScan executionv1.ScheduledScan
 	By("Wait for ScheduledScan to trigger the initial Scan")
 	Eventually(func() bool {

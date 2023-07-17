@@ -80,9 +80,10 @@ var _ = BeforeSuite(func() {
 		Log:      ctrl.Log.WithName("controllers").WithName("ScanTypeController"),
 	}).SetupWithManager(k8sManager)
 	err = (&ScheduledScanReconciler{
-		Client: k8sManager.GetClient(),
-		Scheme: k8sManager.GetScheme(),
-		Log:    ctrl.Log.WithName("controllers").WithName("ScheduledScanController"),
+		Client:   k8sManager.GetClient(),
+		Scheme:   k8sManager.GetScheme(),
+		Recorder: k8sManager.GetEventRecorderFor("ScheduledScanController"),
+		Log:      ctrl.Log.WithName("controllers").WithName("ScheduledScanController"),
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 

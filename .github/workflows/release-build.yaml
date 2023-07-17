@@ -32,7 +32,7 @@ jobs:
         component: ["operator", "lurker"]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Docker Meta
         id: docker_meta
@@ -79,7 +79,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Docker Meta
         id: docker_meta
@@ -126,7 +126,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Docker Meta
         id: docker_meta
@@ -179,7 +179,7 @@ jobs:
           - hook-sdk
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Docker Meta
         id: docker_meta
@@ -231,7 +231,7 @@ jobs:
           - update-field-hook
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Docker Meta
         id: docker_meta
@@ -285,7 +285,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Docker Meta
         id: docker_meta
@@ -340,6 +340,7 @@ jobs:
           - screenshooter
           - semgrep
           - ssh-scan
+          - ssh-audit
           - sslyze
           - test-scan
           - trivy
@@ -350,7 +351,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Docker Meta
         id: docker_meta
@@ -420,6 +421,7 @@ jobs:
           - ncrack
           - nmap
           - nikto
+          - ssh-scan
           - ssh-audit
           - sslyze
           - typo3scan
@@ -428,7 +430,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set ENV Var with Scanner Version
         uses: mikefarah/yq@v4.4.1
@@ -499,7 +501,7 @@ jobs:
           - zap-advanced
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Docker Meta
         id: docker_meta
@@ -559,7 +561,7 @@ jobs:
           - old-wordpress
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set ENV Var with Demo-Target Version
         uses: mikefarah/yq@v4.4.1

@@ -18,7 +18,12 @@ type ScheduledScanSpec struct {
 
 	// Interval describes how often the scan should be repeated
 	// Examples: '12h', '30m'
+	// +kubebuilder:validation:Optional
 	Interval metav1.Duration `json:"interval"`
+
+	// The schedule in Cron format, see https://en.wikipedia.org/wiki/Cron.
+	// +kubebuilder:validation:Optional
+	Schedule string `json:"schedule"`
 
 	// SuccessfulJobsHistoryLimit determines how many past Scans will be kept until the oldest one will be deleted, defaults to 3. When set to 0, Scans will be deleted directly after completion
 	// +kubebuilder:validation:Optional
@@ -59,6 +64,7 @@ type ScheduledScanStatus struct {
 // +kubebuilder:printcolumn:name="UID",type=string,JSONPath=`.metadata.uid`,description="K8s Resource UID",priority=1
 // +kubebuilder:printcolumn:name="Type",type=string,JSONPath=`.spec.scanSpec.scanType`,description="Scan Type"
 // +kubebuilder:printcolumn:name="Interval",type=string,JSONPath=`.spec.interval`,description="Interval"
+// +kubebuilder:printcolumn:name="Schedule",type=string,JSONPath=`.spec.schedule`,description="Schedule"
 // +kubebuilder:printcolumn:name="Findings",type=string,JSONPath=`.status.findings.count`,description="Total Finding Count"
 // +kubebuilder:printcolumn:name="Parameters",type=string,JSONPath=`.spec.scanSpec.parameters`,description="Arguments passed to the Scanner",priority=1
 

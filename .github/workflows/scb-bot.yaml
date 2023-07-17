@@ -1,9 +1,9 @@
-# This is a Github Action workflow that runs daily at 9:15 AM UTC Time. 
-# It checks if any of the scanners listed in the matrix section are outdated. 
+# This is a Github Action workflow that runs daily at 9:15 AM UTC Time.
+# It checks if any of the scanners listed in the matrix section are outdated.
 # If a scanner is outdated, it checks if a pull request to upgrade that scanner already exists.
-# If it does not, it creates a new pull request with a title that includes the current and new versions of the scanner. 
+# If it does not, it creates a new pull request with a title that includes the current and new versions of the scanner.
 # It also includes the changelog for the new version of the scanner in the body of the pull request.
-# This workflow uses a number of third-party actions to accomplish these tasks, 
+# This workflow uses a number of third-party actions to accomplish these tasks,
 # including mikefarah/yq to fetch local and remote versions of the scanners,
 # crazy-max/ghaction-import-gpg to import a GPG key, and jq to parse the JSON output of the scanner version API.
 
@@ -41,10 +41,10 @@ jobs:
           - zap-advanced
           # missing scanners are : nmap, nikto
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v3
+        uses: crazy-max/ghaction-import-gpg@v5
         with:
           gpg-private-key: ${{ secrets.GPG_COMMITS_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_COMMITS_PASSPHRASE }}
@@ -68,49 +68,49 @@ jobs:
       # Fetching scanner version from remote API and making sure it's in the same format as the local version
       - name: Fetch latest release scanner version
         run: |
-            # Set the -e and -o pipefail options to cause the script to exit immediately
-            # if any command returns a non-zero exit status
-            set -e
-            set -o pipefail
+          # Set the -e and -o pipefail options to cause the script to exit immediately
+          # if any command returns a non-zero exit status
+          set -e
+          set -o pipefail
 
-            local=${{env.local}}
-            release=$(curl -sL ${{env.versionApi}}  | jq -er ".tag_name" ) 
-            upgrade=$release
+          local=${{env.local}}
+          release=$(curl -sL ${{env.versionApi}}  | jq -er ".tag_name" ) 
+          upgrade=$release
 
-            # Check the exit status of the curl and jq command
-            if [[ $? -ne 0 ]] ; then
-              echo "Error: Failed to download release version"
-              exit 1
+          # Check the exit status of the curl and jq command
+          if [[ $? -ne 0 ]] ; then
+            echo "Error: Failed to download release version"
+            exit 1
+          fi
+
+          # We check if the first characters of local and release are different i.e whether it's "v1.0.0" or "1.0.0"
+          # This is to make sure that we don't compare "v1.0.0" to "1.0.0" which would result in an upgrade
+          # And also we want to keep the version format the same in the helm chart so that it will still correspond the the docker image tag.
+          # Therefore We make sure to add or remove the "v" character when necessary
+
+          if [[ ${local:0:1} != ${release:0:1} ]] ; then
+            # Check if the first character of local is "v"
+            # In this case docker/local format is "v1.0.0" and github format is "1.0.1"
+            # We want the upgrade to be "v1.0.1" 
+            if [[ ${local:0:1} == "v" ]] ; then
+              # set upgrade to "v" followed by the value of release.
+              upgrade=v${release};
+            # Check if the first character of release is "v"  
+            # in this case docker/local format is "1.0.0" and github format is "v1.0.1"
+            # We want the upgrade to be "1.0.1"
+            elif [[ ${release:0:1} == "v" ]] ; then
+              # set upgrade to the value of release without the "v" character
+              upgrade=$(echo $release| tr -d "v")
             fi
-
-            # We check if the first characters of local and release are different i.e whether it's "v1.0.0" or "1.0.0"
-            # This is to make sure that we don't compare "v1.0.0" to "1.0.0" which would result in an upgrade
-            # And also we want to keep the version format the same in the helm chart so that it will still correspond the the docker image tag.
-            # Therefore We make sure to add or remove the "v" character when necessary
-
-            if [[ ${local:0:1} != ${release:0:1} ]] ; then
-              # Check if the first character of local is "v"
-              # In this case docker/local format is "v1.0.0" and github format is "1.0.1"
-              # We want the upgrade to be "v1.0.1" 
-              if [[ ${local:0:1} == "v" ]] ; then
-                # set upgrade to "v" followed by the value of release.
-                upgrade=v${release};
-              # Check if the first character of release is "v"  
-              # in this case docker/local format is "1.0.0" and github format is "v1.0.1"
-              # We want the upgrade to be "1.0.1"
-              elif [[ ${release:0:1} == "v" ]] ; then
-                # set upgrade to the value of release without the "v" character
-                upgrade=$(echo $release| tr -d "v")
-              fi
-            fi
+          fi
 
 
-            # Save how the latest release version looks in github releases to an environment variable
-            echo releaseGithub=$release >> $GITHUB_ENV
-            # Save how the latest release version looks in docker images to an environment variable
-            echo release=$upgrade >> $GITHUB_ENV
-            # Output bash exit code
-            echo exitCode=$?
+          # Save how the latest release version looks in github releases to an environment variable
+          echo releaseGithub=$release >> $GITHUB_ENV
+          # Save how the latest release version looks in docker images to an environment variable
+          echo release=$upgrade >> $GITHUB_ENV
+          # Output bash exit code
+          echo exitCode=$?
 
       - name: Check if scanner is outdated and if PR already exists
         if: ${{ env.release != env.local && env.release != null }}

@@ -77,7 +77,11 @@ vet: ## Run go vet against code.
 
 .PHONY: test
 test: manifests generate fmt vet envtest ## Run tests.
-	KUBEBUILDER_ASSETS="$(shell $(ENVTEST) use $(ENVTEST_K8S_VERSION) -p path)" go test ./... -coverprofile cover.out
+	KUBEBUILDER_ASSETS="$(shell $(ENVTEST) use $(ENVTEST_K8S_VERSION) -p path)" go test -tags="fast slow" ./... -coverprofile cover.out
+
+.PHONY: test-fast
+test-fast: manifests generate fmt vet envtest ## Run tests.
+	KUBEBUILDER_ASSETS="$(shell $(ENVTEST) use $(ENVTEST_K8S_VERSION) -p path)" go test -tags="fast" ./... -coverprofile cover.out
 
 .PHONY: view-coverage
 view-coverage:
@@ -144,7 +148,7 @@ helm-deploy:
 		--set="image.pullPolicy=IfNotPresent" \
 		--set="lurker.image.repository=docker.io/$(IMG_NS)/$(LURKER_IMG)" \
 		--set="lurker.image.tag=$(IMG_TAG)" \
-		--set="lurker.image.pullPolicy=IfNotPresent"
+		--set="lurker.image.pullPolicy=IfNotPresent" \
 		--set="minio.auth.rootUser = $(MINIO_ROOT_USER)" \
 		--set="minio.auth.rootPassword = $(MINIO_ROOT_PASSWORD)"
 

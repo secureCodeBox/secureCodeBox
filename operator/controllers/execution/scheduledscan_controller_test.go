@@ -1,6 +1,10 @@
 // SPDX-FileCopyrightText: the secureCodeBox authors
 //
 // SPDX-License-Identifier: Apache-2.0
+
+//go:build fast
+// +build fast
+
 package controllers
 
 import (
@@ -64,18 +68,18 @@ var _ = Describe("ScheduledScan controller", func() {
 			}
 		})
 	})
-	Context("A Scan is triggred due to a Scheduled Scan", func() {
+	Context("A Scan is triggred due to a Scheduled Scan with Interval in Spec", func() {
 		It("The ScheduledScan's Finding Summary shoud be updated of with the results of the successful Scan", func() {
 			ctx := context.Background()
 			namespace := "scantype-multiple-scheduled-scan-triggerd-test"
 
 			createNamespace(ctx, namespace)
 			createScanType(ctx, namespace)
-			scheduledScan := createScheduledScan(ctx, namespace, true)
+			scheduledScan := createScheduledScanWithInterval(ctx, namespace, true)
 
 			var scanlist executionv1.ScanList
 			// ensure that the ScheduledScan has been triggered
-			waitForScheduledScanToBeTriggered(ctx, namespace)
+			waitForScheduledScanToBeTriggered(ctx, namespace, timeout)
 			k8sClient.List(ctx, &scanlist, client.InNamespace(namespace))
 
 			Expect(scanlist.Items).Should(HaveLen(1))

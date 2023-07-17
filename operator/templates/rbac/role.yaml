@@ -10,6 +10,13 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
   - batch
   resources:
   - jobs
@@ -101,6 +108,14 @@ rules:
   - patch
   - update
 - apiGroups:
+  - execution.securecodebox.io/status
+  resources:
+  - scheduledscans
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
   - rbac.authorization.k8s.io
   resources:
   - rolebindings
@@ -116,6 +131,5 @@ rules:
   verbs:
   - create
   - get
-  - update
   - list
   - watch
