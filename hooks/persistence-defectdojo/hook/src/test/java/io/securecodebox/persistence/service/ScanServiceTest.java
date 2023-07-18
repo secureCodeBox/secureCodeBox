@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.ZoneId;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,8 +35,8 @@ public class ScanServiceTest {
   public static String readResourceAsString(String resourceName) throws IOException, URISyntaxException {
     ClassLoader cl = ScanServiceTest.class.getClassLoader();
     URI resourceURI = cl.getResource(resourceName).toURI();
-    File resourceFile = new File(resourceURI);
-    return Files.readString(resourceFile.toPath());
+    Path resourcePath = Paths.get(resourceURI);
+    return Files.readString(resourcePath);
   }
 
   /***
