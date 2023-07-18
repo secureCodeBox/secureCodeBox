@@ -29,10 +29,10 @@ maintainers:
 
 dependencies:
   - name: elasticsearch
-    version: 7.9.2
+    version: 7.17.3
     repository: https://helm.elastic.co
     condition: elasticsearch.enabled
   - name: kibana
-    version: 7.9.2
+    version: 7.17.3
     repository: https://helm.elastic.co
     condition: kibana.enabled
