@@ -117,11 +117,11 @@ var _ = Describe("ScheduledScan controller", func() {
 			namespace := "scheduled-scan-triggerd-concurrency-forbid-test"
 			createNamespace(ctx, namespace)
 			createScanType(ctx, namespace)
-			createScheduledScan(ctx, namespace, true, 1*time.Second, executionv1.ForbidConcurrent)
+			createScheduledScanWithInterval(ctx, namespace, true, 1*time.Second, executionv1.ForbidConcurrent)
 
 			var scanlist executionv1.ScanList
 			// ensure that the ScheduledScan has been triggered
-			waitForScheduledScanToBeTriggered(ctx, namespace)
+			waitForScheduledScanToBeTriggered(ctx, namespace, timeout)
 			k8sClient.List(ctx, &scanlist, client.InNamespace(namespace))
 
 			Expect(scanlist.Items).Should(HaveLen(1))
@@ -138,11 +138,11 @@ var _ = Describe("ScheduledScan controller", func() {
 			namespace := "scheduled-scan-triggerd-concurrency-allow-test"
 			createNamespace(ctx, namespace)
 			createScanType(ctx, namespace)
-			createScheduledScan(ctx, namespace, true, 1*time.Second, executionv1.AllowConcurrent)
+			createScheduledScanWithInterval(ctx, namespace, true, 1*time.Second, executionv1.AllowConcurrent)
 
 			var scanlist executionv1.ScanList
 			// ensure that the ScheduledScan has been triggered
-			waitForScheduledScanToBeTriggered(ctx, namespace)
+			waitForScheduledScanToBeTriggered(ctx, namespace, timeout)
 			k8sClient.List(ctx, &scanlist, client.InNamespace(namespace))
 			Expect(scanlist.Items).ShouldNot(BeEmpty())
 
@@ -159,11 +159,11 @@ var _ = Describe("ScheduledScan controller", func() {
 			namespace := "scheduled-scan-triggerd-concurrency-replace-test"
 			createNamespace(ctx, namespace)
 			createScanType(ctx, namespace)
-			createScheduledScan(ctx, namespace, true, 1*time.Second, executionv1.ReplaceConcurrent)
+			createScheduledScanWithInterval(ctx, namespace, true, 1*time.Second, executionv1.ReplaceConcurrent)
 
 			var scanlist executionv1.ScanList
 			// ensure that the ScheduledScan has been triggered
-			waitForScheduledScanToBeTriggered(ctx, namespace)
+			waitForScheduledScanToBeTriggered(ctx, namespace, timeout)
 			k8sClient.List(ctx, &scanlist, client.InNamespace(namespace))
 			Expect(scanlist.Items).Should(HaveLen(1))
 			firstScanName := scanlist.Items[0].Name
