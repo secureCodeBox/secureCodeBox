@@ -120,7 +120,7 @@ func (r *ScheduledScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 		if scheduledScan.Spec.ConcurrencyPolicy == executionv1.ForbidConcurrent && len(InProgressScans) > 0 {
 			log.V(8).Info("concurrency policy blocks concurrent runs, skipping", "num active", len(InProgressScans))
 			r.Recorder.Event(&scheduledScan, "Normal", "ConcurrencyPolicyBlocks", "Concurrency policy blocks concurrent runs, skipping")
-			return ctrl.Result{RequeueAfter: 5 * time.Minute}, nil
+			return ctrl.Result{RequeueAfter: 1 * time.Minute}, nil
 		}
 
 		// ...or instruct us to replace existing ones...
