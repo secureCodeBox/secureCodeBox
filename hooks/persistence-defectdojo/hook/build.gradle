@@ -4,7 +4,7 @@
 
 plugins {
   id 'java'
-  id "io.freefair.lombok" version "6.5.0-rc1"
+  id "io.freefair.lombok" version "8.1.0"
   // https://github.com/ben-manes/gradle-versions-plugin
   // Run: ./gradlew dependencyUpdates -Drevision=release
   id "com.github.ben-manes.versions" version "0.47.0"
