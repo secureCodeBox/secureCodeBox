@@ -141,7 +141,7 @@ The scanTypes `zap-baseline-scan`, `zap-full-scan` & `zap-api-scan` can be confi
 That's why we introduced this `zap-advanced` scanner chart, which introduces extensive YAML configuration options for ZAP. The YAML configuration can be split in multiple files and will be merged at start.
 ZAP's own Automation Framework provides similar functionality to the `zap-advanced` scanner chart and is set to displace it in the future.
 
-##ZAP Automation Configuration
+## ZAP Automation Configuration
 
 The ZAP Automation Scanner supports the use of secrets, as to not have hardcoded credentials in the scan definition.
 Generate secrets using the credentials that will later be used in the scan for authentication. Supported authentication methods for the ZAP Authentication scanner are Manual, HTTP / NTLM, Form-based, JSON-based, and Script-based.
