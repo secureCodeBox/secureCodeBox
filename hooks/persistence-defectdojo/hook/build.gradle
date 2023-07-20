@@ -3,8 +3,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 plugins {
-	id 'java'
+  id 'java'
   id "io.freefair.lombok" version "6.5.0-rc1"
+  // https://github.com/ben-manes/gradle-versions-plugin
+  // Run: ./gradlew dependencyUpdates -Drevision=release
+  id "com.github.ben-manes.versions" version "0.47.0"
 }
 
 group = 'io.securecodebox'
@@ -12,7 +15,7 @@ version = '0.1.0-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
-	mavenCentral()
+  mavenCentral()
   maven {
     url = "https://oss.sonatype.org/content/repositories/snapshots/"
   }
@@ -40,19 +43,19 @@ dependencies {
 }
 
 test {
-	useJUnitPlatform()
+  useJUnitPlatform()
 
-  	testLogging {
-		events "failed"
-		exceptionFormat "full"
-	}
+  testLogging {
+    events "failed"
+    exceptionFormat "full"
+  }
 }
 
 def mainClassName = "io.securecodebox.persistence.DefectDojoPersistenceProvider"
 
 jar {
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-  
+
   manifest {
     attributes "Main-Class": "$mainClassName"
   }
@@ -62,5 +65,5 @@ jar {
   }
 
   // Exclude signatures from dependency jars, as these would not match the fat jars content.
-  exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
+  exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
 }
