@@ -63,7 +63,7 @@ public class VersionedEngagementsStrategy implements Strategy {
     this.engagementService = new EngagementService(defectDojoConfig);
     this.testService = new TestService(defectDojoConfig);
     this.testTypeService = new TestTypeService(defectDojoConfig);
-    this.importScanService = new DefaultImportScanService(defectDojoConfig);
+    this.importScanService = ImportScanService.createDefault(defectDojoConfig);
     this.findingService = new FindingService(defectDojoConfig);
 
     this.config = defectDojoConfig;
