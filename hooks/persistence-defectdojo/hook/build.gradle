@@ -27,10 +27,10 @@ dependencies {
   implementation 'io.securecodebox:defectdojo-client:1.0.0-SNAPSHOT'
 
   implementation group: 'org.springframework', name: 'spring-web', version: '5.3.28'
-  implementation 'com.fasterxml.jackson.core:jackson-core:2.12.4'
-  implementation 'com.fasterxml.jackson.core:jackson-annotations:2.12.4'
-  implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
-  implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.4'
+  implementation 'com.fasterxml.jackson.core:jackson-core:2.15.2'
+  implementation 'com.fasterxml.jackson.core:jackson-annotations:2.15.2'
+  implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+  implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2'
 
   implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
   implementation 'org.slf4j:slf4j-log4j12:1.7.30'
