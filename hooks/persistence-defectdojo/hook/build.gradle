@@ -11,7 +11,7 @@ plugins {
 }
 
 group = 'io.securecodebox'
-version = '0.1.0-SNAPSHOT'
+version = '1.0.0-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
