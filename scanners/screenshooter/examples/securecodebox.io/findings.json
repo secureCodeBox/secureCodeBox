@@ -1,0 +1,13 @@
+[{
+  "name": "Screenshot for https://github.com/secureCodeBox",
+  "description": "Took a Screenshot for website: 'https://github.com/secureCodeBox'",
+  "category": "Screenshot",
+  "location": "https://github.com/secureCodeBox",
+  "osi_layer": "APPLICATION",
+  "severity": "INFORMATIONAL",
+  "attributes": {
+    "downloadLink": "http://securecodebox-operator-minio.securecodebox-system.svc.cluster.local:9000/securecodebox/scan-27791ca4-ce31-4d5b-bf08-ab46ac076ef6/screenshot.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20230725%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230725T070606Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=318a56e0df54854d5f54def21d9965123b37ff1ff2b0ac7301d43643131b1585"
+  },
+  "id": "efea45c4-3be0-4f5e-b771-f29811aab795",
+  "parsed_at": "2023-07-25T07:06:19.640Z"
+}]
