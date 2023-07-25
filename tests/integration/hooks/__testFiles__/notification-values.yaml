@@ -11,7 +11,7 @@ hook:
     tag: null
     pullPolicy: Always
 
-  # hook.ttlSecondsAfterFinished -- seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+  # hook.ttlSecondsAfterFinished -- seconds after which the Kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
   ttlSecondsAfterFinished: null
 
 notificationChannels:
