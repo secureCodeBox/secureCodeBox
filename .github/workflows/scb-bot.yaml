@@ -121,7 +121,7 @@ jobs:
           echo pullRequest=$pullRequestTitle >> $GITHUB_ENV
 
           echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
-          echo prExists=$(gh pr list --state open --limit 100 | grep -F "$pullRequestTitle" -c) >> $GITHUB_ENV
+          echo prExists=$(gh pr list --state all --limit 100 | grep -F "$pullRequestTitle" -c) >> $GITHUB_ENV
 
       - name: Fetch new release changelog
         if: ${{ env.release != env.local && env.release != null }}
