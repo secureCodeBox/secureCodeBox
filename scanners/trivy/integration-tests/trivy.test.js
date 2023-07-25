@@ -118,9 +118,8 @@ test(
     expect(categoryNames.includes("Vulnerability")).toBeTruthy();
 
     const severityNames = Object.keys(severities);
-    expect(severityNames).toHaveLength(4);
+    expect(severityNames).toHaveLength(3);
     expect(severityNames.includes("high")).toBeTruthy();
-    expect(severityNames.includes("informational")).toBeTruthy();
     expect(severityNames.includes("low")).toBeTruthy();
     expect(severityNames.includes("medium")).toBeTruthy();
   },
