@@ -7,10 +7,14 @@ name: screenshooter
 description: A Helm chart for the Screenshooter that integrates with the secureCodeBox, which can take screenshots of your applications.
 
 type: application
-# version - gets automatically set to the secureCodeBox release version when the helm charts gets published
 version: v3.1.0-alpha1
+
 appVersion: "1.0"
 kubeVersion: ">=v1.11.0-0"
+
+annotations:
+  # supported cpu architectures for which docker images for the scanner should be build
+  supported-platforms: linux/amd64
 
 keywords:
   - security
@@ -18,10 +22,13 @@ keywords:
   - webpages
   - scanner
   - secureCodeBox
+
 home: https://www.securecodebox.io/docs/scanners/Screenshooter
 icon: https://www.securecodebox.io/img/integrationIcons/Screenshooter.svg
+
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
+
 maintainers:
   - name: iteratec GmbH
     email: secureCodeBox@iteratec.com
