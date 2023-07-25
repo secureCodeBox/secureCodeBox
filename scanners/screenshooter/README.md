@@ -7,7 +7,7 @@ appVersion: "1.0"
 usecase: "Takes Screenshots of websites"
 ---
 
-![firefox logo](https://3u26hb1g25wn1xwo8g186fnd-wpengine.netdna-ssl.com/files/2019/10/logo-firefox.svg)
+![firefox logo](https://svgshare.com/i/vin.svg)
 
 <!--
 SPDX-FileCopyrightText: the secureCodeBox authors
