@@ -156,7 +156,7 @@ Now we created a secret named "ncrack-lists".
 Before we can use the files, we have to install the Ncrack ScanType from the source code:
 
 ```bash
-cat <<EOF | helm upgrade --install ncrack ./scanners/ncrack --values -
+cat <<EOF | helm upgrade --install ncrack secureCodeBox/ncrack --values -
 scanner:
   extraVolumes:
     - name: ncrack-lists
