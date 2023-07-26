@@ -140,7 +140,7 @@ secrets name when installing the scanner
 To decrypt a password from a finding use:
 
 ```bash
-base64 encryptedPassword -d | openssl rsautl -decrypt -inkey key.pem -out decryptedPassword.txt
+base64 encryptedPassword -d | openssl pkeyutl -decrypt -inkey key.pem -out decryptedPassword.txt
 ```
 
 #### Setup with custom files:
@@ -153,7 +153,7 @@ kubectl create secret generic --from-file users.txt --from-file passwords.txt nc
 <b> IMPORTANT: Use an extra empty line at the end of your files, otherwise the last letter of the last line will be omitted (due to a bug in k8) </b>
 
 Now we created a secret named "ncrack-lists". 
-Before we can use the files, we have to install the Ncrack ScanType:
+Before we can use the files, we have to install the Ncrack ScanType from the source code:
 
 ```bash
 cat <<EOF | helm upgrade --install ncrack ./scanners/ncrack --values -
