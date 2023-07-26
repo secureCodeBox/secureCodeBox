@@ -1,0 +1,19 @@
+[{
+  "name": "Credentials for Service ssh://10.96.117.136:22 discovered via bruteforce.",
+  "description": "",
+  "category": "Discovered Credentials",
+  "location": "ssh://10.96.117.136:22",
+  "osi_layer": "APPLICATION",
+  "severity": "HIGH",
+  "mitigation": "Use a more secure password or disable the service at ssh://10.96.117.136:22",
+  "attributes": {
+    "port": "22",
+    "ip_addresses": ["10.96.117.136"],
+    "protocol": "tcp",
+    "service": "ssh",
+    "username": "root",
+    "password": "THEPASSWORDYOUCREATED"
+  },
+  "id": "5ac02686-a5a6-4bbd-921f-f0dd05a2915f",
+  "parsed_at": "2023-07-26T10:03:00.858Z"
+}]
