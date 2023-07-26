@@ -159,13 +159,13 @@ Now you only need to set the value *encryptPasswords.existingSecret* to the
 secrets name when installing the scanner
 
 ```bash
-  helm install ncrack secureCodeBox/ncrack --set="encryptPasswords.existingSecret=<ncrack-secret-name>"
+  helm upgrade --install ncrack secureCodeBox/ncrack --set="encryptPasswords.existingSecret=<ncrack-secret-name>"
 ```
 
 To decrypt a password from a finding use:
 
 ```bash
-base64 encryptedPassword -d | openssl rsautl -decrypt -inkey key.pem -out decryptedPassword.txt
+base64 encryptedPassword -d | openssl pkeyutl -decrypt -inkey key.pem -out decryptedPassword.txt
 ```
 
 #### Setup with custom files:
@@ -181,7 +181,7 @@ Now we created a secret named "ncrack-lists".
 Before we can use the files, we have to install the Ncrack ScanType:
 
 ```bash
-cat <<EOF | helm install ncrack ./scanners/ncrack --values -
+cat <<EOF | helm upgrade --install ncrack secureCodeBox/ncrack --values -
 scanner:
   extraVolumes:
     - name: ncrack-lists
