@@ -56,7 +56,7 @@ jobs:
           retention-days: 1
 
   k8s-setup:
-    name: "Setup Kind"
+    name: "Setup Kind & Kubectl & Helm"
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
@@ -514,7 +514,7 @@ jobs:
       - sdk
       - operator
       - nvm-setup
-      - kind-setup
+      - k8s-setup
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
@@ -693,7 +693,7 @@ jobs:
     needs:
       - operator
       - nvm-setup
-      - kind-setup
+      - k8s-setup
     runs-on: ubuntu-22.04
     strategy:
       matrix:
