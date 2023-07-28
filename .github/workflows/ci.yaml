@@ -12,7 +12,7 @@ on:
   schedule:
     - cron: "15 2 * * *" # Nightly-Build at 2:15 AM UTC
 
-# The CI runs on ubuntu-20.04; More info about the installed software is found here:
+# The CI runs on ubuntu-22.04; More info about the installed software is found here:
 # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-Readme.md
 
 env:
@@ -30,7 +30,7 @@ jobs:
   # It also ensures that we pull from an external source to install nvm only once, instead of x number of hooks + y number of scanners
   nvm-setup:
     name: "Configuration"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
 
@@ -58,7 +58,7 @@ jobs:
 
   unit-java:
     name: "Unit-Test | Java"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         unit: ["persistence-defectdojo"]
@@ -79,7 +79,7 @@ jobs:
 
   operator:
     name: "Build | Operator"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         component: ["operator", "lurker"]
@@ -117,7 +117,7 @@ jobs:
 
   auto-discovery-kubernetes:
     name: "AutoDiscovery | Kubernetes"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -155,7 +155,7 @@ jobs:
   # ---- Build Stage | AutoDiscovery | PullSecretExtractor ----
   auto-discovery-kubernetes-secret-extraction-container:
     name: "Autodiscovery | Kubernetes | SecretExtractionInitContainer"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs: nvm-setup
     steps:
       - name: Checkout
@@ -217,7 +217,7 @@ jobs:
 
   sdk:
     name: "Build | SDKs"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         sdk:
@@ -250,7 +250,7 @@ jobs:
       - sdk
       - operator
       - nvm-setup
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -408,7 +408,7 @@ jobs:
       - sdk
       - operator
       - nvm-setup
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -556,7 +556,7 @@ jobs:
     needs:
       - operator
       - nvm-setup
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         hook:
