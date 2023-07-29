@@ -3,7 +3,7 @@ title: "Amass"
 category: "scanner"
 type: "Network"
 state: "released"
-appVersion: "v3.23.3"
+appVersion: "v4.1.0"
 usecase: "Subdomain Enumeration Scanner"
 ---
 
