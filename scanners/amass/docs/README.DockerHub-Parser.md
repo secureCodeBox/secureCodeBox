@@ -53,6 +53,11 @@ docker pull securecodebox/parser-amass
 
 ## What is OWASP Amass?
 
+:::caution
+Amass is currently not functional in the secureCodeBox due to a bug in the underlying docker image. We are working on a fix.
+See [Issue #1847](https://github.com/secureCodeBox/secureCodeBox/issues/1847).
+:::
+
 The [OWASP Amass Project][owasp_amass_project] has developed a tool to help information security professionals perform network mapping of attack surfaces and perform external asset discovery using open source information gathering and active reconnaissance techniques. To learn more about the Amass scanner itself visit [OWASP Amass Project][owasp_amass_project] or [Amass GitHub].
 
 ## Community
