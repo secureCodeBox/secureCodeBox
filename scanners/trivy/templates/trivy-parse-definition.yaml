@@ -26,3 +26,28 @@ spec:
   resources:
     {{- toYaml . | nindent 4 }}
   {{- end }}
+---
+apiVersion: "execution.securecodebox.io/v1"
+kind: ParseDefinition
+metadata:
+  name: "sbom-cyclonedx"
+spec:
+  image: "{{ .Values.cyclonedxParser.image.repository }}:{{ .Values.cyclonedxParser.image.tag | default .Chart.Version }}"
+  imagePullPolicy: {{ .Values.cyclonedxParser.image.pullPolicy }}
+  ttlSecondsAfterFinished: {{ .Values.cyclonedxParser.ttlSecondsAfterFinished }}
+  env:
+    {{- toYaml .Values.cyclonedxParser.env | nindent 4 }}
+  scopeLimiterAliases:
+    {{- toYaml .Values.cyclonedxParser.scopeLimiterAliases | nindent 4 }}
+  affinity:
+    {{- toYaml .Values.cyclonedxParser.affinity | nindent 4 }}
+  tolerations:
+    {{- toYaml .Values.cyclonedxParser.tolerations | nindent 4 }}
+  {{- with .Values.imagePullSecrets }}
+  imagePullSecrets:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.cyclonedxParser.resources }}
+  resources:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
