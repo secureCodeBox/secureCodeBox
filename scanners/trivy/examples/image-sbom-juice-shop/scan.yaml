@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "execution.securecodebox.io/v1"
+kind: Scan
+metadata:
+  name: "trivy-image-sbom-juice-shop"
+spec:
+  scanType: "trivy-image-sbom"
+  parameters:
+    - "bkimminich/juice-shop:v15.0.0"
