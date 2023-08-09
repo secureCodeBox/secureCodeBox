@@ -94,6 +94,13 @@ Trivy [supports a client-server mode](https://aquasecurity.github.io/trivy/lates
 This mode is implemented and active by default.
 A separate Deployment for the trivy server will be created during the installation and the trivy scanTypes are automatically configured to run in client mode and connect to the server.
 
+:::caution
+
+Client/server mode is not used for `trivy-k8s` scans, because trivy does not support it for this type of scan.
+If you start many `trivy-k8s` scans you might run into rate limits.
+One way to avoid that is to [preemptively download](https://aquasecurity.github.io/trivy/latest/docs/advanced/air-gap/) the trivy database once and then provide it similar to how the [nuclei template cache](https://www.securecodebox.io/docs/scanners/nuclei/#install-nuclei-without-template-cache-cronjob--persistentvolume) is handled.
+:::
+
 In case only a single scan or very few are run, and you want to avoid the small performance overhead, client/server mode can be disabled by setting `--set="trivyDatabaseCache.enabled=false"` during helm install.
 
 ## Requirements
