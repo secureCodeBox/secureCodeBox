@@ -660,6 +660,78 @@ test("parses result file for self-signed.badssl.com correctly", async () => {
   `);
 });
 
+test("parses result file for target without certificate_deployments correctly", async () => {
+  const fileContent = JSON.parse(
+    await readFile(
+      __dirname + "/__testFiles__/no-certificate_deployments.json",
+      {
+        encoding: "utf8",
+      }
+    )
+  );
+
+  const findings = await parse(fileContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+
+  expect(findings).toMatchInlineSnapshot(`
+    [
+      {
+        "attributes": {
+          "cipher_suites": [
+            "AES256-SHA",
+            "AES128-GCM-SHA256",
+            "AES128-SHA",
+            "ECDHE-RSA-CHACHA20-POLY1305",
+            "ECDHE-RSA-AES256-GCM-SHA384",
+            "ECDHE-RSA-AES256-SHA",
+            "ECDHE-RSA-AES128-GCM-SHA256",
+            "ECDHE-RSA-AES128-SHA",
+            "TLS_CHACHA20_POLY1305_SHA256",
+            "TLS_AES_256_GCM_SHA384",
+            "TLS_AES_128_GCM_SHA256",
+          ],
+          "hostname": "securecodebox.io",
+          "ip_addresses": [
+            "185.199.111.153",
+          ],
+          "port": 443,
+          "tls_versions": [
+            "TLS 1.2",
+            "TLS 1.3",
+          ],
+        },
+        "category": "TLS Service Info",
+        "description": "",
+        "identified_at": "2023-08-09T12:44:46.946Z",
+        "location": "securecodebox.io:443",
+        "mitigation": null,
+        "name": "TLS Service",
+        "osi_layer": "PRESENTATION",
+        "reference": null,
+        "severity": "INFORMATIONAL",
+      },
+      {
+        "attributes": {
+          "hostname": "securecodebox.io",
+          "ip_addresses": [
+            "185.199.111.153",
+          ],
+          "port": 443,
+        },
+        "category": "Invalid Certificate",
+        "description": "An error occurred while parsing the ASN.1 value in the certificate. This may be due to a corrupted certificate, improper formatting, or incompatibility with the cryptography library.",
+        "identified_at": "2023-08-09T12:44:46.946Z",
+        "location": "securecodebox.io:443",
+        "mitigation": "Verify the integrity of the certificate, or inspect the certificate for custom or non-standard extensions.",
+        "name": "ASN.1 Parsing Error",
+        "osi_layer": "PRESENTATION",
+        "reference": null,
+        "severity": "MEDIUM",
+      },
+    ]
+  `);
+});
+
 test("parses an empty result file correctly", async () => {
   const fileContent = JSON.parse(
     await readFile(__dirname + "/__testFiles__/unavailable-host.json", {
