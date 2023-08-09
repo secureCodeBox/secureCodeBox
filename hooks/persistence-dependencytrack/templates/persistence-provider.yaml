@@ -1,0 +1,37 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: "execution.securecodebox.io/v1"
+kind: ScanCompletionHook
+metadata:
+  name: {{ include "persistence-dependencytrack.fullname" . }}
+  labels:
+    {{- include "persistence-dependencytrack.labels" . | nindent 4 }}
+    type: Structured
+    {{- with .Values.hook.labels }}
+    {{ toYaml . }}
+    {{- end }}
+spec:
+  priority: {{ .Values.hook.priority }}
+  type: ReadOnly
+  image: "{{ .Values.hook.image.repository }}:{{ .Values.hook.image.tag | default .Chart.Version }}"
+  ttlSecondsAfterFinished: {{ .Values.hook.ttlSecondsAfterFinished }}
+  env:
+    - name: DEPENDENCYTRACK_URL
+      value: {{ .Values.dependencytrack.url | quote }}
+    - name: DEPENDENCYTRACK_APIKEY
+      valueFrom:
+        secretKeyRef:
+          name: {{ .Values.dependencytrack.authentication.userSecret }}
+          key: {{ .Values.dependencytrack.authentication.apiKeyKey }}
+  affinity: {{- toYaml .Values.hook.affinity | nindent 4 }}
+  tolerations: {{- toYaml .Values.hook.tolerations | nindent 4 }}
+  {{- with .Values.imagePullSecrets }}
+  imagePullSecrets:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.hook.resources }}
+  resources:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}

@@ -1,0 +1,49 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# Default values for persistence-dependencytrack.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# -- Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
+imagePullSecrets: []
+
+hook:
+  image:
+    # hook.image.repository -- Hook image repository
+    repository: docker.io/securecodebox/hook-persistence-dependencytrack
+    # -- Container image tag
+    # @default -- defaults to the charts version
+    tag: null
+    # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
+    pullPolicy: IfNotPresent
+
+  # hook.labels -- Add Kubernetes Labels to the hook definition
+  labels: {}
+
+  # -- Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks.
+  priority: 0
+
+  # -- Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+  ttlSecondsAfterFinished: null
+
+  # hook.affinity -- Optional affinity settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
+  affinity: {}
+
+  # hook.tolerations -- Optional tolerations settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+  tolerations: []
+
+  # -- Optional resources lets you control resource limits and requests for the hook container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+  # @default -- { requests: { cpu: "200m", memory: "100Mi" }, limits: { cpu: "400m", memory: "200Mi" } }
+  resources: {}
+
+dependencytrack:
+  # -- Url to the Dependency-Track instance, make sure to use the backend url
+  url: "http://dependency-track-backend.default.svc"
+  # -- Authentication information. Dependency-Track expects an API key, which can be generated for a team (see: https://docs.dependencytrack.org/integrations/rest-api/). The hook automatically creates missing projects, for that either the PORTFOLIO_MANAGEMENT or PROJECT_CREATION_UPLOAD permission is required.
+  authentication:
+    # -- Link a pre-existing generic secret with `apikey` key / value pair
+    userSecret: dependencytrack-credentials
+    # -- Name of the apikey key in the `userSecret` secret.
+    apiKeyKey: apikey # what a name 🙃

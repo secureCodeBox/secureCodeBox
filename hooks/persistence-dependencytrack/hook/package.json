@@ -1,0 +1,30 @@
+{
+  "name": "@securecodebox/hook-persistence-dependencytrack",
+  "version": "1.0.0",
+  "description": "secureCodeBox hook to persist CycloneDX SBOMs to Dependency-Track.",
+  "homepage": "https://www.secureCodeBox.io",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/secureCodeBox/secureCodeBox.git"
+  },
+  "main": "hook.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "secureCodeBox",
+    "security",
+    "hook",
+    "dependencytrack",
+    "persistence"
+  ],
+  "author": {
+    "name": "iteratec GmbH",
+    "email": "securecodebox@iteratec.com",
+    "url": "https://www.iteratec.com"
+  },
+  "bugs": {
+    "url": "https://github.com/secureCodeBox/secureCodeBox/issues"
+  },
+  "license": "Apache-2.0"
+}
