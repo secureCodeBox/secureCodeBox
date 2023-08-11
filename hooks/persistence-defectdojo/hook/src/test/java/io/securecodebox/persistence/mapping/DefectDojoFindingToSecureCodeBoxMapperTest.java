@@ -18,12 +18,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -43,7 +43,7 @@ class DefectDojoFindingToSecureCodeBoxMapperTest {
   Finding exampleFinding;
 
   @BeforeEach
-  public void setup(){
+  public void setup() {
     this.mapper = new DefectDojoFindingToSecureCodeBoxMapper(config, endpointService, findingService);
 
     this.exampleFinding = Finding.builder()
@@ -61,7 +61,7 @@ class DefectDojoFindingToSecureCodeBoxMapperTest {
   }
 
   @Test
-  public void shouldMapBasicFindings(){
+  public void shouldMapBasicFindings() {
     // Typical ZAP Finding in DefectDojo
     var ddFinding = exampleFinding;
 
@@ -96,7 +96,7 @@ class DefectDojoFindingToSecureCodeBoxMapperTest {
   }
 
   @Test
-  public void shouldIncludeOriginalDuplicateFindingInAttributes(){
+  public void shouldIncludeOriginalDuplicateFindingInAttributes() {
     // Typical ZAP Finding in DefectDojo
     var ddFinding = exampleFinding;
 
@@ -136,7 +136,7 @@ class DefectDojoFindingToSecureCodeBoxMapperTest {
   }
 
   @Test
-  public void shouldNotBeStuckInARecursiveLoop(){
+  public void shouldNotBeStuckInARecursiveLoop() {
     // Typical ZAP Finding in DefectDojo
     var ddFinding = exampleFinding;
 
@@ -161,9 +161,7 @@ class DefectDojoFindingToSecureCodeBoxMapperTest {
 
     when(findingService.get(7L)).thenReturn(originalFinding);
 
-    var exception = Assertions.assertThrows(RuntimeException.class, () -> {
-      this.mapper.fromDefectDojoFinding(ddFinding);
-    });
+    var exception = Assertions.assertThrows(RuntimeException.class, () -> this.mapper.fromDefectDojoFinding(ddFinding));
 
     assertEquals(
       "Duplicate finding does not point to the actual original finding, as the original finding (id: 7) is also a duplicate. This should never happen.",
