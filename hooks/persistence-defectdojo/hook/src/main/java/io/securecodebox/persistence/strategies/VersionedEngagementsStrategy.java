@@ -72,19 +72,14 @@ public class VersionedEngagementsStrategy implements Strategy {
 
   @Override
   public List<Finding> run(Scan scan, ScanFile scanResultFile) throws Exception {
-    Long userId = null;
 
-    if (this.config.getUserId() != null) {
-      LOG.debug("Using configured User Id");
-      userId = this.config.getUserId();
-    } else {
-      LOG.debug("Getting DefectDojo User Id via user profile API");
-      List<UserProfile> userProfiles = userProfileService.search();
-      if (userProfiles.isEmpty()) {
+    LOG.debug("Getting DefectDojo User Id via user profile API");
+    Long userId = null;
+    List<UserProfile> userProfiles = userProfileService.search();
+    if (userProfiles.isEmpty()) {
         throw new DefectDojoPersistenceException("UserProfileService did return empty list. Expected current user to be in list");
-      } else {
+    } else {
         userId = userProfiles.get(0).getUser().getId();
-      }
     }
 
     LOG.info("Running with DefectDojo User Id: {}", userId);
