@@ -37,11 +37,13 @@ class DefectDojoFindingToSecureCodeBoxMapperTest {
   @Mock
   FindingService findingService;
 
+  @Mock
+  Config config;
+
   Finding exampleFinding;
 
   @BeforeEach
   public void setup(){
-    var config = new Config("http://example.defectdojo.com", "placeholder", "placeholder", 1000);
     this.mapper = new DefectDojoFindingToSecureCodeBoxMapper(config, endpointService, findingService);
 
     this.exampleFinding = Finding.builder()

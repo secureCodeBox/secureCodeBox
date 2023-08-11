@@ -52,11 +52,14 @@ public class VersionedEngagementsStrategyTest {
   @Mock
   ImportScanService importScanService;
 
+  @Mock
+  Config config;
+
   Scan scan;
 
   @BeforeEach
   public void setup() throws Exception {
-    versionedEngagementsStrategy.config = new Config("https://defectdojo.example.com", "<key>", "foobar", 1000);
+    versionedEngagementsStrategy.config = config;
     versionedEngagementsStrategy.persistenceProviderConfig = new PersistenceProviderConfig(new String[]{"http://example.com","http://example.com"});
 
     scan = new Scan();
