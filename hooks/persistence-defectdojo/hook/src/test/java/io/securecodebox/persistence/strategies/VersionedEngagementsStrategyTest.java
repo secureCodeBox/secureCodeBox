@@ -24,9 +24,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -58,7 +56,7 @@ public class VersionedEngagementsStrategyTest {
   Scan scan;
 
   @BeforeEach
-  public void setup() throws Exception {
+  public void setup() {
     versionedEngagementsStrategy.config = config;
     versionedEngagementsStrategy.persistenceProviderConfig = new PersistenceProviderConfig(new String[]{"http://example.com","http://example.com"});
 
@@ -77,7 +75,7 @@ public class VersionedEngagementsStrategyTest {
   @Test
   @DisplayName("Fails when Configured User can not be looked up in the DefectDojo API")
   void requiresUserToBeFound() throws Exception {
-    when(userProfileService.search()).thenReturn(new ArrayList<UserProfile>());
+    when(userProfileService.search()).thenReturn(new ArrayList<>());
 
     Assertions.assertThrows(DefectDojoPersistenceException.class, () -> {
       versionedEngagementsStrategy.run(scan, new ScanFile("nmap.xml","<!-- Nmap Report -->"));
