@@ -69,5 +69,5 @@ jobs:
       - name: Update Helm Docs
         run: |
           git add "**/*.md"
-          git commit -S -m "Updating Helm Docs"
+          git commit -sS -m "Updating Helm Docs" || true
           git push
