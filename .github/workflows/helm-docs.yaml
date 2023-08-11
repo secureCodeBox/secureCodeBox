@@ -16,6 +16,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
+          token: ${{ secrets.SCB_BOT_USER_TOKEN }}
 
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v5
@@ -70,5 +71,3 @@ jobs:
           git add "**/*.md"
           git commit -S -m "Updating Helm Docs"
           git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.SCB_BOT_USER_TOKEN }}
