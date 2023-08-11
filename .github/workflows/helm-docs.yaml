@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
-          token: ${{ secrets.PAT_WITH_ADMIN }} ## Placeholder for PAT with Admin Access.
+          token: ${{ secrets.SCB_BOT_USER_TOKEN }}
 
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v5
@@ -25,6 +25,8 @@ jobs:
           passphrase: ${{ secrets.GPG_COMMITS_PASSPHRASE }}
           git_user_signingkey: true
           git_commit_gpgsign: true
+          git_committer_name: secureCodeBoxBot
+          git_committer_email: securecodebox@iteratec.com
 
       - name: Download Helm Docs
         run: |
@@ -64,10 +66,9 @@ jobs:
           # Remove helm-docs download to ensure they don't get committed back
           rm -rf helm-docs
 
-      - uses: stefanzweifel/git-auto-commit-action@v4.11.0
+      - uses: stefanzweifel/git-auto-commit-action@v4.16.0
         with:
           commit_message: Updating Helm Docs
-          commit_user_email: securecodebox@iteratec.com
           # Optional. Used by `git-commit`.
           # See https://git-scm.com/docs/git-commit#_options
           commit_options: "--signoff"
