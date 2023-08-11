@@ -12,7 +12,7 @@ on:
   schedule:
     - cron: "15 2 * * *" # Nightly-Build at 2:15 AM UTC
 
-# The CI runs on ubuntu-20.04; More info about the installed software is found here:
+# The CI runs on ubuntu-22.04; More info about the installed software is found here:
 # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-Readme.md
 
 env:
@@ -22,6 +22,9 @@ env:
   PYTHON_VERSION: "3.9.16"
   NVM_VERSION: "0.39.3" # Does not need to be updated as often as the Node.js version or the NPM version
   KIND_NODE_IMAGE: "kindest/node:v1.27.3@sha256:9dd3392d79af1b084671b05bcf65b21de476256ad1dcc853d9f3b10b4ac52dde"
+  KIND_BINARY_VERSION: "v0.20.0"
+  KUBECTL_VERSION: "v1.27.4"
+  HELM_VERSION: "v3.12.2"
 
 jobs:
   # ---- NVM Setup ----
@@ -30,7 +33,7 @@ jobs:
   # It also ensures that we pull from an external source to install nvm only once, instead of x number of hooks + y number of scanners
   nvm-setup:
     name: "Configuration"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
 
@@ -52,13 +55,53 @@ jobs:
           path: ./nvm-node.tar.gz
           retention-days: 1
 
+  k8s-setup:
+    name: "Setup Kind & Kubectl & Helm"
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Kind
+        run: |
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/${{ env.KIND_BINARY_VERSION }}/kind-linux-amd64
+          chmod +x ./kind
+
+      - name: Install Kubectl
+        run: |
+          curl -Lo ./kubectl curl -LO https://dl.k8s.io/release/${{ env.KUBECTL_VERSION }}/bin/linux/amd64/kubectl
+          chmod +x ./kubectl
+
+      - name: Install Helm
+        run: |
+          curl -Lo ./helm.tar.gz https://get.helm.sh/helm-${{ env.HELM_VERSION }}-linux-amd64.tar.gz
+          tar -xzf ./helm.tar.gz
+          chmod +x ./linux-amd64/helm
+
+      - name: Archive Kind
+        uses: actions/upload-artifact@v3
+        with:
+          name: kind
+          path: ./kind
+
+      - name: Archive Kubectl
+        uses: actions/upload-artifact@v3
+        with:
+          name: kubectl
+          path: ./kubectl
+
+      - name: Archive Helm
+        uses: actions/upload-artifact@v3
+        with:
+          name: helm
+          path: ./linux-amd64/helm
+
   # ---- Unit-Test ----
 
   # ---- Unit-Test | Java ----
 
   unit-java:
     name: "Unit-Test | Java"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         unit: ["persistence-defectdojo"]
@@ -79,7 +122,7 @@ jobs:
 
   operator:
     name: "Build | Operator"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         component: ["operator", "lurker"]
@@ -117,7 +160,7 @@ jobs:
 
   auto-discovery-kubernetes:
     name: "AutoDiscovery | Kubernetes"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -155,8 +198,10 @@ jobs:
   # ---- Build Stage | AutoDiscovery | PullSecretExtractor ----
   auto-discovery-kubernetes-secret-extraction-container:
     name: "Autodiscovery | Kubernetes | SecretExtractionInitContainer"
-    runs-on: ubuntu-20.04
-    needs: nvm-setup
+    runs-on: ubuntu-22.04
+    needs: 
+      - nvm-setup
+      - k8s-setup
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -167,7 +212,7 @@ jobs:
           python-version: "${{ env.PYTHON_VERSION }}"
 
       - name: Download nvm and Node.js
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: nvm-node
           path: nvm-node
@@ -178,6 +223,36 @@ jobs:
           export NVM_DIR="$HOME/.nvm"
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
           nvm use
+
+      - name: Download Kind
+        uses: actions/download-artifact@v3
+        with:
+          name: kind
+          path: ./kind
+
+      - name: Download Kubectl
+        uses: actions/download-artifact@v3
+        with:
+          name: kubectl
+          path: ./kubectl
+
+      - name: Download Helm
+        uses: actions/download-artifact@v3
+        with:
+          name: helm
+          path: ./helm
+
+      - name: Make binaries globally available
+        run: |
+          chmod +x ./kind/kind && sudo mv ./kind/kind /usr/local/bin/kind
+          chmod +x ./kubectl/kubectl && sudo mv ./kubectl/kubectl /usr/local/bin/kubectl
+          chmod +x ./helm/helm && sudo mv ./helm/helm /usr/local/bin/helm
+
+      - name: Verify tools
+        run: |
+          kind version
+          kubectl version || true
+          helm version
 
       - name: Unit Tests
         working-directory: ./auto-discovery/kubernetes/pull-secret-extractor
@@ -217,7 +292,7 @@ jobs:
 
   sdk:
     name: "Build | SDKs"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         sdk:
@@ -250,7 +325,8 @@ jobs:
       - sdk
       - operator
       - nvm-setup
-    runs-on: ubuntu-20.04
+      - k8s-setup
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -282,7 +358,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Download nvm and Node.js
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: nvm-node
           path: nvm-node
@@ -294,6 +370,36 @@ jobs:
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
           nvm use
 
+      - name: Download Kind
+        uses: actions/download-artifact@v3
+        with:
+          name: kind
+          path: ./kind
+
+      - name: Download Kubectl
+        uses: actions/download-artifact@v3
+        with:
+          name: kubectl
+          path: ./kubectl
+
+      - name: Download Helm
+        uses: actions/download-artifact@v3
+        with:
+          name: helm
+          path: ./helm
+
+      - name: Make binaries globally available
+        run: |
+          chmod +x ./kind/kind && sudo mv ./kind/kind /usr/local/bin/kind
+          chmod +x ./kubectl/kubectl && sudo mv ./kubectl/kubectl /usr/local/bin/kubectl
+          chmod +x ./helm/helm && sudo mv ./helm/helm /usr/local/bin/helm
+
+      - name: Verify tools
+        run: |
+          kind version
+          kubectl version || true
+          helm version
+
       - name: Install Dependencies
         working-directory: ./scanners/${{ matrix.unit }}/
         run: make install-deps
@@ -303,7 +409,7 @@ jobs:
         run: make unit-tests
 
       - name: Download Parser SDK Image
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: parser-sdk-image
           path: /tmp
@@ -332,13 +438,13 @@ jobs:
           kubectl get node
 
       - name: Download Operator Image
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: operator-image
           path: ./operator
 
       - name: Download Lurker Image
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: lurker-image
           path: ./operator
@@ -408,13 +514,14 @@ jobs:
       - sdk
       - operator
       - nvm-setup
-    runs-on: ubuntu-20.04
+      - k8s-setup
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Download nvm and Node.js
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: nvm-node
           path: ./nvm-node
@@ -426,6 +533,36 @@ jobs:
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
           nvm use
 
+      - name: Download Kind
+        uses: actions/download-artifact@v3
+        with:
+          name: kind
+          path: ./kind
+
+      - name: Download Kubectl
+        uses: actions/download-artifact@v3
+        with:
+          name: kubectl
+          path: ./kubectl
+
+      - name: Download Helm
+        uses: actions/download-artifact@v3
+        with:
+          name: helm
+          path: ./helm
+
+      - name: Make binaries globally available
+        run: |
+          chmod +x ./kind/kind && sudo mv ./kind/kind /usr/local/bin/kind
+          chmod +x ./kubectl/kubectl && sudo mv ./kubectl/kubectl /usr/local/bin/kubectl
+          chmod +x ./helm/helm && sudo mv ./helm/helm /usr/local/bin/helm
+
+      - name: Verify tools
+        run: |
+          kind version
+          kubectl version || true
+          helm version
+
       - name: Install Dependencies
         working-directory: ./scanners/zap-advanced/
         run: make install-deps
@@ -435,7 +572,7 @@ jobs:
         run: make unit-tests
 
       - name: Download Parser SDK Image
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: parser-sdk-image
           path: /tmp
@@ -464,13 +601,13 @@ jobs:
           kubectl get node
 
       - name: Download Operator Image
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: operator-image
           path: ./operator
 
       - name: Download Lurker Image
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: lurker-image
           path: ./operator
@@ -556,7 +693,8 @@ jobs:
     needs:
       - operator
       - nvm-setup
-    runs-on: ubuntu-20.04
+      - k8s-setup
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         hook:
@@ -582,13 +720,13 @@ jobs:
       # ---- Install Operator & Create Namespaces ----
 
       - name: Download Operator Image
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: operator-image
           path: ./operator
 
       - name: Download Lurker Image
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: lurker-image
           path: ./operator
@@ -618,7 +756,7 @@ jobs:
       # ---- Import Parser SDK Artifact
 
       - name: Download Parser SDK Image
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: parser-sdk-image
           path: /tmp
@@ -631,7 +769,7 @@ jobs:
       # ---- Import Hook SDK Artifact
 
       - name: Download Hook SDK Image
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: hook-sdk-image
           path: /tmp
@@ -640,6 +778,39 @@ jobs:
         run: |
           docker load --input /tmp/hook-sdk.tar
           docker images | grep sdk
+
+
+      # ---- K8s Cluster Setup ---- #
+
+      - name: Download Kind
+        uses: actions/download-artifact@v3
+        with:
+          name: kind
+          path: ./kind
+
+      - name: Download Kubectl
+        uses: actions/download-artifact@v3
+        with:
+          name: kubectl
+          path: ./kubectl
+
+      - name: Download Helm
+        uses: actions/download-artifact@v3
+        with:
+          name: helm
+          path: ./helm
+
+      - name: Make binaries globally available
+        run: |
+          chmod +x ./kind/kind && sudo mv ./kind/kind /usr/local/bin/kind
+          chmod +x ./kubectl/kubectl && sudo mv ./kubectl/kubectl /usr/local/bin/kubectl
+          chmod +x ./helm/helm && sudo mv ./helm/helm /usr/local/bin/helm
+
+      - name: Verify tools
+        run: |
+          kind version
+          kubectl version || true
+          helm version
 
       # ----- Build Test-Scan ScanType Image ----
 
@@ -674,7 +845,7 @@ jobs:
         run: make kind-import
 
       - name: Download nvm and Node.js
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: nvm-node
           path: ./nvm-node
