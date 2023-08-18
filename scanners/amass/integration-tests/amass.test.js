@@ -11,7 +11,7 @@ test(
     const { count } = await scan(
       "amass-scanner-dummy-scan",
       "amass",
-      ["-passive", "-noalts", "-norecursive", "-d", "owasp.org"],
+      ["-passive", "-norecursive", "-d", "owasp.org"],
       180
     );
     expect(count).toBeGreaterThanOrEqual(20);
