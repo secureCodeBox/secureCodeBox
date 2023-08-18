@@ -9,7 +9,7 @@ metadata:
 spec:
   extractResults:
     type: amass-jsonl
-    location: "/home/securecodebox/amass-results.jsonl"
+    location: "/home/securecodebox/amass.sqlite"
   jobTemplate:
     spec:
       suspend: {{ .Values.scanner.suspend | default false }}
@@ -40,8 +40,8 @@ spec:
               command:
                 - "amass"
                 - "enum"
-                - "-json"
-                - "/home/securecodebox/amass-results.jsonl"
+                - "-dir"
+                - "/home/securecodebox/"
               resources:
                 {{- toYaml .Values.scanner.resources | nindent 16 }}
               securityContext:
