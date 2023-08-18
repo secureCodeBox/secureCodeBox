@@ -7,5 +7,6 @@
 
 include_guard = set
 scanner = amass
+custom_scanner = set
 
 include ../../scanners.mk
