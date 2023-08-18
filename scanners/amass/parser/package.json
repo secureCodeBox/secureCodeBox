@@ -1,0 +1,16 @@
+{
+    "name": "@securecodebox/parser-amass",
+    "version": "1.0.0",
+    "description": "Parses result files for the type: 'amass-sqlite'",
+    "main": "",
+    "scripts": {},
+    "keywords": [],
+    "author": "iteratec GmbH",
+    "license": "Apache-2.0",
+    "dependencies": {
+        "sqlite3": "^5.1.6"
+    },
+    "devDependencies": {}
+  }
+  
+
