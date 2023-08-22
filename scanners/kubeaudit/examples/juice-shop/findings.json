@@ -1,0 +1,51 @@
+[{
+  "name": "Namespace \"default\" is missing a Default Deny NetworkPolicy",
+  "identified_at": "2023-08-22T12:32:05Z",
+  "description": "Namespace is missing a default deny ingress and egress NetworkPolicy.",
+  "category": "No Default Deny NetworkPolicy",
+  "location": "namespace://default",
+  "osi_layer": "NOT_APPLICABLE",
+  "severity": "MEDIUM",
+  "attributes": {
+    "Namespace": "default"
+  },
+  "id": "8243db55-e6a1-41fd-97a5-3d7b1736886a",
+  "parsed_at": "2023-08-22T12:32:11.395Z"
+}, {
+  "name": "Default ServiceAccount uses Automounted Service Account Token",
+  "identified_at": "2023-08-22T12:32:05Z",
+  "description": "Default service account with token mounted. automountServiceAccountToken should be set to 'false' on either the ServiceAccount or on the PodSpec or a non-default service account should be used.",
+  "category": "Automounted ServiceAccount Token",
+  "location": null,
+  "osi_layer": "NOT_APPLICABLE",
+  "severity": "LOW",
+  "attributes": {},
+  "id": "5ed793ce-e8c0-4abb-aaf7-2031356b9996",
+  "parsed_at": "2023-08-22T12:32:11.395Z"
+}, {
+  "name": "NonRoot User not enforced for Container",
+  "identified_at": "2023-08-22T12:32:05Z",
+  "description": "runAsNonRoot should be set to true or runAsUser should be set to a value > 0 either in the container SecurityContext or PodSecurityContext.",
+  "category": "Non Root User Not Enforced",
+  "location": "container://juice-shop",
+  "osi_layer": "NOT_APPLICABLE",
+  "severity": "MEDIUM",
+  "attributes": {
+    "container": "juice-shop"
+  },
+  "id": "6162326e-8d0c-463f-9b0c-147cf04a7a1f",
+  "parsed_at": "2023-08-22T12:32:11.395Z"
+}, {
+  "name": "Container Uses a non ReadOnly Root Filesystem",
+  "identified_at": "2023-08-22T12:32:05Z",
+  "description": "readOnlyRootFilesystem is not set in container SecurityContext. It should be set to 'true'.",
+  "category": "Non ReadOnly Root Filesystem",
+  "location": "container://juice-shop",
+  "osi_layer": "NOT_APPLICABLE",
+  "severity": "LOW",
+  "attributes": {
+    "container": "juice-shop"
+  },
+  "id": "ea9d6b4a-365b-4fce-99b7-05b0e442db2a",
+  "parsed_at": "2023-08-22T12:32:11.395Z"
+}]
