@@ -1,19 +1,15 @@
-# SPDX-FileCopyrightText: the secureCodeBox authors
-#
-# SPDX-License-Identifier: Apache-2.0
-
 [
   {
     "name": "Retrieved access-control-allow-origin header: *.",
     "description": null,
     "category": "Nikto Finding",
-    "location": "http://juice-shop.demo-targets.svc",
+    "location": "http://bodgeit",
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
     "attributes":
       {
         "ip_address": "10.96.244.199",
-        "hostname": "juice-shop.demo-targets.svc",
+        "hostname": "bodgeit",
         "banner": "",
         "method": "GET",
         "port": 3000,
@@ -26,13 +22,13 @@
     "name": "Entry '/ftp/' in robots.txt returned a non-forbidden or redirect HTTP code (200).",
     "description": null,
     "category": "Nikto Finding",
-    "location": "http://juice-shop.demo-targets.svc",
+    "location": "http://bodgeit",
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
     "attributes":
       {
         "ip_address": "10.96.244.199",
-        "hostname": "juice-shop.demo-targets.svc",
+        "hostname": "bodgeit",
         "banner": "",
         "method": "GET",
         "port": 3000,
@@ -45,13 +41,13 @@
     "name": '"robots.txt" contains 1 entry which should be manually viewed.',
     "description": null,
     "category": "robots.txt",
-    "location": "http://juice-shop.demo-targets.svc",
+    "location": "http://bodgeit",
     "osi_layer": "NETWORK",
     "severity": "INFORMATIONAL",
     "attributes":
       {
         "ip_address": "10.96.244.199",
-        "hostname": "juice-shop.demo-targets.svc",
+        "hostname": "bodgeit",
         "banner": "",
         "method": "GET",
         "port": 3000,

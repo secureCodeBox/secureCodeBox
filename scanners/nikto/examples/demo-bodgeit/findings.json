@@ -1,0 +1,250 @@
+[{
+  "name": "/: The anti-clickjacking X-Frame-Options header is not present.",
+  "description": null,
+  "category": "X-Frame-Options Header",
+  "location": "http://bodgeit",
+  "osi_layer": "NETWORK",
+  "severity": "LOW",
+  "attributes": {
+    "ip_addresses": ["10.96.235.197"],
+    "hostname": "bodgeit",
+    "banner": "",
+    "method": "GET",
+    "port": 8080,
+    "niktoId": 999957,
+    "references": [{
+      "type": "URL",
+      "value": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options"
+    }]
+  },
+  "id": "6be1c099-35e1-44b3-a492-a718b433bbaf",
+  "parsed_at": "2023-08-22T13:18:46.280Z"
+}, {
+  "name": "/: The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type.",
+  "description": null,
+  "category": "X-Content-Type-Options Header",
+  "location": "http://bodgeit",
+  "osi_layer": "NETWORK",
+  "severity": "INFORMATIONAL",
+  "attributes": {
+    "ip_addresses": ["10.96.235.197"],
+    "hostname": "bodgeit",
+    "banner": "",
+    "method": "GET",
+    "port": 8080,
+    "niktoId": 999103,
+    "references": [{
+      "type": "URL",
+      "value": "https://www.netsparker.com/web-vulnerability-scanner/vulnerabilities/missing-content-type-header/"
+    }]
+  },
+  "id": "e8f6fe9a-9ec1-46ff-a0b3-f9150dae70a4",
+  "parsed_at": "2023-08-22T13:18:46.280Z"
+}, {
+  "name": "/favicon.ico: identifies this app/server as: Apache Tomcat (possibly 5.5.26 through 8.0.15), Alfresco Community.",
+  "description": null,
+  "category": "Identified Software",
+  "location": "http://bodgeit",
+  "osi_layer": "NETWORK",
+  "severity": "INFORMATIONAL",
+  "attributes": {
+    "ip_addresses": ["10.96.235.197"],
+    "hostname": "bodgeit",
+    "banner": "",
+    "method": "GET",
+    "port": 8080,
+    "niktoId": 500645,
+    "references": [{
+      "type": "URL",
+      "value": "https://en.wikipedia.org/wiki/Favicon"
+    }]
+  },
+  "id": "7fd8b1d6-c783-48a7-98a1-d4bd100badef",
+  "parsed_at": "2023-08-22T13:18:46.280Z"
+}, {
+  "name": "OPTIONS: Allowed HTTP Methods: GET, HEAD, POST, PUT, DELETE, OPTIONS .",
+  "description": null,
+  "category": "Nikto Finding",
+  "location": "http://bodgeit",
+  "osi_layer": "NETWORK",
+  "severity": "INFORMATIONAL",
+  "attributes": {
+    "ip_addresses": ["10.96.235.197"],
+    "hostname": "bodgeit",
+    "banner": "",
+    "method": "OPTIONS",
+    "port": 8080,
+    "niktoId": 999990,
+    "references": null
+  },
+  "id": "60d87413-9abc-4ce2-b0e2-6e898b7a3dc6",
+  "parsed_at": "2023-08-22T13:18:46.280Z"
+}, {
+  "name": "HTTP method ('Allow' Header): 'PUT' method could allow clients to save files on the web server.",
+  "description": null,
+  "category": "Nikto Finding",
+  "location": "http://bodgeit",
+  "osi_layer": "NETWORK",
+  "severity": "INFORMATIONAL",
+  "attributes": {
+    "ip_addresses": ["10.96.235.197"],
+    "hostname": "bodgeit",
+    "banner": "",
+    "method": "GET",
+    "port": 8080,
+    "niktoId": 400001,
+    "references": null
+  },
+  "id": "4d2f499d-e475-417c-8d17-12e2a993e2c9",
+  "parsed_at": "2023-08-22T13:18:46.280Z"
+}, {
+  "name": "HTTP method ('Allow' Header): 'DELETE' may allow clients to remove files on the web server.",
+  "description": null,
+  "category": "Nikto Finding",
+  "location": "http://bodgeit",
+  "osi_layer": "NETWORK",
+  "severity": "INFORMATIONAL",
+  "attributes": {
+    "ip_addresses": ["10.96.235.197"],
+    "hostname": "bodgeit",
+    "banner": "",
+    "method": "GET",
+    "port": 8080,
+    "niktoId": 400000,
+    "references": null
+  },
+  "id": "a2862265-8ae0-4f1f-8333-8b7d30439db2",
+  "parsed_at": "2023-08-22T13:18:46.280Z"
+}, {
+  "name": "/examples/servlets/index.html: Apache Tomcat default JSP pages present.",
+  "description": null,
+  "category": "Potential Vulnerability",
+  "location": "http://bodgeit",
+  "osi_layer": "NETWORK",
+  "severity": "HIGH",
+  "attributes": {
+    "ip_addresses": ["10.96.235.197"],
+    "hostname": "bodgeit",
+    "banner": "",
+    "method": "GET",
+    "port": 8080,
+    "niktoId": 366,
+    "references": null
+  },
+  "id": "5f46e9f4-5938-4c19-915c-5fa21e8e3c65",
+  "parsed_at": "2023-08-22T13:18:46.280Z"
+}, {
+  "name": "/examples/jsp/snp/snoop.jsp: Displays information about page retrievals, including other users.",
+  "description": null,
+  "category": "Potential Vulnerability",
+  "location": "http://bodgeit",
+  "osi_layer": "NETWORK",
+  "severity": "HIGH",
+  "attributes": {
+    "ip_addresses": ["10.96.235.197"],
+    "hostname": "bodgeit",
+    "banner": "",
+    "method": "GET",
+    "port": 8080,
+    "niktoId": 1355,
+    "references": [{
+      "type": "URL",
+      "value": "CVE-2004-2104"
+    }]
+  },
+  "id": "969467d0-9acc-4eb9-89d3-ec8b46382d3f",
+  "parsed_at": "2023-08-22T13:18:46.280Z"
+}, {
+  "name": "/manager/manager-howto.html: Tomcat documentation found.",
+  "description": null,
+  "category": "Potential Vulnerability",
+  "location": "http://bodgeit",
+  "osi_layer": "NETWORK",
+  "severity": "HIGH",
+  "attributes": {
+    "ip_addresses": ["10.96.235.197"],
+    "hostname": "bodgeit",
+    "banner": "",
+    "method": "GET",
+    "port": 8080,
+    "niktoId": 3399,
+    "references": [{
+      "type": "URL",
+      "value": "CWE-552"
+    }]
+  },
+  "id": "c0e6a10e-3293-4fe1-9bad-1c79398c8628",
+  "parsed_at": "2023-08-22T13:18:46.280Z"
+}, {
+  "name": "/manager/html: Default Tomcat Manager / Host Manager interface found.",
+  "description": null,
+  "category": "Potential Vulnerability",
+  "location": "http://bodgeit",
+  "osi_layer": "NETWORK",
+  "severity": "HIGH",
+  "attributes": {
+    "ip_addresses": ["10.96.235.197"],
+    "hostname": "bodgeit",
+    "banner": "",
+    "method": "GET",
+    "port": 8080,
+    "niktoId": 6525,
+    "references": null
+  },
+  "id": "57a6c749-aa20-4c01-9ed4-bb7335fc42ea",
+  "parsed_at": "2023-08-22T13:18:46.280Z"
+}, {
+  "name": "/host-manager/html: Default Tomcat Manager / Host Manager interface found.",
+  "description": null,
+  "category": "Potential Vulnerability",
+  "location": "http://bodgeit",
+  "osi_layer": "NETWORK",
+  "severity": "HIGH",
+  "attributes": {
+    "ip_addresses": ["10.96.235.197"],
+    "hostname": "bodgeit",
+    "banner": "",
+    "method": "GET",
+    "port": 8080,
+    "niktoId": 6525,
+    "references": null
+  },
+  "id": "804e3905-1fde-48e2-986f-71479334386a",
+  "parsed_at": "2023-08-22T13:18:46.280Z"
+}, {
+  "name": "/manager/status: Default Tomcat Server Status interface found.",
+  "description": null,
+  "category": "Potential Vulnerability",
+  "location": "http://bodgeit",
+  "osi_layer": "NETWORK",
+  "severity": "HIGH",
+  "attributes": {
+    "ip_addresses": ["10.96.235.197"],
+    "hostname": "bodgeit",
+    "banner": "",
+    "method": "GET",
+    "port": 8080,
+    "niktoId": 7015,
+    "references": null
+  },
+  "id": "4e749f1c-2413-4ffd-8ab6-ed5e3220f743",
+  "parsed_at": "2023-08-22T13:18:46.280Z"
+}, {
+  "name": "/host-manager/status: Default Tomcat Server Status interface found.",
+  "description": null,
+  "category": "Potential Vulnerability",
+  "location": "http://bodgeit",
+  "osi_layer": "NETWORK",
+  "severity": "HIGH",
+  "attributes": {
+    "ip_addresses": ["10.96.235.197"],
+    "hostname": "bodgeit",
+    "banner": "",
+    "method": "GET",
+    "port": 8080,
+    "niktoId": 7015,
+    "references": null
+  },
+  "id": "1ed55f05-5c4a-4a17-92fc-b7471beda8d6",
+  "parsed_at": "2023-08-22T13:18:46.280Z"
+}]
