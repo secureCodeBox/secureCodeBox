@@ -7,6 +7,8 @@ appVersion: "0.6.8"
 usecase: "Kubernetes Vulnerability Scanner"
 ---
 
+![kube-hunter logo](https://raw.githubusercontent.com/aquasecurity/kube-hunter/main/kube-hunter.png)
+
 <!--
 SPDX-FileCopyrightText: the secureCodeBox authors
 
