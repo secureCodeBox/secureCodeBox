@@ -10,4 +10,4 @@ spec:
   scanType: "ssh-scan"
   parameters:
     - "-t"
-    - "dummy-ssh.demo-targets.svc"
+    - "dummy-ssh"
