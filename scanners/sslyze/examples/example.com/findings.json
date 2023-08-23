@@ -1,0 +1,56 @@
+[{
+  "osi_layer": "PRESENTATION",
+  "reference": null,
+  "location": "example.com:443",
+  "name": "TLS Service",
+  "description": "",
+  "identified_at": "2023-08-23T08:00:47.239Z",
+  "category": "TLS Service Info",
+  "severity": "INFORMATIONAL",
+  "mitigation": null,
+  "attributes": {
+    "hostname": "example.com",
+    "ip_addresses": ["93.184.216.34"],
+    "port": 443,
+    "tls_versions": ["TLS 1.0", "TLS 1.1", "TLS 1.2", "TLS 1.3"],
+    "cipher_suites": ["SEED-SHA", "CAMELLIA256-SHA", "CAMELLIA128-SHA", "AES256-SHA", "AES128-SHA", "ECDHE-RSA-AES256-SHA", "ECDHE-RSA-AES128-SHA", "DHE-RSA-SEED-SHA", "DHE-RSA-CAMELLIA256-SHA", "DHE-RSA-CAMELLIA128-SHA", "DHE-RSA-AES256-SHA", "DHE-RSA-AES128-SHA", "AES128-GCM-SHA256", "ECDHE-RSA-AES256-GCM-SHA384", "ECDHE-RSA-AES256-SHA384", "ECDHE-RSA-AES128-GCM-SHA256", "ECDHE-RSA-AES128-SHA256", "DHE-RSA-AES256-GCM-SHA384", "DHE-RSA-AES256-SHA256", "DHE-RSA-AES128-GCM-SHA256", "DHE-RSA-AES128-SHA256", "TLS_CHACHA20_POLY1305_SHA256", "TLS_AES_256_GCM_SHA384", "TLS_AES_128_GCM_SHA256"]
+  },
+  "id": "6cd691f3-1174-4472-ad66-0ddb490c1d91",
+  "parsed_at": "2023-08-23T08:00:57.820Z"
+}, {
+  "osi_layer": "PRESENTATION",
+  "reference": null,
+  "location": "example.com:443",
+  "name": "TLS Version TLS 1.0 is considered insecure",
+  "category": "Outdated TLS Version",
+  "description": "The server uses outdated or insecure tls versions.",
+  "identified_at": "2023-08-23T08:00:47.239Z",
+  "severity": "MEDIUM",
+  "mitigation": "Upgrade to a higher tls version.",
+  "attributes": {
+    "hostname": "example.com",
+    "ip_addresses": ["93.184.216.34"],
+    "port": 443,
+    "outdated_version": "TLS 1.0"
+  },
+  "id": "d7c7ea04-72be-4ca1-b159-8336bddbedc4",
+  "parsed_at": "2023-08-23T08:00:57.820Z"
+}, {
+  "osi_layer": "PRESENTATION",
+  "reference": null,
+  "location": "example.com:443",
+  "name": "TLS Version TLS 1.1 is considered insecure",
+  "category": "Outdated TLS Version",
+  "description": "The server uses outdated or insecure tls versions.",
+  "identified_at": "2023-08-23T08:00:47.239Z",
+  "severity": "MEDIUM",
+  "mitigation": "Upgrade to a higher tls version.",
+  "attributes": {
+    "hostname": "example.com",
+    "ip_addresses": ["93.184.216.34"],
+    "port": 443,
+    "outdated_version": "TLS 1.1"
+  },
+  "id": "17bcb87a-830c-4598-a48a-0c8c824a6ff2",
+  "parsed_at": "2023-08-23T08:00:57.820Z"
+}]
