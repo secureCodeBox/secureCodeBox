@@ -36,13 +36,13 @@ With the _secureCodeBox_ we provide a toolchain for continuous scanning of appli
 
 The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To install it you need [Helm](https://helm.sh), a package manager for Kubernetes. It is also possible to start the different integrated security vulnerability scanners based on a docker infrastructure.
 
-### Quickstart with secureCodeBox on kubernetes
+### Quickstart with secureCodeBox on Kubernetes
 
 You can find resources to help you get started on our [documentation website](https://www.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://www.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://www.securecodebox.io/docs/getting-started/first-scans) with it.
 
 ## Supported Tags
 - `latest`  (represents the latest stable release build)
-- tagged releases, e.g. `v0.5.5`
+- tagged releases, e.g. `v0.5.6`
 
 ## How to use this image
 This `scanner` image is intended to work in combination with the corresponding `parser` image to parse the scanner `findings` to generic secureCodeBox results. For more information details please take a look at the [project page][scb-docs] or [documentation page][https://www.securecodebox.io/docs/scanners/doggo].

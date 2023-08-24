@@ -1,10 +1,15 @@
 // SPDX-FileCopyrightText: the secureCodeBox authors
 //
 // SPDX-License-Identifier: Apache-2.0
+
+//go:build fast
+// +build fast
+
 package controllers
 
 import (
 	"context"
+	"time"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -64,18 +69,18 @@ var _ = Describe("ScheduledScan controller", func() {
 			}
 		})
 	})
-	Context("A Scan is triggred due to a Scheduled Scan", func() {
+	Context("A Scan is triggred due to a Scheduled Scan with Interval in Spec", func() {
 		It("The ScheduledScan's Finding Summary shoud be updated of with the results of the successful Scan", func() {
 			ctx := context.Background()
 			namespace := "scantype-multiple-scheduled-scan-triggerd-test"
 
 			createNamespace(ctx, namespace)
 			createScanType(ctx, namespace)
-			scheduledScan := createScheduledScan(ctx, namespace, true)
+			scheduledScan := createScheduledScanWithInterval(ctx, namespace, true, 42*time.Hour, executionv1.ForbidConcurrent)
 
 			var scanlist executionv1.ScanList
 			// ensure that the ScheduledScan has been triggered
-			waitForScheduledScanToBeTriggered(ctx, namespace)
+			waitForScheduledScanToBeTriggered(ctx, namespace, timeout)
 			k8sClient.List(ctx, &scanlist, client.InNamespace(namespace))
 
 			Expect(scanlist.Items).Should(HaveLen(1))
@@ -102,6 +107,74 @@ var _ = Describe("ScheduledScan controller", func() {
 			Expect(scheduledScan.Status.Findings.Count).Should(Equal(uint64(42)))
 			Expect(scheduledScan.Status.Findings.FindingSeverities).Should(Equal(executionv1.FindingSeverities{High: 42}))
 			Expect(scheduledScan.Status.Findings.FindingCategories).Should(Equal(map[string]uint64{"Open Port": 42}))
+		})
+	})
+
+	Context("A Scan is triggred due to a Scheduled Scan with a ConcurrencyPolicy", func() {
+		It("A second scheduled scan should not start before the first one is finished if the concurency policy is set to ForbidConcurrent", func() {
+
+			ctx := context.Background()
+			namespace := "scheduled-scan-triggerd-concurrency-forbid-test"
+			createNamespace(ctx, namespace)
+			createScanType(ctx, namespace)
+			createScheduledScanWithInterval(ctx, namespace, true, 1*time.Second, executionv1.ForbidConcurrent)
+
+			var scanlist executionv1.ScanList
+			// ensure that the ScheduledScan has been triggered
+			waitForScheduledScanToBeTriggered(ctx, namespace, timeout)
+			k8sClient.List(ctx, &scanlist, client.InNamespace(namespace))
+
+			Expect(scanlist.Items).Should(HaveLen(1))
+			time.Sleep(2 * time.Second)
+			// make sure that no second scan has been triggered
+			k8sClient.List(ctx, &scanlist, client.InNamespace(namespace))
+			Expect(scanlist.Items).Should(HaveLen(1))
+
+		})
+
+		It("A second scheduled scan should start before the first one is finished if the concurency policy is set to AllowConcurrent", func() {
+
+			ctx := context.Background()
+			namespace := "scheduled-scan-triggerd-concurrency-allow-test"
+			createNamespace(ctx, namespace)
+			createScanType(ctx, namespace)
+			createScheduledScanWithInterval(ctx, namespace, true, 1*time.Second, executionv1.AllowConcurrent)
+
+			var scanlist executionv1.ScanList
+			// ensure that the ScheduledScan has been triggered
+			waitForScheduledScanToBeTriggered(ctx, namespace, timeout)
+			k8sClient.List(ctx, &scanlist, client.InNamespace(namespace))
+			Expect(scanlist.Items).ShouldNot(BeEmpty())
+
+			time.Sleep(2 * time.Second)
+
+			// make sure more than one scan has been triggered
+			k8sClient.List(ctx, &scanlist, client.InNamespace(namespace))
+			Expect(scanlist.Items).ShouldNot(HaveLen(1))
+		})
+
+		It("A second scheduled scan should replace the first one, before the first one is finished if the concurency policy is set to ReplaceConcurrent", func() {
+
+			ctx := context.Background()
+			namespace := "scheduled-scan-triggerd-concurrency-replace-test"
+			createNamespace(ctx, namespace)
+			createScanType(ctx, namespace)
+			createScheduledScanWithInterval(ctx, namespace, true, 1*time.Second, executionv1.ReplaceConcurrent)
+
+			var scanlist executionv1.ScanList
+			// ensure that the ScheduledScan has been triggered
+			waitForScheduledScanToBeTriggered(ctx, namespace, timeout)
+			k8sClient.List(ctx, &scanlist, client.InNamespace(namespace))
+			Expect(scanlist.Items).Should(HaveLen(1))
+			firstScanName := scanlist.Items[0].Name
+
+			time.Sleep(2 * time.Second)
+
+			// make sure the first scan has been replaced
+			k8sClient.List(ctx, &scanlist, client.InNamespace(namespace))
+			secondScanName := scanlist.Items[0].Name
+			Expect(scanlist.Items).Should(HaveLen(1))
+			Expect(firstScanName).ShouldNot(Equal(secondScanName))
 		})
 	})
 })

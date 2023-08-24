@@ -1,7 +1,7 @@
 package io.securecodebox.persistence.service.scanresult;
 
 import io.securecodebox.persistence.config.PersistenceProviderConfig;
-import io.securecodebox.persistence.defectdojo.models.ScanFile;
+import io.securecodebox.persistence.defectdojo.model.ScanFile;
 import io.securecodebox.persistence.service.S3Service;
 import org.apache.commons.io.FilenameUtils;
 

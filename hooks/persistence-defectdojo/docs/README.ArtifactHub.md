@@ -36,7 +36,7 @@ With the _secureCodeBox_ we provide a toolchain for continuous scanning of appli
 
 The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To install it you need [Helm](https://helm.sh), a package manager for Kubernetes. It is also possible to start the different integrated security vulnerability scanners based on a docker infrastructure.
 
-### Quickstart with secureCodeBox on kubernetes
+### Quickstart with secureCodeBox on Kubernetes
 
 You can find resources to help you get started on our [documentation website](https://www.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://www.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://www.securecodebox.io/docs/getting-started/first-scans) with it.
 
@@ -157,7 +157,7 @@ can add these via annotation to the scan. See examples below.
 | `defectdojo.securecodebox.io/engagement-deduplicate-on-engagement` | Deduplicate On Engagement  | false                                                                | Only used when creating the Engagement not used for updating                          |
 | `defectdojo.securecodebox.io/engagement-tags`                      | Engagement Tags            | Nothing                                                              | Only used when creating the Engagement not used for updating                          |
 | `defectdojo.securecodebox.io/test-title`                           | Test Title                 | Scan Name                                                            |                                                                                       |
-
+| `defectdojo.securecodebox.io/minimum_severity`                     | Minimum severity for findings created in DD    | Nothing                                          | Used to only create finding in DD, which are of a certain severity                    |
 ### Read-only Mode
 
 By default, the DefectDojo hook will pull the imported results from DefectDojo and use them to replace the results inside secureCodeBox.
@@ -246,6 +246,29 @@ helm upgrade --install dd secureCodeBox/persistence-defectdojo \
     --set="defectdojo.lowPrivilegedMode=true" \
     --set="defectdojo.authentication.userId=42"
 ```
+
+### DefectDojo minimum severity
+
+It has come to our attention, that DefectDojo become slow when handling a lot of data. A lot of data in DefectDojo can be informational findings one likes to ignore.
+Therefore Defectdojo provides the option to only create findings for scan finding from a certain severity level and above, thus lowering the amount of data stored.
+We integrate this option in our scans by providing the "defectdojo.securecodebox.io/minimum_severity" annotation for scans.
+This is an example of how the minimum severity for findings of a scan can be set:
+```yaml
+apiVersion: "execution.securecodebox.io/v1"
+kind: ScheduledScan
+metadata:
+  name: "zap-juiceshop"
+  annotations:
+      defectdojo.securecodebox.io/minimum_severity: "Low"
+spec:
+  interval: 24h
+  scanSpec:
+    scanType: "zap-full-scan"
+    parameters:
+      - "-t"
+      - "http://juice-shop.demo-targets.svc:3000"
+```
+In this example only for scan findings with a severity of "Low" or higher there are findings in DefectDojo created.
 
 ### Simple Example Scans
 

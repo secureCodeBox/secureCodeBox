@@ -4,7 +4,7 @@
 package io.securecodebox.persistence;
 
 import io.securecodebox.persistence.config.PersistenceProviderConfig;
-import io.securecodebox.persistence.defectdojo.config.DefectDojoConfig;
+import io.securecodebox.persistence.defectdojo.config.Config;
 import io.securecodebox.persistence.defectdojo.service.EndpointService;
 import io.securecodebox.persistence.defectdojo.service.FindingService;
 import io.securecodebox.persistence.mapping.DefectDojoFindingToSecureCodeBoxMapper;
@@ -36,7 +36,7 @@ public class DefectDojoPersistenceProvider {
     LOG.info("Downloading Scan Result");
     var scanResultFile = ScanResultService.build(scan, s3Service).getScanResult(persistenceProviderConfig);
 
-    var config = DefectDojoConfig.fromEnv();
+    var config = Config.fromEnv();
     LOG.info("Uploading Findings to DefectDojo at: {}", config.getUrl());
     var defectdojoImportStrategy = new VersionedEngagementsStrategy();
     defectdojoImportStrategy.init(config, persistenceProviderConfig);

@@ -38,7 +38,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@elastic/elasticsearch": "^7.13.0",
+    "@elastic/elasticsearch": "^7.17.3",
     "@types/jest": "^29.4.0",
     "lodash.chunk": "^4.2.0",
     "lodash.flatmap": "^4.5.0",

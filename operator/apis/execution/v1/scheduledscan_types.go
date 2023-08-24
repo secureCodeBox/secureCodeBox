@@ -18,16 +18,30 @@ type ScheduledScanSpec struct {
 
 	// Interval describes how often the scan should be repeated
 	// Examples: '12h', '30m'
+	// +kubebuilder:validation:Optional
 	Interval metav1.Duration `json:"interval"`
+
+	// The schedule in Cron format, see https://en.wikipedia.org/wiki/Cron.
+	// +kubebuilder:validation:Optional
+	Schedule string `json:"schedule"`
 
 	// SuccessfulJobsHistoryLimit determines how many past Scans will be kept until the oldest one will be deleted, defaults to 3. When set to 0, Scans will be deleted directly after completion
 	// +kubebuilder:validation:Optional
 	// +kubebuilder:validation:Minimum=0
 	SuccessfulJobsHistoryLimit *int32 `json:"successfulJobsHistoryLimit,omitempty"`
+
 	// FailedJobsHistoryLimit determines how many failed past Scans will be kept until the oldest one will be deleted, defaults to 3. When set to 0, Scans will be deleted directly after failure
 	// +kubebuilder:validation:Optional
 	// +kubebuilder:validation:Minimum=0
 	FailedJobsHistoryLimit *int32 `json:"failedJobsHistoryLimit,omitempty"`
+
+	// Specifies how to treat concurrent executions of a Job.
+	// Valid values are:
+	// - "Allow" (default): allows CronJobs to run concurrently;
+	// - "Forbid": forbids concurrent runs, skipping next run if previous run hasn't finished yet;
+	// - "Replace": cancels currently running job and replaces it with a new one
+	// +optional
+	ConcurrencyPolicy ConcurrencyPolicy `json:"concurrencyPolicy,omitempty"`
 
 	// ScanSpec describes the scan which should be started regularly
 	ScanSpec *ScanSpec `json:"scanSpec"`
@@ -37,6 +51,25 @@ type ScheduledScanSpec struct {
 	// +kubebuilder:default=false
 	RetriggerOnScanTypeChange bool `json:"retriggerOnScanTypeChange,omitempty"`
 }
+
+// ConcurrencyPolicy describes how the job will be handled.
+// Only one of the following concurrent policies may be specified.
+// If none of the following policies is specified, the default one
+// is AllowConcurrent.
+// +kubebuilder:validation:Enum=Allow;Forbid;Replace
+type ConcurrencyPolicy string
+
+const (
+	// AllowConcurrent allows CronJobs to run concurrently.
+	AllowConcurrent ConcurrencyPolicy = "Allow"
+
+	// ForbidConcurrent forbids concurrent runs, skipping next run if previous
+	// hasn't finished yet.
+	ForbidConcurrent ConcurrencyPolicy = "Forbid"
+
+	// ReplaceConcurrent cancels currently running job and replaces it with a new one.
+	ReplaceConcurrent ConcurrencyPolicy = "Replace"
+)
 
 // ScheduledScanStatus defines the observed state of ScheduledScan
 type ScheduledScanStatus struct {
@@ -59,6 +92,7 @@ type ScheduledScanStatus struct {
 // +kubebuilder:printcolumn:name="UID",type=string,JSONPath=`.metadata.uid`,description="K8s Resource UID",priority=1
 // +kubebuilder:printcolumn:name="Type",type=string,JSONPath=`.spec.scanSpec.scanType`,description="Scan Type"
 // +kubebuilder:printcolumn:name="Interval",type=string,JSONPath=`.spec.interval`,description="Interval"
+// +kubebuilder:printcolumn:name="Schedule",type=string,JSONPath=`.spec.schedule`,description="Schedule"
 // +kubebuilder:printcolumn:name="Findings",type=string,JSONPath=`.status.findings.count`,description="Total Finding Count"
 // +kubebuilder:printcolumn:name="Parameters",type=string,JSONPath=`.spec.scanSpec.parameters`,description="Arguments passed to the Scanner",priority=1
 

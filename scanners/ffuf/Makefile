@@ -17,4 +17,4 @@ integration-tests:
 	@echo ".: 🩺 Starting integration test in kind namespace 'integration-tests'."
 	kubectl -n integration-tests delete scans --all
 	kubectl apply -f ./integration-tests/configmap-wordlist.yaml -n integration-tests
-	cd $(SCANNERS_DIR) && npm ci && cd $(scanner)/integration-tests && npm run test --yes --package jest@$(JEST_VERSION) $(scanner)/integration-tests
+	cd $(SCANNERS_DIR) && npm ci && cd $(scanner)/integration-tests && npm run test:integration -- $(scanner)/integration-tests

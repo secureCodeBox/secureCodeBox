@@ -36,7 +36,7 @@ With the _secureCodeBox_ we provide a toolchain for continuous scanning of appli
 
 The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To install it you need [Helm](https://helm.sh), a package manager for Kubernetes. It is also possible to start the different integrated security vulnerability scanners based on a docker infrastructure.
 
-### Quickstart with secureCodeBox on kubernetes
+### Quickstart with secureCodeBox on Kubernetes
 
 You can find resources to help you get started on our [documentation website](https://www.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://www.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://www.securecodebox.io/docs/getting-started/first-scans) with it.
 
@@ -52,6 +52,11 @@ docker pull securecodebox/parser-amass
 ```
 
 ## What is OWASP Amass?
+
+:::caution
+Amass is currently not functional in the secureCodeBox due to a bug in the underlying docker image. We are working on a fix.
+See [Issue #1847](https://github.com/secureCodeBox/secureCodeBox/issues/1847).
+:::
 
 The [OWASP Amass Project][owasp_amass_project] has developed a tool to help information security professionals perform network mapping of attack surfaces and perform external asset discovery using open source information gathering and active reconnaissance techniques. To learn more about the Amass scanner itself visit [OWASP Amass Project][owasp_amass_project] or [Amass GitHub].
 

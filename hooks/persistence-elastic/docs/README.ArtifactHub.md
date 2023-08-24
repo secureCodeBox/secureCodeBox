@@ -36,7 +36,7 @@ With the _secureCodeBox_ we provide a toolchain for continuous scanning of appli
 
 The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To install it you need [Helm](https://helm.sh), a package manager for Kubernetes. It is also possible to start the different integrated security vulnerability scanners based on a docker infrastructure.
 
-### Quickstart with secureCodeBox on kubernetes
+### Quickstart with secureCodeBox on Kubernetes
 
 You can find resources to help you get started on our [documentation website](https://www.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://www.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://www.securecodebox.io/docs/getting-started/first-scans) with it.
 
@@ -59,8 +59,8 @@ Kubernetes: `>=v1.11.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://helm.elastic.co | elasticsearch | 7.9.2 |
-| https://helm.elastic.co | kibana | 7.9.2 |
+| https://helm.elastic.co | elasticsearch | 7.17.3 |
+| https://helm.elastic.co | kibana | 7.17.3 |
 
 ## Additional Chart Configurations
 

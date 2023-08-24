@@ -13,9 +13,11 @@ import (
 	"time"
 
 	"github.com/go-logr/logr"
+	"github.com/robfig/cron"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
+	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -31,14 +33,18 @@ var (
 // ScheduledScanReconciler reconciles a ScheduledScan object
 type ScheduledScanReconciler struct {
 	client.Client
-	Log    logr.Logger
-	Scheme *runtime.Scheme
+	Log      logr.Logger
+	Scheme   *runtime.Scheme
+	Recorder record.EventRecorder
 }
 
 // +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scheduledscans,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scheduledscans/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scans,verbs=get;list;create
 // +kubebuilder:rbac:groups=execution.securecodebox.io,resources=scans/status,verbs=get
+
+// Allows the ScheduledScan Controller to create and patch Events
+// +kubebuilder:rbac:groups="",resources=events,verbs=create;patch
 
 // Reconcile comapares the ScheduledScan Resource with the State of the Cluster and updates both accordingly
 func (r *ScheduledScanReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
@@ -100,15 +106,36 @@ func (r *ScheduledScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	}
 
 	// Calculate the next schedule
-	var nextSchedule time.Time
-	if scheduledScan.Status.LastScheduleTime != nil {
-		nextSchedule = scheduledScan.Status.LastScheduleTime.Add(scheduledScan.Spec.Interval.Duration)
-	} else {
-		nextSchedule = time.Now().Add(-1 * time.Second)
+	nextSchedule, err := getNextSchedule(r, scheduledScan, time.Now())
+	if err != nil {
+		log.Error(err, "Unable to calculate next schedule")
+		return ctrl.Result{}, err
 	}
+
+	InProgressScans := getScansInProgress(childScans.Items)
 
 	// check if it is time to start the next Scan
 	if !time.Now().Before(nextSchedule) {
+		// check concurrency policy
+		if scheduledScan.Spec.ConcurrencyPolicy == executionv1.ForbidConcurrent && len(InProgressScans) > 0 {
+			log.V(8).Info("concurrency policy blocks concurrent runs, skipping", "num active", len(InProgressScans))
+			r.Recorder.Event(&scheduledScan, "Normal", "ConcurrencyPolicyBlocks", "Concurrency policy blocks concurrent runs, skipping")
+			return ctrl.Result{RequeueAfter: 1 * time.Minute}, nil
+		}
+
+		// ...or instruct us to replace existing ones...
+		if scheduledScan.Spec.ConcurrencyPolicy == executionv1.ReplaceConcurrent {
+			for _, scan := range InProgressScans {
+				// we don't care if the job was already deleted
+				if err := r.Delete(context.Background(), &scan, client.PropagationPolicy(metav1.DeletePropagationBackground)); (err) != nil {
+					log.Error(err, "unable to delete active job", "job", scan)
+					r.Recorder.Event(&scheduledScan, "Warning", "JobDeletionFailed", fmt.Sprintf("Unable to delete active job: %s, error: %v", scan.Name, err))
+					return ctrl.Result{}, err
+				}
+				r.Recorder.Event(&scheduledScan, "Normal", "JobReplaced", fmt.Sprintf("Active job %s replaced", scan.Name))
+			}
+		}
+
 		if scheduledScan.Spec.RetriggerOnScanTypeChange == true {
 			// generate hash for current state of the configured ScanType
 			var scanType executionv1.ScanType
@@ -156,10 +183,46 @@ func (r *ScheduledScanReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 		}
 
 		// Recalculate next schedule
-		nextSchedule = time.Now().Add(scheduledScan.Spec.Interval.Duration)
+		nextSchedule, err = getNextSchedule(r, scheduledScan, time.Now())
 	}
 
 	return ctrl.Result{RequeueAfter: nextSchedule.Sub(time.Now())}, nil
+}
+
+func getNextSchedule(r *ScheduledScanReconciler, scheduledScan executionv1.ScheduledScan, now time.Time) (next time.Time, err error) {
+	// check if the Cron schedule is set
+	if scheduledScan.Spec.Schedule != "" {
+		sched, err := cron.ParseStandard(scheduledScan.Spec.Schedule)
+		if err != nil {
+			r.Recorder.Event(&scheduledScan, "Warning", "ScheduleParseError", fmt.Sprintf("Unparseable schedule %q: %v", scheduledScan.Spec.Schedule, err))
+			return time.Time{}, fmt.Errorf("Unparseable schedule %q: %v", scheduledScan.Spec.Schedule, err)
+		}
+
+		// for optimization purposes, cheat a bit and start from our last observed run time
+		// we could reconstitute this here, but there's not much point, since we've
+		// just updated it.
+		var earliestTime time.Time
+		if scheduledScan.Status.LastScheduleTime != nil {
+			earliestTime = scheduledScan.Status.LastScheduleTime.Time
+		} else {
+			earliestTime = scheduledScan.ObjectMeta.CreationTimestamp.Time
+		}
+		if earliestTime.After(now) {
+			return sched.Next(now), nil
+		}
+		return sched.Next(earliestTime), nil
+	}
+	if scheduledScan.Spec.Interval.Duration > 0 {
+		var nextSchedule time.Time
+		if scheduledScan.Status.LastScheduleTime != nil {
+			nextSchedule = scheduledScan.Status.LastScheduleTime.Add(scheduledScan.Spec.Interval.Duration)
+		} else {
+			nextSchedule = time.Now().Add(-1 * time.Second)
+		}
+		return nextSchedule, nil
+	}
+	r.Recorder.Event(&scheduledScan, "Warning", "NoScheduleOrInterval", "No valid schedule or interval found")
+	return time.Time{}, fmt.Errorf("No schedule or interval found")
 }
 
 // Copy over securecodebox.io annotations from the scheduledScan to the created scan
@@ -196,6 +259,22 @@ func getScansWithState(scans []executionv1.Scan, state string) []executionv1.Sca
 	return newScans
 }
 
+// Returns a sorted list of scans in progress
+func getScansInProgress(scans []executionv1.Scan) []executionv1.Scan {
+	// Get a sorted list of scans.
+	var newScans []executionv1.Scan
+	for _, scan := range scans {
+		if scan.Status.State != "Done" && scan.Status.State != "Errored" {
+			newScans = append(newScans, scan)
+		}
+	}
+	sort.Slice(newScans, func(i, j int) bool {
+		return newScans[i].ObjectMeta.CreationTimestamp.Before(&newScans[j].ObjectMeta.CreationTimestamp)
+	})
+
+	return newScans
+}
+
 // DeleteOldScans when exceeding the history limit
 func (r *ScheduledScanReconciler) deleteOldScans(scans []executionv1.Scan, maxCount int32) error {
 	for i, scan := range scans {
@@ -212,6 +291,7 @@ func (r *ScheduledScanReconciler) deleteOldScans(scans []executionv1.Scan, maxCo
 
 // SetupWithManager sets up the controller and initializes every thing it needs
 func (r *ScheduledScanReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	// set up a real clock, since we're not in a test
 	ctx := context.Background()
 	if err := mgr.GetFieldIndexer().IndexField(ctx, &executionv1.Scan{}, ownerKey, func(rawObj client.Object) []string {
 		// grab the job object, extract the owner...

@@ -3,7 +3,7 @@ package io.securecodebox.persistence.service.scanresult;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.securecodebox.persistence.config.PersistenceProviderConfig;
-import io.securecodebox.persistence.defectdojo.models.ScanFile;
+import io.securecodebox.persistence.defectdojo.model.ScanFile;
 import io.securecodebox.persistence.mapping.SecureCodeBoxFindingsToDefectDojoMapper;
 import io.securecodebox.persistence.models.DefectDojoImportFinding;
 import io.securecodebox.persistence.models.SecureCodeBoxFinding;

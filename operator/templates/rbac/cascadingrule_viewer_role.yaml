@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# permissions for end users to view cascadingrules.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cascadingrule-viewer-role
+rules:
+  - apiGroups:
+      - cascading.securecodebox.io
+    resources:
+      - cascadingrules
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - cascading.securecodebox.io
+    resources:
+      - cascadingrules/status
+    verbs:
+      - get

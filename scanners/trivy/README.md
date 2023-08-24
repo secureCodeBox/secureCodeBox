@@ -3,7 +3,7 @@ title: "Trivy"
 category: "scanner"
 type: "Container"
 state: "released"
-appVersion: "0.42.0"
+appVersion: "0.44.1"
 usecase: "Container Vulnerability Scanner"
 ---
 
@@ -56,13 +56,15 @@ The following security scan configuration example are based on the [Trivy Docume
 
 ### Trivy Container Image Scan
 
-Currently we support the follwing 3 scanTypes, corresponding to the trivy scanning modes:
+Currently we support the follwing 4 scanTypes, corresponding to the trivy scanning modes:
 - scanType: "trivy-image"
    - parameters: `[YOUR_IMAGE_NAME]`
 - scanType: "trivy-filesystem"
    - parameters: `[YOUR_PATH_TO_FILES]`
 - scanType: "trivy-repo"
    - parameters: `[YOUR_GITHUB_REPO]`
+- scanType: "trivy-k8s"
+   - parameters: `[KUBERNETES_RESOURCE]`
 
 A complete example of each scanType are listed below in our [example docs section](https://www.securecodebox.io/docs/scanners/trivy/#examples).
 
@@ -85,95 +87,21 @@ spec:
 ```
 
 ### Scanning Many Targets
-By default, the docker container of trivy will download new rulesets when starting the process.
+By default, the docker container of trivy will download the vulnerability database when starting the process.
 As this download is performed directly from GitHub, you will run into API rate limiting issues after roughly 50 requests.
-Trivy [supports a client-server mode](https://aquasecurity.github.io/trivy/latest/advanced/modes/client-server/) where one process downloads a copy of the rule database and provides it to the others.
-Due to [limitations in trivy](https://github.com/aquasecurity/trivy/issues/634), this mode currently only supports scanning container images.
-If this fits your use case, you can deploy a rule service with the following template:
-```yaml
-# First declare a service that will serve requests to the rule pod
-kind: Service
-apiVersion: v1
-metadata:
-  name: trivy-rules
-  # Update the namespace here if you are using a different one
-  namespace: default
-  labels:
-    app: trivy-rules
-spec:
-  selector:
-    app: trivy-rules
-  ports:
-  - port: 8080
-    protocol: TCP
-    targetPort: 8080
-  type: ClusterIP
----
-# Now declare the actual deployment of the rule server
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: trivy-rules
-  # Again, update the namespace here
-  namespace: default
-  labels:
-    app: trivy-rules
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: trivy-rules
-  template:
-    metadata:
-      labels:
-        app: trivy-rules
-    spec:
-      containers:
-      - name: trivy-rules
-        # Don't forget to set this to a version matching that used in secureCodeBox
-        image: aquasec/trivy:0.20.2
-        imagePullPolicy: Always
-        args:
-        - "server"
-        - "--listen"
-        - "0.0.0.0:8080"
-        ports:
-        - containerPort: 8080
-          protocol: TCP
-```
+Trivy [supports a client-server mode](https://aquasecurity.github.io/trivy/latest/docs/references/modes/client-server/) where one process downloads a copy of the vulnerability database and provides it to the others.
 
-You can then start scans of images using the client mode. For example:
+This mode is implemented and active by default.
+A separate Deployment for the trivy server will be created during the installation and the trivy scanTypes are automatically configured to run in client mode and connect to the server.
 
-```yaml
-apiVersion: "execution.securecodebox.io/v1"
-kind: Scan
-metadata:
-  name: "test-trivy"
-  # Don't forget to update the namespace if necessary
-  namespace: default
-spec:
-  scanType: "trivy-image"
-  parameters:
-    - "client"
-    # Again, add the extra parameters here (required to make the parser work)
-    # But don't add the --no-progress switch.
-    - "--format"
-    - "json"
-    - "--output"
-    - "/home/securecodebox/trivy-results.json"
-    # Specify the rule service internal DNS name here.
-    # (Substitute a different namespace if you changed it)
-    - "--remote"
-    - "http://trivy-rules.default.svc:8080"
-    # Finally, specify the image you want to scan
-    - "securecodebox/operator:3.0.0"
-```
+:::caution
 
-If you want to scan anything other than docker images, you currently [cannot use the client-server mode](https://github.com/aquasecurity/trivy/issues/634) described above.
-Instead, you have to [manually download the ruleset and provide it to trivy](https://aquasecurity.github.io/trivy/latest/advanced/air-gap/).
-In practice, this is a difficult problem because the most natural method for providing these files in kubernetes, ConfigMaps, has a size limit of 1 MB, while the vulnerability database is over 200 MB in size (28 MB after compression).
-Your best bet would thus be to serve the files from your own servers and load them into the scanner [using an initContainer](https://www.securecodebox.io/docs/api/crds/scan#initcontainers-optional), taking care to keep the databases on your server up to date.
-Consult the [trivy documentation](https://aquasecurity.github.io/trivy/latest/advanced/air-gap/) for additional details on the required steps.
+Client/server mode is not used for `trivy-k8s` scans, because trivy does not support it for this type of scan.
+If you start many `trivy-k8s` scans you might run into rate limits.
+One way to avoid that is to [preemptively download](https://aquasecurity.github.io/trivy/latest/docs/advanced/air-gap/) the trivy database once and then provide it similar to how the [nuclei template cache](https://www.securecodebox.io/docs/scanners/nuclei/#install-nuclei-without-template-cache-cronjob--persistentvolume) is handled.
+:::
+
+In case only a single scan or very few are run, and you want to avoid the small performance overhead, client/server mode can be disabled by setting `--set="trivyDatabaseCache.enabled=false"` during helm install.
 
 ## Requirements
 
@@ -186,6 +114,7 @@ Kubernetes: `>=v1.11.0-0`
 | cascadingRules.enabled | bool | `false` | Enables or disables the installation of the default cascading rules for this scanner |
 | createAutoDiscoveryScanType | bool | `false` | Creates a `trivy-image-autodiscovery` scanType with its own ServiceAccount for the SCB AutoDiscovery, enabled to scan images from both public & private registries. |
 | imagePullSecrets | list | `[]` | Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
+| kubeauditScope | string | `"cluster"` | Automatically sets up rbac roles for kubeaudit to access the resources it scans. Can be either "cluster" (ClusterRole) or "namespace" (Role) |
 | parser.affinity | object | `{}` | Optional affinity settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
 | parser.env | list | `[]` | Optional environment variables mapped into each parseJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | parser.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
@@ -194,7 +123,7 @@ Kubernetes: `>=v1.11.0-0`
 | parser.resources | object | { requests: { cpu: "200m", memory: "100Mi" }, limits: { cpu: "400m", memory: "200Mi" } } | Optional resources lets you control resource limits and requests for the parser container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ |
 | parser.scopeLimiterAliases | object | `{}` | Optional finding aliases to be used in the scopeLimiter. |
 | parser.tolerations | list | `[]` | Optional tolerations settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
-| parser.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+| parser.ttlSecondsAfterFinished | string | `nil` | seconds after which the Kubernetes job for the parser will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
 | scanner.activeDeadlineSeconds | string | `nil` | There are situations where you want to fail a scan Job after some amount of time. To do so, set activeDeadlineSeconds to define an active deadline (in seconds) when considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#job-termination-and-cleanup) |
 | scanner.affinity | object | `{}` | Optional affinity settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
 | scanner.backoffLimit | int | 3 | There are situations where you want to fail a scan Job after some amount of retries due to a logical error in configuration etc. To do so, set backoffLimit to specify the number of retries before considering a scan Job as failed. (see: https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-backoff-failure-policy) |
@@ -216,7 +145,9 @@ Kubernetes: `>=v1.11.0-0`
 | scanner.securityContext.runAsNonRoot | bool | `false` | Enforces that the scanner image is run as a non root user |
 | scanner.suspend | bool | `false` | if set to true the scan job will be suspended after creation. You can then resume the job using `kubectl resume <jobname>` or using a job scheduler like kueue |
 | scanner.tolerations | list | `[]` | Optional tolerations settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
-| scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+| scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the Kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
+| trivyDatabaseCache.enabled | bool | `true` | Enables or disables the use of trivy server in another pod to cache the vulnerability database for all scans. |
+| trivyDatabaseCache.replicas | int | `1` | amount of replicas to configure for the Deployment |
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
