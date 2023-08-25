@@ -3,7 +3,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 const sqlite3 = require('sqlite3').verbose();
-
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
 
 async function checkifTableExists(db){
   const query = `select count(*) from sqlite_master m where m.name="assets" OR m.name="relations"`
@@ -20,10 +22,13 @@ async function checkifTableExists(db){
 
 }
 
-async function openDatabase(databasePath) {
-  
+async function openDatabase(fileContent) {
+  const tempFilePath = path.join(os.tmpdir(), 'temp-sqlite' + '.sqlite');
+  // Write the content to a temporary file
+  await fs.promises.writeFile(tempFilePath, fileContent);
+
   return new Promise((resolve, reject) => {
-    const db = new sqlite3.Database(databasePath, sqlite3.OPEN_READONLY, (err) => {
+    const db = new sqlite3.Database(tempFilePath, sqlite3.OPEN_READONLY, (err) => {
       if (err) {
         reject(err.message);
         return;
@@ -33,8 +38,8 @@ async function openDatabase(databasePath) {
   });
 }
 
-async function parse(databasePath) {
-  const db = await openDatabase(databasePath);
+async function parse(fileContent) {
+  const db = await openDatabase(fileContent);
   const tableExists = await checkifTableExists(db);
   if(!tableExists) return [];
 
