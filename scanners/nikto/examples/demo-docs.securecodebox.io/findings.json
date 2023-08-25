@@ -1,0 +1,124 @@
+[{
+  "name": "/: The anti-clickjacking X-Frame-Options header is not present.",
+  "description": null,
+  "category": "X-Frame-Options Header",
+  "location": "https://www.securecodebox.io",
+  "osi_layer": "NETWORK",
+  "severity": "LOW",
+  "attributes": {
+    "ip_addresses": ["35.156.224.161"],
+    "hostname": "www.securecodebox.io",
+    "banner": "Netlify",
+    "method": "GET",
+    "port": 443,
+    "niktoId": 999957,
+    "references": [{
+      "type": "URL",
+      "value": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options"
+    }]
+  },
+  "id": "8c384048-3ec7-49b1-9c63-7ebbdde9c85d",
+  "parsed_at": "2023-08-22T13:10:10.973Z"
+}, {
+  "name": "/: Netlify was identified by the x-nf-request-id header.",
+  "description": null,
+  "category": "Potential Vulnerability",
+  "location": "https://www.securecodebox.io",
+  "osi_layer": "NETWORK",
+  "severity": "HIGH",
+  "attributes": {
+    "ip_addresses": ["35.156.224.161"],
+    "hostname": "www.securecodebox.io",
+    "banner": "Netlify",
+    "method": "GET",
+    "port": 443,
+    "niktoId": 287,
+    "references": [{
+      "type": "URL",
+      "value": "https://www.netlify.com/"
+    }]
+  },
+  "id": "1fbc6813-d759-4638-920b-aa15a8eb6fde",
+  "parsed_at": "2023-08-22T13:10:10.973Z"
+}, {
+  "name": "/: The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type.",
+  "description": null,
+  "category": "X-Content-Type-Options Header",
+  "location": "https://www.securecodebox.io",
+  "osi_layer": "NETWORK",
+  "severity": "INFORMATIONAL",
+  "attributes": {
+    "ip_addresses": ["35.156.224.161"],
+    "hostname": "www.securecodebox.io",
+    "banner": "Netlify",
+    "method": "GET",
+    "port": 443,
+    "niktoId": 999103,
+    "references": [{
+      "type": "URL",
+      "value": "https://www.netsparker.com/web-vulnerability-scanner/vulnerabilities/missing-content-type-header/"
+    }]
+  },
+  "id": "8ec77676-d748-4ae6-8235-277fc4fe16b6",
+  "parsed_at": "2023-08-22T13:10:10.973Z"
+}, {
+  "name": "/: Server may leak inodes via ETags, header found with file /, inode: c2c4398b0b111b25f098f1dd6777b2f1, size: ssl, mtime: df.",
+  "description": null,
+  "category": "Nikto Finding",
+  "location": "https://www.securecodebox.io",
+  "osi_layer": "NETWORK",
+  "severity": "INFORMATIONAL",
+  "attributes": {
+    "ip_addresses": ["35.156.224.161"],
+    "hostname": "www.securecodebox.io",
+    "banner": "Netlify",
+    "method": "GET",
+    "port": 443,
+    "niktoId": 999984,
+    "references": [{
+      "type": "URL",
+      "value": "CVE-2003-1418"
+    }]
+  },
+  "id": "b6f61215-02e9-416f-b604-1af6c5473a5a",
+  "parsed_at": "2023-08-22T13:10:10.973Z"
+}, {
+  "name": "/: The Content-Encoding header is set to \"deflate\" which may mean that the server is vulnerable to the BREACH attack.",
+  "description": null,
+  "category": "Nikto Finding",
+  "location": "https://www.securecodebox.io",
+  "osi_layer": "NETWORK",
+  "severity": "INFORMATIONAL",
+  "attributes": {
+    "ip_addresses": ["35.156.224.161"],
+    "hostname": "www.securecodebox.io",
+    "banner": "Netlify",
+    "method": "GET",
+    "port": 443,
+    "niktoId": 999966,
+    "references": [{
+      "type": "URL",
+      "value": "http://breachattack.com/"
+    }]
+  },
+  "id": "09634c3e-9f14-4841-aa90-073ebf28b55a",
+  "parsed_at": "2023-08-22T13:10:10.973Z"
+}, {
+  "name": "/sitemap.xml: This gives a nice listing of the site content.",
+  "description": null,
+  "category": "Potential Vulnerability",
+  "location": "https://www.securecodebox.io",
+  "osi_layer": "NETWORK",
+  "severity": "HIGH",
+  "attributes": {
+    "ip_addresses": ["35.156.224.161"],
+    "hostname": "www.securecodebox.io",
+    "banner": "Netlify",
+    "method": "GET",
+    "port": 443,
+    "niktoId": 1218,
+    "references": null
+  },
+  "id": "12b6f643-37d7-45cf-b1ac-7231902a328c",
+  "parsed_at": "2023-08-22T13:10:10.973Z"
+}]

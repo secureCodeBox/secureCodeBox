@@ -31,11 +31,10 @@ Before opening a new issue, please make sure that we do not have any duplicates 
 ## Steps to implement a new hook
 Hint: A general guide how to implement a new SCB Hook is documented [here](https://www.securecodebox.io/docs/contributing/integrating-a-hook)
 
-- [ ] Create a new folder with the name of the [hook here](https://github.com/secureCodeBox/secureCodeBox/tree/master/hooks)
-- [ ] Add a `README.md` and give a brief overview of the scanner and its configuration options.
-- [ ] Add a HelmChart and document all configuration options.
-- [ ] Add (optional) a `Dockerfile` for the scanner if there is no existing one publicly available on dockerHub.io
-- [ ] Use the [Hook-SDK](https://github.com/secureCodeBox/secureCodeBox/tree/master/hook-sdk) to implement a new hook (currently based on NodeJS)
-- [ ] Add unit tests with at minimum 80% test coverage
-- [ ] Add some example `scan.yaml` and `finding.yaml` files in the example folder
+- [ ] Create a new Helm Chart with the `helm create new-hook` command in the `hooks` directory (replace `new-hook` with the name of the hook)
+- [ ] Add a basic description of your hook Helm chart in the `Chart.yaml`
+- [ ] (optional) Add/Edit fields in `values.yaml`
+- [ ] Add (optional) a `Dockerfile` for the hook if you do not use the provided [hook-sdk](https://github.com/secureCodeBox/secureCodeBox/tree/main/hook-sdk/nodejs)
+- [ ] Implement the hook in `hook.js` and test it in `hook.test.js`
 - [ ] Implement a [new integration or E2E test](https://www.securecodebox.io/docs/contributing/integrating-a-hook/integration-tests) for the hook [here](https://github.com/secureCodeBox/secureCodeBox/tree/master/tests/integration)
+- [ ] Add a brief overview of the scanner and its configuration options in `.helm-docs.gotmpl`

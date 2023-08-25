@@ -1,6 +1,6 @@
 {
-  "host": "bodgeit.demo-targets.svc",
-  "ip": "10.96.46.204",
+  "host": "bodgeit",
+  "ip": "10.96.235.197",
   "port": "8080",
   "banner": "",
   "vulnerabilities": [{
@@ -8,24 +8,24 @@
     "references": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options",
     "method": "GET",
     "url": "",
-    "msg": "The anti-clickjacking X-Frame-Options header is not present."
+    "msg": "/: The anti-clickjacking X-Frame-Options header is not present."
   }, {
     "id": "999103",
     "references": "https://www.netsparker.com/web-vulnerability-scanner/vulnerabilities/missing-content-type-header/",
     "method": "GET",
     "url": "",
-    "msg": "The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type."
+    "msg": "/: The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type."
   }, {
     "id": "500645",
     "references": "https://en.wikipedia.org/wiki/Favicon",
     "method": "GET",
     "url": "",
-    "msg": "/favicon.ico file identifies this app/server as: Apache Tomcat (possibly 5.5.26 through 8.0.15), Alfresco Community."
+    "msg": "/favicon.ico: identifies this app/server as: Apache Tomcat (possibly 5.5.26 through 8.0.15), Alfresco Community."
   }, {
     "id": "999990",
     "method": "OPTIONS",
     "url": "",
-    "msg": "Allowed HTTP Methods: GET, HEAD, POST, PUT, DELETE, OPTIONS ."
+    "msg": "OPTIONS: Allowed HTTP Methods: GET, HEAD, POST, PUT, DELETE, OPTIONS ."
   }, {
     "id": "400001",
     "method": "GET",
