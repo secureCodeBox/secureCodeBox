@@ -18,7 +18,8 @@
         "identified_at": {
           "description": "Date-Time when the Finding was exactly identified according to ISO8601. This information will often not be present.",
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "nullable": true
         },
         "parsed_at": {
           "description": "Date-Time when the Finding was parsed according to ISO8601. This information will always be present.",
