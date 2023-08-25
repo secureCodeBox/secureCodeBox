@@ -41,3 +41,13 @@ test("parser parses sqlite results database with no tables successfully", async 
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toEqual([]);
 });
+
+test("parser parses sqlite results database with empty relations (i.e with -passive arg) successfully", async () => {
+  const fileContent = await readFile(
+    __dirname + "/__testFiles__/passive.sqlite",
+  );
+
+  const findings = await parse(fileContent);
+  await expect(validateParser(findings)).resolves.toBeUndefined();
+  expect(findings).toMatchSnapshot();
+});
