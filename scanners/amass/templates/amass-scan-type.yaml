@@ -8,7 +8,7 @@ metadata:
   name: "amass{{ .Values.scanner.nameAppend | default ""}}"
 spec:
   extractResults:
-    type: amass-jsonl
+    type: amass-sqlite
     location: "/home/securecodebox/amass.sqlite"
   jobTemplate:
     spec:
