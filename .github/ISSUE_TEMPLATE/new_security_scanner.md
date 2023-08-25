@@ -31,7 +31,7 @@ Before opening a new issue, please make sure that we do not have any duplicates 
 ## Steps to implement a new scanner
 Hint: A general guide how to implement a new SCB scanner is documented [here](https://www.securecodebox.io/docs/contributing/integrating-a-scanner)
 
-- [ ] Create a new Helm Chart with the `make create-new-scanner NAME=new-scanner` command (replace `new-scanner` with the name of the scanner)
+- [ ] Create a new Helm Chart with the `make create-new-scanner NAME=new-scanner` command in the project directory (replace `new-scanner` with the name of the scanner)
 - [ ] Add a basic description of your scanner Helm chart in the `Chart.yaml`
 - [ ] (optional) Add/Edit fields in `values.yaml`
 - [ ] (optional) Add some cascading rules, see [here](https://www.securecodebox.io/docs/api/crds/cascading-rule/)
