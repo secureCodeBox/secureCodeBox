@@ -43,6 +43,7 @@ You can find resources to help you get started on our [documentation website](ht
 ## What is ffuf?
 FFuf is an open source (MIT license) fuzzing tool to detect content and elements on webservers and web applications.
 People often use it as a web directory bruteforcer, but it is also capable of fuzzing much more than that (e.g. XSS, SQLi,...).
+To learn more about the ffuf scanner itself visit [ffuf GitHub](https://github.com/ffuf/ffuf).
 
 With this scanner the secure code box also installs SecLists wordlists.
 
