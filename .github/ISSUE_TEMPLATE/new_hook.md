@@ -31,7 +31,7 @@ Before opening a new issue, please make sure that we do not have any duplicates 
 ## Steps to implement a new hook
 Hint: A general guide how to implement a new SCB Hook is documented [here](https://www.securecodebox.io/docs/contributing/integrating-a-hook)
 
-- [ ] Create a new Helm Chart with the `helm create new-hook` command (replace `new-hook` with the name of the hook)
+- [ ] Create a new Helm Chart with the `helm create new-hook` command in the `hooks` directory (replace `new-hook` with the name of the hook)
 - [ ] Add a basic description of your hook Helm chart in the `Chart.yaml`
 - [ ] (optional) Add/Edit fields in `values.yaml`
 - [ ] Add (optional) a `Dockerfile` for the hook if you do not use the provided [hook-sdk](https://github.com/secureCodeBox/secureCodeBox/tree/main/hook-sdk/nodejs)
