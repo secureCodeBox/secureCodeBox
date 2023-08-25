@@ -119,12 +119,18 @@ async function main() {
   const resultUploadUrl = process.argv[3];
 
   console.log("Fetching result file");
-  const { data } = await axios.get(resultFileUrl);
+  let response;
+  if(scan.spec.scanType === "amass"){
+    response = await axios.get(resultFileUrl, {responseType: 'arraybuffer'});
+  } else {
+    response = await axios.get(resultFileUrl);
+  }
+
   console.log("Fetched result file");
 
   let findings = [];
   try {
-    findings = await parse(data, scan);
+    findings = await parse(response.data, scan);
   } catch (error) {
     console.error("Parser failed with error:");
     console.error(error);
