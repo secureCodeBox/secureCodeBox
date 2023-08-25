@@ -102,14 +102,14 @@ async function parse(fileContent) {
           severity: "INFORMATIONAL",
           attributes: {
             addresses: {
-              ip: ipObj.address,
-              cidr: cidrObj.cidr,
-              asn: asnObj.number,
-              desc: managedByObj.name
+              ip: ipObj?.address || null,
+              cidr: cidrObj?.cidr || null,
+              asn: asnObj?.number || null,
+              desc: managedByObj?.name || null
             },
-            domain: domainObj.name,
-            hostname: subdomainObj.name,
-            ip_addresses: ipObj.address,
+            domain: domainObj?.name || null,
+            hostname: subdomainObj?.name || null,
+            ip_addresses: ipObj?.address || null,
           },
         };
       });
