@@ -5,7 +5,7 @@
 apiVersion: "execution.securecodebox.io/v1"
 kind: ParseDefinition
 metadata:
-  name: "amass-jsonl"
+  name: "amass-sqlite"
 spec:
   image: "{{ .Values.parser.image.repository }}:{{ .Values.parser.image.tag | default .Chart.Version }}"
   imagePullPolicy: {{ .Values.parser.image.pullPolicy }}
@@ -26,3 +26,9 @@ spec:
   resources:
     {{- toYaml . | nindent 4 }}
   {{- end }}
+  volumes:
+    - name: temp-storage
+      emptyDir: {}  # This will create an empty directory as volume.
+  volumeMounts:
+    - name: temp-storage
+      mountPath: /tmp/ # Mounting to /tmp in the container. Overrides the read-only /tmp
