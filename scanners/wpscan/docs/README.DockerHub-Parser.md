@@ -55,9 +55,9 @@ docker pull securecodebox/parser-wpscan
 
 WPScan is a free, for non-commercial use, black box WordPress vulnerability scanner written for security professionals and blog maintainers to test the security of their sites.
 
-> NOTE: You need to provide WPSan with an API Token so that it can look up vulnerabilities infos with [https://wpvulndb.com](https://wpvulndb.com). Without the token WPScan will only identify WordPress Core / Plugin / Theme versions but not if they are actually vulnerable. You can get a free API Token at by registering for an account at [https://wpvulndb.com](https://wpvulndb.com). Using the secureCodeBox WPScans you can specify the token via the `WPVULNDB_API_TOKEN` target attribute, see the example below.
+> NOTE: You need to provide WPSan with an API Token so that it can look up vulnerabilities infos with [https://wpscan.com](https://wpscan.com). Without the token WPScan will only identify WordPress Core / Plugin / Theme versions but not if they are actually vulnerable. You can get a free API Token at by registering for an account at [https://wpscan.com](https://wpscan.com). Using the secureCodeBox WPScans you can specify the token via the `WPVULNDB_API_TOKEN` target attribute, see the example below.
 
-To learn more about the WPScan scanner itself visit [wpscan.org] or [wpscan.io].
+To learn more about the WPScan scanner itself visit [wpscan.org].
 
 ## Community
 
@@ -83,6 +83,5 @@ As for any pre-built image usage, it is the image user's responsibility to ensur
 [scb-twitter]: https://twitter.com/secureCodeBox
 [scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
 [scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
-[wpscan.io]: https://wpscan.io/
 [wpscan.org]: https://wpscan.org/
 [WPScan Documentation]: https://github.com/wpscanteam/wpscan/wiki/WPScan-User-Documentation
