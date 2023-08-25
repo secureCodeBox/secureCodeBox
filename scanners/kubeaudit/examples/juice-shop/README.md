@@ -29,3 +29,8 @@ helm upgrade --install kubeaudit secureCodeBox/kubeaudit -n kubeaudit-tests
 kubectl apply -f scan.yaml -n kubeaudit-tests
 ```
 Also, you must adjust the namespace in the scan.yaml with the `-n` flag.
+
+Alternatively, you can set the scope of kubeaudit to cluster:
+```bash
+helm upgrade --install kubeaudit secureCodeBox/kubeaudit -n kubeaudit-tests --set="kubeauditScope=cluster"
+```
