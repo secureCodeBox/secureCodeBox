@@ -26,6 +26,9 @@ spec:
       configMap:
         name: {{ .Values.customTemplateMap.name }} 
     {{ end }}
+    {{ if .Values.hook.extraVolumes }}
+    {{- toYaml .Values.hook.extraVolumes | nindent 4 }}
+    {{ end }}
   volumeMounts:
     - name: {{ .Release.Name }}-config
       mountPath: /home/app/config
@@ -34,8 +37,14 @@ spec:
     - name: {{ .Release.Name }}-custom-templates
       mountPath: /home/app/hook-wrapper/hook/notification-templates 
     {{ end }}
+    {{ if .Values.hook.extraVolumeMounts }}
+    {{- toYaml .Values.hook.extraVolumeMounts | nindent 4 }}
+    {{ end }}
   env:
     {{- toYaml .Values.env | nindent 4}} 
+    {{ if .Values.hook.env }}
+    {{- toYaml .Values.hook.env | nindent 4 }}
+    {{ end }}
   affinity:
     {{- toYaml .Values.hook.affinity | nindent 4 }}
   tolerations:
