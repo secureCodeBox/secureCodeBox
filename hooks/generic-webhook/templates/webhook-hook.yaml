@@ -43,6 +43,9 @@ spec:
           name: {{ .Values.hook.authentication.apikey.userSecret }}
           key: {{ .Values.hook.authentication.apikey.headerValueKey }}
           optional: true
+    {{ if .Values.hook.env }}
+    {{- toYaml .Values.hook.env | nindent 4 }}
+    {{ end }}
   affinity:
     {{- toYaml .Values.hook.affinity | nindent 4 }}
   tolerations:
@@ -55,3 +58,7 @@ spec:
   resources:
     {{- toYaml . | nindent 4 }}
   {{- end }}
+  volumes:
+    {{- toYaml .Values.hook.extraVolumes | nindent 4 }}
+  volumeMounts:
+    {{- toYaml .Values.hook.extraVolumeMounts | nindent 4 }}
