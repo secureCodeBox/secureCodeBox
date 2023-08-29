@@ -115,6 +115,15 @@ If the engagement doesn't exist the hook will create the engagement (CI/CD engag
 (product & product type). The hook will then pull the imported information from DefectDojo and use them to replace the 
 findings inside secureCodeBox.
 
+In case you use a DefectDojo instance with a self-signed root CA, upgrade the hook with:
+```bash
+helm upgrade --install dd secureCodeBox/persistence-defectdojo \
+    --set="defectdojo.url=https://defectdojo-django.default.svc" \
+    --set-json 'hook.extraVolumes=[{"name": "ca-dojo", "configMap": {"name": "ca-dojo"}}]' \
+    --set-json 'hook.extraVolumeMounts=[{"name": "ca-dojo", "mountPath": "/etc/ssl/certs/java/cacerts", "subPath": "cacerts", "readOnly": false}]'
+```
+After, you can update `/etc/ssl/certs/java/cacerts` with your certificate.
+
 You don't need any configuration for that to work, the hook will infer engagement & product names from the scan name.
 If you want more control over the names or add additional meta information like the version of the tested software you
 can add these via annotation to the scan. See examples below.
@@ -215,7 +224,7 @@ The secureCodeBox DefectDojo Hook can be configured to run with such a token of 
 kubectl create secret generic defectdojo-credentials --from-literal="apikey=08b7..."
 
 helm upgrade --install dd secureCodeBox/persistence-defectdojo \
-    --set="defectdojo.url=https://defectdojo-django.default.svc" \
+    --set="defectdojo.url=http://defectdojo-django.default.svc" \
     --set="defectdojo.lowPrivilegedMode=true" \
     --set="defectdojo.authentication.userId=42"
 ```
