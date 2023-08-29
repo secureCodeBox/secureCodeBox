@@ -108,3 +108,12 @@ hook:
   # -- Optional resources lets you control resource limits and requests for the hook container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
   # @default -- { requests: { cpu: "200m", memory: "100Mi" }, limits: { cpu: "400m", memory: "200Mi" } }
   resources: {}
+
+  # hook.extraVolumes -- Optional Volumes mapped into the hook (see: https://kubernetes.io/docs/concepts/storage/volumes/)
+  extraVolumes: []
+
+  # hook.extraVolumeMounts -- Optional VolumeMounts mapped into the hook (see: https://kubernetes.io/docs/concepts/storage/volumes/)
+  extraVolumeMounts: []
+
+  # hook.env -- Optional environment variables mapped into the hook (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
+  env: []
