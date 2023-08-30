@@ -42,9 +42,9 @@ spec:
           key: {{ .Values.defectdojo.authentication.apiKeyKey }}
     - name: DEFECTDOJO_LOW_PRIVILEGED_MODE
       value: {{ .Values.defectdojo.lowPrivilegedMode | quote }}
-    {{- if .Values.hook.env }}
+    {{ if .Values.hook.env }}
     {{- toYaml .Values.hook.env | nindent 4 }}
-    {{- end -}}
+    {{ end }}
   {{- with .Values.imagePullSecrets }}
   imagePullSecrets:
     {{- toYaml . | nindent 4 }}

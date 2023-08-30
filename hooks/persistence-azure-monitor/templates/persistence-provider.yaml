@@ -30,9 +30,9 @@ spec:
         secretKeyRef:
           name: {{ .Values.monitor.authentication.apiKeySecret }}
           key: sharedkey
-    {{- if .Values.hook.env }}
+    {{ if .Values.hook.env }}
     {{- toYaml .Values.hook.env | nindent 4 }}
-    {{- end -}}
+    {{ end }}
   {{- with .Values.imagePullSecrets }}
   imagePullSecrets:
     {{- toYaml . | nindent 4 }}
