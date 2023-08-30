@@ -68,7 +68,7 @@ service:
 ingress:
   enabled: false
   className: "nginx"
-  pathtype: ImplementationSpecific
+  pathType: ImplementationSpecific
   annotations: {}
   hosts:
   - host: chart-example.local
