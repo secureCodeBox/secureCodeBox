@@ -66,9 +66,11 @@ helm upgrade --install juice-shop secureCodeBox/juice-shop
 | image.tag | string | defaults to the appVersion | The image tag |
 | imagePullSecrets | list | `[]` | Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
 | ingress.annotations | object | `{}` |  |
+| ingress.className | string | `"nginx"` |  |
 | ingress.enabled | bool | `false` |  |
 | ingress.hosts[0].host | string | `"chart-example.local"` |  |
-| ingress.hosts[0].paths | list | `[]` |  |
+| ingress.hosts[0].paths[0].path | string | `"/"` |  |
+| ingress.pathType | string | `"ImplementationSpecific"` |  |
 | ingress.tls | list | `[]` |  |
 | labels | object | `{}` | add labels to the deployment, service and pods |
 | nameOverride | string | `""` |  |
