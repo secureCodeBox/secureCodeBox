@@ -135,15 +135,13 @@ async function extractParseDefinition(scan) {
 async function main() {
   console.log("Starting Parser");
   let scan = await extractScan();
-  console.log("Extracted Scan" + JSON.stringify(scan));
   let parseDefinition = await extractParseDefinition(scan);
-  console.log("Extracted ParseDefinition" + JSON.stringify(parseDefinition));
   const resultFileUrl = process.argv[2];
   const resultUploadUrl = process.argv[3];
 
   console.log("Fetching result file");
   let response;
-  if(scan.spec.scanType === "amass"){
+  if(parseDefinition.spec.encodingType === "Binary"){
     response = await axios.get(resultFileUrl, {responseType: 'arraybuffer'});
   } else {
     response = await axios.get(resultFileUrl);
