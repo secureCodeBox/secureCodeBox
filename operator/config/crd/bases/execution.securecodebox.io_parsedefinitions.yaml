@@ -869,11 +869,11 @@ spec:
                         type: array
                     type: object
                 type: object
-              encodingType:
+              contentType:
                 default: Text
-                description: 'EncodingType specifies the encoding type of the scan
-                  result Valid values are: - "Text" (default): the scan result is
-                  a text file - "Binary": the scan result is a binary file'
+                description: 'ContentType specifies the content type of the scan result
+                  Valid values are: - "Text" (default): the scan result is a text
+                  file - "Binary": the scan result is a binary file'
                 enum:
                 - Text
                 - Binary
