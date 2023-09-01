@@ -26,6 +26,8 @@ spec:
   resources:
     {{- toYaml . | nindent 4 }}
   {{- end }}
+  encodingType: Binary
+
   volumes:
     - name: temp-storage
       emptyDir: {}  # This will create an empty directory as volume.
