@@ -142,6 +142,15 @@ If the engagement doesn't exist the hook will create the engagement (CI/CD engag
 (product & product type). The hook will then pull the imported information from DefectDojo and use them to replace the
 findings inside secureCodeBox.
 
+In case you use a DefectDojo instance with a self-signed root CA, upgrade the hook with:
+```bash
+helm upgrade --install dd secureCodeBox/persistence-defectdojo \
+    --set="defectdojo.url=https://defectdojo-django.default.svc" \
+    --set-json 'hook.extraVolumes=[{"name": "ca-dojo", "configMap": {"name": "ca-dojo"}}]' \
+    --set-json 'hook.extraVolumeMounts=[{"name": "ca-dojo", "mountPath": "/etc/ssl/certs/java/cacerts", "subPath": "cacerts", "readOnly": false}]'
+```
+After, you can update `/etc/ssl/certs/java/cacerts` with your certificate.
+
 You don't need any configuration for that to work, the hook will infer engagement & product names from the scan name.
 If you want more control over the names or add additional meta information like the version of the tested software you
 can add these via annotation to the scan. See examples below.
@@ -242,7 +251,7 @@ The secureCodeBox DefectDojo Hook can be configured to run with such a token of 
 kubectl create secret generic defectdojo-credentials --from-literal="apikey=08b7..."
 
 helm upgrade --install dd secureCodeBox/persistence-defectdojo \
-    --set="defectdojo.url=https://defectdojo-django.default.svc" \
+    --set="defectdojo.url=http://defectdojo-django.default.svc" \
     --set="defectdojo.lowPrivilegedMode=true" \
     --set="defectdojo.authentication.userId=42"
 ```
@@ -332,6 +341,9 @@ spec:
 | defectdojo.syncFindingsBack | bool | `true` | Syncs back (two way sync) all imported findings from DefectDojo to SCB Findings Store. When set to false the hook will only import the findings to DefectDojo (one way sync). |
 | defectdojo.url | string | `"http://defectdojo-django.default.svc"` | Url to the DefectDojo Instance |
 | hook.affinity | object | `{}` | Optional affinity settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
+| hook.env | list | `[]` | Optional environment variables mapped into the hook (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
+| hook.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into the hook (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| hook.extraVolumes | list | `[]` | Optional Volumes mapped into the hook (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
 | hook.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
 | hook.image.repository | string | `"docker.io/securecodebox/hook-persistence-defectdojo"` | Hook image repository |
 | hook.image.tag | string | defaults to the charts version | Container image tag |

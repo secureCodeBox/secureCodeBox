@@ -95,6 +95,9 @@ helm upgrade --install generic-webhook secureCodeBox/generic-webhook \
 | hook.authentication.basic.passwordKey | string | `"password"` | Name of the password key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |
 | hook.authentication.basic.userSecret | string | `"generic-webhook-credentials"` | Link a pre-existing generic secret with `usernameKey` and `passwordKey` key / value pairs |
 | hook.authentication.basic.usernameKey | string | `"username"` | Name of the username key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |
+| hook.env | list | `[]` | Optional environment variables mapped into the hook (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
+| hook.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into the hook (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
+| hook.extraVolumes | list | `[]` | Optional Volumes mapped into the hook (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
 | hook.image.repository | string | `"docker.io/securecodebox/hook-generic-webhook"` | Hook image repository |
 | hook.image.tag | string | defaults to the charts version | The image Tag defaults to the charts version if not defined. |
 | hook.labels | object | `{}` | Add Kubernetes Labels to the hook definition |
