@@ -141,7 +141,7 @@ async function main() {
 
   console.log("Fetching result file");
   let response;
-  if(parseDefinition.spec.encodingType === "Binary"){
+  if(parseDefinition.spec.contentType === "Binary"){
     response = await axios.get(resultFileUrl, {responseType: 'arraybuffer'});
   } else {
     response = await axios.get(resultFileUrl);

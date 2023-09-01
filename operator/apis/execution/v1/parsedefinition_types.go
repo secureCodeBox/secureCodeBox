@@ -30,12 +30,12 @@ type ParseDefinitionSpec struct {
 	// +nullable
 	TTLSecondsAfterFinished *int32 `json:"ttlSecondsAfterFinished,omitempty"`
 
-	// EncodingType specifies the encoding type of the scan result
+	// ContentType specifies the content type of the scan result
 	// Valid values are:
 	// - "Text" (default): the scan result is a text file
 	// - "Binary": the scan result is a binary file
 	//+kubebuilder:default=Text
-	EncodingType EncodingType `json:"encodingType,omitempty"`
+	ContentType ContentType `json:"contentType,omitempty"`
 
 	// Env allows to specify environment vars for the parser container.
 	Env []corev1.EnvVar `json:"env,omitempty"`
@@ -60,15 +60,15 @@ type ParseDefinitionStatus struct {
 	// Important: Run "make" to regenerate code after modifying this file
 }
 
-// EncodingType specifies the encoding type of the scan result
+// ContentType specifies the content type of the scan result
 // +kubebuilder:validation:Enum=Text;Binary
-type EncodingType string
+type ContentType string
 
 const (
-	// Text is the default encoding type and will be used if no encoding type is specified
-	Text EncodingType = "Text"
+	// Text is the default content type and will be used if no content type is specified
+	Text ContentType = "Text"
 	// Binary is used for binary scan results
-	Binary EncodingType = "Binary"
+	Binary ContentType = "Binary"
 )
 
 // +kubebuilder:object:root=true
