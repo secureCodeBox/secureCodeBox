@@ -100,6 +100,11 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 			Resources: []string{"scans/status"},
 			Verbs:     []string{"get", "patch"},
 		},
+		{
+			APIGroups: []string{"execution.securecodebox.io"},
+			Resources: []string{"parsedefinitions"},
+			Verbs:     []string{"get"},
+		},
 	}
 	r.ensureServiceAccountExists(
 		scan.Namespace,

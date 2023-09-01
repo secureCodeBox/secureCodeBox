@@ -30,6 +30,13 @@ type ParseDefinitionSpec struct {
 	// +nullable
 	TTLSecondsAfterFinished *int32 `json:"ttlSecondsAfterFinished,omitempty"`
 
+	// EncodingType specifies the encoding type of the scan result
+	// Valid values are:
+	// - "Text" (default): the scan result is a text file
+	// - "Binary": the scan result is a binary file
+	//+kubebuilder:default=Text
+	EncodingType EncodingType `json:"encodingType,omitempty"`
+
 	// Env allows to specify environment vars for the parser container.
 	Env []corev1.EnvVar `json:"env,omitempty"`
 	// Volumes allows to specify volumes for the parser container.
@@ -52,6 +59,17 @@ type ParseDefinitionStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 }
+
+// EncodingType specifies the encoding type of the scan result
+// +kubebuilder:validation:Enum=Text;Binary
+type EncodingType string
+
+const (
+	// Text is the default encoding type and will be used if no encoding type is specified
+	Text EncodingType = "Text"
+	// Binary is used for binary scan results
+	Binary EncodingType = "Binary"
+)
 
 // +kubebuilder:object:root=true
 // +kubebuilder:printcolumn:name="Image",type=string,JSONPath=`.spec.image`,description="Scanner Container Image"

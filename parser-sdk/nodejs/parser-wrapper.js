@@ -109,12 +109,35 @@ async function extractScan() {
     console.error(err);
     process.exit(1);
   }
+
 }
+
+async function extractParseDefinition(scan) {
+  try {
+    const { body } = await k8sApi.getNamespacedCustomObject(
+      "execution.securecodebox.io",
+      "v1",
+      namespace,
+      "parsedefinitions",
+      scan.status.rawResultType
+    );
+    return body;
+  } catch (err) {
+    console.error("Failed to get ParseDefinition from the kubernetes api");
+    console.error(err);
+    process.exit(1);
+  }
+}
+
+
+
 
 async function main() {
   console.log("Starting Parser");
   let scan = await extractScan();
-
+  console.log("Extracted Scan" + JSON.stringify(scan));
+  let parseDefinition = await extractParseDefinition(scan);
+  console.log("Extracted ParseDefinition" + JSON.stringify(parseDefinition));
   const resultFileUrl = process.argv[2];
   const resultUploadUrl = process.argv[3];
 
