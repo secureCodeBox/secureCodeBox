@@ -4,15 +4,13 @@
 
 const fs = require("fs"),
   rimraf = require("rimraf"),
-  downloadCallback = require("download-git-repo"),
   colors = require("colors"),
   matter = require("gray-matter"),
-  { promisify } = require("util"),
+  path = require('path'),
   { docsConfig: config } = require("./utils/config"),
   { removeWhitespaces } = require("./utils/capitalizer"),
   Mustache = require("mustache");
 
-const download = promisify(downloadCallback);
 
 colors.setTheme({
   info: "blue",
@@ -25,19 +23,14 @@ colors.setTheme({
 // For the documentation on this script look at the README.md of this repository
 
 async function main() {
-  const fullRepoName = `${config.repository}#${config.branch}`;
-  console.log(`Downloading ${fullRepoName} into ${config.temp}...`.info);
-
-  await download(fullRepoName, config.temp).catch((err) => {
-    console.error("ERROR: Download failed.".error);
-    throw err;
-  });
-
-  console.log(`SUCCESS: ${fullRepoName} downloaded.`.success);
+  const currentDirectory = __dirname; // current directory is /documentation/scripts
+  const parentDirectory = path.dirname(currentDirectory); // parent is /documentation
+  const rootDirectory = path.dirname(parentDirectory); // root is /
+  console.log(rootDirectory);
 
   const dataArray = await Promise.all(
     config.filesFromRepository.map((dir) =>
-      readDirectory(`${config.temp}/${dir.src}`, false)
+      readDirectory(`${rootDirectory}/${dir.src}`, false)
         .then((res) => ({ ...dir, files: res }))
         .catch((err) =>
           console.error(
@@ -58,7 +51,7 @@ async function main() {
 
   for (const dir of dataArray) {
     const trgDir = `${config.targetPath}/${dir.dst}`;
-    const srcDir = `${config.temp}/${dir.src}`;
+    const srcDir = `${rootDirectory}/${dir.src}`;
 
     // Clears existing md files from directories
     if (fs.existsSync(trgDir)) {
@@ -77,12 +70,10 @@ async function main() {
       ? await createDocFilesFromMainRepository(srcDir, trgDir, await readDirectory(srcDir))
       : await copyFilesFromMainRepository(srcDir, trgDir, dir.exclude, dir.keep);
   }
-  deleteRepositoryDir();
 }
 
 main().catch((err) => {
   clearDocsOnFailure();
-  deleteRepositoryDir();
   console.error(err.stack.error);
 });
 
@@ -287,14 +278,6 @@ function clearDocsOnFailure() {
         });
     }
   }
-}
-
-function deleteRepositoryDir() {
-  rimraf(config.temp, function (err) {
-    err
-      ? console.warn(`WARN: Could not remove ${config.temp.info}.`.warn)
-      : console.log(`Removed ${config.temp}.`.info);
-  });
 }
 
 // Copy files from a given src directory from the main repo into the given dst directory
