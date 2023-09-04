@@ -1,0 +1,131 @@
+/*
+ * SPDX-FileCopyrightText: the secureCodeBox authors
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/* stylelint-disable docusaurus/copyright-header */
+
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+
+@import "../css/_mixins.scss";
+@import "../css/custom.css";
+
+.heroBanner {
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  background-color: black;
+  @include lg {
+    padding: 4rem 0;
+  }
+  h1 {
+  color: white;
+  }
+}
+
+.description {
+  color: var(--accent-color-main);
+}
+
+.integrations {
+  display: grid;
+  grid-template-columns: auto;
+  padding: 2rem 0;
+  @include lg {
+    grid-template-columns: auto auto auto;
+  }
+  a {
+    text-decoration: none !important;
+    color: unset;
+  }
+}
+
+.light:hover {
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+h3 {
+  margin: 20px 0 10px;
+}
+
+h2 {
+  margin: 20px 0 0;
+}
+
+
+.dark {
+  background-color: whitesmoke;
+  color: black !important;
+  &:hover {
+    box-shadow: 2px 2px 8px rgba(255, 255, 255, 0.4);
+  }
+}
+
+main {
+  h3 {
+    line-height: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid lightgray;
+  }
+}
+
+.getStarted {
+  color: white !important;
+  &:hover {
+    color: black !important;
+  }
+}
+
+.goToSolutionBulletList {
+  ul {
+    list-style: none; /* Remove default bullets, necessary to add back custom colored ones */
+  }
+
+  ul li::before {
+    content: "\25AA"; /* Add content: \2022 is the CSS Code/unicode for a default bullet, \25AA for a square bullet */
+    color: var(--accent-color-main); /* Change the color */
+    font-weight: bold; /* If you want it to be bold */
+    display: inline-block; /* Needed to add space between the bullet and the text */
+    width: 1em; /* Also needed for space (tweak if needed) */
+    margin-left: -1em; /* Also needed for space (tweak if needed) */
+  }
+
+  li {
+    margin-bottom: 20px;
+  }
+
+  label {
+    color: var(--accent-color-main);
+    font-weight: bold;
+  }
+}
+
+.sponsor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  a {
+    width: 100%;
+    margin: 0px 5px;
+  }
+
+  img {
+    width: 100%;
+    max-width: 300px;
+    object-fit: cover;
+  }
+}
+
+/* ---------------- Mobile Utility ------------------ */
+
+.defaultMarginBottom {
+  margin-bottom: 40px;
+
+  @include xl {
+    margin-bottom: unset;
+  }
+}

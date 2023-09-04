@@ -1,0 +1,68 @@
+' SPDX-FileCopyrightText: the secureCodeBox authors
+'
+' SPDX-License-Identifier: Apache-2.0
+
+@startuml sequence_overview
+!include _iteratecTheme.ipuml
+!include _copyright.ipuml
+
+skinparam shadowing false
+skinparam componentStyle uml2
+
+actor kubectl
+
+box "secureCodeBox"
+  participant Operator <<Controller>>
+  participant Scanner <<Container>>
+  participant Lurker <<Sidecar>>
+  participant Minio <<Deployment>>
+  participant Parser <<Job>>
+  collections ReadOnlyHooks <<Job>>
+  collections ReadAndWriteHooks <<Job>>
+end box
+
+participant Target
+
+activate Target
+activate Minio
+
+kubectl -\ Operator : start scan
+activate Operator
+Operator -> Scanner : run job
+activate Scanner
+activate Lurker
+Scanner -> Target : scan
+Lurker -\ Scanner : read data
+Lurker -\ Minio : store raw results
+Scanner <-- Target
+Operator <-- Scanner
+deactivate Scanner
+deactivate Lurker
+
+Operator -> Parser : run job
+activate Parser
+Parser -> Minio : read raw results
+Parser <-- Minio
+Parser -> Minio : store JSON findings
+Parser <-- Minio
+Operator <-- Parser
+deactivate Parser
+
+Operator -> ReadAndWriteHooks
+activate ReadAndWriteHooks
+ReadAndWriteHooks -> Minio : read findings/raw results
+ReadAndWriteHooks <-- Minio
+Operator <-- ReadAndWriteHooks
+deactivate ReadAndWriteHooks
+
+Operator -> ReadOnlyHooks
+activate ReadOnlyHooks
+ReadOnlyHooks -> Minio : read findings/raw results
+ReadOnlyHooks <-- Minio
+ReadOnlyHooks -> Minio : write findings/raw results
+ReadOnlyHooks <-- Minio
+Operator <-- ReadOnlyHooks
+deactivate ReadOnlyHooks
+
+deactivate Operator
+@enduml
