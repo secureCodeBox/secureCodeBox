@@ -69,12 +69,10 @@ async function main() {
       ? await createDocFilesFromMainRepository(srcDir, trgDir, await readDirectory(srcDir))
       : await copyFilesFromMainRepository(srcDir, trgDir, dir.exclude, dir.keep);
   }
-  deleteRepositoryDir();
 }
 
 main().catch((err) => {
   clearDocsOnFailure();
-  deleteRepositoryDir();
   console.error(err.stack.error);
 });
 
@@ -281,13 +279,6 @@ function clearDocsOnFailure() {
   }
 }
 
-function deleteRepositoryDir() {
-  rimraf(config.temp, function (err) {
-    err
-      ? console.warn(`WARN: Could not remove ${config.temp.info}.`.warn)
-      : console.log(`Removed ${config.temp}.`.info);
-  });
-}
 
 // Copy files from a given src directory from the main repo into the given dst directory
 //
