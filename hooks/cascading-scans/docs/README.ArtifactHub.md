@@ -89,6 +89,54 @@ smtps-tls-scan   sslyze              non-invasive   light
 ssh-scan         ssh-scan            non-invasive   light
 zap-http         zap-baseline-scan   non-invasive   medium
 ```
+An example of a CascadingRule is the following:
+
+
+```
+apiVersion: cascading.securecodebox.io/v1
+kind: CascadingRule
+metadata:
+  name: test-cascading-rules
+  labels:
+    securecodebox.io/intensive: light
+    securecodebox.io/invasive: non-invasive
+    securecodebox.io/speed: slow # > 10min per scan
+    securecodebox.io/scantype: nmap
+spec:
+  scanAnnotations:
+    defectdojo.securecodebox.io/product-name: "{{$.hostOrIP}}"
+    defectdojo.securecodebox.io/engagement-name: "nmap-{{$.hostOrIP}}"
+  matches:
+    anyOf:
+      - category: "Host"
+        description: "Found a host"
+        osi_layer: "NETWORK"
+  scanSpec:
+    parameters:
+      - "-p"
+      - "1-20"
+      - "{{$.hostOrIP}}"
+    scanType: nmap
+
+```
+CascadingRules have labels, which are used to match a CascadingRule to a scan. The values of those label are only of a descriptive nature and do not have any effect on the scan.
+The only function they have is to match a CascadingRule to a Scan. An example of such a label and its values are: 
+
+```
+securecodebox.io/intensive: light
+
+securecodebox.io/intensive: foo
+```
+Both values are correct. The values can be freely chosen to one's liking. 
+
+Labels, which are frequently used, are: 
+
+* securecodebox.io/intensive
+* securecodebox.io/invasive
+* securecodebox.io/speed 
+* securecodebox.io/scantype
+
+Also new labels can be invented.
 
 ### Starting a cascading Scan
 When you start a normal Scan, no CascadingRule will be applied. To use a _CascadingRule_ the scan must be marked to allow cascading rules.
