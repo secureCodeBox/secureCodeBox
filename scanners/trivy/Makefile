@@ -18,6 +18,7 @@ scanner = trivy
 docker-build: | docker-build-parser-sbom
 docker-export: | docker-export-parser-sbom
 kind-import: | kind-import-parser-sbom
+unit-tests: unit-tests-parser-sbom
 
 include ../../scanners.mk
 
@@ -57,3 +58,12 @@ deploy-without-scanner:
 		--set="cyclonedxParser.image.tag=$(IMG_TAG)" \
 		--set="parser.env[0].name=CRASH_ON_FAILED_VALIDATION" \
 		--set-string="parser.env[0].value=true"
+
+# The unit tests for the cyclonedx-parser cannot reuse the unit-test-js target, because it requires install-deps-js,
+# which then tries to run npm ci in ../../${module}-sdk/nodejs and module is set to "parser-cyclonedx", but
+# install-deps-js still needs to be executed, in case this target runs before the normal parser tests
+.PHONY: unit-tests-parser-sbom
+unit-tests-parser-sbom:
+	@$(MAKE) -s install-deps-js module=$(parser-prefix)
+	@echo ".: 🧪 Starting unit-tests for '$(name)' parser-cyclonedx."
+	npm run test:unit -- ${name}/parser-cyclonedx/
