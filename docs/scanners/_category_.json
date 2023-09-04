@@ -1,0 +1,9 @@
+{
+  "label": "Scanners",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "title": "Scanners Overview",
+    "slug": "scanners"
+  }
+}
