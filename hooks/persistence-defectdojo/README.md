@@ -57,6 +57,27 @@ For scan types which are not supported by DefectDojo, the generic importer is us
 sophisticated display of the results and fewer features inside DefectDojo. In the worst case, it can lead to some
 findings being lost - see the note below.
 
+:::note
+A big amount of findings may require higher resource limits. Changing them may be required to avoid OOM errors.
+The default values are:
+```yaml
+requests: {
+   cpu: "200m",
+   memory: "100Mi"
+},
+limits: {
+  cpu: "400m",
+   memory: "200Mi"
+}
+```
+
+For example, to set the memory limit to 512Mi, we run the following command:
+
+```bash
+helm upgrade --namespace NAMESPACE --install persistence-defectdojo secureCodeBox/persistence-defectdojo --set="hook.resources.limits.memory=512Mi"
+```
+:::
+
 :::caution
 
 Be careful when using the DefectDojo Hook in combination with other ReadAndWrite hooks. By default, the secureCodeBox
