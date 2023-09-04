@@ -1,0 +1,49 @@
+' SPDX-FileCopyrightText: the secureCodeBox authors
+'
+' SPDX-License-Identifier: Apache-2.0
+@startuml 2021-06-07-architecture-v1
+!include ../../../src/puml/_theme.ipuml
+!include ../../../src/puml/_copyright.ipuml
+
+node "Docker" {
+  [secureCodeBox Engine] as engine <<Container>>
+  () REST -- [engine]
+
+  [Elastic] as elastic <<Container>>
+  engine <.right.> elastic : read/write
+
+  [Kibana] as kibana <<Container>>
+  kibana .left.> elastic : read
+
+  package "Scanners" {
+    [ZAP] as zap <<Container>>
+    zap ..> REST : poll
+
+    [Nmap] as nmap <<Container>>
+    nmap ..> REST : poll
+
+    [SSLyze] as sslyze <<Container>>
+    sslyze ..> REST : poll
+
+    [Nikto] as nikto <<Container>>
+    nikto ..> REST : poll
+
+    [AMASS] as amass <<Container>>
+    amass ..> REST : poll
+  }
+}
+
+[Subject Under Test] as sut #White
+zap .up.> sut : scan
+nmap .up.> sut : scan
+sslyze .up.> sut : scan
+nikto .up.> sut : scan
+amass .up.> sut : scan
+
+[CI/CD] as ci #White
+ci .> REST : trigger
+
+actor User as user #White
+user .up.> engine : Web UI
+
+@enduml

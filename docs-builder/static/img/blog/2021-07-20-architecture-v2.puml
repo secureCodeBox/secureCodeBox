@@ -1,0 +1,48 @@
+' SPDX-FileCopyrightText: the secureCodeBox authors
+'
+' SPDX-License-Identifier: Apache-2.0
+
+@startuml 2021-07-20-architecture-v2
+!include ../../../src/puml/_theme.ipuml
+!include ../../../src/puml/_copyright.ipuml
+
+[Subject Under Test] as sut #White
+actor User as user #White
+[Elastic] as elastic #white
+[DefectDojo] as dojo #white
+
+node "Kubernetes" {
+  [Engine] as engine <<Operator>>
+  user .right.> engine : kubectl/k8s API
+  [S3] <<Pod>>
+
+  package "Job" as zap_scan {
+    [ZAP] as zap <<Container>>
+    [Lurker] as zap_lurker <<Sidecar>>
+    zap -left-> zap_lurker : output
+    zap_lurker -down-> S3 : store raw
+  }
+
+  zap .up.> sut : scan
+
+  engine .up.> zap : 1. scan
+
+  [Parser] as zap_parser <<Job>>
+  S3 <-right-> zap_parser : read raw/store parsed
+
+  engine .up.> zap_parser : 2. parse
+
+  [ReadWriteHook] as rw_hooks <<job>>
+  S3 <-down-> rw_hooks : modify finding
+  engine .down.> rw_hooks : 3. r/w hooks
+
+  [ReadHook] as r_hooks <<Job>>
+  S3 -down-> r_hooks : read finding
+  engine .down.> r_hooks : 4. r hooks
+}
+
+
+r_hooks -down-> elastic
+r_hooks -down-> dojo
+
+@enduml
