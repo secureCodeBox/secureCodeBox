@@ -2,11 +2,13 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const apiKey = process.env["DEPENDENCYTRACK_APIKEY"]
-const baseUrl = process.env["DEPENDENCYTRACK_URL"];
-const url = baseUrl.replace(/\/$/, "") + "/api/v1/bom"
-
-async function handle({ getRawResults, scan }) {
+async function handle({
+  getRawResults,
+  scan,
+  apiKey = process.env["DEPENDENCYTRACK_APIKEY"],
+  baseUrl = process.env["DEPENDENCYTRACK_URL"],
+  fetch = global.fetch
+}) {
   if (scan.status.rawResultType !== "sbom-cyclonedx") {
     // Not an SBOM scan, cannot be handled by Dependency-Track, ignore
     console.log(`Scan ${scan.metadata.name} is not an SBOM scan, ignoring.`);
@@ -39,6 +41,7 @@ async function handle({ getRawResults, scan }) {
   formData.append("projectVersion", version);
   formData.append("bom", JSON.stringify(result));
 
+  const url = baseUrl.replace(/\/$/, "") + "/api/v1/bom"
   console.log(`Uploading SBOM for name: ${name} version: ${version} to ${url}`);
 
   // Send request to API endpoint

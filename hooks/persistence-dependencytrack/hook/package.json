@@ -9,7 +9,7 @@
   },
   "main": "hook.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --verbose --ci --colors --coverage --passWithNoTests"
   },
   "keywords": [
     "secureCodeBox",
