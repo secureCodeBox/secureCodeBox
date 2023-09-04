@@ -7,7 +7,7 @@ SPDX-License-Identifier: Apache-2.0
 # OWASP secureCodeBox
 
 <p align="center">
-  <img alt="secureCodeBox Logo" src="./docs/resources/securecodebox-logo.svg" width="500px">
+  <img alt="secureCodeBox Logo" src="./resources/securecodebox-logo.svg" width="500px">
   <img alt="secureCodeBox Logo" src="https://owasp.org/assets/images/logo.png" width="200px">
 </p>
 
@@ -57,7 +57,7 @@ The typical way to ensure application security is to hire a security specialist 
 
 With the _secureCodeBox_ we provide a toolchain for continuous scanning of applications to find the low-hanging fruit issues early in the development process and free the resources of the penetration tester to concentrate on the major security issues.
 
-![secureCodeBox Architecture](./docs/resources/macbook_kibana.jpg)
+![secureCodeBox Architecture](./resources/macbook_kibana.jpg)
 
 The purpose of _secureCodeBox_ **is not** to replace the penetration testers or make them obsolete. We strongly recommend to run extensive tests by experienced penetration testers on all your applications.
 
@@ -71,7 +71,7 @@ You can find resources to help you get started on our [documentation website](ht
 
 ## Architecture Overview
 
-![secureCodeBox Architecture](./docs/resources/scb-architecture.svg)
+![secureCodeBox Architecture](./resources/scb-architecture.svg)
 
 ## Upgrading
 
