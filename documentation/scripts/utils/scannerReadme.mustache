@@ -1,0 +1,66 @@
+{{!
+  SPDX-FileCopyrightText: the secureCodeBox authors
+
+  SPDX-License-Identifier: Apache-2.0
+}}
+{{{ readme }}}
+
+{{#hasImageTypes}}
+
+## CPU architectures
+
+The scanner is currently supported for these CPU architectures:
+
+{{#imageTypes}}
+- {{.}}
+{{/imageTypes}}
+
+{{/hasImageTypes}}
+
+{{#hasExamples}}
+## Examples
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+{{#examples}}
+### {{name}}
+
+{{{exampleReadme}}}
+
+<Tabs
+defaultValue="scan"
+values={[
+    {{#scan}}{ label: "Scan", value: "scan" },{{/scan}}
+    {{#findings}}{ label: "Findings", value: "findings" },{{/findings}}
+]}>
+
+{{#scan}}
+<TabItem value="scan">
+
+```yaml
+{{{scan}}}
+```
+
+</TabItem>
+{{/scan}}
+
+{{#findings}}
+<TabItem value="findings">
+
+{{#limitReached}}
+The findings are too large to display, you may download [the file]({{{value}}}).
+{{/limitReached}}
+{{^limitReached}}
+```yaml
+{{{value}}}
+```
+{{/limitReached}}
+
+</TabItem>
+{{/findings}}
+
+</Tabs>
+
+{{/examples}}
+{{/hasExamples}}

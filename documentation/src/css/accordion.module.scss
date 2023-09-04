@@ -1,0 +1,78 @@
+/*
+ * SPDX-FileCopyrightText: the secureCodeBox authors
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@import "./mixins";
+
+.accordion {
+  margin: 20px auto;
+  border-top: 1px solid var(--accent-color-main);
+  border-bottom: 1px solid var(--accent-color-main);
+}
+
+.accordionItem + .accordionItem {
+  border-top: 1px solid var(--accent-color-main);
+}
+
+.accordionButton {
+  cursor: pointer;
+  padding: 10px;
+  font-weight: bold;
+}
+
+.accordionButton:hover {
+  background-color: #ddd;
+}
+.accordionButton:hover.dark {
+  background-color: gray;
+}
+
+.accordionButton:before {
+  color: var(--accent-color-main);
+  display: inline-block;
+  content: "";
+  height: 10px;
+  width: 10px;
+  margin-right: 12px;
+  border-bottom: 3px solid currentColor;
+  border-right: 3px solid currentColor;
+  transform: rotate(-45deg);
+}
+
+.accordionButton[aria-expanded="true"]::before,
+.accordionButton[aria-selected="true"]::before {
+  transform: rotate(45deg);
+}
+
+[hidden] {
+  display: none;
+}
+
+.accordionPanel {
+  padding: 20px;
+  animation: fadein 0.2s ease-in;
+}
+
+/* -------------------------------------------------- */
+/* ---------------- Animation part ------------------ */
+/* -------------------------------------------------- */
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* ---------------- Mobile Utility ------------------ */
+
+.width80 {
+  @include lg {
+    width: 80%;
+  }
+}

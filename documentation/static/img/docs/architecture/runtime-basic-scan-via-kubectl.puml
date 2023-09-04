@@ -1,0 +1,75 @@
+' SPDX-FileCopyrightText: the secureCodeBox authors
+'
+' SPDX-License-Identifier: Apache-2.0
+
+@startuml runtime-basic-scan-via-kubectl
+!include ../../../../src/puml/_theme.ipuml
+!include ../../../../src/puml/_copyright.ipuml
+
+actor Developer #White
+participant  Engine <<Operator>>
+participant Scanner <<Job>>
+participant ZAP <<Container>>
+participant Lurker <<Sidecar>>
+participant Parser <<Job>>
+collections ReadWriteHook <<Job>>
+collections ReadHook <<Job>>
+participant Storage <<Pod,S3>> #White
+participant DefectDojo #White
+participant Elastic #White
+
+Developer -> Engine : initiate scan (kubectl)
+
+activate Engine
+activate Storage
+activate Elastic
+activate DefectDojo
+
+Engine -> Scanner : schedule
+activate Scanner
+
+Scanner -> ZAP : start container
+activate ZAP
+
+Scanner -> Lurker : start container
+activate Lurker
+Lurker -> Storage : persist raw findings
+Scanner <-- ZAP
+deactivate ZAP
+destroy ZAP
+
+Scanner <-- Lurker
+deactivate Lurker
+destroy Lurker
+
+Engine <-- Scanner
+deactivate Scanner
+destroy Scanner
+
+Engine -> Parser
+activate Parser
+Parser -> Storage : read raw findings
+Parser -> Storage : store well-defined findings
+Engine <-- Parser
+deactivate Parser
+destroy Parser
+
+activate ReadWriteHook
+Engine -> ReadWriteHook
+ReadWriteHook -> Storage : read well-defined finding
+ReadWriteHook -> DefectDojo : import finding
+Engine <-- ReadWriteHook
+deactivate ReadWriteHook
+destroy ReadWriteHook
+
+activate ReadHook
+Engine -> ReadHook
+ReadHook -> Storage : read well-defined finding
+ReadHook -> Elastic : persist
+Engine <-- ReadHook
+deactivate ReadHook
+destroy ReadHook
+
+deactivate Engine
+
+@enduml

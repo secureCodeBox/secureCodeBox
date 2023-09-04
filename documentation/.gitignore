@@ -1,0 +1,68 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+# compiled output
+/dist
+/tmp
+/out-tsc
+TODO
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Dependencies
+/node_modules
+
+# Production
+/build
+
+# Generated files
+.docusaurus
+.cache-loader
+
+# Misc
+Thumbs.db
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+/typings
+
+testem.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build script
+/githubRepo
+/temp
+src/integrations.js
+docs/scanners/*.md
+docs/hooks/*.md
+docs/architecture/09_architecture_decisions/adr_*.md
+docs/guides/
+static/findings
+
+# Used by bin/create_post.sh
+.author_meta
+public/
