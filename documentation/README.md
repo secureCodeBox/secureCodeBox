@@ -29,7 +29,7 @@ We do not use the terms "guide" nor "tutorial" at the moment.
 In order to build and run this website you need to install [Node.js and NPM] for your platform. We recommend to use [nvm] to manage your Node.js versions. Finally you download/clone this repository and install all required Node modules:
 
 ```bash
-cd docs-builder
+cd documentation
 nvm use
 npm install -g npm@8.11.0
 npm install

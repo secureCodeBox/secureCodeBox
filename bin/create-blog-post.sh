@@ -25,7 +25,7 @@ set -ue
   && SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )" \
   && export SCRIPT_DIRECTORY
 
-BASE_DIR=$(dirname "${SCRIPT_DIRECTORY}")/docs-builder
+BASE_DIR=$(dirname "${SCRIPT_DIRECTORY}")/documentation
 BLOG_DIR="${BASE_DIR}/blog"
 USAGE="Usage: $(basename "$0") 'The title of Your Post'"
 
