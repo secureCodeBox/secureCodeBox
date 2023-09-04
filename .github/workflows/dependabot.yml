@@ -6,6 +6,6 @@
 version: 2
 updates:
   - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/docs-builder" # Location of package manifests
+    directory: "/documentation" # Location of package manifests
     schedule:
       interval: "weekly"
