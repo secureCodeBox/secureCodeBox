@@ -1,0 +1,62 @@
+/*
+ * SPDX-FileCopyrightText: the secureCodeBox authors
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@import "./mixins";
+
+/* Flipcard container */
+.flipcard {
+  background-color: transparent;
+  width: inherit; /* inherit to fit to the column width */
+  max-width: 30rem;
+  height: 100%;
+  perspective: 1000px; /* Makes the 3D Flipping Effect, can be removed */
+  margin: 10px auto; /* center the flipcard horizontally */
+}
+
+.flipcardLogo {
+  height: 60px;
+  width: 60px;
+}
+
+/* Positions the front and backside */
+.flipcardInner {
+  /* Use display grid to place both the front and backside in the same cell */
+  /* This allows to automatically scale the card sizes */
+  display: grid;
+  width: 100%;
+  height: inherit;
+  align-items: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+
+/* horizontally flips card 180 degrees*/
+.flipcardFlip .flipcardInner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flipcardFront,
+.flipcardBack {
+  grid-row: 1;
+  grid-column: 1;
+  margin: 10px;
+  position: relative;
+  text-align: center;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+.flipcardFront {
+  transform: rotateY(0deg);
+}
+
+/* Style the back side */
+.flipcardBack {
+  transform: rotateY(180deg);
+}

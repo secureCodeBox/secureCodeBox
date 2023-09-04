@@ -1,0 +1,94 @@
+' SPDX-FileCopyrightText: the secureCodeBox authors
+'
+' SPDX-License-Identifier: Apache-2.0
+
+' http://plantuml.com/skinparam
+' https://plantuml-documentation.readthedocs.io/en/latest/formatting/all-skin-params.html
+
+' Some base color definitions:
+!define hellblau #cde6f5
+!define mittelblau #91c3e6
+!define tuerkisblau #008cd2
+!define kobaltblau #001eff
+!define lavendel #e6bedc
+!define dunkelpurpur #731964
+!define gelbbraun #ebd7be
+!define sand #e1c39b
+
+' Colors with special meaning:
+' Used to highlight focused components of a diagram. Usually our own components of secureCodeBox.
+!define focusBorder #6c8ebf
+!define focusFill #dae8fc
+
+skinparam default {
+  ArrowColor black
+  BackgroundColor white
+  FontColor black
+  FontName SansSerif
+  FontSize 10
+  Shadowing false
+  ComponentStyle uml2
+}
+
+skinparam activity {
+    BorderColor dunkelpurpur
+    StartColor kobaltblau
+    EndColor focusBorder
+    BarColor lavendel
+}
+
+skinparam usecase {
+    ActorBackgroundColor lavendel
+    ActorBorderColor focusBorder
+    BorderColor dunkelpurpur
+}
+
+skinparam class {
+    BackgroundColor focusFill
+    BorderColor focusBorder
+}
+
+skinparam package {
+    BackgroundColor white
+    BorderColor dunkelpurpur
+}
+
+skinparam stereotype {
+    CBackgroundColor mittelblau
+    ABackgroundColor lavendel
+    IBackgroundColor gelbbraun
+    EBackgroundColor lightgray
+}
+
+skinparam component {
+    BackgroundColor focusFill
+    BorderColor focusBorder
+    InterfaceBackgroundColor focusFill
+    InterfaceBorderColor focusBorder
+    Style uml2
+}
+
+skinparam note {
+    BackgroundColor gelbbraun
+    BorderColor sand
+}
+
+skinparam state {
+    BackgroundColor focusFill
+    BorderColor dunkelpurpur
+    StartColor kobaltblau
+    EndColor focusBorder
+}
+
+skinparam sequence {
+    ActorBackgroundColor focusFill
+    ActorBorderColor focusBorder
+    GroupBackgroundColor hellblau
+    LifeLineBackgroundColor focusFill
+    LifeLineBorderColor focusBorder
+    ParticipantBackgroundColor focusFill
+    ParticipantBorderColor focusBorder
+}
+
+skinparam CollectionsBackgroundColor focusFill
+skinparam CollectionsBorderColor focusBorder
