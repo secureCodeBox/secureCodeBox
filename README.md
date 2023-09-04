@@ -25,7 +25,7 @@ SPDX-License-Identifier: Apache-2.0
 > _secureCodeBox_ is a kubernetes based, modularized toolchain for continuous security scans of your software project. Its goal is to orchestrate and easily automate a bunch of security-testing tools out of the box.
 
 <p align="center">
-  <img width="950" src="./docs/resources/ascii/scb-first-start.svg">
+  <img width="950" src="./resources/ascii/scb-first-start.svg">
 </p>
 
 ## Overview
