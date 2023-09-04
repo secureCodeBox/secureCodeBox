@@ -1,8 +1,0 @@
-Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: documentation
-Upstream-Contact: Robert Seedorff <robert.seedorff@iteratec.com>
-Source: https://github.com/secureCodeBox/documentation
-
-Files: static/img/*
-Copyright: the secureCodeBox authors
-License: Apache-2.0
