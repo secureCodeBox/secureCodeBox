@@ -16,7 +16,6 @@ SPDX-License-Identifier: Apache-2.0
 - [Project Readme and Quickstart][scb-github] Start here if you want to get a brief overview and installation quickstart
 - [User Guide](user-guide/README.md) If you want to configure security automation in your environment, please take a look into our user guide.
 - [Developer Guide](developer-guide/README.md) If you want to extend the project an add your own compents or bugfix something, please take a look into our developer guide.
-- [Glossary](glossary.md) This overview provides a description for all acronyms and special terms which are used in this project.
 - [Versioning](versioning.md) This describes how we use versioning in tags and releases.
 
 <!-- tocstop -->
