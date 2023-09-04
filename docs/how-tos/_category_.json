@@ -1,0 +1,9 @@
+{
+  "label": "How To's",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "title": "Overview",
+    "slug": "how-tos"
+  }
+}
