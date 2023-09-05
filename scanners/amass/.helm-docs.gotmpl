@@ -19,6 +19,12 @@ usecase: "Subdomain Enumeration Scanner"
 {{- end }}
 
 {{- define "extra.dockerDeploymentSection" -}}
+
+## Notice
+This image is a workaround for the official Amass docker image, older amass versions are regularly removed from the official docker registry, this is often breaks our builds.
+To prevent this we create a new image based on the official one and push it to our docker registry.
+Copyright 2017 Jeff Foley. All rights reserved.
+
 ## Supported Tags
 - `latest`  (represents the latest stable release build)
 - tagged releases, e.g. `3.0.0`, `2.9.0`, `2.8.0`, `2.7.0`
