@@ -21,7 +21,7 @@ env:
   DOCKER_NAMESPACE: ${{ secrets.DOCKER_NAMESPACE }}
 
 jobs:
-  # ---- Operator & Lurcher ----
+  # ---- Operator & Lurker ----
 
   operator:
     name: "Build | Operator"
