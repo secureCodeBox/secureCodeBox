@@ -7,4 +7,6 @@
 
 ARG scannerVersion
 FROM caffix/amass:${scannerVersion}
+# The amass image uses the user "user" with the id 1000, we set it here as a numeric value to allow runAsNonRoot 
+USER 1000
 ENTRYPOINT ["/bin/amass"]

@@ -89,7 +89,7 @@ scanner:
   # scanner.securityContext -- Optional securityContext set on scanner container (see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
   securityContext:
     # scanner.securityContext.runAsNonRoot -- Enforces that the scanner image is run as a non root user
-    runAsNonRoot: false
+    runAsNonRoot: true
     # scanner.securityContext.readOnlyRootFilesystem -- Prevents write access to the containers file system
     readOnlyRootFilesystem: false
     # scanner.securityContext.allowPrivilegeEscalation -- Ensure that users privileges cannot be escalated
