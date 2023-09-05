@@ -196,6 +196,7 @@ func (r *ScanReconciler) startParser(scan *executionv1.Scan) error {
 			},
 		},
 	}
+	job.Spec.Template.Labels = util.MergeStringMaps(job.Spec.Template.Labels, scan.ObjectMeta.DeepCopy().Labels)
 
 	// Merge Env from ParserTemplate
 	job.Spec.Template.Spec.Containers[0].Env = append(

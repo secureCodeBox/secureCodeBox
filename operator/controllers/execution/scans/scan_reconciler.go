@@ -220,6 +220,8 @@ func (r *ScanReconciler) constructJobForScan(scan *executionv1.Scan, scanTypeSpe
 		Spec: *scanTypeSpec.JobTemplate.Spec.DeepCopy(),
 	}
 
+	job.Spec.Template.Labels = util.MergeStringMaps(job.Spec.Template.Labels, scan.ObjectMeta.DeepCopy().Labels)
+
 	//add recommend kubernetes "managed by" label, to tell the SCB container autodiscovery to ignore the scan pod
 	podLabels := job.Spec.Template.Labels
 	if podLabels == nil {
