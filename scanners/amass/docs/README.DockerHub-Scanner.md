@@ -50,10 +50,10 @@ Copyright 2017 Jeff Foley. All rights reserved.
 - tagged releases, e.g. `3.0.0`, `2.9.0`, `2.8.0`, `2.7.0`
 
 ## How to use this image
-This `parser` image is intended to work in combination with the corresponding security scanner docker image to parse the `findings` results. For more information details please take a look at the documentation page: https://www.securecodebox.io/docs/scanners/Amass.
+This `scanner` image is intended to work in combination with the corresponding `parser` image to parse the scanner `findings` to generic secureCodeBox results. For more information details please take a look at the [project page][scb-docs] or [documentation page][https://www.securecodebox.io/docs/scanners/Amass].
 
 ```bash
-docker pull securecodebox/parser-amass
+docker pull securecodebox/scanner-amass
 ```
 
 ## What is OWASP Amass?
@@ -64,6 +64,19 @@ See [Issue #1847](https://github.com/secureCodeBox/secureCodeBox/issues/1847).
 :::
 
 The [OWASP Amass Project][owasp_amass_project] has developed a tool to help information security professionals perform network mapping of attack surfaces and perform external asset discovery using open source information gathering and active reconnaissance techniques. To learn more about the Amass scanner itself visit [OWASP Amass Project][owasp_amass_project] or [Amass GitHub].
+
+## Scanner Configuration
+
+The following security scan configuration example are based on the [Amass User Guide](https://github.com/owasp-amass/amass/blob/master/doc/user_guide.md#the-enum-subcommand), please take a look at the original documentation for more configuration examples.
+
+- The most basic use of the tool for subdomain enumeration: `amass enum -d example.com`
+- Typical parameters for DNS enumeration: `amass enum -v -brute -min-for-recursive 2 -d example.com`
+
+Special command line options:
+
+- Enable generation of altered names `amass enum -alts -d example.com`
+- Turn off recursive brute forcing `amass enum -brute -norecursive -d example.com`
+- Domain names separated by commas (can be used multiple times) `amass enum -d example.com`
 
 ## Community
 
