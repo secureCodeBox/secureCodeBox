@@ -23,7 +23,7 @@ colors.setTheme({
 // For the documentation on this script look at the README.md of this repository
 
 async function main() {
-  const currentDirectory = __dirname; // current directory is /documentation/scripts
+  const currentDirectory = __dirname; // current directory is /documentation/src
   const parentDirectory = path.dirname(currentDirectory); // parent is /documentation
   const rootDirectory = path.dirname(parentDirectory); // root is /
 
@@ -127,7 +127,7 @@ async function createDocFilesFromMainRepository(relPath, targetPath, dirNames) {
     }
 
     const integrationPage = Mustache.render(
-      fs.readFileSync("./scripts/utils/scannerReadme.mustache", {
+      fs.readFileSync(path.join(__dirname, "utils/scannerReadme.mustache"), {
         encoding: "utf8",
       }),
       {

@@ -12,8 +12,8 @@
     "start": "docusaurus start",
     "prebuild": "npm run build:docs && npm run build:integrations",
     "build": "docusaurus build",
-    "build:docs": "node ./scripts/docs.build.js",
-    "build:integrations": "node ./scripts/integrations.build.js",
+    "build:docs": "node ./src/docs.build.js",
+    "build:integrations": "node ./src/integrations.build.js",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "serve": "docusaurus serve"
