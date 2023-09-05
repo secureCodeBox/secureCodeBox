@@ -9,8 +9,6 @@ metadata:
 spec:
   scanType: "amass"
   parameters:
-    - "-noalts"
     - "-norecursive"
-    - "-nolocaldb"
     - "-d"
     - "example.com"
