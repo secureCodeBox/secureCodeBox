@@ -20,7 +20,7 @@ description: We describe our plans to build an SBOM workflow for the secureCodeB
 image: /img/blog/2023-09-01-waterfall.jpg
 ---
 
-![A burning log](/img/blog/2023-09-01-waterfall.jpg)
+![A waterfall](/img/blog/2023-09-01-waterfall.jpg)
 
 Cover photo by [Mike Lewis HeadSmart Media](https://unsplash.com/@mikeanywhere) on [Unsplash](https://unsplash.com/photos/waAAaeC9hns).
 
