@@ -31,7 +31,10 @@ kubectl delete cascadingrules.cascading.securecodebox.io nmap-hostscan
 
 To uninstall the operator it is not enough to delete the operator via `helm` because the operator creates Roles, ServiceAccounts and RoleBindings used by parsers, lurkers and hooks in every namespace where scanners and hooks are executed. These cannot be uninstalled via helm because they cannot be referenced via Kubernetes OwnerReferences.
 
-Make sure you delete all scans and uninstall all scanners/hooks before uninstalling the operator to avoid problems.
+:::caution
+Make sure you delete **all scans** (finished and pending!) and uninstall all scanners/hooks before uninstalling the operator to avoid problems.
+:::
+
 First delete the namespace for the operator:
 
 ```bash
