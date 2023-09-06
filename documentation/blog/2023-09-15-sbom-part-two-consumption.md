@@ -18,12 +18,13 @@ tags:
   - Syft
   - Dependency-Track
 description: We describe our plans to build an SBOM workflow for the secureCodeBox, including an SBOM tool comparison and interoperability troubles. This part treats the aspects of consuming SBOMs.
-image: /img/blog/2023-09-01-waterfall.jpg
+image: /img/blog/2023-09-15-river-mouth.jpg
 draft: true
 ---
 
-<!-- TODO: #346 Use another image? -->
-![A burning log](/img/blog/2023-09-01-waterfall.jpg)
+![A river mouth](/img/blog/2023-09-15-river-mouth.jpg)
+
+Cover photo by [Look Up Look Down Photography](https://unsplash.com/de/@greg_nunes) on [Unsplash](https://unsplash.com/photos/K9_yxI8BNng).
 
 This is part two of the SBOM story which covers the consuming side. If you missed part one, you can find it [here](/blog/2023/09/01/sbom-part-one-generation).
 
