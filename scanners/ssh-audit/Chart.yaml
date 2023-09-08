@@ -5,27 +5,21 @@
 apiVersion: v2
 name: ssh-audit
 description: A Helm chart for Kubernetes
-
 type: application
 version: v3.1.0-alpha1
-
-appVersion: "v2.9.0"
+appVersion: "v3.0.0"
 kubeVersion: ">=v1.11.0-0"
-
 annotations:
   versionApi: https://api.github.com/repos/jtesta/ssh-audit/releases/latest
   # supported cpu architectures for which docker images for the scanner should be build
   supported-platforms: linux/amd64
-
 keywords:
   - security
   - ssh
   - scanner
   - secureCodeBox
-
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
-
 maintainers:
   - name: iteratec GmbH
     email: secureCodeBox@iteratec.com
