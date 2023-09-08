@@ -3,7 +3,7 @@ title: "SSH-audit"
 category: "scanner"
 type: "SSH"
 state: "released"
-appVersion: "v2.9.0"
+appVersion: "v3.0.0"
 usecase: "SSH Configuration and Policy Scanner"
 ---
 
