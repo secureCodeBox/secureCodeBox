@@ -1,12 +1,3 @@
----
-title: "Trivy"
-category: "scanner"
-type: "Container"
-state: "released"
-appVersion: "0.45.1"
-usecase: "Container Vulnerability Scanner"
----
-
 <!--
 SPDX-FileCopyrightText: the secureCodeBox authors
 
@@ -33,7 +24,23 @@ Otherwise your changes will be reverted/overwritten automatically due to the bui
   <a href="https://twitter.com/securecodebox"><img alt="Twitter Follower" src="https://img.shields.io/twitter/follow/securecodebox?style=flat&color=blue&logo=twitter"/></a>
 </p>
 
-## What is Trivy?
+## What is OWASP secureCodeBox?
+
+<p align="center">
+  <img alt="secureCodeBox Logo" src="https://www.securecodebox.io/img/Logo_Color.svg" width="250px"/>
+</p>
+
+_[OWASP secureCodeBox][scb-github]_ is an automated and scalable open source solution that can be used to integrate various *security vulnerability scanners* with a simple and lightweight interface. The _secureCodeBox_ mission is to support *DevSecOps* Teams to make it easy to automate security vulnerability testing in different scenarios.
+
+With the _secureCodeBox_ we provide a toolchain for continuous scanning of applications to find the low-hanging fruit issues early in the development process and free the resources of the penetration tester to concentrate on the major security issues.
+
+The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To install it you need [Helm](https://helm.sh), a package manager for Kubernetes. It is also possible to start the different integrated security vulnerability scanners based on a docker infrastructure.
+
+### Quickstart with secureCodeBox on Kubernetes
+
+You can find resources to help you get started on our [documentation website](https://www.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://www.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://www.securecodebox.io/docs/getting-started/first-scans) with it.
+
+## What is Trivy SBOM?
 
 `Trivy` (`tri` pronounced like **tri**gger, `vy` pronounced like en**vy**) is a simple and comprehensive vulnerability scanner for containers and other artifacts.
 A software vulnerability is a glitch, flaw, or weakness present in the software or in an Operating System.
@@ -42,66 +49,26 @@ A software vulnerability is a glitch, flaw, or weakness present in the software 
 
 To learn more about the Trivy scanner itself visit [Trivy's GitHub Repository](https://github.com/aquasecurity/trivy).
 
+This chart uses Trivy's SBOM support to generate Software Bills of Material in CycloneDX format for container images.
+
 ## Deployment
-The trivy chart can be deployed via helm:
+The trivy-sbom chart can be deployed via helm:
 
 ```bash
 # Install HelmChart (use -n to configure another namespace)
-helm upgrade --install trivy secureCodeBox/trivy
+helm upgrade --install trivy-sbom secureCodeBox/trivy-sbom
 ```
 
 ## Scanner Configuration
 
-The following security scan configuration example are based on the [Trivy Documentation](https://aquasecurity.github.io/trivy/), please take a look at the original documentation for more configuration examples.
+The following SBOM generation configuration example is based on the [Trivy Documentation](https://aquasecurity.github.io/trivy/), please take a look at the original documentation for more configuration examples.
 
-### Trivy Container Image Scan
-
-Currently we support the follwing 4 scanTypes, corresponding to the trivy scanning modes:
-- scanType: "trivy-image"
+Currently we support the following scanType, corresponding to the trivy scanning modes:
+- scanType: "trivy-sbom-image"
    - parameters: `[YOUR_IMAGE_NAME]`
-- scanType: "trivy-filesystem"
-   - parameters: `[YOUR_PATH_TO_FILES]`
-- scanType: "trivy-repo"
-   - parameters: `[YOUR_GITHUB_REPO]`
-- scanType: "trivy-k8s"
-   - parameters: `[KUBERNETES_RESOURCE]`
 
-A complete example of each scanType are listed below in our [example docs section](https://www.securecodebox.io/docs/scanners/trivy/#examples).
-
-Simply specify an image name (and a tag) when you use the scanType `trivy-image`. But there are also some additional configuration options e.g:
-- Filter the vulnerabilities by severities `--severity HIGH,CRITICAL ruby:2.4.0`
-- Filter the vulnerabilities by type (`os` or `library`) `--vuln-type os ruby:2.4.0`
-- Skip update of vulnerability DB: `--skip-update python:3.4-alpine3.9`
-- Ignore unfixed vulnerabilities:`--ignore-unfixed ruby:2.4.0` By default, Trivy also detects unpatched/unfixed vulnerabilities. This means you can't fix these vulnerabilities even if you update all packages. If you would like to ignore them, use the `--ignore-unfixed` option.
-
-A complete scan definition for the secureCodeBox repository may look something like this:
-```yaml
-apiVersion: "execution.securecodebox.io/v1"
-kind: Scan
-metadata:
-  name: "trivy-scb"
-spec:
-  scanType: "trivy-image"
-  parameters:
-    - bkimminich/juice-shop:v10.2.0
-```
-
-### Scanning Many Targets
-By default, the docker container of trivy will download the vulnerability database when starting the process.
-As this download is performed directly from GitHub, you will run into API rate limiting issues after roughly 50 requests.
-Trivy [supports a client-server mode](https://aquasecurity.github.io/trivy/latest/docs/references/modes/client-server/) where one process downloads a copy of the vulnerability database and provides it to the others.
-
-This mode is implemented and active by default.
-A separate Deployment for the trivy server will be created during the installation and the trivy scanTypes are automatically configured to run in client mode and connect to the server.
-
-:::caution
-
-Client/server mode is not used for `trivy-k8s` scans, because trivy does not support it for this type of scan.
-If you start many `trivy-k8s` scans you might run into rate limits.
-One way to avoid that is to [preemptively download](https://aquasecurity.github.io/trivy/latest/docs/advanced/air-gap/) the trivy database once and then provide it similar to how the [nuclei template cache](https://www.securecodebox.io/docs/scanners/nuclei/#install-nuclei-without-template-cache-cronjob--persistentvolume) is handled.
-:::
-
-In case only a single scan or very few are run, and you want to avoid the small performance overhead, client/server mode can be disabled by setting `--set="trivyDatabaseCache.enabled=false"` during helm install.
+Simply specify an image name (and a tag) when you use the scanType `trivy-sbom-image`.
+A complete example is listed below in our [example docs section](https://www.securecodebox.io/docs/scanners/trivy/#examples).
 
 ## Requirements
 
@@ -112,13 +79,11 @@ Kubernetes: `>=v1.11.0-0`
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | cascadingRules.enabled | bool | `false` | Enables or disables the installation of the default cascading rules for this scanner |
-| createAutoDiscoveryScanType | bool | `false` | Creates a `trivy-image-autodiscovery` scanType with its own ServiceAccount for the SCB AutoDiscovery, enabled to scan images from both public & private registries. |
 | imagePullSecrets | list | `[]` | Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
-| kubeauditScope | string | `"cluster"` | Automatically sets up rbac roles for kubeaudit to access the resources it scans. Can be either "cluster" (ClusterRole) or "namespace" (Role) |
 | parser.affinity | object | `{}` | Optional affinity settings that control how the parser job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
 | parser.env | list | `[]` | Optional environment variables mapped into each parseJob (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
 | parser.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
-| parser.image.repository | string | `"docker.io/securecodebox/parser-trivy"` | Parser image repository |
+| parser.image.repository | string | `"docker.io/securecodebox/parser-cyclonedx"` | Parser image repository |
 | parser.image.tag | string | defaults to the charts version | Parser image tag |
 | parser.resources | object | { requests: { cpu: "200m", memory: "100Mi" }, limits: { cpu: "400m", memory: "200Mi" } } | Optional resources lets you control resource limits and requests for the parser container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ |
 | parser.scopeLimiterAliases | object | `{}` | Optional finding aliases to be used in the scopeLimiter. |
@@ -146,8 +111,21 @@ Kubernetes: `>=v1.11.0-0`
 | scanner.suspend | bool | `false` | if set to true the scan job will be suspended after creation. You can then resume the job using `kubectl resume <jobname>` or using a job scheduler like kueue |
 | scanner.tolerations | list | `[]` | Optional tolerations settings that control how the scanner job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
 | scanner.ttlSecondsAfterFinished | string | `nil` | seconds after which the Kubernetes job for the scanner will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
-| trivyDatabaseCache.enabled | bool | `true` | Enables or disables the use of trivy server in another pod to cache the vulnerability database for all scans. |
-| trivyDatabaseCache.replicas | int | `1` | amount of replicas to configure for the Deployment |
+
+## Contributing
+
+Contributions are welcome and extremely helpful 🙌
+Please have a look at [Contributing](./CONTRIBUTING.md)
+
+## Community
+
+You are welcome, please join us on... 👋
+
+- [GitHub][scb-github]
+- [Slack][scb-slack]
+- [Twitter][scb-twitter]
+
+secureCodeBox is an official [OWASP][scb-owasp] project.
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)

@@ -6,6 +6,6 @@
 #
 
 include_guard = set
-scanner = trivy
+scanner = trivy-sbom
 
 include ../../scanners.mk
