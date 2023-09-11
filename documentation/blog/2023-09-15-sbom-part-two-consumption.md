@@ -26,61 +26,62 @@ draft: true
 
 Cover photo by [Look Up Look Down Photography](https://unsplash.com/de/@greg_nunes) on [Unsplash](https://unsplash.com/photos/K9_yxI8BNng).
 
-This is part two of the SBOM story which covers the consuming side. If you missed part one, you can find it [here](/blog/2023/09/01/sbom-part-one-generation).
+This is part two of the _SBOM story_ which covers the __consuming side__. If you missed part one, you can find it [here](/blog/2023/09/01/sbom-part-one-generation).
 
 One would assume that with a standardized format the combinations of generator and consumer are interchangeable, but as noted previously, the SBOMs still vary in content and attributes.
 
 ## Possible SBOM Consumers and Interoperability Troubles
 
-Generating SBOMs is a nice first step of the workflow, but at some point you probably want to actually use them for something, and most people would prefer to use something more advanced than grep or a text editor.
+_Generating SBOMs_ is a nice first step of the workflow, but at some point you probably want to actually _use them_ for something, and most people would prefer to use something more advanced than grep or a text editor.
 There is a good amount of possible tools to work with SBOMs, both the [SPDX](https://spdx.dev/tools-community/) and the [CycloneDX website](https://cyclonedx.org/tool-center/) contain a list.
 Most of the analysis tools provide license compliance, so there are not that many to work with them for vulnerability management, which is what we want to focus on for the _secureCodeBox_.
 
 ### SBOM Consumers
 
-There are still multiple options for consuming SBOMs when focusing on vulnerabilities.
-To integrate one of them with a hook for an SBOM workflow, a continuously running tool as a service is needed.
+There are still __multiple options__ for consuming SBOMs when focusing on vulnerabilities.
+To integrate one of them with a hook for an SBOM workflow, a __continuously running__ tool as a service is needed.
 This list nevertheless contains some tools, that are only usable for one-off analyses.
 These were used for general SBOM quality comparisons.
 
 #### Trivy
 
-Since Trivy is primarily a security scanner, it can also scan SBOMs for security vulnerabilities.
-Of course generating SBOMs with Trivy just to scan them with Trivy later is not the most interesting use case, especially since the secureCodeBox [already supports Trivy scans](https://www.securecodebox.io/docs/scanners/trivy/).
+Since _Trivy_ is primarily a security scanner, it can also scan SBOMs for security vulnerabilities.
+Of course generating SBOMs with Trivy just to scan them with Trivy later is not the most interesting use case, especially since the _secureCodeBox_ [already supports Trivy scans](https://www.securecodebox.io/docs/scanners/trivy/).
 It does still serve as an interesting baseline, to compare Trivy SBOM scan results to direct Trivy scans.
 
-When directly scanning the Juice Shop image, Trivy detects 23 issues in debian packages and 67 in node packages, some as "fixed" and some as "affected".
-Scanning the Juice Shop CycloneDX SBOM returns the same 23 debian issues, but only 51 node vulnerabilities.
+When directly scanning the Juice Shop image, Trivy detects __23 issues__ in debian packages and __67__ in node packages, some as "fixed" and some as "affected".
+Scanning the Juice Shop CycloneDX SBOM returns the same __23__ debian issues, but only __51__ node vulnerabilities.
 Comparing the lists shows that there are fewer reported vulnerabilities for the semver package.
 Turns out, that the same version of semver is included multiple times throughout the dependency tree, which gets deduplicated in the produced SBOM, but counted as individual vulnerabilities for the direct scan.
 Other than that the same vulnerabilities are reported.
-The SPDX SBOM contains all the semver usages and reports 67 node vulnerabilities again.
+The SPDX SBOM contains all the semver usages and reports __67__ node vulnerabilities again.
 
-For the Syft SBOMs, Trivy reports only 8 debian vulnerabilities, all for `openssl`.
+For the Syft SBOMs, Trivy reports only __8__ debian vulnerabilities, all for `openssl`.
 The ones for `libc6` and `libssl1.1` are not picked up.
-For node 51 vulnerabilities are reported, which is interesting, because Syft does _not_ deduplicate components in its SBOMs, so the same semver versions are listed multiple times.
+For node __51 vulnerabilities__ are reported, which is interesting, because Syft does _not_ deduplicate components in its SBOMs, so the same semver versions are listed multiple times.
 Trivy also warns about inaccuracies in scans of third party SBOMs, which is unfortunate, after all the point of standards is interoperability.
 
 #### Grype
 
-Compared to Trivy, Syft is only a tool to generate SBOMs, not a security scanner to gain insight from SBOMs or other sources.
-Anchore offers a companion application to Syft, called [Grype](https://github.com/anchore/grype), which can then be used to scan SBOMs for vulnerabilities.
+Compared to Trivy, Syft is only a tool to _generate SBOMs_, not a security scanner to gain insight from SBOMs or other sources.
+Anchore offers a companion application to Syft, called [_Grype_](https://github.com/anchore/grype), which can then be used to _scan SBOMs_ for vulnerabilities.
 Grype can also directly scan container images.
 
-Scanning the same Juice Shop image with Grype directly reveals 87 security vulnerabilities.
+Scanning the same Juice Shop image with Grype directly reveals __87__ security vulnerabilities.
 The same is true for scanning Syft's json or CycloneDX output.
-The SPDX output produces 71 vulnerabilities, the missing ones are again the deduplicated semver issue [GHSA-c2qf-rxjj-qqgw](https://github.com/advisories/GHSA-c2qf-rxjj-qqgw).
-Scanning Trivy SBOMs with Grype reveals fewer issues, 56 for both the SPDX and the CycloneDX SBOM.
-Other than the missing duplicated semver issue, some glibc CVEs are missing and some OpenSSL vulnerabilities are only found for OpenSSL instead of for OpenSSL and libssl both.
+The SPDX output produces __71 vulnerabilities__, the missing ones are again the deduplicated semver issue [GHSA-c2qf-rxjj-qqgw](https://github.com/advisories/GHSA-c2qf-rxjj-qqgw).
+Scanning Trivy SBOMs with Grype reveals fewer issues, __56__ for both the SPDX and the CycloneDX SBOM.
+Other than the missing duplicated semver issue, some glibc CVEs are missing and some OpenSSL vulnerabilities are only found for OpenSSL instead of for both OpenSSL and libssl.
 
 If an SBOM does not contain CPEs, Grype offers to add them to improve vulnerability discovery.
 For the Trivy SBOMs this did not increase the amount of vulnerabilities recognized.
+In these tests, Grype vTODO was used.
 
 #### Dependency-Track
 
 The problem with both those tools is, that they are one-off invocations, consuming a single SBOM.
 A continuous SBOM workflow needs a continuosly running service to accept the SBOMs, which then get analyzed regularly and can be checked for components or vulnerabilities.
-[OWASP Dependency-Track](https://dependencytrack.org/) is a self hosted service that offers exactly that.
+[_OWASP Dependency-Track_](https://dependencytrack.org/) is a self hosted service that offers exactly that.
 SBOMs can be uploaded through the GUI or by using the API, but only in CycloneDX format, Dependency-Track [does not support SPDX SBOMs](https://github.com/DependencyTrack/dependency-track/discussions/1222).
 Support is [planned again](https://github.com/DependencyTrack/dependency-track/issues/1746) in the future, but depends on changes to the SPDX schema.
 After the import, Dependency-Track analyzes them and generates lists of components and vulnerabilities.
@@ -88,48 +89,48 @@ Which vulnerabilities are recognized depends on the enabled analyzers and vulner
 By default the Docker deployment I used enabled the Internal Analyzer and the [Sonatype OSS Index](https://ossindex.sonatype.org/) as analyzers (even though [the FAQ says](https://docs.dependencytrack.org/FAQ/#i-expect-to-see-vulnerable-components-but-i-dont) OSS Index is disabled by default) and the [National Vulnerability Database (NVD)](https://nvd.nist.gov/) as data source.
 The [best practices](https://docs.dependencytrack.org/best-practices/) recommend to additionally enable the [GitHub Advisory Database](https://github.com/advisories) as data source, which I did for later tests.
 
-For the Juice Shop SBOM, without using the GitHub Advisory Database, Dependency Track finds 35 vulnerabilities in the Trivy SBOM and 83 in the one generated by Syft.
+For the Juice Shop SBOM, without using the GitHub Advisory Database, Dependency Track finds __35__ vulnerabilities in the Trivy SBOM and __88__ in the one generated by Syft.
 This is a pretty big difference, which has multiple reasons.
 First of all, neither [Syft](https://github.com/anchore/syft/issues/931#issuecomment-1114405673) nor [Dependency-Track](https://github.com/DependencyTrack/dependency-track/issues/2151#issuecomment-1322415056) deduplicate packages, so each occurence of semver gets a new vulnerability entry for CVE-2022-25883.
 Then again, only Syft's SBOMs contain CPEs, which are needed to find and match vulnerabilities in the NVD.
 
-After enabling the GitHub Advisory Database, Dependency-Track reports 87 vulnerabilities for the Trivy SBOM, and 151 for Syft's.
+After enabling the GitHub Advisory Database, Dependency-Track reports __87 vulnerabilities__ for the Trivy SBOM, and __156__ for Syft's.
 It is not trivial to compare by which vulnerabilities this exactly differs, because they often have mutliple identifiers, which can lead to [the same vulnerability getting reported multiple times](https://github.com/DependencyTrack/dependency-track/issues/2181).
 The counts of the severity categories also changed, but instead of strictly increasing there were more vulnerabilities of lower severity.
 
 #### Others
 
-As an OWASP project, Dependency-Track is a good first choice for an SBOM consumer and shows some of the problems which occur when building a complete SBOM workflow.
+As an _OWASP_ project, _Dependency-Track_ is a good first choice for an SBOM consumer and shows some of the problems which occur when building a complete SBOM workflow.
 There are other tools with similar functionality as well, but at this point selecting the best tool is not necessary.
 This is a collection of other possible tools that I did not test but which looked possibly fitting at a first glance, listed here as a reference.
 
-The open source community [DevOps Kung Fu Mafia](https://github.com/devops-kung-fu) develops a tool called [bomber](https://github.com/devops-kung-fu/bomber).
+The open source community [DevOps Kung Fu Mafia](https://github.com/devops-kung-fu) develops a tool called [_bomber_](https://github.com/devops-kung-fu/bomber).
 Judging by the description it is very similar to Trivy or Grype, but instead of shipping or building their own combined vulnerability database, bomber directly checks vulnerabilities against either [OSV](https://osv.dev/), [OSS Index](https://ossindex.sonatype.org/) or [Snyk](https://security.snyk.io/).
 
-The [FOSSLight Hub](https://github.com/fosslight/fosslight) lists SBOM support (SPDX only) and vulnerability management as capabilities.
+The [_FOSSLight Hub_](https://github.com/fosslight/fosslight) lists SBOM support (SPDX only) and vulnerability management as capabilities.
 Main usage and features seem to aim at license compliance though.
 
-The Eclipse Foundation provides the software catalogue application [SW360](https://github.com/eclipse-sw360/sw360).
+The Eclipse Foundation provides the software catalogue application [_SW360_](https://github.com/eclipse-sw360/sw360).
 It [lists](https://projects.eclipse.org/projects/technology.sw360) vulnerability management as one of its features and supports both [SPDX](https://github.com/eclipse-sw360/sw360/pull/653) and [CycloneDX](https://github.com/eclipse-sw360/sw360/pull/2015) imports.
 There is currently a [discussion](https://github.com/eclipse-sw360/sw360/discussions/2040) going on about using it as an SBOM management tool.
 
-The [KubeClarity](https://github.com/openclarity/kubeclarity) tool by [OpenClarity](https://openclarity.io/) provides Kubernetes, container and filesystem scanning and vulnerability detection.
+The [_KubeClarity_](https://github.com/openclarity/kubeclarity) tool by [OpenClarity](https://openclarity.io/) provides Kubernetes, container and filesystem scanning and vulnerability detection.
 It uses a pluggable architecture to support multiple scanners and analyzers in a two step process with SBOMs as an intermediate product.
 Currently used scanners are Trivy, Syft and Cyclonedx-gomod.
 The analyzers are Trivy, Grype and Dependency-Track.
 
 ### The Naming Problem
 
-As mentioned multiple times, one of the differences between Trivy's and Syft's SBOMs are the Common Package Enumerations (CPEs) that only Syft includes.
-Among package urls (purls), they are a way of uniquely identifying software applications or packages, which is needed to match packages against vulnerabilities listed in a database.
-While many databases already include purls as references, the National Vulnerability Database (NVD) does not.
+As mentioned multiple times, one of the differences between Trivy's and Syft's SBOMs are the _Common Package Enumerations (CPEs)_ that only Syft includes.
+Among _package urls (purls)_, they are a way of uniquely identifying software applications or packages, which is needed to match packages against vulnerabilities listed in a database.
+While many databases already include _purls_ as references, the National Vulnerability Database (NVD) __does not__.
 This prevents the vulnerabilities, that are not duplicated to other databases ([like Debian's](https://github.com/DependencyTrack/dependency-track/issues/1827#issuecomment-1195181769)) to get reported.
 
 So if including CPEs improves vulnerability matching, why does Trivy not include them?
 Because CPEs are [difficult and inconvenient to work with](https://owasp.org/blog/2022/09/13/sbom-forum-recommends-improvements-to-nvd.html).
-Accurately but automatically assigning the correct CPE is not trivial, because the format includes a vendor field, which does not always match the most trivial guess.
+Accurately but automatically assigning the correct CPE is __not trivial__, because the format includes a vendor field, which does not always match the most trivial guess.
 This fits closed source software distributed by companies, but not the modern OSS environment of small packages by individual contributors.
-There is an official CPE dictionary, which __should__ be used to match components to CPEs, but even with that matching the correct software is not trivial.
+There is an _official CPE dictionary_, which __should__ be used to match components to CPEs, but even with that matching the correct software is not straightforward.
 For redis for example, it contains among others Anynines redis (`cpe:2.3:a:anynines:redis:2.1.2:*:*:*:*:pivotal_cloud_foundry:*:*`), a product using redis, hiredis (`cpe:2.3:a:redislabs:hiredis:0.14.0:*:*:*:*:*:*:*`), a C client, and the in-memory data store most people would think of (used to be `cpe:2.3:a:pivotal_software:redis:4.0.10:*:*:*:*:*:*:*` but is now `cpe:2.3:a:redislabs:redis:4.0.10:*:*:*:*:*:*:*`).
 Since CPEs are centrally managed, they are often only assigned when a vulnerability is reported, so proactively monitoring for vulnerabilities turns into a guessing game.
 This describes Syft's strategy of assigning CPEs pretty well, try to generate CPEs [on a best effort basis](https://github.com/anchore/syft/issues/268#issuecomment-741829842), which of course [fails sometimes](https://github.com/DependencyTrack/dependency-track/issues/1871#issuecomment-1208980821).
@@ -138,13 +139,13 @@ For Trivy there is an [open issue](https://github.com/aquasecurity/trivy-db/issu
 Because of these problems, [CPEs were already deprecated](https://groups.io/g/dependency-track/topic/74648781#129) by the NVD, with the intention of replacing them by Software Identification Tags (SWID) instead.
 Since the migration is currently not moving along, [CycloneDX undeprecated CPEs](https://github.com/CycloneDX/specification/issues/105) again.
 
-Package urls are a more recent naming scheme, which makes automatic assignment a lot easier.
+_Package urls_ are a more recent naming scheme, which make automatic assignment a lot easier.
 Most other databases either directly support them already (like [OSS Index](https://ossindex.sonatype.org/doc/coordinates) or [Google's OSV](https://github.com/google/osv.dev/issues/64)), or contain the information needed to work with them (like GitHub advisories, but [including them is debated](https://github.com/github/advisory-database/issues/10)).
 The most important one that does not is the NVD, which is why there are multiple requests and proposals for purls to get added.
 
 This problem, that there is no unique identifier for software products that works across ecosystems, is known as the _naming problem_ among people working with SBOMs.
-There are several proposals for fixing the status quo, which all boil down to "the NVD needs to use pulrs" for at least part of their solution.
-The most iportant proposal is [_A Proposal to Operationalize Component Identification for Vulnerability Management_](https://owasp.org/assets/files/posts/A%20Proposal%20to%20Operationalize%20Component%20Identification%20for%20Vulnerability%20Management.pdf), released September last year by a group calling themselves the _SBOM Forum_.
+There are several proposals for fixing the status quo, which all boil down to "the NVD needs to use purls" for at least part of their solution.
+The most important proposal is [_A Proposal to Operationalize Component Identification for Vulnerability Management_](https://owasp.org/assets/files/posts/A%20Proposal%20to%20Operationalize%20Component%20Identification%20for%20Vulnerability%20Management.pdf), released September last year by a group calling themselves the _SBOM Forum_.
 In their statement, they also detail the problems of CPEs and propose using purls for identifying software, but other identifiers for hardware.
 [Work is ongoing](https://tomalrichblog.blogspot.com/2023/06/dale-peterson-made-me-miss-dinner-again.html) to improve the NVD but it is a slow process.
 Tom Alrich, the [founder of the SBOM Forum](https://securityboulevard.com/2023/03/making-sboms-useful/), regularly informs about updates [on his blog](https://tomalrichblog.blogspot.com/).
@@ -152,9 +153,9 @@ Tom Alrich, the [founder of the SBOM Forum](https://securityboulevard.com/2023/0
 ### Other Problems with SBOMs
 
 Apart from the naming problem, SBOMs are still not the perfect solution for software composition analysis.
-While SBOMs contain information about the software and version used, linux distributions often apply their own patches to the packages they distribute.
+While SBOMs contain information about the software and version used, linux distributions often apply _their own patches_ to the packages they distribute.
 These patches regularly include backported fixes for security vulnerabilities as part of a distributions long term support commitments.
-While getting this support is nice, it might lead to false positive vulnerability reports, because either the SBOM does not contain information about the specific distribution version of a package, or the vulnerability database it is matched against only contains information about fixes in the upstream version.
+While getting this support is nice, it might lead to _false positive_ vulnerability reports, because either the SBOM does not contain information about the specific distribution version of a package, or the vulnerability database it is matched against only contains information about fixes in the upstream version.
 
 As an example, [according to the NVD](https://nvd.nist.gov/vuln/detail/CVE-2022-4450), `CVE-2022-4450` affects `openssl` starting with `1.1.1` and is fixed in `1.1.1t`.
 The Debian advisory though [reports](https://security-tracker.debian.org/tracker/CVE-2022-4450), that a fix has been released for `1.1.1n-0+deb11u4`, which is the version used in the Juice Shop image.
@@ -167,8 +168,8 @@ Depending on how deep in a dependency chain some library is included, it could r
 The application or top-level library using the vulnerable dependency might not even use the affected feature.
 SBOMs of course cannot judge that, they only inform about a component being present, which is the only information that consumption systems can rely on.
 
-A possible solution for this problem is a [Vulnerability Exploitability eXchange (VEX)](https://www.cisa.gov/sites/default/files/2023-01/VEX_Use_Cases_Aprill2022.pdf), basically a standardized security advisory.
-CycloneDX supports including vulnerability information, which can be used to [build VEX](https://cyclonedx.org/capabilities/vex/).
+A possible solution for this problem is a [_Vulnerability Exploitability eXchange (VEX)_](https://www.cisa.gov/sites/default/files/2023-01/VEX_Use_Cases_Aprill2022.pdf), basically a standardized security advisory.
+_CycloneDX_ supports including vulnerability information, which can be used to [build VEX](https://cyclonedx.org/capabilities/vex/).
 For applications, this can only be sensibly done by the vendor though, otherwise every consumer would need to individually analyze an application.
 For this reason, Tom Alrich also [argues](https://tomalrichblog.blogspot.com/2023/08/playing-pro-ball-vs-keeping-score-at.html), that it would be better for vendors to do these analyses themselves and communicate it to all their users/customers, kind of how security advisories already work, but standardized and integrated into automatic tools.
 
@@ -203,11 +204,11 @@ Both [SCANOSS](https://github.com/scanoss/purl2cpe) and [nexB](https://github.co
 
 ## Conclusions
 
-Generating SBOMs from containers and automatically, regularly analyzing them for vulnerabilities works, but the results are not as accurate as one would hope.
+Generating SBOMs from containers and automatically, regularly analyzing them for vulnerabilities works, but the results are __not as accurate as one would hope__.
 Generating SBOMs during build time rather than from containers images helps, but is not a workflow we can rely on for the _secureCodeBox_.
 Some of the problems, like the naming problem, will get better in the future, but the road there is long and the schedule unclear.
 
-For the _secureCodeBox_, we decided to implement an MVP by using Trivy to generate CycloneDX SBOMs and sending them to Dependency-Track with a [persistence hook](https://www.securecodebox.io/docs/hooks).
+For the _secureCodeBox_, we decided to implement an MVP by using _Trivy_ to generate CycloneDX SBOMs and sending them to _Dependency-Track_ with a [persistence hook](https://www.securecodebox.io/docs/hooks).
 Trivy is [already used](https://www.securecodebox.io/docs/scanners/trivy) in the _secureCodeBox_, which makes generating SBOMs and maintenance easier.
 Syft SBOMs might be better because of their included CPEs, but they mostly matter for the OS packages of a container.
 If we feel that SBOMs with CPEs are needed, and Trivy has not added that feature, we can still integrate Syft in the future.
