@@ -1,0 +1,14 @@
+suite: Full Snapshot
+templates:
+  - deployment.yaml
+  - service.yaml
+  - NOTES.txt
+
+tests:
+  - it: matches the snapshot
+    set:
+      labels: {foo: bar}
+      annotations: {foo: bar}
+      ingress.enabled: true
+    asserts:
+      - matchSnapshot: {}
