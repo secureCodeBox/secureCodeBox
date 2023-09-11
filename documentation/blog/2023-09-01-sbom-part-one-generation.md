@@ -103,7 +103,7 @@ Now with that out of the way, here is the list.
 
 #### Trivy
 
-[Trivy](https://github.com/aquasecurity/trivy), the "all-in-one open source security scanner", which is [already integrated](/docs/scanners/trivy) as a scanner in the secureCodeBox, also supports creating SBOMs as one of its output types.
+[_Trivy_](https://github.com/aquasecurity/trivy), the "all-in-one open source security scanner", which is [already integrated](/docs/scanners/trivy) as a scanner in the _secureCodeBox_, also supports creating SBOMs as one of its output types.
 Trivy supports scanning a [wide variety of targets](https://aquasecurity.github.io/trivy/v0.44/docs/) and provides SBOM support for most of them.
 Other than containers, file system paths, git repositories, or VMs, Trivy also supports generating SBOMs for whole Kubernetes clusters.
 The containers can be accessed in many different ways, either through the local Docker Engine, containerd, Podman, direct access to the registry, and also through local files in tar or OCI format.
@@ -117,7 +117,7 @@ trivy image --format cyclonedx --output results-trivy-juiceshop-v15-cyclonedx.js
 
 SBOMs can be generated in either SPDX or CycloneDX formats.
 When using CycloneDX, security scanning, which is disabled by default for SBOM outputs, can be reenabled, to include a list of security flaws already in the SBOM itself.
-While interesting, it is unclear how useful this is, after all the secureCodeBox already supports [normal trivy container scans](https://www.securecodebox.io/docs/scanners/trivy/), which are integrated far better with the existing hooks.
+While interesting, it is unclear how useful this is, after all the _secureCodeBox_ already supports [normal trivy container scans](https://www.securecodebox.io/docs/scanners/trivy/), which are integrated far better with the existing hooks.
 
 SBOM quality and content depends on the content of the container.
 Trivy supports [many package ecosystems of different languages](https://aquasecurity.github.io/trivy/v0.44/docs/scanner/vulnerability/language/), but might miss applications or dependencies installed in unusual or hard to read ways.
@@ -131,7 +131,7 @@ For the tests in this blogpost, Trivy v0.44.0 was used.
 
 #### Syft
 
-[Syft](https://github.com/anchore/syft) works very similar to Trivy when it comes to generating SBOMs.
+[_Syft_](https://github.com/anchore/syft) works very similar to Trivy when it comes to generating SBOMs.
 It supports containers, filesystem paths, archives, "and more" although it is not specified what "and more" entails.
 This means Trivy supports more targets, which might be interesting long term, but for now Syft is perfectly capable of generating SBOMs for our use case as well.
 Syft also supports [many ways](https://github.com/anchore/syft#supported-sources) to access container images, other than direct registry access or through the Docker or Podman daemons, tar archives, OCI or SIF images or plain directories and files are supported.
@@ -158,7 +158,7 @@ For the tests in this blogpost, Syft v0.85.0 was used.
 
 #### Tern
 
-[Tern](https://github.com/tern-tools/tern) is a Python-based tool for generating SBOMs for containers.
+[_Tern_](https://github.com/tern-tools/tern) is a Python-based tool for generating SBOMs for containers.
 It uses [skopeo](https://github.com/containers/skopeo) to access container registries, but only supports Docker API compatible registries or querying the local Docker daemon.
 So while Skopeo also supports loading tar archives, OCI images or plain directories, Tern does not use these features.
 Skopeo also supports [private registries](https://github.com/containers/skopeo#authenticating-to-a-registry), but figuring out how to access that functionality through Tern might require some tinkering.
@@ -184,7 +184,7 @@ For the tests in this blogpost, Tern 2.12.1 was used.
 
 #### Microsoft SBOM Tool
 
-[In 2022](https://devblogs.microsoft.com/engineering-at-microsoft/microsoft-open-sources-software-bill-of-materials-sbom-generation-tool/), Microsoft released [their SBOM generation tool](https://github.com/microsoft/sbom-tool), aptly named "SBOM Tool".
+[In 2022](https://devblogs.microsoft.com/engineering-at-microsoft/microsoft-open-sources-software-bill-of-materials-sbom-generation-tool/), Microsoft released [their SBOM generation tool](https://github.com/microsoft/sbom-tool), aptly named _SBOM Tool_.
 According to `README.md` and [the commandline docs](https://github.com/microsoft/sbom-tool/blob/main/docs/sbom-tool-cli-reference.md) it can generate SBOMs for container images and supports several package ecosystems (through the [Component Detection](https://github.com/microsoft/component-detection) library).
 Images seem to be accessed through the running Docker daemon (specifying sha256 hashes of local images with `-di sha256:<hash>` works), but there is no documentation about different usage options, other than specifying an image tag.
 
@@ -236,32 +236,32 @@ For the tests in this blogpost, `bom` v0.5.1 was used.
 
 #### Others
 
-There are some other open source tools claiming SBOM functionality, but I did not look into them in depth for various reasons.
+There are some other open source tools claiming _SBOM functionality_, but I did not look into them in depth for various reasons.
 
-The [SPDX SBOM Generator](https://github.com/opensbom-generator/spdx-sbom-generator) by [opensbom-generator](https://github.com/opensbom-generator) is developed in Go and supports many different language ecosystems.
-It is not a good fit for the secureCodeBox though, because it can only generate SBOMs for build dependencies by reading package files.
+The [_SPDX SBOM Generator_](https://github.com/opensbom-generator/spdx-sbom-generator) by [opensbom-generator](https://github.com/opensbom-generator) is developed in Go and supports many different language ecosystems.
+It is not a good fit for the _secureCodeBox_ though, because it can only generate SBOMs for build dependencies by reading package files.
 It could still be used by analyzing the files contained in the container, but that solution is rather complicated and finicky compared to the tools listed above.
 
-There is an experimental Docker CLI plugin to create SBOMs for containers, called [`docker sbom`](https://docs.docker.com/engine/sbom/).
+There is an experimental _Docker CLI plugin_ to create SBOMs for containers, called [`docker sbom`](https://docs.docker.com/engine/sbom/).
 All it does though, is use Syft internally, which we could also directly use instead.
 
-The CycloneDX project also maintains an SBOM generator which supports multiple ecosystems, called [cdxgen](https://github.com/CycloneDX/cdxgen).
+The CycloneDX project also maintains an SBOM generator which supports multiple ecosystems, called [_cdxgen_](https://github.com/CycloneDX/cdxgen).
 Internally it [uses Trivy](https://github.com/CycloneDX/cdxgen/blob/f91efd77ea296eb103e702d78eac59e05c8eaa6f/binary.js#L296) to [detect OS packages](https://github.com/CycloneDX/cdxgen/issues/38) in containers.
 
-Other than that there is a wide range of non-free tools, which we cannot integrate for licensing reasons.
+Other than that there is a wide range of _non-free tools_, which we cannot integrate for licensing reasons.
 
 ### Selecting a Tool
 
-From this list, Trivy and Syft are by far the most capable and easiest to use tools.
+From this list, _Trivy_ and _Syft_ are by far the most capable and easiest to use tools.
 It is no surprise, that both are already integrated into other projects for SBOM workflows.
 As mentioned above, Syft provides the functionality of the [experimental `docker sbom` command](https://docs.docker.com/engine/sbom/).
 Trivy is used by GitLab for their [Container Scanning](https://docs.gitlab.com/ee/user/application_security/container_scanning/) feature.
 
-Some of the tools listed here, including Trivy and Syft, come with catalogers for different language and package manager ecosystems.
+Some of the tools listed here, including Trivy and Syft, come with _catalogers_ for different language and package manager ecosystems.
 This enables them to find packages which were not installed through the default package manager of the system.
 One remaining problem are packages installed directly as binary, without any kind of package manager.
 Especially in containers this is pretty prevalent for the "main software" of a container.
 This is a known issue for both Trivy and Syft: [trivy#481](https://github.com/aquasecurity/trivy/issues/481), [trivy#1064](https://github.com/aquasecurity/trivy/issues/1064), [trivy#2839](https://github.com/aquasecurity/trivy/issues/2839), [syft#1197](https://github.com/anchore/syft/issues/1197), [syft#1607](https://github.com/anchore/syft/issues/1607), [syft#1963](https://github.com/anchore/syft/issues/1963).
 It seems that Syft's support for those kinds of binaries is slightly better, in the Juice Shop image, only Syft detects the actual node binary.
 <!-- TODO: #346 Add link to part 2 -->
-Before selecting one of these two as a tool for the MVP, it makes sense to look at the other side of an SBOM workflow, the consuming side in a second upcoming blog post.
+Before selecting one of these two as a tool for the MVP, it makes sense to look at the __other side__ of an _SBOM workflow_, the __consuming side__ in a second upcoming blog post.
