@@ -98,6 +98,11 @@ After enabling the GitHub Advisory Database, Dependency-Track reports __87 vulne
 It is not trivial to compare by which vulnerabilities this exactly differs, because they often have mutliple identifiers, which can lead to [the same vulnerability getting reported multiple times](https://github.com/DependencyTrack/dependency-track/issues/2181).
 The counts of the severity categories also changed, but instead of strictly increasing there were more vulnerabilities of lower severity.
 
+![The Dependency-Track projects overview, showing four projects, two of them with Trivy SBOMs and two with Syft SBOMs, while one each has the GitHub Advisories enabled and the other one has not](/img/blog/2023-09-15-depencytrack-projects.png)
+
+This is what the Dependency-Track dashboard looks like for those four projects, representing different analyses of the Juice Shop image.
+Dependency-Track 4.8.2 was used for the tests covered in this blogpost.
+
 #### Others
 
 As an _OWASP_ project, _Dependency-Track_ is a good first choice for an SBOM consumer and shows some of the problems which occur when building a complete SBOM workflow.
