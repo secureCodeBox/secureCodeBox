@@ -3,7 +3,6 @@ templates:
   - deployment.yaml
   - service.yaml
   - NOTES.txt
-  # - ../templates/tests/test-connection.yaml
 
 tests:
   - it: matches the snapshot
