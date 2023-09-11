@@ -57,7 +57,7 @@
     "@types/react-helmet": "^6.1.2",
     "@types/react-router-dom": "^5.1.8",
     "eslint": "^8.47.0",
-    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-react": "^7.33.1",
     "eslint-plugin-security": "^1.7.1",
     "sass-loader": "^13.3.2",
