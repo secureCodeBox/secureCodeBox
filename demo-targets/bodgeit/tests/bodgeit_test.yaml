@@ -14,5 +14,3 @@ tests:
       ingress.enabled: true
     asserts:
       - matchSnapshot: {}
-
-
