@@ -1,0 +1,107 @@
+matches the snapshot:
+  1: |
+    raw: |2
+      Old Wordpress Instance deployed.
+
+      Note this should used for demo and test purposes.
+      Do not expose this to the Internet!
+  2: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        foo: bar
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: old-wordpress
+        app.kubernetes.io/version: "4.0"
+        foo: bar
+        helm.sh/chart: old-wordpress-v3.1.0-alpha1
+      name: RELEASE-NAME-old-wordpress
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app.kubernetes.io/instance: RELEASE-NAME
+          app.kubernetes.io/name: old-wordpress
+      template:
+        metadata:
+          annotations:
+            foo: bar
+          labels:
+            app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/name: old-wordpress
+        spec:
+          containers:
+            - image: docker.io/securecodebox/demo-target-old-wordpress:4.0
+              imagePullPolicy: IfNotPresent
+              livenessProbe:
+                httpGet:
+                  path: /
+                  port: http
+                initialDelaySeconds: 60
+              name: old-wordpress
+              ports:
+                - containerPort: 80
+                  name: http
+                  protocol: TCP
+              readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /
+                  port: http
+                initialDelaySeconds: 60
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 60
+              resources: {}
+              securityContext: {}
+          securityContext: {}
+  3: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        foo: bar
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: old-wordpress
+        app.kubernetes.io/version: "4.0"
+        foo: bar
+        helm.sh/chart: old-wordpress-v3.1.0-alpha1
+      name: RELEASE-NAME-old-wordpress
+    spec:
+      ports:
+        - name: http
+          port: 80
+          protocol: TCP
+          targetPort: http
+      selector:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/name: old-wordpress
+      type: ClusterIP
+  4: |
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        helm.sh/hook: test-success
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: old-wordpress
+        app.kubernetes.io/version: "4.0"
+        foo: bar
+        helm.sh/chart: old-wordpress-v3.1.0-alpha1
+      name: RELEASE-NAME-old-wordpress-test-connection
+    spec:
+      containers:
+        - args:
+            - RELEASE-NAME-old-wordpress:80
+          command:
+            - wget
+          image: busybox
+          name: wget
+      restartPolicy: Never
