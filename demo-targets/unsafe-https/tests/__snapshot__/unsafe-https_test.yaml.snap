@@ -1,0 +1,76 @@
+matches the snapshot:
+  1: |
+    raw: |2
+      Demo Unsafe Https Server deployed.
+
+      Note this should only be used for demo and test purposes.
+      Do not expose this to the Internet!
+  2: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        foo: bar
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: unsafe-https
+        app.kubernetes.io/version: v1.0.0
+        foo: bar
+        helm.sh/chart: unsafe-https-v3.1.0-alpha1
+      name: RELEASE-NAME-unsafe-https
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app.kubernetes.io/instance: RELEASE-NAME
+          app.kubernetes.io/name: unsafe-https
+      template:
+        metadata:
+          annotations:
+            foo: bar
+          labels:
+            app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/name: unsafe-https
+        spec:
+          containers:
+            - image: docker.io/securecodebox/unsafe-https:v1.0.0
+              imagePullPolicy: IfNotPresent
+              livenessProbe:
+                tcpSocket:
+                  port: 443
+              name: unsafe-https
+              ports:
+                - containerPort: 443
+                  name: https
+                  protocol: TCP
+              readinessProbe:
+                tcpSocket:
+                  port: 443
+              resources: {}
+              securityContext: {}
+          securityContext: {}
+  3: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        foo: bar
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: unsafe-https
+        app.kubernetes.io/version: v1.0.0
+        foo: bar
+        helm.sh/chart: unsafe-https-v3.1.0-alpha1
+      name: RELEASE-NAME-unsafe-https
+    spec:
+      ports:
+        - name: https
+          port: 443
+          protocol: TCP
+          targetPort: https
+      selector:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/name: unsafe-https
+      type: ClusterIP
