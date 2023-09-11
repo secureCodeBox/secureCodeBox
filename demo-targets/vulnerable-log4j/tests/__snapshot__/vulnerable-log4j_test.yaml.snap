@@ -1,0 +1,93 @@
+matches the snapshot:
+  1: |
+    raw: |2
+      Vulnerable log4j Instance deployed.
+
+      Note this should used for demo and test purposes.
+      Do not expose this to the Internet!
+  2: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        foo: bar
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: vulnerable-log4j
+        app.kubernetes.io/version: latest
+        foo: bar
+        helm.sh/chart: vulnerable-log4j-v3.1.0-alpha1
+      name: RELEASE-NAME-vulnerable-log4j
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app.kubernetes.io/instance: RELEASE-NAME
+          app.kubernetes.io/name: vulnerable-log4j
+      template:
+        metadata:
+          annotations:
+            foo: bar
+          labels:
+            app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/name: vulnerable-log4j
+        spec:
+          containers:
+            - image: ghcr.io/christophetd/log4shell-vulnerable-app:latest
+              imagePullPolicy: IfNotPresent
+              name: vulnerable-log4j
+              ports:
+                - containerPort: 8080
+                  name: http
+                  protocol: TCP
+              resources: {}
+              securityContext: {}
+          securityContext: {}
+  3: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        foo: bar
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: vulnerable-log4j
+        app.kubernetes.io/version: latest
+        foo: bar
+        helm.sh/chart: vulnerable-log4j-v3.1.0-alpha1
+      name: RELEASE-NAME-vulnerable-log4j
+    spec:
+      ports:
+        - name: http
+          port: 8080
+          protocol: TCP
+          targetPort: http
+      selector:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/name: vulnerable-log4j
+      type: ClusterIP
+  4: |
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        helm.sh/hook: test-success
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: vulnerable-log4j
+        app.kubernetes.io/version: latest
+        foo: bar
+        helm.sh/chart: vulnerable-log4j-v3.1.0-alpha1
+      name: RELEASE-NAME-vulnerable-log4j-test-connection
+    spec:
+      containers:
+        - args:
+            - RELEASE-NAME-vulnerable-log4j:8080
+          command:
+            - wget
+          image: busybox
+          name: wget
+      restartPolicy: Never
