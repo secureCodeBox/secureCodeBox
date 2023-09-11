@@ -127,6 +127,7 @@ For each component and depending on the output format, Trivy tracks among others
 
 Trivy is actively maintained by [Aqua Security](https://www.aquasec.com/), has 18.2k Stars and 1.8k Forks [on GitHub](https://github.com/aquasecurity/trivy) and a very [extensive documentation](https://aquasecurity.github.io/trivy/v0.44/).
 It is licensed under the Apache-2.0 license and used by GitLab for their [Container Scanning](https://docs.gitlab.com/ee/user/application_security/container_scanning/) feature.
+For the tests in this blogpost, Trivy v0.44.0 was used.
 
 #### Syft
 
@@ -153,6 +154,7 @@ This allows more options for matching packages against different databases.
 Syft is actively maintained by [Anchore](https://anchore.com/opensource/) and has 4.5k Stars and 412 Forks [on GitHub](https://github.com/anchore/syft).
 The `README.md` file serves as documentation but covers a lot.
 Syft is available under the Apache-2.0 license and provides the functionality of the [experimental `docker sbom` command](https://docs.docker.com/engine/sbom/).
+For the tests in this blogpost, Syft v0.85.0 was used.
 
 #### Tern
 
@@ -178,6 +180,7 @@ Tern is a ["tern-tools"](https://github.com/tern-tools) project with 884 Stars a
 The most active maintainer is Rose Judge, an Open Source Engineer [at VMWare](https://blogs.vmware.com/opensource/author/rose-judge/).
 The documentation is provided as Markdown documents in the [docs directory](https://github.com/tern-tools/tern/tree/main/docs), while general information can be found in the `README.md` file.
 Tern is licensed under a BSD-2-Clause license.
+For the tests in this blogpost, Tern 2.12.1 was used.
 
 #### Microsoft SBOM Tool
 
@@ -204,6 +207,7 @@ All the dependencies of the containerized applications will already be known fro
 The SBOM Tool and the Component Detection library are both maintained by [Microsoft](https://devblogs.microsoft.com/engineering-at-microsoft/tag/sbom/) and licensed under the MIT license.
 The SBOM Tool has 1.2k Stars and 89 Forks [on GitHub](https://github.com/microsoft/sbom-tool).
 The documentation could be better, there are only some Markdown documents in the [docs directory](https://github.com/microsoft/sbom-tool/tree/main/docs) and the README.md file gives an overview.
+For the tests in this blogpost, SBOM Tool v1.2.0 was used.
 
 Component Detection (and with that, the SBOM Tool) [uses Syft internally to analyze Docker containers](https://github.com/microsoft/component-detection/blob/main/docs/detectors/linux.md).
 Since this tool is less convenient to use than Syft, and does not work as well either (for only analyzing containers), it makes more sense to just use Syft directly then.
@@ -228,6 +232,7 @@ This makes the generated SBOMs not very useful for our goals.
 `bom` is maintained as a [Kubernetes SIGs](https://github.com/kubernetes-sigs) (Special Interest Groups) project.
 It has 250 Stars and 31 Forks [on GitHub](https://github.com/kubernetes-sigs/bom).
 The documentation is decent, other than some basic usage information in the `README.md` file, there are is a generated [documentation website](https://kubernetes-sigs.github.io/bom/) with some subpages.
+For the tests in this blogpost, `bom` v0.5.1 was used.
 
 #### Others
 
