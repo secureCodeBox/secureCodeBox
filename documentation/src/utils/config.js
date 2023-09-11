@@ -4,7 +4,7 @@
 
 const docsConfig = {
     repository: "secureCodeBox/secureCodeBox", // The repository url without the github part of the link
-    targetPath: "docs", // This needs to be 'docs' for the docusaurus build, but you may specify a 'docs/<subdirectory>'
+    targetPath: ".", // This needs to be '.' as files copied to docs (scanners & hooks) and static (sponsors) folder
     sizeLimit: 500000, // Limit of file size, most importantly used for large findings.
     findingsDir: "findings", // Directory for large findings which exceeded sizeLimit
 
@@ -28,12 +28,16 @@ const docsConfig = {
     filesFromRepository: [
       {
         src: "scanners",
-        dst: "scanners",
+        dst: "docs/scanners",
       },
       {
         src: "hooks",
-        dst: "hooks",
+        dst: "docs/hooks",
       },
+      {
+        src: "resources/sponsors",
+        dst: "static/img/sponsors",
+      }
     ],
   },
   // This is to configure what to show at the homepage tile-view.
