@@ -8,13 +8,6 @@ on:
     types: [released, prereleased]
 
 env:
-  # ---- Language Versions ----
-
-  GO_VERSION: "1.17"
-  PYTHON_VERSION: "3.9"
-  NODE_VERSION: "16"
-  NPM_VERSION: "7"
-
   # ---- Docker Namespace ----
 
   # DOCKER_USER and DOCKER_TOKEN are stored as GitHub secrets as well
