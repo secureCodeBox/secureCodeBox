@@ -1,0 +1,76 @@
+matches the snapshot:
+  1: |
+    raw: |2
+      Demo SSH Server deployed.
+
+      Note this should used for demo and test purposes.
+      Do not expose this to the Internet!
+  2: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        foo: bar
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: dummy-ssh
+        app.kubernetes.io/version: v1.0.0
+        foo: bar
+        helm.sh/chart: dummy-ssh-v3.1.0-alpha1
+      name: RELEASE-NAME-dummy-ssh
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app.kubernetes.io/instance: RELEASE-NAME
+          app.kubernetes.io/name: dummy-ssh
+      template:
+        metadata:
+          annotations:
+            foo: bar
+          labels:
+            app.kubernetes.io/instance: RELEASE-NAME
+            app.kubernetes.io/name: dummy-ssh
+        spec:
+          containers:
+            - image: docker.io/securecodebox/dummy-ssh:v1.0.0
+              imagePullPolicy: IfNotPresent
+              livenessProbe:
+                tcpSocket:
+                  port: 22
+              name: dummy-ssh
+              ports:
+                - containerPort: 22
+                  name: ssh
+                  protocol: TCP
+              readinessProbe:
+                tcpSocket:
+                  port: 22
+              resources: {}
+              securityContext: {}
+          securityContext: {}
+  3: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        foo: bar
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: dummy-ssh
+        app.kubernetes.io/version: v1.0.0
+        foo: bar
+        helm.sh/chart: dummy-ssh-v3.1.0-alpha1
+      name: RELEASE-NAME-dummy-ssh
+    spec:
+      ports:
+        - name: ssh
+          port: 22
+          protocol: TCP
+          targetPort: ssh
+      selector:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/name: dummy-ssh
+      type: ClusterIP
