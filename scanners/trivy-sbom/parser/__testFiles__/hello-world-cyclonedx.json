@@ -1,0 +1,53 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:cb1e21e0-f51c-4a22-bf3c-ca9b8f3f7e0c",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2023-09-11T08:50:04+00:00",
+    "tools": [
+      {
+        "vendor": "aquasecurity",
+        "name": "trivy",
+        "version": "0.45.0"
+      }
+    ],
+    "component": {
+      "bom-ref": "pkg:oci/hello-world@sha256%3Adcba6daec718f547568c562956fa47e1b03673dd010fe6ee58ca806767031d1c?arch=amd64\u0026repository_url=index.docker.io%2Flibrary%2Fhello-world",
+      "type": "container",
+      "name": "hello-world:latest",
+      "purl": "pkg:oci/hello-world@sha256%3Adcba6daec718f547568c562956fa47e1b03673dd010fe6ee58ca806767031d1c?arch=amd64\u0026repository_url=index.docker.io%2Flibrary%2Fhello-world",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:DiffID",
+          "value": "sha256:01bb4fce3eb1b56b05adf99504dafd31907a5aadac736e36b27595c8b92f07f1"
+        },
+        {
+          "name": "aquasecurity:trivy:ImageID",
+          "value": "sha256:9c7a54a9a43cca047013b82af109fe963fde787f63f9e016fdc3384500c2823d"
+        },
+        {
+          "name": "aquasecurity:trivy:RepoDigest",
+          "value": "hello-world@sha256:dcba6daec718f547568c562956fa47e1b03673dd010fe6ee58ca806767031d1c"
+        },
+        {
+          "name": "aquasecurity:trivy:RepoTag",
+          "value": "hello-world:latest"
+        },
+        {
+          "name": "aquasecurity:trivy:SchemaVersion",
+          "value": "2"
+        }
+      ]
+    }
+  },
+  "components": [],
+  "dependencies": [
+    {
+      "ref": "pkg:oci/hello-world@sha256%3Adcba6daec718f547568c562956fa47e1b03673dd010fe6ee58ca806767031d1c?arch=amd64\u0026repository_url=index.docker.io%2Flibrary%2Fhello-world",
+      "dependsOn": []
+    }
+  ],
+  "vulnerabilities": []
+}
