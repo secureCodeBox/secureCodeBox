@@ -1,0 +1,14 @@
+suite: Full Snapshot
+templates:
+  - deployment.yaml
+  - service.yaml
+  - NOTES.txt
+  # - ../templates/tests/test-connection.yaml
+
+tests:
+  - it: matches the snapshot
+    set:
+      labels: {foo: bar}
+      annotations: {foo: bar}
+    asserts:
+      - matchSnapshot: {}
