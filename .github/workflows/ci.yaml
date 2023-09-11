@@ -350,6 +350,7 @@ jobs:
           - ssh-scan
           - sslyze
           - trivy
+          - trivy-sbom
           - typo3scan
           - whatweb
           - wpscan
@@ -703,6 +704,7 @@ jobs:
           - generic-webhook
           - persistence-azure-monitor
           # - persistence-elastic # Fails on the CI due to insufficient cpu as mentioned in issue #1165
+          - persistence-dependencytrack
           - update-field-hook
           - finding-post-processing
           - notification

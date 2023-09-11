@@ -223,6 +223,7 @@ jobs:
           - notification
           - persistence-elastic
           - persistence-defectdojo
+          - persistence-dependencytrack
           - persistence-azure-monitor
           - update-field-hook
     steps:
@@ -340,6 +341,7 @@ jobs:
           - sslyze
           - test-scan
           - trivy
+          - trivy-sbom
           - typo3scan
           - whatweb
           - wpscan
