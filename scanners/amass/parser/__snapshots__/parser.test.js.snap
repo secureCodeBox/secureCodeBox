@@ -185,7 +185,7 @@ exports[`parser parses example.com sqlite results database successfully 1`] = `
 ]
 `;
 
-exports[`parser parses sqlite results database with empty relations (i.e with -passive arg) successfully 1`] = `
+exports[`parser parses sqlite results database with empty relations table successfully 1`] = `
 [
   {
     "attributes": {
