@@ -3,12 +3,12 @@
 # SPDX-License-Identifier: Apache-2.0
 
 name: IN PROGRESS - Documentation Roulette
-on: workflow_dispatch # TODO: Replace with cron
+on: push # TODO: Replace with cron
 
 jobs:
   docu-roulette:
     runs-on: ubuntu-ubuntu-22.04
-    if: github.repository == 'secureCodeBox/secureCodeBox'
+    #if: github.repository == 'secureCodeBox/secureCodeBox'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
