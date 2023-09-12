@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 name: IN PROGRESS - Documentation Roulette
-on: push
+on: workflow_dispatch # TODO: Replace with cron
 
 jobs:
   docu-roulette:
@@ -16,6 +16,17 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fetch core-team members
+        id: fetch-members
+        uses: garnertb/get-team-members@v1
+        with:
+          org: secureCodeBox
+          team_slug: core-team
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: "echo ${{ steps.get-members.outputs.members }}"
+        shell: bash
 
       - name: Select the chosen member # Change MEMBERS array to add/remove people
         id: random-member
