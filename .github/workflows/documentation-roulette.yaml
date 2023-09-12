@@ -1,0 +1,32 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+name: IN PROGRESS - Documentation Roulette
+on: push
+
+jobs:
+  docu-roulette:
+    runs-on: ubuntu-ubuntu-22.04
+    if: github.repository == 'secureCodeBox/secureCodeBox'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Select the chosen member # Change MEMBERS array to add/remove people
+        id: random-member
+        run: |
+          MEMBERS=(Zero3141 Ilyesbdlala)
+          size=${#MEMBERS[@]}
+          index=$(($RANDOM % $size))
+          echo "MEMBER=${MEMBERS[$index]}" >> $GITHUB_ENV
+
+      - uses: JasonEtco/create-an-issue@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          filename: .github/ISSUE_TEMPLATE/documentation_roulette.md
