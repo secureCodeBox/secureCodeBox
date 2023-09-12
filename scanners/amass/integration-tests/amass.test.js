@@ -11,10 +11,10 @@ test(
     const { count } = await scan(
       "amass-scanner-dummy-scan",
       "amass",
-      ["-passive", "-norecursive", "-d", "owasp.org"],
+      ["-norecursive", "-timeout", "2", "-d", "owasp.org"],
       180
     );
-    expect(count).toBeGreaterThanOrEqual(20);
+    expect(count).toBeGreaterThanOrEqual(100); // The scan is passive, so we can expect a lot of subdomains
   },
   6 * 60 * 1000
 );
