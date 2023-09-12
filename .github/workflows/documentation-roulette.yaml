@@ -7,7 +7,7 @@ on: push # TODO: Replace with cron
 
 jobs:
   docu-roulette:
-    runs-on: ubuntu-ubuntu-22.04
+    runs-on: ubuntu-22.04
     #if: github.repository == 'secureCodeBox/secureCodeBox'
     steps:
       - name: Checkout repository
