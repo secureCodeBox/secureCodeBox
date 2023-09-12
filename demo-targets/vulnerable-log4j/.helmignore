@@ -25,3 +25,4 @@
 *.tmproj
 .vscode/
 docs/
+./tests/
