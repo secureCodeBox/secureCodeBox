@@ -2,15 +2,18 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-name: "Update Helm Docs"
+# The CI runs on ubuntu-22.04; More info about the installed software is found here:
+# https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
 
+
+name: "Update Helm Docs"
 on:
   push:
     branches:
       - main
 jobs:
   helm-docs:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     if: github.repository == 'secureCodeBox/secureCodeBox'
     steps:
       - uses: actions/checkout@v3

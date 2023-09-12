@@ -7,13 +7,17 @@
 # including mikefarah/yq to fetch local and remote versions of the scanners,
 # crazy-max/ghaction-import-gpg to import a GPG key, and jq to parse the JSON output of the scanner version API.
 
+
+# The CI runs on ubuntu-22.04; More info about the installed software is found here:
+# https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
+
 name: Check outdated scanners
 on:
   schedule:
     - cron: "15 9 * * *" # Daily at 9:15 (avoids the beginning of the hour congestion)
 jobs:
   version-compare:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     if: github.repository == 'secureCodeBox/secureCodeBox'
     strategy:
       # Keep running other jobs even if one fails
