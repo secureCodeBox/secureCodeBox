@@ -111,3 +111,70 @@ test("should send a post request to the url when fired", async () => {
 
   expect(fetch.mock.calls[0][1].body.get("bom")).toBe(JSON.stringify(result));
 });
+
+// Make sure that the crazy regex to parse the reference parts actually works
+test.each([
+  {
+    reference: "bkimminich/juice-shop:v15.0.0",
+    name: "bkimminich/juice-shop",
+    version: "v15.0.0"
+  },
+  {
+    reference: "ubuntu@sha256:b492494d8e0113c4ad3fe4528a4b5ff89faa5331f7d52c5c138196f69ce176a6",
+    name: "ubuntu",
+    version: "sha256:b492494d8e0113c4ad3fe4528a4b5ff89faa5331f7d52c5c138196f69ce176a6"
+  },
+  {
+    reference: "hello-world",
+    name: "hello-world",
+    version: "latest"
+  },
+  {
+    reference: "gcr.io/distroless/cc-debian12:debug-nonroot",
+    name: "gcr.io/distroless/cc-debian12",
+    version: "debug-nonroot"
+  },
+  {
+    reference: "myawesomedockerhub.example.org:8080/notthetag",
+    name: "myawesomedockerhub.example.org:8080/notthetag",
+    version: "latest"
+  },
+])("should detect image reference components accurately", async ({ reference, name, version }) => {
+  const result = {
+    bomFormat: "CycloneDX",
+    metadata: {
+      component: {
+        name: reference
+      }
+    }
+  };
+
+  const getRawResults = async () => result;
+
+  const scan = {
+    metadata: {
+      uid: "a30122a6-7f1a-4e37-ae81-2c25ed7fb8f5",
+      name: "demo-sbom",
+    },
+    status: {
+      rawResultType: "sbom-cyclonedx"
+    }
+  };
+
+  const apiKey = "verysecretgitleaksplsignore"
+  const baseUrl = "http://example.com/foo/bar";
+  const url = baseUrl + "/api/v1/bom"
+
+  await handle({ getRawResults, scan, apiKey, baseUrl, fetch });
+
+  expect(fetch).toBeCalledTimes(1);
+  expect(fetch).toBeCalledWith(url, expect.objectContaining({
+    method: "POST",
+    headers: {
+      "X-API-Key": apiKey,
+    },
+  }));
+
+  expect(fetch.mock.calls[0][1].body.get("projectName")).toBe(name);
+  expect(fetch.mock.calls[0][1].body.get("projectVersion")).toBe(version);
+});

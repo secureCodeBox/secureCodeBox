@@ -27,9 +27,26 @@ async function handle({
   // Get the project name and version from the name attribute of the main component
   // This might be a bit brittle, but there is not really a better way to get this information
   // Neither Trivy's nor Syft's SBOM contains a useful version attribute (none or sha256)
-  const components = result.metadata.component.name.split(':');
-  const name = components[0];
-  const version = components.length > 1 ? components.pop() : "latest";
+
+  // Get the components of a docker image reference, the regex is a direct JavaScript adaption of
+  // the official Go-implementation available at https://github.com/distribution/reference/blob/main/regexp.go
+  // but taken from pull request https://github.com/distribution/distribution/pull/3803 which
+  // introduces the named groups and fixes the issue that in "bkimminich/juice-shop" the regex
+  // detects "bkimminich" as part of the domain/host.
+  const imageRegex = new RegExp([
+    '^(?<name>(?:(?<domain>(?:localhost|(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])',
+    '(?:\\.(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]))+|',
+    '(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])',
+    '(?:\\.(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]))*',
+    '(?::[0-9]+)|\\[(?:[a-fA-F0-9:]+)\\](?::[0-9]+)?)(?::[0-9]+)?)\\/)?',
+    '(?<repository>[a-z0-9]+(?:(?:[._]|__|[-]+)[a-z0-9]+)*',
+    '(?:\\/[a-z0-9]+(?:(?:[._]|__|[-]+)[a-z0-9]+)*)*))',
+    '(?::(?<tag>[\\w][\\w.-]{0,127}))?',
+    '(?:@(?<digest>[A-Za-z][A-Za-z0-9]*(?:[-_+.][A-Za-z][A-Za-z0-9]*)*[:][0-9A-Fa-f]{32,}))?$',
+  ].join(''));
+  const groups = imageRegex.exec(result.metadata.component.name).groups
+  const name = groups.name
+  const version = groups.tag || groups.digest || "latest"
 
   // The POST endpoint expects multipart/form-data
   // Alternatively the PUT endpoint could be used, which requires base64-encoding the SBOM
