@@ -19,19 +19,16 @@ jobs:
 
       - name: Fetch core-team members
         id: fetch-members
-        uses: garnertb/get-team-members@v1
-        with:
-          org: secureCodeBox
-          team_slug: core-team
-          token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          MEMBERS=$(gh api --paginate -X GET /orgs/secureCodeBox/teams/core-team/members)
+          echo "MEMBERS=$MEMBERS" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: "echo ${{ steps.get-members.outputs.members }}"
-        shell: bash
-
-      - name: Select the chosen member # Change MEMBERS array to add/remove people
+      - name: Select the chosen member
         id: random-member
         run: |
-          MEMBERS=(Zero3141 Ilyesbdlala)
+          MEMBERS=(${{ steps.fetch-members.outputs.MEMBERS }})
           size=${#MEMBERS[@]}
           index=$(($RANDOM % $size))
           echo "MEMBER=${MEMBERS[$index]}" >> $GITHUB_ENV
