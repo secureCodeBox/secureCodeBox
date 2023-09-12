@@ -2,13 +2,17 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+# The CI runs on ubuntu-22.04; More info about the installed software is found here:
+# https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
+
+
 name: "Tweet about release"
 on:
   release:
     types: [released]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Tweet
         uses: twwd/twitter-github-action@v1

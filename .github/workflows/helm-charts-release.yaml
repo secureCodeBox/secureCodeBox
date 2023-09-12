@@ -2,6 +2,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+# The CI runs on ubuntu-22.04; More info about the installed software is found here:
+# https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
+
 on:
   release:
     types: [published]
@@ -9,7 +12,7 @@ name: "Publish Helm Charts"
 jobs:
   helm:
     name: Package and Publish
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
       - name: "Install yq"
