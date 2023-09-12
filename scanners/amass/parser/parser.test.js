@@ -42,9 +42,9 @@ test("parser parses sqlite results database with no tables successfully", async 
   expect(findings).toEqual([]);
 });
 
-test("parser parses sqlite results database with empty relations (i.e with -passive arg) successfully", async () => {
+test("parser parses sqlite results database with empty relations table successfully", async () => {
   const fileContent = await readFile(
-    __dirname + "/__testFiles__/passive.sqlite",
+    __dirname + "/__testFiles__/emptyRelations.sqlite",
   );
 
   const findings = await parse(fileContent);
