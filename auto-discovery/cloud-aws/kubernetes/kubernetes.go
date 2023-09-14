@@ -12,6 +12,7 @@ import (
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -41,7 +42,7 @@ func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request)
 	scan := getScanForRequest(req)
 
 	fmt.Println("Registering scan", scan.ObjectMeta.Name)
-	res, err := r.RegisterScan(ctx, scan)
+	res, err := r.CreateScan(ctx, scan)
 	if err != nil {
 		return err
 	}
@@ -66,25 +67,37 @@ func AWSReconcilerWith(client client.Client, namespace string) *AWSContainerScan
 	return &AWSContainerScanReconciler{Client: client, Namespace: namespace}
 }
 
-func (r *AWSContainerScanReconciler) GetScans(ctx context.Context) (*executionv1.ScanList, error) {
+func (r *AWSContainerScanReconciler) GetScan(ctx context.Context, name string) (*executionv1.Scan, error) {
+	scan := &executionv1.Scan{}
+	err := r.Client.Get(ctx, types.NamespacedName{Name: name, Namespace: r.Namespace}, scan)
+	return scan, err
+}
+
+func (r *AWSContainerScanReconciler) ListScans(ctx context.Context) (*executionv1.ScanList, error) {
 	var scans executionv1.ScanList
 	err := r.Client.List(ctx, &scans, client.InNamespace(r.Namespace))
 	return &scans, err
 }
 
-func (r *AWSContainerScanReconciler) RegisterScan(ctx context.Context, scan *executionv1.Scan) (*executionv1.Scan, error) {
+func (r *AWSContainerScanReconciler) CreateScan(ctx context.Context, scan *executionv1.Scan) (*executionv1.Scan, error) {
 	scan.ObjectMeta.Namespace = r.Namespace
 	err := r.Client.Create(ctx, scan)
 	return scan, err
 }
 
-func (r *AWSContainerScanReconciler) GetScheduledScans(ctx context.Context) (*executionv1.ScheduledScanList, error) {
+func (r *AWSContainerScanReconciler) GetScheduledScan(ctx context.Context, name string) (*executionv1.ScheduledScan, error) {
+	scheduledScan := &executionv1.ScheduledScan{}
+	err := r.Client.Get(ctx, types.NamespacedName{Name: name, Namespace: r.Namespace}, scheduledScan)
+	return scheduledScan, err
+}
+
+func (r *AWSContainerScanReconciler) ListScheduledScans(ctx context.Context) (*executionv1.ScheduledScanList, error) {
 	var scheduledscans executionv1.ScheduledScanList
 	err := r.Client.List(ctx, &scheduledscans, client.InNamespace(r.Namespace))
 	return &scheduledscans, err
 }
 
-func (r *AWSContainerScanReconciler) RegisterScheduledScan(ctx context.Context, scheduledScan *executionv1.ScheduledScan) (*executionv1.ScheduledScan, error) {
+func (r *AWSContainerScanReconciler) CreateScheduledScan(ctx context.Context, scheduledScan *executionv1.ScheduledScan) (*executionv1.ScheduledScan, error) {
 	scheduledScan.ObjectMeta.Namespace = r.Namespace
 	err := r.Client.Create(ctx, scheduledScan)
 	return scheduledScan, err
