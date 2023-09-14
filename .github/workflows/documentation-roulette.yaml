@@ -27,7 +27,7 @@ jobs:
         env:
           ORG: secureCodeBox
           TEAM_SLUG: core-team
-          GH_TOKEN: ${{ secrets.SCB_DOCU_ROULETTE }} # Token used here needs org:read permission
+          GH_TOKEN: ${{ secrets.SCB_BOT_DOCU_ROULETTE_TOKEN }} # Token used here needs org:read permission
 
       # Select random member from team response
       - name: Select the chosen member
