@@ -1,0 +1,45 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# Some parts copied and modified from https://github.com/garnertb/get-team-members/ Copyright (c) 2022 Tyler Garner
+
+name: Documentation Roulette
+on:
+  schedule:
+    - cron: "0 12 15 * *" # At 12:00 UTC on day-of-month 15
+
+jobs:
+  docu-roulette:
+    permissions:
+      issues: write # needed to create new issues
+    runs-on: ubuntu-22.04
+    if: github.repository == 'secureCodeBox/secureCodeBox'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Request team members with the GitHub API using their gh cli
+      - name: Fetch core-team members
+        id: fetch-members
+        run: |
+          echo MEMBERS=$(gh api --paginate -X GET /orgs/$ORG/teams/$TEAM_SLUG/members | jq 'reduce inputs as $i (.; . += $i)') >> $GITHUB_OUTPUT
+        env:
+          ORG: secureCodeBox
+          TEAM_SLUG: core-team
+          GH_TOKEN: ${{ secrets.SCB_DOCU_ROULETTE }} # Token used here needs org:read permission
+
+      # Select random member from team response
+      - name: Select the chosen member
+        run: |
+          MEMBERS=(${{ join(fromJson(steps.fetch-members.outputs.MEMBERS).*.login, ' ') }})
+          size=${#MEMBERS[@]}
+          index=$(($RANDOM % $size))
+          echo "MEMBER=${MEMBERS[$index]}" >> $GITHUB_ENV
+
+      # Create issue and insert chosen member ({{ env.MEMBER}} in template)
+      - uses: JasonEtco/create-an-issue@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          filename: .github/ISSUE_TEMPLATE/documentation_roulette.md
