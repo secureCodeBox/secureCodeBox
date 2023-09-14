@@ -11,15 +11,11 @@ import (
 
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime/serializer"
-	"k8s.io/client-go/kubernetes/scheme"
-	"k8s.io/client-go/rest"
-	cfg "sigs.k8s.io/controller-runtime/pkg/client/config"
+	"k8s.io/apimachinery/pkg/runtime"
+	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
+	"k8s.io/cli-runtime/pkg/genericclioptions"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
-
-func init() {
-	executionv1.AddToScheme(scheme.Scheme)
-}
 
 type Request struct {
 	Image       string
@@ -36,7 +32,7 @@ func (r *Request) getImageHash() string {
 }
 
 type AWSContainerScanReconciler struct {
-	Client    *rest.RESTClient
+	client.Client
 	Namespace string
 }
 
@@ -55,56 +51,43 @@ func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request)
 }
 
 func AWSReconciler(namespace string) *AWSContainerScanReconciler {
-	config := getConfig()
-	client := getClient(config)
+	client, cfgNamespace, err := GetClient()
+	if err != nil {
+		panic(err)
+	}
+	if namespace != "" {
+		cfgNamespace = namespace
+	}
 
-	return AWSReconcilerWith(client, namespace)
+	return AWSReconcilerWith(client, cfgNamespace)
 }
 
-func AWSReconcilerWith(client *rest.RESTClient, namespace string) *AWSContainerScanReconciler {
+func AWSReconcilerWith(client client.Client, namespace string) *AWSContainerScanReconciler {
 	return &AWSContainerScanReconciler{Client: client, Namespace: namespace}
 }
 
 func (r *AWSContainerScanReconciler) GetScans(ctx context.Context) (*executionv1.ScanList, error) {
 	var scans executionv1.ScanList
-	err := r.Client.Get().
-		Namespace(r.Namespace).
-		Resource("scans").
-		Do(ctx).
-		Into(&scans)
+	err := r.Client.List(ctx, &scans, client.InNamespace(r.Namespace))
 	return &scans, err
 }
 
 func (r *AWSContainerScanReconciler) RegisterScan(ctx context.Context, scan *executionv1.Scan) (*executionv1.Scan, error) {
-	var newScan executionv1.Scan
-	err := r.Client.Post().
-		Namespace(r.Namespace).
-		Resource("scans").
-		Body(scan).
-		Do(ctx).
-		Into(&newScan)
-	return &newScan, err
+	scan.ObjectMeta.Namespace = r.Namespace
+	err := r.Client.Create(ctx, scan)
+	return scan, err
 }
 
 func (r *AWSContainerScanReconciler) GetScheduledScans(ctx context.Context) (*executionv1.ScheduledScanList, error) {
 	var scheduledscans executionv1.ScheduledScanList
-	err := r.Client.Get().
-		Namespace(r.Namespace).
-		Resource("scheduledscans").
-		Do(ctx).
-		Into(&scheduledscans)
+	err := r.Client.List(ctx, &scheduledscans, client.InNamespace(r.Namespace))
 	return &scheduledscans, err
 }
 
-func (r *AWSContainerScanReconciler) RegisterScheduledScan(ctx context.Context, scheduledscan *executionv1.ScheduledScan) (*executionv1.ScheduledScan, error) {
-	var newScheduledScan executionv1.ScheduledScan
-	err := r.Client.Post().
-		Namespace(r.Namespace).
-		Resource("scheduledscans").
-		Body(scheduledscan).
-		Do(ctx).
-		Into(&newScheduledScan)
-	return &newScheduledScan, err
+func (r *AWSContainerScanReconciler) RegisterScheduledScan(ctx context.Context, scheduledScan *executionv1.ScheduledScan) (*executionv1.ScheduledScan, error) {
+	scheduledScan.ObjectMeta.Namespace = r.Namespace
+	err := r.Client.Create(ctx, scheduledScan)
+	return scheduledScan, err
 }
 
 func getScanForRequest(req Request) *executionv1.Scan {
@@ -144,21 +127,25 @@ func getScanName(req Request, name string) string {
 	return result[:62]
 }
 
-func getClient(config *rest.Config) *rest.RESTClient {
-	client, err := rest.RESTClientFor(getConfig())
+func GetClient() (client.Client, string, error) {
+	kubeconfigArgs := genericclioptions.NewConfigFlags(false)
+	cnfLoader := kubeconfigArgs.ToRawKubeConfigLoader()
+	cnf, err := cnfLoader.ClientConfig()
 	if err != nil {
-		panic(err)
+		return nil, "", fmt.Errorf("failed to generate config from kubeconfig")
 	}
 
-	return client
-}
+	namespace, _, err := cnfLoader.Namespace()
+	if err != nil {
+		return nil, "", fmt.Errorf("failed to read namespace from kubeconfig")
+	}
 
-func getConfig() *rest.Config {
-	config := cfg.GetConfigOrDie()
-	config.ContentConfig.GroupVersion = &executionv1.GroupVersion
-	config.APIPath = "/apis"
-	config.NegotiatedSerializer = serializer.NewCodecFactory(scheme.Scheme)
-	config.UserAgent = rest.DefaultKubernetesUserAgent()
+	scheme := runtime.NewScheme()
+	utilruntime.Must(executionv1.AddToScheme(scheme))
+	client, err := client.New(cnf, client.Options{Scheme: scheme})
+	if err != nil {
+		return nil, "", err
+	}
 
-	return config
+	return client, namespace, nil
 }
