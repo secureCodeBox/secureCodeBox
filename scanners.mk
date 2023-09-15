@@ -37,6 +37,11 @@ endif
 unit-tests:
 	@$(MAKE) -s unit-test-js module=$(parser-prefix)
 
+.PHONY: helm-unit-tests
+helm-unit-tests:
+	echo "Running helm unit tests for $(name)"; \
+	helm unittest . \
+
 .PHONY: install-deps
 install-deps:
 	@$(MAKE) -s install-deps-js module=$(parser-prefix)

@@ -21,9 +21,13 @@ unit-tests:
 
 .PHONY: helm-unit-tests
 helm-unit-tests:
+	@result=0; \
 	for dir in $(wildcard */); do \
 		if [[ $$dir != "coverage/" && $$dir != "node_modules/" && $$dir != "persistence-static-report/" ]]; then \
 			echo "Running helm unit tests for $$dir"; \
-			helm unittest $$dir; \
+			if ! helm unittest $$dir; then \
+				result=1; \
+			fi; \
 		fi; \
-	done
+	done; \
+	exit $$result
