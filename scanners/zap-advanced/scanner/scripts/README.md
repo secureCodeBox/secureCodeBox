@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: the secureCodeBox authors
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # ZAP Scripts
 
 This folder contains ZAP scripts. The scripts must be in subdirectories named after the

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
 apiVersion: v2
 name: semgrep
 description: A Helm chart for the semgrep semantic code analyzer that integrates with the secureCodeBox

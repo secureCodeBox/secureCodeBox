@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: the secureCodeBox authors
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # ZAP Scanner
 
 This directory contains a secureCodeBox specific python implementation of an ZAP Client.

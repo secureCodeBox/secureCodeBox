@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: the secureCodeBox authors
+//
+// SPDX-License-Identifier: Apache-2.0
+
 /*
  * Session Management script for OWASP Juice Shop: https://raw.githubusercontent.com/zaproxy/community-scripts/master/session/Juice%20Shop%20Session%20Management.js
  * 

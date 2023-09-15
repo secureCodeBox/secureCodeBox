@@ -1,5 +1,9 @@
 #!/usr/bin/make -f
 
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
 include_guard = set                 # Always include this line (checked in the makefile framework)
 scanner = semgrep
 
