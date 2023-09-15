@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: the secureCodeBox authors
+//
+// SPDX-License-Identifier: Apache-2.0
+
 package io.securecodebox.persistence.service.scanresult;
 
 import io.securecodebox.persistence.config.PersistenceProviderConfig;
