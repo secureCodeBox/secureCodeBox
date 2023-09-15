@@ -9,11 +9,10 @@ include ../prerequisites.mk
 
 .PHONY: helm-unit-tests
 helm-unit-tests:
-	@result=0; \
-	for dir in $(wildcard */); do \
-		echo "Running helm unit tests for $$dir"; \
-		if ! helm unittest $$dir; then \
-			result=1; \
+	set -e; \
+	for directory in ./*; do \
+		if [ -d "$$directory" ]; then \
+				dir_name=$$(basename "$$directory"); \
+						helm unittest "$$directory"; \
 		fi; \
-	done; \
-	exit $$result
+	done
