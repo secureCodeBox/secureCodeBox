@@ -1,41 +1,7 @@
 matches the snapshot:
   1: |
-    raw: |-
-      CHART NAME: minio
-      CHART VERSION: 11.9.4
-      APP VERSION: 2022.9.1
-
-      ** Please be patient while the chart is being deployed **
-
-      MinIO&reg; can be accessed via port  on the following DNS name from within your cluster:
-
-         RELEASE-NAME-minio.NAMESPACE.svc.cluster.local
-
-      To get your credentials run:
-
-         export ROOT_USER=$(kubectl get secret --namespace NAMESPACE RELEASE-NAME-minio -o jsonpath="{.data.root-user}" | base64 -d)
-         export ROOT_PASSWORD=$(kubectl get secret --namespace NAMESPACE RELEASE-NAME-minio -o jsonpath="{.data.root-password}" | base64 -d)
-
-      To connect to your MinIO&reg; server using a client:
-
-      - Run a MinIO&reg; Client pod and append the desired command (e.g. 'admin info'):
-
-         kubectl run --namespace NAMESPACE RELEASE-NAME-minio-client \
-           --rm --tty -i --restart='Never' \
-           --env MINIO_SERVER_ROOT_USER=$ROOT_USER \
-           --env MINIO_SERVER_ROOT_PASSWORD=$ROOT_PASSWORD \
-           --env MINIO_SERVER_HOST=RELEASE-NAME-minio \
-           --image docker.io/bitnami/minio-client:2022.8.28-debian-11-r1 -- admin info minio
-
-      To access the MinIO&reg; web UI:
-
-      - Get the MinIO&reg; URL:
-
-         echo "MinIO&reg; web URL: http://127.0.0.1:9001/minio"
-         kubectl port-forward --namespace NAMESPACE svc/RELEASE-NAME-minio 9001:9001
-  2: |
     raw: "\nsecureCodeBox Operator Deployed \U0001F680\n\nThe operator can orchestrate the execution of various security scanning tools inside of your cluster.\nYou can find a list of all officially supported scanners here: https://www.securecodebox.io/\nThe website also lists other integrations, like persisting scan results to DefectDojo or Elasticsearch.\n\nThe operator send out regular telemetry pings to a central service.\nThis lets us, the secureCodeBox team, get a grasp on how much the secureCodeBox is used.\nThe submitted data is chosen to be as anonymous as possible.\nYou can find a complete report of the data submitted and links to the source-code at: https://www.securecodebox.io/docs/telemetry\nThe first ping is send one hour after the install, you can prevent this by upgrading the chart and setting `telemetryEnabled` to `false`.\n"
-  3: |
+  2: |
     apiVersion: apps/v1
     kind: Deployment
     metadata:
@@ -139,7 +105,201 @@ matches the snapshot:
             - configMap:
                 name: foo
               name: ca-certificate
+  3: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: metrics-reader
+    rules:
+      - nonResourceURLs:
+          - /metrics
+        verbs:
+          - get
   4: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: proxy-role
+    rules:
+      - apiGroups:
+          - authentication.k8s.io
+        resources:
+          - tokenreviews
+        verbs:
+          - create
+      - apiGroups:
+          - authorization.k8s.io
+        resources:
+          - subjectaccessreviews
+        verbs:
+          - create
+  5: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: proxy-rolebinding
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: proxy-role
+    subjects:
+      - kind: ServiceAccount
+        name: securecodebox-operator
+        namespace: NAMESPACE
+  6: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        control-plane: controller-manager
+      name: controller-manager-metrics-service
+      namespace: NAMESPACE
+    spec:
+      ports:
+        - name: https
+          port: 8443
+          targetPort: https
+      selector:
+        control-plane: controller-manager
+  7: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: cascadingrule-editor-role
+    rules:
+      - apiGroups:
+          - cascading.securecodebox.io
+        resources:
+          - cascadingrules
+        verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+      - apiGroups:
+          - cascading.securecodebox.io
+        resources:
+          - cascadingrules/status
+        verbs:
+          - get
+  8: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: cascadingrule-viewer-role
+    rules:
+      - apiGroups:
+          - cascading.securecodebox.io
+        resources:
+          - cascadingrules
+        verbs:
+          - get
+          - list
+          - watch
+      - apiGroups:
+          - cascading.securecodebox.io
+        resources:
+          - cascadingrules/status
+        verbs:
+          - get
+  9: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: Role
+    metadata:
+      name: leader-election-role
+    rules:
+      - apiGroups:
+          - ""
+        resources:
+          - configmaps
+        verbs:
+          - get
+          - list
+          - watch
+          - create
+          - update
+          - patch
+          - delete
+      - apiGroups:
+          - coordination.k8s.io
+        resources:
+          - leases
+        verbs:
+          - get
+          - list
+          - watch
+          - create
+          - update
+          - patch
+          - delete
+      - apiGroups:
+          - ""
+        resources:
+          - events
+        verbs:
+          - create
+          - patch
+  10: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata:
+      name: leader-election-rolebinding
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: leader-election-role
+    subjects:
+      - kind: ServiceAccount
+        name: securecodebox-operator
+        namespace: NAMESPACE
+  11: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: parsedefinition-editor-role
+    rules:
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - parsedefinitions
+        verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - parsedefinitions/status
+        verbs:
+          - get
+  12: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: parsedefinition-viewer-role
+    rules:
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - parsedefinitions
+        verbs:
+          - get
+          - list
+          - watch
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - parsedefinitions/status
+        verbs:
+          - get
+  13: |
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -270,7 +430,196 @@ matches the snapshot:
           - get
           - list
           - watch
-  5: |
+  14: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: manager-rolebinding
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: manager-role
+    subjects:
+      - kind: ServiceAccount
+        name: securecodebox-operator
+        namespace: NAMESPACE
+  15: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: scan-editor-role
+    rules:
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scans
+        verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scans/status
+        verbs:
+          - get
+  16: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: scan-viewer-role
+    rules:
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scans
+        verbs:
+          - get
+          - list
+          - watch
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scans/status
+        verbs:
+          - get
+  17: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: scancompletionhook-editor-role
+    rules:
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scancompletionhooks
+        verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scancompletionhooks/status
+        verbs:
+          - get
+  18: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: scancompletionhook-viewer-role
+    rules:
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scancompletionhooks
+        verbs:
+          - get
+          - list
+          - watch
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scancompletionhooks/status
+        verbs:
+          - get
+  19: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: scantype-editor-role
+    rules:
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scantypes
+        verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scantypes/status
+        verbs:
+          - get
+  20: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: scantype-viewer-role
+    rules:
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scantypes
+        verbs:
+          - get
+          - list
+          - watch
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scantypes/status
+        verbs:
+          - get
+  21: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: scheduledscan-editor-role
+    rules:
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scheduledscans
+        verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scheduledscans/status
+        verbs:
+          - get
+  22: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: scheduledscan-viewer-role
+    rules:
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scheduledscans
+        verbs:
+          - get
+          - list
+          - watch
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scheduledscans/status
+        verbs:
+          - get
+  23: |
     apiVersion: v1
     kind: ServiceAccount
     metadata:
