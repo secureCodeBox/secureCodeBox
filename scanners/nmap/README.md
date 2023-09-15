@@ -3,7 +3,7 @@ title: "Nmap"
 category: "scanner"
 type: "Network"
 state: "released"
-appVersion: "7.94-r0"
+appVersion: "7.93-r1"
 usecase: "Network discovery and security auditing"
 ---
 
