@@ -21,13 +21,12 @@ unit-tests:
 
 .PHONY: helm-unit-tests
 helm-unit-tests:
-	@result=0; \
-	for dir in $(wildcard */); do \
-		if [[ $$dir != "coverage/" && $$dir != "node_modules/" ]]; then \
-			echo "Running helm unit tests for $$dir"; \
-			if ! helm unittest $$dir; then \
-				result=1; \
+	set -e; \
+	for directory in ./*; do \
+			if [ -d "$$directory" ]; then \
+					dir_name=$$(basename "$$directory"); \
+					if [ "$$dir_name" != "coverage" ] && [ "$$dir_name" != "node_modules" ]; then \
+							helm unittest "$$directory"; \
+					fi; \
 			fi; \
-		fi; \
-	done; \
-	exit $$result
+	done
