@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2021 iteratec GmbH
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 ## Usage
 The auto-discovery-secret-extraction container should be used as an initContainer to enable Trivy (or other container scan tools) to scan images from private docker registries. The container expects the imageID for which it should find the corresponding secret and the name of the temporary secret as commandline arguments. The initContainer will then read secrets mounted as a volume under `/secrets` and check which secret belongs to the domain of the provided imageID. After the correct secret is identified it will create a temporary secret which will contain the credentials of the private registry of the provided imageID. The temporary secret will have an `ownerReference` to the pod in which this container is running in. This means that the temporary secret will be automatically removed when the scan of the pod is finished.
 
