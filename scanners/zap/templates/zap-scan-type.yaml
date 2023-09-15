@@ -198,9 +198,6 @@ spec:
                 {{- toYaml .Values.scanner.env | nindent 16 }}
               envFrom:
                 {{- toYaml .Values.scanner.envFrom | nindent 16 }}
-              securityContext: {}
-              env: []
-              envFrom: []
               volumeMounts:
                 {{- toYaml .Values.scanner.extraVolumeMounts | nindent 16 }}
             {{- if .Values.scanner.extraContainers }}
