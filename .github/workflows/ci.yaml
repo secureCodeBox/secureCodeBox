@@ -25,6 +25,7 @@ env:
   KIND_BINARY_VERSION: "v0.20.0"
   KUBECTL_VERSION: "v1.27.4"
   HELM_VERSION: "v3.12.2"
+  HELM_PLUGIN_UNITTEST: "0.3.5"
 
 jobs:
   # ---- NVM Setup ----
@@ -122,7 +123,7 @@ jobs:
 
       - name: Install Helm Unit Test Plugin
         run: |
-          helm plugin install https://github.com/helm-unittest/helm-unittest.git
+          helm plugin install https://github.com/helm-unittest/helm-unittest.git --version ${{ env.HELM_PLUGIN_UNITTEST }}
           
       - name: Helm-Chart Unit Tests | Operator
         working-directory: ./operator
