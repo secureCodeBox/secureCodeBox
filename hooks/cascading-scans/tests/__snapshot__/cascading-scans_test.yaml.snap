@@ -1,0 +1,127 @@
+matches the snapshot:
+  1: |
+    raw: |2
+      Cascading Scan Hook deployed.
+
+      This will allow you to start Scans based on previous findings.
+      E.g. start a ssh scan for every open ssh port found.
+
+      The rules are defined as kubernetes CRD's. You can list all of these `CascadingScanRules` by running:
+
+      $ kubectl get cascadingrules
+
+      You need to explicitly turn on scan cascading for every scan you use.
+      You can do that by setting a label selector which matches all rules you want to use.
+
+      Find out more, on the secureCodeBox docs:
+
+      - HowTo Scanning Networks: https://www.securecodebox.io/docs/how-tos/scanning-networks
+      - CascadingRule API Docs: https://www.securecodebox.io/docs/api/crds/cascading-rule
+  2: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanCompletionHook
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: cascading-scans
+        app.kubernetes.io/version: 0.0.0
+        foo: bar
+        helm.sh/chart: cascading-scans-0.0.0
+        securecodebox.io/internal: "true"
+      name: RELEASE-NAME-cascading-scans
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: foo
+                    operator: In
+                    values:
+                      - bar
+                      - baz
+      env:
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/hook-cascading-scans:0.0.0
+      imagePullSecrets:
+        - name: foo
+      priority: 100
+      resources:
+        requests:
+          cpu: 100m
+          memory: 100Mi
+      serviceAccountName: cascading-scans
+      tolerations:
+        - effect: NoSchedule
+          key: foo
+          operator: Exists
+          value: value1
+      ttlSecondsAfterFinished: 100
+      type: ReadOnly
+      volumeMounts:
+        - mountPath: /foo
+          name: foo
+      volumes:
+        - emptyDir: {}
+          name: foo
+  3: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata:
+      annotations:
+        description: DeclarativeCombinedScansHooks needs to have the rights to create new scans and the usual patch rules to update the scan status
+      name: cascading-scans
+      namespace: NAMESPACE
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: cascading-scans
+    subjects:
+      - kind: ServiceAccount
+        name: cascading-scans
+  4: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: Role
+    metadata:
+      annotations:
+        description: DeclarativeCombinedScansHooks needs to have the rights to create new scans and the usual patch rules to update the scan status
+      name: cascading-scans
+      namespace: NAMESPACE
+    rules:
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scans
+        verbs:
+          - get
+          - create
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - parsedefinitions
+        verbs:
+          - get
+      - apiGroups:
+          - execution.securecodebox.io
+        resources:
+          - scans/status
+        verbs:
+          - get
+          - patch
+      - apiGroups:
+          - cascading.securecodebox.io
+        resources:
+          - cascadingrules
+        verbs:
+          - get
+          - list
+  5: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      annotations:
+        description: DeclarativeCombinedScansHooks needs to have the rights to create new scans and the usual patch rules to update the scan status
+      name: cascading-scans
+      namespace: NAMESPACE
