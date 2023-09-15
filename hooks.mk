@@ -33,6 +33,11 @@ kind-import: | common-kind-import
 unit-tests:
 	@$(MAKE) -s unit-test-js
 
+.PHONY: helm-unit-tests
+helm-unit-tests:
+	echo "Running helm unit tests for $(name)"; \
+	helm unittest . \
+
 .PHONY: deploy
 deploy: ## 💾 Deploy this module via HelmChart into namespace "integration-tests"
 	@echo ".: 💾 Deploying '$(name)' $(hook-prefix) HelmChart with the docker tag '$(IMG_TAG)' into kind namespace 'integration-tests'."
