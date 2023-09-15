@@ -1,0 +1,31 @@
+suite: Full Snapshot
+templates:
+  - import-dashboard.yaml
+  - NOTES.txt
+  - persistence-provider.yaml
+tests:
+  - it: matches the snapshot
+    chart:
+      version: 0.0.0
+      appVersion: 0.0.0
+    set:
+      imagePullSecrets: [{name: foo}]
+      hook:
+        labels: {foo: bar}
+        annotations: {foo: bar}
+        priority: 100
+        ttlSecondsAfterFinished: 100
+        tolerations:
+          [{key: foo, operator: Exists, value: "value1", effect: NoSchedule}]
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - {key: foo, operator: In, values: [bar, baz]}
+        resources: {requests: {cpu: "100m", memory: "100Mi"}}
+        extraVolumes: [{name: foo, emptyDir: {}}]
+        extraVolumeMounts: [{name: foo, mountPath: /foo}]
+        env: [{name: foo, value: bar}]
+    asserts:
+      - matchSnapshot: {}
