@@ -37,6 +37,8 @@ The Dependency-Track persistenceProvider hook saves all generated CycloneDX SBOM
 This allows automatically cataloging infrastructure to gain an overview over the used components and dependencies.
 To learn more about Dependency-Track visit [dependencytrack.org].
 
+To use the _secureCodeBox_ to generate SBOMs, you can use the [Trivy-SBOM scanner][trivy-sbom].
+
 ## Deployment
 The persistence-dependencytrack chart can be deployed via helm:
 
@@ -101,4 +103,4 @@ Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 [dependencytrack.org]: https://dependencytrack.org/
 [dt-api-docs]: https://docs.dependencytrack.org/integrations/rest-api/
 [k8ssecret]: https://kubernetes.io/docs/concepts/configuration/secret/
-[trivy-sbom]: /docs/scanners/trivy-sbom
+[trivy-sbom]: https://www.securecodebox.io/docs/scanners/trivy-sbom
