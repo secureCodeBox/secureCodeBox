@@ -14,27 +14,37 @@ matches the snapshot:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: old-wordpress
-        app.kubernetes.io/version: "4.0"
+        app.kubernetes.io/name: foo
+        app.kubernetes.io/version: 0.0.0
         foo: bar
-        helm.sh/chart: old-wordpress-v3.1.0-alpha1
-      name: RELEASE-NAME-old-wordpress
+        helm.sh/chart: old-wordpress-0.0.0
+      name: bar
     spec:
       replicas: 1
       selector:
         matchLabels:
           app.kubernetes.io/instance: RELEASE-NAME
-          app.kubernetes.io/name: old-wordpress
+          app.kubernetes.io/name: foo
       template:
         metadata:
           annotations:
             foo: bar
           labels:
             app.kubernetes.io/instance: RELEASE-NAME
-            app.kubernetes.io/name: old-wordpress
+            app.kubernetes.io/name: foo
         spec:
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: foo
+                        operator: In
+                        values:
+                          - bar
+                          - baz
           containers:
-            - image: docker.io/securecodebox/demo-target-old-wordpress:4.0
+            - image: docker.io/securecodebox/demo-target-old-wordpress:0.0.0
               imagePullPolicy: IfNotPresent
               livenessProbe:
                 httpGet:
@@ -55,9 +65,26 @@ matches the snapshot:
                 periodSeconds: 10
                 successThreshold: 1
                 timeoutSeconds: 60
-              resources: {}
-              securityContext: {}
-          securityContext: {}
+              resources:
+                requests:
+                  cpu: 123m
+                  memory: 123Mi
+              securityContext:
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsNonRoot: true
+                runAsUser: 1234
+          nodeSelector:
+            foo: bar
+          securityContext:
+            fsGroup: 1234
+          tolerations:
+            - effect: NoSchedule
+              key: foo
+              operator: Exists
+              value: value1
   3: |
     apiVersion: v1
     kind: Service
@@ -67,11 +94,11 @@ matches the snapshot:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: old-wordpress
-        app.kubernetes.io/version: "4.0"
+        app.kubernetes.io/name: foo
+        app.kubernetes.io/version: 0.0.0
         foo: bar
-        helm.sh/chart: old-wordpress-v3.1.0-alpha1
-      name: RELEASE-NAME-old-wordpress
+        helm.sh/chart: old-wordpress-0.0.0
+      name: bar
     spec:
       ports:
         - name: http
@@ -80,7 +107,7 @@ matches the snapshot:
           targetPort: http
       selector:
         app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/name: old-wordpress
+        app.kubernetes.io/name: foo
       type: ClusterIP
   4: |
     apiVersion: v1
@@ -91,15 +118,15 @@ matches the snapshot:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: old-wordpress
-        app.kubernetes.io/version: "4.0"
+        app.kubernetes.io/name: foo
+        app.kubernetes.io/version: 0.0.0
         foo: bar
-        helm.sh/chart: old-wordpress-v3.1.0-alpha1
-      name: RELEASE-NAME-old-wordpress-test-connection
+        helm.sh/chart: old-wordpress-0.0.0
+      name: bar-test-connection
     spec:
       containers:
         - args:
-            - RELEASE-NAME-old-wordpress:80
+            - bar:80
           command:
             - wget
           image: busybox

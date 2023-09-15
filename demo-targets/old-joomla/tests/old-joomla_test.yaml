@@ -1,16 +1,36 @@
 suite: Full Snapshot
-templates:
-  - deployment.yaml
-  - service.yaml
-  - ingress.yaml
-  - NOTES.txt
-  - ../templates/tests/test-connection.yaml
 
 tests:
   - it: matches the snapshot
+    chart:
+      version: 0.0.0
+      appVersion: 0.0.0
     set:
       labels: {foo: bar}
       annotations: {foo: bar}
-      ingress.enabled: true
+      nameOverride: "foo"
+      fullnameOverride: "bar"
+      podSecurityContext: {fsGroup: 1234}
+      securityContext:
+        {
+          capabilities: {drop: [ALL]},
+          readOnlyRootFilesystem: true,
+          runAsNonRoot: true,
+          runAsUser: 1234,
+        }
+      resources: {requests: {cpu: "123m", memory: "123Mi"}}
+      ingress:
+        enabled: true
+        annotations: {foo: bar}
+        tls: [{secretName: chart-example-tls, hosts: [chart-example.local]}]
+      nodeSelector: {foo: bar}
+      tolerations:
+        [{key: foo, operator: Exists, value: "value1", effect: NoSchedule}]
+      affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - {key: foo, operator: In, values: [bar, baz]}
     asserts:
       - matchSnapshot: {}

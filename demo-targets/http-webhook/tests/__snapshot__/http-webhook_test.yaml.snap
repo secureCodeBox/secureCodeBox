@@ -11,25 +11,34 @@ matches the snapshot:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: http-webhook
-        app.kubernetes.io/version: 1.16.0
+        app.kubernetes.io/name: foo
+        app.kubernetes.io/version: 0.0.0
         foo: bar
-        helm.sh/chart: http-webhook-v3.1.0-alpha1
-      name: RELEASE-NAME-http-webhook
+        helm.sh/chart: http-webhook-0.0.0
+      name: bar
     spec:
-      replicas: 1
       selector:
         matchLabels:
           app.kubernetes.io/instance: RELEASE-NAME
-          app.kubernetes.io/name: http-webhook
+          app.kubernetes.io/name: foo
       template:
         metadata:
           annotations:
             foo: bar
           labels:
             app.kubernetes.io/instance: RELEASE-NAME
-            app.kubernetes.io/name: http-webhook
+            app.kubernetes.io/name: foo
         spec:
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: foo
+                        operator: In
+                        values:
+                          - bar
+                          - baz
           containers:
             - image: docker.io/mendhak/http-https-echo:latest
               imagePullPolicy: IfNotPresent
@@ -38,27 +47,74 @@ matches the snapshot:
                 - containerPort: 80
                   name: http
                   protocol: TCP
-              resources: {}
-              securityContext: {}
-          securityContext: {}
-          serviceAccountName: RELEASE-NAME-http-webhook
+              resources:
+                requests:
+                  cpu: 123m
+                  memory: 123Mi
+              securityContext:
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsNonRoot: true
+                runAsUser: 1234
+          nodeSelector:
+            foo: bar
+          securityContext:
+            fsGroup: 1234
+          serviceAccountName: bar
+          tolerations:
+            - effect: NoSchedule
+              key: foo
+              operator: Exists
+              value: value1
   3: |
-    kind: Ingress
+    apiVersion: autoscaling/v2beta1
+    kind: HorizontalPodAutoscaler
     metadata:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: http-webhook
-        app.kubernetes.io/version: 1.16.0
+        app.kubernetes.io/name: foo
+        app.kubernetes.io/version: 0.0.0
         foo: bar
-        helm.sh/chart: http-webhook-v3.1.0-alpha1
-      name: RELEASE-NAME-http-webhook
+        helm.sh/chart: http-webhook-0.0.0
+      name: bar
+    spec:
+      maxReplicas: 100
+      metrics:
+        - resource:
+            name: cpu
+            targetAverageUtilization: 80
+          type: Resource
+      minReplicas: 1
+      scaleTargetRef:
+        apiVersion: apps/v1
+        kind: Deployment
+        name: bar
+  4: |
+    kind: Ingress
+    metadata:
+      annotations:
+        foo: bar
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: foo
+        app.kubernetes.io/version: 0.0.0
+        foo: bar
+        helm.sh/chart: http-webhook-0.0.0
+      name: bar
     spec:
       rules:
         - host: chart-example.local
           http:
             paths: null
-  4: |
+      tls:
+        - hosts:
+            - chart-example.local
+          secretName: chart-example-tls
+  5: |
     apiVersion: v1
     kind: Service
     metadata:
@@ -67,11 +123,11 @@ matches the snapshot:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: http-webhook
-        app.kubernetes.io/version: 1.16.0
+        app.kubernetes.io/name: foo
+        app.kubernetes.io/version: 0.0.0
         foo: bar
-        helm.sh/chart: http-webhook-v3.1.0-alpha1
-      name: RELEASE-NAME-http-webhook
+        helm.sh/chart: http-webhook-0.0.0
+      name: bar
     spec:
       ports:
         - name: http
@@ -80,9 +136,21 @@ matches the snapshot:
           targetPort: http
       selector:
         app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/name: http-webhook
+        app.kubernetes.io/name: foo
       type: ClusterIP
-  5: |
+  6: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: foo
+        app.kubernetes.io/version: 0.0.0
+        foo: bar
+        helm.sh/chart: http-webhook-0.0.0
+      name: bar
+  7: |
     apiVersion: v1
     kind: Pod
     metadata:
@@ -91,15 +159,15 @@ matches the snapshot:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: http-webhook
-        app.kubernetes.io/version: 1.16.0
+        app.kubernetes.io/name: foo
+        app.kubernetes.io/version: 0.0.0
         foo: bar
-        helm.sh/chart: http-webhook-v3.1.0-alpha1
-      name: RELEASE-NAME-http-webhook-test-connection
+        helm.sh/chart: http-webhook-0.0.0
+      name: bar-test-connection
     spec:
       containers:
         - args:
-            - RELEASE-NAME-http-webhook:80
+            - bar:80
           command:
             - wget
           image: busybox

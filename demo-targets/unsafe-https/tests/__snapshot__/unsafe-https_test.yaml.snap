@@ -14,27 +14,37 @@ matches the snapshot:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: unsafe-https
-        app.kubernetes.io/version: v1.0.0
+        app.kubernetes.io/name: foo
+        app.kubernetes.io/version: 0.0.0
         foo: bar
-        helm.sh/chart: unsafe-https-v3.1.0-alpha1
-      name: RELEASE-NAME-unsafe-https
+        helm.sh/chart: unsafe-https-0.0.0
+      name: bar
     spec:
       replicas: 1
       selector:
         matchLabels:
           app.kubernetes.io/instance: RELEASE-NAME
-          app.kubernetes.io/name: unsafe-https
+          app.kubernetes.io/name: foo
       template:
         metadata:
           annotations:
             foo: bar
           labels:
             app.kubernetes.io/instance: RELEASE-NAME
-            app.kubernetes.io/name: unsafe-https
+            app.kubernetes.io/name: foo
         spec:
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: foo
+                        operator: In
+                        values:
+                          - bar
+                          - baz
           containers:
-            - image: docker.io/securecodebox/unsafe-https:v1.0.0
+            - image: docker.io/securecodebox/unsafe-https:0.0.0
               imagePullPolicy: IfNotPresent
               livenessProbe:
                 tcpSocket:
@@ -47,9 +57,26 @@ matches the snapshot:
               readinessProbe:
                 tcpSocket:
                   port: 443
-              resources: {}
-              securityContext: {}
-          securityContext: {}
+              resources:
+                requests:
+                  cpu: 123m
+                  memory: 123Mi
+              securityContext:
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsNonRoot: true
+                runAsUser: 1234
+          nodeSelector:
+            foo: bar
+          securityContext:
+            fsGroup: 1234
+          tolerations:
+            - effect: NoSchedule
+              key: foo
+              operator: Exists
+              value: value1
   3: |
     apiVersion: v1
     kind: Service
@@ -59,11 +86,11 @@ matches the snapshot:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: unsafe-https
-        app.kubernetes.io/version: v1.0.0
+        app.kubernetes.io/name: foo
+        app.kubernetes.io/version: 0.0.0
         foo: bar
-        helm.sh/chart: unsafe-https-v3.1.0-alpha1
-      name: RELEASE-NAME-unsafe-https
+        helm.sh/chart: unsafe-https-0.0.0
+      name: bar
     spec:
       ports:
         - name: https
@@ -72,5 +99,5 @@ matches the snapshot:
           targetPort: https
       selector:
         app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/name: unsafe-https
+        app.kubernetes.io/name: foo
       type: ClusterIP
