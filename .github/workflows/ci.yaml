@@ -99,6 +99,47 @@ jobs:
 
   # ---- Unit-Test | Java ----
 
+  helm-unit-test:
+    name: "Unit-Test | Helm"
+    runs-on: ubuntu-22.04
+    needs:
+      - k8s-setup
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download Helm
+        uses: actions/download-artifact@v3
+        with:
+          name: helm
+          path: ./helm
+
+      - name: Make binaries globally available
+        run: |
+          chmod +x ./helm/helm && sudo mv ./helm/helm /usr/local/bin/helm
+
+      - name: Verify tools
+        run: |
+          helm version
+
+      - name: Helm-Chart Unit Tests | Operator
+        working-directory: ./operator
+        run: make helm-unit-tests
+
+      - name: Helm-Chart Unit Tests | AutoDiscovery
+        working-directory: ./auto-discovery/kubernetes
+        run: make helm-unit-tests
+
+      - name: Helm-Chart Unit Tests | Hooks
+        working-directory: ./hooks
+        run: make helm-unit-tests
+
+      - name: Helm-Chart Unit Tests | Scanners
+        working-directory: ./scanners
+        run: make helm-unit-tests
+
+      - name: Helm-Chart Unit Tests | Demo-Targets
+        working-directory: ./demo-targets
+        run: make helm-unit-tests
+
   unit-java:
     name: "Unit-Test | Java"
     runs-on: ubuntu-22.04
