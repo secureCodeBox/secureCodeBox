@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: the secureCodeBox authors
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Upgrading
 
 ## From 2.X to 3.X
