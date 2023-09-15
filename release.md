@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: the secureCodeBox authors
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # A list of steps to ensure after a new secureCodeBox release
 
 - Ensure and update all charts with a new release chart version x.x.x-alpha1
