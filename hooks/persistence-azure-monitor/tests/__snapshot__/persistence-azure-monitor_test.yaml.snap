@@ -1,0 +1,49 @@
+matches the snapshot:
+  1: |
+    raw: |2
+      Azure Monitor PersistenceProvider deployed.
+  2: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanCompletionHook
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: persistence-azure-monitor
+        app.kubernetes.io/version: 0.0.0
+        foo: bar
+        helm.sh/chart: persistence-azure-monitor-0.0.0
+        type: Structured
+      name: RELEASE-NAME-persistence-azure-monitor
+    spec:
+      env:
+        - name: MONITOR_LOGTYPE_PREFIX
+          value: SCB
+        - name: MONITOR_WORKSPACE_ID
+          valueFrom:
+            secretKeyRef:
+              key: workspace
+              name: map[key:bar name:foo]
+        - name: MONITOR_SHARED_KEY
+          valueFrom:
+            secretKeyRef:
+              key: sharedkey
+              name: map[key:bar name:foo]
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/hook-persistence-azure-monitor:0.0.0
+      imagePullSecrets:
+        - name: foo
+      priority: 100
+      resources:
+        requests:
+          cpu: 100m
+          memory: 100Mi
+      ttlSecondsAfterFinished: 100
+      type: ReadOnly
+      volumeMounts:
+        - mountPath: /foo
+          name: foo
+      volumes:
+        - emptyDir: {}
+          name: foo
