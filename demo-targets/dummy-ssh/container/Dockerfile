@@ -1,4 +1,4 @@
-# From https://docs.docker.com/engine/examples/running_ssh_service/
+# From https://gdevillele.github.io/engine/examples/running_ssh_service/
 # This file is authored by Docker Inc. and is not covered by the Apache2 Licence by the secureCodeBox project.
 FROM ubuntu:16.04
 
