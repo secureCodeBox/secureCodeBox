@@ -1,0 +1,55 @@
+matches the snapshot:
+  1: |
+    raw: |2
+
+      FindingPostProcessing Hook deployed.
+      This will add postprocessing on every finding in this namespace matching these rules: [{"matches":[{"anyOf":[{"attributes":{"port":21,"state":"open"},"category":"Open Port"},{"attributes":{"port":389,"state":"open"},"category":"Open Port"}]}],"override":{"description":"Telnet is bad","severity":"high"}}].
+  2: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanCompletionHook
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: finding-post-processing
+        app.kubernetes.io/version: 0.0.0
+        foo: bar
+        helm.sh/chart: finding-post-processing-0.0.0
+      name: RELEASE-NAME-finding-post-processing
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: foo
+                    operator: In
+                    values:
+                      - bar
+                      - baz
+      env:
+        - name: RULES
+          value: '[{"matches":[{"anyOf":[{"attributes":{"port":21,"state":"open"},"category":"Open Port"},{"attributes":{"port":389,"state":"open"},"category":"Open Port"}]}],"override":{"description":"Telnet is bad","severity":"high"}}]'
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/hook-finding-post-processing:0.0.0
+      imagePullSecrets:
+        - name: foo
+      priority: 100
+      resources:
+        requests:
+          cpu: 100m
+          memory: 100Mi
+      tolerations:
+        - effect: NoSchedule
+          key: foo
+          operator: Exists
+          value: value1
+      ttlSecondsAfterFinished: 100
+      type: ReadAndWrite
+      volumeMounts:
+        - mountPath: /foo
+          name: foo
+      volumes:
+        - emptyDir: {}
+          name: foo
