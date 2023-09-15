@@ -2,8 +2,30 @@ matches the snapshot:
   1: |
     raw: |2
       1. Get the application URL by running these commands:
-        http://chart-example.localmap[path:/]
+        https://chart-example.localmap[path:/]
   2: |
+    apiVersion: v1
+    data:
+      customConfig.yml: |2
+        application:
+          domain: juice-sh.op
+          name: OWASP Juice Shop
+        server:
+          basePath: foo
+          port: 3000
+    kind: ConfigMap
+    metadata:
+      annotations:
+        foo: bar
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: foo
+        app.kubernetes.io/version: 0.0.0
+        foo: bar
+        helm.sh/chart: juice-shop-0.0.0
+      name: bar
+  3: |
     apiVersion: apps/v1
     kind: Deployment
     metadata:
@@ -12,28 +34,42 @@ matches the snapshot:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: juice-shop
-        app.kubernetes.io/version: v13.0.3
+        app.kubernetes.io/name: foo
+        app.kubernetes.io/version: 0.0.0
         foo: bar
-        helm.sh/chart: juice-shop-v3.1.0-alpha3
-      name: RELEASE-NAME-juice-shop
+        helm.sh/chart: juice-shop-0.0.0
+      name: bar
     spec:
       replicas: 1
       selector:
         matchLabels:
           app.kubernetes.io/instance: RELEASE-NAME
-          app.kubernetes.io/name: juice-shop
+          app.kubernetes.io/name: foo
       template:
         metadata:
           annotations:
             foo: bar
           labels:
             app.kubernetes.io/instance: RELEASE-NAME
-            app.kubernetes.io/name: juice-shop
+            app.kubernetes.io/name: foo
         spec:
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: foo
+                        operator: In
+                        values:
+                          - bar
+                          - baz
           containers:
-            - env: []
-              image: docker.io/bkimminich/juice-shop:v13.0.3
+            - env:
+                - name: foo
+                  value: bar
+                - name: NODE_ENV
+                  value: customConfig
+              image: docker.io/bkimminich/juice-shop:0.0.0
               imagePullPolicy: IfNotPresent
               livenessProbe:
                 httpGet:
@@ -48,23 +84,48 @@ matches the snapshot:
                 httpGet:
                   path: /
                   port: http
-              resources: {}
-              securityContext: {}
-              volumeMounts: []
-          securityContext: {}
-          volumes: []
-  3: |
+              resources:
+                requests:
+                  cpu: 123m
+                  memory: 123Mi
+              securityContext:
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsNonRoot: true
+                runAsUser: 1234
+              volumeMounts:
+                - mountPath: /juice-shop/config
+                  name: custom-config
+                  readOnly: true
+          nodeSelector:
+            foo: bar
+          securityContext:
+            fsGroup: 1234
+          tolerations:
+            - effect: NoSchedule
+              key: foo
+              operator: Exists
+              value: value1
+          volumes:
+            - configMap:
+                name: bar
+              name: custom-config
+  4: |
     apiVersion: networking.k8s.io/v1
     kind: Ingress
     metadata:
+      annotations:
+        foo: bar
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: juice-shop
-        app.kubernetes.io/version: v13.0.3
+        app.kubernetes.io/name: foo
+        app.kubernetes.io/version: 0.0.0
         foo: bar
-        helm.sh/chart: juice-shop-v3.1.0-alpha3
-      name: RELEASE-NAME-juice-shop
+        helm.sh/chart: juice-shop-0.0.0
+      name: bar
     spec:
       ingressClassName: nginx
       rules:
@@ -73,12 +134,16 @@ matches the snapshot:
             paths:
               - backend:
                   service:
-                    name: RELEASE-NAME-juice-shop
+                    name: bar
                     port:
                       number: 3000
                 path: /
                 pathType: ImplementationSpecific
-  4: |
+      tls:
+        - hosts:
+            - chart-example.local
+          secretName: chart-example-tls
+  5: |
     apiVersion: v1
     kind: Service
     metadata:
@@ -87,11 +152,11 @@ matches the snapshot:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: juice-shop
-        app.kubernetes.io/version: v13.0.3
+        app.kubernetes.io/name: foo
+        app.kubernetes.io/version: 0.0.0
         foo: bar
-        helm.sh/chart: juice-shop-v3.1.0-alpha3
-      name: RELEASE-NAME-juice-shop
+        helm.sh/chart: juice-shop-0.0.0
+      name: bar
     spec:
       ports:
         - name: http
@@ -100,9 +165,9 @@ matches the snapshot:
           targetPort: http
       selector:
         app.kubernetes.io/instance: RELEASE-NAME
-        app.kubernetes.io/name: juice-shop
+        app.kubernetes.io/name: foo
       type: ClusterIP
-  5: |
+  6: |
     apiVersion: v1
     kind: Pod
     metadata:
@@ -111,15 +176,15 @@ matches the snapshot:
       labels:
         app.kubernetes.io/instance: RELEASE-NAME
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: juice-shop
-        app.kubernetes.io/version: v13.0.3
+        app.kubernetes.io/name: foo
+        app.kubernetes.io/version: 0.0.0
         foo: bar
-        helm.sh/chart: juice-shop-v3.1.0-alpha3
-      name: RELEASE-NAME-juice-shop-test-connection
+        helm.sh/chart: juice-shop-0.0.0
+      name: bar-test-connection
     spec:
       containers:
         - args:
-            - RELEASE-NAME-juice-shop:3000
+            - bar:3000
           command:
             - wget
           image: busybox
