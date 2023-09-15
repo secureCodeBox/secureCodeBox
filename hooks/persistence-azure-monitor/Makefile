@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 #
-# SPDX-FileCopyrightText: 2022 iteratec GmbH
+# SPDX-FileCopyrightText: the secureCodeBox authors
 #
 # SPDX-License-Identifier: Apache-2.0
 #
