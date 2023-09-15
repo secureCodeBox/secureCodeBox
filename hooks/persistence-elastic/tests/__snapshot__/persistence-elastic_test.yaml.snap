@@ -1,0 +1,63 @@
+matches the snapshot:
+  1: |
+    raw: |2
+      Elastic Stack PersistenceProvider deployed.
+  2: |
+    apiVersion: batch/v1
+    kind: Job
+    metadata:
+      name: dashboard-importer-0.0.0
+    spec:
+      backoffLimit: 3
+      template:
+        spec:
+          containers:
+            - env:
+                - name: KIBANA_URL
+                  value: http://RELEASE-NAME-kibana.NAMESPACE.svc.cluster.local:5601
+              image: securecodebox/persistence-elastic-dashboard-importer:0.0.0
+              imagePullPolicy: IfNotPresent
+              name: dasboard-importer
+          restartPolicy: OnFailure
+      ttlSecondsAfterFinished: 3600
+  3: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanCompletionHook
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: persistence-elastic
+        app.kubernetes.io/version: 0.0.0
+        foo: bar
+        helm.sh/chart: persistence-elastic-0.0.0
+        type: Structured
+      name: RELEASE-NAME-persistence-elastic
+    spec:
+      env:
+        - name: ELASTICSEARCH_INDEX_PREFIX
+          value: scbv2
+        - name: ELASTICSEARCH_INDEX_SUFFIX
+          value: “yyyy-MM-dd”
+        - name: ELASTICSEARCH_INDEX_APPEND_NAMESPACE
+          value: "true"
+        - name: ELASTICSEARCH_ADDRESS
+          value: http://elasticsearch-master.NAMESPACE.svc.cluster.local:9200
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/hook-persistence-elastic:0.0.0
+      imagePullSecrets:
+        - name: foo
+      priority: 100
+      resources:
+        requests:
+          cpu: 100m
+          memory: 100Mi
+      ttlSecondsAfterFinished: 100
+      type: ReadOnly
+      volumeMounts:
+        - mountPath: /foo
+          name: foo
+      volumes:
+        - emptyDir: {}
+          name: foo
