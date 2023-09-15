@@ -1,3 +1,8 @@
+{#
+SPDX-FileCopyrightText: the secureCodeBox authors
+
+SPDX-License-Identifier: Apache-2.0
+#}
 channel: "{{ scan.metadata.annotations["notification.securecodebox.io/rocket-chat-channel"] | default(args["ROCKET_CHAT_DEFAULT_CHANNEL"], true) | safe}}"
 text: "New Scan Results for {{ scan.metadata.name }}"
 attachments: 
