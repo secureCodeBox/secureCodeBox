@@ -61,6 +61,7 @@ A software vulnerability is a glitch, flaw, or weakness present in the software 
 To learn more about the Trivy scanner itself visit [Trivy's GitHub Repository](https://github.com/aquasecurity/trivy).
 
 This chart uses Trivy's SBOM support to generate Software Bills of Material in CycloneDX format for container images.
+You can use the [Dependency-Track hook][persistence-dependencytrack] to send the generated SBOMs to an instance of [Dependency-Track][dependencytrack.org] to manage them there.
 
 ## Community
 
@@ -86,4 +87,5 @@ As for any pre-built image usage, it is the image user's responsibility to ensur
 [scb-twitter]: https://twitter.com/secureCodeBox
 [scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
 [scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
-
+[dependencytrack.org]: https://dependencytrack.org/
+[persistence-dependencytrack]: https://www.securecodebox.io/docs/hooks/dependency-track
