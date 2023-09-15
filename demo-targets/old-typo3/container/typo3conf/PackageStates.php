@@ -1,4 +1,9 @@
 <?php
+
+// SPDX-FileCopyrightText: the secureCodeBox authors
+//
+// SPDX-License-Identifier: Apache-2.0
+
 # PackageStates.php
 
 # This file is maintained by TYPO3's package management. Although you can edit it

@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: the secureCodeBox authors
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Parser SDK
 
 The Parser SDK provides Parser functionalities that are used by all Scanners like starting the corresponding Parser, enriching the Scan Status in Kubernetes with Parser Results and adding additional attributes to the "Findings.json".
