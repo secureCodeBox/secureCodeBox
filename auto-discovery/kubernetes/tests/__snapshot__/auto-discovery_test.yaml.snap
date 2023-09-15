@@ -150,6 +150,56 @@ matches the snapshot:
               name: config
   3: |
     apiVersion: rbac.authorization.k8s.io/v1
+    kind: Role
+    metadata:
+      name: auto-discovery-leader-election-role
+    rules:
+      - apiGroups:
+          - ""
+        resources:
+          - configmaps
+        verbs:
+          - get
+          - list
+          - watch
+          - create
+          - update
+          - patch
+          - delete
+      - apiGroups:
+          - coordination.k8s.io
+        resources:
+          - leases
+        verbs:
+          - get
+          - list
+          - watch
+          - create
+          - update
+          - patch
+          - delete
+      - apiGroups:
+          - ""
+        resources:
+          - events
+        verbs:
+          - create
+          - patch
+  4: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata:
+      name: auto-discovery-leader-election-rolebinding
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: auto-discovery-leader-election-role
+    subjects:
+      - kind: ServiceAccount
+        name: auto-discovery
+        namespace: NAMESPACE
+  5: |
+    apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
       name: auto-discovery
@@ -217,3 +267,21 @@ matches the snapshot:
           - get
           - patch
           - update
+  6: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: auto-discovery
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: auto-discovery
+    subjects:
+      - kind: ServiceAccount
+        name: auto-discovery
+        namespace: NAMESPACE
+  7: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: auto-discovery

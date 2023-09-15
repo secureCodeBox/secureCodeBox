@@ -3,10 +3,11 @@ matches the snapshot:
     apiVersion: execution.securecodebox.io/v1
     kind: ParseDefinition
     metadata:
-      name: amass-jsonl
+      name: amass-sqlite
     spec:
       affinity:
         foo: bar
+      contentType: Binary
       env:
         - name: foo
           value: bar
@@ -21,6 +22,12 @@ matches the snapshot:
       tolerations:
         - foo: bar
       ttlSecondsAfterFinished: null
+      volumeMounts:
+        - mountPath: /tmp/
+          name: temp-storage
+      volumes:
+        - emptyDir: {}
+          name: temp-storage
   2: |
     apiVersion: execution.securecodebox.io/v1
     kind: ScanType
@@ -28,8 +35,8 @@ matches the snapshot:
       name: amassfoo
     spec:
       extractResults:
-        location: /home/securecodebox/amass-results.jsonl
-        type: amass-jsonl
+        location: /home/securecodebox/amass.sqlite
+        type: amass-sqlite
       jobTemplate:
         spec:
           backoffLimit: 3
@@ -42,12 +49,12 @@ matches the snapshot:
                 - command:
                     - amass
                     - enum
-                    - -json
-                    - /home/securecodebox/amass-results.jsonl
+                    - -dir
+                    - /home/securecodebox/
                   env:
                     - name: foo
                       value: bar
-                  image: caffix/amass:0.0.0
+                  image: docker.io/securecodebox/scanner-amass:0.0.0
                   imagePullPolicy: IfNotPresent
                   name: amass
                   resources:
@@ -59,7 +66,7 @@ matches the snapshot:
                         - all
                     privileged: false
                     readOnlyRootFilesystem: false
-                    runAsNonRoot: false
+                    runAsNonRoot: true
                   volumeMounts:
                     - mountPath: /amass/output/config.ini
                       name: amass-config
