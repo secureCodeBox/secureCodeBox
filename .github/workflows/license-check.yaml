@@ -5,15 +5,15 @@
 name: Check License Compliance
 on:
   push:
-    branches:
-      - main
-      - v[0-9]+.x
+    #branches:
+    #  - main
+    #  - v[0-9]+.x
   pull_request:
 
 jobs:
   license-check:
     runs-on: ubuntu-22.04
-    if: github.repository == 'secureCodeBox/secureCodeBox'
+    # if: github.repository == 'secureCodeBox/secureCodeBox'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -21,4 +21,4 @@ jobs:
       - name: REUSE Compliance Check
         uses: fsfe/reuse-action@v2
         with:
-        args: --include-submodules lint
+          args: --include-submodules lint
