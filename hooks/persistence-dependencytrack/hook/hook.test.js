@@ -3,7 +3,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 const { handle } = require("./hook");
-const fetch = jest.fn(() => Promise.resolve({ json: () => Promise.resolve({ token: "statustoken" }) }));
+const fetch = jest.fn(() => Promise.resolve({
+  ok: true,
+  json: () => Promise.resolve({ token: "statustoken" })
+}));
 
 beforeEach(() => {
   jest.clearAllMocks();

@@ -45,14 +45,32 @@ async function handle({
   console.log(`Uploading SBOM for name: ${name} version: ${version} to ${url}`);
 
   // Send request to API endpoint
-  const response = await fetch(url, {
-    method: "POST",
-    cache: "no-cache",
-    headers: {
-      "X-API-Key": apiKey,
-    },
-    body: formData,
-  });
+  let response;
+  try {
+    response = await fetch(url, {
+      method: "POST",
+      cache: "no-cache",
+      headers: {
+        "X-API-Key": apiKey,
+      },
+      body: formData,
+    });
+  } catch (error) {
+    console.error("Error sending request to Dependency-Track");
+    throw error
+  }
+
+  if (!response.ok) {
+    switch (response.status) {
+      case 401:
+        console.error(`Request failed with status ${response.status}, please check your API key`)
+        break;
+      case 403:
+        console.error(`Request failed with status ${response.status}, make sure you gave the team/API key either the PORTFOLIO_MANAGEMENT or PROJECT_CREATION_UPLOAD permission`)
+        break;
+    }
+    throw new Error(`Request to Dependency-Track was unsuccessful, status ${response.status}`)
+  }
 
   // Response-token can be used to determine if any task is being performed on the BOM
   // Endpoint: <url>/api/v1/bom/<token>
