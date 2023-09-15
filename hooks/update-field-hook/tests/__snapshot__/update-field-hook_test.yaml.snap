@@ -1,0 +1,56 @@
+matches the snapshot:
+  1: |
+    raw: |2
+      UpdateField Hook deployed.
+      This will add or override "category: my-own-category" on every finding in this namespace.
+  2: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanCompletionHook
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: update-field-hook
+        app.kubernetes.io/version: 0.0.0
+        foo: bar
+        helm.sh/chart: update-field-hook-0.0.0
+      name: RELEASE-NAME-update-field-hook
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: foo
+                    operator: In
+                    values:
+                      - bar
+                      - baz
+      env:
+        - name: ATTRIBUTE_NAME
+          value: category
+        - name: ATTRIBUTE_VALUE
+          value: my-own-category
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/hook-update-field-hook:0.0.0
+      imagePullSecrets:
+        - name: foo
+      priority: 100
+      resources:
+        requests:
+          cpu: 100m
+          memory: 100Mi
+      tolerations:
+        - effect: NoSchedule
+          key: foo
+          operator: Exists
+          value: value1
+      ttlSecondsAfterFinished: 100
+      type: ReadAndWrite
+      volumeMounts:
+        - mountPath: /foo
+          name: foo
+      volumes:
+        - emptyDir: {}
+          name: foo
