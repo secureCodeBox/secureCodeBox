@@ -1,0 +1,95 @@
+matches the snapshot:
+  1: |
+    raw: |2
+      Notification hook deployed.
+      Will send requests to:
+      - slack: SOME_ENV_KEY
+        If matching:
+        - matches:
+          anyOf:
+          - category: Open Port
+  2: |
+    apiVersion: v1
+    data:
+      notification-channel.yaml: |2
+        - endPoint: SOME_ENV_KEY
+          name: slack
+          rules:
+          - matches:
+              anyOf:
+              - category: Open Port
+          template: slack-messageCard
+          type: slack
+    kind: ConfigMap
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: notification
+        app.kubernetes.io/version: 0.0.0
+        helm.sh/chart: notification-0.0.0
+      name: RELEASE-NAME-config
+  3: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanCompletionHook
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: notification
+        app.kubernetes.io/version: 0.0.0
+        foo: bar
+        helm.sh/chart: notification-0.0.0
+      name: RELEASE-NAME-notification
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: foo
+                    operator: In
+                    values:
+                      - bar
+                      - baz
+      env:
+        - name: SOME_ENV_KEY
+          valueFrom:
+            secretKeyRef:
+              key: some-key
+              name: some-secret
+        - name: SMTP_CONFIG
+          valueFrom:
+            secretKeyRef:
+              key: smtp-config-key
+              name: some-secret
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/hook-notification:0.0.0
+      imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: foo
+      priority: 100
+      resources:
+        requests:
+          cpu: 100m
+          memory: 100Mi
+      tolerations:
+        - effect: NoSchedule
+          key: foo
+          operator: Exists
+          value: value1
+      ttlSecondsAfterFinished: 100
+      type: ReadOnly
+      volumeMounts:
+        - mountPath: /home/app/config
+          name: RELEASE-NAME-config
+          readOnly: true
+        - mountPath: /foo
+          name: foo
+      volumes:
+        - configMap:
+            name: RELEASE-NAME-config
+          name: RELEASE-NAME-config
+        - emptyDir: {}
+          name: foo
