@@ -79,6 +79,12 @@ test: manifests generate fmt vet envtest ## Run tests.
 ginkgo: manifests generate fmt vet envtest ## Run tests.
 	KUBEBUILDER_ASSETS="$(shell $(ENVTEST) use $(ENVTEST_K8S_VERSION) -p path)" ginko test ./... -coverprofile cover.out -v --progress
 
+## Helm unit tests
+.PHONY: helm-unit-tests
+helm-unit-tests:
+	echo "Running helm unit tests for operator"; \
+	helm unittest . \
+
 ##@ Build
 
 .PHONY: build
