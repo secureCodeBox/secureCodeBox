@@ -1,0 +1,75 @@
+matches the snapshot:
+  1: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: light
+        securecodebox.io/invasive: non-invasive
+      name: ssh-audit
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              port: 22
+              state: open
+            category: Open Port
+          - attributes:
+              service: ssh
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - '{{$.hostOrIP}}'
+          - --port={{attributes.port}}
+        scanType: ssh-audit
+  2: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ParseDefinition
+    metadata:
+      name: ssh-audit-json
+    spec:
+      env:
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/parser-ssh-audit:0.0.0
+      ttlSecondsAfterFinished: null
+  3: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanType
+    metadata:
+      name: ssh-audit
+    spec:
+      extractResults:
+        location: /home/securecodebox/ssh-audit.json
+        type: ssh-audit-json
+      jobTemplate:
+        spec:
+          backoffLimit: 3
+          suspend: false
+          template:
+            spec:
+              containers:
+                - command:
+                    - sh
+                    - /wrapper.sh
+                  env:
+                    - name: foo
+                      value: bar
+                  image: docker.io/securecodebox/scanner-ssh-audit:0.0.0
+                  name: ssh-audit
+                  resources:
+                    foo: bar
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: false
+                    runAsNonRoot: false
+                  volumeMounts: []
+                - image: bar
+                  name: foo
+              restartPolicy: Never
+              volumes: []

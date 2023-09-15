@@ -1,0 +1,260 @@
+matches the snapshot:
+  1: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: medium
+        securecodebox.io/invasive: non-invasive
+      name: zap-http
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              service: http
+              state: open
+            category: Open Port
+          - attributes:
+              service: http-*
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - -t
+          - http://{{$.hostOrIP}}:{{attributes.port}}
+        scanType: zap-baseline-scan
+  2: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: medium
+        securecodebox.io/invasive: non-invasive
+      name: zap-https
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              service: https*
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - -t
+          - https://{{$.hostOrIP}}:{{attributes.port}}
+        scanType: zap-baseline-scan
+  3: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ParseDefinition
+    metadata:
+      name: zap-xml
+    spec:
+      affinity:
+        foo: bar
+      env: []
+      image: docker.io/securecodebox/parser-zap:0.0.0
+      imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: foo
+      resources:
+        foo: bar
+      scopeLimiterAliases:
+        foo: bar
+      tolerations:
+        - foo: bar
+      ttlSecondsAfterFinished: null
+  4: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanType
+    metadata:
+      name: zap-baseline-scanfoo
+    spec:
+      extractResults:
+        location: /home/securecodebox/zap-results.xml
+        type: zap-xml
+      jobTemplate:
+        spec:
+          backoffLimit: 3
+          suspend: false
+          template:
+            spec:
+              affinity:
+                foo: bar
+              containers:
+                - command:
+                    - zap-baseline.py
+                    - -I
+                    - -x
+                    - ../../home/securecodebox/zap-results.xml
+                  env: []
+                  envFrom: []
+                  image: owasp/zap2docker-stable:0.0.0
+                  imagePullPolicy: IfNotPresent
+                  name: zap-baseline-scan
+                  resources:
+                    foo: bar
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: false
+                    runAsNonRoot: false
+                  volumeMounts:
+                    - mountPath: /zap/wrk
+                      name: zap-workdir
+                - image: bar
+                  name: foo
+              imagePullSecrets:
+                - name: foo
+              restartPolicy: Never
+              securityContext: {}
+              tolerations:
+                - foo: bar
+              volumes:
+                - emptyDir: {}
+                  name: zap-workdir
+  5: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanType
+    metadata:
+      name: zap-api-scanfoo
+    spec:
+      extractResults:
+        location: /home/securecodebox/zap-results.xml
+        type: zap-xml
+      jobTemplate:
+        spec:
+          suspend: false
+          template:
+            spec:
+              affinity:
+                foo: bar
+              containers:
+                - command:
+                    - zap-api-scan.py
+                    - -I
+                    - -x
+                    - ../../home/securecodebox/zap-results.xml
+                  env: []
+                  envFrom: []
+                  image: owasp/zap2docker-stable:0.0.0
+                  name: zap-api-scan
+                  resources:
+                    foo: bar
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: false
+                    runAsNonRoot: false
+                  volumeMounts:
+                    - mountPath: /zap/wrk
+                      name: zap-workdir
+                - image: bar
+                  name: foo
+              restartPolicy: Never
+              securityContext: {}
+              tolerations:
+                - foo: bar
+              volumes:
+                - emptyDir: {}
+                  name: zap-workdir
+  6: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanType
+    metadata:
+      name: zap-full-scanfoo
+    spec:
+      extractResults:
+        location: /home/securecodebox/zap-results.xml
+        type: zap-xml
+      jobTemplate:
+        spec:
+          suspend: false
+          template:
+            spec:
+              affinity:
+                foo: bar
+              containers:
+                - command:
+                    - zap-full-scan.py
+                    - -I
+                    - -x
+                    - ../../home/securecodebox/zap-results.xml
+                  env: []
+                  envFrom: []
+                  image: owasp/zap2docker-stable:0.0.0
+                  imagePullPolicy: IfNotPresent
+                  name: zap-full-scan
+                  resources:
+                    foo: bar
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: false
+                    runAsNonRoot: false
+                  volumeMounts:
+                    - mountPath: /zap/wrk
+                      name: zap-workdir
+                - image: bar
+                  name: foo
+              restartPolicy: Never
+              securityContext: {}
+              tolerations:
+                - foo: bar
+              volumes:
+                - emptyDir: {}
+                  name: zap-workdir
+  7: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanType
+    metadata:
+      name: zap-automation-scanfoo
+    spec:
+      extractResults:
+        location: /home/securecodebox/zap-results.xml
+        type: zap-xml
+      jobTemplate:
+        spec:
+          suspend: false
+          template:
+            spec:
+              affinity:
+                foo: bar
+              containers:
+                - command:
+                    - zap.sh
+                    - -cmd
+                  env: []
+                  envFrom: []
+                  image: owasp/zap2docker-stable:0.0.0
+                  imagePullPolicy: IfNotPresent
+                  name: zap-automation-scan
+                  resources:
+                    foo: bar
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: false
+                    runAsNonRoot: false
+                  volumeMounts:
+                    - mountPath: /zap/wrk
+                      name: zap-workdir
+                - image: bar
+                  name: foo
+              restartPolicy: Never
+              tolerations:
+                - foo: bar
+              volumes:
+                - emptyDir: {}
+                  name: zap-workdir

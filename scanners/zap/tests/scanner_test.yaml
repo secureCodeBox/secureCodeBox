@@ -1,0 +1,23 @@
+suite: Full Snapshot
+
+tests:
+  - it: matches the snapshot
+    chart:
+      version: 0.0.0
+      appVersion: 0.0.0      
+    set:
+      cascadingRules.enabled: true
+      imagePullSecrets: [{name: foo}]
+      parser:
+        scopeLimiterAliases: {foo: bar}
+        affinity: {foo: bar}
+        tolerations: [{foo: bar}]
+        resources: {foo: bar}
+      scanner:
+        nameAppend: foo
+        resources: {foo: bar}
+        extraContainers: [{name: foo, image: bar}]
+        affinity: {foo: bar}
+        tolerations: [{foo: bar}]
+    asserts:
+      - matchSnapshot: {}

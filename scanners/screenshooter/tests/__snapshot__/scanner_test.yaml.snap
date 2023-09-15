@@ -1,0 +1,115 @@
+matches the snapshot:
+  1: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: light
+        securecodebox.io/invasive: non-invasive
+      name: screenshooter-http
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              service: http
+              state: open
+            category: Open Port
+          - attributes:
+              service: http-*
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - http://{{$.hostOrIP}}:{{attributes.port}}
+        scanType: screenshooter
+  2: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: light
+        securecodebox.io/invasive: non-invasive
+      name: screenshooter-https
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              service: https*
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - https://{{$.hostOrIP}}:{{attributes.port}}
+        scanType: screenshooter
+  3: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ParseDefinition
+    metadata:
+      name: screenshot-png
+    spec:
+      affinity:
+        foo: bar
+      env:
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/parser-screenshooter:0.0.0
+      imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: foo
+      resources:
+        foo: bar
+      scopeLimiterAliases:
+        foo: bar
+      tolerations:
+        - foo: bar
+      ttlSecondsAfterFinished: null
+  4: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanType
+    metadata:
+      name: screenshooterfoo
+    spec:
+      extractResults:
+        location: /home/securecodebox/screenshot.png
+        type: screenshot-png
+      jobTemplate:
+        spec:
+          backoffLimit: 3
+          suspend: false
+          template:
+            spec:
+              affinity:
+                foo: bar
+              containers:
+                - command:
+                    - sh
+                    - /wrapper.sh
+                    - -screenshot
+                    - /home/securecodebox/screenshot.png
+                  env:
+                    - name: foo
+                      value: bar
+                  image: docker.io/securecodebox/scanner-screenshooter:0.0.0
+                  imagePullPolicy: IfNotPresent
+                  name: screenshooter
+                  resources:
+                    foo: bar
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: true
+                    runAsNonRoot: true
+                  volumeMounts: []
+                - image: bar
+                  name: foo
+              imagePullSecrets:
+                - name: foo
+              restartPolicy: OnFailure
+              securityContext:
+                fsGroup: 1234
+              tolerations:
+                - foo: bar
+              volumes: []

@@ -1,0 +1,98 @@
+matches the snapshot:
+  1: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: light
+        securecodebox.io/invasive: non-invasive
+      name: ssh-scan
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              port: 22
+              state: open
+            category: Open Port
+          - attributes:
+              service: ssh
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - --target
+          - '{{$.hostOrIP}}'
+          - --port
+          - '{{attributes.port}}'
+        scanType: ssh-scan
+  2: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ParseDefinition
+    metadata:
+      name: ssh-scan-json
+    spec:
+      affinity:
+        foo: bar
+      env:
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/parser-ssh-scan:0.0.0
+      imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: foo
+      resources:
+        foo: bar
+      scopeLimiterAliases:
+        foo: bar
+      tolerations:
+        - foo: bar
+      ttlSecondsAfterFinished: null
+  3: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanType
+    metadata:
+      name: ssh-scanfoo
+    spec:
+      extractResults:
+        location: /home/securecodebox/ssh-scan-results.json
+        type: ssh-scan-json
+      jobTemplate:
+        spec:
+          backoffLimit: 3
+          suspend: false
+          template:
+            spec:
+              affinity:
+                foo: bar
+              containers:
+                - command:
+                    - /app/bin/ssh_scan
+                    - --output
+                    - /home/securecodebox/ssh-scan-results.json
+                  env:
+                    - name: foo
+                      value: bar
+                  image: mozilla/ssh_scan:latest@sha256:d6f41c2c328223931b97a4ae5d35d3bb91b5c8d91871ced3d2e0cde06b1edf1f
+                  imagePullPolicy: IfNotPresent
+                  name: ssh-scan
+                  resources:
+                    foo: bar
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: false
+                    runAsNonRoot: false
+                  volumeMounts: []
+                - image: bar
+                  name: foo
+              imagePullSecrets:
+                - name: foo
+              restartPolicy: OnFailure
+              securityContext:
+                fsGroup: 1234
+              tolerations:
+                - foo: bar
+              volumes: []
