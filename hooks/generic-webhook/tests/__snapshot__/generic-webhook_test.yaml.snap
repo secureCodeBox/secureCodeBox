@@ -1,0 +1,80 @@
+matches the snapshot:
+  1: |
+    raw: |2
+      GenericWebhook deployed.
+      Will send requests to:
+      POST http://example.com
+      on every completed scan
+  2: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanCompletionHook
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: generic-webhook
+        app.kubernetes.io/version: 0.0.0
+        foo: bar
+        helm.sh/chart: generic-webhook-0.0.0
+      name: RELEASE-NAME-generic-webhook
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: foo
+                    operator: In
+                    values:
+                      - bar
+                      - baz
+      env:
+        - name: WEBHOOK_URL
+          value: http://example.com
+        - name: WEBHOOK_USER
+          valueFrom:
+            secretKeyRef:
+              key: username
+              name: generic-webhook-credentials
+              optional: true
+        - name: WEBHOOK_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: generic-webhook-credentials
+              optional: true
+        - name: WEBHOOK_APIKEY_HEADER_NAME
+          valueFrom:
+            secretKeyRef:
+              key: headerName
+              name: generic-webhook-credentials
+              optional: true
+        - name: WEBHOOK_APIKEY_HEADER_VALUE
+          valueFrom:
+            secretKeyRef:
+              key: headerValue
+              name: generic-webhook-credentials
+              optional: true
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/hook-generic-webhook:0.0.0
+      imagePullSecrets:
+        - name: foo
+      priority: 100
+      resources:
+        requests:
+          cpu: 100m
+          memory: 100Mi
+      tolerations:
+        - effect: NoSchedule
+          key: foo
+          operator: Exists
+          value: value1
+      ttlSecondsAfterFinished: 100
+      type: ReadOnly
+      volumeMounts:
+        - mountPath: /foo
+          name: foo
+      volumes:
+        - emptyDir: {}
+          name: foo
