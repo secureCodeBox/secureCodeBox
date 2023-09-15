@@ -120,6 +120,10 @@ jobs:
         run: |
           helm version
 
+      - name: Install Helm Unit Test Plugin
+        run: |
+          helm plugin install https://github.com/helm-unittest/helm-unittest.git
+          
       - name: Helm-Chart Unit Tests | Operator
         working-directory: ./operator
         run: make helm-unit-tests
