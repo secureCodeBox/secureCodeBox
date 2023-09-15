@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
 # This is a Github Action workflow that runs daily at 9:15 AM UTC Time.
 # It checks if any of the scanners listed in the matrix section are outdated.
 # If a scanner is outdated, it checks if a pull request to upgrade that scanner already exists.

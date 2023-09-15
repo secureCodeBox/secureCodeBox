@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: the secureCodeBox authors
+//
+// SPDX-License-Identifier: Apache-2.0
+
 const fs = require("fs");
 const Ajv = require("ajv-draft-04");
 const ajv = new Ajv();
