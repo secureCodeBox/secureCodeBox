@@ -29,6 +29,8 @@ This is part two of the _SBOM story_ which covers the __consuming side__. If you
 
 One would assume that with a standardized format the combinations of generator and consumer are interchangeable, but as noted previously, the SBOMs still vary in content and attributes.
 
+<!--truncate-->
+
 ## Possible SBOM Consumers and Interoperability Troubles
 
 _Generating SBOMs_ is a nice first step of the workflow, but at some point you probably want to actually _use them_ for something, and most people would prefer to use something more advanced than grep or a text editor.
