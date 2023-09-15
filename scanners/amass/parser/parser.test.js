@@ -2,11 +2,9 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const fs = require("fs");
-const util = require("util");
-const readFile = util.promisify(fs.readFile);
+const {readFile} = require("node:fs/promises");
 
-const { parse } = require("./parser");
+const {parse} = require("./parser");
 
 const {
   validateParser,
@@ -26,7 +24,7 @@ test("parser parses sqlite results database with empty tables successfully", asy
   const fileContent = await readFile(
     __dirname + "/__testFiles__/emptyTables.sqlite"
   );
-  
+
   const findings = await parse(fileContent);
   await expect(validateParser(findings)).resolves.toBeUndefined();
   expect(findings).toEqual([]);
@@ -34,7 +32,7 @@ test("parser parses sqlite results database with empty tables successfully", asy
 
 test("parser parses sqlite results database with no tables successfully", async () => {
   const fileContent = await readFile(
-    __dirname + "/__testFiles__/noTables.sqlite",
+    __dirname + "/__testFiles__/noTables.sqlite"
   );
 
   const findings = await parse(fileContent);
@@ -44,7 +42,7 @@ test("parser parses sqlite results database with no tables successfully", async 
 
 test("parser parses sqlite results database with empty relations table successfully", async () => {
   const fileContent = await readFile(
-    __dirname + "/__testFiles__/emptyRelations.sqlite",
+    __dirname + "/__testFiles__/emptyRelations.sqlite"
   );
 
   const findings = await parse(fileContent);

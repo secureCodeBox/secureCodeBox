@@ -2,50 +2,66 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-const sqlite3 = require('sqlite3').verbose();
-const fs = require('fs');
-const path = require('path');
-const os = require('os');
+const sqlite3 = require("sqlite3").verbose();
+const fs = require("node:fs/promises");
+const path = require("node:path");
+const os = require("node:os");
 
-async function checkifTableExists(db) {
-  const query = `select count(*) from sqlite_master m where m.name="assets" OR m.name="relations"`
+async function checkIfTableExists(db) {
+  const query = `select count(*) from sqlite_master m where m.name="assets" OR m.name="relations"`;
+  const [row] = await queryAll(db, query);
+  return row["count(*)"] === 2;
+}
 
+function queryAll(db, query) {
   return new Promise((resolve, reject) => {
-    db.get(query, [], (err, row) => {
+    db.all(query, [], (err, rows) => {
       if (err) {
         reject(err);
         return;
       }
-      resolve(row["count(*)"] === 2);
+      resolve(rows);
     });
   });
-
 }
 
 async function openDatabase(fileContent) {
-  const tempFilePath = path.join(os.tmpdir(), 'temp-sqlite' + '.sqlite');
+  const tempFilePath = path.join(os.tmpdir(), "temp-sqlite" + ".sqlite");
   // Write the content to a temporary file
-  await fs.promises.writeFile(tempFilePath, fileContent);
+  await fs.writeFile(tempFilePath, fileContent);
 
+  return await new Promise((resolve, reject) => {
+    const db = new sqlite3.Database(
+      tempFilePath,
+      sqlite3.OPEN_READONLY,
+      (err) => {
+        if (err) {
+          reject(err.message);
+          return;
+        }
+      }
+    );
+    resolve(db);
+  });
+}
+
+function closeDatabase(db) {
   return new Promise((resolve, reject) => {
-    const db = new sqlite3.Database(tempFilePath, sqlite3.OPEN_READONLY, (err) => {
+    db.close((err) => {
+      resolve();
       if (err) {
-        reject(err.message);
-        return;
+        reject(err);
       }
     });
-    resolve(db);
   });
 }
 
 async function parse(fileContent) {
   const db = await openDatabase(fileContent);
-  const tableExists = await checkifTableExists(db);
+  const tableExists = await checkIfTableExists(db);
   if (!tableExists) return [];
 
-  return new Promise((resolve, reject) => {
-
-    const query = `
+  const query = `
     WITH relation_chain AS (
       SELECT
         fqdn.content AS subdomain, 
@@ -77,54 +93,40 @@ async function parse(fileContent) {
     LEFT JOIN relations r ON rc.asn_id = r.from_asset_id AND r.type = 'managed_by'
     LEFT JOIN assets a ON r.to_asset_id = a.id;`;
 
-    db.all(query, [], (err, rows) => {
-      if (err) {
-        reject(err);
-        return;
-      }
+  const rows = await queryAll(db, query);
 
-      const results = rows.map((row) => {
-        // Parse the stringified JSON values
-        const domainObj = JSON.parse(row.domain);
-        const subdomainObj = JSON.parse(row.subdomain);
-        const ipObj = JSON.parse(row.ip);
-        const cidrObj = JSON.parse(row.cidr);
-        const asnObj = JSON.parse(row.asn);
-        const managedByObj = JSON.parse(row.managed_by);
+  await closeDatabase(db);
 
-        return {
-          name: subdomainObj.name,
-          identified_at: null,
-          description: `Found subdomain ${subdomainObj.name}`,
-          category: "Subdomain",
-          location: subdomainObj.name,
-          osi_layer: "NETWORK",
-          severity: "INFORMATIONAL",
-          attributes: {
-            addresses: {
-              ip: ipObj?.address || null,
-              cidr: cidrObj?.cidr || null,
-              asn: asnObj?.number || null,
-              desc: managedByObj?.name || null
-            },
-            domain: domainObj?.name || null,
-            hostname: subdomainObj?.name || null,
-            ip_addresses: ipObj?.address || null,
-          },
-        };
-      });
+  return rows.map((row) => {
+    // Parse the stringified JSON values
+    const domainObj = JSON.parse(row.domain);
+    const subdomainObj = JSON.parse(row.subdomain);
+    const ipObj = JSON.parse(row.ip);
+    const cidrObj = JSON.parse(row.cidr);
+    const asnObj = JSON.parse(row.asn);
+    const managedByObj = JSON.parse(row.managed_by);
 
-      resolve(results);
-
-      db.close((closeErr) => {
-        if (closeErr) {
-          reject(closeErr.message);
-        }
-      });
-    });
+    return {
+      name: subdomainObj.name,
+      identified_at: null,
+      description: `Found subdomain ${subdomainObj.name}`,
+      category: "Subdomain",
+      location: subdomainObj.name,
+      osi_layer: "NETWORK",
+      severity: "INFORMATIONAL",
+      attributes: {
+        addresses: {
+          ip: ipObj?.address || null,
+          cidr: cidrObj?.cidr || null,
+          asn: asnObj?.number || null,
+          desc: managedByObj?.name || null,
+        },
+        domain: domainObj?.name || null,
+        hostname: subdomainObj?.name || null,
+        ip_addresses: ipObj?.address || null,
+      },
+    };
   });
 }
-
-
 
 module.exports.parse = parse;
