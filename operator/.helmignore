@@ -45,3 +45,4 @@ docs/
 cover.out
 testbin/
 *.license
+./tests/

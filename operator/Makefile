@@ -87,6 +87,12 @@ test-fast: manifests generate fmt vet envtest ## Run tests.
 view-coverage:
 	go tool cover -html=cover.out
 
+## Helm unit tests
+.PHONY: helm-unit-tests
+helm-unit-tests:
+	echo "Running helm unit tests for operator"; \
+	helm unittest . \
+
 ##@ Build
 
 .PHONY: build

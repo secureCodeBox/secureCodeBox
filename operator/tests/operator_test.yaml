@@ -1,0 +1,17 @@
+suite: Full Snapshot
+templates:
+  - NOTES.txt
+  - rbac/*.yaml
+  - manager/*.yaml
+tests:
+  - it: matches the snapshot
+    chart:
+      version: 0.0.0
+      appVersion: 0.0.0      
+    set:
+      imagePullSecrets: [{name: foo}]
+      customCACertificate.existingCertificate: foo
+      serviceaccount: {create: true, annotations: {foo: bar}, name: foo}
+      podSecurityContext: {fsGroup: 1234}
+    asserts:
+      - matchSnapshot: {}
