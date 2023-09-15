@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
 # Source: Example code for the semgrep rule "python.django.security.injection.command.command-injection-os-system.command-injection-os-system"
 import os
 

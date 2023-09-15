@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: the secureCodeBox authors
+//
+// SPDX-License-Identifier: Apache-2.0
+
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`parser parses result of Joomla scan with core vulnerabilities successfully 1`] = `
