@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2021 iteratec GmbH
+//
+// SPDX-License-Identifier: Apache-2.0
+
 const k8s = require("@kubernetes/client-node");
 
 const kc = new k8s.KubeConfig();

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2021 iteratec GmbH
+#
+# SPDX-License-Identifier: Apache-2.0
+
 from unittest import TestCase
 
 from docker_image import get_domain_from_docker_image
