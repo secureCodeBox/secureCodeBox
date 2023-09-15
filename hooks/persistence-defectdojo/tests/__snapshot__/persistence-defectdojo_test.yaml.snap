@@ -1,0 +1,48 @@
+matches the snapshot:
+  1: |
+    raw: "\nDefectDojo PersistenceProvider succesfully deployed \U0001F389.\n"
+  2: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanCompletionHook
+    metadata:
+      labels:
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: persistence-defectdojo
+        app.kubernetes.io/version: 0.0.0
+        foo: bar
+        helm.sh/chart: persistence-defectdojo-0.0.0
+        type: Unstructured
+      name: RELEASE-NAME-persistence-defectdojo
+    spec:
+      env:
+        - name: DEFECTDOJO_URL
+          value: http://defectdojo-django.default.svc
+        - name: DEFECTDOJO_USER_ID
+          value: foo
+        - name: DEFECTDOJO_APIKEY
+          valueFrom:
+            secretKeyRef:
+              key: apikey
+              name: defectdojo-credentials
+        - name: DEFECTDOJO_LOW_PRIVILEGED_MODE
+          value: "false"
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/hook-persistence-defectdojo:0.0.0
+      imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: foo
+      priority: 100
+      resources:
+        requests:
+          cpu: 100m
+          memory: 100Mi
+      ttlSecondsAfterFinished: 100
+      type: ReadAndWrite
+      volumeMounts:
+        - mountPath: /foo
+          name: foo
+      volumes:
+        - emptyDir: {}
+          name: foo
