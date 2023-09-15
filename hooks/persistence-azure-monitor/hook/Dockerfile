@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
 ARG baseImageTag
 ARG namespace
 FROM node:18-alpine as build
