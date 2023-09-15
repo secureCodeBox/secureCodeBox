@@ -2,3 +2,7 @@ Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: secureCodeBox
 Upstream-Contact: Robert Seedorff <robert.seedorff@iteratec.com>
 Source: https://github.com/secureCodeBox/secureCodeBox
+
+Files: .github/*.md
+Copyright: the secureCodeBox authors
+License: Apache-2.0
