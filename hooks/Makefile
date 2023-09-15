@@ -18,3 +18,12 @@ unit-tests:
 	for dir in $(wildcard */.); do \
 		$(MAKE) unit-tests -C $$dir;\
 	done
+
+.PHONY: helm-unit-tests
+helm-unit-tests:
+	for dir in $(wildcard */); do \
+		if [[ $$dir != "coverage/" && $$dir != "node_modules/" && $$dir != "persistence-static-report/" ]]; then \
+			echo "Running helm unit tests for $$dir"; \
+			helm unittest $$dir; \
+		fi; \
+	done
