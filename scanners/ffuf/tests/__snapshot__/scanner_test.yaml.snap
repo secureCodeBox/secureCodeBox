@@ -1,0 +1,93 @@
+matches the snapshot:
+  1: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: medium
+        securecodebox.io/invasive: non-invasive
+      name: ffuf-http
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              service: http*
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - -u
+          - '{{$.hostOrIP}}/FUZZ'
+          - -w
+          - /config/wordlist.txt
+        scanType: ffuf
+        volumeMounts:
+          - mountPath: /config/
+            name: ffuf-config
+        volumes:
+          - configMap:
+              name: ffuf-config
+            name: ffuf-config
+  2: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ParseDefinition
+    metadata:
+      name: ffuf-json
+    spec:
+      affinity:
+        foo: bar
+      env:
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/parser-ffuf:0.0.0
+      imagePullPolicy: IfNotPresent
+      scopeLimiterAliases:
+        foo: bar
+      tolerations:
+        - foo: bar
+      ttlSecondsAfterFinished: null
+  3: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanType
+    metadata:
+      name: ffuffoo
+    spec:
+      extractResults:
+        location: /home/securecodebox/ffuf-results.json
+        type: ffuf-json
+      jobTemplate:
+        spec:
+          backoffLimit: 3
+          suspend: false
+          template:
+            spec:
+              affinity:
+                foo: bar
+              containers:
+                - command:
+                    - ffuf
+                    - -o
+                    - /home/securecodebox/ffuf-results.json
+                  env:
+                    - name: foo
+                      value: bar
+                  image: docker.io/securecodebox/scanner-ffuf:0.0.0
+                  imagePullPolicy: IfNotPresent
+                  name: ffuf
+                  resources:
+                    foo: bar
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: true
+                    runAsNonRoot: true
+                  volumeMounts: []
+                - image: bar
+                  name: foo
+              restartPolicy: OnFailure
+              tolerations:
+                - foo: bar
+              volumes: []

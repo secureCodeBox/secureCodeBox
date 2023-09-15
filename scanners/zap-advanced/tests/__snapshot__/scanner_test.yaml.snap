@@ -1,0 +1,217 @@
+matches the snapshot:
+  1: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: medium
+        securecodebox.io/invasive: non-invasive
+      name: zap-advanced-http
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              service: http
+              state: open
+            category: Open Port
+          - attributes:
+              service: http-*
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - -t
+          - http://{{$.hostOrIP}}:{{attributes.port}}
+        scanType: zap-advanced-scan
+  2: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: medium
+        securecodebox.io/invasive: non-invasive
+      name: zap-advanced-https
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              service: https*
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - -t
+          - https://{{$.hostOrIP}}:{{attributes.port}}
+        scanType: zap-advanced-scan
+  3: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ParseDefinition
+    metadata:
+      labels:
+        app: RELEASE-NAME
+        chart: zap-advanced-0.0.0
+        heritage: Helm
+        release: RELEASE-NAME
+      name: zap-advanced-xml
+    spec:
+      affinity:
+        foo: bar
+      env:
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/parser-zap:0.0.0
+      imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: foo
+      resources:
+        foo: bar
+      scopeLimiterAliases:
+        foo: bar
+      tolerations:
+        - foo: bar
+      ttlSecondsAfterFinished: null
+  4: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanType
+    metadata:
+      annotations:
+        checksum.securecodebox.io/juiceshop-session-management.js: 5217ad734dfd5eb5808117c0a2c2b7db31650ffa5cf8e0a669f7a7cf18335a15
+        checksum.securecodebox.io/scb-oidc-password-grand-type.js: b2b91312a80cf4cb4f401672189ade16ebc99455e0ddf78d7920d1ed3caa0f6f
+        checksum.securecodebox.io/scb-oidc-session-management.js: d10dfd4afc34b85f758794d98dfb9076e7b4d14b5a81e9df3dfa3ae2b98077fa
+      labels:
+        app: RELEASE-NAME
+        chart: zap-advanced-0.0.0
+        heritage: Helm
+        release: RELEASE-NAME
+      name: zap-advanced-scanfoo
+    spec:
+      extractResults:
+        location: /home/securecodebox/zap-results.xml
+        type: zap-advanced-xml
+      jobTemplate:
+        spec:
+          backoffLimit: 3
+          suspend: false
+          template:
+            spec:
+              affinity:
+                foo: bar
+              containers:
+                - command:
+                    - python3
+                    - -m
+                    - zapclient
+                    - --report-type
+                    - XML
+                    - --zap-url
+                    - localhost:8080
+                    - --config-folder
+                    - /home/securecodebox/configs/
+                    - --output-folder
+                    - /home/securecodebox/
+                  env:
+                    - name: foo
+                      value: bar
+                  envFrom: []
+                  image: docker.io/securecodebox/scanner-zap-advanced:0.0.0
+                  imagePullPolicy: IfNotPresent
+                  name: zap-advanced-scan
+                  resources:
+                    foo: bar
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: false
+                    runAsNonRoot: false
+                  volumeMounts:
+                    - mountPath: /home/securecodebox/configs/1-zap-advanced-scantype.yaml
+                      name: zap-advanced-scantype-config
+                      readOnly: true
+                      subPath: 1-zap-advanced-scantype.yaml
+                - image: bar
+                  name: foo
+                - command:
+                    - zap.sh
+                    - -daemon
+                    - -port
+                    - "8080"
+                    - -host
+                    - 0.0.0.0
+                    - -config
+                    - database.recoverylog=false
+                    - -config
+                    - connection.timeoutInSecs=120
+                    - -config
+                    - api.disablekey=true
+                  env: []
+                  envFrom: []
+                  image: owasp/zap2docker-stable:0.0.0
+                  imagePullPolicy: IfNotPresent
+                  name: zap-sidecar
+                  ports:
+                    - containerPort: 8080
+                  resources: {}
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: false
+                    runAsNonRoot: false
+                  volumeMounts:
+                    - mountPath: /home/securecodebox/
+                      name: scan-results
+                      readOnly: false
+                    - mountPath: /home/zap/.ZAP_D/scripts/scripts/authentication/
+                      name: zap-scripts-authentication
+                      readOnly: true
+                    - mountPath: /home/zap/.ZAP_D/scripts/scripts/session/
+                      name: zap-scripts-session
+                      readOnly: true
+              imagePullSecrets:
+                - name: foo
+              restartPolicy: Never
+              securityContext:
+                fsGroup: 1234
+              tolerations:
+                - foo: bar
+              volumes:
+                - configMap:
+                    name: zap-advanced-scantype-config
+                    optional: true
+                  name: zap-advanced-scantype-config
+                - configMap:
+                    name: zap-scripts-authentication
+                  name: zap-scripts-authentication
+                - configMap:
+                    name: zap-scripts-session
+                  name: zap-scripts-session
+  5: |
+    apiVersion: v1
+    binaryData:
+      scb-oidc-password-grand-type.js: Ly8gU1BEWC1GaWxlQ29weXJpZ2h0VGV4dDogdGhlIHNlY3VyZUNvZGVCb3ggYXV0aG9ycwovLwovLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogQXBhY2hlLTIuMAoKdmFyIEh0dHBSZXF1ZXN0SGVhZGVyID0gSmF2YS50eXBlKCJvcmcucGFyb3Nwcm94eS5wYXJvcy5uZXR3b3JrLkh0dHBSZXF1ZXN0SGVhZGVyIiksCiAgICBIdHRwSGVhZGVyID0gSmF2YS50eXBlKCJvcmcucGFyb3Nwcm94eS5wYXJvcy5uZXR3b3JrLkh0dHBIZWFkZXIiKSwKICAgIFVSSSA9IEphdmEudHlwZSgib3JnLmFwYWNoZS5jb21tb25zLmh0dHBjbGllbnQuVVJJIik7Ci8qKgogKiBPSURDIFBhc3N3b3JkIEdyYW50IFR5cGUgYmFzZWQgYXV0aGVudGljYXRpb24gc2NyaXB0IGZvciBaQVAuCiAqCiAqIFRoaXMgYXV0aGVudGljYXRlIGZ1bmN0aW9uIGlzIGNhbGxlZCB3aGVuZXZlciBaQVAgcmVxdWlyZXMgdG8gYXV0aGVudGljYXRlLAogKiBmb3IgYSBDb250ZXh0IHdoaWNoIGhhcyB0aGlzIHNjcmlwdCBzZWxlY3RlZCBhcyB0aGUgYXV0aGVudGljYXRpb24gbWV0aG9kLgogKgogKiBUaGlzIGZ1bmN0aW9uIHNob3VsZCBzZW5kIGFueSBtZXNzYWdlcyB0aGF0IGFyZSByZXF1aXJlZCB0byBkbyB0aGUgYXV0aGVudGljYXRpb24KICogYW5kIHNob3VsZCByZXR1cm4gYSBtZXNzYWdlIHdpdGggYW4gYXV0aGVudGljYXRlZCByZXNwb25zZS4KICoKICogVGhpcyBhdXRoIGlzIGJhc2VkIG9uIHRoZSBncmFuZCB0eXBlICJwYXNzd29yZCIgdG8gcmV0cmlldmUgZnJlc2ggdG9rZW5zOgogKiBodHRwczovL2RldmVsb3Blci5va3RhLmNvbS9ibG9nLzIwMTgvMDYvMjkvd2hhdC1pcy10aGUtb2F1dGgyLXBhc3N3b3JkLWdyYW50CiAqCiAqIEZvciBBdXRoZW50aWNhdGlvbiBzZWxlY3QvY29uZmlndXJlIGluIHlvdXIgWkFQIENvbnRleHQ6CiAqCiAqIC0gQXV0aGVudGljYXRpb24gbWV0aG9kOiBTY3JpcHRCYXNlZCBBdXRoZW50aWNhdGlvbgogKiAtIExvZ2luIEZPUk0gdGFyZ2V0IFVSTDogaHR0cHM6Ly8ka2V5Y2xvYWstdXJsL2F1dGgvcmVhbG1zLyRhcHAvcHJvdG9jb2wvb3BlbmlkLWNvbm5lY3QvdG9rZW4KICogLSB1c2VybmFtZSBwYXJhbWV0ZXI6IHlvdXItdXNlcm5hbWUtdG8tZ2V0LXRva2VucwogKiAtIHBhc3N3b3JkIHBhcmFtZXRlcjogeW91ci1wYXNzd29yZC10by1nZXQtdG9rZW5zCiAqIC0gTG9nZ2VkIG91dCByZWdleDogIi4qQ3JlZGVudGlhbHMgYXJlIHJlcXVpcmVkIHRvIGFjY2VzcyB0aGlzIHJlc291cmNlLioiCiAqCiAqIE5PVEU6IEFueSBtZXNzYWdlIHNlbnQgaW4gdGhlIGZ1bmN0aW9uIHNob3VsZCBiZSBvYnRhaW5lZCB1c2luZyB0aGUgJ2hlbHBlci5wcmVwYXJlTWVzc2FnZSgpJwogKiAgICAgICBtZXRob2QuCiAqCiAqIEBwYXJhbSB7T2JqZWN0fSBoZWxwZXIgLSBIZWxwZXIgY2xhc3MgcHJvdmlkaW5nIHVzZWZ1bCBtZXRob2RzOiBwcmVwYXJlTWVzc2FnZSgpLCBzZW5kQW5kUmVjZWl2ZShtc2cpLgogKiBAcGFyYW0ge09iamVjdH0gcGFyYW1zVmFsdWVzIC0gVmFsdWVzIG9mIHRoZSBwYXJhbWV0ZXJzIGNvbmZpZ3VyZWQgaW4gdGhlIFNlc3Npb24gUHJvcGVydGllcyAtPiBBdXRoZW50aWNhdGlvbiBwYW5lbC4KICogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFRoZSBwYXJhbXNWYWx1ZXMgaXMgYSBtYXAgd2l0aCBwYXJhbWV0ZXJzIG5hbWVzIGFzIGtleXMgKGxpa2UgcmV0dXJuZWQKICogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGJ5IHRoZSBnZXRSZXF1aXJlZFBhcmFtc05hbWVzKCkgYW5kIGdldE9wdGlvbmFsUGFyYW1zTmFtZXMoKSBmdW5jdGlvbnMgYmVsb3cpLgogKiBAcGFyYW0ge09iamVjdH0gY3JlZGVudGlhbHMgLSBPYmplY3QgY29udGFpbmluZyB0aGUgY3JlZGVudGlhbHMgY29uZmlndXJlZCBpbiB0aGUgU2Vzc2lvbiBQcm9wZXJ0aWVzIC0+IFVzZXJzIHBhbmVsLgogKiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBUaGUgY3JlZGVudGlhbCB2YWx1ZXMgY2FuIGJlIG9idGFpbmVkIHZpYSBjYWxscyB0byB0aGUgZ2V0UGFyYW0ocGFyYW1OYW1lKSBtZXRob2QuCiAqICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFRoZSBwYXJhbSBuYW1lcyBhcmUgdGhlIG9uZXMgcmV0dXJuZWQgYnkgdGhlIGdldENyZWRlbnRpYWxzUGFyYW1zTmFtZXMoKSBiZWxvdy4KICovCmZ1bmN0aW9uIGF1dGhlbnRpY2F0ZShoZWxwZXIsIHBhcmFtc1ZhbHVlcywgY3JlZGVudGlhbHMpIHsKICAgIHByaW50KCJBdXRoZW50aWNhdGlvbiB2aWEgc2NiLW9pZGMtcGFzc3dvcmQtZ3JhbmQtdHlwZS5qcy4uLiIpOwoKICAgIC8vIFByZXBhcmUgdGhlIGxvZ2luIHJlcXVlc3QgZGV0YWlscwogICAgdmFyIHVybCA9IHBhcmFtc1ZhbHVlcy5nZXQoIlVSTCIpOwogICAgdmFyIGNsaWVudElkID0gcGFyYW1zVmFsdWVzLmdldCgiY2xpZW50SWQiKTsKICAgIHByaW50KCJMb2dnaW5nIGluIHRvIHVybDogIiArIHVybCArICIgY2xpZW50SWQ6ICIgKyBjbGllbnRJZCk7CgogICAgdmFyIHJlcXVlc3RVcmkgPSBuZXcgVVJJKHVybCwgZmFsc2UpOwogICAgdmFyIHJlcXVlc3RNZXRob2QgPSBIdHRwUmVxdWVzdEhlYWRlci5QT1NUOwoKICAgIC8vIEJ1aWxkIHRoZSByZXF1ZXN0IGJvZHkgdXNpbmcgdGhlIGNyZWRlbnRpYWxzIHZhbHVlcwogICAgLy8gVGhpcyBhdXRoIGlzIGJhc2VkIG9uIHRoZSBncmFuZCB0eXBlICJwYXNzd29yZCIgdG8gcmV0cmlldmUgZnJlc2ggdG9rZW5zCiAgICAvLyBodHRwczovL2RldmVsb3Blci5va3RhLmNvbS9ibG9nLzIwMTgvMDYvMjkvd2hhdC1pcy10aGUtb2F1dGgyLXBhc3N3b3JkLWdyYW50CiAgICB2YXIgcmVxdWVzdEJvZHkgPSAiZ3JhbnRfdHlwZT1wYXNzd29yZCZjbGllbnRfaWQ9IiArIGNsaWVudElkICsgIiZ1c2VybmFtZT0iICsgY3JlZGVudGlhbHMuZ2V0UGFyYW0oInVzZXJuYW1lIikgKyAiJnBhc3N3b3JkPSIgKyBjcmVkZW50aWFscy5nZXRQYXJhbSgicGFzc3dvcmQiKTsKCiAgICAvLyBCdWlsZCB0aGUgYWN0dWFsIG1lc3NhZ2UgdG8gYmUgc2VudAogICAgcHJpbnQoIlNlbmRpbmcgIiArIHJlcXVlc3RNZXRob2QgKyAiIHJlcXVlc3QgdG8gIiArIHJlcXVlc3RVcmkgKyAiIHdpdGggYm9keTogIiArIHJlcXVlc3RCb2R5KTsKICAgIHZhciBtc2cgPSBoZWxwZXIucHJlcGFyZU1lc3NhZ2UoKTsKICAgIG1zZy5zZXRSZXF1ZXN0Qm9keShyZXF1ZXN0Qm9keSk7CgogICAgdmFyIHJlcXVlc3RIZWFkZXIgPSBuZXcgSHR0cFJlcXVlc3RIZWFkZXIocmVxdWVzdE1ldGhvZCwgcmVxdWVzdFVyaSwgSHR0cEhlYWRlci5IVFRQMTApOwogICAgbXNnLnNldFJlcXVlc3RIZWFkZXIocmVxdWVzdEhlYWRlcik7CiAgICBwcmludCgiTXNnIHByZXBhcmVkIikKCiAgICAvLyBTZW5kIHRoZSBhdXRoZW50aWNhdGlvbiBtZXNzYWdlIGFuZCByZXR1cm4gaXQKICAgIHRyeSB7CiAgICAgICAgaGVscGVyLnNlbmRBbmRSZWNlaXZlKG1zZyk7CiAgICAgICAgcHJpbnQoIlJlY2VpdmVkIHJlc3BvbnNlIHN0YXR1cyBjb2RlIGZvciBhdXRoZW50aWNhdGlvbiByZXF1ZXN0OiAiICsgbXNnLmdldFJlc3BvbnNlSGVhZGVyKCkuZ2V0U3RhdHVzQ29kZSgpKTsKICAgICAgICByZXR1cm4gbXNnOwogICAgfSBjYXRjaCAoZXJyKSB7CiAgICAgICAgcHJpbnQoIkdvdCBlcnJvciIpOwogICAgICAgIHByaW50KGVycik7CiAgICB9CgogICAgcmV0dXJuIG51bGwKfQoKLyoqCiAqIFRoaXMgZnVuY3Rpb24gaXMgY2FsbGVkIGR1cmluZyB0aGUgc2NyaXB0IGxvYWRpbmcgdG8gb2J0YWluIGEgbGlzdCBvZiByZXF1aXJlZCBjb25maWd1cmF0aW9uIHBhcmFtZXRlciBuYW1lcy4KICoKICogVGhlc2UgbmFtZXMgd2lsbCBiZSBzaG93biBpbiB0aGUgU2Vzc2lvbiBQcm9wZXJ0aWVzIC0+IEF1dGhlbnRpY2F0aW9uIHBhbmVsIGZvciBjb25maWd1cmF0aW9uLiBUaGV5IGNhbiBiZSB1c2VkCiAqIHRvIGlucHV0IGR5bmFtaWMgZGF0YSBpbnRvIHRoZSBzY3JpcHQsIGZyb20gdGhlIHVzZXIgaW50ZXJmYWNlIChlLmcuIGEgbG9naW4gVVJMLCBuYW1lIG9mIFBPU1QgcGFyYW1ldGVycyBldGMuKS4KICovCmZ1bmN0aW9uIGdldFJlcXVpcmVkUGFyYW1zTmFtZXMoKSB7CiAgICByZXR1cm4gWyJVUkwiLCAiY2xpZW50SWQiXTsKfQoKLyoqCiAqIFRoaXMgZnVuY3Rpb24gaXMgY2FsbGVkIGR1cmluZyB0aGUgc2NyaXB0IGxvYWRpbmcgdG8gb2J0YWluIGEgbGlzdCBvZiBvcHRpb25hbCBjb25maWd1cmF0aW9uIHBhcmFtZXRlciBuYW1lcy4KICoKICogVGhlc2Ugd2lsbCBiZSBzaG93biBpbiB0aGUgU2Vzc2lvbiBQcm9wZXJ0aWVzIC0+IEF1dGhlbnRpY2F0aW9uIHBhbmVsIGZvciBjb25maWd1cmF0aW9uLiBUaGV5IGNhbiBiZSB1c2VkCiAqIHRvIGlucHV0IGR5bmFtaWMgZGF0YSBpbnRvIHRoZSBzY3JpcHQsIGZyb20gdGhlIHVzZXIgaW50ZXJmYWNlIChlLmcuIGEgbG9naW4gVVJMLCBuYW1lIG9mIFBPU1QgcGFyYW1ldGVycyBldGMuKS4KICovCmZ1bmN0aW9uIGdldE9wdGlvbmFsUGFyYW1zTmFtZXMoKSB7CiAgICByZXR1cm4gW107Cn0KCi8qKgogKiBUaGlzIGZ1bmN0aW9uIGlzIGNhbGxlZCBkdXJpbmcgdGhlIHNjcmlwdCBsb2FkaW5nIHRvIG9idGFpbiBhIGxpc3Qgb2YgcmVxdWlyZWQgY3JlZGVudGlhbCBwYXJhbWV0ZXIgbmFtZXMuCiAqCiAqIFRoZXkgYXJlIGNvbmZpZ3VyZWQgZm9yIGVhY2ggdXNlciBjb3JyZXNwb25kaW5nIHRvIGFuIGF1dGhlbnRpY2F0aW9uIHVzaW5nIHRoaXMgc2NyaXB0LgogKi8KZnVuY3Rpb24gZ2V0Q3JlZGVudGlhbHNQYXJhbXNOYW1lcygpIHsKICAgIHJldHVybiBbInVzZXJuYW1lIiwgInBhc3N3b3JkIl07Cn0=
+    kind: ConfigMap
+    metadata:
+      labels:
+        app: RELEASE-NAME
+        chart: zap-advanced-0.0.0
+        heritage: Helm
+        release: RELEASE-NAME
+      name: zap-scripts-authentication
+  6: |
+    apiVersion: v1
+    binaryData:
+      juiceshop-session-management.js: LyoKICogU2Vzc2lvbiBNYW5hZ2VtZW50IHNjcmlwdCBmb3IgT1dBU1AgSnVpY2UgU2hvcDogaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3phcHJveHkvY29tbXVuaXR5LXNjcmlwdHMvbWFzdGVyL3Nlc3Npb24vSnVpY2UlMjBTaG9wJTIwU2Vzc2lvbiUyME1hbmFnZW1lbnQuanMKICogCiAqIEZvciBBdXRoZW50aWNhdGlvbiBzZWxlY3Q6CiAqIAkJQXV0aGVudGljYXRpb24gbWV0aG9kOgkJSlNPTi1iYXNlZCBhdXRoZW50aWNhdGlvbgogKiAJCUxvZ2luIEZPUk0gdGFyZ2V0IFVSTDoJCWh0dHA6Ly9sb2NhbGhvc3Q6MzAwMC9yZXN0L3VzZXIvbG9naW4KICogCQlVUkwgdG8gR0VUIExvZ2luIFBhZ2U6CQlodHRwOi8vbG9jYWxob3N0OjMwMDAvCiAqIAkJTG9naW4gUmVxdWVzdCBQT1NUIGRhdGE6CXsiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicGFzc3dvcmQiOiJ0ZXN0MSJ9CiAqIAkJVXNlcm5hbWUgUGFyYW1ldGVyOgkJCWVtYWlsCiAqIAkJUGFzc3dvcmQgUGFyYW1ldGVyOgkJCXBhc3N3b3JkCiAqIAkJTG9nZ2VkIG91dCByZWdleDoJCQlcUXsidXNlciI6e319XEUKICogCiAqIE9idmlvdXNseSB1cGRhdGUgd2l0aCBhbnkgbG9jYWwgY2hhbmdlcyBhcyBuZWNlc3NhcnkuCiAqLwoKdmFyIENPT0tJRV9UWVBFICAgPSBvcmcucGFyb3Nwcm94eS5wYXJvcy5uZXR3b3JrLkh0bWxQYXJhbWV0ZXIuVHlwZS5jb29raWU7CnZhciBIdG1sUGFyYW1ldGVyID0gSmF2YS50eXBlKCdvcmcucGFyb3Nwcm94eS5wYXJvcy5uZXR3b3JrLkh0bWxQYXJhbWV0ZXInKQp2YXIgU2NyaXB0VmFycyA9IEphdmEudHlwZSgnb3JnLnphcHJveHkuemFwLmV4dGVuc2lvbi5zY3JpcHQuU2NyaXB0VmFycycpOwoKZnVuY3Rpb24gZXh0cmFjdFdlYlNlc3Npb24oc2Vzc2lvbldyYXBwZXIpIHsKCS8vIHBhcnNlIHRoZSBhdXRoZW50aWNhdGlvbiByZXNwb25zZQoJdmFyIGpzb24gPSBKU09OLnBhcnNlKHNlc3Npb25XcmFwcGVyLmdldEh0dHBNZXNzYWdlKCkuZ2V0UmVzcG9uc2VCb2R5KCkudG9TdHJpbmcoKSk7Cgl2YXIgdG9rZW4gPSBqc29uLmF1dGhlbnRpY2F0aW9uLnRva2VuOwoJLy8gc2F2ZSB0aGUgYXV0aGVudGljYXRpb24gdG9rZW4KCXNlc3Npb25XcmFwcGVyLmdldFNlc3Npb24oKS5zZXRWYWx1ZSgidG9rZW4iLCB0b2tlbik7CglTY3JpcHRWYXJzLnNldEdsb2JhbFZhcigianVpY2VzaG9wLnRva2VuIiwgdG9rZW4pOwp9CiAgICAJCmZ1bmN0aW9uIGNsZWFyV2ViU2Vzc2lvbklkZW50aWZpZXJzKHNlc3Npb25XcmFwcGVyKSB7Cgl2YXIgaGVhZGVycyA9IHNlc3Npb25XcmFwcGVyLmdldEh0dHBNZXNzYWdlKCkuZ2V0UmVxdWVzdEhlYWRlcigpOwoJaGVhZGVycy5zZXRIZWFkZXIoIkF1dGhvcml6YXRpb24iLCBudWxsKTsKCVNjcmlwdFZhcnMuc2V0R2xvYmFsVmFyKCJqdWljZXNob3AudG9rZW4iLCBudWxsKTsKfQogICAgCQpmdW5jdGlvbiBwcm9jZXNzTWVzc2FnZVRvTWF0Y2hTZXNzaW9uKHNlc3Npb25XcmFwcGVyKSB7Cgl2YXIgdG9rZW4gPSBzZXNzaW9uV3JhcHBlci5nZXRTZXNzaW9uKCkuZ2V0VmFsdWUoInRva2VuIik7CglpZiAodG9rZW4gPT09IG51bGwpIHsKCQlwcmludCgnSlMgbWdtdCBzY3JpcHQ6IG5vIHRva2VuJyk7CgkJcmV0dXJuOwoJfQoJdmFyIGNvb2tpZSA9IG5ldyBIdG1sUGFyYW1ldGVyKENPT0tJRV9UWVBFLCAidG9rZW4iLCB0b2tlbik7CgkvLyBhZGQgdGhlIHNhdmVkIGF1dGhlbnRpY2F0aW9uIHRva2VuIGFzIGFuIEF1dGhlbnRpY2F0aW9uIGhlYWRlciBhbmQgYSBjb29raWUKCXZhciBtc2cgPSBzZXNzaW9uV3JhcHBlci5nZXRIdHRwTWVzc2FnZSgpOwoJbXNnLmdldFJlcXVlc3RIZWFkZXIoKS5zZXRIZWFkZXIoIkF1dGhvcml6YXRpb24iLCAiQmVhcmVyICIgKyB0b2tlbik7Cgl2YXIgY29va2llcyA9IG1zZy5nZXRSZXF1ZXN0SGVhZGVyKCkuZ2V0Q29va2llUGFyYW1zKCk7Cgljb29raWVzLmFkZChjb29raWUpOwoJbXNnLmdldFJlcXVlc3RIZWFkZXIoKS5zZXRDb29raWVQYXJhbXMoY29va2llcyk7Cn0KCmZ1bmN0aW9uIGdldFJlcXVpcmVkUGFyYW1zTmFtZXMoKSB7CglyZXR1cm4gW107Cn0KCmZ1bmN0aW9uIGdldE9wdGlvbmFsUGFyYW1zTmFtZXMoKSB7CglyZXR1cm4gW107Cn0K
+      scb-oidc-session-management.js: Ly8gU1BEWC1GaWxlQ29weXJpZ2h0VGV4dDogdGhlIHNlY3VyZUNvZGVCb3ggYXV0aG9ycwovLwovLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogQXBhY2hlLTIuMAoKLyoqCiAqIFNlc3Npb24gTWFuYWdlbWVudCBzY3JpcHQgZm9yIE9JREMgQXV0aGVudGljYXRpb24uCiAqCiAqIEFkYXB0ZWQgZnJvbSBPV0FTUCBKdWljZSBTaG9wIEV4YW1wbGU6IGh0dHBzOi8vd3d3LnphcHJveHkub3JnL2Jsb2cvMjAyMC0wNi0wNC16YXAtMi05LTAtaGlnaGxpZ2h0cy8KICovCgpmdW5jdGlvbiBleHRyYWN0V2ViU2Vzc2lvbihzZXNzaW9uV3JhcHBlcikgewogICAgcHJpbnQoImV4dHJhY3RXZWJTZXNzaW9uIikKICAgIC8vIHBhcnNlIHRoZSBhdXRoZW50aWNhdGlvbiByZXNwb25zZQogICAgdmFyIGpzb24gPSBKU09OLnBhcnNlKHNlc3Npb25XcmFwcGVyLmdldEh0dHBNZXNzYWdlKCkuZ2V0UmVzcG9uc2VCb2R5KCkudG9TdHJpbmcoKSk7CiAgICB2YXIgdG9rZW4gPSBqc29uLmFjY2Vzc190b2tlbjsKICAgIC8vIHNhdmUgdGhlIGF1dGhlbnRpY2F0aW9uIHRva2VuCiAgICBzZXNzaW9uV3JhcHBlci5nZXRTZXNzaW9uKCkuc2V0VmFsdWUoInRva2VuIiwgdG9rZW4pOwp9CgpmdW5jdGlvbiBjbGVhcldlYlNlc3Npb25JZGVudGlmaWVycyhzZXNzaW9uV3JhcHBlcikgewogICAgcHJpbnQoImNsZWFyV2ViU2Vzc2lvbklkZW50aWZpZXJzIikKICAgIHZhciBoZWFkZXJzID0gc2Vzc2lvbldyYXBwZXIuZ2V0SHR0cE1lc3NhZ2UoKS5nZXRSZXF1ZXN0SGVhZGVyKCk7CiAgICBoZWFkZXJzLnNldEhlYWRlcigiQXV0aG9yaXphdGlvbiIsIG51bGwpOwp9CgpmdW5jdGlvbiBwcm9jZXNzTWVzc2FnZVRvTWF0Y2hTZXNzaW9uKHNlc3Npb25XcmFwcGVyKSB7CiAgICBwcmludCgicHJvY2Vzc01lc3NhZ2VUb01hdGNoU2Vzc2lvbiIpCiAgICB2YXIgdG9rZW4gPSBzZXNzaW9uV3JhcHBlci5nZXRTZXNzaW9uKCkuZ2V0VmFsdWUoInRva2VuIik7CiAgICBpZiAodG9rZW4gPT09IG51bGwpIHsKICAgICAgICBwcmludCgnSlMgbWdtdCBzY3JpcHQ6IG5vIHRva2VuJyk7CiAgICAgICAgcmV0dXJuOwogICAgfQoKICAgIC8vIGFkZCB0aGUgc2F2ZWQgYXV0aGVudGljYXRpb24gdG9rZW4gYXMgYW4gQXV0aGVudGljYXRpb24gaGVhZGVyIGFuZCBhIGNvb2tpZQogICAgdmFyIG1zZyA9IHNlc3Npb25XcmFwcGVyLmdldEh0dHBNZXNzYWdlKCk7CiAgICBtc2cuZ2V0UmVxdWVzdEhlYWRlcigpLnNldEhlYWRlcigiQXV0aG9yaXphdGlvbiIsICJCZWFyZXIgIiArIHRva2VuKTsKfQoKLyoqCiAqIFRoaXMgZnVuY3Rpb24gaXMgY2FsbGVkIGR1cmluZyB0aGUgc2NyaXB0IGxvYWRpbmcgdG8gb2J0YWluIGEgbGlzdCBvZiByZXF1aXJlZCBjb25maWd1cmF0aW9uIHBhcmFtZXRlciBuYW1lcy4KICoKICogVGhlc2UgbmFtZXMgd2lsbCBiZSBzaG93biBpbiB0aGUgU2Vzc2lvbiBQcm9wZXJ0aWVzIC0+IEF1dGhlbnRpY2F0aW9uIHBhbmVsIGZvciBjb25maWd1cmF0aW9uLiBUaGV5IGNhbiBiZSB1c2VkCiAqIHRvIGlucHV0IGR5bmFtaWMgZGF0YSBpbnRvIHRoZSBzY3JpcHQsIGZyb20gdGhlIHVzZXIgaW50ZXJmYWNlIChlLmcuIGEgbG9naW4gVVJMLCBuYW1lIG9mIFBPU1QgcGFyYW1ldGVycyBldGMuKS4KICovCmZ1bmN0aW9uIGdldFJlcXVpcmVkUGFyYW1zTmFtZXMoKSB7CiAgICByZXR1cm4gW107Cn0KCi8qKgogKiBUaGlzIGZ1bmN0aW9uIGlzIGNhbGxlZCBkdXJpbmcgdGhlIHNjcmlwdCBsb2FkaW5nIHRvIG9idGFpbiBhIGxpc3Qgb2Ygb3B0aW9uYWwgY29uZmlndXJhdGlvbiBwYXJhbWV0ZXIgbmFtZXMuCiAqCiAqIFRoZXNlIHdpbGwgYmUgc2hvd24gaW4gdGhlIFNlc3Npb24gUHJvcGVydGllcyAtPiBBdXRoZW50aWNhdGlvbiBwYW5lbCBmb3IgY29uZmlndXJhdGlvbi4gVGhleSBjYW4gYmUgdXNlZAogKiB0byBpbnB1dCBkeW5hbWljIGRhdGEgaW50byB0aGUgc2NyaXB0LCBmcm9tIHRoZSB1c2VyIGludGVyZmFjZSAoZS5nLiBhIGxvZ2luIFVSTCwgbmFtZSBvZiBQT1NUIHBhcmFtZXRlcnMgZXRjLikuCiAqLwpmdW5jdGlvbiBnZXRPcHRpb25hbFBhcmFtc05hbWVzKCkgewogICAgcmV0dXJuIFtdOwp9Cg==
+    kind: ConfigMap
+    metadata:
+      labels:
+        app: RELEASE-NAME
+        chart: zap-advanced-0.0.0
+        heritage: Helm
+        release: RELEASE-NAME
+      name: zap-scripts-session

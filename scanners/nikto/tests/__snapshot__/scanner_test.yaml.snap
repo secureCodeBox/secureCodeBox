@@ -1,0 +1,97 @@
+matches the snapshot:
+  1: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: medium
+        securecodebox.io/invasive: non-invasive
+      name: nikto-http
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              service: http*
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - -host
+          - '{{$.hostOrIP}}'
+          - -port
+          - '{{attributes.port}}'
+          - -Tuning
+          - 1,2,3,5,7,b
+        scanType: nikto
+  2: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ParseDefinition
+    metadata:
+      name: nikto-json
+    spec:
+      affinity:
+        foo: bar
+      env:
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/parser-nikto:0.0.0
+      imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: foo
+      resources:
+        foo: bar
+      scopeLimiterAliases:
+        foo: bar
+      tolerations:
+        - foo: bar
+      ttlSecondsAfterFinished: null
+  3: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanType
+    metadata:
+      name: niktofoo
+    spec:
+      extractResults:
+        location: /home/securecodebox/nikto-results.json
+        type: nikto-json
+      jobTemplate:
+        spec:
+          backoffLimit: 3
+          suspend: false
+          template:
+            spec:
+              affinity:
+                foo: bar
+              containers:
+                - command:
+                    - sh
+                    - /wrapper.sh
+                    - -o
+                    - /home/securecodebox/nikto-results.json
+                  env:
+                    - name: foo
+                      value: bar
+                  image: docker.io/securecodebox/scanner-nikto:0.0.0
+                  imagePullPolicy: IfNotPresent
+                  name: nikto
+                  resources:
+                    foo: bar
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: true
+                    runAsNonRoot: true
+                  volumeMounts: []
+                - image: bar
+                  name: foo
+              imagePullSecrets:
+                - name: foo
+              restartPolicy: Never
+              securityContext:
+                fsGroup: 1234
+              tolerations:
+                - foo: bar
+              volumes: []

@@ -1,0 +1,121 @@
+matches the snapshot:
+  1: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: light
+        securecodebox.io/invasive: non-invasive
+      name: nmap-hostscan
+    spec:
+      matches:
+        anyOf:
+          - category: Subdomain
+            osi_layer: NETWORK
+      scanSpec:
+        parameters:
+          - -Pn
+          - '{{location}}'
+        scanType: nmap
+  2: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: light
+        securecodebox.io/invasive: non-invasive
+      name: nmap-smb
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              port: 445
+              state: open
+            category: Open Port
+          - attributes:
+              service: microsoft-ds
+              state: open
+            category: Open Port
+          - attributes:
+              service: netbios-ssn
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - -Pn
+          - -p{{attributes.port}}
+          - --script
+          - smb-protocols
+          - '{{$.hostOrIP}}'
+        scanType: nmap
+  3: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ParseDefinition
+    metadata:
+      name: nmap-xml
+    spec:
+      affinity:
+        foo: bar
+      env:
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/parser-nmap:0.0.0
+      imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: foo
+      resources:
+        foo: bar
+      scopeLimiterAliases:
+        foo: bar
+      tolerations:
+        - foo: bar
+      ttlSecondsAfterFinished: null
+  4: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanType
+    metadata:
+      name: nmapfoo
+    spec:
+      extractResults:
+        location: /home/securecodebox/nmap-results.xml
+        type: nmap-xml
+      jobTemplate:
+        spec:
+          backoffLimit: 3
+          suspend: false
+          template:
+            spec:
+              affinity:
+                foo: bar
+              containers:
+                - command:
+                    - nmap
+                    - -oX
+                    - /home/securecodebox/nmap-results.xml
+                  env:
+                    - name: foo
+                      value: bar
+                  image: docker.io/securecodebox/scanner-nmap:0.0.0
+                  imagePullPolicy: IfNotPresent
+                  name: nmap
+                  resources:
+                    foo: bar
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: true
+                    runAsNonRoot: true
+                  volumeMounts: []
+                - image: bar
+                  name: foo
+              imagePullSecrets:
+                - name: foo
+              restartPolicy: OnFailure
+              securityContext:
+                fsGroup: 1234
+              tolerations:
+                - foo: bar
+              volumes: []

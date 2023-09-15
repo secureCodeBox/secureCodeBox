@@ -1,0 +1,117 @@
+matches the snapshot:
+  1: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: light
+        securecodebox.io/invasive: non-invasive
+      name: kubernetes-control-plane
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              port: 6443
+              state: open
+            category: Open Port
+          - attributes:
+              port: 2379
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - --remote
+          - '{{$.hostOrIP}}'
+        scanType: kube-hunter
+  2: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: light
+        securecodebox.io/invasive: non-invasive
+      name: kubernetes-node
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              port: 10250
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - --remote
+          - '{{$.hostOrIP}}'
+        scanType: kube-hunter
+  3: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ParseDefinition
+    metadata:
+      name: kube-hunter-json
+    spec:
+      affinity:
+        foo: bar
+      env:
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/parser-kube-hunter:0.0.0
+      imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: foo
+      resources:
+        foo: bar
+      scopeLimiterAliases:
+        foo: bar
+      tolerations:
+        - foo: bar
+      ttlSecondsAfterFinished: null
+  4: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanType
+    metadata:
+      name: kube-hunterfoo
+    spec:
+      extractResults:
+        location: /home/securecodebox/kube-hunter-results.json
+        type: kube-hunter-json
+      jobTemplate:
+        spec:
+          backoffLimit: 3
+          suspend: false
+          template:
+            spec:
+              affinity:
+                foo: bar
+              containers:
+                - command:
+                    - sh
+                    - /wrapper.sh
+                    - --report
+                    - json
+                  env:
+                    - name: foo
+                      value: bar
+                  image: docker.io/securecodebox/scanner-kube-hunter:0.0.0
+                  imagePullPolicy: IfNotPresent
+                  name: kube-hunter
+                  resources:
+                    foo: bar
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: true
+                    runAsNonRoot: false
+                  volumeMounts: []
+                - image: bar
+                  name: foo
+              imagePullSecrets:
+                - name: foo
+              restartPolicy: Never
+              securityContext:
+                fsGroup: 1234
+              tolerations:
+                - foo: bar
+              volumes: []

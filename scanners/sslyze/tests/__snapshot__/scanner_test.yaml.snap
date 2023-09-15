@@ -1,0 +1,246 @@
+matches the snapshot:
+  1: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: light
+        securecodebox.io/invasive: non-invasive
+      name: ftps-tls-scan
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              port: 990
+              state: open
+            category: Open Port
+          - attributes:
+              service: ftps
+              state: open
+            category: Open Port
+          - attributes:
+              service: ftp
+              state: open
+              tunnel: ssl
+            category: Open Port
+      scanSpec:
+        parameters:
+          - --mozilla_config=modern
+          - '{{$.hostOrIP}}:{{attributes.port}}'
+        scanType: sslyze
+  2: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: light
+        securecodebox.io/invasive: non-invasive
+      name: https-tls-scan
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              port: 443
+              state: open
+            category: Open Port
+          - attributes:
+              port: 8443
+              state: open
+            category: Open Port
+          - attributes:
+              service: https*
+              state: open
+            category: Open Port
+          - attributes:
+              service: http*
+              state: open
+              tunnel: ssl
+            category: Open Port
+      scanSpec:
+        parameters:
+          - --mozilla_config=intermediate
+          - '{{$.hostOrIP}}:{{attributes.port}}'
+        scanType: sslyze
+  3: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: light
+        securecodebox.io/invasive: non-invasive
+      name: ldaps-tls-scan
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              port: 636
+              state: open
+            category: Open Port
+          - attributes:
+              service: ldapssl
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - --mozilla_config=intermediate
+          - '{{$.hostOrIP}}:{{attributes.port}}'
+        scanType: sslyze
+  4: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: light
+        securecodebox.io/invasive: non-invasive
+      name: smtps-tls-scan
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              port: 465
+              state: open
+            category: Open Port
+          - attributes:
+              service: smtps
+              state: open
+            category: Open Port
+          - attributes:
+              service: smtp
+              state: open
+              tunnel: ssl
+            category: Open Port
+      scanSpec:
+        parameters:
+          - --mozilla_config=intermediate
+          - '{{$.hostOrIP}}:{{attributes.port}}'
+        scanType: sslyze
+  5: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: light
+        securecodebox.io/invasive: non-invasive
+      name: pop3s-tls-scan
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              port: 995
+              state: open
+            category: Open Port
+          - attributes:
+              service: pop3s
+              state: open
+            category: Open Port
+          - attributes:
+              service: pop3
+              state: open
+              tunnel: ssl
+            category: Open Port
+      scanSpec:
+        parameters:
+          - --mozilla_config=intermediate
+          - '{{$.hostOrIP}}:{{attributes.port}}'
+        scanType: sslyze
+  6: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: light
+        securecodebox.io/invasive: non-invasive
+      name: imaps-tls-scan
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              port: 993
+              state: open
+            category: Open Port
+          - attributes:
+              service: imaps
+              state: open
+            category: Open Port
+          - attributes:
+              service: imap
+              state: open
+              tunnel: ssl
+            category: Open Port
+      scanSpec:
+        parameters:
+          - --mozilla_config=intermediate
+          - '{{$.hostOrIP}}:{{attributes.port}}'
+        scanType: sslyze
+  7: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ParseDefinition
+    metadata:
+      name: sslyze-json
+    spec:
+      affinity:
+        foo: bar
+      env:
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/parser-sslyze:0.0.0
+      imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: foo
+      resources:
+        foo: bar
+      scopeLimiterAliases:
+        foo: bar
+      tolerations:
+        - foo: bar
+      ttlSecondsAfterFinished: null
+  8: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanType
+    metadata:
+      name: sslyzefoo
+    spec:
+      extractResults:
+        location: /home/securecodebox/sslyze-results.json
+        type: sslyze-json
+      jobTemplate:
+        spec:
+          backoffLimit: 3
+          suspend: false
+          template:
+            spec:
+              affinity:
+                foo: bar
+              containers:
+                - command:
+                    - sh
+                    - /wrapper.sh
+                    - --json_out
+                    - /home/securecodebox/sslyze-results.json
+                  env:
+                    - name: foo
+                      value: bar
+                  image: docker.io/securecodebox/scanner-sslyze:0.0.0
+                  imagePullPolicy: IfNotPresent
+                  name: sslyze
+                  resources:
+                    foo: bar
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: true
+                    runAsNonRoot: false
+                  volumeMounts: []
+                - image: bar
+                  name: foo
+              imagePullSecrets:
+                - name: foo
+              restartPolicy: OnFailure
+              securityContext:
+                fsGroup: 1234
+              tolerations:
+                - foo: bar
+              volumes: []

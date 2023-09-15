@@ -1,0 +1,93 @@
+matches the snapshot:
+  1: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: light
+        securecodebox.io/invasive: non-invasive
+      name: doggo-dnsscan
+    spec:
+      matches:
+        anyOf:
+          - category: Subdomain
+            osi_layer: NETWORK
+      scanSpec:
+        parameters:
+          - '{{location}}'
+          - A
+          - AAAA
+          - NS
+          - CNAME
+          - TXT
+          - MX
+          - SRV
+        scanType: doggo
+  2: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ParseDefinition
+    metadata:
+      name: doggo-json
+    spec:
+      affinity:
+        foo: bar
+      env:
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/parser-doggo:0.0.0
+      imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: foo
+      resources:
+        foo: bar
+      scopeLimiterAliases:
+        foo: bar
+      tolerations:
+        - foo: bar
+      ttlSecondsAfterFinished: null
+  3: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanType
+    metadata:
+      name: doggofoo
+    spec:
+      extractResults:
+        location: /home/securecodebox/doggo-results.json
+        type: doggo-json
+      jobTemplate:
+        spec:
+          backoffLimit: 3
+          suspend: false
+          template:
+            spec:
+              affinity:
+                foo: bar
+              containers:
+                - command:
+                    - sh
+                    - /wrapper.sh
+                  env:
+                    - name: foo
+                      value: bar
+                  image: docker.io/securecodebox/scanner-doggo:0.0.0
+                  imagePullPolicy: IfNotPresent
+                  name: doggo
+                  resources:
+                    foo: bar
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: true
+                    runAsNonRoot: true
+                  volumeMounts: []
+                - image: bar
+                  name: foo
+              restartPolicy: OnFailure
+              securityContext:
+                fsGroup: 1234
+              tolerations:
+                - foo: bar
+              volumes: []

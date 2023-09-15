@@ -1,0 +1,78 @@
+matches the snapshot:
+  1: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ParseDefinition
+    metadata:
+      name: gitleaks-json
+    spec:
+      affinity:
+        foo: bar
+      env:
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/parser-gitleaks:0.0.0
+      imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: foo
+      resources:
+        foo: bar
+      scopeLimiterAliases:
+        foo: bar
+      tolerations:
+        - foo: bar
+      ttlSecondsAfterFinished: null
+  2: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanType
+    metadata:
+      name: gitleaksfoo
+    spec:
+      extractResults:
+        location: /home/securecodebox/report.json
+        type: gitleaks-json
+      jobTemplate:
+        spec:
+          backoffLimit: 3
+          suspend: false
+          template:
+            spec:
+              affinity:
+                foo: bar
+              containers:
+                - command:
+                    - gitleaks
+                    - --verbose
+                    - --report-format
+                    - json
+                    - --report-path
+                    - /home/securecodebox/report.json
+                    - --exit-code
+                    - "0"
+                    - detect
+                  env:
+                    - name: foo
+                      value: bar
+                  image: docker.io/zricethezav/gitleaks:0.0.0
+                  imagePullPolicy: IfNotPresent
+                  name: gitleaks
+                  resources:
+                    foo: bar
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: true
+                    runAsNonRoot: false
+                  volumeMounts: []
+                - image: bar
+                  name: foo
+              imagePullSecrets:
+                - name: foo
+              restartPolicy: OnFailure
+              securityContext:
+                fsGroup: 1234
+              tolerations:
+                - foo: bar
+              volumes: []

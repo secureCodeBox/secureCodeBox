@@ -1,0 +1,376 @@
+matches the snapshot:
+  1: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: high
+        securecodebox.io/invasive: invasive
+        securecodebox.io/type: bruteforce
+      name: ncrack-ftp
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              port: 21
+              state: open
+            category: Open Port
+          - attributes:
+              service: ftp
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - -v
+          - -d10
+          - -U
+          - /ncrack/users.txt
+          - -P
+          - /ncrack/passwords.txt
+          - -p
+          - ftp:{{attributes.port}}
+          - '{{$.hostOrIP}}'
+        scanType: ncrack
+  2: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: high
+        securecodebox.io/invasive: invasive
+        securecodebox.io/type: bruteforce
+      name: ncrack-mssql
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              port: 1433
+              state: open
+            category: Open Port
+          - attributes:
+              service: ms-sql-s
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - -v
+          - -d10
+          - -U
+          - /ncrack/users.txt
+          - -P
+          - /ncrack/passwords.txt
+          - -p
+          - mssql:{{attributes.port}}
+          - '{{$.hostOrIP}}'
+        scanType: ncrack
+  3: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: high
+        securecodebox.io/invasive: invasive
+        securecodebox.io/type: bruteforce
+      name: ncrack-mysql
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              port: 3306
+              state: open
+            category: Open Port
+          - attributes:
+              service: mysql
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - -v
+          - -d10
+          - -U
+          - /ncrack/users.txt
+          - -P
+          - /ncrack/passwords.txt
+          - -p
+          - mysql:{{attributes.port}}
+          - '{{$.hostOrIP}}'
+        scanType: ncrack
+  4: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: high
+        securecodebox.io/invasive: invasive
+        securecodebox.io/type: bruteforce
+      name: ncrack-postgresql
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              port: 5432
+              state: open
+            category: Open Port
+          - attributes:
+              service: postgresql
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - -v
+          - -d10
+          - -U
+          - /ncrack/users.txt
+          - -P
+          - /ncrack/passwords.txt
+          - -p
+          - psql:{{attributes.port}}
+          - '{{$.hostOrIP}}'
+        scanType: ncrack
+  5: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: high
+        securecodebox.io/invasive: invasive
+        securecodebox.io/type: bruteforce
+      name: ncrack-rdp
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              port: 3389
+              state: open
+            category: Open Port
+          - attributes:
+              service: ms-wbt-server
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - -v
+          - -d10
+          - -U
+          - /ncrack/users.txt
+          - -P
+          - /ncrack/passwords.txt
+          - -p
+          - ms-wbt-server:{{attributes.port}}
+          - '{{$.hostOrIP}}'
+        scanType: ncrack
+  6: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: high
+        securecodebox.io/invasive: invasive
+        securecodebox.io/type: bruteforce
+      name: ncrack-smb
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              port: 445
+              state: open
+            category: Open Port
+          - attributes:
+              port: 139
+              state: open
+            category: Open Port
+          - attributes:
+              service: microsoft-ds
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - -v
+          - -d10
+          - -U
+          - /ncrack/users.txt
+          - -P
+          - /ncrack/passwords.txt
+          - -p
+          - smb:{{attributes.port}}
+          - '{{$.hostOrIP}}'
+        scanType: ncrack
+  7: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: high
+        securecodebox.io/invasive: invasive
+        securecodebox.io/type: bruteforce
+      name: ncrack-ssh
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              port: 22
+              state: open
+            category: Open Port
+          - attributes:
+              service: ssh
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - -v
+          - -d10
+          - -U
+          - /ncrack/users.txt
+          - -P
+          - /ncrack/passwords.txt
+          - -p
+          - ssh:{{attributes.port}}
+          - '{{$.hostOrIP}}'
+        scanType: ncrack
+  8: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: high
+        securecodebox.io/invasive: invasive
+        securecodebox.io/type: bruteforce
+      name: ncrack-telnet
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              port: 23
+              state: open
+            category: Open Port
+          - attributes:
+              service: telnet
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - -v
+          - -d10
+          - -U
+          - /ncrack/users.txt
+          - -P
+          - /ncrack/passwords.txt
+          - -p
+          - telnet:{{attributes.port}}
+          - '{{$.hostOrIP}}'
+        scanType: ncrack
+  9: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: high
+        securecodebox.io/invasive: invasive
+        securecodebox.io/type: bruteforce
+      name: ncrack-vnc
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              port: 5801
+              state: open
+            category: Open Port
+          - attributes:
+              port: 5900
+              state: open
+            category: Open Port
+          - attributes:
+              port: 5901
+              state: open
+            category: Open Port
+          - attributes:
+              port: 6001
+              state: open
+            category: Open Port
+          - attributes:
+              service: vnc
+              state: open
+            category: Open Port
+      scanSpec:
+        parameters:
+          - -v
+          - -d10
+          - -U
+          - /ncrack/users.txt
+          - -P
+          - /ncrack/passwords.txt
+          - -p
+          - vnc:{{attributes.port}}
+          - '{{$.hostOrIP}}'
+        scanType: ncrack
+  10: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ParseDefinition
+    metadata:
+      name: ncrack-xml
+    spec:
+      affinity:
+        foo: bar
+      env:
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/parser-ncrack:0.0.0
+      imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: foo
+      resources:
+        foo: bar
+      scopeLimiterAliases:
+        foo: bar
+      tolerations:
+        - foo: bar
+      ttlSecondsAfterFinished: null
+  11: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanType
+    metadata:
+      name: ncrackfoo
+    spec:
+      extractResults:
+        location: /home/securecodebox/ncrack-results.xml
+        type: ncrack-xml
+      jobTemplate:
+        spec:
+          backoffLimit: 3
+          suspend: false
+          template:
+            spec:
+              affinity:
+                foo: bar
+              containers:
+                - command:
+                    - ncrack
+                    - -oX
+                    - /home/securecodebox/ncrack-results.xml
+                  env:
+                    - name: foo
+                      value: bar
+                  image: docker.io/securecodebox/scanner-ncrack:0.0.0
+                  imagePullPolicy: IfNotPresent
+                  name: ncrack
+                  resources:
+                    foo: bar
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: true
+                    runAsNonRoot: true
+                  volumeMounts: []
+                - image: bar
+                  name: foo
+              imagePullSecrets:
+                - name: foo
+              restartPolicy: OnFailure
+              securityContext:
+                fsGroup: 1234
+              tolerations:
+                - foo: bar
+              volumes: []

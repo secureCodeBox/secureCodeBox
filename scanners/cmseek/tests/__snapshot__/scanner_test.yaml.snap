@@ -1,0 +1,90 @@
+matches the snapshot:
+  1: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: medium
+        securecodebox.io/invasive: non-invasive
+      name: cmseek-cascade
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              MetaGenerator: Joomla! - Open Source Content Management
+            category: WEB APPLICATION
+      scanSpec:
+        parameters:
+          - -u
+          - '{{{location}}}'
+        scanType: cmseek
+  2: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ParseDefinition
+    metadata:
+      name: cmseek-json
+    spec:
+      affinity:
+        foo: bar
+      env:
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/parser-cmseek:0.0.0
+      imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: foo
+      resources:
+        foo: bar
+      scopeLimiterAliases:
+        foo: bar
+      tolerations:
+        - foo: bar
+      ttlSecondsAfterFinished: null
+  3: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanType
+    metadata:
+      name: cmseekfoo
+    spec:
+      extractResults:
+        location: /home/securecodebox/cmseek.json
+        type: cmseek-json
+      jobTemplate:
+        spec:
+          backoffLimit: 3
+          suspend: false
+          template:
+            spec:
+              affinity:
+                foo: bar
+              containers:
+                - command:
+                    - sh
+                    - /home/cmseek/wrapper.sh
+                  env:
+                    - name: foo
+                      value: bar
+                  image: docker.io/securecodebox/scanner-cmseek:0.0.0
+                  imagePullPolicy: IfNotPresent
+                  name: cmseek
+                  resources:
+                    foo: bar
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: false
+                    runAsNonRoot: true
+                  volumeMounts: []
+                - image: bar
+                  name: foo
+              imagePullSecrets:
+                - name: foo
+              restartPolicy: Never
+              securityContext:
+                fsGroup: 1234
+              tolerations:
+                - foo: bar
+              volumes: []

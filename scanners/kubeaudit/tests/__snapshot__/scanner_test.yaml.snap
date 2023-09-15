@@ -1,0 +1,151 @@
+matches the snapshot:
+  1: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ParseDefinition
+    metadata:
+      name: kubeaudit-jsonl
+    spec:
+      affinity:
+        foo: bar
+      env:
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/parser-kubeaudit:0.0.0
+      imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: foo
+      resources:
+        foo: bar
+      scopeLimiterAliases:
+        foo: bar
+      tolerations:
+        - foo: bar
+      ttlSecondsAfterFinished: null
+  2: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: kubeaudit
+      namespace: NAMESPACE
+  3: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata:
+      name: kubeaudit-lurker
+      namespace: NAMESPACE
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: lurker
+    subjects:
+      - kind: ServiceAccount
+        name: kubeaudit
+        namespace: NAMESPACE
+  4: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: Role
+    metadata:
+      name: kubeaudit
+      namespace: NAMESPACE
+    rules:
+      - apiGroups:
+          - ""
+        resources:
+          - pods
+          - podtemplates
+          - replicationcontrollers
+          - namespaces
+        verbs:
+          - get
+          - list
+      - apiGroups:
+          - apps
+        resources:
+          - daemonsets
+          - statefulsets
+          - deployments
+        verbs:
+          - get
+          - list
+      - apiGroups:
+          - batch
+        resources:
+          - cronjobs
+        verbs:
+          - get
+          - list
+      - apiGroups:
+          - networking
+        resources:
+          - networkpolicies
+        verbs:
+          - get
+          - list
+  5: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata:
+      name: kubeaudit
+      namespace: NAMESPACE
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: kubeaudit
+    subjects:
+      - kind: ServiceAccount
+        name: kubeaudit
+        namespace: NAMESPACE
+  6: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanType
+    metadata:
+      name: kubeauditfoo
+    spec:
+      extractResults:
+        location: /home/securecodebox/kubeaudit.jsonl
+        type: kubeaudit-jsonl
+      jobTemplate:
+        spec:
+          backoffLimit: 3
+          suspend: false
+          template:
+            spec:
+              affinity:
+                foo: bar
+              containers:
+                - command:
+                    - sh
+                    - /wrapper.sh
+                    - all
+                    - --exitcode
+                    - "0"
+                    - --format
+                    - json
+                  env:
+                    - name: foo
+                      value: bar
+                  image: docker.io/securecodebox/scanner-kubeaudit:0.0.0
+                  imagePullPolicy: IfNotPresent
+                  name: kubeaudit
+                  resources:
+                    foo: bar
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: true
+                    runAsNonRoot: true
+                  volumeMounts: []
+                - image: bar
+                  name: foo
+              imagePullSecrets:
+                - name: foo
+              restartPolicy: OnFailure
+              securityContext:
+                fsGroup: 1234
+              serviceAccountName: kubeaudit
+              tolerations:
+                - foo: bar
+              volumes: []

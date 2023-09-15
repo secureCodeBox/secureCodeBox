@@ -1,0 +1,94 @@
+matches the snapshot:
+  1: |
+    apiVersion: cascading.securecodebox.io/v1
+    kind: CascadingRule
+    metadata:
+      labels:
+        securecodebox.io/intensive: medium
+        securecodebox.io/invasive: non-invasive
+      name: typo3scan-cascade
+    spec:
+      matches:
+        anyOf:
+          - attributes:
+              PoweredBy: TYPO3
+            category: WEB APPLICATION
+      scanSpec:
+        parameters:
+          - -d
+          - '{{{location}}}'
+          - --vuln
+          - --threads
+          - "10"
+        scanType: typo3scan
+  2: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ParseDefinition
+    metadata:
+      name: typo3scan-json
+    spec:
+      affinity:
+        foo: bar
+      env:
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/parser-typo3scan:0.0.0
+      imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: foo
+      resources:
+        foo: bar
+      scopeLimiterAliases:
+        foo: bar
+      tolerations:
+        - foo: bar
+      ttlSecondsAfterFinished: null
+  3: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanType
+    metadata:
+      name: typo3scan
+    spec:
+      extractResults:
+        location: /home/securecodebox/typo3scan.json
+        type: typo3scan-json
+      jobTemplate:
+        spec:
+          backoffLimit: 3
+          suspend: false
+          template:
+            spec:
+              affinity:
+                foo: bar
+              containers:
+                - command:
+                    - python3
+                    - /home/typo3scan/typo3scan.py
+                    - --no-interaction
+                  env:
+                    - name: foo
+                      value: bar
+                  image: docker.io/securecodebox/scanner-typo3scan:0.0.0
+                  imagePullPolicy: IfNotPresent
+                  name: typo3scan
+                  resources:
+                    foo: bar
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: false
+                    runAsNonRoot: true
+                  volumeMounts: []
+                - image: bar
+                  name: foo
+              imagePullSecrets:
+                - name: foo
+              restartPolicy: Never
+              securityContext:
+                fsGroup: 1234
+              tolerations:
+                - foo: bar
+              volumes: []

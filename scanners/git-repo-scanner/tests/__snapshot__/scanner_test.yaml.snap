@@ -1,0 +1,74 @@
+matches the snapshot:
+  1: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ParseDefinition
+    metadata:
+      name: git-repo-scanner-json
+    spec:
+      affinity:
+        foo: bar
+      env:
+        - name: foo
+          value: bar
+      image: docker.io/securecodebox/parser-git-repo-scanner:0.0.0
+      imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: foo
+      resources:
+        foo: bar
+      scopeLimiterAliases:
+        foo: bar
+      tolerations:
+        - foo: bar
+      ttlSecondsAfterFinished: null
+  2: |
+    apiVersion: execution.securecodebox.io/v1
+    kind: ScanType
+    metadata:
+      name: git-repo-scannerfoo
+    spec:
+      extractResults:
+        location: /home/securecodebox/git-repo-scanner-findings.json
+        type: git-repo-scanner-json
+      jobTemplate:
+        spec:
+          backoffLimit: 3
+          suspend: false
+          template:
+            spec:
+              affinity:
+                foo: bar
+              containers:
+                - command:
+                    - python
+                    - -m
+                    - git_repo_scanner
+                    - --file-output
+                    - /home/securecodebox
+                  env:
+                    - name: foo
+                      value: bar
+                  image: docker.io/securecodebox/scanner-git-repo-scanner:0.0.0
+                  imagePullPolicy: IfNotPresent
+                  name: git-repo-scanner
+                  resources:
+                    foo: bar
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - all
+                    privileged: false
+                    readOnlyRootFilesystem: true
+                    runAsNonRoot: true
+                  volumeMounts: []
+                - image: bar
+                  name: foo
+              imagePullSecrets:
+                - name: foo
+              restartPolicy: OnFailure
+              securityContext:
+                fsGroup: 1234
+              tolerations:
+                - foo: bar
+              volumes: []
