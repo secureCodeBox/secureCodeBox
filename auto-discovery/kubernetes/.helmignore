@@ -11,3 +11,4 @@ main.go
 Makefile
 PROJECT
 auto-discovery-config.yaml
+./tests/
