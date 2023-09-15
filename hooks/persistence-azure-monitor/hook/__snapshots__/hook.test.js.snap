@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: the secureCodeBox authors
+//
+// SPDX-License-Identifier: Apache-2.0
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should batch multiple findings in a single call 1`] = `

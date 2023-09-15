@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: the secureCodeBox authors
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import {Finding, ScopeLimiter, ScopeLimiterAliases} from "./scan-helpers";
 import {V1ObjectMeta} from "@kubernetes/client-node/dist/gen/model/v1ObjectMeta";
 import * as Mustache from "mustache";
