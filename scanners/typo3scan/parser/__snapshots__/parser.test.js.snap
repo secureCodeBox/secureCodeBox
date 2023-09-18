@@ -1,6 +1,3 @@
-// SPDX-FileCopyrightText: the secureCodeBox authors
-//
-// SPDX-License-Identifier: Apache-2.0
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`parser parses large json result with vulnerable extensions successfully 1`] = `
