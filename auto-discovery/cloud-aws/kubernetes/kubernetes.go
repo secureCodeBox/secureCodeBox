@@ -32,6 +32,10 @@ func (r *Request) getImageHash() string {
 	return split[len(split)-1]
 }
 
+type AWSReconciler interface {
+	Reconcile(ctx context.Context, req Request) error
+}
+
 type AWSContainerScanReconciler struct {
 	client.Client
 	Namespace string
@@ -51,7 +55,7 @@ func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request)
 	return nil
 }
 
-func AWSReconciler(namespace string) *AWSContainerScanReconciler {
+func NewAWSReconciler(namespace string) *AWSContainerScanReconciler {
 	client, cfgNamespace, err := GetClient()
 	if err != nil {
 		panic(err)
@@ -60,10 +64,10 @@ func AWSReconciler(namespace string) *AWSContainerScanReconciler {
 		cfgNamespace = namespace
 	}
 
-	return AWSReconcilerWith(client, cfgNamespace)
+	return NewAWSReconcilerWith(client, cfgNamespace)
 }
 
-func AWSReconcilerWith(client client.Client, namespace string) *AWSContainerScanReconciler {
+func NewAWSReconcilerWith(client client.Client, namespace string) *AWSContainerScanReconciler {
 	return &AWSContainerScanReconciler{Client: client, Namespace: namespace}
 }
 

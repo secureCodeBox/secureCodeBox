@@ -16,7 +16,7 @@ func main() {
 	namespace := os.Getenv("SCB_NAMESPACE")
 	queueURL := os.Getenv("SQS_QUEUE_URL")
 
-	awsReconciler := kubernetes.AWSReconciler(namespace)
+	awsReconciler := kubernetes.NewAWSReconciler(namespace)
 	awsMonitor := aws.NewMonitorService(queueURL, awsReconciler)
 
 	fmt.Println("Starting AWS monitoring...")

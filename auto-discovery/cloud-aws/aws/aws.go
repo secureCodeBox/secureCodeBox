@@ -19,11 +19,11 @@ type MonitorService struct {
 	Queue      string
 	Session    *session.Session
 	SqsService *sqs.SQS
-	Reconciler *kubernetes.AWSContainerScanReconciler
+	Reconciler kubernetes.AWSReconciler
 	Ticker     *time.Ticker
 }
 
-func NewMonitorService(queue string, reconciler *kubernetes.AWSContainerScanReconciler) *MonitorService {
+func NewMonitorService(queue string, reconciler kubernetes.AWSReconciler) *MonitorService {
 	session := getSession()
 	service := sqs.New(session)
 
