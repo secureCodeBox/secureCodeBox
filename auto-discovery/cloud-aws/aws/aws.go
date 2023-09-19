@@ -73,7 +73,7 @@ func (m *MonitorService) Run() {
 					m.deleteMessageFromQueue(message.ReceiptHandle)
 				} else {
 					// keep message in queue and try to handle it again
-					fmt.Printf("Errors while registering scan: %v\n", allErrs)
+					fmt.Printf("Errors while reconciling scans: %v\n", allErrs)
 				}
 			}
 		} /*else {

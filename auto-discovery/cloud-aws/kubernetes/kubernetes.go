@@ -19,6 +19,7 @@ import (
 )
 
 type Request struct {
+	Action      string
 	Image       string
 	ImageDigest string
 }
@@ -43,15 +44,38 @@ type AWSContainerScanReconciler struct {
 
 func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request) error {
 	fmt.Printf("Received reconcile request: %+v\n", req)
-	scan := getScanForRequest(req)
 
-	fmt.Println("Registering scan", scan.ObjectMeta.Name)
-	res, err := r.CreateScan(ctx, scan)
-	if err != nil {
-		return err
+	// TODO when an event comes in that a container has started there needs to be a way to recognize
+	// if that is a new container using the same image, or a container sen before as they will be
+	// included in the requests/events as well => IDs? AWS ARNs would work
+	// TODO very shortlived containers never show the status RUNNING
+	// Possible solution: for each container track the last seen status, count a state change from
+	// PENDING to either RUNNING or STOPPED as a run
+	switch req.Action {
+	case "added":
+		scan := getScanForRequest(req)
+
+		fmt.Println("Creating scan", scan.ObjectMeta.Name)
+		res, err := r.CreateScan(ctx, scan)
+		if err != nil {
+			return err
+		}
+
+		fmt.Println("Successfully created scan", res.ObjectMeta.Name)
+	case "removed":
+		name := getScanName(req, "aws-trivy-sbom")
+		fmt.Println("Deleting scan", name)
+		err := r.DeleteScan(ctx, name)
+		if err != nil {
+			return err
+		}
+
+		fmt.Println("Successfully deleted scan", name)
+	default:
+		// Need this default case because strings are a poor excuse for sum types
+		panic("invalid action for request: " + req.Action)
 	}
 
-	fmt.Println("Successfully registered scan", res.ObjectMeta.Name)
 	return nil
 }
 
@@ -89,6 +113,17 @@ func (r *AWSContainerScanReconciler) CreateScan(ctx context.Context, scan *execu
 	return scan, err
 }
 
+func (r *AWSContainerScanReconciler) DeleteScan(ctx context.Context, name string) error {
+	scan := &executionv1.Scan{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      name,
+			Namespace: r.Namespace,
+		},
+	}
+
+	return r.Client.Delete(ctx, scan)
+}
+
 func (r *AWSContainerScanReconciler) GetScheduledScan(ctx context.Context, name string) (*executionv1.ScheduledScan, error) {
 	scheduledScan := &executionv1.ScheduledScan{}
 	err := r.Client.Get(ctx, types.NamespacedName{Name: name, Namespace: r.Namespace}, scheduledScan)
@@ -105,6 +140,17 @@ func (r *AWSContainerScanReconciler) CreateScheduledScan(ctx context.Context, sc
 	scheduledScan.ObjectMeta.Namespace = r.Namespace
 	err := r.Client.Create(ctx, scheduledScan)
 	return scheduledScan, err
+}
+
+func (r *AWSContainerScanReconciler) DeleteScheduledScan(ctx context.Context, name string) error {
+	scan := &executionv1.ScheduledScan{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      name,
+			Namespace: r.Namespace,
+		},
+	}
+
+	return r.Client.Delete(ctx, scan)
 }
 
 func getScanForRequest(req Request) *executionv1.Scan {
