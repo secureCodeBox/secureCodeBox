@@ -329,11 +329,11 @@ ZAP will also use the session for requests you send manually, e.g. by using the 
 If you followed the guide, you should know how to set up authentication using the ZAP GUI. We now describe how to include authentication in a SecureCodeBox ZAP Automation scan. Adding authentication to your scan is done by modifying the ConfigMap that defines the scan parameters. Fortunately, the ZAP GUI allows for exporting a .yaml file, from which the necessary changes to the ConfigMap can be copied. 
 First, make sure that you have the ZAP Automation Framework Add-On installed in your ZAP GUI. Then, navigate to the Automation tab as shown in the image below. 
 
-![Automation Framework Tab](/img/blog/2022-08-26-automationTab.PNG)
+![Automation Framework Tab](/img/blog/2022-08-26-automationTab.png)
 
 Here, you press "Save Plan..." to create a .yaml file that includes the necessary configurations for SecureCodeBox to run your authentication script as part of a ZAP Automation scan. Your .yaml file will look similar to this example. 
 
-![Example .yaml file](/img/blog/2022-08-26-authYaml.PNG)
+![Example .yaml file](/img/blog/2022-08-26-authYaml.png)
 
 Copy everything under "authentication:" and paste it to the ConfigMap that defines your ZAP Automation scan parameters. Make sure to define the authentication configuration under the correct context and not as a job.
 
