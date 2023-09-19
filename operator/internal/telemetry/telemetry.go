@@ -44,6 +44,7 @@ var officialScanTypes map[string]bool = map[string]bool{
 	"trivy-image":         true,
 	"trivy-filesystem":    true,
 	"trivy-repo":          true,
+	"trivy-sbom-image":    true,
 	"typo3scan":           true,
 	"whatweb":             true,
 	"wpscan":              true,
