@@ -38,27 +38,48 @@ func handleEcsEvent(rawMessage string) ([]kubernetes.Request, error) {
 		return nil, err
 	}
 
-	switch stateChange.Detail.LastStatus {
+	switch state := stateChange.Detail.LastStatus; state {
 	case "RUNNING":
-		fmt.Println("Handling container event:", stateChange.Detail.LastStatus)
+		fmt.Println("Handling container event:", state)
 
-		// get unique values by adding them to a "set"
-		requestSet := make(map[kubernetes.Request]struct{}, len(stateChange.Detail.Containers))
-		for _, container := range stateChange.Detail.Containers {
-			fmt.Println("Container is now running:", container.Image, container.ImageDigest)
-			requestSet[kubernetes.Request{Image: container.Image, ImageDigest: container.ImageDigest}] = struct{}{}
-		}
+		requests := getContainerRequests(stateChange.Detail.Containers, "added")
 
-		requests := make([]kubernetes.Request, len(requestSet))
-		i := 0
-		for k := range requestSet {
-			requests[i] = k
-			i++
-		}
+		return requests, nil
+	case "STOPPED":
+		fmt.Println("Handling container event:", state)
+
+		requests := getContainerRequests(stateChange.Detail.Containers, "removed")
 
 		return requests, nil
 	default:
-		fmt.Println("Ignoring container event:", stateChange.Detail.LastStatus)
+		fmt.Println("Ignoring container event:", state)
 		return nil, nil
 	}
+}
+
+func getContainerRequests(containers []EcsContainerInfo, action string) []kubernetes.Request {
+	// TODO this ignores the individual container status and picks up the status of the whole Task
+	// this works, but is not as fine grained as could be and adds some unnecessary scans
+	// the problem with looking at the lastStatus of containers directly is that very short lived
+	// containers will never show up with a status "RUNNING", they immediately switch to "STOPPED"
+
+	// get unique values by adding them to a "set"
+	requestSet := make(map[kubernetes.Request]struct{}, len(containers))
+	for _, container := range containers {
+		fmt.Println("Container is now running:", container.Image, container.ImageDigest)
+		requestSet[kubernetes.Request{
+			Action:      action,
+			Image:       container.Image,
+			ImageDigest: container.ImageDigest,
+		}] = struct{}{}
+	}
+
+	requests := make([]kubernetes.Request, len(requestSet))
+	i := 0
+	for k := range requestSet {
+		requests[i] = k
+		i++
+	}
+
+	return requests
 }
