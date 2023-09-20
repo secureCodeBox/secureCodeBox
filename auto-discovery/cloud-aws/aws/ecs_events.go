@@ -68,9 +68,11 @@ func getContainerRequests(containers []EcsContainerInfo, action string) []kubern
 	for _, container := range containers {
 		fmt.Println("Container is now running:", container.Image, container.ImageDigest)
 		requestSet[kubernetes.Request{
-			Action:      action,
-			Image:       container.Image,
-			ImageDigest: container.ImageDigest,
+			Action: action,
+			ContainerInfo: kubernetes.ContainerInfo{
+				Image:       container.Image,
+				ImageDigest: container.ImageDigest,
+			},
 		}] = struct{}{}
 	}
 
