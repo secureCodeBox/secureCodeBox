@@ -19,10 +19,14 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-type Request struct {
-	Action      string
+type ContainerInfo struct {
 	Image       string
 	ImageDigest string
+}
+
+type Request struct {
+	Action string
+	ContainerInfo
 }
 
 func (r *Request) getImageName() string {
@@ -40,7 +44,8 @@ type AWSReconciler interface {
 
 type AWSContainerScanReconciler struct {
 	client.Client
-	Namespace string
+	Namespace       string
+	ContainerCounts map[ContainerInfo]uint
 }
 
 func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request) error {
@@ -56,6 +61,9 @@ func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request)
 	case "added":
 		scan := getScanForRequest(req)
 		fmt.Println("Creating scan", scan.ObjectMeta.Name)
+
+		// Update stored count for this container
+		r.ContainerCounts[req.ContainerInfo]++
 
 		res, err := r.CreateScan(ctx, scan)
 		if err != nil {
@@ -76,6 +84,16 @@ func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request)
 	case "removed":
 		name := getScanName(req, "aws-trivy-sbom")
 		fmt.Println("Deleting scan", name)
+
+		if r.ContainerCounts[req.ContainerInfo] > 1 {
+			// There are still multiple instances of this container running, only decrement count
+			r.ContainerCounts[req.ContainerInfo]--
+			return nil
+		} else if r.ContainerCounts[req.ContainerInfo] == 1 {
+			// If exactly one container instance is left reset to 0 and delete the scan
+			// Otherwise ignore the count to prevent underflow
+			r.ContainerCounts[req.ContainerInfo] = 0
+		}
 
 		err := r.DeleteScan(ctx, name)
 		if err != nil {
@@ -113,7 +131,11 @@ func NewAWSReconciler(namespace string) *AWSContainerScanReconciler {
 }
 
 func NewAWSReconcilerWith(client client.Client, namespace string) *AWSContainerScanReconciler {
-	return &AWSContainerScanReconciler{Client: client, Namespace: namespace}
+	return &AWSContainerScanReconciler{
+		Client:          client,
+		Namespace:       namespace,
+		ContainerCounts: make(map[ContainerInfo]uint),
+	}
 }
 
 func (r *AWSContainerScanReconciler) GetScan(ctx context.Context, name string) (*executionv1.Scan, error) {
