@@ -8,6 +8,7 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"time"
 
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -59,13 +60,13 @@ func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request)
 	// PENDING to either RUNNING or STOPPED as a run
 	switch req.Action {
 	case "added":
-		scan := getScanForRequest(req)
+		scan := getScheduledScanForRequest(req)
 		fmt.Println("Creating scan", scan.ObjectMeta.Name)
 
 		// Update stored count for this container
 		r.ContainerCounts[req.ContainerInfo]++
 
-		res, err := r.CreateScan(ctx, scan)
+		res, err := r.CreateScheduledScan(ctx, scan)
 		if err != nil {
 			// Avoid TOCTOU problems by checking the err instead of checking if the scan exists
 			// ahead of time
@@ -83,11 +84,11 @@ func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request)
 		fmt.Println("Successfully created scan", res.ObjectMeta.Name)
 	case "removed":
 		name := getScanName(req, "aws-trivy-sbom")
-		fmt.Println("Deleting scan", name)
 
 		if r.ContainerCounts[req.ContainerInfo] > 1 {
 			// There are still multiple instances of this container running, only decrement count
 			r.ContainerCounts[req.ContainerInfo]--
+			fmt.Println("There are still instances of this image running, keeping the scan")
 			return nil
 		} else if r.ContainerCounts[req.ContainerInfo] == 1 {
 			// If exactly one container instance is left reset to 0 and delete the scan
@@ -95,7 +96,7 @@ func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request)
 			r.ContainerCounts[req.ContainerInfo] = 0
 		}
 
-		err := r.DeleteScan(ctx, name)
+		err := r.DeleteScheduledScan(ctx, name)
 		if err != nil {
 			// If the scan was already gone ignore this, since we only wanted to delete it
 			if apierrors.IsNotFound(err) {
@@ -196,14 +197,19 @@ func (r *AWSContainerScanReconciler) DeleteScheduledScan(ctx context.Context, na
 	return r.Client.Delete(ctx, scan)
 }
 
-func getScanForRequest(req Request) *executionv1.Scan {
-	scan := executionv1.Scan{
+func getScheduledScanForRequest(req Request) *executionv1.ScheduledScan {
+	scan := executionv1.ScheduledScan{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: getScanName(req, "aws-trivy-sbom"),
 		},
-		Spec: executionv1.ScanSpec{
-			ScanType:   "trivy-sbom-image",
-			Parameters: []string{req.getImageName() + "@" + req.ImageDigest},
+		Spec: executionv1.ScheduledScanSpec{
+			Interval: metav1.Duration{
+				Duration: 12 * time.Hour,
+			},
+			ScanSpec: &executionv1.ScanSpec{
+				ScanType:   "trivy-sbom-image",
+				Parameters: []string{req.getImageName() + "@" + req.ImageDigest},
+			},
 		},
 	}
 
