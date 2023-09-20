@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -54,10 +55,20 @@ func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request)
 	switch req.Action {
 	case "added":
 		scan := getScanForRequest(req)
-
 		fmt.Println("Creating scan", scan.ObjectMeta.Name)
+
 		res, err := r.CreateScan(ctx, scan)
 		if err != nil {
+			// Avoid TOCTOU problems by checking the err instead of checking if the scan exists
+			// ahead of time
+			if apierrors.IsAlreadyExists(err) {
+				fmt.Println("Scan already exists, nothing to do")
+				return nil
+			}
+
+			// What even is the AWS Monitor supposed to do with an error? Ignoring the message won't
+			// do much anyway. Retry somehow?
+			fmt.Println("Unexpected error while trying to create scan", err)
 			return err
 		}
 
@@ -65,8 +76,17 @@ func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request)
 	case "removed":
 		name := getScanName(req, "aws-trivy-sbom")
 		fmt.Println("Deleting scan", name)
+
 		err := r.DeleteScan(ctx, name)
 		if err != nil {
+			// If the scan was already gone ignore this, since we only wanted to delete it
+			if apierrors.IsNotFound(err) {
+				fmt.Println("Scan was already deleted, nothing to do")
+				return nil
+			}
+
+			// Same problem here, how should the AWS Monitor even handle other errors?
+			fmt.Println("Unexpected error while trying to delete scan", err)
 			return err
 		}
 
@@ -82,6 +102,7 @@ func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request)
 func NewAWSReconciler(namespace string) *AWSContainerScanReconciler {
 	client, cfgNamespace, err := GetClient()
 	if err != nil {
+		fmt.Println("Unable to create Kubernetes client", err)
 		panic(err)
 	}
 	if namespace != "" {
@@ -191,6 +212,8 @@ func getScanName(req Request, name string) string {
 }
 
 func GetClient() (client.Client, string, error) {
+	fmt.Println("Connecting to Kubernetes cluster...")
+
 	kubeconfigArgs := genericclioptions.NewConfigFlags(false)
 	cnfLoader := kubeconfigArgs.ToRawKubeConfigLoader()
 	cnf, err := cnfLoader.ClientConfig()

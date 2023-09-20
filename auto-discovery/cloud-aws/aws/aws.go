@@ -72,7 +72,8 @@ func (m *MonitorService) Run() {
 					// delete message from the service
 					m.deleteMessageFromQueue(message.ReceiptHandle)
 				} else {
-					// keep message in queue and try to handle it again
+					// keep message in queue and try to handle it again?
+					// TODO need better way to handle errors
 					fmt.Printf("Errors while reconciling scans: %v\n", allErrs)
 				}
 			}
