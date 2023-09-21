@@ -20,22 +20,33 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-type ContainerInfo struct {
-	Image       string
-	ImageDigest string
-}
-
 type Request struct {
-	Action string
-	ContainerInfo
+	// The current state the container has in its lifecycle
+	State string
+
+	// Details about the running container instance
+	Container ContainerInfo
 }
 
-func (r *Request) getImageName() string {
-	return strings.Split(r.Image, ":")[0]
+type ContainerInfo struct {
+	// A unique way to identify this container to make sure the state can be tracked properly
+	Id string
+
+	// Container image reference
+	Image ImageInfo
 }
 
-func (r *Request) getImageHash() string {
-	split := strings.Split(r.ImageDigest, ":")
+type ImageInfo struct {
+	Name   string
+	Digest string
+}
+
+func (image *ImageInfo) getImageName() string {
+	return strings.Split(image.Name, ":")[0]
+}
+
+func (image *ImageInfo) getImageHash() string {
+	split := strings.Split(image.Digest, ":")
 	return split[len(split)-1]
 }
 
@@ -45,77 +56,43 @@ type AWSReconciler interface {
 
 type AWSContainerScanReconciler struct {
 	client.Client
-	Namespace       string
-	ContainerCounts map[ContainerInfo]uint
+	Namespace string
+
+	// "Set" of container IDs to track which containers are about to start so that very short lived
+	// containers can be detected. Do not store the ImageInfo because containers might be pending
+	// with or without a known digest and then the elements are not equal
+	PendingContainers map[string]struct{}
+
+	// Track which images are actually running and which instances use them
+	// Technically a HashMap to a HashSet but Go doesn't have sets
+	RunningContainers map[ImageInfo]map[string]struct{}
 }
 
 func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request) error {
 	fmt.Printf("Received reconcile request: %+v\n", req)
 
-	// TODO when an event comes in that a container has started there needs to be a way to recognize
-	// if that is a new container using the same image, or a container sen before as they will be
-	// included in the requests/events as well => IDs? AWS ARNs would work
-	// TODO very shortlived containers never show the status RUNNING
-	// Possible solution: for each container track the last seen status, count a state change from
-	// PENDING to either RUNNING or STOPPED as a run
-	switch req.Action {
-	case "added":
-		scan := getScheduledScanForRequest(req)
-		fmt.Println("Creating scan", scan.ObjectMeta.Name)
-
-		// Update stored count for this container
-		r.ContainerCounts[req.ContainerInfo]++
-
-		res, err := r.CreateScheduledScan(ctx, scan)
-		if err != nil {
-			// Avoid TOCTOU problems by checking the err instead of checking if the scan exists
-			// ahead of time
-			if apierrors.IsAlreadyExists(err) {
-				fmt.Println("Scan already exists, nothing to do")
-				return nil
-			}
-
-			// What even is the AWS Monitor supposed to do with an error? Ignoring the message won't
-			// do much anyway. Retry somehow?
-			fmt.Println("Unexpected error while trying to create scan", err)
-			return err
+	// Decide what to do based on the current state we are notified about and the information we
+	// saved about this container
+	switch req.State {
+	case "PENDING":
+		// Add the unique identifier of this container to our "set"
+		r.PendingContainers[req.Container.Id] = struct{}{}
+		// If the container was running before, delete the ScheduledScan
+		return r.HandleDeleteRequest(ctx, req)
+	case "RUNNING":
+		// Track this container and create a ScheduledScan for it
+		return r.HandleCreateRequest(ctx, req)
+	case "STOPPED":
+		if _, ok := r.PendingContainers[req.Container.Id]; ok {
+			// One off scan because container went from PENDING to STOPPED
+			delete(r.PendingContainers, req.Container.Id)
+			return r.HandleSingleScanRequest(ctx, req)
+		} else {
+			return r.HandleDeleteRequest(ctx, req)
 		}
-
-		fmt.Println("Successfully created scan", res.ObjectMeta.Name)
-	case "removed":
-		name := getScanName(req, "aws-trivy-sbom")
-
-		if r.ContainerCounts[req.ContainerInfo] > 1 {
-			// There are still multiple instances of this container running, only decrement count
-			r.ContainerCounts[req.ContainerInfo]--
-			fmt.Println("There are still instances of this image running, keeping the scan")
-			return nil
-		} else if r.ContainerCounts[req.ContainerInfo] == 1 {
-			// If exactly one container instance is left reset to 0 and delete the scan
-			// Otherwise ignore the count to prevent underflow
-			r.ContainerCounts[req.ContainerInfo] = 0
-		}
-
-		err := r.DeleteScheduledScan(ctx, name)
-		if err != nil {
-			// If the scan was already gone ignore this, since we only wanted to delete it
-			if apierrors.IsNotFound(err) {
-				fmt.Println("Scan was already deleted, nothing to do")
-				return nil
-			}
-
-			// Same problem here, how should the AWS Monitor even handle other errors?
-			fmt.Println("Unexpected error while trying to delete scan", err)
-			return err
-		}
-
-		fmt.Println("Successfully deleted scan", name)
 	default:
-		// Need this default case because strings are a poor excuse for sum types
-		panic("invalid action for request: " + req.Action)
+		return fmt.Errorf("unexpected container state: %s", req.State)
 	}
-
-	return nil
 }
 
 func NewAWSReconciler(namespace string) *AWSContainerScanReconciler {
@@ -133,10 +110,101 @@ func NewAWSReconciler(namespace string) *AWSContainerScanReconciler {
 
 func NewAWSReconcilerWith(client client.Client, namespace string) *AWSContainerScanReconciler {
 	return &AWSContainerScanReconciler{
-		Client:          client,
-		Namespace:       namespace,
-		ContainerCounts: make(map[ContainerInfo]uint),
+		Client:            client,
+		Namespace:         namespace,
+		PendingContainers: make(map[string]struct{}),
+		RunningContainers: make(map[ImageInfo]map[string]struct{}),
 	}
+}
+
+func (r *AWSContainerScanReconciler) HandleCreateRequest(ctx context.Context, req Request) error {
+	// Remove from pending, ignores non-entries
+	delete(r.PendingContainers, req.Container.Id)
+
+	// Make sure there is at least an empty "set"
+	if r.RunningContainers[req.Container.Image] == nil {
+		r.RunningContainers[req.Container.Image] = make(map[string]struct{})
+	}
+
+	// Add this container to the "set" for this image
+	r.RunningContainers[req.Container.Image][req.Container.Id] = struct{}{}
+
+	// Create a scan in all cases
+	scan := getScheduledScanForRequest(req)
+	fmt.Println("Creating ScheduledScan", scan.ObjectMeta.Name)
+
+	res, err := r.CreateScheduledScan(ctx, scan)
+	if err != nil {
+		// Avoid TOCTOU problems by checking the err instead of checking before if the scan exists
+		if apierrors.IsAlreadyExists(err) {
+			fmt.Println("ScheduledScan already exists, nothing to do")
+			return nil
+		}
+
+		// What even is the AWS Monitor supposed to do with an error? Ignoring the message won't do
+		// much anyway. Retry somehow?
+		fmt.Println("Unexpected error while trying to create ScheduledScan", err)
+		return err
+	}
+
+	fmt.Println("Successfully created ScheduledScan", res.ObjectMeta.Name)
+	return nil
+}
+
+func (r *AWSContainerScanReconciler) HandleDeleteRequest(ctx context.Context, req Request) error {
+	if r.RunningContainers[req.Container.Image] == nil {
+		// We received a PENDING/STOPPED event but this container wasn't running before either
+		fmt.Println("Container was not running before, nothing to do")
+		return nil
+	}
+
+	delete(r.RunningContainers[req.Container.Image], req.Container.Id)
+	if len(r.RunningContainers[req.Container.Image]) > 0 {
+		// More containers using this image are running, keep the ScheduledScan
+		fmt.Println("There are still instances of this image running, keeping the ScheduledScan")
+		return nil
+	}
+
+	// Delete ScheduledScan since this was the last one
+	name := getScanName(req, "aws-trivy-sbom")
+	fmt.Println("Deleting ScheduledScan", name)
+
+	err := r.DeleteScheduledScan(ctx, name)
+	if err != nil {
+		// If the scan was already gone ignore this, since we only wanted to delete it
+		if apierrors.IsNotFound(err) {
+			fmt.Println("ScheduledScan was already deleted, nothing to do")
+			return nil
+		}
+
+		// Same problem here, how should the AWS Monitor even handle other errors?
+		fmt.Println("Unexpected error while trying to delete ScheduledScan", err)
+		return err
+	}
+
+	fmt.Println("Successfully deleted ScheduledScan", name)
+	return nil
+}
+
+func (r *AWSContainerScanReconciler) HandleSingleScanRequest(ctx context.Context, req Request) error {
+	scan := getScanForRequest(req)
+	fmt.Println("Creating one-off Scan", scan.ObjectMeta.Name)
+
+	_, err := r.CreateScan(ctx, scan)
+	if err != nil {
+		// Avoid TOCTOU problems by checking the err instead of checking before if the scan exists
+		if apierrors.IsAlreadyExists(err) {
+			fmt.Println("Scan already exists, nothing to do")
+			return nil
+		}
+
+		// What even is the AWS Monitor supposed to do with an error? Ignoring the message won't do
+		// much anyway. Retry somehow?
+		fmt.Println("Unexpected error while trying to create scan", err)
+		return err
+	}
+
+	return nil
 }
 
 func (r *AWSContainerScanReconciler) GetScan(ctx context.Context, name string) (*executionv1.Scan, error) {
@@ -197,6 +265,18 @@ func (r *AWSContainerScanReconciler) DeleteScheduledScan(ctx context.Context, na
 	return r.Client.Delete(ctx, scan)
 }
 
+func getScanForRequest(req Request) *executionv1.Scan {
+	return &executionv1.Scan{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: getScanName(req, "aws-trivy-sbom"),
+		},
+		Spec: executionv1.ScanSpec{
+			ScanType:   "trivy-sbom-image",
+			Parameters: []string{req.Container.Image.getImageName() + "@" + req.Container.Image.Digest},
+		},
+	}
+}
+
 func getScheduledScanForRequest(req Request) *executionv1.ScheduledScan {
 	scan := executionv1.ScheduledScan{
 		ObjectMeta: metav1.ObjectMeta{
@@ -208,7 +288,7 @@ func getScheduledScanForRequest(req Request) *executionv1.ScheduledScan {
 			},
 			ScanSpec: &executionv1.ScanSpec{
 				ScanType:   "trivy-sbom-image",
-				Parameters: []string{req.getImageName() + "@" + req.ImageDigest},
+				Parameters: []string{req.Container.Image.getImageName() + "@" + req.Container.Image.Digest},
 			},
 		},
 	}
@@ -220,8 +300,8 @@ func getScanName(req Request, name string) string {
 	// adapted from the kubernetes container autodiscovery
 	// function builds string like: _appName_-_customScanName_-at-_imageID_HASH_ eg: nginx-myTrivyScan-at-0123456789
 
-	appName := req.getImageName()
-	hash := req.getImageHash()
+	appName := req.Container.Image.getImageName()
+	hash := req.Container.Image.getImageHash()
 
 	// TODO if image name contains a namespace the actual name will mostly get cut off
 	// cutoff appname if it is longer than 20 chars
