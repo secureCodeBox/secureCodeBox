@@ -3,6 +3,6 @@ Upstream-Name: secureCodeBox
 Upstream-Contact: Robert Seedorff <robert.seedorff@iteratec.com>
 Source: https://github.com/secureCodeBox/secureCodeBox
 
-Files: .github/*.md
+Files: .github/ISSUE_TEMPLATE/*.md
 Copyright: the secureCodeBox authors
 License: Apache-2.0
