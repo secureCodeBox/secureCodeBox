@@ -315,8 +315,12 @@ func getScanName(req Request, name string) string {
 	result = strings.ReplaceAll(result, ".", "-")
 	result = strings.ReplaceAll(result, "/", "-")
 
-	//limit scan name length to kubernetes limits
-	return result[:62]
+	// limit scan name length to kubernetes limits
+	if len(result) > 62 {
+		result = result[:62]
+	}
+
+	return result
 }
 
 func GetClient() (client.Client, string, error) {
