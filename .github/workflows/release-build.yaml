@@ -410,6 +410,7 @@ jobs:
     strategy:
       matrix:
         scanner:
+          - amass
           - cmseek
           - ffuf
           - kube-hunter
@@ -491,7 +492,6 @@ jobs:
     strategy:
       matrix:
         scanner:
-          - amass
           - git-repo-scanner
           - screenshooter
           - test-scan
