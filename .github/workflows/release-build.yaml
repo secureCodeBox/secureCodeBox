@@ -418,7 +418,6 @@ jobs:
           - ncrack
           - nmap
           - nikto
-          - ssh-scan
           - ssh-audit
           - sslyze
           - typo3scan
