@@ -50,7 +50,7 @@
     ]
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^2.4.1",
+    "@docusaurus/module-type-aliases": "^2.4.3",
     "@tsconfig/docusaurus": "^2.0.0",
     "@types/node": "^20.5.1",
     "@types/react": "^17.0.20",
