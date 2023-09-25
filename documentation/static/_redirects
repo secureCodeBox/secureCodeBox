@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
 # Redirecting both http and https versions of subdomain "docs" to main domain
 # See Issue https://github.com/secureCodeBox/documentation/issues/212
 http://docs.securecodebox.io/* https://www.securecodebox.io/:splat 301!
