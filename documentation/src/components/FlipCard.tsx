@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: the secureCodeBox authors
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import clsx from "clsx";
 import React, { useState } from "react";
 import styles from "../css/flipcard.module.scss";

@@ -1,4 +1,8 @@
 ---
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
 title: The New Architecture
 author: Sven Strittmatter
 author_title: Core Developer

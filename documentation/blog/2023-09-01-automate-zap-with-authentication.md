@@ -1,4 +1,8 @@
 ---
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
 title: Automate ZAP with Authentication
 authors:
   - name: Rebecca Falke
