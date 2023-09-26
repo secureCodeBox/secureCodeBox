@@ -38,3 +38,4 @@ integration-tests/*
 examples/*
 coverage/*
 Makefile
+*.license
