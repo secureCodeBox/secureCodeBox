@@ -8,6 +8,8 @@ import (
 	"encoding/json"
 
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/kubernetes"
+
+	dockerparser "github.com/novln/docker-parser"
 )
 
 type EcsTaskStateChange struct {
@@ -40,14 +42,28 @@ func handleEcsEvent(rawMessage string) ([]kubernetes.Request, error) {
 
 	requests := make([]kubernetes.Request, len(stateChange.Detail.Containers))
 	for idx, container := range stateChange.Detail.Containers {
+		name := container.Image
+
+		// To prevent misdetection of containers using the same digest but different tags (i.e. none
+		// and latest or 22.04 and jammy), remove the tag from the image if we have a digest so that
+		// these images will occupy the same spot in the "set"
+		// Technically we could also take a tag from the image reference if it includes one, but all
+		// the libraries to work with image references don't allow accessing that properly
+		if container.ImageDigest != "" {
+			reference, err := dockerparser.Parse(container.Image)
+			if err != nil {
+				return nil, err
+			}
+
+			name = reference.Repository()
+		}
+
 		requests[idx] = kubernetes.Request{
 			State: container.LastStatus,
 			Container: kubernetes.ContainerInfo{
 				Id: container.ContainerArn,
 				Image: kubernetes.ImageInfo{
-					// TODO if the image is used sometimes with and sometimes without a tag the
-					// "set" treats them like different entries
-					Name:   container.Image,
+					Name:   name,
 					Digest: container.ImageDigest,
 				},
 			},
