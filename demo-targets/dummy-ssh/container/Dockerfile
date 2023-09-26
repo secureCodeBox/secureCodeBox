@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: Copyright © 2016 Docker Inc.
+#
+# SPDX-License-Identifier: LicenseRef-Proprietary-No-License
+
 # From https://gdevillele.github.io/engine/examples/running_ssh_service/
 # This file is authored by Docker Inc. and is not covered by the Apache2 Licence by the secureCodeBox project.
 FROM ubuntu:16.04
