@@ -17,7 +17,7 @@ keywords:
   - secureCodeBox
   - hook
 home: https://www.securecodebox.io/docs/hooks/cascading-scans
-icon: https://www.securecodebox.io/img/integrationIcons/Cascading Scans.svg
+icon: https://www.securecodebox.io/img/integrationIcons/Cascading-Scans.svg
 sources:
   - https://github.com/secureCodeBox/secureCodeBox
 maintainers:
