@@ -13,7 +13,7 @@ export const Hooks = [{
   "type": "processing",
   "usecase": "Cascading Scans based declarative Rules.",
   "path": "docs/hooks/cascading-scans",
-  "imageUrl": "img/integrationIcons/Cascading Scans.svg"
+  "imageUrl": "img/integrationIcons/Cascading-Scans.svg"
 }, {
   "title": "DefectDojo",
   "type": "persistenceProvider",
@@ -37,7 +37,7 @@ export const Hooks = [{
   "type": "integration",
   "usecase": "Publishes Scan Findings as WebHook.",
   "path": "docs/hooks/generic-webhook",
-  "imageUrl": "img/integrationIcons/Generic WebHook.svg"
+  "imageUrl": "img/integrationIcons/Generic-WebHook.svg"
 }, {
   "title": "Notification WebHook",
   "type": "integration",
@@ -55,7 +55,7 @@ export const Hooks = [{
   "type": "dataProcessing",
   "usecase": "Updates fields in finding results.",
   "path": "docs/hooks/update-field",
-  "imageUrl": "img/integrationIcons/Update Field.svg"
+  "imageUrl": "img/integrationIcons/Update-Field.svg"
 }];
 
 export const Scanners = [{
@@ -189,7 +189,7 @@ export const Scanners = [{
   "type": "WebApplication",
   "usecase": "WebApp & OpenAPI Vulnerability Scanner extend with authentication features",
   "path": "docs/scanners/zap-advanced",
-  "imageUrl": "img/integrationIcons/ZAP Advanced.svg"
+  "imageUrl": "img/integrationIcons/ZAP-Advanced.svg"
 }, {
   "title": "ZAP",
   "type": "WebApplication",
