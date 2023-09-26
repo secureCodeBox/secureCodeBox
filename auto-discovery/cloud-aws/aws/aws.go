@@ -7,7 +7,6 @@ package aws
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -20,7 +19,6 @@ type MonitorService struct {
 	Session    *session.Session
 	SqsService *sqs.SQS
 	Reconciler kubernetes.AWSReconciler
-	Ticker     *time.Ticker
 }
 
 func NewMonitorService(queue string, reconciler kubernetes.AWSReconciler) *MonitorService {
@@ -32,16 +30,12 @@ func NewMonitorService(queue string, reconciler kubernetes.AWSReconciler) *Monit
 		Session:    session,
 		SqsService: service,
 		Reconciler: reconciler,
-		Ticker:     nil,
 	}
 }
 
 func (m *MonitorService) Run() {
-	m.Ticker = time.NewTicker(5 * time.Second)
-
 	fmt.Println("Receiving messages...")
-	for range m.Ticker.C {
-		//fmt.Println("Tick at", t, ", polling queue...")
+	for {
 		msgResult, err := m.pollQueue()
 
 		if err != nil {
@@ -49,7 +43,6 @@ func (m *MonitorService) Run() {
 		} else if len(msgResult.Messages) > 0 {
 			for _, message := range msgResult.Messages {
 				fmt.Println("Message received:")
-				//fmt.Println(*message.Body)
 
 				requests, err := handleEvent(*message.Body)
 
@@ -77,9 +70,7 @@ func (m *MonitorService) Run() {
 					fmt.Printf("Errors while reconciling scans: %v\n", allErrs)
 				}
 			}
-		} /*else {
-			fmt.Println("Queue is empty, nothing to do.")
-		}*/
+		}
 	}
 }
 
