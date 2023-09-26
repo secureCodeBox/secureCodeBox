@@ -31,9 +31,11 @@ src/*
 config/*
 Dockerfile
 .dockerignore
+docs/*
 *.tar
 hook/*
 integration-tests/*
 examples/*
-docs/*
+coverage/*
 Makefile
+*.license
