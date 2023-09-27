@@ -31,10 +31,8 @@ type EcsContainerInfo struct {
 }
 
 func handleEcsEvent(rawMessage string) ([]kubernetes.Request, error) {
-	//fmt.Println("Handling raw event", *rawMessage)
 	var stateChange EcsTaskStateChange
 	err := json.Unmarshal([]byte(rawMessage), &stateChange)
-	//fmt.Printf("parsed: %+v\n", stateChange)
 
 	if err != nil {
 		return nil, err

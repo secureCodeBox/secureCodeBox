@@ -6,10 +6,12 @@ package kubernetes
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"strings"
 	"time"
 
+	"github.com/go-logr/logr"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -17,7 +19,9 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
+	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 )
 
 type Request struct {
@@ -50,6 +54,14 @@ func (image *ImageInfo) getImageHash() string {
 	return split[len(split)-1]
 }
 
+func (image *ImageInfo) getReference() string {
+	if image.Digest == "" {
+		return image.Name
+	} else {
+		return image.Name + "@" + image.Digest
+	}
+}
+
 type AWSReconciler interface {
 	Reconcile(ctx context.Context, req Request) error
 }
@@ -57,6 +69,7 @@ type AWSReconciler interface {
 type AWSContainerScanReconciler struct {
 	client.Client
 	Namespace string
+	Log       logr.Logger
 
 	// "Set" of container IDs to track which containers are about to start so that very short lived
 	// containers can be detected. Do not store the ImageInfo because containers might be pending
@@ -69,7 +82,7 @@ type AWSContainerScanReconciler struct {
 }
 
 func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request) error {
-	fmt.Printf("Received reconcile request: %+v\n", req)
+	r.Log.V(1).Info("Received reconcile request", "State", req.State, "Image", req.Container.Image.getReference())
 
 	// Decide what to do based on the current state we are notified about and the information we
 	// saved about this container
@@ -95,23 +108,24 @@ func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request)
 	}
 }
 
-func NewAWSReconciler(namespace string) *AWSContainerScanReconciler {
-	client, cfgNamespace, err := GetClient()
+func NewAWSReconciler(namespace string, log logr.Logger) *AWSContainerScanReconciler {
+	client, cfgNamespace, err := GetClient(log)
 	if err != nil {
-		fmt.Println("Unable to create Kubernetes client", err)
+		log.Error(err, "Unable to create Kubernetes client")
 		panic(err)
 	}
 	if namespace != "" {
 		cfgNamespace = namespace
 	}
 
-	return NewAWSReconcilerWith(client, cfgNamespace)
+	return NewAWSReconcilerWith(client, cfgNamespace, log)
 }
 
-func NewAWSReconcilerWith(client client.Client, namespace string) *AWSContainerScanReconciler {
+func NewAWSReconcilerWith(client client.Client, namespace string, log logr.Logger) *AWSContainerScanReconciler {
 	return &AWSContainerScanReconciler{
 		Client:            client,
 		Namespace:         namespace,
+		Log:               log,
 		PendingContainers: make(map[string]struct{}),
 		RunningContainers: make(map[ImageInfo]map[string]struct{}),
 	}
@@ -131,76 +145,76 @@ func (r *AWSContainerScanReconciler) HandleCreateRequest(ctx context.Context, re
 
 	// Create a scan in all cases
 	scan := getScheduledScanForRequest(req)
-	fmt.Println("Creating ScheduledScan", scan.ObjectMeta.Name)
+	r.Log.V(1).Info("Creating ScheduledScan", "Name", scan.ObjectMeta.Name)
 
 	res, err := r.CreateScheduledScan(ctx, scan)
 	if err != nil {
 		// Avoid TOCTOU problems by checking the err instead of checking before if the scan exists
 		if apierrors.IsAlreadyExists(err) {
-			fmt.Println("ScheduledScan already exists, nothing to do")
+			r.Log.V(1).Info("ScheduledScan already exists, nothing to do")
 			return nil
 		}
 
 		// What even is the AWS Monitor supposed to do with an error? Ignoring the message won't do
 		// much anyway. Retry somehow?
-		fmt.Println("Unexpected error while trying to create ScheduledScan", err)
+		r.Log.Error(err, "Unexpected error while trying to create ScheduledScan")
 		return err
 	}
 
-	fmt.Println("Successfully created ScheduledScan", res.ObjectMeta.Name)
+	r.Log.Info("Successfully created ScheduledScan", "Name", res.ObjectMeta.Name)
 	return nil
 }
 
 func (r *AWSContainerScanReconciler) HandleDeleteRequest(ctx context.Context, req Request) error {
 	if r.RunningContainers[req.Container.Image] == nil {
 		// We received a PENDING/STOPPED event but this container wasn't running before either
-		fmt.Println("Container was not running before, nothing to do")
+		r.Log.V(1).Info("Container was not running before, nothing to do")
 		return nil
 	}
 
 	delete(r.RunningContainers[req.Container.Image], req.Container.Id)
 	if len(r.RunningContainers[req.Container.Image]) > 0 {
 		// More containers using this image are running, keep the ScheduledScan
-		fmt.Println("There are still instances of this image running, keeping the ScheduledScan")
+		r.Log.V(1).Info("There are still instances of this image running, keeping the ScheduledScan")
 		return nil
 	}
 
 	// Delete ScheduledScan since this was the last one
 	name := getScanName(req, "aws-trivy-sbom")
-	fmt.Println("Deleting ScheduledScan", name)
+	r.Log.V(1).Info("Deleting ScheduledScan", "Name", name)
 
 	err := r.DeleteScheduledScan(ctx, name)
 	if err != nil {
 		// If the scan was already gone ignore this, since we only wanted to delete it
 		if apierrors.IsNotFound(err) {
-			fmt.Println("ScheduledScan was already deleted, nothing to do")
+			r.Log.V(1).Info("ScheduledScan was already deleted, nothing to do")
 			return nil
 		}
 
 		// Same problem here, how should the AWS Monitor even handle other errors?
-		fmt.Println("Unexpected error while trying to delete ScheduledScan", err)
+		r.Log.Error(err, "Unexpected error while trying to delete ScheduledScan")
 		return err
 	}
 
-	fmt.Println("Successfully deleted ScheduledScan", name)
+	r.Log.Info("Successfully deleted ScheduledScan", "Name", name)
 	return nil
 }
 
 func (r *AWSContainerScanReconciler) HandleSingleScanRequest(ctx context.Context, req Request) error {
 	scan := getScanForRequest(req)
-	fmt.Println("Creating one-off Scan", scan.ObjectMeta.Name)
+	r.Log.Info("Creating one-off Scan", "Name", scan.ObjectMeta.Name)
 
 	_, err := r.CreateScan(ctx, scan)
 	if err != nil {
 		// Avoid TOCTOU problems by checking the err instead of checking before if the scan exists
 		if apierrors.IsAlreadyExists(err) {
-			fmt.Println("Scan already exists, nothing to do")
+			r.Log.V(1).Info("Scan already exists, nothing to do")
 			return nil
 		}
 
 		// What even is the AWS Monitor supposed to do with an error? Ignoring the message won't do
 		// much anyway. Retry somehow?
-		fmt.Println("Unexpected error while trying to create scan", err)
+		r.Log.Error(err, "Unexpected error while trying to create scan")
 		return err
 	}
 
@@ -288,7 +302,7 @@ func getScheduledScanForRequest(req Request) *executionv1.ScheduledScan {
 			},
 			ScanSpec: &executionv1.ScanSpec{
 				ScanType:   "trivy-sbom-image",
-				Parameters: []string{req.Container.Image.getImageName() + "@" + req.Container.Image.Digest},
+				Parameters: []string{req.Container.Image.getReference()},
 			},
 		},
 	}
@@ -323,8 +337,8 @@ func getScanName(req Request, name string) string {
 	return result
 }
 
-func GetClient() (client.Client, string, error) {
-	fmt.Println("Connecting to Kubernetes cluster...")
+func GetClient(log logr.Logger) (client.Client, string, error) {
+	log.Info("Connecting to Kubernetes cluster...")
 
 	kubeconfigArgs := genericclioptions.NewConfigFlags(false)
 	cnfLoader := kubeconfigArgs.ToRawKubeConfigLoader()
@@ -346,4 +360,15 @@ func GetClient() (client.Client, string, error) {
 	}
 
 	return client, namespace, nil
+}
+
+func InitializeLogger() logr.Logger {
+	opts := zap.Options{
+		Development: true,
+	}
+	opts.BindFlags(flag.CommandLine)
+	flag.Parse()
+	log := zap.New(zap.UseFlagOptions(&opts))
+	ctrl.SetLogger(log)
+	return log
 }
