@@ -6,11 +6,12 @@ package aws
 
 import (
 	"context"
-	"fmt"
+	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sqs"
+	"github.com/go-logr/logr"
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/kubernetes"
 )
 
@@ -19,10 +20,11 @@ type MonitorService struct {
 	Session    *session.Session
 	SqsService *sqs.SQS
 	Reconciler kubernetes.AWSReconciler
+	Log        logr.Logger
 }
 
-func NewMonitorService(queue string, reconciler kubernetes.AWSReconciler) *MonitorService {
-	session := getSession()
+func NewMonitorService(queue string, reconciler kubernetes.AWSReconciler, log logr.Logger) *MonitorService {
+	session := getSession(log)
 	service := sqs.New(session)
 
 	return &MonitorService{
@@ -30,44 +32,43 @@ func NewMonitorService(queue string, reconciler kubernetes.AWSReconciler) *Monit
 		Session:    session,
 		SqsService: service,
 		Reconciler: reconciler,
+		Log:        log,
 	}
 }
 
 func (m *MonitorService) Run() {
-	fmt.Println("Receiving messages...")
+	m.Log.Info("Receiving messages...")
 	for {
 		msgResult, err := m.pollQueue()
 
 		if err != nil {
-			fmt.Println(err)
+			m.Log.Error(err, "Error fetching AWS messages")
+			time.Sleep(10 * time.Second)
 		} else if len(msgResult.Messages) > 0 {
 			for _, message := range msgResult.Messages {
-				fmt.Println("Message received:")
 
-				requests, err := handleEvent(*message.Body)
-
+				requests, err := m.handleEvent(*message.Body)
 				if err != nil {
-					fmt.Println(err)
+					m.Log.Error(err, "Error handling AWS event")
 					continue
 				}
 
-				allErrs := make([]error, 0)
+				errors := false
 				if len(requests) > 0 {
 					for _, request := range requests {
 						err = m.Reconciler.Reconcile(context.Background(), request)
 						if err != nil {
-							allErrs = append(allErrs, err)
+							m.Log.Error(err, "Unable to reconcile request")
+							errors = true
 						}
 					}
 				}
 
-				if len(allErrs) == 0 {
+				if !errors {
 					// delete message from the service
-					m.deleteMessageFromQueue(message.ReceiptHandle)
-				} else {
-					// keep message in queue and try to handle it again?
+					// otherwise keep message in queue and try to handle it again?
 					// TODO need better way to handle errors
-					fmt.Printf("Errors while reconciling scans: %v\n", allErrs)
+					m.deleteMessageFromQueue(message.ReceiptHandle)
 				}
 			}
 		}
@@ -102,8 +103,8 @@ func (m *MonitorService) deleteMessageFromQueue(receiptHandle *string) error {
 	return nil
 }
 
-func getSession() *session.Session {
-	fmt.Println("Connecting to AWS...")
+func getSession(log logr.Logger) *session.Session {
+	log.Info("Connecting to AWS...")
 	return session.Must(session.NewSessionWithOptions(session.Options{
 		SharedConfigState: session.SharedConfigEnable,
 	}))

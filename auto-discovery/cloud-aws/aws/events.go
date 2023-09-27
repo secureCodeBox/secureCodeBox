@@ -16,12 +16,14 @@ type EventMessage struct {
 	DetailType string `json:"detail-type"`
 }
 
-func handleEvent(rawMessage string) ([]kubernetes.Request, error) {
+func (m *MonitorService) handleEvent(rawMessage string) ([]kubernetes.Request, error) {
 	var message EventMessage
 	err := json.Unmarshal([]byte(rawMessage), &message)
 	if err != nil {
 		return nil, err
 	}
+
+	m.Log.V(1).Info("Message received", "DetailType", message.DetailType)
 
 	switch message.DetailType {
 	case "ECS Task State Change":

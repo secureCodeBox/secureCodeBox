@@ -5,7 +5,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/aws"
@@ -16,9 +15,10 @@ func main() {
 	namespace := os.Getenv("SCB_NAMESPACE")
 	queueURL := os.Getenv("SQS_QUEUE_URL")
 
-	awsReconciler := kubernetes.NewAWSReconciler(namespace)
-	awsMonitor := aws.NewMonitorService(queueURL, awsReconciler)
+	log := kubernetes.InitializeLogger()
+	awsReconciler := kubernetes.NewAWSReconciler(namespace, log)
+	awsMonitor := aws.NewMonitorService(queueURL, awsReconciler, log)
 
-	fmt.Println("Starting AWS monitoring...")
+	log.Info("Starting AWS monitoring...")
 	awsMonitor.Run()
 }
