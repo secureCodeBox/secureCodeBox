@@ -144,7 +144,7 @@ func (r *AWSContainerScanReconciler) HandleCreateRequest(ctx context.Context, re
 	r.RunningContainers[req.Container.Image][req.Container.Id] = struct{}{}
 
 	// Create a scan in all cases
-	scan := getScheduledScanForRequest(req)
+	scan := GetScheduledScanForRequest(req)
 	r.Log.V(1).Info("Creating ScheduledScan", "Name", scan.ObjectMeta.Name)
 
 	res, err := r.CreateScheduledScan(ctx, scan)
@@ -180,7 +180,7 @@ func (r *AWSContainerScanReconciler) HandleDeleteRequest(ctx context.Context, re
 	}
 
 	// Delete ScheduledScan since this was the last one
-	name := getScanName(req, "aws-trivy-sbom")
+	name := GetScanName(req, "aws-trivy-sbom")
 	r.Log.V(1).Info("Deleting ScheduledScan", "Name", name)
 
 	err := r.DeleteScheduledScan(ctx, name)
@@ -282,7 +282,7 @@ func (r *AWSContainerScanReconciler) DeleteScheduledScan(ctx context.Context, na
 func getScanForRequest(req Request) *executionv1.Scan {
 	return &executionv1.Scan{
 		ObjectMeta: metav1.ObjectMeta{
-			Name: getScanName(req, "aws-trivy-sbom"),
+			Name: GetScanName(req, "aws-trivy-sbom"),
 		},
 		Spec: executionv1.ScanSpec{
 			ScanType:   "trivy-sbom-image",
@@ -291,10 +291,10 @@ func getScanForRequest(req Request) *executionv1.Scan {
 	}
 }
 
-func getScheduledScanForRequest(req Request) *executionv1.ScheduledScan {
+func GetScheduledScanForRequest(req Request) *executionv1.ScheduledScan {
 	scan := executionv1.ScheduledScan{
 		ObjectMeta: metav1.ObjectMeta{
-			Name: getScanName(req, "aws-trivy-sbom"),
+			Name: GetScanName(req, "aws-trivy-sbom"),
 		},
 		Spec: executionv1.ScheduledScanSpec{
 			Interval: metav1.Duration{
@@ -310,7 +310,7 @@ func getScheduledScanForRequest(req Request) *executionv1.ScheduledScan {
 	return &scan
 }
 
-func getScanName(req Request, name string) string {
+func GetScanName(req Request, name string) string {
 	// adapted from the kubernetes container autodiscovery
 	// function builds string like: _appName_-_customScanName_-at-_imageID_HASH_ eg: nginx-myTrivyScan-at-0123456789
 
