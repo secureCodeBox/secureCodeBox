@@ -1,7 +1,3 @@
-# SPDX-FileCopyrightText: the secureCodeBox authors
-#
-# SPDX-License-Identifier: Apache-2.0
-
 matches the snapshot:
   1: |
     raw: "\nDefectDojo PersistenceProvider succesfully deployed \U0001F389.\n"

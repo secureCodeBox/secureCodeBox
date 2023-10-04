@@ -6,3 +6,10 @@ Source: https://github.com/secureCodeBox/secureCodeBox
 Files: .github/ISSUE_TEMPLATE/*.md
 Copyright: the secureCodeBox authors
 License: Apache-2.0
+
+# Workaround because some of the test files hav content which confuses reuse
+# and it will skip the file resulting in no copyright/license ifo which will
+# fail our check.
+Files: **/tests/__snapshot__/*.yaml.snap
+Copyright: the secureCodeBox authors
+License: Apache-2.0
