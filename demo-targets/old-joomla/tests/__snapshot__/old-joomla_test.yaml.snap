@@ -1,6 +1,6 @@
 matches the snapshot:
   1: |
-    raw: |
+    raw: |2
       1. Get the application URL by running these commands:
   2: |
     apiVersion: apps/v1
