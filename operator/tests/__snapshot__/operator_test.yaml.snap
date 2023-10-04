@@ -1,7 +1,3 @@
-# SPDX-FileCopyrightText: the secureCodeBox authors
-#
-# SPDX-License-Identifier: Apache-2.0
-
 matches the snapshot:
   1: |
     raw: "\nsecureCodeBox Operator Deployed \U0001F680\n\nThe operator can orchestrate the execution of various security scanning tools inside of your cluster.\nYou can find a list of all officially supported scanners here: https://www.securecodebox.io/\nThe website also lists other integrations, like persisting scan results to DefectDojo or Elasticsearch.\n\nThe operator send out regular telemetry pings to a central service.\nThis lets us, the secureCodeBox team, get a grasp on how much the secureCodeBox is used.\nThe submitted data is chosen to be as anonymous as possible.\nYou can find a complete report of the data submitted and links to the source-code at: https://www.securecodebox.io/docs/telemetry\nThe first ping is send one hour after the install, you can prevent this by upgrading the chart and setting `telemetryEnabled` to `false`.\n"
