@@ -15,6 +15,16 @@ matches the snapshot:
         type: Unstructured
       name: RELEASE-NAME-persistence-defectdojo
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: foo
+                    operator: In
+                    values:
+                      - bar
+                      - baz
       env:
         - name: DEFECTDOJO_URL
           value: http://defectdojo-django.default.svc
@@ -38,6 +48,11 @@ matches the snapshot:
         requests:
           cpu: 100m
           memory: 100Mi
+      tolerations:
+        - effect: NoSchedule
+          key: foo
+          operator: Exists
+          value: value1
       ttlSecondsAfterFinished: 100
       type: ReadAndWrite
       volumeMounts:
