@@ -34,6 +34,16 @@ matches the snapshot:
         type: Structured
       name: RELEASE-NAME-persistence-elastic
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: foo
+                    operator: In
+                    values:
+                      - bar
+                      - baz
       env:
         - name: ELASTICSEARCH_INDEX_PREFIX
           value: scbv2
@@ -53,6 +63,11 @@ matches the snapshot:
         requests:
           cpu: 100m
           memory: 100Mi
+      tolerations:
+        - effect: NoSchedule
+          key: foo
+          operator: Exists
+          value: value1
       ttlSecondsAfterFinished: 100
       type: ReadOnly
       volumeMounts:
