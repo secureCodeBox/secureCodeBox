@@ -1,6 +1,6 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: secureCodeBox
-Upstream-Contact: Robert Seedorff <robert.seedorff@iteratec.com>
+Upstream-Contact: Robert Felber <robert.felber@iteratec.com>
 Source: https://github.com/secureCodeBox/secureCodeBox
 
 Files: .github/ISSUE_TEMPLATE/*.md
