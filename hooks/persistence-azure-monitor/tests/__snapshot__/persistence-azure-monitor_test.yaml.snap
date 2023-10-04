@@ -16,6 +16,16 @@ matches the snapshot:
         type: Structured
       name: RELEASE-NAME-persistence-azure-monitor
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: foo
+                    operator: In
+                    values:
+                      - bar
+                      - baz
       env:
         - name: MONITOR_LOGTYPE_PREFIX
           value: SCB
@@ -39,6 +49,11 @@ matches the snapshot:
         requests:
           cpu: 100m
           memory: 100Mi
+      tolerations:
+        - effect: NoSchedule
+          key: foo
+          operator: Exists
+          value: value1
       ttlSecondsAfterFinished: 100
       type: ReadOnly
       volumeMounts:
