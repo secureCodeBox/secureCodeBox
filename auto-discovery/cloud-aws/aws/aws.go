@@ -8,7 +8,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/aws/aws-sdk-go/aws"
+	awssdk "github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sqs"
 	"github.com/go-logr/logr"
@@ -90,15 +90,15 @@ func (m *MonitorService) Run(ctx context.Context) {
 func (m *MonitorService) pollQueue() (*sqs.ReceiveMessageOutput, error) {
 	return m.SqsService.ReceiveMessage(&sqs.ReceiveMessageInput{
 		AttributeNames: []*string{
-			aws.String(sqs.MessageSystemAttributeNameSentTimestamp),
+			awssdk.String(sqs.MessageSystemAttributeNameSentTimestamp),
 		},
 		MessageAttributeNames: []*string{
-			aws.String(sqs.QueueAttributeNameAll),
+			awssdk.String(sqs.QueueAttributeNameAll),
 		},
 		QueueUrl:            &m.Queue,
-		MaxNumberOfMessages: aws.Int64(1),
-		VisibilityTimeout:   aws.Int64(20),
-		WaitTimeSeconds:     aws.Int64(20),
+		MaxNumberOfMessages: awssdk.Int64(1),
+		VisibilityTimeout:   awssdk.Int64(20),
+		WaitTimeSeconds:     awssdk.Int64(20),
 	})
 }
 

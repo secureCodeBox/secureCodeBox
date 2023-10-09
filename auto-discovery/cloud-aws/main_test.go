@@ -12,6 +12,8 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
+	awssdk "github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/service/ecs"
 	"github.com/aws/aws-sdk-go/service/sqs"
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/aws"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
@@ -31,15 +33,15 @@ var _ = Describe("Integration tests", func() {
 	stateChange := aws.EcsTaskStateChange{
 		Source:     "aws.ecs",
 		DetailType: "ECS Task State Change",
-		Detail: aws.EcsStateDetail{
-			LastStatus: "RUNNING",
-			Containers: []aws.EcsContainerInfo{
+		Detail: ecs.Task{
+			LastStatus: awssdk.String("RUNNING"),
+			Containers: []*ecs.Container{
 				{
-					ContainerArn: "VeryUniqueId",
-					LastStatus:   "RUNNING",
-					Name:         "Juice Shop",
-					Image:        "bkimminich/juice-shop:v15.0.0",
-					ImageDigest:  "sha256:163482fed1f8e7c8558cc476a512b13768a8d2f7a04b8aab407ab02987c42382",
+					ContainerArn: awssdk.String("VeryUniqueId"),
+					LastStatus:   awssdk.String("RUNNING"),
+					Name:         awssdk.String("Juice Shop"),
+					Image:        awssdk.String("bkimminich/juice-shop:v15.0.0"),
+					ImageDigest:  awssdk.String("sha256:163482fed1f8e7c8558cc476a512b13768a8d2f7a04b8aab407ab02987c42382"),
 				},
 			},
 		},
