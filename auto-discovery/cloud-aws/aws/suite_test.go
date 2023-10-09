@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package kubernetes_test
+package aws_test
 
 import (
 	"testing"
@@ -14,10 +14,10 @@ import (
 // These tests use Ginkgo (BDD-style Go testing framework). Refer to
 // http://onsi.github.io/ginkgo/ to learn more about Ginkgo.
 
-// The kubernetes tests are unit tests for helper functions, the main functionality is tested
-// together with the aws part in the main tests as integration tests
+// The aws tests are unit tests for helper functions, the main functionality is tested together with
+// the kubernetes part in the main tests as integration tests
 
-func TestKubernetes(t *testing.T) {
+func TestAWS(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Kubernetes Suite")
+	RunSpecs(t, "AWS Suite")
 }

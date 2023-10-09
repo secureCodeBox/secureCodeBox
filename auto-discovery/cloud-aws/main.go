@@ -5,6 +5,7 @@
 package main
 
 import (
+	"context"
 	"os"
 
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/aws"
@@ -20,5 +21,5 @@ func main() {
 	awsMonitor := aws.NewMonitorService(queueURL, awsReconciler, log)
 
 	log.Info("Starting AWS monitoring...")
-	awsMonitor.Run()
+	awsMonitor.Run(context.Background())
 }
