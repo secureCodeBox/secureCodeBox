@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package aws_test
+package aws
 
 import (
 	"encoding/json"
@@ -10,17 +10,16 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/aws"
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/kubernetes"
 )
 
 var _ = Describe("AWS Events unit tests", func() {
-	stateChange := aws.EcsTaskStateChange{
+	stateChange := EcsTaskStateChange{
 		Source:     "aws.ecs",
 		DetailType: "ECS Task State Change",
-		Detail: aws.EcsStateDetail{
+		Detail: EcsStateDetail{
 			LastStatus: "RUNNING",
-			Containers: []aws.EcsContainerInfo{
+			Containers: []EcsContainerInfo{
 				{
 					ContainerArn: "VeryUniqueId",
 					LastStatus:   "RUNNING",
@@ -51,7 +50,7 @@ var _ = Describe("AWS Events unit tests", func() {
 	Describe("Generating reconcile requests", func() {
 		Context("for running juice-shop container", func() {
 			It("should generate the correct request", func() {
-				Expect(aws.HandleEcsEvent(rawContent)).To(Equal(reqs))
+				Expect(handleEcsEvent(rawContent)).To(Equal(reqs))
 			})
 		})
 	})

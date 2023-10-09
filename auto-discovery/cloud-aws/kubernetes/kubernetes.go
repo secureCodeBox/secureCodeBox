@@ -91,17 +91,17 @@ func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request)
 		// Add the unique identifier of this container to our "set"
 		r.PendingContainers[req.Container.Id] = struct{}{}
 		// If the container was running before, delete the ScheduledScan
-		return r.HandleDeleteRequest(ctx, req)
+		return r.handleDeleteRequest(ctx, req)
 	case "RUNNING":
 		// Track this container and create a ScheduledScan for it
-		return r.HandleCreateRequest(ctx, req)
+		return r.handleCreateRequest(ctx, req)
 	case "STOPPED":
 		if _, ok := r.PendingContainers[req.Container.Id]; ok {
 			// One off scan because container went from PENDING to STOPPED
 			delete(r.PendingContainers, req.Container.Id)
-			return r.HandleSingleScanRequest(ctx, req)
+			return r.handleSingleScanRequest(ctx, req)
 		} else {
-			return r.HandleDeleteRequest(ctx, req)
+			return r.handleDeleteRequest(ctx, req)
 		}
 	default:
 		return fmt.Errorf("unexpected container state: %s", req.State)
@@ -109,7 +109,7 @@ func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request)
 }
 
 func NewAWSReconciler(namespace string, log logr.Logger) *AWSContainerScanReconciler {
-	client, cfgNamespace, err := GetClient(log)
+	client, cfgNamespace, err := getClient(log)
 	if err != nil {
 		log.Error(err, "Unable to create Kubernetes client")
 		panic(err)
@@ -131,7 +131,7 @@ func NewAWSReconcilerWith(client client.Client, namespace string, log logr.Logge
 	}
 }
 
-func (r *AWSContainerScanReconciler) HandleCreateRequest(ctx context.Context, req Request) error {
+func (r *AWSContainerScanReconciler) handleCreateRequest(ctx context.Context, req Request) error {
 	// Remove from pending, ignores non-entries
 	delete(r.PendingContainers, req.Container.Id)
 
@@ -144,10 +144,10 @@ func (r *AWSContainerScanReconciler) HandleCreateRequest(ctx context.Context, re
 	r.RunningContainers[req.Container.Image][req.Container.Id] = struct{}{}
 
 	// Create a scan in all cases
-	scan := GetScheduledScanForRequest(req)
+	scan := getScheduledScanForRequest(req)
 	r.Log.V(1).Info("Creating ScheduledScan", "Name", scan.ObjectMeta.Name)
 
-	res, err := r.CreateScheduledScan(ctx, scan)
+	res, err := r.createScheduledScan(ctx, scan)
 	if err != nil {
 		// Avoid TOCTOU problems by checking the err instead of checking before if the scan exists
 		if apierrors.IsAlreadyExists(err) {
@@ -165,7 +165,7 @@ func (r *AWSContainerScanReconciler) HandleCreateRequest(ctx context.Context, re
 	return nil
 }
 
-func (r *AWSContainerScanReconciler) HandleDeleteRequest(ctx context.Context, req Request) error {
+func (r *AWSContainerScanReconciler) handleDeleteRequest(ctx context.Context, req Request) error {
 	if r.RunningContainers[req.Container.Image] == nil {
 		// We received a PENDING/STOPPED event but this container wasn't running before either
 		r.Log.V(1).Info("Container was not running before, nothing to do")
@@ -180,10 +180,10 @@ func (r *AWSContainerScanReconciler) HandleDeleteRequest(ctx context.Context, re
 	}
 
 	// Delete ScheduledScan since this was the last one
-	name := GetScanName(req, "aws-trivy-sbom")
+	name := getScanName(req, "aws-trivy-sbom")
 	r.Log.V(1).Info("Deleting ScheduledScan", "Name", name)
 
-	err := r.DeleteScheduledScan(ctx, name)
+	err := r.deleteScheduledScan(ctx, name)
 	if err != nil {
 		// If the scan was already gone ignore this, since we only wanted to delete it
 		if apierrors.IsNotFound(err) {
@@ -200,11 +200,11 @@ func (r *AWSContainerScanReconciler) HandleDeleteRequest(ctx context.Context, re
 	return nil
 }
 
-func (r *AWSContainerScanReconciler) HandleSingleScanRequest(ctx context.Context, req Request) error {
+func (r *AWSContainerScanReconciler) handleSingleScanRequest(ctx context.Context, req Request) error {
 	scan := getScanForRequest(req)
 	r.Log.Info("Creating one-off Scan", "Name", scan.ObjectMeta.Name)
 
-	_, err := r.CreateScan(ctx, scan)
+	_, err := r.createScan(ctx, scan)
 	if err != nil {
 		// Avoid TOCTOU problems by checking the err instead of checking before if the scan exists
 		if apierrors.IsAlreadyExists(err) {
@@ -221,25 +221,25 @@ func (r *AWSContainerScanReconciler) HandleSingleScanRequest(ctx context.Context
 	return nil
 }
 
-func (r *AWSContainerScanReconciler) GetScan(ctx context.Context, name string) (*executionv1.Scan, error) {
+func (r *AWSContainerScanReconciler) getScan(ctx context.Context, name string) (*executionv1.Scan, error) {
 	scan := &executionv1.Scan{}
 	err := r.Client.Get(ctx, types.NamespacedName{Name: name, Namespace: r.Namespace}, scan)
 	return scan, err
 }
 
-func (r *AWSContainerScanReconciler) ListScans(ctx context.Context) (*executionv1.ScanList, error) {
+func (r *AWSContainerScanReconciler) listScans(ctx context.Context) (*executionv1.ScanList, error) {
 	var scans executionv1.ScanList
 	err := r.Client.List(ctx, &scans, client.InNamespace(r.Namespace))
 	return &scans, err
 }
 
-func (r *AWSContainerScanReconciler) CreateScan(ctx context.Context, scan *executionv1.Scan) (*executionv1.Scan, error) {
+func (r *AWSContainerScanReconciler) createScan(ctx context.Context, scan *executionv1.Scan) (*executionv1.Scan, error) {
 	scan.ObjectMeta.Namespace = r.Namespace
 	err := r.Client.Create(ctx, scan)
 	return scan, err
 }
 
-func (r *AWSContainerScanReconciler) DeleteScan(ctx context.Context, name string) error {
+func (r *AWSContainerScanReconciler) deleteScan(ctx context.Context, name string) error {
 	scan := &executionv1.Scan{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      name,
@@ -250,25 +250,25 @@ func (r *AWSContainerScanReconciler) DeleteScan(ctx context.Context, name string
 	return r.Client.Delete(ctx, scan)
 }
 
-func (r *AWSContainerScanReconciler) GetScheduledScan(ctx context.Context, name string) (*executionv1.ScheduledScan, error) {
+func (r *AWSContainerScanReconciler) getScheduledScan(ctx context.Context, name string) (*executionv1.ScheduledScan, error) {
 	scheduledScan := &executionv1.ScheduledScan{}
 	err := r.Client.Get(ctx, types.NamespacedName{Name: name, Namespace: r.Namespace}, scheduledScan)
 	return scheduledScan, err
 }
 
-func (r *AWSContainerScanReconciler) ListScheduledScans(ctx context.Context) (*executionv1.ScheduledScanList, error) {
+func (r *AWSContainerScanReconciler) listScheduledScans(ctx context.Context) (*executionv1.ScheduledScanList, error) {
 	var scheduledscans executionv1.ScheduledScanList
 	err := r.Client.List(ctx, &scheduledscans, client.InNamespace(r.Namespace))
 	return &scheduledscans, err
 }
 
-func (r *AWSContainerScanReconciler) CreateScheduledScan(ctx context.Context, scheduledScan *executionv1.ScheduledScan) (*executionv1.ScheduledScan, error) {
+func (r *AWSContainerScanReconciler) createScheduledScan(ctx context.Context, scheduledScan *executionv1.ScheduledScan) (*executionv1.ScheduledScan, error) {
 	scheduledScan.ObjectMeta.Namespace = r.Namespace
 	err := r.Client.Create(ctx, scheduledScan)
 	return scheduledScan, err
 }
 
-func (r *AWSContainerScanReconciler) DeleteScheduledScan(ctx context.Context, name string) error {
+func (r *AWSContainerScanReconciler) deleteScheduledScan(ctx context.Context, name string) error {
 	scan := &executionv1.ScheduledScan{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      name,
@@ -282,7 +282,7 @@ func (r *AWSContainerScanReconciler) DeleteScheduledScan(ctx context.Context, na
 func getScanForRequest(req Request) *executionv1.Scan {
 	return &executionv1.Scan{
 		ObjectMeta: metav1.ObjectMeta{
-			Name: GetScanName(req, "aws-trivy-sbom"),
+			Name: getScanName(req, "aws-trivy-sbom"),
 		},
 		Spec: executionv1.ScanSpec{
 			ScanType:   "trivy-sbom-image",
@@ -291,10 +291,10 @@ func getScanForRequest(req Request) *executionv1.Scan {
 	}
 }
 
-func GetScheduledScanForRequest(req Request) *executionv1.ScheduledScan {
+func getScheduledScanForRequest(req Request) *executionv1.ScheduledScan {
 	scan := executionv1.ScheduledScan{
 		ObjectMeta: metav1.ObjectMeta{
-			Name: GetScanName(req, "aws-trivy-sbom"),
+			Name: getScanName(req, "aws-trivy-sbom"),
 		},
 		Spec: executionv1.ScheduledScanSpec{
 			Interval: metav1.Duration{
@@ -310,7 +310,7 @@ func GetScheduledScanForRequest(req Request) *executionv1.ScheduledScan {
 	return &scan
 }
 
-func GetScanName(req Request, name string) string {
+func getScanName(req Request, name string) string {
 	// adapted from the kubernetes container autodiscovery
 	// function builds string like: _appName_-_customScanName_-at-_imageID_HASH_ eg: nginx-myTrivyScan-at-0123456789
 
@@ -337,7 +337,7 @@ func GetScanName(req Request, name string) string {
 	return result
 }
 
-func GetClient(log logr.Logger) (client.Client, string, error) {
+func getClient(log logr.Logger) (client.Client, string, error) {
 	log.Info("Connecting to Kubernetes cluster...")
 
 	kubeconfigArgs := genericclioptions.NewConfigFlags(false)
