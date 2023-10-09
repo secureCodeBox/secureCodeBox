@@ -27,7 +27,7 @@ func (m *MonitorService) handleEvent(rawMessage string) ([]kubernetes.Request, e
 
 	switch message.DetailType {
 	case "ECS Task State Change":
-		return handleEcsEvent(rawMessage)
+		return HandleEcsEvent(rawMessage)
 	default:
 		return nil, errors.New("Unexpected detail-type " + message.DetailType + " from source " + message.Source)
 	}

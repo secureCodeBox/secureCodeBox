@@ -15,10 +15,14 @@ import (
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/kubernetes"
 )
 
+type SQSAPI interface {
+	ReceiveMessage(input *sqs.ReceiveMessageInput) (*sqs.ReceiveMessageOutput, error)
+	DeleteMessage(input *sqs.DeleteMessageInput) (*sqs.DeleteMessageOutput, error)
+}
+
 type MonitorService struct {
 	Queue      string
-	Session    *session.Session
-	SqsService *sqs.SQS
+	SqsService SQSAPI
 	Reconciler kubernetes.AWSReconciler
 	Log        logr.Logger
 }
@@ -27,48 +31,56 @@ func NewMonitorService(queue string, reconciler kubernetes.AWSReconciler, log lo
 	session := getSession(log)
 	service := sqs.New(session)
 
+	return NewMonitorServiceWith(queue, service, reconciler, log)
+}
+
+func NewMonitorServiceWith(queue string, service SQSAPI, reconciler kubernetes.AWSReconciler, log logr.Logger) *MonitorService {
 	return &MonitorService{
 		Queue:      queue,
-		Session:    session,
 		SqsService: service,
 		Reconciler: reconciler,
 		Log:        log,
 	}
 }
 
-func (m *MonitorService) Run() {
+func (m *MonitorService) Run(ctx context.Context) {
 	m.Log.Info("Receiving messages...")
 	for {
-		msgResult, err := m.pollQueue()
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			msgResult, err := m.pollQueue()
 
-		if err != nil {
-			m.Log.Error(err, "Error fetching AWS messages")
-			time.Sleep(10 * time.Second)
-		} else if len(msgResult.Messages) > 0 {
-			for _, message := range msgResult.Messages {
+			if err != nil {
+				m.Log.Error(err, "Error fetching AWS messages")
+				time.Sleep(10 * time.Second)
+			} else if len(msgResult.Messages) > 0 {
+				for _, message := range msgResult.Messages {
 
-				requests, err := m.handleEvent(*message.Body)
-				if err != nil {
-					m.Log.Error(err, "Error handling AWS event")
-					continue
-				}
+					requests, err := m.handleEvent(*message.Body)
+					if err != nil {
+						m.Log.Error(err, "Error handling AWS event")
+						continue
+					}
 
-				errors := false
-				if len(requests) > 0 {
-					for _, request := range requests {
-						err = m.Reconciler.Reconcile(context.Background(), request)
-						if err != nil {
-							m.Log.Error(err, "Unable to reconcile request")
-							errors = true
+					errors := false
+					if len(requests) > 0 {
+						for _, request := range requests {
+							err = m.Reconciler.Reconcile(ctx, request)
+							if err != nil {
+								m.Log.Error(err, "Unable to reconcile request")
+								errors = true
+							}
 						}
 					}
-				}
 
-				if !errors {
-					// delete message from the service
-					// otherwise keep message in queue and try to handle it again?
-					// TODO need better way to handle errors
-					m.deleteMessageFromQueue(message.ReceiptHandle)
+					if !errors {
+						// delete message from the service
+						// otherwise keep message in queue and try to handle it again?
+						// TODO need better way to handle errors
+						m.deleteMessageFromQueue(message.ReceiptHandle)
+					}
 				}
 			}
 		}

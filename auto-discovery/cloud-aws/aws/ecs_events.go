@@ -13,8 +13,9 @@ import (
 )
 
 type EcsTaskStateChange struct {
-	Source string         `json:"source"`
-	Detail EcsStateDetail `json:"detail"`
+	Source     string         `json:"source"`
+	DetailType string         `json:"detail-type"`
+	Detail     EcsStateDetail `json:"detail"`
 }
 
 type EcsStateDetail struct {
@@ -30,7 +31,7 @@ type EcsContainerInfo struct {
 	ImageDigest  string `json:"imageDigest"`
 }
 
-func handleEcsEvent(rawMessage string) ([]kubernetes.Request, error) {
+func HandleEcsEvent(rawMessage string) ([]kubernetes.Request, error) {
 	var stateChange EcsTaskStateChange
 	err := json.Unmarshal([]byte(rawMessage), &stateChange)
 

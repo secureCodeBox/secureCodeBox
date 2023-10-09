@@ -5,25 +5,14 @@
 package kubernetes_test
 
 import (
-	"context"
-	"time"
-
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/kubernetes"
-	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
-	"k8s.io/apimachinery/pkg/types"
 )
 
-var _ = Describe("Kubernetes service", func() {
-
-	const (
-		timeout  = time.Second * 10
-		interval = time.Millisecond * 250
-	)
-
-	scanName := "docker-io-bkimminich-aws-trivy-sbom-at-28915718daff4d66ceb50accbaac0e87bf09f857096ba82ea2404187b7077f42"
+var _ = Describe("Kubernetes unit tests", func() {
+	scanName := "docker-io-bkimminich-aws-trivy-sbom-at-163482fed1f8e7c8558cc476a512b13768a8d2f7a04b8aab407ab02987c42382"
 	scanName = scanName[:62]
 
 	req := kubernetes.Request{
@@ -32,7 +21,7 @@ var _ = Describe("Kubernetes service", func() {
 			Id: "VeryUniqueId",
 			Image: kubernetes.ImageInfo{
 				Name:   "docker.io/bkimminich/juice-shop",
-				Digest: "sha256:28915718daff4d66ceb50accbaac0e87bf09f857096ba82ea2404187b7077f42",
+				Digest: "sha256:163482fed1f8e7c8558cc476a512b13768a8d2f7a04b8aab407ab02987c42382",
 			},
 		},
 	}
@@ -44,21 +33,4 @@ var _ = Describe("Kubernetes service", func() {
 			})
 		})
 	})
-
-	Describe("Create ScheduledScan", func() {
-		Context("for juice-shop container", func() {
-			It("should create the correct ScheduledScan", func() {
-				awsReconciler.Reconcile(ctx, req)
-
-				Eventually(func() error {
-					return checkIfScanExists(ctx, scanName, namespace)
-				}, timeout, interval).Should(Succeed())
-			})
-		})
-	})
 })
-
-func checkIfScanExists(ctx context.Context, name string, namespace string) error {
-	var scheduledScan executionv1.ScheduledScan
-	return k8sClient.Get(ctx, types.NamespacedName{Name: name, Namespace: namespace}, &scheduledScan)
-}
