@@ -27,8 +27,10 @@ var _ = Describe("Integration tests", func() {
 		interval = time.Millisecond * 250
 	)
 
-	scanName := "docker-io-bkimminich-aws-trivy-sbom-at-163482fed1f8e7c8558cc476a512b13768a8d2f7a04b8aab407ab02987c42382"
+	scanName := "docker-io-bkimminich-test-scan-at-163482fed1f8e7c8558cc476a512b13768a8d2f7a04b8aab407ab02987c42382"
 	scanName = scanName[:62]
+	scanName2 := "docker-io-bkimminich-test-scan-two-at-163482fed1f8e7c8558cc476a512b13768a8d2f7a04b8aab407ab02987c42382"
+	scanName2 = scanName2[:62]
 
 	stateChange := aws.EcsTaskStateChange{
 		Source:     "aws.ecs",
@@ -60,11 +62,14 @@ var _ = Describe("Integration tests", func() {
 
 	Describe("Create ScheduledScan", func() {
 		Context("for juice-shop container", func() {
-			It("should create the correct ScheduledScan", func() {
+			It("should create the correct ScheduledScans", func() {
 				sqsapi.MsgEntry <- msg
 
 				Eventually(func() error {
 					return checkIfScanExists(ctx, scanName, namespace)
+				}, timeout, interval).Should(Succeed())
+				Eventually(func() error {
+					return checkIfScanExists(ctx, scanName2, namespace)
 				}, timeout, interval).Should(Succeed())
 			})
 		})

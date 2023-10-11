@@ -6,12 +6,13 @@ package kubernetes
 
 import (
 	"context"
-	"flag"
 	"fmt"
 	"strings"
-	"time"
 
 	"github.com/go-logr/logr"
+	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/config"
+	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
+	"github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/pkg/util"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -19,9 +20,7 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
-	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 )
 
 type Request struct {
@@ -68,8 +67,8 @@ type AWSReconciler interface {
 
 type AWSContainerScanReconciler struct {
 	client.Client
-	Namespace string
-	Log       logr.Logger
+	Config *config.AutoDiscoveryConfig
+	Log    logr.Logger
 
 	// "Set" of container IDs to track which containers are about to start so that very short lived
 	// containers can be detected. Do not store the ImageInfo because containers might be pending
@@ -79,6 +78,13 @@ type AWSContainerScanReconciler struct {
 	// Track which images are actually running and which instances use them
 	// Technically a HashMap to a HashSet but Go doesn't have sets
 	RunningContainers map[ImageInfo]map[string]struct{}
+}
+
+type ContainerAutoDiscoveryTemplateArgs struct {
+	Config     config.AutoDiscoveryConfig
+	ScanConfig configv1.ScanConfig
+	Target     ContainerInfo
+	ImageID    string
 }
 
 func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request) error {
@@ -108,23 +114,23 @@ func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request)
 	}
 }
 
-func NewAWSReconciler(namespace string, log logr.Logger) *AWSContainerScanReconciler {
+func NewAWSReconciler(cfg *config.AutoDiscoveryConfig, log logr.Logger) *AWSContainerScanReconciler {
 	client, cfgNamespace, err := getClient(log)
 	if err != nil {
 		log.Error(err, "Unable to create Kubernetes client")
 		panic(err)
 	}
-	if namespace != "" {
-		cfgNamespace = namespace
+	if cfg.Kubernetes.Namespace == "" {
+		cfg.Kubernetes.Namespace = cfgNamespace
 	}
 
-	return NewAWSReconcilerWith(client, cfgNamespace, log)
+	return NewAWSReconcilerWith(client, cfg, log)
 }
 
-func NewAWSReconcilerWith(client client.Client, namespace string, log logr.Logger) *AWSContainerScanReconciler {
+func NewAWSReconcilerWith(client client.Client, cfg *config.AutoDiscoveryConfig, log logr.Logger) *AWSContainerScanReconciler {
 	return &AWSContainerScanReconciler{
 		Client:            client,
-		Namespace:         namespace,
+		Config:            cfg,
 		Log:               log,
 		PendingContainers: make(map[string]struct{}),
 		RunningContainers: make(map[ImageInfo]map[string]struct{}),
@@ -143,26 +149,29 @@ func (r *AWSContainerScanReconciler) handleCreateRequest(ctx context.Context, re
 	// Add this container to the "set" for this image
 	r.RunningContainers[req.Container.Image][req.Container.Id] = struct{}{}
 
-	// Create a scan in all cases
-	scan := getScheduledScanForRequest(req)
-	r.Log.V(1).Info("Creating ScheduledScan", "Name", scan.ObjectMeta.Name)
+	// Create all configured scans
+	var err error = nil
+	for _, scanConfig := range r.Config.Kubernetes.ScanConfigs {
+		scan := getScheduledScanForRequest(req, r.Config, scanConfig)
+		r.Log.V(1).Info("Creating ScheduledScan", "Name", scan.ObjectMeta.Name)
 
-	res, err := r.createScheduledScan(ctx, scan)
-	if err != nil {
-		// Avoid TOCTOU problems by checking the err instead of checking before if the scan exists
-		if apierrors.IsAlreadyExists(err) {
-			r.Log.V(1).Info("ScheduledScan already exists, nothing to do")
-			return nil
+		// Always try to create the scan and later check if it might have existed already
+		res, thiserr := r.createScheduledScan(ctx, scan)
+		if thiserr != nil {
+			// Avoid TOCTOU problems by checking the err instead of checking before if the scan exists
+			if apierrors.IsAlreadyExists(thiserr) {
+				r.Log.V(1).Info("ScheduledScan already exists, nothing to do")
+			} else {
+				// What even is the AWS Monitor supposed to do with an error? Ignoring the message won't do
+				// much anyway. Retry somehow?
+				r.Log.Error(err, "Unexpected error while trying to create ScheduledScan")
+				err = thiserr
+			}
+		} else {
+			r.Log.Info("Successfully created ScheduledScan", "Name", res.ObjectMeta.Name)
 		}
-
-		// What even is the AWS Monitor supposed to do with an error? Ignoring the message won't do
-		// much anyway. Retry somehow?
-		r.Log.Error(err, "Unexpected error while trying to create ScheduledScan")
-		return err
 	}
-
-	r.Log.Info("Successfully created ScheduledScan", "Name", res.ObjectMeta.Name)
-	return nil
+	return err
 }
 
 func (r *AWSContainerScanReconciler) handleDeleteRequest(ctx context.Context, req Request) error {
@@ -179,25 +188,27 @@ func (r *AWSContainerScanReconciler) handleDeleteRequest(ctx context.Context, re
 		return nil
 	}
 
-	// Delete ScheduledScan since this was the last one
-	name := getScanName(req, "aws-trivy-sbom")
-	r.Log.V(1).Info("Deleting ScheduledScan", "Name", name)
+	// Delete all ScheduledScans since this was the last one
+	var err error = nil
+	for _, scanConfig := range r.Config.Kubernetes.ScanConfigs {
+		name := getScanName(req, scanConfig.Name)
+		r.Log.V(1).Info("Deleting ScheduledScan", "Name", name)
 
-	err := r.deleteScheduledScan(ctx, name)
-	if err != nil {
-		// If the scan was already gone ignore this, since we only wanted to delete it
-		if apierrors.IsNotFound(err) {
-			r.Log.V(1).Info("ScheduledScan was already deleted, nothing to do")
-			return nil
+		thiserr := r.deleteScheduledScan(ctx, name)
+		if thiserr != nil {
+			// If the scan was already gone ignore this, since we only wanted to delete it
+			if apierrors.IsNotFound(thiserr) {
+				r.Log.V(1).Info("ScheduledScan was already deleted, nothing to do")
+			} else {
+				// Same problem here, how should the AWS Monitor even handle other errors?
+				r.Log.Error(thiserr, "Unexpected error while trying to delete ScheduledScan")
+				err = thiserr
+			}
+		} else {
+			r.Log.Info("Successfully deleted ScheduledScan", "Name", name)
 		}
-
-		// Same problem here, how should the AWS Monitor even handle other errors?
-		r.Log.Error(err, "Unexpected error while trying to delete ScheduledScan")
-		return err
 	}
-
-	r.Log.Info("Successfully deleted ScheduledScan", "Name", name)
-	return nil
+	return err
 }
 
 func (r *AWSContainerScanReconciler) handleSingleScanRequest(ctx context.Context, req Request) error {
@@ -223,18 +234,18 @@ func (r *AWSContainerScanReconciler) handleSingleScanRequest(ctx context.Context
 
 func (r *AWSContainerScanReconciler) getScan(ctx context.Context, name string) (*executionv1.Scan, error) {
 	scan := &executionv1.Scan{}
-	err := r.Client.Get(ctx, types.NamespacedName{Name: name, Namespace: r.Namespace}, scan)
+	err := r.Client.Get(ctx, types.NamespacedName{Name: name, Namespace: r.Config.Kubernetes.Namespace}, scan)
 	return scan, err
 }
 
 func (r *AWSContainerScanReconciler) listScans(ctx context.Context) (*executionv1.ScanList, error) {
 	var scans executionv1.ScanList
-	err := r.Client.List(ctx, &scans, client.InNamespace(r.Namespace))
+	err := r.Client.List(ctx, &scans, client.InNamespace(r.Config.Kubernetes.Namespace))
 	return &scans, err
 }
 
 func (r *AWSContainerScanReconciler) createScan(ctx context.Context, scan *executionv1.Scan) (*executionv1.Scan, error) {
-	scan.ObjectMeta.Namespace = r.Namespace
+	scan.ObjectMeta.Namespace = r.Config.Kubernetes.Namespace
 	err := r.Client.Create(ctx, scan)
 	return scan, err
 }
@@ -243,7 +254,7 @@ func (r *AWSContainerScanReconciler) deleteScan(ctx context.Context, name string
 	scan := &executionv1.Scan{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      name,
-			Namespace: r.Namespace,
+			Namespace: r.Config.Kubernetes.Namespace,
 		},
 	}
 
@@ -252,18 +263,18 @@ func (r *AWSContainerScanReconciler) deleteScan(ctx context.Context, name string
 
 func (r *AWSContainerScanReconciler) getScheduledScan(ctx context.Context, name string) (*executionv1.ScheduledScan, error) {
 	scheduledScan := &executionv1.ScheduledScan{}
-	err := r.Client.Get(ctx, types.NamespacedName{Name: name, Namespace: r.Namespace}, scheduledScan)
+	err := r.Client.Get(ctx, types.NamespacedName{Name: name, Namespace: r.Config.Kubernetes.Namespace}, scheduledScan)
 	return scheduledScan, err
 }
 
 func (r *AWSContainerScanReconciler) listScheduledScans(ctx context.Context) (*executionv1.ScheduledScanList, error) {
 	var scheduledscans executionv1.ScheduledScanList
-	err := r.Client.List(ctx, &scheduledscans, client.InNamespace(r.Namespace))
+	err := r.Client.List(ctx, &scheduledscans, client.InNamespace(r.Config.Kubernetes.Namespace))
 	return &scheduledscans, err
 }
 
 func (r *AWSContainerScanReconciler) createScheduledScan(ctx context.Context, scheduledScan *executionv1.ScheduledScan) (*executionv1.ScheduledScan, error) {
-	scheduledScan.ObjectMeta.Namespace = r.Namespace
+	scheduledScan.ObjectMeta.Namespace = r.Config.Kubernetes.Namespace
 	err := r.Client.Create(ctx, scheduledScan)
 	return scheduledScan, err
 }
@@ -272,7 +283,7 @@ func (r *AWSContainerScanReconciler) deleteScheduledScan(ctx context.Context, na
 	scan := &executionv1.ScheduledScan{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      name,
-			Namespace: r.Namespace,
+			Namespace: r.Config.Kubernetes.Namespace,
 		},
 	}
 
@@ -291,23 +302,25 @@ func getScanForRequest(req Request) *executionv1.Scan {
 	}
 }
 
-func getScheduledScanForRequest(req Request) *executionv1.ScheduledScan {
-	scan := executionv1.ScheduledScan{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: getScanName(req, "aws-trivy-sbom"),
-		},
-		Spec: executionv1.ScheduledScanSpec{
-			Interval: metav1.Duration{
-				Duration: 12 * time.Hour,
-			},
-			ScanSpec: &executionv1.ScanSpec{
-				ScanType:   "trivy-sbom-image",
-				Parameters: []string{req.Container.Image.getReference()},
-			},
-		},
+func getScheduledScanForRequest(req Request, cfg *config.AutoDiscoveryConfig, scanConfig configv1.ScanConfig) *executionv1.ScheduledScan {
+	templateArgs := ContainerAutoDiscoveryTemplateArgs{
+		Config:     *cfg,
+		ScanConfig: scanConfig,
+		Target:     req.Container,
+		ImageID:    req.Container.Image.getReference(),
 	}
+	scanSpec := util.GenerateScanSpec(scanConfig, templateArgs)
 
-	return &scan
+	newScheduledScan := executionv1.ScheduledScan{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:        getScanName(req, scanConfig.Name),
+			Namespace:   cfg.Kubernetes.Namespace,
+			Annotations: getScanAnnotations(scanConfig, templateArgs),
+			Labels:      getScanLabels(scanConfig, templateArgs),
+		},
+		Spec: scanSpec,
+	}
+	return &newScheduledScan
 }
 
 func getScanName(req Request, name string) string {
@@ -337,6 +350,17 @@ func getScanName(req Request, name string) string {
 	return result
 }
 
+func getScanAnnotations(scanConfig configv1.ScanConfig, templateArgs ContainerAutoDiscoveryTemplateArgs) map[string]string {
+	return util.ParseMapTemplate(templateArgs, scanConfig.Annotations)
+}
+
+func getScanLabels(scanConfig configv1.ScanConfig, templateArgs ContainerAutoDiscoveryTemplateArgs) map[string]string {
+	generatedLabels := util.ParseMapTemplate(templateArgs, scanConfig.Labels)
+	generatedLabels["app.kubernetes.io/managed-by"] = "securecodebox-autodiscovery"
+
+	return generatedLabels
+}
+
 func getClient(log logr.Logger) (client.Client, string, error) {
 	log.Info("Connecting to Kubernetes cluster...")
 
@@ -360,15 +384,4 @@ func getClient(log logr.Logger) (client.Client, string, error) {
 	}
 
 	return client, namespace, nil
-}
-
-func InitializeLogger() logr.Logger {
-	opts := zap.Options{
-		Development: true,
-	}
-	opts.BindFlags(flag.CommandLine)
-	flag.Parse()
-	log := zap.New(zap.UseFlagOptions(&opts))
-	ctrl.SetLogger(log)
-	return log
 }
