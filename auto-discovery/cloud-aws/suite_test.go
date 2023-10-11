@@ -16,7 +16,9 @@ import (
 	"github.com/aws/aws-sdk-go/service/sqs"
 	"github.com/go-logr/logr"
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/aws"
+	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/config"
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/kubernetes"
+	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -74,12 +76,66 @@ var _ = BeforeSuite(func() {
 
 	Expect(createNamespace(ctx, namespace)).To(Succeed())
 
+	autoDiscoveryCfg := config.AutoDiscoveryConfig{
+		Aws: config.AwsConfig{
+			QueueUrl: "notaqueue",
+			Region:   "doesnotmatter",
+		},
+		Kubernetes: config.KubernetesConfig{
+			Namespace: namespace,
+			ScanConfigs: []configv1.ScanConfig{
+				{
+					Name:           "test-scan",
+					RepeatInterval: metav1.Duration{Duration: time.Hour},
+					Annotations:    map[string]string{"testAnnotation": "{{ .Target.Id }}"},
+					Labels:         map[string]string{"testLabel": "{{ .Target.Id }}"},
+					Parameters:     []string{"{{ .ImageID }}"},
+					ScanType:       "trivy-sbom-image",
+					HookSelector: metav1.LabelSelector{
+						MatchExpressions: []metav1.LabelSelectorRequirement{
+							{
+								Operator: metav1.LabelSelectorOpIn,
+								Key:      "foo",
+								Values:   []string{"bar", "baz"},
+							},
+							{
+								Operator: metav1.LabelSelectorOpDoesNotExist,
+								Key:      "foo",
+							},
+						},
+					},
+				},
+				{
+					Name:           "test-scan-two",
+					RepeatInterval: metav1.Duration{Duration: time.Hour},
+					Annotations:    map[string]string{"testAnnotation": "{{ .Target.Id }}"},
+					Labels:         map[string]string{"testLabel": "{{ .Target.Id }}"},
+					Parameters:     []string{"{{ .ImageID }}"},
+					ScanType:       "trivy-sbom-image",
+					HookSelector: metav1.LabelSelector{
+						MatchExpressions: []metav1.LabelSelectorRequirement{
+							{
+								Operator: metav1.LabelSelectorOpIn,
+								Key:      "foo",
+								Values:   []string{"bar", "baz"},
+							},
+							{
+								Operator: metav1.LabelSelectorOpDoesNotExist,
+								Key:      "foo",
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
 	sqsapi = &MockSQSService{
 		MsgEntry: make(chan *sqs.ReceiveMessageOutput),
 	}
 
-	awsReconciler = kubernetes.NewAWSReconcilerWith(k8sClient, namespace, log)
-	awsMonitor = aws.NewMonitorServiceWith("notaqueue", sqsapi, awsReconciler, log)
+	awsReconciler = kubernetes.NewAWSReconcilerWith(k8sClient, &autoDiscoveryCfg, log)
+	awsMonitor = aws.NewMonitorServiceWith(&autoDiscoveryCfg, sqsapi, awsReconciler, log)
 
 	go func() {
 		defer GinkgoRecover()

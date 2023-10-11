@@ -12,6 +12,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sqs"
 	"github.com/go-logr/logr"
+	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/config"
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/kubernetes"
 )
 
@@ -21,22 +22,22 @@ type SQSAPI interface {
 }
 
 type MonitorService struct {
-	Queue      string
+	Config     *config.AutoDiscoveryConfig
 	SqsService SQSAPI
 	Reconciler kubernetes.AWSReconciler
 	Log        logr.Logger
 }
 
-func NewMonitorService(queue string, reconciler kubernetes.AWSReconciler, log logr.Logger) *MonitorService {
+func NewMonitorService(cfg *config.AutoDiscoveryConfig, reconciler kubernetes.AWSReconciler, log logr.Logger) *MonitorService {
 	session := getSession(log)
 	service := sqs.New(session)
 
-	return NewMonitorServiceWith(queue, service, reconciler, log)
+	return NewMonitorServiceWith(cfg, service, reconciler, log)
 }
 
-func NewMonitorServiceWith(queue string, service SQSAPI, reconciler kubernetes.AWSReconciler, log logr.Logger) *MonitorService {
+func NewMonitorServiceWith(cfg *config.AutoDiscoveryConfig, service SQSAPI, reconciler kubernetes.AWSReconciler, log logr.Logger) *MonitorService {
 	return &MonitorService{
-		Queue:      queue,
+		Config:     cfg,
 		SqsService: service,
 		Reconciler: reconciler,
 		Log:        log,
@@ -95,7 +96,7 @@ func (m *MonitorService) pollQueue() (*sqs.ReceiveMessageOutput, error) {
 		MessageAttributeNames: []*string{
 			awssdk.String(sqs.QueueAttributeNameAll),
 		},
-		QueueUrl:            &m.Queue,
+		QueueUrl:            &m.Config.Aws.QueueUrl,
 		MaxNumberOfMessages: awssdk.Int64(1),
 		VisibilityTimeout:   awssdk.Int64(20),
 		WaitTimeSeconds:     awssdk.Int64(20),
@@ -104,7 +105,7 @@ func (m *MonitorService) pollQueue() (*sqs.ReceiveMessageOutput, error) {
 
 func (m *MonitorService) deleteMessageFromQueue(receiptHandle *string) error {
 	_, err := m.SqsService.DeleteMessage(&sqs.DeleteMessageInput{
-		QueueUrl:      &m.Queue,
+		QueueUrl:      &m.Config.Aws.QueueUrl,
 		ReceiptHandle: receiptHandle,
 	})
 
