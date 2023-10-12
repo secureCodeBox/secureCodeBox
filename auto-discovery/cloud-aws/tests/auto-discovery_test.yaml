@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+suite: Full Snapshot
+templates:
+  - rbac/*.yaml
+  - service/*.yaml
+tests:
+  - it: matches the snapshot
+    chart:
+      version: 0.0.0
+      appVersion: 0.0.0      
+    set:
+      imagePullSecrets: [{name: foo}]
+      podSecurityContext: {fsGroup: 1234}
+
+    asserts:
+      - matchSnapshot: {}
