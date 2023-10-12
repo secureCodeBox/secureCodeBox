@@ -21,6 +21,7 @@ import (
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/kubernetes"
 	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
+	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes/scheme"
@@ -76,6 +77,7 @@ var _ = BeforeSuite(func() {
 	Expect(k8sClient).NotTo(BeNil())
 
 	Expect(createNamespace(ctx, namespace)).To(Succeed())
+	Expect(createScanType(ctx, namespace)).To(Succeed())
 
 	autoDiscoveryCfg := config.AutoDiscoveryConfig{
 		Aws: config.AwsConfig{
@@ -158,6 +160,49 @@ func createNamespace(ctx context.Context, namespaceName string) error {
 	}
 
 	return k8sClient.Create(ctx, namespace)
+}
+
+func createScanType(ctx context.Context, namespace string) error {
+	scanType := &executionv1.ScanType{
+		TypeMeta: metav1.TypeMeta{
+			APIVersion: "execution.securecodebox.io/v1",
+			Kind:       "ScanType",
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "trivy-sbom-image",
+			Namespace: namespace,
+		},
+		Spec: executionv1.ScanTypeSpec{
+			ExtractResults: executionv1.ExtractResults{
+				Location: "/home/securecodebox/sbom-cyclonedx.json",
+				Type:     "sbom-cyclonedx",
+			},
+			JobTemplate: batchv1.Job{
+				Spec: batchv1.JobSpec{
+					Template: corev1.PodTemplateSpec{
+						Spec: corev1.PodSpec{
+							Containers: []corev1.Container{
+								{
+									Name:  "trivy-sbom",
+									Image: "aquasec/trivy",
+									Args: []string{
+										"image",
+										"--no-progress",
+										"--format",
+										"cyclonedx",
+										"--output",
+										"/home/securecodebox/sbom-cyclonedx.json",
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	return k8sClient.Create(ctx, scanType)
 }
 
 type MockSQSService struct {
