@@ -5,7 +5,6 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"os"
 
@@ -53,5 +52,5 @@ func main() {
 	awsMonitor := aws.NewMonitorService(&cfg, awsReconciler, log)
 
 	log.Info("Starting AWS monitoring...")
-	awsMonitor.Run(context.Background())
+	awsMonitor.Run(ctrl.SetupSignalHandler())
 }

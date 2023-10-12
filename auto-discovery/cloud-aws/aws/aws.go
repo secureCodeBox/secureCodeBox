@@ -9,6 +9,7 @@ import (
 	"time"
 
 	awssdk "github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/request"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sqs"
 	"github.com/go-logr/logr"
@@ -18,7 +19,9 @@ import (
 
 type SQSAPI interface {
 	ReceiveMessage(input *sqs.ReceiveMessageInput) (*sqs.ReceiveMessageOutput, error)
+	ReceiveMessageWithContext(ctx awssdk.Context, input *sqs.ReceiveMessageInput, opts ...request.Option) (*sqs.ReceiveMessageOutput, error)
 	DeleteMessage(input *sqs.DeleteMessageInput) (*sqs.DeleteMessageOutput, error)
+	DeleteMessageWithContext(ctx awssdk.Context, input *sqs.DeleteMessageInput, opts ...request.Option) (*sqs.DeleteMessageOutput, error)
 }
 
 type MonitorService struct {
@@ -51,11 +54,16 @@ func (m *MonitorService) Run(ctx context.Context) {
 		case <-ctx.Done():
 			return
 		default:
-			msgResult, err := m.pollQueue()
+			msgResult, err := m.pollQueue(ctx)
 
 			if err != nil {
-				m.Log.Error(err, "Error fetching AWS messages")
-				time.Sleep(10 * time.Second)
+				// ignore context errors
+				if ctx.Err() == nil {
+					m.Log.Error(err, "Error fetching AWS messages")
+					// cheap cooldown after api error
+					m.Log.Info("sleeping")
+					time.Sleep(10 * time.Second)
+				}
 			} else if len(msgResult.Messages) > 0 {
 				for _, message := range msgResult.Messages {
 
@@ -80,7 +88,7 @@ func (m *MonitorService) Run(ctx context.Context) {
 						// delete message from the service
 						// otherwise keep message in queue and try to handle it again?
 						// TODO need better way to handle errors
-						m.deleteMessageFromQueue(message.ReceiptHandle)
+						m.deleteMessageFromQueue(ctx, message.ReceiptHandle)
 					}
 				}
 			}
@@ -88,8 +96,8 @@ func (m *MonitorService) Run(ctx context.Context) {
 	}
 }
 
-func (m *MonitorService) pollQueue() (*sqs.ReceiveMessageOutput, error) {
-	return m.SqsService.ReceiveMessage(&sqs.ReceiveMessageInput{
+func (m *MonitorService) pollQueue(ctx context.Context) (*sqs.ReceiveMessageOutput, error) {
+	return m.SqsService.ReceiveMessageWithContext(ctx, &sqs.ReceiveMessageInput{
 		AttributeNames: []*string{
 			awssdk.String(sqs.MessageSystemAttributeNameSentTimestamp),
 		},
@@ -103,8 +111,8 @@ func (m *MonitorService) pollQueue() (*sqs.ReceiveMessageOutput, error) {
 	})
 }
 
-func (m *MonitorService) deleteMessageFromQueue(receiptHandle *string) error {
-	_, err := m.SqsService.DeleteMessage(&sqs.DeleteMessageInput{
+func (m *MonitorService) deleteMessageFromQueue(ctx context.Context, receiptHandle *string) error {
+	_, err := m.SqsService.DeleteMessageWithContext(ctx, &sqs.DeleteMessageInput{
 		QueueUrl:      &m.Config.Aws.QueueUrl,
 		ReceiptHandle: receiptHandle,
 	})

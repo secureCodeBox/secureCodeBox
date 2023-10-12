@@ -13,6 +13,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
+	"github.com/aws/aws-sdk-go/aws/request"
 	"github.com/aws/aws-sdk-go/service/sqs"
 	"github.com/go-logr/logr"
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/aws"
@@ -166,9 +167,15 @@ type MockSQSService struct {
 }
 
 func (m *MockSQSService) ReceiveMessage(input *sqs.ReceiveMessageInput) (*sqs.ReceiveMessageOutput, error) {
+	return m.ReceiveMessageWithContext(context.TODO(), input)
+}
+
+func (m *MockSQSService) ReceiveMessageWithContext(ctx context.Context, input *sqs.ReceiveMessageInput, opts ...request.Option) (*sqs.ReceiveMessageOutput, error) {
 	timeout := time.After(time.Duration(*input.WaitTimeSeconds) * time.Second)
 	for {
 		select {
+		case <-ctx.Done():
+			return nil, ctx.Err()
 		case <-timeout:
 			return &sqs.ReceiveMessageOutput{}, nil
 		case msg := <-m.MsgEntry:
@@ -178,6 +185,11 @@ func (m *MockSQSService) ReceiveMessage(input *sqs.ReceiveMessageInput) (*sqs.Re
 }
 
 func (*MockSQSService) DeleteMessage(input *sqs.DeleteMessageInput) (*sqs.DeleteMessageOutput, error) {
+	// nothing to do because we don't actually store messages during the tests
+	return &sqs.DeleteMessageOutput{}, nil
+}
+
+func (*MockSQSService) DeleteMessageWithContext(ctx context.Context, input *sqs.DeleteMessageInput, opts ...request.Option) (*sqs.DeleteMessageOutput, error) {
 	// nothing to do because we don't actually store messages during the tests
 	return &sqs.DeleteMessageOutput{}, nil
 }
