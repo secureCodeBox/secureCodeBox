@@ -203,7 +203,7 @@ jobs:
           path: ./operator/${{ matrix.component }}.tar
           retention-days: 1
 
-  # ---- Build Stage | AutoDiscovery ----
+  # ---- Build Stage | AutoDiscovery | Kubernetes ----
 
   auto-discovery-kubernetes:
     name: "AutoDiscovery | Kubernetes"
@@ -242,7 +242,7 @@ jobs:
           path: ./auto-discovery/kubernetes/auto-discovery-kubernetes.tar
           retention-days: 1
 
-  # ---- Build Stage | AutoDiscovery | PullSecretExtractor ----
+  # ---- Build Stage | AutoDiscovery | Kubernetes | PullSecretExtractor ----
   auto-discovery-kubernetes-secret-extraction-container:
     name: "Autodiscovery | Kubernetes | SecretExtractionInitContainer"
     runs-on: ubuntu-22.04
@@ -334,6 +334,44 @@ jobs:
         working-directory: ./auto-discovery/kubernetes/pull-secret-extractor
         run: |
           make integration-test
+
+  # ---- Build Stage | AutoDiscovery | Cloud | AWS ----
+  auto-discovery-cloud-aws:
+    name: "AutoDiscovery | Cloud | AWS"
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Go Setup
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Lint Go Code
+        working-directory: ./auto-discovery/cloud-aws
+        run: |
+          go fmt ./...
+          go vet ./...
+
+      - name: Test
+        working-directory: ./auto-discovery/cloud-aws/
+        run: make test
+
+      - name: Build Container Image
+        working-directory: ./auto-discovery/cloud-aws/
+        run: make docker-build
+
+      - name: Export Container Image
+        working-directory: ./auto-discovery/cloud-aws/
+        run: make docker-export
+
+      - name: Upload Image As Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: auto-discovery-cloud-aws-image
+          path: ./auto-discovery/cloud-aws/auto-discovery-cloud-aws.tar
+          retention-days: 1
 
   # ---- Build Stage | SDK Matrix ----
 
