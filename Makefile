@@ -56,6 +56,7 @@ operator-docs: ## Generate documentation for the operator.
 
 .PHONY: auto-discovery-docs
 auto-discovery-docs: ## Generate documentation for the auto-discovery.
+	"$(BIN_DIR)/generate-helm-docs.sh" --operator "$(AUTO_DISCOVERY_DIR)/cloud-aws/Chart.yaml" "$(HELM_DOCS_DIR)"
 	"$(BIN_DIR)/generate-helm-docs.sh" --operator "$(AUTO_DISCOVERY_DIR)/kubernetes/Chart.yaml" "$(HELM_DOCS_DIR)"
 
 .PHONY: demo-target-docs
