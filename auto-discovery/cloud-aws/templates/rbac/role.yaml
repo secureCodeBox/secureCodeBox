@@ -1,0 +1,58 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: auto-discovery-cloud-aws
+rules:
+- apiGroups:
+  - execution.securecodebox.io
+  resources:
+  - scantypes
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - execution.securecodebox.io
+  resources:
+  - scheduledscans
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
+  - watch
+  - delete
+- apiGroups:
+  - execution.securecodebox.io/status
+  resources:
+  - scheduledscans
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - execution.securecodebox.io
+  resources:
+  - scans
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
+  - watch
+  - delete
+- apiGroups:
+  - execution.securecodebox.io/status
+  resources:
+  - scans
+  verbs:
+  - get
+  - patch
+  - update

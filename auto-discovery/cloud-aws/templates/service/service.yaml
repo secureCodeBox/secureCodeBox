@@ -1,0 +1,69 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auto-discovery-cloud-aws
+  labels:
+    control-plane: auto-discovery-cloud-aws
+spec:
+  selector:
+    matchLabels:
+      control-plane: auto-discovery-cloud-aws
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        control-plane: auto-discovery-cloud-aws
+    spec:
+      serviceAccountName: auto-discovery-cloud-aws
+      securityContext:
+        {{ .Values.podSecurityContext | toYaml | nindent 8 }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - command:
+            - /service
+          args:
+            - --config
+            - /etc/securecodebox/auto-discovery-cloud-aws.yaml
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          name: auto-discovery-cloud-aws
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.awsAuthentication.userSecret }}
+                  key: {{ .Values.awsAuthentication.accessKeyIdKey }}
+                  optional: true
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.awsAuthentication.userSecret }}
+                  key: {{ .Values.awsAuthentication.secretAccessKeyKey }}
+                  optional: true
+            - name: AWS_SESSION_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.awsAuthentication.userSecret }}
+                  key: {{ .Values.awsAuthentication.sessionTokenKey }}
+                  optional: true
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          volumeMounts:
+            - name: config
+              mountPath: "/etc/securecodebox/auto-discovery-cloud-aws.yaml"
+              readOnly: true
+              subPath: auto-discovery-cloud-aws.yaml
+      volumes:
+        - name: config
+          configMap:
+            name: auto-discovery-cloud-aws
+      terminationGracePeriodSeconds: 10

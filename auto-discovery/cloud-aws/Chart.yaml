@@ -1,0 +1,46 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: v2
+name: auto-discovery-cloud-aws
+description: "Automatically creates secureCodeBox Scans for Resources found in AWS"
+
+type: application
+
+# version - gets automatically set to the secureCodeBox release version when the helm charts gets published
+version: v4.0.0
+kubeVersion: ">=v1.11.0-0"
+
+keywords:
+  - security
+  - secureCodeBox
+  - auto-discovery
+home: https://www.securecodebox.io/docs/getting-started/installation
+icon: https://www.securecodebox.io/img/Icon_Blue.svg
+sources:
+  - https://github.com/secureCodeBox/secureCodeBox
+maintainers:
+  - name: iteratec GmbH
+    email: secureCodeBox@iteratec.com
+
+# Artifacthub.io specific annotations
+# https://artifacthub.io/docs/topics/annotations/helm/
+annotations:
+  artifacthub.io/changes: |
+    - first initial introduction of the new secureCodeBox Cloud Autodiscovery
+  artifacthub.io/containsSecurityUpdates: "true"
+  artifacthub.io/images: |
+    - name: securecodebox-auto-discovery-cloud-aws
+      image: docker.io/securecodebox/auto-discovery-cloud-aws
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/links: |
+    - name: Documentation
+      url: https://www.securecodebox.io/docs/getting-started/installation
+    - name: Homepage
+      url: https://www.securecodebox.io
+    - name: iteratec GmbH
+      url: https://www.iteratec.com
+  artifacthub.io/prerelease: "true"
+  artifacthub.io/recommendations: |
+    - url: https://artifacthub.io/packages/helm/securecodebox/operator
