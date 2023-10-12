@@ -1,0 +1,43 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# Patterns to ignore when building packages.
+# This supports shell glob matching, relative path matching, and
+# negation (prefixed with !). Only one pattern per line.
+.DS_Store
+# Common VCS dirs
+.git/
+.gitignore
+.bzr/
+.bzrignore
+.hg/
+.hgignore
+.svn/
+# Common backup files
+*.swp
+*.bak
+*.tmp
+*.orig
+*~
+# Various IDEs
+.project
+.idea/
+*.tmproj
+.vscode/
+
+*.tar
+auto-discovery-cloud-aws-config.yaml
+aws/
+bin/
+config/
+cover.out
+Dockerfile
+go.mod
+go.sum
+go.sum.license
+kubernetes/
+main_test.go
+main.go
+Makefile
+suite_test.go

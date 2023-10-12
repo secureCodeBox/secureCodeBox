@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: auto-discovery-cloud-aws
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: auto-discovery-cloud-aws
+subjects:
+  - kind: ServiceAccount
+    name: auto-discovery-cloud-aws
+    namespace: {{ .Release.Namespace }}

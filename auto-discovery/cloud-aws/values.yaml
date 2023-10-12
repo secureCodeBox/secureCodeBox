@@ -1,0 +1,97 @@
+# SPDX-FileCopyrightText: the secureCodeBox authors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# -- Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
+imagePullSecrets: []
+
+image:
+  repository: securecodebox/auto-discovery-cloud-aws
+  tag: null
+  # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
+  pullPolicy: IfNotPresent
+
+config:
+  # -- settings to connect to AWS and receive the updates
+  aws:
+    # -- url of the SQS queue which receives the state changes. Can be overridden by setting the SQS_QUEUE_URL environment variable.
+    queueUrl: ""
+    # -- aws region to connect to. Can be overridden by setting the AWS_REGION environment variable.
+    region: ""
+  # -- settings to configure how scans get created in kubernetes
+  kubernetes:
+    # -- the namespace in which the scans for the cloud resources should get created, leave empty to use the one the auto discovery is running in
+    namespace: ""
+    scanConfigs:
+      - scanType: trivy-image
+        # -- unique name to distinguish scans
+        name: "trivy"
+        # -- parameters used for the scans created by the containerAutoDiscovery, all parameters support templating
+        parameters:
+          - "{{ .ImageID }}"
+        # -- interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset.
+        repeatInterval: "168h"
+        # -- labels to be added to the scans started by the auto-discovery, all label values support templating
+        labels: {}
+        # -- annotations to be added to the scans started by the auto-discovery, all annotation values support templating
+        annotations: {}
+        # -- hookSelector allows to specify a LabelSelector with which the hooks are selected, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors
+        # Both matchLabels and matchExpressions are supported.
+        # All values in the matchLabels map support templating.
+        # MatchExpressions support templating in the `key` field and in every entry in the `values` list. If a value in the list renders to an empty string it is removed from the list.
+        hookSelector: {}
+      - scanType: trivy-sbom-image
+        # -- unique name to distinguish scans
+        name: "trivy-sbom"
+        # -- parameters used for the scans created by the containerAutoDiscovery, all parameters support templating
+        parameters:
+          - "{{ .ImageID }}"
+        # -- interval in which scans are automatically repeated. If the target is updated (meaning a new image revision is deployed) the scan will repeated beforehand and the interval is reset.
+        repeatInterval: "168h"
+        # -- labels to be added to the scans started by the auto-discovery, all label values support templating
+        labels: {}
+        # -- annotations to be added to the scans started by the auto-discovery, all annotation values support templating
+        annotations: {}
+        # -- hookSelector allows to specify a LabelSelector with which the hooks are selected, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors
+        # Both matchLabels and matchExpressions are supported.
+        # All values in the matchLabels map support templating.
+        # MatchExpressions support templating in the `key` field and in every entry in the `values` list. If a value in the list renders to an empty string it is removed from the list.
+        hookSelector: {}
+
+# -- Authentication information for AWS, use this to configure the secret which contains the access key. Creating this secret is optional, when running on AWS itself the auto discovery will automatically use the IAM role to authenticate.
+awsAuthentication:
+  # -- name of the kubernetes secret that contains the access key
+  userSecret: aws-credentials
+  # -- Name of the key that contains the AWS_ACCESS_KEY_ID
+  accessKeyIdKey: aws-access-key-id
+  # -- Name of the key that contains the AWS_SECRET_ACCESS_KEY
+  secretAccessKeyKey: aws-secret-access-key
+  # -- Name of the key that contains the AWS_SESSION_TOKEN
+  sessionTokenKey: aws-session-token
+
+# -- Sets the securityContext on the operators container level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+securityContext:
+  # securityContext.runAsNonRoot -- Enforces that the Operator image is run as a non root user
+  runAsNonRoot: true
+  # securityContext.readOnlyRootFilesystem -- Prevents write access to the containers file system
+  readOnlyRootFilesystem: true
+  # securityContext.allowPrivilegeEscalation -- Ensure that users privileges cannot be escalated
+  allowPrivilegeEscalation: false
+  # securityContext.privileged -- Ensures that the operator container is not run in privileged mode
+  privileged: false
+  capabilities:
+    drop:
+      # securityContext.capabilities.drop[0] -- This drops all linux privileges from the operator container. They are not required
+      - all
+
+# -- Sets the securityContext on the operators pod level. See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
+podSecurityContext: {}
+
+# resources -- CPU/memory resource requests/limits (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/, https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/)
+resources:
+  limits:
+    cpu: 100m
+    memory: 100Mi
+  requests:
+    cpu: 100m
+    memory: 20Mi
