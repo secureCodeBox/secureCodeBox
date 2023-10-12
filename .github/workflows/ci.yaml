@@ -129,7 +129,11 @@ jobs:
         working-directory: ./operator
         run: make helm-unit-tests
 
-      - name: Helm-Chart Unit Tests | AutoDiscovery
+      - name: Helm-Chart Unit Tests | AutoDiscovery Cloud AWS
+        working-directory: ./auto-discovery/cloud-aws
+        run: make helm-unit-tests
+
+      - name: Helm-Chart Unit Tests | AutoDiscovery Kubernetes
         working-directory: ./auto-discovery/kubernetes
         run: make helm-unit-tests
 

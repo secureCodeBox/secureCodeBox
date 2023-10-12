@@ -71,6 +71,12 @@ test: fmt vet envtest ## Run tests.
 ginkgo: fmt vet envtest ## Run tests.
 	KUBEBUILDER_ASSETS="$(shell $(ENVTEST) use $(ENVTEST_K8S_VERSION) -p path)" $(GOBIN)/ginkgo test ./... -coverprofile cover.out -v --progress
 
+## Helm unit tests
+.PHONY: helm-unit-tests
+helm-unit-tests:
+	echo "Running helm unit tests for the cloud-aws autodiscovery";
+	helm unittest .
+
 ##@ Build
 
 .PHONY: build
