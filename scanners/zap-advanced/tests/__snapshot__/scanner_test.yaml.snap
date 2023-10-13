@@ -148,7 +148,7 @@ matches the snapshot:
                     - api.disablekey=true
                   env: []
                   envFrom: []
-                  image: owasp/zap2docker-stable:0.0.0
+                  image: softwaresecurityproject/zap-stable:0.0.0
                   imagePullPolicy: IfNotPresent
                   name: zap-sidecar
                   ports:

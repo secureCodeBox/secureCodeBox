@@ -127,7 +127,7 @@ scanner:
 zapContainer:
   image:
     # -- Container Image to run the scan
-    repository: owasp/zap2docker-stable
+    repository: softwaresecurityproject/zap-stable
     # -- defaults to the charts appVersion
     tag: null
     # -- Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
