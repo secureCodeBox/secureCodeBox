@@ -61,8 +61,6 @@ fmt: ## Run go fmt against code.
 vet: ## Run go vet against code.
 	go vet ./...
 
-ENVTEST_ASSETS_DIR=$(shell pwd)/testbin
-
 .PHONY: test
 test: fmt vet envtest ## Run tests.
 	KUBEBUILDER_ASSETS="$(shell $(ENVTEST) use $(ENVTEST_K8S_VERSION) -p path)" go test ./... -coverprofile cover.out
@@ -132,3 +130,13 @@ ENVTEST ?= $(LOCALBIN)/setup-envtest
 envtest: $(ENVTEST) ## Download envtest-setup locally if necessary.
 $(ENVTEST): $(LOCALBIN)
 	test -s $(LOCALBIN)/setup-envtest || GOBIN=$(LOCALBIN) go install sigs.k8s.io/controller-runtime/tools/setup-envtest@latest
+
+.PHONY: print-envtest-path
+print-envtest-path: ## Print the path of the envtest binaries for use with other tools
+# suppress output so that result can be stored as env var
+	@$(MAKE) -s envtest
+	@$(ENVTEST) use $(ENVTEST_K8S_VERSION) -p path
+
+debug.env: ## Allow vscode profiles to access the envtest assets
+	printf '%s' 'KUBEBUILDER_ASSETS=' > debug.env
+	$(MAKE) print-envtest-path >> debug.env

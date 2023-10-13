@@ -22,3 +22,6 @@ testbin/*
 *.swp
 *.swo
 *~
+
+# Debug files
+debug.env

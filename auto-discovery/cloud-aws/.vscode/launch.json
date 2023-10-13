@@ -1,0 +1,24 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            // Make sure the AWS connection is configured either as env or in the yaml file
+            "name": "Debug Main",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "main.go",
+            "args": ["--config", "auto-discovery-cloud-aws-config.yaml"],
+        },
+        {
+            "name": "Debug Tests",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}",
+            "args": ["-test.v"],
+            "preLaunchTask": "debug.env",
+            "envFile": "${workspaceFolder}/debug.env",
+        }
+    ]
+}
