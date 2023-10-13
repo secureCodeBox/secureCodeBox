@@ -99,7 +99,7 @@ Please have a look at [Contributing](./CONTRIBUTING.md)
 ## Sponsors
 
 <p align="left">
-  <a href="https://www.iteratec.com/en/"><img alt="iteratec Logo" src="./documentation/static/img/sponsors/Logo_iteratec.svg" width="300px"></a>
+  <a href="https://www.iteratec.com/en/"><img alt="iteratec Logo" src="./documentation/static/img/Logo_iteratec_rgb_black_SZ_rz.svg" width="300px"></a>
 </p>
 <p align="left">
   <a href="https://sda-se.com/?lang=en"><img alt="SDA SE Logo" src="./documentation/static/img/sponsors/Logo_sda-se.png" width="200px" style="margin: 5px; vertical-align: middle;"></a>
