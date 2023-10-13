@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "debug.env",
+            "command": "bash",
+            "args": ["-c", "rm -f ${workspaceFolder}/debug.env; make -C ${workspaceFolder} debug.env"],
+            "type": "shell"
+        },
+    ]
+}

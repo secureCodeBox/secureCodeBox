@@ -25,6 +25,8 @@
 .idea/
 *.tmproj
 .vscode/
+# Debug files
+debug.env
 
 *.tar
 auto-discovery-cloud-aws-config.yaml
