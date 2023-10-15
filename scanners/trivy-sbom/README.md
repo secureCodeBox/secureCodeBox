@@ -3,7 +3,7 @@ title: "Trivy SBOM"
 category: "scanner"
 type: "Container"
 state: "released"
-appVersion: "0.45.1"
+appVersion: "0.46.0"
 usecase: "Container Dependency Scanner"
 ---
 
