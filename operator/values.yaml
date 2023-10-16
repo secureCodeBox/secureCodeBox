@@ -93,7 +93,7 @@ s3:
   # Name to a k8s secret in the same namespace as this release with credentials to the s3 bucket. Only used when s3.authType is set to "access-secret-key"
   # By default this assumes to have 'accesskey' and 'secretkey' as attributes
   # Example creation via kubectl:
-  # kubectl create secret generic my-secret --from-literal=accesskey="******" --from-literal="accesskey=******"
+  # kubectl create secret generic my-secret --from-literal=accesskey='******' --from-literal=secretkey='******' -n <namespace>
   keySecret: my-secret
   # Names to the attributes in the s3 secret
   secretAttributeNames:
