@@ -37,6 +37,9 @@ module.exports = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      metadata: [
+        {name: 'og:image', content: 'img/Og_image.png'},
+      ],
       navbar: {
         logo: {
           alt: "secureCodeBox Logo",
