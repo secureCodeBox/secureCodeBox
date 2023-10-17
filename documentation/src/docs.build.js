@@ -114,7 +114,9 @@ async function createDocFilesFromMainRepository(relPath, targetPath, dirNames) {
 
     // Add a custom editUrl to the frontMatter to ensure that it points to the correct repo
     const { data: frontmatter, content } = matter(readmeContent);
-    const filePathInRepo = relPath.replace(/^.*secureCodeBox\//, "");
+    
+    // Either the path contains "secureCodeBox" or "repo" depending on whether the docs are locally generated or in netlify 
+    const filePathInRepo = relPath.replace(/^.*(?:secureCodeBox|repo)\//, "");
     const readmeWithEditUrl = matter.stringify(content, {
       ...frontmatter,
       description: frontmatter?.usecase,
