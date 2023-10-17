@@ -114,7 +114,7 @@ async function createDocFilesFromMainRepository(relPath, targetPath, dirNames) {
 
     // Add a custom editUrl to the frontMatter to ensure that it points to the correct repo
     const { data: frontmatter, content } = matter(readmeContent);
-    const filePathInRepo = relPath.replace(/^githubRepo\//, "");
+    const filePathInRepo = relPath.replace(/^.*secureCodeBox\//, "");
     const readmeWithEditUrl = matter.stringify(content, {
       ...frontmatter,
       description: frontmatter?.usecase,

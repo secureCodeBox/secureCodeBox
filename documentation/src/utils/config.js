@@ -7,7 +7,8 @@ const docsConfig = {
     targetPath: "docs", // This needs to be 'docs' for the docusaurus build, but you may specify a 'docs/<subdirectory>'
     sizeLimit: 500000, // Limit of file size, most importantly used for large findings.
     findingsDir: "findings", // Directory for large findings which exceeded sizeLimit
-
+    branch: "main",
+    
     // Configures files which will be copied or generated from docsConfig.repository.
     // This is an array of maps.
     //
