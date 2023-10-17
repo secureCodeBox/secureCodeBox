@@ -57,3 +57,16 @@ tags
 
 # Megalint report dir
 report
+
+# Documentation
+## Documentation build files
+documentation/.docusaurus
+documentation/.cache-loader
+## Documentation generated files
+documentation/docs/scanners/*.md
+documentation/docs/hooks/*.md
+## Always overwitten during the build
+documentation/src/integrations.js
+## Copied over during the build
+documentation/static/findings
+
