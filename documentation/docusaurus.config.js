@@ -76,7 +76,7 @@ module.exports = {
             items: [
               {
                 label: "Style Guide",
-                href: "https://github.com/securecodebox/docusaurus#style-guide",
+                href: "https://github.com/securecodebox/securecodebox/documentation/#style-guide",
               },
               {
                 label: "Icons",
@@ -136,7 +136,7 @@ module.exports = {
       ({
         docs: {
           sidebarPath: require.resolve("./sidebars.json"),
-          editUrl: "https://github.com/securecodebox/docusaurus/edit/main/",
+          editUrl: "https://github.com/securecodebox/securecodebox/edit/main/documentation/",
           lastVersion: "current",
           exclude: ["telemetry.md", "architecture/09_architecture_decisions/adr_0000.md", "architecture/09_architecture_decisions/adr_README.md"],
           versions: {
@@ -150,7 +150,7 @@ module.exports = {
           blogTitle: 'Blog on Automated Security Testing',
           blogDescription: 'In this blog the core maintainer will write about the development, roadmap, ideas RFCs etc. of the OWASP secureCodeBox.',
           showReadingTime: true,
-          editUrl: "https://github.com/securecodebox/docusaurus/edit/main/",
+          editUrl: "https://github.com/securecodebox/securecodebox/edit/main/documentation/",
           feedOptions: {
             type: "all",
             title: "The secureCodeBox Developer Blog",
