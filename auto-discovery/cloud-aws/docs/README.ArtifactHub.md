@@ -154,8 +154,7 @@ Kubernetes: `>=v1.11.0-0`
 
 The AutoDiscovery creates _ScheduledScans_ for each resource it tracks.
 For these to work you need to install the correct scan types into the same namespace the AutoDiscovery is running in.
-By default the AutoDiscovery will create the scans in its own namespace.
-You can configure a different namespace to create the scans by setting `config.kubernetes.namespace`.
+The AutoDiscovery will create the scans in its own namespace.
 
 ### Optional: In- / Excluding Resources from the AutoDiscovery
 
@@ -196,8 +195,7 @@ This means the AWS AutoDiscovery should either be free or cheaper than $1/month 
 | config.aws | object | `{"queueUrl":"","region":""}` | settings to connect to AWS and receive the updates |
 | config.aws.queueUrl | string | `""` | url of the SQS queue which receives the state changes. Can be overridden by setting the SQS_QUEUE_URL environment variable. |
 | config.aws.region | string | `""` | aws region to connect to. Can be overridden by setting the AWS_REGION environment variable. |
-| config.kubernetes | object | `{"namespace":"","scanConfigs":[{"annotations":{},"hookSelector":{},"labels":{},"name":"trivy","parameters":["{{ .ImageID }}"],"repeatInterval":"168h","scanType":"trivy-image"},{"annotations":{},"hookSelector":{},"labels":{},"name":"trivy-sbom","parameters":["{{ .ImageID }}"],"repeatInterval":"168h","scanType":"trivy-sbom-image"}]}` | settings to configure how scans get created in kubernetes |
-| config.kubernetes.namespace | string | `""` | the namespace in which the scans for the cloud resources should get created, leave empty to use the one the auto discovery is running in |
+| config.kubernetes | object | `{"scanConfigs":[{"annotations":{},"hookSelector":{},"labels":{},"name":"trivy","parameters":["{{ .ImageID }}"],"repeatInterval":"168h","scanType":"trivy-image"},{"annotations":{},"hookSelector":{},"labels":{},"name":"trivy-sbom","parameters":["{{ .ImageID }}"],"repeatInterval":"168h","scanType":"trivy-sbom-image"}]}` | settings to configure how scans get created in kubernetes |
 | config.kubernetes.scanConfigs[0].annotations | object | `{}` | annotations to be added to the scans started by the auto-discovery, all annotation values support templating |
 | config.kubernetes.scanConfigs[0].hookSelector | object | `{}` | hookSelector allows to specify a LabelSelector with which the hooks are selected, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors Both matchLabels and matchExpressions are supported. All values in the matchLabels map support templating. MatchExpressions support templating in the `key` field and in every entry in the `values` list. If a value in the list renders to an empty string it is removed from the list. |
 | config.kubernetes.scanConfigs[0].labels | object | `{}` | labels to be added to the scans started by the auto-discovery, all label values support templating |
