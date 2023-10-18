@@ -140,8 +140,7 @@ helm upgrade --install {{ template "chart.name" . }} secureCodeBox/{{ template "
 
 The AutoDiscovery creates _ScheduledScans_ for each resource it tracks.
 For these to work you need to install the correct scan types into the same namespace the AutoDiscovery is running in.
-By default the AutoDiscovery will create the scans in its own namespace.
-You can configure a different namespace to create the scans by setting `config.kubernetes.namespace`.
+The AutoDiscovery will create the scans in its own namespace.
 
 ### Optional: In- / Excluding Resources from the AutoDiscovery
 

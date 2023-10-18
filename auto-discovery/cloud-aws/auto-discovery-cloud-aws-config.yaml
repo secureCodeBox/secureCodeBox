@@ -11,7 +11,7 @@
 #  # -- aws region to connect to. Can be overridden by setting the AWS_REGION environment variable.
 #  region: "eu-central-1"
 kubernetes:
-  # -- the namespace in which the scans for the cloud resources should get created, leave empty to use the one the auto discovery is running in
+  # -- the namespace in which the scans for the cloud resources should get created, unless running in development or you manually define additional Roles and RoleBindings, only the namespace the AutoDiscovery is running in is supported
   namespace: "integration-tests"
   scanConfigs:
     - scanType: trivy-sbom-image

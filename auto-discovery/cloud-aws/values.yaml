@@ -20,8 +20,6 @@ config:
     region: ""
   # -- settings to configure how scans get created in kubernetes
   kubernetes:
-    # -- the namespace in which the scans for the cloud resources should get created, leave empty to use the one the auto discovery is running in
-    namespace: ""
     scanConfigs:
       - scanType: trivy-image
         # -- unique name to distinguish scans
