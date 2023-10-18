@@ -40,39 +40,32 @@ The secureCodeBox project is running on [Kubernetes](https://kubernetes.io/). To
 
 You can find resources to help you get started on our [documentation website](https://www.securecodebox.io) including instruction on how to [install the secureCodeBox project](https://www.securecodebox.io/docs/getting-started/installation) and guides to help you [run your first scans](https://www.securecodebox.io/docs/getting-started/first-scans) with it.
 
-## Deployment
-The auto-discovery-cloud-aws chart can be deployed via helm:
+> [!NOTE]
+> Even though the AWS Cloud AutoDiscovery monitors resources in AWS (currently only ECS), the AutoDiscovery itself is running in a Kubernetes cluster as part of the _secureCodeBox_.
+> While the _secureCodeBox_ can be deployed to AWS, for example by using the Elastic Kubernetes Service, it also works from anywhere outside of AWS.
 
-```bash
-# Install HelmChart (use -n to configure another namespace)
-helm upgrade --install auto-discovery-cloud-aws secureCodeBox/auto-discovery-cloud-aws
-```
+> [!WARNING]
+> The AWS Cloud AutoDiscovery is in an __early prerelease state__.
+> There is no initial state synchronization, no reordering for out-of-order events from eventbridge (which can rarely happen), and no retry when Kubernetes errors are encountered.
+> This might lead to the local state and the AWS state diverging and resources not getting scanned.
 
-## Requirements
-
-Kubernetes: `>=v1.11.0-0`
-
-### Installing the ScanType
-
-The AutoDiscovery creates _ScheduledScans_ for each resource it tracks.
-For these to work you need to install the correct scan types into the same namespace the AutoDiscovery is running in.
-By default the AutoDiscovery will create the scans in its own namespace.
-You can configure a different namespace to create the scans by setting `config.kubernetes.namespace`.
-
-### Configuring AWS
+## Prerequisites
 
 The AWS AutoDiscovery detects changes in AWS by reading change events from an SQS queue.
 To make sure these events are available there, EventBridge rules for the monitored resources need to be created.
 The queue needs to be a FIFO queue, because the AWS AutoDiscovery assumes the events are delivered in order.
 
-These instructions use the AWS CLI to create the necessary resources.
+These instructions use the [AWS CLI](https://aws.amazon.com/cli/) to create the necessary resources and [jq](https://jqlang.github.io/jq/) to parse the responses.
 See the [AWS docs](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html) for configuration and authentication options.
 
-#### Connect to AWS
+### Connect to AWS
+
+All values are optional, as long as the connection to AWS works.
+These values will be picked up by the AutoDiscovery, either through the Kubernetes secret defined below, by helm install or by the AutoDiscovery itself if it is running locally.
+For setting up the necessary resources on AWS you can also use different connection options, SSO for example.
 
 ```bash
 # Connection options for the CLI
-# all values are optional, as long as the connection to AWS works
 export AWS_ACCESS_KEY_ID="<key id>"
 export AWS_SECRET_ACCESS_KEY="<access key>"
 export AWS_SESSION_TOKEN="<session token>"
@@ -83,14 +76,16 @@ export AWS_REGION="<region>"
 kubectl create secret generic aws-credentials --from-literal=aws-access-key-id=$AWS_ACCESS_KEY_ID --from-literal=aws-secret-access-key=$AWS_SECRET_ACCESS_KEY --from-literal=aws-session-token=$AWS_SESSION_TOKEN
 ```
 
-#### Create the rule and queue
+### Create the rule and queue
 
 This sets up a high throughput FIFO queue, because the AutoDiscovery service assumes the messages will be delivered in order.
 EventBridge does not guarantee in order delivery though, so in rare cases the AutoDiscovery might delete scans too early or keep them around for too long.
 
 ```bash
-# Create the queue
+# Configure the name both the queue and rule are going to use
 name="secureCodeBox-autodiscovery-events"
+
+# Create the queue
 queue_url="$(aws sqs create-queue --queue-name "${name}.fifo" --attributes FifoQueue=true,ReceiveMessageWaitTimeSeconds=20,ContentBasedDeduplication=true,DeduplicationScope=messageGroup,FifoThroughputLimit=perMessageGroupId --tags "SCB-AutoDiscovery=" | jq -r ".QueueUrl")"
 queue_arn="$(aws sqs get-queue-attributes --queue-url $queue_url --attribute-names QueueArn | jq -r ".Attributes.QueueArn")"
 
@@ -134,10 +129,39 @@ aws --no-cli-pager events put-targets --rule $name --targets '[{"Id": "Id'"$(uui
 export SQS_QUEUE_URL="${queue_url}"
 ```
 
-### In / Excluding Resources from the AutoDiscovery
+## Deployment
+The auto-discovery-cloud-aws chart can be deployed via helm:
+
+```bash
+# Install HelmChart (use -n to configure another namespace)
+helm upgrade --install auto-discovery-cloud-aws secureCodeBox/auto-discovery-cloud-aws
+```
+
+To directly deploy the auto-discovery-cloud-aws chart with the options for AWS configured, you can pass additional config values to helm:
+
+```bash
+# Install HelmChart (use -n to configure another namespace)
+helm upgrade --install auto-discovery-cloud-aws secureCodeBox/auto-discovery-cloud-aws --set="config.aws.queueUrl=${SQS_QUEUE_URL}" --set="config.aws.region=${AWS_REGION}"
+```
+
+## Requirements
+
+Kubernetes: `>=v1.11.0-0`
+
+## Additional configuration
+
+### Installing the ScanType
+
+The AutoDiscovery creates _ScheduledScans_ for each resource it tracks.
+For these to work you need to install the correct scan types into the same namespace the AutoDiscovery is running in.
+By default the AutoDiscovery will create the scans in its own namespace.
+You can configure a different namespace to create the scans by setting `config.kubernetes.namespace`.
+
+### Optional: In- / Excluding Resources from the AutoDiscovery
 
 The AutoDiscovery will create scans for everything it sees in the queue.
-You can limit the messages to specific ECS clusters by adding a filter to the EventBridge rule:
+You can limit the messages to specific ECS clusters by adding a filter to the EventBridge rule.
+The following command will either create or update the rule:
 
 ```bash
 aws events put-rule --name "${name}" --description "Gather events for the secureCodeBox AWS AutoDiscovery" --state ENABLED --event-pattern '{
@@ -149,16 +173,16 @@ aws events put-rule --name "${name}" --description "Gather events for the secure
 }'
 ```
 
-### AWS Costs
+## AWS Costs
 
-The AWS AutoDiscovery incurs no or very little cost on AWS.
-EventBridge rules for internal events generated by AWS, which is all the AutoDiscovery uses, are free of charge.
-The AutoDiscovery generates approximately 130,000 requests to SQS each month to poll the queue every 20 seconds using long polling.
-In addition to that there are two requests for each message, once to add it to the queue and once to delete it.
-The first million requests to SQS is free, after that each million costs around $0.50 depending on the region.
+As of October 2023, the AWS AutoDiscovery incurs no or very little cost on AWS.
+EventBridge rules for internal events generated by AWS, which is all the AutoDiscovery uses, are [free of charge](https://aws.amazon.com/eventbridge/pricing/).
+The AutoDiscovery generates approximately 130,000 requests to SQS each month to poll the queue every 20 seconds using [long polling](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-short-and-long-polling.html).
+In addition to that there are two requests for each message, one to add it to the queue and one to delete it.
+The first million requests to SQS is free, after that [each million costs around $0.50](https://aws.amazon.com/sqs/pricing/) depending on the region.
 Data transfers are priced at $0.09 per 10TB.
 
-This means the AWS AutoDiscovery should be either free or cheaper than $1/month even for larger or busier setups.
+This means the AWS AutoDiscovery should either be free or cheaper than $1/month even for larger or busier setups.
 
 ## Values
 

@@ -47,6 +47,95 @@ This `core` image is intended to work in combination with the OWASP secureCodeBo
 docker pull securecodebox/auto-discovery-cloud-aws
 ```
 
+> [!NOTE]
+> Even though the AWS Cloud AutoDiscovery monitors resources in AWS (currently only ECS), the AutoDiscovery itself is running in a Kubernetes cluster as part of the _secureCodeBox_.
+> While the _secureCodeBox_ can be deployed to AWS, for example by using the Elastic Kubernetes Service, it also works from anywhere outside of AWS.
+
+> [!WARNING]
+> The AWS Cloud AutoDiscovery is in an __early prerelease state__.
+> There is no initial state synchronization, no reordering for out-of-order events from eventbridge (which can rarely happen), and no retry when Kubernetes errors are encountered.
+> This might lead to the local state and the AWS state diverging and resources not getting scanned.
+
+## Prerequisites
+
+The AWS AutoDiscovery detects changes in AWS by reading change events from an SQS queue.
+To make sure these events are available there, EventBridge rules for the monitored resources need to be created.
+The queue needs to be a FIFO queue, because the AWS AutoDiscovery assumes the events are delivered in order.
+
+These instructions use the [AWS CLI](https://aws.amazon.com/cli/) to create the necessary resources and [jq](https://jqlang.github.io/jq/) to parse the responses.
+See the [AWS docs](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html) for configuration and authentication options.
+
+### Connect to AWS
+
+All values are optional, as long as the connection to AWS works.
+These values will be picked up by the AutoDiscovery, either through the Kubernetes secret defined below, by helm install or by the AutoDiscovery itself if it is running locally.
+For setting up the necessary resources on AWS you can also use different connection options, SSO for example.
+
+```bash
+# Connection options for the CLI
+export AWS_ACCESS_KEY_ID="<key id>"
+export AWS_SECRET_ACCESS_KEY="<access key>"
+export AWS_SESSION_TOKEN="<session token>"
+export AWS_REGION="<region>"
+
+# Create the Kubernetes secret for the service to read the credentials from (use -n to configure another namespace)
+# The names of the secret and the keys can be configured through helm values
+kubectl create secret generic aws-credentials --from-literal=aws-access-key-id=$AWS_ACCESS_KEY_ID --from-literal=aws-secret-access-key=$AWS_SECRET_ACCESS_KEY --from-literal=aws-session-token=$AWS_SESSION_TOKEN
+```
+
+### Create the rule and queue
+
+This sets up a high throughput FIFO queue, because the AutoDiscovery service assumes the messages will be delivered in order.
+EventBridge does not guarantee in order delivery though, so in rare cases the AutoDiscovery might delete scans too early or keep them around for too long.
+
+```bash
+# Configure the name both the queue and rule are going to use
+name="secureCodeBox-autodiscovery-events"
+
+# Create the queue
+queue_url="$(aws sqs create-queue --queue-name "${name}.fifo" --attributes FifoQueue=true,ReceiveMessageWaitTimeSeconds=20,ContentBasedDeduplication=true,DeduplicationScope=messageGroup,FifoThroughputLimit=perMessageGroupId --tags "SCB-AutoDiscovery=" | jq -r ".QueueUrl")"
+queue_arn="$(aws sqs get-queue-attributes --queue-url $queue_url --attribute-names QueueArn | jq -r ".Attributes.QueueArn")"
+
+# Create the rule
+rule_arn="$(aws events put-rule --name "${name}" --description "Gather events for the secureCodeBox AWS AutoDiscovery" --state ENABLED --tags "Key=SCB-AutoDiscovery,Value=" --event-pattern '{
+  "source": ["aws.ecs"],
+  "detail-type": ["ECS Task State Change", "ECS Container Instance State Change", "ECS Deployment State Change"]
+}' | jq -r ".RuleArn")"
+
+# Allow eventbridge to send messages to the queue
+# Depending on the way you give access to the queue to the AutoDiscovery service, you might also need to give permissions to that
+# The AutoDiscovery requires the sqs:ReceiveMessage and sqs:DeleteMessage permissions
+timestamp="$(date +%s)"
+policy='{
+  "Id": "Policy'"${timestamp}"'",
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt'"${timestamp}"'",
+      "Action": "sqs:SendMessage",
+      "Effect": "Allow",
+      "Resource": "'"${queue_arn}"'",
+      "Principal": {
+        "Service": "events.amazonaws.com"
+      },
+      "Condition": {
+        "ArnEquals": {
+          "aws:SourceArn": "'"${rule_arn}"'"
+        }
+      }
+    }
+  ]
+}'
+sqs_policy="$(echo $policy | jq -c -j | jq -R -s)"
+aws sqs set-queue-attributes --queue-url $queue_url --attributes '{"Policy": '"${sqs_policy}"'}'
+
+# Send the messages to the queue, if it shows "FailedEntryCount": 0 it worked
+aws --no-cli-pager events put-targets --rule $name --targets '[{"Id": "Id'"$(uuidgen | tr '[:upper:]' '[:lower:]')"'", "Arn": "'"${queue_arn}"'", "SqsParameters": {"MessageGroupId": "secureCodeBox-AutoDiscovery"}}]'
+
+# Set up variables for later use
+export SQS_QUEUE_URL="${queue_url}"
+```
+
 ## Community
 
 You are welcome, please join us on... 👋
