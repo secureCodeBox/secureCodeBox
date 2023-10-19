@@ -79,11 +79,11 @@ helm-unit-tests:
 
 .PHONY: build
 build: fmt vet ## Build service binary.
-	go build -o bin/service main.go
+	go build -o bin/service cmd/service/main.go
 
 .PHONY: run
 run: fmt vet ## Run the service from your host.
-	go run ./main.go --config auto-discovery-cloud-aws-config.yaml
+	go run ./cmd/service/main.go --config auto-discovery-cloud-aws-config.yaml
 
 .PHONY: docker-build
 docker-build: test ## Build docker image with the service.

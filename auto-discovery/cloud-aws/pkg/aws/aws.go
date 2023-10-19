@@ -13,8 +13,8 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sqs"
 	"github.com/go-logr/logr"
-	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/config"
-	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/kubernetes"
+	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/pkg/config"
+	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/pkg/kubernetes"
 )
 
 type SQSAPI interface {

@@ -8,9 +8,9 @@ import (
 	"flag"
 	"os"
 
-	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/aws"
-	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/config"
-	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/kubernetes"
+	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/pkg/aws"
+	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/pkg/config"
+	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/pkg/kubernetes"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 )

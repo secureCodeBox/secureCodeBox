@@ -12,7 +12,7 @@ import (
 
 	awssdk "github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/ecs"
-	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/kubernetes"
+	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/pkg/kubernetes"
 )
 
 var _ = Describe("AWS Events unit tests", func() {

@@ -14,13 +14,11 @@ COPY go.sum go.sum
 RUN go mod download
 
 # Copy the go source
-COPY main.go main.go
-COPY aws/ aws/
-COPY config/ config/
-COPY kubernetes/ kubernetes/
+COPY cmd/ cmd/
+COPY pkg/ pkg/
 
 # Build
-RUN CGO_ENABLED=0 go build -a -o service main.go
+RUN CGO_ENABLED=0 go build -a -o service cmd/service/main.go
 
 # Use distroless as minimal base image to package the service binary
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
