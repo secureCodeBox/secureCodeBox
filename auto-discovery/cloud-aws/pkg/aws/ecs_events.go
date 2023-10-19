@@ -9,7 +9,6 @@ import (
 
 	awssdk "github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/ecs"
-	dockerparser "github.com/novln/docker-parser"
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/pkg/kubernetes"
 )
 
@@ -29,21 +28,7 @@ func handleEcsEvent(rawMessage string) ([]kubernetes.Request, error) {
 
 	requests := make([]kubernetes.Request, len(stateChange.Detail.Containers))
 	for idx, container := range stateChange.Detail.Containers {
-		name := *container.Image
-
-		// To prevent misdetection of containers using the same digest but different tags (i.e. none
-		// and latest or 22.04 and jammy), remove the tag from the image if we have a digest so that
-		// these images will occupy the same spot in the "set"
-		// Technically we could also take a tag from the image reference if it includes one, but all
-		// the libraries to work with image references don't allow accessing that properly
-		if container.ImageDigest != nil && *container.ImageDigest != "" {
-			reference, err := dockerparser.Parse(*container.Image)
-			if err != nil {
-				return nil, err
-			}
-
-			name = reference.Repository()
-		} else {
+		if container.ImageDigest == nil {
 			container.ImageDigest = awssdk.String("")
 		}
 
@@ -52,7 +37,7 @@ func handleEcsEvent(rawMessage string) ([]kubernetes.Request, error) {
 			Container: kubernetes.ContainerInfo{
 				Id: *container.ContainerArn,
 				Image: kubernetes.ImageInfo{
-					Name:   name,
+					Name:   *container.Image,
 					Digest: *container.ImageDigest,
 				},
 			},

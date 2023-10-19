@@ -34,9 +34,9 @@ var _ = Describe("Integration tests", func() {
 	)
 
 	// Templates to check the actual state against
-	juiceShopScanName1 := "docker-io-bkimminich-test-scan-at-163482fed1f8e7c8558cc476a512b13768a8d2f7a04b8aab407ab02987c42382"
+	juiceShopScanName1 := "bkimminich-juice-sho-test-scan-at-163482fed1f8e7c8558cc476a512b13768a8d2f7a04b8aab407ab02987c42382"
 	juiceShopScanName1 = juiceShopScanName1[:62]
-	juiceShopScanName2 := "docker-io-bkimminich-test-scan-two-at-163482fed1f8e7c8558cc476a512b13768a8d2f7a04b8aab407ab02987c42382"
+	juiceShopScanName2 := "bkimminich-juice-sho-test-scan-two-at-163482fed1f8e7c8558cc476a512b13768a8d2f7a04b8aab407ab02987c42382"
 	juiceShopScanName2 = juiceShopScanName2[:62]
 
 	juiceShopScanGoTemplate := scanGoTemplate{
@@ -51,9 +51,9 @@ var _ = Describe("Integration tests", func() {
 		nil,
 	}
 
-	helloWorldScanName1 := "docker-io-library-he-test-scan-at-7e9b6e7ba2842c91cf49f3e214d04a7a496f8214356f41d81a6e6dcad11f11e3"
+	helloWorldScanName1 := "library-hello-world-test-scan-at-7e9b6e7ba2842c91cf49f3e214d04a7a496f8214356f41d81a6e6dcad11f11e3"
 	helloWorldScanName1 = helloWorldScanName1[:62]
-	helloWorldScanName2 := "docker-io-library-he-test-scan-two-at-7e9b6e7ba2842c91cf49f3e214d04a7a496f8214356f41d81a6e6dcad11f11e3"
+	helloWorldScanName2 := "library-hello-world-test-scan-two-at-7e9b6e7ba2842c91cf49f3e214d04a7a496f8214356f41d81a6e6dcad11f11e3"
 	helloWorldScanName2 = helloWorldScanName2[:62]
 
 	helloWorldScanGoTemplate := scanGoTemplate{
