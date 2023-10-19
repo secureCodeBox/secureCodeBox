@@ -39,28 +39,6 @@ type ContainerInfo struct {
 	Image ImageInfo
 }
 
-type ImageInfo struct {
-	Name   string
-	Digest string
-}
-
-func (image *ImageInfo) getImageName() string {
-	return strings.Split(image.Name, ":")[0]
-}
-
-func (image *ImageInfo) getImageHash() string {
-	split := strings.Split(image.Digest, ":")
-	return split[len(split)-1]
-}
-
-func (image *ImageInfo) getReference() string {
-	if image.Digest == "" {
-		return image.Name
-	} else {
-		return image.Name + "@" + image.Digest
-	}
-}
-
 type AWSReconciler interface {
 	Reconcile(ctx context.Context, req Request) error
 }
@@ -72,7 +50,7 @@ type AWSContainerScanReconciler struct {
 
 	// Track which images are actually running and which instances use them
 	// Technically a HashMap to a HashSet but Go doesn't have sets
-	RunningContainers map[ImageInfo]map[string]struct{}
+	RunningContainers map[string]map[string]struct{}
 }
 
 type ContainerAutoDiscoveryTemplateArgs struct {
@@ -83,7 +61,7 @@ type ContainerAutoDiscoveryTemplateArgs struct {
 }
 
 func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request) error {
-	r.Log.V(1).Info("Received reconcile request", "State", req.State, "Image", req.Container.Image.getReference())
+	r.Log.V(1).Info("Received reconcile request", "State", req.State, "Image", req.Container.Image.reference())
 
 	// Decide what to do based on the current state we are notified about and the information we
 	// saved about this container
@@ -117,18 +95,18 @@ func NewAWSReconcilerWith(client client.Client, cfg *config.AutoDiscoveryConfig,
 		Client:            client,
 		Config:            cfg,
 		Log:               log,
-		RunningContainers: make(map[ImageInfo]map[string]struct{}),
+		RunningContainers: make(map[string]map[string]struct{}),
 	}
 }
 
 func (r *AWSContainerScanReconciler) handleCreateRequest(ctx context.Context, req Request) error {
 	// Make sure there is at least an empty "set"
-	if r.RunningContainers[req.Container.Image] == nil {
-		r.RunningContainers[req.Container.Image] = make(map[string]struct{})
+	if r.RunningContainers[req.Container.Image.reference()] == nil {
+		r.RunningContainers[req.Container.Image.reference()] = make(map[string]struct{})
 	}
 
 	// Add this container to the "set" for this image
-	r.RunningContainers[req.Container.Image][req.Container.Id] = struct{}{}
+	r.RunningContainers[req.Container.Image.reference()][req.Container.Id] = struct{}{}
 
 	// Create all configured scans
 	var err error = nil
@@ -156,14 +134,14 @@ func (r *AWSContainerScanReconciler) handleCreateRequest(ctx context.Context, re
 }
 
 func (r *AWSContainerScanReconciler) handleDeleteRequest(ctx context.Context, req Request) error {
-	if r.RunningContainers[req.Container.Image] == nil {
+	if r.RunningContainers[req.Container.Image.reference()] == nil {
 		// We received a PENDING/STOPPED event but this container wasn't running before either
 		r.Log.V(1).Info("Container was not running before, nothing to do")
 		return nil
 	}
 
-	delete(r.RunningContainers[req.Container.Image], req.Container.Id)
-	if len(r.RunningContainers[req.Container.Image]) > 0 {
+	delete(r.RunningContainers[req.Container.Image.reference()], req.Container.Id)
+	if len(r.RunningContainers[req.Container.Image.reference()]) > 0 {
 		// More containers using this image are running, keep the ScheduledScan
 		r.Log.V(1).Info("There are still instances of this image running, keeping the ScheduledScan")
 		return nil
@@ -226,7 +204,7 @@ func getScheduledScanForRequest(req Request, cfg *config.AutoDiscoveryConfig, sc
 		Config:     *cfg,
 		ScanConfig: scanConfig,
 		Target:     req.Container,
-		ImageID:    req.Container.Image.getReference(),
+		ImageID:    req.Container.Image.reference(),
 	}
 	scanSpec := util.GenerateScanSpec(scanConfig, templateArgs)
 
@@ -246,10 +224,9 @@ func getScanName(req Request, name string) string {
 	// adapted from the kubernetes container autodiscovery
 	// function builds string like: _appName_-_customScanName_-at-_imageID_HASH_ eg: nginx-myTrivyScan-at-0123456789
 
-	appName := req.Container.Image.getImageName()
-	hash := req.Container.Image.getImageHash()
+	appName := req.Container.Image.appName()
+	hash := req.Container.Image.hash()
 
-	// TODO if image name contains a namespace the actual name will mostly get cut off
 	// cutoff appname if it is longer than 20 chars
 	maxAppLength := 20
 	if len(appName) > maxAppLength {

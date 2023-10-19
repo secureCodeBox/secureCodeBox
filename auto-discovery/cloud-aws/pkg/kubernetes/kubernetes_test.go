@@ -10,7 +10,7 @@ import (
 )
 
 var _ = Describe("Kubernetes unit tests", func() {
-	scanName := "docker-io-bkimminich-aws-trivy-sbom-at-163482fed1f8e7c8558cc476a512b13768a8d2f7a04b8aab407ab02987c42382"
+	scanName := "bkimminich-juice-sho-aws-trivy-sbom-at-163482fed1f8e7c8558cc476a512b13768a8d2f7a04b8aab407ab02987c42382"
 	scanName = scanName[:62]
 
 	req := Request{
@@ -18,7 +18,7 @@ var _ = Describe("Kubernetes unit tests", func() {
 		Container: ContainerInfo{
 			Id: "VeryUniqueId",
 			Image: ImageInfo{
-				Name:   "docker.io/bkimminich/juice-shop",
+				Name:   "docker.io/bkimminich/juice-shop:v15.0.0",
 				Digest: "sha256:163482fed1f8e7c8558cc476a512b13768a8d2f7a04b8aab407ab02987c42382",
 			},
 		},
