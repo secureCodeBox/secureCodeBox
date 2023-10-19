@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"errors"
 
-	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/kubernetes"
+	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/pkg/kubernetes"
 )
 
 type EventMessage struct {

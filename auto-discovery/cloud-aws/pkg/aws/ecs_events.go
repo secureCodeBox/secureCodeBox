@@ -10,7 +10,7 @@ import (
 	awssdk "github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/ecs"
 	dockerparser "github.com/novln/docker-parser"
-	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/kubernetes"
+	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/pkg/kubernetes"
 )
 
 type EcsTaskStateChange struct {

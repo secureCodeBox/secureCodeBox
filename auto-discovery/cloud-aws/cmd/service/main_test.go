@@ -17,7 +17,7 @@ import (
 	awssdk "github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/ecs"
 	"github.com/aws/aws-sdk-go/service/sqs"
-	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/aws"
+	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/pkg/aws"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"

@@ -16,9 +16,9 @@ import (
 	"github.com/aws/aws-sdk-go/aws/request"
 	"github.com/aws/aws-sdk-go/service/sqs"
 	"github.com/go-logr/logr"
-	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/aws"
-	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/config"
-	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/kubernetes"
+	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/pkg/aws"
+	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/pkg/config"
+	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/pkg/kubernetes"
 	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
 	batchv1 "k8s.io/api/batch/v1"
@@ -62,7 +62,7 @@ var _ = BeforeSuite(func() {
 
 	By("bootstrapping test environment")
 	testEnv = &envtest.Environment{
-		CRDDirectoryPaths:     []string{filepath.Join("..", "..", "operator", "config", "crd", "bases")},
+		CRDDirectoryPaths:     []string{filepath.Join("..", "..", "..", "..", "operator", "config", "crd", "bases")},
 		ErrorIfCRDPathMissing: true,
 	}
 

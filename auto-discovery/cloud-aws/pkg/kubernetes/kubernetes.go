@@ -10,7 +10,7 @@ import (
 	"strings"
 
 	"github.com/go-logr/logr"
-	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/config"
+	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/pkg/config"
 	configv1 "github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/api/v1"
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/kubernetes/pkg/util"
 	executionv1 "github.com/secureCodeBox/secureCodeBox/operator/apis/execution/v1"
