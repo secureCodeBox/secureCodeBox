@@ -90,7 +90,7 @@ var _ = BeforeSuite(func() {
 				{
 					Name:           "test-scan",
 					RepeatInterval: metav1.Duration{Duration: time.Hour},
-					Annotations:    map[string]string{"testAnnotation": "{{ .Target.Id }}"},
+					Annotations:    map[string]string{"testAnnotation": "{{ .Image.ShortName }}"},
 					Labels:         map[string]string{"testLabel": "{{ .Target.Id }}"},
 					Parameters:     []string{"{{ .ImageID }}"},
 					ScanType:       "trivy-sbom-image",
@@ -111,7 +111,7 @@ var _ = BeforeSuite(func() {
 				{
 					Name:           "test-scan-two",
 					RepeatInterval: metav1.Duration{Duration: time.Hour},
-					Annotations:    map[string]string{"testAnnotation": "{{ .Target.Id }}"},
+					Annotations:    map[string]string{"testAnnotation": "{{ .Image.ShortName }}"},
 					Labels:         map[string]string{"testLabel": "{{ .Target.Id }}"},
 					Parameters:     []string{"{{ .ImageID }}"},
 					ScanType:       "trivy-sbom-image",

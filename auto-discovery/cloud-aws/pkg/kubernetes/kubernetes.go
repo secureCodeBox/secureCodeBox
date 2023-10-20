@@ -65,6 +65,7 @@ type ContainerAutoDiscoveryTemplateArgs struct {
 	Config     config.AutoDiscoveryConfig
 	ScanConfig configv1.ScanConfig
 	Target     ContainerInfo
+	Image      ImageDetails
 	ImageID    string
 }
 
@@ -207,6 +208,7 @@ func getScheduledScanForRequest(req Request, cfg *config.AutoDiscoveryConfig, sc
 		Config:     *cfg,
 		ScanConfig: scanConfig,
 		Target:     req.Container,
+		Image:      req.Container.Image.details(),
 		ImageID:    req.Container.Image.reference(),
 	}
 	scanSpec := util.GenerateScanSpec(scanConfig, templateArgs)
@@ -227,7 +229,7 @@ func getScanName(req Request, name string) string {
 	// adapted from the kubernetes container autodiscovery
 	// function builds string like: _appName_-_customScanName_-at-_imageID_HASH_ eg: nginx-myTrivyScan-at-0123456789
 
-	appName := req.Container.Image.appName()
+	appName := req.Container.Image.shortName()
 	hash := req.Container.Image.hash()
 
 	// cutoff appname if it is longer than 20 chars

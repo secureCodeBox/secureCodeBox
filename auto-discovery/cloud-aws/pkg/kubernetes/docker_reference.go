@@ -17,6 +17,17 @@ type ImageInfo struct {
 	parsed *dockerparser.Reference
 }
 
+// Image details for templating that would otherwise not be accessible because you need to call functions
+type ImageDetails struct {
+	Id         string
+	Name       string
+	Digest     string
+	Version    string
+	Registry   string
+	Repository string
+	ShortName  string
+}
+
 // Use dockerparser to normalize the image reference and allow easy access to the properties
 func (image *ImageInfo) normalize() error {
 	// To prevent misdetection of containers using the same digest but different tags (i.e. none
@@ -33,8 +44,21 @@ func (image *ImageInfo) normalize() error {
 	return nil
 }
 
+// Create object with all the values that would only be accessible by calling functions
+func (image *ImageInfo) details() ImageDetails {
+	return ImageDetails{
+		Id:         image.reference(),
+		Name:       image.Name,
+		Digest:     image.Digest,
+		Version:    image.version(),
+		Registry:   image.registry(),
+		Repository: image.repository(),
+		ShortName:  image.shortName(),
+	}
+}
+
 // Get a short, representative name for the image
-func (image *ImageInfo) appName() string {
+func (image *ImageInfo) shortName() string {
 	// If the image is parsed or parsing works use library function
 	if image.parsed != nil || image.normalize() == nil {
 		return image.parsed.ShortName()
@@ -120,4 +144,32 @@ func (image *ImageInfo) reference() string {
 	} else {
 		return image.Name + "@" + image.Digest
 	}
+}
+
+// Get the registry of this image, mirrors the dockerparser function
+func (image *ImageInfo) registry() string {
+	// If the image is parsed or parsing works use library function
+	if image.parsed != nil || image.normalize() == nil {
+		return image.parsed.Registry()
+	}
+
+	// Parsing failed, try to salvage this somehow by returning what we have
+	// If name contains a port, domain or localhost that is the registry
+	split := strings.Split(image.Name, "/")
+	if strings.Contains(split[0], ":") || strings.Contains(split[0], ".") || split[0] == "localhost" {
+		return split[0]
+	} else {
+		return "docker.io"
+	}
+}
+
+// Get the repository of this image, mirrors the dockerparser function
+func (image *ImageInfo) repository() string {
+	// If the image is parsed or parsing works use library function
+	if image.parsed != nil || image.normalize() == nil {
+		return image.parsed.Repository()
+	}
+
+	// Parsing failed, try to salvage this somehow by returning what we have
+	return image.registry() + "/" + image.shortName()
 }
