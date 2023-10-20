@@ -89,6 +89,10 @@ test("should send a post request to the url when fired", async () => {
     metadata: {
       uid: "69e71358-bb01-425b-9bde-e45653605490",
       name: "demo-sbom",
+      annotations: {
+        "dependencytrack.securecodebox.io/project-name": "Hello World Container",
+        "dependencytrack.securecodebox.io/project-version": "latest and greatest"
+      }
     },
     status: {
       rawResultType: "sbom-cyclonedx"
@@ -110,6 +114,8 @@ test("should send a post request to the url when fired", async () => {
   }));
 
   expect(fetch.mock.calls[0][1].body.get("bom")).toBe(JSON.stringify(result));
+  expect(fetch.mock.calls[0][1].body.get("projectName")).toBe("Hello World Container");
+  expect(fetch.mock.calls[0][1].body.get("projectVersion")).toBe("latest and greatest");
 });
 
 // Make sure that the crazy regex to parse the reference parts actually works

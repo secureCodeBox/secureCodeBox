@@ -50,6 +50,13 @@ SBOMs are imported for a project in Dependency-Track.
 To avoid configuring all of them by hand first and assigning projects to scans somehow, the hook automatically detects name and version from the scan and then creates Dependency-Track projects if they do not exist yet.
 This requires either the `PORTFOLIO_MANAGEMENT` or `PROJECT_CREATION_UPLOAD` permission for the API key which gets used by the hook (or rather for the team the key is defined for).
 
+The hook extracts name and version from the reference of the scanned docker image.
+For more fine grained control how the projects are matched, you can configure the name and version as annotations to the scan.
+
+| Scan Annotation                                    | Description            | Default if not set                                                              |
+| -------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------- |
+| `dependencytrack.securecodebox.io/project-name`    | Name of the Project    | Repository Name of the Docker Image                                             |
+| `dependencytrack.securecodebox.io/project-version` | Version of the Project | Image Tag if avialable, otherwise Image Digest if available, otherwise `latest` |
 {{- end }}
 
 {{- define "extra.scannerLinksSection" -}}
