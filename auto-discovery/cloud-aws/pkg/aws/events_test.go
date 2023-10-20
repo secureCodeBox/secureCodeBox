@@ -52,7 +52,7 @@ var _ = Describe("AWS Events unit tests", func() {
 	Describe("Generating reconcile requests", func() {
 		Context("for running juice-shop container", func() {
 			It("should generate the correct request", func() {
-				Expect(handleEcsEvent(rawContent)).To(Equal(reqs))
+				Expect(handleEcsEvent(rawContent, log)).To(Equal(reqs))
 			})
 		})
 	})
