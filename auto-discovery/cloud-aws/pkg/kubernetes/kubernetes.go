@@ -17,7 +17,6 @@ import (
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -183,18 +182,6 @@ func (r *CloudScanReconciler) handleDeleteRequest(ctx context.Context, req Reque
 		}
 	}
 	return err
-}
-
-func (r *CloudScanReconciler) getScheduledScan(ctx context.Context, name string) (*executionv1.ScheduledScan, error) {
-	scheduledScan := &executionv1.ScheduledScan{}
-	err := r.Client.Get(ctx, types.NamespacedName{Name: name, Namespace: r.Config.Kubernetes.Namespace}, scheduledScan)
-	return scheduledScan, err
-}
-
-func (r *CloudScanReconciler) listScheduledScans(ctx context.Context) (*executionv1.ScheduledScanList, error) {
-	var scheduledscans executionv1.ScheduledScanList
-	err := r.Client.List(ctx, &scheduledscans, client.InNamespace(r.Config.Kubernetes.Namespace))
-	return &scheduledscans, err
 }
 
 func (r *CloudScanReconciler) createScheduledScan(ctx context.Context, scheduledScan *executionv1.ScheduledScan) (*executionv1.ScheduledScan, error) {
