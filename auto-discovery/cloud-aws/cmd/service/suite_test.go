@@ -137,8 +137,8 @@ var _ = BeforeSuite(func() {
 		MsgEntry: make(chan *sqs.ReceiveMessageOutput),
 	}
 
-	reconciler = kubernetes.NewReconcilerWith(k8sClient, &autoDiscoveryCfg, log)
-	awsMonitor = aws.NewMonitorServiceWith(&autoDiscoveryCfg, sqsapi, reconciler, log)
+	reconciler = kubernetes.NewReconcilerWith(k8sClient, &autoDiscoveryCfg, log.WithName("kubernetes"))
+	awsMonitor = aws.NewMonitorServiceWith(&autoDiscoveryCfg, sqsapi, reconciler, log.WithName("aws"))
 
 	go func() {
 		defer GinkgoRecover()
