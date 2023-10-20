@@ -16,6 +16,7 @@ type EventMessage struct {
 	DetailType string `json:"detail-type"`
 }
 
+// Unmarshal the message body into the correct type, depending on the source and create kubernetes.Requests for it
 func (m *MonitorService) handleEvent(rawMessage string) ([]kubernetes.Request, error) {
 	var message EventMessage
 	err := json.Unmarshal([]byte(rawMessage), &message)

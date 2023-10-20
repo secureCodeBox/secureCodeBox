@@ -68,7 +68,9 @@ var _ = Describe("Integration tests", func() {
 		nil,
 	}
 
-	// Prepare messages to send to the service
+	// Prepare messages to send to the AWS monitor
+	// These simulate the lifecycle of a Task consisting of two containers,
+	// while another task with the same images runs in parallel at some point
 	stateChange := aws.EcsTaskStateChange{
 		Source:     "aws.ecs",
 		DetailType: "ECS Task State Change",
@@ -353,6 +355,7 @@ var _ = Describe("Integration tests", func() {
 	})
 })
 
+// Verify that a scan correctly exists in kubernetes. Helpers taken from the kubernetes autodiscovery
 func checkIfScanExists(ctx context.Context, name string, namespace string, scanSpec scanGoTemplate) bool {
 	var scheduledScan executionv1.ScheduledScan
 	err := k8sClient.Get(ctx, types.NamespacedName{Name: name, Namespace: namespace}, &scheduledScan)

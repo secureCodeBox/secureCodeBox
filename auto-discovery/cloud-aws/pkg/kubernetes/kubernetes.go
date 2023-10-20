@@ -23,6 +23,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
+// A notification to the Reconciler, that a monitored cloud resource changed
 type Request struct {
 	// The current state the container has in its lifecycle
 	State string
@@ -31,6 +32,7 @@ type Request struct {
 	Container ContainerInfo
 }
 
+// Information about the monitored instance of a container
 type ContainerInfo struct {
 	// A unique way to identify this container to make sure the state can be tracked properly
 	Id string
@@ -39,10 +41,12 @@ type ContainerInfo struct {
 	Image ImageInfo
 }
 
+// Reconciler interface so that it can be mocked in tests
 type CloudReconciler interface {
 	Reconcile(ctx context.Context, req Request) error
 }
 
+// Kubernetes reconciler that updates ScheduledScans based on the Requests it receives
 type CloudScanReconciler struct {
 	client.Client
 	Config *config.AutoDiscoveryConfig
@@ -50,9 +54,14 @@ type CloudScanReconciler struct {
 
 	// Track which images are actually running and which instances use them
 	// Technically a HashMap to a HashSet but Go doesn't have sets
+	// Containers are tracked per image because each image only needs one scan
+	// To achieve this, RunningContainers maps the normalized image references to a "set" wich
+	// contains the unique container instance IDs, scans are deleted when the last instance stops
 	RunningContainers map[string]map[string]struct{}
 }
 
+// Values that can be referenced in templates when scans are created. Adapted from the kubernetes
+// AutoDiscovery, but not all values offered there make sense here.
 type ContainerAutoDiscoveryTemplateArgs struct {
 	Config     config.AutoDiscoveryConfig
 	ScanConfig configv1.ScanConfig
@@ -60,6 +69,7 @@ type ContainerAutoDiscoveryTemplateArgs struct {
 	ImageID    string
 }
 
+// Called with a Request if any monitored resource changed, updates kubernetes to match
 func (r *CloudScanReconciler) Reconcile(ctx context.Context, req Request) error {
 	r.Log.V(1).Info("Received reconcile request", "State", req.State, "Image", req.Container.Image.reference())
 
@@ -77,6 +87,7 @@ func (r *CloudScanReconciler) Reconcile(ctx context.Context, req Request) error 
 	}
 }
 
+// Create a Reconciler with a new kubernetes connection
 func NewReconciler(cfg *config.AutoDiscoveryConfig, log logr.Logger) *CloudScanReconciler {
 	client, cfgNamespace, err := getClient(log)
 	if err != nil {
@@ -90,6 +101,7 @@ func NewReconciler(cfg *config.AutoDiscoveryConfig, log logr.Logger) *CloudScanR
 	return NewReconcilerWith(client, cfg, log)
 }
 
+// Create a Reconciler with a provided kubernetes client
 func NewReconcilerWith(client client.Client, cfg *config.AutoDiscoveryConfig, log logr.Logger) *CloudScanReconciler {
 	return &CloudScanReconciler{
 		Client:            client,
@@ -99,13 +111,14 @@ func NewReconcilerWith(client client.Client, cfg *config.AutoDiscoveryConfig, lo
 	}
 }
 
+// Check requests for RUNNING containers and start scans if needed
 func (r *CloudScanReconciler) handleCreateRequest(ctx context.Context, req Request) error {
 	// Make sure there is at least an empty "set"
 	if r.RunningContainers[req.Container.Image.reference()] == nil {
 		r.RunningContainers[req.Container.Image.reference()] = make(map[string]struct{})
 	}
 
-	// Add this container to the "set" for this image
+	// Add this container instance to the "set" for this image
 	r.RunningContainers[req.Container.Image.reference()][req.Container.Id] = struct{}{}
 
 	// Create all configured scans
@@ -133,6 +146,7 @@ func (r *CloudScanReconciler) handleCreateRequest(ctx context.Context, req Reque
 	return err
 }
 
+// Check requests for containers in other states but RUNNING and delete scans if needed
 func (r *CloudScanReconciler) handleDeleteRequest(ctx context.Context, req Request) error {
 	if r.RunningContainers[req.Container.Image.reference()] == nil {
 		// We received a PENDING/STOPPED event but this container wasn't running before either
@@ -140,6 +154,7 @@ func (r *CloudScanReconciler) handleDeleteRequest(ctx context.Context, req Reque
 		return nil
 	}
 
+	// Remove this instance from the Running set
 	delete(r.RunningContainers[req.Container.Image.reference()], req.Container.Id)
 	if len(r.RunningContainers[req.Container.Image.reference()]) > 0 {
 		// More containers using this image are running, keep the ScheduledScan
@@ -199,6 +214,7 @@ func (r *CloudScanReconciler) deleteScheduledScan(ctx context.Context, name stri
 	return r.Client.Delete(ctx, scan)
 }
 
+// Generate a ScheduledScan based on the config and template values for a request the Reconciler received
 func getScheduledScanForRequest(req Request, cfg *config.AutoDiscoveryConfig, scanConfig configv1.ScanConfig) *executionv1.ScheduledScan {
 	templateArgs := ContainerAutoDiscoveryTemplateArgs{
 		Config:     *cfg,
@@ -246,10 +262,12 @@ func getScanName(req Request, name string) string {
 	return result
 }
 
+// Templating helper function taken from the kubernetes AutoDiscovery
 func getScanAnnotations(scanConfig configv1.ScanConfig, templateArgs ContainerAutoDiscoveryTemplateArgs) map[string]string {
 	return util.ParseMapTemplate(templateArgs, scanConfig.Annotations)
 }
 
+// Templating helper function taken from the kubernetes AutoDiscovery
 func getScanLabels(scanConfig configv1.ScanConfig, templateArgs ContainerAutoDiscoveryTemplateArgs) map[string]string {
 	generatedLabels := util.ParseMapTemplate(templateArgs, scanConfig.Labels)
 	generatedLabels["app.kubernetes.io/managed-by"] = "securecodebox-autodiscovery"
@@ -257,6 +275,7 @@ func getScanLabels(scanConfig configv1.ScanConfig, templateArgs ContainerAutoDis
 	return generatedLabels
 }
 
+// Connect to kubernetes
 func getClient(log logr.Logger) (client.Client, string, error) {
 	log.Info("Connecting to Kubernetes cluster...")
 

@@ -205,6 +205,8 @@ func createScanType(ctx context.Context, namespace string) error {
 	return k8sClient.Create(ctx, scanType)
 }
 
+// A mock for the AWS SDK SQS Service. It implements the interface from the local aws package and
+// allows sending messages to the listening AWSMonitor through a channel
 type MockSQSService struct {
 	// MsgEntry can be used to insert messages into the mocked sqs interface where they will be
 	// retrieved by the AWSMonitor

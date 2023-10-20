@@ -17,6 +17,7 @@ import (
 	"github.com/secureCodeBox/secureCodeBox/auto-discovery/cloud-aws/pkg/kubernetes"
 )
 
+// An interface for the APIs needed from the AWS SDK so that it can be mocked in tests
 type SQSAPI interface {
 	ReceiveMessage(input *sqs.ReceiveMessageInput) (*sqs.ReceiveMessageOutput, error)
 	ReceiveMessageWithContext(ctx awssdk.Context, input *sqs.ReceiveMessageInput, opts ...request.Option) (*sqs.ReceiveMessageOutput, error)
@@ -24,6 +25,7 @@ type SQSAPI interface {
 	DeleteMessageWithContext(ctx awssdk.Context, input *sqs.DeleteMessageInput, opts ...request.Option) (*sqs.DeleteMessageOutput, error)
 }
 
+// Monitors changes in AWS to create kubernetes.Request for each changed container instance
 type MonitorService struct {
 	Config     *config.AutoDiscoveryConfig
 	SqsService SQSAPI
@@ -31,6 +33,7 @@ type MonitorService struct {
 	Log        logr.Logger
 }
 
+// Create a MonitorService with a new AWS session
 func NewMonitorService(cfg *config.AutoDiscoveryConfig, reconciler kubernetes.CloudReconciler, log logr.Logger) *MonitorService {
 	session := getSession(log)
 	service := sqs.New(session)
@@ -38,6 +41,7 @@ func NewMonitorService(cfg *config.AutoDiscoveryConfig, reconciler kubernetes.Cl
 	return NewMonitorServiceWith(cfg, service, reconciler, log)
 }
 
+// Create a MonitorService with a provided SQS service connection
 func NewMonitorServiceWith(cfg *config.AutoDiscoveryConfig, service SQSAPI, reconciler kubernetes.CloudReconciler, log logr.Logger) *MonitorService {
 	return &MonitorService{
 		Config:     cfg,
@@ -47,6 +51,7 @@ func NewMonitorServiceWith(cfg *config.AutoDiscoveryConfig, service SQSAPI, reco
 	}
 }
 
+// Run the MonitorService and continuously check for changes in AWS
 func (m *MonitorService) Run(ctx context.Context) {
 	m.Log.Info("Receiving messages...")
 	for {
@@ -67,6 +72,7 @@ func (m *MonitorService) Run(ctx context.Context) {
 			} else if len(msgResult.Messages) > 0 {
 				for _, message := range msgResult.Messages {
 
+					// Get the kubernetes.Requests for the message, depending on the type
 					requests, err := m.handleEvent(*message.Body)
 					if err != nil {
 						m.Log.Error(err, "Error handling AWS event")
@@ -86,8 +92,8 @@ func (m *MonitorService) Run(ctx context.Context) {
 
 					if !errors {
 						// delete message from the service
-						// otherwise keep message in queue and try to handle it again?
-						// TODO need better way to handle errors
+						// if there was a kubernetes error the message will be kept and tried again
+						// this might forever retry the same message or messages
 						m.deleteMessageFromQueue(ctx, message.ReceiptHandle)
 					}
 				}
