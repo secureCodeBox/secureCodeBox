@@ -24,9 +24,17 @@ async function handle({
 
   console.log(`Persisting SBOM for ${result.metadata.component.name} to Dependency-Track`);
 
-  // Get the project name and version from the name attribute of the main component
-  // This might be a bit brittle, but there is not really a better way to get this information
-  // Neither Trivy's nor Syft's SBOM contains a useful version attribute (none or sha256)
+  // Try to get the project name and version from annotations
+  let name, version
+  if (scan?.metadata?.annotations) {
+    name = scan.metadata.annotations["dependencytrack.securecodebox.io/project-name"]
+    version = scan.metadata.annotations["dependencytrack.securecodebox.io/project-version"]
+  }
+
+  // Get the project name and version from the name attribute of the main component if the
+  // annotations are missing. This might be a bit brittle, but there is not really a better way to
+  // get this information in that case, neither Trivy's nor Syft's SBOM contains a useful version
+  // attribute (none or sha256)
 
   // Get the components of a docker image reference, the regex is a direct JavaScript adaption of
   // the official Go-implementation available at https://github.com/distribution/reference/blob/main/regexp.go
@@ -45,8 +53,8 @@ async function handle({
     '(?:@(?<digest>[A-Za-z][A-Za-z0-9]*(?:[-_+.][A-Za-z][A-Za-z0-9]*)*[:][0-9A-Fa-f]{32,}))?$',
   ].join(''));
   const groups = imageRegex.exec(result.metadata.component.name).groups
-  const name = groups.name
-  const version = groups.tag || groups.digest || "latest"
+  name = name || groups.name
+  version = version || groups.tag || groups.digest || "latest"
 
   // The POST endpoint expects multipart/form-data
   // Alternatively the PUT endpoint could be used, which requires base64-encoding the SBOM
