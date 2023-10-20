@@ -48,8 +48,8 @@ func main() {
 
 	log.Info("read config", "config", cfg)
 
-	awsReconciler := kubernetes.NewAWSReconciler(&cfg, log)
-	awsMonitor := aws.NewMonitorService(&cfg, awsReconciler, log)
+	reconciler := kubernetes.NewReconciler(&cfg, log)
+	awsMonitor := aws.NewMonitorService(&cfg, reconciler, log)
 
 	log.Info("Starting AWS monitoring...")
 	awsMonitor.Run(ctrl.SetupSignalHandler())

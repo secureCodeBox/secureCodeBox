@@ -39,11 +39,11 @@ type ContainerInfo struct {
 	Image ImageInfo
 }
 
-type AWSReconciler interface {
+type CloudReconciler interface {
 	Reconcile(ctx context.Context, req Request) error
 }
 
-type AWSContainerScanReconciler struct {
+type CloudScanReconciler struct {
 	client.Client
 	Config *config.AutoDiscoveryConfig
 	Log    logr.Logger
@@ -60,7 +60,7 @@ type ContainerAutoDiscoveryTemplateArgs struct {
 	ImageID    string
 }
 
-func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request) error {
+func (r *CloudScanReconciler) Reconcile(ctx context.Context, req Request) error {
 	r.Log.V(1).Info("Received reconcile request", "State", req.State, "Image", req.Container.Image.reference())
 
 	// Decide what to do based on the current state we are notified about and the information we
@@ -77,7 +77,7 @@ func (r *AWSContainerScanReconciler) Reconcile(ctx context.Context, req Request)
 	}
 }
 
-func NewAWSReconciler(cfg *config.AutoDiscoveryConfig, log logr.Logger) *AWSContainerScanReconciler {
+func NewReconciler(cfg *config.AutoDiscoveryConfig, log logr.Logger) *CloudScanReconciler {
 	client, cfgNamespace, err := getClient(log)
 	if err != nil {
 		log.Error(err, "Unable to create Kubernetes client")
@@ -87,11 +87,11 @@ func NewAWSReconciler(cfg *config.AutoDiscoveryConfig, log logr.Logger) *AWSCont
 		cfg.Kubernetes.Namespace = cfgNamespace
 	}
 
-	return NewAWSReconcilerWith(client, cfg, log)
+	return NewReconcilerWith(client, cfg, log)
 }
 
-func NewAWSReconcilerWith(client client.Client, cfg *config.AutoDiscoveryConfig, log logr.Logger) *AWSContainerScanReconciler {
-	return &AWSContainerScanReconciler{
+func NewReconcilerWith(client client.Client, cfg *config.AutoDiscoveryConfig, log logr.Logger) *CloudScanReconciler {
+	return &CloudScanReconciler{
 		Client:            client,
 		Config:            cfg,
 		Log:               log,
@@ -99,7 +99,7 @@ func NewAWSReconcilerWith(client client.Client, cfg *config.AutoDiscoveryConfig,
 	}
 }
 
-func (r *AWSContainerScanReconciler) handleCreateRequest(ctx context.Context, req Request) error {
+func (r *CloudScanReconciler) handleCreateRequest(ctx context.Context, req Request) error {
 	// Make sure there is at least an empty "set"
 	if r.RunningContainers[req.Container.Image.reference()] == nil {
 		r.RunningContainers[req.Container.Image.reference()] = make(map[string]struct{})
@@ -133,7 +133,7 @@ func (r *AWSContainerScanReconciler) handleCreateRequest(ctx context.Context, re
 	return err
 }
 
-func (r *AWSContainerScanReconciler) handleDeleteRequest(ctx context.Context, req Request) error {
+func (r *CloudScanReconciler) handleDeleteRequest(ctx context.Context, req Request) error {
 	if r.RunningContainers[req.Container.Image.reference()] == nil {
 		// We received a PENDING/STOPPED event but this container wasn't running before either
 		r.Log.V(1).Info("Container was not running before, nothing to do")
@@ -170,25 +170,25 @@ func (r *AWSContainerScanReconciler) handleDeleteRequest(ctx context.Context, re
 	return err
 }
 
-func (r *AWSContainerScanReconciler) getScheduledScan(ctx context.Context, name string) (*executionv1.ScheduledScan, error) {
+func (r *CloudScanReconciler) getScheduledScan(ctx context.Context, name string) (*executionv1.ScheduledScan, error) {
 	scheduledScan := &executionv1.ScheduledScan{}
 	err := r.Client.Get(ctx, types.NamespacedName{Name: name, Namespace: r.Config.Kubernetes.Namespace}, scheduledScan)
 	return scheduledScan, err
 }
 
-func (r *AWSContainerScanReconciler) listScheduledScans(ctx context.Context) (*executionv1.ScheduledScanList, error) {
+func (r *CloudScanReconciler) listScheduledScans(ctx context.Context) (*executionv1.ScheduledScanList, error) {
 	var scheduledscans executionv1.ScheduledScanList
 	err := r.Client.List(ctx, &scheduledscans, client.InNamespace(r.Config.Kubernetes.Namespace))
 	return &scheduledscans, err
 }
 
-func (r *AWSContainerScanReconciler) createScheduledScan(ctx context.Context, scheduledScan *executionv1.ScheduledScan) (*executionv1.ScheduledScan, error) {
+func (r *CloudScanReconciler) createScheduledScan(ctx context.Context, scheduledScan *executionv1.ScheduledScan) (*executionv1.ScheduledScan, error) {
 	scheduledScan.ObjectMeta.Namespace = r.Config.Kubernetes.Namespace
 	err := r.Client.Create(ctx, scheduledScan)
 	return scheduledScan, err
 }
 
-func (r *AWSContainerScanReconciler) deleteScheduledScan(ctx context.Context, name string) error {
+func (r *CloudScanReconciler) deleteScheduledScan(ctx context.Context, name string) error {
 	scan := &executionv1.ScheduledScan{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      name,

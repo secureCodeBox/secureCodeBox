@@ -46,7 +46,7 @@ var testEnv *envtest.Environment
 var ctx context.Context
 var cancel context.CancelFunc
 var sqsapi *MockSQSService
-var awsReconciler kubernetes.AWSReconciler
+var reconciler kubernetes.CloudReconciler
 var awsMonitor *aws.MonitorService
 
 func TestIntegration(t *testing.T) {
@@ -137,8 +137,8 @@ var _ = BeforeSuite(func() {
 		MsgEntry: make(chan *sqs.ReceiveMessageOutput),
 	}
 
-	awsReconciler = kubernetes.NewAWSReconcilerWith(k8sClient, &autoDiscoveryCfg, log)
-	awsMonitor = aws.NewMonitorServiceWith(&autoDiscoveryCfg, sqsapi, awsReconciler, log)
+	reconciler = kubernetes.NewReconcilerWith(k8sClient, &autoDiscoveryCfg, log)
+	awsMonitor = aws.NewMonitorServiceWith(&autoDiscoveryCfg, sqsapi, reconciler, log)
 
 	go func() {
 		defer GinkgoRecover()
