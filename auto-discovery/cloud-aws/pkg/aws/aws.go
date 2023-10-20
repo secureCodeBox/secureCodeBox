@@ -27,18 +27,18 @@ type SQSAPI interface {
 type MonitorService struct {
 	Config     *config.AutoDiscoveryConfig
 	SqsService SQSAPI
-	Reconciler kubernetes.AWSReconciler
+	Reconciler kubernetes.CloudReconciler
 	Log        logr.Logger
 }
 
-func NewMonitorService(cfg *config.AutoDiscoveryConfig, reconciler kubernetes.AWSReconciler, log logr.Logger) *MonitorService {
+func NewMonitorService(cfg *config.AutoDiscoveryConfig, reconciler kubernetes.CloudReconciler, log logr.Logger) *MonitorService {
 	session := getSession(log)
 	service := sqs.New(session)
 
 	return NewMonitorServiceWith(cfg, service, reconciler, log)
 }
 
-func NewMonitorServiceWith(cfg *config.AutoDiscoveryConfig, service SQSAPI, reconciler kubernetes.AWSReconciler, log logr.Logger) *MonitorService {
+func NewMonitorServiceWith(cfg *config.AutoDiscoveryConfig, service SQSAPI, reconciler kubernetes.CloudReconciler, log logr.Logger) *MonitorService {
 	return &MonitorService{
 		Config:     cfg,
 		SqsService: service,
