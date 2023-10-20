@@ -10,12 +10,14 @@ import (
 	dockerparser "github.com/novln/docker-parser"
 )
 
+// Store information about docker image references
 type ImageInfo struct {
 	Name   string
 	Digest string
 	parsed *dockerparser.Reference
 }
 
+// Use dockerparser to normalize the image reference and allow easy access to the properties
 func (image *ImageInfo) normalize() error {
 	// To prevent misdetection of containers using the same digest but different tags (i.e. none
 	// and latest or 22.04 and jammy), remove the tag from the image if we have a digest so that

@@ -19,6 +19,7 @@ type EcsTaskStateChange struct {
 	Detail     ecs.Task `json:"detail"`
 }
 
+// Transform a message containing ECS state changes to kubernetes.Requests
 func handleEcsEvent(rawMessage string, log logr.Logger) ([]kubernetes.Request, error) {
 	var stateChange EcsTaskStateChange
 	err := json.Unmarshal([]byte(rawMessage), &stateChange)
@@ -33,6 +34,7 @@ func handleEcsEvent(rawMessage string, log logr.Logger) ([]kubernetes.Request, e
 		Status string
 	}, len(stateChange.Detail.Containers))
 
+	// Create one request for each container instance in the message
 	requests := make([]kubernetes.Request, len(stateChange.Detail.Containers))
 	for idx, container := range stateChange.Detail.Containers {
 		reference := *container.Image

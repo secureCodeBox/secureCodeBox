@@ -30,6 +30,7 @@ func main() {
 	log := zap.New(zap.UseFlagOptions(&opts))
 	ctrl.SetLogger(log)
 
+	// Read config from file first, some values may be overridden by env variables
 	cfg := config.GetConfig(configFile)
 
 	// AWS properties can be set by environment variables too, which have precedence
