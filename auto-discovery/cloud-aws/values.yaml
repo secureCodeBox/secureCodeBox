@@ -49,7 +49,9 @@ config:
         # -- labels to be added to the scans started by the auto-discovery, all label values support templating
         labels: {}
         # -- annotations to be added to the scans started by the auto-discovery, all annotation values support templating
-        annotations: {}
+        annotations:
+          dependencytrack.securecodebox.io/project-name: "{{ .Image.ShortName }}"
+          dependencytrack.securecodebox.io/project-version: "{{ .Image.Version }}"
         # -- hookSelector allows to specify a LabelSelector with which the hooks are selected, see: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors
         # Both matchLabels and matchExpressions are supported.
         # All values in the matchLabels map support templating.

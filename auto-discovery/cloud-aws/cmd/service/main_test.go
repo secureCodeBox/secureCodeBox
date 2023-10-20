@@ -40,7 +40,7 @@ var _ = Describe("Integration tests", func() {
 	juiceShopScanName2 = juiceShopScanName2[:62]
 
 	juiceShopScanGoTemplate := scanGoTemplate{
-		map[string]string{"testAnnotation": "VeryUniqueId"},
+		map[string]string{"testAnnotation": "bkimminich/juice-shop"},
 		map[string]string{
 			"testLabel":                    "VeryUniqueId",
 			"app.kubernetes.io/managed-by": "securecodebox-autodiscovery",
@@ -57,7 +57,7 @@ var _ = Describe("Integration tests", func() {
 	helloWorldScanName2 = helloWorldScanName2[:62]
 
 	helloWorldScanGoTemplate := scanGoTemplate{
-		map[string]string{"testAnnotation": "ExtremelyUniqueId"},
+		map[string]string{"testAnnotation": "library/hello-world"},
 		map[string]string{
 			"testLabel":                    "ExtremelyUniqueId",
 			"app.kubernetes.io/managed-by": "securecodebox-autodiscovery",
