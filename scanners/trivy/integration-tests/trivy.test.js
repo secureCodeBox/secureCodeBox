@@ -105,7 +105,8 @@ test(
     const { categories, severities, count } = await scan(
       "trivy-k8s-test",
       "trivy-k8s",
-      ["cluster"],
+      // scanners is limited to config, and namespace to default to reduce the time of the test
+      ["cluster", "--debug","--scanners", "config", "--namespace", "default"],
       10 * 60 * 1000
     );
 
@@ -113,9 +114,8 @@ test(
     expect(count).toBeGreaterThanOrEqual(1);
 
     const categoryNames = Object.keys(categories);
-    expect(categoryNames).toHaveLength(2);
+    expect(categoryNames).toHaveLength(1);
     expect(categoryNames.includes("Misconfiguration")).toBeTruthy();
-    expect(categoryNames.includes("Vulnerability")).toBeTruthy();
 
     const severityNames = Object.keys(severities);
     expect(severityNames).toHaveLength(3);
