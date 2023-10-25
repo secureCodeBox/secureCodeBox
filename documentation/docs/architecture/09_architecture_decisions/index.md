@@ -14,8 +14,8 @@ We use _architecture decision records (ADR)_ to [document our architecture decis
 You find all ADRs in the sidebar below this section. They are numbered and ordered in their time of emergence.
 
 ### Table of contents
-| ADR | Title |
-| ---- | ---- |
+| ADR                   | Title |
+|-----------------------| ---- |
 | [0001](./adr_0001.md) | Choosing the framework for the new secureCodeBox Website |
 | [0002](./adr_0002.md) | How can we introduce a more general extension concept for data processing modules? |
 | [0003](./adr_0003.md) | How can we introduce a mechanism to start specialized scans on the results of previous scans? |
@@ -33,6 +33,7 @@ You find all ADRs in the sidebar below this section. They are numbered and order
 | [0015](./adr_0015.md) | Kubernetes As Orchestration Engine for Scans |
 | [0016](./adr_0016.md) | S3 As Backend for Persistent Data |
 | [0018](./adr_0018.md) | Spaces in File Names Are Not Allowed |
+| [0019](./adr_0019.md) | OpenVAS Integration |
 
 [adr-nygard]:   https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions
 [adr-template]: https://github.com/joelparkerhenderson/architecture-decision-record/blob/main/templates/decision-record-template-by-michael-nygard/index.md
