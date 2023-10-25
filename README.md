@@ -85,8 +85,8 @@ Code of secureCodeBox is licensed under the [Apache License 2.0][scb-license].
 
 You are welcome, please join us on... 👋
 
-- [GitHub][scb-github]
-- [Slack][scb-slack]
+- [GitHub Discussions (Questions & Feedback)][scb-github-discussions]
+- [GitHub Issues (Bugs & Feature Requests)][scb-github]
 - [Twitter][scb-twitter]
 
 secureCodeBox is an official [OWASP][owasp] project.
@@ -116,7 +116,7 @@ Sponsored and maintained by [iteratec GmbH](https://www.iteratec.com/) - [secure
 [objspec]: https://www.sigs-datacom.de/fachzeitschriften/objektspektrum.html
 [secdevops-objspec]: http://www.sigs.de/public/ots/2017/OTS_DevOps_2017/Seedorff_Pfaender_OTS_%20DevOps_2017.pdf
 [scb-github]: https://github.com/secureCodeBox/
-[scb-engine]: https://github.com/secureCodeBox/engine
+[scb-github-issues]: https://github.com/secureCodeBox/secureCodeBox/issues
+[scb-github-discussions]: https://github.com/secureCodeBox/secureCodeBox/discussions/categories/general
 [scb-twitter]: https://twitter.com/secureCodeBox
-[scb-slack]: https://join.slack.com/t/securecodebox/shared_invite/enQtNDU3MTUyOTM0NTMwLTBjOWRjNjVkNGEyMjQ0ZGMyNDdlYTQxYWQ4MzNiNGY3MDMxNThkZjJmMzY2NDRhMTk3ZWM3OWFkYmY1YzUxNTU
 [scb-license]: https://github.com/secureCodeBox/secureCodeBox/blob/master/LICENSE
