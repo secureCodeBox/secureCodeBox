@@ -38,7 +38,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@kubernetes/client-node": "^0.18.1",
+    "@kubernetes/client-node": "^0.19.0",
     "@types/jest": "^29.4.0",
     "ip-address": "^8.1.0",
     "lodash": "^4.17.21",
