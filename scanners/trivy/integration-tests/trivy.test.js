@@ -6,7 +6,7 @@ const {scan} = require("../../helpers");
 
 jest.retryTimes(3);
 
-test(
+test.concurrent(
   "trivy image scan for a vulnerable juiceshop demo target",
   async () => {
     const { categories, severities, count } = await scan(
@@ -26,7 +26,7 @@ test(
   3 * 60 * 1000
 );
 
-test(
+test.concurrent(
   "trivy filesystem scan with exiting files should not fail",
   async () => {
     const { categories, severities, count } = await scan(
@@ -67,7 +67,7 @@ test(
   3 * 60 * 1000
 );
 
-test(
+test.concurrent(
   "trivy repo scan with exiting repo should not fail",
   async () => {
     const { categories, severities, count } = await scan(
@@ -84,7 +84,7 @@ test(
   3 * 60 * 1000
 );
 
-test(
+test.concurrent(
   "Invalid argument should be marked as errored",
   async () => {
     await expect(
@@ -99,7 +99,7 @@ test(
   3 * 60 * 1000
 );
 
-test(
+test.concurrent(
   "trivy k8s scan should not fail",
   async () => {
     const { categories, severities, count } = await scan(
