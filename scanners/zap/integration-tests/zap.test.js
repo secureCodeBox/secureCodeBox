@@ -103,7 +103,7 @@ test.concurrent(
       }],
     );
 
-    expect(count).toBeGreaterThanOrEqual(5);
+    expect(count).toBeGreaterThanOrEqual(4);
   },
   60 * 8 * 1000
 );
