@@ -21,7 +21,7 @@ env:
   GO_VERSION: "1.19"
   PYTHON_VERSION: "3.9.16"
   NVM_VERSION: "0.39.3" # Does not need to be updated as often as the Node.js version or the NPM version
-  KIND_NODE_IMAGE: "kindest/node:v1.27.3@sha256:9dd3392d79af1b084671b05bcf65b21de476256ad1dcc853d9f3b10b4ac52dde"
+  KIND_NODE_IMAGE: "kindest/node:v1.28.0@sha256:b7a4cad12c197af3ba43202d3efe03246b3f0793f162afb40a33c923952d5b31"
   KIND_BINARY_VERSION: "v0.20.0"
   KUBECTL_VERSION: "v1.27.4"
   HELM_VERSION: "v3.12.2"
