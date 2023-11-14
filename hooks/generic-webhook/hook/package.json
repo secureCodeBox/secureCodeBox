@@ -37,7 +37,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@types/jest": "^29.4.0",
-    "axios": "^0.27.2",
+    "axios": "^1.6.0",
     "ts-jest": "^29.0.5"
   },
   "devDependencies": {
