@@ -70,7 +70,7 @@ or
 #### GitHub
 For type GitHub you can use the following options:
 - `--organization`: The name of the GitHub organization you want to scan.
-- `--url`: The url of the api for a GitHub enterprise server. Skip this option for repos on <https://github.com>.
+- `--url`: The url of the api for a GitHub enterprise server. Skip this option for repos on [https://github.com](https://github.com).
 - `--access-token`: Your personal GitHub access token (needs full `repo` rights if you want to also find private repositories, otherwise `repo:status` and `public_repo` is sufficient).
 - `--ignore-repos`: A list of GitHub repository ids you want to ignore
 - `--obey-rate-limit`: True to obey the rate limit of the GitHub server (default), otherwise False

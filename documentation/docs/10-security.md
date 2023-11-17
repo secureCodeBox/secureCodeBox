@@ -17,8 +17,8 @@ is roughly every two weeks (we will usually make a new release after each review
 | ------- | ------------------ | ------------------ |
 | 4.x.x | :white_check_mark: | :white_check_mark: |
 | 3.15.x | :white_check_mark: | :white_check_mark: |
-| <= 2.9.x | :x: | :x: |
-| < 2.0 | :x: | :x: |
+| \<= 2.9.x | :x: | :x: |
+| \< 2.0 | :x: | :x: |
 
 ### Major Release (Semver)
 _Upcoming major updates_ will come with a time window in which both _major versions_ (starting with v2.x.x)
@@ -34,11 +34,11 @@ as early as possible.
 
 ## Extended (Enterprise) Support
 If you are interested in extended support for older versions with security updates of our project 
-please get in touch with the project team via Slack or email <secureCodeBox@iteratec.com>.
+please get in touch with the project team via Slack or email [secureCodeBox@iteratec.com](mailto:secureCodeBox@iteratec.com).
 
 ## Reporting a Vulnerability
 You have found a vulnerability in the project that shouldn't be disclosed as public issue before it's fixed?
-Please get in touch with the project team via Slack or email <secureCodeBox@iteratec.com>. 
+Please get in touch with the project team via Slack or email [secureCodeBox@iteratec.com](mailto:secureCodeBox@iteratec.com). 
 
 You can expect a fast reaction within the next days. 
 We will keep you updated about the next steps and inform you if the vulnerability is accepted and when its fixed or if its ordeclined somehow.
