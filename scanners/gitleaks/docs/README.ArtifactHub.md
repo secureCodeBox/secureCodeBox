@@ -46,7 +46,7 @@ These secrets could be passwords, API keys, tokens, private keys or suspicious f
 file extensions like *id_rsa*, *.pem*, *htpasswd*. Furthermore, gitleaks can scan your whole repository's history
 with all commits up to the initial one.
 
-To learn more about gitleaks visit <https://github.com/zricethezav/gitleaks>.
+To learn more about gitleaks visit [https://github.com/zricethezav/gitleaks](https://github.com/zricethezav/gitleaks)
 
 ## Deployment
 The gitleaks chart can be deployed via helm:
