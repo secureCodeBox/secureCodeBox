@@ -110,7 +110,7 @@ Please have a look at [Contributing](./CONTRIBUTING.md)
     <thead>
         <th>Key</th>
         <th>Type</th>
-        <th>Default</th>
+        <th class="default-column">Default</th>
         <th>Description</th>
     </thead>
     <tbody>
@@ -118,7 +118,7 @@ Please have a look at [Contributing](./CONTRIBUTING.md)
         <tr>
             <td>{{ .Key }}</td>
             <td>{{ .Type }}</td>
-            <td>
+            <td class="default-column">
                 {{- if eq .Type "string" -}}
                     {{- if ne .Default "" }}
 <pre lang="yaml">

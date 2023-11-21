@@ -100,3 +100,12 @@ html[data-theme="dark"] .header-owasp-link::before {
   flex: 1;
 }
 
+th.default-column,
+td.default-column {
+  word-wrap: anywhere;
+  overflow-wrap: anywhere;
+}
+
+td.default-column pre {
+  white-space: pre-wrap; /* For wrapping text inside <pre> tag */
+}
