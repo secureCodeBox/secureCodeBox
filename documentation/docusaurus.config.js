@@ -126,7 +126,7 @@ module.exports = {
       },
       prism: {
         theme: require('prism-react-renderer').dracula,
-        additionalLanguages: ["python", "java", "rust", "yaml", "go"],
+        additionalLanguages: ["python", "java", "rust", "yaml", "go", "bash", "diff", "json", "javascript", "makefile"],
       },
     }),
   presets: [
