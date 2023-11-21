@@ -118,7 +118,7 @@ and upload them to a GitHub Gist.
 - IS_DEV=true
 - SCAN_NAME (e.g nmap-scanme.nmap.org, must be set exactly to the name of the scan used in step 2)
 
-5. Build the jar with gradle and run it with the following CLI arguments: {Raw Result Download URL} {Findings Download URL} {Raw Result Upload URL} {Findings Upload URL}.
+5. Build the jar with gradle and run it with the following CLI arguments: \{Raw Result Download URL\} \{Findings Download URL\} \{Raw Result Upload URL\} \{Findings Upload URL\}.
 See the code snippet below. You have to adjust the filename of the jar for other versions than the '0.1.0-SNAPSHOT'.
 Also you will need to change the download URLs for the Raw Result and Findings to the ones from Step 3.
 
@@ -342,30 +342,212 @@ spec:
       - "http://juice-shop.demo-targets.svc:3000"
 ```
 
-## Values
+<table>
+    <thead>
+        <th>Key</th>
+        <th>Type</th>
+        <th class="default-column">Default</th>
+        <th>Description</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>defectdojo.authentication.apiKeyKey</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| defectdojo.authentication.apiKeyKey | string | `"apikey"` | Name of the apikey key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |
-| defectdojo.authentication.userId | string | `nil` | Set the userId explicitly. When not set the configured username is used to look up the userId via the DefectDojo API (which is only available for privileged users.) |
-| defectdojo.authentication.userSecret | string | `"defectdojo-credentials"` | Link a pre-existing generic secret with `username` and `apikey` key / value pairs |
-| defectdojo.authentication.usernameKey | string | `"username"` | Name of the username key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs |
-| defectdojo.lowPrivilegedMode | bool | `false` | Allows the hook to run with a users token whose access rights are restricted to one / multiple product types but doesn't have global platform rights. If set to true, the DefectDojo User ID has to be configured instead of the username (`defectdojo.authentication.userId`). User needs to have at least the `Maintainer` role in the used Product Type. |
-| defectdojo.syncFindingsBack | bool | `true` | Syncs back (two way sync) all imported findings from DefectDojo to SCB Findings Store. When set to false the hook will only import the findings to DefectDojo (one way sync). |
-| defectdojo.url | string | `"http://defectdojo-django.default.svc"` | Url to the DefectDojo Instance |
-| hook.affinity | object | `{}` | Optional affinity settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/) |
-| hook.env | list | `[]` | Optional environment variables mapped into the hook (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) |
-| hook.extraVolumeMounts | list | `[]` | Optional VolumeMounts mapped into the hook (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
-| hook.extraVolumes | list | `[]` | Optional Volumes mapped into the hook (see: https://kubernetes.io/docs/concepts/storage/volumes/) |
-| hook.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images |
-| hook.image.repository | string | `"docker.io/securecodebox/hook-persistence-defectdojo"` | Hook image repository |
-| hook.image.tag | string | defaults to the charts version | Container image tag |
-| hook.labels | object | `{}` | Add Kubernetes Labels to the hook definition |
-| hook.priority | int | `0` | Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks. |
-| hook.resources | object | { requests: { cpu: "200m", memory: "100Mi" }, limits: { cpu: "400m", memory: "200Mi" } } | Optional resources lets you control resource limits and requests for the hook container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ |
-| hook.tolerations | list | `[]` | Optional tolerations settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
-| hook.ttlSecondsAfterFinished | string | `nil` | Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/ |
-| imagePullSecrets | list | `[]` | Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
+    `"apikey"`
+</pre></td>
+            <td>Name of the apikey key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs</td>
+        </tr>
+        <tr>
+            <td>defectdojo.authentication.userId</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `nil`
+</pre></td>
+            <td>Set the userId explicitly. When not set the configured username is used to look up the userId via the DefectDojo API (which is only available for privileged users.)</td>
+        </tr>
+        <tr>
+            <td>defectdojo.authentication.userSecret</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"defectdojo-credentials"`
+</pre></td>
+            <td>Link a pre-existing generic secret with `username` and `apikey` key / value pairs</td>
+        </tr>
+        <tr>
+            <td>defectdojo.authentication.usernameKey</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"username"`
+</pre></td>
+            <td>Name of the username key in the `userSecret` secret. Use this if you already have a secret with different key / value pairs</td>
+        </tr>
+        <tr>
+            <td>defectdojo.lowPrivilegedMode</td>
+            <td>bool</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `false`
+</pre></td>
+            <td>Allows the hook to run with a users token whose access rights are restricted to one / multiple product types but doesn't have global platform rights. If set to true, the DefectDojo User ID has to be configured instead of the username (`defectdojo.authentication.userId`). User needs to have at least the `Maintainer` role in the used Product Type.</td>
+        </tr>
+        <tr>
+            <td>defectdojo.syncFindingsBack</td>
+            <td>bool</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `true`
+</pre></td>
+            <td>Syncs back (two way sync) all imported findings from DefectDojo to SCB Findings Store. When set to false the hook will only import the findings to DefectDojo (one way sync).</td>
+        </tr>
+        <tr>
+            <td>defectdojo.url</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"http://defectdojo-django.default.svc"`
+</pre></td>
+            <td>Url to the DefectDojo Instance</td>
+        </tr>
+        <tr>
+            <td>hook.affinity</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td>Optional affinity settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)</td>
+        </tr>
+        <tr>
+            <td>hook.env</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `[]`
+</pre></td>
+            <td>Optional environment variables mapped into the hook (see: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)</td>
+        </tr>
+        <tr>
+            <td>hook.extraVolumeMounts</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `[]`
+</pre></td>
+            <td>Optional VolumeMounts mapped into the hook (see: https://kubernetes.io/docs/concepts/storage/volumes/)</td>
+        </tr>
+        <tr>
+            <td>hook.extraVolumes</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `[]`
+</pre></td>
+            <td>Optional Volumes mapped into the hook (see: https://kubernetes.io/docs/concepts/storage/volumes/)</td>
+        </tr>
+        <tr>
+            <td>hook.image.pullPolicy</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"IfNotPresent"`
+</pre></td>
+            <td>Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images</td>
+        </tr>
+        <tr>
+            <td>hook.image.repository</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `"docker.io/securecodebox/hook-persistence-defectdojo"`
+</pre></td>
+            <td>Hook image repository</td>
+        </tr>
+        <tr>
+            <td>hook.image.tag</td>
+            <td>string</td>
+            <td class="default-column"></td>
+            <td>Container image tag</td>
+        </tr>
+        <tr>
+            <td>hook.labels</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `{}`
+</pre></td>
+            <td>Add Kubernetes Labels to the hook definition</td>
+        </tr>
+        <tr>
+            <td>hook.priority</td>
+            <td>int</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `0`
+</pre></td>
+            <td>Hook priority. Higher priority Hooks are guaranteed to execute before low priority Hooks.</td>
+        </tr>
+        <tr>
+            <td>hook.resources</td>
+            <td>object</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+   
+</pre></td>
+            <td>Optional resources lets you control resource limits and requests for the hook container. See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/</td>
+        </tr>
+        <tr>
+            <td>hook.tolerations</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `[]`
+</pre></td>
+            <td>Optional tolerations settings that control how the hook job is scheduled (see: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)</td>
+        </tr>
+        <tr>
+            <td>hook.ttlSecondsAfterFinished</td>
+            <td>string</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `nil`
+</pre></td>
+            <td>Seconds after which the kubernetes job for the hook will be deleted. Requires the Kubernetes TTLAfterFinished controller: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/</td>
+        </tr>
+        <tr>
+            <td>imagePullSecrets</td>
+            <td>list</td>
+            <td class="default-column">
+<pre lang="yaml">
+
+    `[]`
+</pre></td>
+            <td>Define imagePullSecrets when a private registry is used (see: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)</td>
+        </tr>
+    </tbody>
+</table>
 
 ## License
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
